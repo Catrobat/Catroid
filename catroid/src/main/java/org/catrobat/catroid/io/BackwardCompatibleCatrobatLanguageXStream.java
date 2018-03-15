@@ -171,7 +171,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -721,6 +723,8 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 			deleteChildNodeByName(originalDocument.getElementsByTagName("header").item(0), "isPhiroProProject");
 			deleteChildNodeByName(originalDocument, "brickList", "inUserBrick");
 
+			updateRaspiScripts(originalDocument);
+			renameCollisionScriptMessage(originalDocument);
 			modifyScriptLists(originalDocument);
 			modifyBrickLists(originalDocument);
 			modifyVariables(originalDocument);
@@ -728,6 +732,44 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 
 			saveDocument(originalDocument, file);
 		}
+	}
+
+	private void renameCollisionScriptMessage(Document originalDocument) {
+		NodeList scripts = originalDocument.getElementsByTagName("script");
+		List<Node> collisionScripts = getElementsFilteredByAttribute(scripts, "type", "CollisionScript");
+		for (Node collisionScript : collisionScripts) {
+			Element message = findNodeByName(collisionScript, "receivedMessage");
+			originalDocument.renameNode(message, null, "spriteToCollideWithName");
+		}
+	}
+
+	private void updateRaspiScripts(Document originalDocument) {
+		NodeList scripts = originalDocument.getElementsByTagName("script");
+		List<Node> raspiInterruptScripts = getElementsFilteredByAttribute(scripts, "type", "RaspiInterruptScript");
+		for (Node node : raspiInterruptScripts) {
+			deleteChildNodeByName(node, "receivedMessage");
+		}
+	}
+
+	private List<Node> getElementsFilteredByAttribute(NodeList unfiltered, String attributeName, String
+			filterAttributeValue) {
+		List<Node> filtered = new ArrayList<>();
+		for (int i = 0; i < unfiltered.getLength(); i++) {
+			Node node = unfiltered.item(i);
+			String attributeValue = getAttributeOfNode(attributeName, node);
+			if (attributeValue != null && attributeValue.equals(filterAttributeValue)) {
+				filtered.add(node);
+			}
+		}
+		return filtered;
+	}
+
+	private String getAttributeOfNode(String attributeName, Node node) {
+		NamedNodeMap attributes = node.getAttributes();
+		if (attributes != null) {
+			return attributes.getNamedItem(attributeName).getNodeValue();
+		}
+		return null;
 	}
 
 	private void updateLegoNXTFields(Document originalDocument) {

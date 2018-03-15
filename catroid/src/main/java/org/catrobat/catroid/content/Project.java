@@ -28,8 +28,8 @@ import android.os.Build;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.BroadcastMessageContainer;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -77,11 +77,12 @@ public class Project implements Serializable {
 	@XStreamAlias("scenes")
 	private List<Scene> sceneList = new ArrayList<>();
 
+	private transient BroadcastMessageContainer broadcastMessageContainer = new BroadcastMessageContainer();
+
 	public Project() {
 	}
 
 	public Project(Context context, String name, boolean landscapeMode, boolean isCastProject) {
-
 		xmlHeader.setProgramName(name);
 		xmlHeader.setDescription("");
 		xmlHeader.setlandscapeMode(landscapeMode);
@@ -102,8 +103,6 @@ public class Project implements Serializable {
 		if (isCastProject) {
 			setChromecastFields();
 		}
-
-		MessageContainer.clear();
 
 		sceneList.add(new Scene(context, context.getString(R.string.default_scene_name, 1), this));
 		xmlHeader.scenesEnabled = true;
@@ -446,11 +445,15 @@ public class Project implements Serializable {
 		}
 	}
 
-	public synchronized void updateMessageContainer() {
-		List<String> usedMessages = new ArrayList<>();
-		for (Scene scene : getSceneList()) {
-			scene.addUsedMessagesToList(usedMessages);
+	public BroadcastMessageContainer getBroadcastMessageContainer() {
+		return broadcastMessageContainer;
+	}
+
+	public void updateCollisionScripts() {
+		for (Scene scene : sceneList) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				sprite.updateCollisionScripts();
+			}
 		}
-		MessageContainer.removeUnusedMessages(usedMessages);
 	}
 }

@@ -31,7 +31,6 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.Project;
@@ -55,7 +54,6 @@ import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.physics.PhysicsCollision;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.content.bricks.SetBounceBrick;
 import org.catrobat.catroid.physics.content.bricks.SetFrictionBrick;
@@ -173,7 +171,7 @@ public class DefaultProjectCreatorPhysics extends DefaultProjectCreator {
 		setPhysicsProperties(restart, startScriptRestart, PhysicsObject.Type.FIXED, 60.0f, 40.0f);
 		startScriptRestart.addBrick(new ComeToFrontBrick());
 
-		Script physicsCollisionScript = new CollisionScript(restartName + PhysicsCollision.COLLISION_MESSAGE_CONNECTOR + "Ball");
+		Script physicsCollisionScript = new CollisionScript(ball.getName());
 		physicsCollisionScript.addBrick(new BroadcastBrick("reset_ball"));
 		physicsCollisionScript.addBrick(new PlaceAtBrick(0, 0));
 		restart.addScript(physicsCollisionScript);
@@ -321,8 +319,6 @@ public class DefaultProjectCreatorPhysics extends DefaultProjectCreator {
 	private void createButtonPressed(Context context, String projectName, String sceneName, Sprite sprite, String
 			broadcastMessage)
 			throws IOException {
-		MessageContainer.addMessage(broadcastMessage);
-
 		WhenScript whenPressedScript = new WhenScript();
 		whenPressedScript.setAction(0);
 

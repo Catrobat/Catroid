@@ -69,7 +69,7 @@ public class ComeToFrontActionTest extends AndroidTestCase {
 
 		ActionFactory factory = middleSprite.getActionFactory();
 		Action action = factory.createComeToFrontAction(middleSprite);
-		bottomSprite.look.addAction(action);
+		bottomSprite.look.startAction(action);
 		action.act(1.0f);
 		assertEquals("bottomSprite z position should now be 2", middleSprite.look.getZIndex(),
 				getZMaxValue(middleSprite));
@@ -82,7 +82,7 @@ public class ComeToFrontActionTest extends AndroidTestCase {
 
 		ActionFactory factory2 = middleSprite.getActionFactory();
 		Action action2 = factory2.createComeToFrontAction(bottomSprite);
-		bottomSprite.look.addAction(action2);
+		bottomSprite.look.startAction(action2);
 		action2.act(1.0f);
 		assertEquals("bottomSprite z position should now be 3", bottomSprite.look.getZIndex(),
 				getZMaxValue(bottomSprite));
@@ -140,7 +140,7 @@ public class ComeToFrontActionTest extends AndroidTestCase {
 
 		ActionFactory factory = firstSprite.getActionFactory();
 		Action action = factory.createComeToFrontAction(firstSprite);
-		firstSprite.look.addAction(action);
+		firstSprite.look.startAction(action);
 		action.act(1.0f);
 
 		assertEquals("An Integer overflow occured during ComeToFrontBrick Execution", getZMaxValue(firstSprite),

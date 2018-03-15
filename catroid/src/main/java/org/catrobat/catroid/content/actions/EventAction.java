@@ -20,52 +20,44 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.bricks;
+package org.catrobat.catroid.content.actions;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.scenes.scene2d.Action;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.BroadcastMessageBrick;
 import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Sprite;
 
 import java.util.List;
 
-public class BroadcastBrick extends BroadcastMessageBrick {
-	private static final long serialVersionUID = 1L;
+public class EventAction extends Action {
 
-	protected String broadcastMessage;
+	private EventWrapper event;
+	private boolean firstStart = true;
+	private List<Sprite> receivingSprites;
 
-	public BroadcastBrick(String broadcastMessage) {
-		this.broadcastMessage = broadcastMessage;
-		this.viewId = R.layout.brick_broadcast;
-	}
+	@Override
+	public boolean act(float delta) {
+		if (firstStart) {
+			firstStart = false;
+			for (Sprite spriteOfList : receivingSprites) {
+				spriteOfList.look.fire(event);
+			}
+		}
+		List<Sprite> spritesToWaitFor = event.getSpritesToWaitFor();
 
-	protected Object readResolve() {
-		super.readResolve();
-		this.viewId = R.layout.brick_broadcast;
-		return this;
+		return spritesToWaitFor == null || spritesToWaitFor.size() == 0;
 	}
 
 	@Override
-	public Brick clone() {
-		return new BroadcastBrick(broadcastMessage);
+	public void restart() {
+		firstStart = true;
 	}
 
-	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createBroadcastAction(broadcastMessage, EventWrapper.NO_WAIT));
-		return null;
+	public void setEvent(EventWrapper event) {
+		this.event = event;
 	}
 
-	@Override
-	public void setBroadcastMessage(String newBroadcastMessage) {
-		this.broadcastMessage = newBroadcastMessage;
-		messageAdapter.add(newBroadcastMessage);
-	}
-
-	@Override
-	public String getBroadcastMessage() {
-		return broadcastMessage;
+	public void setReceivingSprites(List<Sprite> receivingSprites) {
+		this.receivingSprites = receivingSprites;
 	}
 }

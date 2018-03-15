@@ -24,9 +24,11 @@ package org.catrobat.catroid.ui.fragment;
 
 import android.content.Context;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
-import org.catrobat.catroid.common.MessageContainer;
+import org.catrobat.catroid.content.BroadcastScript;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.AskBrick;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -78,8 +80,13 @@ public class CategoryBeginnerBricksFactory extends CategoryBricksFactory {
 		List<Brick> eventBrickList = new ArrayList<>();
 		eventBrickList.add(new WhenStartedBrick(null));
 		eventBrickList.add(new WhenTouchDownBrick());
-		final String broadcastMessage = MessageContainer.getFirst(context);
-		eventBrickList.add(new BroadcastReceiverBrick(broadcastMessage));
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		List<String> broadcastMessages = currentProject.getBroadcastMessageContainer().getBroadcastMessages();
+		String broadcastMessage = context.getString(R.string.new_broadcast_message);
+		if (broadcastMessages.size() > 0) {
+			broadcastMessage = broadcastMessages.get(0);
+		}
+		eventBrickList.add(new BroadcastReceiverBrick(new BroadcastScript(broadcastMessage)));
 		eventBrickList.add(new BroadcastBrick(broadcastMessage));
 		return eventBrickList;
 	}

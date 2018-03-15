@@ -25,7 +25,6 @@ package org.catrobat.catroid.test.content;
 import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -33,21 +32,18 @@ import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
+import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
-import org.catrobat.catroid.exceptions.ProjectException;
+import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class MessageContainerTest extends AndroidTestCase {
 
 	private final String projectName1 = "TestProject1";
 	private final String projectName2 = "TestProject2";
-	private final String projectName3 = "TestProject3";
 	private final String broadcastMessage1 = "testBroadcast1";
 	private final String broadcastMessage2 = "testBroadcast2";
 
@@ -55,68 +51,35 @@ public class MessageContainerTest extends AndroidTestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		createTestProjects();
+		ProjectManager.getInstance().loadProject(projectName1, getContext());
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		ProjectManager.getInstance().setCurrentScene(currentProject.getDefaultScene());
 	}
 
 	@Override
-	protected void tearDown() {
-		TestUtils.deleteTestProjects(projectName1, projectName2, projectName3);
+	protected void tearDown() throws Exception {
+		super.tearDown();
+		TestUtils.deleteTestProjects(projectName1, projectName2);
 	}
 
 	public void testLoadProject() {
-		try {
-			ProjectManager.getInstance().loadProject(projectName1, getContext());
-
-			Set<String> keySet = getMessages();
-			assertTrue("Broadcast message is not in the message container", keySet.contains(broadcastMessage1));
-		} catch (ProjectException projectException) {
-			fail("Project is not loaded successfully");
-		}
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		List<String> broadcastMessages = currentProject.getBroadcastMessageContainer().getBroadcastMessages();
+		assertTrue("Broadcast message is not in the message container", broadcastMessages.contains(broadcastMessage1));
+		assertEquals("Message container does not have expected size", 1, broadcastMessages.size());
 	}
 
-	public void testLoadTwoProjects() {
-		try {
-			ProjectManager.getInstance().loadProject(projectName1, getContext());
-			assertTrue("Project1 is loaded successfully", true);
-		} catch (ProjectException projectException) {
-			fail("Project1 is not loaded successfully");
-		}
+	public void testLoadTwoProjects() throws CompatibilityProjectException, OutdatedVersionProjectException, LoadingProjectException {
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		currentProject.getBroadcastMessageContainer().update();
 
-		Set<String> keySet = getMessages();
-		assertTrue("Broadcast message is not in the message container", keySet.contains(broadcastMessage1));
+		ProjectManager.getInstance().loadProject(projectName2, getContext());
+		currentProject = ProjectManager.getInstance().getCurrentProject();
+		ProjectManager.getInstance().setCurrentScene(currentProject.getDefaultScene());
+		List<String> broadcastMessages = currentProject.getBroadcastMessageContainer().getBroadcastMessages();
 
-		try {
-			ProjectManager.getInstance().loadProject(projectName2, getContext());
-			assertTrue("Project2 is loaded successfully", true);
-		} catch (ProjectException projectException) {
-			fail("Project2 is not loaded successfully");
-		}
-
-		keySet = getMessages();
-		assertFalse("Broadcast message is in the message container", keySet.contains(broadcastMessage1));
-		assertTrue("Broadcast message is not in the message container", keySet.contains(broadcastMessage2));
-	}
-
-	public void testLoadCorruptedProjectAndCheckForBackup() {
-		try {
-			ProjectManager.getInstance().loadProject(projectName1, getContext());
-			assertTrue("Project1 is loaded successfully", true);
-		} catch (ProjectException projectException) {
-			fail("Project1 is not loaded successfully");
-		}
-
-		Set<String> keySet = getMessages();
-		assertTrue("Broadcast message has the false position", keySet.contains(broadcastMessage1));
-
-		try {
-			ProjectManager.getInstance().loadProject(projectName3, getContext());
-			fail("Project3 should be corrupted");
-		} catch (LoadingProjectException expected) {
-		} catch (ProjectException projectExceptions) {
-			fail("Project corruption test is failed");
-		}
-
-		keySet = getMessages();
-		assertTrue("Broadcast message is not in the message container", keySet.contains(broadcastMessage1));
+		assertTrue("Broadcast message is in the message container", !broadcastMessages.contains(broadcastMessage1));
+		assertTrue("Broadcast message is not in the message container", broadcastMessages.contains(broadcastMessage2));
 	}
 
 	private void createTestProjects() {
@@ -150,11 +113,5 @@ public class MessageContainerTest extends AndroidTestCase {
 
 		boolean result = StorageHandler.getInstance().saveProject(project2);
 		assertTrue("error on saving project", result);
-	}
-
-	@SuppressWarnings("unchecked")
-	private Set<String> getMessages() {
-		return ((Map<String, List<BroadcastScript>>) Reflection.getPrivateField(MessageContainer.class, "receiverMap"))
-				.keySet();
 	}
 }

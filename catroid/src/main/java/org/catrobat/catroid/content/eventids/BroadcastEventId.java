@@ -20,38 +20,30 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.bricks;
+package org.catrobat.catroid.content.eventids;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+public class BroadcastEventId extends EventId {
+	public final String message;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.EventWrapper;
-import org.catrobat.catroid.content.Sprite;
-
-import java.util.List;
-
-public class BroadcastWaitBrick extends BroadcastBrick {
-	private static final long serialVersionUID = 1L;
-
-	public BroadcastWaitBrick(String broadcastMessage) {
-		super(broadcastMessage);
-		this.viewId = R.layout.brick_broadcast_wait;
-	}
-
-	protected Object readResolve() {
-		super.readResolve();
-		this.viewId = R.layout.brick_broadcast_wait;
-		return this;
+	public BroadcastEventId(String message) {
+		this.message = message;
 	}
 
 	@Override
-	public Brick clone() {
-		return new BroadcastWaitBrick(broadcastMessage);
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof BroadcastEventId)) {
+			return false;
+		}
+
+		BroadcastEventId that = (BroadcastEventId) o;
+
+		return message.equals(that.message);
 	}
 
-	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createBroadcastAction(broadcastMessage, EventWrapper.WAIT));
-		return null;
+	public int hashCode() {
+		return (message != null ? message.hashCode() : 0);
 	}
 }

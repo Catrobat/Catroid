@@ -28,6 +28,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -113,7 +114,7 @@ public class BroadcastBricksStageTest {
 				Sensors.COLLIDES_WITH_FINGER.name(), null));
 		script.addBrick(new WhenConditionBrick(condition));
 		script.addBrick(new BroadcastBrick(defaultMessage));
-		script.addBrick(new BroadcastReceiverBrick(defaultMessage));
+		script.addBrick(new BroadcastReceiverBrick(new BroadcastScript(defaultMessage)));
 		script.addBrick(new NextLookBrick());
 		sprite.addScript(script);
 

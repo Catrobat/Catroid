@@ -1013,7 +1013,6 @@
     <string name="brick_if_begin_second_part">is true then</string>
     <string name="brick_if_else">Else</string>
     <string name="brick_if_end">End If</string>
-    <string name="brick_broadcast_invalid_symbol">"Message reserved for:\n\"When physical collision between\"-Brick\nPlease try again!"</string>
     <string name="brick_set_variable">Set variable</string>
     <string name="brick_change_variable">Change variable</string>
     <string name="brick_variable_spinner_create_new_variable">New…</string>

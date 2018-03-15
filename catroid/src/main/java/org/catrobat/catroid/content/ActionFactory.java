@@ -33,15 +33,12 @@ import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
 import org.catrobat.catroid.content.actions.AddItemToUserListAction;
 import org.catrobat.catroid.content.actions.ArduinoSendDigitalValueAction;
 import org.catrobat.catroid.content.actions.ArduinoSendPWMValueAction;
 import org.catrobat.catroid.content.actions.AskAction;
 import org.catrobat.catroid.content.actions.AskSpeechAction;
 import org.catrobat.catroid.content.actions.BackgroundNotifyAction;
-import org.catrobat.catroid.content.actions.BroadcastAction;
-import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
 import org.catrobat.catroid.content.actions.CameraBrickAction;
 import org.catrobat.catroid.content.actions.ChangeBrightnessByNAction;
 import org.catrobat.catroid.content.actions.ChangeColorByNAction;
@@ -73,6 +70,8 @@ import org.catrobat.catroid.content.actions.DroneTurnLeftAction;
 import org.catrobat.catroid.content.actions.DroneTurnLeftWithMagnetometerAction;
 import org.catrobat.catroid.content.actions.DroneTurnRightAction;
 import org.catrobat.catroid.content.actions.DroneTurnRightWithMagnetometerAction;
+import org.catrobat.catroid.content.actions.EventAction;
+import org.catrobat.catroid.content.actions.EventSequenceAction;
 import org.catrobat.catroid.content.actions.FlashAction;
 import org.catrobat.catroid.content.actions.GoNStepsBackAction;
 import org.catrobat.catroid.content.actions.GoToOtherSpritePositionAction;
@@ -103,6 +102,7 @@ import org.catrobat.catroid.content.actions.LegoNxtMotorTurnAngleAction;
 import org.catrobat.catroid.content.actions.LegoNxtPlayToneAction;
 import org.catrobat.catroid.content.actions.MoveNStepsAction;
 import org.catrobat.catroid.content.actions.NextLookAction;
+import org.catrobat.catroid.content.actions.NotifyEventWaiterAction;
 import org.catrobat.catroid.content.actions.PenDownAction;
 import org.catrobat.catroid.content.actions.PenUpAction;
 import org.catrobat.catroid.content.actions.PhiroMotorMoveBackwardAction;
@@ -171,6 +171,9 @@ import org.catrobat.catroid.content.bricks.PhiroMotorStopBrick;
 import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick;
 import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
+import org.catrobat.catroid.content.eventids.BroadcastEventId;
+import org.catrobat.catroid.content.eventids.EventId;
+import org.catrobat.catroid.content.eventids.RaspiEventId;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -184,19 +187,29 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public static Action createBroadcastAction(Sprite sprite, String broadcastMessage) {
-		BroadcastAction action = Actions.action(BroadcastAction.class);
-		BroadcastEvent event = new BroadcastEvent();
-		event.setSenderSprite(sprite);
-		event.setBroadcastMessage(broadcastMessage);
-		event.setType(BroadcastType.broadcast);
-		action.setBroadcastEvent(event);
+	public EventAction createRaspiInterruptAction(String pin, String value) {
+		RaspiEventId id = new RaspiEventId(pin, value);
+		return createEventAction(id, EventWrapper.NO_WAIT);
+	}
+
+	public EventAction createBroadcastAction(String broadcastMessage, @EventWrapper.WaitMode int waitMode) {
+		BroadcastEventId id = new BroadcastEventId(broadcastMessage);
+		return createEventAction(id, waitMode);
+	}
+
+	private EventAction createEventAction(EventId eventId, @EventWrapper.WaitMode int waitMode) {
+		EventWrapper event = new EventWrapper(eventId, waitMode);
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		EventAction action = Actions.action(EventAction.class);
+		action.setEvent(event);
+		action.setReceivingSprites(currentProject.getSpriteListWithClones());
 		return action;
 	}
 
-	public static Action createBroadcastNotifyAction(BroadcastEvent event) {
-		BroadcastNotifyAction action = Actions.action(BroadcastNotifyAction.class);
+	public static Action createNotifyEventWaiterAction(Sprite sprite, EventWrapper event) {
+		NotifyEventWaiterAction action = Actions.action(NotifyEventWaiterAction.class);
 		action.setEvent(event);
+		action.setSprite(sprite);
 		return action;
 	}
 
@@ -211,17 +224,6 @@ public class ActionFactory extends Actions {
 		WaitForBubbleBrickAction action = Actions.action(WaitForBubbleBrickAction.class);
 		action.setSprite(sprite);
 		action.setDelay(delay);
-		return action;
-	}
-
-	public Action createBroadcastActionFromWaiter(Sprite sprite, String broadcastMessage) {
-		BroadcastAction action = Actions.action(BroadcastAction.class);
-		BroadcastEvent event = new BroadcastEvent();
-		event.setSenderSprite(sprite);
-		event.setBroadcastMessage(broadcastMessage);
-		event.setRun(false);
-		event.setType(BroadcastType.broadcastWait);
-		action.setBroadcastEvent(event);
 		return action;
 	}
 
@@ -828,6 +830,10 @@ public class ActionFactory extends Actions {
 
 	public Action createSequence() {
 		return Actions.sequence();
+	}
+
+	public static Action eventSequence(Script script) {
+		return new EventSequenceAction(script);
 	}
 
 	public Action createSetBounceFactorAction(Sprite sprite, Formula bounceFactor) {

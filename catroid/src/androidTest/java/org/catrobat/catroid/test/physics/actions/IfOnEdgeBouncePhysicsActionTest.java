@@ -31,7 +31,6 @@ import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
-import org.catrobat.catroid.physics.PhysicsCollision;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.content.actions.IfOnEdgeBouncePhysicsAction;
@@ -40,8 +39,6 @@ import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class IfOnEdgeBouncePhysicsActionTest extends PhysicsBaseTest {
 
@@ -173,9 +170,8 @@ public class IfOnEdgeBouncePhysicsActionTest extends PhysicsBaseTest {
 	public void testCollisionBroadcastOnIfOnEdgeBounce() {
 		assertTrue("getLookData is null", sprite.look.getLookData() != null);
 
-		CollisionScript spriteCollisionScript = new CollisionScript("");
-		spriteCollisionScript.setAndReturnBroadcastMessage(sprite.getName(), PhysicsCollision
-				.COLLISION_WITH_ANYTHING_IDENTIFIER);
+		CollisionScript spriteCollisionScript = new CollisionScript(null);
+		spriteCollisionScript.setSpriteToCollideWithName("");
 		spriteCollisionScript.getScriptBrick();
 		int testXValue = 300;
 		int testYValue = 250;
@@ -183,7 +179,7 @@ public class IfOnEdgeBouncePhysicsActionTest extends PhysicsBaseTest {
 		spriteCollisionScript.addBrick(testBrick);
 		sprite.addScript(spriteCollisionScript);
 
-		sprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
+		sprite.createAndAddActions(Sprite.INCLUDE_START_ACTIONS);
 
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		physicsObject.setType(PhysicsObject.Type.DYNAMIC);

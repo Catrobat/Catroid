@@ -106,10 +106,9 @@ class SpriteVariableBehaviour extends SpriteDataBehaviour<Sprite, UserVariable> 
 		while (iterator.hasNext()) {
 			Sprite sprite = (Sprite) iterator.next();
 			if (sprite == null
-					|| spriteToKeep != null
-					&& !(sprite == spriteToKeep)
-					&& getDataMap().get(sprite).size() == 0
-					&& sprite.getName().equals(spriteToKeep.getName())) {
+					|| !sprite.equals(spriteToKeep)
+					&& sprite.isClone() // else the adapter for local variables will have a reference to an invalid list
+					&& getDataMap().get(sprite).size() == 0) {
 				iterator.remove();
 			}
 		}

@@ -32,29 +32,24 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Array;
 
+import org.catrobat.catroid.common.ActionScheduler;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DroneVideoLookData;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.content.actions.EventSequenceAction;
 import org.catrobat.catroid.utils.TouchUtil;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 public class Look extends Image {
 	private static final float DEGREE_UI_OFFSET = 90.0f;
 	private static final float COLOR_SCALE = 200.0f;
-	private static ArrayList<Action> actionsToRestart = new ArrayList<>();
 	private boolean lookVisible = true;
 	protected boolean imageChanged = false;
 	protected boolean brightnessChanged = false;
@@ -66,7 +61,6 @@ public class Look extends Image {
 	protected float hue = 0f;
 	protected Pixmap pixmap;
 	private ParallelAction whenParallelAction;
-	private boolean allActionsAreFinished = false;
 	private BrightnessContrastHueShader shader;
 	public static final int ROTATION_STYLE_ALL_AROUND = 1;
 	public static final int ROTATION_STYLE_LEFT_RIGHT_ONLY = 0;
@@ -74,9 +68,11 @@ public class Look extends Image {
 	private int rotationMode = ROTATION_STYLE_ALL_AROUND;
 	private float rotation = 90f;
 	private float realRotation = rotation;
+	private ActionScheduler scheduler;
 
 	public Look(final Sprite sprite) {
 		this.sprite = sprite;
+		scheduler = new ActionScheduler(this);
 		setBounds(0f, 0f, 0f, 0f);
 		setOrigin(0f, 0f);
 		setScale(1f, 1f);
@@ -102,18 +98,7 @@ public class Look extends Image {
 				return false;
 			}
 		});
-
-		this.addListener(new BroadcastListener() {
-			@Override
-			public void handleBroadcastEvent(BroadcastEvent event, String broadcastMessage) {
-				doHandleBroadcastEvent(event.getSenderSprite(), broadcastMessage);
-			}
-
-			@Override
-			public void handleBroadcastFromWaiterEvent(BroadcastEvent event, String broadcastMessage) {
-				doHandleBroadcastFromWaiterEvent(event, broadcastMessage);
-			}
-		});
+		this.addListener(new EventWrapperListener(this));
 	}
 
 	public boolean isLookVisible() {
@@ -124,12 +109,19 @@ public class Look extends Image {
 		this.lookVisible = lookVisible;
 	}
 
-	public static boolean actionsToRestartContains(Action action) {
-		return Look.actionsToRestart.contains(action);
-	}
-
-	public static void actionsToRestartAdd(Action action) {
-		Look.actionsToRestart.add(action);
+	@Override
+	public boolean remove() {
+		notifyAllWaiters();
+		setLookVisible(false);
+		boolean returnValue = super.remove();
+		for (EventListener listener : this.getListeners()) {
+			this.removeListener(listener);
+		}
+		getActions().clear();
+		scheduler = null;
+		this.sprite = null;
+		this.lookData = null;
+		return returnValue;
 	}
 
 	public void copyTo(final Look destination) {
@@ -162,6 +154,9 @@ public class Look extends Image {
 				sprite.createWhenScriptActionSequence("Tapped");
 			} else {
 				whenParallelAction.restart();
+				if (!getActions().contains(whenParallelAction, true)) {
+					startAction(whenParallelAction);
+				}
 			}
 			return true;
 		}
@@ -197,32 +192,19 @@ public class Look extends Image {
 
 	@Override
 	public void act(float delta) {
-		Array<Action> actions = getActions();
-		allActionsAreFinished = false;
-		int finishedCount = 0;
+		scheduler.tick(delta);
+	}
 
-		for (Iterator<Action> iterator = Look.actionsToRestart.iterator(); iterator.hasNext(); ) {
-			Action actionToRestart = iterator.next();
-			actionToRestart.restart();
-			iterator.remove();
-		}
-
-		int n = actions.size;
-		for (int i = 0; i < n; i++) {
-			Action action = actions.get(i);
-			if (action.act(delta)) {
-				finishedCount++;
-			}
-		}
-		if (finishedCount == actions.size) {
-			allActionsAreFinished = true;
+	public void startAction(Action action) {
+		if (scheduler != null) {
+			scheduler.startAction(action);
 		}
 	}
 
-	@Override
-	public void addAction(Action action) {
-		super.addAction(action);
-		allActionsAreFinished = false;
+	void stopActionWithScript(Script script) {
+		if (scheduler != null) {
+			scheduler.stopActionsWithScript(script);
+		}
 	}
 
 	protected void checkImageChanged() {
@@ -280,7 +262,7 @@ public class Look extends Image {
 	}
 
 	public boolean getAllActionsAreFinished() {
-		return allActionsAreFinished;
+		return scheduler.getAllActionsFinished();
 	}
 
 	public String getImagePath() {
@@ -559,12 +541,8 @@ public class Look extends Image {
 		return breakDownCatroidAngle(catroidAngle);
 	}
 
-	protected void doHandleBroadcastEvent(Sprite senderSprite, String broadcastMessage) {
-		BroadcastHandler.doHandleBroadcastEvent(this, senderSprite, broadcastMessage);
-	}
-
-	protected void doHandleBroadcastFromWaiterEvent(BroadcastEvent event, String broadcastMessage) {
-		BroadcastHandler.doHandleBroadcastFromWaiterEvent(this, event, broadcastMessage);
+	public void createAndAddActionsWithoutStartActions() {
+		sprite.createAndAddActions(Sprite.EXCLUDE_START_ACTIONS);
 	}
 
 	private class BrightnessContrastHueShader extends ShaderProgram {
@@ -644,13 +622,6 @@ public class Look extends Image {
 		}
 	}
 
-	public Map<String, List<String>> createScriptActions() {
-		this.setWhenParallelAction(null);
-		Map<String, List<String>> scriptActions = new HashMap<>();
-		sprite.createStartScriptActionSequenceAndPutToMap(scriptActions, false);
-		return scriptActions;
-	}
-
 	public Polygon[] getCurrentCollisionPolygon() {
 		Polygon[] originalPolygons;
 		if (getLookData() == null) {
@@ -673,5 +644,13 @@ public class Look extends Image {
 			transformedPolygons[p] = poly;
 		}
 		return transformedPolygons;
+	}
+
+	void notifyAllWaiters() {
+		for (Action action : getActions()) {
+			if (action instanceof EventSequenceAction) {
+				((EventSequenceAction) action).notifyWaiter();
+			}
+		}
 	}
 }

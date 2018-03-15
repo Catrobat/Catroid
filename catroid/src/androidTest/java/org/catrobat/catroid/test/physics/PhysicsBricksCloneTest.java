@@ -51,7 +51,6 @@ public class PhysicsBricksCloneTest extends AndroidTestCase {
 
 	private static final int BRICK_FORMULA_VALUE = 1;
 	private static final String CLONE_BRICK_FORMULA_VALUE = "2";
-	private static final String COLLISION_RECEIVER_TEST_MESSAGE = "Collision_receiver_test_message";
 
 	Sprite sprite;
 
@@ -87,7 +86,7 @@ public class PhysicsBricksCloneTest extends AndroidTestCase {
 
 	public void testCloneCollisionReceiverBrick() {
 
-		Brick brick = new CollisionReceiverBrick(new CollisionScript(COLLISION_RECEIVER_TEST_MESSAGE));
+		Brick brick = new CollisionReceiverBrick(new CollisionScript(null));
 
 		Brick clonedBrick = null;
 		try {
@@ -100,11 +99,7 @@ public class PhysicsBricksCloneTest extends AndroidTestCase {
 		CollisionScript brickReceiverScript = (CollisionScript) Reflection.getPrivateField(brick, "collisionScript");
 		CollisionScript clonedBrickReceiverScript = (CollisionScript) Reflection.getPrivateField(clonedBrick, "collisionScript");
 
-		String scriptReceiveMessage = brickReceiverScript.getBroadcastMessage();
-		String clonedReceiveMessage = clonedBrickReceiverScript.getBroadcastMessage();
-
 		assertFalse("CollisionScripts have same address", brickReceiverScript == clonedBrickReceiverScript);
-		assertEquals("ReceiveMessages are not equal after clone()", scriptReceiveMessage, clonedReceiveMessage);
 	}
 
 	public void testCloneSetPhysicsObjectTypeBrick() {

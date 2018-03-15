@@ -32,7 +32,6 @@ import android.view.View;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.BroadcastHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.drone.ardrone.DroneServiceWrapper;
@@ -204,8 +203,6 @@ public class SpriteActivity extends BaseActivity implements PlaySceneDialogFragm
 		while (getFragmentManager().getBackStackEntryCount() > 0) {
 			getFragmentManager().popBackStack();
 		}
-
-		BroadcastHandler.clearActionMaps();
 
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		Scene currentScene = ProjectManager.getInstance().getCurrentScene();

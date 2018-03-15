@@ -20,46 +20,34 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.content.eventids;
 
-import com.badlogic.gdx.scenes.scene2d.Action;
+public class RaspiEventId extends EventId {
+	private final String pin;
+	private final String eventValue;
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.content.BroadcastEvent;
-import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
-import org.catrobat.catroid.content.Sprite;
-
-import java.util.List;
-
-public class BroadcastAction extends Action {
-
-	private BroadcastEvent event;
-	private boolean executeOnce = true;
+	public RaspiEventId(String pin, String eventValue) {
+		this.pin = pin;
+		this.eventValue = eventValue;
+	}
 
 	@Override
-	public boolean act(float delta) {
-		if (executeOnce) {
-			List<Sprite> sprites = ProjectManager.getInstance().getSceneToPlay().getSpriteList();
-			for (Sprite spriteOfList : sprites) {
-				spriteOfList.look.fire(event);
-			}
-			executeOnce = false;
-		}
-		if (event.getRun() || event.getNumberOfReceivers() == 0) {
+	public boolean equals(Object o) {
+		if (this == o) {
 			return true;
 		}
-		return false;
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+
+		RaspiEventId that = (RaspiEventId) o;
+		return pin.equals(that.pin) && eventValue.equals(that.eventValue);
 	}
 
 	@Override
-	public void restart() {
-		executeOnce = true;
-		if (event.getType().equals(BroadcastType.broadcastWait)) {
-			event.setRun(false);
-		}
-	}
-
-	public void setBroadcastEvent(BroadcastEvent event) {
-		this.event = event;
+	public int hashCode() {
+		int result = pin != null ? pin.hashCode() : 0;
+		result = 31 * result + (eventValue != null ? eventValue.hashCode() : 0);
+		return result;
 	}
 }

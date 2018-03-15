@@ -20,30 +20,39 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
 
-import com.badlogic.gdx.scenes.scene2d.Action;
+package org.catrobat.catroid.common;
 
-import org.catrobat.catroid.content.BroadcastEvent;
+import org.catrobat.catroid.ProjectManager;
 
-public class BroadcastNotifyAction extends Action {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
-	private BroadcastEvent event;
+public class BroadcastMessageContainer {
+	private final List<String> broadcastMessages;
 
-	@Override
-	public boolean act(float delta) {
-		event.raiseNumberOfFinishedReceivers();
-		if (event.allReceiversHaveFinished()) {
-			event.resetEventAndResumeScript();
+	public BroadcastMessageContainer() {
+		this.broadcastMessages = new ArrayList<>();
+	}
+
+	public void update() {
+		Set<String> usedMessages = ProjectManager.getInstance().getCurrentScene().getBroadcastMessagesInUse();
+		broadcastMessages.clear();
+		broadcastMessages.addAll(usedMessages);
+	}
+
+	public void addBroadcastMessage(String messageToAdd) {
+		if (messageToAdd != null && !messageToAdd.isEmpty()
+				&& !broadcastMessages.contains(messageToAdd)) {
+			broadcastMessages.add(messageToAdd);
 		}
-		return true;
 	}
 
-	public void setEvent(BroadcastEvent event) {
-		this.event = event;
-	}
-
-	public BroadcastEvent getEvent() {
-		return event;
+	public List<String> getBroadcastMessages() {
+		if (broadcastMessages.size() == 0) {
+			update();
+		}
+		return broadcastMessages;
 	}
 }

@@ -43,8 +43,6 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.utils.TestUtils;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
 
 public class StopScriptActionsTest extends InstrumentationTestCase {
 
@@ -76,7 +74,7 @@ public class StopScriptActionsTest extends InstrumentationTestCase {
 
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
-		sprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
+		sprite.createAndAddActions(Sprite.INCLUDE_START_ACTIONS);
 
 		for (int i = 0; i < 100; i++) {
 			sprite.look.act(1.0f);
@@ -113,7 +111,7 @@ public class StopScriptActionsTest extends InstrumentationTestCase {
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script2);
 
-		sprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
+		sprite.createAndAddActions(Sprite.INCLUDE_START_ACTIONS);
 
 		for (int i = 0; i < 50; i++) {
 			sprite.look.act(10.0f);
@@ -153,7 +151,7 @@ public class StopScriptActionsTest extends InstrumentationTestCase {
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script2);
 
-		sprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
+		sprite.createAndAddActions(Sprite.INCLUDE_START_ACTIONS);
 
 		for (int i = 0; i < 100; i++) {
 			sprite.look.act(1.0f);

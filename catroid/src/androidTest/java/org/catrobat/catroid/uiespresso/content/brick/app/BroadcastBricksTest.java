@@ -29,6 +29,7 @@ import android.widget.EditText;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -117,9 +118,9 @@ public class BroadcastBricksTest {
 	@Flaky
 	public void testRemoveUnusedMessagesBroadcastReceive() {
 		String uselessMessage = "useless";
-		createNewMessageOnSpinner(R.id.brick_broadcast_receive_spinner, broadcastReceivePosition, uselessMessage);
+		createNewMessageOnSpinner(R.id.brick_broadcast_spinner, broadcastReceivePosition, uselessMessage);
 
-		onBrickAtPosition(broadcastReceivePosition).onSpinner(R.id.brick_broadcast_receive_spinner)
+		onBrickAtPosition(broadcastReceivePosition).onSpinner(R.id.brick_broadcast_spinner)
 				.performSelect(defaultMessage);
 
 		onView(withId(R.id.button_play))
@@ -128,14 +129,14 @@ public class BroadcastBricksTest {
 		onView(withId(R.id.stage_dialog_button_back))
 				.perform(click());
 
-		onBrickAtPosition(broadcastReceivePosition).onSpinner(R.id.brick_broadcast_receive_spinner)
+		onBrickAtPosition(broadcastReceivePosition).onSpinner(R.id.brick_broadcast_spinner)
 				.perform(click());
 
 		onView(withText(uselessMessage)).check(doesNotExist());
 
 		pressBack();
 
-		onBrickAtPosition(broadcastReceivePosition).onSpinner(R.id.brick_broadcast_receive_spinner)
+		onBrickAtPosition(broadcastReceivePosition).onSpinner(R.id.brick_broadcast_spinner)
 				.checkShowsText(defaultMessage);
 	}
 
@@ -147,7 +148,7 @@ public class BroadcastBricksTest {
 		sprite.addScript(script);
 
 		script.addBrick(new BroadcastBrick(defaultMessage));
-		script.addBrick(new BroadcastReceiverBrick(defaultMessage));
+		script.addBrick(new BroadcastReceiverBrick(new BroadcastScript(defaultMessage)));
 
 		project.getDefaultScene().addSprite(sprite);
 
