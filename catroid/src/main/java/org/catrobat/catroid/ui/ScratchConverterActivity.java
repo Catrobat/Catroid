@@ -23,7 +23,6 @@
 package org.catrobat.catroid.ui;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -31,6 +30,9 @@ import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -48,7 +50,7 @@ import org.catrobat.catroid.scratchconverter.WebSocketClient;
 import org.catrobat.catroid.scratchconverter.protocol.Job;
 import org.catrobat.catroid.scratchconverter.protocol.WebSocketMessageListener;
 import org.catrobat.catroid.ui.fragment.ScratchConverterSlidingUpPanelFragment;
-import org.catrobat.catroid.ui.fragment.SearchScratchSearchProjectsListFragment;
+import org.catrobat.catroid.ui.fragment.ScratchProgramsListFragment;
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
 import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectLoaderTask;
 import org.catrobat.catroid.ui.recyclerview.viewholder.ViewHolder;
@@ -61,13 +63,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class ScratchConverterActivity extends BaseActivity implements SlidingUpPanelLayout.PanelSlideListener,
+public class ScratchConverterActivity extends BaseActivity implements
+		SlidingUpPanelLayout.PanelSlideListener,
 		RVAdapter.OnItemClickListener<Job> {
 
 	private static final String TAG = ScratchConverterActivity.class.getSimpleName();
 
 	private static Client client = null;
 	private static ScratchDataFetcher dataFetcher = ServerCalls.getInstance();
+
 	private SlidingUpPanelLayout slidingLayout;
 	private ConversionManager conversionManager;
 
@@ -76,9 +80,9 @@ public class ScratchConverterActivity extends BaseActivity implements SlidingUpP
 				.fragment_scratch_converter_sliding_up_panel);
 	}
 
-	private SearchScratchSearchProjectsListFragment getSearchFragment() {
-		return (SearchScratchSearchProjectsListFragment) getFragmentManager()
-				.findFragmentById(R.id.fragment_scratch_search_projects_list);
+	private ScratchProgramsListFragment getSearchFragment() {
+		return (ScratchProgramsListFragment) getFragmentManager()
+				.findFragmentById(R.id.fragment_search_scratch_programs);
 	}
 
 	// dependency-injection for testing with mock object
@@ -90,19 +94,23 @@ public class ScratchConverterActivity extends BaseActivity implements SlidingUpP
 		client = converterClient;
 	}
 
-	private void setUpActionBar() {
-		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		String title = getString(R.string.title_activity_scratch_converter) + " " + getResources()
-				.getString(R.string.beta).toUpperCase();
-		getSupportActionBar().setTitle(title);
-	}
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_scratch_converter);
-		setUpActionBar();
+
+		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		String scratchConverter = getString(R.string.main_menu_scratch_converter);
+		SpannableString scratchConverterBeta = new SpannableString(scratchConverter + " "
+				+ getString(R.string.beta));
+		scratchConverterBeta.setSpan(
+				new ForegroundColorSpan(
+						getResources().getColor(R.color.beta_label_color)),
+				scratchConverter.length(), scratchConverterBeta.length(),
+				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		getSupportActionBar().setTitle(scratchConverterBeta);
+
 		getSearchFragment().setDataFetcher(dataFetcher);
 
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -126,7 +134,7 @@ public class ScratchConverterActivity extends BaseActivity implements SlidingUpP
 	@Override
 	protected void onPostCreate(Bundle savedBundle) {
 		super.onPostCreate(savedBundle);
-		getSlidingUpFragment().getFinishedFailedJobsAdapter().setScratchProgramOnClickListener(this);
+		getSlidingUpFragment().getFinishedFailedJobsAdapter().setOnItemClickListener(this);
 	}
 
 	@Override
@@ -280,32 +288,32 @@ public class ScratchConverterActivity extends BaseActivity implements SlidingUpP
 		catrobatProgramName = catrobatProgramName == null ? job.getTitle() : catrobatProgramName;
 
 		if (job.getDownloadState() == Job.DownloadState.DOWNLOADING) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle(R.string.warning);
-			builder.setMessage(R.string.error_cannot_open_currently_downloading_scratch_program);
-			builder.setNeutralButton(R.string.close, null);
-			Dialog errorDialog = builder.create();
-			errorDialog.show();
+			new AlertDialog.Builder(this)
+					.setTitle(R.string.warning)
+					.setMessage(R.string.error_cannot_open_currently_downloading_scratch_program)
+					.setNeutralButton(R.string.close, null)
+					.create()
+					.show();
 			return;
 		}
 
 		if (job.getDownloadState() == Job.DownloadState.NOT_READY || job.getDownloadState() == Job.DownloadState.CANCELED) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle(R.string.warning);
-			builder.setMessage(R.string.error_cannot_open_not_yet_downloaded_scratch_program);
-			builder.setNeutralButton(R.string.close, null);
-			Dialog errorDialog = builder.create();
-			errorDialog.show();
+			new AlertDialog.Builder(this)
+					.setTitle(R.string.warning)
+					.setMessage(R.string.error_cannot_open_not_yet_downloaded_scratch_program)
+					.setNeutralButton(R.string.close, null)
+					.create()
+					.show();
 			return;
 		}
 
 		if (!StorageHandler.getInstance().projectExists(catrobatProgramName)) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle(R.string.warning);
-			builder.setMessage(R.string.error_cannot_open_not_existing_scratch_program);
-			builder.setNeutralButton(R.string.close, null);
-			Dialog errorDialog = builder.create();
-			errorDialog.show();
+			new AlertDialog.Builder(this)
+					.setTitle(R.string.warning)
+					.setMessage(R.string.error_cannot_open_not_existing_scratch_program)
+					.setNeutralButton(R.string.close, null)
+					.create()
+					.show();
 			return;
 		}
 

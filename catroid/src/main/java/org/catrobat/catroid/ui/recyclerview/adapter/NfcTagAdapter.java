@@ -39,7 +39,7 @@ public class NfcTagAdapter extends ExtendedRVAdapter<NfcTagData> {
 	public void onBindViewHolder(ExtendedVH holder, int position) {
 		NfcTagData item = items.get(position);
 
-		holder.name.setText(item.getNfcTagName());
+		holder.title.setText(item.getNfcTagName());
 		holder.image.setImageResource(R.drawable.ic_program_menu_nfc);
 	}
 }

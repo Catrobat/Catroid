@@ -52,7 +52,7 @@ public class SoundAdapter extends ExtendedRVAdapter<SoundInfo> {
 	public void onBindViewHolder(final ExtendedVH holder, int position) {
 		final SoundInfo item = items.get(position);
 
-		holder.name.setText(item.getName());
+		holder.title.setText(item.getName());
 		holder.image.setImageResource(R.drawable.ic_media_play);
 
 		holder.image.setOnClickListener(new View.OnClickListener() {

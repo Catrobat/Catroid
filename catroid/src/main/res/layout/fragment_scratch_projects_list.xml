@@ -21,31 +21,49 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<com.sothree.slidinguppanel.SlidingUpPanelLayout
+
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:sothree="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/sliding_layout"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="bottom"
-    sothree:umanoFadeColor="@color/app_background"
-    sothree:umanoPanelHeight="@dimen/scratch_project_search_list_view_margin_bottom"
-    sothree:umanoShadowHeight="4dp"
-    sothree:umanoParallaxOffset="100dp"
-    sothree:umanoDragView="@+id/dragView"
-    sothree:umanoOverlay="true"
-    sothree:umanoScrollableView="@+id/scratch_conversion_scroll_view">
+    android:orientation="vertical">
 
-    <fragment
-        android:id="@+id/fragment_search_scratch_programs"
+    <include layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <SearchView
+            android:id="@+id/search_view_scratch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="5dp"
+            android:queryHint="@string/search_hint"
+            android:iconifiedByDefault="false"
+            android:focusable="true"
+            android:focusableInTouchMode="true" />
+
+        <ImageButton
+            android:id="@+id/mic_button_image_scratch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="11dp"
+            android:layout_marginTop="11dp"
+            android:background="@color/transparent"
+            android:src="@android:drawable/ic_btn_speak_now" />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        class="org.catrobat.catroid.ui.fragment.ScratchProgramsListFragment" />
+        app:layoutManager="LinearLayoutManager">
+    </android.support.v7.widget.RecyclerView>
 
-    <fragment
-        android:id="@+id/fragment_scratch_converter_sliding_up_panel"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        class="org.catrobat.catroid.ui.fragment.ScratchConverterSlidingUpPanelFragment" />
-
-</com.sothree.slidinguppanel.SlidingUpPanelLayout>
+</LinearLayout>

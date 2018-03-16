@@ -25,33 +25,26 @@ package org.catrobat.catroid.ui.recyclerview.viewholder;
 
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 
 public class ScratchJobVH extends ViewHolder {
 
-	public RelativeLayout background;
-	public ProgressBar progressBar;
 	public ImageView image;
-	public RelativeLayout details;
+	public ProgressBar progressBar;
 	public TextView progress;
-	public RelativeLayout progressLayout;
-	public TextView title;
+	public LinearLayout progressLayout;
 	public TextView status;
 
 	public ScratchJobVH(View view) {
 		super(view);
-		background = (RelativeLayout) view.findViewById(R.id.scratch_job_list_item_background);
-		image = (ImageView) view.findViewById(R.id.scratch_project_image_view);
-		title = (TextView) view.findViewById(R.id.scratch_job_list_item_title);
-		image = (ImageView) view.findViewById(R.id.scratch_job_list_item_image);
-		status = (TextView) view.findViewById(R.id.scratch_job_list_item_status);
-		progressLayout = (RelativeLayout) view.findViewById(R.id.scratch_job_list_item_progress_layout);
-		progressBar = (ProgressBar) view.findViewById(R.id.scratch_job_list_item_progress_bar);
-		progress = (TextView) view.findViewById(R.id.scratch_job_list_item_progress_text);
-		details = (RelativeLayout) view.findViewById(R.id.scratch_job_details);
+		image = view.findViewById(R.id.image_view);
+		status = view.findViewById(R.id.status_view);
+		progressLayout = view.findViewById(R.id.scratch_job_list_item_progress_layout);
+		progressBar = view.findViewById(R.id.scratch_job_list_item_progress_bar);
+		progress = view.findViewById(R.id.scratch_job_list_item_progress_text);
 	}
 }

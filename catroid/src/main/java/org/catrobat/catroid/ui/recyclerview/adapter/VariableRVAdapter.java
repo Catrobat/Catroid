@@ -51,7 +51,7 @@ public class VariableRVAdapter extends RVAdapter<UserVariable> {
 
 		UserVariable item = items.get(position);
 		VariableVH variableVH = (VariableVH) holder;
-		variableVH.name.setText(item.getName());
+		variableVH.title.setText(item.getName());
 		variableVH.value.setText(item.getValue().toString());
 	}
 }

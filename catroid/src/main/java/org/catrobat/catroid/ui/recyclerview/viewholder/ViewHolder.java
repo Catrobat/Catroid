@@ -33,11 +33,11 @@ import org.catrobat.catroid.R;
 public class ViewHolder extends RecyclerView.ViewHolder {
 
 	public CheckBox checkBox;
-	public TextView name;
+	public TextView title;
 
 	public ViewHolder(View view) {
 		super(view);
 		checkBox = view.findViewById(R.id.checkbox);
-		name = view.findViewById(R.id.title_view);
+		title = view.findViewById(R.id.title_view);
 	}
 }

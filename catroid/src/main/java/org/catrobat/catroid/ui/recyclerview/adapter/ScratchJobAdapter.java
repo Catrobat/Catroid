@@ -41,19 +41,14 @@ import java.util.List;
 import java.util.Locale;
 
 public class ScratchJobAdapter extends RVAdapter<Job> {
-	private OnItemClickListener<Job> scratchProgramOnClickListener;
 
 	public ScratchJobAdapter(List<Job> objects) {
 		super(objects);
 	}
 
-	public void setScratchProgramOnClickListener(OnItemClickListener<Job> listener) {
-		scratchProgramOnClickListener = listener;
-	}
-
 	@Override
 	public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
-		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_scratch_job_list_item, parent, false);
+		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.vh_scratch_job, parent, false);
 		return new ScratchJobVH(view);
 	}
 
@@ -62,24 +57,19 @@ public class ScratchJobAdapter extends RVAdapter<Job> {
 		onBindViewHolder((ScratchJobVH) holder, position);
 	}
 
-	public void onBindViewHolder(final ScratchJobVH holder, int position) {
-		final Job item = items.get(position);
+	public void onBindViewHolder(ScratchJobVH holder, int position) {
+		Job item = items.get(position);
 
 		holder.title.setText(item.getTitle());
 		if (item.getImage().getUrl() != null) {
-			final int height = holder.image.getContext().getResources().getDimensionPixelSize(R.dimen
+			int height = holder.image.getContext().getResources().getDimensionPixelSize(R.dimen
 					.scratch_project_thumbnail_height);
-			final String originalImageURL = item.getImage().getUrl().toString();
-			final String thumbnailImageURL = Utils.changeSizeOfScratchImageURL(originalImageURL, height);
+			String originalImageURL = item.getImage().getUrl().toString();
+			String thumbnailImageURL = Utils.changeSizeOfScratchImageURL(originalImageURL, height);
 			Picasso.with(holder.image.getContext()).load(thumbnailImageURL).into(holder.image);
 		} else {
 			holder.image.setImageBitmap(null);
 		}
-
-		holder.title.setSingleLine(true);
-
-		holder.status.setTextColor(Color.WHITE);
-		holder.details.setVisibility(View.VISIBLE);
 
 		short progress = 0;
 		boolean showProgressBar = false;
@@ -132,24 +122,13 @@ public class ScratchJobAdapter extends RVAdapter<Job> {
 
 		WebImage httpImageMetadata = item.getImage();
 		if (httpImageMetadata != null && httpImageMetadata.getUrl() != null) {
-			final int height = holder.status.getContext().getResources().getDimensionPixelSize(R.dimen.scratch_project_thumbnail_height);
-			final String originalImageURL = httpImageMetadata.getUrl().toString();
+			int height = holder.status.getContext().getResources().getDimensionPixelSize(R.dimen.scratch_project_thumbnail_height);
+			String originalImageURL = httpImageMetadata.getUrl().toString();
 
-			final String thumbnailImageURL = Utils.changeSizeOfScratchImageURL(originalImageURL, height);
+			String thumbnailImageURL = Utils.changeSizeOfScratchImageURL(originalImageURL, height);
 			Picasso.with(holder.status.getContext()).load(thumbnailImageURL).into(holder.image);
 		} else {
 			holder.image.setImageBitmap(null);
 		}
-
-		holder.background.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (scratchProgramOnClickListener != null) {
-					scratchProgramOnClickListener.onItemClick(item);
-				}
-			}
-		});
-
-		holder.background.setBackgroundResource(R.drawable.button_background_selector);
 	}
 }

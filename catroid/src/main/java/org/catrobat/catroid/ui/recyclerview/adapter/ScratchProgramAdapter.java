@@ -38,28 +38,29 @@ public class ScratchProgramAdapter extends ExtendedRVAdapter<ScratchProgramData>
 
 	public ScratchProgramAdapter(List<ScratchProgramData> objects) {
 		super(objects);
-		showDetails = true;
 	}
 
 	@Override
-	public void onBindViewHolder(final ExtendedVH holder, int position) {
+	public void onBindViewHolder(ExtendedVH holder, int position) {
 		ScratchProgramData item = items.get(position);
 
-		holder.name.setText(item.getTitle());
+		holder.title.setText(item.getTitle());
+
 		if (item.getImage().getUrl() != null) {
-			final int height = holder.image.getContext().getResources().getDimensionPixelSize(R.dimen
+			int height = holder.image.getContext().getResources().getDimensionPixelSize(R.dimen
 					.scratch_project_thumbnail_height);
-			final String originalImageURL = item.getImage().getUrl().toString();
-			final String thumbnailImageURL = Utils.changeSizeOfScratchImageURL(originalImageURL, height);
+			String originalImageURL = item.getImage().getUrl().toString();
+			String thumbnailImageURL = Utils.changeSizeOfScratchImageURL(originalImageURL, height);
 			Picasso.with(holder.image.getContext()).load(thumbnailImageURL).into(holder.image);
 		} else {
 			holder.image.setImageBitmap(null);
 		}
-		holder.name.setSingleLine(true);
-		holder.details.setVisibility(View.INVISIBLE);
+
 		if (showDetails) {
 			holder.details.setVisibility(View.VISIBLE);
 			holder.details.setText(item.getOwner());
+		} else {
+			holder.details.setVisibility(View.INVISIBLE);
 		}
 	}
 }

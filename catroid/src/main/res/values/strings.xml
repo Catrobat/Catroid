@@ -275,6 +275,7 @@
     <string name="am_copy">Copy</string>
     <string name="am_delete">Delete</string>
     <string name="am_rename">Rename</string>
+    <string name="am_convert">Convert</string>
     <string name="dialog_confirm_delete">You can\'t undo this!</string>
 
     <string name="list_headline_sprites">Objects</string>

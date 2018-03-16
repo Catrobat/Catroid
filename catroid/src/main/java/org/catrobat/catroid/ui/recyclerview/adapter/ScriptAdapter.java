@@ -37,7 +37,7 @@ public class ScriptAdapter extends ExtendedRVAdapter<String> {
 
 	@Override
 	public void onBindViewHolder(ExtendedVH holder, int position) {
-		holder.name.setText(items.get(position));
+		holder.title.setText(items.get(position));
 		holder.image.setImageResource(ic_program_menu_scripts);
 	}
 }

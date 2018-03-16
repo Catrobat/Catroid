@@ -36,13 +36,15 @@ import java.util.List;
 
 public class ScratchRemixedProgramAdapter extends ExtendedRVAdapter<ScratchProgramData> {
 
-	private OnItemClickListener onItemClickListener;
+
+	public ScratchRemixedProgramAdapter(List<ScratchProgramData> objects) {
+		super(objects);
+	}
 
 	@Override
 	public void onBindViewHolder(final ExtendedVH holder, int position) {
-
-		final ScratchProgramData item = items.get(position);
-		holder.name.setText(item.getTitle());
+		ScratchProgramData item = items.get(position);
+		holder.title.setText(item.getTitle());
 		if (item.getImage().getUrl() != null) {
 			final int height = holder.image.getContext().getResources().getDimensionPixelSize(R.dimen
 					.scratch_project_thumbnail_height);
@@ -53,22 +55,6 @@ public class ScratchRemixedProgramAdapter extends ExtendedRVAdapter<ScratchProgr
 			holder.image.setImageBitmap(null);
 		}
 		holder.details.setVisibility(View.VISIBLE);
-		holder.name.setSingleLine(true);
 		holder.details.setText(item.getOwner());
-		holder.itemView.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				onItemClickListener.onItemClick(item);
-			}
-		});
-	}
-
-	public ScratchRemixedProgramAdapter(List<ScratchProgramData> objects) {
-		super(objects);
-	}
-
-	@Override
-	public void setOnItemClickListener(OnItemClickListener listener) {
-		this.onItemClickListener = listener;
 	}
 }
