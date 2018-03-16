@@ -46,10 +46,11 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.ui.adapter.PrototypeBrickAdapter;
-import org.catrobat.catroid.ui.settingsfragments.AccessibilitySettingsFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import java.util.List;
+
+import static org.catrobat.catroid.ui.settingsfragments.AccessibilityProfile.BEGINNER_BRICKS;
 
 public class AddBrickFragment extends ListFragment {
 
@@ -63,7 +64,7 @@ public class AddBrickFragment extends ListFragment {
 
 	private boolean onlyBeginnerBricks() {
 		return PreferenceManager.getDefaultSharedPreferences(getActivity())
-				.getBoolean(AccessibilitySettingsFragment.BEGINNERBRICKS, false);
+				.getBoolean(BEGINNER_BRICKS, false);
 	}
 
 	public static AddBrickFragment newInstance(String selectedCategory, ScriptFragment scriptFragment) {

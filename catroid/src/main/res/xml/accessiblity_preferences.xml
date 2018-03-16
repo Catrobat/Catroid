@@ -28,17 +28,25 @@
         android:summary="@string/preference_description_accessibility"
         xmlns:android="http://schemas.android.com/apk/res/android">
 
+       <PreferenceCategory android:key="setting_accessibility_profiles_category"
+           android:title="@string/preference_title_accessibility_profiles">
+            <PreferenceScreen
+                android:key="setting_accessibility_profile_screen"
+                android:summary="@string/preference_description_accessibility_profiles"
+                android:title="@string/preference_title_accessibility_profile"/>
+       </PreferenceCategory>
+
        <PreferenceCategory android:key="setting_text_appearance_category"
            android:title="@string/preference_title_accessibility_text_appearance">
             <CheckBoxPreference
                 android:defaultValue="false"
-                android:key="settings_accessibility_large_text"
+                android:key="accessibility_large_text"
                 android:title="@string/preference_title_accessibility_large_text"
                 android:summary="@string/preference_description_accessibility_large_text"/>
 
            <CheckBoxPreference
                android:defaultValue="false"
-               android:key="settings_accessibility_high_contrast"
+               android:key="accessibility_high_contrast"
                android:summary="@string/preference_description_accessibility_high_contrast"
                android:title="@string/preference_title_accessibility_high_contrast" />
 
@@ -46,7 +54,7 @@
                android:defaultValue="regular"
                android:entries="@array/accessiblity_font_style"
                android:entryValues="@array/accessiblity_font_style_values"
-               android:key="settings_accessibility_font_style"
+               android:key="accessibility_font_style"
                android:summary="%s"
                android:title="@string/preference_title_accessibility_font_style" />
        </PreferenceCategory>
@@ -55,19 +63,19 @@
            android:title="@string/preference_title_accessibility_Brick_icons">
            <CheckBoxPreference
                android:defaultValue="false"
-               android:key="settings_accessibility_category_icons"
+               android:key="accessibility_category_icons"
                android:title="@string/preference_title_accessibility_category_icons"
                android:summary="@string/preference_description_accessibility_category_icons"/>
 
            <CheckBoxPreference
                android:defaultValue="false"
-               android:key="settings_accessibility_category_icons_big"
+               android:key="accessibility_category_icons_big"
                android:title="@string/preference_title_accessibility_category_icons_big"
                android:summary="@string/preference_description_accessibility_category_icons_big"/>
 
            <CheckBoxPreference
                android:defaultValue="false"
-               android:key="settings_accessibility_category_icons_high_contrast"
+               android:key="accessibility_category_icons_high_contrast"
                android:title="@string/preference_title_accessibility_category_icons_high_contrast" />
 
        </PreferenceCategory>
@@ -76,13 +84,19 @@
            android:title="@string/preference_title_accessibility_handling">
            <CheckBoxPreference
                android:defaultValue="false"
-               android:key="settings_accessibility_element_spacing"
+               android:key="accessibility_element_spacing"
                android:title="@string/preference_title_accessibility_element_spacing"
                android:summary="@string/preference_description_accessibility_element_spacing"/>
 
            <CheckBoxPreference
                android:defaultValue="false"
-               android:key="settings_accessibility_beginner_bricks"
+               android:key="accessibility_dragndrop_delay"
+               android:title="@string/preference_title_accessibility_dragndrop_delay"
+               android:summary="@string/preference_description_accessibility_dragndrop_delay"/>
+
+           <CheckBoxPreference
+               android:defaultValue="false"
+               android:key="accessibility_beginner_bricks"
                android:title="@string/preference_title_accessibility_beginner_bricks"
                android:summary="@string/preference_description_accessibility_beginner_bricks"/>
        </PreferenceCategory>

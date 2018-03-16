@@ -26,9 +26,10 @@ package org.catrobat.catroid.ui.settingsfragments;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceScreen;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringDef;
 import android.support.v7.app.AppCompatActivity;
 
 import org.catrobat.catroid.R;
@@ -36,20 +37,12 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.utils.ToastUtil;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-
 public class AccessibilitySettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 	public static final String TAG = AccessibilitySettingsFragment.class.getSimpleName();
 
-	@Retention(RetentionPolicy.SOURCE)
-	@StringDef({REGULAR, SERIF, DYSLEXIC})
-	public @interface FontStyle{}
-	public static final String REGULAR = "regular";
-	public static final String SERIF = "serif";
-	public static final String DYSLEXIC = "dyslexic";
 	private boolean preferenceChanged = false;
-	public static final String BEGINNERBRICKS = "settings_accessibility_beginner_bricks";
+	private static final String ACCESSIBILITY_PROFILES_SCREEN_KEY = "setting_accessibility_profile_screen";
+	static final String CUSTOM_PROFILE = "accessibility_profile_is_custom";
 
 	@Override
 	public void onResume() {
@@ -85,5 +78,21 @@ public class AccessibilitySettingsFragment extends PreferenceFragment implements
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
 		preferenceChanged = true;
+		sharedPreferences.edit().putBoolean(CUSTOM_PROFILE, true);
+	}
+
+	@Override
+	public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
+		String key = preference.getKey();
+		switch (key) {
+			case ACCESSIBILITY_PROFILES_SCREEN_KEY:
+				getFragmentManager().beginTransaction()
+						.replace(R.id.content_frame, new AccessibilityProfilesFragment(),
+								AccessibilityProfilesFragment.TAG)
+						.addToBackStack(AccessibilityProfilesFragment.TAG)
+						.commit();
+				break;
+		}
+		return super.onPreferenceTreeClick(preferenceScreen, preference);
 	}
 }
