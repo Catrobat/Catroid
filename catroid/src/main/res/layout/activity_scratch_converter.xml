@@ -21,12 +21,6 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <include layout="@layout/toolbar" />
 
 <com.sothree.slidinguppanel.SlidingUpPanelLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -43,6 +37,7 @@
     sothree:umanoDragView="@+id/dragView"
     sothree:umanoOverlay="true"
     sothree:umanoScrollableView="@+id/scratch_conversion_scroll_view">
+
 
     <!-- MAIN CONTENT -->
     <FrameLayout
@@ -77,7 +72,6 @@
             class="org.catrobat.catroid.ui.fragment.SearchScratchSearchProjectsListFragment"
             tools:layout="@layout/fragment_scratch_search_projects_list" />
     </FrameLayout>
-
     <!-- SLIDING LAYOUT -->
     <fragment
         android:id="@+id/fragment_scratch_converter_sliding_up_panel"
@@ -87,4 +81,3 @@
         tools:layout="@layout/fragment_scratch_converter_sliding_up_panel" />
 
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>
-</LinearLayout>

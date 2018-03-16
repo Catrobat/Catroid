@@ -22,55 +22,66 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/search_view_layout"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
-<View
-    android:id="@+id/search_bar_view_scratch"
-    android:layout_width="match_parent"
-    android:layout_height="45dp"
-    android:layout_alignParentTop="true"
-    android:layout_marginTop="5dp"
-    android:layout_marginStart="0dp"
-    android:layout_marginEnd="0dp" />
+    <include layout="@layout/toolbar" />
+    <RelativeLayout
+        android:id="@+id/search_view_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal">
 
-<SearchView
-    android:id="@+id/search_view_scratch"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignParentTop="true"
-    android:layout_toStartOf="@+id/mic_button_image_scratch"
-    android:layout_marginTop="5dp"
-    android:layout_marginStart="0dp"
-    android:layout_marginEnd="5dp"
-    android:queryHint="@string/search_hint"
-    android:iconifiedByDefault="false"
-    android:focusable="true"
-    android:focusableInTouchMode="true" />
+    <View
+        android:id="@+id/search_bar_view_scratch"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp" />
 
-<ImageButton
-    android:id="@+id/mic_button_image_scratch"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentEnd="true"
-    android:layout_alignParentTop="true"
-    android:layout_marginEnd="11dp"
-    android:layout_marginTop="11dp"
-    android:background="@color/transparent"
-    android:src="@android:drawable/ic_btn_speak_now" />
+    <SearchView
+        android:id="@+id/search_view_scratch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/mic_button_image_scratch"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="5dp"
+        android:queryHint="@string/search_hint"
+        android:iconifiedByDefault="false"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
 
-<ListView
-    android:id="@+id/list_view_search_scratch"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_centerHorizontal="true"
-    android:layout_below="@+id/mic_button_image_scratch"
-    android:layout_marginTop="@dimen/scratch_project_search_list_view_margin_top"
-    android:layout_marginBottom="@dimen/scratch_project_search_list_view_margin_bottom"
-    android:dividerHeight="1dp"
-    android:divider="@color/transparent" />
+    <ImageButton
+        android:id="@+id/mic_button_image_scratch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="11dp"
+        android:layout_marginTop="11dp"
+        android:background="@color/transparent"
+        android:src="@android:drawable/ic_btn_speak_now" />
 
-</RelativeLayout>
+    <android.support.v7.widget.RecyclerView
+        app:layoutManager="LinearLayoutManager"
+        android:id="@+id/recycler_view_search_scratch"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/mic_button_image_scratch"
+        android:layout_marginTop="@dimen/scratch_project_search_list_view_margin_top"
+        android:layout_marginBottom="@dimen/scratch_project_search_list_view_margin_bottom"
+        android:dividerHeight="1dp"
+        android:divider="@color/transparent"
+        />
+
+    </RelativeLayout>
+</LinearLayout>

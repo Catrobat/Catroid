@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.ui;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -31,6 +30,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
@@ -38,8 +39,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -54,8 +53,9 @@ import org.catrobat.catroid.scratchconverter.Client;
 import org.catrobat.catroid.scratchconverter.ConversionManager;
 import org.catrobat.catroid.scratchconverter.protocol.Job;
 import org.catrobat.catroid.transfers.FetchScratchProgramDetailsTask;
-import org.catrobat.catroid.ui.adapter.ScratchRemixedProgramAdapter;
-import org.catrobat.catroid.ui.adapter.ScratchRemixedProgramAdapter.ScratchRemixedProgramEditListener;
+import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
+import org.catrobat.catroid.ui.recyclerview.adapter.ScratchRemixedProgramAdapter;
+import org.catrobat.catroid.ui.recyclerview.viewholder.ViewHolder;
 import org.catrobat.catroid.ui.scratchconverter.JobViewListener;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
@@ -67,12 +67,14 @@ import java.util.Locale;
 
 import uk.co.deanwild.flowtextview.FlowTextView;
 
+import static android.support.test.InstrumentationRegistry.getContext;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 public class ScratchProgramDetailsActivity extends BaseActivity implements
-		FetchScratchProgramDetailsTask.ScratchProgramListTaskDelegate, ScratchRemixedProgramEditListener,
-		JobViewListener, Client.DownloadCallback {
+		FetchScratchProgramDetailsTask.ScratchProgramListTaskDelegate,
+		JobViewListener, Client.DownloadCallback,
+		RVAdapter.OnItemClickListener<ScratchProgramData> {
 
 	private static final String TAG = ScratchProgramDetailsActivity.class.getSimpleName();
 
@@ -80,28 +82,9 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 	private static ConversionManager conversionManager = null;
 
 	private ScratchProgramData programData;
-	private TextView titleTextView;
-	private TextView ownerTextView;
-	private ImageView imageView;
-	private TextView visibilityWarningTextView;
-	private FlowTextView instructionsFlowTextView;
-	private TextView notesAndCreditsLabelView;
-	private TextView notesAndCreditsTextView;
-	private TextView favoritesTextView;
-	private TextView lovesTextView;
-	private TextView viewsTextView;
-	private TextView tagsTextView;
-	private TextView sharedTextView;
-	private TextView modifiedTextView;
-	private Button convertButton;
-	private ListView remixedProjectsListView;
 	private ProgressDialog progressDialog;
 	private ScratchRemixedProgramAdapter scratchRemixedProgramAdapter;
-	private ScrollView mainScrollView;
-	private RelativeLayout detailsLayout;
-	private TextView remixesLabelView;
 	private FetchScratchProgramDetailsTask fetchRemixesTask = new FetchScratchProgramDetailsTask();
-	private View separationLineBottom;
 
 	public static void setDataFetcher(final ScratchDataFetcher fetcher) {
 		dataFetcher = fetcher;
@@ -115,32 +98,10 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_scratch_project_details);
-		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		setUpActionBar();
 
 		programData = getIntent().getParcelableExtra(Constants.INTENT_SCRATCH_PROGRAM_DATA);
 		Preconditions.checkState(programData != null);
-
-		titleTextView = (TextView) findViewById(R.id.scratch_project_title);
-		ownerTextView = (TextView) findViewById(R.id.scratch_project_owner);
-		mainScrollView = (ScrollView) findViewById(R.id.scratch_project_scroll_view);
-		imageView = (ImageView) findViewById(R.id.scratch_project_image_view);
-		visibilityWarningTextView = (TextView) findViewById(R.id.scratch_project_visibility_warning);
-		instructionsFlowTextView = (FlowTextView) findViewById(R.id.scratch_project_instructions_flow_text);
-		notesAndCreditsLabelView = (TextView) findViewById(R.id.scratch_project_notes_and_credits_label);
-		notesAndCreditsTextView = (TextView) findViewById(R.id.scratch_project_notes_and_credits_text);
-		favoritesTextView = (TextView) findViewById(R.id.scratch_project_favorites_text);
-		lovesTextView = (TextView) findViewById(R.id.scratch_project_loves_text);
-		viewsTextView = (TextView) findViewById(R.id.scratch_project_views_text);
-		tagsTextView = (TextView) findViewById(R.id.scratch_project_tags_text);
-		sharedTextView = (TextView) findViewById(R.id.scratch_project_shared_text);
-		modifiedTextView = (TextView) findViewById(R.id.scratch_project_modified_text);
-		remixedProjectsListView = (ListView) findViewById(R.id.scratch_project_remixes_list_view);
-		convertButton = (Button) findViewById(R.id.scratch_project_convert_button);
-		detailsLayout = (RelativeLayout) findViewById(R.id.scratch_project_details_layout);
-		remixesLabelView = (TextView) findViewById(R.id.scratch_project_remixes_label);
-		separationLineBottom = findViewById(R.id.separation_line_bottom);
 
 		if (conversionManager.isJobInProgress(programData.getId())) {
 			onJobInProgress();
@@ -153,19 +114,17 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 		conversionManager.addJobViewListener(programData.getId(), this);
 		conversionManager.addGlobalDownloadCallback(this);
 
-		final Activity activity = this;
-		convertButton.setOnClickListener(new View.OnClickListener() {
+		findViewById(R.id.scratch_project_convert_button).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				final int numberOfJobsInProgress = conversionManager.getNumberOfJobsInProgress();
 				if (numberOfJobsInProgress >= Constants.SCRATCH_CONVERTER_MAX_NUMBER_OF_JOBS_PER_CLIENT) {
-					ToastUtil.showError(activity, getResources().getQuantityString(
+					ToastUtil.showError(getContext(), getResources().getQuantityString(
 							R.plurals.error_cannot_convert_more_than_x_programs,
 							Constants.SCRATCH_CONVERTER_MAX_NUMBER_OF_JOBS_PER_CLIENT,
 							Constants.SCRATCH_CONVERTER_MAX_NUMBER_OF_JOBS_PER_CLIENT));
 					return;
 				}
-
 				onJobInProgress();
 
 				Intent intent = new Intent();
@@ -174,7 +133,6 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 				finish();
 			}
 		});
-
 		loadAdditionalData(programData);
 	}
 
@@ -187,7 +145,6 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		Log.d(TAG, "Destroyed " + TAG);
 		conversionManager.removeJobViewListener(programData.getId(), this);
 		conversionManager.removeGlobalDownloadCallback(this);
 		fetchRemixesTask.cancel(true);
@@ -195,8 +152,11 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 	}
 
 	private void setUpActionBar() {
-		getSupportActionBar().setTitle(R.string.title_activity_scratch_converter);
-		getSupportActionBar().setHomeButtonEnabled(true);
+		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		String title = getResources().getString(R.string.title_activity_scratch_converter) + " " + getResources()
+				.getString(R.string.beta).toUpperCase();
+		getSupportActionBar().setTitle(title);
 	}
 
 	@Override
@@ -208,34 +168,39 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 		super.onActivityResult(requestCode, resultCode, intent);
 	}
 
+	public void onItemClick(ScratchProgramData item) {
+		Intent intent = new Intent(this, ScratchProgramDetailsActivity.class);
+		intent.putExtra(Constants.INTENT_SCRATCH_PROGRAM_DATA, (Parcelable) item);
+		startActivityForResult(intent, Constants.INTENT_REQUEST_CODE_CONVERT);
+	}
+
+	public void onItemLongClick(ScratchProgramData item, ViewHolder h) {
+	}
+
 	private void loadAdditionalData(ScratchProgramData scratchProgramData) {
 		Preconditions.checkArgument(scratchProgramData != null);
 		Log.i(TAG, scratchProgramData.getTitle());
-		instructionsFlowTextView.setText("-");
-		notesAndCreditsLabelView.setVisibility(GONE);
-		notesAndCreditsTextView.setVisibility(GONE);
-		remixesLabelView.setVisibility(GONE);
-		remixedProjectsListView.setVisibility(GONE);
-		detailsLayout.setVisibility(GONE);
-		tagsTextView.setVisibility(GONE);
-		visibilityWarningTextView.setVisibility(GONE);
-		convertButton.setVisibility(GONE);
-		separationLineBottom.setVisibility(GONE);
+		((FlowTextView) findViewById(R.id.scratch_project_instructions_flow_text)).setText("-");
+		findViewById(R.id.scratch_project_notes_and_credits_label).setVisibility(GONE);
+		findViewById(R.id.scratch_project_notes_and_credits_text).setVisibility(GONE);
+		findViewById(R.id.scratch_project_remixes_label).setVisibility(GONE);
+		findViewById(R.id.scratch_project_remixes_list_view).setVisibility(GONE);
+		findViewById(R.id.scratch_project_details_layout).setVisibility(GONE);
+		findViewById(R.id.scratch_project_tags_text).setVisibility(GONE);
+		findViewById(R.id.scratch_project_visibility_warning).setVisibility(GONE);
+		findViewById(R.id.scratch_project_convert_button).setVisibility(GONE);
+		findViewById(R.id.separation_line_bottom).setVisibility(GONE);
 
 		if (scratchRemixedProgramAdapter != null) {
-			scratchRemixedProgramAdapter.clear();
+			scratchRemixedProgramAdapter.getItems().clear();
 		}
-
-		titleTextView.setText(scratchProgramData.getTitle());
+		((TextView) findViewById(R.id.scratch_project_title)).setText(scratchProgramData.getTitle());
 		if (scratchProgramData.getImage() != null && scratchProgramData.getImage().getUrl() != null) {
 			final int height = getResources().getDimensionPixelSize(R.dimen.scratch_project_image_height);
 			final String originalImageURL = scratchProgramData.getImage().getUrl().toString();
-
-			// load image but only thumnail!
-			// in order to download only thumbnail version of the original image
-			// we have to reduce the image size in the URL
 			final String thumbnailImageURL = Utils.changeSizeOfScratchImageURL(originalImageURL, height);
-			Picasso.with(this).load(thumbnailImageURL).into(imageView);
+			ImageView image = findViewById(R.id.scratch_project_image_view);
+			Picasso.with(this).load(thumbnailImageURL).into(image);
 		}
 
 		fetchRemixesTask.setContext(this).setDelegate(this).setFetcher(dataFetcher);
@@ -246,46 +211,32 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 		if (scratchRemixedProjectsData == null) {
 			scratchRemixedProjectsData = new ArrayList<>();
 		}
-		scratchRemixedProgramAdapter = new ScratchRemixedProgramAdapter(this,
-				R.layout.fragment_scratch_project_list_item,
-				R.id.scratch_projects_list_item_title,
-				scratchRemixedProjectsData);
-		remixedProjectsListView.setAdapter(scratchRemixedProgramAdapter);
-		scratchRemixedProgramAdapter.setScratchRemixedProgramEditListener(this);
-		Utils.setListViewHeightBasedOnItems(remixedProjectsListView);
-	}
+		scratchRemixedProgramAdapter = new ScratchRemixedProgramAdapter(scratchRemixedProjectsData);
+		((RecyclerView) findViewById(R.id.scratch_project_remixes_list_view)).setAdapter(scratchRemixedProgramAdapter);
+		((RecyclerView) findViewById(R.id.scratch_project_remixes_list_view)).addItemDecoration(new
+				DividerItemDecoration(findViewById(R.id.scratch_project_remixes_list_view).getContext(),
+				DividerItemDecoration.VERTICAL));
 
-	public void onProjectEdit(int position) {
-		Log.i(TAG, "Clicked on remix at position: " + position);
-		ScratchProgramData remixData = scratchRemixedProgramAdapter.getItem(position);
-		Log.i(TAG, "Project ID of clicked item is: " + remixData.getId());
-
-		Intent intent = new Intent(this, ScratchProgramDetailsActivity.class);
-		intent.putExtra(Constants.INTENT_SCRATCH_PROGRAM_DATA, (Parcelable) remixData);
-		startActivityForResult(intent, Constants.INTENT_REQUEST_CODE_CONVERT);
+		scratchRemixedProgramAdapter.setOnItemClickListener(this);
 	}
 
 	private void onJobNotInProgress() {
-		convertButton.setText(R.string.convert);
-		convertButton.setEnabled(true);
+		((Button) findViewById(R.id.scratch_project_convert_button)).setText(R.string.convert);
+		findViewById(R.id.scratch_project_convert_button).setEnabled(true);
 	}
 
 	private void onJobInProgress() {
-		convertButton.setEnabled(false);
-		convertButton.setText(R.string.converting);
+		findViewById(R.id.scratch_project_convert_button).setEnabled(false);
+		((Button) findViewById(R.id.scratch_project_convert_button)).setText(R.string.converting);
 	}
 
 	private void onJobDownloading() {
-		convertButton.setEnabled(false);
-		convertButton.setText(R.string.status_downloading);
+		findViewById(R.id.scratch_project_convert_button).setEnabled(false);
+		((Button) findViewById(R.id.scratch_project_convert_button)).setText(R.string.status_downloading);
 	}
 
-	//----------------------------------------------------------------------------------------------
-	// Scratch Project Details Task Delegate Methods
-	//----------------------------------------------------------------------------------------------
 	@Override
 	public void onPreExecute() {
-		Log.d(TAG, "onPreExecute for FetchScratchProgramRemixesTask called");
 		final ScratchProgramDetailsActivity activity = this;
 		progressDialog = new ProgressDialog(activity);
 		progressDialog.setCancelable(false);
@@ -296,7 +247,6 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 
 	@Override
 	public void onPostExecute(final ScratchProgramData programData) {
-		Log.d(TAG, "onPostExecute for FetchScratchProgramRemixesTask called");
 		Preconditions.checkNotNull(progressDialog, "No progress dialog set/initialized!");
 		progressDialog.dismiss();
 		if (programData == null) {
@@ -307,42 +257,42 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 		updateViews();
 
 		// workaround to avoid scrolling down to list view after all list items have been initialized
-		mainScrollView.postDelayed(new Runnable() {
+		findViewById(R.id.scratch_project_scroll_view).postDelayed(new Runnable() {
 			public void run() {
-				mainScrollView.fullScroll(ScrollView.FOCUS_UP);
+				((ScrollView) findViewById(R.id.scratch_project_scroll_view)).fullScroll(ScrollView.FOCUS_UP);
 			}
 		}, 300);
 	}
 
 	private void updateViews() {
-		titleTextView.setText(programData.getTitle());
-		ownerTextView.setText(getString(R.string.by_x, programData.getOwner()));
+		((TextView) findViewById(R.id.scratch_project_title)).setText(programData.getTitle());
+		((TextView) findViewById(R.id.scratch_project_owner)).setText(getString(R.string.by_x, programData.getOwner()));
 
 		if (programData.getNotesAndCredits() != null && programData.getNotesAndCredits().length() > 0) {
 			final String notesAndCredits = programData.getNotesAndCredits().replace("\n\n", "\n");
-			notesAndCreditsTextView.setText(notesAndCredits);
-			notesAndCreditsLabelView.setVisibility(VISIBLE);
-			notesAndCreditsTextView.setVisibility(VISIBLE);
+			((TextView) findViewById(R.id.scratch_project_notes_and_credits_text)).setText(notesAndCredits);
+			findViewById(R.id.scratch_project_notes_and_credits_label).setVisibility(VISIBLE);
+			findViewById(R.id.scratch_project_notes_and_credits_text).setVisibility(VISIBLE);
 		} else {
-			notesAndCreditsLabelView.setVisibility(GONE);
-			notesAndCreditsTextView.setVisibility(GONE);
+			findViewById(R.id.scratch_project_notes_and_credits_label).setVisibility(GONE);
+			findViewById(R.id.scratch_project_notes_and_credits_text).setVisibility(GONE);
 		}
 
 		if (programData.getInstructions() != null) {
 			String instructionsText = programData.getInstructions().replace("\n\n", "\n");
 			instructionsText = (instructionsText.length() > 0) ? instructionsText : "--";
-			instructionsFlowTextView.setText(instructionsText);
+			((FlowTextView) findViewById(R.id.scratch_project_instructions_flow_text)).setText(instructionsText);
 
 			float textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 14, getResources().getDisplayMetrics());
-			instructionsFlowTextView.setTextSize(textSize);
-			instructionsFlowTextView.setColor(Color.LTGRAY);
+			((FlowTextView) findViewById(R.id.scratch_project_instructions_flow_text)).setTextSize(textSize);
+			((FlowTextView) findViewById(R.id.scratch_project_instructions_flow_text)).setColor(Color.LTGRAY);
 		} else {
-			instructionsFlowTextView.setText("-");
+			((FlowTextView) findViewById(R.id.scratch_project_instructions_flow_text)).setText("-");
 		}
 
-		favoritesTextView.setText(Utils.humanFriendlyFormattedShortNumber(programData.getFavorites()));
-		lovesTextView.setText(Utils.humanFriendlyFormattedShortNumber(programData.getLoves()));
-		viewsTextView.setText(Utils.humanFriendlyFormattedShortNumber(programData.getViews()));
+		((TextView) findViewById(R.id.scratch_project_favorites_text)).setText(Utils.humanFriendlyFormattedShortNumber(programData.getFavorites()));
+		((TextView) findViewById(R.id.scratch_project_loves_text)).setText(Utils.humanFriendlyFormattedShortNumber(programData.getLoves()));
+		((TextView) findViewById(R.id.scratch_project_views_text)).setText(Utils.humanFriendlyFormattedShortNumber(programData.getViews()));
 
 		if (programData.getTags() != null) {
 			StringBuilder tagList = new StringBuilder();
@@ -351,47 +301,44 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 				tagList.append(index++ > 0 ? ", " : "").append(tag);
 			}
 			if (tagList.length() > 0) {
-				tagsTextView.setText(tagList);
-				tagsTextView.setVisibility(VISIBLE);
+				((TextView) findViewById(R.id.scratch_project_tags_text)).setText(tagList);
+				findViewById(R.id.scratch_project_tags_text).setVisibility(VISIBLE);
 			}
 		}
 
 		if (programData.getSharedDate() != null) {
 			final String sharedDateString = Utils.formatDate(programData.getSharedDate(), Locale.getDefault());
-			sharedTextView.setText(getString(R.string.shared_at_x, sharedDateString));
+			((TextView) findViewById(R.id.scratch_project_shared_text)).setText(getString(R.string.shared_at_x, sharedDateString));
 		} else {
-			sharedTextView.setVisibility(GONE);
+			findViewById(R.id.scratch_project_shared_text).setVisibility(GONE);
 		}
 
 		if (programData.getModifiedDate() != null) {
 			final String modifiedDateString = Utils.formatDate(programData.getModifiedDate(), Locale.getDefault());
-			modifiedTextView.setText(getString(R.string.modified_at_x, modifiedDateString));
+			((TextView) findViewById(R.id.scratch_project_modified_text)).setText(getString(R.string.modified_at_x, modifiedDateString));
 		} else {
-			modifiedTextView.setVisibility(GONE);
+			findViewById(R.id.scratch_project_modified_text).setVisibility(GONE);
 		}
 
-		detailsLayout.setVisibility(VISIBLE);
+		findViewById(R.id.scratch_project_details_layout).setVisibility(VISIBLE);
 		ScratchVisibilityState visibilityState = programData.getVisibilityState();
 
 		if (visibilityState != null && visibilityState != ScratchVisibilityState.PUBLIC) {
-			visibilityWarningTextView.setVisibility(VISIBLE);
-			convertButton.setVisibility(GONE);
+			findViewById(R.id.scratch_project_visibility_warning).setVisibility(VISIBLE);
+			findViewById(R.id.scratch_project_convert_button).setVisibility(GONE);
 		} else {
-			visibilityWarningTextView.setVisibility(GONE);
-			convertButton.setVisibility(VISIBLE);
+			findViewById(R.id.scratch_project_visibility_warning).setVisibility(GONE);
+			findViewById(R.id.scratch_project_convert_button).setVisibility(VISIBLE);
 		}
 
 		if (programData.getRemixes() != null && programData.getRemixes().size() > 0) {
-			remixesLabelView.setVisibility(VISIBLE);
-			remixedProjectsListView.setVisibility(VISIBLE);
+			findViewById(R.id.scratch_project_remixes_label).setVisibility(VISIBLE);
+			findViewById(R.id.scratch_project_remixes_list_view).setVisibility(VISIBLE);
 			initRemixAdapter(programData.getRemixes());
 		}
-		separationLineBottom.setVisibility(VISIBLE);
+		findViewById(R.id.separation_line_bottom).setVisibility(VISIBLE);
 	}
 
-	//----------------------------------------------------------------------------------------------
-	// JobViewListener Events
-	//----------------------------------------------------------------------------------------------
 	@Override
 	public void onJobScheduled(final Job job) {
 		if (job.getJobID() == programData.getId()) {
@@ -401,27 +348,22 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 
 	@Override
 	public void onJobReady(final Job job) {
-		// nothing to do
 	}
 
 	@Override
 	public void onJobStarted(final Job job) {
-		// nothing to do
 	}
 
 	@Override
 	public void onJobProgress(final Job job, final short progress) {
-		// nothing to do
 	}
 
 	@Override
 	public void onJobOutput(final Job job, @NonNull final String[] lines) {
-		// nothing to do
 	}
 
 	@Override
 	public void onJobFinished(final Job job) {
-		// nothing to do
 	}
 
 	@Override
@@ -448,7 +390,6 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 
 	@Override
 	public void onDownloadProgress(short progress, String url) {
-		// nothing to do
 	}
 
 	@Override
