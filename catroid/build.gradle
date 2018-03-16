@@ -120,8 +120,11 @@ android {
         }
     }
 
+    flavorDimensions "default"
+
     productFlavors {
         catroid {
+            dimension "default"
             applicationId appId
             buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
             buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
@@ -131,6 +134,7 @@ android {
         }
 
         standalone {
+            dimension "default"
             applicationId appId
             versionCode 1
             versionName '1.0'
@@ -139,6 +143,26 @@ android {
             buildConfigField "String", "PROJECT_NAME", "\"$appName\""
             // here!
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "false"
+            buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "false"
+        }
+
+        createAtSchool {
+            dimension "default"
+            applicationId appId
+            buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
+            buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
+            buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "false"
+            buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "false"
+        }
+
+        phiro {
+            dimension "default"
+            applicationId appId
+            buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
+            buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
+            buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "false"
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "false"
         }
@@ -241,7 +265,7 @@ def getCurrentGitBranch() {
 android {
     compileSdkVersion 26
     buildToolsVersion '26.0.2'
-    flavorDimensions "default"
+
     defaultConfig {
         minSdkVersion 17
         targetSdkVersion 22
