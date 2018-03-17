@@ -52,6 +52,7 @@ import java.util.Random;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.swipeLeft;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
@@ -112,7 +113,7 @@ public class PocketMusicActivityTest {
 		return new RecyclerViewMatcher(recyclerViewId);
 	}
 
-	private static Matcher<View> withToggledNoteView(final int position) {
+	private static Matcher<View> isNoteViewToggled(final int position) {
 		return new BoundedMatcher<View, TrackView>(TrackView.class) {
 			@Override
 			public void describeTo(Description description) {
@@ -128,10 +129,40 @@ public class PocketMusicActivityTest {
 		};
 	}
 
+	private static Matcher<View> isRecyclerViewSizeZero() {
+		return new BoundedMatcher<View, TactScrollRecyclerView>(TactScrollRecyclerView.class) {
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("The calculated size of the RecyclerView is 0.");
+			}
+
+			@Override
+			protected boolean matchesSafely(TactScrollRecyclerView item) {
+				return item.getMeasuredHeight() > 0 && item.getMeasuredWidth() > 0;
+			}
+		};
+	}
+
+	private static Matcher<View> isRecyclerViewPlaying() {
+		return new BoundedMatcher<View, TactScrollRecyclerView>(TactScrollRecyclerView.class) {
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("The music doesn't play long enough.");
+			}
+
+			@Override
+			protected boolean matchesSafely(TactScrollRecyclerView item) {
+				return item.isPlaying();
+			}
+		};
+	}
+
 	@Test
 	public void toggleRandomNoteViewsAndAddTacts() {
 
-		TactScrollRecyclerView recyclerView = (TactScrollRecyclerView) pocketMusicActivityRule
+		onView(withId(R.id.tact_scroller)).check(matches(isRecyclerViewSizeZero()));
+
+		TactScrollRecyclerView recyclerView = pocketMusicActivityRule
 				.getActivity().findViewById(R.id.tact_scroller);
 
 		int[] randomPosition = new int[TACT_COUNT_TO_TOGGLE_RANDOM_NOTE_ON];
@@ -148,7 +179,7 @@ public class PocketMusicActivityTest {
 			onView(withId(R.id.tact_scroller))
 					.perform(actionOnItemAtPosition(i, toggleNoteViewAtPositionInTact(randomPosition[i])));
 			onView(withTactScroller(R.id.tact_scroller).atPosition(i))
-					.check(matches(withToggledNoteView(randomPosition[i])));
+					.check(matches(isNoteViewToggled(randomPosition[i])));
 		}
 
 		relaunchActivityOpenJustSavedFile();
@@ -156,7 +187,7 @@ public class PocketMusicActivityTest {
 		for (int i = 0; i < TACT_COUNT_TO_TOGGLE_RANDOM_NOTE_ON; i++) {
 			onView(withId(R.id.tact_scroller)).perform(scrollToPosition(i));
 			onView(withTactScroller(R.id.tact_scroller).atPosition(i))
-					.check(matches(withToggledNoteView(randomPosition[i])));
+					.check(matches(isNoteViewToggled(randomPosition[i])));
 		}
 	}
 
@@ -177,7 +208,18 @@ public class PocketMusicActivityTest {
 	}
 
 	@Test
-	public void playButtonElementExists() {
+	public void playButtonDoesPlay() {
 		onView(withId(R.id.pocketmusic_play_button)).check(matches(isDisplayed()));
+
+		onView(withId(R.id.tact_scroller)).perform(swipeLeft());
+
+		onView(withTactScroller(R.id.tact_scroller).atPosition(2)).perform(click());
+
+		onView(withId(R.id.tact_scroller)).perform(RecyclerViewActions.actionOnItemAtPosition(2,
+				toggleNoteViewAtPositionInTact(1)));
+
+		onView(withId(R.id.pocketmusic_play_button)).perform(click());
+
+		onView(withId(R.id.tact_scroller)).check(matches(isRecyclerViewPlaying()));
 	}
 }
