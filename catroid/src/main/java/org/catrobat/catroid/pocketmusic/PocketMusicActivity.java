@@ -24,6 +24,7 @@
 package org.catrobat.catroid.pocketmusic;
 
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.ViewGroup;
@@ -85,6 +86,11 @@ public class PocketMusicActivity extends BaseActivity {
 
 		setContentView(R.layout.activity_pocketmusic);
 		ViewGroup content = findViewById(android.R.id.content);
+
+		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+		getSupportActionBar().setTitle(title);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setLogo(R.drawable.ic_pocketmusic);
 
 		tactScroller = findViewById(R.id.tact_scroller);
 		tactScroller.setTrack(project.getTrack("Track 1"), project.getBeatsPerMinute());
