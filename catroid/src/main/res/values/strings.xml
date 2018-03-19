@@ -104,6 +104,8 @@
     <string name="preference_description_accessibility">Change the app\'s appearance</string>
     <string name="preference_title_accessibility_profiles">Accessibility profiles</string>
     <string name="preference_title_accessibility_profile">Predefined profiles</string>
+    <string name="preference_title_accessibility_profile_headline">Profiles</string>
+    <string name="preference_title_accessibility_predefined_profile_headline">Predefined profiles</string>
 
     <string name="preference_description_accessibility_profiles">Pick a predefined accessibility profile</string>
 
