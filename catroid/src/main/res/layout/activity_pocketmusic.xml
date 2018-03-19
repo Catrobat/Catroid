@@ -21,45 +21,54 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <ImageButton
-        android:id="@+id/pocketmusic_play_button"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/actionbar_height"
-        android:layout_gravity="center"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/button_background_selector"
-        android:src="@drawable/ic_play" />
-    <LinearLayout
+
+    <include layout="@layout/toolbar" />
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:weightSum="1"
-        android:layout_above="@id/pocketmusic_play_button"
-        android:orientation="horizontal"> 
-        <org.catrobat.catroid.pocketmusic.ui.PianoView
-            android:id="@+id/musicdroid_piano"
-            android:layout_width="0dp"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/pocketmusic_play_button"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/actionbar_height"
+            android:layout_gravity="center"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/button_background_selector"
+            android:src="@drawable/ic_play" />
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight=".22" />
-        <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight=".78"
-            android:background="@color/solid_black">
-            <org.catrobat.catroid.pocketmusic.ui.TactScrollRecyclerView
-                android:id="@+id/tact_scroller"
-                android:layout_width="match_parent"
+            android:weightSum="1"
+            android:layout_above="@id/pocketmusic_play_button"
+            android:orientation="horizontal"> 
+            <org.catrobat.catroid.pocketmusic.ui.PianoView
+                android:id="@+id/musicdroid_piano"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:scrollbars="horizontal"/>
-            <View
-                android:id="@+id/pocketmusic_play_line"
-                android:layout_width="2dp"
+                android:layout_weight=".22" />
+            <FrameLayout
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@color/turquoise_play_line"
-                android:visibility="gone"/>
-        </FrameLayout>
-    </LinearLayout>
-</RelativeLayout>
+                android:layout_weight=".78"
+                android:background="@color/solid_black">
+                <org.catrobat.catroid.pocketmusic.ui.TactScrollRecyclerView
+                    android:id="@+id/tact_scroller"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="horizontal"/>
+                <View
+                    android:id="@+id/pocketmusic_play_line"
+                    android:layout_width="2dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/turquoise_play_line"
+                    android:visibility="gone"/>
+            </FrameLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>
