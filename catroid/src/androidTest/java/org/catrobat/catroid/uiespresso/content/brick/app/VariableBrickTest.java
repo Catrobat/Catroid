@@ -40,6 +40,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
+import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -107,6 +108,7 @@ public class VariableBrickTest {
 	public void testNewVariableCanceling() {
 		onBrickAtPosition(setBrickPosition).onVariableSpinner(R.id.set_variable_spinner)
 				.perform(click());
+		closeSoftKeyboard();
 		onView(withText(R.string.cancel))
 				.perform(click());
 		onBrickAtPosition(setBrickPosition).onVariableSpinner(R.id.set_variable_spinner)

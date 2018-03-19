@@ -48,9 +48,9 @@ import org.junit.runner.RunWith;
 import java.io.File;
 import java.util.List;
 
+import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.isDialog;
@@ -119,6 +119,8 @@ public class RenameSoundTest {
 
 		onView(withText(R.string.rename_sound_dialog)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
+
+		closeSoftKeyboard();
 
 		onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
 				.check(matches(isDisplayed()));
