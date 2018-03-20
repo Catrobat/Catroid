@@ -46,6 +46,8 @@ public class ProjectLoaderTask extends AsyncTask<String, Void, String> {
 			return "";
 		} catch (ProjectException e) {
 			return e.getUiErrorMessage();
+		} catch (Exception e) {
+			return "Code file is invalid";
 		}
 	}
 
