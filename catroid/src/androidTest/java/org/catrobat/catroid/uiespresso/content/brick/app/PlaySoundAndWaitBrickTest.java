@@ -53,10 +53,10 @@ import org.junit.runner.RunWith;
 import java.io.File;
 import java.util.List;
 
+import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -227,7 +227,6 @@ public class PlaySoundAndWaitBrickTest {
 		onView(allOf(withText(oldName), isDisplayed(), instanceOf(EditText.class)))
 				.perform(replaceText(newName));
 		closeSoftKeyboard();
-
 		onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
 				.perform(click());
 

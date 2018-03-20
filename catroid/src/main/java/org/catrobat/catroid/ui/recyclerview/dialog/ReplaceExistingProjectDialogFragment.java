@@ -109,6 +109,7 @@ public class ReplaceExistingProjectDialogFragment extends DialogFragment {
 				inputLayout.getEditText().addTextChangedListener(inputWatcher);
 			}
 		});
+		inputLayout.getEditText().setOnFocusChangeListener(new OpenSoftkeyboardRightAway(alertDialog));
 		return alertDialog;
 	}
 
