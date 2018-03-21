@@ -606,16 +606,21 @@ public final class StorageHandler {
 
 		loadSaveLock.lock();
 
+		Project project = null;
+
 		File xmlFile = new File(Utils.buildProjectPath(name), PROJECTCODE_NAME);
-		Project project = (Project) xstream.getProjectFromXML(xmlFile);
+		try {
+			project = (Project) xstream.getProjectFromXML(xmlFile);
 
-		for (Scene scene : project.getSceneList()) {
-			scene.setProject(project);
-			scene.getDataContainer().setProject(project);
+			for (Scene scene : project.getSceneList()) {
+				scene.setProject(project);
+				scene.getDataContainer().setProject(project);
+			}
+		} catch (Exception e) {
+			throw new LoadingProjectException("Code file is invalid");
+		} finally {
+			loadSaveLock.unlock();
 		}
-
-		loadSaveLock.unlock();
-
 		return project;
 	}
 
