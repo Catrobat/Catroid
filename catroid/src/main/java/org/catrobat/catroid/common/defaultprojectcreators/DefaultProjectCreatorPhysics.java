@@ -320,7 +320,6 @@ public class DefaultProjectCreatorPhysics extends DefaultProjectCreator {
 			broadcastMessage)
 			throws IOException {
 		WhenScript whenPressedScript = new WhenScript();
-		whenPressedScript.setAction(0);
 
 		BroadcastBrick leftButtonBroadcastBrick = new BroadcastBrick(broadcastMessage);
 

@@ -330,6 +330,9 @@ public final class StorageHandler {
 		xstream.omitField(ShowTextBrick.class, "userVariableName");
 		xstream.omitField(HideTextBrick.class, "userVariableName");
 
+		xstream.omitField(RaspiInterruptScript.class, "receivedMessage");
+		xstream.omitField(WhenScript.class, "action");
+
 		setProgramXstreamAliases();
 	}
 

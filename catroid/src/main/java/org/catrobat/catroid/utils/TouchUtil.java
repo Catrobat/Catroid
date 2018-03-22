@@ -26,7 +26,9 @@ import android.graphics.PointF;
 import android.util.SparseIntArray;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.eventids.EventId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -106,9 +108,9 @@ public final class TouchUtil {
 
 	private static void fireTouchEvent() {
 		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteListWithClones();
-
+		EventWrapper event = new EventWrapper(new EventId(EventId.TAP_BACKGROUND), EventWrapper.NO_WAIT);
 		for (Sprite sprite : spriteList) {
-			sprite.createTouchDownAction();
+			sprite.look.fire(event);
 		}
 	}
 

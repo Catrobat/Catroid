@@ -24,49 +24,17 @@ package org.catrobat.catroid.content;
 
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
+import org.catrobat.catroid.content.eventids.EventId;
 
-public class WhenScript extends Script {
+public class WhenScript extends Script implements EventScript {
 
 	private static final long serialVersionUID = 1L;
-	private static final String LONGPRESSED = "Long Pressed";
-	private static final String TAPPED = "Tapped";
-	private static final String DOUBLETAPPED = "Double Tapped";
-	private static final String SWIPELEFT = "Swipe Left";
-	private static final String SWIPERIGHT = "Swipe Right";
-	private static final String SWIPEUP = "Swipe Up";
-	private static final String SWIPEDOWN = "Swipe Down";
-	private static final String[] ACTIONS = {TAPPED, DOUBLETAPPED, LONGPRESSED, SWIPEUP, SWIPEDOWN, SWIPELEFT,
-			SWIPERIGHT};
-	private String action;
-	private transient int position;
 
 	public WhenScript() {
-		super();
-		this.position = 0;
-		this.action = TAPPED;
 	}
 
 	public WhenScript(WhenBrick brick) {
 		this.brick = brick;
-	}
-
-	@Override
-	protected Object readResolve() {
-		super.readResolve();
-		return this;
-	}
-
-	public void setAction(int position) {
-		this.position = position;
-		this.action = ACTIONS[position];
-	}
-
-	public String getAction() {
-		return action;
-	}
-
-	public int getPosition() {
-		return position;
 	}
 
 	@Override
@@ -83,5 +51,10 @@ public class WhenScript extends Script {
 		WhenScript clone = new WhenScript();
 		clone.getBrickList().addAll(cloneBrickList());
 		return clone;
+	}
+
+	@Override
+	public EventId createEventId(Sprite sprite) {
+		return new EventId(EventId.TAP);
 	}
 }

@@ -22,7 +22,48 @@
  */
 package org.catrobat.catroid.content.eventids;
 
-public abstract class EventId {
-	public abstract boolean equals(Object o);
-	public abstract int hashCode();
+import android.support.annotation.IntDef;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+public class EventId {
+	@Retention(RetentionPolicy.SOURCE)
+	@IntDef({TAP, TAP_BACKGROUND, OTHER})
+	@interface EventType {
+	}
+
+	public static final int OTHER = 0;
+	public static final int TAP = 1;
+	public static final int TAP_BACKGROUND = 2;
+
+	@EventType
+	private final int type;
+
+	public EventId(@EventType int type) {
+		this.type = type;
+	}
+
+	protected EventId() {
+		this.type = OTHER;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof EventId)) {
+			return false;
+		}
+
+		EventId eventId = (EventId) o;
+
+		return type == eventId.type;
+	}
+
+	@Override
+	public int hashCode() {
+		return type;
+	}
 }

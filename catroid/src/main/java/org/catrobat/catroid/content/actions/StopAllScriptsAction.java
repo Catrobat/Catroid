@@ -43,7 +43,6 @@ public class StopAllScriptsAction extends TemporalAction {
 			actor.getActions().clear();
 			if (actor instanceof Look) {
 				Look look = (Look) actor;
-				look.setWhenParallelAction(null);
 				look.createAndAddActionsWithoutStartActions();
 			}
 		}

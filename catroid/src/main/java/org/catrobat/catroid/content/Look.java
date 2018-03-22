@@ -36,7 +36,6 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
@@ -45,6 +44,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DroneVideoLookData;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.actions.EventSequenceAction;
+import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.utils.TouchUtil;
 
 public class Look extends Image {
@@ -60,7 +60,6 @@ public class Look extends Image {
 	protected float brightness = 1f;
 	protected float hue = 0f;
 	protected Pixmap pixmap;
-	private ParallelAction whenParallelAction;
 	private BrightnessContrastHueShader shader;
 	public static final int ROTATION_STYLE_ALL_AROUND = 1;
 	public static final int ROTATION_STYLE_LEFT_RIGHT_ONLY = 0;
@@ -150,14 +149,8 @@ public class Look extends Image {
 
 		if (x >= 0 && x < getWidth() && y >= 0 && y < getHeight()
 				&& ((pixmap != null && ((pixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)))) {
-			if (whenParallelAction == null) {
-				sprite.createWhenScriptActionSequence("Tapped");
-			} else {
-				whenParallelAction.restart();
-				if (!getActions().contains(whenParallelAction, true)) {
-					startAction(whenParallelAction);
-				}
-			}
+			EventWrapper event = new EventWrapper(new EventId(EventId.TAP), EventWrapper.NO_WAIT);
+			sprite.look.fire(event);
 			return true;
 		}
 
@@ -273,10 +266,6 @@ public class Look extends Image {
 			path = this.lookData.getAbsolutePath();
 		}
 		return path;
-	}
-
-	public void setWhenParallelAction(ParallelAction action) {
-		whenParallelAction = action;
 	}
 
 	public float getXInUserInterfaceDimensionUnit() {
