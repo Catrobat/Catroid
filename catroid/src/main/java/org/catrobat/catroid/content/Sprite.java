@@ -38,6 +38,7 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.common.SoundInfo;
@@ -513,33 +514,6 @@ public class Sprite implements Serializable, Cloneable {
 		look.startAction(whenParallelAction);
 	}
 
-	public ParallelAction createBackgroundChangedAction(LookData lookData) {
-		ParallelAction whenParallelAction = ActionFactory.parallel();
-		for (Script s : scriptList) {
-			if (s instanceof WhenBackgroundChangesScript
-					&& ((WhenBackgroundChangesScript) s).getLook().equals(lookData)) {
-				SequenceAction sequence = createActionSequence(s);
-				SequenceAction sequenceWithNotifyAtEnd = ActionFactory.sequence(sequence,
-						ActionFactory.createBackgroundNotifyAction(lookData));
-				whenParallelAction.addAction(sequenceWithNotifyAtEnd);
-			}
-		}
-		look.startAction(whenParallelAction);
-
-		return whenParallelAction;
-	}
-
-	public int getNumberOfWhenBackgroundChangesScripts(LookData lookData) {
-		int numberOfScripts = 0;
-		for (Script s : scriptList) {
-			if (s instanceof WhenBackgroundChangesScript
-					&& ((WhenBackgroundChangesScript) s).getLook().equals(lookData)) {
-				numberOfScripts++;
-			}
-		}
-		return numberOfScripts;
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -829,6 +803,10 @@ public class Sprite implements Serializable, Cloneable {
 
 	public boolean isClone() {
 		return isClone;
+	}
+
+	public boolean isBackgroundSprite() {
+		return look.getZIndex() == Constants.Z_INDEX_BACKGROUND;
 	}
 
 	public Multimap<EventId, EventSequenceAction> getIdToEventSequenceMap() {

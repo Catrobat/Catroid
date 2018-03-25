@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.actions;
 
 import android.util.Log;
 
-import org.catrobat.catroid.content.BackgroundWaitHandler;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 
@@ -34,16 +33,9 @@ public class SetLookByIndexAction extends SetLookAction {
 	private Formula formula;
 
 	@Override
-	protected void doLookUpdate() {
+	public boolean act(float delta) {
 		updateLookFromFormula();
-
-		if (look != null && sprite != null && sprite.getLookList().contains(look)) {
-			if (wait) {
-				BackgroundWaitHandler.addObserver(look, this);
-			}
-			sprite.look.setLookData(look);
-			setLookDone = true;
-		}
+		return super.act(delta);
 	}
 
 	private void updateLookFromFormula() {

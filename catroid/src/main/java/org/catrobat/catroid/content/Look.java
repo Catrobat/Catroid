@@ -40,7 +40,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import org.catrobat.catroid.common.ActionScheduler;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DroneVideoLookData;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.actions.EventSequenceAction;
@@ -247,11 +246,6 @@ public class Look extends Image {
 	public void setLookData(LookData lookData) {
 		this.lookData = lookData;
 		imageChanged = true;
-
-		boolean isBackgroundLook = getZIndex() == Constants.Z_INDEX_BACKGROUND;
-		if (isBackgroundLook) {
-			BackgroundWaitHandler.fireBackgroundChangedEvent(lookData);
-		}
 	}
 
 	public boolean getAllActionsAreFinished() {

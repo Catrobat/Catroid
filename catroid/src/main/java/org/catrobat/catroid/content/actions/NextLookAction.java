@@ -22,15 +22,32 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import android.support.annotation.IntDef;
+
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.eventids.SetBackgroundEventId;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
 public class NextLookAction extends TemporalAction {
 
+	@Retention(RetentionPolicy.SOURCE)
+	@IntDef({NEXT, PREVIOUS})
+	@interface Direction {
+	}
+
+	static final int PREVIOUS = -1;
+	static final int NEXT = 1;
+
+	@Direction
+	protected int direction = NEXT;
 	private Sprite sprite;
 
 	@Override
@@ -40,8 +57,14 @@ public class NextLookAction extends TemporalAction {
 
 		if (lookDataListSize > 0 && sprite.look.getLookData() != null) {
 			LookData currentLookData = sprite.look.getLookData();
-			int newIndex = (lookDataList.indexOf(currentLookData) + 1) % lookDataListSize;
-			sprite.look.setLookData(lookDataList.get(newIndex));
+
+			int newIndex = (lookDataList.indexOf(currentLookData) + direction + lookDataListSize) % lookDataListSize;
+			LookData lookData = lookDataList.get(newIndex);
+			sprite.look.setLookData(lookData);
+			if (sprite.isBackgroundSprite()) {
+				EventWrapper event = new EventWrapper(new SetBackgroundEventId(sprite, lookData), EventWrapper.NO_WAIT);
+				ProjectManager.getInstance().getCurrentProject().fireToAllSprites(event);
+			}
 		}
 	}
 

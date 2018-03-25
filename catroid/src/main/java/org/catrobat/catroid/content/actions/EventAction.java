@@ -31,8 +31,8 @@ import java.util.List;
 
 public class EventAction extends Action {
 
-	private EventWrapper event;
-	private boolean firstStart = true;
+	protected EventWrapper event;
+	boolean firstStart = true;
 	private List<Sprite> receivingSprites;
 
 	@Override

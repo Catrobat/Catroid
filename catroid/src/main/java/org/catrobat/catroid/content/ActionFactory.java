@@ -38,7 +38,6 @@ import org.catrobat.catroid.content.actions.ArduinoSendDigitalValueAction;
 import org.catrobat.catroid.content.actions.ArduinoSendPWMValueAction;
 import org.catrobat.catroid.content.actions.AskAction;
 import org.catrobat.catroid.content.actions.AskSpeechAction;
-import org.catrobat.catroid.content.actions.BackgroundNotifyAction;
 import org.catrobat.catroid.content.actions.CameraBrickAction;
 import org.catrobat.catroid.content.actions.ChangeBrightnessByNAction;
 import org.catrobat.catroid.content.actions.ChangeColorByNAction;
@@ -174,6 +173,7 @@ import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.eventids.BroadcastEventId;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.content.eventids.RaspiEventId;
+import org.catrobat.catroid.content.eventids.SetBackgroundEventId;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -181,10 +181,9 @@ import org.catrobat.catroid.physics.PhysicsObject;
 
 public class ActionFactory extends Actions {
 
-	public static Action createBackgroundNotifyAction(LookData lookData) {
-		BackgroundNotifyAction action = Actions.action(BackgroundNotifyAction.class);
-		action.setLookData(lookData);
-		return action;
+	public EventAction createSetLookEventAction(Sprite sprite, LookData lookData, @EventWrapper.WaitMode int waitMode) {
+		SetBackgroundEventId id = new SetBackgroundEventId(sprite, lookData);
+		return createEventAction(id, waitMode);
 	}
 
 	public EventAction createRaspiInterruptAction(String pin, String value) {
@@ -592,6 +591,10 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
+	public Action createSetLookAction(Sprite sprite, LookData lookData, @EventWrapper.WaitMode int waitMode) {
+		return createSetLookEventAction((SetLookAction) createSetLookAction(sprite, lookData), waitMode);
+	}
+
 	public Action createSetLookAction(Sprite sprite, LookData lookData) {
 		SetLookAction action = Actions.action(SetLookAction.class);
 		action.setSprite(sprite);
@@ -599,22 +602,21 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createSetLookAction(Sprite sprite, LookData lookData, boolean wait) {
-		SetLookAction action = (SetLookAction) createSetLookAction(sprite, lookData);
-		action.setWait(wait);
+	private Action createSetLookEventAction(SetLookAction action, @EventWrapper.WaitMode int waitMode) {
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		action.setWaitMode(waitMode);
+		action.setReceivingSprites(currentProject.getSpriteListWithClones());
 		return action;
+	}
+
+	public Action createSetLookByIndexAction(Sprite sprite, Formula formula, @EventWrapper.WaitMode int waitMode) {
+		return createSetLookEventAction((SetLookAction) createSetLookByIndexAction(sprite, formula), waitMode);
 	}
 
 	public Action createSetLookByIndexAction(Sprite sprite, Formula formula) {
 		SetLookByIndexAction action = Actions.action(SetLookByIndexAction.class);
 		action.setSprite(sprite);
 		action.setFormula(formula);
-		return action;
-	}
-
-	public Action createSetLookByIndexAction(Sprite sprite, Formula formula, boolean wait) {
-		SetLookByIndexAction action = (SetLookByIndexAction) createSetLookByIndexAction(sprite, formula);
-		action.setWait(wait);
 		return action;
 	}
 

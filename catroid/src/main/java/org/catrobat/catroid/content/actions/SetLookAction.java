@@ -22,50 +22,30 @@
  */
 package org.catrobat.catroid.content.actions;
 
-import com.badlogic.gdx.scenes.scene2d.Action;
-
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.content.BackgroundWaitHandler;
+import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.eventids.SetBackgroundEventId;
 
-public class SetLookAction extends Action {
-
+public class SetLookAction extends EventAction {
 	protected LookData look;
 	protected Sprite sprite;
-
-	protected boolean wait = false;
-	protected boolean setLookDone = false;
-	protected boolean scriptsAreCompleted = false;
-
-	protected void doLookUpdate() {
-		if (wait) {
-			BackgroundWaitHandler.addObserver(look, this);
-		}
-		if (look != null && sprite != null && sprite.getLookList().contains(look)) {
-			sprite.look.setLookData(look);
-			setLookDone = true;
-		}
-	}
+	@EventWrapper.WaitMode
+	private int waitMode;
 
 	@Override
 	public boolean act(float delta) {
-		if (!setLookDone) {
-			doLookUpdate();
+		if (firstStart) {
+			if (look == null || sprite == null || !sprite.getLookList().contains(look)) {
+				return true;
+			}
+			sprite.look.setLookData(look);
+			if (sprite.isBackgroundSprite()) {
+				EventWrapper event = new EventWrapper(new SetBackgroundEventId(sprite, look), waitMode);
+				setEvent(event);
+			}
 		}
-
-		if (wait) {
-			return scriptsAreCompleted;
-		} else {
-			return true;
-		}
-	}
-
-	@Override
-	public void restart() {
-		setLookDone = false;
-		if (wait) {
-			scriptsAreCompleted = false;
-		}
+		return !sprite.isBackgroundSprite() || super.act(delta);
 	}
 
 	public void setLookData(LookData look) {
@@ -76,11 +56,7 @@ public class SetLookAction extends Action {
 		this.sprite = sprite;
 	}
 
-	public void setWait(boolean wait) {
-		this.wait = wait;
-	}
-
-	public void notifyScriptsCompleted() {
-		scriptsAreCompleted = true;
+	public void setWaitMode(int waitMode) {
+		this.waitMode = waitMode;
 	}
 }

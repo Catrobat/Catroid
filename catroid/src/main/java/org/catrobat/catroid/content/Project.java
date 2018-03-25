@@ -232,6 +232,12 @@ public class Project implements Serializable {
 		}
 	}
 
+	public void fireToAllSprites(EventWrapper event) {
+		for (Sprite sprite : getSpriteListWithClones()) {
+			sprite.look.fire(event);
+		}
+	}
+
 	public String getName() {
 		return xmlHeader.getProgramName();
 	}

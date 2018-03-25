@@ -20,24 +20,43 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
 
-import com.badlogic.gdx.scenes.scene2d.Action;
+package org.catrobat.catroid.content.eventids;
 
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.content.BackgroundWaitHandler;
+import org.catrobat.catroid.content.Sprite;
 
-public class BackgroundNotifyAction extends Action {
+public class SetBackgroundEventId extends EventId {
+	public final Sprite sprite;
+	public final LookData lookData;
 
-	private LookData lookData;
-
-	@Override
-	public boolean act(float delta) {
-		BackgroundWaitHandler.decrementRunningScripts(lookData);
-		return true;
+	public SetBackgroundEventId(Sprite sprite, LookData lookData) {
+		this.sprite = sprite;
+		this.lookData = lookData;
 	}
 
-	public void setLookData(LookData lookData) {
-		this.lookData = lookData;
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof SetBackgroundEventId)) {
+			return false;
+		}
+		if (!super.equals(o)) {
+			return false;
+		}
+
+		SetBackgroundEventId that = (SetBackgroundEventId) o;
+
+		return sprite.equals(that.sprite) && lookData.equals(that.lookData);
+	}
+
+	@Override
+	public int hashCode() {
+		int result = super.hashCode();
+		result = 31 * result + sprite.hashCode();
+		result = 31 * result + lookData.hashCode();
+		return result;
 	}
 }
