@@ -183,8 +183,8 @@
   <string name="status_downloading">Загрузка&#8230;</string>
   <string name="status_download_finished">Загрузка завершена!</string>
   <string name="status_download_canceled">Загрузка отменена!</string>
-  <string name="list_view_section_title_in_progress">In progress</string>
-  <string name="list_view_section_title_converted_programs">Сконвертированные программы</string>
+  <string name="scratch_programs_in_progress_title">In progress</string>
+  <string name="scratch_programs_finished_title">Сконвертированные программы</string>
   <string name="status">Status</string>
   <string name="title">Название</string>
   <string name="by_x">by %1$s</string>

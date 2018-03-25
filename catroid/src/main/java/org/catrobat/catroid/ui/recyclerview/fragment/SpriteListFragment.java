@@ -187,7 +187,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 
 	@Override
 	protected void packItems(List<Sprite> selectedItems) {
-		finishActionMode();
+		setShowProgressBar(true);
 		try {
 			for (Sprite item : selectedItems) {
 				spriteController.pack(item);
@@ -199,6 +199,8 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 			switchToBackpack();
 		} catch (IOException e) {
 			Log.e(TAG, Log.getStackTraceString(e));
+		} finally {
+			finishActionMode();
 		}
 	}
 
@@ -216,7 +218,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 
 	@Override
 	protected void copyItems(List<Sprite> selectedItems) {
-		finishActionMode();
+		setShowProgressBar(true);
 		Scene currentScene = ProjectManager.getInstance().getCurrentScene();
 		for (Sprite item : selectedItems) {
 			try {
@@ -225,6 +227,8 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 				Log.e(TAG, Log.getStackTraceString(e));
 			}
 		}
+
+		finishActionMode();
 		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.copied_sprites,
 				selectedItems.size(),
 				selectedItems.size()));
@@ -237,7 +241,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 
 	@Override
 	protected void deleteItems(List<Sprite> selectedItems) {
-		finishActionMode();
+		setShowProgressBar(true);
 		for (Sprite item : selectedItems) {
 			if (item instanceof GroupSprite) {
 				for (Sprite sprite : ((GroupSprite) item).getGroupItems()) {
@@ -250,6 +254,8 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 			spriteController.delete(item, ProjectManager.getInstance().getCurrentScene());
 			adapter.remove(item);
 		}
+
+		finishActionMode();
 		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_sprites,
 				selectedItems.size(),
 				selectedItems.size()));

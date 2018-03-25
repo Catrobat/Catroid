@@ -63,6 +63,7 @@ import java.util.List;
 import java.util.Set;
 
 public class DataListFragment extends Fragment implements
+		ActionMode.Callback,
 		RVAdapter.SelectionListener,
 		RVAdapter.OnItemClickListener<UserData>,
 		NewItemInterface<UserData>,
@@ -90,48 +91,46 @@ public class DataListFragment extends Fragment implements
 		this.formulaEditorDataInterface = formulaEditorDataInterface;
 	}
 
-	protected ActionMode.Callback callback = new ActionMode.Callback() {
-		@Override
-		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			switch (actionModeType) {
-				case DELETE:
-					actionModeTitle = getString(R.string.am_delete);
-					break;
-				case NONE:
-					return false;
-			}
-			MenuInflater inflater = mode.getMenuInflater();
-			inflater.inflate(R.menu.context_menu, menu);
-
-			adapter.showCheckBoxes(true);
-			adapter.updateDataSet();
-			mode.setTitle(actionModeTitle);
-			return true;
+	@Override
+	public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+		switch (actionModeType) {
+			case DELETE:
+				actionModeTitle = getString(R.string.am_delete);
+				break;
+			case NONE:
+				return false;
 		}
+		MenuInflater inflater = mode.getMenuInflater();
+		inflater.inflate(R.menu.context_menu, menu);
 
-		@Override
-		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-			return false;
-		}
+		adapter.showCheckBoxes(true);
+		adapter.updateDataSet();
+		mode.setTitle(actionModeTitle);
+		return true;
+	}
 
-		@Override
-		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-			switch (item.getItemId()) {
-				case R.id.confirm:
-					handleContextualAction();
-					break;
-				default:
-					return false;
-			}
-			return true;
-		}
+	@Override
+	public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+		return false;
+	}
 
-		@Override
-		public void onDestroyActionMode(ActionMode mode) {
-			resetActionModeParameters();
-			adapter.clearSelection();
+	@Override
+	public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.confirm:
+				handleContextualAction();
+				break;
+			default:
+				return false;
 		}
-	};
+		return true;
+	}
+
+	@Override
+	public void onDestroyActionMode(ActionMode mode) {
+		resetActionModeParameters();
+		adapter.clearSelection();
+	}
 
 	private void handleContextualAction() {
 		if (adapter.getSelectedItems().isEmpty()) {
@@ -229,7 +228,7 @@ public class DataListFragment extends Fragment implements
 			ToastUtil.showError(getActivity(), R.string.am_empty_list);
 		} else {
 			actionModeType = type;
-			actionMode = getActivity().startActionMode(callback);
+			actionMode = getActivity().startActionMode(this);
 		}
 	}
 

@@ -185,8 +185,8 @@
   <string name="status_downloading">डाउनलोड हो रहा है…</string>
   <string name="status_download_finished">डाउनलोड हो गया</string>
   <string name="status_download_canceled">डाउनलोड रद्द किया गया है</string>
-  <string name="list_view_section_title_in_progress">प्रगति में है</string>
-  <string name="list_view_section_title_converted_programs">बदले गए प्रोग्राम्स</string>
+  <string name="scratch_programs_in_progress_title">प्रगति में है</string>
+  <string name="scratch_programs_finished_title">बदले गए प्रोग्राम्स</string>
   <string name="status">स्थिति</string>
   <string name="title">शीर्षक</string>
   <string name="by_x">%1$s द्वारा</string>

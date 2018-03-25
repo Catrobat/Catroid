@@ -173,8 +173,8 @@
   <string name="status_downloading">Inapakua&#8230;</string>
   <string name="status_download_finished">Upakuaji umekamilika</string>
   <string name="status_download_canceled">Upakuaji umeghairishwa</string>
-  <string name="list_view_section_title_in_progress">Inaendelea</string>
-  <string name="list_view_section_title_converted_programs">Hali</string>
+  <string name="scratch_programs_in_progress_title">Inaendelea</string>
+  <string name="scratch_programs_finished_title">Hali</string>
   <string name="status">Hali</string>
   <string name="title">Kichwa cha Habari</string>
   <string name="by_x">kwa %1$s</string>

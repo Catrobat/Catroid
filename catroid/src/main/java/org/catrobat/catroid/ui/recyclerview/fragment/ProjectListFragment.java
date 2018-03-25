@@ -152,7 +152,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 
 	@Override
 	protected void deleteItems(List<ProjectData> selectedItems) {
-		finishActionMode();
+		setShowProgressBar(true);
 		for (ProjectData item : selectedItems) {
 			try {
 				projectController.delete(item);
@@ -162,6 +162,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 			adapter.remove(item);
 		}
 
+		finishActionMode();
 		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_projects,
 				selectedItems.size(),
 				selectedItems.size()));

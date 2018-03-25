@@ -45,7 +45,7 @@ public class LookAdapter extends ExtendedRVAdapter<LookData> {
 	public void onBindViewHolder(final ExtendedVH holder, int position) {
 		LookData item = items.get(position);
 
-		holder.name.setText(item.getName());
+		holder.title.setText(item.getName());
 		holder.image.setImageBitmap(item.getThumbnailBitmap());
 
 		if (showDetails) {

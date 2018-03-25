@@ -174,8 +174,8 @@
   <string name="status_downloading">Λήψη&#8230;</string>
   <string name="status_download_finished">Η λήψη ολοκληρώθηκε!</string>
   <string name="status_download_canceled">Η λήψη ακυρώθηκε!</string>
-  <string name="list_view_section_title_in_progress">Σε εξέλιξη</string>
-  <string name="list_view_section_title_converted_programs">Προγράμματα που έχουν μετατραπεί</string>
+  <string name="scratch_programs_in_progress_title">Σε εξέλιξη</string>
+  <string name="scratch_programs_finished_title">Προγράμματα που έχουν μετατραπεί</string>
   <string name="status">Κατάσταση</string>
   <string name="title">Τίτλος</string>
   <string name="by_x">από τον %1$s</string>

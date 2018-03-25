@@ -21,24 +21,29 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <item>
-        <shape android:shape="rectangle" >
-            <stroke
-                android:width="1.5dp"
-                android:color="@color/image_view_border" >
-            </stroke>
-        </shape>
-    </item>
-    <item
-        android:bottom="1.5dp"
-        android:left="1.5dp"
-        android:right="1.5dp"
-        android:top="1.5dp">
-        <shape android:shape="rectangle" >
-            <solid android:color="@android:color/transparent" />
-        </shape>
-    </item>
+    <SearchView
+        android:id="@+id/search_view_scratch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/material_design_spacing_large"
+        android:layout_marginEnd="@dimen/material_design_spacing_large"
+        android:inputType="textAutoComplete"
+        android:queryHint="@string/search_hint"
+        android:iconifiedByDefault="false" />
 
-</layer-list>
+    <include layout="@layout/progress_bar" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutManager="LinearLayoutManager" />
+</LinearLayout>
+

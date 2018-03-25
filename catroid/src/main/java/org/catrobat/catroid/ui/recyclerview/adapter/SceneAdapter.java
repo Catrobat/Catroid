@@ -47,7 +47,7 @@ public class SceneAdapter extends ExtendedRVAdapter<Scene> {
 		Scene item = items.get(position);
 
 		String projectName = ProjectManager.getInstance().getCurrentProject().getName();
-		holder.name.setText(item.getName());
+		holder.title.setText(item.getName());
 
 		loader.loadAndShowScreenshot(projectName, item.getName(), false, holder.image);
 

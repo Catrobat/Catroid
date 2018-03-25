@@ -171,8 +171,8 @@
   <string name="status_downloading">ダウンロード中&#8230;</string>
   <string name="status_download_finished">ダウンロードが完了しました!</string>
   <string name="status_download_canceled">ダウンロードをキャンセルしました!</string>
-  <string name="list_view_section_title_in_progress">進行中</string>
-  <string name="list_view_section_title_converted_programs">変換したプログラム</string>
+  <string name="scratch_programs_in_progress_title">進行中</string>
+  <string name="scratch_programs_finished_title">変換したプログラム</string>
   <string name="status">ステータス</string>
   <string name="title">タイトル</string>
   <string name="by_x">%1$s によって</string>

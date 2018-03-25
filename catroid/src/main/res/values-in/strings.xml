@@ -185,8 +185,8 @@ Selesai: %d pekerjaan</item>
   <string name="status_downloading">Mengunduh&#8230;</string>
   <string name="status_download_finished">Selesai mengunduh!</string>
   <string name="status_download_canceled">Download dibatalkan!</string>
-  <string name="list_view_section_title_in_progress">Sedang berlangsung</string>
-  <string name="list_view_section_title_converted_programs">Program yang dikonversikan</string>
+  <string name="scratch_programs_in_progress_title">Sedang berlangsung</string>
+  <string name="scratch_programs_finished_title">Program yang dikonversikan</string>
   <string name="status">Status</string>
   <string name="title">Judul</string>
   <string name="by_x">dengan %1$s</string>

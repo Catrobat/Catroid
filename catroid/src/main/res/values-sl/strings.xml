@@ -191,8 +191,8 @@
   <string name="status_downloading">Downloading&#8230;</string>
   <string name="status_download_finished">Download finished!</string>
   <string name="status_download_canceled">Download canceled!</string>
-  <string name="list_view_section_title_in_progress">In progress</string>
-  <string name="list_view_section_title_converted_programs">Converted programs</string>
+  <string name="scratch_programs_in_progress_title">In progress</string>
+  <string name="scratch_programs_finished_title">Converted programs</string>
   <string name="status">Status</string>
   <string name="title">Title</string>
   <string name="by_x">by %1$s</string>

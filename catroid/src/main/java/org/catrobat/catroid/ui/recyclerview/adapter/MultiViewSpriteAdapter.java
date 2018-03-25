@@ -87,7 +87,7 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 		Context context = holder.itemView.getContext();
 
 		Sprite item = items.get(position);
-		holder.name.setText(item.getName());
+		holder.title.setText(item.getName());
 
 		if (holder.getItemViewType() == SPRITE_GROUP) {
 			Drawable drawable = ((GroupSprite) item).collapsed

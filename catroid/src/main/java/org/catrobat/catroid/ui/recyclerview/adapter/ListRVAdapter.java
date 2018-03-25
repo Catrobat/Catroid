@@ -53,7 +53,7 @@ public class ListRVAdapter extends RVAdapter<UserList> {
 
 		UserList item = items.get(position);
 		ListVH listVH = (ListVH) holder;
-		listVH.name.setText(item.getName());
+		listVH.title.setText(item.getName());
 
 		List<String> userList = new ArrayList<>();
 		for (Object userListItem : item.getList()) {

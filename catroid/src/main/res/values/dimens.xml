@@ -23,6 +23,9 @@
   -->
 <resources>
 
+    <!-- Scratch Converter -->
+    <dimen name="scratch_converter_bottom_bar_height">60dp</dimen>
+
     <!-- Text -->
     <dimen name="text_size_medium" >16sp</dimen >
     <dimen name="text_size_large" >18sp</dimen >
@@ -31,20 +34,10 @@
     <dimen name="project_thumbnail_height" >65dip</dimen >
     <dimen name="project_thumbnail_width" >72dip</dimen >
     <dimen name="scratch_project_thumbnail_height">65dp</dimen>
-    <dimen name="scratch_project_thumbnail_width">72dp</dimen>
+
     <dimen name="scratch_project_image_height">130dp</dimen>
     <dimen name="scratch_project_image_width">144dp</dimen>
-    <dimen name="scratch_project_tiny_thumbnail_height">36dp</dimen>
-    <dimen name="scratch_project_tiny_thumbnail_width">40dp</dimen>
-    <dimen name="scratch_project_image_margin_right">20dp</dimen>
-    <dimen name="scratch_project_search_list_view_margin_top">15dp</dimen>
-    <dimen name="scratch_project_search_list_view_margin_bottom">48dp</dimen>
-    <dimen name="scratch_conversion_list_view_margin_top">15dp</dimen>
-    <dimen name="scratch_conversion_list_view_margin_bottom">15dp</dimen>
-    <dimen name="scratch_remixes_list_view_margin_top">15dp</dimen>
-    <dimen name="scratch_remixes_list_view_margin_bottom">15dp</dimen>
 
-    <dimen name="my_projects_list_item_height">90dip</dimen>
     <dimen name="brick_edit_text_and_prototype_text_view_minimum_width" >48dp</dimen >
     <dimen name="brick_height_small" >72dp</dimen >
     <dimen name="brick_height_medium" >96dp</dimen >
@@ -62,7 +55,6 @@
     <!-- -->
 
     <!-- Dialog -->
-    <dimen name="dialog_item_margin" >16dp</dimen >
     <dimen name="dialog_relative_layout_padding" >40dp</dimen >
     <dimen name="dialog_text_view_text_size_large" >40sp</dimen >
     <dimen name="dialog_check_box_margin_bottom_right" > 16dp</dimen >
@@ -73,6 +65,8 @@
     <dimen name="img_margin">12dp</dimen>
     <dimen name="dialog_input_offset">4dp</dimen>
     <dimen name="details_spacing">20dp</dimen>
+    <dimen name="material_design_spacing_small">8dp</dimen>
+    <dimen name="material_design_spacing_large">16dp</dimen>
 
     <!-- Material Design Dialogs -->
     <dimen name="dialog_content_area_padding_top">18dp</dimen>
@@ -90,9 +84,6 @@
     <!-- Flow Layout -->
     <dimen name="brick_flow_layout_vertical_spacing">0dp</dimen>
     <dimen name="brick_flow_layout_horizontal_spacing">3dp</dimen>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
     <!--  -->
 
     <!-- Activity -->

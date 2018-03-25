@@ -184,40 +184,43 @@
 
     <!-- Scratch Converter activity -->
     <string name="beta">BETA</string>
-    <string name="title_activity_scratch_converter">Convert Scratch Program</string>
-    <string name="error_scratch_program_not_accessible_any_more">Whoops! Data of this program is not accessible anymore!</string>
-    <string name="error_scratch_project_data_not_available">Whoops! Some of data could not be loaded from this Scratch
-        program. Please try again later!</string>
-    <string name="error_request_timeout">Whoops! Our server is not reachable at the moment, please try again later!</string>
+    <string name="error_scratch_program_not_accessible_any_more">Whoops! The program seems to have disappeared
+        or you might have lost access to it.</string>
+    <string name="error_scratch_project_data_not_available">Whoops! Some parts of the program seem to be
+        missing, please try again later.</string>
+    <string name="error_request_timeout">Whoops! Our server did not respond in time, please try again later.</string>
     <string name="error_scratch_program_conversion_failed">Whoops! Failed to convert Scratch program, please try again
         later!</string>
     <string name="error_specific_scratch_program_conversion_failed_x">Whoops! Failed to convert %1$s, please try
         again later!</string>
-    <string name="error_scratch_converter_outdated_app_version">Your app is outdated. Our Scratch
-        converter only supports the latest app version. Please update it on the Google Play Store!</string>
+    <string name="error_scratch_converter_outdated_app_version">Your version of Pocket Code is outdated. Our Scratch
+        converter only works on the latest version. Please update it through Google Play</string>
     <string name="error_cannot_open_not_existing_scratch_program">Cannot open this Scratch program. It seems that you
         have canceled the conversion/download of the Scratch program, or you have renamed/deleted the program in the
         meanwhile!</string>
-    <string name="error_cannot_open_currently_downloading_scratch_program">Cannot open this Scratch program
-        while it is downloading! Please try again later!</string>
-    <string name="error_cannot_open_not_yet_downloaded_scratch_program">Cannot open this Scratch program
-        since it has not been downloaded yet! Please try again later!</string>
-    <string name="error_cannot_convert_deprecated_scratch_program_x_x">Cannot convert %1$s! Older Scratch before %2$s
-        programs are not supported!</string>
+    <string name="error_cannot_open_currently_downloading_scratch_program">You can\'t open the program
+        at the moment. Please wait until it\'s downloaded.</string>
+    <string name="error_cannot_open_not_yet_downloaded_scratch_program">You can\'t open the program just yet.
+        Please download it first and then open it.</string>
+    <string name="error_cannot_convert_deprecated_scratch_program_x_x">Cannot convert %1$s. This seems to be
+        an old scratch program from before %2$s, please try another one.</string>
     <plurals name="error_cannot_convert_more_than_x_programs">
-        <item quantity="one">Cannot convert more than %d program simultaneously!</item>
-        <item quantity="other">Cannot convert more than %d programs simultaneously!</item>
+        <item quantity="one">You can\'t convert more than %d program at the same time. Please wait for the
+            running programs to finish first.</item>
+        <item quantity="other">You can\'t convert more than %d programs at the same time. Please wait for the
+            running programs to finish first.</item>
     </plurals>
-    <string name="error_cannot_open_failed_scratch_program">Cannot open Scratch program because the conversion
-        failed!</string>
-    <string name="search_failed">Search failed, please retry later!</string>
-    <string name="connection_lost_or_closed_by_server">Connection lost or closed by server!</string>
-    <string name="connection_failed">Connection to server failed, please retry later!</string>
-    <string name="authentication_failed">Authentication failed, please contact the Catrobat team!</string>
+    <string name="error_cannot_open_failed_scratch_program">You can\'t open the program because it wasn\'t
+        converted correctly. Please try to convert it again.</string>
+    <string name="search_failed">Nothing found, please retry later.</string>
+    <string name="connection_lost_or_closed_by_server">Server connection lost.</string>
+    <string name="connection_failed">We can\'t connect you to the server right now, please try again later.</string>
+    <string name="authentication_failed">There seems to be a problem with your connection to the service, please
+        contact the Catrobat team!</string>
     <plurals name="scratch_conversion_scheduled_x">
         <item quantity="zero">No Scratch programs scheduled!</item>
-        <item quantity="one">Scheduled %d Scratch program…</item>
-        <item quantity="other">Scheduled %d Scratch programs…</item>
+        <item quantity="one">Added %d Scratch program to the queue…</item>
+        <item quantity="other">Added %d Scratch programs to the queue…</item>
     </plurals>
     <string name="scratch_conversion_started">Started to convert Scratch program…</string>
     <string name="convert">Convert</string>
@@ -235,18 +238,14 @@
         <item quantity="other">Completed: %d jobs</item>
     </plurals>
     <string name="status_conversion_failed">Conversion failed!</string>
-    <string name="status_conversion_canceled">Conversion canceled!</string>
     <string name="status_downloading">Downloading…</string>
     <string name="status_download_finished">Download finished!</string>
     <string name="status_download_canceled">Download canceled!</string>
-    <string name="list_view_section_title_in_progress">In progress</string>
-    <string name="list_view_section_title_converted_programs">Converted programs</string>
-    <string name="status">Status</string>
-    <string name="title">Title</string>
+    <string name="scratch_programs_in_progress_title">In progress</string>
+    <string name="scratch_programs_finished_title">Converted programs</string>
     <string name="by_x">by %1$s</string>
-    <string name="by_author">by author</string>
-    <string name="warning_program_visibility">WARNING:\nThis seems to be a private program. Converting it may
-        fail!</string>
+    <string name="warning_program_visibility">WARNING:\nThis seems to be a private program. You can try to
+        convert it but it might not work.</string>
     <string name="instructions">Instructions</string>
     <string name="notes_and_credits">Notes and Credits</string>
     <string name="shared_at_x">Shared: %1$s</string>
@@ -261,7 +260,7 @@
     <string name="description_hint">Press to add description</string>
 
     <!-- ScratchReconvertDialog Strings -->
-    <string name="reconvert_text">This program has been converted %1$s ago.</string>
+    <string name="reconvert_text">You converted this program converted %1$s ago.</string>
     <plurals name="minutes">
         <item quantity="zero">less than a minute</item>
         <item quantity="one">%d minute</item>
@@ -277,8 +276,8 @@
         <item quantity="one">%d day</item>
         <item quantity="other">%d days</item>
     </plurals>
-    <string name="reconvert_dialog_download">Download already converted program</string>
-    <string name="reconvert_dialog_reconvert">Reconvert this program</string>
+    <string name="reconvert_dialog_download">Download the program again</string>
+    <string name="reconvert_dialog_reconvert">Convert this program again</string>
     <!--  -->
 
 
@@ -289,16 +288,18 @@
     <string name="error_copy_project">An error occurred while copying Project</string>
 
     <!-- Dialog Errors -->
-    <string name="name_already_exists">This name already exists, please choose another one!</string>
-    <string name="name_consists_of_spaces_only">The text field is empty, please enter a name!</string>
+    <string name="name_already_exists">This name is already in use, please choose another one.</string>
+    <string name="name_consists_of_spaces_only">You only put spaces into the text field, please enter a name
+        using letters, numbers or other special characters.</string>
 
     <!-- Recycler View -->
-    <string name="am_empty_list">There are no items in this list yet!</string>
+    <string name="am_empty_list">There are no items in this list yet. Please add some first.</string>
     <string name="am_backpack">Pack</string>
     <string name="am_unpack">Unpack</string>
     <string name="am_copy">Copy</string>
     <string name="am_delete">Delete</string>
     <string name="am_rename">Rename</string>
+    <string name="am_convert">Convert</string>
     <string name="dialog_confirm_delete">You can\'t undo this!</string>
 
     <string name="list_headline_sprites">Objects</string>
@@ -543,7 +544,7 @@
     <!-- LookListFragment -->
     <string name="fragment_look_text_description">Tap \"+\" to add Looks</string>
     <string name="pocket_paint_not_installed_title">Pocket Paint is not installed!</string>
-    <string name="pocket_paint_not_installed_message">Please install Pocket Paint</string>
+    <string name="pocket_paint_not_installed_message">Please install Pocket Paint.</string>
     <string name="default_look_name">Look</string>
     <string name="select_look_from_gallery">Select Image</string>
     <string name="select_look_from_camera">Select Photo</string>
@@ -620,8 +621,8 @@
     <string name="add_sound_music">Music Composer</string>
 
     <!-- Rating Dialog -->
-    <string name="rating_dialog_title">Rate this app</string>
-    <string name="rating_google_play_dialog_text">If you enjoy this app, please rate us on Google Play!</string>
+    <string name="rating_dialog_title">Rate Pocket Code</string>
+    <string name="rating_google_play_dialog_text">If you enjoy this app, please rate us on Google Play.</string>
     <string name="rating_dialog_rate_now">Now</string>
     <string name="rating_dialog_rate_later">Later</string>
     <string name="rating_dialog_rate_never">Never</string>
@@ -715,8 +716,8 @@
 
     <!-- NetworkAlertDialog -->
     <string name="error_no_network_title">No Network</string>
-    <string name="error_no_network">You need a network connection to use this program. Please turn on
-        mobile network or Wi-Fi in the settings.</string>
+    <string name="error_no_network">You need a network connection to use this program. Please turn on the
+        mobile network or the Wi-Fi in the settings.</string>
     <plurals name="bricks_using_network_headline">
         <item quantity="one">The following brick needs a network connection:</item>
         <item quantity="other">The following bricks need a network connection:</item>

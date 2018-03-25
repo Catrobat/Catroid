@@ -26,6 +26,7 @@
     <!-- Accessibility -->
     <!-- Font Sizes -->
     <declare-styleable name="FontSize">
+        <attr name="x_small" format="dimension"/>
         <attr name="small" format="dimension"/>
         <attr name="medium" format="dimension"/>
         <attr name="large" format="dimension"/>

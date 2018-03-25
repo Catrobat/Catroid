@@ -178,8 +178,8 @@
   <string name="status_downloading">Pobieranie&#8230;</string>
   <string name="status_download_finished">Pobieranie zakończone!</string>
   <string name="status_download_canceled">Pobieranie anulowane!</string>
-  <string name="list_view_section_title_in_progress">W toku</string>
-  <string name="list_view_section_title_converted_programs">Programy po konwersji</string>
+  <string name="scratch_programs_in_progress_title">W toku</string>
+  <string name="scratch_programs_finished_title">Programy po konwersji</string>
   <string name="status">Stan</string>
   <string name="title">Tytuł</string>
   <string name="by_x">przez %1$s</string>

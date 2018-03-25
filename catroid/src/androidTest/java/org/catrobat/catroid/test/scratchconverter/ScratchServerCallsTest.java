@@ -41,6 +41,7 @@ import java.util.Locale;
  */
 
 public class ScratchServerCallsTest extends InstrumentationTestCase {
+
 	public ScratchServerCallsTest() {
 		super();
 	}

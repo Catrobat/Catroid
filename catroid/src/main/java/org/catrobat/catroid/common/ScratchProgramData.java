@@ -51,7 +51,7 @@ public class ScratchProgramData implements Serializable, Parcelable {
 	private Date sharedDate;
 	private List<String> tags;
 	private ScratchVisibilityState visibilityState;
-	private List<ScratchProgramData> remixes;
+	private List<ScratchProgramData> remixes = new ArrayList<>();
 
 	public ScratchProgramData(long id, String title, String owner, WebImage image) {
 		this.id = id;

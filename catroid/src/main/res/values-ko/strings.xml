@@ -169,8 +169,8 @@
   <string name="status_downloading">다운로드중&#8230;</string>
   <string name="status_download_finished">다운로드 완료.</string>
   <string name="status_download_canceled">다운로드 취소!</string>
-  <string name="list_view_section_title_in_progress">진행중</string>
-  <string name="list_view_section_title_converted_programs">프로그램 변환</string>
+  <string name="scratch_programs_in_progress_title">진행중</string>
+  <string name="scratch_programs_finished_title">프로그램 변환</string>
   <string name="status">상태</string>
   <string name="title">제목</string>
   <string name="by_x">%1$s에 의해</string>

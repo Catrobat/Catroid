@@ -183,8 +183,8 @@
   <string name="status_downloading">Endirilir&#8230;</string>
   <string name="status_download_finished">Endirilmə bitdi!</string>
   <string name="status_download_canceled">Endirilmə ləğv olundu!</string>
-  <string name="list_view_section_title_in_progress">İşlənməkdədir</string>
-  <string name="list_view_section_title_converted_programs">Çevrilmiş proqramlar</string>
+  <string name="scratch_programs_in_progress_title">İşlənməkdədir</string>
+  <string name="scratch_programs_finished_title">Çevrilmiş proqramlar</string>
   <string name="status">Vəziyyət</string>
   <string name="title">Başlıq</string>
   <string name="by_x">%1$-larla</string>

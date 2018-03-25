@@ -173,8 +173,8 @@
   <string name="status_downloading">Descargando&#8230;</string>
   <string name="status_download_finished">Descarga completada!</string>
   <string name="status_download_canceled">Descarga cancelada!</string>
-  <string name="list_view_section_title_in_progress">En progreso</string>
-  <string name="list_view_section_title_converted_programs">Programas convertidos</string>
+  <string name="scratch_programs_in_progress_title">En progreso</string>
+  <string name="scratch_programs_finished_title">Programas convertidos</string>
   <string name="status">Estado</string>
   <string name="title">Título</string>
   <string name="by_x">por %1$s</string>

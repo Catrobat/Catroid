@@ -177,8 +177,8 @@
   <string name="status_downloading">Preberanie&#8230;</string>
   <string name="status_download_finished">Preberanie dokončené!</string>
   <string name="status_download_canceled">Preberanie zrušené!</string>
-  <string name="list_view_section_title_in_progress">Prebieha</string>
-  <string name="list_view_section_title_converted_programs">Konvertované programy</string>
+  <string name="scratch_programs_in_progress_title">Prebieha</string>
+  <string name="scratch_programs_finished_title">Konvertované programy</string>
   <string name="status">Status</string>
   <string name="title">Názov</string>
   <string name="by_x">od %1$s</string>

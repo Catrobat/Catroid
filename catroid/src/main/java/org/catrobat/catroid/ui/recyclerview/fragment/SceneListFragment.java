@@ -100,7 +100,7 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 
 	@Override
 	protected void packItems(List<Scene> selectedItems) {
-		finishActionMode();
+		setShowProgressBar(true);
 		try {
 			for (Scene item : selectedItems) {
 				sceneController.pack(item);
@@ -112,6 +112,8 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 			switchToBackpack();
 		} catch (IOException e) {
 			Log.e(TAG, Log.getStackTraceString(e));
+		} finally {
+			finishActionMode();
 		}
 	}
 
@@ -129,7 +131,7 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 
 	@Override
 	protected void copyItems(List<Scene> selectedItems) {
-		finishActionMode();
+		setShowProgressBar(true);
 		for (Scene item : selectedItems) {
 			try {
 				adapter.add(sceneController.copy(item, ProjectManager.getInstance().getCurrentProject()));
@@ -137,6 +139,7 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 				Log.e(TAG, Log.getStackTraceString(e));
 			}
 		}
+		finishActionMode();
 		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.copied_scenes,
 				selectedItems.size(),
 				selectedItems.size()));
@@ -149,7 +152,7 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 
 	@Override
 	protected void deleteItems(List<Scene> selectedItems) {
-		finishActionMode();
+		setShowProgressBar(true);
 		for (Scene item : selectedItems) {
 			try {
 				sceneController.delete(item);
@@ -159,6 +162,7 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 			adapter.remove(item);
 		}
 
+		finishActionMode();
 		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_scenes,
 				selectedItems.size(),
 				selectedItems.size()));
@@ -173,8 +177,10 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 	}
 
 	private void createDefaultScene() {
+		setShowProgressBar(true);
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		adapter.add(new Scene(getActivity(), getString(R.string.default_scene_name, 1), currentProject));
+		setShowProgressBar(false);
 	}
 
 	@Override
