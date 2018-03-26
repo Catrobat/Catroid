@@ -53,21 +53,21 @@ public class SoundAdapter extends ExtendedRVAdapter<SoundInfo> {
 		final SoundInfo item = items.get(position);
 
 		holder.title.setText(item.getName());
-		holder.image.setImageResource(R.drawable.ic_media_play);
+		holder.image.setImageResource(R.drawable.ic_media_play_dark);
 
 		holder.image.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (mediaPlayer.isPlaying()) {
-					holder.image.setImageResource(R.drawable.ic_media_play);
+					holder.image.setImageResource(R.drawable.ic_media_play_dark);
 					stopSound();
 				} else {
-					holder.image.setImageResource(R.drawable.ic_media_pause);
+					holder.image.setImageResource(R.drawable.ic_media_pause_dark);
 					playSound(item);
 					mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
 						@Override
 						public void onCompletion(MediaPlayer mp) {
-							holder.image.setImageResource(R.drawable.ic_media_play);
+							holder.image.setImageResource(R.drawable.ic_media_play_dark);
 						}
 					});
 				}

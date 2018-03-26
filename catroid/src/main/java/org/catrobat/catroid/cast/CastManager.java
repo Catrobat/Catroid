@@ -459,6 +459,10 @@ public final class CastManager {
 					onCastStop();
 					activity.finish();
 				}
+
+				@Override
+				public void onRemoteDisplaySessionEnded(CastRemoteDisplayLocalService castRemoteDisplayLocalService) {
+				}
 			};
 
 			CastRemoteDisplayLocalService.startService(activity, CastService.class,
