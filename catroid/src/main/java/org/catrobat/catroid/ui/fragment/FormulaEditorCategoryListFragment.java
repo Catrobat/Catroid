@@ -171,7 +171,8 @@ public class FormulaEditorCategoryListFragment extends ListFragment implements
 			.formula_editor_sensor_lego_ev3_sensor_color_reflected, R.string
 			.formula_editor_sensor_lego_ev3_sensor_hitechnic_color,
 			R.string.formula_editor_sensor_lego_ev3_sensor_nxt_temperature_c,
-			R.string.formula_editor_sensor_lego_ev3_sensor_nxt_temperature_f };
+			R.string.formula_editor_sensor_lego_ev3_sensor_nxt_temperature_f,
+			R.string.formula_editor_sensor_lego_ev3_sensor_nxt_ultrasonic};
 
 	private static final int[] PHIRO_SENSOR_ITEMS = {R.string.formula_editor_phiro_sensor_front_left,
 			R.string.formula_editor_phiro_sensor_front_right, R.string.formula_editor_phiro_sensor_side_left,
