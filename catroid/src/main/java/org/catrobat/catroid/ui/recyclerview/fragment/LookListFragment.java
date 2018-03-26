@@ -96,7 +96,10 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 		setShowProgressBar(true);
 		try {
 			for (LookData item : selectedItems) {
-				lookController.pack(item, ProjectManager.getInstance().getCurrentScene());
+				BackPackListManager.getInstance().getBackPackedLooks().add(lookController.pack(item, ProjectManager
+						.getInstance()
+						.getCurrentScene()));
+				BackPackListManager.getInstance().saveBackpack();
 			}
 			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.packed_looks,
 					selectedItems.size(),
@@ -129,7 +132,7 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		for (LookData item : selectedItems) {
 			try {
-				lookController.copy(item, currentScene, currentScene, currentSprite);
+				adapter.add(lookController.copy(item, currentScene, currentScene, currentSprite));
 			} catch (IOException e) {
 				Log.e(TAG, Log.getStackTraceString(e));
 			}

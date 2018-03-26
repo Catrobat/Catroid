@@ -35,12 +35,25 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+
 public final class FileTestUtils {
 	private static final String TAG = FileTestUtils.class.getSimpleName();
 
 	// Suppress default constructor for noninstantiability
 	private FileTestUtils() {
 		throw new AssertionError();
+	}
+
+	public static void assertFileExists(String... path) {
+		String fullPath = Utils.buildPath(path);
+		assertTrue("File does not exists: " + fullPath, new File(fullPath).exists());
+	}
+
+	public static void assertFileDoesNotExist(String... path) {
+		String fullPath = Utils.buildPath(path);
+		assertFalse("File exists: " + fullPath, new File(fullPath).exists());
 	}
 
 	/**
@@ -56,8 +69,6 @@ public final class FileTestUtils {
 	 * @throws IOException
 	 */
 	public static File saveFileToProject(String project, String sceneName, String name, int fileID, Context context, FileTypes type) {
-
-		boolean withChecksum = true;
 		String filePath;
 		String defaultRoot = Constants.DEFAULT_ROOT;
 		if (project == null || project.equalsIgnoreCase("")) {
@@ -72,11 +83,9 @@ public final class FileTestUtils {
 					break;
 				case SCREENSHOT:
 					filePath = defaultRoot + "/" + project + "/" + sceneName + "/";
-					withChecksum = false;
 					break;
 				case ROOT:
 					filePath = defaultRoot + "/" + project + "/";
-					withChecksum = false;
 					break;
 				default:
 					filePath = defaultRoot + "/";
@@ -102,17 +111,7 @@ public final class FileTestUtils {
 			out.flush();
 			out.close();
 
-			String checksum;
-			if (withChecksum) {
-				checksum = Utils.md5Checksum(file) + "_";
-			} else {
-				checksum = "";
-			}
-
-			File tempFile = new File(filePath + checksum + name);
-			file.renameTo(tempFile);
-
-			return tempFile;
+			return file;
 		} catch (IOException e) {
 			Log.e(TAG, "File handling error", e);
 			return null;

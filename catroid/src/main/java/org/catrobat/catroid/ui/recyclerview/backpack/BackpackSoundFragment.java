@@ -28,6 +28,7 @@ import android.util.Log;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.recyclerview.controller.SoundController;
@@ -56,9 +57,10 @@ public class BackpackSoundFragment extends BackpackRecyclerViewFragment<SoundInf
 		finishActionMode();
 		try {
 			for (SoundInfo item : selectedItems) {
-				soundController.unpack(item,
+				Sprite dstSprite = ProjectManager.getInstance().getCurrentSprite();
+				dstSprite.getSoundList().add(soundController.unpack(item,
 						ProjectManager.getInstance().getCurrentScene(),
-						ProjectManager.getInstance().getCurrentSprite());
+						dstSprite));
 			}
 			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.unpacked_sounds,
 					selectedItems.size(),
