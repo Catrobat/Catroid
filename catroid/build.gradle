@@ -192,7 +192,6 @@ dependencies {
     compile 'com.github.mrengineer13:snackbar:1.2.0'
 
     compile 'com.koushikdutta.async:androidasync:2.+'
-    compile 'com.sothree.slidinguppanel:library:3.3.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
 
     compile ('com.thoughtworks.xstream:xstream:1.4.7') {
@@ -222,7 +221,6 @@ dependencies {
     compile fileTree(include: '*.jar', dir: 'src/main/libs')
     compile fileTree(include: '*.jar', dir: 'src/main/libs-natives')
     androidTestCompile fileTree(include: '*.jar', dir: 'src/androidTest/libs')
-    androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
     androidTestCompile 'com.linkedin.dexmaker:dexmaker-mockito:2.2.0'
     androidTestCompile 'org.mockito:mockito-core:2.8.47'
 

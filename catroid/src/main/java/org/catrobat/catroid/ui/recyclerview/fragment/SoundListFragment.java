@@ -81,7 +81,7 @@ public class SoundListFragment extends RecyclerViewFragment<SoundInfo> {
 
 	@Override
 	protected void packItems(List<SoundInfo> selectedItems) {
-		finishActionMode();
+		setShowProgressBar(true);
 		try {
 			for (SoundInfo item : selectedItems) {
 				soundController.pack(item, ProjectManager.getInstance().getCurrentScene());
@@ -93,6 +93,8 @@ public class SoundListFragment extends RecyclerViewFragment<SoundInfo> {
 			switchToBackpack();
 		} catch (IOException e) {
 			Log.e(TAG, Log.getStackTraceString(e));
+		} finally {
+			finishActionMode();
 		}
 	}
 
@@ -110,7 +112,7 @@ public class SoundListFragment extends RecyclerViewFragment<SoundInfo> {
 
 	@Override
 	protected void copyItems(List<SoundInfo> selectedItems) {
-		finishActionMode();
+		setShowProgressBar(true);
 		Scene currentScene = ProjectManager.getInstance().getCurrentScene();
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		for (SoundInfo item : selectedItems) {
@@ -120,6 +122,7 @@ public class SoundListFragment extends RecyclerViewFragment<SoundInfo> {
 				Log.e(TAG, Log.getStackTraceString(e));
 			}
 		}
+		finishActionMode();
 		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.copied_sounds,
 				selectedItems.size(),
 				selectedItems.size()));
@@ -132,7 +135,7 @@ public class SoundListFragment extends RecyclerViewFragment<SoundInfo> {
 
 	@Override
 	protected void deleteItems(List<SoundInfo> selectedItems) {
-		finishActionMode();
+		setShowProgressBar(true);
 		for (SoundInfo item : selectedItems) {
 			try {
 				soundController.delete(item, ProjectManager.getInstance().getCurrentScene());
@@ -141,6 +144,7 @@ public class SoundListFragment extends RecyclerViewFragment<SoundInfo> {
 			}
 			adapter.remove(item);
 		}
+		finishActionMode();
 		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_sounds,
 				selectedItems.size(),
 				selectedItems.size()));

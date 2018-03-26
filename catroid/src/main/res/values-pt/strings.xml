@@ -176,8 +176,8 @@
   <string name="status_downloading">A fazer download&#8230;</string>
   <string name="status_download_finished">Download concluído!</string>
   <string name="status_download_canceled">Transferência cancelada!</string>
-  <string name="list_view_section_title_in_progress">Em andamento</string>
-  <string name="list_view_section_title_converted_programs">Programas convertidos</string>
+  <string name="scratch_programs_in_progress_title">Em andamento</string>
+  <string name="scratch_programs_finished_title">Programas convertidos</string>
   <string name="status">Status</string>
   <string name="title">Título</string>
   <string name="by_x">by %1$s</string>

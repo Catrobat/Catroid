@@ -174,8 +174,8 @@
   <string name="status_downloading">Téléchargement&#8230;</string>
   <string name="status_download_finished">Téléchargement terminé !</string>
   <string name="status_download_canceled">Téléchargement annulé!</string>
-  <string name="list_view_section_title_in_progress">En cours</string>
-  <string name="list_view_section_title_converted_programs">Programmes convertis</string>
+  <string name="scratch_programs_in_progress_title">En cours</string>
+  <string name="scratch_programs_finished_title">Programmes convertis</string>
   <string name="status">Statut</string>
   <string name="title">Titre</string>
   <string name="by_x">par %1$s</string>

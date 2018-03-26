@@ -23,21 +23,44 @@
 
 package org.catrobat.catroid.ui.recyclerview.adapter;
 
+import android.view.View;
+
+import com.squareup.picasso.Picasso;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.ScratchProgramData;
 import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedVH;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
-import static org.catrobat.catroid.R.drawable.ic_program_menu_scripts;
+public class ScratchProgramAdapter extends ExtendedRVAdapter<ScratchProgramData> {
 
-public class ScriptAdapter extends ExtendedRVAdapter<String> {
-
-	public ScriptAdapter(List<String> items) {
-		super(items);
+	public ScratchProgramAdapter(List<ScratchProgramData> objects) {
+		super(objects);
 	}
 
 	@Override
 	public void onBindViewHolder(ExtendedVH holder, int position) {
-		holder.title.setText(items.get(position));
-		holder.image.setImageResource(ic_program_menu_scripts);
+		ScratchProgramData item = items.get(position);
+
+		holder.title.setText(item.getTitle());
+
+		if (item.getImage().getUrl() != null) {
+			int height = holder.image.getContext().getResources().getDimensionPixelSize(R.dimen
+					.scratch_project_thumbnail_height);
+			String originalImageURL = item.getImage().getUrl().toString();
+			String thumbnailImageURL = Utils.changeSizeOfScratchImageURL(originalImageURL, height);
+			Picasso.with(holder.image.getContext()).load(thumbnailImageURL).into(holder.image);
+		} else {
+			holder.image.setImageBitmap(null);
+		}
+
+		if (showDetails) {
+			holder.details.setVisibility(View.VISIBLE);
+			holder.details.setText(item.getOwner());
+		} else {
+			holder.details.setVisibility(View.GONE);
+		}
 	}
 }

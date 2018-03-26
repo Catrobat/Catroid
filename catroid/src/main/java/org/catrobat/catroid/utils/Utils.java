@@ -37,10 +37,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -261,17 +257,13 @@ public final class Utils {
 		return false;
 	}
 
-	public static String extractParameterFromURL(final String url, final String parameterKey) {
-		final String query = url.split("\\?")[1];
-		return Splitter.on('&').trimResults().withKeyValueSeparator("=").split(query).get(parameterKey);
-	}
-
 	public static long extractScratchJobIDFromURL(final String url) {
 		if (!url.startsWith(Constants.SCRATCH_CONVERTER_BASE_URL)) {
 			return Constants.INVALID_SCRATCH_PROGRAM_ID;
 		}
 
-		final String jobIDString = extractParameterFromURL(url, "job_id");
+		final String query = url.split("\\?")[1];
+		final String jobIDString = Splitter.on('&').trimResults().withKeyValueSeparator("=").split(query).get("job_id");
 		if (jobIDString == null) {
 			return Constants.INVALID_SCRATCH_PROGRAM_ID;
 		}
@@ -301,32 +293,6 @@ public final class Utils {
 			return Integer.toString(number / 1_000) + "k";
 		}
 		return Integer.toString(number / 1_000_000) + "M";
-	}
-
-	public static boolean setListViewHeightBasedOnItems(ListView listView) {
-		ListAdapter listAdapter = listView.getAdapter();
-		if (listAdapter != null) {
-			int numberOfItems = listAdapter.getCount();
-			// Get total height of all items.
-			int totalItemsHeight = 0;
-			for (int itemPos = 0; itemPos < numberOfItems; ++itemPos) {
-				View item = listAdapter.getView(itemPos, null, listView);
-				item.measure(0, 0);
-				totalItemsHeight += item.getMeasuredHeight();
-			}
-
-			// Get total height of all item dividers.
-			int totalDividersHeight = listView.getDividerHeight() * (numberOfItems - 1);
-
-			// Set list height.
-			ViewGroup.LayoutParams params = listView.getLayoutParams();
-			params.height = totalItemsHeight + totalDividersHeight;
-			listView.setLayoutParams(params);
-			listView.requestLayout();
-			return true;
-		} else {
-			return false;
-		}
 	}
 
 	/**

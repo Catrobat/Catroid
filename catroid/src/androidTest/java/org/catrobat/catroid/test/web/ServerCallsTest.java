@@ -36,8 +36,11 @@ import org.catrobat.catroid.web.WebconnectionException;
 /*
  * These tests need an internet connection
  */
-public class ServerCallsTest extends InstrumentationTestCase implements DeleteTestUserTask.OnDeleteTestUserCompleteListener {
+public class ServerCallsTest extends InstrumentationTestCase implements
+		DeleteTestUserTask.OnDeleteTestUserCompleteListener {
+
 	private static final String TAG = ServerCalls.class.getSimpleName();
+
 	public static final int STATUS_CODE_USER_PASSWORD_TOO_SHORT = 753;
 	public static final int STATUS_CODE_USER_ADD_EMAIL_EXISTS = 757;
 	public static final int STATUS_CODE_USER_EMAIL_INVALID = 765;

@@ -178,8 +178,8 @@
   <string name="status_downloading">Stahování&#8230;</string>
   <string name="status_download_finished">Stahování dokončeno !</string>
   <string name="status_download_canceled">Stahování zrušeno !</string>
-  <string name="list_view_section_title_in_progress">Probíhá</string>
-  <string name="list_view_section_title_converted_programs">Převedené programy</string>
+  <string name="scratch_programs_in_progress_title">Probíhá</string>
+  <string name="scratch_programs_finished_title">Převedené programy</string>
   <string name="status">Status</string>
   <string name="title">Oslovení</string>
   <string name="by_x">o %1$s</string>

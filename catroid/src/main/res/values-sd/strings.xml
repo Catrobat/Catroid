@@ -183,8 +183,8 @@
   <string name="status_downloading">ڊائونلوڊنگ&#8230;</string>
   <string name="status_download_finished">ڊائونلوڊنگ ختم ٿي!</string>
   <string name="status_download_canceled">ڊائونلوڊنگ منسوخ ڪئي وئي!</string>
-  <string name="list_view_section_title_in_progress">ڪارروائي ٿي رهي آهي</string>
-  <string name="list_view_section_title_converted_programs">بدلايل پروگرامَ</string>
+  <string name="scratch_programs_in_progress_title">ڪارروائي ٿي رهي آهي</string>
+  <string name="scratch_programs_finished_title">بدلايل پروگرامَ</string>
   <string name="status">حالت</string>
   <string name="title">لقب</string>
   <string name="by_x">کان %1$s</string>

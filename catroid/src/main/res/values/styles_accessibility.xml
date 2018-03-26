@@ -27,7 +27,8 @@
     <!-- Font Sizes -->
     <style name="FontSizeLarge" tools:ignore="UnusedResources">
         <item name="android:textSize">24sp</item>
-        <item name="small">15sp</item>
+        <item name="x_small">15sp</item>
+        <item name="small">21sp</item>
         <item name="medium">24sp</item>
         <item name="large">27sp</item>
         <item name="x_large">33sp</item>

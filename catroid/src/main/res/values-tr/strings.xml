@@ -142,7 +142,7 @@
   <string name="error_cannot_open_not_existing_scratch_program">Bu boş program açılmıyor. Öyle görünüyor ki bu esnada boş programının dönüşümünü/indirilmesini iptal etmişsiniz veya programın adını değiştirmişsiniz/silmişsiniz!</string>
   <string name="error_cannot_open_currently_downloading_scratch_program">İndirilirken bu boş program açılmıyor! Lütfen daha sonra tekrar deneyin!</string>
   <string name="error_cannot_open_not_yet_downloaded_scratch_program">Bu boş program açılmıyor çünkü henüz indirilmedi! Lütfen daha sonra tekrar deneyin!</string>
-  <string name="error_cannot_convert_deprecated_scratch_program_x_x">%1$s dönüştürülemez! %2$s 
+  <string name="error_cannot_convert_deprecated_scratch_program_x_x">%1$s dönüştürülemez! %2$s
         programlarından önceki Eski Çizilmeler desteklenmiyor!</string>
   <plurals name="error_cannot_convert_more_than_x_programs">
     <item quantity="one">Cannot convert more than 1 program simultaneously!</item>
@@ -178,8 +178,8 @@
   <string name="status_downloading">İndiriliyor…</string>
   <string name="status_download_finished">İndirme tamamlandı!</string>
   <string name="status_download_canceled">İndirme iptal edildi!</string>
-  <string name="list_view_section_title_in_progress">Devam ediyor</string>
-  <string name="list_view_section_title_converted_programs">Dönüştürülmüş programlar</string>
+  <string name="scratch_programs_in_progress_title">Devam ediyor</string>
+  <string name="scratch_programs_finished_title">Dönüştürülmüş programlar</string>
   <string name="status">Durum</string>
   <string name="title">Başlık</string>
   <string name="by_x">%1$s tarafından</string>

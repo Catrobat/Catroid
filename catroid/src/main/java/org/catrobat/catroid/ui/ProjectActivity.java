@@ -27,6 +27,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.IntDef;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -53,9 +54,16 @@ import org.catrobat.catroid.ui.recyclerview.fragment.SceneListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SpriteListFragment;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 public class ProjectActivity extends BaseCastActivity implements PlaySceneDialogFragment.PlaySceneInterface {
 
 	public static final String EXTRA_FRAGMENT_POSITION = "FRAGMENT_POSITION";
+
+	@Retention(RetentionPolicy.SOURCE)
+	@IntDef({FRAGMENT_SCENES, FRAGMENT_SPRITES})
+	@interface FragmentPosition {}
 	public static final int FRAGMENT_SCENES = 0;
 	public static final int FRAGMENT_SPRITES = 1;
 
@@ -79,7 +87,7 @@ public class ProjectActivity extends BaseCastActivity implements PlaySceneDialog
 		showLegoInfoFragmentIfNeeded(getFragmentManager());
 	}
 
-	private void loadFragment(int fragmentPosition) {
+	private void loadFragment(@FragmentPosition int fragmentPosition) {
 		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
 
 		switch (fragmentPosition) {

@@ -182,8 +182,8 @@
   <string name="status_downloading">Download läuft&#8230;</string>
   <string name="status_download_finished">Download abgeschlossen!</string>
   <string name="status_download_canceled">Download abgebrochen!</string>
-  <string name="list_view_section_title_in_progress">In Bearbeitung</string>
-  <string name="list_view_section_title_converted_programs">Fertig konvertierte Programme</string>
+  <string name="scratch_programs_in_progress_title">In Bearbeitung</string>
+  <string name="scratch_programs_finished_title">Fertig konvertierte Programme</string>
   <string name="status">Status</string>
   <string name="title">Titel</string>
   <string name="by_x">von %1$s</string>

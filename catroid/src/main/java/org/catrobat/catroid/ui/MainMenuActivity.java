@@ -193,13 +193,13 @@ public class MainMenuActivity extends BaseCastActivity implements
 		getMenuInflater().inflate(R.menu.menu_main_menu, menu);
 
 		String scratchConverter = getString(R.string.main_menu_scratch_converter);
-		SpannableString scratchConverterBeta = new SpannableString(scratchConverter + " "
-					+ getString(R.string.beta));
+		SpannableString scratchConverterBeta = new SpannableString(scratchConverter
+				+ " "
+				+ getString(R.string.beta));
 		scratchConverterBeta.setSpan(
-				new ForegroundColorSpan(
-						getResources().getColor(R.color.beta_label_color)),
-						scratchConverter.length(), scratchConverterBeta.length(),
-						Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+				new ForegroundColorSpan(getResources().getColor(R.color.beta_label_color)),
+				scratchConverter.length(), scratchConverterBeta.length(),
+				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		menu.findItem(R.id.menu_scratch_converter).setTitle(scratchConverterBeta);
 		return true;
 	}

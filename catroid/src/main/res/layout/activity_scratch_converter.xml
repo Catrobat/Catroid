@@ -21,70 +21,50 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <include layout="@layout/toolbar" />
 
-<com.sothree.slidinguppanel.SlidingUpPanelLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:sothree="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/sliding_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="bottom"
-    sothree:umanoFadeColor="@color/app_background"
-    sothree:umanoPanelHeight="@dimen/scratch_project_search_list_view_margin_bottom"
-    sothree:umanoShadowHeight="4dp"
-    sothree:umanoParallaxOffset="100dp"
-    sothree:umanoDragView="@+id/dragView"
-    sothree:umanoOverlay="true"
-    sothree:umanoScrollableView="@+id/scratch_conversion_scroll_view">
-
-    <!-- MAIN CONTENT -->
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/progress_circle"
+            android:id="@+id/bottom_bar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:alpha="1"
-            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/scratch_converter_bottom_bar_height"
+            android:layout_alignParentBottom="true"
+            android:paddingStart="@dimen/view_holder_padding"
+            android:paddingEnd="@dimen/view_holder_padding"
+            android:gravity="center_vertical"
             android:orientation="vertical"
-            android:clickable="true"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:visibility="gone">
+            android:background="@drawable/bottom_bar_background_selector">
 
-            <ProgressBar
-                android:id="@+id/progress_bar_header"
-                style="?android:attr/progressBarStyle"
+            <TextView
+                android:id="@+id/title_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="?attr/small"/>
+
+            <TextView
+                android:id="@+id/details_view"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
+                android:layout_height="wrap_content"
+                android:textStyle="italic"
+                android:textSize="?attr/small" />
         </LinearLayout>
 
-        <fragment
-            android:id="@+id/fragment_scratch_search_projects_list"
+        <FrameLayout
+            android:id="@+id/fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            class="org.catrobat.catroid.ui.fragment.SearchScratchSearchProjectsListFragment"
-            tools:layout="@layout/fragment_scratch_search_projects_list" />
-    </FrameLayout>
+            android:layout_above="@id/bottom_bar" />
 
-    <!-- SLIDING LAYOUT -->
-    <fragment
-        android:id="@+id/fragment_scratch_converter_sliding_up_panel"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        class="org.catrobat.catroid.ui.fragment.ScratchConverterSlidingUpPanelFragment"
-        tools:layout="@layout/fragment_scratch_converter_sliding_up_panel" />
-
-</com.sothree.slidinguppanel.SlidingUpPanelLayout>
+    </RelativeLayout>
 </LinearLayout>

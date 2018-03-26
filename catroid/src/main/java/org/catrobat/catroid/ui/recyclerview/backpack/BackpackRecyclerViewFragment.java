@@ -34,7 +34,6 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,8 +52,9 @@ import java.util.Collections;
 import java.util.List;
 
 public abstract class BackpackRecyclerViewFragment<T> extends Fragment implements
-			RVAdapter.SelectionListener,
-			RVAdapter.OnItemClickListener<T> {
+		ActionMode.Callback,
+		RVAdapter.SelectionListener,
+		RVAdapter.OnItemClickListener<T> {
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({NONE, UNPACK, DELETE})
@@ -63,7 +63,7 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 	protected static final int UNPACK = 1;
 	protected static final int DELETE = 2;
 
-	protected View view;
+	protected View parent;
 	protected RecyclerView recyclerView;
 	protected ExtendedRVAdapter<T> adapter;
 	protected ActionMode actionMode;
@@ -76,51 +76,48 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 	@ActionModeType
 	protected int actionModeType = NONE;
 
-	protected ActionMode.Callback callback = new ActionMode.Callback() {
-		@Override
-		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			switch (actionModeType) {
-				case UNPACK:
-					actionModeTitle = getString(R.string.am_unpack);
-					break;
-				case DELETE:
-					actionModeTitle = getString(R.string.am_delete);
-					break;
-				case NONE:
-					return false;
-			}
-			MenuInflater inflater = mode.getMenuInflater();
-			inflater.inflate(R.menu.context_menu, menu);
-
-			adapter.showCheckBoxes = true;
-			adapter.notifyDataSetChanged();
-			mode.setTitle(actionModeTitle);
-			return true;
+	@Override
+	public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+		switch (actionModeType) {
+			case UNPACK:
+				actionModeTitle = getString(R.string.am_unpack);
+				break;
+			case DELETE:
+				actionModeTitle = getString(R.string.am_delete);
+				break;
+			case NONE:
+				return false;
 		}
+		mode.getMenuInflater().inflate(R.menu.context_menu, menu);
+		mode.setTitle(actionModeTitle);
 
-		@Override
-		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-			return false;
-		}
+		adapter.showCheckBoxes = true;
+		adapter.notifyDataSetChanged();
+		return true;
+	}
 
-		@Override
-		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-			switch (item.getItemId()) {
-				case R.id.confirm:
-					handleContextualAction();
-					break;
-				default:
-					return false;
-			}
-			return true;
-		}
+	@Override
+	public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+		return false;
+	}
 
-		@Override
-		public void onDestroyActionMode(ActionMode mode) {
-			resetActionModeParameters();
-			adapter.clearSelection();
+	@Override
+	public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.confirm:
+				handleContextualAction();
+				break;
+			default:
+				return false;
 		}
-	};
+		return true;
+	}
+
+	@Override
+	public void onDestroyActionMode(ActionMode mode) {
+		resetActionModeParameters();
+		adapter.clearSelection();
+	}
 
 	private void handleContextualAction() {
 		if (adapter.getSelectedItems().isEmpty()) {
@@ -149,10 +146,10 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		view = inflater.inflate(R.layout.fragment_list_view, container, false);
-		recyclerView = view.findViewById(R.id.recycler_view);
+		parent = inflater.inflate(R.layout.fragment_list_view, container, false);
+		recyclerView = parent.findViewById(R.id.recycler_view);
 		setHasOptionsMenu(true);
-		return view;
+		return parent;
 	}
 
 	@Override
@@ -164,7 +161,6 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 	public void onAdapterReady() {
 		adapter.showDetails = PreferenceManager.getDefaultSharedPreferences(
 				getActivity()).getBoolean(sharedPreferenceDetailsKey, false);
-		adapter.notifyDataSetChanged();
 
 		recyclerView.setAdapter(adapter);
 
@@ -212,8 +208,10 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 				break;
 			case R.id.show_details:
 				adapter.showDetails = !adapter.showDetails;
-				PreferenceManager.getDefaultSharedPreferences(
-						getActivity()).edit().putBoolean(sharedPreferenceDetailsKey, adapter.showDetails).commit();
+				PreferenceManager.getDefaultSharedPreferences(getActivity())
+						.edit()
+						.putBoolean(sharedPreferenceDetailsKey, adapter.showDetails)
+						.commit();
 				adapter.notifyDataSetChanged();
 				break;
 			default:
@@ -227,7 +225,7 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 			ToastUtil.showError(getActivity(), R.string.am_empty_list);
 		} else {
 			actionModeType = type;
-			actionMode = getActivity().startActionMode(callback);
+			actionMode = getActivity().startActionMode(this);
 		}
 	}
 
@@ -235,6 +233,7 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 		adapter.clearSelection();
 		if (actionModeType != NONE) {
 			actionMode.finish();
+			actionMode = null;
 		}
 	}
 

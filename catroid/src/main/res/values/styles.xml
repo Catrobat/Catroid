@@ -37,7 +37,8 @@
         <!-- Accessibility REGULAR styles-->
              <!-- Font Sizes -->
         <item name="android:textSize">16sp</item>
-        <item name="small">10sp</item>
+        <item name="x_small">10sp</item>
+        <item name="small">14sp</item>
         <item name="medium">16sp</item>
         <item name="large">18sp</item>
         <item name="x_large">22sp</item>
@@ -93,8 +94,8 @@
     <style name="DialogMapping">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginStart">@dimen/dialog_item_margin</item>
-        <item name="android:layout_marginEnd">@dimen/dialog_item_margin</item>
+        <item name="android:layout_marginStart">@dimen/material_design_spacing_large</item>
+        <item name="android:layout_marginEnd">@dimen/material_design_spacing_large</item>
     </style>
 
     <style name="stage_dialog" parent="android:style/Theme.Dialog">
@@ -537,7 +538,7 @@
     </style>
 
     <style name="headlineView">
-        <item name="android:background">@color/spritelist_separation_line_color</item>
+        <item name="android:background">@color/separator</item>
         <item name="android:layout_marginBottom">8dp</item>
         <item name="android:layout_marginStart">5dp</item>
         <item name="android:layout_marginEnd">50dp</item>

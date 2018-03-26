@@ -53,7 +53,7 @@ public class ProjectAdapter extends ExtendedRVAdapter<ProjectData> {
 		ProjectData item = items.get(position);
 		String sceneName = StorageHandler.getInstance().getFirstSceneName(item.projectName);
 
-		holder.name.setText(item.projectName);
+		holder.title.setText(item.projectName);
 		loader.loadAndShowScreenshot(item.projectName, sceneName, false, holder.image);
 
 		if (showDetails) {

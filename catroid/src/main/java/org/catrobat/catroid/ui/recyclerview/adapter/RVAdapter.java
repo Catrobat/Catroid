@@ -99,23 +99,31 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<ViewHolder> impl
 	protected void onCheckBoxClick(int position) {
 		if (!allowMultiSelection) {
 			boolean currentState = selectionManager.isPositionSelected(position);
-			clearSelection();
+
+			for (int i : selectionManager.getSelectedPositions()) {
+				selectionManager.setSelectionTo(false, i);
+				notifyItemChanged(i);
+			}
+
 			selectionManager.setSelectionTo(!currentState, position);
-			notifyDataSetChanged();
+			notifyItemChanged(position);
 		} else {
 			selectionManager.toggleSelection(position);
 		}
 		selectionListener.onSelectionChanged(selectionManager.getSelectedPositions().size());
 	}
 
-	public void add(T item) {
-		items.add(item);
-		notifyItemRangeInserted(items.indexOf(item), 1);
+	public boolean add(T item) {
+		if (items.add(item)) {
+			notifyItemInserted(items.indexOf(item));
+			return true;
+		}
+		return false;
 	}
 
 	public boolean remove(T item) {
 		if (items.remove(item)) {
-			notifyItemRangeRemoved(items.indexOf(item), 1);
+			notifyItemRemoved(items.indexOf(item));
 			return true;
 		}
 		return false;

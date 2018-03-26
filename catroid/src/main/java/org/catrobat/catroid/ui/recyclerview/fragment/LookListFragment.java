@@ -93,7 +93,7 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 
 	@Override
 	protected void packItems(List<LookData> selectedItems) {
-		finishActionMode();
+		setShowProgressBar(true);
 		try {
 			for (LookData item : selectedItems) {
 				lookController.pack(item, ProjectManager.getInstance().getCurrentScene());
@@ -105,6 +105,8 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 			switchToBackpack();
 		} catch (IOException e) {
 			Log.e(TAG, Log.getStackTraceString(e));
+		} finally {
+			finishActionMode();
 		}
 	}
 
@@ -122,7 +124,7 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 
 	@Override
 	protected void copyItems(List<LookData> selectedItems) {
-		finishActionMode();
+		setShowProgressBar(true);
 		Scene currentScene = ProjectManager.getInstance().getCurrentScene();
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		for (LookData item : selectedItems) {
@@ -132,6 +134,7 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 				Log.e(TAG, Log.getStackTraceString(e));
 			}
 		}
+		finishActionMode();
 		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.copied_looks,
 				selectedItems.size(),
 				selectedItems.size()));
@@ -144,7 +147,7 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 
 	@Override
 	protected void deleteItems(List<LookData> selectedItems) {
-		finishActionMode();
+		setShowProgressBar(true);
 		for (LookData item : selectedItems) {
 			try {
 				lookController.delete(item, ProjectManager.getInstance().getCurrentScene());
@@ -153,6 +156,7 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 			}
 			adapter.remove(item);
 		}
+		finishActionMode();
 		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_looks,
 				selectedItems.size(),
 				selectedItems.size()));

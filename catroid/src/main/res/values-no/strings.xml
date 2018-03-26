@@ -174,8 +174,8 @@
   <string name="status_downloading">Laster ned&#8230;</string>
   <string name="status_download_finished">Nedlastingen er ferdig!</string>
   <string name="status_download_canceled">Nedlastingen har blitt avbrutt!</string>
-  <string name="list_view_section_title_in_progress">Pågår</string>
-  <string name="list_view_section_title_converted_programs">Konverterte programmer</string>
+  <string name="scratch_programs_in_progress_title">Pågår</string>
+  <string name="scratch_programs_finished_title">Konverterte programmer</string>
   <string name="status">Status</string>
   <string name="title">Tittel</string>
   <string name="by_x">av %1$s</string>

@@ -189,8 +189,8 @@
   <string name="status_downloading">جاري التحميل&#8230;</string>
   <string name="status_download_finished">انتهت عملية التحميل!</string>
   <string name="status_download_canceled">تم إلغاء التحميل!</string>
-  <string name="list_view_section_title_in_progress">بصدد الإنجاز</string>
-  <string name="list_view_section_title_converted_programs">البرامج التي تم تحويلها</string>
+  <string name="scratch_programs_in_progress_title">بصدد الإنجاز</string>
+  <string name="scratch_programs_finished_title">البرامج التي تم تحويلها</string>
   <string name="status">الحالة</string>
   <string name="title">العنوان</string>
   <string name="by_x">من قبل %1$s</string>

@@ -145,7 +145,7 @@
         programma!</string>
   <string name="error_cannot_open_currently_downloading_scratch_program">Non si può aprire il programma Scratch durante il download! Riprova più tardi!</string>
   <string name="error_cannot_open_not_yet_downloaded_scratch_program">Impossibile aprire questo programma Scratch durante il download! Riprova più tardi!</string>
-  <string name="error_cannot_convert_deprecated_scratch_program_x_x">Impossibile convertire \"%1$s\"! Non posso convertire programmi Scratch 
+  <string name="error_cannot_convert_deprecated_scratch_program_x_x">Impossibile convertire \"%1$s\"! Non posso convertire programmi Scratch
         precedenti alla versione  %2$s!</string>
   <plurals name="error_cannot_convert_more_than_x_programs">
     <item quantity="one">Non posso convertire più di 1 programma alla volta!</item>
@@ -181,8 +181,8 @@
   <string name="status_downloading">Download in corso&#8230;</string>
   <string name="status_download_finished">Download terminato!</string>
   <string name="status_download_canceled">Download annullato!</string>
-  <string name="list_view_section_title_in_progress">In corso</string>
-  <string name="list_view_section_title_converted_programs">Programmi convertiti</string>
+  <string name="scratch_programs_in_progress_title">In corso</string>
+  <string name="scratch_programs_finished_title">Programmi convertiti</string>
   <string name="status">Stato</string>
   <string name="title">Titolo</string>
   <string name="by_x">per %1$s</string>

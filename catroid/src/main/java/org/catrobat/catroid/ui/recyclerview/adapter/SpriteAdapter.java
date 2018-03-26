@@ -51,7 +51,7 @@ public class SpriteAdapter extends ExtendedRVAdapter<Sprite> {
 			lookData = item.getLookList().get(0).getThumbnailBitmap();
 		}
 
-		holder.name.setText(item.getName());
+		holder.title.setText(item.getName());
 		holder.image.setImageBitmap(lookData);
 
 		if (showDetails) {

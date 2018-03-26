@@ -179,8 +179,8 @@
   <string name="status_downloading">正在下載&#8230;</string>
   <string name="status_download_finished">下載已完成！</string>
   <string name="status_download_canceled">下載被撤銷 ！</string>
-  <string name="list_view_section_title_in_progress">進行中</string>
-  <string name="list_view_section_title_converted_programs">已轉換的程式</string>
+  <string name="scratch_programs_in_progress_title">進行中</string>
+  <string name="scratch_programs_finished_title">已轉換的程式</string>
   <string name="status">狀態</string>
   <string name="title">標題</string>
   <string name="by_x">作者 %1$s</string>

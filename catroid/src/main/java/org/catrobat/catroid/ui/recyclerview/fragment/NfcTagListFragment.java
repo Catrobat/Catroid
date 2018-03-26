@@ -47,13 +47,11 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 
 	public static final String TAG = NfcTagListFragment.class.getSimpleName();
 
-	private NfcAdapter nfcAdapter;
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		nfcAdapter = NfcAdapter.getDefaultAdapter(getActivity());
+		NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(getActivity());
 
 		if (nfcAdapter != null && !nfcAdapter.isEnabled()) {
 			ToastUtil.showError(getActivity(), R.string.nfc_not_activated);
@@ -126,7 +124,7 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 
 	@Override
 	protected void copyItems(List<NfcTagData> selectedItems) {
-		finishActionMode();
+		setShowProgressBar(true);
 		for (NfcTagData item : selectedItems) {
 			String name = uniqueNameProvider.getUniqueName(item.getNfcTagName(), getScope());
 
@@ -136,7 +134,7 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 
 			adapter.add(newItem);
 		}
-
+		finishActionMode();
 		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.copied_nfc_tags,
 				selectedItems.size(),
 				selectedItems.size()));
@@ -157,10 +155,11 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 
 	@Override
 	protected void deleteItems(List<NfcTagData> selectedItems) {
-		finishActionMode();
+		setShowEmptyView(true);
 		for (NfcTagData item : selectedItems) {
 			adapter.remove(item);
 		}
+		finishActionMode();
 		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_nfc_tags,
 				selectedItems.size(),
 				selectedItems.size()));

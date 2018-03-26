@@ -183,8 +183,8 @@
   <string name="status_downloading">Laddar ner&#8230;</string>
   <string name="status_download_finished">Nerladdning slutförd!</string>
   <string name="status_download_canceled">Nerladdning avbruten!</string>
-  <string name="list_view_section_title_in_progress">In progress</string>
-  <string name="list_view_section_title_converted_programs">Konverterade program</string>
+  <string name="scratch_programs_in_progress_title">In progress</string>
+  <string name="scratch_programs_finished_title">Konverterade program</string>
   <string name="status">Status</string>
   <string name="title">Titel</string>
   <string name="by_x">av %1$s</string>
