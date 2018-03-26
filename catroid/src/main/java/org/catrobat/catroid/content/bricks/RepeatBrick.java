@@ -128,7 +128,7 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 		prototypeView = View.inflate(context, R.layout.brick_repeat, null);
 		TextView textRepeat = (TextView) prototypeView.findViewById(R.id.brick_repeat_edit_text);
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_repeat_time_text_view);
-		textRepeat.setText(String.valueOf(BrickValues.REPEAT));
+		textRepeat.setText(Utils.getNumberStringForBricks(BrickValues.REPEAT));
 		times.setText(context.getResources().getQuantityString(R.plurals.time_plural,
 				Utils.convertDoubleToPluralInteger(BrickValues.REPEAT)));
 		return prototypeView;

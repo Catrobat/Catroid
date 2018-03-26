@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.bricks.BrickViewProvider;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -91,7 +92,7 @@ public class SetFrictionBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_physics_set_friction, null);
 		TextView textFriction = (TextView) prototypeView.findViewById(R.id.brick_set_friction_edit_text);
-		textFriction.setText(String.valueOf(BrickValues.PHYSIC_FRICTION * 100));
+		textFriction.setText(Utils.getNumberStringForBricks(BrickValues.PHYSIC_FRICTION * 100));
 		return prototypeView;
 	}
 

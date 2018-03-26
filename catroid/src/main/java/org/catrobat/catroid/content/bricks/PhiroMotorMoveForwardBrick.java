@@ -40,6 +40,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.SingleSeekbar;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -101,7 +102,7 @@ public class PhiroMotorMoveForwardBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_phiro_motor_forward, null);
 		TextView textSpeed = (TextView) prototypeView.findViewById(R.id.brick_phiro_motor_forward_action_speed_edit_text);
-		textSpeed.setText(String.valueOf(BrickValues.PHIRO_SPEED));
+		textSpeed.setText(Utils.getNumberStringForBricks(BrickValues.PHIRO_SPEED));
 
 		Spinner phiroProMotorSpinner = (Spinner) prototypeView.findViewById(R.id.brick_phiro_motor_forward_action_spinner);
 

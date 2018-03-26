@@ -132,7 +132,7 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_if_begin_if, null);
 		TextView textIfBegin = (TextView) prototypeView.findViewById(R.id.brick_if_begin_edit_text);
-		textIfBegin.setText(String.valueOf(BrickValues.IF_CONDITION));
+		textIfBegin.setText(BrickValues.IF_CONDITION);
 		return prototypeView;
 	}
 
