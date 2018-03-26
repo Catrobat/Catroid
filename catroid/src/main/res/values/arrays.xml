@@ -90,6 +90,7 @@
         <item>@string/ev3_sensor_hitechnic_color</item>
         <item>@string/ev3_sensor_nxt_temperature_c</item>
         <item>@string/ev3_sensor_nxt_temperature_f</item>
+        <item>@string/ev3_sensor_nxt_sound</item>
     </string-array>
     <string-array name="ev3_motor_chooser" >
         <item >@string/ev3_motor_a</item >

@@ -53,6 +53,8 @@ public class EV3SensorFactory {
 				return new TemperatureSensor(port, connection, EV3SensorMode.MODE0);
 			case NXT_TEMPERATURE_F:
 				return new TemperatureSensor(port, connection, EV3SensorMode.MODE1);
+			case NXT_SOUND:
+				return new EV3SoundSensorNXT(port, connection, EV3SensorMode.MODE1);
 			default:
 				throw new MindstormsException("No valid sensor found!"); // Should never occur
 		}
