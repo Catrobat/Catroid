@@ -37,6 +37,7 @@ import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3InfraredSensor;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3SensorMode;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3TouchSensor;
+import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3UltrasonicSensorNXT;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.HiTechnicColorSensor;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.TemperatureSensor;
 
@@ -212,5 +213,21 @@ public class LegoEV3SensorTest extends AndroidTestCase {
 		ev3TestModel.setSensorValue(PORT_NR_1, expectedSensorValue);
 		sensorValue = sensor.getValue();
 		assertEquals("Received wrong color value from hitec color sensor", expectedSensorValue, sensorValue);
+	}
+
+	public void testEV3UltrasonicSensorNXT() {
+		ev3TestModel.setSensorType(PORT_NR_1, EV3Sensor.Sensor.NXT_ULTRASONIC);
+		EV3Sensor sensor = new EV3UltrasonicSensorNXT(PORT_NR_1, mindstormsConnection, EV3SensorMode.MODE0);
+		sensor.getValue(); // will initialize the sensor
+		assertTrue("Ultrasonic Sensor was not initialized or deactivated", ev3TestModel.isSensorActive(PORT_NR_1));
+
+		ev3TestModel.generateSensorValue(PORT_NR_1);
+		float sensorValue = sensor.getValue();
+		assertFalse("Reading of Ultrasonic Sensor was not in range", (sensorValue < 0 || sensorValue > 255));
+
+		final float expectedSensorValue = 13;
+		ev3TestModel.setSensorValue(PORT_NR_1, expectedSensorValue);
+		sensorValue = sensor.getValue();
+		assertEquals("Received wrong value from ultrasonic sensor", expectedSensorValue, sensorValue);
 	}
 }
