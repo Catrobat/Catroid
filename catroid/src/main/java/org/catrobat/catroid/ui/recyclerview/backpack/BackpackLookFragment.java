@@ -53,7 +53,7 @@ public class BackpackLookFragment extends BackpackRecyclerViewFragment<LookData>
 
 	@Override
 	protected void unpackItems(List<LookData> selectedItems) {
-		finishActionMode();
+		setShowProgressBar(true);
 		try {
 			for (LookData item : selectedItems) {
 				lookController.unpack(item,
@@ -67,6 +67,8 @@ public class BackpackLookFragment extends BackpackRecyclerViewFragment<LookData>
 			getActivity().finish();
 		} catch (IOException e) {
 			Log.e(TAG, Log.getStackTraceString(e));
+		} finally {
+			finishActionMode();
 		}
 	}
 
@@ -77,7 +79,7 @@ public class BackpackLookFragment extends BackpackRecyclerViewFragment<LookData>
 
 	@Override
 	protected void deleteItems(List<LookData> selectedItems) {
-		finishActionMode();
+		setShowProgressBar(true);
 		for (LookData item : selectedItems) {
 			try {
 				lookController.deleteFromBackpack(item);
@@ -91,6 +93,7 @@ public class BackpackLookFragment extends BackpackRecyclerViewFragment<LookData>
 				selectedItems.size()));
 
 		BackPackListManager.getInstance().saveBackpack();
+		finishActionMode();
 		if (adapter.getItems().isEmpty()) {
 			getActivity().finish();
 		}

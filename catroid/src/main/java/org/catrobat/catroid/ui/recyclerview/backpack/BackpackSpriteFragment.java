@@ -53,7 +53,7 @@ public class BackpackSpriteFragment extends BackpackRecyclerViewFragment<Sprite>
 
 	@Override
 	protected void unpackItems(List<Sprite> selectedItems) {
-		finishActionMode();
+		setShowProgressBar(true);
 		try {
 			for (Sprite item : selectedItems) {
 				spriteController.unpack(item, ProjectManager.getInstance().getCurrentScene());
@@ -64,6 +64,8 @@ public class BackpackSpriteFragment extends BackpackRecyclerViewFragment<Sprite>
 			getActivity().finish();
 		} catch (IOException e) {
 			Log.e(TAG, Log.getStackTraceString(e));
+		} finally {
+			finishActionMode();
 		}
 	}
 
@@ -74,9 +76,9 @@ public class BackpackSpriteFragment extends BackpackRecyclerViewFragment<Sprite>
 
 	@Override
 	protected void deleteItems(List<Sprite> selectedItems) {
-		finishActionMode();
+		setShowProgressBar(true);
 		for (Sprite item : selectedItems) {
-			//spriteController.delete(item);
+			spriteController.deleteFromBackpack(item);
 			adapter.remove(item);
 		}
 		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_sprites,
@@ -84,6 +86,7 @@ public class BackpackSpriteFragment extends BackpackRecyclerViewFragment<Sprite>
 				selectedItems.size()));
 
 		BackPackListManager.getInstance().saveBackpack();
+		finishActionMode();
 		if (adapter.getItems().isEmpty()) {
 			getActivity().finish();
 		}

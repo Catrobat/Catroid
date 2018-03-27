@@ -53,7 +53,7 @@ public class BackpackSoundFragment extends BackpackRecyclerViewFragment<SoundInf
 
 	@Override
 	protected void unpackItems(List<SoundInfo> selectedItems) {
-		finishActionMode();
+		setShowProgressBar(true);
 		try {
 			for (SoundInfo item : selectedItems) {
 				soundController.unpack(item,
@@ -66,6 +66,8 @@ public class BackpackSoundFragment extends BackpackRecyclerViewFragment<SoundInf
 			getActivity().finish();
 		} catch (IOException e) {
 			Log.e(TAG, Log.getStackTraceString(e));
+		} finally {
+			finishActionMode();
 		}
 	}
 
@@ -76,7 +78,7 @@ public class BackpackSoundFragment extends BackpackRecyclerViewFragment<SoundInf
 
 	@Override
 	protected void deleteItems(List<SoundInfo> selectedItems) {
-		finishActionMode();
+		setShowProgressBar(true);
 		for (SoundInfo item : selectedItems) {
 			try {
 				soundController.deleteFromBackpack(item);
@@ -90,6 +92,7 @@ public class BackpackSoundFragment extends BackpackRecyclerViewFragment<SoundInf
 				selectedItems.size()));
 
 		BackPackListManager.getInstance().saveBackpack();
+		finishActionMode();
 		if (adapter.getItems().isEmpty()) {
 			getActivity().finish();
 		}

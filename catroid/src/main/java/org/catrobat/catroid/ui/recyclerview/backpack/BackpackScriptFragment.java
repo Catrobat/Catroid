@@ -51,10 +51,10 @@ public class BackpackScriptFragment extends BackpackRecyclerViewFragment<String>
 
 	@Override
 	protected void unpackItems(List<String> selectedItems) {
-		finishActionMode();
+		setShowProgressBar(true);
 		try {
 			for (String item : selectedItems) {
-				List<Script> scripts = BackPackListManager.getInstance().getAllBackPackedScripts().get(item);
+				List<Script> scripts = BackPackListManager.getInstance().getBackPackedScripts().get(item);
 				for (Script script : scripts) {
 					scriptController.unpack(script, ProjectManager.getInstance().getCurrentSprite());
 				}
@@ -65,6 +65,8 @@ public class BackpackScriptFragment extends BackpackRecyclerViewFragment<String>
 			getActivity().finish();
 		} catch (IOException | CloneNotSupportedException e) {
 			Log.e(TAG, Log.getStackTraceString(e));
+		} finally {
+			finishActionMode();
 		}
 	}
 
@@ -75,7 +77,7 @@ public class BackpackScriptFragment extends BackpackRecyclerViewFragment<String>
 
 	@Override
 	protected void deleteItems(List<String> selectedItems) {
-		finishActionMode();
+		setShowProgressBar(true);
 		for (String item : selectedItems) {
 			BackPackListManager.getInstance().removeItemFromScriptBackPack(item);
 			adapter.remove(item);
@@ -85,6 +87,7 @@ public class BackpackScriptFragment extends BackpackRecyclerViewFragment<String>
 				selectedItems.size()));
 
 		BackPackListManager.getInstance().saveBackpack();
+		finishActionMode();
 		if (adapter.getItems().isEmpty()) {
 			getActivity().finish();
 		}
