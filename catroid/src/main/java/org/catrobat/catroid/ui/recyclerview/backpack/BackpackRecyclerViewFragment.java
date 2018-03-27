@@ -231,6 +231,8 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 
 	protected void finishActionMode() {
 		adapter.clearSelection();
+		setShowProgressBar(false);
+
 		if (actionModeType != NONE) {
 			actionMode.finish();
 			actionMode = null;
@@ -280,6 +282,11 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 					}
 				})
 				.show();
+	}
+
+	public void setShowProgressBar(boolean show) {
+		parent.findViewById(R.id.progress_bar).setVisibility(show ? View.VISIBLE : View.GONE);
+		recyclerView.setVisibility(show ? View.GONE : View.VISIBLE);
 	}
 
 	@Override

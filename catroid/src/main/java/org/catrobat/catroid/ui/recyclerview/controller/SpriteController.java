@@ -93,6 +93,24 @@ public class SpriteController {
 		}
 	}
 
+	public void deleteFromBackpack(Sprite spriteToDelete) {
+		for (LookData look : spriteToDelete.getLookList()) {
+			try {
+				lookController.deleteFromBackpack(look);
+			} catch (IOException e) {
+				Log.e(TAG, Log.getStackTraceString(e));
+			}
+		}
+
+		for (SoundInfo sound : spriteToDelete.getSoundList()) {
+			try {
+				soundController.deleteFromBackpack(sound);
+			} catch (IOException e) {
+				Log.e(TAG, Log.getStackTraceString(e));
+			}
+		}
+	}
+
 	public void pack(Sprite spriteToPack) throws IOException {
 		String name = uniqueNameProvider.getUniqueName(
 				spriteToPack.getName(), getScope(BackPackListManager.getInstance().getBackPackedSprites()));

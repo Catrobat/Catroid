@@ -38,6 +38,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public final class BackPackListManager {
+
 	private static final BackPackListManager INSTANCE = new BackPackListManager();
 
 	private static Backpack backpack;
@@ -49,111 +50,48 @@ public final class BackPackListManager {
 		return INSTANCE;
 	}
 
-	public List<LookData> getBackPackedLooks() {
-		return getBackpack().backpackedLooks;
-	}
-
-	public void clearBackPackScripts() {
-		getBackpack().backpackedScripts.clear();
-		getBackpack().hiddenBackpackedScripts.clear();
+	public Backpack getBackpack() {
+		if (backpack == null) {
+			backpack = new Backpack();
+		}
+		return backpack;
 	}
 
 	public void removeItemFromScriptBackPack(String scriptGroup) {
 		getBackpack().backpackedScripts.remove(scriptGroup);
 	}
 
-	public ArrayList<String> getBackPackedScriptGroups() {
-		return new ArrayList<>(getBackpack().backpackedScripts.keySet());
-	}
-
-	public void addScriptToBackPack(String scriptGroup, List<Script> scripts) {
-		getBackpack().backpackedScripts.put(scriptGroup, scripts);
-	}
-
-	public HashMap<String, List<Script>> getBackPackedScripts() {
-		return getBackpack().backpackedScripts;
-	}
-
-	public HashMap<String, List<Script>> getAllBackPackedScripts() {
-		HashMap<String, List<Script>> allScripts = new HashMap<>();
-		allScripts.putAll(getBackpack().backpackedScripts);
-		allScripts.putAll(getBackpack().hiddenBackpackedScripts);
-		return allScripts;
-	}
-
-	public void clearBackPackUserBricks() {
-		getBackpack().backpackedUserBricks.clear();
-	}
-
-	public void clearBackPackLooks() {
-		getBackpack().backpackedLooks.clear();
-		getBackpack().hiddenBackpackedLooks.clear();
-	}
-
-	public List<SoundInfo> getBackPackedSounds() {
-		return getBackpack().backpackedSounds;
-	}
-
-	public void clearBackPackSounds() {
-		getBackpack().backpackedSounds.clear();
-		getBackpack().hiddenBackpackedSounds.clear();
-	}
-
-	public List<Scene> getAllBackpackedScenes() {
-		List<Scene> result = new ArrayList<>();
-		result.addAll(getBackpack().backpackedScenes);
-		result.addAll(getBackpack().hiddenBackpackedScenes);
-		return result;
-	}
-
 	public List<Scene> getBackPackedScenes() {
 		return getBackpack().backpackedScenes;
-	}
-
-	public void clearBackPackScenes() {
-		getBackpack().backpackedScenes.clear();
 	}
 
 	public List<Sprite> getBackPackedSprites() {
 		return getBackpack().backpackedSprites;
 	}
 
-	public void clearBackPackSprites() {
-		getBackpack().backpackedSprites.clear();
-		getBackpack().hiddenBackpackedSprites.clear();
+	public ArrayList<String> getBackPackedScriptGroups() {
+		return new ArrayList<>(getBackpack().backpackedScripts.keySet());
 	}
 
-	public ArrayList<String> getAllBackPackedScriptGroups() {
-		ArrayList<String> allScriptGroups = new ArrayList<>();
-		allScriptGroups.addAll(new ArrayList<>(getBackpack().backpackedScripts.keySet()));
-		allScriptGroups.addAll(new ArrayList<>(getBackpack().backpackedScripts.keySet()));
-		return allScriptGroups;
+	public HashMap<String, List<Script>> getBackPackedScripts() {
+		return getBackpack().backpackedScripts;
 	}
 
-	public List<LookData> getAllBackPackedLooks() {
-		List<LookData> allLooks = new ArrayList<>();
-		allLooks.addAll(getBackpack().backpackedLooks);
-		allLooks.addAll(getBackpack().hiddenBackpackedLooks);
-		return allLooks;
+	public void addScriptToBackPack(String scriptGroup, List<Script> scripts) {
+		getBackpack().backpackedScripts.put(scriptGroup, scripts);
 	}
 
-	public List<SoundInfo> getAllBackPackedSounds() {
-		List<SoundInfo> allSounds = new ArrayList<>();
-		allSounds.addAll(getBackpack().backpackedSounds);
-		allSounds.addAll(getBackpack().hiddenBackpackedSounds);
-		return allSounds;
+	public List<LookData> getBackPackedLooks() {
+		return getBackpack().backpackedLooks;
 	}
 
-	public List<Sprite> getAllBackPackedSprites() {
-		List<Sprite> allSprites = new ArrayList<>();
-		allSprites.addAll(getBackpack().backpackedSprites);
-		allSprites.addAll(getBackpack().hiddenBackpackedSprites);
-		return allSprites;
+	public List<SoundInfo> getBackPackedSounds() {
+		return getBackpack().backpackedSounds;
 	}
 
 	public boolean isBackpackEmpty() {
-		return getAllBackPackedLooks().isEmpty() && getAllBackPackedScriptGroups().isEmpty()
-				&& getAllBackPackedSounds().isEmpty() && getAllBackPackedSprites().isEmpty();
+		return getBackPackedLooks().isEmpty() && getBackPackedScriptGroups().isEmpty()
+				&& getBackPackedSounds().isEmpty() && getBackPackedSprites().isEmpty();
 	}
 
 	public void saveBackpack() {
@@ -164,13 +102,6 @@ public final class BackPackListManager {
 	public void loadBackpack() {
 		LoadBackpackAsynchronousTask loadTask = new LoadBackpackAsynchronousTask();
 		loadTask.execute();
-	}
-
-	public Backpack getBackpack() {
-		if (backpack == null) {
-			backpack = new Backpack();
-		}
-		return backpack;
 	}
 
 	private class SaveBackpackAsynchronousTask extends AsyncTask<Void, Void, Void> {
@@ -191,13 +122,13 @@ public final class BackPackListManager {
 		}
 
 		private void setBackPackFlags() {
-			for (LookData lookData : getAllBackPackedLooks()) {
+			for (LookData lookData : getBackPackedLooks()) {
 				lookData.isBackpackLookData = true;
 			}
-			for (SoundInfo soundInfo : getAllBackPackedSounds()) {
+			for (SoundInfo soundInfo : getBackPackedSounds()) {
 				soundInfo.isBackpackSoundInfo = true;
 			}
-			for (Sprite sprite : getAllBackPackedSprites()) {
+			for (Sprite sprite : getBackPackedSprites()) {
 				sprite.isBackpackObject = true;
 				for (LookData lookData : sprite.getLookList()) {
 					lookData.isBackpackLookData = true;
