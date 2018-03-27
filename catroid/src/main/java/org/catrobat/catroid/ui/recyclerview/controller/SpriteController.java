@@ -53,11 +53,11 @@ public class SpriteController {
 		Sprite sprite = new Sprite(name);
 
 		for (LookData look : spriteToCopy.getLookList()) {
-			lookController.copy(look, srcScene, dstScene, sprite);
+			sprite.getLookList().add(lookController.copy(look, srcScene, dstScene, sprite));
 		}
 
 		for (SoundInfo sound : spriteToCopy.getSoundList()) {
-			soundController.copy(sound, srcScene, dstScene, sprite);
+			sprite.getSoundList().add(soundController.copy(sound, srcScene, dstScene, sprite));
 		}
 
 		for (NfcTagData nfcTag : spriteToCopy.getNfcTagList()) {

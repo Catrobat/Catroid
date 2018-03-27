@@ -84,7 +84,9 @@ public class SoundListFragment extends RecyclerViewFragment<SoundInfo> {
 		setShowProgressBar(true);
 		try {
 			for (SoundInfo item : selectedItems) {
-				soundController.pack(item, ProjectManager.getInstance().getCurrentScene());
+				BackPackListManager.getInstance().getBackPackedSounds().add(
+						soundController.pack(item, ProjectManager.getInstance().getCurrentScene()));
+				BackPackListManager.getInstance().saveBackpack();
 			}
 			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.packed_sounds,
 					selectedItems.size(),
@@ -117,7 +119,7 @@ public class SoundListFragment extends RecyclerViewFragment<SoundInfo> {
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		for (SoundInfo item : selectedItems) {
 			try {
-				soundController.copy(item, currentScene, currentScene, currentSprite);
+				adapter.add(soundController.copy(item, currentScene, currentScene, currentSprite));
 			} catch (IOException e) {
 				Log.e(TAG, Log.getStackTraceString(e));
 			}

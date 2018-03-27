@@ -28,6 +28,7 @@ import android.util.Log;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.LookAdapter;
 import org.catrobat.catroid.ui.recyclerview.controller.LookController;
@@ -56,9 +57,10 @@ public class BackpackLookFragment extends BackpackRecyclerViewFragment<LookData>
 		setShowProgressBar(true);
 		try {
 			for (LookData item : selectedItems) {
-				lookController.unpack(item,
+				Sprite dstSprite = ProjectManager.getInstance().getCurrentSprite();
+				dstSprite.getLookList().add(lookController.unpack(item,
 						ProjectManager.getInstance().getCurrentScene(),
-						ProjectManager.getInstance().getCurrentSprite());
+						dstSprite));
 			}
 
 			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.unpacked_looks,
