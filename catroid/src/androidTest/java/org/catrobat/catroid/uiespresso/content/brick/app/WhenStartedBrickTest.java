@@ -38,6 +38,7 @@ import org.catrobat.catroid.uiespresso.util.matchers.BrickCategoryListMatchers;
 import org.catrobat.catroid.uiespresso.util.matchers.BrickPrototypeListMatchers;
 import org.catrobat.catroid.uiespresso.util.matchers.ScriptListMatchers;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
+import org.hamcrest.core.Is;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -53,7 +54,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.core.Is.is;
 
 @RunWith(AndroidJUnit4.class)
 public class WhenStartedBrickTest {
@@ -79,19 +79,19 @@ public class WhenStartedBrickTest {
 		onView(withId(R.string.brick_when_started)).check(doesNotExist());
 		onView(withId(R.string.brick_note)).check(doesNotExist());
 
-		addBrick(WaitBrick.class, R.string.category_control);
+		addBrickViaUi(WaitBrick.class, R.string.category_control);
 
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
 		onBrickAtPosition(1).checkShowsText(R.string.brick_wait);
 	}
 
-	public void addBrick(Class<?> brickHeaderClass, int brickCategoryId) {
+	public void addBrickViaUi(Class<?> brickHeaderClass, int brickCategoryId) {
 		onView(withId(R.id.button_add))
 				.perform(click());
-		onData(allOf(is(instanceOf(String.class)), is(UiTestUtils.getResourcesString(brickCategoryId))))
+		onData(allOf(Is.is(instanceOf(String.class)), Is.is(UiTestUtils.getResourcesString(brickCategoryId))))
 				.inAdapterView(BrickCategoryListMatchers.isBrickCategoryView())
 				.perform(click());
-		onData(is(instanceOf(brickHeaderClass))).inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView())
+		onData(Is.is(instanceOf(brickHeaderClass))).inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView())
 				.perform(click());
 
 		onData(instanceOf(Brick.class))
