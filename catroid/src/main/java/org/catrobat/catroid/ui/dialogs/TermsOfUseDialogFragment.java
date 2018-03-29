@@ -88,10 +88,17 @@ public class TermsOfUseDialogFragment extends DialogFragment {
 			}
 		});
 
+		final boolean finalIsOnPreStageActivity = isOnPreStageActivity;
 		termsOfUseDialogBuilder.setOnKeyListener(new OnKeyListener() {
 			@Override
 			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-				Log.d(TAG, "prevent canceling the dialog with back button");
+				if (finalIsOnPreStageActivity) {
+					Log.d(TAG, "prevent canceling the dialog with back button");
+				} else {
+					if (keyCode == KeyEvent.KEYCODE_BACK) {
+						dialog.dismiss();
+					}
+				}
 				return true;
 			}
 		});
