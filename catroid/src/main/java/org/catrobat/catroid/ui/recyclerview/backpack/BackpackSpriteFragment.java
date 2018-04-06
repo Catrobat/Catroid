@@ -27,6 +27,7 @@ import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.SpriteAdapter;
@@ -56,7 +57,8 @@ public class BackpackSpriteFragment extends BackpackRecyclerViewFragment<Sprite>
 		setShowProgressBar(true);
 		try {
 			for (Sprite item : selectedItems) {
-				spriteController.unpack(item, ProjectManager.getInstance().getCurrentScene());
+				Scene dstScene = ProjectManager.getInstance().getCurrentScene();
+				dstScene.getSpriteList().add(spriteController.unpack(item, dstScene));
 			}
 			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.unpacked_sprites,
 					selectedItems.size(),

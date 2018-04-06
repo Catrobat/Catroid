@@ -134,10 +134,10 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 
 			adapter.add(newItem);
 		}
-		finishActionMode();
 		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.copied_nfc_tags,
 				selectedItems.size(),
 				selectedItems.size()));
+		finishActionMode();
 	}
 
 	protected Set<String> getScope() {
@@ -156,13 +156,15 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 	@Override
 	protected void deleteItems(List<NfcTagData> selectedItems) {
 		setShowEmptyView(true);
+
 		for (NfcTagData item : selectedItems) {
 			adapter.remove(item);
 		}
-		finishActionMode();
+
 		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_nfc_tags,
 				selectedItems.size(),
 				selectedItems.size()));
+		finishActionMode();
 	}
 
 	@Override

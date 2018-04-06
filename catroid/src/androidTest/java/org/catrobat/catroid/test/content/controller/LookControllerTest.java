@@ -30,6 +30,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
@@ -53,14 +54,14 @@ import static org.catrobat.catroid.utils.Utils.buildProjectPath;
 @RunWith(AndroidJUnit4.class)
 public class LookControllerTest {
 
-	private LookData redLookData;
-	private Project project;
-	private Sprite sprite;
-
 	private static final String BACK_PACK_LOOKS_PATH = Utils.buildPath(
 			Constants.DEFAULT_ROOT,
 			Constants.BACKPACK_DIRECTORY,
 			Constants.BACKPACK_IMAGE_DIRECTORY);
+	private Project project;
+	private Scene scene;
+	private Sprite sprite;
+	private LookData lookData;
 
 	@Before
 	public void setUp() throws IOException {
@@ -77,7 +78,7 @@ public class LookControllerTest {
 	@Test
 	public void testCopyLook() throws IOException {
 		LookController controller = new LookController();
-		LookData copy = controller.copy(redLookData, project.getDefaultScene(), project.getDefaultScene(), sprite);
+		LookData copy = controller.copy(lookData, scene, scene, sprite);
 
 		assertEquals(1, sprite.getLookList().size());
 		assertLookFileExists(copy.getFileName());
@@ -86,8 +87,8 @@ public class LookControllerTest {
 	@Test
 	public void testDeleteLook() throws IOException {
 		LookController controller = new LookController();
-		String deletedLookFileName = redLookData.getFileName();
-		controller.delete(redLookData, project.getDefaultScene());
+		String deletedLookFileName = lookData.getFileName();
+		controller.delete(lookData, scene);
 
 		assertEquals(1, sprite.getLookList().size());
 		assertLookFileDoesNotExist(deletedLookFileName);
@@ -96,7 +97,7 @@ public class LookControllerTest {
 	@Test
 	public void testPackLook() throws IOException {
 		LookController controller = new LookController();
-		LookData packedLook = controller.pack(redLookData, project.getDefaultScene());
+		LookData packedLook = controller.pack(lookData, scene);
 
 		assertEquals(0, BackPackListManager.getInstance().getBackPackedLooks().size());
 		assertFileExists(BACK_PACK_LOOKS_PATH, packedLook.getFileName());
@@ -105,21 +106,21 @@ public class LookControllerTest {
 	@Test
 	public void testDeleteLookFromBackPack() throws IOException {
 		LookController controller = new LookController();
-		LookData packedLook = controller.pack(redLookData, project.getDefaultScene());
+		LookData packedLook = controller.pack(lookData, scene);
 		controller.deleteFromBackpack(packedLook);
 
 		assertEquals(0, BackPackListManager.getInstance().getBackPackedLooks().size());
 		assertFileDoesNotExist(BACK_PACK_LOOKS_PATH, packedLook.getFileName());
 
 		assertEquals(1, sprite.getLookList().size());
-		assertLookFileExists(redLookData.getFileName());
+		assertLookFileExists(lookData.getFileName());
 	}
 
 	@Test
-	public void testUnPackLook() throws IOException {
+	public void testUnpackLook() throws IOException {
 		LookController controller = new LookController();
-		LookData packedLook = controller.pack(redLookData, project.getDefaultScene());
-		LookData unpackedLook = controller.unpack(packedLook, project.getDefaultScene(), sprite);
+		LookData packedLook = controller.pack(lookData, scene);
+		LookData unpackedLook = controller.unpack(packedLook, scene, sprite);
 
 		assertEquals(0, BackPackListManager.getInstance().getBackPackedLooks().size());
 		assertFileExists(BACK_PACK_LOOKS_PATH, packedLook.getFileName());
@@ -131,22 +132,22 @@ public class LookControllerTest {
 	@Test
 	public void testDeepCopyLook() throws IOException {
 		LookController controller = new LookController();
-		LookData copy = controller.copy(redLookData, project.getDefaultScene(), project.getDefaultScene(), sprite);
+		LookData copy = controller.copy(lookData, scene, scene, sprite);
 
 		assertLookFileExists(copy.getFileName());
 
-		controller.delete(copy, project.getDefaultScene());
+		controller.delete(copy, scene);
 
 		assertLookFileDoesNotExist(copy.getFileName());
-		assertLookFileExists(redLookData.getFileName());
+		assertLookFileExists(lookData.getFileName());
 	}
 
 	private void assertLookFileExists(String fileName) {
-		assertFileExists(project.getDefaultScene().getPath(), Constants.IMAGE_DIRECTORY, fileName);
+		assertFileExists(scene.getPath(), Constants.IMAGE_DIRECTORY, fileName);
 	}
 
 	private void assertLookFileDoesNotExist(String fileName) {
-		assertFileDoesNotExist(project.getDefaultScene().getPath(), Constants.IMAGE_DIRECTORY, fileName);
+		assertFileDoesNotExist(scene.getPath(), Constants.IMAGE_DIRECTORY, fileName);
 	}
 
 	private void clearBackPack() throws IOException {
@@ -158,27 +159,23 @@ public class LookControllerTest {
 	}
 
 	private void createProject() {
-		project = new Project(InstrumentationRegistry.getTargetContext(), "lookControllerTest");
+		project = new Project(InstrumentationRegistry.getTargetContext(), "LookControllerTest");
+		scene = project.getDefaultScene();
+		ProjectManager.getInstance().setCurrentProject(project);
 
 		sprite = new Sprite("testSprite");
-
-		redLookData = new LookData();
-		String redImageName = "red_image.bmp";
-		redLookData.setName(redImageName);
-		sprite.getLookList().add(redLookData);
-
 		project.getDefaultScene().addSprite(sprite);
-		StorageHandler.getInstance().saveProject(project);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentScene(project.getDefaultScene());
-
-		File redImageFile = FileTestUtils.saveFileToProject(project.getName(), project.getDefaultScene().getName(),
-				redImageName,
-				org.catrobat.catroid.test.R.raw.red_image, InstrumentationRegistry.getContext(),
+		File imageFile = FileTestUtils.saveFileToProject(
+				project.getName(), project.getDefaultScene().getName(),
+				"red_image.bmp",
+				org.catrobat.catroid.test.R.raw.red_image,
+				InstrumentationRegistry.getContext(),
 				FileTestUtils.FileTypes.IMAGE);
 
-		redLookData.setFileName(redImageFile.getName());
+		lookData = new LookData("testLook", imageFile.getName());
+		sprite.getLookList().add(lookData);
+
 		StorageHandler.getInstance().saveProject(project);
 	}
 

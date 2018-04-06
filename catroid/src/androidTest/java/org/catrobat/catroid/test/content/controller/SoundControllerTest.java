@@ -30,6 +30,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
@@ -53,14 +54,14 @@ import static org.catrobat.catroid.utils.Utils.buildProjectPath;
 @RunWith(AndroidJUnit4.class)
 public class SoundControllerTest {
 
-	private SoundInfo soundInfo;
-	private Project project;
-	private Sprite sprite;
-
 	private static final String BACK_PACK_SOUNDS_PATH = Utils.buildPath(
 			Constants.DEFAULT_ROOT,
 			Constants.BACKPACK_DIRECTORY,
 			Constants.BACKPACK_SOUND_DIRECTORY);
+	private Project project;
+	private Scene scene;
+	private Sprite sprite;
+	private SoundInfo soundInfo;
 
 	@Before
 	public void setUp() throws IOException {
@@ -77,7 +78,7 @@ public class SoundControllerTest {
 	@Test
 	public void testCopySound() throws IOException {
 		SoundController controller = new SoundController();
-		SoundInfo copy = controller.copy(soundInfo, project.getDefaultScene(), project.getDefaultScene(), sprite);
+		SoundInfo copy = controller.copy(soundInfo, scene, scene, sprite);
 
 		assertEquals(1, sprite.getSoundList().size());
 		assertSoundFileExists(copy.getFileName());
@@ -87,7 +88,7 @@ public class SoundControllerTest {
 	public void testDeleteSound() throws IOException {
 		SoundController controller = new SoundController();
 		String deletedSoundFileName = soundInfo.getFileName();
-		controller.delete(soundInfo, project.getDefaultScene());
+		controller.delete(soundInfo, scene);
 
 		assertEquals(1, sprite.getSoundList().size());
 		assertSoundFileDoesNotExist(deletedSoundFileName);
@@ -96,7 +97,7 @@ public class SoundControllerTest {
 	@Test
 	public void testPackSound() throws IOException {
 		SoundController controller = new SoundController();
-		SoundInfo packedSound = controller.pack(soundInfo, project.getDefaultScene());
+		SoundInfo packedSound = controller.pack(soundInfo, scene);
 
 		assertEquals(0, BackPackListManager.getInstance().getBackPackedSounds().size());
 		assertFileExists(BACK_PACK_SOUNDS_PATH, packedSound.getFileName());
@@ -105,7 +106,7 @@ public class SoundControllerTest {
 	@Test
 	public void testDeleteSoundFromBackPack() throws IOException {
 		SoundController controller = new SoundController();
-		SoundInfo packedSound = controller.pack(soundInfo, project.getDefaultScene());
+		SoundInfo packedSound = controller.pack(soundInfo, scene);
 		controller.deleteFromBackpack(packedSound);
 
 		assertEquals(0, BackPackListManager.getInstance().getBackPackedSounds().size());
@@ -116,10 +117,10 @@ public class SoundControllerTest {
 	}
 
 	@Test
-	public void testUnPackSound() throws IOException {
+	public void testUnpackSound() throws IOException {
 		SoundController controller = new SoundController();
-		SoundInfo packedSound = controller.pack(soundInfo, project.getDefaultScene());
-		SoundInfo unpackedSound = controller.unpack(packedSound, project.getDefaultScene(), sprite);
+		SoundInfo packedSound = controller.pack(soundInfo, scene);
+		SoundInfo unpackedSound = controller.unpack(packedSound, scene, sprite);
 
 		assertEquals(0, BackPackListManager.getInstance().getBackPackedSounds().size());
 		assertFileExists(BACK_PACK_SOUNDS_PATH, packedSound.getFileName());
@@ -131,22 +132,22 @@ public class SoundControllerTest {
 	@Test
 	public void testDeepCopySound() throws IOException {
 		SoundController controller = new SoundController();
-		SoundInfo copy = controller.copy(soundInfo, project.getDefaultScene(), project.getDefaultScene(), sprite);
+		SoundInfo copy = controller.copy(soundInfo, scene, scene, sprite);
 
 		assertSoundFileExists(copy.getFileName());
 
-		controller.delete(copy, project.getDefaultScene());
+		controller.delete(copy, scene);
 
 		assertSoundFileDoesNotExist(copy.getFileName());
 		assertSoundFileExists(soundInfo.getFileName());
 	}
 
 	private void assertSoundFileExists(String fileName) {
-		assertFileExists(project.getDefaultScene().getPath(), Constants.SOUND_DIRECTORY, fileName);
+		assertFileExists(scene.getPath(), Constants.SOUND_DIRECTORY, fileName);
 	}
 
 	private void assertSoundFileDoesNotExist(String fileName) {
-		assertFileDoesNotExist(project.getDefaultScene().getPath(), Constants.SOUND_DIRECTORY, fileName);
+		assertFileDoesNotExist(scene.getPath(), Constants.SOUND_DIRECTORY, fileName);
 	}
 
 	private void clearBackPack() throws IOException {
@@ -159,24 +160,23 @@ public class SoundControllerTest {
 
 	private void createProject() {
 		project = new Project(InstrumentationRegistry.getTargetContext(), "SoundControllerTest");
+		scene = project.getDefaultScene();
+		ProjectManager.getInstance().setCurrentProject(project);
 
 		sprite = new Sprite("testSprite");
-
-		project.getDefaultScene().addSprite(sprite);
-		StorageHandler.getInstance().saveProject(project);
-
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentScene(project.getDefaultScene());
+		scene.addSprite(sprite);
 
 		File soundFile = FileTestUtils.saveFileToProject(
-				project.getName(), ProjectManager.getInstance().getCurrentScene().getName(), "longsound.mp3",
-				org.catrobat.catroid.test.R.raw.longsound, InstrumentationRegistry.getContext(),
+				project.getName(), scene.getName(),
+				"longsound.mp3",
+				org.catrobat.catroid.test.R.raw.longsound,
+				InstrumentationRegistry.getContext(),
 				FileTestUtils.FileTypes.SOUND
 		);
 
 		soundInfo = new SoundInfo("testSound", soundFile.getName());
-
 		sprite.getSoundList().add(soundInfo);
+
 		StorageHandler.getInstance().saveProject(project);
 	}
 
