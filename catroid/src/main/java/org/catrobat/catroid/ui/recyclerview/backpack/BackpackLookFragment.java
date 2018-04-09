@@ -62,7 +62,6 @@ public class BackpackLookFragment extends BackpackRecyclerViewFragment<LookData>
 						ProjectManager.getInstance().getCurrentScene(),
 						dstSprite));
 			}
-
 			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.unpacked_looks,
 					selectedItems.size(),
 					selectedItems.size()));

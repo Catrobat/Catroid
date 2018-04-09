@@ -111,9 +111,9 @@ public class SpriteController {
 		}
 	}
 
-	public void pack(Sprite spriteToPack) throws IOException {
-		String name = uniqueNameProvider.getUniqueName(
-				spriteToPack.getName(), getScope(BackPackListManager.getInstance().getBackPackedSprites()));
+	public Sprite pack(Sprite spriteToPack) throws IOException {
+		String name = uniqueNameProvider.getUniqueName(spriteToPack.getName(),
+				getScope(BackPackListManager.getInstance().getBackPackedSprites()));
 
 		Sprite sprite = new Sprite(name);
 		sprite.isBackpackObject = true;
@@ -138,11 +138,10 @@ public class SpriteController {
 			}
 		}
 
-		BackPackListManager.getInstance().getBackPackedSprites().add(sprite);
-		BackPackListManager.getInstance().saveBackpack();
+		return sprite;
 	}
 
-	public void unpack(Sprite spriteToUnpack, Scene dstScene) throws IOException {
+	public Sprite unpack(Sprite spriteToUnpack, Scene dstScene) throws IOException {
 		String name = uniqueNameProvider.getUniqueName(spriteToUnpack.getName(), getScope(dstScene.getSpriteList()));
 		Sprite sprite = new Sprite(name);
 
@@ -166,7 +165,7 @@ public class SpriteController {
 			}
 		}
 
-		dstScene.getSpriteList().add(sprite);
+		return sprite;
 	}
 
 	private Set<String> getScope(List<Sprite> items) {

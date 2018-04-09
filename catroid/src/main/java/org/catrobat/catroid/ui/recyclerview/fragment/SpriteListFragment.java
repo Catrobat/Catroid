@@ -68,6 +68,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	public static final String TAG = SpriteListFragment.class.getSimpleName();
 
 	private SpriteController spriteController = new SpriteController();
+
 	private NewItemInterface<Scene> newSceneInterface = new NewItemInterface<Scene>() {
 		@Override
 		public void addItem(Scene item) {
@@ -188,20 +189,26 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	@Override
 	protected void packItems(List<Sprite> selectedItems) {
 		setShowProgressBar(true);
-		try {
-			for (Sprite item : selectedItems) {
-				spriteController.pack(item);
-			}
-			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.packed_sprites,
-					selectedItems.size(),
-					selectedItems.size()));
+		int packedItemCnt = 0;
 
-			switchToBackpack();
-		} catch (IOException e) {
-			Log.e(TAG, Log.getStackTraceString(e));
-		} finally {
-			finishActionMode();
+		for (Sprite item : selectedItems) {
+			try {
+				BackPackListManager.getInstance().getBackPackedSprites().add(spriteController.pack(item));
+				BackPackListManager.getInstance().saveBackpack();
+				packedItemCnt++;
+			} catch (IOException e) {
+				Log.e(TAG, Log.getStackTraceString(e));
+			}
 		}
+
+		if (packedItemCnt > 0) {
+			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.packed_sprites,
+					packedItemCnt,
+					packedItemCnt));
+			switchToBackpack();
+		}
+
+		finishActionMode();
 	}
 
 	@Override
@@ -220,18 +227,24 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	protected void copyItems(List<Sprite> selectedItems) {
 		setShowProgressBar(true);
 		Scene currentScene = ProjectManager.getInstance().getCurrentScene();
+		int copiedItemCnt = 0;
+
 		for (Sprite item : selectedItems) {
 			try {
 				adapter.add(spriteController.copy(item, currentScene, currentScene));
+				copiedItemCnt++;
 			} catch (IOException e) {
 				Log.e(TAG, Log.getStackTraceString(e));
 			}
 		}
 
+		if (copiedItemCnt > 0) {
+			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.copied_sprites,
+					copiedItemCnt,
+					copiedItemCnt));
+		}
+
 		finishActionMode();
-		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.copied_sprites,
-				selectedItems.size(),
-				selectedItems.size()));
 	}
 
 	@Override
@@ -242,6 +255,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	@Override
 	protected void deleteItems(List<Sprite> selectedItems) {
 		setShowProgressBar(true);
+
 		for (Sprite item : selectedItems) {
 			if (item instanceof GroupSprite) {
 				for (Sprite sprite : ((GroupSprite) item).getGroupItems()) {
@@ -255,10 +269,10 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 			adapter.remove(item);
 		}
 
-		finishActionMode();
 		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_sprites,
 				selectedItems.size(),
 				selectedItems.size()));
+		finishActionMode();
 	}
 
 	@Override

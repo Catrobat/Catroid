@@ -82,7 +82,7 @@ public class SceneController {
 		StorageHandler.deleteDir(sceneToDelete.getPath());
 	}
 
-	public void pack(Scene sceneToPack) throws IOException {
+	public Scene pack(Scene sceneToPack) throws IOException {
 		String name = uniqueNameProvider.getUniqueName(
 				sceneToPack.getName(),
 				getScope(BackPackListManager.getInstance().getBackPackedScenes()));
@@ -103,13 +103,12 @@ public class SceneController {
 			scene.getSpriteList().add(spriteController.copy(sprite, sceneToPack, scene));
 		}
 
-		BackPackListManager.getInstance().getBackPackedScenes().add(scene);
-		BackPackListManager.getInstance().saveBackpack();
+		return scene;
 	}
 
-	public void unpack(Scene sceneToUnpack, Project dstProject) throws IOException {
+	public Scene unpack(Scene sceneToUnpack, Project dstProject) throws IOException {
 		Scene scene = copy(sceneToUnpack, dstProject);
-		dstProject.addScene(scene);
+		return scene;
 	}
 
 	private boolean createDirectory(String dirPath) {

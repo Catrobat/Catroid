@@ -101,20 +101,26 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 	@Override
 	protected void packItems(List<Scene> selectedItems) {
 		setShowProgressBar(true);
-		try {
-			for (Scene item : selectedItems) {
-				sceneController.pack(item);
-			}
-			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.packed_scenes,
-					selectedItems.size(),
-					selectedItems.size()));
+		int packedItemCnt = 0;
 
-			switchToBackpack();
-		} catch (IOException e) {
-			Log.e(TAG, Log.getStackTraceString(e));
-		} finally {
-			finishActionMode();
+		for (Scene item : selectedItems) {
+			try {
+				BackPackListManager.getInstance().getBackPackedScenes().add(sceneController.pack(item));
+				BackPackListManager.getInstance().saveBackpack();
+				packedItemCnt++;
+			} catch (IOException e) {
+				Log.e(TAG, Log.getStackTraceString(e));
+			}
 		}
+
+		if (packedItemCnt > 0) {
+			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.packed_scenes,
+					packedItemCnt,
+					packedItemCnt));
+			switchToBackpack();
+		}
+
+		finishActionMode();
 	}
 
 	@Override
@@ -132,17 +138,24 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 	@Override
 	protected void copyItems(List<Scene> selectedItems) {
 		setShowProgressBar(true);
+		int copiedItemCnt = 0;
+
 		for (Scene item : selectedItems) {
 			try {
 				adapter.add(sceneController.copy(item, ProjectManager.getInstance().getCurrentProject()));
+				copiedItemCnt++;
 			} catch (IOException e) {
 				Log.e(TAG, Log.getStackTraceString(e));
 			}
 		}
+
+		if (copiedItemCnt > 0) {
+			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.copied_scenes,
+					copiedItemCnt,
+					copiedItemCnt));
+		}
+
 		finishActionMode();
-		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.copied_scenes,
-				selectedItems.size(),
-				selectedItems.size()));
 	}
 
 	@Override
@@ -153,6 +166,7 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 	@Override
 	protected void deleteItems(List<Scene> selectedItems) {
 		setShowProgressBar(true);
+
 		for (Scene item : selectedItems) {
 			try {
 				sceneController.delete(item);
@@ -162,10 +176,10 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 			adapter.remove(item);
 		}
 
-		finishActionMode();
 		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_scenes,
 				selectedItems.size(),
 				selectedItems.size()));
+		finishActionMode();
 
 		if (adapter.getItems().isEmpty()) {
 			createDefaultScene();

@@ -153,6 +153,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 	@Override
 	protected void deleteItems(List<ProjectData> selectedItems) {
 		setShowProgressBar(true);
+
 		for (ProjectData item : selectedItems) {
 			try {
 				projectController.delete(item);
@@ -162,10 +163,10 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 			adapter.remove(item);
 		}
 
-		finishActionMode();
 		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_projects,
 				selectedItems.size(),
 				selectedItems.size()));
+		finishActionMode();
 
 		adapter.setItems(getItemList());
 
@@ -218,16 +219,12 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 	@Override
 	public void onCreateFinished(boolean success) {
 		if (success) {
-			updateAdapter();
+			adapter.setItems(getItemList());
+			setShowProgressBar(false);
 		} else {
 			ToastUtil.showError(getActivity(), R.string.wtf_error);
 			getActivity().finish();
 		}
-	}
-
-	private void updateAdapter() {
-		adapter.setItems(getItemList());
-		setShowProgressBar(false);
 	}
 
 	@Override
