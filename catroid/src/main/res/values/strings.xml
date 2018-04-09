@@ -31,24 +31,31 @@
     <string name="redo">Redo</string>
     <string name="undo">Undo</string>
 
-    <string name="cancel">Cancel</string>
-    <string name="next">Next</string>
-    <string name="done">Done</string>
     <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="next">Next</string>
+    <string name="back">Back</string>
+
+    <string name="ok">OK</string>
+    <string name="done">Done</string>
+    <string name="close">Close</string>
+
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="back">Back</string>
-    <string name="ok">OK</string>
+
     <string name="agree">Agree</string>
     <string name="disagree">Disagree</string>
+
     <string name="skip">skip</string>
     <string name="warning">Warning</string>
-    <string name="backpack_add">Add to backpack</string>
-    <string name="close">Close</string>
     <string name="error">Error</string>
-    <string name="please_wait">Please wait</string>
+
     <string name="loading">Loading…</string>
+    <string name="please_wait">Please wait</string>
     <string name="search_hint">Search…</string>
+
+    <string name="backpack_add">Add to backpack</string>
 
     <!-- Login/Logout Mechanism -->
     <string name="loading_check_facebook_data">Retrieving Facebook data…</string>
@@ -118,8 +125,7 @@
     <string name="preference_title_accessibility_category_icons">Show icons</string>
     <string name="preference_description_accessibility_category_icons">Add icons to categories and bricks.</string>
     <string name="preference_title_accessibility_high_contrast">High Contrast</string>
-    <string name="preference_description_accessibility_high_contrast">Increase the text contrast on
-        bricks.</string>
+    <string name="preference_description_accessibility_high_contrast">Increase the text contrast on bricks.</string>
     <string name="preference_description_accessibility_large_text">Increase the font size.</string>
     <string name="preference_title_accessibility_large_text">Large Text</string>
     <string name="preference_title_accessibility_element_spacing">Large Element Spacing</string>
@@ -282,6 +288,11 @@
 
 
     <!-- ERRORS -->
+
+    <!-- Privacy Policy Error -->
+    <string name="declined_privacy_agreement_alert">You won\'t be able to use this app unless you accept our
+        privacy policy agreement!</string>
+
     <string name="wtf_error">An unexpected error occurred: Could NOT restore default Project.</string>
 
     <!-- Project Handling Errors -->

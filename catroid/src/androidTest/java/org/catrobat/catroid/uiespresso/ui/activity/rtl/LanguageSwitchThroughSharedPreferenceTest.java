@@ -24,6 +24,7 @@
 package org.catrobat.catroid.uiespresso.ui.activity.rtl;
 
 import android.content.res.Configuration;
+import android.preference.PreferenceManager;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
@@ -32,6 +33,7 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.uiespresso.util.rules.DontGenerateDefaultProjectActivityInstrumentationRule;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,20 +48,42 @@ import static org.catrobat.catroid.uiespresso.util.UiTestUtils.getResources;
 
 @RunWith(AndroidJUnit4.class)
 public class LanguageSwitchThroughSharedPreferenceTest {
-	private static final Locale ARABICLOCALE = new Locale("ar");
-	private static final Locale DEUTSCHLOCALE = Locale.GERMAN;
+
 	@Rule
 	public DontGenerateDefaultProjectActivityInstrumentationRule<MainMenuActivity> baseActivityTestRule = new
 			DontGenerateDefaultProjectActivityInstrumentationRule<>(MainMenuActivity.class);
+
+	private static final String AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY = "AgreedToPrivacyPolicy";
+	private boolean bufferedPreferenceSetting;
+
+	private static final Locale ARABICLOCALE = new Locale("ar");
+	private static final Locale DEUTSCHLOCALE = Locale.GERMAN;
+
 	private Configuration conf = getResources().getConfiguration();
+
+	@Before
+	public void setUp() {
+		bufferedPreferenceSetting = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry
+				.getTargetContext())
+				.getBoolean(AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY, false);
+
+		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
+				.edit()
+				.putBoolean(AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY, true)
+				.commit();
+	}
 
 	@After
 	public void tearDown() {
+		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
+				.edit()
+				.putBoolean(AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY, bufferedPreferenceSetting)
+				.commit();
 		SettingsFragment.removeLanguageSharedPreference(InstrumentationRegistry.getTargetContext());
 	}
 
 	@Test
-	public void testSetLanguageToArabic() throws Exception {
+	public void testSetLanguageToArabic() {
 		SettingsFragment.setLanguageSharedPreference(InstrumentationRegistry.getTargetContext(), "ar");
 		baseActivityTestRule.launchActivity(null);
 
@@ -69,7 +93,7 @@ public class LanguageSwitchThroughSharedPreferenceTest {
 	}
 
 	@Test
-	public void testSetLanguageToGerman() throws Exception {
+	public void testSetLanguageToGerman() {
 		SettingsFragment.setLanguageSharedPreference(InstrumentationRegistry.getTargetContext(), "de");
 		baseActivityTestRule.launchActivity(null);
 

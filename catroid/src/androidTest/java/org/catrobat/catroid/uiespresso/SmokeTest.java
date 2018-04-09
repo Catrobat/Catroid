@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.uiespresso;
 
+import android.preference.PreferenceManager;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
@@ -29,6 +31,7 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.rules.DontGenerateDefaultProjectActivityInstrumentationRule;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -56,9 +59,28 @@ public class SmokeTest {
 	public DontGenerateDefaultProjectActivityInstrumentationRule<MainMenuActivity> baseActivityTestRule = new
 			DontGenerateDefaultProjectActivityInstrumentationRule<>(MainMenuActivity.class);
 
+	private static final String AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY = "AgreedToPrivacyPolicy";
+	private boolean bufferedPreferenceSetting;
+
 	@Before
 	public void setUp() throws Exception {
+		bufferedPreferenceSetting = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry
+				.getTargetContext())
+				.getBoolean(AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY, false);
+
+		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
+				.edit()
+				.putBoolean(AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY, true)
+				.commit();
 		baseActivityTestRule.launchActivity(null);
+	}
+
+	@After
+	public void tearDown() {
+		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
+				.edit()
+				.putBoolean(AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY, bufferedPreferenceSetting)
+				.commit();
 	}
 
 	@Test

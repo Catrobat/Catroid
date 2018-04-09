@@ -33,6 +33,7 @@ import android.support.annotation.IntDef;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.PermissionChecker;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -76,15 +77,17 @@ public class MainMenuActivity extends BaseCastActivity implements
 		SignInDialog.SignInCompleteListener {
 
 	public static final String TAG = MainMenuActivity.class.getSimpleName();
+
+	public static final String AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY = "AgreedToPrivacyPolicy";
 	public static final int REQUEST_CODE_GOOGLE_PLUS_SIGNIN = 100;
 
 	private static final int ACCESS_STORAGE = 0;
 
 	@Retention(RetentionPolicy.SOURCE)
-	@IntDef({FRAGMENT, PROGRESS_BAR, ERROR})
+	@IntDef({PROGRESS_BAR, FRAGMENT, ERROR})
 	@interface Content {}
-	protected static final int FRAGMENT = 0;
-	protected static final int PROGRESS_BAR = 1;
+	protected static final int PROGRESS_BAR = 0;
+	protected static final int FRAGMENT = 1;
 	protected static final int ERROR = 2;
 
 	@Override
@@ -95,32 +98,64 @@ public class MainMenuActivity extends BaseCastActivity implements
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
 		UtilUi.updateScreenWidthAndHeight(this);
 
-		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
-			setContentView(R.layout.activity_main_menu_splashscreen);
+		if (!PreferenceManager.getDefaultSharedPreferences(this)
+				.getBoolean(AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY, false)) {
+			setContentView(R.layout.privacy_policy_view);
 		} else {
+			loadContent();
+		}
+	}
+
+	public void handleAgreedToPrivacyPolicyButton(View view) {
+		PreferenceManager.getDefaultSharedPreferences(this)
+				.edit()
+				.putBoolean(AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY, true)
+				.commit();
+		loadContent();
+	}
+
+	public void handleDeclinedPrivacyPolicyButton(View view) {
+		new AlertDialog.Builder(this)
+				.setMessage(R.string.declined_privacy_agreement_alert)
+				.setNeutralButton(R.string.ok, null)
+				.create()
+				.show();
+	}
+
+	private void loadContent() {
+		setContentView(R.layout.activity_main_menu);
+		showContentView(PROGRESS_BAR);
+
+		if (!BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
 			FacebookSdk.sdkInitialize(getApplicationContext());
-			setContentView(R.layout.activity_main_menu);
-			showContentView(PROGRESS_BAR);
 			setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 			getSupportActionBar().setTitle(R.string.app_name);
 		}
 
 		@PermissionChecker.PermissionResult
-		int permissionResult = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+		int permissionResult = ContextCompat.checkSelfPermission(this,
+				Manifest.permission.WRITE_EXTERNAL_STORAGE);
 		if (permissionResult == PackageManager.PERMISSION_GRANTED) {
 			onPermissionsGranted();
 		} else {
-			ActivityCompat.requestPermissions(this,
-					new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, ACCESS_STORAGE);
+			ActivityCompat.requestPermissions(
+							this,
+							new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+							ACCESS_STORAGE);
 		}
 	}
 
 	private void showContentView(@Content int content) {
-		View fragment = findViewById(R.id.main_menu_buttons_container);
-		View errorView = findViewById(R.id.runtime_permission_error_view);
 		View progressBar = findViewById(R.id.progress_bar);
+		View fragment = findViewById(R.id.fragment_container);
+		View errorView = findViewById(R.id.runtime_permission_error_view);
 
 		switch (content) {
+			case PROGRESS_BAR:
+				fragment.setVisibility(View.GONE);
+				errorView.setVisibility(View.GONE);
+				progressBar.setVisibility(View.VISIBLE);
+				break;
 			case FRAGMENT:
 				fragment.setVisibility(View.VISIBLE);
 				errorView.setVisibility(View.GONE);
@@ -131,22 +166,18 @@ public class MainMenuActivity extends BaseCastActivity implements
 				errorView.setVisibility(View.VISIBLE);
 				progressBar.setVisibility(View.GONE);
 				break;
-			case PROGRESS_BAR:
-				fragment.setVisibility(View.GONE);
-				errorView.setVisibility(View.GONE);
-				progressBar.setVisibility(View.VISIBLE);
-				break;
 		}
 	}
 
 	private void onPermissionsGranted() {
 		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
+			setContentView(R.layout.activity_main_menu_splashscreen);
 			prepareStandaloneProject();
 			return;
 		}
 
 		getFragmentManager().beginTransaction()
-				.replace(R.id.main_menu_buttons_container, new MainMenuFragment(), MainMenuFragment.TAG)
+				.replace(R.id.fragment_container, new MainMenuFragment(), MainMenuFragment.TAG)
 				.commit();
 		showContentView(FRAGMENT);
 

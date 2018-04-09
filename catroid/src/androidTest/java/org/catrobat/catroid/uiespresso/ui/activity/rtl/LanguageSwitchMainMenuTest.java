@@ -24,6 +24,7 @@
 package org.catrobat.catroid.uiespresso.ui.activity.rtl;
 
 import android.content.res.Configuration;
+import android.preference.PreferenceManager;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.matcher.PreferenceMatchers;
 import android.support.test.runner.AndroidJUnit4;
@@ -61,21 +62,37 @@ import static org.hamcrest.core.StringStartsWith.startsWith;
 @RunWith(AndroidJUnit4.class)
 public class LanguageSwitchMainMenuTest {
 
-	private static final Locale ARABICLOCALE = new Locale("ar");
-	private static final Locale DEUTSCHLOCALE = Locale.GERMAN;
-	private Configuration conf = getResources().getConfiguration();
-
 	@Rule
 	public DontGenerateDefaultProjectActivityInstrumentationRule<SettingsActivity> baseActivityTestRule = new
 			DontGenerateDefaultProjectActivityInstrumentationRule<>(SettingsActivity.class);
 
+	private static final String AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY = "AgreedToPrivacyPolicy";
+	private boolean bufferedPreferenceSetting;
+
+	private static final Locale ARABICLOCALE = new Locale("ar");
+	private static final Locale DEUTSCHLOCALE = Locale.GERMAN;
+	private Configuration conf = getResources().getConfiguration();
+
 	@Before
 	public void setUp() {
+		bufferedPreferenceSetting = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry
+				.getTargetContext())
+				.getBoolean(AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY, false);
+
+		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
+				.edit()
+				.putBoolean(AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY, true)
+				.commit();
 		baseActivityTestRule.launchActivity(null);
 	}
 
 	@After
 	public void tearDown() {
+		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
+				.edit()
+				.putBoolean(AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY, bufferedPreferenceSetting)
+				.commit();
+
 		SettingsFragment.removeLanguageSharedPreference(InstrumentationRegistry.getTargetContext());
 	}
 
