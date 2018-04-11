@@ -40,11 +40,6 @@ import java.util.Set;
 
 public class SoundController {
 
-	private static final String BACKPACK_DIRECTORY = Utils.buildPath(
-			Constants.DEFAULT_ROOT,
-			Constants.BACKPACK_DIRECTORY,
-			Constants.BACKPACK_SOUND_DIRECTORY);
-
 	private UniqueNameProvider uniqueNameProvider = new UniqueNameProvider();
 
 	public SoundInfo copy(SoundInfo soundToCopy, Scene srcScene, Scene dstScene, Sprite dstSprite) throws IOException {
@@ -76,7 +71,7 @@ public class SoundController {
 	}
 
 	public void deleteFromBackpack(SoundInfo soundToDelete) throws IOException {
-		StorageHandler.deleteFile(Utils.buildPath(BACKPACK_DIRECTORY, soundToDelete.getFileName()));
+		StorageHandler.deleteFile(Utils.buildPath(getBackpackDirectory(), soundToDelete.getFileName()));
 	}
 
 	public SoundInfo pack(SoundInfo soundToPack, Scene srcScene) throws IOException {
@@ -84,7 +79,7 @@ public class SoundController {
 				soundToPack.getName(), getScope(BackPackListManager.getInstance().getBackPackedSounds()));
 
 		String fileName = StorageHandler.copyFile(
-				Utils.buildPath(getSoundDirPath(srcScene), soundToPack.getFileName()), BACKPACK_DIRECTORY).getName();
+				Utils.buildPath(getSoundDirPath(srcScene), soundToPack.getFileName()), getBackpackDirectory()).getName();
 
 		SoundInfo sound = new SoundInfo(name, fileName);
 		sound.isBackpackSoundInfo = true;
@@ -97,7 +92,7 @@ public class SoundController {
 				return sound;
 			}
 		}
-		String fileName = StorageHandler.copyFile(soundToPack.getAbsolutePath(), BACKPACK_DIRECTORY).getName();
+		String fileName = StorageHandler.copyFile(soundToPack.getAbsolutePath(), getBackpackDirectory()).getName();
 		SoundInfo sound = new SoundInfo(soundToPack.getName(), fileName);
 		sound.isBackpackSoundInfo = true;
 
@@ -134,6 +129,12 @@ public class SoundController {
 
 	private String getSoundDirPath(Scene scene) {
 		return Utils.buildPath(scene.getPath(), Constants.SOUND_DIRECTORY);
+	}
+
+	private String getBackpackDirectory() {
+		return Utils.buildPath(StorageHandler.getInstance().getRootDirectory(),
+				Constants.BACKPACK_DIRECTORY,
+				Constants.BACKPACK_SOUND_DIRECTORY);
 	}
 
 	private boolean compareByChecksum(String filePath1, String filePath2) {

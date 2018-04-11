@@ -61,15 +61,15 @@ public final class Constants {
 
 	public static final String DEFAULT_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath()
 			+ "/Pocket Code";
-	public static final String TMP_PATH = DEFAULT_ROOT + "/tmp";
-	public static final String TMP_IMAGE_PATH = TMP_PATH + "/PocketPaintImage.tmp";
-	public static final String TEXT_TO_SPEECH_TMP_PATH = TMP_PATH + "/textToSpeech";
+	public static final String TMP_DIRECTORY = "tmp";
+	public static final String DEFAULT_TMP_PATH = DEFAULT_ROOT + "/" + TMP_DIRECTORY;
+	public static final String TMP_IMAGE_PATH = DEFAULT_TMP_PATH + "/PocketPaintImage.tmp";
+	public static final String TEXT_TO_SPEECH_DIRECTORY = "textToSpeech";
 	public static final String IMAGE_DIRECTORY = "images";
 	public static final String SOUND_DIRECTORY = "sounds";
 	public static final String SCENES_DIRECTORY = "scenes";
 	public static final String BACKPACK_DIRECTORY = "backpack";
-	public static final String TMP_LOOKS_PATH = TMP_PATH + "/looks";
-	public static final String TMP_SOUNDS_PATH = TMP_PATH + "/sounds";
+	public static final String LOOKS_DIRECTORY = "looks";
 
 	public static final String BACKPACK_SOUND_DIRECTORY = "backpack_sound";
 	public static final String BACKPACK_IMAGE_DIRECTORY = "backpack_image";

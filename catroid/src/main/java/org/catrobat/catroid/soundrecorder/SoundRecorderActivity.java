@@ -35,7 +35,7 @@ import android.view.View.OnClickListener;
 import android.widget.Chronometer;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BaseActivity;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
@@ -94,7 +94,8 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 			if (soundRecorder != null) {
 				soundRecorder.stop();
 			}
-			String recordPath = Utils.buildPath(Constants.TMP_PATH, getString(R.string.soundrecorder_recorded_filename)
+			String recordPath = Utils.buildPath(StorageHandler.getInstance().getTempDirectory(),
+					getString(R.string.soundrecorder_recorded_filename)
 					+ SoundRecorder.RECORDING_EXTENSION);
 			soundRecorder = new SoundRecorder(recordPath);
 			soundRecorder.start();

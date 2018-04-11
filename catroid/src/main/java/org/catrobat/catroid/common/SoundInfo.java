@@ -127,7 +127,7 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 	}
 
 	private String getPathToBackPackSoundDirectory() {
-		return Utils.buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY,
+		return Utils.buildPath(StorageHandler.getInstance().getRootDirectory(), Constants.BACKPACK_DIRECTORY,
 				Constants.BACKPACK_SOUND_DIRECTORY);
 	}
 

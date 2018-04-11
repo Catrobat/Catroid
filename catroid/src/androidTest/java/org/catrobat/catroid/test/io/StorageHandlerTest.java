@@ -80,6 +80,7 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 	private final StorageHandler storageHandler;
 	private final String projectName = TestUtils.DEFAULT_TEST_PROJECT_NAME;
 	private Project currentProject;
+	private String originalRootDirectory;
 	private static final int SET_SPEED_INITIALLY = -70;
 	private static final int DEFAULT_MOVE_TIME_IN_MILLISECONDS = 2000;
 	private static final int DEFAULT_MOVE_POWER_IN_PERCENT = 20;
@@ -90,6 +91,7 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 
 	@Override
 	public void setUp() throws Exception {
+		originalRootDirectory = storageHandler.getRootDirectory();
 		DefaultProjectHandler.createAndSaveDefaultProject(getInstrumentation().getTargetContext());
 		super.setUp();
 		currentProject = ProjectManager.getInstance().getCurrentProject();
@@ -99,7 +101,19 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 	public void tearDown() throws Exception {
 		ProjectManager.getInstance().setProject(currentProject);
 		TestUtils.deleteTestProjects();
+		storageHandler.setRootDirectory(originalRootDirectory);
 		super.tearDown();
+	}
+
+	public void testSetNewRootDirectory() {
+		String privateFilesDir = getInstrumentation().getTargetContext().getFilesDir().getAbsolutePath();
+
+		File catrobatRootDir = new File(privateFilesDir, "test");
+		assertFalse(catrobatRootDir.exists());
+		storageHandler.setRootDirectory(catrobatRootDir.getAbsolutePath());
+
+		assertEquals(catrobatRootDir.getAbsolutePath(), storageHandler.getRootDirectory());
+		assertTrue(catrobatRootDir.exists());
 	}
 
 	public void testSerializeProject() throws Exception {

@@ -40,11 +40,6 @@ import java.util.Set;
 
 public class LookController {
 
-	private static final String BACKPACK_DIRECTORY = Utils.buildPath(
-			Constants.DEFAULT_ROOT,
-			Constants.BACKPACK_DIRECTORY,
-			Constants.BACKPACK_IMAGE_DIRECTORY);
-
 	private UniqueNameProvider uniqueNameProvider = new UniqueNameProvider();
 
 	public LookData copy(LookData lookToCopy, Scene srcScene, Scene dstScene, Sprite dstSprite) throws IOException {
@@ -76,7 +71,7 @@ public class LookController {
 	}
 
 	public void deleteFromBackpack(LookData lookToDelete) throws IOException {
-		StorageHandler.deleteFile(Utils.buildPath(BACKPACK_DIRECTORY, lookToDelete.getFileName()));
+		StorageHandler.deleteFile(Utils.buildPath(getBackpackDirectory(), lookToDelete.getFileName()));
 	}
 
 	public LookData pack(LookData lookToPack, Scene srcScene) throws IOException {
@@ -84,7 +79,7 @@ public class LookController {
 				lookToPack.getName(), getScope(BackPackListManager.getInstance().getBackPackedLooks()));
 
 		String fileName = StorageHandler.copyFile(
-				Utils.buildPath(getImageDirPath(srcScene), lookToPack.getFileName()), BACKPACK_DIRECTORY).getName();
+				Utils.buildPath(getImageDirPath(srcScene), lookToPack.getFileName()), getBackpackDirectory()).getName();
 
 		LookData look = new LookData(name, fileName);
 		look.isBackpackLookData = true;
@@ -97,7 +92,7 @@ public class LookController {
 				return look;
 			}
 		}
-		String fileName = StorageHandler.copyFile(lookToPack.getAbsolutePath(), BACKPACK_DIRECTORY).getName();
+		String fileName = StorageHandler.copyFile(lookToPack.getAbsolutePath(), getBackpackDirectory()).getName();
 		LookData look = new LookData(lookToPack.getName(), fileName);
 		look.isBackpackLookData = true;
 
@@ -134,6 +129,12 @@ public class LookController {
 
 	private String getImageDirPath(Scene scene) {
 		return Utils.buildPath(scene.getPath(), Constants.IMAGE_DIRECTORY);
+	}
+
+	private String getBackpackDirectory() {
+		return Utils.buildPath(StorageHandler.getInstance().getRootDirectory(),
+				Constants.BACKPACK_DIRECTORY,
+				Constants.BACKPACK_IMAGE_DIRECTORY);
 	}
 
 	private boolean compareByChecksum(String filePath1, String filePath2) {

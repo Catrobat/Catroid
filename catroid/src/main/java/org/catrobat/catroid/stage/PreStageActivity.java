@@ -63,6 +63,7 @@ import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoInitializer;
 import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoServiceWrapper;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
+import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.sensing.GatherCollisionInformationTask;
 import org.catrobat.catroid.ui.BaseActivity;
 import org.catrobat.catroid.ui.recyclerview.dialog.NetworkAlertDialog;
@@ -420,7 +421,8 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 	}
 
 	private static void deleteSpeechFiles() {
-		File pathToSpeechFiles = new File(Constants.TEXT_TO_SPEECH_TMP_PATH);
+		File pathToSpeechFiles = new File(Utils.buildPath(StorageHandler.getInstance().getTempDirectory(),
+				Constants.TEXT_TO_SPEECH_DIRECTORY));
 		if (pathToSpeechFiles.isDirectory()) {
 			for (File file : pathToSpeechFiles.listFiles()) {
 				file.delete();

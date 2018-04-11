@@ -139,18 +139,21 @@ public class MainMenuActivity extends BaseCastActivity implements
 			FacebookSdk.sdkInitialize(getApplicationContext());
 			setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 			getSupportActionBar().setTitle(R.string.app_name);
-		}
 
-		@PermissionChecker.PermissionResult
-		int permissionResult = ContextCompat.checkSelfPermission(this,
-				Manifest.permission.WRITE_EXTERNAL_STORAGE);
-		if (permissionResult == PackageManager.PERMISSION_GRANTED) {
-			onPermissionsGranted();
+			@PermissionChecker.PermissionResult
+			int permissionResult = ContextCompat.checkSelfPermission(this,
+					Manifest.permission.WRITE_EXTERNAL_STORAGE);
+			if (permissionResult == PackageManager.PERMISSION_GRANTED) {
+				onPermissionsGranted();
+			} else {
+				ActivityCompat.requestPermissions(
+						this,
+						new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE},
+						ACCESS_STORAGE);
+			}
 		} else {
-			ActivityCompat.requestPermissions(
-							this,
-							new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-							ACCESS_STORAGE);
+			setContentView(R.layout.activity_main_menu_splashscreen);
+			prepareStandaloneProject();
 		}
 	}
 
@@ -179,12 +182,6 @@ public class MainMenuActivity extends BaseCastActivity implements
 	}
 
 	private void onPermissionsGranted() {
-		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
-			setContentView(R.layout.activity_main_menu_splashscreen);
-			prepareStandaloneProject();
-			return;
-		}
-
 		getFragmentManager().beginTransaction()
 				.replace(R.id.fragment_container, new MainMenuFragment(), MainMenuFragment.TAG)
 				.commit();
@@ -306,6 +303,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 	}
 
 	private void prepareStandaloneProject() {
+		StorageHandler.getInstance().setRootDirectory(getFilesDir().getAbsolutePath());
 		try {
 			InputStream inputStream = getAssets().open(BuildConfig.START_PROJECT + ".zip");
 			StorageHandler.copyAndUnzip(inputStream, Utils.buildProjectPath(BuildConfig.PROJECT_NAME));

@@ -72,7 +72,7 @@ public class ProjectDownloadService extends IntentService {
 		boolean result = false;
 
 		String projectName = intent.getStringExtra(DOWNLOAD_NAME_TAG);
-		String zipFileString = Utils.buildPath(Constants.TMP_PATH, DOWNLOAD_FILE_NAME);
+		String zipFileString = Utils.buildPath(StorageHandler.getInstance().getTempDirectory(), DOWNLOAD_FILE_NAME);
 		String url = intent.getStringExtra(URL_TAG);
 		Integer notificationId = intent.getIntExtra(ID_TAG, -1);
 
