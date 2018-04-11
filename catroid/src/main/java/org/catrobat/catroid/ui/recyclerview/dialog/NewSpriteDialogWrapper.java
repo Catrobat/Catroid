@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui.recyclerview.dialog;
 
 import android.app.Dialog;
 import android.app.FragmentManager;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -60,8 +61,18 @@ public class NewSpriteDialogWrapper implements NewItemInterface<LookData> {
 	public void showDialog(FragmentManager manager) {
 		fragmentManager = manager;
 		sprite = new Sprite();
-		NewLookDialogFragment dialog = new NewLookDialogFragment(this, dstScene, sprite);
+		NewLookDialogFragment dialog = new NewLookDialogFragment(this, dstScene, sprite) {
+
+			@Override
+			public void onCancel(DialogInterface dialog) {
+				super.onCancel(dialog);
+				onWorkflowCanceled();
+			}
+		};
 		dialog.show(fragmentManager, NewLookDialogFragment.TAG);
+	}
+
+	public void onWorkflowCanceled() {
 	}
 
 	@Override
@@ -111,6 +122,12 @@ public class NewSpriteDialogWrapper implements NewItemInterface<LookData> {
 				newItemInterface.addItem(sprite);
 				return true;
 			}
+		}
+
+		@Override
+		public void onCancel(DialogInterface dialog) {
+			super.onCancel(dialog);
+			onWorkflowCanceled();
 		}
 
 		@Override

@@ -58,10 +58,7 @@ public abstract class BrickBaseType implements Brick {
 
 	@Override
 	public boolean isEqualBrick(Brick brick, Scene mergeResult, Scene current) {
-		if (this.getClass().equals(brick.getClass())) {
-			return true;
-		}
-		return false;
+		return this.getClass().equals(brick.getClass());
 	}
 
 	@Override
@@ -104,7 +101,7 @@ public abstract class BrickBaseType implements Brick {
 			enabled = checkbox.isEnabled();
 			isChecked = checkbox.isChecked();
 		}
-		checkbox = (CheckBox) view.findViewById(id);
+		checkbox = view.findViewById(id);
 		checkbox.setChecked(isChecked);
 		checkbox.setVisibility(checkboxVisibility);
 		checkbox.setEnabled(enabled);

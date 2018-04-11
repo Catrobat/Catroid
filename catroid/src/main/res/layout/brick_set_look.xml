@@ -49,7 +49,7 @@
         <include layout="@layout/icon_brick_category_look"/>
 
         <TextView
-            android:id="@+id/brick_set_look_prototype_text_view"
+            android:id="@+id/brick_set_look_text_view"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_set_look" />
 
@@ -61,10 +61,6 @@
             android:clickable="false"
             android:focusable="false" />
 
-        <TextView
-            android:id="@+id/brick_set_look_and_wait"
-            style="@style/BrickText.SingleLine"
-            android:text="@string/brick_and_wait" />
     </org.catrobat.catroid.ui.BrickLayout >
 
 </LinearLayout>

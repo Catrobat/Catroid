@@ -55,22 +55,28 @@ public class BackpackSoundFragment extends BackpackRecyclerViewFragment<SoundInf
 	@Override
 	protected void unpackItems(List<SoundInfo> selectedItems) {
 		setShowProgressBar(true);
-		try {
-			for (SoundInfo item : selectedItems) {
-				Sprite dstSprite = ProjectManager.getInstance().getCurrentSprite();
+		Sprite dstSprite = ProjectManager.getInstance().getCurrentSprite();
+		int unpackedItemCnt = 0;
+
+		for (SoundInfo item : selectedItems) {
+			try {
 				dstSprite.getSoundList().add(soundController.unpack(item,
 						ProjectManager.getInstance().getCurrentScene(),
 						dstSprite));
+				unpackedItemCnt++;
+			} catch (IOException e) {
+				Log.e(TAG, Log.getStackTraceString(e));
 			}
-			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.unpacked_sounds,
-					selectedItems.size(),
-					selectedItems.size()));
-			getActivity().finish();
-		} catch (IOException e) {
-			Log.e(TAG, Log.getStackTraceString(e));
-		} finally {
-			finishActionMode();
 		}
+
+		if (unpackedItemCnt > 0) {
+			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.unpacked_sounds,
+					unpackedItemCnt,
+					unpackedItemCnt));
+			getActivity().finish();
+		}
+
+		finishActionMode();
 	}
 
 	@Override

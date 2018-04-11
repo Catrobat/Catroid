@@ -121,12 +121,12 @@ public class PlaySoundBrickTest {
 		onView(withText(R.string.scripts))
 				.perform(click());
 
-		onBrickAtPosition(1).onSpinner(R.id.playsound_spinner)
+		onBrickAtPosition(1).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(soundName);
-		onBrickAtPosition(2).onSpinner(R.id.playsound_spinner)
+		onBrickAtPosition(2).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(soundName);
 
-		onBrickAtPosition(1).onSpinner(R.id.playsound_spinner)
+		onBrickAtPosition(1).onSpinner(R.id.brick_play_sound_spinner)
 				.perform(click());
 		onView(withText(R.string.brick_variable_spinner_create_new_variable))
 				.perform(click());
@@ -138,9 +138,9 @@ public class PlaySoundBrickTest {
 		onView(withId(R.id.soundrecorder_record_button))
 				.perform(click());
 
-		onBrickAtPosition(1).onSpinner(R.id.playsound_spinner)
+		onBrickAtPosition(1).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(R.string.soundrecorder_recorded_filename);
-		onBrickAtPosition(2).onSpinner(R.id.playsound_spinner)
+		onBrickAtPosition(2).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(soundName);
 	}
 
@@ -149,7 +149,7 @@ public class PlaySoundBrickTest {
 		onView(withText(R.string.scripts))
 				.perform(click());
 
-		onBrickAtPosition(1).onSpinner(R.id.playsound_spinner)
+		onBrickAtPosition(1).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(soundName);
 
 		pressBack();
@@ -157,9 +157,9 @@ public class PlaySoundBrickTest {
 		onView(withText(R.string.scripts))
 				.perform(click());
 
-		onBrickAtPosition(1).onSpinner(R.id.playsound_spinner)
+		onBrickAtPosition(1).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(soundName2);
-		onBrickAtPosition(2).onSpinner(R.id.playsound_spinner)
+		onBrickAtPosition(2).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(soundName2);
 	}
 
@@ -169,9 +169,9 @@ public class PlaySoundBrickTest {
 		onView(withText(R.string.scripts))
 				.perform(click());
 
-		onBrickAtPosition(1).onSpinner(R.id.playsound_spinner)
+		onBrickAtPosition(1).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(soundName);
-		onBrickAtPosition(2).onSpinner(R.id.playsound_spinner)
+		onBrickAtPosition(2).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(soundName);
 
 		pressBack();
@@ -179,9 +179,9 @@ public class PlaySoundBrickTest {
 		onView(withText(R.string.scripts))
 				.perform(click());
 
-		onBrickAtPosition(1).onSpinner(R.id.playsound_spinner)
+		onBrickAtPosition(1).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(newSoundName);
-		onBrickAtPosition(2).onSpinner(R.id.playsound_spinner)
+		onBrickAtPosition(2).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(newSoundName);
 	}
 

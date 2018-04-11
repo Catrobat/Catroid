@@ -23,9 +23,14 @@
 
 package org.catrobat.catroid.content.bricks;
 
+import android.content.Context;
+import android.view.View;
+import android.widget.TextView;
+
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 
 import java.util.Collections;
@@ -37,22 +42,28 @@ public class SetBackgroundBrick extends SetLookBrick {
 	}
 
 	@Override
-	protected Sprite getSprite() {
-		return ProjectManager.getInstance().getCurrentScene().getSpriteList().get(0);
-	}
-
-	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		Sprite backgroundSprite = ProjectManager.getInstance().getSceneToPlay().getSpriteList().get(0);
-		sequence.addAction(sprite.getActionFactory().createSetLookAction(backgroundSprite, look, wait));
-
-		return Collections.emptyList();
-	}
-
-	@Override
 	public Brick clone() {
 		SetBackgroundBrick clonedBrick = new SetBackgroundBrick();
 		clonedBrick.setLook(look);
 		return clonedBrick;
+	}
+
+	@Override
+	protected View prepareView(Context context) {
+		View view = View.inflate(context, R.layout.brick_set_look, null);
+		((TextView) view.findViewById(R.id.brick_set_look_text_view))
+				.setText(R.string.brick_set_background);
+		return view;
+	}
+
+	@Override
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+		sequence.addAction(sprite.getActionFactory().createSetLookAction(getSprite(), look, false));
+		return Collections.emptyList();
+	}
+
+	@Override
+	protected Sprite getSprite() {
+		return ProjectManager.getInstance().getCurrentScene().getSpriteList().get(0);
 	}
 }

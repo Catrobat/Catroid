@@ -55,20 +55,26 @@ public class BackpackSpriteFragment extends BackpackRecyclerViewFragment<Sprite>
 	@Override
 	protected void unpackItems(List<Sprite> selectedItems) {
 		setShowProgressBar(true);
-		try {
-			for (Sprite item : selectedItems) {
-				Scene dstScene = ProjectManager.getInstance().getCurrentScene();
+		Scene dstScene = ProjectManager.getInstance().getCurrentScene();
+		int unpackedItemCnt = 0;
+
+		for (Sprite item : selectedItems) {
+			try {
 				dstScene.getSpriteList().add(spriteController.unpack(item, dstScene));
+				unpackedItemCnt++;
+			} catch (IOException e) {
+				Log.e(TAG, Log.getStackTraceString(e));
 			}
-			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.unpacked_sprites,
-					selectedItems.size(),
-					selectedItems.size()));
-			getActivity().finish();
-		} catch (IOException e) {
-			Log.e(TAG, Log.getStackTraceString(e));
-		} finally {
-			finishActionMode();
 		}
+
+		if (unpackedItemCnt > 0) {
+			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.unpacked_sprites,
+					unpackedItemCnt,
+					unpackedItemCnt));
+			getActivity().finish();
+		}
+
+		finishActionMode();
 	}
 
 	@Override

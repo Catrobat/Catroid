@@ -245,7 +245,7 @@ public class DefaultProjectCreatorDefault extends DefaultProjectCreator {
 			birdSprite.addScript(birdStartScriptTwo);
 			WhenScript whenScriptBird = new WhenScript();
 			PlaySoundBrick playSoundBrickBird = new PlaySoundBrick();
-			playSoundBrickBird.setSoundInfo(soundInfo1);
+			playSoundBrickBird.setSound(soundInfo1);
 			whenScriptBird.addBrick(playSoundBrickBird);
 			birdSprite.addScript(whenScriptBird);
 			defaultProject.getDefaultScene().addSprite(birdSprite);
