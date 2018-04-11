@@ -108,7 +108,6 @@ public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createWaitUntilAction(sprite, getFormulaWithBrickField(BrickField.IF_CONDITION)));
 		return null;
 	}
 

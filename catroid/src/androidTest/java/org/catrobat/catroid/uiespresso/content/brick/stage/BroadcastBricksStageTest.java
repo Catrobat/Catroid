@@ -38,7 +38,7 @@ import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
 import org.catrobat.catroid.content.bricks.NextLookBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
-import org.catrobat.catroid.content.bricks.WhenConditionBrick;
+import org.catrobat.catroid.content.bricks.WaitUntilBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Sensors;
@@ -115,7 +115,7 @@ public class BroadcastBricksStageTest {
 		script.addBrick(new SetSizeToBrick(10000));
 		Formula condition = new Formula(new FormulaElement(FormulaElement.ElementType.SENSOR,
 				Sensors.COLLIDES_WITH_FINGER.name(), null));
-		script.addBrick(new WhenConditionBrick(condition));
+		script.addBrick(new WaitUntilBrick(condition));
 		script.addBrick(new BroadcastBrick(defaultMessage));
 		script.addBrick(new BroadcastReceiverBrick(new BroadcastScript(defaultMessage)));
 		script.addBrick(new NextLookBrick());

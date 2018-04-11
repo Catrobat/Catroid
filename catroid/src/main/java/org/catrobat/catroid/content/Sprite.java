@@ -54,7 +54,6 @@ import org.catrobat.catroid.content.bricks.UserVariableBrick;
 import org.catrobat.catroid.content.bricks.WhenConditionBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
@@ -68,7 +67,9 @@ import java.io.Serializable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 // Remove checkstyle disable when https://github.com/checkstyle/checkstyle/issues/1349 is fixed
 // CHECKSTYLE DISABLE IndentationCheck FOR 8 LINES
@@ -93,6 +94,7 @@ public class Sprite implements Serializable, Cloneable {
 	private transient boolean convertToSingleSprite = false;
 	private transient boolean convertToGroupItemSprite = false;
 	private transient Multimap<EventId, EventSequenceAction> idToEventSequenceMap = HashMultimap.create();
+	private transient Set<ConditionScriptTrigger> conditionScriptTriggers = new HashSet<>();
 
 	@XStreamAsAttribute
 	private String name;
@@ -142,7 +144,7 @@ public class Sprite implements Serializable, Cloneable {
 		return scriptList;
 	}
 
-	public List<Brick> getListWithAllBricks() {
+	List<Brick> getAllBricks() {
 		List<Brick> allBricks = new ArrayList<>();
 		for (Script script : scriptList) {
 			allBricks.add(script.getScriptBrick());
@@ -156,23 +158,6 @@ public class Sprite implements Serializable, Cloneable {
 			}
 		}
 		return allBricks;
-	}
-
-	public List<Brick> getAllBricks() {
-		List<Brick> result = new ArrayList<>();
-		for (Script script : scriptList) {
-			for (Brick brick : script.getBrickList()) {
-				result.add(brick);
-			}
-		}
-		for (UserBrick userBrick : userBricks) {
-			result.add(userBrick);
-			Script userScript = userBrick.getDefinitionBrick().getUserScript();
-			for (Brick brick : userScript.getBrickList()) {
-				result.add(brick);
-			}
-		}
-		return result;
 	}
 
 	public List<PlaySoundBrick> getPlaySoundBricks() {
@@ -200,6 +185,7 @@ public class Sprite implements Serializable, Cloneable {
 
 	public void invalidate() {
 		idToEventSequenceMap = null;
+		conditionScriptTriggers = null;
 		penConfiguration = null;
 	}
 
@@ -240,6 +226,22 @@ public class Sprite implements Serializable, Cloneable {
 		return matchingUserBricks;
 	}
 
+	public void initConditionScriptTiggers() {
+		for (Script script : scriptList) {
+			if (script instanceof WhenConditionScript) {
+				WhenConditionBrick conditionBrick = (WhenConditionBrick) script.getScriptBrick();
+				Formula condition = conditionBrick.getFormulaWithBrickField(Brick.BrickField.IF_CONDITION);
+				conditionScriptTriggers.add(new ConditionScriptTrigger(condition));
+			}
+		}
+	}
+
+	void evaluateConditionScriptTriggers() {
+		for (ConditionScriptTrigger conditionScriptTrigger : conditionScriptTriggers) {
+			conditionScriptTrigger.evaluateAndTriggerActions(this);
+		}
+	}
+
 	public void createAndAddActions(@CreateActionsMode int includeStartActions) {
 		idToEventSequenceMap.clear();
 		for (Script script : scriptList) {
@@ -257,8 +259,6 @@ public class Sprite implements Serializable, Cloneable {
 			}
 		} else if (script instanceof EventScript) {
 			createAndAddActionByEventScript(script);
-		} else if (script instanceof WhenConditionScript) {
-			createAndAddActionByWhenConditionScript((WhenConditionScript) script);
 		}
 	}
 
@@ -276,26 +276,6 @@ public class Sprite implements Serializable, Cloneable {
 	private void createAndAddActionByEventScript(Script script) {
 		EventScript eventScript = (EventScript) script;
 		idToEventSequenceMap.put(eventScript.createEventId(this), createEventSequence(script));
-	}
-
-	private void createAndAddActionByWhenConditionScript(WhenConditionScript script) {
-		ActionFactory actionFactory = getActionFactory();
-		Formula condition = ((WhenConditionBrick) script.getScriptBrick()).getConditionFormula();
-		Formula negatedCondition = new Formula(condition.getRoot().clone()) {
-			@Override
-			public Boolean interpretBoolean(Sprite sprite) throws InterpretationException {
-				return !super.interpretBoolean(sprite);
-			}
-		};
-
-		Action waitAction = actionFactory.createWaitUntilAction(this, condition);
-		Action waitActionNegated = actionFactory.createWaitUntilAction(this, negatedCondition);
-
-		SequenceAction foreverSequence = ActionFactory.sequence(ActionFactory.sequence(waitAction,
-				createActionSequence(script)), waitActionNegated);
-
-		Action whenConditionBecomesTrueAction = actionFactory.createForeverAction(this, foreverSequence);
-		look.startAction(whenConditionBecomesTrueAction);
 	}
 
 	public ActionFactory getActionFactory() {
@@ -351,6 +331,7 @@ public class Sprite implements Serializable, Cloneable {
 		cloneSprite.soundList = this.soundList;
 		cloneSprite.nfcTagList = this.nfcTagList;
 		cloneSprite.idToEventSequenceMap = HashMultimap.create();
+		cloneSprite.conditionScriptTriggers = this.conditionScriptTriggers;
 
 		Sprite originalSprite = ProjectManager.getInstance().getCurrentSprite();
 		ProjectManager.getInstance().setCurrentSprite(cloneSprite);
@@ -607,7 +588,7 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public void updateUserVariableReferencesInUserVariableBricks(List<UserVariable> variables) {
-		for (Brick brick : getListWithAllBricks()) {
+		for (Brick brick : getAllBricks()) {
 			if (brick instanceof UserVariableBrick) {
 				UserVariableBrick userVariableBrick = (UserVariableBrick) brick;
 				for (UserVariable variable : variables) {

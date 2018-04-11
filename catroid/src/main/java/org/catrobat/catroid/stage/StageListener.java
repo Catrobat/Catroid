@@ -96,10 +96,6 @@ public class StageListener implements ApplicationListener {
 	private static final int ACTIONS_COMPUTATION_TIME_MAXIMUM = 8;
 	private static final boolean DEBUG = false;
 
-	// needed for UiTests - is disabled to fix crashes with EMMA coverage
-	// CHECKSTYLE DISABLE StaticVariableNameCheck FOR 1 LINES
-	private static boolean DYNAMIC_SAMPLING_RATE_FOR_ACTIONS = true;
-
 	private float deltaActionTimeDivisor = 10f;
 	public static final String SCREENSHOT_AUTOMATIC_FILE_NAME = "automatic_screenshot"
 			+ Constants.DEFAULT_IMAGE_EXTENSION;
@@ -483,6 +479,7 @@ public class StageListener implements ApplicationListener {
 			for (int currentSprite = 0; currentSprite < spriteSize; currentSprite++) {
 				Sprite sprite = sprites.get(currentSprite);
 				sprite.createAndAddActions(Sprite.INCLUDE_START_ACTIONS);
+				sprite.initConditionScriptTiggers();
 				if (!sprite.getLookList().isEmpty()) {
 					sprite.look.setLookData(sprite.getLookList().get(0));
 				}
@@ -492,34 +489,20 @@ public class StageListener implements ApplicationListener {
 		if (!paused) {
 			float deltaTime = Gdx.graphics.getDeltaTime();
 
-			/*
-			 * Necessary for UiTests, when EMMA - code coverage is enabled.
-			 * 
-			 * Without setting DYNAMIC_SAMPLING_RATE_FOR_ACTIONS to false(via reflection), before
-			 * the UiTest enters the stage, random segmentation faults(triggered by EMMA) will occur.
-			 * 
-			 * Can be removed, when EMMA is replaced by an other code coverage tool, or when a
-			 * future EMMA - update will fix the bugs.
-			 */
-			if (!DYNAMIC_SAMPLING_RATE_FOR_ACTIONS) {
-				physicsWorld.step(deltaTime);
-				stage.act(deltaTime);
+			float optimizedDeltaTime = deltaTime / deltaActionTimeDivisor;
+			long timeBeforeActionsUpdate = SystemClock.uptimeMillis();
+			while (deltaTime > 0f) {
+				physicsWorld.step(optimizedDeltaTime);
+				stage.act(optimizedDeltaTime);
+				deltaTime -= optimizedDeltaTime;
+			}
+			long executionTimeOfActionsUpdate = SystemClock.uptimeMillis() - timeBeforeActionsUpdate;
+			if (executionTimeOfActionsUpdate <= ACTIONS_COMPUTATION_TIME_MAXIMUM) {
+				deltaActionTimeDivisor += 1f;
+				deltaActionTimeDivisor = Math.min(DELTA_ACTIONS_DIVIDER_MAXIMUM, deltaActionTimeDivisor);
 			} else {
-				float optimizedDeltaTime = deltaTime / deltaActionTimeDivisor;
-				long timeBeforeActionsUpdate = SystemClock.uptimeMillis();
-				while (deltaTime > 0f) {
-					physicsWorld.step(optimizedDeltaTime);
-					stage.act(optimizedDeltaTime);
-					deltaTime -= optimizedDeltaTime;
-				}
-				long executionTimeOfActionsUpdate = SystemClock.uptimeMillis() - timeBeforeActionsUpdate;
-				if (executionTimeOfActionsUpdate <= ACTIONS_COMPUTATION_TIME_MAXIMUM) {
-					deltaActionTimeDivisor += 1f;
-					deltaActionTimeDivisor = Math.min(DELTA_ACTIONS_DIVIDER_MAXIMUM, deltaActionTimeDivisor);
-				} else {
-					deltaActionTimeDivisor -= 1f;
-					deltaActionTimeDivisor = Math.max(1f, deltaActionTimeDivisor);
-				}
+				deltaActionTimeDivisor -= 1f;
+				deltaActionTimeDivisor = Math.max(1f, deltaActionTimeDivisor);
 			}
 		}
 
