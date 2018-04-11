@@ -23,10 +23,21 @@
 
 package org.catrobat.catroid.content.bricks;
 
+import android.content.Context;
+import android.view.View;
+import android.widget.TextView;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Sprite;
+
+import java.util.Collections;
+import java.util.List;
+
 public class SetBackgroundAndWaitBrick extends SetBackgroundBrick {
 
 	public SetBackgroundAndWaitBrick() {
-		wait = true;
 	}
 
 	@Override
@@ -34,5 +45,19 @@ public class SetBackgroundAndWaitBrick extends SetBackgroundBrick {
 		SetBackgroundAndWaitBrick clonedBrick = new SetBackgroundAndWaitBrick();
 		clonedBrick.setLook(look);
 		return clonedBrick;
+	}
+
+	@Override
+	protected View prepareView(Context context) {
+		View view = View.inflate(context, R.layout.brick_set_look, null);
+		((TextView) view.findViewById(R.id.brick_set_look_text_view))
+				.setText(R.string.brick_set_background_and_wait);
+		return view;
+	}
+
+	@Override
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+		sequence.addAction(sprite.getActionFactory().createSetLookAction(getSprite(), look, true));
+		return Collections.emptyList();
 	}
 }

@@ -458,12 +458,14 @@ public class BrickValueParameterTest {
 		openCategory(R.string.category_sound);
 
 		//start sound - spinner "New..:"
-		checkIfBrickShowsText(PlaySoundBrick.class, R.string.brick_play_sound);
-		checkIfBrickShowsSpinnerWithText(PlaySoundBrick.class, R.id.playsound_spinner, R.string.new_broadcast_message);
+		checkIfBrickAtPositionShowsText(PlaySoundBrick.class, 0, R.string.brick_play_sound);
+		checkIfBrickAtPositionShowsSpinnerWithText(PlaySoundBrick.class, 0, R.id.brick_play_sound_spinner, R.string
+				.new_broadcast_message);
 
 		//start sound and wait  - spinner "new..:"
 		checkIfBrickShowsText(PlaySoundAndWaitBrick.class, R.string.brick_play_sound_and_wait);
-		checkIfBrickShowsSpinnerWithText(PlaySoundAndWaitBrick.class, R.id.playsound_spinner, R.string.new_broadcast_message);
+		checkIfBrickShowsSpinnerWithText(PlaySoundAndWaitBrick.class, R.id.brick_play_sound_spinner, R.string
+				.new_broadcast_message);
 
 		//stop all sounds
 		checkIfBrickShowsText(StopAllSoundsBrick.class, R.string.brick_stop_all_sounds);
@@ -581,8 +583,7 @@ public class BrickValueParameterTest {
 				R.id.brick_set_look_spinner,
 				R.string.brick_variable_spinner_create_new_variable);
 
-		checkIfBrickAtPositionShowsText(SetBackgroundAndWaitBrick.class, 0, R.string.brick_set_background);
-		checkIfBrickAtPositionShowsText(SetBackgroundAndWaitBrick.class, 0, R.string.brick_and_wait);
+		checkIfBrickAtPositionShowsText(SetBackgroundAndWaitBrick.class, 0, R.string.brick_set_background_and_wait);
 		checkIfBrickAtPositionShowsSpinnerWithText(SetBackgroundAndWaitBrick.class, 0,
 				R.id.brick_set_look_spinner,
 				R.string.brick_variable_spinner_create_new_variable);
@@ -1069,8 +1070,8 @@ public class BrickValueParameterTest {
 
 		//start scene - spinner "new..."
 		checkIfBrickShowsText(SceneStartBrick.class, R.string.brick_scene_start);
-		checkIfBrickShowsSpinnerWithText(SceneStartBrick.class, R.id.brick_scene_start_spinner, R.string
-				.new_broadcast_message);
+		checkIfBrickShowsSpinnerWithText(SceneStartBrick.class, R.id.brick_scene_start_spinner,
+				InstrumentationRegistry.getTargetContext().getString(R.string.default_scene_name, 1));
 
 		//stop scripts - spinner "stop the script"
 		checkIfBrickShowsText(StopScriptBrick.class, R.string.brick_stop_script);

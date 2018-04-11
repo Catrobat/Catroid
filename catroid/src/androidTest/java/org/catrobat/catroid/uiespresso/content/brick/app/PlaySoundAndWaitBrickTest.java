@@ -122,9 +122,9 @@ public class PlaySoundAndWaitBrickTest {
 		onView(withText(R.string.scripts))
 				.perform(click());
 
-		onBrickAtPosition(playSoundAndWaitBrickPosition).onSpinner(R.id.playsound_spinner)
+		onBrickAtPosition(playSoundAndWaitBrickPosition).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(soundName);
-		onBrickAtPosition(playSoundBrickPosition).onSpinner(R.id.playsound_spinner)
+		onBrickAtPosition(playSoundBrickPosition).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(soundName);
 		pressBack();
 
@@ -133,9 +133,9 @@ public class PlaySoundAndWaitBrickTest {
 		onView(withText(R.string.scripts))
 				.perform(click());
 
-		onBrickAtPosition(playSoundAndWaitBrickPosition).onSpinner(R.id.playsound_spinner)
+		onBrickAtPosition(playSoundAndWaitBrickPosition).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(soundName2);
-		onBrickAtPosition(playSoundBrickPosition).onSpinner(R.id.playsound_spinner)
+		onBrickAtPosition(playSoundBrickPosition).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(soundName2);
 	}
 
@@ -146,19 +146,19 @@ public class PlaySoundAndWaitBrickTest {
 		onView(withText(R.string.scripts))
 				.perform(click());
 
-		onBrickAtPosition(playSoundAndWaitBrickPosition).onSpinner(R.id.playsound_spinner)
+		onBrickAtPosition(playSoundAndWaitBrickPosition).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(soundName);
-		onBrickAtPosition(playSoundBrickPosition).onSpinner(R.id.playsound_spinner)
+		onBrickAtPosition(playSoundBrickPosition).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(soundName);
 
-		onBrickAtPosition(playSoundAndWaitBrickPosition).onChildView(withId(R.id.playsound_spinner))
+		onBrickAtPosition(playSoundAndWaitBrickPosition).onChildView(withId(R.id.brick_play_sound_spinner))
 				.perform(click());
 
 		recordNewSound(3000);
 
-		onBrickAtPosition(playSoundAndWaitBrickPosition).onSpinner(R.id.playsound_spinner)
+		onBrickAtPosition(playSoundAndWaitBrickPosition).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(R.string.soundrecorder_recorded_filename);
-		onBrickAtPosition(playSoundBrickPosition).onSpinner(R.id.playsound_spinner)
+		onBrickAtPosition(playSoundBrickPosition).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(soundName);
 	}
 
@@ -170,9 +170,9 @@ public class PlaySoundAndWaitBrickTest {
 		onView(withText(R.string.scripts))
 				.perform(click());
 
-		onBrickAtPosition(playSoundAndWaitBrickPosition).onSpinner(R.id.playsound_spinner)
+		onBrickAtPosition(playSoundAndWaitBrickPosition).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(soundName);
-		onBrickAtPosition(playSoundBrickPosition).onSpinner(R.id.playsound_spinner)
+		onBrickAtPosition(playSoundBrickPosition).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(soundName);
 
 		pressBack();
@@ -182,9 +182,9 @@ public class PlaySoundAndWaitBrickTest {
 		onView(withText(R.string.scripts))
 				.perform(click());
 
-		onBrickAtPosition(playSoundAndWaitBrickPosition).onSpinner(R.id.playsound_spinner)
+		onBrickAtPosition(playSoundAndWaitBrickPosition).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(newName);
-		onBrickAtPosition(playSoundBrickPosition).onSpinner(R.id.playsound_spinner)
+		onBrickAtPosition(playSoundBrickPosition).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(newName);
 	}
 

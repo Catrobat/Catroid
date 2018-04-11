@@ -394,12 +394,12 @@ public class DefaultProjectCreatorCast extends DefaultProjectCreator {
 			birdScriptButtonB.addBrick(ifLogicBeginBrickBirdLeft);
 			//Bird sound
 			PlaySoundBrick playSoundBrickBird1 = new PlaySoundBrick();
-			playSoundBrickBird1.setSoundInfo(soundInfo1);
+			playSoundBrickBird1.setSound(soundInfo1);
 			birdScriptButtonB.addBrick(playSoundBrickBird1);
 			IfLogicElseBrick ifLogicElseBrickBirdLeft = new IfLogicElseBrick(ifLogicBeginBrickBirdLeft);
 			birdScriptButtonB.addBrick(ifLogicElseBrickBirdLeft);
 			PlaySoundBrick playSoundBrickBird2 = new PlaySoundBrick();
-			playSoundBrickBird2.setSoundInfo(soundInfo2);
+			playSoundBrickBird2.setSound(soundInfo2);
 			birdScriptButtonB.addBrick(playSoundBrickBird2);
 			IfLogicEndBrick ifLogicEndBrickBirdLeft = new IfLogicEndBrick(ifLogicElseBrickBirdLeft, ifLogicBeginBrickBirdLeft);
 			birdScriptButtonB.addBrick(ifLogicEndBrickBirdLeft);

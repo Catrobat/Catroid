@@ -101,7 +101,6 @@ public final class UiTestUtils {
 	}
 
 	public static ViewInteraction onToast(Matcher<View> viewMatcher) {
-		final ViewInteraction viewInteraction = onView(viewMatcher).inRoot(isToast());
-		return viewInteraction;
+		return onView(viewMatcher).inRoot(isToast());
 	}
 }

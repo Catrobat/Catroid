@@ -256,7 +256,7 @@ public class RtlBrickTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void eventBricks() throws Exception {
+	public void eventBricks() {
 		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
 		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 		openCategory(R.string.category_event);
@@ -297,7 +297,7 @@ public class RtlBrickTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void controlBricks() throws Exception {
+	public void controlBricks() {
 		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
 		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 		openCategory(R.string.category_control);
@@ -350,7 +350,7 @@ public class RtlBrickTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void motionBricks() throws Exception {
+	public void motionBricks() {
 		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
 		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 		openCategory(R.string.category_motion);
@@ -424,16 +424,16 @@ public class RtlBrickTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void soundBricks() throws Exception {
+	public void soundBricks() {
 		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
 		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 		openCategory(R.string.category_sound);
 
 		// Start sound
-		checkIfBrickISRtl(PlaySoundBrick.class, R.id.brick_play_sound_layout);
+		checkIfBrickAtPositionIsRtl(PlaySoundBrick.class, 0, R.id.brick_play_sound_layout);
 
 		// Start sound and wait
-		checkIfBrickISRtl(PlaySoundAndWaitBrick.class, R.id.brick_play_sound_and_wait_layout);
+		checkIfBrickISRtl(PlaySoundAndWaitBrick.class, R.id.brick_play_sound_layout);
 
 		// Stop all sounds
 		checkIfBrickISRtl(StopAllSoundsBrick.class, R.id.brick_stop_all_sounds_layout);
@@ -459,7 +459,7 @@ public class RtlBrickTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void looksBricks() throws Exception {
+	public void looksBricks() {
 		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
 		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 		openCategory(R.string.category_looks);
@@ -536,7 +536,7 @@ public class RtlBrickTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void penBricks() throws Exception {
+	public void penBricks() {
 		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
 		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 		openCategory(R.string.category_pen);
@@ -562,7 +562,7 @@ public class RtlBrickTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void dataBricks() throws Exception {
+	public void dataBricks() {
 		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
 		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 		openCategory(R.string.category_data);
@@ -600,7 +600,7 @@ public class RtlBrickTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void legoNxtBricks() throws Exception {
+	public void legoNxtBricks() {
 		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
 		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 		openCategory(R.string.category_lego_nxt);
@@ -620,7 +620,7 @@ public class RtlBrickTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void legoEv3Bricks() throws Exception {
+	public void legoEv3Bricks() {
 		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
 		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 		openCategory(R.string.category_lego_ev3);
@@ -643,7 +643,7 @@ public class RtlBrickTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void arDroneBricks() throws Exception {
+	public void arDroneBricks() {
 		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
 		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 		openCategory(R.string.category_drone);
@@ -690,7 +690,7 @@ public class RtlBrickTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void jumpingSumoBricks() throws Exception {
+	public void jumpingSumoBricks() {
 		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
 		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 		openCategory(R.string.category_jumping_sumo);
@@ -731,7 +731,7 @@ public class RtlBrickTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void phiroBricks() throws Exception {
+	public void phiroBricks() {
 		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
 		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 		openCategory(R.string.category_phiro);
@@ -765,7 +765,7 @@ public class RtlBrickTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void arduinoBricks() throws Exception {
+	public void arduinoBricks() {
 		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
 		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 		openCategory(R.string.category_arduino);
@@ -779,7 +779,7 @@ public class RtlBrickTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void raspPiBricks() throws Exception {
+	public void raspPiBricks() {
 		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
 		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 		openCategory(R.string.category_raspi);

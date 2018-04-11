@@ -33,7 +33,6 @@ import org.catrobat.catroid.ui.recyclerview.adapter.ScriptAdapter;
 import org.catrobat.catroid.ui.recyclerview.controller.ScriptController;
 import org.catrobat.catroid.utils.ToastUtil;
 
-import java.io.IOException;
 import java.util.List;
 
 public class BackpackScriptFragment extends BackpackRecyclerViewFragment<String> {
@@ -52,22 +51,28 @@ public class BackpackScriptFragment extends BackpackRecyclerViewFragment<String>
 	@Override
 	protected void unpackItems(List<String> selectedItems) {
 		setShowProgressBar(true);
-		try {
-			for (String item : selectedItems) {
-				List<Script> scripts = BackPackListManager.getInstance().getBackPackedScripts().get(item);
-				for (Script script : scripts) {
+		int unpackedItemCnt = 0;
+
+		for (String item : selectedItems) {
+			List<Script> scripts = BackPackListManager.getInstance().getBackPackedScripts().get(item);
+			for (Script script : scripts) {
+				try {
 					scriptController.unpack(script, ProjectManager.getInstance().getCurrentSprite());
+					unpackedItemCnt++;
+				} catch (CloneNotSupportedException e) {
+					Log.e(TAG, Log.getStackTraceString(e));
 				}
 			}
-			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.unpacked_scripts,
-					selectedItems.size(),
-					selectedItems.size()));
-			getActivity().finish();
-		} catch (IOException | CloneNotSupportedException e) {
-			Log.e(TAG, Log.getStackTraceString(e));
-		} finally {
-			finishActionMode();
 		}
+
+		if (unpackedItemCnt > 0) {
+			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.unpacked_scripts,
+					unpackedItemCnt,
+					unpackedItemCnt));
+			getActivity().finish();
+		}
+
+		finishActionMode();
 	}
 
 	@Override
