@@ -20,33 +20,38 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.content.actions;
+package org.catrobat.catroid.test.content.script;
 
 import android.test.AndroidTestCase;
 
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.WhenScript;
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.PlaceAtBrick;
+import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.bricks.HideBrick;
+import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 
-public class WhenActionTest extends AndroidTestCase {
+public class StartScriptTest extends AndroidTestCase {
 
-	public void testWhenBrick() throws InterruptedException {
-		int testPosition = 100;
+	public void testStartScript() throws InterruptedException {
+		double size = 300;
+		Sprite testSprite = new SingleSprite("testSprite");
+		Script testScript = new StartScript();
+		HideBrick hideBrick = new HideBrick();
+		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(size);
 
-		Sprite sprite = new SingleSprite("new SingleSprite");
-		WhenScript whenScript = new WhenScript();
-		whenScript.setAction(1);
-		Brick placeAtBrick = new PlaceAtBrick(testPosition, testPosition);
-		whenScript.addBrick(placeAtBrick);
-		sprite.addScript(whenScript);
-		sprite.createWhenScriptActionSequence(whenScript.getAction());
+		testScript.addBrick(hideBrick);
+		testScript.addBrick(setSizeToBrick);
+		testSprite.addScript(testScript);
 
-		while (!sprite.look.getAllActionsAreFinished()) {
-			sprite.look.act(1.0f);
+		testSprite.createAndAddActions(Sprite.INCLUDE_START_ACTIONS);
+
+		while (!testSprite.look.getAllActionsAreFinished()) {
+			testSprite.look.act(1.0f);
 		}
 
-		assertEquals("Simple broadcast failed", (float) testPosition, sprite.look.getX());
+		assertFalse("Look is not hidden", testSprite.look.isLookVisible());
+		assertEquals("the size is not as expected", (float) size / 100, testSprite.look.getScaleX());
+		assertEquals("the size is not as expected", (float) size / 100, testSprite.look.getScaleY());
 	}
 }

@@ -723,8 +723,7 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 			deleteChildNodeByName(originalDocument.getElementsByTagName("header").item(0), "isPhiroProProject");
 			deleteChildNodeByName(originalDocument, "brickList", "inUserBrick");
 
-			updateRaspiScripts(originalDocument);
-			renameCollisionScriptMessage(originalDocument);
+			renameScriptChildNodeByName(originalDocument, "CollisionScript", "receivedMessage", "spriteToCollideWithName");
 			modifyScriptLists(originalDocument);
 			modifyBrickLists(originalDocument);
 			modifyVariables(originalDocument);
@@ -734,20 +733,13 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 		}
 	}
 
-	private void renameCollisionScriptMessage(Document originalDocument) {
+	private void renameScriptChildNodeByName(Document originalDocument, String scriptName, String oldChildNodeName,
+			String newChildNodeName) {
 		NodeList scripts = originalDocument.getElementsByTagName("script");
-		List<Node> collisionScripts = getElementsFilteredByAttribute(scripts, "type", "CollisionScript");
+		List<Node> collisionScripts = getElementsFilteredByAttribute(scripts, "type", scriptName);
 		for (Node collisionScript : collisionScripts) {
-			Element message = findNodeByName(collisionScript, "receivedMessage");
-			originalDocument.renameNode(message, null, "spriteToCollideWithName");
-		}
-	}
-
-	private void updateRaspiScripts(Document originalDocument) {
-		NodeList scripts = originalDocument.getElementsByTagName("script");
-		List<Node> raspiInterruptScripts = getElementsFilteredByAttribute(scripts, "type", "RaspiInterruptScript");
-		for (Node node : raspiInterruptScripts) {
-			deleteChildNodeByName(node, "receivedMessage");
+			Element message = findNodeByName(collisionScript, oldChildNodeName);
+			originalDocument.renameNode(message, null, newChildNodeName);
 		}
 	}
 

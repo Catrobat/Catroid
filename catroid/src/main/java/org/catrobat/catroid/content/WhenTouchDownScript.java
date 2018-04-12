@@ -25,10 +25,11 @@ package org.catrobat.catroid.content;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.WhenTouchDownBrick;
+import org.catrobat.catroid.content.eventids.EventId;
 
 import java.util.ArrayList;
 
-public class WhenTouchDownScript extends Script {
+public class WhenTouchDownScript extends Script implements EventScript {
 
 	private static final long serialVersionUID = 1L;
 
@@ -56,5 +57,10 @@ public class WhenTouchDownScript extends Script {
 			resources |= brick.getRequiredResources();
 		}
 		return resources;
+	}
+
+	@Override
+	public EventId createEventId(Sprite sprite) {
+		return new EventId(EventId.TAP_BACKGROUND);
 	}
 }

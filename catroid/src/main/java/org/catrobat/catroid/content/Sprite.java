@@ -487,19 +487,6 @@ public class Sprite implements Serializable, Cloneable {
 				whenParallelAction.addAction(sequence);
 			}
 		}
-		look.setWhenParallelAction(whenParallelAction);
-		look.startAction(whenParallelAction);
-	}
-
-	public void createWhenScriptActionSequence(String action) {
-		ParallelAction whenParallelAction = ActionFactory.parallel();
-		for (Script s : scriptList) {
-			if (s instanceof WhenScript && (((WhenScript) s).getAction().equalsIgnoreCase(action))) {
-				SequenceAction sequence = createActionSequence(s);
-				whenParallelAction.addAction(sequence);
-			}
-		}
-		look.setWhenParallelAction(whenParallelAction);
 		look.startAction(whenParallelAction);
 	}
 
@@ -523,17 +510,6 @@ public class Sprite implements Serializable, Cloneable {
 		}
 		//TODO: quick fix for faulty behaviour - nfc action triggers again after touchevents
 		//look.setWhenParallelAction(whenParallelAction);
-		look.startAction(whenParallelAction);
-	}
-
-	public void createTouchDownAction() {
-		ParallelAction whenParallelAction = ActionFactory.parallel();
-		for (Script s : scriptList) {
-			if (s instanceof WhenTouchDownScript) {
-				SequenceAction sequence = createActionSequence(s);
-				whenParallelAction.addAction(sequence);
-			}
-		}
 		look.startAction(whenParallelAction);
 	}
 
