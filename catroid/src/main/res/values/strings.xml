@@ -57,6 +57,8 @@
 
     <string name="backpack_add">Add to backpack</string>
 
+    <string name="share_website_text">www.pocketcode.org</string>
+
     <!-- Login/Logout Mechanism -->
     <string name="loading_check_facebook_data">Retrieving Facebook data…</string>
     <string name="loading_check_email">Checking if the e-mail is available…</string>
@@ -290,8 +292,8 @@
     <!-- ERRORS -->
 
     <!-- Privacy Policy Error -->
-    <string name="declined_privacy_agreement_alert">You won\'t be able to use this app unless you accept our
-        privacy policy agreement!</string>
+    <string name="declined_privacy_agreement_alert">To use our app, it is necessary to accept our Privacy Policy.
+        However, if you don’t feel comfortable to do so, you can use our free web-services on</string>
 
     <string name="wtf_error">An unexpected error occurred: Could NOT restore default Project.</string>
 
@@ -663,6 +665,9 @@
 
     <!-- Privacy Policy -->
     <string name="dialog_privacy_policy_title">Privacy policy</string>
+    <string name="disclaimer_privacy_police_header_headline">Welcome!</string>
+    <string name="disclaimer_privacy_policy_header">Before you can start coding, please read and accept our Privacy 
+        Policy to use the app:</string>
     <string name="dialog_privacy_policy_text">Version 2.0, 20 September 2017\n\n
 
         To offer you all collaborative benefits of our services and the associated account, it is necessary to

@@ -35,6 +35,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.PermissionChecker;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -115,8 +116,16 @@ public class MainMenuActivity extends BaseCastActivity implements
 	}
 
 	public void handleDeclinedPrivacyPolicyButton(View view) {
+		View dialogView = View.inflate(this, R.layout.declined_privacy_agreement_alert_view, null);
+
+		String linkString = getString(R.string.about_link_template,
+				Constants.CATROBAT_ABOUT_URL,
+				getString(R.string.share_website_text));
+
+		((TextView) dialogView.findViewById(R.id.share_website_view)).setText(Html.fromHtml(linkString));
+
 		new AlertDialog.Builder(this)
-				.setMessage(R.string.declined_privacy_agreement_alert)
+				.setView(dialogView)
 				.setNeutralButton(R.string.ok, null)
 				.create()
 				.show();
