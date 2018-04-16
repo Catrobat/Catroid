@@ -54,7 +54,7 @@ import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.ZipArchiver;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
@@ -308,7 +308,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 	private void prepareStandaloneProject() {
 		try {
 			InputStream inputStream = getAssets().open(BuildConfig.START_PROJECT + ".zip");
-			StorageHandler.copyAndUnzip(inputStream, Utils.buildProjectPath(BuildConfig.PROJECT_NAME));
+			new ZipArchiver().unzip(inputStream, Utils.buildProjectPath(BuildConfig.PROJECT_NAME));
 			new ProjectLoaderTask(this, this).execute(BuildConfig.PROJECT_NAME);
 		} catch (IOException e) {
 			Log.e("STANDALONE", "Could not unpack Standalone Program: ", e);
