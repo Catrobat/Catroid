@@ -32,7 +32,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -44,30 +43,32 @@ public class ZipArchiver {
 	private static final String DIRECTORY_LEVEL_UP = "../";
 	private static final int COMPRESSION_LEVEL = 0;
 
-	public void zip(String archive, String... filePaths) throws IOException {
+	public void zip(String archive, File[] files) throws IOException {
 		FileOutputStream fileOutputStream = new FileOutputStream(archive);
 		ZipOutputStream zipOutputStream = new ZipOutputStream(fileOutputStream);
-		zipOutputStream.setLevel(COMPRESSION_LEVEL);
-
-		List<File> files = new ArrayList<>();
-		for (String filePath : filePaths) {
-			files.add(new File(filePath));
+		try {
+			zipOutputStream.setLevel(COMPRESSION_LEVEL);
+			writeZipEntriesToStream(zipOutputStream, Arrays.asList(files), "");
+		} finally {
+			zipOutputStream.close();
+			fileOutputStream.close();
 		}
-		writeZipEntriesToStream(zipOutputStream, files);
 	}
 
-	private void writeZipEntriesToStream(ZipOutputStream zipOutputStream, List<File> files) throws IOException {
+	private void writeZipEntriesToStream(ZipOutputStream zipOutputStream, List<File> files, String parentDir) throws
+			IOException {
 		for (File file : files) {
 			if (!file.exists()) {
 				throw new FileNotFoundException("File: " + file.getAbsolutePath() + " does NOT exist.");
 			}
 
 			if (file.isDirectory()) {
-				writeZipEntriesToStream(zipOutputStream, Arrays.asList(file.listFiles()));
+				writeZipEntriesToStream(zipOutputStream, Arrays.asList(file.listFiles()), parentDir +
+						file.getName() + "/");
 				continue;
 			}
 
-			zipOutputStream.putNextEntry(new ZipEntry(file.getName()));
+			zipOutputStream.putNextEntry(new ZipEntry(parentDir + file.getName()));
 
 			FileInputStream fileInputStream = new FileInputStream(file);
 

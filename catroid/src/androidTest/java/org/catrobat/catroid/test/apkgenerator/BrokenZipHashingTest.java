@@ -23,10 +23,10 @@
 
 package org.catrobat.catroid.test.apkgenerator;
 
+import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.io.ZipArchiver;
 import org.catrobat.catroid.utils.Utils;
 import org.junit.After;
@@ -35,41 +35,53 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
-import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
-public class ZipArchiverTest {
-
-	private File tmpFile;
-	private File archive;
-	private File unzippedDir;
-
+public class BrokenZipHashingTest {
 	@Before
 	public void setUp() throws IOException {
-		archive = new File(Utils.buildPath(Constants.DEFAULT_ROOT, "folderToZip.zip"));
-		unzippedDir = new File(Utils.buildPath(Constants.DEFAULT_ROOT, "unzippedFolder"));
-		tmpFile = File.createTempFile("test", ".png", new File(Constants.DEFAULT_ROOT));
+
 	}
 
 	@After
 	public void tearDown() throws IOException {
-		tmpFile.delete();
-		archive.delete();
-		StorageHandler.deleteDir(unzippedDir.getAbsolutePath());
+
 	}
 
 	@Test
-	public void testZipAndUnzipFile() throws IOException {
-		ZipArchiver archiver = new ZipArchiver();
+	public void testCompareZippedProjects() throws IOException, NoSuchAlgorithmException {
+		String testProjectPath = Utils.buildProjectPath("testCompareZips");
+		String outputZipPath = Utils.buildPath(Constants.DEFAULT_ROOT,"testCompareZips.zip");
 
-		archiver.zip(archive.getAbsolutePath(), new File[] {tmpFile});
+		InputStream inputStream = InstrumentationRegistry.getContext().getAssets().open("generated965.zip");
+		new ZipArchiver().unzip(inputStream, testProjectPath);
+		new ZipArchiver().zip(outputZipPath, new File(testProjectPath).listFiles());
 
-		assertTrue(archive.exists());
+		InputStream assetsInputZip = InstrumentationRegistry.getContext().getAssets().open("generated965.zip");
+		byte[] assetsZipMd5 = md5Checksum(assetsInputZip);
 
-		archiver.unzip(archive.getAbsolutePath(), unzippedDir.getAbsolutePath());
+		InputStream outputZip = new FileInputStream(new File(outputZipPath));
+		byte[] outputZipMd5 = md5Checksum(outputZip);
 
-		assertTrue(unzippedDir.exists());
+		assertEquals(assetsZipMd5, outputZipMd5);
+
+	}
+
+	public static byte[] md5Checksum(InputStream fis) throws IOException, NoSuchAlgorithmException{
+		MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+		byte[] buffer = new byte[Constants.BUFFER_8K];
+
+		int length;
+		while ((length = fis.read(buffer)) != -1) {
+			messageDigest.update(buffer, 0, length);
+		}
+		return messageDigest.digest();
 	}
 }
