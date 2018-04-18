@@ -51,13 +51,13 @@
 
         <Button
             android:id="@+id/dialog_sign_in_facebook_login_button"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/sign_in_with_facebook" />
 
         <Button
             android:id="@+id/dialog_sign_in_gplus_login_button"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/sign_in_with_google" />
 

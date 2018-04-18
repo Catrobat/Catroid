@@ -72,9 +72,7 @@ public class SpriteActivity extends BaseActivity implements PlaySceneDialogFragm
 		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-		String title = ProjectManager.getInstance().getCurrentScene().getName()
-				+ ": " + ProjectManager.getInstance().getCurrentSprite();
-		getSupportActionBar().setTitle(title);
+		updateActionBarTitle();
 
 		if (savedInstanceState == null) {
 			Bundle bundle = this.getIntent().getExtras();
@@ -85,6 +83,16 @@ public class SpriteActivity extends BaseActivity implements PlaySceneDialogFragm
 		}
 
 		loadFragment(fragmentPosition);
+	}
+
+	private void updateActionBarTitle() {
+		String currentSceneName = ProjectManager.getInstance().getCurrentScene().getName();
+		String currentSpriteName = ProjectManager.getInstance().getCurrentSprite().getName();
+		if (ProjectManager.getInstance().getCurrentProject().getSceneList().size() == 1) {
+			getSupportActionBar().setTitle(currentSpriteName);
+		} else {
+			getSupportActionBar().setTitle(currentSceneName + ": " + currentSpriteName);
+		}
 	}
 
 	private void loadFragment(int fragmentPosition) {

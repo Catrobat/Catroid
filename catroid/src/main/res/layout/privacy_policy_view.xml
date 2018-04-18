@@ -74,15 +74,15 @@
 
         <Button
             style="@style/BottomBarButton"
-            android:id="@+id/accept"
-            android:onClick="handleAgreedToPrivacyPolicyButton"
-            android:text="@string/agree"/>
-
-        <Button
-            style="@style/BottomBarButton"
             android:id="@+id/decline"
             android:onClick="handleDeclinedPrivacyPolicyButton"
             android:text="@string/disagree" />
+
+        <Button
+            style="@style/BottomBarButton"
+            android:id="@+id/accept"
+            android:onClick="handleAgreedToPrivacyPolicyButton"
+            android:text="@string/agree"/>
 
     </LinearLayout>
 </RelativeLayout>
