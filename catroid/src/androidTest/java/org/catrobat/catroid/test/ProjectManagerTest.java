@@ -31,11 +31,13 @@ import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.exceptions.ProjectException;
+import org.catrobat.catroid.io.ZipArchiver;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilUi;
-import org.catrobat.catroid.utils.UtilZip;
+import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
+import java.io.IOException;
 
 public class ProjectManagerTest extends InstrumentationTestCase {
 
@@ -157,10 +159,14 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		assertFalse(String.format("Directory %s does still exist", directory.getPath()), directory.exists());
 	}
 
-	public void testLoadProjectWithInvalidNestingBrickReferences() throws CompatibilityProjectException, OutdatedVersionProjectException, LoadingProjectException {
+	public void testLoadProjectWithInvalidNestingBrickReferences() throws CompatibilityProjectException,
+			IOException,
+			OutdatedVersionProjectException,
+			LoadingProjectException {
 		TestUtils.copyAssetProjectZipFile(getInstrumentation().getContext(), ZIP_FILENAME_WRONG_NESTING_BRICKS, Constants.TMP_PATH);
-		UtilZip.unZipFile(Constants.TMP_PATH + "/" + ZIP_FILENAME_WRONG_NESTING_BRICKS, Constants.DEFAULT_ROOT + "/"
-				+ PROJECT_NAME_NESTING_BRICKS);
+
+		new ZipArchiver().unzip(new File(Utils.buildPath(Constants.TMP_PATH, ZIP_FILENAME_WRONG_NESTING_BRICKS)),
+				new File(Utils.buildProjectPath(PROJECT_NAME_NESTING_BRICKS)));
 
 		projectManager.loadProject(PROJECT_NAME_NESTING_BRICKS, getInstrumentation().getTargetContext());
 		Project project = projectManager.getCurrentProject();
@@ -170,7 +176,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 
 		assertTrue("Nesting brick references not correct!", projectManager.checkNestingBrickReferences(false, false));
 
-		UtilZip.deleteZipFile(ZIP_FILENAME_WRONG_NESTING_BRICKS, Constants.TMP_PATH);
+		new File(Utils.buildPath(Constants.TMP_PATH, ZIP_FILENAME_WRONG_NESTING_BRICKS)).delete();
 		TestUtils.deleteTestProjects(PROJECT_NAME_NESTING_BRICKS);
 	}
 }
