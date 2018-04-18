@@ -40,14 +40,16 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="0.33"
-            android:drawableStart="@drawable/dialog_orientation_portrait" />
+            android:drawableStart="@drawable/dialog_orientation_portrait"
+            android:paddingLeft="@dimen/material_design_spacing_large"/>
 
         <RadioButton
             android:id="@+id/landscape_mode"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="0.33"
-            android:drawableStart="@drawable/dialog_orientation_landscape" />
+            android:drawableStart="@drawable/dialog_orientation_landscape"
+            android:paddingLeft="@dimen/material_design_spacing_large"/>
 
          <RadioButton
              android:id="@+id/cast"
@@ -55,7 +57,8 @@
              android:layout_height="match_parent"
              android:layout_weight="0.33"
              android:drawableStart="@drawable/ic_tv_black_24dp"
-             android:visibility="gone" />
+             android:visibility="gone"
+             android:paddingLeft="@dimen/material_design_spacing_large"/>
 
     </RadioGroup>
 </ScrollView>
