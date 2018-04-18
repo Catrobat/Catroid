@@ -77,11 +77,11 @@ pipeline {
 				// wait for emulator startup
 				sh "jenkins_android_emulator_helper -W"
 				// Run Unit and device tests for package: org.catrobat.catroid.test
-				sh "jenkins_android_cmd_wrapper -I ./gradlew test connectedCatroidDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.package=org.catrobat.catroid.test"
+				sh "jenkins_android_cmd_wrapper ./gradlew test connectedCatroidDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.package=org.catrobat.catroid.test"
 				// ensure that the following test run does not overwrite the results
 				sh "mv ${env.GRADLE_PROJECT_MODULE_NAME}/build/outputs/androidTest-results ${env.GRADLE_PROJECT_MODULE_NAME}/build/outputs/androidTest-results1"
 				// Run Unit and device tests for class: org.catrobat.catroid.uiespresso.testsuites.PullRequestTriggerSuite
-				sh "jenkins_android_cmd_wrapper -I ./gradlew test connectedCatroidDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.uiespresso.testsuites.PullRequestTriggerSuite"
+				sh "jenkins_android_cmd_wrapper ./gradlew test connectedCatroidDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.uiespresso.testsuites.PullRequestTriggerSuite"
 				// stop emulator
 				sh "jenkins_android_emulator_helper -K"
 			}
