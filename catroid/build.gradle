@@ -311,6 +311,12 @@ android {
     }
 }
 
+project.gradle.taskGraph.whenReady {
+    connectedCatroidDebugAndroidTest {
+        ignoreFailures = true
+    }
+}
+
 task copyAndroidNatives() {
     file("src/main/jniLibs/armeabi/").mkdirs();
     file("src/main/jniLibs/armeabi-v7a/").mkdirs();
