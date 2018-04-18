@@ -301,6 +301,8 @@ android {
                 'GradleCompatible', 'WifiManagerLeak', 'ApplySharedPref', 'DefaultLocale', 'ObsoleteSdkInt',
                 'StaticFieldLeak' , 'AppCompatResource'
 
+        abortOnError false
+
         textReport true
         xmlReport true
         htmlReport true
