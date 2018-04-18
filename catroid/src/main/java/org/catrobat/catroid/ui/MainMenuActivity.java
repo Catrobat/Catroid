@@ -139,6 +139,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 		if (!BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
 			FacebookSdk.sdkInitialize(getApplicationContext());
 			setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+			getSupportActionBar().setIcon(R.drawable.pc_toolbar_icon);
 			getSupportActionBar().setTitle(R.string.app_name);
 		}
 

@@ -95,7 +95,11 @@ public class SpriteAttributesActivity extends BaseActivity implements
 	private void updateActionBarTitle() {
 		String currentSceneName = ProjectManager.getInstance().getCurrentScene().getName();
 		String currentSpriteName = ProjectManager.getInstance().getCurrentSprite().getName();
-		getSupportActionBar().setTitle(currentSceneName + ": " + currentSpriteName);
+		if (ProjectManager.getInstance().getCurrentProject().getSceneList().size() == 1) {
+			getSupportActionBar().setTitle(currentSpriteName);
+		} else {
+			getSupportActionBar().setTitle(currentSceneName + ": " + currentSpriteName);
+		}
 	}
 
 	private List<SimpleRVItem> getItems() {
