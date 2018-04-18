@@ -34,6 +34,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.io.SoundManager;
+import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.utils.Utils;
 
@@ -83,7 +84,8 @@ public class SpeakAction extends TemporalAction {
 
 		hashText = Utils.md5Checksum(String.valueOf(interpretedText));
 		String fileName = hashText;
-		File pathToSpeechFile = new File(Constants.TEXT_TO_SPEECH_TMP_PATH);
+		File pathToSpeechFile = new File(Utils.buildPath(StorageHandler.getInstance().getTempDirectory(),
+				Constants.TEXT_TO_SPEECH_DIRECTORY));
 		pathToSpeechFile.mkdirs();
 		speechFile = new File(pathToSpeechFile, fileName + Constants.SOUND_STANDARD_EXTENSION);
 		listener = new OnUtteranceCompletedListener() {

@@ -158,8 +158,8 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testLoadProjectWithInvalidNestingBrickReferences() throws CompatibilityProjectException, OutdatedVersionProjectException, LoadingProjectException {
-		TestUtils.copyAssetProjectZipFile(getInstrumentation().getContext(), ZIP_FILENAME_WRONG_NESTING_BRICKS, Constants.TMP_PATH);
-		UtilZip.unZipFile(Constants.TMP_PATH + "/" + ZIP_FILENAME_WRONG_NESTING_BRICKS, Constants.DEFAULT_ROOT + "/"
+		TestUtils.copyAssetProjectZipFile(getInstrumentation().getContext(), ZIP_FILENAME_WRONG_NESTING_BRICKS, Constants.DEFAULT_TMP_PATH);
+		UtilZip.unZipFile(Constants.DEFAULT_TMP_PATH + "/" + ZIP_FILENAME_WRONG_NESTING_BRICKS, Constants.DEFAULT_ROOT + "/"
 				+ PROJECT_NAME_NESTING_BRICKS);
 
 		projectManager.loadProject(PROJECT_NAME_NESTING_BRICKS, getInstrumentation().getTargetContext());
@@ -170,7 +170,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 
 		assertTrue("Nesting brick references not correct!", projectManager.checkNestingBrickReferences(false, false));
 
-		UtilZip.deleteZipFile(ZIP_FILENAME_WRONG_NESTING_BRICKS, Constants.TMP_PATH);
+		UtilZip.deleteZipFile(ZIP_FILENAME_WRONG_NESTING_BRICKS, Constants.DEFAULT_TMP_PATH);
 		TestUtils.deleteTestProjects(PROJECT_NAME_NESTING_BRICKS);
 	}
 }

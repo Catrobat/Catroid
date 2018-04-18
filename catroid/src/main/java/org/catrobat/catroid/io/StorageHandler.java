@@ -252,7 +252,6 @@ import java.util.concurrent.locks.ReentrantLock;
 import static org.catrobat.catroid.common.Constants.BACKPACK_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.BACKPACK_IMAGE_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.BACKPACK_SOUND_DIRECTORY;
-import static org.catrobat.catroid.common.Constants.DEFAULT_ROOT;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.NO_MEDIA_FILE;
 import static org.catrobat.catroid.common.Constants.PROJECTCODE_NAME;
@@ -274,6 +273,7 @@ public final class StorageHandler {
 
 	private BackwardCompatibleCatrobatLanguageXStream xstream;
 	private Gson backpackGson;
+	private String rootDirectory = Constants.DEFAULT_ROOT;
 
 	private Lock loadSaveLock = new ReentrantLock();
 	// TODO: Since the StorageHandler constructor throws an exception, the member INSTANCE couldn't be assigned
@@ -292,11 +292,25 @@ public final class StorageHandler {
 		if (!Utils.externalStorageAvailable()) {
 			throw new IOException("Could not read external storage");
 		}
-		createCatroidRoot();
 	}
 
 	public static StorageHandler getInstance() {
 		return INSTANCE;
+	}
+
+	public String getRootDirectory() {
+		if (!checkIfCatroidRootExists()) {
+			createCatroidRoot();
+		}
+		return rootDirectory;
+	}
+
+	public void setRootDirectory(String rootDirectory) {
+		this.rootDirectory = rootDirectory;
+	}
+
+	public String getTempDirectory() {
+		return Utils.buildPath(getRootDirectory(), Constants.TMP_DIRECTORY);
 	}
 
 	private void prepareProgramXstream(boolean forSupportProject) {
@@ -553,7 +567,7 @@ public final class StorageHandler {
 	}
 
 	private void createCatroidRoot() {
-		File catroidRoot = new File(DEFAULT_ROOT);
+		File catroidRoot = new File(rootDirectory);
 		if (!catroidRoot.exists()) {
 			catroidRoot.mkdirs();
 		}
@@ -562,6 +576,11 @@ public final class StorageHandler {
 		} catch (IOException e) {
 			Log.e(TAG, "Creating backpack file structure failed");
 		}
+	}
+
+	private boolean checkIfCatroidRootExists() {
+		File catroidRoot = new File(rootDirectory);
+		return catroidRoot.exists() && checkIfBackPackFileStructureExists();
 	}
 
 	private boolean checkIfProjectHasScenes(String projectName) throws IOException {
@@ -594,7 +613,7 @@ public final class StorageHandler {
 	}
 
 	public Project loadProject(String name, Context context) throws IOException, LoadingProjectException {
-		File root = new File(DEFAULT_ROOT);
+		File root = new File(getRootDirectory());
 
 		if (!root.exists()) {
 			throw new IOException("Pocket Code root dir does not exist.");
@@ -761,11 +780,11 @@ public final class StorageHandler {
 		Log.d(TAG, json);
 
 		try {
-			File backpackFile = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_FILENAME));
+			File backpackFile = new File(buildPath(getRootDirectory(), BACKPACK_DIRECTORY, BACKPACK_FILENAME));
 			if (!backpackFile.exists()) {
 				backpackFile.createNewFile();
 			}
-			writer = new FileWriter(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_FILENAME));
+			writer = new FileWriter(buildPath(getRootDirectory(), BACKPACK_DIRECTORY, BACKPACK_FILENAME));
 			writer.write(json);
 			return true;
 		} catch (IOException e) {
@@ -783,7 +802,7 @@ public final class StorageHandler {
 	}
 
 	public Backpack loadBackpack() {
-		File backpackFile = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_FILENAME));
+		File backpackFile = new File(buildPath(getRootDirectory(), BACKPACK_DIRECTORY, BACKPACK_FILENAME));
 		if (!backpackFile.exists()) {
 			Log.e(TAG, "Backpack file does not exist!");
 			return null;
@@ -803,7 +822,7 @@ public final class StorageHandler {
 	}
 
 	public boolean deleteBackpackFile() {
-		File backpackFile = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_FILENAME));
+		File backpackFile = new File(buildPath(getRootDirectory(), BACKPACK_DIRECTORY, BACKPACK_FILENAME));
 		if (!backpackFile.exists()) {
 			Log.e(TAG, "Backpack file does not exist!");
 			return false;
@@ -874,7 +893,7 @@ public final class StorageHandler {
 	}
 
 	private void createBackPackFileStructure() throws IOException {
-		File backpackDir = new File(DEFAULT_ROOT, BACKPACK_DIRECTORY);
+		File backpackDir = new File(rootDirectory, BACKPACK_DIRECTORY);
 		backpackDir.mkdir();
 
 		File sceneDir = new File(backpackDir, SCENES_DIRECTORY);
@@ -887,8 +906,15 @@ public final class StorageHandler {
 		soundDir.mkdir();
 	}
 
+	private boolean checkIfBackPackFileStructureExists() {
+		File backpackDir = new File(rootDirectory, BACKPACK_DIRECTORY);
+
+		return backpackDir.exists() && new File(backpackDir, SCENES_DIRECTORY).exists() && new File(backpackDir,
+				BACKPACK_IMAGE_DIRECTORY).exists() && new File(backpackDir, BACKPACK_SOUND_DIRECTORY).exists();
+	}
+
 	public boolean projectExists(String projectName) {
-		List<String> projectNameList = UtilFile.getProjectNames(new File(DEFAULT_ROOT));
+		List<String> projectNameList = UtilFile.getProjectNames(new File(getRootDirectory()));
 		for (String projectNameIterator : projectNameList) {
 			if (projectNameIterator.equals(projectName)) {
 				return true;

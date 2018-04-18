@@ -48,6 +48,7 @@ import android.webkit.WebViewClient;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.utils.DownloadUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
@@ -114,10 +115,12 @@ public class WebViewActivity extends BaseActivity {
 					String tempPath = null;
 					switch (mediaType) {
 						case Constants.MEDIA_TYPE_LOOK:
-							tempPath = Constants.TMP_LOOKS_PATH;
+							tempPath = Utils.buildPath(StorageHandler.getInstance().getTempDirectory(),
+									Constants.LOOKS_DIRECTORY);
 							break;
 						case Constants.MEDIA_TYPE_SOUND:
-							tempPath = Constants.TMP_SOUNDS_PATH;
+							tempPath = Utils.buildPath(StorageHandler.getInstance().getTempDirectory(),
+									Constants.SOUND_DIRECTORY);
 					}
 					String filePath = Utils.buildPath(tempPath, fileName);
 					resultIntent.putExtra(MEDIA_FILE_PATH, filePath);

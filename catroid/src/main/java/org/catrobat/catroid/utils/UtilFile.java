@@ -28,6 +28,7 @@ import android.util.Log;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.soundrecorder.SoundRecorder;
 
 import java.io.BufferedInputStream;
@@ -196,7 +197,7 @@ public final class UtilFile {
 	}
 
 	public static void createStandardProjectIfRootDirectoryIsEmpty(Context context) {
-		File rootDirectory = new File(Constants.DEFAULT_ROOT);
+		File rootDirectory = new File(StorageHandler.getInstance().getRootDirectory());
 		if (rootDirectory.listFiles() == null || getProjectNames(rootDirectory).size() == 0) {
 			ProjectManager.getInstance().initializeDefaultProject(context);
 		}

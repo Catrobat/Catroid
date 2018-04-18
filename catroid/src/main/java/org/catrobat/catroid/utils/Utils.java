@@ -318,7 +318,8 @@ public final class Utils {
 	}
 
 	public static String buildProjectPath(String projectName) {
-		return buildPath(Constants.DEFAULT_ROOT, UtilFile.encodeSpecialCharsForFileSystem(projectName));
+		return buildPath(StorageHandler.getInstance().getRootDirectory(),
+				UtilFile.encodeSpecialCharsForFileSystem(projectName));
 	}
 
 	public static String buildScenePath(String projectName, String sceneName) {
@@ -326,7 +327,8 @@ public final class Utils {
 	}
 
 	public static String buildBackpackScenePath(String sceneName) {
-		return buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY, Constants.SCENES_DIRECTORY,
+		return buildPath(StorageHandler.getInstance().getRootDirectory(),
+				Constants.BACKPACK_DIRECTORY, Constants.SCENES_DIRECTORY,
 				UtilFile.encodeSpecialCharsForFileSystem(sceneName));
 	}
 
@@ -432,7 +434,7 @@ public final class Utils {
 	public static String getCurrentProjectName(Context context) {
 		if (ProjectManager.getInstance().getCurrentProject() == null) {
 
-			if (UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT)).size() == 0) {
+			if (UtilFile.getProjectNames(new File(StorageHandler.getInstance().getRootDirectory())).size() == 0) {
 				Log.i(TAG, "Somebody deleted all projects in the file-system");
 				ProjectManager.getInstance().initializeDefaultProject(context);
 			}
@@ -440,7 +442,8 @@ public final class Utils {
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String currentProjectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
 			if (currentProjectName == null || !StorageHandler.getInstance().projectExists(currentProjectName)) {
-				currentProjectName = UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT)).get(0);
+				currentProjectName = UtilFile.getProjectNames(
+						new File(StorageHandler.getInstance().getRootDirectory())).get(0);
 			}
 			return currentProjectName;
 		}

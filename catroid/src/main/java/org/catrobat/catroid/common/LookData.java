@@ -213,7 +213,7 @@ public class LookData implements Serializable, Cloneable {
 	}
 
 	private String getPathToBackPackImageDirectory() {
-		return Utils.buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY,
+		return Utils.buildPath(StorageHandler.getInstance().getRootDirectory(), Constants.BACKPACK_DIRECTORY,
 				Constants.BACKPACK_IMAGE_DIRECTORY);
 	}
 

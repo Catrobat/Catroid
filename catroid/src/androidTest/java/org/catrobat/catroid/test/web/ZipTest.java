@@ -39,7 +39,7 @@ public class ZipTest extends AndroidTestCase {
 
 	public void testZipUnzip() throws IOException {
 
-		String pathToTest = Constants.TMP_PATH + "/test1/";
+		String pathToTest = Constants.DEFAULT_TMP_PATH + "/test1/";
 
 		File testfile = new File(pathToTest + "test2/testfile.txt");
 		testfile.getParentFile().mkdirs();
@@ -47,7 +47,7 @@ public class ZipTest extends AndroidTestCase {
 
 		String[] paths = {pathToTest};
 
-		String zipFileName = Constants.TMP_PATH + "/testzip" + Constants.CATROBAT_EXTENSION;
+		String zipFileName = Constants.DEFAULT_TMP_PATH + "/testzip" + Constants.CATROBAT_EXTENSION;
 		File zipFile = new File(zipFileName);
 		if (zipFile.exists()) {
 			zipFile.delete();
@@ -64,7 +64,7 @@ public class ZipTest extends AndroidTestCase {
 		testfile.delete();
 		testfile.getParentFile().delete();
 
-		if (!UtilZip.unZipFile(zipFileName, Constants.TMP_PATH + "/")) {
+		if (!UtilZip.unZipFile(zipFileName, Constants.DEFAULT_TMP_PATH + "/")) {
 			zipFile.delete();
 			assertFalse("unzip failed", true);
 			return;
@@ -76,7 +76,7 @@ public class ZipTest extends AndroidTestCase {
 
 		zipFile.delete();
 
-		File tempDirectory = new File(Constants.TMP_PATH);
+		File tempDirectory = new File(Constants.DEFAULT_TMP_PATH);
 		if (tempDirectory.exists()) {
 			UtilFile.deleteDirectory(tempDirectory);
 		}

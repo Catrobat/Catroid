@@ -34,6 +34,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ProjectData;
 import org.catrobat.catroid.exceptions.ProjectException;
+import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.fragment.ProjectDetailsFragment;
@@ -84,7 +85,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 	}
 
 	private List<ProjectData> getItemList() {
-		File rootDirectory = new File(Constants.DEFAULT_ROOT);
+		File rootDirectory = new File(StorageHandler.getInstance().getRootDirectory());
 		List<ProjectData> items = new ArrayList<>();
 
 		for (String projectName : UtilFile.getProjectNames(rootDirectory)) {

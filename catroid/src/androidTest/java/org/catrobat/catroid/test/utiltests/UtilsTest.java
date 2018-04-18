@@ -108,10 +108,10 @@ public class UtilsTest extends AndroidTestCase {
 
 		PrintWriter printWriter = null;
 
-		File tempDir = new File(Constants.TMP_PATH);
+		File tempDir = new File(Constants.DEFAULT_TMP_PATH);
 		tempDir.mkdirs();
 
-		File md5TestFile = new File(Utils.buildPath(Constants.TMP_PATH, "catroid.txt"));
+		File md5TestFile = new File(Utils.buildPath(Constants.DEFAULT_TMP_PATH, "catroid.txt"));
 
 		if (md5TestFile.exists()) {
 			md5TestFile.delete();

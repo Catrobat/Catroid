@@ -58,12 +58,12 @@ public class BackwardCompatibleCatrobatLanguageXStreamTest extends Instrumentati
 
 	public void testLoadingProjectsOfCatrobatLanguageVersion08() throws Exception {
 		TestUtils.copyAssetProjectZipFile(getInstrumentation().getContext(), ZIP_FILENAME_FALLING_BALLS,
-				Constants.TMP_PATH);
-		TestUtils.copyAssetProjectZipFile(getInstrumentation().getContext(), ZIP_FILENAME_COLOR_LEANER_BALLOONS, Constants.TMP_PATH);
+				Constants.DEFAULT_TMP_PATH);
+		TestUtils.copyAssetProjectZipFile(getInstrumentation().getContext(), ZIP_FILENAME_COLOR_LEANER_BALLOONS, Constants.DEFAULT_TMP_PATH);
 
-		UtilZip.unZipFile(Constants.TMP_PATH + "/" + ZIP_FILENAME_FALLING_BALLS, Constants.DEFAULT_ROOT + "/"
+		UtilZip.unZipFile(Constants.DEFAULT_TMP_PATH + "/" + ZIP_FILENAME_FALLING_BALLS, Constants.DEFAULT_ROOT + "/"
 				+ PROJECT_NAME_FALLING_BALLS);
-		UtilZip.unZipFile(Constants.TMP_PATH + "/" + ZIP_FILENAME_COLOR_LEANER_BALLOONS, Constants.DEFAULT_ROOT + "/"
+		UtilZip.unZipFile(Constants.DEFAULT_TMP_PATH + "/" + ZIP_FILENAME_COLOR_LEANER_BALLOONS, Constants.DEFAULT_ROOT + "/"
 				+ PROJECT_NAME_COLOR_LEANER_BALLOONS);
 
 		Project fallingBallsProject = StorageHandler.getInstance().loadProject(PROJECT_NAME_FALLING_BALLS,
@@ -77,19 +77,19 @@ public class BackwardCompatibleCatrobatLanguageXStreamTest extends Instrumentati
 		assertEquals("Wrong project loaded", PROJECT_NAME_COLOR_LEANER_BALLOONS, colorLeanerBalloonsProject.getName()
 				.toLowerCase(Locale.getDefault()));
 
-		UtilZip.deleteZipFile(ZIP_FILENAME_FALLING_BALLS, Constants.TMP_PATH);
-		UtilZip.deleteZipFile(ZIP_FILENAME_COLOR_LEANER_BALLOONS, Constants.TMP_PATH);
+		UtilZip.deleteZipFile(ZIP_FILENAME_FALLING_BALLS, Constants.DEFAULT_TMP_PATH);
+		UtilZip.deleteZipFile(ZIP_FILENAME_COLOR_LEANER_BALLOONS, Constants.DEFAULT_TMP_PATH);
 
 		TestUtils.deleteTestProjects(PROJECT_NAME_FALLING_BALLS, PROJECT_NAME_COLOR_LEANER_BALLOONS);
 	}
 
 	public void testLoadingProjectsOfCatrobatLanguageVersion09() throws Exception {
-		TestUtils.copyAssetProjectZipFile(getInstrumentation().getContext(), ZIP_FILENAME_PONG_STARTER, Constants.TMP_PATH);
-		TestUtils.copyAssetProjectZipFile(getInstrumentation().getContext(), ZIP_FILENAME_WHIP, Constants.TMP_PATH);
+		TestUtils.copyAssetProjectZipFile(getInstrumentation().getContext(), ZIP_FILENAME_PONG_STARTER, Constants.DEFAULT_TMP_PATH);
+		TestUtils.copyAssetProjectZipFile(getInstrumentation().getContext(), ZIP_FILENAME_WHIP, Constants.DEFAULT_TMP_PATH);
 
-		UtilZip.unZipFile(Constants.TMP_PATH + "/" + ZIP_FILENAME_PONG_STARTER, Constants.DEFAULT_ROOT + "/"
+		UtilZip.unZipFile(Constants.DEFAULT_TMP_PATH + "/" + ZIP_FILENAME_PONG_STARTER, Constants.DEFAULT_ROOT + "/"
 				+ PROJECT_NAME_PONG_STARTER);
-		UtilZip.unZipFile(Constants.TMP_PATH + "/" + ZIP_FILENAME_WHIP, Constants.DEFAULT_ROOT + "/"
+		UtilZip.unZipFile(Constants.DEFAULT_TMP_PATH + "/" + ZIP_FILENAME_WHIP, Constants.DEFAULT_ROOT + "/"
 				+ PROJECT_NAME_WHIP);
 
 		Project pongStarterProject = StorageHandler.getInstance().loadProject(PROJECT_NAME_PONG_STARTER,
@@ -103,22 +103,22 @@ public class BackwardCompatibleCatrobatLanguageXStreamTest extends Instrumentati
 		assertTrue("Cannot load whip project", whipProject != null);
 		assertEquals("Wrong project loaded", PROJECT_NAME_WHIP, whipProject.getName().toLowerCase(Locale.getDefault()));
 
-		UtilZip.deleteZipFile(ZIP_FILENAME_PONG_STARTER, Constants.TMP_PATH);
-		UtilZip.deleteZipFile(ZIP_FILENAME_WHIP, Constants.TMP_PATH);
+		UtilZip.deleteZipFile(ZIP_FILENAME_PONG_STARTER, Constants.DEFAULT_TMP_PATH);
+		UtilZip.deleteZipFile(ZIP_FILENAME_WHIP, Constants.DEFAULT_TMP_PATH);
 
 		TestUtils.deleteTestProjects(PROJECT_NAME_PONG_STARTER, PROJECT_NAME_WHIP);
 	}
 
 	public void testLoadingProjectsOfCatrobatLanguageVersion091() throws Exception {
-		TestUtils.copyAssetProjectZipFile(getInstrumentation().getContext(), ZIP_FILENAME_AIR_FIGHT, Constants.TMP_PATH);
-		TestUtils.copyAssetProjectZipFile(getInstrumentation().getContext(), ZIP_FILENAME_XRAY_PHONE, Constants.TMP_PATH);
-		TestUtils.copyAssetProjectZipFile(getInstrumentation().getContext(), ZIP_FILENAME_ALL_BRICKS, Constants.TMP_PATH);
+		TestUtils.copyAssetProjectZipFile(getInstrumentation().getContext(), ZIP_FILENAME_AIR_FIGHT, Constants.DEFAULT_TMP_PATH);
+		TestUtils.copyAssetProjectZipFile(getInstrumentation().getContext(), ZIP_FILENAME_XRAY_PHONE, Constants.DEFAULT_TMP_PATH);
+		TestUtils.copyAssetProjectZipFile(getInstrumentation().getContext(), ZIP_FILENAME_ALL_BRICKS, Constants.DEFAULT_TMP_PATH);
 
-		UtilZip.unZipFile(Constants.TMP_PATH + "/" + ZIP_FILENAME_AIR_FIGHT, Constants.DEFAULT_ROOT + "/"
+		UtilZip.unZipFile(Constants.DEFAULT_TMP_PATH + "/" + ZIP_FILENAME_AIR_FIGHT, Constants.DEFAULT_ROOT + "/"
 				+ PROJECT_NAME_AIR_FIGHT);
-		UtilZip.unZipFile(Constants.TMP_PATH + "/" + ZIP_FILENAME_XRAY_PHONE, Constants.DEFAULT_ROOT + "/"
+		UtilZip.unZipFile(Constants.DEFAULT_TMP_PATH + "/" + ZIP_FILENAME_XRAY_PHONE, Constants.DEFAULT_ROOT + "/"
 				+ PROJECT_NAME_XRAY_PHONE);
-		UtilZip.unZipFile(Constants.TMP_PATH + "/" + ZIP_FILENAME_ALL_BRICKS, Constants.DEFAULT_ROOT + "/"
+		UtilZip.unZipFile(Constants.DEFAULT_TMP_PATH + "/" + ZIP_FILENAME_ALL_BRICKS, Constants.DEFAULT_ROOT + "/"
 				+ PROJECT_NAME_ALL_BRICKS);
 
 		Project airFightProject = StorageHandler.getInstance().loadProject(PROJECT_NAME_AIR_FIGHT,
@@ -139,17 +139,17 @@ public class BackwardCompatibleCatrobatLanguageXStreamTest extends Instrumentati
 		assertEquals("Wrong project loaded", PROJECT_NAME_ALL_BRICKS,
 				allBricksProject.getName().toLowerCase(Locale.getDefault()));
 
-		UtilZip.deleteZipFile(ZIP_FILENAME_AIR_FIGHT, Constants.TMP_PATH);
-		UtilZip.deleteZipFile(ZIP_FILENAME_XRAY_PHONE, Constants.TMP_PATH);
-		UtilZip.deleteZipFile(ZIP_FILENAME_ALL_BRICKS, Constants.TMP_PATH);
+		UtilZip.deleteZipFile(ZIP_FILENAME_AIR_FIGHT, Constants.DEFAULT_TMP_PATH);
+		UtilZip.deleteZipFile(ZIP_FILENAME_XRAY_PHONE, Constants.DEFAULT_TMP_PATH);
+		UtilZip.deleteZipFile(ZIP_FILENAME_ALL_BRICKS, Constants.DEFAULT_TMP_PATH);
 
 		TestUtils.deleteTestProjects(PROJECT_NAME_AIR_FIGHT, PROJECT_NAME_XRAY_PHONE, PROJECT_NAME_ALL_BRICKS);
 	}
 
 	public void testLoadingProjectsOfCatrobatLanguageVersion092() throws Exception {
 		TestUtils.copyAssetProjectZipFile(getInstrumentation().getContext(), ZIP_FILENAME_NOTE_AND_SPEAK_BRICK,
-				Constants.TMP_PATH);
-		UtilZip.unZipFile(Constants.TMP_PATH + "/" + ZIP_FILENAME_NOTE_AND_SPEAK_BRICK, Constants.DEFAULT_ROOT + "/"
+				Constants.DEFAULT_TMP_PATH);
+		UtilZip.unZipFile(Constants.DEFAULT_TMP_PATH + "/" + ZIP_FILENAME_NOTE_AND_SPEAK_BRICK, Constants.DEFAULT_ROOT + "/"
 				+ PROJECT_NAME_NOTE_AND_SPEAK_BRICK);
 
 		Project noteAndSpeakBrickProject = StorageHandler.getInstance().loadProject(PROJECT_NAME_NOTE_AND_SPEAK_BRICK,
@@ -158,14 +158,14 @@ public class BackwardCompatibleCatrobatLanguageXStreamTest extends Instrumentati
 		assertEquals("Wrong project loaded", PROJECT_NAME_NOTE_AND_SPEAK_BRICK, noteAndSpeakBrickProject.getName()
 				.toLowerCase(Locale.getDefault()));
 
-		UtilZip.deleteZipFile(ZIP_FILENAME_NOTE_AND_SPEAK_BRICK, Constants.TMP_PATH);
+		UtilZip.deleteZipFile(ZIP_FILENAME_NOTE_AND_SPEAK_BRICK, Constants.DEFAULT_TMP_PATH);
 		TestUtils.deleteTestProjects(PROJECT_NAME_NOTE_AND_SPEAK_BRICK);
 	}
 
 	public void testLoadingProjectsOfCatrobatLanguageVersion095() throws Exception {
 		TestUtils.copyAssetProjectZipFile(getInstrumentation().getContext(), ZIP_FILENAME_GHOST_EFFECT_BRICKS,
-				Constants.TMP_PATH);
-		UtilZip.unZipFile(Constants.TMP_PATH + "/" + ZIP_FILENAME_GHOST_EFFECT_BRICKS, Constants.DEFAULT_ROOT + "/"
+				Constants.DEFAULT_TMP_PATH);
+		UtilZip.unZipFile(Constants.DEFAULT_TMP_PATH + "/" + ZIP_FILENAME_GHOST_EFFECT_BRICKS, Constants.DEFAULT_ROOT + "/"
 				+ PROJECT_NAME_GHOST_EFFECT_BRICKS);
 
 		Project ghostBricksProject = StorageHandler.getInstance().loadProject(PROJECT_NAME_GHOST_EFFECT_BRICKS,
@@ -174,13 +174,13 @@ public class BackwardCompatibleCatrobatLanguageXStreamTest extends Instrumentati
 		assertEquals("Wrong project loaded", PROJECT_NAME_GHOST_EFFECT_BRICKS, ghostBricksProject.getName()
 				.toLowerCase(Locale.getDefault()));
 
-		UtilZip.deleteZipFile(ZIP_FILENAME_GHOST_EFFECT_BRICKS, Constants.TMP_PATH);
+		UtilZip.deleteZipFile(ZIP_FILENAME_GHOST_EFFECT_BRICKS, Constants.DEFAULT_TMP_PATH);
 		TestUtils.deleteTestProjects(PROJECT_NAME_GHOST_EFFECT_BRICKS);
 	}
 
 	public void testLoadingLegoNxtProjectsOfCatrobatLanguageVersion092() throws Exception {
-		TestUtils.copyAssetProjectZipFile(getInstrumentation().getContext(), ZIP_FILENAME_LEGO_NXT, Constants.TMP_PATH);
-		UtilZip.unZipFile(Constants.TMP_PATH + "/" + ZIP_FILENAME_LEGO_NXT, Constants.DEFAULT_ROOT + "/"
+		TestUtils.copyAssetProjectZipFile(getInstrumentation().getContext(), ZIP_FILENAME_LEGO_NXT, Constants.DEFAULT_TMP_PATH);
+		UtilZip.unZipFile(Constants.DEFAULT_TMP_PATH + "/" + ZIP_FILENAME_LEGO_NXT, Constants.DEFAULT_ROOT + "/"
 				+ PROJECT_NAME_LEGO_NXT);
 
 		Project legoProject = StorageHandler.getInstance().loadProject(PROJECT_NAME_LEGO_NXT,
@@ -189,7 +189,7 @@ public class BackwardCompatibleCatrobatLanguageXStreamTest extends Instrumentati
 		assertEquals("Wrong project loaded", PROJECT_NAME_LEGO_NXT,
 				legoProject.getName().toLowerCase(Locale.getDefault()));
 
-		UtilZip.deleteZipFile(ZIP_FILENAME_LEGO_NXT, Constants.TMP_PATH);
+		UtilZip.deleteZipFile(ZIP_FILENAME_LEGO_NXT, Constants.DEFAULT_TMP_PATH);
 		TestUtils.deleteTestProjects(PROJECT_NAME_LEGO_NXT);
 	}
 }

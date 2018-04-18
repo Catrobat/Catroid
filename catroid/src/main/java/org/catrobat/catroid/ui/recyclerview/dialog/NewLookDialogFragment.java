@@ -235,7 +235,7 @@ public class NewLookDialogFragment extends DialogFragment implements View.OnClic
 	}
 
 	private Uri getDefaultLookFromCameraUri(String defLookName) {
-		File pictureFile = new File(Constants.DEFAULT_ROOT, defLookName + ".jpg");
+		File pictureFile = new File(StorageHandler.getInstance().getRootDirectory(), defLookName + ".jpg");
 		return Uri.fromFile(pictureFile);
 	}
 }

@@ -127,7 +127,7 @@ public class ProjectUploadService extends IntentService {
 				paths[i] = Utils.buildPath(directoryPath.getAbsolutePath(), paths[i]);
 			}
 
-			String zipFileString = Utils.buildPath(Constants.TMP_PATH, UPLOAD_FILE_NAME);
+			String zipFileString = Utils.buildPath(StorageHandler.getInstance().getTempDirectory(), UPLOAD_FILE_NAME);
 			File zipFile = new File(zipFileString);
 			if (!zipFile.exists()) {
 				zipFile.getParentFile().mkdirs();
