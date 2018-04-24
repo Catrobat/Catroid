@@ -30,6 +30,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.util.Log;
 
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.uiespresso.annotations.Flaky;
@@ -38,6 +39,7 @@ import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
 import java.io.File;
+import java.io.IOException;
 
 public class BaseActivityInstrumentationRule<T extends Activity> extends ActivityTestRule<T> {
 	private SystemAnimations systemAnimations;
@@ -82,22 +84,17 @@ public class BaseActivityInstrumentationRule<T extends Activity> extends Activit
 		super.afterActivityFinished();
 	}
 
-	void deleteRecursive(File fileOrDirectory) {
-		if (fileOrDirectory.isDirectory()) {
-			for (File child : fileOrDirectory.listFiles()) {
-				deleteRecursive(child);
-			}
-		}
-		fileOrDirectory.delete();
-	}
-
 	void setUpTestProjectFolder() {
 		Reflection.setPrivateField(StageListener.class, "checkIfAutomaticScreenshotShouldBeTaken", false);
-		Reflection.setPrivateField(Constants.class, "DEFAULT_ROOT", Environment.getExternalStorageDirectory()
-				.getAbsolutePath() + "/Pocket Code uiTest");
-		File uiTestFolder = new File(Constants.DEFAULT_ROOT);
-		if (uiTestFolder.exists()) {
-			deleteRecursive(uiTestFolder);
+		Reflection.setPrivateField(Constants.class, "DEFAULT_ROOT_DIRECTORY",
+				new File(Environment.getExternalStorageDirectory(), "Pocket Code uiTest"));
+
+		if (Constants.DEFAULT_ROOT_DIRECTORY.exists()) {
+			try {
+				StorageHandler.deleteDir(Constants.DEFAULT_ROOT_DIRECTORY);
+			} catch (IOException e) {
+				Log.e(TAG, "Error deleting direcory:", e);
+			}
 		}
 	}
 

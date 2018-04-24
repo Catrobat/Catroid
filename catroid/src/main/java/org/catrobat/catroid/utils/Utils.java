@@ -74,6 +74,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import static org.catrobat.catroid.common.Constants.DEFAULT_ROOT_DIRECTORY;
+
 public final class Utils {
 
 	private static final String TAG = Utils.class.getSimpleName();
@@ -318,16 +320,12 @@ public final class Utils {
 	}
 
 	public static String buildProjectPath(String projectName) {
-		return buildPath(Constants.DEFAULT_ROOT, UtilFile.encodeSpecialCharsForFileSystem(projectName));
+		return new File(DEFAULT_ROOT_DIRECTORY, UtilFile.encodeSpecialCharsForFileSystem(projectName))
+				.getAbsolutePath();
 	}
 
 	public static String buildScenePath(String projectName, String sceneName) {
 		return buildPath(buildProjectPath(projectName), UtilFile.encodeSpecialCharsForFileSystem(sceneName));
-	}
-
-	public static String buildBackpackScenePath(String sceneName) {
-		return buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY, Constants.SCENES_DIRECTORY,
-				UtilFile.encodeSpecialCharsForFileSystem(sceneName));
 	}
 
 	public static String md5Checksum(File file) {
@@ -432,7 +430,7 @@ public final class Utils {
 	public static String getCurrentProjectName(Context context) {
 		if (ProjectManager.getInstance().getCurrentProject() == null) {
 
-			if (UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT)).size() == 0) {
+			if (UtilFile.getProjectNames(DEFAULT_ROOT_DIRECTORY).size() == 0) {
 				Log.i(TAG, "Somebody deleted all projects in the file-system");
 				ProjectManager.getInstance().initializeDefaultProject(context);
 			}
@@ -440,7 +438,7 @@ public final class Utils {
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String currentProjectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
 			if (currentProjectName == null || !StorageHandler.getInstance().projectExists(currentProjectName)) {
-				currentProjectName = UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT)).get(0);
+				currentProjectName = UtilFile.getProjectNames(DEFAULT_ROOT_DIRECTORY).get(0);
 			}
 			return currentProjectName;
 		}

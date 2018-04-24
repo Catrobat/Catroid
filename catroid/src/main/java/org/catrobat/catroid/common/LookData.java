@@ -49,6 +49,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 
+import static org.catrobat.catroid.common.Constants.BACKPACK_IMAGE_DIRECTORY;
+
 public class LookData implements Serializable, Cloneable {
 
 	private static final long serialVersionUID = 1L;
@@ -124,7 +126,7 @@ public class LookData implements Serializable, Cloneable {
 	public LookData clone() {
 		String copiedFileName;
 		try {
-			copiedFileName = StorageHandler.copyFile(getAbsolutePath()).getName();
+			copiedFileName = StorageHandler.copyFile(getFile()).getName();
 		} catch (IOException e) {
 			Log.e(TAG, "Could not copy file: " + fileName + ", fallback to shallow clone.");
 			copiedFileName = fileName;
@@ -180,10 +182,18 @@ public class LookData implements Serializable, Cloneable {
 		this.pixmap = pixmap;
 	}
 
+	public File getFile() {
+		if (isBackpackLookData) {
+			return new File(BACKPACK_IMAGE_DIRECTORY, fileName);
+		} else {
+			return new File(getPathToImageDirectory(), fileName);
+		}
+	}
+
 	public String getAbsolutePath() {
 		if (fileName != null) {
 			if (isBackpackLookData) {
-				return Utils.buildPath(getPathToBackPackImageDirectory(), fileName);
+				return Utils.buildPath(BACKPACK_IMAGE_DIRECTORY.getAbsolutePath(), fileName);
 			} else {
 				return Utils.buildPath(getPathToImageDirectory(), fileName);
 			}
@@ -210,11 +220,6 @@ public class LookData implements Serializable, Cloneable {
 			}
 		}
 		return ProjectManager.getInstance().getCurrentScene().getName();
-	}
-
-	private String getPathToBackPackImageDirectory() {
-		return Utils.buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY,
-				Constants.BACKPACK_IMAGE_DIRECTORY);
 	}
 
 	public Bitmap getThumbnailBitmap() {

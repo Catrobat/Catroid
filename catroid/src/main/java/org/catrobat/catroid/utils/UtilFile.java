@@ -45,6 +45,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+import static org.catrobat.catroid.common.Constants.DEFAULT_ROOT_DIRECTORY;
+
 public final class UtilFile {
 	private static final String TAG = UtilFile.class.getSimpleName();
 
@@ -196,7 +198,7 @@ public final class UtilFile {
 	}
 
 	public static void createStandardProjectIfRootDirectoryIsEmpty(Context context) {
-		File rootDirectory = new File(Constants.DEFAULT_ROOT);
+		File rootDirectory = DEFAULT_ROOT_DIRECTORY;
 		if (rootDirectory.listFiles() == null || getProjectNames(rootDirectory).size() == 0) {
 			ProjectManager.getInstance().initializeDefaultProject(context);
 		}

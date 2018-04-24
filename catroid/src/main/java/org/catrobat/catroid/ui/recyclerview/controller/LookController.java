@@ -40,29 +40,24 @@ import java.util.Set;
 
 public class LookController {
 
-	private static final String BACKPACK_DIRECTORY = Utils.buildPath(
-			Constants.DEFAULT_ROOT,
-			Constants.BACKPACK_DIRECTORY,
-			Constants.BACKPACK_IMAGE_DIRECTORY);
-
 	private UniqueNameProvider uniqueNameProvider = new UniqueNameProvider();
 
 	public LookData copy(LookData lookToCopy, Scene srcScene, Scene dstScene, Sprite dstSprite) throws IOException {
 		String name = uniqueNameProvider.getUniqueName(lookToCopy.getName(), getScope(dstSprite.getLookList()));
 
-		String srcDir = getImageDirPath(srcScene);
-		String dstDir = getImageDirPath(dstScene);
+		File srcDir = getImageDir(srcScene);
+		File dstDir = getImageDir(dstScene);
 
-		String fileName = StorageHandler.copyFile(Utils.buildPath(srcDir, lookToCopy.getFileName()), dstDir).getName();
+		String fileName = StorageHandler.copyFileToDirectory(new File(srcDir, lookToCopy.getFileName()), dstDir).getName();
 		return new LookData(name, fileName);
 	}
 
 	LookData findOrCopy(LookData lookToCopy, Scene srcScene, Scene dstScene, Sprite dstSprite) throws IOException {
-		String lookToCopyPath = Utils.buildPath(getImageDirPath(srcScene), lookToCopy.getFileName());
+		File lookFileToCopy = new File(getImageDir(srcScene), lookToCopy.getFileName());
 		for (LookData look : dstSprite.getLookList()) {
-			String lookPath = Utils.buildPath(getImageDirPath(dstScene), look.getFileName());
+			File lookFile = new File(getImageDir(dstScene), look.getFileName());
 
-			if (compareByChecksum(lookPath, lookToCopyPath)) {
+			if (compareByChecksum(lookFile, lookFileToCopy)) {
 				return look;
 			}
 		}
@@ -72,19 +67,20 @@ public class LookController {
 	}
 
 	public void delete(LookData lookToDelete, Scene scrScene) throws IOException {
-		StorageHandler.deleteFile(Utils.buildPath(getImageDirPath(scrScene), lookToDelete.getFileName()));
+		StorageHandler.deleteFile(new File(getImageDir(scrScene), lookToDelete.getFileName()));
 	}
 
 	public void deleteFromBackpack(LookData lookToDelete) throws IOException {
-		StorageHandler.deleteFile(Utils.buildPath(BACKPACK_DIRECTORY, lookToDelete.getFileName()));
+		StorageHandler.deleteFile(new File(Constants.BACKPACK_IMAGE_DIRECTORY, lookToDelete.getFileName()));
 	}
 
 	public LookData pack(LookData lookToPack, Scene srcScene) throws IOException {
 		String name = uniqueNameProvider.getUniqueName(
 				lookToPack.getName(), getScope(BackPackListManager.getInstance().getBackPackedLooks()));
 
-		String fileName = StorageHandler.copyFile(
-				Utils.buildPath(getImageDirPath(srcScene), lookToPack.getFileName()), BACKPACK_DIRECTORY).getName();
+		String fileName = StorageHandler.copyFileToDirectory(
+				new File(getImageDir(srcScene), lookToPack.getFileName()),
+				Constants.BACKPACK_IMAGE_DIRECTORY).getName();
 
 		LookData look = new LookData(name, fileName);
 		look.isBackpackLookData = true;
@@ -93,11 +89,11 @@ public class LookController {
 
 	LookData packForSprite(LookData lookToPack, Sprite dstSprite) throws IOException {
 		for (LookData look : dstSprite.getLookList()) {
-			if (compareByChecksum(look.getAbsolutePath(), lookToPack.getAbsolutePath())) {
+			if (compareByChecksum(look.getFile(), lookToPack.getFile())) {
 				return look;
 			}
 		}
-		String fileName = StorageHandler.copyFile(lookToPack.getAbsolutePath(), BACKPACK_DIRECTORY).getName();
+		String fileName = StorageHandler.copyFileToDirectory(lookToPack.getFile(), Constants.BACKPACK_IMAGE_DIRECTORY).getName();
 		LookData look = new LookData(lookToPack.getName(), fileName);
 		look.isBackpackLookData = true;
 
@@ -107,15 +103,15 @@ public class LookController {
 
 	public LookData unpack(LookData lookToUnpack, Scene dstScene, Sprite dstSprite) throws IOException {
 		String name = uniqueNameProvider.getUniqueName(lookToUnpack.getName(), getScope(dstSprite.getLookList()));
-		String fileName = StorageHandler.copyFile(lookToUnpack.getAbsolutePath(), getImageDirPath(dstScene)).getName();
+		String fileName = StorageHandler.copyFileToDirectory(lookToUnpack.getFile(), getImageDir(dstScene)).getName();
 		return new LookData(name, fileName);
 	}
 
 	LookData unpackForSprite(LookData lookToUnpack, Scene dstScene, Sprite dstSprite) throws IOException {
 		for (LookData look : dstSprite.getLookList()) {
-			String lookPath = Utils.buildPath(getImageDirPath(dstScene), look.getFileName());
+			File lookFile = new File(getImageDir(dstScene), look.getFileName());
 
-			if (compareByChecksum(lookPath, lookToUnpack.getAbsolutePath())) {
+			if (compareByChecksum(lookFile, lookToUnpack.getFile())) {
 				return look;
 			}
 		}
@@ -132,13 +128,13 @@ public class LookController {
 		return scope;
 	}
 
-	private String getImageDirPath(Scene scene) {
-		return Utils.buildPath(scene.getPath(), Constants.IMAGE_DIRECTORY);
+	private File getImageDir(Scene scene) {
+		return new File(scene.getDirectory(), Constants.IMAGE_DIRECTORY);
 	}
 
-	private boolean compareByChecksum(String filePath1, String filePath2) {
-		String checksum1 = Utils.md5Checksum(new File(filePath1));
-		String checksum2 = Utils.md5Checksum(new File(filePath2));
+	private boolean compareByChecksum(File file1, File file2) {
+		String checksum1 = Utils.md5Checksum(file1);
+		String checksum2 = Utils.md5Checksum(file2);
 
 		return checksum1.equals(checksum2);
 	}

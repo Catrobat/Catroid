@@ -46,6 +46,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -66,6 +67,7 @@ import static org.hamcrest.Matchers.instanceOf;
 
 @RunWith(AndroidJUnit4.class)
 public class PlaySoundBrickTest {
+
 	private String soundName = "testSound1";
 	private String soundName2 = "testSound2";
 	private File soundFile;
@@ -185,13 +187,13 @@ public class PlaySoundBrickTest {
 				.checkShowsText(newSoundName);
 	}
 
-	private void createProject() {
+	private void createProject() throws IOException {
 		SoundManager.getInstance();
 		Script startScript = BrickTestUtils.createProjectAndGetStartScript("PlaySoundBrickTest");
 		startScript.addBrick(new PlaySoundBrick());
 		startScript.addBrick(new PlaySoundBrick());
 
-		soundFile = FileTestUtils.saveFileToProject("PlaySoundBrickTest",
+		soundFile = FileTestUtils.copyResourceFileToProject("PlaySoundBrickTest",
 				ProjectManager.getInstance().getCurrentScene().getName(),
 				"longsound.mp3", org.catrobat.catroid.test.R.raw.longsound,
 				InstrumentationRegistry.getContext(), FileTestUtils.FileTypes.SOUND);
@@ -199,7 +201,7 @@ public class PlaySoundBrickTest {
 		soundInfo.setFileName(soundFile.getName());
 		soundInfo.setName(soundName);
 
-		soundFile2 = FileTestUtils.saveFileToProject("PlaySoundBrickTest",
+		soundFile2 = FileTestUtils.copyResourceFileToProject("PlaySoundBrickTest",
 				ProjectManager.getInstance().getCurrentScene().getName(),
 				"testsoundui.mp3", org.catrobat.catroid.test.R.raw.testsoundui,
 				InstrumentationRegistry.getContext(), FileTestUtils.FileTypes.SOUND);

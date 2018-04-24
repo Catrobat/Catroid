@@ -28,7 +28,6 @@ import android.support.test.runner.AndroidJUnit4;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.io.ZipArchiver;
-import org.catrobat.catroid.utils.Utils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,16 +47,16 @@ public class ZipSingleFileTest {
 
 	@Before
 	public void setUp() throws IOException {
-		outputArchive = new File(Utils.buildPath(Constants.DEFAULT_ROOT, "folderToZip.zip"));
-		unzippedDir = new File(Utils.buildPath(Constants.DEFAULT_ROOT, "unzippedFolder"));
-		tmpFile = File.createTempFile("test", ".png", new File(Constants.DEFAULT_ROOT));
+		outputArchive = new File(Constants.DEFAULT_ROOT_DIRECTORY, "folderToZip.zip");
+		unzippedDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, "unzippedFolder");
+		tmpFile = File.createTempFile("test", ".png", Constants.DEFAULT_ROOT_DIRECTORY);
 	}
 
 	@After
 	public void tearDown() throws IOException {
 		tmpFile.delete();
 		outputArchive.delete();
-		StorageHandler.deleteDir(unzippedDir.getAbsolutePath());
+		StorageHandler.deleteDir(unzippedDir);
 	}
 
 	@Test

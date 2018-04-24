@@ -42,6 +42,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static org.catrobat.catroid.common.Constants.BACKPACK_SCENE_DIRECTORY;
+
 public class SceneController {
 
 	private static final String TAG = SceneController.class.getSimpleName();
@@ -54,7 +56,7 @@ public class SceneController {
 				sceneToCopy.getName(),
 				getScope(dstProject.getSceneList()));
 
-		String dir = Utils.buildScenePath(dstProject.getName(), name);
+		File dir = new File(Utils.buildScenePath(dstProject.getName(), name));
 
 		if (!createDirectory(dir)) {
 			throw new IOException("DstDir for Scene" + name + "could not be created.");
@@ -79,7 +81,7 @@ public class SceneController {
 	}
 
 	public void delete(Scene sceneToDelete) throws IOException {
-		StorageHandler.deleteDir(sceneToDelete.getPath());
+		StorageHandler.deleteDir(sceneToDelete.getDirectory());
 	}
 
 	public Scene pack(Scene sceneToPack) throws IOException {
@@ -87,7 +89,7 @@ public class SceneController {
 				sceneToPack.getName(),
 				getScope(BackPackListManager.getInstance().getBackPackedScenes()));
 
-		String dir = Utils.buildBackpackScenePath(name);
+		File dir = new File(BACKPACK_SCENE_DIRECTORY, name);
 
 		if (!createDirectory(dir)) {
 			throw new IOException("DstDir for Scene" + name + "could not be created.");
@@ -107,14 +109,12 @@ public class SceneController {
 	}
 
 	public Scene unpack(Scene sceneToUnpack, Project dstProject) throws IOException {
-		Scene scene = copy(sceneToUnpack, dstProject);
-		return scene;
+		return copy(sceneToUnpack, dstProject);
 	}
 
-	private boolean createDirectory(String dirPath) {
-		File dir = new File(dirPath);
-		File imgDir = new File(Utils.buildPath(dirPath, Constants.IMAGE_DIRECTORY));
-		File sndDir = new File(Utils.buildPath(dirPath, Constants.SOUND_DIRECTORY));
+	private boolean createDirectory(File dir) {
+		File imgDir = new File(dir, Constants.IMAGE_DIRECTORY);
+		File sndDir = new File(dir, Constants.SOUND_DIRECTORY);
 
 		dir.mkdir();
 		imgDir.mkdir();
@@ -123,7 +123,7 @@ public class SceneController {
 		if (!imgDir.isDirectory() || !sndDir.isDirectory()) {
 			if (dir.isDirectory()) {
 				try {
-					StorageHandler.deleteDir(dirPath);
+					StorageHandler.deleteDir(dir);
 				} catch (IOException e) {
 					Log.e(TAG, Log.getStackTraceString(e));
 				}

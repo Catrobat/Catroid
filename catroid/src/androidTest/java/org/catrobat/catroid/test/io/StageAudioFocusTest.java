@@ -28,6 +28,7 @@ import android.test.InstrumentationTestCase;
 import org.catrobat.catroid.io.StageAudioFocus;
 
 public class StageAudioFocusTest extends InstrumentationTestCase {
+
 	private StageAudioFocus audioFocus = null;
 
 	@Override
@@ -43,17 +44,17 @@ public class StageAudioFocusTest extends InstrumentationTestCase {
 	}
 
 	public void testRequestAndReleaseAudioFocus() {
-		assertFalse("AudioFocus is held before requesting it", audioFocus.isAudioFocusGranted());
+		assertFalse(audioFocus.isAudioFocusGranted());
 		audioFocus.requestAudioFocus();
-		assertTrue("AudioFocus is not held, although it was requested", audioFocus.isAudioFocusGranted());
+		assertTrue(audioFocus.isAudioFocusGranted());
 		audioFocus.releaseAudioFocus();
-		assertFalse("Audio Focus is still held, although it is released", audioFocus.isAudioFocusGranted());
+		assertFalse(audioFocus.isAudioFocusGranted());
 	}
 
 	public void testIfAudioFocusGetsAbandonedOnAudioFocusLossEvent() {
 		audioFocus.requestAudioFocus();
-		assertTrue("AudioFocus is not held, although it was requested", audioFocus.isAudioFocusGranted());
+		assertTrue(audioFocus.isAudioFocusGranted());
 		audioFocus.onAudioFocusChange(AudioManager.AUDIOFOCUS_LOSS);
-		assertFalse("AudioFocus should be abandoned after focus is lost", audioFocus.isAudioFocusGranted());
+		assertFalse(audioFocus.isAudioFocusGranted());
 	}
 }

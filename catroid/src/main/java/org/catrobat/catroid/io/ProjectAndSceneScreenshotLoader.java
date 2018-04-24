@@ -40,6 +40,8 @@ import java.util.WeakHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static org.catrobat.catroid.common.Constants.BACKPACK_SCENE_DIRECTORY;
+
 public class ProjectAndSceneScreenshotLoader {
 
 	private class ScreenshotData {
@@ -173,10 +175,11 @@ public class ProjectAndSceneScreenshotLoader {
 			String pathOfAutomaticScreenshot;
 			if (projectAndSceneScreenshotData.sceneName != null) {
 				if (projectAndSceneScreenshotData.isBackpackScene) {
-					String backpackScenePath = Utils.buildBackpackScenePath(projectAndSceneScreenshotData.sceneName);
-					pathOfManualScreenshot = Utils.buildPath(backpackScenePath,
+					File sceneDir = new File(BACKPACK_SCENE_DIRECTORY, projectAndSceneScreenshotData.sceneName);
+
+					pathOfManualScreenshot = Utils.buildPath(sceneDir.getAbsolutePath(),
 							StageListener.SCREENSHOT_MANUAL_FILE_NAME);
-					pathOfAutomaticScreenshot = Utils.buildPath(backpackScenePath,
+					pathOfAutomaticScreenshot = Utils.buildPath(sceneDir.getAbsolutePath(),
 							StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
 				} else {
 					String scenePath = Utils.buildScenePath(projectAndSceneScreenshotData.projectName,

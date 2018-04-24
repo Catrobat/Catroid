@@ -31,13 +31,14 @@ import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.exceptions.ProjectException;
+import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.io.ZipArchiver;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilUi;
-import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class ProjectManagerTest extends InstrumentationTestCase {
 
@@ -62,11 +63,11 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 	protected void tearDown() throws Exception {
 		super.tearDown();
 		projectManager.setProject(null);
-		TestUtils.deleteTestProjects(OLD_PROJECT, NEW_PROJECT);
+		TestUtils.deleteProjects(OLD_PROJECT, NEW_PROJECT);
 		TestUtils.removeFromPreferences(getInstrumentation().getTargetContext(), Constants.PREF_PROJECTNAME_KEY);
 	}
 
-	public void testShouldReturnFalseIfCatrobatLanguageVersionNotSupported() {
+	public void testShouldReturnFalseIfCatrobatLanguageVersionNotSupported() throws IOException {
 		TestUtils.createTestProjectOnLocalStorageWithCatrobatLanguageVersion(CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED);
 
 		try {
@@ -77,7 +78,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 			fail("Failed to identify incompatible project");
 		}
 
-		TestUtils.deleteTestProjects();
+		TestUtils.deleteProjects();
 
 		TestUtils
 				.createTestProjectOnLocalStorageWithCatrobatLanguageVersion(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
@@ -90,7 +91,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		}
 	}
 
-	public void testShouldKeepExistingProjectIfCannotLoadNewProject() {
+	public void testShouldKeepExistingProjectIfCannotLoadNewProject() throws IOException {
 		TestUtils.createTestProjectOnLocalStorageWithCatrobatLanguageVersionAndName(
 				Constants.CURRENT_CATROBAT_LANGUAGE_VERSION, OLD_PROJECT);
 
@@ -114,7 +115,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		assertNotNull("Didn't keep old project.", currentProject);
 		assertEquals("Didn't keep old project.", OLD_PROJECT, currentProject.getName());
 
-		TestUtils.deleteTestProjects(OLD_PROJECT, NEW_PROJECT);
+		TestUtils.deleteProjects(OLD_PROJECT, NEW_PROJECT);
 	}
 
 	public void testLoadProjectException() throws Exception {
@@ -127,7 +128,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		}
 	}
 
-	public void testSavingAProjectDuringDelete() {
+	public void testSavingAProjectDuringDelete() throws IOException {
 		TestUtils.createTestProjectOnLocalStorageWithCatrobatLanguageVersionAndName(
 				Constants.CURRENT_CATROBAT_LANGUAGE_VERSION, TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
@@ -142,7 +143,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		Project currentProject = projectManager.getCurrentProject();
 		assertNotNull(String.format("Could not load %s project.", TestUtils.DEFAULT_TEST_PROJECT_NAME), currentProject);
 
-		File directory = new File(Constants.DEFAULT_ROOT + "/" + TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		File directory = new File(Constants.DEFAULT_ROOT_DIRECTORY, TestUtils.DEFAULT_TEST_PROJECT_NAME);
 		assertTrue(String.format("Directory %s does not exist", directory.getPath()), directory.exists());
 
 		// simulate multiple saving trigger asynchronous (occurs in black box testing)
@@ -154,29 +155,28 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		// simulate deletion, saveProject asyncTask will be "automatically" cancelled (Please remark: there is still a chance
 		// of a race condition, because we rely on a "project" reference which gets used in a multithreaded environment)
 		projectManager.setProject(null);
-		TestUtils.deleteTestProjects();
+		StorageHandler.deleteDir(directory);
 
-		assertFalse(String.format("Directory %s does still exist", directory.getPath()), directory.exists());
+		assertFalse(directory.exists());
 	}
 
 	public void testLoadProjectWithInvalidNestingBrickReferences() throws CompatibilityProjectException,
 			IOException,
 			OutdatedVersionProjectException,
 			LoadingProjectException {
-		TestUtils.copyAssetProjectZipFile(getInstrumentation().getContext(), ZIP_FILENAME_WRONG_NESTING_BRICKS, Constants.TMP_PATH);
 
-		new ZipArchiver().unzip(new File(Utils.buildPath(Constants.TMP_PATH, ZIP_FILENAME_WRONG_NESTING_BRICKS)),
-				new File(Utils.buildProjectPath(PROJECT_NAME_NESTING_BRICKS)));
+		InputStream inputStream = getInstrumentation().getContext().getAssets().open(ZIP_FILENAME_WRONG_NESTING_BRICKS);
+
+		new ZipArchiver().unzip(inputStream, new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_NESTING_BRICKS));
 
 		projectManager.loadProject(PROJECT_NAME_NESTING_BRICKS, getInstrumentation().getTargetContext());
 		Project project = projectManager.getCurrentProject();
 
-		assertTrue("Cannot load " + PROJECT_NAME_NESTING_BRICKS + " project", project != null);
-		assertEquals("Wrong project loaded", PROJECT_NAME_NESTING_BRICKS, project.getName());
+		assertNotNull(project);
+		assertEquals(PROJECT_NAME_NESTING_BRICKS, project.getName());
 
-		assertTrue("Nesting brick references not correct!", projectManager.checkNestingBrickReferences(false, false));
+		assertTrue(projectManager.checkNestingBrickReferences(false, false));
 
-		new File(Utils.buildPath(Constants.TMP_PATH, ZIP_FILENAME_WRONG_NESTING_BRICKS)).delete();
-		TestUtils.deleteTestProjects(PROJECT_NAME_NESTING_BRICKS);
+		TestUtils.deleteProjects(PROJECT_NAME_NESTING_BRICKS);
 	}
 }

@@ -60,7 +60,7 @@ public class UtilFileTest extends InstrumentationTestCase {
 		super.setUp();
 
 		UtilFile.deleteDirectory(new File(CATROID_DIRECTORY + "/testDirectory"));
-		TestUtils.deleteTestProjects(projectName);
+		TestUtils.deleteProjects(projectName);
 
 		testDirectory = new File(CATROID_DIRECTORY + "/testDirectory");
 		testDirectory.mkdir();
@@ -75,7 +75,7 @@ public class UtilFileTest extends InstrumentationTestCase {
 	@Override
 	protected void tearDown() throws Exception {
 		UtilFile.deleteDirectory(testDirectory);
-		TestUtils.deleteTestProjects(projectName);
+		TestUtils.deleteProjects(projectName);
 		super.tearDown();
 	}
 

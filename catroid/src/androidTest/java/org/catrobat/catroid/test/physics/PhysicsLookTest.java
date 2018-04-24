@@ -48,7 +48,7 @@ import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.utils.UtilFile;
+import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
@@ -58,8 +58,9 @@ import java.util.Queue;
 public class PhysicsLookTest extends InstrumentationTestCase {
 
 	private static final String TAG = PhysicsLookTest.class.getSimpleName();
-
 	PhysicsWorld physicsWorld;
+	private final String projectName = "testProject";
+	private File projectDir;
 	private Project project;
 	private File testImage;
 	private String testImageFilename;
@@ -68,30 +69,27 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 	static {
 		GdxNativesLoader.load();
 	}
+
 	@Override
 	protected void setUp() throws Exception {
 		physicsWorld = new PhysicsWorld(1920, 1600);
-		File projectFile = new File(Constants.DEFAULT_ROOT + File.separator + TestUtils.DEFAULT_TEST_PROJECT_NAME);
-
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
+		projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName);
+		if (projectDir.exists()) {
+			StorageHandler.deleteDir(projectDir);
 		}
 		testImageFilename = PhysicsTestUtils.getInternalImageFilenameFromFilename("testImage.png");
-
-		project = new Project(getInstrumentation().getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		project = new Project(getInstrumentation().getTargetContext(), projectName);
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
-
-		testImage = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, project.getDefaultScene().getName(), testImageFilename, IMAGE_FILE_ID,
-				getInstrumentation().getContext(), TestUtils.TYPE_IMAGE_FILE);
-
+		testImage = FileTestUtils.copyResourceFileToProject(projectName, project.getDefaultScene().getName(),
+				testImageFilename, IMAGE_FILE_ID, getInstrumentation().getContext(), FileTestUtils.FileTypes.IMAGE);
 		sprite = new SingleSprite("TestSprite");
 		super.setUp();
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		TestUtils.clearProject(TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		TestUtils.deleteProjects(projectName);
 		physicsWorld = null;
 		sprite = null;
 		super.tearDown();

@@ -37,8 +37,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.R;
-import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.utils.UtilFile;
+import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 
 import java.io.File;
 
@@ -46,7 +45,7 @@ public class TurnRightActionTest extends InstrumentationTestCase {
 
 	private static final int IMAGE_FILE_ID = R.raw.icon;
 
-	private final String projectName = "testProject";
+	private String projectName = "testProject";
 	private File testImage;
 	private LookData lookData;
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
@@ -54,19 +53,18 @@ public class TurnRightActionTest extends InstrumentationTestCase {
 
 	@Override
 	public void setUp() throws Exception {
+		File projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName);
 
-		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
-
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
+		if (projectDir.exists()) {
+			StorageHandler.deleteDir(projectDir);
 		}
 
 		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
-		testImage = TestUtils.saveFileToProject(this.projectName, project.getDefaultScene().getName(), "testImage.png", IMAGE_FILE_ID, getInstrumentation()
-				.getContext(), TestUtils.TYPE_IMAGE_FILE);
+		testImage = FileTestUtils.copyResourceFileToProject(this.projectName, project.getDefaultScene().getName(),
+				"testImage.png", IMAGE_FILE_ID, getInstrumentation().getContext(), FileTestUtils.FileTypes.IMAGE);
 
 		lookData = new LookData();
 		lookData.setFileName(testImage.getName());
@@ -78,13 +76,10 @@ public class TurnRightActionTest extends InstrumentationTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
+		File projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName);
 
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
-		}
-		if (testImage != null && testImage.exists()) {
-			testImage.delete();
+		if (projectDir.exists()) {
+			StorageHandler.deleteDir(projectDir);
 		}
 		super.tearDown();
 	}
@@ -97,16 +92,16 @@ public class TurnRightActionTest extends InstrumentationTestCase {
 		Action action = factory.createTurnRightAction(sprite, new Formula(10.0f));
 		action.act(1.0f);
 
-		assertEquals("Wrong direction", 100f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), 1e-3);
-		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(100f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), 1e-3);
+		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 
 		action.restart();
 		action.act(1.0f);
 
-		assertEquals("Wrong direction", 110f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), 1e-3);
-		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(110f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), 1e-3);
+		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testTurnRightAndScale() {

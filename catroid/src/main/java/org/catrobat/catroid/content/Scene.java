@@ -53,6 +53,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import static org.catrobat.catroid.common.Constants.BACKPACK_SCENE_DIRECTORY;
+
 @XStreamAlias("scene")
 // Remove checkstyle disable when https://github.com/checkstyle/checkstyle/issues/1349 is fixed
 // CHECKSTYLE DISABLE IndentationCheck FOR 7 LINES
@@ -115,11 +117,19 @@ public class Scene implements Serializable {
 	public String getPath() {
 		String path;
 		if (isBackPackScene) {
-			path = Utils.buildBackpackScenePath(name);
+			path = Utils.buildPath(BACKPACK_SCENE_DIRECTORY.getAbsolutePath(), name);
 		} else {
 			path = Utils.buildScenePath(project.getName(), name);
 		}
 		return path;
+	}
+
+	public File getDirectory() {
+		if (isBackPackScene) {
+			return new File(BACKPACK_SCENE_DIRECTORY, name);
+		} else {
+			return new File(Utils.buildScenePath(project.getName(), name));
+		}
 	}
 
 	public synchronized void addSprite(Sprite sprite) {

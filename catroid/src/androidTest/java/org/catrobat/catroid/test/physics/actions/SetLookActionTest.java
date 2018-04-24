@@ -29,8 +29,13 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.test.physics.PhysicsBaseTest;
 import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 
 import java.io.File;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.core.IsNot.not;
 
 public class SetLookActionTest extends PhysicsBaseTest {
 
@@ -46,13 +51,13 @@ public class SetLookActionTest extends PhysicsBaseTest {
 
 		multipleConvexPolygonsFileName = PhysicsTestUtils.getInternalImageFilenameFromFilename("multible_convex_polygons.png");
 
-		multipleConvexPolygonsFile = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, project.getDefaultScene().getName(),
-				multipleConvexPolygonsFileName, MULTIPLE_CONVEX_POLYGONS_RES_ID, getInstrumentation().getContext(),
-				TestUtils.TYPE_IMAGE_FILE);
+		multipleConvexPolygonsFile = FileTestUtils.copyResourceFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
+				project.getDefaultScene().getName(), multipleConvexPolygonsFileName, MULTIPLE_CONVEX_POLYGONS_RES_ID,
+				getInstrumentation().getContext(), FileTestUtils.FileTypes.IMAGE);
 
 		lookData = PhysicsTestUtils.generateLookData(multipleConvexPolygonsFile);
 
-		assertTrue("getLookData is null", sprite.look.getLookData() != null);
+		assertNotNull(sprite.look.getLookData());
 	}
 
 	@Override
@@ -61,7 +66,7 @@ public class SetLookActionTest extends PhysicsBaseTest {
 		multipleConvexPolygonsFileName = null;
 		multipleConvexPolygonsFile = null;
 
-		TestUtils.deleteTestProjects();
+		TestUtils.deleteProjects();
 		super.tearDown();
 	}
 
@@ -72,8 +77,8 @@ public class SetLookActionTest extends PhysicsBaseTest {
 
 		changeLook();
 
-		assertTrue("Look has not changed", sprite.look.getLookData() != previousLookData);
-		assertEquals("Look is not correct", sprite.look.getLookData(), expectedLookData);
+		assertThat(sprite.look.getLookData(), is(not(previousLookData)));
+		assertEquals(sprite.look.getLookData(), expectedLookData);
 	}
 
 	private void changeLook() {

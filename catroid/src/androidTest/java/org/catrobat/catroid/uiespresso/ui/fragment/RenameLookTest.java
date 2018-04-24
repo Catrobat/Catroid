@@ -46,6 +46,7 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
@@ -75,8 +76,7 @@ public class RenameLookTest {
 
 	@Before
 	public void setUp() throws Exception {
-		createProject("renameLookFragmentTest");
-
+		createProject();
 		baseActivityTestRule.launchActivity();
 	}
 
@@ -131,7 +131,8 @@ public class RenameLookTest {
 		onView(withText(oldLookName)).check(matches(isDisplayed()));
 	}
 
-	private void createProject(String projectName) {
+	private void createProject() throws IOException {
+		String projectName = "renameLookFragmentTest";
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 
 		Sprite sprite = new SingleSprite("testSprite");
@@ -140,7 +141,7 @@ public class RenameLookTest {
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 
-		File imageFile = FileTestUtils.saveFileToProject(
+		File imageFile = FileTestUtils.copyResourceFileToProject(
 				projectName, ProjectManager.getInstance().getCurrentScene().getName(), "catroid_sunglasses.png",
 				org.catrobat.catroid.test.R.drawable.catroid_banzai, InstrumentationRegistry.getContext(),
 				FileTestUtils.FileTypes.IMAGE

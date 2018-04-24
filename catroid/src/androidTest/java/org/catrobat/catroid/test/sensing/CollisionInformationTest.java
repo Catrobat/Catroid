@@ -37,11 +37,17 @@ import org.catrobat.catroid.sensing.CollisionInformation;
 import org.catrobat.catroid.sensing.CollisionPolygonVertex;
 import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.is;
 
 public class CollisionInformationTest extends InstrumentationTestCase {
 	public void testCheckMetaString() {
@@ -81,9 +87,9 @@ public class CollisionInformationTest extends InstrumentationTestCase {
 				new float[] {0.0f, 0.0f, 200.0f, 0.0f, 200.0f, 100.0f, 0.0f, 100.0f}));
 	}
 
-	public void testGetCollisionPolygonFromPNGMeta() {
+	public void testGetCollisionPolygonFromPNGMeta() throws IOException {
 		final int resourceId = org.catrobat.catroid.test.R.raw.polygon_in_file;
-		TestUtils.deleteTestProjects();
+		TestUtils.deleteProjects();
 
 		Project project = new Project(getInstrumentation().getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
@@ -91,27 +97,21 @@ public class CollisionInformationTest extends InstrumentationTestCase {
 		ProjectManager.getInstance().setProject(project);
 
 		String filename = PhysicsTestUtils.getInternalImageFilenameFromFilename("polygon_in_file.png");
-		File file = null;
-		try {
-			file = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, project.getDefaultScene().getName(),
-					filename, resourceId, getInstrumentation().getContext(),
-					TestUtils.TYPE_IMAGE_FILE);
-		} catch (Exception e) {
-			Assert.fail("Couldn't load file, exception thrown!");
-		}
+		File file = FileTestUtils.copyResourceFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
+					project.getDefaultScene().getName(), filename, resourceId, getInstrumentation().getContext(),
+					FileTestUtils.FileTypes.IMAGE);
 
 		Polygon[] collisionPolygons = CollisionInformation.getCollisionPolygonFromPNGMeta(file.getAbsolutePath());
 
-		Assert.assertNotNull("CollsionPolygons is null", collisionPolygons);
-		Assert.assertTrue("CollisionPolygons length is 0", collisionPolygons.length != 0);
-		Assert.assertEquals("Wrong amount of collisionPolygons", 1, collisionPolygons.length);
-		Assert.assertTrue("Wrong Collision Polygon",
-				Arrays.equals(collisionPolygons[0].getVertices(),
+		Assert.assertNotNull(collisionPolygons);
+		assertThat(collisionPolygons.length, is(greaterThan(0)));
+		Assert.assertEquals(1, collisionPolygons.length);
+		Assert.assertTrue(Arrays.equals(collisionPolygons[0].getVertices(),
 						new float[] {0.0f, 47.0f, 17.0f, 98.0f, 52.0f, 98.0f, 68.0f, 44.0f, 52.0f, 0.0f, 17.0f, 0.0f}));
 	}
 
-	public void testWriteReadCollisionVerticesToPNGMeta() {
-		TestUtils.deleteTestProjects();
+	public void testWriteReadCollisionVerticesToPNGMeta() throws IOException {
+		TestUtils.deleteProjects();
 
 		Project project = new Project(getInstrumentation().getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
@@ -121,14 +121,9 @@ public class CollisionInformationTest extends InstrumentationTestCase {
 		String filename = "collision_donut.png";
 		int resourceId = org.catrobat.catroid.test.R.raw.collision_donut;
 		String hashedFileName = Utils.md5Checksum(filename) + "_" + filename;
-		File file = null;
-		try {
-			file = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, project.getDefaultScene().getName(),
-					hashedFileName, resourceId, getInstrumentation().getContext(),
-					TestUtils.TYPE_IMAGE_FILE);
-		} catch (Exception e) {
-			Assert.fail("Couldn't load file, exception thrown!");
-		}
+		File file = FileTestUtils.copyResourceFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
+				project.getDefaultScene().getName(), hashedFileName, resourceId, getInstrumentation().getContext(),
+					FileTestUtils.FileTypes.IMAGE);
 
 		float[] firstVertices = new float[] {0.0f, 0.0f, 111.0f, 0.0f, 111.0f, 222.0f};
 		float[] secondVertices = new float[] {10.0f, 10.0f, 20.0f, 10.0f, 20.0f, 20.0f, 10.0f, 20.0f};
@@ -141,8 +136,8 @@ public class CollisionInformationTest extends InstrumentationTestCase {
 		Assert.assertTrue("Not the same vertices have been read from the file! ", sameVertices);
 	}
 
-	public void testWriteReadEmptyCollisionVerticesToPNGMeta() {
-		TestUtils.deleteTestProjects();
+	public void testWriteReadEmptyCollisionVerticesToPNGMeta() throws IOException {
+		TestUtils.deleteProjects();
 
 		Project project = new Project(getInstrumentation().getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
@@ -152,20 +147,15 @@ public class CollisionInformationTest extends InstrumentationTestCase {
 		String filename = "collision_donut.png";
 		int resourceId = org.catrobat.catroid.test.R.raw.collision_donut;
 		String hashedFileName = Utils.md5Checksum(filename) + "_" + filename;
-		File file = null;
-		try {
-			file = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, project.getDefaultScene().getName(),
-					hashedFileName, resourceId, getInstrumentation().getContext(),
-					TestUtils.TYPE_IMAGE_FILE);
-		} catch (Exception e) {
-			Assert.fail("Couldn't load file, exception thrown!");
-		}
+		File file = FileTestUtils.copyResourceFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
+				project.getDefaultScene().getName(), hashedFileName, resourceId, getInstrumentation().getContext(),
+					FileTestUtils.FileTypes.IMAGE);
 
 		Polygon[] polygons = new Polygon[0];
 		CollisionInformation.writeCollisionVerticesToPNGMeta(polygons, file.getAbsolutePath());
 		Polygon[] testPolygons = CollisionInformation.getCollisionPolygonFromPNGMeta(file.getAbsolutePath());
 
-		Assert.assertTrue("Test polygon size is not 0! Reading and/or writing failed", testPolygons.length == 0);
+		assertEquals(0, testPolygons.length);
 	}
 
 	private float[] getFloatArrayFromCollisionPolygonVertexArrayList(ArrayList<CollisionPolygonVertex> arrayList) {
@@ -206,9 +196,9 @@ public class CollisionInformationTest extends InstrumentationTestCase {
 		float[] horizontalTest = getFloatArrayFromCollisionPolygonVertexArrayList(horizontal);
 		float[] verticalTest = getFloatArrayFromCollisionPolygonVertexArrayList(vertical);
 
-		Assert.assertEquals("Horizontal size not matching", horizontalCorrect.length, horizontalTest.length);
-		Assert.assertEquals("Vertical size not matching", verticalCorrect.length, verticalTest.length);
-		Assert.assertTrue("Horizontal vertices wrongly calculated", Arrays.equals(horizontalTest, horizontalCorrect));
-		Assert.assertTrue("Vertical vertices wrongly calculated", Arrays.equals(verticalTest, verticalCorrect));
+		Assert.assertEquals(horizontalCorrect.length, horizontalTest.length);
+		Assert.assertEquals(verticalCorrect.length, verticalTest.length);
+		Assert.assertTrue(Arrays.equals(horizontalTest, horizontalCorrect));
+		Assert.assertTrue(Arrays.equals(verticalTest, verticalCorrect));
 	}
 }

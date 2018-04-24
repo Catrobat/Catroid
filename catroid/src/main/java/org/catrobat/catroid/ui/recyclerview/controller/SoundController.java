@@ -40,29 +40,24 @@ import java.util.Set;
 
 public class SoundController {
 
-	private static final String BACKPACK_DIRECTORY = Utils.buildPath(
-			Constants.DEFAULT_ROOT,
-			Constants.BACKPACK_DIRECTORY,
-			Constants.BACKPACK_SOUND_DIRECTORY);
-
 	private UniqueNameProvider uniqueNameProvider = new UniqueNameProvider();
 
 	public SoundInfo copy(SoundInfo soundToCopy, Scene srcScene, Scene dstScene, Sprite dstSprite) throws IOException {
 		String name = uniqueNameProvider.getUniqueName(soundToCopy.getName(), getScope(dstSprite.getSoundList()));
 
-		String srcDir = getSoundDirPath(srcScene);
-		String dstDir = getSoundDirPath(dstScene);
+		File srcDir = getSoundDir(srcScene);
+		File dstDir = getSoundDir(dstScene);
 
-		String fileName = StorageHandler.copyFile(Utils.buildPath(srcDir, soundToCopy.getFileName()), dstDir).getName();
+		String fileName = StorageHandler.copyFileToDirectory(new File(srcDir, soundToCopy.getFileName()), dstDir).getName();
 		return new SoundInfo(name, fileName);
 	}
 
 	SoundInfo findOrCopy(SoundInfo soundToCopy, Scene srcScene, Scene dstScene, Sprite dstSprite) throws IOException {
-		String soundToCopyPath = Utils.buildPath(getSoundDirPath(srcScene), soundToCopy.getFileName());
+		File soundFileToCopy = new File(getSoundDir(srcScene), soundToCopy.getFileName());
 		for (SoundInfo sound : dstSprite.getSoundList()) {
-			String soundPath = Utils.buildPath(getSoundDirPath(dstScene), sound.getFileName());
+			File soundFile = new File(getSoundDir(dstScene), sound.getFileName());
 
-			if (compareByChecksum(soundPath, soundToCopyPath)) {
+			if (compareByChecksum(soundFile, soundFileToCopy)) {
 				return sound;
 			}
 		}
@@ -72,19 +67,20 @@ public class SoundController {
 	}
 
 	public void delete(SoundInfo soundToDelete, Scene srcScene) throws IOException {
-		StorageHandler.deleteFile(Utils.buildPath(getSoundDirPath(srcScene), soundToDelete.getFileName()));
+		StorageHandler.deleteFile(new File(getSoundDir(srcScene), soundToDelete.getFileName()));
 	}
 
 	public void deleteFromBackpack(SoundInfo soundToDelete) throws IOException {
-		StorageHandler.deleteFile(Utils.buildPath(BACKPACK_DIRECTORY, soundToDelete.getFileName()));
+		StorageHandler.deleteFile(new File(Constants.BACKPACK_SOUND_DIRECTORY, soundToDelete.getFileName()));
 	}
 
 	public SoundInfo pack(SoundInfo soundToPack, Scene srcScene) throws IOException {
 		String name = uniqueNameProvider.getUniqueName(
 				soundToPack.getName(), getScope(BackPackListManager.getInstance().getBackPackedSounds()));
 
-		String fileName = StorageHandler.copyFile(
-				Utils.buildPath(getSoundDirPath(srcScene), soundToPack.getFileName()), BACKPACK_DIRECTORY).getName();
+		String fileName = StorageHandler.copyFileToDirectory(
+				new File(getSoundDir(srcScene), soundToPack.getFileName()),
+				Constants.BACKPACK_SOUND_DIRECTORY).getName();
 
 		SoundInfo sound = new SoundInfo(name, fileName);
 		sound.isBackpackSoundInfo = true;
@@ -93,11 +89,11 @@ public class SoundController {
 
 	SoundInfo packForSprite(SoundInfo soundToPack, Sprite dstSprite) throws IOException {
 		for (SoundInfo sound : dstSprite.getSoundList()) {
-			if (compareByChecksum(sound.getAbsolutePath(), soundToPack.getAbsolutePath())) {
+			if (compareByChecksum(sound.getFile(), soundToPack.getFile())) {
 				return sound;
 			}
 		}
-		String fileName = StorageHandler.copyFile(soundToPack.getAbsolutePath(), BACKPACK_DIRECTORY).getName();
+		String fileName = StorageHandler.copyFileToDirectory(soundToPack.getFile(), Constants.BACKPACK_SOUND_DIRECTORY).getName();
 		SoundInfo sound = new SoundInfo(soundToPack.getName(), fileName);
 		sound.isBackpackSoundInfo = true;
 
@@ -107,15 +103,15 @@ public class SoundController {
 
 	public SoundInfo unpack(SoundInfo soundToUnpack, Scene dstScene, Sprite dstSprite) throws IOException {
 		String name = uniqueNameProvider.getUniqueName(soundToUnpack.getName(), getScope(dstSprite.getSoundList()));
-		String fileName = StorageHandler.copyFile(soundToUnpack.getAbsolutePath(), getSoundDirPath(dstScene)).getName();
+		String fileName = StorageHandler.copyFileToDirectory(soundToUnpack.getFile(), getSoundDir(dstScene)).getName();
 		return new SoundInfo(name, fileName);
 	}
 
 	SoundInfo unpackForSprite(SoundInfo soundToUnpack, Scene dstScene, Sprite dstSprite) throws IOException {
 		for (SoundInfo sound : dstSprite.getSoundList()) {
-			String soundPath = Utils.buildPath(getSoundDirPath(dstScene), sound.getFileName());
+			File soundFile = new File(getSoundDir(dstScene), sound.getFileName());
 
-			if (compareByChecksum(soundPath, soundToUnpack.getAbsolutePath())) {
+			if (compareByChecksum(soundFile, soundToUnpack.getFile())) {
 				return sound;
 			}
 		}
@@ -132,13 +128,13 @@ public class SoundController {
 		return scope;
 	}
 
-	private String getSoundDirPath(Scene scene) {
-		return Utils.buildPath(scene.getPath(), Constants.SOUND_DIRECTORY);
+	private File getSoundDir(Scene scene) {
+		return new File(scene.getDirectory(), Constants.SOUND_DIRECTORY);
 	}
 
-	private boolean compareByChecksum(String filePath1, String filePath2) {
-		String checksum1 = Utils.md5Checksum(new File(filePath1));
-		String checksum2 = Utils.md5Checksum(new File(filePath2));
+	private boolean compareByChecksum(File file1, File file2) {
+		String checksum1 = Utils.md5Checksum(file1);
+		String checksum2 = Utils.md5Checksum(file2);
 
 		return checksum1.equals(checksum2);
 	}

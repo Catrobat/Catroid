@@ -37,8 +37,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.R;
-import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.utils.UtilFile;
+import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 
 import java.io.File;
 
@@ -54,19 +53,18 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 
 	@Override
 	public void setUp() throws Exception {
+		File projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName);
 
-		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
-
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
+		if (projectDir.exists()) {
+			StorageHandler.deleteDir(projectDir);
 		}
 
 		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
-		testImage = TestUtils.saveFileToProject(this.projectName, project.getDefaultScene().getName(), "testImage.png", IMAGE_FILE_ID, getInstrumentation()
-				.getContext(), TestUtils.TYPE_IMAGE_FILE);
+		testImage = FileTestUtils.copyResourceFileToProject(projectName, project.getDefaultScene().getName(),
+				"testImage.png", IMAGE_FILE_ID, getInstrumentation().getContext(), FileTestUtils.FileTypes.IMAGE);
 
 		lookData = new LookData();
 		lookData.setFileName(testImage.getName());
@@ -78,13 +76,10 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
+		File projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName);
 
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
-		}
-		if (testImage != null && testImage.exists()) {
-			testImage.delete();
+		if (projectDir.exists()) {
+			StorageHandler.deleteDir(projectDir);
 		}
 		super.tearDown();
 	}
@@ -97,16 +92,16 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 		Action action = factory.createTurnLeftAction(sprite, new Formula(10.0f));
 		action.act(1.0f);
 
-		assertEquals("Wrong direction!", 10f, sprite.look.getRotation(), 1e-3);
-		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(10f, sprite.look.getRotation(), 1e-3);
+		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 
 		action.restart();
 		action.act(1.0f);
 
-		assertEquals("Wrong direction!", 20f, sprite.look.getRotation(), 1e-3);
-		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(20f, sprite.look.getRotation(), 1e-3);
+		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testTurnLeftAndScale() {
@@ -119,9 +114,9 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 		action.act(1.0f);
 		scaleAction.act(1.0f);
 
-		assertEquals("Wrong direction!", 10f, sprite.look.getRotation(), 1e-3);
-		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(10f, sprite.look.getRotation(), 1e-3);
+		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testScaleAndTurnLeft() {
@@ -134,9 +129,9 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 		scaleAction.act(1.0f);
 		action.act(1.0f);
 
-		assertEquals("Wrong direction!", 10f, sprite.look.getRotation(), 1e-3);
-		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(10f, sprite.look.getRotation(), 1e-3);
+		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testTurnLeftNegative() {
@@ -147,9 +142,9 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 		Action action = factory.createTurnLeftAction(sprite, new Formula(-10.0f));
 		action.act(1.0f);
 
-		assertEquals("Wrong direction!", -10f, sprite.look.getRotation(), 1e-3);
-		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(-10f, sprite.look.getRotation(), 1e-3);
+		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testTurnLeft() {
@@ -160,9 +155,9 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 		Action action = factory.createTurnLeftAction(sprite, new Formula(370.0f));
 		action.act(1.0f);
 
-		assertEquals("Wrong direction!", 80f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), 1e-3);
-		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(80f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), 1e-3);
+		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testTurnLeftAndTurnRight() {
@@ -175,9 +170,9 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 		turnLeftAction.act(1.0f);
 		turnRightAction.act(1.0f);
 
-		assertEquals("Wrong direction!", 20f, sprite.look.getRotation(), 1e-3);
-		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(20f, sprite.look.getRotation(), 1e-3);
+		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testBrickWithStringFormula() {
@@ -185,25 +180,25 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 		Action action = sprite.getActionFactory().createTurnLeftAction(sprite,
 				new Formula(String.valueOf(VALUE)));
 		action.act(1.0f);
-		assertEquals("Wrong direction!", VALUE, sprite.look.getRotation());
-		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(VALUE, sprite.look.getRotation());
+		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 
 		action = sprite.getActionFactory().createTurnLeftAction(sprite,
 				new Formula(String.valueOf(NOT_NUMERICAL_STRING)));
 		action.act(1.0f);
-		assertEquals("Wrong direction!", VALUE, sprite.look.getRotation());
-		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(VALUE, sprite.look.getRotation());
+		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullFormula() {
 		Sprite sprite = new SingleSprite("test");
 		Action action = sprite.getActionFactory().createTurnLeftAction(sprite, null);
 		action.act(1.0f);
-		assertEquals("Wrong direction!", 0f, sprite.look.getRotation());
-		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getRotation());
+		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testNotANumberFormula() {
@@ -211,8 +206,8 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 		Action action = sprite.getActionFactory().createTurnLeftAction(sprite,
 				new Formula(Double.NaN));
 		action.act(1.0f);
-		assertEquals("Wrong direction!", 0f, sprite.look.getRotation());
-		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getRotation());
+		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 }

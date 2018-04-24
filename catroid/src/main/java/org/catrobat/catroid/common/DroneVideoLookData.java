@@ -49,7 +49,7 @@ public class DroneVideoLookData extends LookData {
 	public DroneVideoLookData clone() {
 		String copiedFileName;
 		try {
-			copiedFileName = StorageHandler.copyFile(getAbsolutePath()).getName();
+			copiedFileName = StorageHandler.copyFile(getFile()).getName();
 		} catch (IOException e) {
 			Log.e(TAG, "Could not copy file: " + fileName + ", fallback to shallow clone.");
 			copiedFileName = fileName;

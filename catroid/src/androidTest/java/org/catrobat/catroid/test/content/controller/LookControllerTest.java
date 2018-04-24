@@ -36,7 +36,6 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.recyclerview.controller.LookController;
 import org.catrobat.catroid.uiespresso.util.FileTestUtils;
-import org.catrobat.catroid.utils.Utils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,6 +46,7 @@ import java.io.IOException;
 
 import static junit.framework.Assert.assertEquals;
 
+import static org.catrobat.catroid.common.Constants.BACKPACK_IMAGE_DIRECTORY;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileDoesNotExist;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileExists;
 import static org.catrobat.catroid.utils.Utils.buildProjectPath;
@@ -54,10 +54,6 @@ import static org.catrobat.catroid.utils.Utils.buildProjectPath;
 @RunWith(AndroidJUnit4.class)
 public class LookControllerTest {
 
-	private static final String BACK_PACK_LOOKS_PATH = Utils.buildPath(
-			Constants.DEFAULT_ROOT,
-			Constants.BACKPACK_DIRECTORY,
-			Constants.BACKPACK_IMAGE_DIRECTORY);
 	private Project project;
 	private Scene scene;
 	private Sprite sprite;
@@ -100,7 +96,7 @@ public class LookControllerTest {
 		LookData packedLook = controller.pack(lookData, scene);
 
 		assertEquals(0, BackPackListManager.getInstance().getBackPackedLooks().size());
-		assertFileExists(BACK_PACK_LOOKS_PATH, packedLook.getFileName());
+		assertFileExists(new File(BACKPACK_IMAGE_DIRECTORY, packedLook.getFileName()));
 	}
 
 	@Test
@@ -110,7 +106,7 @@ public class LookControllerTest {
 		controller.deleteFromBackpack(packedLook);
 
 		assertEquals(0, BackPackListManager.getInstance().getBackPackedLooks().size());
-		assertFileDoesNotExist(BACK_PACK_LOOKS_PATH, packedLook.getFileName());
+		assertFileDoesNotExist(new File(BACKPACK_IMAGE_DIRECTORY, packedLook.getFileName()));
 
 		assertEquals(1, sprite.getLookList().size());
 		assertLookFileExists(lookData.getFileName());
@@ -123,7 +119,7 @@ public class LookControllerTest {
 		LookData unpackedLook = controller.unpack(packedLook, scene, sprite);
 
 		assertEquals(0, BackPackListManager.getInstance().getBackPackedLooks().size());
-		assertFileExists(BACK_PACK_LOOKS_PATH, packedLook.getFileName());
+		assertFileExists(new File(BACKPACK_IMAGE_DIRECTORY, packedLook.getFileName()));
 
 		assertEquals(1, sprite.getLookList().size());
 		assertLookFileExists(unpackedLook.getFileName());
@@ -143,22 +139,21 @@ public class LookControllerTest {
 	}
 
 	private void assertLookFileExists(String fileName) {
-		assertFileExists(scene.getPath(), Constants.IMAGE_DIRECTORY, fileName);
+		assertFileExists(new File(new File(scene.getPath(), Constants.IMAGE_DIRECTORY), fileName));
 	}
 
 	private void assertLookFileDoesNotExist(String fileName) {
-		assertFileDoesNotExist(scene.getPath(), Constants.IMAGE_DIRECTORY, fileName);
+		assertFileDoesNotExist(new File(new File(scene.getPath(), Constants.IMAGE_DIRECTORY), fileName));
 	}
 
 	private void clearBackPack() throws IOException {
-		File backPackDir = new File(BACK_PACK_LOOKS_PATH);
-		if (backPackDir.exists()) {
-			StorageHandler.deleteDir(BACK_PACK_LOOKS_PATH);
+		if (BACKPACK_IMAGE_DIRECTORY.exists()) {
+			StorageHandler.deleteDir(BACKPACK_IMAGE_DIRECTORY);
 		}
-		backPackDir.mkdirs();
+		BACKPACK_IMAGE_DIRECTORY.mkdirs();
 	}
 
-	private void createProject() {
+	private void createProject() throws IOException {
 		project = new Project(InstrumentationRegistry.getTargetContext(), "LookControllerTest");
 		scene = project.getDefaultScene();
 		ProjectManager.getInstance().setCurrentProject(project);
@@ -166,7 +161,7 @@ public class LookControllerTest {
 		sprite = new Sprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);
 
-		File imageFile = FileTestUtils.saveFileToProject(
+		File imageFile = FileTestUtils.copyResourceFileToProject(
 				project.getName(), project.getDefaultScene().getName(),
 				"red_image.bmp",
 				org.catrobat.catroid.test.R.raw.red_image,
@@ -182,7 +177,7 @@ public class LookControllerTest {
 	private void deleteProject() throws IOException {
 		File projectDir = new File(buildProjectPath(project.getName()));
 		if (projectDir.exists()) {
-			StorageHandler.deleteDir(buildProjectPath(project.getName()));
+			StorageHandler.deleteDir(projectDir);
 		}
 	}
 }

@@ -63,7 +63,6 @@ import static org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment.CAM
 import static org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment.FILE;
 import static org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment.LIBRARY;
 import static org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment.POCKET_PAINT;
-import static org.catrobat.catroid.utils.Utils.buildPath;
 
 public class NewLookDialogFragment extends DialogFragment implements View.OnClickListener {
 
@@ -213,8 +212,9 @@ public class NewLookDialogFragment extends DialogFragment implements View.OnClic
 			return;
 		}
 		try {
-			String name = StorageHandler.getSanitizedFileName(new File(srcPath));
-			String fileName = StorageHandler.copyFile(srcPath, getImgDirPath(dstScene)).getName();
+			File srcFile = new File(srcPath);
+			String name = StorageHandler.getSanitizedFileName(srcFile);
+			String fileName = StorageHandler.copyFileToDirectory(srcFile, getImgDir(dstScene)).getName();
 			newItemInterface.addItem(
 					new LookData(uniqueNameProvider.getUniqueName(name, getScope(dstSprite)), fileName));
 		} catch (IOException e) {
@@ -230,12 +230,12 @@ public class NewLookDialogFragment extends DialogFragment implements View.OnClic
 		return scope;
 	}
 
-	private String getImgDirPath(Scene scene) {
-		return buildPath(scene.getPath(), IMAGE_DIRECTORY);
+	private File getImgDir(Scene scene) {
+		return new File(scene.getPath(), IMAGE_DIRECTORY);
 	}
 
 	private Uri getDefaultLookFromCameraUri(String defLookName) {
-		File pictureFile = new File(Constants.DEFAULT_ROOT, defLookName + ".jpg");
+		File pictureFile = new File(Constants.DEFAULT_ROOT_DIRECTORY, defLookName + ".jpg");
 		return Uri.fromFile(pictureFile);
 	}
 }

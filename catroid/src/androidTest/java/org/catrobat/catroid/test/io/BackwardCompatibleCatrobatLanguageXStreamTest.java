@@ -28,10 +28,10 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.io.ZipArchiver;
-import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Locale;
 
 public class BackwardCompatibleCatrobatLanguageXStreamTest extends InstrumentationTestCase {
@@ -59,153 +59,112 @@ public class BackwardCompatibleCatrobatLanguageXStreamTest extends Instrumentati
 	private static final String PROJECT_NAME_LEGO_NXT = "oldlegonxt";
 
 	public void testLoadingProjectsOfCatrobatLanguageVersion08() throws Exception {
-		TestUtils.copyAssetProjectZipFile(getInstrumentation().getContext(), ZIP_FILENAME_FALLING_BALLS,
-				Constants.TMP_PATH);
-		TestUtils.copyAssetProjectZipFile(getInstrumentation().getContext(), ZIP_FILENAME_COLOR_LEANER_BALLOONS, Constants.TMP_PATH);
+		copyProjectFromAssets(ZIP_FILENAME_FALLING_BALLS, PROJECT_NAME_FALLING_BALLS);
+		copyProjectFromAssets(ZIP_FILENAME_COLOR_LEANER_BALLOONS, PROJECT_NAME_COLOR_LEANER_BALLOONS);
 
-		ZipArchiver archiver = new ZipArchiver();
+		Project fallingBallsProject = StorageHandler.getInstance()
+				.loadProject(PROJECT_NAME_FALLING_BALLS, getInstrumentation().getTargetContext());
 
-		archiver.unzip(new File(Utils.buildPath(Constants.TMP_PATH, ZIP_FILENAME_FALLING_BALLS)),
-				new File(Utils.buildProjectPath(PROJECT_NAME_FALLING_BALLS)));
+		assertNotNull(fallingBallsProject);
+		assertEquals(PROJECT_NAME_FALLING_BALLS, fallingBallsProject.getName().toLowerCase(Locale.getDefault()));
 
-		archiver.unzip(new File(Utils.buildPath(Constants.TMP_PATH, ZIP_FILENAME_COLOR_LEANER_BALLOONS)),
-				new File(Utils.buildProjectPath(PROJECT_NAME_COLOR_LEANER_BALLOONS)));
+		Project colorLeanerBalloonsProject = StorageHandler.getInstance()
+				.loadProject(PROJECT_NAME_COLOR_LEANER_BALLOONS, getInstrumentation().getTargetContext());
 
-		Project fallingBallsProject = StorageHandler.getInstance().loadProject(PROJECT_NAME_FALLING_BALLS,
-				getInstrumentation().getTargetContext());
-		assertTrue("Cannot load falling balls project", fallingBallsProject != null);
-		assertEquals("Wrong project loaded", PROJECT_NAME_FALLING_BALLS, fallingBallsProject.getName().toLowerCase(Locale.getDefault()));
+		assertNotNull(colorLeanerBalloonsProject);
+		assertEquals(PROJECT_NAME_COLOR_LEANER_BALLOONS, colorLeanerBalloonsProject.getName().toLowerCase(Locale.getDefault()));
 
-		Project colorLeanerBalloonsProject = StorageHandler.getInstance().loadProject(
-				PROJECT_NAME_COLOR_LEANER_BALLOONS, getInstrumentation().getTargetContext());
-		assertTrue("Cannot load color leaner balloons project", colorLeanerBalloonsProject != null);
-		assertEquals("Wrong project loaded", PROJECT_NAME_COLOR_LEANER_BALLOONS, colorLeanerBalloonsProject.getName()
-				.toLowerCase(Locale.getDefault()));
-
-		new File(Utils.buildPath(Constants.TMP_PATH, ZIP_FILENAME_FALLING_BALLS)).delete();
-		new File(Utils.buildPath(Constants.TMP_PATH, ZIP_FILENAME_COLOR_LEANER_BALLOONS)).delete();
-
-		TestUtils.deleteTestProjects(PROJECT_NAME_FALLING_BALLS, PROJECT_NAME_COLOR_LEANER_BALLOONS);
+		StorageHandler.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_FALLING_BALLS));
+		StorageHandler.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_COLOR_LEANER_BALLOONS));
 	}
 
 	public void testLoadingProjectsOfCatrobatLanguageVersion09() throws Exception {
-		TestUtils.copyAssetProjectZipFile(getInstrumentation().getContext(), ZIP_FILENAME_PONG_STARTER, Constants.TMP_PATH);
-		TestUtils.copyAssetProjectZipFile(getInstrumentation().getContext(), ZIP_FILENAME_WHIP, Constants.TMP_PATH);
+		copyProjectFromAssets(ZIP_FILENAME_PONG_STARTER, PROJECT_NAME_PONG_STARTER);
+		copyProjectFromAssets(ZIP_FILENAME_WHIP, PROJECT_NAME_WHIP);
 
-		ZipArchiver archiver = new ZipArchiver();
+		Project pongStarterProject = StorageHandler.getInstance()
+				.loadProject(PROJECT_NAME_PONG_STARTER, getInstrumentation().getTargetContext());
 
-		archiver.unzip(new File(Utils.buildPath(Constants.TMP_PATH, ZIP_FILENAME_PONG_STARTER)),
-				new File(Utils.buildProjectPath(PROJECT_NAME_PONG_STARTER)));
+		assertNotNull(pongStarterProject);
+		assertEquals(PROJECT_NAME_PONG_STARTER, pongStarterProject.getName().toLowerCase(Locale.getDefault()));
 
-		archiver.unzip(new File(Utils.buildPath(Constants.TMP_PATH, ZIP_FILENAME_WHIP)),
-				new File(Utils.buildProjectPath(PROJECT_NAME_WHIP)));
+		Project whipProject = StorageHandler.getInstance()
+				.loadProject(PROJECT_NAME_WHIP, getInstrumentation().getTargetContext());
 
-		Project pongStarterProject = StorageHandler.getInstance().loadProject(PROJECT_NAME_PONG_STARTER,
-				getInstrumentation().getTargetContext());
-		assertTrue("Cannot load pong starter project", pongStarterProject != null);
-		assertEquals("Wrong project loaded", PROJECT_NAME_PONG_STARTER,
-				pongStarterProject.getName().toLowerCase(Locale.getDefault()));
+		assertNotNull(whipProject);
+		assertEquals(PROJECT_NAME_WHIP, whipProject.getName().toLowerCase(Locale.getDefault()));
 
-		Project whipProject = StorageHandler.getInstance().loadProject(PROJECT_NAME_WHIP,
-				getInstrumentation().getTargetContext());
-		assertTrue("Cannot load whip project", whipProject != null);
-		assertEquals("Wrong project loaded", PROJECT_NAME_WHIP, whipProject.getName().toLowerCase(Locale.getDefault()));
-
-		new File(Utils.buildPath(Constants.TMP_PATH, ZIP_FILENAME_PONG_STARTER)).delete();
-		new File(Utils.buildPath(Constants.TMP_PATH, ZIP_FILENAME_WHIP)).delete();
-
-		TestUtils.deleteTestProjects(PROJECT_NAME_PONG_STARTER, PROJECT_NAME_WHIP);
+		StorageHandler.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_PONG_STARTER));
+		StorageHandler.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_WHIP));
 	}
 
 	public void testLoadingProjectsOfCatrobatLanguageVersion091() throws Exception {
-		TestUtils.copyAssetProjectZipFile(getInstrumentation().getContext(), ZIP_FILENAME_AIR_FIGHT, Constants.TMP_PATH);
-		TestUtils.copyAssetProjectZipFile(getInstrumentation().getContext(), ZIP_FILENAME_XRAY_PHONE, Constants.TMP_PATH);
-		TestUtils.copyAssetProjectZipFile(getInstrumentation().getContext(), ZIP_FILENAME_ALL_BRICKS, Constants.TMP_PATH);
-
-		ZipArchiver archiver = new ZipArchiver();
-
-		archiver.unzip(new File(Utils.buildPath(Constants.TMP_PATH, ZIP_FILENAME_AIR_FIGHT)),
-				new File(Utils.buildProjectPath(PROJECT_NAME_AIR_FIGHT)));
-
-		archiver.unzip(new File(Utils.buildPath(Constants.TMP_PATH, ZIP_FILENAME_XRAY_PHONE)),
-				new File(Utils.buildProjectPath(PROJECT_NAME_XRAY_PHONE)));
-
-		archiver.unzip(new File(Utils.buildPath(Constants.TMP_PATH, ZIP_FILENAME_ALL_BRICKS)),
-				new File(Utils.buildProjectPath(PROJECT_NAME_ALL_BRICKS)));
+		copyProjectFromAssets(ZIP_FILENAME_AIR_FIGHT, PROJECT_NAME_AIR_FIGHT);
+		copyProjectFromAssets(ZIP_FILENAME_XRAY_PHONE, PROJECT_NAME_XRAY_PHONE);
+		copyProjectFromAssets(ZIP_FILENAME_ALL_BRICKS, PROJECT_NAME_ALL_BRICKS);
 
 		Project airFightProject = StorageHandler.getInstance().loadProject(PROJECT_NAME_AIR_FIGHT,
 				getInstrumentation().getTargetContext());
-		assertTrue("Cannot load air fight project", airFightProject != null);
-		assertEquals("Wrong project loaded", PROJECT_NAME_AIR_FIGHT,
-				airFightProject.getName().toLowerCase(Locale.getDefault()));
+
+		assertNotNull(airFightProject);
+		assertEquals(PROJECT_NAME_AIR_FIGHT, airFightProject.getName().toLowerCase(Locale.getDefault()));
 
 		Project xRayPhoneProject = StorageHandler.getInstance().loadProject(PROJECT_NAME_XRAY_PHONE,
 				getInstrumentation().getTargetContext());
-		assertTrue("Cannot load X-Ray phone project", xRayPhoneProject != null);
-		assertEquals("Wrong project loaded", PROJECT_NAME_XRAY_PHONE,
-				xRayPhoneProject.getName().toLowerCase(Locale.getDefault()));
+
+		assertNotNull(xRayPhoneProject);
+		assertEquals(PROJECT_NAME_XRAY_PHONE, xRayPhoneProject.getName().toLowerCase(Locale.getDefault()));
 
 		Project allBricksProject = StorageHandler.getInstance().loadProject(PROJECT_NAME_ALL_BRICKS,
 				getInstrumentation().getTargetContext());
-		assertTrue("Cannot load All Bricks project", allBricksProject != null);
-		assertEquals("Wrong project loaded", PROJECT_NAME_ALL_BRICKS,
-				allBricksProject.getName().toLowerCase(Locale.getDefault()));
 
-		new File(Utils.buildPath(Constants.TMP_PATH, ZIP_FILENAME_AIR_FIGHT)).delete();
-		new File(Utils.buildPath(Constants.TMP_PATH, ZIP_FILENAME_XRAY_PHONE)).delete();
-		new File(Utils.buildPath(Constants.TMP_PATH, ZIP_FILENAME_ALL_BRICKS)).delete();
+		assertNotNull(allBricksProject);
+		assertEquals(PROJECT_NAME_ALL_BRICKS, allBricksProject.getName().toLowerCase(Locale.getDefault()));
 
-		TestUtils.deleteTestProjects(PROJECT_NAME_AIR_FIGHT, PROJECT_NAME_XRAY_PHONE, PROJECT_NAME_ALL_BRICKS);
+		StorageHandler.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_AIR_FIGHT));
+		StorageHandler.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_XRAY_PHONE));
+		StorageHandler.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_ALL_BRICKS));
 	}
 
 	public void testLoadingProjectsOfCatrobatLanguageVersion092() throws Exception {
-		TestUtils.copyAssetProjectZipFile(getInstrumentation().getContext(), ZIP_FILENAME_NOTE_AND_SPEAK_BRICK,
-				Constants.TMP_PATH);
+		copyProjectFromAssets(ZIP_FILENAME_NOTE_AND_SPEAK_BRICK, PROJECT_NAME_NOTE_AND_SPEAK_BRICK);
 
-		new ZipArchiver().unzip(new File(Utils.buildPath(Constants.TMP_PATH, ZIP_FILENAME_NOTE_AND_SPEAK_BRICK)),
-				new File(Utils.buildProjectPath(PROJECT_NAME_NOTE_AND_SPEAK_BRICK)));
+		Project noteAndSpeakBrickProject = StorageHandler.getInstance()
+				.loadProject(PROJECT_NAME_NOTE_AND_SPEAK_BRICK, getInstrumentation().getTargetContext());
 
-		Project noteAndSpeakBrickProject = StorageHandler.getInstance().loadProject(PROJECT_NAME_NOTE_AND_SPEAK_BRICK,
-				getInstrumentation().getTargetContext());
-		assertTrue("Cannot load " + PROJECT_NAME_NOTE_AND_SPEAK_BRICK + " project", noteAndSpeakBrickProject != null);
-		assertEquals("Wrong project loaded", PROJECT_NAME_NOTE_AND_SPEAK_BRICK, noteAndSpeakBrickProject.getName()
-				.toLowerCase(Locale.getDefault()));
+		assertNotNull(noteAndSpeakBrickProject);
+		assertEquals(PROJECT_NAME_NOTE_AND_SPEAK_BRICK,
+				noteAndSpeakBrickProject.getName().toLowerCase(Locale.getDefault()));
 
-		new File(Utils.buildPath(Constants.TMP_PATH, ZIP_FILENAME_NOTE_AND_SPEAK_BRICK)).delete();
-
-		TestUtils.deleteTestProjects(PROJECT_NAME_NOTE_AND_SPEAK_BRICK);
+		StorageHandler.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_NOTE_AND_SPEAK_BRICK));
 	}
 
 	public void testLoadingProjectsOfCatrobatLanguageVersion095() throws Exception {
-		TestUtils.copyAssetProjectZipFile(getInstrumentation().getContext(), ZIP_FILENAME_GHOST_EFFECT_BRICKS,
-				Constants.TMP_PATH);
+		copyProjectFromAssets(ZIP_FILENAME_GHOST_EFFECT_BRICKS, PROJECT_NAME_GHOST_EFFECT_BRICKS);
 
-		new ZipArchiver().unzip(new File(Utils.buildPath(Constants.TMP_PATH, ZIP_FILENAME_GHOST_EFFECT_BRICKS)),
-				new File(Utils.buildProjectPath(PROJECT_NAME_GHOST_EFFECT_BRICKS)));
+		Project ghostBricksProject = StorageHandler.getInstance()
+				.loadProject(PROJECT_NAME_GHOST_EFFECT_BRICKS, getInstrumentation().getTargetContext());
 
-		Project ghostBricksProject = StorageHandler.getInstance().loadProject(PROJECT_NAME_GHOST_EFFECT_BRICKS,
-				getInstrumentation().getTargetContext());
-		assertTrue("Cannot load " + PROJECT_NAME_GHOST_EFFECT_BRICKS + " project", ghostBricksProject != null);
-		assertEquals("Wrong project loaded", PROJECT_NAME_GHOST_EFFECT_BRICKS, ghostBricksProject.getName()
-				.toLowerCase(Locale.getDefault()));
+		assertNotNull(ghostBricksProject);
+		assertEquals(PROJECT_NAME_GHOST_EFFECT_BRICKS, ghostBricksProject.getName().toLowerCase(Locale.getDefault()));
 
-		new File(Utils.buildPath(Constants.TMP_PATH, ZIP_FILENAME_GHOST_EFFECT_BRICKS)).delete();
-		TestUtils.deleteTestProjects(PROJECT_NAME_GHOST_EFFECT_BRICKS);
+		StorageHandler.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_GHOST_EFFECT_BRICKS));
 	}
 
 	public void testLoadingLegoNxtProjectsOfCatrobatLanguageVersion092() throws Exception {
-		TestUtils.copyAssetProjectZipFile(getInstrumentation().getContext(), ZIP_FILENAME_LEGO_NXT, Constants.TMP_PATH);
+		copyProjectFromAssets(ZIP_FILENAME_LEGO_NXT, PROJECT_NAME_LEGO_NXT);
 
-		new ZipArchiver().unzip(new File(Utils.buildPath(Constants.TMP_PATH, ZIP_FILENAME_LEGO_NXT)),
-				new File(Utils.buildProjectPath(PROJECT_NAME_LEGO_NXT)));
+		Project legoProject = StorageHandler.getInstance()
+				.loadProject(PROJECT_NAME_LEGO_NXT, getInstrumentation().getTargetContext());
 
-		Project legoProject = StorageHandler.getInstance().loadProject(PROJECT_NAME_LEGO_NXT,
-				getInstrumentation().getTargetContext());
-		assertTrue("Cannot load " + PROJECT_NAME_LEGO_NXT + " project", legoProject != null);
-		assertEquals("Wrong project loaded", PROJECT_NAME_LEGO_NXT,
-				legoProject.getName().toLowerCase(Locale.getDefault()));
+		assertNotNull(legoProject);
+		assertEquals(PROJECT_NAME_LEGO_NXT, legoProject.getName().toLowerCase(Locale.getDefault()));
 
-		new File(Utils.buildPath(Constants.TMP_PATH, ZIP_FILENAME_LEGO_NXT)).delete();
-		TestUtils.deleteTestProjects(PROJECT_NAME_LEGO_NXT);
+		StorageHandler.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_LEGO_NXT));
+	}
+
+	private void copyProjectFromAssets(String assetName, String projectName) throws IOException {
+		InputStream inputStream = getInstrumentation().getContext().getAssets().open(assetName);
+		new ZipArchiver().unzip(inputStream, new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName));
 	}
 }

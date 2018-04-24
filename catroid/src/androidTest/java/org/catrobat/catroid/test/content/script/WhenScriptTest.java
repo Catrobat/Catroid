@@ -37,7 +37,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
-import org.catrobat.catroid.test.utils.LegacyFileUtils;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.TouchUtil;
 import org.junit.Before;
@@ -48,6 +47,7 @@ import static junit.framework.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
 public class WhenScriptTest {
+
 	private static final int WIDTH = 100;
 	private static final int HEIGHT = 100;
 	private Sprite sprite;
@@ -55,29 +55,31 @@ public class WhenScriptTest {
 
 	@Before
 	public void setUp() {
-		initSprite();
+		sprite = createSprite();
 
 		whenScript = new WhenScript();
 		sprite.addScript(whenScript);
-		createProjectWithSprite(sprite);
 
+		createProjectWithSprite(sprite);
 		TouchUtil.reset();
 	}
 
-	private void initSprite() {
-		sprite = new SingleSprite("testSprite");
+	private Sprite createSprite() {
+		Sprite sprite = new SingleSprite("testSprite");
 		sprite.look = new Look(sprite) {
 			{
 				pixmap = TestUtils.createRectanglePixmap(WIDTH, HEIGHT, Color.RED);
 			}
 		};
+
 		sprite.look.setSize(WIDTH, HEIGHT);
 		sprite.look.setXInUserInterfaceDimensionUnit(0);
 		sprite.look.setYInUserInterfaceDimensionUnit(0);
+		return sprite;
 	}
 
 	private Project createProjectWithSprite(Sprite sprite) {
-		Project project = new Project(InstrumentationRegistry.getInstrumentation().getTargetContext(), LegacyFileUtils.DEFAULT_TEST_PROJECT_NAME);
+		Project project = new Project(InstrumentationRegistry.getInstrumentation().getTargetContext(), "testProject");
 		ProjectManager.getInstance().setProject(project);
 		project.getDefaultScene().addSprite(sprite);
 		return project;
@@ -93,8 +95,7 @@ public class WhenScriptTest {
 			sprite.look.act(1.0f);
 		}
 
-		assertEquals("the position is not as expected, maybe the script has not been executed", (float) 10,
-				sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals((float) 10, sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 
 	private void tapSprite() {
@@ -102,18 +103,18 @@ public class WhenScriptTest {
 	}
 
 	@Test
-	public void whenScriptRestartTest() throws InterruptedException {
+	public void whenScriptRestartTest() {
 		whenScript.addBrick(new WaitBrick(50));
 		whenScript.addBrick(new ChangeXByNBrick(10));
 		sprite.createAndAddActions(Sprite.INCLUDE_START_ACTIONS);
 
 		tapSprite();
 		tapSprite();
+
 		while (!sprite.look.getAllActionsAreFinished()) {
 			sprite.look.act(1.0f);
 		}
 
-		assertEquals("the position is not as expected, maybe the script has been executed twice", (float) 10,
-				sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals((float) 10, sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 }

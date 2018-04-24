@@ -32,6 +32,7 @@ import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.utils.Utils;
 
+import java.io.File;
 import java.io.IOException;
 
 public class ProjectCopyTask extends AsyncTask<String, Void, Boolean> {
@@ -48,11 +49,11 @@ public class ProjectCopyTask extends AsyncTask<String, Void, Boolean> {
 
 	@Override
 	protected Boolean doInBackground(String... params) {
-		String projectToCopyPath = Utils.buildProjectPath(params[0]);
-		String projectPath = Utils.buildProjectPath(params[1]);
+		File projectToCopyDirectory = new File(Utils.buildProjectPath(params[0]));
+		File projectDirectory = new File(Utils.buildProjectPath(params[1]));
 
 		try {
-			StorageHandler.copyDir(projectToCopyPath, projectPath);
+			StorageHandler.copyDir(projectToCopyDirectory, projectDirectory);
 			Project project = StorageHandler.getInstance().loadProject(params[1], context);
 			project.setName(params[1]);
 			StorageHandler.getInstance().saveProject(project);
@@ -62,7 +63,7 @@ public class ProjectCopyTask extends AsyncTask<String, Void, Boolean> {
 					+ " trying to delete folder."
 					+ Log.getStackTraceString(loadingException));
 			try {
-				StorageHandler.deleteDir(projectPath);
+				StorageHandler.deleteDir(projectDirectory);
 			} catch (IOException deletionIOException) {
 				Log.e(TAG, "Could not delete folder:" + Log.getStackTraceString(deletionIOException));
 			}

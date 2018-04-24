@@ -38,27 +38,29 @@ import java.util.List;
 
 public class ComeToFrontActionTest extends AndroidTestCase {
 
+	private String projectName = "testProject";
+
 	@Override
 	public void tearDown() throws Exception {
-		TestUtils.clearProject("testProject");
+		TestUtils.deleteProjects("testProject");
 		super.tearDown();
 	}
 
 	public void testComeToFront() {
-		Project project = new Project(getContext(), "testProject");
+		Project project = new Project(getContext(), projectName);
 		Group parentGroup = new Group();
 
 		Sprite bottomSprite = new SingleSprite("catroid");
 		parentGroup.addActor(bottomSprite.look);
-		assertEquals("Unexpected initial z position of bottomSprite", 0, bottomSprite.look.getZIndex());
+		assertEquals(0, bottomSprite.look.getZIndex());
 
 		Sprite middleSprite = new SingleSprite("catroid cat");
 		parentGroup.addActor(middleSprite.look);
-		assertEquals("Unexpected initial z position of middleSprite", 1, middleSprite.look.getZIndex());
+		assertEquals(1, middleSprite.look.getZIndex());
 
 		Sprite topSprite = new SingleSprite("scratch");
 		parentGroup.addActor(topSprite.look);
-		assertEquals("Unexpected initial z position of topSprite", 2, topSprite.look.getZIndex());
+		assertEquals(2, topSprite.look.getZIndex());
 
 		project.getDefaultScene().addSprite(bottomSprite);
 		project.getDefaultScene().addSprite(middleSprite);
@@ -106,7 +108,7 @@ public class ComeToFrontActionTest extends AndroidTestCase {
 					break;
 				}
 			}
-			assertTrue("z-indexing not correct. z-index have to be from 0 to n-1 each value only once", zIndexFound);
+			assertTrue(zIndexFound);
 		}
 	}
 
@@ -122,7 +124,7 @@ public class ComeToFrontActionTest extends AndroidTestCase {
 	}
 
 	public void testBoundaries() {
-		Project project = new Project(getContext(), "testProject");
+		Project project = new Project(getContext(), projectName);
 		Group parentGroup = new Group();
 
 		Sprite firstSprite = new SingleSprite("firstSprite");
@@ -143,7 +145,7 @@ public class ComeToFrontActionTest extends AndroidTestCase {
 		firstSprite.look.startAction(action);
 		action.act(1.0f);
 
-		assertEquals("An Integer overflow occured during ComeToFrontBrick Execution", getZMaxValue(firstSprite),
+		assertEquals(getZMaxValue(firstSprite),
 				firstSprite.look.getZIndex());
 	}
 

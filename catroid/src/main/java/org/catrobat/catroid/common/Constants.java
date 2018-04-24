@@ -24,6 +24,7 @@ package org.catrobat.catroid.common;
 
 import android.os.Environment;
 
+import java.io.File;
 import java.util.Calendar;
 
 public final class Constants {
@@ -59,21 +60,27 @@ public final class Constants {
 	public static final String[] IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".png", ".gif"};
 	public static final String[] SOUND_EXTENSIONS = {".wav", ".mp3", ".mpga", ".wav", ".ogy"};
 
-	public static final String DEFAULT_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath()
+	private static final String DEFAULT_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath()
 			+ "/Pocket Code";
+
+	public static final File DEFAULT_ROOT_DIRECTORY = new File(DEFAULT_ROOT);
+
 	public static final String TMP_PATH = DEFAULT_ROOT + "/tmp";
 	public static final String TMP_IMAGE_PATH = TMP_PATH + "/PocketPaintImage.tmp";
 	public static final String TEXT_TO_SPEECH_TMP_PATH = TMP_PATH + "/textToSpeech";
 	public static final String IMAGE_DIRECTORY = "images";
 	public static final String SOUND_DIRECTORY = "sounds";
 	public static final String SCENES_DIRECTORY = "scenes";
-	public static final String BACKPACK_DIRECTORY = "backpack";
+
 	public static final String TMP_LOOKS_PATH = TMP_PATH + "/looks";
 	public static final String TMP_SOUNDS_PATH = TMP_PATH + "/sounds";
 
-	public static final String BACKPACK_SOUND_DIRECTORY = "backpack_sound";
-	public static final String BACKPACK_IMAGE_DIRECTORY = "backpack_image";
-	public static final String NUMBER_OF_BRICKS_INSERTED_FROM_BACKPACK = "NUMBER_OF_BRICKS_INSERTED";
+	// Backpack Directories
+	public static final File BACKPACK_DIRECTORY = new File(DEFAULT_ROOT_DIRECTORY, "backpack");
+	public static final File BACKPACK_SCENE_DIRECTORY = new File(BACKPACK_DIRECTORY, "scenes");
+	public static final File BACKPACK_SOUND_DIRECTORY = new File(BACKPACK_DIRECTORY, "backpack_sound");
+	public static final File BACKPACK_IMAGE_DIRECTORY = new File(BACKPACK_DIRECTORY, "backpack_image");
+
 	public static final String FILENAME_SEPARATOR = "_";
 
 	public static final String NO_MEDIA_FILE = ".nomedia";

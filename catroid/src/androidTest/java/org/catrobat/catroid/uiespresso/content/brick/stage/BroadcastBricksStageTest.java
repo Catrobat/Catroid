@@ -56,6 +56,7 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import java.io.File;
+import java.io.IOException;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -89,7 +90,7 @@ public class BroadcastBricksStageTest {
 				.check(matches(StageMatchers.isColorAtPx(green, 1, 1)));
 	}
 
-	private Script createProjectAndGetStartScriptWithImages(String projectName) {
+	private Script createProjectAndGetStartScriptWithImages(String projectName) throws IOException {
 		String defaultMessage = "defaultMessage";
 
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
@@ -121,12 +122,12 @@ public class BroadcastBricksStageTest {
 		project.getDefaultScene().addSprite(sprite);
 
 		StorageHandler.getInstance().saveProject(project);
-		File redImageFile = FileTestUtils.saveFileToProject(project.getName(), project.getDefaultScene().getName(),
+		File redImageFile = FileTestUtils.copyResourceFileToProject(project.getName(), project.getDefaultScene().getName(),
 				redImageName,
 				org.catrobat.catroid.test.R.raw.red_image, InstrumentationRegistry.getContext(),
 				FileTestUtils.FileTypes.IMAGE);
 
-		File greenImageFile = FileTestUtils.saveFileToProject(project.getName(), project.getDefaultScene().getName(),
+		File greenImageFile = FileTestUtils.copyResourceFileToProject(project.getName(), project.getDefaultScene().getName(),
 				greenImageName,
 				org.catrobat.catroid.test.R.raw.green_image, InstrumentationRegistry.getContext(),
 				FileTestUtils.FileTypes.IMAGE);

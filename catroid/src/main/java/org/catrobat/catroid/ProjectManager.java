@@ -214,8 +214,7 @@ public final class ProjectManager {
 				for (LookData look : sprite.getLookList()) {
 					if (fileNames.contains(look.getFileName())) {
 						try {
-							String fileName = StorageHandler.copyFile(
-									Utils.buildPath(imgDir, look.getFileName())).getName();
+							String fileName = StorageHandler.copyFile(new File(imgDir, look.getFileName())).getName();
 							look.setFileName(fileName);
 						} catch (IOException e) {
 							Log.e(TAG, "Could not copy :" + look.getFileName());
@@ -227,8 +226,8 @@ public final class ProjectManager {
 				for (SoundInfo sound : sprite.getSoundList()) {
 					if (fileNames.contains(sound.getFileName())) {
 						try {
-							String fileName = StorageHandler.copyFile(
-									Utils.buildPath(soundDir, sound.getFileName())).getName();
+							String fileName = StorageHandler.copyFile(new File(soundDir,
+									sound.getFileName())).getName();
 							sound.setFileName(fileName);
 						} catch (IOException e) {
 							Log.e(TAG, "Could not copy :" + sound.getFileName());

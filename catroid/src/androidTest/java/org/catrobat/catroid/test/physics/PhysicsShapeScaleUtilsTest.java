@@ -43,6 +43,7 @@ import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 
 import java.io.File;
@@ -67,7 +68,7 @@ public class PhysicsShapeScaleUtilsTest extends InstrumentationTestCase {
 
 		physicsWorld = new PhysicsWorld(1920, 1600);
 		physicsWorld.step(0.1f);
-		projectFile = new File(Constants.DEFAULT_ROOT + File.separator + TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		projectFile = new File(Constants.DEFAULT_ROOT_DIRECTORY, TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		if (projectFile.exists()) {
 			UtilFile.deleteDirectory(projectFile);
@@ -79,9 +80,10 @@ public class PhysicsShapeScaleUtilsTest extends InstrumentationTestCase {
 
 		String complexSingleConvexPolygonFileName = PhysicsTestUtils
 				.getInternalImageFilenameFromFilename("complex_single_convex_polygon.png");
-		File complexSingleConvexPolygonFile = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, project.getDefaultScene().getName(),
-				complexSingleConvexPolygonFileName, COMPLEX_SINGLE_CONVEX_POLYGON_RES_ID, getInstrumentation()
-						.getContext(), TestUtils.TYPE_IMAGE_FILE);
+		File complexSingleConvexPolygonFile = FileTestUtils.copyResourceFileToProject(
+				TestUtils.DEFAULT_TEST_PROJECT_NAME, project.getDefaultScene().getName(),
+				complexSingleConvexPolygonFileName, COMPLEX_SINGLE_CONVEX_POLYGON_RES_ID,
+				getInstrumentation().getContext(), FileTestUtils.FileTypes.IMAGE);
 
 		LookData complexSingleConvexPolygonLookData = PhysicsTestUtils.generateLookData(complexSingleConvexPolygonFile);
 		Pixmap pixmap = complexSingleConvexPolygonLookData.getPixmap();

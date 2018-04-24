@@ -25,6 +25,7 @@ package org.catrobat.catroid.test.content;
 import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -36,8 +37,8 @@ import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.test.utils.TestUtils;
 
+import java.io.File;
 import java.util.List;
 
 public class MessageContainerTest extends AndroidTestCase {
@@ -51,25 +52,27 @@ public class MessageContainerTest extends AndroidTestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		createTestProjects();
-		ProjectManager.getInstance().loadProject(projectName1, getContext());
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		ProjectManager.getInstance().setCurrentScene(currentProject.getDefaultScene());
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
-		TestUtils.deleteTestProjects(projectName1, projectName2);
+		StorageHandler.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName1));
+		StorageHandler.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName2));
 	}
 
 	public void testLoadProject() {
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		List<String> broadcastMessages = currentProject.getBroadcastMessageContainer().getBroadcastMessages();
-		assertTrue("Broadcast message is not in the message container", broadcastMessages.contains(broadcastMessage1));
-		assertEquals("Message container does not have expected size", 1, broadcastMessages.size());
+		List<String> broadcastMessages = ProjectManager.getInstance().getCurrentProject()
+				.getBroadcastMessageContainer().getBroadcastMessages();
+
+		assertTrue(broadcastMessages.contains(broadcastMessage1));
+		assertEquals(1, broadcastMessages.size());
 	}
 
-	public void testLoadTwoProjects() throws CompatibilityProjectException, OutdatedVersionProjectException, LoadingProjectException {
+	public void testLoadTwoProjects() throws CompatibilityProjectException,
+			OutdatedVersionProjectException,
+			LoadingProjectException {
+
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		currentProject.getBroadcastMessageContainer().update();
 
@@ -78,11 +81,14 @@ public class MessageContainerTest extends AndroidTestCase {
 		ProjectManager.getInstance().setCurrentScene(currentProject.getDefaultScene());
 		List<String> broadcastMessages = currentProject.getBroadcastMessageContainer().getBroadcastMessages();
 
-		assertTrue("Broadcast message is in the message container", !broadcastMessages.contains(broadcastMessage1));
-		assertTrue("Broadcast message is not in the message container", broadcastMessages.contains(broadcastMessage2));
+		assertFalse(broadcastMessages.contains(broadcastMessage1));
+		assertTrue(broadcastMessages.contains(broadcastMessage2));
 	}
 
-	private void createTestProjects() {
+	private void createTestProjects() throws CompatibilityProjectException,
+			OutdatedVersionProjectException,
+			LoadingProjectException {
+
 		Project project1 = new Project(getContext(), projectName1);
 
 		Sprite sprite1 = new SingleSprite("cat");
@@ -110,8 +116,10 @@ public class MessageContainerTest extends AndroidTestCase {
 		sprite2.addScript(broadcastScript2);
 
 		project2.getDefaultScene().addSprite(sprite2);
+		StorageHandler.getInstance().saveProject(project2);
 
-		boolean result = StorageHandler.getInstance().saveProject(project2);
-		assertTrue("error on saving project", result);
+		ProjectManager.getInstance().loadProject(projectName1, getContext());
+		ProjectManager.getInstance()
+				.setCurrentScene(ProjectManager.getInstance().getCurrentProject().getDefaultScene());
 	}
 }

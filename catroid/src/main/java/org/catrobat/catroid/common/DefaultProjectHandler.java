@@ -37,6 +37,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.utils.Utils;
 
+import java.io.File;
 import java.io.IOException;
 
 public final class DefaultProjectHandler {
@@ -68,7 +69,7 @@ public final class DefaultProjectHandler {
 		Project defaultProject = null;
 
 		if (StorageHandler.getInstance().projectExists(projectName) && !forScene) {
-			StorageHandler.deleteDir(Utils.buildProjectPath(projectName));
+			StorageHandler.deleteDir(new File(Utils.buildProjectPath(projectName)));
 		}
 
 		if (forScene) {

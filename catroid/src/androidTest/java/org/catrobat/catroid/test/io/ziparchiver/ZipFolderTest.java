@@ -29,7 +29,6 @@ import android.support.test.runner.AndroidJUnit4;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.io.ZipArchiver;
-import org.catrobat.catroid.utils.Utils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,14 +48,14 @@ public class ZipFolderTest {
 
 	@Before
 	public void setUp() {
-		outputArchive = new File(Utils.buildPath(Constants.DEFAULT_ROOT, "testCompareZips.zip"));
-		testProjectDir = new File(Utils.buildProjectPath("testZipProject"));
+		outputArchive = new File(Constants.DEFAULT_ROOT_DIRECTORY, "testCompareZips.zip");
+		testProjectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, "testZipProject");
 	}
 
 	@After
 	public void tearDown() throws IOException {
 		outputArchive.delete();
-		StorageHandler.deleteDir(testProjectDir.getAbsolutePath());
+		StorageHandler.deleteDir(testProjectDir);
 	}
 
 	@Test

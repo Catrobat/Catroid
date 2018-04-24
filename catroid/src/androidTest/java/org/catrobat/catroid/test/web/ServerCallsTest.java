@@ -59,7 +59,7 @@ public class ServerCallsTest extends InstrumentationTestCase implements
 
 	@Override
 	protected void tearDown() throws Exception {
-		TestUtils.deleteTestProjects("uploadtestProject");
+		TestUtils.deleteProjects("uploadtestProject");
 		ServerCalls.useTestUrl = false;
 		super.tearDown();
 	}

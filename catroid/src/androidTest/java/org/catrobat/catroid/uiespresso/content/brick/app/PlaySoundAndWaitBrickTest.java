@@ -51,6 +51,7 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
@@ -254,7 +255,7 @@ public class PlaySoundAndWaitBrickTest {
 				.perform(click());
 	}
 
-	private void createProject() {
+	private void createProject() throws IOException {
 		String projectName = "playSoundAndWaitBrickTest";
 		SoundManager.getInstance();
 		Script startScript = BrickTestUtils.createProjectAndGetStartScript(projectName);
@@ -265,14 +266,14 @@ public class PlaySoundAndWaitBrickTest {
 		startScript.addBrick(new PlaySoundBrick());
 
 		soundFile = FileTestUtils
-				.saveFileToProject(projectName, ProjectManager.getInstance().getCurrentScene().getName(),
+				.copyResourceFileToProject(projectName, ProjectManager.getInstance().getCurrentScene().getName(),
 						"longsound.mp3", RESOURCE_SOUND,
 						InstrumentationRegistry.getContext(), FileTestUtils.FileTypes.SOUND);
 		SoundInfo soundInfo = new SoundInfo();
 		soundInfo.setFileName(soundFile.getName());
 		soundInfo.setName(soundName);
 
-		soundFile2 = FileTestUtils.saveFileToProject(projectName, ProjectManager.getInstance().getCurrentScene()
+		soundFile2 = FileTestUtils.copyResourceFileToProject(projectName, ProjectManager.getInstance().getCurrentScene()
 						.getName(),
 				"testsoundui.mp3", RESOURCE_SOUND2, InstrumentationRegistry.getContext(),
 				FileTestUtils.FileTypes.SOUND);

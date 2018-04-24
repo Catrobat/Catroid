@@ -50,13 +50,13 @@ public class StopScriptActionsTest extends InstrumentationTestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		TestUtils.deleteTestProjects();
+		TestUtils.deleteProjects();
 		this.createProject();
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		TestUtils.deleteTestProjects();
+		TestUtils.deleteProjects();
 		super.tearDown();
 	}
 
