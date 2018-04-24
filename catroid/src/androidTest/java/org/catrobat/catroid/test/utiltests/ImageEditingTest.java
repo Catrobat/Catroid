@@ -54,7 +54,7 @@ public class ImageEditingTest extends TestCase {
 	}
 
 	public void testGetImageDimensions() {
-		File testImageFile = new File(Constants.DEFAULT_ROOT, "tmp.jpg");
+		File testImageFile = new File(Constants.DEFAULT_ROOT_DIRECTORY, "tmp.jpg");
 		FileOutputStream fileOutputStream = null;
 
 		Bitmap bitmap = Bitmap.createBitmap(100, 200, Bitmap.Config.RGB_565);
@@ -85,7 +85,7 @@ public class ImageEditingTest extends TestCase {
 		int bitmapWidth = 100;
 		int bitmapHeight = 200;
 
-		File testImageFile = new File(Constants.DEFAULT_ROOT, "tmp.jpg");
+		File testImageFile = new File(Constants.DEFAULT_ROOT_DIRECTORY, "tmp.jpg");
 		FileOutputStream fileOutputStream = null;
 
 		Bitmap bitmap = Bitmap.createBitmap(bitmapWidth, bitmapHeight, Bitmap.Config.RGB_565);
@@ -154,7 +154,7 @@ public class ImageEditingTest extends TestCase {
 		int bitmapWidth = 1000;
 		int bitmapHeight = 900;
 
-		File testImageFile = new File(Constants.DEFAULT_ROOT, "tmp.jpg");
+		File testImageFile = new File(Constants.DEFAULT_ROOT_DIRECTORY, "tmp.jpg");
 		FileOutputStream fileOutputStream = null;
 
 		Bitmap bitmap = Bitmap.createBitmap(bitmapWidth, bitmapHeight, Bitmap.Config.RGB_565);

@@ -47,6 +47,7 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -138,7 +139,7 @@ public class DeleteLookDialogTest {
 				.check(matches(isDisplayed()));
 	}
 
-	private void createProject(String projectName) {
+	private void createProject(String projectName) throws IOException {
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		StorageHandler.getInstance().saveProject(project);
 
@@ -149,13 +150,13 @@ public class DeleteLookDialogTest {
 		ProjectManager.getInstance().setCurrentScene(project.getDefaultScene());
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 
-		File imageFile = FileTestUtils.saveFileToProject(
+		File imageFile = FileTestUtils.copyResourceFileToProject(
 				projectName, ProjectManager.getInstance().getCurrentScene().getName(), "catroid_sunglasses.png",
 				org.catrobat.catroid.test.R.drawable.catroid_banzai, InstrumentationRegistry.getContext(),
 				FileTestUtils.FileTypes.IMAGE
 		);
 
-		File imageFile2 = FileTestUtils.saveFileToProject(
+		File imageFile2 = FileTestUtils.copyResourceFileToProject(
 				projectName, ProjectManager.getInstance().getCurrentScene().getName(), "catroid_banzai.png",
 				org.catrobat.catroid.test.R.drawable.catroid_banzai, InstrumentationRegistry.getContext(),
 				FileTestUtils.FileTypes.IMAGE

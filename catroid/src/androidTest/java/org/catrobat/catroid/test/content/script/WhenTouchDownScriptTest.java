@@ -34,7 +34,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenTouchDownScript;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
-import org.catrobat.catroid.test.utils.LegacyFileUtils;
 import org.catrobat.catroid.utils.TouchUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,7 +45,7 @@ import static junit.framework.Assert.assertEquals;
 public class WhenTouchDownScriptTest {
 
 	private Sprite sprite;
-	Script touchDownScript;
+	private Script touchDownScript;
 
 	@Before
 	public void setUp() {
@@ -61,36 +60,38 @@ public class WhenTouchDownScriptTest {
 	@Test
 	public void basicTouchDownScriptTest() {
 		touchDownScript.addBrick(new ChangeXByNBrick(10));
+
 		sprite.createAndAddActions(Sprite.INCLUDE_START_ACTIONS);
 
 		TouchUtil.touchDown(0, 0, 1);
+
 		while (!sprite.look.getAllActionsAreFinished()) {
 			sprite.look.act(1.0f);
 		}
 
-		assertEquals("the position is not as expected, maybe the script has not been executed", (float) 10,
-				sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals((float) 10, sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 
 	@Test
-	public void touchDownScriptRestartTest() throws InterruptedException {
+	public void touchDownScriptRestartTest() {
 		touchDownScript.addBrick(new WaitBrick(50));
 		touchDownScript.addBrick(new ChangeXByNBrick(10));
+
 		sprite.createAndAddActions(Sprite.INCLUDE_START_ACTIONS);
 
 		TouchUtil.touchDown(0, 0, 1);
 		TouchUtil.touchUp(1);
 		TouchUtil.touchDown(10, 10, 1);
+
 		while (!sprite.look.getAllActionsAreFinished()) {
 			sprite.look.act(1.0f);
 		}
 
-		assertEquals("the position is not as expected, maybe the script has been executed twice", (float) 10,
-				sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals((float) 10, sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 
 	private Project createProjectWithSprite(Sprite sprite) {
-		Project project = new Project(InstrumentationRegistry.getInstrumentation().getTargetContext(), LegacyFileUtils.DEFAULT_TEST_PROJECT_NAME);
+		Project project = new Project(InstrumentationRegistry.getInstrumentation().getTargetContext(), "testProject");
 		ProjectManager.getInstance().setProject(project);
 		project.getDefaultScene().addSprite(sprite);
 		return project;

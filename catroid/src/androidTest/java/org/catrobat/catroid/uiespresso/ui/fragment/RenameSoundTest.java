@@ -46,6 +46,7 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
@@ -69,13 +70,13 @@ public class RenameSoundTest {
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
 			SpriteActivity.FRAGMENT_SOUNDS);
+
 	private String oldSoundName = "oldSoundName";
 	private String newSoundName = "newSoundName";
 
 	@Before
 	public void setUp() throws Exception {
-		createProject("renameSoundFragmentTest");
-
+		createProject();
 		baseActivityTestRule.launchActivity();
 	}
 
@@ -131,7 +132,8 @@ public class RenameSoundTest {
 		onView(withText(oldSoundName)).check(matches(isDisplayed()));
 	}
 
-	private void createProject(String projectName) {
+	private void createProject() throws IOException {
+		String projectName = "renameSoundFragmentTest";
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 
 		Sprite sprite = new SingleSprite("testSprite");
@@ -141,7 +143,7 @@ public class RenameSoundTest {
 		ProjectManager.getInstance().setCurrentScene(project.getDefaultScene());
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 
-		File soundFile = FileTestUtils.saveFileToProject(
+		File soundFile = FileTestUtils.copyResourceFileToProject(
 				projectName, ProjectManager.getInstance().getCurrentScene().getName(), "longsound.mp3",
 				org.catrobat.catroid.test.R.raw.longsound, InstrumentationRegistry.getContext(),
 				FileTestUtils.FileTypes.SOUND

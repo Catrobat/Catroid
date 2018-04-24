@@ -59,6 +59,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static org.catrobat.catroid.common.Constants.DEFAULT_ROOT_DIRECTORY;
+
 public class ProjectListFragment extends RecyclerViewFragment<ProjectData> implements
 		ProjectCreatorTask.ProjectCreatorListener,
 		ProjectLoaderTask.ProjectLoaderListener,
@@ -84,10 +86,9 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 	}
 
 	private List<ProjectData> getItemList() {
-		File rootDirectory = new File(Constants.DEFAULT_ROOT);
 		List<ProjectData> items = new ArrayList<>();
 
-		for (String projectName : UtilFile.getProjectNames(rootDirectory)) {
+		for (String projectName : UtilFile.getProjectNames(DEFAULT_ROOT_DIRECTORY)) {
 			File codeFile = new File(Utils.buildPath(Utils.buildProjectPath(projectName), Constants.PROJECTCODE_NAME));
 			items.add(new ProjectData(projectName, codeFile.lastModified()));
 		}

@@ -27,7 +27,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.test.InstrumentationRegistry;
-import android.util.Log;
 import android.util.SparseArray;
 
 import com.badlogic.gdx.graphics.Color;
@@ -52,99 +51,29 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.utils.NotificationData;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
-import org.catrobat.catroid.utils.UtilFile;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 public final class TestUtils {
-	public static final int TYPE_IMAGE_FILE = 0;
-	public static final int TYPE_SOUND_FILE = 1;
-	public static final String DEFAULT_TEST_PROJECT_NAME = "testProject";
-	public static final String CORRUPT_PROJECT_NAME = "copiedProject";
-	public static final String EMPTY_PROJECT = "emptyProject";
 
-	private static final String TAG = TestUtils.class.getSimpleName();
+	public static final String DEFAULT_TEST_PROJECT_NAME = "testProject";
 
 	public static final double DELTA = 0.00001;
 
-	// Suppress default constructor for noninstantiability
 	private TestUtils() {
 		throw new AssertionError();
 	}
 
-	/**
-	 * saves a file into the project folder
-	 * if project == null or "" file will be saved into Catroid folder
-	 *
-	 * @param project Folder where the file will be saved, this folder should exist
-	 * @param name    Name of the file
-	 * @param fileID  the id of the file --> needs the right context
-	 * @param context
-	 * @param type    type of the file: 0 = imagefile, 1 = soundfile
-	 * @return the file
-	 * @throws IOException
-	 */
-	public static File saveFileToProject(String project, String scene, String name, int fileID, Context context, int type)
-			throws IOException {
-
-		String filePath;
-		if (project == null || project.equalsIgnoreCase("")) {
-			filePath = Constants.DEFAULT_ROOT + "/" + name;
-		} else {
-			switch (type) {
-				case TYPE_IMAGE_FILE:
-					filePath = Constants.DEFAULT_ROOT + "/" + project + "/" + scene + "/" + Constants.IMAGE_DIRECTORY + "/" + name;
-					break;
-				case TYPE_SOUND_FILE:
-					filePath = Constants.DEFAULT_ROOT + "/" + project + "/" + scene + "/" + Constants.SOUND_DIRECTORY + "/" + name;
-					break;
-				default:
-					filePath = Constants.DEFAULT_ROOT + "/" + name;
-					break;
+	public static void deleteProjects(String... projectNames) throws IOException {
+		for (String projectName : projectNames) {
+			File projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName);
+			if (projectDir.exists() && projectDir.isDirectory()) {
+				StorageHandler.deleteDir(projectDir);
 			}
 		}
-
-		return createTestMediaFile(filePath, fileID, context);
-	}
-
-	public static boolean clearProject(String projectname) {
-		File directory = new File(Constants.DEFAULT_ROOT + "/" + projectname);
-		if (directory.exists()) {
-			return UtilFile.deleteDirectory(directory);
-		}
-		return false;
-	}
-
-	public static File createTestMediaFile(String filePath, int fileID, Context context) throws IOException {
-
-		File testImage = new File(filePath);
-
-		if (!testImage.exists()) {
-			testImage.createNewFile();
-		}
-
-		InputStream in = context.getResources().openRawResource(fileID);
-		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), Constants.BUFFER_8K);
-
-		byte[] buffer = new byte[Constants.BUFFER_8K];
-		int length = 0;
-
-		while ((length = in.read(buffer)) > 0) {
-			out.write(buffer, 0, length);
-		}
-
-		in.close();
-		out.flush();
-		out.close();
-
-		return testImage;
 	}
 
 	public static Project createTestProjectOnLocalStorageWithCatrobatLanguageVersionAndName(
@@ -166,7 +95,10 @@ public final class TestUtils {
 
 	public static List<Brick> createTestProjectWithWrongIfClauseReferences() {
 		ProjectManager projectManager = ProjectManager.getInstance();
-		Project project = new Project(InstrumentationRegistry.getTargetContext(), CORRUPT_PROJECT_NAME);
+
+		String corruptProjectName = "corruptProject";
+
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), corruptProjectName);
 		Sprite firstSprite = new SingleSprite("corruptReferences");
 
 		Script testScript = new StartScript();
@@ -217,26 +149,6 @@ public final class TestUtils {
 	public static Project createTestProjectOnLocalStorageWithCatrobatLanguageVersion(float catrobatLanguageVersion) {
 		return createTestProjectOnLocalStorageWithCatrobatLanguageVersionAndName(catrobatLanguageVersion,
 				DEFAULT_TEST_PROJECT_NAME);
-	}
-
-	public static Project createEmptyProject() {
-		Project project = new Project(InstrumentationRegistry.getTargetContext(), EMPTY_PROJECT);
-		StorageHandler.getInstance().saveProject(project);
-		return project;
-	}
-
-	public static void deleteTestProjects(String... additionalProjectNames) {
-		File directory = new File(Constants.DEFAULT_ROOT + "/" + DEFAULT_TEST_PROJECT_NAME);
-		if (directory.exists()) {
-			UtilFile.deleteDirectory(directory);
-		}
-
-		for (String name : additionalProjectNames) {
-			directory = new File(Constants.DEFAULT_ROOT + "/" + name);
-			if (directory.exists()) {
-				UtilFile.deleteDirectory(directory);
-			}
-		}
 	}
 
 	public static void cancelAllNotifications(Context context) {
@@ -290,49 +202,10 @@ public final class TestUtils {
 		return project;
 	}
 
-	public static void sleep(int time) {
-		try {
-			Thread.sleep((long) time);
-		} catch (InterruptedException e) {
-			Log.e(TAG, e.getMessage());
-		}
-	}
-
 	public static Pixmap createRectanglePixmap(int width, int height, Color color) {
 		Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
 		pixmap.setColor(color);
 		pixmap.fillRectangle(0, 0, width, height);
 		return pixmap;
-	}
-
-	public static void copyAssetProjectZipFile(Context context, String fileName, String destinationFolder) {
-		File dstFolder = new File(destinationFolder);
-		dstFolder.mkdirs();
-
-		InputStream inputStream = null;
-		FileOutputStream outputStream = null;
-		try {
-			inputStream = context.getResources().getAssets().open(fileName);
-			outputStream = new FileOutputStream(destinationFolder + "/" + fileName);
-			byte[] buffer = new byte[1024];
-			int read;
-			while ((read = inputStream.read(buffer)) != -1) {
-				outputStream.write(buffer, 0, read);
-			}
-			outputStream.flush();
-		} catch (IOException exception) {
-			Log.e(TAG, "cannot copy asset project", exception);
-		} finally {
-			try {
-				if (inputStream != null) {
-					inputStream.close();
-				}
-				if (outputStream != null) {
-					outputStream.close();
-				}
-			} catch (IOException exception) {
-				Log.e(TAG, "Error closing streams", exception);
-			}
-		}
 	}
 }

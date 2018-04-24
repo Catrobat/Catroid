@@ -56,6 +56,7 @@ import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
 import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -79,7 +80,7 @@ public class PhysicsSpriteCloneTest extends InstrumentationTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		TestUtils.deleteTestProjects();
+		TestUtils.deleteProjects();
 
 		project = new Project(getInstrumentation().getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 		StorageHandler.getInstance().saveProject(project);
@@ -94,7 +95,7 @@ public class PhysicsSpriteCloneTest extends InstrumentationTestCase {
 		sprite = null;
 		project = null;
 
-		TestUtils.deleteTestProjects();
+		TestUtils.deleteProjects();
 		super.tearDown();
 	}
 
@@ -178,7 +179,7 @@ public class PhysicsSpriteCloneTest extends InstrumentationTestCase {
 		assertEquals("Cloned bounce factor value is not equal to origin value.", BOUNCE_TEST_VALUE, clonedBounceFactorValue);
 	}
 
-	public void testSpriteClonePhysicsLookAndPhysicsObject() {
+	public void testSpriteClonePhysicsLookAndPhysicsObject() throws IOException {
 		WhenStartedBrick brick = new WhenStartedBrick();
 		StartScript startScript = new StartScript(brick);
 		Brick setPhysicsObjectTypeBrick = new SetPhysicsObjectTypeBrick(TYPE_TEST_VALUE);
@@ -190,29 +191,27 @@ public class PhysicsSpriteCloneTest extends InstrumentationTestCase {
 		sprite.look = new Look(sprite);
 
 		String rectangle125x125FileName = PhysicsTestUtils.getInternalImageFilenameFromFilename("rectangle_125x125.png");
-		File rectangle125x125File = null;
 		LookData lookdata;
-		try {
-			rectangle125x125File = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, project.getDefaultScene().getName(),
-					rectangle125x125FileName, RECTANGLE125X125_RES_ID, getInstrumentation().getContext(),
-					TestUtils.TYPE_IMAGE_FILE);
-			lookdata = PhysicsTestUtils.generateLookData(rectangle125x125File);
-			sprite.look.setLookData(lookdata);
-		} catch (IOException e) {
-			Log.e(TAG, "IOException caught", e);
-		}
-		assertNotNull("File must not be null.", rectangle125x125File);
-		assertNotNull("Lookdata must not be null.", sprite.look.getLookData());
+
+		File rectangle125x125File = FileTestUtils.copyResourceFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
+				project.getDefaultScene().getName(), rectangle125x125FileName, RECTANGLE125X125_RES_ID,
+				getInstrumentation().getContext(), FileTestUtils.FileTypes.IMAGE);
+
+		lookdata = PhysicsTestUtils.generateLookData(rectangle125x125File);
+		sprite.look.setLookData(lookdata);
+
+		assertNotNull(rectangle125x125File);
+		assertNotNull(sprite.look.getLookData());
 
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 
 		Sprite clonedSprite = sprite.clone();
 
-		assertTrue("Look of cloned sprite is no look.", clonedSprite.look instanceof Look);
+		assertNotNull(clonedSprite.look);
 
 		PhysicsObject clonedPhysicsObject = physicsWorld.getPhysicsObject(clonedSprite);
-		assertEquals("Cloned Physics Object must be equal.", physicsObject.getType(), clonedPhysicsObject.getType());
+		assertEquals(physicsObject.getType(), clonedPhysicsObject.getType());
 		clonedPhysicsObject.setType(PhysicsObject.Type.FIXED);
-		assertNotSame("Cloned Physics Object value must be different.", physicsObject.getType(), clonedPhysicsObject.getType());
+		assertNotSame(physicsObject.getType(), clonedPhysicsObject.getType());
 	}
 }

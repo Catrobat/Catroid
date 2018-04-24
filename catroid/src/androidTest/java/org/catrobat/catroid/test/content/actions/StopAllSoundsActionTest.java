@@ -38,6 +38,7 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -50,14 +51,14 @@ public class StopAllSoundsActionTest extends InstrumentationTestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		TestUtils.deleteTestProjects();
+		TestUtils.deleteProjects();
 		soundManager.clear();
 		this.createTestProject();
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		TestUtils.deleteTestProjects();
+		TestUtils.deleteProjects();
 		soundManager.clear();
 		super.tearDown();
 	}
@@ -114,8 +115,8 @@ public class StopAllSoundsActionTest extends InstrumentationTestCase {
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
-		soundFile = TestUtils.saveFileToProject(projectName, project.getDefaultScene().getName(), "soundTest.mp3", soundFileId, getInstrumentation()
-				.getContext(), TestUtils.TYPE_SOUND_FILE);
+		soundFile = FileTestUtils.copyResourceFileToProject(projectName, project.getDefaultScene().getName(),
+				"soundTest.mp3", soundFileId, getInstrumentation().getContext(), FileTestUtils.FileTypes.SOUND);
 	}
 
 	private SoundInfo createSoundInfo(File soundFile) {

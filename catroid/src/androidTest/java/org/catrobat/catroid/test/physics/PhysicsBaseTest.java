@@ -35,6 +35,7 @@ import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
 import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 
 import java.io.File;
 
@@ -52,7 +53,7 @@ public class PhysicsBaseTest extends InstrumentationTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		TestUtils.deleteTestProjects();
+		TestUtils.deleteProjects();
 		rectangle125x125FileName = PhysicsTestUtils.getInternalImageFilenameFromFilename("rectangle_125x125.png");
 
 		project = new Project(getInstrumentation().getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
@@ -66,15 +67,15 @@ public class PhysicsBaseTest extends InstrumentationTestCase {
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
-		rectangle125x125File = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, project.getDefaultScene().getName(),
-				rectangle125x125FileName, RECTANGLE125X125_RES_ID, getInstrumentation().getContext(),
-				TestUtils.TYPE_IMAGE_FILE);
+		rectangle125x125File = FileTestUtils.copyResourceFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
+				project.getDefaultScene().getName(), rectangle125x125FileName, RECTANGLE125X125_RES_ID,
+				getInstrumentation().getContext(), FileTestUtils.FileTypes.IMAGE);
 
 		LookData lookdata = PhysicsTestUtils.generateLookData(rectangle125x125File);
 		sprite.look.setLookData(lookdata);
 		sprite.setActionFactory(new ActionPhysicsFactory());
 
-		assertTrue("getLookData is null", sprite.look.getLookData() != null);
+		assertNotNull(sprite.look.getLookData());
 
 		stabilizePhysicsWorld(physicsWorld);
 	}
@@ -88,7 +89,7 @@ public class PhysicsBaseTest extends InstrumentationTestCase {
 		rectangle125x125FileName = null;
 		rectangle125x125File = null;
 
-		TestUtils.deleteTestProjects();
+		TestUtils.deleteProjects();
 		super.tearDown();
 	}
 

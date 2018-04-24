@@ -38,8 +38,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.R;
-import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.utils.UtilFile;
+import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 import org.junit.Test;
 
 import java.io.File;
@@ -56,18 +55,18 @@ public class SetLookActionTest extends InstrumentationTestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
+		File projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName);
 
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
+		if (projectDir.exists()) {
+			StorageHandler.deleteDir(projectDir);
 		}
 
 		project = new Project(getInstrumentation().getTargetContext(), projectName);
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
-		testImage = TestUtils.saveFileToProject(this.projectName, project.getDefaultScene().getName(), "testImage.png", IMAGE_FILE_ID, getInstrumentation()
-				.getContext(), TestUtils.TYPE_IMAGE_FILE);
+		testImage = FileTestUtils.copyResourceFileToProject(projectName, project.getDefaultScene().getName(),
+				"testImage.png", IMAGE_FILE_ID, getInstrumentation().getContext(), FileTestUtils.FileTypes.IMAGE);
 
 		BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 		bitmapOptions.inJustDecodeBounds = true;
@@ -90,13 +89,10 @@ public class SetLookActionTest extends InstrumentationTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
+		File projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName);
 
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
-		}
-		if (testImage != null && testImage.exists()) {
-			testImage.delete();
+		if (projectDir.exists()) {
+			StorageHandler.deleteDir(projectDir);
 		}
 		super.tearDown();
 	}
@@ -106,7 +102,7 @@ public class SetLookActionTest extends InstrumentationTestCase {
 		ActionFactory factory = sprite.getActionFactory();
 		Action action = factory.createSetLookAction(sprite, firstLookData);
 		action.act(1.0f);
-		assertEquals("Action didn't set the LookData", firstLookData, sprite.look.getLookData());
+		assertEquals(firstLookData, sprite.look.getLookData());
 	}
 
 	@Test
@@ -116,12 +112,12 @@ public class SetLookActionTest extends InstrumentationTestCase {
 		ActionFactory factory = sprite.getActionFactory();
 		Action action = factory.createSetLookByIndexAction(sprite, formula);
 		action.act(1.0f);
-		assertEquals("Action didn't set the first LookData", firstLookData, sprite.look.getLookData());
+		assertEquals(firstLookData, sprite.look.getLookData());
 
 		formula = new Formula(2);
 		action = factory.createSetLookByIndexAction(sprite, formula);
 		action.act(1.0f);
-		assertEquals("Action didn't set the second LookData", secondLookData, sprite.look.getLookData());
+		assertEquals(secondLookData, sprite.look.getLookData());
 	}
 
 	@Test
@@ -132,13 +128,11 @@ public class SetLookActionTest extends InstrumentationTestCase {
 		ActionFactory factory = sprite.getActionFactory();
 		Action action = factory.createSetLookByIndexAction(sprite, formula);
 		action.act(1.0f);
-		assertEquals("Action did set Lookdata wrongly with negative Formula value.", firstLookData, sprite.look
-				.getLookData());
+		assertEquals(firstLookData, sprite.look.getLookData());
 
 		formula = new Formula(42);
 		action = factory.createSetLookByIndexAction(sprite, formula);
 		action.act(1.0f);
-		assertEquals("Action did set Lookdata wrongly with wrong Formula value.", firstLookData,
-				sprite.look.getLookData());
+		assertEquals(firstLookData, sprite.look.getLookData());
 	}
 }

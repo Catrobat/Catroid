@@ -46,6 +46,7 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -136,7 +137,7 @@ public class DeleteSoundDialogTest {
 				.check(matches(isDisplayed()));
 	}
 
-	private void createProject(String projectName) {
+	private void createProject(String projectName) throws IOException {
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 
 		Sprite sprite = new SingleSprite("testSprite");
@@ -145,13 +146,13 @@ public class DeleteSoundDialogTest {
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 
-		File soundFile = FileTestUtils.saveFileToProject(
+		File soundFile = FileTestUtils.copyResourceFileToProject(
 				projectName, ProjectManager.getInstance().getCurrentScene().getName(), "longsound.mp3",
 				org.catrobat.catroid.test.R.raw.longsound, InstrumentationRegistry.getContext(),
 				FileTestUtils.FileTypes.SOUND
 		);
 
-		File soundFile2 = FileTestUtils.saveFileToProject(
+		File soundFile2 = FileTestUtils.copyResourceFileToProject(
 				projectName, ProjectManager.getInstance().getCurrentScene().getName(), "testsoundui.mp3",
 				org.catrobat.catroid.test.R.raw.testsoundui, InstrumentationRegistry.getContext(),
 				FileTestUtils.FileTypes.SOUND

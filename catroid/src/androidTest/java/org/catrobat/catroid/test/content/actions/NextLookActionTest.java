@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
+import android.support.test.InstrumentationRegistry;
 import android.test.InstrumentationTestCase;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -32,58 +33,45 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.R;
-import org.catrobat.catroid.test.utils.LegacyFileUtils;
-import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.utils.UtilFile;
+import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 
 import java.io.File;
+import java.io.IOException;
 
 public class NextLookActionTest extends InstrumentationTestCase {
 
 	private static final int IMAGE_FILE_ID = R.raw.icon;
+	private final String projectName = "testProject";
+
+	private File projectDir;
 	private File testImage;
-	private String projectName = LegacyFileUtils.DEFAULT_TEST_PROJECT_NAME;
 
 	@Override
-	protected void setUp() throws Exception {
+	public void setUp() throws Exception {
+		projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName);
 
-		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
-
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
+		if (projectDir.exists()) {
+			StorageHandler.deleteDir(projectDir);
 		}
 
-		LegacyFileUtils.createEmptyProject();
-		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
-		StorageHandler.getInstance().saveProject(project);
-		ProjectManager.getInstance().setProject(project);
-
-		testImage = TestUtils.saveFileToProject(projectName, project.getDefaultScene().getName(), "testImage.png", IMAGE_FILE_ID, getInstrumentation()
-				.getContext(), TestUtils.TYPE_IMAGE_FILE);
-
-		ScreenValues.SCREEN_HEIGHT = 200;
-		ScreenValues.SCREEN_WIDTH = 200;
+		createProject();
 	}
 
 	@Override
-	protected void tearDown() throws Exception {
-		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
-
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
-		}
-		if (testImage != null && testImage.exists()) {
-			testImage.delete();
+	public void tearDown() throws Exception {
+		if (projectDir.exists()) {
+			StorageHandler.deleteDir(projectDir);
 		}
 		super.tearDown();
 	}
 
 	public void testNextLook() {
-
 		Sprite sprite = new SingleSprite("cat");
 
 		LookData lookData1 = new LookData();
@@ -181,5 +169,24 @@ public class NextLookActionTest extends InstrumentationTestCase {
 		nextLookAction.act(1.0f);
 
 		assertNull("No Custume should be set.", sprite.look.getLookData());
+	}
+
+	private void createProject() throws IOException {
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+		Sprite firstSprite = new SingleSprite("cat");
+		Script testScript = new StartScript();
+
+		firstSprite.addScript(testScript);
+		project.getDefaultScene().addSprite(firstSprite);
+
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+		ProjectManager.getInstance().setCurrentScript(testScript);
+
+		testImage = FileTestUtils.copyResourceFileToProject(projectName, project.getDefaultScene().getName(),
+				"testImage.png", IMAGE_FILE_ID, getInstrumentation().getContext(), FileTestUtils.FileTypes.IMAGE);
+
+		ScreenValues.SCREEN_HEIGHT = 200;
+		ScreenValues.SCREEN_WIDTH = 200;
 	}
 }

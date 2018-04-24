@@ -55,8 +55,8 @@ public class SpriteTest extends AndroidTestCase {
 	private static final String GLOBAL_VARIABLE_NAME = "test_global";
 	private static final double GLOBAL_VARIABLE_VALUE = 0xC0FFEE;
 
-	private Sprite sprite;
 	private Project project;
+	private Sprite sprite;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -65,10 +65,12 @@ public class SpriteTest extends AndroidTestCase {
 		project = new Project(getContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 		project.getDefaultScene().addSprite(sprite);
 		project.getDefaultScene().getDataContainer().addSpriteUserVariableToSprite(sprite, LOCAL_VARIABLE_NAME);
-		project.getDefaultScene().getDataContainer().getUserVariable(sprite, LOCAL_VARIABLE_NAME).setValue(LOCAL_VARIABLE_VALUE);
+		project.getDefaultScene().getDataContainer()
+				.getUserVariable(sprite, LOCAL_VARIABLE_NAME).setValue(LOCAL_VARIABLE_VALUE);
 
 		project.getDefaultScene().getDataContainer().addProjectUserVariable(GLOBAL_VARIABLE_NAME);
-		project.getDefaultScene().getDataContainer().getUserVariable(null, GLOBAL_VARIABLE_NAME).setValue(GLOBAL_VARIABLE_VALUE);
+		project.getDefaultScene().getDataContainer()
+				.getUserVariable(null, GLOBAL_VARIABLE_NAME).setValue(GLOBAL_VARIABLE_VALUE);
 
 		ProjectManager.getInstance().setProject(project);
 	}
@@ -78,16 +80,16 @@ public class SpriteTest extends AndroidTestCase {
 		Script firstScript = new StartScript();
 		Script secondScript = new StartScript();
 		sprite.addScript(firstScript);
-		assertEquals("Script list does not contain script after adding", 1, sprite.getNumberOfScripts());
+		assertEquals(1, sprite.getNumberOfScripts());
 
 		sprite.addScript(0, secondScript);
-		assertEquals("Script list does not contain script after adding", 2, sprite.getNumberOfScripts());
+		assertEquals(2, sprite.getNumberOfScripts());
 
-		assertEquals("Script list does not contain script after adding", 1, sprite.getScriptIndex(firstScript));
-		assertEquals("Script list does not contain script after adding", 0, sprite.getScriptIndex(secondScript));
+		assertEquals(1, sprite.getScriptIndex(firstScript));
+		assertEquals(0, sprite.getScriptIndex(secondScript));
 
 		sprite.removeAllScripts();
-		assertEquals("Script list could not be cleared", 0, sprite.getNumberOfScripts());
+		assertEquals(0, sprite.getNumberOfScripts());
 	}
 
 	public void testGetScript() {
@@ -96,8 +98,8 @@ public class SpriteTest extends AndroidTestCase {
 		Script secondScript = new StartScript();
 		sprite.addScript(firstScript);
 		sprite.addScript(secondScript);
-		assertEquals("Scripts do not match after retrieving", firstScript, sprite.getScript(0));
-		assertEquals("Script doo not match after retrieving", secondScript, sprite.getScript(1));
+		assertEquals(firstScript, sprite.getScript(0));
+		assertEquals(secondScript, sprite.getScript(1));
 	}
 
 	public void testRemoveAllScripts() {
@@ -109,7 +111,7 @@ public class SpriteTest extends AndroidTestCase {
 
 		sprite.removeAllScripts();
 
-		assertEquals("Script list was not cleared", 0, sprite.getNumberOfScripts());
+		assertEquals(0, sprite.getNumberOfScripts());
 	}
 
 	public void testRemoveScript() {
@@ -121,8 +123,8 @@ public class SpriteTest extends AndroidTestCase {
 
 		sprite.removeScript(firstScript);
 
-		assertEquals("Wrong script list size", 1, sprite.getNumberOfScripts());
-		assertEquals("Wrong script remained", secondScript, sprite.getScript(0));
+		assertEquals(1, sprite.getNumberOfScripts());
+		assertEquals(secondScript, sprite.getScript(0));
 	}
 
 	public void testGetScriptIndex() {
@@ -131,27 +133,32 @@ public class SpriteTest extends AndroidTestCase {
 		Script secondScript = new StartScript();
 		sprite.addScript(firstScript);
 		sprite.addScript(secondScript);
-		assertEquals("Indexes do not match", 0, sprite.getScriptIndex(firstScript));
-		assertEquals("Indexes do not match", 1, sprite.getScriptIndex(secondScript));
+		assertEquals(0, sprite.getScriptIndex(firstScript));
+		assertEquals(1, sprite.getScriptIndex(secondScript));
 	}
 
 	public void testSpriteCloneWithLocalVariable() {
 		Script script = new StartScript();
 		Brick brick = new ChangeBrightnessByNBrick(new Formula(new FormulaElement(ElementType.USER_VARIABLE,
 				LOCAL_VARIABLE_NAME, null)));
+
 		script.addBrick(brick);
 		sprite.addScript(script);
 		Sprite clonedSprite = sprite.clone();
 
-		UserVariable clonedVariable = project.getDefaultScene().getDataContainer().getUserVariable(clonedSprite, LOCAL_VARIABLE_NAME);
-		assertNotNull("local variable isn't copied properly", clonedVariable);
-		assertEquals("variable not cloned properly", LOCAL_VARIABLE_NAME, clonedVariable.getName());
-		assertEquals("variable not cloned properly", LOCAL_VARIABLE_VALUE, clonedVariable.getValue());
+		UserVariable clonedVariable = project.getDefaultScene().getDataContainer()
+				.getUserVariable(clonedSprite, LOCAL_VARIABLE_NAME);
 
-		List<UserVariable> userVariableList = project.getDefaultScene().getDataContainer().getOrCreateVariableListForSprite(clonedSprite);
+		assertNotNull(clonedVariable);
+		assertEquals(LOCAL_VARIABLE_NAME, clonedVariable.getName());
+		assertEquals(LOCAL_VARIABLE_VALUE, clonedVariable.getValue());
+
+		List<UserVariable> userVariableList = project.getDefaultScene().getDataContainer()
+				.getOrCreateVariableListForSprite(clonedSprite);
+
 		Set<String> hashSet = new HashSet<>();
 		for (UserVariable userVariable : userVariableList) {
-			assertTrue("Variable already exists", hashSet.add(userVariable.getName()));
+			assertTrue(hashSet.add(userVariable.getName()));
 		}
 	}
 
@@ -176,16 +183,17 @@ public class SpriteTest extends AndroidTestCase {
 		ProjectManager.getInstance().setSceneToPlay(secondScene);
 
 		SequenceAction sequence = new SequenceAction();
-		sequence.addAction(sprite2.getActionFactory().createShowVariableAction(sprite2, new Formula(10), new Formula(10), userVariable));
+		sequence.addAction(sprite2.getActionFactory().createShowVariableAction(sprite2, new Formula(10),
+				new Formula(10), userVariable));
 		secondScript.run(sprite2, sequence);
 
 		DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
 		userVariable = dataContainer.getUserVariable(sprite2, variableName);
-		assertFalse("Variable should be invisible", userVariable.getVisible());
+		assertFalse(userVariable.getVisible());
 
 		sequence.act(1f);
 
 		userVariable = dataContainer.getUserVariable(sprite2, variableName);
-		assertTrue("Variable should be visible", userVariable.getVisible());
+		assertTrue(userVariable.getVisible());
 	}
 }

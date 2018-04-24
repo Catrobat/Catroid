@@ -85,7 +85,6 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 
 	@Device
 	public void testNotAvailable() {
-
 		Camera camera = null;
 		try {
 			camera = Camera.open();

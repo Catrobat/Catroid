@@ -247,21 +247,21 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import static org.catrobat.catroid.common.Constants.BACKPACK_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.BACKPACK_IMAGE_DIRECTORY;
+import static org.catrobat.catroid.common.Constants.BACKPACK_SCENE_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.BACKPACK_SOUND_DIRECTORY;
-import static org.catrobat.catroid.common.Constants.DEFAULT_ROOT;
+import static org.catrobat.catroid.common.Constants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.NO_MEDIA_FILE;
 import static org.catrobat.catroid.common.Constants.PROJECTCODE_NAME;
 import static org.catrobat.catroid.common.Constants.PROJECTCODE_NAME_TMP;
 import static org.catrobat.catroid.common.Constants.PROJECTPERMISSIONS_NAME;
-import static org.catrobat.catroid.common.Constants.SCENES_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.SCENES_ENABLED_TAG;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY;
-import static org.catrobat.catroid.utils.Utils.buildPath;
 import static org.catrobat.catroid.utils.Utils.buildProjectPath;
 import static org.catrobat.catroid.utils.Utils.buildScenePath;
 
 public final class StorageHandler {
+
 	private static final StorageHandler INSTANCE;
 	private static final String TAG = StorageHandler.class.getSimpleName();
 	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
@@ -549,15 +549,10 @@ public final class StorageHandler {
 	}
 
 	private void createCatroidRoot() {
-		File catroidRoot = new File(DEFAULT_ROOT);
-		if (!catroidRoot.exists()) {
-			catroidRoot.mkdirs();
+		if (!DEFAULT_ROOT_DIRECTORY.exists()) {
+			DEFAULT_ROOT_DIRECTORY.mkdirs();
 		}
-		try {
-			createBackPackFileStructure();
-		} catch (IOException e) {
-			Log.e(TAG, "Creating backpack file structure failed");
-		}
+		createBackPackFileStructure();
 	}
 
 	private boolean checkIfProjectHasScenes(String projectName) throws IOException {
@@ -590,9 +585,7 @@ public final class StorageHandler {
 	}
 
 	public Project loadProject(String name, Context context) throws IOException, LoadingProjectException {
-		File root = new File(DEFAULT_ROOT);
-
-		if (!root.exists()) {
+		if (!DEFAULT_ROOT_DIRECTORY.exists()) {
 			throw new IOException("Pocket Code root dir does not exist.");
 		}
 		if (!codeFileSanityCheck(name)) {
@@ -655,8 +648,8 @@ public final class StorageHandler {
 		File sceneAutomaticScreenshot = new File(scenePath, StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
 		File sceneManualScreenshot = new File(scenePath, StageListener.SCREENSHOT_MANUAL_FILE_NAME);
 
-		copyDir(buildPath(projectPath, IMAGE_DIRECTORY), buildPath(scenePath, IMAGE_DIRECTORY));
-		copyDir(buildPath(projectPath, SOUND_DIRECTORY), buildPath(scenePath, SOUND_DIRECTORY));
+		copyDir(new File(projectPath, IMAGE_DIRECTORY), new File(scenePath, IMAGE_DIRECTORY));
+		copyDir(new File(projectPath, SOUND_DIRECTORY), new File(scenePath, SOUND_DIRECTORY));
 
 		if (automaticScreenshot.exists()) {
 			FileUtils.copyFileToDir(automaticScreenshot, sceneAutomaticScreenshot);
@@ -667,8 +660,8 @@ public final class StorageHandler {
 			manualScreenshot.delete();
 		}
 
-		deleteDir(buildPath(projectPath, IMAGE_DIRECTORY));
-		deleteDir(buildPath(projectPath, SOUND_DIRECTORY));
+		deleteDir(new File(projectPath, IMAGE_DIRECTORY));
+		deleteDir(new File(projectPath, SOUND_DIRECTORY));
 	}
 
 	public boolean saveProject(Project project) {
@@ -757,11 +750,11 @@ public final class StorageHandler {
 		Log.d(TAG, json);
 
 		try {
-			File backpackFile = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_FILENAME));
+			File backpackFile = new File(BACKPACK_DIRECTORY, BACKPACK_FILENAME);
 			if (!backpackFile.exists()) {
 				backpackFile.createNewFile();
 			}
-			writer = new FileWriter(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_FILENAME));
+			writer = new FileWriter(new File(BACKPACK_DIRECTORY, BACKPACK_FILENAME));
 			writer.write(json);
 			return true;
 		} catch (IOException e) {
@@ -779,7 +772,7 @@ public final class StorageHandler {
 	}
 
 	public Backpack loadBackpack() {
-		File backpackFile = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_FILENAME));
+		File backpackFile = new File(BACKPACK_DIRECTORY, BACKPACK_FILENAME);
 		if (!backpackFile.exists()) {
 			Log.e(TAG, "Backpack file does not exist!");
 			return null;
@@ -799,7 +792,7 @@ public final class StorageHandler {
 	}
 
 	public boolean deleteBackpackFile() {
-		File backpackFile = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_FILENAME));
+		File backpackFile = new File(BACKPACK_DIRECTORY, BACKPACK_FILENAME);
 		if (!backpackFile.exists()) {
 			Log.e(TAG, "Backpack file does not exist!");
 			return false;
@@ -869,22 +862,15 @@ public final class StorageHandler {
 		noMediaFile.createNewFile();
 	}
 
-	private void createBackPackFileStructure() throws IOException {
-		File backpackDir = new File(DEFAULT_ROOT, BACKPACK_DIRECTORY);
-		backpackDir.mkdir();
-
-		File sceneDir = new File(backpackDir, SCENES_DIRECTORY);
-		sceneDir.mkdir();
-
-		File imageDir = new File(backpackDir, BACKPACK_IMAGE_DIRECTORY);
-		imageDir.mkdir();
-
-		File soundDir = new File(backpackDir, BACKPACK_SOUND_DIRECTORY);
-		soundDir.mkdir();
+	private void createBackPackFileStructure() {
+		BACKPACK_DIRECTORY.mkdir();
+		BACKPACK_SCENE_DIRECTORY.mkdir();
+		BACKPACK_IMAGE_DIRECTORY.mkdir();
+		BACKPACK_SOUND_DIRECTORY.mkdir();
 	}
 
 	public boolean projectExists(String projectName) {
-		List<String> projectNameList = UtilFile.getProjectNames(new File(DEFAULT_ROOT));
+		List<String> projectNameList = UtilFile.getProjectNames(DEFAULT_ROOT_DIRECTORY);
 		for (String projectNameIterator : projectNameList) {
 			if (projectNameIterator.equals(projectName)) {
 				return true;
@@ -1045,15 +1031,22 @@ public final class StorageHandler {
 		return name.substring(0, appendixStartIndex);
 	}
 
-	public static File copyFile(String src) throws IOException {
-		String dstDirPath = new File(src).getParent();
-		return copyFile(src, dstDirPath);
+	public static File copyFile(File srcFile) throws IOException {
+		File dstDir = srcFile.getParentFile();
+		return copyFileToDirectory(srcFile, dstDir);
 	}
 
-	public static File copyFile(String src, String dstDir) throws IOException {
-		File srcFile = new File(src);
+	public static File copyFileToDirectory(File srcFile, File dstDir) throws IOException {
 		if (!srcFile.exists()) {
-			throw new FileNotFoundException("File: " + src + " does not exist.");
+			throw new FileNotFoundException("File: " + srcFile.getAbsolutePath() + " does not exist.");
+		}
+
+		if (!dstDir.exists()) {
+			throw new FileNotFoundException("File: " + dstDir.getAbsolutePath() + " does not exist.");
+		}
+
+		if (!dstDir.isDirectory()) {
+			throw new IOException("Destination: " + dstDir.getAbsolutePath() + " is not a directory.");
 		}
 
 		File dstFile = getUniqueFile(srcFile.getName(), dstDir);
@@ -1062,35 +1055,33 @@ public final class StorageHandler {
 		return dstFile;
 	}
 
-	public static File copyDir(String src, String dst) throws IOException {
-		File srcDir = new File(src);
-		if (!srcDir.isDirectory()) {
-			throw new IOException(src + " is not a directory.");
-		}
+	public static File copyDir(File srcDir, File dstDir) throws IOException {
 		if (!srcDir.exists()) {
-			throw new FileNotFoundException("Directory: " + src + " does not exist.");
+			throw new FileNotFoundException("Directory: " + srcDir.getAbsolutePath() + " does not exist.");
 		}
 
-		File dstDir = new File(dst);
+		if (!srcDir.isDirectory()) {
+			throw new IOException(srcDir.getAbsolutePath() + " is not a directory.");
+		}
+
 		dstDir.mkdir();
 
 		if (!dstDir.isDirectory()) {
-			throw new IOException("Directory: " + dstDir.getName() + " could not be created.");
+			throw new IOException("Directory: " + dstDir.getAbsolutePath() + " could not be created.");
 		}
 
 		for (File file : srcDir.listFiles()) {
 			if (file.isDirectory()) {
-				copyDir(file.getAbsolutePath(), dstDir + "/" + file.getName());
+				copyDir(file, new File(dstDir, file.getName()));
 			} else {
-				copyFile(file.getAbsolutePath(), dstDir.getAbsolutePath());
+				copyFileToDirectory(file, dstDir);
 			}
 		}
 
 		return dstDir;
 	}
 
-	private static synchronized File getUniqueFile(String originalName, String dstDir) throws IOException {
-
+	private static synchronized File getUniqueFile(String originalName, File dstDir) throws IOException {
 		File dstFile = new File(dstDir, originalName);
 
 		if (!dstFile.exists()) {
@@ -1120,10 +1111,10 @@ public final class StorageHandler {
 			appendix++;
 		}
 
-		throw new IOException("Could not find a unique file name in " + dstDir + ".");
+		throw new IOException("Could not find a unique file name in " + dstDir.getAbsolutePath() + ".");
 	}
 
-	private static void copyFile(File src, File dst) throws IOException {
+	public static void copyFile(File src, File dst) throws IOException {
 		FileChannel ic = new FileInputStream(src).getChannel();
 		FileChannel oc = new FileOutputStream(dst).getChannel();
 
@@ -1133,41 +1124,37 @@ public final class StorageHandler {
 			if (ic != null) {
 				ic.close();
 			}
-			if (oc != null) {
-				oc.close();
-			}
+			oc.close();
 		}
 	}
 
-	public static void deleteFile(String src) throws IOException {
-		File file = new File(src);
+	public static void deleteFile(File file) throws IOException {
 		if (!file.exists()) {
-			throw new FileNotFoundException("File: " + src + " does not exist.");
+			throw new FileNotFoundException("File: " + file.getAbsolutePath() + " does not exist.");
 		}
 		if (!file.delete()) {
-			throw new IOException("File: " + src + " could not be deleted.");
+			throw new IOException("File: " + file.getAbsolutePath() + " could not be deleted.");
 		}
 	}
 
-	public static void deleteDir(String src) throws IOException {
-		File dir = new File(src);
+	public static void deleteDir(File dir) throws IOException {
 		if (!dir.exists()) {
-			throw new FileNotFoundException("Directory: " + src + " does not exist.");
+			throw new FileNotFoundException("Directory: " + dir.getAbsolutePath() + " does not exist.");
 		}
 		if (!dir.isDirectory()) {
-			throw new FileNotFoundException("Directory: " + src + " is not a directory.");
+			throw new FileNotFoundException("Directory: " + dir.getAbsolutePath() + " is not a directory.");
 		}
 
 		for (File file : dir.listFiles()) {
 			if (file.isDirectory()) {
-				deleteDir(file.getAbsolutePath());
+				deleteDir(file);
 			} else {
-				deleteFile(file.getAbsolutePath());
+				deleteFile(file);
 			}
 		}
 
 		if (!dir.delete()) {
-			throw new IOException("Directory: " + src + " could not be deleted.");
+			throw new IOException("Directory: " + dir.getAbsolutePath() + " could not be deleted.");
 		}
 	}
 }

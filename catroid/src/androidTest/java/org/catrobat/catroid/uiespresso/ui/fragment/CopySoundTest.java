@@ -45,6 +45,7 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -62,12 +63,12 @@ public class CopySoundTest {
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
 			SpriteActivity.FRAGMENT_SOUNDS);
+
 	private String toBeCopiedSoundName = "testSound";
 
 	@Before
 	public void setUp() throws Exception {
-		createProject("copySoundFragmentTest");
-
+		createProject();
 		baseActivityTestRule.launchActivity();
 	}
 
@@ -89,7 +90,8 @@ public class CopySoundTest {
 				.check(matches(isDisplayed()));
 	}
 
-	private void createProject(String projectName) {
+	private void createProject() throws IOException {
+		String projectName = "copySoundFragmentTest";
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 
 		Sprite sprite = new SingleSprite("testSprite");
@@ -98,7 +100,7 @@ public class CopySoundTest {
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 
-		File soundFile = FileTestUtils.saveFileToProject(
+		File soundFile = FileTestUtils.copyResourceFileToProject(
 				projectName, ProjectManager.getInstance().getCurrentScene().getName(), "longsound.mp3",
 				org.catrobat.catroid.test.R.raw.longsound, InstrumentationRegistry.getContext(),
 				FileTestUtils.FileTypes.SOUND

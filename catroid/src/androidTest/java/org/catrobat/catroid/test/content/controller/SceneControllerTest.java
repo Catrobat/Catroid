@@ -39,7 +39,6 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.recyclerview.controller.SceneController;
 import org.catrobat.catroid.uiespresso.util.FileTestUtils;
-import org.catrobat.catroid.utils.Utils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -50,18 +49,14 @@ import java.io.IOException;
 
 import static junit.framework.Assert.assertEquals;
 
+import static org.catrobat.catroid.common.Constants.BACKPACK_SCENE_DIRECTORY;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileDoesNotExist;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileExists;
-import static org.catrobat.catroid.utils.Utils.buildPath;
 import static org.catrobat.catroid.utils.Utils.buildProjectPath;
 
 @RunWith(AndroidJUnit4.class)
 public class SceneControllerTest {
 
-	private static final String BACK_PACK_SCENES_PATH = Utils.buildPath(
-			Constants.DEFAULT_ROOT,
-			Constants.BACKPACK_DIRECTORY,
-			Constants.SCENES_DIRECTORY);
 	private Project project;
 	private Scene scene;
 
@@ -110,12 +105,12 @@ public class SceneControllerTest {
 	@Test
 	public void testDeleteScene() throws IOException {
 		SceneController controller = new SceneController();
-		String deletedSceneDir = scene.getPath();
+		File deletedSceneDirectory = scene.getDirectory();
 
 		controller.delete(scene);
 
 		assertEquals(1, project.getSceneList().size());
-		assertFileDoesNotExist(deletedSceneDir);
+		assertFileDoesNotExist(deletedSceneDirectory);
 	}
 
 	@Test
@@ -125,8 +120,9 @@ public class SceneControllerTest {
 
 		assertEquals(0, BackPackListManager.getInstance().getBackPackedScenes().size());
 
-		assertEquals(buildPath(BACK_PACK_SCENES_PATH, packedScene.getName()), packedScene.getPath());
-		assertFileExists(packedScene.getPath());
+		assertEquals(new File(BACKPACK_SCENE_DIRECTORY, packedScene.getName()).getAbsolutePath(),
+				packedScene.getPath());
+		assertFileExists(packedScene.getDirectory());
 
 		assertEquals(scene.getSpriteList().size(), packedScene.getSpriteList().size());
 
@@ -198,22 +194,21 @@ public class SceneControllerTest {
 	}
 
 	private void assertLookFileExistsInScene(String fileName, Scene scene) {
-		assertFileExists(scene.getPath(), Constants.IMAGE_DIRECTORY, fileName);
+		assertFileExists(new File(new File(scene.getDirectory(), Constants.IMAGE_DIRECTORY), fileName));
 	}
 
 	private void assertSoundFileExistsInScene(String fileName, Scene scene) {
-		assertFileExists(scene.getPath(), Constants.SOUND_DIRECTORY, fileName);
+		assertFileExists(new File(new File(scene.getDirectory(), Constants.SOUND_DIRECTORY), fileName));
 	}
 
 	private void clearBackPack() throws IOException {
-		File backPackDir = new File(BACK_PACK_SCENES_PATH);
-		if (backPackDir.exists()) {
-			StorageHandler.deleteDir(BACK_PACK_SCENES_PATH);
+		if (BACKPACK_SCENE_DIRECTORY.exists()) {
+			StorageHandler.deleteDir(BACKPACK_SCENE_DIRECTORY);
 		}
-		backPackDir.mkdirs();
+		BACKPACK_SCENE_DIRECTORY.mkdirs();
 	}
 
-	private void createProject() {
+	private void createProject() throws IOException {
 		project = new Project(InstrumentationRegistry.getTargetContext(), "SpriteControllerTest");
 		scene = project.getDefaultScene();
 		ProjectManager.getInstance().setCurrentProject(project);
@@ -226,7 +221,7 @@ public class SceneControllerTest {
 		script.addBrick(placeAtBrick);
 		sprite.addScript(script);
 
-		File imageFile = FileTestUtils.saveFileToProject(
+		File imageFile = FileTestUtils.copyResourceFileToProject(
 				project.getName(), scene.getName(),
 				"red_image.bmp",
 				org.catrobat.catroid.test.R.raw.red_image,
@@ -235,7 +230,7 @@ public class SceneControllerTest {
 
 		sprite.getLookList().add(new LookData("testLook", imageFile.getName()));
 
-		File soundFile = FileTestUtils.saveFileToProject(
+		File soundFile = FileTestUtils.copyResourceFileToProject(
 				project.getName(), ProjectManager.getInstance().getCurrentScene().getName(), "longsound.mp3",
 				org.catrobat.catroid.test.R.raw.longsound, InstrumentationRegistry.getContext(),
 				FileTestUtils.FileTypes.SOUND
@@ -249,7 +244,7 @@ public class SceneControllerTest {
 	private void deleteProject() throws IOException {
 		File projectDir = new File(buildProjectPath(project.getName()));
 		if (projectDir.exists()) {
-			StorageHandler.deleteDir(buildProjectPath(project.getName()));
+			StorageHandler.deleteDir(projectDir);
 		}
 	}
 }

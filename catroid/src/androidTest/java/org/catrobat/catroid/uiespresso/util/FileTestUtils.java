@@ -24,7 +24,6 @@
 package org.catrobat.catroid.uiespresso.util;
 
 import android.content.Context;
-import android.util.Log;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.utils.Utils;
@@ -39,86 +38,61 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 public final class FileTestUtils {
-	private static final String TAG = FileTestUtils.class.getSimpleName();
 
-	// Suppress default constructor for noninstantiability
 	private FileTestUtils() {
 		throw new AssertionError();
 	}
 
-	public static void assertFileExists(String... path) {
-		String fullPath = Utils.buildPath(path);
-		assertTrue("File does not exists: " + fullPath, new File(fullPath).exists());
+	public static void assertFileExists(File file) {
+		assertTrue("File does not exists: " + file.getAbsolutePath(), file.exists());
 	}
 
-	public static void assertFileDoesNotExist(String... path) {
-		String fullPath = Utils.buildPath(path);
-		assertFalse("File exists: " + fullPath, new File(fullPath).exists());
+	public static void assertFileDoesNotExist(File file) {
+		assertFalse("File exists: " + file.getAbsolutePath(), file.exists());
 	}
 
-	/**
-	 * saves a file into the project folder
-	 * if project == null or "" file will be saved into Catroid folder
-	 *
-	 * @param project Folder where the file will be saved, this folder should exist
-	 * @param name    Name of the file
-	 * @param fileID  the id of the file --> needs the right context
-	 * @param context
-	 * @param type    type of the file: 0 = imagefile, 1 = soundfile
-	 * @return the file
-	 * @throws IOException
-	 */
-	public static File saveFileToProject(String project, String sceneName, String name, int fileID, Context context, FileTypes type) {
-		String filePath;
-		String defaultRoot = Constants.DEFAULT_ROOT;
-		if (project == null || project.equalsIgnoreCase("")) {
-			filePath = defaultRoot + "/";
-		} else {
-			switch (type) {
-				case IMAGE:
-					filePath = defaultRoot + "/" + project + "/" + sceneName + "/" + Constants.IMAGE_DIRECTORY + "/";
-					break;
-				case SOUND:
-					filePath = defaultRoot + "/" + project + "/" + sceneName + "/" + Constants.SOUND_DIRECTORY + "/";
-					break;
-				case SCREENSHOT:
-					filePath = defaultRoot + "/" + project + "/" + sceneName + "/";
-					break;
-				case ROOT:
-					filePath = defaultRoot + "/" + project + "/";
-					break;
-				default:
-					filePath = defaultRoot + "/";
-					break;
-			}
+	public static File copyResourceFileToProject(String project, String sceneName, String name, int resourceId,
+			Context context, FileTypes type) throws IOException {
+
+		File file;
+		switch (type) {
+			case IMAGE:
+				file = new File(Utils.buildPath(Constants.DEFAULT_ROOT_DIRECTORY.getAbsolutePath(), project, sceneName,
+						Constants.IMAGE_DIRECTORY), name);
+				break;
+			case SOUND:
+				file = new File(Utils.buildPath(Constants.DEFAULT_ROOT_DIRECTORY.getAbsolutePath(), project, sceneName,
+						Constants.SOUND_DIRECTORY), name);
+				break;
+			case SCREENSHOT:
+				file = new File(Utils.buildPath(Constants.DEFAULT_ROOT_DIRECTORY.getAbsolutePath(), project, sceneName),
+						name);
+				break;
+			default:
+				file = new File(Constants.DEFAULT_ROOT_DIRECTORY, name);
+				break;
 		}
-		BufferedInputStream in = new BufferedInputStream(context.getResources().openRawResource(fileID),
+
+		BufferedInputStream in = new BufferedInputStream(context.getResources().openRawResource(resourceId),
 				Constants.BUFFER_8K);
 
-		try {
-			File file = new File(filePath + name);
-			file.getParentFile().mkdirs();
-			file.createNewFile();
+		file.getParentFile().mkdirs();
+		file.createNewFile();
 
-			BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file), Constants.BUFFER_8K);
-			byte[] buffer = new byte[Constants.BUFFER_8K];
-			int length = 0;
-			while ((length = in.read(buffer)) > 0) {
-				out.write(buffer, 0, length);
-			}
-
-			in.close();
-			out.flush();
-			out.close();
-
-			return file;
-		} catch (IOException e) {
-			Log.e(TAG, "File handling error", e);
-			return null;
+		BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file), Constants.BUFFER_8K);
+		byte[] buffer = new byte[Constants.BUFFER_8K];
+		int length = 0;
+		while ((length = in.read(buffer)) > 0) {
+			out.write(buffer, 0, length);
 		}
+
+		in.close();
+		out.close();
+
+		return file;
 	}
 
 	public enum FileTypes {
-		IMAGE, SOUND, ROOT, SCREENSHOT
+		IMAGE, SOUND, SCREENSHOT
 	}
 }

@@ -55,7 +55,7 @@ public class UnzipProjectFromAssetsTest {
 	@After
 	public void tearDown() throws IOException {
 		if (testProjectDir.exists()) {
-			StorageHandler.deleteDir(testProjectDir.getAbsolutePath());
+			StorageHandler.deleteDir(testProjectDir);
 		}
 	}
 

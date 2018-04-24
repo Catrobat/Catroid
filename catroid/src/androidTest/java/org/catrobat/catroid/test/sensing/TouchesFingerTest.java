@@ -43,7 +43,7 @@ public class TouchesFingerTest extends InstrumentationTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		TestUtils.deleteTestProjects();
+		TestUtils.deleteProjects();
 
 		project = new Project(getInstrumentation().getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 		sprite1 = new Sprite("TestSprite1");

@@ -37,7 +37,6 @@ import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
-import org.catrobat.catroid.test.utils.LegacyFileUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -67,7 +66,7 @@ public class EventActionTest {
 	}
 
 	private Project createProjectWithSprite(Sprite sprite) {
-		Project project = new Project(InstrumentationRegistry.getInstrumentation().getTargetContext(), LegacyFileUtils.DEFAULT_TEST_PROJECT_NAME);
+		Project project = new Project(InstrumentationRegistry.getInstrumentation().getTargetContext(), "testProject");
 		ProjectManager.getInstance().setProject(project);
 		project.getDefaultScene().addSprite(sprite);
 		return project;

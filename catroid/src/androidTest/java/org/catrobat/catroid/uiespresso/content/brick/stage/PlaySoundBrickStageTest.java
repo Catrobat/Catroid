@@ -46,6 +46,7 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -54,6 +55,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 @RunWith(AndroidJUnit4.class)
 public class PlaySoundBrickStageTest {
+
 	private static final int RESOURCE_SOUND = org.catrobat.catroid.test.R.raw.longsound;
 	private String soundName = "testSound1";
 	private File soundFile;
@@ -74,7 +76,7 @@ public class PlaySoundBrickStageTest {
 	@Category({Cat.CatrobatLanguage.class, Level.Functional.class, Cat.Gadgets.class, Cat.SettingsAndPermissions
 			.class, Cat.SensorBox.class})
 	@Test
-	public void testSoundPlayedFromPlaySoundBrick() {
+	public void testSoundPlayedFromPlaySoundBrick() throws IOException {
 		createProjectWithSound();
 		programMenuActivityRule.launchActivity();
 		SensorTestArduinoServerConnection.checkAudioSensorValue(SensorTestArduinoServerConnection
@@ -104,14 +106,14 @@ public class PlaySoundBrickStageTest {
 				.SET_AUDIO_OFF_VALUE, waitingTime);
 	}
 
-	private void createProjectWithSound() {
+	private void createProjectWithSound() throws IOException {
 		String projectName = "playSoundStageTest";
 		SoundManager.getInstance();
 		Script startScript = BrickTestUtils.createProjectAndGetStartScript(projectName);
 		startScript.addBrick(new PlaySoundBrick());
 
 		soundFile = FileTestUtils
-				.saveFileToProject(projectName, ProjectManager.getInstance().getCurrentScene().getName(),
+				.copyResourceFileToProject(projectName, ProjectManager.getInstance().getCurrentScene().getName(),
 						"longsound.mp3", RESOURCE_SOUND,
 						InstrumentationRegistry.getContext(), FileTestUtils.FileTypes.SOUND);
 		SoundInfo soundInfo = new SoundInfo();

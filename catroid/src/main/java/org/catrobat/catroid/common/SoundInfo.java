@@ -30,8 +30,11 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.utils.Utils;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+
+import static org.catrobat.catroid.common.Constants.BACKPACK_SOUND_DIRECTORY;
 
 public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable {
 
@@ -89,7 +92,7 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 	public SoundInfo clone() {
 		String copiedFileName;
 		try {
-			copiedFileName = StorageHandler.copyFile(getAbsolutePath()).getName();
+			copiedFileName = StorageHandler.copyFile(new File(getAbsolutePath())).getName();
 		} catch (IOException e) {
 			Log.e(TAG, "Could not copy file: " + fileName + ", fallback to shallow clone.");
 			copiedFileName = fileName;
@@ -98,10 +101,18 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 		return new SoundInfo(name, copiedFileName);
 	}
 
+	public File getFile() {
+		if (isBackpackSoundInfo) {
+			return new File(BACKPACK_SOUND_DIRECTORY, fileName);
+		} else {
+			return new File(getPathToSoundDirectory(), fileName);
+		}
+	}
+
 	public String getAbsolutePath() {
 		if (fileName != null) {
 			if (isBackpackSoundInfo) {
-				return Utils.buildPath(getPathToBackPackSoundDirectory(), fileName);
+				return Utils.buildPath(BACKPACK_SOUND_DIRECTORY.getAbsolutePath(), fileName);
 			} else {
 				return Utils.buildPath(getPathToSoundDirectory(), fileName);
 			}
@@ -124,11 +135,6 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 			}
 		}
 		return ProjectManager.getInstance().getCurrentScene().getName();
-	}
-
-	private String getPathToBackPackSoundDirectory() {
-		return Utils.buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY,
-				Constants.BACKPACK_SOUND_DIRECTORY);
 	}
 
 	@Override

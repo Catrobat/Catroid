@@ -25,11 +25,15 @@ package org.catrobat.catroid.test.io;
 import android.media.MediaPlayer;
 import android.test.InstrumentationTestCase;
 
-import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.SoundManager;
+import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
@@ -37,26 +41,30 @@ import java.util.Collections;
 import java.util.List;
 
 public class SoundManagerTest extends InstrumentationTestCase {
+
 	private final SoundManager soundManager = SoundManager.getInstance();
 	private final int soundFileId = R.raw.testsound;
 	private final int soundFileDuration = 144;
+
+	private Project project;
 
 	private File soundFile;
 
 	@Override
 	protected void setUp() throws Exception {
+		TestUtils.deleteProjects();
+		createProject();
 		soundManager.clear();
-		soundFile = TestUtils.createTestMediaFile(Constants.DEFAULT_ROOT + "/testSound.mp3", soundFileId,
-				getInstrumentation().getContext());
+		soundFile = FileTestUtils.copyResourceFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
+				project.getDefaultScene().getName(), "testsound", soundFileId,
+				getInstrumentation().getContext(), FileTestUtils.FileTypes.SOUND);
 		super.setUp();
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		if (soundFile != null && soundFile.exists()) {
-			soundFile.delete();
-		}
 		soundManager.clear();
+		TestUtils.deleteProjects();
 		super.tearDown();
 	}
 
@@ -191,5 +199,16 @@ public class SoundManagerTest extends InstrumentationTestCase {
 			this.leftVolume = leftVolume;
 			this.rightVolume = rightVolume;
 		}
+	}
+
+	private void createProject() {
+		project = new Project(getInstrumentation().getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
+
+		Sprite sprite = new Sprite("TestSprite");
+
+		project.getDefaultScene().addSprite(sprite);
+
+		StorageHandler.getInstance().saveProject(project);
+		ProjectManager.getInstance().setProject(project);
 	}
 }

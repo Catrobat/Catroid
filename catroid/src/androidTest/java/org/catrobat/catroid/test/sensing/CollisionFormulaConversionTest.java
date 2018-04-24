@@ -38,6 +38,7 @@ import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilUi;
 
+import java.io.IOException;
 import java.util.Locale;
 
 public class CollisionFormulaConversionTest extends AndroidTestCase {
@@ -57,11 +58,11 @@ public class CollisionFormulaConversionTest extends AndroidTestCase {
 	protected void tearDown() throws Exception {
 		super.tearDown();
 		projectManager.setProject(null);
-		TestUtils.deleteTestProjects(COLLISION_TEST_PROJECT);
+		TestUtils.deleteProjects(COLLISION_TEST_PROJECT);
 		TestUtils.removeFromPreferences(getContext(), Constants.PREF_PROJECTNAME_KEY);
 	}
 
-	public void testCatrobatLanguageVersionUpdated() {
+	public void testCatrobatLanguageVersionUpdated() throws IOException {
 		TestUtils.createTestProjectOnLocalStorageWithCatrobatLanguageVersion(OLD_CATROBAT_LANGUAGE_VERSION);
 		try {
 			projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, getContext());
@@ -69,10 +70,10 @@ public class CollisionFormulaConversionTest extends AndroidTestCase {
 			fail("couldn't load project");
 		}
 		assertTrue("Project not converted correctly!", projectManager.getCurrentProject().getCatrobatLanguageVersion() == Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
-		TestUtils.deleteTestProjects();
+		TestUtils.deleteProjects();
 	}
 
-	public void testFormulaUpdated() {
+	public void testFormulaUpdated() throws IOException {
 		String firstSpriteName = "a";
 		String secondSpriteName = "b";
 		String thirdSpriteName = "ab";
@@ -93,10 +94,10 @@ public class CollisionFormulaConversionTest extends AndroidTestCase {
 		} else {
 			fail("brick is no instance of FormulaBrick");
 		}
-		TestUtils.deleteTestProjects();
+		TestUtils.deleteProjects();
 	}
 
-	public void testFormulaUpdatedWithLanguageConversion() {
+	public void testFormulaUpdatedWithLanguageConversion() throws IOException {
 		String firstSpriteName = "sprite1";
 		String secondSpriteName = "sprite2";
 		String thirdSpriteName = "sprite3";
@@ -130,6 +131,6 @@ public class CollisionFormulaConversionTest extends AndroidTestCase {
 		} else {
 			fail("brick is no instance of FormulaBrick");
 		}
-		TestUtils.deleteTestProjects();
+		TestUtils.deleteProjects();
 	}
 }

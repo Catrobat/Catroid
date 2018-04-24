@@ -35,9 +35,11 @@ import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.sensing.CollisionInformation;
+import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
+import java.io.IOException;
 
 public final class CollisionTestUtils {
 
@@ -54,24 +56,17 @@ public final class CollisionTestUtils {
 		return lookData;
 	}
 
-	public static void initializeSprite(Sprite sprite, int resourceId, String filename, Context context, Project
-			project) {
+	public static void initializeSprite(Sprite sprite, int resourceId, String filename, Context context,
+			Project project) throws IOException {
 		sprite.look = new Look(sprite);
 		sprite.setActionFactory(new ActionFactory());
 
 		String hashedFileName = Utils.md5Checksum(filename) + "_" + filename;
-		File file = null;
-
-		try {
-			file = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, project.getDefaultScene().getName(),
-					hashedFileName, resourceId, context,
-					TestUtils.TYPE_IMAGE_FILE);
-		} catch (Exception e) {
-			Assert.fail("Couldn't load file, exception thrown!");
-		}
+		File file = FileTestUtils.copyResourceFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
+				project.getDefaultScene().getName(), hashedFileName, resourceId, context, FileTestUtils.FileTypes.IMAGE);
 
 		LookData lookData = generateLookData(file);
-		Assert.assertNotNull("lookData is null", lookData);
+		Assert.assertNotNull(lookData);
 		CollisionInformation collisionInformation = lookData.getCollisionInformation();
 		collisionInformation.loadOrCreateCollisionPolygon();
 

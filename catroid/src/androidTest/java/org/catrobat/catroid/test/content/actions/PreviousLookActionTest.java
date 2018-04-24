@@ -44,8 +44,7 @@ public class PreviousLookActionTest extends InstrumentationTestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		final String imagePath = Constants.DEFAULT_ROOT + "/testImage.png";
-		testImage = new File(imagePath);
+		testImage = new File(Constants.DEFAULT_ROOT_DIRECTORY, "testImage.png");
 		sprite = new Sprite("cat");
 		actionFactory = sprite.getActionFactory();
 	}

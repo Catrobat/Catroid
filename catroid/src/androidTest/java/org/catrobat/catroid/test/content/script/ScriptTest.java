@@ -38,7 +38,6 @@ public class ScriptTest extends AndroidTestCase {
 	private HideBrick hideBrick;
 	private ShowBrick showBrick;
 	private PlaceAtBrick placeAtBrick;
-	private ArrayList<Brick> brickList;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -54,11 +53,11 @@ public class ScriptTest extends AndroidTestCase {
 		script.addBrick(showBrick);
 		script.addBrick(placeAtBrick);
 
-		brickList = script.getBrickList();
+		ArrayList<Brick> brickList = script.getBrickList();
 
-		assertEquals("Wrong size of brick list", 3, brickList.size());
-		assertEquals("hideBrick is not at index 0", 0, brickList.indexOf(hideBrick));
-		assertEquals("showBrick is not at index 1", 1, brickList.indexOf(showBrick));
-		assertEquals("placeAtBrick is not at index 2", 2, brickList.indexOf(placeAtBrick));
+		assertEquals(3, brickList.size());
+		assertEquals(0, brickList.indexOf(hideBrick));
+		assertEquals(1, brickList.indexOf(showBrick));
+		assertEquals(2, brickList.indexOf(placeAtBrick));
 	}
 }

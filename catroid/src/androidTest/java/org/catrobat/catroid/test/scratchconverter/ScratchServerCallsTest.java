@@ -27,7 +27,6 @@ import android.test.InstrumentationTestCase;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ScratchProgramData;
 import org.catrobat.catroid.common.ScratchSearchResult;
-import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebScratchProgramException;
 import org.catrobat.catroid.web.WebconnectionException;
@@ -43,10 +42,6 @@ import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 
-/*
- * These tests need an internet connection
- */
-
 public class ScratchServerCallsTest extends InstrumentationTestCase {
 
 	public ScratchServerCallsTest() {
@@ -61,26 +56,18 @@ public class ScratchServerCallsTest extends InstrumentationTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		TestUtils.deleteTestProjects("uploadtestProject");
 		ServerCalls.useTestUrl = false;
 		super.tearDown();
 	}
 
-	public void testScratchSearchWithEmptyQueryParam() {
-		try {
-			ScratchSearchResult searchResult = ServerCalls.getInstance().scratchSearch("", 20, 0);
-			List<ScratchProgramData> programDataList = searchResult.getProgramDataList();
+	public void testScratchSearchWithEmptyQueryParam() throws WebconnectionException, InterruptedIOException {
+		ScratchSearchResult searchResult = ServerCalls.getInstance().scratchSearch("", 20, 0);
+		List<ScratchProgramData> programDataList = searchResult.getProgramDataList();
 
-			assertNotNull(programDataList);
-			assertEquals(0, programDataList.size());
-			assertNotNull(searchResult);
-			assertEquals(0, searchResult.getPageNumber());
-		} catch (InterruptedIOException e) {
-			fail("Task has been interrupted/cancelled! This should not happen here!");
-		} catch (WebconnectionException e) {
-			fail("WebconnectionException:\nstatus code:" + e.getStatusCode()
-					+ "\nmessage: " + e.getLocalizedMessage());
-		}
+		assertNotNull(programDataList);
+		assertEquals(0, programDataList.size());
+		assertNotNull(searchResult);
+		assertEquals(0, searchResult.getPageNumber());
 	}
 
 	private void checkScratchProgramData(ScratchProgramData programData) {
@@ -106,121 +93,87 @@ public class ScratchServerCallsTest extends InstrumentationTestCase {
 		assertThat(programData.getFavorites(), is(greaterThanOrEqualTo(0)));
 	}
 
-	public void testScratchSearchWithQueryParam() {
-		try {
-			ScratchSearchResult searchResult = ServerCalls.getInstance().scratchSearch("test", 20, 0);
+	public void testScratchSearchWithQueryParam() throws WebconnectionException, InterruptedIOException {
+		ScratchSearchResult searchResult = ServerCalls.getInstance().scratchSearch("test", 20, 0);
+		List<ScratchProgramData> programDataList = searchResult.getProgramDataList();
+
+		assertNotNull(searchResult);
+		assertNotNull(programDataList);
+		assertThat(programDataList.size(), is(greaterThan(0)));
+		assertEquals(0, searchResult.getPageNumber());
+		assertThat(searchResult.getProgramDataList().size(), is(greaterThan(0)));
+		assertThat(searchResult.getProgramDataList().size(), is(lessThanOrEqualTo(20)));
+
+		for (ScratchProgramData programData : programDataList) {
+			checkScratchProgramData(programData);
+		}
+	}
+
+	public void testScratchSearchMaxNumberOfItemsParam() throws WebconnectionException, InterruptedIOException {
+		final int maxNumberOfItems = 10;
+
+		ScratchSearchResult searchResult = ServerCalls.getInstance().scratchSearch("test", maxNumberOfItems, 0);
+		List<ScratchProgramData> programDataList = searchResult.getProgramDataList();
+
+		assertNotNull(searchResult);
+		assertNotNull(programDataList);
+		assertThat(programDataList.size(), is(greaterThan(0)));
+		assertEquals(0, searchResult.getPageNumber());
+		assertThat(searchResult.getProgramDataList().size(), is(greaterThan(0)));
+
+		assertThat(searchResult.getProgramDataList().size(), is(lessThanOrEqualTo(maxNumberOfItems)));
+
+		for (ScratchProgramData programData : programDataList) {
+			checkScratchProgramData(programData);
+		}
+	}
+
+	public void testScratchSearchPagination() throws WebconnectionException, InterruptedIOException {
+		for (int pageIndex = 1; pageIndex < 3; pageIndex++) {
+			ScratchSearchResult searchResult = ServerCalls.getInstance().scratchSearch("test", 20, pageIndex);
 			List<ScratchProgramData> programDataList = searchResult.getProgramDataList();
 
 			assertNotNull(searchResult);
 			assertNotNull(programDataList);
 			assertThat(programDataList.size(), is(greaterThan(0)));
-			assertEquals(0, searchResult.getPageNumber());
+			assertEquals(pageIndex, searchResult.getPageNumber());
 			assertThat(searchResult.getProgramDataList().size(), is(greaterThan(0)));
 			assertThat(searchResult.getProgramDataList().size(), is(lessThanOrEqualTo(20)));
 
 			for (ScratchProgramData programData : programDataList) {
 				checkScratchProgramData(programData);
 			}
-		} catch (InterruptedIOException e) {
-			fail("Task has been interrupted/cancelled! This should not happen here!");
-		} catch (WebconnectionException e) {
-			fail("WebconnectionException:\nstatus code:" + e.getStatusCode()
-					+ "\nmessage: " + e.getLocalizedMessage());
 		}
 	}
 
-	public void testScratchSearchMaxNumberOfItemsParam() {
-		try {
-			final int maxNumberOfItems = 10;
+	public void testFetchDefaultScratchPrograms() throws InterruptedIOException, WebconnectionException {
+		ScratchSearchResult searchResult = ServerCalls.getInstance().fetchDefaultScratchPrograms();
+		List<ScratchProgramData> programDataList = searchResult.getProgramDataList();
 
-			ScratchSearchResult searchResult = ServerCalls.getInstance().scratchSearch("test", maxNumberOfItems, 0);
-			List<ScratchProgramData> programDataList = searchResult.getProgramDataList();
+		assertNotNull(searchResult);
+		assertNotNull(programDataList);
+		assertThat(programDataList.size(), is(greaterThan(0)));
+		assertEquals(0, searchResult.getPageNumber());
+		assertThat(searchResult.getProgramDataList().size(), is(greaterThan(0)));
 
-			assertNotNull(searchResult);
-			assertNotNull(programDataList);
-			assertThat(programDataList.size(), is(greaterThan(0)));
-			assertEquals(0, searchResult.getPageNumber());
-			assertThat(searchResult.getProgramDataList().size(), is(greaterThan(0)));
-
-			assertThat(searchResult.getProgramDataList().size(), is(lessThanOrEqualTo(maxNumberOfItems)));
-
-			for (ScratchProgramData programData : programDataList) {
-				checkScratchProgramData(programData);
-			}
-		} catch (InterruptedIOException e) {
-			fail("Task has been interrupted/cancelled! This should not happen here!");
-		} catch (WebconnectionException e) {
-			fail("WebconnectionException:\nstatus code:" + e.getStatusCode()
-					+ "\nmessage: " + e.getLocalizedMessage());
-		}
-	}
-
-	public void testScratchSearchPagination() {
-		try {
-			for (int pageIndex = 1; pageIndex < 3; pageIndex++) {
-				ScratchSearchResult searchResult = ServerCalls.getInstance().scratchSearch("test", 20, pageIndex);
-				List<ScratchProgramData> programDataList = searchResult.getProgramDataList();
-
-				assertNotNull(searchResult);
-				assertNotNull(programDataList);
-				assertThat(programDataList.size(), is(greaterThan(0)));
-				assertEquals(pageIndex, searchResult.getPageNumber());
-				assertThat(searchResult.getProgramDataList().size(), is(greaterThan(0)));
-				assertThat(searchResult.getProgramDataList().size(), is(lessThanOrEqualTo(20)));
-
-				for (ScratchProgramData programData : programDataList) {
-					checkScratchProgramData(programData);
-				}
-			}
-		} catch (InterruptedIOException e) {
-			fail("Task has been interrupted/cancelled! This should not happen here!");
-		} catch (WebconnectionException e) {
-			fail("WebconnectionException:\nstatus code:" + e.getStatusCode()
-					+ "\nmessage: " + e.getLocalizedMessage());
-		}
-	}
-
-	public void testFetchDefaultScratchPrograms() {
-		try {
-			ScratchSearchResult searchResult = ServerCalls.getInstance().fetchDefaultScratchPrograms();
-			List<ScratchProgramData> programDataList = searchResult.getProgramDataList();
-
-			assertNotNull(searchResult);
-			assertNotNull(programDataList);
-			assertThat(programDataList.size(), is(greaterThan(0)));
-			assertEquals(0, searchResult.getPageNumber());
-			assertThat(searchResult.getProgramDataList().size(), is(greaterThan(0)));
-
-			for (ScratchProgramData programData : programDataList) {
-				checkScratchProgramData(programData);
-			}
-		} catch (InterruptedIOException e) {
-			fail("Task has been interrupted/cancelled! This should not happen here!");
-		} catch (WebconnectionException e) {
-			fail("WebconnectionException:\nstatus code:" + e.getStatusCode()
-					+ "\nmessage: " + e.getLocalizedMessage());
-		}
-	}
-
-	public void testFetchScratchProgramDetails() {
-		try {
-			final long expectedProgramID = 10205819;
-			final String expectedProgramTitle = "Dancin' in the Castle";
-			final String expectedProgramOwner = "jschombs";
-			ScratchProgramData programData = ServerCalls.getInstance().fetchScratchProgramDetails(expectedProgramID);
-
+		for (ScratchProgramData programData : programDataList) {
 			checkScratchProgramData(programData);
-			assertEquals(programData.getId(), expectedProgramID);
-			assertEquals(programData.getTitle(), expectedProgramTitle);
-			assertEquals(programData.getOwner(), expectedProgramOwner);
-		} catch (InterruptedIOException e) {
-			fail("Task has been interrupted/cancelled! This should not happen here!");
-		} catch (WebconnectionException e) {
-			fail("WebconnectionException:\nstatus code:" + e.getStatusCode()
-					+ "\nmessage: " + e.getLocalizedMessage());
-		} catch (WebScratchProgramException e) {
-			fail("WebconnectionException:\nstatus code:" + e.getStatusCode()
-					+ "\nmessage: " + e.getLocalizedMessage());
 		}
+	}
+
+	public void testFetchScratchProgramDetails() throws
+			WebconnectionException,
+			WebScratchProgramException,
+			InterruptedIOException {
+
+		long expectedProgramID = 10205819;
+		String expectedProgramTitle = "Dancin' in the Castle";
+		String expectedProgramOwner = "jschombs";
+		ScratchProgramData programData = ServerCalls.getInstance().fetchScratchProgramDetails(expectedProgramID);
+
+		checkScratchProgramData(programData);
+		assertEquals(programData.getId(), expectedProgramID);
+		assertEquals(programData.getTitle(), expectedProgramTitle);
+		assertEquals(programData.getOwner(), expectedProgramOwner);
 	}
 }

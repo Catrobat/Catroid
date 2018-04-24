@@ -72,7 +72,7 @@ public class UtilsTest extends AndroidTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		OutputStream outputStream = null;
-		TestUtils.deleteTestProjects(NEW_PROGRAM_NAME);
+		TestUtils.deleteProjects(NEW_PROGRAM_NAME);
 		try {
 			testFile = File.createTempFile("testCopyFiles", ".txt");
 			if (testFile.canWrite()) {
@@ -100,7 +100,7 @@ public class UtilsTest extends AndroidTestCase {
 			copiedFile.delete();
 		}
 
-		TestUtils.deleteTestProjects(NEW_PROGRAM_NAME);
+		TestUtils.deleteProjects(NEW_PROGRAM_NAME);
 		super.tearDown();
 	}
 
@@ -178,7 +178,7 @@ public class UtilsTest extends AndroidTestCase {
 			fail("No SD card present");
 		}
 		String projectName = "test?Projekt\"1";
-		String expectedPath = Constants.DEFAULT_ROOT + "/test%3FProjekt%221";
+		String expectedPath = Constants.DEFAULT_ROOT_DIRECTORY.getAbsolutePath() + "/test%3FProjekt%221";
 		assertEquals("Paths are different!", expectedPath, Utils.buildProjectPath(projectName));
 	}
 

@@ -51,6 +51,7 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -72,8 +73,7 @@ public class CopyProjectTest {
 
 	@Before
 	public void setUp() throws Exception {
-		createProject(toBeCopiedProjectName);
-
+		createProject();
 		baseActivityTestRule.launchActivity(null);
 	}
 
@@ -98,8 +98,8 @@ public class CopyProjectTest {
 				InstrumentationRegistry.getTargetContext());
 	}
 
-	private void createProject(String projectName) {
-		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+	private void createProject() throws IOException {
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), toBeCopiedProjectName);
 		Sprite sprite = new SingleSprite("firstSprite");
 		Script script = new StartScript();
 		script.addBrick(new SetXBrick());
@@ -109,8 +109,8 @@ public class CopyProjectTest {
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 
-		File soundFile = FileTestUtils.saveFileToProject(
-				projectName, ProjectManager.getInstance().getCurrentScene().getName(), "longsound.mp3",
+		File soundFile = FileTestUtils.copyResourceFileToProject(
+				toBeCopiedProjectName, ProjectManager.getInstance().getCurrentScene().getName(), "longsound.mp3",
 				org.catrobat.catroid.test.R.raw.longsound, InstrumentationRegistry.getContext(),
 				FileTestUtils.FileTypes.SOUND
 		);
@@ -120,8 +120,8 @@ public class CopyProjectTest {
 		soundInfo.setName("testSound1");
 		soundInfoList.add(soundInfo);
 
-		File imageFile = FileTestUtils.saveFileToProject(
-				projectName, ProjectManager.getInstance().getCurrentScene().getName(), "catroid_sunglasses.png",
+		File imageFile = FileTestUtils.copyResourceFileToProject(
+				toBeCopiedProjectName, ProjectManager.getInstance().getCurrentScene().getName(), "catroid_sunglasses.png",
 				org.catrobat.catroid.test.R.drawable.catroid_banzai, InstrumentationRegistry.getContext(),
 				FileTestUtils.FileTypes.IMAGE
 		);

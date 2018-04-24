@@ -133,7 +133,7 @@ public class NewSpriteDialogWrapper implements NewItemInterface<LookData> {
 		@Override
 		protected void onNegativeButtonClick() {
 			try {
-				StorageHandler.deleteFile(look.getAbsolutePath());
+				StorageHandler.deleteFile(look.getFile());
 			} catch (IOException e) {
 				Log.e(TAG, Log.getStackTraceString(e));
 			}

@@ -38,6 +38,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -84,7 +85,7 @@ public class UtilFileSizeTranslationsTest {
 				UtilFile.getSizeAsString(projectFolder, InstrumentationRegistry.getTargetContext()));
 	}
 
-	public void createProjectWithFiles() {
+	public void createProjectWithFiles() throws IOException {
 		String projectName = "fileSizeArabicTest";
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		StorageHandler.getInstance().saveProject(project);
@@ -93,11 +94,11 @@ public class UtilFileSizeTranslationsTest {
 
 		projectFolder = new File(Utils.buildProjectPath(projectName));
 
-		imageFile = FileTestUtils.saveFileToProject(project.getName(), project.getDefaultScene().getName(),
+		imageFile = FileTestUtils.copyResourceFileToProject(project.getName(), project.getDefaultScene().getName(),
 				"blue_image.bmp", org.catrobat.catroid.test.R.raw.blue_image, InstrumentationRegistry.getContext(),
 				FileTestUtils.FileTypes.IMAGE);
 
-		soundFile = FileTestUtils.saveFileToProject(project.getName(), project.getDefaultScene().getName(),
+		soundFile = FileTestUtils.copyResourceFileToProject(project.getName(), project.getDefaultScene().getName(),
 				"longsound.mp3", org.catrobat.catroid.test.R.raw.longsound, InstrumentationRegistry.getContext(),
 				FileTestUtils.FileTypes.SOUND);
 	}

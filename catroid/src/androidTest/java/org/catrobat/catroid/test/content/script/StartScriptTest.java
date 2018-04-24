@@ -33,7 +33,7 @@ import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 
 public class StartScriptTest extends AndroidTestCase {
 
-	public void testStartScript() throws InterruptedException {
+	public void testStartScript() {
 		double size = 300;
 		Sprite testSprite = new SingleSprite("testSprite");
 		Script testScript = new StartScript();
@@ -50,8 +50,8 @@ public class StartScriptTest extends AndroidTestCase {
 			testSprite.look.act(1.0f);
 		}
 
-		assertFalse("Look is not hidden", testSprite.look.isLookVisible());
-		assertEquals("the size is not as expected", (float) size / 100, testSprite.look.getScaleX());
-		assertEquals("the size is not as expected", (float) size / 100, testSprite.look.getScaleY());
+		assertFalse(testSprite.look.isLookVisible());
+		assertEquals((float) size / 100, testSprite.look.getScaleX());
+		assertEquals((float) size / 100, testSprite.look.getScaleY());
 	}
 }

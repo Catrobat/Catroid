@@ -48,6 +48,7 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import java.io.File;
+import java.io.IOException;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -55,6 +56,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isFocusable;
 
 @RunWith(AndroidJUnit4.class)
 public class StageSimpleTest {
+
 	private static final int PROJECT_WIDTH = 480;
 	private static final int PROJECT_HEIGHT = 800;
 
@@ -79,7 +81,7 @@ public class StageSimpleTest {
 				.check(matches(StageMatchers.isColorAtPx(blue, 1, 1)));
 	}
 
-	public Project createProjectWithBlueSprite(String projectName) {
+	public Project createProjectWithBlueSprite(String projectName) throws IOException {
 		ScreenValues.SCREEN_HEIGHT = PROJECT_HEIGHT;
 		ScreenValues.SCREEN_WIDTH = PROJECT_WIDTH;
 
@@ -102,7 +104,7 @@ public class StageSimpleTest {
 		project.getDefaultScene().addSprite(blueSprite);
 
 		StorageHandler.getInstance().saveProject(project);
-		File blueImageFile = FileTestUtils.saveFileToProject(project.getName(), project.getDefaultScene().getName(),
+		File blueImageFile = FileTestUtils.copyResourceFileToProject(project.getName(), project.getDefaultScene().getName(),
 				blueImageName,
 				org.catrobat.catroid.test.R.raw.blue_image, InstrumentationRegistry.getContext(),
 				FileTestUtils.FileTypes.IMAGE);

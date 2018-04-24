@@ -27,11 +27,12 @@ import org.catrobat.catroid.common.ProjectData;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.utils.Utils;
 
+import java.io.File;
 import java.io.IOException;
 
 public class ProjectController {
 
 	public void delete(ProjectData projectToDelete) throws IOException {
-		StorageHandler.deleteDir(Utils.buildProjectPath(projectToDelete.projectName));
+		StorageHandler.deleteDir(new File(Utils.buildProjectPath(projectToDelete.projectName)));
 	}
 }
