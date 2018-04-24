@@ -45,9 +45,9 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.transfers.ProjectUploadService;
 import org.catrobat.catroid.ui.WebViewActivity;
+import org.catrobat.catroid.utils.FileMetaDataExtractor;
+import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
-import org.catrobat.catroid.utils.UtilFile;
-import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 
 import java.util.List;
@@ -163,7 +163,7 @@ public class UploadProgressDialogFragment extends DialogFragment {
 				if (endOfFileReached) {
 					progressPercent = 100;
 				} else {
-					progressPercent = (int) UtilFile.getProgressFromBytes(projectName, progress);
+					progressPercent = (int) FileMetaDataExtractor.getProgressFromBytes(projectName, progress);
 				}
 
 				StatusBarNotificationManager.getInstance().showOrUpdateNotification(notificationId, progressPercent);
@@ -179,7 +179,7 @@ public class UploadProgressDialogFragment extends DialogFragment {
 
 	private void uploadProject(String uploadName, String projectDescription) {
 		ProjectManager projectManager = ProjectManager.getInstance();
-		String projectPath = Utils.buildProjectPath(projectManager.getCurrentProject().getName());
+		String projectPath = PathBuilder.buildProjectPath(projectManager.getCurrentProject().getName());
 
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);

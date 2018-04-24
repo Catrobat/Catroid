@@ -43,7 +43,8 @@ import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
-import org.catrobat.catroid.utils.UtilUi;
+import org.catrobat.catroid.utils.PathBuilder;
+import org.catrobat.catroid.utils.ScreenValueHandler;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
@@ -88,7 +89,7 @@ public class Project implements Serializable {
 		xmlHeader.setlandscapeMode(landscapeMode);
 
 		if (ScreenValues.SCREEN_HEIGHT == 0 || ScreenValues.SCREEN_WIDTH == 0) {
-			UtilUi.updateScreenWidthAndHeight(context);
+			ScreenValueHandler.updateScreenWidthAndHeight(context);
 		}
 		if (landscapeMode) {
 			ifPortraitSwitchWidthAndHeight();
@@ -327,7 +328,7 @@ public class Project implements Serializable {
 
 	public boolean manualScreenshotExists(String manualScreenshotName) {
 
-		String path = Utils.buildProjectPath(getName()) + "/" + manualScreenshotName;
+		String path = PathBuilder.buildProjectPath(getName()) + "/" + manualScreenshotName;
 		File manualScreenShot = new File(path);
 		if (manualScreenShot.exists()) {
 			return false;

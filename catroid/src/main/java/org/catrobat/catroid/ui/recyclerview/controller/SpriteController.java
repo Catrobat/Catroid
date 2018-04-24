@@ -31,7 +31,7 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.controller.BackPackListManager;
+import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 
 import java.io.IOException;
@@ -57,7 +57,7 @@ public class SpriteController {
 		}
 
 		for (SoundInfo sound : spriteToCopy.getSoundList()) {
-			sprite.getSoundList().add(soundController.copy(sound, srcScene, dstScene, sprite));
+			sprite.getSoundList().add(soundController.copy(sound, dstScene, sprite));
 		}
 
 		for (NfcTagData nfcTag : spriteToCopy.getNfcTagList()) {
@@ -86,7 +86,7 @@ public class SpriteController {
 
 		for (SoundInfo sound : spriteToDelete.getSoundList()) {
 			try {
-				soundController.delete(sound, srcScene);
+				soundController.delete(sound);
 			} catch (IOException e) {
 				Log.e(TAG, Log.getStackTraceString(e));
 			}
@@ -104,7 +104,7 @@ public class SpriteController {
 
 		for (SoundInfo sound : spriteToDelete.getSoundList()) {
 			try {
-				soundController.deleteFromBackpack(sound);
+				soundController.delete(sound);
 			} catch (IOException e) {
 				Log.e(TAG, Log.getStackTraceString(e));
 			}
@@ -113,7 +113,7 @@ public class SpriteController {
 
 	public Sprite pack(Sprite spriteToPack) throws IOException {
 		String name = uniqueNameProvider.getUniqueName(spriteToPack.getName(),
-				getScope(BackPackListManager.getInstance().getBackPackedSprites()));
+				getScope(BackpackListManager.getInstance().getBackPackedSprites()));
 
 		Sprite sprite = new Sprite(name);
 		sprite.isBackpackObject = true;

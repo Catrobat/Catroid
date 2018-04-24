@@ -28,7 +28,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.ui.controller.BackPackListManager;
+import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 import org.catrobat.catroid.utils.Utils;
 
@@ -76,7 +76,7 @@ public class LookController {
 
 	public LookData pack(LookData lookToPack, Scene srcScene) throws IOException {
 		String name = uniqueNameProvider.getUniqueName(
-				lookToPack.getName(), getScope(BackPackListManager.getInstance().getBackPackedLooks()));
+				lookToPack.getName(), getScope(BackpackListManager.getInstance().getBackPackedLooks()));
 
 		String fileName = StorageHandler.copyFileToDirectory(
 				new File(getImageDir(srcScene), lookToPack.getFileName()),
@@ -129,7 +129,7 @@ public class LookController {
 	}
 
 	private File getImageDir(Scene scene) {
-		return new File(scene.getDirectory(), Constants.IMAGE_DIRECTORY);
+		return new File(scene.getDirectory(), Constants.IMAGE_DIRECTORY_NAME);
 	}
 
 	private boolean compareByChecksum(File file1, File file2) {

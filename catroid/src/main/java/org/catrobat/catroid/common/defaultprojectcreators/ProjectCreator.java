@@ -21,18 +21,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.ui.recyclerview.controller;
+package org.catrobat.catroid.common.defaultprojectcreators;
 
-import org.catrobat.catroid.common.ProjectData;
-import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.utils.PathBuilder;
+import android.content.Context;
 
-import java.io.File;
+import org.catrobat.catroid.content.Project;
+
 import java.io.IOException;
 
-public class ProjectController {
+public abstract class ProjectCreator {
 
-	public void delete(ProjectData projectToDelete) throws IOException {
-		StorageHandler.deleteDir(new File(PathBuilder.buildProjectPath(projectToDelete.projectName)));
+	static double backgroundImageScaleFactor = 1;
+
+	int defaultProjectNameResourceId;
+
+	static int calculateValueRelativeToScaledBackground(int value) {
+		int returnValue = (int) (value * backgroundImageScaleFactor);
+		int differenceToNextFive = returnValue % 5;
+		return returnValue - differenceToNextFive;
+	}
+
+	public abstract Project createDefaultProject(String projectName, Context context, boolean landscapeMode) throws
+			IOException, IllegalArgumentException;
+
+	public int getDefaultProjectNameID() {
+		return defaultProjectNameResourceId;
 	}
 }

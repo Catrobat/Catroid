@@ -32,7 +32,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.ui.controller.BackPackListManager;
+import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.SceneAdapter;
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
 import org.catrobat.catroid.ui.recyclerview.controller.SceneController;
@@ -105,8 +105,8 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 
 		for (Scene item : selectedItems) {
 			try {
-				BackPackListManager.getInstance().getBackPackedScenes().add(sceneController.pack(item));
-				BackPackListManager.getInstance().saveBackpack();
+				BackpackListManager.getInstance().getBackPackedScenes().add(sceneController.pack(item));
+				BackpackListManager.getInstance().saveBackpack();
 				packedItemCnt++;
 			} catch (IOException e) {
 				Log.e(TAG, Log.getStackTraceString(e));
@@ -125,7 +125,7 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 
 	@Override
 	protected boolean isBackpackEmpty() {
-		return BackPackListManager.getInstance().getBackPackedScenes().isEmpty();
+		return BackpackListManager.getInstance().getBackPackedScenes().isEmpty();
 	}
 
 	@Override

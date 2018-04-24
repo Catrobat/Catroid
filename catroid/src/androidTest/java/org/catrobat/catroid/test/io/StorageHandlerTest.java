@@ -70,10 +70,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.catrobat.catroid.common.Constants.PROJECTCODE_NAME;
-import static org.catrobat.catroid.common.Constants.PROJECTCODE_NAME_TMP;
-import static org.catrobat.catroid.common.Constants.PROJECTPERMISSIONS_NAME;
-import static org.catrobat.catroid.utils.Utils.buildProjectPath;
+import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
+import static org.catrobat.catroid.common.Constants.PERMISSIONS_FILE_NAME;
+import static org.catrobat.catroid.common.Constants.TMP_CODE_XML_FILE_NAME;
+import static org.catrobat.catroid.utils.PathBuilder.buildProjectPath;
 
 public class StorageHandlerTest extends InstrumentationTestCase {
 
@@ -207,8 +207,8 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 		project.getDefaultScene().addSprite(thirdSprite);
 		project.getDefaultScene().addSprite(fourthSprite);
 
-		File tmpCodeFile = new File(buildProjectPath(project.getName()), PROJECTCODE_NAME_TMP);
-		File currentCodeFile = new File(buildProjectPath(project.getName()), PROJECTCODE_NAME);
+		File tmpCodeFile = new File(buildProjectPath(project.getName()), TMP_CODE_XML_FILE_NAME);
+		File currentCodeFile = new File(buildProjectPath(project.getName()), CODE_XML_FILE_NAME);
 
 		assertFalse(tmpCodeFile.exists());
 		assertFalse(currentCodeFile.exists());
@@ -224,7 +224,7 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 			fail("Could not create tmp file");
 		}
 
-		StorageHandler.copyFile(currentCodeFile, tmpCodeFile);
+		StorageHandler.transferFromFileToFile(currentCodeFile, tmpCodeFile);
 		String currentCodeFileXml = Files.toString(currentCodeFile, Charsets.UTF_8);
 
 		assertTrue(currentCodeFile.delete());
@@ -268,7 +268,7 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 		ProjectManager.getInstance().setProject(project);
 		StorageHandler.getInstance().saveProject(project);
 
-		File permissionsFile = new File(buildProjectPath(project.getName()), PROJECTPERMISSIONS_NAME);
+		File permissionsFile = new File(buildProjectPath(project.getName()), PERMISSIONS_FILE_NAME);
 		assertTrue(permissionsFile.exists());
 
 		//only for assertions. Add future permission; Vibration and LED not activated

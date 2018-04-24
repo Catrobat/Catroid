@@ -64,8 +64,9 @@ import org.catrobat.catroid.ui.recyclerview.dialog.PrivacyPolicyDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.login.SignInDialog;
 import org.catrobat.catroid.ui.recyclerview.fragment.MainMenuFragment;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+import org.catrobat.catroid.utils.PathBuilder;
+import org.catrobat.catroid.utils.ScreenValueHandler;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
@@ -98,7 +99,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 		SettingsFragment.setToChosenLanguage(this);
 
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
-		UtilUi.updateScreenWidthAndHeight(this);
+		ScreenValueHandler.updateScreenWidthAndHeight(this);
 
 		if (!PreferenceManager.getDefaultSharedPreferences(this)
 				.getBoolean(AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY, false)) {
@@ -310,7 +311,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 	private void prepareStandaloneProject() {
 		try {
 			InputStream inputStream = getAssets().open(BuildConfig.START_PROJECT + ".zip");
-			new ZipArchiver().unzip(inputStream, new File(Utils.buildProjectPath(BuildConfig.PROJECT_NAME)));
+			new ZipArchiver().unzip(inputStream, new File(PathBuilder.buildProjectPath(BuildConfig.PROJECT_NAME)));
 			new ProjectLoaderTask(this, this).execute(BuildConfig.PROJECT_NAME);
 		} catch (IOException e) {
 			Log.e("STANDALONE", "Could not unpack Standalone Program: ", e);

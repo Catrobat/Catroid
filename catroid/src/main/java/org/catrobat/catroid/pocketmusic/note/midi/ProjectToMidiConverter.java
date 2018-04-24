@@ -47,7 +47,7 @@ public class ProjectToMidiConverter {
 
 	public static final String MIDI_FILE_EXTENSION = ".midi";
 	public static final String MIDI_FILE_IDENTIFIER = "Musicdroid Midi File";
-	public static final File MIDI_FOLDER = new File(Environment.getExternalStorageDirectory().toString() + File.separator + "musicdroid");
+	public static final File MIDI_FOLDER = new File(Environment.getExternalStorageDirectory().toString(), "musicdroid");
 
 	private static final int MAX_CHANNEL = 16;
 
@@ -57,16 +57,6 @@ public class ProjectToMidiConverter {
 	public ProjectToMidiConverter() {
 		eventConverter = new NoteEventToMidiEventConverter();
 		nextChannel = 0;
-	}
-
-	public boolean deleteMidiByName(String name) {
-		File file = new File(ProjectToMidiConverter.MIDI_FOLDER, name + ProjectToMidiConverter.MIDI_FILE_EXTENSION);
-
-		if (file.delete()) {
-			return true;
-		}
-
-		return false;
 	}
 
 	public void writeProjectAsMidi(Project project) throws IOException, MidiException {
@@ -89,7 +79,6 @@ public class ProjectToMidiConverter {
 
 	public static File getMidiFileFromProjectName(String name) throws IOException {
 		checkMidiFolder();
-
 		return new File(MIDI_FOLDER + File.separator + name + MIDI_FILE_EXTENSION);
 	}
 
@@ -99,7 +88,6 @@ public class ProjectToMidiConverter {
 
 	public void writeProjectAsMidi(Project project, File file) throws IOException, MidiException {
 		MidiFile midi = convertProject(project);
-
 		midi.writeToFile(file);
 	}
 

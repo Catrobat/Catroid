@@ -26,6 +26,7 @@ import android.os.AsyncTask;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Backpack;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Scene;
@@ -33,17 +34,19 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
-public final class BackPackListManager {
+public final class BackpackListManager {
 
-	private static final BackPackListManager INSTANCE = new BackPackListManager();
+	private static final BackpackListManager INSTANCE = new BackpackListManager();
 
 	private static Backpack backpack;
 
-	public static BackPackListManager getInstance() {
+	public static BackpackListManager getInstance() {
 		if (backpack == null) {
 			backpack = new Backpack();
 		}
@@ -113,10 +116,12 @@ public final class BackPackListManager {
 	}
 
 	private class LoadBackpackAsynchronousTask extends AsyncTask<Void, Void, Void> {
+
 		@Override
 		protected Void doInBackground(Void... params) {
 			backpack = StorageHandler.getInstance().loadBackpack();
 			setBackPackFlags();
+			setFileReferences();
 			ProjectManager.getInstance().checkNestingBrickReferences(false, true);
 			return null;
 		}
@@ -125,20 +130,34 @@ public final class BackPackListManager {
 			for (LookData lookData : getBackPackedLooks()) {
 				lookData.isBackpackLookData = true;
 			}
-			for (SoundInfo soundInfo : getBackPackedSounds()) {
-				soundInfo.isBackpackSoundInfo = true;
-			}
 			for (Sprite sprite : getBackPackedSprites()) {
 				sprite.isBackpackObject = true;
 				for (LookData lookData : sprite.getLookList()) {
 					lookData.isBackpackLookData = true;
 				}
-				for (SoundInfo soundInfo : sprite.getSoundList()) {
-					soundInfo.isBackpackSoundInfo = true;
-				}
 			}
 			for (Scene scene : getBackPackedScenes()) {
 				scene.isBackPackScene = true;
+			}
+		}
+
+		private void setFileReferences() {
+			for (Sprite sprite : getBackPackedSprites()) {
+				setSoundFileReferences(sprite.getSoundList());
+			}
+			setSoundFileReferences(getBackPackedSounds());
+		}
+
+		private void setSoundFileReferences(List<SoundInfo> sounds) {
+			for (Iterator<SoundInfo> iterator = sounds.iterator(); iterator.hasNext(); ) {
+				SoundInfo soundInfo = iterator.next();
+				File soundFile = new File(Constants.BACKPACK_DIRECTORY, soundInfo.getFileName());
+
+				if (soundFile.exists()) {
+					soundInfo.setFile(soundFile);
+				} else {
+					iterator.remove();
+				}
 			}
 		}
 	}

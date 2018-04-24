@@ -57,7 +57,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY;
+import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.POCKET_PAINT_PACKAGE_NAME;
 import static org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment.CAMERA;
 import static org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment.FILE;
@@ -231,7 +231,7 @@ public class NewLookDialogFragment extends DialogFragment implements View.OnClic
 	}
 
 	private File getImgDir(Scene scene) {
-		return new File(scene.getPath(), IMAGE_DIRECTORY);
+		return new File(scene.getPath(), IMAGE_DIRECTORY_NAME);
 	}
 
 	private Uri getDefaultLookFromCameraUri(String defLookName) {

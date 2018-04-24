@@ -27,15 +27,15 @@ import android.util.Log;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.common.defaultprojectcreators.ArDroneProjectCreator;
+import org.catrobat.catroid.common.defaultprojectcreators.ChromeCastProjectCreator;
 import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreator;
-import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreatorCast;
-import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreatorDefault;
-import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreatorDrone;
-import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreatorJumpingSumo;
-import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreatorPhysics;
+import org.catrobat.catroid.common.defaultprojectcreators.JumpingSumoProjectCreator;
+import org.catrobat.catroid.common.defaultprojectcreators.PhysicsProjectCreator;
+import org.catrobat.catroid.common.defaultprojectcreators.ProjectCreator;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.utils.PathBuilder;
 
 import java.io.File;
 import java.io.IOException;
@@ -50,7 +50,7 @@ public final class DefaultProjectHandler {
 	}
 
 	private static DefaultProjectHandler instance = null;
-	private DefaultProjectCreator defaultProjectCreator;
+	private ProjectCreator defaultProjectCreator;
 
 	public static DefaultProjectHandler getInstance() {
 		if (instance == null) {
@@ -63,21 +63,16 @@ public final class DefaultProjectHandler {
 		setDefaultProjectCreator(ProjectCreatorType.PROJECT_CREATOR_DEFAULT);
 	}
 
-	public static Project createAndSaveDefaultProject(Context context, boolean landscapeMode, boolean forScene) throws
-			IOException {
+	public static Project createAndSaveDefaultProject(Context context) throws IOException {
 		String projectName = context.getString(getInstance().defaultProjectCreator.getDefaultProjectNameID());
 		Project defaultProject = null;
 
-		if (StorageHandler.getInstance().projectExists(projectName) && !forScene) {
-			StorageHandler.deleteDir(new File(Utils.buildProjectPath(projectName)));
-		}
-
-		if (forScene) {
-			projectName = Utils.getUniqueProjectName();
+		if (StorageHandler.getInstance().projectExists(projectName)) {
+			StorageHandler.deleteDir(new File(PathBuilder.buildProjectPath(projectName)));
 		}
 
 		try {
-			defaultProject = createAndSaveDefaultProject(projectName, context, landscapeMode);
+			defaultProject = createAndSaveDefaultProject(projectName, context, false);
 		} catch (IllegalArgumentException ilArgument) {
 			Log.e(TAG, "Could not create standard project!", ilArgument);
 		}
@@ -85,29 +80,18 @@ public final class DefaultProjectHandler {
 		return defaultProject;
 	}
 
-	public static Project createAndSaveDefaultProject(Context context) throws IOException {
-		return createAndSaveDefaultProject(context, false, false);
-	}
-
-	public static Project createDefaultProjectForScene(Context context, boolean landscape) throws IOException {
-		return createAndSaveDefaultProject(context, landscape, true);
-	}
-
-	public static Project createAndSaveDefaultProject(String projectName, Context context, boolean
-			landscapeMode)
-			throws IOException,
-			IllegalArgumentException {
+	public static Project createAndSaveDefaultProject(String projectName, Context context, boolean landscapeMode)
+			throws IOException, IllegalArgumentException {
 		return getInstance().defaultProjectCreator.createDefaultProject(projectName, context, landscapeMode);
 	}
 
 	public static Project createAndSaveDefaultProject(String projectName, Context context) throws
-			IOException,
-			IllegalArgumentException {
+			IOException, IllegalArgumentException {
 		return createAndSaveDefaultProject(projectName, context, false);
 	}
 
-	public static Project createAndSaveEmptyProject(String projectName, Context context, boolean
-			landscapeMode, boolean isCastEnabled) {
+	public static Project createAndSaveEmptyProject(String projectName, Context context, boolean landscapeMode,
+			boolean isCastEnabled) {
 		if (StorageHandler.getInstance().projectExists(projectName)) {
 			throw new IllegalArgumentException("Project with name '" + projectName + "' already exists!");
 		}
@@ -119,39 +103,31 @@ public final class DefaultProjectHandler {
 		return emptyProject;
 	}
 
-	public static Project createAndSaveEmptyProject(String projectName, Context context, boolean landscapeMode) {
-		return createAndSaveEmptyProject(projectName, context, landscapeMode, false);
-	}
-
-	public static Project createAndSaveEmptyProject(String projectName, Context context) {
-		return createAndSaveEmptyProject(projectName, context, false);
-	}
-
 	public void setDefaultProjectCreator(ProjectCreatorType type) {
 		switch (type) {
 			case PROJECT_CREATOR_DEFAULT:
-				defaultProjectCreator = new DefaultProjectCreatorDefault();
+				defaultProjectCreator = new DefaultProjectCreator();
 				break;
 			case PROJECT_CREATOR_DRONE:
 				if (BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED) {
-					defaultProjectCreator = new DefaultProjectCreatorDrone();
+					defaultProjectCreator = new ArDroneProjectCreator();
 				} else {
-					defaultProjectCreator = new DefaultProjectCreatorDefault();
+					defaultProjectCreator = new DefaultProjectCreator();
 				}
 				break;
 			case PROJECT_CREATOR_JUMPING_SUMO:
 				if (BuildConfig.FEATURE_PARROT_JUMPING_SUMO_ENABLED) {
-					defaultProjectCreator = new DefaultProjectCreatorJumpingSumo();
+					defaultProjectCreator = new JumpingSumoProjectCreator();
 				} else {
-					defaultProjectCreator = new DefaultProjectCreatorDefault();
+					defaultProjectCreator = new DefaultProjectCreator();
 				}
 				break;
 			case PROJECT_CREATOR_PHYSICS:
-				defaultProjectCreator = new DefaultProjectCreatorPhysics();
+				defaultProjectCreator = new PhysicsProjectCreator();
 				break;
 			case PROJECT_CREATOR_CAST:
 				if (BuildConfig.FEATURE_CAST_ENABLED) {
-					defaultProjectCreator = new DefaultProjectCreatorCast();
+					defaultProjectCreator = new ChromeCastProjectCreator();
 				}
 				break;
 		}

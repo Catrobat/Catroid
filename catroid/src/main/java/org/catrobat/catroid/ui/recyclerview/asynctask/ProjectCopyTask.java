@@ -30,7 +30,7 @@ import android.util.Log;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.utils.PathBuilder;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,8 +49,8 @@ public class ProjectCopyTask extends AsyncTask<String, Void, Boolean> {
 
 	@Override
 	protected Boolean doInBackground(String... params) {
-		File projectToCopyDirectory = new File(Utils.buildProjectPath(params[0]));
-		File projectDirectory = new File(Utils.buildProjectPath(params[1]));
+		File projectToCopyDirectory = new File(PathBuilder.buildProjectPath(params[0]));
+		File projectDirectory = new File(PathBuilder.buildProjectPath(params[1]));
 
 		try {
 			StorageHandler.copyDir(projectToCopyDirectory, projectDirectory);

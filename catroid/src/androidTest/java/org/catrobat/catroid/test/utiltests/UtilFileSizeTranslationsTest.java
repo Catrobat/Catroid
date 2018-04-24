@@ -30,8 +30,8 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.uiespresso.util.FileTestUtils;
-import org.catrobat.catroid.utils.UtilFile;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.utils.FileMetaDataExtractor;
+import org.catrobat.catroid.utils.PathBuilder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -76,13 +76,13 @@ public class UtilFileSizeTranslationsTest {
 		double projectExpectedSize = 67.5;
 
 		assertEquals(currentNumberformat.format(soundExpectedSize) + " " + arabicKb,
-				UtilFile.getSizeAsString(soundFile, InstrumentationRegistry.getTargetContext()));
+				FileMetaDataExtractor.getSizeAsString(soundFile, InstrumentationRegistry.getTargetContext()));
 
 		assertEquals(currentNumberformat.format(lookExpectedSize) + " " + arabicKb,
-				UtilFile.getSizeAsString(imageFile, InstrumentationRegistry.getTargetContext()));
+				FileMetaDataExtractor.getSizeAsString(imageFile, InstrumentationRegistry.getTargetContext()));
 
 		assertEquals(currentNumberformat.format(projectExpectedSize) + " " + arabicKb,
-				UtilFile.getSizeAsString(projectFolder, InstrumentationRegistry.getTargetContext()));
+				FileMetaDataExtractor.getSizeAsString(projectFolder, InstrumentationRegistry.getTargetContext()));
 	}
 
 	public void createProjectWithFiles() throws IOException {
@@ -92,7 +92,7 @@ public class UtilFileSizeTranslationsTest {
 		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentScene(project.getDefaultScene());
 
-		projectFolder = new File(Utils.buildProjectPath(projectName));
+		projectFolder = new File(PathBuilder.buildProjectPath(projectName));
 
 		imageFile = FileTestUtils.copyResourceFileToProject(project.getName(), project.getDefaultScene().getName(),
 				"blue_image.bmp", org.catrobat.catroid.test.R.raw.blue_image, InstrumentationRegistry.getContext(),

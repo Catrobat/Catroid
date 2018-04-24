@@ -33,9 +33,8 @@ import android.view.View;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedVH;
-import org.catrobat.catroid.utils.UtilFile;
+import org.catrobat.catroid.utils.FileMetaDataExtractor;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
@@ -80,7 +79,7 @@ public class SoundAdapter extends ExtendedRVAdapter<SoundInfo> {
 			holder.details.setText(String.format(Locale.getDefault(),
 					context.getString(R.string.sound_details),
 					getSoundDuration(item),
-					UtilFile.getSizeAsString(new File(item.getAbsolutePath()), context)));
+					FileMetaDataExtractor.getSizeAsString(item.getFile(), context)));
 		} else {
 			holder.details.setText(String.format(Locale.getDefault(),
 					context.getString(R.string.sound_duration),
@@ -90,7 +89,7 @@ public class SoundAdapter extends ExtendedRVAdapter<SoundInfo> {
 
 	private String getSoundDuration(SoundInfo sound) {
 		MediaMetadataRetriever metadataRetriever = new MediaMetadataRetriever();
-		metadataRetriever.setDataSource(sound.getAbsolutePath());
+		metadataRetriever.setDataSource(sound.getFile().getAbsolutePath());
 
 		long duration = Integer.parseInt(metadataRetriever.extractMetadata(MediaMetadataRetriever
 				.METADATA_KEY_DURATION));
@@ -103,7 +102,7 @@ public class SoundAdapter extends ExtendedRVAdapter<SoundInfo> {
 		try {
 			mediaPlayer.release();
 			mediaPlayer = new MediaPlayer();
-			mediaPlayer.setDataSource(sound.getAbsolutePath());
+			mediaPlayer.setDataSource(sound.getFile().getAbsolutePath());
 			mediaPlayer.prepare();
 			mediaPlayer.start();
 		} catch (IOException e) {

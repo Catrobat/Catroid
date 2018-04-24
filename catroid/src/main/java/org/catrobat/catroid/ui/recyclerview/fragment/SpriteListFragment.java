@@ -41,7 +41,7 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.SpriteAttributesActivity;
-import org.catrobat.catroid.ui.controller.BackPackListManager;
+import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.MultiViewSpriteAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperAdapterInterface;
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperCallback;
@@ -193,8 +193,8 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 
 		for (Sprite item : selectedItems) {
 			try {
-				BackPackListManager.getInstance().getBackPackedSprites().add(spriteController.pack(item));
-				BackPackListManager.getInstance().saveBackpack();
+				BackpackListManager.getInstance().getBackPackedSprites().add(spriteController.pack(item));
+				BackpackListManager.getInstance().saveBackpack();
 				packedItemCnt++;
 			} catch (IOException e) {
 				Log.e(TAG, Log.getStackTraceString(e));
@@ -213,7 +213,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 
 	@Override
 	protected boolean isBackpackEmpty() {
-		return BackPackListManager.getInstance().getBackPackedSprites().isEmpty();
+		return BackpackListManager.getInstance().getBackPackedSprites().isEmpty();
 	}
 
 	@Override

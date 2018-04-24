@@ -121,7 +121,7 @@ public class StopAllSoundsActionTest extends InstrumentationTestCase {
 
 	private SoundInfo createSoundInfo(File soundFile) {
 		SoundInfo soundInfo = new SoundInfo();
-		soundInfo.setFileName(soundFile.getName());
+		soundInfo.setFile(soundFile);
 		return soundInfo;
 	}
 

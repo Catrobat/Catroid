@@ -33,7 +33,7 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.pocketmusic.PocketMusicActivity;
-import org.catrobat.catroid.ui.controller.BackPackListManager;
+import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
 import org.catrobat.catroid.ui.recyclerview.controller.SoundController;
@@ -86,9 +86,8 @@ public class SoundListFragment extends RecyclerViewFragment<SoundInfo> {
 
 		for (SoundInfo item : selectedItems) {
 			try {
-				BackPackListManager.getInstance().getBackPackedSounds().add(
-						soundController.pack(item, ProjectManager.getInstance().getCurrentScene()));
-				BackPackListManager.getInstance().saveBackpack();
+				BackpackListManager.getInstance().getBackPackedSounds().add(soundController.pack(item));
+				BackpackListManager.getInstance().saveBackpack();
 				packedItemCnt++;
 			} catch (IOException e) {
 				Log.e(TAG, Log.getStackTraceString(e));
@@ -107,7 +106,7 @@ public class SoundListFragment extends RecyclerViewFragment<SoundInfo> {
 
 	@Override
 	protected boolean isBackpackEmpty() {
-		return BackPackListManager.getInstance().getBackPackedSounds().isEmpty();
+		return BackpackListManager.getInstance().getBackPackedSounds().isEmpty();
 	}
 
 	@Override
@@ -126,7 +125,7 @@ public class SoundListFragment extends RecyclerViewFragment<SoundInfo> {
 
 		for (SoundInfo item : selectedItems) {
 			try {
-				adapter.add(soundController.copy(item, currentScene, currentScene, currentSprite));
+				adapter.add(soundController.copy(item, currentScene, currentSprite));
 				copiedItemCnt++;
 			} catch (IOException e) {
 				Log.e(TAG, Log.getStackTraceString(e));
@@ -153,7 +152,7 @@ public class SoundListFragment extends RecyclerViewFragment<SoundInfo> {
 
 		for (SoundInfo item : selectedItems) {
 			try {
-				soundController.delete(item, ProjectManager.getInstance().getCurrentScene());
+				soundController.delete(item);
 			} catch (IOException e) {
 				Log.e(TAG, Log.getStackTraceString(e));
 			}
@@ -208,11 +207,11 @@ public class SoundListFragment extends RecyclerViewFragment<SoundInfo> {
 			return;
 		}
 
-		if (item.getFileName().matches(".*MUS-.*\\.midi")) {
+		if (item.getFile().getName().matches(".*MUS-.*\\.midi")) {
 			Intent intent = new Intent(getActivity(), PocketMusicActivity.class);
 
-			intent.putExtra("FILENAME", item.getFileName());
-			intent.putExtra("TITLE", item.getName());
+			intent.putExtra(PocketMusicActivity.TITLE, item.getName());
+			intent.putExtra(PocketMusicActivity.ABSOLUTE_FILE_PATH, item.getFile().getAbsolutePath());
 
 			startActivity(intent);
 		}

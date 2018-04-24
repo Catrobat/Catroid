@@ -32,10 +32,12 @@ import com.badlogic.gdx.math.Vector2;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.ScreenValues;
-import org.catrobat.catroid.io.StorageHandler;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Locale;
 
 import ar.com.hjg.pngj.IImageLine;
 import ar.com.hjg.pngj.PngReader;
@@ -50,23 +52,16 @@ public final class ImageEditing {
 
 	private static final String TAG = ImageEditing.class.getSimpleName();
 
+	private static final int JPG_COMPRESSION_SETTING = 95;
+
 	public enum ResizeType {
 		STRETCH_TO_RECTANGLE, STAY_IN_RECTANGLE_WITH_SAME_ASPECT_RATIO, FILL_RECTANGLE_WITH_SAME_ASPECT_RATIO
 	}
 
-	// Suppress default constructor for noninstantiability
 	private ImageEditing() {
 		throw new AssertionError();
 	}
 
-	/**
-	 * Scales the bitmap to the specified size.
-	 *
-	 * @param bitmap the bitmap to resize
-	 * @param xSize  desired x size
-	 * @param ySize  desired y size
-	 * @return a new, scaled bitmap
-	 */
 	private static Bitmap scaleBitmap(Bitmap bitmap, int xSize, int ySize) {
 		if (bitmap == null) {
 			return null;
@@ -163,7 +158,7 @@ public final class ImageEditing {
 		String path = file.getAbsolutePath();
 		Bitmap scaledBitmap = ImageEditing.getScaledBitmapFromPath(path, width, height,
 				ImageEditing.ResizeType.FILL_RECTANGLE_WITH_SAME_ASPECT_RATIO, false);
-		StorageHandler.saveBitmapToImageFile(file, scaledBitmap);
+		saveBitmapToImageFile(file, scaledBitmap);
 	}
 
 	public static double calculateScaleFactorToScreenSize(int resourceId, Context context) {
@@ -237,6 +232,27 @@ public final class ImageEditing {
 			}
 		}
 		return inSampleSize;
+	}
+
+	public static void saveBitmapToImageFile(File outputFile, Bitmap bitmap) throws FileNotFoundException {
+		FileOutputStream outputStream = new FileOutputStream(outputFile);
+		try {
+			if (outputFile.getName().toLowerCase(Locale.US).endsWith(".jpg")
+					|| outputFile.getName().toLowerCase(Locale.US).endsWith(".jpeg")) {
+				bitmap.compress(Bitmap.CompressFormat.JPEG, JPG_COMPRESSION_SETTING, outputStream);
+			} else {
+				bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream);
+			}
+			outputStream.flush();
+		} catch (IOException e) {
+			Log.e(TAG, Log.getStackTraceString(e));
+		} finally {
+			try {
+				outputStream.close();
+			} catch (IOException e) {
+				Log.e(TAG, "Could not close OutputStream.", e);
+			}
+		}
 	}
 
 	public static String readMetaDataStringFromPNG(String absolutePath, String key) throws PngjException {

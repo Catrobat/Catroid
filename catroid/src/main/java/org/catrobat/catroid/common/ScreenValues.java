@@ -36,19 +36,18 @@ public final class ScreenValues {
 	public static final int CAST_SCREEN_WIDTH = 1280;
 	public static final int CAST_SCREEN_HEIGHT = 720;
 
-	// Suppress default constructor for noninstantiability
 	private ScreenValues() {
 		throw new AssertionError();
 	}
 
 	public static float getAspectRatio() {
 		if (SCREEN_WIDTH == 0 || SCREEN_HEIGHT == 0) {
-			setToDefaultSreenSize();
+			setToDefaultScreenSize();
 		}
 		return (float) SCREEN_WIDTH / (float) SCREEN_HEIGHT;
 	}
 
-	public static void setToDefaultSreenSize() {
+	public static void setToDefaultScreenSize() {
 		SCREEN_WIDTH = DEFAULT_SCREEN_WIDTH;
 		SCREEN_HEIGHT = DEFAULT_SCREEN_HEIGHT;
 	}

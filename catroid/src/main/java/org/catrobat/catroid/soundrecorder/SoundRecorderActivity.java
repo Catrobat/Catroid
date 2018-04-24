@@ -37,6 +37,7 @@ import android.widget.Chronometer;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.BaseActivity;
+import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
@@ -94,7 +95,7 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 			if (soundRecorder != null) {
 				soundRecorder.stop();
 			}
-			String recordPath = Utils.buildPath(Constants.TMP_PATH, getString(R.string.soundrecorder_recorded_filename)
+			String recordPath = PathBuilder.buildPath(Constants.TMP_PATH, getString(R.string.soundrecorder_recorded_filename)
 					+ SoundRecorder.RECORDING_EXTENSION);
 			soundRecorder = new SoundRecorder(recordPath);
 			soundRecorder.start();
@@ -103,11 +104,9 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 			Log.e(TAG, "Error recording sound.", e);
 			ToastUtil.showError(this, R.string.soundrecorder_error);
 		} catch (IllegalStateException e) {
-			// app would crash if other app uses mic, catch IllegalStateException and display Toast
 			Log.e(TAG, "Error recording sound (Other recorder running?).", e);
 			ToastUtil.showError(this, R.string.soundrecorder_error);
 		} catch (RuntimeException e) {
-			// device does not support audio or video format
 			Log.e(TAG, "Device does not support audio or video format.", e);
 			ToastUtil.showError(this, R.string.soundrecorder_error);
 		}

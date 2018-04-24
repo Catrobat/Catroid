@@ -44,7 +44,6 @@ import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.uiespresso.util.FileTestUtils;
-import org.catrobat.catroid.utils.UtilFile;
 
 import java.io.File;
 
@@ -55,7 +54,7 @@ public class PhysicsShapeScaleUtilsTest extends InstrumentationTestCase {
 	private static final int COMPLEX_SINGLE_CONVEX_POLYGON_RES_ID = R.raw.complex_single_convex_polygon;
 
 	private PhysicsWorld physicsWorld;
-	private File projectFile;
+	private File projectDir;
 	private Project project;
 	private PhysicsShapeBuilderStrategy strategy = new PhysicsShapeBuilderStrategyFastHull();
 	private Shape[] complexSingleConvexPolygonShapes;
@@ -68,10 +67,10 @@ public class PhysicsShapeScaleUtilsTest extends InstrumentationTestCase {
 
 		physicsWorld = new PhysicsWorld(1920, 1600);
 		physicsWorld.step(0.1f);
-		projectFile = new File(Constants.DEFAULT_ROOT_DIRECTORY, TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
+		if (projectDir.exists()) {
+			StorageHandler.deleteDir(projectDir);
 		}
 
 		project = new Project(getInstrumentation().getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
@@ -92,10 +91,10 @@ public class PhysicsShapeScaleUtilsTest extends InstrumentationTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
+		if (projectDir.exists()) {
+			StorageHandler.deleteDir(projectDir);
 		}
-		projectFile = null;
+		projectDir = null;
 		physicsWorld = null;
 		super.tearDown();
 	}

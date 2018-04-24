@@ -40,12 +40,8 @@ import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
-import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
-import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
-import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.io.StorageHandler;
@@ -54,8 +50,6 @@ import org.catrobat.catroid.utils.StatusBarNotificationManager;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public final class TestUtils {
 
@@ -91,59 +85,6 @@ public final class TestUtils {
 
 		StorageHandler.getInstance().saveProject(project);
 		return project;
-	}
-
-	public static List<Brick> createTestProjectWithWrongIfClauseReferences() {
-		ProjectManager projectManager = ProjectManager.getInstance();
-
-		String corruptProjectName = "corruptProject";
-
-		Project project = new Project(InstrumentationRegistry.getTargetContext(), corruptProjectName);
-		Sprite firstSprite = new SingleSprite("corruptReferences");
-
-		Script testScript = new StartScript();
-
-		ArrayList<Brick> brickList = new ArrayList<Brick>();
-
-		IfLogicBeginBrick ifBeginBrick = new IfLogicBeginBrick(0);
-		IfLogicElseBrick ifElseBrick = new IfLogicElseBrick(ifBeginBrick);
-		ifElseBrick.setIfBeginBrick(null);
-
-		IfLogicBeginBrick ifBeginBrickNested = new IfLogicBeginBrick(0);
-		//reference shouldn't be null:
-		IfLogicElseBrick ifElseBrickNested = new IfLogicElseBrick(ifBeginBrickNested);
-		ifElseBrickNested.setIfBeginBrick(null);
-		//reference shouldn't be null + wrong ifElseBrickReference:
-		IfLogicEndBrick ifEndBrickNested = new IfLogicEndBrick(ifElseBrick, ifBeginBrickNested);
-		ifEndBrickNested.setIfBeginBrick(null);
-
-		//reference to wrong ifBegin and ifEnd-Bricks:
-		IfLogicEndBrick ifEndBrick = new IfLogicEndBrick(ifElseBrickNested, ifBeginBrickNested);
-
-		brickList.add(ifBeginBrick);
-		brickList.add(new ShowBrick());
-		brickList.add(ifElseBrick);
-		brickList.add(new ComeToFrontBrick());
-		brickList.add(ifBeginBrickNested);
-		brickList.add(new ComeToFrontBrick());
-		brickList.add(ifElseBrickNested);
-		brickList.add(new ShowBrick());
-		brickList.add(ifEndBrickNested);
-		brickList.add(ifEndBrick);
-
-		for (Brick brick : brickList) {
-			testScript.addBrick(brick);
-		}
-
-		firstSprite.addScript(testScript);
-
-		project.getDefaultScene().addSprite(firstSprite);
-
-		projectManager.setProject(project);
-		projectManager.setCurrentSprite(firstSprite);
-		projectManager.setCurrentScript(testScript);
-
-		return brickList;
 	}
 
 	public static Project createTestProjectOnLocalStorageWithCatrobatLanguageVersion(float catrobatLanguageVersion) {

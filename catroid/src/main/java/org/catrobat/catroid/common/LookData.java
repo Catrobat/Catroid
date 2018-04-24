@@ -43,6 +43,7 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.sensing.CollisionInformation;
 import org.catrobat.catroid.utils.CrashReporter;
 import org.catrobat.catroid.utils.ImageEditing;
+import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
@@ -193,9 +194,9 @@ public class LookData implements Serializable, Cloneable {
 	public String getAbsolutePath() {
 		if (fileName != null) {
 			if (isBackpackLookData) {
-				return Utils.buildPath(BACKPACK_IMAGE_DIRECTORY.getAbsolutePath(), fileName);
+				return PathBuilder.buildPath(BACKPACK_IMAGE_DIRECTORY.getAbsolutePath(), fileName);
 			} else {
-				return Utils.buildPath(getPathToImageDirectory(), fileName);
+				return PathBuilder.buildPath(getPathToImageDirectory(), fileName);
 			}
 		} else {
 			return null;
@@ -207,8 +208,8 @@ public class LookData implements Serializable, Cloneable {
 	}
 
 	String getPathToImageDirectory() {
-		return Utils.buildPath(Utils.buildScenePath(ProjectManager.getInstance().getCurrentProject().getName(),
-				getSceneNameByLookData()), Constants.IMAGE_DIRECTORY);
+		return PathBuilder.buildPath(PathBuilder.buildScenePath(ProjectManager.getInstance().getCurrentProject().getName(),
+				getSceneNameByLookData()), Constants.IMAGE_DIRECTORY_NAME);
 	}
 
 	private String getSceneNameByLookData() {

@@ -31,7 +31,6 @@ import android.util.Log;
 import junit.framework.TestCase;
 
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.Reflection.ParameterList;
 import org.catrobat.catroid.utils.ImageEditing;
@@ -230,7 +229,7 @@ public class ImageEditingTest extends TestCase {
 		Bitmap scaledBitmap = ImageEditing.getScaledBitmapFromPath(path, newWidth, newHeight,
 				ImageEditing.ResizeType.STAY_IN_RECTANGLE_WITH_SAME_ASPECT_RATIO, false);
 		try {
-			StorageHandler.saveBitmapToImageFile(file, scaledBitmap);
+			ImageEditing.saveBitmapToImageFile(file, scaledBitmap);
 		} catch (FileNotFoundException e) {
 			Log.e(TAG, "Error while saving file", e);
 			fail("Error while saving file");

@@ -28,7 +28,7 @@ import android.util.Log;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.ui.controller.BackPackListManager;
+import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.ScriptAdapter;
 import org.catrobat.catroid.ui.recyclerview.controller.ScriptController;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -43,7 +43,7 @@ public class BackpackScriptFragment extends BackpackRecyclerViewFragment<String>
 
 	@Override
 	protected void initializeAdapter() {
-		List<String> items = BackPackListManager.getInstance().getBackPackedScriptGroups();
+		List<String> items = BackpackListManager.getInstance().getBackPackedScriptGroups();
 		adapter = new ScriptAdapter(items);
 		onAdapterReady();
 	}
@@ -54,7 +54,7 @@ public class BackpackScriptFragment extends BackpackRecyclerViewFragment<String>
 		int unpackedItemCnt = 0;
 
 		for (String item : selectedItems) {
-			List<Script> scripts = BackPackListManager.getInstance().getBackPackedScripts().get(item);
+			List<Script> scripts = BackpackListManager.getInstance().getBackPackedScripts().get(item);
 			for (Script script : scripts) {
 				try {
 					scriptController.unpack(script, ProjectManager.getInstance().getCurrentSprite());
@@ -84,14 +84,14 @@ public class BackpackScriptFragment extends BackpackRecyclerViewFragment<String>
 	protected void deleteItems(List<String> selectedItems) {
 		setShowProgressBar(true);
 		for (String item : selectedItems) {
-			BackPackListManager.getInstance().removeItemFromScriptBackPack(item);
+			BackpackListManager.getInstance().removeItemFromScriptBackPack(item);
 			adapter.remove(item);
 		}
 		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_scripts,
 				selectedItems.size(),
 				selectedItems.size()));
 
-		BackPackListManager.getInstance().saveBackpack();
+		BackpackListManager.getInstance().saveBackpack();
 		finishActionMode();
 		if (adapter.getItems().isEmpty()) {
 			getActivity().finish();

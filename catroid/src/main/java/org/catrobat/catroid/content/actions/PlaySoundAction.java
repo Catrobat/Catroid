@@ -35,8 +35,8 @@ public class PlaySoundAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		if (sound != null && sprite.getSoundList().contains(sound) && sound.getAbsolutePath() != null) {
-			SoundManager.getInstance().playSoundFile(sound.getAbsolutePath());
+		if (sound != null && sprite.getSoundList().contains(sound) && sound.getFile() != null) {
+			SoundManager.getInstance().playSoundFile(sound.getFile().getAbsolutePath());
 		}
 	}
 

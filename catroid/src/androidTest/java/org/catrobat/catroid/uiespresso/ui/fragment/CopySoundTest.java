@@ -108,7 +108,7 @@ public class CopySoundTest {
 
 		List<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		SoundInfo soundInfo = new SoundInfo();
-		soundInfo.setFileName(soundFile.getName());
+		soundInfo.setFile(soundFile);
 		soundInfo.setName(toBeCopiedSoundName);
 		soundInfoList.add(soundInfo);
 	}

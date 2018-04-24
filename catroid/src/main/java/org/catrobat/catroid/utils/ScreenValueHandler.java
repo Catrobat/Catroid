@@ -20,19 +20,29 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.utils;
 
-package org.catrobat.catroid.ui.recyclerview.controller;
+import android.content.Context;
+import android.util.DisplayMetrics;
+import android.view.WindowManager;
 
-import org.catrobat.catroid.common.ProjectData;
-import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.utils.PathBuilder;
+import org.catrobat.catroid.common.ScreenValues;
 
-import java.io.File;
-import java.io.IOException;
+public final class ScreenValueHandler {
 
-public class ProjectController {
+	private ScreenValueHandler() {
+		throw new AssertionError();
+	}
 
-	public void delete(ProjectData projectToDelete) throws IOException {
-		StorageHandler.deleteDir(new File(PathBuilder.buildProjectPath(projectToDelete.projectName)));
+	public static void updateScreenWidthAndHeight(Context context) {
+		if (context != null) {
+			WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+			DisplayMetrics displayMetrics = new DisplayMetrics();
+			windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+			ScreenValues.SCREEN_WIDTH = displayMetrics.widthPixels;
+			ScreenValues.SCREEN_HEIGHT = displayMetrics.heightPixels;
+		} else {
+			ScreenValues.setToDefaultScreenSize();
+		}
 	}
 }

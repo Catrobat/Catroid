@@ -28,7 +28,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.io.ZipArchiver;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.utils.PathBuilder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,17 +45,17 @@ import static junit.framework.Assert.assertTrue;
 @RunWith(AndroidJUnit4.class)
 public class UnzipProjectFromAssetsTest {
 
-	private File testProjectDir;
+	private File projectDir;
 
 	@Before
 	public void setUp() {
-		testProjectDir = new File(Utils.buildProjectPath("testZipProject"));
+		projectDir = new File(PathBuilder.buildProjectPath("testZipProject"));
 	}
 
 	@After
 	public void tearDown() throws IOException {
-		if (testProjectDir.exists()) {
-			StorageHandler.deleteDir(testProjectDir);
+		if (projectDir.exists()) {
+			StorageHandler.deleteDir(projectDir);
 		}
 	}
 
@@ -64,16 +64,16 @@ public class UnzipProjectFromAssetsTest {
 		String assetName = "Air_fight_0.5.catrobat";
 		InputStream inputStream = InstrumentationRegistry.getContext().getAssets().open(assetName);
 
-		new ZipArchiver().unzip(inputStream, testProjectDir);
+		new ZipArchiver().unzip(inputStream, projectDir);
 
-		assertTrue(testProjectDir.exists());
+		assertTrue(projectDir.exists());
 
 		inputStream = InstrumentationRegistry.getContext().getAssets().open(assetName);
 		ZipInputStream zipInputStream = new ZipInputStream(inputStream);
 		ZipEntry entry;
 
 		while ((entry = zipInputStream.getNextEntry()) != null) {
-			assertTrue(new File(testProjectDir, entry.getName()).exists());
+			assertTrue(new File(projectDir, entry.getName()).exists());
 		}
 
 		zipInputStream.close();

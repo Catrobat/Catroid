@@ -116,7 +116,7 @@ public class CopyProjectTest {
 		);
 		List<SoundInfo> soundInfoList = sprite.getSoundList();
 		SoundInfo soundInfo = new SoundInfo();
-		soundInfo.setFileName(soundFile.getName());
+		soundInfo.setFile(soundFile);
 		soundInfo.setName("testSound1");
 		soundInfoList.add(soundInfo);
 

@@ -297,37 +297,6 @@ public final class Utils {
 		return Integer.toString(number / 1_000_000) + "M";
 	}
 
-	/**
-	 * Constructs a path out of the pathElements.
-	 *
-	 * @param pathElements the strings to connect. They can have "/" in them which will be de-duped in the result, if necessary.
-	 * @return the path that was constructed.
-	 */
-	public static String buildPath(String... pathElements) {
-		StringBuilder result = new StringBuilder("/");
-
-		for (String pathElement : pathElements) {
-			result.append(pathElement).append('/');
-		}
-
-		String returnValue = result.toString().replaceAll("/+", "/");
-
-		if (returnValue.endsWith("/")) {
-			returnValue = returnValue.substring(0, returnValue.length() - 1);
-		}
-
-		return returnValue;
-	}
-
-	public static String buildProjectPath(String projectName) {
-		return new File(DEFAULT_ROOT_DIRECTORY, UtilFile.encodeSpecialCharsForFileSystem(projectName))
-				.getAbsolutePath();
-	}
-
-	public static String buildScenePath(String projectName, String sceneName) {
-		return buildPath(buildProjectPath(projectName), UtilFile.encodeSpecialCharsForFileSystem(sceneName));
-	}
-
 	public static String md5Checksum(File file) {
 
 		if (!file.isFile()) {
@@ -430,7 +399,7 @@ public final class Utils {
 	public static String getCurrentProjectName(Context context) {
 		if (ProjectManager.getInstance().getCurrentProject() == null) {
 
-			if (UtilFile.getProjectNames(DEFAULT_ROOT_DIRECTORY).size() == 0) {
+			if (FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).size() == 0) {
 				Log.i(TAG, "Somebody deleted all projects in the file-system");
 				ProjectManager.getInstance().initializeDefaultProject(context);
 			}
@@ -438,7 +407,7 @@ public final class Utils {
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String currentProjectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
 			if (currentProjectName == null || !StorageHandler.getInstance().projectExists(currentProjectName)) {
-				currentProjectName = UtilFile.getProjectNames(DEFAULT_ROOT_DIRECTORY).get(0);
+				currentProjectName = FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).get(0);
 			}
 			return currentProjectName;
 		}
@@ -470,26 +439,34 @@ public final class Utils {
 		return projectName;
 	}
 
-	public static boolean isStandardProject(Project projectToCheck, Context context) {
+	public static boolean isDefaultProject(Project projectToCheck, Context context) {
 		try {
-			Project standardProject = DefaultProjectHandler.createAndSaveDefaultProject(getUniqueProjectName(),
-					context);
-			String standardProjectXMLString = StorageHandler.getInstance().getXMLStringOfAProject(standardProject);
-			int start = standardProjectXMLString.indexOf("<scenes>");
-			int end = standardProjectXMLString.indexOf("</scenes>");
-			String standardProjectSpriteList = standardProjectXMLString.substring(start, end);
+			Project defaultProject = DefaultProjectHandler
+					.createAndSaveDefaultProject(getUniqueProjectName(), context);
+
+			String defaultProjectXml = StorageHandler.getInstance().getXmlAsStringFromProject(defaultProject);
+
+			StorageHandler.deleteDir(new File(PathBuilder.buildProjectPath(defaultProject.getName())));
+
+			StringFinder stringFinder = new StringFinder();
+
+			if (!stringFinder.findBetween(defaultProjectXml, "<scenes>", "</scenes>")) {
+				return false;
+			}
+
+			String defaultProjectSpriteList = stringFinder.getResult();
 
 			ProjectManager.getInstance().setProject(projectToCheck);
 			ProjectManager.getInstance().saveProject(context);
 
-			//TODO: Do something more reasonable or at least remove project.
+			String projectToCheckXML = StorageHandler.getInstance().getXmlAsStringFromProject(projectToCheck);
 
-			String projectToCheckXMLString = StorageHandler.getInstance().getXMLStringOfAProject(projectToCheck);
-			start = projectToCheckXMLString.indexOf("<scenes>");
-			end = projectToCheckXMLString.indexOf("</scenes>");
-			String projectToCheckStringList = projectToCheckXMLString.substring(start, end);
+			if (!stringFinder.findBetween(projectToCheckXML, "<scenes>", "</scenes")) {
+				return false;
+			}
 
-			return standardProjectSpriteList.contentEquals(projectToCheckStringList);
+			String projectToCheckSpriteList = stringFinder.getResult();
+			return defaultProjectSpriteList.contentEquals(projectToCheckSpriteList);
 		} catch (IllegalArgumentException illegalArgumentException) {
 			Log.e(TAG, Log.getStackTraceString(illegalArgumentException));
 		} catch (IOException ioException) {
@@ -518,7 +495,7 @@ public final class Utils {
 			return true;
 		}
 
-		File projectDirectory = new File(Utils.buildProjectPath(programName));
+		File projectDirectory = new File(PathBuilder.buildProjectPath(programName));
 		return projectDirectory.exists();
 	}
 

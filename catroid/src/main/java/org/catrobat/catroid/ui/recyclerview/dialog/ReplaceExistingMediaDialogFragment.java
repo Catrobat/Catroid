@@ -194,7 +194,7 @@ public class ReplaceExistingMediaDialogFragment extends DialogFragment {
 				for (SoundInfo sound : sounds) {
 					if (mediaName.equals(sound.getName())) {
 						try {
-							soundController.delete(sound, ProjectManager.getInstance().getCurrentScene());
+							soundController.delete(sound);
 						} catch (IOException e) {
 							Log.e(TAG, Log.getStackTraceString(e));
 						}

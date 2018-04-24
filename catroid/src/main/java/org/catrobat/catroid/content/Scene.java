@@ -43,8 +43,8 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.PhysicsWorld;
+import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.Serializable;
@@ -117,9 +117,9 @@ public class Scene implements Serializable {
 	public String getPath() {
 		String path;
 		if (isBackPackScene) {
-			path = Utils.buildPath(BACKPACK_SCENE_DIRECTORY.getAbsolutePath(), name);
+			path = PathBuilder.buildPath(BACKPACK_SCENE_DIRECTORY.getAbsolutePath(), name);
 		} else {
-			path = Utils.buildScenePath(project.getName(), name);
+			path = PathBuilder.buildScenePath(project.getName(), name);
 		}
 		return path;
 	}
@@ -128,7 +128,7 @@ public class Scene implements Serializable {
 		if (isBackPackScene) {
 			return new File(BACKPACK_SCENE_DIRECTORY, name);
 		} else {
-			return new File(Utils.buildScenePath(project.getName(), name));
+			return new File(PathBuilder.buildScenePath(project.getName(), name));
 		}
 	}
 
@@ -228,8 +228,8 @@ public class Scene implements Serializable {
 		if (name.equals(getName())) {
 			return true;
 		}
-		File oldSceneDirectory = new File(Utils.buildScenePath(project.getName(), this.name));
-		File newSceneDirectory = new File(Utils.buildScenePath(project.getName(), name));
+		File oldSceneDirectory = new File(PathBuilder.buildScenePath(project.getName(), this.name));
+		File newSceneDirectory = new File(PathBuilder.buildScenePath(project.getName(), name));
 		String oldName = this.name;
 
 		boolean directoryRenamed = true;
@@ -318,7 +318,7 @@ public class Scene implements Serializable {
 	}
 
 	public boolean screenshotExists(String screenshotName) {
-		File screenShot = new File(Utils.buildScenePath(project.getName(), getName()), screenshotName);
+		File screenShot = new File(PathBuilder.buildScenePath(project.getName(), getName()), screenshotName);
 		return !screenShot.exists();
 	}
 

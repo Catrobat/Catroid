@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.pocketmusic.note;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,7 +39,7 @@ public class Project implements Serializable {
 	private int beatsPerMinute;
 	private MusicalBeat beat;
 	private Map<String, Track> tracks;
-	private String fileName;
+	private File file;
 
 	public Project(String name, MusicalBeat beat, int beatsPerMinute) {
 		this.name = name;
@@ -147,12 +148,12 @@ public class Project implements Serializable {
 		return false;
 	}
 
-	public String getFileName() {
-		return fileName;
+	public File getFile() {
+		return file;
 	}
 
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
+	public void setFile(File file) {
+		this.file = file;
 	}
 
 	@Override

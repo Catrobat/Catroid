@@ -29,7 +29,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.controller.BackPackListManager;
+import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.recyclerview.controller.SoundController;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -47,7 +47,7 @@ public class BackpackSoundFragment extends BackpackRecyclerViewFragment<SoundInf
 	protected void initializeAdapter() {
 		sharedPreferenceDetailsKey = "showDetailsSoundList";
 		hasDetails = true;
-		List<SoundInfo> items = BackPackListManager.getInstance().getBackPackedSounds();
+		List<SoundInfo> items = BackpackListManager.getInstance().getBackPackedSounds();
 		adapter = new SoundAdapter(items);
 		onAdapterReady();
 	}
@@ -89,7 +89,7 @@ public class BackpackSoundFragment extends BackpackRecyclerViewFragment<SoundInf
 		setShowProgressBar(true);
 		for (SoundInfo item : selectedItems) {
 			try {
-				soundController.deleteFromBackpack(item);
+				soundController.delete(item);
 			} catch (IOException e) {
 				Log.e(TAG, Log.getStackTraceString(e));
 			}
@@ -99,7 +99,7 @@ public class BackpackSoundFragment extends BackpackRecyclerViewFragment<SoundInf
 				selectedItems.size(),
 				selectedItems.size()));
 
-		BackPackListManager.getInstance().saveBackpack();
+		BackpackListManager.getInstance().saveBackpack();
 		finishActionMode();
 		if (adapter.getItems().isEmpty()) {
 			getActivity().finish();

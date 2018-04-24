@@ -27,8 +27,6 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.CompressFormat;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -225,7 +223,9 @@ import org.catrobat.catroid.physics.content.bricks.SetVelocityBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
 import org.catrobat.catroid.stage.StageListener;
-import org.catrobat.catroid.utils.UtilFile;
+import org.catrobat.catroid.utils.FileMetaDataExtractor;
+import org.catrobat.catroid.utils.PathBuilder;
+import org.catrobat.catroid.utils.StringFinder;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.BufferedReader;
@@ -237,47 +237,46 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.channels.FileChannel;
+import java.nio.file.InvalidPathException;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import static org.catrobat.catroid.common.Constants.BACKPACK_DIRECTORY;
+import static org.catrobat.catroid.common.Constants.BACKPACK_FILE;
 import static org.catrobat.catroid.common.Constants.BACKPACK_IMAGE_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.BACKPACK_SCENE_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.BACKPACK_SOUND_DIRECTORY;
+import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.DEFAULT_ROOT_DIRECTORY;
-import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY;
+import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.NO_MEDIA_FILE;
-import static org.catrobat.catroid.common.Constants.PROJECTCODE_NAME;
-import static org.catrobat.catroid.common.Constants.PROJECTCODE_NAME_TMP;
-import static org.catrobat.catroid.common.Constants.PROJECTPERMISSIONS_NAME;
+import static org.catrobat.catroid.common.Constants.PERMISSIONS_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.SCENES_ENABLED_TAG;
-import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY;
-import static org.catrobat.catroid.utils.Utils.buildProjectPath;
-import static org.catrobat.catroid.utils.Utils.buildScenePath;
+import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
+import static org.catrobat.catroid.common.Constants.TMP_CODE_XML_FILE_NAME;
+import static org.catrobat.catroid.utils.PathBuilder.buildProjectPath;
+import static org.catrobat.catroid.utils.PathBuilder.buildScenePath;
 
 public final class StorageHandler {
 
 	private static final StorageHandler INSTANCE;
 	private static final String TAG = StorageHandler.class.getSimpleName();
 	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
-	private static final int JPG_COMPRESSION_SETTING = 95;
-	public static final String BACKPACK_FILENAME = "backpack.json";
 
 	private BackwardCompatibleCatrobatLanguageXStream xstream;
 	private Gson backpackGson;
 
 	private Lock loadSaveLock = new ReentrantLock();
-	// TODO: Since the StorageHandler constructor throws an exception, the member INSTANCE couldn't be assigned
-	// directly and therefore we need this static block. Should be refactored and removed in the future.
 	static {
 		try {
 			INSTANCE = new StorageHandler();
-		} catch (IOException ioException) {
+		} catch (IOException e) {
 			throw new RuntimeException("Initialize StorageHandler failed");
 		}
 	}
@@ -288,7 +287,7 @@ public final class StorageHandler {
 		if (!Utils.externalStorageAvailable()) {
 			throw new IOException("Could not read external storage");
 		}
-		createCatroidRoot();
+		createRootAndBackpack();
 	}
 
 	public static StorageHandler getInstance() {
@@ -296,8 +295,8 @@ public final class StorageHandler {
 	}
 
 	private void prepareProgramXstream(boolean forSupportProject) {
-		xstream = new BackwardCompatibleCatrobatLanguageXStream(new PureJavaReflectionProvider(new
-				FieldDictionary(new CatroidFieldKeySorter())));
+		xstream = new BackwardCompatibleCatrobatLanguageXStream(
+				new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
 		if (forSupportProject) {
 			xstream.processAnnotations(SupportProject.class);
 			xstream.processAnnotations(SupportDataContainer.class);
@@ -337,27 +336,6 @@ public final class StorageHandler {
 		gsonBuilder.registerTypeAdapter(Script.class, new BackpackScriptSerializerAndDeserializer());
 		gsonBuilder.registerTypeAdapter(Brick.class, new BackpackBrickSerializerAndDeserializer());
 		backpackGson = gsonBuilder.create();
-	}
-
-	public static void saveBitmapToImageFile(File outputFile, Bitmap bitmap) throws FileNotFoundException {
-		FileOutputStream outputStream = new FileOutputStream(outputFile);
-		try {
-			if (outputFile.getName().toLowerCase(Locale.US).endsWith(".jpg")
-					|| outputFile.getName().toLowerCase(Locale.US).endsWith(".jpeg")) {
-				bitmap.compress(CompressFormat.JPEG, JPG_COMPRESSION_SETTING, outputStream);
-			} else {
-				bitmap.compress(CompressFormat.PNG, 0, outputStream);
-			}
-			outputStream.flush();
-		} catch (IOException ioException) {
-			Log.e(TAG, Log.getStackTraceString(ioException));
-		} finally {
-			try {
-				outputStream.close();
-			} catch (IOException e) {
-				Log.e(TAG, "Could not close outputstream.", e);
-			}
-		}
 	}
 
 	private void setProgramXstreamAliases() {
@@ -548,78 +526,67 @@ public final class StorageHandler {
 		xstream.aliasField("object", BrickBaseType.class, "sprite");
 	}
 
-	private void createCatroidRoot() {
-		if (!DEFAULT_ROOT_DIRECTORY.exists()) {
-			DEFAULT_ROOT_DIRECTORY.mkdirs();
-		}
-		createBackPackFileStructure();
+	private void createRootAndBackpack() {
+		DEFAULT_ROOT_DIRECTORY.mkdirs();
+		BACKPACK_DIRECTORY.mkdir();
+		BACKPACK_SCENE_DIRECTORY.mkdir();
+		BACKPACK_IMAGE_DIRECTORY.mkdir();
+		BACKPACK_SOUND_DIRECTORY.mkdir();
 	}
 
-	private boolean checkIfProjectHasScenes(String projectName) throws IOException {
-		File projectXmlFile = new File(buildProjectPath(projectName), PROJECTCODE_NAME);
-		String projectXml = Files.toString(projectXmlFile, Charsets.UTF_8);
-		return projectXml.contains(SCENES_ENABLED_TAG);
-	}
-
-	public String getFirstSceneName(String projectName) {
-		try {
-			if (!checkIfProjectHasScenes(projectName)) {
-				return null;
-			}
-		} catch (IOException e) {
-			Log.e(TAG, "Exception getFirstSceneName", e);
-			return null;
-		}
-		File projectXmlFile = new File(buildProjectPath(projectName), PROJECTCODE_NAME);
-		String projectXml;
-		try {
-			projectXml = Files.toString(projectXmlFile, Charsets.UTF_8);
-		} catch (IOException e) {
-			Log.e(TAG, "Exception getFirstSceneName", e);
-			return null;
-		}
-		int start = projectXml.indexOf("<scene>");
-		int end = projectXml.indexOf("</name>", start);
-		int lengthOfSceneAndNameTags = 20;
-		return projectXml.substring(start + lengthOfSceneAndNameTags, end);
-	}
-
-	public Project loadProject(String name, Context context) throws IOException, LoadingProjectException {
+	public Project loadProject(String projectName, Context context) throws IOException, LoadingProjectException {
 		if (!DEFAULT_ROOT_DIRECTORY.exists()) {
 			throw new IOException("Pocket Code root dir does not exist.");
 		}
-		if (!codeFileSanityCheck(name)) {
-			throw new LoadingProjectException("Code file is invalid");
-		}
 
-		if (!checkIfProjectHasScenes(name)) {
-			return loadSupportProject(name, context);
+		cleanUpTmpCodeFile(projectName);
+
+		File xmlFile = new File(buildProjectPath(projectName), CODE_XML_FILE_NAME);
+		if (!Files.toString(xmlFile, Charsets.UTF_8).contains(SCENES_ENABLED_TAG)) {
+			return loadSupportProject(projectName, context);
 		}
 
 		loadSaveLock.lock();
+		Project project;
 
-		Project project = null;
-
-		File xmlFile = new File(Utils.buildProjectPath(name), PROJECTCODE_NAME);
 		try {
 			project = (Project) xstream.getProjectFromXML(xmlFile);
-
 			for (Scene scene : project.getSceneList()) {
 				scene.setProject(project);
 				scene.getDataContainer().setProject(project);
 			}
+			setFileReferences(project);
+			return project;
 		} catch (Exception e) {
-			throw new LoadingProjectException("Code file is invalid");
+			throw new LoadingProjectException("An Error occurred while parsing the xml: " + e.getMessage());
 		} finally {
 			loadSaveLock.unlock();
 		}
-		return project;
+	}
+
+	private static void setFileReferences(Project project) {
+		for (Scene scene : project.getSceneList()) {
+			File sndDir = new File(scene.getDirectory(), SOUND_DIRECTORY_NAME);
+
+			for (Sprite sprite : scene.getSpriteList()) {
+				for (Iterator<SoundInfo> iterator = sprite.getSoundList().iterator(); iterator.hasNext(); ) {
+					SoundInfo soundInfo = iterator.next();
+					File soundFile = new File(sndDir, soundInfo.getFileName());
+
+					if (soundFile.exists()) {
+						soundInfo.setFile(soundFile);
+					} else {
+						iterator.remove();
+					}
+				}
+			}
+		}
 	}
 
 	private Project loadSupportProject(String name, Context context) throws IOException {
 		loadSaveLock.lock();
 
-		File xmlFile = new File(Utils.buildProjectPath(name), PROJECTCODE_NAME);
+		File xmlFile = new File(PathBuilder.buildProjectPath(name), CODE_XML_FILE_NAME);
 
 		prepareProgramXstream(true);
 		SupportProject supportProject = (SupportProject) xstream.getProjectFromXML(xmlFile);
@@ -636,8 +603,8 @@ public final class StorageHandler {
 		String scenePath = buildScenePath(projectName, sceneName);
 
 		File sceneDir = new File(scenePath);
-		File projectImgDir = new File(Utils.buildPath(projectPath, IMAGE_DIRECTORY));
-		File projectSndDir = new File(Utils.buildPath(projectPath, SOUND_DIRECTORY));
+		File projectImgDir = new File(PathBuilder.buildPath(projectPath, IMAGE_DIRECTORY_NAME));
+		File projectSndDir = new File(PathBuilder.buildPath(projectPath, SOUND_DIRECTORY_NAME));
 
 		sceneDir.mkdir();
 		projectImgDir.mkdir();
@@ -648,8 +615,8 @@ public final class StorageHandler {
 		File sceneAutomaticScreenshot = new File(scenePath, StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
 		File sceneManualScreenshot = new File(scenePath, StageListener.SCREENSHOT_MANUAL_FILE_NAME);
 
-		copyDir(new File(projectPath, IMAGE_DIRECTORY), new File(scenePath, IMAGE_DIRECTORY));
-		copyDir(new File(projectPath, SOUND_DIRECTORY), new File(scenePath, SOUND_DIRECTORY));
+		copyDir(new File(projectPath, IMAGE_DIRECTORY_NAME), new File(scenePath, IMAGE_DIRECTORY_NAME));
+		copyDir(new File(projectPath, SOUND_DIRECTORY_NAME), new File(scenePath, SOUND_DIRECTORY_NAME));
 
 		if (automaticScreenshot.exists()) {
 			FileUtils.copyFileToDir(automaticScreenshot, sceneAutomaticScreenshot);
@@ -660,8 +627,8 @@ public final class StorageHandler {
 			manualScreenshot.delete();
 		}
 
-		deleteDir(new File(projectPath, IMAGE_DIRECTORY));
-		deleteDir(new File(projectPath, SOUND_DIRECTORY));
+		deleteDir(new File(projectPath, IMAGE_DIRECTORY_NAME));
+		deleteDir(new File(projectPath, SOUND_DIRECTORY_NAME));
 	}
 
 	public boolean saveProject(Project project) {
@@ -672,9 +639,11 @@ public final class StorageHandler {
 			return false;
 		}
 
-		Log.d(TAG, "saveProject " + project.getName());
-
-		codeFileSanityCheck(project.getName());
+		try {
+			cleanUpTmpCodeFile(project.getName());
+		} catch (LoadingProjectException e) {
+			return false;
+		}
 
 		loadSaveLock.lock();
 
@@ -684,8 +653,8 @@ public final class StorageHandler {
 
 		try {
 			projectXml = XML_HEADER.concat(xstream.toXML(project));
-			tmpCodeFile = new File(buildProjectPath(project.getName()), PROJECTCODE_NAME_TMP);
-			currentCodeFile = new File(buildProjectPath(project.getName()), PROJECTCODE_NAME);
+			tmpCodeFile = new File(buildProjectPath(project.getName()), TMP_CODE_XML_FILE_NAME);
+			currentCodeFile = new File(buildProjectPath(project.getName()), CODE_XML_FILE_NAME);
 
 			if (currentCodeFile.exists()) {
 				try {
@@ -709,7 +678,7 @@ public final class StorageHandler {
 			writer.write(projectXml);
 			writer.flush();
 
-			File permissionFile = new File(buildProjectPath(project.getName()), PROJECTPERMISSIONS_NAME);
+			File permissionFile = new File(buildProjectPath(project.getName()), PERMISSIONS_FILE_NAME);
 			writer = new BufferedWriter(new FileWriter(permissionFile), Constants.BUFFER_8K);
 
 			for (String resource : generatePermissionsSetFromResource(project.getRequiredResources())) {
@@ -726,7 +695,6 @@ public final class StorageHandler {
 			if (writer != null) {
 				try {
 					writer.close();
-
 					if (currentCodeFile.exists() && !currentCodeFile.delete()) {
 						Log.e(TAG, "Could not delete " + currentCodeFile.getName());
 					}
@@ -734,8 +702,8 @@ public final class StorageHandler {
 					if (!tmpCodeFile.renameTo(currentCodeFile)) {
 						Log.e(TAG, "Could not rename " + currentCodeFile.getName());
 					}
-				} catch (IOException ioException) {
-					Log.e(TAG, "Failed closing the buffered writer", ioException);
+				} catch (IOException e) {
+					Log.e(TAG, "Cannot close Buffered Writer", e);
 				}
 			}
 
@@ -744,98 +712,66 @@ public final class StorageHandler {
 	}
 
 	public boolean saveBackpack(Backpack backpack) {
-		Log.d(TAG, "Saving backpack json");
 		FileWriter writer = null;
 		String json = backpackGson.toJson(backpack);
-		Log.d(TAG, json);
 
 		try {
-			File backpackFile = new File(BACKPACK_DIRECTORY, BACKPACK_FILENAME);
-			if (!backpackFile.exists()) {
-				backpackFile.createNewFile();
-			}
-			writer = new FileWriter(new File(BACKPACK_DIRECTORY, BACKPACK_FILENAME));
+			BACKPACK_FILE.createNewFile();
+			writer = new FileWriter(BACKPACK_FILE);
 			writer.write(json);
 			return true;
 		} catch (IOException e) {
-			Log.e(TAG, "Could not write backpack file", e);
+			Log.e(TAG, Log.getStackTraceString(e));
 			return false;
 		} finally {
 			if (writer != null) {
 				try {
 					writer.close();
-				} catch (IOException ioException) {
-					Log.e(TAG, "Failed closing the buffered writer", ioException);
+				} catch (IOException e) {
+					Log.e(TAG, "Cannot close Buffered Writer", e);
 				}
 			}
 		}
 	}
 
 	public Backpack loadBackpack() {
-		File backpackFile = new File(BACKPACK_DIRECTORY, BACKPACK_FILENAME);
-		if (!backpackFile.exists()) {
-			Log.e(TAG, "Backpack file does not exist!");
-			return null;
-		}
-
 		try {
-			BufferedReader bufferedBackpackReader = new BufferedReader(new FileReader(backpackFile));
-			return backpackGson.fromJson(bufferedBackpackReader, Backpack.class);
+			BufferedReader bufferedReader = new BufferedReader(new FileReader(BACKPACK_FILE));
+			return backpackGson.fromJson(bufferedReader, Backpack.class);
 		} catch (FileNotFoundException e) {
-			Log.e(TAG, "Could not find backpack file!");
+			Log.e(TAG, "BackpackFile at " + BACKPACK_FILE.getAbsolutePath() + " not found.");
 			return new Backpack();
 		} catch (JsonSyntaxException | JsonIOException jsonException) {
-			Log.e(TAG, "Could not load backpack file! File will be deleted!", jsonException);
-			deleteBackpackFile();
+			Log.e(TAG, "Cannot load Backpack.. Deleting File.", jsonException);
+			BACKPACK_FILE.delete();
 			return new Backpack();
 		}
 	}
 
-	public boolean deleteBackpackFile() {
-		File backpackFile = new File(BACKPACK_DIRECTORY, BACKPACK_FILENAME);
-		if (!backpackFile.exists()) {
-			Log.e(TAG, "Backpack file does not exist!");
-			return false;
-		}
-		return backpackFile.delete();
-	}
-
-	public boolean codeFileSanityCheck(String projectName) {
+	private void cleanUpTmpCodeFile(String projectName) throws LoadingProjectException {
 		loadSaveLock.lock();
 
-		try {
-			File tmpCodeFile = new File(buildProjectPath(projectName), PROJECTCODE_NAME_TMP);
+		File projectDir = new File(buildProjectPath(projectName));
+		File tmpXmlFile = new File(projectDir, TMP_CODE_XML_FILE_NAME);
+		File actualXmlFile = new File(projectDir, CODE_XML_FILE_NAME);
 
-			if (tmpCodeFile.exists()) {
-				File currentCodeFile = new File(buildProjectPath(projectName), PROJECTCODE_NAME);
-				if (currentCodeFile.exists()) {
-					Log.w(TAG, "TMP File probably corrupted. Both files exist. Discard " + tmpCodeFile.getName());
-
-					if (!tmpCodeFile.delete()) {
-						Log.e(TAG, "Could not delete " + tmpCodeFile.getName());
-					}
-					return false;
-				}
-
-				Log.w(TAG, "Process interrupted before renaming. Rename " + PROJECTCODE_NAME_TMP
-						+ " to " + PROJECTCODE_NAME);
-
-				if (!tmpCodeFile.renameTo(currentCodeFile)) {
-					Log.e(TAG, "Could not rename " + tmpCodeFile.getName());
-					return false;
+		if (tmpXmlFile.exists()) {
+			if (actualXmlFile.exists()) {
+				tmpXmlFile.delete();
+			} else {
+				if (!tmpXmlFile.renameTo(actualXmlFile)) {
+					loadSaveLock.unlock();
+					throw new LoadingProjectException(CODE_XML_FILE_NAME + " did not exist. Renaming "
+							+ tmpXmlFile.getAbsolutePath() + " failed too.");
 				}
 			}
-		} catch (Exception exception) {
-			Log.e(TAG, "Exception " + exception);
-		} finally {
-			loadSaveLock.unlock();
 		}
-		return true;
+
+		loadSaveLock.unlock();
 	}
 
 	private void createProjectFileStructure(Project project) throws IOException {
-		Log.d(TAG, "create Project Data structure");
-		createCatroidRoot();
+		createRootAndBackpack();
 		File projectDirectory = new File(buildProjectPath(project.getName()));
 		projectDirectory.mkdir();
 
@@ -846,31 +782,23 @@ public final class StorageHandler {
 	}
 
 	private void createSceneFileStructure(File sceneDirectory) throws IOException {
-		Log.d(TAG, "create Scene Data structure");
 		sceneDirectory.mkdir();
 
-		File imageDirectory = new File(sceneDirectory, IMAGE_DIRECTORY);
+		File imageDirectory = new File(sceneDirectory, IMAGE_DIRECTORY_NAME);
 		imageDirectory.mkdir();
 
 		File noMediaFile = new File(imageDirectory, NO_MEDIA_FILE);
 		noMediaFile.createNewFile();
 
-		File soundDirectory = new File(sceneDirectory, SOUND_DIRECTORY);
+		File soundDirectory = new File(sceneDirectory, SOUND_DIRECTORY_NAME);
 		soundDirectory.mkdir();
 
 		noMediaFile = new File(soundDirectory, NO_MEDIA_FILE);
 		noMediaFile.createNewFile();
 	}
 
-	private void createBackPackFileStructure() {
-		BACKPACK_DIRECTORY.mkdir();
-		BACKPACK_SCENE_DIRECTORY.mkdir();
-		BACKPACK_IMAGE_DIRECTORY.mkdir();
-		BACKPACK_SOUND_DIRECTORY.mkdir();
-	}
-
 	public boolean projectExists(String projectName) {
-		List<String> projectNameList = UtilFile.getProjectNames(DEFAULT_ROOT_DIRECTORY);
+		List<String> projectNameList = FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY);
 		for (String projectNameIterator : projectNameList) {
 			if (projectNameIterator.equals(projectName)) {
 				return true;
@@ -879,19 +807,19 @@ public final class StorageHandler {
 		return false;
 	}
 
-	public String getXMLStringOfAProject(Project project) {
+	public String getXmlAsStringFromProject(Project project) {
 		loadSaveLock.lock();
-		String xmlProject = "";
+		String xmlString;
 		try {
-			xmlProject = xstream.toXML(project);
+			xmlString = xstream.toXML(project);
 		} finally {
 			loadSaveLock.unlock();
 		}
-		return xmlProject;
+		return xmlString;
 	}
 
 	private Set<String> generatePermissionsSetFromResource(int resources) {
-		Set<String> permissionsSet = new HashSet<String>();
+		Set<String> permissionsSet = new HashSet<>();
 
 		if ((resources & Brick.TEXT_TO_SPEECH) > 0) {
 			permissionsSet.add(Constants.TEXT_TO_SPEECH);
@@ -924,7 +852,7 @@ public final class StorageHandler {
 	}
 
 	public void updateCodefileOnDownload(String projectName) {
-		File projectCodeFile = new File(buildProjectPath(projectName), PROJECTCODE_NAME);
+		File projectCodeFile = new File(buildProjectPath(projectName), CODE_XML_FILE_NAME);
 		xstream.updateCollisionReceiverBrickMessage(projectCodeFile);
 	}
 
@@ -1050,9 +978,53 @@ public final class StorageHandler {
 		}
 
 		File dstFile = getUniqueFile(srcFile.getName(), dstDir);
-		copyFile(srcFile, dstFile);
+		transferFromFileToFile(srcFile, dstFile);
 
 		return dstFile;
+	}
+
+	public static File copyStreamToFile(InputStream inputStream, File dstFile) throws IOException {
+		if (!dstFile.exists() && !dstFile.createNewFile()) {
+			throw new IOException("Could not create dstFile at: " + dstFile.getAbsolutePath() + ".");
+		}
+
+		return transferStreamToFile(inputStream, dstFile);
+	}
+
+	public static File createFileFromStreamInDir(InputStream inputStream, File dstDir, String fileName) throws
+			IOException, InvalidPathException {
+		if (!dstDir.exists()) {
+			throw new FileNotFoundException("Directory: " + dstDir.getAbsolutePath() + " does not exist.");
+		}
+
+		if (!dstDir.isDirectory()) {
+			throw new IOException(dstDir.getAbsolutePath() + " is not a directory.");
+		}
+
+		File dstFile = getUniqueFile(fileName, dstDir);
+
+		if (!dstFile.createNewFile()) {
+			throw new IOException("Could not create dstFile at: " + dstFile.getAbsolutePath() + ".");
+		}
+
+		return transferStreamToFile(inputStream, dstFile);
+	}
+
+	private static File transferStreamToFile(InputStream inputStream, File dstFile) throws IOException {
+		FileOutputStream fileOutputStream = new FileOutputStream(dstFile);
+
+		byte[] b = new byte[Constants.BUFFER_8K];
+		int len;
+
+		try {
+			while ((len = inputStream.read(b)) != -1) {
+				fileOutputStream.write(b, 0, len);
+			}
+			return dstFile;
+		} finally {
+			inputStream.close();
+			fileOutputStream.close();
+		}
 	}
 
 	public static File copyDir(File srcDir, File dstDir) throws IOException {
@@ -1114,7 +1086,7 @@ public final class StorageHandler {
 		throw new IOException("Could not find a unique file name in " + dstDir.getAbsolutePath() + ".");
 	}
 
-	public static void copyFile(File src, File dst) throws IOException {
+	public static void transferFromFileToFile(File src, File dst) throws IOException {
 		FileChannel ic = new FileInputStream(src).getChannel();
 		FileChannel oc = new FileOutputStream(dst).getChannel();
 
@@ -1156,5 +1128,24 @@ public final class StorageHandler {
 		if (!dir.delete()) {
 			throw new IOException("Directory: " + dir.getAbsolutePath() + " could not be deleted.");
 		}
+	}
+
+	public static String extractDefaultSceneNameFromXml(String projectName) {
+		File projectDir = new File(buildProjectPath(projectName));
+		File xmlFile = new File(projectDir, CODE_XML_FILE_NAME);
+
+		StringFinder stringFinder = new StringFinder();
+
+		try {
+			String xml = Files.toString(xmlFile, Charsets.UTF_8);
+			if (!stringFinder.findBetween(xml, "<scenes><scene><name>", "</name>")) {
+				return null;
+			} else {
+				return stringFinder.getResult();
+			}
+		} catch (IOException e) {
+			Log.e(TAG, Log.getStackTraceString(e));
+		}
+		return null;
 	}
 }

@@ -23,18 +23,15 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
+import android.media.MediaMetadataRetriever;
 import android.view.View;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.io.SoundManager;
-import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -65,11 +62,11 @@ public class PlaySoundAndWaitBrick extends PlaySoundBrick {
 		float duration = 0;
 
 		if (sound != null) {
-			String soundPath = Utils.buildPath(ProjectManager.getInstance().getCurrentScene().getPath(),
-					Constants.SOUND_DIRECTORY,
-					sound.getFileName());
+			MediaMetadataRetriever metadataRetriever = new MediaMetadataRetriever();
+			metadataRetriever.setDataSource(sound.getFile().getAbsolutePath());
 
-			duration = SoundManager.getInstance().getDurationOfSoundFile(soundPath) / 1000;
+			duration = Integer.parseInt(metadataRetriever
+					.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)) / 1000;
 		}
 
 		sequence.addAction(sprite.getActionFactory().createWaitAction(sprite, new Formula(duration)));

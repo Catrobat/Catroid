@@ -29,7 +29,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.ui.controller.BackPackListManager;
+import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.SceneAdapter;
 import org.catrobat.catroid.ui.recyclerview.controller.SceneController;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -45,7 +45,7 @@ public class BackpackSceneFragment extends BackpackRecyclerViewFragment<Scene> {
 
 	@Override
 	protected void initializeAdapter() {
-		List<Scene> items = BackPackListManager.getInstance().getBackPackedScenes();
+		List<Scene> items = BackpackListManager.getInstance().getBackPackedScenes();
 		sharedPreferenceDetailsKey = "showDetailsSceneList";
 		hasDetails = true;
 		adapter = new SceneAdapter(items);
@@ -97,7 +97,7 @@ public class BackpackSceneFragment extends BackpackRecyclerViewFragment<Scene> {
 				selectedItems.size(),
 				selectedItems.size()));
 
-		BackPackListManager.getInstance().saveBackpack();
+		BackpackListManager.getInstance().saveBackpack();
 		finishActionMode();
 		if (adapter.getItems().isEmpty()) {
 			getActivity().finish();

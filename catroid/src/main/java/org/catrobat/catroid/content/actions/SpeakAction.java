@@ -85,7 +85,7 @@ public class SpeakAction extends TemporalAction {
 		String fileName = hashText;
 		File pathToSpeechFile = new File(Constants.TEXT_TO_SPEECH_TMP_PATH);
 		pathToSpeechFile.mkdirs();
-		speechFile = new File(pathToSpeechFile, fileName + Constants.SOUND_STANDARD_EXTENSION);
+		speechFile = new File(pathToSpeechFile, fileName + Constants.DEFAULT_SOUND_EXTENSION);
 		listener = new OnUtteranceCompletedListener() {
 			@Override
 			public void onUtteranceCompleted(String utteranceId) {

@@ -42,7 +42,7 @@ import android.widget.TextView;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.BottomBar;
-import org.catrobat.catroid.ui.controller.BackPackListManager;
+import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.ExtendedRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperCallback;
@@ -220,7 +220,7 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 		super.onResume();
 		setShowProgressBar(false);
 
-		BackPackListManager.getInstance().loadBackpack();
+		BackpackListManager.getInstance().loadBackpack();
 
 		adapter.notifyDataSetChanged();
 		adapter.registerAdapterDataObserver(observer);

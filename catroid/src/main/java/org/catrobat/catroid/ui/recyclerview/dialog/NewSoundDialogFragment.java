@@ -50,7 +50,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY;
+import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.ui.recyclerview.fragment.SoundListFragment.FILE;
 import static org.catrobat.catroid.ui.recyclerview.fragment.SoundListFragment.LIBRARY;
 import static org.catrobat.catroid.ui.recyclerview.fragment.SoundListFragment.RECORD;
@@ -147,9 +147,9 @@ public class NewSoundDialogFragment extends DialogFragment implements View.OnCli
 		try {
 			File srcFile = new File(srcPath);
 			String name = StorageHandler.getSanitizedFileName(srcFile);
-			String fileName = StorageHandler.copyFileToDirectory(srcFile, getSoundDirPath(dstScene)).getName();
-			newItemInterface.addItem(
-					new SoundInfo(uniqueNameProvider.getUniqueName(name, getScope(dstSprite)), fileName));
+			File file = StorageHandler.copyFileToDirectory(srcFile, new File(dstScene.getPath(), SOUND_DIRECTORY_NAME));
+			newItemInterface
+					.addItem(new SoundInfo(uniqueNameProvider.getUniqueName(name, getScope(dstSprite)), file));
 		} catch (IOException e) {
 			Log.e(TAG, Log.getStackTraceString(e));
 		}
@@ -161,9 +161,5 @@ public class NewSoundDialogFragment extends DialogFragment implements View.OnCli
 			scope.add(item.getName());
 		}
 		return scope;
-	}
-
-	private File getSoundDirPath(Scene scene) {
-		return new File(scene.getPath(), SOUND_DIRECTORY);
 	}
 }
