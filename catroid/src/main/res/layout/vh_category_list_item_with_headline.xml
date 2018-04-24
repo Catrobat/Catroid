@@ -21,18 +21,18 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/categorylist_headline"
-    style="@style/headlineLinearLayout" >
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <View
-        style="@style/headlineView"
-        android:background="@color/transparent"
-        android:layout_marginTop="12dp" />
+    <TextView
+        android:id="@+id/headline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/view_holder_padding"/>
 
-    <org.catrobat.catroid.ui.CapitalizedTextView
-        android:id="@+id/categorylist_headline_text"
-        style="@style/headlineTextView"
-        android:textSize="@dimen/text_size_xxlarge" />
+    <include layout="@layout/vh_category_list_item" />
 
-</LinearLayout >
+</LinearLayout>

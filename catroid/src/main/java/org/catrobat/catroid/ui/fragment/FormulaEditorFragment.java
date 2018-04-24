@@ -70,6 +70,7 @@ import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.dialogs.FormulaEditorComputeDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewStringDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
+import org.catrobat.catroid.ui.recyclerview.fragment.CategoryListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
 import org.catrobat.catroid.utils.FormulaEditorIntroUtil;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -411,19 +412,19 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 							return true;
 						case R.id.formula_editor_keyboard_function:
-							showCategoryListFragment(FormulaEditorCategoryListFragment.FUNCTION_TAG,
+							showCategoryListFragment(CategoryListFragment.FUNCTION_TAG,
 									R.string.formula_editor_functions);
 							return true;
 						case R.id.formula_editor_keyboard_logic:
-							showCategoryListFragment(FormulaEditorCategoryListFragment.LOGIC_TAG,
+							showCategoryListFragment(CategoryListFragment.LOGIC_TAG,
 									R.string.formula_editor_logic);
 							return true;
 						case R.id.formula_editor_keyboard_object:
-							showCategoryListFragment(FormulaEditorCategoryListFragment.OBJECT_TAG,
+							showCategoryListFragment(CategoryListFragment.OBJECT_TAG,
 									R.string.formula_editor_choose_object_variable);
 							return true;
 						case R.id.formula_editor_keyboard_sensors:
-							showCategoryListFragment(FormulaEditorCategoryListFragment.SENSOR_TAG,
+							showCategoryListFragment(CategoryListFragment.SENSOR_TAG,
 									R.string.formula_editor_device);
 							return true;
 						case R.id.formula_editor_keyboard_data:
@@ -740,13 +741,11 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	}
 
 	private void showCategoryListFragment(String tag, int actionbarResId) {
-		FormulaEditorCategoryListFragment fragment = new FormulaEditorCategoryListFragment();
-
+		CategoryListFragment fragment = new CategoryListFragment();
 		Bundle bundle = new Bundle();
-		bundle.putString(FormulaEditorCategoryListFragment.ACTION_BAR_TITLE_BUNDLE_ARGUMENT,
+		bundle.putString(CategoryListFragment.ACTION_BAR_TITLE_BUNDLE_ARGUMENT,
 				getActivity().getString(actionbarResId));
-		bundle.putString(FormulaEditorCategoryListFragment.FRAGMENT_TAG_BUNDLE_ARGUMENT, tag);
-
+		bundle.putString(CategoryListFragment.FRAGMENT_TAG_BUNDLE_ARGUMENT, tag);
 		fragment.setArguments(bundle);
 
 		getFragmentManager().beginTransaction()

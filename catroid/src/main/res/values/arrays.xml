@@ -79,6 +79,12 @@
         <item>@string/nxt_port_3</item>
         <item>@string/nxt_port_4</item>
     </string-array>
+    <string-array name="formula_editor_nxt_ports">
+        <item>@string/formula_editor_sensor_lego_nxt_1</item>
+        <item>@string/formula_editor_sensor_lego_nxt_2</item>
+        <item>@string/formula_editor_sensor_lego_nxt_3</item>
+        <item>@string/formula_editor_sensor_lego_nxt_4</item>
+    </string-array>
 
     <string-array name="ev3_sensor_chooser">
         <item>@string/ev3_no_sensor</item>
@@ -117,6 +123,12 @@
         <item >@string/ev3_led_status_green_pulse</item>
         <item >@string/ev3_led_status_red_pulse</item>
         <item >@string/ev3_led_status_orange_pulse</item>
+    </string-array>
+    <string-array name="formula_editor_ev3_ports">
+        <item>@string/formula_editor_sensor_lego_ev3_1</item>
+        <item>@string/formula_editor_sensor_lego_ev3_2</item>
+        <item>@string/formula_editor_sensor_lego_ev3_3</item>
+        <item>@string/formula_editor_sensor_lego_ev3_4</item>
     </string-array>
 
     <!-- Drone settings spinner-->
