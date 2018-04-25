@@ -34,6 +34,7 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -88,7 +89,7 @@ public class ChangeVolumeByNBrick extends FormulaBrick {
 		prototypeView = View.inflate(context, R.layout.brick_change_volume_by, null);
 		TextView textSetVolumenTo = (TextView) prototypeView
 				.findViewById(R.id.brick_change_volume_by_edit_text);
-		textSetVolumenTo.setText(String.valueOf(BrickValues.CHANGE_VOLUME_BY));
+		textSetVolumenTo.setText(Utils.getNumberStringForBricks(BrickValues.CHANGE_VOLUME_BY));
 		return prototypeView;
 	}
 

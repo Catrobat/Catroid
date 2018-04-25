@@ -118,7 +118,7 @@ public class WaitBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_wait, null);
 		TextView textWait = (TextView) prototypeView.findViewById(R.id.brick_wait_edit_text);
-		textWait.setText(String.valueOf(BrickValues.WAIT / 1000));
+		textWait.setText(Utils.getNumberStringForBricks(BrickValues.WAIT / 1000));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_wait_second_text_view);
 		times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
 				Utils.convertDoubleToPluralInteger(BrickValues.WAIT / 1000)));

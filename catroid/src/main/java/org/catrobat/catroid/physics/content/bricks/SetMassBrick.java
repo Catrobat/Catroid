@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.bricks.BrickViewProvider;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -91,7 +92,7 @@ public class SetMassBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_physics_set_mass, null);
 		TextView textMass = (TextView) prototypeView.findViewById(R.id.brick_set_mass_edit_text);
-		textMass.setText(String.valueOf(BrickValues.PHYSIC_MASS));
+		textMass.setText(Utils.getNumberStringForBricks(BrickValues.PHYSIC_MASS));
 		return prototypeView;
 	}
 

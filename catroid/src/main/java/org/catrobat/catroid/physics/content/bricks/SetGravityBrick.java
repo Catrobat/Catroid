@@ -37,6 +37,7 @@ import org.catrobat.catroid.content.bricks.BrickViewProvider;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -99,9 +100,9 @@ public class SetGravityBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_physics_set_gravity, null);
 		TextView textGravityX = (TextView) prototypeView.findViewById(R.id.brick_set_gravity_edit_text_x);
-		textGravityX.setText(String.valueOf(BrickValues.PHYSIC_GRAVITY.x));
+		textGravityX.setText(Utils.getNumberStringForBricks(BrickValues.PHYSIC_GRAVITY.x));
 		TextView textGravityY = (TextView) prototypeView.findViewById(R.id.brick_set_gravity_edit_text_y);
-		textGravityY.setText(String.valueOf(BrickValues.PHYSIC_GRAVITY.y));
+		textGravityY.setText(Utils.getNumberStringForBricks(BrickValues.PHYSIC_GRAVITY.y));
 		return prototypeView;
 	}
 

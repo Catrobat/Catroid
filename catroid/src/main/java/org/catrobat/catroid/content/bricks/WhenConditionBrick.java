@@ -102,7 +102,7 @@ public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_when_condition_true, null);
 		TextView textView = (TextView) prototypeView.findViewById(R.id.brick_when_condition_edit_text);
-		textView.setText(String.valueOf(BrickValues.IF_CONDITION));
+		textView.setText(BrickValues.IF_CONDITION);
 		return prototypeView;
 	}
 

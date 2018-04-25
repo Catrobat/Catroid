@@ -40,6 +40,7 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.ui.adapter.UserListAdapterWrapper;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -116,9 +117,8 @@ public class AddItemToUserListBrick extends UserListBrick {
 		userListSpinner.setAdapter(userListAdapterWrapper);
 		setSpinnerSelection(userListSpinner, null);
 
-		TextView textAddItemToList = (TextView) prototypeView
-				.findViewById(R.id.brick_add_item_to_userlist_edit_text);
-		textAddItemToList.setText(String.valueOf(BrickValues.ADD_ITEM_TO_USERLIST));
+		TextView textAddItemToList = (TextView) prototypeView.findViewById(R.id.brick_add_item_to_userlist_edit_text);
+		textAddItemToList.setText(Utils.getNumberStringForBricks(BrickValues.ADD_ITEM_TO_USERLIST));
 
 		return prototypeView;
 	}

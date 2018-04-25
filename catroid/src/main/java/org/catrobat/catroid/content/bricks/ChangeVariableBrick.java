@@ -40,6 +40,7 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -124,7 +125,7 @@ public class ChangeVariableBrick extends UserVariableBrick {
 		setSpinnerSelection(variableSpinner, null);
 
 		TextView textChangeVariable = (TextView) prototypeView.findViewById(R.id.brick_change_variable_edit_text);
-		textChangeVariable.setText(String.valueOf(BrickValues.CHANGE_VARIABLE));
+		textChangeVariable.setText(Utils.getNumberStringForBricks(BrickValues.CHANGE_VARIABLE));
 		return prototypeView;
 	}
 

@@ -34,6 +34,7 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -86,7 +87,7 @@ public class JumpingSumoRotateLeftBrick extends FormulaBrick {
 		View prototypeView = View.inflate(context, R.layout.brick_jumping_sumo_rotate_left, null);
 		TextView textDegree = (TextView) prototypeView.findViewById(R.id
 				.brick_jumping_sumo_change_left_variable_edit_text);
-		textDegree.setText(String.valueOf(BrickValues.JUMPING_SUMO_ROTATE_DEFAULT_DEGREE));
+		textDegree.setText(Utils.getNumberStringForBricks(BrickValues.JUMPING_SUMO_ROTATE_DEFAULT_DEGREE));
 		return prototypeView;
 	}
 

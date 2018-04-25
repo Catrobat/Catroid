@@ -34,6 +34,7 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -69,15 +70,15 @@ public class RaspiPwmBrick extends FormulaBrick {
 		prototypeView = View.inflate(context, R.layout.brick_raspi_pwm, null);
 
 		TextView textPinNumber = (TextView) prototypeView.findViewById(R.id.brick_raspi_pwm_pin_edit_text);
-		textPinNumber.setText(String.valueOf(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER));
+		textPinNumber.setText(Utils.getNumberStringForBricks(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER));
 
 		TextView textPwmPercentage = (TextView) prototypeView.findViewById(R.id
 				.brick_raspi_pwm_percentage_edit_text);
-		textPwmPercentage.setText(String.valueOf(BrickValues.RASPI_PWM_INITIAL_PERCENTAGE));
+		textPwmPercentage.setText(Utils.getNumberStringForBricks(BrickValues.RASPI_PWM_INITIAL_PERCENTAGE));
 
 		TextView textPwmFrequency = (TextView) prototypeView.findViewById(R.id
 				.brick_raspi_pwm_frequency_edit_text);
-		textPwmFrequency.setText(String.valueOf(BrickValues.RASPI_PWM_INITIAL_FREQUENCY));
+		textPwmFrequency.setText(Utils.getNumberStringForBricks(BrickValues.RASPI_PWM_INITIAL_FREQUENCY));
 
 		return prototypeView;
 	}

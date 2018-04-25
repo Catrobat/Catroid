@@ -112,7 +112,7 @@ public class GoNStepsBackBrick extends FormulaBrick {
 		prototypeView = View.inflate(context, R.layout.brick_go_back, null);
 		TextView textSteps = (TextView) prototypeView.findViewById(R.id.brick_go_back_edit_text);
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_go_back_layers_text_view);
-		textSteps.setText(String.valueOf(BrickValues.GO_BACK));
+		textSteps.setText(Utils.getNumberStringForBricks(BrickValues.GO_BACK));
 		times.setText(context.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural,
 				Utils.convertDoubleToPluralInteger(BrickValues.GO_BACK)));
 
