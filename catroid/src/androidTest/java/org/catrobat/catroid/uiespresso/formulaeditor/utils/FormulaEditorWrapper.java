@@ -42,6 +42,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
+import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorCategoryListWrapper.onCategoryList;
 import static org.hamcrest.Matchers.equalToIgnoringWhiteSpace;
 
 public final class FormulaEditorWrapper{
@@ -120,7 +121,7 @@ public final class FormulaEditorWrapper{
 	public FormulaEditorCategoryListWrapper performOpenCategory(Matcher<View> category) {
 		onView(category)
 				.perform(click());
-		return new FormulaEditorCategoryListWrapper();
+		return onCategoryList();
 	}
 
 	public void performOpenDataFragment() {

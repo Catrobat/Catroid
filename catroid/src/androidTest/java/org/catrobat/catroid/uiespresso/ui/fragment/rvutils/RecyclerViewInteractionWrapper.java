@@ -23,29 +23,38 @@
 
 package org.catrobat.catroid.uiespresso.ui.fragment.rvutils;
 
+import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.ViewInteraction;
+import android.view.View;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.uiespresso.util.wrappers.ViewInteractionWrapper;
+import org.hamcrest.Matcher;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnHolderItem;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 public final class RecyclerViewInteractionWrapper extends ViewInteractionWrapper {
 	private static int recyclerViewId = R.id.recycler_view;
+	private static final Matcher<View> RV_MATCHER = withId(recyclerViewId);
 
 	private RecyclerViewInteractionWrapper(ViewInteraction viewInteraction) {
 		super(viewInteraction);
 	}
 
 	public static RecyclerViewInteractionWrapper onRecyclerView() {
-		return new RecyclerViewInteractionWrapper(onView(withId(R.id.recycler_view)));
+		return new RecyclerViewInteractionWrapper(onView(RV_MATCHER));
 	}
 
 	public RecyclerViewItemInteractionWrapper atPosition(int position) {
 		return new RecyclerViewItemInteractionWrapper(
 				onView(new RecyclerViewItemMatcher(recyclerViewId).withPosition(position)), position);
+	}
+
+	public ViewInteraction performOnItemWithText(String text, ViewAction viewAction) {
+		return perform(actionOnHolderItem(new RecyclerViewHolderMatcher().withText(text), viewAction));
 	}
 
 	public RecyclerViewInteractionWrapper checkCountEquals(int count) {

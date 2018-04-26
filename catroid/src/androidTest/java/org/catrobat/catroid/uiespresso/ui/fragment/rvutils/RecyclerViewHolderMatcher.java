@@ -21,33 +21,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.util.matchers;
+package org.catrobat.catroid.uiespresso.ui.fragment.rvutils;
 
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-
-import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter;
+import org.catrobat.catroid.ui.recyclerview.viewholder.ViewHolder;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
-public final class FormulaEditorCategoryListMatchers {
-	private FormulaEditorCategoryListMatchers() {
-		throw new AssertionError();
-	}
-
-	public static Matcher<View> isFunctionListView() {
-		return new TypeSafeMatcher<View>() {
-
-			@Override
-			protected boolean matchesSafely(View view) {
-				return view instanceof RecyclerView && ((RecyclerView) view).getAdapter()
-						instanceof CategoryListRVAdapter;
+public class RecyclerViewHolderMatcher {
+	public Matcher<ViewHolder> withText(final String text) {
+		return new TypeSafeMatcher<ViewHolder>() {
+			public void describeTo(Description description) {
+				description.appendText("RecyclerViewItemMatcher withText: " + text + "does not match the view");
 			}
 
-			@Override
-			public void describeTo(Description description) {
-				description.appendText("CategoryListView");
+			public boolean matchesSafely(ViewHolder viewHolder) {
+				return viewHolder.title.getText().equals(text);
 			}
 		};
 	}

@@ -23,33 +23,30 @@
 
 package org.catrobat.catroid.uiespresso.formulaeditor.utils;
 
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.matchers.FormulaEditorCategoryListMatchers;
 
-import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.core.Is.is;
+import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 
-public class FormulaEditorCategoryListWrapper {
-	FormulaEditorCategoryListWrapper() {
+public final class FormulaEditorCategoryListWrapper {
+	private FormulaEditorCategoryListWrapper() {
 		onView(FormulaEditorCategoryListMatchers.isFunctionListView())
 				.check(matches(isDisplayed()));
 	}
 
+	public static FormulaEditorCategoryListWrapper onCategoryList() {
+		return new FormulaEditorCategoryListWrapper();
+	}
+
 	public FormulaEditorWrapper performSelect(String selection) {
-		onData(allOf(is(instanceOf(String.class)), is(selection)))
-				.inAdapterView(FormulaEditorCategoryListMatchers.isFunctionListView())
-				.onChildView(withId(R.id.fragment_formula_editor_list_item))
-				.check(matches(isDisplayed()))
-				.perform(click());
+		onRecyclerView()
+				.performOnItemWithText(selection, click());
+
 		return FormulaEditorWrapper.onFormulaEditor();
 	}
 
