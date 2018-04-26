@@ -41,6 +41,7 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.utils.FormatNumberUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.ArrayList;
@@ -207,5 +208,12 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 
 	public List<BackPackedVariableData> getBackPackedVariableData() {
 		return backPackedVariableData;
+	}
+
+	protected <T> String formatNumberForPrototypeView(T value) {
+
+		String number = String.valueOf(value);
+
+		return FormatNumberUtil.cutTrailingZeros(number);
 	}
 }

@@ -88,10 +88,10 @@ public class LegoEv3PlayToneBrick extends FormulaBrick {
 				Utils.convertDoubleToPluralInteger(BrickValues.LEGO_DURATION)));
 
 		TextView textFreq = (TextView) prototypeView.findViewById(R.id.brick_ev3_tone_freq_edit_text);
-		textFreq.setText(Utils.getNumberStringForBricks(BrickValues.LEGO_FREQUENCY));
+		textFreq.setText(formatNumberForPrototypeView(BrickValues.LEGO_FREQUENCY));
 
 		TextView textVol = (TextView) prototypeView.findViewById(R.id.brick_ev3_tone_volume_edit_text);
-		textVol.setText(Utils.getNumberStringForBricks(BrickValues.LEGO_VOLUME));
+		textVol.setText(formatNumberForPrototypeView(BrickValues.LEGO_VOLUME));
 
 		return prototypeView;
 	}

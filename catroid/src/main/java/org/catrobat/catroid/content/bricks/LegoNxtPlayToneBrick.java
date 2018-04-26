@@ -84,7 +84,7 @@ public class LegoNxtPlayToneBrick extends FormulaBrick {
 				Utils.convertDoubleToPluralInteger(BrickValues.LEGO_DURATION)));
 		TextView textFreq = (TextView) prototypeView.findViewById(R.id.nxt_tone_freq_edit_text);
 
-		textFreq.setText(Utils.getNumberStringForBricks(BrickValues.LEGO_FREQUENCY));
+		textFreq.setText(formatNumberForPrototypeView(BrickValues.LEGO_FREQUENCY));
 		return prototypeView;
 	}
 

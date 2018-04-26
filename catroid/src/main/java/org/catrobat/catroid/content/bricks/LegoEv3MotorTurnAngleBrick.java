@@ -37,7 +37,6 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -86,7 +85,7 @@ public class LegoEv3MotorTurnAngleBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_ev3_motor_turn_angle, null);
 		TextView textX = (TextView) prototypeView.findViewById(R.id.ev3_motor_turn_angle_edit_text);
-		textX.setText(Utils.getNumberStringForBricks(BrickValues.LEGO_ANGLE));
+		textX.setText(formatNumberForPrototypeView(BrickValues.LEGO_ANGLE));
 
 		Spinner legoSpinner = (Spinner) prototypeView.findViewById(R.id.lego_ev3_motor_turn_angle_spinner);
 		legoSpinner.setFocusableInTouchMode(false);

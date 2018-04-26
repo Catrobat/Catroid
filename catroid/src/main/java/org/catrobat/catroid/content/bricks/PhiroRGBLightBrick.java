@@ -40,7 +40,6 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.ui.fragment.ColorSeekbar;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -113,13 +112,13 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 		prototypeView = View.inflate(context, R.layout.brick_phiro_rgb_light, null);
 
 		TextView textValueRed = (TextView) prototypeView.findViewById(R.id.brick_phiro_rgb_led_action_red_edit_text);
-		textValueRed.setText(Utils.getNumberStringForBricks(BrickValues.PHIRO_VALUE_RED));
+		textValueRed.setText(formatNumberForPrototypeView(BrickValues.PHIRO_VALUE_RED));
 
 		TextView textValueGreen = (TextView) prototypeView.findViewById(R.id.brick_phiro_rgb_led_action_green_edit_text);
-		textValueGreen.setText(Utils.getNumberStringForBricks(BrickValues.PHIRO_VALUE_GREEN));
+		textValueGreen.setText(formatNumberForPrototypeView(BrickValues.PHIRO_VALUE_GREEN));
 
 		TextView textValueBlue = (TextView) prototypeView.findViewById(R.id.brick_phiro_rgb_led_action_blue_edit_text);
-		textValueBlue.setText(Utils.getNumberStringForBricks(BrickValues.PHIRO_VALUE_BLUE));
+		textValueBlue.setText(formatNumberForPrototypeView(BrickValues.PHIRO_VALUE_BLUE));
 
 		Spinner eyeSpinner = (Spinner) prototypeView.findViewById(R.id.brick_phiro_rgb_light_spinner);
 

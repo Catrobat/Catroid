@@ -34,7 +34,6 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -90,7 +89,7 @@ public class SetPenSizeBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_set_pen_size, null);
 		TextView penSizeText = (TextView) prototypeView.findViewById(R.id.brick_set_pen_size_edit_text);
-		penSizeText.setText(Utils.getNumberStringForBricks(BrickValues.PEN_SIZE));
+		penSizeText.setText(formatNumberForPrototypeView(BrickValues.PEN_SIZE));
 		return prototypeView;
 	}
 

@@ -37,7 +37,6 @@ import org.catrobat.catroid.content.bricks.BrickViewProvider;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -99,9 +98,9 @@ public class SetVelocityBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_physics_set_velocity, null);
 		TextView textVelocityX = (TextView) prototypeView.findViewById(R.id.brick_set_velocity_edit_text_x);
-		textVelocityX.setText(Utils.getNumberStringForBricks(BrickValues.PHYSIC_VELOCITY.x));
+		textVelocityX.setText(formatNumberForPrototypeView(BrickValues.PHYSIC_VELOCITY.x));
 		TextView textVelocityY = (TextView) prototypeView.findViewById(R.id.brick_set_velocity_edit_text_y);
-		textVelocityY.setText(Utils.getNumberStringForBricks(BrickValues.PHYSIC_VELOCITY.y));
+		textVelocityY.setText(formatNumberForPrototypeView(BrickValues.PHYSIC_VELOCITY.y));
 		return prototypeView;
 	}
 

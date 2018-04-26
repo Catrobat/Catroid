@@ -43,7 +43,6 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -157,7 +156,7 @@ public class SetVariableBrick extends UserVariableBrick {
 			int defaultValueId = InternToExternGenerator.getMappedString(defaultPrototypeToken);
 			textSetVariable.setText(context.getText(defaultValueId));
 		} else {
-			textSetVariable.setText(Utils.getNumberStringForBricks(BrickValues.SET_VARIABLE));
+			textSetVariable.setText(formatNumberForPrototypeView(BrickValues.SET_VARIABLE));
 		}
 		return prototypeView;
 	}

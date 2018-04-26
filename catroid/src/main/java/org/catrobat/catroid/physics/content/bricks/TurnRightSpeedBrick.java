@@ -36,7 +36,6 @@ import org.catrobat.catroid.content.bricks.BrickViewProvider;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -92,7 +91,7 @@ public class TurnRightSpeedBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_physics_turn_right_speed, null);
 		TextView textTurnRightSpeed = (TextView) prototypeView.findViewById(R.id.brick_turn_right_speed_edit_text);
-		textTurnRightSpeed.setText(Utils.getNumberStringForBricks(BrickValues.PHYSIC_TURN_DEGREES));
+		textTurnRightSpeed.setText(formatNumberForPrototypeView(BrickValues.PHYSIC_TURN_DEGREES));
 		return prototypeView;
 	}
 

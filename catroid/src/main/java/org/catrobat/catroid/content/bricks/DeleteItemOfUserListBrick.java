@@ -40,7 +40,6 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.ui.adapter.UserListAdapterWrapper;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -119,7 +118,7 @@ public class DeleteItemOfUserListBrick extends UserListBrick {
 
 		TextView textAddItemToList = (TextView) prototypeView
 				.findViewById(R.id.brick_delete_item_of_userlist_edit_text);
-		textAddItemToList.setText(Utils.getNumberStringForBricks(BrickValues.DELETE_ITEM_OF_USERLIST));
+		textAddItemToList.setText(formatNumberForPrototypeView(BrickValues.DELETE_ITEM_OF_USERLIST));
 
 		return prototypeView;
 	}
