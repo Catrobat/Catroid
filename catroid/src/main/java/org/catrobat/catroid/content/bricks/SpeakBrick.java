@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -74,8 +75,9 @@ public class SpeakBrick extends FormulaBrick {
 		setCheckboxView(R.id.brick_speak_checkbox);
 		TextView textField = (TextView) view.findViewById(R.id.brick_speak_edit_text);
 		getFormulaWithBrickField(BrickField.SPEAK).setTextFieldId(R.id.brick_speak_edit_text);
+		Spinner spinner = SpeakBrickBase.setupSpeakSpinner(context, view);
+		SpeakBrickBase.setItemSelectedListener(spinner);
 		getFormulaWithBrickField(BrickField.SPEAK).refreshTextField(view);
-
 		textField.setOnClickListener(this);
 		return view;
 	}
@@ -85,6 +87,7 @@ public class SpeakBrick extends FormulaBrick {
 		prototypeView = View.inflate(context, R.layout.brick_speak, null);
 		TextView textSpeak = (TextView) prototypeView.findViewById(R.id.brick_speak_edit_text);
 		textSpeak.setText(context.getString(R.string.brick_speak_default_value));
+		SpeakBrickBase.setupSpeakSpinner(context, prototypeView);
 		return prototypeView;
 	}
 

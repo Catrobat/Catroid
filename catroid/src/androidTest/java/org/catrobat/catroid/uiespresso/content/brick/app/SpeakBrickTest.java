@@ -26,6 +26,7 @@ package org.catrobat.catroid.uiespresso.content.brick.app;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
@@ -38,22 +39,27 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
+import static android.support.test.espresso.Espresso.onData;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
+import static org.hamcrest.CoreMatchers.anything;
 
 @RunWith(AndroidJUnit4.class)
 public class SpeakBrickTest {
 
-	private int brickPosition;
-
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
+	private int brickPosition;
 
 	@Before
 	public void setUp() throws Exception {
 		BrickTestUtils.createProjectAndGetStartScript("speakBrickTest1").addBrick(new SpeakBrick());
 		brickPosition = 1;
-		baseActivityTestRule.launchActivity();
+		baseActivityTestRule.launchActivity(null);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -63,6 +69,15 @@ public class SpeakBrickTest {
 
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_speak);
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_speak_in_language);
+
+		onData(anything()).inAdapterView(withId(R.id.brick_speak_spinner)).atPosition(0).check(matches(withText(R
+				.string.device_language)));
+
+		for (int pos = 1; pos < Constants.AVAILABLE_LOCALES_TTS.length; pos++) {
+			onData(anything()).inAdapterView(withId(R.id.brick_speak_spinner))
+					.atPosition(pos).check(matches(withText(Constants.AVAILABLE_LOCALES_TTS[pos].getDisplayName())));
+		}
 
 		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_speak_edit_text)
 				.performEnterString(testSpeakString)
