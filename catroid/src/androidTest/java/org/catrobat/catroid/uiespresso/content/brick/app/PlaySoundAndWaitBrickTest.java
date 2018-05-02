@@ -270,7 +270,7 @@ public class PlaySoundAndWaitBrickTest {
 						"longsound.mp3", RESOURCE_SOUND,
 						InstrumentationRegistry.getContext(), FileTestUtils.FileTypes.SOUND);
 		SoundInfo soundInfo = new SoundInfo();
-		soundInfo.setFileName(soundFile.getName());
+		soundInfo.setFile(soundFile);
 		soundInfo.setName(soundName);
 
 		soundFile2 = FileTestUtils.copyResourceFileToProject(projectName, ProjectManager.getInstance().getCurrentScene()
@@ -278,7 +278,7 @@ public class PlaySoundAndWaitBrickTest {
 				"testsoundui.mp3", RESOURCE_SOUND2, InstrumentationRegistry.getContext(),
 				FileTestUtils.FileTypes.SOUND);
 		SoundInfo soundInfo2 = new SoundInfo();
-		soundInfo2.setFileName(soundFile2.getName());
+		soundInfo2.setFile(soundFile2);
 		soundInfo2.setName(soundName2);
 
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();

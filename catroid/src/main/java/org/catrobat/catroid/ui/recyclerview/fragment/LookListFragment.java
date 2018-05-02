@@ -37,7 +37,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.controller.BackPackListManager;
+import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.controller.PocketPaintExchangeHandler;
 import org.catrobat.catroid.ui.recyclerview.adapter.LookAdapter;
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
@@ -98,9 +98,9 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 
 		for (LookData item : selectedItems) {
 			try {
-				BackPackListManager.getInstance().getBackPackedLooks().add(
+				BackpackListManager.getInstance().getBackPackedLooks().add(
 						lookController.pack(item, ProjectManager.getInstance().getCurrentScene()));
-				BackPackListManager.getInstance().saveBackpack();
+				BackpackListManager.getInstance().saveBackpack();
 				packedItemCnt++;
 			} catch (IOException e) {
 				Log.e(TAG, Log.getStackTraceString(e));
@@ -119,7 +119,7 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 
 	@Override
 	protected boolean isBackpackEmpty() {
-		return BackPackListManager.getInstance().getBackPackedLooks().isEmpty();
+		return BackpackListManager.getInstance().getBackPackedLooks().isEmpty();
 	}
 
 	@Override

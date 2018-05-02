@@ -47,9 +47,9 @@ import org.catrobat.catroid.ui.BaseActivity;
 import org.catrobat.catroid.ui.dialogs.SelectTagsDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectLoaderTask;
 import org.catrobat.catroid.ui.recyclerview.dialog.login.SignInDialog;
+import org.catrobat.catroid.utils.FileMetaDataExtractor;
+import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.UtilFile;
-import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 
 import java.io.File;
@@ -154,7 +154,7 @@ public class ProjectUploadActivity extends BaseActivity implements
 				false, (ImageView) findViewById(R.id.project_image_view));
 
 		((TextView) findViewById(R.id.project_size_view))
-				.setText(UtilFile.getSizeAsString(new File(Utils.buildProjectPath(currentProject.getName())), this));
+				.setText(FileMetaDataExtractor.getSizeAsString(new File(PathBuilder.buildProjectPath(currentProject.getName())), this));
 
 		nameInputLayout = findViewById(R.id.input_project_name);
 		descriptionInputLayout = findViewById(R.id.input_project_description);

@@ -117,7 +117,7 @@ public class PlaySoundBrickStageTest {
 						"longsound.mp3", RESOURCE_SOUND,
 						InstrumentationRegistry.getContext(), FileTestUtils.FileTypes.SOUND);
 		SoundInfo soundInfo = new SoundInfo();
-		soundInfo.setFileName(soundFile.getName());
+		soundInfo.setFile(soundFile);
 		soundInfo.setName(soundName);
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		soundInfoList.add(soundInfo);

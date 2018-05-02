@@ -157,12 +157,12 @@ public class DeleteSoundTest {
 
 		List<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		SoundInfo soundInfo = new SoundInfo();
-		soundInfo.setFileName(soundFile.getName());
+		soundInfo.setFile(soundFile);
 		soundInfo.setName("testSound1");
 		soundInfoList.add(soundInfo);
 
 		SoundInfo soundInfo2 = new SoundInfo();
-		soundInfo2.setFileName(soundFile2.getName());
+		soundInfo2.setFile(soundFile2);
 		soundInfo2.setName(toBeDeletedSoundName);
 		soundInfoList.add(soundInfo2);
 	}

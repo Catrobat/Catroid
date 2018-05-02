@@ -40,7 +40,7 @@ import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 import org.catrobat.catroid.uiespresso.util.matchers.StageMatchers;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
-import org.catrobat.catroid.utils.UtilUi;
+import org.catrobat.catroid.utils.ScreenValueHandler;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -114,7 +114,7 @@ public class StageSimpleTest {
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(blueSprite);
-		UtilUi.updateScreenWidthAndHeight(InstrumentationRegistry.getContext());
+		ScreenValueHandler.updateScreenWidthAndHeight(InstrumentationRegistry.getContext());
 
 		return project;
 	}

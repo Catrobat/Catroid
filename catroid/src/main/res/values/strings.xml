@@ -815,9 +815,12 @@
     <string name="overwrite_rename_default">Rename existing Media</string>
     <!-- -->
 
+
     <!-- Music activity -->
-    <string name="music_recorded_filename">Music</string>
+    <string name="pocket_music_default_project_name">Untitled Song</string>
+    <string name="pocket_music_default_track_name">Track 1</string>
     <!--  -->
+
 
     <!-- PreStage activity -->
     <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>

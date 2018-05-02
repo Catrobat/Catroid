@@ -29,7 +29,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.controller.BackPackListManager;
+import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.SpriteAdapter;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -47,7 +47,7 @@ public class BackpackSpriteFragment extends BackpackRecyclerViewFragment<Sprite>
 	protected void initializeAdapter() {
 		sharedPreferenceDetailsKey = "showDetailsSpriteList";
 		hasDetails = true;
-		List<Sprite> items = BackPackListManager.getInstance().getBackPackedSprites();
+		List<Sprite> items = BackpackListManager.getInstance().getBackPackedSprites();
 		adapter = new SpriteAdapter(items);
 		onAdapterReady();
 	}
@@ -93,7 +93,7 @@ public class BackpackSpriteFragment extends BackpackRecyclerViewFragment<Sprite>
 				selectedItems.size(),
 				selectedItems.size()));
 
-		BackPackListManager.getInstance().saveBackpack();
+		BackpackListManager.getInstance().saveBackpack();
 		finishActionMode();
 		if (adapter.getItems().isEmpty()) {
 			getActivity().finish();

@@ -34,7 +34,7 @@ import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.io.ZipArchiver;
 import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.utils.UtilUi;
+import org.catrobat.catroid.utils.ScreenValueHandler;
 
 import java.io.File;
 import java.io.IOException;
@@ -55,7 +55,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		UtilUi.updateScreenWidthAndHeight(getInstrumentation().getTargetContext());
+		ScreenValueHandler.updateScreenWidthAndHeight(getInstrumentation().getTargetContext());
 		projectManager = ProjectManager.getInstance();
 	}
 

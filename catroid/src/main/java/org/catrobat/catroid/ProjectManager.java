@@ -48,14 +48,16 @@ import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.ui.controller.BackPackListManager;
+import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 public final class ProjectManager {
@@ -203,10 +205,8 @@ public final class ProjectManager {
 	private void makeShallowCopiesDeepAgain(Project project) {
 		for (Scene scene : project.getSceneList()) {
 
-			String imgDir = Utils.buildPath(Utils.buildScenePath(project.getName(), scene.getName()),
-					Constants.IMAGE_DIRECTORY);
-			String soundDir = Utils.buildPath(Utils.buildScenePath(project.getName(), scene.getName()),
-					Constants.SOUND_DIRECTORY);
+			String imgDir = PathBuilder.buildPath(PathBuilder.buildScenePath(project.getName(), scene.getName()),
+					Constants.IMAGE_DIRECTORY_NAME);
 
 			List<String> fileNames = new ArrayList<>();
 
@@ -223,17 +223,22 @@ public final class ProjectManager {
 					fileNames.add(look.getFileName());
 				}
 
-				for (SoundInfo sound : sprite.getSoundList()) {
-					if (fileNames.contains(sound.getFileName())) {
+				for (Iterator<SoundInfo> iterator = sprite.getSoundList().iterator(); iterator.hasNext(); ) {
+					SoundInfo soundInfo = iterator.next();
+
+					if (fileNames.contains(soundInfo.getFile().getName())) {
 						try {
-							String fileName = StorageHandler.copyFile(new File(soundDir,
-									sound.getFileName())).getName();
-							sound.setFileName(fileName);
+							soundInfo.setFile(StorageHandler.copyFile(soundInfo.getFile()));
 						} catch (IOException e) {
-							Log.e(TAG, "Could not copy :" + sound.getFileName());
+							iterator.remove();
+							Log.e(TAG, "Could not copy: " + soundInfo.getFile().getAbsolutePath()
+									+ ", removing SoundInfo " + soundInfo.getName() + " from "
+									+ project.getName() + ", "
+									+ scene.getName() + ", "
+									+ sprite.getName() + ".");
 						}
 					}
-					fileNames.add(sound.getFileName());
+					fileNames.add(soundInfo.getFile().getName());
 				}
 			}
 		}
@@ -268,7 +273,6 @@ public final class ProjectManager {
 	public boolean initializeDefaultProject(Context context) {
 		try {
 			project = DefaultProjectHandler.createAndSaveDefaultProject(context);
-
 			currentSprite = null;
 			currentScript = null;
 			currentScene = project.getDefaultScene();
@@ -369,16 +373,16 @@ public final class ProjectManager {
 			return false;
 		}
 
-		String oldProjectPath = Utils.buildProjectPath(project.getName());
+		String oldProjectPath = PathBuilder.buildProjectPath(project.getName());
 		File oldProjectDirectory = new File(oldProjectPath);
 
-		String newProjectPath = Utils.buildProjectPath(newProjectName);
+		String newProjectPath = PathBuilder.buildProjectPath(newProjectName);
 		File newProjectDirectory = new File(newProjectPath);
 
 		boolean directoryRenamed;
 
 		if (oldProjectPath.equalsIgnoreCase(newProjectPath)) {
-			String tmpProjectPath = Utils.buildProjectPath(createTemporaryDirectoryName(newProjectName));
+			String tmpProjectPath = PathBuilder.buildProjectPath(createTemporaryDirectoryName(newProjectName));
 			File tmpProjectDirectory = new File(tmpProjectPath);
 			directoryRenamed = oldProjectDirectory.renameTo(tmpProjectDirectory);
 			if (directoryRenamed) {
@@ -462,9 +466,9 @@ public final class ProjectManager {
 		boolean projectCorrect = true;
 		if (inBackPack) {
 
-			List<Sprite> spritesToCheck = BackPackListManager.getInstance().getBackPackedSprites();
+			List<Sprite> spritesToCheck = BackpackListManager.getInstance().getBackPackedSprites();
 
-			HashMap<String, List<Script>> backPackedScripts = BackPackListManager.getInstance().getBackPackedScripts();
+			HashMap<String, List<Script>> backPackedScripts = BackpackListManager.getInstance().getBackPackedScripts();
 			for (String scriptGroup : backPackedScripts.keySet()) {
 				List<Script> scriptListToCheck = backPackedScripts.get(scriptGroup);
 				for (Script scriptToCheck : scriptListToCheck) {

@@ -46,9 +46,9 @@ import org.catrobat.catroid.ui.recyclerview.controller.ProjectController;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewProjectDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.RenameDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.viewholder.ViewHolder;
+import org.catrobat.catroid.utils.FileMetaDataExtractor;
+import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.UtilFile;
-import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -88,8 +88,8 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 	private List<ProjectData> getItemList() {
 		List<ProjectData> items = new ArrayList<>();
 
-		for (String projectName : UtilFile.getProjectNames(DEFAULT_ROOT_DIRECTORY)) {
-			File codeFile = new File(Utils.buildPath(Utils.buildProjectPath(projectName), Constants.PROJECTCODE_NAME));
+		for (String projectName : FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY)) {
+			File codeFile = new File(PathBuilder.buildPath(PathBuilder.buildProjectPath(projectName), Constants.CODE_XML_FILE_NAME));
 			items.add(new ProjectData(projectName, codeFile.lastModified()));
 		}
 

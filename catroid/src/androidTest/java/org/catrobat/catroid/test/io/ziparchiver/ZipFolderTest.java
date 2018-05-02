@@ -44,18 +44,18 @@ import static junit.framework.Assert.assertTrue;
 public class ZipFolderTest {
 
 	private File outputArchive;
-	private File testProjectDir;
+	private File projectDir;
 
 	@Before
 	public void setUp() {
 		outputArchive = new File(Constants.DEFAULT_ROOT_DIRECTORY, "testCompareZips.zip");
-		testProjectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, "testZipProject");
+		projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, "testZipProject");
 	}
 
 	@After
 	public void tearDown() throws IOException {
 		outputArchive.delete();
-		StorageHandler.deleteDir(testProjectDir);
+		StorageHandler.deleteDir(projectDir);
 	}
 
 	@Test
@@ -63,11 +63,11 @@ public class ZipFolderTest {
 		String assetName = "Air_fight_0.5.catrobat";
 		InputStream inputStream = InstrumentationRegistry.getContext().getAssets().open(assetName);
 
-		new ZipArchiver().unzip(inputStream, testProjectDir);
+		new ZipArchiver().unzip(inputStream, projectDir);
 
-		assertTrue(testProjectDir.exists());
+		assertTrue(projectDir.exists());
 
-		new ZipArchiver().zip(outputArchive, testProjectDir.listFiles());
+		new ZipArchiver().zip(outputArchive, projectDir.listFiles());
 
 		assertTrue(outputArchive.exists());
 	}

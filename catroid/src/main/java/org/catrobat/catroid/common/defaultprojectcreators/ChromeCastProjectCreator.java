@@ -24,7 +24,6 @@
 package org.catrobat.catroid.common.defaultprojectcreators;
 
 import android.content.Context;
-import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -58,23 +57,25 @@ import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
+import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.soundrecorder.SoundRecorder;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.ui.fragment.SpriteFactory;
 import org.catrobat.catroid.utils.ImageEditing;
-import org.catrobat.catroid.utils.UtilFile;
+import org.catrobat.catroid.utils.PathBuilder;
 
 import java.io.File;
 import java.io.IOException;
 
-public class DefaultProjectCreatorCast extends DefaultProjectCreator {
-	private static final String TAG = DefaultProjectCreatorCast.class.getSimpleName();
+public class ChromeCastProjectCreator extends ProjectCreator {
+
+	private static final String TAG = ChromeCastProjectCreator.class.getSimpleName();
 
 	private static SpriteFactory spriteFactory = new SpriteFactory();
 
-	public DefaultProjectCreatorCast() {
-		standardProjectNameID = R.string.default_cast_project_name;
+	public ChromeCastProjectCreator() {
+		defaultProjectNameResourceId = R.string.default_cast_project_name;
 	}
 
 	@Override
@@ -86,7 +87,6 @@ public class DefaultProjectCreatorCast extends DefaultProjectCreator {
 		}
 
 		Project defaultProject = new Project(context, projectName, false, true);
-		String sceneName = defaultProject.getDefaultScene().getName();
 		defaultProject.setDeviceData(context); // density anywhere here
 		StorageHandler.getInstance().saveProject(defaultProject);
 		ProjectManager.getInstance().setProject(defaultProject);
@@ -111,44 +111,54 @@ public class DefaultProjectCreatorCast extends DefaultProjectCreator {
 		File backgroundFile;
 		File cloudFile;
 
+		File projectDir = new File(PathBuilder.buildProjectPath(defaultProject.getName()));
+		File imgDir = new File(defaultProject.getDefaultScene().getDirectory(), Constants.IMAGE_DIRECTORY_NAME);
+		File sndDir = new File(defaultProject.getDefaultScene().getDirectory(), Constants.SOUND_DIRECTORY_NAME);
+
 		backgroundImageScaleFactor = ImageEditing.calculateScaleFactorToScreenSize(
 				R.drawable.default_project_background_landscape, context);
-		cloudFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, backgroundName
-						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_project_clouds_landscape,
-				context, true, backgroundImageScaleFactor);
-		backgroundFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, backgroundName
-						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_project_background_landscape,
-				context, true, backgroundImageScaleFactor);
-
-		File birdWingUpFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, birdWingUpLookName
-						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_project_bird_wing_up, context, true,
-				backgroundImageScaleFactor);
-		File birdWingDownFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName, birdWingDownLookName
-						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_project_bird_wing_down, context, true,
+		cloudFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), imgDir,
+				backgroundName + Constants.DEFAULT_IMAGE_EXTENSION,
+				R.drawable.default_project_clouds_landscape,
 				backgroundImageScaleFactor);
 
-		File birdWingUpLeftFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName,
-				birdWingUpLeftLookName
-						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_project_bird_wing_up_left, context, true,
+		backgroundFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), imgDir,
+				backgroundName + Constants.DEFAULT_IMAGE_EXTENSION,
+				R.drawable.default_project_background_landscape,
 				backgroundImageScaleFactor);
-		File birdWingDownLeftFile = UtilFile.copyImageFromResourceIntoProject(projectName, sceneName,
-				birdWingDownLeftLookName
-						+ Constants.IMAGE_STANDARD_EXTENSION, R.drawable.default_project_bird_wing_down_left, context, true,
+
+		File birdWingUpFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), imgDir,
+				birdWingUpLookName
+						+ Constants.DEFAULT_IMAGE_EXTENSION,
+				R.drawable.default_project_bird_wing_up,
+				backgroundImageScaleFactor);
+
+		File birdWingDownFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), imgDir,
+				birdWingDownLookName + Constants.DEFAULT_IMAGE_EXTENSION,
+				R.drawable.default_project_bird_wing_down,
+				backgroundImageScaleFactor);
+
+		File birdWingUpLeftFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), imgDir,
+				birdWingDownLookName + Constants.DEFAULT_IMAGE_EXTENSION,
+				R.drawable.default_project_bird_wing_up_left,
+				backgroundImageScaleFactor);
+		File birdWingDownLeftFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), imgDir,
+				birdWingDownLookName + Constants.DEFAULT_IMAGE_EXTENSION,
+				R.drawable.default_project_bird_wing_down_left,
 				backgroundImageScaleFactor);
 
 		try {
-			File soundFile1 = UtilFile.copySoundFromResourceIntoProject(projectName, sceneName, tweet1
-					+ SoundRecorder.RECORDING_EXTENSION, R.raw.default_project_tweet_1, context, true);
-			File soundFile2 = UtilFile.copySoundFromResourceIntoProject(projectName, sceneName, tweet2
-					+ SoundRecorder.RECORDING_EXTENSION, R.raw.default_project_tweet_2, context, true);
-			UtilFile.copyFromResourceIntoProject(projectName, sceneName, ".", StageListener
-							.SCREENSHOT_AUTOMATIC_FILE_NAME,
-					R.drawable.default_project_screenshot, context, false);
+			File soundFile1 = ResourceImporter.createSoundFileFromResourcesInDirectory(context.getResources(), sndDir,
+					tweet1 + SoundRecorder.RECORDING_EXTENSION,
+					R.raw.default_project_tweet_1);
 
-			Log.i(TAG, String.format("createAndSaveDefaultCastProject(%s) %s created%n %s created%n %s created%n %s "
-							+ "created%n %s created%n %s created%n %s created%n",
-					projectName, backgroundFile.getName(), birdWingUpFile.getName(), birdWingDownFile.getName(),
-					soundFile1.getName(), soundFile2.getName(), birdWingDownLeftFile.getName(), birdWingUpLeftFile.getName()));
+			File soundFile2 = ResourceImporter.createSoundFileFromResourcesInDirectory(context.getResources(), sndDir,
+					tweet2 + SoundRecorder.RECORDING_EXTENSION,
+					R.raw.default_project_tweet_2);
+
+			ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), projectDir,
+					StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME,
+					R.drawable.default_project_screenshot, 1);
 
 			LookData backgroundLookData = new LookData();
 			backgroundLookData.setName(backgroundName);
@@ -179,10 +189,10 @@ public class DefaultProjectCreatorCast extends DefaultProjectCreator {
 
 			SoundInfo soundInfo1 = new SoundInfo();
 			soundInfo1.setName(tweet1);
-			soundInfo1.setFileName(soundFile1.getName());
+			soundInfo1.setFile(soundFile1);
 			SoundInfo soundInfo2 = new SoundInfo();
 			soundInfo2.setName(tweet2);
-			soundInfo2.setFileName(soundFile2.getName());
+			soundInfo2.setFile(soundFile2);
 
 			DataContainer userVariables = defaultProject.getDefaultScene().getDataContainer();
 

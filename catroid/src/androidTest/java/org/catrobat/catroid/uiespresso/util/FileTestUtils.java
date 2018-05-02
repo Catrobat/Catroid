@@ -26,7 +26,7 @@ package org.catrobat.catroid.uiespresso.util;
 import android.content.Context;
 
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.utils.PathBuilder;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -44,11 +44,21 @@ public final class FileTestUtils {
 	}
 
 	public static void assertFileExists(File file) {
-		assertTrue("File does not exists: " + file.getAbsolutePath(), file.exists());
+		assertTrue("File does not exist: " + file.getAbsolutePath(), file.exists());
 	}
 
 	public static void assertFileDoesNotExist(File file) {
 		assertFalse("File exists: " + file.getAbsolutePath(), file.exists());
+	}
+
+	public static void assertFileExistsInDirectory(File file, File dir) {
+		assertTrue("File does not exist: " + dir.getAbsolutePath() + "/" + file.getName(),
+				new File(dir.getAbsolutePath(), file.getName()).exists());
+	}
+
+	public static void assertFileDoesNotExistInDirectory(File file, File dir) {
+		assertFalse("File exists: " + dir.getAbsolutePath() + "/" + file.getName(),
+				new File(dir.getAbsolutePath(), file.getName()).exists());
 	}
 
 	public static File copyResourceFileToProject(String project, String sceneName, String name, int resourceId,
@@ -57,15 +67,15 @@ public final class FileTestUtils {
 		File file;
 		switch (type) {
 			case IMAGE:
-				file = new File(Utils.buildPath(Constants.DEFAULT_ROOT_DIRECTORY.getAbsolutePath(), project, sceneName,
-						Constants.IMAGE_DIRECTORY), name);
+				file = new File(PathBuilder.buildPath(Constants.DEFAULT_ROOT_DIRECTORY.getAbsolutePath(), project, sceneName,
+						Constants.IMAGE_DIRECTORY_NAME), name);
 				break;
 			case SOUND:
-				file = new File(Utils.buildPath(Constants.DEFAULT_ROOT_DIRECTORY.getAbsolutePath(), project, sceneName,
-						Constants.SOUND_DIRECTORY), name);
+				file = new File(PathBuilder.buildPath(Constants.DEFAULT_ROOT_DIRECTORY.getAbsolutePath(), project, sceneName,
+						Constants.SOUND_DIRECTORY_NAME), name);
 				break;
 			case SCREENSHOT:
-				file = new File(Utils.buildPath(Constants.DEFAULT_ROOT_DIRECTORY.getAbsolutePath(), project, sceneName),
+				file = new File(PathBuilder.buildPath(Constants.DEFAULT_ROOT_DIRECTORY.getAbsolutePath(), project, sceneName),
 						name);
 				break;
 			default:

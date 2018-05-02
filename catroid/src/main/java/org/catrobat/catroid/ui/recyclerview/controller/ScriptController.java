@@ -36,7 +36,7 @@ import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick;
-import org.catrobat.catroid.ui.controller.BackPackListManager;
+import org.catrobat.catroid.ui.controller.BackpackListManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -67,12 +67,12 @@ public class ScriptController {
 
 			if (brick instanceof PlaySoundBrick) {
 				((PlaySoundBrick) brick).setSound(soundController
-						.findOrCopy(((PlaySoundBrick) brick).getSound(), srcScene, dstScene, dstSprite));
+						.findOrCopy(((PlaySoundBrick) brick).getSound(), dstScene, dstSprite));
 			}
 
 			if (brick instanceof PlaySoundAndWaitBrick) {
 				((PlaySoundAndWaitBrick) brick).setSound(soundController
-						.findOrCopy(((PlaySoundAndWaitBrick) brick).getSound(), srcScene, dstScene, dstSprite));
+						.findOrCopy(((PlaySoundAndWaitBrick) brick).getSound(), dstScene, dstSprite));
 			}
 		}
 
@@ -90,8 +90,8 @@ public class ScriptController {
 			}
 		}
 
-		BackPackListManager.getInstance().addScriptToBackPack(groupName, scriptsToPack);
-		BackPackListManager.getInstance().saveBackpack();
+		BackpackListManager.getInstance().addScriptToBackPack(groupName, scriptsToPack);
+		BackpackListManager.getInstance().saveBackpack();
 	}
 
 	void packForSprite(Script scriptToPack, Sprite dstSprite) throws IOException, CloneNotSupportedException {

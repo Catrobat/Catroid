@@ -36,7 +36,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.utils.UtilUi;
+import org.catrobat.catroid.utils.ScreenValueHandler;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -50,7 +50,7 @@ public class CollisionFormulaConversionTest extends AndroidTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		UtilUi.updateScreenWidthAndHeight(getContext());
+		ScreenValueHandler.updateScreenWidthAndHeight(getContext());
 		projectManager = ProjectManager.getInstance();
 	}
 

@@ -21,18 +21,41 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.ui.recyclerview.controller;
-
-import org.catrobat.catroid.common.ProjectData;
-import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.utils.PathBuilder;
+package org.catrobat.catroid.utils;
 
 import java.io.File;
-import java.io.IOException;
 
-public class ProjectController {
+import static org.catrobat.catroid.common.Constants.DEFAULT_ROOT_DIRECTORY;
 
-	public void delete(ProjectData projectToDelete) throws IOException {
-		StorageHandler.deleteDir(new File(PathBuilder.buildProjectPath(projectToDelete.projectName)));
+public final class PathBuilder {
+
+	private PathBuilder() {
+		throw new AssertionError();
+	}
+
+	public static String buildPath(String... elements) {
+		StringBuilder result = new StringBuilder("/");
+
+		for (String pathElement : elements) {
+			result.append(pathElement).append('/');
+		}
+
+		String returnValue = result.toString().replaceAll("/+", "/");
+
+		if (returnValue.endsWith("/")) {
+			returnValue = returnValue.substring(0, returnValue.length() - 1);
+		}
+
+		return returnValue;
+	}
+
+	public static String buildProjectPath(String projectName) {
+		return new File(DEFAULT_ROOT_DIRECTORY,
+				FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectName)).getAbsolutePath();
+	}
+
+	public static String buildScenePath(String projectName, String sceneName) {
+		return buildPath(buildProjectPath(projectName),
+				FileMetaDataExtractor.encodeSpecialCharsForFileSystem(sceneName));
 	}
 }

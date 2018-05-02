@@ -159,7 +159,6 @@ public class PocketMusicActivityTest {
 
 	@Test
 	public void toggleRandomNoteViewsAndAddTacts() {
-
 		onView(withId(R.id.tact_scroller)).check(matches(isRecyclerViewSizeZero()));
 
 		TactScrollRecyclerView recyclerView = pocketMusicActivityRule
@@ -172,8 +171,8 @@ public class PocketMusicActivityTest {
 			randomPosition[i] = random.nextInt(TrackRowView.QUARTER_COUNT * TrackView.ROW_COUNT);
 
 			if (i == recyclerView.getAdapter().getItemCount() - 1) {
-				onView(withId(R.id.tact_scroller)).perform(RecyclerViewActions.actionOnItemAtPosition(i,
-						click()));
+				onView(withId(R.id.tact_scroller))
+						.perform(RecyclerViewActions.actionOnItemAtPosition(i, click()));
 			}
 
 			onView(withId(R.id.tact_scroller))
@@ -194,14 +193,15 @@ public class PocketMusicActivityTest {
 	private void relaunchActivityOpenJustSavedFile() {
 		pocketMusicActivityRule.getActivity().finish();
 
-		List<SoundInfo> soundInfo = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		List<SoundInfo> sounds = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 
-		assertNotNull("Soundinfo not found", soundInfo);
-		assertFalse("Soundinfo not found", soundInfo.isEmpty());
+		assertNotNull(sounds);
+		assertFalse(sounds.isEmpty());
 
 		Intent pocketMusicDataIntent = new Intent();
-		pocketMusicDataIntent.putExtra("FILENAME", soundInfo.get(0).getFileName());
-		pocketMusicDataIntent.putExtra("TITLE", soundInfo.get(0).getName());
+		pocketMusicDataIntent.putExtra(PocketMusicActivity.TITLE, sounds.get(0).getName());
+		pocketMusicDataIntent.putExtra(PocketMusicActivity.ABSOLUTE_FILE_PATH,
+				sounds.get(0).getFile().getAbsolutePath());
 
 		pocketMusicActivityRule.launchActivity(pocketMusicDataIntent);
 		onView(withId(android.R.id.content)).check(matches(isDisplayed()));

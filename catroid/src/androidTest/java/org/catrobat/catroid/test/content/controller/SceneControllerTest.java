@@ -36,7 +36,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.ui.controller.BackPackListManager;
+import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.controller.SceneController;
 import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 import org.junit.After;
@@ -52,7 +52,7 @@ import static junit.framework.Assert.assertEquals;
 import static org.catrobat.catroid.common.Constants.BACKPACK_SCENE_DIRECTORY;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileDoesNotExist;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileExists;
-import static org.catrobat.catroid.utils.Utils.buildProjectPath;
+import static org.catrobat.catroid.utils.PathBuilder.buildProjectPath;
 
 @RunWith(AndroidJUnit4.class)
 public class SceneControllerTest {
@@ -98,8 +98,8 @@ public class SceneControllerTest {
 					copy.getSpriteList().get(i).getNumberOfBricks());
 		}
 
-		assertLookFileExistsInScene(copy.getSpriteList().get(1).getLookList().get(0).getFileName(), copy);
-		assertSoundFileExistsInScene(copy.getSpriteList().get(1).getSoundList().get(0).getFileName(), copy);
+		assertLookFileExistsInScene(copy.getSpriteList().get(1).getLookList().get(0).getFile().getName(), copy);
+		assertSoundFileExistsInScene(copy.getSpriteList().get(1).getSoundList().get(0).getFile().getName(), copy);
 	}
 
 	@Test
@@ -118,7 +118,7 @@ public class SceneControllerTest {
 		SceneController controller = new SceneController();
 		Scene packedScene = controller.pack(scene);
 
-		assertEquals(0, BackPackListManager.getInstance().getBackPackedScenes().size());
+		assertEquals(0, BackpackListManager.getInstance().getBackPackedScenes().size());
 
 		assertEquals(new File(BACKPACK_SCENE_DIRECTORY, packedScene.getName()).getAbsolutePath(),
 				packedScene.getPath());
@@ -145,11 +145,11 @@ public class SceneControllerTest {
 		}
 
 		assertLookFileExistsInScene(
-				packedScene.getSpriteList().get(1).getLookList().get(0).getFileName(),
+				packedScene.getSpriteList().get(1).getLookList().get(0).getFile().getName(),
 				packedScene);
 
 		assertSoundFileExistsInScene(
-				packedScene.getSpriteList().get(1).getSoundList().get(0).getFileName(),
+				packedScene.getSpriteList().get(1).getSoundList().get(0).getFile().getName(),
 				packedScene);
 	}
 
@@ -160,7 +160,7 @@ public class SceneControllerTest {
 		Scene packedScene = controller.pack(scene);
 		Scene unpackedScene = controller.unpack(packedScene, project);
 
-		assertEquals(0, BackPackListManager.getInstance().getBackPackedScenes().size());
+		assertEquals(0, BackpackListManager.getInstance().getBackPackedScenes().size());
 
 		assertEquals(1, project.getSceneList().size());
 
@@ -185,20 +185,20 @@ public class SceneControllerTest {
 		}
 
 		assertLookFileExistsInScene(
-				unpackedScene.getSpriteList().get(1).getLookList().get(0).getFileName(),
+				unpackedScene.getSpriteList().get(1).getLookList().get(0).getFile().getName(),
 				unpackedScene);
 
 		assertSoundFileExistsInScene(
-				unpackedScene.getSpriteList().get(1).getSoundList().get(0).getFileName(),
+				unpackedScene.getSpriteList().get(1).getSoundList().get(0).getFile().getName(),
 				unpackedScene);
 	}
 
 	private void assertLookFileExistsInScene(String fileName, Scene scene) {
-		assertFileExists(new File(new File(scene.getDirectory(), Constants.IMAGE_DIRECTORY), fileName));
+		assertFileExists(new File(new File(scene.getDirectory(), Constants.IMAGE_DIRECTORY_NAME), fileName));
 	}
 
 	private void assertSoundFileExistsInScene(String fileName, Scene scene) {
-		assertFileExists(new File(new File(scene.getDirectory(), Constants.SOUND_DIRECTORY), fileName));
+		assertFileExists(new File(new File(scene.getDirectory(), Constants.SOUND_DIRECTORY_NAME), fileName));
 	}
 
 	private void clearBackPack() throws IOException {
@@ -236,7 +236,7 @@ public class SceneControllerTest {
 				FileTestUtils.FileTypes.SOUND
 		);
 
-		sprite.getSoundList().add(new SoundInfo("testSound", soundFile.getName()));
+		sprite.getSoundList().add(new SoundInfo("testSound", soundFile));
 
 		StorageHandler.getInstance().saveProject(project);
 	}

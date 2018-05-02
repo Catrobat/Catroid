@@ -20,31 +20,42 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.utils;
 
-import android.content.Context;
-import android.util.DisplayMetrics;
-import android.view.WindowManager;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import org.catrobat.catroid.common.ScreenValues;
+public class StringFinder {
 
-public final class UtilUi {
+	private boolean matcherRun;
+	private String result;
 
-	// Suppress default constructor for noninstantiability
-	private UtilUi() {
-		throw new AssertionError();
+	public static String encodeSpecialChars(String string) {
+		return Pattern.quote(string);
 	}
 
-	public static void updateScreenWidthAndHeight(Context context) {
-		if (context != null) {
-			WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-			DisplayMetrics displayMetrics = new DisplayMetrics();
-			windowManager.getDefaultDisplay().getMetrics(displayMetrics);
-			ScreenValues.SCREEN_WIDTH = displayMetrics.widthPixels;
-			ScreenValues.SCREEN_HEIGHT = displayMetrics.heightPixels;
-		} else {
-			//a null-context should never be passed. However, an educated guess is needed in that case.
-			ScreenValues.setToDefaultSreenSize();
+	public boolean findBetween(String string, String start, String end) {
+		Pattern pattern = Pattern.compile(start + "(.*?)" + end, Pattern.DOTALL);
+		Matcher matcher = pattern.matcher(string);
+
+		matcherRun = true;
+
+		if (matcher.find()) {
+			result = matcher.group(1);
+			return true;
 		}
+
+		result = null;
+		return false;
+	}
+
+	public String getResult() {
+		if (!matcherRun) {
+			throw new IllegalStateException("You must call findBetween(String string, String start, String end) "
+					+ "first.");
+		}
+		matcherRun = false;
+		return result;
 	}
 }

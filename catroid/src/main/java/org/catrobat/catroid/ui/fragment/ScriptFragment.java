@@ -57,7 +57,7 @@ import org.catrobat.catroid.content.commands.OnFormulaChangedListener;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.controller.BackPackListManager;
+import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.dragndrop.BrickListView;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment.OnCategorySelectedListener;
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
@@ -228,8 +228,8 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 			return;
 		}
 
-		if (BackPackListManager.getInstance().isBackpackEmpty()) {
-			BackPackListManager.getInstance().loadBackpack();
+		if (BackpackListManager.getInstance().isBackpackEmpty()) {
+			BackpackListManager.getInstance().loadBackpack();
 		}
 		BottomBar.showBottomBar(getActivity());
 		BottomBar.showPlayButton(getActivity());
@@ -346,7 +346,7 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 
 	protected void prepareActionMode(@ActionModeType int type) {
 		if (type == BACKPACK) {
-			if (BackPackListManager.getInstance().getBackPackedScriptGroups().isEmpty()) {
+			if (BackpackListManager.getInstance().getBackPackedScriptGroups().isEmpty()) {
 				startActionMode(BACKPACK);
 			} else if (adapter.isEmpty()) {
 				switchToBackpack();

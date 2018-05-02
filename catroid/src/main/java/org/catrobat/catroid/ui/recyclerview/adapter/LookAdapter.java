@@ -29,7 +29,7 @@ import android.view.View;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedVH;
-import org.catrobat.catroid.utils.UtilFile;
+import org.catrobat.catroid.utils.FileMetaDataExtractor;
 
 import java.io.File;
 import java.util.List;
@@ -56,7 +56,7 @@ public class LookAdapter extends ExtendedRVAdapter<LookData> {
 			holder.details.setText(String.format(Locale.getDefault(),
 					context.getString(R.string.look_details),
 					measureString,
-					UtilFile.getSizeAsString(new File(item.getAbsolutePath()), context)));
+					FileMetaDataExtractor.getSizeAsString(new File(item.getAbsolutePath()), context)));
 			holder.details.setVisibility(View.VISIBLE);
 		} else {
 			holder.details.setVisibility(View.GONE);

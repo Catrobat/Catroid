@@ -29,7 +29,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.controller.BackPackListManager;
+import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.LookAdapter;
 import org.catrobat.catroid.ui.recyclerview.controller.LookController;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -47,7 +47,7 @@ public class BackpackLookFragment extends BackpackRecyclerViewFragment<LookData>
 	protected void initializeAdapter() {
 		sharedPreferenceDetailsKey = "showDetailsLookList";
 		hasDetails = true;
-		List<LookData> items = BackPackListManager.getInstance().getBackPackedLooks();
+		List<LookData> items = BackpackListManager.getInstance().getBackPackedLooks();
 		adapter = new LookAdapter(items);
 		onAdapterReady();
 	}
@@ -99,7 +99,7 @@ public class BackpackLookFragment extends BackpackRecyclerViewFragment<LookData>
 				selectedItems.size(),
 				selectedItems.size()));
 
-		BackPackListManager.getInstance().saveBackpack();
+		BackpackListManager.getInstance().saveBackpack();
 		finishActionMode();
 		if (adapter.getItems().isEmpty()) {
 			getActivity().finish();

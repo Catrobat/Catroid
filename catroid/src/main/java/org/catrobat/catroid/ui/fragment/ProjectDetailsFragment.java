@@ -42,9 +42,9 @@ import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.recyclerview.dialog.SetDescriptionDialogFragment;
+import org.catrobat.catroid.utils.FileMetaDataExtractor;
+import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.UtilFile;
-import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -76,14 +76,14 @@ public class ProjectDetailsFragment extends Fragment implements SetDescriptionDi
 			getActivity().onBackPressed();
 		}
 
-		String sceneName = StorageHandler.getInstance().getFirstSceneName(projectData.projectName);
+		String sceneName = StorageHandler.extractDefaultSceneNameFromXml(projectData.projectName);
 		ProjectAndSceneScreenshotLoader screenshotLoader = new ProjectAndSceneScreenshotLoader(getActivity());
 
 		XmlHeader header = projectData.project.getXmlHeader();
 		ImageView image = view.findViewById(R.id.image);
 		screenshotLoader.loadAndShowScreenshot(projectData.projectName, sceneName, false, image);
 
-		String size = UtilFile.getSizeAsString(new File(Utils.buildProjectPath(projectData.projectName)),
+		String size = FileMetaDataExtractor.getSizeAsString(new File(PathBuilder.buildProjectPath(projectData.projectName)),
 				getActivity());
 
 		int modeText = header.islandscapeMode() ? R.string.landscape : R.string.portrait;

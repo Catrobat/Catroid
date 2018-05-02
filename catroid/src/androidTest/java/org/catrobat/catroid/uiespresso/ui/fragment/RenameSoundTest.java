@@ -151,7 +151,7 @@ public class RenameSoundTest {
 
 		List<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		SoundInfo soundInfo = new SoundInfo();
-		soundInfo.setFileName(soundFile.getName());
+		soundInfo.setFile(soundFile);
 		soundInfo.setName(oldSoundName);
 		soundInfoList.add(soundInfo);
 	}

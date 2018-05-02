@@ -41,9 +41,10 @@ import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.ShowBubbleActor;
 import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.utils.UtilFile;
+import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
@@ -65,14 +66,13 @@ public class UtilsTest extends AndroidTestCase {
 	private static final String MD5_HELLO_WORLD = "ED076287532E86365E841E92BFC50D8C";
 	private static final String NEW_PROGRAM_NAME = "new name";
 	private File testFile;
-	private File copiedFile;
 
 	private Project defaultProject;
 
 	@Override
 	protected void setUp() throws Exception {
 		OutputStream outputStream = null;
-		TestUtils.deleteProjects(NEW_PROGRAM_NAME);
+
 		try {
 			testFile = File.createTempFile("testCopyFiles", ".txt");
 			if (testFile.canWrite()) {
@@ -96,22 +96,19 @@ public class UtilsTest extends AndroidTestCase {
 		if (testFile != null && testFile.exists()) {
 			testFile.delete();
 		}
-		if (copiedFile != null && copiedFile.exists()) {
-			copiedFile.delete();
-		}
 
 		TestUtils.deleteProjects(NEW_PROGRAM_NAME);
 		super.tearDown();
 	}
 
-	public void testMD5CheckSumOfFile() {
+	public void testMD5CheckSumOfFile() throws IOException {
 
 		PrintWriter printWriter = null;
 
 		File tempDir = new File(Constants.TMP_PATH);
 		tempDir.mkdirs();
 
-		File md5TestFile = new File(Utils.buildPath(Constants.TMP_PATH, "catroid.txt"));
+		File md5TestFile = new File(PathBuilder.buildPath(Constants.TMP_PATH, "catroid.txt"));
 
 		if (md5TestFile.exists()) {
 			md5TestFile.delete();
@@ -135,7 +132,7 @@ public class UtilsTest extends AndroidTestCase {
 		assertEquals("MD5 sums are not the same for catroid file", MD5_CATROID.toLowerCase(Locale.US),
 				Utils.md5Checksum(md5TestFile));
 
-		UtilFile.deleteDirectory(tempDir);
+		StorageHandler.deleteDir(tempDir);
 	}
 
 	public void testMD5CheckSumOfString() {
@@ -149,22 +146,22 @@ public class UtilsTest extends AndroidTestCase {
 		String first = "/abc/abc";
 		String second = "/def/def/";
 		String result = "/abc/abc/def/def";
-		assertEquals(Utils.buildPath(first, second), result);
+		assertEquals(PathBuilder.buildPath(first, second), result);
 
 		first = "/abc/abc";
 		second = "def/def/";
 		result = "/abc/abc/def/def";
-		assertEquals(Utils.buildPath(first, second), result);
+		assertEquals(PathBuilder.buildPath(first, second), result);
 
 		first = "/abc/abc/";
 		second = "/def/def/";
 		result = "/abc/abc/def/def";
-		assertEquals(Utils.buildPath(first, second), result);
+		assertEquals(PathBuilder.buildPath(first, second), result);
 
 		first = "/abc/abc/";
 		second = "def/def/";
 		result = "/abc/abc/def/def";
-		assertEquals(Utils.buildPath(first, second), result);
+		assertEquals(PathBuilder.buildPath(first, second), result);
 	}
 
 	public void testDeleteSpecialCharactersFromString() {
@@ -179,28 +176,24 @@ public class UtilsTest extends AndroidTestCase {
 		}
 		String projectName = "test?Projekt\"1";
 		String expectedPath = Constants.DEFAULT_ROOT_DIRECTORY.getAbsolutePath() + "/test%3FProjekt%221";
-		assertEquals("Paths are different!", expectedPath, Utils.buildProjectPath(projectName));
+		assertEquals("Paths are different!", expectedPath, PathBuilder.buildProjectPath(projectName));
 	}
 
-	public void testProjectSameAsStandardProject() {
+	public void testCompareProjectToDefaultProject() throws IOException, IllegalArgumentException {
 		ScreenValues.SCREEN_WIDTH = 480;
 		ScreenValues.SCREEN_HEIGHT = 800;
 
-		try {
-			defaultProject = DefaultProjectHandler.createAndSaveDefaultProject(NEW_PROGRAM_NAME, getContext());
-		} catch (IOException | IllegalArgumentException e) {
-			Log.e(TAG, "error creating standard project", e);
-			fail("error creating standard project");
-		}
-		assertTrue("Failed to recognize the standard project", Utils.isStandardProject(defaultProject, getContext()));
+		defaultProject = DefaultProjectHandler.createAndSaveDefaultProject(NEW_PROGRAM_NAME, getContext());
 
-		addSpriteAndCompareToStandardProject();
-		addScriptAndCompareToStandardProject();
-		addBrickAndCompareToStandardProject();
-		changeParametersOfBricksAndCompareToStandardProject();
-		removeBrickAndCompareToStandardProject();
-		removeScriptAndCompareToStandardProject();
-		removeSpriteAndCompareToStandardProject();
+		assertTrue(Utils.isDefaultProject(defaultProject, getContext()));
+
+		addSpriteAndCompareToDefaultProject();
+		addScriptAndCompareToDefalutProject();
+		addBrickAndCompareToDefaultProject();
+		changeParametersOfBricksAndCompareToDefaultProject();
+		removeBrickAndCompareToDefaultProject();
+		removeScriptAndCompareToDefaultProject();
+		removeSpriteAndCompareToDefaultProject();
 
 		SystemClock.sleep(1000);
 	}
@@ -387,37 +380,37 @@ public class UtilsTest extends AndroidTestCase {
 		assertEquals("Failed to extract remix URL of fourth program", expectedFourthProgramRemixUrl, result.get(1));
 	}
 
-	private void addSpriteAndCompareToStandardProject() {
+	private void addSpriteAndCompareToDefaultProject() {
 		Sprite sprite = new SingleSprite("TestSprite");
 		defaultProject.getDefaultScene().addSprite(sprite);
 		assertFalse("Failed to recognize that the project is not standard after adding a new SingleSprite",
-				Utils.isStandardProject(defaultProject, getContext()));
+				Utils.isDefaultProject(defaultProject, getContext()));
 		defaultProject.getDefaultScene().removeSprite(sprite);
-		assertTrue("Failed to recognize the standard project", Utils.isStandardProject(defaultProject, getContext()));
+		assertTrue("Failed to recognize the standard project", Utils.isDefaultProject(defaultProject, getContext()));
 	}
 
-	private void addScriptAndCompareToStandardProject() {
+	private void addScriptAndCompareToDefalutProject() {
 		Sprite catroidSprite = defaultProject.getDefaultScene().getSpriteList().get(1);
 		WhenScript whenScript = new WhenScript();
 		catroidSprite.addScript(whenScript);
 		assertFalse("Failed to recognize that the project is not standard after adding a new script",
-				Utils.isStandardProject(defaultProject, getContext()));
+				Utils.isDefaultProject(defaultProject, getContext()));
 		catroidSprite.removeScript(whenScript);
-		assertTrue("Failed to recognize the standard project", Utils.isStandardProject(defaultProject, getContext()));
+		assertTrue("Failed to recognize the standard project", Utils.isDefaultProject(defaultProject, getContext()));
 	}
 
-	private void addBrickAndCompareToStandardProject() {
+	private void addBrickAndCompareToDefaultProject() {
 		Sprite catroidSprite = defaultProject.getDefaultScene().getSpriteList().get(1);
 		Brick brick = new HideBrick();
 		Script catroidScript = catroidSprite.getScript(0);
 		catroidScript.addBrick(brick);
 		assertFalse("Failed to recognize that the project is not standard after adding a new brick",
-				Utils.isStandardProject(defaultProject, getContext()));
+				Utils.isDefaultProject(defaultProject, getContext()));
 		catroidScript.removeBrick(brick);
-		assertTrue("Failed to recognize the standard project", Utils.isStandardProject(defaultProject, getContext()));
+		assertTrue("Failed to recognize the standard project", Utils.isDefaultProject(defaultProject, getContext()));
 	}
 
-	private void changeParametersOfBricksAndCompareToStandardProject() {
+	private void changeParametersOfBricksAndCompareToDefaultProject() {
 		Script catroidScript = defaultProject.getDefaultScene().getSpriteList().get(1).getScript(0);
 		ArrayList<Brick> brickList = catroidScript.getBrickList();
 		SetLookBrick setLookBrick = null;
@@ -438,11 +431,11 @@ public class UtilsTest extends AndroidTestCase {
 			LookData newLookData = new LookData();
 			setLookBrick.setLook(newLookData);
 			assertFalse("Failed to recognize that the project is not standard after changing the set look brick",
-					Utils.isStandardProject(defaultProject, getContext()));
+					Utils.isDefaultProject(defaultProject, getContext()));
 
 			setLookBrick.setLook(oldLookData);
 			assertTrue("Failed to recognize the standard project",
-					Utils.isStandardProject(defaultProject, getContext()));
+					Utils.isDefaultProject(defaultProject, getContext()));
 		}
 
 		if (waitBrick != null) {
@@ -451,47 +444,47 @@ public class UtilsTest extends AndroidTestCase {
 
 			waitBrick.setTimeToWait(newTimeToWait);
 			assertFalse("Failed to recognize that the project is not standard after changing the wait brick",
-					Utils.isStandardProject(defaultProject, getContext()));
+					Utils.isDefaultProject(defaultProject, getContext()));
 
 			waitBrick.setTimeToWait(oldTime);
 			assertTrue("Failed to recognize the standard project",
-					Utils.isStandardProject(defaultProject, getContext()));
+					Utils.isDefaultProject(defaultProject, getContext()));
 		}
 	}
 
-	private void removeBrickAndCompareToStandardProject() {
+	private void removeBrickAndCompareToDefaultProject() {
 		Script catroidScript = defaultProject.getDefaultScene().getSpriteList().get(1).getScript(0);
 		ArrayList<Brick> brickList = catroidScript.getBrickList();
 		Brick brick = brickList.get(brickList.size() - 1);
 		brickList.remove(brickList.size() - 1);
 		assertFalse("Failed to recognize that the project is not standard after removing a brick",
-				Utils.isStandardProject(defaultProject, getContext()));
+				Utils.isDefaultProject(defaultProject, getContext()));
 
 		brickList.add(brick);
-		assertTrue("Failed to recognize the standard project", Utils.isStandardProject(defaultProject, getContext()));
+		assertTrue("Failed to recognize the standard project", Utils.isDefaultProject(defaultProject, getContext()));
 	}
 
-	private void removeScriptAndCompareToStandardProject() {
+	private void removeScriptAndCompareToDefaultProject() {
 		Script catroidScript = defaultProject.getDefaultScene().getSpriteList().get(1).getScript(0);
 		Sprite sprite = defaultProject.getDefaultScene().getSpriteList().get(1);
 		sprite.removeScript(catroidScript);
 		assertFalse("Failed to recognize that the project is not standard after removing a script",
-				Utils.isStandardProject(defaultProject, getContext()));
+				Utils.isDefaultProject(defaultProject, getContext()));
 
 		sprite.addScript(catroidScript);
-		assertTrue("Failed to recognize the standard project", Utils.isStandardProject(defaultProject, getContext()));
+		assertTrue("Failed to recognize the standard project", Utils.isDefaultProject(defaultProject, getContext()));
 	}
 
-	private void removeSpriteAndCompareToStandardProject() {
+	private void removeSpriteAndCompareToDefaultProject() {
 		Sprite catroidSprite = defaultProject.getDefaultScene().getSpriteList().get(3);
 		int lastIndex = defaultProject.getDefaultScene().getSpriteList().size() - 1;
 		List<Sprite> spriteList = defaultProject.getDefaultScene().getSpriteList();
 		spriteList.remove(lastIndex);
 		assertFalse("Failed to recognize that the project is not standard after removing a sprite",
-				Utils.isStandardProject(defaultProject, getContext()));
+				Utils.isDefaultProject(defaultProject, getContext()));
 
 		spriteList.add(catroidSprite);
-		assertTrue("Failed to recognize the standard project", Utils.isStandardProject(defaultProject, getContext()));
+		assertTrue("Failed to recognize the standard project", Utils.isDefaultProject(defaultProject, getContext()));
 	}
 
 	public void testSetBitAllOnesSetIndex0To1() {

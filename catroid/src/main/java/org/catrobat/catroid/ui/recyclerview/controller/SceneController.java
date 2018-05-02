@@ -32,9 +32,9 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.physics.PhysicsWorld;
-import org.catrobat.catroid.ui.controller.BackPackListManager;
+import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.utils.PathBuilder;
 
 import java.io.File;
 import java.io.IOException;
@@ -56,7 +56,7 @@ public class SceneController {
 				sceneToCopy.getName(),
 				getScope(dstProject.getSceneList()));
 
-		File dir = new File(Utils.buildScenePath(dstProject.getName(), name));
+		File dir = new File(PathBuilder.buildScenePath(dstProject.getName(), name));
 
 		if (!createDirectory(dir)) {
 			throw new IOException("DstDir for Scene" + name + "could not be created.");
@@ -87,7 +87,7 @@ public class SceneController {
 	public Scene pack(Scene sceneToPack) throws IOException {
 		String name = uniqueNameProvider.getUniqueName(
 				sceneToPack.getName(),
-				getScope(BackPackListManager.getInstance().getBackPackedScenes()));
+				getScope(BackpackListManager.getInstance().getBackPackedScenes()));
 
 		File dir = new File(BACKPACK_SCENE_DIRECTORY, name);
 
@@ -113,8 +113,8 @@ public class SceneController {
 	}
 
 	private boolean createDirectory(File dir) {
-		File imgDir = new File(dir, Constants.IMAGE_DIRECTORY);
-		File sndDir = new File(dir, Constants.SOUND_DIRECTORY);
+		File imgDir = new File(dir, Constants.IMAGE_DIRECTORY_NAME);
+		File sndDir = new File(dir, Constants.SOUND_DIRECTORY_NAME);
 
 		dir.mkdir();
 		imgDir.mkdir();

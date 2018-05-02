@@ -22,19 +22,13 @@
  */
 package org.catrobat.catroid.common;
 
-import android.util.Log;
+import android.support.annotation.NonNull;
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
-
-import static org.catrobat.catroid.common.Constants.BACKPACK_SOUND_DIRECTORY;
 
 public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable {
 
@@ -44,106 +38,66 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 	private String name;
 	private String fileName;
 
-	public transient boolean isBackpackSoundInfo = false;
+	private transient File file;
 
 	public SoundInfo() {
 	}
 
-	public SoundInfo(String name, String fileName) {
+	public SoundInfo(String name, @NonNull File file) {
 		this.name = name;
-		this.fileName = fileName;
+		this.file = file;
+		fileName = file.getName();
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public void setName(String title) {
-		this.name = title;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getFileName() {
 		return fileName;
 	}
 
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
+	public File getFile() {
+		return file;
 	}
 
+	public void setFile(File file) {
+		this.file = file;
+		fileName = file.getName();
+	}
+
+	@SuppressWarnings("MethodDoesntCallSuperMethod")
+	@Override
+	public SoundInfo clone() {
+		try {
+			return new SoundInfo(name, StorageHandler.copyFile(file));
+		} catch (IOException e) {
+			throw new RuntimeException(TAG + ": Could not copy file: " + file.getAbsolutePath());
+		}
+	}
+
+	@SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof SoundInfo)) {
-			return false;
-		}
-		if (obj == this) {
-			return true;
-		}
-
-		SoundInfo soundInfo = (SoundInfo) obj;
-		return (soundInfo.fileName.equals(this.fileName) && soundInfo.name.equals(this.name));
+		return file.equals(((SoundInfo) obj).file);
 	}
 
 	@Override
 	public int hashCode() {
-		return fileName.hashCode() + super.hashCode();
-	}
-
-	@Override
-	public SoundInfo clone() {
-		String copiedFileName;
-		try {
-			copiedFileName = StorageHandler.copyFile(new File(getAbsolutePath())).getName();
-		} catch (IOException e) {
-			Log.e(TAG, "Could not copy file: " + fileName + ", fallback to shallow clone.");
-			copiedFileName = fileName;
-		}
-
-		return new SoundInfo(name, copiedFileName);
-	}
-
-	public File getFile() {
-		if (isBackpackSoundInfo) {
-			return new File(BACKPACK_SOUND_DIRECTORY, fileName);
-		} else {
-			return new File(getPathToSoundDirectory(), fileName);
-		}
-	}
-
-	public String getAbsolutePath() {
-		if (fileName != null) {
-			if (isBackpackSoundInfo) {
-				return Utils.buildPath(BACKPACK_SOUND_DIRECTORY.getAbsolutePath(), fileName);
-			} else {
-				return Utils.buildPath(getPathToSoundDirectory(), fileName);
-			}
-		} else {
-			return null;
-		}
-	}
-
-	private String getPathToSoundDirectory() {
-		return Utils.buildPath(Utils.buildProjectPath(ProjectManager.getInstance().getCurrentProject().getName()),
-				getSceneNameBySoundInfo(), Constants.SOUND_DIRECTORY);
-	}
-
-	private String getSceneNameBySoundInfo() {
-		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
-			for (Sprite sprite : scene.getSpriteList()) {
-				if (sprite.getSoundList().contains(this)) {
-					return scene.getName();
-				}
-			}
-		}
-		return ProjectManager.getInstance().getCurrentScene().getName();
-	}
-
-	@Override
-	public int compareTo(SoundInfo soundInfo) {
-		return name.compareTo(soundInfo.name);
+		return file.hashCode();
 	}
 
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	@Override
+	public int compareTo(@NonNull SoundInfo soundInfo) {
+		return name.compareTo(soundInfo.name);
 	}
 }

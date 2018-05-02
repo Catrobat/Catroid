@@ -49,6 +49,7 @@ import android.webkit.WebViewClient;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.utils.DownloadUtil;
+import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
@@ -119,7 +120,7 @@ public class WebViewActivity extends BaseActivity {
 						case Constants.MEDIA_TYPE_SOUND:
 							tempPath = Constants.TMP_SOUNDS_PATH;
 					}
-					String filePath = Utils.buildPath(tempPath, fileName);
+					String filePath = PathBuilder.buildPath(tempPath, fileName);
 					resultIntent.putExtra(MEDIA_FILE_PATH, filePath);
 					DownloadUtil.getInstance().prepareMediaDownloadAndStartIfPossible(WebViewActivity.this, url,
 							mediaType, name, filePath, callingActivity);

@@ -45,7 +45,6 @@ import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.uiespresso.util.FileTestUtils;
-import org.catrobat.catroid.utils.UtilFile;
 
 import java.io.File;
 
@@ -57,7 +56,7 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 	private PhysicsWorld physicsWorld;
 	private PhysicsLook physicsLook;
 	private Project project;
-	private File projectFile;
+	private File projectDir;
 	private static final int SIMPLE_SINGLE_CONVEX_POLYGON_RES_ID = R.raw.rectangle_125x125;
 	private File simpleSingleConvexPolygonFile;
 
@@ -72,10 +71,10 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 		physicsWorld = new PhysicsWorld(1920, 1600);
-		projectFile = new File(Constants.DEFAULT_ROOT_DIRECTORY, TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
+		if (projectDir.exists()) {
+			StorageHandler.deleteDir(projectDir);
 		}
 
 		physicsShapeBuilder = PhysicsShapeBuilder.getInstance();
@@ -103,11 +102,11 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
+		if (projectDir.exists()) {
+			StorageHandler.deleteDir(projectDir);
 		}
 		physicsShapeBuilder.reset();
-		projectFile = null;
+		projectDir = null;
 		super.tearDown();
 	}
 

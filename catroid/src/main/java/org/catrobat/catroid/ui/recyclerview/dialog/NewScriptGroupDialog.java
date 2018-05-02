@@ -24,7 +24,7 @@
 package org.catrobat.catroid.ui.recyclerview.dialog;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.controller.BackPackListManager;
+import org.catrobat.catroid.ui.controller.BackpackListManager;
 
 import java.util.List;
 
@@ -63,7 +63,7 @@ public class NewScriptGroupDialog extends TextInputDialogFragment {
 	}
 
 	private List<String> getScope() {
-		return BackPackListManager.getInstance().getBackPackedScriptGroups();
+		return BackpackListManager.getInstance().getBackPackedScriptGroups();
 	}
 
 	public interface BackpackScriptInterface {

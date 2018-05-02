@@ -31,8 +31,8 @@ import org.catrobat.catroid.common.ProjectData;
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedVH;
-import org.catrobat.catroid.utils.UtilFile;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.utils.FileMetaDataExtractor;
+import org.catrobat.catroid.utils.PathBuilder;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -51,7 +51,7 @@ public class ProjectAdapter extends ExtendedRVAdapter<ProjectData> {
 		Context context = holder.itemView.getContext();
 		ProjectAndSceneScreenshotLoader loader = new ProjectAndSceneScreenshotLoader(context);
 		ProjectData item = items.get(position);
-		String sceneName = StorageHandler.getInstance().getFirstSceneName(item.projectName);
+		String sceneName = StorageHandler.getInstance().extractDefaultSceneNameFromXml(item.projectName);
 
 		holder.title.setText(item.projectName);
 		loader.loadAndShowScreenshot(item.projectName, sceneName, false, holder.image);
@@ -63,7 +63,7 @@ public class ProjectAdapter extends ExtendedRVAdapter<ProjectData> {
 			holder.details.setText(String.format(Locale.getDefault(),
 					context.getString(R.string.project_details),
 					lastAccess,
-					UtilFile.getSizeAsString(new File(Utils.buildProjectPath(item.projectName)), context)));
+					FileMetaDataExtractor.getSizeAsString(new File(PathBuilder.buildProjectPath(item.projectName)), context)));
 			holder.details.setVisibility(View.VISIBLE);
 		} else {
 			holder.details.setVisibility(View.GONE);

@@ -198,7 +198,7 @@ public class PlaySoundBrickTest {
 				"longsound.mp3", org.catrobat.catroid.test.R.raw.longsound,
 				InstrumentationRegistry.getContext(), FileTestUtils.FileTypes.SOUND);
 		SoundInfo soundInfo = new SoundInfo();
-		soundInfo.setFileName(soundFile.getName());
+		soundInfo.setFile(soundFile);
 		soundInfo.setName(soundName);
 
 		soundFile2 = FileTestUtils.copyResourceFileToProject("PlaySoundBrickTest",
@@ -206,7 +206,7 @@ public class PlaySoundBrickTest {
 				"testsoundui.mp3", org.catrobat.catroid.test.R.raw.testsoundui,
 				InstrumentationRegistry.getContext(), FileTestUtils.FileTypes.SOUND);
 		SoundInfo soundInfo2 = new SoundInfo();
-		soundInfo2.setFileName(soundFile2.getName());
+		soundInfo2.setFile(soundFile2);
 		soundInfo2.setName(soundName2);
 
 		List<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();

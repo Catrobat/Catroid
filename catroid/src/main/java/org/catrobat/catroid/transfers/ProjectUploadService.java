@@ -38,6 +38,7 @@ import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.io.ZipArchiver;
 import org.catrobat.catroid.utils.ImageEditing;
+import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
@@ -121,7 +122,7 @@ public class ProjectUploadService extends IntentService {
 				}
 			}
 
-			File archive = new File(Utils.buildPath(Constants.TMP_PATH, UPLOAD_FILE_NAME));
+			File archive = new File(PathBuilder.buildPath(Constants.TMP_PATH, UPLOAD_FILE_NAME));
 			new ZipArchiver().zip(archive, projectDir.listFiles());
 
 			Context context = getApplicationContext();
