@@ -28,6 +28,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.rules.DontGenerateDefaultProjectActivityInstrumentationRule;
@@ -78,6 +79,7 @@ public class AboutDialogTest {
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Flaky
 	@Test
 	public void aboutDialogTest() {
 		openActionBarOverflowOrOptionsMenu(baseActivityTestRule.getActivity());
