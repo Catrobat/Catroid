@@ -35,7 +35,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.scratchconverter.protocol.Job;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScratchConverterActivity;
@@ -126,7 +126,7 @@ public class ScratchProgramsFragment extends Fragment implements
 			return;
 		}
 
-		if (!StorageHandler.getInstance().projectExists(item.getTitle())) {
+		if (!XstreamSerializer.getInstance().projectExists(item.getTitle())) {
 			new AlertDialog.Builder(getActivity())
 					.setTitle(R.string.warning)
 					.setMessage(R.string.error_cannot_open_not_existing_scratch_program)

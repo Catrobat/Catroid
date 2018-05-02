@@ -43,7 +43,7 @@ import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.drone.ardrone.DroneBrickFactory;
 import org.catrobat.catroid.io.ResourceImporter;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.fragment.SpriteFactory;
 import org.catrobat.catroid.utils.ImageEditing;
 
@@ -62,7 +62,7 @@ public class ArDroneProjectCreator extends ProjectCreator {
 	public Project createDefaultProject(String projectName, Context context, boolean landscapeMode)
 			throws IOException, IllegalArgumentException {
 
-		if (StorageHandler.getInstance().projectExists(projectName)) {
+		if (XstreamSerializer.getInstance().projectExists(projectName)) {
 			throw new IllegalArgumentException("Project with name '" + projectName + "' already exists!");
 		}
 
@@ -83,15 +83,15 @@ public class ArDroneProjectCreator extends ProjectCreator {
 		File sceneDir = defaultDroneProject.getDefaultScene().getDirectory();
 
 		defaultDroneProject.setDeviceData(context); // density anywhere here
-		StorageHandler.getInstance().saveProject(defaultDroneProject);
+		XstreamSerializer.getInstance().saveProject(defaultDroneProject);
 		ProjectManager.getInstance().setProject(defaultDroneProject);
 
 		backgroundImageScaleFactor = ImageEditing.calculateScaleFactorToScreenSize(
 				R.drawable.drone_project_background, context);
 
-		File backgroundFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), sceneDir,
+		File backgroundFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), R.drawable.ic_video, sceneDir,
 				backgroundName + Constants.DEFAULT_IMAGE_EXTENSION,
-				R.drawable.ic_video, backgroundImageScaleFactor);
+				backgroundImageScaleFactor);
 
 		Sprite sprite = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), backgroundName);
 
@@ -116,8 +116,7 @@ public class ArDroneProjectCreator extends ProjectCreator {
 		String takeOffSpriteName = context.getString(R.string.default_drone_project_sprites_takeoff);
 
 		File takeOffArrowFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(),
-				sceneDir, takeOffSpriteName + Constants.DEFAULT_IMAGE_EXTENSION,
-				R.drawable.default_drone_project_orange_takeoff_2,
+				R.drawable.default_drone_project_orange_takeoff_2, sceneDir, takeOffSpriteName + Constants.DEFAULT_IMAGE_EXTENSION,
 				backgroundImageScaleFactor);
 
 		defaultDroneProject.getDefaultScene().addSprite(createDroneSprite(takeOffSpriteName, DroneBrickFactory.DroneBricks
@@ -126,9 +125,8 @@ public class ArDroneProjectCreator extends ProjectCreator {
 
 		String upSpriteName = context.getString(R.string.default_drone_project_sprites_up);
 
-		File upFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), sceneDir,
+		File upFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), R.drawable.default_drone_project_orange_arrow_up, sceneDir,
 				upSpriteName + Constants.DEFAULT_IMAGE_EXTENSION,
-				R.drawable.default_drone_project_orange_arrow_up,
 				backgroundImageScaleFactor);
 
 		defaultDroneProject.getDefaultScene().addSprite(createDroneSprite(upSpriteName,
@@ -137,9 +135,8 @@ public class ArDroneProjectCreator extends ProjectCreator {
 		//Down Sprite
 		String downSpriteName = context.getString(R.string.default_drone_project_sprites_down);
 
-		File downFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), sceneDir,
+		File downFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), R.drawable.default_drone_project_orange_arrow_down, sceneDir,
 				downSpriteName + Constants.DEFAULT_IMAGE_EXTENSION,
-				R.drawable.default_drone_project_orange_arrow_down,
 				backgroundImageScaleFactor);
 
 		defaultDroneProject.getDefaultScene().addSprite(createDroneSprite(downSpriteName, DroneBrickFactory.DroneBricks.DRONE_MOVE_DOWN_BRICK,
@@ -148,9 +145,8 @@ public class ArDroneProjectCreator extends ProjectCreator {
 		//Forward Sprite
 		String forwardSpriteName = context.getString(R.string.default_drone_project_sprites_forward);
 
-		File forwardFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), sceneDir,
+		File forwardFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), R.drawable.default_drone_project_orange_go_forward, sceneDir,
 				forwardSpriteName + Constants.DEFAULT_IMAGE_EXTENSION,
-				R.drawable.default_drone_project_orange_go_forward,
 				backgroundImageScaleFactor);
 
 		defaultDroneProject.getDefaultScene().addSprite(createDroneSprite(forwardSpriteName,
@@ -159,9 +155,8 @@ public class ArDroneProjectCreator extends ProjectCreator {
 		//Backward Sprite
 		String backwardSpriteName = context.getString(R.string.default_drone_project_sprites_back);
 
-		File backwardFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), sceneDir,
+		File backwardFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), R.drawable.default_drone_project_orange_go_back, sceneDir,
 				downSpriteName + Constants.DEFAULT_IMAGE_EXTENSION,
-				R.drawable.default_drone_project_orange_go_back,
 				backgroundImageScaleFactor);
 
 		defaultDroneProject.getDefaultScene().addSprite(createDroneSprite(backwardSpriteName,
@@ -170,9 +165,8 @@ public class ArDroneProjectCreator extends ProjectCreator {
 		//Left Sprite
 		String leftSpriteName = context.getString(R.string.default_drone_project_sprites_left);
 
-		File leftFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), sceneDir,
+		File leftFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), R.drawable.default_drone_project_orange_go_left, sceneDir,
 				leftSpriteName + Constants.DEFAULT_IMAGE_EXTENSION,
-				R.drawable.default_drone_project_orange_go_left,
 				backgroundImageScaleFactor);
 
 		defaultDroneProject.getDefaultScene().addSprite(createDroneSprite(leftSpriteName,
@@ -181,9 +175,8 @@ public class ArDroneProjectCreator extends ProjectCreator {
 		//Right Sprite
 		String rightSpriteName = context.getString(R.string.default_drone_project_sprites_right);
 
-		File rightFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), sceneDir,
+		File rightFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), R.drawable.default_drone_project_orange_go_right, sceneDir,
 				rightSpriteName + Constants.DEFAULT_IMAGE_EXTENSION,
-				R.drawable.default_drone_project_orange_go_right,
 				backgroundImageScaleFactor);
 
 		defaultDroneProject.getDefaultScene().addSprite(createDroneSprite(rightSpriteName,
@@ -192,9 +185,8 @@ public class ArDroneProjectCreator extends ProjectCreator {
 		//Turn Left Sprite
 		String turnLeftSpriteName = context.getString(R.string.default_drone_project_sprites_turn_left);
 
-		File turnLeftFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), sceneDir,
+		File turnLeftFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), R.drawable.default_drone_project_orange_turn_left, sceneDir,
 				turnLeftSpriteName + Constants.DEFAULT_IMAGE_EXTENSION,
-				R.drawable.default_drone_project_orange_turn_left,
 				backgroundImageScaleFactor);
 
 		defaultDroneProject.getDefaultScene().addSprite(createDroneSprite(turnLeftSpriteName,
@@ -203,9 +195,8 @@ public class ArDroneProjectCreator extends ProjectCreator {
 		//Turn Right Sprite
 		String turnRightSpriteName = context.getString(R.string.default_drone_project_sprites_turn_right);
 
-		File turnRightFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), sceneDir,
+		File turnRightFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), R.drawable.default_drone_project_orange_turn_right, sceneDir,
 				turnRightSpriteName + Constants.DEFAULT_IMAGE_EXTENSION,
-				R.drawable.default_drone_project_orange_turn_right,
 				backgroundImageScaleFactor);
 
 		defaultDroneProject.getDefaultScene().addSprite(createDroneSprite(turnRightSpriteName,
@@ -214,9 +205,8 @@ public class ArDroneProjectCreator extends ProjectCreator {
 		//Flip Sprite
 		String flipSpriteName = context.getString(R.string.default_drone_project_sprites_flip);
 
-		File flipFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), sceneDir,
+		File flipFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), R.drawable.default_drone_project_orange_flip, sceneDir,
 				flipSpriteName + Constants.DEFAULT_IMAGE_EXTENSION,
-				R.drawable.default_drone_project_orange_flip,
 				backgroundImageScaleFactor);
 
 		defaultDroneProject.getDefaultScene().addSprite(createDroneSprite(flipSpriteName,
@@ -225,15 +215,14 @@ public class ArDroneProjectCreator extends ProjectCreator {
 		//Emergency Sprite
 		String emergencySpriteName = context.getString(R.string.default_drone_project_sprites_emergency);
 
-		File emergencyFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), sceneDir,
+		File emergencyFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), R.drawable.default_drone_project_orange_go_emergency, sceneDir,
 				emergencySpriteName + Constants.DEFAULT_IMAGE_EXTENSION,
-				R.drawable.default_drone_project_orange_go_emergency,
 				backgroundImageScaleFactor);
 
 		defaultDroneProject.getDefaultScene().addSprite(createDroneSprite(emergencySpriteName,
 				DroneBrickFactory.DroneBricks.DRONE_GO_EMERGENCY, -280, 0, emergencyFile, 2000));
 
-		StorageHandler.getInstance().saveProject(defaultDroneProject);
+		XstreamSerializer.getInstance().saveProject(defaultDroneProject);
 		return defaultDroneProject;
 	}
 

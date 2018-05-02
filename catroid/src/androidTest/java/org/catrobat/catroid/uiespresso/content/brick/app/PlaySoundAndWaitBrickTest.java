@@ -30,13 +30,16 @@ import android.widget.EditText;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.io.SoundManager;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.SpriteAttributesActivity;
 import org.catrobat.catroid.uiespresso.annotations.Device;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewActions;
@@ -258,7 +261,16 @@ public class PlaySoundAndWaitBrickTest {
 	private void createProject() throws IOException {
 		String projectName = "playSoundAndWaitBrickTest";
 		SoundManager.getInstance();
-		Script startScript = BrickTestUtils.createProjectAndGetStartScript(projectName);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+		Sprite sprite = new Sprite("testSprite");
+		Script startScript = new StartScript();
+
+		sprite.addScript(startScript);
+		project.getDefaultScene().addSprite(sprite);
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(sprite);
+
+		XstreamSerializer.getInstance().saveProject(project);
 
 		playSoundAndWaitBrickPosition = 1;
 		startScript.addBrick(new PlaySoundAndWaitBrick());

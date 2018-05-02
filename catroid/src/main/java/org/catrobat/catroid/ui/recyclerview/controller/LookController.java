@@ -27,7 +27,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 import org.catrobat.catroid.utils.Utils;
@@ -48,7 +48,7 @@ public class LookController {
 		File srcDir = getImageDir(srcScene);
 		File dstDir = getImageDir(dstScene);
 
-		String fileName = StorageHandler.copyFileToDirectory(new File(srcDir, lookToCopy.getFileName()), dstDir).getName();
+		String fileName = StorageOperations.copyFileToDir(new File(srcDir, lookToCopy.getFileName()), dstDir).getName();
 		return new LookData(name, fileName);
 	}
 
@@ -67,18 +67,18 @@ public class LookController {
 	}
 
 	public void delete(LookData lookToDelete, Scene scrScene) throws IOException {
-		StorageHandler.deleteFile(new File(getImageDir(scrScene), lookToDelete.getFileName()));
+		StorageOperations.deleteFile(new File(getImageDir(scrScene), lookToDelete.getFileName()));
 	}
 
 	public void deleteFromBackpack(LookData lookToDelete) throws IOException {
-		StorageHandler.deleteFile(new File(Constants.BACKPACK_IMAGE_DIRECTORY, lookToDelete.getFileName()));
+		StorageOperations.deleteFile(new File(Constants.BACKPACK_IMAGE_DIRECTORY, lookToDelete.getFileName()));
 	}
 
 	public LookData pack(LookData lookToPack, Scene srcScene) throws IOException {
 		String name = uniqueNameProvider.getUniqueName(
 				lookToPack.getName(), getScope(BackpackListManager.getInstance().getBackPackedLooks()));
 
-		String fileName = StorageHandler.copyFileToDirectory(
+		String fileName = StorageOperations.copyFileToDir(
 				new File(getImageDir(srcScene), lookToPack.getFileName()),
 				Constants.BACKPACK_IMAGE_DIRECTORY).getName();
 
@@ -93,7 +93,7 @@ public class LookController {
 				return look;
 			}
 		}
-		String fileName = StorageHandler.copyFileToDirectory(lookToPack.getFile(), Constants.BACKPACK_IMAGE_DIRECTORY).getName();
+		String fileName = StorageOperations.copyFileToDir(lookToPack.getFile(), Constants.BACKPACK_IMAGE_DIRECTORY).getName();
 		LookData look = new LookData(lookToPack.getName(), fileName);
 		look.isBackpackLookData = true;
 
@@ -103,7 +103,7 @@ public class LookController {
 
 	public LookData unpack(LookData lookToUnpack, Scene dstScene, Sprite dstSprite) throws IOException {
 		String name = uniqueNameProvider.getUniqueName(lookToUnpack.getName(), getScope(dstSprite.getLookList()));
-		String fileName = StorageHandler.copyFileToDirectory(lookToUnpack.getFile(), getImageDir(dstScene)).getName();
+		String fileName = StorageOperations.copyFileToDir(lookToUnpack.getFile(), getImageDir(dstScene)).getName();
 		return new LookData(name, fileName);
 	}
 

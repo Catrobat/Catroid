@@ -30,7 +30,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
@@ -81,7 +81,7 @@ public class SceneController {
 	}
 
 	public void delete(Scene sceneToDelete) throws IOException {
-		StorageHandler.deleteDir(sceneToDelete.getDirectory());
+		StorageOperations.deleteDir(sceneToDelete.getDirectory());
 	}
 
 	public Scene pack(Scene sceneToPack) throws IOException {
@@ -113,17 +113,17 @@ public class SceneController {
 	}
 
 	private boolean createDirectory(File dir) {
-		File imgDir = new File(dir, Constants.IMAGE_DIRECTORY_NAME);
-		File sndDir = new File(dir, Constants.SOUND_DIRECTORY_NAME);
+		File imageDir = new File(dir, Constants.IMAGE_DIRECTORY_NAME);
+		File soundDir = new File(dir, Constants.SOUND_DIRECTORY_NAME);
 
 		dir.mkdir();
-		imgDir.mkdir();
-		sndDir.mkdir();
+		imageDir.mkdir();
+		soundDir.mkdir();
 
-		if (!imgDir.isDirectory() || !sndDir.isDirectory()) {
+		if (!imageDir.isDirectory() || !soundDir.isDirectory()) {
 			if (dir.isDirectory()) {
 				try {
-					StorageHandler.deleteDir(dir);
+					StorageOperations.deleteDir(dir);
 				} catch (IOException e) {
 					Log.e(TAG, Log.getStackTraceString(e));
 				}

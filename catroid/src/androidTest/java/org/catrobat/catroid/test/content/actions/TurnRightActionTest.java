@@ -35,7 +35,8 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 
@@ -56,11 +57,11 @@ public class TurnRightActionTest extends InstrumentationTestCase {
 		File projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName);
 
 		if (projectDir.exists()) {
-			StorageHandler.deleteDir(projectDir);
+			StorageOperations.deleteDir(projectDir);
 		}
 
 		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
-		StorageHandler.getInstance().saveProject(project);
+		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
 		testImage = FileTestUtils.copyResourceFileToProject(this.projectName, project.getDefaultScene().getName(),
@@ -79,7 +80,7 @@ public class TurnRightActionTest extends InstrumentationTestCase {
 		File projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName);
 
 		if (projectDir.exists()) {
-			StorageHandler.deleteDir(projectDir);
+			StorageOperations.deleteDir(projectDir);
 		}
 		super.tearDown();
 	}

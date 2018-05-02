@@ -28,26 +28,25 @@ import android.test.InstrumentationTestCase;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.SoundManager;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.util.Collections;
 import java.util.List;
 
+import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
+
 public class SoundManagerTest extends InstrumentationTestCase {
 
 	private final SoundManager soundManager = SoundManager.getInstance();
-	private final int soundFileId = R.raw.testsound;
-	private final int soundFileDuration = 144;
 
 	private Project project;
-
 	private File soundFile;
 
 	@Override
@@ -55,9 +54,11 @@ public class SoundManagerTest extends InstrumentationTestCase {
 		TestUtils.deleteProjects();
 		createProject();
 		soundManager.clear();
-		soundFile = FileTestUtils.copyResourceFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
-				project.getDefaultScene().getName(), "testsound", soundFileId,
-				getInstrumentation().getContext(), FileTestUtils.FileTypes.SOUND);
+
+		soundFile = ResourceImporter
+				.createSoundFileFromResourcesInDirectory(getInstrumentation().getContext().getResources(),
+						R.raw.testsound, new File(project.getDefaultScene().getDirectory(), SOUND_DIRECTORY_NAME),
+						"testsound.m4a");
 		super.setUp();
 	}
 
@@ -72,8 +73,8 @@ public class SoundManagerTest extends InstrumentationTestCase {
 		soundManager.playSoundFile(soundFile.getAbsolutePath());
 
 		MediaPlayer mediaPlayer = getMediaPlayers().get(0);
-		assertTrue("Media player isn't playing", mediaPlayer.isPlaying());
-		assertEquals("Wrong sound file is playing", soundFileDuration, mediaPlayer.getDuration());
+		assertTrue(mediaPlayer.isPlaying());
+		assertEquals(144, mediaPlayer.getDuration());
 	}
 
 	public void testClear() {
@@ -202,13 +203,13 @@ public class SoundManagerTest extends InstrumentationTestCase {
 	}
 
 	private void createProject() {
-		project = new Project(getInstrumentation().getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		project = new Project(getInstrumentation().getTargetContext(), "testProject");
 
 		Sprite sprite = new Sprite("TestSprite");
 
 		project.getDefaultScene().addSprite(sprite);
 
-		StorageHandler.getInstance().saveProject(project);
+		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 	}
 }

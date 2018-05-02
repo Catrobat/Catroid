@@ -33,6 +33,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
@@ -140,6 +141,7 @@ public class RenameLookTest {
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
+		XstreamSerializer.getInstance().saveProject(project);
 
 		File imageFile = FileTestUtils.copyResourceFileToProject(
 				projectName, ProjectManager.getInstance().getCurrentScene().getName(), "catroid_sunglasses.png",

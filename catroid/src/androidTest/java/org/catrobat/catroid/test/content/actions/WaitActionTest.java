@@ -28,12 +28,17 @@ import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.actions.WaitAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
+
 public class WaitActionTest extends AndroidTestCase {
 
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
 	private static final float VALUE = 2f;
+	private static final float DELTA = 0.1f;
 
-	public void testWait() throws InterruptedException {
+	public void testWait() {
 		float waitOneSecond = 1.0f;
 		ActionFactory factory = new ActionFactory();
 		WaitAction action = (WaitAction) factory.createDelayAction(null, new Formula(waitOneSecond));
@@ -42,7 +47,7 @@ public class WaitActionTest extends AndroidTestCase {
 			currentTimeInMilliSeconds = System.currentTimeMillis() - currentTimeInMilliSeconds;
 		} while (!action.act(currentTimeInMilliSeconds / 1000f));
 
-		assertTrue("Unexpected waited time!", (action.getTime() - waitOneSecond) > 0.5f);
+		assertThat(action.getTime() - waitOneSecond, is(greaterThan(0.5f)));
 	}
 
 	public void testBrickWithStringFormula() {
@@ -52,14 +57,15 @@ public class WaitActionTest extends AndroidTestCase {
 		do {
 			currentTimeInMilliSeconds = System.currentTimeMillis() - currentTimeInMilliSeconds;
 		} while (!action.act(currentTimeInMilliSeconds / 1000f));
-		assertTrue("Unexpected waited time!", (action.getTime() - VALUE) > 0.5f);
+
+		assertThat(action.getTime() - VALUE, is(greaterThan(0.5f)));
 
 		action = (WaitAction) factory.createDelayAction(null, new Formula(NOT_NUMERICAL_STRING));
 		currentTimeInMilliSeconds = System.currentTimeMillis();
 		do {
 			currentTimeInMilliSeconds = System.currentTimeMillis() - currentTimeInMilliSeconds;
 		} while (!action.act(currentTimeInMilliSeconds / 1000f));
-		assertTrue("Unexpected waited time!", action.getTime() == 0f);
+		assertEquals(0f, action.getTime(), DELTA);
 	}
 
 	public void testNullFormula() {
@@ -69,7 +75,7 @@ public class WaitActionTest extends AndroidTestCase {
 		do {
 			currentTimeInMilliSeconds = System.currentTimeMillis() - currentTimeInMilliSeconds;
 		} while (!action.act(currentTimeInMilliSeconds / 1000f));
-		assertTrue("Unexpected waited time!", action.getTime() == 0f);
+		assertEquals(0f, action.getTime(), DELTA);
 	}
 
 	public void testNotANumberFormula() {
@@ -79,6 +85,6 @@ public class WaitActionTest extends AndroidTestCase {
 		do {
 			currentTimeInMilliSeconds = System.currentTimeMillis() - currentTimeInMilliSeconds;
 		} while (!action.act(currentTimeInMilliSeconds / 1000f));
-		assertTrue("Unexpected waited time!", action.getTime() == 0f);
+		assertEquals(0f, action.getTime(), DELTA);
 	}
 }

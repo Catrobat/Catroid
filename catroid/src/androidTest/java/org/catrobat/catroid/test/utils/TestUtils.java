@@ -44,7 +44,8 @@ import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.utils.NotificationData;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 
@@ -65,7 +66,7 @@ public final class TestUtils {
 		for (String projectName : projectNames) {
 			File projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName);
 			if (projectDir.exists() && projectDir.isDirectory()) {
-				StorageHandler.deleteDir(projectDir);
+				StorageOperations.deleteDir(projectDir);
 			}
 		}
 	}
@@ -83,7 +84,7 @@ public final class TestUtils {
 		firstSprite.addScript(testScript);
 		project.getDefaultScene().addSprite(firstSprite);
 
-		StorageHandler.getInstance().saveProject(project);
+		XstreamSerializer.getInstance().saveProject(project);
 		return project;
 	}
 

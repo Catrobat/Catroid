@@ -27,7 +27,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 
@@ -45,7 +45,7 @@ public class SoundController {
 		String name = uniqueNameProvider.getUniqueName(soundToCopy.getName(), getScope(dstSprite.getSoundList()));
 
 		File dstDir = getSoundDir(dstScene);
-		File file = StorageHandler.copyFileToDirectory(soundToCopy.getFile(), dstDir);
+		File file = StorageOperations.copyFileToDir(soundToCopy.getFile(), dstDir);
 
 		return new SoundInfo(name, file);
 	}
@@ -62,14 +62,14 @@ public class SoundController {
 	}
 
 	public void delete(SoundInfo soundToDelete) throws IOException {
-		StorageHandler.deleteFile(soundToDelete.getFile());
+		StorageOperations.deleteFile(soundToDelete.getFile());
 	}
 
 	public SoundInfo pack(SoundInfo soundToPack) throws IOException {
 		String name = uniqueNameProvider.getUniqueName(soundToPack.getName(),
 				getScope(BackpackListManager.getInstance().getBackPackedSounds()));
 
-		File file = StorageHandler.copyFileToDirectory(soundToPack.getFile(), Constants.BACKPACK_SOUND_DIRECTORY);
+		File file = StorageOperations.copyFileToDir(soundToPack.getFile(), Constants.BACKPACK_SOUND_DIRECTORY);
 
 		return new SoundInfo(name, file);
 	}
@@ -81,7 +81,7 @@ public class SoundController {
 			}
 		}
 
-		File file = StorageHandler.copyFileToDirectory(soundToPack.getFile(), Constants.BACKPACK_SOUND_DIRECTORY);
+		File file = StorageOperations.copyFileToDir(soundToPack.getFile(), Constants.BACKPACK_SOUND_DIRECTORY);
 		SoundInfo sound = new SoundInfo(soundToPack.getName(), file);
 		dstSprite.getSoundList().add(sound);
 
@@ -90,7 +90,7 @@ public class SoundController {
 
 	public SoundInfo unpack(SoundInfo soundToUnpack, Scene dstScene, Sprite dstSprite) throws IOException {
 		String name = uniqueNameProvider.getUniqueName(soundToUnpack.getName(), getScope(dstSprite.getSoundList()));
-		File file = StorageHandler.copyFileToDirectory(soundToUnpack.getFile(), getSoundDir(dstScene));
+		File file = StorageOperations.copyFileToDir(soundToUnpack.getFile(), getSoundDir(dstScene));
 		return new SoundInfo(name, file);
 	}
 

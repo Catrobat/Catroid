@@ -37,7 +37,7 @@ import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.io.File;
@@ -75,7 +75,7 @@ public class ArduinoSettingsTest extends InstrumentationTestCase {
 		assertTrue("After loading a project which needs Arduino it should be enabled",
 				SettingsFragment.isArduinoSharedPreferenceEnabled(context));
 
-		StorageHandler.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName));
+		StorageOperations.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName));
 	}
 
 	private void createProjectArduino() throws InterruptedException {

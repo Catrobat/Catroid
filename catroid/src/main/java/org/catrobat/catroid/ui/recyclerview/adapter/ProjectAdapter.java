@@ -29,7 +29,7 @@ import android.view.View;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ProjectData;
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedVH;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.PathBuilder;
@@ -51,7 +51,7 @@ public class ProjectAdapter extends ExtendedRVAdapter<ProjectData> {
 		Context context = holder.itemView.getContext();
 		ProjectAndSceneScreenshotLoader loader = new ProjectAndSceneScreenshotLoader(context);
 		ProjectData item = items.get(position);
-		String sceneName = StorageHandler.getInstance().extractDefaultSceneNameFromXml(item.projectName);
+		String sceneName = XstreamSerializer.extractDefaultSceneNameFromXml(item.projectName);
 
 		holder.title.setText(item.projectName);
 		loader.loadAndShowScreenshot(item.projectName, sceneName, false, holder.image);

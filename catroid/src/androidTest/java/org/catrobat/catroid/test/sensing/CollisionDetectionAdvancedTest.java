@@ -38,7 +38,7 @@ import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.sensing.CollisionDetection;
 import org.catrobat.catroid.sensing.CollisionInformation;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -100,7 +100,7 @@ public class CollisionDetectionAdvancedTest extends InstrumentationTestCase {
 		project.getDefaultScene().addSprite(sprite1);
 		project.getDefaultScene().addSprite(sprite2);
 
-		StorageHandler.getInstance().saveProject(project);
+		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
 		initializeSprite(sprite1, org.catrobat.catroid.test.R.raw.collision_donut, "collision_donut.png");
@@ -115,7 +115,7 @@ public class CollisionDetectionAdvancedTest extends InstrumentationTestCase {
 		Assert.assertNotNull(collisionPolygons2);
 		Assert.assertEquals(3, collisionPolygons2.length);
 
-		StorageHandler.getInstance().saveProject(project);
+		XstreamSerializer.getInstance().saveProject(project);
 	}
 
 	public void testCollisionBetweenMovingLooks() {

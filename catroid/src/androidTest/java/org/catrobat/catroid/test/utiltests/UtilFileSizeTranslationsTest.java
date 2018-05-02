@@ -27,7 +27,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
@@ -88,7 +88,7 @@ public class UtilFileSizeTranslationsTest {
 	public void createProjectWithFiles() throws IOException {
 		String projectName = "fileSizeArabicTest";
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
-		StorageHandler.getInstance().saveProject(project);
+		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentScene(project.getDefaultScene());
 

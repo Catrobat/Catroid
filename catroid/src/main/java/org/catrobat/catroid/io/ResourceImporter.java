@@ -25,14 +25,11 @@ package org.catrobat.catroid.io;
 
 import android.content.res.Resources;
 
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.soundrecorder.SoundRecorder;
 import org.catrobat.catroid.utils.ImageEditing;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Locale;
 
 public final class ResourceImporter {
 
@@ -40,19 +37,15 @@ public final class ResourceImporter {
 		throw new AssertionError();
 	}
 
-	public static File createImageFileFromResourcesInDirectory(Resources resources, File dstDir, String fileName,
-			int resourceId, double scaleFactor) throws IOException {
+	public static File createImageFileFromResourcesInDirectory(Resources resources, int resourceId, File dstDir,
+			String fileName, double scaleFactor) throws IOException {
 
 		if (scaleFactor <= 0) {
 			throw new IllegalArgumentException("scaleFactor was: " + scaleFactor + ", it has to be > 0.");
 		}
 
-		if (!fileName.toLowerCase(Locale.US).endsWith(Constants.DEFAULT_IMAGE_EXTENSION)) {
-			fileName += Constants.DEFAULT_IMAGE_EXTENSION;
-		}
-
 		InputStream inputStream = resources.openRawResource(resourceId);
-		File file = StorageHandler.createFileFromStreamInDir(inputStream, dstDir, fileName);
+		File file = StorageOperations.copyStreamToDir(inputStream, dstDir, fileName);
 
 		if (scaleFactor != 1) {
 			ImageEditing.scaleImageFile(file, scaleFactor);
@@ -61,14 +54,10 @@ public final class ResourceImporter {
 		return file;
 	}
 
-	public static File createSoundFileFromResourcesInDirectory(Resources resources, File dstDir, String fileName,
-			int resourceId) throws IOException {
-
-		if (!fileName.toLowerCase(Locale.US).endsWith(SoundRecorder.RECORDING_EXTENSION)) {
-			throw new IllegalArgumentException("Extension " + SoundRecorder.RECORDING_EXTENSION + " is required.");
-		}
+	public static File createSoundFileFromResourcesInDirectory(Resources resources, int resourceId, File dstDir,
+			String fileName) throws IOException {
 
 		InputStream inputStream = resources.openRawResource(resourceId);
-		return StorageHandler.createFileFromStreamInDir(inputStream, dstDir, fileName);
+		return StorageOperations.copyStreamToDir(inputStream, dstDir, fileName);
 	}
 }

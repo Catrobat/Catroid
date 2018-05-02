@@ -39,7 +39,7 @@ import org.catrobat.catroid.common.ProjectData;
 import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.recyclerview.dialog.SetDescriptionDialogFragment;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
@@ -65,7 +65,7 @@ public class ProjectDetailsFragment extends Fragment implements SetDescriptionDi
 
 		try {
 			projectData = (ProjectData) getArguments().getSerializable(SELECTED_PROJECT_KEY);
-			projectData.project = StorageHandler.getInstance().loadProject(projectData.projectName, getActivity());
+			projectData.project = XstreamSerializer.getInstance().loadProject(projectData.projectName, getActivity());
 		} catch (IOException e) {
 			ToastUtil.showError(getActivity(), R.string.error_load_project);
 			Log.e(TAG, Log.getStackTraceString(e));
@@ -76,7 +76,7 @@ public class ProjectDetailsFragment extends Fragment implements SetDescriptionDi
 			getActivity().onBackPressed();
 		}
 
-		String sceneName = StorageHandler.extractDefaultSceneNameFromXml(projectData.projectName);
+		String sceneName = XstreamSerializer.extractDefaultSceneNameFromXml(projectData.projectName);
 		ProjectAndSceneScreenshotLoader screenshotLoader = new ProjectAndSceneScreenshotLoader(getActivity());
 
 		XmlHeader header = projectData.project.getXmlHeader();
@@ -155,7 +155,7 @@ public class ProjectDetailsFragment extends Fragment implements SetDescriptionDi
 	@Override
 	public void setDescription(String description) {
 		projectData.project.setDescription(description);
-		if (StorageHandler.getInstance().saveProject(projectData.project)) {
+		if (XstreamSerializer.getInstance().saveProject(projectData.project)) {
 			this.description.setText(description);
 		} else {
 			ToastUtil.showError(getActivity(), R.string.error_set_description);

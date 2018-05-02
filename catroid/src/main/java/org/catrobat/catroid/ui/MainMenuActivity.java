@@ -30,6 +30,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.PermissionChecker;
@@ -208,7 +209,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 	}
 
 	@Override
-	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 		switch (requestCode) {
 			case ACCESS_STORAGE:
 				if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -321,7 +322,8 @@ public class MainMenuActivity extends BaseCastActivity implements
 	@Override
 	public void onLoadFinished(boolean success, String message) {
 		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
-			startActivityForResult(new Intent(this, PreStageActivity.class), PreStageActivity.REQUEST_RESOURCES_INIT);
+			startActivityForResult(
+					new Intent(this, PreStageActivity.class), PreStageActivity.REQUEST_RESOURCES_INIT);
 		}
 	}
 

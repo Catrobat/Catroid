@@ -54,7 +54,7 @@ import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.ResourceImporter;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.content.bricks.SetBounceBrick;
 import org.catrobat.catroid.physics.content.bricks.SetFrictionBrick;
@@ -83,7 +83,7 @@ public class PhysicsProjectCreator extends ProjectCreator {
 			throws
 			IOException,
 			IllegalArgumentException {
-		if (StorageHandler.getInstance().projectExists(projectName)) {
+		if (XstreamSerializer.getInstance().projectExists(projectName)) {
 			throw new IllegalArgumentException("Project with name '" + projectName + "' already exists!");
 		}
 
@@ -94,7 +94,7 @@ public class PhysicsProjectCreator extends ProjectCreator {
 		File sceneDir = new File(PathBuilder.buildScenePath(projectName, defaultPhysicsProject.getDefaultScene().getName()));
 
 		defaultPhysicsProject.setDeviceData(context);
-		StorageHandler.getInstance().saveProject(defaultPhysicsProject);
+		XstreamSerializer.getInstance().saveProject(defaultPhysicsProject);
 		ProjectManager.getInstance().setProject(defaultPhysicsProject);
 
 		backgroundImageScaleVector = ImageEditing.calculateScaleFactorsToScreenSize(
@@ -103,9 +103,8 @@ public class PhysicsProjectCreator extends ProjectCreator {
 				R.drawable.physics_background_480_800, context);
 
 		File backgroundFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(),
-				new File(sceneDir, Constants.IMAGE_DIRECTORY_NAME),
+				R.drawable.physics_background_480_800, new File(sceneDir, Constants.IMAGE_DIRECTORY_NAME),
 				backgroundName + Constants.DEFAULT_IMAGE_EXTENSION,
-				R.drawable.physics_background_480_800,
 				backgroundImageScaleFactor);
 
 		LookData backgroundLookData = new LookData(backgroundName, backgroundFile.getName());
@@ -275,7 +274,7 @@ public class PhysicsProjectCreator extends ProjectCreator {
 			defaultPhysicsProject.getDefaultScene().addSprite(sprite);
 		}
 
-		StorageHandler.getInstance().saveProject(defaultPhysicsProject);
+		XstreamSerializer.getInstance().saveProject(defaultPhysicsProject);
 
 		return defaultPhysicsProject;
 	}
@@ -289,8 +288,8 @@ public class PhysicsProjectCreator extends ProjectCreator {
 			int fileId, Vector2 position, float angle, float scale) throws IOException {
 
 		File file = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(),
-				new File(sceneDir, Constants.IMAGE_DIRECTORY_NAME),
-				fileName, fileId, backgroundImageScaleFactor);
+				fileId, new File(sceneDir, Constants.IMAGE_DIRECTORY_NAME),
+				fileName, backgroundImageScaleFactor);
 
 		LookData lookData = new LookData(fileName, file.getName());
 		List<LookData> looks = sprite.getLookList();
@@ -345,8 +344,8 @@ public class PhysicsProjectCreator extends ProjectCreator {
 		String filename = "button_pressed";
 
 		File file = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(),
-				new File(sceneDir, Constants.IMAGE_DIRECTORY_NAME),
-				filename, R.drawable.physics_button_pressed, backgroundImageScaleFactor);
+				R.drawable.physics_button_pressed, new File(sceneDir, Constants.IMAGE_DIRECTORY_NAME),
+				filename, backgroundImageScaleFactor);
 
 		LookData lookData = new LookData(filename, file.getName());
 		List<LookData> looks = sprite.getLookList();

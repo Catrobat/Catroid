@@ -37,7 +37,7 @@ import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetXBrick;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.ProjectListActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
@@ -108,6 +108,7 @@ public class CopyProjectTest {
 		project.getDefaultScene().addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
+		XstreamSerializer.getInstance().saveProject(project);
 
 		File soundFile = FileTestUtils.copyResourceFileToProject(
 				toBeCopiedProjectName, ProjectManager.getInstance().getCurrentScene().getName(), "longsound.mp3",
@@ -135,6 +136,6 @@ public class CopyProjectTest {
 		project.addScene(secondScene);
 
 		ProjectManager.getInstance().setCurrentScene(project.getDefaultScene());
-		StorageHandler.getInstance().saveProject(project);
+		XstreamSerializer.getInstance().saveProject(project);
 	}
 }

@@ -28,6 +28,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -89,8 +90,9 @@ public class MainMenuFragment extends Fragment implements SimpleRVAdapter.OnItem
 		List<SimpleRVItem> items = getItems();
 		adapter = new SimpleRVAdapter(items) {
 
+			@NonNull
 			@Override
-			public SimpleVH onCreateViewHolder(ViewGroup parent, int viewType) {
+			public SimpleVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 				View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.vh_simple, parent, false);
 				int itemHeight = parent.getHeight() / items.size();
 				view.setMinimumHeight(itemHeight);

@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.ui.recyclerview.adapter;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,14 +48,15 @@ public class SimpleRVAdapter extends RecyclerView.Adapter<SimpleVH> {
 		this.onItemClickListener = onItemClickListener;
 	}
 
+	@NonNull
 	@Override
-	public SimpleVH onCreateViewHolder(ViewGroup parent, int viewType) {
+	public SimpleVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.vh_simple, parent, false);
 		return new SimpleVH(view);
 	}
 
 	@Override
-	public void onBindViewHolder(final SimpleVH holder, int position) {
+	public void onBindViewHolder(@NonNull final SimpleVH holder, int position) {
 		final SimpleRVItem item = items.get(position);
 		holder.image.setImageDrawable(item.drawable);
 		holder.title.setText(item.name);

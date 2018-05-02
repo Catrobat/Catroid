@@ -30,7 +30,7 @@ import junit.framework.Assert;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.sensing.CollisionDetection;
 import org.catrobat.catroid.test.utils.CollisionTestUtils;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -49,7 +49,7 @@ public class TouchesFingerTest extends InstrumentationTestCase {
 		sprite1 = new Sprite("TestSprite1");
 		project.getDefaultScene().addSprite(sprite1);
 
-		StorageHandler.getInstance().saveProject(project);
+		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
 		CollisionTestUtils.initializeSprite(sprite1, org.catrobat.catroid.test.R.raw.collision_donut,

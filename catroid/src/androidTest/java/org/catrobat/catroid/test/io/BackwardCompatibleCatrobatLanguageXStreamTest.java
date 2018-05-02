@@ -26,7 +26,8 @@ import android.test.InstrumentationTestCase;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.io.ZipArchiver;
 
 import java.io.File;
@@ -62,40 +63,40 @@ public class BackwardCompatibleCatrobatLanguageXStreamTest extends Instrumentati
 		copyProjectFromAssets(ZIP_FILENAME_FALLING_BALLS, PROJECT_NAME_FALLING_BALLS);
 		copyProjectFromAssets(ZIP_FILENAME_COLOR_LEANER_BALLOONS, PROJECT_NAME_COLOR_LEANER_BALLOONS);
 
-		Project fallingBallsProject = StorageHandler.getInstance()
+		Project fallingBallsProject = XstreamSerializer.getInstance()
 				.loadProject(PROJECT_NAME_FALLING_BALLS, getInstrumentation().getTargetContext());
 
 		assertNotNull(fallingBallsProject);
 		assertEquals(PROJECT_NAME_FALLING_BALLS, fallingBallsProject.getName().toLowerCase(Locale.getDefault()));
 
-		Project colorLeanerBalloonsProject = StorageHandler.getInstance()
+		Project colorLeanerBalloonsProject = XstreamSerializer.getInstance()
 				.loadProject(PROJECT_NAME_COLOR_LEANER_BALLOONS, getInstrumentation().getTargetContext());
 
 		assertNotNull(colorLeanerBalloonsProject);
 		assertEquals(PROJECT_NAME_COLOR_LEANER_BALLOONS, colorLeanerBalloonsProject.getName().toLowerCase(Locale.getDefault()));
 
-		StorageHandler.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_FALLING_BALLS));
-		StorageHandler.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_COLOR_LEANER_BALLOONS));
+		StorageOperations.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_FALLING_BALLS));
+		StorageOperations.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_COLOR_LEANER_BALLOONS));
 	}
 
 	public void testLoadingProjectsOfCatrobatLanguageVersion09() throws Exception {
 		copyProjectFromAssets(ZIP_FILENAME_PONG_STARTER, PROJECT_NAME_PONG_STARTER);
 		copyProjectFromAssets(ZIP_FILENAME_WHIP, PROJECT_NAME_WHIP);
 
-		Project pongStarterProject = StorageHandler.getInstance()
+		Project pongStarterProject = XstreamSerializer.getInstance()
 				.loadProject(PROJECT_NAME_PONG_STARTER, getInstrumentation().getTargetContext());
 
 		assertNotNull(pongStarterProject);
 		assertEquals(PROJECT_NAME_PONG_STARTER, pongStarterProject.getName().toLowerCase(Locale.getDefault()));
 
-		Project whipProject = StorageHandler.getInstance()
+		Project whipProject = XstreamSerializer.getInstance()
 				.loadProject(PROJECT_NAME_WHIP, getInstrumentation().getTargetContext());
 
 		assertNotNull(whipProject);
 		assertEquals(PROJECT_NAME_WHIP, whipProject.getName().toLowerCase(Locale.getDefault()));
 
-		StorageHandler.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_PONG_STARTER));
-		StorageHandler.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_WHIP));
+		StorageOperations.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_PONG_STARTER));
+		StorageOperations.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_WHIP));
 	}
 
 	public void testLoadingProjectsOfCatrobatLanguageVersion091() throws Exception {
@@ -103,64 +104,64 @@ public class BackwardCompatibleCatrobatLanguageXStreamTest extends Instrumentati
 		copyProjectFromAssets(ZIP_FILENAME_XRAY_PHONE, PROJECT_NAME_XRAY_PHONE);
 		copyProjectFromAssets(ZIP_FILENAME_ALL_BRICKS, PROJECT_NAME_ALL_BRICKS);
 
-		Project airFightProject = StorageHandler.getInstance().loadProject(PROJECT_NAME_AIR_FIGHT,
+		Project airFightProject = XstreamSerializer.getInstance().loadProject(PROJECT_NAME_AIR_FIGHT,
 				getInstrumentation().getTargetContext());
 
 		assertNotNull(airFightProject);
 		assertEquals(PROJECT_NAME_AIR_FIGHT, airFightProject.getName().toLowerCase(Locale.getDefault()));
 
-		Project xRayPhoneProject = StorageHandler.getInstance().loadProject(PROJECT_NAME_XRAY_PHONE,
+		Project xRayPhoneProject = XstreamSerializer.getInstance().loadProject(PROJECT_NAME_XRAY_PHONE,
 				getInstrumentation().getTargetContext());
 
 		assertNotNull(xRayPhoneProject);
 		assertEquals(PROJECT_NAME_XRAY_PHONE, xRayPhoneProject.getName().toLowerCase(Locale.getDefault()));
 
-		Project allBricksProject = StorageHandler.getInstance().loadProject(PROJECT_NAME_ALL_BRICKS,
+		Project allBricksProject = XstreamSerializer.getInstance().loadProject(PROJECT_NAME_ALL_BRICKS,
 				getInstrumentation().getTargetContext());
 
 		assertNotNull(allBricksProject);
 		assertEquals(PROJECT_NAME_ALL_BRICKS, allBricksProject.getName().toLowerCase(Locale.getDefault()));
 
-		StorageHandler.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_AIR_FIGHT));
-		StorageHandler.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_XRAY_PHONE));
-		StorageHandler.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_ALL_BRICKS));
+		StorageOperations.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_AIR_FIGHT));
+		StorageOperations.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_XRAY_PHONE));
+		StorageOperations.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_ALL_BRICKS));
 	}
 
 	public void testLoadingProjectsOfCatrobatLanguageVersion092() throws Exception {
 		copyProjectFromAssets(ZIP_FILENAME_NOTE_AND_SPEAK_BRICK, PROJECT_NAME_NOTE_AND_SPEAK_BRICK);
 
-		Project noteAndSpeakBrickProject = StorageHandler.getInstance()
+		Project noteAndSpeakBrickProject = XstreamSerializer.getInstance()
 				.loadProject(PROJECT_NAME_NOTE_AND_SPEAK_BRICK, getInstrumentation().getTargetContext());
 
 		assertNotNull(noteAndSpeakBrickProject);
 		assertEquals(PROJECT_NAME_NOTE_AND_SPEAK_BRICK,
 				noteAndSpeakBrickProject.getName().toLowerCase(Locale.getDefault()));
 
-		StorageHandler.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_NOTE_AND_SPEAK_BRICK));
+		StorageOperations.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_NOTE_AND_SPEAK_BRICK));
 	}
 
 	public void testLoadingProjectsOfCatrobatLanguageVersion095() throws Exception {
 		copyProjectFromAssets(ZIP_FILENAME_GHOST_EFFECT_BRICKS, PROJECT_NAME_GHOST_EFFECT_BRICKS);
 
-		Project ghostBricksProject = StorageHandler.getInstance()
+		Project ghostBricksProject = XstreamSerializer.getInstance()
 				.loadProject(PROJECT_NAME_GHOST_EFFECT_BRICKS, getInstrumentation().getTargetContext());
 
 		assertNotNull(ghostBricksProject);
 		assertEquals(PROJECT_NAME_GHOST_EFFECT_BRICKS, ghostBricksProject.getName().toLowerCase(Locale.getDefault()));
 
-		StorageHandler.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_GHOST_EFFECT_BRICKS));
+		StorageOperations.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_GHOST_EFFECT_BRICKS));
 	}
 
 	public void testLoadingLegoNxtProjectsOfCatrobatLanguageVersion092() throws Exception {
 		copyProjectFromAssets(ZIP_FILENAME_LEGO_NXT, PROJECT_NAME_LEGO_NXT);
 
-		Project legoProject = StorageHandler.getInstance()
+		Project legoProject = XstreamSerializer.getInstance()
 				.loadProject(PROJECT_NAME_LEGO_NXT, getInstrumentation().getTargetContext());
 
 		assertNotNull(legoProject);
 		assertEquals(PROJECT_NAME_LEGO_NXT, legoProject.getName().toLowerCase(Locale.getDefault()));
 
-		StorageHandler.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_LEGO_NXT));
+		StorageOperations.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_LEGO_NXT));
 	}
 
 	private void copyProjectFromAssets(String assetName, String projectName) throws IOException {

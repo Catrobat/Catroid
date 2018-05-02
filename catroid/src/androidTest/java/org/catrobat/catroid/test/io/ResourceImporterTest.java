@@ -28,7 +28,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.io.ResourceImporter;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.StorageOperations;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,9 +37,7 @@ import org.junit.runner.RunWith;
 import java.io.File;
 import java.io.IOException;
 
-import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
 
 @RunWith(AndroidJUnit4.class)
 public class ResourceImporterTest {
@@ -53,20 +51,20 @@ public class ResourceImporterTest {
 
 	@After
 	public void tearDown() throws IOException {
-		StorageHandler.deleteDir(testDir);
+		StorageOperations.deleteDir(testDir);
 	}
 
 	@Test
 	public void testImportImageFile() throws IOException {
 		File fileFromDrawables = ResourceImporter.createImageFileFromResourcesInDirectory(
-				InstrumentationRegistry.getContext().getResources(), testDir, "drawable.png",
-				org.catrobat.catroid.test.R.drawable.catroid_banzai, 1);
+				InstrumentationRegistry.getContext().getResources(),
+				org.catrobat.catroid.test.R.drawable.catroid_banzai, testDir, "drawable.png", 1);
 
 		assertTrue(fileFromDrawables.getAbsolutePath() + " does not exist", fileFromDrawables.exists());
 
 		File fileFromRaw = ResourceImporter.createImageFileFromResourcesInDirectory(
-				InstrumentationRegistry.getContext().getResources(), testDir, "raw.png",
-				org.catrobat.catroid.test.R.raw.alpha_test_image, 1);
+				InstrumentationRegistry.getContext().getResources(), org.catrobat.catroid.test.R.raw.alpha_test_image,
+				testDir, "raw.png", 1);
 
 		assertTrue(fileFromRaw.getAbsolutePath() + " does not exist", fileFromRaw.exists());
 	}
@@ -74,22 +72,10 @@ public class ResourceImporterTest {
 	@Test
 	public void testImportSoundFile() throws IOException {
 		File fileFromRaw = ResourceImporter.createSoundFileFromResourcesInDirectory(
-				InstrumentationRegistry.getContext().getResources(), testDir, "sound.m4a",
-				org.catrobat.catroid.test.R.raw.longtestsound);
+				InstrumentationRegistry.getContext().getResources(), org.catrobat.catroid.test.R.raw.longtestsound,
+				testDir, "sound.m4a"
+		);
 
 		assertTrue(fileFromRaw.getAbsolutePath() + " does not exist", fileFromRaw.exists());
-	}
-
-	@Test
-	public void testExceptionWhenImportingInvalidSoundFileFormat() throws IOException {
-		File fileFromRaw = new File(testDir, "sound.m8");
-		try {
-			fileFromRaw = ResourceImporter.createSoundFileFromResourcesInDirectory(
-					InstrumentationRegistry.getContext().getResources(), testDir, "sound.m8",
-					org.catrobat.catroid.test.R.raw.longtestsound);
-			fail("Expected an IllegalArgumentException.");
-		} catch (IllegalArgumentException expectedException) {
-			assertFalse(fileFromRaw.getAbsolutePath() + " exists.", fileFromRaw.exists());
-		}
 	}
 }

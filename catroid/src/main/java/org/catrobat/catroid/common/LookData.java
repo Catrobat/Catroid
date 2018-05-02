@@ -39,7 +39,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.sensing.CollisionInformation;
 import org.catrobat.catroid.utils.CrashReporter;
 import org.catrobat.catroid.utils.ImageEditing;
@@ -127,7 +127,7 @@ public class LookData implements Serializable, Cloneable {
 	public LookData clone() {
 		String copiedFileName;
 		try {
-			copiedFileName = StorageHandler.copyFile(getFile()).getName();
+			copiedFileName = StorageOperations.duplicateFile(getFile()).getName();
 		} catch (IOException e) {
 			Log.e(TAG, "Could not copy file: " + fileName + ", fallback to shallow clone.");
 			copiedFileName = fileName;

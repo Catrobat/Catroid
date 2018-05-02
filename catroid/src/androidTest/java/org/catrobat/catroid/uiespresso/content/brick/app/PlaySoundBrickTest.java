@@ -30,11 +30,14 @@ import android.widget.EditText;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.io.SoundManager;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.SpriteAttributesActivity;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewActions;
 import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
@@ -188,12 +191,23 @@ public class PlaySoundBrickTest {
 	}
 
 	private void createProject() throws IOException {
+		String projectName = "PlaySoundBrickTest";
 		SoundManager.getInstance();
-		Script startScript = BrickTestUtils.createProjectAndGetStartScript("PlaySoundBrickTest");
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+		Sprite sprite = new Sprite("testSprite");
+		Script startScript = new StartScript();
+
+		sprite.addScript(startScript);
+		project.getDefaultScene().addSprite(sprite);
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(sprite);
+
+		XstreamSerializer.getInstance().saveProject(project);
+
 		startScript.addBrick(new PlaySoundBrick());
 		startScript.addBrick(new PlaySoundBrick());
 
-		soundFile = FileTestUtils.copyResourceFileToProject("PlaySoundBrickTest",
+		soundFile = FileTestUtils.copyResourceFileToProject(projectName,
 				ProjectManager.getInstance().getCurrentScene().getName(),
 				"longsound.mp3", org.catrobat.catroid.test.R.raw.longsound,
 				InstrumentationRegistry.getContext(), FileTestUtils.FileTypes.SOUND);
@@ -201,7 +215,7 @@ public class PlaySoundBrickTest {
 		soundInfo.setFile(soundFile);
 		soundInfo.setName(soundName);
 
-		soundFile2 = FileTestUtils.copyResourceFileToProject("PlaySoundBrickTest",
+		soundFile2 = FileTestUtils.copyResourceFileToProject(projectName,
 				ProjectManager.getInstance().getCurrentScene().getName(),
 				"testsoundui.mp3", org.catrobat.catroid.test.R.raw.testsoundui,
 				InstrumentationRegistry.getContext(), FileTestUtils.FileTypes.SOUND);

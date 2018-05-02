@@ -42,7 +42,7 @@ import org.catrobat.catroid.content.bricks.WhenConditionBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Sensors;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
@@ -121,7 +121,7 @@ public class BroadcastBricksStageTest {
 
 		project.getDefaultScene().addSprite(sprite);
 
-		StorageHandler.getInstance().saveProject(project);
+		XstreamSerializer.getInstance().saveProject(project);
 		File redImageFile = FileTestUtils.copyResourceFileToProject(project.getName(), project.getDefaultScene().getName(),
 				redImageName,
 				org.catrobat.catroid.test.R.raw.red_image, InstrumentationRegistry.getContext(),

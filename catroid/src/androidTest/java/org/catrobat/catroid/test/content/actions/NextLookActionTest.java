@@ -23,7 +23,7 @@
 package org.catrobat.catroid.test.content.actions;
 
 import android.support.test.InstrumentationRegistry;
-import android.test.InstrumentationTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
@@ -37,40 +37,50 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.ResourceImporter;
+import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.test.R;
-import org.catrobat.catroid.uiespresso.util.FileTestUtils;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.io.IOException;
 
-public class NextLookActionTest extends InstrumentationTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNull;
 
-	private static final int IMAGE_FILE_ID = R.raw.icon;
+import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
+
+@RunWith(AndroidJUnit4.class)
+public class NextLookActionTest {
+
 	private final String projectName = "testProject";
 
 	private File projectDir;
 	private File testImage;
 
-	@Override
+	@Before
 	public void setUp() throws Exception {
 		projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName);
 
 		if (projectDir.exists()) {
-			StorageHandler.deleteDir(projectDir);
+			StorageOperations.deleteDir(projectDir);
 		}
 
 		createProject();
 	}
 
-	@Override
+	@After
 	public void tearDown() throws Exception {
 		if (projectDir.exists()) {
-			StorageHandler.deleteDir(projectDir);
+			StorageOperations.deleteDir(projectDir);
 		}
-		super.tearDown();
 	}
 
+	@Test
 	public void testNextLook() {
 		Sprite sprite = new SingleSprite("cat");
 
@@ -91,9 +101,10 @@ public class NextLookActionTest extends InstrumentationTestCase {
 		setLookAction.act(1.0f);
 		nextLookAction.act(1.0f);
 
-		assertEquals("Look is not next look", lookData2, sprite.look.getLookData());
+		assertEquals(lookData2, sprite.look.getLookData());
 	}
 
+	@Test
 	public void testLastLook() {
 		Sprite sprite = new SingleSprite("cat");
 
@@ -122,9 +133,10 @@ public class NextLookActionTest extends InstrumentationTestCase {
 		setLookAction.act(1.0f);
 		nextLookAction.act(1.0f);
 
-		assertEquals("Look is not next look", lookData1, sprite.look.getLookData());
+		assertEquals(lookData1, sprite.look.getLookData());
 	}
 
+	@Test
 	public void testLookGalleryNull() {
 
 		Sprite sprite = new SingleSprite("cat");
@@ -132,9 +144,10 @@ public class NextLookActionTest extends InstrumentationTestCase {
 		Action nextLookAction = factory.createNextLookAction(sprite);
 		nextLookAction.act(1.0f);
 
-		assertEquals("Look is not null", null, sprite.look.getLookData());
+		assertNull(sprite.look.getLookData());
 	}
 
+	@Test
 	public void testLookGalleryWithOneLook() {
 		Sprite sprite = new SingleSprite("cat");
 
@@ -150,10 +163,10 @@ public class NextLookActionTest extends InstrumentationTestCase {
 		setLookAction.act(1.0f);
 		nextLookAction.act(1.0f);
 
-		assertEquals("Wrong look after executing NextLookBrick with just one look", lookData1,
-				sprite.look.getLookData());
+		assertEquals(lookData1, sprite.look.getLookData());
 	}
 
+	@Test
 	public void testNextLookWithNoLookSet() {
 
 		Sprite sprite = new SingleSprite("cat");
@@ -168,7 +181,7 @@ public class NextLookActionTest extends InstrumentationTestCase {
 
 		nextLookAction.act(1.0f);
 
-		assertNull("No Custume should be set.", sprite.look.getLookData());
+		assertNull(sprite.look.getLookData());
 	}
 
 	private void createProject() throws IOException {
@@ -183,8 +196,12 @@ public class NextLookActionTest extends InstrumentationTestCase {
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 		ProjectManager.getInstance().setCurrentScript(testScript);
 
-		testImage = FileTestUtils.copyResourceFileToProject(projectName, project.getDefaultScene().getName(),
-				"testImage.png", IMAGE_FILE_ID, getInstrumentation().getContext(), FileTestUtils.FileTypes.IMAGE);
+		XstreamSerializer.getInstance().saveProject(project);
+
+		testImage = ResourceImporter.createImageFileFromResourcesInDirectory(
+				InstrumentationRegistry.getContext().getResources(),
+				R.raw.icon, new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
+				"testImage" + ".png", 1);
 
 		ScreenValues.SCREEN_HEIGHT = 200;
 		ScreenValues.SCREEN_WIDTH = 200;

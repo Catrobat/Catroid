@@ -30,7 +30,7 @@ import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.stage.StageListener;
 
 import java.io.File;
@@ -49,7 +49,7 @@ public class DefaultProjectHandlerTest extends AndroidTestCase {
 
 	@Override
 	public void tearDown() throws Exception {
-		StorageHandler.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName));
+		StorageOperations.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName));
 		super.tearDown();
 	}
 

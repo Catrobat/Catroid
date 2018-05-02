@@ -29,7 +29,8 @@ import android.util.Log;
 
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.utils.PathBuilder;
 
 import java.io.File;
@@ -53,17 +54,17 @@ public class ProjectCopyTask extends AsyncTask<String, Void, Boolean> {
 		File projectDirectory = new File(PathBuilder.buildProjectPath(params[1]));
 
 		try {
-			StorageHandler.copyDir(projectToCopyDirectory, projectDirectory);
-			Project project = StorageHandler.getInstance().loadProject(params[1], context);
+			StorageOperations.copyDir(projectToCopyDirectory, projectDirectory);
+			Project project = XstreamSerializer.getInstance().loadProject(params[1], context);
 			project.setName(params[1]);
-			StorageHandler.getInstance().saveProject(project);
+			XstreamSerializer.getInstance().saveProject(project);
 			return true;
 		} catch (IOException | LoadingProjectException loadingException) {
 			Log.e(TAG, "Something went wrong while copying project: " + params[0]
 					+ " trying to delete folder."
 					+ Log.getStackTraceString(loadingException));
 			try {
-				StorageHandler.deleteDir(projectDirectory);
+				StorageOperations.deleteDir(projectDirectory);
 			} catch (IOException deletionIOException) {
 				Log.e(TAG, "Could not delete folder:" + Log.getStackTraceString(deletionIOException));
 			}

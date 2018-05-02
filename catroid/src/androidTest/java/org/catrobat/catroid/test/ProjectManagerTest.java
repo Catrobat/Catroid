@@ -31,7 +31,7 @@ import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.exceptions.ProjectException;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.ZipArchiver;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.ScreenValueHandler;
@@ -39,6 +39,9 @@ import org.catrobat.catroid.utils.ScreenValueHandler;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+
+import static org.catrobat.catroid.common.Constants.CURRENT_CATROBAT_LANGUAGE_VERSION;
+import static org.catrobat.catroid.common.Constants.DEFAULT_ROOT_DIRECTORY;
 
 public class ProjectManagerTest extends InstrumentationTestCase {
 
@@ -80,70 +83,60 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 
 		TestUtils.deleteProjects();
 
-		TestUtils
-				.createTestProjectOnLocalStorageWithCatrobatLanguageVersion(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
+		TestUtils.createTestProjectOnLocalStorageWithCatrobatLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION);
 
 		try {
 			projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, getInstrumentation().getTargetContext());
-			assertTrue("Load project worked correctly", true);
 		} catch (ProjectException projectException) {
 			fail("Error loading project");
 		}
 	}
 
-	public void testShouldKeepExistingProjectIfCannotLoadNewProject() throws IOException {
-		TestUtils.createTestProjectOnLocalStorageWithCatrobatLanguageVersionAndName(
-				Constants.CURRENT_CATROBAT_LANGUAGE_VERSION, OLD_PROJECT);
+	public void testShouldKeepExistingProjectIfCannotLoadNewProject() throws IOException,
+			CompatibilityProjectException, OutdatedVersionProjectException, LoadingProjectException {
 
-		try {
-			projectManager.loadProject(OLD_PROJECT, getInstrumentation().getTargetContext());
-			assertTrue("Load old project worked correctly", true);
-		} catch (ProjectException projectException) {
-			fail("Could not load project.");
-		}
+		TestUtils.createTestProjectOnLocalStorageWithCatrobatLanguageVersionAndName(CURRENT_CATROBAT_LANGUAGE_VERSION,
+				OLD_PROJECT);
+
+		projectManager.loadProject(OLD_PROJECT, getInstrumentation().getTargetContext());
 
 		TestUtils.createTestProjectOnLocalStorageWithCatrobatLanguageVersion(CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED);
 
 		try {
 			projectManager.loadProject(NEW_PROJECT, getInstrumentation().getTargetContext());
-			fail("Load project didn't failed to load project");
+			fail("Expected ProjectException while loading  project " + NEW_PROJECT);
 		} catch (ProjectException expected) {
 		}
 
 		Project currentProject = projectManager.getCurrentProject();
 
-		assertNotNull("Didn't keep old project.", currentProject);
-		assertEquals("Didn't keep old project.", OLD_PROJECT, currentProject.getName());
+		assertNotNull(currentProject);
+		assertEquals(OLD_PROJECT, currentProject.getName());
 
 		TestUtils.deleteProjects(OLD_PROJECT, NEW_PROJECT);
 	}
 
 	public void testLoadProjectException() throws Exception {
-		assertNull("Current project not null.", projectManager.getCurrentProject());
+		assertNull(projectManager.getCurrentProject());
 
 		try {
 			projectManager.loadProject(DOES_NOT_EXIST, getInstrumentation().getTargetContext());
-			fail("Load project didn't failed to load project");
+			fail("Expected ProjectException while loading  project " + DOES_NOT_EXIST);
 		} catch (ProjectException expected) {
 		}
 	}
 
-	public void testSavingAProjectDuringDelete() throws IOException {
+	public void testSavingAProjectDuringDelete() throws IOException, CompatibilityProjectException,
+			OutdatedVersionProjectException, LoadingProjectException {
 		TestUtils.createTestProjectOnLocalStorageWithCatrobatLanguageVersionAndName(
-				Constants.CURRENT_CATROBAT_LANGUAGE_VERSION, TestUtils.DEFAULT_TEST_PROJECT_NAME);
+				CURRENT_CATROBAT_LANGUAGE_VERSION, TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
-		try {
-			projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, getInstrumentation().getTargetContext());
-		} catch (CompatibilityProjectException compatibilityException) {
-			fail("Incompatible project");
-		} catch (ProjectException projectException) {
-			fail("Failed to identify project");
-		}
+		projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, getInstrumentation().getTargetContext());
 
 		Project currentProject = projectManager.getCurrentProject();
 		assertNotNull(String.format("Could not load %s project.", TestUtils.DEFAULT_TEST_PROJECT_NAME), currentProject);
 
-		File directory = new File(Constants.DEFAULT_ROOT_DIRECTORY, TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		File directory = new File(DEFAULT_ROOT_DIRECTORY, TestUtils.DEFAULT_TEST_PROJECT_NAME);
 		assertTrue(String.format("Directory %s does not exist", directory.getPath()), directory.exists());
 
 		// simulate multiple saving trigger asynchronous (occurs in black box testing)
@@ -155,7 +148,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		// simulate deletion, saveProject asyncTask will be "automatically" cancelled (Please remark: there is still a chance
 		// of a race condition, because we rely on a "project" reference which gets used in a multithreaded environment)
 		projectManager.setProject(null);
-		StorageHandler.deleteDir(directory);
+		StorageOperations.deleteDir(directory);
 
 		assertFalse(directory.exists());
 	}
@@ -165,9 +158,11 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 			OutdatedVersionProjectException,
 			LoadingProjectException {
 
+		DEFAULT_ROOT_DIRECTORY.mkdir();
+
 		InputStream inputStream = getInstrumentation().getContext().getAssets().open(ZIP_FILENAME_WRONG_NESTING_BRICKS);
 
-		new ZipArchiver().unzip(inputStream, new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_NESTING_BRICKS));
+		new ZipArchiver().unzip(inputStream, new File(DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_NESTING_BRICKS));
 
 		projectManager.loadProject(PROJECT_NAME_NESTING_BRICKS, getInstrumentation().getTargetContext());
 		Project project = projectManager.getCurrentProject();
