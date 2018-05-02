@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
@@ -108,6 +109,7 @@ public class FormulaEditorFragmentTest {
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Flaky
 	@Test
 	public void testFailParse() {
 		onBrickAtPosition(1).onChildView(withId(R.id.brick_set_variable_edit_text))
