@@ -36,6 +36,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.brickspinner.SpinnerAdapterWithNewOption;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewLookDialogFragment;
@@ -129,7 +130,6 @@ public class SetLookBrick extends BrickBaseType implements
 			public void onNothingSelected(AdapterView<?> parent) {
 			}
 		});
-
 		spinner.setSelection(spinnerAdapter.getPosition(look != null ? look.getName() : null));
 		return view;
 	}
@@ -170,7 +170,7 @@ public class SetLookBrick extends BrickBaseType implements
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createSetLookAction(sprite, look, false));
+		sequence.addAction(sprite.getActionFactory().createSetLookAction(sprite, look, EventWrapper.NO_WAIT));
 		return null;
 	}
 

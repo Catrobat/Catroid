@@ -22,14 +22,17 @@
  */
 package org.catrobat.catroid.content;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick;
+import org.catrobat.catroid.content.eventids.EventId;
+import org.catrobat.catroid.content.eventids.SetBackgroundEventId;
 
 import java.util.ArrayList;
 
-public class WhenBackgroundChangesScript extends Script {
+public class WhenBackgroundChangesScript extends Script implements EventScript {
 
 	private static final long serialVersionUID = 1L;
 
@@ -66,5 +69,11 @@ public class WhenBackgroundChangesScript extends Script {
 
 	public void setLook(LookData look) {
 		this.look = look;
+	}
+
+	@Override
+	public EventId createEventId(Sprite sprite) {
+		Sprite background = ProjectManager.getInstance().getCurrentScene().getBackgroundSprite();
+		return new SetBackgroundEventId(background, look);
 	}
 }

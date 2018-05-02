@@ -33,6 +33,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -40,11 +41,14 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
+import static org.catrobat.catroid.content.EventWrapper.NO_WAIT;
+
 public class SetLookByIndexBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
-	protected transient boolean wait = false;
+	@EventWrapper.WaitMode
+	protected transient int wait = NO_WAIT;
 
 	public SetLookByIndexBrick() {
 		addAllowedBrickField(BrickField.LOOK_INDEX);
@@ -74,7 +78,7 @@ public class SetLookByIndexBrick extends FormulaBrick {
 			return view;
 		}
 
-		if (wait) {
+		if (wait == EventWrapper.WAIT) {
 			view = View.inflate(context, R.layout.brick_set_look_by_index_and_wait, null);
 		} else {
 			view = View.inflate(context, R.layout.brick_set_look_by_index, null);
@@ -98,7 +102,7 @@ public class SetLookByIndexBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		if (wait) {
+		if (wait == EventWrapper.WAIT) {
 			prototypeView = View.inflate(context, R.layout.brick_set_look_by_index_and_wait, null);
 		} else {
 			prototypeView = View.inflate(context, R.layout.brick_set_look_by_index, null);

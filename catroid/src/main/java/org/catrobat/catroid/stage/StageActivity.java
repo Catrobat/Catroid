@@ -57,7 +57,6 @@ import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.ServiceProvider;
-import org.catrobat.catroid.content.BackgroundWaitHandler;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.AskAction;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -164,7 +163,6 @@ public class StageActivity extends AndroidApplication {
 		CameraManager.getInstance().setStageActivity(this);
 		JumpingSumoInitializer.getInstance().setStageActivity(this);
 
-		BackgroundWaitHandler.reset();
 		SnackbarUtil.showHintSnackbar(this, R.string.hint_stage);
 	}
 

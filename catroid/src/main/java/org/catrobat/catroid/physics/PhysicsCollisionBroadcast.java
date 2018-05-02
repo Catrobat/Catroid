@@ -28,8 +28,6 @@ import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.eventids.CollisionEventId;
 
-import java.util.List;
-
 public class PhysicsCollisionBroadcast {
 
 	private int contactCounter = 0;
@@ -67,10 +65,7 @@ public class PhysicsCollisionBroadcast {
 		}
 		CollisionEventId identifier = new CollisionEventId(sprite1, sprite2);
 		EventWrapper event = new EventWrapper(identifier, EventWrapper.NO_WAIT);
-		List<Sprite> sprites = ProjectManager.getInstance().getCurrentProject().getSpriteListWithClones();
-		for (Sprite spriteOfList : sprites) {
-			spriteOfList.look.fire(event);
-		}
+		ProjectManager.getInstance().getCurrentProject().fireToAllSprites(event);
 		return true;
 	}
 

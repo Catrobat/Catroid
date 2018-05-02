@@ -38,7 +38,7 @@ import static java.lang.annotation.RetentionPolicy.SOURCE;
 public class EventWrapper extends Event {
 	@Retention(SOURCE)
 	@IntDef({WAIT, NO_WAIT})
-	@interface WaitMode {
+	public @interface WaitMode {
 	}
 
 	public static final int WAIT = 0;
