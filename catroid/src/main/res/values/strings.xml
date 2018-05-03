@@ -1304,8 +1304,8 @@
     <string name="nxt_port_3">Port 3</string>
     <string name="nxt_port_4">Port 4</string>
     <string name="lego_nxt_sensor_config_dont_show_again">Do not show this message again.</string>
-    <string name="lego_nxt_overwrite_sensor_port_dialog_message">Do you want to overwrite the sensor on the chosen port?</string>
-    <string name="lego_nxt_overwrite_sensor_port_dialog_title">Overwrite sensor?</string>
+
+    <string name="lego_sensor_port_config_dialog_title">Choose a port for connecting to %1$s!</string>
 
     <string name="lego_ev3_sensor_config_info_title">EV3 Sensor Configuration</string>
     <string name="preference_disable_ev3_info_dialog_description">Program specific EV3 settings are not shown when opening a program.</string>

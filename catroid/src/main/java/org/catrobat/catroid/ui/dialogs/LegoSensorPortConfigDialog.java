@@ -56,111 +56,111 @@ public class LegoSensorPortConfigDialog extends DialogFragment {
 	private SensorInfo sensorInfo;
 
 	private class SensorInfo {
-		String title;
+		int titleResId;
 		Enum sensor;
 
-		SensorInfo(String title, Enum sensor) {
-			this.title = title;
+		SensorInfo(int titleResId, Enum sensor) {
+			this.titleResId = titleResId;
 			this.sensor = sensor;
 		}
 	}
 
 	private Map<Integer, SensorInfo> sensorInfoMap = ImmutableMap.<Integer, SensorInfo>builder()
 			.put(R.string.formula_editor_sensor_lego_nxt_touch,
-					new SensorInfo(getString(R.string.nxt_sensor_touch), NXTSensor.Sensor.TOUCH))
+					new SensorInfo(R.string.nxt_sensor_touch, NXTSensor.Sensor.TOUCH))
 			.put(R.string.formula_editor_sensor_lego_nxt_sound,
-					new SensorInfo(getString(R.string.nxt_sensor_sound), NXTSensor.Sensor.SOUND))
+					new SensorInfo(R.string.nxt_sensor_sound, NXTSensor.Sensor.SOUND))
 			.put(R.string.formula_editor_sensor_lego_nxt_light,
-					new SensorInfo(getString(R.string.nxt_sensor_light), NXTSensor.Sensor.LIGHT_INACTIVE))
+					new SensorInfo(R.string.nxt_sensor_light, NXTSensor.Sensor.LIGHT_INACTIVE))
 			.put(R.string.formula_editor_sensor_lego_nxt_light_active,
-					new SensorInfo(getString(R.string.nxt_sensor_light_active), NXTSensor.Sensor.LIGHT_ACTIVE))
+					new SensorInfo(R.string.nxt_sensor_light_active, NXTSensor.Sensor.LIGHT_ACTIVE))
 			.put(R.string.formula_editor_sensor_lego_nxt_ultrasonic,
-					new SensorInfo(getString(R.string.nxt_sensor_ultrasonic), NXTSensor.Sensor.ULTRASONIC))
+					new SensorInfo(R.string.nxt_sensor_ultrasonic, NXTSensor.Sensor.ULTRASONIC))
 			.put(R.string.formula_editor_sensor_lego_ev3_sensor_touch,
-					new SensorInfo(getString(R.string.ev3_sensor_touch), EV3Sensor.Sensor.TOUCH))
+					new SensorInfo(R.string.ev3_sensor_touch, EV3Sensor.Sensor.TOUCH))
 			.put(R.string.formula_editor_sensor_lego_ev3_sensor_infrared,
-					new SensorInfo(getString(R.string.ev3_sensor_infrared), EV3Sensor.Sensor.INFRARED))
+					new SensorInfo(R.string.ev3_sensor_infrared, EV3Sensor.Sensor.INFRARED))
 			.put(R.string.formula_editor_sensor_lego_ev3_sensor_color,
-					new SensorInfo(getString(R.string.ev3_sensor_color), EV3Sensor.Sensor.COLOR))
+					new SensorInfo(R.string.ev3_sensor_color, EV3Sensor.Sensor.COLOR))
 			.put(R.string.formula_editor_sensor_lego_ev3_sensor_color_ambient,
-					new SensorInfo(getString(R.string.ev3_sensor_color_ambient), EV3Sensor.Sensor.COLOR_AMBIENT))
+					new SensorInfo(R.string.ev3_sensor_color_ambient, EV3Sensor.Sensor.COLOR_AMBIENT))
 			.put(R.string.formula_editor_sensor_lego_ev3_sensor_color_reflected,
-					new SensorInfo(getString(R.string.ev3_sensor_color_reflected), EV3Sensor.Sensor.COLOR_REFLECT))
+					new SensorInfo(R.string.ev3_sensor_color_reflected, EV3Sensor.Sensor.COLOR_REFLECT))
 			.put(R.string.formula_editor_sensor_lego_ev3_sensor_hitechnic_color,
-					new SensorInfo(getString(R.string.ev3_sensor_hitechnic_color), EV3Sensor.Sensor.HT_NXT_COLOR))
+					new SensorInfo(R.string.ev3_sensor_hitechnic_color, EV3Sensor.Sensor.HT_NXT_COLOR))
 			.put(R.string.formula_editor_sensor_lego_ev3_sensor_nxt_temperature_c,
-					new SensorInfo(getString(R.string.ev3_sensor_nxt_temperature_c), EV3Sensor.Sensor.NXT_TEMPERATURE_C))
+					new SensorInfo(R.string.ev3_sensor_nxt_temperature_c, EV3Sensor.Sensor.NXT_TEMPERATURE_C))
 			.put(R.string.formula_editor_sensor_lego_ev3_sensor_nxt_temperature_f,
-					new SensorInfo(getString(R.string.ev3_sensor_nxt_temperature_f), EV3Sensor.Sensor.NXT_TEMPERATURE_F))
+					new SensorInfo(R.string.ev3_sensor_nxt_temperature_f, EV3Sensor.Sensor.NXT_TEMPERATURE_F))
 			.build();
 
 	public LegoSensorPortConfigDialog(OnSetSensorListener listener, int clickedResItem, @LegoType int type) {
 		this.listener = listener;
 		sensorInfo = getSensorInfo(clickedResItem, type);
 		legoType = type;
+
+		if (type != NXT && type != EV3) {
+			throw new IllegalArgumentException("LegoSensorPortConfigDialog: Unknown LegoType");
+		}
 	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		final Enum[] sensorMapping = legoType == NXT
+		final Enum[] sensorsByPort = legoType == NXT
 				? SettingsFragment.getLegoMindstormsNXTSensorMapping(this.getActivity())
 				: SettingsFragment.getLegoMindstormsEV3SensorMapping(this.getActivity());
 
-		String[] portStrings = getResources().getStringArray(R.array.port_chooser);
-		String[] sensorMappings = new String[portStrings.length];
-		int mappingStringsResId = legoType == NXT ? R.array.nxt_sensor_chooser : R.array.ev3_sensor_chooser;
-		final String[] sensorMappingStrings = getResources().getStringArray(mappingStringsResId);
+		String[] portNames = getResources().getStringArray(R.array.port_chooser);
+		String[] sensorMappings = new String[portNames.length];
+		final String[] sensorNames = getResources()
+				.getStringArray(legoType == NXT ? R.array.nxt_sensor_chooser : R.array.ev3_sensor_chooser);
 
-		for (int index = 0; index < sensorMappings.length; index++) {
-			sensorMappings[index] = portStrings[index] + ": " + sensorMappingStrings[sensorMapping[index].ordinal()];
+		for (int portNumber = 0; portNumber < sensorMappings.length; portNumber++) {
+			int sensorNameIndex = sensorsByPort[portNumber].ordinal();
+			sensorMappings[portNumber] = portNames[portNumber] + ": " + sensorNames[sensorNameIndex];
 		}
 
 		Dialog dialog = new AlertDialog.Builder(getActivity())
-				.setTitle(sensorInfo.title)
-				.setItems(sensorMappings, new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
-						checkIfOverwrite(which, sensorMappingStrings[sensorMapping[which].ordinal()], legoType);
+				.setTitle(getString(R.string.lego_sensor_port_config_dialog_title, getString(sensorInfo.titleResId)))
+				.setSingleChoiceItems(sensorMappings, -1, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int selectedPort) {
+						((AlertDialog) dialog).getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(true);
 					}
-				}).create();
+				})
+				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						int selectedPort = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
+						writeSensorPortConfig(selectedPort, legoType);
+						listener.onSetSensor(selectedPort, legoType);
+					}
+				})
+				.create();
 
+		dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+			@Override
+			public void onShow(DialogInterface dialog) {
+				((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+			}
+		});
 		dialog.setCanceledOnTouchOutside(true);
-
 		return dialog;
 	}
 
 	private SensorInfo getSensorInfo(int clickedItem, @LegoType int type) {
 		SensorInfo info = sensorInfoMap.get(clickedItem);
 		Enum sensor = type == NXT ? NXTSensor.Sensor.NO_SENSOR : EV3Sensor.Sensor.NO_SENSOR;
-		return info != null ? info : new SensorInfo(getString(R.string.nxt_sensor_not_found), sensor);
+		return info != null ? info : new SensorInfo(R.string.nxt_sensor_not_found, sensor);
 	}
 
-	private void checkIfOverwrite(final int selectedPort, String selected, final @LegoType int legoType) {
-		if (selected.equals(getString(R.string.nxt_no_sensor))) { // nxt_no_sensor equals ev3_no_sensor
-			overwriteSensorPortConfig(selectedPort, legoType);
-		} else if (!selected.equals(sensorInfo.title)) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-			builder.setTitle(R.string.lego_nxt_overwrite_sensor_port_dialog_title)
-					.setMessage(R.string.lego_nxt_overwrite_sensor_port_dialog_message)
-					.setNegativeButton(R.string.no, null)
-					.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							LegoSensorPortConfigDialog.this.overwriteSensorPortConfig(selectedPort, legoType);
-						}
-					}).create().show();
-		}
-		listener.onSetSensor(selectedPort, legoType);
-	}
-
-	private void overwriteSensorPortConfig(int selectedPort, @LegoType int legoType) {
+	private void writeSensorPortConfig(int selectedPort, @LegoType int legoType) {
 		if (legoType == NXT) {
 			SettingsFragment.setLegoMindstormsNXTSensorMapping(getActivity(), (NXTSensor.Sensor) sensorInfo.sensor,
 					SettingsFragment.NXT_SENSORS[selectedPort]);
 		} else if (legoType == EV3) {
 			SettingsFragment.setLegoMindstormsEV3SensorMapping(getActivity(), (EV3Sensor.Sensor) sensorInfo.sensor,
 					SettingsFragment.EV3_SENSORS[selectedPort]);
-		} else {
-			throw new IllegalArgumentException("LegoSensorPortConfigDialog.overwriteSensorPortConfig: Unknown LegoType");
 		}
 	}
 
