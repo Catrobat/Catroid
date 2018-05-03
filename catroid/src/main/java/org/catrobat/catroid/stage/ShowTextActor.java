@@ -116,6 +116,8 @@ public class ShowTextActor extends Actor {
 					if (variable.getVisible()) {
 						if (isNumberAndInteger(variableValue)) {
 							drawText(batch, variableValueWithoutDecimal, xPosition, yPosition);
+						} else if (variableValue.isEmpty()) {
+							drawText(batch, Constants.NO_VALUE_SET, xPosition, yPosition);
 						} else {
 							drawText(batch, variableValue, xPosition, yPosition);
 						}
