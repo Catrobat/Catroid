@@ -36,6 +36,7 @@ import android.view.ViewGroup;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.pocketmusic.TactViewHolder;
+import org.catrobat.catroid.pocketmusic.fastscroller.SectionTitleProvider;
 import org.catrobat.catroid.pocketmusic.note.MusicalBeat;
 import org.catrobat.catroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.catroid.pocketmusic.note.MusicalKey;
@@ -87,6 +88,11 @@ public class TactScrollRecyclerView extends RecyclerView {
 	}
 
 	@Override
+	public boolean onInterceptTouchEvent(MotionEvent e) {
+		return e.getActionMasked() != MotionEvent.ACTION_SCROLL && isPlaying || super.onInterceptTouchEvent(e);
+	}
+
+	@Override
 	public boolean onTouchEvent(MotionEvent e) {
 		if (!isPlaying()) {
 			tactSnapper.setScrollStartedByUser(true);
@@ -111,6 +117,7 @@ public class TactScrollRecyclerView extends RecyclerView {
 
 	public void setPlaying(boolean playing) {
 		isPlaying = playing;
+		getAdapter().notifyDataSetChanged();
 	}
 
 	public int getTactCount() {
@@ -123,26 +130,31 @@ public class TactScrollRecyclerView extends RecyclerView {
 
 	@Override
 	protected void onMeasure(int widthSpec, int heightSpec) {
-		if (MeasureSpec.getMode(widthSpec) != MeasureSpec.UNSPECIFIED) {
+		if (MeasureSpec.getMode(widthSpec) != MeasureSpec.UNSPECIFIED
+				&& MeasureSpec.getMode(heightSpec) != MeasureSpec.UNSPECIFIED) {
 			tactViewParams.width = MeasureSpec.getSize(widthSpec) / TACTS_PER_SCREEN;
 			tactViewParams.height = MeasureSpec.getSize(heightSpec);
-			for (int i = 0; i < getChildCount(); i++) {
-				getChildAt(i).getLayoutParams().width = tactViewParams.width;
-				getChildAt(i).getLayoutParams().height = tactViewParams.height;
-			}
 			animatorUpdateCallback.updateCallback(tactCount, getMeasuredWidth());
+		}
+		for (int i = 0; i < getChildCount(); i++) {
+			getChildAt(i).getLayoutParams().width = tactViewParams.width;
+			getChildAt(i).getLayoutParams().height = tactViewParams.height;
 		}
 		super.onMeasure(widthSpec, heightSpec);
 	}
 
-	private class TactAdapter extends RecyclerView.Adapter<TactViewHolder> {
+	public int getTactViewWidth() {
+		return tactViewParams.width;
+	}
+
+	private class TactAdapter extends RecyclerView.Adapter<TactViewHolder> implements SectionTitleProvider {
 
 		private static final int PLUS_BUTTON_ON_END = 1;
 		private final OnClickListener addTactClickListener = new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				tactCount++;
-				notifyItemInserted(tactCount - 1);
+				notifyDataSetChanged();
 			}
 		};
 
@@ -167,7 +179,9 @@ public class TactScrollRecyclerView extends RecyclerView {
 					animatorUpdateCallback.updateCallback(tactCount, getMeasuredWidth());
 					break;
 			}
-			return new TactViewHolder(tactContent);
+			TactViewHolder tactViewHolder = new TactViewHolder(tactContent);
+			tactViewHolder.setIsRecyclable(false);
+			return tactViewHolder;
 		}
 
 		@Override
@@ -199,6 +213,14 @@ public class TactScrollRecyclerView extends RecyclerView {
 				return Math.max(tactCount, TACTS_PER_SCREEN) + TACTS_PER_SCREEN;
 			}
 			return Math.max(tactCount, TACTS_PER_SCREEN) + PLUS_BUTTON_ON_END;
+		}
+
+		@Override
+		public String getSectionTitle(int position) {
+			if (this.getItemCount() - PLUS_BUTTON_ON_END == position) {
+				return "+";
+			}
+			return Integer.toString(position + 1);
 		}
 	}
 

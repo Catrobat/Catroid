@@ -118,7 +118,7 @@ public class ScrollController {
 			@Override
 			public void onClick(View v) {
 				if (scrollingAnimator.isRunning()) {
-					scrollingAnimator.cancel();
+					scrollingAnimator.end();
 					scrollingAnimator.setupStartValues();
 				} else {
 					scrollingAnimator.start();
