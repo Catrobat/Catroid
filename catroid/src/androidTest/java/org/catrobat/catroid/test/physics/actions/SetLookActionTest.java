@@ -23,16 +23,19 @@
 
 package org.catrobat.catroid.test.physics.actions;
 
+import android.support.test.InstrumentationRegistry;
+
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.test.physics.PhysicsBaseTest;
 import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 
 import java.io.File;
 
+import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.IsNot.not;
@@ -41,7 +44,6 @@ public class SetLookActionTest extends PhysicsBaseTest {
 
 	private String multipleConvexPolygonsFileName;
 	private File multipleConvexPolygonsFile;
-	private static final int MULTIPLE_CONVEX_POLYGONS_RES_ID = org.catrobat.catroid.test.R.raw.multible_convex_polygons;
 
 	private LookData lookData = null;
 
@@ -51,9 +53,12 @@ public class SetLookActionTest extends PhysicsBaseTest {
 
 		multipleConvexPolygonsFileName = PhysicsTestUtils.getInternalImageFilenameFromFilename("multible_convex_polygons.png");
 
-		multipleConvexPolygonsFile = FileTestUtils.copyResourceFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
-				project.getDefaultScene().getName(), multipleConvexPolygonsFileName, MULTIPLE_CONVEX_POLYGONS_RES_ID,
-				getInstrumentation().getContext(), FileTestUtils.FileTypes.IMAGE);
+		multipleConvexPolygonsFile = ResourceImporter.createImageFileFromResourcesInDirectory(
+				InstrumentationRegistry.getContext().getResources(),
+				org.catrobat.catroid.test.R.raw.multible_convex_polygons,
+				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
+				multipleConvexPolygonsFileName,
+				1);
 
 		lookData = PhysicsTestUtils.generateLookData(multipleConvexPolygonsFile);
 

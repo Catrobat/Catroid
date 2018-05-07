@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.test.sensing;
 
+import android.support.test.InstrumentationRegistry;
 import android.test.InstrumentationTestCase;
 
 import com.badlogic.gdx.graphics.Pixmap;
@@ -38,16 +39,17 @@ import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.sensing.CollisionDetection;
 import org.catrobat.catroid.sensing.CollisionInformation;
 import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
 
+import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
@@ -72,9 +74,12 @@ public class CollisionDetectionAdvancedTest extends InstrumentationTestCase {
 
 		String hashedFileName = Utils.md5Checksum(filename) + "_" + filename;
 
-		File file = FileTestUtils.copyResourceFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
-				project.getDefaultScene().getName(), hashedFileName, resourceId, getInstrumentation().getContext(),
-				FileTestUtils.FileTypes.IMAGE);
+		File file = ResourceImporter.createImageFileFromResourcesInDirectory(
+				InstrumentationRegistry.getContext().getResources(),
+				resourceId,
+				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
+				hashedFileName,
+				1);
 
 		LookData lookData = generateLookData(file);
 		CollisionInformation collisionInformation = lookData.getCollisionInformation();

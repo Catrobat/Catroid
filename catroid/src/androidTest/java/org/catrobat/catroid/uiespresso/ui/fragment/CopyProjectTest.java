@@ -37,12 +37,12 @@ import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetXBrick;
+import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.ProjectListActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewActions;
-import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -60,7 +60,10 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
+import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
+import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
+import static org.catrobat.catroid.utils.PathBuilder.buildScenePath;
 
 @RunWith(AndroidJUnit4.class)
 public class CopyProjectTest {
@@ -110,22 +113,25 @@ public class CopyProjectTest {
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		XstreamSerializer.getInstance().saveProject(project);
 
-		File soundFile = FileTestUtils.copyResourceFileToProject(
-				toBeCopiedProjectName, ProjectManager.getInstance().getCurrentScene().getName(), "longsound.mp3",
-				org.catrobat.catroid.test.R.raw.longsound, InstrumentationRegistry.getContext(),
-				FileTestUtils.FileTypes.SOUND
-		);
+		File soundFile = ResourceImporter.createSoundFileFromResourcesInDirectory(
+				InstrumentationRegistry.getContext().getResources(),
+				org.catrobat.catroid.test.R.raw.longsound,
+				new File(buildScenePath(project.getName(), project.getDefaultScene().getName()), SOUND_DIRECTORY_NAME),
+				"longsound.mp3");
+
 		List<SoundInfo> soundInfoList = sprite.getSoundList();
 		SoundInfo soundInfo = new SoundInfo();
 		soundInfo.setFile(soundFile);
 		soundInfo.setName("testSound1");
 		soundInfoList.add(soundInfo);
 
-		File imageFile = FileTestUtils.copyResourceFileToProject(
-				toBeCopiedProjectName, ProjectManager.getInstance().getCurrentScene().getName(), "catroid_sunglasses.png",
-				org.catrobat.catroid.test.R.drawable.catroid_banzai, InstrumentationRegistry.getContext(),
-				FileTestUtils.FileTypes.IMAGE
-		);
+		File imageFile = ResourceImporter.createImageFileFromResourcesInDirectory(
+				InstrumentationRegistry.getContext().getResources(),
+				org.catrobat.catroid.test.R.drawable.catroid_banzai,
+				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
+				"catroid_sunglasses.png",
+				1);
+
 		List<LookData> lookDataList = sprite.getLookList();
 		LookData lookData = new LookData();
 		lookData.setFileName(imageFile.getName());

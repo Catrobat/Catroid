@@ -24,6 +24,7 @@
 package org.catrobat.catroid.test.utils;
 
 import android.content.Context;
+import android.support.test.InstrumentationRegistry;
 
 import com.badlogic.gdx.graphics.Pixmap;
 
@@ -34,12 +35,14 @@ import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.sensing.CollisionInformation;
-import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
+
+import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 
 public final class CollisionTestUtils {
 
@@ -62,8 +65,13 @@ public final class CollisionTestUtils {
 		sprite.setActionFactory(new ActionFactory());
 
 		String hashedFileName = Utils.md5Checksum(filename) + "_" + filename;
-		File file = FileTestUtils.copyResourceFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
-				project.getDefaultScene().getName(), hashedFileName, resourceId, context, FileTestUtils.FileTypes.IMAGE);
+
+		File file = ResourceImporter.createImageFileFromResourcesInDirectory(
+				InstrumentationRegistry.getContext().getResources(),
+				resourceId,
+				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
+				hashedFileName,
+				1);
 
 		LookData lookData = generateLookData(file);
 		Assert.assertNotNull(lookData);

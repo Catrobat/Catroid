@@ -23,19 +23,10 @@
 
 package org.catrobat.catroid.uiespresso.util;
 
-import android.content.Context;
-
-import org.catrobat.catroid.io.ResourceImporter;
-
 import java.io.File;
-import java.io.IOException;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
-
-import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
-import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
-import static org.catrobat.catroid.utils.PathBuilder.buildScenePath;
 
 public final class FileTestUtils {
 
@@ -59,30 +50,5 @@ public final class FileTestUtils {
 	public static void assertFileDoesNotExistInDirectory(File file, File dir) {
 		assertFalse("File exists: " + dir.getAbsolutePath() + "/" + file.getName(),
 				new File(dir.getAbsolutePath(), file.getName()).exists());
-	}
-
-	public static File copyResourceFileToProject(String projectName, String sceneName, String fileName, int resourceId,
-			Context context, FileTypes type) throws IOException {
-
-		switch (type) {
-			case IMAGE:
-				File imageDir = new File(buildScenePath(projectName, sceneName), IMAGE_DIRECTORY_NAME);
-				return ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), resourceId,
-						imageDir, fileName, 1);
-			case SOUND:
-				File soundDir = new File(buildScenePath(projectName, sceneName), SOUND_DIRECTORY_NAME);
-				return ResourceImporter.createSoundFileFromResourcesInDirectory(context.getResources(), resourceId,
-						soundDir, fileName);
-			case SCREENSHOT:
-				File sceneDir = new File(buildScenePath(projectName, sceneName));
-				return ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), resourceId,
-						sceneDir, fileName, 1);
-			default:
-				throw new IllegalArgumentException("No File Type was specified.");
-		}
-	}
-
-	public enum FileTypes {
-		IMAGE, SOUND, SCREENSHOT
 	}
 }

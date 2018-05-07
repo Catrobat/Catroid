@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.test.physics;
 
+import android.support.test.InstrumentationRegistry;
 import android.test.InstrumentationTestCase;
 import android.util.Log;
 
@@ -42,6 +43,7 @@ import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
+import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsWorld;
@@ -56,10 +58,11 @@ import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
 import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 
 import java.io.File;
 import java.io.IOException;
+
+import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 
 public class PhysicsSpriteCloneTest extends InstrumentationTestCase {
 
@@ -67,7 +70,6 @@ public class PhysicsSpriteCloneTest extends InstrumentationTestCase {
 
 	private Sprite sprite;
 	private Project project;
-	private static final int RECTANGLE125X125_RES_ID = org.catrobat.catroid.test.R.raw.rectangle_125x125;
 	private static final float BOUNCE_TEST_VALUE = 0.5f;
 	private static final float FRICTION_TEST_VALUE = 0.5f;
 	private static final Vector2 GRAVITY_TEST_VALUE = new Vector2(10.0f, 10.0f);
@@ -193,9 +195,12 @@ public class PhysicsSpriteCloneTest extends InstrumentationTestCase {
 		String rectangle125x125FileName = PhysicsTestUtils.getInternalImageFilenameFromFilename("rectangle_125x125.png");
 		LookData lookdata;
 
-		File rectangle125x125File = FileTestUtils.copyResourceFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
-				project.getDefaultScene().getName(), rectangle125x125FileName, RECTANGLE125X125_RES_ID,
-				getInstrumentation().getContext(), FileTestUtils.FileTypes.IMAGE);
+		File rectangle125x125File = ResourceImporter.createImageFileFromResourcesInDirectory(
+				InstrumentationRegistry.getContext().getResources(),
+				org.catrobat.catroid.test.R.raw.rectangle_125x125,
+				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
+				rectangle125x125FileName,
+				1);
 
 		lookdata = PhysicsTestUtils.generateLookData(rectangle125x125File);
 		sprite.look.setLookData(lookdata);

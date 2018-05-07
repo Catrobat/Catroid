@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.test.physics;
 
+import android.support.test.InstrumentationRegistry;
 import android.test.InstrumentationTestCase;
 
 import com.badlogic.gdx.graphics.Pixmap;
@@ -34,6 +35,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.physics.PhysicsWorld;
@@ -44,15 +46,14 @@ import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 
 import java.io.File;
+
+import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 
 public class PhysicsShapeScaleUtilsTest extends InstrumentationTestCase {
 
 	private static final float DELTA = 0.001f;
-
-	private static final int COMPLEX_SINGLE_CONVEX_POLYGON_RES_ID = R.raw.complex_single_convex_polygon;
 
 	private PhysicsWorld physicsWorld;
 	private File projectDir;
@@ -80,10 +81,13 @@ public class PhysicsShapeScaleUtilsTest extends InstrumentationTestCase {
 
 		String complexSingleConvexPolygonFileName = PhysicsTestUtils
 				.getInternalImageFilenameFromFilename("complex_single_convex_polygon.png");
-		File complexSingleConvexPolygonFile = FileTestUtils.copyResourceFileToProject(
-				TestUtils.DEFAULT_TEST_PROJECT_NAME, project.getDefaultScene().getName(),
-				complexSingleConvexPolygonFileName, COMPLEX_SINGLE_CONVEX_POLYGON_RES_ID,
-				getInstrumentation().getContext(), FileTestUtils.FileTypes.IMAGE);
+
+		File complexSingleConvexPolygonFile = ResourceImporter.createImageFileFromResourcesInDirectory(
+				InstrumentationRegistry.getContext().getResources(),
+				R.raw.complex_single_convex_polygon,
+				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
+				complexSingleConvexPolygonFileName,
+				1);
 
 		LookData complexSingleConvexPolygonLookData = PhysicsTestUtils.generateLookData(complexSingleConvexPolygonFile);
 		Pixmap pixmap = complexSingleConvexPolygonLookData.getPixmap();

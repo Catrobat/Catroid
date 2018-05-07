@@ -27,9 +27,9 @@ import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
-import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.PathBuilder;
 import org.junit.After;
@@ -45,6 +45,10 @@ import java.util.Locale;
 import static android.support.test.InstrumentationRegistry.getTargetContext;
 
 import static junit.framework.Assert.assertEquals;
+
+import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
+import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
+import static org.catrobat.catroid.utils.PathBuilder.buildScenePath;
 
 @RunWith(AndroidJUnit4.class)
 public class UtilFileSizeTranslationsTest {
@@ -94,12 +98,17 @@ public class UtilFileSizeTranslationsTest {
 
 		projectFolder = new File(PathBuilder.buildProjectPath(projectName));
 
-		imageFile = FileTestUtils.copyResourceFileToProject(project.getName(), project.getDefaultScene().getName(),
-				"blue_image.bmp", org.catrobat.catroid.test.R.raw.blue_image, InstrumentationRegistry.getContext(),
-				FileTestUtils.FileTypes.IMAGE);
+		imageFile = ResourceImporter.createImageFileFromResourcesInDirectory(
+				InstrumentationRegistry.getContext().getResources(),
+				org.catrobat.catroid.test.R.raw.blue_image,
+				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
+				"blue_image.bmp",
+				1);
 
-		soundFile = FileTestUtils.copyResourceFileToProject(project.getName(), project.getDefaultScene().getName(),
-				"longsound.mp3", org.catrobat.catroid.test.R.raw.longsound, InstrumentationRegistry.getContext(),
-				FileTestUtils.FileTypes.SOUND);
+		soundFile = ResourceImporter.createSoundFileFromResourcesInDirectory(
+				InstrumentationRegistry.getContext().getResources(),
+				org.catrobat.catroid.test.R.raw.longsound,
+				new File(buildScenePath(project.getName(), project.getDefaultScene().getName()), SOUND_DIRECTORY_NAME),
+				"longsound.mp3");
 	}
 }

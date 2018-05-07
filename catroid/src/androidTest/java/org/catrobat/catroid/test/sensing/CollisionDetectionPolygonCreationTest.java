@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.test.sensing;
 
+import android.support.test.InstrumentationRegistry;
 import android.test.InstrumentationTestCase;
 
 import com.badlogic.gdx.graphics.Pixmap;
@@ -33,16 +34,18 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.sensing.CollisionInformation;
 import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+
+import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 
 public class CollisionDetectionPolygonCreationTest extends InstrumentationTestCase {
 	protected Project project;
@@ -70,11 +73,15 @@ public class CollisionDetectionPolygonCreationTest extends InstrumentationTestCa
 		ProjectManager.getInstance().setProject(project);
 	}
 
-	protected CollisionInformation generateCollisionInformation(int resID, String filename) throws IOException {
-		String rectangle125x125FileName = PhysicsTestUtils.getInternalImageFilenameFromFilename(filename);
-		File file = FileTestUtils.copyResourceFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
-				project.getDefaultScene().getName(), rectangle125x125FileName, resID, getInstrumentation().getContext(),
-				FileTestUtils.FileTypes.IMAGE);
+	protected CollisionInformation generateCollisionInformation(int resourceId, String filename) throws IOException {
+		String hashedFileName = PhysicsTestUtils.getInternalImageFilenameFromFilename(filename);
+
+		File file = ResourceImporter.createImageFileFromResourcesInDirectory(
+				InstrumentationRegistry.getContext().getResources(),
+				resourceId,
+				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
+				hashedFileName,
+				1);
 
 		LookData lookData = generateLookData(file);
 		sprite.getLookList().add(lookData);
