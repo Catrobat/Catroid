@@ -35,7 +35,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 
@@ -133,7 +133,7 @@ public class NewSpriteDialogWrapper implements NewItemInterface<LookData> {
 		@Override
 		protected void onNegativeButtonClick() {
 			try {
-				StorageHandler.deleteFile(look.getFile());
+				StorageOperations.deleteFile(look.getFile());
 			} catch (IOException e) {
 				Log.e(TAG, Log.getStackTraceString(e));
 			}

@@ -32,7 +32,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.parrot.freeflight.ui.gl.GLBGVideoSprite;
 
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.StorageOperations;
 
 import java.io.IOException;
 
@@ -49,7 +49,7 @@ public class DroneVideoLookData extends LookData {
 	public DroneVideoLookData clone() {
 		String copiedFileName;
 		try {
-			copiedFileName = StorageHandler.copyFile(getFile()).getName();
+			copiedFileName = StorageOperations.duplicateFile(getFile()).getName();
 		} catch (IOException e) {
 			Log.e(TAG, "Could not copy file: " + fileName + ", fallback to shallow clone.");
 			copiedFileName = fileName;

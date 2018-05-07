@@ -38,7 +38,8 @@ import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsWorld;
@@ -75,11 +76,11 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 		physicsWorld = new PhysicsWorld(1920, 1600);
 		projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName);
 		if (projectDir.exists()) {
-			StorageHandler.deleteDir(projectDir);
+			StorageOperations.deleteDir(projectDir);
 		}
 		testImageFilename = PhysicsTestUtils.getInternalImageFilenameFromFilename("testImage.png");
 		project = new Project(getInstrumentation().getTargetContext(), projectName);
-		StorageHandler.getInstance().saveProject(project);
+		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 		testImage = FileTestUtils.copyResourceFileToProject(projectName, project.getDefaultScene().getName(),
 				testImageFilename, IMAGE_FILE_ID, getInstrumentation().getContext(), FileTestUtils.FileTypes.IMAGE);

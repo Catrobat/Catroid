@@ -58,7 +58,8 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.Sensors;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
@@ -75,9 +76,9 @@ import static org.catrobat.catroid.common.Constants.PERMISSIONS_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.TMP_CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.utils.PathBuilder.buildProjectPath;
 
-public class StorageHandlerTest extends InstrumentationTestCase {
+public class XstreamSerializerTest extends InstrumentationTestCase {
 
-	private final StorageHandler storageHandler;
+	private final XstreamSerializer storageHandler;
 	private final String projectName = "testProject";
 
 	private Project currentProjectBuffer;
@@ -86,8 +87,8 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 	private static final int DEFAULT_MOVE_TIME_IN_MILLISECONDS = 2000;
 	private static final int DEFAULT_MOVE_POWER_IN_PERCENT = 20;
 
-	public StorageHandlerTest() {
-		storageHandler = StorageHandler.getInstance();
+	public XstreamSerializerTest() {
+		storageHandler = XstreamSerializer.getInstance();
 	}
 
 	@Override
@@ -224,7 +225,7 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 			fail("Could not create tmp file");
 		}
 
-		StorageHandler.transferFromFileToFile(currentCodeFile, tmpCodeFile);
+		StorageOperations.transferData(currentCodeFile, tmpCodeFile);
 		String currentCodeFileXml = Files.toString(currentCodeFile, Charsets.UTF_8);
 
 		assertTrue(currentCodeFile.delete());
@@ -266,7 +267,7 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 	public void testWritePermissionFile() throws IOException {
 		Project project = generateMultiplePermissionsProject();
 		ProjectManager.getInstance().setProject(project);
-		StorageHandler.getInstance().saveProject(project);
+		XstreamSerializer.getInstance().saveProject(project);
 
 		File permissionsFile = new File(buildProjectPath(project.getName()), PERMISSIONS_FILE_NAME);
 		assertTrue(permissionsFile.exists());

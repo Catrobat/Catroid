@@ -47,7 +47,8 @@ import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.PathBuilder;
@@ -88,7 +89,7 @@ public final class ProjectManager {
 		Project previousProject = project;
 
 		try {
-			project = StorageHandler.getInstance().loadProject(projectName, context);
+			project = XstreamSerializer.getInstance().loadProject(projectName, context);
 		} catch (IOException e) {
 			Log.e(TAG, Log.getStackTraceString(e));
 			restorePreviousProject(previousProject);
@@ -205,7 +206,7 @@ public final class ProjectManager {
 	private void makeShallowCopiesDeepAgain(Project project) {
 		for (Scene scene : project.getSceneList()) {
 
-			String imgDir = PathBuilder.buildPath(PathBuilder.buildScenePath(project.getName(), scene.getName()),
+			String imageDir = PathBuilder.buildPath(PathBuilder.buildScenePath(project.getName(), scene.getName()),
 					Constants.IMAGE_DIRECTORY_NAME);
 
 			List<String> fileNames = new ArrayList<>();
@@ -214,7 +215,7 @@ public final class ProjectManager {
 				for (LookData look : sprite.getLookList()) {
 					if (fileNames.contains(look.getFileName())) {
 						try {
-							String fileName = StorageHandler.copyFile(new File(imgDir, look.getFileName())).getName();
+							String fileName = StorageOperations.duplicateFile(new File(imageDir, look.getFileName())).getName();
 							look.setFileName(fileName);
 						} catch (IOException e) {
 							Log.e(TAG, "Could not copy :" + look.getFileName());
@@ -228,7 +229,7 @@ public final class ProjectManager {
 
 					if (fileNames.contains(soundInfo.getFile().getName())) {
 						try {
-							soundInfo.setFile(StorageHandler.copyFile(soundInfo.getFile()));
+							soundInfo.setFile(StorageOperations.duplicateFile(soundInfo.getFile()));
 						} catch (IOException e) {
 							iterator.remove();
 							Log.e(TAG, "Could not copy: " + soundInfo.getFile().getAbsolutePath()
@@ -369,7 +370,7 @@ public final class ProjectManager {
 	}
 
 	public boolean renameProject(String newProjectName, Context context) {
-		if (StorageHandler.getInstance().projectExists(newProjectName)) {
+		if (XstreamSerializer.getInstance().projectExists(newProjectName)) {
 			return false;
 		}
 
@@ -640,7 +641,7 @@ public final class ProjectManager {
 
 		@Override
 		protected Void doInBackground(Void... params) {
-			StorageHandler.getInstance().saveProject(project);
+			XstreamSerializer.getInstance().saveProject(project);
 			return null;
 		}
 	}

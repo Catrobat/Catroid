@@ -30,7 +30,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.util.Log;
 
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.uiespresso.annotations.Flaky;
@@ -41,7 +41,10 @@ import org.junit.runners.model.Statement;
 import java.io.File;
 import java.io.IOException;
 
+import static org.catrobat.catroid.common.Constants.DEFAULT_ROOT_DIRECTORY;
+
 public class BaseActivityInstrumentationRule<T extends Activity> extends ActivityTestRule<T> {
+
 	private SystemAnimations systemAnimations;
 	private static final String TAG = BaseActivityInstrumentationRule.class.getSimpleName();
 	private Intent launchIntent = null;
@@ -87,14 +90,21 @@ public class BaseActivityInstrumentationRule<T extends Activity> extends Activit
 	void setUpTestProjectFolder() {
 		Reflection.setPrivateField(StageListener.class, "checkIfAutomaticScreenshotShouldBeTaken", false);
 		Reflection.setPrivateField(Constants.class, "DEFAULT_ROOT_DIRECTORY",
-				new File(Environment.getExternalStorageDirectory(), "Pocket Code uiTest"));
+				new File(Environment.getExternalStorageDirectory(), "Pocket Code UiTest"));
 
-		if (Constants.DEFAULT_ROOT_DIRECTORY.exists()) {
+		if (DEFAULT_ROOT_DIRECTORY.exists()) {
 			try {
-				StorageHandler.deleteDir(Constants.DEFAULT_ROOT_DIRECTORY);
+				StorageOperations.deleteDir(DEFAULT_ROOT_DIRECTORY);
 			} catch (IOException e) {
-				Log.e(TAG, "Error deleting direcory:", e);
+				Log.e(TAG, "Error deleting root directory:", e);
 			}
+		}
+
+		try {
+			StorageOperations.createDir(DEFAULT_ROOT_DIRECTORY);
+		} catch (IOException e) {
+			throw new RuntimeException("What a terrible failure! Cannot create root directory: "
+					+ DEFAULT_ROOT_DIRECTORY.getAbsolutePath());
 		}
 	}
 

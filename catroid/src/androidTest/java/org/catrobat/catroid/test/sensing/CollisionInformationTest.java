@@ -32,7 +32,7 @@ import junit.framework.Assert;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.sensing.CollisionInformation;
 import org.catrobat.catroid.sensing.CollisionPolygonVertex;
 import org.catrobat.catroid.test.utils.PhysicsTestUtils;
@@ -93,7 +93,7 @@ public class CollisionInformationTest extends InstrumentationTestCase {
 
 		Project project = new Project(getInstrumentation().getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
-		StorageHandler.getInstance().saveProject(project);
+		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
 		String filename = PhysicsTestUtils.getInternalImageFilenameFromFilename("polygon_in_file.png");
@@ -115,7 +115,7 @@ public class CollisionInformationTest extends InstrumentationTestCase {
 
 		Project project = new Project(getInstrumentation().getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
-		StorageHandler.getInstance().saveProject(project);
+		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
 		String filename = "collision_donut.png";
@@ -141,7 +141,7 @@ public class CollisionInformationTest extends InstrumentationTestCase {
 
 		Project project = new Project(getInstrumentation().getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
-		StorageHandler.getInstance().saveProject(project);
+		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
 		String filename = "collision_donut.png";

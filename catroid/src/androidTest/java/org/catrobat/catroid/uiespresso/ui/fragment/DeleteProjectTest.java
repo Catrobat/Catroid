@@ -33,7 +33,7 @@ import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetXBrick;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.ProjectListActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
@@ -142,6 +142,6 @@ public class DeleteProjectTest {
 
 		project.getDefaultScene().addSprite(sprite);
 
-		StorageHandler.getInstance().saveProject(project);
+		XstreamSerializer.getInstance().saveProject(project);
 	}
 }

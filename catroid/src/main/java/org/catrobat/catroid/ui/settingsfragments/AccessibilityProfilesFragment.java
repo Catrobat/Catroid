@@ -29,6 +29,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -95,8 +96,10 @@ public class AccessibilityProfilesFragment extends Fragment implements SimpleRVA
 		SimpleRVAdapter adapter;
 		List<SimpleRVItem> items = getItems();
 		adapter = new SimpleRVAdapter(items) {
+
+			@NonNull
 			@Override
-			public SimpleVH onCreateViewHolder(ViewGroup parent, @ProfileViewType int viewType) {
+			public SimpleVH onCreateViewHolder(@NonNull ViewGroup parent, @ProfileViewType int viewType) {
 				LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 				switch (viewType) {
 					case NO_HEADLINE:
@@ -111,7 +114,7 @@ public class AccessibilityProfilesFragment extends Fragment implements SimpleRVA
 			}
 
 			@Override
-			public void onBindViewHolder(SimpleVH holder, int position) {
+			public void onBindViewHolder(@NonNull SimpleVH holder, int position) {
 				super.onBindViewHolder(holder, position);
 				if (position == 0) {
 					((TextView) holder.itemView.findViewById(R.id.headline))
@@ -138,8 +141,7 @@ public class AccessibilityProfilesFragment extends Fragment implements SimpleRVA
 	@Override
 	public void onResume() {
 		super.onResume();
-		((AppCompatActivity) getActivity()).getSupportActionBar()
-				.setTitle(R.string.preference_title_accessibility_profiles);
+		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.preference_title_accessibility_profiles);
 	}
 
 	@Override

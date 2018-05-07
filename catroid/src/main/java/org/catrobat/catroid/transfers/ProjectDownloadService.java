@@ -32,7 +32,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.io.ZipArchiver;
 import org.catrobat.catroid.utils.DownloadUtil;
 import org.catrobat.catroid.utils.PathBuilder;
@@ -82,14 +82,14 @@ public class ProjectDownloadService extends IntentService {
 
 			boolean renameProject = intent.getBooleanExtra(RENAME_AFTER_DOWNLOAD, false);
 			if (renameProject) {
-				Project projectTBRenamed = StorageHandler.getInstance().loadProject(projectName, getBaseContext());
+				Project projectTBRenamed = XstreamSerializer.getInstance().loadProject(projectName, getBaseContext());
 				if (projectTBRenamed != null) {
 					projectTBRenamed.setName(projectName);
-					StorageHandler.getInstance().saveProject(projectTBRenamed);
+					XstreamSerializer.getInstance().saveProject(projectTBRenamed);
 				}
 			}
-			StorageHandler.getInstance().updateCodefileOnDownload(projectName);
-			Log.v(TAG, "url: " + url + ", zip-file: " + zipFileString + ", notificationId: " + notificationId);
+
+			XstreamSerializer.getInstance().updateCodeFileOnDownload(projectName);
 		} catch (LoadingProjectException | IOException | WebconnectionException e) {
 			showToast(R.string.error_project_download, true);
 			Log.e(TAG, Log.getStackTraceString(e));

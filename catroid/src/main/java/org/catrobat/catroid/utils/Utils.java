@@ -52,7 +52,8 @@ import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.common.ScratchProgramData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.XmlHeader;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.transfers.LogoutTask;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.web.ServerCalls;
@@ -400,13 +401,12 @@ public final class Utils {
 		if (ProjectManager.getInstance().getCurrentProject() == null) {
 
 			if (FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).size() == 0) {
-				Log.i(TAG, "Somebody deleted all projects in the file-system");
 				ProjectManager.getInstance().initializeDefaultProject(context);
 			}
 
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String currentProjectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
-			if (currentProjectName == null || !StorageHandler.getInstance().projectExists(currentProjectName)) {
+			if (currentProjectName == null || !XstreamSerializer.getInstance().projectExists(currentProjectName)) {
 				currentProjectName = FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).get(0);
 			}
 			return currentProjectName;
@@ -433,7 +433,7 @@ public final class Utils {
 
 	public static String getUniqueProjectName() {
 		String projectName = "project_" + System.currentTimeMillis();
-		while (StorageHandler.getInstance().projectExists(projectName)) {
+		while (XstreamSerializer.getInstance().projectExists(projectName)) {
 			projectName = "project_" + System.currentTimeMillis();
 		}
 		return projectName;
@@ -444,9 +444,9 @@ public final class Utils {
 			Project defaultProject = DefaultProjectHandler
 					.createAndSaveDefaultProject(getUniqueProjectName(), context);
 
-			String defaultProjectXml = StorageHandler.getInstance().getXmlAsStringFromProject(defaultProject);
+			String defaultProjectXml = XstreamSerializer.getInstance().getXmlAsStringFromProject(defaultProject);
 
-			StorageHandler.deleteDir(new File(PathBuilder.buildProjectPath(defaultProject.getName())));
+			StorageOperations.deleteDir(new File(PathBuilder.buildProjectPath(defaultProject.getName())));
 
 			StringFinder stringFinder = new StringFinder();
 
@@ -459,7 +459,7 @@ public final class Utils {
 			ProjectManager.getInstance().setProject(projectToCheck);
 			ProjectManager.getInstance().saveProject(context);
 
-			String projectToCheckXML = StorageHandler.getInstance().getXmlAsStringFromProject(projectToCheck);
+			String projectToCheckXML = XstreamSerializer.getInstance().getXmlAsStringFromProject(projectToCheck);
 
 			if (!stringFinder.findBetween(projectToCheckXML, "<scenes>", "</scenes")) {
 				return false;
@@ -506,7 +506,6 @@ public final class Utils {
 		}
 	}
 
-	@SuppressWarnings("unused")
 	public static void logoutUser(Context context) {
 		logoutUser(context, true);
 	}

@@ -35,7 +35,8 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.controller.SceneController;
 import org.catrobat.catroid.uiespresso.util.FileTestUtils;
@@ -203,7 +204,7 @@ public class SceneControllerTest {
 
 	private void clearBackPack() throws IOException {
 		if (BACKPACK_SCENE_DIRECTORY.exists()) {
-			StorageHandler.deleteDir(BACKPACK_SCENE_DIRECTORY);
+			StorageOperations.deleteDir(BACKPACK_SCENE_DIRECTORY);
 		}
 		BACKPACK_SCENE_DIRECTORY.mkdirs();
 	}
@@ -220,6 +221,8 @@ public class SceneControllerTest {
 		PlaceAtBrick placeAtBrick = new PlaceAtBrick(0, 0);
 		script.addBrick(placeAtBrick);
 		sprite.addScript(script);
+
+		XstreamSerializer.getInstance().saveProject(project);
 
 		File imageFile = FileTestUtils.copyResourceFileToProject(
 				project.getName(), scene.getName(),
@@ -238,13 +241,13 @@ public class SceneControllerTest {
 
 		sprite.getSoundList().add(new SoundInfo("testSound", soundFile));
 
-		StorageHandler.getInstance().saveProject(project);
+		XstreamSerializer.getInstance().saveProject(project);
 	}
 
 	private void deleteProject() throws IOException {
 		File projectDir = new File(buildProjectPath(project.getName()));
 		if (projectDir.exists()) {
-			StorageHandler.deleteDir(projectDir);
+			StorageOperations.deleteDir(projectDir);
 		}
 	}
 }

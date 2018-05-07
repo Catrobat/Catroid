@@ -34,7 +34,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.util.FileTestUtils;
@@ -103,7 +103,7 @@ public class StageSimpleTest {
 
 		project.getDefaultScene().addSprite(blueSprite);
 
-		StorageHandler.getInstance().saveProject(project);
+		XstreamSerializer.getInstance().saveProject(project);
 		File blueImageFile = FileTestUtils.copyResourceFileToProject(project.getName(), project.getDefaultScene().getName(),
 				blueImageName,
 				org.catrobat.catroid.test.R.raw.blue_image, InstrumentationRegistry.getContext(),
@@ -111,7 +111,7 @@ public class StageSimpleTest {
 
 		blueLookData.setFileName(blueImageFile.getName());
 
-		StorageHandler.getInstance().saveProject(project);
+		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(blueSprite);
 		ScreenValueHandler.updateScreenWidthAndHeight(InstrumentationRegistry.getContext());

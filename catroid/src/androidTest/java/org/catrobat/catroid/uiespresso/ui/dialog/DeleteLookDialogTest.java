@@ -32,7 +32,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
@@ -141,7 +141,7 @@ public class DeleteLookDialogTest {
 
 	private void createProject(String projectName) throws IOException {
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
-		StorageHandler.getInstance().saveProject(project);
+		XstreamSerializer.getInstance().saveProject(project);
 
 		Sprite sprite = new SingleSprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);

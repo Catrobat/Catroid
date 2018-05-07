@@ -24,7 +24,7 @@ package org.catrobat.catroid.common;
 
 import android.support.annotation.NonNull;
 
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.StorageOperations;
 
 import java.io.File;
 import java.io.IOException;
@@ -74,7 +74,7 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 	@Override
 	public SoundInfo clone() {
 		try {
-			return new SoundInfo(name, StorageHandler.copyFile(file));
+			return new SoundInfo(name, StorageOperations.duplicateFile(file));
 		} catch (IOException e) {
 			throw new RuntimeException(TAG + ": Could not copy file: " + file.getAbsolutePath());
 		}

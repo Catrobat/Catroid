@@ -32,7 +32,8 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.controller.LookController;
 import org.catrobat.catroid.uiespresso.util.FileTestUtils;
@@ -148,7 +149,7 @@ public class LookControllerTest {
 
 	private void clearBackPack() throws IOException {
 		if (BACKPACK_IMAGE_DIRECTORY.exists()) {
-			StorageHandler.deleteDir(BACKPACK_IMAGE_DIRECTORY);
+			StorageOperations.deleteDir(BACKPACK_IMAGE_DIRECTORY);
 		}
 		BACKPACK_IMAGE_DIRECTORY.mkdirs();
 	}
@@ -160,6 +161,7 @@ public class LookControllerTest {
 
 		sprite = new Sprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);
+		XstreamSerializer.getInstance().saveProject(project);
 
 		File imageFile = FileTestUtils.copyResourceFileToProject(
 				project.getName(), project.getDefaultScene().getName(),
@@ -171,13 +173,13 @@ public class LookControllerTest {
 		lookData = new LookData("testLook", imageFile.getName());
 		sprite.getLookList().add(lookData);
 
-		StorageHandler.getInstance().saveProject(project);
+		XstreamSerializer.getInstance().saveProject(project);
 	}
 
 	private void deleteProject() throws IOException {
 		File projectDir = new File(buildProjectPath(project.getName()));
 		if (projectDir.exists()) {
-			StorageHandler.deleteDir(projectDir);
+			StorageOperations.deleteDir(projectDir);
 		}
 	}
 }

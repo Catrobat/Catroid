@@ -41,7 +41,7 @@ import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.stage.ShowBubbleActor;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.PathBuilder;
@@ -132,7 +132,7 @@ public class UtilsTest extends AndroidTestCase {
 		assertEquals("MD5 sums are not the same for catroid file", MD5_CATROID.toLowerCase(Locale.US),
 				Utils.md5Checksum(md5TestFile));
 
-		StorageHandler.deleteDir(tempDir);
+		StorageOperations.deleteDir(tempDir);
 	}
 
 	public void testMD5CheckSumOfString() {

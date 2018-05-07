@@ -27,7 +27,7 @@ import android.support.test.InstrumentationRegistry;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.XstreamSerializer;
 
 public class DontGenerateDefaultProjectActivityInstrumentationRule<T extends Activity> extends
 		BaseActivityInstrumentationRule<T> {
@@ -51,6 +51,6 @@ public class DontGenerateDefaultProjectActivityInstrumentationRule<T extends Act
 		Constants.DEFAULT_ROOT_DIRECTORY.mkdir();
 		Project project = new Project(InstrumentationRegistry.getTargetContext(),
 				"DummyToPreventDefaultProjectCreation");
-		StorageHandler.getInstance().saveProject(project);
+		XstreamSerializer.getInstance().saveProject(project);
 	}
 }

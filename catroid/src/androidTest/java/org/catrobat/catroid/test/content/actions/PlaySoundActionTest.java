@@ -34,7 +34,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.SoundManager;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -98,7 +98,7 @@ public class PlaySoundActionTest extends InstrumentationTestCase {
 
 	private void createTestProject() throws IOException {
 		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
-		StorageHandler.getInstance().saveProject(project);
+		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 		soundFile = FileTestUtils.copyResourceFileToProject(projectName, project.getDefaultScene().getName(),
 				"soundTest.mp3", soundFileId, getInstrumentation().getContext(), FileTestUtils.FileTypes.SOUND);

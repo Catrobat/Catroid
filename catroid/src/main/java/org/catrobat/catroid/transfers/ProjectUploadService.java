@@ -35,7 +35,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.io.ZipArchiver;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.PathBuilder;
@@ -93,7 +93,7 @@ public class ProjectUploadService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		StorageHandler.getInstance().saveProject(ProjectManager.getInstance().getCurrentProject());
+		XstreamSerializer.getInstance().saveProject(ProjectManager.getInstance().getCurrentProject());
 
 		receiver = intent.getParcelableExtra("receiver");
 		try {

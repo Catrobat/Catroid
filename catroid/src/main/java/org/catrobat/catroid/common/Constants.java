@@ -63,7 +63,6 @@ public final class Constants {
 	public static final File DEFAULT_ROOT_DIRECTORY = new File(DEFAULT_ROOT);
 
 	public static final String TMP_PATH = DEFAULT_ROOT + "/tmp";
-	public static final String TMP_IMAGE_PATH = TMP_PATH + "/PocketPaintImage.tmp";
 	public static final String TEXT_TO_SPEECH_TMP_PATH = TMP_PATH + "/textToSpeech";
 	public static final String IMAGE_DIRECTORY_NAME = "images";
 	public static final String SOUND_DIRECTORY_NAME = "sounds";

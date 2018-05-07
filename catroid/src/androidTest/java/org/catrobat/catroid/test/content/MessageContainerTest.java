@@ -36,7 +36,8 @@ import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.io.XstreamSerializer;
 
 import java.io.File;
 import java.util.List;
@@ -57,8 +58,8 @@ public class MessageContainerTest extends AndroidTestCase {
 	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
-		StorageHandler.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName1));
-		StorageHandler.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName2));
+		StorageOperations.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName1));
+		StorageOperations.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName2));
 	}
 
 	public void testLoadProject() {
@@ -102,7 +103,7 @@ public class MessageContainerTest extends AndroidTestCase {
 
 		project1.getDefaultScene().addSprite(sprite1);
 
-		StorageHandler.getInstance().saveProject(project1);
+		XstreamSerializer.getInstance().saveProject(project1);
 
 		Project project2 = new Project(getContext(), projectName2);
 
@@ -116,7 +117,7 @@ public class MessageContainerTest extends AndroidTestCase {
 		sprite2.addScript(broadcastScript2);
 
 		project2.getDefaultScene().addSprite(sprite2);
-		StorageHandler.getInstance().saveProject(project2);
+		XstreamSerializer.getInstance().saveProject(project2);
 
 		ProjectManager.getInstance().loadProject(projectName1, getContext());
 		ProjectManager.getInstance()

@@ -34,7 +34,8 @@ import org.catrobat.catroid.common.defaultprojectcreators.JumpingSumoProjectCrea
 import org.catrobat.catroid.common.defaultprojectcreators.PhysicsProjectCreator;
 import org.catrobat.catroid.common.defaultprojectcreators.ProjectCreator;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.utils.PathBuilder;
 
 import java.io.File;
@@ -67,8 +68,8 @@ public final class DefaultProjectHandler {
 		String projectName = context.getString(getInstance().defaultProjectCreator.getDefaultProjectNameID());
 		Project defaultProject = null;
 
-		if (StorageHandler.getInstance().projectExists(projectName)) {
-			StorageHandler.deleteDir(new File(PathBuilder.buildProjectPath(projectName)));
+		if (XstreamSerializer.getInstance().projectExists(projectName)) {
+			StorageOperations.deleteDir(new File(PathBuilder.buildProjectPath(projectName)));
 		}
 
 		try {
@@ -92,12 +93,12 @@ public final class DefaultProjectHandler {
 
 	public static Project createAndSaveEmptyProject(String projectName, Context context, boolean landscapeMode,
 			boolean isCastEnabled) {
-		if (StorageHandler.getInstance().projectExists(projectName)) {
+		if (XstreamSerializer.getInstance().projectExists(projectName)) {
 			throw new IllegalArgumentException("Project with name '" + projectName + "' already exists!");
 		}
 		Project emptyProject = new Project(context, projectName, landscapeMode, isCastEnabled);
 		emptyProject.setDeviceData(context);
-		StorageHandler.getInstance().saveProject(emptyProject);
+		XstreamSerializer.getInstance().saveProject(emptyProject);
 		ProjectManager.getInstance().setProject(emptyProject);
 
 		return emptyProject;

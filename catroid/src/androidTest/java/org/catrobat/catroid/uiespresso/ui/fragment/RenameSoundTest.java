@@ -33,6 +33,7 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
@@ -142,6 +143,7 @@ public class RenameSoundTest {
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentScene(project.getDefaultScene());
 		ProjectManager.getInstance().setCurrentSprite(sprite);
+		XstreamSerializer.getInstance().saveProject(project);
 
 		File soundFile = FileTestUtils.copyResourceFileToProject(
 				projectName, ProjectManager.getInstance().getCurrentScene().getName(), "longsound.mp3",

@@ -38,7 +38,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.pocketmusic.PocketMusicActivity;
 import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
 import org.catrobat.catroid.ui.WebViewActivity;
@@ -127,7 +127,7 @@ public class NewSoundDialogFragment extends DialogFragment implements View.OnCli
 		switch (requestCode) {
 			case RECORD:
 			case FILE:
-				srcPath = StorageHandler.getPathFromUri(getActivity().getContentResolver(), data.getData());
+				srcPath = StorageOperations.getPathFromUri(getActivity().getContentResolver(), data.getData());
 				createItem(srcPath);
 				break;
 			case LIBRARY:
@@ -146,8 +146,8 @@ public class NewSoundDialogFragment extends DialogFragment implements View.OnCli
 		}
 		try {
 			File srcFile = new File(srcPath);
-			String name = StorageHandler.getSanitizedFileName(srcFile);
-			File file = StorageHandler.copyFileToDirectory(srcFile, new File(dstScene.getPath(), SOUND_DIRECTORY_NAME));
+			String name = StorageOperations.getSanitizedFileName(srcFile);
+			File file = StorageOperations.copyFileToDir(srcFile, new File(dstScene.getPath(), SOUND_DIRECTORY_NAME));
 			newItemInterface
 					.addItem(new SoundInfo(uniqueNameProvider.getUniqueName(name, getScope(dstSprite)), file));
 		} catch (IOException e) {

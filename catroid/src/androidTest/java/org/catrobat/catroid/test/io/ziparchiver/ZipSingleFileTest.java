@@ -26,7 +26,7 @@ package org.catrobat.catroid.test.io.ziparchiver;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.ZipArchiver;
 import org.junit.After;
 import org.junit.Before;
@@ -56,7 +56,7 @@ public class ZipSingleFileTest {
 	public void tearDown() throws IOException {
 		tmpFile.delete();
 		outputArchive.delete();
-		StorageHandler.deleteDir(unzippedDir);
+		StorageOperations.deleteDir(unzippedDir);
 	}
 
 	@Test

@@ -34,7 +34,8 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.shapebuilder.PhysicsShapeBuilderStrategy;
 import org.catrobat.catroid.physics.shapebuilder.PhysicsShapeBuilderStrategyFastHull;
@@ -70,11 +71,11 @@ public class PhysicsShapeScaleUtilsTest extends InstrumentationTestCase {
 		projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		if (projectDir.exists()) {
-			StorageHandler.deleteDir(projectDir);
+			StorageOperations.deleteDir(projectDir);
 		}
 
 		project = new Project(getInstrumentation().getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
-		StorageHandler.getInstance().saveProject(project);
+		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
 		String complexSingleConvexPolygonFileName = PhysicsTestUtils
@@ -92,7 +93,7 @@ public class PhysicsShapeScaleUtilsTest extends InstrumentationTestCase {
 	@Override
 	protected void tearDown() throws Exception {
 		if (projectDir.exists()) {
-			StorageHandler.deleteDir(projectDir);
+			StorageOperations.deleteDir(projectDir);
 		}
 		projectDir = null;
 		physicsWorld = null;

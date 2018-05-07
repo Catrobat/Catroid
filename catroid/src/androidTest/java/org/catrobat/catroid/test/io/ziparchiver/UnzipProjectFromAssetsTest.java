@@ -26,7 +26,7 @@ package org.catrobat.catroid.test.io.ziparchiver;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.ZipArchiver;
 import org.catrobat.catroid.utils.PathBuilder;
 import org.junit.After;
@@ -55,7 +55,7 @@ public class UnzipProjectFromAssetsTest {
 	@After
 	public void tearDown() throws IOException {
 		if (projectDir.exists()) {
-			StorageHandler.deleteDir(projectDir);
+			StorageOperations.deleteDir(projectDir);
 		}
 	}
 

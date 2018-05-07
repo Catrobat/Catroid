@@ -32,7 +32,7 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.BackpackSerializer;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -98,28 +98,29 @@ public final class BackpackListManager {
 	}
 
 	public void saveBackpack() {
-		SaveBackpackAsynchronousTask saveTask = new SaveBackpackAsynchronousTask();
+		SaveBackpackTask saveTask = new SaveBackpackTask();
 		saveTask.execute();
 	}
 
 	public void loadBackpack() {
-		LoadBackpackAsynchronousTask loadTask = new LoadBackpackAsynchronousTask();
+		LoadBackpackTask loadTask = new LoadBackpackTask();
 		loadTask.execute();
 	}
 
-	private class SaveBackpackAsynchronousTask extends AsyncTask<Void, Void, Void> {
+	private class SaveBackpackTask extends AsyncTask<Void, Void, Void> {
+
 		@Override
 		protected Void doInBackground(Void... params) {
-			StorageHandler.getInstance().saveBackpack(getBackpack());
+			BackpackSerializer.getInstance().saveBackpack(getBackpack());
 			return null;
 		}
 	}
 
-	private class LoadBackpackAsynchronousTask extends AsyncTask<Void, Void, Void> {
+	private class LoadBackpackTask extends AsyncTask<Void, Void, Void> {
 
 		@Override
 		protected Void doInBackground(Void... params) {
-			backpack = StorageHandler.getInstance().loadBackpack();
+			backpack = BackpackSerializer.getInstance().loadBackpack();
 			setBackPackFlags();
 			setFileReferences();
 			ProjectManager.getInstance().checkNestingBrickReferences(false, true);

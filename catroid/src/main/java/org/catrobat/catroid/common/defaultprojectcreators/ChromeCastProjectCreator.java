@@ -58,7 +58,7 @@ import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.ResourceImporter;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.soundrecorder.SoundRecorder;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.ui.fragment.SpriteFactory;
@@ -82,13 +82,13 @@ public class ChromeCastProjectCreator extends ProjectCreator {
 	public Project createDefaultProject(String projectName, Context context, boolean landscapeMode) throws
 			IOException,
 			IllegalArgumentException {
-		if (StorageHandler.getInstance().projectExists(projectName)) {
+		if (XstreamSerializer.getInstance().projectExists(projectName)) {
 			throw new IllegalArgumentException("Project with name '" + projectName + "' already exists!");
 		}
 
 		Project defaultProject = new Project(context, projectName, false, true);
 		defaultProject.setDeviceData(context); // density anywhere here
-		StorageHandler.getInstance().saveProject(defaultProject);
+		XstreamSerializer.getInstance().saveProject(defaultProject);
 		ProjectManager.getInstance().setProject(defaultProject);
 
 		String birdLookName = context.getString(R.string.default_cast_project_sprites_bird_name);
@@ -112,53 +112,47 @@ public class ChromeCastProjectCreator extends ProjectCreator {
 		File cloudFile;
 
 		File projectDir = new File(PathBuilder.buildProjectPath(defaultProject.getName()));
-		File imgDir = new File(defaultProject.getDefaultScene().getDirectory(), Constants.IMAGE_DIRECTORY_NAME);
-		File sndDir = new File(defaultProject.getDefaultScene().getDirectory(), Constants.SOUND_DIRECTORY_NAME);
+		File imageDir = new File(defaultProject.getDefaultScene().getDirectory(), Constants.IMAGE_DIRECTORY_NAME);
+		File soundDir = new File(defaultProject.getDefaultScene().getDirectory(), Constants.SOUND_DIRECTORY_NAME);
 
 		backgroundImageScaleFactor = ImageEditing.calculateScaleFactorToScreenSize(
 				R.drawable.default_project_background_landscape, context);
-		cloudFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), imgDir,
+		cloudFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), R.drawable.default_project_clouds_landscape, imageDir,
 				backgroundName + Constants.DEFAULT_IMAGE_EXTENSION,
-				R.drawable.default_project_clouds_landscape,
 				backgroundImageScaleFactor);
 
-		backgroundFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), imgDir,
+		backgroundFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), R.drawable.default_project_background_landscape, imageDir,
 				backgroundName + Constants.DEFAULT_IMAGE_EXTENSION,
-				R.drawable.default_project_background_landscape,
 				backgroundImageScaleFactor);
 
-		File birdWingUpFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), imgDir,
+		File birdWingUpFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), R.drawable.default_project_bird_wing_up, imageDir,
 				birdWingUpLookName
 						+ Constants.DEFAULT_IMAGE_EXTENSION,
-				R.drawable.default_project_bird_wing_up,
 				backgroundImageScaleFactor);
 
-		File birdWingDownFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), imgDir,
+		File birdWingDownFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), R.drawable.default_project_bird_wing_down, imageDir,
 				birdWingDownLookName + Constants.DEFAULT_IMAGE_EXTENSION,
-				R.drawable.default_project_bird_wing_down,
 				backgroundImageScaleFactor);
 
-		File birdWingUpLeftFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), imgDir,
+		File birdWingUpLeftFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), R.drawable.default_project_bird_wing_up_left, imageDir,
 				birdWingDownLookName + Constants.DEFAULT_IMAGE_EXTENSION,
-				R.drawable.default_project_bird_wing_up_left,
 				backgroundImageScaleFactor);
-		File birdWingDownLeftFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), imgDir,
+		File birdWingDownLeftFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), R.drawable.default_project_bird_wing_down_left, imageDir,
 				birdWingDownLookName + Constants.DEFAULT_IMAGE_EXTENSION,
-				R.drawable.default_project_bird_wing_down_left,
 				backgroundImageScaleFactor);
 
 		try {
-			File soundFile1 = ResourceImporter.createSoundFileFromResourcesInDirectory(context.getResources(), sndDir,
-					tweet1 + SoundRecorder.RECORDING_EXTENSION,
-					R.raw.default_project_tweet_1);
+			File soundFile1 = ResourceImporter.createSoundFileFromResourcesInDirectory(context.getResources(), R.raw.default_project_tweet_1, soundDir,
+					tweet1 + SoundRecorder.RECORDING_EXTENSION
+			);
 
-			File soundFile2 = ResourceImporter.createSoundFileFromResourcesInDirectory(context.getResources(), sndDir,
-					tweet2 + SoundRecorder.RECORDING_EXTENSION,
-					R.raw.default_project_tweet_2);
+			File soundFile2 = ResourceImporter.createSoundFileFromResourcesInDirectory(context.getResources(), R.raw.default_project_tweet_2, soundDir,
+					tweet2 + SoundRecorder.RECORDING_EXTENSION
+			);
 
-			ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), projectDir,
+			ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), R.drawable.default_project_screenshot, projectDir,
 					StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME,
-					R.drawable.default_project_screenshot, 1);
+					1);
 
 			LookData backgroundLookData = new LookData();
 			backgroundLookData.setName(backgroundName);
@@ -420,7 +414,7 @@ public class ChromeCastProjectCreator extends ProjectCreator {
 			throw new IOException(TAG, illegalArgumentException);
 		}
 
-		StorageHandler.getInstance().saveProject(defaultProject);
+		XstreamSerializer.getInstance().saveProject(defaultProject);
 
 		return defaultProject;
 	}

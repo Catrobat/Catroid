@@ -44,7 +44,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.controller.PocketPaintExchangeHandler;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
@@ -194,11 +194,11 @@ public class NewLookDialogFragment extends DialogFragment implements View.OnClic
 				createItem(srcPath);
 				break;
 			case FILE:
-				srcPath = StorageHandler.getPathFromUri(getActivity().getContentResolver(), data.getData());
+				srcPath = StorageOperations.getPathFromUri(getActivity().getContentResolver(), data.getData());
 				createItem(srcPath);
 				break;
 			case CAMERA:
-				srcPath = StorageHandler.getPathFromUri(getActivity().getContentResolver(), uri);
+				srcPath = StorageOperations.getPathFromUri(getActivity().getContentResolver(), uri);
 				createItem(srcPath);
 				break;
 			default:
@@ -213,8 +213,8 @@ public class NewLookDialogFragment extends DialogFragment implements View.OnClic
 		}
 		try {
 			File srcFile = new File(srcPath);
-			String name = StorageHandler.getSanitizedFileName(srcFile);
-			String fileName = StorageHandler.copyFileToDirectory(srcFile, getImgDir(dstScene)).getName();
+			String name = StorageOperations.getSanitizedFileName(srcFile);
+			String fileName = StorageOperations.copyFileToDir(srcFile, getimageDir(dstScene)).getName();
 			newItemInterface.addItem(
 					new LookData(uniqueNameProvider.getUniqueName(name, getScope(dstSprite)), fileName));
 		} catch (IOException e) {
@@ -230,7 +230,7 @@ public class NewLookDialogFragment extends DialogFragment implements View.OnClic
 		return scope;
 	}
 
-	private File getImgDir(Scene scene) {
+	private File getimageDir(Scene scene) {
 		return new File(scene.getPath(), IMAGE_DIRECTORY_NAME);
 	}
 

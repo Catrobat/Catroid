@@ -27,7 +27,6 @@ import android.content.Context;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.SoundInfo;
@@ -49,7 +48,7 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Functions;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.io.ResourceImporter;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.soundrecorder.SoundRecorder;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.ui.fragment.SpriteFactory;
@@ -58,6 +57,10 @@ import org.catrobat.catroid.utils.ImageEditing;
 
 import java.io.File;
 import java.io.IOException;
+
+import static org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION;
+import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
+import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 
 public class DefaultProjectCreator extends ProjectCreator {
 
@@ -73,7 +76,7 @@ public class DefaultProjectCreator extends ProjectCreator {
 	public Project createDefaultProject(String projectName, Context context, boolean landscapeMode)
 			throws IOException, IllegalArgumentException {
 
-		if (StorageHandler.getInstance().projectExists(projectName)) {
+		if (XstreamSerializer.getInstance().projectExists(projectName)) {
 			throw new IllegalArgumentException("Project with name '" + projectName + "' already exists!");
 		}
 
@@ -92,61 +95,64 @@ public class DefaultProjectCreator extends ProjectCreator {
 
 		Project defaultProject = new Project(context, projectName, landscapeMode);
 		defaultProject.setDeviceData(context);
-		StorageHandler.getInstance().saveProject(defaultProject);
+		XstreamSerializer.getInstance().saveProject(defaultProject);
 		ProjectManager.getInstance().setProject(defaultProject);
 
 		File backgroundFile;
 		File cloudFile;
 
 		File sceneDir = defaultProject.getDefaultScene().getDirectory();
-		File imgDir = new File(sceneDir, Constants.IMAGE_DIRECTORY_NAME);
-		File sndDir = new File(sceneDir, Constants.SOUND_DIRECTORY_NAME);
+		File imageDir = new File(sceneDir, IMAGE_DIRECTORY_NAME);
+		File soundDir = new File(sceneDir, SOUND_DIRECTORY_NAME);
 
 		if (landscapeMode) {
 			backgroundImageScaleFactor = ImageEditing.calculateScaleFactorToScreenSize(
 					R.drawable.default_project_background_landscape, context);
 
-			backgroundFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), imgDir,
-					backgroundName + Constants.DEFAULT_IMAGE_EXTENSION,
-					R.drawable.default_project_background_landscape,
+			backgroundFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(),
+					R.drawable.default_project_background_landscape, imageDir,
+					backgroundName + DEFAULT_IMAGE_EXTENSION,
 					backgroundImageScaleFactor);
-			cloudFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), imgDir,
-					backgroundName + Constants.DEFAULT_IMAGE_EXTENSION,
-					R.drawable.default_project_clouds_landscape,
+			cloudFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(),
+					R.drawable.default_project_clouds_landscape, imageDir,
+					backgroundName + DEFAULT_IMAGE_EXTENSION,
 					backgroundImageScaleFactor);
 		} else {
 			backgroundImageScaleFactor = ImageEditing.calculateScaleFactorToScreenSize(
 					R.drawable.default_project_background_portrait, context);
 
-			backgroundFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), imgDir,
-					backgroundName + Constants.DEFAULT_IMAGE_EXTENSION,
-					R.drawable.default_project_background_portrait,
+			backgroundFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(),
+					R.drawable.default_project_background_portrait, imageDir,
+					backgroundName + DEFAULT_IMAGE_EXTENSION,
 					backgroundImageScaleFactor);
-			cloudFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), imgDir,
-					backgroundName + Constants.DEFAULT_IMAGE_EXTENSION,
-					R.drawable.default_project_clouds_portrait,
+			cloudFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(),
+					R.drawable.default_project_clouds_portrait, imageDir,
+					backgroundName + DEFAULT_IMAGE_EXTENSION,
 					backgroundImageScaleFactor);
 		}
-		File birdWingUpFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), imgDir,
+		File birdWingUpFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(),
+				R.drawable.default_project_bird_wing_up, imageDir,
 				birdWingUpLookName
-						+ Constants.DEFAULT_IMAGE_EXTENSION,
-				R.drawable.default_project_bird_wing_up,
+						+ DEFAULT_IMAGE_EXTENSION,
 				backgroundImageScaleFactor);
-		File birdWingDownFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), imgDir,
-				birdWingDownLookName + Constants.DEFAULT_IMAGE_EXTENSION,
-				R.drawable.default_project_bird_wing_down,
+		File birdWingDownFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(),
+				R.drawable.default_project_bird_wing_down, imageDir,
+				birdWingDownLookName + DEFAULT_IMAGE_EXTENSION,
 				backgroundImageScaleFactor);
 		try {
-			File soundFile1 = ResourceImporter.createSoundFileFromResourcesInDirectory(context.getResources(), sndDir,
-					tweet1 + SoundRecorder.RECORDING_EXTENSION,
-					R.raw.default_project_tweet_1);
-			File soundFile2 = ResourceImporter.createSoundFileFromResourcesInDirectory(context.getResources(), sndDir,
-					tweet2 + SoundRecorder.RECORDING_EXTENSION,
-					R.raw.default_project_tweet_2);
+			File soundFile1 = ResourceImporter.createSoundFileFromResourcesInDirectory(context.getResources(),
+					R.raw.default_project_tweet_1, soundDir,
+					tweet1 + SoundRecorder.RECORDING_EXTENSION
+			);
+			File soundFile2 = ResourceImporter.createSoundFileFromResourcesInDirectory(context.getResources(),
+					R.raw.default_project_tweet_2, soundDir,
+					tweet2 + SoundRecorder.RECORDING_EXTENSION
+			);
 
-			ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), sceneDir,
+			ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(),
+					R.drawable.default_project_screenshot, sceneDir,
 					StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME,
-					R.drawable.default_project_screenshot, 1);
+					1);
 
 			LookData backgroundLookData = new LookData(backgroundName, backgroundFile.getName());
 
@@ -259,7 +265,7 @@ public class DefaultProjectCreator extends ProjectCreator {
 			throw new IOException(TAG, illegalArgumentException);
 		}
 
-		StorageHandler.getInstance().saveProject(defaultProject);
+		XstreamSerializer.getInstance().saveProject(defaultProject);
 
 		return defaultProject;
 	}

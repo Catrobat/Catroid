@@ -40,7 +40,7 @@ import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Sensors;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.io.File;
@@ -78,7 +78,7 @@ public class PhiroSettingsTest extends InstrumentationTestCase {
 		assertTrue("After loading a project which needs phiro it should be enabled",
 				SettingsFragment.isPhiroSharedPreferenceEnabled(context));
 
-		StorageHandler.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName));
+		StorageOperations.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName));
 	}
 
 	private void createProjectPhiro() throws InterruptedException {
