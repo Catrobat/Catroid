@@ -36,7 +36,6 @@ import org.catrobat.catroid.content.bricks.BrickViewProvider;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -92,7 +91,7 @@ public class SetBounceBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_physics_set_bounce_factor, null);
 		TextView textBounceFactor = (TextView) prototypeView.findViewById(R.id.brick_set_bounce_factor_edit_text);
-		textBounceFactor.setText(Utils.getNumberStringForBricks(BrickValues.PHYSIC_BOUNCE_FACTOR * 100));
+		textBounceFactor.setText(formatNumberForPrototypeView(BrickValues.PHYSIC_BOUNCE_FACTOR * 100));
 		return prototypeView;
 	}
 

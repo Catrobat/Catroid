@@ -36,7 +36,6 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.ui.fragment.ColorSeekbar;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -89,13 +88,13 @@ public class SetPenColorBrick extends FormulaBrick {
 		prototypeView = View.inflate(context, R.layout.brick_set_pen_color, null);
 
 		TextView textValueRed = (TextView) prototypeView.findViewById(R.id.brick_set_pen_color_action_red_edit_text);
-		textValueRed.setText(Utils.getNumberStringForBricks(BrickValues.PEN_COLOR.r * 255));
+		textValueRed.setText(formatNumberForPrototypeView(BrickValues.PEN_COLOR.r * 255));
 
 		TextView textValueGreen = (TextView) prototypeView.findViewById(R.id.brick_set_pen_color_action_green_edit_text);
-		textValueGreen.setText(Utils.getNumberStringForBricks(BrickValues.PEN_COLOR.g * 255));
+		textValueGreen.setText(formatNumberForPrototypeView(BrickValues.PEN_COLOR.g * 255));
 
 		TextView textValueBlue = (TextView) prototypeView.findViewById(R.id.brick_set_pen_color_action_blue_edit_text);
-		textValueBlue.setText(Utils.getNumberStringForBricks(BrickValues.PEN_COLOR.b * 255));
+		textValueBlue.setText(formatNumberForPrototypeView(BrickValues.PEN_COLOR.b * 255));
 
 		return prototypeView;
 	}

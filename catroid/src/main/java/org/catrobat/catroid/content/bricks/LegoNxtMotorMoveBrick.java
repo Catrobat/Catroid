@@ -38,7 +38,6 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -92,7 +91,7 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_nxt_motor_action, null);
 		TextView textSpeed = (TextView) prototypeView.findViewById(R.id.motor_action_speed_edit_text);
-		textSpeed.setText(Utils.getNumberStringForBricks(BrickValues.LEGO_SPEED));
+		textSpeed.setText(formatNumberForPrototypeView(BrickValues.LEGO_SPEED));
 
 		Spinner legoSpinner = (Spinner) prototypeView.findViewById(R.id.lego_motor_action_spinner);
 

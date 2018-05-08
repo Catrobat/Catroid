@@ -37,7 +37,6 @@ import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
@@ -114,7 +113,7 @@ public class SetLookByIndexBrick extends FormulaBrick {
 		}
 
 		TextView textSetLookByIndex = (TextView) prototypeView.findViewById(R.id.brick_set_look_by_index_edit_text);
-		textSetLookByIndex.setText(Utils.getNumberStringForBricks(BrickValues.SET_LOOK_BY_INDEX));
+		textSetLookByIndex.setText(formatNumberForPrototypeView(BrickValues.SET_LOOK_BY_INDEX));
 
 		return prototypeView;
 	}

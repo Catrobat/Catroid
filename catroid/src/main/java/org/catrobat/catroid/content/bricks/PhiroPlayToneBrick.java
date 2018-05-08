@@ -92,7 +92,7 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_phiro_play_tone, null);
 		TextView textDuration = (TextView) prototypeView.findViewById(R.id.brick_phiro_play_tone_duration_edit_text);
-		textDuration.setText(Utils.getNumberStringForBricks(BrickValues.PHIRO_DURATION));
+		textDuration.setText(formatNumberForPrototypeView(BrickValues.PHIRO_DURATION));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_phiro_play_tone_seconds_text_view);
 		times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
 				Utils.convertDoubleToPluralInteger(BrickValues.PHIRO_DURATION)));

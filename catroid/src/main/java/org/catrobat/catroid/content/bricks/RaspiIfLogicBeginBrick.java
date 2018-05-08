@@ -34,7 +34,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.utils.Utils;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -92,7 +91,7 @@ public class RaspiIfLogicBeginBrick extends IfLogicBeginBrick {
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_raspi_if_begin_if, null);
 		TextView textIfBegin = (TextView) prototypeView.findViewById(R.id.brick_raspi_if_begin_edit_text);
-		textIfBegin.setText(Utils.getNumberStringForBricks(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER));
+		textIfBegin.setText(formatNumberForPrototypeView(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER));
 		return prototypeView;
 	}
 
