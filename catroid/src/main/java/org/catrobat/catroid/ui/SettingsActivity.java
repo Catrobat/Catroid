@@ -27,7 +27,10 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.settingsfragments.AccessibilitySettingsFragment;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+
+import static org.catrobat.catroid.ui.settingsfragments.AccessibilityProfilesFragment.SETTINGS_FRAGMENT_INTENT_KEY;
 
 public class SettingsActivity extends BaseActivity {
 
@@ -39,6 +42,15 @@ public class SettingsActivity extends BaseActivity {
 		getFragmentManager().beginTransaction()
 				.replace(R.id.content_frame, new SettingsFragment())
 				.commit();
+
+		if (getIntent().getExtras() != null && getIntent()
+				.getBooleanExtra(SETTINGS_FRAGMENT_INTENT_KEY, false)) {
+
+			getFragmentManager().beginTransaction()
+					.replace(R.id.content_frame, new AccessibilitySettingsFragment())
+					.addToBackStack(AccessibilitySettingsFragment.TAG)
+					.commit();
+		}
 
 		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
