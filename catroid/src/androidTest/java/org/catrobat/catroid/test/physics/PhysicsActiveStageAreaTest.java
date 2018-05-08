@@ -23,18 +23,20 @@
 
 package org.catrobat.catroid.test.physics;
 
+import android.support.test.InstrumentationRegistry;
+
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.SingleSprite;
+import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
-import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.PhysicsTestUtils;
-import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 
 import java.io.File;
+
+import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 
 public class PhysicsActiveStageAreaTest extends PhysicsBaseTest {
 
@@ -116,10 +118,13 @@ public class PhysicsActiveStageAreaTest extends PhysicsBaseTest {
 
 	public void testSpriteLargerThanActiveAreaHangupAndResume() throws Exception {
 		String rectangle8192x8192FileName = PhysicsTestUtils.getInternalImageFilenameFromFilename("rectangle_8192x8192.png");
-		int rectangle8192x8192ResID = R.raw.rectangle_8192x8192;
-		File rectangle8192x8192File = FileTestUtils.copyResourceFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
-				project.getDefaultScene().getName(), rectangle8192x8192FileName, rectangle8192x8192ResID,
-				getInstrumentation().getContext(), FileTestUtils.FileTypes.IMAGE);
+
+		File rectangle8192x8192File = ResourceImporter.createImageFileFromResourcesInDirectory(
+				InstrumentationRegistry.getContext().getResources(),
+				org.catrobat.catroid.test.R.raw.rectangle_8192x8192,
+				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
+				rectangle8192x8192FileName,
+				1);
 
 		sprite = new SingleSprite("TestSprite");
 		sprite.look = new PhysicsLook(sprite, physicsWorld);

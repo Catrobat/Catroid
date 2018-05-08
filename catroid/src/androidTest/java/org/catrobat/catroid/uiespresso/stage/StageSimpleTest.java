@@ -34,10 +34,10 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
-import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 import org.catrobat.catroid.uiespresso.util.matchers.StageMatchers;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.catrobat.catroid.utils.ScreenValueHandler;
@@ -53,6 +53,8 @@ import java.io.IOException;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isFocusable;
+
+import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 
 @RunWith(AndroidJUnit4.class)
 public class StageSimpleTest {
@@ -104,10 +106,13 @@ public class StageSimpleTest {
 		project.getDefaultScene().addSprite(blueSprite);
 
 		XstreamSerializer.getInstance().saveProject(project);
-		File blueImageFile = FileTestUtils.copyResourceFileToProject(project.getName(), project.getDefaultScene().getName(),
+
+		File blueImageFile = ResourceImporter.createImageFileFromResourcesInDirectory(
+				InstrumentationRegistry.getContext().getResources(),
+				org.catrobat.catroid.test.R.raw.blue_image,
+				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
 				blueImageName,
-				org.catrobat.catroid.test.R.raw.blue_image, InstrumentationRegistry.getContext(),
-				FileTestUtils.FileTypes.IMAGE);
+				1);
 
 		blueLookData.setFileName(blueImageFile.getName());
 

@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.test.physics;
 
+import android.support.test.InstrumentationRegistry;
 import android.test.InstrumentationTestCase;
 import android.util.Log;
 
@@ -36,6 +37,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.physics.PhysicsLook;
@@ -45,9 +47,10 @@ import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 
 import java.io.File;
+
+import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 
 public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 
@@ -58,10 +61,8 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 	private PhysicsLook physicsLook;
 	private Project project;
 	private File projectDir;
-	private static final int SIMPLE_SINGLE_CONVEX_POLYGON_RES_ID = R.raw.rectangle_125x125;
 	private File simpleSingleConvexPolygonFile;
 
-	private static final int COMPLEX_SINGLE_CONVEX_POLYGON_RES_ID = R.raw.complex_single_convex_polygon;
 	private File complexSingleConvexPolygonFile;
 
 	private Sprite sprite;
@@ -86,15 +87,23 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 
 		String simpleSingleConvexPolygonFileName = PhysicsTestUtils
 				.getInternalImageFilenameFromFilename("simple_single_convex_polygon.png");
-		simpleSingleConvexPolygonFile = FileTestUtils.copyResourceFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
-				project.getDefaultScene().getName(), simpleSingleConvexPolygonFileName,
-				SIMPLE_SINGLE_CONVEX_POLYGON_RES_ID, getInstrumentation().getContext(), FileTestUtils.FileTypes.IMAGE);
+
+		simpleSingleConvexPolygonFile = ResourceImporter.createImageFileFromResourcesInDirectory(
+				InstrumentationRegistry.getContext().getResources(),
+				R.raw.rectangle_125x125,
+				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
+				simpleSingleConvexPolygonFileName,
+				1);
 
 		String complexSingleConvexPolygonFileName = PhysicsTestUtils
 				.getInternalImageFilenameFromFilename("complex_single_convex_polygon.png");
-		complexSingleConvexPolygonFile = FileTestUtils.copyResourceFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
-				project.getDefaultScene().getName(), complexSingleConvexPolygonFileName,
-				COMPLEX_SINGLE_CONVEX_POLYGON_RES_ID, getInstrumentation().getContext(), FileTestUtils.FileTypes.IMAGE);
+
+		complexSingleConvexPolygonFile = ResourceImporter.createImageFileFromResourcesInDirectory(
+				InstrumentationRegistry.getContext().getResources(),
+				R.raw.complex_single_convex_polygon,
+				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
+				complexSingleConvexPolygonFileName,
+				1);
 
 		sprite = new SingleSprite("TestSprite");
 

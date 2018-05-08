@@ -22,12 +22,14 @@
  */
 package org.catrobat.catroid.test.physics;
 
+import android.support.test.InstrumentationRegistry;
 import android.test.InstrumentationTestCase;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsWorld;
@@ -35,9 +37,10 @@ import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
 import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 
 import java.io.File;
+
+import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 
 @SuppressWarnings("PMD.TestClassWithoutTestCases")
 public class PhysicsBaseTest extends InstrumentationTestCase {
@@ -48,7 +51,6 @@ public class PhysicsBaseTest extends InstrumentationTestCase {
 	protected Project project;
 	private String rectangle125x125FileName;
 	protected File rectangle125x125File;
-	private static final int RECTANGLE125X125_RES_ID = R.raw.rectangle_125x125;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -67,9 +69,12 @@ public class PhysicsBaseTest extends InstrumentationTestCase {
 		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
-		rectangle125x125File = FileTestUtils.copyResourceFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
-				project.getDefaultScene().getName(), rectangle125x125FileName, RECTANGLE125X125_RES_ID,
-				getInstrumentation().getContext(), FileTestUtils.FileTypes.IMAGE);
+		rectangle125x125File = ResourceImporter.createImageFileFromResourcesInDirectory(
+				InstrumentationRegistry.getContext().getResources(),
+				R.raw.rectangle_125x125,
+				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
+				rectangle125x125FileName,
+				1);
 
 		LookData lookdata = PhysicsTestUtils.generateLookData(rectangle125x125File);
 		sprite.look.setLookData(lookdata);

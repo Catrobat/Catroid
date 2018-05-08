@@ -29,14 +29,17 @@ import android.support.test.runner.AndroidJUnit4;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
+import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
-import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 import org.catrobat.catroid.uiespresso.util.hardware.SensorTestArduinoServerConnection;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.After;
@@ -53,10 +56,12 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
+import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
+import static org.catrobat.catroid.utils.PathBuilder.buildScenePath;
+
 @RunWith(AndroidJUnit4.class)
 public class PlaySoundBrickStageTest {
 
-	private static final int RESOURCE_SOUND = org.catrobat.catroid.test.R.raw.longsound;
 	private String soundName = "testSound1";
 	private File soundFile;
 	private List<SoundInfo> soundInfoList;
@@ -109,13 +114,24 @@ public class PlaySoundBrickStageTest {
 	private void createProjectWithSound() throws IOException {
 		String projectName = "playSoundStageTest";
 		SoundManager.getInstance();
-		Script startScript = BrickTestUtils.createProjectAndGetStartScript(projectName);
+
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+		Sprite sprite = new Sprite("testSprite");
+		Script startScript = new StartScript();
+
+		sprite.addScript(startScript);
+		project.getDefaultScene().addSprite(sprite);
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(sprite);
+
 		startScript.addBrick(new PlaySoundBrick());
 
-		soundFile = FileTestUtils
-				.copyResourceFileToProject(projectName, ProjectManager.getInstance().getCurrentScene().getName(),
-						"longsound.mp3", RESOURCE_SOUND,
-						InstrumentationRegistry.getContext(), FileTestUtils.FileTypes.SOUND);
+		soundFile = ResourceImporter.createSoundFileFromResourcesInDirectory(
+				InstrumentationRegistry.getContext().getResources(),
+				org.catrobat.catroid.test.R.raw.longsound,
+				new File(buildScenePath(project.getName(), project.getDefaultScene().getName()), SOUND_DIRECTORY_NAME),
+				"longsound.mp3");
+
 		SoundInfo soundInfo = new SoundInfo();
 		soundInfo.setFile(soundFile);
 		soundInfo.setName(soundName);

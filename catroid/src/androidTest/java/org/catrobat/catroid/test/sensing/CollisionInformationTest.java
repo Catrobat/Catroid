@@ -24,6 +24,7 @@
 package org.catrobat.catroid.test.sensing;
 
 import android.graphics.Bitmap;
+import android.support.test.InstrumentationRegistry;
 import android.test.InstrumentationTestCase;
 
 import com.badlogic.gdx.math.Polygon;
@@ -32,12 +33,12 @@ import junit.framework.Assert;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.sensing.CollisionInformation;
 import org.catrobat.catroid.sensing.CollisionPolygonVertex;
 import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
@@ -45,6 +46,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
@@ -88,7 +90,6 @@ public class CollisionInformationTest extends InstrumentationTestCase {
 	}
 
 	public void testGetCollisionPolygonFromPNGMeta() throws IOException {
-		final int resourceId = org.catrobat.catroid.test.R.raw.polygon_in_file;
 		TestUtils.deleteProjects();
 
 		Project project = new Project(getInstrumentation().getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
@@ -97,9 +98,13 @@ public class CollisionInformationTest extends InstrumentationTestCase {
 		ProjectManager.getInstance().setProject(project);
 
 		String filename = PhysicsTestUtils.getInternalImageFilenameFromFilename("polygon_in_file.png");
-		File file = FileTestUtils.copyResourceFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
-					project.getDefaultScene().getName(), filename, resourceId, getInstrumentation().getContext(),
-					FileTestUtils.FileTypes.IMAGE);
+
+		File file = ResourceImporter.createImageFileFromResourcesInDirectory(
+				InstrumentationRegistry.getContext().getResources(),
+				org.catrobat.catroid.test.R.raw.polygon_in_file,
+				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
+				filename,
+				1);
 
 		Polygon[] collisionPolygons = CollisionInformation.getCollisionPolygonFromPNGMeta(file.getAbsolutePath());
 
@@ -119,11 +124,14 @@ public class CollisionInformationTest extends InstrumentationTestCase {
 		ProjectManager.getInstance().setProject(project);
 
 		String filename = "collision_donut.png";
-		int resourceId = org.catrobat.catroid.test.R.raw.collision_donut;
 		String hashedFileName = Utils.md5Checksum(filename) + "_" + filename;
-		File file = FileTestUtils.copyResourceFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
-				project.getDefaultScene().getName(), hashedFileName, resourceId, getInstrumentation().getContext(),
-					FileTestUtils.FileTypes.IMAGE);
+
+		File file = ResourceImporter.createImageFileFromResourcesInDirectory(
+				InstrumentationRegistry.getContext().getResources(),
+				org.catrobat.catroid.test.R.raw.collision_donut,
+				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
+				hashedFileName,
+				1);
 
 		float[] firstVertices = new float[] {0.0f, 0.0f, 111.0f, 0.0f, 111.0f, 222.0f};
 		float[] secondVertices = new float[] {10.0f, 10.0f, 20.0f, 10.0f, 20.0f, 20.0f, 10.0f, 20.0f};
@@ -145,11 +153,14 @@ public class CollisionInformationTest extends InstrumentationTestCase {
 		ProjectManager.getInstance().setProject(project);
 
 		String filename = "collision_donut.png";
-		int resourceId = org.catrobat.catroid.test.R.raw.collision_donut;
 		String hashedFileName = Utils.md5Checksum(filename) + "_" + filename;
-		File file = FileTestUtils.copyResourceFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
-				project.getDefaultScene().getName(), hashedFileName, resourceId, getInstrumentation().getContext(),
-					FileTestUtils.FileTypes.IMAGE);
+
+		File file = ResourceImporter.createImageFileFromResourcesInDirectory(
+				InstrumentationRegistry.getContext().getResources(),
+				org.catrobat.catroid.test.R.raw.collision_donut,
+				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
+				hashedFileName,
+				1);
 
 		Polygon[] polygons = new Polygon[0];
 		CollisionInformation.writeCollisionVerticesToPNGMeta(polygons, file.getAbsolutePath());

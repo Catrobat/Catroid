@@ -31,11 +31,11 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.controller.SoundController;
-import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,11 +47,13 @@ import java.io.IOException;
 import static junit.framework.Assert.assertEquals;
 
 import static org.catrobat.catroid.common.Constants.BACKPACK_SOUND_DIRECTORY;
+import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileDoesNotExist;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileDoesNotExistInDirectory;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileExists;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileExistsInDirectory;
 import static org.catrobat.catroid.utils.PathBuilder.buildProjectPath;
+import static org.catrobat.catroid.utils.PathBuilder.buildScenePath;
 
 @RunWith(AndroidJUnit4.class)
 public class SoundControllerTest {
@@ -163,13 +165,11 @@ public class SoundControllerTest {
 
 		XstreamSerializer.getInstance().saveProject(project);
 
-		File soundFile = FileTestUtils.copyResourceFileToProject(
-				project.getName(), scene.getName(),
-				"longsound.mp3",
+		File soundFile = ResourceImporter.createSoundFileFromResourcesInDirectory(
+				InstrumentationRegistry.getContext().getResources(),
 				org.catrobat.catroid.test.R.raw.longsound,
-				InstrumentationRegistry.getContext(),
-				FileTestUtils.FileTypes.SOUND
-		);
+				new File(buildScenePath(project.getName(), project.getDefaultScene().getName()), SOUND_DIRECTORY_NAME),
+				"longsound.mp3");
 
 		soundInfo = new SoundInfo("testSound", soundFile);
 		sprite.getSoundList().add(soundInfo);

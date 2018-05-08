@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
+import android.support.test.InstrumentationRegistry;
 import android.test.InstrumentationTestCase;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -35,16 +36,16 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.test.R;
-import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 
 import java.io.File;
 
-public class TurnLeftActionTest extends InstrumentationTestCase {
+import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 
-	private static final int IMAGE_FILE_ID = R.raw.icon;
+public class TurnLeftActionTest extends InstrumentationTestCase {
 
 	private final String projectName = "testProject";
 	private File testImage;
@@ -64,8 +65,12 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
-		testImage = FileTestUtils.copyResourceFileToProject(projectName, project.getDefaultScene().getName(),
-				"testImage.png", IMAGE_FILE_ID, getInstrumentation().getContext(), FileTestUtils.FileTypes.IMAGE);
+		testImage = ResourceImporter.createImageFileFromResourcesInDirectory(
+				InstrumentationRegistry.getContext().getResources(),
+				R.raw.icon,
+				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
+				"testImage.png",
+				1);
 
 		lookData = new LookData();
 		lookData.setFileName(testImage.getName());

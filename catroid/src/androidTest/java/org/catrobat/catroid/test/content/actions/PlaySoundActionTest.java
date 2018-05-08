@@ -33,16 +33,19 @@ import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+
+import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
+import static org.catrobat.catroid.utils.PathBuilder.buildScenePath;
 
 public class PlaySoundActionTest extends InstrumentationTestCase {
 	private final SoundManager soundManager = SoundManager.getInstance();
@@ -100,8 +103,12 @@ public class PlaySoundActionTest extends InstrumentationTestCase {
 		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
 		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
-		soundFile = FileTestUtils.copyResourceFileToProject(projectName, project.getDefaultScene().getName(),
-				"soundTest.mp3", soundFileId, getInstrumentation().getContext(), FileTestUtils.FileTypes.SOUND);
+
+		soundFile = ResourceImporter.createSoundFileFromResourcesInDirectory(
+				getInstrumentation().getContext().getResources(),
+				soundFileId,
+				new File(buildScenePath(projectName, project.getDefaultScene().getName()), SOUND_DIRECTORY_NAME),
+				"soundTest.mp3");
 	}
 
 	private SoundInfo createSoundInfo(File soundFile) {

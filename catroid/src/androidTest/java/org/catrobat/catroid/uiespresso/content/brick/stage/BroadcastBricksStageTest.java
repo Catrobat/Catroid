@@ -42,11 +42,11 @@ import org.catrobat.catroid.content.bricks.WhenConditionBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Sensors;
+import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
-import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 import org.catrobat.catroid.uiespresso.util.matchers.StageMatchers;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.Before;
@@ -62,6 +62,8 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isFocusable;
+
+import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 
 @RunWith(AndroidJUnit4.class)
 public class BroadcastBricksStageTest {
@@ -122,15 +124,20 @@ public class BroadcastBricksStageTest {
 		project.getDefaultScene().addSprite(sprite);
 
 		XstreamSerializer.getInstance().saveProject(project);
-		File redImageFile = FileTestUtils.copyResourceFileToProject(project.getName(), project.getDefaultScene().getName(),
-				redImageName,
-				org.catrobat.catroid.test.R.raw.red_image, InstrumentationRegistry.getContext(),
-				FileTestUtils.FileTypes.IMAGE);
 
-		File greenImageFile = FileTestUtils.copyResourceFileToProject(project.getName(), project.getDefaultScene().getName(),
+		File redImageFile = ResourceImporter.createImageFileFromResourcesInDirectory(
+				InstrumentationRegistry.getContext().getResources(),
+				org.catrobat.catroid.test.R.raw.red_image,
+				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
+				redImageName,
+				1);
+
+		File greenImageFile = ResourceImporter.createImageFileFromResourcesInDirectory(
+				InstrumentationRegistry.getContext().getResources(),
+				org.catrobat.catroid.test.R.raw.green_image,
+				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
 				greenImageName,
-				org.catrobat.catroid.test.R.raw.green_image, InstrumentationRegistry.getContext(),
-				FileTestUtils.FileTypes.IMAGE);
+				1);
 
 		redLookData.setFileName(redImageFile.getName());
 		greenLookData.setFileName(greenImageFile.getName());

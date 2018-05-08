@@ -32,11 +32,11 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.controller.LookController;
-import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,6 +48,7 @@ import java.io.IOException;
 import static junit.framework.Assert.assertEquals;
 
 import static org.catrobat.catroid.common.Constants.BACKPACK_IMAGE_DIRECTORY;
+import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileDoesNotExist;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileExists;
 import static org.catrobat.catroid.utils.PathBuilder.buildProjectPath;
@@ -163,12 +164,12 @@ public class LookControllerTest {
 		project.getDefaultScene().addSprite(sprite);
 		XstreamSerializer.getInstance().saveProject(project);
 
-		File imageFile = FileTestUtils.copyResourceFileToProject(
-				project.getName(), project.getDefaultScene().getName(),
-				"red_image.bmp",
+		File imageFile = ResourceImporter.createImageFileFromResourcesInDirectory(
+				InstrumentationRegistry.getContext().getResources(),
 				org.catrobat.catroid.test.R.raw.red_image,
-				InstrumentationRegistry.getContext(),
-				FileTestUtils.FileTypes.IMAGE);
+				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
+				"red_image.bmp",
+				1);
 
 		lookData = new LookData("testLook", imageFile.getName());
 		sprite.getLookList().add(lookData);
