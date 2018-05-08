@@ -36,7 +36,6 @@ import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 
 import java.io.File;
-import java.lang.reflect.Constructor;
 import java.util.Collections;
 import java.util.List;
 
@@ -153,24 +152,10 @@ public class SoundManagerTest extends InstrumentationTestCase {
 		}
 	}
 
-	/*
-	 * TODO: Since the SoundManager shouldn't be a Singleton, this is just a temporary solution.
-	 */
-	public void testInitialVolumeValue() {
-		Constructor<SoundManager> privateSoundManagerConstructor = null;
-		try {
-			privateSoundManagerConstructor = SoundManager.class.getDeclaredConstructor((Class<?>[]) null);
-			privateSoundManagerConstructor.setAccessible(true);
-			SoundManager soundManager = privateSoundManagerConstructor.newInstance();
-
-			assertEquals("Wrong initial sound volume value", 70.0f, soundManager.getVolume());
-		} catch (Exception exception) {
-			fail("Couldn't instantiate sound manager");
-		} finally {
-			if (privateSoundManagerConstructor != null) {
-				privateSoundManagerConstructor.setAccessible(false);
-			}
-		}
+	public void testInitialVolume() {
+		SoundManager soundManager = new SoundManager() {
+		};
+		assertEquals(70.0f, soundManager.getVolume());
 	}
 
 	public void testSetVolume() {
