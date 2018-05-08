@@ -45,6 +45,18 @@ public class AccessibilitySettingsFragment extends PreferenceFragment implements
 	static final String CUSTOM_PROFILE = "accessibility_profile_is_custom";
 
 	@Override
+	public void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		addPreferencesFromResource(R.xml.accessiblity_preferences);
+	}
+
+	@Override
+	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		SettingsFragment.setToChosenLanguage(getActivity());
+	}
+
+	@Override
 	public void onResume() {
 		super.onResume();
 		getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
@@ -55,13 +67,6 @@ public class AccessibilitySettingsFragment extends PreferenceFragment implements
 	public void onPause() {
 		super.onPause();
 		getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
-	}
-
-	@Override
-	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		SettingsFragment.setToChosenLanguage(getActivity());
-		addPreferencesFromResource(R.xml.accessiblity_preferences);
 	}
 
 	@Override
