@@ -1121,11 +1121,11 @@
   <string name="preference_disable_nxt_info_dialog_description">Konkretne ustawienia programu NXT nie są wyświetlane, gdy program jest otwierany.</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">Mapowanie czujników NXT do portów jest specyficzne dla programu i może być konfigurowane tylko dla otwieranych programów!</string>
   <string name="lego_nxt_sensor_config_info_text">Bieżący program korzysta z klocków Lego Mindstorms NXT lub czujników. Dla pełnej funkcjonalności proszę podłączyć czujniki do robota w następujący sposób</string>
-  <string name="nxt_port_1">Port 1</string>
-  <string name="nxt_port_2">Port 2</string>
-  <string name="nxt_port_3">Port 3</string>
-  <string name="nxt_port_4">Port 4</string>
-  <string name="lego_nxt_sensor_config_dont_show_again">Nie pokazuj ponownie tego komunikatu.</string>
+  <string name="lego_port_1">Port 1</string>
+  <string name="lego_port_2">Port 2</string>
+  <string name="lego_port_3">Port 3</string>
+  <string name="lego_port_4">Port 4</string>
+  <string name="lego_sensor_config_dont_show_again">Nie pokazuj ponownie tego komunikatu.</string>
   <string name="lego_nxt_overwrite_sensor_port_dialog_message">Czy chcesz zastąpić czujnik na wybranym porcie?</string>
   <string name="lego_nxt_overwrite_sensor_port_dialog_title">Zastąpić czujnik?</string>
   <string name="lego_ev3_sensor_config_info_title">Konfiguracja czujników EV3</string>

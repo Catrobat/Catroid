@@ -1058,11 +1058,11 @@ Wir möchten dich daran erinnern die Nutzungsbedingungen von Parrot sowie diese 
   <string name="preference_disable_nxt_info_dialog_description">Beim Öffnen eines Programmes werden programmspezifische NXT Einstellungen nicht mehr angezeigt.</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">Die Zuweisung von NXT Sensoren zu deren Port ist programmspezifisch und können nur für geöffnete Programme konfiguriert werden!</string>
   <string name="lego_nxt_sensor_config_info_text">Das geöffnete Programm beinhaltet Lego Mindstorms NXT Bausteine oder Sensoren. Bitte schließe die Sensoren wie folgt an den Roboter an damit das Programm einwandfrei funktioniert</string>
-  <string name="nxt_port_1">Port 1</string>
-  <string name="nxt_port_2">Port 2</string>
-  <string name="nxt_port_3">Port 3</string>
-  <string name="nxt_port_4">Port 4</string>
-  <string name="lego_nxt_sensor_config_dont_show_again">Diese Nachricht nicht mehr anzeigen.</string>
+  <string name="lego_port_1">Port 1</string>
+  <string name="lego_port_2">Port 2</string>
+  <string name="lego_port_3">Port 3</string>
+  <string name="lego_port_4">Port 4</string>
+  <string name="lego_sensor_config_dont_show_again">Diese Nachricht nicht mehr anzeigen.</string>
   <string name="lego_nxt_overwrite_sensor_port_dialog_message">Möchtest du den Sensor auf dem ausgewählten Port überschreiben?</string>
   <string name="lego_nxt_overwrite_sensor_port_dialog_title">Sensor überschreiben?</string>
   <string name="lego_ev3_sensor_config_info_title">EV3 Sensorkonfiguration</string>

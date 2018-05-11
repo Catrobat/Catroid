@@ -1255,11 +1255,11 @@
   <string name="preference_disable_nxt_info_dialog_description">إعدادات برنامج (NXT) المُحدد لن تُعرض عند فتح البرنامج.</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">مسح أجهزة استشعار (NXT) للمنافذ هو برنامج مُحدد يمكن تكوينه فقط للبرامج المفتوحة!</string>
   <string name="lego_nxt_sensor_config_info_text">البرنامج الحالي يستخدم أجهزة الاستشعار أو اللبّنات البرمجية لـ ليغو مايندستورمز(NXT). للحصول على وظائف مناسبة الرجاء توصيل أجهزة الاستشعار بالروبوت على النحو التالي</string>
-  <string name="nxt_port_1">المنفذ 1</string>
-  <string name="nxt_port_2">المنفذ 2</string>
-  <string name="nxt_port_3">المنفذ 3</string>
-  <string name="nxt_port_4">المنفذ 4</string>
-  <string name="lego_nxt_sensor_config_dont_show_again">عدم إظهار هذه الرسالة مرة أخرى.</string>
+  <string name="lego_port_1">المنفذ 1</string>
+  <string name="lego_port_2">المنفذ 2</string>
+  <string name="lego_port_3">المنفذ 3</string>
+  <string name="lego_port_4">المنفذ 4</string>
+  <string name="lego_sensor_config_dont_show_again">عدم إظهار هذه الرسالة مرة أخرى.</string>
   <string name="lego_nxt_overwrite_sensor_port_dialog_message">هل تريد إلغاء الاستشعار عن المنفذ الذي اخترته؟</string>
   <string name="lego_nxt_overwrite_sensor_port_dialog_title">إلغاء الاستشعار؟</string>
   <string name="lego_ev3_sensor_config_info_title">ضبط اعدادات جهاز استشعار(EV3)</string>

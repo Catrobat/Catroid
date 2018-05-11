@@ -1073,11 +1073,11 @@
   <string name="preference_disable_nxt_info_dialog_description">Programspesifikke NXT innstillinger vises ikke når du åpner et program.</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">Tilordningen av NXT sensorer til porter er programspesifikke og kan bare konfigureres for åpen programmer!</string>
   <string name="lego_nxt_sensor_config_info_text">Gjeldende programmet bruker Lego Mindstorms NXT blokker eller sensorer. For riktig funksjonalitet koble sensorer til roboten som følger</string>
-  <string name="nxt_port_1">Port 1</string>
-  <string name="nxt_port_2">Port 2</string>
-  <string name="nxt_port_3">Porten 3</string>
-  <string name="nxt_port_4">Port 4</string>
-  <string name="lego_nxt_sensor_config_dont_show_again">Ikke vis denne meldingen igjen.</string>
+  <string name="lego_port_1">Port 1</string>
+  <string name="lego_port_2">Port 2</string>
+  <string name="lego_port_3">Porten 3</string>
+  <string name="lego_port_4">Port 4</string>
+  <string name="lego_sensor_config_dont_show_again">Ikke vis denne meldingen igjen.</string>
   <string name="lego_nxt_overwrite_sensor_port_dialog_message">Vil du overskrive sensoren på den valgte porten?</string>
   <string name="lego_nxt_overwrite_sensor_port_dialog_title">Overskrive sensor?</string>
   <string name="lego_ev3_sensor_config_info_title">EV3 Sensor konfigurasjon</string>

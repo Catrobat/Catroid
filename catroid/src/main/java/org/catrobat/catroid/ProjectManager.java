@@ -73,7 +73,6 @@ public final class ProjectManager {
 	private Script currentScript;
 	private Sprite currentSprite;
 	private UserBrick currentUserBrick;
-	private boolean showLegoSensorInfoDialog = true;
 
 	private ProjectManager() {
 	}
@@ -177,7 +176,6 @@ public final class ProjectManager {
 
 		project.loadLegoNXTSettingsFromProject(context);
 		project.loadLegoEV3SettingsFromProject(context);
-		showLegoSensorInfoDialog = true;
 
 		int resources = project.getRequiredResources();
 
@@ -627,14 +625,6 @@ public final class ProjectManager {
 		for (Brick brick : bricksWithInvalidReferences) {
 			script.removeBrick(brick);
 		}
-	}
-
-	public boolean getShowLegoSensorInfoDialog() {
-		return showLegoSensorInfoDialog;
-	}
-
-	public void setShowLegoSensorInfoDialog(boolean showLegoSensorInfoDialogFlag) {
-		showLegoSensorInfoDialog = showLegoSensorInfoDialogFlag;
 	}
 
 	private class SaveProjectAsynchronousTask extends AsyncTask<Void, Void, Void> {

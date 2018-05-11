@@ -322,7 +322,7 @@ public class XstreamSerializerTest extends InstrumentationTestCase {
 		ProjectManager.getInstance().setProject(null);
 		ProjectManager.getInstance().loadProject(projectName, getInstrumentation().getTargetContext());
 
-		actualSensorMapping = SettingsFragment.getLegoMindstormsNXTSensorMapping(getInstrumentation().getTargetContext());
+		actualSensorMapping = SettingsFragment.getLegoNXTSensorMapping(getInstrumentation().getTargetContext());
 
 		assertEquals(4, actualSensorMapping.length);
 

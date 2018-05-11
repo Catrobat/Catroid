@@ -1026,11 +1026,11 @@
   <string name="preference_disable_nxt_info_dialog_description">プログラムを開いたとき、プログラム固有の NXT 設定は表示されません。</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">NXT センサーのポートへのマッピングはプログラム固有で、開かれたプログラムに対してのみ設定することができます!</string>
   <string name="lego_nxt_sensor_config_info_text">現在のプログラムは、レゴ マインドストーム NXT ブロックやセンサーを使用します。正しく動作するように、次のとおりセンサーをロボットに接続してください</string>
-  <string name="nxt_port_1">ポート 1</string>
-  <string name="nxt_port_2">ポート 2</string>
-  <string name="nxt_port_3">ポート 3</string>
-  <string name="nxt_port_4">ポート 4</string>
-  <string name="lego_nxt_sensor_config_dont_show_again">このメッセージを次回から表示しません。</string>
+  <string name="lego_port_1">ポート 1</string>
+  <string name="lego_port_2">ポート 2</string>
+  <string name="lego_port_3">ポート 3</string>
+  <string name="lego_port_4">ポート 4</string>
+  <string name="lego_sensor_config_dont_show_again">このメッセージを次回から表示しません。</string>
   <string name="lego_nxt_overwrite_sensor_port_dialog_message">選択したポートでセンサーを上書きしますか?</string>
   <string name="lego_nxt_overwrite_sensor_port_dialog_title">センサーを上書きしますか?</string>
   <string name="lego_ev3_sensor_config_info_title">EV3 センサー設定</string>

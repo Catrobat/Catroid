@@ -23,10 +23,11 @@
 package org.catrobat.catroid.ui;
 
 import android.app.DialogFragment;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.IntDef;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -45,8 +46,7 @@ import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.ui.dialogs.LegoEV3SensorConfigInfoDialog;
-import org.catrobat.catroid.ui.dialogs.LegoNXTSensorConfigInfoDialog;
+import org.catrobat.catroid.ui.dialogs.LegoSensorConfigInfoDialog;
 import org.catrobat.catroid.ui.recyclerview.activity.ProjectUploadActivity;
 import org.catrobat.catroid.ui.recyclerview.dialog.PlaySceneDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.RecyclerViewFragment;
@@ -84,7 +84,7 @@ public class ProjectActivity extends BaseCastActivity implements PlaySceneDialog
 		}
 
 		loadFragment(fragmentPosition);
-		showLegoInfoFragmentIfNeeded(getFragmentManager());
+		showLegoSensorConfigInfo();
 	}
 
 	private void loadFragment(@FragmentPosition int fragmentPosition) {
@@ -192,40 +192,21 @@ public class ProjectActivity extends BaseCastActivity implements PlaySceneDialog
 		}
 	}
 
-	private boolean needToShowLegoEV3InfoDialog() {
-		boolean isLegoEV3InfoDialogDisabled = SettingsFragment
-				.getShowLegoEV3MindstormsSensorInfoDialog(getApplicationContext());
+	private void showLegoSensorConfigInfo() {
+		int requiredResources = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		boolean nxtDialogDisabled = preferences.getBoolean(
+				SettingsFragment.SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED, false);
+		boolean ev3DialogDisabled = preferences.getBoolean(
+				SettingsFragment.SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED, false);
 
-		boolean legoEV3ResourcesRequired = (ProjectManager.getInstance().getCurrentProject().getRequiredResources()
-				& Brick.BLUETOOTH_LEGO_EV3) != 0;
-
-		boolean dialogAlreadyShown = !ProjectManager.getInstance().getShowLegoSensorInfoDialog();
-
-		return !isLegoEV3InfoDialogDisabled && legoEV3ResourcesRequired && !dialogAlreadyShown;
-	}
-
-	private boolean needToShowLegoNXTInfoDialog() {
-		boolean isLegoNXTInfoDialogDisabled = SettingsFragment
-				.getShowLegoNXTMindstormsSensorInfoDialog(getApplicationContext());
-
-		boolean legoNXTResourcesRequired = (ProjectManager.getInstance().getCurrentProject().getRequiredResources()
-				& Brick.BLUETOOTH_LEGO_NXT) != 0;
-
-		boolean dialogAlreadyShown = !ProjectManager.getInstance().getShowLegoSensorInfoDialog();
-
-		return !isLegoNXTInfoDialogDisabled && legoNXTResourcesRequired && !dialogAlreadyShown;
-	}
-
-	private void showLegoInfoFragmentIfNeeded(FragmentManager fragmentManager) {
-
-		if (needToShowLegoNXTInfoDialog()) {
-			DialogFragment dialog = new LegoNXTSensorConfigInfoDialog();
-			dialog.show(fragmentManager, LegoNXTSensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
+		if (!nxtDialogDisabled && (Brick.BLUETOOTH_LEGO_NXT & requiredResources) != 0) {
+			DialogFragment dialog = new LegoSensorConfigInfoDialog(LegoSensorConfigInfoDialog.NXT);
+			dialog.show(getFragmentManager(), LegoSensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
 		}
-		if (needToShowLegoEV3InfoDialog()) {
-			DialogFragment dialog = new LegoEV3SensorConfigInfoDialog();
-			dialog.show(fragmentManager, LegoEV3SensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
+		if (!ev3DialogDisabled && (Brick.BLUETOOTH_LEGO_EV3 & requiredResources) != 0) {
+			DialogFragment dialog = new LegoSensorConfigInfoDialog(LegoSensorConfigInfoDialog.EV3);
+			dialog.show(getFragmentManager(), LegoSensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
 		}
-		ProjectManager.getInstance().setShowLegoSensorInfoDialog(false);
 	}
 }

@@ -51,7 +51,6 @@ public class EV3SensorService implements CatroidService, SharedPreferences.OnSha
 	private EV3SensorFactory sensorFactory;
 
 	private SharedPreferences preferences;
-	private Context context;
 
 	private PausableScheduledThreadPoolExecutor sensorScheduler;
 
@@ -59,8 +58,6 @@ public class EV3SensorService implements CatroidService, SharedPreferences.OnSha
 	private static final int SENSOR_UPDATER_THREAD_COUNT = 2;
 
 	public EV3SensorService(Context context, MindstormsConnection connection) {
-		this.context = context;
-
 		preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		preferences.registerOnSharedPreferenceChangeListener(this);
 
@@ -85,27 +82,28 @@ public class EV3SensorService implements CatroidService, SharedPreferences.OnSha
 	}
 
 	public EV3Sensor createSensor1() {
-		EV3Sensor.Sensor sensor = SettingsFragment.getLegoMindstormsEV3SensorMapping(context, SettingsFragment
-				.EV3_SENSOR_1);
+		EV3Sensor.Sensor sensor = getLegoEV3SensorMapping(SettingsFragment.EV3_SENSOR_1);
 		return createSensor(sensor, 0);
 	}
 
 	public EV3Sensor createSensor2() {
-		EV3Sensor.Sensor sensor = SettingsFragment.getLegoMindstormsEV3SensorMapping(context, SettingsFragment
-				.EV3_SENSOR_2);
+		EV3Sensor.Sensor sensor = getLegoEV3SensorMapping(SettingsFragment.EV3_SENSOR_2);
 		return createSensor(sensor, 1);
 	}
 
 	public EV3Sensor createSensor3() {
-		EV3Sensor.Sensor sensor = SettingsFragment.getLegoMindstormsEV3SensorMapping(context, SettingsFragment
-				.EV3_SENSOR_3);
+		EV3Sensor.Sensor sensor = getLegoEV3SensorMapping(SettingsFragment.EV3_SENSOR_3);
 		return createSensor(sensor, 2);
 	}
 
 	public EV3Sensor createSensor4() {
-		EV3Sensor.Sensor sensor = SettingsFragment.getLegoMindstormsEV3SensorMapping(context, SettingsFragment
-				.EV3_SENSOR_4);
+		EV3Sensor.Sensor sensor = getLegoEV3SensorMapping(SettingsFragment.EV3_SENSOR_4);
 		return createSensor(sensor, 3);
+	}
+
+	private EV3Sensor.Sensor getLegoEV3SensorMapping(String sensorSetting) {
+		String sensor = preferences.getString(sensorSetting, null);
+		return EV3Sensor.Sensor.getSensorFromSensorCode(sensor);
 	}
 
 	private EV3Sensor createSensor(EV3Sensor.Sensor sensorType, int port) {

@@ -1068,11 +1068,11 @@ Eğer 16 yaşınızın altındaysanız, bu sözleşmeyi, yasal vasilerinizin (an
   <string name="preference_disable_nxt_info_dialog_description">Programı açarken programa özel NXT ayarları gösterilmez.</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">NXT sensörlerinin bağlantı noktalarına eşlenmesi programa özgüdür ve yalnızca açılan programlar için yapılandırılabilir!</string>
   <string name="lego_nxt_sensor_config_info_text">Mevcut program Lego Mindstorms NXTX tuğlalarını veya sensörülerini kullanıyor. Doğru işlevsellik için sensörleri robota aşağıdaki gibi bağlayın</string>
-  <string name="nxt_port_1">Bağlantı noktası 1</string>
-  <string name="nxt_port_2">Bağlantı noktası 2</string>
-  <string name="nxt_port_3">Bağlantı noktası 3</string>
-  <string name="nxt_port_4">Bağlantı noktası 4</string>
-  <string name="lego_nxt_sensor_config_dont_show_again">Bu mesajı tekrar gösterme</string>
+  <string name="lego_port_1">Bağlantı noktası 1</string>
+  <string name="lego_port_2">Bağlantı noktası 2</string>
+  <string name="lego_port_3">Bağlantı noktası 3</string>
+  <string name="lego_port_4">Bağlantı noktası 4</string>
+  <string name="lego_sensor_config_dont_show_again">Bu mesajı tekrar gösterme</string>
   <string name="lego_nxt_overwrite_sensor_port_dialog_message">Seçilen bağlantı noktasındaki sensörün üzerine yazmak istiyor musunuz?</string>
   <string name="lego_nxt_overwrite_sensor_port_dialog_title">Üzerine yazılsın mı?</string>
   <string name="lego_ev3_sensor_config_info_title">EV3 sensör yapılandırması</string>

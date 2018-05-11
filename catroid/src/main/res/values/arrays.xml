@@ -74,10 +74,10 @@
         <item>@string/nxt_sensor_ultrasonic</item>
     </string-array>
     <string-array name="port_chooser">
-        <item>@string/nxt_port_1</item>
-        <item>@string/nxt_port_2</item>
-        <item>@string/nxt_port_3</item>
-        <item>@string/nxt_port_4</item>
+        <item>@string/lego_port_1</item>
+        <item>@string/lego_port_2</item>
+        <item>@string/lego_port_3</item>
+        <item>@string/lego_port_4</item>
     </string-array>
     <string-array name="formula_editor_nxt_ports">
         <item>@string/formula_editor_sensor_lego_nxt_1</item>
