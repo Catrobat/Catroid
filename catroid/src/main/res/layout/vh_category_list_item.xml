@@ -27,6 +27,7 @@
     android:minHeight="@dimen/user_data_vh_height"
     android:paddingStart="@dimen/view_holder_padding"
     android:paddingEnd="@dimen/view_holder_padding"
+    android:gravity="center_vertical"
     android:layout_marginTop="?attr/element_spacing"
     android:layout_marginBottom="?attr/element_spacing"
     xmlns:tools="http://schemas.android.com/tools"
@@ -37,6 +38,5 @@
         android:id="@+id/title_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingEnd="@dimen/details_spacing"
         android:textSize="?attr/large"/>
 </LinearLayout>

@@ -28,8 +28,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedVH;
-import org.catrobat.catroid.ui.recyclerview.viewholder.ViewHolder;
 
 import java.util.List;
 
@@ -42,13 +42,13 @@ public abstract class ExtendedRVAdapter<T> extends RVAdapter<T> {
 	}
 
 	@Override
-	public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
+	public CheckableVH onCreateViewHolder(final ViewGroup parent, int viewType) {
 		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.vh_with_checkbox, parent, false);
 		return new ExtendedVH(view);
 	}
 
 	@Override
-	public void onBindViewHolder(ViewHolder holder, int position) {
+	public void onBindViewHolder(CheckableVH holder, int position) {
 		super.onBindViewHolder(holder, position);
 		onBindViewHolder((ExtendedVH) holder, position);
 	}

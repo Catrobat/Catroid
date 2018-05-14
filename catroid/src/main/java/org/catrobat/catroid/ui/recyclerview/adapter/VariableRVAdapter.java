@@ -28,8 +28,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.ui.recyclerview.viewholder.VariableVH;
-import org.catrobat.catroid.ui.recyclerview.viewholder.ViewHolder;
 
 import java.util.List;
 
@@ -40,13 +40,13 @@ public class VariableRVAdapter extends RVAdapter<UserVariable> {
 	}
 
 	@Override
-	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+	public CheckableVH onCreateViewHolder(ViewGroup parent, int viewType) {
 		View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
 		return new VariableVH(view);
 	}
 
 	@Override
-	public void onBindViewHolder(ViewHolder holder, int position) {
+	public void onBindViewHolder(CheckableVH holder, int position) {
 		super.onBindViewHolder(holder, position);
 
 		UserVariable item = items.get(position);

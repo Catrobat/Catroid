@@ -33,14 +33,14 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.ui.recyclerview.viewholder.ViewHolder;
+import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataListAdapter extends RecyclerView.Adapter<ViewHolder> implements RVAdapter.SelectionListener {
+public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implements RVAdapter.SelectionListener {
 
 	public boolean allowMultiSelection = true;
 
@@ -63,9 +63,10 @@ public class DataListAdapter extends RecyclerView.Adapter<ViewHolder> implements
 			List<UserVariable> localVars,
 			List<UserList> globalLists,
 			List<UserList> localLists) {
+
 		globalVarAdapter = new VariableRVAdapter(globalVars) {
 			@Override
-			public void onBindViewHolder(ViewHolder holder, int position) {
+			public void onBindViewHolder(CheckableVH holder, int position) {
 				super.onBindViewHolder(holder, position);
 				if (position == 0) {
 					((TextView) holder.itemView.findViewById(R.id.headline)).setText(R.string.global_vars_headline);
@@ -76,7 +77,7 @@ public class DataListAdapter extends RecyclerView.Adapter<ViewHolder> implements
 
 		localVarAdapter = new VariableRVAdapter(localVars){
 			@Override
-			public void onBindViewHolder(ViewHolder holder, int position) {
+			public void onBindViewHolder(CheckableVH holder, int position) {
 				super.onBindViewHolder(holder, position);
 				if (position == 0) {
 					((TextView) holder.itemView.findViewById(R.id.headline)).setText(R.string.local_vars_headline);
@@ -91,7 +92,7 @@ public class DataListAdapter extends RecyclerView.Adapter<ViewHolder> implements
 
 		globalListAdapter = new ListRVAdapter(globalLists) {
 			@Override
-			public void onBindViewHolder(ViewHolder holder, int position) {
+			public void onBindViewHolder(CheckableVH holder, int position) {
 				super.onBindViewHolder(holder, position);
 				if (position == 0) {
 					((TextView) holder.itemView.findViewById(R.id.headline)).setText(R.string.global_lists_headline);
@@ -106,7 +107,7 @@ public class DataListAdapter extends RecyclerView.Adapter<ViewHolder> implements
 
 		localListAdapter = new ListRVAdapter(localLists) {
 			@Override
-			public void onBindViewHolder(ViewHolder holder, int position) {
+			public void onBindViewHolder(CheckableVH holder, int position) {
 				super.onBindViewHolder(holder, position);
 				if (position == 0) {
 					((TextView) holder.itemView.findViewById(R.id.headline)).setText(R.string.local_lists_headline);
@@ -179,7 +180,7 @@ public class DataListAdapter extends RecyclerView.Adapter<ViewHolder> implements
 	}
 
 	@Override
-	public ViewHolder onCreateViewHolder(ViewGroup parent, @LayoutRes int viewType) {
+	public CheckableVH onCreateViewHolder(ViewGroup parent, @LayoutRes int viewType) {
 		switch (viewType) {
 			case R.layout.vh_variable_with_headline:
 			case R.layout.vh_variable:
@@ -209,7 +210,7 @@ public class DataListAdapter extends RecyclerView.Adapter<ViewHolder> implements
 	}
 
 	@Override
-	public void onBindViewHolder(ViewHolder holder, int position) {
+	public void onBindViewHolder(CheckableVH holder, int position) {
 		@DataType
 		int dataType = getDataType(position);
 		position = getRelativeItemPosition(position, dataType);

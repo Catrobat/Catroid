@@ -29,8 +29,8 @@ import android.view.ViewGroup;
 
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.ui.adapter.UserListValuesAdapter;
+import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.ui.recyclerview.viewholder.ListVH;
-import org.catrobat.catroid.ui.recyclerview.viewholder.ViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,13 +42,13 @@ public class ListRVAdapter extends RVAdapter<UserList> {
 	}
 
 	@Override
-	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+	public CheckableVH onCreateViewHolder(ViewGroup parent, int viewType) {
 		View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
 		return new ListVH(view);
 	}
 
 	@Override
-	public void onBindViewHolder(ViewHolder holder, int position) {
+	public void onBindViewHolder(CheckableVH holder, int position) {
 		super.onBindViewHolder(holder, position);
 
 		UserList item = items.get(position);

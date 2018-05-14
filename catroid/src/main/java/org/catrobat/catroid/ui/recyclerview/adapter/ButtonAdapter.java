@@ -30,17 +30,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.recyclerview.SimpleRVItem;
-import org.catrobat.catroid.ui.recyclerview.viewholder.SimpleVH;
+import org.catrobat.catroid.ui.recyclerview.RVButton;
+import org.catrobat.catroid.ui.recyclerview.viewholder.ButtonVH;
 
 import java.util.List;
 
-public class SimpleRVAdapter extends RecyclerView.Adapter<SimpleVH> {
+public class ButtonAdapter extends RecyclerView.Adapter<ButtonVH> {
 
-	public List<SimpleRVItem> items;
+	public List<RVButton> items;
 	private OnItemClickListener onItemClickListener;
 
-	public SimpleRVAdapter(List<SimpleRVItem> items) {
+	public ButtonAdapter(List<RVButton> items) {
 		this.items = items;
 	}
 
@@ -50,20 +50,20 @@ public class SimpleRVAdapter extends RecyclerView.Adapter<SimpleVH> {
 
 	@NonNull
 	@Override
-	public SimpleVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.vh_simple, parent, false);
-		return new SimpleVH(view);
+	public ButtonVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.vh_button, parent, false);
+		return new ButtonVH(view);
 	}
 
 	@Override
-	public void onBindViewHolder(@NonNull final SimpleVH holder, int position) {
-		final SimpleRVItem item = items.get(position);
+	public void onBindViewHolder(@NonNull final ButtonVH holder, int position) {
+		final RVButton item = items.get(position);
 		holder.image.setImageDrawable(item.drawable);
-		holder.title.setText(item.name);
+		holder.title.setText(item.title);
 
-		if (item.subTitle != null) {
-			holder.subTitle.setText(item.subTitle);
-			holder.subTitle.setVisibility(View.VISIBLE);
+		if (item.subtitle != null) {
+			holder.subtitle.setText(item.subtitle);
+			holder.subtitle.setVisibility(View.VISIBLE);
 		}
 
 		holder.itemView.setOnClickListener(new View.OnClickListener() {

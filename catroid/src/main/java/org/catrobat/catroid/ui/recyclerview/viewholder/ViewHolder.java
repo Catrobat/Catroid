@@ -25,19 +25,16 @@ package org.catrobat.catroid.ui.recyclerview.viewholder;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 
 public class ViewHolder extends RecyclerView.ViewHolder {
 
-	public CheckBox checkBox;
 	public TextView title;
 
-	public ViewHolder(View view) {
-		super(view);
-		checkBox = view.findViewById(R.id.checkbox);
-		title = view.findViewById(R.id.title_view);
+	public ViewHolder(View itemView) {
+		super(itemView);
+		title = itemView.findViewById(R.id.title_view);
 	}
 }

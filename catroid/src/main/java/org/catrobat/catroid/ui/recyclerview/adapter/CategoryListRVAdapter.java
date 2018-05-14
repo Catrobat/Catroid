@@ -25,20 +25,22 @@ package org.catrobat.catroid.ui.recyclerview.adapter;
 
 import android.support.annotation.IntDef;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.recyclerview.viewholder.CategoryListItemVH;
+import org.catrobat.catroid.ui.recyclerview.viewholder.ViewHolder;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
-public class CategoryListRVAdapter extends RecyclerView.Adapter<CategoryListItemVH> {
+public class CategoryListRVAdapter extends RecyclerView.Adapter<ViewHolder> {
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({DEFAULT, COLLISION, NXT, EV3})
@@ -69,17 +71,20 @@ public class CategoryListRVAdapter extends RecyclerView.Adapter<CategoryListItem
 		this.items = items;
 	}
 
+	@NonNull
 	@Override
-	public CategoryListItemVH onCreateViewHolder(ViewGroup parent, int viewType) {
+	public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 		View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
-		return new CategoryListItemVH(view);
+		return new ViewHolder(view);
 	}
 
 	@Override
-	public void onBindViewHolder(CategoryListItemVH holder, final int position) {
+	public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
 		final CategoryListItem item = items.get(position);
+
 		if (holder.getItemViewType() == R.layout.vh_category_list_item_with_headline) {
-			holder.headline.setText(items.get(position).header);
+			TextView headlineView = holder.itemView.findViewById(R.id.headline);
+			headlineView.setText(items.get(position).header);
 		}
 
 		holder.title.setText(item.text);
@@ -93,7 +98,8 @@ public class CategoryListRVAdapter extends RecyclerView.Adapter<CategoryListItem
 
 	@Override
 	public @LayoutRes int getItemViewType(int position) {
-		return items.get(position).header != null ? R.layout.vh_category_list_item_with_headline
+		return items.get(position).header != null
+				? R.layout.vh_category_list_item_with_headline
 				: R.layout.vh_category_list_item;
 	}
 

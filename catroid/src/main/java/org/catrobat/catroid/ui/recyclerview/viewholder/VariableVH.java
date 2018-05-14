@@ -28,12 +28,12 @@ import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 
-public class VariableVH extends ViewHolder {
+public class VariableVH extends CheckableVH {
 
 	public TextView value;
 
-	public VariableVH(View view) {
-		super(view);
-		value = view.findViewById(R.id.value_view);
+	public VariableVH(View itemView) {
+		super(itemView);
+		value = itemView.findViewById(R.id.value_view);
 	}
 }
