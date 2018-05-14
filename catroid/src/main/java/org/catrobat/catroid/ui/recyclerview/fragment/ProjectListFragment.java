@@ -45,7 +45,7 @@ import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectLoaderTask;
 import org.catrobat.catroid.ui.recyclerview.controller.ProjectController;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewProjectDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.RenameDialogFragment;
-import org.catrobat.catroid.ui.recyclerview.viewholder.ViewHolder;
+import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -267,7 +267,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 	}
 
 	@Override
-	public void onItemLongClick(final ProjectData item, ViewHolder holder) {
+	public void onItemLongClick(final ProjectData item, CheckableVH holder) {
 		CharSequence[] items = new CharSequence[] {
 				getString(R.string.copy),
 				getString(R.string.delete),

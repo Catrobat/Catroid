@@ -52,7 +52,7 @@ import org.catrobat.catroid.ui.recyclerview.dialog.NewSceneDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewSpriteDialogWrapper;
 import org.catrobat.catroid.ui.recyclerview.dialog.RenameDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
-import org.catrobat.catroid.ui.recyclerview.viewholder.ViewHolder;
+import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 
@@ -320,7 +320,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	}
 
 	@Override
-	public void onItemLongClick(final Sprite item, ViewHolder holder) {
+	public void onItemLongClick(final Sprite item, CheckableVH holder) {
 		if (item instanceof GroupSprite) {
 			CharSequence[] items = new CharSequence[] {
 					getString(R.string.delete),

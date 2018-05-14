@@ -23,23 +23,17 @@
 
 package org.catrobat.catroid.ui.recyclerview.viewholder;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.CheckBox;
 
 import org.catrobat.catroid.R;
 
-public class SimpleVH extends RecyclerView.ViewHolder {
+public class CheckableVH extends ViewHolder {
 
-	public ImageView image;
-	public TextView title;
-	public TextView subTitle;
+	public CheckBox checkBox;
 
-	public SimpleVH(View itemView) {
+	public CheckableVH(View itemView) {
 		super(itemView);
-		image = itemView.findViewById(R.id.image_view);
-		title = itemView.findViewById(R.id.title_view);
-		subTitle = itemView.findViewById(R.id.subtitle_view);
+		checkBox = itemView.findViewById(R.id.checkbox);
 	}
 }

@@ -26,24 +26,24 @@ package org.catrobat.catroid.ui.recyclerview;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 
-public class SimpleRVItem {
+public class RVButton {
 
 	public int id;
 	public Drawable drawable;
-	public String name;
+	public String title;
 	@Nullable
-	public String subTitle;
+	public String subtitle;
 
-	public SimpleRVItem(int id, Drawable drawable, String name) {
+	public RVButton(int id, Drawable drawable, String name) {
 		this.id = id;
 		this.drawable = drawable;
-		this.name = name;
+		this.title = name;
 	}
 
-	public SimpleRVItem(int id, Drawable drawable, String name, @Nullable String subTitle) {
+	public RVButton(int id, Drawable drawable, String name, @Nullable String subtitle) {
 		this.id = id;
 		this.drawable = drawable;
-		this.name = name;
-		this.subTitle = subTitle;
+		this.title = name;
+		this.subtitle = subtitle;
 	}
 }

@@ -31,13 +31,13 @@ import android.view.ViewGroup;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperAdapterInterface;
 import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager;
-import org.catrobat.catroid.ui.recyclerview.viewholder.ViewHolder;
+import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class RVAdapter<T> extends RecyclerView.Adapter<ViewHolder> implements
+public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> implements
 		TouchHelperAdapterInterface {
 
 	protected List<T> items = new ArrayList<>();
@@ -61,13 +61,13 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<ViewHolder> impl
 	}
 
 	@Override
-	public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
+	public CheckableVH onCreateViewHolder(final ViewGroup parent, int viewType) {
 		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.vh_with_checkbox, parent, false);
-		return new ViewHolder(view);
+		return new CheckableVH(view);
 	}
 
 	@Override
-	public void onBindViewHolder(final ViewHolder holder, int position) {
+	public void onBindViewHolder(final CheckableVH holder, int position) {
 		final T item = items.get(position);
 
 		holder.checkBox.setOnClickListener(new View.OnClickListener() {
@@ -182,6 +182,6 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<ViewHolder> impl
 
 		void onItemClick(T item);
 
-		void onItemLongClick(T item, ViewHolder holder);
+		void onItemLongClick(T item, CheckableVH holder);
 	}
 }

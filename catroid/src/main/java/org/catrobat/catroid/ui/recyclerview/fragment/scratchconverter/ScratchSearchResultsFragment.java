@@ -51,7 +51,7 @@ import org.catrobat.catroid.transfers.SearchScratchProgramsTask;
 import org.catrobat.catroid.ui.ScratchProgramDetailsActivity;
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.ScratchProgramAdapter;
-import org.catrobat.catroid.ui.recyclerview.viewholder.ViewHolder;
+import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ScratchDataFetcher;
@@ -361,7 +361,7 @@ public class ScratchSearchResultsFragment extends Fragment implements
 	}
 
 	@Override
-	public void onItemLongClick(final ScratchProgramData item, ViewHolder holder) {
+	public void onItemLongClick(final ScratchProgramData item, CheckableVH holder) {
 		CharSequence[] items = new CharSequence[] {getString(R.string.convert)};
 		new AlertDialog.Builder(getActivity())
 				.setTitle(item.getTitle())

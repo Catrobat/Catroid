@@ -41,12 +41,12 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ProjectListActivity;
 import org.catrobat.catroid.ui.WebViewActivity;
-import org.catrobat.catroid.ui.recyclerview.SimpleRVItem;
+import org.catrobat.catroid.ui.recyclerview.RVButton;
 import org.catrobat.catroid.ui.recyclerview.activity.ProjectUploadActivity;
-import org.catrobat.catroid.ui.recyclerview.adapter.SimpleRVAdapter;
+import org.catrobat.catroid.ui.recyclerview.adapter.ButtonAdapter;
 import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectLoaderTask;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewProjectDialogFragment;
-import org.catrobat.catroid.ui.recyclerview.viewholder.SimpleVH;
+import org.catrobat.catroid.ui.recyclerview.viewholder.ButtonVH;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
@@ -55,7 +55,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainMenuFragment extends Fragment implements SimpleRVAdapter.OnItemClickListener,
+public class MainMenuFragment extends Fragment implements ButtonAdapter.OnItemClickListener,
 		ProjectLoaderTask.ProjectLoaderListener {
 
 	public static final String TAG = MainMenuFragment.class.getSimpleName();
@@ -72,14 +72,13 @@ public class MainMenuFragment extends Fragment implements SimpleRVAdapter.OnItem
 
 	private View parent;
 	private RecyclerView recyclerView;
-	private SimpleRVAdapter adapter;
+	private ButtonAdapter adapter;
 
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 		parent = inflater.inflate(R.layout.fragment_list_view, container, false);
 		recyclerView = parent.findViewById(R.id.recycler_view);
-
 		setShowProgressBar(true);
 		return parent;
 	}
@@ -87,16 +86,16 @@ public class MainMenuFragment extends Fragment implements SimpleRVAdapter.OnItem
 	@Override
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		List<SimpleRVItem> items = getItems();
-		adapter = new SimpleRVAdapter(items) {
+		List<RVButton> items = getItems();
+		adapter = new ButtonAdapter(items) {
 
 			@NonNull
 			@Override
-			public SimpleVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-				View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.vh_simple, parent, false);
+			public ButtonVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+				View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.vh_button, parent, false);
 				int itemHeight = parent.getHeight() / items.size();
 				view.setMinimumHeight(itemHeight);
-				return new SimpleVH(view);
+				return new ButtonVH(view);
 			}
 		};
 		adapter.setOnItemClickListener(this);
@@ -104,19 +103,19 @@ public class MainMenuFragment extends Fragment implements SimpleRVAdapter.OnItem
 		setShowProgressBar(false);
 	}
 
-	private List<SimpleRVItem> getItems() {
-		List<SimpleRVItem> items = new ArrayList<>();
-		items.add(new SimpleRVItem(CONTINUE, ContextCompat.getDrawable(getActivity(), R.drawable.ic_main_menu_continue),
+	private List<RVButton> getItems() {
+		List<RVButton> items = new ArrayList<>();
+		items.add(new RVButton(CONTINUE, ContextCompat.getDrawable(getActivity(), R.drawable.ic_main_menu_continue),
 				getString(R.string.main_menu_continue)));
-		items.add(new SimpleRVItem(NEW, ContextCompat.getDrawable(getActivity(), R.drawable.ic_main_menu_new),
+		items.add(new RVButton(NEW, ContextCompat.getDrawable(getActivity(), R.drawable.ic_main_menu_new),
 				getString(R.string.main_menu_new)));
-		items.add(new SimpleRVItem(PROGRAMS, ContextCompat.getDrawable(getActivity(), R.drawable.ic_main_menu_programs),
+		items.add(new RVButton(PROGRAMS, ContextCompat.getDrawable(getActivity(), R.drawable.ic_main_menu_programs),
 				getString(R.string.main_menu_programs)));
-		items.add(new SimpleRVItem(HELP, ContextCompat.getDrawable(getActivity(), R.drawable.ic_main_menu_help),
+		items.add(new RVButton(HELP, ContextCompat.getDrawable(getActivity(), R.drawable.ic_main_menu_help),
 				getString(R.string.main_menu_help)));
-		items.add(new SimpleRVItem(EXPLORE, ContextCompat.getDrawable(getActivity(), R.drawable.ic_main_menu_community),
+		items.add(new RVButton(EXPLORE, ContextCompat.getDrawable(getActivity(), R.drawable.ic_main_menu_community),
 				getString(R.string.main_menu_web)));
-		items.add(new SimpleRVItem(UPLOAD, ContextCompat.getDrawable(getActivity(), R.drawable.ic_main_menu_upload),
+		items.add(new RVButton(UPLOAD, ContextCompat.getDrawable(getActivity(), R.drawable.ic_main_menu_upload),
 				getString(R.string.main_menu_upload)));
 		return items;
 	}
@@ -125,7 +124,7 @@ public class MainMenuFragment extends Fragment implements SimpleRVAdapter.OnItem
 	public void onResume() {
 		super.onResume();
 		setShowProgressBar(false);
-		adapter.items.get(0).subTitle = Utils.getCurrentProjectName(getActivity());
+		adapter.items.get(0).subtitle = Utils.getCurrentProjectName(getActivity());
 		adapter.notifyDataSetChanged();
 	}
 

@@ -53,7 +53,7 @@ import org.catrobat.catroid.scratchconverter.protocol.Job;
 import org.catrobat.catroid.transfers.FetchScratchProgramDetailsTask;
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.ScratchProgramAdapter;
-import org.catrobat.catroid.ui.recyclerview.viewholder.ViewHolder;
+import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.ui.scratchconverter.JobViewListener;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
@@ -205,7 +205,7 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 	}
 
 	@Override
-	public void onItemLongClick(ScratchProgramData item, ViewHolder h) {
+	public void onItemLongClick(ScratchProgramData item, CheckableVH h) {
 	}
 
 	private void onJobNotInProgress() {

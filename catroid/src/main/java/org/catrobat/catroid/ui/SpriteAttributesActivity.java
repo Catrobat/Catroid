@@ -45,8 +45,8 @@ import org.catrobat.catroid.drone.ardrone.DroneServiceWrapper;
 import org.catrobat.catroid.drone.ardrone.DroneStageActivity;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.ui.recyclerview.SimpleRVItem;
-import org.catrobat.catroid.ui.recyclerview.adapter.SimpleRVAdapter;
+import org.catrobat.catroid.ui.recyclerview.RVButton;
+import org.catrobat.catroid.ui.recyclerview.adapter.ButtonAdapter;
 import org.catrobat.catroid.ui.recyclerview.dialog.PlaySceneDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.RenameDialogFragment;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
@@ -59,7 +59,7 @@ import java.util.List;
 import java.util.Set;
 
 public class SpriteAttributesActivity extends BaseActivity implements
-		SimpleRVAdapter.OnItemClickListener,
+		ButtonAdapter.OnItemClickListener,
 		PlaySceneDialogFragment.PlaySceneInterface,
 		RenameDialogFragment.RenameInterface {
 
@@ -81,8 +81,8 @@ public class SpriteAttributesActivity extends BaseActivity implements
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		RecyclerView recyclerView = findViewById(R.id.recycler_view);
-		List<SimpleRVItem> items = getItems();
-		SimpleRVAdapter adapter = new SimpleRVAdapter(items);
+		List<RVButton> items = getItems();
+		ButtonAdapter adapter = new ButtonAdapter(items);
 		adapter.setOnItemClickListener(this);
 		recyclerView.setAdapter(adapter);
 		recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(),
@@ -102,24 +102,24 @@ public class SpriteAttributesActivity extends BaseActivity implements
 		}
 	}
 
-	private List<SimpleRVItem> getItems() {
-		List<SimpleRVItem> items = new ArrayList<>();
-		items.add(new SimpleRVItem(SCRIPTS, ContextCompat.getDrawable(this, R.drawable.ic_program_menu_scripts),
+	private List<RVButton> getItems() {
+		List<RVButton> items = new ArrayList<>();
+		items.add(new RVButton(SCRIPTS, ContextCompat.getDrawable(this, R.drawable.ic_program_menu_scripts),
 				getString(R.string.scripts)));
 
 		if (ProjectManager.getInstance().getCurrentSpritePosition() == 0) {
-			items.add(new SimpleRVItem(LOOKS, ContextCompat.getDrawable(this, R.drawable.ic_program_menu_looks),
+			items.add(new RVButton(LOOKS, ContextCompat.getDrawable(this, R.drawable.ic_program_menu_looks),
 					getString(R.string.backgrounds)));
 		} else {
-			items.add(new SimpleRVItem(LOOKS, ContextCompat.getDrawable(this, R.drawable.ic_program_menu_looks),
+			items.add(new RVButton(LOOKS, ContextCompat.getDrawable(this, R.drawable.ic_program_menu_looks),
 					getString(R.string.looks)));
 		}
-		items.add(new SimpleRVItem(SOUNDS, ContextCompat.getDrawable(this, R.drawable.ic_program_menu_sounds),
+		items.add(new RVButton(SOUNDS, ContextCompat.getDrawable(this, R.drawable.ic_program_menu_sounds),
 				getString(R.string.sounds)));
 
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		if (sharedPreferences.getBoolean("setting_nfc_bricks", false) && BuildConfig.FEATURE_NFC_ENABLED) {
-			items.add(new SimpleRVItem(NFC_TAGS, ContextCompat.getDrawable(this, R.drawable.ic_program_menu_nfc),
+			items.add(new RVButton(NFC_TAGS, ContextCompat.getDrawable(this, R.drawable.ic_program_menu_nfc),
 					getString(R.string.nfctags)));
 		}
 		return items;

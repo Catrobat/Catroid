@@ -51,7 +51,7 @@ import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewDataDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.RenameDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
-import org.catrobat.catroid.ui.recyclerview.viewholder.ViewHolder;
+import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import java.lang.annotation.Retention;
@@ -328,7 +328,7 @@ public class DataListFragment extends Fragment implements
 	}
 
 	@Override
-	public void onItemLongClick(final UserData item, ViewHolder holder) {
+	public void onItemLongClick(final UserData item, CheckableVH holder) {
 		CharSequence[] items = new CharSequence[] {getString(R.string.delete), getString(R.string.rename)};
 		new AlertDialog.Builder(getActivity())
 				.setItems(items, new DialogInterface.OnClickListener() {

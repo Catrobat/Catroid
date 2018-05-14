@@ -24,18 +24,19 @@
 package org.catrobat.catroid.ui.recyclerview.viewholder;
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 
-import javax.annotation.Nullable;
+public class ButtonVH extends ViewHolder {
 
-public class CategoryListItemVH extends ViewHolder {
-	@Nullable
-	public TextView headline;
+	public ImageView image;
+	public TextView subtitle;
 
-	public CategoryListItemVH(View view) {
-		super(view);
-		headline = (TextView) view.findViewById(R.id.headline);
+	public ButtonVH(View itemView) {
+		super(itemView);
+		image = itemView.findViewById(R.id.image_view);
+		subtitle = itemView.findViewById(R.id.subtitle_view);
 	}
 }

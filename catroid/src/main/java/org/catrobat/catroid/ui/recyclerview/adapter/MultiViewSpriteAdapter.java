@@ -36,8 +36,8 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.GroupItemSprite;
 import org.catrobat.catroid.content.GroupSprite;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedVH;
-import org.catrobat.catroid.ui.recyclerview.viewholder.ViewHolder;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -61,7 +61,7 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 	}
 
 	@Override
-	public ViewHolder onCreateViewHolder(ViewGroup parent, @ViewType int viewType) {
+	public CheckableVH onCreateViewHolder(ViewGroup parent, @ViewType int viewType) {
 
 		LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 		switch (viewType) {
