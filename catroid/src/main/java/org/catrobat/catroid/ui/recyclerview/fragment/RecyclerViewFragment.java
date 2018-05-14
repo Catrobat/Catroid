@@ -28,6 +28,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.IntDef;
+import android.support.annotation.PluralsRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -72,12 +73,13 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 	protected static final int DELETE = 3;
 	protected static final int RENAME = 4;
 
-	protected View parent;
+	protected View parentView;
 	protected RecyclerView recyclerView;
 	protected TextView emptyView;
+
 	protected ExtendedRVAdapter<T> adapter;
 	protected ActionMode actionMode;
-	protected String actionModeTitle = "";
+
 	protected String sharedPreferenceDetailsKey = "";
 
 	protected UniqueNameProvider uniqueNameProvider = new UniqueNameProvider();
@@ -105,24 +107,23 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 	public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 		switch (actionModeType) {
 			case BACKPACK:
-				actionModeTitle = getString(R.string.am_backpack);
+				mode.setTitle(getString(R.string.am_backpack));
 				break;
 			case COPY:
-				actionModeTitle = getString(R.string.am_copy);
+				mode.setTitle(getString(R.string.am_copy));
 				break;
 			case DELETE:
-				actionModeTitle = getString(R.string.am_delete);
+				mode.setTitle(getString(R.string.am_delete));
 				break;
 			case RENAME:
 				adapter.allowMultiSelection = false;
-				actionModeTitle = getString(R.string.am_rename);
+				mode.setTitle(getString(R.string.am_rename));
 				break;
 			case NONE:
 				return false;
 		}
 
 		mode.getMenuInflater().inflate(R.menu.context_menu, menu);
-		mode.setTitle(actionModeTitle);
 
 		adapter.showCheckBoxes = true;
 		adapter.notifyDataSetChanged();
@@ -173,25 +174,25 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 				showRenameDialog(adapter.getSelectedItems());
 				break;
 			case NONE:
-				throw new IllegalStateException("ActionModeType not set Correctly");
+				throw new IllegalStateException("ActionModeType not set correctly");
 		}
 	}
 
 	protected void resetActionModeParameters() {
 		actionModeType = NONE;
-		actionModeTitle = "";
+		actionMode = null;
 		adapter.showCheckBoxes = false;
 		adapter.allowMultiSelection = true;
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		parent = inflater.inflate(R.layout.fragment_list_view, container, false);
-		recyclerView = parent.findViewById(R.id.recycler_view);
-		emptyView = parent.findViewById(R.id.empty);
+		parentView = inflater.inflate(R.layout.fragment_list_view, container, false);
+		recyclerView = parentView.findViewById(R.id.recycler_view);
+		emptyView = parentView.findViewById(R.id.empty);
 		setShowProgressBar(true);
 		setHasOptionsMenu(true);
-		return parent;
+		return parentView;
 	}
 
 	@Override
@@ -201,8 +202,6 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 	}
 
 	public void onAdapterReady() {
-		setShowProgressBar(false);
-
 		adapter.showDetails = PreferenceManager.getDefaultSharedPreferences(
 				getActivity()).getBoolean(sharedPreferenceDetailsKey, false);
 		recyclerView.setAdapter(adapter);
@@ -213,6 +212,8 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 		ItemTouchHelper.Callback callback = new TouchHelperCallback(adapter);
 		touchHelper = new ItemTouchHelper(callback);
 		touchHelper.attachToRecyclerView(recyclerView);
+
+		setShowProgressBar(false);
 	}
 
 	@Override
@@ -305,13 +306,17 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 		}
 	}
 
+	@Override
+	public void onSelectionChanged(int selectedItemCnt) {
+		actionMode.setTitle(getResources().getQuantityString(getActionModeTitleId(), selectedItemCnt, selectedItemCnt));
+	}
+
 	protected void finishActionMode() {
 		adapter.clearSelection();
 		setShowProgressBar(false);
 
 		if (actionModeType != NONE) {
 			actionMode.finish();
-			actionMode = null;
 		}
 	}
 
@@ -336,7 +341,7 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 
 	protected void showDeleteAlert(final List<T> selectedItems) {
 		new AlertDialog.Builder(getActivity())
-				.setTitle(getResources().getQuantityString(getDeleteAlertTitle(), selectedItems.size()))
+				.setTitle(getResources().getQuantityString(getDeleteAlertTitleId(), selectedItems.size()))
 				.setMessage(R.string.dialog_confirm_delete)
 				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 					@Override
@@ -357,7 +362,7 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 	}
 
 	public void setShowProgressBar(boolean show) {
-		parent.findViewById(R.id.progress_bar).setVisibility(show ? View.VISIBLE : View.GONE);
+		parentView.findViewById(R.id.progress_bar).setVisibility(show ? View.VISIBLE : View.GONE);
 		recyclerView.setVisibility(show ? View.GONE : View.VISIBLE);
 	}
 
@@ -365,6 +370,9 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 		recyclerView.setVisibility(visible ? View.GONE : View.VISIBLE);
 		emptyView.setVisibility(visible ? View.VISIBLE : View.GONE);
 	}
+
+	@PluralsRes
+	protected abstract int getActionModeTitleId();
 
 	@Override
 	public void onItemLongClick(T item, CheckableVH holder) {
@@ -384,7 +392,8 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 
 	protected abstract void copyItems(List<T> selectedItems);
 
-	protected abstract int getDeleteAlertTitle();
+	@PluralsRes
+	protected abstract int getDeleteAlertTitleId();
 	protected abstract void deleteItems(List<T> selectedItems);
 
 	protected abstract void showRenameDialog(List<T> selectedItems);

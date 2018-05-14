@@ -80,7 +80,6 @@ public class DataListFragment extends Fragment implements
 	private RecyclerView recyclerView;
 	private DataListAdapter adapter;
 	private ActionMode actionMode;
-	String actionModeTitle = "";
 
 	private FormulaEditorDataInterface formulaEditorDataInterface;
 
@@ -95,7 +94,7 @@ public class DataListFragment extends Fragment implements
 	public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 		switch (actionModeType) {
 			case DELETE:
-				actionModeTitle = getString(R.string.am_delete);
+				mode.setTitle(getString(R.string.am_delete));
 				break;
 			case NONE:
 				return false;
@@ -105,7 +104,6 @@ public class DataListFragment extends Fragment implements
 
 		adapter.showCheckBoxes(true);
 		adapter.updateDataSet();
-		mode.setTitle(actionModeTitle);
 		return true;
 	}
 
@@ -149,7 +147,7 @@ public class DataListFragment extends Fragment implements
 
 	protected void resetActionModeParameters() {
 		actionModeType = NONE;
-		actionModeTitle = "";
+		actionMode = null;
 		adapter.showCheckBoxes(false);
 		adapter.allowMultiSelection = true;
 	}
@@ -314,7 +312,7 @@ public class DataListFragment extends Fragment implements
 
 	@Override
 	public void onSelectionChanged(int selectedItemCnt) {
-		actionMode.setTitle(actionModeTitle + " " + getResources().getQuantityString(R.plurals.am_user_data_items_title,
+		actionMode.setTitle(getResources().getQuantityString(R.plurals.am_delete_user_data_items_title,
 				selectedItemCnt,
 				selectedItemCnt));
 	}

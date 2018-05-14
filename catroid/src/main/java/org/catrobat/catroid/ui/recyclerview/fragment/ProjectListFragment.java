@@ -26,6 +26,7 @@ package org.catrobat.catroid.ui.recyclerview.fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.PluralsRes;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
@@ -147,7 +148,8 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 	}
 
 	@Override
-	protected int getDeleteAlertTitle() {
+	@PluralsRes
+	protected int getDeleteAlertTitleId() {
 		return R.plurals.delete_projects;
 	}
 
@@ -251,10 +253,21 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 	}
 
 	@Override
-	public void onSelectionChanged(int selectedItemCnt) {
-		actionMode.setTitle(actionModeTitle + " " + getResources().getQuantityString(R.plurals.am_projects_title,
-				selectedItemCnt,
-				selectedItemCnt));
+	@PluralsRes
+	protected int getActionModeTitleId() {
+		switch (actionModeType) {
+			case BACKPACK:
+				return R.plurals.am_pack_projects_title;
+			case COPY:
+				return R.plurals.am_copy_projects_title;
+			case DELETE:
+				return R.plurals.am_delete_projects_title;
+			case RENAME:
+				return R.plurals.am_rename_projects_title;
+			case NONE:
+			default:
+				throw new IllegalStateException("ActionModeType not set correctly");
+		}
 	}
 
 	@Override

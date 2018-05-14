@@ -28,6 +28,7 @@ import android.nfc.NfcAdapter;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.PluralsRes;
 import android.util.Log;
 import android.view.Menu;
 
@@ -149,7 +150,8 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 	}
 
 	@Override
-	protected int getDeleteAlertTitle() {
+	@PluralsRes
+	protected int getDeleteAlertTitleId() {
 		return R.plurals.delete_nfc_tags;
 	}
 
@@ -189,10 +191,20 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 	}
 
 	@Override
-	public void onSelectionChanged(int selectedItemCnt) {
-		actionMode.setTitle(actionModeTitle + " " + getResources().getQuantityString(R.plurals.am_nfc_tags_title,
-				selectedItemCnt,
-				selectedItemCnt));
+	@PluralsRes
+	protected int getActionModeTitleId() {
+		switch (actionModeType) {
+			case COPY:
+				return R.plurals.am_copy_nfc_tags_title;
+			case DELETE:
+				return R.plurals.am_delete_nfc_tags_title;
+			case RENAME:
+				return R.plurals.am_rename_nfc_tags_title;
+			case BACKPACK:
+			case NONE:
+			default:
+				throw new IllegalStateException("ActionModeType not set correctly");
+		}
 	}
 
 	@Override

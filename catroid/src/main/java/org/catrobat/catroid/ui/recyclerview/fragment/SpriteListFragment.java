@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui.recyclerview.fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.PluralsRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -248,7 +249,8 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	}
 
 	@Override
-	protected int getDeleteAlertTitle() {
+	@PluralsRes
+	protected int getDeleteAlertTitleId() {
 		return R.plurals.delete_sprites;
 	}
 
@@ -301,10 +303,21 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	}
 
 	@Override
-	public void onSelectionChanged(int selectedItemCnt) {
-		actionMode.setTitle(actionModeTitle + " " + getResources().getQuantityString(R.plurals.am_sprites_title,
-				selectedItemCnt,
-				selectedItemCnt));
+	@PluralsRes
+	protected int getActionModeTitleId() {
+		switch (actionModeType) {
+			case BACKPACK:
+				return R.plurals.am_pack_sprites_title;
+			case COPY:
+				return R.plurals.am_copy_sprites_title;
+			case DELETE:
+				return R.plurals.am_delete_sprites_title;
+			case RENAME:
+				return R.plurals.am_rename_sprites_title;
+			case NONE:
+			default:
+				throw new IllegalStateException("ActionModeType not set correctly");
+		}
 	}
 
 	@Override

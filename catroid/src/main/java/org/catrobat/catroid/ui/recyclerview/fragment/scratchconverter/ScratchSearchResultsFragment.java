@@ -83,7 +83,6 @@ public class ScratchSearchResultsFragment extends Fragment implements
 	private SearchView searchView;
 	private ScratchProgramAdapter adapter;
 	private ActionMode actionMode;
-	private String actionModeTitle = "";
 
 	private ConversionManager conversionManager;
 	private SearchScratchProgramsTask searchTask;
@@ -156,13 +155,12 @@ public class ScratchSearchResultsFragment extends Fragment implements
 	public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 		switch (actionModeType) {
 			case CONVERT:
-				actionModeTitle = getString(R.string.am_convert);
+				mode.setTitle(getString(R.string.am_convert));
 				break;
 			case NONE:
 				return false;
 		}
 
-		mode.setTitle(actionModeTitle);
 		mode.getMenuInflater().inflate(R.menu.context_menu, menu);
 
 		adapter.showCheckBoxes = true;
@@ -210,7 +208,7 @@ public class ScratchSearchResultsFragment extends Fragment implements
 
 	private void resetActionModeParameters() {
 		actionModeType = NONE;
-		actionModeTitle = "";
+		actionMode = null;
 		adapter.showCheckBoxes = false;
 		adapter.allowMultiSelection = true;
 	}
@@ -303,7 +301,6 @@ public class ScratchSearchResultsFragment extends Fragment implements
 
 		if (actionModeType != NONE) {
 			actionMode.finish();
-			actionMode = null;
 		}
 	}
 
@@ -345,9 +342,15 @@ public class ScratchSearchResultsFragment extends Fragment implements
 
 	@Override
 	public void onSelectionChanged(int selectedItemCnt) {
-		actionMode.setTitle(actionModeTitle + " " + getResources().getQuantityString(R.plurals.am_projects_title,
-				selectedItemCnt,
-				selectedItemCnt));
+		switch (actionModeType) {
+			case CONVERT:
+				actionMode.setTitle(getResources().getQuantityString(R.plurals.am_convert_projects_title,
+						selectedItemCnt, selectedItemCnt));
+				break;
+			case NONE:
+			default:
+				throw new IllegalStateException("ActionModeType not set correctly");
+		}
 	}
 
 	@Override

@@ -28,6 +28,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.IntDef;
+import android.support.annotation.PluralsRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -63,11 +64,12 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 	protected static final int UNPACK = 1;
 	protected static final int DELETE = 2;
 
-	protected View parent;
+	protected View parentView;
 	protected RecyclerView recyclerView;
+
 	protected ExtendedRVAdapter<T> adapter;
 	protected ActionMode actionMode;
-	protected String actionModeTitle = "";
+
 	protected String sharedPreferenceDetailsKey = "";
 	public boolean hasDetails = false;
 
@@ -80,16 +82,16 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 	public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 		switch (actionModeType) {
 			case UNPACK:
-				actionModeTitle = getString(R.string.am_unpack);
+				mode.setTitle(getString(R.string.am_unpack));
 				break;
 			case DELETE:
-				actionModeTitle = getString(R.string.am_delete);
+				mode.setTitle(getString(R.string.am_delete));
 				break;
 			case NONE:
 				return false;
 		}
+
 		mode.getMenuInflater().inflate(R.menu.context_menu, menu);
-		mode.setTitle(actionModeTitle);
 
 		adapter.showCheckBoxes = true;
 		adapter.notifyDataSetChanged();
@@ -139,17 +141,17 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 
 	protected void resetActionModeParameters() {
 		actionModeType = NONE;
-		actionModeTitle = "";
+		actionMode = null;
 		adapter.showCheckBoxes = false;
 		adapter.allowMultiSelection = true;
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		parent = inflater.inflate(R.layout.fragment_list_view, container, false);
-		recyclerView = parent.findViewById(R.id.recycler_view);
+		parentView = inflater.inflate(R.layout.fragment_list_view, container, false);
+		recyclerView = parentView.findViewById(R.id.recycler_view);
 		setHasOptionsMenu(true);
-		return parent;
+		return parentView;
 	}
 
 	@Override
@@ -229,19 +231,23 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 		}
 	}
 
+	@Override
+	public void onSelectionChanged(int selectedItemCnt) {
+		actionMode.setTitle(getResources().getQuantityString(getActionModeTitleId(), selectedItemCnt, selectedItemCnt));
+	}
+
 	protected void finishActionMode() {
 		adapter.clearSelection();
 		setShowProgressBar(false);
 
 		if (actionModeType != NONE) {
 			actionMode.finish();
-			actionMode = null;
 		}
 	}
 
 	protected void showDeleteAlert(final List<T> selectedItems) {
 		new AlertDialog.Builder(getActivity())
-				.setTitle(getResources().getQuantityString(getDeleteAlertTitle(), selectedItems.size()))
+				.setTitle(getResources().getQuantityString(getDeleteAlertTitleId(), selectedItems.size()))
 				.setMessage(R.string.dialog_confirm_delete)
 				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 					@Override
@@ -285,9 +291,12 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 	}
 
 	public void setShowProgressBar(boolean show) {
-		parent.findViewById(R.id.progress_bar).setVisibility(show ? View.VISIBLE : View.GONE);
+		parentView.findViewById(R.id.progress_bar).setVisibility(show ? View.VISIBLE : View.GONE);
 		recyclerView.setVisibility(show ? View.GONE : View.VISIBLE);
 	}
+
+	@PluralsRes
+	protected abstract int getActionModeTitleId();
 
 	@Override
 	public void onItemLongClick(T item, CheckableVH holder) {
@@ -298,7 +307,8 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 
 	protected abstract void unpackItems(List<T> selectedItems);
 
-	protected abstract int getDeleteAlertTitle();
+	@PluralsRes
+	protected abstract int getDeleteAlertTitleId();
 	protected abstract void deleteItems(List<T> selectedItems);
 
 	protected abstract String getItemName(T item);
