@@ -69,11 +69,9 @@ import org.catrobat.catroid.utils.UtilDeviceInfo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.locks.Lock;
 
-public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListener, OnClickListener,
-		ActionModeActivityAdapterInterface {
+public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListener, OnClickListener {
 
 	public enum ActionModeEnum {
 		NO_ACTION, COPY_DELETE, BACKPACK, COMMENT_OUT
@@ -1173,37 +1171,22 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		return brickDragAndDropListView.pointToPosition(view.getLeft(), view.getTop());
 	}
 
-	@Override
 	public boolean getShowDetails() {
 		return showDetails;
 	}
 
-	@Override
 	public void setShowDetails(boolean showDetails) {
 		this.showDetails = showDetails;
 	}
 
-	@Override
-	public int getSelectMode() {
-		return selectMode;
-	}
-
-	@Override
 	public void setSelectMode(int mode) {
 		selectMode = mode;
 	}
 
-	@Override
 	public int getAmountOfCheckedItems() {
 		return getCheckedBricks().size();
 	}
 
-	@Override
-	public Set<Integer> getCheckedItems() {
-		return null;
-	}
-
-	@Override
 	public void clearCheckedItems() {
 		actionMode = ActionModeEnum.NO_ACTION;
 		checkedBricks.clear();

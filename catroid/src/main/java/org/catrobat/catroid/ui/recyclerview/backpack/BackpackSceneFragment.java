@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.ui.recyclerview.backpack;
 
+import android.support.annotation.PluralsRes;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
@@ -78,7 +79,8 @@ public class BackpackSceneFragment extends BackpackRecyclerViewFragment<Scene> {
 	}
 
 	@Override
-	protected int getDeleteAlertTitle() {
+	@PluralsRes
+	protected int getDeleteAlertTitleId() {
 		return R.plurals.delete_scenes;
 	}
 
@@ -110,10 +112,17 @@ public class BackpackSceneFragment extends BackpackRecyclerViewFragment<Scene> {
 	}
 
 	@Override
-	public void onSelectionChanged(int selectedItemCnt) {
-		actionMode.setTitle(actionModeTitle + " " + getResources().getQuantityString(R.plurals.am_scenes_title,
-				selectedItemCnt,
-				selectedItemCnt));
+	@PluralsRes
+	protected int getActionModeTitleId() {
+		switch (actionModeType) {
+			case UNPACK:
+				return R.plurals.am_unpack_scenes_title;
+			case DELETE:
+				return R.plurals.am_delete_scenes_title;
+			case NONE:
+			default:
+				throw new IllegalStateException("ActionModeType not set correctly");
+		}
 	}
 }
 

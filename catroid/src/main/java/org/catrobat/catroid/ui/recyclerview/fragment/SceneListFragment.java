@@ -24,6 +24,7 @@
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
 import android.content.Intent;
+import android.support.annotation.PluralsRes;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -159,7 +160,8 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 	}
 
 	@Override
-	protected int getDeleteAlertTitle() {
+	@PluralsRes
+	protected int getDeleteAlertTitleId() {
 		return R.plurals.delete_scenes;
 	}
 
@@ -220,10 +222,21 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 	}
 
 	@Override
-	public void onSelectionChanged(int selectedItemCnt) {
-		actionMode.setTitle(actionModeTitle + " " + getResources().getQuantityString(R.plurals.am_scenes_title,
-				selectedItemCnt,
-				selectedItemCnt));
+	@PluralsRes
+	protected int getActionModeTitleId() {
+		switch (actionModeType) {
+			case BACKPACK:
+				return R.plurals.am_pack_scenes_title;
+			case COPY:
+				return R.plurals.am_copy_scenes_title;
+			case DELETE:
+				return R.plurals.am_delete_scenes_title;
+			case RENAME:
+				return R.plurals.am_rename_scenes_title;
+			case NONE:
+			default:
+				throw new IllegalStateException("ActionModeType not set correctly");
+		}
 	}
 
 	@Override

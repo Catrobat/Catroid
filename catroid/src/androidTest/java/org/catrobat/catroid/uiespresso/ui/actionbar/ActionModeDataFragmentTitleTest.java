@@ -80,9 +80,9 @@ public class ActionModeDataFragmentTitleTest {
 		onDataList().onListAtPosition(2)
 				.performCheckItem();
 
-		String title = UiTestUtils.getResourcesString(R.string.delete);
 		onActionMode()
-				.checkTitleMatches(title + " " + String.format(UiTestUtils.getQuantitiyString(R.plurals.am_user_data_items_title, 2), 2));
+				.checkTitleMatches(String.format(UiTestUtils.getQuantitiyString(R.plurals
+						.am_delete_user_data_items_title, 2), 2));
 	}
 
 	private void createProject() {
