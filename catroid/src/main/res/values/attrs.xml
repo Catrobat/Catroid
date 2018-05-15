@@ -31,6 +31,7 @@
         <attr name="medium" format="dimension"/>
         <attr name="large" format="dimension"/>
         <attr name="x_large" format="dimension"/>
+        <attr name="xx_large" format="dimension"/>
     </declare-styleable>
 
     <!-- Element Spacing -->

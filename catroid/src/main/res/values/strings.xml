@@ -453,9 +453,17 @@
     </plurals>
 
     <!-- Script Action Mode Titles -->
+    <plurals name="am_pack_scripts_title">
+        <item quantity="one">Pack %d brick</item>
+        <item quantity="other">Pack %d bricks</item>
+    </plurals>
     <plurals name="am_unpack_scripts_title">
         <item quantity="one">Unpack %d Script</item>
         <item quantity="other">Unpack %d Scripts</item>
+    </plurals>
+    <plurals name="am_copy_scripts_title">
+        <item quantity="one">Copy %d brick</item>
+        <item quantity="other">Copy %d bricks</item>
     </plurals>
     <plurals name="am_delete_scripts_title">
         <item quantity="one">Delete %d Script</item>
@@ -542,6 +550,7 @@
     <string name="new_scene">New Scene</string>
 
     <!-- Action Toasts -->
+    <!-- Backpack -->
     <plurals name="packed_scenes">
         <item quantity="one">Backpacked %d Scene!</item>
         <item quantity="other">Backpacked %d Scenes!</item>
@@ -560,7 +569,7 @@
     </plurals>
 
     <string name="packed_script_group">Backpacked 1 Script Group!</string>
-
+    <!-- Unpack -->
     <plurals name="unpacked_scenes">
         <item quantity="one">Unpacked %d Scene!</item>
         <item quantity="other">Unpacked %d Scenes!</item>
@@ -581,7 +590,7 @@
         <item quantity="one">Unpacked %d Script!</item>
         <item quantity="other">Unpacked %d Scripts!</item>
     </plurals>
-
+    <!-- Copy -->
     <plurals name="copied_scenes">
         <item quantity="one">Copied %d Scene!</item>
         <item quantity="other">Copied %d Scenes!</item>
@@ -602,7 +611,7 @@
         <item quantity="one">Copied %d NFC Tag!</item>
         <item quantity="other">Copied %d NFC Tags!</item>
     </plurals>
-
+    <!-- Delete -->
     <plurals name="deleted_projects">
         <item quantity="one">Deleted %d Project!</item>
         <item quantity="other">Deleted %d Projects!</item>
@@ -647,20 +656,7 @@
     <!--  -->
 
     <!-- ScriptListFragment -->
-    <string name="fragment_script_text_description">Tap \"+\" to add scripts</string>
-
-    <plurals name="number_of_bricks_to_delete">
-        <item quantity="one">Delete %d brick</item>
-        <item quantity="other">Delete %d bricks</item>
-    </plurals>
-    <plurals name="number_of_bricks_to_copy">
-        <item quantity="one">Copy %d brick</item>
-        <item quantity="other">Copy %d bricks</item>
-    </plurals>
-    <plurals name="number_of_bricks_to_backpack">
-        <item quantity="one">Backpack %d brick</item>
-        <item quantity="other">Backpack %d bricks</item>
-    </plurals>
+    <string name="fragment_script_text_description">Tap \"+\" to add Scripts</string>
     <!--  -->
 
     <!-- LookListFragment -->

@@ -201,7 +201,7 @@ public class LoopBrickTest {
 			onView(withId(checkBoxId))
 					.perform(click());
 		}
-		onView(withText(R.string.confirm))
+		onView(withId(R.id.confirm))
 				.perform(click());
 
 		onView(allOf(withId(android.R.id.button1), withText(R.string.yes)))

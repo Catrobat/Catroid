@@ -233,7 +233,8 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 
 	@Override
 	public void onSelectionChanged(int selectedItemCnt) {
-		actionMode.setTitle(getResources().getQuantityString(getActionModeTitleId(), selectedItemCnt, selectedItemCnt));
+		actionMode.setTitle(getResources()
+				.getQuantityString(getActionModeTitleId(actionModeType), selectedItemCnt, selectedItemCnt));
 	}
 
 	protected void finishActionMode() {
@@ -296,7 +297,7 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 	}
 
 	@PluralsRes
-	protected abstract int getActionModeTitleId();
+	protected abstract int getActionModeTitleId(@ActionModeType int actionModeType);
 
 	@Override
 	public void onItemLongClick(T item, CheckableVH holder) {

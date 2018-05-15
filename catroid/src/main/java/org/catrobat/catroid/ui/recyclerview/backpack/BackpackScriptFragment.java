@@ -107,7 +107,7 @@ public class BackpackScriptFragment extends BackpackRecyclerViewFragment<String>
 
 	@Override
 	@PluralsRes
-	protected int getActionModeTitleId() {
+	protected int getActionModeTitleId(@ActionModeType int actionModeType) {
 		switch (actionModeType) {
 			case UNPACK:
 				return R.plurals.am_unpack_scripts_title;

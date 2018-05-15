@@ -84,7 +84,7 @@ public class DeleteProjectTest {
 		onRecyclerView().atPosition(0)
 				.performCheckItem();
 
-		onView(withText(R.string.confirm)).perform(click());
+		onView(withId(R.id.confirm)).perform(click());
 
 		onView(withText(UiTestUtils.getResources().getQuantityString(R.plurals.delete_projects, 1)))
 				.inRoot(isDialog())
@@ -112,7 +112,7 @@ public class DeleteProjectTest {
 		onRecyclerView().atPosition(1)
 				.performCheckItem();
 
-		onView(withText(R.string.confirm)).perform(click());
+		onView(withId(R.id.confirm)).perform(click());
 
 		onView(withText(UiTestUtils.getResources().getQuantityString(R.plurals.delete_projects, 1)))
 				.inRoot(isDialog())

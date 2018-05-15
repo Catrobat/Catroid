@@ -80,7 +80,7 @@ public class DeleteSpriteDialogTest {
 		onRecyclerView().atPosition(2)
 				.performCheckItem();
 
-		onView(withText(R.string.confirm)).perform(click());
+		onView(withId(R.id.confirm)).perform(click());
 
 		onView(withText(UiTestUtils.getResources().getQuantityString(R.plurals.delete_sprites, 1)))
 				.inRoot(isDialog())
@@ -110,7 +110,7 @@ public class DeleteSpriteDialogTest {
 		onRecyclerView().atPosition(2)
 				.performCheckItem();
 
-		onView(withText(R.string.confirm)).perform(click());
+		onView(withId(R.id.confirm)).perform(click());
 
 		onView(withText(UiTestUtils.getResources().getQuantityString(R.plurals.delete_sprites, 1)))
 				.inRoot(isDialog())
@@ -128,6 +128,10 @@ public class DeleteSpriteDialogTest {
 				.perform(click());
 
 		onView(withText(toBeDeletedSpriteName))
+				.check(matches(isDisplayed()));
+
+		onView(withText(InstrumentationRegistry.getTargetContext()
+				.getResources().getQuantityString(R.plurals.am_delete_sprites_title, 1, 1)))
 				.check(matches(isDisplayed()));
 	}
 

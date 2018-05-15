@@ -32,6 +32,7 @@
         <item name="medium">24sp</item>
         <item name="large">27sp</item>
         <item name="x_large">33sp</item>
+        <item name="xx_large">42sp</item>
     </style>
 
     <!-- High Contrast -->

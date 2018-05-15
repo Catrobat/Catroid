@@ -200,7 +200,7 @@ public class PlaySoundAndWaitBrickTest {
 				.perform(click());
 		onRecyclerView().atPosition(position)
 				.performCheckItem();
-		onView(withText(R.string.confirm))
+		onView(withId(R.id.confirm))
 				.perform(click());
 
 		onView(allOf(withId(android.R.id.button1), withText(R.string.yes)))
@@ -223,7 +223,7 @@ public class PlaySoundAndWaitBrickTest {
 		onRecyclerView().atPosition(position)
 				.performCheckItem();
 
-		onView(withText(R.string.confirm))
+		onView(withId(R.id.confirm))
 				.perform(click());
 
 		onView(withText(R.string.rename_sound_dialog)).inRoot(isDialog())

@@ -96,7 +96,7 @@ public class PlaySoundBrickTest {
 				.perform(click());
 		onRecyclerView().atPosition(position)
 				.performCheckItem();
-		onView(withText(R.string.confirm))
+		onView(withId(R.id.confirm))
 				.perform(click());
 		onView(allOf(withText(soundName), isDisplayed(), instanceOf(EditText.class)))
 				.perform(replaceText(newSoundName));
@@ -114,7 +114,7 @@ public class PlaySoundBrickTest {
 				.perform(click());
 		onRecyclerView().atPosition(position)
 				.performCheckItem();
-		onView(withText(R.string.confirm))
+		onView(withId(R.id.confirm))
 				.perform(click());
 		onView(allOf(withId(android.R.id.button1), withText(R.string.yes)))
 				.check(matches(isDisplayed()));

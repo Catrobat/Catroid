@@ -124,7 +124,6 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 		}
 
 		mode.getMenuInflater().inflate(R.menu.context_menu, menu);
-
 		adapter.showCheckBoxes = true;
 		adapter.notifyDataSetChanged();
 		return true;
@@ -189,7 +188,7 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		parentView = inflater.inflate(R.layout.fragment_list_view, container, false);
 		recyclerView = parentView.findViewById(R.id.recycler_view);
-		emptyView = parentView.findViewById(R.id.empty);
+		emptyView = parentView.findViewById(R.id.empty_view);
 		setShowProgressBar(true);
 		setHasOptionsMenu(true);
 		return parentView;
@@ -308,7 +307,8 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 
 	@Override
 	public void onSelectionChanged(int selectedItemCnt) {
-		actionMode.setTitle(getResources().getQuantityString(getActionModeTitleId(), selectedItemCnt, selectedItemCnt));
+		actionMode.setTitle(getResources()
+				.getQuantityString(getActionModeTitleId(actionModeType), selectedItemCnt, selectedItemCnt));
 	}
 
 	protected void finishActionMode() {
@@ -349,13 +349,7 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 						deleteItems(selectedItems);
 					}
 				})
-				.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						finishActionMode();
-						dialog.dismiss();
-					}
-				})
+				.setNegativeButton(R.string.no, null)
 				.setCancelable(false)
 				.create()
 				.show();
@@ -372,7 +366,7 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 	}
 
 	@PluralsRes
-	protected abstract int getActionModeTitleId();
+	protected abstract int getActionModeTitleId(@ActionModeType int actionModeType);
 
 	@Override
 	public void onItemLongClick(T item, CheckableVH holder) {

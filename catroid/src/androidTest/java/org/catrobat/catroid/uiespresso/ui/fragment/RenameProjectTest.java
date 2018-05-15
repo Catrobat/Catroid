@@ -86,7 +86,7 @@ public class RenameProjectTest {
 		onRecyclerView().atPosition(0)
 				.performCheckItem();
 
-		onView(withText(R.string.confirm)).perform(click());
+		onView(withId(R.id.confirm)).perform(click());
 
 		onView(withText(R.string.rename_project)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
@@ -113,7 +113,7 @@ public class RenameProjectTest {
 		onRecyclerView().atPosition(0)
 				.performCheckItem();
 
-		onView(withText(R.string.confirm)).perform(click());
+		onView(withId(R.id.confirm)).perform(click());
 
 		onView(withText(R.string.rename_project)).inRoot(isDialog())
 				.check(matches(isDisplayed()));

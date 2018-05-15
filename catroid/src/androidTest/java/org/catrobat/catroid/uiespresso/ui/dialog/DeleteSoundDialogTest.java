@@ -89,7 +89,7 @@ public class DeleteSoundDialogTest {
 		onRecyclerView().atPosition(1)
 				.performCheckItem();
 
-		onView(withText(R.string.confirm)).perform(click());
+		onView(withId(R.id.confirm)).perform(click());
 
 		onView(withText(UiTestUtils.getResources().getQuantityString(R.plurals.delete_sounds, 1)))
 				.inRoot(isDialog())
@@ -119,7 +119,7 @@ public class DeleteSoundDialogTest {
 		onRecyclerView().atPosition(1)
 				.performCheckItem();
 
-		onView(withText(R.string.confirm)).perform(click());
+		onView(withId(R.id.confirm)).perform(click());
 
 		onView(withText(UiTestUtils.getResources().getQuantityString(R.plurals.delete_sounds, 1)))
 				.inRoot(isDialog())
@@ -137,6 +137,10 @@ public class DeleteSoundDialogTest {
 				.perform(click());
 
 		onView(withText(toBeDeletedSoundName))
+				.check(matches(isDisplayed()));
+
+		onView(withText(InstrumentationRegistry.getTargetContext()
+				.getResources().getQuantityString(R.plurals.am_delete_sounds_title, 1, 1)))
 				.check(matches(isDisplayed()));
 	}
 

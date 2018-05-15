@@ -223,7 +223,7 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 
 	@Override
 	@PluralsRes
-	protected int getActionModeTitleId() {
+	protected int getActionModeTitleId(@ActionModeType int actionModeType) {
 		switch (actionModeType) {
 			case BACKPACK:
 				return R.plurals.am_pack_scenes_title;

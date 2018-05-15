@@ -42,6 +42,7 @@
         <item name="medium">16sp</item>
         <item name="large">18sp</item>
         <item name="x_large">22sp</item>
+        <item name="xx_large">28sp</item>
             <!-- High Contrast -->
         <item name="android:shadowColor">@color/transparent</item>
         <item name="android:shadowDx">0</item>
