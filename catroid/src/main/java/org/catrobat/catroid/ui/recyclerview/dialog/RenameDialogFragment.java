@@ -56,7 +56,6 @@ public class RenameDialogFragment extends TextInputDialogFragment {
 
 	@Override
 	protected void onNegativeButtonClick() {
-		renameInterface.renameItem(text);
 	}
 
 	public interface RenameInterface {

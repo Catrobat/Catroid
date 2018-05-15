@@ -115,7 +115,7 @@ public class BackpackSoundFragment extends BackpackRecyclerViewFragment<SoundInf
 
 	@Override
 	@PluralsRes
-	protected int getActionModeTitleId() {
+	protected int getActionModeTitleId(@ActionModeType int actionModeType) {
 		switch (actionModeType) {
 			case UNPACK:
 				return R.plurals.am_unpack_sounds_title;

@@ -109,7 +109,7 @@ public class BackpackSpriteFragment extends BackpackRecyclerViewFragment<Sprite>
 
 	@Override
 	@PluralsRes
-	protected int getActionModeTitleId() {
+	protected int getActionModeTitleId(@ActionModeType int actionModeType) {
 		switch (actionModeType) {
 			case UNPACK:
 				return R.plurals.am_unpack_sprites_title;

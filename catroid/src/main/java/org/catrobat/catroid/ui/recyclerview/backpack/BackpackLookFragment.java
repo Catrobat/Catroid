@@ -115,7 +115,7 @@ public class BackpackLookFragment extends BackpackRecyclerViewFragment<LookData>
 
 	@Override
 	@PluralsRes
-	protected int getActionModeTitleId() {
+	protected int getActionModeTitleId(@ActionModeType int actionModeType) {
 		switch (actionModeType) {
 			case UNPACK:
 				return R.plurals.am_unpack_looks_title;

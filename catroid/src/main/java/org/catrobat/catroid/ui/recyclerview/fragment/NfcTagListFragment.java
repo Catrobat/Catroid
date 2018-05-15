@@ -192,7 +192,7 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 
 	@Override
 	@PluralsRes
-	protected int getActionModeTitleId() {
+	protected int getActionModeTitleId(@ActionModeType int actionModeType) {
 		switch (actionModeType) {
 			case COPY:
 				return R.plurals.am_copy_nfc_tags_title;

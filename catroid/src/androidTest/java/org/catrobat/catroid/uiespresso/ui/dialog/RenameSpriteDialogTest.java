@@ -83,6 +83,33 @@ public class RenameSpriteDialogTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
+	public void cancelRenameSpriteDialogTest() {
+		RecyclerViewActions.openOverflowMenu();
+		onView(withText(R.string.rename)).perform(click());
+
+		onRecyclerView().atPosition(2)
+				.performCheckItem();
+
+		onView(withId(R.id.confirm)).perform(click());
+
+		onView(withText(R.string.rename_sprite_dialog)).inRoot(isDialog())
+				.check(matches(isDisplayed()));
+
+		closeSoftKeyboard();
+
+		onView(allOf(withId(android.R.id.button2), withText(R.string.cancel)))
+				.perform(click());
+
+		onView(withText(oldSpriteName))
+				.check(matches(isDisplayed()));
+
+		onView(withText(InstrumentationRegistry.getTargetContext()
+				.getResources().getQuantityString(R.plurals.am_rename_sprites_title, 1, 1)))
+				.check(matches(isDisplayed()));
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
 	@Flaky
 	public void renameSpriteSwitchCaseDialogTest() {
 		String newSpriteName = "SeConDspRite";
@@ -96,7 +123,7 @@ public class RenameSpriteDialogTest {
 		onRecyclerView().atPosition(2)
 				.performCheckItem();
 
-		onView(withText(R.string.confirm)).perform(click());
+		onView(withId(R.id.confirm)).perform(click());
 
 		onView(withText(R.string.rename_sprite_dialog)).inRoot(isDialog())
 				.check(matches(isDisplayed()));

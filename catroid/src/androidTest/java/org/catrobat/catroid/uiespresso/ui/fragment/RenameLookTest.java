@@ -91,7 +91,7 @@ public class RenameLookTest {
 		onRecyclerView().atPosition(0)
 				.performCheckItem();
 
-		onView(withText(R.string.confirm)).perform(click());
+		onView(withId(R.id.confirm)).perform(click());
 
 		onView(withText(R.string.rename_look_dialog)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
@@ -118,7 +118,7 @@ public class RenameLookTest {
 		onRecyclerView().atPosition(0)
 				.performCheckItem();
 
-		onView(withText(R.string.confirm)).perform(click());
+		onView(withId(R.id.confirm)).perform(click());
 
 		onView(withText(R.string.rename_look_dialog)).inRoot(isDialog())
 				.check(matches(isDisplayed()));

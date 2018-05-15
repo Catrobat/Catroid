@@ -53,6 +53,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
@@ -84,7 +85,7 @@ public class CopySoundTest {
 		onRecyclerView().atPosition(0)
 				.performCheckItem();
 
-		onView(withText(R.string.confirm)).perform(click());
+		onView(withId(R.id.confirm)).perform(click());
 
 		onView(withText(toBeCopiedSoundName))
 				.check(matches(isDisplayed()));

@@ -171,7 +171,7 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 				copyBricks();
 				break;
 			case DELETE:
-				showDeleteAlert(false);
+				showDeleteAlert();
 				break;
 			case ENABLE_DISABLE:
 				actionMode.finish();
@@ -532,28 +532,18 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 		}
 	}
 
-	private void showDeleteAlert(final boolean fromContextMenu) {
-		int checkedItems = fromContextMenu ? 1 : adapter.getAmountOfCheckedItems();
+	private void showDeleteAlert() {
 		new AlertDialog.Builder(getActivity())
-				.setTitle(getResources().getQuantityString(R.plurals.delete_bricks, checkedItems))
+				.setTitle(getResources().getQuantityString(R.plurals.delete_bricks, adapter.getAmountOfCheckedItems()))
 				.setMessage(R.string.dialog_confirm_delete)
 				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
-						if (fromContextMenu) {
-							adapter.handleScriptDelete(sprite, scriptToEdit);
-						} else {
-							deleteCheckedBricks();
-							finishActionMode();
-						}
+						deleteCheckedBricks();
+						finishActionMode();
 					}
 				})
-				.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						dialog.cancel();
-					}
-				})
+				.setNegativeButton(R.string.no, null)
 				.setCancelable(false)
 				.create()
 				.show();
@@ -564,15 +554,15 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 
 		switch (actionModeType) {
 			case BACKPACK:
-				actionMode.setTitle(getResources().getQuantityString(R.plurals.number_of_bricks_to_backpack,
+				actionMode.setTitle(getResources().getQuantityString(R.plurals.am_pack_scripts_title,
 						selectedItemCnt, selectedItemCnt));
 				break;
 			case COPY:
-				actionMode.setTitle(getResources().getQuantityString(R.plurals.number_of_bricks_to_copy,
+				actionMode.setTitle(getResources().getQuantityString(R.plurals.am_copy_scripts_title,
 						selectedItemCnt, selectedItemCnt));
 				break;
 			case DELETE:
-				actionMode.setTitle(getResources().getQuantityString(R.plurals.number_of_bricks_to_delete,
+				actionMode.setTitle(getResources().getQuantityString(R.plurals.am_delete_scripts_title,
 						selectedItemCnt, selectedItemCnt));
 				break;
 			case ENABLE_DISABLE:
