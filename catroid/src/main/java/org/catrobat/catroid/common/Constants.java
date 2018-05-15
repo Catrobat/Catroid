@@ -226,6 +226,7 @@ public final class Constants {
 	public static final int Z_INDEX_FIRST_SPRITE = Z_INDEX_BACKGROUND + Z_INDEX_NUMBER_VIRTUAL_LAYERS + 1;
 
 	public static final String NO_VARIABLE_SELECTED = "No variable set";
+	public static final String NO_VALUE_SET = "No value set";
 	public static final String PROJECT_UPLOAD_NAME = "projectUploadName";
 	public static final String PROJECT_UPLOAD_DESCRIPTION = "setProjectDescription";
 	public static final int SAY_BRICK = 0;
