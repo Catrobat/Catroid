@@ -93,7 +93,7 @@ public class JumpingSumoProjectCreator extends ProjectCreator {
 
 		LookData backgroundLookData = new LookData();
 		backgroundLookData.setName(context.getString(R.string.add_look_jumping_sumo_video));
-		backgroundLookData.setFileName(backgroundFile.getName());
+		backgroundLookData.setFile(backgroundFile);
 		sprite.getLookList().add(backgroundLookData);
 
 		Sprite backgroundSprite = defaultJumpingSumoProject.getDefaultScene().getSpriteList().get(0);
@@ -256,7 +256,7 @@ public class JumpingSumoProjectCreator extends ProjectCreator {
 		LookData lookData = new LookData();
 		lookData.setName(spriteName + " icon");
 
-		lookData.setFileName(lookFile.getName());
+		lookData.setFile(lookFile);
 
 		sprite.getLookList().add(lookData);
 

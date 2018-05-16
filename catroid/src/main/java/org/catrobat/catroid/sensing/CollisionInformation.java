@@ -80,7 +80,7 @@ public class CollisionInformation {
 
 	public void loadOrCreateCollisionPolygon() {
 		isCalculationThreadCancelled = false;
-		String path = lookData.getAbsolutePath();
+		String path = lookData.getFile().getAbsolutePath();
 		if (collisionPolygons == null) {
 			if (!path.endsWith(".png")) {
 				Bitmap bitmap = BitmapFactory.decodeFile(path);

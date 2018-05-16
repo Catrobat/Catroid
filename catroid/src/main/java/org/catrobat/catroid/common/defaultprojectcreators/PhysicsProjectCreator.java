@@ -107,7 +107,7 @@ public class PhysicsProjectCreator extends ProjectCreator {
 				backgroundName + Constants.DEFAULT_IMAGE_EXTENSION,
 				backgroundImageScaleFactor);
 
-		LookData backgroundLookData = new LookData(backgroundName, backgroundFile.getName());
+		LookData backgroundLookData = new LookData(backgroundName, backgroundFile);
 
 		// Background sprite
 		Sprite backgroundSprite = defaultPhysicsProject.getDefaultScene().getSpriteList().get(0);
@@ -291,7 +291,7 @@ public class PhysicsProjectCreator extends ProjectCreator {
 				fileId, new File(sceneDir, Constants.IMAGE_DIRECTORY_NAME),
 				fileName, backgroundImageScaleFactor);
 
-		LookData lookData = new LookData(fileName, file.getName());
+		LookData lookData = new LookData(fileName, file);
 		List<LookData> looks = sprite.getLookList();
 		looks.add(lookData);
 
@@ -347,7 +347,7 @@ public class PhysicsProjectCreator extends ProjectCreator {
 				R.drawable.physics_button_pressed, new File(sceneDir, Constants.IMAGE_DIRECTORY_NAME),
 				filename, backgroundImageScaleFactor);
 
-		LookData lookData = new LookData(filename, file.getName());
+		LookData lookData = new LookData(filename, file);
 		List<LookData> looks = sprite.getLookList();
 		looks.add(lookData);
 

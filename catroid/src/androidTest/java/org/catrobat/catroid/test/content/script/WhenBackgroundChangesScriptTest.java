@@ -43,6 +43,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 
+import java.io.File;
+
 import static junit.framework.Assert.assertEquals;
 
 import static org.mockito.Mockito.when;
@@ -79,12 +81,8 @@ public class WhenBackgroundChangesScriptTest {
 	}
 
 	private void initLookData() {
-		bg1 = new LookData();
-		bg1.setFileName("bg1");
-		bg1.setName("bg1");
-		bg2 = new LookData();
-		bg2.setFileName("bg2");
-		bg2.setName("bg2");
+		bg1 = new LookData("bg1", new File("bg1"));
+		bg2 = new LookData("bg2", new File("bg2"));
 	}
 
 	private void initScripts() {
@@ -108,8 +106,7 @@ public class WhenBackgroundChangesScriptTest {
 			sprite.look.act(1.0f);
 		}
 
-		assertEquals("the position is not as expected, maybe the script has not been executed", (float) position,
-				sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals((float) position, sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 
 	@Test
@@ -125,8 +122,7 @@ public class WhenBackgroundChangesScriptTest {
 			sprite.look.act(1.0f);
 		}
 
-		assertEquals("the position is not as expected, maybe the script has not been executed", (float) 0,
-				sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals((float) 0, sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 
 	@Test
@@ -146,7 +142,6 @@ public class WhenBackgroundChangesScriptTest {
 			sprite.look.act(1.0f);
 		}
 
-		assertEquals("the position is not as expected, maybe the script has not been executed", (float) position,
-				sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals((float) position, sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 }

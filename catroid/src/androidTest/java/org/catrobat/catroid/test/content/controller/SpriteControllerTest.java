@@ -27,7 +27,6 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
@@ -55,7 +54,9 @@ import static org.catrobat.catroid.common.Constants.BACKPACK_SOUND_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileDoesNotExist;
+import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileDoesNotExistInDirectory;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileExists;
+import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileExistsInDirectory;
 import static org.catrobat.catroid.utils.PathBuilder.buildProjectPath;
 import static org.catrobat.catroid.utils.PathBuilder.buildScenePath;
 
@@ -90,21 +91,21 @@ public class SpriteControllerTest {
 		assertEquals(sprite.getNumberOfScripts(), copy.getNumberOfScripts());
 		assertEquals(sprite.getNumberOfBricks(), copy.getNumberOfBricks());
 
-		assertLookFileExists(copy.getLookList().get(0).getFileName());
+		assertFileExists(copy.getLookList().get(0).getFile());
 		assertFileExists(copy.getSoundList().get(0).getFile());
 	}
 
 	@Test
 	public void testDeleteSprite() {
 		SpriteController controller = new SpriteController();
-		String deletedLookFileName = sprite.getLookList().get(0).getFileName();
+		File deletedLookFile = sprite.getLookList().get(0).getFile();
 		File deletedSoundFile = sprite.getSoundList().get(0).getFile();
 
-		controller.delete(sprite, scene);
+		controller.delete(sprite);
 
 		assertEquals(2, scene.getSpriteList().size());
 
-		assertLookFileDoesNotExist(deletedLookFileName);
+		assertFileDoesNotExist(deletedLookFile);
 		assertFileDoesNotExist(deletedSoundFile);
 	}
 
@@ -113,15 +114,15 @@ public class SpriteControllerTest {
 		SpriteController controller = new SpriteController();
 		Sprite packedSprite = controller.pack(sprite);
 
-		assertEquals(0, BackpackListManager.getInstance().getBackPackedSprites().size());
+		assertEquals(0, BackpackListManager.getInstance().getBackpackedSprites().size());
 
 		assertEquals(sprite.getLookList().size(), packedSprite.getLookList().size());
 		assertEquals(sprite.getSoundList().size(), packedSprite.getSoundList().size());
 		assertEquals(sprite.getNumberOfScripts(), packedSprite.getNumberOfScripts());
 		assertEquals(sprite.getNumberOfBricks(), packedSprite.getNumberOfBricks());
 
-		assertFileExists(new File(BACKPACK_IMAGE_DIRECTORY, packedSprite.getLookList().get(0).getFileName()));
-		assertFileExists(new File(BACKPACK_SOUND_DIRECTORY, packedSprite.getSoundList().get(0).getFile().getName()));
+		assertFileExistsInDirectory(packedSprite.getLookList().get(0).getFile(), BACKPACK_IMAGE_DIRECTORY);
+		assertFileExistsInDirectory(packedSprite.getSoundList().get(0).getFile(), BACKPACK_SOUND_DIRECTORY);
 	}
 
 	@Test
@@ -129,12 +130,11 @@ public class SpriteControllerTest {
 		SpriteController controller = new SpriteController();
 		Sprite packedSprite = controller.pack(sprite);
 
-		controller.deleteFromBackpack(packedSprite);
+		controller.delete(packedSprite);
 
-		assertEquals(0, BackpackListManager.getInstance().getBackPackedSprites().size());
-		assertFileDoesNotExist(new File(BACKPACK_IMAGE_DIRECTORY, packedSprite.getLookList().get(0).getFileName()));
-		assertFileDoesNotExist(new File(BACKPACK_SOUND_DIRECTORY,
-				packedSprite.getSoundList().get(0).getFile().getName()));
+		assertEquals(0, BackpackListManager.getInstance().getBackpackedSprites().size());
+		assertFileDoesNotExistInDirectory(packedSprite.getLookList().get(0).getFile(), BACKPACK_IMAGE_DIRECTORY);
+		assertFileDoesNotExistInDirectory(packedSprite.getSoundList().get(0).getFile(), BACKPACK_SOUND_DIRECTORY);
 	}
 
 	@Test
@@ -143,10 +143,10 @@ public class SpriteControllerTest {
 		Sprite packedSprite = controller.pack(sprite);
 		Sprite unpackedSprite = controller.unpack(packedSprite, scene);
 
-		assertEquals(0, BackpackListManager.getInstance().getBackPackedSprites().size());
+		assertEquals(0, BackpackListManager.getInstance().getBackpackedSprites().size());
 
-		assertFileExists(new File(BACKPACK_IMAGE_DIRECTORY, packedSprite.getLookList().get(0).getFileName()));
-		assertFileExists(new File(BACKPACK_SOUND_DIRECTORY, packedSprite.getSoundList().get(0).getFile().getName()));
+		assertFileExistsInDirectory(packedSprite.getLookList().get(0).getFile(), BACKPACK_IMAGE_DIRECTORY);
+		assertFileExistsInDirectory(packedSprite.getSoundList().get(0).getFile(), BACKPACK_SOUND_DIRECTORY);
 
 		assertEquals(2, scene.getSpriteList().size());
 
@@ -155,7 +155,7 @@ public class SpriteControllerTest {
 		assertEquals(sprite.getNumberOfScripts(), unpackedSprite.getNumberOfScripts());
 		assertEquals(sprite.getNumberOfBricks(), unpackedSprite.getNumberOfBricks());
 
-		assertLookFileExists(unpackedSprite.getLookList().get(0).getFileName());
+		assertFileExists(unpackedSprite.getLookList().get(0).getFile());
 		assertFileExists(unpackedSprite.getSoundList().get(0).getFile());
 	}
 
@@ -171,29 +171,21 @@ public class SpriteControllerTest {
 		assertEquals(sprite.getNumberOfScripts(), copy.getNumberOfScripts());
 		assertEquals(sprite.getNumberOfBricks(), copy.getNumberOfBricks());
 
-		assertLookFileExists(copy.getLookList().get(0).getFileName());
+		assertFileExists(copy.getLookList().get(0).getFile());
 		assertFileExists(copy.getSoundList().get(0).getFile());
 
-		controller.delete(sprite, scene);
+		controller.delete(sprite);
 
 		assertEquals(sprite.getLookList().size(), copy.getLookList().size());
 		assertEquals(sprite.getSoundList().size(), copy.getSoundList().size());
 		assertEquals(sprite.getNumberOfScripts(), copy.getNumberOfScripts());
 		assertEquals(sprite.getNumberOfBricks(), copy.getNumberOfBricks());
 
-		assertLookFileExists(copy.getLookList().get(0).getFileName());
+		assertFileExists(copy.getLookList().get(0).getFile());
 		assertFileExists(copy.getSoundList().get(0).getFile());
 
-		assertLookFileDoesNotExist(sprite.getLookList().get(0).getFileName());
+		assertFileDoesNotExist(sprite.getLookList().get(0).getFile());
 		assertFileDoesNotExist(sprite.getSoundList().get(0).getFile());
-	}
-
-	private void assertLookFileExists(String fileName) {
-		assertFileExists(new File(new File(scene.getDirectory(), Constants.IMAGE_DIRECTORY_NAME), fileName));
-	}
-
-	private void assertLookFileDoesNotExist(String fileName) {
-		assertFileDoesNotExist(new File(new File(scene.getDirectory(), Constants.IMAGE_DIRECTORY_NAME), fileName));
 	}
 
 	private void clearBackPack() throws IOException {
@@ -229,7 +221,7 @@ public class SpriteControllerTest {
 				"red_image.bmp",
 				1);
 
-		sprite.getLookList().add(new LookData("testLook", imageFile.getName()));
+		sprite.getLookList().add(new LookData("testLook", imageFile));
 
 		File soundFile = ResourceImporter.createSoundFileFromResourcesInDirectory(
 				InstrumentationRegistry.getContext().getResources(),

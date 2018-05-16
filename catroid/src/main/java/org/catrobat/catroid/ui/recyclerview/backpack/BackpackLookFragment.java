@@ -48,7 +48,7 @@ public class BackpackLookFragment extends BackpackRecyclerViewFragment<LookData>
 	protected void initializeAdapter() {
 		sharedPreferenceDetailsKey = "showDetailsLookList";
 		hasDetails = true;
-		List<LookData> items = BackpackListManager.getInstance().getBackPackedLooks();
+		List<LookData> items = BackpackListManager.getInstance().getBackpackedLooks();
 		adapter = new LookAdapter(items);
 		onAdapterReady();
 	}
@@ -91,7 +91,7 @@ public class BackpackLookFragment extends BackpackRecyclerViewFragment<LookData>
 		setShowProgressBar(true);
 		for (LookData item : selectedItems) {
 			try {
-				lookController.deleteFromBackpack(item);
+				lookController.delete(item);
 			} catch (IOException e) {
 				Log.e(TAG, Log.getStackTraceString(e));
 			}

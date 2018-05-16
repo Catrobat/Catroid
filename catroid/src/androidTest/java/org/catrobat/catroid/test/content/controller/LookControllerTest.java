@@ -27,7 +27,6 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
@@ -50,7 +49,9 @@ import static junit.framework.Assert.assertEquals;
 import static org.catrobat.catroid.common.Constants.BACKPACK_IMAGE_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileDoesNotExist;
+import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileDoesNotExistInDirectory;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileExists;
+import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileExistsInDirectory;
 import static org.catrobat.catroid.utils.PathBuilder.buildProjectPath;
 
 @RunWith(AndroidJUnit4.class)
@@ -76,76 +77,68 @@ public class LookControllerTest {
 	@Test
 	public void testCopyLook() throws IOException {
 		LookController controller = new LookController();
-		LookData copy = controller.copy(lookData, scene, scene, sprite);
+		LookData copy = controller.copy(lookData, scene, sprite);
 
 		assertEquals(1, sprite.getLookList().size());
-		assertLookFileExists(copy.getFileName());
+		assertFileExists(copy.getFile());
 	}
 
 	@Test
 	public void testDeleteLook() throws IOException {
 		LookController controller = new LookController();
-		String deletedLookFileName = lookData.getFileName();
-		controller.delete(lookData, scene);
+		File deletedLookFile = lookData.getFile();
+		controller.delete(lookData);
 
 		assertEquals(1, sprite.getLookList().size());
-		assertLookFileDoesNotExist(deletedLookFileName);
+		assertFileDoesNotExist(deletedLookFile);
 	}
 
 	@Test
 	public void testPackLook() throws IOException {
 		LookController controller = new LookController();
-		LookData packedLook = controller.pack(lookData, scene);
+		LookData packedLook = controller.pack(lookData);
 
-		assertEquals(0, BackpackListManager.getInstance().getBackPackedLooks().size());
-		assertFileExists(new File(BACKPACK_IMAGE_DIRECTORY, packedLook.getFileName()));
+		assertEquals(0, BackpackListManager.getInstance().getBackpackedLooks().size());
+		assertFileExistsInDirectory(packedLook.getFile(), BACKPACK_IMAGE_DIRECTORY);
 	}
 
 	@Test
 	public void testDeleteLookFromBackPack() throws IOException {
 		LookController controller = new LookController();
-		LookData packedLook = controller.pack(lookData, scene);
-		controller.deleteFromBackpack(packedLook);
+		LookData packedLook = controller.pack(lookData);
+		controller.delete(packedLook);
 
-		assertEquals(0, BackpackListManager.getInstance().getBackPackedLooks().size());
-		assertFileDoesNotExist(new File(BACKPACK_IMAGE_DIRECTORY, packedLook.getFileName()));
+		assertEquals(0, BackpackListManager.getInstance().getBackpackedLooks().size());
+		assertFileDoesNotExistInDirectory(packedLook.getFile(), BACKPACK_IMAGE_DIRECTORY);
 
 		assertEquals(1, sprite.getLookList().size());
-		assertLookFileExists(lookData.getFileName());
+		assertFileExists(lookData.getFile());
 	}
 
 	@Test
 	public void testUnpackLook() throws IOException {
 		LookController controller = new LookController();
-		LookData packedLook = controller.pack(lookData, scene);
+		LookData packedLook = controller.pack(lookData);
 		LookData unpackedLook = controller.unpack(packedLook, scene, sprite);
 
-		assertEquals(0, BackpackListManager.getInstance().getBackPackedLooks().size());
-		assertFileExists(new File(BACKPACK_IMAGE_DIRECTORY, packedLook.getFileName()));
+		assertEquals(0, BackpackListManager.getInstance().getBackpackedLooks().size());
+		assertFileExistsInDirectory(packedLook.getFile(), BACKPACK_IMAGE_DIRECTORY);
 
 		assertEquals(1, sprite.getLookList().size());
-		assertLookFileExists(unpackedLook.getFileName());
+		assertFileExists(unpackedLook.getFile());
 	}
 
 	@Test
 	public void testDeepCopyLook() throws IOException {
 		LookController controller = new LookController();
-		LookData copy = controller.copy(lookData, scene, scene, sprite);
+		LookData copy = controller.copy(lookData, scene, sprite);
 
-		assertLookFileExists(copy.getFileName());
+		assertFileExists(copy.getFile());
 
-		controller.delete(copy, scene);
+		controller.delete(copy);
 
-		assertLookFileDoesNotExist(copy.getFileName());
-		assertLookFileExists(lookData.getFileName());
-	}
-
-	private void assertLookFileExists(String fileName) {
-		assertFileExists(new File(new File(scene.getPath(), Constants.IMAGE_DIRECTORY_NAME), fileName));
-	}
-
-	private void assertLookFileDoesNotExist(String fileName) {
-		assertFileDoesNotExist(new File(new File(scene.getPath(), Constants.IMAGE_DIRECTORY_NAME), fileName));
+		assertFileDoesNotExist(copy.getFile());
+		assertFileExists(lookData.getFile());
 	}
 
 	private void clearBackPack() throws IOException {
@@ -171,7 +164,7 @@ public class LookControllerTest {
 				"red_image.bmp",
 				1);
 
-		lookData = new LookData("testLook", imageFile.getName());
+		lookData = new LookData("testLook", imageFile);
 		sprite.getLookList().add(lookData);
 
 		XstreamSerializer.getInstance().saveProject(project);

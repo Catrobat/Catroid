@@ -99,7 +99,7 @@ public class SoundControllerTest {
 		SoundController controller = new SoundController();
 		SoundInfo packedSound = controller.pack(soundInfo);
 
-		assertEquals(0, BackpackListManager.getInstance().getBackPackedSounds().size());
+		assertEquals(0, BackpackListManager.getInstance().getBackpackedSounds().size());
 
 		assertFileExists(packedSound.getFile());
 		assertFileExistsInDirectory(packedSound.getFile(), BACKPACK_SOUND_DIRECTORY);
@@ -111,7 +111,7 @@ public class SoundControllerTest {
 		SoundInfo packedSound = controller.pack(soundInfo);
 		controller.delete(packedSound);
 
-		assertEquals(0, BackpackListManager.getInstance().getBackPackedSounds().size());
+		assertEquals(0, BackpackListManager.getInstance().getBackpackedSounds().size());
 
 		assertFileDoesNotExist(packedSound.getFile());
 		assertFileDoesNotExistInDirectory(packedSound.getFile(), BACKPACK_SOUND_DIRECTORY);
@@ -126,7 +126,7 @@ public class SoundControllerTest {
 		SoundInfo packedSound = controller.pack(soundInfo);
 		SoundInfo unpackedSound = controller.unpack(packedSound, scene, sprite);
 
-		assertEquals(0, BackpackListManager.getInstance().getBackPackedSounds().size());
+		assertEquals(0, BackpackListManager.getInstance().getBackpackedSounds().size());
 
 		assertFileExists(packedSound.getFile());
 		assertFileExistsInDirectory(packedSound.getFile(), BACKPACK_SOUND_DIRECTORY);

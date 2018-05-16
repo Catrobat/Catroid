@@ -44,7 +44,7 @@ public class BackpackScriptFragment extends BackpackRecyclerViewFragment<String>
 
 	@Override
 	protected void initializeAdapter() {
-		List<String> items = BackpackListManager.getInstance().getBackPackedScriptGroups();
+		List<String> items = BackpackListManager.getInstance().getBackpackedScriptGroups();
 		adapter = new ScriptAdapter(items);
 		onAdapterReady();
 	}
@@ -55,7 +55,7 @@ public class BackpackScriptFragment extends BackpackRecyclerViewFragment<String>
 		int unpackedItemCnt = 0;
 
 		for (String item : selectedItems) {
-			List<Script> scripts = BackpackListManager.getInstance().getBackPackedScripts().get(item);
+			List<Script> scripts = BackpackListManager.getInstance().getBackpackedScripts().get(item);
 			for (Script script : scripts) {
 				try {
 					scriptController.unpack(script, ProjectManager.getInstance().getCurrentSprite());

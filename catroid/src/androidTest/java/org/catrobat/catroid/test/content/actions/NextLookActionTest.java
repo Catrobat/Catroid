@@ -85,12 +85,12 @@ public class NextLookActionTest {
 		Sprite sprite = new SingleSprite("cat");
 
 		LookData lookData1 = new LookData();
-		lookData1.setFileName(testImage.getName());
+		lookData1.setFile(testImage);
 		lookData1.setName("testImage1");
 		sprite.getLookList().add(lookData1);
 
 		LookData lookData2 = new LookData();
-		lookData2.setFileName(testImage.getName());
+		lookData2.setFile(testImage);
 		lookData2.setName("testImage2");
 		sprite.getLookList().add(lookData2);
 
@@ -109,21 +109,18 @@ public class NextLookActionTest {
 		Sprite sprite = new SingleSprite("cat");
 
 		LookData lookData1 = new LookData();
-		lookData1.setFileName(testImage.getName());
+		lookData1.setFile(testImage);
 		lookData1.setName("testImage1");
-		lookData1.setFileName("testImage1");
 		sprite.getLookList().add(lookData1);
 
 		LookData lookData2 = new LookData();
-		lookData2.setFileName(testImage.getName());
-		lookData2.setName("testImage");
-		lookData2.setFileName("testImage2");
+		lookData2.setFile(testImage);
+		lookData2.setName("testImage2");
 		sprite.getLookList().add(lookData2);
 
 		LookData lookData3 = new LookData();
-		lookData3.setFileName(testImage.getName());
-		lookData3.setName("testImage");
-		lookData3.setFileName("testImage3");
+		lookData3.setFile(testImage);
+		lookData3.setName("testImage3");
 		sprite.getLookList().add(lookData3);
 
 		ActionFactory factory = sprite.getActionFactory();
@@ -152,7 +149,7 @@ public class NextLookActionTest {
 		Sprite sprite = new SingleSprite("cat");
 
 		LookData lookData1 = new LookData();
-		lookData1.setFileName(testImage.getName());
+		lookData1.setFile(testImage);
 		lookData1.setName("testImage1");
 		sprite.getLookList().add(lookData1);
 
@@ -175,7 +172,7 @@ public class NextLookActionTest {
 		Action nextLookAction = factory.createNextLookAction(sprite);
 
 		LookData lookData1 = new LookData();
-		lookData1.setFileName(testImage.getName());
+		lookData1.setFile(testImage);
 		lookData1.setName("testImage1");
 		sprite.getLookList().add(lookData1);
 

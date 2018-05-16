@@ -122,7 +122,7 @@ public class SceneControllerTest {
 		SceneController controller = new SceneController();
 		Scene packedScene = controller.pack(scene);
 
-		assertEquals(0, BackpackListManager.getInstance().getBackPackedScenes().size());
+		assertEquals(0, BackpackListManager.getInstance().getBackpackedScenes().size());
 
 		assertEquals(new File(BACKPACK_SCENE_DIRECTORY, packedScene.getName()).getAbsolutePath(),
 				packedScene.getPath());
@@ -164,7 +164,7 @@ public class SceneControllerTest {
 		Scene packedScene = controller.pack(scene);
 		Scene unpackedScene = controller.unpack(packedScene, project);
 
-		assertEquals(0, BackpackListManager.getInstance().getBackPackedScenes().size());
+		assertEquals(0, BackpackListManager.getInstance().getBackpackedScenes().size());
 
 		assertEquals(1, project.getSceneList().size());
 
@@ -234,7 +234,7 @@ public class SceneControllerTest {
 				"red_image.png",
 				1);
 
-		sprite.getLookList().add(new LookData("testLook", imageFile.getName()));
+		sprite.getLookList().add(new LookData("testLook", imageFile));
 
 		File soundFile = ResourceImporter.createSoundFileFromResourcesInDirectory(
 				InstrumentationRegistry.getContext().getResources(),

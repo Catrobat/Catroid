@@ -53,7 +53,7 @@ public class SpriteController {
 		Sprite sprite = new Sprite(name);
 
 		for (LookData look : spriteToCopy.getLookList()) {
-			sprite.getLookList().add(lookController.copy(look, srcScene, dstScene, sprite));
+			sprite.getLookList().add(lookController.copy(look, dstScene, sprite));
 		}
 
 		for (SoundInfo sound : spriteToCopy.getSoundList()) {
@@ -75,28 +75,10 @@ public class SpriteController {
 		return sprite;
 	}
 
-	public void delete(Sprite spriteToDelete, Scene srcScene) {
+	public void delete(Sprite spriteToDelete) {
 		for (LookData look : spriteToDelete.getLookList()) {
 			try {
-				lookController.delete(look, srcScene);
-			} catch (IOException e) {
-				Log.e(TAG, Log.getStackTraceString(e));
-			}
-		}
-
-		for (SoundInfo sound : spriteToDelete.getSoundList()) {
-			try {
-				soundController.delete(sound);
-			} catch (IOException e) {
-				Log.e(TAG, Log.getStackTraceString(e));
-			}
-		}
-	}
-
-	public void deleteFromBackpack(Sprite spriteToDelete) {
-		for (LookData look : spriteToDelete.getLookList()) {
-			try {
-				lookController.deleteFromBackpack(look);
+				lookController.delete(look);
 			} catch (IOException e) {
 				Log.e(TAG, Log.getStackTraceString(e));
 			}
@@ -113,10 +95,9 @@ public class SpriteController {
 
 	public Sprite pack(Sprite spriteToPack) throws IOException {
 		String name = uniqueNameProvider.getUniqueName(spriteToPack.getName(),
-				getScope(BackpackListManager.getInstance().getBackPackedSprites()));
+				getScope(BackpackListManager.getInstance().getBackpackedSprites()));
 
 		Sprite sprite = new Sprite(name);
-		sprite.isBackpackObject = true;
 
 		for (LookData look : spriteToPack.getLookList()) {
 			lookController.packForSprite(look, sprite);

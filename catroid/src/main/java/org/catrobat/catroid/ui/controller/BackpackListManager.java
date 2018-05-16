@@ -64,19 +64,19 @@ public final class BackpackListManager {
 		getBackpack().backpackedScripts.remove(scriptGroup);
 	}
 
-	public List<Scene> getBackPackedScenes() {
+	public List<Scene> getBackpackedScenes() {
 		return getBackpack().backpackedScenes;
 	}
 
-	public List<Sprite> getBackPackedSprites() {
+	public List<Sprite> getBackpackedSprites() {
 		return getBackpack().backpackedSprites;
 	}
 
-	public ArrayList<String> getBackPackedScriptGroups() {
+	public ArrayList<String> getBackpackedScriptGroups() {
 		return new ArrayList<>(getBackpack().backpackedScripts.keySet());
 	}
 
-	public HashMap<String, List<Script>> getBackPackedScripts() {
+	public HashMap<String, List<Script>> getBackpackedScripts() {
 		return getBackpack().backpackedScripts;
 	}
 
@@ -84,17 +84,17 @@ public final class BackpackListManager {
 		getBackpack().backpackedScripts.put(scriptGroup, scripts);
 	}
 
-	public List<LookData> getBackPackedLooks() {
+	public List<LookData> getBackpackedLooks() {
 		return getBackpack().backpackedLooks;
 	}
 
-	public List<SoundInfo> getBackPackedSounds() {
+	public List<SoundInfo> getBackpackedSounds() {
 		return getBackpack().backpackedSounds;
 	}
 
 	public boolean isBackpackEmpty() {
-		return getBackPackedLooks().isEmpty() && getBackPackedScriptGroups().isEmpty()
-				&& getBackPackedSounds().isEmpty() && getBackPackedSprites().isEmpty();
+		return getBackpackedLooks().isEmpty() && getBackpackedScriptGroups().isEmpty()
+				&& getBackpackedSounds().isEmpty() && getBackpackedSprites().isEmpty();
 	}
 
 	public void saveBackpack() {
@@ -122,37 +122,41 @@ public final class BackpackListManager {
 		protected Void doInBackground(Void... params) {
 			backpack = BackpackSerializer.getInstance().loadBackpack();
 			setBackPackFlags();
-			setFileReferences();
+
+			for (Sprite sprite : getBackpackedSprites()) {
+				setLookFileReferences(sprite.getLookList());
+				setSoundFileReferences(sprite.getSoundList());
+			}
+			setLookFileReferences(getBackpackedLooks());
+			setSoundFileReferences(getBackpackedSounds());
+
 			ProjectManager.getInstance().checkNestingBrickReferences(false, true);
 			return null;
 		}
 
 		private void setBackPackFlags() {
-			for (LookData lookData : getBackPackedLooks()) {
-				lookData.isBackpackLookData = true;
-			}
-			for (Sprite sprite : getBackPackedSprites()) {
-				sprite.isBackpackObject = true;
-				for (LookData lookData : sprite.getLookList()) {
-					lookData.isBackpackLookData = true;
-				}
-			}
-			for (Scene scene : getBackPackedScenes()) {
+			for (Scene scene : getBackpackedScenes()) {
 				scene.isBackPackScene = true;
 			}
 		}
 
-		private void setFileReferences() {
-			for (Sprite sprite : getBackPackedSprites()) {
-				setSoundFileReferences(sprite.getSoundList());
+		private void setLookFileReferences(List<LookData> looks) {
+			for (Iterator<LookData> iterator = looks.iterator(); iterator.hasNext(); ) {
+				LookData lookData = iterator.next();
+				File lookFile = new File(Constants.BACKPACK_DIRECTORY, lookData.getXstreamFileName());
+
+				if (lookFile.exists()) {
+					lookData.setFile(lookFile);
+				} else {
+					iterator.remove();
+				}
 			}
-			setSoundFileReferences(getBackPackedSounds());
 		}
 
 		private void setSoundFileReferences(List<SoundInfo> sounds) {
 			for (Iterator<SoundInfo> iterator = sounds.iterator(); iterator.hasNext(); ) {
 				SoundInfo soundInfo = iterator.next();
-				File soundFile = new File(Constants.BACKPACK_DIRECTORY, soundInfo.getFileName());
+				File soundFile = new File(Constants.BACKPACK_DIRECTORY, soundInfo.getXstreamFileName());
 
 				if (soundFile.exists()) {
 					soundInfo.setFile(soundFile);

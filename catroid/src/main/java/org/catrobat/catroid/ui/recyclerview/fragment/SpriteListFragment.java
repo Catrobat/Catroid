@@ -194,7 +194,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 
 		for (Sprite item : selectedItems) {
 			try {
-				BackpackListManager.getInstance().getBackPackedSprites().add(spriteController.pack(item));
+				BackpackListManager.getInstance().getBackpackedSprites().add(spriteController.pack(item));
 				BackpackListManager.getInstance().saveBackpack();
 				packedItemCnt++;
 			} catch (IOException e) {
@@ -214,7 +214,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 
 	@Override
 	protected boolean isBackpackEmpty() {
-		return BackpackListManager.getInstance().getBackPackedSprites().isEmpty();
+		return BackpackListManager.getInstance().getBackpackedSprites().isEmpty();
 	}
 
 	@Override
@@ -267,7 +267,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 				}
 				adapter.notifyDataSetChanged();
 			}
-			spriteController.delete(item, ProjectManager.getInstance().getCurrentScene());
+			spriteController.delete(item);
 			adapter.remove(item);
 		}
 

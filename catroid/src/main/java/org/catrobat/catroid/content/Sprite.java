@@ -88,7 +88,6 @@ public class Sprite implements Serializable, Cloneable {
 	private static SpriteFactory spriteFactory = new SpriteFactory();
 
 	public transient Look look = new Look(this);
-	public transient boolean isBackpackObject = false;
 	public transient PenConfiguration penConfiguration = new PenConfiguration();
 	private transient boolean convertToSingleSprite = false;
 	private transient boolean convertToGroupItemSprite = false;
@@ -311,7 +310,6 @@ public class Sprite implements Serializable, Cloneable {
 		final Sprite cloneSprite = createSpriteInstance();
 
 		cloneSprite.setName(this.getName());
-		cloneSprite.isBackpackObject = false;
 		cloneSprite.convertToSingleSprite = false;
 		cloneSprite.convertToGroupItemSprite = false;
 		cloneSprite.isMobile = false;

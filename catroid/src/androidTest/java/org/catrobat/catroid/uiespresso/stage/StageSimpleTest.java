@@ -114,7 +114,7 @@ public class StageSimpleTest {
 				blueImageName,
 				1);
 
-		blueLookData.setFileName(blueImageFile.getName());
+		blueLookData.setFile(blueImageFile);
 
 		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);

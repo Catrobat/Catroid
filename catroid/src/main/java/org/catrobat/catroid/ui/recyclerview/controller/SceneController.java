@@ -87,7 +87,7 @@ public class SceneController {
 	public Scene pack(Scene sceneToPack) throws IOException {
 		String name = uniqueNameProvider.getUniqueName(
 				sceneToPack.getName(),
-				getScope(BackpackListManager.getInstance().getBackPackedScenes()));
+				getScope(BackpackListManager.getInstance().getBackpackedScenes()));
 
 		File dir = new File(BACKPACK_SCENE_DIRECTORY, name);
 

@@ -67,7 +67,6 @@ import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
-import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.List;
@@ -346,7 +345,7 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 
 	protected void prepareActionMode(@ActionModeType int type) {
 		if (type == BACKPACK) {
-			if (BackpackListManager.getInstance().getBackPackedScriptGroups().isEmpty()) {
+			if (BackpackListManager.getInstance().getBackpackedScriptGroups().isEmpty()) {
 				startActionMode(BACKPACK);
 			} else if (adapter.isEmpty()) {
 				switchToBackpack();
@@ -415,7 +414,7 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 			finishActionMode();
 			ToastUtil.showSuccess(getActivity(), getString(R.string.packed_script_group));
 			switchToBackpack();
-		} catch (IOException | CloneNotSupportedException e) {
+		} catch (CloneNotSupportedException e) {
 			Log.e(TAG, Log.getStackTraceString(e));
 			finishActionMode();
 		}

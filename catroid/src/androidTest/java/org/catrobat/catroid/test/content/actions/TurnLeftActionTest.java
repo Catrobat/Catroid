@@ -73,7 +73,7 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 				1);
 
 		lookData = new LookData();
-		lookData.setFileName(testImage.getName());
+		lookData.setFile(testImage);
 		lookData.setName("LookName");
 
 		ScreenValues.SCREEN_HEIGHT = 800;

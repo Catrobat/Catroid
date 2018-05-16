@@ -24,13 +24,11 @@
 package org.catrobat.catroid.sensing;
 
 import android.os.Process;
-import android.util.Log;
 
 import org.catrobat.catroid.common.LookData;
 
 public class CollisionPolygonCreationTask implements Runnable {
 
-	private static final String TAG = CollisionPolygonCreationTask.class.getSimpleName();
 	private LookData lookdata;
 
 	public CollisionPolygonCreationTask(LookData lookdata) {
@@ -40,15 +38,6 @@ public class CollisionPolygonCreationTask implements Runnable {
 	@Override
 	public void run() {
 		android.os.Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
-		long startTime = System.currentTimeMillis();
-		Log.i(TAG, "Creating polygon in runnable for " + lookdata.getFileName());
 		lookdata.getCollisionInformation().loadOrCreateCollisionPolygon();
-		if (lookdata.getCollisionInformation().isCalculationCancelled()) {
-			return;
-		}
-		long stopTime = System.currentTimeMillis();
-		long time = (stopTime - startTime) / 1000;
-		Log.i(TAG, "Finished Creating polygon in runnable for " + lookdata.getFileName() + " in "
-				+ "" + time + " seconds.");
 	}
 }

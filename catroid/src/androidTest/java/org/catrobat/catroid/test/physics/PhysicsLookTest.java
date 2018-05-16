@@ -108,7 +108,7 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 		PhysicsShapeBuilder physicsShapeBuilder = PhysicsShapeBuilder.getInstance();
 
 		LookData lookData = new LookData();
-		lookData.setFileName(testImage.getName());
+		lookData.setFile(testImage);
 		lookData.setName(testImage.getName());
 		sprite.getLookList().add(lookData);
 		Pixmap pixmap = null;
@@ -153,7 +153,7 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 
 	public void testSetScale() {
 		LookData lookData = new LookData();
-		lookData.setFileName(testImage.getName());
+		lookData.setFile(testImage);
 		lookData.setName(testImageFilename);
 		sprite.getLookList().add(lookData);
 		Pixmap pixmap = Utils.getPixmapFromFile(testImage);
@@ -254,7 +254,7 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 
 	public void testSetLookDataWithNullPixmap() {
 		LookData lookData = new LookData();
-		lookData.setFileName(testImage.getName());
+		lookData.setFile(testImage);
 		lookData.setName(testImage.getName());
 
 		sprite.look = new PhysicsLook(sprite, physicsWorld);

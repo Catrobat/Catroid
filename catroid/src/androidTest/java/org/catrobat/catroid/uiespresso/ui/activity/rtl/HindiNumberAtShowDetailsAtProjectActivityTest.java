@@ -118,12 +118,10 @@ public class HindiNumberAtShowDetailsAtProjectActivityTest {
 		firstSprite.addScript(secondScript);
 
 		LookData lookData = new LookData();
-		lookData.setFileName("red");
 		lookData.setName("red");
 		firstSprite.getLookList().add(lookData);
 
 		LookData anotherLookData = new LookData();
-		anotherLookData.setFileName("blue");
 		anotherLookData.setName("blue");
 		firstSprite.getLookList().add(anotherLookData);
 

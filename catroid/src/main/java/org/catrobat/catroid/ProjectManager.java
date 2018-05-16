@@ -204,22 +204,25 @@ public final class ProjectManager {
 	private void makeShallowCopiesDeepAgain(Project project) {
 		for (Scene scene : project.getSceneList()) {
 
-			String imageDir = PathBuilder.buildPath(PathBuilder.buildScenePath(project.getName(), scene.getName()),
-					Constants.IMAGE_DIRECTORY_NAME);
-
 			List<String> fileNames = new ArrayList<>();
 
 			for (Sprite sprite : scene.getSpriteList()) {
-				for (LookData look : sprite.getLookList()) {
-					if (fileNames.contains(look.getFileName())) {
+				for (Iterator<LookData> iterator = sprite.getLookList().iterator(); iterator.hasNext(); ) {
+					LookData lookData = iterator.next();
+
+					if (fileNames.contains(lookData.getFile().getName())) {
 						try {
-							String fileName = StorageOperations.duplicateFile(new File(imageDir, look.getFileName())).getName();
-							look.setFileName(fileName);
+							lookData.setFile(StorageOperations.duplicateFile(lookData.getFile()));
 						} catch (IOException e) {
-							Log.e(TAG, "Could not copy :" + look.getFileName());
+							iterator.remove();
+							Log.e(TAG, "Cannot not copy: " + lookData.getFile().getAbsolutePath()
+									+ ", removing LookData " + lookData.getName() + " from "
+									+ project.getName() + ", "
+									+ scene.getName() + ", "
+									+ sprite.getName() + ".");
 						}
 					}
-					fileNames.add(look.getFileName());
+					fileNames.add(lookData.getFile().getName());
 				}
 
 				for (Iterator<SoundInfo> iterator = sprite.getSoundList().iterator(); iterator.hasNext(); ) {
@@ -230,7 +233,7 @@ public final class ProjectManager {
 							soundInfo.setFile(StorageOperations.duplicateFile(soundInfo.getFile()));
 						} catch (IOException e) {
 							iterator.remove();
-							Log.e(TAG, "Could not copy: " + soundInfo.getFile().getAbsolutePath()
+							Log.e(TAG, "Cannot not copy: " + soundInfo.getFile().getAbsolutePath()
 									+ ", removing SoundInfo " + soundInfo.getName() + " from "
 									+ project.getName() + ", "
 									+ scene.getName() + ", "
@@ -465,9 +468,9 @@ public final class ProjectManager {
 		boolean projectCorrect = true;
 		if (inBackPack) {
 
-			List<Sprite> spritesToCheck = BackpackListManager.getInstance().getBackPackedSprites();
+			List<Sprite> spritesToCheck = BackpackListManager.getInstance().getBackpackedSprites();
 
-			HashMap<String, List<Script>> backPackedScripts = BackpackListManager.getInstance().getBackPackedScripts();
+			HashMap<String, List<Script>> backPackedScripts = BackpackListManager.getInstance().getBackpackedScripts();
 			for (String scriptGroup : backPackedScripts.keySet()) {
 				List<Script> scriptListToCheck = backPackedScripts.get(scriptGroup);
 				for (Script scriptToCheck : scriptListToCheck) {

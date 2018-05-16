@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.common;
 
-import android.util.Log;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -34,6 +32,7 @@ import com.parrot.freeflight.ui.gl.GLBGVideoSprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.io.StorageOperations;
 
+import java.io.File;
 import java.io.IOException;
 
 public class DroneVideoLookData extends LookData {
@@ -45,19 +44,21 @@ public class DroneVideoLookData extends LookData {
 	private transient int[] videoSize = {0, 0};
 	private transient int[] defaultVideoTextureSize;
 
+	public DroneVideoLookData() {
+		super();
+	}
+
+	public DroneVideoLookData(String name, File file) {
+		super(name, file);
+	}
+
 	@Override
 	public DroneVideoLookData clone() {
-		String copiedFileName;
 		try {
-			copiedFileName = StorageOperations.duplicateFile(getFile()).getName();
+			return new DroneVideoLookData(name, StorageOperations.duplicateFile(file));
 		} catch (IOException e) {
-			Log.e(TAG, "Could not copy file: " + fileName + ", fallback to shallow clone.");
-			copiedFileName = fileName;
+			throw new RuntimeException(TAG + ": Could not copy file: " + file.getAbsolutePath());
 		}
-		DroneVideoLookData clone = new DroneVideoLookData();
-		clone.setName(name);
-		clone.setFileName(copiedFileName);
-		return clone;
 	}
 
 	@Override
@@ -98,12 +99,9 @@ public class DroneVideoLookData extends LookData {
 	}
 
 	private void onSurfaceChanged() {
-
 		videoSize[0] = videoTexture.imageWidth;
 		videoSize[1] = videoTexture.imageHeight;
 		videoTexture.onSurfaceChanged(videoSize[0], videoSize[1]);
-
-		//setSize(1f, 1f * Gdx.graphics.getHeight() / Gdx.graphics.getWidth());
 	}
 
 	@Override

@@ -153,7 +153,7 @@ public class RenameLookTest {
 
 		List<LookData> lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookList();
 		LookData lookData = new LookData();
-		lookData.setFileName(imageFile.getName());
+		lookData.setFile(imageFile);
 		lookData.setName(oldLookName);
 		lookDataList.add(lookData);
 	}

@@ -214,9 +214,8 @@ public class NewLookDialogFragment extends DialogFragment implements View.OnClic
 		try {
 			File srcFile = new File(srcPath);
 			String name = StorageOperations.getSanitizedFileName(srcFile);
-			String fileName = StorageOperations.copyFileToDir(srcFile, getimageDir(dstScene)).getName();
-			newItemInterface.addItem(
-					new LookData(uniqueNameProvider.getUniqueName(name, getScope(dstSprite)), fileName));
+			File file = StorageOperations.copyFileToDir(srcFile, getimageDir(dstScene));
+			newItemInterface.addItem(new LookData(uniqueNameProvider.getUniqueName(name, getScope(dstSprite)), file));
 		} catch (IOException e) {
 			Log.e(TAG, Log.getStackTraceString(e));
 		}

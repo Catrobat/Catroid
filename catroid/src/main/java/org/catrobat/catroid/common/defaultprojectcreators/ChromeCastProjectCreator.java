@@ -156,30 +156,30 @@ public class ChromeCastProjectCreator extends ProjectCreator {
 
 			LookData backgroundLookData = new LookData();
 			backgroundLookData.setName(backgroundName);
-			backgroundLookData.setFileName(backgroundFile.getName());
+			backgroundLookData.setFile(backgroundFile);
 
 			Sprite backgroundSprite = defaultProject.getDefaultScene().getSpriteList().get(0);
 			backgroundSprite.getLookList().add(backgroundLookData);
 
 			LookData birdWingUpLookData = new LookData();
 			birdWingUpLookData.setName(birdWingUpLookName);
-			birdWingUpLookData.setFileName(birdWingUpFile.getName());
+			birdWingUpLookData.setFile(birdWingUpFile);
 
 			LookData birdWingDownLookData = new LookData();
 			birdWingDownLookData.setName(birdWingDownLookName);
-			birdWingDownLookData.setFileName(birdWingDownFile.getName());
+			birdWingDownLookData.setFile(birdWingDownFile);
 
 			LookData birdWingUpLeftLookData = new LookData();
 			birdWingUpLeftLookData.setName(birdWingUpLeftLookName);
-			birdWingUpLeftLookData.setFileName(birdWingUpLeftFile.getName());
+			birdWingUpLeftLookData.setFile(birdWingUpLeftFile);
 
 			LookData birdWingDownLeftLookData = new LookData();
 			birdWingDownLeftLookData.setName(birdWingDownLeftLookName);
-			birdWingDownLeftLookData.setFileName(birdWingDownLeftFile.getName());
+			birdWingDownLeftLookData.setFile(birdWingDownLeftFile);
 
 			LookData cloudLookData = new LookData();
 			cloudLookData.setName(cloudName);
-			cloudLookData.setFileName(cloudFile.getName());
+			cloudLookData.setFile(cloudFile);
 
 			SoundInfo soundInfo1 = new SoundInfo();
 			soundInfo1.setName(tweet1);
