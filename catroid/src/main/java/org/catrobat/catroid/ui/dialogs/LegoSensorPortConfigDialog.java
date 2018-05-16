@@ -107,22 +107,22 @@ public class LegoSensorPortConfigDialog extends DialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		final Enum[] sensorsByPort = legoType == NXT
-				? SettingsFragment.getLegoMindstormsNXTSensorMapping(this.getActivity())
-				: SettingsFragment.getLegoMindstormsEV3SensorMapping(this.getActivity());
+				? SettingsFragment.getLegoNXTSensorMapping(this.getActivity())
+				: SettingsFragment.getLegoEV3SensorMapping(this.getActivity());
 
 		String[] portNames = getResources().getStringArray(R.array.port_chooser);
-		String[] sensorMappings = new String[portNames.length];
+		String[] dialogItems = new String[portNames.length];
 		final String[] sensorNames = getResources()
 				.getStringArray(legoType == NXT ? R.array.nxt_sensor_chooser : R.array.ev3_sensor_chooser);
 
-		for (int portNumber = 0; portNumber < sensorMappings.length; portNumber++) {
+		for (int portNumber = 0; portNumber < portNames.length; portNumber++) {
 			int sensorNameIndex = sensorsByPort[portNumber].ordinal();
-			sensorMappings[portNumber] = portNames[portNumber] + ": " + sensorNames[sensorNameIndex];
+			dialogItems[portNumber] = portNames[portNumber] + ": " + sensorNames[sensorNameIndex];
 		}
 
 		Dialog dialog = new AlertDialog.Builder(getActivity())
 				.setTitle(getString(R.string.lego_sensor_port_config_dialog_title, getString(sensorInfo.titleResId)))
-				.setSingleChoiceItems(sensorMappings, -1, new DialogInterface.OnClickListener() {
+				.setSingleChoiceItems(dialogItems, -1, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int selectedPort) {
 						((AlertDialog) dialog).getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(true);

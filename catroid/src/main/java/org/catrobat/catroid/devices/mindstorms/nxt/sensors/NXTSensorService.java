@@ -49,7 +49,6 @@ public class NXTSensorService implements CatroidService, SharedPreferences.OnSha
 	private NXTSensorFactory sensorFactory;
 
 	private SharedPreferences preferences;
-	private Context context;
 
 	private PausableScheduledThreadPoolExecutor sensorScheduler;
 
@@ -57,8 +56,6 @@ public class NXTSensorService implements CatroidService, SharedPreferences.OnSha
 	private static final int SENSOR_UPDATER_THREAD_COUNT = 2;
 
 	public NXTSensorService(Context context, MindstormsConnection connection) {
-		this.context = context;
-
 		preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		preferences.registerOnSharedPreferenceChangeListener(this);
 
@@ -83,23 +80,28 @@ public class NXTSensorService implements CatroidService, SharedPreferences.OnSha
 	}
 
 	public NXTSensor createSensor1() {
-		NXTSensor.Sensor sensor = SettingsFragment.getLegoMindstormsNXTSensorMapping(context, SettingsFragment.NXT_SENSOR_1);
+		NXTSensor.Sensor sensor = getLegoNXTSensorMapping(SettingsFragment.NXT_SENSOR_1);
 		return createSensor(sensor, 0);
 	}
 
 	public NXTSensor createSensor2() {
-		NXTSensor.Sensor sensor = SettingsFragment.getLegoMindstormsNXTSensorMapping(context, SettingsFragment.NXT_SENSOR_2);
+		NXTSensor.Sensor sensor = getLegoNXTSensorMapping(SettingsFragment.NXT_SENSOR_2);
 		return createSensor(sensor, 1);
 	}
 
 	public NXTSensor createSensor3() {
-		NXTSensor.Sensor sensor = SettingsFragment.getLegoMindstormsNXTSensorMapping(context, SettingsFragment.NXT_SENSOR_3);
+		NXTSensor.Sensor sensor = getLegoNXTSensorMapping(SettingsFragment.NXT_SENSOR_3);
 		return createSensor(sensor, 2);
 	}
 
 	public NXTSensor createSensor4() {
-		NXTSensor.Sensor sensor = SettingsFragment.getLegoMindstormsNXTSensorMapping(context, SettingsFragment.NXT_SENSOR_4);
+		NXTSensor.Sensor sensor = getLegoNXTSensorMapping(SettingsFragment.NXT_SENSOR_4);
 		return createSensor(sensor, 3);
+	}
+
+	private NXTSensor.Sensor getLegoNXTSensorMapping(String sensorSetting) {
+		String sensor = preferences.getString(sensorSetting, null);
+		return NXTSensor.Sensor.getSensorFromSensorCode(sensor);
 	}
 
 	private NXTSensor createSensor(NXTSensor.Sensor sensorType, int port) {

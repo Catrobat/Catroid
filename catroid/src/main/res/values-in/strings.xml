@@ -1042,11 +1042,11 @@ Selesai: %d pekerjaan</item>
   <string name="preference_disable_nxt_info_dialog_description">Pengaturan NXT spesifik program tidak ditampilkan saat membuka sebuah program.</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">Pemetaan sensor NXT ke port adalah program yang spesifik dan hanya dapat dikonfigurasi untuk program yang dibuka!</string>
   <string name="lego_nxt_sensor_config_info_text">Program saat ini menggunakan batu bata Lego Mindstorms NXT atau sensor. Untuk fungsi yang tepat silahkan hubungkan sensor ke robot sebagai berikut</string>
-  <string name="nxt_port_1">Port 1</string>
-  <string name="nxt_port_2">Port 2</string>
-  <string name="nxt_port_3">Port 3</string>
-  <string name="nxt_port_4">Port 4</string>
-  <string name="lego_nxt_sensor_config_dont_show_again">Jangan tampilkan pesan ini lagi.</string>
+  <string name="lego_port_1">Port 1</string>
+  <string name="lego_port_2">Port 2</string>
+  <string name="lego_port_3">Port 3</string>
+  <string name="lego_port_4">Port 4</string>
+  <string name="lego_sensor_config_dont_show_again">Jangan tampilkan pesan ini lagi.</string>
   <string name="lego_nxt_overwrite_sensor_port_dialog_message">Apakah Anda ingin menimpa sensor pada port yang dipilih?</string>
   <string name="lego_nxt_overwrite_sensor_port_dialog_title">Timpa sensor?</string>
   <string name="lego_ev3_sensor_config_info_title">Konfigurasi Sensor EV3</string>

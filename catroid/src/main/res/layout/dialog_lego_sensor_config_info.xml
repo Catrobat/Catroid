@@ -32,16 +32,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView android:id="@+id/lego_ev3_sensor_config_info_text"
+        <TextView android:id="@+id/lego_sensor_config_info_text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/lego_ev3_sensor_config_info_text" />
+            android:layout_height="wrap_content" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginStart="12dp">
+            android:layout_margin="@dimen/material_design_spacing_large">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -50,15 +49,11 @@
 
                 <TextView
                     style="@style/DialogMapping"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:text="@string/nxt_port_1" />
+                    android:text="@string/lego_port_1" />
 
-                <TextView android:id="@+id/lego_ev3_sensor_config_info_port_1_mapping"
-                    style="@style/DialogMapping"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                <TextView android:id="@+id/lego_sensor_config_info_port_1_mapping"
+                    style="@style/DialogMapping" />
 
             </LinearLayout>
 
@@ -69,15 +64,11 @@
 
                 <TextView
                     style="@style/DialogMapping"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:text="@string/nxt_port_2" />
+                    android:text="@string/lego_port_2" />
 
-                <TextView android:id="@+id/lego_ev3_sensor_config_info_port_2_mapping"
-                    style="@style/DialogMapping"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                <TextView android:id="@+id/lego_sensor_config_info_port_2_mapping"
+                    style="@style/DialogMapping" />
 
             </LinearLayout>
 
@@ -88,15 +79,11 @@
 
                 <TextView
                     style="@style/DialogMapping"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:text="@string/nxt_port_3" />
+                    android:text="@string/lego_port_3" />
 
-                <TextView android:id="@+id/lego_ev3_sensor_config_info_port_3_mapping"
-                    style="@style/DialogMapping"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                <TextView android:id="@+id/lego_sensor_config_info_port_3_mapping"
+                    style="@style/DialogMapping" />
 
             </LinearLayout>
 
@@ -107,27 +94,23 @@
 
                 <TextView
                     style="@style/DialogMapping"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:text="@string/nxt_port_4" />
+                    android:text="@string/lego_port_4" />
 
-                <TextView android:id="@+id/lego_ev3_sensor_config_info_port_4_mapping"
-                    style="@style/DialogMapping"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                <TextView android:id="@+id/lego_sensor_config_info_port_4_mapping"
+                    style="@style/DialogMapping" />
 
             </LinearLayout>
 
         </LinearLayout>
 
-        <CheckBox android:id="@+id/lego_ev3_sensor_config_info_disable_show_dialog"
+        <CheckBox android:id="@+id/lego_sensor_config_info_disable_show_dialog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="@dimen/dialog_check_box_margin_bottom_right"
             android:layout_marginStart="12dp"
-            android:layout_marginEnd="16dp"
-            android:text="@string/lego_nxt_sensor_config_dont_show_again"/>
+            android:layout_marginEnd="@dimen/dialog_check_box_margin_bottom_right"
+            android:text="@string/lego_sensor_config_dont_show_again"/>
     </TableLayout>
 </ScrollView>

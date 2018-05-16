@@ -357,7 +357,7 @@ public class Project implements Serializable {
 			return;
 		}
 
-		NXTSensor.Sensor[] sensorMapping = SettingsFragment.getLegoMindstormsNXTSensorMapping(context);
+		NXTSensor.Sensor[] sensorMapping = SettingsFragment.getLegoNXTSensorMapping(context);
 		for (Setting setting : settings) {
 			if (setting instanceof LegoNXTSetting) {
 				((LegoNXTSetting) setting).updateMapping(sensorMapping);
@@ -384,7 +384,7 @@ public class Project implements Serializable {
 			return;
 		}
 
-		EV3Sensor.Sensor[] sensorMapping = SettingsFragment.getLegoMindstormsEV3SensorMapping(context);
+		EV3Sensor.Sensor[] sensorMapping = SettingsFragment.getLegoEV3SensorMapping(context);
 		for (Setting setting : settings) {
 			if (setting instanceof LegoEV3Setting) {
 				((LegoEV3Setting) setting).updateMapping(sensorMapping);

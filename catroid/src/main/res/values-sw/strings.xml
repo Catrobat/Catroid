@@ -1073,11 +1073,11 @@
   <string name="preference_disable_nxt_info_dialog_description">Vipimo Programu maalum NXT hazionyeshwi unapofungua programu.</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">Ramani ya NXT Vihisio katika bandari ni programu maalum na inaweza tu kusakinishwa kwa programu zilizofunguliwa!</string>
   <string name="lego_nxt_sensor_config_info_text">Programu ya sasa hutumia matofali ya Lego Mindstorms NXT au Vihisio. Kwa ajili ya utendaji sahihi Tafadhali kuunganisha Vihisio ya robot kama ifuatavyo</string>
-  <string name="nxt_port_1">Bandari 1</string>
-  <string name="nxt_port_2">Bandari 2</string>
-  <string name="nxt_port_3">Bandari 3</string>
-  <string name="nxt_port_4">Bandari 4</string>
-  <string name="lego_nxt_sensor_config_dont_show_again">Usionyeshe ujumbe huu tena.</string>
+  <string name="lego_port_1">Bandari 1</string>
+  <string name="lego_port_2">Bandari 2</string>
+  <string name="lego_port_3">Bandari 3</string>
+  <string name="lego_port_4">Bandari 4</string>
+  <string name="lego_sensor_config_dont_show_again">Usionyeshe ujumbe huu tena.</string>
   <string name="lego_nxt_overwrite_sensor_port_dialog_message">Je, unataka kuandika juu ya Kihisi katika bandari iliyoteuliwa?</string>
   <string name="lego_nxt_overwrite_sensor_port_dialog_title">Andika juu ya Kihisi?</string>
   <string name="lego_ev3_sensor_config_info_title">NXT usanikishaji wa kihisio</string>

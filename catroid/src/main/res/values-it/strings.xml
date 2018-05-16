@@ -1083,11 +1083,11 @@
   <string name="preference_disable_nxt_info_dialog_description">Le impostazioni specifiche per l\'NXT non vengono mostrare quando si apre un programma.</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">La mappatura dei sensori NXT alle porte è specifico per ogni programma e può essere configurata solo per i programmi aperti!</string>
   <string name="lego_nxt_sensor_config_info_text">Il programma attuale utilizza mattoncini Lego Mindstorms NXT o i suoi sensori. Per il corretto funzionamento si prega di collegare i sensori al robot come segue</string>
-  <string name="nxt_port_1">Porta 1</string>
-  <string name="nxt_port_2">Porta 2</string>
-  <string name="nxt_port_3">Porta 3</string>
-  <string name="nxt_port_4">Porta 4</string>
-  <string name="lego_nxt_sensor_config_dont_show_again">Non mostrare più questo messaggio.</string>
+  <string name="lego_port_1">Porta 1</string>
+  <string name="lego_port_2">Porta 2</string>
+  <string name="lego_port_3">Porta 3</string>
+  <string name="lego_port_4">Porta 4</string>
+  <string name="lego_sensor_config_dont_show_again">Non mostrare più questo messaggio.</string>
   <string name="lego_nxt_overwrite_sensor_port_dialog_message">Si desidera sovrascrivere il Sensore sulla porta scelta?</string>
   <string name="lego_nxt_overwrite_sensor_port_dialog_title">Sovrascrivere il sensore?</string>
   <string name="lego_ev3_sensor_config_info_title">Configurazione sensore EV3</string>
