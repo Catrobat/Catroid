@@ -112,7 +112,7 @@ public class CopyLookTest {
 
 		List<LookData> lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookList();
 		LookData lookData = new LookData();
-		lookData.setFileName(imageFile.getName());
+		lookData.setFile(imageFile);
 		lookData.setName(toBeCopiedLookName);
 		lookDataList.add(lookData);
 	}

@@ -139,8 +139,8 @@ public class BroadcastBricksStageTest {
 				greenImageName,
 				1);
 
-		redLookData.setFileName(redImageFile.getName());
-		greenLookData.setFileName(greenImageFile.getName());
+		redLookData.setFile(redImageFile);
+		greenLookData.setFile(greenImageFile);
 
 		project.getDefaultScene().addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);

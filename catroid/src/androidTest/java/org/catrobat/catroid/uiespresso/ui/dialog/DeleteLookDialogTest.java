@@ -171,12 +171,12 @@ public class DeleteLookDialogTest {
 
 		List<LookData> lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookList();
 		LookData lookData = new LookData();
-		lookData.setFileName(imageFile.getName());
+		lookData.setFile(imageFile);
 		lookData.setName("testLook1");
 		lookDataList.add(lookData);
 
 		LookData lookData2 = new LookData();
-		lookData2.setFileName(imageFile2.getName());
+		lookData2.setFile(imageFile2);
 		lookData2.setName(toBeDeletedLookName);
 		lookDataList.add(lookData2);
 	}

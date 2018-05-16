@@ -63,7 +63,7 @@ public class NewScriptGroupDialog extends TextInputDialogFragment {
 	}
 
 	private List<String> getScope() {
-		return BackpackListManager.getInstance().getBackPackedScriptGroups();
+		return BackpackListManager.getInstance().getBackpackedScriptGroups();
 	}
 
 	public interface BackpackScriptInterface {

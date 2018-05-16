@@ -46,7 +46,7 @@ public class BackpackSceneFragment extends BackpackRecyclerViewFragment<Scene> {
 
 	@Override
 	protected void initializeAdapter() {
-		List<Scene> items = BackpackListManager.getInstance().getBackPackedScenes();
+		List<Scene> items = BackpackListManager.getInstance().getBackpackedScenes();
 		sharedPreferenceDetailsKey = "showDetailsSceneList";
 		hasDetails = true;
 		adapter = new SceneAdapter(items);

@@ -257,7 +257,7 @@ public class Look extends Image {
 		if (this.lookData == null) {
 			path = "";
 		} else {
-			path = this.lookData.getAbsolutePath();
+			path = this.lookData.getFile().getAbsolutePath();
 		}
 		return path;
 	}

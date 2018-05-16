@@ -48,7 +48,7 @@ public class BackpackSpriteFragment extends BackpackRecyclerViewFragment<Sprite>
 	protected void initializeAdapter() {
 		sharedPreferenceDetailsKey = "showDetailsSpriteList";
 		hasDetails = true;
-		List<Sprite> items = BackpackListManager.getInstance().getBackPackedSprites();
+		List<Sprite> items = BackpackListManager.getInstance().getBackpackedSprites();
 		adapter = new SpriteAdapter(items);
 		onAdapterReady();
 	}
@@ -88,7 +88,7 @@ public class BackpackSpriteFragment extends BackpackRecyclerViewFragment<Sprite>
 	protected void deleteItems(List<Sprite> selectedItems) {
 		setShowProgressBar(true);
 		for (Sprite item : selectedItems) {
-			spriteController.deleteFromBackpack(item);
+			spriteController.delete(item);
 			adapter.remove(item);
 		}
 		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_sprites,

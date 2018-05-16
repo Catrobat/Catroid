@@ -97,7 +97,7 @@ public class ArDroneProjectCreator extends ProjectCreator {
 
 		LookData backgroundLookData = new DroneVideoLookData();
 		backgroundLookData.setName(context.getString(R.string.add_look_drone_video));
-		backgroundLookData.setFileName(backgroundFile.getName());
+		backgroundLookData.setFile(backgroundFile);
 		sprite.getLookList().add(backgroundLookData);
 
 		Sprite backgroundSprite = defaultDroneProject.getDefaultScene().getSpriteList().get(0);
@@ -258,7 +258,7 @@ public class ArDroneProjectCreator extends ProjectCreator {
 		whenProjectStartsScript.addBrick(setSizeBrick);
 		whenProjectStartsScript.addBrick(turnLeftBrick);
 
-		LookData lookData = new LookData(spriteName + " icon", lookFile.getName());
+		LookData lookData = new LookData(spriteName + " icon", lookFile);
 		sprite.getLookList().add(lookData);
 
 		sprite.addScript(whenSpriteTappedScript);

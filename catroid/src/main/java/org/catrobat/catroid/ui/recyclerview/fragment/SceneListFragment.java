@@ -106,7 +106,7 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 
 		for (Scene item : selectedItems) {
 			try {
-				BackpackListManager.getInstance().getBackPackedScenes().add(sceneController.pack(item));
+				BackpackListManager.getInstance().getBackpackedScenes().add(sceneController.pack(item));
 				BackpackListManager.getInstance().saveBackpack();
 				packedItemCnt++;
 			} catch (IOException e) {
@@ -126,7 +126,7 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 
 	@Override
 	protected boolean isBackpackEmpty() {
-		return BackpackListManager.getInstance().getBackPackedScenes().isEmpty();
+		return BackpackListManager.getInstance().getBackpackedScenes().isEmpty();
 	}
 
 	@Override

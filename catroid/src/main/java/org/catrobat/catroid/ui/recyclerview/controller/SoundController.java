@@ -67,7 +67,7 @@ public class SoundController {
 
 	public SoundInfo pack(SoundInfo soundToPack) throws IOException {
 		String name = uniqueNameProvider.getUniqueName(soundToPack.getName(),
-				getScope(BackpackListManager.getInstance().getBackPackedSounds()));
+				getScope(BackpackListManager.getInstance().getBackpackedSounds()));
 
 		File file = StorageOperations.copyFileToDir(soundToPack.getFile(), Constants.BACKPACK_SOUND_DIRECTORY);
 

@@ -154,15 +154,15 @@ public class DefaultProjectCreator extends ProjectCreator {
 					StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME,
 					1);
 
-			LookData backgroundLookData = new LookData(backgroundName, backgroundFile.getName());
+			LookData backgroundLookData = new LookData(backgroundName, backgroundFile);
 
 			Sprite backgroundSprite = defaultProject.getDefaultScene().getSpriteList().get(0);
 			backgroundSprite.getLookList().add(backgroundLookData);
 
-			LookData birdWingUpLookData = new LookData(birdWingUpLookName, birdWingUpFile.getName());
-			LookData birdWingDownLookData = new LookData(birdWingDownLookName, birdWingDownFile.getName());
+			LookData birdWingUpLookData = new LookData(birdWingUpLookName, birdWingUpFile);
+			LookData birdWingDownLookData = new LookData(birdWingDownLookName, birdWingDownFile);
 
-			LookData cloudLookData = new LookData(cloudName, cloudFile.getName());
+			LookData cloudLookData = new LookData(cloudName, cloudFile);
 
 			SoundInfo soundInfo1 = new SoundInfo(tweet1, soundFile1);
 			SoundInfo soundInfo2 = new SoundInfo(tweet2, soundFile2);

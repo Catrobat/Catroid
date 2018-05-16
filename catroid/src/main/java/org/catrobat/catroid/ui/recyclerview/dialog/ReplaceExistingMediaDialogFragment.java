@@ -179,7 +179,7 @@ public class ReplaceExistingMediaDialogFragment extends DialogFragment {
 				for (LookData look : looks) {
 					if (mediaName.equals(look.getName())) {
 						try {
-							lookController.delete(look, ProjectManager.getInstance().getCurrentScene());
+							lookController.delete(look);
 						} catch (IOException e) {
 							Log.e(TAG, Log.getStackTraceString(e));
 						}

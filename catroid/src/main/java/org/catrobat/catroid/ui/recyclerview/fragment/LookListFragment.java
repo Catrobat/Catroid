@@ -99,8 +99,8 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 
 		for (LookData item : selectedItems) {
 			try {
-				BackpackListManager.getInstance().getBackPackedLooks().add(
-						lookController.pack(item, ProjectManager.getInstance().getCurrentScene()));
+				BackpackListManager.getInstance().getBackpackedLooks().add(
+						lookController.pack(item));
 				BackpackListManager.getInstance().saveBackpack();
 				packedItemCnt++;
 			} catch (IOException e) {
@@ -120,7 +120,7 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 
 	@Override
 	protected boolean isBackpackEmpty() {
-		return BackpackListManager.getInstance().getBackPackedLooks().isEmpty();
+		return BackpackListManager.getInstance().getBackpackedLooks().isEmpty();
 	}
 
 	@Override
@@ -139,7 +139,7 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 
 		for (LookData item : selectedItems) {
 			try {
-				adapter.add(lookController.copy(item, currentScene, currentScene, currentSprite));
+				adapter.add(lookController.copy(item, currentScene, currentSprite));
 				copiedItemCnt++;
 			} catch (IOException e) {
 				Log.e(TAG, Log.getStackTraceString(e));
@@ -167,7 +167,7 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 
 		for (LookData item : selectedItems) {
 			try {
-				lookController.delete(item, ProjectManager.getInstance().getCurrentScene());
+				lookController.delete(item);
 			} catch (IOException e) {
 				Log.e(TAG, Log.getStackTraceString(e));
 			}
@@ -234,7 +234,7 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 				Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME));
 
 		Bundle bundle = new Bundle();
-		bundle.putString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT, item.getAbsolutePath());
+		bundle.putString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT, item.getFile().getAbsolutePath());
 		intent.putExtras(bundle);
 		intent.addCategory("android.intent.category.LAUNCHER");
 

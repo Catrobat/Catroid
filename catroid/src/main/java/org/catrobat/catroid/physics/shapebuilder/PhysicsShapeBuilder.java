@@ -28,6 +28,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.physics.box2d.Shape;
 
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -70,7 +71,7 @@ public final class PhysicsShapeBuilder {
 			return null;
 		}
 
-		String imageIdentifier = lookData.getChecksum();
+		String imageIdentifier = Utils.md5Checksum(lookData.getFile());
 		if (!imageShapesMap.containsKey(imageIdentifier)) {
 			imageShapesMap.put(imageIdentifier, new ImageShapes(pixmap));
 		}

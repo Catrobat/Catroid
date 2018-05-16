@@ -48,7 +48,7 @@ public class BackpackSoundFragment extends BackpackRecyclerViewFragment<SoundInf
 	protected void initializeAdapter() {
 		sharedPreferenceDetailsKey = "showDetailsSoundList";
 		hasDetails = true;
-		List<SoundInfo> items = BackpackListManager.getInstance().getBackPackedSounds();
+		List<SoundInfo> items = BackpackListManager.getInstance().getBackpackedSounds();
 		adapter = new SoundAdapter(items);
 		onAdapterReady();
 	}

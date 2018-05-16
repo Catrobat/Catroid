@@ -24,18 +24,22 @@ package org.catrobat.catroid.common;
 
 import android.support.annotation.NonNull;
 
+import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+
 import org.catrobat.catroid.io.StorageOperations;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 
-public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable {
+public class SoundInfo implements Serializable, Cloneable {
 
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = SoundInfo.class.getSimpleName();
 
+	@XStreamAsAttribute
 	private String name;
+	@XStreamAsAttribute
 	private String fileName;
 
 	private transient File file;
@@ -57,7 +61,11 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 		this.name = name;
 	}
 
-	public String getFileName() {
+	public String getXstreamFileName() {
+		if (file != null) {
+			throw new IllegalStateException("This should be used only to deserialize the Object."
+					+ " You should use @getFile() instead.");
+		}
 		return fileName;
 	}
 
@@ -78,26 +86,5 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 		} catch (IOException e) {
 			throw new RuntimeException(TAG + ": Could not copy file: " + file.getAbsolutePath());
 		}
-	}
-
-	@SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
-	@Override
-	public boolean equals(Object obj) {
-		return file.equals(((SoundInfo) obj).file);
-	}
-
-	@Override
-	public int hashCode() {
-		return file.hashCode();
-	}
-
-	@Override
-	public String toString() {
-		return name;
-	}
-
-	@Override
-	public int compareTo(@NonNull SoundInfo soundInfo) {
-		return name.compareTo(soundInfo.name);
 	}
 }

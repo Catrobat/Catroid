@@ -57,12 +57,12 @@ public class ScriptController {
 		for (Brick brick : script.getBrickList()) {
 			if (brick instanceof SetLookBrick) {
 				((SetLookBrick) brick).setLook(lookController
-						.findOrCopy(((SetLookBrick) brick).getLook(), srcScene, dstScene, dstSprite));
+						.findOrCopy(((SetLookBrick) brick).getLook(), dstScene, dstSprite));
 			}
 
 			if (brick instanceof WhenBackgroundChangesBrick) {
 				((WhenBackgroundChangesBrick) brick).setLook(lookController
-						.findOrCopy(((WhenBackgroundChangesBrick) brick).getLook(), srcScene, dstScene, dstSprite));
+						.findOrCopy(((WhenBackgroundChangesBrick) brick).getLook(), dstScene, dstSprite));
 			}
 
 			if (brick instanceof PlaySoundBrick) {
@@ -80,7 +80,7 @@ public class ScriptController {
 		return script;
 	}
 
-	public void pack(String groupName, List<Brick> bricksToPack) throws IOException, CloneNotSupportedException {
+	public void pack(String groupName, List<Brick> bricksToPack) throws CloneNotSupportedException {
 		List<Script> scriptsToPack = new ArrayList<>();
 
 		for (Brick brick : bricksToPack) {

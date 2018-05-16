@@ -87,7 +87,7 @@ public class SoundListFragment extends RecyclerViewFragment<SoundInfo> {
 
 		for (SoundInfo item : selectedItems) {
 			try {
-				BackpackListManager.getInstance().getBackPackedSounds().add(soundController.pack(item));
+				BackpackListManager.getInstance().getBackpackedSounds().add(soundController.pack(item));
 				BackpackListManager.getInstance().saveBackpack();
 				packedItemCnt++;
 			} catch (IOException e) {
@@ -107,7 +107,7 @@ public class SoundListFragment extends RecyclerViewFragment<SoundInfo> {
 
 	@Override
 	protected boolean isBackpackEmpty() {
-		return BackpackListManager.getInstance().getBackPackedSounds().isEmpty();
+		return BackpackListManager.getInstance().getBackpackedSounds().isEmpty();
 	}
 
 	@Override

@@ -135,7 +135,7 @@ public class CopyProjectTest {
 
 		List<LookData> lookDataList = sprite.getLookList();
 		LookData lookData = new LookData();
-		lookData.setFileName(imageFile.getName());
+		lookData.setFile(imageFile);
 		lookData.setName("testLook1");
 		lookDataList.add(lookData);
 

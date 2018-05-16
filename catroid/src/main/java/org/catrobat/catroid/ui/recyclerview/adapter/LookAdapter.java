@@ -31,7 +31,6 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedVH;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
 
-import java.io.File;
 import java.util.List;
 import java.util.Locale;
 
@@ -56,7 +55,7 @@ public class LookAdapter extends ExtendedRVAdapter<LookData> {
 			holder.details.setText(String.format(Locale.getDefault(),
 					context.getString(R.string.look_details),
 					measureString,
-					FileMetaDataExtractor.getSizeAsString(new File(item.getAbsolutePath()), context)));
+					FileMetaDataExtractor.getSizeAsString(item.getFile(), context)));
 			holder.details.setVisibility(View.VISIBLE);
 		} else {
 			holder.details.setVisibility(View.GONE);

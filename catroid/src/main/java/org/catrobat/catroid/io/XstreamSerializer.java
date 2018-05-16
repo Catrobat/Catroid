@@ -511,12 +511,24 @@ public final class XstreamSerializer {
 
 	private static void setFileReferences(Project project) {
 		for (Scene scene : project.getSceneList()) {
+			File imageDir = new File(scene.getDirectory(), IMAGE_DIRECTORY_NAME);
 			File soundDir = new File(scene.getDirectory(), SOUND_DIRECTORY_NAME);
 
 			for (Sprite sprite : scene.getSpriteList()) {
+				for (Iterator<LookData> iterator = sprite.getLookList().iterator(); iterator.hasNext(); ) {
+					LookData lookData = iterator.next();
+					File lookFile = new File(imageDir, lookData.getXstreamFileName());
+
+					if (lookFile.exists()) {
+						lookData.setFile(lookFile);
+					} else {
+						iterator.remove();
+					}
+				}
+
 				for (Iterator<SoundInfo> iterator = sprite.getSoundList().iterator(); iterator.hasNext(); ) {
 					SoundInfo soundInfo = iterator.next();
-					File soundFile = new File(soundDir, soundInfo.getFileName());
+					File soundFile = new File(soundDir, soundInfo.getXstreamFileName());
 
 					if (soundFile.exists()) {
 						soundInfo.setFile(soundFile);
