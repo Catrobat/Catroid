@@ -239,6 +239,8 @@ public class CategoryBricksFactory {
 			tempList = setupChromecastCategoryList(context);
 		} else if (category.equals(context.getString(R.string.category_raspi))) {
 			tempList = setupRaspiCategoryList();
+		} else if (category.equals(context.getString(R.string.category_embroidery))) {
+			tempList = setupEmbroideryCategoryList();
 		}
 
 		for (Brick brick : tempList) {
@@ -590,6 +592,12 @@ public class CategoryBricksFactory {
 		return raspiBrickList;
 	}
 
+	private List<Brick> setupEmbroideryCategoryList() {
+		List<Brick> embroideryBrickList = new ArrayList<>();
+
+		return embroideryBrickList;
+	}
+
 	protected boolean isBackground(Sprite sprite) {
 		if (ProjectManager.getInstance().getCurrentScene().getSpriteList().indexOf(sprite) == 0) {
 			return true;
@@ -702,6 +710,12 @@ public class CategoryBricksFactory {
 		for (Brick categoryBrick : categoryBricks) {
 			if (brick.getClass().equals(categoryBrick.getClass())) {
 				category = res.getString(R.string.category_cast);
+			}
+		}
+		categoryBricks = setupEmbroideryCategoryList();
+		for (Brick categoryBrick : categoryBricks) {
+			if (brick.getClass().equals(categoryBrick.getClass())) {
+				category = res.getString(R.string.category_embroidery);
 			}
 		}
 

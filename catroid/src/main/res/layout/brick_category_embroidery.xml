@@ -22,14 +22,14 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/BrickCategory.Cast">
+    style="@style/BrickCategory.Embroidery">
 
-    <include layout="@layout/icon_brick_category_chromecast"/>
+    <include layout="@layout/icon_brick_category_embroidery" />
 
     <TextView
         style="@style/BrickCategoryText"
         android:drawableEnd="@drawable/main_menu_button_arrow"
-        android:text="@string/category_cast" >
+        android:text="@string/category_embroidery">
     </TextView>
 
 </LinearLayout>

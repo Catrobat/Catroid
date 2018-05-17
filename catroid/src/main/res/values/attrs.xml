@@ -59,6 +59,7 @@
         <attr name="icon_control" format="reference"/>
         <attr name="icon_look" format="reference"/>
         <attr name="icon_raspberrypi" format="reference"/>
+        <attr name="icon_embroidery" format="reference" />
     </declare-styleable>
 
     <!-- Category icons visibility -->

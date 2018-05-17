@@ -29,7 +29,7 @@
 
     <TextView
         style="@style/BrickCategoryText"
-        android:drawableEnd="@drawable/main_menu_button_arrow_user_bricks"
+        android:drawableEnd="@drawable/main_menu_button_arrow"
         android:text="@string/category_user_bricks" >
     </TextView>
 

@@ -977,6 +977,7 @@
 
     <!-- Brick categories -->
     <string name="categories">Categories</string>
+    <string name="category_embroidery">Embroidery</string>
     <string name="category_motion">Motion</string>
     <string name="category_looks">Looks</string>
     <string name="category_pen">Pen</string>
