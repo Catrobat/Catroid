@@ -84,6 +84,7 @@ android {
     buildTypes {
 
         debug {
+            buildConfigField "boolean", "FEATURE_EMBROIDERY_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_LEGO_EV3_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_PHIRO_ENABLED", "true"
@@ -102,6 +103,7 @@ android {
             ext.enableCrashlytics = false
         }
         release {
+            buildConfigField "boolean", "FEATURE_EMBROIDERY_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_LEGO_EV3_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_PHIRO_ENABLED", "true"
