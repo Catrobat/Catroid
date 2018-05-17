@@ -342,7 +342,7 @@ public class SignInDialog extends DialogFragment implements
 			GoogleSignInAccount account = result.getSignInAccount();
 			onGoogleLogInComplete(account);
 		} else {
-			ToastUtil.showError(getActivity(), "ERROR Google+ Signin. Status: " + result.getStatus());
+			ToastUtil.showError(getActivity(), getString(R.string.error_google_plus_sign_in, result.getStatus().getStatusMessage()));
 		}
 	}
 
