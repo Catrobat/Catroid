@@ -157,7 +157,7 @@
     <string name="preference_access_title_profile_tiro">Tiro</string>
     <string name="preference_access_summary_profile_tiro">Beginner bricks</string>
 
-    <!-- Lego/Drone/Raspi/Chromecast -->
+    <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
     <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 Bricks</string>
     <string name="preference_description_quadcopter_bricks">Allow the app to control AR.Drone 2.0 quadcopters</string>
     <string name="preference_title_enable_jumpingsumo_bricks">Parrot Jumping Sumo Bricks</string>
@@ -172,6 +172,8 @@
     <string name="preference_title_enable_phiro_bricks">Phiro Bricks</string>
     <string name="preference_description_phiro_bricks">Allow the app to control Phiro robots</string>
     <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
+    <string name="preference_title_enable_embroidery_bricks">Embroidery</string>
+    <string name="preference_description_embroidery_bricks">Create patterns for stitching machines</string>
     <string name="preference_title_cast_feature_globally_enabled">Enable cast features</string>
     <string name="preference_description_cast_feature_globally_enabled">Show cast button and enable cast projects</string>
 

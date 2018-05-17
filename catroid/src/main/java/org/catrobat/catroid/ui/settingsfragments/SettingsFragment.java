@@ -68,6 +68,7 @@ public class SettingsFragment extends PreferenceFragment {
 	public static final String SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED = "settings_mindstorms_ev3_show_sensor_info_box_disabled";
 	public static final String SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS = "setting_parrot_ar_drone_bricks";
 	public static final String SETTINGS_DRONE_CHOOSER = "settings_chooser_drone";
+	public static final String SETTINGS_SHOW_EMBROIDERY_BRICKS = "setting_embroidery_bricks";
 	public static final String SETTINGS_SHOW_PHIRO_BRICKS = "setting_enable_phiro_bricks";
 	public static final String SETTINGS_SHOW_ARDUINO_BRICKS = "setting_arduino_bricks";
 	public static final String SETTINGS_SHOW_RASPI_BRICKS = "setting_raspi_bricks";
@@ -128,6 +129,12 @@ public class SettingsFragment extends PreferenceFragment {
 		setLanguage();
 
 		screen = getPreferenceScreen();
+
+		if (!BuildConfig.FEATURE_EMBROIDERY_ENABLED) {
+			CheckBoxPreference embroideryPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_EMBROIDERY_BRICKS);
+			embroideryPreference.setEnabled(false);
+			screen.removePreference(embroideryPreference);
+		}
 
 		if (!BuildConfig.FEATURE_PHIRO_ENABLED) {
 			PreferenceScreen phiroPreference = (PreferenceScreen) findPreference(SETTINGS_SHOW_PHIRO_BRICKS);
@@ -246,6 +253,10 @@ public class SettingsFragment extends PreferenceFragment {
 				context);
 	}
 
+	public static boolean isEmroiderySharedPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_SHOW_EMBROIDERY_BRICKS, context);
+	}
+
 	public static boolean isDroneSharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, context);
 	}
@@ -294,6 +305,12 @@ public class SettingsFragment extends PreferenceFragment {
 	public static void setArduinoSharedPreferenceEnabled(Context context, boolean value) {
 		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
 		editor.putBoolean(SETTINGS_SHOW_ARDUINO_BRICKS, value);
+		editor.commit();
+	}
+
+	public static void setEmbroiderySharedPreferenceEnabled(Context context, boolean value) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(SETTINGS_SHOW_EMBROIDERY_BRICKS, value);
 		editor.commit();
 	}
 
