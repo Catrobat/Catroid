@@ -71,7 +71,7 @@ pipeline {
 		stage('Unit and Device tests') {
 			steps {
 				// create emulator
-				sh "jenkins_android_emulator_helper -C -P 'hw.camera:yes' -P 'hw.ramSize:800' -P 'hw.gpu.enabled:yes' -P 'hw.camera.front:emulated' -P 'hw.camera.back:emulated' -P 'hw.gps:yes' -i '${ANDROID_EMULATOR_IMAGE}' -s xhdpi"
+				sh "jenkins_android_emulator_helper -C -P 'hw.camera:yes' -P 'hw.ramSize:800' -P 'hw.gpu.enabled:yes' -P 'hw.camera.front:emulated' -P 'hw.camera.back:emulated' -P 'hw.gps:yes' -P 'disk.dataPartition.size:512M' -i '${ANDROID_EMULATOR_IMAGE}' -s xhdpi"
 				// start emulator
 				sh "jenkins_android_emulator_helper -S -r 768x1280 -l en_US -c '-gpu swiftshader_indirect -no-boot-anim -noaudio'"
 				// wait for emulator startup
