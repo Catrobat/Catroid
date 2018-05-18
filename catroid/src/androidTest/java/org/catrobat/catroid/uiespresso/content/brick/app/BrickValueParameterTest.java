@@ -617,7 +617,7 @@ public class BrickValueParameterTest {
 
 		checkIfBrickAtPositionShowsText(SetPenSizeBrick.class, 0, R.string.brick_pen_size);
 
-		checkIfBrickShowsText(SetPenSizeBrick.class, "4");
+		checkIfBrickShowsText(SetPenSizeBrick.class, "3.15");
 
 		checkIfBrickShowsText(ClearBackgroundBrick.class, R.string.brick_clear_background);
 	}

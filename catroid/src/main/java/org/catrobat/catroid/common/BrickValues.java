@@ -68,7 +68,7 @@ public final class BrickValues {
 	public static final int SET_LOOK_BY_INDEX = 1;
 
 	//constants Pen
-	public static final Float PEN_SIZE = 4f;
+	public static final Float PEN_SIZE = 3.15f;
 	public static final Color PEN_COLOR = Color.BLUE;
 
 	//constants Sounds
