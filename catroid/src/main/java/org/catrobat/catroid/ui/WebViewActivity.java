@@ -199,7 +199,7 @@ public class WebViewActivity extends BaseActivity {
 					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 					startActivity(intent);
 				} else {
-					ToastUtil.showError(getApplicationContext(), R.string.error_no_whatsapp);
+					ToastUtil.showError(getBaseContext(), R.string.error_no_whatsapp);
 				}
 				return true;
 			} else if (checkIfWebViewVisitExternalWebsite(url)) {

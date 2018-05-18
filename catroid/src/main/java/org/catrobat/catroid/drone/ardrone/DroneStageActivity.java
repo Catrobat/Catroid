@@ -147,7 +147,7 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 
 		DroneControlService dcs = DroneServiceWrapper.getInstance().getDroneService();
 		if (dcs != null && (value < DroneInitializer.DRONE_BATTERY_THRESHOLD) && dcs.getDroneNavData().flying && !droneBatteryMessageShown) {
-			ToastUtil.showError(this, R.string.notification_low_battery + " " + Integer.toString(value));
+			ToastUtil.showError(this, getString(R.string.notification_low_battery_with_value, value));
 			droneBatteryMessageShown = true;
 		}
 	}
