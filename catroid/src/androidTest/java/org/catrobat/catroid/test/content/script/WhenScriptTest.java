@@ -89,10 +89,10 @@ public class WhenScriptTest {
 	@Test
 	public void basicWhenScriptTest() {
 		whenScript.addBrick(new ChangeXByNBrick(10));
-		sprite.initializeActions(EventId.START);
+		sprite.initializeEventThreads(EventId.START);
 
 		tapSprite();
-		while (!sprite.look.getAllActionsAreFinished()) {
+		while (!sprite.look.haveAllThreadsFinished()) {
 			sprite.look.act(1.0f);
 		}
 
@@ -107,12 +107,12 @@ public class WhenScriptTest {
 	public void whenScriptRestartTest() {
 		whenScript.addBrick(new WaitBrick(50));
 		whenScript.addBrick(new ChangeXByNBrick(10));
-		sprite.initializeActions(EventId.START);
+		sprite.initializeEventThreads(EventId.START);
 
 		tapSprite();
 		tapSprite();
 
-		while (!sprite.look.getAllActionsAreFinished()) {
+		while (!sprite.look.haveAllThreadsFinished()) {
 			sprite.look.act(1.0f);
 		}
 

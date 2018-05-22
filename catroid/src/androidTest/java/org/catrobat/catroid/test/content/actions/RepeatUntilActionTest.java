@@ -111,9 +111,9 @@ public class RepeatUntilActionTest extends InstrumentationTestCase {
 		testScript.addBrick(loopEndBrick);
 
 		testSprite.addScript(testScript);
-		testSprite.initializeActions(EventId.START);
+		testSprite.initializeEventThreads(EventId.START);
 
-		while (!testSprite.look.getAllActionsAreFinished()) {
+		while (!testSprite.look.haveAllThreadsFinished()) {
 			testSprite.look.act(1.0f);
 		}
 
@@ -160,9 +160,9 @@ public class RepeatUntilActionTest extends InstrumentationTestCase {
 		testScript.addBrick(new ChangeYByNBrick(delta));
 		testScript.addBrick(loopEndBrick);
 		testSprite.addScript(testScript);
-		testSprite.initializeActions(EventId.START);
+		testSprite.initializeEventThreads(EventId.START);
 
-		while (!testSprite.look.getAllActionsAreFinished()) {
+		while (!testSprite.look.haveAllThreadsFinished()) {
 			testSprite.look.act(1.0f);
 		}
 		assertEquals("Executed the wrong number of times!", expected,
@@ -185,9 +185,9 @@ public class RepeatUntilActionTest extends InstrumentationTestCase {
 		testScript.addBrick(loopEndBrick);
 
 		testSprite.addScript(testScript);
-		testSprite.initializeActions(EventId.START);
+		testSprite.initializeEventThreads(EventId.START);
 
-		while (!testSprite.look.getAllActionsAreFinished()) {
+		while (!testSprite.look.haveAllThreadsFinished()) {
 			testSprite.look.act(1.0f);
 		}
 

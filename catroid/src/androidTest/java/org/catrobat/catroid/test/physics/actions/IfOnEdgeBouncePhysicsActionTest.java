@@ -180,7 +180,7 @@ public class IfOnEdgeBouncePhysicsActionTest extends PhysicsBaseTest {
 		spriteCollisionScript.addBrick(testBrick);
 		sprite.addScript(spriteCollisionScript);
 
-		sprite.initializeActions(EventId.START);
+		sprite.initializeEventThreads(EventId.START);
 
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		physicsObject.setType(PhysicsObject.Type.DYNAMIC);
@@ -237,7 +237,7 @@ public class IfOnEdgeBouncePhysicsActionTest extends PhysicsBaseTest {
 
 	public boolean allActionsOfAllSpritesAreFinished() {
 		for (Sprite spriteOfList : project.getDefaultScene().getSpriteList()) {
-			if (!spriteOfList.look.getAllActionsAreFinished()) {
+			if (!spriteOfList.look.haveAllThreadsFinished()) {
 				return false;
 			}
 		}

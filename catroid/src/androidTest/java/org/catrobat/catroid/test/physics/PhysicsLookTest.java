@@ -305,10 +305,10 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 						+ look.getLookData() + ".",
 				physicsLook.getLookData(), look.getLookData());
 
-		assertEquals("physicsLook getAllActionsAreFinished()"
-						+ physicsLook.getAllActionsAreFinished() + " differs from look value"
-						+ look.getAllActionsAreFinished() + ".",
-				physicsLook.getAllActionsAreFinished(), look.getAllActionsAreFinished());
+		assertEquals("physicsLook haveAllThreadsFinished()"
+						+ physicsLook.haveAllThreadsFinished() + " differs from look value"
+						+ look.haveAllThreadsFinished() + ".",
+				physicsLook.haveAllThreadsFinished(), look.haveAllThreadsFinished());
 
 		assertEquals("physicsLook getImagePath()"
 						+ physicsLook.getImagePath() + " differs from look value"

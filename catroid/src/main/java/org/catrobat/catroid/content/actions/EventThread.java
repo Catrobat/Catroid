@@ -23,56 +23,28 @@
 
 package org.catrobat.catroid.content.actions;
 
+import android.support.annotation.NonNull;
+
 import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.ActionFactory;
+import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
 
-public class EventSequenceAction extends SequenceAction {
-	private Script script;
+public class EventThread extends ScriptSequenceAction {
 	private NotifyEventWaiterAction notifyAction;
 
-	public EventSequenceAction(Script script) {
-		super();
-		this.script = script;
+	public EventThread(@NonNull Script script) {
+		super(script);
 	}
 
-	public EventSequenceAction(Action action1, Script script) {
-		super(action1);
-		this.script = script;
-	}
-
-	public EventSequenceAction(Action action1, Action action2, Script script) {
-		super(action1, action2);
-		this.script = script;
-	}
-
-	public EventSequenceAction(Action action1, Action action2, Action action3, Script script) {
-		super(action1, action2, action3);
-		this.script = script;
-	}
-
-	public EventSequenceAction(Action action1, Action action2, Action action3, Action action4, Script script) {
-		super(action1, action2, action3, action4);
-		this.script = script;
-	}
-
-	public EventSequenceAction(Action action1, Action action2, Action action3, Action action4, Action action5, Script script) {
-		super(action1, action2, action3, action4, action5);
-		this.script = script;
-	}
-
-	public Script getScript() {
-		return script;
-	}
-
-	public EventSequenceAction clone() {
-		EventSequenceAction copy = (EventSequenceAction) ActionFactory.eventSequence(script);
-		for (Action childAction : getActions()) {
-			copy.addAction(childAction);
+	public EventThread(@NonNull EventThread originalThread, @NonNull Sprite sprite, @NonNull EventWrapper event) {
+		super(originalThread.script);
+		for (Action action : originalThread.getActions()) {
+			addAction(action);
 		}
-		return copy;
+		notifyAction = (NotifyEventWaiterAction) sprite.getActionFactory().createNotifyEventWaiterAction(sprite, event);
 	}
 
 	public void notifyWaiter() {
@@ -93,8 +65,13 @@ public class EventSequenceAction extends SequenceAction {
 	@Override
 	public void reset() {
 		notifyWaiter();
-		script = null;
 		super.reset();
+	}
+
+	public EventThread clone() {
+		EventThread copy = (EventThread) ActionFactory.createEventThread(script);
+
+		return copy;
 	}
 
 	public void setNotifyAction(NotifyEventWaiterAction notifyAction) {

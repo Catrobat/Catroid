@@ -27,13 +27,14 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+
+import java.util.List;
 
 public class UserBrickParameter extends FormulaBrick {
 
@@ -83,7 +84,7 @@ public class UserBrickParameter extends FormulaBrick {
 	}
 
 	@Override
-	public java.util.List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
 		String variableName = element.getText();
 

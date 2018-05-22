@@ -110,8 +110,8 @@ public class IfLogicActionTest extends AndroidTestCase {
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
 		ProjectManager.getInstance().setCurrentScript(testScript);
 
-		testSprite.initializeActions(EventId.START);
-		while (!testSprite.look.getAllActionsAreFinished()) {
+		testSprite.initializeEventThreads(EventId.START);
+		while (!testSprite.look.haveAllThreadsFinished()) {
 			testSprite.look.act(1f);
 		}
 
@@ -142,7 +142,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 		project.getDefaultScene().addSprite(testSprite);
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
 		ProjectManager.getInstance().setCurrentScript(testScript);
-		testSprite.initializeActions(EventId.START);
+		testSprite.initializeEventThreads(EventId.START);
 		testSprite.look.act(100f);
 
 		userVariable = ProjectManager.getInstance().getCurrentScene().getDataContainer()
@@ -172,7 +172,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 		project.getDefaultScene().addSprite(testSprite);
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
 		ProjectManager.getInstance().setCurrentScript(testScript);
-		testSprite.initializeActions(EventId.START);
+		testSprite.initializeEventThreads(EventId.START);
 		testSprite.look.act(100f);
 
 		userVariable = ProjectManager.getInstance().getCurrentScene().getDataContainer()
@@ -227,7 +227,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 		project.getDefaultScene().addSprite(testSprite);
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
 		ProjectManager.getInstance().setCurrentScript(testScript);
-		testSprite.initializeActions(EventId.START);
+		testSprite.initializeEventThreads(EventId.START);
 		testSprite.look.act(1f);
 		userVariable = ProjectManager.getInstance().getCurrentScene().getDataContainer()
 				.getUserVariable(null, TEST_USERVARIABLE);

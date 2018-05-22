@@ -253,7 +253,7 @@ public class StageListener implements ApplicationListener {
 		if (!copy.getLookList().isEmpty()) {
 			copy.look.setLookData(copy.getLookList().get(0));
 		}
-		copy.initializeActions(EventId.START_AS_CLONE);
+		copy.initializeEventThreads(EventId.START_AS_CLONE);
 	}
 
 	public boolean removeClonedSpriteFromStage(Sprite sprite) {
@@ -479,7 +479,7 @@ public class StageListener implements ApplicationListener {
 			int spriteSize = sprites.size();
 			for (int currentSprite = 0; currentSprite < spriteSize; currentSprite++) {
 				Sprite sprite = sprites.get(currentSprite);
-				sprite.initializeActions(EventId.START);
+				sprite.initializeEventThreads(EventId.START);
 				sprite.initConditionScriptTiggers();
 				if (!sprite.getLookList().isEmpty()) {
 					sprite.look.setLookData(sprite.getLookList().get(0));

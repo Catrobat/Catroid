@@ -25,8 +25,8 @@ package org.catrobat.catroid.devices.raspberrypi;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.EventAction;
+import org.catrobat.catroid.content.EventWrapper;
+import org.catrobat.catroid.content.eventids.RaspiEventId;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -131,12 +131,9 @@ public class RPiSocketConnection {
 
 	private void callEvent(String broadcastMessage) {
 		String[] messageSegments = broadcastMessage.split(" ");
-		if (messageSegments.length == 3) {
-			Sprite background = ProjectManager.getInstance().getCurrentScene().getBackgroundSprite();
-			if (background != null) {
-				EventAction action = background.getActionFactory().createRaspiInterruptAction(messageSegments[1], messageSegments[2]);
-				background.look.startAction(action);
-			}
+		if (messageSegments.length == 3 && ProjectManager.getInstance().getCurrentProject() != null) {
+			RaspiEventId id = new RaspiEventId(messageSegments[1], messageSegments[2]);
+			ProjectManager.getInstance().getCurrentProject().fireToAllSprites(new EventWrapper(id, EventWrapper.NO_WAIT));
 		}
 	}
 

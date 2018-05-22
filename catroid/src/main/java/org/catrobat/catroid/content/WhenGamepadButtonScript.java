@@ -28,7 +28,7 @@ import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.content.eventids.GamepadEventId;
 
-public class WhenGamepadButtonScript extends Script implements EventScript {
+public class WhenGamepadButtonScript extends Script {
 
 	private static final long serialVersionUID = 1L;
 	private String action;

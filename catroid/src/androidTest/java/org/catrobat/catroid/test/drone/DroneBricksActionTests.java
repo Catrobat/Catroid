@@ -25,7 +25,6 @@ package org.catrobat.catroid.test.drone;
 import android.test.InstrumentationTestCase;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.badlogic.gdx.utils.Array;
 import com.parrot.freeflight.drone.DroneConfig;
@@ -33,6 +32,8 @@ import com.parrot.freeflight.service.DroneControlService;
 
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.actions.EventThread;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveDownBrick;
@@ -56,7 +57,7 @@ public class DroneBricksActionTests extends InstrumentationTestCase {
 
 	public TemporalAction action;
 	Sprite sprite;
-	SequenceAction sequenceAction;
+	EventThread sequenceAction;
 	private int powerInPercent;
 	private int durationInSeconds;
 
@@ -78,7 +79,7 @@ public class DroneBricksActionTests extends InstrumentationTestCase {
 
 		DroneServiceWrapper.getInstance().setDroneService(droneControlService);
 		sprite = new SingleSprite(getName());
-		sequenceAction = new SequenceAction();
+		sequenceAction = (EventThread) sprite.getActionFactory().createEventThread(new StartScript());
 	}
 
 	private void addActionToSequenceAndAct(BrickBaseType brick) {

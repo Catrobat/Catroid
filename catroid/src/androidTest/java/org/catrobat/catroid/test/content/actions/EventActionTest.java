@@ -79,7 +79,7 @@ public class EventActionTest {
 		startScript.addBrick(new BroadcastBrick(MESSAGE1));
 		broadcastScript1.addBrick(new SetXBrick(testPosition));
 
-		sprite.initializeActions(EventId.START);
+		sprite.initializeEventThreads(EventId.START);
 
 		executeAllActions();
 
@@ -96,7 +96,7 @@ public class EventActionTest {
 		broadcastScript1.addBrick(new WaitBrick(500));
 		broadcastScript1.addBrick(new SetXBrick(setTestPosition));
 
-		sprite.initializeActions(EventId.START);
+		sprite.initializeEventThreads(EventId.START);
 
 		executeAllActions();
 
@@ -112,7 +112,7 @@ public class EventActionTest {
 		broadcastScript1.addBrick(new BroadcastBrick(MESSAGE1));
 		broadcastScript1.addBrick(new WaitBrick(5));
 
-		sprite.initializeActions(EventId.START);
+		sprite.initializeEventThreads(EventId.START);
 
 		executeAllActionsOrTimeoutAfter(20);
 
@@ -133,7 +133,7 @@ public class EventActionTest {
 		broadcastScript2.addBrick(new BroadcastWaitBrick(MESSAGE1));
 		sprite.addScript(broadcastScript2);
 
-		sprite.initializeActions(EventId.START);
+		sprite.initializeEventThreads(EventId.START);
 
 		executeAllActionsOrTimeoutAfter(20);
 
@@ -155,7 +155,7 @@ public class EventActionTest {
 		startScript2.addBrick(new SetXBrick(xPosition));
 		sprite.addScript(startScript2);
 
-		sprite.initializeActions(EventId.START);
+		sprite.initializeEventThreads(EventId.START);
 
 		executeAllActionsOrTimeoutAfter(20);
 
@@ -179,7 +179,7 @@ public class EventActionTest {
 
 	private boolean allActionsOfAllSpritesAreFinished() {
 		for (Sprite spriteOfList : ProjectManager.getInstance().getCurrentScene().getSpriteList()) {
-			if (!spriteOfList.look.getAllActionsAreFinished()) {
+			if (!spriteOfList.look.haveAllThreadsFinished()) {
 				return false;
 			}
 		}

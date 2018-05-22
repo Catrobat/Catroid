@@ -37,7 +37,7 @@ public class NfcEventId extends EventId {
 		if (this == o) {
 			return true;
 		}
-		if (o == null || getClass() != o.getClass()) {
+		if (!(o instanceof NfcEventId)) {
 			return false;
 		}
 		if (!super.equals(o)) {

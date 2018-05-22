@@ -27,11 +27,10 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Operators;
@@ -112,7 +111,7 @@ public class ArduinoSendPWMValueBrick extends FormulaBrick {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSendPWMArduinoValueAction(sprite,
 				getFormulaWithBrickField(BrickField.ARDUINO_ANALOG_PIN_NUMBER),
 				getFormulaWithBrickField(BrickField.ARDUINO_ANALOG_PIN_VALUE)));

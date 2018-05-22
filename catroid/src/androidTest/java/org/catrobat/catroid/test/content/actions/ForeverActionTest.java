@@ -52,7 +52,7 @@ public class ForeverActionTest extends InstrumentationTestCase {
 		testScript.addBrick(loopEndBrick);
 
 		testSprite.addScript(testScript);
-		testSprite.initializeActions(EventId.START);
+		testSprite.initializeEventThreads(EventId.START);
 
 		/*
 		 * This is only to document that a delay of 20ms is by contract. See Issue 28 in Google Code

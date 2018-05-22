@@ -22,12 +22,11 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.BroadcastMessageBrick;
 import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
 import java.util.List;
 
@@ -53,7 +52,7 @@ public class BroadcastBrick extends BroadcastMessageBrick {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createBroadcastAction(broadcastMessage, EventWrapper.NO_WAIT));
 		return null;
 	}

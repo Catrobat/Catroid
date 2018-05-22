@@ -27,11 +27,10 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
@@ -92,7 +91,7 @@ public class ChangeBrightnessByNBrick extends FormulaBrick {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createChangeBrightnessByNAction(sprite,
 				getFormulaWithBrickField(BrickField.BRIGHTNESS_CHANGE)));
 		return null;

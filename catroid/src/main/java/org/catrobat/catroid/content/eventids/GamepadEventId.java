@@ -37,7 +37,7 @@ public class GamepadEventId extends EventId {
 		if (this == o) {
 			return true;
 		}
-		if (o == null || getClass() != o.getClass()) {
+		if (!(o instanceof GamepadEventId)) {
 			return false;
 		}
 		if (!super.equals(o)) {

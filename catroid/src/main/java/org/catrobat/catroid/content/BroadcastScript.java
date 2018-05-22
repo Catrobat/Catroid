@@ -27,7 +27,7 @@ import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.eventids.BroadcastEventId;
 import org.catrobat.catroid.content.eventids.EventId;
 
-public class BroadcastScript extends Script implements EventScript {
+public class BroadcastScript extends Script {
 
 	private static final long serialVersionUID = 1L;
 	private String receivedMessage;

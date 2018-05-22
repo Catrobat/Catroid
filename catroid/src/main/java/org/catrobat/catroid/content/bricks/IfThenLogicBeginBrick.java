@@ -26,9 +26,10 @@ import android.content.Context;
 import android.view.View;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
+import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 
 import java.util.ArrayList;
@@ -83,13 +84,13 @@ public class IfThenLogicBeginBrick extends IfLogicBeginBrick implements NestingB
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		SequenceAction ifAction = (SequenceAction) sprite.getActionFactory().createSequence();
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		ScriptSequenceAction ifAction = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
 		Action action = sprite.getActionFactory().createIfLogicAction(sprite,
 				getFormulaWithBrickField(BrickField.IF_CONDITION), ifAction, null);
 		sequence.addAction(action);
 
-		LinkedList<SequenceAction> returnActionList = new LinkedList<>();
+		LinkedList<ScriptSequenceAction> returnActionList = new LinkedList<>();
 		returnActionList.add(ifAction);
 
 		return returnActionList;

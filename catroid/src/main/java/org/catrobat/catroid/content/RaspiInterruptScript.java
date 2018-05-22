@@ -27,7 +27,7 @@ import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.content.eventids.RaspiEventId;
 
-public class RaspiInterruptScript extends Script implements EventScript {
+public class RaspiInterruptScript extends Script {
 	private static final long serialVersionUID = 1L;
 	private String pin;
 	private String eventValue;

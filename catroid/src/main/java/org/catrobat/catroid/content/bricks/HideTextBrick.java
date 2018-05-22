@@ -28,12 +28,11 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
@@ -116,7 +115,7 @@ public class HideTextBrick extends UserVariableBrick {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		if (userVariable == null || userVariable.getName() == null) {
 			userVariable = new UserVariable("NoVariableSet", Constants.NO_VARIABLE_SELECTED);
 			userVariable.setDummy(true);

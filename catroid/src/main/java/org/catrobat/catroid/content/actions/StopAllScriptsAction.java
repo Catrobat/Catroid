@@ -23,23 +23,24 @@
 
 package org.catrobat.catroid.content.actions;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.badlogic.gdx.utils.Array;
 
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.stage.StageActivity;
 
-public class StopAllScriptsAction extends TemporalAction {
+public class StopAllScriptsAction extends Action {
 
 	@Override
-	protected void update(float percent) {
+	public boolean act(float delta) {
 		Array<Actor> stageActors = StageActivity.stageListener.getStage().getActors();
 		for (Actor actor : stageActors) {
 			if (actor instanceof Look) {
 				Look look = (Look) actor;
-				look.stopAllActions();
+				look.stopThreads(look.getActions());
 			}
 		}
+		return true;
 	}
 }

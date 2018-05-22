@@ -29,7 +29,7 @@ import org.catrobat.catroid.content.eventids.EventId;
 
 import java.util.ArrayList;
 
-public class WhenTouchDownScript extends Script implements EventScript {
+public class WhenTouchDownScript extends Script {
 
 	private static final long serialVersionUID = 1L;
 

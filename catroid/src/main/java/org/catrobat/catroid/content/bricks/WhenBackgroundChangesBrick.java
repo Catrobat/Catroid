@@ -30,14 +30,13 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenBackgroundChangesScript;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.SpinnerAdapterWithNewOption;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewLookDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
@@ -174,7 +173,7 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSetLookAction(sprite, getLook()));
 		return null;
 	}

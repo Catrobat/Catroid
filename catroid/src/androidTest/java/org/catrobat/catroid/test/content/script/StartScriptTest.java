@@ -45,9 +45,9 @@ public class StartScriptTest extends AndroidTestCase {
 		testScript.addBrick(setSizeToBrick);
 		testSprite.addScript(testScript);
 
-		testSprite.initializeActions(EventId.START);
+		testSprite.initializeEventThreads(EventId.START);
 
-		while (!testSprite.look.getAllActionsAreFinished()) {
+		while (!testSprite.look.haveAllThreadsFinished()) {
 			testSprite.look.act(1.0f);
 		}
 
