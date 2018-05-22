@@ -112,8 +112,7 @@ public class FacebookLoginHandler implements FacebookCallback<LoginResult>,
 			facebookLogInTask.setOnFacebookLogInCompleteListener(this);
 			facebookLogInTask.execute();
 		} else {
-			CheckEmailAvailableTask checkEmailAvailableTask = new CheckEmailAvailableTask(activity,
-					sharedPreferences.getString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL), Constants.FACEBOOK);
+			CheckEmailAvailableTask checkEmailAvailableTask = new CheckEmailAvailableTask(sharedPreferences.getString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL), Constants.FACEBOOK);
 			checkEmailAvailableTask.setOnCheckEmailAvailableCompleteListener(this);
 			checkEmailAvailableTask.execute();
 		}

@@ -53,10 +53,8 @@
   <string name="share_website_text">www.pocketcode.org</string>
   <!-- Login/Logout Mechanism -->
   <string name="loading_check_facebook_data">Retrieving Facebook data&#8230;</string>
-  <string name="loading_check_email">Checking if the e-mail is available&#8230;</string>
   <string name="loading_check_oauth_token">Checking login data&#8230;</string>
   <string name="loading_check_facebook_token_validity">Checking Facebook data&#8230;</string>
-  <string name="loading_check_oauth_username">Checking if the username is available&#8230;</string>
   <string name="loading_facebook_exchange_token">Exchanging Facebook data&#8230;</string>
   <string name="loading_facebook_login">Facebook login on our server is complete&#8230;</string>
   <string name="loading_google_exchange_code">Exchanging Google+ data&#8230;</string>
@@ -781,8 +779,6 @@
   <!--  -->
   <!-- NetworkAlertDialog -->
   <string name="error_no_network_title">No Network</string>
-  <string name="error_no_network_one_brick">Following brick will use the network:</string>
-  <string name="error_no_network_multiple_bricks">Following brick will use the networks:</string>
   <string name="error_no_network">You need a network connection to use this program. Please turn on the
         mobile network or the Wi-Fi in the settings.</string>
   <plurals name="bricks_using_network_headline">
@@ -838,7 +834,6 @@
   <string name="signin_choose_username_hint">Emri përdoruesit nuk duhet të jetë emri juaj i vërtetë.</string>
   <string name="oauth_username_taken">Someone else already uses this name. Please choose a different one!</string>
   <string name="show_password">Show Password</string>
-  <string name="register_password_mismatch">Passwords do not match</string>
   <string name="sign_in_error">Error during Sign-In</string>
   <string name="error_google_plus_sign_in">Google Sign-In error. Status: %s</string>
   <string name="error_facebook_session_expired">Session expired, please log in.</string>

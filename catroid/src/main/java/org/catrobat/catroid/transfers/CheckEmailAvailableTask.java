@@ -22,33 +22,23 @@
  */
 package org.catrobat.catroid.transfers;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
 public class CheckEmailAvailableTask extends AsyncTask<String, Void, Boolean> {
 	private static final String TAG = CheckEmailAvailableTask.class.getSimpleName();
 
-	private Activity activity;
-	private ProgressDialog progressDialog;
 	private String email;
 	private String provider;
 
 	private Boolean emailAvailable;
 
-	private WebconnectionException exception;
-
 	private OnCheckEmailAvailableCompleteListener onCheckEmailAvailableCompleteListener;
 
-	public CheckEmailAvailableTask(Activity activity, String email, String provider) {
-		this.activity = activity;
+	public CheckEmailAvailableTask(String email, String provider) {
 		this.email = email;
 		this.provider = provider;
 	}
@@ -58,29 +48,12 @@ public class CheckEmailAvailableTask extends AsyncTask<String, Void, Boolean> {
 	}
 
 	@Override
-	protected void onPreExecute() {
-		super.onPreExecute();
-		if (activity == null) {
-			return;
-		}
-		String title = activity.getString(R.string.please_wait);
-		String message = activity.getString(R.string.loading_check_email);
-		progressDialog = ProgressDialog.show(activity, title, message);
-	}
-
-	@Override
 	protected Boolean doInBackground(String... params) {
 		try {
-			if (!Utils.isNetworkAvailable(activity)) {
-				exception = new WebconnectionException(WebconnectionException.ERROR_NETWORK, "Network not available!");
-				return false;
-			}
-
 			emailAvailable = ServerCalls.getInstance().checkEMailAvailable(email);
 			return true;
 		} catch (WebconnectionException webconnectionException) {
 			Log.e(TAG, Log.getStackTraceString(webconnectionException));
-			exception = webconnectionException;
 		}
 		return false;
 	}
@@ -89,35 +62,8 @@ public class CheckEmailAvailableTask extends AsyncTask<String, Void, Boolean> {
 	protected void onPostExecute(Boolean success) {
 		super.onPostExecute(success);
 
-		if (progressDialog != null && progressDialog.isShowing()) {
-			progressDialog.dismiss();
-		}
-
-		if (Utils.checkForNetworkError(exception)) {
-			showDialog(R.string.error_internet_connection);
-			return;
-		}
-
-		if (!success && exception != null) {
-			showDialog(R.string.sign_in_error);
-			return;
-		}
-
 		if (onCheckEmailAvailableCompleteListener != null) {
 			onCheckEmailAvailableCompleteListener.onCheckEmailAvailableComplete(emailAvailable, provider);
-		}
-	}
-
-	private void showDialog(int messageId) {
-		if (activity == null) {
-			return;
-		}
-		if (exception.getMessage() == null) {
-			new AlertDialog.Builder(activity).setMessage(messageId).setPositiveButton(R.string.ok, null)
-					.show();
-		} else {
-			new AlertDialog.Builder(activity).setMessage(exception.getMessage())
-					.setPositiveButton(R.string.ok, null).show();
 		}
 	}
 

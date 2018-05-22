@@ -29,10 +29,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -40,13 +43,16 @@ import org.catrobat.catroid.transfers.LoginTask;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.web.ServerCalls;
 
-public class LoginDialogFragment extends DialogFragment implements LoginTask.OnLoginCompleteListener {
+public class LoginDialogFragment extends DialogFragment implements LoginTask.OnLoginListener {
 
 	public static final String TAG = LoginDialogFragment.class.getSimpleName();
 	public static final String PASSWORD_FORGOTTEN_PATH = "resetting/request";
 
 	private TextInputLayout usernameInputLayout;
 	private TextInputLayout passwordInputLayout;
+	private EditText usernameEditText;
+	private EditText passwordEditText;
+	private AlertDialog alertDialog;
 
 	private SignInCompleteListener signInCompleteListener;
 
@@ -60,30 +66,76 @@ public class LoginDialogFragment extends DialogFragment implements LoginTask.OnL
 
 		usernameInputLayout = view.findViewById(R.id.dialog_login_username);
 		passwordInputLayout = view.findViewById(R.id.dialog_login_password);
+		usernameEditText = usernameInputLayout.getEditText();
+		passwordEditText = passwordInputLayout.getEditText();
 
 		CheckBox showPasswordCheckBox = view.findViewById(R.id.show_password);
 		showPasswordCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (isChecked) {
-					passwordInputLayout.getEditText().setInputType(InputType.TYPE_CLASS_TEXT);
+					passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT);
 				} else {
-					passwordInputLayout.getEditText()
-							.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+					passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 				}
 			}
 		});
 
-		final AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+		alertDialog = new AlertDialog.Builder(getActivity())
 				.setTitle(R.string.login)
 				.setView(view)
 				.setPositiveButton(R.string.login, null)
 				.setNeutralButton(R.string.password_forgotten, null)
 				.create();
 
+		usernameEditText.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				if (s.toString().isEmpty()) {
+					usernameInputLayout.setError(getString(R.string.error_register_empty_username));
+				} else if (!s.toString().trim().matches("^[a-zA-Z0-9-_.]*$")) {
+					usernameInputLayout.setError(getString(R.string.error_register_invalid_username));
+				} else {
+					usernameInputLayout.setErrorEnabled(false);
+				}
+				handleLoginBtnStatus();
+			}
+		});
+
+		passwordEditText.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				if (s.toString().isEmpty()) {
+					passwordInputLayout.setError(getString(R.string.error_register_empty_password));
+				} else if (s.toString().length() < 6) {
+					passwordInputLayout.setError(getString(R.string.error_register_password_at_least_6_characters));
+				} else {
+					passwordInputLayout.setErrorEnabled(false);
+				}
+				handleLoginBtnStatus();
+			}
+		});
+
 		alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
 			@Override
 			public void onShow(DialogInterface dialog) {
+				alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
 				alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
@@ -112,16 +164,21 @@ public class LoginDialogFragment extends DialogFragment implements LoginTask.OnL
 	}
 
 	@Override
+	public void onLoginFailed(String msg) {
+		passwordEditText.setError(msg);
+		alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+	}
+
+	@Override
 	public void onCancel(DialogInterface dialog) {
 		signInCompleteListener.onLoginCancel();
 	}
 
 	private void onLoginButtonClick() {
-		String username = usernameInputLayout.getEditText().getText().toString().replaceAll("\\s", "");
-		String password = passwordInputLayout.getEditText().getText().toString();
-
+		String username = usernameEditText.getText().toString().replaceAll("\\s", "");
+		String password = passwordEditText.getText().toString();
 		LoginTask loginTask = new LoginTask(getActivity(), username, password);
-		loginTask.setOnLoginCompleteListener(this);
+		loginTask.setOnLoginListener(this);
 		loginTask.execute();
 	}
 
@@ -132,5 +189,15 @@ public class LoginDialogFragment extends DialogFragment implements LoginTask.OnL
 		Intent intent = new Intent(getActivity(), WebViewActivity.class);
 		intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url);
 		startActivity(intent);
+	}
+
+	private void handleLoginBtnStatus() {
+		if (alertDialog.getButton(AlertDialog.BUTTON_POSITIVE) != null) {
+			if (!usernameInputLayout.isErrorEnabled() && !passwordInputLayout.isErrorEnabled()) {
+				alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+			} else {
+				alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+			}
+		}
 	}
 }

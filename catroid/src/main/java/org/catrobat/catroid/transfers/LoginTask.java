@@ -27,7 +27,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
@@ -49,7 +48,7 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 	private String message;
 	private boolean userLoggedIn;
 
-	private OnLoginCompleteListener onLoginCompleteListener;
+	private OnLoginListener onLoginListener;
 	private WebconnectionException exception;
 
 	public LoginTask(Context activity, String username, String password) {
@@ -58,8 +57,8 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 		this.password = password;
 	}
 
-	public void setOnLoginCompleteListener(OnLoginCompleteListener listener) {
-		onLoginCompleteListener = listener;
+	public void setOnLoginListener(OnLoginListener listener) {
+		onLoginListener = listener;
 	}
 
 	@Override
@@ -76,11 +75,6 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 	@Override
 	protected Boolean doInBackground(Void... arg0) {
 		try {
-			if (!Utils.isNetworkAvailable(context)) {
-				exception = new WebconnectionException(WebconnectionException.ERROR_NETWORK, "Network not available!");
-				return false;
-			}
-
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 			Log.d(TAG, token);
@@ -90,6 +84,7 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 			return true;
 		} catch (WebconnectionException webconnectionException) {
 			Log.e(TAG, Log.getStackTraceString(webconnectionException));
+			exception = webconnectionException;
 			message = webconnectionException.getMessage();
 		}
 		return false;
@@ -104,12 +99,16 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 		}
 
 		if (Utils.checkForNetworkError(exception)) {
-			showDialog(R.string.error_internet_connection);
+			ToastUtil.showError(context, R.string.error_internet_connection);
 			return;
 		}
 
 		if (Utils.checkForSignInError(success, exception, context, userLoggedIn)) {
-			showDialog(R.string.sign_in_error);
+			if (message == null) {
+				message = context.getString(R.string.sign_in_error);
+			}
+			onLoginListener.onLoginFailed(message);
+			Log.e(TAG, message);
 			return;
 		}
 
@@ -117,26 +116,15 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 			ToastUtil.showSuccess(context, R.string.user_logged_in);
 		}
 
-		if (onLoginCompleteListener != null) {
-			onLoginCompleteListener.onLoginComplete();
+		if (onLoginListener != null) {
+			onLoginListener.onLoginComplete();
 		}
 	}
 
-	private void showDialog(int messageId) {
-		if (context == null) {
-			return;
-		}
-		if (message == null) {
-			new AlertDialog.Builder(context).setTitle(R.string.register_error).setMessage(messageId)
-					.setPositiveButton(R.string.ok, null).show();
-		} else {
-			new AlertDialog.Builder(context).setTitle(R.string.register_error).setMessage(message)
-					.setPositiveButton(R.string.ok, null).show();
-		}
-	}
-
-	public interface OnLoginCompleteListener {
+	public interface OnLoginListener {
 
 		void onLoginComplete();
+
+		void onLoginFailed(String msg);
 	}
 }
