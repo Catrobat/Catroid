@@ -301,11 +301,19 @@ android {
                 'GradleCompatible', 'WifiManagerLeak', 'ApplySharedPref', 'DefaultLocale', 'ObsoleteSdkInt',
                 'StaticFieldLeak' , 'AppCompatResource'
 
+        abortOnError false
+
         textReport true
         xmlReport true
         htmlReport true
         xmlOutput file("build/reports/lint-report.xml")
         htmlOutput file("build/reports/lint-report.html")
+    }
+}
+
+project.gradle.taskGraph.whenReady {
+    connectedCatroidDebugAndroidTest {
+        ignoreFailures = true
     }
 }
 
