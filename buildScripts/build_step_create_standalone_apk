@@ -1,0 +1,34 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import subprocess
+
+os.environ['SCRIPT_DIR'] = os.path.dirname(os.path.realpath(__file__))
+os.environ['REPO_DIR'] = os.path.realpath(os.path.join(os.environ['SCRIPT_DIR'], ".."))
+
+import build_helper_functions
+
+def usage():
+    print(sys.argv[0] + """ [ <program_id> ]
+
+Build the 'Standalone-APK'. By default the program_id 817 Tic-Tac-Toe is used.
+
+The environment variable ANDROID_SDK_ROOT needs to be set.
+
+Be aware that Jenkins cleans the workspace before every build, this can
+be partly replicated by './gradlew clean'.""")
+
+build_helper_functions.check_number_of_parameters(valid_param_count_min=0, valid_param_count_max=1, usage_func=usage)
+
+# Tic-Tac-Toe
+program_number = "817"
+if len(sys.argv) <= 1:
+    print("program_is is not given, default to Tic-Tac-Toe: {}".format(program_number))
+else:
+    program_number = sys.argv[1]
+
+build_command = [ build_helper_functions.get_relative_gradle_name(), 'assembleStandaloneDebug', '-Pdownload=https://share.catrob.at/pocketcode/download/{}.catrobat'.format(program_number), '-Papk_generator_enabled=true', '-Psuffix=generated{}'.format(program_number) ]
+print("Calling: " + " ".join(build_command))
+return_code = subprocess.run( build_command, cwd=os.environ['REPO_DIR'] ).returncode
+sys.exit(return_code)
