@@ -901,12 +901,22 @@
     <string name="signin_choose_username_hint">The username should not be your real name.</string>
     <string name="oauth_username_taken">Someone else already uses this name. Please choose a different one!</string>
     <string name="show_password">Show Password</string>
-    <string name="register_password_mismatch">Passwords do not match</string>
     <string name="sign_in_error">Error during Sign-In</string>
     <string name="error_google_plus_sign_in">Google Sign-In error. Status: %s</string>
     <string name="error_facebook_session_expired">Session expired, please log in.</string>
     <string name="sign_in_with_facebook">Sign in with Facebook</string>
     <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="error_register_empty_username">Empty username</string>
+    <string name="error_register_username_as_email">E-mail address can not be used as username</string>
+    <string name="error_register_invalid_username">Username can contain only Latin–letters (a–z), numbers (0–9), dashes (-), underscores (_), and periods (.).</string>
+    <string name="error_register_username_start_with">Username can not start with dashes (-), underscores (_), and periods (.).</string>
+    <string name="error_register_invalid_email_format">Invalid E-mail format</string>
+    <string name="error_register_empty_password">Empty Password</string>
+    <string name="error_register_password_at_least_6_characters">Password should be at least 6 characters</string>
+    <string name="error_register_passwords_mismatch">Passwords mismatch</string>
+    <string name="error_register_empty_confirm_password">Empty confirm password</string>
+    <string name="error_register_username_already_exists">Username already exists</string>
+    <string name="error_register_email_exists">Email Address already exists</string>
     <!--  -->
 
 

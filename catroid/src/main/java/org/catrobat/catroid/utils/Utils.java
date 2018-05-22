@@ -28,6 +28,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -95,7 +96,11 @@ public final class Utils {
 	public static boolean isNetworkAvailable(Context context) {
 		ConnectivityManager connectivityManager = (ConnectivityManager) context
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
-		return connectivityManager != null && connectivityManager.getActiveNetworkInfo().isConnected();
+		NetworkInfo activeNetworkInfo = null;
+		if (connectivityManager != null) {
+			activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+		}
+		return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 	}
 
 	public static boolean checkForNetworkError(boolean success, WebconnectionException exception) {
