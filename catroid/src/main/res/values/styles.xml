@@ -71,6 +71,7 @@
         <item name="icon_control">@drawable/control_pos</item>
         <item name="icon_look">@drawable/look_pos</item>
         <item name="icon_raspberrypi">@drawable/raspberrypi_pos</item>
+        <item name="icon_embroidery">@drawable/embroidery_pos</item>
     </style>
 
     <style name="ToolbarTitle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
@@ -505,6 +506,10 @@
 
     <style name="BrickCategory.Lego">
         <item name="android:background">@drawable/brick_selection_background_lego</item>
+    </style>
+
+    <style name="BrickCategory.Embroidery">
+        <item name="android:background">@drawable/brick_selection_background_embroidery</item>
     </style>
 
     <style name="BrickCategory.Bluetooth">
