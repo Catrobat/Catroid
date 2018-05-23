@@ -902,6 +902,7 @@
     <string name="oauth_username_taken">Someone else already uses this name. Please choose a different one!</string>
     <string name="show_password">Show Password</string>
     <string name="register_password_mismatch">Passwords do not match</string>
+    <string name="register_email_as_username_error">Email address can not be used as username</string>
     <string name="sign_in_error">Error during Sign-In</string>
     <string name="error_google_plus_sign_in">Google Sign-In error. Status: %s</string>
     <!--  -->
