@@ -66,7 +66,7 @@ public class PlaySoundAndWaitBrick extends PlaySoundBrick {
 			metadataRetriever.setDataSource(sound.getFile().getAbsolutePath());
 
 			duration = Integer.parseInt(metadataRetriever
-					.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)) / 1000;
+					.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)) / 1000.0f;
 		}
 
 		sequence.addAction(sprite.getActionFactory().createWaitAction(sprite, new Formula(duration)));
