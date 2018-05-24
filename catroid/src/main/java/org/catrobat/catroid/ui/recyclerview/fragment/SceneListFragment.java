@@ -39,7 +39,6 @@ import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
 import org.catrobat.catroid.ui.recyclerview.controller.SceneController;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewSceneDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.RenameDialogFragment;
-import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import java.io.IOException;
