@@ -1959,8 +1959,6 @@
     <string name="hint_objects">Your program consists of different objects that can interact with each other. To add a new object, tap the "+" symbol.</string>
     <string name="hint_stage">Hit the back-button to pause your program. To show axes and the screen size of your
         device, tap "Axes on".</string>
-    <string name="hint_scenes">A program can consist of multiple independent scenes. To add a new scene, tap the "+"
-        symbol.</string>
     <!--  -->
 
     <!-- Crash report dialog -->

@@ -81,7 +81,6 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 
 	@Override
 	protected void initializeAdapter() {
-		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_scenes);
 		sharedPreferenceDetailsKey = "showDetailsSceneList";
 		List<Scene> items = ProjectManager.getInstance().getCurrentProject().getSceneList();
 		adapter = new SceneAdapter(items);
