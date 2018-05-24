@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.WhenConditionScript;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
 import org.catrobat.catroid.content.bricks.WhenConditionBrick;
+import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.junit.Before;
@@ -74,7 +75,7 @@ public class WhenConditionScriptTest {
 	public void executeWhenConditionScriptOnce() throws InterpretationException {
 		when(formula.interpretBoolean(any(Sprite.class))).thenReturn(true);
 		conditionScript.addBrick(new ChangeXByNBrick(POSITION_DELTA));
-		sprite.createAndAddActions(Sprite.INCLUDE_START_ACTIONS);
+		sprite.initializeActions(EventId.START);
 		sprite.initConditionScriptTiggers();
 
 		sprite.look.act(1.0f);
@@ -89,7 +90,7 @@ public class WhenConditionScriptTest {
 	public void executeWhenConditionScriptMultipleTimes() throws InterpretationException {
 		when(formula.interpretBoolean(any(Sprite.class))).thenReturn(true, true, false, true);
 		conditionScript.addBrick(new ChangeXByNBrick(POSITION_DELTA));
-		sprite.createAndAddActions(Sprite.INCLUDE_START_ACTIONS);
+		sprite.initializeActions(EventId.START);
 		sprite.initConditionScriptTiggers();
 
 		for (int i = 0; i < 10; i++) {
@@ -104,7 +105,7 @@ public class WhenConditionScriptTest {
 		when(formula.interpretBoolean(any(Sprite.class))).thenReturn(true, true, false, true);
 		conditionScript.addBrick(new ChangeXByNBrick(POSITION_DELTA));
 		conditionScript.addBrick(new StopScriptBrick(0));
-		sprite.createAndAddActions(Sprite.INCLUDE_START_ACTIONS);
+		sprite.initializeActions(EventId.START);
 		sprite.initConditionScriptTiggers();
 
 		for (int i = 0; i < 10; i++) {

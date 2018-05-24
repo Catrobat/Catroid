@@ -37,6 +37,7 @@ import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
+import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.XstreamSerializer;
@@ -74,7 +75,7 @@ public class StopScriptActionsTest extends InstrumentationTestCase {
 
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
-		sprite.createAndAddActions(Sprite.INCLUDE_START_ACTIONS);
+		sprite.initializeActions(EventId.START);
 
 		for (int i = 0; i < 100; i++) {
 			sprite.look.act(1.0f);
@@ -111,7 +112,7 @@ public class StopScriptActionsTest extends InstrumentationTestCase {
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script2);
 
-		sprite.createAndAddActions(Sprite.INCLUDE_START_ACTIONS);
+		sprite.initializeActions(EventId.START);
 
 		for (int i = 0; i < 50; i++) {
 			sprite.look.act(10.0f);
@@ -151,7 +152,7 @@ public class StopScriptActionsTest extends InstrumentationTestCase {
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script2);
 
-		sprite.createAndAddActions(Sprite.INCLUDE_START_ACTIONS);
+		sprite.initializeActions(EventId.START);
 
 		for (int i = 0; i < 100; i++) {
 			sprite.look.act(1.0f);

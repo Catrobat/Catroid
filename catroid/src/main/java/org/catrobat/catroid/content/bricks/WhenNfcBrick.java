@@ -61,15 +61,6 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick {
 		this.whenNfcScript.setMatchAll(true);
 	}
 
-	public WhenNfcBrick(String tagName, String tagUid) {
-		this.oldSelectedNfcTag = null;
-		this.nfcTag = new NfcTagData();
-		this.nfcTag.setNfcTagName(tagName);
-		this.nfcTag.setNfcTagUid(tagUid);
-		this.whenNfcScript = new WhenNfcScript(nfcTag);
-		this.whenNfcScript.setMatchAll(false);
-	}
-
 	public WhenNfcBrick(WhenNfcScript script) {
 		this.oldSelectedNfcTag = null;
 		this.nfcTag = script.getNfcTag();
@@ -304,14 +295,6 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick {
 
 	public NfcTagData getNfcTag() {
 		return nfcTag;
-	}
-
-	public void setNfcTag(NfcTagData nfcTagData) {
-		this.nfcTag = nfcTagData;
-	}
-
-	public WhenNfcScript getWhenNfcScript() {
-		return whenNfcScript;
 	}
 
 	public void setWhenNfcScript(WhenNfcScript whenNfcScript) {

@@ -37,6 +37,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
+import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.TouchUtil;
 import org.junit.Before;
@@ -88,7 +89,7 @@ public class WhenScriptTest {
 	@Test
 	public void basicWhenScriptTest() {
 		whenScript.addBrick(new ChangeXByNBrick(10));
-		sprite.createAndAddActions(Sprite.INCLUDE_START_ACTIONS);
+		sprite.initializeActions(EventId.START);
 
 		tapSprite();
 		while (!sprite.look.getAllActionsAreFinished()) {
@@ -106,7 +107,7 @@ public class WhenScriptTest {
 	public void whenScriptRestartTest() {
 		whenScript.addBrick(new WaitBrick(50));
 		whenScript.addBrick(new ChangeXByNBrick(10));
-		sprite.createAndAddActions(Sprite.INCLUDE_START_ACTIONS);
+		sprite.initializeActions(EventId.START);
 
 		tapSprite();
 		tapSprite();

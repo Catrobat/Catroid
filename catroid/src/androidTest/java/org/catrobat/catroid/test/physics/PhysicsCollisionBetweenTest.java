@@ -32,6 +32,7 @@ import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.eventids.CollisionEventId;
+import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.physics.PhysicsCollision;
 import org.catrobat.catroid.physics.PhysicsCollisionBroadcast;
 import org.catrobat.catroid.physics.PhysicsObject;
@@ -109,7 +110,7 @@ public class PhysicsCollisionBetweenTest extends PhysicsCollisionBaseTest {
 		secondSpriteCollisionScript.addBrick(testBrick);
 		sprite2.addScript(secondSpriteCollisionScript);
 
-		sprite2.createAndAddActions(Sprite.INCLUDE_START_ACTIONS);
+		sprite2.initializeActions(EventId.START);
 
 		simulateFullCollision();
 

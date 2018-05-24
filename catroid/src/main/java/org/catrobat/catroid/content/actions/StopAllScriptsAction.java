@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.content.actions;
 
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.badlogic.gdx.utils.Array;
@@ -37,13 +36,9 @@ public class StopAllScriptsAction extends TemporalAction {
 	protected void update(float percent) {
 		Array<Actor> stageActors = StageActivity.stageListener.getStage().getActors();
 		for (Actor actor : stageActors) {
-			for (Action action : actor.getActions()) {
-				action.reset();
-			}
-			actor.getActions().clear();
 			if (actor instanceof Look) {
 				Look look = (Look) actor;
-				look.createAndAddActionsWithoutStartActions();
+				look.stopAllActions();
 			}
 		}
 	}

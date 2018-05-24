@@ -28,9 +28,6 @@ import android.support.annotation.IntDef;
 import android.util.Log;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
@@ -242,40 +239,22 @@ public class Sprite implements Serializable, Cloneable {
 		}
 	}
 
-	public void createAndAddActions(@CreateActionsMode int includeStartActions) {
+	public void initializeActions(@EventId.EventType int startType) {
 		idToEventSequenceMap.clear();
 		for (Script script : scriptList) {
-			createAndAddAction(script, includeStartActions);
+			createActionAndAddToEventMap(script);
 		}
+		look.fire(new EventWrapper(new EventId(startType), EventWrapper.NO_WAIT));
 	}
 
-	private void createAndAddAction(Script script, @CreateActionsMode int includeStartActions) {
+	private void createActionAndAddToEventMap(Script script) {
 		if (script.isCommentedOut()) {
 			return;
 		}
-		if (!isClone && script instanceof StartScript || isClone && script instanceof WhenClonedScript) {
-			if (includeStartActions == INCLUDE_START_ACTIONS) {
-				createAndAddActionByScript(script);
-			}
-		} else if (script instanceof EventScript) {
-			createAndAddActionByEventScript(script);
+		if (script instanceof EventScript) {
+			EventScript eventScript = (EventScript) script;
+			idToEventSequenceMap.put(eventScript.createEventId(this), createEventSequence(script));
 		}
-	}
-
-	private void createAndAddActionByScript(Script script) {
-		Action sequenceAction = createActionSequence(script);
-		look.startAction(sequenceAction);
-	}
-
-	private SequenceAction createActionSequence(Script script) {
-		SequenceAction sequence = ActionFactory.sequence();
-		script.run(this, sequence);
-		return sequence;
-	}
-
-	private void createAndAddActionByEventScript(Script script) {
-		EventScript eventScript = (EventScript) script;
-		idToEventSequenceMap.put(eventScript.createEventId(this), createEventSequence(script));
 	}
 
 	public ActionFactory getActionFactory() {
@@ -459,38 +438,10 @@ public class Sprite implements Serializable, Cloneable {
 		cloneSprite.scriptList = cloneScriptList;
 	}
 
-	public void createWhengamepadButtonScriptActionSequence(String action) {
-		ParallelAction whenParallelAction = actionFactory.parallel();
-		for (Script script : scriptList) {
-			if (script instanceof WhenGamepadButtonScript && (((WhenGamepadButtonScript) script).getAction().equalsIgnoreCase(action))) {
-				SequenceAction sequence = createActionSequence(script);
-				whenParallelAction.addAction(sequence);
-			}
-		}
-		look.startAction(whenParallelAction);
-	}
-
 	private EventSequenceAction createEventSequence(Script script) {
 		EventSequenceAction sequence = (EventSequenceAction) ActionFactory.eventSequence(script);
 		script.run(this, sequence);
 		return sequence;
-	}
-
-	public void createWhenNfcScriptAction(String uid) {
-		ParallelAction whenParallelAction = ActionFactory.parallel();
-		for (Script s : scriptList) {
-			if (s instanceof WhenNfcScript) {
-				WhenNfcScript whenNfcScript = (WhenNfcScript) s;
-				if (whenNfcScript.isMatchAll()
-						|| whenNfcScript.getNfcTag().getNfcTagUid().equals(uid)) {
-					SequenceAction sequence = createActionSequence(s);
-					whenParallelAction.addAction(sequence);
-				}
-			}
-		}
-		//TODO: quick fix for faulty behaviour - nfc action triggers again after touchevents
-		//look.setWhenParallelAction(whenParallelAction);
-		look.startAction(whenParallelAction);
 	}
 
 	public String getName() {

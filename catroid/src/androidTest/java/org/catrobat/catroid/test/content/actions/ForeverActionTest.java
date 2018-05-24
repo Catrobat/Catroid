@@ -30,6 +30,7 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
+import org.catrobat.catroid.content.eventids.EventId;
 
 public class ForeverActionTest extends InstrumentationTestCase {
 
@@ -51,7 +52,7 @@ public class ForeverActionTest extends InstrumentationTestCase {
 		testScript.addBrick(loopEndBrick);
 
 		testSprite.addScript(testScript);
-		testSprite.createAndAddActions(Sprite.INCLUDE_START_ACTIONS);
+		testSprite.initializeActions(EventId.START);
 
 		/*
 		 * This is only to document that a delay of 20ms is by contract. See Issue 28 in Google Code

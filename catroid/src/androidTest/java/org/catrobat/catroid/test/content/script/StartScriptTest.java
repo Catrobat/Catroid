@@ -30,6 +30,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.content.eventids.EventId;
 
 public class StartScriptTest extends AndroidTestCase {
 
@@ -44,7 +45,7 @@ public class StartScriptTest extends AndroidTestCase {
 		testScript.addBrick(setSizeToBrick);
 		testSprite.addScript(testScript);
 
-		testSprite.createAndAddActions(Sprite.INCLUDE_START_ACTIONS);
+		testSprite.initializeActions(EventId.START);
 
 		while (!testSprite.look.getAllActionsAreFinished()) {
 			testSprite.look.act(1.0f);

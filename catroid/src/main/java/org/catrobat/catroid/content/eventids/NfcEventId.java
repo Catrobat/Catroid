@@ -20,34 +20,16 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.content.eventids;
 
-import android.support.annotation.IntDef;
+import com.google.common.base.Objects;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+public class NfcEventId extends EventId {
+	final String tag;
 
-public class EventId {
-	@Retention(RetentionPolicy.SOURCE)
-	@IntDef({TAP, TAP_BACKGROUND, START, START_AS_CLONE, OTHER})
-	public @interface EventType {
-	}
-
-	public static final int OTHER = 0;
-	public static final int TAP = 1;
-	public static final int TAP_BACKGROUND = 2;
-	public static final int START = 3;
-	public static final int START_AS_CLONE = 4;
-
-	@EventType
-	private final int type;
-
-	public EventId(@EventType int type) {
-		this.type = type;
-	}
-
-	protected EventId() {
-		this.type = OTHER;
+	public NfcEventId(String tag) {
+		this.tag = tag;
 	}
 
 	@Override
@@ -55,17 +37,18 @@ public class EventId {
 		if (this == o) {
 			return true;
 		}
-		if (!(o instanceof EventId)) {
+		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
-
-		EventId eventId = (EventId) o;
-
-		return type == eventId.type;
+		if (!super.equals(o)) {
+			return false;
+		}
+		NfcEventId that = (NfcEventId) o;
+		return tag == null || that.tag == null || Objects.equal(tag, that.tag);
 	}
 
 	@Override
 	public int hashCode() {
-		return type;
+		return Objects.hashCode(super.hashCode(), tag);
 	}
 }
