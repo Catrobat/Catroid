@@ -31,7 +31,6 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.BrickWithSpriteReference;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.SceneStartBrick;
 import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
@@ -148,7 +147,7 @@ public class Scene implements Serializable {
 		List<String> lists = new ArrayList<>();
 
 		for (Sprite sprite : spriteList) {
-			for (Brick brick : sprite.getListWithAllBricks()) {
+			for (Brick brick : sprite.getAllBricks()) {
 				if (brick instanceof UserVariableBrick && !variables.contains(((UserVariableBrick) brick)
 						.getUserVariable().getName())) {
 					variables.add(((UserVariableBrick) brick).getUserVariable().getName());
@@ -253,7 +252,7 @@ public class Scene implements Serializable {
 
 		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
 			for (Sprite sprite : scene.spriteList) {
-				for (Brick brick : sprite.getListWithAllBricks()) {
+				for (Brick brick : sprite.getAllBricks()) {
 					if (brick instanceof SceneStartBrick && ((SceneStartBrick) brick).getSceneToStart().equals(oldName)) {
 						((SceneStartBrick) brick).setSceneToStart(name);
 					}
@@ -392,7 +391,7 @@ public class Scene implements Serializable {
 
 	public synchronized void correctUserVariableAndListReferences() {
 		for (Sprite sprite : spriteList) {
-			for (Brick brick : sprite.getListWithAllBricks()) {
+			for (Brick brick : sprite.getAllBricks()) {
 				if (brick instanceof UserVariableBrick) {
 					((UserVariableBrick) brick).setUserVariable(dataContainer.getUserVariable(sprite, ((UserVariableBrick)
 							brick).getUserVariable().getName()));
@@ -403,30 +402,5 @@ public class Scene implements Serializable {
 				}
 			}
 		}
-	}
-
-	public void refreshSpriteReferences() {
-		for (Brick brick : getAllBricks()) {
-			if (!(brick instanceof BrickWithSpriteReference)) {
-				continue;
-			}
-
-			BrickWithSpriteReference referenceBrick = ((BrickWithSpriteReference) brick);
-			Sprite referencedSprite = referenceBrick.getSprite();
-			if (referencedSprite == null) {
-				continue;
-			}
-
-			Sprite newSprite = getSpriteBySpriteName(referencedSprite.getName());
-			referenceBrick.setSprite(newSprite);
-		}
-	}
-
-	public List<Brick> getAllBricks() {
-		List<Brick> result = new ArrayList<>();
-		for (Sprite sprite : spriteList) {
-			result.addAll(sprite.getAllBricks());
-		}
-		return result;
 	}
 }

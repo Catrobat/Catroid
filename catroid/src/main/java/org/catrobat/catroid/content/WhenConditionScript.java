@@ -28,11 +28,13 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ConcurrentFormulaHashMap;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.WhenConditionBrick;
+import org.catrobat.catroid.content.eventids.EventId;
+import org.catrobat.catroid.content.eventids.WhenConditionEventId;
 import org.catrobat.catroid.utils.CrashReporter;
 
 import java.util.ArrayList;
 
-public class WhenConditionScript extends Script {
+public class WhenConditionScript extends Script implements EventScript {
 
 	private static final long serialVersionUID = 1L;
 
@@ -79,5 +81,11 @@ public class WhenConditionScript extends Script {
 			resources |= brick.getRequiredResources();
 		}
 		return resources;
+	}
+
+	@Override
+	public EventId createEventId(Sprite sprite) {
+		WhenConditionBrick brick = (WhenConditionBrick) getScriptBrick();
+		return new WhenConditionEventId(brick.getConditionFormula());
 	}
 }
