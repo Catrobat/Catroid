@@ -75,27 +75,10 @@ public class SetLookBrick extends BrickBaseType implements
 		return clone;
 	}
 
-	private LookData getLookByName(String name) {
-		for (LookData look : getSprite().getLookList()) {
-			if (look.getName().equals(name)) {
-				return look;
-			}
-		}
-		return null;
-	}
-
-	private List<String> getLookNames() {
-		List<String> lookNames = new ArrayList<>();
-		for (LookData look : getSprite().getLookList()) {
-			lookNames.add(look.getName());
-		}
-		return lookNames;
-	}
-
 	protected View prepareView(Context context) {
 		View view = View.inflate(context, R.layout.brick_set_look, null);
 
-		if (getSprite().equals(ProjectManager.getInstance().getCurrentScene().getBackgroundSprite())) {
+		if (getSprite().isBackgroundSprite()) {
 			((TextView) view.findViewById(R.id.brick_set_look_text_view))
 					.setText(R.string.brick_set_background);
 		}
@@ -132,6 +115,23 @@ public class SetLookBrick extends BrickBaseType implements
 		});
 		spinner.setSelection(spinnerAdapter.getPosition(look != null ? look.getName() : null));
 		return view;
+	}
+
+	private LookData getLookByName(String name) {
+		for (LookData look : getSprite().getLookList()) {
+			if (look.getName().equals(name)) {
+				return look;
+			}
+		}
+		return null;
+	}
+
+	private List<String> getLookNames() {
+		List<String> lookNames = new ArrayList<>();
+		for (LookData look : getSprite().getLookList()) {
+			lookNames.add(look.getName());
+		}
+		return lookNames;
 	}
 
 	@Override

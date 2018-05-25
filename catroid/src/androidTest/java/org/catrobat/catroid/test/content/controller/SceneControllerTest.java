@@ -40,6 +40,7 @@ import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.controller.SceneController;
+import org.catrobat.catroid.utils.PathBuilder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -74,6 +75,21 @@ public class SceneControllerTest {
 	public void tearDown() throws IOException {
 		deleteProject();
 		clearBackPack();
+	}
+
+	@Test
+	public void testRenameScene() {
+		String previousName = scene.getName();
+		String newName = "new Scene Name";
+
+		SceneController controller = new SceneController();
+		controller.rename(scene, newName);
+
+		assertEquals(newName, scene.getName());
+		assertEquals(new File(PathBuilder.buildScenePath(project.getName(), newName)), scene.getDirectory());
+
+		assertFileDoesNotExist(new File(PathBuilder.buildScenePath(project.getName(), previousName)));
+		assertFileExists(new File(PathBuilder.buildScenePath(project.getName(), newName)));
 	}
 
 	@Test
@@ -122,10 +138,9 @@ public class SceneControllerTest {
 		SceneController controller = new SceneController();
 		Scene packedScene = controller.pack(scene);
 
-		assertEquals(0, BackpackListManager.getInstance().getBackpackedScenes().size());
+		assertEquals(0, BackpackListManager.getInstance().getScenes().size());
 
-		assertEquals(new File(BACKPACK_SCENE_DIRECTORY, packedScene.getName()).getAbsolutePath(),
-				packedScene.getPath());
+		assertEquals(new File(BACKPACK_SCENE_DIRECTORY, packedScene.getName()), packedScene.getDirectory());
 		assertFileExists(packedScene.getDirectory());
 
 		assertEquals(scene.getSpriteList().size(), packedScene.getSpriteList().size());
@@ -164,7 +179,7 @@ public class SceneControllerTest {
 		Scene packedScene = controller.pack(scene);
 		Scene unpackedScene = controller.unpack(packedScene, project);
 
-		assertEquals(0, BackpackListManager.getInstance().getBackpackedScenes().size());
+		assertEquals(0, BackpackListManager.getInstance().getScenes().size());
 
 		assertEquals(1, project.getSceneList().size());
 

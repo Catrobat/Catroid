@@ -170,7 +170,8 @@ public class SpriteTest extends AndroidTestCase {
 		script.addBrick(firstBrick);
 		sprite.addScript(script);
 
-		Scene secondScene = new Scene(getContext(), "scene 2", project);
+		Scene secondScene = new Scene("scene 2", project);
+		secondScene.addSprite(new Sprite("Background"));
 		Sprite sprite2 = new SingleSprite("testSprite2");
 		Script secondScript = new StartScript();
 		Brick textBrick = new ShowTextBrick(10, 10);

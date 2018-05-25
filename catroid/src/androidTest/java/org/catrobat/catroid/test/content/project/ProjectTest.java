@@ -72,8 +72,8 @@ public class ProjectTest extends AndroidTestCase {
 
 	public void testAddRemoveScene() {
 		Project project = new Project(getContext(), "testProject");
-		Scene sceneOne = new Scene(null, "test1", project);
-		Scene sceneTwo = new Scene(null, "test2", project);
+		Scene sceneOne = new Scene("test1", project);
+		Scene sceneTwo = new Scene("test2", project);
 
 		project.addScene(sceneOne);
 		project.addScene(sceneTwo);

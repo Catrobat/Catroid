@@ -23,13 +23,13 @@
 
 package org.catrobat.catroid.ui.recyclerview.util;
 
-import java.util.Set;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class UniqueNameProvider {
 
-	public String getUniqueName(String name, Set<String> scope) {
+	public String getUniqueName(String name, List<String> scope) {
 		if (!scope.contains(name)) {
 			return name;
 		}

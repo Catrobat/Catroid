@@ -29,10 +29,13 @@ import android.os.Bundle;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import static org.catrobat.catroid.common.Constants.Z_INDEX_BACKGROUND;
 
 public class NewSceneDialogFragment extends TextInputDialogFragment {
 
@@ -66,7 +69,13 @@ public class NewSceneDialogFragment extends TextInputDialogFragment {
 			inputLayout.setError(getString(R.string.name_already_exists));
 			return false;
 		} else {
-			newItemInterface.addItem(new Scene(getActivity(), name, dstProject));
+			Scene scene = new Scene(name, dstProject);
+
+			Sprite backgroundSprite = new Sprite(getString(R.string.background));
+			backgroundSprite.look.setZIndex(Z_INDEX_BACKGROUND);
+			scene.addSprite(backgroundSprite);
+
+			newItemInterface.addItem(scene);
 			return true;
 		}
 	}

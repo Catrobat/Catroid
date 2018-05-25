@@ -26,7 +26,6 @@ import android.os.AsyncTask;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Backpack;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Scene;
@@ -39,6 +38,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+
+import static org.catrobat.catroid.common.Constants.BACKPACK_IMAGE_DIRECTORY;
+import static org.catrobat.catroid.common.Constants.BACKPACK_SOUND_DIRECTORY;
+import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
+import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 
 public final class BackpackListManager {
 
@@ -64,15 +68,31 @@ public final class BackpackListManager {
 		getBackpack().backpackedScripts.remove(scriptGroup);
 	}
 
-	public List<Scene> getBackpackedScenes() {
+	public List<Scene> getScenes() {
 		return getBackpack().backpackedScenes;
 	}
 
-	public List<Sprite> getBackpackedSprites() {
+	public List<String> getSceneNames() {
+		List<String> names = new ArrayList<>();
+		for (Scene scene : getBackpack().backpackedScenes) {
+			names.add(scene.getName());
+		}
+		return names;
+	}
+
+	public List<Sprite> getSprites() {
 		return getBackpack().backpackedSprites;
 	}
 
-	public ArrayList<String> getBackpackedScriptGroups() {
+	public List<String> getSpriteNames() {
+		List<String> names = new ArrayList<>();
+		for (Scene scene : getBackpack().backpackedScenes) {
+			names.add(scene.getName());
+		}
+		return names;
+	}
+
+	public List<String> getBackpackedScriptGroups() {
 		return new ArrayList<>(getBackpack().backpackedScripts.keySet());
 	}
 
@@ -94,7 +114,7 @@ public final class BackpackListManager {
 
 	public boolean isBackpackEmpty() {
 		return getBackpackedLooks().isEmpty() && getBackpackedScriptGroups().isEmpty()
-				&& getBackpackedSounds().isEmpty() && getBackpackedSprites().isEmpty();
+				&& getBackpackedSounds().isEmpty() && getSprites().isEmpty();
 	}
 
 	public void saveBackpack() {
@@ -121,29 +141,34 @@ public final class BackpackListManager {
 		@Override
 		protected Void doInBackground(Void... params) {
 			backpack = BackpackSerializer.getInstance().loadBackpack();
-			setBackPackFlags();
 
-			for (Sprite sprite : getBackpackedSprites()) {
-				setLookFileReferences(sprite.getLookList());
-				setSoundFileReferences(sprite.getSoundList());
+			for (Scene scene : getScenes()) {
+				setSpriteFileReferences(scene.getSpriteList(), scene.getDirectory());
 			}
-			setLookFileReferences(getBackpackedLooks());
-			setSoundFileReferences(getBackpackedSounds());
+
+			for (Sprite sprite : getSprites()) {
+				setLookFileReferences(sprite.getLookList(), BACKPACK_IMAGE_DIRECTORY);
+				setSoundFileReferences(sprite.getSoundList(), BACKPACK_SOUND_DIRECTORY);
+			}
+
+			setLookFileReferences(getBackpackedLooks(), BACKPACK_IMAGE_DIRECTORY);
+			setSoundFileReferences(getBackpackedSounds(), BACKPACK_SOUND_DIRECTORY);
 
 			ProjectManager.getInstance().checkNestingBrickReferences(false, true);
 			return null;
 		}
 
-		private void setBackPackFlags() {
-			for (Scene scene : getBackpackedScenes()) {
-				scene.isBackPackScene = true;
+		private void setSpriteFileReferences(List<Sprite> sprites, File parentDir) {
+			for (Sprite sprite : sprites) {
+				setLookFileReferences(sprite.getLookList(), new File(parentDir, IMAGE_DIRECTORY_NAME));
+				setSoundFileReferences(sprite.getSoundList(), new File(parentDir, SOUND_DIRECTORY_NAME));
 			}
 		}
 
-		private void setLookFileReferences(List<LookData> looks) {
+		private void setLookFileReferences(List<LookData> looks, File parentDir) {
 			for (Iterator<LookData> iterator = looks.iterator(); iterator.hasNext(); ) {
 				LookData lookData = iterator.next();
-				File lookFile = new File(Constants.BACKPACK_DIRECTORY, lookData.getXstreamFileName());
+				File lookFile = new File(parentDir, lookData.getXstreamFileName());
 
 				if (lookFile.exists()) {
 					lookData.setFile(lookFile);
@@ -153,10 +178,10 @@ public final class BackpackListManager {
 			}
 		}
 
-		private void setSoundFileReferences(List<SoundInfo> sounds) {
+		private void setSoundFileReferences(List<SoundInfo> sounds, File parentDir) {
 			for (Iterator<SoundInfo> iterator = sounds.iterator(); iterator.hasNext(); ) {
 				SoundInfo soundInfo = iterator.next();
-				File soundFile = new File(Constants.BACKPACK_DIRECTORY, soundInfo.getXstreamFileName());
+				File soundFile = new File(parentDir, soundInfo.getXstreamFileName());
 
 				if (soundFile.exists()) {
 					soundInfo.setFile(soundFile);

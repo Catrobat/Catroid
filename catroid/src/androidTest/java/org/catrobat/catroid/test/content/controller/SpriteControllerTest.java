@@ -114,7 +114,7 @@ public class SpriteControllerTest {
 		SpriteController controller = new SpriteController();
 		Sprite packedSprite = controller.pack(sprite);
 
-		assertEquals(0, BackpackListManager.getInstance().getBackpackedSprites().size());
+		assertEquals(0, BackpackListManager.getInstance().getSprites().size());
 
 		assertEquals(sprite.getLookList().size(), packedSprite.getLookList().size());
 		assertEquals(sprite.getSoundList().size(), packedSprite.getSoundList().size());
@@ -132,7 +132,7 @@ public class SpriteControllerTest {
 
 		controller.delete(packedSprite);
 
-		assertEquals(0, BackpackListManager.getInstance().getBackpackedSprites().size());
+		assertEquals(0, BackpackListManager.getInstance().getSprites().size());
 		assertFileDoesNotExistInDirectory(packedSprite.getLookList().get(0).getFile(), BACKPACK_IMAGE_DIRECTORY);
 		assertFileDoesNotExistInDirectory(packedSprite.getSoundList().get(0).getFile(), BACKPACK_SOUND_DIRECTORY);
 	}
@@ -143,7 +143,7 @@ public class SpriteControllerTest {
 		Sprite packedSprite = controller.pack(sprite);
 		Sprite unpackedSprite = controller.unpack(packedSprite, scene);
 
-		assertEquals(0, BackpackListManager.getInstance().getBackpackedSprites().size());
+		assertEquals(0, BackpackListManager.getInstance().getSprites().size());
 
 		assertFileExistsInDirectory(packedSprite.getLookList().get(0).getFile(), BACKPACK_IMAGE_DIRECTORY);
 		assertFileExistsInDirectory(packedSprite.getSoundList().get(0).getFile(), BACKPACK_SOUND_DIRECTORY);

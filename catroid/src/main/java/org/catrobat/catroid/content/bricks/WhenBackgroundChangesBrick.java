@@ -58,11 +58,11 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 	private transient Spinner spinner;
 	private transient SpinnerAdapterWithNewOption spinnerAdapter;
 
-	public WhenBackgroundChangesBrick(WhenBackgroundChangesScript script) {
-		this.script = script;
+	public WhenBackgroundChangesBrick() {
 	}
 
-	public WhenBackgroundChangesBrick() {
+	public WhenBackgroundChangesBrick(WhenBackgroundChangesScript script) {
+		this.script = script;
 	}
 
 	public LookData getLook() {
@@ -92,23 +92,6 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 		return clone;
 	}
 
-	private LookData getLookByName(String name) {
-		for (LookData look : ProjectManager.getInstance().getCurrentScene().getSpriteList().get(0).getLookList()) {
-			if (look.getName().equals(name)) {
-				return look;
-			}
-		}
-		return null;
-	}
-
-	private List<String> getLookNames() {
-		List<String> lookNames = new ArrayList<>();
-		for (LookData look : ProjectManager.getInstance().getCurrentScene().getSpriteList().get(0).getLookList()) {
-			lookNames.add(look.getName());
-		}
-		return lookNames;
-	}
-
 	@Override
 	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
 
@@ -135,6 +118,23 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 		});
 		spinner.setSelection(spinnerAdapter.getPosition(getLook() != null ? getLook().getName() : null));
 		return view;
+	}
+
+	private LookData getLookByName(String name) {
+		for (LookData look : ProjectManager.getInstance().getCurrentScene().getBackgroundSprite().getLookList()) {
+			if (look.getName().equals(name)) {
+				return look;
+			}
+		}
+		return null;
+	}
+
+	private List<String> getLookNames() {
+		List<String> lookNames = new ArrayList<>();
+		for (LookData look : ProjectManager.getInstance().getCurrentScene().getBackgroundSprite().getLookList()) {
+			lookNames.add(look.getName());
+		}
+		return lookNames;
 	}
 
 	@Override

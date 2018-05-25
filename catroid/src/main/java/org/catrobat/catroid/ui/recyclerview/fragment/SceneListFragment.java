@@ -33,6 +33,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.SceneAdapter;
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
@@ -45,6 +46,8 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import static org.catrobat.catroid.common.Constants.Z_INDEX_BACKGROUND;
 
 public class SceneListFragment extends RecyclerViewFragment<Scene> {
 
@@ -88,8 +91,8 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 
 	@Override
 	public void handleAddButton() {
-		NewSceneDialogFragment dialog = new NewSceneDialogFragment(this, ProjectManager.getInstance().getCurrentProject());
-		dialog.show(getFragmentManager(), NewSceneDialogFragment.TAG);
+		new NewSceneDialogFragment(this, ProjectManager.getInstance().getCurrentProject())
+				.show(getFragmentManager(), NewSceneDialogFragment.TAG);
 	}
 
 	@Override
@@ -104,7 +107,7 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 
 		for (Scene item : selectedItems) {
 			try {
-				BackpackListManager.getInstance().getBackpackedScenes().add(sceneController.pack(item));
+				BackpackListManager.getInstance().getScenes().add(sceneController.pack(item));
 				BackpackListManager.getInstance().saveBackpack();
 				packedItemCnt++;
 			} catch (IOException e) {
@@ -124,7 +127,7 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 
 	@Override
 	protected boolean isBackpackEmpty() {
-		return BackpackListManager.getInstance().getBackpackedScenes().isEmpty();
+		return BackpackListManager.getInstance().getScenes().isEmpty();
 	}
 
 	@Override
@@ -182,7 +185,7 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 		finishActionMode();
 
 		if (adapter.getItems().isEmpty()) {
-			createDefaultScene();
+			createEmptySceneWithDefaultName();
 		}
 
 		if (ProjectManager.getInstance().getCurrentProject().getSceneList().size() < 2) {
@@ -190,10 +193,17 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 		}
 	}
 
-	private void createDefaultScene() {
+	private void createEmptySceneWithDefaultName() {
 		setShowProgressBar(true);
+
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		adapter.add(new Scene(getActivity(), getString(R.string.default_scene_name, 1), currentProject));
+		Scene scene = new Scene(getString(R.string.default_scene_name, 1), currentProject);
+
+		Sprite backgroundSprite = new Sprite(getString(R.string.background));
+		backgroundSprite.look.setZIndex(Z_INDEX_BACKGROUND);
+		scene.addSprite(backgroundSprite);
+
+		adapter.add(scene);
 		setShowProgressBar(false);
 	}
 
@@ -215,7 +225,14 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 
 	@Override
 	public void renameItem(String name) {
-		adapter.getSelectedItems().get(0).rename(name, getActivity(), false);
+		Scene item = adapter.getSelectedItems().get(0);
+		if (!item.getName().equals(name)) {
+			if (sceneController.rename(item, name)) {
+				ProjectManager.getInstance().saveProject(getActivity());
+			} else {
+				ToastUtil.showError(getActivity(), R.string.error_rename_scene);
+			}
+		}
 		finishActionMode();
 	}
 

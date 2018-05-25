@@ -26,6 +26,7 @@ package org.catrobat.catroid.content.bricks;
 import org.catrobat.catroid.content.Sprite;
 
 public interface BrickWithSpriteReference {
+
 	Sprite getSprite();
 	void setSprite(Sprite sprite);
 }

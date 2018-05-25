@@ -73,23 +73,6 @@ public class PlaySoundBrick extends BrickBaseType implements
 		return clone;
 	}
 
-	private SoundInfo getSoundByName(String name) {
-		for (SoundInfo sound : ProjectManager.getInstance().getCurrentSprite().getSoundList()) {
-			if (sound.getName().equals(name)) {
-				return sound;
-			}
-		}
-		return null;
-	}
-
-	private List<String> getSoundNames() {
-		List<String> soundNames = new ArrayList<>();
-		for (SoundInfo sound : ProjectManager.getInstance().getCurrentSprite().getSoundList()) {
-			soundNames.add(sound.getName());
-		}
-		return soundNames;
-	}
-
 	protected View prepareView(Context context) {
 		return View.inflate(context, R.layout.brick_play_sound, null);
 	}
@@ -123,6 +106,23 @@ public class PlaySoundBrick extends BrickBaseType implements
 		});
 		spinner.setSelection(spinnerAdapter.getPosition(sound != null ? sound.getName() : null));
 		return view;
+	}
+
+	private SoundInfo getSoundByName(String name) {
+		for (SoundInfo sound : ProjectManager.getInstance().getCurrentSprite().getSoundList()) {
+			if (sound.getName().equals(name)) {
+				return sound;
+			}
+		}
+		return null;
+	}
+
+	private List<String> getSoundNames() {
+		List<String> soundNames = new ArrayList<>();
+		for (SoundInfo sound : ProjectManager.getInstance().getCurrentSprite().getSoundList()) {
+			soundNames.add(sound.getName());
+		}
+		return soundNames;
 	}
 
 	@Override

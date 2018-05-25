@@ -47,8 +47,8 @@ import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.ui.recyclerview.fragment.SoundListFragment.FILE;
@@ -105,8 +105,7 @@ public class NewSoundDialogFragment extends DialogFragment implements View.OnCli
 				startActivityForResult(intent, LIBRARY);
 				break;
 			case R.id.dialog_new_sound_gallery:
-				intent = new Intent(Intent.ACTION_GET_CONTENT)
-						.setType("audio/*");
+				intent = new Intent(Intent.ACTION_GET_CONTENT).setType("audio/*");
 				startActivityForResult(Intent.createChooser(intent, getString(R.string.sound_select_source)), FILE);
 				break;
 			case R.id.dialog_new_sound_pocketmusic:
@@ -147,7 +146,10 @@ public class NewSoundDialogFragment extends DialogFragment implements View.OnCli
 		try {
 			File srcFile = new File(srcPath);
 			String name = StorageOperations.getSanitizedFileName(srcFile);
-			File file = StorageOperations.copyFileToDir(srcFile, new File(dstScene.getPath(), SOUND_DIRECTORY_NAME));
+
+			File file = StorageOperations.copyFileToDir(srcFile,
+					new File(dstScene.getDirectory(), SOUND_DIRECTORY_NAME));
+
 			newItemInterface
 					.addItem(new SoundInfo(uniqueNameProvider.getUniqueName(name, getScope(dstSprite)), file));
 		} catch (IOException e) {
@@ -155,8 +157,8 @@ public class NewSoundDialogFragment extends DialogFragment implements View.OnCli
 		}
 	}
 
-	private Set<String> getScope(Sprite sprite) {
-		Set<String> scope = new HashSet<>();
+	private List<String> getScope(Sprite sprite) {
+		List<String> scope = new ArrayList<>();
 		for (SoundInfo item : sprite.getSoundList()) {
 			scope.add(item.getName());
 		}

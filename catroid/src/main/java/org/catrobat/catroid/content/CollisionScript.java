@@ -72,7 +72,7 @@ public class CollisionScript extends Script implements EventScript {
 		if (spriteToCollideWithName != null
 				&& (spriteToCollideWith == null || !spriteToCollideWithName.equals(spriteToCollideWith.getName()))) {
 			Scene currentScene = ProjectManager.getInstance().getCurrentScene();
-			spriteToCollideWith = currentScene.getSpriteBySpriteName(spriteToCollideWithName);
+			spriteToCollideWith = currentScene.getSprite(spriteToCollideWithName);
 		}
 	}
 

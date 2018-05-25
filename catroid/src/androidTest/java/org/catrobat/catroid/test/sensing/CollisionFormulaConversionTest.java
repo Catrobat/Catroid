@@ -84,7 +84,7 @@ public class CollisionFormulaConversionTest extends AndroidTestCase {
 
 		project.updateCollisionFormulasToVersion(0.993f);
 
-		Sprite sprite1 = project.getDefaultScene().getSpriteBySpriteName(firstSpriteName);
+		Sprite sprite1 = project.getDefaultScene().getSprite(firstSpriteName);
 		Brick brick = sprite1.getScript(0).getBrick(0);
 		if (brick instanceof FormulaBrick) {
 			FormulaBrick formulaBrick = (FormulaBrick) brick;
@@ -121,7 +121,7 @@ public class CollisionFormulaConversionTest extends AndroidTestCase {
 				firstSpriteName, secondSpriteName, thirdSpriteName, collisionTag);
 		project.updateCollisionFormulasToVersion(0.993f);
 
-		Sprite sprite1 = project.getDefaultScene().getSpriteBySpriteName(firstSpriteName);
+		Sprite sprite1 = project.getDefaultScene().getSprite(firstSpriteName);
 		Brick brick = sprite1.getScript(0).getBrick(0);
 		if (brick instanceof FormulaBrick) {
 			FormulaBrick formulaBrick = (FormulaBrick) brick;

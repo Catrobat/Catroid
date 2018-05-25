@@ -42,12 +42,12 @@ public class SetBackgroundByIndexBrick extends SetLookByIndexBrick {
 
 	@Override
 	protected Sprite getSprite() {
-		return ProjectManager.getInstance().getCurrentScene().getSpriteList().get(0);
+		return ProjectManager.getInstance().getCurrentScene().getBackgroundSprite();
 	}
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		Sprite backgroundSprite = ProjectManager.getInstance().getSceneToPlay().getSpriteList().get(0);
+		Sprite backgroundSprite = ProjectManager.getInstance().getSceneToPlay().getBackgroundSprite();
 		sequence.addAction(sprite.getActionFactory().createSetLookByIndexAction(backgroundSprite,
 				getFormulaWithBrickField(BrickField.LOOK_INDEX), wait));
 

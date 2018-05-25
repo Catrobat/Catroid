@@ -102,9 +102,10 @@ public class Sprite implements Serializable, Cloneable {
 	private List<SoundInfo> soundList = new ArrayList<>();
 	private List<UserBrick> userBricks = new ArrayList<>();
 	private List<NfcTagData> nfcTagList = new ArrayList<>();
+
 	private transient ActionFactory actionFactory = new ActionFactory();
+
 	public transient boolean isClone = false;
-	private transient boolean isMobile = false;
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({INCLUDE_START_ACTIONS, EXCLUDE_START_ACTIONS})
@@ -143,7 +144,7 @@ public class Sprite implements Serializable, Cloneable {
 		return scriptList;
 	}
 
-	List<Brick> getAllBricks() {
+	public List<Brick> getAllBricks() {
 		List<Brick> allBricks = new ArrayList<>();
 		for (Script script : scriptList) {
 			allBricks.add(script.getScriptBrick());
@@ -251,8 +252,8 @@ public class Sprite implements Serializable, Cloneable {
 	private void createAndAddAction(Script script, @CreateActionsMode int includeStartActions) {
 		if (script.isCommentedOut()) {
 			return;
-		} else if (!isClone && script instanceof StartScript
-				|| isClone && script instanceof WhenClonedScript) {
+		}
+		if (!isClone && script instanceof StartScript || isClone && script instanceof WhenClonedScript) {
 			if (includeStartActions == INCLUDE_START_ACTIONS) {
 				createAndAddActionByScript(script);
 			}
@@ -292,7 +293,6 @@ public class Sprite implements Serializable, Cloneable {
 		cloneSprite.setName(this.getName());
 		cloneSprite.convertToSingleSprite = false;
 		cloneSprite.convertToGroupItemSprite = false;
-		cloneSprite.isMobile = false;
 
 		ProjectManager projectManager = ProjectManager.getInstance();
 		Scene currentScene = ProjectManager.getInstance().getCurrentScene();
@@ -761,14 +761,6 @@ public class Sprite implements Serializable, Cloneable {
 	public void setConvertToGroupItemSprite(boolean convertToGroupItemSprite) {
 		this.convertToSingleSprite = false;
 		this.convertToGroupItemSprite = convertToGroupItemSprite;
-	}
-
-	public boolean isMobile() {
-		return isMobile;
-	}
-
-	public void setIsMobile(boolean isMobile) {
-		this.isMobile = isMobile;
 	}
 
 	public List<Brick> getBricksRequiringResource(int resource) {

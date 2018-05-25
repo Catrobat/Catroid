@@ -22,28 +22,20 @@
  */
 package org.catrobat.catroid.content;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.util.Log;
+import android.support.annotation.NonNull;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
-import org.catrobat.catroid.content.bricks.SceneStartBrick;
-import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
 import org.catrobat.catroid.content.bricks.UserListBrick;
 import org.catrobat.catroid.content.bricks.UserVariableBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.UserList;
-import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.utils.PathBuilder;
-import org.catrobat.catroid.utils.ToastUtil;
 
 import java.io.File;
 import java.io.Serializable;
@@ -52,17 +44,17 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import static org.catrobat.catroid.common.Constants.AUTOMATIC_SCREENSHOT_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.BACKPACK_SCENE_DIRECTORY;
+import static org.catrobat.catroid.common.Constants.MANUAL_SCREENSHOT_FILE_NAME;
 
 @XStreamAlias("scene")
 // Remove checkstyle disable when https://github.com/checkstyle/checkstyle/issues/1349 is fixed
-// CHECKSTYLE DISABLE IndentationCheck FOR 7 LINES
+// CHECKSTYLE DISABLE IndentationCheck FOR 5 LINES
 @XStreamFieldKeyOrder({
 		"name",
 		"objectList",
-		"data",
-		"originalWidth",
-		"originalHeight"
+		"data"
 })
 public class Scene implements Serializable {
 
@@ -74,61 +66,65 @@ public class Scene implements Serializable {
 	private List<Sprite> spriteList = new ArrayList<>();
 	@XStreamAlias("data")
 	private DataContainer dataContainer = null;
-	@XStreamAlias("originalWidth")
-	private int originalWidth = 0;
-	@XStreamAlias("originalHeight")
-	private int originalHeight = 0;
 
 	private transient PhysicsWorld physicsWorld;
 	private transient Project project;
+
 	public transient boolean firstStart = true;
-	public transient boolean isBackPackScene = false;
 
-	public Scene(Context context, String name, Project project) {
+	public Scene() {
+	}
+
+	public Scene(String name, @NonNull Project project) {
 		this.name = name;
-		dataContainer = new DataContainer(project);
 		this.project = project;
-
-		if (project != null) {
-			originalWidth = project.getXmlHeader().virtualScreenWidth;
-			originalHeight = project.getXmlHeader().virtualScreenHeight;
-		}
-
-		if (context == null) {
-			return;
-		}
-
-		Sprite background;
-		try {
-			background = new SingleSprite(context.getString(R.string.background));
-		} catch (Resources.NotFoundException e) {
-			//Because in test project we can't find the string
-			background = new SingleSprite("Background");
-		}
-		background.look.setZIndex(0);
-		addSprite(background);
+		dataContainer = new DataContainer(project);
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public String getPath() {
-		String path;
-		if (isBackPackScene) {
-			path = PathBuilder.buildPath(BACKPACK_SCENE_DIRECTORY.getAbsolutePath(), name);
-		} else {
-			path = PathBuilder.buildScenePath(project.getName(), name);
-		}
-		return path;
+	public synchronized void setName(String name) {
+		this.name = name;
 	}
 
-	public File getDirectory() {
-		if (isBackPackScene) {
-			return new File(BACKPACK_SCENE_DIRECTORY, name);
-		} else {
-			return new File(PathBuilder.buildScenePath(project.getName(), name));
+	public Project getProject() {
+		return project;
+	}
+
+	public synchronized void setProject(Project project) {
+		this.project = project;
+	}
+
+	public List<Sprite> getSpriteList() {
+		return spriteList;
+	}
+
+	public List<String> getSpriteNames() {
+		List<String> spriteNames = new ArrayList<>();
+
+		for (Sprite sprite : spriteList) {
+			spriteNames.add(sprite.getName());
 		}
+
+		return spriteNames;
+	}
+
+	public Sprite getSprite(String spriteName) {
+		for (Sprite sprite : spriteList) {
+			if (spriteName.equals(sprite.getName())) {
+				return sprite;
+			}
+		}
+		return null;
+	}
+
+	public Sprite getBackgroundSprite() {
+		if (spriteList.size() > 0) {
+			return spriteList.get(0);
+		}
+		return null;
 	}
 
 	public synchronized void addSprite(Sprite sprite) {
@@ -142,14 +138,53 @@ public class Scene implements Serializable {
 		return spriteList.remove(sprite);
 	}
 
+	public DataContainer getDataContainer() {
+		return dataContainer;
+	}
+
+	public synchronized void setDataContainer(DataContainer container) {
+		dataContainer = container;
+	}
+
+	public PhysicsWorld getPhysicsWorld() {
+		if (physicsWorld == null) {
+			resetPhysicsWorld();
+		}
+		return physicsWorld;
+	}
+
+	public synchronized PhysicsWorld resetPhysicsWorld() {
+		return (physicsWorld = new PhysicsWorld(
+				project.getXmlHeader().virtualScreenWidth,
+				project.getXmlHeader().virtualScreenHeight));
+	}
+
+	public synchronized void setPhysicsWorld(PhysicsWorld world) {
+		physicsWorld = world;
+	}
+
+	public File getDirectory() {
+		if (project == null) {
+			return new File(BACKPACK_SCENE_DIRECTORY, name);
+		} else {
+			return new File(PathBuilder.buildScenePath(project.getName(), name));
+		}
+	}
+
+	public boolean hasScreenshot() {
+		File automaticScreenshot = new File(getDirectory(), AUTOMATIC_SCREENSHOT_FILE_NAME);
+		File manualScreenshot = new File(getDirectory(), MANUAL_SCREENSHOT_FILE_NAME);
+		return automaticScreenshot.exists() || manualScreenshot.exists();
+	}
+
 	public boolean mergeProjectVariables() {
 		List<String> variables = new ArrayList<>();
 		List<String> lists = new ArrayList<>();
 
 		for (Sprite sprite : spriteList) {
 			for (Brick brick : sprite.getAllBricks()) {
-				if (brick instanceof UserVariableBrick && !variables.contains(((UserVariableBrick) brick)
-						.getUserVariable().getName())) {
+				if (brick instanceof UserVariableBrick
+						&& !variables.contains(((UserVariableBrick) brick).getUserVariable().getName())) {
 					variables.add(((UserVariableBrick) brick).getUserVariable().getName());
 				}
 				if (brick instanceof UserListBrick
@@ -168,7 +203,8 @@ public class Scene implements Serializable {
 			if (dataContainer.variableExistsInAnySprite(spriteList, variable)) {
 				return false;
 			}
-			if (!dataContainer.existProjectVariableWithName(variable) && !dataContainer.existUserVariableWithName(variable)) {
+			if (!dataContainer.existProjectVariableWithName(variable)
+					&& !dataContainer.existUserVariableWithName(variable)) {
 				dataContainer.addProjectUserVariable(variable);
 			}
 		}
@@ -185,18 +221,6 @@ public class Scene implements Serializable {
 		return true;
 	}
 
-	public int getOriginalWidth() {
-		return originalWidth;
-	}
-
-	public int getOriginalHeight() {
-		return originalHeight;
-	}
-
-	public List<Sprite> getSpriteList() {
-		return spriteList;
-	}
-
 	public void removeAllClones() {
 		ProjectManager.getInstance().getCurrentProject().removeInvalidVariablesAndLists(dataContainer);
 		dataContainer.removeVariablesOfClones();
@@ -205,98 +229,6 @@ public class Scene implements Serializable {
 				spriteList.remove(s);
 			}
 		}
-	}
-
-	public synchronized void setSpriteList(List<Sprite> spriteList) {
-		this.spriteList = spriteList;
-	}
-
-	public synchronized void setDataContainer(DataContainer container) {
-		dataContainer = container;
-	}
-
-	public synchronized void setPhysicsWorld(PhysicsWorld world) {
-		physicsWorld = world;
-	}
-
-	public synchronized void resetDataContainerForDefaultScene() {
-		dataContainer = new DataContainer(project);
-	}
-
-	public synchronized boolean rename(String name, Context context, boolean showError) {
-		if (name.equals(getName())) {
-			return true;
-		}
-		File oldSceneDirectory = new File(PathBuilder.buildScenePath(project.getName(), this.name));
-		File newSceneDirectory = new File(PathBuilder.buildScenePath(project.getName(), name));
-		String oldName = this.name;
-
-		boolean directoryRenamed = true;
-
-		if (!oldSceneDirectory.getAbsolutePath().equalsIgnoreCase(newSceneDirectory.getAbsolutePath())) {
-			directoryRenamed = oldSceneDirectory.renameTo(newSceneDirectory);
-		}
-
-		if (directoryRenamed) {
-			this.name = name;
-			ProjectManager.getInstance().saveProject(context);
-		}
-
-		if (!directoryRenamed) {
-			if (showError) {
-				ToastUtil.showError(context, R.string.error_rename_scene);
-			}
-			Log.e("Scene", "rename: could not rename " + oldSceneDirectory.getAbsolutePath() + " to " + newSceneDirectory.getAbsolutePath());
-			return false;
-		}
-
-		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
-			for (Sprite sprite : scene.spriteList) {
-				for (Brick brick : sprite.getAllBricks()) {
-					if (brick instanceof SceneStartBrick && ((SceneStartBrick) brick).getSceneToStart().equals(oldName)) {
-						((SceneStartBrick) brick).setSceneToStart(name);
-					}
-					if (brick instanceof SceneTransitionBrick && ((SceneTransitionBrick) brick)
-							.getSceneForTransition().equals(oldName)) {
-						((SceneTransitionBrick) brick).setSceneForTransition(name);
-					}
-				}
-			}
-		}
-
-		return true;
-	}
-
-	public synchronized void setName(String name) {
-		this.name = name;
-	}
-
-	public PhysicsWorld getPhysicsWorld() {
-		if (physicsWorld == null) {
-			resetPhysicsWorld();
-		}
-		return physicsWorld;
-	}
-
-	public synchronized PhysicsWorld resetPhysicsWorld() {
-		return (physicsWorld = new PhysicsWorld(project.getXmlHeader().virtualScreenWidth, project.getXmlHeader()
-				.virtualScreenHeight));
-	}
-
-	// default constructor for XMLParser
-	public Scene() {
-	}
-
-	public synchronized void setProject(Project project) {
-		this.project = project;
-	}
-
-	public Project getProject() {
-		return project;
-	}
-
-	public DataContainer getDataContainer() {
-		return dataContainer;
 	}
 
 	public Set<String> getBroadcastMessagesInUse() {
@@ -316,89 +248,17 @@ public class Scene implements Serializable {
 		return messagesInUse;
 	}
 
-	public boolean screenshotExists(String screenshotName) {
-		File screenShot = new File(PathBuilder.buildScenePath(project.getName(), getName()), screenshotName);
-		return !screenShot.exists();
-	}
-
-	public UserVariable getProjectVariableWithName(String name) {
-		for (UserVariable variable : dataContainer.getProjectVariables()) {
-			if (name.equals(variable.getName())) {
-				return variable;
-			}
-		}
-		return null;
-	}
-
-	public UserList getProjectListWithName(String name) {
-		for (UserList list : dataContainer.getProjectLists()) {
-			if (name.equals(list.getName())) {
-				return list;
-			}
-		}
-		return null;
-	}
-
-	public boolean existProjectVariable(UserVariable variable) {
-		return dataContainer.existProjectVariable(variable);
-	}
-
-	public boolean existSpriteVariable(UserVariable variable, Sprite sprite) {
-		return spriteList.contains(sprite) && dataContainer.spriteVariableExists(sprite, variable);
-	}
-
-	public boolean existProjectList(UserList list) {
-		return dataContainer.existProjectList(list);
-	}
-
-	public boolean existSpriteList(UserList list, Sprite sprite) {
-		return spriteList.contains(sprite) && dataContainer.existSpriteList(sprite, list);
-	}
-
-	public Sprite getSpriteByUserVariable(UserVariable variable) {
-		for (Sprite sprite : spriteList) {
-			if (dataContainer.spriteVariableExists(sprite, variable)) {
-				return sprite;
-			}
-		}
-		return null;
-	}
-
-	public Sprite getSpriteByUserList(UserList list) {
-		for (Sprite sprite : spriteList) {
-			if (dataContainer.existSpriteList(sprite, list)) {
-				return sprite;
-			}
-		}
-		return null;
-	}
-
-	public Sprite getSpriteBySpriteName(String searchedSprite) {
-		for (Sprite sprite : spriteList) {
-			if (searchedSprite.equals(sprite.getName())) {
-				return sprite;
-			}
-		}
-		return null;
-	}
-
-	public Sprite getBackgroundSprite() {
-		if (spriteList != null && spriteList.size() > 0) {
-			return spriteList.get(0);
-		}
-		return null;
-	}
-
 	public synchronized void correctUserVariableAndListReferences() {
 		for (Sprite sprite : spriteList) {
 			for (Brick brick : sprite.getAllBricks()) {
 				if (brick instanceof UserVariableBrick) {
-					((UserVariableBrick) brick).setUserVariable(dataContainer.getUserVariable(sprite, ((UserVariableBrick)
-							brick).getUserVariable().getName()));
+					((UserVariableBrick) brick).setUserVariable(dataContainer.getUserVariable(sprite,
+							((UserVariableBrick) brick).getUserVariable().getName()));
 				}
 
 				if (brick instanceof UserListBrick) {
-					((UserListBrick) brick).setUserList(dataContainer.getUserList(sprite, ((UserListBrick) brick).getUserList().getName()));
+					((UserListBrick) brick).setUserList(dataContainer.getUserList(sprite,
+							((UserListBrick) brick).getUserList().getName()));
 				}
 			}
 		}
