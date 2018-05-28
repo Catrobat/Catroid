@@ -383,4 +383,13 @@ public class XstreamSerializerTest extends InstrumentationTestCase {
 
 		return project;
 	}
+
+	public void testExtractDefaultSceneNameFromXml() {
+		final String firstSceneName = "First Scene";
+		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
+		project.getSceneList().get(0).setName(firstSceneName);
+		storageHandler.saveProject(project);
+
+		assertEquals(firstSceneName, XstreamSerializer.extractDefaultSceneNameFromXml(projectName));
+	}
 }
