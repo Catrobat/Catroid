@@ -37,6 +37,7 @@ import android.view.View;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -202,11 +203,11 @@ public class ProjectActivity extends BaseCastActivity implements PlaySceneDialog
 				SettingsFragment.SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED, false);
 
 		if (!nxtDialogDisabled && (Brick.BLUETOOTH_LEGO_NXT & requiredResources) != 0) {
-			DialogFragment dialog = new LegoSensorConfigInfoDialog(LegoSensorConfigInfoDialog.NXT);
+			DialogFragment dialog = new LegoSensorConfigInfoDialog(Constants.NXT);
 			dialog.show(getFragmentManager(), LegoSensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
 		}
 		if (!ev3DialogDisabled && (Brick.BLUETOOTH_LEGO_EV3 & requiredResources) != 0) {
-			DialogFragment dialog = new LegoSensorConfigInfoDialog(LegoSensorConfigInfoDialog.EV3);
+			DialogFragment dialog = new LegoSensorConfigInfoDialog(Constants.EV3);
 			dialog.show(getFragmentManager(), LegoSensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
 		}
 	}

@@ -38,10 +38,11 @@ import android.view.ViewGroup;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.camera.CameraManager;
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.Constants.LegoSensorType;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.ui.dialogs.LegoSensorPortConfigDialog;
-import org.catrobat.catroid.ui.dialogs.LegoSensorPortConfigDialog.LegoType;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter.CategoryListItem;
@@ -220,8 +221,11 @@ public class CategoryListFragment extends Fragment implements
 	public void onItemClick(CategoryListItem item) {
 		switch (item.type) {
 			case CategoryListRVAdapter.NXT:
+				showLegoSensorPortConfigDialog(item.nameResId, Constants.NXT);
+				break;
+
 			case CategoryListRVAdapter.EV3:
-				showLegoSensorPortConfigDialog(item.nameResId, item.type);
+				showLegoSensorPortConfigDialog(item.nameResId, Constants.EV3);
 				break;
 
 			case CategoryListRVAdapter.COLLISION:
@@ -237,19 +241,17 @@ public class CategoryListFragment extends Fragment implements
 		}
 	}
 
-	private void showLegoSensorPortConfigDialog(int itemNameResId, @CategoryListItemType int type) {
-		int dialogType = type == CategoryListRVAdapter.NXT
-				? LegoSensorPortConfigDialog.NXT : LegoSensorPortConfigDialog.EV3;
-		DialogFragment dialog = new LegoSensorPortConfigDialog(this, itemNameResId, dialogType);
+	private void showLegoSensorPortConfigDialog(int itemNameResId, @LegoSensorType int type) {
+		DialogFragment dialog = new LegoSensorPortConfigDialog(this, itemNameResId, type);
 		dialog.show(getFragmentManager(), LegoSensorPortConfigDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	@Override
-	public void onSetSensor(int setPort, @LegoType int type) {
+	public void onSetSensor(int setPort, @LegoSensorType int type) {
 		FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getFragmentManager()
 				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 
-		TypedArray sensorPorts = type == LegoSensorPortConfigDialog.NXT
+		TypedArray sensorPorts = type == Constants.NXT
 				? getResources().obtainTypedArray(R.array.formula_editor_nxt_ports)
 				: getResources().obtainTypedArray(R.array.formula_editor_ev3_ports);
 		int resourceId = sensorPorts.getResourceId(setPort, 0);

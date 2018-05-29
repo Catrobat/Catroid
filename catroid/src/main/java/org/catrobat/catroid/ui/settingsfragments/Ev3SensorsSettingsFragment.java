@@ -37,10 +37,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
 
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.EV3_SCREEN_KEY;
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.EV3_SENSOR_1;
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.EV3_SENSOR_2;
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.EV3_SENSOR_3;
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.EV3_SENSOR_4;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.EV3_SENSORS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.EV3_SETTINGS_CATEGORY;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED;
 
@@ -76,7 +73,7 @@ public class Ev3SensorsSettingsFragment extends PreferenceFragment {
 				}
 			});
 
-			final String[] sensorPreferences = new String[] {EV3_SENSOR_1, EV3_SENSOR_2, EV3_SENSOR_3, EV3_SENSOR_4};
+			final String[] sensorPreferences = EV3_SENSORS;
 			for (String sensorPreference : sensorPreferences) {
 				ListPreference listPreference = (ListPreference) findPreference(sensorPreference);
 				listPreference.setEntries(R.array.ev3_sensor_chooser);

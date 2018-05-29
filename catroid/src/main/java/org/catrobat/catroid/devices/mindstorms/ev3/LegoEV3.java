@@ -24,8 +24,8 @@
 package org.catrobat.catroid.devices.mindstorms.ev3;
 
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
+import org.catrobat.catroid.devices.mindstorms.LegoSensor;
 import org.catrobat.catroid.devices.mindstorms.Mindstorms;
-import org.catrobat.catroid.devices.mindstorms.MindstormsSensor;
 import org.catrobat.catroid.formulaeditor.Sensors;
 
 public interface LegoEV3 extends Mindstorms, BluetoothDevice {
@@ -50,8 +50,8 @@ public interface LegoEV3 extends Mindstorms, BluetoothDevice {
 
 	float getSensorValue(Sensors sensor);
 
-	MindstormsSensor getSensor1();
-	MindstormsSensor getSensor2();
-	MindstormsSensor getSensor3();
-	MindstormsSensor getSensor4();
+	LegoSensor getSensor1();
+	LegoSensor getSensor2();
+	LegoSensor getSensor3();
+	LegoSensor getSensor4();
 }

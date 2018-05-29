@@ -20,39 +20,20 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.devices.mindstorms.nxt.sensors;
+package org.catrobat.catroid.devices.mindstorms;
 
-import org.catrobat.catroid.devices.mindstorms.MindstormsConnection;
-import org.catrobat.catroid.devices.mindstorms.MindstormsException;
+import org.catrobat.catroid.common.Constants;
 
-public class NXTSensorFactory {
+public interface LegoSensor {
 
-	private MindstormsConnection connection;
+	float getValue();
 
-	public NXTSensorFactory(MindstormsConnection connection) {
-		this.connection = connection;
-	}
+	int getUpdateInterval();
+	void updateLastSensorValue();
+	float getLastSensorValue();
 
-	public NXTSensor create(NXTSensor.Sensor sensorType, int port) {
+	String getName();
 
-		switch (sensorType) {
-			case TOUCH:
-				return new NXTTouchSensor(port, connection);
-
-			case SOUND:
-				return new NXTSoundSensor(port, connection);
-
-			case LIGHT_INACTIVE:
-				return new NXTLightSensor(port, connection);
-
-			case LIGHT_ACTIVE:
-				return new NXTLightSensorActive(port, connection);
-
-			case ULTRASONIC:
-				return new NXTI2CUltraSonicSensor(connection);
-
-			default:
-				throw new MindstormsException("No valid sensor found!"); // Should never occur
-		}
-	}
+	@Constants.LegoPort
+	int getConnectedPort();
 }

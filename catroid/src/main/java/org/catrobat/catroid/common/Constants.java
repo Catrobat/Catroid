@@ -23,8 +23,11 @@
 package org.catrobat.catroid.common;
 
 import android.os.Environment;
+import android.support.annotation.IntDef;
 
 import java.io.File;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.Calendar;
 
 public final class Constants {
@@ -194,6 +197,21 @@ public final class Constants {
 	public static final String INTENT_SCRATCH_PROGRAM_DATA = "scratchProgramData";
 	public static final int INTENT_REQUEST_CODE_SPEECH = 0;
 	public static final int INTENT_REQUEST_CODE_CONVERT = 1;
+
+	// Lego
+	@Retention(RetentionPolicy.SOURCE)
+	@IntDef({NXT, EV3})
+	public @interface LegoSensorType {}
+	public static final int NXT = 0;
+	public static final int EV3 = 1;
+
+	@Retention(RetentionPolicy.SOURCE)
+	@IntDef({PORT_1, PORT_2, PORT_3, PORT_4})
+	public @interface LegoPort {}
+	public static final int PORT_1 = 0;
+	public static final int PORT_2 = 1;
+	public static final int PORT_3 = 2;
+	public static final int PORT_4 = 3;
 
 	// Pocket Paint
 	public static final String EXTRA_PICTURE_PATH_POCKET_PAINT = "org.catrobat.extra.PAINTROID_PICTURE_PATH";

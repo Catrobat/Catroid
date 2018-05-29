@@ -26,9 +26,9 @@ package org.catrobat.catroid.devices.mindstorms.ev3.sensors;
 import android.util.Log;
 import android.util.SparseArray;
 
+import org.catrobat.catroid.devices.mindstorms.LegoSensor;
 import org.catrobat.catroid.devices.mindstorms.MindstormsConnection;
 import org.catrobat.catroid.devices.mindstorms.MindstormsException;
-import org.catrobat.catroid.devices.mindstorms.MindstormsSensor;
 import org.catrobat.catroid.devices.mindstorms.ev3.EV3Command;
 import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandByte.EV3CommandByteCode;
 import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandByte.EV3CommandOpCode;
@@ -39,7 +39,7 @@ import org.catrobat.catroid.devices.mindstorms.ev3.EV3Reply;
 
 import java.util.Locale;
 
-public abstract class EV3Sensor implements MindstormsSensor {
+public abstract class EV3Sensor implements LegoSensor {
 
 	public enum Sensor {
 		NO_SENSOR,
@@ -63,11 +63,7 @@ public abstract class EV3Sensor implements MindstormsSensor {
 		}
 
 		public String getSensorCode() {
-			return getSensorCode(this);
-		}
-
-		public static String getSensorCode(EV3Sensor.Sensor sensor) {
-			return sensor.name();
+			return this.name();
 		}
 
 		public static EV3Sensor.Sensor getSensorFromSensorCode(String sensorCode) {
