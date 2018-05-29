@@ -134,6 +134,7 @@ public class StageListener implements ApplicationListener {
 	private Viewport viewPort;
 	public ShapeRenderer shapeRenderer;
 	private PenActor penActor;
+	private EmbroideryActor embroideryActor;
 
 	private List<Sprite> sprites;
 
@@ -207,6 +208,8 @@ public class StageListener implements ApplicationListener {
 
 		sprites = new ArrayList<>(scene.getSpriteList());
 		boolean addPenActor = true;
+		boolean addEmbroideryActor = true;
+
 		for (Sprite sprite : sprites) {
 			sprite.resetSprite();
 			sprite.look.createBrightnessContrastHueShader();
@@ -215,6 +218,11 @@ public class StageListener implements ApplicationListener {
 				penActor = new PenActor();
 				stage.addActor(penActor);
 				addPenActor = false;
+			}
+			if (addEmbroideryActor) {
+				embroideryActor = new EmbroideryActor();
+				stage.addActor(embroideryActor);
+				addEmbroideryActor = false;
 			}
 		}
 		passepartout = new Passepartout(ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT, maximizeViewPortWidth,
@@ -424,6 +432,9 @@ public class StageListener implements ApplicationListener {
 		if (penActor != null) {
 			penActor.dispose();
 		}
+		if (embroideryActor != null) {
+			embroideryActor.dispose();
+		}
 		finished = true;
 	}
 
@@ -441,6 +452,9 @@ public class StageListener implements ApplicationListener {
 			if (penActor != null) {
 				penActor.dispose();
 			}
+			if (embroideryActor != null) {
+				embroideryActor.dispose();
+			}
 			SoundManager.getInstance().clear();
 
 			physicsWorld = scene.resetPhysicsWorld();
@@ -448,6 +462,7 @@ public class StageListener implements ApplicationListener {
 			Sprite sprite;
 
 			boolean addPenActor = true;
+			boolean addEmbroideryActor = true;
 
 			for (int i = 0; i < spriteSize; i++) {
 				sprite = sprites.get(i);
@@ -458,6 +473,11 @@ public class StageListener implements ApplicationListener {
 					penActor = new PenActor();
 					stage.addActor(penActor);
 					addPenActor = false;
+				}
+				if (addEmbroideryActor) {
+					embroideryActor = new EmbroideryActor();
+					stage.addActor(embroideryActor);
+					addEmbroideryActor = false;
 				}
 			}
 			stage.addActor(passepartout);

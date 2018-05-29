@@ -170,6 +170,9 @@ public final class BrickValues {
 	public static final byte NDEF_PREFIX_TEL = 0x05;
 	public static final byte NDEF_PREFIX_MAILTO = 0x06;
 
+	//Constants Embroidery
+	public static final Float STITCH_SIZE = 3.15f;
+
 	// Suppress default constructor for noninstantiability
 	private BrickValues() {
 		throw new AssertionError();
