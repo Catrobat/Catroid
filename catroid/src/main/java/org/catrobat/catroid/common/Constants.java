@@ -230,14 +230,11 @@ public final class Constants {
 
 	public static final int CAST_IDLE_BACKGROUND_COLOR = 0x66000000;
 
-	// background sprite is always on index 0
 	public static final int Z_INDEX_BACKGROUND = 0;
 
-	// this offset reflects the offset caused by "virtual" layers (currently only PenActor)
-	// which are sneaked in at the Stage creation when starting the scene.
-	public static final int Z_INDEX_NUMBER_VIRTUAL_LAYERS = 1;
+	// this offset reflects the offset caused by "virtual" layers (currently PenActor, EmbroideryActor)
+	public static final int Z_INDEX_NUMBER_VIRTUAL_LAYERS = 2;
 
-	// the minimum z index a real sprite layer can have
 	public static final int Z_INDEX_FIRST_SPRITE = Z_INDEX_BACKGROUND + Z_INDEX_NUMBER_VIRTUAL_LAYERS + 1;
 
 	public static final String NO_VARIABLE_SELECTED = "No variable set";
