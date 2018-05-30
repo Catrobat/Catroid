@@ -23,6 +23,7 @@
 package org.catrobat.catroid.uiespresso.pocketmusic;
 
 import android.content.Intent;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.contrib.RecyclerViewActions;
@@ -37,11 +38,14 @@ import org.catrobat.catroid.pocketmusic.PocketMusicActivity;
 import org.catrobat.catroid.pocketmusic.ui.TactScrollRecyclerView;
 import org.catrobat.catroid.pocketmusic.ui.TrackRowView;
 import org.catrobat.catroid.pocketmusic.ui.TrackView;
+import org.catrobat.catroid.uiespresso.util.SystemAnimations;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -69,6 +73,25 @@ public class PocketMusicActivityTest {
 	@Rule
 	public BaseActivityInstrumentationRule<PocketMusicActivity> pocketMusicActivityRule =
 			new BaseActivityInstrumentationRule<>(PocketMusicActivity.class, true, false);
+
+	// For testing all Animations are disabled, this causes troubles, because the PocketMusic
+	// functionality is highly coupled with the Animation-Framework. To avoid rewrites of
+	// PocketMusic simply activate the animations for that single Test-Class.
+	// See setUp()- and tearDown()-methods.
+	private static SystemAnimations systemAnimations = null;
+
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+		systemAnimations = new SystemAnimations(InstrumentationRegistry.getInstrumentation());
+		systemAnimations.storeCurrentSettings();
+		systemAnimations.enableAll();
+	}
+
+	@AfterClass
+	public static void tearDownAfterClass() throws Exception {
+		systemAnimations.resetToStoredSettings();
+		systemAnimations = null;
+	}
 
 	public static ViewAction toggleNoteViewAtPositionInTact(final int position) {
 

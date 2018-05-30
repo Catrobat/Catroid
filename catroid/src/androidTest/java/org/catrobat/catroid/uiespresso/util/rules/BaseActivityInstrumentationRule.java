@@ -25,7 +25,6 @@ package org.catrobat.catroid.uiespresso.util.rules;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Environment;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.util.Log;
 
@@ -34,7 +33,6 @@ import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.uiespresso.annotations.Flaky;
-import org.catrobat.catroid.uiespresso.util.SystemAnimations;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
@@ -45,7 +43,6 @@ import static org.catrobat.catroid.common.Constants.DEFAULT_ROOT_DIRECTORY;
 
 public class BaseActivityInstrumentationRule<T extends Activity> extends ActivityTestRule<T> {
 
-	private SystemAnimations systemAnimations;
 	private static final String TAG = BaseActivityInstrumentationRule.class.getSimpleName();
 	private Intent launchIntent = null;
 
@@ -72,19 +69,6 @@ public class BaseActivityInstrumentationRule<T extends Activity> extends Activit
 
 	public void launchActivity() {
 		super.launchActivity(launchIntent);
-	}
-
-	@Override
-	protected void afterActivityLaunched() {
-		systemAnimations = new SystemAnimations(InstrumentationRegistry.getTargetContext());
-		systemAnimations.disableAll();
-		super.afterActivityLaunched();
-	}
-
-	@Override
-	protected void afterActivityFinished() {
-		systemAnimations.enableAll();
-		super.afterActivityFinished();
 	}
 
 	void setUpTestProjectFolder() {

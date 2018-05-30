@@ -54,6 +54,7 @@ apply plugin: 'pmd'
 apply from: 'gradle/code_quality_tasks.gradle'
 apply from: 'gradle/intellij_config_tasks.gradle'
 apply from: 'gradle/standalone_apk_tasks.gradle'
+apply from: 'gradle/android_tasks.gradle'
 
 check.dependsOn 'checkstyle'
 check.dependsOn 'pmd'
