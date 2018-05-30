@@ -758,7 +758,7 @@ public final class XstreamSerializer {
 
 		try {
 			String xml = Files.toString(xmlFile, Charsets.UTF_8);
-			if (!stringFinder.findBetween(xml, "<scenes><scene><name>", "</name>")) {
+			if (!stringFinder.findBetween(xml, "<scenes>\\s*<scene>\\s*<name>", "</name>")) {
 				return null;
 			} else {
 				return stringFinder.getResult();
