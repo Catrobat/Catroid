@@ -48,7 +48,7 @@ public class BackpackSpriteFragment extends BackpackRecyclerViewFragment<Sprite>
 	protected void initializeAdapter() {
 		sharedPreferenceDetailsKey = "showDetailsSpriteList";
 		hasDetails = true;
-		List<Sprite> items = BackpackListManager.getInstance().getBackpackedSprites();
+		List<Sprite> items = BackpackListManager.getInstance().getSprites();
 		adapter = new SpriteAdapter(items);
 		onAdapterReady();
 	}

@@ -63,6 +63,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
+import static org.catrobat.catroid.common.Constants.Z_INDEX_BACKGROUND;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 import static org.catrobat.catroid.utils.PathBuilder.buildScenePath;
 
@@ -139,7 +140,12 @@ public class CopyProjectTest {
 		lookData.setName("testLook1");
 		lookDataList.add(lookData);
 
-		Scene secondScene = new Scene(InstrumentationRegistry.getTargetContext(), "secondScene", project);
+		Scene secondScene = new Scene("secondScene", project);
+
+		Sprite backgroundSprite = new Sprite(InstrumentationRegistry.getTargetContext().getString(R.string.background));
+		backgroundSprite.look.setZIndex(Z_INDEX_BACKGROUND);
+		secondScene.addSprite(backgroundSprite);
+
 		project.addScene(secondScene);
 
 		ProjectManager.getInstance().setCurrentScene(project.getDefaultScene());

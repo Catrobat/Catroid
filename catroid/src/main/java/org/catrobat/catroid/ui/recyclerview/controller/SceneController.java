@@ -25,10 +25,13 @@ package org.catrobat.catroid.ui.recyclerview.controller;
 
 import android.util.Log;
 
-import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.SceneStartBrick;
+import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.physics.PhysicsWorld;
@@ -38,11 +41,10 @@ import org.catrobat.catroid.utils.PathBuilder;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 import static org.catrobat.catroid.common.Constants.BACKPACK_SCENE_DIRECTORY;
+import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
+import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 
 public class SceneController {
 
@@ -51,15 +53,40 @@ public class SceneController {
 	private UniqueNameProvider uniqueNameProvider = new UniqueNameProvider();
 	private SpriteController spriteController = new SpriteController();
 
+	public boolean rename(Scene sceneToRename, String name) {
+		String previousName = sceneToRename.getName();
+
+		File newDir = new File(PathBuilder.buildScenePath(sceneToRename.getProject().getName(), name));
+		boolean renamed = sceneToRename.getDirectory().renameTo(newDir);
+
+		if (renamed) {
+			sceneToRename.setName(name);
+			for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
+				for (Sprite sprite : scene.getSpriteList()) {
+					for (Brick brick : sprite.getAllBricks()) {
+						if (brick instanceof SceneStartBrick
+								&& ((SceneStartBrick) brick).getSceneToStart().equals(previousName)) {
+							((SceneStartBrick) brick).setSceneToStart(name);
+						}
+						if (brick instanceof SceneTransitionBrick
+								&& ((SceneTransitionBrick) brick).getSceneForTransition().equals(previousName)) {
+							((SceneTransitionBrick) brick).setSceneForTransition(name);
+						}
+					}
+				}
+			}
+		}
+
+		return renamed;
+	}
+
 	public Scene copy(Scene sceneToCopy, Project dstProject) throws IOException {
-		String name = uniqueNameProvider.getUniqueName(
-				sceneToCopy.getName(),
-				getScope(dstProject.getSceneList()));
+		String name = uniqueNameProvider.getUniqueName(sceneToCopy.getName(), dstProject.getSceneNames());
 
 		File dir = new File(PathBuilder.buildScenePath(dstProject.getName(), name));
 
 		if (!createDirectory(dir)) {
-			throw new IOException("DstDir for Scene" + name + "could not be created.");
+			throw new IOException("Directory for Scene " + name + " could not be created.");
 		}
 
 		Scene scene = new Scene();
@@ -85,21 +112,19 @@ public class SceneController {
 	}
 
 	public Scene pack(Scene sceneToPack) throws IOException {
-		String name = uniqueNameProvider.getUniqueName(
-				sceneToPack.getName(),
-				getScope(BackpackListManager.getInstance().getBackpackedScenes()));
+		String name = uniqueNameProvider
+				.getUniqueName(sceneToPack.getName(), BackpackListManager.getInstance().getSceneNames());
 
 		File dir = new File(BACKPACK_SCENE_DIRECTORY, name);
 
 		if (!createDirectory(dir)) {
-			throw new IOException("DstDir for Scene" + name + "could not be created.");
+			throw new IOException("Directory for Scene " + name + " could not be created.");
 		}
 
 		Scene scene = new Scene();
 		scene.setName(name);
 
 		scene.setProject(null);
-		scene.isBackPackScene = true;
 
 		for (Sprite sprite : sceneToPack.getSpriteList()) {
 			scene.getSpriteList().add(spriteController.copy(sprite, sceneToPack, scene));
@@ -113,8 +138,8 @@ public class SceneController {
 	}
 
 	private boolean createDirectory(File dir) {
-		File imageDir = new File(dir, Constants.IMAGE_DIRECTORY_NAME);
-		File soundDir = new File(dir, Constants.SOUND_DIRECTORY_NAME);
+		File imageDir = new File(dir, IMAGE_DIRECTORY_NAME);
+		File soundDir = new File(dir, SOUND_DIRECTORY_NAME);
 
 		dir.mkdir();
 		imageDir.mkdir();
@@ -131,13 +156,5 @@ public class SceneController {
 			return false;
 		}
 		return true;
-	}
-
-	private Set<String> getScope(List<Scene> items) {
-		Set<String> scope = new HashSet<>();
-		for (Scene item : items) {
-			scope.add(item.getName());
-		}
-		return scope;
 	}
 }

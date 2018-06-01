@@ -91,29 +91,6 @@ public abstract class UserListBrick extends FormulaBrick implements NewListDialo
 		this.backPackedData = backPackedData;
 	}
 
-	void updateUserListReference(Scene into, Scene from) {
-		UserList list;
-
-		if (from.existProjectList(userList)) {
-			list = into.getProjectListWithName(userList.getName());
-
-			if (list == null) {
-				list = into.getDataContainer().addProjectUserList(userList.getName());
-			}
-		} else {
-			Sprite sprite = from.getSpriteByUserList(userList);
-			if (sprite == null || !from.existSpriteList(userList, sprite)) {
-				return;
-			}
-			list = into.getDataContainer().addSpriteListIfDoesNotExist(
-					into.getSpriteBySpriteName(sprite.getName()), userList.getName());
-		}
-
-		if (list != null) {
-			userList = list;
-		}
-	}
-
 	@Override
 	public boolean isEqualBrick(Brick brick, Scene mergeResult, Scene current) {
 		if (!super.isEqualBrick(brick, mergeResult, current)) {

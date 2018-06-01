@@ -61,6 +61,7 @@ public class SpinnerAdapterWithNewOption extends ArrayAdapter<String> implements
 		}
 
 		((TextView) convertView).setText(getItem(position));
+
 		convertView.setOnTouchListener(new View.OnTouchListener() {
 
 			@Override

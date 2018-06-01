@@ -86,27 +86,6 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewVaria
 		this.backPackedData = backPackedData;
 	}
 
-	void updateUserVariableReference(Scene into, Scene from) {
-		UserVariable variable;
-		if (from.existProjectVariable(userVariable)) {
-			variable = into.getProjectVariableWithName(userVariable.getName());
-			if (variable == null) {
-				variable = into.getDataContainer().addProjectUserVariable(userVariable.getName());
-			}
-		} else {
-			Sprite sprite = from.getSpriteByUserVariable(userVariable);
-			if (sprite == null || !from.existSpriteVariable(userVariable, sprite)) {
-				return;
-			}
-			variable = into.getDataContainer().addSpriteVariableIfDoesNotExist(
-					into.getSpriteBySpriteName(sprite.getName()),
-					userVariable.getName());
-		}
-		if (variable != null) {
-			userVariable = variable;
-		}
-	}
-
 	@Override
 	public boolean isEqualBrick(Brick brick, Scene mergeResult, Scene current) {
 		if (!super.isEqualBrick(brick, mergeResult, current)) {

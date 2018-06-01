@@ -281,7 +281,7 @@ public class FormulaElement implements Serializable {
 		String secondSpriteName = formula;
 		Sprite secondSprite;
 		try {
-			secondSprite = ProjectManager.getInstance().getSceneToPlay().getSpriteBySpriteName(secondSpriteName);
+			secondSprite = ProjectManager.getInstance().getSceneToPlay().getSprite(secondSpriteName);
 		} catch (Resources.NotFoundException exception) {
 			return 0d;
 		}

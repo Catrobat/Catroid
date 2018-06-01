@@ -120,9 +120,6 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 
 	public abstract void showFormulaEditorToEditFormula(View view);
 
-	public void updateReferenceAfterMerge(Scene into, Scene from) {
-	}
-
 	public void setSecondText(View view, int textViewId, int editTextDurationId, BrickField brickField) {
 		TextView editDuration = (TextView) view.findViewById(editTextDurationId);
 		getFormulaWithBrickField(brickField)

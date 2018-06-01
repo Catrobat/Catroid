@@ -33,7 +33,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
@@ -125,10 +124,5 @@ public class HideTextBrick extends UserVariableBrick {
 
 		sequence.addAction(sprite.getActionFactory().createHideVariableAction(sprite, userVariable));
 		return null;
-	}
-
-	@Override
-	public void updateReferenceAfterMerge(Scene into, Scene from) {
-		super.updateUserVariableReference(into, from);
 	}
 }

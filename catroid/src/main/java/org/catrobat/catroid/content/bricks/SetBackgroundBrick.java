@@ -65,6 +65,6 @@ public class SetBackgroundBrick extends SetLookBrick {
 
 	@Override
 	protected Sprite getSprite() {
-		return ProjectManager.getInstance().getCurrentScene().getSpriteList().get(0);
+		return ProjectManager.getInstance().getCurrentScene().getBackgroundSprite();
 	}
 }

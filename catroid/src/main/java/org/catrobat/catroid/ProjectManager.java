@@ -468,7 +468,7 @@ public final class ProjectManager {
 		boolean projectCorrect = true;
 		if (inBackPack) {
 
-			List<Sprite> spritesToCheck = BackpackListManager.getInstance().getBackpackedSprites();
+			List<Sprite> spritesToCheck = BackpackListManager.getInstance().getSprites();
 
 			HashMap<String, List<Script>> backPackedScripts = BackpackListManager.getInstance().getBackpackedScripts();
 			for (String scriptGroup : backPackedScripts.keySet()) {

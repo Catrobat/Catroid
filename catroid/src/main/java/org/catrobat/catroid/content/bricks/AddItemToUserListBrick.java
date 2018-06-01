@@ -33,7 +33,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
-import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
@@ -143,10 +142,5 @@ public class AddItemToUserListBrick extends UserListBrick {
 	private void initializeBrickFields(Formula listAddItemFormula) {
 		addAllowedBrickField(BrickField.LIST_ADD_ITEM);
 		setFormulaWithBrickField(BrickField.LIST_ADD_ITEM, listAddItemFormula);
-	}
-
-	@Override
-	public void updateReferenceAfterMerge(Scene into, Scene from) {
-		super.updateUserListReference(into, from);
 	}
 }

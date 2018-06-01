@@ -56,9 +56,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static org.catrobat.catroid.common.Constants.DEFAULT_ROOT_DIRECTORY;
 
@@ -187,8 +185,8 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 		dialog.show(getFragmentManager(), RenameDialogFragment.TAG);
 	}
 
-	private Set<String> getScope() {
-		Set<String> scope = new HashSet<>();
+	private List<String> getScope() {
+		List<String> scope = new ArrayList<>();
 		for (ProjectData item : adapter.getItems()) {
 			scope.add(item.projectName);
 		}

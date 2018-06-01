@@ -77,7 +77,7 @@ public class UtilFileSizeTranslationsTest {
 		String arabicKb = "كيلوبايت";
 		double soundExpectedSize = 63.3;
 		double lookExpectedSize = 2.6;
-		double projectExpectedSize = 67.5;
+		double projectExpectedSize = 67.4;
 
 		assertEquals(currentNumberformat.format(soundExpectedSize) + " " + arabicKb,
 				FileMetaDataExtractor.getSizeAsString(soundFile, InstrumentationRegistry.getTargetContext()));

@@ -40,9 +40,8 @@ import org.catrobat.catroid.ui.recyclerview.adapter.NfcTagAdapter;
 import org.catrobat.catroid.ui.recyclerview.dialog.RenameDialogFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 
@@ -141,8 +140,8 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 		finishActionMode();
 	}
 
-	protected Set<String> getScope() {
-		Set<String> scope = new HashSet<>();
+	protected List<String> getScope() {
+		List<String> scope = new ArrayList<>();
 		for (NfcTagData item : adapter.getItems()) {
 			scope.add(item.getNfcTagName());
 		}

@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.ui.recyclerview.controller;
 
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
@@ -33,9 +32,11 @@ import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+
+import static org.catrobat.catroid.common.Constants.BACKPACK_IMAGE_DIRECTORY;
+import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 
 public class LookController {
 
@@ -69,7 +70,7 @@ public class LookController {
 		String name = uniqueNameProvider.getUniqueName(
 				lookToPack.getName(), getScope(BackpackListManager.getInstance().getBackpackedLooks()));
 
-		File file = StorageOperations.copyFileToDir(lookToPack.getFile(), Constants.BACKPACK_IMAGE_DIRECTORY);
+		File file = StorageOperations.copyFileToDir(lookToPack.getFile(), BACKPACK_IMAGE_DIRECTORY);
 
 		return new LookData(name, file);
 	}
@@ -80,7 +81,7 @@ public class LookController {
 				return look;
 			}
 		}
-		File file = StorageOperations.copyFileToDir(lookToPack.getFile(), Constants.BACKPACK_IMAGE_DIRECTORY);
+		File file = StorageOperations.copyFileToDir(lookToPack.getFile(), BACKPACK_IMAGE_DIRECTORY);
 		LookData look = new LookData(lookToPack.getName(), file);
 		dstSprite.getLookList().add(look);
 
@@ -105,8 +106,8 @@ public class LookController {
 		return lookData;
 	}
 
-	private Set<String> getScope(List<LookData> items) {
-		Set<String> scope = new HashSet<>();
+	private List<String> getScope(List<LookData> items) {
+		List<String> scope = new ArrayList<>();
 		for (LookData item : items) {
 			scope.add(item.getName());
 		}
@@ -114,6 +115,6 @@ public class LookController {
 	}
 
 	private File getImageDir(Scene scene) {
-		return new File(scene.getDirectory(), Constants.IMAGE_DIRECTORY_NAME);
+		return new File(scene.getDirectory(), IMAGE_DIRECTORY_NAME);
 	}
 }

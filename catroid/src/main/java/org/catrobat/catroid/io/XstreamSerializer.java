@@ -275,12 +275,16 @@ public final class XstreamSerializer {
 		xstream.processAnnotations(Setting.class);
 		xstream.processAnnotations(UserVariableBrick.class);
 		xstream.processAnnotations(UserListBrick.class);
+
 		xstream.registerConverter(new XStreamConcurrentFormulaHashMapConverter());
 		xstream.registerConverter(new XStreamUserVariableConverter());
 		xstream.registerConverter(new XStreamBrickConverter(xstream.getMapper(), xstream.getReflectionProvider()));
 		xstream.registerConverter(new XStreamScriptConverter(xstream.getMapper(), xstream.getReflectionProvider()));
 		xstream.registerConverter(new XStreamSpriteConverter(xstream.getMapper(), xstream.getReflectionProvider()));
 		xstream.registerConverter(new XStreamSettingConverter(xstream.getMapper(), xstream.getReflectionProvider()));
+
+		xstream.omitField(Scene.class, "originalWidth");
+		xstream.omitField(Scene.class, "originalHeight");
 
 		xstream.omitField(CameraBrick.class, "spinnerValues");
 		xstream.omitField(ChooseCameraBrick.class, "spinnerValues");
