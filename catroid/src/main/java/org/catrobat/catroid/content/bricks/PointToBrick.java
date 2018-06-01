@@ -41,7 +41,6 @@ import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterf
 import java.util.List;
 
 public class PointToBrick extends BrickBaseType implements
-		BrickWithSpriteReference,
 		SpinnerAdapterWithNewOption.OnNewOptionInDropDownClickListener,
 		NewItemInterface<Sprite> {
 
@@ -58,16 +57,6 @@ public class PointToBrick extends BrickBaseType implements
 
 	public PointToBrick(Sprite pointedSprite) {
 		this.pointedObject = pointedSprite;
-	}
-
-	@Override
-	public Sprite getSprite() {
-		return pointedObject;
-	}
-
-	@Override
-	public void setSprite(Sprite sprite) {
-		this.pointedObject = sprite;
 	}
 
 	@Override

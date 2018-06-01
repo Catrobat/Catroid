@@ -27,13 +27,11 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.ResultReceiver;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.facebook.login.LoginBehavior;
 import com.google.android.gms.common.images.WebImage;
 import com.google.common.base.Preconditions;
-import com.google.common.io.Closeables;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.squareup.okhttp.ConnectionSpec;
@@ -59,10 +57,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InterruptedIOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -577,29 +572,6 @@ public final class ServerCalls implements ScratchDataFetcher {
 			Log.e(TAG, Log.getStackTraceString(ioException));
 			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK,
 					"Connection could not be established!");
-		}
-	}
-
-	@Nullable
-	public byte[] downloadFile(final String url) throws Throwable {
-		InputStream inputStream = null;
-		try {
-			Log.d(TAG, "Downloading file from URL: " + url);
-			URL imageUrl = new URL(url);
-			HttpURLConnection connection = (HttpURLConnection) imageUrl.openConnection();
-			connection.setConnectTimeout(Constants.DOWNLOAD_FILE_HTTP_TIMEOUT);
-			connection.setReadTimeout(Constants.DOWNLOAD_FILE_HTTP_TIMEOUT);
-			connection.setInstanceFollowRedirects(true);
-			inputStream = connection.getInputStream();
-			if (inputStream == null) {
-				return null;
-			}
-			return Utils.convertInputStreamToByteArray(inputStream);
-		} catch (Throwable ex) {
-			Log.e(TAG, ex.getMessage());
-			throw ex;
-		} finally {
-			Closeables.closeQuietly(inputStream);
 		}
 	}
 
