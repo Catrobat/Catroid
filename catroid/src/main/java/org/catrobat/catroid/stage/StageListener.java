@@ -92,6 +92,7 @@ public class StageListener implements ApplicationListener {
 
 	private static final String TAG = StageListener.class.getSimpleName();
 	private static final int AXIS_WIDTH = 4;
+	private static final float DEFAULT_AXIS_SCALE_FACTOR = 1.2f;
 	private static final float DELTA_ACTIONS_DIVIDER_MAXIMUM = 50f;
 	private static final int ACTIONS_COMPUTATION_TIME_MAXIMUM = 8;
 	private static final boolean DEBUG = false;
@@ -170,17 +171,16 @@ public class StageListener implements ApplicationListener {
 
 	private ShapeRenderer collisionPolygonDebugRenderer;
 	private boolean drawDebugCollisionPolygons = false;
+	private Color axisColor = new Color();
 
 	private Map<Sprite, ShowBubbleActor> bubbleActorMap = new HashMap<>();
 
-	StageListener() {
+	StageListener(int color) {
+		Color.argb8888ToColor(axisColor, color);
 	}
 
 	@Override
 	public void create() {
-		font = new BitmapFont();
-		font.setColor(1f, 0f, 0.05f, 1f);
-		font.getData().setScale(1.2f);
 		deltaActionTimeDivisor = 10f;
 
 		shapeRenderer = new ShapeRenderer();
@@ -194,6 +194,10 @@ public class StageListener implements ApplicationListener {
 
 		virtualWidthHalf = virtualWidth / 2;
 		virtualHeightHalf = virtualHeight / 2;
+
+		font = new BitmapFont();
+		font.setColor(axisColor);
+		font.getData().setScale(DEFAULT_AXIS_SCALE_FACTOR);
 
 		camera = new OrthographicCamera();
 		viewPort = new ExtendViewport(virtualWidth, virtualHeight, camera);
@@ -591,20 +595,43 @@ public class StageListener implements ApplicationListener {
 		batch.end();
 	}
 
+	private GlyphLayout getScaledFont() {
+		GlyphLayout layout = new GlyphLayout();
+		layout.setText(font, String.valueOf((int) virtualWidthHalf));
+
+		float unscaledLayoutHeight = layout.height / font.getScaleX();
+		float unscaledLayoutWidth = layout.width / font.getScaleX();
+
+		float landscapeHeight = (virtualHeight < virtualWidth) ? virtualHeight : virtualWidth;
+		float fontPercentage = unscaledLayoutHeight / landscapeHeight;
+		float scaleFactor = 0.025f / fontPercentage;
+
+		layout.height = unscaledLayoutHeight * scaleFactor;
+		layout.width = unscaledLayoutWidth * scaleFactor;
+
+		font.getData().setScale(scaleFactor);
+
+		return layout;
+	}
+
 	private void drawAxes() {
+		GlyphLayout layout = getScaledFont();
+
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		batch.draw(axes, -virtualWidthHalf, -AXIS_WIDTH / 2, virtualWidth, AXIS_WIDTH);
 		batch.draw(axes, -AXIS_WIDTH / 2, -virtualHeightHalf, AXIS_WIDTH, virtualHeight);
 
-		GlyphLayout layout = new GlyphLayout();
-		layout.setText(font, String.valueOf((int) virtualHeightHalf));
-		font.draw(batch, "-" + (int) virtualWidthHalf, -virtualWidthHalf + 3, -layout.height / 2);
-		font.draw(batch, String.valueOf((int) virtualWidthHalf), virtualWidthHalf - layout.width, -layout.height / 2);
+		final float fontOffset = layout.height / 2;
 
-		font.draw(batch, "-" + (int) virtualHeightHalf, layout.height / 2, -virtualHeightHalf + layout.height + 3);
-		font.draw(batch, String.valueOf((int) virtualHeightHalf), layout.height / 2, virtualHeightHalf - 3);
-		font.draw(batch, "0", layout.height / 2, -layout.height / 2);
+		font.draw(batch, "-" + (int) virtualWidthHalf, -virtualWidthHalf + fontOffset, -fontOffset);
+		font.draw(batch, String.valueOf((int) virtualWidthHalf), virtualWidthHalf - layout.width - fontOffset,
+				-fontOffset);
+
+		font.draw(batch, "-" + (int) virtualHeightHalf, fontOffset, -virtualHeightHalf + layout.height + fontOffset);
+		font.draw(batch, String.valueOf((int) virtualHeightHalf), fontOffset, virtualHeightHalf - fontOffset);
+
+		font.draw(batch, "0", fontOffset, -fontOffset);
 		batch.end();
 	}
 
