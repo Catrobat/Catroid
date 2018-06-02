@@ -59,10 +59,14 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 		getSupportActionBar().setTitle(R.string.soundrecorder_name);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+		if (!Utils.isExternalStorageAvailable()) {
+			ToastUtil.showError(this, R.string.error_no_writiable_external_storage_available);
+			finish();
+		}
+
 		recordButton = findViewById(R.id.soundrecorder_record_button);
 		timeRecorderChronometer = findViewById(R.id.soundrecorder_chronometer_time_recorded);
 		recordButton.setOnClickListener(this);
-		Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this);
 	}
 
 	@Override

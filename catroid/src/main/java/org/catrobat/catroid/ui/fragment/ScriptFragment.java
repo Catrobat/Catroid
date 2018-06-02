@@ -223,7 +223,8 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 	public void onResume() {
 		super.onResume();
 
-		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(getActivity())) {
+		if (!Utils.isExternalStorageAvailable()) {
+			ToastUtil.showError(getActivity(), R.string.error_no_writiable_external_storage_available);
 			return;
 		}
 

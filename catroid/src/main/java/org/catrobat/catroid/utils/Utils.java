@@ -22,12 +22,8 @@
  */
 package org.catrobat.catroid.utils;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -35,7 +31,6 @@ import android.net.ConnectivityManager;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import com.badlogic.gdx.files.FileHandle;
@@ -87,32 +82,14 @@ public final class Utils {
 
 	public static final int TRANSLATION_PLURAL_OTHER_INTEGER = 767676;
 
-	// Suppress default constructor for noninstantiability
 	private Utils() {
 		throw new AssertionError();
 	}
 
-	public static boolean externalStorageAvailable() {
+	public static boolean isExternalStorageAvailable() {
 		String externalStorageState = Environment.getExternalStorageState();
 		return externalStorageState.equals(Environment.MEDIA_MOUNTED)
 				&& !externalStorageState.equals(Environment.MEDIA_MOUNTED_READ_ONLY);
-	}
-
-	public static boolean checkForExternalStorageAvailableAndDisplayErrorIfNot(final Context context) {
-		if (!externalStorageAvailable()) {
-			new AlertDialog.Builder(context)
-					.setTitle(R.string.error)
-					.setMessage(R.string.error_no_writiable_external_storage_available)
-					.setNeutralButton(R.string.close, new OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							((Activity) context).moveTaskToBack(true);
-						}
-					})
-					.show();
-			return false;
-		}
-		return true;
 	}
 
 	public static boolean isNetworkAvailable(Context context) {
@@ -390,13 +367,6 @@ public final class Utils {
 		return (int) (densityIndependentPixels * scale + 0.5f);
 	}
 
-	public static void saveToPreferences(Context context, String key, String message) {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-		Editor edit = sharedPreferences.edit();
-		edit.putString(key, message);
-		edit.commit();
-	}
-
 	public static String getCurrentProjectName(Context context) {
 		if (ProjectManager.getInstance().getCurrentProject() == null) {
 
@@ -414,10 +384,6 @@ public final class Utils {
 		return ProjectManager.getInstance().getCurrentProject().getName();
 	}
 
-	public static String deleteSpecialCharactersInString(String stringToAdapt) {
-		return stringToAdapt.replaceAll("[\"*/:<>?\\\\|]", "");
-	}
-
 	public static Pixmap getPixmapFromFile(File imageFile) {
 		Pixmap pixmap;
 		try {
@@ -431,18 +397,15 @@ public final class Utils {
 		return pixmap;
 	}
 
-	public static String getUniqueProjectName() {
-		String projectName = "project_" + System.currentTimeMillis();
-		while (XstreamSerializer.getInstance().projectExists(projectName)) {
-			projectName = "project_" + System.currentTimeMillis();
-		}
-		return projectName;
-	}
-
 	public static boolean isDefaultProject(Project projectToCheck, Context context) {
 		try {
-			Project defaultProject = DefaultProjectHandler
-					.createAndSaveDefaultProject(getUniqueProjectName(), context);
+			String uniqueProjectName = "project_" + System.currentTimeMillis();
+
+			while (XstreamSerializer.getInstance().projectExists(uniqueProjectName)) {
+				uniqueProjectName = "project_" + System.currentTimeMillis();
+			}
+
+			Project defaultProject = DefaultProjectHandler.createAndSaveDefaultProject(uniqueProjectName, context);
 
 			String defaultProjectXml = XstreamSerializer.getInstance().getXmlAsStringFromProject(defaultProject);
 

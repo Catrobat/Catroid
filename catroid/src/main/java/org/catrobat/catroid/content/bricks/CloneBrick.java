@@ -38,7 +38,7 @@ import org.catrobat.catroid.content.Sprite;
 import java.util.Collections;
 import java.util.List;
 
-public class CloneBrick extends BrickBaseType implements BrickWithSpriteReference {
+public class CloneBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
 
@@ -134,15 +134,5 @@ public class CloneBrick extends BrickBaseType implements BrickWithSpriteReferenc
 		}
 
 		return messageAdapter;
-	}
-
-	@Override
-	public Sprite getSprite() {
-		return objectToClone;
-	}
-
-	@Override
-	public void setSprite(Sprite sprite) {
-		this.objectToClone = sprite;
 	}
 }

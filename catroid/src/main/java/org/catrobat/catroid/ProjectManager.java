@@ -24,6 +24,7 @@ package org.catrobat.catroid;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.catrobat.catroid.common.Constants;
@@ -60,6 +61,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+
+import static org.catrobat.catroid.common.Constants.PREF_PROJECTNAME_KEY;
 
 public final class ProjectManager {
 
@@ -257,7 +260,11 @@ public final class ProjectManager {
 		}
 		currentSprite = null;
 		currentScript = null;
-		Utils.saveToPreferences(context, Constants.PREF_PROJECTNAME_KEY, project.getName());
+
+		PreferenceManager.getDefaultSharedPreferences(context)
+				.edit()
+				.putString(PREF_PROJECTNAME_KEY, project.getName())
+				.commit();
 	}
 
 	public void saveProject(Context context) {

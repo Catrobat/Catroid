@@ -76,6 +76,8 @@ import java.io.InputStream;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import static org.catrobat.catroid.common.Constants.PREF_PROJECTNAME_KEY;
+
 public class MainMenuActivity extends BaseCastActivity implements
 		ProjectLoaderTask.ProjectLoaderListener,
 		SignInDialog.SignInCompleteListener {
@@ -226,9 +228,13 @@ public class MainMenuActivity extends BaseCastActivity implements
 		super.onPause();
 
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+
 		if (currentProject != null) {
 			ProjectManager.getInstance().saveProject(getApplicationContext());
-			Utils.saveToPreferences(this, Constants.PREF_PROJECTNAME_KEY, currentProject.getName());
+			PreferenceManager.getDefaultSharedPreferences(this)
+					.edit()
+					.putString(PREF_PROJECTNAME_KEY, currentProject.getName())
+					.commit();
 		}
 	}
 
