@@ -58,9 +58,9 @@ public class OAuthUsernameDialogFragment extends DialogFragment implements
 	private TextInputLayout inputLayout;
 	private String openAuthProvider;
 
-	private SignInDialog.SignInCompleteListener signInCompleteListener;
+	private SignInCompleteListener signInCompleteListener;
 
-	public void setSignInCompleteListener(SignInDialog.SignInCompleteListener signInCompleteListener) {
+	public void setSignInCompleteListener(SignInCompleteListener signInCompleteListener) {
 		this.signInCompleteListener = signInCompleteListener;
 	}
 
