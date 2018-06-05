@@ -24,18 +24,11 @@ package org.catrobat.catroid.content;
 
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.WhenClonedBrick;
+import org.catrobat.catroid.content.eventids.EventId;
 
-public class WhenClonedScript extends Script {
+public class WhenClonedScript extends Script implements EventScript {
 
 	private static final long serialVersionUID = 1L;
-
-	public WhenClonedScript() {
-		super();
-	}
-
-	public WhenClonedScript(WhenClonedBrick brick) {
-		this.brick = brick;
-	}
 
 	@Override
 	protected Object readResolve() {
@@ -57,5 +50,10 @@ public class WhenClonedScript extends Script {
 		WhenClonedScript clone = new WhenClonedScript();
 		clone.getBrickList().addAll(cloneBrickList());
 		return clone;
+	}
+
+	@Override
+	public EventId createEventId(Sprite sprite) {
+		return new EventId(EventId.START_AS_CLONE);
 	}
 }

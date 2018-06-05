@@ -196,6 +196,12 @@ public class Look extends Image {
 		}
 	}
 
+	public void stopAllActions() {
+		if (scheduler != null) {
+			scheduler.stopAllActions();
+		}
+	}
+
 	void stopActionWithScript(Script script) {
 		if (scheduler != null) {
 			scheduler.stopActionsWithScript(script);
@@ -525,10 +531,6 @@ public class Look extends Image {
 	protected float convertStageAngleToCatroidAngle(float stageAngle) {
 		float catroidAngle = -stageAngle + DEGREE_UI_OFFSET;
 		return breakDownCatroidAngle(catroidAngle);
-	}
-
-	public void createAndAddActionsWithoutStartActions() {
-		sprite.createAndAddActions(Sprite.EXCLUDE_START_ACTIONS);
 	}
 
 	private class BrightnessContrastHueShader extends ShaderProgram {

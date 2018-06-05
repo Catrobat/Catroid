@@ -60,12 +60,13 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
+import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.WhenGamepadButtonScript;
+import org.catrobat.catroid.content.eventids.EventId;
+import org.catrobat.catroid.content.eventids.GamepadEventId;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.SoundManager;
@@ -252,7 +253,7 @@ public class StageListener implements ApplicationListener {
 		if (!copy.getLookList().isEmpty()) {
 			copy.look.setLookData(copy.getLookList().get(0));
 		}
-		copy.createAndAddActions(Sprite.INCLUDE_START_ACTIONS);
+		copy.initializeActions(EventId.START_AS_CLONE);
 	}
 
 	public boolean removeClonedSpriteFromStage(Sprite sprite) {
@@ -478,7 +479,7 @@ public class StageListener implements ApplicationListener {
 			int spriteSize = sprites.size();
 			for (int currentSprite = 0; currentSprite < spriteSize; currentSprite++) {
 				Sprite sprite = sprites.get(currentSprite);
-				sprite.createAndAddActions(Sprite.INCLUDE_START_ACTIONS);
+				sprite.initializeActions(EventId.START);
 				sprite.initConditionScriptTiggers();
 				if (!sprite.getLookList().isEmpty()) {
 					sprite.look.setLookData(sprite.getLookList().get(0));
@@ -738,22 +739,9 @@ public class StageListener implements ApplicationListener {
 	}
 
 	public void gamepadPressed(String buttonType) {
-
-		for (Sprite sprite : sprites) {
-			if (hasSpriteGamepadScript(sprite)) {
-				sprite.createWhengamepadButtonScriptActionSequence(buttonType);
-			}
-		}
-	}
-
-	public static boolean hasSpriteGamepadScript(Sprite sprite) {
-
-		for (Script script : sprite.getScriptList()) {
-			if (script instanceof WhenGamepadButtonScript) {
-				return true;
-			}
-		}
-		return false;
+		EventId eventId = new GamepadEventId(buttonType);
+		EventWrapper gamepadEvent = new EventWrapper(eventId, EventWrapper.NO_WAIT);
+		project.fireToAllSprites(gamepadEvent);
 	}
 
 	public void addActor(Actor actor) {

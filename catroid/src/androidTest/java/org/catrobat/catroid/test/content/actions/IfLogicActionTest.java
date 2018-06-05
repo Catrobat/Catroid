@@ -38,6 +38,7 @@ import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
+import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
@@ -109,7 +110,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
 		ProjectManager.getInstance().setCurrentScript(testScript);
 
-		testSprite.createAndAddActions(Sprite.INCLUDE_START_ACTIONS);
+		testSprite.initializeActions(EventId.START);
 		while (!testSprite.look.getAllActionsAreFinished()) {
 			testSprite.look.act(1f);
 		}
@@ -141,7 +142,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 		project.getDefaultScene().addSprite(testSprite);
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
 		ProjectManager.getInstance().setCurrentScript(testScript);
-		testSprite.createAndAddActions(Sprite.INCLUDE_START_ACTIONS);
+		testSprite.initializeActions(EventId.START);
 		testSprite.look.act(100f);
 
 		userVariable = ProjectManager.getInstance().getCurrentScene().getDataContainer()
@@ -171,7 +172,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 		project.getDefaultScene().addSprite(testSprite);
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
 		ProjectManager.getInstance().setCurrentScript(testScript);
-		testSprite.createAndAddActions(Sprite.INCLUDE_START_ACTIONS);
+		testSprite.initializeActions(EventId.START);
 		testSprite.look.act(100f);
 
 		userVariable = ProjectManager.getInstance().getCurrentScene().getDataContainer()
@@ -226,7 +227,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 		project.getDefaultScene().addSprite(testSprite);
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
 		ProjectManager.getInstance().setCurrentScript(testScript);
-		testSprite.createAndAddActions(Sprite.INCLUDE_START_ACTIONS);
+		testSprite.initializeActions(EventId.START);
 		testSprite.look.act(1f);
 		userVariable = ProjectManager.getInstance().getCurrentScene().getDataContainer()
 				.getUserVariable(null, TEST_USERVARIABLE);

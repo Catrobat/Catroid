@@ -96,6 +96,11 @@ public class ActionScheduler {
 		}
 	}
 
+	public void stopAllActions() {
+		actionsToBeRemoved.addAll(actor.getActions());
+		actionsToBeStarted.clear();
+	}
+
 	public boolean getAllActionsFinished() {
 		return actionsToBeStarted.size + actor.getActions().size == 0;
 	}

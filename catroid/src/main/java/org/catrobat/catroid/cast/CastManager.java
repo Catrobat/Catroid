@@ -68,7 +68,6 @@ import java.util.EnumMap;
 import static org.catrobat.catroid.common.Constants.CAST_IDLE_BACKGROUND_COLOR;
 
 public final class CastManager {
-
 	private static final CastManager INSTANCE = new CastManager();
 	private final ArrayList<MediaRouter.RouteInfo> routeInfos = new ArrayList<MediaRouter.RouteInfo>();
 	StageActivity gamepadActivity;
@@ -233,38 +232,40 @@ public final class CastManager {
 		}
 
 		boolean isActionDown = (event.getAction() == MotionEvent.ACTION_DOWN);
-		String buttonPressedName;
 
+		Sensors buttonPressed;
+		String buttonPressedName;
 		switch (button.getId()) {
 			case R.id.gamepadButtonA:
-				buttonPressedName = gamepadActivity.getString(R.string.cast_gamepad_A);
 				button.setImageResource(isActionDown ? R.drawable.gamepad_button_a_pressed : R.drawable.gamepad_button_a);
-				setButtonPress(Sensors.GAMEPAD_A_PRESSED, isActionDown);
+				buttonPressedName = gamepadActivity.getString(R.string.cast_gamepad_A);
+				buttonPressed = Sensors.GAMEPAD_A_PRESSED;
 				break;
 			case R.id.gamepadButtonB:
-				buttonPressedName = gamepadActivity.getString(R.string.cast_gamepad_B);
 				button.setImageResource(isActionDown ? R.drawable.gamepad_button_b_pressed : R.drawable.gamepad_button_b);
-				setButtonPress(Sensors.GAMEPAD_B_PRESSED, isActionDown);
+				buttonPressedName = gamepadActivity.getString(R.string.cast_gamepad_B);
+				buttonPressed = Sensors.GAMEPAD_B_PRESSED;
 				break;
 			case R.id.gamepadButtonUp:
 				buttonPressedName = gamepadActivity.getString(R.string.cast_gamepad_up);
-				setButtonPress(Sensors.GAMEPAD_UP_PRESSED, isActionDown);
+				buttonPressed = Sensors.GAMEPAD_UP_PRESSED;
 				break;
 			case R.id.gamepadButtonDown:
 				buttonPressedName = gamepadActivity.getString(R.string.cast_gamepad_down);
-				setButtonPress(Sensors.GAMEPAD_DOWN_PRESSED, isActionDown);
+				buttonPressed = Sensors.GAMEPAD_DOWN_PRESSED;
 				break;
 			case R.id.gamepadButtonLeft:
 				buttonPressedName = gamepadActivity.getString(R.string.cast_gamepad_left);
-				setButtonPress(Sensors.GAMEPAD_LEFT_PRESSED, isActionDown);
+				buttonPressed = Sensors.GAMEPAD_LEFT_PRESSED;
 				break;
 			case R.id.gamepadButtonRight:
 				buttonPressedName = gamepadActivity.getString(R.string.cast_gamepad_right);
-				setButtonPress(Sensors.GAMEPAD_RIGHT_PRESSED, isActionDown);
+				buttonPressed = Sensors.GAMEPAD_RIGHT_PRESSED;
 				break;
 			default:
 				throw new IllegalArgumentException("Unknown button pressed");
 		}
+		setButtonPress(buttonPressed, isActionDown);
 
 		if (isActionDown) {
 			((StageListener) gamepadActivity.getApplicationListener()).gamepadPressed(buttonPressedName);
@@ -364,7 +365,7 @@ public final class CastManager {
 				}
 				routeInfos.add(info);
 				castButton.setVisible(mediaRouter.isRouteAvailable(mediaRouteSelector, MediaRouter
-							.AVAILABILITY_FLAG_REQUIRE_MATCH));
+						.AVAILABILITY_FLAG_REQUIRE_MATCH));
 				deviceAdapter.notifyDataSetChanged();
 			}
 		}

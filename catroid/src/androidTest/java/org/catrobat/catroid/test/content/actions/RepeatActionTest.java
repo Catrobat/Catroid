@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.actions.RepeatAction;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
+import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
@@ -70,7 +71,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		testScript.addBrick(new ChangeYByNBrick(150));
 
 		testSprite.addScript(testScript);
-		testSprite.createAndAddActions(Sprite.INCLUDE_START_ACTIONS);
+		testSprite.initializeActions(EventId.START);
 
 		// http://code.google.com/p/catroid/issues/detail?id=28
 		for (int index = 0; index < REPEAT_TIMES; index++) {
@@ -97,7 +98,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		testScript.addBrick(loopEndBrick);
 
 		testSprite.addScript(testScript);
-		testSprite.createAndAddActions(Sprite.INCLUDE_START_ACTIONS);
+		testSprite.initializeActions(EventId.START);
 
 		while (!testSprite.look.getAllActionsAreFinished()) {
 			testSprite.look.act(1.0f);
@@ -124,7 +125,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		testScript.addBrick(loopEndBrick);
 
 		testSprite.addScript(testScript);
-		testSprite.createAndAddActions(Sprite.INCLUDE_START_ACTIONS);
+		testSprite.initializeActions(EventId.START);
 
 		while (!testSprite.look.getAllActionsAreFinished()) {
 			testSprite.look.act(1.0f);
@@ -154,7 +155,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		testScript.addBrick(loopEndBrick);
 
 		testSprite.addScript(testScript);
-		testSprite.createAndAddActions(Sprite.INCLUDE_START_ACTIONS);
+		testSprite.initializeActions(EventId.START);
 
 		float timePerActCycle = 0.5f;
 
@@ -233,7 +234,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		testScript.addBrick(new ChangeYByNBrick(delta));
 		testScript.addBrick(loopEndBrick);
 		testSprite.addScript(testScript);
-		testSprite.createAndAddActions(Sprite.INCLUDE_START_ACTIONS);
+		testSprite.initializeActions(EventId.START);
 
 		while (!testSprite.look.getAllActionsAreFinished()) {
 			testSprite.look.act(1.0f);
