@@ -465,12 +465,8 @@ public final class Utils {
 	public static void invalidateLoginTokenIfUserRestricted(Context context) {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 		if (sharedPreferences.getBoolean(Constants.RESTRICTED_USER, false)) {
-			logoutUser(context);
+			logoutUser(context, true);
 		}
-	}
-
-	public static void logoutUser(Context context) {
-		logoutUser(context, true);
 	}
 
 	public static void logoutUser(Context context, boolean showToast) {

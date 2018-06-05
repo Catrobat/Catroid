@@ -166,6 +166,11 @@ public class MainMenuFragment extends Fragment implements ButtonAdapter.OnItemCl
 	}
 
 	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+
+	@Override
 	public void onLoadFinished(boolean success, String message) {
 		if (success) {
 			Intent intent = new Intent(getActivity(), ProjectActivity.class);

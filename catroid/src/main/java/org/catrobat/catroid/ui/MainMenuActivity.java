@@ -62,7 +62,6 @@ import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectLoaderTask;
 import org.catrobat.catroid.ui.recyclerview.dialog.AboutDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.PrivacyPolicyDialogFragment;
-import org.catrobat.catroid.ui.recyclerview.dialog.login.SignInDialog;
 import org.catrobat.catroid.ui.recyclerview.fragment.MainMenuFragment;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.PathBuilder;
@@ -78,15 +77,11 @@ import java.lang.annotation.RetentionPolicy;
 
 import static org.catrobat.catroid.common.Constants.PREF_PROJECTNAME_KEY;
 
-public class MainMenuActivity extends BaseCastActivity implements
-		ProjectLoaderTask.ProjectLoaderListener,
-		SignInDialog.SignInCompleteListener {
+public class MainMenuActivity extends BaseCastActivity implements ProjectLoaderTask.ProjectLoaderListener {
 
 	public static final String TAG = MainMenuActivity.class.getSimpleName();
 
 	public static final String AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY = "AgreedToPrivacyPolicy";
-	public static final int REQUEST_CODE_GOOGLE_PLUS_SIGNIN = 100;
-
 	private static final int ACCESS_STORAGE = 0;
 
 	@Retention(RetentionPolicy.SOURCE)
@@ -99,16 +94,19 @@ public class MainMenuActivity extends BaseCastActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		SettingsFragment.setToChosenLanguage(this);
 
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
 		ScreenValueHandler.updateScreenWidthAndHeight(this);
 
-		if (!PreferenceManager.getDefaultSharedPreferences(this)
-				.getBoolean(AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY, false)) {
-			setContentView(R.layout.privacy_policy_view);
-		} else {
+		boolean hasUserAgreedToPrivacyPolicy = PreferenceManager.getDefaultSharedPreferences(this)
+				.getBoolean(AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY, false);
+
+		if (hasUserAgreedToPrivacyPolicy) {
 			loadContent();
+		} else {
+			setContentView(R.layout.privacy_policy_view);
 		}
 	}
 
@@ -148,15 +146,13 @@ public class MainMenuActivity extends BaseCastActivity implements
 		}
 
 		@PermissionChecker.PermissionResult
-		int permissionResult = ContextCompat.checkSelfPermission(this,
-				Manifest.permission.WRITE_EXTERNAL_STORAGE);
+		int permissionResult = ContextCompat
+				.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 		if (permissionResult == PackageManager.PERMISSION_GRANTED) {
 			onPermissionsGranted();
 		} else {
-			ActivityCompat.requestPermissions(
-							this,
-							new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-							ACCESS_STORAGE);
+			ActivityCompat.requestPermissions(this,
+					new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, ACCESS_STORAGE);
 		}
 	}
 
@@ -268,7 +264,16 @@ public class MainMenuActivity extends BaseCastActivity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.menu_rate_app:
-				launchMarket();
+				if (Utils.isNetworkAvailable(this)) {
+					try {
+						startActivity(new Intent(Intent.ACTION_VIEW,
+								Uri.parse("market://details?id=" + getPackageName())));
+					} catch (ActivityNotFoundException e) {
+						ToastUtil.showError(this, R.string.main_menu_play_store_not_installed);
+					}
+				} else {
+					ToastUtil.showError(this, R.string.error_internet_connection);
+				}
 				break;
 			case R.id.menu_terms_of_use:
 				new TermsOfUseDialogFragment().show(getFragmentManager(), TermsOfUseDialogFragment.TAG);
@@ -290,29 +295,15 @@ public class MainMenuActivity extends BaseCastActivity implements
 				startActivity(new Intent(this, SettingsActivity.class));
 				break;
 			case R.id.menu_login:
-				SignInDialog dialog = new SignInDialog();
-				dialog.setSignInCompleteListener(this);
-				dialog.show(getFragmentManager(), SignInDialog.TAG);
+				startActivity(new Intent(this, SignInActivity.class));
 				break;
 			case R.id.menu_logout:
-				Utils.logoutUser(this);
+				Utils.logoutUser(this, true);
 				break;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
 		return true;
-	}
-
-	private void launchMarket() {
-		if (Utils.isNetworkAvailable(this)) {
-			try {
-				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getPackageName())));
-			} catch (ActivityNotFoundException e) {
-				ToastUtil.showError(this, R.string.main_menu_play_store_not_installed);
-			}
-		} else {
-			ToastUtil.showError(this, R.string.error_internet_connection);
-		}
 	}
 
 	private void prepareStandaloneProject() {
@@ -331,14 +322,6 @@ public class MainMenuActivity extends BaseCastActivity implements
 			startActivityForResult(
 					new Intent(this, PreStageActivity.class), PreStageActivity.REQUEST_RESOURCES_INIT);
 		}
-	}
-
-	@Override
-	public void onLoginSuccessful(Bundle bundle) {
-	}
-
-	@Override
-	public void onLoginCancel() {
 	}
 
 	@Override
