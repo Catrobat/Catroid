@@ -125,16 +125,22 @@ public class RegistrationDialogFragment extends DialogFragment implements OnRegi
 		String passwordConfirmation = confirmPasswordInputLayout.getEditText().getText().toString();
 		String email = emailInputLayout.getEditText().getText().toString();
 
-		if (password.equals(passwordConfirmation)) {
+		if (username.contains("@")) {
+			showErrorAlertDialog(R.string.register_email_as_username_error);
+		} else if (!password.equals(passwordConfirmation)) {
+			showErrorAlertDialog(R.string.register_password_mismatch);
+		} else {
 			RegistrationTask registrationTask = new RegistrationTask(getActivity(), username, password, email);
 			registrationTask.setOnRegistrationCompleteListener(this);
 			registrationTask.execute();
-		} else {
-			new AlertDialog.Builder(getActivity())
-					.setTitle(R.string.register_error)
-					.setMessage(R.string.register_password_mismatch)
-					.setPositiveButton(R.string.ok, null)
-					.show();
 		}
+	}
+
+	private void showErrorAlertDialog(int messageId) {
+		new AlertDialog.Builder(getActivity())
+				.setTitle(R.string.register_error)
+				.setMessage(messageId)
+				.setPositiveButton(R.string.ok, null)
+				.show();
 	}
 }
