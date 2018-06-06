@@ -101,9 +101,9 @@ public class WhenBackgroundChangesScriptTest {
 		setBackgroundBrick.setLook(bg2);
 		startScript.addBrick(setBackgroundBrick);
 		whenBgChangesScript.addBrick(new SetXBrick(position));
-		sprite.initializeActions(EventId.START);
+		sprite.initializeEventThreads(EventId.START);
 
-		while (!sprite.look.getAllActionsAreFinished()) {
+		while (!sprite.look.haveAllThreadsFinished()) {
 			sprite.look.act(1.0f);
 		}
 
@@ -117,9 +117,9 @@ public class WhenBackgroundChangesScriptTest {
 		setBackgroundBrick.setLook(bg1);
 		startScript.addBrick(setBackgroundBrick);
 		whenBgChangesScript.addBrick(new SetXBrick(position));
-		sprite.initializeActions(EventId.START);
+		sprite.initializeEventThreads(EventId.START);
 
-		while (!sprite.look.getAllActionsAreFinished()) {
+		while (!sprite.look.haveAllThreadsFinished()) {
 			sprite.look.act(1.0f);
 		}
 
@@ -137,9 +137,9 @@ public class WhenBackgroundChangesScriptTest {
 		startScript.addBrick(setBackgroundBrick1);
 		startScript.addBrick(setBackgroundBrick2);
 		whenBgChangesScript.addBrick(new SetXBrick(position));
-		sprite.initializeActions(EventId.START);
+		sprite.initializeEventThreads(EventId.START);
 
-		while (!sprite.look.getAllActionsAreFinished()) {
+		while (!sprite.look.haveAllThreadsFinished()) {
 			sprite.look.act(1.0f);
 		}
 

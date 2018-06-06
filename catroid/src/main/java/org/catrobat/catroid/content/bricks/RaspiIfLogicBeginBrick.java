@@ -28,11 +28,11 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 
 import java.util.LinkedList;
@@ -96,14 +96,14 @@ public class RaspiIfLogicBeginBrick extends IfLogicBeginBrick {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		SequenceAction ifAction = (SequenceAction) sprite.getActionFactory().createSequence();
-		SequenceAction elseAction = (SequenceAction) sprite.getActionFactory().createSequence();
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		ScriptSequenceAction ifAction = (ScriptSequenceAction) sprite.getActionFactory().eventSequence(sequence.getScript());
+		ScriptSequenceAction elseAction = (ScriptSequenceAction) sprite.getActionFactory().eventSequence(sequence.getScript());
 		Action action = sprite.getActionFactory().createRaspiIfLogicActionAction(sprite, getFormulaWithBrickField(BrickField.IF_CONDITION), ifAction,
 				elseAction);
 		sequence.addAction(action);
 
-		LinkedList<SequenceAction> returnActionList = new LinkedList<SequenceAction>();
+		LinkedList<ScriptSequenceAction> returnActionList = new LinkedList<>();
 		returnActionList.add(elseAction);
 		returnActionList.add(ifAction);
 

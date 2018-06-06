@@ -110,7 +110,7 @@ public class PhysicsCollisionBetweenTest extends PhysicsCollisionBaseTest {
 		secondSpriteCollisionScript.addBrick(testBrick);
 		sprite2.addScript(secondSpriteCollisionScript);
 
-		sprite2.initializeActions(EventId.START);
+		sprite2.initializeEventThreads(EventId.START);
 
 		simulateFullCollision();
 
@@ -128,7 +128,7 @@ public class PhysicsCollisionBetweenTest extends PhysicsCollisionBaseTest {
 
 	public boolean allActionsOfAllSpritesAreFinished() {
 		for (Sprite spriteOfList : project.getDefaultScene().getSpriteList()) {
-			if (!spriteOfList.look.getAllActionsAreFinished()) {
+			if (!spriteOfList.look.haveAllThreadsFinished()) {
 				return false;
 			}
 		}

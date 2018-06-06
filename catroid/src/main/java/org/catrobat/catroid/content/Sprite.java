@@ -24,7 +24,6 @@ package org.catrobat.catroid.content;
 
 import android.content.Context;
 import android.graphics.PointF;
-import android.support.annotation.IntDef;
 import android.util.Log;
 
 import com.badlogic.gdx.graphics.Color;
@@ -39,7 +38,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.content.actions.EventSequenceAction;
+import org.catrobat.catroid.content.actions.EventThread;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
@@ -61,8 +60,6 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.fragment.SpriteFactory;
 
 import java.io.Serializable;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -89,7 +86,7 @@ public class Sprite implements Serializable, Cloneable {
 	public transient PenConfiguration penConfiguration = new PenConfiguration();
 	private transient boolean convertToSingleSprite = false;
 	private transient boolean convertToGroupItemSprite = false;
-	private transient Multimap<EventId, EventSequenceAction> idToEventSequenceMap = HashMultimap.create();
+	private transient Multimap<EventId, EventThread> idToEventThreadMap = HashMultimap.create();
 	private transient Set<ConditionScriptTrigger> conditionScriptTriggers = new HashSet<>();
 
 	@XStreamAsAttribute
@@ -103,14 +100,6 @@ public class Sprite implements Serializable, Cloneable {
 	private transient ActionFactory actionFactory = new ActionFactory();
 
 	public transient boolean isClone = false;
-
-	@Retention(RetentionPolicy.SOURCE)
-	@IntDef({INCLUDE_START_ACTIONS, EXCLUDE_START_ACTIONS})
-	@interface CreateActionsMode {
-	}
-
-	public static final int INCLUDE_START_ACTIONS = 0;
-	public static final int EXCLUDE_START_ACTIONS = 1;
 
 	public Sprite(String name) {
 		this.name = name;
@@ -181,7 +170,7 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public void invalidate() {
-		idToEventSequenceMap = null;
+		idToEventThreadMap = null;
 		conditionScriptTriggers = null;
 		penConfiguration = null;
 	}
@@ -239,22 +228,19 @@ public class Sprite implements Serializable, Cloneable {
 		}
 	}
 
-	public void initializeActions(@EventId.EventType int startType) {
-		idToEventSequenceMap.clear();
+	public void initializeEventThreads(@EventId.EventType int startType) {
+		idToEventThreadMap.clear();
 		for (Script script : scriptList) {
-			createActionAndAddToEventMap(script);
+			createThreadAndAddToEventMap(script);
 		}
 		look.fire(new EventWrapper(new EventId(startType), EventWrapper.NO_WAIT));
 	}
 
-	private void createActionAndAddToEventMap(Script script) {
+	private void createThreadAndAddToEventMap(Script script) {
 		if (script.isCommentedOut()) {
 			return;
 		}
-		if (script instanceof EventScript) {
-			EventScript eventScript = (EventScript) script;
-			idToEventSequenceMap.put(eventScript.createEventId(this), createEventSequence(script));
-		}
+		idToEventThreadMap.put(script.createEventId(this), createEventThread(script));
 	}
 
 	public ActionFactory getActionFactory() {
@@ -307,7 +293,7 @@ public class Sprite implements Serializable, Cloneable {
 
 		cloneSprite.soundList = this.soundList;
 		cloneSprite.nfcTagList = this.nfcTagList;
-		cloneSprite.idToEventSequenceMap = HashMultimap.create();
+		cloneSprite.idToEventThreadMap = HashMultimap.create();
 		cloneSprite.conditionScriptTriggers = this.conditionScriptTriggers;
 
 		Sprite originalSprite = ProjectManager.getInstance().getCurrentSprite();
@@ -438,8 +424,8 @@ public class Sprite implements Serializable, Cloneable {
 		cloneSprite.scriptList = cloneScriptList;
 	}
 
-	private EventSequenceAction createEventSequence(Script script) {
-		EventSequenceAction sequence = (EventSequenceAction) ActionFactory.eventSequence(script);
+	private EventThread createEventThread(Script script) {
+		EventThread sequence = (EventThread) actionFactory.createEventThread(script);
 		script.run(this, sequence);
 		return sequence;
 	}
@@ -731,7 +717,7 @@ public class Sprite implements Serializable, Cloneable {
 		return look.getZIndex() == Constants.Z_INDEX_BACKGROUND;
 	}
 
-	public Multimap<EventId, EventSequenceAction> getIdToEventSequenceMap() {
-		return idToEventSequenceMap;
+	public Multimap<EventId, EventThread> getIdToEventThreadMap() {
+		return idToEventThreadMap;
 	}
 }

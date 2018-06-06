@@ -26,7 +26,7 @@ import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 
-public class WhenScript extends Script implements EventScript {
+public class WhenScript extends Script {
 
 	private static final long serialVersionUID = 1L;
 

@@ -27,10 +27,9 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.io.Serializable;
@@ -112,7 +111,7 @@ public interface Brick extends Serializable, Cloneable {
 	int CAST_REQUIRED = 0x400000;
 	int JUMPING_SUMO = 0x800000;
 
-	List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence);
+	List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence);
 
 	View getView(Context context, int brickId, BaseAdapter adapter);
 

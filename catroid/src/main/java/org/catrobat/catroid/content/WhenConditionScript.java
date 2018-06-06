@@ -34,7 +34,7 @@ import org.catrobat.catroid.utils.CrashReporter;
 
 import java.util.ArrayList;
 
-public class WhenConditionScript extends Script implements EventScript {
+public class WhenConditionScript extends Script {
 
 	private static final long serialVersionUID = 1L;
 

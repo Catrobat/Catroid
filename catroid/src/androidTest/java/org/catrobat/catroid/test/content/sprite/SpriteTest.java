@@ -24,15 +24,15 @@ package org.catrobat.catroid.test.content.sprite;
 
 import android.test.AndroidTestCase;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.actions.EventThread;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
 import org.catrobat.catroid.content.bricks.ShowTextBrick;
@@ -183,16 +183,16 @@ public class SpriteTest extends AndroidTestCase {
 		userVariable.setVisible(false);
 		ProjectManager.getInstance().setSceneToPlay(secondScene);
 
-		SequenceAction sequence = new SequenceAction();
-		sequence.addAction(sprite2.getActionFactory().createShowVariableAction(sprite2, new Formula(10),
+		EventThread thread = (EventThread) ActionFactory.createEventThread(new StartScript());
+		thread.addAction(sprite2.getActionFactory().createShowVariableAction(sprite2, new Formula(10),
 				new Formula(10), userVariable));
-		secondScript.run(sprite2, sequence);
+		secondScript.run(sprite2, thread);
 
 		DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
 		userVariable = dataContainer.getUserVariable(sprite2, variableName);
 		assertFalse(userVariable.getVisible());
 
-		sequence.act(1f);
+		thread.act(1f);
 
 		userVariable = dataContainer.getUserVariable(sprite2, variableName);
 		assertTrue(userVariable.getVisible());

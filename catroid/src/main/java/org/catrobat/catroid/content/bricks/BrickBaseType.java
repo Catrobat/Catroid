@@ -27,10 +27,9 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.util.List;
@@ -137,7 +136,7 @@ public abstract class BrickBaseType implements Brick {
 	public abstract View getPrototypeView(Context context);
 
 	@Override
-	public abstract List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence);
+	public abstract List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence);
 
 	@Override
 	public void storeDataForBackPack(Sprite sprite) {

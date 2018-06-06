@@ -38,11 +38,12 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Array;
 
-import org.catrobat.catroid.common.ActionScheduler;
 import org.catrobat.catroid.common.DroneVideoLookData;
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.content.actions.EventSequenceAction;
+import org.catrobat.catroid.common.ThreadScheduler;
+import org.catrobat.catroid.content.actions.EventThread;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.utils.TouchUtil;
 
@@ -66,11 +67,11 @@ public class Look extends Image {
 	private int rotationMode = ROTATION_STYLE_ALL_AROUND;
 	private float rotation = 90f;
 	private float realRotation = rotation;
-	private ActionScheduler scheduler;
+	private ThreadScheduler scheduler;
 
 	public Look(final Sprite sprite) {
 		this.sprite = sprite;
-		scheduler = new ActionScheduler(this);
+		scheduler = new ThreadScheduler(this);
 		setBounds(0f, 0f, 0f, 0f);
 		setOrigin(0f, 0f);
 		setScale(1f, 1f);
@@ -190,21 +191,21 @@ public class Look extends Image {
 		}
 	}
 
-	public void startAction(Action action) {
+	public void startThread(EventThread threadToBeStarted) {
 		if (scheduler != null) {
-			scheduler.startAction(action);
+			scheduler.startThread(threadToBeStarted);
 		}
 	}
 
-	public void stopAllActions() {
+	public void stopThreads(Array<Action> threads) {
 		if (scheduler != null) {
-			scheduler.stopAllActions();
+			scheduler.stopThreads(threads);
 		}
 	}
 
-	void stopActionWithScript(Script script) {
+	public void stopThreadWithScript(Script script) {
 		if (scheduler != null) {
-			scheduler.stopActionsWithScript(script);
+			scheduler.stopThreadsWithScript(script);
 		}
 	}
 
@@ -257,8 +258,8 @@ public class Look extends Image {
 		imageChanged = true;
 	}
 
-	public boolean getAllActionsAreFinished() {
-		return scheduler.getAllActionsFinished();
+	public boolean haveAllThreadsFinished() {
+		return scheduler.haveAllThreadsFinished();
 	}
 
 	public String getImagePath() {
@@ -636,8 +637,8 @@ public class Look extends Image {
 
 	void notifyAllWaiters() {
 		for (Action action : getActions()) {
-			if (action instanceof EventSequenceAction) {
-				((EventSequenceAction) action).notifyWaiter();
+			if (action instanceof EventThread) {
+				((EventThread) action).notifyWaiter();
 			}
 		}
 	}

@@ -25,8 +25,7 @@ package org.catrobat.catroid.content;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 
-import org.catrobat.catroid.content.actions.EventSequenceAction;
-import org.catrobat.catroid.content.actions.NotifyEventWaiterAction;
+import org.catrobat.catroid.content.actions.EventThread;
 
 import java.util.Collection;
 
@@ -48,20 +47,15 @@ public class EventWrapperListener implements EventListener {
 	}
 
 	private void handleEvent(EventWrapper event) {
-		Collection<EventSequenceAction> sequenceActions = look.sprite.getIdToEventSequenceMap().get(event.eventId);
-		for (EventSequenceAction actionToBeStarted : sequenceActions) {
+		Collection<EventThread> threads = look.sprite.getIdToEventThreadMap().get(event.eventId);
+		for (EventThread threadToBeStarted : threads) {
 			if (event.waitMode == EventWrapper.WAIT) {
-				actionToBeStarted = createActionForWaitEvent(event, actionToBeStarted);
+				event.addSpriteToWaitFor(look.sprite);
+				threadToBeStarted = new EventThread(threadToBeStarted, look.sprite, event);
+				// Copy original thread because it has a different NotifyWaiterAction
 			}
-			look.stopActionWithScript(actionToBeStarted.getScript());
-			look.startAction(actionToBeStarted);
+			look.stopThreadWithScript(threadToBeStarted.getScript());
+			look.startThread(threadToBeStarted);
 		}
-	}
-
-	private EventSequenceAction createActionForWaitEvent(EventWrapper event, EventSequenceAction actionToBeStarted) {
-		event.addSpriteToWaitFor(look.sprite);
-		actionToBeStarted = actionToBeStarted.clone(); // we want to add an action, but not to the original action
-		actionToBeStarted.setNotifyAction((NotifyEventWaiterAction) ActionFactory.createNotifyEventWaiterAction(look.sprite, event));
-		return actionToBeStarted;
 	}
 }

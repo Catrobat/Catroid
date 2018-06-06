@@ -26,7 +26,7 @@ import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 
-public class StartScript extends Script implements EventScript {
+public class StartScript extends Script {
 
 	private static final long serialVersionUID = 1L;
 	private boolean isUserScript;

@@ -62,11 +62,11 @@ public class WhenTouchDownScriptTest {
 	public void basicTouchDownScriptTest() {
 		touchDownScript.addBrick(new ChangeXByNBrick(10));
 
-		sprite.initializeActions(EventId.START);
+		sprite.initializeEventThreads(EventId.START);
 
 		TouchUtil.touchDown(0, 0, 1);
 
-		while (!sprite.look.getAllActionsAreFinished()) {
+		while (!sprite.look.haveAllThreadsFinished()) {
 			sprite.look.act(1.0f);
 		}
 
@@ -78,13 +78,13 @@ public class WhenTouchDownScriptTest {
 		touchDownScript.addBrick(new WaitBrick(50));
 		touchDownScript.addBrick(new ChangeXByNBrick(10));
 
-		sprite.initializeActions(EventId.START);
+		sprite.initializeEventThreads(EventId.START);
 
 		TouchUtil.touchDown(0, 0, 1);
 		TouchUtil.touchUp(1);
 		TouchUtil.touchDown(10, 10, 1);
 
-		while (!sprite.look.getAllActionsAreFinished()) {
+		while (!sprite.look.haveAllThreadsFinished()) {
 			sprite.look.act(1.0f);
 		}
 

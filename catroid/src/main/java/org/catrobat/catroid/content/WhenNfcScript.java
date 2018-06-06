@@ -31,7 +31,7 @@ import org.catrobat.catroid.content.eventids.NfcEventId;
 
 import java.util.ArrayList;
 
-public class WhenNfcScript extends Script implements EventScript {
+public class WhenNfcScript extends Script {
 
 	private static final long serialVersionUID = 1L;
 

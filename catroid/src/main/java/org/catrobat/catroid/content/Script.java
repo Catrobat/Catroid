@@ -22,8 +22,7 @@
  */
 package org.catrobat.catroid.content;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
@@ -34,6 +33,7 @@ import org.catrobat.catroid.content.bricks.LoopBeginBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
+import org.catrobat.catroid.content.eventids.EventId;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -56,6 +56,8 @@ public abstract class Script implements Serializable {
 	}
 
 	public abstract Script clone() throws CloneNotSupportedException;
+
+	public abstract EventId createEventId(Sprite sprite);
 
 	public List<Brick> cloneBrickList() throws CloneNotSupportedException {
 		List<Brick> copies = new ArrayList<>();
@@ -123,21 +125,20 @@ public abstract class Script implements Serializable {
 
 	public abstract ScriptBrick getScriptBrick();
 
-	public void run(Sprite sprite, SequenceAction sequence) {
+	public void run(Sprite sprite, ScriptSequenceAction sequence) {
 		if (this.isCommentedOut()) {
 			return;
 		}
 
-		ArrayList<SequenceAction> sequenceList = new ArrayList<>();
+		ArrayList<ScriptSequenceAction> sequenceList = new ArrayList<>();
 		sequenceList.add(sequence);
 		for (int i = 0; i < brickList.size(); i++) {
 			if (brickList.get(i).isCommentedOut()) {
 				continue;
 			}
-			List<SequenceAction> actions = brickList.get(i).addActionToSequence(sprite,
-					sequenceList.get(sequenceList.size() - 1));
+			List<ScriptSequenceAction> actions = brickList.get(i).addActionToSequence(sprite, sequenceList.get(sequenceList.size() - 1));
 			if (actions != null) {
-				for (SequenceAction action : actions) {
+				for (ScriptSequenceAction action : actions) {
 					if (sequenceList.contains(action)) {
 						sequenceList.remove(action);
 					} else {

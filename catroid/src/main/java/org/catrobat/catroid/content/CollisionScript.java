@@ -28,7 +28,7 @@ import org.catrobat.catroid.content.eventids.CollisionEventId;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
 
-public class CollisionScript extends Script implements EventScript {
+public class CollisionScript extends Script {
 
 	private static final long serialVersionUID = 1L;
 	private String spriteToCollideWithName;

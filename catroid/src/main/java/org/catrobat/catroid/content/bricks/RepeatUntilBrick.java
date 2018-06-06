@@ -28,11 +28,11 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
@@ -104,14 +104,14 @@ public class RepeatUntilBrick extends FormulaBrick implements LoopBeginBrick {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		Action repeatSequence = sprite.getActionFactory().createSequence();
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		ScriptSequenceAction repeatSequence = (ScriptSequenceAction) sprite.getActionFactory().eventSequence(sequence.getScript());
 
-		Action action = sprite.getActionFactory().createRepeatUntilAction(sprite, getFormulaWithBrickField(BrickField.REPEAT_UNTIL_CONDITION),
-				repeatSequence);
+		Action action = sprite.getActionFactory().createRepeatUntilAction(sprite,
+				getFormulaWithBrickField(BrickField.REPEAT_UNTIL_CONDITION), repeatSequence);
 		sequence.addAction(action);
-		LinkedList<SequenceAction> returnActionList = new LinkedList<SequenceAction>();
-		returnActionList.add((SequenceAction) repeatSequence);
+		LinkedList<ScriptSequenceAction> returnActionList = new LinkedList<>();
+		returnActionList.add(repeatSequence);
 		return returnActionList;
 	}
 
