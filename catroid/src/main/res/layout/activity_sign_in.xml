@@ -21,51 +21,70 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="@dimen/dialog_content_area_padding_top"
-    android:paddingStart="@dimen/dialog_content_area_padding"
-    android:paddingEnd="@dimen/dialog_content_area_padding"
-    android:paddingBottom="@dimen/dialog_content_area_padding">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center">
+    android:paddingBottom="@dimen/dialog_content_area_padding"
+    android:orientation="vertical"
+    android:gravity="center">
 
         <Button
-            android:id="@+id/dialog_sign_in_login"
+            android:id="@+id/sign_in_login"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/login" />
+            android:text="@string/login"
+            android:textSize="?attr/x_large"
+            android:onClick="onButtonClick"/>
 
         <Button
-            android:id="@+id/dialog_sign_in_register"
+            android:id="@+id/sign_in_register"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/register" />
+            android:text="@string/register"
+            android:textSize="?attr/x_large"
+            android:onClick="onButtonClick"/>
 
         <Button
-            android:id="@+id/dialog_sign_in_facebook_login_button"
+            android:id="@+id/sign_in_facebook_login_button"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/sign_in_with_facebook" />
+            android:text="@string/sign_in_with_facebook"
+            android:textSize="?attr/medium"
+            android:background="@color/facebook_blue"
+            android:textColor="@color/white"
+            android:paddingStart="@dimen/material_design_spacing_large"
+            android:drawableStart="@drawable/sign_in_with_facebook"
+            android:layout_marginStart="@dimen/material_design_spacing_x_large"
+            android:layout_marginEnd="@dimen/material_design_spacing_x_large"
+            android:layout_marginTop="@dimen/material_design_spacing_large"
+            android:onClick="onButtonClick"/>
 
         <Button
-            android:id="@+id/dialog_sign_in_gplus_login_button"
+            android:id="@+id/sign_in_gplus_login_button"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/sign_in_with_google" />
+            android:text="@string/sign_in_with_google"
+            android:textSize="?attr/medium"
+            android:background="@color/google_red"
+            android:textColor="@color/white"
+            android:paddingStart="@dimen/material_design_spacing_large"
+            android:drawableStart="@drawable/sign_in_with_google"
+            android:layout_marginStart="@dimen/material_design_spacing_x_large"
+            android:layout_marginEnd="@dimen/material_design_spacing_x_large"
+            android:layout_marginTop="@dimen/material_design_spacing_large"
+            android:onClick="onButtonClick"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:layout_marginTop="@dimen/material_design_spacing_x_large"
+            >
 
             <TextView
                 android:id="@+id/register_terms"
@@ -80,8 +99,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal|bottom"
-                android:textColorLink="#17a5b8" />
+                android:text="@string/register_code_terms_of_use_text" />
         </LinearLayout >
-    </LinearLayout >
-
-</ScrollView>
+</LinearLayout>

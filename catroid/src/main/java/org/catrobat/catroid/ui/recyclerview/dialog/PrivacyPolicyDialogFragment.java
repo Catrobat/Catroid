@@ -94,7 +94,7 @@ public class PrivacyPolicyDialogFragment extends DialogFragment {
 				.setPositiveButton(R.string.back, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						Utils.logoutUser(getActivity(), false);
+						Utils.logoutUser(getActivity());
 					}
 				})
 				.setNegativeButton(R.string.delete_account, new DialogInterface.OnClickListener() {

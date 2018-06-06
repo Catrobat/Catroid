@@ -466,41 +466,37 @@ public final class Utils {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 		if (sharedPreferences.getBoolean(Constants.RESTRICTED_USER, false)) {
 			logoutUser(context);
+			ToastUtil.showSuccess(context, R.string.logout_successful);
 		}
 	}
 
 	public static void logoutUser(Context context) {
-		logoutUser(context, true);
-	}
-
-	public static void logoutUser(Context context, boolean showToast) {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 		String userName = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
 		LogoutTask logoutTask = new LogoutTask(context, userName);
 		logoutTask.execute();
 
-		sharedPreferences.edit().putString(Constants.TOKEN, Constants.NO_TOKEN).commit();
-		sharedPreferences.edit().putString(Constants.USERNAME, Constants.NO_USERNAME).commit();
+		SharedPreferences.Editor sharedPreferenceEditor = sharedPreferences.edit();
 
-		sharedPreferences.edit().putBoolean(Constants.FACEBOOK_TOKEN_REFRESH_NEEDED, false).commit();
-		sharedPreferences.edit().putString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL).commit();
-		sharedPreferences.edit().putString(Constants.FACEBOOK_USERNAME, Constants.NO_FACEBOOK_USERNAME).commit();
-		sharedPreferences.edit().putString(Constants.FACEBOOK_ID, Constants.NO_FACEBOOK_ID).commit();
-		sharedPreferences.edit().putString(Constants.FACEBOOK_LOCALE, Constants.NO_FACEBOOK_LOCALE).commit();
+		sharedPreferenceEditor.putString(Constants.TOKEN, Constants.NO_TOKEN)
+				.putString(Constants.USERNAME, Constants.NO_USERNAME);
+
+		sharedPreferenceEditor.putBoolean(Constants.FACEBOOK_TOKEN_REFRESH_NEEDED, false)
+				.putString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL)
+				.putString(Constants.FACEBOOK_USERNAME, Constants.NO_FACEBOOK_USERNAME)
+				.putString(Constants.FACEBOOK_ID, Constants.NO_FACEBOOK_ID)
+				.putString(Constants.FACEBOOK_LOCALE, Constants.NO_FACEBOOK_LOCALE);
 		AccessToken.setCurrentAccessToken(null);
 
-		sharedPreferences.edit().putString(Constants.GOOGLE_EXCHANGE_CODE, Constants.NO_GOOGLE_EXCHANGE_CODE).commit();
-		sharedPreferences.edit().putString(Constants.GOOGLE_EMAIL, Constants.NO_GOOGLE_EMAIL).commit();
-		sharedPreferences.edit().putString(Constants.GOOGLE_USERNAME, Constants.NO_GOOGLE_USERNAME).commit();
-		sharedPreferences.edit().putString(Constants.GOOGLE_ID, Constants.NO_GOOGLE_ID).commit();
-		sharedPreferences.edit().putString(Constants.GOOGLE_LOCALE, Constants.NO_GOOGLE_LOCALE).commit();
-		sharedPreferences.edit().putString(Constants.GOOGLE_ID_TOKEN, Constants.NO_GOOGLE_ID_TOKEN).commit();
+		sharedPreferenceEditor.putString(Constants.GOOGLE_EXCHANGE_CODE, Constants.NO_GOOGLE_EXCHANGE_CODE)
+				.putString(Constants.GOOGLE_EMAIL, Constants.NO_GOOGLE_EMAIL)
+				.putString(Constants.GOOGLE_USERNAME, Constants.NO_GOOGLE_USERNAME)
+				.putString(Constants.GOOGLE_ID, Constants.NO_GOOGLE_ID)
+				.putString(Constants.GOOGLE_LOCALE, Constants.NO_GOOGLE_LOCALE)
+				.putString(Constants.GOOGLE_ID_TOKEN, Constants.NO_GOOGLE_ID_TOKEN);
 
+		sharedPreferenceEditor.commit();
 		WebViewActivity.clearCookies(context);
-
-		if (showToast) {
-			ToastUtil.showSuccess(context, R.string.logout_successful);
-		}
 	}
 
 	public static boolean isUserLoggedIn(Context context) {

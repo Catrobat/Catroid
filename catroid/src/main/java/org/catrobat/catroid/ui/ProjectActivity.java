@@ -60,6 +60,7 @@ import java.lang.annotation.RetentionPolicy;
 public class ProjectActivity extends BaseCastActivity implements PlaySceneDialogFragment.PlaySceneInterface {
 
 	public static final String EXTRA_FRAGMENT_POSITION = "FRAGMENT_POSITION";
+	public static final String TAG = ProjectActivity.class.getSimpleName();
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({FRAGMENT_SCENES, FRAGMENT_SPRITES})
