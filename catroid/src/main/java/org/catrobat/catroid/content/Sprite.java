@@ -213,6 +213,7 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public void initConditionScriptTiggers() {
+		conditionScriptTriggers.clear();
 		for (Script script : scriptList) {
 			if (script instanceof WhenConditionScript) {
 				WhenConditionBrick conditionBrick = (WhenConditionBrick) script.getScriptBrick();
