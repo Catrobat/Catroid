@@ -29,6 +29,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.PhiroMotorMoveBackwardBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
+import org.catrobat.catroid.uiespresso.content.brick.utils.CustomSwipeAction;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
@@ -43,6 +44,7 @@ import java.util.List;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.pressBack;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -55,7 +57,7 @@ import static org.hamcrest.Matchers.allOf;
 @RunWith(AndroidJUnit4.class)
 public class PhiroMoveMotorBackwardBrickTest {
 	private int brickPosition;
-	private int initialSpeed = -70;
+	private int initialSpeed = 70;
 
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
@@ -89,14 +91,19 @@ public class PhiroMoveMotorBackwardBrickTest {
 		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_phiro_motor_backward_action_spinner)
 				.checkValuesAvailable(spinnerValuesResourceIds);
 
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_phiro_motor_backward_action_speed_edit_text)
-				.checkShowsNumber(initialSpeed)
+		onBrickAtPosition(brickPosition).onChildView(withId(R.id.brick_phiro_motor_backward_action_speed_edit_text))
+				.perform(click());
+		onView(withId(R.id.single_seekbar_value))
+				.perform(click());
+
+		onFormulaEditor()
+				.checkValue(((Integer) initialSpeed).toString())
 				.performEnterNumber(setSpeed)
-				.checkShowsNumber(setSpeed);
+				.checkValue(((Integer) setSpeed).toString())
+				.performCloseAndSave();
 
 		onBrickAtPosition(brickPosition).onChildView(withId(R.id.brick_phiro_motor_backward_action_speed_edit_text))
 				.perform(click());
-
 		onView(allOf(withId(R.id.single_seekbar_title), withText(R.string.phiro_motor_speed)))
 				.check(matches(isDisplayed()));
 
@@ -110,5 +117,62 @@ public class PhiroMoveMotorBackwardBrickTest {
 
 		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_phiro_motor_backward_action_speed_edit_text)
 				.checkShowsNumber(5);
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Gadgets.class})
+	@Test
+	public void testPhiroMoveMotorBackwardBrickUndo() {
+		int[] setSpeeds = {1, 2, 3};
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_phiro_motor_backward_action);
+
+		onBrickAtPosition(brickPosition).onChildView(withId(R.id.brick_phiro_motor_backward_action_speed_edit_text))
+				.perform(click());
+
+		onView(withId(R.id.single_seekbar_seekbar))
+				.perform(CustomSwipeAction.swipeToPosition(setSpeeds[0] / 100.0f));
+		onView(withId(R.id.single_seekbar_seekbar))
+				.perform(CustomSwipeAction.swipeToPosition(setSpeeds[1] / 100.0f));
+		onView(withId(R.id.single_seekbar_seekbar))
+				.perform(CustomSwipeAction.swipeToPosition(setSpeeds[2] / 100.0f));
+
+		onView(withId(R.id.menu_undo)).perform(click());
+		onView(withId(R.id.menu_undo)).perform(click());
+		onView(withId(R.id.menu_undo)).perform(click());
+		onView(withId(R.id.single_seekbar_seekbar))
+				.perform(pressBack());
+		onView(withText(R.string.formula_editor_discard_changes_dialog_title))
+				.check(matches(isDisplayed()));
+		onView(withId(android.R.id.button1))
+				.perform(click());
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_phiro_motor_backward_action_speed_edit_text)
+				.checkShowsNumber(initialSpeed);
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Gadgets.class})
+	@Test
+	public void testPhiroMoveMotorBackwardBrickUndoRedo() {
+		int[] setSpeeds = {45, 10};
+
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_phiro_motor_backward_action);
+
+		onBrickAtPosition(brickPosition).onChildView(withId(R.id.brick_phiro_motor_backward_action_speed_edit_text))
+				.perform(click());
+
+		onView(withId(R.id.single_seekbar_seekbar))
+				.perform(CustomSwipeAction.swipeToPosition(setSpeeds[0] / 100.0f));
+		onView(withId(R.id.single_seekbar_seekbar))
+				.perform(CustomSwipeAction.swipeToPosition(setSpeeds[1] / 100.0f));
+
+		onView(withId(R.id.menu_undo)).perform(click());
+		onView(withId(R.id.single_seekbar_seekbar))
+				.perform(pressBack());
+		onView(withText(R.string.formula_editor_discard_changes_dialog_title))
+				.check(matches(isDisplayed()));
+		onView(withId(android.R.id.button1))
+				.perform(click());
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_phiro_motor_backward_action_speed_edit_text)
+				.checkShowsNumber(setSpeeds[0]);
 	}
 }

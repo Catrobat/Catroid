@@ -24,9 +24,6 @@
 package org.catrobat.catroid.uiespresso.content.brick.app;
 
 import android.support.annotation.IdRes;
-import android.support.test.espresso.ViewAction;
-import android.support.test.espresso.action.Press;
-import android.support.test.espresso.action.Swipe;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
@@ -119,11 +116,11 @@ public class PhiroSeekBarColorBrickTest {
 				.perform(click());
 
 		onView(withId(colorRgbSeekbarId))
-				.perform(swipeLeftSlow());
+				.perform(CustomSwipeAction.swipeLeftSlow());
 		onView(withId(rgbValueId))
 				.check(matches(withText(MIN_COLOR_VALUE.toString() + " ")));
 		onView(withId(colorRgbSeekbarId))
-				.perform(swipeRightSlow());
+				.perform(CustomSwipeAction.swipeRightSlow());
 		onView(withId(rgbValueId))
 				.check(matches(withText(MAX_COLOR_VALUE.toString() + " ")));
 		onView(withId(rgbValueId))
@@ -132,13 +129,5 @@ public class PhiroSeekBarColorBrickTest {
 				.perform(click());
 		onBrickAtPosition(phiroRGBLightBrickPosition).onFormulaTextField(brickActionEditTextId)
 				.checkShowsNumber(MAX_COLOR_VALUE);
-	}
-
-	private static ViewAction swipeRightSlow() {
-		return new CustomSwipeAction(Swipe.SLOW, CustomSwipeAction.SwipeAction.SWIPE_RIGHT, Press.FINGER);
-	}
-
-	private static ViewAction swipeLeftSlow() {
-		return new CustomSwipeAction(Swipe.SLOW, CustomSwipeAction.SwipeAction.SWIPE_LEFT, Press.FINGER);
 	}
 }

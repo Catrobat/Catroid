@@ -62,6 +62,7 @@ import org.catrobat.catroid.formulaeditor.FormulaEditorEditText;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternFormulaKeyboardAdapter;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
+import org.catrobat.catroid.formulaeditor.InternFormulaState;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
@@ -75,6 +76,8 @@ import org.catrobat.catroid.ui.recyclerview.fragment.CategoryListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
+
+import java.util.Map;
 
 import static org.catrobat.catroid.utils.SnackbarUtil.wasHintAlreadyShown;
 
@@ -104,7 +107,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	private FormulaBrick clonedFormulaBrick;
 	private static Brick.BrickField currentBrickField;
 	private static Formula currentFormula;
-	private Menu currentMenu;
 	private FormulaElement formulaElementForComputeDialog;
 
 	private long[] confirmSwitchEditTextTimeStamp = {0, 0};
@@ -237,6 +239,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		}
 
 		formulaEditorEditText.overwriteCurrentFormula(newFormula.getInternFormulaState());
+		activity.invalidateOptionsMenu();
 	}
 
 	public static void changeInputField(View view, Brick.BrickField brickField) {
@@ -288,7 +291,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 	private void onUserDismiss() {
 		refreshFormulaPreviewString(currentFormula.getTrimmedFormulaString(getActivity()));
-		formulaEditorEditText.endEdit();
 		currentFormula.prepareToRemove();
 
 		getFragmentManager().popBackStack();
@@ -337,7 +339,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		}
 	}
 
-	private View getBrickOrCustomView() {
+	public View getBrickOrCustomView() {
 		if (showCustomView) {
 			return clonedFormulaBrick.getCustomView(context, 0, null);
 		} else {
@@ -511,7 +513,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
-		currentMenu = menu;
 
 		for (int index = 0; index < menu.size(); index++) {
 			menu.getItem(index).setVisible(false);
@@ -584,17 +585,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 						return;
 					}
 				}
-				MenuItem undo = currentMenu.findItem(R.id.menu_undo);
-				if (undo != null) {
-					undo.setIcon(R.drawable.icon_undo_disabled);
-					undo.setEnabled(false);
-				}
-
-				MenuItem redo = currentMenu.findItem(R.id.menu_redo);
-				redo.setIcon(R.drawable.icon_redo_disabled);
-				redo.setEnabled(false);
-
-				formulaEditorEditText.endEdit();
 				currentBrickField = brickField;
 				currentFormula = newFormula;
 				formulaEditorEditText.enterNewFormula(newFormula.getInternFormulaState());
@@ -673,15 +663,11 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	}
 
 	public void promptSave() {
-		if (hasFormulaBeenChanged) {
-			ToastUtil.showSuccess(getActivity(), R.string.formula_editor_changes_saved);
-			hasFormulaBeenChanged = false;
-		}
 		exitFormulaEditorFragment();
 	}
 
 	private void exitFormulaEditorFragment() {
-		if (formulaEditorEditText.hasChanges()) {
+		if (hasFormulaBeenChanged || formulaEditorEditText.hasChanges()) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 			builder.setTitle(R.string.formula_editor_discard_changes_dialog_title)
 					.setMessage(R.string.formula_editor_discard_changes_dialog_message)
@@ -689,6 +675,9 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
+							Map<Brick.BrickField, InternFormulaState> initialStates = formulaEditorEditText
+									.getHistory().getInitialStates();
+							restoreInitialStates(initialStates);
 							ToastUtil.showError(getActivity(), R.string.formula_editor_changes_discarded);
 							currentFormula.setDisplayText(null);
 							onUserDismiss();
@@ -832,6 +821,10 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		return formulaEditorEditText.getSelectedTextFromInternFormula();
 	}
 
+	public Brick.BrickField getCurrentBrickField() {
+		return currentBrickField;
+	}
+
 	public void overrideSelectedText(String string) {
 		formulaEditorEditText.overrideSelectedText(string);
 	}
@@ -855,6 +848,14 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		} else {
 			backspaceOnKeyboard.setAlpha(255);
 			backspaceOnKeyboard.setEnabled(true);
+		}
+	}
+
+	private void restoreInitialStates(Map<Brick.BrickField, InternFormulaState> initialStates) {
+		for (Map.Entry<Brick.BrickField, InternFormulaState> state : initialStates.entrySet()) {
+			changeInputField(getBrickOrCustomView(), state.getKey());
+			formulaEditorEditText.overwriteCurrentFormula(state.getValue());
+			saveFormulaIfPossible();
 		}
 	}
 }
