@@ -100,7 +100,7 @@ public class GoToBrick extends BrickBaseType {
 					spinnerSelection = BrickValues.GO_TO_RANDOM_POSITION;
 				} else {
 					final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance()
-							.getCurrentScene().getSpriteList();
+							.getCurrentlyEditedScene().getSpriteList();
 
 					for (Sprite sprite : spriteList) {
 						String spriteName = sprite.getName();
@@ -145,7 +145,7 @@ public class GoToBrick extends BrickBaseType {
 	}
 
 	private void setSpinnerSelection(Spinner spinner, Context context) {
-		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentScene()
+		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentlyEditedScene()
 				.getSpriteList();
 
 		if (spinnerSelection == BrickValues.GO_TO_TOUCH_POSITION) {
@@ -179,7 +179,7 @@ public class GoToBrick extends BrickBaseType {
 		arrayAdapter.add(context.getString(R.string.brick_go_to_touch_position));
 		arrayAdapter.add(context.getString(R.string.brick_go_to_random_position));
 
-		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentScene()
+		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentlyEditedScene()
 				.getSpriteList();
 
 		for (Sprite sprite : spriteList) {

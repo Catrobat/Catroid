@@ -71,7 +71,7 @@ public class CollisionScript extends Script {
 	private void updateSpriteToCollideWith() {
 		if (spriteToCollideWithName != null
 				&& (spriteToCollideWith == null || !spriteToCollideWithName.equals(spriteToCollideWith.getName()))) {
-			Scene currentScene = ProjectManager.getInstance().getCurrentScene();
+			Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 			spriteToCollideWith = currentScene.getSprite(spriteToCollideWithName);
 		}
 	}

@@ -128,7 +128,7 @@ public class PlaySoundBrick extends BrickBaseType implements
 	public boolean onNewOptionInDropDownClicked(View v) {
 		spinnerSelectionBuffer = spinner.getSelectedItemPosition();
 		new NewSoundDialogFragment(this,
-				ProjectManager.getInstance().getCurrentScene(),
+				ProjectManager.getInstance().getCurrentlyEditedScene(),
 				ProjectManager.getInstance().getCurrentSprite()) {
 
 			@Override

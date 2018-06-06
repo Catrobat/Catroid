@@ -113,7 +113,7 @@ public class NewDataDialogFragment extends DialogFragment {
 			return false;
 		}
 
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
 		boolean isGlobal = (radioGroup.getCheckedRadioButtonId() == R.id.global);
 		if (makeList.isChecked()) {
 			if (!isListNameValid(name, isGlobal)) {
@@ -146,10 +146,10 @@ public class NewDataDialogFragment extends DialogFragment {
 	}
 
 	protected boolean isListNameValid(String name, boolean isGlobal) {
-		DataContainer currentData = ProjectManager.getInstance().getCurrentScene().getDataContainer();
+		DataContainer currentData = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
 
 		if (isGlobal) {
-			List<Sprite> sprites = ProjectManager.getInstance().getCurrentScene().getSpriteList();
+			List<Sprite> sprites = ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList();
 			return !currentData.existListInAnySprite(sprites, name)
 					&& !currentData.existProjectListWithName(name);
 		} else {
@@ -160,10 +160,10 @@ public class NewDataDialogFragment extends DialogFragment {
 	}
 
 	protected boolean isVariableNameValid(String name, boolean isGlobal) {
-		DataContainer currentData = ProjectManager.getInstance().getCurrentScene().getDataContainer();
+		DataContainer currentData = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
 
 		if (isGlobal) {
-			List<Sprite> sprites = ProjectManager.getInstance().getCurrentScene().getSpriteList();
+			List<Sprite> sprites = ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList();
 			return !currentData.variableExistsInAnySprite(sprites, name)
 					&& !currentData.existProjectVariableWithName(name);
 		} else {

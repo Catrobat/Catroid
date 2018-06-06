@@ -80,7 +80,7 @@ public class SceneTransitionBrick extends BrickBaseType implements
 		spinner = view.findViewById(R.id.brick_scene_transition_spinner);
 
 		List<String> sceneNames = ProjectManager.getInstance().getCurrentProject().getSceneNames();
-		sceneNames.remove(ProjectManager.getInstance().getCurrentScene().getName());
+		sceneNames.remove(ProjectManager.getInstance().getCurrentlyEditedScene().getName());
 
 		spinnerAdapter = new SpinnerAdapterWithNewOption(context, sceneNames);
 		spinnerAdapter.setOnDropDownItemClickListener(this);
@@ -130,7 +130,7 @@ public class SceneTransitionBrick extends BrickBaseType implements
 		spinner = view.findViewById(R.id.brick_scene_transition_spinner);
 
 		List<String> sceneNames = ProjectManager.getInstance().getCurrentProject().getSceneNames();
-		sceneNames.remove(ProjectManager.getInstance().getCurrentScene().getName());
+		sceneNames.remove(ProjectManager.getInstance().getCurrentlyEditedScene().getName());
 
 		spinnerAdapter = new SpinnerAdapterWithNewOption(context, sceneNames);
 		spinner.setAdapter(spinnerAdapter);

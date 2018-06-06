@@ -158,7 +158,7 @@ public class Sprite implements Serializable, Cloneable {
 
 	public void resetSprite() {
 		if ((getRequiredResources() & Brick.PHYSICS) > 0) {
-			PhysicsWorld physicsWorld = ProjectManager.getInstance().getSceneToPlay().getPhysicsWorld();
+			PhysicsWorld physicsWorld = ProjectManager.getInstance().getCurrentlyPlayingScene().getPhysicsWorld();
 			look = new PhysicsLook(this, physicsWorld);
 		} else {
 			look = new Look(this);
@@ -260,7 +260,7 @@ public class Sprite implements Serializable, Cloneable {
 		cloneSprite.convertToGroupItemSprite = false;
 
 		ProjectManager projectManager = ProjectManager.getInstance();
-		Scene currentScene = ProjectManager.getInstance().getCurrentScene();
+		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 		if (currentScene == null) {
 			throw new RuntimeException("Current scene was null, cannot clone Sprite.");
 		}
@@ -300,7 +300,7 @@ public class Sprite implements Serializable, Cloneable {
 		ProjectManager.getInstance().setCurrentSprite(cloneSprite);
 
 		shallowCloneLooks(cloneSprite);
-		cloneSpriteVariables(ProjectManager.getInstance().getCurrentScene(), cloneSprite);
+		cloneSpriteVariables(ProjectManager.getInstance().getCurrentlyEditedScene(), cloneSprite);
 		cloneScripts(cloneSprite);
 		cloneSprite.resetSprite();
 		cloneLook(cloneSprite);
@@ -358,7 +358,7 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	private void setVariableReferencesOfClonedSprite(Sprite cloneSprite) {
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
 		List<UserVariable> clonedSpriteVariables = dataContainer.getOrCreateVariableListForSprite(cloneSprite);
 		cloneSprite.updateUserVariableReferencesInUserVariableBricks(clonedSpriteVariables);
 
@@ -543,7 +543,7 @@ public class Sprite implements Serializable, Cloneable {
 		if (hasCollision) {
 			return true;
 		}
-		Scene scene = ProjectManager.getInstance().getCurrentScene();
+		Scene scene = ProjectManager.getInstance().getCurrentlyEditedScene();
 		for (Sprite sprite : scene.getSpriteList()) {
 			if (sprite.hasToCollideWith(this)) {
 				return true;
@@ -640,7 +640,7 @@ public class Sprite implements Serializable, Cloneable {
 
 	private void renameSpriteInCollisionFormulas(String newName, Context context) {
 		String oldName = getName();
-		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentScene().getSpriteList();
+		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList();
 		for (Sprite sprite : spriteList) {
 			for (Script currentScript : sprite.getScriptList()) {
 				if (currentScript == null) {

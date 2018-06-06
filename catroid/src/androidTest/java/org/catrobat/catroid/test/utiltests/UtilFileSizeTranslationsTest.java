@@ -94,7 +94,7 @@ public class UtilFileSizeTranslationsTest {
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentScene(project.getDefaultScene());
+		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 
 		projectFolder = new File(PathBuilder.buildProjectPath(projectName));
 

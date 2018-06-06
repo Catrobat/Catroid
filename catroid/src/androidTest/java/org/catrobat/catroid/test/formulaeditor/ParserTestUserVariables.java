@@ -69,7 +69,7 @@ public class ParserTestUserVariables extends AndroidTestCase {
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 		UserBrick userBrick = new UserBrick(new UserScriptDefinitionBrick());
 		ProjectManager.getInstance().setCurrentUserBrick(userBrick);
-		DataContainer userVariableContainer = ProjectManager.getInstance().getCurrentScene()
+		DataContainer userVariableContainer = ProjectManager.getInstance().getCurrentlyEditedScene()
 				.getDataContainer();
 		userVariableContainer.addProjectUserVariable(PROJECT_USER_VARIABLE).setValue(USER_VARIABLE_1_VALUE_TYPE_DOUBLE);
 		userVariableContainer.addSpriteUserVariableToSprite(firstSprite, SPRITE_USER_VARIABLE).setValue(
@@ -92,7 +92,7 @@ public class ParserTestUserVariables extends AndroidTestCase {
 	}
 
 	public void testUserVariableResetting() {
-		ProjectManager.getInstance().getCurrentScene().getDataContainer().resetAllDataObjects();
+		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().resetAllDataObjects();
 
 		assertEquals("ProjectUserVariable did not reset", USER_VARIABLE_RESET,
 				interpretUserVariable(PROJECT_USER_VARIABLE));

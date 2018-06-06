@@ -148,7 +148,7 @@ public class CopyProjectTest {
 
 		project.addScene(secondScene);
 
-		ProjectManager.getInstance().setCurrentScene(project.getDefaultScene());
+		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 		XstreamSerializer.getInstance().saveProject(project);
 	}
 }

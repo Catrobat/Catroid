@@ -112,7 +112,7 @@ public abstract class UserListBrick extends FormulaBrick implements NewListDialo
 
 	@Override
 	public void storeDataForBackPack(Sprite sprite) {
-		Scene currentScene = ProjectManager.getInstance().getCurrentScene();
+		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 		DataContainer.DataType type = USER_DATA_EMPTY;
 		if (userList != null) {
 			type = currentScene.getDataContainer()

@@ -52,7 +52,7 @@ public class PlaySceneDialogFragment extends DialogFragment {
 		String defaultScene = String.format(getString(R.string.play_scene_dialog_default), ProjectManager
 				.getInstance().getCurrentProject().getDefaultScene().getName());
 		String currentScene = String.format(getString(R.string.play_scene_dialog_current), ProjectManager
-				.getInstance().getCurrentScene().getName());
+				.getInstance().getCurrentlyEditedScene().getName());
 
 		((RadioButton) radioGroup.findViewById(R.id.play_default_scene)).setText(defaultScene);
 		((RadioButton) radioGroup.findViewById(R.id.play_current_scene)).setText(currentScene);
@@ -75,16 +75,16 @@ public class PlaySceneDialogFragment extends DialogFragment {
 
 		switch (radioGroup.getCheckedRadioButtonId()) {
 			case R.id.play_default_scene:
-				projectManager.setSceneToPlay(projectManager.getCurrentProject().getDefaultScene());
+				projectManager.setCurrentlyPlayingScene(projectManager.getCurrentProject().getDefaultScene());
 				break;
 			case R.id.play_current_scene:
-				projectManager.setSceneToPlay(projectManager.getCurrentScene());
+				projectManager.setCurrentlyPlayingScene(projectManager.getCurrentlyEditedScene());
 				break;
 			default:
 				throw new IllegalStateException(TAG + ": Cannot find RadioButton.");
 		}
 
-		projectManager.setStartScene(ProjectManager.getInstance().getSceneToPlay());
+		projectManager.setStartScene(ProjectManager.getInstance().getCurrentlyPlayingScene());
 		playSceneInterface.startPreStageActivity();
 	}
 

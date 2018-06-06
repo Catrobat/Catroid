@@ -37,7 +37,7 @@ public class BroadcastMessageContainer {
 	}
 
 	public void update() {
-		Set<String> usedMessages = ProjectManager.getInstance().getCurrentScene().getBroadcastMessagesInUse();
+		Set<String> usedMessages = ProjectManager.getInstance().getCurrentlyEditedScene().getBroadcastMessagesInUse();
 		broadcastMessages.clear();
 		broadcastMessages.addAll(usedMessages);
 	}

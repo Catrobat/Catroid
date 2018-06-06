@@ -73,7 +73,7 @@ public class WhenBackgroundChangesScript extends Script {
 
 	@Override
 	public EventId createEventId(Sprite sprite) {
-		Sprite background = ProjectManager.getInstance().getCurrentScene().getBackgroundSprite();
+		Sprite background = ProjectManager.getInstance().getCurrentlyPlayingScene().getBackgroundSprite();
 		return new SetBackgroundEventId(background, look);
 	}
 }

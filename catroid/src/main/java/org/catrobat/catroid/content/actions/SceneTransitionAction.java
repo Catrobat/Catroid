@@ -33,7 +33,7 @@ public class SceneTransitionAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		if (sceneName != null && !ProjectManager.getInstance().getSceneToPlay().getName().equals(sceneName)) {
+		if (sceneName != null && !ProjectManager.getInstance().getCurrentlyPlayingScene().getName().equals(sceneName)) {
 			StageActivity.stageListener.transitionToScene(sceneName);
 		}
 	}

@@ -71,7 +71,7 @@ public class SoundListFragment extends RecyclerViewFragment<SoundInfo> {
 	@Override
 	public void handleAddButton() {
 		NewSoundDialogFragment dialog = new NewSoundDialogFragment(this,
-				ProjectManager.getInstance().getCurrentScene(), ProjectManager.getInstance().getCurrentSprite());
+				ProjectManager.getInstance().getCurrentlyEditedScene(), ProjectManager.getInstance().getCurrentSprite());
 		dialog.show(getFragmentManager(), NewSoundDialogFragment.TAG);
 	}
 
@@ -120,7 +120,7 @@ public class SoundListFragment extends RecyclerViewFragment<SoundInfo> {
 	@Override
 	protected void copyItems(List<SoundInfo> selectedItems) {
 		setShowProgressBar(true);
-		Scene currentScene = ProjectManager.getInstance().getCurrentScene();
+		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		int copiedItemCnt = 0;
 

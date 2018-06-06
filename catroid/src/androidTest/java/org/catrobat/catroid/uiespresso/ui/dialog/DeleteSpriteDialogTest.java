@@ -145,6 +145,6 @@ public class DeleteSpriteDialogTest {
 		project.getDefaultScene().addSprite(secondSprite);
 
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentScene(project.getDefaultScene());
+		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 	}
 }

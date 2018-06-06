@@ -93,7 +93,7 @@ public class SpriteAttributesActivity extends BaseActivity implements
 	}
 
 	private void updateActionBarTitle() {
-		String currentSceneName = ProjectManager.getInstance().getCurrentScene().getName();
+		String currentSceneName = ProjectManager.getInstance().getCurrentlyEditedScene().getName();
 		String currentSpriteName = ProjectManager.getInstance().getCurrentSprite().getName();
 		if (ProjectManager.getInstance().getCurrentProject().getSceneList().size() == 1) {
 			getSupportActionBar().setTitle(currentSpriteName);
@@ -156,7 +156,7 @@ public class SpriteAttributesActivity extends BaseActivity implements
 	@Override
 	public boolean isNameUnique(String name) {
 		Set<String> scope = new HashSet<>();
-		for (Sprite item : ProjectManager.getInstance().getCurrentScene().getSpriteList()) {
+		for (Sprite item : ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList()) {
 			scope.add(item.getName());
 		}
 		return !scope.contains(name);
@@ -208,10 +208,10 @@ public class SpriteAttributesActivity extends BaseActivity implements
 
 	public void handlePlayButton(View view) {
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		Scene currentScene = ProjectManager.getInstance().getCurrentScene();
+		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 
 		if (currentScene.getName().equals(currentProject.getDefaultScene().getName())) {
-			ProjectManager.getInstance().setSceneToPlay(currentScene);
+			ProjectManager.getInstance().setCurrentlyPlayingScene(currentScene);
 			ProjectManager.getInstance().setStartScene(currentScene);
 			startPreStageActivity();
 			return;

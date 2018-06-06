@@ -75,7 +75,7 @@ public class DefaultProjectHandlerTest extends AndroidTestCase {
 
 	public void testDefaultProjectScreenshot() throws IOException {
 		DefaultProjectHandler.createAndSaveDefaultProject(projectName, getContext());
-		Scene currentScene = ProjectManager.getInstance().getCurrentScene();
+		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 
 		File file = new File(currentScene.getDirectory(), StageListener.SCREENSHOT_MANUAL_FILE_NAME);
 		assertFalse(file.exists());

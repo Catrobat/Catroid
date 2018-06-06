@@ -183,7 +183,7 @@ public class StageListener implements ApplicationListener {
 		shapeRenderer = new ShapeRenderer();
 
 		project = ProjectManager.getInstance().getCurrentProject();
-		scene = ProjectManager.getInstance().getSceneToPlay();
+		scene = ProjectManager.getInstance().getCurrentlyPlayingScene();
 		pathForSceneScreenshot = PathBuilder.buildScenePath(project.getName(), scene.getName()) + "/";
 
 		virtualWidth = project.getXmlHeader().virtualScreenWidth;
@@ -262,7 +262,7 @@ public class StageListener implements ApplicationListener {
 		}
 		boolean removedSprite = sprites.remove(sprite);
 		if (removedSprite) {
-			Scene currentScene = ProjectManager.getInstance().getSceneToPlay();
+			Scene currentScene = ProjectManager.getInstance().getCurrentlyPlayingScene();
 			DataContainer userVariables = currentScene.getDataContainer();
 			userVariables.removeVariableListForSprite(sprite);
 			sprite.look.remove();
@@ -342,7 +342,7 @@ public class StageListener implements ApplicationListener {
 		stageBackupMap.put(scene.getName(), saveToBackup());
 		pause();
 		scene = ProjectManager.getInstance().getCurrentProject().getSceneByName(sceneName);
-		ProjectManager.getInstance().setSceneToPlay(scene);
+		ProjectManager.getInstance().setCurrentlyPlayingScene(scene);
 		if (stageBackupMap.containsKey(scene.getName())) {
 			restoreFromBackup(stageBackupMap.get(scene.getName()));
 		}

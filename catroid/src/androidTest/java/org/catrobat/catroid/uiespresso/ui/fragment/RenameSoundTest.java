@@ -143,7 +143,7 @@ public class RenameSoundTest {
 		project.getDefaultScene().addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentScene(project.getDefaultScene());
+		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		XstreamSerializer.getInstance().saveProject(project);
 

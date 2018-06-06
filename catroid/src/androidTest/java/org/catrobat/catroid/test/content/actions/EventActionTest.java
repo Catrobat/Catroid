@@ -171,14 +171,14 @@ public class EventActionTest {
 	private void executeAllActionsOrTimeoutAfter(int ticks) {
 		int loopCounter = 0;
 		while (!allActionsOfAllSpritesAreFinished() && !(++loopCounter == ticks)) {
-			for (Sprite spriteOfList : ProjectManager.getInstance().getCurrentScene().getSpriteList()) {
+			for (Sprite spriteOfList : ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList()) {
 				spriteOfList.look.act(1.0f);
 			}
 		}
 	}
 
 	private boolean allActionsOfAllSpritesAreFinished() {
-		for (Sprite spriteOfList : ProjectManager.getInstance().getCurrentScene().getSpriteList()) {
+		for (Sprite spriteOfList : ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList()) {
 			if (!spriteOfList.look.haveAllThreadsFinished()) {
 				return false;
 			}

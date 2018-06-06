@@ -62,7 +62,7 @@ public class BackpackLookFragment extends BackpackRecyclerViewFragment<LookData>
 		for (LookData item : selectedItems) {
 			try {
 				dstSprite.getLookList().add(lookController.unpack(item,
-						ProjectManager.getInstance().getCurrentScene(),
+						ProjectManager.getInstance().getCurrentlyEditedScene(),
 						dstSprite));
 				unpackedItemCnt++;
 			} catch (IOException e) {
