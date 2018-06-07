@@ -23,7 +23,6 @@
 package org.catrobat.catroid.test.formulaeditor;
 
 import android.support.test.annotation.UiThreadTest;
-import android.support.test.rule.UiThreadTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.formulaeditor.SensorHandler;
@@ -31,7 +30,6 @@ import org.catrobat.catroid.formulaeditor.SensorLoudness;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.SimulatedSoundRecorder;
 import org.junit.After;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -43,10 +41,8 @@ import static junit.framework.Assert.assertTrue;
 @RunWith(AndroidJUnit4.class)
 public class SensorLoudnessTest {
 
-	@Rule
-	public UiThreadTestRule uiThreadTestRule = new UiThreadTestRule();
-
 	@After
+	@UiThreadTest
 	public void tearDown() throws Exception {
 		SensorHandler.stopSensorListeners();
 		Reflection.setPrivateField(SensorLoudness.class, "instance", null);

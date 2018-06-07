@@ -25,7 +25,6 @@ package org.catrobat.catroid.test.formulaeditor;
 import android.graphics.Point;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.annotation.UiThreadTest;
-import android.support.test.rule.UiThreadTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
@@ -53,7 +52,6 @@ import org.catrobat.catroid.test.utils.Reflection.ParameterList;
 import org.catrobat.catroid.test.utils.SimulatedSoundRecorder;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -70,9 +68,6 @@ import static junit.framework.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 public class ParserTestSensors {
-	@Rule
-	public UiThreadTestRule uiThreadTestRule = new UiThreadTestRule();
-
 	private static final String TAG = ParserTestSensors.class.getSimpleName();
 
 	private Project project;
@@ -81,6 +76,7 @@ public class ParserTestSensors {
 	private float delta = 0.001f;
 
 	@Before
+	@UiThreadTest
 	public void setUp() throws Exception {
 		createProject();
 		ProjectManager.getInstance().setProject(project);
@@ -93,6 +89,7 @@ public class ParserTestSensors {
 	}
 
 	@After
+	@UiThreadTest
 	public void tearDown() throws Exception {
 		SensorHandler.stopSensorListeners();
 		Reflection.setPrivateField(SensorHandler.class, "instance", null);
