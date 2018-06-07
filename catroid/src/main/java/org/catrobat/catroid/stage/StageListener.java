@@ -254,6 +254,7 @@ public class StageListener implements ApplicationListener {
 			copy.look.setLookData(copy.getLookList().get(0));
 		}
 		copy.initializeEventThreads(EventId.START_AS_CLONE);
+		copy.initConditionScriptTiggers();
 	}
 
 	public boolean removeClonedSpriteFromStage(Sprite sprite) {
