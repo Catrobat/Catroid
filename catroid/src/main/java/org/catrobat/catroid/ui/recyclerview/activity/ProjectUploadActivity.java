@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.ui.recyclerview.activity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -44,12 +45,13 @@ import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
 import org.catrobat.catroid.transfers.CheckTokenTask;
 import org.catrobat.catroid.transfers.GetTagsTask;
 import org.catrobat.catroid.ui.BaseActivity;
+import org.catrobat.catroid.ui.SignInActivity;
 import org.catrobat.catroid.ui.dialogs.SelectTagsDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectLoaderTask;
-import org.catrobat.catroid.ui.recyclerview.dialog.login.SignInDialog;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 
 import java.io.File;
@@ -58,12 +60,12 @@ import java.util.List;
 
 public class ProjectUploadActivity extends BaseActivity implements
 		ProjectLoaderTask.ProjectLoaderListener,
-		SignInDialog.SignInCompleteListener,
 		CheckTokenTask.TokenCheckListener,
 		GetTagsTask.TagResponseListener {
 
 	public static final String TAG = ProjectUploadActivity.class.getSimpleName();
 	public static final String PROJECT_NAME = "projectName";
+	public static final int SIGN_IN_CODE = 42;
 
 	private TextInputLayout nameInputLayout;
 	private TextInputLayout descriptionInputLayout;
@@ -140,9 +142,7 @@ public class ProjectUploadActivity extends BaseActivity implements
 		if (isTokenSetInPreferences) {
 			new CheckTokenTask(this).execute(token, username);
 		} else {
-			SignInDialog dialog = new SignInDialog();
-			dialog.setSignInCompleteListener(this);
-			dialog.show(getFragmentManager(), SignInDialog.TAG);
+			startSignInWorkflow();
 		}
 	}
 
@@ -150,11 +150,13 @@ public class ProjectUploadActivity extends BaseActivity implements
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 
 		ProjectAndSceneScreenshotLoader screenshotLoader = new ProjectAndSceneScreenshotLoader(this);
-		screenshotLoader.loadAndShowScreenshot(currentProject.getName(), currentProject.getDefaultScene().getName(),
-				false, (ImageView) findViewById(R.id.project_image_view));
+		screenshotLoader.loadAndShowScreenshot(currentProject.getName(),
+				currentProject.getDefaultScene().getName(),
+				false,
+				(ImageView) findViewById(R.id.project_image_view));
 
-		((TextView) findViewById(R.id.project_size_view))
-				.setText(FileMetaDataExtractor.getSizeAsString(new File(PathBuilder.buildProjectPath(currentProject.getName())), this));
+		((TextView) findViewById(R.id.project_size_view)).setText(FileMetaDataExtractor.getSizeAsString(
+				new File(PathBuilder.buildProjectPath(currentProject.getName())), this));
 
 		nameInputLayout = findViewById(R.id.input_project_name);
 		descriptionInputLayout = findViewById(R.id.input_project_description);
@@ -180,8 +182,12 @@ public class ProjectUploadActivity extends BaseActivity implements
 			return;
 		}
 
-		//TODO: check if project is same as default project.
 		ProjectManager projectManager = ProjectManager.getInstance();
+
+		if (Utils.isDefaultProject(projectManager.getCurrentProject(), this)) {
+			return;
+		}
+
 		if (!name.equals(projectManager.getCurrentProject().getName())) {
 			projectManager.renameProject(name, this);
 		}
@@ -205,24 +211,29 @@ public class ProjectUploadActivity extends BaseActivity implements
 			ToastUtil.showError(this, R.string.error_internet_connection);
 			finish();
 		} else if (!tokenValid) {
-			SignInDialog dialog = new SignInDialog();
-			dialog.setSignInCompleteListener(this);
-			dialog.show(getFragmentManager(), SignInDialog.TAG);
+			startSignInWorkflow();
 		} else {
 			onCreateView();
 			setShowProgressBar(false);
 		}
 	}
 
-	@Override
-	public void onLoginSuccessful(Bundle bundle) {
-		onCreateView();
-		setShowProgressBar(false);
+	public void startSignInWorkflow() {
+		startActivityForResult(new Intent(this, SignInActivity.class), SIGN_IN_CODE);
 	}
 
 	@Override
-	public void onLoginCancel() {
-		finish();
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == SIGN_IN_CODE) {
+			if (resultCode == RESULT_OK) {
+				onCreateView();
+				setShowProgressBar(false);
+			} else {
+				finish();
+			}
+		} else {
+			super.onActivityResult(requestCode, resultCode, data);
+		}
 	}
 
 	public void setShowProgressBar(boolean show) {

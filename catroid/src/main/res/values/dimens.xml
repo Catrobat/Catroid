@@ -67,6 +67,7 @@
     <dimen name="details_spacing">20dp</dimen>
     <dimen name="material_design_spacing_small">8dp</dimen>
     <dimen name="material_design_spacing_large">16dp</dimen>
+    <dimen name="material_design_spacing_x_large">32dp</dimen>
 
     <!-- Material Design Dialogs -->
     <dimen name="dialog_content_area_padding_top">18dp</dimen>

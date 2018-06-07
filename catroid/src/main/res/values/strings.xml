@@ -904,6 +904,9 @@
     <string name="register_password_mismatch">Passwords do not match</string>
     <string name="sign_in_error">Error during Sign-In</string>
     <string name="error_google_plus_sign_in">Google Sign-In error. Status: %s</string>
+    <string name="error_facebook_session_expired">Session expired, please log in.</string>
+    <string name="sign_in_with_facebook">Sign in with Facebook</string>
+    <string name="sign_in_with_google">Sign in with Google</string>
     <!--  -->
 
 
