@@ -33,17 +33,17 @@ public class ServiceProviderTest extends AndroidTestCase {
 	public void testCommonServices() {
 		CatroidService service = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 
-		assertNotNull("BluetoothDeviceConnector service should be available here.", service);
-		assertTrue("Service is of wrong instance type", service instanceof BluetoothDeviceService);
+		assertNotNull(service);
+		assertTrue(service instanceof BluetoothDeviceService);
 	}
 
 	public void testRegisterAndGetService() {
-		assertNull("TestService not registered yet, should be null", ServiceProvider.getService(TestService.class));
+		assertNull(ServiceProvider.getService(TestService.class));
 
 		ServiceProvider.registerService(TestService.class, new TestService());
 
 		TestService service = ServiceProvider.getService(TestService.class);
-		assertNotNull("Service is registered now and shouldn't be null", service);
+		assertNotNull(service);
 	}
 
 	private static class TestService implements CatroidService {

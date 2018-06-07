@@ -90,6 +90,6 @@ public class SetLookActionTest extends PhysicsBaseTest {
 		sprite.getLookList().add(lookData);
 		Action action = sprite.getActionFactory().createSetLookAction(sprite, lookData);
 		action.act(1.0f);
-		assertNotNull("Current Look is null", sprite.look);
+		assertNotNull(sprite.look);
 	}
 }

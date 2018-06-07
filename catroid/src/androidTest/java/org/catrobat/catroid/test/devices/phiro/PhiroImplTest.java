@@ -185,32 +185,30 @@ public class PhiroImplTest extends AndroidTestCase {
 
 		FirmataMessage m = firmataUtils.getAnalogMessageData();
 
-		assertEquals("Wrong command, ANALOG_MESSAGE command on speaker pin expected",
-				ANALOG_MESSAGE_COMMAND, m.getCommand());
-		assertEquals("Wrong pin", PIN_SPEAKER_OUT, m.getPin());
-		assertEquals("Wrong tone", tone, m.getData());
+		assertEquals(ANALOG_MESSAGE_COMMAND, m.getCommand());
+		assertEquals(PIN_SPEAKER_OUT, m.getPin());
+		assertEquals(tone, m.getData());
 
 		Stopwatch stopwatch = Stopwatch.createStarted();
 		while (stopwatch.elapsed(TimeUnit.SECONDS) < durationInSeconds) {
-			assertEquals("Phiro play tone was stopped to early", 0, logger.getSentMessages(0).size());
+			assertEquals(0, logger.getSentMessages(0).size());
 			Thread.sleep(durationInSeconds * 100);
 		}
 
 		m = firmataUtils.getAnalogMessageData();
 
-		assertEquals("Wrong command, ANALOG_MESSAGE command on speaker pin expected",
-				ANALOG_MESSAGE_COMMAND, m.getCommand());
-		assertEquals("Wrong pin", PIN_SPEAKER_OUT, m.getPin());
-		assertEquals("Wrong tone", 0, m.getData());
+		assertEquals(ANALOG_MESSAGE_COMMAND, m.getCommand());
+		assertEquals(PIN_SPEAKER_OUT, m.getPin());
+		assertEquals(0, m.getData());
 	}
 
 	private void doTestFirmataInitialization() {
 		for (int i = MIN_PWM_PIN; i <= MAX_PWM_PIN; ++i) {
 			FirmataMessage m = firmataUtils.getSetPinModeMessage();
 
-			assertEquals("Wrong Command, SET_PIN_MODE command expected", SET_PIN_MODE_COMMAND, m.getCommand());
-			assertEquals("Wrong pin used to set pin mode", i, m.getPin());
-			assertEquals("Wrong pin mode is used", PWM_MODE, m.getData());
+			assertEquals(SET_PIN_MODE_COMMAND, m.getCommand());
+			assertEquals(i, m.getPin());
+			assertEquals(PWM_MODE, m.getData());
 		}
 
 		testReportAnalogPin(true);
@@ -220,9 +218,9 @@ public class PhiroImplTest extends AndroidTestCase {
 		for (int i = MIN_SENSOR_PIN; i <= MAX_SENSOR_PIN; ++i) {
 			FirmataMessage m = firmataUtils.getReportAnalogPinMessage();
 
-			assertEquals("Wrong Command, REPORT_ANALOG_PIN command expected", REPORT_ANALOG_PIN_COMMAND, m.getCommand());
-			assertEquals("Wrong pin used to set pin mode", i, m.getPin());
-			assertEquals("Wrong pin mode is used", enable ? 1 : 0, m.getData());
+			assertEquals(REPORT_ANALOG_PIN_COMMAND, m.getCommand());
+			assertEquals(i, m.getPin());
+			assertEquals(enable ? 1 : 0, m.getData());
 		}
 	}
 
@@ -231,19 +229,17 @@ public class PhiroImplTest extends AndroidTestCase {
 
 		FirmataMessage m = firmataUtils.getAnalogMessageData();
 
-		assertEquals("Wrong command, ANALOG_MESSAGE command expected",
-				ANALOG_MESSAGE_COMMAND, m.getCommand());
-		assertEquals("Wrong lsb speed", pin, m.getPin());
-		assertEquals("Wrong msb speed", speed, m.getData());
+		assertEquals(ANALOG_MESSAGE_COMMAND, m.getCommand());
+		assertEquals(pin, m.getPin());
+		assertEquals(speed, m.getData());
 	}
 
 	private void testLight(int color, int pin) {
 		FirmataMessage m = firmataUtils.getAnalogMessageData();
 
-		assertEquals("Wrong command, ANALOG_MESSAGE command expected",
-				ANALOG_MESSAGE_COMMAND, m.getCommand());
-		assertEquals("Wrong pin", pin, m.getPin());
-		assertEquals("Wrong color", color, m.getData());
+		assertEquals(ANALOG_MESSAGE_COMMAND, m.getCommand());
+		assertEquals(pin, m.getPin());
+		assertEquals(color, m.getData());
 	}
 
 	private int percentToSpeed(int percent) {

@@ -49,7 +49,7 @@ public class InternFormulaStateTest extends InstrumentationTestCase {
 		internState = new InternFormulaState(internTokenList, null, 0);
 		internStateToCompare = new InternFormulaState(internTokenList, internTokenSelection, 0);
 
-		assertFalse("TokenSelection is different", internState.equals(internStateToCompare));
+		assertFalse(internState.equals(internStateToCompare));
 
 		internTokenList = new ArrayList<InternToken>();
 		internTokenList.add(new InternToken(InternTokenType.NUMBER));
@@ -60,16 +60,16 @@ public class InternFormulaStateTest extends InstrumentationTestCase {
 	}
 
 	public void testEquals() {
-		assertFalse("Token List ist different", internState.equals(internStateToCompare));
-		assertFalse("Object to compare is not instance of InternFormulaState", internState.equals(Integer.valueOf(1)));
+		assertFalse(internState.equals(internStateToCompare));
+		assertFalse(internState.equals(Integer.valueOf(1)));
 	}
 
 	public void testHashCode() {
 		int hashCodeInternalState = internState.hashCode();
 		int hashCodeInternStateToCompare = internStateToCompare.hashCode();
-		assertFalse("HashCodes are the same", hashCodeInternalState == hashCodeInternStateToCompare);
+		assertFalse(hashCodeInternalState == hashCodeInternStateToCompare);
 		InternFormulaState internalState2 = internState;
-		assertTrue("HashCodes are different", internalState2.hashCode() == internState.hashCode());
-		assertFalse("HashCode function fail", internState.hashCode() == 1);
+		assertTrue(internalState2.hashCode() == internState.hashCode());
+		assertFalse(internState.hashCode() == 1);
 	}
 }

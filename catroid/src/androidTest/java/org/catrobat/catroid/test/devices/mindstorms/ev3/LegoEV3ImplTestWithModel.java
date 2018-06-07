@@ -74,6 +74,6 @@ public class LegoEV3ImplTestWithModel extends AndroidTestCase {
 			}
 		}
 
-		assertEquals("Expected keep alive time deosn't match", expectedKeepAliveTime, ev3TestModel.getKeepAliveTime());
+		assertEquals(expectedKeepAliveTime, ev3TestModel.getKeepAliveTime());
 	}
 }

@@ -134,8 +134,7 @@ public class BackwardCompatibleCatrobatLanguageXStreamTest extends Instrumentati
 				.loadProject(PROJECT_NAME_NOTE_AND_SPEAK_BRICK, getInstrumentation().getTargetContext());
 
 		assertNotNull(noteAndSpeakBrickProject);
-		assertEquals(PROJECT_NAME_NOTE_AND_SPEAK_BRICK,
-				noteAndSpeakBrickProject.getName().toLowerCase(Locale.getDefault()));
+		assertEquals(PROJECT_NAME_NOTE_AND_SPEAK_BRICK, noteAndSpeakBrickProject.getName().toLowerCase(Locale.getDefault()));
 
 		StorageOperations.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_NOTE_AND_SPEAK_BRICK));
 	}

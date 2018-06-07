@@ -81,16 +81,16 @@ public class LegoEV3SensorTest extends AndroidTestCase {
 		ev3TestModel.setSensorType(PORT_NR_0, EV3Sensor.Sensor.INFRARED);
 		EV3Sensor sensor = new EV3InfraredSensor(PORT_NR_0, mindstormsConnection);
 		sensor.getValue(); // will initialize the sensor
-		assertTrue("Infrared Sensor was not initialized or deactivated", ev3TestModel.isSensorActive(PORT_NR_0));
+		assertTrue(ev3TestModel.isSensorActive(PORT_NR_0));
 
 		ev3TestModel.generateSensorValue(PORT_NR_0);
 		int sensorValue = (int) sensor.getValue();
-		assertFalse("Infrared Sensor Value was not in range 0-100", (sensorValue < 0 || sensorValue > 100));
+		assertFalse((sensorValue < 0 || sensorValue > 100));
 
 		final int expectedSensorValue = 12;
 		ev3TestModel.setSensorValue(PORT_NR_0, expectedSensorValue);
 		sensorValue = (int) sensor.getValue();
-		assertEquals("Received wrong IR sensor value", expectedSensorValue, sensorValue);
+		assertEquals(expectedSensorValue, sensorValue);
 	}
 
 	public void testEV3ColorSensor() {
@@ -98,16 +98,16 @@ public class LegoEV3SensorTest extends AndroidTestCase {
 		ev3TestModel.setSensorType(PORT_NR_1, EV3Sensor.Sensor.COLOR);
 		EV3Sensor sensor = new EV3ColorSensor(PORT_NR_1, mindstormsConnection, EV3SensorMode.MODE2);
 		sensor.getValue(); // will initialize the sensor
-		assertTrue("Color Sensor was not initialized or deactivated", ev3TestModel.isSensorActive(PORT_NR_1));
+		assertTrue(ev3TestModel.isSensorActive(PORT_NR_1));
 
 		ev3TestModel.generateSensorValue(PORT_NR_1);
 		int sensorValue = (int) sensor.getValue();
-		assertFalse("Color Sensor Value (Color Mode) not in range 0 - 7", (sensorValue < 0 || sensorValue > 7));
+		assertFalse((sensorValue < 0 || sensorValue > 7));
 
 		final int expectedSensorValue = 3;
 		ev3TestModel.setSensorValue(PORT_NR_1, expectedSensorValue);
 		sensorValue = (int) sensor.getValue();
-		assertEquals("Received wrong color sensor value(color mode)", expectedSensorValue, sensorValue);
+		assertEquals(expectedSensorValue, sensorValue);
 	}
 
 	public void testEV3ColorSensorAmbient() {
@@ -115,16 +115,16 @@ public class LegoEV3SensorTest extends AndroidTestCase {
 		ev3TestModel.setSensorType(PORT_NR_2, EV3Sensor.Sensor.COLOR_AMBIENT);
 		EV3Sensor sensor = new EV3ColorSensor(PORT_NR_2, mindstormsConnection, EV3SensorMode.MODE1);
 		sensor.getValue(); // will initialize the sensor
-		assertTrue("Color Ambient Sensor was not initialized or deactivated", ev3TestModel.isSensorActive(PORT_NR_2));
+		assertTrue(ev3TestModel.isSensorActive(PORT_NR_2));
 
 		ev3TestModel.generateSensorValue(PORT_NR_2);
 		int sensorValue = (int) sensor.getValue();
-		assertFalse("Color Sensor Value(Ambient) was not in range 0-100", (sensorValue < 0 || sensorValue > 100));
+		assertFalse((sensorValue < 0 || sensorValue > 100));
 
 		final int expectedSensorValue = 33;
 		ev3TestModel.setSensorValue(PORT_NR_2, expectedSensorValue);
 		sensorValue = (int) sensor.getValue();
-		assertEquals("Received wrong color sensor value(Ambient)", expectedSensorValue, sensorValue);
+		assertEquals(expectedSensorValue, sensorValue);
 	}
 
 	public void testEV3ColorSensorReflected() {
@@ -132,16 +132,16 @@ public class LegoEV3SensorTest extends AndroidTestCase {
 		ev3TestModel.setSensorType(PORT_NR_3, EV3Sensor.Sensor.COLOR_REFLECT);
 		EV3Sensor sensor = new EV3ColorSensor(PORT_NR_3, mindstormsConnection, EV3SensorMode.MODE0);
 		sensor.getValue(); // will initialize the sensor
-		assertTrue("Color Reflected Sensor was not initialized or deactivated", ev3TestModel.isSensorActive(PORT_NR_3));
+		assertTrue(ev3TestModel.isSensorActive(PORT_NR_3));
 
 		ev3TestModel.generateSensorValue(PORT_NR_3);
 		int sensorValue = (int) sensor.getValue();
-		assertFalse("Color Sensor Value(Reflected) was not in range 0-100", (sensorValue < 0 || sensorValue > 100));
+		assertFalse((sensorValue < 0 || sensorValue > 100));
 
 		final int expectedSensorValue = 42;
 		ev3TestModel.setSensorValue(PORT_NR_3, expectedSensorValue);
 		sensorValue = (int) sensor.getValue();
-		assertEquals("Received wrong color sensor value(reflected)", expectedSensorValue, sensorValue);
+		assertEquals(expectedSensorValue, sensorValue);
 	}
 
 	public void testEV3TouchSensor() {
@@ -149,68 +149,66 @@ public class LegoEV3SensorTest extends AndroidTestCase {
 		ev3TestModel.setSensorType(PORT_NR_3, EV3Sensor.Sensor.TOUCH);
 		EV3Sensor sensor = new EV3TouchSensor(PORT_NR_3, mindstormsConnection);
 		sensor.getValue(); // will initialize the sensor
-		assertTrue("Touch Sensor was not initialized or deactivated", ev3TestModel.isSensorActive(PORT_NR_3));
+		assertTrue(ev3TestModel.isSensorActive(PORT_NR_3));
 
 		ev3TestModel.generateSensorValue(PORT_NR_3);
 		int sensorValue = (int) sensor.getValue();
-		assertFalse("Touch Sensor Value was not in range 0-1", (sensorValue < 0 || sensorValue > 1));
+		assertFalse((sensorValue < 0 || sensorValue > 1));
 
 		final int expectedSensorValue = 1;
 		final int touchPercentValue = 82;
 		ev3TestModel.setSensorValue(PORT_NR_3, touchPercentValue);
 		sensorValue = (int) sensor.getValue();
-		assertEquals("Received wrong touch sensor value", expectedSensorValue, sensorValue);
+		assertEquals(expectedSensorValue, sensorValue);
 	}
 
 	public void testEV3TemperatureSensor() {
 		ev3TestModel.setSensorType(PORT_NR_2, EV3Sensor.Sensor.NXT_TEMPERATURE_C);
 		EV3Sensor tempSensC = new TemperatureSensor(PORT_NR_2, mindstormsConnection, EV3SensorMode.MODE0);
 		tempSensC.getValue(); // will initialize the sensor
-		assertTrue("Temperature Sensor °C was not initialized or deactivated", ev3TestModel.isSensorActive(PORT_NR_2));
+		assertTrue(ev3TestModel.isSensorActive(PORT_NR_2));
 
-		assertEquals("Sensor Mode for Temperature Sensor °C doesn't match!", ev3TestModel.getSensormode(PORT_NR_2),
-				EV3SensorMode.MODE0.getByte());
+		assertEquals(ev3TestModel.getSensormode(PORT_NR_2), EV3SensorMode.MODE0.getByte());
 
 		ev3TestModel.setSensorType(PORT_NR_3, EV3Sensor.Sensor.NXT_TEMPERATURE_F);
 		EV3Sensor tempSensF = new TemperatureSensor(PORT_NR_3, mindstormsConnection, EV3SensorMode.MODE1);
 		tempSensF.getValue(); // will initialize the sensor
-		assertTrue("Temperature Sensor °F was not initialized or deactivated", ev3TestModel.isSensorActive(PORT_NR_3));
+		assertTrue(ev3TestModel.isSensorActive(PORT_NR_3));
 
-		assertEquals("Sensor Mode for Temperature Sensor °F doesn't match!", ev3TestModel.getSensormode(PORT_NR_3),
-				EV3SensorMode.MODE1.getByte());
+		assertEquals(ev3TestModel.getSensormode(PORT_NR_3), EV3SensorMode.MODE1.getByte());
 
 		ev3TestModel.generateSensorValue(PORT_NR_2);
 		float sensorValueC = tempSensC.getValue();
-		assertFalse("TemperatureSensor °C not in range", (sensorValueC < -550 || sensorValueC > 1280));
+		assertFalse((sensorValueC < -550 || sensorValueC > 1280));
 
 		ev3TestModel.generateSensorValue(PORT_NR_3);
 		float sensorValueF = tempSensF.getValue();
-		assertFalse("TemperatureSensor °C not in range", (sensorValueF < -670 || sensorValueF > 2624));
+		assertFalse((sensorValueF < -670 || sensorValueF > 2624));
 
 		final float expectedSensorValueC = 27.53f;
 		ev3TestModel.setSensorValue(PORT_NR_2, expectedSensorValueC);
 		float sensorValue = tempSensC.getValue();
-		assertEquals("Received wrong temperature sensor value (°C)", expectedSensorValueC, sensorValue);
+		assertEquals(expectedSensorValueC, sensorValue);
 
 		final float expectedSensorValueF = 49.53f;
 		ev3TestModel.setSensorValue(PORT_NR_3, expectedSensorValueF);
 		sensorValue = tempSensF.getValue();
-		assertEquals("Received wrong temperature sensor value (°F)", expectedSensorValueF, sensorValue);
+		assertEquals(expectedSensorValueF, sensorValue);
 	}
 
 	public void testEV3hitecColorSensor() {
 		ev3TestModel.setSensorType(PORT_NR_1, EV3Sensor.Sensor.HT_NXT_COLOR);
 		EV3Sensor sensor = new HiTechnicColorSensor(PORT_NR_1, mindstormsConnection, EV3SensorMode.MODE0);
 		sensor.getValue(); // will initialize the sensor
-		assertTrue("HiTechnic Color Sensor was not initialized or deactivated", ev3TestModel.isSensorActive(PORT_NR_1));
+		assertTrue(ev3TestModel.isSensorActive(PORT_NR_1));
 
 		ev3TestModel.generateSensorValue(PORT_NR_1);
 		float sensorValue = sensor.getValue();
-		assertFalse("Color Reading of hitec Color Sensor not in range", (sensorValue < 0 || sensorValue > 17));
+		assertFalse((sensorValue < 0 || sensorValue > 17));
 
 		final float expectedSensorValue = 13;
 		ev3TestModel.setSensorValue(PORT_NR_1, expectedSensorValue);
 		sensorValue = sensor.getValue();
-		assertEquals("Received wrong color value from hitec color sensor", expectedSensorValue, sensorValue);
+		assertEquals(expectedSensorValue, sensorValue);
 	}
 }

@@ -83,7 +83,7 @@ public class EventActionTest {
 
 		executeAllActions();
 
-		assertEquals("Simple broadcast failed", testPosition, (int) sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(testPosition, (int) sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 
 	@Test
@@ -100,7 +100,7 @@ public class EventActionTest {
 
 		executeAllActions();
 
-		assertEquals("Broadcast and wait failed", testPosition, (int) sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(testPosition, (int) sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 
 	@Test

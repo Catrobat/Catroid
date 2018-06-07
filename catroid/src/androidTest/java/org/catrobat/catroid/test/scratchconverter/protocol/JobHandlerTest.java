@@ -75,7 +75,7 @@ public class JobHandlerTest extends AndroidTestCase {
 			jobHandler.onJobMessage(new JobReadyMessage(WRONG_JOB_ID));
 			fail("onJobMessage() should throw exception, but returned unexpectedly");
 		} catch (IllegalArgumentException ex) {
-			assertEquals("State of expectedJob changed unexpectedly", Job.State.SCHEDULED, expectedJob.getState());
+			assertEquals(Job.State.SCHEDULED, expectedJob.getState());
 			verifyZeroInteractions(convertCallbackMock);
 		} catch (Exception ex) {
 			fail("Unexpected exception thrown!");
@@ -90,7 +90,7 @@ public class JobHandlerTest extends AndroidTestCase {
 				jobHandler.onJobMessage(new JobReadyMessage(WRONG_JOB_ID));
 				fail("onJobMessage() should throw exception, but returned unexpectedly");
 			} catch (IllegalArgumentException ex) {
-				assertEquals("State of expectedJob changed unexpectedly", givenState, expectedJob.getState());
+				assertEquals(givenState, expectedJob.getState());
 				verifyZeroInteractions(convertCallbackMock);
 			} catch (Exception ex) {
 				fail("Unexpected exception thrown!");
@@ -102,10 +102,9 @@ public class JobHandlerTest extends AndroidTestCase {
 		doAnswer(new Answer<Void>() {
 			@Override
 			public Void answer(InvocationOnMock invocation) throws Throwable {
-				assertNotNull("First argument of onConversionReady() call must not be null",
-						invocation.getArguments()[0]);
+				assertNotNull(invocation.getArguments()[0]);
 				final Job job = (Job) invocation.getArguments()[0];
-				assertEquals("Forwarded parameter job does not equal expected job!", expectedJob, job);
+				assertEquals(expectedJob, job);
 				return null;
 			}
 		}).when(convertCallbackMock).onConversionReady(any(Job.class));
@@ -113,8 +112,7 @@ public class JobHandlerTest extends AndroidTestCase {
 		expectedJob.setState(Job.State.SCHEDULED);
 		jobHandler.onJobMessage(new JobReadyMessage(JOB_ID_OF_JOB_HANDLER));
 
-		assertEquals("Expecting state to be READY after processed JobReadyMessage", Job.State.READY,
-				expectedJob.getState());
+		assertEquals(Job.State.READY, expectedJob.getState());
 		verify(convertCallbackMock, times(1)).onConversionReady(any(Job.class));
 		verifyNoMoreInteractions(convertCallbackMock);
 	}
@@ -123,7 +121,7 @@ public class JobHandlerTest extends AndroidTestCase {
 		for (Job.State givenState : new Job.State[] {Job.State.READY, Job.State.RUNNING}) {
 			expectedJob.setState(givenState);
 			jobHandler.onJobMessage(new JobReadyMessage(JOB_ID_OF_JOB_HANDLER));
-			assertEquals("State of expectedJob changed unexpectedly", givenState, expectedJob.getState());
+			assertEquals(givenState, expectedJob.getState());
 		}
 
 		verifyZeroInteractions(convertCallbackMock);
@@ -133,10 +131,9 @@ public class JobHandlerTest extends AndroidTestCase {
 		doAnswer(new Answer<Void>() {
 			@Override
 			public Void answer(InvocationOnMock invocation) throws Throwable {
-				assertNotNull("First argument of onConversionStart() call must not be null",
-						invocation.getArguments()[0]);
+				assertNotNull(invocation.getArguments()[0]);
 				final Job job = (Job) invocation.getArguments()[0];
-				assertEquals("Forwarded parameter job does not equal expected job!", expectedJob, job);
+				assertEquals(expectedJob, job);
 				return null;
 			}
 		}).when(convertCallbackMock).onConversionStart(any(Job.class));
@@ -146,10 +143,8 @@ public class JobHandlerTest extends AndroidTestCase {
 		jobHandler.onJobMessage(new JobAlreadyRunningMessage(JOB_ID_OF_JOB_HANDLER, expectedJob.getTitle(),
 				expectedProgramImageURL));
 
-		assertEquals("Expecting state to be RUNNING after processed JobAlreadyRunningMessage",
-				Job.State.RUNNING, expectedJob.getState());
-		assertEquals("Image of expectedJob not set properly!",
-				expectedProgramImageURL, expectedJob.getImage().getUrl().toString());
+		assertEquals(Job.State.RUNNING, expectedJob.getState());
+		assertEquals(expectedProgramImageURL, expectedJob.getImage().getUrl().toString());
 		verify(convertCallbackMock, times(1)).onConversionStart(any(Job.class));
 		verifyNoMoreInteractions(convertCallbackMock);
 	}
@@ -161,8 +156,8 @@ public class JobHandlerTest extends AndroidTestCase {
 			jobHandler.onJobMessage(new JobAlreadyRunningMessage(JOB_ID_OF_JOB_HANDLER, expectedJob.getTitle(),
 					expectedProgramImageURL));
 
-			assertEquals("State of expectedJob changed unexpectedly", givenState, expectedJob.getState());
-			assertNull("Image of expectedJob not set properly!", expectedJob.getImage());
+			assertEquals(givenState, expectedJob.getState());
+			assertNull(expectedJob.getImage());
 		}
 
 		verifyZeroInteractions(convertCallbackMock);
@@ -174,15 +169,12 @@ public class JobHandlerTest extends AndroidTestCase {
 		doAnswer(new Answer<Void>() {
 			@Override
 			public Void answer(InvocationOnMock invocation) throws Throwable {
-				assertNotNull("First argument of onJobProgress() call must not be null",
-						invocation.getArguments()[0]);
-				assertNotNull("Second argument of onJobProgress() call must not be null",
-						invocation.getArguments()[1]);
+				assertNotNull(invocation.getArguments()[0]);
+				assertNotNull(invocation.getArguments()[1]);
 				final Job job = (Job) invocation.getArguments()[0];
 				final short progress = (short) invocation.getArguments()[1];
-				assertEquals("Forwarded parameter job does not equal expected job!", expectedJob, job);
-				assertEquals("Forwarded parameter progress does not equal expected progress value!",
-						expectedProgress, progress);
+				assertEquals(expectedJob, job);
+				assertEquals(expectedProgress, progress);
 				return null;
 			}
 		}).when(convertCallbackMock).onJobProgress(any(Job.class), any(Short.class));
@@ -190,9 +182,8 @@ public class JobHandlerTest extends AndroidTestCase {
 		expectedJob.setState(Job.State.RUNNING);
 		jobHandler.onJobMessage(new JobProgressMessage(JOB_ID_OF_JOB_HANDLER, expectedProgress));
 
-		assertEquals("Expecting state to be RUNNING after processed JobProgressMessage",
-				Job.State.RUNNING, expectedJob.getState());
-		assertEquals("Progress value of expectedJob not set properly!", expectedProgress, expectedJob.getProgress());
+		assertEquals(Job.State.RUNNING, expectedJob.getState());
+		assertEquals(expectedProgress, expectedJob.getProgress());
 		verify(convertCallbackMock, times(1)).onJobProgress(any(Job.class), any(Short.class));
 		verifyNoMoreInteractions(convertCallbackMock);
 	}
@@ -203,7 +194,7 @@ public class JobHandlerTest extends AndroidTestCase {
 			expectedJob.setState(givenState);
 			jobHandler.onJobMessage(new JobProgressMessage(JOB_ID_OF_JOB_HANDLER, expectedProgress));
 
-			assertEquals("State of expectedJob changed unexpectedly", givenState, expectedJob.getState());
+			assertEquals(givenState, expectedJob.getState());
 		}
 
 		verifyZeroInteractions(convertCallbackMock);
@@ -215,17 +206,14 @@ public class JobHandlerTest extends AndroidTestCase {
 		doAnswer(new Answer<Void>() {
 			@Override
 			public Void answer(InvocationOnMock invocation) throws Throwable {
-				assertNotNull("First argument of onJobOutput() call must not be null",
-						invocation.getArguments()[0]);
-				assertNotNull("Second argument of onJobOutput() call must not be null",
-						invocation.getArguments()[1]);
+				assertNotNull(invocation.getArguments()[0]);
+				assertNotNull(invocation.getArguments()[1]);
 				final Job job = (Job) invocation.getArguments()[0];
 				final String[] lines = (String[]) invocation.getArguments()[1];
-				assertEquals("Forwarded parameter job does not equal expected job!", expectedJob, job);
-				assertEquals("Forwarded parameter lines has wrong length!", expectedLines.length, lines.length);
+				assertEquals(expectedJob, job);
+				assertEquals(expectedLines.length, lines.length);
 				for (int index = 0; index < expectedLines.length; index++) {
-					assertEquals("Lines #" + index + " does not equal expected line #" + index + "!",
-							expectedLines[index], lines[index]);
+					assertEquals(expectedLines[index], lines[index]);
 				}
 				return null;
 			}
@@ -234,8 +222,7 @@ public class JobHandlerTest extends AndroidTestCase {
 		expectedJob.setState(Job.State.RUNNING);
 		jobHandler.onJobMessage(new JobOutputMessage(JOB_ID_OF_JOB_HANDLER, expectedLines));
 
-		assertEquals("Expecting state to be RUNNING after processed JobOutputMessage",
-				Job.State.RUNNING, expectedJob.getState());
+		assertEquals(Job.State.RUNNING, expectedJob.getState());
 		verify(convertCallbackMock, times(1)).onJobOutput(any(Job.class), any(String[].class));
 		verifyNoMoreInteractions(convertCallbackMock);
 	}
@@ -247,7 +234,7 @@ public class JobHandlerTest extends AndroidTestCase {
 			expectedJob.setState(givenState);
 			jobHandler.onJobMessage(new JobOutputMessage(JOB_ID_OF_JOB_HANDLER, expectedLines));
 
-			assertEquals("State of expectedJob changed unexpectedly", givenState, expectedJob.getState());
+			assertEquals(givenState, expectedJob.getState());
 		}
 
 		verifyZeroInteractions(convertCallbackMock);
@@ -261,14 +248,10 @@ public class JobHandlerTest extends AndroidTestCase {
 		doAnswer(new Answer<Void>() {
 			@Override
 			public Void answer(InvocationOnMock invocation) throws Throwable {
-				assertNotNull("First argument of onConversionFinished() call must not be null",
-						invocation.getArguments()[0]);
-				assertNotNull("Second argument of onConversionFinished() call must not be null",
-						invocation.getArguments()[1]);
-				assertNotNull("Third argument of onConversionFinished() call must not be null",
-						invocation.getArguments()[2]);
-				assertNotNull("Fourth argument of onConversionFinished() call must not be null",
-						invocation.getArguments()[3]);
+				assertNotNull(invocation.getArguments()[0]);
+				assertNotNull(invocation.getArguments()[1]);
+				assertNotNull(invocation.getArguments()[2]);
+				assertNotNull(invocation.getArguments()[3]);
 
 				final Job job = (Job) invocation.getArguments()[0];
 				final Client.DownloadCallback downloadCallback =
@@ -276,13 +259,10 @@ public class JobHandlerTest extends AndroidTestCase {
 				final String downloadURL = (String) invocation.getArguments()[2];
 				final Date cacheDate = (Date) invocation.getArguments()[3];
 
-				assertEquals("Forwarded parameter job does not equal expected job!", expectedJob, job);
-				assertEquals("Forwarded parameter downloadCallback should be the job-handler!",
-						jobHandler, downloadCallback);
-				assertEquals("Forwarded parameter downloadURL does not equal expectedDownloadURL!",
-						expectedDownloadURL, downloadURL);
-				assertEquals("Forwarded parameter cacheDate does not equal exectedCacheDate!",
-						expectedCacheDate, cacheDate);
+				assertEquals(expectedJob, job);
+				assertEquals(jobHandler, downloadCallback);
+				assertEquals(expectedDownloadURL, downloadURL);
+				assertEquals(expectedCacheDate, cacheDate);
 				return null;
 			}
 		}).when(convertCallbackMock).onConversionFinished(any(Job.class), any(Client.DownloadCallback.class),
@@ -292,10 +272,8 @@ public class JobHandlerTest extends AndroidTestCase {
 			expectedJob.setState(givenState);
 			jobHandler.onJobMessage(new JobFinishedMessage(JOB_ID_OF_JOB_HANDLER, expectedDownloadURL,
 					expectedCacheDate));
-			assertEquals("Expecting state to be FINISHED after processed JobFinishedMessage",
-					Job.State.FINISHED, expectedJob.getState());
-			assertEquals("Download URL of expectedJob not set properly!", expectedDownloadURL,
-					expectedJob.getDownloadURL());
+			assertEquals(Job.State.FINISHED, expectedJob.getState());
+			assertEquals(expectedDownloadURL, expectedJob.getDownloadURL());
 		}
 
 		verify(convertCallbackMock, times(2)).onConversionFinished(any(Job.class),
@@ -312,8 +290,8 @@ public class JobHandlerTest extends AndroidTestCase {
 		jobHandler.onJobMessage(new JobFinishedMessage(JOB_ID_OF_JOB_HANDLER, expectedDownloadURL,
 				expectedCacheDate));
 
-		assertEquals("State of expectedJob changed unexpectedly", givenState, expectedJob.getState());
-		assertNull("Image of expectedJob not set properly!", expectedJob.getImage());
+		assertEquals(givenState, expectedJob.getState());
+		assertNull(expectedJob.getImage());
 		verifyZeroInteractions(convertCallbackMock);
 	}
 
@@ -323,17 +301,14 @@ public class JobHandlerTest extends AndroidTestCase {
 		doAnswer(new Answer<Void>() {
 			@Override
 			public Void answer(InvocationOnMock invocation) throws Throwable {
-				assertNotNull("First argument of onConversionFailure() call must not be null",
-						invocation.getArguments()[0]);
-				assertNotNull("Second argument of onConversionFailure() call must not be null",
-						invocation.getArguments()[1]);
+				assertNotNull(invocation.getArguments()[0]);
+				assertNotNull(invocation.getArguments()[1]);
 
 				final Job job = (Job) invocation.getArguments()[0];
 				final ClientException clientException = (ClientException) invocation.getArguments()[1];
 
-				assertEquals("Forwarded parameter job does not equal expected job!", expectedJob, job);
-				assertEquals("Forwarded parameter errorMessage does not equal expectedErrorMessage!",
-						"Job failed - Reason: " + expectedErrorMessage, clientException.getMessage());
+				assertEquals(expectedJob, job);
+				assertEquals("Job failed - Reason: " + expectedErrorMessage, clientException.getMessage());
 				return null;
 			}
 		}).when(convertCallbackMock).onConversionFailure(any(Job.class), any(ClientException.class));
@@ -341,8 +316,7 @@ public class JobHandlerTest extends AndroidTestCase {
 		for (Job.State givenState : new Job.State[] {Job.State.SCHEDULED, Job.State.RUNNING}) {
 			expectedJob.setState(givenState);
 			jobHandler.onJobMessage(new JobFailedMessage(JOB_ID_OF_JOB_HANDLER, expectedErrorMessage));
-			assertEquals("Expecting state to be FAILED after processed JobFailedMessage",
-					Job.State.FAILED, expectedJob.getState());
+			assertEquals(Job.State.FAILED, expectedJob.getState());
 		}
 
 		verify(convertCallbackMock, times(2)).onConversionFailure(any(Job.class), any(ClientException.class));
@@ -356,7 +330,7 @@ public class JobHandlerTest extends AndroidTestCase {
 		expectedJob.setState(givenState);
 		jobHandler.onJobMessage(new JobFailedMessage(JOB_ID_OF_JOB_HANDLER, errorMessage));
 
-		assertEquals("State of expectedJob changed unexpectedly", givenState, expectedJob.getState());
+		assertEquals(givenState, expectedJob.getState());
 		verifyZeroInteractions(convertCallbackMock);
 	}
 
@@ -364,10 +338,9 @@ public class JobHandlerTest extends AndroidTestCase {
 		doAnswer(new Answer<Void>() {
 			@Override
 			public Void answer(InvocationOnMock invocation) throws Throwable {
-				assertNotNull("First argument of onConversionStart() call must not be null",
-						invocation.getArguments()[0]);
+				assertNotNull(invocation.getArguments()[0]);
 				final Job job = (Job) invocation.getArguments()[0];
-				assertEquals("Forwarded parameter job does not equal expected job!", expectedJob, job);
+				assertEquals(expectedJob, job);
 				return null;
 			}
 		}).when(convertCallbackMock).onConversionStart(any(Job.class));
@@ -376,8 +349,7 @@ public class JobHandlerTest extends AndroidTestCase {
 		final String programImageURL = "https://cdn2.scratch.mit.edu/get_image/project/11656680_480x360.png";
 		jobHandler.onJobMessage(new JobRunningMessage(JOB_ID_OF_JOB_HANDLER, expectedJob.getTitle(), programImageURL));
 
-		assertEquals("Expecting state to be RUNNING after processed JobRunningMessage",
-				Job.State.RUNNING, expectedJob.getState());
+		assertEquals(Job.State.RUNNING, expectedJob.getState());
 		verify(convertCallbackMock, times(1)).onConversionStart(any(Job.class));
 		verifyNoMoreInteractions(convertCallbackMock);
 	}
@@ -389,8 +361,8 @@ public class JobHandlerTest extends AndroidTestCase {
 			jobHandler.onJobMessage(new JobRunningMessage(JOB_ID_OF_JOB_HANDLER, expectedJob.getTitle(),
 					programImageURL));
 
-			assertEquals("State of expectedJob changed unexpectedly", givenState, expectedJob.getState());
-			assertNull("Image of expectedJob not set properly!", expectedJob.getImage());
+			assertEquals(givenState, expectedJob.getState());
+			assertNull(expectedJob.getImage());
 			verifyZeroInteractions(convertCallbackMock);
 		}
 	}
@@ -402,10 +374,9 @@ public class JobHandlerTest extends AndroidTestCase {
 		doAnswer(new Answer<Void>() {
 			@Override
 			public Void answer(InvocationOnMock invocation) throws Throwable {
-				assertNotNull("First argument of onConversionStart() call must not be null",
-						invocation.getArguments()[0]);
+				assertNotNull(invocation.getArguments()[0]);
 				final Job job = (Job) invocation.getArguments()[0];
-				assertEquals("Forwarded parameter job does not equal expected job!", expectedJob, job);
+				assertEquals(expectedJob, job);
 				return null;
 			}
 		}).when(convertCallbackMock).onJobScheduled(any(Job.class));
@@ -413,8 +384,7 @@ public class JobHandlerTest extends AndroidTestCase {
 		expectedJob.setState(Job.State.UNSCHEDULED);
 		jobHandler.onJobScheduled();
 
-		assertEquals("Expecting state to be SCHEDULED after onJobScheduled() called",
-				Job.State.SCHEDULED, expectedJob.getState());
+		assertEquals(Job.State.SCHEDULED, expectedJob.getState());
 
 		verify(convertCallbackMock, times(1)).onJobScheduled(any(Job.class));
 		verifyNoMoreInteractions(convertCallbackMock);
@@ -428,10 +398,8 @@ public class JobHandlerTest extends AndroidTestCase {
 		expectedJob.setDownloadState(Job.DownloadState.READY);
 		jobHandler.onDownloadStarted(expectedDownloadURL);
 
-		assertEquals("Expecting downloadState to be DOWNLOADING after onDownloadStarted() called",
-				Job.DownloadState.DOWNLOADING, expectedJob.getDownloadState());
-		assertEquals("Expecting state to be FINISHED after onDownloadStarted() called",
-				Job.State.FINISHED, expectedJob.getState());
+		assertEquals(Job.DownloadState.DOWNLOADING, expectedJob.getDownloadState());
+		assertEquals(Job.State.FINISHED, expectedJob.getState());
 		verifyZeroInteractions(convertCallbackMock);
 	}
 
@@ -443,10 +411,8 @@ public class JobHandlerTest extends AndroidTestCase {
 		expectedJob.setDownloadState(Job.DownloadState.DOWNLOADING);
 		jobHandler.onDownloadFinished(expectedJob.getTitle(), expectedDownloadURL);
 
-		assertEquals("Expecting downloadState to be DOWNLOADED after onDownloadFinished() called",
-				Job.DownloadState.DOWNLOADED, expectedJob.getDownloadState());
-		assertEquals("Expecting state to be FINISHED after onDownloadFinished() called",
-				Job.State.FINISHED, expectedJob.getState());
+		assertEquals(Job.DownloadState.DOWNLOADED, expectedJob.getDownloadState());
+		assertEquals(Job.State.FINISHED, expectedJob.getState());
 		verifyZeroInteractions(convertCallbackMock);
 	}
 
@@ -458,10 +424,8 @@ public class JobHandlerTest extends AndroidTestCase {
 		expectedJob.setDownloadState(Job.DownloadState.DOWNLOADING);
 		jobHandler.onUserCanceledDownload(expectedDownloadURL);
 
-		assertEquals("Expecting downloadState to be NOT_DOWNLOADED after onUserCanceledDownload() called",
-				Job.DownloadState.CANCELED, expectedJob.getDownloadState());
-		assertEquals("Expecting state to be FINISHED after onUserCanceledDownload() called",
-				Job.State.FINISHED, expectedJob.getState());
+		assertEquals(Job.DownloadState.CANCELED, expectedJob.getDownloadState());
+		assertEquals(Job.State.FINISHED, expectedJob.getState());
 		verifyZeroInteractions(convertCallbackMock);
 	}
 
@@ -469,8 +433,7 @@ public class JobHandlerTest extends AndroidTestCase {
 		expectedJob.setState(Job.State.RUNNING);
 		jobHandler.onUserCanceledConversion();
 
-		assertEquals("Expecting state to be FINISHED after onUserCanceledConversion() called",
-				Job.State.FINISHED, expectedJob.getState());
+		assertEquals(Job.State.FINISHED, expectedJob.getState());
 		verifyZeroInteractions(convertCallbackMock);
 	}
 
@@ -481,16 +444,14 @@ public class JobHandlerTest extends AndroidTestCase {
 		for (Job.State givenState : Job.State.values()) {
 			expectedJob.setState(givenState);
 			boolean expectedResult = expectedJob.isInProgress();
-			assertTrue("Expecting wrapper to return same value as expectedJob.isInProgress() call",
-					expectedResult == jobHandler.isInProgress());
+			assertTrue(expectedResult == jobHandler.isInProgress());
 		}
 		verifyZeroInteractions(convertCallbackMock);
 	}
 
 	public void testIsGetJobIDWrapperCalled() {
 		final long expectedJobID = expectedJob.getJobID();
-		assertEquals("Expecting wrapper to return same value as expectedJob.getJobID() call",
-				expectedJobID, jobHandler.getJobID());
+		assertEquals(expectedJobID, jobHandler.getJobID());
 		verifyZeroInteractions(convertCallbackMock);
 	}
 }

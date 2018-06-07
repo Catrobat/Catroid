@@ -202,9 +202,9 @@ public class ArduinoImplTest extends AndroidTestCase {
 		for (int pin : ArduinoImpl.PWM_PINS) {
 			FirmataMessage m = firmataUtils.getSetPinModeMessage();
 
-			assertEquals("Wrong Command, SET_PIN_MODE command expected", SET_PIN_MODE_COMMAND, m.getCommand());
-			assertEquals("Wrong pin used to set pin mode", pin, m.getPin());
-			assertEquals("Wrong pin mode is used", PWM_MODE, m.getData());
+			assertEquals(SET_PIN_MODE_COMMAND, m.getCommand());
+			assertEquals(pin, m.getPin());
+			assertEquals(PWM_MODE, m.getData());
 		}
 
 		testReportAnalogPin(true);
@@ -214,36 +214,34 @@ public class ArduinoImplTest extends AndroidTestCase {
 		for (int i = MIN_ANALOG_SENSOR_PIN; i <= MAX_ANALOG_SENSOR_PIN; i++) {
 			FirmataMessage m = firmataUtils.getReportAnalogPinMessage();
 
-			assertEquals("Wrong Command, REPORT_ANALOG_PIN command expected", REPORT_ANALOG_PIN_COMMAND, m.getCommand());
-			assertEquals("Wrong pin used to set pin to be reported", i, m.getPin());
-			assertEquals("Wrong enable bit used", enable ? 1 : 0, m.getData());
+			assertEquals(REPORT_ANALOG_PIN_COMMAND, m.getCommand());
+			assertEquals(i, m.getPin());
+			assertEquals(enable ? 1 : 0, m.getData());
 		}
 	}
 
 	private void testDigital(int portValue, int pin) {
 		FirmataMessage m = firmataUtils.getSetPinModeMessage();
-		assertEquals("Wrong Command, SET_PIN_MODE command expected", SET_PIN_MODE_COMMAND, m.getCommand());
-		assertEquals("Wrong pin used to set pin mode", pin, m.getPin());
-		assertEquals("Wrong pin mode is used", OUTPUT_MODE, m.getData());
+		assertEquals(SET_PIN_MODE_COMMAND, m.getCommand());
+		assertEquals(pin, m.getPin());
+		assertEquals(OUTPUT_MODE, m.getData());
 
 		m = firmataUtils.getDigitalMessageData();
-		assertEquals("Wrong command, DIGITAL_MESSAGE command expected",
-				DIGITAL_MESSAGE_COMMAND, m.getCommand());
-		assertEquals("Wrong port", ArduinoImpl.getPortFromPin(pin), m.getPin());
-		assertEquals("Wrong port value", portValue, m.getData());
+		assertEquals(DIGITAL_MESSAGE_COMMAND, m.getCommand());
+		assertEquals(ArduinoImpl.getPortFromPin(pin), m.getPin());
+		assertEquals(portValue, m.getData());
 	}
 
 	private void checkAnalog(int pin, int expectedValue) {
 		FirmataMessage m = firmataUtils.getSetPinModeMessage();
-		assertEquals("Wrong Command, SET_PIN_MODE command expected", SET_PIN_MODE_COMMAND, m.getCommand());
-		assertEquals("Wrong pin used to set pin mode", pin, m.getPin());
-		assertEquals("Wrong pin mode is used", PWM_MODE, m.getData());
+		assertEquals(SET_PIN_MODE_COMMAND, m.getCommand());
+		assertEquals(pin, m.getPin());
+		assertEquals(PWM_MODE, m.getData());
 
 		m = firmataUtils.getAnalogMessageData();
-		assertEquals("Wrong command, ANALOG_MESSAGE command expected",
-				ANALOG_MESSAGE_COMMAND, m.getCommand());
-		assertEquals("Wrong pin sent via Firmata", pin, m.getPin());
-		assertEquals("Wrong value sent via Firmata", expectedValue, m.getData());
+		assertEquals(ANALOG_MESSAGE_COMMAND, m.getCommand());
+		assertEquals(pin, m.getPin());
+		assertEquals(expectedValue, m.getData());
 	}
 
 	private void testAnalog(int pin, int value) {

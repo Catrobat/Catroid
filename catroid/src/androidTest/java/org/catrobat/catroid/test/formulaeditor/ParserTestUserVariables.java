@@ -81,27 +81,19 @@ public class ParserTestUserVariables extends AndroidTestCase {
 	}
 
 	public void testUserVariableInterpretation() {
-		assertEquals("Formula interpretation of ProjectUserVariable is not as expected",
-				USER_VARIABLE_1_VALUE_TYPE_DOUBLE, interpretUserVariable(PROJECT_USER_VARIABLE));
-		assertEquals("Formula interpretation of SpriteUserVariable is not as expected",
-				USER_VARIABLE_2_VALUE_TYPE_DOUBLE, interpretUserVariable(SPRITE_USER_VARIABLE));
-		assertEquals("Formula interpretation of ProjectUserVariable2 is not as expected",
-				USER_VARIABLE_3_VALUE_TYPE_STRING, interpretUserVariable(PROJECT_USER_VARIABLE_2));
-		assertEquals("Formula interpretation of UserBrickVariable is not as expected",
-				USER_VARIABLE_VALUE3, interpretUserVariable(USER_BRICK_VARIABLE));
+		assertEquals(USER_VARIABLE_1_VALUE_TYPE_DOUBLE, interpretUserVariable(PROJECT_USER_VARIABLE));
+		assertEquals(USER_VARIABLE_2_VALUE_TYPE_DOUBLE, interpretUserVariable(SPRITE_USER_VARIABLE));
+		assertEquals(USER_VARIABLE_3_VALUE_TYPE_STRING, interpretUserVariable(PROJECT_USER_VARIABLE_2));
+		assertEquals(USER_VARIABLE_VALUE3, interpretUserVariable(USER_BRICK_VARIABLE));
 	}
 
 	public void testUserVariableResetting() {
 		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().resetAllDataObjects();
 
-		assertEquals("ProjectUserVariable did not reset", USER_VARIABLE_RESET,
-				interpretUserVariable(PROJECT_USER_VARIABLE));
-		assertEquals("SpriteUserVariable did not reset", USER_VARIABLE_RESET,
-				interpretUserVariable(SPRITE_USER_VARIABLE));
-		assertEquals("ProjectUserVariable2 did not reset", USER_VARIABLE_RESET,
-				interpretUserVariable(PROJECT_USER_VARIABLE_2));
-		assertEquals("UserBrickVariable was reset, but shouldn't be", USER_VARIABLE_VALUE3,
-				interpretUserVariable(USER_BRICK_VARIABLE));
+		assertEquals(USER_VARIABLE_RESET, interpretUserVariable(PROJECT_USER_VARIABLE));
+		assertEquals(USER_VARIABLE_RESET, interpretUserVariable(SPRITE_USER_VARIABLE));
+		assertEquals(USER_VARIABLE_RESET, interpretUserVariable(PROJECT_USER_VARIABLE_2));
+		assertEquals(USER_VARIABLE_VALUE3, interpretUserVariable(USER_BRICK_VARIABLE));
 	}
 
 	public void testNotExistingUserVariable() {

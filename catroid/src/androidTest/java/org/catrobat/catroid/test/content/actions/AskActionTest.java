@@ -58,6 +58,6 @@ public class AskActionTest extends AndroidTestCase {
 		action.act(1f);
 		action.setAnswerText(ASK_ANSWER);
 
-		assertEquals("answer incorrect", ASK_ANSWER, userVariableForAnswer.getValue().toString());
+		assertEquals(ASK_ANSWER, userVariableForAnswer.getValue().toString());
 	}
 }

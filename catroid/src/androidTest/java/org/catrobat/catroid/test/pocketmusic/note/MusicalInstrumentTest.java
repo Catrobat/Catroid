@@ -42,6 +42,6 @@ public class MusicalInstrumentTest extends AndroidTestCase {
 
 	private void assertGetInstrumentFromProgram(int program, MusicalInstrument expectedInstrument) {
 		MusicalInstrument actualInstrument = MusicalInstrument.getInstrumentFromProgram(program);
-		assertEquals("Failed to get instrument from Program", expectedInstrument, actualInstrument);
+		assertEquals(expectedInstrument, actualInstrument);
 	}
 }

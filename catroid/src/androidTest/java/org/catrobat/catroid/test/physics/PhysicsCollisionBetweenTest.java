@@ -58,15 +58,14 @@ public class PhysicsCollisionBetweenTest extends PhysicsCollisionBaseTest {
 			Map<Integer, PhysicsCollisionBroadcast> physicsCollisionBroadcasts =
 					(Map<Integer, PhysicsCollisionBroadcast>) Reflection.getPrivateField(PhysicsCollision.class,
 							physicsCollisionTestListener, "physicsCollisionBroadcasts");
-			assertTrue("Map must contain one element", physicsCollisionBroadcasts.size() == 1);
+			assertTrue(physicsCollisionBroadcasts.size() == 1);
 			Object[] parameters = {sprite, sprite2};
 			Reflection.ParameterList paramList = new Reflection.ParameterList(parameters);
 			CollisionEventId key = (CollisionEventId) Reflection.invokeMethod(PhysicsCollision.class,
 					physicsCollisionTestListener,
 					"generateKey", paramList);
 			PhysicsCollisionBroadcast collisionBroadcast = physicsCollisionBroadcasts.get(key);
-			assertEquals("collision broadcast counter must be equal to beginCounter - endCounter", collisionBroadcast
-					.getContactCounter(), getContactDifference());
+			assertEquals(collisionBroadcast.getContactCounter(), getContactDifference());
 		} catch (Exception exception) {
 			Log.e(TAG, Log.getStackTraceString(exception));
 			fail("An unexpected exception was captured. See Logcat for details");
@@ -81,9 +80,9 @@ public class PhysicsCollisionBetweenTest extends PhysicsCollisionBaseTest {
 					(Map<Integer, PhysicsCollisionBroadcast>) Reflection.getPrivateField(PhysicsCollision.class,
 							physicsCollisionTestListener, "physicsCollisionBroadcasts");
 			if (getContactDifference() == 0) {
-				assertTrue("Map must contain zero elements", physicsCollisionBroadcasts.size() == 0);
+				assertTrue(physicsCollisionBroadcasts.size() == 0);
 			} else {
-				assertTrue("Map must contain one element", physicsCollisionBroadcasts.size() == 2);
+				assertTrue(physicsCollisionBroadcasts.size() == 2);
 			}
 		} catch (Exception exception) {
 			Log.e(TAG, Log.getStackTraceString(exception));
@@ -92,14 +91,14 @@ public class PhysicsCollisionBetweenTest extends PhysicsCollisionBaseTest {
 	}
 
 	public void testIfBroadcastsAreCorrectPreparedAndFired() {
-		assertTrue("collision rate is not zero before step", isContactRateOk());
-		assertTrue("no collision detected", simulateFullCollision());
-		assertTrue("collision rate is not zero after step", isContactRateOk());
+		assertTrue(isContactRateOk());
+		assertTrue(simulateFullCollision());
+		assertTrue(isContactRateOk());
 	}
 
 	public void testCollisionBroadcastOfTwoSprites() {
-		assertTrue("getLookData of sprite is null", sprite.look.getLookData() != null);
-		assertTrue("getLookData of sprite2 is null", sprite2.look.getLookData() != null);
+		assertTrue(sprite.look.getLookData() != null);
+		assertTrue(sprite2.look.getLookData() != null);
 
 		CollisionScript secondSpriteCollisionScript = new CollisionScript(null);
 		secondSpriteCollisionScript.setSpriteToCollideWithName(sprite.getName());
@@ -120,10 +119,8 @@ public class PhysicsCollisionBetweenTest extends PhysicsCollisionBaseTest {
 			}
 		}
 
-		assertEquals("X Value of Sprite was not set", (float) testXValue, sprite2.look
-				.getXInUserInterfaceDimensionUnit());
-		assertEquals("Y Value of Sprite was not set", (float) testYValue, sprite2.look
-				.getYInUserInterfaceDimensionUnit());
+		assertEquals((float) testXValue, sprite2.look.getXInUserInterfaceDimensionUnit());
+		assertEquals((float) testYValue, sprite2.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public boolean allActionsOfAllSpritesAreFinished() {

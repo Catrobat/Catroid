@@ -124,44 +124,36 @@ public class ParserTestUserLists extends AndroidTestCase {
 	public void testUserListInterpretationMultipleStringAndNumbers() {
 		dataContainer.getUserList(firstSprite, PROJECT_USER_LIST_NAME).setList(
 				USER_LIST_VALUES_MULTIPLE_NUMBERS_STRING_INTEGER);
-		assertEquals("Formula interpretation of List is not as expected",
-				USER_LIST_VALUES_MULTIPLE_NUMBERS_STRING_INTEGER_INTERPRETATION_VALUE,
-				interpretUserList(PROJECT_USER_LIST_NAME));
+		assertEquals(USER_LIST_VALUES_MULTIPLE_NUMBERS_STRING_INTEGER_INTERPRETATION_VALUE, interpretUserList(PROJECT_USER_LIST_NAME));
 	}
 
 	public void testUserListInterpretationSingleNumberString() {
 		dataContainer.getUserList(firstSprite, PROJECT_USER_LIST_NAME).setList(
 				USER_LIST_VALUES_SINGLE_NUMBER_STRING);
-		assertEquals("Formula interpretation of List is not as expected",
-				USER_LIST_VALUES_SINGLE_NUMBER_STRING_INTERPRETATION_VALUE,
-				interpretUserList(PROJECT_USER_LIST_NAME));
+		assertEquals(USER_LIST_VALUES_SINGLE_NUMBER_STRING_INTERPRETATION_VALUE, interpretUserList(PROJECT_USER_LIST_NAME));
 	}
 
 	public void testUserListInterpretationMultipleNumberString() {
 		dataContainer.getUserList(firstSprite, PROJECT_USER_LIST_NAME).setList(
 				USER_LIST_VALUES_MULTIPLE_NUMBER_STRING);
-		assertEquals("Formula interpretation of List is not as expected",
-				USER_LIST_VALUES_MULTIPLE_NUMBER_STRING_INTERPRETATION_VALUE, interpretUserList(PROJECT_USER_LIST_NAME));
+		assertEquals(USER_LIST_VALUES_MULTIPLE_NUMBER_STRING_INTERPRETATION_VALUE, interpretUserList(PROJECT_USER_LIST_NAME));
 	}
 
 	public void testUserListInterpretationMultipleNumbers() {
 		dataContainer.getUserList(firstSprite, PROJECT_USER_LIST_NAME).setList(USER_LIST_VALUES_MULTIPLE_NUMBERS);
-		assertEquals("Formula interpretation of List is not as expected",
-				USER_LIST_VALUES_MULTIPLE_NUMBERS_INTERPRETATION_VALUE, interpretUserList(PROJECT_USER_LIST_NAME));
+		assertEquals(USER_LIST_VALUES_MULTIPLE_NUMBERS_INTERPRETATION_VALUE, interpretUserList(PROJECT_USER_LIST_NAME));
 	}
 
 	public void testUserListInterpretationStringsAndNumbers() {
 		dataContainer.getUserList(firstSprite, PROJECT_USER_LIST_NAME)
 				.setList(USER_LIST_VALUES_STRINGS_AND_NUMBERS);
-		assertEquals("Formula interpretation of List is not as expected",
-				USER_LIST_VALUES_STRINGS_AND_NUMBERS_INTERPRETATION_VALUE, interpretUserList(PROJECT_USER_LIST_NAME));
+		assertEquals(USER_LIST_VALUES_STRINGS_AND_NUMBERS_INTERPRETATION_VALUE, interpretUserList(PROJECT_USER_LIST_NAME));
 	}
 
 	public void testUserListInterpretationEmptyList() {
 		dataContainer.getUserList(firstSprite, PROJECT_USER_LIST_NAME).getList().clear();
 
-		assertEquals("Formula interpretation of List is not as expected", EMPTY_USER_LIST_INTERPRETATION_VALUE,
-				interpretUserList(PROJECT_USER_LIST_NAME));
+		assertEquals(EMPTY_USER_LIST_INTERPRETATION_VALUE, interpretUserList(PROJECT_USER_LIST_NAME));
 	}
 
 	public void testUserListReset() {
@@ -175,12 +167,9 @@ public class ParserTestUserLists extends AndroidTestCase {
 
 		dataContainer.resetAllDataObjects();
 
-		assertEquals("Sprite UserList did not reset", EMPTY_USER_LIST_INTERPRETATION_VALUE,
-				interpretUserList(SPRITE_USER_LIST_NAME));
-		assertEquals("Project UserList did not reset", EMPTY_USER_LIST_INTERPRETATION_VALUE,
-				interpretUserList(PROJECT_USER_LIST_NAME));
-		assertEquals("Project UserList 2 did not reset", EMPTY_USER_LIST_INTERPRETATION_VALUE,
-				interpretUserList(PROJECT_USER_LIST_NAME_2));
+		assertEquals(EMPTY_USER_LIST_INTERPRETATION_VALUE, interpretUserList(SPRITE_USER_LIST_NAME));
+		assertEquals(EMPTY_USER_LIST_INTERPRETATION_VALUE, interpretUserList(PROJECT_USER_LIST_NAME));
+		assertEquals(EMPTY_USER_LIST_INTERPRETATION_VALUE, interpretUserList(PROJECT_USER_LIST_NAME_2));
 	}
 
 	public void testNotExistingUserList() {

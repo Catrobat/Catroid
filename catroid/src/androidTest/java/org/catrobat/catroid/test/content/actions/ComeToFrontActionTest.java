@@ -72,20 +72,18 @@ public class ComeToFrontActionTest extends AndroidTestCase {
 		ActionFactory factory = middleSprite.getActionFactory();
 		Action action = factory.createComeToFrontAction(middleSprite);
 		action.act(1.0f);
-		assertEquals("bottomSprite z position should now be 2", middleSprite.look.getZIndex(),
-				getZMaxValue(middleSprite));
+		assertEquals(middleSprite.look.getZIndex(), getZMaxValue(middleSprite));
 
 		Sprite nextSprite = new SingleSprite("dog");
 		parentGroup.addActor(nextSprite.look);
 		project.getDefaultScene().addSprite(nextSprite);
 
-		assertEquals("Unexpected initial z position of topSprite", 3, nextSprite.look.getZIndex());
+		assertEquals(3, nextSprite.look.getZIndex());
 
 		ActionFactory factory2 = middleSprite.getActionFactory();
 		Action action2 = factory2.createComeToFrontAction(bottomSprite);
 		action2.act(1.0f);
-		assertEquals("bottomSprite z position should now be 3", bottomSprite.look.getZIndex(),
-				getZMaxValue(bottomSprite));
+		assertEquals(bottomSprite.look.getZIndex(), getZMaxValue(bottomSprite));
 
 		checkIfEveryZIndexUsedOnlyOnceFromZeroToNMinus1(project);
 	}
@@ -142,8 +140,7 @@ public class ComeToFrontActionTest extends AndroidTestCase {
 		Action action = factory.createComeToFrontAction(firstSprite);
 		action.act(1.0f);
 
-		assertEquals(getZMaxValue(firstSprite),
-				firstSprite.look.getZIndex());
+		assertEquals(getZMaxValue(firstSprite), firstSprite.look.getZIndex());
 	}
 
 	private int getZMaxValue(Sprite sprite) {

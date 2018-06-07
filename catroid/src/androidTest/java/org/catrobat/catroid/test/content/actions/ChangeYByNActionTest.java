@@ -43,11 +43,10 @@ public class ChangeYByNActionTest extends AndroidTestCase {
 	}
 
 	public void testNormalBehavior() {
-		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Unexpected initial sprite y position", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 		sprite.getActionFactory().createChangeYByNAction(sprite, new Formula(CHANGE_VALUE)).act(1.0f);
-		assertEquals("Incorrect sprite y position after ChangeYByNBrick executed", CHANGE_VALUE,
-				sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(CHANGE_VALUE, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullSprite() {
@@ -64,36 +63,30 @@ public class ChangeYByNActionTest extends AndroidTestCase {
 		sprite.look.setPositionInUserInterfaceDimensionUnit(sprite.look.getXInUserInterfaceDimensionUnit(), yPosition);
 
 		sprite.getActionFactory().createChangeYByNAction(sprite, new Formula(Integer.MAX_VALUE)).act(1.0f);
-		assertEquals("ChangeYByNBrick failed to place Sprite at maximum y integer value", Integer.MAX_VALUE,
-				(int) sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(Integer.MAX_VALUE, (int) sprite.look.getYInUserInterfaceDimensionUnit());
 
 		yPosition = -10;
 		sprite.look.setPositionInUserInterfaceDimensionUnit(sprite.look.getXInUserInterfaceDimensionUnit(), yPosition);
 
 		sprite.getActionFactory().createChangeYByNAction(sprite, new Formula(Integer.MIN_VALUE)).act(1.0f);
-		assertEquals("ChangeYByNBrick failed to place Sprite at minimum y integer value", Integer.MIN_VALUE,
-				(int) sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(Integer.MIN_VALUE, (int) sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testBrickWithStringFormula() {
 		sprite.getActionFactory().createChangeYByNAction(sprite, new Formula(String.valueOf(CHANGE_VALUE))).act(1.0f);
-		assertEquals("Incorrect sprite y position after ChangeYByNBrick executed", CHANGE_VALUE,
-				sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(CHANGE_VALUE, sprite.look.getYInUserInterfaceDimensionUnit());
 
 		sprite.getActionFactory().createChangeYByNAction(sprite, new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
-		assertEquals("Incorrect sprite y position after ChangeYByNBrick executed", CHANGE_VALUE,
-				sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(CHANGE_VALUE, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullFormula() {
 		sprite.getActionFactory().createChangeYByNAction(sprite, null).act(1.0f);
-		assertEquals("Incorrect sprite y position after ChangeYByNBrick executed", 0f,
-				sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testNotANumberFormula() {
 		sprite.getActionFactory().createChangeYByNAction(sprite, new Formula(Double.NaN)).act(1.0f);
-		assertEquals("Incorrect sprite y position after ChangeYByNBrick executed", 0f,
-				sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 }

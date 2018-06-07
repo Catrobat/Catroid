@@ -34,29 +34,26 @@ public class TurnRightSpeedActionTest extends PhysicsBaseTest {
 
 	public void testNormalBehavior() {
 		initRightSpeedValue(SPEED);
-		assertEquals("Unexpected rotation speed value", -SPEED, physicsWorld.getPhysicsObject(sprite)
-				.getRotationSpeed());
+		assertEquals(-SPEED, physicsWorld.getPhysicsObject(sprite).getRotationSpeed());
 	}
 
 	public void testNegativeValue() {
 		float speed = -45.55f;
 		initRightSpeedValue(speed);
-		assertEquals("Unexpected rotation speed value", -speed, physicsWorld.getPhysicsObject(sprite)
-				.getRotationSpeed());
+		assertEquals(-speed, physicsWorld.getPhysicsObject(sprite).getRotationSpeed());
 	}
 
 	public void testZeroValue() {
 		float speed = 0f;
 		initRightSpeedValue(speed);
-		assertEquals("Unexpected rotation speed value", -speed, physicsWorld.getPhysicsObject(sprite)
-				.getRotationSpeed());
+		assertEquals(-speed, physicsWorld.getPhysicsObject(sprite).getRotationSpeed());
 	}
 
 	private void initRightSpeedValue(float speed) {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		Action action = sprite.getActionFactory().createTurnRightSpeedAction(sprite, new Formula(speed));
 
-		assertEquals("Unexpected rotation speed value", 0.0f, physicsObject.getRotationSpeed());
+		assertEquals(0.0f, physicsObject.getRotationSpeed());
 
 		action.act(1.0f);
 	}
@@ -64,22 +61,22 @@ public class TurnRightSpeedActionTest extends PhysicsBaseTest {
 	public void testBrickWithStringFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		sprite.getActionFactory().createTurnRightSpeedAction(sprite, new Formula(String.valueOf(SPEED))).act(1.0f);
-		assertEquals("Unexpected rotation speed value", -SPEED, physicsObject.getRotationSpeed());
+		assertEquals(-SPEED, physicsObject.getRotationSpeed());
 
 		sprite.getActionFactory().createTurnRightSpeedAction(sprite, new Formula(
 				String.valueOf("not a numerical string"))).act(1.0f);
-		assertEquals("Unexpected rotation speed value", -SPEED, physicsObject.getRotationSpeed());
+		assertEquals(-SPEED, physicsObject.getRotationSpeed());
 	}
 
 	public void testNullFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		sprite.getActionFactory().createTurnRightSpeedAction(sprite, null).act(1.0f);
-		assertEquals("Unexpected rotation speed value", -0f, physicsObject.getRotationSpeed());
+		assertEquals(-0f, physicsObject.getRotationSpeed());
 	}
 
 	public void testNotANumberFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		sprite.getActionFactory().createTurnRightSpeedAction(sprite, new Formula(Double.NaN)).act(1.0f);
-		assertEquals("Unexpected rotation speed value", 0f, physicsObject.getRotationSpeed());
+		assertEquals(0f, physicsObject.getRotationSpeed());
 	}
 }

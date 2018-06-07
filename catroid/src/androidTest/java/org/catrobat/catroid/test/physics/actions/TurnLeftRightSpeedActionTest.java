@@ -47,7 +47,7 @@ public class TurnLeftRightSpeedActionTest extends PhysicsBaseTest {
 		physicsObject.setDirection(0);
 		physicsObject.setRotationSpeed(TURN_TEST_SPEED);
 
-		assertEquals("Unexpected initial speed", TURN_TEST_SPEED, physicsObject.getRotationSpeed(), TestUtils.DELTA);
+		assertEquals(TURN_TEST_SPEED, physicsObject.getRotationSpeed(), TestUtils.DELTA);
 		skipWorldStabilizingSteps();
 		float expectedDegrees = TURN_TEST_SPEED * TEST_STEP_DELTA_TIME;
 
@@ -55,10 +55,8 @@ public class TurnLeftRightSpeedActionTest extends PhysicsBaseTest {
 			float preStepDirection = physicsObject.getDirection();
 			physicsWorld.step(TEST_STEP_DELTA_TIME);
 			float postStepDirection = physicsObject.getDirection();
-			assertEquals("Unexpected step length: ", expectedDegrees, postStepDirection - preStepDirection,
-					TestUtils.DELTA);
-			assertTrue("Pre-step direction (" + preStepDirection + ") is higher than post-step direction ("
-					+ preStepDirection + "), should be lower!", postStepDirection > preStepDirection);
+			assertEquals(expectedDegrees, postStepDirection - preStepDirection, TestUtils.DELTA);
+			assertTrue(postStepDirection > preStepDirection);
 		}
 	}
 
@@ -66,7 +64,7 @@ public class TurnLeftRightSpeedActionTest extends PhysicsBaseTest {
 		physicsObject.setDirection(0);
 		physicsObject.setRotationSpeed(-TURN_TEST_SPEED);
 
-		assertEquals("Unexpected initial speed", -TURN_TEST_SPEED, physicsObject.getRotationSpeed(), TestUtils.DELTA);
+		assertEquals(-TURN_TEST_SPEED, physicsObject.getRotationSpeed(), TestUtils.DELTA);
 		skipWorldStabilizingSteps();
 		float expectedDegrees = -TURN_TEST_SPEED * TEST_STEP_DELTA_TIME;
 
@@ -74,10 +72,8 @@ public class TurnLeftRightSpeedActionTest extends PhysicsBaseTest {
 			float preStepDirection = physicsObject.getDirection();
 			physicsWorld.step(TEST_STEP_DELTA_TIME);
 			float postStepDirection = physicsObject.getDirection();
-			assertEquals("Unexpected step length: ", expectedDegrees, postStepDirection - preStepDirection,
-					TestUtils.DELTA);
-			assertTrue("Pre-step direction (" + preStepDirection + ") is lower than post-step direction ("
-					+ preStepDirection + "), should be higher!", postStepDirection < preStepDirection);
+			assertEquals(expectedDegrees, postStepDirection - preStepDirection, TestUtils.DELTA);
+			assertTrue(postStepDirection < preStepDirection);
 		}
 	}
 

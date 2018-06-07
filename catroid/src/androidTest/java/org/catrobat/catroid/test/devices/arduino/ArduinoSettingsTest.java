@@ -67,13 +67,11 @@ public class ArduinoSettingsTest extends InstrumentationTestCase {
 
 		createProjectArduino();
 
-		assertFalse("By default Arduino should be disabled",
-				SettingsFragment.isArduinoSharedPreferenceEnabled(context));
+		assertFalse(SettingsFragment.isArduinoSharedPreferenceEnabled(context));
 
 		ProjectManager.getInstance().loadProject(projectName, context);
 
-		assertTrue("After loading a project which needs Arduino it should be enabled",
-				SettingsFragment.isArduinoSharedPreferenceEnabled(context));
+		assertTrue(SettingsFragment.isArduinoSharedPreferenceEnabled(context));
 
 		StorageOperations.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName));
 	}

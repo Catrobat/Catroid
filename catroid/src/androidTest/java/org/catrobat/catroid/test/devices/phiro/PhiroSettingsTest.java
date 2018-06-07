@@ -70,13 +70,11 @@ public class PhiroSettingsTest extends InstrumentationTestCase {
 
 		createProjectPhiro();
 
-		assertFalse("By default phiro should be disabled",
-				SettingsFragment.isPhiroSharedPreferenceEnabled(context));
+		assertFalse(SettingsFragment.isPhiroSharedPreferenceEnabled(context));
 
 		ProjectManager.getInstance().loadProject(projectName, context);
 
-		assertTrue("After loading a project which needs phiro it should be enabled",
-				SettingsFragment.isPhiroSharedPreferenceEnabled(context));
+		assertTrue(SettingsFragment.isPhiroSharedPreferenceEnabled(context));
 
 		StorageOperations.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName));
 	}

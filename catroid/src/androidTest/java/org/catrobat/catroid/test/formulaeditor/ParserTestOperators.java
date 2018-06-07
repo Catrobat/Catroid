@@ -80,8 +80,8 @@ public class ParserTestOperators extends AndroidTestCase {
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
 		FormulaElement parseTree = internParser.parseFormula();
 
-		assertNotNull("Formula is not parsed correctly: - 42.42", parseTree);
-		assertEquals("Formula interpretation is not as expected", -42.42, parseTree.interpretRecursive(testSprite));
+		assertNotNull(parseTree);
+		assertEquals(-42.42, parseTree.interpretRecursive(testSprite));
 	}
 
 	public void testGreaterThan() {
@@ -170,20 +170,20 @@ public class ParserTestOperators extends AndroidTestCase {
 				new FormulaElement(ElementType.NUMBER, "-0", null),
 				new FormulaElement(ElementType.NUMBER, "0", null));
 
-		assertEquals("interpretOperatorEqual: -0 should be equal to 0", 1d, formulaElement.interpretRecursive(null));
+		assertEquals(1d, formulaElement.interpretRecursive(null));
 
 		formulaElement = new FormulaElement(ElementType.OPERATOR, Operators.EQUAL.name(), null,
 				new FormulaElement(ElementType.NUMBER, "0", null),
 				new FormulaElement(ElementType.NUMBER, "-0", null));
 
-		assertEquals("interpretOperatorEqual: 0 should be equal to -0", 1d, formulaElement.interpretRecursive(null));
+		assertEquals(1d, formulaElement.interpretRecursive(null));
 	}
 
 	public void testEqualsNaN() {
 		FormulaElement formulaElement = new FormulaElement(ElementType.OPERATOR, Operators.EQUAL.name(), null,
 				new FormulaElement(ElementType.NUMBER, String.valueOf(Double.NaN), null),
 				new FormulaElement(ElementType.NUMBER, String.valueOf(Double.NaN), null));
-		assertEquals("interpretOperatorEqual: NaN should be equal to NaN", 1d, formulaElement.interpretRecursive(null));
+		assertEquals(1d, formulaElement.interpretRecursive(null));
 	}
 
 	public void testNotEqual() {

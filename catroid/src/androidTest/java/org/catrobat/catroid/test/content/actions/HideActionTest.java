@@ -34,11 +34,11 @@ public class HideActionTest extends AndroidTestCase {
 
 	public void testHide() {
 		Sprite sprite = new SingleSprite("new SingleSprite");
-		assertTrue("Unexpected default visibility", sprite.look.isVisible());
+		assertTrue(sprite.look.isVisible());
 		ActionFactory factory = sprite.getActionFactory();
 		Action action = factory.createHideAction(sprite);
 		action.act(1.0f);
-		assertFalse("Sprite is still visible after HideBrick executed", sprite.look.isLookVisible());
+		assertFalse(sprite.look.isLookVisible());
 	}
 
 	public void testNullSprite() {

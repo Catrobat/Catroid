@@ -118,7 +118,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 		userVariable = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
 				.getUserVariable(null, TEST_USERVARIABLE);
 
-		assertEquals("IfBrick not executed as expected", Double.valueOf(IF_TRUE_VALUE), userVariable.getValue());
+		assertEquals(Double.valueOf(IF_TRUE_VALUE), userVariable.getValue());
 	}
 
 	public void testIfBrick() throws InterruptedException {
@@ -148,7 +148,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 		userVariable = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
 				.getUserVariable(null, TEST_USERVARIABLE);
 
-		assertEquals("IfBrick not executed as expected", Double.valueOf(IF_TRUE_VALUE), userVariable.getValue());
+		assertEquals(Double.valueOf(IF_TRUE_VALUE), userVariable.getValue());
 	}
 
 	public void testIfElseBrick() throws InterruptedException {
@@ -178,7 +178,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 		userVariable = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
 				.getUserVariable(null, TEST_USERVARIABLE);
 
-		assertEquals("IfBrick not executed as expected", Double.valueOf(IF_FALSE_VALUE), userVariable.getValue());
+		assertEquals(Double.valueOf(IF_FALSE_VALUE), userVariable.getValue());
 	}
 
 	public void testBrickWithValidStringFormula() {
@@ -200,8 +200,8 @@ public class IfLogicActionTest extends AndroidTestCase {
 				elseAction);
 		ifLogicAction.act(1.0f);
 		Object isInterpretedCorrectly = Reflection.getPrivateField(ifLogicAction, "isInterpretedCorrectly");
-		assertFalse("Null Formula should not have been possible to interpret!", (Boolean) isInterpretedCorrectly);
-		assertEquals("IfBrick not executed as expected!", userVariableExpected, userVariable.getValue());
+		assertFalse((Boolean) isInterpretedCorrectly);
+		assertEquals(userVariableExpected, userVariable.getValue());
 	}
 
 	public void testNotANumberFormula() {
@@ -232,6 +232,6 @@ public class IfLogicActionTest extends AndroidTestCase {
 		userVariable = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
 				.getUserVariable(null, TEST_USERVARIABLE);
 
-		assertEquals("IfBrick not executed as expected", expected, userVariable.getValue());
+		assertEquals(expected, userVariable.getValue());
 	}
 }

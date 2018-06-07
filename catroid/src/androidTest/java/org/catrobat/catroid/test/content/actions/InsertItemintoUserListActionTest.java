@@ -68,34 +68,34 @@ public class InsertItemintoUserListActionTest extends AndroidTestCase {
 		actionFactory.createInsertItemIntoUserListAction(testSprite, new Formula(1), new Formula(DOUBLE_VALUE_ITEM_TO_ADD), userList).act(1f);
 		Object firstItemOfUserList = userList.getList().get(0);
 
-		assertEquals("UserList size not changed!", 3, userList.getList().size());
-		assertEquals("UserList not changed!", String.valueOf(DOUBLE_VALUE_ITEM_TO_ADD), firstItemOfUserList);
+		assertEquals(3, userList.getList().size());
+		assertEquals(String.valueOf(DOUBLE_VALUE_ITEM_TO_ADD), firstItemOfUserList);
 	}
 
 	public void testInsertNumericalValueToUserListAtLastPosition() {
 		actionFactory.createInsertItemIntoUserListAction(testSprite, new Formula(3), new Formula(DOUBLE_VALUE_ITEM_TO_ADD), userList).act(1f);
 		Object lastItemOfUserList = userList.getList().get(userList.getList().size() - 1);
 
-		assertEquals("UserList size not changed!", 3, userList.getList().size());
-		assertEquals("UserList not changed!", String.valueOf(DOUBLE_VALUE_ITEM_TO_ADD), lastItemOfUserList);
+		assertEquals(3, userList.getList().size());
+		assertEquals(String.valueOf(DOUBLE_VALUE_ITEM_TO_ADD), lastItemOfUserList);
 	}
 
 	public void testInsertItemWithInvalidUserList() {
 		actionFactory.createInsertItemIntoUserListAction(testSprite, new Formula(1), new Formula(DOUBLE_VALUE_ITEM_TO_ADD), null).act(1f);
-		assertEquals("UserList changed, but should not!", 2, userList.getList().size());
+		assertEquals(2, userList.getList().size());
 	}
 
 	public void testInsertNullFormula() {
 		actionFactory.createInsertItemIntoUserListAction(testSprite, new Formula(1), null, userList).act(1f);
 		Object firstItemOfUserList = userList.getList().get(0);
 
-		assertEquals("UserList size not changed!", 3, userList.getList().size());
-		assertEquals("UserList not changed!", 0d, firstItemOfUserList);
+		assertEquals(3, userList.getList().size());
+		assertEquals(0d, firstItemOfUserList);
 	}
 
 	public void testNotANumberFormula() {
 		actionFactory.createInsertItemIntoUserListAction(testSprite, new Formula(1), new Formula(Double.NaN), userList).act(1f);
 		Object firstItemOfUserList = userList.getList().get(0);
-		assertEquals("UserList not changed!", String.valueOf(Double.NaN), firstItemOfUserList);
+		assertEquals(String.valueOf(Double.NaN), firstItemOfUserList);
 	}
 }

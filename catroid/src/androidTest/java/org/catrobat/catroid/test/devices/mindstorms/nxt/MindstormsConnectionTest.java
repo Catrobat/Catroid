@@ -56,13 +56,12 @@ public class MindstormsConnectionTest extends AndroidTestCase {
 
 		byte[] expectedMessage = command.getRawCommand();
 
-		assertEquals("Wrong message length. Before there should be a header with 2 bytes defining the message length",
-				expectedMessage.length + HEADER_SIZE, sentBytes.length);
-		assertEquals("Header should be the size of the message.", (byte) expectedMessage.length, sentBytes[0]);
-		assertEquals("Header should be the size of the message.", (byte) (expectedMessage.length >> 8), sentBytes[1]);
+		assertEquals(expectedMessage.length + HEADER_SIZE, sentBytes.length);
+		assertEquals((byte) expectedMessage.length, sentBytes[0]);
+		assertEquals((byte) (expectedMessage.length >> 8), sentBytes[1]);
 
 		for (int i = 0; i < expectedMessage.length; i++) {
-			assertEquals("Byte " + i + " is different", expectedMessage[i], sentBytes[i + HEADER_SIZE]);
+			assertEquals(expectedMessage[i], sentBytes[i + HEADER_SIZE]);
 		}
 	}
 
@@ -87,20 +86,18 @@ public class MindstormsConnectionTest extends AndroidTestCase {
 
 		byte[] expectedMessage = command.getRawCommand();
 
-		assertEquals("Wrong message length. Before there should be a header with 2 bytes defining the message length",
-				expectedMessage.length + HEADER_SIZE, sentBytes.length);
-		assertEquals("Header should be the size of the message.", expectedMessage.length, sentBytes[0]);
-		assertEquals("Header should be the size of the message.", (byte) (expectedMessage.length >> 8), sentBytes[1]);
+		assertEquals(expectedMessage.length + HEADER_SIZE, sentBytes.length);
+		assertEquals(expectedMessage.length, sentBytes[0]);
+		assertEquals((byte) (expectedMessage.length >> 8), sentBytes[1]);
 
 		for (int i = 0; i < expectedMessage.length; i++) {
-			assertEquals("Byte " + i + " is different", expectedMessage[i], sentBytes[i + HEADER_SIZE]);
+			assertEquals(expectedMessage[i], sentBytes[i + HEADER_SIZE]);
 		}
 
-		assertEquals("Wrong message length. Before there should be a header with 2 bytes defining the message length",
-				inputBuffer.length - HEADER_SIZE, receivedBytes.length);
+		assertEquals(inputBuffer.length - HEADER_SIZE, receivedBytes.length);
 
 		for (int i = 0; i < receivedBytes.length; i++) {
-			assertEquals("Byte " + i + " is different", inputBuffer[i + HEADER_SIZE], receivedBytes[i]);
+			assertEquals(inputBuffer[i + HEADER_SIZE], receivedBytes[i]);
 		}
 	}
 }

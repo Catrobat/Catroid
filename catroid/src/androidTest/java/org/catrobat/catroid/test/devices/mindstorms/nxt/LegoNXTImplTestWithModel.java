@@ -61,7 +61,7 @@ public class LegoNXTImplTestWithModel extends AndroidTestCase {
 		int expectedVoltage = 7533;
 		nxtTestModel.setBatteryValue(expectedVoltage);
 		nxt.initialise();
-		assertEquals("Expected battery voltage not the same as received from LegoNXT", expectedVoltage, nxt.getBatteryLevel());
+		assertEquals(expectedVoltage, nxt.getBatteryLevel());
 	}
 
 	public void testKeepAlive() {
@@ -69,6 +69,6 @@ public class LegoNXTImplTestWithModel extends AndroidTestCase {
 		int expectedKeepAliveTime = 3600;
 		nxtTestModel.setKeepAliveTime(expectedKeepAliveTime);
 		nxt.initialise();
-		assertEquals("Expected keep alive time not the same as received vom LegoNXT", expectedKeepAliveTime, nxt.getKeepAliveTime());
+		assertEquals(expectedKeepAliveTime, nxt.getKeepAliveTime());
 	}
 }

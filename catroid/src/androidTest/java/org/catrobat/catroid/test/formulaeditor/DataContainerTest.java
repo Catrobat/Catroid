@@ -105,7 +105,7 @@ public class DataContainerTest extends AndroidTestCase {
 		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().deleteUserListByName(PROJECT_USER_LIST_NAME_2);
 		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().deleteUserListByName(SPRITE_USER_LIST_NAME);
 
-		assertNull("UserList found, but should not!", ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().getUserList());
+		assertNull(ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().getUserList());
 
 		dataContainer.addProjectUserList(PROJECT_USER_LIST_NAME);
 		dataContainer.getUserList(firstSprite, PROJECT_USER_LIST_NAME).setList(USER_LIST_VALUES_MULTIPLE_NUMBERS);
@@ -125,7 +125,7 @@ public class DataContainerTest extends AndroidTestCase {
 
 		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
 		UserList userList = dataContainer.findProjectList(PROJECT_USER_LIST_NAME_2);
-		assertEquals("rename list value failed!", userList.getName(), PROJECT_USER_LIST_NAME_2);
+		assertEquals(userList.getName(), PROJECT_USER_LIST_NAME_2);
 	}
 
 	public void testRenameListLocal() {
@@ -136,7 +136,7 @@ public class DataContainerTest extends AndroidTestCase {
 
 		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
 		UserList userList = dataContainer.findSpriteUserList(firstSprite, PROJECT_USER_LIST_NAME_2);
-		assertEquals("rename list value failed!", userList.getName(), PROJECT_USER_LIST_NAME_2);
+		assertEquals(userList.getName(), PROJECT_USER_LIST_NAME_2);
 	}
 
 	public void testRenameVariableGlobal() {
@@ -146,7 +146,7 @@ public class DataContainerTest extends AndroidTestCase {
 
 		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
 		UserVariable userVariable = dataContainer.findProjectVariable(PROJECT_USER_VARIABLE_NAME_2);
-		assertEquals("rename variable failed!", userVariable.getName(), PROJECT_USER_VARIABLE_NAME_2);
+		assertEquals(userVariable.getName(), PROJECT_USER_VARIABLE_NAME_2);
 	}
 
 	public void testRenameVariableLocal() {
@@ -156,6 +156,6 @@ public class DataContainerTest extends AndroidTestCase {
 
 		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
 		UserVariable userVariable = dataContainer.findSpriteUserVariable(firstSprite, PROJECT_USER_VARIABLE_NAME_2);
-		assertEquals("rename variable failed!", userVariable.getName(), PROJECT_USER_VARIABLE_NAME_2);
+		assertEquals(userVariable.getName(), PROJECT_USER_VARIABLE_NAME_2);
 	}
 }

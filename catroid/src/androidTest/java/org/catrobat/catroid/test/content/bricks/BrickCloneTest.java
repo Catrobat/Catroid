@@ -224,10 +224,10 @@ public class BrickCloneTest extends AndroidTestCase {
 		UserVariable clonedVariableFromBrick = (UserVariable) Reflection.getPrivateField(UserVariableBrick.class, clonedBrick, "userVariable");
 
 		// check them
-		assertNotNull("variable should be in container", clonedVariable);
+		assertNotNull(clonedVariable);
 		assertNotSame("references shouldn't be the same", spriteVariable, clonedVariable);
 		assertNotSame("references shouldn't be the same", spriteVariable, clonedVariableFromBrick);
-		assertEquals("references should be the same", clonedVariable, clonedVariableFromBrick);
+		assertEquals(clonedVariable, clonedVariableFromBrick);
 	}
 
 	private void brickClone(Brick brick, Brick.BrickField... brickFields) {

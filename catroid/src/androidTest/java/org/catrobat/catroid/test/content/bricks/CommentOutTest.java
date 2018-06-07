@@ -57,7 +57,7 @@ public class CommentOutTest extends AndroidTestCase {
 
 		script.run(sprite, sequence);
 
-		assertEquals("action of disabled brick should not be in sequence:", sequence.getActions().size, 3);
+		assertEquals(sequence.getActions().size, 3);
 	}
 
 	public void testCommentOutScript() {
@@ -68,7 +68,7 @@ public class CommentOutTest extends AndroidTestCase {
 
 		script.run(sprite, sequence);
 
-		assertEquals("no action of a disabled script should be in the sequence:", sequence.getActions().size, 0);
+		assertEquals(sequence.getActions().size, 0);
 	}
 }
 

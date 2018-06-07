@@ -72,7 +72,7 @@ public abstract class PhysicsCollisionBaseTest extends PhysicsBaseTest implement
 
 		LookData lookdata = PhysicsTestUtils.generateLookData(rectangle125x125File);
 		sprite2.look.setLookData(lookdata);
-		assertTrue("getLookData is null", sprite2.look.getLookData() != null);
+		assertTrue(sprite2.look.getLookData() != null);
 
 		physicsObject1 = physicsWorld.getPhysicsObject(sprite);
 		physicsObject2 = physicsWorld.getPhysicsObject(sprite2);

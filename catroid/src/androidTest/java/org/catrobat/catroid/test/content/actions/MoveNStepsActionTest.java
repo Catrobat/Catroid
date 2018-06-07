@@ -143,7 +143,7 @@ public class MoveNStepsActionTest extends AndroidTestCase {
 	}
 
 	private void checkPosition(float expectedX, float expectedY) {
-		assertEquals("Wrong x-position", expectedX, sprite.look.getXInUserInterfaceDimensionUnit(), delta);
-		assertEquals("Wrong y-position", expectedY, sprite.look.getYInUserInterfaceDimensionUnit(), delta);
+		assertEquals(expectedX, sprite.look.getXInUserInterfaceDimensionUnit(), delta);
+		assertEquals(expectedY, sprite.look.getYInUserInterfaceDimensionUnit(), delta);
 	}
 }

@@ -80,8 +80,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 			}
 		}
 
-		assertEquals("Loop delay did was not 20ms!", deltaY * REPEAT_TIMES,
-				(int) testSprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(deltaY * REPEAT_TIMES, (int) testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testRepeatBrick() {
@@ -104,8 +103,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 			testSprite.look.act(1.0f);
 		}
 
-		assertEquals("Executed the wrong number of times!", REPEAT_TIMES * deltaY,
-				(int) testSprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(REPEAT_TIMES * deltaY, (int) testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testRepeatCount() {
@@ -131,8 +129,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 			testSprite.look.act(1.0f);
 		}
 
-		assertEquals("Executed the wrong number of times!", deltaY * 9,
-				(int) testSprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(deltaY * 9, (int) testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testNestedRepeatBrick() throws InterruptedException {
@@ -164,8 +161,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		}
 
 		testSprite.look.act(delta);
-		assertEquals("Executed the wrong number of times!", REPEAT_TIMES * REPEAT_TIMES * deltaY,
-				(int) testSprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(REPEAT_TIMES * REPEAT_TIMES * deltaY, (int) testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testNegativeRepeats() {
@@ -182,7 +178,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		}
 		int executedCount = (Integer) Reflection.getPrivateField(repeatAction, "executedCount");
 
-		assertEquals("Executed the wrong number of times!", 0, executedCount);
+		assertEquals(0, executedCount);
 	}
 
 	public void testZeroRepeats() {
@@ -197,9 +193,8 @@ public class RepeatActionTest extends InstrumentationTestCase {
 
 		int executedCount = (Integer) Reflection.getPrivateField(repeatAction, "executedCount");
 
-		assertEquals("Executed the wrong number of times!", 0, executedCount);
-		assertEquals("Loop was executed although repeats were set to zero!", expectedDeltaY,
-				testSprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(0, executedCount);
+		assertEquals(expectedDeltaY, testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testBrickWithValidStringFormula() {
@@ -217,7 +212,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		Action repeatAction = testSprite.getActionFactory().createRepeatAction(testSprite, null, repeatedAction);
 		repeatAction.act(1.0f);
 		Object repeatCountValue = Reflection.getPrivateField(repeatAction, "repeatCountValue");
-		assertEquals("Null Formula should not have been possible to interpret!", 0, repeatCountValue);
+		assertEquals(0, repeatCountValue);
 	}
 
 	public void testNotANumberFormula() {
@@ -239,7 +234,6 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		while (!testSprite.look.haveAllThreadsFinished()) {
 			testSprite.look.act(1.0f);
 		}
-		assertEquals("Executed the wrong number of times!", expected,
-				testSprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(expected, testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 }

@@ -123,7 +123,7 @@ public class PhysicsShapeScaleUtilsTest extends InstrumentationTestCase {
 		Reflection.ParameterList parameterList = new Reflection.ParameterList(coordinate, scaleFactor);
 		actualCoordinate = (float) Reflection.invokeMethod(PhysicsShapeScaleUtils.class, "scaleCoordinate",
 				parameterList);
-		assertEquals("Scaled coordinates not as expected.", expectedCoordinate, actualCoordinate, DELTA);
+		assertEquals(expectedCoordinate, actualCoordinate, DELTA);
 
 		coordinate = 500f;
 		expectedCoordinate = 100f;
@@ -131,7 +131,7 @@ public class PhysicsShapeScaleUtilsTest extends InstrumentationTestCase {
 		parameterList = new Reflection.ParameterList(coordinate, scaleFactor);
 		actualCoordinate = (float) Reflection.invokeMethod(PhysicsShapeScaleUtils.class, "scaleCoordinate",
 				parameterList);
-		assertEquals("Scaled coordinates not as expected.", expectedCoordinate, actualCoordinate, DELTA);
+		assertEquals(expectedCoordinate, actualCoordinate, DELTA);
 
 		coordinate = 100;
 		expectedCoordinate = 150f;
@@ -139,7 +139,7 @@ public class PhysicsShapeScaleUtilsTest extends InstrumentationTestCase {
 		parameterList = new Reflection.ParameterList(coordinate, scaleFactor);
 		actualCoordinate = (float) Reflection.invokeMethod(PhysicsShapeScaleUtils.class, "scaleCoordinate",
 				parameterList);
-		assertEquals("Scaled coordinates not as expected.", expectedCoordinate, actualCoordinate, DELTA);
+		assertEquals(expectedCoordinate, actualCoordinate, DELTA);
 
 		coordinate = 500;
 		expectedCoordinate = 600f;
@@ -147,7 +147,7 @@ public class PhysicsShapeScaleUtilsTest extends InstrumentationTestCase {
 		parameterList = new Reflection.ParameterList(coordinate, scaleFactor);
 		actualCoordinate = (float) Reflection.invokeMethod(PhysicsShapeScaleUtils.class, "scaleCoordinate",
 				parameterList);
-		assertEquals("Scaled coordinates not as expected.", expectedCoordinate, actualCoordinate, DELTA);
+		assertEquals(expectedCoordinate, actualCoordinate, DELTA);
 
 		Vector2 coordinateVector = new Vector2(200, 400);
 		Vector2 expectedCoordinateVector = new Vector2(50, 100);
@@ -156,15 +156,13 @@ public class PhysicsShapeScaleUtilsTest extends InstrumentationTestCase {
 		parameterList = new Reflection.ParameterList(coordinateVector, scaleFactor);
 		actualCoordinateVector = (Vector2) Reflection.invokeMethod(PhysicsShapeScaleUtils.class, "scaleCoordinate",
 				parameterList);
-		assertEquals("Scaled x coordinates not as expected.", expectedCoordinateVector.x, actualCoordinateVector.x,
-				DELTA);
-		assertEquals("Scaled y coordinates not as expected.", expectedCoordinateVector.y, actualCoordinateVector.y,
-				DELTA);
+		assertEquals(expectedCoordinateVector.x, actualCoordinateVector.x, DELTA);
+		assertEquals(expectedCoordinateVector.y, actualCoordinateVector.y, DELTA);
 	}
 
 	private void compareShapeSize(Shape[] firstShapes, Shape[] secondShapes, float scaleFactor) {
-		assertNotNull("Shapes (one) should not be null", firstShapes);
-		assertNotNull("Shapes (two) should not be null", secondShapes);
+		assertNotNull(firstShapes);
+		assertNotNull(secondShapes);
 
 		for (int idx = 0; idx < firstShapes.length; idx++) {
 			Shape firstShape = firstShapes[idx];
@@ -184,11 +182,10 @@ public class PhysicsShapeScaleUtilsTest extends InstrumentationTestCase {
 					((PolygonShape) secondShape).getVertex(vertexIdx + 1, vertexTwo);
 					float secondShapeVertexDistance = vertexOne.dst(vertexTwo);
 
-					assertEquals("distance between vertices of shapes have not the correct relation",
-							firstShapeVertexDistance, secondShapeVertexDistance * (1 / scaleFactor), DELTA);
+					assertEquals(firstShapeVertexDistance, secondShapeVertexDistance * (1 / scaleFactor), DELTA);
 				}
 			} else {
-				assertTrue("There should be no other type than Polygon", false);
+				assertTrue(false);
 			}
 		}
 	}

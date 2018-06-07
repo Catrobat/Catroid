@@ -36,16 +36,15 @@ public class ClearGraphicEffectActionTest extends AndroidTestCase {
 		float value = 80f;
 		Sprite sprite = new SingleSprite("new SingleSprite");
 		sprite.look.setTransparencyInUserInterfaceDimensionUnit(value);
-		assertEquals("Look hasn't ghost effect.", value, sprite.look.getTransparencyInUserInterfaceDimensionUnit());
+		assertEquals(value, sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 		sprite.look.setBrightnessInUserInterfaceDimensionUnit(value);
-		assertEquals("Look hasn't brightness effect.", value, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
+		assertEquals(value, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 
 		ActionFactory factory = sprite.getActionFactory();
 		Action action = factory.createClearGraphicEffectAction(sprite);
 		action.act(1.0f);
-		assertEquals("Look's ghost effect is removed.", 0f, sprite.look.getTransparencyInUserInterfaceDimensionUnit());
-		assertEquals("Look's brightness effect is removed.", 100f,
-				sprite.look.getBrightnessInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getTransparencyInUserInterfaceDimensionUnit());
+		assertEquals(100f, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullSprite() {

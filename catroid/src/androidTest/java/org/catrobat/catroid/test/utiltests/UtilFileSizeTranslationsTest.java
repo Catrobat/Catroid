@@ -79,14 +79,11 @@ public class UtilFileSizeTranslationsTest {
 		double lookExpectedSize = 2.6;
 		double projectExpectedSize = 67.4;
 
-		assertEquals(currentNumberformat.format(soundExpectedSize) + " " + arabicKb,
-				FileMetaDataExtractor.getSizeAsString(soundFile, InstrumentationRegistry.getTargetContext()));
+		assertEquals(currentNumberformat.format(soundExpectedSize) + " " + arabicKb, FileMetaDataExtractor.getSizeAsString(soundFile, InstrumentationRegistry.getTargetContext()));
 
-		assertEquals(currentNumberformat.format(lookExpectedSize) + " " + arabicKb,
-				FileMetaDataExtractor.getSizeAsString(imageFile, InstrumentationRegistry.getTargetContext()));
+		assertEquals(currentNumberformat.format(lookExpectedSize) + " " + arabicKb, FileMetaDataExtractor.getSizeAsString(imageFile, InstrumentationRegistry.getTargetContext()));
 
-		assertEquals(currentNumberformat.format(projectExpectedSize) + " " + arabicKb,
-				FileMetaDataExtractor.getSizeAsString(projectFolder, InstrumentationRegistry.getTargetContext()));
+		assertEquals(currentNumberformat.format(projectExpectedSize) + " " + arabicKb, FileMetaDataExtractor.getSizeAsString(projectFolder, InstrumentationRegistry.getTargetContext()));
 	}
 
 	public void createProjectWithFiles() throws IOException {

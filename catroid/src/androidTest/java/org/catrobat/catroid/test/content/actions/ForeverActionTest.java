@@ -67,7 +67,6 @@ public class ForeverActionTest extends InstrumentationTestCase {
 			}
 		}
 
-		assertEquals("Loop delay did was not 20ms!", deltaY * REPEAT_TIMES,
-				(int) testSprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(deltaY * REPEAT_TIMES, (int) testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 }

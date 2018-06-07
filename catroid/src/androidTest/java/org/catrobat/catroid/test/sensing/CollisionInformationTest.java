@@ -54,39 +54,38 @@ import static org.hamcrest.Matchers.is;
 public class CollisionInformationTest extends InstrumentationTestCase {
 	public void testCheckMetaString() {
 		String isNull = null;
-		Assert.assertFalse("Null string returned true", CollisionInformation.checkMetaDataString(isNull));
+		Assert.assertFalse(CollisionInformation.checkMetaDataString(isNull));
 		String empty = "";
-		Assert.assertFalse("Empty string returned true", CollisionInformation.checkMetaDataString(empty));
+		Assert.assertFalse(CollisionInformation.checkMetaDataString(empty));
 		String faulty1 = "1.0;1.0;1.0";
-		Assert.assertFalse("Faulty string returned true", CollisionInformation.checkMetaDataString(faulty1));
+		Assert.assertFalse(CollisionInformation.checkMetaDataString(faulty1));
 		String faulty2 = "1.0;1.0;1.0;1.0;1.0;1.0|";
-		Assert.assertFalse("Faulty string returned true", CollisionInformation.checkMetaDataString(faulty2));
+		Assert.assertFalse(CollisionInformation.checkMetaDataString(faulty2));
 		String faulty3 = "1.0;1.0;1.0;1.0;1.0;1.0|1.0;1.0;1.0";
-		Assert.assertFalse("Faulty string returned true", CollisionInformation.checkMetaDataString(faulty3));
+		Assert.assertFalse(CollisionInformation.checkMetaDataString(faulty3));
 		String faulty4 = "|1.0;1.0;1.0;1.0;1.0;1.0";
-		Assert.assertFalse("Faulty string returned true", CollisionInformation.checkMetaDataString(faulty4));
+		Assert.assertFalse(CollisionInformation.checkMetaDataString(faulty4));
 		String faulty5 = "1.0;1.0;1.0;1.0;1.0,1.0";
-		Assert.assertFalse("Faulty string returned true", CollisionInformation.checkMetaDataString(faulty5));
+		Assert.assertFalse(CollisionInformation.checkMetaDataString(faulty5));
 		String faulty6 = "1.0;1.0;1.0;1.0;1.0;1.0||1.0;1.0;1.0;1.0;1.0;1.0";
-		Assert.assertFalse("Faulty string returned true", CollisionInformation.checkMetaDataString(faulty6));
+		Assert.assertFalse(CollisionInformation.checkMetaDataString(faulty6));
 		String faulty7 = "1.0;1.0;1.0;1.0;1.0;1.0;1.0;1.0;1.0";
-		Assert.assertFalse("Faulty string returned true", CollisionInformation.checkMetaDataString(faulty7));
+		Assert.assertFalse(CollisionInformation.checkMetaDataString(faulty7));
 
 		String correct1 = "1.0;1.0;1.0;1.0;1.0;1.0";
-		Assert.assertTrue("Correct string returned false", CollisionInformation.checkMetaDataString(correct1));
+		Assert.assertTrue(CollisionInformation.checkMetaDataString(correct1));
 		String correct2 = "1.0;1.0;1.0;1.0;1.0;1.0|1.0;1.0;1.0;1.0;1.0;1.0";
-		Assert.assertTrue("Correct string returned false", CollisionInformation.checkMetaDataString(correct2));
+		Assert.assertTrue(CollisionInformation.checkMetaDataString(correct2));
 		String correct3 = "1.0;1.0;1.0;1.0;1.0;1.0;1.0;1.0;1.0;1.0;1.0;1.0";
-		Assert.assertTrue("Correct string returned false", CollisionInformation.checkMetaDataString(correct3));
+		Assert.assertTrue(CollisionInformation.checkMetaDataString(correct3));
 		String correct4 = "1.0;1.0;1.0;1.0;1.0;1.0|1.0;1.0;1.0;1.0;1.0;1.0|1.0;1.0;1.0;1.0;1.0;1.0";
-		Assert.assertTrue("Correct string returned false", CollisionInformation.checkMetaDataString(correct4));
+		Assert.assertTrue(CollisionInformation.checkMetaDataString(correct4));
 	}
 
 	public void testCreateCollisionPolygonByHitbox() {
 		Bitmap bitmap = Bitmap.createBitmap(200, 100, Bitmap.Config.ALPHA_8);
 		Polygon[] polygons = CollisionInformation.createCollisionPolygonByHitbox(bitmap);
-		Assert.assertTrue("Wrong vertices calculated", Arrays.equals(polygons[0].getVertices(),
-				new float[] {0.0f, 0.0f, 200.0f, 0.0f, 200.0f, 100.0f, 0.0f, 100.0f}));
+		Assert.assertTrue(Arrays.equals(polygons[0].getVertices(), new float[] {0.0f, 0.0f, 200.0f, 0.0f, 200.0f, 100.0f, 0.0f, 100.0f}));
 	}
 
 	public void testGetCollisionPolygonFromPNGMeta() throws IOException {
@@ -111,8 +110,7 @@ public class CollisionInformationTest extends InstrumentationTestCase {
 		Assert.assertNotNull(collisionPolygons);
 		assertThat(collisionPolygons.length, is(greaterThan(0)));
 		Assert.assertEquals(1, collisionPolygons.length);
-		Assert.assertTrue(Arrays.equals(collisionPolygons[0].getVertices(),
-						new float[] {0.0f, 47.0f, 17.0f, 98.0f, 52.0f, 98.0f, 68.0f, 44.0f, 52.0f, 0.0f, 17.0f, 0.0f}));
+		Assert.assertTrue(Arrays.equals(collisionPolygons[0].getVertices(), new float[] {0.0f, 47.0f, 17.0f, 98.0f, 52.0f, 98.0f, 68.0f, 44.0f, 52.0f, 0.0f, 17.0f, 0.0f}));
 	}
 
 	public void testWriteReadCollisionVerticesToPNGMeta() throws IOException {
@@ -141,7 +139,7 @@ public class CollisionInformationTest extends InstrumentationTestCase {
 
 		boolean sameVertices = Arrays.equals(testPolygons[0].getVertices(), firstVertices)
 				&& Arrays.equals(testPolygons[1].getVertices(), secondVertices);
-		Assert.assertTrue("Not the same vertices have been read from the file! ", sameVertices);
+		Assert.assertTrue(sameVertices);
 	}
 
 	public void testWriteReadEmptyCollisionVerticesToPNGMeta() throws IOException {

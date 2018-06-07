@@ -68,7 +68,7 @@ public class ShowTextActionTest extends AndroidTestCase {
 
 		UserVariable variableOfFirstSprite = dataContainer.findSpriteUserVariable(sprite, USER_VARIABLE.getName());
 		UserVariable variableOfSecondSprite = dataContainer.findSpriteUserVariable(secondSprite, USER_VARIABLE.getName());
-		assertTrue("UserVariable not set visible", variableOfFirstSprite.getVisible());
-		assertTrue("UserVariable not set visible", variableOfSecondSprite.getVisible());
+		assertTrue(variableOfFirstSprite.getVisible());
+		assertTrue(variableOfSecondSprite.getVisible());
 	}
 }

@@ -57,17 +57,15 @@ public class SpeakActionTest extends AndroidTestCase {
 		Action action = factory.createSpeakAction(sprite, text);
 		Formula textAfterExecution = (Formula) Reflection.getPrivateField(action, "text");
 
-		assertEquals("Text is not updated after SpeakBrick executed", text, speakBrick
-				.getFormulaWithBrickField(Brick.BrickField.SPEAK));
-		assertEquals("Text is not updated after SpeakBrick executed", text, textAfterExecution);
+		assertEquals(text, speakBrick.getFormulaWithBrickField(Brick.BrickField.SPEAK));
+		assertEquals(text, textAfterExecution);
 
 		speakBrick = new SpeakBrick(text2);
 		action = factory.createSpeakAction(sprite, text);
 		textAfterExecution = (Formula) Reflection.getPrivateField(action, "text");
 
-		assertEquals("Text is not updated after SpeakBrick executed", text2, speakBrick
-				.getFormulaWithBrickField(Brick.BrickField.SPEAK));
-		assertEquals("Text is not updated after SpeakBrick executed", text, textAfterExecution);
+		assertEquals(text2, speakBrick.getFormulaWithBrickField(Brick.BrickField.SPEAK));
+		assertEquals(text, textAfterExecution);
 	}
 
 	public void testNullSprite() {
@@ -79,13 +77,12 @@ public class SpeakActionTest extends AndroidTestCase {
 			fail("Execution of ShowBrick with null Sprite did not cause a NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
 		}
-		assertEquals("Stored wrong text in speak brick", text, speakBrick
-				.getFormulaWithBrickField(Brick.BrickField.SPEAK));
+		assertEquals(text, speakBrick.getFormulaWithBrickField(Brick.BrickField.SPEAK));
 	}
 
 	public void testRequirements() {
 		SpeakBrick speakBrick = new SpeakBrick(new Formula(""));
-		assertEquals("Wrong required brick resources", Brick.TEXT_TO_SPEECH, speakBrick.getRequiredResources());
+		assertEquals(Brick.TEXT_TO_SPEECH, speakBrick.getRequiredResources());
 	}
 
 	public void testBrickWithStringFormula() {
@@ -93,25 +90,21 @@ public class SpeakActionTest extends AndroidTestCase {
 		Action action = factory.createSpeakAction(sprite, textString);
 		Reflection.invokeMethod(action, "begin");
 
-		assertEquals("Text is not updated after SpeakBrick executed", textString, speakBrick
-				.getFormulaWithBrickField(Brick.BrickField.SPEAK));
-		assertEquals("Text is not updated after SpeakBrick executed", SPEAK,
-				String.valueOf(Reflection.getPrivateField(action, "interpretedText")));
+		assertEquals(textString, speakBrick.getFormulaWithBrickField(Brick.BrickField.SPEAK));
+		assertEquals(SPEAK, String.valueOf(Reflection.getPrivateField(action, "interpretedText")));
 	}
 
 	public void testNullFormula() {
 		Action action = factory.createSpeakAction(sprite, (Formula) null);
 		Reflection.invokeMethod(action, "begin");
 
-		assertEquals("Text is not updated after SpeakBrick executed", "",
-				String.valueOf(Reflection.getPrivateField(action, "interpretedText")));
+		assertEquals("", String.valueOf(Reflection.getPrivateField(action, "interpretedText")));
 	}
 
 	public void testNotANumberFormula() {
 		Action action = factory.createSpeakAction(sprite, new Formula(Double.NaN));
 		Reflection.invokeMethod(action, "begin");
 
-		assertEquals("Text is not updated after SpeakBrick executed", "",
-				String.valueOf(Reflection.getPrivateField(action, "interpretedText")));
+		assertEquals("", String.valueOf(Reflection.getPrivateField(action, "interpretedText")));
 	}
 }

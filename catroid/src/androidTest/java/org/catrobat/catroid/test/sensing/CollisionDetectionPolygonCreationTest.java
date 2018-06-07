@@ -98,8 +98,7 @@ public class CollisionDetectionPolygonCreationTest extends InstrumentationTestCa
 
 		Assert.assertNotNull(collisionInformation.collisionPolygons);
 		Assert.assertEquals(1, collisionInformation.collisionPolygons.length);
-		Assert.assertTrue(Arrays.equals(collisionInformation.collisionPolygons[0].getVertices(),
-						new float[] {0.0f, 0.0f, 0.0f, 125.0f, 125.0f, 125.0f, 125.0f, 0.0f}));
+		Assert.assertTrue(Arrays.equals(collisionInformation.collisionPolygons[0].getVertices(), new float[] {0.0f, 0.0f, 0.0f, 125.0f, 125.0f, 125.0f, 125.0f, 0.0f}));
 	}
 
 	public void testSimpleConvexPolygon() throws IOException {
@@ -108,8 +107,7 @@ public class CollisionDetectionPolygonCreationTest extends InstrumentationTestCa
 
 		Assert.assertNotNull(collisionInformation.collisionPolygons);
 		Assert.assertEquals(1, collisionInformation.collisionPolygons.length);
-		Assert.assertTrue(Arrays.equals(collisionInformation.collisionPolygons[0].getVertices(),
-						new float[] {0.0f, 47.0f, 17.0f, 98.0f, 52.0f, 98.0f, 68.0f, 44.0f, 52.0f, 0.0f, 17.0f, 0.0f}));
+		Assert.assertTrue(Arrays.equals(collisionInformation.collisionPolygons[0].getVertices(), new float[] {0.0f, 47.0f, 17.0f, 98.0f, 52.0f, 98.0f, 68.0f, 44.0f, 52.0f, 0.0f, 17.0f, 0.0f}));
 	}
 
 	public void testMultipleConcavePolygons() throws IOException {
@@ -119,8 +117,7 @@ public class CollisionDetectionPolygonCreationTest extends InstrumentationTestCa
 
 		Assert.assertNotNull(collisionInformation.collisionPolygons);
 		Assert.assertEquals(2, collisionInformation.collisionPolygons.length);
-		Assert.assertTrue(Arrays.equals(collisionInformation.collisionPolygons[0].getVertices(),
-						new float[] {0.0f, 110.0f, 0.0f, 185.0f, 91.0f, 185.0f, 91.0f, 136.0f, 34.0f, 136.0f, 34.0f, 110.0f}));
+		Assert.assertTrue(Arrays.equals(collisionInformation.collisionPolygons[0].getVertices(), new float[] {0.0f, 110.0f, 0.0f, 185.0f, 91.0f, 185.0f, 91.0f, 136.0f, 34.0f, 136.0f, 34.0f, 110.0f}));
 		Assert.assertTrue(Arrays.equals(collisionInformation.collisionPolygons[1].getVertices(),
 						new float[] {128.0f, 30.0f, 128.0f, 91.0f, 159.0f, 91.0f, 159.0f, 121.0f, 227.0f, 121.0f, 227.0f, 91.0f,
 								257.0f, 91.0f, 257.0f, 30.0f, 227.0f, 30.0f, 227.0f, 0.0f, 159.0f, 0.0f, 159.0f, 30.0f}));

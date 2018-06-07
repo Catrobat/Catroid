@@ -69,7 +69,7 @@ public class CollisionFormulaConversionTest extends AndroidTestCase {
 		} catch (Exception e) {
 			fail("couldn't load project");
 		}
-		assertTrue("Project not converted correctly!", projectManager.getCurrentProject().getCatrobatLanguageVersion() == Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
+		assertTrue(projectManager.getCurrentProject().getCatrobatLanguageVersion() == Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
 		TestUtils.deleteProjects();
 	}
 
@@ -90,7 +90,7 @@ public class CollisionFormulaConversionTest extends AndroidTestCase {
 			FormulaBrick formulaBrick = (FormulaBrick) brick;
 			String newFormula = formulaBrick.getFormulas().get(0).getDisplayString(getContext());
 			String expected = collisionTag + "(" + thirdSpriteName + ") ";
-			assertEquals("Converted formula String is wrong", expected, newFormula);
+			assertEquals(expected, newFormula);
 		} else {
 			fail("brick is no instance of FormulaBrick");
 		}
@@ -127,7 +127,7 @@ public class CollisionFormulaConversionTest extends AndroidTestCase {
 			FormulaBrick formulaBrick = (FormulaBrick) brick;
 			String newFormula = formulaBrick.getFormulas().get(0).getDisplayString(getContext());
 			String expected = collisionTag + "(" + thirdSpriteName + ") ";
-			assertEquals("Converted formula String is wrong", expected, newFormula);
+			assertEquals(expected, newFormula);
 		} else {
 			fail("brick is no instance of FormulaBrick");
 		}

@@ -50,29 +50,28 @@ public class PhysicsBoundaryBoxTest extends AndroidTestCase {
 	}
 
 	public void testDefaultSettings() {
-		assertEquals("Wrong configuration", 5, PhysicsBoundaryBox.FRAME_SIZE);
-		assertEquals("Wrong configuration", 0x0004, PhysicsWorld.MASK_BOUNDARYBOX);
-		assertEquals("Wrong configuration", 0x0002, PhysicsWorld.CATEGORY_BOUNDARYBOX);
+		assertEquals(5, PhysicsBoundaryBox.FRAME_SIZE);
+		assertEquals(0x0004, PhysicsWorld.MASK_BOUNDARYBOX);
+		assertEquals(0x0002, PhysicsWorld.CATEGORY_BOUNDARYBOX);
 	}
 
 	public void testProperties() {
-		assertEquals("World isn't emtpy", 0, world.getBodyCount());
+		assertEquals(0, world.getBodyCount());
 		new PhysicsBoundaryBox(world).create(40, 40);
-		assertEquals("World contains wrong number of boundary box sides", 4, world.getBodyCount());
+		assertEquals(4, world.getBodyCount());
 
 		Array<Body> bodies = new Array<Body>();
 		world.getBodies(bodies);
-		assertEquals("Bodies contains wrong number", 4, bodies.size);
+		assertEquals(4, bodies.size);
 		for (Body body : bodies) {
-			assertEquals("BodyType of boundary box side isn't static", BodyType.StaticBody, body.getType());
+			assertEquals(BodyType.StaticBody, body.getType());
 
 			Array<Fixture> fixtures = body.getFixtureList();
-			assertEquals("Body should contain only one shape (side)", 1, fixtures.size);
+			assertEquals(1, fixtures.size);
 			for (Fixture fixture : fixtures) {
 				Filter filter = fixture.getFilterData();
-				assertEquals("Wrong bit mask for collision", PhysicsWorld.MASK_BOUNDARYBOX, filter.maskBits);
-				assertEquals("Wrong category bits for collision", PhysicsWorld.CATEGORY_BOUNDARYBOX,
-						filter.categoryBits);
+				assertEquals(PhysicsWorld.MASK_BOUNDARYBOX, filter.maskBits);
+				assertEquals(PhysicsWorld.CATEGORY_BOUNDARYBOX, filter.categoryBits);
 			}
 		}
 	}

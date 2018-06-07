@@ -74,15 +74,14 @@ public class ServerCallsTest extends InstrumentationTestCase implements
 			boolean userRegistered = ServerCalls.getInstance().register(testUser, testPassword, testEmail,
 					"de", "at", token, getInstrumentation().getTargetContext());
 
-			assertTrue("Should be a new user, but server response indicates that this user already exists",
-					userRegistered);
+			assertTrue(userRegistered);
 
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getInstrumentation().getTargetContext());
 			token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 			boolean tokenOk = ServerCalls.getInstance().checkToken(token, testUser);
 
 			Log.i(TAG, "tokenOk: " + tokenOk);
-			assertTrue("token should be ok", tokenOk);
+			assertTrue(tokenOk);
 		} catch (WebconnectionException e) {
 			Log.e(TAG, "Webconnection error", e);
 			fail("WebconnectionException: the token should be valid \nstatus code:" + e.getStatusCode()
@@ -101,22 +100,20 @@ public class ServerCallsTest extends InstrumentationTestCase implements
 					"de", "at", token, getInstrumentation().getTargetContext());
 
 			Log.i(TAG, "user registered: " + userRegistered);
-			assertTrue("Should be a new user, but server response indicates that this user already exists",
-					userRegistered);
+			assertTrue(userRegistered);
 
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getInstrumentation().getTargetContext());
 			token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 			ServerCalls.getInstance().register(testUser, testPassword, testEmail, "de",
 					"at", token, getInstrumentation().getTargetContext());
 
-			assertFalse("should never be reached because the user is already registered and can't be registered again",
-					true);
+			assertFalse(true);
 		} catch (WebconnectionException e) {
 			Log.i(TAG, "Webconnection error (this is expected behaviour)", e);
-			assertTrue("an exception should be thrown because the user(-e-mail) is already registered", true);
-			assertEquals("wrong status code from server", STATUS_CODE_USER_ADD_EMAIL_EXISTS, e.getStatusCode());
-			assertNotNull("no error message available", e.getMessage());
-			assertTrue("no error message available", e.getMessage().length() > 0);
+			assertTrue(true);
+			assertEquals(STATUS_CODE_USER_ADD_EMAIL_EXISTS, e.getStatusCode());
+			assertNotNull(e.getMessage());
+			assertTrue(e.getMessage().length() > 0);
 		}
 	}
 
@@ -131,16 +128,14 @@ public class ServerCallsTest extends InstrumentationTestCase implements
 					"de", "at", token, getInstrumentation().getTargetContext());
 
 			Log.i(TAG, "user registered: " + userRegistered);
-			assertTrue("Should be a new user, but server response indicates that this user already exists",
-					userRegistered);
+			assertTrue(userRegistered);
 
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getInstrumentation().getTargetContext());
 			token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 			boolean userLoggedIn = ServerCalls.getInstance().login(testUser, testPassword, token, getInstrumentation().getTargetContext());
 
 			Log.i(TAG, "user logged in: " + userLoggedIn);
-			assertTrue("User should be logged in, but server response indicates that he was not",
-					userLoggedIn);
+			assertTrue(userLoggedIn);
 		} catch (WebconnectionException e) {
 			Log.e(TAG, "Webconnection error", e);
 			fail("an exception should not be thrown! \nstatus code:" + e.getStatusCode() + "\nmessage: "
@@ -156,14 +151,13 @@ public class ServerCallsTest extends InstrumentationTestCase implements
 
 			ServerCalls.getInstance().login(testUser, testPassword, token, getInstrumentation().getTargetContext());
 
-			assertFalse("should never be reached because the user to be logged in is not existing",
-					true);
+			assertFalse(true);
 		} catch (WebconnectionException e) {
 			Log.i(TAG, "Webconnection error (this is expected behaviour)", e);
-			assertTrue("an exception should be thrown because the user does not exist", true);
-			assertEquals("wrong status code from server", STATUS_CODE_USER_NOT_EXISTING, e.getStatusCode());
-			assertNotNull("no error message available", e.getMessage());
-			assertTrue("no error message available", e.getMessage().length() > 0);
+			assertTrue(true);
+			assertEquals(STATUS_CODE_USER_NOT_EXISTING, e.getStatusCode());
+			assertNotNull(e.getMessage());
+			assertTrue(e.getMessage().length() > 0);
 		}
 	}
 
@@ -178,21 +172,20 @@ public class ServerCallsTest extends InstrumentationTestCase implements
 					"de", "at", token, getInstrumentation().getTargetContext());
 
 			Log.i(TAG, "user registered: " + userRegistered);
-			assertTrue("Should be a new user, but server response indicates that this user already exists",
-					userRegistered);
+			assertTrue(userRegistered);
 
 			String wrongPassword = "wrongpassword";
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getInstrumentation().getTargetContext());
 			token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 			ServerCalls.getInstance().login(testUser, wrongPassword, token, getInstrumentation().getTargetContext());
 
-			assertFalse("should never be reached because the password is wrong", true);
+			assertFalse(true);
 		} catch (WebconnectionException e) {
 			Log.i(TAG, "Webconnection error (this is expected behaviour)", e);
-			assertTrue("an exception should be thrown because the password is wrong", true);
-			assertEquals("wrong status code from server", STATUS_CODE_AUTHENTICATION_FAILED, e.getStatusCode());
-			assertNotNull("no error message available", e.getMessage());
-			assertTrue("no error message available", e.getMessage().length() > 0);
+			assertTrue(true);
+			assertEquals(STATUS_CODE_AUTHENTICATION_FAILED, e.getStatusCode());
+			assertNotNull(e.getMessage());
+			assertTrue(e.getMessage().length() > 0);
 		}
 	}
 
@@ -207,24 +200,20 @@ public class ServerCallsTest extends InstrumentationTestCase implements
 					"de", "at", token, getInstrumentation().getTargetContext());
 
 			Log.i(TAG, "user registered: " + userRegistered);
-			assertTrue("Should be a new user, but server responce indicates that this user already exists",
-					userRegistered);
+			assertTrue(userRegistered);
 
 			String newUser = "testUser" + System.currentTimeMillis();
 			token = Constants.NO_TOKEN;
 			ServerCalls.getInstance().register(newUser, testPassword, testEmail, "de", "at", token,
 					getInstrumentation().getTargetContext());
 
-			assertFalse(
-					"should never be reached because two registrations with the same email address are not allowed",
-					true);
+			assertFalse(true);
 		} catch (WebconnectionException e) {
 			Log.i(TAG, "Webconnection error (this is expected behaviour)", e);
-			assertTrue("an exception should be thrown because the email already exists on the server", true);
-			assertEquals("wrong status code from server", STATUS_CODE_USER_ADD_EMAIL_EXISTS,
-					e.getStatusCode());
-			assertNotNull("no error message available", e.getMessage());
-			assertTrue("no error message available", e.getMessage().length() > 0);
+			assertTrue(true);
+			assertEquals(STATUS_CODE_USER_ADD_EMAIL_EXISTS, e.getStatusCode());
+			assertNotNull(e.getMessage());
+			assertTrue(e.getMessage().length() > 0);
 		}
 	}
 
@@ -238,14 +227,13 @@ public class ServerCallsTest extends InstrumentationTestCase implements
 			ServerCalls.getInstance().register(testUser, testPassword, testEmail, "de", "at", token,
 					getInstrumentation().getTargetContext());
 
-			assertFalse("should never be reached because the password is too short", true);
+			assertFalse(true);
 		} catch (WebconnectionException e) {
 			Log.i(TAG, "Webconnection error (this is expected behaviour)", e);
-			assertTrue("an exception should be thrown because the password is too short", true);
-			assertEquals("wrong status code from server", STATUS_CODE_USER_PASSWORD_TOO_SHORT,
-					e.getStatusCode());
-			assertNotNull("no error message available", e.getMessage());
-			assertTrue("no error message available", e.getMessage().length() > 0);
+			assertTrue(true);
+			assertEquals(STATUS_CODE_USER_PASSWORD_TOO_SHORT, e.getStatusCode());
+			assertNotNull(e.getMessage());
+			assertTrue(e.getMessage().length() > 0);
 		}
 	}
 
@@ -259,14 +247,13 @@ public class ServerCallsTest extends InstrumentationTestCase implements
 			ServerCalls.getInstance().register(testUser, testPassword, testEmail, "de", "at", token,
 					getInstrumentation().getTargetContext());
 
-			assertFalse("should never be reached because the email is not valid", true);
+			assertFalse(true);
 		} catch (WebconnectionException e) {
 			Log.i(TAG, "Webconnection error (this is expected behaviour)", e);
-			assertTrue("an exception should be thrown because the email is not valid", true);
-			assertEquals("wrong status code from server", STATUS_CODE_USER_EMAIL_INVALID,
-					e.getStatusCode());
-			assertNotNull("no error message available", e.getMessage());
-			assertTrue("no error message available", e.getMessage().length() > 0);
+			assertTrue(true);
+			assertEquals(STATUS_CODE_USER_EMAIL_INVALID, e.getStatusCode());
+			assertNotNull(e.getMessage());
+			assertTrue(e.getMessage().length() > 0);
 		}
 	}
 
@@ -277,13 +264,13 @@ public class ServerCallsTest extends InstrumentationTestCase implements
 			boolean tokenOk = ServerCalls.getInstance().checkToken(wrongToken, username);
 
 			Log.i(TAG, "tokenOk: " + tokenOk);
-			assertFalse("should not be reached, exception is thrown", tokenOk);
+			assertFalse(tokenOk);
 		} catch (WebconnectionException e) {
 			Log.i(TAG, "Webconnection error (this is expected behaviour)", e);
-			assertTrue("exception is thrown if we pass a wrong token", true);
-			assertEquals("wrong status code from server", STATUS_CODE_AUTHENTICATION_FAILED, e.getStatusCode());
-			assertNotNull("no error message available", e.getMessage());
-			assertTrue("no error message available", e.getMessage().length() > 0);
+			assertTrue(true);
+			assertEquals(STATUS_CODE_AUTHENTICATION_FAILED, e.getStatusCode());
+			assertNotNull(e.getMessage());
+			assertTrue(e.getMessage().length() > 0);
 		}
 	}
 
@@ -298,15 +285,14 @@ public class ServerCallsTest extends InstrumentationTestCase implements
 					"de", "at", token, getInstrumentation().getTargetContext());
 
 			Log.i(TAG, "user registered: " + userRegistered);
-			assertTrue("Should be a new user, but server responce indicates that this user already exists",
-					userRegistered);
+			assertTrue(userRegistered);
 
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getInstrumentation().getTargetContext());
 			token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 			boolean tokenOk = ServerCalls.getInstance().checkToken(token, testUser);
 
 			Log.i(TAG, "tokenOk: " + tokenOk);
-			assertTrue("token should be ok", tokenOk);
+			assertTrue(tokenOk);
 		} catch (WebconnectionException e) {
 			Log.e(TAG, "Webconnection error", e);
 			fail("WebconnectionException \nstatus code:" + e.getStatusCode() + "\nmessage: " + e.getMessage());
@@ -315,7 +301,7 @@ public class ServerCallsTest extends InstrumentationTestCase implements
 
 	@Override
 	public void onDeleteTestUserComplete(Boolean deleted) {
-		assertTrue("Test user accounts could not be deleted on server!", deleted);
+		assertTrue(deleted);
 		Log.d(TAG, "testUserAccountsDeleted");
 	}
 }

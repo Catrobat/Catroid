@@ -64,18 +64,17 @@ public class MotorTest extends AndroidTestCase {
 		motor.move(inputSpeed, degrees);
 		byte[] setOutputState = this.logger.getNextSentMessage(0, 2);
 
-		assertEquals("DIRECT_COMMAND_HEADER check failed, should equals to setOutputState[0]", DIRECT_COMMAND_HEADER, setOutputState[0]);
-		assertEquals("SET_OUTPUT_STATE check failed, should equals to setOutputState[1]", CommandByte.SET_OUTPUT_STATE.getByte(), setOutputState[1]);
-		assertEquals("USED_PORT check failed, should equals to setOutputState[2]", USED_PORT, setOutputState[2]);
+		assertEquals(DIRECT_COMMAND_HEADER, setOutputState[0]);
+		assertEquals(CommandByte.SET_OUTPUT_STATE.getByte(), setOutputState[1]);
+		assertEquals(USED_PORT, setOutputState[2]);
 
-		assertEquals("inputSpeed should equals setOutputState[3]", inputSpeed, setOutputState[3]);
+		assertEquals(inputSpeed, setOutputState[3]);
 
-		assertEquals("Motor mode should equals to setOutputState[4]",
-				NXTMotor.MotorMode.BREAK | NXTMotor.MotorMode.ON | NXTMotor.MotorMode.REGULATED, setOutputState[4]);
+		assertEquals(NXTMotor.MotorMode.BREAK | NXTMotor.MotorMode.ON | NXTMotor.MotorMode.REGULATED, setOutputState[4]);
 
-		assertEquals("Motor regulation speed should equals to setOutputSate[5]", motorRegulationSpeed, setOutputState[5]);
-		assertEquals("Expected turn ratio should euqals to setOutputState[6]", expectedTurnRatio, setOutputState[6]);
-		assertEquals("Expected Motor Run State should equals to setOutputState[7]", NXTMotor.MotorRunState.RUNNING.getByte(), setOutputState[7]);
+		assertEquals(motorRegulationSpeed, setOutputState[5]);
+		assertEquals(expectedTurnRatio, setOutputState[6]);
+		assertEquals(NXTMotor.MotorRunState.RUNNING.getByte(), setOutputState[7]);
 		checkDegrees(degrees, setOutputState);
 	}
 
@@ -90,17 +89,16 @@ public class MotorTest extends AndroidTestCase {
 		motor.move(inputSpeed, degrees);
 		byte[] setOutputState = this.logger.getNextSentMessage(0, 2);
 
-		assertEquals("DIRECT_COMMAND_HEADER check failed, should equals to setOutputState[0]", DIRECT_COMMAND_HEADER, setOutputState[0]);
-		assertEquals("SET_OUTPUT_STATE check failed, should equals to setOutputState[1]", CommandByte.SET_OUTPUT_STATE.getByte(), setOutputState[1]);
-		assertEquals("USED_PORT check failed, should equals to setOutputState[2]", USED_PORT, setOutputState[2]);
-		assertEquals("expectedSpeed should equals setOutputState[3]", expectedSpeed, setOutputState[3]);
+		assertEquals(DIRECT_COMMAND_HEADER, setOutputState[0]);
+		assertEquals(CommandByte.SET_OUTPUT_STATE.getByte(), setOutputState[1]);
+		assertEquals(USED_PORT, setOutputState[2]);
+		assertEquals(expectedSpeed, setOutputState[3]);
 
-		assertEquals("Motor mode should equals to setOutputState[4]",
-				NXTMotor.MotorMode.BREAK | NXTMotor.MotorMode.ON | NXTMotor.MotorMode.REGULATED, setOutputState[4]);
+		assertEquals(NXTMotor.MotorMode.BREAK | NXTMotor.MotorMode.ON | NXTMotor.MotorMode.REGULATED, setOutputState[4]);
 
-		assertEquals("Motor regulation speed should equals to setOutputSate[5]", motorRegulationSpeed, setOutputState[5]);
-		assertEquals("Expected turn ratio should euqals to setOutputState[6]", expectedTurnRatio, setOutputState[6]);
-		assertEquals("Expected Motor Run State should equals to setOutputState[7]", NXTMotor.MotorRunState.RUNNING.getByte(), setOutputState[7]);
+		assertEquals(motorRegulationSpeed, setOutputState[5]);
+		assertEquals(expectedTurnRatio, setOutputState[6]);
+		assertEquals(NXTMotor.MotorRunState.RUNNING.getByte(), setOutputState[7]);
 		checkDegrees(degrees, setOutputState);
 	}
 
@@ -114,18 +112,17 @@ public class MotorTest extends AndroidTestCase {
 		motor.move(inputSpeed, degrees);
 		byte[] setOutputState = this.logger.getNextSentMessage(0, 2);
 
-		assertEquals("DIRECT_COMMAND_HEADER check failed, should equals to setOutputState[0]", DIRECT_COMMAND_HEADER, setOutputState[0]);
-		assertEquals("SET_OUTPUT_STATE check failed, should equals to setOutputState[1]", CommandByte.SET_OUTPUT_STATE.getByte(), setOutputState[1]);
-		assertEquals("USED_PORT check failed, should equals to setOutputState[2]", USED_PORT, setOutputState[2]);
+		assertEquals(DIRECT_COMMAND_HEADER, setOutputState[0]);
+		assertEquals(CommandByte.SET_OUTPUT_STATE.getByte(), setOutputState[1]);
+		assertEquals(USED_PORT, setOutputState[2]);
 
-		assertEquals("inputSpeed should equals setOutputState[3]", inputSpeed, setOutputState[3]);
+		assertEquals(inputSpeed, setOutputState[3]);
 
-		assertEquals("Motor mode should equals to setOutputState[4]",
-				NXTMotor.MotorMode.BREAK | NXTMotor.MotorMode.ON | NXTMotor.MotorMode.REGULATED, setOutputState[4]);
+		assertEquals(NXTMotor.MotorMode.BREAK | NXTMotor.MotorMode.ON | NXTMotor.MotorMode.REGULATED, setOutputState[4]);
 
-		assertEquals("Motor regulation speed should equals to setOutputSate[5]", motorRegulationSpeed, setOutputState[5]);
-		assertEquals("Expected turn ratio should euqals to setOutputState[6]", expectedTurnRatio, setOutputState[6]);
-		assertEquals("Expected Motor Run State should equals to setOutputState[7]", NXTMotor.MotorRunState.RUNNING.getByte(), setOutputState[7]);
+		assertEquals(motorRegulationSpeed, setOutputState[5]);
+		assertEquals(expectedTurnRatio, setOutputState[6]);
+		assertEquals(NXTMotor.MotorRunState.RUNNING.getByte(), setOutputState[7]);
 		checkDegrees(degrees, setOutputState);
 	}
 
@@ -140,23 +137,22 @@ public class MotorTest extends AndroidTestCase {
 		motor.move(inputSpeed, degrees);
 		byte[] setOutputState = this.logger.getNextSentMessage(0, 2);
 
-		assertEquals("DIRECT_COMMAND_HEADER check failed, should equals to setOutputState[0]", DIRECT_COMMAND_HEADER, setOutputState[0]);
-		assertEquals("SET_OUTPUT_STATE check failed, should equals to setOutputState[1]", CommandByte.SET_OUTPUT_STATE.getByte(), setOutputState[1]);
-		assertEquals("USED_PORT check failed, should equals to setOutputState[2]", USED_PORT, setOutputState[2]);
+		assertEquals(DIRECT_COMMAND_HEADER, setOutputState[0]);
+		assertEquals(CommandByte.SET_OUTPUT_STATE.getByte(), setOutputState[1]);
+		assertEquals(USED_PORT, setOutputState[2]);
 
-		assertEquals("ExpectedSpeed should equals setOutputState[3]", expectedSpeed, setOutputState[3]);
+		assertEquals(expectedSpeed, setOutputState[3]);
 
-		assertEquals("Motor mode should equals to setOutputState[4]",
-				NXTMotor.MotorMode.BREAK | NXTMotor.MotorMode.ON | NXTMotor.MotorMode.REGULATED, setOutputState[4]);
+		assertEquals(NXTMotor.MotorMode.BREAK | NXTMotor.MotorMode.ON | NXTMotor.MotorMode.REGULATED, setOutputState[4]);
 
-		assertEquals("Motor regulation speed should equals to setOutputSate[5]", motorRegulationSpeed, setOutputState[5]);
-		assertEquals("Expected turn ratio should euqals to setOutputState[6]", expectedTurnRatio, setOutputState[6]);
-		assertEquals("Expected Motor Run State should equals to setOutputState[7]", NXTMotor.MotorRunState.RUNNING.getByte(), setOutputState[7]);
+		assertEquals(motorRegulationSpeed, setOutputState[5]);
+		assertEquals(expectedTurnRatio, setOutputState[6]);
+		assertEquals(NXTMotor.MotorRunState.RUNNING.getByte(), setOutputState[7]);
 		checkDegrees(degrees, setOutputState);
 	}
 
 	public void checkDegrees(int degrees, byte[] setOutputState) {
-		assertEquals("Degree check failed, value should equals to setOutputState[8]", (byte) degrees, setOutputState[8]);
-		assertEquals("Degree check failed, value should equals to setOutputState[9]", (byte) (degrees >> 8), setOutputState[9]);
+		assertEquals((byte) degrees, setOutputState[8]);
+		assertEquals((byte) (degrees >> 8), setOutputState[9]);
 	}
 }

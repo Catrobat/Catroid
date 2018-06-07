@@ -53,8 +53,7 @@ public class PhysicsActiveStageAreaTest extends PhysicsBaseTest {
 	}
 
 	public void testCircumferenceCalculation() {
-		assertEquals(
-				EXPECTED_CIRCUMFERENCE_125X125, physicsObject.getCircumference(), CIRCUMFERENCE_COMPARISON_DELTA);
+		assertEquals(EXPECTED_CIRCUMFERENCE_125X125, physicsObject.getCircumference(), CIRCUMFERENCE_COMPARISON_DELTA);
 	}
 
 	public void testCenteredObjectIsActive() {

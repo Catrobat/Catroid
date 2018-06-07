@@ -99,7 +99,7 @@ public class PhysicsBricksCloneTest extends AndroidTestCase {
 		CollisionScript brickReceiverScript = (CollisionScript) Reflection.getPrivateField(brick, "collisionScript");
 		CollisionScript clonedBrickReceiverScript = (CollisionScript) Reflection.getPrivateField(clonedBrick, "collisionScript");
 
-		assertFalse("CollisionScripts have same address", brickReceiverScript == clonedBrickReceiverScript);
+		assertFalse(brickReceiverScript == clonedBrickReceiverScript);
 	}
 
 	public void testCloneSetPhysicsObjectTypeBrick() {
@@ -127,13 +127,13 @@ public class PhysicsBricksCloneTest extends AndroidTestCase {
 		PhysicsObject.Type noneBrickType = (PhysicsObject.Type) Reflection.getPrivateField(noneBrick, "type");
 		PhysicsObject.Type clonedNoneBrickType = (PhysicsObject.Type) Reflection.getPrivateField(clonedNoneBrick, "type");
 
-		assertTrue("DYNAMIC Brick has wrong type after clone", dynamicBrickType.equals(clonedDynamicBrickType));
-		assertTrue("FIXED Brick has wrong type after clone", fixedBrickType.equals(clonedFixedBrickType));
-		assertTrue("NONE Brick has wrong type after clone", noneBrickType.equals(clonedNoneBrickType));
+		assertTrue(dynamicBrickType.equals(clonedDynamicBrickType));
+		assertTrue(fixedBrickType.equals(clonedFixedBrickType));
+		assertTrue(noneBrickType.equals(clonedNoneBrickType));
 
-		assertTrue("Cloned DYNAMIC Brick has wrong Object-Type", clonedDynamicBrick.getClass().equals(dynamicBrick.getClass()));
-		assertTrue("Cloned FIXED Brick has wrong Object-Type", clonedFixedBrick.getClass().equals(fixedBrick.getClass()));
-		assertTrue("Cloned NONE Brick has wrong Object-Type", clonedNoneBrick.getClass().equals(noneBrick.getClass()));
+		assertTrue(clonedDynamicBrick.getClass().equals(dynamicBrick.getClass()));
+		assertTrue(clonedFixedBrick.getClass().equals(fixedBrick.getClass()));
+		assertTrue(clonedNoneBrick.getClass().equals(noneBrick.getClass()));
 	}
 
 	private void brickClone(Brick brick, Brick.BrickField... brickFields) {

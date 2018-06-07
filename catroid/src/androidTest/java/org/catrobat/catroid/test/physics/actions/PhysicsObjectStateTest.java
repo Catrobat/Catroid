@@ -160,49 +160,49 @@ public class PhysicsObjectStateTest extends PhysicsBaseTest {
 	private void allConditionsInactiveCheck() {
 		((PhysicsLook) sprite.look).updatePhysicsObjectState(true);
 		boolean hangedUp = (Boolean) Reflection.getPrivateField(physicsObjectStateHandler, "hangedUp");
-		assertFalse("Unexpected physicsObject-status: hangedUp should be inactive", hangedUp);
+		assertFalse(hangedUp);
 
 		boolean nonColliding = (Boolean) Reflection.getPrivateField(physicsObjectStateHandler, "nonColliding");
-		assertFalse("Unexpected physicsObject-status: non colliding should be inactive", nonColliding);
+		assertFalse(nonColliding);
 
 		boolean fixed = (Boolean) Reflection.getPrivateField(physicsObjectStateHandler, "fixed");
-		assertFalse("Unexpected physicsObject-status: fixed should be inactive", fixed);
+		assertFalse(fixed);
 	}
 
 	private void hangupNonCollidingActiveCheck() {
 		((PhysicsLook) sprite.look).updatePhysicsObjectState(true);
 		boolean hangedUp = (Boolean) Reflection.getPrivateField(physicsObjectStateHandler, "hangedUp");
-		assertTrue("Unexpected physicsObject-status: hangup should be active", hangedUp);
+		assertTrue(hangedUp);
 
 		boolean nonColliding = (Boolean) Reflection.getPrivateField(physicsObjectStateHandler, "nonColliding");
-		assertTrue("Unexpected physicsObject-status: non colliding should be active", nonColliding);
+		assertTrue(nonColliding);
 
 		boolean fixed = (Boolean) Reflection.getPrivateField(physicsObjectStateHandler, "fixed");
-		assertFalse("Unexpected physicsObject-status: fixed should be inactive", fixed);
+		assertFalse(fixed);
 	}
 
 	private void hangupFixedActiveCheck() {
 		((PhysicsLook) sprite.look).updatePhysicsObjectState(true);
 		boolean hangedUp = (Boolean) Reflection.getPrivateField(physicsObjectStateHandler, "hangedUp");
-		assertTrue("Unexpected physicsObject-status: hangup should be active", hangedUp);
+		assertTrue(hangedUp);
 
 		boolean nonColliding = (Boolean) Reflection.getPrivateField(physicsObjectStateHandler, "nonColliding");
-		assertFalse("Unexpected physicsObject-status: non colliding should be active", nonColliding);
+		assertFalse(nonColliding);
 
 		boolean fixed = (Boolean) Reflection.getPrivateField(physicsObjectStateHandler, "fixed");
-		assertTrue("Unexpected physicsObject-status: fixed should be active", fixed);
+		assertTrue(fixed);
 	}
 
 	private void hangupFixedNonCollidingActiveCheck() {
 		((PhysicsLook) sprite.look).updatePhysicsObjectState(true);
 		boolean hangedUp = (Boolean) Reflection.getPrivateField(physicsObjectStateHandler, "hangedUp");
-		assertTrue("Unexpected physicsObject-status: hangup should be active", hangedUp);
+		assertTrue(hangedUp);
 
 		boolean fixed = (Boolean) Reflection.getPrivateField(physicsObjectStateHandler, "fixed");
-		assertTrue("Unexpected physicsObject-status: fixed should be active", fixed);
+		assertTrue(fixed);
 
 		boolean nonColliding = (Boolean) Reflection.getPrivateField(physicsObjectStateHandler, "nonColliding");
-		assertTrue("Unexpected physicsObject-status: non colliding should be active", nonColliding);
+		assertTrue(nonColliding);
 	}
 
 	private void setX(float value) {

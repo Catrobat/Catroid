@@ -79,12 +79,12 @@ public class StopAllSoundsActionTest extends InstrumentationTestCase {
 
 		playSoundAction.act(1.0f);
 
-		assertEquals("Wrong media player count", 1, mediaPlayers.size());
-		assertTrue("MediaPlayer is not playing", mediaPlayers.get(0).isPlaying());
+		assertEquals(1, mediaPlayers.size());
+		assertTrue(mediaPlayers.get(0).isPlaying());
 
 		stopAllSoundsAction.act(1.0f);
 
-		assertFalse("MediaPlayer is still playing", mediaPlayers.get(0).isPlaying());
+		assertFalse(mediaPlayers.get(0).isPlaying());
 	}
 
 	public void testStopSimultaneousPlayingSounds() throws InterruptedException {
@@ -100,15 +100,15 @@ public class StopAllSoundsActionTest extends InstrumentationTestCase {
 		playSoundAction2.act(1.0f);
 
 		List<MediaPlayer> mediaPlayers = getMediaPlayers();
-		assertEquals("Wrong media player count", 2, mediaPlayers.size());
-		assertTrue("First MediaPlayer is not playing", mediaPlayers.get(0).isPlaying());
-		assertTrue("Second MediaPlayer is not playing", mediaPlayers.get(1).isPlaying());
+		assertEquals(2, mediaPlayers.size());
+		assertTrue(mediaPlayers.get(0).isPlaying());
+		assertTrue(mediaPlayers.get(1).isPlaying());
 
 		Action stopAllSoundsAction = factory.createStopAllSoundsAction();
 		stopAllSoundsAction.act(1.0f);
 
-		assertFalse("First MediaPlayer is still playing", mediaPlayers.get(0).isPlaying());
-		assertFalse("Second MediaPlayer is still playing", mediaPlayers.get(1).isPlaying());
+		assertFalse(mediaPlayers.get(0).isPlaying());
+		assertFalse(mediaPlayers.get(1).isPlaying());
 	}
 
 	private void createTestProject() throws IOException {
