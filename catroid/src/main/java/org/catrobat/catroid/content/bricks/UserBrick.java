@@ -147,7 +147,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 	}
 
 	private void updateUserVariableValues() {
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
 		List<UserVariable> variables = new ArrayList<>();
 
 		for (UserBrickParameter userBrickParameter : userBrickParameters) {

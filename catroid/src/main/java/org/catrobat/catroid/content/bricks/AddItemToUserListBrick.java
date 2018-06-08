@@ -86,7 +86,7 @@ public class AddItemToUserListBrick extends UserListBrick {
 		textField.setOnClickListener(this);
 
 		Spinner userListSpinner = (Spinner) view.findViewById(R.id.add_item_to_userlist_spinner);
-		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentScene().getDataContainer()
+		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
 				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
 		UserListAdapterWrapper userListAdapterWrapper = new UserListAdapterWrapper(context, dataAdapter);
 		userListAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
@@ -105,7 +105,7 @@ public class AddItemToUserListBrick extends UserListBrick {
 		View prototypeView = View.inflate(context, R.layout.brick_add_item_to_userlist, null);
 		Spinner userListSpinner = (Spinner) prototypeView.findViewById(R.id.add_item_to_userlist_spinner);
 
-		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentScene().getDataContainer()
+		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
 				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
 
 		UserListAdapterWrapper userListAdapterWrapper = new UserListAdapterWrapper(context, dataAdapter);

@@ -80,7 +80,7 @@ public class PointToBrick extends BrickBaseType implements
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				if (position != 0) {
 					String spriteName = spinnerAdapter.getItem(position);
-					pointedObject = ProjectManager.getInstance().getCurrentScene().getSprite(spriteName);
+					pointedObject = ProjectManager.getInstance().getCurrentlyEditedScene().getSprite(spriteName);
 				}
 			}
 
@@ -93,10 +93,10 @@ public class PointToBrick extends BrickBaseType implements
 	}
 
 	private List<String> getSpriteNames() {
-		List<String> spriteNames = ProjectManager.getInstance().getCurrentScene().getSpriteNames();
+		List<String> spriteNames = ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteNames();
 
 		spriteNames.remove(ProjectManager.getInstance().getCurrentSprite().getName());
-		spriteNames.remove(ProjectManager.getInstance().getCurrentScene().getBackgroundSprite().getName());
+		spriteNames.remove(ProjectManager.getInstance().getCurrentlyEditedScene().getBackgroundSprite().getName());
 
 		return spriteNames;
 	}
@@ -104,7 +104,7 @@ public class PointToBrick extends BrickBaseType implements
 	@Override
 	public boolean onNewOptionInDropDownClicked(View v) {
 		spinnerSelectionBuffer = spinner.getSelectedItemPosition();
-		new NewSpriteDialogWrapper(this, ProjectManager.getInstance().getCurrentScene()) {
+		new NewSpriteDialogWrapper(this, ProjectManager.getInstance().getCurrentlyEditedScene()) {
 
 			@Override
 			public void onWorkflowCanceled() {
@@ -117,7 +117,7 @@ public class PointToBrick extends BrickBaseType implements
 
 	@Override
 	public void addItem(Sprite item) {
-		ProjectManager.getInstance().getCurrentScene().addSprite(item);
+		ProjectManager.getInstance().getCurrentlyEditedScene().addSprite(item);
 		spinnerAdapter.add(item.getName());
 		pointedObject = item;
 		spinner.setSelection(spinnerAdapter.getPosition(item.getName()));

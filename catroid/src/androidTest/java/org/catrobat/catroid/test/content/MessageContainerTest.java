@@ -79,7 +79,7 @@ public class MessageContainerTest extends AndroidTestCase {
 
 		ProjectManager.getInstance().loadProject(projectName2, getContext());
 		currentProject = ProjectManager.getInstance().getCurrentProject();
-		ProjectManager.getInstance().setCurrentScene(currentProject.getDefaultScene());
+		ProjectManager.getInstance().setCurrentlyEditedScene(currentProject.getDefaultScene());
 		List<String> broadcastMessages = currentProject.getBroadcastMessageContainer().getBroadcastMessages();
 
 		assertFalse(broadcastMessages.contains(broadcastMessage1));
@@ -121,6 +121,6 @@ public class MessageContainerTest extends AndroidTestCase {
 
 		ProjectManager.getInstance().loadProject(projectName1, getContext());
 		ProjectManager.getInstance()
-				.setCurrentScene(ProjectManager.getInstance().getCurrentProject().getDefaultScene());
+				.setCurrentlyEditedScene(ProjectManager.getInstance().getCurrentProject().getDefaultScene());
 	}
 }

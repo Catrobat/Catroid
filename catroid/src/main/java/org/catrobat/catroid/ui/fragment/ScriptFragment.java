@@ -245,7 +245,7 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 		super.onPause();
 		ProjectManager projectManager = ProjectManager.getInstance();
 
-		if (projectManager.getCurrentScene() != null) {
+		if (projectManager.getCurrentlyEditedScene() != null) {
 			projectManager.saveProject(getActivity().getApplicationContext());
 		}
 	}

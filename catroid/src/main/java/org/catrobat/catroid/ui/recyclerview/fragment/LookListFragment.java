@@ -80,7 +80,7 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 	@Override
 	public void handleAddButton() {
 		NewLookDialogFragment dialog = new NewLookDialogFragment(
-				this, ProjectManager.getInstance().getCurrentScene(), ProjectManager.getInstance().getCurrentSprite());
+				this, ProjectManager.getInstance().getCurrentlyEditedScene(), ProjectManager.getInstance().getCurrentSprite());
 		dialog.show(getFragmentManager(), NewLookDialogFragment.TAG);
 	}
 
@@ -133,7 +133,7 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 	@Override
 	protected void copyItems(List<LookData> selectedItems) {
 		setShowProgressBar(true);
-		Scene currentScene = ProjectManager.getInstance().getCurrentScene();
+		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		int copiedItemCnt = 0;
 

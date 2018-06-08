@@ -176,7 +176,7 @@ public class UserBrickElementEditorFragment extends Fragment implements
 	}
 
 	public void addVariableDialog() {
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
 		String variableName = dataContainer.getUniqueVariableName(getActivity());
 		int indexOfNewVariableText = currentBrick.addUILocalizedVariable(variableName);
 		editElementDialog(variableName, false, R.string.add_variable, R.string.variable_hint);
@@ -185,7 +185,7 @@ public class UserBrickElementEditorFragment extends Fragment implements
 	}
 
 	public void editElementDialog(CharSequence text, boolean editMode, int title, int defaultText) {
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		UserBrick currentUserBrick = ProjectManager.getInstance().getCurrentUserBrick();
 		List<UserVariable> spriteVariables = dataContainer.getOrCreateVariableListForSprite(currentSprite);

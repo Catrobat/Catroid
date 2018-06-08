@@ -64,7 +64,7 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 			switchToSpriteListFragment();
 		}
 
-		ProjectManager.getInstance().setCurrentScene(currentProject.getDefaultScene());
+		ProjectManager.getInstance().setCurrentlyEditedScene(currentProject.getDefaultScene());
 		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(currentProject.getName());
 	}
 
@@ -257,7 +257,7 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 	@Override
 	public void onItemClick(Scene item) {
 		if (actionModeType == NONE) {
-			ProjectManager.getInstance().setCurrentScene(item);
+			ProjectManager.getInstance().setCurrentlyEditedScene(item);
 			getFragmentManager().beginTransaction()
 					.replace(R.id.fragment_container, new SpriteListFragment(), SpriteListFragment.TAG)
 					.addToBackStack(SpriteListFragment.TAG)

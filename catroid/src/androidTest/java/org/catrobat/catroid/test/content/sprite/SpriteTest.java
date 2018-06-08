@@ -181,14 +181,14 @@ public class SpriteTest extends AndroidTestCase {
 		UserVariable userVariable = secondScene.getDataContainer().getUserVariable(sprite2, variableName);
 		userVariable.setValue(LOCAL_VARIABLE_VALUE);
 		userVariable.setVisible(false);
-		ProjectManager.getInstance().setSceneToPlay(secondScene);
+		ProjectManager.getInstance().setCurrentlyPlayingScene(secondScene);
 
 		EventThread thread = (EventThread) ActionFactory.createEventThread(new StartScript());
 		thread.addAction(sprite2.getActionFactory().createShowVariableAction(sprite2, new Formula(10),
 				new Formula(10), userVariable));
 		secondScript.run(sprite2, thread);
 
-		DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyPlayingScene().getDataContainer();
 		userVariable = dataContainer.getUserVariable(sprite2, variableName);
 		assertFalse(userVariable.getVisible());
 

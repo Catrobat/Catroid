@@ -120,7 +120,7 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 	}
 
 	private LookData getLookByName(String name) {
-		for (LookData look : ProjectManager.getInstance().getCurrentScene().getBackgroundSprite().getLookList()) {
+		for (LookData look : ProjectManager.getInstance().getCurrentlyEditedScene().getBackgroundSprite().getLookList()) {
 			if (look.getName().equals(name)) {
 				return look;
 			}
@@ -130,7 +130,7 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 
 	private List<String> getLookNames() {
 		List<String> lookNames = new ArrayList<>();
-		for (LookData look : ProjectManager.getInstance().getCurrentScene().getBackgroundSprite().getLookList()) {
+		for (LookData look : ProjectManager.getInstance().getCurrentlyEditedScene().getBackgroundSprite().getLookList()) {
 			lookNames.add(look.getName());
 		}
 		return lookNames;
@@ -140,7 +140,7 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 	public boolean onNewOptionInDropDownClicked(View v) {
 		previouslySelectedLook = getLook();
 		new NewLookDialogFragment(this,
-				ProjectManager.getInstance().getCurrentScene(),
+				ProjectManager.getInstance().getCurrentlyEditedScene(),
 				ProjectManager.getInstance().getCurrentSprite()) {
 
 			@Override

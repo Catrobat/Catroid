@@ -57,7 +57,7 @@ public class NewListDialogFragment extends NewDataDialogFragment {
 			return false;
 		}
 
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
 		boolean isGlobal = (radioGroup.getCheckedRadioButtonId() == R.id.global);
 		if (!isVariableNameValid(name, isGlobal)) {
 			inputLayout.setError(getString(R.string.name_already_exists));

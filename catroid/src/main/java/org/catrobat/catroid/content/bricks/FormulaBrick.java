@@ -166,7 +166,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 			backPackedVariableData = new ArrayList<>();
 		}
 
-		Scene currentScene = ProjectManager.getInstance().getCurrentScene();
+		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		DataContainer dataContainer = currentScene.getDataContainer();
 

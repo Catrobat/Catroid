@@ -54,7 +54,7 @@ public class GatherCollisionInformationTask extends AsyncTask<Void, Void, Boolea
 
 	private void getCollisionInformation() {
 		Log.i(TAG, "Waiting for all calculation threads to finish...");
-		for (Sprite s : ProjectManager.getInstance().getCurrentScene().getSpriteList()) {
+		for (Sprite s : ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList()) {
 			for (LookData lookData : s.getLookList()) {
 				if (lookData.getCollisionInformation().collisionPolygonCalculationThread == null) {
 					continue;
@@ -67,7 +67,7 @@ public class GatherCollisionInformationTask extends AsyncTask<Void, Void, Boolea
 			}
 		}
 
-		for (Sprite s : ProjectManager.getInstance().getCurrentScene().getSpriteList()) {
+		for (Sprite s : ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList()) {
 			if (s.hasCollision()) {
 				for (LookData l : s.getLookList()) {
 					l.getCollisionInformation().loadOrCreateCollisionPolygon();

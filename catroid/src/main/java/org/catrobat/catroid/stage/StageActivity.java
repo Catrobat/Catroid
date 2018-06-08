@@ -325,7 +325,7 @@ public class StageActivity extends AndroidApplication {
 
 	public void resumeResources() {
 		int requiredResources = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
-		List<Sprite> spriteList = ProjectManager.getInstance().getSceneToPlay().getSpriteList();
+		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentlyPlayingScene().getSpriteList();
 
 		SensorHandler.startSensorListener(this);
 
@@ -445,7 +445,7 @@ public class StageActivity extends AndroidApplication {
 		CameraManager.getInstance().stopPreviewAsync();
 		CameraManager.getInstance().releaseCamera();
 		CameraManager.getInstance().setToDefaultCamera();
-		ProjectManager.getInstance().setSceneToPlay(ProjectManager.getInstance().getCurrentScene());
+		ProjectManager.getInstance().setCurrentlyPlayingScene(ProjectManager.getInstance().getCurrentlyEditedScene());
 		if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 			CastManager.getInstance().onStageDestroyed();
 		}

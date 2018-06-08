@@ -60,7 +60,7 @@ public class ShowTextAction extends TemporalAction {
 			int xPosition = this.xPosition.interpretInteger(sprite);
 			int yPosition = this.yPosition.interpretInteger(sprite);
 
-			DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
+			DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyPlayingScene().getDataContainer();
 			List<UserVariable> variableList = dataContainer.getProjectVariables();
 
 			Map<Sprite, List<UserVariable>> spriteVariableMap = dataContainer.getSpriteVariableMap();

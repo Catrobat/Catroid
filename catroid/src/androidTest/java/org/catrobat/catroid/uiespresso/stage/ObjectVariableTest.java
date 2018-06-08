@@ -112,11 +112,11 @@ public class ObjectVariableTest {
 	private void createProject(String projectName) {
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentScene(project.getDefaultScene());
-		ProjectManager.getInstance().getCurrentScene().addSprite(new SingleSprite("sprite1"));
-		ProjectManager.getInstance().getCurrentScene().addSprite(new SingleSprite("sprite2"));
-		ProjectManager.getInstance().getCurrentScene().addSprite(new SingleSprite("sprite3"));
-		ProjectManager.getInstance().getCurrentScene().addSprite(new SingleSprite("sprite4"));
+		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+		ProjectManager.getInstance().getCurrentlyEditedScene().addSprite(new SingleSprite("sprite1"));
+		ProjectManager.getInstance().getCurrentlyEditedScene().addSprite(new SingleSprite("sprite2"));
+		ProjectManager.getInstance().getCurrentlyEditedScene().addSprite(new SingleSprite("sprite3"));
+		ProjectManager.getInstance().getCurrentlyEditedScene().addSprite(new SingleSprite("sprite4"));
 
 		sprite = new SingleSprite("sprite5");
 		StartScript startScript = new StartScript();
@@ -144,7 +144,7 @@ public class ObjectVariableTest {
 
 		sprite.addScript(startScript);
 
-		ProjectManager.getInstance().getCurrentScene().addSprite(sprite);
+		ProjectManager.getInstance().getCurrentlyEditedScene().addSprite(sprite);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 
 		lastBrickInScript = ScriptEvaluationGateBrick.appendToScript(startScript);

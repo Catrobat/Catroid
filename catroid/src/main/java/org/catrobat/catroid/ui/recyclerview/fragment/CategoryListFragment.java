@@ -262,10 +262,10 @@ public class CategoryListFragment extends Fragment implements
 	}
 
 	private void showSelectSpriteDialog() {
-		List<Sprite> sprites = ProjectManager.getInstance().getCurrentScene().getSpriteList();
+		List<Sprite> sprites = ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList();
 		List<Sprite> selectableSprites = new ArrayList<>();
 
-		for (Sprite sprite : ProjectManager.getInstance().getCurrentScene().getSpriteList()) {
+		for (Sprite sprite : ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList()) {
 			if (sprites.indexOf(sprite) != 0 && sprite != ProjectManager.getInstance().getCurrentSprite()) {
 				selectableSprites.add(sprite);
 			}

@@ -86,7 +86,7 @@ public class SpriteActivity extends BaseActivity implements PlaySceneDialogFragm
 	}
 
 	private void updateActionBarTitle() {
-		String currentSceneName = ProjectManager.getInstance().getCurrentScene().getName();
+		String currentSceneName = ProjectManager.getInstance().getCurrentlyEditedScene().getName();
 		String currentSpriteName = ProjectManager.getInstance().getCurrentSprite().getName();
 		if (ProjectManager.getInstance().getCurrentProject().getSceneList().size() == 1) {
 			getSupportActionBar().setTitle(currentSpriteName);
@@ -213,10 +213,10 @@ public class SpriteActivity extends BaseActivity implements PlaySceneDialogFragm
 		}
 
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		Scene currentScene = ProjectManager.getInstance().getCurrentScene();
+		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 
 		if (currentScene.getName().equals(currentProject.getDefaultScene().getName())) {
-			ProjectManager.getInstance().setSceneToPlay(currentScene);
+			ProjectManager.getInstance().setCurrentlyPlayingScene(currentScene);
 			ProjectManager.getInstance().setStartScene(currentScene);
 			startPreStageActivity();
 			return;

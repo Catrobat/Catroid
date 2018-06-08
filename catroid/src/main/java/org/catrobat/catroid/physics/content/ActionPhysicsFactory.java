@@ -51,7 +51,7 @@ public class ActionPhysicsFactory extends ActionFactory {
 	}
 
 	private PhysicsWorld getPhysicsWorld() {
-		return ProjectManager.getInstance().getSceneToPlay().getPhysicsWorld();
+		return ProjectManager.getInstance().getCurrentlyPlayingScene().getPhysicsWorld();
 	}
 
 	// OVERRIDE

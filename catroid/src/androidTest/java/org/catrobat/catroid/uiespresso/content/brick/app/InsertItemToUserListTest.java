@@ -115,7 +115,7 @@ public class InsertItemToUserListTest {
 				.onFormulaTextField(R.id.brick_insert_item_into_userlist_at_index_edit_text)
 				.performEnterNumber(indexToInsert + 1)
 				.checkShowsNumber(indexToInsert + 1);
-		UserList userList = ProjectManager.getInstance().getCurrentScene().getDataContainer().getUserList(null, userListName);
+		UserList userList = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().getUserList(null, userListName);
 
 		assertEquals(0, userList.getList().size());
 	}

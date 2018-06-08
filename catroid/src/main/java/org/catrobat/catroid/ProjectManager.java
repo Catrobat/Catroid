@@ -70,8 +70,8 @@ public final class ProjectManager {
 	private static final String TAG = ProjectManager.class.getSimpleName();
 
 	private Project project;
-	private Scene currentScene;
-	private Scene sceneToPlay;
+	private Scene currentlyEditedScene;
+	private Scene currentlyPlayingScene;
 	private Scene startScene;
 	private Script currentScript;
 	private Sprite currentSprite;
@@ -194,13 +194,13 @@ public final class ProjectManager {
 			SettingsFragment.setArduinoSharedPreferenceEnabled(context, true);
 		}
 
-		sceneToPlay = project.getDefaultScene();
+		currentlyPlayingScene = project.getDefaultScene();
 	}
 
 	private void restorePreviousProject(Project previousProject) {
 		project = previousProject;
 		if (previousProject != null) {
-			sceneToPlay = project.getDefaultScene();
+			currentlyPlayingScene = project.getDefaultScene();
 		}
 	}
 
@@ -251,12 +251,12 @@ public final class ProjectManager {
 
 	private void localizeBackgroundSprite(Context context) {
 		// Set generic localized name on background sprite and move it to the back.
-		if (currentScene == null) {
+		if (currentlyEditedScene == null) {
 			return;
 		}
-		if (currentScene.getSpriteList().size() > 0) {
-			currentScene.getSpriteList().get(0).setName(context.getString(R.string.background));
-			currentScene.getSpriteList().get(0).look.setZIndex(0);
+		if (currentlyEditedScene.getSpriteList().size() > 0) {
+			currentlyEditedScene.getSpriteList().get(0).setName(context.getString(R.string.background));
+			currentlyEditedScene.getSpriteList().get(0).look.setZIndex(0);
 		}
 		currentSprite = null;
 		currentScript = null;
@@ -284,8 +284,8 @@ public final class ProjectManager {
 			project = DefaultProjectHandler.createAndSaveDefaultProject(context);
 			currentSprite = null;
 			currentScript = null;
-			currentScene = project.getDefaultScene();
-			sceneToPlay = currentScene;
+			currentlyEditedScene = project.getDefaultScene();
+			currentlyPlayingScene = currentlyEditedScene;
 			return true;
 		} catch (IOException ioException) {
 			Log.e(TAG, "Cannot initialize default project.", ioException);
@@ -318,28 +318,28 @@ public final class ProjectManager {
 
 		currentSprite = null;
 		currentScript = null;
-		currentScene = project.getDefaultScene();
-		sceneToPlay = currentScene;
+		currentlyEditedScene = project.getDefaultScene();
+		currentlyPlayingScene = currentlyEditedScene;
 	}
 
 	public Project getCurrentProject() {
 		return project;
 	}
 
-	public Scene getSceneToPlay() {
-		if (sceneToPlay == null) {
-			sceneToPlay = getCurrentScene();
+	public Scene getCurrentlyPlayingScene() {
+		if (currentlyPlayingScene == null) {
+			currentlyPlayingScene = getCurrentlyEditedScene();
 		}
-		return sceneToPlay;
+		return currentlyPlayingScene;
 	}
 
-	public void setSceneToPlay(Scene scene) {
-		sceneToPlay = scene;
+	public void setCurrentlyPlayingScene(Scene scene) {
+		currentlyPlayingScene = scene;
 	}
 
 	public Scene getStartScene() {
 		if (startScene == null) {
-			startScene = getCurrentScene();
+			startScene = getCurrentlyEditedScene();
 		}
 		return startScene;
 	}
@@ -348,11 +348,11 @@ public final class ProjectManager {
 		startScene = scene;
 	}
 
-	public Scene getCurrentScene() {
-		if (currentScene == null) {
-			currentScene = project.getDefaultScene();
+	public Scene getCurrentlyEditedScene() {
+		if (currentlyEditedScene == null) {
+			currentlyEditedScene = project.getDefaultScene();
 		}
-		return currentScene;
+		return currentlyEditedScene;
 	}
 
 	public boolean isCurrentProjectLandscapeMode() {
@@ -368,8 +368,8 @@ public final class ProjectManager {
 
 		this.project = project;
 		if (project != null) {
-			currentScene = project.getDefaultScene();
-			sceneToPlay = currentScene;
+			currentlyEditedScene = project.getDefaultScene();
+			currentlyPlayingScene = currentlyEditedScene;
 		}
 	}
 
@@ -421,9 +421,9 @@ public final class ProjectManager {
 		return currentScript;
 	}
 
-	public void setCurrentScene(Scene scene) {
-		this.currentScene = scene;
-		sceneToPlay = scene;
+	public void setCurrentlyEditedScene(Scene scene) {
+		this.currentlyEditedScene = scene;
+		currentlyPlayingScene = scene;
 	}
 
 	public void setCurrentScript(Script script) {
@@ -443,7 +443,7 @@ public final class ProjectManager {
 	}
 
 	public int getCurrentSpritePosition() {
-		return getCurrentScene().getSpriteList().indexOf(currentSprite);
+		return getCurrentlyEditedScene().getSpriteList().indexOf(currentSprite);
 	}
 
 	private String createTemporaryDirectoryName(String projectDirectoryName) {

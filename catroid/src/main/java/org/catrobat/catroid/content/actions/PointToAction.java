@@ -35,7 +35,7 @@ public class PointToAction extends TemporalAction {
 	@Override
 	protected void update(float percent) {
 		if (pointedSprite == null
-				|| !ProjectManager.getInstance().getSceneToPlay().getSpriteList().contains(pointedSprite)) {
+				|| !ProjectManager.getInstance().getCurrentlyPlayingScene().getSpriteList().contains(pointedSprite)) {
 			return;
 		}
 

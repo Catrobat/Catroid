@@ -361,7 +361,7 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 		if (element.getText().equals(oldName)) {
 			element.setText(newName);
 			if (element.isVariable()) {
-				Scene currentScene = ProjectManager.getInstance().getCurrentScene();
+				Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 				Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 				DataContainer dataContainer = currentScene.getDataContainer();
 				if (dataContainer != null) {

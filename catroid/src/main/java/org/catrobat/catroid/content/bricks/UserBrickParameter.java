@@ -85,7 +85,7 @@ public class UserBrickParameter extends FormulaBrick {
 
 	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
 		String variableName = element.getText();
 
 		sequence.addAction(sprite.getActionFactory().createSetVariableAction(sprite,

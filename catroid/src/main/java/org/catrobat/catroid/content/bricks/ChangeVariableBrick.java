@@ -90,7 +90,7 @@ public class ChangeVariableBrick extends UserVariableBrick {
 
 		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
 
-		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentScene().getDataContainer()
+		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
 				.createDataAdapter(context, currentBrick, ProjectManager.getInstance().getCurrentSprite());
 		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
 				dataAdapter);
@@ -112,7 +112,7 @@ public class ChangeVariableBrick extends UserVariableBrick {
 
 		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
 
-		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentScene()
+		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyEditedScene()
 				.getDataContainer().createDataAdapter(context, currentBrick, ProjectManager.getInstance().getCurrentSprite());
 
 		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,

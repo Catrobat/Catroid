@@ -137,7 +137,7 @@ public class SetLookBrick extends BrickBaseType implements
 	public boolean onNewOptionInDropDownClicked(View v) {
 		spinnerSelectionBuffer = spinner.getSelectedItemPosition();
 		new NewLookDialogFragment(this,
-				ProjectManager.getInstance().getCurrentScene(),
+				ProjectManager.getInstance().getCurrentlyEditedScene(),
 				ProjectManager.getInstance().getCurrentSprite()) {
 
 			@Override

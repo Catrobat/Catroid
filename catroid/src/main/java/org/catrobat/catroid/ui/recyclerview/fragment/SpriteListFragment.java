@@ -126,7 +126,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 		if (currentProject.getSceneList().size() < 2) {
 			title = currentProject.getName();
 		} else {
-			Scene currentScene = ProjectManager.getInstance().getCurrentScene();
+			Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 			title = currentProject.getName() + ": " + currentScene.getName();
 		}
 
@@ -151,7 +151,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.new_group:
-				Scene currentScene = ProjectManager.getInstance().getCurrentScene();
+				Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 				new NewGroupDialogFragment(this, currentScene)
 						.show(getFragmentManager(), NewGroupDialogFragment.TAG);
 				break;
@@ -170,7 +170,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	protected void initializeAdapter() {
 		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_objects);
 		sharedPreferenceDetailsKey = "showDetailsSpriteList";
-		List<Sprite> items = ProjectManager.getInstance().getCurrentScene().getSpriteList();
+		List<Sprite> items = ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList();
 		adapter = new MultiViewSpriteAdapter(items);
 		onAdapterReady();
 	}
@@ -178,7 +178,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	@Override
 	public void handleAddButton() {
 		NewSpriteDialogWrapper dialogWrapper = new NewSpriteDialogWrapper(
-				this, ProjectManager.getInstance().getCurrentScene());
+				this, ProjectManager.getInstance().getCurrentlyEditedScene());
 		dialogWrapper.showDialog(getFragmentManager());
 	}
 
@@ -227,7 +227,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	@Override
 	protected void copyItems(List<Sprite> selectedItems) {
 		setShowProgressBar(true);
-		Scene currentScene = ProjectManager.getInstance().getCurrentScene();
+		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 		int copiedItemCnt = 0;
 
 		for (Sprite item : selectedItems) {

@@ -183,7 +183,7 @@ public class DataListFragment extends Fragment implements
 
 	private void initializeAdapter() {
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
 
 		List<UserVariable> globalVars = dataContainer.getProjectVariables();
 		List<UserVariable> localVars = dataContainer.getOrCreateVariableListForSprite(currentSprite);

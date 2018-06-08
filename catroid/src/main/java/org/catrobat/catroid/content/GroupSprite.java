@@ -45,7 +45,7 @@ public class GroupSprite extends Sprite {
 	}
 
 	public List<GroupItemSprite> getGroupItems() {
-		List<Sprite> allSprites = ProjectManager.getInstance().getSceneToPlay().getSpriteList();
+		List<Sprite> allSprites = ProjectManager.getInstance().getCurrentlyPlayingScene().getSpriteList();
 		List<GroupItemSprite> groupItems = new ArrayList<>();
 
 		int position = allSprites.indexOf(this);
@@ -69,7 +69,7 @@ public class GroupSprite extends Sprite {
 
 	public static List<Sprite> getSpritesFromGroupWithGroupName(String groupName) {
 		List<Sprite> result = new ArrayList<Sprite>();
-		List<Sprite> spriteList = ProjectManager.getInstance().getSceneToPlay().getSpriteList();
+		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentlyPlayingScene().getSpriteList();
 		int position = 0;
 		for (Sprite sprite : spriteList) {
 			if (groupName.equals(sprite.getName())) {

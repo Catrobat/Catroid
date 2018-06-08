@@ -148,7 +148,7 @@ public class ProjectActivity extends BaseCastActivity implements PlaySceneDialog
 
 	public void handlePlayButton(View view) {
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		Scene currentScene = ProjectManager.getInstance().getCurrentScene();
+		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 
 		if (currentScene.getName().equals(currentProject.getDefaultScene().getName())) {
 			Intent intent = new Intent(this, PreStageActivity.class);

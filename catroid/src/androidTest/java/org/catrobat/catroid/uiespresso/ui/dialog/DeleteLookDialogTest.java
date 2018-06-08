@@ -152,7 +152,7 @@ public class DeleteLookDialogTest {
 		project.getDefaultScene().addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentScene(project.getDefaultScene());
+		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 
 		File imageFile = ResourceImporter.createImageFileFromResourcesInDirectory(

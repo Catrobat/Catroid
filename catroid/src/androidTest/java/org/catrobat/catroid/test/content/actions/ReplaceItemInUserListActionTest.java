@@ -54,8 +54,8 @@ public class ReplaceItemInUserListActionTest extends AndroidTestCase {
 		testSprite = new SingleSprite("testSprite");
 		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().getCurrentScene().getDataContainer().addProjectUserList(TEST_USERLIST_NAME);
-		userList = ProjectManager.getInstance().getCurrentScene().getDataContainer()
+		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().addProjectUserList(TEST_USERLIST_NAME);
+		userList = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
 				.getUserList(null, TEST_USERLIST_NAME);
 		userList.setList(INITIALIZED_LIST_VALUES);
 		INITIALIZED_LIST_VALUES.clear();

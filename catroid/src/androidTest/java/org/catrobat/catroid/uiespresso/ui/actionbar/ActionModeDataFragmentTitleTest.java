@@ -89,7 +89,7 @@ public class ActionModeDataFragmentTitleTest {
 		Script script = BrickTestUtils.createProjectAndGetStartScript("ActionModeDataFragmentTitleTest");
 		script.addBrick(new ChangeSizeByNBrick(0));
 
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
 		dataContainer.addProjectUserVariable("var1");
 		dataContainer.addProjectUserVariable("var2");
 		dataContainer.addProjectUserList("list1");

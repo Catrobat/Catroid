@@ -55,7 +55,7 @@ public class PenActor extends Actor {
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		buffer.begin();
-		for (Sprite sprite : ProjectManager.getInstance().getSceneToPlay().getSpriteList()) {
+		for (Sprite sprite : ProjectManager.getInstance().getCurrentlyPlayingScene().getSpriteList()) {
 			drawLinesForSprite(sprite);
 		}
 		buffer.end();
@@ -78,7 +78,7 @@ public class PenActor extends Actor {
 	public void stampToFrameBuffer() {
 		bufferBatch.begin();
 		buffer.begin();
-		for (Sprite sprite : ProjectManager.getInstance().getSceneToPlay().getSpriteList()) {
+		for (Sprite sprite : ProjectManager.getInstance().getCurrentlyPlayingScene().getSpriteList()) {
 			Sprite.PenConfiguration pen = sprite.penConfiguration;
 			if (pen.stamp) {
 				sprite.look.draw(bufferBatch, 1.0f);

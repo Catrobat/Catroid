@@ -56,7 +56,7 @@ public class BackpackSpriteFragment extends BackpackRecyclerViewFragment<Sprite>
 	@Override
 	protected void unpackItems(List<Sprite> selectedItems) {
 		setShowProgressBar(true);
-		Scene dstScene = ProjectManager.getInstance().getCurrentScene();
+		Scene dstScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 		int unpackedItemCnt = 0;
 
 		for (Sprite item : selectedItems) {

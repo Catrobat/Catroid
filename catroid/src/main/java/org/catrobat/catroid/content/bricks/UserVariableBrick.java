@@ -107,7 +107,7 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewVaria
 	public void storeDataForBackPack(Sprite sprite) {
 		DataContainer.DataType type = USER_DATA_EMPTY;
 		if (userVariable != null) {
-			Scene currentScene = ProjectManager.getInstance().getCurrentScene();
+			Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 			DataContainer dataContainer = currentScene.getDataContainer();
 			type = dataContainer.getTypeOfUserVariable(userVariable.getName(), currentSprite);

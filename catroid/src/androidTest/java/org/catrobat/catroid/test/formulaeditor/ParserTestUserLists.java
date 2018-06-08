@@ -115,7 +115,7 @@ public class ParserTestUserLists extends AndroidTestCase {
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 
-		dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
+		dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
 		dataContainer.addProjectUserList(PROJECT_USER_LIST_NAME);
 		dataContainer.addSpriteUserListToSprite(firstSprite, SPRITE_USER_LIST_NAME);
 		dataContainer.addProjectUserList(PROJECT_USER_LIST_NAME_2);
