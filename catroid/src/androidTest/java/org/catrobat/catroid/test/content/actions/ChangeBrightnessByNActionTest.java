@@ -22,15 +22,22 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class ChangeBrightnessByNActionTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.fail;
+
+@RunWith(AndroidJUnit4.class)
+public class ChangeBrightnessByNActionTest {
 
 	private static final float INITIALIZED_VALUE = 100f;
 	private static final String NOT_NUMERICAL_STRING = "brightness";
@@ -38,12 +45,12 @@ public class ChangeBrightnessByNActionTest extends AndroidTestCase {
 	private static final float DIMMER_VALUE = -20.8f;
 	private Sprite sprite;
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		sprite = new SingleSprite("testSprite");
-		super.setUp();
 	}
 
+	@Test
 	public void testNormalBehavior() {
 		assertEquals(INITIALIZED_VALUE, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 
@@ -54,6 +61,7 @@ public class ChangeBrightnessByNActionTest extends AndroidTestCase {
 		assertEquals(INITIALIZED_VALUE + BRIGHTER_VALUE + DIMMER_VALUE, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNullSprite() {
 		Action action = sprite.getActionFactory().createChangeBrightnessByNAction(null, new Formula(BRIGHTER_VALUE));
 		try {
@@ -63,6 +71,7 @@ public class ChangeBrightnessByNActionTest extends AndroidTestCase {
 		}
 	}
 
+	@Test
 	public void testBrickWithStringFormula() {
 		sprite.getActionFactory().createChangeBrightnessByNAction(sprite, new Formula(String.valueOf(BRIGHTER_VALUE))).act(1.0f);
 		assertEquals(INITIALIZED_VALUE + BRIGHTER_VALUE, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
@@ -71,11 +80,13 @@ public class ChangeBrightnessByNActionTest extends AndroidTestCase {
 		assertEquals(INITIALIZED_VALUE + BRIGHTER_VALUE, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNullFormula() {
 		sprite.getActionFactory().createChangeBrightnessByNAction(sprite, null).act(1.0f);
 		assertEquals(INITIALIZED_VALUE, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNotANumberFormula() {
 		sprite.getActionFactory().createChangeBrightnessByNAction(sprite, new Formula(Double.NaN)).act(1.0f);
 		assertEquals(INITIALIZED_VALUE, sprite.look.getBrightnessInUserInterfaceDimensionUnit());

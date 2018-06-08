@@ -24,7 +24,8 @@ package org.catrobat.catroid.test.content.project;
 
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.test.AndroidTestCase;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -34,23 +35,34 @@ import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.test.utils.Reflection;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class ProjectTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+
+@RunWith(AndroidJUnit4.class)
+public class ProjectTest {
 
 	private static final float OLD_LANGUAGE_VERSION = 0.8f;
 	private static final String OLD_APPLICATION_NAME = "catty";
 	private static final String OLD_PLATFORM = "iOS";
 
+	@Test
 	public void testVersionName() throws NameNotFoundException {
-		Project project = new Project(getContext(), "testProject");
-		PackageInfo packageInfo = getContext().getPackageManager().getPackageInfo(getContext().getPackageName(), 0);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
+		PackageInfo packageInfo = InstrumentationRegistry.getTargetContext().getPackageManager()
+				.getPackageInfo(InstrumentationRegistry.getTargetContext().getPackageName(), 0);
+
 		XmlHeader projectXmlHeader = project.getXmlHeader();
 
 		assertEquals(packageInfo.versionName, (String) Reflection.getPrivateField(projectXmlHeader, "applicationVersion"));
 	}
 
+	@Test
 	public void testAddRemoveSprite() {
-		Project project = new Project(getContext(), "testProject");
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		Scene scene = project.getDefaultScene();
 		Sprite bottomSprite = new SingleSprite("bottom");
 		Sprite topSprite = new SingleSprite("top");
@@ -69,8 +81,9 @@ public class ProjectTest extends AndroidTestCase {
 		assertFalse(scene.getSpriteList().contains(topSprite));
 	}
 
+	@Test
 	public void testAddRemoveScene() {
-		Project project = new Project(getContext(), "testProject");
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		Scene sceneOne = new Scene("test1", project);
 		Scene sceneTwo = new Scene("test2", project);
 
@@ -90,6 +103,7 @@ public class ProjectTest extends AndroidTestCase {
 		assertFalse(project.getSceneNames().contains(sceneTwo.getName()));
 	}
 
+	@Test
 	public void testSetDeviceData() {
 		Project project = new Project();
 		XmlHeader header = project.getXmlHeader();
@@ -106,13 +120,13 @@ public class ProjectTest extends AndroidTestCase {
 		String platform = (String) Reflection.getPrivateField(header, "platform");
 		assertEquals(OLD_PLATFORM, platform);
 
-		project.setDeviceData(getContext());
+		project.setDeviceData(InstrumentationRegistry.getTargetContext());
 
 		languageVersion = (Float) Reflection.getPrivateField(header, "catrobatLanguageVersion");
 		assertEquals(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION, languageVersion);
 
 		applicationName = (String) Reflection.getPrivateField(header, "applicationName");
-		assertEquals(getContext().getString(R.string.app_name), applicationName);
+		assertEquals(InstrumentationRegistry.getTargetContext().getString(R.string.app_name), applicationName);
 
 		platform = (String) Reflection.getPrivateField(header, "platform");
 		assertEquals(Constants.PLATFORM_NAME, platform);

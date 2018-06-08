@@ -22,7 +22,8 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.AndroidTestCase;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -34,10 +35,18 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.List;
 
-public class GoNStepsBackActionTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
+
+@RunWith(AndroidJUnit4.class)
+public class GoNStepsBackActionTest {
 
 	private static final int STEPS = 13;
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
@@ -47,9 +56,9 @@ public class GoNStepsBackActionTest extends AndroidTestCase {
 	private Sprite sprite;
 	private Sprite sprite2;
 
-	@Override
-	protected void setUp() throws Exception {
-		project = new Project(getContext(), "testProject");
+	@Before
+	public void setUp() throws Exception {
+		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		Group parentGroup = new Group();
 
 		background = new SingleSprite("background");
@@ -62,11 +71,11 @@ public class GoNStepsBackActionTest extends AndroidTestCase {
 		project.getDefaultScene().addSprite(sprite2);
 
 		ProjectManager.getInstance().setProject(project);
-		super.setUp();
 	}
 
+	@Test
 	public void testSteps() {
-		Project project = new Project(getContext(), "testProject");
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		Group parentGroup = new Group();
 
 		for (int i = 0; i < 20; i++) {
@@ -113,6 +122,7 @@ public class GoNStepsBackActionTest extends AndroidTestCase {
 		}
 	}
 
+	@Test
 	public void testNullSprite() {
 		ActionFactory factory = new ActionFactory();
 		Action action = factory.createGoNStepsBackAction(null, steps);
@@ -123,6 +133,7 @@ public class GoNStepsBackActionTest extends AndroidTestCase {
 		}
 	}
 
+	@Test
 	public void testBoundarySteps() {
 		Group parentGroup = new Group();
 
@@ -150,6 +161,7 @@ public class GoNStepsBackActionTest extends AndroidTestCase {
 		assertEquals(2, sprite.look.getZIndex());
 	}
 
+	@Test
 	public void testBrickWithStringFormula() {
 		sprite.getActionFactory().createGoNStepsBackAction(sprite2, new Formula(String.valueOf(STEPS))).act(1.0f);
 		assertEquals(0, background.look.getZIndex());
@@ -162,6 +174,7 @@ public class GoNStepsBackActionTest extends AndroidTestCase {
 		assertEquals(1, sprite.look.getZIndex());
 	}
 
+	@Test
 	public void testNullFormula() {
 		sprite.getActionFactory().createGoNStepsBackAction(sprite2, null).act(1.0f);
 		assertEquals(0, background.look.getZIndex());
@@ -169,6 +182,7 @@ public class GoNStepsBackActionTest extends AndroidTestCase {
 		assertEquals(2, sprite2.look.getZIndex());
 	}
 
+	@Test
 	public void testNotANumberFormula() {
 		sprite.getActionFactory().createGoNStepsBackAction(sprite2, new Formula(Double.NaN)).act(1.0f);
 		assertEquals(0, background.look.getZIndex());

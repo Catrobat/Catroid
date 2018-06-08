@@ -22,16 +22,24 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class ShowActionTest extends AndroidTestCase {
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
 
+@RunWith(AndroidJUnit4.class)
+public class ShowActionTest {
+
+	@Test
 	public void testShow() {
 		Sprite sprite = new SingleSprite("new SingleSprite");
 		sprite.look.setLookVisible(false);
@@ -43,6 +51,7 @@ public class ShowActionTest extends AndroidTestCase {
 		assertTrue(sprite.look.isLookVisible());
 	}
 
+	@Test
 	public void testNullSprite() {
 		ActionFactory factory = new ActionFactory();
 		Action action = factory.createShowAction(null);

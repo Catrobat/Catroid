@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.test.formulaeditor;
 
-import android.test.InstrumentationTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -35,12 +35,21 @@ import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.Sensors;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class FormulaTest extends InstrumentationTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
 
+@RunWith(AndroidJUnit4.class)
+public class FormulaTest {
+
+	@Test
 	public void testRequiredRessources() {
 		Formula formula0 = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.FACE_DETECTED.name(), null));
 		assertEquals(formula0.getRequiredResources(), Brick.FACE_DETECTION);
@@ -73,6 +82,7 @@ public class FormulaTest extends InstrumentationTestCase {
 		assertEquals(formulaSameRessourceTwice.getRequiredResources(), Brick.FACE_DETECTION);
 	}
 
+	@Test
 	public void testIsSingleNumberFormula() {
 
 		Formula formula = new Formula(1);
@@ -143,6 +153,7 @@ public class FormulaTest extends InstrumentationTestCase {
 		assertFalse(formula.isSingleNumberFormula());
 	}
 
+	@Test
 	public void testComputeDialogResult() {
 		FormulaElement helloStringFormulaElement = new FormulaElement(ElementType.STRING, "hello", null);
 		FormulaElement worldStringFormulaElement = new FormulaElement(ElementType.STRING, "world", null);

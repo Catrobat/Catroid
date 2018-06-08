@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.formulaeditor;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.SingleSprite;
@@ -34,11 +34,18 @@ import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.Sensors;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class LookSensorValuesInterpretationTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.fail;
+
+@RunWith(AndroidJUnit4.class)
+public class LookSensorValuesInterpretationTest {
 
 	private static final float LOOK_ALPHA = 0.42f;
 	private static final float LOOK_Y_POSITION = 23.4f;
@@ -49,8 +56,8 @@ public class LookSensorValuesInterpretationTest extends AndroidTestCase {
 	private static final float DELTA = 0.01f;
 	private Sprite testSprite;
 
-	@Override
-	protected void setUp() {
+	@Before
+	public void setUp() {
 		testSprite = new SingleSprite("sprite");
 		testSprite.look.setXInUserInterfaceDimensionUnit(LOOK_X_POSITION);
 		testSprite.look.setYInUserInterfaceDimensionUnit(LOOK_Y_POSITION);
@@ -68,6 +75,7 @@ public class LookSensorValuesInterpretationTest extends AndroidTestCase {
 		return new Formula(parseTree);
 	}
 
+	@Test
 	public void testLookSensorValues() {
 
 		try {
@@ -96,6 +104,7 @@ public class LookSensorValuesInterpretationTest extends AndroidTestCase {
 		}
 	}
 
+	@Test
 	public void testNotExistingLookSensorValues() {
 		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.SENSOR, "", 0);
 		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.SENSOR, "notExistingLookSensor", 0);

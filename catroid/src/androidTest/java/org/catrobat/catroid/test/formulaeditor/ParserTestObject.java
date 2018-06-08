@@ -39,6 +39,8 @@ import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -55,8 +57,8 @@ public class ParserTestObject extends AndroidTestCase {
 	private static final float DELTA = 0.01f;
 	private Sprite testSprite;
 
-	@Override
-	protected void setUp() {
+	@Before
+	public void setUp() {
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 		ProjectManager.getInstance().setProject(project);
 		testSprite = new SingleSprite("sprite");
@@ -84,6 +86,7 @@ public class ParserTestObject extends AndroidTestCase {
 		return Double.NaN;
 	}
 
+	@Test
 	public void testLookSensorValues() {
 		assertEquals(LOOK_X_POSITION, interpretSensor(Sensors.OBJECT_X), DELTA);
 		assertEquals(LOOK_Y_POSITION, interpretSensor(Sensors.OBJECT_Y), DELTA);
@@ -95,6 +98,7 @@ public class ParserTestObject extends AndroidTestCase {
 		assertEquals(testSprite.look.getZIndex(), interpretSensor(Sensors.OBJECT_LAYER).intValue() + Constants.Z_INDEX_NUMBER_VIRTUAL_LAYERS);
 	}
 
+	@Test
 	public void testNotExistingLookSensorValues() {
 		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.SENSOR, "", 0);
 		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.SENSOR, "notExistingSensor O_O", 0);

@@ -22,15 +22,22 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class ChangeTransparencyByNActionTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.fail;
+
+@RunWith(AndroidJUnit4.class)
+public class ChangeTransparencyByNActionTest {
 
 	private static final float DELTA = 0.01f;
 	private static final float INCREASE_VALUE = 98.7f;
@@ -38,12 +45,12 @@ public class ChangeTransparencyByNActionTest extends AndroidTestCase {
 	private static final String NOT_NUMERICAL_STRING = "ghosts";
 	private Sprite sprite;
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		sprite = new SingleSprite("testSprite");
-		super.setUp();
 	}
 
+	@Test
 	public void testNormalBehavior() {
 		assertEquals(0f, sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 
@@ -54,6 +61,7 @@ public class ChangeTransparencyByNActionTest extends AndroidTestCase {
 		assertEquals(INCREASE_VALUE + DECREASE_VALUE, sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNullSprite() {
 		Action action = sprite.getActionFactory().createChangeTransparencyByNAction(null, new Formula(INCREASE_VALUE));
 		try {
@@ -63,6 +71,7 @@ public class ChangeTransparencyByNActionTest extends AndroidTestCase {
 		}
 	}
 
+	@Test
 	public void testBrickWithStringFormula() {
 		sprite.getActionFactory().createChangeTransparencyByNAction(sprite, new Formula(String.valueOf(INCREASE_VALUE)))
 				.act(1.0f);
@@ -72,11 +81,13 @@ public class ChangeTransparencyByNActionTest extends AndroidTestCase {
 		assertEquals(INCREASE_VALUE, sprite.look.getTransparencyInUserInterfaceDimensionUnit(), DELTA);
 	}
 
+	@Test
 	public void testNullFormula() {
 		sprite.getActionFactory().createChangeTransparencyByNAction(sprite, null).act(1.0f);
 		assertEquals(0f, sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNotANumberFormula() {
 		sprite.getActionFactory().createChangeTransparencyByNAction(sprite, new Formula(Double.NaN)).act(1.0f);
 		assertEquals(0f, sprite.look.getTransparencyInUserInterfaceDimensionUnit());

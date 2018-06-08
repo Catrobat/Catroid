@@ -25,18 +25,25 @@ package org.catrobat.catroid.test.content.actions;
 import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.support.test.InstrumentationRegistry;
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.nfc.NfcHandler;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.nio.charset.Charset;
-import java.util.Arrays;
 
-public class SetNfcTagActionTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+
+import static org.junit.Assert.assertArrayEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class SetNfcTagActionTest {
 
 	private static final Charset UTF8_CHARSET = Charset.forName("UTF-8");
 	private Project project;
@@ -54,13 +61,13 @@ public class SetNfcTagActionTest extends AndroidTestCase {
 	private byte[] catrobatWebAsHex = "www.catrobat.org".getBytes(UTF8_CHARSET);
 	private byte[] externalType = "catrobat.com:catroid".getBytes(UTF8_CHARSET);
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		ProjectManager.getInstance().setProject(project);
-		super.setUp();
 	}
 
+	@Test
 	public void testMakeEmptyMessage() throws InterpretationException {
 		NdefMessage generatedMessage = NfcHandler.createMessage("example text", BrickValues.TNF_EMPTY);
 		assertEquals(getPayload(generatedMessage).length, 0);
@@ -68,91 +75,99 @@ public class SetNfcTagActionTest extends AndroidTestCase {
 		assertEquals(getType(generatedMessage).length, 0);
 	}
 
+	@Test
 	public void testCreateTextMessage() throws InterpretationException {
 		String mimeType = "text/plain";
 		byte[] mimeTypeBytes = mimeType.getBytes(UTF8_CHARSET);
 		NdefMessage generatedMessage = NfcHandler.createMessage(catrobatText, BrickValues.TNF_MIME_MEDIA);
-		assertTrue(Arrays.equals(getPayload(generatedMessage), catrobatAsHex));
+		assertArrayEquals(getPayload(generatedMessage), catrobatAsHex);
 		assertEquals(getTnf(generatedMessage), mimeMediaRecord);
-		assertTrue(Arrays.equals(getType(generatedMessage), mimeTypeBytes));
+		assertArrayEquals(getType(generatedMessage), mimeTypeBytes);
 	}
 
+	@Test
 	public void testCreateHttpMessage() throws InterpretationException, FormatException {
 		NdefMessage generatedMessage = NfcHandler.createMessage(catrobatWeb, BrickValues.TNF_WELL_KNOWN_HTTP);
 		byte[] messageBytes = addProtocolInFrontOfMessage(BrickValues.NDEF_PREFIX_HTTP, catrobatWebAsHex);
 		byte[] messageType = wellKnownType;
-		assertTrue(Arrays.equals(getPayload(generatedMessage), messageBytes));
+		assertArrayEquals(getPayload(generatedMessage), messageBytes);
 		assertEquals(getTnf(generatedMessage), wellKnownRecord);
-		assertTrue(Arrays.equals(getType(generatedMessage), messageType));
+		assertArrayEquals(getType(generatedMessage), messageType);
 
 		generatedMessage = NfcHandler.createMessage("https://www.catrobat.org", BrickValues
 				.TNF_WELL_KNOWN_HTTP);
-		assertTrue(Arrays.equals(getPayload(generatedMessage), messageBytes));
+		assertArrayEquals(getPayload(generatedMessage), messageBytes);
 		assertEquals(getTnf(generatedMessage), wellKnownRecord);
-		assertTrue(Arrays.equals(getType(generatedMessage), messageType));
+		assertArrayEquals(getType(generatedMessage), messageType);
 
 		generatedMessage = NfcHandler.createMessage("http://www.catrobat.org", BrickValues
 				.TNF_WELL_KNOWN_HTTP);
-		assertTrue(Arrays.equals(getPayload(generatedMessage), messageBytes));
+		assertArrayEquals(getPayload(generatedMessage), messageBytes);
 		assertEquals(getTnf(generatedMessage), wellKnownRecord);
-		assertTrue(Arrays.equals(getType(generatedMessage), messageType));
+		assertArrayEquals(getType(generatedMessage), messageType);
 	}
 
+	@Test
 	public void testCreateHttpsMessage() throws InterpretationException, FormatException {
 		NdefMessage generatedMessage = NfcHandler.createMessage(catrobatWeb, BrickValues.TNF_WELL_KNOWN_HTTPS);
 		byte[] messageBytes = addProtocolInFrontOfMessage(BrickValues.NDEF_PREFIX_HTTPS, catrobatWebAsHex);
 		byte[] messageType = wellKnownType;
-		assertTrue(Arrays.equals(getPayload(generatedMessage), messageBytes));
+		assertArrayEquals(getPayload(generatedMessage), messageBytes);
 		assertEquals(getTnf(generatedMessage), wellKnownRecord);
-		assertTrue(Arrays.equals(getType(generatedMessage), messageType));
+		assertArrayEquals(getType(generatedMessage), messageType);
 
 		generatedMessage = NfcHandler.createMessage("https://www.catrobat.org", BrickValues
 				.TNF_WELL_KNOWN_HTTPS);
-		assertTrue(Arrays.equals(getPayload(generatedMessage), messageBytes));
+		assertArrayEquals(getPayload(generatedMessage), messageBytes);
 		assertEquals(getTnf(generatedMessage), wellKnownRecord);
-		assertTrue(Arrays.equals(getType(generatedMessage), messageType));
+		assertArrayEquals(getType(generatedMessage), messageType);
 
 		generatedMessage = NfcHandler.createMessage("http://www.catrobat.org", BrickValues
 				.TNF_WELL_KNOWN_HTTPS);
-		assertTrue(Arrays.equals(getPayload(generatedMessage), messageBytes));
+		assertArrayEquals(getPayload(generatedMessage), messageBytes);
 		assertEquals(getTnf(generatedMessage), wellKnownRecord);
-		assertTrue(Arrays.equals(getType(generatedMessage), messageType));
+		assertArrayEquals(getType(generatedMessage), messageType);
 	}
 
+	@Test
 	public void testMakeEMailMessage() throws InterpretationException {
 		NdefMessage generatedMessage = NfcHandler.createMessage(catrobatEmailAddress, BrickValues.TNF_WELL_KNOWN_MAILTO);
 		byte[] messageBytes = addProtocolInFrontOfMessage(BrickValues.NDEF_PREFIX_MAILTO, catrobatEmailAddress.getBytes(UTF8_CHARSET));
 		byte[] messageType = wellKnownType;
-		assertTrue(Arrays.equals(getPayload(generatedMessage), messageBytes));
+		assertArrayEquals(getPayload(generatedMessage), messageBytes);
 		assertEquals(getTnf(generatedMessage), wellKnownRecord);
-		assertTrue(Arrays.equals(getType(generatedMessage), messageType));
+		assertArrayEquals(getType(generatedMessage), messageType);
 	}
 
+	@Test
 	public void testMakePhoneNumberMessage() throws InterpretationException {
 		NdefMessage generatedMessage = NfcHandler.createMessage(catrobatPhoneNumber, BrickValues.TNF_WELL_KNOWN_TEL);
 		byte[] messageBytes = addProtocolInFrontOfMessage(BrickValues.NDEF_PREFIX_TEL, catrobatPhoneNumber.getBytes(UTF8_CHARSET));
 		byte[] messageType = wellKnownType;
-		assertTrue(Arrays.equals(getPayload(generatedMessage), messageBytes));
+		assertArrayEquals(getPayload(generatedMessage), messageBytes);
 		assertEquals(getTnf(generatedMessage), wellKnownRecord);
-		assertTrue(Arrays.equals(getType(generatedMessage), messageType));
+		assertArrayEquals(getType(generatedMessage), messageType);
 	}
 
+	@Test
 	public void testMakeSMSMessage() throws InterpretationException {
 		NdefMessage generatedMessage = NfcHandler.createMessage(catrobatPhoneNumber, BrickValues.TNF_WELL_KNOWN_SMS);
 		byte[] messageBytes = smsMessageFormat(catrobatPhoneNumber, smsTextMessage);
 		byte[] messageType = "nfclab.com:smsService".getBytes(UTF8_CHARSET);
-		assertTrue(Arrays.equals(getPayload(generatedMessage), messageBytes));
+		assertArrayEquals(getPayload(generatedMessage), messageBytes);
 		assertEquals(getTnf(generatedMessage), externalRecord);
-		assertTrue(Arrays.equals(getType(generatedMessage), messageType));
+		assertArrayEquals(getType(generatedMessage), messageType);
 	}
 
+	@Test
 	public void testMakeExternalTypeMessage() throws InterpretationException {
 		NdefMessage generatedMessage = NfcHandler.createMessage(catrobatText, BrickValues.TNF_EXTERNAL_TYPE);
-		assertTrue(Arrays.equals(getPayload(generatedMessage), catrobatAsHex));
+		assertArrayEquals(getPayload(generatedMessage), catrobatAsHex);
 		assertEquals(getTnf(generatedMessage), externalRecord);
-		assertTrue(Arrays.equals(getType(generatedMessage), externalType));
+		assertArrayEquals(getType(generatedMessage), externalType);
 	}
 
+	@Test
 	public void testDeleteProtocolPrefix() throws InterpretationException {
 		String addressWithoutProt = "www.catrobat.org";
 		String addressWithProt = "http://www.catrobat.org";

@@ -38,6 +38,8 @@ import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -103,8 +105,8 @@ public class ParserTestUserLists extends AndroidTestCase {
 
 	private DataContainer dataContainer;
 
-	@Override
-	protected void setUp() {
+	@Before
+	public void setUp() {
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		firstSprite = new SingleSprite("firstSprite");
 		StartScript startScript = new StartScript();
@@ -121,41 +123,48 @@ public class ParserTestUserLists extends AndroidTestCase {
 		dataContainer.addProjectUserList(PROJECT_USER_LIST_NAME_2);
 	}
 
+	@Test
 	public void testUserListInterpretationMultipleStringAndNumbers() {
 		dataContainer.getUserList(firstSprite, PROJECT_USER_LIST_NAME).setList(
 				USER_LIST_VALUES_MULTIPLE_NUMBERS_STRING_INTEGER);
 		assertEquals(USER_LIST_VALUES_MULTIPLE_NUMBERS_STRING_INTEGER_INTERPRETATION_VALUE, interpretUserList(PROJECT_USER_LIST_NAME));
 	}
 
+	@Test
 	public void testUserListInterpretationSingleNumberString() {
 		dataContainer.getUserList(firstSprite, PROJECT_USER_LIST_NAME).setList(
 				USER_LIST_VALUES_SINGLE_NUMBER_STRING);
 		assertEquals(USER_LIST_VALUES_SINGLE_NUMBER_STRING_INTERPRETATION_VALUE, interpretUserList(PROJECT_USER_LIST_NAME));
 	}
 
+	@Test
 	public void testUserListInterpretationMultipleNumberString() {
 		dataContainer.getUserList(firstSprite, PROJECT_USER_LIST_NAME).setList(
 				USER_LIST_VALUES_MULTIPLE_NUMBER_STRING);
 		assertEquals(USER_LIST_VALUES_MULTIPLE_NUMBER_STRING_INTERPRETATION_VALUE, interpretUserList(PROJECT_USER_LIST_NAME));
 	}
 
+	@Test
 	public void testUserListInterpretationMultipleNumbers() {
 		dataContainer.getUserList(firstSprite, PROJECT_USER_LIST_NAME).setList(USER_LIST_VALUES_MULTIPLE_NUMBERS);
 		assertEquals(USER_LIST_VALUES_MULTIPLE_NUMBERS_INTERPRETATION_VALUE, interpretUserList(PROJECT_USER_LIST_NAME));
 	}
 
+	@Test
 	public void testUserListInterpretationStringsAndNumbers() {
 		dataContainer.getUserList(firstSprite, PROJECT_USER_LIST_NAME)
 				.setList(USER_LIST_VALUES_STRINGS_AND_NUMBERS);
 		assertEquals(USER_LIST_VALUES_STRINGS_AND_NUMBERS_INTERPRETATION_VALUE, interpretUserList(PROJECT_USER_LIST_NAME));
 	}
 
+	@Test
 	public void testUserListInterpretationEmptyList() {
 		dataContainer.getUserList(firstSprite, PROJECT_USER_LIST_NAME).getList().clear();
 
 		assertEquals(EMPTY_USER_LIST_INTERPRETATION_VALUE, interpretUserList(PROJECT_USER_LIST_NAME));
 	}
 
+	@Test
 	public void testUserListReset() {
 		dataContainer.addSpriteUserList(SPRITE_USER_LIST_NAME);
 		dataContainer.addSpriteUserList(PROJECT_USER_LIST_NAME_2);
@@ -172,10 +181,12 @@ public class ParserTestUserLists extends AndroidTestCase {
 		assertEquals(EMPTY_USER_LIST_INTERPRETATION_VALUE, interpretUserList(PROJECT_USER_LIST_NAME_2));
 	}
 
+	@Test
 	public void testNotExistingUserList() {
 		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.USER_LIST, "NOT_EXISTING_USER_LIST", 0);
 	}
 
+	@Test
 	public void testFunctionListItem() {
 		dataContainer.addSpriteUserList(PROJECT_USER_LIST_NAME);
 		dataContainer.getUserList(firstSprite, PROJECT_USER_LIST_NAME).setList(USER_LIST_VALUES_MULTIPLE_NUMBERS);
@@ -237,6 +248,7 @@ public class ParserTestUserLists extends AndroidTestCase {
 				firstSprite);
 	}
 
+	@Test
 	public void testFunctionLength() {
 		dataContainer.addProjectUserList(PROJECT_USER_LIST_NAME);
 		dataContainer.getUserList(firstSprite, PROJECT_USER_LIST_NAME).setList(new ArrayList<Object>());
@@ -266,6 +278,7 @@ public class ParserTestUserLists extends AndroidTestCase {
 				(double) 3, firstSprite);
 	}
 
+	@Test
 	public void testFunctionNumberOfItems() {
 		dataContainer.addProjectUserList(PROJECT_USER_LIST_NAME);
 
@@ -277,6 +290,7 @@ public class ParserTestUserLists extends AndroidTestCase {
 				(double) USER_LIST_VALUES_STRINGS_LENGTH_INTERPRETATION_VALUE, firstSprite);
 	}
 
+	@Test
 	public void testFunctionContains() {
 		dataContainer.addProjectUserList(PROJECT_USER_LIST_NAME);
 		dataContainer.getUserList(firstSprite, PROJECT_USER_LIST_NAME).setList(USER_LIST_VALUES_MULTIPLE_NUMBERS);

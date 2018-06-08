@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
@@ -30,20 +30,27 @@ import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class SetXActionTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.fail;
+
+@RunWith(AndroidJUnit4.class)
+public class SetXActionTest {
 
 	private static final float X_POSITION = 91.1f;
 	private Formula xPosition = new Formula(X_POSITION);
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
 	private Sprite sprite;
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		sprite = new SingleSprite("testSprite");
-		super.setUp();
 	}
 
+	@Test
 	public void testNormalBehavior() {
 		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
@@ -52,6 +59,7 @@ public class SetXActionTest extends AndroidTestCase {
 		assertEquals(X_POSITION, sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNullSprite() {
 		ActionFactory factory = new ActionFactory();
 		Action action = factory.createSetXAction(null, xPosition);
@@ -62,6 +70,7 @@ public class SetXActionTest extends AndroidTestCase {
 		}
 	}
 
+	@Test
 	public void testBoundaryPositions() {
 		sprite.getActionFactory().createSetXAction(sprite, new Formula(Integer.MAX_VALUE)).act(1.0f);
 		assertEquals(Integer.MAX_VALUE, (int) sprite.look.getXInUserInterfaceDimensionUnit());
@@ -70,6 +79,7 @@ public class SetXActionTest extends AndroidTestCase {
 		assertEquals(Integer.MIN_VALUE, (int) sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testBrickWithStringFormula() {
 		sprite.getActionFactory().createSetXAction(sprite, new Formula(String.valueOf(X_POSITION))).act(1.0f);
 		assertEquals(X_POSITION, sprite.look.getXInUserInterfaceDimensionUnit());
@@ -78,11 +88,13 @@ public class SetXActionTest extends AndroidTestCase {
 		assertEquals(X_POSITION, sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNullFormula() {
 		sprite.getActionFactory().createSetXAction(sprite, null).act(1.0f);
 		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNotANumberFormula() {
 		sprite.getActionFactory().createSetXAction(sprite, new Formula(Double.NaN)).act(1.0f);
 		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());

@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.content.script;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.SingleSprite;
@@ -31,9 +31,16 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.eventids.EventId;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class StartScriptTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
 
+@RunWith(AndroidJUnit4.class)
+public class StartScriptTest {
+
+	@Test
 	public void testStartScript() {
 		double size = 300;
 		Sprite testSprite = new SingleSprite("testSprite");

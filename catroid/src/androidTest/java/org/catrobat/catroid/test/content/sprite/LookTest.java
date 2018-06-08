@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.content.sprite;
 
-import android.test.InstrumentationTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -36,8 +36,16 @@ import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.Reflection.ParameterList;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.TouchUtil;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class LookTest extends InstrumentationTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+
+@RunWith(AndroidJUnit4.class)
+public class LookTest {
 
 	private Look look;
 	private Sprite sprite;
@@ -45,14 +53,15 @@ public class LookTest extends InstrumentationTestCase {
 	private float width = 32;
 	private float height = 16;
 
-	@Override
-	protected void setUp() {
+	@Before
+	public void setUp() {
 		Group parentGroup = new Group();
 		sprite = new SingleSprite("test");
 		parentGroup.addActor(sprite.look);
 		look = sprite.look;
 	}
 
+	@Test
 	public void testConstructor() {
 		assertEquals(0f, look.getX());
 		assertEquals(0f, look.getY());
@@ -73,6 +82,7 @@ public class LookTest extends InstrumentationTestCase {
 		assertEquals("", look.getImagePath());
 	}
 
+	@Test
 	public void testPositions() {
 		float x = 3f;
 		float y = 10f;
@@ -115,6 +125,7 @@ public class LookTest extends InstrumentationTestCase {
 		return value;
 	}
 
+	@Test
 	public void testBreakDownCatroidAngle() {
 		Look look = new Look(new SingleSprite("testsprite"));
 
@@ -167,6 +178,7 @@ public class LookTest extends InstrumentationTestCase {
 		}
 	}
 
+	@Test
 	public void testCatroidAngleToStageAngle() {
 		float[] positiveAngles = {0.0f, 45.0f, 90.0f, 135.0f, 180.0f, 225.0f, 270.0f, 315.0f, 360.0f};
 		float[] positiveHighAngles = {360.0f, 405.0f, 450.0f, 495.0f, 540.0f, 585.0f, 630.0f, 675.0f, 720.0f};
@@ -204,6 +216,7 @@ public class LookTest extends InstrumentationTestCase {
 		}
 	}
 
+	@Test
 	public void testStageAngleToCatroidAngle() {
 		float[] positiveStageAngles = {0.0f, 45.0f, 90.0f, 135.0f, 180.0f, 225.0f, 270.0f, 315.0f, 360.0f};
 		float[] positiveHighStagedAngles = {360.0f, 405.0f, 450.0f, 495.0f, 540.0f, 585.0f, 630.0f, 675.0f,
@@ -240,6 +253,7 @@ public class LookTest extends InstrumentationTestCase {
 		}
 	}
 
+	@Test
 	public void testDirection() {
 		float[] degreesInUserInterfaceDimensionUnit = {90f, 60f, 30f, 0f, -30f, -60f, -90f, -120f, -150f, 180f, 150f,
 				120f};
@@ -265,6 +279,7 @@ public class LookTest extends InstrumentationTestCase {
 		assertEquals(0f, look.getRotation());
 	}
 
+	@Test
 	public void testSize() {
 		float size = 30f;
 		look.setSizeInUserInterfaceDimensionUnit(size);
@@ -281,6 +296,7 @@ public class LookTest extends InstrumentationTestCase {
 		assertEquals(0f, look.getSizeInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testTransparency() {
 		float transparency = 20f;
 		look.setTransparencyInUserInterfaceDimensionUnit(transparency);
@@ -300,6 +316,7 @@ public class LookTest extends InstrumentationTestCase {
 		assertEquals(0f, Reflection.getPrivateField(look, "alpha"));
 	}
 
+	@Test
 	public void testBrightness() {
 		float brightness = 42f;
 		look.setBrightnessInUserInterfaceDimensionUnit(brightness);
@@ -315,6 +332,7 @@ public class LookTest extends InstrumentationTestCase {
 		assertEquals(0f, Reflection.getPrivateField(look, "brightness"));
 	}
 
+	@Test
 	public void testColor() {
 		int red = -40;
 		int green = 80;
@@ -326,6 +344,7 @@ public class LookTest extends InstrumentationTestCase {
 		assertEquals(40.0f, look.getColorInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testDistanceTo() {
 		look.setXInUserInterfaceDimensionUnit(25);
 		look.setYInUserInterfaceDimensionUnit(55);
@@ -348,6 +367,7 @@ public class LookTest extends InstrumentationTestCase {
 		assertEquals(touchPosition, squareRootOfScalar);
 	}
 
+	@Test
 	public void testTouchDownFlipped() {
 		final int width = 1;
 		final int height = 1;
@@ -362,6 +382,7 @@ public class LookTest extends InstrumentationTestCase {
 		assertTrue(look.doTouchDown(0, 0, 0));
 	}
 
+	@Test
 	public void testTouchDownFlippedWithAlpha() {
 		final int width = 2;
 		final int height = 1;
@@ -378,6 +399,7 @@ public class LookTest extends InstrumentationTestCase {
 		assertFalse(look.doTouchDown(1, 0, 0));
 	}
 
+	@Test
 	public void testCloneValues() {
 		Look origin = new Look(null);
 		origin.setSizeInUserInterfaceDimensionUnit(12);

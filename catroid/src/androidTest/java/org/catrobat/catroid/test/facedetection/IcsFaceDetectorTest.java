@@ -25,7 +25,7 @@ package org.catrobat.catroid.test.facedetection;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.hardware.Camera.Face;
-import android.test.InstrumentationTestCase;
+import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
 import org.catrobat.catroid.common.ScreenValues;
@@ -34,10 +34,19 @@ import org.catrobat.catroid.formulaeditor.SensorCustomEvent;
 import org.catrobat.catroid.formulaeditor.SensorCustomEventListener;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.uiespresso.annotations.Device;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.Random;
 
-public class IcsFaceDetectorTest extends InstrumentationTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
+
+@RunWith(AndroidJUnit4.class)
+public class IcsFaceDetectorTest {
 
 	private static final String TAG = IcsFaceDetectorTest.class.getSimpleName();
 	private static final int FACE_RECT_SIZE = 2000; // see reference of Camera.Face.rect (1000 - -1000 = 2000)
@@ -53,15 +62,15 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 	private static final int FACE_BOTTOM = 300;
 	private static final int LOW_SCORE_FACE_WIDTH = 10;
 
-	@Override
+	@Before
 	public void setUp() throws Exception {
-		super.setUp();
 		ScreenValues.SCREEN_WIDTH = 720;
 		ScreenValues.SCREEN_HEIGHT = 1080;
 	}
 
 	// does not run on emulator, and nexus 7
 	@Device
+	@Test
 	public void testDeviceFaceDetectionSupport() {
 
 		int possibleFaces = 0;
@@ -84,6 +93,7 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 	}
 
 	@Device
+	@Test
 	public void testNotAvailable() {
 		Camera camera = null;
 		try {
@@ -102,6 +112,7 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 	}
 
 	@Device
+	@Test
 	public void testDoubleStart() {
 
 		Camera camera = null;
@@ -129,6 +140,7 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 	}
 
 	@Device
+	@Test
 	public void testOnFaceDetectionStatusListener() {
 
 		IcsFaceDetector detector = new IcsFaceDetector();
@@ -153,6 +165,7 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 	}
 
 	@Device
+	@Test
 	public void testOnFaceDetectedListener() {
 
 		IcsFaceDetector detector = new IcsFaceDetector();
@@ -220,6 +233,7 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 	}
 
 	@Device
+	@Test
 	public void testFaceSizeBounds() {
 
 		IcsFaceDetector detector = new IcsFaceDetector();

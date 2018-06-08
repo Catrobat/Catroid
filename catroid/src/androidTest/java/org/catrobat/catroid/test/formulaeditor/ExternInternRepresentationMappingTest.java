@@ -23,12 +23,18 @@
 
 package org.catrobat.catroid.test.formulaeditor;
 
-import android.test.InstrumentationTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.formulaeditor.ExternInternRepresentationMapping;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class ExternInternRepresentationMappingTest extends InstrumentationTestCase {
+import static junit.framework.Assert.assertEquals;
 
+@RunWith(AndroidJUnit4.class)
+public class ExternInternRepresentationMappingTest {
+
+	@Test
 	public void testGetExternTokenStartIndex() {
 
 		ExternInternRepresentationMapping externInternRepresentationMapping = new ExternInternRepresentationMapping();

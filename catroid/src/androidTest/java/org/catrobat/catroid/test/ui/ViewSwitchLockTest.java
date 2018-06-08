@@ -22,15 +22,24 @@
  */
 package org.catrobat.catroid.test.ui;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.ui.ViewSwitchLock;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.concurrent.locks.Lock;
 
-public class ViewSwitchLockTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
 
+@RunWith(AndroidJUnit4.class)
+public class ViewSwitchLockTest {
+
+	@Test
 	public void testViewSwitchLock() {
 		Lock viewSwitchLock = new ViewSwitchLock();
 		assertFalse((Boolean) Reflection.getPrivateField(viewSwitchLock, "locked"));
@@ -55,6 +64,7 @@ public class ViewSwitchLockTest extends AndroidTestCase {
 		assertFalse((Boolean) Reflection.getPrivateField(viewSwitchLock, "locked"));
 	}
 
+	@Test
 	public void testViewSwitchAutoUnlock() throws InterruptedException {
 		Lock viewSwitchLock = new ViewSwitchLock();
 		long timeout = (Long) Reflection.getPrivateField(ViewSwitchLock.class, "UNLOCK_TIMEOUT");
@@ -65,10 +75,12 @@ public class ViewSwitchLockTest extends AndroidTestCase {
 		assertFalse((Boolean) Reflection.getPrivateField(viewSwitchLock, "locked"));
 	}
 
+	@Test
 	public void testDefaultSettings() {
 		assertEquals(200L, Reflection.getPrivateField(ViewSwitchLock.class, "UNLOCK_TIMEOUT"));
 	}
 
+	@Test
 	public void testUnsupportedMethods() {
 		Lock viewSwitchLock = new ViewSwitchLock();
 

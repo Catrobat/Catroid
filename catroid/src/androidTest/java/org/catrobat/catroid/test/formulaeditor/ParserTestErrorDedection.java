@@ -29,12 +29,14 @@ import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.Operators;
+import org.junit.Test;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class ParserTestErrorDedection extends AndroidTestCase {
 
+	@Test
 	public void testTooManyOperators() {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 
@@ -77,6 +79,7 @@ public class ParserTestErrorDedection extends AndroidTestCase {
 		assertEquals(5, errorTokenIndex);
 	}
 
+	@Test
 	public void testOperatorMissing() {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 
@@ -89,6 +92,7 @@ public class ParserTestErrorDedection extends AndroidTestCase {
 		assertEquals(1, errorTokenIndex);
 	}
 
+	@Test
 	public void testNumberMissing() {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 
@@ -101,6 +105,7 @@ public class ParserTestErrorDedection extends AndroidTestCase {
 		assertEquals(0, errorTokenIndex);
 	}
 
+	@Test
 	public void testRightBracketMissing() {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 
@@ -114,6 +119,7 @@ public class ParserTestErrorDedection extends AndroidTestCase {
 		assertEquals(2, errorTokenIndex);
 	}
 
+	@Test
 	public void testLefttBracketMissing() {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 
@@ -127,6 +133,7 @@ public class ParserTestErrorDedection extends AndroidTestCase {
 		assertEquals(1, errorTokenIndex);
 	}
 
+	@Test
 	public void testOutOfBound() {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 

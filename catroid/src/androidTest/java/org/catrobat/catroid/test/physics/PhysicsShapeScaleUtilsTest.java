@@ -23,7 +23,7 @@
 package org.catrobat.catroid.test.physics;
 
 import android.support.test.InstrumentationRegistry;
-import android.test.InstrumentationTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.math.Vector2;
@@ -46,12 +46,20 @@ import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.File;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 
-public class PhysicsShapeScaleUtilsTest extends InstrumentationTestCase {
+@RunWith(AndroidJUnit4.class)
+public class PhysicsShapeScaleUtilsTest {
 
 	private static final float DELTA = 0.001f;
 
@@ -63,9 +71,8 @@ public class PhysicsShapeScaleUtilsTest extends InstrumentationTestCase {
 	static {
 		GdxNativesLoader.load();
 	}
-	@Override
+	@Before
 	public void setUp() throws Exception {
-		super.setUp();
 
 		physicsWorld = new PhysicsWorld(1920, 1600);
 		physicsWorld.step(0.1f);
@@ -75,7 +82,7 @@ public class PhysicsShapeScaleUtilsTest extends InstrumentationTestCase {
 			StorageOperations.deleteDir(projectDir);
 		}
 
-		project = new Project(getInstrumentation().getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		project = new Project(InstrumentationRegistry.getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
@@ -94,16 +101,16 @@ public class PhysicsShapeScaleUtilsTest extends InstrumentationTestCase {
 		complexSingleConvexPolygonShapes = strategy.build(pixmap, 1.0f);
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
+	@After
+	public void tearDown() throws Exception {
 		if (projectDir.exists()) {
 			StorageOperations.deleteDir(projectDir);
 		}
 		projectDir = null;
 		physicsWorld = null;
-		super.tearDown();
 	}
 
+	@Test
 	public void testShapeScaling() {
 		Shape[] ninetyPercent = PhysicsShapeScaleUtils.scaleShapes(complexSingleConvexPolygonShapes, 0.9f);
 		Shape[] oneHundredAndTenPercent = PhysicsShapeScaleUtils.scaleShapes(complexSingleConvexPolygonShapes, 1.1f);
@@ -115,6 +122,7 @@ public class PhysicsShapeScaleUtilsTest extends InstrumentationTestCase {
 		compareShapeSize(complexSingleConvexPolygonShapes, eightyPercent, 0.8f);
 	}
 
+	@Test
 	public void testScaleCoordinate() {
 		float coordinate = 100f;
 		float expectedCoordinate = 50f;
@@ -184,8 +192,6 @@ public class PhysicsShapeScaleUtilsTest extends InstrumentationTestCase {
 
 					assertEquals(firstShapeVertexDistance, secondShapeVertexDistance * (1 / scaleFactor), DELTA);
 				}
-			} else {
-				assertTrue(false);
 			}
 		}
 	}

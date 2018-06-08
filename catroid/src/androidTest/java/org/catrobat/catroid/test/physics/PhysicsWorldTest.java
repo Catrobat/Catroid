@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.physics;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
 import com.badlogic.gdx.math.Vector2;
@@ -36,10 +36,21 @@ import org.catrobat.catroid.physics.PhysicsObject.Type;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.Reflection.ParameterList;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.Map;
 
-public class PhysicsWorldTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
+
+@RunWith(AndroidJUnit4.class)
+public class PhysicsWorldTest {
 	static {
 		GdxNativesLoader.load();
 	}
@@ -50,21 +61,22 @@ public class PhysicsWorldTest extends AndroidTestCase {
 	private Map<Sprite, PhysicsObject> physicsObjects;
 
 	@SuppressWarnings("unchecked")
-	@Override
+	@Before
 	public void setUp() {
 		physicsWorld = new PhysicsWorld(1920, 1600);
 		world = (World) Reflection.getPrivateField(physicsWorld, "world");
 		physicsObjects = (Map<Sprite, PhysicsObject>) Reflection.getPrivateField(physicsWorld, "physicsObjects");
-		PhysicsBaseTest.stabilizePhysicsWorld(physicsWorld);
+		PhysicsTestRule.stabilizePhysicsWorld(physicsWorld);
 	}
 
-	@Override
+	@After
 	public void tearDown() {
 		physicsWorld = null;
 		world = null;
 		physicsObjects = null;
 	}
 
+	@Test
 	public void testDefaultSettings() {
 		assertEquals(10.0f, PhysicsWorld.RATIO);
 		assertEquals(3, PhysicsWorld.VELOCITY_ITERATIONS);
@@ -87,10 +99,12 @@ public class PhysicsWorldTest extends AndroidTestCase {
 		assertEquals(0, PhysicsWorld.MASK_NO_COLLISION);
 	}
 
+	@Test
 	public void testWrapper() {
 		assertNotNull(world);
 	}
 
+	@Test
 	public void testGravity() {
 		assertEquals(PhysicsWorld.DEFAULT_GRAVITY, world.getGravity());
 
@@ -100,6 +114,7 @@ public class PhysicsWorldTest extends AndroidTestCase {
 		assertEquals(newGravity, world.getGravity());
 	}
 
+	@Test
 	public void testGetNullPhysicsObject() {
 		try {
 			physicsWorld.getPhysicsObject(null);
@@ -109,6 +124,7 @@ public class PhysicsWorldTest extends AndroidTestCase {
 		}
 	}
 
+	@Test
 	public void testGetPhysicsObject() {
 		Sprite sprite = new Sprite("TestSprite");
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
@@ -119,6 +135,7 @@ public class PhysicsWorldTest extends AndroidTestCase {
 		assertEquals(physicsObject, physicsObjects.get(sprite));
 	}
 
+	@Test
 	public void testCreatePhysicsObject() {
 		Object[] values = {new Sprite("testsprite")};
 		ParameterList paramList = new ParameterList(values);
@@ -128,6 +145,7 @@ public class PhysicsWorldTest extends AndroidTestCase {
 		assertEquals(Type.NONE, physicsObject.getType());
 	}
 
+	@Test
 	public void testGetSamePhysicsObject() {
 		Sprite sprite = new Sprite("TestSprite");
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
@@ -137,6 +155,7 @@ public class PhysicsWorldTest extends AndroidTestCase {
 		assertEquals(physicsObject, samePhysicsObject);
 	}
 
+	@Test
 	public void testSteps() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
 			IllegalAccessException {
 		Sprite sprite = new Sprite("TestSprite");

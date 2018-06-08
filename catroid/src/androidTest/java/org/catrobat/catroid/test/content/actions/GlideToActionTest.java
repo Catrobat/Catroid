@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
@@ -30,8 +30,15 @@ import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class GlideToActionTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.fail;
+
+@RunWith(AndroidJUnit4.class)
+public class GlideToActionTest {
 
 	private static final float X_POSITION = 12f;
 	private static final float Y_POSITION = 150f;
@@ -44,12 +51,12 @@ public class GlideToActionTest extends AndroidTestCase {
 	Formula duration = new Formula(DURATION);
 	private Sprite sprite;
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		sprite = new SingleSprite("testSprite");
-		super.setUp();
 	}
 
+	@Test
 	public void testNormalBehavior() throws InterruptedException {
 		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
@@ -66,6 +73,7 @@ public class GlideToActionTest extends AndroidTestCase {
 		assertEquals(Y_POSITION, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNullActor() {
 		ActionFactory factory = new ActionFactory();
 		Action action = factory.createGlideToAction(null, xPosition, yPosition, duration);
@@ -76,6 +84,7 @@ public class GlideToActionTest extends AndroidTestCase {
 		}
 	}
 
+	@Test
 	public void testBoundaryPositions() {
 		Sprite sprite = new SingleSprite("testSprite");
 		sprite.getActionFactory().createPlaceAtAction(sprite, new Formula(Integer.MAX_VALUE), new Formula(
@@ -89,6 +98,7 @@ public class GlideToActionTest extends AndroidTestCase {
 		assertEquals((float) Integer.MIN_VALUE, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testBrickWithStringFormula() {
 		Action action = sprite.getActionFactory().createGlideToAction(sprite, new Formula(String.valueOf(Y_POSITION)),
 				new Formula(String.valueOf(DURATION)), new Formula(String.valueOf(X_POSITION)));
@@ -113,6 +123,7 @@ public class GlideToActionTest extends AndroidTestCase {
 		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNullFormula() {
 		Action action = sprite.getActionFactory().createGlideToAction(sprite, null, null, null);
 
@@ -125,6 +136,7 @@ public class GlideToActionTest extends AndroidTestCase {
 		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNotANumberFormula() {
 		Action action = sprite.getActionFactory().createGlideToAction(sprite, new Formula(Double.NaN),
 				new Formula(Double.NaN), new Formula(Double.NaN));

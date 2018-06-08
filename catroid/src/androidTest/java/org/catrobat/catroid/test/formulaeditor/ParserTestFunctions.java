@@ -32,20 +32,28 @@ import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.Operators;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import static org.hamcrest.Matchers.anyOf;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 public class ParserTestFunctions extends AndroidTestCase {
 
 	private Sprite testSprite;
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
 
-	@Override
-	protected void setUp() {
+	@Before
+	public void setUp() {
 		testSprite = new SingleSprite("sprite");
 	}
 
+	@Test
 	public void testSin() {
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.SIN, InternTokenType.NUMBER, "90",
 				Math.sin(Math.toRadians(90d)), testSprite);
@@ -61,6 +69,7 @@ public class ParserTestFunctions extends AndroidTestCase {
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.SIN, firstParameterList, Double.NaN, testSprite);
 	}
 
+	@Test
 	public void testCos() {
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.COS, InternTokenType.NUMBER, "180",
 				Math.cos(Math.toRadians(180d)), testSprite);
@@ -76,6 +85,7 @@ public class ParserTestFunctions extends AndroidTestCase {
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.COS, firstParameterList, Double.NaN, testSprite);
 	}
 
+	@Test
 	public void testTan() {
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.TAN, InternTokenType.NUMBER, "180",
 				Math.tan(Math.toRadians(180d)), testSprite);
@@ -91,6 +101,7 @@ public class ParserTestFunctions extends AndroidTestCase {
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.TAN, firstParameterList, Double.NaN, testSprite);
 	}
 
+	@Test
 	public void testLn() {
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LN, InternTokenType.NUMBER, "2.7182818",
 				Math.log(2.7182818), testSprite);
@@ -106,6 +117,7 @@ public class ParserTestFunctions extends AndroidTestCase {
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LN, firstParameterList, Double.NaN, testSprite);
 	}
 
+	@Test
 	public void testLog() {
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LOG, InternTokenType.NUMBER, "10", Math.log10(10),
 				testSprite);
@@ -121,6 +133,7 @@ public class ParserTestFunctions extends AndroidTestCase {
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LOG, firstParameterList, Double.NaN, testSprite);
 	}
 
+	@Test
 	public void testPi() {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.PI.name()));
@@ -130,6 +143,7 @@ public class ParserTestFunctions extends AndroidTestCase {
 		assertEquals(Math.PI, parseTree.interpretRecursive(testSprite));
 	}
 
+	@Test
 	public void testSqrt() {
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.SQRT, InternTokenType.NUMBER, "100", Math.sqrt(100),
 				testSprite);
@@ -145,6 +159,7 @@ public class ParserTestFunctions extends AndroidTestCase {
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.SQRT, firstParameterList, Double.NaN, testSprite);
 	}
 
+	@Test
 	public void testRandomNaturalNumbers() {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.RAND.name()));
@@ -157,7 +172,7 @@ public class ParserTestFunctions extends AndroidTestCase {
 
 		assertNotNull(parseTree);
 		Double result = (Double) parseTree.interpretRecursive(testSprite);
-		assertTrue(result == 0d || result == 1d);
+		assertThat(result, is(anyOf(equalTo(0d), equalTo(1d))));
 
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.RAND, InternTokenType.STRING, "1",
 				InternTokenType.STRING, "1", 1d, testSprite);
@@ -176,6 +191,7 @@ public class ParserTestFunctions extends AndroidTestCase {
 				Double.NaN, testSprite);
 	}
 
+	@Test
 	public void testRound() {
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.ROUND, InternTokenType.NUMBER, "1.33333",
 				((Long) Math.round(1.33333)).doubleValue(), testSprite);
@@ -191,6 +207,7 @@ public class ParserTestFunctions extends AndroidTestCase {
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.ROUND, firstParameterList, 0d, testSprite);
 	}
 
+	@Test
 	public void testFloor() {
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.FLOOR, InternTokenType.NUMBER, "1.33333",
 				Math.floor(1.33333), testSprite);
@@ -206,6 +223,7 @@ public class ParserTestFunctions extends AndroidTestCase {
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.FLOOR, firstParameterList, Double.NaN, testSprite);
 	}
 
+	@Test
 	public void testCeil() {
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.CEIL, InternTokenType.NUMBER, "1.33333",
 				Math.ceil(1.33333), testSprite);
@@ -221,6 +239,7 @@ public class ParserTestFunctions extends AndroidTestCase {
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.CEIL, firstParameterList, Double.NaN, testSprite);
 	}
 
+	@Test
 	public void testMod() {
 
 		for (int offset = 0; offset < 10; offset += 1) {
@@ -272,6 +291,7 @@ public class ParserTestFunctions extends AndroidTestCase {
 				Double.NaN, testSprite);
 	}
 
+	@Test
 	public void testAbs() {
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.ABS, InternTokenType.NUMBER, "-1.1", Math.abs(-1.1),
 				testSprite);
@@ -287,6 +307,7 @@ public class ParserTestFunctions extends AndroidTestCase {
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.ABS, firstParameterList, Double.NaN, testSprite);
 	}
 
+	@Test
 	public void testInvalidFunction() {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, "INVALID_FUNCTION"));
@@ -300,6 +321,7 @@ public class ParserTestFunctions extends AndroidTestCase {
 		assertEquals(0, internParser.getErrorTokenIndex());
 	}
 
+	@Test
 	public void testTrue() {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.TRUE.name()));
@@ -309,6 +331,7 @@ public class ParserTestFunctions extends AndroidTestCase {
 		assertEquals(1.0, parseTree.interpretRecursive(testSprite));
 	}
 
+	@Test
 	public void testFalse() {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.FALSE.name()));
@@ -318,6 +341,7 @@ public class ParserTestFunctions extends AndroidTestCase {
 		assertEquals(0.0, parseTree.interpretRecursive(testSprite));
 	}
 
+	@Test
 	public void testArcsin() {
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.ARCSIN, InternTokenType.NUMBER, "1",
 				Math.toDegrees(Math.asin(1)), testSprite);
@@ -333,6 +357,7 @@ public class ParserTestFunctions extends AndroidTestCase {
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.ARCSIN, firstParameterList, Double.NaN, testSprite);
 	}
 
+	@Test
 	public void testArccos() {
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.ARCCOS, InternTokenType.NUMBER, "0",
 				Math.toDegrees(Math.acos(0)), testSprite);
@@ -348,6 +373,7 @@ public class ParserTestFunctions extends AndroidTestCase {
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.ARCCOS, firstParameterList, Double.NaN, testSprite);
 	}
 
+	@Test
 	public void testArctan() {
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.ARCTAN, InternTokenType.NUMBER, "1",
 				Math.toDegrees(Math.atan(1)), testSprite);
@@ -363,6 +389,7 @@ public class ParserTestFunctions extends AndroidTestCase {
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.ARCTAN, firstParameterList, Double.NaN, testSprite);
 	}
 
+	@Test
 	public void testExp() {
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.EXP, InternTokenType.NUMBER, "2", Math.exp(2),
 				testSprite);
@@ -378,6 +405,7 @@ public class ParserTestFunctions extends AndroidTestCase {
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.EXP, firstParameterList, Double.NaN, testSprite);
 	}
 
+	@Test
 	public void testMax() {
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.MAX, InternTokenType.NUMBER, "3",
 				InternTokenType.STRING, "4", 4d, testSprite);
@@ -399,6 +427,7 @@ public class ParserTestFunctions extends AndroidTestCase {
 				Double.NaN, testSprite);
 	}
 
+	@Test
 	public void testMin() {
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.MIN, InternTokenType.NUMBER, "3",
 				InternTokenType.STRING, "4", 3d, testSprite);

@@ -23,7 +23,7 @@
 package org.catrobat.catroid.test.content.actions;
 
 import android.support.test.InstrumentationRegistry;
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -31,8 +31,14 @@ import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class SetVariableActionTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class SetVariableActionTest {
 
 	private static final String TEST_USERVARIABLE = "testUservariable";
 	private static final double SET_VARIABLE_VALUE = 17;
@@ -41,44 +47,49 @@ public class SetVariableActionTest extends AndroidTestCase {
 	private Project project;
 	private UserVariable userVariable;
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		testSprite = new SingleSprite("testSprite");
 		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().addProjectUserVariable(TEST_USERVARIABLE);
 		userVariable = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
 				.getUserVariable(null, TEST_USERVARIABLE);
-		super.setUp();
 	}
 
+	@Test
 	public void testSetVariableWithNumericalFormula() {
 		testSprite.getActionFactory().createSetVariableAction(testSprite, new Formula(SET_VARIABLE_VALUE), userVariable).act(1f);
 		assertEquals(SET_VARIABLE_VALUE, userVariable.getValue());
 	}
 
+	@Test
 	public void testSetVariableWithInvalidUserVariable() {
 		testSprite.getActionFactory().createSetVariableAction(testSprite, new Formula(SET_VARIABLE_VALUE), null).act(1f);
 		assertEquals(INITIALIZED_VALUE, userVariable.getValue());
 	}
 
+	@Test
 	public void testSetVariableWithNumericalStringFormula() {
 		String myString = "155";
 		testSprite.getActionFactory().createSetVariableAction(testSprite, new Formula(myString), userVariable).act(1f);
 		assertEquals(Double.valueOf(myString), Double.valueOf((String) userVariable.getValue()));
 	}
 
+	@Test
 	public void testSetVariableWithStringFormula() {
 		String myString = "myString";
 		testSprite.getActionFactory().createSetVariableAction(testSprite, new Formula(myString), userVariable).act(1f);
 		assertEquals(myString, (String) userVariable.getValue());
 	}
 
+	@Test
 	public void testNullFormula() {
 		testSprite.getActionFactory().createSetVariableAction(testSprite, null, userVariable).act(1f);
 		assertEquals(0d, userVariable.getValue());
 	}
 
+	@Test
 	public void testNotANumberFormula() {
 		testSprite.getActionFactory().createSetVariableAction(testSprite, new Formula(Double.NaN), userVariable).act(1f);
 		assertEquals(Double.NaN, userVariable.getValue());

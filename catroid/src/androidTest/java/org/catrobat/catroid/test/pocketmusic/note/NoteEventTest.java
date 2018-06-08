@@ -22,54 +22,73 @@
  */
 package org.catrobat.catroid.test.pocketmusic.note;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.pocketmusic.note.NoteEvent;
 import org.catrobat.catroid.pocketmusic.note.NoteName;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class NoteEventTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotSame;
 
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.core.IsNot.not;
+import static org.junit.Assert.assertThat;
+
+@RunWith(AndroidJUnit4.class)
+public class NoteEventTest {
+
+	@Test
 	public void testEquals1() {
 		NoteEvent noteEvent1 = NoteEventTestDataFactory.createNoteEvent();
 		NoteEvent noteEvent2 = NoteEventTestDataFactory.createNoteEvent();
 
-		assertTrue(noteEvent1.equals(noteEvent2));
+		assertEquals(noteEvent1, noteEvent2);
 	}
 
+	@Test
 	public void testEquals2() {
 		NoteEvent noteEvent1 = NoteEventTestDataFactory.createNoteEvent(NoteName.C1);
 		NoteEvent noteEvent2 = NoteEventTestDataFactory.createNoteEvent(NoteName.C2);
 
-		assertFalse(noteEvent1.equals(noteEvent2));
+		assertThat(noteEvent1, is(not(equalTo(noteEvent2))));
 	}
 
+	@Test
 	public void testEquals3() {
 		NoteName noteName = NoteName.C1;
 		NoteEvent noteEvent1 = NoteEventTestDataFactory.createNoteEvent(noteName, true);
 		NoteEvent noteEvent2 = NoteEventTestDataFactory.createNoteEvent(noteName, false);
 
-		assertFalse(noteEvent1.equals(noteEvent2));
+		assertThat(noteEvent1, is(not(equalTo(noteEvent2))));
 	}
 
+	@Test
 	public void testEquals4() {
 		NoteEvent noteEvent1 = NoteEventTestDataFactory.createNoteEvent(NoteName.C1, true);
 		NoteEvent noteEvent2 = NoteEventTestDataFactory.createNoteEvent(NoteName.C2, false);
 
-		assertFalse(noteEvent1.equals(noteEvent2));
+		assertThat(noteEvent1, is(not(equalTo(noteEvent2))));
 	}
 
+	@Test
 	public void testEquals5() {
 		NoteEvent noteEvent = NoteEventTestDataFactory.createNoteEvent();
 
-		assertFalse(noteEvent.equals(null));
+		assertThat(noteEvent, is(not(equalTo(null))));
 	}
 
+	@Test
 	public void testEquals6() {
 		NoteEvent noteEvent = NoteEventTestDataFactory.createNoteEvent();
 
 		assertFalse(noteEvent.equals(""));
 	}
 
+	@Test
 	public void testToString() {
 		NoteEvent noteEvent = NoteEventTestDataFactory.createNoteEvent();
 		String expectedString = "[NoteEvent] noteName= " + noteEvent.getNoteName()
@@ -78,11 +97,12 @@ public class NoteEventTest extends AndroidTestCase {
 		assertEquals(expectedString, noteEvent.toString());
 	}
 
+	@Test
 	public void testCopyNoteEvent() {
 		NoteEvent noteEvent = NoteEventTestDataFactory.createNoteEvent();
 		NoteEvent copyNoteEvent = new NoteEvent(noteEvent);
 
-		assertTrue(noteEvent != copyNoteEvent);
-		assertTrue(noteEvent.equals(copyNoteEvent));
+		assertNotSame(noteEvent, copyNoteEvent);
+		assertEquals(noteEvent, copyNoteEvent);
 	}
 }

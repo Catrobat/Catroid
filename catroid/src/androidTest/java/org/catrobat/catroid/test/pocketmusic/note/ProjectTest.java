@@ -22,15 +22,28 @@
  */
 package org.catrobat.catroid.test.pocketmusic.note;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.pocketmusic.note.MusicalBeat;
 import org.catrobat.catroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.catroid.pocketmusic.note.Project;
 import org.catrobat.catroid.pocketmusic.note.Track;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class ProjectTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotSame;
 
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.core.IsNot.not;
+import static org.junit.Assert.assertThat;
+
+@RunWith(AndroidJUnit4.class)
+public class ProjectTest {
+
+	@Test
 	public void testGetBeatsPerMinute() {
 		int beatsPerMinute = 60;
 		Project project = ProjectTestDataFactory.createProject(beatsPerMinute);
@@ -38,6 +51,7 @@ public class ProjectTest extends AndroidTestCase {
 		assertEquals(beatsPerMinute, project.getBeatsPerMinute());
 	}
 
+	@Test
 	public void testGetName() {
 		String name = "TestName";
 		Project project = ProjectTestDataFactory.createProject(name);
@@ -45,6 +59,7 @@ public class ProjectTest extends AndroidTestCase {
 		assertEquals(name, project.getName());
 	}
 
+	@Test
 	public void testSetName() {
 		String name = "SomeNewName";
 		Project project = new Project(ProjectTestDataFactory.createProject(), name);
@@ -52,6 +67,7 @@ public class ProjectTest extends AndroidTestCase {
 		assertEquals(name, project.getName());
 	}
 
+	@Test
 	public void testAddTrack() {
 		Project project = ProjectTestDataFactory.createProject();
 		Track track = TrackTestDataFactory.createTrack();
@@ -61,6 +77,7 @@ public class ProjectTest extends AndroidTestCase {
 		assertEquals(1, project.size());
 	}
 
+	@Test
 	public void testGetTrack() {
 		Project project = ProjectTestDataFactory.createProject();
 		Track track = TrackTestDataFactory.createTrack();
@@ -70,6 +87,7 @@ public class ProjectTest extends AndroidTestCase {
 		assertEquals(track, project.getTrack(trackName));
 	}
 
+	@Test
 	public void testGetTrackNames() {
 		Project project = ProjectTestDataFactory.createProject();
 		Track track = TrackTestDataFactory.createTrack();
@@ -78,6 +96,7 @@ public class ProjectTest extends AndroidTestCase {
 		assertEquals(1, project.getTrackNames().size());
 	}
 
+	@Test
 	public void testGetTotalTimeInMilliseconds() {
 		Project project = ProjectTestDataFactory.createProject();
 		Track track = TrackTestDataFactory.createSimpleTrack();
@@ -86,67 +105,77 @@ public class ProjectTest extends AndroidTestCase {
 		assertEquals(track.getTotalTimeInMilliseconds(), project.getTotalTimeInMilliseconds());
 	}
 
+	@Test
 	public void testEquals1() {
 		Project project1 = ProjectTestDataFactory.createProject();
 		Project project2 = ProjectTestDataFactory.createProject();
 
-		assertTrue(project1.equals(project2));
+		assertEquals(project1, project2);
 	}
 
+	@Test
 	public void testEquals2() {
 		Project project1 = ProjectTestDataFactory.createProjectWithTrack();
 		Project project2 = ProjectTestDataFactory.createProjectWithTrack();
 
-		assertTrue(project1.equals(project2));
+		assertEquals(project1, project2);
 	}
 
+	@Test
 	public void testEquals3() {
 		Project project1 = ProjectTestDataFactory.createProjectWithTrack();
 		Project project2 = ProjectTestDataFactory.createProjectWithTrack(MusicalInstrument.APPLAUSE);
 
-		assertFalse(project1.equals(project2));
+		assertThat(project1, is(not(equalTo(project2))));
 	}
 
+	@Test
 	public void testEquals4() {
 		Project project1 = ProjectTestDataFactory.createProjectWithTrack();
 		Project project2 = ProjectTestDataFactory.createProject();
 
-		assertFalse(project1.equals(project2));
+		assertThat(project1, is(not(equalTo(project2))));
 	}
 
+	@Test
 	public void testEquals5() {
 		Project project1 = ProjectTestDataFactory.createProject("Some name");
 		Project project2 = ProjectTestDataFactory.createProject("Another name");
 
-		assertFalse(project1.equals(project2));
+		assertThat(project1, is(not(equalTo(project2))));
 	}
 
+	@Test
 	public void testEquals6() {
 		Project project1 = ProjectTestDataFactory.createProject(60);
 		Project project2 = ProjectTestDataFactory.createProject(90);
 
-		assertFalse(project1.equals(project2));
+		assertThat(project1, is(not(equalTo(project2))));
 	}
 
+	@Test
 	public void testEquals7() {
 		Project project = ProjectTestDataFactory.createProject();
 
-		assertFalse(project.equals(null));
+		assertThat(project, is(not(equalTo(null))));
 	}
 
+	@Test
 	public void testEquals8() {
 		Project project = ProjectTestDataFactory.createProject();
 
 		assertFalse(project.equals(""));
 	}
 
+	@Test
 	public void testEquals9() {
 		Project project1 = ProjectTestDataFactory.createProjectWithMusicalBeat(MusicalBeat.BEAT_4_4);
 		Project project2 = ProjectTestDataFactory.createProjectWithMusicalBeat(MusicalBeat.BEAT_16_16);
 
-		assertFalse(project1.equals(project2));
+		assertThat(project1, is(not(equalTo(project2))));
 	}
 
+	@Test
 	public void testToString() {
 		Project project = ProjectTestDataFactory.createProject();
 		String expectedString = "[Project] name=" + project.getName() + " beatsPerMinute="
@@ -155,11 +184,12 @@ public class ProjectTest extends AndroidTestCase {
 		assertEquals(expectedString, project.toString());
 	}
 
+	@Test
 	public void testCopyProject() {
 		Project project = ProjectTestDataFactory.createProjectWithTrack();
 		Project copyProject = new Project(project);
 
-		assertTrue(project != copyProject);
-		assertTrue(project.equals(copyProject));
+		assertNotSame(project, copyProject);
+		assertEquals(project, copyProject);
 	}
 }

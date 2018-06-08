@@ -22,13 +22,20 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class PlaceAtBrickTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.fail;
+
+@RunWith(AndroidJUnit4.class)
+public class PlaceAtBrickTest {
 
 	private static final int Y_POSITION_VALUE = 200;
 	private static final int X_POSITION_VALUE = 100;
@@ -38,12 +45,12 @@ public class PlaceAtBrickTest extends AndroidTestCase {
 	private static final String NOT_NUMERICAL_STRING2 = "NOT_NUMERICAL_STRING2";
 	private Sprite sprite;
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		sprite = new SingleSprite("testSprite");
-		super.setUp();
 	}
 
+	@Test
 	public void testNormalBehavior() {
 		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
@@ -53,6 +60,7 @@ public class PlaceAtBrickTest extends AndroidTestCase {
 		assertEquals(Y_POSITION_VALUE, (int) sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNullSprite() {
 		try {
 			sprite.getActionFactory().createPlaceAtAction(null, xPosition, yPosition).act(1.0f);
@@ -61,6 +69,7 @@ public class PlaceAtBrickTest extends AndroidTestCase {
 		}
 	}
 
+	@Test
 	public void testBoundaryPositions() {
 		Sprite sprite = new SingleSprite("testSprite");
 		sprite.getActionFactory().createPlaceAtAction(sprite, new Formula(Integer.MAX_VALUE),
@@ -74,6 +83,7 @@ public class PlaceAtBrickTest extends AndroidTestCase {
 		assertEquals(Integer.MIN_VALUE, (int) sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testBrickWithStringFormula() {
 		sprite.getActionFactory().createPlaceAtAction(sprite, new Formula(String.valueOf(X_POSITION_VALUE)),
 				new Formula(String.valueOf(Y_POSITION_VALUE))).act(1.0f);
@@ -86,12 +96,14 @@ public class PlaceAtBrickTest extends AndroidTestCase {
 		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNullFormula() {
 		sprite.getActionFactory().createPlaceAtAction(sprite, null, null).act(1.0f);
 		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNotANumberFormula() {
 		sprite.getActionFactory().createPlaceAtAction(sprite, new Formula(Double.NaN), new Formula(Double.NaN))
 				.act(1.0f);

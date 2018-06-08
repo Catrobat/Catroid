@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
@@ -34,19 +34,25 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsWorld;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class SetRotationStyleActionTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class SetRotationStyleActionTest {
 
 	private Sprite sprite;
 	private PhysicsWorld physicsWorld;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 		sprite = new Sprite("testSprite");
 		physicsWorld = new PhysicsWorld(1920, 1600);
 	}
 
+	@Test
 	public void testNormalMode() {
 		ActionFactory factory = sprite.getActionFactory();
 		Action rotationStyleAction = factory.createSetRotationStyleAction(sprite, Look.ROTATION_STYLE_ALL_AROUND);
@@ -58,6 +64,7 @@ public class SetRotationStyleActionTest extends AndroidTestCase {
 		assertEquals(90f, sprite.look.getDirectionInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNoMode() {
 		ActionFactory factory = sprite.getActionFactory();
 		Action rotationStyleAction = factory.createSetRotationStyleAction(sprite, Look.ROTATION_STYLE_NONE);
@@ -70,6 +77,7 @@ public class SetRotationStyleActionTest extends AndroidTestCase {
 		assertEquals(-90f, sprite.look.getDirectionInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testLRMode() {
 		ActionFactory factory = sprite.getActionFactory();
 		Action rotationStyleAction = factory.createSetRotationStyleAction(sprite, Look.ROTATION_STYLE_LEFT_RIGHT_ONLY);
@@ -85,6 +93,7 @@ public class SetRotationStyleActionTest extends AndroidTestCase {
 	//Directions here get funky because in physics there is no UI Degree Offset as in the normal looks
 	//Right is Left, Left is Right, Up is Up and Down is Down
 
+	@Test
 	public void testNormalModeInPhysics() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		PhysicsLook physicsLook = new PhysicsLook(sprite, physicsWorld);
@@ -108,6 +117,7 @@ public class SetRotationStyleActionTest extends AndroidTestCase {
 		assertEquals(180f, physicsLook.getRotation());
 	}
 
+	@Test
 	public void testNoModeInPhysics() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		PhysicsLook physicsLook = new PhysicsLook(sprite, physicsWorld);
@@ -131,6 +141,7 @@ public class SetRotationStyleActionTest extends AndroidTestCase {
 		assertEquals(0f, physicsLook.getRotation());
 	}
 
+	@Test
 	public void testLRModeInPhysics() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		PhysicsLook physicsLook = new PhysicsLook(sprite, physicsWorld);

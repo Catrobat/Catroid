@@ -22,14 +22,21 @@
  */
 package org.catrobat.catroid.test.facedetection;
 
-import junit.framework.TestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestFaceDetector;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class FaceDetectionHandlerTest extends TestCase {
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 
+@RunWith(AndroidJUnit4.class)
+public class FaceDetectionHandlerTest {
+
+	@Test
 	public void testResume() {
 		TestFaceDetector detector = new TestFaceDetector();
 		Reflection.setPrivateField(FaceDetectionHandler.class, "faceDetector", detector);

@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.test.devices.phiro;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.google.common.base.Stopwatch;
 
@@ -32,10 +32,17 @@ import org.catrobat.catroid.common.firmata.FirmataMessage;
 import org.catrobat.catroid.common.firmata.FirmataUtils;
 import org.catrobat.catroid.devices.arduino.phiro.Phiro;
 import org.catrobat.catroid.devices.arduino.phiro.PhiroImpl;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.concurrent.TimeUnit;
 
-public class PhiroImplTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class PhiroImplTest {
 
 	private Phiro phiro;
 	private ConnectionDataLogger logger;
@@ -68,9 +75,8 @@ public class PhiroImplTest extends AndroidTestCase {
 	private static final int REPORT_ANALOG_PIN_COMMAND = 0xC0;
 	private static final int ANALOG_MESSAGE_COMMAND = 0xE0;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 
 		phiro = new PhiroImpl();
 		logger = ConnectionDataLogger.createLocalConnectionLogger();
@@ -78,15 +84,15 @@ public class PhiroImplTest extends AndroidTestCase {
 		phiro.setConnection(logger.getConnectionProxy());
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
+	@After
+	public void tearDown() throws Exception {
 		phiro.disconnect();
 		logger.disconnectAndDestroy();
-		super.tearDown();
 	}
 
 	private static final int SPEED_IN_PERCENT = 42;
 
+	@Test
 	public void testMoveLeftMotorForward() {
 		phiro.initialise();
 		doTestFirmataInitialization();
@@ -95,6 +101,7 @@ public class PhiroImplTest extends AndroidTestCase {
 		testSpeed(SPEED_IN_PERCENT, PIN_LEFT_MOTOR_SPEED);
 	}
 
+	@Test
 	public void testMoveLeftMotorBackward() {
 		phiro.initialise();
 		doTestFirmataInitialization();
@@ -103,6 +110,7 @@ public class PhiroImplTest extends AndroidTestCase {
 		testSpeed(SPEED_IN_PERCENT, PIN_LEFT_MOTOR_SPEED);
 	}
 
+	@Test
 	public void testMoveRightMotorForward() {
 		phiro.initialise();
 		doTestFirmataInitialization();
@@ -111,6 +119,7 @@ public class PhiroImplTest extends AndroidTestCase {
 		testSpeed(SPEED_IN_PERCENT, PIN_RIGHT_MOTOR_SPEED);
 	}
 
+	@Test
 	public void testMoveRightMotorBackward() {
 		phiro.initialise();
 		doTestFirmataInitialization();
@@ -119,6 +128,7 @@ public class PhiroImplTest extends AndroidTestCase {
 		testSpeed(SPEED_IN_PERCENT, PIN_RIGHT_MOTOR_SPEED);
 	}
 
+	@Test
 	public void testStopLeftMotor() {
 		phiro.initialise();
 		doTestFirmataInitialization();
@@ -128,6 +138,7 @@ public class PhiroImplTest extends AndroidTestCase {
 		testSpeed(0, PIN_LEFT_MOTOR_FORWARD_BACKWARD);
 	}
 
+	@Test
 	public void testStopRightMotor() {
 		phiro.initialise();
 		doTestFirmataInitialization();
@@ -136,6 +147,7 @@ public class PhiroImplTest extends AndroidTestCase {
 		testSpeed(0, PIN_RIGHT_MOTOR_SPEED);
 	}
 
+	@Test
 	public void testStopAllMovements() {
 		phiro.initialise();
 		doTestFirmataInitialization();
@@ -146,6 +158,7 @@ public class PhiroImplTest extends AndroidTestCase {
 		testSpeed(0, PIN_RIGHT_MOTOR_SPEED);
 	}
 
+	@Test
 	public void testSetLeftRGBLightColor() {
 		phiro.initialise();
 		doTestFirmataInitialization();
@@ -160,6 +173,7 @@ public class PhiroImplTest extends AndroidTestCase {
 		testLight(blue, PIN_RGB_BLUE_LEFT);
 	}
 
+	@Test
 	public void testSetRightRGBLightColor() {
 		phiro.initialise();
 		doTestFirmataInitialization();
@@ -174,6 +188,7 @@ public class PhiroImplTest extends AndroidTestCase {
 		testLight(blue, PIN_RGB_BLUE_RIGHT);
 	}
 
+	@Test
 	public void testPlayTone() throws InterruptedException {
 		phiro.initialise();
 		doTestFirmataInitialization();

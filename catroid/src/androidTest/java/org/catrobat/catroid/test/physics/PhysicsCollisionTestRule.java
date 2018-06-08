@@ -40,31 +40,32 @@ import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
 import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.Reflection;
 
-public abstract class PhysicsCollisionBaseTest extends PhysicsBaseTest implements PhysicsCollisionTestReceiver {
+import static junit.framework.Assert.assertNotNull;
 
-	private static final String TAG = PhysicsCollisionBaseTest.class.getSimpleName();
+public class PhysicsCollisionTestRule extends PhysicsTestRule implements PhysicsCollisionTestReceiver {
 
-	protected Sprite sprite2;
-	protected PhysicsCollisionTestListener physicsCollisionTestListener;
+	private static final String TAG = PhysicsCollisionTestRule.class.getSimpleName();
 
-	protected PhysicsObject physicsObject1;
-	protected PhysicsObject physicsObject2;
+	public Sprite sprite2;
+	public PhysicsCollisionTestListener physicsCollisionTestListener;
 
-	protected Vector2 spritePosition;
-	protected Vector2 sprite2Position;
-	protected PhysicsObject.Type physicsObject1Type = PhysicsObject.Type.NONE;
-	protected PhysicsObject.Type physicsObject2Type = PhysicsObject.Type.NONE;
+	public PhysicsObject physicsObject1;
+	public PhysicsObject physicsObject2;
 
-	private int beginContactCounter = 0;
-	private int endContactCounter = 0;
+	public Vector2 spritePosition;
+	public Vector2 sprite2Position;
+	public PhysicsObject.Type physicsObject1Type = PhysicsObject.Type.NONE;
+	public PhysicsObject.Type physicsObject2Type = PhysicsObject.Type.NONE;
 
-	protected static final float DELTA_TIME = 0.1f;
-	private static final int MAX_STEPS = 25;
+	public int beginContactCounter = 0;
+	public int endContactCounter = 0;
+
+	public static final float DELTA_TIME = 0.1f;
+	public static final int MAX_STEPS = 25;
 
 	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-
+	protected void before() throws Throwable {
+		super.before();
 		sprite2 = new Sprite("TestSprite2");
 		project.getDefaultScene().addSprite(sprite2);
 		sprite2.look = new PhysicsLook(sprite2, physicsWorld);
@@ -72,7 +73,7 @@ public abstract class PhysicsCollisionBaseTest extends PhysicsBaseTest implement
 
 		LookData lookdata = PhysicsTestUtils.generateLookData(rectangle125x125File);
 		sprite2.look.setLookData(lookdata);
-		assertTrue(sprite2.look.getLookData() != null);
+		assertNotNull(sprite2.look.getLookData());
 
 		physicsObject1 = physicsWorld.getPhysicsObject(sprite);
 		physicsObject2 = physicsWorld.getPhysicsObject(sprite2);
@@ -80,19 +81,16 @@ public abstract class PhysicsCollisionBaseTest extends PhysicsBaseTest implement
 		World world = (World) Reflection.getPrivateField(PhysicsWorld.class, physicsWorld, "world");
 		physicsCollisionTestListener = new PhysicsCollisionTestListener(this, physicsWorld);
 		world.setContactListener(physicsCollisionTestListener);
-
-		initializeSpritesForCollision();
 	}
 
 	@Override
-	protected void tearDown() throws Exception {
+	protected void after() {
 		sprite2 = null;
 		physicsCollisionTestListener = null;
-
-		super.tearDown();
+		super.after();
 	}
 
-	protected void initializeSpritesForCollision() {
+	public void initializeSpritesForCollision() {
 		if (spritePosition == null || sprite2Position == null) {
 			throw new RuntimeException("You must initialize the sprite position for your test physicsObject1Type in your constructor.");
 		}
@@ -114,20 +112,20 @@ public abstract class PhysicsCollisionBaseTest extends PhysicsBaseTest implement
 		physicsObject2.setRotationSpeed(0.0f);
 	}
 
-	protected boolean collisionDetected() {
+	public boolean collisionDetected() {
 		return (beginContactCounter > 0);
 	}
 
-	protected boolean isContactRateOk() {
+	public boolean isContactRateOk() {
 		Log.d(TAG, "getContactDifference(): " + getContactDifference() + " == 0");
 		return (getContactDifference()) == 0;
 	}
 
-	protected int getContactDifference() {
+	public int getContactDifference() {
 		return beginContactCounter - endContactCounter;
 	}
 
-	protected boolean simulateFullCollision() {
+	public boolean simulateFullCollision() {
 		int stepCount = 0;
 		for (; stepCount < MAX_STEPS; stepCount++) {
 			physicsWorld.step(DELTA_TIME);

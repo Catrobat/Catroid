@@ -23,13 +23,17 @@
 
 package org.catrobat.catroid.test.devices.arduino;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
 import org.catrobat.catroid.common.firmata.FirmataMessage;
 import org.catrobat.catroid.common.firmata.FirmataUtils;
 import org.catrobat.catroid.devices.arduino.Arduino;
 import org.catrobat.catroid.devices.arduino.ArduinoImpl;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import name.antonsmirnov.firmata.message.SetPinModeMessage;
 import name.antonsmirnov.firmata.writer.AnalogMessageWriter;
@@ -37,7 +41,10 @@ import name.antonsmirnov.firmata.writer.DigitalMessageWriter;
 import name.antonsmirnov.firmata.writer.ReportAnalogPinMessageWriter;
 import name.antonsmirnov.firmata.writer.SetPinModeMessageWriter;
 
-public class ArduinoImplTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class ArduinoImplTest {
 
 	private Arduino arduino;
 	private ConnectionDataLogger logger;
@@ -56,9 +63,8 @@ public class ArduinoImplTest extends AndroidTestCase {
 
 	private static final int MAX_ANALOG_VALUE_FIRMATA = (1 << 14) - 1;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 
 		arduino = new ArduinoImpl();
 		logger = ConnectionDataLogger.createLocalConnectionLogger();
@@ -66,13 +72,13 @@ public class ArduinoImplTest extends AndroidTestCase {
 		arduino.setConnection(logger.getConnectionProxy());
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
+	@After
+	public void tearDown() throws Exception {
 		arduino.disconnect();
 		logger.disconnectAndDestroy();
-		super.tearDown();
 	}
 
+	@Test
 	public void testSetDigitalArduinoPinIndividually() {
 		arduino.initialise();
 		doTestFirmataInitialization();
@@ -86,6 +92,7 @@ public class ArduinoImplTest extends AndroidTestCase {
 		}
 	}
 
+	@Test
 	public void testSetDigitalArduinoPinInterleavedOnPort() {
 		arduino.initialise();
 		doTestFirmataInitialization();
@@ -147,6 +154,7 @@ public class ArduinoImplTest extends AndroidTestCase {
 		}
 	}
 
+	@Test
 	public void testSetDigitalArduinoPinInterleavedBetweenPorts() {
 		arduino.initialise();
 		doTestFirmataInitialization();
@@ -162,6 +170,7 @@ public class ArduinoImplTest extends AndroidTestCase {
 		testDigital(0x21, 8);
 	}
 
+	@Test
 	public void testSetAnalogArduinoPin() {
 		arduino.initialise();
 		doTestFirmataInitialization();
@@ -184,6 +193,7 @@ public class ArduinoImplTest extends AndroidTestCase {
 		testAnalogOutOfRange(pin, -1, MAX_ANALOG_VALUE_FIRMATA);
 	}
 
+	@Test
 	public void testGetDigitalArduinoPin() {
 		arduino.initialise();
 		doTestFirmataInitialization();
@@ -191,6 +201,7 @@ public class ArduinoImplTest extends AndroidTestCase {
 		//TODO
 	}
 
+	@Test
 	public void testGetAnalogArduinoPin() {
 		arduino.initialise();
 		doTestFirmataInitialization();

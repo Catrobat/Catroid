@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.scratchconverter;
 
-import android.test.InstrumentationTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ScratchProgramData;
@@ -30,9 +30,16 @@ import org.catrobat.catroid.common.ScratchSearchResult;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebScratchProgramException;
 import org.catrobat.catroid.web.WebconnectionException;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.InterruptedIOException;
 import java.util.List;
+
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.greaterThan;
@@ -42,24 +49,24 @@ import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 
-public class ScratchServerCallsTest extends InstrumentationTestCase {
+@RunWith(AndroidJUnit4.class)
+public class ScratchServerCallsTest {
 
 	public ScratchServerCallsTest() {
 		super();
 	}
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 		ServerCalls.useTestUrl = true;
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
+	@After
+	public void tearDown() throws Exception {
 		ServerCalls.useTestUrl = false;
-		super.tearDown();
 	}
 
+	@Test
 	public void testScratchSearchWithEmptyQueryParam() throws WebconnectionException, InterruptedIOException {
 		ScratchSearchResult searchResult = ServerCalls.getInstance().scratchSearch("", 20, 0);
 		List<ScratchProgramData> programDataList = searchResult.getProgramDataList();
@@ -93,6 +100,7 @@ public class ScratchServerCallsTest extends InstrumentationTestCase {
 		assertThat(programData.getFavorites(), is(greaterThanOrEqualTo(0)));
 	}
 
+	@Test
 	public void testScratchSearchWithQueryParam() throws WebconnectionException, InterruptedIOException {
 		ScratchSearchResult searchResult = ServerCalls.getInstance().scratchSearch("test", 20, 0);
 		List<ScratchProgramData> programDataList = searchResult.getProgramDataList();
@@ -109,6 +117,7 @@ public class ScratchServerCallsTest extends InstrumentationTestCase {
 		}
 	}
 
+	@Test
 	public void testScratchSearchMaxNumberOfItemsParam() throws WebconnectionException, InterruptedIOException {
 		final int maxNumberOfItems = 10;
 
@@ -128,6 +137,7 @@ public class ScratchServerCallsTest extends InstrumentationTestCase {
 		}
 	}
 
+	@Test
 	public void testScratchSearchPagination() throws WebconnectionException, InterruptedIOException {
 		for (int pageIndex = 1; pageIndex < 3; pageIndex++) {
 			ScratchSearchResult searchResult = ServerCalls.getInstance().scratchSearch("test", 20, pageIndex);
@@ -146,6 +156,7 @@ public class ScratchServerCallsTest extends InstrumentationTestCase {
 		}
 	}
 
+	@Test
 	public void testFetchDefaultScratchPrograms() throws InterruptedIOException, WebconnectionException {
 		ScratchSearchResult searchResult = ServerCalls.getInstance().fetchDefaultScratchPrograms();
 		List<ScratchProgramData> programDataList = searchResult.getProgramDataList();
@@ -161,6 +172,7 @@ public class ScratchServerCallsTest extends InstrumentationTestCase {
 		}
 	}
 
+	@Test
 	public void testFetchScratchProgramDetails() throws
 			WebconnectionException,
 			WebScratchProgramException,

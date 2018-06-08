@@ -23,7 +23,7 @@
 package org.catrobat.catroid.test.content.actions;
 
 import android.support.test.InstrumentationRegistry;
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
@@ -45,8 +45,15 @@ import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.test.utils.Reflection;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class IfLogicActionTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+
+@RunWith(AndroidJUnit4.class)
+public class IfLogicActionTest {
 
 	private static final int IF_TRUE_VALUE = 42;
 	private static final int IF_FALSE_VALUE = 32;
@@ -65,9 +72,8 @@ public class IfLogicActionTest extends AndroidTestCase {
 	private static final String TRUE = "1.0";
 	private UserVariable userVariable;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 		testSprite = new SingleSprite("testSprite");
 		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		testSprite.removeAllScripts();
@@ -79,6 +85,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 				.getUserVariable(null, TEST_USERVARIABLE);
 	}
 
+	@Test
 	public void testNestedIfBrick() throws InterruptedException {
 		SetVariableBrick setVariableBrick = new SetVariableBrick(new Formula(IF_TRUE_VALUE), userVariable);
 
@@ -121,6 +128,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 		assertEquals(Double.valueOf(IF_TRUE_VALUE), userVariable.getValue());
 	}
 
+	@Test
 	public void testIfBrick() throws InterruptedException {
 		SetVariableBrick setVariableBrick = new SetVariableBrick(new Formula(IF_TRUE_VALUE), userVariable);
 
@@ -151,6 +159,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 		assertEquals(Double.valueOf(IF_TRUE_VALUE), userVariable.getValue());
 	}
 
+	@Test
 	public void testIfElseBrick() throws InterruptedException {
 		SetVariableBrick setVariableBrick = new SetVariableBrick(new Formula(IF_FALSE_VALUE), userVariable);
 
@@ -181,14 +190,17 @@ public class IfLogicActionTest extends AndroidTestCase {
 		assertEquals(Double.valueOf(IF_FALSE_VALUE), userVariable.getValue());
 	}
 
+	@Test
 	public void testBrickWithValidStringFormula() {
 		testFormula(new Formula(String.valueOf(TRUE)), Double.valueOf(IF_TRUE_VALUE));
 	}
 
+	@Test
 	public void testBrickWithInValidStringFormula() {
 		testFormula(new Formula(String.valueOf(NOT_NUMERICAL_STRING)), 0.0);
 	}
 
+	@Test
 	public void testNullFormula() {
 		Object userVariableExpected = userVariable.getValue();
 		Action ifAction = testSprite.getActionFactory().createSetVariableAction(testSprite, new Formula(IF_TRUE_VALUE),
@@ -204,6 +216,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 		assertEquals(userVariableExpected, userVariable.getValue());
 	}
 
+	@Test
 	public void testNotANumberFormula() {
 		testFormula(new Formula(Double.NaN), 0.0);
 	}

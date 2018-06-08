@@ -38,6 +38,9 @@ import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensorMode;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensorType;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSoundSensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTTouchSensor;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 public class SensorTests extends AndroidTestCase {
 
@@ -55,9 +58,8 @@ public class SensorTests extends AndroidTestCase {
 	private MindstormsConnection mindstormsConnection;
 	private MindstormsNXTTestModel nxtModel;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 
 		nxtModel = new MindstormsNXTTestModel();
 		this.logger = ConnectionDataLogger.createLocalConnectionLoggerWithDeviceModel(nxtModel);
@@ -66,14 +68,13 @@ public class SensorTests extends AndroidTestCase {
 		mindstormsConnection.init();
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
+	@After
+	public void tearDown() throws Exception {
 		mindstormsConnection.disconnect();
 		logger.disconnectAndDestroy();
-
-		super.tearDown();
 	}
 
+	@Test
 	public void testTouchSensor() {
 
 		final int expectedSensorValue = 1;
@@ -88,6 +89,7 @@ public class SensorTests extends AndroidTestCase {
 		assertEquals(expectedSensorValue, sensorValue);
 	}
 
+	@Test
 	public void testSoundSensor() {
 		final int expectedSensorValue = 42;
 		nxtModel.setSensorValue(expectedSensorValue);
@@ -101,6 +103,7 @@ public class SensorTests extends AndroidTestCase {
 		assertEquals(expectedSensorValue, sensorValue);
 	}
 
+	@Test
 	public void testLightSensor() {
 		final int expectedSensorValue = 24;
 
@@ -114,6 +117,7 @@ public class SensorTests extends AndroidTestCase {
 		assertEquals(expectedSensorValue, sensorValue);
 	}
 
+	@Test
 	public void testLightSensorActive() {
 		final int expectedSensorValue = 33;
 
@@ -127,6 +131,7 @@ public class SensorTests extends AndroidTestCase {
 		assertEquals(expectedSensorValue, sensorValue);
 	}
 
+	@Test
 	public void testI2CUltrasonicSensor() {
 		final int expectedSensorValue = 142;
 		nxtModel.setSensorValue(expectedSensorValue);

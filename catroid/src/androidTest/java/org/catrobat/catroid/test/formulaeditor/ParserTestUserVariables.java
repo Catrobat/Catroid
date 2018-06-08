@@ -39,6 +39,8 @@ import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -56,8 +58,8 @@ public class ParserTestUserVariables extends AndroidTestCase {
 	private static final String PROJECT_USER_VARIABLE_2 = "projectUserVariable2";
 	private Sprite firstSprite;
 
-	@Override
-	protected void setUp() {
+	@Before
+	public void setUp() {
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		firstSprite = new SingleSprite("firstSprite");
 		StartScript startScript = new StartScript();
@@ -80,6 +82,7 @@ public class ParserTestUserVariables extends AndroidTestCase {
 				.setValue(USER_VARIABLE_VALUE3);
 	}
 
+	@Test
 	public void testUserVariableInterpretation() {
 		assertEquals(USER_VARIABLE_1_VALUE_TYPE_DOUBLE, interpretUserVariable(PROJECT_USER_VARIABLE));
 		assertEquals(USER_VARIABLE_2_VALUE_TYPE_DOUBLE, interpretUserVariable(SPRITE_USER_VARIABLE));
@@ -87,6 +90,7 @@ public class ParserTestUserVariables extends AndroidTestCase {
 		assertEquals(USER_VARIABLE_VALUE3, interpretUserVariable(USER_BRICK_VARIABLE));
 	}
 
+	@Test
 	public void testUserVariableResetting() {
 		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().resetAllDataObjects();
 
@@ -96,6 +100,7 @@ public class ParserTestUserVariables extends AndroidTestCase {
 		assertEquals(USER_VARIABLE_VALUE3, interpretUserVariable(USER_BRICK_VARIABLE));
 	}
 
+	@Test
 	public void testNotExistingUserVariable() {
 		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.USER_VARIABLE, "NOT_EXISTING_USER_VARIABLE", 0);
 	}

@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.content.script;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.StartScript;
@@ -30,23 +30,29 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 
-public class ScriptTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class ScriptTest {
 
 	private HideBrick hideBrick;
 	private ShowBrick showBrick;
 	private PlaceAtBrick placeAtBrick;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 		hideBrick = new HideBrick();
 		showBrick = new ShowBrick();
 		placeAtBrick = new PlaceAtBrick(0, 0);
 	}
 
+	@Test
 	public void testAddBricks() {
 		Script script = new StartScript();
 		script.addBrick(hideBrick);

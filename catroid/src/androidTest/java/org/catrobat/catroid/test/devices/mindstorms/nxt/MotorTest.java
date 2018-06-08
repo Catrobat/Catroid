@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.test.devices.mindstorms.nxt;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
 import org.catrobat.catroid.devices.mindstorms.MindstormsConnection;
@@ -31,8 +31,15 @@ import org.catrobat.catroid.devices.mindstorms.MindstormsConnectionImpl;
 import org.catrobat.catroid.devices.mindstorms.nxt.CommandByte;
 import org.catrobat.catroid.devices.mindstorms.nxt.CommandType;
 import org.catrobat.catroid.devices.mindstorms.nxt.NXTMotor;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class MotorTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class MotorTest {
 
 	private NXTMotor motor;
 	private ConnectionDataLogger logger;
@@ -40,21 +47,20 @@ public class MotorTest extends AndroidTestCase {
 
 	private static final int USED_PORT = 0;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 		this.logger = ConnectionDataLogger.createLocalConnectionLogger();
 		MindstormsConnection mindstormsConnection = new MindstormsConnectionImpl(logger.getConnectionProxy());
 		mindstormsConnection.init();
 		this.motor = new NXTMotor(USED_PORT, mindstormsConnection);
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
+	@After
+	public void tearDown() throws Exception {
 		logger.disconnectAndDestroy();
-		super.tearDown();
 	}
 
+	@Test
 	public void testSimpleMotorTest() {
 		int inputSpeed = 70;
 		int degrees = 360;
@@ -78,6 +84,7 @@ public class MotorTest extends AndroidTestCase {
 		checkDegrees(degrees, setOutputState);
 	}
 
+	@Test
 	public void testMotorSpeedOverHundred() {
 
 		int inputSpeed = 120;
@@ -102,6 +109,7 @@ public class MotorTest extends AndroidTestCase {
 		checkDegrees(degrees, setOutputState);
 	}
 
+	@Test
 	public void testMotorWithZeroValues() {
 
 		int inputSpeed = 0;
@@ -126,6 +134,7 @@ public class MotorTest extends AndroidTestCase {
 		checkDegrees(degrees, setOutputState);
 	}
 
+	@Test
 	public void testMotorWithNegativeSpeedOverHundred() {
 
 		int inputSpeed = -120;

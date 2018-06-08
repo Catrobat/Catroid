@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.formulaeditor;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
@@ -32,11 +32,19 @@ import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.Operators;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class ParserTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
+
+@RunWith(AndroidJUnit4.class)
+public class ParserTest {
 
 	private static final float LOOK_ALPHA = 50f;
 	private static final float LOOK_Y_POSITION = 23.4f;
@@ -48,8 +56,8 @@ public class ParserTest extends AndroidTestCase {
 	private static final int LOOK_ZPOSITION = 3;
 	private Sprite testSprite;
 
-	@Override
-	protected void setUp() {
+	@Before
+	public void setUp() {
 		testSprite = new SingleSprite("sprite");
 		testSprite.look.setXInUserInterfaceDimensionUnit(LOOK_X_POSITION);
 		testSprite.look.setYInUserInterfaceDimensionUnit(LOOK_Y_POSITION);
@@ -62,6 +70,7 @@ public class ParserTest extends AndroidTestCase {
 		testSprite.look.setZIndex(LOOK_ZPOSITION);
 	}
 
+	@Test
 	public void testNumbers() {
 		FormulaEditorTestUtil.testSingleToken(InternTokenType.NUMBER, "1.0", "1.0", testSprite);
 		FormulaEditorTestUtil.testSingleToken(InternTokenType.NUMBER, "1", "1", testSprite);
@@ -71,6 +80,7 @@ public class ParserTest extends AndroidTestCase {
 		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.NUMBER, ".1", 0);
 	}
 
+	@Test
 	public void testStrings() {
 		FormulaEditorTestUtil.testSingleToken(InternTokenType.STRING, "1.0", "1.0", testSprite);
 		FormulaEditorTestUtil.testSingleToken(InternTokenType.STRING, "1", "1", testSprite);
@@ -82,6 +92,7 @@ public class ParserTest extends AndroidTestCase {
 		FormulaEditorTestUtil.testSingleToken(InternTokenType.STRING, "\'^_^\'", "\'^_^\'", testSprite);
 	}
 
+	@Test
 	public void testBracket() {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 
@@ -128,6 +139,7 @@ public class ParserTest extends AndroidTestCase {
 		assertEquals(0.0, parseTree.interpretRecursive(testSprite));
 	}
 
+	@Test
 	public void testEmptyInput() {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 
@@ -138,6 +150,7 @@ public class ParserTest extends AndroidTestCase {
 		assertEquals(InternFormulaParser.PARSER_NO_INPUT, internParser.getErrorTokenIndex());
 	}
 
+	@Test
 	public void testFuctionalAndSimpleBracketsCorrection() {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 

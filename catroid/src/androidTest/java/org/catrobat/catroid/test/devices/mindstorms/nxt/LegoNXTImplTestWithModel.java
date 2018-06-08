@@ -24,12 +24,16 @@
 package org.catrobat.catroid.test.devices.mindstorms.nxt;
 
 import android.content.Context;
+import android.support.test.InstrumentationRegistry;
 import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
 import org.catrobat.catroid.common.bluetooth.models.MindstormsNXTTestModel;
 import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
 import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXTImpl;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 public class LegoNXTImplTestWithModel extends AndroidTestCase {
 
@@ -37,11 +41,10 @@ public class LegoNXTImplTestWithModel extends AndroidTestCase {
 	private MindstormsNXTTestModel nxtTestModel;
 	ConnectionDataLogger logger;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 
-		Context applicationContext = this.getContext().getApplicationContext();
+		Context applicationContext = InstrumentationRegistry.getTargetContext().getApplicationContext();
 
 		nxtTestModel = new MindstormsNXTTestModel();
 
@@ -50,13 +53,13 @@ public class LegoNXTImplTestWithModel extends AndroidTestCase {
 		nxt.setConnection(logger.getConnectionProxy());
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
+	@After
+	public void tearDown() throws Exception {
 		nxt.disconnect();
 		logger.disconnectAndDestroy();
-		super.tearDown();
 	}
 
+	@Test
 	public void testGetBatteryLevel() {
 		int expectedVoltage = 7533;
 		nxtTestModel.setBatteryValue(expectedVoltage);
@@ -64,6 +67,7 @@ public class LegoNXTImplTestWithModel extends AndroidTestCase {
 		assertEquals(expectedVoltage, nxt.getBatteryLevel());
 	}
 
+	@Test
 	public void testKeepAlive() {
 
 		int expectedKeepAliveTime = 3600;

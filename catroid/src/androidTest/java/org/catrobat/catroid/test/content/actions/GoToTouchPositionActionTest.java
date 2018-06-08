@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
@@ -31,8 +31,15 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.utils.TouchUtil;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class GoToTouchPositionActionTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.fail;
+
+@RunWith(AndroidJUnit4.class)
+public class GoToTouchPositionActionTest {
 
 	private static final float EXPECTED_X_POSITION = 20f;
 	private static final float EXPECTED_Y_POSITION = 25f;
@@ -40,14 +47,14 @@ public class GoToTouchPositionActionTest extends AndroidTestCase {
 	private Sprite dummySprite;
 	private Action action;
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		sprite = new Sprite("testSprite");
 		dummySprite = new Sprite("dummySprite");
 		action = sprite.getActionFactory().createGoToAction(sprite, dummySprite, BrickValues.GO_TO_TOUCH_POSITION);
-		super.setUp();
 	}
 
+	@Test
 	public void testGoToTouchPositionAction() throws InterruptedException {
 		sprite.look.setXInUserInterfaceDimensionUnit(0f);
 		sprite.look.setYInUserInterfaceDimensionUnit(0f);
@@ -63,6 +70,7 @@ public class GoToTouchPositionActionTest extends AndroidTestCase {
 		assertEquals(EXPECTED_Y_POSITION, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNullActor() {
 		ActionFactory factory = new ActionFactory();
 		Action action = factory.createGoToAction(null, dummySprite, BrickValues.GO_TO_TOUCH_POSITION);

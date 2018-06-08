@@ -22,17 +22,24 @@
  */
 package org.catrobat.catroid.test.pocketmusic.note;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.pocketmusic.note.MusicalKey;
 import org.catrobat.catroid.pocketmusic.note.NoteName;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class MusicalKeyTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
 
+@RunWith(AndroidJUnit4.class)
+public class MusicalKeyTest {
+
+	@Test
 	public void testGetNoteNameOnMiddleLine1() {
 		assertEquals(NoteName.B4, MusicalKey.VIOLIN.getNoteNameOnMiddleLine());
 	}
 
+	@Test
 	public void testGetNoteNameOnMiddleLine2() {
 		assertEquals(NoteName.D3, MusicalKey.BASS.getNoteNameOnMiddleLine());
 	}

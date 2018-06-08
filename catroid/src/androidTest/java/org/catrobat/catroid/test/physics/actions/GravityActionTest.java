@@ -22,29 +22,48 @@
  */
 package org.catrobat.catroid.test.physics.actions;
 
+import android.support.test.runner.AndroidJUnit4;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsWorld;
-import org.catrobat.catroid.test.physics.PhysicsBaseTest;
+import org.catrobat.catroid.test.physics.PhysicsTestRule;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class GravityActionTest extends PhysicsBaseTest {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+
+@RunWith(AndroidJUnit4.class)
+public class GravityActionTest {
 
 	private static final int TEST_STEP_COUNT = 10;
 	private static final float TEST_STEP_DELTA_TIME = 0.1f;
 
 	PhysicsObject physicsObject;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Rule
+	public PhysicsTestRule rule = new PhysicsTestRule();
+
+	private Sprite sprite;
+	private PhysicsWorld physicsWorld;
+
+	@Before
+	public void setUp() throws Exception {
+		sprite = rule.sprite;
+		physicsWorld = rule.physicsWorld;
 		physicsObject = physicsWorld.getPhysicsObject(sprite);
 		physicsObject.setType(PhysicsObject.Type.DYNAMIC);
 	}
 
+	@Test
 	public void testDefaultGravity() {
 		Vector2 gravityVector = ((World) Reflection.getPrivateField(PhysicsWorld.class, physicsWorld, "world"))
 				.getGravity();
@@ -55,6 +74,7 @@ public class GravityActionTest extends PhysicsBaseTest {
 		simulate();
 	}
 
+	@Test
 	public void testVaryingGravity() {
 		assertEquals(0, physicsObject.getY(), TestUtils.DELTA);
 		simulate();

@@ -26,8 +26,10 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.ResourceImporter;
+import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
@@ -58,6 +60,7 @@ public class UtilFileSizeTranslationsTest {
 	private File imageFile;
 	private File soundFile;
 	private NumberFormat currentNumberformat;
+	private String projectName = "fileSizeArabicTest";
 
 	@Before
 	public void setUp() throws Exception {
@@ -69,6 +72,10 @@ public class UtilFileSizeTranslationsTest {
 	@After
 	public void tearDown() throws Exception {
 		SettingsFragment.updateLocale(getTargetContext(), defaultLocale);
+		File projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName);
+		if (projectDir.exists() && projectDir.isDirectory()) {
+			StorageOperations.deleteDir(projectDir);
+		}
 	}
 
 	@Test
@@ -87,7 +94,6 @@ public class UtilFileSizeTranslationsTest {
 	}
 
 	public void createProjectWithFiles() throws IOException {
-		String projectName = "fileSizeArabicTest";
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setCurrentProject(project);
