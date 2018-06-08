@@ -104,11 +104,9 @@ public class ParserTestSensors {
 		SensorHandler.startSensorListener(getInstrumentation().getTargetContext());
 
 		if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
-			assertEquals("SensorHandler not initialized value error", 0d,
-					Math.abs((Double) SensorHandler.getSensorValue(Sensors.Y_ACCELERATION)));
+			assertEquals(0d, Math.abs((Double) SensorHandler.getSensorValue(Sensors.Y_ACCELERATION)));
 		} else {
-			assertEquals("SensorHandler not initialized value error", 0d,
-					Math.abs((Double) SensorHandler.getSensorValue(Sensors.X_ACCELERATION)));
+			assertEquals(0d, Math.abs((Double) SensorHandler.getSensorValue(Sensors.X_ACCELERATION)));
 		}
 	}
 
@@ -116,8 +114,7 @@ public class ParserTestSensors {
 	@UiThreadTest
 	public void testSensorHandlerWithLookSensorValue() {
 		SensorHandler.startSensorListener(getInstrumentation().getTargetContext());
-		assertEquals("SensorHandler returned wrong value when Sensor is not found in List", 0d,
-				SensorHandler.getSensorValue(Sensors.OBJECT_BRIGHTNESS));
+		assertEquals(0d, SensorHandler.getSensorValue(Sensors.OBJECT_BRIGHTNESS));
 		SensorHandler.stopSensorListeners();
 	}
 
@@ -128,11 +125,10 @@ public class ParserTestSensors {
 		FaceDetector faceDetector = (FaceDetector) Reflection.getPrivateField(FaceDetectionHandler.class,
 				"faceDetector");
 
-		assertNotNull("SensorHandler was not registered as a listener at FaceDetectionHandler", faceDetector);
+		assertNotNull(faceDetector);
 
-		assertEquals("Face detection status initial value error", 0d,
-				SensorHandler.getSensorValue(Sensors.FACE_DETECTED));
-		assertEquals("Face detection size initial value error", 0d, SensorHandler.getSensorValue(Sensors.FACE_SIZE));
+		assertEquals(0d, SensorHandler.getSensorValue(Sensors.FACE_DETECTED));
+		assertEquals(0d, SensorHandler.getSensorValue(Sensors.FACE_SIZE));
 
 		Method[] methods = faceDetector.getClass().getSuperclass().getDeclaredMethods();
 		for (Method method : methods) {
@@ -168,29 +164,18 @@ public class ParserTestSensors {
 		ChangeSizeByNBrick faceYPositionBrick = new ChangeSizeByNBrick(formula9);
 		startScript1.addBrick(faceYPositionBrick);
 
-		assertEquals("Unexpected sensor value for face detection status (= 1 if face detected, 0 otherwise)", 1d,
-				interpretFormula(formula6));
+		assertEquals(1d, interpretFormula(formula6));
 
-		assertEquals(
-				"Unexpected sensor value for face size (= width of the face (range: 0 to 100, where at 100 the face fills half the width of the cameras view)",
-				expectedFaceSize, interpretFormula(formula7), delta);
+		assertEquals(expectedFaceSize, interpretFormula(formula7), delta);
 
 		if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
-			assertEquals(
-					"Unexpected sensor value for face x position (= in portrait mode, the central x coordinate of the face if the camera input is projected fullscreen to the display (range: 0 to screen width) )",
-					expectedFaceXPosition, interpretFormula(formula9), delta);
+			assertEquals(expectedFaceXPosition, interpretFormula(formula9), delta);
 
-			assertEquals(
-					"Unexpected sensor value for face y position (= in portrait mode, the central y coordinate of the face if the camera input is projected fullscreen to the display (range: 0 to screen height) )",
-					expectedFaceYPosition, -interpretFormula(formula8), delta);
+			assertEquals(expectedFaceYPosition, -interpretFormula(formula8), delta);
 		} else {
-			assertEquals(
-					"Unexpected sensor value for face x position (= in portrait mode, the central x coordinate of the face if the camera input is projected fullscreen to the display (range: 0 to screen width) )",
-					expectedFaceXPosition, interpretFormula(formula8), delta);
+			assertEquals(expectedFaceXPosition, interpretFormula(formula8), delta);
 
-			assertEquals(
-					"Unexpected sensor value for face y position (= in portrait mode, the central y coordinate of the face if the camera input is projected fullscreen to the display (range: 0 to screen height) )",
-					expectedFaceYPosition, -interpretFormula(formula9), delta);
+			assertEquals(expectedFaceYPosition, -interpretFormula(formula9), delta);
 		}
 		SensorHandler.stopSensorListeners();
 	}
@@ -205,9 +190,9 @@ public class ParserTestSensors {
 		Reflection.setPrivateField(loudnessSensor, "recorder", simulatedSoundRecorder);
 
 		SensorHandler.startSensorListener(getInstrumentation().getTargetContext());
-		assertTrue("LoudnessSensor dit not start recording, isRecording()", simulatedSoundRecorder.isRecording());
+		assertTrue(simulatedSoundRecorder.isRecording());
 		SensorHandler.stopSensorListeners();
-		assertFalse("LoudnessSensor did not stop recording, isRecording()", simulatedSoundRecorder.isRecording());
+		assertFalse(simulatedSoundRecorder.isRecording());
 	}
 
 	private Formula createFormulaWithSensor(Sensors sensor) {

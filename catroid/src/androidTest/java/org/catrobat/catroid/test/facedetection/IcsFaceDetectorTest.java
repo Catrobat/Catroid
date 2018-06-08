@@ -90,7 +90,7 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 			camera = Camera.open();
 			IcsFaceDetector detector = new IcsFaceDetector();
 			if ((camera.getParameters()).getMaxNumDetectedFaces() > 0) {
-				assertFalse("IcsFaceDetector should not start if camera not available.", detector.startFaceDetection());
+				assertFalse(detector.startFaceDetection());
 			}
 		} catch (Exception exc) {
 			fail("Camera not available (" + exc.getMessage() + ")");
@@ -139,17 +139,17 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 			}
 		};
 		detector.addOnFaceDetectionStatusListener(listener);
-		assertEquals("unexpected detection of a face", 0f, detected[0]);
+		assertEquals(0f, detected[0]);
 
 		detector.onFaceDetection(new Face[0], null);
-		assertEquals("ICS Face Detector posted wrong status", 0f, detected[0]);
+		assertEquals(0f, detected[0]);
 		Face[] faces = new Face[1];
 		faces[0] = new Face();
 		faces[0].rect = new Rect();
 		detector.onFaceDetection(faces, null);
-		assertEquals("ICS Face Detector posted wrong status", 1f, detected[0]);
+		assertEquals(1f, detected[0]);
 		detector.onFaceDetection(new Face[0], null);
-		assertEquals("ICS Face Detector did not post status change", 0f, detected[0]);
+		assertEquals(0f, detected[0]);
 	}
 
 	@Device
@@ -164,7 +164,7 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 				detectedFaces[COUNTER_INDEX]++;
 				int icsValue = (int) event.values[0];
 				float intFloatDifference = event.values[0] - icsValue;
-				assertEquals("Face detection values should be integer", intFloatDifference, 0f);
+				assertEquals(intFloatDifference, 0f);
 				switch (event.sensor) {
 					case FACE_X_POSITION:
 						detectedFaces[X_POSITION_INDEX] = icsValue;
@@ -182,7 +182,7 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 			}
 		};
 		detector.addOnFaceDetectedListener(detectionListener);
-		assertEquals("Face Detection Listener receives unexpected calls", 0, detectedFaces[COUNTER_INDEX]);
+		assertEquals(0, detectedFaces[COUNTER_INDEX]);
 
 		Rect faceBounds = new Rect(FACE_LEFT, FACE_TOP, FACE_RIGHT, FACE_BOTTOM);
 		Face[] faces = new Face[2];
@@ -194,7 +194,7 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 		faces[1].score = 80;
 
 		detector.onFaceDetection(faces, null);
-		assertEquals("Face Detection Listener does not receive calls", 3, detectedFaces[COUNTER_INDEX]);
+		assertEquals(3, detectedFaces[COUNTER_INDEX]);
 
 		int lowScoreFaceSize = LOW_SCORE_FACE_WIDTH * 100 * 2 / FACE_RECT_SIZE;
 		if (detectedFaces[SIZE_INDEX] == lowScoreFaceSize) {
@@ -202,19 +202,19 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 		}
 
 		int expectedSize = (FACE_RIGHT - FACE_LEFT) * 100 * 2 / FACE_RECT_SIZE;
-		assertEquals("Unexpected size of face", expectedSize, detectedFaces[SIZE_INDEX]);
+		assertEquals(expectedSize, detectedFaces[SIZE_INDEX]);
 
 		int expectedXPosition = Math.abs((FACE_TOP + (FACE_BOTTOM - FACE_TOP) / 2) * ScreenValues.SCREEN_WIDTH
 				/ FACE_RECT_SIZE);
-		assertEquals("Unexpected x position of face", expectedXPosition, Math.abs(detectedFaces[X_POSITION_INDEX]));
+		assertEquals(expectedXPosition, Math.abs(detectedFaces[X_POSITION_INDEX]));
 
 		int expectedYPosition = Math.abs((FACE_LEFT + (FACE_RIGHT - FACE_LEFT) / 2) * ScreenValues.SCREEN_HEIGHT
 				/ FACE_RECT_SIZE);
-		assertEquals("Unexpected y position of face", expectedYPosition, Math.abs(detectedFaces[Y_POSITION_INDEX]));
+		assertEquals(expectedYPosition, Math.abs(detectedFaces[Y_POSITION_INDEX]));
 
 		detector.onFaceDetection(faces, null);
-		assertTrue("Face Detection Listener reveices too many calls", detectedFaces[COUNTER_INDEX] <= 6);
-		assertEquals("Face Detection Listener does not receive calls", 6, detectedFaces[COUNTER_INDEX]);
+		assertTrue(detectedFaces[COUNTER_INDEX] <= 6);
+		assertEquals(6, detectedFaces[COUNTER_INDEX]);
 
 		detector.removeOnFaceDetectedListener(detectionListener);
 	}
@@ -240,8 +240,8 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 		faces[0].rect = faceBounds;
 
 		detector.onFaceDetection(faces, null);
-		assertTrue("Face size must not be negative", faceSize[0] >= 0);
-		assertTrue("Illegal face size, range is [0,100]", faceSize[0] <= 100);
+		assertTrue(faceSize[0] >= 0);
+		assertTrue(faceSize[0] <= 100);
 
 		Random random = new Random();
 		int left = random.nextInt(FACE_RECT_SIZE - 1);
@@ -253,8 +253,8 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 
 		faces[0].rect = faceBounds;
 		detector.onFaceDetection(faces, null);
-		assertTrue("Face size must not be negative", faceSize[0] >= 0);
-		assertTrue("Illegal face size, range is [0,100]", faceSize[0] <= 100);
+		assertTrue(faceSize[0] >= 0);
+		assertTrue(faceSize[0] <= 100);
 
 		detector.removeOnFaceDetectedListener(detectionListener);
 	}

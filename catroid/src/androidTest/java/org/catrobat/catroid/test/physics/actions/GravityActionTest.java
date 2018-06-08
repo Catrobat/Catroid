@@ -48,22 +48,22 @@ public class GravityActionTest extends PhysicsBaseTest {
 	public void testDefaultGravity() {
 		Vector2 gravityVector = ((World) Reflection.getPrivateField(PhysicsWorld.class, physicsWorld, "world"))
 				.getGravity();
-		assertEquals("Unexpected initial gravityX value", PhysicsWorld.DEFAULT_GRAVITY.x, gravityVector.x);
-		assertEquals("Unexpected initial gravityY value", PhysicsWorld.DEFAULT_GRAVITY.y, gravityVector.y);
-		assertEquals("Unexpected initial velocity Y value", 0, physicsObject.getVelocity().y, TestUtils.DELTA);
-		assertEquals("Unexpected initial y-coordinate", 0, physicsObject.getY(), TestUtils.DELTA);
+		assertEquals(PhysicsWorld.DEFAULT_GRAVITY.x, gravityVector.x);
+		assertEquals(PhysicsWorld.DEFAULT_GRAVITY.y, gravityVector.y);
+		assertEquals(0, physicsObject.getVelocity().y, TestUtils.DELTA);
+		assertEquals(0, physicsObject.getY(), TestUtils.DELTA);
 		simulate();
 	}
 
 	public void testVaryingGravity() {
-		assertEquals("Unexpected initial y-coordinate", 0, physicsObject.getY(), TestUtils.DELTA);
+		assertEquals(0, physicsObject.getY(), TestUtils.DELTA);
 		simulate();
 		float velocityByDefaultGravity = Math.abs(physicsObject.getVelocity().y);
 		resetPhysicObject();
 		physicsWorld.setGravity(0.0f, PhysicsWorld.DEFAULT_GRAVITY.y * 2);
 		simulate();
 		float velocityByDuplexGravity = Math.abs(physicsObject.getVelocity().y);
-		assertTrue("velocity by stronger gravity(" + velocityByDuplexGravity + ") is lower than velocity by default-gravity (" + velocityByDefaultGravity + "), should be higher!", velocityByDuplexGravity > velocityByDefaultGravity);
+		assertTrue(velocityByDuplexGravity > velocityByDefaultGravity);
 	}
 
 	private void simulate() {
@@ -72,7 +72,7 @@ public class GravityActionTest extends PhysicsBaseTest {
 		for (int step = 1; step < TEST_STEP_COUNT; step++) {
 			physicsWorld.step(TEST_STEP_DELTA_TIME);
 			postVelocityYValue = Math.abs(physicsObject.getVelocity().y);
-			assertTrue("post velocity.y (" + postVelocityYValue + ") is lower than previous value (" + preVelocityYValue + "), should be higher!", postVelocityYValue > preVelocityYValue);
+			assertTrue(postVelocityYValue > preVelocityYValue);
 			preVelocityYValue = postVelocityYValue;
 		}
 	}

@@ -80,10 +80,10 @@ public class SoundManagerTest extends InstrumentationTestCase {
 		soundManager.playSoundFile(soundFile.getAbsolutePath());
 
 		MediaPlayer mediaPlayer = getMediaPlayers().get(0);
-		assertTrue("Media player isn't playing", mediaPlayer.isPlaying());
+		assertTrue(mediaPlayer.isPlaying());
 
 		soundManager.clear();
-		assertTrue("SoundManager still holds media player references", getMediaPlayers().isEmpty());
+		assertTrue(getMediaPlayers().isEmpty());
 		try {
 			mediaPlayer.isPlaying();
 			fail("The media player hasn't been released");
@@ -95,13 +95,13 @@ public class SoundManagerTest extends InstrumentationTestCase {
 		soundManager.playSoundFile(soundFile.getAbsolutePath());
 
 		MediaPlayer mediaPlayer = getMediaPlayers().get(0);
-		assertTrue("Media player isn't playing", mediaPlayer.isPlaying());
+		assertTrue(mediaPlayer.isPlaying());
 
 		soundManager.pause();
-		assertFalse("Media player is still playing", mediaPlayer.isPlaying());
+		assertFalse(mediaPlayer.isPlaying());
 
 		soundManager.resume();
-		assertTrue("Media player isn't playing", mediaPlayer.isPlaying());
+		assertTrue(mediaPlayer.isPlaying());
 	}
 
 	public void testPauseAndResumeMultipleSounds() {
@@ -113,31 +113,31 @@ public class SoundManagerTest extends InstrumentationTestCase {
 		}
 
 		for (int index = 0; index < playSoundFilesCount; index++) {
-			assertTrue("Media player isn't playing", mediaPlayers.get(index).isPlaying());
+			assertTrue(mediaPlayers.get(index).isPlaying());
 		}
 
 		soundManager.pause();
 
 		for (int index = 0; index < playSoundFilesCount; index++) {
-			assertFalse("Media player is still playing", mediaPlayers.get(index).isPlaying());
+			assertFalse(mediaPlayers.get(index).isPlaying());
 		}
 
 		soundManager.resume();
 
 		for (int index = 0; index < playSoundFilesCount; index++) {
-			assertTrue("Media player isn't playing", mediaPlayers.get(index).isPlaying());
+			assertTrue(mediaPlayers.get(index).isPlaying());
 		}
 	}
 
 	public void testMediaPlayerLimit() {
-		assertEquals("Wrong maximum count of sound players", 7, SoundManager.MAX_MEDIA_PLAYERS);
+		assertEquals(7, SoundManager.MAX_MEDIA_PLAYERS);
 
 		List<MediaPlayer> mediaPlayers = getMediaPlayers();
 		for (int index = 0; index < SoundManager.MAX_MEDIA_PLAYERS + 3; index++) {
 			soundManager.playSoundFile(soundFile.getAbsolutePath());
 		}
 
-		assertEquals("Maximum count of media players is exceeded", SoundManager.MAX_MEDIA_PLAYERS, mediaPlayers.size());
+		assertEquals(SoundManager.MAX_MEDIA_PLAYERS, mediaPlayers.size());
 	}
 
 	public void testIfAllMediaPlayersInTheListAreUnique() {
@@ -147,8 +147,7 @@ public class SoundManagerTest extends InstrumentationTestCase {
 		}
 
 		for (MediaPlayer mediaPlayer : mediaPlayers) {
-			assertEquals("MediaPlayerList contains one media players twice.", 1,
-					Collections.frequency(mediaPlayers, mediaPlayer));
+			assertEquals(1, Collections.frequency(mediaPlayers, mediaPlayer));
 		}
 	}
 
@@ -166,9 +165,9 @@ public class SoundManagerTest extends InstrumentationTestCase {
 		float newVolume = 80.9f;
 		soundManager.setVolume(newVolume);
 
-		assertEquals("Volume hasn't changed", newVolume, soundManager.getVolume());
-		assertEquals("Wrong volume value", newVolume / 100f, mediaPlayerMock.leftVolume);
-		assertEquals("Wrong volume value", newVolume / 100f, mediaPlayerMock.rightVolume);
+		assertEquals(newVolume, soundManager.getVolume());
+		assertEquals(newVolume / 100f, mediaPlayerMock.leftVolume);
+		assertEquals(newVolume / 100f, mediaPlayerMock.rightVolume);
 	}
 
 	@SuppressWarnings("unchecked")

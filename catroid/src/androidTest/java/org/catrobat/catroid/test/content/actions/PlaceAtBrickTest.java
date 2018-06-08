@@ -45,14 +45,12 @@ public class PlaceAtBrickTest extends AndroidTestCase {
 	}
 
 	public void testNormalBehavior() {
-		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Unexpected initial sprite y position", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 
 		sprite.getActionFactory().createPlaceAtAction(sprite, xPosition, yPosition).act(1.0f);
-		assertEquals("Incorrect sprite x position after PlaceAtBrick executed", X_POSITION_VALUE,
-				(int) sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Incorrect sprite y position after PlaceAtBrick executed", Y_POSITION_VALUE,
-				(int) sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(X_POSITION_VALUE, (int) sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(Y_POSITION_VALUE, (int) sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullSprite() {
@@ -67,49 +65,37 @@ public class PlaceAtBrickTest extends AndroidTestCase {
 		Sprite sprite = new SingleSprite("testSprite");
 		sprite.getActionFactory().createPlaceAtAction(sprite, new Formula(Integer.MAX_VALUE),
 				new Formula(Integer.MAX_VALUE)).act(1.0f);
-		assertEquals("PlaceAtBrick failed to place Sprite at maximum x integer value", Integer.MAX_VALUE,
-				(int) sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("PlaceAtBrick failed to place Sprite at maximum y integer value", Integer.MAX_VALUE,
-				(int) sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(Integer.MAX_VALUE, (int) sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(Integer.MAX_VALUE, (int) sprite.look.getYInUserInterfaceDimensionUnit());
 
 		sprite.getActionFactory().createPlaceAtAction(sprite, new Formula(Integer.MIN_VALUE),
 				new Formula(Integer.MIN_VALUE)).act(1.0f);
-		assertEquals("PlaceAtBrick failed to place Sprite at minimum x integer value", Integer.MIN_VALUE,
-				(int) sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("PlaceAtBrick failed to place Sprite at minimum y integer value", Integer.MIN_VALUE,
-				(int) sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(Integer.MIN_VALUE, (int) sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(Integer.MIN_VALUE, (int) sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testBrickWithStringFormula() {
 		sprite.getActionFactory().createPlaceAtAction(sprite, new Formula(String.valueOf(X_POSITION_VALUE)),
 				new Formula(String.valueOf(Y_POSITION_VALUE))).act(1.0f);
-		assertEquals("Incorrect sprite x position after PlaceAtBrick executed", X_POSITION_VALUE,
-				(int) sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Incorrect sprite y position after PlaceAtBrick executed", Y_POSITION_VALUE,
-				(int) sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(X_POSITION_VALUE, (int) sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(Y_POSITION_VALUE, (int) sprite.look.getYInUserInterfaceDimensionUnit());
 
 		sprite.getActionFactory().createPlaceAtAction(sprite, new Formula(NOT_NUMERICAL_STRING),
 				new Formula(String.valueOf(NOT_NUMERICAL_STRING2))).act(1.0f);
-		assertEquals("Incorrect sprite x position after PlaceAtBrick executed", 0f,
-				sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Incorrect sprite y position after PlaceAtBrick executed", 0f,
-				sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullFormula() {
 		sprite.getActionFactory().createPlaceAtAction(sprite, null, null).act(1.0f);
-		assertEquals("Incorrect sprite x position after PlaceAtBrick executed", 0f,
-				sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Incorrect sprite y position after PlaceAtBrick executed", 0f,
-				sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testNotANumberFormula() {
 		sprite.getActionFactory().createPlaceAtAction(sprite, new Formula(Double.NaN), new Formula(Double.NaN))
 				.act(1.0f);
-		assertEquals("Incorrect sprite x position after PlaceAtBrick executed", 0f,
-				sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Incorrect sprite y position after PlaceAtBrick executed", 0f,
-				sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 }

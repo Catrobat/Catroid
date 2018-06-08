@@ -234,20 +234,20 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 	}
 
 	private void checkIfExpectedDirectionsContainsAllKeys(Map<Float, Float> expectedDirections) {
-		assertEquals("The expected directions count is wrong", 12, expectedDirections.size());
+		assertEquals(12, expectedDirections.size());
 
-		assertTrue("A 90° direction is missing", expectedDirections.containsKey(90f));
-		assertTrue("A 120° direction is missing", expectedDirections.containsKey(120f));
-		assertTrue("A 150° direction is missing", expectedDirections.containsKey(150f));
-		assertTrue("A 180° direction is missing", expectedDirections.containsKey(180f));
-		assertTrue("A -150° direction is missing", expectedDirections.containsKey(-150f));
-		assertTrue("A -120° direction is missing", expectedDirections.containsKey(-120f));
-		assertTrue("A -90° direction is missing", expectedDirections.containsKey(-90f));
-		assertTrue("A -60° direction is missing", expectedDirections.containsKey(-60f));
-		assertTrue("A -30° direction is missing", expectedDirections.containsKey(-30f));
-		assertTrue("A 0° direction is missing", expectedDirections.containsKey(0f));
-		assertTrue("A 30° direction is missing", expectedDirections.containsKey(30f));
-		assertTrue("A 60° direction is missing", expectedDirections.containsKey(60f));
+		assertTrue(expectedDirections.containsKey(90f));
+		assertTrue(expectedDirections.containsKey(120f));
+		assertTrue(expectedDirections.containsKey(150f));
+		assertTrue(expectedDirections.containsKey(180f));
+		assertTrue(expectedDirections.containsKey(-150f));
+		assertTrue(expectedDirections.containsKey(-120f));
+		assertTrue(expectedDirections.containsKey(-90f));
+		assertTrue(expectedDirections.containsKey(-60f));
+		assertTrue(expectedDirections.containsKey(-30f));
+		assertTrue(expectedDirections.containsKey(0f));
+		assertTrue(expectedDirections.containsKey(30f));
+		assertTrue(expectedDirections.containsKey(60f));
 	}
 
 	private void setPositionAndDirection(float x, float y, float direction) {
@@ -263,8 +263,8 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 
 	private void checkPositionAndDirection(float expectedX, float expectedY, float expectedDirection) {
 		Look look = sprite.look;
-		assertEquals("Wrong x after bounce", expectedX, look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong y after bounce", expectedY, look.getYInUserInterfaceDimensionUnit());
-		assertEquals("Wrong direction after bounce", expectedDirection, look.getDirectionInUserInterfaceDimensionUnit());
+		assertEquals(expectedX, look.getXInUserInterfaceDimensionUnit());
+		assertEquals(expectedY, look.getYInUserInterfaceDimensionUnit());
+		assertEquals(expectedDirection, look.getDirectionInUserInterfaceDimensionUnit());
 	}
 }

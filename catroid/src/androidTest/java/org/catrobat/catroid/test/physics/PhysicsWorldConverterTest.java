@@ -46,26 +46,18 @@ public class PhysicsWorldConverterTest extends AndroidTestCase {
 
 	public void testAngleConversion() {
 		float angle = 0.0f;
-		Assert.assertEquals("convertBox2dToNormalAngle(0) should be zero", angle,
-				PhysicsWorldConverter.convertBox2dToNormalAngle(angle));
-		Assert.assertEquals("convertNormalToBox2dAngle(0) should be zero", angle,
-				PhysicsWorldConverter.convertNormalToBox2dAngle(angle), TestUtils.DELTA);
+		Assert.assertEquals(angle, PhysicsWorldConverter.convertBox2dToNormalAngle(angle));
+		Assert.assertEquals(angle, PhysicsWorldConverter.convertNormalToBox2dAngle(angle), TestUtils.DELTA);
 
-		Assert.assertEquals("PI/2 should be convertNormalToBox2dAngle(90°)", (float) (Math.PI / 2.0),
-				PhysicsWorldConverter.convertNormalToBox2dAngle(90.0f), TestUtils.DELTA);
-		Assert.assertEquals("PI should be convertNormalToBox2dAngle(180°)", (float) Math.PI,
-				PhysicsWorldConverter.convertNormalToBox2dAngle(180.0f), TestUtils.DELTA);
-		Assert.assertEquals("90° should be convertBox2dToNormalAngle(PI/2)", 90.0f,
-				PhysicsWorldConverter.convertBox2dToNormalAngle((float) (Math.PI / 2.0)), TestUtils.DELTA);
-		Assert.assertEquals("180° should be convertBox2dToNormalAngle(PI)", 180.0f,
-				PhysicsWorldConverter.convertBox2dToNormalAngle((float) Math.PI), TestUtils.DELTA);
+		Assert.assertEquals((float) (Math.PI / 2.0), PhysicsWorldConverter.convertNormalToBox2dAngle(90.0f), TestUtils.DELTA);
+		Assert.assertEquals((float) Math.PI, PhysicsWorldConverter.convertNormalToBox2dAngle(180.0f), TestUtils.DELTA);
+		Assert.assertEquals(90.0f, PhysicsWorldConverter.convertBox2dToNormalAngle((float) (Math.PI / 2.0)), TestUtils.DELTA);
+		Assert.assertEquals(180.0f, PhysicsWorldConverter.convertBox2dToNormalAngle((float) Math.PI), TestUtils.DELTA);
 
 		float[] angles = {123.456f, -123.456f, 1024.0f};
 		for (float currentAngle : angles) {
-			Assert.assertEquals((float) Math.toDegrees(currentAngle),
-					PhysicsWorldConverter.convertBox2dToNormalAngle(currentAngle));
-			Assert.assertEquals((float) Math.toRadians(currentAngle),
-					PhysicsWorldConverter.convertNormalToBox2dAngle(currentAngle));
+			Assert.assertEquals((float) Math.toDegrees(currentAngle), PhysicsWorldConverter.convertBox2dToNormalAngle(currentAngle));
+			Assert.assertEquals((float) Math.toRadians(currentAngle), PhysicsWorldConverter.convertNormalToBox2dAngle(currentAngle));
 		}
 	}
 
@@ -76,10 +68,8 @@ public class PhysicsWorldConverterTest extends AndroidTestCase {
 
 		float[] lengths = {123.456f, -654.321f};
 		for (float currentLength : lengths) {
-			Assert.assertEquals(currentLength * ratio,
-					PhysicsWorldConverter.convertBox2dToNormalCoordinate(currentLength));
-			Assert.assertEquals(currentLength / ratio,
-					PhysicsWorldConverter.convertNormalToBox2dCoordinate(currentLength));
+			Assert.assertEquals(currentLength * ratio, PhysicsWorldConverter.convertBox2dToNormalCoordinate(currentLength));
+			Assert.assertEquals(currentLength / ratio, PhysicsWorldConverter.convertNormalToBox2dCoordinate(currentLength));
 		}
 	}
 

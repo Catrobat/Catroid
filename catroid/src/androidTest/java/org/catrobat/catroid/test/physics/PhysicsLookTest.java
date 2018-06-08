@@ -117,7 +117,7 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 
 		Shape[] shapes = physicsShapeBuilder.getScaledShapes(lookData, sprite.look.getSizeInUserInterfaceDimensionUnit() / 100f);
 
-		assertTrue("shapes are 0", shapes.length > 0);
+		assertTrue(shapes.length > 0);
 		physicsShapeBuilder.reset();
 	}
 
@@ -127,28 +127,28 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 
 		float x = 1.2f;
 		physicsLook.setX(x);
-		assertEquals("Wrong x position in PhysicsObject", x, physicsObject.getX());
-		assertEquals("Wrong x position in PhysicsLook", x, physicsLook.getX());
+		assertEquals(x, physicsObject.getX());
+		assertEquals(x, physicsLook.getX());
 
 		float y = -3.4f;
 		physicsLook.setY(y);
-		assertEquals("Wrong y position in PhysicsObject", y, physicsObject.getY());
-		assertEquals("Wrong y position in PhysicsLook", y, physicsLook.getY());
+		assertEquals(y, physicsObject.getY());
+		assertEquals(y, physicsLook.getY());
 
 		x = 5.6f;
 		y = 7.8f;
 		physicsLook.setPosition(x, y);
-		assertEquals("Wrong position", new Vector2(x, y), physicsObject.getPosition());
-		assertEquals("Wrong x position in PhysicsLook (due to set/getPosition)", x, physicsLook.getX());
-		assertEquals("Wrong y position in PhysicsLook (due to set/getPosition)", y, physicsLook.getY());
+		assertEquals(new Vector2(x, y), physicsObject.getPosition());
+		assertEquals(x, physicsLook.getX());
+		assertEquals(y, physicsLook.getY());
 
 		float rotation = 9.0f;
 		physicsLook.setRotation(rotation);
-		assertEquals("Wrong physics object angle", rotation, physicsObject.getDirection());
+		assertEquals(rotation, physicsObject.getDirection());
 
-		assertEquals("X position has changed", x, physicsLook.getX());
-		assertEquals("Y position has changed", y, physicsLook.getY());
-		assertEquals("Wrong rotation", rotation, physicsLook.getRotation());
+		assertEquals(x, physicsLook.getX());
+		assertEquals(y, physicsLook.getY());
+		assertEquals(rotation, physicsLook.getRotation());
 	}
 
 	public void testSetScale() {
@@ -163,15 +163,15 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 		PhysicsLook physicsLook = new PhysicsLook(sprite, physicsWorld);
 
 		Shape[] shapes = (Shape[]) Reflection.getPrivateField(physicsObject, "shapes");
-		assertEquals("Shapes are not null", null, shapes);
+		assertEquals(null, shapes);
 
 		physicsLook.setLookData(lookData);
 
 		Queue<Float> vertexXQueue = new LinkedList<Float>();
 		Queue<Float> vertexYQueue = new LinkedList<Float>();
 		shapes = (Shape[]) Reflection.getPrivateField(physicsObject, "shapes");
-		assertNotNull("shapes is null", shapes);
-		assertTrue("shapes length not > 0", shapes.length > 0);
+		assertNotNull(shapes);
+		assertTrue(shapes.length > 0);
 		Log.d(TAG, "shapes.length: " + shapes.length);
 		for (Shape shape : shapes) {
 			switch (shape.getType()) {
@@ -212,8 +212,8 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 
 		physicsLook.setScale(testScaleFactor, testScaleFactor);
 		shapes = (Shape[]) Reflection.getPrivateField(physicsObject, "shapes");
-		assertNotNull("shapes is null", shapes);
-		assertTrue("shapes length not > 0", shapes.length > 0);
+		assertNotNull(shapes);
+		assertTrue(shapes.length > 0);
 		Log.d(TAG, "shapes.length: " + shapes.length);
 		for (Shape shape : shapes) {
 			switch (shape.getType()) {
@@ -243,8 +243,8 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 						float scaledY = (float) Reflection.invokeMethod(PhysicsShapeScaleUtils.class, "scaleCoordinate",
 								parameterListY);
 
-						assertEquals("vertex x-value is not the expected", scaledX, vertex.x);
-						assertEquals("vertex x-value is not the expected", scaledY, vertex.y);
+						assertEquals(scaledX, vertex.x);
+						assertEquals(scaledY, vertex.y);
 						Log.d(TAG, "x=" + vertex.x + ";y=" + vertex.y);
 					}
 					break;
@@ -388,10 +388,8 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 
 		originLook.copyTo(cloneLook);
 
-		assertEquals("X position differs", originLook.getXInUserInterfaceDimensionUnit(),
-				cloneLook.getXInUserInterfaceDimensionUnit());
-		assertEquals("Brightness differs", originLook.getBrightnessInUserInterfaceDimensionUnit(),
-				cloneLook.getBrightnessInUserInterfaceDimensionUnit());
-		assertEquals("Mass differs", originPhysicsObject.getMass(), clonePhysicsObject.getMass());
+		assertEquals(originLook.getXInUserInterfaceDimensionUnit(), cloneLook.getXInUserInterfaceDimensionUnit());
+		assertEquals(originLook.getBrightnessInUserInterfaceDimensionUnit(), cloneLook.getBrightnessInUserInterfaceDimensionUnit());
+		assertEquals(originPhysicsObject.getMass(), clonePhysicsObject.getMass());
 	}
 }

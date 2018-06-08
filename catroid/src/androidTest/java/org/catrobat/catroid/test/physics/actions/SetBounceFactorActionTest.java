@@ -44,37 +44,32 @@ public class SetBounceFactorActionTest extends PhysicsCollisionBaseTest {
 
 	public void testNormalBounceFactor() {
 		initBounceFactorValue(BOUNCE_FACTOR);
-		assertEquals("Unexpected bounce factor", BOUNCE_FACTOR / 100.0f, physicsWorld.getPhysicsObject(sprite)
-				.getBounceFactor());
+		assertEquals(BOUNCE_FACTOR / 100.0f, physicsWorld.getPhysicsObject(sprite).getBounceFactor());
 	}
 
 	public void testZeroValue() {
 		float bounceFactor = 0.0f;
 		initBounceFactorValue(bounceFactor);
-		assertEquals("Unexpected bounce factor", bounceFactor / 100.0f, physicsWorld.getPhysicsObject(sprite)
-				.getBounceFactor());
+		assertEquals(bounceFactor / 100.0f, physicsWorld.getPhysicsObject(sprite).getBounceFactor());
 	}
 
 	public void testNegativeValue() {
 		float bounceFactor = -50.0f;
 		initBounceFactorValue(bounceFactor);
-		assertEquals("Unexpected bounce factor", PhysicsObject.MIN_BOUNCE_FACTOR, physicsWorld.getPhysicsObject(sprite)
-				.getBounceFactor());
+		assertEquals(PhysicsObject.MIN_BOUNCE_FACTOR, physicsWorld.getPhysicsObject(sprite).getBounceFactor());
 	}
 
 	public void testHighValue() {
 		float bounceFactor = 1000.0f;
 		initBounceFactorValue(bounceFactor);
-		assertEquals("Unexpected bounce factor", bounceFactor / 100.0f, physicsWorld.getPhysicsObject(sprite)
-				.getBounceFactor());
+		assertEquals(bounceFactor / 100.0f, physicsWorld.getPhysicsObject(sprite).getBounceFactor());
 	}
 
 	private void initBounceFactorValue(float bounceFactor) {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		Action action = sprite.getActionFactory().createSetBounceFactorAction(sprite, new Formula(bounceFactor));
 
-		assertEquals("Unexpected bounce-factor value", PhysicsObject.DEFAULT_BOUNCE_FACTOR,
-				physicsObject.getBounceFactor());
+		assertEquals(PhysicsObject.DEFAULT_BOUNCE_FACTOR, physicsObject.getBounceFactor());
 
 		action.act(1.0f);
 		physicsWorld.step(1.0f);
@@ -84,34 +79,29 @@ public class SetBounceFactorActionTest extends PhysicsCollisionBaseTest {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		sprite.getActionFactory().createSetBounceFactorAction(sprite, new Formula(String.valueOf(BOUNCE_FACTOR)))
 				.act(1.0f);
-		assertEquals("Unexpected bounce-factor value", BOUNCE_FACTOR / 100.f,
-				physicsObject.getBounceFactor());
+		assertEquals(BOUNCE_FACTOR / 100.f, physicsObject.getBounceFactor());
 
 		sprite.getActionFactory().createSetBounceFactorAction(sprite, new Formula(String
 				.valueOf("not a numerical string"))).act(1.0f);
-		assertEquals("Unexpected bounce-factor value", BOUNCE_FACTOR / 100.f,
-				physicsObject.getBounceFactor());
+		assertEquals(BOUNCE_FACTOR / 100.f, physicsObject.getBounceFactor());
 	}
 
 	public void testNullFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		sprite.getActionFactory().createSetBounceFactorAction(sprite, null).act(1.0f);
-		assertEquals("Unexpected bounce-factor value", 0f, physicsObject.getBounceFactor());
+		assertEquals(0f, physicsObject.getBounceFactor());
 	}
 
 	public void testNotANumberFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		sprite.getActionFactory().createSetBounceFactorAction(sprite, new Formula(Double.NaN)).act(1.0f);
-		assertEquals("Unexpected bounce-factor value", PhysicsObject.DEFAULT_BOUNCE_FACTOR, physicsObject
-				.getBounceFactor());
+		assertEquals(PhysicsObject.DEFAULT_BOUNCE_FACTOR, physicsObject.getBounceFactor());
 	}
 
 	public void testBounceWithDifferentValues() {
 		float bounce01Height = bounce(0.1f);
 		float bounce06Height = bounce(0.6f);
-		assertTrue(
-				"Unexpected value: bounce06Height->bounce(0.6) should be greater then bounce01Height->bounce(0.1)",
-				bounce01Height < bounce06Height);
+		assertTrue(bounce01Height < bounce06Height);
 	}
 
 	private float bounce(float bounceFactor) {

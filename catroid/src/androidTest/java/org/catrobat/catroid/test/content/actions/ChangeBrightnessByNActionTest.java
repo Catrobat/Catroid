@@ -45,17 +45,13 @@ public class ChangeBrightnessByNActionTest extends AndroidTestCase {
 	}
 
 	public void testNormalBehavior() {
-		assertEquals("Unexpected initial sprite brightness value", INITIALIZED_VALUE,
-				sprite.look.getBrightnessInUserInterfaceDimensionUnit());
+		assertEquals(INITIALIZED_VALUE, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 
 		sprite.getActionFactory().createChangeBrightnessByNAction(sprite, new Formula(BRIGHTER_VALUE)).act(1.0f);
-		assertEquals("Incorrect sprite brightness value after ChangeBrightnessByNBrick executed",
-				INITIALIZED_VALUE + BRIGHTER_VALUE, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
+		assertEquals(INITIALIZED_VALUE + BRIGHTER_VALUE, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 
 		sprite.getActionFactory().createChangeBrightnessByNAction(sprite, new Formula(DIMMER_VALUE)).act(1.0f);
-		assertEquals("Incorrect sprite brightness value after ChangeBrightnessByNBrick executed",
-				INITIALIZED_VALUE + BRIGHTER_VALUE + DIMMER_VALUE,
-				sprite.look.getBrightnessInUserInterfaceDimensionUnit());
+		assertEquals(INITIALIZED_VALUE + BRIGHTER_VALUE + DIMMER_VALUE, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullSprite() {
@@ -69,23 +65,19 @@ public class ChangeBrightnessByNActionTest extends AndroidTestCase {
 
 	public void testBrickWithStringFormula() {
 		sprite.getActionFactory().createChangeBrightnessByNAction(sprite, new Formula(String.valueOf(BRIGHTER_VALUE))).act(1.0f);
-		assertEquals("Incorrect sprite brightness value after ChangeBrightnessByNBrick executed", INITIALIZED_VALUE
-				+ BRIGHTER_VALUE, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
+		assertEquals(INITIALIZED_VALUE + BRIGHTER_VALUE, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 
 		sprite.getActionFactory().createChangeBrightnessByNAction(sprite, new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
-		assertEquals("Incorrect sprite brightness value after ChangeBrightnessByNBrick executed", INITIALIZED_VALUE
-				+ BRIGHTER_VALUE, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
+		assertEquals(INITIALIZED_VALUE + BRIGHTER_VALUE, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullFormula() {
 		sprite.getActionFactory().createChangeBrightnessByNAction(sprite, null).act(1.0f);
-		assertEquals("Incorrect sprite brightness value after ChangeBrightnessByNBrick executed", INITIALIZED_VALUE,
-				sprite.look.getBrightnessInUserInterfaceDimensionUnit());
+		assertEquals(INITIALIZED_VALUE, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 	}
 
 	public void testNotANumberFormula() {
 		sprite.getActionFactory().createChangeBrightnessByNAction(sprite, new Formula(Double.NaN)).act(1.0f);
-		assertEquals("Incorrect sprite brightness value after ChangeBrightnessByNBrick executed", INITIALIZED_VALUE,
-				sprite.look.getBrightnessInUserInterfaceDimensionUnit());
+		assertEquals(INITIALIZED_VALUE, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 	}
 }

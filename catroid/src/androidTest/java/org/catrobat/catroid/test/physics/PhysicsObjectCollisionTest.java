@@ -83,40 +83,40 @@ public class PhysicsObjectCollisionTest extends PhysicsCollisionBaseTest {
 	}
 
 	public void testCollisionDynamicDynamic() {
-		assertTrue("Error in simulation", simulateFullCollision());
-		assertTrue("Collision between wo dynamic physics objects did not occur", contactFixturePairs.contains(expectedcontactFixtures));
+		assertTrue(simulateFullCollision());
+		assertTrue(contactFixturePairs.contains(expectedcontactFixtures));
 	}
 
 	public void testCollisionDynamicFixed() {
 		physicsObject2.setType(PhysicsObject.Type.FIXED);
-		assertTrue("Error in simulation", simulateFullCollision());
-		assertTrue("Collision between dynamic and fixed physics objects did not occur", contactFixturePairs.contains(expectedcontactFixtures));
+		assertTrue(simulateFullCollision());
+		assertTrue(contactFixturePairs.contains(expectedcontactFixtures));
 	}
 
 	public void testCollisionDynamicNone() {
 		physicsObject2.setType(PhysicsObject.Type.NONE);
-		assertTrue("Error in simulation", simulateFullCollision());
-		assertFalse("Dynamic physics object should not collide with non-physics object", contactFixturePairs.contains(expectedcontactFixtures));
+		assertTrue(simulateFullCollision());
+		assertFalse(contactFixturePairs.contains(expectedcontactFixtures));
 	}
 
 	public void testCollisionFixedFixed() {
 		physicsObject1.setType(PhysicsObject.Type.FIXED);
 		physicsObject2.setType(PhysicsObject.Type.FIXED);
-		assertTrue("Error in simulation", simulateFullCollision());
-		assertFalse("Two fixed physics objects should not collide with each other", contactFixturePairs.contains(expectedcontactFixtures));
+		assertTrue(simulateFullCollision());
+		assertFalse(contactFixturePairs.contains(expectedcontactFixtures));
 	}
 
 	public void testCollisionFixedNone() {
 		physicsObject1.setType(PhysicsObject.Type.FIXED);
 		physicsObject2.setType(PhysicsObject.Type.NONE);
-		assertTrue("Error in simulation", simulateFullCollision());
-		assertFalse("Fixed and non-physics objects should not collide with each other", contactFixturePairs.contains(expectedcontactFixtures));
+		assertTrue(simulateFullCollision());
+		assertFalse(contactFixturePairs.contains(expectedcontactFixtures));
 	}
 
 	public void testCollisionNoneNone() {
 		physicsObject1.setType(PhysicsObject.Type.NONE);
 		physicsObject2.setType(PhysicsObject.Type.NONE);
-		assertTrue("Error in simulation", simulateFullCollision());
-		assertFalse("Two non-physics objects should not collide with each other", contactFixturePairs.contains(expectedcontactFixtures));
+		assertTrue(simulateFullCollision());
+		assertFalse(contactFixturePairs.contains(expectedcontactFixtures));
 	}
 }

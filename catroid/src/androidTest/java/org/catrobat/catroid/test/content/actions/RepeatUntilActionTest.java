@@ -117,8 +117,7 @@ public class RepeatUntilActionTest extends InstrumentationTestCase {
 			testSprite.look.act(1.0f);
 		}
 
-		assertEquals("Executed the wrong number of times!", (TRUE_VALUE - START_VALUE) * deltaY,
-				(int) testSprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals((TRUE_VALUE - START_VALUE) * deltaY, (int) testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testNoRepeat() {
@@ -143,7 +142,7 @@ public class RepeatUntilActionTest extends InstrumentationTestCase {
 
 		repeatAction.act(1.0f);
 		int repeatCountValue = ((RepeatUntilAction) repeatAction).getExecutedCount();
-		assertEquals("Null Formula should not have been possible to interpret!", 0, repeatCountValue);
+		assertEquals(0, repeatCountValue);
 	}
 
 	public void testNotANumberFormula() {
@@ -165,8 +164,7 @@ public class RepeatUntilActionTest extends InstrumentationTestCase {
 		while (!testSprite.look.haveAllThreadsFinished()) {
 			testSprite.look.act(1.0f);
 		}
-		assertEquals("Executed the wrong number of times!", expected,
-				testSprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(expected, testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testConditionCheckedOnlyAtEnd() {
@@ -194,7 +192,7 @@ public class RepeatUntilActionTest extends InstrumentationTestCase {
 		int valueOfUserVariable = ((Double) userVariable.getValue()).intValue();
 		int valueOfUserVariable2 = ((Double) userVariable2.getValue()).intValue();
 
-		assertEquals("Wrong value for userVariable", TRUE_VALUE, valueOfUserVariable);
-		assertEquals("Wrong value for userVariable2", TRUE_VALUE, valueOfUserVariable2);
+		assertEquals(TRUE_VALUE, valueOfUserVariable);
+		assertEquals(TRUE_VALUE, valueOfUserVariable2);
 	}
 }

@@ -57,8 +57,8 @@ public class SensorLoudnessTest {
 		Reflection.setPrivateField(loudnessSensor, "recorder", simSoundRec);
 
 		SensorHandler.startSensorListener(getInstrumentation().getTargetContext());
-		assertTrue("LoudnessSensor not startet recording, isRecording()", simSoundRec.isRecording());
+		assertTrue(simSoundRec.isRecording());
 		SensorHandler.stopSensorListeners();
-		assertFalse("LoudnessSensor not stopped recording, isRecording()", simSoundRec.isRecording());
+		assertFalse(simSoundRec.isRecording());
 	}
 }

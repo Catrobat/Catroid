@@ -33,27 +33,27 @@ public class GridRowPositionTest extends AndroidTestCase {
 		GridRowPosition gridRowPosition = GridRowPositionTestDataFactory.createSimpleGridRowPosition();
 		GridRowPosition secondGridRowPosition = GridRowPositionTestDataFactory.createSimpleGridRowPosition();
 
-		assertTrue("GridRowPositions are not equal.", gridRowPosition.equals(secondGridRowPosition));
+		assertTrue(gridRowPosition.equals(secondGridRowPosition));
 	}
 
 	public void testEquals2() {
 		GridRowPosition gridRowPosition = GridRowPositionTestDataFactory.createSimpleGridRowPosition();
 		GridRowPosition secondGridRowPosition = GridRowPositionTestDataFactory.createGridRowPositionWithOffset();
 
-		assertFalse("GridRowPositions are equal.", gridRowPosition.equals(secondGridRowPosition));
+		assertFalse(gridRowPosition.equals(secondGridRowPosition));
 	}
 
 	public void testEquals3() {
 		GridRowPosition gridRowPosition = GridRowPositionTestDataFactory.createGridRowPositionWithHalf();
 		GridRowPosition secondGridRowPosition = GridRowPositionTestDataFactory.createGridRowPositionWithOffset();
 
-		assertFalse("GridRowPositions are equal.", gridRowPosition.equals(secondGridRowPosition));
+		assertFalse(gridRowPosition.equals(secondGridRowPosition));
 	}
 
 	public void testHashCodeEquals() {
 		GridRowPosition gridRowPosition = GridRowPositionTestDataFactory.createSimpleGridRowPosition();
 		GridRowPosition secondGridRowPosition = GridRowPositionTestDataFactory.createSimpleGridRowPosition();
 
-		assertTrue("HashCodes are equal", gridRowPosition.hashCode() == secondGridRowPosition.hashCode());
+		assertTrue(gridRowPosition.hashCode() == secondGridRowPosition.hashCode());
 	}
 }

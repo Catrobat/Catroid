@@ -38,7 +38,7 @@ public class NoteNameTest extends AndroidTestCase {
 
 		for (int i = 0; i < noteNames.length; i++) {
 			int midi = startMidi + i * increment;
-			assertEquals("Midi test failed", midi, noteNames[i].getMidi());
+			assertEquals(midi, noteNames[i].getMidi());
 		}
 	}
 
@@ -46,38 +46,38 @@ public class NoteNameTest extends AndroidTestCase {
 		NoteName noteName = NoteName.B0;
 		NoteName nextNoteName = NoteName.C1;
 
-		assertEquals("Next note not valid", nextNoteName, noteName.next());
+		assertEquals(nextNoteName, noteName.next());
 	}
 
 	public void testNext2() {
 		NoteName lastNoteName = NoteName.C8;
 
-		assertEquals("Next note not valid", lastNoteName, lastNoteName.next());
+		assertEquals(lastNoteName, lastNoteName.next());
 	}
 
 	public void testPrevious1() {
 		NoteName noteName = NoteName.C1;
 		NoteName previousNoteName = NoteName.B0;
 
-		assertEquals("Previous note not valid", previousNoteName, noteName.previous());
+		assertEquals(previousNoteName, noteName.previous());
 	}
 
 	public void testPrevious2() {
 		NoteName firstNoteName = NoteName.A0;
 
-		assertEquals("Previous note not valid", firstNoteName, firstNoteName.previous());
+		assertEquals(firstNoteName, firstNoteName.previous());
 	}
 
 	public void testIsSigned1() {
 		NoteName noteName = NoteName.C1;
 
-		assertFalse("Note not signed correctly", noteName.isSigned());
+		assertFalse(noteName.isSigned());
 	}
 
 	public void testIsSigned2() {
 		NoteName noteName = NoteName.C1S;
 
-		assertTrue("Note not signed correctly", noteName.isSigned());
+		assertTrue(noteName.isSigned());
 	}
 
 	public void testGetNoteNameFromMidiValue1() {
@@ -86,7 +86,7 @@ public class NoteNameTest extends AndroidTestCase {
 
 		NoteName actualNoteName = NoteName.getNoteNameFromMidiValue(midiValue);
 
-		assertEquals("Invalid Note name", actualNoteName, expectedNoteName);
+		assertEquals(actualNoteName, expectedNoteName);
 	}
 
 	public void testGetNoteNameFromMidiValue2() {
@@ -95,7 +95,7 @@ public class NoteNameTest extends AndroidTestCase {
 
 		NoteName actualNoteName = NoteName.getNoteNameFromMidiValue(midiValue);
 
-		assertEquals("Invalid Note name", actualNoteName, expectedNoteName);
+		assertEquals(actualNoteName, expectedNoteName);
 	}
 
 	public void testGetNoteNameFromMidiValue3() {
@@ -104,7 +104,7 @@ public class NoteNameTest extends AndroidTestCase {
 
 		NoteName actualNoteName = NoteName.getNoteNameFromMidiValue(midiValue);
 
-		assertEquals("Invalid Note name", actualNoteName, expectedNoteName);
+		assertEquals(actualNoteName, expectedNoteName);
 	}
 
 	public void testGetNoteNameFromMidiValue4() {
@@ -112,7 +112,7 @@ public class NoteNameTest extends AndroidTestCase {
 
 		NoteName actualNoteName = NoteName.getNoteNameFromMidiValue(1337);
 
-		assertEquals("Invalid Note name", actualNoteName, expectedNoteName);
+		assertEquals(actualNoteName, expectedNoteName);
 	}
 
 	public void testCalculateDistanceCountingNoneSignedNotesOnly1() {
@@ -120,8 +120,7 @@ public class NoteNameTest extends AndroidTestCase {
 		NoteName noteName2 = NoteName.C1S;
 		int expectedDistance = 1;
 
-		assertEquals("Failed to calculate distance", expectedDistance, NoteName
-				.calculateDistanceCountingNoneSignedNotesOnly(noteName1, noteName2));
+		assertEquals(expectedDistance, NoteName.calculateDistanceCountingNoneSignedNotesOnly(noteName1, noteName2));
 	}
 
 	public void testCalculateDistanceCountingNoneSignedNotesOnly2() {
@@ -129,7 +128,7 @@ public class NoteNameTest extends AndroidTestCase {
 		NoteName noteName2 = NoteName.C1S;
 		int expectedDistance = 0;
 
-		assertEquals("Failed to calculate distance", expectedDistance, NoteName.calculateDistanceCountingNoneSignedNotesOnly(noteName1, noteName2));
+		assertEquals(expectedDistance, NoteName.calculateDistanceCountingNoneSignedNotesOnly(noteName1, noteName2));
 	}
 
 	public void testCalculateDistanceCountingNoneSignedNotesOnly3() {
@@ -137,7 +136,7 @@ public class NoteNameTest extends AndroidTestCase {
 		NoteName noteName2 = NoteName.B3;
 		int expectedDistance = -5;
 
-		assertEquals("Failed to calculate distance", expectedDistance, NoteName.calculateDistanceCountingNoneSignedNotesOnly(noteName1, noteName2));
+		assertEquals(expectedDistance, NoteName.calculateDistanceCountingNoneSignedNotesOnly(noteName1, noteName2));
 	}
 
 	public void testCalculateDistanceToMiddleLineCountingSignedNotesOnly1() {
@@ -145,8 +144,7 @@ public class NoteNameTest extends AndroidTestCase {
 		MusicalKey key = MusicalKey.VIOLIN;
 		int expectedDistance = 0;
 
-		assertEquals("Failed to calculate distance", expectedDistance, NoteName
-				.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName));
+		assertEquals(expectedDistance, NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName));
 	}
 
 	public void testCalculateDistanceToMiddleLineCountingSignedNotesOnly2() {
@@ -154,8 +152,7 @@ public class NoteNameTest extends AndroidTestCase {
 		MusicalKey key = MusicalKey.VIOLIN;
 		int expectedDistance = -1;
 
-		assertEquals("Failed to calculate distance", expectedDistance, NoteName
-				.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName));
+		assertEquals(expectedDistance, NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName));
 	}
 
 	public void testCalculateDistanceToMiddleLineCountingSignedNotesOnly3() {
@@ -163,7 +160,6 @@ public class NoteNameTest extends AndroidTestCase {
 		MusicalKey key = MusicalKey.VIOLIN;
 		int expectedDistance = 1;
 
-		assertEquals("Failed to calculate distance", expectedDistance, NoteName
-				.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName));
+		assertEquals(expectedDistance, NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName));
 	}
 }

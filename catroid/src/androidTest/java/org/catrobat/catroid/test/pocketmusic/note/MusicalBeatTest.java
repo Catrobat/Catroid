@@ -31,12 +31,12 @@ public class MusicalBeatTest extends AndroidTestCase {
 	public void testConvertToMusicalBeat1() {
 		MusicalBeat musicalBeat = MusicalBeat.convertToMusicalBeat(16, 16);
 
-		assertTrue("Failed to convert musical beat", MusicalBeat.BEAT_16_16.equals(musicalBeat));
+		assertTrue(MusicalBeat.BEAT_16_16.equals(musicalBeat));
 	}
 
 	public void testConvertToMusicalBeat2() {
 		MusicalBeat musicalBeat = MusicalBeat.convertToMusicalBeat(7, 7);
 
-		assertTrue("Failed to convert musical beat", MusicalBeat.BEAT_4_4.equals(musicalBeat));
+		assertTrue(MusicalBeat.BEAT_4_4.equals(musicalBeat));
 	}
 }

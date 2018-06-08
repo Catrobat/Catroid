@@ -35,21 +35,21 @@ public class ProjectTest extends AndroidTestCase {
 		int beatsPerMinute = 60;
 		Project project = ProjectTestDataFactory.createProject(beatsPerMinute);
 
-		assertEquals("Failed to get beats per minute", beatsPerMinute, project.getBeatsPerMinute());
+		assertEquals(beatsPerMinute, project.getBeatsPerMinute());
 	}
 
 	public void testGetName() {
 		String name = "TestName";
 		Project project = ProjectTestDataFactory.createProject(name);
 
-		assertEquals("Got not name", name, project.getName());
+		assertEquals(name, project.getName());
 	}
 
 	public void testSetName() {
 		String name = "SomeNewName";
 		Project project = new Project(ProjectTestDataFactory.createProject(), name);
 
-		assertEquals("Failed to set name", name, project.getName());
+		assertEquals(name, project.getName());
 	}
 
 	public void testAddTrack() {
@@ -58,7 +58,7 @@ public class ProjectTest extends AndroidTestCase {
 		String trackName = "trackName";
 		project.putTrack(trackName, track);
 
-		assertEquals("Failed to add Track", 1, project.size());
+		assertEquals(1, project.size());
 	}
 
 	public void testGetTrack() {
@@ -67,7 +67,7 @@ public class ProjectTest extends AndroidTestCase {
 		String trackName = "trackName";
 		project.putTrack(trackName, track);
 
-		assertEquals("Failed to get Track", track, project.getTrack(trackName));
+		assertEquals(track, project.getTrack(trackName));
 	}
 
 	public void testGetTrackNames() {
@@ -75,7 +75,7 @@ public class ProjectTest extends AndroidTestCase {
 		Track track = TrackTestDataFactory.createTrack();
 		project.putTrack("trackName", track);
 
-		assertEquals("Failed to get Tracknames", 1, project.getTrackNames().size());
+		assertEquals(1, project.getTrackNames().size());
 	}
 
 	public void testGetTotalTimeInMilliseconds() {
@@ -83,69 +83,68 @@ public class ProjectTest extends AndroidTestCase {
 		Track track = TrackTestDataFactory.createSimpleTrack();
 		project.putTrack("trackName", track);
 
-		assertEquals("Time in Milliseconds is wrong", track.getTotalTimeInMilliseconds(), project
-				.getTotalTimeInMilliseconds());
+		assertEquals(track.getTotalTimeInMilliseconds(), project.getTotalTimeInMilliseconds());
 	}
 
 	public void testEquals1() {
 		Project project1 = ProjectTestDataFactory.createProject();
 		Project project2 = ProjectTestDataFactory.createProject();
 
-		assertTrue("Not equal", project1.equals(project2));
+		assertTrue(project1.equals(project2));
 	}
 
 	public void testEquals2() {
 		Project project1 = ProjectTestDataFactory.createProjectWithTrack();
 		Project project2 = ProjectTestDataFactory.createProjectWithTrack();
 
-		assertTrue("Not equal", project1.equals(project2));
+		assertTrue(project1.equals(project2));
 	}
 
 	public void testEquals3() {
 		Project project1 = ProjectTestDataFactory.createProjectWithTrack();
 		Project project2 = ProjectTestDataFactory.createProjectWithTrack(MusicalInstrument.APPLAUSE);
 
-		assertFalse("Not equal", project1.equals(project2));
+		assertFalse(project1.equals(project2));
 	}
 
 	public void testEquals4() {
 		Project project1 = ProjectTestDataFactory.createProjectWithTrack();
 		Project project2 = ProjectTestDataFactory.createProject();
 
-		assertFalse("Not equal", project1.equals(project2));
+		assertFalse(project1.equals(project2));
 	}
 
 	public void testEquals5() {
 		Project project1 = ProjectTestDataFactory.createProject("Some name");
 		Project project2 = ProjectTestDataFactory.createProject("Another name");
 
-		assertFalse("Not equal", project1.equals(project2));
+		assertFalse(project1.equals(project2));
 	}
 
 	public void testEquals6() {
 		Project project1 = ProjectTestDataFactory.createProject(60);
 		Project project2 = ProjectTestDataFactory.createProject(90);
 
-		assertFalse("Not equal", project1.equals(project2));
+		assertFalse(project1.equals(project2));
 	}
 
 	public void testEquals7() {
 		Project project = ProjectTestDataFactory.createProject();
 
-		assertFalse("Not equal", project.equals(null));
+		assertFalse(project.equals(null));
 	}
 
 	public void testEquals8() {
 		Project project = ProjectTestDataFactory.createProject();
 
-		assertFalse("Not equal", project.equals(""));
+		assertFalse(project.equals(""));
 	}
 
 	public void testEquals9() {
 		Project project1 = ProjectTestDataFactory.createProjectWithMusicalBeat(MusicalBeat.BEAT_4_4);
 		Project project2 = ProjectTestDataFactory.createProjectWithMusicalBeat(MusicalBeat.BEAT_16_16);
 
-		assertFalse("Not equal", project1.equals(project2));
+		assertFalse(project1.equals(project2));
 	}
 
 	public void testToString() {
@@ -153,14 +152,14 @@ public class ProjectTest extends AndroidTestCase {
 		String expectedString = "[Project] name=" + project.getName() + " beatsPerMinute="
 				+ project.getBeatsPerMinute() + " trackCount=" + project.size();
 
-		assertEquals("Failed to convert to String", expectedString, project.toString());
+		assertEquals(expectedString, project.toString());
 	}
 
 	public void testCopyProject() {
 		Project project = ProjectTestDataFactory.createProjectWithTrack();
 		Project copyProject = new Project(project);
 
-		assertTrue("Copy failed", project != copyProject);
-		assertTrue("Copy failed", project.equals(copyProject));
+		assertTrue(project != copyProject);
+		assertTrue(project.equals(copyProject));
 	}
 }

@@ -85,22 +85,14 @@ public class ParserTestObject extends AndroidTestCase {
 	}
 
 	public void testLookSensorValues() {
-		assertEquals("Formula interpretation is not as expected (x-Position)", LOOK_X_POSITION,
-				interpretSensor(Sensors.OBJECT_X), DELTA);
-		assertEquals("Formula interpretation is not as expected (y-Position)", LOOK_Y_POSITION,
-				interpretSensor(Sensors.OBJECT_Y), DELTA);
-		assertEquals("Formula interpretation is not as expected (transparency)", LOOK_ALPHA,
-				interpretSensor(Sensors.OBJECT_TRANSPARENCY), DELTA);
-		assertEquals("Formula interpretation is not as expected (brightness)", LOOK_BRIGHTNESS,
-				interpretSensor(Sensors.OBJECT_BRIGHTNESS), DELTA);
-		assertEquals("Formula interpretation is not as expected (color)", LOOK_COLOR,
-				interpretSensor(Sensors.OBJECT_COLOR), DELTA);
-		assertEquals("Formula interpretation is not as expected (size)", LOOK_SCALE,
-				interpretSensor(Sensors.OBJECT_SIZE), DELTA);
-		assertEquals("Formula interpretation is not as expected (rotation)", LOOK_ROTATION,
-				interpretSensor(Sensors.OBJECT_ROTATION), DELTA);
-		assertEquals("Formula interpretation is not as expected (z-index)", testSprite.look.getZIndex(),
-				interpretSensor(Sensors.OBJECT_LAYER).intValue() + Constants.Z_INDEX_NUMBER_VIRTUAL_LAYERS);
+		assertEquals(LOOK_X_POSITION, interpretSensor(Sensors.OBJECT_X), DELTA);
+		assertEquals(LOOK_Y_POSITION, interpretSensor(Sensors.OBJECT_Y), DELTA);
+		assertEquals(LOOK_ALPHA, interpretSensor(Sensors.OBJECT_TRANSPARENCY), DELTA);
+		assertEquals(LOOK_BRIGHTNESS, interpretSensor(Sensors.OBJECT_BRIGHTNESS), DELTA);
+		assertEquals(LOOK_COLOR, interpretSensor(Sensors.OBJECT_COLOR), DELTA);
+		assertEquals(LOOK_SCALE, interpretSensor(Sensors.OBJECT_SIZE), DELTA);
+		assertEquals(LOOK_ROTATION, interpretSensor(Sensors.OBJECT_ROTATION), DELTA);
+		assertEquals(testSprite.look.getZIndex(), interpretSensor(Sensors.OBJECT_LAYER).intValue() + Constants.Z_INDEX_NUMBER_VIRTUAL_LAYERS);
 	}
 
 	public void testNotExistingLookSensorValues() {

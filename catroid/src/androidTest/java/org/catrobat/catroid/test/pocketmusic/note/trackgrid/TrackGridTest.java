@@ -33,41 +33,41 @@ public class TrackGridTest extends AndroidTestCase {
 		TrackGrid trackGrid1 = TrackGridTestDataFactory.createSimpleTrackGrid();
 		TrackGrid trackGrid2 = TrackGridTestDataFactory.createSimpleTrackGrid();
 
-		assertTrue("TrackGrid not equal", trackGrid1.equals(trackGrid2));
+		assertTrue(trackGrid1.equals(trackGrid2));
 	}
 
 	public void testEquals2() {
 		TrackGrid trackGrid1 = TrackGridTestDataFactory.createTrackGridWithSeveralBreaks();
 		TrackGrid trackGrid2 = TrackGridTestDataFactory.createTrackGridWithSeveralBreaks();
 
-		assertTrue("TrackGrid not equal", trackGrid1.equals(trackGrid2));
+		assertTrue(trackGrid1.equals(trackGrid2));
 	}
 
 	public void testEquals3() {
 		TrackGrid trackGrid1 = TrackGridTestDataFactory.createSemiComplexTrackGrid();
 		TrackGrid trackGrid2 = TrackGridTestDataFactory.createSimpleTrackGrid();
 
-		assertFalse("TrackGrid equal", trackGrid1.equals(trackGrid2));
+		assertFalse(trackGrid1.equals(trackGrid2));
 	}
 
 	public void testHashCode1() {
 		TrackGrid trackGrid1 = TrackGridTestDataFactory.createSimpleTrackGrid();
 		TrackGrid trackGrid2 = TrackGridTestDataFactory.createSimpleTrackGrid();
 
-		assertTrue("HashCode not equal", trackGrid1.hashCode() == trackGrid2.hashCode());
+		assertTrue(trackGrid1.hashCode() == trackGrid2.hashCode());
 	}
 
 	public void testHashCode2() {
 		TrackGrid trackGrid1 = TrackGridTestDataFactory.createTrackGridWithSeveralBreaks();
 		TrackGrid trackGrid2 = TrackGridTestDataFactory.createSimpleTrackGrid();
 
-		assertFalse("HashCode equal", trackGrid1.hashCode() == trackGrid2.hashCode());
+		assertFalse(trackGrid1.hashCode() == trackGrid2.hashCode());
 	}
 
 	public void testHashCode3() {
 		TrackGrid trackGrid1 = TrackGridTestDataFactory.createSemiComplexTrackGrid();
 		TrackGrid trackGrid2 = TrackGridTestDataFactory.createSimpleTrackGrid();
 
-		assertFalse("HashCode equal", trackGrid1.hashCode() == trackGrid2.hashCode());
+		assertFalse(trackGrid1.hashCode() == trackGrid2.hashCode());
 	}
 }

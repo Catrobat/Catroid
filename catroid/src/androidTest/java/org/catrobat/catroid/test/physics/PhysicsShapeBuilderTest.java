@@ -143,26 +143,23 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 		Shape[] highestAccuracyShapes = null;
 		for (int accuracyIdx = 1; accuracyIdx < accuracyLevels.length; accuracyIdx++) {
 			Shape[] higherAccuracyShapes = physicsShapeBuilder.getScaledShapes(lookData, accuracyLevels[accuracyIdx]);
-			assertTrue("lower accuracy must have less or equal shapes than higher accuracy", lowerAccuracyShapes
-					.length <= higherAccuracyShapes.length);
+			assertTrue(lowerAccuracyShapes.length <= higherAccuracyShapes.length);
 			lowerAccuracyShapes = higherAccuracyShapes;
 			highestAccuracyShapes = higherAccuracyShapes;
 		}
-		assertTrue("lower accuracy must have less shapes than higher accuracy", lowestAccuracyShapes.length
-				< highestAccuracyShapes.length);
+		assertTrue(lowestAccuracyShapes.length < highestAccuracyShapes.length);
 	}
 
 	private void checkBuiltShapes(Shape[] shapes, int expectedPolynomCount, int[] expectedVertices) {
 		boolean debug = false;
 
-		assertNotNull("Shapes should not be null", shapes);
+		assertNotNull(shapes);
 
 		if (!debug) {
-			assertEquals("Polynom count is not correct", expectedPolynomCount, shapes.length);
+			assertEquals(expectedPolynomCount, shapes.length);
 		}
 		if (!debug) {
-			assertEquals("The array expectedVertices must have length of expectedPolynomCount", expectedPolynomCount,
-					expectedVertices.length);
+			assertEquals(expectedPolynomCount, expectedVertices.length);
 		}
 
 		for (int idx = 0; idx < shapes.length; idx++) {
@@ -186,7 +183,7 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 						Log.d(TAG, "x=" + vertex.x + ";y=" + vertex.y);
 					}
 					if (!debug) {
-						assertEquals("vertex count is not correct", expectedVertices[idx], vertexCount);
+						assertEquals(expectedVertices[idx], vertexCount);
 					}
 					break;
 			}

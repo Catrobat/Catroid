@@ -44,29 +44,24 @@ public class SetVolumeToActionTest extends InstrumentationTestCase {
 
 	public void testVolume() {
 		sprite.getActionFactory().createSetVolumeToAction(sprite, volume).act(1.0f);
-		assertEquals("Incorrect sprite volume value after SetVolumeToBrick executed", VOLUME,
-				SoundManager.getInstance().getVolume());
+		assertEquals(VOLUME, SoundManager.getInstance().getVolume());
 	}
 
 	public void testBrickWithStringFormula() {
 		sprite.getActionFactory().createSetVolumeToAction(sprite, new Formula(String.valueOf(VOLUME))).act(1.0f);
-		assertEquals("Incorrect sprite volume value after SetVolumeToBrick executed", VOLUME, SoundManager.getInstance()
-				.getVolume());
+		assertEquals(VOLUME, SoundManager.getInstance().getVolume());
 
 		sprite.getActionFactory().createSetVolumeToAction(sprite, new Formula(String.valueOf(NOT_NUMERICAL_STRING))).act(1.0f);
-		assertEquals("Incorrect sprite volume value after SetVolumeToBrick executed", VOLUME, SoundManager.getInstance()
-				.getVolume());
+		assertEquals(VOLUME, SoundManager.getInstance().getVolume());
 	}
 
 	public void testNullFormula() {
 		sprite.getActionFactory().createSetVolumeToAction(sprite, null).act(1.0f);
-		assertEquals("Incorrect sprite volume value after SetVolumeToBrick executed", 0f, SoundManager.getInstance()
-				.getVolume());
+		assertEquals(0f, SoundManager.getInstance().getVolume());
 	}
 
 	public void testNotANumberFormula() {
 		sprite.getActionFactory().createSetVolumeToAction(sprite, new Formula(Double.NaN)).act(1.0f);
-		assertEquals("Incorrect sprite volume value after SetVolumeToBrick executed", VOLUME, SoundManager.getInstance()
-				.getVolume());
+		assertEquals(VOLUME, SoundManager.getInstance().getVolume());
 	}
 }

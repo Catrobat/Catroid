@@ -46,8 +46,7 @@ public class TrackGridToTrackConverterTest extends AndroidTestCase {
 		TrackGrid newTrackGrid = TrackToTrackGridConverter.convertTrackToTrackGrid(track, MusicalBeat.BEAT_4_4,
 				beatsPerMinute);
 
-		assertTrue("Conversion from Track to Trackgrid failed for simple track grid.",
-				newTrackGrid.equals(simpleTrackGrid));
+		assertTrue(newTrackGrid.equals(simpleTrackGrid));
 	}
 
 	public void testConvertTrackGridWithSeveralBreaks() {
@@ -58,8 +57,7 @@ public class TrackGridToTrackConverterTest extends AndroidTestCase {
 		TrackGrid convertedTrackGrid = TrackToTrackGridConverter.convertTrackToTrackGrid(track,
 				MusicalBeat.BEAT_4_4, beatsPerMinute);
 
-		assertTrue("Conversion from Track to Trackgrid failed for track grid with several breaks.", convertedTrackGrid
-				.equals(trackWithSeveralBreaks));
+		assertTrue(convertedTrackGrid.equals(trackWithSeveralBreaks));
 	}
 
 	public void testConvertSemiComplexTrackGrid() {
@@ -70,7 +68,6 @@ public class TrackGridToTrackConverterTest extends AndroidTestCase {
 		TrackGrid convertedTrackGrid = TrackToTrackGridConverter.convertTrackToTrackGrid(track,
 				MusicalBeat.BEAT_4_4, beatsPerMinute);
 
-		assertTrue("Conversion from Track to Trackgrid failed for semi complex track grid.",
-				convertedTrackGrid.equals(semiComplexTrackGrid));
+		assertTrue(convertedTrackGrid.equals(semiComplexTrackGrid));
 	}
 }

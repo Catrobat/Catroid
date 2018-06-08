@@ -50,15 +50,13 @@ public class PreferencesSensorMappingTest extends AndroidTestCase {
 		String[] sensorNames = context.getResources().getStringArray(R.array.nxt_sensor_chooser);
 		String[] sensorPreferencesCodes = NXTSensor.Sensor.getSensorCodes();
 
-		assertEquals("Wrong sensor name count", correctMapping.size(), sensorNames.length);
-		assertEquals("Wrong sensor preferences codes count", correctMapping.size(), sensorPreferencesCodes.length);
+		assertEquals(correctMapping.size(), sensorNames.length);
+		assertEquals(correctMapping.size(), sensorPreferencesCodes.length);
 
 		for (int i = 0; i < correctMapping.size(); ++i) {
-			assertEquals("Wrong mapping of nxt sensor names, maybe the order is wrong",
-					context.getString(correctMapping.get(i).first), sensorNames[i]);
+			assertEquals(context.getString(correctMapping.get(i).first), sensorNames[i]);
 
-			assertEquals("Wrong mapping of nxt sensor preferences codes, maybe the order is wrong",
-					correctMapping.get(i).second.getSensorCode(), sensorPreferencesCodes[i]);
+			assertEquals(correctMapping.get(i).second.getSensorCode(), sensorPreferencesCodes[i]);
 		}
 	}
 }

@@ -56,6 +56,6 @@ public class MidiToProjectConverterTest extends AndroidTestCase {
 		projectConverter.writeProjectAsMidi(project);
 		Project actualProject = midiConverter.convertMidiFileToProject(file);
 
-		assertEquals("Failed to convert midi to project", project, actualProject);
+		assertEquals(project, actualProject);
 	}
 }

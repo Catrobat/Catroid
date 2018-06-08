@@ -55,31 +55,31 @@ public class ChangeVariableActionTest extends AndroidTestCase {
 
 	public void testChangeUserVariableWithNumericalFormula() {
 		testSprite.getActionFactory().createChangeVariableAction(testSprite, new Formula(CHANGE_VARIABLE_VALUE), userVariable).act(1f);
-		assertEquals("UserVariable did not change", CHANGE_VARIABLE_VALUE, userVariable.getValue());
+		assertEquals(CHANGE_VARIABLE_VALUE, userVariable.getValue());
 	}
 
 	public void testChangeUserVariableInvalidUserVariable() {
 		testSprite.getActionFactory().createChangeVariableAction(testSprite, new Formula(CHANGE_VARIABLE_VALUE), null).act(1f);
-		assertEquals("UserVariable changed, but should not!", INITIALIZED_VALUE, userVariable.getValue());
+		assertEquals(INITIALIZED_VALUE, userVariable.getValue());
 	}
 
 	public void testChangeUserVariableWithNumericalStringFormula() {
 		testSprite.getActionFactory().createChangeVariableAction(testSprite, new Formula(String.valueOf(CHANGE_VARIABLE_VALUE)), userVariable).act(1f);
-		assertEquals("UserVariable did not change", CHANGE_VARIABLE_VALUE, userVariable.getValue());
+		assertEquals(CHANGE_VARIABLE_VALUE, userVariable.getValue());
 	}
 
 	public void testChangeUserVariableWithStringFormula() {
 		testSprite.getActionFactory().createChangeVariableAction(testSprite, new Formula(NOT_NUMERICAL_STRING), userVariable).act(1f);
-		assertEquals("UserVariable should not have changed!", INITIALIZED_VALUE, userVariable.getValue());
+		assertEquals(INITIALIZED_VALUE, userVariable.getValue());
 	}
 
 	public void testNullFormula() {
 		testSprite.getActionFactory().createChangeVariableAction(testSprite, null, userVariable).act(1f);
-		assertEquals("UserVariable should not have changed!", INITIALIZED_VALUE, userVariable.getValue());
+		assertEquals(INITIALIZED_VALUE, userVariable.getValue());
 	}
 
 	public void testNotANumberFormula() {
 		testSprite.getActionFactory().createChangeVariableAction(testSprite, new Formula(Double.NaN), userVariable).act(1f);
-		assertEquals("UserVariable should not have changed!", INITIALIZED_VALUE, userVariable.getValue());
+		assertEquals(INITIALIZED_VALUE, userVariable.getValue());
 	}
 }

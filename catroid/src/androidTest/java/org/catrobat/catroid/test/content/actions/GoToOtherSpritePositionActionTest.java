@@ -55,15 +55,13 @@ public class GoToOtherSpritePositionActionTest extends AndroidTestCase {
 		sprite.look.setXInUserInterfaceDimensionUnit(0f);
 		sprite.look.setYInUserInterfaceDimensionUnit(0f);
 
-		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Unexpected initial sprite y position", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 
 		action.act(1f);
 
-		assertEquals("Incorrect sprite x position after GoToOtherSpritePositionAction executed", DESTINATION_X_POSITION,
-				sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Incorrect sprite y position after GoToOtherSpritePositionAction executed", DESTINATION_Y_POSITION,
-				sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(DESTINATION_X_POSITION, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(DESTINATION_Y_POSITION, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullActor() {

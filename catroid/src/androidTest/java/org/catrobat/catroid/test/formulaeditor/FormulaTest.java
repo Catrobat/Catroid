@@ -43,53 +43,46 @@ public class FormulaTest extends InstrumentationTestCase {
 
 	public void testRequiredRessources() {
 		Formula formula0 = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.FACE_DETECTED.name(), null));
-		assertEquals("Required ressources for is_face_detected are not set to FACE_DETECTION",
-				formula0.getRequiredResources(), Brick.FACE_DETECTION);
+		assertEquals(formula0.getRequiredResources(), Brick.FACE_DETECTION);
 
 		Formula formula1 = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.FACE_SIZE.name(), null));
-		assertEquals("Required ressources for face_size are not set to FACE_DETECTION",
-				formula1.getRequiredResources(), Brick.FACE_DETECTION);
+		assertEquals(formula1.getRequiredResources(), Brick.FACE_DETECTION);
 
 		Formula formula2 = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.FACE_X_POSITION.name(), null));
-		assertEquals("Required ressources for face_x_position are not set to FACE_DETECTION",
-				formula2.getRequiredResources(), Brick.FACE_DETECTION);
+		assertEquals(formula2.getRequiredResources(), Brick.FACE_DETECTION);
 
 		Formula formula3 = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.FACE_Y_POSITION.name(), null));
-		assertEquals("Required ressources for face_y_position are not set to FACE_DETECTION",
-				formula3.getRequiredResources(), Brick.FACE_DETECTION);
+		assertEquals(formula3.getRequiredResources(), Brick.FACE_DETECTION);
 
 		Formula simpleFormula = new Formula(42.0d);
-		assertEquals("Simple formula requests resources", simpleFormula.getRequiredResources(), Brick.NO_RESOURCES);
+		assertEquals(simpleFormula.getRequiredResources(), Brick.NO_RESOURCES);
 
 		Formula formulaWithRessourceLeft = new Formula(new FormulaElement(ElementType.OPERATOR, Operators.PLUS.name(),
 				null, new FormulaElement(ElementType.SENSOR, Sensors.FACE_Y_POSITION.name(), null), new FormulaElement(
 				ElementType.NUMBER, Double.toString(96d), null)));
-		assertEquals("Required ressources of left child are not calculated propperly",
-				formulaWithRessourceLeft.getRequiredResources(), Brick.FACE_DETECTION);
+		assertEquals(formulaWithRessourceLeft.getRequiredResources(), Brick.FACE_DETECTION);
 
 		Formula formulaWithRessourceRight = new Formula(new FormulaElement(ElementType.OPERATOR, Operators.PLUS.name(),
 				null, new FormulaElement(ElementType.NUMBER, Double.toString(96d), null), new FormulaElement(
 				ElementType.SENSOR, Sensors.FACE_X_POSITION.name(), null)));
-		assertEquals("Required ressources of right child are not calculated propperly",
-				formulaWithRessourceRight.getRequiredResources(), Brick.FACE_DETECTION);
+		assertEquals(formulaWithRessourceRight.getRequiredResources(), Brick.FACE_DETECTION);
 
 		Formula formulaSameRessourceTwice = new Formula(new FormulaElement(ElementType.OPERATOR, Operators.PLUS.name(),
 				null, new FormulaElement(ElementType.SENSOR, Sensors.FACE_DETECTED.name(), null), new FormulaElement(
 				ElementType.SENSOR, Sensors.FACE_SIZE.name(), null)));
-		assertEquals("Required ressources of formula with several ressources are not calculated propperly",
-				formulaSameRessourceTwice.getRequiredResources(), Brick.FACE_DETECTION);
+		assertEquals(formulaSameRessourceTwice.getRequiredResources(), Brick.FACE_DETECTION);
 	}
 
 	public void testIsSingleNumberFormula() {
 
 		Formula formula = new Formula(1);
-		assertTrue("Formula should be single number formula", formula.isSingleNumberFormula());
+		assertTrue(formula.isSingleNumberFormula());
 
 		formula = new Formula(1.0d);
-		assertTrue("Formula should be single number formula", formula.isSingleNumberFormula());
+		assertTrue(formula.isSingleNumberFormula());
 
 		formula = new Formula(1.0f);
-		assertTrue("Formula should be single number formula", formula.isSingleNumberFormula());
+		assertTrue(formula.isSingleNumberFormula());
 
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 
@@ -99,12 +92,12 @@ public class FormulaTest extends InstrumentationTestCase {
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
 		FormulaElement parseTree = internParser.parseFormula();
 
-		assertNotNull("Formula is not parsed correctly: - 1", parseTree);
-		assertEquals("Formula interpretation is not as expected", -1d, parseTree.interpretRecursive(null));
+		assertNotNull(parseTree);
+		assertEquals(-1d, parseTree.interpretRecursive(null));
 		internTokenList.clear();
 
 		formula = new Formula(parseTree);
-		assertTrue("Formula should be single number formula", formula.isSingleNumberFormula());
+		assertTrue(formula.isSingleNumberFormula());
 
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1.0"));
@@ -112,12 +105,12 @@ public class FormulaTest extends InstrumentationTestCase {
 		internParser = new InternFormulaParser(internTokenList);
 		parseTree = internParser.parseFormula();
 
-		assertNotNull("Formula is not parsed correctly: - 1", parseTree);
-		assertEquals("Formula interpretation is not as expected", -1d, parseTree.interpretRecursive(null));
+		assertNotNull(parseTree);
+		assertEquals(-1d, parseTree.interpretRecursive(null));
 		internTokenList.clear();
 
 		formula = new Formula(parseTree);
-		assertTrue("Formula should be single number formula", formula.isSingleNumberFormula());
+		assertTrue(formula.isSingleNumberFormula());
 
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1.0"));
@@ -127,12 +120,12 @@ public class FormulaTest extends InstrumentationTestCase {
 		internParser = new InternFormulaParser(internTokenList);
 		parseTree = internParser.parseFormula();
 
-		assertNotNull("Formula is not parsed correctly: - 1 - 1", parseTree);
-		assertEquals("Formula interpretation is not as expected", -2d, parseTree.interpretRecursive(null));
+		assertNotNull(parseTree);
+		assertEquals(-2d, parseTree.interpretRecursive(null));
 		internTokenList.clear();
 
 		formula = new Formula(parseTree);
-		assertFalse("Should NOT be a single number formula", formula.isSingleNumberFormula());
+		assertFalse(formula.isSingleNumberFormula());
 
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.ROUND.name()));
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
@@ -142,12 +135,12 @@ public class FormulaTest extends InstrumentationTestCase {
 		internParser = new InternFormulaParser(internTokenList);
 		parseTree = internParser.parseFormula();
 
-		assertNotNull("Formula is not parsed correctly: round(1.1111)", parseTree);
-		assertEquals("Formula interpretation is not as expected", 1d, parseTree.interpretRecursive(null));
+		assertNotNull(parseTree);
+		assertEquals(1d, parseTree.interpretRecursive(null));
 		internTokenList.clear();
 
 		formula = new Formula(parseTree);
-		assertFalse("Should NOT be a single number formula", formula.isSingleNumberFormula());
+		assertFalse(formula.isSingleNumberFormula());
 	}
 
 	public void testComputeDialogResult() {
@@ -158,7 +151,7 @@ public class FormulaTest extends InstrumentationTestCase {
 
 		Formula joinFormular = new Formula(joinFunctionFormulaElement);
 		String computeDialogResult = joinFormular.getResultForComputeDialog(null);
-		assertEquals("ComputeDialogResult for join function not working", "helloworld", computeDialogResult);
+		assertEquals("helloworld", computeDialogResult);
 
 		FormulaElement indexFormulaElement = new FormulaElement(ElementType.NUMBER, "1", null);
 		FormulaElement letterFunctionFormulaElement = new FormulaElement(ElementType.FUNCTION,
@@ -166,6 +159,6 @@ public class FormulaTest extends InstrumentationTestCase {
 
 		Formula letterFormular = new Formula(letterFunctionFormulaElement);
 		computeDialogResult = letterFormular.getResultForComputeDialog(null);
-		assertEquals("ComputeDialogResult for letter function not working", "h", computeDialogResult);
+		assertEquals("h", computeDialogResult);
 	}
 }

@@ -46,8 +46,7 @@ public class ProjectTest extends AndroidTestCase {
 		PackageInfo packageInfo = getContext().getPackageManager().getPackageInfo(getContext().getPackageName(), 0);
 		XmlHeader projectXmlHeader = project.getXmlHeader();
 
-		assertEquals(packageInfo.versionName,
-				(String) Reflection.getPrivateField(projectXmlHeader, "applicationVersion"));
+		assertEquals(packageInfo.versionName, (String) Reflection.getPrivateField(projectXmlHeader, "applicationVersion"));
 	}
 
 	public void testAddRemoveSprite() {

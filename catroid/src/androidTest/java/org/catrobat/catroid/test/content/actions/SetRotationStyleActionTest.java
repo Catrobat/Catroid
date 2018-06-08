@@ -55,7 +55,7 @@ public class SetRotationStyleActionTest extends AndroidTestCase {
 
 		rotationStyleAction.act(1.0f);
 		pointInDirectionAction.act(1.0f);
-		assertEquals("Wrong direction", 90f, sprite.look.getDirectionInUserInterfaceDimensionUnit());
+		assertEquals(90f, sprite.look.getDirectionInUserInterfaceDimensionUnit());
 	}
 
 	public void testNoMode() {
@@ -67,7 +67,7 @@ public class SetRotationStyleActionTest extends AndroidTestCase {
 		rotationStyleAction.act(1.0f);
 		pointInDirectionAction.act(1.0f);
 
-		assertEquals("Wrong direction", -90f, sprite.look.getDirectionInUserInterfaceDimensionUnit());
+		assertEquals(-90f, sprite.look.getDirectionInUserInterfaceDimensionUnit());
 	}
 
 	public void testLRMode() {
@@ -79,7 +79,7 @@ public class SetRotationStyleActionTest extends AndroidTestCase {
 		rotationStyleAction.act(1.0f);
 		pointInDirectionAction.act(1.0f);
 
-		assertEquals("Wrong direction", -90f, sprite.look.getDirectionInUserInterfaceDimensionUnit());
+		assertEquals(-90f, sprite.look.getDirectionInUserInterfaceDimensionUnit());
 	}
 
 	//Directions here get funky because in physics there is no UI Degree Offset as in the normal looks
@@ -92,20 +92,20 @@ public class SetRotationStyleActionTest extends AndroidTestCase {
 		physicsLook.setRotationMode(Look.ROTATION_STYLE_ALL_AROUND);
 
 		physicsLook.setRotation((float) Direction.RIGHT.getDegrees());
-		assertEquals("Wrong physics object angle (Right)", 90f, physicsObject.getDirection());
-		assertEquals("Wrong direction (Right)", 90f, physicsLook.getRotation());
+		assertEquals(90f, physicsObject.getDirection());
+		assertEquals(90f, physicsLook.getRotation());
 
 		physicsLook.setRotation((float) Direction.LEFT.getDegrees());
-		assertEquals("Wrong physics object angle (Left)", -90f, physicsObject.getDirection());
-		assertEquals("Wrong direction (Left)", -90f, physicsLook.getRotation());
+		assertEquals(-90f, physicsObject.getDirection());
+		assertEquals(-90f, physicsLook.getRotation());
 
 		physicsLook.setRotation((float) Direction.UP.getDegrees());
-		assertEquals("Wrong physics object angle (Up)", 0f, physicsObject.getDirection());
-		assertEquals("Wrong direction (Up)", 0f, physicsLook.getRotation());
+		assertEquals(0f, physicsObject.getDirection());
+		assertEquals(0f, physicsLook.getRotation());
 
 		physicsLook.setRotation((float) Direction.DOWN.getDegrees());
-		assertEquals("Wrong physics object angle (Down)", 180f, physicsObject.getDirection());
-		assertEquals("Wrong direction (Down)", 180f, physicsLook.getRotation());
+		assertEquals(180f, physicsObject.getDirection());
+		assertEquals(180f, physicsLook.getRotation());
 	}
 
 	public void testNoModeInPhysics() {
@@ -115,20 +115,20 @@ public class SetRotationStyleActionTest extends AndroidTestCase {
 		physicsLook.setRotationMode(Look.ROTATION_STYLE_NONE);
 
 		physicsLook.setRotation((float) Direction.RIGHT.getDegrees());
-		assertEquals("Wrong physics object angle (Right)", 90f, physicsObject.getDirection());
-		assertEquals("Wrong direction (Right)", 0f, physicsLook.getRotation());
+		assertEquals(90f, physicsObject.getDirection());
+		assertEquals(0f, physicsLook.getRotation());
 
 		physicsLook.setRotation((float) Direction.LEFT.getDegrees());
-		assertEquals("Wrong physics object angle (Left)", -90f, physicsObject.getDirection());
-		assertEquals("Wrong direction (Left)", 0f, physicsLook.getRotation());
+		assertEquals(-90f, physicsObject.getDirection());
+		assertEquals(0f, physicsLook.getRotation());
 
 		physicsLook.setRotation((float) Direction.UP.getDegrees());
-		assertEquals("Wrong physics object angle (Up)", 0f, physicsObject.getDirection());
-		assertEquals("Wrong direction (Up)", 0f, physicsLook.getRotation());
+		assertEquals(0f, physicsObject.getDirection());
+		assertEquals(0f, physicsLook.getRotation());
 
 		physicsLook.setRotation((float) Direction.DOWN.getDegrees());
-		assertEquals("Wrong physics object angle (Down)", 180f, physicsObject.getDirection());
-		assertEquals("Wrong direction (Down)", 0f, physicsLook.getRotation());
+		assertEquals(180f, physicsObject.getDirection());
+		assertEquals(0f, physicsLook.getRotation());
 	}
 
 	public void testLRModeInPhysics() {
@@ -138,19 +138,19 @@ public class SetRotationStyleActionTest extends AndroidTestCase {
 		physicsLook.setRotationMode(Look.ROTATION_STYLE_LEFT_RIGHT_ONLY);
 
 		physicsLook.setRotation((float) Direction.RIGHT.getDegrees());
-		assertEquals("Wrong physics object angle (Right)", 90f, physicsObject.getDirection());
-		assertEquals("Wrong direction (Right)", 0f, physicsLook.getRotation());
+		assertEquals(90f, physicsObject.getDirection());
+		assertEquals(0f, physicsLook.getRotation());
 
 		physicsLook.setRotation((float) Direction.LEFT.getDegrees());
-		assertEquals("Wrong physics object angle (Left)", -90f, physicsObject.getDirection());
-		assertEquals("Wrong direction (Left)", 0f, physicsLook.getRotation());
+		assertEquals(-90f, physicsObject.getDirection());
+		assertEquals(0f, physicsLook.getRotation());
 
 		physicsLook.setRotation((float) Direction.UP.getDegrees());
-		assertEquals("Wrong physics object angle (Up)", 0f, physicsObject.getDirection());
-		assertEquals("Wrong direction (Up)", 0f, physicsLook.getRotation());
+		assertEquals(0f, physicsObject.getDirection());
+		assertEquals(0f, physicsLook.getRotation());
 
 		physicsLook.setRotation((float) Direction.DOWN.getDegrees());
-		assertEquals("Wrong physics object angle (Down)", 180f, physicsObject.getDirection());
-		assertEquals("Wrong direction (Down)", 0f, physicsLook.getRotation());
+		assertEquals(180f, physicsObject.getDirection());
+		assertEquals(0f, physicsLook.getRotation());
 	}
 }

@@ -230,8 +230,7 @@ public class LookTest extends InstrumentationTestCase {
 		for (int index = 0; index < negativeStageAngles.length; index++) {
 			ParameterList params = new ParameterList(negativeStageAngles[index]);
 			float stageAngle = (Float) Reflection.invokeMethod(look, "convertStageAngleToCatroidAngle", params);
-			assertEquals(expectedNegativeCatroidAngles[index],
-					convertNegativeZeroToPosigiveZero(stageAngle));
+			assertEquals(expectedNegativeCatroidAngles[index], convertNegativeZeroToPosigiveZero(stageAngle));
 		}
 
 		for (int index = 0; index < negativeHighStageAngles.length; index++) {
@@ -285,13 +284,11 @@ public class LookTest extends InstrumentationTestCase {
 	public void testTransparency() {
 		float transparency = 20f;
 		look.setTransparencyInUserInterfaceDimensionUnit(transparency);
-		assertEquals(transparency, look.getTransparencyInUserInterfaceDimensionUnit(),
-				1e-5);
+		assertEquals(transparency, look.getTransparencyInUserInterfaceDimensionUnit(), 1e-5);
 		assertEquals(0.8f, Reflection.getPrivateField(look, "alpha"));
 
 		look.changeTransparencyInUserInterfaceDimensionUnit(transparency);
-		assertEquals(2 * transparency, look.getTransparencyInUserInterfaceDimensionUnit(),
-				1e-5);
+		assertEquals(2 * transparency, look.getTransparencyInUserInterfaceDimensionUnit(), 1e-5);
 		assertEquals(0.6f, Reflection.getPrivateField(look, "alpha"));
 
 		look.setTransparencyInUserInterfaceDimensionUnit(-10f);
@@ -401,16 +398,13 @@ public class LookTest extends InstrumentationTestCase {
 		assertEquals(origin.getYInUserInterfaceDimensionUnit(), clone.getYInUserInterfaceDimensionUnit());
 
 		assertEquals(origin.getColorInUserInterfaceDimensionUnit(), clone.getColorInUserInterfaceDimensionUnit());
-		assertEquals(origin.getTransparencyInUserInterfaceDimensionUnit(),
-				clone.getTransparencyInUserInterfaceDimensionUnit());
+		assertEquals(origin.getTransparencyInUserInterfaceDimensionUnit(), clone.getTransparencyInUserInterfaceDimensionUnit());
 
 		assertEquals(origin.getRotationMode(), clone.getRotationMode());
 
-		assertEquals(origin.getBrightnessInUserInterfaceDimensionUnit(),
-				clone.getBrightnessInUserInterfaceDimensionUnit());
+		assertEquals(origin.getBrightnessInUserInterfaceDimensionUnit(), clone.getBrightnessInUserInterfaceDimensionUnit());
 
-		assertEquals(origin.getDirectionInUserInterfaceDimensionUnit(),
-				clone.getDirectionInUserInterfaceDimensionUnit());
+		assertEquals(origin.getDirectionInUserInterfaceDimensionUnit(), clone.getDirectionInUserInterfaceDimensionUnit());
 
 		assertEquals(origin.isLookVisible(), clone.isLookVisible());
 	}

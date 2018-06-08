@@ -46,25 +46,25 @@ public class OctaveTest extends AndroidTestCase {
 		Octave octave = Octave.ONE_LINE_OCTAVE;
 		Octave nextOctave = Octave.TWO_LINE_OCTAVE;
 
-		assertEquals("Failed to get next octave", nextOctave, octave.next());
+		assertEquals(nextOctave, octave.next());
 	}
 
 	public void testNextNoChange() {
 		Octave lastOctave = Octave.FOUR_LINE_OCTAVE;
 
-		assertEquals("Failed to get next octave", lastOctave, lastOctave.next());
+		assertEquals(lastOctave, lastOctave.next());
 	}
 
 	public void testPrevious() {
 		Octave octave = Octave.THREE_LINE_OCTAVE;
 		Octave previousOctave = Octave.TWO_LINE_OCTAVE;
 
-		assertEquals("Failed to get previous octave", previousOctave, octave.previous());
+		assertEquals(previousOctave, octave.previous());
 	}
 
 	public void testPreviousNoChange() {
 		Octave firstOctave = Octave.CONTRA_OCTAVE;
 
-		assertEquals("Failed to get previous octave", firstOctave, firstOctave.previous());
+		assertEquals(firstOctave, firstOctave.previous());
 	}
 }

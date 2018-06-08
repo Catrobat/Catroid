@@ -59,10 +59,10 @@ public class TouchesFingerTest extends InstrumentationTestCase {
 	public void testBasicOneTouchingPoint() {
 		TouchUtil.reset();
 		TouchUtil.touchDown(150, 150, 1);
-		Assert.assertTrue("Not detected as touching", CollisionDetection.collidesWithFinger(sprite1.look) == 1d);
+		Assert.assertTrue(CollisionDetection.collidesWithFinger(sprite1.look) == 1d);
 		TouchUtil.touchUp(1);
 		TouchUtil.touchDown(0, 0, 1);
-		Assert.assertFalse("Detected as touching", CollisionDetection.collidesWithFinger(sprite1.look) == 1d);
+		Assert.assertFalse(CollisionDetection.collidesWithFinger(sprite1.look) == 1d);
 	}
 
 	public void testBasicMultipleTouchingPoints() {
@@ -70,14 +70,14 @@ public class TouchesFingerTest extends InstrumentationTestCase {
 		TouchUtil.touchDown(150, 150, 1);
 		TouchUtil.touchDown(0, 0, 2);
 		TouchUtil.touchDown(151, 151, 3);
-		Assert.assertTrue("Not detected as touching", CollisionDetection.collidesWithFinger(sprite1.look) == 1d);
+		Assert.assertTrue(CollisionDetection.collidesWithFinger(sprite1.look) == 1d);
 	}
 
 	public void testAdvancedOneTouchingPoint() {
 		TouchUtil.reset();
 		TouchUtil.touchDown(0, 0, 1);
 
-		Assert.assertFalse("Detected as touching", CollisionDetection.collidesWithFinger(sprite1.look) == 1d);
+		Assert.assertFalse(CollisionDetection.collidesWithFinger(sprite1.look) == 1d);
 
 		float x = sprite1.look.getXInUserInterfaceDimensionUnit();
 		float y = sprite1.look.getYInUserInterfaceDimensionUnit();
@@ -85,6 +85,6 @@ public class TouchesFingerTest extends InstrumentationTestCase {
 		sprite1.look.setXInUserInterfaceDimensionUnit(x - 150);
 		sprite1.look.setYInUserInterfaceDimensionUnit(y - 150);
 
-		Assert.assertTrue("Not detected as touching", CollisionDetection.collidesWithFinger(sprite1.look) == 1d);
+		Assert.assertTrue(CollisionDetection.collidesWithFinger(sprite1.look) == 1d);
 	}
 }

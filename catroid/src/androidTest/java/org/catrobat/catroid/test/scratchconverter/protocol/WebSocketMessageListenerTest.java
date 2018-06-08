@@ -111,11 +111,10 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 		doAnswer(new Answer<Void>() {
 			@Override
 			public Void answer(InvocationOnMock invocation) throws Throwable {
-				assertNotNull("BaseMessage must not be null", invocation.getArguments()[0]);
-				assertTrue("First argument must be of instance ClientIDMessage",
-						invocation.getArguments()[0] instanceof ClientIDMessage);
+				assertNotNull(invocation.getArguments()[0]);
+				assertTrue(invocation.getArguments()[0] instanceof ClientIDMessage);
 				ClientIDMessage clientIDMessage = (ClientIDMessage) invocation.getArguments()[0];
-				assertEquals("Wrong client ID extracted", expectedClientID, clientIDMessage.getClientID());
+				assertEquals(expectedClientID, clientIDMessage.getClientID());
 				return null;
 			}
 		}).when(baseMessageHandlerMock).onBaseMessage(any(BaseMessage.class));
@@ -137,11 +136,10 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 		doAnswer(new Answer<Void>() {
 			@Override
 			public Void answer(InvocationOnMock invocation) throws Throwable {
-				assertNotNull("BaseMessage must not be null", invocation.getArguments()[0]);
-				assertTrue("First argument must be of instance ErrorMessage",
-						invocation.getArguments()[0] instanceof ErrorMessage);
+				assertNotNull(invocation.getArguments()[0]);
+				assertTrue(invocation.getArguments()[0] instanceof ErrorMessage);
 				ErrorMessage errorMessage = (ErrorMessage) invocation.getArguments()[0];
-				assertEquals("Wrong error message extracted", expectedErrorMessage, errorMessage.getMessage());
+				assertEquals(expectedErrorMessage, errorMessage.getMessage());
 				return null;
 			}
 		}).when(baseMessageHandlerMock).onBaseMessage(any(BaseMessage.class));
@@ -173,37 +171,29 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 		doAnswer(new Answer<Void>() {
 			@Override
 			public Void answer(InvocationOnMock invocation) throws Throwable {
-				assertNotNull("BaseMessage must not be null", invocation.getArguments()[0]);
-				assertTrue("First argument must be of instance InfoMessage",
-						invocation.getArguments()[0] instanceof InfoMessage);
+				assertNotNull(invocation.getArguments()[0]);
+				assertTrue(invocation.getArguments()[0] instanceof InfoMessage);
 				InfoMessage infoMessage = (InfoMessage) invocation.getArguments()[0];
-				assertEquals("Wrong catrobat language version extracted",
-						expectedCatrobatLanguageVersion, infoMessage.getCatrobatLanguageVersion());
+				assertEquals(expectedCatrobatLanguageVersion, infoMessage.getCatrobatLanguageVersion());
 				Job[] jobs = infoMessage.getJobList();
-				assertTrue("Wrong number of jobs extracted", jobs.length == 2);
+				assertTrue(jobs.length == 2);
 
 				// first job
-				assertEquals("Wrong state extracted of first job", expectedFirstJob.getState(), jobs[0].getState());
-				assertEquals("Wrong ID extracted of first job", expectedFirstJob.getJobID(), jobs[0].getJobID());
-				assertEquals("Wrong title extracted of first job", expectedFirstJob.getTitle(), jobs[0].getTitle());
-				assertEquals("Wrong image extracted of first job",
-						expectedFirstJob.getImage().getUrl(), jobs[0].getImage().getUrl());
-				assertEquals("Wrong progress value extracted of first job",
-						expectedFirstJob.getProgress(), jobs[0].getProgress());
-				assertEquals("Wrong downloadURL extracted of first job",
-						expectedFirstJob.getDownloadURL(), jobs[0].getDownloadURL());
+				assertEquals(expectedFirstJob.getState(), jobs[0].getState());
+				assertEquals(expectedFirstJob.getJobID(), jobs[0].getJobID());
+				assertEquals(expectedFirstJob.getTitle(), jobs[0].getTitle());
+				assertEquals(expectedFirstJob.getImage().getUrl(), jobs[0].getImage().getUrl());
+				assertEquals(expectedFirstJob.getProgress(), jobs[0].getProgress());
+				assertEquals(expectedFirstJob.getDownloadURL(), jobs[0].getDownloadURL());
 
 				// second job
-				assertEquals("Wrong state extracted of second job", expectedSecondJob.getState(), jobs[1].getState());
-				assertEquals("Wrong ID extracted of second job", expectedSecondJob.getJobID(), jobs[1].getJobID());
-				assertEquals("Wrong title extracted of second job", expectedSecondJob.getTitle(), jobs[1].getTitle());
-				assertNull("Wrong image extracted of second job", jobs[1].getImage());
-				assertEquals("Wrong progress value extracted of second job",
-						expectedSecondJob.getProgress(), jobs[1].getProgress());
-				assertEquals("Wrong progress value extracted of second job",
-						expectedSecondJob.getProgress(), jobs[1].getProgress());
-				assertEquals("Wrong downloadURL extracted of second job",
-						expectedSecondJob.getDownloadURL(), jobs[1].getDownloadURL());
+				assertEquals(expectedSecondJob.getState(), jobs[1].getState());
+				assertEquals(expectedSecondJob.getJobID(), jobs[1].getJobID());
+				assertEquals(expectedSecondJob.getTitle(), jobs[1].getTitle());
+				assertNull(jobs[1].getImage());
+				assertEquals(expectedSecondJob.getProgress(), jobs[1].getProgress());
+				assertEquals(expectedSecondJob.getProgress(), jobs[1].getProgress());
+				assertEquals(expectedSecondJob.getDownloadURL(), jobs[1].getDownloadURL());
 				return null;
 			}
 		}).when(baseMessageHandlerMock).onBaseMessage(any(InfoMessage.class));
@@ -232,15 +222,13 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 		doAnswer(new Answer<Void>() {
 			@Override
 			public Void answer(InvocationOnMock invocation) throws Throwable {
-				assertNotNull("JobMessage must not be null", invocation.getArguments()[0]);
-				assertTrue("First argument must be of instance JobAlreadyRunningMessage",
-						invocation.getArguments()[0] instanceof JobAlreadyRunningMessage);
+				assertNotNull(invocation.getArguments()[0]);
+				assertTrue(invocation.getArguments()[0] instanceof JobAlreadyRunningMessage);
 				JobAlreadyRunningMessage alreadyRunningMessage;
 				alreadyRunningMessage = (JobAlreadyRunningMessage) invocation.getArguments()[0];
-				assertEquals("Wrong job ID extracted", JOB_ID_OF_JOB_HANDLER, alreadyRunningMessage.getJobID());
-				assertEquals("Wrong job title extracted", expectedJobTitle, alreadyRunningMessage.getJobTitle());
-				assertEquals("Wrong job image URL extracted",
-						expectedJobImageURL, alreadyRunningMessage.getJobImageURL());
+				assertEquals(JOB_ID_OF_JOB_HANDLER, alreadyRunningMessage.getJobID());
+				assertEquals(expectedJobTitle, alreadyRunningMessage.getJobTitle());
+				assertEquals(expectedJobImageURL, alreadyRunningMessage.getJobImageURL());
 				return null;
 			}
 		}).when(jobHandlerMock).onJobMessage(any(JobMessage.class));
@@ -265,13 +253,11 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 		doAnswer(new Answer<Void>() {
 			@Override
 			public Void answer(InvocationOnMock invocation) throws Throwable {
-				assertNotNull("JobMessage must not be null", invocation.getArguments()[0]);
-				assertTrue("First argument must be of instance JobFailedMessage",
-						invocation.getArguments()[0] instanceof JobFailedMessage);
+				assertNotNull(invocation.getArguments()[0]);
+				assertTrue(invocation.getArguments()[0] instanceof JobFailedMessage);
 				JobFailedMessage failedMessage = (JobFailedMessage) invocation.getArguments()[0];
-				assertEquals("Wrong job ID extracted", JOB_ID_OF_JOB_HANDLER, failedMessage.getJobID());
-				assertEquals("Wrong job failed message extracted",
-						expectedJobFailedMessage, failedMessage.getMessage());
+				assertEquals(JOB_ID_OF_JOB_HANDLER, failedMessage.getJobID());
+				assertEquals(expectedJobFailedMessage, failedMessage.getMessage());
 				return null;
 			}
 		}).when(jobHandlerMock).onJobMessage(any(JobMessage.class));
@@ -296,17 +282,15 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 		doAnswer(new Answer<Void>() {
 			@Override
 			public Void answer(InvocationOnMock invocation) throws Throwable {
-				assertNotNull("JobMessage must not be null", invocation.getArguments()[0]);
-				assertTrue("First argument must be of instance JobFinishedMessage",
-						invocation.getArguments()[0] instanceof JobFinishedMessage);
+				assertNotNull(invocation.getArguments()[0]);
+				assertTrue(invocation.getArguments()[0] instanceof JobFinishedMessage);
 				JobFinishedMessage finishedMessage = (JobFinishedMessage) invocation.getArguments()[0];
-				assertEquals("Wrong job ID extracted", JOB_ID_OF_JOB_HANDLER, finishedMessage.getJobID());
-				assertEquals("Wrong job download URL extracted", expectedDownloadURL, finishedMessage.getDownloadURL());
+				assertEquals(JOB_ID_OF_JOB_HANDLER, finishedMessage.getJobID());
+				assertEquals(expectedDownloadURL, finishedMessage.getDownloadURL());
 				final Date cachedUTCDate = finishedMessage.getCachedDate();
 				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
 				dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-				assertEquals("Wrong job cached date extracted",
-						expectedCachedUTCDateString, dateFormat.format(cachedUTCDate));
+				assertEquals(expectedCachedUTCDateString, dateFormat.format(cachedUTCDate));
 				return null;
 			}
 		}).when(jobHandlerMock).onJobMessage(any(JobMessage.class));
@@ -331,15 +315,14 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 		doAnswer(new Answer<Void>() {
 			@Override
 			public Void answer(InvocationOnMock invocation) throws Throwable {
-				assertNotNull("JobMessage must not be null", invocation.getArguments()[0]);
-				assertTrue("First argument must be of instance JobOutputMessage",
-						invocation.getArguments()[0] instanceof JobOutputMessage);
+				assertNotNull(invocation.getArguments()[0]);
+				assertTrue(invocation.getArguments()[0] instanceof JobOutputMessage);
 				JobOutputMessage outputMessage = (JobOutputMessage) invocation.getArguments()[0];
-				assertEquals("Wrong job ID extracted", JOB_ID_OF_JOB_HANDLER, outputMessage.getJobID());
+				assertEquals(JOB_ID_OF_JOB_HANDLER, outputMessage.getJobID());
 				final String[] lines = outputMessage.getLines();
-				assertEquals("Wrong number of lines extracted", 2, lines.length);
-				assertEquals("Wrong first output line extracted", expectedLines[0], lines[0]);
-				assertEquals("Wrong second output line extracted", expectedLines[1], lines[1]);
+				assertEquals(2, lines.length);
+				assertEquals(expectedLines[0], lines[0]);
+				assertEquals(expectedLines[1], lines[1]);
 				return null;
 			}
 		}).when(jobHandlerMock).onJobMessage(any(JobMessage.class));
@@ -362,12 +345,11 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 		doAnswer(new Answer<Void>() {
 			@Override
 			public Void answer(InvocationOnMock invocation) throws Throwable {
-				assertNotNull("JobMessage must not be null", invocation.getArguments()[0]);
-				assertTrue("First argument must be of instance JobProgressMessage",
-						invocation.getArguments()[0] instanceof JobProgressMessage);
+				assertNotNull(invocation.getArguments()[0]);
+				assertTrue(invocation.getArguments()[0] instanceof JobProgressMessage);
 				JobProgressMessage progressMessage = (JobProgressMessage) invocation.getArguments()[0];
-				assertEquals("Wrong job ID extracted", JOB_ID_OF_JOB_HANDLER, progressMessage.getJobID());
-				assertEquals("Wrong job progress value extracted", expectedProgress, progressMessage.getProgress());
+				assertEquals(JOB_ID_OF_JOB_HANDLER, progressMessage.getJobID());
+				assertEquals(expectedProgress, progressMessage.getProgress());
 				return null;
 			}
 		}).when(jobHandlerMock).onJobMessage(any(JobMessage.class));
@@ -388,11 +370,10 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 		doAnswer(new Answer<Void>() {
 			@Override
 			public Void answer(InvocationOnMock invocation) throws Throwable {
-				assertNotNull("JobMessage must not be null", invocation.getArguments()[0]);
-				assertTrue("First argument must be of instance JobReadyMessage",
-						invocation.getArguments()[0] instanceof JobReadyMessage);
+				assertNotNull(invocation.getArguments()[0]);
+				assertTrue(invocation.getArguments()[0] instanceof JobReadyMessage);
 				JobReadyMessage readyMessage = (JobReadyMessage) invocation.getArguments()[0];
-				assertEquals("Wrong job ID extracted", JOB_ID_OF_JOB_HANDLER, readyMessage.getJobID());
+				assertEquals(JOB_ID_OF_JOB_HANDLER, readyMessage.getJobID());
 				return null;
 			}
 		}).when(jobHandlerMock).onJobMessage(any(JobMessage.class));
@@ -415,14 +396,12 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 		doAnswer(new Answer<Void>() {
 			@Override
 			public Void answer(InvocationOnMock invocation) throws Throwable {
-				assertNotNull("JobMessage must not be null", invocation.getArguments()[0]);
-				assertTrue("First argument must be of instance JobRunningMessage",
-						invocation.getArguments()[0] instanceof JobRunningMessage);
+				assertNotNull(invocation.getArguments()[0]);
+				assertTrue(invocation.getArguments()[0] instanceof JobRunningMessage);
 				JobRunningMessage runningMessage = (JobRunningMessage) invocation.getArguments()[0];
-				assertEquals("Wrong job ID extracted", JOB_ID_OF_JOB_HANDLER, runningMessage.getJobID());
-				assertEquals("Wrong job title extracted", expectedJobTitle, runningMessage.getJobTitle());
-				assertEquals("Wrong job image URL extracted",
-						expectedJobImageURL, runningMessage.getJobImageURL());
+				assertEquals(JOB_ID_OF_JOB_HANDLER, runningMessage.getJobID());
+				assertEquals(expectedJobTitle, runningMessage.getJobTitle());
+				assertEquals(expectedJobImageURL, runningMessage.getJobImageURL());
 				return null;
 			}
 		}).when(jobHandlerMock).onJobMessage(any(JobMessage.class));
@@ -456,16 +435,14 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 		doAnswer(new Answer<Void>() {
 			@Override
 			public Void answer(InvocationOnMock invocation) throws Throwable {
-				assertNotNull("JobMessage must not be null", invocation.getArguments()[0]);
-				assertEquals("First argument must be convertCallbackMock",
-						convertCallbackMock, invocation.getArguments()[0]);
+				assertNotNull(invocation.getArguments()[0]);
+				assertEquals(convertCallbackMock, invocation.getArguments()[0]);
 				return null;
 			}
 		}).when(jobHandlerMock).setCallback(any(Client.ConvertCallback.class));
 		when(jobHandlerMock.isInProgress()).thenReturn(false);
 
-		assertTrue("Job was not scheduled",
-				webSocketMessageListener.scheduleJob(expectedJob, expectedForceValue, convertCallbackMock));
+		assertTrue(webSocketMessageListener.scheduleJob(expectedJob, expectedForceValue, convertCallbackMock));
 		verify(jobHandlerMock, times(1)).setCallback(any(Client.ConvertCallback.class));
 		verify(jobHandlerMock, times(1)).onJobScheduled();
 		verify(jobHandlerMock, times(1)).isInProgress();
@@ -482,8 +459,7 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 		final Client.ConvertCallback convertCallbackMock = Mockito.mock(Client.ConvertCallback.class);
 		when(jobHandlerMock.isInProgress()).thenReturn(true);
 
-		assertFalse("Already running job should not be rescheduled when force parameter set to false",
-				webSocketMessageListener.scheduleJob(expectedJob, expectedForceValue, convertCallbackMock));
+		assertFalse(webSocketMessageListener.scheduleJob(expectedJob, expectedForceValue, convertCallbackMock));
 		verify(jobHandlerMock, times(1)).isInProgress();
 		verifyNoMoreInteractions(jobHandlerMock);
 	}
@@ -500,15 +476,13 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 		doAnswer(new Answer<Void>() {
 			@Override
 			public Void answer(InvocationOnMock invocation) throws Throwable {
-				assertNotNull("JobMessage must not be null", invocation.getArguments()[0]);
-				assertEquals("First argument must be convertCallbackMock",
-						convertCallbackMock, invocation.getArguments()[0]);
+				assertNotNull(invocation.getArguments()[0]);
+				assertEquals(convertCallbackMock, invocation.getArguments()[0]);
 				return null;
 			}
 		}).when(jobHandlerMock).setCallback(any(Client.ConvertCallback.class));
 
-		assertTrue("Already running Job has not been rescheduled despite of enabled force flag",
-				webSocketMessageListener.scheduleJob(expectedJob, expectedForceValue, convertCallbackMock));
+		assertTrue(webSocketMessageListener.scheduleJob(expectedJob, expectedForceValue, convertCallbackMock));
 		verify(jobHandlerMock, times(1)).setCallback(any(Client.ConvertCallback.class));
 		verify(jobHandlerMock, times(1)).onJobScheduled();
 		verifyNoMoreInteractions(jobHandlerMock);
@@ -525,31 +499,28 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 		doAnswer(new Answer<Void>() {
 			@Override
 			public Void answer(InvocationOnMock invocation) throws Throwable {
-				assertNotNull("JobMessage must not be null", invocation.getArguments()[0]);
-				assertEquals("First argument must be convertCallbackMock",
-						convertCallbackMock, invocation.getArguments()[0]);
+				assertNotNull(invocation.getArguments()[0]);
+				assertEquals(convertCallbackMock, invocation.getArguments()[0]);
 				return null;
 			}
 		}).when(jobHandlerMock).setCallback(any(Client.ConvertCallback.class));
 
 		Client.DownloadCallback callback = webSocketMessageListener.restoreJobIfRunning(expectedJob,
 				convertCallbackMock);
-		assertNull("Already running Job has not been rescheduled despite of enabled force flag", callback);
+		assertNull(callback);
 		verify(jobHandlerMock, times(1)).setCallback(any(Client.ConvertCallback.class));
 		verifyNoMoreInteractions(jobHandlerMock);
 	}
 
 	public void testIsJobInProgressOfRunningJobShouldReturnTrue() {
 		when(jobHandlerMock.isInProgress()).thenReturn(true);
-		assertTrue("isJobInProgress() call must return true",
-				webSocketMessageListener.isJobInProgress(JOB_ID_OF_JOB_HANDLER));
+		assertTrue(webSocketMessageListener.isJobInProgress(JOB_ID_OF_JOB_HANDLER));
 		verify(jobHandlerMock, times(1)).isInProgress();
 		verifyNoMoreInteractions(jobHandlerMock);
 	}
 
 	public void testIsJobInProgressOfUnscheduledJobShouldReturnFalse() {
-		assertFalse("isJobInProgress() call must return false",
-				webSocketMessageListener.isJobInProgress(JOB_ID_OF_UNSCHEDULED_JOB_THAT_HAS_NO_JOB_HANDLER));
+		assertFalse(webSocketMessageListener.isJobInProgress(JOB_ID_OF_UNSCHEDULED_JOB_THAT_HAS_NO_JOB_HANDLER));
 		verifyZeroInteractions(jobHandlerMock);
 	}
 
@@ -566,16 +537,14 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 
 	public void testGetNumberOfJobsInProgressWhenThereExistsOnlyOneRunningJobShouldReturnOne() {
 		when(jobHandlerMock.isInProgress()).thenReturn(true);
-		assertEquals("isJobInProgress() call must return true",
-				webSocketMessageListener.getNumberOfJobsInProgress(), 1);
+		assertEquals(webSocketMessageListener.getNumberOfJobsInProgress(), 1);
 		verify(jobHandlerMock, times(1)).isInProgress();
 		verifyNoMoreInteractions(jobHandlerMock);
 	}
 
 	public void testGetNumberOfJobsInProgressWhenThereExistsOnlyOneButNotRunningJobShouldReturnZero() {
 		when(jobHandlerMock.isInProgress()).thenReturn(false);
-		assertEquals("isJobInProgress() call must return true",
-				webSocketMessageListener.getNumberOfJobsInProgress(), 0);
+		assertEquals(webSocketMessageListener.getNumberOfJobsInProgress(), 0);
 		verify(jobHandlerMock, times(1)).isInProgress();
 		verifyNoMoreInteractions(jobHandlerMock);
 	}
@@ -591,8 +560,8 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 
 		final JSONObject jsonObject = new JSONObject(payloadMap);
 		final String jsonMessage = jsonObject.toString();
-		assertNotNull("Cannot serialize given data to JSON! Returned null", jsonMessage);
-		assertTrue("Cannot serialize given data to JSON! Returned empty JSON string", jsonMessage.length() > 0);
+		assertNotNull(jsonMessage);
+		assertTrue(jsonMessage.length() > 0);
 		return jsonMessage;
 	}
 
@@ -604,8 +573,8 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 
 		final JSONObject jsonObject = new JSONObject(payloadMap);
 		final String jsonMessage = jsonObject.toString();
-		assertNotNull("Cannot serialize given data to JSON! Returned null", jsonMessage);
-		assertTrue("Cannot serialize given data to JSON! Returned empty JSON string", jsonMessage.length() > 0);
+		assertNotNull(jsonMessage);
+		assertTrue(jsonMessage.length() > 0);
 		return jsonMessage;
 	}
 

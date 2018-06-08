@@ -72,32 +72,25 @@ public class LookSensorValuesInterpretationTest extends AndroidTestCase {
 
 		try {
 			Formula lookXPositionFormula = getFormulaBySensor(Sensors.OBJECT_X);
-			assertEquals("Formula interpretation is not as expected (x-Position)", LOOK_X_POSITION,
-					lookXPositionFormula.interpretDouble(testSprite), DELTA);
+			assertEquals(LOOK_X_POSITION, lookXPositionFormula.interpretDouble(testSprite), DELTA);
 
 			Formula lookYPositionFormula = getFormulaBySensor(Sensors.OBJECT_Y);
-			assertEquals("Formula interpretation is not as expected (y-Position)", LOOK_Y_POSITION,
-					lookYPositionFormula.interpretDouble(testSprite), DELTA);
+			assertEquals(LOOK_Y_POSITION, lookYPositionFormula.interpretDouble(testSprite), DELTA);
 
 			Formula lookAlphaValueFormula = getFormulaBySensor(Sensors.OBJECT_TRANSPARENCY);
-			assertEquals("Formula interpretation is not as expected (ghosteffect)", LOOK_ALPHA,
-					lookAlphaValueFormula.interpretDouble(testSprite), DELTA);
+			assertEquals(LOOK_ALPHA, lookAlphaValueFormula.interpretDouble(testSprite), DELTA);
 
 			Formula lookBrightnessFormula = getFormulaBySensor(Sensors.OBJECT_BRIGHTNESS);
-			assertEquals("Formula interpretation is not as expected (brightness)", LOOK_BRIGHTNESS,
-					lookBrightnessFormula.interpretDouble(testSprite), DELTA);
+			assertEquals(LOOK_BRIGHTNESS, lookBrightnessFormula.interpretDouble(testSprite), DELTA);
 
 			Formula lookScaleFormula = getFormulaBySensor(Sensors.OBJECT_SIZE);
-			assertEquals("Formula interpretation is not as expected (size)", LOOK_SCALE,
-					lookScaleFormula.interpretDouble(testSprite), DELTA);
+			assertEquals(LOOK_SCALE, lookScaleFormula.interpretDouble(testSprite), DELTA);
 
 			Formula lookRotateFormula = getFormulaBySensor(Sensors.OBJECT_ROTATION);
-			assertEquals("Formula interpretation is not as expected (rotation)", LOOK_ROTATION,
-					lookRotateFormula.interpretDouble(testSprite), DELTA);
+			assertEquals(LOOK_ROTATION, lookRotateFormula.interpretDouble(testSprite), DELTA);
 
 			Formula lookZPositionFormula = getFormulaBySensor(Sensors.OBJECT_LAYER);
-			assertEquals("Formula interpretation is not as expected (z-index)", testSprite.look.getZIndex(),
-					lookZPositionFormula.interpretInteger(testSprite).intValue() + Constants.Z_INDEX_NUMBER_VIRTUAL_LAYERS);
+			assertEquals(testSprite.look.getZIndex(), lookZPositionFormula.interpretInteger(testSprite).intValue() + Constants.Z_INDEX_NUMBER_VIRTUAL_LAYERS);
 		} catch (InterpretationException interpretationException) {
 			fail("Could not interprete Formula.");
 		}

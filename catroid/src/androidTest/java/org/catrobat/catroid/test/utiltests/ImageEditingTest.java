@@ -48,8 +48,8 @@ public class ImageEditingTest extends TestCase {
 		Bitmap scaledBitmap = (Bitmap) Reflection.invokeMethod(ImageEditing.class, "scaleBitmap", new ParameterList(
 				bitmap, 60, 70));
 
-		assertEquals("Wrong bitmap width after scaling", 60, scaledBitmap.getWidth());
-		assertEquals("Wrong bitmap height after scaling", 70, scaledBitmap.getHeight());
+		assertEquals(60, scaledBitmap.getWidth());
+		assertEquals(70, scaledBitmap.getHeight());
 	}
 
 	public void testGetImageDimensions() {
@@ -73,8 +73,8 @@ public class ImageEditingTest extends TestCase {
 
 		dimensions = ImageEditing.getImageDimensions(testImageFile.getAbsolutePath());
 
-		assertEquals("Wrong image width", 100, dimensions[0]);
-		assertEquals("Wrong image height", 200, dimensions[1]);
+		assertEquals(100, dimensions[0]);
+		assertEquals(200, dimensions[1]);
 	}
 
 	public void testGetBitmap() {
@@ -103,14 +103,14 @@ public class ImageEditingTest extends TestCase {
 		Bitmap loadedBitmap = ImageEditing.getScaledBitmapFromPath(testImageFile.getAbsolutePath(), maxBitmapWidth,
 				maxBitmapHeight, ImageEditing.ResizeType.STAY_IN_RECTANGLE_WITH_SAME_ASPECT_RATIO, true);
 
-		assertEquals("Loaded bitmap has incorrect height", 200, loadedBitmap.getHeight());
-		assertEquals("Loaded bitmap has incorrect width", 100, loadedBitmap.getWidth());
+		assertEquals(200, loadedBitmap.getHeight());
+		assertEquals(100, loadedBitmap.getWidth());
 
 		loadedBitmap = ImageEditing.getScaledBitmapFromPath(testImageFile.getAbsolutePath(), maxBitmapWidth,
 				maxBitmapHeight, ImageEditing.ResizeType.STAY_IN_RECTANGLE_WITH_SAME_ASPECT_RATIO, false);
 
-		assertEquals("Loaded bitmap has incorrect height", 500, loadedBitmap.getHeight());
-		assertEquals("Loaded bitmap has incorrect width", 250, loadedBitmap.getWidth());
+		assertEquals(500, loadedBitmap.getHeight());
+		assertEquals(250, loadedBitmap.getWidth());
 
 		bitmapWidth = 600;
 		bitmapHeight = 800;
@@ -142,8 +142,8 @@ public class ImageEditingTest extends TestCase {
 		bitmap = (Bitmap) Reflection.invokeMethod(ImageEditing.class, "scaleBitmap", new ParameterList(bitmap,
 				newWidth, newHeight));
 
-		assertEquals("Loaded bitmap has incorrect height", bitmap.getHeight(), loadedBitmap.getHeight());
-		assertEquals("Loaded bitmap has incorrect width", bitmap.getWidth(), loadedBitmap.getWidth());
+		assertEquals(bitmap.getHeight(), loadedBitmap.getHeight());
+		assertEquals(bitmap.getWidth(), loadedBitmap.getWidth());
 	}
 
 	public void testGetScaledBitmap() {
@@ -176,22 +176,21 @@ public class ImageEditingTest extends TestCase {
 		int[] imageFileDimensions;
 		sampleSizeReturnValue = scaleImageFileAndReturnSampleSize(testImageFile, targetBitmapWidth, targetBitmapHeight);
 		imageFileDimensions = ImageEditing.getImageDimensions(testImageFile.getAbsolutePath());
-		assertEquals("Width should be the same", targetBitmapWidth, imageFileDimensions[0]);
-		assertEquals("Height should be according to aspect ratio", bitmapHeight * targetBitmapWidth / bitmapWidth,
-				imageFileDimensions[1]);
+		assertEquals(targetBitmapWidth, imageFileDimensions[0]);
+		assertEquals(bitmapHeight * targetBitmapWidth / bitmapWidth, imageFileDimensions[1]);
 
 		double sampleSizeWidth = (bitmapWidth / (double) targetBitmapWidth);
 		double sampleSizeHeight = bitmapHeight / (double) targetBitmapHeight;
 		double sampleSize = Math.max(sampleSizeWidth, sampleSizeHeight);
-		assertEquals("Scale should be the same", 1d / sampleSize, sampleSizeReturnValue);
+		assertEquals(1d / sampleSize, sampleSizeReturnValue);
 
 		int newWidth = (int) Math.ceil(bitmapWidth / sampleSize);
 		int newHeight = (int) Math.ceil(bitmapHeight / sampleSize);
 		bitmap = (Bitmap) Reflection.invokeMethod(ImageEditing.class, "scaleBitmap", new ParameterList(bitmap,
 				newWidth, newHeight));
 
-		assertEquals("Loaded and scaled bitmap has incorrect height", bitmap.getHeight(), loadedBitmap.getHeight());
-		assertEquals("Loaded and scaled bitmap has incorrect width", bitmap.getWidth(), loadedBitmap.getWidth());
+		assertEquals(bitmap.getHeight(), loadedBitmap.getHeight());
+		assertEquals(bitmap.getWidth(), loadedBitmap.getWidth());
 
 		try {
 			ImageEditing.scaleImageFile(testImageFile, 1 / sampleSizeReturnValue);
@@ -200,8 +199,8 @@ public class ImageEditingTest extends TestCase {
 			fail("Test not found");
 		}
 		imageFileDimensions = ImageEditing.getImageDimensions(testImageFile.getAbsolutePath());
-		assertEquals("Width should be initial value again", bitmapWidth, imageFileDimensions[0]);
-		assertEquals("Height should be initial value again", bitmapHeight, imageFileDimensions[1]);
+		assertEquals(bitmapWidth, imageFileDimensions[0]);
+		assertEquals(bitmapHeight, imageFileDimensions[1]);
 	}
 
 	public void testRotatePicture() {
@@ -219,7 +218,7 @@ public class ImageEditingTest extends TestCase {
 				rotatedBitmap.getHeight());
 
 		for (int i = 0; i < widthBeforeRotation; i++) {
-			assertFalse("Pixelvalues should be different", (testBitmapPixels[i] == roatatedBitmapPixels[i]));
+			assertFalse((testBitmapPixels[i] == roatatedBitmapPixels[i]));
 		}
 	}
 

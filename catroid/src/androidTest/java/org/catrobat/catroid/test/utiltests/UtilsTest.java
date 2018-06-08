@@ -116,8 +116,7 @@ public class UtilsTest extends AndroidTestCase {
 
 		try {
 			md5TestFile.createNewFile();
-			assertEquals("MD5 sums are not the same for empty file", MD5_EMPTY.toLowerCase(Locale.US),
-					Utils.md5Checksum(md5TestFile));
+			assertEquals(MD5_EMPTY.toLowerCase(Locale.US), Utils.md5Checksum(md5TestFile));
 
 			printWriter = new PrintWriter(md5TestFile);
 			printWriter.print("catroid");
@@ -129,17 +128,15 @@ public class UtilsTest extends AndroidTestCase {
 			}
 		}
 
-		assertEquals("MD5 sums are not the same for catroid file", MD5_CATROID.toLowerCase(Locale.US),
-				Utils.md5Checksum(md5TestFile));
+		assertEquals(MD5_CATROID.toLowerCase(Locale.US), Utils.md5Checksum(md5TestFile));
 
 		StorageOperations.deleteDir(tempDir);
 	}
 
 	public void testMD5CheckSumOfString() {
-		assertEquals("MD5 sums do not match!", MD5_CATROID.toLowerCase(Locale.US), Utils.md5Checksum("catroid"));
-		assertEquals("MD5 sums do not match!", MD5_EMPTY.toLowerCase(Locale.US), Utils.md5Checksum(""));
-		assertEquals("MD5 sums do not match!", MD5_HELLO_WORLD.toLowerCase(Locale.US),
-				Utils.md5Checksum("Hello World!"));
+		assertEquals(MD5_CATROID.toLowerCase(Locale.US), Utils.md5Checksum("catroid"));
+		assertEquals(MD5_EMPTY.toLowerCase(Locale.US), Utils.md5Checksum(""));
+		assertEquals(MD5_HELLO_WORLD.toLowerCase(Locale.US), Utils.md5Checksum("Hello World!"));
 	}
 
 	public void testBuildPath() {
@@ -170,7 +167,7 @@ public class UtilsTest extends AndroidTestCase {
 		}
 		String projectName = "test?Projekt\"1";
 		String expectedPath = Constants.DEFAULT_ROOT_DIRECTORY.getAbsolutePath() + "/test%3FProjekt%221";
-		assertEquals("Paths are different!", expectedPath, PathBuilder.buildProjectPath(projectName));
+		assertEquals(expectedPath, PathBuilder.buildProjectPath(projectName));
 	}
 
 	public void testCompareProjectToDefaultProject() throws IOException, IllegalArgumentException {
@@ -197,8 +194,8 @@ public class UtilsTest extends AndroidTestCase {
 		final String remixUrlsString = expectedFirstProgramRemixUrl;
 
 		List<String> result = Utils.extractRemixUrlsFromString(remixUrlsString);
-		assertEquals("Invalid number of remix URLs extracted", 1, result.size());
-		assertEquals("Failed to extract remix URL", expectedFirstProgramRemixUrl, result.get(0));
+		assertEquals(1, result.size());
+		assertEquals(expectedFirstProgramRemixUrl, result.get(0));
 	}
 
 	public void testExtractRemixUrlsOfProgramHeaderUrlFieldContainingSingleRelativeUrl() {
@@ -206,8 +203,8 @@ public class UtilsTest extends AndroidTestCase {
 		final String remixUrlsString = expectedFirstProgramRemixUrl;
 
 		List<String> result = Utils.extractRemixUrlsFromString(remixUrlsString);
-		assertEquals("Invalid number of remix URLs extracted", 1, result.size());
-		assertEquals("Failed to extract remix URL", expectedFirstProgramRemixUrl, result.get(0));
+		assertEquals(1, result.size());
+		assertEquals(expectedFirstProgramRemixUrl, result.get(0));
 	}
 
 	public void testExtractRemixUrlsOfMergedProgramHeaderUrlFieldContainingTwoAbsoluteUrls() {
@@ -225,9 +222,9 @@ public class UtilsTest extends AndroidTestCase {
 		final String remixUrlsString = Utils.generateRemixUrlsStringForMergedProgram(headerOfFirstProgram,
 				headerOfSecondProgram);
 		List<String> result = Utils.extractRemixUrlsFromString(remixUrlsString);
-		assertEquals("Invalid number of remix URLs extracted", 2, result.size());
-		assertEquals("Failed to extract URL of first program", expectedFirstProgramRemixUrl, result.get(0));
-		assertEquals("Failed to extract URL of second program", expectedSecondProgramRemixUrl, result.get(1));
+		assertEquals(2, result.size());
+		assertEquals(expectedFirstProgramRemixUrl, result.get(0));
+		assertEquals(expectedSecondProgramRemixUrl, result.get(1));
 	}
 
 	public void testExtractRemixUrlsOfMergedProgramHeaderUrlFieldContainingTwoRelativeUrls() {
@@ -246,9 +243,9 @@ public class UtilsTest extends AndroidTestCase {
 				headerOfSecondProgram);
 
 		List<String> result = Utils.extractRemixUrlsFromString(remixUrlsString);
-		assertEquals("Invalid number of remix URLs extracted", 2, result.size());
-		assertEquals("Failed to extract URL of first program", expectedFirstProgramRemixUrl, result.get(0));
-		assertEquals("Failed to extract URL of second program", expectedSecondProgramRemixUrl, result.get(1));
+		assertEquals(2, result.size());
+		assertEquals(expectedFirstProgramRemixUrl, result.get(0));
+		assertEquals(expectedSecondProgramRemixUrl, result.get(1));
 	}
 
 	public void testExtractRemixUrlsOfMergedProgramHeaderUrlFieldContainingNoUrls() {
@@ -262,7 +259,7 @@ public class UtilsTest extends AndroidTestCase {
 				headerOfSecondProgram);
 
 		List<String> result = Utils.extractRemixUrlsFromString(remixUrlsString);
-		assertEquals("Invalid number of remix URLs extracted", 0, result.size());
+		assertEquals(0, result.size());
 	}
 
 	public void testExtractRemixUrlsOfMergedProgramHeaderUrlFieldContainingMultipleMixedUrls() {
@@ -281,9 +278,9 @@ public class UtilsTest extends AndroidTestCase {
 				headerOfSecondProgram);
 
 		List<String> result = Utils.extractRemixUrlsFromString(remixUrlsString);
-		assertEquals("Invalid number of remix URLs extracted", 2, result.size());
-		assertEquals("Failed to extract URL of first program", expectedFirstProgramRemixUrl, result.get(0));
-		assertEquals("Failed to extract URL of second program", expectedSecondProgramRemixUrl, result.get(1));
+		assertEquals(2, result.size());
+		assertEquals(expectedFirstProgramRemixUrl, result.get(0));
+		assertEquals(expectedSecondProgramRemixUrl, result.get(1));
 	}
 
 	public void testExtractRemixUrlsOfRemergedProgramHeaderUrlFieldContainingMixedUrls() {
@@ -326,11 +323,11 @@ public class UtilsTest extends AndroidTestCase {
 				headerOfFourthProgram);
 
 		List<String> result = Utils.extractRemixUrlsFromString(finalMergedRemixUrlsString);
-		assertEquals("Invalid number of remix URLs extracted", 4, result.size());
-		assertEquals("Failed to extract URL of first program", expectedFirstProgramRemixUrl, result.get(0));
-		assertEquals("Failed to extract URL of second program", expectedSecondProgramRemixUrl, result.get(1));
-		assertEquals("Failed to extract URL of third program", expectedThirdProgramRemixUrl, result.get(2));
-		assertEquals("Failed to extract URL of fourth program", expectedFourthProgramRemixUrl, result.get(3));
+		assertEquals(4, result.size());
+		assertEquals(expectedFirstProgramRemixUrl, result.get(0));
+		assertEquals(expectedSecondProgramRemixUrl, result.get(1));
+		assertEquals(expectedThirdProgramRemixUrl, result.get(2));
+		assertEquals(expectedFourthProgramRemixUrl, result.get(3));
 	}
 
 	public void testExtractRemixUrlsOfRemergedProgramHeaderUrlFieldContainingMissingUrls() {
@@ -369,28 +366,26 @@ public class UtilsTest extends AndroidTestCase {
 				headerOfFourthProgram);
 
 		List<String> result = Utils.extractRemixUrlsFromString(finalMergedRemixUrlsString);
-		assertEquals("Invalid number of remix URLs extracted", 2, result.size());
-		assertEquals("Failed to extract remix URL of second program", expectedSecondProgramRemixUrl, result.get(0));
-		assertEquals("Failed to extract remix URL of fourth program", expectedFourthProgramRemixUrl, result.get(1));
+		assertEquals(2, result.size());
+		assertEquals(expectedSecondProgramRemixUrl, result.get(0));
+		assertEquals(expectedFourthProgramRemixUrl, result.get(1));
 	}
 
 	private void addSpriteAndCompareToDefaultProject() {
 		Sprite sprite = new SingleSprite("TestSprite");
 		defaultProject.getDefaultScene().addSprite(sprite);
-		assertFalse("Failed to recognize that the project is not standard after adding a new SingleSprite",
-				Utils.isDefaultProject(defaultProject, getContext()));
+		assertFalse(Utils.isDefaultProject(defaultProject, getContext()));
 		defaultProject.getDefaultScene().removeSprite(sprite);
-		assertTrue("Failed to recognize the standard project", Utils.isDefaultProject(defaultProject, getContext()));
+		assertTrue(Utils.isDefaultProject(defaultProject, getContext()));
 	}
 
 	private void addScriptAndCompareToDefalutProject() {
 		Sprite catroidSprite = defaultProject.getDefaultScene().getSpriteList().get(1);
 		WhenScript whenScript = new WhenScript();
 		catroidSprite.addScript(whenScript);
-		assertFalse("Failed to recognize that the project is not standard after adding a new script",
-				Utils.isDefaultProject(defaultProject, getContext()));
+		assertFalse(Utils.isDefaultProject(defaultProject, getContext()));
 		catroidSprite.removeScript(whenScript);
-		assertTrue("Failed to recognize the standard project", Utils.isDefaultProject(defaultProject, getContext()));
+		assertTrue(Utils.isDefaultProject(defaultProject, getContext()));
 	}
 
 	private void addBrickAndCompareToDefaultProject() {
@@ -398,10 +393,9 @@ public class UtilsTest extends AndroidTestCase {
 		Brick brick = new HideBrick();
 		Script catroidScript = catroidSprite.getScript(0);
 		catroidScript.addBrick(brick);
-		assertFalse("Failed to recognize that the project is not standard after adding a new brick",
-				Utils.isDefaultProject(defaultProject, getContext()));
+		assertFalse(Utils.isDefaultProject(defaultProject, getContext()));
 		catroidScript.removeBrick(brick);
-		assertTrue("Failed to recognize the standard project", Utils.isDefaultProject(defaultProject, getContext()));
+		assertTrue(Utils.isDefaultProject(defaultProject, getContext()));
 	}
 
 	private void changeParametersOfBricksAndCompareToDefaultProject() {
@@ -424,12 +418,10 @@ public class UtilsTest extends AndroidTestCase {
 			LookData oldLookData = setLookBrick.getLook();
 			LookData newLookData = new LookData();
 			setLookBrick.setLook(newLookData);
-			assertFalse("Failed to recognize that the project is not standard after changing the set look brick",
-					Utils.isDefaultProject(defaultProject, getContext()));
+			assertFalse(Utils.isDefaultProject(defaultProject, getContext()));
 
 			setLookBrick.setLook(oldLookData);
-			assertTrue("Failed to recognize the standard project",
-					Utils.isDefaultProject(defaultProject, getContext()));
+			assertTrue(Utils.isDefaultProject(defaultProject, getContext()));
 		}
 
 		if (waitBrick != null) {
@@ -437,12 +429,10 @@ public class UtilsTest extends AndroidTestCase {
 			Formula newTimeToWait = new Formula(2345);
 
 			waitBrick.setTimeToWait(newTimeToWait);
-			assertFalse("Failed to recognize that the project is not standard after changing the wait brick",
-					Utils.isDefaultProject(defaultProject, getContext()));
+			assertFalse(Utils.isDefaultProject(defaultProject, getContext()));
 
 			waitBrick.setTimeToWait(oldTime);
-			assertTrue("Failed to recognize the standard project",
-					Utils.isDefaultProject(defaultProject, getContext()));
+			assertTrue(Utils.isDefaultProject(defaultProject, getContext()));
 		}
 	}
 
@@ -451,22 +441,20 @@ public class UtilsTest extends AndroidTestCase {
 		ArrayList<Brick> brickList = catroidScript.getBrickList();
 		Brick brick = brickList.get(brickList.size() - 1);
 		brickList.remove(brickList.size() - 1);
-		assertFalse("Failed to recognize that the project is not standard after removing a brick",
-				Utils.isDefaultProject(defaultProject, getContext()));
+		assertFalse(Utils.isDefaultProject(defaultProject, getContext()));
 
 		brickList.add(brick);
-		assertTrue("Failed to recognize the standard project", Utils.isDefaultProject(defaultProject, getContext()));
+		assertTrue(Utils.isDefaultProject(defaultProject, getContext()));
 	}
 
 	private void removeScriptAndCompareToDefaultProject() {
 		Script catroidScript = defaultProject.getDefaultScene().getSpriteList().get(1).getScript(0);
 		Sprite sprite = defaultProject.getDefaultScene().getSpriteList().get(1);
 		sprite.removeScript(catroidScript);
-		assertFalse("Failed to recognize that the project is not standard after removing a script",
-				Utils.isDefaultProject(defaultProject, getContext()));
+		assertFalse(Utils.isDefaultProject(defaultProject, getContext()));
 
 		sprite.addScript(catroidScript);
-		assertTrue("Failed to recognize the standard project", Utils.isDefaultProject(defaultProject, getContext()));
+		assertTrue(Utils.isDefaultProject(defaultProject, getContext()));
 	}
 
 	private void removeSpriteAndCompareToDefaultProject() {
@@ -474,111 +462,90 @@ public class UtilsTest extends AndroidTestCase {
 		int lastIndex = defaultProject.getDefaultScene().getSpriteList().size() - 1;
 		List<Sprite> spriteList = defaultProject.getDefaultScene().getSpriteList();
 		spriteList.remove(lastIndex);
-		assertFalse("Failed to recognize that the project is not standard after removing a sprite",
-				Utils.isDefaultProject(defaultProject, getContext()));
+		assertFalse(Utils.isDefaultProject(defaultProject, getContext()));
 
 		spriteList.add(catroidSprite);
-		assertTrue("Failed to recognize the standard project", Utils.isDefaultProject(defaultProject, getContext()));
+		assertTrue(Utils.isDefaultProject(defaultProject, getContext()));
 	}
 
 	public void testSetBitAllOnesSetIndex0To1() {
-		assertEquals("Setting an already set bit should not change numberToModify",
-				0b11111111, Utils.setBit(0b11111111, 0, 1));
+		assertEquals(0b11111111, Utils.setBit(0b11111111, 0, 1));
 	}
 
 	public void testSetBitAllButOneZerosSetIndex3To1() {
-		assertEquals("Setting an already set bit should not change numberToModify",
-				0b00001000, Utils.setBit(0b00001000, 3, 1));
+		assertEquals(0b00001000, Utils.setBit(0b00001000, 3, 1));
 	}
 
 	public void testSetBitAllZerosSetIndex7To0() {
-		assertEquals("Clearing an already cleared bit should not change numberToModify",
-				0b00000000, Utils.setBit(0b00000000, 7, 0));
+		assertEquals(0b00000000, Utils.setBit(0b00000000, 7, 0));
 	}
 
 	public void testSetBitAllButOneOnesSetIndex4To0() {
-		assertEquals("Clearing an already cleared bit should not change numberToModify",
-				0b11011111, Utils.setBit(0b11011111, 5, 0));
+		assertEquals(0b11011111, Utils.setBit(0b11011111, 5, 0));
 	}
 
 	public void testSetBitAllZerosSetIndex0To1() {
-		assertEquals("Didn't set bit as expected",
-				0b00000001, Utils.setBit(0b00000000, 0, 1));
+		assertEquals(0b00000001, Utils.setBit(0b00000000, 0, 1));
 	}
 
 	public void testSetBitAllOnesSetIndex0To0() {
-		assertEquals("Didn't clear bit as expected",
-				0b11111110, Utils.setBit(0b11111111, 0, 0));
+		assertEquals(0b11111110, Utils.setBit(0b11111111, 0, 0));
 	}
 
 	public void testSetBitAllZerosSetIndex7To1() {
-		assertEquals("Didn't set bit as expected",
-				0b10000000, Utils.setBit(0b00000000, 7, 1));
+		assertEquals(0b10000000, Utils.setBit(0b00000000, 7, 1));
 	}
 
 	public void testSetBitAllOnesSetIndex7To0() {
-		assertEquals("Didn't clear bit as expected",
-				0b01111111, Utils.setBit(0b11111111, 7, 0));
+		assertEquals(0b01111111, Utils.setBit(0b11111111, 7, 0));
 	}
 
 	public void testSetBitNegativeIndex() {
-		assertEquals("Negative index should not modify numberToModify",
-				0, Utils.setBit(0, -3, 1));
+		assertEquals(0, Utils.setBit(0, -3, 1));
 	}
 
 	public void testSetBitMaxIndex() {
-		assertEquals("Didn't set bit as expected",
-				0x80000000, Utils.setBit(0x00000000, 31, 1));
+		assertEquals(0x80000000, Utils.setBit(0x00000000, 31, 1));
 	}
 
 	public void testSetBitTooLargeIndex() {
-		assertEquals("Too large index (>=32) should not modify numberToModify",
-				0, Utils.setBit(0, 32, 1));
+		assertEquals(0, Utils.setBit(0, 32, 1));
 	}
 
 	public void testSetBitNonbinaryValue() {
-		assertEquals("Any value other than 0 should set the bit specified by index",
-				0b00000001, Utils.setBit(0b00000000, 0, 4));
+		assertEquals(0b00000001, Utils.setBit(0b00000000, 0, 4));
 	}
 
 	public void testGetBitGet0FromIndex0() {
-		assertEquals("Didn't get expected bit value",
-				0, Utils.getBit(0b11111110, 0));
+		assertEquals(0, Utils.getBit(0b11111110, 0));
 	}
 
 	public void testGetBitGet1FromIndex0() {
-		assertEquals("Didn't get expected bit value",
-				1, Utils.getBit(0b00000001, 0));
+		assertEquals(1, Utils.getBit(0b00000001, 0));
 	}
 
 	public void testGetBitGet0FromIndex7() {
-		assertEquals("Didn't get expected bit value",
-				0, Utils.getBit(0b01111111, 7));
+		assertEquals(0, Utils.getBit(0b01111111, 7));
 	}
 
 	public void testGetBitGet1FromIndex7() {
-		assertEquals("Didn't get expected bit value",
-				1, Utils.getBit(0b10000000, 7));
+		assertEquals(1, Utils.getBit(0b10000000, 7));
 	}
 
 	public void testGetBitGet0FromMaxIndex() {
-		assertEquals("Didn't get expected bit value",
-				0, Utils.getBit(0x7FFFFFFF, 31));
+		assertEquals(0, Utils.getBit(0x7FFFFFFF, 31));
 	}
 
 	public void testGetBitGet1FromMaxIndex() {
-		assertEquals("Didn't get expected bit value",
-				1, Utils.getBit(0x80000000, 31));
+		assertEquals(1, Utils.getBit(0x80000000, 31));
 	}
 
 	public void testGetBitNegativeIndex() {
-		assertEquals("Negative index should return 0",
-				0, Utils.getBit(0xFFFFFFFF, -3));
+		assertEquals(0, Utils.getBit(0xFFFFFFFF, -3));
 	}
 
 	public void testGetBitTooLargeIndex() {
-		assertEquals("Too large index (>=32) should return 0",
-				0, Utils.getBit(0xFFFFFFFF, 32));
+		assertEquals(0, Utils.getBit(0xFFFFFFFF, 32));
 	}
 
 	public void testFormatStringForBubbleBricks() {

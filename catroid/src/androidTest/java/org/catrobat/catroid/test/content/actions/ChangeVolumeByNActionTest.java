@@ -52,37 +52,31 @@ public class ChangeVolumeByNActionTest extends InstrumentationTestCase {
 		Formula louder = new Formula(louderValue);
 
 		sprite.getActionFactory().createChangeVolumeByNAction(sprite, louder).act(1.0f);
-		assertEquals("Incorrect sprite volume after ChangeVolumeByNBrick executed", expectedVolume, SoundManager
-				.getInstance().getVolume());
+		assertEquals(expectedVolume, SoundManager.getInstance().getVolume());
 
 		expectedVolume += softerValue;
 		Formula softer = new Formula(softerValue);
 
 		sprite.getActionFactory().createChangeVolumeByNAction(sprite, softer).act(1.0f);
-		assertEquals("Incorrect sprite size value after ChangeVolumeByNBrick executed", expectedVolume, SoundManager
-				.getInstance().getVolume());
+		assertEquals(expectedVolume, SoundManager.getInstance().getVolume());
 	}
 
 	public void testBrickWithStringFormula() {
 		sprite.getActionFactory().createChangeVolumeByNAction(sprite, new Formula(String.valueOf(CHANGE_VALUE)))
 				.act(1.0f);
-		assertEquals("Incorrect sprite volume after ChangeVolumeByNBrick executed", INITIALIZED_VALUE + CHANGE_VALUE,
-				SoundManager.getInstance().getVolume());
+		assertEquals(INITIALIZED_VALUE + CHANGE_VALUE, SoundManager.getInstance().getVolume());
 
 		sprite.getActionFactory().createChangeVolumeByNAction(sprite, new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
-		assertEquals("Incorrect sprite volume after ChangeVolumeByNBrick executed", INITIALIZED_VALUE + CHANGE_VALUE,
-				SoundManager.getInstance().getVolume());
+		assertEquals(INITIALIZED_VALUE + CHANGE_VALUE, SoundManager.getInstance().getVolume());
 	}
 
 	public void testNullFormula() {
 		sprite.getActionFactory().createChangeVolumeByNAction(sprite, null).act(1.0f);
-		assertEquals("Incorrect sprite volume after ChangeVolumeByNBrick executed", INITIALIZED_VALUE, SoundManager
-				.getInstance().getVolume());
+		assertEquals(INITIALIZED_VALUE, SoundManager.getInstance().getVolume());
 	}
 
 	public void testNotANumberFormula() {
 		sprite.getActionFactory().createChangeVolumeByNAction(sprite, new Formula(Double.NaN)).act(1.0f);
-		assertEquals("Incorrect sprite volume after ChangeVolumeByNBrick executed", INITIALIZED_VALUE, SoundManager
-				.getInstance().getVolume());
+		assertEquals(INITIALIZED_VALUE, SoundManager.getInstance().getVolume());
 	}
 }

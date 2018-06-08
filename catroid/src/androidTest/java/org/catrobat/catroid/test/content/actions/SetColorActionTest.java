@@ -45,18 +45,18 @@ public class SetColorActionTest extends InstrumentationTestCase {
 	}
 
 	public void testColorEffect() {
-		assertEquals("Unexpected initial color value", (int) 0, (int) sprite.look.getColorInUserInterfaceDimensionUnit());
+		assertEquals((int) 0, (int) sprite.look.getColorInUserInterfaceDimensionUnit());
 		sprite.getActionFactory().createSetColorAction(sprite, color).act(1.0f);
-		assertEquals("Incorrect color value after SetColorTo executed", COLOR, sprite.look.getColorInUserInterfaceDimensionUnit());
+		assertEquals(COLOR, sprite.look.getColorInUserInterfaceDimensionUnit());
 		sprite.getActionFactory().createSetColorAction(sprite, color);
 	}
 
 	public void testValueAboveMax() {
 		final float highColor = 1000;
 
-		assertEquals("Unexpected initial color value", (int) 0, (int) sprite.look.getColorInUserInterfaceDimensionUnit());
+		assertEquals((int) 0, (int) sprite.look.getColorInUserInterfaceDimensionUnit());
 		sprite.getActionFactory().createSetColorAction(sprite, new Formula(highColor)).act(1.0f);
-		assertEquals("Incorrect color value after SetColorTo executed", (highColor % 200), sprite.look.getColorInUserInterfaceDimensionUnit());
+		assertEquals((highColor % 200), sprite.look.getColorInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullSprite() {
@@ -65,29 +65,25 @@ public class SetColorActionTest extends InstrumentationTestCase {
 			action.act(1.0f);
 			fail("Execution of SetColorToBrick with null Sprite did not cause a NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
-			assertTrue("Exception thrown as expected", true);
+			assertTrue(true);
 		}
 	}
 
 	public void testBrickWithStringFormula() {
 		sprite.getActionFactory().createSetColorAction(sprite, new Formula(String.valueOf(COLOR))).act(1.0f);
-		assertEquals("Incorrect sprite color value after SetColorToBrick executed",
-				COLOR, sprite.look.getColorInUserInterfaceDimensionUnit());
+		assertEquals(COLOR, sprite.look.getColorInUserInterfaceDimensionUnit());
 
 		sprite.getActionFactory().createSetColorAction(sprite, new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
-		assertEquals("Incorrect sprite color value after SetBrightnessBrick executed",
-				COLOR, sprite.look.getColorInUserInterfaceDimensionUnit());
+		assertEquals(COLOR, sprite.look.getColorInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullFormula() {
 		sprite.getActionFactory().createSetColorAction(sprite, null).act(1.0f);
-		assertEquals("Incorrect sprite color value after SetColorTo executed",
-				0, (int) sprite.look.getColorInUserInterfaceDimensionUnit());
+		assertEquals(0, (int) sprite.look.getColorInUserInterfaceDimensionUnit());
 	}
 
 	public void testNotANumberFormula() {
 		sprite.getActionFactory().createSetColorAction(sprite, new Formula(Double.NaN)).act(1.0f);
-		assertEquals("Incorrect sprite color value after SetColor executed",
-				0, (int) sprite.look.getColorInUserInterfaceDimensionUnit());
+		assertEquals(0, (int) sprite.look.getColorInUserInterfaceDimensionUnit());
 	}
 }

@@ -46,16 +46,13 @@ public class ChangeColorByNActionTest extends AndroidTestCase {
 	}
 
 	public void testNormalBehavior() {
-		assertEquals("Unexpected initial sprite color value", INITIALIZED_VALUE,
-				sprite.look.getColorInUserInterfaceDimensionUnit());
+		assertEquals(INITIALIZED_VALUE, sprite.look.getColorInUserInterfaceDimensionUnit());
 
 		sprite.getActionFactory().createChangeColorByNAction(sprite, new Formula(DELTA)).act(1.0f);
-		assertEquals("Incorrect sprite color value after ChangeColorByNAction executed", INITIALIZED_VALUE + DELTA,
-				sprite.look.getColorInUserInterfaceDimensionUnit());
+		assertEquals(INITIALIZED_VALUE + DELTA, sprite.look.getColorInUserInterfaceDimensionUnit());
 
 		sprite.getActionFactory().createChangeColorByNAction(sprite, new Formula(-DELTA)).act(1.0f);
-		assertEquals("Incorrect sprite color value after ChangeColorByNAction executed", INITIALIZED_VALUE,
-				sprite.look.getColorInUserInterfaceDimensionUnit());
+		assertEquals(INITIALIZED_VALUE, sprite.look.getColorInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullSprite() {
@@ -64,43 +61,36 @@ public class ChangeColorByNActionTest extends AndroidTestCase {
 			action.act(1.0f);
 			fail("Execution of ChangeColorByN with null Sprite did not cause a NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
-			assertTrue("Exception thrown correctly", true);
+			assertTrue(true);
 		}
 	}
 
 	public void testBrickWithStringFormula() {
 		sprite.getActionFactory().createChangeColorByNAction(sprite, new Formula(String.valueOf(DELTA))).act(1.0f);
-		assertEquals("Incorrect sprite color value after ChangeColorByNAction executed", INITIALIZED_VALUE
-				+ DELTA, sprite.look.getColorInUserInterfaceDimensionUnit());
+		assertEquals(INITIALIZED_VALUE + DELTA, sprite.look.getColorInUserInterfaceDimensionUnit());
 
 		sprite.getActionFactory().createChangeColorByNAction(sprite, new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
-		assertEquals("Incorrect sprite color value after ChangeColorByNAction executed", INITIALIZED_VALUE
-				+ DELTA, sprite.look.getColorInUserInterfaceDimensionUnit());
+		assertEquals(INITIALIZED_VALUE + DELTA, sprite.look.getColorInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullFormula() {
 		sprite.getActionFactory().createChangeColorByNAction(sprite, null).act(1.0f);
-		assertEquals("Incorrect sprite color value after ChangeColorByNBrick executed", 25.0f,
-				sprite.look.getColorInUserInterfaceDimensionUnit());
+		assertEquals(25.0f, sprite.look.getColorInUserInterfaceDimensionUnit());
 	}
 
 	public void testNotANumberFormula() {
 		sprite.getActionFactory().createChangeColorByNAction(sprite, new Formula(Double.NaN)).act(1.0f);
-		assertEquals("Incorrect sprite color value after ChangeColorByNBrick executed", INITIALIZED_VALUE,
-				sprite.look.getColorInUserInterfaceDimensionUnit());
+		assertEquals(INITIALIZED_VALUE, sprite.look.getColorInUserInterfaceDimensionUnit());
 	}
 
 	public void testWrapAround() {
 		sprite.getActionFactory().createSetColorAction(sprite, new Formula(199.0f)).act(1.0f);
-		assertEquals("Unexpected initial sprite color value", 199.0f,
-				sprite.look.getColorInUserInterfaceDimensionUnit());
+		assertEquals(199.0f, sprite.look.getColorInUserInterfaceDimensionUnit());
 
 		sprite.getActionFactory().createChangeColorByNAction(sprite, new Formula(DELTA)).act(1.0f);
-		assertEquals("Incorrect sprite color value after ChangeColorByNAction executed", 0.0f,
-				sprite.look.getColorInUserInterfaceDimensionUnit());
+		assertEquals(0.0f, sprite.look.getColorInUserInterfaceDimensionUnit());
 
 		sprite.getActionFactory().createChangeColorByNAction(sprite, new Formula(-DELTA)).act(1.0f);
-		assertEquals("Incorrect sprite color value after ChangeColorByNAction executed", 199.0f,
-				sprite.look.getColorInUserInterfaceDimensionUnit());
+		assertEquals(199.0f, sprite.look.getColorInUserInterfaceDimensionUnit());
 	}
 }

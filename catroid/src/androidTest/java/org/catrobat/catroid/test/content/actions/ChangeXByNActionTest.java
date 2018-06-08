@@ -43,10 +43,9 @@ public class ChangeXByNActionTest extends AndroidTestCase {
 	}
 
 	public void testNormalBehavior() {
-		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
 		sprite.getActionFactory().createChangeXByNAction(sprite, new Formula(CHANGE_VALUE)).act(1.0f);
-		assertEquals("Incorrect sprite x position after ChangeXByNBrick executed", CHANGE_VALUE,
-				sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(CHANGE_VALUE, sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullSprite() {
@@ -63,35 +62,29 @@ public class ChangeXByNActionTest extends AndroidTestCase {
 		sprite.look.setPositionInUserInterfaceDimensionUnit(xPosition, sprite.look.getYInUserInterfaceDimensionUnit());
 
 		sprite.getActionFactory().createChangeXByNAction(sprite, new Formula(Integer.MAX_VALUE)).act(1.0f);
-		assertEquals("ChangeXByNBrick failed to place Sprite at maximum x integer value", Integer.MAX_VALUE,
-				(int) sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(Integer.MAX_VALUE, (int) sprite.look.getXInUserInterfaceDimensionUnit());
 
 		xPosition = -10;
 		sprite.look.setPositionInUserInterfaceDimensionUnit(xPosition, sprite.look.getYInUserInterfaceDimensionUnit());
 		sprite.getActionFactory().createChangeXByNAction(sprite, new Formula(Integer.MIN_VALUE)).act(1.0f);
-		assertEquals("ChangeXByNBrick failed to place Sprite at minimum x integer value", Integer.MIN_VALUE,
-				(int) sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(Integer.MIN_VALUE, (int) sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 
 	public void testBrickWithStringFormula() {
 		sprite.getActionFactory().createChangeXByNAction(sprite, new Formula(String.valueOf(CHANGE_VALUE))).act(1.0f);
-		assertEquals("Incorrect sprite x position after ChangeXByNBrick executed", CHANGE_VALUE,
-				sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(CHANGE_VALUE, sprite.look.getXInUserInterfaceDimensionUnit());
 
 		sprite.getActionFactory().createChangeXByNAction(sprite, new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
-		assertEquals("Incorrect sprite x position after ChangeXByNBrick executed", CHANGE_VALUE,
-				sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(CHANGE_VALUE, sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullFormula() {
 		sprite.getActionFactory().createChangeXByNAction(sprite, null).act(1.0f);
-		assertEquals("Incorrect sprite x position after ChangeXByNBrick executed", 0f,
-				sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 
 	public void testNotANumberFormula() {
 		sprite.getActionFactory().createChangeXByNAction(sprite, new Formula(Double.NaN)).act(1.0f);
-		assertEquals("Incorrect sprite x position after ChangeXByNBrick executed", 0f,
-				sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 }

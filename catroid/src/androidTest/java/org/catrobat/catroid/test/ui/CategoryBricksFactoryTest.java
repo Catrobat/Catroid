@@ -109,12 +109,11 @@ public class CategoryBricksFactoryTest extends AndroidTestCase {
 
 	public void testUnknownCategory() {
 		List<Brick> bricks = factory.getBricks("NON_EXISTING_CATEGORY", sprite, context);
-		assertTrue("Non existing category is not empty", bricks.isEmpty());
+		assertTrue(bricks.isEmpty());
 	}
 
 	private void checkBrickCountInCategory(int categoryId, Sprite sprite, int expectedBrickCount) {
 		List<Brick> bricks = factory.getBricks(context.getString(categoryId), sprite, context);
-		assertEquals(String.format("Wrong bricks count in %s category", context.getString(categoryId)),
-				expectedBrickCount, bricks.size());
+		assertEquals(String.format("Wrong bricks count in %s category", context.getString(categoryId)), expectedBrickCount, bricks.size());
 	}
 }

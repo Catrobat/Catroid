@@ -77,8 +77,8 @@ public class PlaySoundActionTest extends InstrumentationTestCase {
 		action.act(1.0f);
 
 		List<MediaPlayer> mediaPlayers = getMediaPlayers();
-		assertEquals("Wrong media player count", 1, mediaPlayers.size());
-		assertTrue("MediaPlayer is not playing", mediaPlayers.get(0).isPlaying());
+		assertEquals(1, mediaPlayers.size());
+		assertTrue(mediaPlayers.get(0).isPlaying());
 	}
 
 	public void testPlaySimultaneousSounds() {
@@ -94,9 +94,9 @@ public class PlaySoundActionTest extends InstrumentationTestCase {
 		playSoundAction2.act(1.0f);
 
 		List<MediaPlayer> mediaPlayers = getMediaPlayers();
-		assertEquals("Wrong media player count", 2, mediaPlayers.size());
-		assertTrue("First MediaPlayer is not playing", mediaPlayers.get(0).isPlaying());
-		assertTrue("Second MediaPlayer is not playing", mediaPlayers.get(1).isPlaying());
+		assertEquals(2, mediaPlayers.size());
+		assertTrue(mediaPlayers.get(0).isPlaying());
+		assertTrue(mediaPlayers.get(1).isPlaying());
 	}
 
 	private void createTestProject() throws IOException {

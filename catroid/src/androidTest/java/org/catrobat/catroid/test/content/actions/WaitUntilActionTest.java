@@ -62,7 +62,7 @@ public class WaitUntilActionTest extends AndroidTestCase {
 				new FormulaElement(FormulaElement.ElementType.NUMBER, "1", null), new FormulaElement(FormulaElement.ElementType.NUMBER, "2", null)));
 
 		runScript(validFormula);
-		assertTrue("Not all actions are finished", testSprite.look.haveAllThreadsFinished());
+		assertTrue(testSprite.look.haveAllThreadsFinished());
 	}
 
 	public void testWaitUntilBrickFail() {
@@ -72,7 +72,7 @@ public class WaitUntilActionTest extends AndroidTestCase {
 				new FormulaElement(FormulaElement.ElementType.NUMBER, "2", null), new FormulaElement(FormulaElement.ElementType.NUMBER, "1", null)));
 
 		runScript(validFormula);
-		assertFalse("All actions are finished", testSprite.look.haveAllThreadsFinished());
+		assertFalse(testSprite.look.haveAllThreadsFinished());
 	}
 
 	private void runScript(Formula validFormula) {

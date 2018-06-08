@@ -51,15 +51,13 @@ public class GoToRandomPositionActionTest extends AndroidTestCase {
 		sprite.look.setXInUserInterfaceDimensionUnit(0f);
 		sprite.look.setYInUserInterfaceDimensionUnit(0f);
 
-		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Unexpected initial sprite y position", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 
 		action.act(1f);
 
-		assertEquals("Incorrect sprite x position after GoToRandomPositionAction executed", action.getRandomXPosition(),
-				sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Incorrect sprite y position after GoToRandomPositionAction executed", action.getRandomYPosition(),
-				sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(action.getRandomXPosition(), sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(action.getRandomYPosition(), sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullActor() {

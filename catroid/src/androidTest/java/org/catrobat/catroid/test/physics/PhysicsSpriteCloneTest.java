@@ -106,15 +106,15 @@ public class PhysicsSpriteCloneTest extends InstrumentationTestCase {
 		for (int scriptIndex = 0; scriptIndex < scriptCount; scriptIndex++) {
 			Script script = sprite.getScript(scriptIndex);
 			Script clonedScript = clonedSprite.getScript(scriptIndex);
-			assertEquals("Cloned script class not equal to origin.", script.getClass().toString(), clonedScript.getClass().toString());
+			assertEquals(script.getClass().toString(), clonedScript.getClass().toString());
 			ScriptBrick scriptBrick = sprite.getScript(scriptIndex).getScriptBrick();
 			ScriptBrick clonedScriptBrick = clonedSprite.getScript(scriptIndex).getScriptBrick();
-			assertEquals("Cloned script brick class not equal to origin.", scriptBrick.getClass().toString(), clonedScriptBrick.getClass().toString());
+			assertEquals(scriptBrick.getClass().toString(), clonedScriptBrick.getClass().toString());
 			int brickCount = clonedSprite.getScript(scriptIndex).getBrickList().size();
 			for (int brickIndex = 0; brickIndex < brickCount; brickIndex++) {
 				Brick brick = sprite.getScript(scriptIndex).getBrickList().get(brickIndex);
 				Brick clonedBrick = clonedSprite.getScript(scriptIndex).getBrickList().get(brickIndex);
-				assertEquals("Cloned brick class not equal to origin.", brick.getClass().toString(), clonedBrick.getClass().toString());
+				assertEquals(brick.getClass().toString(), clonedBrick.getClass().toString());
 			}
 		}
 	}
@@ -160,14 +160,14 @@ public class PhysicsSpriteCloneTest extends InstrumentationTestCase {
 		checkIfScriptsAndBricksClassesOfSpriteAreEqual(sprite, clonedSprite);
 
 		Script clonedScript = clonedSprite.getScript(0);
-		assertTrue("Cloned script has wrong class.", clonedScript instanceof CollisionScript);
+		assertTrue(clonedScript instanceof CollisionScript);
 		ScriptBrick clonedScriptBrick = clonedScript.getScriptBrick();
-		assertTrue("Cloned script brick has wrong class.", clonedScriptBrick instanceof CollisionReceiverBrick);
+		assertTrue(clonedScriptBrick instanceof CollisionReceiverBrick);
 		String clonedBroadcastMessage = ((CollisionReceiverBrick) clonedScriptBrick).getBroadcastMessage();
-		assertEquals("Cloned broadcast message is not equal to origin message.", clonedBroadcastMessage, clonedBroadcastMessage);
+		assertEquals(clonedBroadcastMessage, clonedBroadcastMessage);
 
 		Brick clonedSetBounceBrick = clonedScript.getBrickList().get(0);
-		assertTrue("Cloned brick has wrong class.", clonedSetBounceBrick instanceof SetBounceBrick);
+		assertTrue(clonedSetBounceBrick instanceof SetBounceBrick);
 
 		Formula clonedSetBounceBrickFormula = ((FormulaBrick) clonedSetBounceBrick)
 				.getFormulaWithBrickField(Brick.BrickField.PHYSICS_BOUNCE_FACTOR);
@@ -178,7 +178,7 @@ public class PhysicsSpriteCloneTest extends InstrumentationTestCase {
 			Log.e(TAG, "InterpretationException thrown while interpreting.", interpretationException);
 			fail("InterpretationException thrown while interpreting.");
 		}
-		assertEquals("Cloned bounce factor value is not equal to origin value.", BOUNCE_TEST_VALUE, clonedBounceFactorValue);
+		assertEquals(BOUNCE_TEST_VALUE, clonedBounceFactorValue);
 	}
 
 	public void testSpriteClonePhysicsLookAndPhysicsObject() throws IOException {
