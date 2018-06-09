@@ -27,6 +27,8 @@ import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
 import com.parrot.freeflight.settings.ApplicationSettings;
 
 import org.catrobat.catroid.utils.CrashReporter;
@@ -45,6 +47,9 @@ public class CatroidApplication extends MultiDexApplication {
 	public static String defaultSystemLanguage;
 	public static boolean parrotJSLibrariesLoaded = false;
 
+	private static GoogleAnalytics googleAnalytics;
+	private static Tracker googleTracker;
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -53,12 +58,23 @@ public class CatroidApplication extends MultiDexApplication {
 		Log.d(TAG, "CatroidApplication onCreate");
 		settings = new ApplicationSettings(this);
 		CatroidApplication.context = getApplicationContext();
+
+		googleAnalytics = GoogleAnalytics.getInstance(this);
+		googleAnalytics.setDryRun(BuildConfig.DEBUG);
 	}
 
 	@Override
 	protected void attachBaseContext(Context base) {
 		super.attachBaseContext(base);
 		MultiDex.install(this);
+	}
+
+	public synchronized Tracker getDefaultTracker() {
+		if (googleTracker == null) {
+			googleTracker = googleAnalytics.newTracker(R.xml.global_tracker);
+		}
+
+		return googleTracker;
 	}
 
 	public ApplicationSettings getParrotApplicationSettings() {
