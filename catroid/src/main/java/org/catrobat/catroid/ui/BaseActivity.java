@@ -32,6 +32,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.ui.settingsfragments.AccessibilityProfile;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
@@ -79,6 +83,13 @@ public abstract class BaseActivity extends AppCompatActivity {
 		}
 
 		invalidateOptionsMenu();
+		googleAnalyticsTrackScreenResume();
+	}
+
+	protected void googleAnalyticsTrackScreenResume() {
+		Tracker googleTracker = ((CatroidApplication) getApplication()).getDefaultTracker();
+		googleTracker.setScreenName(this.getClass().getName());
+		googleTracker.send(new HitBuilders.ScreenViewBuilder().build());
 	}
 
 	@Override
