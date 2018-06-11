@@ -450,7 +450,7 @@
   <!--  -->
   <!-- NfcTagListFragment -->
   <string name="fragment_nfctag_text_description">Zum Hinzufügen Tags scannen</string>
-  <string name="ndef_record_label">als NDEF Datentyp </string>
+  <string name="ndef_record_label">als Datentyp </string>
   <string name="brick_set_nfc_tag">Setze NFC Tag auf</string>
   <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
   <string name="default_tag_name">nfc_tag</string>
