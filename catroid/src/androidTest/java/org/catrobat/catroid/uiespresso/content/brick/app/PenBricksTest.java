@@ -56,6 +56,7 @@ import static android.support.test.espresso.action.ViewActions.pressBack;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
@@ -133,6 +134,10 @@ public class PenBricksTest {
 				.perform(swipeLeftSlow());
 		onView(withId(R.id.color_rgb_seekbar_red))
 				.perform(pressBack());
+		onView(withText(R.string.formula_editor_discard_changes_dialog_title))
+				.check(matches(isDisplayed()));
+		onView(withId(android.R.id.button1))
+				.perform(click());
 		onBrickAtPosition(positionPenColorBrick).onFormulaTextField(R.id.brick_set_pen_color_action_red_edit_text)
 				.checkShowsNumber(rgbValueRed);
 
@@ -142,6 +147,11 @@ public class PenBricksTest {
 				.perform(swipeRightSlow());
 		onView(withId(R.id.color_rgb_seekbar_green))
 				.perform(pressBack());
+		onView(withText(R.string.formula_editor_discard_changes_dialog_title))
+				.check(matches(isDisplayed()));
+		onView(withId(android.R.id.button1))
+				.perform(click());
+
 		onBrickAtPosition(positionPenColorBrick).onFormulaTextField(R.id.brick_set_pen_color_action_green_edit_text)
 				.checkShowsNumber(rgbValueGreen);
 

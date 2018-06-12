@@ -36,6 +36,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.EditText;
 
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.InternFormula.TokenSelectionType;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
@@ -146,6 +147,9 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		this.setSelectAllOnFocus(false);
 		this.setCursorVisible(false);
 		cursorAnimation.run();
+		if (history != null) {
+			history.clear();
+		}
 	}
 
 	public void enterNewFormula(InternFormulaState internFormulaState) {
@@ -158,9 +162,11 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		highlightSelection();
 
 		if (history == null) {
-			history = new FormulaEditorHistory(internFormula.getInternFormulaState());
+			history = new FormulaEditorHistory(new State(internFormula.getInternFormulaState(),
+					formulaEditorFragment.getCurrentBrickField()));
 		} else {
-			history.init(internFormula.getInternFormulaState());
+			//TODO should find a way around it
+			history.init(new State(internFormula.getInternFormulaState(), formulaEditorFragment.getCurrentBrickField()));
 		}
 	}
 
@@ -173,7 +179,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		internFormula.selectWholeFormula();
 		highlightSelection();
 
-		history.push(internFormula.getInternFormulaState());
+		history.push(new State(internFormula.getInternFormulaState(), formulaEditorFragment.getCurrentBrickField()));
 		String resultingText = updateTextAndCursorFromInternFormula();
 		setSelection(absoluteCursorPosition);
 		formulaEditorFragment.refreshFormulaPreviewString(resultingText);
@@ -184,7 +190,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 			return;
 		}
 		internFormula.updateVariableReferences(oldName, newName, this.context);
-		history.push(internFormula.getInternFormulaState());
+		history.push(new State(internFormula.getInternFormulaState(), formulaEditorFragment.getCurrentBrickField()));
 		String resultingText = updateTextAndCursorFromInternFormula();
 		setSelection(absoluteCursorPosition);
 		formulaEditorFragment.refreshFormulaPreviewString(resultingText);
@@ -195,7 +201,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 			return;
 		}
 		internFormula.updateListReferences(oldName, newName, this.context);
-		history.push(internFormula.getInternFormulaState());
+		history.push(new State(internFormula.getInternFormulaState(), formulaEditorFragment.getCurrentBrickField()));
 		String resultingText = updateTextAndCursorFromInternFormula();
 		setSelection(absoluteCursorPosition);
 		formulaEditorFragment.refreshFormulaPreviewString(resultingText);
@@ -259,7 +265,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
 	public void handleKeyEvent(int resource, String name) {
 		internFormula.handleKeyInput(resource, context, name);
-		history.push(internFormula.getInternFormulaState());
+		history.push(new State(internFormula.getInternFormulaState(), formulaEditorFragment.getCurrentBrickField()));
 		String resultingText = updateTextAndCursorFromInternFormula();
 		setSelection(absoluteCursorPosition);
 		formulaEditorFragment.refreshFormulaPreviewString(resultingText);
@@ -275,8 +281,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
 	public void overrideSelectedText(String string) {
 		internFormula.overrideSelectedText(string, context);
-
-		history.push(internFormula.getInternFormulaState());
+		history.push(new State(internFormula.getInternFormulaState(), formulaEditorFragment.getCurrentBrickField()));
 		String resultingText = updateTextAndCursorFromInternFormula();
 		setSelection(absoluteCursorPosition);
 		formulaEditorFragment.refreshFormulaPreviewString(resultingText);
@@ -303,10 +308,13 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		if (!history.undoIsPossible()) {
 			return false;
 		}
-		InternFormulaState lastStep = history.backward();
+		FormulaEditorFragment.changeInputField(formulaEditorFragment.getBrickOrCustomView(),
+				history.getPeekStackUndo());
+		State lastStep = history.backward();
 		if (lastStep != null) {
-
-			internFormula = lastStep.createInternFormulaFromState();
+			FormulaEditorFragment.changeInputField(formulaEditorFragment.getBrickOrCustomView(),
+					history.getCurrentBrickField());
+			internFormula = lastStep.internFormulaState.createInternFormulaFromState();
 			internFormula.generateExternFormulaStringAndInternExternMapping(context);
 			internFormula.updateInternCursorPosition();
 			updateTextAndCursorFromInternFormula();
@@ -320,10 +328,13 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		if (!history.redoIsPossible()) {
 			return false;
 		}
-		InternFormulaState nextStep = history.forward();
+		FormulaEditorFragment.changeInputField(formulaEditorFragment.getBrickOrCustomView(),
+				history.getPeekStackRedo());
+		State nextStep = history.forward();
 		if (nextStep != null) {
-
-			internFormula = nextStep.createInternFormulaFromState();
+			FormulaEditorFragment.changeInputField(formulaEditorFragment.getBrickOrCustomView(),
+					history.getCurrentBrickField());
+			internFormula = nextStep.internFormulaState.createInternFormulaFromState();
 			internFormula.generateExternFormulaStringAndInternExternMapping(context);
 			internFormula.updateInternCursorPosition();
 			updateTextAndCursorFromInternFormula();
