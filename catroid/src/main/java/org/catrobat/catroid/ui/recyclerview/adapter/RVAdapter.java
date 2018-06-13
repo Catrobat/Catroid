@@ -40,11 +40,11 @@ import java.util.List;
 public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> implements
 		TouchHelperAdapterInterface {
 
-	protected List<T> items = new ArrayList<>();
+	List<T> items = new ArrayList<>();
 	public boolean allowMultiSelection = true;
 	public boolean showCheckBoxes = false;
 
-	private MultiSelectionManager selectionManager = new MultiSelectionManager();
+	MultiSelectionManager selectionManager = new MultiSelectionManager();
 	private SelectionListener selectionListener;
 	private OnItemClickListener<T> onItemClickListener;
 
@@ -163,6 +163,22 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> imp
 		return true;
 	}
 
+	public void toggleSelection() {
+		if (selectionManager.getSelectedPositions().size() == getSelectableItemCount()) {
+			clearSelection();
+		} else {
+			selectAll();
+		}
+		selectionListener.onSelectionChanged(selectionManager.getSelectedPositions().size());
+	}
+
+	public void selectAll() {
+		for (T item : items) {
+			selectionManager.setSelectionTo(true, items.indexOf(item));
+		}
+		notifyDataSetChanged();
+	}
+
 	public void clearSelection() {
 		selectionManager.clearSelection();
 		notifyDataSetChanged();
@@ -171,6 +187,10 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> imp
 	@Override
 	public int getItemCount() {
 		return items.size();
+	}
+
+	public int getSelectableItemCount() {
+		return getItemCount();
 	}
 
 	public interface SelectionListener {

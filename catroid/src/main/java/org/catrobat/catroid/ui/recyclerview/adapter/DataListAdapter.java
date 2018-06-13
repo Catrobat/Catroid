@@ -157,7 +157,7 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 				+ localListAdapter.getItemCount())) {
 			return LIST_LOCAL;
 		}
-		throw new IndexOutOfBoundsException("Non of the sub adapters provides this position. size:" + getItemCount()
+		throw new IndexOutOfBoundsException("None of the sub adapters provides this position. size:" + getItemCount()
 				+ "index: " + position);
 	}
 

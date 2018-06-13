@@ -46,6 +46,9 @@
 
     <string name="agree">Agree</string>
     <string name="disagree">Disagree</string>
+    
+    <string name="select_all">Select all</string>
+    <string name="deselect_all">Deselect all</string>
 
     <string name="skip">skip</string>
     <string name="warning">Warning</string>

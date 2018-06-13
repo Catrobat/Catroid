@@ -124,6 +124,7 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 		}
 
 		mode.getMenuInflater().inflate(R.menu.context_menu, menu);
+
 		adapter.showCheckBoxes = true;
 		adapter.notifyDataSetChanged();
 		return true;
@@ -131,7 +132,8 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 
 	@Override
 	public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-		return false;
+		updateSelectionToggle(menu.findItem(R.id.toggle_selection));
+		return true;
 	}
 
 	@Override
@@ -139,6 +141,10 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 		switch (item.getItemId()) {
 			case R.id.confirm:
 				handleContextualAction();
+				break;
+			case R.id.toggle_selection:
+				adapter.toggleSelection();
+				updateSelectionToggle(item);
 				break;
 			default:
 				return false;
@@ -307,8 +313,22 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 
 	@Override
 	public void onSelectionChanged(int selectedItemCnt) {
+		updateSelectionToggle(actionMode.getMenu().findItem(R.id.toggle_selection));
 		actionMode.setTitle(getResources()
 				.getQuantityString(getActionModeTitleId(actionModeType), selectedItemCnt, selectedItemCnt));
+	}
+
+	protected void updateSelectionToggle(MenuItem selectionToggle) {
+		if (adapter.allowMultiSelection) {
+
+			selectionToggle.setVisible(true);
+
+			if (adapter.getSelectedItems().size() == adapter.getSelectableItemCount()) {
+				selectionToggle.setTitle(R.string.deselect_all);
+			} else {
+				selectionToggle.setTitle(R.string.select_all);
+			}
+		}
 	}
 
 	protected void finishActionMode() {

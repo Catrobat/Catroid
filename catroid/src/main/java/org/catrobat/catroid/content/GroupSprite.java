@@ -34,7 +34,7 @@ public class GroupSprite extends Sprite {
 
 	private static final long serialVersionUID = 1L;
 
-	public transient boolean collapsed = true;
+	private transient boolean collapsed = true;
 
 	public GroupSprite() {
 		super();
@@ -58,6 +58,10 @@ public class GroupSprite extends Sprite {
 			}
 		}
 		return groupItems;
+	}
+
+	public boolean getCollapsed() {
+		return collapsed;
 	}
 
 	public void setCollapsed(boolean collapsed) {
