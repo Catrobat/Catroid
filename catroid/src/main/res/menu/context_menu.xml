@@ -27,6 +27,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/toggle_selection"
+        android:title="@string/select_all"
+        app:showAsAction="ifRoom"
+        android:visible="false">
+    </item>
+
+    <item
         android:id="@+id/confirm"
         android:title="@string/confirm"
         android:icon="@drawable/done_white"
