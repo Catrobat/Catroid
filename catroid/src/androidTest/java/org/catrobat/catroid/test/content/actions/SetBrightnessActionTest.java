@@ -22,33 +22,41 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.InstrumentationTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class SetBrightnessActionTest extends InstrumentationTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.fail;
+
+@RunWith(AndroidJUnit4.class)
+public class SetBrightnessActionTest {
 
 	private static final float BRIGHTNESS = 91f;
 	private Formula brightness = new Formula(BRIGHTNESS);
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
 	private Sprite sprite;
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		sprite = new SingleSprite("testSprite");
-		super.setUp();
 	}
 
+	@Test
 	public void testBrightnessEffect() {
 		assertEquals(100f, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 		sprite.getActionFactory().createSetBrightnessAction(sprite, brightness).act(1.0f);
 		assertEquals(BRIGHTNESS, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNullSprite() {
 		Action action = sprite.getActionFactory().createSetBrightnessAction(null, brightness);
 		try {
@@ -58,11 +66,13 @@ public class SetBrightnessActionTest extends InstrumentationTestCase {
 		}
 	}
 
+	@Test
 	public void testNegativeBrightnessValue() {
 		sprite.getActionFactory().createSetBrightnessAction(sprite, new Formula(-BRIGHTNESS)).act(1.0f);
 		assertEquals(0f, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testBrickWithStringFormula() {
 		sprite.getActionFactory().createSetBrightnessAction(sprite, new Formula(String.valueOf(BRIGHTNESS))).act(1.0f);
 		assertEquals(BRIGHTNESS, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
@@ -71,11 +81,13 @@ public class SetBrightnessActionTest extends InstrumentationTestCase {
 		assertEquals(BRIGHTNESS, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNullFormula() {
 		sprite.getActionFactory().createSetBrightnessAction(sprite, null).act(1.0f);
 		assertEquals(0f, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNotANumberFormula() {
 		sprite.getActionFactory().createSetBrightnessAction(sprite, new Formula(Double.NaN)).act(1.0f);
 		assertEquals(100f, sprite.look.getBrightnessInUserInterfaceDimensionUnit());

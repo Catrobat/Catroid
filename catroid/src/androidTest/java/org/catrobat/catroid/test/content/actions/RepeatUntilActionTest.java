@@ -23,7 +23,7 @@
 package org.catrobat.catroid.test.content.actions;
 
 import android.support.test.InstrumentationRegistry;
-import android.test.InstrumentationTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
@@ -44,8 +44,14 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class RepeatUntilActionTest extends InstrumentationTestCase {
+import static junit.framework.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class RepeatUntilActionTest {
 
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
 	private Sprite testSprite;
@@ -59,8 +65,8 @@ public class RepeatUntilActionTest extends InstrumentationTestCase {
 	private static final String TEST_USERVARIABLE_2 = "testUservariable2";
 	private Project project;
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		testSprite = new SingleSprite("testSprite");
 		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		testScript = new StartScript();
@@ -77,10 +83,9 @@ public class RepeatUntilActionTest extends InstrumentationTestCase {
 		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().addProjectUserVariable(TEST_USERVARIABLE_2);
 		userVariable2 = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
 				.getUserVariable(null, TEST_USERVARIABLE_2);
-
-		super.setUp();
 	}
 
+	@Test
 	public void testRepeatBrick() throws InterruptedException {
 
 		SetVariableBrick setVariableBrick = new SetVariableBrick(new Formula(START_VALUE), userVariable);
@@ -120,6 +125,7 @@ public class RepeatUntilActionTest extends InstrumentationTestCase {
 		assertEquals((TRUE_VALUE - START_VALUE) * deltaY, (int) testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNoRepeat() {
 		Formula validFormula = new Formula(1);
 		validFormula.setRoot(new FormulaElement(ElementType.OPERATOR, Operators.SMALLER_THAN.name(), null,
@@ -131,11 +137,13 @@ public class RepeatUntilActionTest extends InstrumentationTestCase {
 		this.testWithFormula(validFormula, 0.0f);
 	}
 
+	@Test
 	public void testBrickWithInValidStringFormula() {
 		Formula stringFormula = new Formula(String.valueOf(NOT_NUMERICAL_STRING));
 		testWithFormula(stringFormula, testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNullFormula() {
 		Action repeatedAction = testSprite.getActionFactory().createSetXAction(testSprite, new Formula(10));
 		Action repeatAction = testSprite.getActionFactory().createRepeatUntilAction(testSprite, null, repeatedAction);
@@ -145,6 +153,7 @@ public class RepeatUntilActionTest extends InstrumentationTestCase {
 		assertEquals(0, repeatCountValue);
 	}
 
+	@Test
 	public void testNotANumberFormula() {
 		Formula notANumber = new Formula(Double.NaN);
 		testWithFormula(notANumber, testSprite.look.getYInUserInterfaceDimensionUnit());
@@ -167,6 +176,7 @@ public class RepeatUntilActionTest extends InstrumentationTestCase {
 		assertEquals(expected, testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testConditionCheckedOnlyAtEnd() {
 		Formula validFormula = new Formula(1);
 		validFormula.setRoot(new FormulaElement(ElementType.OPERATOR, Operators.EQUAL.name(), null,

@@ -22,21 +22,28 @@
  */
 package org.catrobat.catroid.test.pocketmusic.note;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.pocketmusic.note.MusicalBeat;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class MusicalBeatTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
 
+@RunWith(AndroidJUnit4.class)
+public class MusicalBeatTest {
+
+	@Test
 	public void testConvertToMusicalBeat1() {
 		MusicalBeat musicalBeat = MusicalBeat.convertToMusicalBeat(16, 16);
 
-		assertTrue(MusicalBeat.BEAT_16_16.equals(musicalBeat));
+		assertEquals(MusicalBeat.BEAT_16_16, musicalBeat);
 	}
 
+	@Test
 	public void testConvertToMusicalBeat2() {
 		MusicalBeat musicalBeat = MusicalBeat.convertToMusicalBeat(7, 7);
 
-		assertTrue(MusicalBeat.BEAT_4_4.equals(musicalBeat));
+		assertEquals(MusicalBeat.BEAT_4_4, musicalBeat);
 	}
 }

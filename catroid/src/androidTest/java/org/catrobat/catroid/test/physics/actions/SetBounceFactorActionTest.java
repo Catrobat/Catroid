@@ -23,42 +23,69 @@
 
 package org.catrobat.catroid.test.physics.actions;
 
+import android.support.test.runner.AndroidJUnit4;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.common.ScreenValues;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.test.physics.PhysicsCollisionBaseTest;
+import org.catrobat.catroid.physics.PhysicsWorld;
+import org.catrobat.catroid.test.physics.PhysicsCollisionTestRule;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class SetBounceFactorActionTest extends PhysicsCollisionBaseTest {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+
+@RunWith(AndroidJUnit4.class)
+public class SetBounceFactorActionTest {
 
 	private static final float BOUNCE_FACTOR = 50f;
 
-	public SetBounceFactorActionTest() {
-		spritePosition = new Vector2(0.0f, 100.0f);
-		sprite2Position = new Vector2(0.0f, -200.0f);
-		physicsObject1Type = PhysicsObject.Type.DYNAMIC;
-		physicsObject2Type = PhysicsObject.Type.FIXED;
+	@Rule
+	public PhysicsCollisionTestRule rule = new PhysicsCollisionTestRule();
+
+	private Sprite sprite;
+	private PhysicsWorld physicsWorld;
+
+	@Before
+	public void setUp() {
+		sprite = rule.sprite;
+		physicsWorld = rule.physicsWorld;
+		rule.spritePosition = new Vector2(0.0f, 100.0f);
+		rule.sprite2Position = new Vector2(0.0f, -200.0f);
+		rule.physicsObject1Type = PhysicsObject.Type.DYNAMIC;
+		rule.physicsObject2Type = PhysicsObject.Type.FIXED;
+
+		rule.initializeSpritesForCollision();
 	}
 
+	@Test
 	public void testNormalBounceFactor() {
 		initBounceFactorValue(BOUNCE_FACTOR);
 		assertEquals(BOUNCE_FACTOR / 100.0f, physicsWorld.getPhysicsObject(sprite).getBounceFactor());
 	}
 
+	@Test
 	public void testZeroValue() {
 		float bounceFactor = 0.0f;
 		initBounceFactorValue(bounceFactor);
 		assertEquals(bounceFactor / 100.0f, physicsWorld.getPhysicsObject(sprite).getBounceFactor());
 	}
 
+	@Test
 	public void testNegativeValue() {
 		float bounceFactor = -50.0f;
 		initBounceFactorValue(bounceFactor);
 		assertEquals(PhysicsObject.MIN_BOUNCE_FACTOR, physicsWorld.getPhysicsObject(sprite).getBounceFactor());
 	}
 
+	@Test
 	public void testHighValue() {
 		float bounceFactor = 1000.0f;
 		initBounceFactorValue(bounceFactor);
@@ -75,6 +102,7 @@ public class SetBounceFactorActionTest extends PhysicsCollisionBaseTest {
 		physicsWorld.step(1.0f);
 	}
 
+	@Test
 	public void testBrickWithStringFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		sprite.getActionFactory().createSetBounceFactorAction(sprite, new Formula(String.valueOf(BOUNCE_FACTOR)))
@@ -86,18 +114,21 @@ public class SetBounceFactorActionTest extends PhysicsCollisionBaseTest {
 		assertEquals(BOUNCE_FACTOR / 100.f, physicsObject.getBounceFactor());
 	}
 
+	@Test
 	public void testNullFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		sprite.getActionFactory().createSetBounceFactorAction(sprite, null).act(1.0f);
 		assertEquals(0f, physicsObject.getBounceFactor());
 	}
 
+	@Test
 	public void testNotANumberFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		sprite.getActionFactory().createSetBounceFactorAction(sprite, new Formula(Double.NaN)).act(1.0f);
 		assertEquals(PhysicsObject.DEFAULT_BOUNCE_FACTOR, physicsObject.getBounceFactor());
 	}
 
+	@Test
 	public void testBounceWithDifferentValues() {
 		float bounce01Height = bounce(0.1f);
 		float bounce06Height = bounce(0.6f);
@@ -105,11 +136,11 @@ public class SetBounceFactorActionTest extends PhysicsCollisionBaseTest {
 	}
 
 	private float bounce(float bounceFactor) {
-		initializeSpritesForCollision();
+		rule.initializeSpritesForCollision();
 		physicsWorld.getPhysicsObject(sprite).setVelocity(0, 0);
 		physicsWorld.getPhysicsObject(sprite).setMass(20);
 		physicsWorld.getPhysicsObject(sprite).setBounceFactor(bounceFactor);
-		while (!collisionDetected()) {
+		while (!rule.collisionDetected()) {
 			physicsWorld.step(0.3f);
 		}
 

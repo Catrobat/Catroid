@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.pocketmusic.note.trackgrid;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.pocketmusic.note.MusicalBeat;
 import org.catrobat.catroid.pocketmusic.note.Project;
@@ -30,14 +30,20 @@ import org.catrobat.catroid.pocketmusic.note.Track;
 import org.catrobat.catroid.pocketmusic.note.trackgrid.TrackGrid;
 import org.catrobat.catroid.pocketmusic.note.trackgrid.TrackGridToTrackConverter;
 import org.catrobat.catroid.pocketmusic.note.trackgrid.TrackToTrackGridConverter;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class TrackGridToTrackConverterTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class TrackGridToTrackConverterTest {
 
 	private int beatsPerMinute = Project.DEFAULT_BEATS_PER_MINUTE;
 
 	public TrackGridToTrackConverterTest() {
 	}
 
+	@Test
 	public void testConvertSimpleTrackGrid() {
 		TrackGrid simpleTrackGrid = TrackGridTestDataFactory.createFirstOctaveOnlyTrackGrid();
 
@@ -46,9 +52,10 @@ public class TrackGridToTrackConverterTest extends AndroidTestCase {
 		TrackGrid newTrackGrid = TrackToTrackGridConverter.convertTrackToTrackGrid(track, MusicalBeat.BEAT_4_4,
 				beatsPerMinute);
 
-		assertTrue(newTrackGrid.equals(simpleTrackGrid));
+		assertEquals(newTrackGrid, simpleTrackGrid);
 	}
 
+	@Test
 	public void testConvertTrackGridWithSeveralBreaks() {
 		TrackGrid trackWithSeveralBreaks = TrackGridTestDataFactory.createTrackGridWithSeveralBreaks();
 
@@ -57,9 +64,10 @@ public class TrackGridToTrackConverterTest extends AndroidTestCase {
 		TrackGrid convertedTrackGrid = TrackToTrackGridConverter.convertTrackToTrackGrid(track,
 				MusicalBeat.BEAT_4_4, beatsPerMinute);
 
-		assertTrue(convertedTrackGrid.equals(trackWithSeveralBreaks));
+		assertEquals(convertedTrackGrid, trackWithSeveralBreaks);
 	}
 
+	@Test
 	public void testConvertSemiComplexTrackGrid() {
 		TrackGrid semiComplexTrackGrid = TrackGridTestDataFactory.createSemiComplexTrackGrid();
 
@@ -68,6 +76,6 @@ public class TrackGridToTrackConverterTest extends AndroidTestCase {
 		TrackGrid convertedTrackGrid = TrackToTrackGridConverter.convertTrackToTrackGrid(track,
 				MusicalBeat.BEAT_4_4, beatsPerMinute);
 
-		assertTrue(convertedTrackGrid.equals(semiComplexTrackGrid));
+		assertEquals(convertedTrackGrid, semiComplexTrackGrid);
 	}
 }

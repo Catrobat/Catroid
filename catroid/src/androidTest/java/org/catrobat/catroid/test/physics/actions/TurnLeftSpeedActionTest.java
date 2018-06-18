@@ -22,27 +22,53 @@
  */
 package org.catrobat.catroid.test.physics.actions;
 
+import android.support.test.runner.AndroidJUnit4;
+
 import com.badlogic.gdx.scenes.scene2d.Action;
 
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.test.physics.PhysicsBaseTest;
+import org.catrobat.catroid.physics.PhysicsWorld;
+import org.catrobat.catroid.test.physics.PhysicsTestRule;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class TurnLeftSpeedActionTest extends PhysicsBaseTest {
+import static junit.framework.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class TurnLeftSpeedActionTest {
 
 	private static final float SPEED = 45.55f;
 
+	@Rule
+	public PhysicsTestRule rule = new PhysicsTestRule();
+
+	private Sprite sprite;
+	private PhysicsWorld physicsWorld;
+
+	@Before
+	public void setUp() {
+		sprite = rule.sprite;
+		physicsWorld = rule.physicsWorld;
+	}
+
+	@Test
 	public void testNormalBehavior() {
 		initLeftSpeedValue(SPEED);
 		assertEquals(SPEED, physicsWorld.getPhysicsObject(sprite).getRotationSpeed());
 	}
 
+	@Test
 	public void testNegativeValue() {
 		float speed = -45.55f;
 		initLeftSpeedValue(speed);
 		assertEquals(speed, physicsWorld.getPhysicsObject(sprite).getRotationSpeed());
 	}
 
+	@Test
 	public void testZeroValue() {
 		float speed = 0f;
 		initLeftSpeedValue(speed);
@@ -58,6 +84,7 @@ public class TurnLeftSpeedActionTest extends PhysicsBaseTest {
 		action.act(1.0f);
 	}
 
+	@Test
 	public void testBrickWithStringFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		sprite.getActionFactory().createTurnLeftSpeedAction(sprite, new Formula(String.valueOf(SPEED))).act(1.0f);
@@ -68,12 +95,14 @@ public class TurnLeftSpeedActionTest extends PhysicsBaseTest {
 		assertEquals(SPEED, physicsObject.getRotationSpeed());
 	}
 
+	@Test
 	public void testNullFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		sprite.getActionFactory().createTurnLeftSpeedAction(sprite, null).act(1.0f);
 		assertEquals(0f, physicsObject.getRotationSpeed());
 	}
 
+	@Test
 	public void testNotANumberFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		sprite.getActionFactory().createTurnLeftSpeedAction(sprite, new Formula(Double.NaN)).act(1.0f);

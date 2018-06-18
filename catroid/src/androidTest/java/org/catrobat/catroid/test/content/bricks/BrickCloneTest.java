@@ -23,7 +23,7 @@
 package org.catrobat.catroid.test.content.bricks;
 
 import android.support.test.InstrumentationRegistry;
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
@@ -73,10 +73,19 @@ import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.lang.reflect.Constructor;
 
-public class BrickCloneTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNotSame;
+import static junit.framework.Assert.fail;
+
+@RunWith(AndroidJUnit4.class)
+public class BrickCloneTest {
 
 	private static final int BRICK_FORMULA_VALUE = 1;
 	private static final String CLONE_BRICK_FORMULA_VALUE = "2";
@@ -84,12 +93,12 @@ public class BrickCloneTest extends AndroidTestCase {
 	private static final String TAG = null;
 	private Sprite sprite;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 		sprite = new SingleSprite("testSprite");
 	}
 
+	@Test
 	public void testBrickCloneWithFormula() {
 		Brick brick = new ChangeBrightnessByNBrick(new Formula(BRICK_FORMULA_VALUE));
 		brickClone(brick, Brick.BrickField.BRIGHTNESS_CHANGE);
@@ -189,10 +198,12 @@ public class BrickCloneTest extends AndroidTestCase {
 		brickClone(brick, Brick.BrickField.USER_BRICK);
 	}
 
+	@Test
 	public void testVariableReferencesChangeVariableBrick() throws Exception {
 		testVariableReferences(ChangeVariableBrick.class);
 	}
 
+	@Test
 	public void testVariableReferencesSetVariableBrick() throws Exception {
 		testVariableReferences(SetVariableBrick.class);
 	}

@@ -22,7 +22,8 @@
  */
 package org.catrobat.catroid.test.io;
 
-import android.test.InstrumentationTestCase;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
 import com.google.common.base.Charsets;
@@ -62,6 +63,10 @@ import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -71,12 +76,21 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
+
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.PERMISSIONS_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.TMP_CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.utils.PathBuilder.buildProjectPath;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.number.OrderingComparison.greaterThan;
+import static org.junit.Assert.assertThat;
 
-public class XstreamSerializerTest extends InstrumentationTestCase {
+@RunWith(AndroidJUnit4.class)
+public class XstreamSerializerTest {
 
 	private final XstreamSerializer storageHandler;
 	private final String projectName = "testProject";
@@ -91,29 +105,28 @@ public class XstreamSerializerTest extends InstrumentationTestCase {
 		storageHandler = XstreamSerializer.getInstance();
 	}
 
-	@Override
+	@Before
 	public void setUp() throws Exception {
 		TestUtils.deleteProjects(projectName);
-		DefaultProjectHandler.createAndSaveDefaultProject(getInstrumentation().getTargetContext());
+		DefaultProjectHandler.createAndSaveDefaultProject(InstrumentationRegistry.getTargetContext());
 
 		currentProjectBuffer = ProjectManager.getInstance().getCurrentProject();
-		super.setUp();
 	}
 
-	@Override
+	@After
 	public void tearDown() throws Exception {
 		ProjectManager.getInstance().setProject(currentProjectBuffer);
 
 		TestUtils.deleteProjects(projectName);
-		super.tearDown();
 	}
 
+	@Test
 	public void testSerializeProject() throws Exception {
 		final int xPosition = 457;
 		final int yPosition = 598;
 		final float size = 0.8f;
 
-		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		Sprite firstSprite = new SingleSprite("first");
 		Sprite secondSprite = new SingleSprite("second");
 		Sprite thirdSprite = new SingleSprite("third");
@@ -143,7 +156,7 @@ public class XstreamSerializerTest extends InstrumentationTestCase {
 
 		storageHandler.saveProject(project);
 
-		Project loadedProject = storageHandler.loadProject(projectName, getInstrumentation().getContext());
+		Project loadedProject = storageHandler.loadProject(projectName, InstrumentationRegistry.getContext());
 
 		Scene preScene = project.getDefaultScene();
 		Scene postScene = loadedProject.getDefaultScene();
@@ -175,12 +188,13 @@ public class XstreamSerializerTest extends InstrumentationTestCase {
 		assertEquals(yPosition, interpretFormula(actualYPosition, null).intValue());
 	}
 
+	@Test
 	public void testSanityCheck() throws IOException {
 		final int xPosition = 457;
 		final int yPosition = 598;
 		final float size = 0.8f;
 
-		final Project project = new Project(getInstrumentation().getTargetContext(), projectName);
+		final Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		Sprite firstSprite = new SingleSprite("first");
 		Sprite secondSprite = new SingleSprite("second");
 		Sprite thirdSprite = new SingleSprite("third");
@@ -233,14 +247,12 @@ public class XstreamSerializerTest extends InstrumentationTestCase {
 		storageHandler.saveProject(project);
 
 		assertTrue(currentCodeFile.exists());
-		assertTrue(currentCodeFile.length() > 0);
-		assertTrue(currentCodeFileXml.equals(Files.toString(currentCodeFile, Charsets.UTF_8)));
+		assertThat(currentCodeFile.length(), is(greaterThan(0L)));
+		assertEquals(currentCodeFileXml, Files.toString(currentCodeFile, Charsets.UTF_8));
 
 		// simulate 2nd Option: tmp_code.xml and code.xml exist
 		// --> saveProject process will discard tmp_code.xml and use code.xml
-		if (!tmpCodeFile.createNewFile()) {
-			fail("Could not create tmp file");
-		}
+		assertTrue(tmpCodeFile.createNewFile());
 
 		storageHandler.saveProject(project);
 
@@ -256,6 +268,7 @@ public class XstreamSerializerTest extends InstrumentationTestCase {
 		return Float.NaN;
 	}
 
+	@Test
 	public void testGetRequiredResources() {
 		int resources = generateMultiplePermissionsProject().getRequiredResources();
 		assertEquals(Brick.ARDRONE_SUPPORT
@@ -264,6 +277,7 @@ public class XstreamSerializerTest extends InstrumentationTestCase {
 				| Brick.TEXT_TO_SPEECH, resources);
 	}
 
+	@Test
 	public void testWritePermissionFile() throws IOException {
 		Project project = generateMultiplePermissionsProject();
 		ProjectManager.getInstance().setProject(project);
@@ -286,6 +300,7 @@ public class XstreamSerializerTest extends InstrumentationTestCase {
 		}
 	}
 
+	@Test
 	public void testSerializeSettings() throws CompatibilityProjectException, OutdatedVersionProjectException,
 			LoadingProjectException {
 		NXTSensor.Sensor[] sensorMapping = new NXTSensor.Sensor[] {
@@ -297,9 +312,9 @@ public class XstreamSerializerTest extends InstrumentationTestCase {
 		ProjectManager.getInstance().setProject(project);
 
 		String projectName = project.getName();
-		SettingsFragment.setLegoMindstormsNXTSensorMapping(getInstrumentation().getTargetContext(), sensorMapping);
+		SettingsFragment.setLegoMindstormsNXTSensorMapping(InstrumentationRegistry.getTargetContext(), sensorMapping);
 
-		ProjectManager.getInstance().saveProject(getInstrumentation().getTargetContext());
+		ProjectManager.getInstance().saveProject(InstrumentationRegistry.getTargetContext());
 		Setting setting = project.getSettings().get(0);
 
 		assertTrue(setting instanceof LegoNXTSetting);
@@ -317,12 +332,12 @@ public class XstreamSerializerTest extends InstrumentationTestCase {
 		NXTSensor.Sensor[] changedSensorMapping = sensorMapping.clone();
 		changedSensorMapping[0] = NXTSensor.Sensor.LIGHT_ACTIVE;
 
-		SettingsFragment.setLegoMindstormsNXTSensorMapping(getInstrumentation().getTargetContext(), changedSensorMapping);
+		SettingsFragment.setLegoMindstormsNXTSensorMapping(InstrumentationRegistry.getTargetContext(), changedSensorMapping);
 
 		ProjectManager.getInstance().setProject(null);
-		ProjectManager.getInstance().loadProject(projectName, getInstrumentation().getTargetContext());
+		ProjectManager.getInstance().loadProject(projectName, InstrumentationRegistry.getTargetContext());
 
-		actualSensorMapping = SettingsFragment.getLegoNXTSensorMapping(getInstrumentation().getTargetContext());
+		actualSensorMapping = SettingsFragment.getLegoNXTSensorMapping(InstrumentationRegistry.getTargetContext());
 
 		assertEquals(4, actualSensorMapping.length);
 
@@ -349,7 +364,7 @@ public class XstreamSerializerTest extends InstrumentationTestCase {
 	}
 
 	private Project generateMultiplePermissionsProject() {
-		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		Sprite firstSprite = new SingleSprite("first");
 		Sprite secondSprite = new SingleSprite("second");
 		Script testScript = new StartScript();
@@ -384,9 +399,10 @@ public class XstreamSerializerTest extends InstrumentationTestCase {
 		return project;
 	}
 
+	@Test
 	public void testExtractDefaultSceneNameFromXml() {
 		final String firstSceneName = "First Scene";
-		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		project.getSceneList().get(0).setName(firstSceneName);
 		storageHandler.saveProject(project);
 

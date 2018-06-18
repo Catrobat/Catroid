@@ -22,7 +22,8 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.AndroidTestCase;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -33,21 +34,29 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.junit.After;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.List;
 
-public class ComeToFrontActionTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
+
+@RunWith(AndroidJUnit4.class)
+public class ComeToFrontActionTest {
 
 	private String projectName = "testProject";
 
-	@Override
+	@After
 	public void tearDown() throws Exception {
 		TestUtils.deleteProjects("testProject");
-		super.tearDown();
 	}
 
+	@Test
 	public void testComeToFront() {
-		Project project = new Project(getContext(), projectName);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		Group parentGroup = new Group();
 
 		Sprite bottomSprite = new SingleSprite("catroid");
@@ -108,6 +117,7 @@ public class ComeToFrontActionTest extends AndroidTestCase {
 		}
 	}
 
+	@Test
 	public void testNullSprite() {
 		ActionFactory factory = new ActionFactory();
 		Action action = factory.createComeToFrontAction(null);
@@ -119,8 +129,9 @@ public class ComeToFrontActionTest extends AndroidTestCase {
 		}
 	}
 
+	@Test
 	public void testBoundaries() {
-		Project project = new Project(getContext(), projectName);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		Group parentGroup = new Group();
 
 		Sprite firstSprite = new SingleSprite("firstSprite");

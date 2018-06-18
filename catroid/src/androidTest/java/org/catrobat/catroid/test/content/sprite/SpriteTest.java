@@ -22,7 +22,8 @@
  */
 package org.catrobat.catroid.test.content.sprite;
 
-import android.test.AndroidTestCase;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.ActionFactory;
@@ -42,12 +43,21 @@ import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class SpriteTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+
+@RunWith(AndroidJUnit4.class)
+public class SpriteTest {
 
 	private static final String LOCAL_VARIABLE_NAME = "test_local";
 	private static final double LOCAL_VARIABLE_VALUE = 0xDEADBEEF;
@@ -58,11 +68,10 @@ public class SpriteTest extends AndroidTestCase {
 	private Project project;
 	private Sprite sprite;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 		sprite = new SingleSprite("testSprite");
-		project = new Project(getContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		project = new Project(InstrumentationRegistry.getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 		project.getDefaultScene().addSprite(sprite);
 		project.getDefaultScene().getDataContainer().addSpriteUserVariableToSprite(sprite, LOCAL_VARIABLE_NAME);
 		project.getDefaultScene().getDataContainer()
@@ -75,6 +84,7 @@ public class SpriteTest extends AndroidTestCase {
 		ProjectManager.getInstance().setProject(project);
 	}
 
+	@Test
 	public void testAddScript() {
 		Sprite sprite = new SingleSprite("new SingleSprite");
 		Script firstScript = new StartScript();
@@ -92,6 +102,7 @@ public class SpriteTest extends AndroidTestCase {
 		assertEquals(0, sprite.getNumberOfScripts());
 	}
 
+	@Test
 	public void testGetScript() {
 		Sprite sprite = new SingleSprite("new SingleSprite");
 		Script firstScript = new StartScript();
@@ -102,6 +113,7 @@ public class SpriteTest extends AndroidTestCase {
 		assertEquals(secondScript, sprite.getScript(1));
 	}
 
+	@Test
 	public void testRemoveAllScripts() {
 		Sprite sprite = new SingleSprite("new SingleSprite");
 		Script firstScript = new StartScript();
@@ -114,6 +126,7 @@ public class SpriteTest extends AndroidTestCase {
 		assertEquals(0, sprite.getNumberOfScripts());
 	}
 
+	@Test
 	public void testRemoveScript() {
 		Sprite sprite = new SingleSprite("new SingleSprite");
 		Script firstScript = new StartScript();
@@ -127,6 +140,7 @@ public class SpriteTest extends AndroidTestCase {
 		assertEquals(secondScript, sprite.getScript(0));
 	}
 
+	@Test
 	public void testGetScriptIndex() {
 		Sprite sprite = new SingleSprite("new SingleSprite");
 		Script firstScript = new StartScript();
@@ -137,6 +151,7 @@ public class SpriteTest extends AndroidTestCase {
 		assertEquals(1, sprite.getScriptIndex(secondScript));
 	}
 
+	@Test
 	public void testSpriteCloneWithLocalVariable() {
 		Script script = new StartScript();
 		Brick brick = new ChangeBrightnessByNBrick(new Formula(new FormulaElement(ElementType.USER_VARIABLE,
@@ -162,6 +177,7 @@ public class SpriteTest extends AndroidTestCase {
 		}
 	}
 
+	@Test
 	public void testUserVariableVisibilityOfLocalVariablesInDifferentScenes() {
 		String variableName = "sceneTestVariable";
 

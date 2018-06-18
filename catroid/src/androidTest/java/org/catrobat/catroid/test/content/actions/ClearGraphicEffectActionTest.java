@@ -22,16 +22,23 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class ClearGraphicEffectActionTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.fail;
 
+@RunWith(AndroidJUnit4.class)
+public class ClearGraphicEffectActionTest {
+
+	@Test
 	public void testClearGraphicEffect() {
 		float value = 80f;
 		Sprite sprite = new SingleSprite("new SingleSprite");
@@ -47,6 +54,7 @@ public class ClearGraphicEffectActionTest extends AndroidTestCase {
 		assertEquals(100f, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNullSprite() {
 		ActionFactory factory = new ActionFactory();
 		Action action = factory.createClearGraphicEffectAction(null);

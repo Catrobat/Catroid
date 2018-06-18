@@ -22,7 +22,8 @@
  */
 package org.catrobat.catroid.test.content;
 
-import android.test.AndroidTestCase;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
@@ -38,30 +39,38 @@ import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.util.List;
 
-public class MessageContainerTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+
+@RunWith(AndroidJUnit4.class)
+public class MessageContainerTest {
 
 	private final String projectName1 = "TestProject1";
 	private final String projectName2 = "TestProject2";
 	private final String broadcastMessage1 = "testBroadcast1";
 	private final String broadcastMessage2 = "testBroadcast2";
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 		createTestProjects();
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
-		super.tearDown();
+	@After
+	public void tearDown() throws Exception {
 		StorageOperations.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName1));
 		StorageOperations.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName2));
 	}
 
+	@Test
 	public void testLoadProject() {
 		List<String> broadcastMessages = ProjectManager.getInstance().getCurrentProject()
 				.getBroadcastMessageContainer().getBroadcastMessages();
@@ -70,6 +79,7 @@ public class MessageContainerTest extends AndroidTestCase {
 		assertEquals(1, broadcastMessages.size());
 	}
 
+	@Test
 	public void testLoadTwoProjects() throws CompatibilityProjectException,
 			OutdatedVersionProjectException,
 			LoadingProjectException {
@@ -77,7 +87,7 @@ public class MessageContainerTest extends AndroidTestCase {
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		currentProject.getBroadcastMessageContainer().update();
 
-		ProjectManager.getInstance().loadProject(projectName2, getContext());
+		ProjectManager.getInstance().loadProject(projectName2, InstrumentationRegistry.getTargetContext());
 		currentProject = ProjectManager.getInstance().getCurrentProject();
 		ProjectManager.getInstance().setCurrentlyEditedScene(currentProject.getDefaultScene());
 		List<String> broadcastMessages = currentProject.getBroadcastMessageContainer().getBroadcastMessages();
@@ -90,7 +100,7 @@ public class MessageContainerTest extends AndroidTestCase {
 			OutdatedVersionProjectException,
 			LoadingProjectException {
 
-		Project project1 = new Project(getContext(), projectName1);
+		Project project1 = new Project(InstrumentationRegistry.getTargetContext(), projectName1);
 
 		Sprite sprite1 = new SingleSprite("cat");
 		Script script1 = new StartScript();
@@ -105,7 +115,7 @@ public class MessageContainerTest extends AndroidTestCase {
 
 		XstreamSerializer.getInstance().saveProject(project1);
 
-		Project project2 = new Project(getContext(), projectName2);
+		Project project2 = new Project(InstrumentationRegistry.getTargetContext(), projectName2);
 
 		Sprite sprite2 = new SingleSprite("cat");
 		Script script2 = new StartScript();
@@ -119,7 +129,7 @@ public class MessageContainerTest extends AndroidTestCase {
 		project2.getDefaultScene().addSprite(sprite2);
 		XstreamSerializer.getInstance().saveProject(project2);
 
-		ProjectManager.getInstance().loadProject(projectName1, getContext());
+		ProjectManager.getInstance().loadProject(projectName1, InstrumentationRegistry.getTargetContext());
 		ProjectManager.getInstance()
 				.setCurrentlyEditedScene(ProjectManager.getInstance().getCurrentProject().getDefaultScene());
 	}

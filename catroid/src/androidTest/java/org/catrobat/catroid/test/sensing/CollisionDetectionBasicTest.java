@@ -23,14 +23,21 @@
 
 package org.catrobat.catroid.test.sensing;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.math.Polygon;
 
 import org.catrobat.catroid.sensing.CollisionDetection;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class CollisionDetectionBasicTest extends AndroidTestCase {
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 
+@RunWith(AndroidJUnit4.class)
+public class CollisionDetectionBasicTest {
+
+	@Test
 	public void testIntersectPolygons() {
 		Polygon[] p1 = {new Polygon(new float[] {0, 2, 2, 2, 1, 0})};
 		Polygon[] p2 = {new Polygon(new float[] {0, 0, 1, 2, 2, 0})};
@@ -48,12 +55,14 @@ public class CollisionDetectionBasicTest extends AndroidTestCase {
 		assertTrue(CollisionDetection.checkCollisionBetweenPolygons(p6, p7));
 	}
 
+	@Test
 	public void testCollisionForContainedPolygon() {
 		Polygon[] p1 = {new Polygon(new float[] {0, 0, 0, 4, 4, 4, 4, 0})};
 		Polygon[] p2 = {new Polygon(new float[] {2, 2, 3, 2, 2, 3})};
 		assertTrue(CollisionDetection.checkCollisionBetweenPolygons(p1, p2));
 	}
 
+	@Test
 	public void testObjectInDonut() {
 		Polygon[] donut = {new Polygon(new float[] {0, 0, 0, 5, 5, 5, 5, 0}),
 				new Polygon(new float[] {2, 2, 2, 3, 3, 3, 3, 2})};
@@ -61,6 +70,7 @@ public class CollisionDetectionBasicTest extends AndroidTestCase {
 		assertTrue(CollisionDetection.checkCollisionBetweenPolygons(donut, p2));
 	}
 
+	@Test
 	public void testDonutInObject() {
 		Polygon[] donut = {new Polygon(new float[] {1, 1, 1, 5, 5, 5, 5, 1}),
 				new Polygon(new float[] {2, 2, 2, 3, 3, 3, 3, 2})};
@@ -68,6 +78,7 @@ public class CollisionDetectionBasicTest extends AndroidTestCase {
 		assertTrue(CollisionDetection.checkCollisionBetweenPolygons(donut, p2));
 	}
 
+	@Test
 	public void testObjectInDonutHole() {
 		Polygon[] donut = {new Polygon(new float[] {0, 0, 0, 5, 5, 5, 5, 0}),
 				new Polygon(new float[] {1, 1, 1, 4, 4, 4, 4, 1})};
@@ -75,6 +86,7 @@ public class CollisionDetectionBasicTest extends AndroidTestCase {
 		assertFalse(CollisionDetection.checkCollisionBetweenPolygons(donut, p2));
 	}
 
+	@Test
 	public void testObjectCollidingWithDonut() {
 		Polygon[] donut = {new Polygon(new float[] {0, 0, 0, 5, 5, 5, 5, 0}),
 				new Polygon(new float[] {1, 1, 1, 4, 4, 4, 4, 1})};

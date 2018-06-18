@@ -22,12 +22,18 @@
  */
 package org.catrobat.catroid.test.utiltests;
 
-import android.test.InstrumentationTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class EncodeAndDecodeSpecialCharsTest extends InstrumentationTestCase {
+import static junit.framework.Assert.assertEquals;
 
+@RunWith(AndroidJUnit4.class)
+public class EncodeAndDecodeSpecialCharsTest {
+
+	@Test
 	public void testEncodeAndDecodeSpecialCharsForFileSystem() {
 		String projectName1 = ".*\"/:<>?\\|%";
 		String projectName1Encoded = FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectName1);

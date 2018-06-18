@@ -23,7 +23,7 @@
 package org.catrobat.catroid.test.physics;
 
 import android.support.test.InstrumentationRegistry;
-import android.test.InstrumentationTestCase;
+import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
 import com.badlogic.gdx.math.Vector2;
@@ -47,12 +47,21 @@ import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.File;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 
-public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
+@RunWith(AndroidJUnit4.class)
+public class PhysicsShapeBuilderTest {
 
 	private static final String TAG = PhysicsShapeBuilderTest.class.getSimpleName();
 
@@ -69,9 +78,8 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 	static {
 		GdxNativesLoader.load();
 	}
-	@Override
+	@Before
 	public void setUp() throws Exception {
-		super.setUp();
 		physicsWorld = new PhysicsWorld(1920, 1600);
 		projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
@@ -81,7 +89,7 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 
 		physicsShapeBuilder = PhysicsShapeBuilder.getInstance();
 
-		project = new Project(getInstrumentation().getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		project = new Project(InstrumentationRegistry.getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
@@ -110,16 +118,16 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 		physicsLook = new PhysicsLook(sprite, physicsWorld);
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
+	@After
+	public void tearDown() throws Exception {
 		if (projectDir.exists()) {
 			StorageOperations.deleteDir(projectDir);
 		}
 		physicsShapeBuilder.reset();
 		projectDir = null;
-		super.tearDown();
 	}
 
+	@Test
 	public void testSimpleSingleConvexPolygon() {
 		LookData lookData = PhysicsTestUtils.generateLookData(simpleSingleConvexPolygonFile);
 		physicsLook.setLookData(lookData);
@@ -132,6 +140,7 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 		checkBuiltShapes(shapes, expectedPolynoms, expectedVertices);
 	}
 
+	@Test
 	public void testDifferentAccuracySettings() {
 		LookData lookData = PhysicsTestUtils.generateLookData(complexSingleConvexPolygonFile);
 		physicsLook.setLookData(lookData);

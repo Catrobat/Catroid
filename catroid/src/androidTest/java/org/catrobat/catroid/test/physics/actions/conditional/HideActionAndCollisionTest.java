@@ -22,43 +22,69 @@
  */
 package org.catrobat.catroid.test.physics.actions.conditional;
 
+import android.support.test.runner.AndroidJUnit4;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.content.ActionFactory;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.test.physics.PhysicsCollisionBaseTest;
+import org.catrobat.catroid.test.physics.PhysicsCollisionTestRule;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class HideActionAndCollisionTest extends PhysicsCollisionBaseTest {
-	public HideActionAndCollisionTest() {
-		spritePosition = new Vector2(0.0f, 100.0f);
-		sprite2Position = new Vector2(0.0f, -200.0f);
-		physicsObject1Type = PhysicsObject.Type.DYNAMIC;
-		physicsObject2Type = PhysicsObject.Type.FIXED;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
+
+@RunWith(AndroidJUnit4.class)
+public class HideActionAndCollisionTest {
+	@Rule
+	public PhysicsCollisionTestRule rule = new PhysicsCollisionTestRule();
+
+	private Sprite sprite;
+
+	@Before
+	public void setUp() {
+		sprite = rule.sprite;
+
+		rule.spritePosition = new Vector2(0.0f, 100.0f);
+		rule.sprite2Position = new Vector2(0.0f, -200.0f);
+		rule.physicsObject1Type = PhysicsObject.Type.DYNAMIC;
+		rule.physicsObject2Type = PhysicsObject.Type.FIXED;
+
+		rule.initializeSpritesForCollision();
 	}
 
+	@Test
 	public void testNoCollisionAfterHide() {
 		Action action = sprite.getActionFactory().createHideAction(sprite);
 		action.act(1.0f);
-		simulateFullCollision();
-		assertFalse(collisionDetected());
+		rule.simulateFullCollision();
+		assertFalse(rule.collisionDetected());
 	}
 
+	@Test
 	public void testCollisionAfterHide() {
 		Action action = sprite.getActionFactory().createHideAction(sprite);
 		action.act(1.0f);
 		action = sprite.getActionFactory().createShowAction(sprite);
 		action.act(1.0f);
-		simulateFullCollision();
-		assertTrue(collisionDetected());
+		rule.simulateFullCollision();
+		assertTrue(rule.collisionDetected());
 	}
 
+	@Test
 	public void testHide() {
 		Action action = sprite.getActionFactory().createHideAction(sprite);
 		action.act(1.0f);
 		assertFalse(sprite.look.isLookVisible());
 	}
 
+	@Test
 	public void testNullSprite() {
 		ActionFactory factory = new ActionFactory();
 		Action action = factory.createHideAction(null);
@@ -66,7 +92,6 @@ public class HideActionAndCollisionTest extends PhysicsCollisionBaseTest {
 			action.act(1.0f);
 			fail("Execution of HideBrick with null Sprite did not cause a NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
-			assertTrue(true);
 		}
 	}
 }

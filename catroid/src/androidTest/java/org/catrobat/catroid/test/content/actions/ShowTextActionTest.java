@@ -23,7 +23,7 @@
 package org.catrobat.catroid.test.content.actions;
 
 import android.support.test.InstrumentationRegistry;
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
@@ -34,13 +34,19 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class ShowTextActionTest extends AndroidTestCase {
+import static junit.framework.Assert.assertTrue;
+
+@RunWith(AndroidJUnit4.class)
+public class ShowTextActionTest {
 
 	private static final String SPRITE_NAME = "Cat";
 	private static final String SECOND_SPRITE_NAME = "Dog";
 	private static final UserVariable USER_VARIABLE = new UserVariable("var");
 
+	@Test
 	public void testShowVariablesVisibilitySameVariableNameAcrossSprites() {
 		Sprite sprite = new Sprite(SPRITE_NAME);
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");

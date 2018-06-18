@@ -23,27 +23,34 @@
 
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.InstrumentationTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class SetColorActionTest extends InstrumentationTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.fail;
+
+@RunWith(AndroidJUnit4.class)
+public class SetColorActionTest {
 
 	private static final float COLOR = 100.0f;
 	private Formula color = new Formula(COLOR);
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
 	private Sprite sprite;
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		sprite = new SingleSprite("testSprite");
-		super.setUp();
 	}
 
+	@Test
 	public void testColorEffect() {
 		assertEquals((int) 0, (int) sprite.look.getColorInUserInterfaceDimensionUnit());
 		sprite.getActionFactory().createSetColorAction(sprite, color).act(1.0f);
@@ -51,6 +58,7 @@ public class SetColorActionTest extends InstrumentationTestCase {
 		sprite.getActionFactory().createSetColorAction(sprite, color);
 	}
 
+	@Test
 	public void testValueAboveMax() {
 		final float highColor = 1000;
 
@@ -59,16 +67,17 @@ public class SetColorActionTest extends InstrumentationTestCase {
 		assertEquals((highColor % 200), sprite.look.getColorInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNullSprite() {
 		Action action = sprite.getActionFactory().createSetColorAction(null, color);
 		try {
 			action.act(1.0f);
 			fail("Execution of SetColorToBrick with null Sprite did not cause a NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
-			assertTrue(true);
 		}
 	}
 
+	@Test
 	public void testBrickWithStringFormula() {
 		sprite.getActionFactory().createSetColorAction(sprite, new Formula(String.valueOf(COLOR))).act(1.0f);
 		assertEquals(COLOR, sprite.look.getColorInUserInterfaceDimensionUnit());
@@ -77,11 +86,13 @@ public class SetColorActionTest extends InstrumentationTestCase {
 		assertEquals(COLOR, sprite.look.getColorInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNullFormula() {
 		sprite.getActionFactory().createSetColorAction(sprite, null).act(1.0f);
 		assertEquals(0, (int) sprite.look.getColorInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNotANumberFormula() {
 		sprite.getActionFactory().createSetColorAction(sprite, new Formula(Double.NaN)).act(1.0f);
 		assertEquals(0, (int) sprite.look.getColorInUserInterfaceDimensionUnit());

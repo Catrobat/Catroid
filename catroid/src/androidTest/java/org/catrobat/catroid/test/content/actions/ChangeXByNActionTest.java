@@ -22,32 +22,40 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class ChangeXByNActionTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.fail;
+
+@RunWith(AndroidJUnit4.class)
+public class ChangeXByNActionTest {
 
 	private static final float CHANGE_VALUE = 55.5f;
 	private static final String NOT_NUMERICAL_STRING = "xPosition";
 	private Sprite sprite;
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		sprite = new SingleSprite("testSprite");
-		super.setUp();
 	}
 
+	@Test
 	public void testNormalBehavior() {
 		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
 		sprite.getActionFactory().createChangeXByNAction(sprite, new Formula(CHANGE_VALUE)).act(1.0f);
 		assertEquals(CHANGE_VALUE, sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNullSprite() {
 		Action action = sprite.getActionFactory().createChangeXByNAction(null, new Formula(CHANGE_VALUE));
 		try {
@@ -57,6 +65,7 @@ public class ChangeXByNActionTest extends AndroidTestCase {
 		}
 	}
 
+	@Test
 	public void testBoundaryPositions() {
 		int xPosition = 10;
 		sprite.look.setPositionInUserInterfaceDimensionUnit(xPosition, sprite.look.getYInUserInterfaceDimensionUnit());
@@ -70,6 +79,7 @@ public class ChangeXByNActionTest extends AndroidTestCase {
 		assertEquals(Integer.MIN_VALUE, (int) sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testBrickWithStringFormula() {
 		sprite.getActionFactory().createChangeXByNAction(sprite, new Formula(String.valueOf(CHANGE_VALUE))).act(1.0f);
 		assertEquals(CHANGE_VALUE, sprite.look.getXInUserInterfaceDimensionUnit());
@@ -78,11 +88,13 @@ public class ChangeXByNActionTest extends AndroidTestCase {
 		assertEquals(CHANGE_VALUE, sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNullFormula() {
 		sprite.getActionFactory().createChangeXByNAction(sprite, null).act(1.0f);
 		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNotANumberFormula() {
 		sprite.getActionFactory().createChangeXByNAction(sprite, new Formula(Double.NaN)).act(1.0f);
 		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());

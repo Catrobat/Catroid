@@ -22,16 +22,26 @@
  */
 package org.catrobat.catroid.test.utiltests;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.Reflection.Parameter;
 import org.catrobat.catroid.test.utils.Reflection.ParameterList;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.Arrays;
 
-public class ReflectionTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
 
+@RunWith(AndroidJUnit4.class)
+public class ReflectionTest {
+
+	@Test
 	public void testPrivateFieldGettersAndSetters() {
 		char secretChar = (Character) Reflection.getPrivateField(SubClass.class, "SECRET_STATIC_CHAR");
 		assertEquals(SubClass.SECRET_STATIC_CHAR, secretChar);
@@ -70,6 +80,7 @@ public class ReflectionTest extends AndroidTestCase {
 		assertEquals(newSecretFloat, secretFloat);
 	}
 
+	@Test
 	public void testPrivateFieldWithNullObject() {
 		Object nullObject = null;
 		try {
@@ -99,6 +110,7 @@ public class ReflectionTest extends AndroidTestCase {
 		}
 	}
 
+	@Test
 	public void testPrivateFieldWithWrongParameters() {
 		try {
 			Reflection.getPrivateField(SuperClass.class, new SubClass(), "secretString");
@@ -143,6 +155,7 @@ public class ReflectionTest extends AndroidTestCase {
 		}
 	}
 
+	@Test
 	public void testInvokeMethodForObjects() {
 		InvokeMethodClass invokeMethodObject = new InvokeMethodClass();
 
@@ -169,6 +182,7 @@ public class ReflectionTest extends AndroidTestCase {
 		assertNotNull(superClassMethodReturnValue);
 	}
 
+	@Test
 	public void testInvokeMethodForClasses() {
 		String returnValue = (String) Reflection.invokeMethod(InvokeMethodClass.class, "staticMethodWithoutParameters");
 		assertEquals("Called staticMethodWithoutParameters!", returnValue);
@@ -190,6 +204,7 @@ public class ReflectionTest extends AndroidTestCase {
 		assertNull(voidReturnValue);
 	}
 
+	@Test
 	public void testInvokeMethodWithAutoBoxingParameter() {
 		InvokeMethodClass invokeMethodObject = new InvokeMethodClass();
 
@@ -207,6 +222,7 @@ public class ReflectionTest extends AndroidTestCase {
 		assertEquals(returnValue, -1.0f);
 	}
 
+	@Test
 	public void testConvertObjectsIntoPrimitives() {
 		ParameterList parameterList = new ParameterList(Boolean.TRUE, Byte.valueOf((byte) 1),
 				Character.valueOf('c'), Double.valueOf(1.0), Float.valueOf(1.0f), Integer.valueOf(1), Long.valueOf(1L),
@@ -218,6 +234,7 @@ public class ReflectionTest extends AndroidTestCase {
 		assertTrue(Arrays.deepEquals(expectedPrimitiveObjectsClasses, primitiveObjectsClass));
 	}
 
+	@Test
 	public void testInvokeMethodWithNullObject() {
 		Object nullObject = null;
 		try {
@@ -240,6 +257,7 @@ public class ReflectionTest extends AndroidTestCase {
 		}
 	}
 
+	@Test
 	public void testInvokeMethodWithWrongParameters() {
 		InvokeMethodClass invokeMethodObject = new InvokeMethodClass();
 

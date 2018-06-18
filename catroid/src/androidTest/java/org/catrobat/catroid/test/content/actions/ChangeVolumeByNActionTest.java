@@ -22,14 +22,20 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.InstrumentationTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.SoundManager;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class ChangeVolumeByNActionTest extends InstrumentationTestCase {
+import static junit.framework.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class ChangeVolumeByNActionTest {
 
 	private static final float INITIALIZED_VALUE = 70f;
 	private static final float CHANGE_VALUE = 12.3f;
@@ -38,13 +44,13 @@ public class ChangeVolumeByNActionTest extends InstrumentationTestCase {
 	private final float softerValue = -20.3f;
 	private Sprite sprite;
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		sprite = new SingleSprite("testSprite");
 		SoundManager.getInstance().setVolume(INITIALIZED_VALUE);
-		super.setUp();
 	}
 
+	@Test
 	public void testVolume() {
 		float expectedVolume = SoundManager.getInstance().getVolume();
 
@@ -61,6 +67,7 @@ public class ChangeVolumeByNActionTest extends InstrumentationTestCase {
 		assertEquals(expectedVolume, SoundManager.getInstance().getVolume());
 	}
 
+	@Test
 	public void testBrickWithStringFormula() {
 		sprite.getActionFactory().createChangeVolumeByNAction(sprite, new Formula(String.valueOf(CHANGE_VALUE)))
 				.act(1.0f);
@@ -70,11 +77,13 @@ public class ChangeVolumeByNActionTest extends InstrumentationTestCase {
 		assertEquals(INITIALIZED_VALUE + CHANGE_VALUE, SoundManager.getInstance().getVolume());
 	}
 
+	@Test
 	public void testNullFormula() {
 		sprite.getActionFactory().createChangeVolumeByNAction(sprite, null).act(1.0f);
 		assertEquals(INITIALIZED_VALUE, SoundManager.getInstance().getVolume());
 	}
 
+	@Test
 	public void testNotANumberFormula() {
 		sprite.getActionFactory().createChangeVolumeByNAction(sprite, new Formula(Double.NaN)).act(1.0f);
 		assertEquals(INITIALIZED_VALUE, SoundManager.getInstance().getVolume());

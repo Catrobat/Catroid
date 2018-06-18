@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.InstrumentationTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
@@ -41,8 +41,14 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.test.utils.Reflection;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class RepeatActionTest extends InstrumentationTestCase {
+import static junit.framework.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class RepeatActionTest {
 
 	private static final int REPEAT_TIMES = 4;
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
@@ -50,12 +56,13 @@ public class RepeatActionTest extends InstrumentationTestCase {
 	private Script testScript;
 	private int delta = 5;
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		testSprite = new SingleSprite("sprite");
 		testScript = new StartScript();
 	}
 
+	@Test
 	public void testLoopDelay() throws InterruptedException {
 		final int deltaY = -10;
 		final float delta = 0.005f;
@@ -83,6 +90,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		assertEquals(deltaY * REPEAT_TIMES, (int) testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testRepeatBrick() {
 
 		RepeatBrick repeatBrick = new RepeatBrick(REPEAT_TIMES);
@@ -106,6 +114,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		assertEquals(REPEAT_TIMES * deltaY, (int) testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testRepeatCount() {
 		Sprite testSprite = new SingleSprite("sprite");
 		Script testScript = new StartScript();
@@ -132,6 +141,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		assertEquals(deltaY * 9, (int) testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNestedRepeatBrick() throws InterruptedException {
 		final int deltaY = -10;
 		final float delta = 0.005f;
@@ -164,6 +174,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		assertEquals(REPEAT_TIMES * REPEAT_TIMES * deltaY, (int) testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNegativeRepeats() {
 		Sprite testSprite = new SingleSprite("sprite");
 		RepeatBrick repeatBrick = new RepeatBrick(-1);
@@ -181,6 +192,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		assertEquals(0, executedCount);
 	}
 
+	@Test
 	public void testZeroRepeats() {
 		final float decoyDeltaY = -150f;
 		final float expectedDeltaY = 150f;
@@ -197,16 +209,19 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		assertEquals(expectedDeltaY, testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testBrickWithValidStringFormula() {
 		Formula stringFormula = new Formula(String.valueOf(REPEAT_TIMES));
 		testWithFormula(stringFormula, testSprite.look.getYInUserInterfaceDimensionUnit() + delta * REPEAT_TIMES);
 	}
 
+	@Test
 	public void testBrickWithInValidStringFormula() {
 		Formula stringFormula = new Formula(String.valueOf(NOT_NUMERICAL_STRING));
 		testWithFormula(stringFormula, testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNullFormula() {
 		Action repeatedAction = testSprite.getActionFactory().createSetXAction(testSprite, new Formula(10));
 		Action repeatAction = testSprite.getActionFactory().createRepeatAction(testSprite, null, repeatedAction);
@@ -215,6 +230,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		assertEquals(0, repeatCountValue);
 	}
 
+	@Test
 	public void testNotANumberFormula() {
 		Formula notANumber = new Formula(Double.NaN);
 		testWithFormula(notANumber, testSprite.look.getYInUserInterfaceDimensionUnit());

@@ -24,7 +24,7 @@
 package org.catrobat.catroid.test.sensing;
 
 import android.support.test.InstrumentationRegistry;
-import android.test.InstrumentationTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.math.Polygon;
@@ -45,16 +45,22 @@ import org.catrobat.catroid.sensing.CollisionDetection;
 import org.catrobat.catroid.sensing.CollisionInformation;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.Utils;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.io.IOException;
+
+import static junit.framework.Assert.assertEquals;
 
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 
-public class CollisionDetectionAdvancedTest extends InstrumentationTestCase {
+@RunWith(AndroidJUnit4.class)
+public class CollisionDetectionAdvancedTest {
 	protected Project project;
 	protected Sprite sprite1;
 	protected Sprite sprite2;
@@ -92,12 +98,11 @@ public class CollisionDetectionAdvancedTest extends InstrumentationTestCase {
 		sprite.look.setPositionInUserInterfaceDimensionUnit(0, 0);
 	}
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 		TestUtils.deleteProjects();
 
-		project = new Project(getInstrumentation().getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		project = new Project(InstrumentationRegistry.getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		sprite1 = new Sprite("TestSprite1");
 		sprite2 = new Sprite("TestSprite2");
@@ -123,6 +128,7 @@ public class CollisionDetectionAdvancedTest extends InstrumentationTestCase {
 		XstreamSerializer.getInstance().saveProject(project);
 	}
 
+	@Test
 	public void testCollisionBetweenMovingLooks() {
 		assertEquals(0d, CollisionDetection.checkCollisionBetweenLooks(sprite1.look, sprite2.look));
 
@@ -135,6 +141,7 @@ public class CollisionDetectionAdvancedTest extends InstrumentationTestCase {
 		assertThat(CollisionDetection.checkCollisionBetweenLooks(sprite1.look, sprite2.look), is(greaterThan(0d)));
 	}
 
+	@Test
 	public void testCollisionBetweenExpandingLooks() {
 		assertEquals(0d, CollisionDetection.checkCollisionBetweenLooks(sprite1.look, sprite2.look));
 

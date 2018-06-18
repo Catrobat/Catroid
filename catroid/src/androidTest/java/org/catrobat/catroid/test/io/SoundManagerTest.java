@@ -23,7 +23,8 @@
 package org.catrobat.catroid.test.io;
 
 import android.media.MediaPlayer;
-import android.test.InstrumentationTestCase;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -34,40 +35,49 @@ import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
+
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 
-public class SoundManagerTest extends InstrumentationTestCase {
+@RunWith(AndroidJUnit4.class)
+public class SoundManagerTest {
 
 	private final SoundManager soundManager = SoundManager.getInstance();
 
 	private Project project;
 	private File soundFile;
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		TestUtils.deleteProjects();
 		createProject();
 		soundManager.clear();
 
 		soundFile = ResourceImporter
-				.createSoundFileFromResourcesInDirectory(getInstrumentation().getContext().getResources(),
+				.createSoundFileFromResourcesInDirectory(InstrumentationRegistry.getContext().getResources(),
 						R.raw.testsound, new File(project.getDefaultScene().getDirectory(), SOUND_DIRECTORY_NAME),
 						"testsound.m4a");
-		super.setUp();
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
+	@After
+	public void tearDown() throws Exception {
 		soundManager.clear();
 		TestUtils.deleteProjects();
-		super.tearDown();
 	}
 
+	@Test
 	public void testPlaySound() {
 		soundManager.playSoundFile(soundFile.getAbsolutePath());
 
@@ -76,6 +86,7 @@ public class SoundManagerTest extends InstrumentationTestCase {
 		assertEquals(144, mediaPlayer.getDuration());
 	}
 
+	@Test
 	public void testClear() {
 		soundManager.playSoundFile(soundFile.getAbsolutePath());
 
@@ -91,6 +102,7 @@ public class SoundManagerTest extends InstrumentationTestCase {
 		}
 	}
 
+	@Test
 	public void testPauseAndResume() {
 		soundManager.playSoundFile(soundFile.getAbsolutePath());
 
@@ -104,6 +116,7 @@ public class SoundManagerTest extends InstrumentationTestCase {
 		assertTrue(mediaPlayer.isPlaying());
 	}
 
+	@Test
 	public void testPauseAndResumeMultipleSounds() {
 		final int playSoundFilesCount = 3;
 		List<MediaPlayer> mediaPlayers = getMediaPlayers();
@@ -129,6 +142,7 @@ public class SoundManagerTest extends InstrumentationTestCase {
 		}
 	}
 
+	@Test
 	public void testMediaPlayerLimit() {
 		assertEquals(7, SoundManager.MAX_MEDIA_PLAYERS);
 
@@ -140,6 +154,7 @@ public class SoundManagerTest extends InstrumentationTestCase {
 		assertEquals(SoundManager.MAX_MEDIA_PLAYERS, mediaPlayers.size());
 	}
 
+	@Test
 	public void testIfAllMediaPlayersInTheListAreUnique() {
 		List<MediaPlayer> mediaPlayers = getMediaPlayers();
 		for (int index = 0; index < SoundManager.MAX_MEDIA_PLAYERS; index++) {
@@ -151,12 +166,14 @@ public class SoundManagerTest extends InstrumentationTestCase {
 		}
 	}
 
+	@Test
 	public void testInitialVolume() {
 		SoundManager soundManager = new SoundManager() {
 		};
 		assertEquals(70.0f, soundManager.getVolume());
 	}
 
+	@Test
 	public void testSetVolume() {
 		List<MediaPlayer> mediaPlayers = getMediaPlayers();
 		MediaPlayerMock mediaPlayerMock = new MediaPlayerMock();
@@ -187,7 +204,7 @@ public class SoundManagerTest extends InstrumentationTestCase {
 	}
 
 	private void createProject() {
-		project = new Project(getInstrumentation().getTargetContext(), "testProject");
+		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 
 		Sprite sprite = new Sprite("TestSprite");
 

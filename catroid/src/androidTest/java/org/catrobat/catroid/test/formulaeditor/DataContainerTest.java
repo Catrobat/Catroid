@@ -23,7 +23,7 @@
 package org.catrobat.catroid.test.formulaeditor;
 
 import android.support.test.InstrumentationRegistry;
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -34,11 +34,18 @@ import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataContainerTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNull;
+
+@RunWith(AndroidJUnit4.class)
+public class DataContainerTest {
 
 	private static final String PROJECT_USER_LIST_NAME_2 = "project_user_list_2";
 	private static final String PROJECT_USER_LIST_NAME = "project_user_list";
@@ -81,8 +88,8 @@ public class DataContainerTest extends AndroidTestCase {
 		USER_LIST_VALUES_STRINGS_AND_NUMBERS.add(42.0);
 		USER_LIST_VALUES_STRINGS_AND_NUMBERS.add("WORLDS");
 	}
-	@Override
-	protected void setUp() {
+	@Before
+	public void setUp() {
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		firstSprite = new SingleSprite("firstSprite");
 		StartScript startScript = new StartScript();
@@ -99,6 +106,7 @@ public class DataContainerTest extends AndroidTestCase {
 		dataContainer.addProjectUserList(PROJECT_USER_LIST_NAME_2);
 	}
 
+	@Test
 	public void testGetUserList() {
 
 		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().deleteUserListByName(PROJECT_USER_LIST_NAME);
@@ -117,6 +125,7 @@ public class DataContainerTest extends AndroidTestCase {
 		assertEquals("getUserList returned wrong UserList values!", USER_LIST_VALUES_SINGLE_NUMBER_STRING, userList.getList());
 	}
 
+	@Test
 	public void testRenameListGlobal() {
 		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().deleteUserListByName(PROJECT_USER_LIST_NAME_2);
 		dataContainer.addProjectUserList(PROJECT_USER_LIST_NAME);
@@ -128,6 +137,7 @@ public class DataContainerTest extends AndroidTestCase {
 		assertEquals(userList.getName(), PROJECT_USER_LIST_NAME_2);
 	}
 
+	@Test
 	public void testRenameListLocal() {
 		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().deleteUserListByName(PROJECT_USER_LIST_NAME_2);
 		dataContainer.addSpriteUserList(PROJECT_USER_LIST_NAME);
@@ -139,6 +149,7 @@ public class DataContainerTest extends AndroidTestCase {
 		assertEquals(userList.getName(), PROJECT_USER_LIST_NAME_2);
 	}
 
+	@Test
 	public void testRenameVariableGlobal() {
 		dataContainer.addProjectUserVariable(PROJECT_USER_VARIABLE_NAME);
 
@@ -149,6 +160,7 @@ public class DataContainerTest extends AndroidTestCase {
 		assertEquals(userVariable.getName(), PROJECT_USER_VARIABLE_NAME_2);
 	}
 
+	@Test
 	public void testRenameVariableLocal() {
 		dataContainer.addSpriteUserVariable(PROJECT_USER_VARIABLE_NAME);
 

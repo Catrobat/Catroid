@@ -22,27 +22,34 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.InstrumentationTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class SetTransparencyActionTest extends InstrumentationTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.fail;
+
+@RunWith(AndroidJUnit4.class)
+public class SetTransparencyActionTest {
 
 	private static final float TRANSPARENCY = 91f;
 	private Formula effect = new Formula(TRANSPARENCY);
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
 	private Sprite sprite;
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		sprite = new SingleSprite("testSprite");
-		super.setUp();
 	}
 
+	@Test
 	public void testTransparency() {
 		assertEquals(0f, sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 
@@ -56,6 +63,7 @@ public class SetTransparencyActionTest extends InstrumentationTestCase {
 		assertEquals(100f, sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNullSprite() {
 		Action action = sprite.getActionFactory().createSetTransparencyAction(null, effect);
 		try {
@@ -65,6 +73,7 @@ public class SetTransparencyActionTest extends InstrumentationTestCase {
 		}
 	}
 
+	@Test
 	public void testBrickWithStringFormula() {
 		sprite.getActionFactory().createSetTransparencyAction(sprite, new Formula(String.valueOf(TRANSPARENCY))).act(1.0f);
 		assertEquals(TRANSPARENCY, sprite.look.getTransparencyInUserInterfaceDimensionUnit());
@@ -73,11 +82,13 @@ public class SetTransparencyActionTest extends InstrumentationTestCase {
 		assertEquals(TRANSPARENCY, sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNullFormula() {
 		sprite.getActionFactory().createSetTransparencyAction(sprite, null).act(1.0f);
 		assertEquals(0f, sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNotANumberFormula() {
 		sprite.getActionFactory().createSetTransparencyAction(sprite, new Formula(Double.NaN)).act(1.0f);
 		assertEquals(0f, sprite.look.getTransparencyInUserInterfaceDimensionUnit());

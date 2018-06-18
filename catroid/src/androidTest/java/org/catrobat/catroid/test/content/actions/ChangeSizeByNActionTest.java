@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.InstrumentationTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
@@ -30,8 +30,15 @@ import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class ChangeSizeByNActionTest extends InstrumentationTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.fail;
+
+@RunWith(AndroidJUnit4.class)
+public class ChangeSizeByNActionTest {
 
 	private static final float INITIALIZED_VALUE = 100f;
 	private static final float CHANGE_VALUE = 44.4f;
@@ -40,12 +47,12 @@ public class ChangeSizeByNActionTest extends InstrumentationTestCase {
 	private static final float DELTA = 0.0001f;
 	private Sprite sprite;
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		sprite = new SingleSprite("testSprite");
-		super.setUp();
 	}
 
+	@Test
 	public void testSize() {
 		assertEquals(INITIALIZED_VALUE, sprite.look.getSizeInUserInterfaceDimensionUnit());
 
@@ -56,6 +63,7 @@ public class ChangeSizeByNActionTest extends InstrumentationTestCase {
 		assertEquals(INITIALIZED_VALUE, sprite.look.getSizeInUserInterfaceDimensionUnit(), DELTA);
 	}
 
+	@Test
 	public void testNullSprite() {
 		ActionFactory factory = new ActionFactory();
 		Action action = factory.createChangeSizeByNAction(null, new Formula(CHANGE_SIZE));
@@ -66,6 +74,7 @@ public class ChangeSizeByNActionTest extends InstrumentationTestCase {
 		}
 	}
 
+	@Test
 	public void testBrickWithStringFormula() {
 		sprite.getActionFactory().createChangeSizeByNAction(sprite, new Formula(String.valueOf(CHANGE_VALUE)))
 				.act(1.0f);
@@ -75,11 +84,13 @@ public class ChangeSizeByNActionTest extends InstrumentationTestCase {
 		assertEquals(INITIALIZED_VALUE + CHANGE_VALUE, sprite.look.getSizeInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNullFormula() {
 		sprite.getActionFactory().createChangeSizeByNAction(sprite, null).act(1.0f);
 		assertEquals(INITIALIZED_VALUE, sprite.look.getSizeInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNotANumberFormula() {
 		sprite.getActionFactory().createChangeSizeByNAction(sprite, new Formula(Double.NaN)).act(1.0f);
 		assertEquals(INITIALIZED_VALUE, sprite.look.getSizeInUserInterfaceDimensionUnit());

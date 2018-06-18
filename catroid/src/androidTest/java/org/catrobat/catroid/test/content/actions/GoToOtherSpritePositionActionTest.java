@@ -23,15 +23,22 @@
 
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class GoToOtherSpritePositionActionTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.fail;
+
+@RunWith(AndroidJUnit4.class)
+public class GoToOtherSpritePositionActionTest {
 
 	private static final float DESTINATION_X_POSITION = 150f;
 	private static final float DESTINATION_Y_POSITION = 300f;
@@ -39,15 +46,15 @@ public class GoToOtherSpritePositionActionTest extends AndroidTestCase {
 	private Sprite destinationSprite;
 	private Action action;
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		sprite = new Sprite("testSprite");
 		destinationSprite = new Sprite("destinationSprite");
 		action = sprite.getActionFactory().createGoToAction(sprite, destinationSprite,
 				BrickValues.GO_TO_OTHER_SPRITE_POSITION);
-		super.setUp();
 	}
 
+	@Test
 	public void testGoToOtherSpritePositionAction() throws InterruptedException {
 		destinationSprite.look.setXInUserInterfaceDimensionUnit(DESTINATION_X_POSITION);
 		destinationSprite.look.setYInUserInterfaceDimensionUnit(DESTINATION_Y_POSITION);
@@ -64,6 +71,7 @@ public class GoToOtherSpritePositionActionTest extends AndroidTestCase {
 		assertEquals(DESTINATION_Y_POSITION, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNullActor() {
 		ActionFactory factory = new ActionFactory();
 		Action action = factory.createGoToAction(null, destinationSprite, BrickValues.GO_TO_OTHER_SPRITE_POSITION);

@@ -59,8 +59,6 @@ import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
-
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
@@ -101,7 +99,7 @@ public class ParserTestSensors {
 	public void testSensorManagerNotInitialized() {
 		SensorHandler.registerListener(null);
 		SensorHandler.unregisterListener(null);
-		SensorHandler.startSensorListener(getInstrumentation().getTargetContext());
+		SensorHandler.startSensorListener(InstrumentationRegistry.getTargetContext());
 
 		if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
 			assertEquals(0d, Math.abs((Double) SensorHandler.getSensorValue(Sensors.Y_ACCELERATION)));
@@ -113,7 +111,7 @@ public class ParserTestSensors {
 	@Test
 	@UiThreadTest
 	public void testSensorHandlerWithLookSensorValue() {
-		SensorHandler.startSensorListener(getInstrumentation().getTargetContext());
+		SensorHandler.startSensorListener(InstrumentationRegistry.getTargetContext());
 		assertEquals(0d, SensorHandler.getSensorValue(Sensors.OBJECT_BRIGHTNESS));
 		SensorHandler.stopSensorListeners();
 	}
@@ -121,7 +119,7 @@ public class ParserTestSensors {
 	@Test
 	@UiThreadTest
 	public void testFaceDetection() {
-		SensorHandler.startSensorListener(getInstrumentation().getTargetContext());
+		SensorHandler.startSensorListener(InstrumentationRegistry.getTargetContext());
 		FaceDetector faceDetector = (FaceDetector) Reflection.getPrivateField(FaceDetectionHandler.class,
 				"faceDetector");
 
@@ -189,7 +187,7 @@ public class ParserTestSensors {
 		SimulatedSoundRecorder simulatedSoundRecorder = new SimulatedSoundRecorder("/dev/null");
 		Reflection.setPrivateField(loudnessSensor, "recorder", simulatedSoundRecorder);
 
-		SensorHandler.startSensorListener(getInstrumentation().getTargetContext());
+		SensorHandler.startSensorListener(InstrumentationRegistry.getTargetContext());
 		assertTrue(simulatedSoundRecorder.isRecording());
 		SensorHandler.stopSensorListeners();
 		assertFalse(simulatedSoundRecorder.isRecording());

@@ -25,7 +25,7 @@ package org.catrobat.catroid.test.devices.phiro;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
-import android.test.InstrumentationTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
@@ -42,29 +42,36 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.io.IOException;
 
-public class PhiroSettingsTest extends InstrumentationTestCase {
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+
+@RunWith(AndroidJUnit4.class)
+public class PhiroSettingsTest {
 
 	private String projectName = "testProject";
 	Context context = null;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 
-		context = this.getInstrumentation().getTargetContext();
+		context = InstrumentationRegistry.getTargetContext();
 		SettingsFragment.setPhiroSharedPreferenceEnabled(context, false);
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
+	@After
+	public void tearDown() throws Exception {
 		SettingsFragment.setPhiroSharedPreferenceEnabled(context, false);
-		super.tearDown();
 	}
 
+	@Test
 	public void testIfPhiroBricksAreEnabledIfItItUsedInAProgram() throws IOException, CompatibilityProjectException,
 			OutdatedVersionProjectException, LoadingProjectException, InterruptedException {
 

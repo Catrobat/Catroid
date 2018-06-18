@@ -24,7 +24,7 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.graphics.BitmapFactory;
 import android.support.test.InstrumentationRegistry;
-import android.test.InstrumentationTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
@@ -41,15 +41,19 @@ import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.test.R;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.File;
 
+import static junit.framework.Assert.assertEquals;
+
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 
-public class SetLookActionTest extends InstrumentationTestCase {
-
-	protected static final int IMAGE_FILE_ID = R.raw.icon;
+@RunWith(AndroidJUnit4.class)
+public class SetLookActionTest {
 	protected String projectName = "testProject";
 	protected File testImage;
 	protected Project project;
@@ -57,15 +61,15 @@ public class SetLookActionTest extends InstrumentationTestCase {
 	protected LookData firstLookData;
 	protected LookData secondLookData;
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		File projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName);
 
 		if (projectDir.exists()) {
 			StorageOperations.deleteDir(projectDir);
 		}
 
-		project = new Project(getInstrumentation().getTargetContext(), projectName);
+		project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
@@ -95,14 +99,13 @@ public class SetLookActionTest extends InstrumentationTestCase {
 		sprite.getLookList().add(secondLookData);
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
+	@After
+	public void tearDown() throws Exception {
 		File projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName);
 
 		if (projectDir.exists()) {
 			StorageOperations.deleteDir(projectDir);
 		}
-		super.tearDown();
 	}
 
 	@Test

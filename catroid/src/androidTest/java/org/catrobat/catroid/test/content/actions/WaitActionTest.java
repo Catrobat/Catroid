@@ -22,22 +22,28 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.actions.WaitAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import static junit.framework.Assert.assertEquals;
 
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-public class WaitActionTest extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+public class WaitActionTest {
 
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
 	private static final float VALUE = 2f;
 	private static final float DELTA = 0.1f;
 
+	@Test
 	public void testWait() {
 		float waitOneSecond = 1.0f;
 		ActionFactory factory = new ActionFactory();
@@ -50,6 +56,7 @@ public class WaitActionTest extends AndroidTestCase {
 		assertThat(action.getTime() - waitOneSecond, is(greaterThan(0.5f)));
 	}
 
+	@Test
 	public void testBrickWithStringFormula() {
 		ActionFactory factory = new ActionFactory();
 		WaitAction action = (WaitAction) factory.createDelayAction(null, new Formula(String.valueOf(VALUE)));
@@ -68,6 +75,7 @@ public class WaitActionTest extends AndroidTestCase {
 		assertEquals(0f, action.getTime(), DELTA);
 	}
 
+	@Test
 	public void testNullFormula() {
 		ActionFactory factory = new ActionFactory();
 		WaitAction action = (WaitAction) factory.createDelayAction(null, null);
@@ -78,6 +86,7 @@ public class WaitActionTest extends AndroidTestCase {
 		assertEquals(0f, action.getTime(), DELTA);
 	}
 
+	@Test
 	public void testNotANumberFormula() {
 		ActionFactory factory = new ActionFactory();
 		WaitAction action = (WaitAction) factory.createDelayAction(null, new Formula(Double.NaN));

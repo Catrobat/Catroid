@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.content.bricks;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -30,21 +30,27 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.actions.EventThread;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 
-public class CommentOutTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class CommentOutTest {
 	private Sprite sprite;
 	private StartScript script;
 	private EventThread sequence;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 		sprite = new Sprite("testSprite");
 		script = new StartScript();
 		sequence = (EventThread) sprite.getActionFactory().createEventThread(Mockito.mock(Script.class));
 	}
 
+	@Test
 	public void testCommentOutSimple() {
 
 		script.addBrick(new WaitBrick(1));
@@ -60,6 +66,7 @@ public class CommentOutTest extends AndroidTestCase {
 		assertEquals(sequence.getActions().size, 3);
 	}
 
+	@Test
 	public void testCommentOutScript() {
 		script.addBrick(new WaitBrick(1));
 		script.addBrick(new WaitBrick(1));

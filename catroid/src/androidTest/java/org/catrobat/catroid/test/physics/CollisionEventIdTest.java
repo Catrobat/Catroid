@@ -23,13 +23,20 @@
 
 package org.catrobat.catroid.test.physics;
 
-import junit.framework.TestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.eventids.CollisionEventId;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class CollisionEventIdTest extends TestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotSame;
 
+@RunWith(AndroidJUnit4.class)
+public class CollisionEventIdTest {
+
+	@Test
 	public void testEqualityOfEventIdsWithTwoSprites() {
 		Sprite sprite1 = new Sprite("sprite1");
 		Sprite sprite2 = new Sprite("sprite2");
@@ -44,6 +51,7 @@ public class CollisionEventIdTest extends TestCase {
 		assertEquals(id1.hashCode(), id2.hashCode());
 	}
 
+	@Test
 	public void testEqualityOfEventIdsWithAnySprite() {
 		Sprite sprite1 = new Sprite("sprite1");
 
@@ -57,6 +65,7 @@ public class CollisionEventIdTest extends TestCase {
 		assertEquals(id1.hashCode(), id2.hashCode());
 	}
 
+	@Test
 	public void testInequalityOfEventIdsWithTwoSprites() {
 		Sprite sprite1 = new Sprite("sprite1");
 		Sprite sprite2 = new Sprite("sprite2");
@@ -68,6 +77,7 @@ public class CollisionEventIdTest extends TestCase {
 		assertNotSame(id2, id1);
 	}
 
+	@Test
 	public void testInequalityOfEventIdsWithMultipleSprites() {
 		Sprite sprite1 = new Sprite("sprite1");
 		Sprite sprite2 = new Sprite("sprite2");
@@ -80,6 +90,7 @@ public class CollisionEventIdTest extends TestCase {
 		assertNotSame(id2, id1);
 	}
 
+	@Test
 	public void testInequalityOfEventIdsWithAnySprite() {
 		Sprite sprite1 = new Sprite("sprite1");
 		Sprite sprite2 = new Sprite("sprite2");

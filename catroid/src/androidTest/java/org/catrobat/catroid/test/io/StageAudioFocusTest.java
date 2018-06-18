@@ -23,26 +23,34 @@
 package org.catrobat.catroid.test.io;
 
 import android.media.AudioManager;
-import android.test.InstrumentationTestCase;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.io.StageAudioFocus;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class StageAudioFocusTest extends InstrumentationTestCase {
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+
+@RunWith(AndroidJUnit4.class)
+public class StageAudioFocusTest {
 
 	private StageAudioFocus audioFocus = null;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		audioFocus = new StageAudioFocus(getInstrumentation().getTargetContext());
+	@Before
+	public void setUp() throws Exception {
+		audioFocus = new StageAudioFocus(InstrumentationRegistry.getTargetContext());
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
-		super.tearDown();
+	@After
+	public void tearDown() throws Exception {
 		audioFocus = null;
 	}
 
+	@Test
 	public void testRequestAndReleaseAudioFocus() {
 		assertFalse(audioFocus.isAudioFocusGranted());
 		audioFocus.requestAudioFocus();
@@ -51,6 +59,7 @@ public class StageAudioFocusTest extends InstrumentationTestCase {
 		assertFalse(audioFocus.isAudioFocusGranted());
 	}
 
+	@Test
 	public void testIfAudioFocusGetsAbandonedOnAudioFocusLossEvent() {
 		audioFocus.requestAudioFocus();
 		assertTrue(audioFocus.isAudioFocusGranted());
