@@ -134,10 +134,7 @@ public class ChangeVariableBrick extends UserVariableBrick {
 
 	@Override
 	public ChangeVariableBrick clone() {
-		ChangeVariableBrick clonedBrick = new ChangeVariableBrick(getFormulaWithBrickField(
-				BrickField.VARIABLE_CHANGE).clone(), userVariable);
-		clonedBrick.setBackPackedData(new BackPackedVariableData(backPackedData));
-		return clonedBrick;
+		return new ChangeVariableBrick(getFormulaWithBrickField(BrickField.VARIABLE_CHANGE).clone(), userVariable);
 	}
 
 	@Override

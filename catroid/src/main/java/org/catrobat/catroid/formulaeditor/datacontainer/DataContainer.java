@@ -34,22 +34,12 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.UserBrickSpriteActivity;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 public class DataContainer extends BaseDataContainer {
-
-	public enum DataType implements Serializable {
-		USER_VARIABLE_SPRITE,
-		USER_VARIABLE_PROJECT,
-		USER_VARIABLE_USERBRICK,
-		USER_LIST_SPRITE,
-		USER_LIST_PROJECT,
-		USER_DATA_EMPTY
-	}
 
 	private transient Project project;
 
@@ -161,25 +151,6 @@ public class DataContainer extends BaseDataContainer {
 		return getUserVariable(sprite, userVariableName, getCurrentUserBrick());
 	}
 
-	public DataType getTypeOfUserVariable(String userVariableName, Sprite sprite) {
-		UserVariable userVariable = findSpriteUserVariable(sprite, userVariableName);
-		if (userVariable != null) {
-			return DataType.USER_VARIABLE_SPRITE;
-		}
-		userVariable = findProjectVariable(userVariableName);
-		if (userVariable != null) {
-			return DataType.USER_VARIABLE_PROJECT;
-		}
-		UserBrick userBrick = getCurrentUserBrick();
-		if (userBrick != null) {
-			userVariable = findUserBrickVariable(userBrick, userVariableName);
-			if (userVariable != null) {
-				return DataType.USER_VARIABLE_USERBRICK;
-			}
-		}
-		return DataType.USER_VARIABLE_PROJECT;
-	}
-
 	public void setSpriteVariablesForSupportContainer(SupportDataContainer container) {
 		if (container.spriteVariables != null) {
 			spriteVariables = container.spriteVariables;
@@ -211,18 +182,6 @@ public class DataContainer extends BaseDataContainer {
 			}
 		}
 		return null;
-	}
-
-	public DataType getTypeOfUserList(String userListName, Sprite sprite) {
-		UserList userList = findSpriteUserList(sprite, userListName);
-		if (userList != null) {
-			return DataType.USER_LIST_SPRITE;
-		}
-		userList = findProjectList(userListName);
-		if (userList != null) {
-			return DataType.USER_LIST_PROJECT;
-		}
-		return DataType.USER_DATA_EMPTY;
 	}
 
 	private void resetAllUserLists() {

@@ -335,8 +335,4 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 	public List<UserScriptDefinitionBrickElement> getUserScriptDefinitionBrickElements() {
 		return definitionBrick.getUserScriptDefinitionBrickElements();
 	}
-
-	@Override
-	public void storeDataForBackPack(Sprite sprite) {
-	}
 }
