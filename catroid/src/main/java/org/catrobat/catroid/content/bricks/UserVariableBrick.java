@@ -29,24 +29,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
-
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewVariableDialogFragment;
-
-import static org.catrobat.catroid.formulaeditor.datacontainer.DataContainer.DataType.USER_DATA_EMPTY;
 
 public abstract class UserVariableBrick extends FormulaBrick implements NewVariableDialogFragment.NewVariableInterface {
 
 	protected UserVariable userVariable;
-
-	@XStreamOmitField
-	protected BackPackedVariableData backPackedData;
 
 	private void updateUserVariableIfDeleted(UserVariableAdapterWrapper userVariableAdapterWrapper) {
 		if (userVariable != null && (userVariableAdapterWrapper.getPositionOfItem(userVariable) == 0)) {
@@ -78,14 +68,6 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewVaria
 		return userVariable;
 	}
 
-	public BackPackedVariableData getBackPackedData() {
-		return backPackedData;
-	}
-
-	public void setBackPackedData(BackPackedVariableData backPackedData) {
-		this.backPackedData = backPackedData;
-	}
-
 	@Override
 	public boolean isEqualBrick(Brick brick, Scene mergeResult, Scene current) {
 		if (!super.isEqualBrick(brick, mergeResult, current)) {
@@ -101,22 +83,6 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewVaria
 
 		return (firstIsProjectVariable && secondIsProjectVariable)
 				|| (!firstIsProjectVariable && !secondIsProjectVariable);
-	}
-
-	@Override
-	public void storeDataForBackPack(Sprite sprite) {
-		DataContainer.DataType type = USER_DATA_EMPTY;
-		if (userVariable != null) {
-			Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
-			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-			DataContainer dataContainer = currentScene.getDataContainer();
-			type = dataContainer.getTypeOfUserVariable(userVariable.getName(), currentSprite);
-		}
-		if (backPackedData == null) {
-			backPackedData = new BackPackedVariableData();
-		}
-		this.backPackedData.userVariable = userVariable;
-		this.backPackedData.userVariableType = type;
 	}
 
 	protected View.OnTouchListener createSpinnerOnTouchListener() {

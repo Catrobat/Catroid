@@ -146,10 +146,7 @@ public class AskSpeechBrick extends UserVariableBrick {
 
 	@Override
 	public AskSpeechBrick clone() {
-		AskSpeechBrick clonedBrick = new AskSpeechBrick(getFormulaWithBrickField(BrickField.ASK_SPEECH_QUESTION)
-				.clone(), userVariable);
-		clonedBrick.setBackPackedData(backPackedData);
-		return clonedBrick;
+		return new AskSpeechBrick(getFormulaWithBrickField(BrickField.ASK_SPEECH_QUESTION).clone(), userVariable);
 	}
 
 	public void showFormulaEditorToEditFormula(View view) {

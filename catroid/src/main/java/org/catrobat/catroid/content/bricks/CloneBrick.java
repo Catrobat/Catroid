@@ -86,10 +86,6 @@ public class CloneBrick extends BrickBaseType {
 		return Collections.emptyList();
 	}
 
-	@Override
-	public void storeDataForBackPack(Sprite sprite) {
-	}
-
 	private void setupValueSpinner(final Context context) {
 		final Spinner valueSpinner = (Spinner) view.findViewById(R.id.brick_clone_spinner);
 

@@ -298,8 +298,4 @@ public class GoToBrick extends BrickBaseType {
 		copy.spinnerSelection = spinnerSelection;
 		return copy;
 	}
-
-	@Override
-	public void storeDataForBackPack(Sprite sprite) {
-	}
 }
