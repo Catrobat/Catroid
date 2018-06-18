@@ -25,102 +25,146 @@
 <resources>
   <!-- General terms -->
   <string name="app_name">포켓 코드</string>
-  <string name="cancel">취소</string>
-  <string name="next">다음</string>
-  <string name="done">완료</string>
-  <string name="select_all">모두 선택</string>
-  <string name="yes">예</string>
-  <string name="no">아니오</string>
-  <string name="back">돌아가기</string>
-  <string name="ok">확인</string>
-  <string name="agree">Agree</string>
-  <string name="disagree">Disagree</string>
-  <string name="delete_account">Delete my account</string>
-  <string name="warning">Warning</string>
-  <string name="backpack_add">스크립트 모음에 추가</string>
-  <string name="close">닫기</string>
-  <string name="error">오류</string>
-  <string name="please_wait">잠시 기다려 주세요</string>
-  <string name="loading">로드중입니다&#8230;</string>
-  <string name="search_hint">검색&#8230;</string>
-  <string name="no_internet">인터넷에 연결되지 않음</string>
-  <string name="loading_check_token">확인중&#8230;</string>
-  <string name="loading_check_facebook_data">페이스북의 데이터를 검색하고&#8230;</string>
-  <string name="loading_check_email">서버에서 전자 메일 유효성 체크&#8230;</string>
-  <string name="loading_check_oauth_token">확인중&#8230;</string>
-  <string name="loading_check_facebook_token_validity">페이스북의 유효성 체크&#8230;</string>
-  <string name="loading_check_oauth_username">서버에서 사용자명 유효성 체크&#8230;</string>
-  <string name="loading_facebook_exchange_token">페이스북의 토큰 유효성 체크&#8230;</string>
-  <string name="loading_facebook_login">페이스북의 로그인 유효성 체크완료&#8230;</string>
-  <string name="loading_google_exchange_code">Google+ code 가 서버에서 변환&#8230;</string>
-  <string name="loading_google_login">Google+ 로그인 완료&#8230;</string>
-  <string name="background">배경</string>
   <string name="stage">무대</string>
   <string name="play">실행</string>
   <string name="settings">설정</string>
   <string name="redo">다시 실행</string>
   <string name="undo">취소</string>
-  <string name="name_exists">이미 존재하는 이름입니다</string>
-  <string name="no_name">이름 없음</string>
-  <string name="new_group">새 그룹</string>
-  <string name="my_group">내 그룹</string>
-  <string name="name">이름:</string>
+  <string name="confirm">확인</string>
+  <string name="cancel">취소</string>
+  <string name="next">다음</string>
+  <string name="back">돌아가기</string>
+  <string name="ok">OK</string>
+  <string name="done">완료</string>
+  <string name="close">닫기</string>
+  <string name="yes">예</string>
+  <string name="no">아니오</string>
+  <string name="agree">동의</string>
+  <string name="disagree">동의하지 않음</string>
+  <string name="select_all">Select all</string>
+  <string name="deselect_all">Deselect all</string>
+  <string name="skip">건너뛰기</string>
+  <string name="warning">경고</string>
+  <string name="error">오류</string>
+  <string name="loading">로드중입니다&#8230;</string>
+  <string name="please_wait">잠시 기다려 주세요</string>
+  <string name="search_hint">검색&#8230;</string>
+  <string name="backpack_add">스크립트 모음에 추가</string>
+  <string name="share_website_text">www.pocketcode.org</string>
+    <!-- Login/Logout Mechanism -->
+    <string name="loading_check_facebook_data">Retrieving Facebook data&#8230;</string>
+  <string name="loading_check_email">Checking if the e-mail is available&#8230;</string>
+  <string name="loading_check_oauth_token">Checking login data&#8230;</string>
+  <string name="loading_check_facebook_token_validity">Checking Facebook data&#8230;</string>
+  <string name="loading_check_oauth_username">Checking if the username is available&#8230;</string>
+  <string name="loading_facebook_exchange_token">Exchanging Facebook data&#8230;</string>
+  <string name="loading_facebook_login">Facebook login on our server is complete&#8230;</string>
+  <string name="loading_google_exchange_code">Exchanging Google+ data&#8230;</string>
+  <string name="loading_google_login">Google+ login on our server is complete&#8230;</string>
+  <string name="delete_account">내 계정 삭제</string>
+  <string name="logout_successful">로그아웃 성공</string>
   <string name="degrees">도</string>
+  <string name="background">배경</string>
   <string name="landscape">가로 보기</string>
   <string name="portrait">세로 보기</string>
   <string name="unknown">알 수 없음</string>
-  <string name="skip">건너뛰기</string>
   <string name="disconnect">연결 종료</string>
   <!--  -->
-  <!-- Main menu activity -->
-  <string name="main_menu_new">새로운</string>
+    <!-- Main Menu -->
   <string name="main_menu_continue">계속하기</string>
+  <string name="main_menu_new">새로운</string>
   <string name="main_menu_programs">프로그램</string>
   <string name="main_menu_help">도움말</string>
   <string name="main_menu_web">탐색하기</string>
-  <string name="main_menu_upload">업로드</string>
-  <string name="main_menu_privacy_policy">Privacy policy</string>
-  <string name="main_menu_about">앱 소개</string>
-  <string name="main_menu_terms_of_use">사용과 서비스 약관</string>
+  <string name="main_menu_upload">업로드하기</string>
   <string name="main_menu_rate_app">평가하기</string>
-  <string name="main_menu_play_store_not_installed">플레이 스토어 앱을 찾을 수 없음</string>
-  <string name="main_menu_logout">로그아웃</string>
+  <string name="main_menu_terms_of_use">사용과 서비스 약관</string>
+  <string name="main_menu_privacy_policy">개인 정보 보호 정책</string>
+  <string name="main_menu_about">앱 소개</string>
   <string name="main_menu_login">로그인</string>
+  <string name="main_menu_logout">로그아웃</string>
   <string name="main_menu_scratch_converter">스크래치 컨버터</string>
-  <string name="logout_successful">로그아웃 성공</string>
+  <string name="main_menu_play_store_not_installed">Google Play not found</string>
   <!--  -->
   <!-- Marketing activity -->
   <string name="marketing_created_with">제작</string>
   <string name="marketing_app_details">세부 정보</string>
-  <string name="marketing_more_on_google_play">구글 플레이에서 앱 열기</string>
+  <string name="marketing_more_on_google_play">구글 플레이에서 다른 앱 보기</string>
   <!-- Settings activity -->
   <string name="preference_title">설정</string>
-  <string name="preference_title_language">Language</string>
-  <string name="preference_description_language">Select the language of the app</string>
-  <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 bricks</string>
-  <string name="preference_description_quadcopter_bricks">ARDrone 2.0 quadcopter 제어 허용하기</string>
-  <string name="preference_title_enable_jumpingsumo_bricks">Parrot Jumping Sumo bricks</string>
-  <string name="preference_description_jumpingsumo_bricks">Allow to control Parrots Jumping Sumo</string>
+  <string name="preference_title_language">언어</string>
+  <string name="preference_description_language">Set the app\'s language</string>
+  <string name="preference_title_accessibility">Accessibility</string>
+  <string name="preference_description_accessibility">Change the app\'s appearance</string>
+  <string name="preference_title_accessibility_profiles">Accessibility profiles</string>
+  <string name="preference_title_accessibility_profile">Predefined profiles</string>
+  <string name="preference_title_accessibility_profile_headline">Profiles</string>
+  <string name="preference_title_accessibility_predefined_profile_headline">Predefined profiles</string>
+  <string name="preference_description_accessibility_profiles">Pick a predefined accessibility profile</string>
+  <string name="preference_title_accessibility_text_appearance">Text Appearance</string>
+  <string name="preference_title_accessibility_handling">Handling</string>
+  <string name="preference_title_accessibility_category_icons_big">Large Icons</string>
+  <string name="preference_description_accessibility_category_icons_big">Increase icon size.</string>
+  <string name="preference_title_accessibility_category_icons_high_contrast">High Contrast Icons</string>
+  <string name="preference_title_accessibility_Brick_icons">Brick Icons</string>
+  <string name="preference_title_accessibility_category_icons">Show icons</string>
+  <string name="preference_description_accessibility_category_icons">Add icons to categories and bricks.</string>
+  <string name="preference_title_accessibility_high_contrast">High Contrast</string>
+  <string name="preference_description_accessibility_high_contrast">Increase the text contrast on bricks.</string>
+  <string name="preference_description_accessibility_large_text">Increase the font size.</string>
+  <string name="preference_title_accessibility_large_text">Large Text</string>
+  <string name="preference_title_accessibility_element_spacing">Large Element Spacing</string>
+  <string name="preference_description_accessibility_element_spacing">Increase element spacing in lists.</string>
+  <string name="preference_title_accessibility_dragndrop_delay">Drag\'n\'drop delay</string>
+  <string name="preference_description_accessibility_dragndrop_delay">Drag\'n\'drop delay for bricks.</string>
+  <string name="preference_title_accessibility_beginner_bricks">Beginner Bricks</string>
+  <string name="preference_description_accessibility_beginner_bricks">Show basic bricks only.</string>
+  <string name="preference_title_accessibility_font_style">Choose a Fontface</string>
+  <string name="accessibility_font_regular">Regular</string>
+  <string name="accessibility_font_serif">명조체</string>
+  <string name="accessibility_font_dyslexic">Dyslexic</string>
+  <string name="accessibility_settings_applied">Changes applied</string>
+  <string name="preference_access_title_profile_default">Default</string>
+  <string name="preference_access_summary_profile_default">Default settings</string>
+  <string name="preference_access_title_profile_custom">My custom profile</string>
+  <string name="preference_access_summary_profile_custom">My personal settings</string>
+  <string name="preference_access_title_profile_argus">Argus</string>
+  <string name="preference_access_summary_profile_argus">High contrast, additional icons</string>
+  <string name="preference_access_title_profile_odin">Odin</string>
+  <string name="preference_access_summary_profile_odin">Large text, large icons, large element
+       spacing, high contrast</string>
+  <string name="preference_access_title_profile_fenrir">Fenrir</string>
+  <string name="preference_access_summary_profile_fenrir">Large element spacing, drag\'n\'drop
+       delay</string>
+  <string name="preference_access_title_profile_tiro">Tiro</string>
+  <string name="preference_access_summary_profile_tiro">Beginner bricks</string>
+    <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
+    <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 블럭</string>
+  <string name="preference_description_quadcopter_bricks">Allow the app to control AR.Drone 2.0 quadcopters</string>
+  <string name="preference_title_enable_jumpingsumo_bricks">Parrot 점핑 스모 블럭</string>
+  <string name="preference_description_jumpingsumo_bricks">Allow the app to control Parrot\'s Jumping Sumo</string>
   <string name="preference_title_enable_mindstorms_nxt_bricks">레고 마인드스톰 NXT 블록</string>
   <string name="preference_title_enable_mindstorms_ev3_bricks">레고 마인드스톰 EV3 블록</string>
-  <string name="preference_description_mindstorms_nxt_bricks">레고 마인드스톰 NXT 로봇 제어 가능 허용하기</string>
-  <string name="preference_description_mindstorms_ev3_bricks">레고 마인드스톰 EV3 로봇 제어 가능 허용하기</string>
+  <string name="preference_description_mindstorms_nxt_bricks">Allow the app to control Lego Mindstorms NXT robots</string>
+  <string name="preference_description_mindstorms_ev3_bricks">Allow the app to control Lego Mindstorms EV3 robots</string>
   <string name="preference_title_mindstorms_nxt_sensors">레고 NXT 센서</string>
   <string name="preference_title_mindstorms_ev3_sensors">레고 EV3 센서</string>
-  <string name="preference_title_drone_config_properties">드론 확인 속성</string>
+  <string name="preference_title_drone_config_properties">AR.Drone 2.0 Configuration</string>
   <string name="preference_title_enable_phiro_bricks">Phiro 블록</string>
-  <string name="preference_description_phiro_bricks">Phiro 로봇 제어 허용</string>
+  <string name="preference_description_phiro_bricks">Allow the app to control Phiro robots</string>
   <string name="preference_title_enable_arduino_bricks">아두이노 블록</string>
+  <string name="preference_title_enable_embroidery_bricks">Embroidery</string>
+  <string name="preference_description_embroidery_bricks">Create patterns for stitching machines</string>
   <string name="preference_title_cast_feature_globally_enabled">전체 기능 활성화</string>
-  <string name="preference_description_cast_feature_globally_enabled">캐스트 버튼을 표시하고  캐스트 프로그램 만들기 허용하기</string>
+  <string name="preference_description_cast_feature_globally_enabled">Show cast button and enable cast projects</string>
   <string name="preference_title_enable_nfc_bricks">NFC(Near Field Communication)</string>
-  <string name="preference_description_nfc_bricks">NFC 태그를 사용할 수 있게 승인</string>
+  <string name="preference_description_nfc_bricks">Allow the app to use NFC tags in programs</string>
   <string name="preference_title_enable_crash_reports">익명 충돌 보고서 보내기</string>
-  <string name="preference_description_crash_reports">충돌 보고서를 자동으로 보내도록 허용</string>
+  <string name="preference_description_crash_reports">Allow the app to send crash reports automatically</string>
   <!-- -->
-  <string name="preference_description_arduino_bricks">아두이노 제어 가능 허용</string>
+    <string name="preference_description_arduino_bricks">Allow the app to control Arduino boards</string>
   <string name="preference_title_enable_raspi_bricks">Raspberry Pi 블록</string>
-  <string name="preference_description_raspi_bricks">Raspberry Pi 컴퓨터 제어 허용</string>
+  <string name="preference_description_raspi_bricks">Allow the app to control Raspberry Pi computers</string>
   <string name="preference_raspi_enable_bricks">Raspberry Pi 블록 사용</string>
   <string name="preference_raspi_help">도움말 / 시작하기</string>
   <string name="preference_raspi_help_summary">연결 설정을 구성하는 방법에 대해 도움을 받으세요</string>
@@ -128,54 +172,59 @@
   <string name="preference_raspi_port">Raspberry Pi 포트</string>
   <!--  -->
   <!-- Scratch Converter activity -->
-  <string name="beta">베타</string>
-  <string name="title_activity_scratch_converter">스크래치 프로그램 변환</string>
-  <string name="error_scratch_program_not_accessible_any_more">으악! 이 프로그램의 데이터는 더 이상 액세스할 수 없습니다!</string>
-  <string name="error_scratch_project_data_not_available">앗! 이 스크래치 프로그램에서 일부 데이터를 로드할 수 없습니다. 나중에 다시 시도하세요!</string>
-  <string name="error_request_timeout">으악! 우리의 서버는 연결할 수 없습니다, 나중에 시도하십시오!</string>
-  <string name="error_scratch_program_conversion_failed">으악! 스크래치 프로그램 변환하지 못했습니다!, 나중에 다시 시도하십시오 </string>
-  <string name="error_specific_scratch_program_conversion_failed_x">으악! 나중에 다시 하십시오 \"%1$s\"를 변환하지 못했습니다!</string>
-  <string name="error_scratch_converter_outdated_app_version">포켓 코드 앱이 구형입니다. 우리의 스크래치 변환기는 최신 포켓 코드 버전만을 지원합니다. 구글 플레이 스토어에서 업데이트하세요!</string>
+    <string name="beta">BETA</string>
+  <string name="error_scratch_program_not_accessible_any_more">Whoops! The program seems to have disappeared
+        or you might have lost access to it.</string>
+  <string name="error_scratch_project_data_not_available">Whoops! Some parts of the program seem to be
+        missing, please try again later.</string>
+  <string name="error_request_timeout">Whoops! Our server did not respond in time, please try again later.</string>
+  <string name="error_scratch_program_conversion_failed">이런! 스크래치 프로그램 변환하지 못했습니다! 나중에 다시 시도하십시오. </string>
+  <string name="error_specific_scratch_program_conversion_failed_x">이런!  \"%1$s\"를 변환하지 못했습니다. 나중에 다시 하십시오!</string>
+  <string name="error_scratch_converter_outdated_app_version">Your version of Pocket Code is outdated. Our Scratch
+        converter only works on the latest version. Please update it through Google Play</string>
   <string name="error_cannot_open_not_existing_scratch_program">이 스크래치 프로그램을 열 수 없습니다. 스크래치 프로그램의 변환/다운로드를 취소 또는 변경/삭제 한 것으로 보입니다!</string>
-  <string name="error_cannot_open_currently_downloading_scratch_program">다운로드하는 동안 스크래치 프로그램을 열 수 없습니다! 나중에 다시 시도하십시오!</string>
-  <string name="error_cannot_open_not_yet_downloaded_scratch_program">다운로드하는 동안 스크래치 프로그램을 열 수 없습니다! 나중에 다시 시도하십시오!</string>
-  <string name="error_cannot_convert_deprecated_scratch_program_x_x">\"%1$s\"을 변환할 수 없습니다! 이전 스크래치 %2$s 프로그램은 지원되지 않습니다!</string>
+  <string name="error_cannot_open_currently_downloading_scratch_program">You can\'t open the program
+        at the moment. Please wait until it\'s downloaded.</string>
+  <string name="error_cannot_open_not_yet_downloaded_scratch_program">You can\'t open the program just yet.
+        Please download it first and then open it.</string>
+  <string name="error_cannot_convert_deprecated_scratch_program_x_x">Cannot convert %1$s. This seems to be
+        an old scratch program from before %2$s, please try another one.</string>
   <plurals name="error_cannot_convert_more_than_x_programs">
-    <item quantity="other">동시에 %d 프로그램 이상으로 변환할 수 없습니다!</item>
+    <item quantity="other">You can\'t convert more than %d programs at the same time. Please wait for the
+            running programs to finish first.</item>
   </plurals>
-  <string name="error_cannot_open_failed_scratch_program">변환이 실패하였기 때문에 스크래치 프로그램을 열 수 없습니다!</string>
-  <string name="search_failed">검색 실패, 나중에 다시 시도하시기 바랍니다!</string>
-  <string name="connection_lost_or_closed_by_server">연결이 안되거나 서버에 의해 폐쇄!</string>
-  <string name="connection_failed">서버에 연결 실패,  나중에 다시 시도!</string>
-  <string name="authentication_failed">인증 실패, 포켓 코드 팀에 문의하십시오!</string>
+  <string name="error_cannot_open_failed_scratch_program">You can\'t open the program because it wasn\'t
+        converted correctly. Please try to convert it again.</string>
+  <string name="search_failed">Nothing found, please retry later.</string>
+  <string name="connection_lost_or_closed_by_server">Server connection lost.</string>
+  <string name="connection_failed">We can\'t connect you to the server right now, please try again later.</string>
+  <string name="authentication_failed">There seems to be a problem with your connection to the service, please
+        contact the Catrobat team!</string>
   <plurals name="scratch_conversion_scheduled_x">
-    <item quantity="other">예정된 %d 스크래치 프로그램&#8230;</item>
+    <item quantity="other">Added %d Scratch programs to the queue&#8230;</item>
   </plurals>
   <string name="scratch_conversion_started">스크래치 프로그램을 변환하기 시작&#8230;</string>
   <string name="convert">변환</string>
-  <string name="converting">변환중</string>
+  <string name="converting">변환중…</string>
   <string name="status_scheduled">예정</string>
   <string name="status_waiting_for_worker">무료 작업자를 찾고&#8230; 잠시만 기다려 주십시오&#8230;</string>
   <string name="status_started">시작&#8230;</string>
   <string name="status_conversion_finished">변환 완료</string>
   <plurals name="status_in_progress_x_jobs">
-    <item quantity="other">진행중: %d 작업</item>
+    <item quantity="other">In progress: %d jobs</item>
   </plurals>
   <plurals name="status_completed_x_jobs">
-    <item quantity="other">%d 작업 완료:</item>
+    <item quantity="other">Completed: %d jobs</item>
   </plurals>
   <string name="status_conversion_failed">변환 실패!</string>
-  <string name="status_conversion_canceled">변환 취소!</string>
   <string name="status_downloading">다운로드중&#8230;</string>
   <string name="status_download_finished">다운로드 완료.</string>
   <string name="status_download_canceled">다운로드 취소!</string>
-  <string name="scratch_programs_in_progress_title">진행중</string>
-  <string name="scratch_programs_finished_title">프로그램 변환</string>
-  <string name="status">상태</string>
-  <string name="title">제목</string>
+  <string name="scratch_programs_in_progress_title">In progress</string>
+  <string name="scratch_programs_finished_title">Converted programs</string>
   <string name="by_x">%1$s에 의해</string>
-  <string name="by_author">작성자</string>
-  <string name="warning_program_visibility">경고: \nThis 전용 프로그램이 될 것으로 보인다. 변환에 실패할 수 있습니다!</string>
+  <string name="warning_program_visibility">WARNING:\nThis seems to be a private program. You can try to
+        convert it but it might not work.</string>
   <string name="instructions">설명</string>
   <string name="notes_and_credits">노트와 크레딧</string>
   <string name="shared_at_x">공유: %1$s</string>
@@ -188,35 +237,39 @@
   <string name="remix_of">리믹스:</string>
   <string name="description_hint">설명을 추가하려면 누르기</string>
   <!-- ScratchReconvertDialog Strings -->
-  <string name="reconvert_text">이 프로그램은 %1$s 변환되었습니다.</string>
+    <string name="reconvert_text">You converted this program converted %1$s ago.</string>
   <plurals name="minutes">
-    <item quantity="other">%d분</item>
+    <item quantity="other">%d minutes</item>
   </plurals>
   <plurals name="hours">
-    <item quantity="other">%d 시간</item>
+    <item quantity="other">%d hours</item>
   </plurals>
   <plurals name="days">
-    <item quantity="other">%d일</item>
+    <item quantity="other">%d days</item>
   </plurals>
-  <string name="reconvert_dialog_download">이미 변환된 프로그램 다운로드</string>
-  <string name="reconvert_dialog_reconvert">프로그램 다시 변환</string>
+  <string name="reconvert_dialog_download">Download the program again</string>
+  <string name="reconvert_dialog_reconvert">Convert this program again</string>
   <!--  -->
   <!-- ERRORS -->
-  <string name="wtf_error">An unexpected Error occurred: Could NOT restore default Project.</string>
+    <!-- Privacy Policy Error -->
+    <string name="declined_privacy_agreement_alert">To use our app, it is necessary to accept our Privacy Policy.
+        However, if you don’t feel comfortable to do so, you can use our free web-services on</string>
+  <string name="wtf_error">예기치 않은 오류가 발생: 복원 기본 프로젝트 없음.</string>
   <!-- Project Handling Errors -->
-  <string name="error_copy_project">An error occurred while copying Project</string>
+    <string name="error_copy_project">프로그램을 복사하는 동안 오류가 발생했습니다.</string>
   <!-- Dialog Errors -->
-  <string name="name_already_exists">이미 존재하는 유저명입니다. 새로 선택해주세요.</string>
-  <string name="name_consists_of_spaces_only">스페이스 만으로 이름을 할 수 는 없습니다.</string>
+    <string name="name_already_exists">This name is already in use, please choose another one.</string>
+  <string name="name_consists_of_spaces_only">You only put spaces into the text field, please enter a name
+        using letters, numbers or other special characters.</string>
   <!-- Recycler View -->
-  <string name="am_empty_list">There are no items in this list yet.</string>
-  <string name="am_backpack">Pack</string>
+    <string name="am_empty_list">There are no items in this list yet. Please add some first.</string>
+  <string name="am_backpack">묶음</string>
   <string name="am_unpack">풀기</string>
   <string name="am_copy">복사하기</string>
   <string name="am_delete">삭제</string>
   <string name="am_rename">이름 바꾸기</string>
-  <string name="dialog_confirm_delete">This cannot be undone!</string>
-  <string name="list_headline_background">배경</string>
+  <string name="am_convert">변환</string>
+  <string name="dialog_confirm_delete">You can\'t undo this!</string>
   <string name="list_headline_sprites">오브젝트</string>
   <!-- Options Menu Options -->
   <string name="backpack">스크립트 모음</string>
@@ -226,65 +279,157 @@
   <string name="show_details">세부 정보 표시</string>
   <string name="hide_details">세부 사항 숨기기</string>
   <!-- Action Mode Titles -->
-  <plurals name="am_projects_title">
-    <item quantity="other">%d Projects</item>
+    <!-- Project Action Mode Titles -->
+    <plurals name="am_pack_projects_title">
+    <item quantity="other">Pack %d Projects</item>
   </plurals>
-  <plurals name="am_scenes_title">
-    <item quantity="other">%d Scenes</item>
+  <plurals name="am_copy_projects_title">
+    <item quantity="other">Copy %d Projects</item>
   </plurals>
-  <plurals name="am_sprites_title">
-    <item quantity="other">%d Objects</item>
+  <plurals name="am_delete_projects_title">
+    <item quantity="other">Delete %d Projects</item>
   </plurals>
-  <plurals name="am_looks_title">
-    <item quantity="other">%d Looks</item>
+  <plurals name="am_rename_projects_title">
+    <item quantity="other">Rename %d Projects</item>
   </plurals>
-  <plurals name="am_sounds_title">
-    <item quantity="other">%d Sounds</item>
+  <plurals name="am_convert_projects_title">
+    <item quantity="other">Convert %d Projects</item>
   </plurals>
-  <plurals name="am_nfc_tags_title">
-    <item quantity="other">%d NFC Tags</item>
+    <!-- Scene Action Mode Titles -->
+    <plurals name="am_pack_scenes_title">
+    <item quantity="other">Pack %d Scenes</item>
   </plurals>
-  <plurals name="am_scripts_title">
-    <item quantity="other">%d Scripts</item>
+  <plurals name="am_unpack_scenes_title">
+    <item quantity="other">Unpack %d Scenes</item>
+  </plurals>
+  <plurals name="am_copy_scenes_title">
+    <item quantity="other">Copy %d Scenes</item>
+  </plurals>
+  <plurals name="am_delete_scenes_title">
+    <item quantity="other">Delete %d Scenes</item>
+  </plurals>
+  <plurals name="am_rename_scenes_title">
+    <item quantity="other">Rename %d Scenes</item>
+  </plurals>
+    <!-- Sprite Action Mode Titles -->
+    <plurals name="am_pack_sprites_title">
+    <item quantity="other">Pack %d Objects</item>
+  </plurals>
+  <plurals name="am_unpack_sprites_title">
+    <item quantity="other">Unpack %d Objects</item>
+  </plurals>
+  <plurals name="am_copy_sprites_title">
+    <item quantity="other">Copy %d Objects</item>
+  </plurals>
+  <plurals name="am_delete_sprites_title">
+    <item quantity="other">Delete %d Objects</item>
+  </plurals>
+  <plurals name="am_rename_sprites_title">
+    <item quantity="other">Rename %d Objects</item>
+  </plurals>
+    <!-- Look Action Mode Titles -->
+    <plurals name="am_pack_looks_title">
+    <item quantity="other">Pack %d Looks</item>
+  </plurals>
+  <plurals name="am_unpack_looks_title">
+    <item quantity="other">Unpack %d Looks</item>
+  </plurals>
+  <plurals name="am_copy_looks_title">
+    <item quantity="other">Copy %d Looks</item>
+  </plurals>
+  <plurals name="am_delete_looks_title">
+    <item quantity="other">Delete %d Looks</item>
+  </plurals>
+  <plurals name="am_rename_looks_title">
+    <item quantity="other">Rename %d Looks</item>
+  </plurals>
+    <!-- Sound Action Mode Titles -->
+    <plurals name="am_pack_sounds_title">
+    <item quantity="other">Pack %d Sounds</item>
+  </plurals>
+  <plurals name="am_unpack_sounds_title">
+    <item quantity="other">Unpack %d Sounds</item>
+  </plurals>
+  <plurals name="am_copy_sounds_title">
+    <item quantity="other">Copy %d Sounds</item>
+  </plurals>
+  <plurals name="am_delete_sounds_title">
+    <item quantity="other">Delete %d Sounds</item>
+  </plurals>
+  <plurals name="am_rename_sounds_title">
+    <item quantity="other">Rename %d Sounds</item>
+  </plurals>
+    <!-- NFC Tag Action Mode Titles -->
+    <plurals name="am_copy_nfc_tags_title">
+    <item quantity="other">Copy %d NFC Tags</item>
+  </plurals>
+  <plurals name="am_delete_nfc_tags_title">
+    <item quantity="other">Delete %d NFC Tags</item>
+  </plurals>
+  <plurals name="am_rename_nfc_tags_title">
+    <item quantity="other">Rename %d NFC Tags</item>
+  </plurals>
+    <!-- Script Action Mode Titles -->
+    <plurals name="am_pack_scripts_title">
+    <item quantity="other">Pack %d bricks</item>
+  </plurals>
+  <plurals name="am_unpack_scripts_title">
+    <item quantity="other">Unpack %d Scripts</item>
+  </plurals>
+  <plurals name="am_copy_scripts_title">
+    <item quantity="other">Copy %d bricks</item>
+  </plurals>
+  <plurals name="am_delete_scripts_title">
+    <item quantity="other">Delete %d Scripts</item>
+  </plurals>
+    <!-- Data Item Action Mode Titles -->
+    <plurals name="am_delete_user_data_items_title">
+    <item quantity="other">Delete %d Data Items</item>
   </plurals>
   <!-- New Dialog Titles -->
-  <string name="new_scene_dialog">New Scene</string>
-  <string name="scene_name">장면 이름:</string>
+    <string name="new_scene_dialog">새로운 장면</string>
   <!-- Delete Dialog Titles -->
   <plurals name="delete_projects">
-    <item quantity="other">Delete these Projects?</item>
+    <item quantity="other">이 프로젝트를 삭제하시겠습니까?</item>
   </plurals>
   <plurals name="delete_scenes">
-    <item quantity="other">Delete these Scenes?</item>
+    <item quantity="other">이 장면을 삭제하시겠습니까?</item>
   </plurals>
   <plurals name="delete_sprites">
-    <item quantity="other">Delete these Objects?</item>
+    <item quantity="other">이 오브젝트를 삭제하시겠습니까?</item>
   </plurals>
   <plurals name="delete_looks">
-    <item quantity="other">Delete these Looks?</item>
+    <item quantity="other">이 모양을 삭제하시겠습니까?</item>
   </plurals>
   <plurals name="delete_sounds">
-    <item quantity="other">Delete these Sounds?</item>
+    <item quantity="other">이 소리를 삭제하시겠습니까?</item>
   </plurals>
   <plurals name="delete_nfc_tags">
-    <item quantity="other">Delete these Tags?</item>
+    <item quantity="other">이 태그를 삭제하시겠습니까?</item>
   </plurals>
   <plurals name="delete_scripts">
-    <item quantity="other">Delete these Scripts?</item>
+    <item quantity="other">이 스크립트를 삭제하시겠습니까?</item>
   </plurals>
   <plurals name="delete_bricks">
-    <item quantity="other">Delete these Bricks?</item>
+    <item quantity="other">이 블록을 삭제하시겠습니까?</item>
   </plurals>
   <!-- Dialog Labels -->
-  <string name="project_name_label">Program:</string>
-  <string name="sprite_name_label">Object name:</string>
-  <string name="look_name_label">Look name:</string>
-  <string name="sound_name_label">Sound name:</string>
-  <!-- Details Labels -->
-  <string name="number_of_scripts">스크립트:</string>
-  <string name="number_of_bricks">블록:</string>
-  <string name="number_of_looks">모양:</string>
-  <string name="number_of_sounds">소리:</string>
+    <string name="project_name_label">Program Name</string>
+  <string name="scene_name">Scene Name</string>
+  <string name="sprite_name_label">Object Name</string>
+  <string name="sprite_group_name_label">Group Name</string>
+  <string name="script_group_label">Script Group Name</string>
+  <string name="look_name_label">Look Name</string>
+  <string name="sound_name_label">Sound Name</string>
+  <string name="string_label">텍스트</string>
+  <string name="data_label">이름</string>
+    <!-- Details -->
+    <string name="project_details">Last access: %s, Size: %s</string>
+  <string name="scene_details">Objects: %d, Looks: %d, Sounds: %d</string>
+  <string name="sprite_details">Bricks: %d, Looks: %d, Sounds: %d</string>
+  <string name="look_details">Measure: %s, Size: %s</string>
+  <string name="sound_duration">Duration: %s</string>
+  <string name="sound_details">Duration: %s, Size: %s</string>
   <!--  -->
   <!-- Rename Dialog Titles -->
   <string name="rename_project">프로그램 이름 바꾸기</string>
@@ -293,108 +438,110 @@
   <string name="rename_look_dialog">모양 이름 바꾸기</string>
   <string name="rename_sound_dialog">소리 이름 바꾸기</string>
   <string name="rename_nfctag_dialog">Nfctag 이름 바꾸기</string>
+  <string name="rename_data_dialog">이름 바꾸기</string>
+    <!-- New Script Group Dialog -->
+    <string name="new_group">새 그룹</string>
+    <!-- New Scene Menu Object -->
+    <string name="new_scene">새로운 장면</string>
   <!-- Action Toasts -->
+    <!-- Backpack -->
   <plurals name="packed_scenes">
-    <item quantity="other">Backpacked %d Scenes!</item>
+    <item quantity="other">%d 장면 묶기!</item>
   </plurals>
   <plurals name="packed_sprites">
-    <item quantity="other">Backpacked %d Objects!</item>
+    <item quantity="other">%d 오브젝트 묶기!</item>
   </plurals>
   <plurals name="packed_looks">
-    <item quantity="other">Backpacked %d Looks!</item>
+    <item quantity="other">%d 모양 묶기!</item>
   </plurals>
   <plurals name="packed_sounds">
-    <item quantity="other">Backpacked %d Sounds!</item>
+    <item quantity="other">%d 소리 묶기!</item>
   </plurals>
-  <string name="packed_script_group">Backpacked 1 Script Group!</string>
+  <string name="packed_script_group">스크립트 그룹 하나를 묶었습니다!</string>
+    <!-- Unpack -->
   <plurals name="unpacked_scenes">
-    <item quantity="other">Unpacked %d Scenes!</item>
+    <item quantity="other">장면 %d 풀기</item>
   </plurals>
   <plurals name="unpacked_sprites">
-    <item quantity="other">Unpacked %d Objects!</item>
+    <item quantity="other">오브젝트 %d 풀기</item>
   </plurals>
   <plurals name="unpacked_looks">
-    <item quantity="other">Unpacked %d Looks!</item>
+    <item quantity="other">모양 %d 풀기</item>
   </plurals>
   <plurals name="unpacked_sounds">
-    <item quantity="other">Unpacked %d Sounds!</item>
+    <item quantity="other">소리 %d 풀기</item>
   </plurals>
   <plurals name="unpacked_scripts">
-    <item quantity="other">Unpacked %d Scripts!</item>
+    <item quantity="other">스크립트 %d 풀기</item>
   </plurals>
+    <!-- Copy -->
   <plurals name="copied_scenes">
-    <item quantity="other">Copied %d Scenes!</item>
+    <item quantity="other">장면 %d가 복사됨</item>
   </plurals>
   <plurals name="copied_sprites">
-    <item quantity="other">Copied %d Objects!</item>
+    <item quantity="other">오브젝트 %d가 복사됨</item>
   </plurals>
   <plurals name="copied_looks">
-    <item quantity="other">Copied %d Looks!</item>
+    <item quantity="other">모양 %d가 복사됨</item>
   </plurals>
   <plurals name="copied_sounds">
-    <item quantity="other">Copied %d Sounds!</item>
+    <item quantity="other">소리%d가 복사됨</item>
   </plurals>
   <plurals name="copied_nfc_tags">
-    <item quantity="other">Copied %d NFC Tags!</item>
+    <item quantity="other"> NFC 태그 %d가 복사됨</item>
   </plurals>
+    <!-- Delete -->
   <plurals name="deleted_projects">
-    <item quantity="other">Deleted %d Projects!</item>
+    <item quantity="other">프로젝트 %d 삭제</item>
   </plurals>
   <plurals name="deleted_scenes">
-    <item quantity="other">Deleted %d Scenes!</item>
+    <item quantity="other">장면 %d 삭제</item>
   </plurals>
   <plurals name="deleted_sprites">
-    <item quantity="other">Deleted %d Sprites!</item>
+    <item quantity="other">스크립트 %d 삭제</item>
   </plurals>
   <plurals name="deleted_looks">
-    <item quantity="other">Deleted %d Looks!</item>
+    <item quantity="other">모양 %d 삭제</item>
   </plurals>
   <plurals name="deleted_sounds">
-    <item quantity="other">Deleted %d Sounds!</item>
+    <item quantity="other">소리 %d 삭제</item>
   </plurals>
   <plurals name="deleted_nfc_tags">
-    <item quantity="other">Deleted %d NFC Tags!</item>
+    <item quantity="other">NFC Tags %d 삭제</item>
   </plurals>
   <plurals name="deleted_scripts">
-    <item quantity="other">Deleted %d Scripts!</item>
+    <item quantity="other">스크립트  %d  삭제</item>
+  </plurals>
+  <plurals name="deleted_Items">
+    <item quantity="other">Deleted %d Items!</item>
   </plurals>
   <!--  -->
   <!-- ProjectListActivity and ProjectListFragment -->
   <string name="project_list_title">프로그램</string>
   <string name="last_used">최종 사용 :</string>
+  <string name="size">프로젝트 크기 :</string>
   <string name="description">설명:</string>
   <string name="set_description">설명 설정</string>
   <string name="details_date_today">오늘</string>
   <!--  -->
   <!-- ScriptListFragment -->
   <string name="fragment_script_text_description">스크립트를 추가하려면 \"+\"를 터치</string>
-  <plurals name="number_of_bricks_to_delete">
-    <item quantity="other">블록 삭제</item>
-  </plurals>
-  <plurals name="number_of_bricks_to_copy">
-    <item quantity="other">%d 블록 복사</item>
-  </plurals>
-  <plurals name="number_of_bricks_to_backpack">
-    <item quantity="other"> %d 스크립트 모음</item>
-  </plurals>
   <!--  -->
   <!-- LookListFragment -->
   <string name="fragment_look_text_description">모양을 추가하려면 \"+\"를 터치하세요</string>
   <string name="pocket_paint_not_installed_title">포켓 페인트가 설치되어 있지 않습니다!</string>
-  <string name="pocket_paint_not_installed_message">Please install Pocket Paint</string>
+  <string name="pocket_paint_not_installed_message">Please install Pocket Paint.</string>
   <string name="default_look_name">모양</string>
   <string name="select_look_from_gallery">그림 선택하기</string>
   <string name="select_look_from_camera">사진 선택하기</string>
-  <string name="look_measure">측정:</string>
   <!--  -->
   <!-- SoundListFragment -->
   <string name="fragment_sound_text_description">소리를 추가하려면 \"+\"를 터치하세요</string>
   <string name="sound_select_source">소리 선택</string>
-  <string name="length">길이:</string>
   <!--  -->
   <!-- NfcTagListFragment -->
-  <string name="fragment_nfctag_text_description">추가할 태그를 검사합니다</string>
-  <string name="ndef_record_label">NDEF 레코드 유형으로</string>
+    <string name="fragment_nfctag_text_description">Scan NFC tags to add them</string>
+  <string name="ndef_record_label">as record type</string>
   <string name="brick_set_nfc_tag">다음 NFC 태그 설정</string>
   <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
   <string name="default_tag_name">nfc_tag</string>
@@ -407,9 +554,14 @@
   <string name="tnf_well_known_sms">SMS 메세지</string>
   <string name="tnf_well_known_mailto">이메일</string>
   <!--  -->
+    <!-- DataListFragment -->
+    <string name="global_vars_headline">Variables for all objects</string>
+  <string name="local_vars_headline">Variables for this object only</string>
+  <string name="global_lists_headline">Lists for all objects</string>
+  <string name="local_lists_headline">Lists for this object only</string>
   <!-- Backpack -->
   <string name="backpack_title">당신의 스크립트 모음</string>
-  <string name="pack">Pack</string>
+  <string name="pack">묶기</string>
   <string name="unpack">풀기</string>
   <!--  -->
   <!-- Sprite Attribute Activity -->
@@ -418,18 +570,14 @@
   <string name="looks">모양</string>
   <string name="sounds">소리</string>
   <string name="nfctags">NFC 태그</string>
-  <string name="size">프로젝트 크기 :</string>
   <!-- NewProjectDialog -->
-  <string name="new_project_dialog_title">새로운 프로그램</string>
-  <string name="new_project_dialog_hint">내 프로그램</string>
-  <string name="new_project_description_dialog_hint">내 설명</string>
-  <string name="new_project_name">프로그램 이름</string>
+    <string name="new_project_dialog_title">새 프로그램</string>
   <string name="new_project_empty">빈 프로그램 만들기</string>
   <string name="new_project_default">예제 프로그램 작성</string>
-  <string name="new_project_default_drone">Create example AR.Drone 2.0 program</string>
-  <string name="new_project_default_jumping_sumo">Create example Jumping Sumo program</string>
+  <string name="new_project_default_drone"> AR.Drone 2.0 프로그램 예제 만들기</string>
+  <string name="new_project_default_jumping_sumo">Jumping Sumo 프로그램 예제 만들기</string>
   <string name="project_orientation_title">방향:</string>
-  <string name="project_select_screen_title">화면</string>
+  <string name="project_select_screen_title">Screen:</string>
   <!--  -->
   <!-- NewSpriteDialog -->
   <string name="new_sprite_dialog_title">새 오브젝트</string>
@@ -440,15 +588,44 @@
   <string name="add_look_draw_new_image">그림 그리기</string>
   <string name="add_look_choose_image">그림 선택하기</string>
   <string name="add_look_media_library">미디어 라이브러리</string>
-  <string name="add_look_drone_video">AR.Drone 2.0 video</string>
+  <string name="add_look_drone_video">AR.Drone 2.0 비디오</string>
   <!--  -->
   <!-- NewSoundDialog -->
   <string name="new_sound_dialog_title">소리 추가</string>
   <string name="add_sound_from_recorder">소리 녹음</string>
   <string name="add_sound_choose_file">파일 선택</string>
   <string name="add_sound_music">음악 작곡가</string>
+    <!-- Rating Dialog -->
+    <string name="rating_dialog_title">Rate Pocket Code</string>
+  <string name="rating_google_play_dialog_text">If you enjoy this app, please rate us on Google Play.</string>
+  <string name="rating_dialog_rate_now">지금</string>
+  <string name="rating_dialog_rate_later">다음에</string>
+  <string name="rating_dialog_rate_never">사용 안 함</string>
+    <!--  -->
+    <!-- Terms of Use Dialog -->
+    <string name="dialog_terms_of_use_title">사용과 서비스 약관</string>
+  <string name="dialog_terms_of_use_info">In order to
+    be allowed to use the apps and other executables offered by the Catrobat project, you
+    must agree to our Terms of Use and Services. You have to follow these terms strictly when using our apps
+    and other executables. Please see the link below for their precise formulation.\n</string>
+  <string name="dialog_terms_of_use_link_text">사용과 서비스 약관</string>
+    <!--  -->
+    <!-- Terms of Use Dialog Parrot ARDrone-->
+    <string name="dialog_terms_of_use_link_text_parrot_reminder">포켓 코드 이용 약관 및 서비스</string>
+  <string name="dialog_terms_of_use_parrot_reminder_text">You are about to use this app together with Parrot\'s
+        AR.Drone 2.0. We strongly remind you to abide by both Parrot\'s and Catrobat\'s Terms of Use and Services.</string>
+  <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">다시 보지 않기</string>
+    <!--  -->
+    <!-- Terms of Use Dialog Parrot Jumping Sumo-->
+    <string name="dialog_terms_of_use_jumpingsumo_reminder_text">You are about to use this app together with
+        Parrot\'s Jumping Sumo. We strongly remind you to abide by both Parrot\'s and Catrobat\'s Terms of Use and
+        Services.</string>
+    <!--  -->
   <!-- Privacy Policy -->
-  <string name="dialog_privacy_policy_title">Privacy policy</string>
+    <string name="dialog_privacy_policy_title">개인 정보 보호 정책</string>
+  <string name="disclaimer_privacy_police_header_headline">Welcome!</string>
+  <string name="disclaimer_privacy_policy_header">Before you can start coding, please read and accept our Privacy 
+        Policy to use the app:</string>
   <string name="dialog_privacy_policy_text">Version 2.0, 20 September 2017\n\n
 
         To offer you all collaborative benefits of our services and the associated account, it is necessary to
@@ -457,17 +634,18 @@
     • To use your account in our systems, and to inform you about necessary changes about your account (e.g.,
         updates/violation of our Use of Terms of Use and Service or of community rules) or our policies, we will
         store your username and, if provided by you, your E-Mail address. If you’ve connected your account via Google
-        Plus or Facebook, we additionally store an identification key connected to your account on these services. We
+        Plus or Facebook, we will additionally store an identification key connected to your account on these
+        services. We
         will not use this data for any other (e.g., marketing) purposes, unless you explicitly allowed us to do so.\n\n
 
     • To avoid misuse of our services (e.g., through user contributed uploads or comments) for illegal
         purposes, the user
-        generated public data will be stored internally in a database, together with a timestamp and the used IP
-        address.\n\n
+        generated public data will be stored internally in a database together with a timestamp and the IP
+        address that was used.\n\n
 
     • To improve our services (apps and websites) and to do scientific research on ICT and STEM education, we
         use Google
-        Analytics, Crashlytics and Firebase by Google Inc. to get metadata about the usage (e.g., timestamps, visited
+        Analytics, Crashlytics and Firebase by Google Inc. to gather metadata (e.g., timestamps, visited
         pages/screens, used operating system, and information about the network provider). This analysis and the collected
         data is not linked to your profile and does not contain any personal information.\n\n
 
@@ -479,7 +657,7 @@
     • You can withdraw the usage of this data at any time by deleting your account through your profile page on
         https://share.catrob.at/. After deleting your account you will still be able to use the provided services,
         but not to collaborate, e.g., through uploading programs, commenting or liking. Also all provided content
-        linked to your account, e.g. uploaded programs, comments, will get deleted.\n\n
+        linked to your account, e.g. uploaded programs, comments, will be deleted.\n\n
 
     • All Services are provided by the non-profit free open source Catrobat project under the umbrella of the
         International Catrobat Association – Verein zur Förderung freier Software (Graz, Austria).\n\n
@@ -492,65 +670,39 @@
 
     In case you are below the age of 16, this policy must be accepted by a legal guardian (usually parents).
     </string>
-  <string name="dialog_privacy_policy_declined_text">It is necessary to agree the Privacy Policy to register or to
-        further use your account. If you do not want that this data gets collected you can delete your existing account
-        via the profile page on our web interface and still use all services of this app that do not need an account.
+  <string name="dialog_privacy_policy_declined_text">It is necessary to agree to the Privacy Policy to register or to
+        continue using your account. If you do not want us to collect this data, you can delete your
+        account via the profile page on our web interface. Then you will still be able to use all services that do
+        not require an account.
     </string>
   <!-- -->
-  <!-- Terms of Use Dialog -->
-  <string name="dialog_terms_of_use_title">사용과 서비스 약관</string>
-  <string name="dialog_terms_of_use_info">포켓 코드와 Catrobat 프로그램에 의해 제공하는 다른 실행 파일을 사용하도록 허용하려면 우리의 이용 약관에 동의하고 포켓 코드와 우리의 다른 실행 파일을 사용할 때 엄격하게 약관을 따라야 합니다. 자세한 세부규정은 아래 링크를 참조하십시오.\n</string>
-  <string name="dialog_terms_of_use_link_text">사용과 서비스 약관</string>
-  <!--  -->
-  <!-- Terms of Use Dialog Parrot ARDrone-->
-  <string name="dialog_terms_of_use_link_text_parrot_reminder">포켓 코드 이용 약관 및 서비스</string>
-  <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use this app together with Parrot\'s
-        AR.Drone 2.0. We strongly remind you to abide to Parrot\'s Terms of Use and Services for the drone and to
-        Catrobat\'s Terms of Use and Services.</string>
-  <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">다시 보지 않기</string>
-  <!--  -->
-  <!-- Terms of Use Dialog Parrot Jumping Sumo-->
-  <string name="dialog_terms_of_use_jumpingsumo_reminder_text">You attempt to use Pocket Code together with Parrot\'s
-        Jumping Sumo. We strongly remind you to abide to Parrot\'s Terms of Use for the drone and to
-        Catrobat\'s Terms of Use for Pocket Code.</string>
-  <!--  -->
   <!-- About Dialog -->
   <string name="dialog_about_title">앱 소개</string>
-  <string name="dialog_about_license_info">포켓 코드는 시각적인 프로그래밍 언어인 Catrobat을 위한 안드로이드 장치의 프로그래밍 환경과 출력이다.\n\n 
-포켓 코드의 소스코드는 대부분 GNU AGPL v3 라이센스이다. 라이센스에 대한 정확한 세부 사항은 아래 링크 참조하세요. \n</string>
+  <string name="dialog_about_license_info">This app offers a programming
+        environment and interpreter for the visual
+        programming language Catrobat.\n
+        The source code of this app is mainly licensed under the GNU AGPL v3 License.
+        For further details on the license see the link below.\n</string>
   <string name="dialog_about_license_link_text">소스 코드 라이센스</string>
   <string name="dialog_about_catrobat_link_text">Catrobat에 대하여</string>
   <!--  -->
-  <!-- SoundRecorderActivty -->
+    <!-- NetworkAlertDialog -->
+    <string name="error_no_network_title">네트워크 연결 불가</string>
+  <string name="error_no_network">이 포켓 코드 프로그램을 사용 하 여 네트워크 연결을 해야 합니다. 모바일 네트워크 또는 Wi-fi 설정에서 설정하십시오.</string>
+  <plurals name="bricks_using_network_headline">
+    <item quantity="other">The following bricks need a network connection:</item>
+  </plurals>
+    <!-- UploadProjectDialog -->
+    <string name="error_no_program_name_entered">프로그램 이름을 입력하십시오.</string>
+  <string name="upload_button">업로드하기</string>
+  <string name="upload_project_dialog_title">프로그램 업로드</string>
+  <string name="upload_description">설명:</string>
+  <string name="upload_tag_dialog_title">Please choose up to three categories</string>
+    <!-- SoundRecorderActivity -->
   <string name="soundrecorder_name">소리 녹음기</string>
   <string name="soundrecorder_error">녹음 실패</string>
   <string name="soundrecorder_recorded_filename">녹음</string>
   <string name="soundrecorder_text_view">녹음을 시작하고 중지하려면 위의 아이콘을 터치하세요.</string>
-  <!--  -->
-  <!-- Music activity -->
-  <string name="music_recorded_filename">음악</string>
-  <!--  -->
-  <!-- PreStage activity -->
-  <string name="prestage_text_to_speech_engine_not_installed">텍스트 음성 변환 엔진이 설치되어 있지 않습니다! \n 설치하겠습니까?</string>
-  <string name="prestage_resource_not_available_title">구성 요소 사용할 수 없음</string>
-  <string name="prestage_resource_not_available_text">이 게임은 장치에서 실행할 수 없습니다. 다음 구성 요소는 사용할 수 없습니다: \n\n</string>
-  <string name="prestage_resource_in_use_text">Another device is connected to the Jumping Sumo. Be sure, you
-        are the only controller for the drone.</string>
-  <string name="prestage_no_flash_available">\u2022 플래시\n</string>
-  <string name="prestage_no_vibrator_available">\u2022 진동\n</string>
-  <string name="prestage_no_acceleration_sensor_available">\u2022 가속센서\n</string>
-  <string name="prestage_no_inclination_sensor_available">\u2022 기울기센서\n</string>
-  <string name="prestage_no_compass_sensor_available">\u2022 컴퍼스\n</string>
-  <string name="prestage_no_gps_sensor_available">\u2022 GPS\n</string>
-  <string name="prestage_text_to_speech_error">\u2022 텍스트 음성 변환 엔진\n</string>
-  <string name="prestage_no_back_camera_available">\u2022 후면 카메라\n</string>
-  <string name="prestage_no_camera_available">\u2022 얼굴인식\n</string>
-  <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
-  <string name="prestage_no_front_camera_available">\u2022 전면 카메라\n</string>
-  <string name="prestage_default_resource_not_available">\u2022 알 수 없는 구성요소\n</string>
-  <string name="no_nfc_available">NFC 이용 불가</string>
-  <string name="nfc_not_activated">NFC를 활성화하고 다시 응용 프로그램으로 돌아가세요!</string>
-  <string name="nfc_facedetection_support">NFC와 얼굴인식의 결합은 문제가 발생할 수 있습니다!</string>
   <!--  -->
   <!-- Brick context dialog -->
   <string name="brick_context_dialog_move_brick">블록 이동</string>
@@ -567,45 +719,76 @@
   <!-- Play scene dialog -->
   <string name="play_scene_dialog_title">플레이 장면:</string>
   <string name="play_scene_dialog_default">첫 번째 장면 (%1$s)</string>
-  <string name="play_scene_dialog_current">현재 (\"%1$s\")</string>
+  <string name="play_scene_dialog_current">Current Scene (%1$s)</string>
   <!--  -->
   <!-- Sign In dialogs -->
   <string name="sign_in_dialog_title">로그인</string>
   <string name="username">아이디</string>
-  <string name="password">비밀번호:</string>
-  <string name="password_forgotten">비밀번호를 분실하셨습니까?</string>
+  <string name="password">비밀번호</string>
+  <string name="password_forgotten">Forgot your password?</string>
   <string name="new_user_registered">새 계정이 만들어졌습니다.</string>
   <string name="user_logged_in">로그인 성공</string>
-  <string name="register_error">로그인할 수 없음</string>
+  <string name="register_error">Login invalid</string>
   <string name="register_terms">등록함으로써, 우리에게 동의하는 것입니다</string>
   <string name="register_code_terms_of_use_text">사용과 서비스 약관</string>
   <string name="login">로그인</string>
   <string name="register">등록</string>
-  <string name="or">또는</string>
   <string name="password_confirm">비밀번호 확인</string>
   <string name="accountName">이메일</string>
   <string name="signin_thanks">가입해 주셔서 감사합니다!</string>
   <string name="signin_choose_username">사용자 이름을 선택하십시오.</string>
-  <string name="signin_choose_username_empty">사용자 이름을 입력해 주세요.</string>
+  <string name="signin_choose_username_empty">Please enter a username!</string>
   <string name="signin_choose_username_hint">사용자 이름은 당신의 진짜 이름을 사용할 수 없습니다.</string>
-  <string name="oauth_username_taken">이미 사용중인 사용자 이름입니다. 다른 하나를 선택하십시오!</string>
+  <string name="oauth_username_taken">Someone else already uses this name. Please choose a different one!</string>
   <string name="show_password">비밀 번호 표시</string>
   <string name="register_password_mismatch">비밀번호가 일치하지 않습니다</string>
   <string name="sign_in_error">로그인 중 오류가 발생했습니다</string>
+  <string name="error_google_plus_sign_in">Google Sign-In error. Status: %s</string>
+  <string name="error_facebook_session_expired">Session expired, please log in.</string>
+  <string name="sign_in_with_facebook">Sign in with Facebook</string>
+  <string name="sign_in_with_google">Sign in with Google</string>
   <!--  -->
   <!-- OverwriteRenameDialog Strings -->
-  <string name="overwrite_text">이 이름 가진 프로그램은 이미 존재합니다. 다른 하나를 선택하십시오!</string>
-  <string name="overwrite_replace">이전 프로그램을 교체하기</string>
+    <string name="overwrite_text">A program with this name already exists. Please choose a different name!</string>
+  <string name="overwrite_replace">Replace Program</string>
   <string name="overwrite_rename">다운로드한 프로그램 이름 바꾸기</string>
   <!--  -->
   <!-- OverwriteRenameMediaDialog -->
-  <string name="overwrite_replace_look">현재 모양 교체</string>
+    <string name="overwrite_replace_look">Replace Look</string>
   <string name="overwrite_rename_look">다운로드한 모양 이름 바꾸기</string>
-  <string name="overwrite_replace_sound">현재 소리 교체</string>
+  <string name="overwrite_replace_sound">Replace sound</string>
   <string name="overwrite_rename_sound">다운로드한 소리 이름 바꾸기</string>
-  <string name="overwrite_replace_default">현재 미디어 교체</string>
+  <string name="overwrite_replace_default">Replace Media</string>
   <string name="overwrite_rename_default">현재 미디어 교체</string>
   <!-- -->
+    <!-- Music activity -->
+    <string name="pocket_music_default_project_name">Untitled Song</string>
+  <string name="pocket_music_default_track_name">Track 1</string>
+    <!--  -->
+    <!-- PreStage activity -->
+    <string name="prestage_text_to_speech_engine_not_installed">텍스트 음성 변환 엔진이 설치되어 있지 않습니다! \n 설치하겠습니까?</string>
+  <string name="prestage_resource_not_available_title">구성 요소 사용할 수 없음</string>
+  <string name="prestage_resource_not_available_text">Unfortunately this program does not work on your device.
+        The following components are unavailable:\n\n</string>
+  <string name="prestage_resource_in_use_text">다른 장치가 점핑 스모와 연결되어 있습니다. 다른 기기가 드론과 연결되어 있는 것은 아닌지 확인하세요.</string>
+  <string name="prestage_no_flash_available">\u2022 플래시\n</string>
+  <string name="prestage_no_vibrator_available">\u2022 진동\n</string>
+  <string name="prestage_no_acceleration_sensor_available">\u2022 가속센서\n</string>
+  <string name="prestage_no_inclination_sensor_available">\u2022 기울기센서\n</string>
+  <string name="prestage_no_compass_sensor_available">\u2022 컴퍼스\n</string>
+  <string name="prestage_no_gps_sensor_available">\u2022 GPS\n</string>
+  <string name="prestage_text_to_speech_error">\u2022 텍스트 음성 변환 엔진\n</string>
+  <string name="prestage_no_back_camera_available">\u2022 Rear camera\n</string>
+  <string name="prestage_no_camera_available">\u2022 얼굴인식\n</string>
+  <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n
+</string>
+  <string name="prestage_no_front_camera_available">\u2022 Front camera\n</string>
+  <string name="prestage_default_resource_not_available">\u2022 알 수 없는 구성요소\n</string>
+  <string name="no_nfc_available">NFC 이용 불가</string>
+  <string name="nfc_not_activated">Please activate NFC then press Back to return to the app!</string>
+  <string name="nfc_facedetection_support">Using NFC and face detection at the same time might lead to performance
+        issues!</string>
+    <!--  -->
   <!-- Stage menu dialog -->
   <string name="stage_dialog_back">돌아가기</string>
   <string name="stage_dialog_resume">이어서 실행</string>
@@ -626,6 +809,7 @@
   <!-- -->
   <!-- Brick categories -->
   <string name="categories">카테고리</string>
+  <string name="category_embroidery">Embroidery</string>
   <string name="category_motion">동작</string>
   <string name="category_looks">모양</string>
   <string name="category_pen">펜</string>
@@ -696,8 +880,8 @@
   <string name="brick_set_look">모양 바꾸기</string>
   <string name="brick_set_look_by_index">번호와 함께 모양 바꾸기</string>
   <string name="brick_set_background">배경 설정</string>
+  <string name="brick_set_background_and_wait">Set background and wait</string>
   <string name="brick_set_background_by_index">설정된 숫자로 배경 설정</string>
-  <string name="brick_and_wait">그리고 대기</string>
   <string name="brick_when_background">배경이 바뀔 때</string>
   <string name="brick_set_size_to">크기 설정하기</string>
   <string name="brick_change_size_by">다음 크기로 바꾸기</string>
@@ -790,7 +974,6 @@
   <string name="brick_if_begin_second_part">참이라면</string>
   <string name="brick_if_else">아니면</string>
   <string name="brick_if_end">조건문 끝</string>
-  <string name="brick_broadcast_invalid_symbol">" \n \"물리적으로 충돌했을 때\"-블록에 대한 신호: \n 다시 시도하세요!"</string>
   <string name="brick_set_variable">변수 정하기</string>
   <string name="brick_change_variable">변수 바꾸기</string>
   <string name="brick_variable_spinner_create_new_variable">새로운&#8230;</string>
@@ -809,7 +992,7 @@
   <string name="brick_replace_item_in_userlist_item_at_index">위치에서</string>
   <string name="brick_replace_item_in_userlist_with_value">으로</string>
   <!--  -->
-  <!-- defaultValues -->
+    <!-- Default Values -->
   <string name="default_project_name">내 첫 프로그램</string>
   <string name="default_scene_name">장면 %1$d</string>
   <string name="default_project_background_name">배경</string>
@@ -821,7 +1004,7 @@
   <string name="default_project_sprites_bird_name_wing_down">새 날개를 아래로</string>
   <string name="default_project_sprites_tweet_1">Tweet1</string>
   <string name="default_project_sprites_tweet_2">Tweet2</string>
-  <!-- defaultCastValues -->
+    <!-- Default ChromeCast Values -->
   <string name="default_cast_project_background_name">배경</string>
   <string name="default_cast_project_cloud_name">클라우드</string>
   <string name="default_cast_project_cloud_sprite_name1">클라우드1</string>
@@ -835,8 +1018,8 @@
   <string name="default_cast_project_sprites_tweet_2">Tweet2</string>
   <string name="default_cast_project_var_direction">방향</string>
   <string name="default_cast_project_name">첫 번째 내 캐스트 프로그램</string>
-  <!-- defaultDroneValues -->
-  <string name="default_drone_project_name">My first AR.Drone 2.0 program</string>
+    <!-- Default Drone Values -->
+    <string name="default_drone_project_name">첫 번째 AR.Drone 2.0 프로그램</string>
   <string name="default_drone_project_sprites_takeoff">이륙</string>
   <string name="default_drone_project_sprites_flip">뒤집기</string>
   <string name="default_drone_project_sprites_up">위로</string>
@@ -852,10 +1035,10 @@
   <string name="drone_brick_set_x">X:</string>
   <!--  -->
   <!-- Drone config spinner values  -->
-  <string name="drone_config_indoor_with_hull">구조 있는 내부</string>
-  <string name="drone_config_indoor_without_hull">구조 없는 내부</string>
-  <string name="drone_config_outdoor_with_hull">구조 있는 외부</string>
-  <string name="drone_config_outdoor_without_hull">구조 없는 내부</string>
+    <string name="drone_config_indoor_with_hull">선체가 있는 실내</string>
+  <string name="drone_config_indoor_without_hull">선체가 없는 실내</string>
+  <string name="drone_config_outdoor_with_hull">선체가 있는 실외</string>
+  <string name="drone_config_outdoor_without_hull">선체가 없는 실외</string>
   <!-- Drone altitude limit values  -->
   <string name="drone_set_altitude_max_3m">3 미터</string>
   <string name="drone_set_altitude_max_5m">5 미터</string>
@@ -877,9 +1060,8 @@
   <string name="drone_set_tilt_outdoor">20 도</string>
   <string name="drone_set_tilt_max">30 도</string>
   <!-- Notifications -->
-  <string name="notification_invalid_text_entered">값을 입력하십시오</string>
   <string name="notification_screenshot_ok">캡쳐 하기 이미지 저장</string>
-  <string name="notification_download_project_cancel">다운로드 프로그램 취소</string>
+  <string name="notification_download_project_cancel">Canceled program download</string>
   <string name="notification_reconvert_download_program_cancel">프로그램 다운로드/변환 취소</string>
   <string name="notification_copy_title_pending">"복사 중"</string>
   <string name="notification_copy_pending">복사 진행 중</string>
@@ -895,70 +1077,60 @@
   <string name="notification_download_pending">다운로드 진행 중</string>
   <string name="notification_download_finished">다운로드 성공</string>
   <string name="notification_title_open">"열기"</string>
-  <string name="notification_low_battery">주의. 배터리가 부족합니다. 현재 상태 =</string>
-  <string name="project_rename">(프로그램 이름이 변경됩니다.)</string>
+  <string name="notification_low_battery_with_value">Attention. Battery is low. Current status is %d</string>
   <string name="size_of_project">크기:</string>
-  <string name="upload_button">업로드</string>
-  <string name="upload_project_dialog_title">프로그램 업로드</string>
-  <string name="upload_description">설명:</string>
-  <string name="upload_tag_dialog_title">최대 3개의 카테고리 선택</string>
   <string name="drone_emergency_battery_low">배터리 부족 (자동 종료).</string>
   <string name="drone_emergency_camera">카메라가 응답하지 않습니다.</string>
   <string name="drone_emergency_ultrasound">초음파 센서가 응답하지 않습니다.</string>
-  <string name="drone_emergency_angle">AR.Drone 2.0 Euler angles went too high. Motors shutdown to prevent dangerous
+  <string name="drone_emergency_angle">AR.Drone 2.0 Euler angles went too high. Motors shut down to prevent dangerous
         behavior.</string>
   <string name="drone_emergency_cutout">환경때문에 모터가 정지되었습니다.</string>
   <string name="drone_alert_battery_low">다시 이륙하기에는 배터리가 부족합니다.</string>
-  <string name="drone_alert_ultrasound">Ultrasound sensor can\'t determine AR.Drone 2.0 altitude.</string>
+  <string name="drone_alert_ultrasound">초음파 센서가 AR.Drone 2.0의 고도를 결정하지 못 합니다. </string>
   <string name="drone_alert_vision">바닥의 카메라가 속도를 측정할 수 없습니다.</string>
   <string name="drone_emergency_title">긴급</string>
   <!--  -->
   <!-- Error messages -->
-  <string name="error_no_writiable_external_storage_available">포켓 코드는 SD 카드같은 쓰기 가능한 외장형 스토리지가 필요하지만 아무것도 찾을 수 없습니다. \n 외부 저장장치 쓰기 또는 SD 카드를 삽입하여 이 문제를 해결할 수 있습니다. 다시 시도하십시오.</string>
-  <string name="error_no_program_name_entered">프로그램 이름을 입력하십시오.</string>
-  <string name="error_no_userbrick_name_entered">블록 이름을 입력하세요.</string>
-  <string name="error_project_exists">다른 이름을 넣으세요.</string>
+    <string name="error_no_writiable_external_storage_available">This app needs writable external storage like a SD
+        card in order to run, but none was found.\nYou can fix this by making the external storage writable or inserting
+        a SD card, then trying again.</string>
+  <string name="error_no_write_access">This app needs permission to write data to your device. Otherwise you
+        can\'t create, modify or run programs. To continue, open settings and enable write access for
+        this app.</string>
   <string name="error_project_upload">프로그램을 업로드하는 중에 오류가 발생했습니다.</string>
   <string name="error_project_download">프로그램을 다운로드하는 동안 오류가 발생했습니다.</string>
   <string name="error_new_project">새로운 프로그램을 생성하는 동안 오류가 발생했습니다.</string>
-  <string name="error_rename_project">업로드하기 전에 프로그램의 이름에서 오류가 발생했습니다.</string>
   <string name="error_rename_scene">장면 이름 변경하는 동안 오류가 발생했습니다.</string>
   <string name="error_load_project">프로그램을 로드하는 동안 오류가 발생했습니다.</string>
   <string name="error_screenshot_failed">캡쳐 하기 이미지를 저장하는 동안 오류가 발생했습니다.</string>
   <string name="error_internet_connection">알 수 없는 오류가 발생했습니다. 인터넷 연결을 확인하십시오.</string>
-  <string name="error_no_internet">인터넷 연결을 설정하십시오.</string>
   <string name="error_project_compatability">프로그램이 이 버전과 호환되지 않습니다.</string>
   <string name="error_outdated_version">포켓 코드 버전이 너무 오래되었습니다. 지금 업데이트하시겠습니까?</string>
   <string name="error_upload_project_with_default_name">\'나의 첫 번째 프로그램\' 이름으로 프로그램을 업로드할 수 없습니다. 프로그램 이름을 바꾸시기 바랍니다.</string>
-  <string name="error_upload_default_project">그것은 \'나의 첫 번째 프로그램\'으로 동일하기 때문에 이 프로그램을 업로드할 수 없습니다. 수정하고 다시 시도하십시오.</string>
   <string name="error_adding_brick">이 블록을 추가하는 동안 오류가 발생했습니다.</string>
   <string name="error_copying_brick">이 블록을 복사하는 동안 오류가 발생했습니다.</string>
-  <string name="error_no_drone_connected_title">Cannot find AR.Drone 2.0.</string>
-  <string name="error_no_drone_connected">Connect your wifi to the AR.Drone 2.0 and try again.</string>
-  <string name="error_drone_low_battery_title">AR.Drone 2.0 battery low: %d%%</string>
+  <string name="error_no_drone_connected_title">AR.Drone 2.0을 찾을 수 없습니다.</string>
+  <string name="error_no_drone_connected">AR.Drone 2.0을 wifi에 연결하고 다시 시도하십시오.</string>
+  <string name="error_drone_low_battery_title">AR.Drone 2.0 배터리 부족: %d%%</string>
   <string name="error_drone_low_battery">충전된 배터리를 삽입하고 다시 시도하십시오.</string>
-  <string name="error_jumpingsumo_wrong_platform">We cannot run a Jumping Sumo project on your device.</string>
-  <string name="error_no_jumpingsumo_connected_title">Cannot find Jumping Sumo</string>
-  <string name="error_no_jumpingsumo_connected">Connect your wifi to the Jumping Sumo and try again.</string>
-  <string name="error_jumpingsumo_battery_title">Jumping Sumo battery low</string>
+  <string name="error_jumpingsumo_wrong_platform">당신의 장치에서는 점핑 스모 프로젝트를 실행시킬 수 없습니다.</string>
+  <string name="error_no_jumpingsumo_connected_title">Jumping Sumo 찾을 수 없습니다.</string>
+  <string name="error_no_jumpingsumo_connected">점프 스모의  wifi를 연결하고 다시 시도해 보세요.</string>
+  <string name="error_jumpingsumo_battery_title">Jumping Sumo의 배터리가 부족합니다.</string>
   <string name="error_jumpingsumo_battery">충전된 배터리를 삽입하고 다시 시도하십시오.</string>
-  <string name="error_jumpingsumo_wrong_platform_title">No Jumping Sumo support</string>
-  <string name="error_drone_wrong_platform_title">No AR.Drone 2.0 support.</string>
-  <string name="error_drone_wrong_platform">We cannot run an AR.Drone 2.0 project on your device.</string>
+  <string name="error_jumpingsumo_wrong_platform_title">점핑 스모를 지원하지 않습니다.</string>
+  <string name="error_drone_wrong_platform_title">AR.Drone 2.0을 지원하지 않습니다.</string>
+  <string name="error_drone_wrong_platform">이 장치에서 AR.Drone 2.0 프로그램을 실행할 수 없습니다.</string>
   <string name="error_rename_incompatible_project">호환 되지 않는 프로그램의 이름을 바꿀 수 없습니다.</string>
   <string name="error_unknown_error">알 수 없는 오류가 발생했습니다.</string>
-  <string name="error_gps_not_available">오류, GPS가 활성화되지 않았습니다.</string>
+  <string name="error_gps_not_available">Error, GPS is not available.</string>
   <string name="error_set_description">저장하는 중에 오류가 발생했습니다.</string>
-  <string name="error_no_network">이 포켓 코드 프로그램을 사용 하 여 네트워크 연결을 해야 합니다. 모바일 네트워크 또는 Wi-fi 설정에서 설정하십시오.</string>
-  <string name="error_no_network_one_brick">블록을 따라 네트워크를 사용합니다.</string>
-  <string name="error_no_network_multiple_bricks">블록을 따라 네트워크를 사용합니다.</string>
-  <string name="error_no_network_title">네트워크 연결 불가</string>
   <string name="error_no_whatsapp">설치되지 않은 앱</string>
-  <string name="error_unsupported_bricks_chromecast">Cannot add bricks contained in this script to a Chromecast
+  <string name="error_unsupported_bricks_chromecast">This script can\'t be added  to a Chromecast
         program.</string>
   <!--  -->
   <!-- Bluetooth Connection Strings -->
-  <string name="notification_blueth_err">블루투스를 이용할 수 없습니다. 단계를 취소합니다.</string>
+    <string name="notification_blueth_err">Can\'t enable Bluetooth, please try turning it off and on again.</string>
   <string name="title_paired_devices">페어링 된 장치</string>
   <string name="title_other_devices">새 장치</string>
   <string name="searching_devices">장치를 찾고 있는 중&#8230;</string>
@@ -989,6 +1161,7 @@
   <!-- Raspi Settings -->
   <string name="raspi_settings_title_name">Raspberry Pi 설정</string>
   <string name="raspi_settings_gpio_version">GPIO 버전</string>
+  <string name="error_connecting_to">Error: Could not connect to %s : %d</string>
   <!--  -->
   <!-- Lego Mindstorms Strings -->
   <string name="nxt_brick_motor_move">NXT 모터 설정</string>
@@ -1001,7 +1174,6 @@
   <string name="nxt_tone_duration">동안</string>
   <string name="nxt_tone_frequency">주파수</string>
   <string name="nxt_tone_hundred_hz">x100Hz</string>
-  <string name="nxt_seconds">초</string>
   <string name="nxt_motor_a">A</string>
   <string name="nxt_motor_b">B</string>
   <string name="nxt_motor_c">C</string>
@@ -1023,13 +1195,12 @@
   <string name="preference_disable_nxt_info_dialog_description">프로그램 특정 NXT 설정을 프로그램을 열 때 표시되지 않습니다.</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">NXT 센서와 포트의 설정은 특정하며 열린 프로그램에 대해서만 구성할 수 있습니다!</string>
   <string name="lego_nxt_sensor_config_info_text">현재 프로그램은 레고 마인드 스톰 NXT 블록 또는 센서를 사용합니다. 적절한 기능을 하려면 센서를 로봇에 다음과 같이 연결하세요</string>
-  <string name="lego_port_1">포트 1</string>
-  <string name="lego_port_2">포트 2</string>
-  <string name="lego_port_3">포트 3</string>
-  <string name="lego_port_4">포트 4</string>
-  <string name="lego_sensor_config_dont_show_again">이 메시지를 다시 표시하지 않음</string>
-  <string name="lego_nxt_overwrite_sensor_port_dialog_message">선택한 포트에 센서를 덮어쓸까요?</string>
-  <string name="lego_nxt_overwrite_sensor_port_dialog_title">센서를 덮어쓸까요?</string>
+  <string name="lego_port_1">Port 1</string>
+  <string name="lego_port_2">Port 2</string>
+  <string name="lego_port_3">Port 3</string>
+  <string name="lego_port_4">Port 4</string>
+  <string name="lego_sensor_config_dont_show_again">Do not show this message again.</string>
+  <string name="lego_sensor_port_config_dialog_title">Choose a port for connecting to %1$s!</string>
   <string name="lego_ev3_sensor_config_info_title">EV3 센서 구성</string>
   <string name="preference_disable_ev3_info_dialog_description">프로그램 특정 EV3 설정 프로그램을 열 때 표시되지 않습니다.</string>
   <string name="preference_title_mindstorms_ev3_sensors_description">EV3 센서 포트의 연결은 특수하여 열린 프로그램에 대해서만 구성할 수 있습니다!</string>
@@ -1044,9 +1215,12 @@
   <string name="ev3_sensor_color">EV3 컬러 센서</string>
   <string name="ev3_sensor_color_ambient">EV3 주변 색상 센서</string>
   <string name="ev3_sensor_color_reflected">Ev3 반사 색상 센서</string>
-  <string name="ev3_sensor_hitechnic_color">HiTechnic color sensor</string>
-  <string name="ev3_sensor_nxt_temperature_c">NXT temperature sensor (°C)</string>
-  <string name="ev3_sensor_nxt_temperature_f">NXT temperature sensor (°F)</string>
+  <string name="ev3_sensor_hitechnic_color">HiTechnic 색깔 센서
+</string>
+  <string name="ev3_sensor_nxt_temperature_c">NXT 온도 센서 (°C)
+</string>
+  <string name="ev3_sensor_nxt_temperature_f">NXT 온도 센서 (°F)
+</string>
   <string name="ev3_motor_a">A</string>
   <string name="ev3_motor_b">B</string>
   <string name="ev3_motor_c">C</string>
@@ -1074,96 +1248,95 @@
   <string name="ev3_led_status_orange_pulse">주황색 펄스</string>
   <!--  -->
   <!-- Drone Bricks -->
-  <string name="brick_drone_takeoff_land">Take off / Land AR.Drone 2.0</string>
-  <string name="brick_drone_play_led_animation">Play AR.Drone 2.0 flash animation</string>
-  <string name="brick_drone_flip">Flip AR.Drone 2.0</string>
-  <string name="brick_drone_move_left">Move AR.Drone 2.0 left</string>
-  <string name="brick_drone_move_right">Move AR.Drone 2.0 right</string>
-  <string name="brick_drone_move_forward">Move AR.Drone 2.0 forward</string>
-  <string name="brick_drone_move_backward">Move AR.Drone 2.0 backward</string>
-  <string name="brick_drone_move_up">Move AR.Drone 2.0 up</string>
-  <string name="brick_drone_move_down">Move AR.Drone 2.0 down</string>
-  <string name="brick_drone_emergency">Emergency AR.Drone 2.0</string>
-  <string name="brick_drone_turn_right">Turn AR.Drone 2.0 right</string>
-  <string name="brick_drone_turn_left">Turn AR.Drone 2.0 left</string>
-  <string name="brick_drone_turn_left_magneto">Turn AR.Drone 2.0 left [angle]</string>
-  <string name="brick_drone_turn_right_magneto">Turn AR.Drone 2.0 right [angle]</string>
-  <string name="brick_drone_set_config">Set config AR.Drone 2.0</string>
-  <string name="brick_drone_switch_camera">Switch AR.Drone 2.0 camera</string>
-  <string name="brick_drone_set_altitude">Altitude limit </string>
+    <string name="brick_drone_takeoff_land">AR.Drone 2.0 이륙/착륙 시키기 </string>
+  <string name="brick_drone_play_led_animation">AR.Drone 2.0 애니메이션 재생하기</string>
+  <string name="brick_drone_flip">AR.Drone 2.0 뒤집기</string>
+  <string name="brick_drone_move_left"> AR.Drone 2.0 왼쪽으로 움직이기</string>
+  <string name="brick_drone_move_right">AR.Drone 2.0 오른쪽으로 움직이기</string>
+  <string name="brick_drone_move_forward">AR.Drone 2.0 앞으로 움직이기</string>
+  <string name="brick_drone_move_backward">AR.Drone 2.0 뒤로 움직이기</string>
+  <string name="brick_drone_move_up">AR.Drone 2.0 위로 움직이기</string>
+  <string name="brick_drone_move_down">AR.Drone 2.0 아래로 움직이기</string>
+  <string name="brick_drone_emergency">AR.Drone 2.0 긴급상황</string>
+  <string name="brick_drone_turn_right">AR.Drone 2.0 오른쪽으로 돌기</string>
+  <string name="brick_drone_turn_left">AR.Drone 2.0 왼쪽으로 돌기</string>
+  <string name="brick_drone_turn_left_magneto">AR.Drone 2.0 [angle]만큼 왼쪽으로 돌기</string>
+  <string name="brick_drone_turn_right_magneto">AR.Drone 2.0 [angle]만큼 오른쪽으로 돌기</string>
+  <string name="brick_drone_set_config">AR.Drone 2.0 환경 선택하기</string>
+  <string name="brick_drone_switch_camera">AR.Drone2.0 카메라 전환하기</string>
+  <string name="brick_drone_set_altitude">고도 제한 </string>
   <string name="brick_drone_set_vertical_speed">수직 속도 제한</string>
   <string name="brick_drone_set_rotation_speed">회전 속도 제한</string>
   <string name="brick_drone_set_tilt_limit">기울기 제한</string>
-  <string name="brick_drone_with">seconds with</string>
-  <string name="brick_drone_percent_power">% power</string>
+  <string name="brick_drone_with.">으로</string>
+  <string name="brick_drone_power">거듭제곱</string>
   <!--  -->
   <!-- Drone play led animation strings -->
-  <string name="drone_animation_blinkgreenred">Blink Green Red</string>
-  <string name="drone_animation_blinkgreen">Blink Green</string>
-  <string name="drone_animation_blinkred">Blink Red</string>
-  <string name="drone_animation_blinkorange">Blink Orange</string>
-  <string name="drone_animation_snakegreenred">Snake Green Red</string>
-  <string name="drone_animation_fire">Fire</string>
+    <string name="drone_animation_blinkgreenred">초록색 빨간색 깜빡이기</string>
+  <string name="drone_animation_blinkgreen">초록색 깜빡이기</string>
+  <string name="drone_animation_blinkred">빨간색 깜빡이기</string>
+  <string name="drone_animation_blinkorange">오렌지색 깜빡이기</string>
+  <string name="drone_animation_snakegreenred">스네이크 그린 레드</string>
+  <string name="drone_animation_fire">발사</string>
   <string name="drone_animation_standard">기본값</string>
   <string name="drone_animation_red">빨강</string>
   <string name="drone_animation_green">초록</string>
-  <string name="drone_animation_redsnake">Red Snake</string>
-  <string name="drone_animation_blank">Blank</string>
-  <string name="drone_animation_rightmissile">Right Missile</string>
-  <string name="drone_animation_leftmissile">Left Missile</string>
-  <string name="drone_animation_doublemissile">Double Missile</string>
-  <string name="drone_animation_frontleftgreenothersred">Front Left Green Others Red</string>
-  <string name="drone_animation_frontrightgreenothersred">Front Right Green Others Red</string>
-  <string name="drone_animation_rearrightgreenothersred">Rear Right Green Others Red</string>
-  <string name="drone_animation_rearleftgreenothersred">Rear Left Green Others Red</string>
-  <string name="drone_animation_leftgreenrightred">Left Green Right Red</string>
-  <string name="drone_animation_leftredrightgreen">Left Red Right Green</string>
-  <string name="drone_animation_blinkstandard">Blink Standard</string>
+  <string name="drone_animation_redsnake">빨간 뱀</string>
+  <string name="drone_animation_blank">공백</string>
+  <string name="drone_animation_rightmissile">오른쪽 미사일</string>
+  <string name="drone_animation_leftmissile">왼쪽 미사일</string>
+  <string name="drone_animation_doublemissile">양쪽 미사일</string>
+  <string name="drone_animation_frontleftgreenothersred">전면 왼쪽은 녹색, 다른 것은 빨간색</string>
+  <string name="drone_animation_frontrightgreenothersred">전면 오른쪽은 녹색, 다른 것은 빨간색</string>
+  <string name="drone_animation_rearrightgreenothersred">후면 오른쪽은 녹색, 다른 것은 빨간색</string>
+  <string name="drone_animation_rearleftgreenothersred">후면 왼쪽은 녹색, 다른 것은 빨간색</string>
+  <string name="drone_animation_leftgreenrightred">왼쪽은 녹색, 오른쪽은 빨간색</string>
+  <string name="drone_animation_leftredrightgreen">왼쪽은 빨간색, 오른쪽은 녹색</string>
+  <string name="drone_animation_blinkstandard">기본 깜빡임</string>
   <!-- Jumping Sumo Bricks -->
-  <string name="brick_jumping_sumo_move_forward">Move Jumping Sumo forward</string>
-  <string name="brick_jumping_sumo_move_backward">Move Jumping Sumo backward</string>
-  <string name="brick_jumping_sumo_percent_power">% power</string>
-  <string name="brick_jumping_sumo_animation">Animations Jumping Sumo</string>
-  <string name="brick_jumping_sumo_no_sound">No Jumping Sumo sound</string>
+    <string name="brick_jumping_sumo_move_forward">점핑 스모 앞으로 움직이기</string>
+  <string name="brick_jumping_sumo_move_backward">점핑 스모 뒤로 움직이기</string>
+  <string name="brick_jumping_sumo_animation">점핑 스모 애니메이션</string>
+  <string name="brick_jumping_sumo_no_sound">점핑 스모 소리 멈추기</string>
   <string name="brick_jumping_sumo_sound">소리</string>
-  <string name="brick_jumping_sumo_jump_long">Jump Jumping Sumo long</string>
-  <string name="brick_jumping_sumo_jump_high">Jump Jumping Sumo high</string>
-  <string name="brick_jumping_sumo_rotate_left">Rotate Jumping Sumo left</string>
-  <string name="brick_jumping_sumo_rotate_right">Rotate Jumping Sumo right</string>
+  <string name="brick_jumping_sumo_jump_long">점핑 스모 멀리 점프하기</string>
+  <string name="brick_jumping_sumo_jump_high">점핑 스모 높이 점프하기</string>
+  <string name="brick_jumping_sumo_rotate_left">점핑 스모 왼쪽으로 회전하기</string>
+  <string name="brick_jumping_sumo_rotate_right">점핑 스모 오른쪽으로 회전하기</string>
   <string name="brick_jumping_sumo_rotate_text">°</string>
-  <string name="brick_jumping_sumo_turn">Turn Jumping Sumo</string>
-  <string name="brick_jumping_sumo_taking_picture">Taking picture Jumping Sumo</string>
+  <string name="brick_jumping_sumo_turn">점핑 스모 돌기</string>
+  <string name="brick_jumping_sumo_taking_picture">점핑 스모로 사진찍기</string>
   <!--  -->
   <!-- defaultJumpingSumoValues -->
-  <string name="default_jumping_sumo_project_name">My first Jumping Sumo program</string>
-  <string name="add_look_jumping_sumo_video">Jumping Sumo video</string>
+    <string name="default_jumping_sumo_project_name">내 첫번째 점핑 스모 프로그램</string>
+  <string name="add_look_jumping_sumo_video">점핑 스모 비디오</string>
   <string name="default_jumping_sumo_project_sprites_forward">앞으로</string>
-  <string name="default_jumping_sumo_project_sprites_backward">Backward</string>
+  <string name="default_jumping_sumo_project_sprites_backward">뒤로</string>
   <string name="default_jumping_sumo_project_sprites_animation">애니메이션</string>
   <string name="default_jumping_sumo_project_sprites_sound">소리</string>
-  <string name="default_jumping_sumo_project_sprites_no_sound">No sound</string>
-  <string name="default_jumping_sumo_project_sprites_jump_long">Jump long</string>
-  <string name="default_jumping_sumo_project_sprites_jump_high">Jump high</string>
+  <string name="default_jumping_sumo_project_sprites_no_sound">소리 끄기</string>
+  <string name="default_jumping_sumo_project_sprites_jump_long">멀리 뛰기</string>
+  <string name="default_jumping_sumo_project_sprites_jump_high">높이 뛰기</string>
   <string name="default_jumping_sumo_project_sprites_turn_left">왼쪽으로 돌기</string>
   <string name="default_jumping_sumo_project_sprites_turn_right">오른쪽으로 돌기</string>
   <string name="default_jumping_sumo_project_sprites_flip">뒤집기</string>
-  <string name="default_jumping_sumo_project_sprites_picture">Taking pictures</string>
+  <string name="default_jumping_sumo_project_sprites_picture">사진 찍기</string>
   <!--  -->
   <!-- Jumping Sumo animation strings -->
-  <string name="animation_spin">Spin</string>
-  <string name="animation_tab">Tab</string>
-  <string name="animation_slowshake">Slowshake</string>
-  <string name="animation_metronome">Metronome</string>
+    <string name="animation_spin">회전하기</string>
+  <string name="animation_tab">탭</string>
+  <string name="animation_slowshake">천천히 흔들기</string>
+  <string name="animation_metronome">메트로놈</string>
   <string name="animation_ondulation">Ondulation</string>
   <string name="animation_spinjump">Spinjump</string>
-  <string name="animation_spiral">Spiral</string>
-  <string name="animation_slalom">Slalom</string>
+  <string name="animation_spiral">나선형</string>
+  <string name="animation_slalom">회전</string>
   <!-- Jumping Sumo sound strings -->
   <string name="jumping_sumo_volume">소리 크기</string>
-  <string name="sound_default">Normal</string>
-  <string name="sound_robot">Robot</string>
-  <string name="sound_insect">Insect</string>
-  <string name="sound_monster">Monster</string>
+  <string name="sound_default">보통</string>
+  <string name="sound_robot">로봇</string>
+  <string name="sound_insect">곤충</string>
+  <string name="sound_monster">괴물</string>
   <!--  -->
   <!-- Phiro bricks -->
   <!-- motor -->
@@ -1380,21 +1553,20 @@
   <string name="formula_editor_object_background_number">배경 번호</string>
   <string name="formula_editor_object_background_name">배경 이름</string>
   <string name="formula_editor_object_distance_to">거리</string>
-  <string name="formula_editor_compute">계산하기</string>
+  <string name="formula_editor_compute">연산결과 미리보기</string>
   <string name="formula_editor_object">오브젝트</string>
-  <string name="formula_editor_functions">수학 함수</string>
+  <string name="formula_editor_functions">함수</string>
   <string name="formula_editor_logic">논리 연산</string>
   <string name="formula_editor_device">센서 장치</string>
-  <string name="formula_editor_device_sensors">센서 장치</string>
-  <string name="formula_editor_variables">변수</string>
-  <string name="formula_editor_functions_maths">수학</string>
+  <string name="formula_editor_device_sensors">기기의 센서들</string>
+  <string name="formula_editor_functions_maths">수학함수</string>
   <string name="formula_editor_functions_strings">문자열</string>
   <string name="formula_editor_functions_lists">리스트</string>
   <string name="formula_editor_logic_boolean">논리 연산</string>
   <string name="formula_editor_logic_comparison">비교 연산</string>
   <string name="formula_editor_object_general">일반 속성</string>
   <string name="formula_editor_object_movement">운동 속성</string>
-  <string name="formula_editor_device_face_detection">얼굴 인식</string>
+  <string name="formula_editor_device_face_detection">Face Detection</string>
   <string name="formula_editor_device_date_and_time">날짜와 시간</string>
   <string name="formula_editor_device_touch_detection">터치 감지</string>
   <string name="formula_editor_device_lego_nxt">레고 NXT</string>
@@ -1423,21 +1595,12 @@
   <string name="formula_editor_image_button_description_delete">삭제</string>
   <string name="formula_editor_variable_dialog_title">새 변수</string>
   <string name="formula_editor_list_dialog_title">새 리스트 만들기</string>
-  <string name="formula_editor_dialog_for_all_sprites">모든 오브젝트에 대하여</string>
-  <string name="formula_editor_dialog_for_this_sprite_only">이 오브젝트에 대해서만</string>
-  <string name="formula_editor_dialog_change_text">텍스트 변경</string>
-  <string name="formula_editor_data_dialog_hint">이름 입력</string>
   <string name="formula_editor_discard_changes_dialog_message">변경 내용을 저장 하시겠습니까?</string>
   <string name="formula_editor_discard_changes_dialog_title">변경사항을 저장하시겠습니까?</string>
   <string name="formula_editor_new_string_name">새로운 글자</string>
-  <string name="formula_editor_new_string_dialog_hint">여기에 새 텍스트를 입력합니다.</string>
-  <string name="formula_editor_data_dialog_title">새로운</string>
-  <string name="formula_editor_rename_variable_dialog_title">이름 바꾸기</string>
-  <string name="formula_editor_existing_data_item">이미 사용중인 이름입니다!</string>
+  <string name="formula_editor_dialog_change_text">텍스트 변경</string>
   <string name="formula_editor_fragment_data_current_items">현재 항목</string>
   <string name="formula_editor_data_dialog_is_list">리스트 만들기</string>
-  <string name="formula_editor_lists">리스트</string>
-  <string name="formula_editor_variable_dialog_for_this_brick">이 블록에 대해서만</string>
   <string name="formula_editor_sensor_face_detected">얼굴이 인식되면</string>
   <string name="formula_editor_sensor_face_size">얼굴의 크기</string>
   <string name="formula_editor_sensor_face_x_position">얼굴의 x 좌표</string>
@@ -1450,11 +1613,11 @@
   <string name="formula_editor_intro_summary_input_field">수식을 입력하고, 편집할 수 있습니다.</string>
   <string name="formula_editor_intro_title_keyboard">키보드</string>
   <string name="formula_editor_intro_summary_keyboard">계산기처럼 스스로 수식을 만들 수 잇습니다.</string>
-  <string name="formula_editor_intro_title_compute">계산하기</string>
+  <string name="formula_editor_intro_title_compute">연산결과 미리보기</string>
   <string name="formula_editor_intro_summary_compute">수식을 확인하려면 \'계산하기\'로 현재값을 볼 수 있습니다.</string>
   <string name="formula_editor_intro_title_object">오브젝트</string>
   <string name="formula_editor_intro_summary_object">이것은 현재 오브젝트를 설명하는 값의 모음이다. 이러한 값 중 일부는 예는 x-및 y-좌표, 또는 현재 속도입니다.</string>
-  <string name="formula_editor_intro_title_functions">수학 함수</string>
+  <string name="formula_editor_intro_title_functions">함수</string>
   <string name="formula_editor_intro_summary_functions">계산기처럼 수식 편집기는 다양한 수학 함수를 제공한다. sin이나 cos같은 삼각함수나 랜덤수나 텍스트 그리고 리스트 함수를 사용할 수 있다.</string>
   <string name="formula_editor_intro_title_logic">논리 연산</string>
   <string name="formula_editor_intro_summary_logic">논리 연산은 값을 비교하거나 논리 연산을 한다. \nTo 값을 비교하기 위해 \"&gt;\" (보다 큰) 또는 \"=\" (같음) 같은 연산을 할 수 있다. \nTo 논리 연산을 하기 위해서는  \"그리고\", \"또는\"와 \"아니다\"같은 연산을 사용할 수 있다.</string>
@@ -1462,16 +1625,7 @@
   <string name="formula_editor_intro_summary_device">\"장치\"에서는 스마트폰이나 태블릿의 정보나 기록을 사용할 수 있다. \nFor 예를 들어 기울기 또는 주변 소리 크기를 알 수 있다.</string>
   <string name="formula_editor_intro_title_data">변수</string>
   <string name="formula_editor_intro_summary_data">변수 및 프로그램에서 사용되는 리스트를 보실 수 있습니다.  \nYou 단순히 수식에 삽입하거나 새로 추가할 수 있습니다.</string>
-  <plurals name="formula_editor_data_am_title">
-    <item quantity="other">%d Items selected</item>
-  </plurals>
   <!--  -->
-  <!-- New Data Dialog -->
-  <string name="user_variablename_already_exists">다른 변수 이름을 선택하십시오.</string>
-  <string name="user_listname_already_exists">다른 리스트 이름을 선택하십시오.</string>
-  <string name="no_variablename_entered">리스트 이름을 입력하세요.</string>
-  <string name="no_listname_entered">리스트 이름을 입력하세요.</string>
-  <!-- -->
   <!-- Brick Data Editor Strings -->
   <string name="separator">|</string>
   <string name="add_text">텍스트 추가</string>
@@ -1482,14 +1636,11 @@
   <string name="edit_variable">변수 편집</string>
   <string name="variable_hint">변수 이름</string>
   <string name="brick_show_variable">변수 보이기</string>
-  <string name="brick_show_variable_position">"  "</string>
   <string name="brick_hide_variable">변수 숨기기</string>
+  <string name="brick_show_variable_position">"  "</string>
   <!-- -->
   <!-- User Bricks strings -->
   <string name="define">정의</string>
-  <string name="new_user_brick">새 블록</string>
-  <string name="new_user_brick_variable">변수</string>
-  <string name="new_user_brick_name">블록 이름을 입력하세요:</string>
   <!--  -->
   <!-- Camera related strings -->
   <string name="brick_video">카메라 켜기</string>
@@ -1497,8 +1648,9 @@
   <string name="video_brick_camera_off">끄기</string>
   <string name="brick_choose_camera">카메라 사용하기</string>
   <string name="choose_camera_front">전면</string>
-  <string name="choose_camera_back">후면</string>
-  <string name="error_flash_camera">"플래시는 후면 카메라와 함께 사용할 수 있어요.  \"카메라\" 블록을 추가하고 후면 카메라로 변경하세요. "</string>
+  <string name="choose_camera_back">rear</string>
+  <string name="error_flash_camera">"&gt;You can only use the flash with a camera that has a one. Please add a \"Use
+        camera\" brick and change to your device\'s camera that has a flash."</string>
   <string name="brick_wait_until">대기 조건</string>
   <string name="brick_wait_until_second_part">참이다</string>
   <!-- -->
@@ -1516,22 +1668,15 @@
   <string name="cast_ready_to_cast">캐스트 준비</string>
   <string name="cast_enable_cast_feature">캐스트 기능이 비활성화되었음. 설정에서 캐스트 기능을 활성화해 주세요.</string>
   <string name="cast_searching_for_cast_devices">캐스트 장치를 찾는중</string>
-  <string name="cast_trouble_finding_devices_tip">\n장치가 보이지 않으세요? Wifi를 껐다가 다시 켜보세요.</string>
+  <string name="cast_trouble_finding_devices_tip">.\nDon\'t see your device? Try turning your phone\'s Wifi off
+        and on.</string>
   <string name="cast_connection_timout_msg">연결 시간 초과. 다시 시도하세요.</string>
   <string name="cast_screen_pause_text">정지</string>
   <!-- -->
-  <!-- Rating Dialog -->
-  <string name="rating_dialog_title">Pocket Code를 평가하세요</string>
-  <string name="rating_google_play_dialog_text">이 앱이 좋다면, Google Play에서 평가해 주세요!</string>
-  <string name="rating_dialog_rate_now">지금</string>
-  <string name="rating_dialog_rate_later">다음에</string>
-  <string name="rating_dialog_rate_never">사용 안 함</string>
-  <!--  -->
   <!-- Delete User Variable Alert Dialog -->
   <string name="deletion_alert_title">경고!</string>
   <string name="deletion_alert_text">사용 중 변수를 삭제하는 것은 위험합니다! 삭제할까요?</string>
   <string name="deletion_alert_yes">예, 삭제합니다!</string>
-  <string name="deletion_alert_no">아니오</string>
   <!--  -->
   <!-- Upload progress dialog -->
   <string name="progress_upload_dialog_message">프로그램을 우리의 커뮤니티 페이지에 업로드하면 여러 사람이 사용하고 다운로드할 수 있습니다. 또한 독립 실행형 응용 프로그램으로 당신의 프로그램을 다운로드할 수도 있습니다.</string>
@@ -1549,16 +1694,14 @@
   <string name="hint_sounds">여기 새로운 소리를 추가할 수 있습니다. 소리 카테고리를 활용하세요.</string>
   <string name="hint_objects">서로 작용할 수 있는 오브젝트가 다른 프로그램에 의하여 이루어져 있다. 추가하려면  \"+\"를 터치하세요.</string>
   <string name="hint_stage">프로그램을 일시 중지 하려면 취소버튼을 터치하세요. 축을 보거나 화면 크기를 보려면 \"축 보이기\"를 터치하세요.</string>
-  <string name="hint_scenes">프로그램은 다른 독립적인 장면 구성할 수 있습니다. 추가 하려면 \"+\" 를 터치하세요.</string>
   <!--  -->
   <!-- Crash report dialog -->
-  <string name="app_has_crashed">앱이 정지했습니다!</string>
-  <string name="crash_dialog_text">우리에게 충돌 보고서를 전송하여 포켓코드를 개선하기 위해 도와 주세요!</string>
-  <string name="crash_dialog_always_send">항상 보내기</string>
-  <string name="crash_dialog_send">보내기</string>
   <!--  -->
   <!-- Multilingual List -->
-  <string name="device_language">Device Language</string>
+    <string name="device_language">장치 언어</string>
+    <!-- Symbols -->
+    <string name="percent_symbol">%</string>
+  <string name="hertz_symbol">㎐</string>
   <!-- UtilFile SizeUnits String -->
   <string name="Byte_short">B</string>
   <string name="KiloByte_short">KB</string>
