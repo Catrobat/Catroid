@@ -13,6 +13,8 @@ pipeline {
 			// Another way would be to simply map the passwd file, but would spoil additional information
 			additionalBuildArgs '--build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g)'
 			args "--device /dev/kvm:/dev/kvm -v /var/local/container_shared/gradle/:/.gradle -v /var/local/container_shared/android-sdk:/usr/local/android-sdk -v /var/local/container_shared/android-home:/.android -v /var/local/container_shared/emulator_console_auth_token:/.emulator_console_auth_token -v /var/local/container_shared/analytics.settings:/analytics.settings"
+			// Add specific 'Standalone'-label, so it can be made sure, that there is a dedicated host for standalone builds
+			label 'Standalone'
 		}
 	}
 
@@ -45,20 +47,23 @@ pipeline {
 		GRADLE_PROJECT_MODULE_NAME = "catroid"
 
 		// APK build output locations
-		APK_LOCATION_DEBUG = "${env.GRADLE_PROJECT_MODULE_NAME}/build/outputs/apk/catroid/debug/catroid-catroid-debug.apk"
 		APK_LOCATION_STANDALONE = "${env.GRADLE_PROJECT_MODULE_NAME}/build/outputs/apk/standalone/debug/catroid-standalone-debug.apk"
-
-		// share.catrob.at
-		CATROBAT_SHARE_UPLOAD_BRANCH = "develop"
-		CATROBAT_SHARE_APK_NAME = "org.catrobat.catroid_debug_${env.CATROBAT_SHARE_UPLOAD_BRANCH}_latest.apk"
 	}
 
 	options {
-		timeout(time: 2, unit: 'HOURS')
+		timeout(time: 600, unit: 'SECONDS')
 		timestamps()
 	}
 
 	stages {
+		stage('Prepare build') {
+			steps {
+				script {
+					currentBuild.displayName = "${env.DOWNLOAD}"
+				}
+			}
+		}
+
 		stage('Setup Android SDK') {
 			steps {
 				// Install Android SDK
@@ -68,68 +73,89 @@ pipeline {
 			}
 		}
 
-		stage('Static Analysis') {
+		stage('Check-for-invalid-program-upload') {
 			steps {
-				sh "./buildScripts/build_step_run_static_analysis"
-			}
+				script {
+					def ret = sh returnStatus: true, script: '''#!/bin/sh
+SLEEP_TIME=5
+RETRIES=5
 
-			post {
-				always {
-					pmd         canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "${env.GRADLE_PROJECT_MODULE_NAME}/build/reports/pmd.xml",        unHealthy: '', unstableTotalAll: '0'
-					checkstyle  canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "${env.GRADLE_PROJECT_MODULE_NAME}/build/reports/checkstyle.xml", unHealthy: '', unstableTotalAll: '0'
-					androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "${env.GRADLE_PROJECT_MODULE_NAME}/build/reports/lint*.xml",      unHealthy: '', unstableTotalAll: '0'
+HTTP_STATUS_OK=200
+HTTP_STATUS_INVALID_FILE_UPLOAD=528
+
+## check if program is downloadable from web
+## If we can't load it, we retry it ${RETRIES} times
+## On a 528 status (invalid upload), we return 200 which
+## should get interpreted as UNSTABLE build
+while true; do
+    HTTP_STATUS=`curl --write-out %{http_code} --silent --output /dev/null "${DOWNLOAD}"`
+
+    if [ ${HTTP_STATUS} -eq ${HTTP_STATUS_OK} ]; then
+        break
+    fi
+
+
+    RETRIES=$((RETRIES-1))
+    if [ ${RETRIES} -eq 0 ]; then
+        if [ ${HTTP_STATUS} -eq ${HTTP_STATUS_INVALID_FILE_UPLOAD} ]; then
+            echo "Uploaded file seems to be invalid, request to '${DOWNLOAD}' returned HTTP Status ${HTTP_STATUS}"
+            exit 200
+        else
+            echo "Could not download '${DOWNLOAD}', giving up!"
+            exit 1
+        fi
+    fi
+
+    echo "Could not retrieve '${DOWNLOAD}' (HTTP Status ${HTTP_STATUS}), sleep for ${SLEEP_TIME}s and retry a maximum of ${RETRIES} times"
+    sleep ${SLEEP_TIME}
+done
+'''
+
+					// if no error, we are done
+					if (ret == 0) {
+						return
+					}
+
+					// Handle special error from the script, if the program download was not
+					// possible because of the HTTP error 528, we set the build to UNSTABLE
+					try {
+						error('')
+					} catch (err) {
+						if (ret == 200) {
+							currentBuild.result = 'UNSTABLE'
+						} else {
+							currentBuild.result = 'FAILURE'
+						}
+					}
 				}
 			}
 		}
 
-		stage('Unit and Device tests') {
-			steps {
-				// Run Unit and device tests for package: org.catrobat.catroid.test
-				sh "./buildScripts/build_step_run_tests_on_emulator__test_pkg"
-				// ensure that the following test run does not overwrite the results
-				sh "mv ${env.GRADLE_PROJECT_MODULE_NAME}/build/outputs/androidTest-results ${env.GRADLE_PROJECT_MODULE_NAME}/build/outputs/androidTest-results1"
-				// Run Unit and device tests for class: org.catrobat.catroid.uiespresso.testsuites.PullRequestTriggerSuite
-				sh "./buildScripts/build_step_run_tests_on_emulator__pr_test_suite"
-			}
-
-			post {
-				always {
-					junit '**/*TEST*.xml'
-
-					// stop/kill emulator
-					sh "./buildScripts/build_helper_stop_emulator"
+		stage('Build APK') {
+			// needed, as long as we mark the build unstable when we receive the 528 error from WEB
+			when {
+				expression {
+					currentBuild.result == null
 				}
 			}
-		}
 
-		stage('Standalone-APK') {
-			// It checks that the creation of standalone APKs (APK for a Pocketcode app) works, reducing the risk of breaking gradle changes.
-			// The resulting APK is not verified itself.
 			steps {
-				sh "./buildScripts/build_step_create_standalone_apk"
+				sh "./buildScripts/build_step_create_standalone_apk '${DOWNLOAD}' '${SUFFIX}'"
 				archiveArtifacts "${env.APK_LOCATION_STANDALONE}"
 			}
 		}
 
-		stage('Independent-APK') {
-			// It checks that the job builds with the parameters to have unique APKs, reducing the risk of breaking gradle changes.
-			// The resulting APK is not verified on itself.
-			steps {
-				sh "./buildScripts/build_step_create_independent_apk"
-				stash name: "apk-independent", includes: "${env.APK_LOCATION_DEBUG}"
-				archiveArtifacts "${env.APK_LOCATION_DEBUG}"
-			}
-		}
-
-		stage('Upload to share') {
+		stage('Upload to Web') {
+			// needed, as long as we mark the build unstable when we receive the 528 error from WEB
 			when {
-				branch "${env.CATROBAT_SHARE_UPLOAD_BRANCH}"
+				expression {
+					currentBuild.result == null
+				}
 			}
 
 			steps {
-				unstash "apk-independent"
 				script {
-					uploadFileToShare "${env.APK_LOCATION_DEBUG}", "${env.CATROBAT_SHARE_APK_NAME}"
+					uploadFileToWeb "${env.APK_LOCATION_STANDALONE}", "${env.UPLOAD}"
 				}
 			}
 		}
@@ -139,9 +165,9 @@ pipeline {
 		always {
 			step([$class: 'LogParserPublisher', failBuildOnError: true, projectRulePath: 'buildScripts/log_parser_rules', unstableOnWarning: true, useProjectRule: true])
 
-			// Send notifications with standalone=false
+			// Send notifications with standalone=true
 			script {
-				sendNotifications false
+				sendNotifications true
 			}
 		}
 	}

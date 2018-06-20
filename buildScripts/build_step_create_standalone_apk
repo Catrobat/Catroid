@@ -9,26 +9,38 @@ os.environ['REPO_DIR'] = os.path.realpath(os.path.join(os.environ['SCRIPT_DIR'],
 
 import build_helper_functions
 
-def usage():
-    print(sys.argv[0] + """ [ <program_id> ]
+## Default values
+# Tic-Tac-Toe
+default_program_number = "817"
+default_url = "https://share.catrob.at/pocketcode/download/{}.catrobat".format(default_program_number)
+default_suffix = "generated{}.catrobat".format(default_program_number)
 
-Build the 'Standalone-APK'. By default the program_id 817 Tic-Tac-Toe is used.
+def usage():
+    print(sys.argv[0] + """ [ <download_url> <suffix> ]
+
+Build the 'Standalone-APK'. By default the program_id {} Tic-Tac-Toe is used.
+
+Default-URL: {}
+Default-Suffix: {}
 
 The environment variable ANDROID_SDK_ROOT needs to be set.
 
 Be aware that Jenkins cleans the workspace before every build, this can
-be partly replicated by './gradlew clean'.""")
+be partly replicated by './gradlew clean'.""".format(default_program_number, default_url, default_suffix))
 
-build_helper_functions.check_number_of_parameters(valid_param_count_min=0, valid_param_count_max=1, usage_func=usage)
+build_helper_functions.check_number_of_parameters(valid_param_count_min=0, valid_param_count_max=2, usage_func=usage)
 
-# Tic-Tac-Toe
-program_number = "817"
-if len(sys.argv) <= 1:
-    print("program_is is not given, default to Tic-Tac-Toe: {}".format(program_number))
+download_url = default_url
+suffix = default_suffix
+if len(sys.argv) == 1:
+    print("No parameters (url and suffix) given, using default values for default program_id {}".format(default_program_number))
+    print("Default-URL: {}".format(default_url))
+    print("Default-Suffix: {}".format(default_suffix))
 else:
-    program_number = sys.argv[1]
+	download_url = sys.argv[1]
+	suffix = sys.argv[2]
 
-build_command = [ build_helper_functions.get_relative_gradle_name(), 'assembleStandaloneDebug', '-Pdownload=https://share.catrob.at/pocketcode/download/{}.catrobat'.format(program_number), '-Papk_generator_enabled=true', '-Psuffix=generated{}'.format(program_number) ]
+build_command = [ build_helper_functions.get_relative_gradle_name(), 'clean', 'assembleStandaloneDebug', '-Pdownload={}'.format(download_url), '-Papk_generator_enabled=true', '-Psuffix={}'.format(suffix) ]
 print("Calling: " + " ".join(build_command))
 return_code = subprocess.run( build_command, cwd=os.environ['REPO_DIR'] ).returncode
 sys.exit(return_code)
