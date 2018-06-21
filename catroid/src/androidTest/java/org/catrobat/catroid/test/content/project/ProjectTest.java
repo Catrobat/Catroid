@@ -23,7 +23,6 @@
 package org.catrobat.catroid.test.content.project;
 
 import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -50,7 +49,7 @@ public class ProjectTest {
 	private static final String OLD_PLATFORM = "iOS";
 
 	@Test
-	public void testVersionName() throws NameNotFoundException {
+	public void testVersionName() throws Exception {
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		PackageInfo packageInfo = InstrumentationRegistry.getTargetContext().getPackageManager()
 				.getPackageInfo(InstrumentationRegistry.getTargetContext().getPackageName(), 0);
@@ -104,7 +103,7 @@ public class ProjectTest {
 	}
 
 	@Test
-	public void testSetDeviceData() {
+	public void testSetDeviceData() throws Exception {
 		Project project = new Project();
 		XmlHeader header = project.getXmlHeader();
 		Reflection.setPrivateField(header, "catrobatLanguageVersion", OLD_LANGUAGE_VERSION);

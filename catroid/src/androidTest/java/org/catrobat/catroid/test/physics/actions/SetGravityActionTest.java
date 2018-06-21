@@ -59,7 +59,7 @@ public class SetGravityActionTest {
 	}
 
 	@Test
-	public void testNormalBehavior() {
+	public void testNormalBehavior() throws Exception {
 		float gravityX = GRAVITY_X;
 		float gravityY = GRAVITY_Y;
 
@@ -72,7 +72,7 @@ public class SetGravityActionTest {
 	}
 
 	@Test
-	public void testNegativeValue() {
+	public void testNegativeValue() throws Exception {
 		float gravityX = 10.0f;
 		float gravityY = -10.0f;
 
@@ -85,7 +85,7 @@ public class SetGravityActionTest {
 	}
 
 	@Test
-	public void testZeroValue() {
+	public void testZeroValue() throws Exception {
 		float gravityX = 0.0f;
 		float gravityY = 10.0f;
 
@@ -97,7 +97,7 @@ public class SetGravityActionTest {
 		assertEquals(gravityY, gravityVector.y);
 	}
 
-	private void initGravityValues(float gravityX, float gravityY) {
+	private void initGravityValues(float gravityX, float gravityY) throws Exception {
 		Action action = sprite.getActionFactory().createSetGravityAction(sprite, new Formula(gravityX),
 				new Formula(gravityY));
 		Vector2 gravityVector = ((World) Reflection.getPrivateField(PhysicsWorld.class, physicsWorld, "world"))
@@ -110,7 +110,7 @@ public class SetGravityActionTest {
 	}
 
 	@Test
-	public void testBrickWithStringFormula() {
+	public void testBrickWithStringFormula() throws Exception {
 		sprite.getActionFactory().createSetGravityAction(sprite, new Formula(String.valueOf(GRAVITY_X)),
 				new Formula(String.valueOf(GRAVITY_Y))).act(1.0f);
 		Vector2 gravityVector = ((World) Reflection.getPrivateField(PhysicsWorld.class, physicsWorld, "world"))
@@ -128,7 +128,7 @@ public class SetGravityActionTest {
 	}
 
 	@Test
-	public void testNullFormula() {
+	public void testNullFormula() throws Exception {
 		sprite.getActionFactory().createSetGravityAction(sprite, null, null).act(1.0f);
 		Vector2 gravityVector = ((World) Reflection.getPrivateField(PhysicsWorld.class, physicsWorld, "world"))
 				.getGravity();
@@ -138,7 +138,7 @@ public class SetGravityActionTest {
 	}
 
 	@Test
-	public void testNotANumberFormula() {
+	public void testNotANumberFormula() throws Exception {
 		sprite.getActionFactory().createSetGravityAction(sprite, new Formula(Double.NaN), new Formula(Double.NaN))
 				.act(1.0f);
 		Vector2 gravityVector = ((World) Reflection.getPrivateField(PhysicsWorld.class, physicsWorld, "world"))

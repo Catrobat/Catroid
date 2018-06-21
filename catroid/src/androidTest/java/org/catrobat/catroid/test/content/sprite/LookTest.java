@@ -126,7 +126,7 @@ public class LookTest {
 	}
 
 	@Test
-	public void testBreakDownCatroidAngle() {
+	public void testBreakDownCatroidAngle() throws Exception {
 		Look look = new Look(new SingleSprite("testsprite"));
 
 		float[] posigiveInputAngles = {0.0f, 45.0f, 90.0f, 135.0f, 180.0f, 225.0f, 270.0f, 315.0f, 360.0f};
@@ -179,7 +179,7 @@ public class LookTest {
 	}
 
 	@Test
-	public void testCatroidAngleToStageAngle() {
+	public void testCatroidAngleToStageAngle() throws Exception {
 		float[] positiveAngles = {0.0f, 45.0f, 90.0f, 135.0f, 180.0f, 225.0f, 270.0f, 315.0f, 360.0f};
 		float[] positiveHighAngles = {360.0f, 405.0f, 450.0f, 495.0f, 540.0f, 585.0f, 630.0f, 675.0f, 720.0f};
 
@@ -217,7 +217,7 @@ public class LookTest {
 	}
 
 	@Test
-	public void testStageAngleToCatroidAngle() {
+	public void testStageAngleToCatroidAngle() throws Exception {
 		float[] positiveStageAngles = {0.0f, 45.0f, 90.0f, 135.0f, 180.0f, 225.0f, 270.0f, 315.0f, 360.0f};
 		float[] positiveHighStagedAngles = {360.0f, 405.0f, 450.0f, 495.0f, 540.0f, 585.0f, 630.0f, 675.0f,
 				720.0f};
@@ -297,7 +297,7 @@ public class LookTest {
 	}
 
 	@Test
-	public void testTransparency() {
+	public void testTransparency() throws Exception {
 		float transparency = 20f;
 		look.setTransparencyInUserInterfaceDimensionUnit(transparency);
 		assertEquals(transparency, look.getTransparencyInUserInterfaceDimensionUnit(), 1e-5);
@@ -317,7 +317,7 @@ public class LookTest {
 	}
 
 	@Test
-	public void testBrightness() {
+	public void testBrightness() throws Exception {
 		float brightness = 42f;
 		look.setBrightnessInUserInterfaceDimensionUnit(brightness);
 		assertEquals(brightness, look.getBrightnessInUserInterfaceDimensionUnit());

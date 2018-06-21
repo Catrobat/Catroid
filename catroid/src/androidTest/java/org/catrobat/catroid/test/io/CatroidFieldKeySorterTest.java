@@ -36,7 +36,9 @@ import org.catrobat.catroid.io.CatroidFieldKeySorter;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.io.XStreamMissingSerializableFieldException;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
 import java.lang.reflect.Field;
@@ -46,10 +48,12 @@ import java.util.List;
 import java.util.Map;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.fail;
 
 @RunWith(AndroidJUnit4.class)
 public class CatroidFieldKeySorterTest {
+
+	@Rule
+	public final ExpectedException exception = ExpectedException.none();
 
 	private static class FieldKeySorterDecorator implements FieldKeySorter {
 
@@ -191,11 +195,8 @@ public class CatroidFieldKeySorterTest {
 
 	@Test
 	public void testMissingFieldInAnnotationThrowsException() {
-		try {
-			xstream.toXML(new MissingFieldInAnnotation());
-			fail("XStream didn't throw an exception for missing field b in annotation");
-		} catch (XStreamMissingSerializableFieldException expected) {
-		}
+		exception.expect(XStreamMissingSerializableFieldException.class);
+		xstream.toXML(new MissingFieldInAnnotation());
 	}
 
 	// Remove checkstyle disable when https://github.com/checkstyle/checkstyle/issues/1349 is fixed
@@ -218,11 +219,8 @@ public class CatroidFieldKeySorterTest {
 
 	@Test
 	public void testMissingFieldInSubClassWithoutAnnotationThrowsException() {
-		try {
-			xstream.toXML(new SubClassWithNewMemberButWithoutAnnotation());
-			fail("XStream didn't throw an exception for missing field c in annotation");
-		} catch (XStreamMissingSerializableFieldException expected) {
-		}
+		exception.expect(XStreamMissingSerializableFieldException.class);
+		xstream.toXML(new SubClassWithNewMemberButWithoutAnnotation());
 	}
 
 	// Remove checkstyle disable when https://github.com/checkstyle/checkstyle/issues/1349 is fixed

@@ -24,7 +24,6 @@ package org.catrobat.catroid.test.content.bricks;
 
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -83,7 +82,6 @@ import java.lang.reflect.Constructor;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNotSame;
-import static junit.framework.Assert.fail;
 
 @RunWith(AndroidJUnit4.class)
 public class BrickCloneTest {
@@ -91,7 +89,6 @@ public class BrickCloneTest {
 	private static final int BRICK_FORMULA_VALUE = 1;
 	private static final String CLONE_BRICK_FORMULA_VALUE = "2";
 	private static final String VARIABLE_NAME = "test_variable";
-	private static final String TAG = null;
 	private Sprite sprite;
 
 	@Before
@@ -100,7 +97,7 @@ public class BrickCloneTest {
 	}
 
 	@Test
-	public void testBrickCloneWithFormula() {
+	public void testBrickCloneWithFormula() throws CloneNotSupportedException, InterpretationException {
 		Brick brick = new ChangeBrightnessByNBrick(new Formula(BRICK_FORMULA_VALUE));
 		brickClone(brick, Brick.BrickField.BRIGHTNESS_CHANGE);
 
@@ -201,15 +198,15 @@ public class BrickCloneTest {
 
 	@Test
 	public void testVariableReferencesChangeVariableBrick() throws Exception {
-		testVariableReferences(ChangeVariableBrick.class);
+		checkVariableReferences(ChangeVariableBrick.class);
 	}
 
 	@Test
 	public void testVariableReferencesSetVariableBrick() throws Exception {
-		testVariableReferences(SetVariableBrick.class);
+		checkVariableReferences(SetVariableBrick.class);
 	}
 
-	private <T extends Brick> void testVariableReferences(Class<T> typeOfBrick) throws Exception {
+	private <T extends Brick> void checkVariableReferences(Class<T> typeOfBrick) throws Exception {
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 		ProjectManager.getInstance().setProject(project);
 		project.getDefaultScene().addSprite(sprite);
@@ -242,22 +239,13 @@ public class BrickCloneTest {
 		assertEquals(clonedVariable, clonedVariableFromBrick);
 	}
 
-	private void brickClone(Brick brick, Brick.BrickField... brickFields) {
-		try {
-			Brick cloneBrick = brick.clone();
-			for (Brick.BrickField brickField : brickFields) {
-				Formula brickFormula = ((FormulaBrick) brick).getFormulaWithBrickField(brickField);
-				Formula cloneBrickFormula = ((FormulaBrick) cloneBrick).getFormulaWithBrickField(brickField);
-				cloneBrickFormula.setRoot(new FormulaElement(ElementType.NUMBER, CLONE_BRICK_FORMULA_VALUE, null));
-				assertNotSame("Error - brick.clone() not working properly", brickFormula.interpretInteger(sprite),
-						cloneBrickFormula.interpretInteger(sprite));
-			}
-		} catch (CloneNotSupportedException exception) {
-			Log.e(TAG, Log.getStackTraceString(exception));
-			fail("cloning the brick failed");
-		} catch (InterpretationException interpretationException) {
-			Log.e(TAG, Log.getStackTraceString(interpretationException));
-			fail("Cloning of the brick failed: Formula interpretation failed.");
+	private void brickClone(Brick brick, Brick.BrickField... brickFields) throws CloneNotSupportedException, InterpretationException {
+		Brick cloneBrick = brick.clone();
+		for (Brick.BrickField brickField : brickFields) {
+			Formula brickFormula = ((FormulaBrick) brick).getFormulaWithBrickField(brickField);
+			Formula cloneBrickFormula = ((FormulaBrick) cloneBrick).getFormulaWithBrickField(brickField);
+			cloneBrickFormula.setRoot(new FormulaElement(ElementType.NUMBER, CLONE_BRICK_FORMULA_VALUE, null));
+			assertNotSame(brickFormula.interpretInteger(sprite), cloneBrickFormula.interpretInteger(sprite));
 		}
 	}
 }

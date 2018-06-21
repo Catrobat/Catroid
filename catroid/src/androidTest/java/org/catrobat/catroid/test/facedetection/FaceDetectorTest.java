@@ -33,7 +33,11 @@ import org.junit.runner.RunWith;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
+
+import static org.hamcrest.Matchers.anyOf;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.lessThanOrEqualTo;
+import static org.junit.Assert.assertThat;
 
 @RunWith(AndroidJUnit4.class)
 public class FaceDetectorTest {
@@ -45,13 +49,8 @@ public class FaceDetectorTest {
 
 		public void onCustomSensorChanged(SensorCustomEvent event) {
 			numberOfCalls++;
-			if (event.values[0] == 1.0f) {
-				statusFaceDetected = true;
-			} else if (event.values[0] == 0.0f) {
-				statusFaceDetected = false;
-			} else {
-				fail("Unexpected value for face detected. Should be 1 for \"detected\" or 0 for \"not detected\".");
-			}
+			assertThat(event.values[0], anyOf(is(1.0f), is(0.0f)));
+			statusFaceDetected = event.values[0] == 1.0f;
 		}
 	};
 
@@ -67,7 +66,7 @@ public class FaceDetectorTest {
 		assertFalse(statusFaceDetected);
 		detector.sendFaceDetected(true);
 		assertTrue(statusFaceDetected);
-		assertTrue(numberOfCalls <= 1);
+		assertThat(numberOfCalls, is(lessThanOrEqualTo(1)));
 		assertEquals(1, numberOfCalls);
 		detector.sendFaceDetected(true);
 		assertEquals(1, numberOfCalls);

@@ -93,7 +93,7 @@ public final class TestUtils {
 				DEFAULT_TEST_PROJECT_NAME);
 	}
 
-	public static void cancelAllNotifications(Context context) {
+	public static void cancelAllNotifications(Context context) throws Exception {
 		NotificationManager notificationManager = (NotificationManager) context
 				.getSystemService(Context.NOTIFICATION_SERVICE);
 		@SuppressWarnings("unchecked")

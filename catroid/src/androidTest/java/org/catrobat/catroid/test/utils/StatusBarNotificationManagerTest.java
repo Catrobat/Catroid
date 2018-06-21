@@ -26,7 +26,6 @@ package org.catrobat.catroid.test.utils;
 import android.os.Bundle;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
 import android.util.SparseArray;
 
 import org.catrobat.catroid.R;
@@ -39,11 +38,9 @@ import org.junit.runner.RunWith;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
 
 @RunWith(AndroidJUnit4.class)
 public class StatusBarNotificationManagerTest {
-	private static final String TAG = StatusBarNotificationManagerTest.class.getSimpleName();
 
 	private final StatusBarNotificationManager notificationManager = StatusBarNotificationManager.getInstance();
 
@@ -53,7 +50,7 @@ public class StatusBarNotificationManagerTest {
 	}
 
 	@Test
-	public void testCreateCopyNotification() {
+	public void testCreateCopyNotification() throws Exception {
 		int id = notificationManager.createCopyNotification(InstrumentationRegistry.getTargetContext(), TestUtils
 				.DEFAULT_TEST_PROJECT_NAME);
 		checkNotificationData(id);
@@ -64,7 +61,7 @@ public class StatusBarNotificationManagerTest {
 	}
 
 	@Test
-	public void testCreateDownloadNotification() {
+	public void testCreateDownloadNotification() throws Exception {
 		int id = notificationManager.createDownloadNotification(InstrumentationRegistry.getTargetContext(), TestUtils
 				.DEFAULT_TEST_PROJECT_NAME);
 		checkNotificationData(id);
@@ -75,7 +72,7 @@ public class StatusBarNotificationManagerTest {
 	}
 
 	@Test
-	public void testCreateUploadNotification() {
+	public void testCreateUploadNotification() throws Exception {
 		int id = notificationManager.createUploadNotification(InstrumentationRegistry.getTargetContext(), TestUtils
 				.DEFAULT_TEST_PROJECT_NAME);
 		checkNotificationData(id);
@@ -88,16 +85,11 @@ public class StatusBarNotificationManagerTest {
 
 	@Test
 	public void testShowOrUpdateNotification() {
-		try {
-			notificationManager.showOrUpdateNotification(-1, 0);
-		} catch (Exception ex) {
-			Log.e(TAG, "showOrUpdateNotification() failed", ex);
-			fail("there shouldn't be any exception thrown");
-		}
+		notificationManager.showOrUpdateNotification(-1, 0);
 	}
 
 	@Test
-	public void testUploadRejectedNotification() {
+	public void testUploadRejectedNotification() throws Exception {
 		int id = notificationManager.createUploadNotification(InstrumentationRegistry.getTargetContext(), TestUtils
 				.DEFAULT_TEST_PROJECT_NAME);
 		checkNotificationData(id);
@@ -112,7 +104,7 @@ public class StatusBarNotificationManagerTest {
 				.getString(R.string.error_project_upload));
 	}
 
-	private void checkNotificationData(int id) {
+	private void checkNotificationData(int id) throws Exception {
 		assertTrue(id >= 0);
 
 		@SuppressWarnings("unchecked")

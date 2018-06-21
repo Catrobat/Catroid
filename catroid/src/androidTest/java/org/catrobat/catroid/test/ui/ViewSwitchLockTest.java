@@ -26,7 +26,9 @@ import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.ui.ViewSwitchLock;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
 import java.util.concurrent.locks.Lock;
@@ -34,13 +36,15 @@ import java.util.concurrent.locks.Lock;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
 
 @RunWith(AndroidJUnit4.class)
 public class ViewSwitchLockTest {
 
+	@Rule
+	public final ExpectedException exception = ExpectedException.none();
+
 	@Test
-	public void testViewSwitchLock() {
+	public void testViewSwitchLock() throws Exception {
 		Lock viewSwitchLock = new ViewSwitchLock();
 		assertFalse((Boolean) Reflection.getPrivateField(viewSwitchLock, "locked"));
 
@@ -65,7 +69,7 @@ public class ViewSwitchLockTest {
 	}
 
 	@Test
-	public void testViewSwitchAutoUnlock() throws InterruptedException {
+	public void testViewSwitchAutoUnlock() throws Exception {
 		Lock viewSwitchLock = new ViewSwitchLock();
 		long timeout = (Long) Reflection.getPrivateField(ViewSwitchLock.class, "UNLOCK_TIMEOUT");
 
@@ -76,40 +80,31 @@ public class ViewSwitchLockTest {
 	}
 
 	@Test
-	public void testDefaultSettings() {
+	public void testDefaultSettings() throws Exception {
 		assertEquals(200L, Reflection.getPrivateField(ViewSwitchLock.class, "UNLOCK_TIMEOUT"));
 	}
 
 	@Test
-	public void testUnsupportedMethods() {
-		Lock viewSwitchLock = new ViewSwitchLock();
+	public void testUnsupportedLockInterruptibly() throws InterruptedException {
+		exception.expect(UnsupportedOperationException.class);
+		new ViewSwitchLock().lockInterruptibly();
+	}
 
-		try {
-			viewSwitchLock.lock();
-			fail("Method is supported");
-		} catch (UnsupportedOperationException expected) {
-		}
+	@Test
+	public void testUnsupportedNewCondition() {
+		exception.expect(UnsupportedOperationException.class);
+		new ViewSwitchLock().newCondition();
+	}
 
-		try {
-			viewSwitchLock.lockInterruptibly();
-			fail("Method is supported");
-		} catch (UnsupportedOperationException expected) {
-		} catch (Exception exception) {
-			fail("An unexcpected excpetion occured");
-		}
+	@Test
+	public void testUnsupportedtryLock() throws InterruptedException {
+		exception.expect(UnsupportedOperationException.class);
+		new ViewSwitchLock().tryLock(1L, null);
+	}
 
-		try {
-			viewSwitchLock.newCondition();
-			fail("Method is supported");
-		} catch (UnsupportedOperationException expected) {
-		}
-
-		try {
-			viewSwitchLock.tryLock(1L, null);
-			fail("Method is supported");
-		} catch (UnsupportedOperationException expected) {
-		} catch (Exception exception) {
-			fail("An unexcpected excpetion occured");
-		}
+	@Test
+	public void testUnsupportedLock() {
+		exception.expect(UnsupportedOperationException.class);
+		new ViewSwitchLock().lock();
 	}
 }

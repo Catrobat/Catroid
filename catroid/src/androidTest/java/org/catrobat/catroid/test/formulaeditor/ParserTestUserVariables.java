@@ -23,7 +23,7 @@
 package org.catrobat.catroid.test.formulaeditor;
 
 import android.support.test.InstrumentationRegistry;
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -42,11 +42,15 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class ParserTestUserVariables extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class ParserTestUserVariables {
 
 	private static final double USER_VARIABLE_1_VALUE_TYPE_DOUBLE = 5d;
 	private static final String PROJECT_USER_VARIABLE = "projectUserVariable";

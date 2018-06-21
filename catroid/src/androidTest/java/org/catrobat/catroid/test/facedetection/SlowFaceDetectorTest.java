@@ -23,7 +23,6 @@
 package org.catrobat.catroid.test.facedetection;
 
 import android.graphics.PointF;
-import android.hardware.Camera;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.common.ScreenValues;
@@ -33,6 +32,7 @@ import org.catrobat.catroid.formulaeditor.SensorCustomEventListener;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.Reflection.ParameterList;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,9 +40,12 @@ import org.junit.runner.RunWith;
 import java.util.Random;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
+
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.number.OrderingComparison.greaterThanOrEqualTo;
+import static org.hamcrest.number.OrderingComparison.lessThanOrEqualTo;
+import static org.junit.Assert.assertThat;
 
 @RunWith(AndroidJUnit4.class)
 public class SlowFaceDetectorTest {
@@ -56,70 +59,28 @@ public class SlowFaceDetectorTest {
 	private static final int X_POSITION_INDEX = 2;
 	private static final int Y_POSITION_INDEX = 3;
 
+	private SlowFaceDetector detector;
+
 	@Before
 	public void setUp() throws Exception {
 		ScreenValues.SCREEN_WIDTH = 720;
 		ScreenValues.SCREEN_HEIGHT = 1080;
+		detector = new SlowFaceDetector();
 	}
 
-	@Test
-	public void testStartAndStop() {
-
-		Camera camera = null;
-		try {
-			camera = Camera.open();
-		} catch (Exception exc) {
-			fail("Camera not available (" + exc.getMessage() + ")");
-		} finally {
-			if (camera != null) {
-				camera.release();
-			}
-		}
-
-		SlowFaceDetector detector = new SlowFaceDetector();
-		assertNotNull(detector);
-
-		try {
-			detector.startFaceDetection();
-		} catch (Exception exc) {
-			fail("Cannot start face detection (" + exc.getMessage() + ")");
-		}
-
-		try {
-			detector.stopFaceDetection();
-		} catch (Exception exc) {
-			fail("Cannot stop face detection (" + exc.getMessage() + ")");
-		}
-
-		camera = null;
-		try {
-			camera = Camera.open();
-		} catch (Exception exc) {
-			fail("Ressources were not propperly released");
-		} finally {
-			if (camera != null) {
-				camera.release();
-			}
-		}
+	@After
+	public void tearDown() {
+		detector.stopFaceDetection();
 	}
 
 	@Test
 	public void testDoubleStart() {
-		SlowFaceDetector detector = new SlowFaceDetector();
 		detector.startFaceDetection();
-		try {
-			detector.startFaceDetection();
-		} catch (Exception e) {
-			fail("Second start of face detector should be ignored and not cause errors: " + e.getMessage());
-		} finally {
-			detector.stopFaceDetection();
-		}
+		detector.startFaceDetection();
 	}
 
 	@Test
-	public void testOnFaceDetectedListener() {
-		SlowFaceDetector detector = new SlowFaceDetector();
-
+	public void testOnFaceDetectedListener() throws Exception {
 		final int[] detectedFaces = new int[4];
 		SensorCustomEventListener detectionListener = new SensorCustomEventListener() {
 
@@ -164,14 +125,11 @@ public class SlowFaceDetectorTest {
 		assertEquals(expectedYPosition, detectedFaces[Y_POSITION_INDEX]);
 
 		Reflection.invokeMethod(detector, "onFaceFound", parameters);
-		assertTrue(detectedFaces[COUNTER_INDEX] <= 6);
 		assertEquals(6, detectedFaces[COUNTER_INDEX]);
 	}
 
 	@Test
-	public void testFaceSizeBounds() {
-		SlowFaceDetector detector = new SlowFaceDetector();
-
+	public void testFaceSizeBounds() throws Exception {
 		final float[] faceSize = new float[1];
 		SensorCustomEventListener detectionListener = new SensorCustomEventListener() {
 			public void onCustomSensorChanged(SensorCustomEvent event) {
@@ -185,15 +143,13 @@ public class SlowFaceDetectorTest {
 		ParameterList parameters = new ParameterList(new PointF(), Float.valueOf(EYE_DISTANCE),
 				Integer.valueOf(DETECTION_WIDTH), Integer.valueOf(DETECTION_HEIGHT));
 		Reflection.invokeMethod(detector, "onFaceFound", parameters);
-		assertTrue(faceSize[0] >= 0);
-		assertTrue(faceSize[0] <= 100);
+		assertThat(faceSize[0], allOf(greaterThanOrEqualTo(0f), lessThanOrEqualTo(100f)));
 
 		Random random = new Random();
 		parameters = new ParameterList(new PointF(), Float.valueOf(random.nextInt(DETECTION_WIDTH)),
 				Integer.valueOf(DETECTION_WIDTH), Integer.valueOf(DETECTION_HEIGHT));
 		Reflection.invokeMethod(detector, "onFaceFound", parameters);
-		assertTrue(faceSize[0] >= 0);
-		assertTrue(faceSize[0] <= 100);
+		assertThat(faceSize[0], allOf(greaterThanOrEqualTo(0f), lessThanOrEqualTo(100f)));
 
 		detector.removeOnFaceDetectedListener(detectionListener);
 	}

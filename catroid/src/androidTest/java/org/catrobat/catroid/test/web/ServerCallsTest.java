@@ -26,7 +26,6 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -54,8 +53,6 @@ import static org.junit.Assert.assertThat;
 @RunWith(AndroidJUnit4.class)
 public class ServerCallsTest implements DeleteTestUserTask.OnDeleteTestUserCompleteListener {
 
-	private static final String TAG = ServerCalls.class.getSimpleName();
-
 	private static final int STATUS_CODE_USER_PASSWORD_TOO_SHORT = 753;
 	private static final int STATUS_CODE_USER_ADD_EMAIL_EXISTS = 757;
 	private static final int STATUS_CODE_USER_EMAIL_INVALID = 765;
@@ -74,53 +71,45 @@ public class ServerCallsTest implements DeleteTestUserTask.OnDeleteTestUserCompl
 	}
 
 	@Test
-	public void testRegistrationOk() {
-		try {
-			String testUser = "testUser" + System.currentTimeMillis();
-			String testPassword = "pwspws";
-			String testEmail = testUser + "@gmail.com";
-			String token = Constants.NO_TOKEN;
+	public void testRegistrationOk() throws WebconnectionException {
+		String testUser = "testUser" + System.currentTimeMillis();
+		String testPassword = "pwspws";
+		String testEmail = testUser + "@gmail.com";
+		String token = Constants.NO_TOKEN;
 
-			boolean userRegistered = ServerCalls.getInstance().register(testUser, testPassword, testEmail,
-					"de", "at", token, InstrumentationRegistry.getTargetContext());
+		boolean userRegistered = ServerCalls.getInstance().register(testUser, testPassword, testEmail,
+				"de", "at", token, InstrumentationRegistry.getTargetContext());
 
-			assertTrue(userRegistered);
+		assertTrue(userRegistered);
 
-			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
-			token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
-			boolean tokenOk = ServerCalls.getInstance().checkToken(token, testUser);
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
+		token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+		boolean tokenOk = ServerCalls.getInstance().checkToken(token, testUser);
 
-			Log.i(TAG, "tokenOk: " + tokenOk);
-			assertTrue(tokenOk);
-		} catch (WebconnectionException e) {
-			Log.e(TAG, "Webconnection error", e);
-			fail("WebconnectionException: the token should be valid \nstatus code:" + e.getStatusCode()
-					+ "\nmessage: " + e.getMessage());
-		}
+		assertTrue(tokenOk);
 	}
 
 	@Test
-	public void testRegisterWithExistingUser() {
+	public void testRegisterWithExistingUser() throws WebconnectionException {
+		String testUser = "testUser" + System.currentTimeMillis();
+		String testPassword = "pwspws";
+		String testEmail = testUser + "@gmail.com";
+
+		String token = Constants.NO_TOKEN;
+
+		boolean userRegistered = ServerCalls.getInstance().register(testUser, testPassword, testEmail,
+				"de", "at", token, InstrumentationRegistry.getTargetContext());
+
+		assertTrue(userRegistered);
+
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
+		token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+
 		try {
-			String testUser = "testUser" + System.currentTimeMillis();
-			String testPassword = "pwspws";
-			String testEmail = testUser + "@gmail.com";
-
-			String token = Constants.NO_TOKEN;
-			boolean userRegistered = ServerCalls.getInstance().register(testUser, testPassword, testEmail,
-					"de", "at", token, InstrumentationRegistry.getTargetContext());
-
-			Log.i(TAG, "user registered: " + userRegistered);
-			assertTrue(userRegistered);
-
-			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
-			token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 			ServerCalls.getInstance().register(testUser, testPassword, testEmail, "de",
 					"at", token, InstrumentationRegistry.getTargetContext());
-
 			fail("WebconnectionException not thrown");
 		} catch (WebconnectionException e) {
-			Log.i(TAG, "Webconnection error (this is expected behaviour)", e);
 			assertEquals(STATUS_CODE_USER_ADD_EMAIL_EXISTS, e.getStatusCode());
 			assertNotNull(e.getMessage());
 			assertThat(e.getMessage().length(), is(greaterThan(0)));
@@ -128,44 +117,34 @@ public class ServerCallsTest implements DeleteTestUserTask.OnDeleteTestUserCompl
 	}
 
 	@Test
-	public void testRegisterAndLogin() {
-		try {
-			String testUser = "testUser" + System.currentTimeMillis();
-			String testPassword = "pwspws";
-			String testEmail = testUser + "@gmail.com";
+	public void testRegisterAndLogin() throws WebconnectionException {
+		String testUser = "testUser" + System.currentTimeMillis();
+		String testPassword = "pwspws";
+		String testEmail = testUser + "@gmail.com";
 
-			String token = Constants.NO_TOKEN;
-			boolean userRegistered = ServerCalls.getInstance().register(testUser, testPassword, testEmail,
-					"de", "at", token, InstrumentationRegistry.getTargetContext());
+		String token = Constants.NO_TOKEN;
+		boolean userRegistered = ServerCalls.getInstance().register(testUser, testPassword, testEmail,
+				"de", "at", token, InstrumentationRegistry.getTargetContext());
 
-			Log.i(TAG, "user registered: " + userRegistered);
-			assertTrue(userRegistered);
+		assertTrue(userRegistered);
 
-			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
-			token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
-			boolean userLoggedIn = ServerCalls.getInstance().login(testUser, testPassword, token, InstrumentationRegistry.getTargetContext());
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
+		token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+		boolean userLoggedIn = ServerCalls.getInstance().login(testUser, testPassword, token, InstrumentationRegistry.getTargetContext());
 
-			Log.i(TAG, "user logged in: " + userLoggedIn);
-			assertTrue(userLoggedIn);
-		} catch (WebconnectionException e) {
-			Log.e(TAG, "Webconnection error", e);
-			fail("an exception should not be thrown! \nstatus code:" + e.getStatusCode() + "\nmessage: "
-					+ e.getMessage());
-		}
+		assertTrue(userLoggedIn);
 	}
 
 	@Test
 	public void testLoginWithNotExistingUser() {
+		String testUser = "testUser" + System.currentTimeMillis();
+		String testPassword = "pwspws";
+		String token = Constants.NO_TOKEN;
+
 		try {
-			String testUser = "testUser" + System.currentTimeMillis();
-			String testPassword = "pwspws";
-			String token = Constants.NO_TOKEN;
-
 			ServerCalls.getInstance().login(testUser, testPassword, token, InstrumentationRegistry.getTargetContext());
-
 			fail("WebconnectionException not thrown");
 		} catch (WebconnectionException e) {
-			Log.i(TAG, "Webconnection error (this is expected behaviour)", e);
 			assertEquals(STATUS_CODE_USER_NOT_EXISTING, e.getStatusCode());
 			assertNotNull(e.getMessage());
 			assertThat(e.getMessage().length(), is(greaterThan(0)));
@@ -173,27 +152,26 @@ public class ServerCallsTest implements DeleteTestUserTask.OnDeleteTestUserCompl
 	}
 
 	@Test
-	public void testRegisterWithExistingUserAndLoginWithWrongPassword() {
+	public void testRegisterWithExistingUserAndLoginWithWrongPassword() throws WebconnectionException {
+		String testUser = "testUser" + System.currentTimeMillis();
+		String testPassword = "pwspws";
+		String testEmail = testUser + "@gmail.com";
+
+		String token = Constants.NO_TOKEN;
+
+		boolean userRegistered = ServerCalls.getInstance().register(testUser, testPassword, testEmail,
+				"de", "at", token, InstrumentationRegistry.getTargetContext());
+
+		assertTrue(userRegistered);
+
+		String wrongPassword = "wrongpassword";
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
+		token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+
 		try {
-			String testUser = "testUser" + System.currentTimeMillis();
-			String testPassword = "pwspws";
-			String testEmail = testUser + "@gmail.com";
-
-			String token = Constants.NO_TOKEN;
-			boolean userRegistered = ServerCalls.getInstance().register(testUser, testPassword, testEmail,
-					"de", "at", token, InstrumentationRegistry.getTargetContext());
-
-			Log.i(TAG, "user registered: " + userRegistered);
-			assertTrue(userRegistered);
-
-			String wrongPassword = "wrongpassword";
-			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
-			token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 			ServerCalls.getInstance().login(testUser, wrongPassword, token, InstrumentationRegistry.getTargetContext());
-
 			fail("WebconnectionException not thrown");
 		} catch (WebconnectionException e) {
-			Log.i(TAG, "Webconnection error (this is expected behaviour)", e);
 			assertEquals(STATUS_CODE_AUTHENTICATION_FAILED, e.getStatusCode());
 			assertNotNull(e.getMessage());
 			assertThat(e.getMessage().length(), is(greaterThan(0)));
@@ -201,27 +179,27 @@ public class ServerCallsTest implements DeleteTestUserTask.OnDeleteTestUserCompl
 	}
 
 	@Test
-	public void testRegisterWithNewUserButExistingEmail() {
+	public void testRegisterWithNewUserButExistingEmail() throws WebconnectionException {
+		String testUser = "testUser" + System.currentTimeMillis();
+		String testPassword = "pwspws";
+		String testEmail = testUser + "@gmail.com";
+
+		String token = Constants.NO_TOKEN;
+
+		boolean userRegistered = ServerCalls.getInstance().register(testUser, testPassword, testEmail,
+				"de", "at", token, InstrumentationRegistry.getTargetContext());
+
+		assertTrue(userRegistered);
+
+		String newUser = "testUser" + System.currentTimeMillis();
+		token = Constants.NO_TOKEN;
+
 		try {
-			String testUser = "testUser" + System.currentTimeMillis();
-			String testPassword = "pwspws";
-			String testEmail = testUser + "@gmail.com";
-
-			String token = Constants.NO_TOKEN;
-			boolean userRegistered = ServerCalls.getInstance().register(testUser, testPassword, testEmail,
-					"de", "at", token, InstrumentationRegistry.getTargetContext());
-
-			Log.i(TAG, "user registered: " + userRegistered);
-			assertTrue(userRegistered);
-
-			String newUser = "testUser" + System.currentTimeMillis();
-			token = Constants.NO_TOKEN;
 			ServerCalls.getInstance().register(newUser, testPassword, testEmail, "de", "at", token,
 					InstrumentationRegistry.getTargetContext());
 
 			fail("WebconnectionException not thrown");
 		} catch (WebconnectionException e) {
-			Log.i(TAG, "Webconnection error (this is expected behaviour)", e);
 			assertEquals(STATUS_CODE_USER_ADD_EMAIL_EXISTS, e.getStatusCode());
 			assertNotNull(e.getMessage());
 			assertThat(e.getMessage().length(), is(greaterThan(0)));
@@ -230,18 +208,17 @@ public class ServerCallsTest implements DeleteTestUserTask.OnDeleteTestUserCompl
 
 	@Test
 	public void testRegisterWithTooShortPassword() {
-		try {
-			String testUser = "testUser" + System.currentTimeMillis();
-			String testPassword = "short";
-			String testEmail = testUser + "@gmail.com";
+		String testUser = "testUser" + System.currentTimeMillis();
+		String testPassword = "short";
+		String testEmail = testUser + "@gmail.com";
 
-			String token = Constants.NO_TOKEN;
+		String token = Constants.NO_TOKEN;
+		try {
 			ServerCalls.getInstance().register(testUser, testPassword, testEmail, "de", "at", token,
 					InstrumentationRegistry.getTargetContext());
 
 			fail("WebconnectionException not thrown");
 		} catch (WebconnectionException e) {
-			Log.i(TAG, "Webconnection error (this is expected behaviour)", e);
 			assertEquals(STATUS_CODE_USER_PASSWORD_TOO_SHORT, e.getStatusCode());
 			assertNotNull(e.getMessage());
 			assertThat(e.getMessage().length(), is(greaterThan(0)));
@@ -250,18 +227,18 @@ public class ServerCallsTest implements DeleteTestUserTask.OnDeleteTestUserCompl
 
 	@Test
 	public void testRegisterWithInvalidEmail() {
-		try {
-			String testUser = "testUser" + System.currentTimeMillis();
-			String testPassword = "pwspws";
-			String testEmail = "invalidEmail";
+		String testUser = "testUser" + System.currentTimeMillis();
+		String testPassword = "pwspws";
+		String testEmail = "invalidEmail";
 
-			String token = Constants.NO_TOKEN;
+		String token = Constants.NO_TOKEN;
+
+		try {
 			ServerCalls.getInstance().register(testUser, testPassword, testEmail, "de", "at", token,
 					InstrumentationRegistry.getTargetContext());
 
 			fail("WebconnectionException not thrown");
 		} catch (WebconnectionException e) {
-			Log.i(TAG, "Webconnection error (this is expected behaviour)", e);
 			assertEquals(STATUS_CODE_USER_EMAIL_INVALID, e.getStatusCode());
 			assertNotNull(e.getMessage());
 			assertThat(e.getMessage().length(), is(greaterThan(0)));
@@ -270,15 +247,13 @@ public class ServerCallsTest implements DeleteTestUserTask.OnDeleteTestUserCompl
 
 	@Test
 	public void testCheckTokenWrong() {
+		String wrongToken = "blub";
+		String username = "badUser";
 		try {
-			String wrongToken = "blub";
-			String username = "badUser";
 			boolean tokenOk = ServerCalls.getInstance().checkToken(wrongToken, username);
 
-			Log.i(TAG, "tokenOk: " + tokenOk);
 			assertFalse(tokenOk);
 		} catch (WebconnectionException e) {
-			Log.i(TAG, "Webconnection error (this is expected behaviour)", e);
 			assertEquals(STATUS_CODE_AUTHENTICATION_FAILED, e.getStatusCode());
 			assertNotNull(e.getMessage());
 			assertThat(e.getMessage().length(), is(greaterThan(0)));
@@ -286,34 +261,24 @@ public class ServerCallsTest implements DeleteTestUserTask.OnDeleteTestUserCompl
 	}
 
 	@Test
-	public void testCheckTokenOk() {
-		try {
-			String testUser = "testUser" + System.currentTimeMillis();
-			String testPassword = "pwspws";
-			String testEmail = testUser + "@gmail.com";
+	public void testCheckTokenOk() throws WebconnectionException {
+		String testUser = "testUser" + System.currentTimeMillis();
+		String testPassword = "pwspws";
+		String testEmail = testUser + "@gmail.com";
 
-			String token = Constants.NO_TOKEN;
-			boolean userRegistered = ServerCalls.getInstance().register(testUser, testPassword, testEmail,
-					"de", "at", token, InstrumentationRegistry.getTargetContext());
+		String token = Constants.NO_TOKEN;
+		boolean userRegistered = ServerCalls.getInstance().register(testUser, testPassword, testEmail,
+				"de", "at", token, InstrumentationRegistry.getTargetContext());
 
-			Log.i(TAG, "user registered: " + userRegistered);
-			assertTrue(userRegistered);
+		assertTrue(userRegistered);
 
-			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
-			token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
-			boolean tokenOk = ServerCalls.getInstance().checkToken(token, testUser);
-
-			Log.i(TAG, "tokenOk: " + tokenOk);
-			assertTrue(tokenOk);
-		} catch (WebconnectionException e) {
-			Log.e(TAG, "Webconnection error", e);
-			fail("WebconnectionException \nstatus code:" + e.getStatusCode() + "\nmessage: " + e.getMessage());
-		}
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
+		token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+		assertTrue(ServerCalls.getInstance().checkToken(token, testUser));
 	}
 
 	@Override
 	public void onDeleteTestUserComplete(Boolean deleted) {
 		assertTrue(deleted);
-		Log.d(TAG, "testUserAccountsDeleted");
 	}
 }

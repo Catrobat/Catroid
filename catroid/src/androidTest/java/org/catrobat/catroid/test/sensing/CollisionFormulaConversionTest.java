@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
+import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.ScreenValueHandler;
 import org.junit.After;
@@ -47,7 +48,10 @@ import java.io.IOException;
 import java.util.Locale;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.fail;
+
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 @RunWith(AndroidJUnit4.class)
 public class CollisionFormulaConversionTest {
@@ -70,13 +74,10 @@ public class CollisionFormulaConversionTest {
 	}
 
 	@Test
-	public void testCatrobatLanguageVersionUpdated() throws IOException {
+	public void testCatrobatLanguageVersionUpdated() throws IOException, ProjectException {
 		TestUtils.createTestProjectOnLocalStorageWithCatrobatLanguageVersion(OLD_CATROBAT_LANGUAGE_VERSION);
-		try {
-			projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, InstrumentationRegistry.getTargetContext());
-		} catch (Exception e) {
-			fail("couldn't load project");
-		}
+		projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, InstrumentationRegistry.getTargetContext());
+
 		assertEquals(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION,
 				projectManager.getCurrentProject().getCatrobatLanguageVersion());
 		TestUtils.deleteProjects();
@@ -97,15 +98,15 @@ public class CollisionFormulaConversionTest {
 
 		Sprite sprite1 = project.getDefaultScene().getSprite(firstSpriteName);
 		Brick brick = sprite1.getScript(0).getBrick(0);
-		if (brick instanceof FormulaBrick) {
-			FormulaBrick formulaBrick = (FormulaBrick) brick;
-			String newFormula = formulaBrick.getFormulas().get(0).getDisplayString(InstrumentationRegistry
-					.getTargetContext());
-			String expected = collisionTag + "(" + thirdSpriteName + ") ";
-			assertEquals(expected, newFormula);
-		} else {
-			fail("brick is no instance of FormulaBrick");
-		}
+
+		assertThat(brick, is(instanceOf(FormulaBrick.class)));
+
+		FormulaBrick formulaBrick = (FormulaBrick) brick;
+		String newFormula = formulaBrick.getFormulas().get(0).getDisplayString(InstrumentationRegistry
+				.getTargetContext());
+		String expected = collisionTag + "(" + thirdSpriteName + ") ";
+		assertEquals(expected, newFormula);
+
 		TestUtils.deleteProjects();
 	}
 
@@ -137,15 +138,15 @@ public class CollisionFormulaConversionTest {
 
 		Sprite sprite1 = project.getDefaultScene().getSprite(firstSpriteName);
 		Brick brick = sprite1.getScript(0).getBrick(0);
-		if (brick instanceof FormulaBrick) {
-			FormulaBrick formulaBrick = (FormulaBrick) brick;
-			String newFormula = formulaBrick.getFormulas().get(0).getDisplayString(InstrumentationRegistry
-					.getTargetContext());
-			String expected = collisionTag + "(" + thirdSpriteName + ") ";
-			assertEquals(expected, newFormula);
-		} else {
-			fail("brick is no instance of FormulaBrick");
-		}
+
+		assertThat(brick, is(instanceOf(FormulaBrick.class)));
+
+		FormulaBrick formulaBrick = (FormulaBrick) brick;
+		String newFormula = formulaBrick.getFormulas().get(0).getDisplayString(InstrumentationRegistry
+				.getTargetContext());
+		String expected = collisionTag + "(" + thirdSpriteName + ") ";
+		assertEquals(expected, newFormula);
+
 		TestUtils.deleteProjects();
 	}
 }
