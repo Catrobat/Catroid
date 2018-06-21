@@ -140,7 +140,7 @@ public class IfOnEdgeBouncePhysicsActionTest {
 		physicsWorld.step(0.3f);
 		logState("Values after step of physics world", sprite, physicsObject);
 
-		assertTrue(sprite.look.getYInUserInterfaceDimensionUnit() < setYValue);
+		assertThat(sprite.look.getYInUserInterfaceDimensionUnit(), is(lessThan(setYValue)));
 	}
 
 	@Test
@@ -195,12 +195,12 @@ public class IfOnEdgeBouncePhysicsActionTest {
 		physicsWorld.step(2.3f);
 		logState("Values after second step of physics world", sprite, physicsObject);
 
-		assertTrue(sprite.look.getXInUserInterfaceDimensionUnit() < setXValue);
-		assertTrue(sprite.look.getYInUserInterfaceDimensionUnit() < setYValue);
+		assertThat(sprite.look.getXInUserInterfaceDimensionUnit(), is(lessThan(setXValue)));
+		assertThat(sprite.look.getYInUserInterfaceDimensionUnit(), is(lessThan(setYValue)));
 	}
 
 	@Test
-	public void testCollisionBroadcastOnIfOnEdgeBounce() {
+	public void testCollisionBroadcastOnIfOnEdgeBounce() throws Exception {
 		assertNotNull(sprite.look.getLookData());
 
 		CollisionScript spriteCollisionScript = new CollisionScript(null);
@@ -245,8 +245,8 @@ public class IfOnEdgeBouncePhysicsActionTest {
 		assertFalse(activeVerticalBounces.isEmpty());
 		assertFalse(activeHorizontalBounces.isEmpty());
 
-		assertTrue(setXValue > sprite.look.getXInUserInterfaceDimensionUnit());
-		assertTrue(setYValue > sprite.look.getYInUserInterfaceDimensionUnit());
+		assertThat(sprite.look.getXInUserInterfaceDimensionUnit(), is(lessThan(setXValue)));
+		assertThat(sprite.look.getYInUserInterfaceDimensionUnit(), is(lessThan(setYValue)));
 
 		physicsWorld.step(2.0f);
 

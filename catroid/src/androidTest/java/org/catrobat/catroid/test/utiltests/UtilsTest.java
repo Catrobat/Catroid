@@ -25,7 +25,6 @@ package org.catrobat.catroid.test.utiltests;
 import android.os.SystemClock;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DefaultProjectHandler;
@@ -66,12 +65,9 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
 
 @RunWith(AndroidJUnit4.class)
 public class UtilsTest {
-	private static final String TAG = UtilsTest.class.getSimpleName();
-
 	private final String testFileContent = "Hello, this is a Test-String";
 	private static final String MD5_EMPTY = "D41D8CD98F00B204E9800998ECF8427E";
 	private static final String MD5_CATROID = "4F982D927F4784F69AD6D6AF38FD96AD";
@@ -83,22 +79,11 @@ public class UtilsTest {
 
 	@Before
 	public void setUp() throws Exception {
-		OutputStream outputStream = null;
-
-		try {
-			testFile = File.createTempFile("testCopyFiles", ".txt");
-			if (testFile.canWrite()) {
-				outputStream = new FileOutputStream(testFile);
-				outputStream.write(testFileContent.getBytes());
-				outputStream.flush();
-			}
-		} catch (IOException e) {
-			Log.e(TAG, "File handling error", e);
-		} finally {
-			if (outputStream != null) {
-				outputStream.close();
-			}
-		}
+		testFile = File.createTempFile("testCopyFiles", ".txt");
+		OutputStream outputStream = new FileOutputStream(testFile);
+		outputStream.write(testFileContent.getBytes());
+		outputStream.flush();
+		outputStream.close();
 	}
 
 	@After
@@ -124,19 +109,12 @@ public class UtilsTest {
 			md5TestFile.delete();
 		}
 
-		try {
-			md5TestFile.createNewFile();
-			assertEquals(MD5_EMPTY.toLowerCase(Locale.US), Utils.md5Checksum(md5TestFile));
+		md5TestFile.createNewFile();
+		assertEquals(MD5_EMPTY.toLowerCase(Locale.US), Utils.md5Checksum(md5TestFile));
 
-			printWriter = new PrintWriter(md5TestFile);
-			printWriter.print("catroid");
-		} catch (IOException e) {
-			Log.e(TAG, "File handling error", e);
-		} finally {
-			if (printWriter != null) {
-				printWriter.close();
-			}
-		}
+		printWriter = new PrintWriter(md5TestFile);
+		printWriter.print("catroid");
+		printWriter.close();
 
 		assertEquals(MD5_CATROID.toLowerCase(Locale.US), Utils.md5Checksum(md5TestFile));
 
@@ -175,9 +153,7 @@ public class UtilsTest {
 
 	@Test
 	public void testBuildProjectPath() {
-		if (!Utils.isExternalStorageAvailable()) {
-			fail("No SD card present");
-		}
+		assertTrue(Utils.isExternalStorageAvailable());
 		String projectName = "test?Projekt\"1";
 		String expectedPath = Constants.DEFAULT_ROOT_DIRECTORY.getAbsolutePath() + "/test%3FProjekt%221";
 		assertEquals(expectedPath, PathBuilder.buildProjectPath(projectName));

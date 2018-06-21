@@ -35,7 +35,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
+
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.lessThan;
+import static org.hamcrest.number.OrderingComparison.greaterThan;
+import static org.junit.Assert.assertThat;
 
 @RunWith(AndroidJUnit4.class)
 public class TurnLeftRightSpeedActionTest {
@@ -75,7 +79,7 @@ public class TurnLeftRightSpeedActionTest {
 			physicsWorld.step(TEST_STEP_DELTA_TIME);
 			float postStepDirection = physicsObject.getDirection();
 			assertEquals(expectedDegrees, postStepDirection - preStepDirection, TestUtils.DELTA);
-			assertTrue(postStepDirection > preStepDirection);
+			assertThat(postStepDirection, is(greaterThan(preStepDirection)));
 		}
 	}
 
@@ -93,7 +97,7 @@ public class TurnLeftRightSpeedActionTest {
 			physicsWorld.step(TEST_STEP_DELTA_TIME);
 			float postStepDirection = physicsObject.getDirection();
 			assertEquals(expectedDegrees, postStepDirection - preStepDirection, TestUtils.DELTA);
-			assertTrue(postStepDirection < preStepDirection);
+			assertThat(postStepDirection, is(lessThan(preStepDirection)));
 		}
 	}
 

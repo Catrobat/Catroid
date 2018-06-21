@@ -86,8 +86,6 @@ public class JobHandlerTest {
 		} catch (IllegalArgumentException ex) {
 			assertEquals(Job.State.SCHEDULED, expectedJob.getState());
 			verifyZeroInteractions(convertCallbackMock);
-		} catch (Exception ex) {
-			fail("Unexpected exception thrown!");
 		}
 	}
 
@@ -102,8 +100,6 @@ public class JobHandlerTest {
 			} catch (IllegalArgumentException ex) {
 				assertEquals(givenState, expectedJob.getState());
 				verifyZeroInteractions(convertCallbackMock);
-			} catch (Exception ex) {
-				fail("Unexpected exception thrown!");
 			}
 		}
 	}

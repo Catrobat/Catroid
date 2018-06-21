@@ -20,46 +20,47 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.content.actions;
+package org.catrobat.catroid.test.facedetection;
 
+import android.hardware.Camera;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.badlogic.gdx.scenes.scene2d.Action;
-
-import org.catrobat.catroid.content.ActionFactory;
-import org.catrobat.catroid.content.SingleSprite;
-import org.catrobat.catroid.content.Sprite;
-import org.junit.Rule;
+import org.catrobat.catroid.common.ScreenValues;
+import org.catrobat.catroid.facedetection.SlowFaceDetector;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.assertNotNull;
 
 @RunWith(AndroidJUnit4.class)
-public class ShowActionTest {
+public class SlowFaceDetectorCameraTest {
+	private Camera camera;
 
-	@Rule
-	public final ExpectedException exception = ExpectedException.none();
+	@Before
+	public void setUp() throws Exception {
+		ScreenValues.SCREEN_WIDTH = 720;
+		ScreenValues.SCREEN_HEIGHT = 1080;
 
-	@Test
-	public void testShow() {
-		Sprite sprite = new SingleSprite("new SingleSprite");
-		sprite.look.setLookVisible(false);
-		assertFalse(sprite.look.isLookVisible());
+		camera = Camera.open();
+	}
 
-		ActionFactory factory = sprite.getActionFactory();
-		Action action = factory.createShowAction(sprite);
-		action.act(1.0f);
-		assertTrue(sprite.look.isLookVisible());
+	@After
+	public void tearDown() {
+		if (camera != null) {
+			camera.release();
+		}
 	}
 
 	@Test
-	public void testNullSprite() {
-		ActionFactory factory = new ActionFactory();
-		Action action = factory.createShowAction(null);
-		exception.expect(NullPointerException.class);
-		action.act(1.0f);
+	public void testStartAndStop() {
+		SlowFaceDetector detector = new SlowFaceDetector();
+		assertNotNull(detector);
+
+		detector.startFaceDetection();
+		detector.stopFaceDetection();
+
+		camera = Camera.open();
 	}
 }

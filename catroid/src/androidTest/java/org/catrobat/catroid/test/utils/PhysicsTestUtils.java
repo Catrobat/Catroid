@@ -74,23 +74,23 @@ public final class PhysicsTestUtils {
 		return createPhysicsObject(physicsWorld, null, null);
 	}
 
-	public static Body getBody(PhysicsObject physicsObject) {
+	public static Body getBody(PhysicsObject physicsObject) throws Exception {
 		return (Body) Reflection.getPrivateField(physicsObject, "body");
 	}
 
-	public static PhysicsObject.Type getType(PhysicsObject physicsObject) {
+	public static PhysicsObject.Type getType(PhysicsObject physicsObject) throws Exception {
 		return (PhysicsObject.Type) Reflection.getPrivateField(physicsObject, "type");
 	}
 
-	public static float getMass(PhysicsObject physicsObject) {
+	public static float getMass(PhysicsObject physicsObject) throws Exception {
 		return (Float) Reflection.getPrivateField(physicsObject, "mass");
 	}
 
-	public static Shape[] getShapes(PhysicsObject physicsObject) {
+	public static Shape[] getShapes(PhysicsObject physicsObject) throws Exception {
 		return (Shape[]) Reflection.getPrivateField(physicsObject, "shapes");
 	}
 
-	public static FixtureDef getFixtureDef(PhysicsObject physicsObject) {
+	public static FixtureDef getFixtureDef(PhysicsObject physicsObject) throws Exception {
 		return (FixtureDef) Reflection.getPrivateField(physicsObject, "fixtureDef");
 	}
 

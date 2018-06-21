@@ -33,8 +33,6 @@ import org.catrobat.catroid.common.LookData;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static junit.framework.Assert.fail;
-
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -61,10 +59,6 @@ public class LookDataTest {
 	@Test
 	public void testNoExceptionThrownOnCallingResetLookData() {
 		LookData lookData = new LookData();
-		try {
-			lookData.dispose();
-		} catch (Exception error) {
-			fail();
-		}
+		lookData.dispose();
 	}
 }

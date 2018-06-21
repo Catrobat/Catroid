@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.utiltests;
+package org.catrobat.catroid.test.utiltests.reflection;
 
 import android.support.test.runner.AndroidJUnit4;
 
@@ -36,13 +36,12 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
 
 @RunWith(AndroidJUnit4.class)
 public class ReflectionTest {
 
 	@Test
-	public void testPrivateFieldGettersAndSetters() {
+	public void testPrivateFieldGettersAndSetters() throws Exception {
 		char secretChar = (Character) Reflection.getPrivateField(SubClass.class, "SECRET_STATIC_CHAR");
 		assertEquals(SubClass.SECRET_STATIC_CHAR, secretChar);
 
@@ -81,82 +80,7 @@ public class ReflectionTest {
 	}
 
 	@Test
-	public void testPrivateFieldWithNullObject() {
-		Object nullObject = null;
-		try {
-			Reflection.getPrivateField(nullObject, "nullObjectsDontHaveFields");
-			fail("Getting private field of null object didn't cause an IllegalArgumentException");
-		} catch (IllegalArgumentException expected) {
-		}
-
-		try {
-			Reflection.getPrivateField(SubClass.class, nullObject, "SECRET_INTEGER");
-			fail("Getting private field of null object didn't cause an IllegalArgumentException");
-		} catch (Exception exception) {
-			assertEquals(exception.getCause().getClass(), NullPointerException.class);
-		}
-
-		try {
-			Reflection.setPrivateField(nullObject, "nullObjectsDontHaveFields", null);
-			fail("Setting private field of null object didn't cause an IllegalArgumentException");
-		} catch (IllegalArgumentException expected) {
-		}
-
-		try {
-			Reflection.setPrivateField(SubClass.class, nullObject, "SECRET_INTEGER", 123);
-			fail("Setting private field of null object didn't cause an IllegalArgumentException");
-		} catch (Exception exception) {
-			assertEquals(exception.getCause().getClass(), NullPointerException.class);
-		}
-	}
-
-	@Test
-	public void testPrivateFieldWithWrongParameters() {
-		try {
-			Reflection.getPrivateField(SuperClass.class, new SubClass(), "secretString");
-			fail("Secret string is only located in SubClass but also found in SuperClass");
-		} catch (RuntimeException runtimeException) {
-			assertEquals(runtimeException.getCause().getClass(), NoSuchFieldException.class);
-		}
-
-		try {
-			Reflection.getPrivateField(SubClass.class, new SuperClass(), "secretString");
-			fail("SuperClass object isn't a sub class of SubClass");
-		} catch (RuntimeException runtimeException) {
-			assertEquals(runtimeException.getCause().getClass(), IllegalArgumentException.class);
-		}
-
-		try {
-			Reflection.getPrivateField(SubClass.class, null, "secretString");
-			fail("SubClass has a static member 'secretString'");
-		} catch (RuntimeException runtimeException) {
-			assertEquals(runtimeException.getCause().getClass(), NullPointerException.class);
-		}
-
-		try {
-			Reflection.setPrivateField(SuperClass.class, new SubClass(), "secretString", "Secret string");
-			fail("Secret string is only located in SubClass but also found in SuperClass");
-		} catch (RuntimeException runtimeException) {
-			assertEquals(runtimeException.getCause().getClass(), NoSuchFieldException.class);
-		}
-
-		try {
-			Reflection.setPrivateField(SubClass.class, new SuperClass(), "secretString", "Secret string");
-			fail("SuperClass object is a sub class of SubClass but shouldn't");
-		} catch (RuntimeException runtimeException) {
-			assertEquals(runtimeException.getCause().getClass(), IllegalArgumentException.class);
-		}
-
-		try {
-			Reflection.setPrivateField(SubClass.class, null, "secretString", "Secret string");
-			fail("SubClass has a static member 'secretString'");
-		} catch (RuntimeException runtimeException) {
-			assertEquals(runtimeException.getCause().getClass(), NullPointerException.class);
-		}
-	}
-
-	@Test
-	public void testInvokeMethodForObjects() {
+	public void testInvokeMethodForObjects() throws Exception {
 		InvokeMethodClass invokeMethodObject = new InvokeMethodClass();
 
 		String returnValue = (String) Reflection.invokeMethod(invokeMethodObject, "methodWithoutParameters");
@@ -183,7 +107,7 @@ public class ReflectionTest {
 	}
 
 	@Test
-	public void testInvokeMethodForClasses() {
+	public void testInvokeMethodForClasses() throws Exception {
 		String returnValue = (String) Reflection.invokeMethod(InvokeMethodClass.class, "staticMethodWithoutParameters");
 		assertEquals("Called staticMethodWithoutParameters!", returnValue);
 
@@ -205,7 +129,7 @@ public class ReflectionTest {
 	}
 
 	@Test
-	public void testInvokeMethodWithAutoBoxingParameter() {
+	public void testInvokeMethodWithAutoBoxingParameter() throws Exception {
 		InvokeMethodClass invokeMethodObject = new InvokeMethodClass();
 
 		float returnValue = (Float) Reflection.invokeMethod(invokeMethodObject, "methodWithPrimitiveParameter",
@@ -223,7 +147,7 @@ public class ReflectionTest {
 	}
 
 	@Test
-	public void testConvertObjectsIntoPrimitives() {
+	public void testConvertObjectsIntoPrimitives() throws Exception {
 		ParameterList parameterList = new ParameterList(Boolean.TRUE, Byte.valueOf((byte) 1),
 				Character.valueOf('c'), Double.valueOf(1.0), Float.valueOf(1.0f), Integer.valueOf(1), Long.valueOf(1L),
 				Short.valueOf((short) 1));
@@ -232,50 +156,6 @@ public class ReflectionTest {
 		Class<?>[] expectedPrimitiveObjectsClasses = new Class<?>[] {boolean.class, byte.class, char.class,
 				double.class, float.class, int.class, long.class, short.class};
 		assertTrue(Arrays.deepEquals(expectedPrimitiveObjectsClasses, primitiveObjectsClass));
-	}
-
-	@Test
-	public void testInvokeMethodWithNullObject() {
-		Object nullObject = null;
-		try {
-			Reflection.invokeMethod(nullObject, "nullObjectsDontHaveMethods");
-			fail("Invoking method of a null object didn't cause an IllegalArgumentException");
-		} catch (IllegalArgumentException expected) {
-		}
-
-		try {
-			Reflection.invokeMethod(nullObject, "nullObjectsDontHaveMethods", new ParameterList("text"));
-			fail("Invoking method of a null object didn't cause an IllegalArgumentException");
-		} catch (IllegalArgumentException expected) {
-		}
-
-		try {
-			Reflection.invokeMethod(InvokeMethodClass.class, nullObject, "voidMethod");
-			fail("Invoking method of a null object didn't cause an IllegalArgumentException");
-		} catch (RuntimeException runtimeException) {
-			assertEquals(runtimeException.getCause().getClass(), NullPointerException.class);
-		}
-	}
-
-	@Test
-	public void testInvokeMethodWithWrongParameters() {
-		InvokeMethodClass invokeMethodObject = new InvokeMethodClass();
-
-		try {
-			Reflection.invokeMethod(String.class, Integer.valueOf(1), "toString");
-			fail("Integer is a sub class of String");
-		} catch (RuntimeException runtimeException) {
-			assertEquals(runtimeException.getCause().getClass(), IllegalArgumentException.class);
-		}
-
-		String parameter1 = "String";
-		String parameter2 = null;
-		try {
-			Reflection.invokeMethod(invokeMethodObject, "methodWithParameters", new ParameterList(parameter1,
-					parameter2));
-			fail("Found not existing method signature");
-		} catch (RuntimeException expected) {
-		}
 	}
 
 	private static class InvokeMethodClass {

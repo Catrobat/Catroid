@@ -23,7 +23,6 @@
 package org.catrobat.catroid.test.physics;
 
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
 
 import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.SingleSprite;
@@ -49,7 +48,6 @@ import org.junit.runner.RunWith;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotSame;
-import static junit.framework.Assert.fail;
 
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
@@ -57,8 +55,6 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(AndroidJUnit4.class)
 public class PhysicsBricksCloneTest {
-
-	private static final String TAG = PhysicsBricksCloneTest.class.getSimpleName();
 
 	private static final int BRICK_FORMULA_VALUE = 1;
 	private static final String CLONE_BRICK_FORMULA_VALUE = "2";
@@ -95,16 +91,9 @@ public class PhysicsBricksCloneTest {
 	}
 
 	@Test
-	public void testCloneCollisionReceiverBrick() {
+	public void testCloneCollisionReceiverBrick() throws Exception {
 		Brick brick = new CollisionReceiverBrick(new CollisionScript(null));
-
-		Brick clonedBrick = null;
-		try {
-			clonedBrick = brick.clone();
-		} catch (CloneNotSupportedException e) {
-			Log.e(TAG, "Cloning CollisionReceiverBrick not supported", e);
-			fail("clone of CollisionReceiverBrick not supported");
-		}
+		Brick clonedBrick = brick.clone();
 
 		CollisionScript brickReceiverScript = (CollisionScript) Reflection.getPrivateField(brick, "collisionScript");
 		CollisionScript clonedBrickReceiverScript = (CollisionScript) Reflection.getPrivateField(clonedBrick, "collisionScript");
@@ -113,7 +102,7 @@ public class PhysicsBricksCloneTest {
 	}
 
 	@Test
-	public void testCloneSetPhysicsObjectTypeBrick() throws CloneNotSupportedException {
+	public void testCloneSetPhysicsObjectTypeBrick() throws Exception {
 		Brick dynamicBrick = new SetPhysicsObjectTypeBrick(PhysicsObject.Type.DYNAMIC);
 		Brick fixedBrick = new SetPhysicsObjectTypeBrick(PhysicsObject.Type.FIXED);
 		Brick noneBrick = new SetPhysicsObjectTypeBrick(PhysicsObject.Type.NONE);

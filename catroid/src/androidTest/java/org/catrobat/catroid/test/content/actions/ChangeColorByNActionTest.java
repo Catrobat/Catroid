@@ -30,14 +30,18 @@ import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.fail;
 
 @RunWith(AndroidJUnit4.class)
 public class ChangeColorByNActionTest {
+
+	@Rule
+	public final ExpectedException exception = ExpectedException.none();
 
 	private static final float INITIALIZED_VALUE = 0;
 	private static final String NOT_NUMERICAL_STRING = "color";
@@ -65,11 +69,8 @@ public class ChangeColorByNActionTest {
 	@Test
 	public void testNullSprite() {
 		Action action = sprite.getActionFactory().createChangeColorByNAction(null, new Formula(DELTA));
-		try {
-			action.act(1.0f);
-			fail("Execution of ChangeColorByN with null Sprite did not cause a NullPointerException to be thrown");
-		} catch (NullPointerException expected) {
-		}
+		exception.expect(NullPointerException.class);
+		action.act(1.0f);
 	}
 
 	@Test

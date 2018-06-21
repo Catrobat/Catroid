@@ -23,8 +23,7 @@
 package org.catrobat.catroid.test.formulaeditor;
 
 import android.support.test.InstrumentationRegistry;
-import android.test.AndroidTestCase;
-import android.util.Log;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
@@ -41,11 +40,15 @@ import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class ParserTestObject extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class ParserTestObject {
 
 	private static final float LOOK_ALPHA = 0.42f;
 	private static final float LOOK_Y_POSITION = 23.4f;
@@ -72,22 +75,17 @@ public class ParserTestObject extends AndroidTestCase {
 		testSprite.look.setDirectionInUserInterfaceDimensionUnit(LOOK_ROTATION);
 	}
 
-	public Double interpretSensor(Sensors sensor) {
+	public Double interpretSensor(Sensors sensor) throws InterpretationException {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 		internTokenList.add(new InternToken(InternTokenType.SENSOR, sensor.name()));
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
 		FormulaElement parseTree = internParser.parseFormula();
 		Formula sensorFormula = new Formula(parseTree);
-		try {
-			return sensorFormula.interpretDouble(testSprite);
-		} catch (InterpretationException interpretationException) {
-			Log.d(getClass().getSimpleName(), "Formula interpretation for Sensor failed.", interpretationException);
-		}
-		return Double.NaN;
+		return sensorFormula.interpretDouble(testSprite);
 	}
 
 	@Test
-	public void testLookSensorValues() {
+	public void testLookSensorValues() throws InterpretationException {
 		assertEquals(LOOK_X_POSITION, interpretSensor(Sensors.OBJECT_X), DELTA);
 		assertEquals(LOOK_Y_POSITION, interpretSensor(Sensors.OBJECT_Y), DELTA);
 		assertEquals(LOOK_ALPHA, interpretSensor(Sensors.OBJECT_TRANSPARENCY), DELTA);

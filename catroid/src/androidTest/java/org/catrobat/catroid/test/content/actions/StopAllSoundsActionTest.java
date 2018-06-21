@@ -76,7 +76,7 @@ public class StopAllSoundsActionTest {
 	}
 
 	@Test
-	public void testStopOneSound() {
+	public void testStopOneSound() throws Exception {
 		Sprite testSprite = new SingleSprite("testSprite");
 		SoundInfo soundInfo = createSoundInfo(soundFile);
 		testSprite.getSoundList().add(soundInfo);
@@ -98,7 +98,7 @@ public class StopAllSoundsActionTest {
 	}
 
 	@Test
-	public void testStopSimultaneousPlayingSounds() throws InterruptedException {
+	public void testStopSimultaneousPlayingSounds() throws Exception {
 		Sprite testSprite = new SingleSprite("testSprite");
 		SoundInfo soundInfo = createSoundInfo(soundFile);
 		testSprite.getSoundList().add(soundInfo);
@@ -143,7 +143,7 @@ public class StopAllSoundsActionTest {
 	}
 
 	@SuppressWarnings("unchecked")
-	private List<MediaPlayer> getMediaPlayers() {
+	private List<MediaPlayer> getMediaPlayers() throws Exception {
 		return (List<MediaPlayer>) Reflection.getPrivateField(soundManager, "mediaPlayers");
 	}
 }

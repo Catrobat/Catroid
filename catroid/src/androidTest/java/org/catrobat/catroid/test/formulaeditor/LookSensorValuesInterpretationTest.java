@@ -42,7 +42,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.fail;
 
 @RunWith(AndroidJUnit4.class)
 public class LookSensorValuesInterpretationTest {
@@ -76,32 +75,28 @@ public class LookSensorValuesInterpretationTest {
 	}
 
 	@Test
-	public void testLookSensorValues() {
+	public void testLookSensorValues() throws InterpretationException {
+		Formula lookXPositionFormula = getFormulaBySensor(Sensors.OBJECT_X);
+		assertEquals(LOOK_X_POSITION, lookXPositionFormula.interpretDouble(testSprite), DELTA);
 
-		try {
-			Formula lookXPositionFormula = getFormulaBySensor(Sensors.OBJECT_X);
-			assertEquals(LOOK_X_POSITION, lookXPositionFormula.interpretDouble(testSprite), DELTA);
+		Formula lookYPositionFormula = getFormulaBySensor(Sensors.OBJECT_Y);
+		assertEquals(LOOK_Y_POSITION, lookYPositionFormula.interpretDouble(testSprite), DELTA);
 
-			Formula lookYPositionFormula = getFormulaBySensor(Sensors.OBJECT_Y);
-			assertEquals(LOOK_Y_POSITION, lookYPositionFormula.interpretDouble(testSprite), DELTA);
+		Formula lookAlphaValueFormula = getFormulaBySensor(Sensors.OBJECT_TRANSPARENCY);
+		assertEquals(LOOK_ALPHA, lookAlphaValueFormula.interpretDouble(testSprite), DELTA);
 
-			Formula lookAlphaValueFormula = getFormulaBySensor(Sensors.OBJECT_TRANSPARENCY);
-			assertEquals(LOOK_ALPHA, lookAlphaValueFormula.interpretDouble(testSprite), DELTA);
+		Formula lookBrightnessFormula = getFormulaBySensor(Sensors.OBJECT_BRIGHTNESS);
+		assertEquals(LOOK_BRIGHTNESS, lookBrightnessFormula.interpretDouble(testSprite), DELTA);
 
-			Formula lookBrightnessFormula = getFormulaBySensor(Sensors.OBJECT_BRIGHTNESS);
-			assertEquals(LOOK_BRIGHTNESS, lookBrightnessFormula.interpretDouble(testSprite), DELTA);
+		Formula lookScaleFormula = getFormulaBySensor(Sensors.OBJECT_SIZE);
+		assertEquals(LOOK_SCALE, lookScaleFormula.interpretDouble(testSprite), DELTA);
 
-			Formula lookScaleFormula = getFormulaBySensor(Sensors.OBJECT_SIZE);
-			assertEquals(LOOK_SCALE, lookScaleFormula.interpretDouble(testSprite), DELTA);
+		Formula lookRotateFormula = getFormulaBySensor(Sensors.OBJECT_ROTATION);
+		assertEquals(LOOK_ROTATION, lookRotateFormula.interpretDouble(testSprite), DELTA);
 
-			Formula lookRotateFormula = getFormulaBySensor(Sensors.OBJECT_ROTATION);
-			assertEquals(LOOK_ROTATION, lookRotateFormula.interpretDouble(testSprite), DELTA);
-
-			Formula lookZPositionFormula = getFormulaBySensor(Sensors.OBJECT_LAYER);
-			assertEquals(testSprite.look.getZIndex(), lookZPositionFormula.interpretInteger(testSprite).intValue() + Constants.Z_INDEX_NUMBER_VIRTUAL_LAYERS);
-		} catch (InterpretationException interpretationException) {
-			fail("Could not interprete Formula.");
-		}
+		Formula lookZPositionFormula = getFormulaBySensor(Sensors.OBJECT_LAYER);
+		assertEquals(testSprite.look.getZIndex(), lookZPositionFormula.interpretInteger(testSprite).intValue()
+				+ Constants.Z_INDEX_NUMBER_VIRTUAL_LAYERS);
 	}
 
 	@Test

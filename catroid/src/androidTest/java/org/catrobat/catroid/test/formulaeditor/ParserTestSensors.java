@@ -43,7 +43,6 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
-import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.SensorLoudness;
 import org.catrobat.catroid.formulaeditor.Sensors;
@@ -118,7 +117,7 @@ public class ParserTestSensors {
 
 	@Test
 	@UiThreadTest
-	public void testFaceDetection() {
+	public void testFaceDetection() throws Exception {
 		SensorHandler.startSensorListener(InstrumentationRegistry.getTargetContext());
 		FaceDetector faceDetector = (FaceDetector) Reflection.getPrivateField(FaceDetectionHandler.class,
 				"faceDetector");
@@ -162,25 +161,25 @@ public class ParserTestSensors {
 		ChangeSizeByNBrick faceYPositionBrick = new ChangeSizeByNBrick(formula9);
 		startScript1.addBrick(faceYPositionBrick);
 
-		assertEquals(1d, interpretFormula(formula6));
+		assertEquals(1d, formula6.interpretFloat(firstSprite), delta);
 
-		assertEquals(expectedFaceSize, interpretFormula(formula7), delta);
+		assertEquals(expectedFaceSize, formula7.interpretFloat(firstSprite), delta);
 
 		if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
-			assertEquals(expectedFaceXPosition, interpretFormula(formula9), delta);
+			assertEquals(expectedFaceXPosition, formula9.interpretFloat(firstSprite), delta);
 
-			assertEquals(expectedFaceYPosition, -interpretFormula(formula8), delta);
+			assertEquals(expectedFaceYPosition, -formula8.interpretFloat(firstSprite), delta);
 		} else {
-			assertEquals(expectedFaceXPosition, interpretFormula(formula8), delta);
+			assertEquals(expectedFaceXPosition, formula8.interpretFloat(firstSprite), delta);
 
-			assertEquals(expectedFaceYPosition, -interpretFormula(formula9), delta);
+			assertEquals(expectedFaceYPosition, -formula9.interpretFloat(firstSprite), delta);
 		}
 		SensorHandler.stopSensorListeners();
 	}
 
 	@Test
 	@UiThreadTest
-	public void testMicRelease() {
+	public void testMicRelease() throws Exception {
 
 		SensorLoudness.getSensorLoudness();
 		SensorLoudness loudnessSensor = (SensorLoudness) Reflection.getPrivateField(SensorLoudness.class, "instance");
@@ -209,14 +208,5 @@ public class ParserTestSensors {
 		firstSprite.addScript(startScript1);
 		startScript1.addBrick(changeBrick);
 		project.getDefaultScene().addSprite(firstSprite);
-	}
-
-	private Double interpretFormula(Formula formula) {
-		try {
-			return formula.interpretDouble(firstSprite);
-		} catch (InterpretationException interpretationException) {
-			Log.d(getClass().getSimpleName(), "Formula interpretation for Formula failed.", interpretationException);
-		}
-		return Double.NaN;
 	}
 }

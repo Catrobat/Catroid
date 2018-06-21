@@ -39,7 +39,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
+
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.number.OrderingComparison.greaterThan;
+import static org.junit.Assert.assertThat;
 
 @RunWith(AndroidJUnit4.class)
 public class GravityActionTest {
@@ -64,7 +67,7 @@ public class GravityActionTest {
 	}
 
 	@Test
-	public void testDefaultGravity() {
+	public void testDefaultGravity() throws Exception {
 		Vector2 gravityVector = ((World) Reflection.getPrivateField(PhysicsWorld.class, physicsWorld, "world"))
 				.getGravity();
 		assertEquals(PhysicsWorld.DEFAULT_GRAVITY.x, gravityVector.x);
@@ -83,7 +86,7 @@ public class GravityActionTest {
 		physicsWorld.setGravity(0.0f, PhysicsWorld.DEFAULT_GRAVITY.y * 2);
 		simulate();
 		float velocityByDuplexGravity = Math.abs(physicsObject.getVelocity().y);
-		assertTrue(velocityByDuplexGravity > velocityByDefaultGravity);
+		assertThat(velocityByDuplexGravity, is(greaterThan(velocityByDefaultGravity)));
 	}
 
 	private void simulate() {
@@ -92,7 +95,7 @@ public class GravityActionTest {
 		for (int step = 1; step < TEST_STEP_COUNT; step++) {
 			physicsWorld.step(TEST_STEP_DELTA_TIME);
 			postVelocityYValue = Math.abs(physicsObject.getVelocity().y);
-			assertTrue(postVelocityYValue > preVelocityYValue);
+			assertThat(postVelocityYValue, is(greaterThan(preVelocityYValue)));
 			preVelocityYValue = postVelocityYValue;
 		}
 	}
