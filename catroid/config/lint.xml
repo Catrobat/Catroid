@@ -55,6 +55,10 @@
         <ignore regexp=".*/values-(?!de).*/strings.xml$" />
     </issue >
 
+    <issue id="UnusedQuantity">
+        <ignore regexp=".*/values-(cs|sk|lt)/strings.xml$" />
+    </issue>
+
     <issue id="Typos">
         <ignore regexp=".*/values-(?!de).*/strings.xml$" />
     </issue >
