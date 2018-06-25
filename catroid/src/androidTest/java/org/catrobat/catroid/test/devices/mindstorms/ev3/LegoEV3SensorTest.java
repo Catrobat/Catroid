@@ -60,6 +60,7 @@ public class LegoEV3SensorTest {
 		logger = ConnectionDataLogger.createLocalConnectionLogger();
 		ev3.setConnection(logger.getConnectionProxy());
 	}
+
 	@Test
 	public void testTouchSensor() {
 		final EV3SensorType expectedType = EV3SensorType.EV3_TOUCH;
@@ -211,6 +212,20 @@ public class LegoEV3SensorTest {
 
 		checkInitializationCommand(expectedType, expectedMode);
 		checkPercentValueCommand(expectedType, expectedMode);
+	}
+
+	@Test
+	public void testEV3UltrasonicSensorNXT() {
+		final EV3SensorType expectedType = EV3SensorType.NXT_ULTRASONIC;
+		final EV3SensorMode expectedMode = EV3SensorMode.MODE0;
+
+		SettingsFragment.setLegoMindstormsEV3SensorMapping(applicationContext, EV3Sensor.Sensor.NXT_ULTRASONIC, EV3_SENSOR_1);
+
+		initSensor();
+		ev3.getSensor1().updateLastSensorValue();
+
+		checkInitializationCommand(expectedType, expectedMode);
+		checkRawValueCommand();
 	}
 
 	private void checkInitializationCommand(EV3SensorType expectedType, EV3SensorMode expectedMode) {

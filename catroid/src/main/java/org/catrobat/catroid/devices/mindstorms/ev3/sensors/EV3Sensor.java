@@ -53,7 +53,8 @@ public abstract class EV3Sensor implements MindstormsSensor {
 		NXT_TEMPERATURE_F,
 		NXT_LIGHT,
 		NXT_LIGHT_ACTIVE,
-		NXT_SOUND;
+		NXT_SOUND,
+		NXT_ULTRASONIC;
 
 		public static String[] getSensorCodes() {
 			String[] valueStrings = new String[values().length];
