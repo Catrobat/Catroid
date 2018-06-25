@@ -96,6 +96,8 @@ public class LegoSensorPortConfigDialog extends DialogFragment {
 					new SensorInfo(R.string.ev3_sensor_nxt_light, EV3Sensor.Sensor.NXT_LIGHT))
 			.put(R.string.formula_editor_sensor_lego_ev3_sensor_nxt_light_active,
 					new SensorInfo(R.string.ev3_sensor_nxt_light_active, EV3Sensor.Sensor.NXT_LIGHT_ACTIVE))
+			.put(R.string.formula_editor_sensor_lego_ev3_sensor_nxt_sound,
+					new SensorInfo(R.string.ev3_sensor_nxt_sound, EV3Sensor.Sensor.NXT_SOUND))
 			.build();
 
 	public LegoSensorPortConfigDialog(OnSetSensorListener listener, int clickedResItem, @LegoType int type) {

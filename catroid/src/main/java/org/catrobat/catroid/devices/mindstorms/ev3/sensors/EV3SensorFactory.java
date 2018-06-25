@@ -57,6 +57,8 @@ public class EV3SensorFactory {
 				return new EV3LightSensorNXT(port, connection, EV3SensorMode.MODE1);
 			case NXT_LIGHT_ACTIVE:
 				return new EV3LightSensorNXT(port, connection, EV3SensorMode.MODE0);
+			case NXT_SOUND:
+				return new EV3SoundSensorNXT(port, connection, EV3SensorMode.MODE1);
 			default:
 				throw new MindstormsException("No valid sensor found!"); // Should never occur
 		}
