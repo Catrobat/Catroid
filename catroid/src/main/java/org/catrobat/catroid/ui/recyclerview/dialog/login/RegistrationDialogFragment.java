@@ -29,13 +29,19 @@ import android.content.DialogInterface.OnShowListener;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.transfers.CheckEmailAvailableTaskThroughRegistration;
+import org.catrobat.catroid.transfers.CheckUserNameAvailableTaskThroughRegistration;
 import org.catrobat.catroid.transfers.RegistrationTask;
 import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationCompleteListener;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
@@ -48,6 +54,11 @@ public class RegistrationDialogFragment extends DialogFragment implements OnRegi
 	private TextInputLayout emailInputLayout;
 	private TextInputLayout passwordInputLayout;
 	private TextInputLayout confirmPasswordInputLayout;
+	private EditText userNameEditText;
+	private EditText emailAddressEditText;
+	private EditText passwordEditText;
+	private EditText confirmPasswordEditText;
+	private AlertDialog alertDialog;
 
 	private SignInCompleteListener signInCompleteListener;
 
@@ -64,36 +75,163 @@ public class RegistrationDialogFragment extends DialogFragment implements OnRegi
 		passwordInputLayout = view.findViewById(R.id.dialog_register_password);
 		confirmPasswordInputLayout = view.findViewById(R.id.dialog_register_password_confirm);
 
+		alertDialog = new AlertDialog.Builder(getActivity())
+				.setTitle(R.string.register)
+				.setView(view)
+				.setPositiveButton(R.string.register, null)
+				.create();
+
+		userNameEditText = usernameInputLayout.getEditText();
+		emailAddressEditText = emailInputLayout.getEditText();
+		passwordEditText = passwordInputLayout.getEditText();
+		confirmPasswordEditText = confirmPasswordInputLayout.getEditText();
+
+		userNameEditText.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			}
+
+			@Override
+			public void afterTextChanged(final Editable s) {
+				if (s.toString().trim().isEmpty()) {
+					usernameInputLayout.setError(getString(R.string.error_register_empty_username));
+				} else if (s.toString().trim().contains("@")) {
+					usernameInputLayout.setError(getString(R.string.error_register_username_as_email));
+				} else if (!s.toString().trim().matches("^[a-zA-Z0-9-_.]*$")) {
+					usernameInputLayout.setError(getString(R.string.error_register_invalid_username));
+				} else if (s.toString().trim().startsWith("-") || s.toString().startsWith("_") || s.toString().startsWith(".")) {
+					usernameInputLayout.setError(getString(R.string.error_register_username_start_with));
+				} else {
+					usernameInputLayout.setErrorEnabled(false);
+				}
+
+				if (!usernameInputLayout.isErrorEnabled()) {
+					CheckUserNameAvailableTaskThroughRegistration checkUserNameAvailableTask = new CheckUserNameAvailableTaskThroughRegistration(s.toString());
+					checkUserNameAvailableTask.setOnCheckUserNameAvailableCompleteListener(new CheckUserNameAvailableTaskThroughRegistration.OnCheckUserNameAvailableCompleteListener() {
+						@Override
+						public void onCheckUserNameAvailableComplete(Boolean userNameAvailable, String username) {
+							if (userNameAvailable) {
+								usernameInputLayout.setError(getString(R.string.error_register_username_already_exists));
+							}
+						}
+					});
+					checkUserNameAvailableTask.execute();
+				}
+				handleRegisterBtnStatus();
+			}
+		});
+
+		emailAddressEditText.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			}
+
+			@Override
+			public void afterTextChanged(final Editable s) {
+				if (!Patterns.EMAIL_ADDRESS.matcher(s.toString()).matches() || s.toString().isEmpty()) {
+					emailInputLayout.setError(getString(R.string.error_register_invalid_email_format));
+				} else {
+					emailInputLayout.setErrorEnabled(false);
+				}
+				if (!emailInputLayout.isErrorEnabled()) {
+					CheckEmailAvailableTaskThroughRegistration checkEmailAvailableTask = new CheckEmailAvailableTaskThroughRegistration(s.toString(), Constants.NO_OAUTH_PROVIDER);
+					checkEmailAvailableTask.setOnCheckEmailAvailableCompleteListener(new CheckEmailAvailableTaskThroughRegistration.OnCheckEmailAvailableCompleteListener() {
+						@Override
+						public void onCheckEmailAvailableComplete(Boolean emailAvailable, String provider) {
+							if (emailAvailable) {
+								emailInputLayout.setError(getString(R.string.error_register_email_exists));
+							}
+						}
+					});
+					checkEmailAvailableTask.execute();
+				}
+				handleRegisterBtnStatus();
+			}
+		});
+
+		passwordEditText.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				if (s.toString().isEmpty()) {
+					passwordInputLayout.setError(getString(R.string.error_register_empty_password));
+				} else if (s.toString().length() < 6) {
+					passwordInputLayout.setError(getString(R.string.error_register_password_at_least_6_characters));
+				} else if (!s.toString().equals(confirmPasswordEditText.getText().toString())) {
+					confirmPasswordInputLayout.setError(getString(R.string.error_register_passwords_mismatch));
+					passwordInputLayout.setErrorEnabled(false);
+				} else {
+					passwordInputLayout.setErrorEnabled(false);
+					confirmPasswordInputLayout.setErrorEnabled(false);
+				}
+				handleRegisterBtnStatus();
+			}
+		});
+
+		confirmPasswordEditText.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				if (s.toString().isEmpty()) {
+					confirmPasswordInputLayout.setError(getString(R.string.error_register_empty_confirm_password));
+				} else if (s.toString().length() < 6) {
+					confirmPasswordInputLayout.setError(getString(R.string.error_register_password_at_least_6_characters));
+				} else if (!s.toString().equals(passwordEditText.getText().toString())) {
+					confirmPasswordInputLayout.setError(getString(R.string.error_register_passwords_mismatch));
+				} else {
+					confirmPasswordInputLayout.setErrorEnabled(false);
+					passwordInputLayout.setErrorEnabled(false);
+				}
+				handleRegisterBtnStatus();
+			}
+		});
+
 		CheckBox showPasswordCheckBox = view.findViewById(R.id.show_password);
 		showPasswordCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (isChecked) {
-					passwordInputLayout.getEditText().setInputType(InputType.TYPE_CLASS_TEXT);
-					confirmPasswordInputLayout.getEditText().setInputType(InputType.TYPE_CLASS_TEXT);
+					passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT);
+					confirmPasswordEditText.setInputType(InputType.TYPE_CLASS_TEXT);
 				} else {
-					passwordInputLayout.getEditText()
-							.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-					confirmPasswordInputLayout.getEditText()
-							.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+					passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+					confirmPasswordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 				}
 			}
 		});
 
 		String eMail = UtilDeviceInfo.getUserEmail(getActivity());
 		if (eMail != null) {
-			emailInputLayout.getEditText().setText(eMail);
+			emailAddressEditText.setText(eMail);
+			emailInputLayout.setErrorEnabled(false);
 		}
-
-		final AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
-				.setTitle(R.string.register)
-				.setView(view)
-				.setPositiveButton(R.string.register, null)
-				.create();
 
 		alertDialog.setOnShowListener(new OnShowListener() {
 			@Override
 			public void onShow(DialogInterface dialog) {
+				alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
 				alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
@@ -102,7 +240,6 @@ public class RegistrationDialogFragment extends DialogFragment implements OnRegi
 				});
 			}
 		});
-
 		return alertDialog;
 	}
 
@@ -120,21 +257,22 @@ public class RegistrationDialogFragment extends DialogFragment implements OnRegi
 	}
 
 	private void onRegisterButtonClick() {
-		String username = usernameInputLayout.getEditText().getText().toString().trim();
-		String password = passwordInputLayout.getEditText().getText().toString();
-		String passwordConfirmation = confirmPasswordInputLayout.getEditText().getText().toString();
-		String email = emailInputLayout.getEditText().getText().toString();
+		String username = userNameEditText.getText().toString().trim();
+		String password = passwordEditText.getText().toString();
+		String email = emailAddressEditText.getText().toString();
 
-		if (password.equals(passwordConfirmation)) {
-			RegistrationTask registrationTask = new RegistrationTask(getActivity(), username, password, email);
-			registrationTask.setOnRegistrationCompleteListener(this);
-			registrationTask.execute();
-		} else {
-			new AlertDialog.Builder(getActivity())
-					.setTitle(R.string.register_error)
-					.setMessage(R.string.register_password_mismatch)
-					.setPositiveButton(R.string.ok, null)
-					.show();
+		RegistrationTask registrationTask = new RegistrationTask(getActivity(), username, password, email);
+		registrationTask.setOnRegistrationCompleteListener(this);
+		registrationTask.execute();
+	}
+
+	private void handleRegisterBtnStatus() {
+		if (alertDialog.getButton(AlertDialog.BUTTON_POSITIVE) != null) {
+			if (!usernameInputLayout.isErrorEnabled() && !emailInputLayout.isErrorEnabled() && !passwordInputLayout.isErrorEnabled() && !confirmPasswordInputLayout.isErrorEnabled()) {
+				alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+			} else {
+				alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+			}
 		}
 	}
 }
