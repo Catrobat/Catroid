@@ -51,8 +51,8 @@
   <string name="search_hint">Hľadať&#8230;</string>
   <string name="backpack_add">Pridať do batohu</string>
   <string name="share_website_text">www.pocketcode.org</string>
-    <!-- Login/Logout Mechanism -->
-    <string name="loading_check_facebook_data">Retrieving Facebook data&#8230;</string>
+  <!-- Login/Logout Mechanism -->
+  <string name="loading_check_facebook_data">Retrieving Facebook data&#8230;</string>
   <string name="loading_check_email">Checking if the e-mail is available&#8230;</string>
   <string name="loading_check_oauth_token">Checking login data&#8230;</string>
   <string name="loading_check_facebook_token_validity">Checking Facebook data&#8230;</string>
@@ -70,8 +70,8 @@
   <string name="unknown">neznámy</string>
   <string name="disconnect">Odpojiť</string>
   <!--  -->
-    <!-- Main Menu -->
-    <string name="main_menu_continue">Ďalej</string>
+  <!-- Main Menu -->
+  <string name="main_menu_continue">Ďalej</string>
   <string name="main_menu_new">Nový</string>
   <string name="main_menu_programs">Programy</string>
   <string name="main_menu_help">Nápoveda</string>
@@ -87,11 +87,11 @@
   <string name="main_menu_play_store_not_installed">Google Play not found</string>
   <!--  -->
   <!-- Marketing activity -->
-    <string name="marketing_created_with">Vytvorené s</string>
+  <string name="marketing_created_with">Vytvorené s</string>
   <string name="marketing_app_details">Detaily o tejto aplikácii</string>
   <string name="marketing_more_on_google_play">Ďalšie aplikácie v Obchode Play</string>
   <!-- Settings activity -->
-    <string name="preference_title">Nastavenia</string>
+  <string name="preference_title">Nastavenia</string>
   <string name="preference_title_language">Jazyk</string>
   <string name="preference_description_language">Set the app\'s language</string>
   <string name="preference_title_accessibility">Accessibility</string>
@@ -138,8 +138,8 @@
        delay</string>
   <string name="preference_access_title_profile_tiro">Tiro</string>
   <string name="preference_access_summary_profile_tiro">Beginner bricks</string>
-    <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
-    <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 bloky</string>
+  <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
+  <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 bloky</string>
   <string name="preference_description_quadcopter_bricks">Allow the app to control AR.Drone 2.0 quadcopters</string>
   <string name="preference_title_enable_jumpingsumo_bricks">Parrot Jumping Sumo bloky</string>
   <string name="preference_description_jumpingsumo_bricks">Allow the app to control Parrot\'s Jumping Sumo</string>
@@ -162,7 +162,7 @@
   <string name="preference_title_enable_crash_reports">Odosielať anonymné správy o zlyhaní</string>
   <string name="preference_description_crash_reports">Allow the app to send crash reports automatically</string>
   <!-- -->
-    <string name="preference_description_arduino_bricks">Allow the app to control Arduino boards</string>
+  <string name="preference_description_arduino_bricks">Allow the app to control Arduino boards</string>
   <string name="preference_title_enable_raspi_bricks">Raspberry Pi bloky</string>
   <string name="preference_description_raspi_bricks">Allow the app to control Raspberry Pi computers</string>
   <string name="preference_raspi_enable_bricks">Povoliť Raspberry Pi bloky</string>
@@ -172,7 +172,7 @@
   <string name="preference_raspi_port">Raspberry Pi Port</string>
   <!--  -->
   <!-- Scratch Converter activity -->
-    <string name="beta">BETA</string>
+  <string name="beta">BETA</string>
   <string name="error_scratch_program_not_accessible_any_more">Whoops! The program seems to have disappeared
         or you might have lost access to it.</string>
   <string name="error_scratch_project_data_not_available">Whoops! Some parts of the program seem to be
@@ -192,7 +192,11 @@
   <plurals name="error_cannot_convert_more_than_x_programs">
     <item quantity="one">You can\'t convert more than %d program at the same time. Please wait for the
             running programs to finish first.</item>
-            <item quantity="other">You can\'t convert more than %d programs at the same time. Please wait for the
+    <item quantity="few">You can\'t convert more than %d programs at the same time. Please wait for the
+            running programs to finish first.</item>
+    <item quantity="many">You can\'t convert more than %d programs at the same time. Please wait for the
+            running programs to finish first.</item>
+    <item quantity="other">You can\'t convert more than %d programs at the same time. Please wait for the
             running programs to finish first.</item>
   </plurals>
   <string name="error_cannot_open_failed_scratch_program">You can\'t open the program because it wasn\'t
@@ -204,7 +208,9 @@
         contact the Catrobat team!</string>
   <plurals name="scratch_conversion_scheduled_x">
     <item quantity="one">Added %d Scratch program to the queue&#8230;</item>
-            <item quantity="other">Added %d Scratch programs to the queue&#8230;</item>
+    <item quantity="few">Added %d Scratch programs to the queue&#8230;</item>
+    <item quantity="many">Added %d Scratch programs to the queue&#8230;</item>
+    <item quantity="other">Added %d Scratch programs to the queue&#8230;</item>
   </plurals>
   <string name="scratch_conversion_started">Konvertovanie Scratch programu začala&#8230;</string>
   <string name="convert">Konvertovať</string>
@@ -215,11 +221,15 @@
   <string name="status_conversion_finished">Konvertovanie dokončené</string>
   <plurals name="status_in_progress_x_jobs">
     <item quantity="one">In progress: %d job</item>
-            <item quantity="other">In progress: %d jobs</item>
+    <item quantity="few">In progress: %d jobs</item>
+    <item quantity="many">In progress: %d jobs</item>
+    <item quantity="other">In progress: %d jobs</item>
   </plurals>
   <plurals name="status_completed_x_jobs">
     <item quantity="one">Completed: %d job</item>
-            <item quantity="other">Completed: %d jobs</item>
+    <item quantity="few">Completed: %d jobs</item>
+    <item quantity="many">Completed: %d jobs</item>
+    <item quantity="other">Completed: %d jobs</item>
   </plurals>
   <string name="status_conversion_failed">Konvertovanie zlyhalo!</string>
   <string name="status_downloading">Preberanie&#8230;</string>
@@ -236,41 +246,47 @@
   <string name="modified_at_x">Zmenený: %1$s</string>
   <string name="remixes">Remixy</string>
   <!--  -->
-    <string name="author">Autor:</string>
+  <string name="author">Autor:</string>
   <string name="screen_size">Veľkosť obrazovky:</string>
   <string name="mode">Režim:</string>
   <string name="remix_of">Remix:</string>
   <string name="description_hint">Stlačením pridať popis</string>
   <!-- ScratchReconvertDialog Strings -->
-    <string name="reconvert_text">You converted this program converted %1$s ago.</string>
+  <string name="reconvert_text">You converted this program converted %1$s ago.</string>
   <plurals name="minutes">
     <item quantity="one">%d minute</item>
-            <item quantity="other">%d minutes</item>
+    <item quantity="few">%d minutes</item>
+    <item quantity="many">%d minutes</item>
+    <item quantity="other">%d minutes</item>
   </plurals>
   <plurals name="hours">
     <item quantity="one">%d hour</item>
-            <item quantity="other">%d hours</item>
+    <item quantity="few">%d hours</item>
+    <item quantity="many">%d hours</item>
+    <item quantity="other">%d hours</item>
   </plurals>
   <plurals name="days">
     <item quantity="one">%d day</item>
-            <item quantity="other">%d days</item>
+    <item quantity="few">%d days</item>
+    <item quantity="many">%d days</item>
+    <item quantity="other">%d days</item>
   </plurals>
   <string name="reconvert_dialog_download">Download the program again</string>
   <string name="reconvert_dialog_reconvert">Convert this program again</string>
   <!--  -->
   <!-- ERRORS -->
-    <!-- Privacy Policy Error -->
-    <string name="declined_privacy_agreement_alert">To use our app, it is necessary to accept our Privacy Policy.
+  <!-- Privacy Policy Error -->
+  <string name="declined_privacy_agreement_alert">To use our app, it is necessary to accept our Privacy Policy.
         However, if you don’t feel comfortable to do so, you can use our free web-services on</string>
   <string name="wtf_error">Vyskytla sa k nečakaná chyba: Nebolo možné obnoviť štandardný projekt.</string>
   <!-- Project Handling Errors -->
-    <string name="error_copy_project">Vyskytla sa chyba pri kopírovaní projektu</string>
+  <string name="error_copy_project">Vyskytla sa chyba pri kopírovaní projektu</string>
   <!-- Dialog Errors -->
-    <string name="name_already_exists">This name is already in use, please choose another one.</string>
+  <string name="name_already_exists">This name is already in use, please choose another one.</string>
   <string name="name_consists_of_spaces_only">You only put spaces into the text field, please enter a name
         using letters, numbers or other special characters.</string>
   <!-- Recycler View -->
-    <string name="am_empty_list">There are no items in this list yet. Please add some first.</string>
+  <string name="am_empty_list">There are no items in this list yet. Please add some first.</string>
   <string name="am_backpack">Zabaliť</string>
   <string name="am_unpack">Rozbaliť</string>
   <string name="am_copy">Kopírovať</string>
@@ -287,183 +303,265 @@
   <string name="show_details">Zobraziť detaily</string>
   <string name="hide_details">Skryť detaily</string>
   <!-- Action Mode Titles -->
-    <!-- Project Action Mode Titles -->
-    <plurals name="am_pack_projects_title">
+  <!-- Project Action Mode Titles -->
+  <plurals name="am_pack_projects_title">
     <item quantity="one">Pack %d Project</item>
-            <item quantity="other">Pack %d Projects</item>
+    <item quantity="few">Pack %d Projects</item>
+    <item quantity="many">Pack %d Projects</item>
+    <item quantity="other">Pack %d Projects</item>
   </plurals>
   <plurals name="am_copy_projects_title">
     <item quantity="one">Copy %d Project</item>
-            <item quantity="other">Copy %d Projects</item>
+    <item quantity="few">Copy %d Projects</item>
+    <item quantity="many">Copy %d Projects</item>
+    <item quantity="other">Copy %d Projects</item>
   </plurals>
   <plurals name="am_delete_projects_title">
     <item quantity="one">Delete %d Project</item>
-            <item quantity="other">Delete %d Projects</item>
+    <item quantity="few">Delete %d Projects</item>
+    <item quantity="many">Delete %d Projects</item>
+    <item quantity="other">Delete %d Projects</item>
   </plurals>
   <plurals name="am_rename_projects_title">
     <item quantity="one">Rename %d Project</item>
-            <item quantity="other">Rename %d Projects</item>
+    <item quantity="few">Rename %d Projects</item>
+    <item quantity="many">Rename %d Projects</item>
+    <item quantity="other">Rename %d Projects</item>
   </plurals>
   <plurals name="am_convert_projects_title">
     <item quantity="one">Convert %d Project</item>
-            <item quantity="other">Convert %d Projects</item>
+    <item quantity="few">Convert %d Projects</item>
+    <item quantity="many">Convert %d Projects</item>
+    <item quantity="other">Convert %d Projects</item>
   </plurals>
-    <!-- Scene Action Mode Titles -->
-    <plurals name="am_pack_scenes_title">
+  <!-- Scene Action Mode Titles -->
+  <plurals name="am_pack_scenes_title">
     <item quantity="one">Pack %d Scene</item>
-            <item quantity="other">Pack %d Scenes</item>
+    <item quantity="few">Pack %d Scenes</item>
+    <item quantity="many">Pack %d Scenes</item>
+    <item quantity="other">Pack %d Scenes</item>
   </plurals>
   <plurals name="am_unpack_scenes_title">
     <item quantity="one">Unpack %d Scene</item>
-            <item quantity="other">Unpack %d Scenes</item>
+    <item quantity="few">Unpack %d Scenes</item>
+    <item quantity="many">Unpack %d Scenes</item>
+    <item quantity="other">Unpack %d Scenes</item>
   </plurals>
   <plurals name="am_copy_scenes_title">
     <item quantity="one">Copy %d Scene</item>
-            <item quantity="other">Copy %d Scenes</item>
+    <item quantity="few">Copy %d Scenes</item>
+    <item quantity="many">Copy %d Scenes</item>
+    <item quantity="other">Copy %d Scenes</item>
   </plurals>
   <plurals name="am_delete_scenes_title">
     <item quantity="one">Delete %d Scene</item>
-            <item quantity="other">Delete %d Scenes</item>
+    <item quantity="few">Delete %d Scenes</item>
+    <item quantity="many">Delete %d Scenes</item>
+    <item quantity="other">Delete %d Scenes</item>
   </plurals>
   <plurals name="am_rename_scenes_title">
     <item quantity="one">Rename %d Scene</item>
-            <item quantity="other">Rename %d Scenes</item>
+    <item quantity="few">Rename %d Scenes</item>
+    <item quantity="many">Rename %d Scenes</item>
+    <item quantity="other">Rename %d Scenes</item>
   </plurals>
-    <!-- Sprite Action Mode Titles -->
-    <plurals name="am_pack_sprites_title">
+  <!-- Sprite Action Mode Titles -->
+  <plurals name="am_pack_sprites_title">
     <item quantity="one">Pack %d Object</item>
-            <item quantity="other">Pack %d Objects</item>
+    <item quantity="few">Pack %d Objects</item>
+    <item quantity="many">Pack %d Objects</item>
+    <item quantity="other">Pack %d Objects</item>
   </plurals>
   <plurals name="am_unpack_sprites_title">
     <item quantity="one">Unpack %d Object</item>
-            <item quantity="other">Unpack %d Objects</item>
+    <item quantity="few">Unpack %d Objects</item>
+    <item quantity="many">Unpack %d Objects</item>
+    <item quantity="other">Unpack %d Objects</item>
   </plurals>
   <plurals name="am_copy_sprites_title">
     <item quantity="one">Copy %d Object</item>
-            <item quantity="other">Copy %d Objects</item>
+    <item quantity="few">Copy %d Objects</item>
+    <item quantity="many">Copy %d Objects</item>
+    <item quantity="other">Copy %d Objects</item>
   </plurals>
   <plurals name="am_delete_sprites_title">
     <item quantity="one">Delete %d Object</item>
-            <item quantity="other">Delete %d Objects</item>
+    <item quantity="few">Delete %d Objects</item>
+    <item quantity="many">Delete %d Objects</item>
+    <item quantity="other">Delete %d Objects</item>
   </plurals>
   <plurals name="am_rename_sprites_title">
     <item quantity="one">Rename %d Object</item>
-            <item quantity="other">Rename %d Objects</item>
+    <item quantity="few">Rename %d Objects</item>
+    <item quantity="many">Rename %d Objects</item>
+    <item quantity="other">Rename %d Objects</item>
   </plurals>
-    <!-- Look Action Mode Titles -->
-    <plurals name="am_pack_looks_title">
+  <!-- Look Action Mode Titles -->
+  <plurals name="am_pack_looks_title">
     <item quantity="one">Pack %d Look</item>
-            <item quantity="other">Pack %d Looks</item>
+    <item quantity="few">Pack %d Looks</item>
+    <item quantity="many">Pack %d Looks</item>
+    <item quantity="other">Pack %d Looks</item>
   </plurals>
   <plurals name="am_unpack_looks_title">
     <item quantity="one">Unpack %d Look</item>
-            <item quantity="other">Unpack %d Looks</item>
+    <item quantity="few">Unpack %d Looks</item>
+    <item quantity="many">Unpack %d Looks</item>
+    <item quantity="other">Unpack %d Looks</item>
   </plurals>
   <plurals name="am_copy_looks_title">
     <item quantity="one">Copy %d Look</item>
-            <item quantity="other">Copy %d Looks</item>
+    <item quantity="few">Copy %d Looks</item>
+    <item quantity="many">Copy %d Looks</item>
+    <item quantity="other">Copy %d Looks</item>
   </plurals>
   <plurals name="am_delete_looks_title">
     <item quantity="one">Delete %d Look</item>
-            <item quantity="other">Delete %d Looks</item>
+    <item quantity="few">Delete %d Looks</item>
+    <item quantity="many">Delete %d Looks</item>
+    <item quantity="other">Delete %d Looks</item>
   </plurals>
   <plurals name="am_rename_looks_title">
     <item quantity="one">Rename %d Look</item>
-            <item quantity="other">Rename %d Looks</item>
+    <item quantity="few">Rename %d Looks</item>
+    <item quantity="many">Rename %d Looks</item>
+    <item quantity="other">Rename %d Looks</item>
   </plurals>
-    <!-- Sound Action Mode Titles -->
-    <plurals name="am_pack_sounds_title">
+  <!-- Sound Action Mode Titles -->
+  <plurals name="am_pack_sounds_title">
     <item quantity="one">Pack %d Sound</item>
-            <item quantity="other">Pack %d Sounds</item>
+    <item quantity="few">Pack %d Sounds</item>
+    <item quantity="many">Pack %d Sounds</item>
+    <item quantity="other">Pack %d Sounds</item>
   </plurals>
   <plurals name="am_unpack_sounds_title">
     <item quantity="one">Unpack %d Sound</item>
-            <item quantity="other">Unpack %d Sounds</item>
+    <item quantity="few">Unpack %d Sounds</item>
+    <item quantity="many">Unpack %d Sounds</item>
+    <item quantity="other">Unpack %d Sounds</item>
   </plurals>
   <plurals name="am_copy_sounds_title">
     <item quantity="one">Copy %d Sound</item>
-            <item quantity="other">Copy %d Sounds</item>
+    <item quantity="few">Copy %d Sounds</item>
+    <item quantity="many">Copy %d Sounds</item>
+    <item quantity="other">Copy %d Sounds</item>
   </plurals>
   <plurals name="am_delete_sounds_title">
     <item quantity="one">Delete %d Sound</item>
-            <item quantity="other">Delete %d Sounds</item>
+    <item quantity="few">Delete %d Sounds</item>
+    <item quantity="many">Delete %d Sounds</item>
+    <item quantity="other">Delete %d Sounds</item>
   </plurals>
   <plurals name="am_rename_sounds_title">
     <item quantity="one">Rename %d Sound</item>
-            <item quantity="other">Rename %d Sounds</item>
+    <item quantity="few">Rename %d Sounds</item>
+    <item quantity="many">Rename %d Sounds</item>
+    <item quantity="other">Rename %d Sounds</item>
   </plurals>
-    <!-- NFC Tag Action Mode Titles -->
-    <plurals name="am_copy_nfc_tags_title">
+  <!-- NFC Tag Action Mode Titles -->
+  <plurals name="am_copy_nfc_tags_title">
     <item quantity="one">Copy %d NFC Tag</item>
-            <item quantity="other">Copy %d NFC Tags</item>
+    <item quantity="few">Copy %d NFC Tags</item>
+    <item quantity="many">Copy %d NFC Tags</item>
+    <item quantity="other">Copy %d NFC Tags</item>
   </plurals>
   <plurals name="am_delete_nfc_tags_title">
     <item quantity="one">Delete %d NFC Tag</item>
-            <item quantity="other">Delete %d NFC Tags</item>
+    <item quantity="few">Delete %d NFC Tags</item>
+    <item quantity="many">Delete %d NFC Tags</item>
+    <item quantity="other">Delete %d NFC Tags</item>
   </plurals>
   <plurals name="am_rename_nfc_tags_title">
     <item quantity="one">Rename %d NFC Tag</item>
-            <item quantity="other">Rename %d NFC Tags</item>
+    <item quantity="few">Rename %d NFC Tags</item>
+    <item quantity="many">Rename %d NFC Tags</item>
+    <item quantity="other">Rename %d NFC Tags</item>
   </plurals>
-    <!-- Script Action Mode Titles -->
-    <plurals name="am_pack_scripts_title">
+  <!-- Script Action Mode Titles -->
+  <plurals name="am_pack_scripts_title">
     <item quantity="one">Pack %d brick</item>
-            <item quantity="other">Pack %d bricks</item>
+    <item quantity="few">Pack %d bricks</item>
+    <item quantity="many">Pack %d bricks</item>
+    <item quantity="other">Pack %d bricks</item>
   </plurals>
   <plurals name="am_unpack_scripts_title">
     <item quantity="one">Unpack %d Script</item>
-            <item quantity="other">Unpack %d Scripts</item>
+    <item quantity="few">Unpack %d Scripts</item>
+    <item quantity="many">Unpack %d Scripts</item>
+    <item quantity="other">Unpack %d Scripts</item>
   </plurals>
   <plurals name="am_copy_scripts_title">
     <item quantity="one">Copy %d brick</item>
-            <item quantity="other">Copy %d bricks</item>
+    <item quantity="few">Copy %d bricks</item>
+    <item quantity="many">Copy %d bricks</item>
+    <item quantity="other">Copy %d bricks</item>
   </plurals>
   <plurals name="am_delete_scripts_title">
     <item quantity="one">Delete %d Script</item>
-            <item quantity="other">Delete %d Scripts</item>
+    <item quantity="few">Delete %d Scripts</item>
+    <item quantity="many">Delete %d Scripts</item>
+    <item quantity="other">Delete %d Scripts</item>
   </plurals>
-    <!-- Data Item Action Mode Titles -->
-    <plurals name="am_delete_user_data_items_title">
+  <!-- Data Item Action Mode Titles -->
+  <plurals name="am_delete_user_data_items_title">
     <item quantity="one">Delete %d Data Item</item>
-            <item quantity="other">Delete %d Data Items</item>
+    <item quantity="few">Delete %d Data Items</item>
+    <item quantity="many">Delete %d Data Items</item>
+    <item quantity="other">Delete %d Data Items</item>
   </plurals>
   <!-- New Dialog Titles -->
-    <string name="new_scene_dialog">Nová scéna</string>
+  <string name="new_scene_dialog">Nová scéna</string>
   <!-- Delete Dialog Titles -->
   <plurals name="delete_projects">
     <item quantity="one">Odstrániť tento projekt?</item>
-            <item quantity="other">Odstrániť tieto projekty?</item>
+    <item quantity="few">Odstrániť tieto projekty?</item>
+    <item quantity="many">Delete these Projects?</item>
+    <item quantity="other">Odstrániť tieto projekty?</item>
   </plurals>
   <plurals name="delete_scenes">
     <item quantity="one">Odstrániť túto scénu?</item>
-            <item quantity="other">Odstrániť tieto scény?</item>
+    <item quantity="few">Odstrániť tieto scény?</item>
+    <item quantity="many">Delete these Scenes?</item>
+    <item quantity="other">Odstrániť tieto scény?</item>
   </plurals>
   <plurals name="delete_sprites">
     <item quantity="one">Odstrániť tento objekt?</item>
-            <item quantity="other">Odstrániť tieto objekty?</item>
+    <item quantity="few">Odstrániť tieto objekty?</item>
+    <item quantity="many">Delete these Objects?</item>
+    <item quantity="other">Odstrániť tieto objekty?</item>
   </plurals>
   <plurals name="delete_looks">
     <item quantity="one">Odstrániť tento vzhľad?</item>
-            <item quantity="other">Odstrániť tieto vzhľady?</item>
+    <item quantity="few">Odstrániť tieto vzhľady?</item>
+    <item quantity="many">Delete these Looks?</item>
+    <item quantity="other">Odstrániť tieto vzhľady?</item>
   </plurals>
   <plurals name="delete_sounds">
     <item quantity="one">Odstrániť tento zvuk?</item>
-            <item quantity="other">Odstrániť tieto zvuky?</item>
+    <item quantity="few">Odstrániť tieto zvuky?</item>
+    <item quantity="many">Delete these Sounds?</item>
+    <item quantity="other">Odstrániť tieto zvuky?</item>
   </plurals>
   <plurals name="delete_nfc_tags">
     <item quantity="one">Odstrániť tento tag?</item>
-            <item quantity="other">Odstrániť tieto tagy?</item>
+    <item quantity="few">Odstrániť tieto tagy?</item>
+    <item quantity="many">Delete these Tags?</item>
+    <item quantity="other">Odstrániť tieto tagy?</item>
   </plurals>
   <plurals name="delete_scripts">
     <item quantity="one">Odstrániť tento skript?</item>
-            <item quantity="other">Odstrániť tieto skripty?</item>
+    <item quantity="few">Odstrániť tieto skripty?</item>
+    <item quantity="many">Delete these Scripts?</item>
+    <item quantity="other">Odstrániť tieto skripty?</item>
   </plurals>
   <plurals name="delete_bricks">
     <item quantity="one">Odstrániť tento blok?</item>
-            <item quantity="other">Odstrániť tieto bloky?</item>
+    <item quantity="few">Odstrániť tieto bloky?</item>
+    <item quantity="many">Delete these Bricks?</item>
+    <item quantity="other">Odstrániť tieto bloky?</item>
   </plurals>
   <!-- Dialog Labels -->
-    <string name="project_name_label">Program Name</string>
+  <string name="project_name_label">Program Name</string>
   <string name="scene_name">Scene Name</string>
   <string name="sprite_name_label">Object Name</string>
   <string name="sprite_group_name_label">Group Name</string>
@@ -472,8 +570,8 @@
   <string name="sound_name_label">Sound Name</string>
   <string name="string_label">Text</string>
   <string name="data_label">Name</string>
-    <!-- Details -->
-    <string name="project_details">Last access: %s, Size: %s</string>
+  <!-- Details -->
+  <string name="project_details">Last access: %s, Size: %s</string>
   <string name="scene_details">Objects: %d, Looks: %d, Sounds: %d</string>
   <string name="sprite_details">Bricks: %d, Looks: %d, Sounds: %d</string>
   <string name="look_details">Measure: %s, Size: %s</string>
@@ -481,114 +579,158 @@
   <string name="sound_details">Duration: %s, Size: %s</string>
   <!--  -->
   <!-- Rename Dialog Titles -->
-    <string name="rename_project">Premenovať program</string>
+  <string name="rename_project">Premenovať program</string>
   <string name="rename_scene_dialog">Premenovať scénu</string>
   <string name="rename_sprite_dialog">Premenovať objekt</string>
   <string name="rename_look_dialog">Premenovať vzhľad</string>
   <string name="rename_sound_dialog">Premenovať zvuk</string>
   <string name="rename_nfctag_dialog">Premenovať NFC tag</string>
   <string name="rename_data_dialog">Premenovať</string>
-    <!-- New Script Group Dialog -->
-    <string name="new_group">Nová skupina</string>
-    <!-- New Scene Menu Object -->
-    <string name="new_scene">Nová scéna</string>
+  <!-- New Script Group Dialog -->
+  <string name="new_group">Nová skupina</string>
+  <!-- New Scene Menu Object -->
+  <string name="new_scene">Nová scéna</string>
   <!-- Action Toasts -->
-    <!-- Backpack -->
+  <!-- Backpack -->
   <plurals name="packed_scenes">
     <item quantity="one">%d scéna uložená do batohu!</item>
-            <item quantity="other">%d scén uložených do batohu!</item>
+    <item quantity="few">%d scény uložené do batohu!</item>
+    <item quantity="many">Backpacked %d Scenes!</item>
+    <item quantity="other">%d scén uložených do batohu!</item>
   </plurals>
   <plurals name="packed_sprites">
     <item quantity="one">%d objekt uložený do batohu!</item>
-            <item quantity="other">%d objektov uložených do batohu!</item>
+    <item quantity="few">%d objekty uložené do batohu!</item>
+    <item quantity="many">Backpacked %d Objects!</item>
+    <item quantity="other">%d objektov uložených do batohu!</item>
   </plurals>
   <plurals name="packed_looks">
     <item quantity="one">%d vzhľad uložený do batohu!</item>
-            <item quantity="other">%d vzhľadov uložených do batohu!</item>
+    <item quantity="few">%d vzhľady uložené do batohu!</item>
+    <item quantity="many">Backpacked %d Looks!</item>
+    <item quantity="other">%d vzhľadov uložených do batohu!</item>
   </plurals>
   <plurals name="packed_sounds">
     <item quantity="one">%d zvuk uložený do batohu!</item>
-            <item quantity="other">%d zvukov uložených do batohu!</item>
+    <item quantity="few">%d zvuky uložené do batohu!</item>
+    <item quantity="many">Backpacked %d Sounds!</item>
+    <item quantity="other">%d zvukov uložených do batohu!</item>
   </plurals>
   <string name="packed_script_group">1 skupina skriptov uložená do batohu!</string>
-    <!-- Unpack -->
+  <!-- Unpack -->
   <plurals name="unpacked_scenes">
     <item quantity="one">Vybratá %d scéna!</item>
-            <item quantity="other">Vybratých %d scén!</item>
+    <item quantity="few">Vybraté %d scény!</item>
+    <item quantity="many">Unpacked %d Scenes!</item>
+    <item quantity="other">Vybratých %d scén!</item>
   </plurals>
   <plurals name="unpacked_sprites">
     <item quantity="one">Vybratý %d objekt!</item>
-            <item quantity="other">Vybratých %d objektov!</item>
+    <item quantity="few">Vybraté %d objekty!</item>
+    <item quantity="many">Unpacked %d Objects!</item>
+    <item quantity="other">Vybratých %d objektov!</item>
   </plurals>
   <plurals name="unpacked_looks">
     <item quantity="one">Vybratý %d vzhľad!</item>
-            <item quantity="other">Vybratých %d vzhľadov!</item>
+    <item quantity="few">Vybraté %d vzhľady!</item>
+    <item quantity="many">Unpacked %d Looks!</item>
+    <item quantity="other">Vybratých %d vzhľadov!</item>
   </plurals>
   <plurals name="unpacked_sounds">
     <item quantity="one">Rozbalený %d zvuk!</item>
-            <item quantity="other">Rozbalených %d zvukov!</item>
+    <item quantity="few">Rozbalené %d zvuky!</item>
+    <item quantity="many">Unpacked %d Sounds!</item>
+    <item quantity="other">Rozbalených %d zvukov!</item>
   </plurals>
   <plurals name="unpacked_scripts">
     <item quantity="one">Rozbalený %d skript!</item>
-            <item quantity="other">Rozbalených %d skriptov!</item>
+    <item quantity="few">Rozbalené %d skripty!</item>
+    <item quantity="many">Unpacked %d Scripts!</item>
+    <item quantity="other">Rozbalených %d skriptov!</item>
   </plurals>
-    <!-- Copy -->
+  <!-- Copy -->
   <plurals name="copied_scenes">
     <item quantity="one">Skopírovaná %d scéna!</item>
-            <item quantity="other">Skopírovaných %d scén!</item>
+    <item quantity="few">Skopírované %d scény!</item>
+    <item quantity="many">Copied %d Scenes!</item>
+    <item quantity="other">Skopírovaných %d scén!</item>
   </plurals>
   <plurals name="copied_sprites">
     <item quantity="one">Skopírovaný %d objekt!</item>
-            <item quantity="other">Skopírovaných %d objektov!</item>
+    <item quantity="few">Skopírované %d objekty!</item>
+    <item quantity="many">Copied %d Objects!</item>
+    <item quantity="other">Skopírovaných %d objektov!</item>
   </plurals>
   <plurals name="copied_looks">
     <item quantity="one">Skopírovaný %d vzhľad!</item>
-            <item quantity="other">Skopírovaných %d vzhľadov!</item>
+    <item quantity="few">Skopírované %d vzhľady!</item>
+    <item quantity="many">Copied %d Looks!</item>
+    <item quantity="other">Skopírovaných %d vzhľadov!</item>
   </plurals>
   <plurals name="copied_sounds">
     <item quantity="one">Skopírovaný %d zvuk!</item>
-            <item quantity="other">Skopírovaných %d zvukov!</item>
+    <item quantity="few">Skopírované %d zvuky!</item>
+    <item quantity="many">Copied %d Sounds!</item>
+    <item quantity="other">Skopírovaných %d zvukov!</item>
   </plurals>
   <plurals name="copied_nfc_tags">
     <item quantity="one">Skopírovaný %d NFC Tag!</item>
-            <item quantity="other">Skopírovaných %d NFC Tagov!</item>
+    <item quantity="few">Skopírované %d NFC Tagy!</item>
+    <item quantity="many">Copied %d NFC Tags!</item>
+    <item quantity="other">Skopírovaných %d NFC Tagov!</item>
   </plurals>
-    <!-- Delete -->
+  <!-- Delete -->
   <plurals name="deleted_projects">
     <item quantity="one">Odstránený %d projekt!</item>
-            <item quantity="other">Odstránených %d projektov!</item>
+    <item quantity="few">Odstránené %d projekty!</item>
+    <item quantity="many">Deleted %d Projects!</item>
+    <item quantity="other">Odstránených %d projektov!</item>
   </plurals>
   <plurals name="deleted_scenes">
     <item quantity="one">Odstránená %d scéna!</item>
-            <item quantity="other">Odstránených %d scén!</item>
+    <item quantity="few">Odstránené %d scény!</item>
+    <item quantity="many">Deleted %d Scenes!</item>
+    <item quantity="other">Odstránených %d scén!</item>
   </plurals>
   <plurals name="deleted_sprites">
     <item quantity="one">Odstránený %d objekt!</item>
-            <item quantity="other">Odstránených %d objektov!</item>
+    <item quantity="few">Odstránené %d objekty!</item>
+    <item quantity="many">Deleted %d Sprites!</item>
+    <item quantity="other">Odstránených %d objektov!</item>
   </plurals>
   <plurals name="deleted_looks">
     <item quantity="one">Odstránený %d vzhľad!</item>
-            <item quantity="other">Odstránených %d vzhľadov!</item>
+    <item quantity="few">Odstránené %d vzhľady!</item>
+    <item quantity="many">Deleted %d Looks!</item>
+    <item quantity="other">Odstránených %d vzhľadov!</item>
   </plurals>
   <plurals name="deleted_sounds">
     <item quantity="one">Odstránený %d zvuk!</item>
-            <item quantity="other">Odstránených %d zvukov!</item>
+    <item quantity="few">Odstránené %d zvuky!</item>
+    <item quantity="many">Deleted %d Sounds!</item>
+    <item quantity="other">Odstránených %d zvukov!</item>
   </plurals>
   <plurals name="deleted_nfc_tags">
     <item quantity="one">Odstránený %d NFC Tag!</item>
-            <item quantity="other">Odstránených %d NFC Tagov!</item>
+    <item quantity="few">Odstránené %d NFC Tagy!</item>
+    <item quantity="many">Deleted %d NFC Tags!</item>
+    <item quantity="other">Odstránených %d NFC Tagov!</item>
   </plurals>
   <plurals name="deleted_scripts">
     <item quantity="one">Odstránený %d skript!</item>
-            <item quantity="other">Odstránených %d skriptov!</item>
+    <item quantity="few">Odstránené %d skripty!</item>
+    <item quantity="many">Deleted %d Scripts!</item>
+    <item quantity="other">Odstránených %d skriptov!</item>
   </plurals>
   <plurals name="deleted_Items">
     <item quantity="one">Deleted %d Item!</item>
-            <item quantity="other">Deleted %d Items!</item>
+    <item quantity="few">Deleted %d Items!</item>
+    <item quantity="many">Deleted %d Items!</item>
+    <item quantity="other">Deleted %d Items!</item>
   </plurals>
   <!--  -->
   <!-- ProjectListActivity and ProjectListFragment -->
-    <string name="project_list_title">Programy</string>
+  <string name="project_list_title">Programy</string>
   <string name="last_used">Posledný prístup:</string>
   <string name="size">Veľkosť:</string>
   <string name="description">Popis:</string>
@@ -596,10 +738,10 @@
   <string name="details_date_today">Dnes</string>
   <!--  -->
   <!-- ScriptListFragment -->
-    <string name="fragment_script_text_description">Stlačte \"+\" pre pridanie skriptov</string>
+  <string name="fragment_script_text_description">Stlačte \"+\" pre pridanie skriptov</string>
   <!--  -->
   <!-- LookListFragment -->
-    <string name="fragment_look_text_description">Stlačte \"+\" pre pridanie vzhľadov</string>
+  <string name="fragment_look_text_description">Stlačte \"+\" pre pridanie vzhľadov</string>
   <string name="pocket_paint_not_installed_title">Pocket Paint nie je nainštalovaný!</string>
   <string name="pocket_paint_not_installed_message">Please install Pocket Paint.</string>
   <string name="default_look_name">Vzhľad</string>
@@ -607,11 +749,11 @@
   <string name="select_look_from_camera">Vybrať fotografiu</string>
   <!--  -->
   <!-- SoundListFragment -->
-    <string name="fragment_sound_text_description">Stlačte \"+\" pre pridanie zvukov</string>
+  <string name="fragment_sound_text_description">Stlačte \"+\" pre pridanie zvukov</string>
   <string name="sound_select_source">Vyberte zvuk</string>
   <!--  -->
   <!-- NfcTagListFragment -->
-    <string name="fragment_nfctag_text_description">Scan NFC tags to add them</string>
+  <string name="fragment_nfctag_text_description">Scan NFC tags to add them</string>
   <string name="ndef_record_label">as record type</string>
   <string name="brick_set_nfc_tag">Nastaviť ďalší NFC tag na</string>
   <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
@@ -625,8 +767,8 @@
   <string name="tnf_well_known_sms">SMS</string>
   <string name="tnf_well_known_mailto">E-mail</string>
   <!--  -->
-    <!-- DataListFragment -->
-    <string name="global_vars_headline">Variables for all objects</string>
+  <!-- DataListFragment -->
+  <string name="global_vars_headline">Variables for all objects</string>
   <string name="local_vars_headline">Variables for this object only</string>
   <string name="global_lists_headline">Lists for all objects</string>
   <string name="local_lists_headline">Lists for this object only</string>
@@ -651,7 +793,7 @@
   <string name="project_select_screen_title">Screen:</string>
   <!--  -->
   <!-- NewSpriteDialog -->
-    <string name="new_sprite_dialog_title">Nový objekt</string>
+  <string name="new_sprite_dialog_title">Nový objekt</string>
   <!--  -->
   <!-- NewLookDialog -->
   <string name="new_look_dialog_title">Pridať vzhľad</string>
@@ -666,15 +808,15 @@
   <string name="add_sound_from_recorder">Nahrať zvuk</string>
   <string name="add_sound_choose_file">Vybrať súbor</string>
   <string name="add_sound_music">Hudobný skladateľ</string>
-    <!-- Rating Dialog -->
-    <string name="rating_dialog_title">Rate Pocket Code</string>
+  <!-- Rating Dialog -->
+  <string name="rating_dialog_title">Rate Pocket Code</string>
   <string name="rating_google_play_dialog_text">If you enjoy this app, please rate us on Google Play.</string>
   <string name="rating_dialog_rate_now">Now</string>
   <string name="rating_dialog_rate_later">Later</string>
   <string name="rating_dialog_rate_never">Never</string>
-    <!--  -->
+  <!--  -->
   <!-- Terms of Use Dialog -->
-    <string name="dialog_terms_of_use_title">Podmienky používania a služieb</string>
+  <string name="dialog_terms_of_use_title">Podmienky používania a služieb</string>
   <string name="dialog_terms_of_use_info">In order to
     be allowed to use the apps and other executables offered by the Catrobat project, you
     must agree to our Terms of Use and Services. You have to follow these terms strictly when using our apps
@@ -682,73 +824,88 @@
   <string name="dialog_terms_of_use_link_text">Podmienky používania a služieb</string>
   <!--  -->
   <!-- Terms of Use Dialog Parrot ARDrone-->
-    <string name="dialog_terms_of_use_link_text_parrot_reminder">Podmienky používania a služieb</string>
+  <string name="dialog_terms_of_use_link_text_parrot_reminder">Podmienky používania a služieb</string>
   <string name="dialog_terms_of_use_parrot_reminder_text">You are about to use this app together with Parrot\'s
         AR.Drone 2.0. We strongly remind you to abide by both Parrot\'s and Catrobat\'s Terms of Use and Services.</string>
   <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Znovu nepripomínať.</string>
   <!--  -->
   <!-- Terms of Use Dialog Parrot Jumping Sumo-->
-    <string name="dialog_terms_of_use_jumpingsumo_reminder_text">You are about to use this app together with
+  <string name="dialog_terms_of_use_jumpingsumo_reminder_text">You are about to use this app together with
         Parrot\'s Jumping Sumo. We strongly remind you to abide by both Parrot\'s and Catrobat\'s Terms of Use and
         Services.</string>
   <!--  -->
-    <!-- Privacy Policy -->
-    <string name="dialog_privacy_policy_title">Zásady ochrany osobných údajov</string>
+  <!-- Privacy Policy -->
+  <string name="dialog_privacy_policy_title">Zásady ochrany osobných údajov</string>
   <string name="disclaimer_privacy_police_header_headline">Welcome!</string>
   <string name="disclaimer_privacy_policy_header">Before you can start coding, please read and accept our Privacy 
         Policy to use the app:</string>
-  <string name="dialog_privacy_policy_text">Version 2.0, 20 September 2017\n\n
+  <string name="dialog_privacy_policy_text">To offer you all the benefits of our services and the associated account,
+        it is necessary to collect certain data from you.\n\n
 
-        To offer you all collaborative benefits of our services and the associated account, it is necessary to
-        collect certain data from you.\n\n
+        • To maintain and improve our services (apps and websites) and to do scientific research on ICT and
+            STEM/STEAM education, we use Google Analytics, Crashlytics, and Firebase, all by Google LLC (USA), to get
+            metadata about the usage of our services, e.g., crash information, timestamps, visited pages/screens,
+            usage of our apps and services, used operating system, and information about the network provider. This
+            analysis and the collected data is not linked to your profile and does not contain any personal
+            information (last bits of the IP address get anonymized). However, the collected data will get
+            transferred to the service-provider (Google LLC, USA). Data processing is based on an agreement with
+            Google LLC. This relationship to the service provider conforms to the European Union\'s General Data
+            Protection Regulation (EU GDPR) and EU-USA \"Privacy Shield\" agreement.\n\n
+        • To create and use an account in our systems, and to inform you about necessary changes about your
+            account per e-mail, e.g., updates or violations of our Terms of Use and Service, our community rules, or
+            our policies, we will store your username and, if provided by you, your e-mail address. If you have
+            connected your account via Google Plus or Facebook, we additionally store an identification key connected
+            to your account on these services. We will not use this data for any other (e.g., marketing) purposes,
+            unless you explicitly allowed us to do so.\n\n
+        • On a voluntary basis, you can give us your country of residence through your account page on the sharing
+            site. This will get displayed on your public profile and only be used for statistical and research
+            purposes by us. It can be removed at any time in your profile settings.\n\n
+        • You can withdraw the usage of the personal data belonging to your account at any time by deleting your
+            account through your profile page on https://share.catrob.at/. After deleting your account you will still
+            be able to use the provided services, but not to collaborate, e.g., through uploading programs,
+            commenting, or liking. Also, all provided content linked to your account, e.g., uploaded programs,
+            comments, etc., will be deleted.\n\n
+        • To avoid misuse of our services, e.g., through user contributed uploads or comments for illegal
+            purposes, all user generated public data (uploads, comments) will be stored internally in a database,
+            together with a timestamp and the used internet address. This data will not be used by or forwarded to
+            any institutions, unless sufficiently illegal actions are reasonably suspected and officially entitled
+            legal institutions request it based on applicable law. Each case will be thoroughly checked on an
+            individual basis by us first.\n\n
+        • You can voluntarily subscribe to the Catrobat Newsletter, on <a href="https://catrob.at/newsletter">https://catrob.at/newsletter</a> provided by us through the MailChimp
+            service (The Rocket Science Group LLC d/b/a MailChimp, USA). You will then receive updates on the
+            Catrobat project and its services to your provided e-mail adress. You can withdraw the newsletter at any
+            time by using the \"unsubscribe\" link in the footer of every newsletter. This newsletter is provided by
+            MailChimp with whom we do have a data-processing agreement and who committed to the EU General Data
+            Protection Regulation and EU-USA \"Privacy Shield\". For further details on MailChimp please also look up
+            MailChimp\'s Privacy Policy and Terms of Use.\n\n
+        • All Services are provided by the free open source Catrobat project under the umbrella of the
+            International Catrobat Association – Verein zur Förderung freier Software, a non-profit NGO incorporated
+            in Graz, Austria (European Union). Our policies pay respect to EU and Austrian data protection law
+            (GDPR). To get in touch with us, please send an e-mail to contact@catrobat.org or mail us to Catrobat,\n
+                c/o\n
+                Institute of Software Technology,\n
+                Graz University of Technology,\n
+                Inffeldgasse 16b,\n
+                A-8010 Graz, Austria\n
+                (European Union).\n\n
+        In case you are below the age of 14, this policy must be accepted by a legal guardian (usually a parent).\n\n
 
-    • To use your account in our systems, and to inform you about necessary changes about your account (e.g.,
-        updates/violation of our Use of Terms of Use and Service or of community rules) or our policies, we will
-        store your username and, if provided by you, your E-Mail address. If you’ve connected your account via Google
-        Plus or Facebook, we will additionally store an identification key connected to your account on these
-        services. We
-        will not use this data for any other (e.g., marketing) purposes, unless you explicitly allowed us to do so.\n\n
+        Catrobat\'s official English language privacy policy is available on the web under
+                <a href="https://catrob.at/privacypolicy">https://catrob.at/privacypolicy</a>.\n\n
 
-    • To avoid misuse of our services (e.g., through user contributed uploads or comments) for illegal
-        purposes, the user
-        generated public data will be stored internally in a database together with a timestamp and the IP
-        address that was used.\n\n
+        Version 2.1, 25 June 2018\n\n
 
-    • To improve our services (apps and websites) and to do scientific research on ICT and STEM education, we
-        use Google
-        Analytics, Crashlytics and Firebase by Google Inc. to gather metadata (e.g., timestamps, visited
-        pages/screens, used operating system, and information about the network provider). This analysis and the collected
-        data is not linked to your profile and does not contain any personal information.\n\n
-
-    • On a voluntary basis, you can give us your country of residence through your account page on the sharing
-        site. This
-        will only be used for statistical and research purposes by us and can be removed at any time in your profile
-        settings.\n\n
-
-    • You can withdraw the usage of this data at any time by deleting your account through your profile page on
-        https://share.catrob.at/. After deleting your account you will still be able to use the provided services,
-        but not to collaborate, e.g., through uploading programs, commenting or liking. Also all provided content
-        linked to your account, e.g. uploaded programs, comments, will be deleted.\n\n
-
-    • All Services are provided by the non-profit free open source Catrobat project under the umbrella of the
-        International Catrobat Association – Verein zur Förderung freier Software (Graz, Austria).\n\n
-
-    • To get in touch with us, please send an E-Mail to contact@catrobat.org or mail us to Catrobat,\n
-        c/o\n
-        Institute of Software Technology,\n
-        Inffeldgasse 16b/II,\n
-        8010 Graz, Austria.\n\n
-
-    In case you are below the age of 16, this policy must be accepted by a legal guardian (usually parents).
+        Find the previous, outdated, version of our privacy policy (2.0)
+            <a href="http://developer.catrobat.org/privacy_policy_2-0.html">here</a>.
     </string>
   <string name="dialog_privacy_policy_declined_text">It is necessary to agree to the Privacy Policy to register or to
         continue using your account. If you do not want us to collect this data, you can delete your
         account via the profile page on our web interface. Then you will still be able to use all services that do
         not require an account.
     </string>
-    <!-- -->
+  <!-- -->
   <!-- About Dialog -->
-    <string name="dialog_about_title">O tejto aplikácii</string>
+  <string name="dialog_about_title">O tejto aplikácii</string>
   <string name="dialog_about_license_info">This app offers a programming
         environment and interpreter for the visual
         programming language Catrobat.\n
@@ -757,28 +914,30 @@
   <string name="dialog_about_license_link_text">Source Code License</string>
   <string name="dialog_about_catrobat_link_text">O Catrobat</string>
   <!--  -->
-    <!-- NetworkAlertDialog -->
-    <string name="error_no_network_title">No Network</string>
+  <!-- NetworkAlertDialog -->
+  <string name="error_no_network_title">No Network</string>
   <string name="error_no_network">You need a network connection to use this program. Please turn on the
         mobile network or the Wi-Fi in the settings.</string>
   <plurals name="bricks_using_network_headline">
     <item quantity="one">The following brick needs a network connection:</item>
-            <item quantity="other">The following bricks need a network connection:</item>
+    <item quantity="few">The following bricks need a network connection:</item>
+    <item quantity="many">The following bricks need a network connection:</item>
+    <item quantity="other">The following bricks need a network connection:</item>
   </plurals>
-    <!-- UploadProjectDialog -->
-    <string name="error_no_program_name_entered">Prosím, zadajte názov programu.</string>
+  <!-- UploadProjectDialog -->
+  <string name="error_no_program_name_entered">Prosím, zadajte názov programu.</string>
   <string name="upload_button">Nahrať</string>
   <string name="upload_project_dialog_title">Nahrať program</string>
   <string name="upload_description">Popis:</string>
   <string name="upload_tag_dialog_title">Please choose up to three categories</string>
-    <!-- SoundRecorderActivity -->
-    <string name="soundrecorder_name">Záznam zvuku</string>
+  <!-- SoundRecorderActivity -->
+  <string name="soundrecorder_name">Záznam zvuku</string>
   <string name="soundrecorder_error">Záznam zvuku zlyhal</string>
   <string name="soundrecorder_recorded_filename">záznam</string>
   <string name="soundrecorder_text_view">Stlačte ikonu pre spustenie a zastavenie nahrávania.</string>
   <!--  -->
-    <!-- Brick context dialog -->
-    <string name="brick_context_dialog_move_brick">Presunúť blok</string>
+  <!-- Brick context dialog -->
+  <string name="brick_context_dialog_move_brick">Presunúť blok</string>
   <string name="brick_context_dialog_delete_brick">Odstrániť blok</string>
   <string name="brick_context_dialog_copy_brick">Kopírovať blok</string>
   <string name="brick_context_dialog_animate_bricks">Animovať časti blokov</string>
@@ -788,14 +947,14 @@
   <string name="brick_context_dialog_comment_out">Zakázať blok</string>
   <string name="brick_context_dialog_help">Nápoveda</string>
   <string name="comment_in_out">Zakázať/Povoliť</string>
-    <!--  -->
-    <!-- Play scene dialog -->
-    <string name="play_scene_dialog_title">Prehrať scénu:</string>
+  <!--  -->
+  <!-- Play scene dialog -->
+  <string name="play_scene_dialog_title">Prehrať scénu:</string>
   <string name="play_scene_dialog_default">Prvá scéna(%1$s)</string>
   <string name="play_scene_dialog_current">Current Scene (%1$s)</string>
-    <!--  -->
-    <!-- Sign In dialogs -->
-    <string name="sign_in_dialog_title">Prihlásiť sa</string>
+  <!--  -->
+  <!-- Sign In dialogs -->
+  <string name="sign_in_dialog_title">Prihlásiť sa</string>
   <string name="username">Username</string>
   <string name="password">Password</string>
   <string name="password_forgotten">Forgot your password?</string>
@@ -820,26 +979,26 @@
   <string name="error_facebook_session_expired">Session expired, please log in.</string>
   <string name="sign_in_with_facebook">Sign in with Facebook</string>
   <string name="sign_in_with_google">Sign in with Google</string>
-    <!--  -->
-    <!-- OverwriteRenameDialog Strings -->
-    <string name="overwrite_text">A program with this name already exists. Please choose a different name!</string>
+  <!--  -->
+  <!-- OverwriteRenameDialog Strings -->
+  <string name="overwrite_text">A program with this name already exists. Please choose a different name!</string>
   <string name="overwrite_replace">Replace Program</string>
   <string name="overwrite_rename">Premenovať stiahnutý program</string>
-    <!--  -->
-    <!-- OverwriteRenameMediaDialog -->
-    <string name="overwrite_replace_look">Replace Look</string>
+  <!--  -->
+  <!-- OverwriteRenameMediaDialog -->
+  <string name="overwrite_replace_look">Replace Look</string>
   <string name="overwrite_rename_look">Premenovať stiahnutý vzhľad</string>
   <string name="overwrite_replace_sound">Replace sound</string>
   <string name="overwrite_rename_sound">Premenovať stiahnutý zvuk</string>
   <string name="overwrite_replace_default">Replace Media</string>
   <string name="overwrite_rename_default">Premenovať existujúce médiá</string>
-    <!-- -->
+  <!-- -->
   <!-- Music activity -->
-    <string name="pocket_music_default_project_name">Untitled Song</string>
+  <string name="pocket_music_default_project_name">Untitled Song</string>
   <string name="pocket_music_default_track_name">Track 1</string>
   <!--  -->
   <!-- PreStage activity -->
-    <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech nie je nainštalovaný!\nChcete ho nainštalovať?</string>
+  <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech nie je nainštalovaný!\nChcete ho nainštalovať?</string>
   <string name="prestage_resource_not_available_title">Komponent nie je k dispozícii</string>
   <string name="prestage_resource_not_available_text">Unfortunately this program does not work on your device.
         The following components are unavailable:\n\n</string>
@@ -863,7 +1022,7 @@
         issues!</string>
   <!--  -->
   <!-- Stage menu dialog -->
-    <string name="stage_dialog_back">Späť</string>
+  <string name="stage_dialog_back">Späť</string>
   <string name="stage_dialog_resume">Pokračovať</string>
   <string name="stage_dialog_restart">Reštartovať</string>
   <string name="stage_dialog_axes_on">Zapnúť osi</string>
@@ -872,16 +1031,16 @@
   <string name="stage_dialog_screenshot">Náhľad</string>
   <!--  -->
   <!-- Broadcast spinner -->
-    <string name="new_broadcast_message">Nová&#8230;</string>
+  <string name="new_broadcast_message">Nová&#8230;</string>
   <string name="dialog_new_broadcast_message_title">Nová správa</string>
   <string name="dialog_new_broadcast_message_name">správa:</string>
   <!--  -->
   <!-- NFC spinner -->
-    <string name="new_nfc_tag">Nový&#8230;</string>
+  <string name="new_nfc_tag">Nový&#8230;</string>
   <string name="brick_when_nfc_default_all">všetky</string>
   <!-- -->
   <!-- Brick categories -->
-    <string name="categories">Kategórie</string>
+  <string name="categories">Kategórie</string>
   <string name="category_embroidery">Embroidery</string>
   <string name="category_motion">Pohyb</string>
   <string name="category_looks">Vzhľady</string>
@@ -901,7 +1060,7 @@
   <string name="category_raspi">Raspberry Pi</string>
   <!--  -->
   <!-- Motion bricks -->
-    <string name="brick_place_at">"Umiestni na "</string>
+  <string name="brick_place_at">"Umiestni na "</string>
   <string name="x_label">"X: "</string>
   <string name="y_label">"Y: "</string>
   <string name="brick_set_x">"Nastav X na "</string>
@@ -915,14 +1074,18 @@
   <string name="brick_set_rotation_style_no">neotáčať</string>
   <plurals name="brick_go_back_layer_plural">
     <item quantity="one">vrstva</item>
-            <item quantity="other">vrstiev</item>
+    <item quantity="few">vrstvy</item>
+    <item quantity="many">layers</item>
+    <item quantity="other">vrstiev</item>
   </plurals>
   <string name="brick_come_to_front">Presuň sa na popredie</string>
   <string name="brick_if_on_edge_bounce">Ak na hrane, odraz sa</string>
   <string name="brick_move">Premiestni sa</string>
   <plurals name="brick_move_n_step_plural">
     <item quantity="one">krok</item>
-            <item quantity="other">krokov</item>
+    <item quantity="few">kroky</item>
+    <item quantity="many">steps</item>
+    <item quantity="other">krokov</item>
   </plurals>
   <string name="brick_turn_left">Zahni doľava</string>
   <string name="brick_turn_right">Zahni doprava</string>
@@ -935,7 +1098,7 @@
   <string name="brick_go_to_random_position">Náhodná pozícia</string>
   <!--  -->
   <!-- Physics -->
-    <string name="default_project_name_physics">Môj prvý physics program</string>
+  <string name="default_project_name_physics">Môj prvý physics program</string>
   <string name="brick_set_physics_object_type">Nastav typ pohybu na</string>
   <string name="brick_set_physics_object_type_dynamic">odrážanie sa s gravitáciou</string>
   <string name="brick_set_physics_object_type_fixed">ostatní sa od tohto odrážajú</string>
@@ -952,7 +1115,7 @@
   <string name="brick_rotate_left">"Otočiť doľava "</string>
   <string name="brick_rotate_right">"Otočiť doprava "</string>
   <!-- Looks bricks -->
-    <string name="brick_set_look">Prepnúť na vzhľad</string>
+  <string name="brick_set_look">Prepnúť na vzhľad</string>
   <string name="brick_set_look_by_index">Prepnúť na vzhľad číslo</string>
   <string name="brick_set_background">Nastaviť pozadie</string>
   <string name="brick_set_background_and_wait">Set background and wait</string>
@@ -989,7 +1152,7 @@
   <string name="brick_ask_speech_default_question">\'Ako sa voláš?\'</string>
   <!--  -->
   <!-- Pen bricks -->
-    <string name="brick_pen_down">Pero dolu</string>
+  <string name="brick_pen_down">Pero dolu</string>
   <string name="brick_pen_up">Pero hore</string>
   <string name="brick_pen_size">Nastaviť veľkosť pera na</string>
   <string name="brick_pen_color">Nastaviť farbu pera na</string>
@@ -997,7 +1160,7 @@
   <string name="brick_stamp">Pečiatka</string>
   <!--  -->
   <!-- Sound bricks -->
-    <string name="brick_play_sound">Spustiť zvuk</string>
+  <string name="brick_play_sound">Spustiť zvuk</string>
   <string name="brick_play_sound_and_wait">Spustiť zvuk a čakať</string>
   <string name="brick_stop_all_sounds">Zastaviť všetky zvuky</string>
   <string name="brick_set_volume_to">Nastav hlasitosť na</string>
@@ -1007,7 +1170,7 @@
   <string name="brick_speak_and_wait">a čakaj</string>
   <!--  -->
   <!-- Control bricks -->
-    <string name="brick_when_started">Pri spustení programu</string>
+  <string name="brick_when_started">Pri spustení programu</string>
   <string name="brick_when">Po ťuknutí</string>
   <string name="brick_when_condition_when">Keď</string>
   <string name="brick_when_becomes_true">bude platiť</string>
@@ -1021,7 +1184,9 @@
   <string name="brick_stop_other_scripts">ostatné skripty tohto objektu</string>
   <plurals name="second_plural">
     <item quantity="one">"sekunda "</item>
-            <item quantity="other">"sekúnd "</item>
+    <item quantity="few">"sekundy "</item>
+    <item quantity="many">"seconds "</item>
+    <item quantity="other">"sekúnd "</item>
   </plurals>
   <string name="brick_collision_receive">Pri zrážke s</string>
   <string name="collision_with_anything">čímkoľvek</string>
@@ -1044,7 +1209,9 @@
   <string name="brick_delete_this_clone">Vymaž tento klon</string>
   <plurals name="time_plural">
     <item quantity="one">krát</item>
-            <item quantity="other">krát</item>
+    <item quantity="few">krát</item>
+    <item quantity="many">times</item>
+    <item quantity="other">krát</item>
   </plurals>
   <string name="brick_loop_end">Koniec slučky</string>
   <string name="brick_if_begin">Ak</string>
@@ -1069,7 +1236,7 @@
   <string name="brick_replace_item_in_userlist_item_at_index">at position</string>
   <string name="brick_replace_item_in_userlist_with_value">with</string>
   <!--  -->
-    <!-- Default Values -->
+  <!-- Default Values -->
   <string name="default_project_name">My first program</string>
   <string name="default_scene_name">Scene %1$d</string>
   <string name="default_project_background_name">Pozadie</string>
@@ -1081,8 +1248,8 @@
   <string name="default_project_sprites_bird_name_wing_down">Bird wings down</string>
   <string name="default_project_sprites_tweet_1">Tweet1</string>
   <string name="default_project_sprites_tweet_2">Tweet2</string>
-    <!-- Default ChromeCast Values -->
-    <string name="default_cast_project_background_name">Pozadie</string>
+  <!-- Default ChromeCast Values -->
+  <string name="default_cast_project_background_name">Pozadie</string>
   <string name="default_cast_project_cloud_name">Clouds</string>
   <string name="default_cast_project_cloud_sprite_name1">Clouds1</string>
   <string name="default_cast_project_cloud_sprite_name2">Clouds2</string>
@@ -1095,7 +1262,7 @@
   <string name="default_cast_project_sprites_tweet_2">Tweet2</string>
   <string name="default_cast_project_var_direction">direction</string>
   <string name="default_cast_project_name">My first Cast program</string>
-    <!-- Default Drone Values -->
+  <!-- Default Drone Values -->
   <string name="default_drone_project_name">My first AR.Drone 2.0 program</string>
   <string name="default_drone_project_sprites_takeoff">Take off</string>
   <string name="default_drone_project_sprites_flip">Preklopenie</string>
@@ -1127,17 +1294,17 @@
   <string name="drone_set_vertical_outdoor">1000 mm/s</string>
   <string name="drone_set_vertical_max">2000 mm/s</string>
   <!-- Drone max rotation speed limit values  -->
-    <string name="drone_set_rotation_min">40 stupňov/s</string>
+  <string name="drone_set_rotation_min">40 stupňov/s</string>
   <string name="drone_set_rotation_indoor">100 stupňov/s</string>
   <string name="drone_set_rotation_outdoor">200 stupňov/s</string>
   <string name="drone_set_rotation_max">350 stupňov/s</string>
   <!-- Drone max tilt limit values  -->
-    <string name="drone_set_tilt_min">5 stupňov</string>
+  <string name="drone_set_tilt_min">5 stupňov</string>
   <string name="drone_set_tilt_indoor">12 stupňov</string>
   <string name="drone_set_tilt_outdoor">20 stupňov </string>
   <string name="drone_set_tilt_max">30 stupňov</string>
   <!-- Notifications -->
-    <string name="notification_screenshot_ok">Náhľad bol uložený</string>
+  <string name="notification_screenshot_ok">Náhľad bol uložený</string>
   <string name="notification_download_project_cancel">Canceled program download</string>
   <string name="notification_reconvert_download_program_cancel">Sťahovanie/rekonvertovanie programu zrušené</string>
   <string name="notification_copy_title_pending">"Kopírovanie "</string>
@@ -1168,7 +1335,7 @@
   <string name="drone_emergency_title">Pohotovosť</string>
   <!--  -->
   <!-- Error messages -->
-    <string name="error_no_writiable_external_storage_available">This app needs writable external storage like a SD
+  <string name="error_no_writiable_external_storage_available">This app needs writable external storage like a SD
         card in order to run, but none was found.\nYou can fix this by making the external storage writable or inserting
         a SD card, then trying again.</string>
   <string name="error_no_write_access">This app needs permission to write data to your device. Otherwise you
@@ -1207,7 +1374,7 @@
         program.</string>
   <!--  -->
   <!-- Bluetooth Connection Strings -->
-    <string name="notification_blueth_err">Can\'t enable Bluetooth, please try turning it off and on again.</string>
+  <string name="notification_blueth_err">Can\'t enable Bluetooth, please try turning it off and on again.</string>
   <string name="title_paired_devices">Paired devices</string>
   <string name="title_other_devices">New devices</string>
   <string name="searching_devices">Looking for devices&#8230;</string>
@@ -1220,12 +1387,12 @@
   <string name="none_paired">Neboli nájdené žiadne spárované zariadenia</string>
   <!--  -->
   <!-- Arduino Bricks -->
-    <string name="brick_arduino_select_digital_value">Nastav Arduino digitálny pin</string>
+  <string name="brick_arduino_select_digital_value">Nastav Arduino digitálny pin</string>
   <string name="brick_arduino_select_analog_value">Nastav Arduino PWM~ pin</string>
   <string name="brick_arduino_set_pin_value_to">na</string>
   <!--  -->
   <!-- Raspi Bricks -->
-    <string name="brick_raspi_select_digital_value">Nastav Raspberry Pi pin</string>
+  <string name="brick_raspi_select_digital_value">Nastav Raspberry Pi pin</string>
   <string name="brick_raspi_set_pin_value_to">na</string>
   <string name="brick_raspi_if_begin">Ak je Raspberry Pi pin</string>
   <string name="brick_raspi_if_begin_second_part">je pravda, tak</string>
@@ -1236,12 +1403,12 @@
   <string name="brick_raspi_set_pwm">Nastav Raspberry Pi PWM pin</string>
   <!--  -->
   <!-- Raspi Settings -->
-    <string name="raspi_settings_title_name">Nastavenia Raspberry Pi</string>
+  <string name="raspi_settings_title_name">Nastavenia Raspberry Pi</string>
   <string name="raspi_settings_gpio_version">GPIO verzia</string>
   <string name="error_connecting_to">Error: Could not connect to %s : %d</string>
   <!--  -->
   <!-- Lego Mindstorms Strings -->
-    <string name="nxt_brick_motor_move">Nastav NXT motor</string>
+  <string name="nxt_brick_motor_move">Nastav NXT motor</string>
   <string name="nxt_motor_speed_to">na</string>
   <string name="nxt_motor_speed">rýchlosť</string>
   <string name="nxt_brick_motor_turn_angle">Otoč NXT motor</string>
@@ -1368,7 +1535,7 @@
   <string name="drone_animation_leftredrightgreen">Left Red Right Green</string>
   <string name="drone_animation_blinkstandard">Blink Standard</string>
   <!-- Jumping Sumo Bricks -->
-    <string name="brick_jumping_sumo_move_forward">Pohni Jumping Sumo vpred</string>
+  <string name="brick_jumping_sumo_move_forward">Pohni Jumping Sumo vpred</string>
   <string name="brick_jumping_sumo_move_backward">Pohni Jumping Sumo vzad</string>
   <string name="brick_jumping_sumo_animation">Animácie Jumping Sumo</string>
   <string name="brick_jumping_sumo_no_sound">Žiadne Jumping Sumo zvuky</string>
@@ -1382,7 +1549,7 @@
   <string name="brick_jumping_sumo_taking_picture">Urob fotku Jumping Sumo</string>
   <!--  -->
   <!-- defaultJumpingSumoValues -->
-    <string name="default_jumping_sumo_project_name">Môj prvý Jumping Sumo program</string>
+  <string name="default_jumping_sumo_project_name">Môj prvý Jumping Sumo program</string>
   <string name="add_look_jumping_sumo_video">Jumping Sumo video</string>
   <string name="default_jumping_sumo_project_sprites_forward">Dopredu</string>
   <string name="default_jumping_sumo_project_sprites_backward">Dozadu</string>
@@ -1442,17 +1609,17 @@
   <string name="phiro_tone_ti">Ti</string>
   <!--  -->
   <!-- Phiro motor strings -->
-    <string name="phiro_motor_left">Vľavo</string>
+  <string name="phiro_motor_left">Vľavo</string>
   <string name="phiro_motor_right">Vpravo</string>
   <string name="phiro_motor_both">Oboje</string>
   <!--  -->
   <!-- Phiro light strings -->
-    <string name="phiro_light_left">Vľavo</string>
+  <string name="phiro_light_left">Vľavo</string>
   <string name="phiro_light_right">Vpravo</string>
   <string name="phiro_light_both">Oboje</string>
   <!--  -->
   <!-- Phiro sensor strings -->
-    <string name="phiro_sensor_front_left">Predný ľavý senzor</string>
+  <string name="phiro_sensor_front_left">Predný ľavý senzor</string>
   <string name="phiro_sensor_front_right">Predný pravý senzor</string>
   <string name="phiro_sensor_side_left">Bočný ľavý senzor</string>
   <string name="phiro_sensor_side_right">Bočný pravý senzor</string>
@@ -1466,7 +1633,7 @@
   <string name="color_preview">Color Preview</string>
   <!-- -->
   <!-- Formula Editor Strings -->
-    <string name="formula_editor_data">Dáta</string>
+  <string name="formula_editor_data">Dáta</string>
   <string name="formula_editor_true">True</string>
   <string name="formula_editor_false">False</string>
   <string name="formula_editor_decimal_mark">.</string>
@@ -1669,6 +1836,8 @@
   <string name="formula_editor_image_button_description_delete">delete</string>
   <string name="formula_editor_variable_dialog_title">New Variable</string>
   <string name="formula_editor_list_dialog_title">New List</string>
+  <string name="formula_editor_dialog_for_all_sprites">For all objects</string>
+  <string name="formula_editor_dialog_for_this_sprite_only">For this object only</string>
   <string name="formula_editor_discard_changes_dialog_message">Do you want to save your changes?</string>
   <string name="formula_editor_discard_changes_dialog_title">Save changes?</string>
   <string name="formula_editor_new_string_name">New Text</string>
@@ -1791,8 +1960,8 @@
   <!--  -->
   <!-- Multilingual List -->
   <string name="device_language">Device Language</string>
-    <!-- Symbols -->
-    <string name="percent_symbol">%</string>
+  <!-- Symbols -->
+  <string name="percent_symbol">%</string>
   <string name="hertz_symbol">㎐</string>
   <!-- UtilFile SizeUnits String -->
   <string name="Byte_short">B</string>
