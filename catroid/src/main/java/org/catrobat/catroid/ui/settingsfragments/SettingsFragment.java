@@ -89,18 +89,12 @@ public class SettingsFragment extends PreferenceFragment {
 	public static final String RASPBERRY_SCREEN_KEY = "settings_raspberry_screen";
 
 	public static final String NXT_SETTINGS_CATEGORY = "setting_nxt_category";
-	public static final String NXT_SENSOR_1 = "setting_mindstorms_nxt_sensor_1";
-	public static final String NXT_SENSOR_2 = "setting_mindstorms_nxt_sensor_2";
-	public static final String NXT_SENSOR_3 = "setting_mindstorms_nxt_sensor_3";
-	public static final String NXT_SENSOR_4 = "setting_mindstorms_nxt_sensor_4";
-	public static final String[] NXT_SENSORS = {NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4};
+	public static final String[] NXT_SENSORS = {"setting_mindstorms_nxt_sensor_1", "setting_mindstorms_nxt_sensor_2",
+			"setting_mindstorms_nxt_sensor_3", "setting_mindstorms_nxt_sensor_4"};
 
 	public static final String EV3_SETTINGS_CATEGORY = "setting_ev3_category";
-	public static final String EV3_SENSOR_1 = "setting_mindstorms_ev3_sensor_1";
-	public static final String EV3_SENSOR_2 = "setting_mindstorms_ev3_sensor_2";
-	public static final String EV3_SENSOR_3 = "setting_mindstorms_ev3_sensor_3";
-	public static final String EV3_SENSOR_4 = "setting_mindstorms_ev3_sensor_4";
-	public static final String[] EV3_SENSORS = {EV3_SENSOR_1, EV3_SENSOR_2, EV3_SENSOR_3, EV3_SENSOR_4};
+	public static final String[] EV3_SENSORS = {"setting_mindstorms_ev3_sensor_1", "setting_mindstorms_ev3_sensor_2",
+			"setting_mindstorms_ev3_sensor_3", "setting_mindstorms_ev3_sensor_4"};
 
 	public static final String DRONE_SETTINGS_CATEGORY = "setting_drone_category";
 	public static final String DRONE_CONFIGS = "setting_drone_basic_configs";
@@ -361,8 +355,7 @@ public class SettingsFragment extends PreferenceFragment {
 
 	public static NXTSensor.Sensor[] getLegoNXTSensorMapping(Context context) {
 
-		final String[] sensorPreferences =
-				new String[] {NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4};
+		final String[] sensorPreferences = NXT_SENSORS;
 
 		NXTSensor.Sensor[] sensorMapping = new NXTSensor.Sensor[4];
 		for (int i = 0; i < 4; i++) {
@@ -375,8 +368,7 @@ public class SettingsFragment extends PreferenceFragment {
 
 	public static EV3Sensor.Sensor[] getLegoEV3SensorMapping(Context context) {
 
-		final String[] sensorPreferences =
-				new String[] {EV3_SENSOR_1, EV3_SENSOR_2, EV3_SENSOR_3, EV3_SENSOR_4};
+		final String[] sensorPreferences = EV3_SENSORS;
 
 		EV3Sensor.Sensor[] sensorMapping = new EV3Sensor.Sensor[4];
 		for (int i = 0; i < 4; i++) {
@@ -401,22 +393,18 @@ public class SettingsFragment extends PreferenceFragment {
 
 	public static void setLegoMindstormsNXTSensorMapping(Context context, NXTSensor.Sensor[] sensorMapping) {
 		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
-
-		editor.putString(NXT_SENSOR_1, sensorMapping[0].getSensorCode());
-		editor.putString(NXT_SENSOR_2, sensorMapping[1].getSensorCode());
-		editor.putString(NXT_SENSOR_3, sensorMapping[2].getSensorCode());
-		editor.putString(NXT_SENSOR_4, sensorMapping[3].getSensorCode());
+		for (int i = 0; i < NXT_SENSORS.length; i++) {
+			editor.putString(NXT_SENSORS[i], sensorMapping[i].getSensorCode());
+		}
 
 		editor.commit();
 	}
 
 	public static void setLegoMindstormsEV3SensorMapping(Context context, EV3Sensor.Sensor[] sensorMapping) {
 		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
-
-		editor.putString(EV3_SENSOR_1, sensorMapping[0].getSensorCode());
-		editor.putString(EV3_SENSOR_2, sensorMapping[1].getSensorCode());
-		editor.putString(EV3_SENSOR_3, sensorMapping[2].getSensorCode());
-		editor.putString(EV3_SENSOR_4, sensorMapping[3].getSensorCode());
+		for (int i = 0; i < EV3_SENSORS.length; i++) {
+			editor.putString(EV3_SENSORS[i], sensorMapping[i].getSensorCode());
+		}
 
 		editor.commit();
 	}

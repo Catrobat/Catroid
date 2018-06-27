@@ -23,21 +23,22 @@
 package org.catrobat.catroid.devices.mindstorms.nxt;
 
 import android.content.Context;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.catrobat.catroid.bluetooth.base.BluetoothConnection;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.devices.mindstorms.LegoSensor;
+import org.catrobat.catroid.devices.mindstorms.LegoSensorService;
 import org.catrobat.catroid.devices.mindstorms.MindstormsConnection;
 import org.catrobat.catroid.devices.mindstorms.MindstormsConnectionImpl;
 import org.catrobat.catroid.devices.mindstorms.MindstormsException;
-import org.catrobat.catroid.devices.mindstorms.MindstormsSensor;
-import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
-import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensorService;
 import org.catrobat.catroid.formulaeditor.Sensors;
 
 import java.util.UUID;
 
-public class LegoNXTImpl implements LegoNXT, NXTSensorService.OnSensorChangedListener {
+public class LegoNXTImpl implements LegoNXT, LegoSensorService.OnSensorChangedListener {
 
 	private static final UUID LEGO_NXT_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 	private static final String TAG = LegoNXTImpl.class.getSimpleName();
@@ -51,12 +52,12 @@ public class LegoNXTImpl implements LegoNXT, NXTSensorService.OnSensorChangedLis
 	private NXTMotor motorB;
 	private NXTMotor motorC;
 
-	private NXTSensor sensor1;
-	private NXTSensor sensor2;
-	private NXTSensor sensor3;
-	private NXTSensor sensor4;
+	private LegoSensor sensor1;
+	private LegoSensor sensor2;
+	private LegoSensor sensor3;
+	private LegoSensor sensor4;
 
-	private NXTSensorService sensorService;
+	private LegoSensorService sensorService;
 
 	public LegoNXTImpl(Context applicationContext) {
 		this.context = applicationContext;
@@ -214,62 +215,41 @@ public class LegoNXTImpl implements LegoNXT, NXTSensorService.OnSensorChangedLis
 
 		switch (sensor) {
 			case NXT_SENSOR_1:
-				if (getSensor1() == null) {
-					return 0;
-				}
-				return getSensor1().getLastSensorValue();
+				return sensor1 != null ? sensor1.getLastSensorValue() : 0;
 			case NXT_SENSOR_2:
-				if (getSensor2() == null) {
-					return 0;
-				}
-				return getSensor2().getLastSensorValue();
+				return sensor2 != null ? sensor2.getLastSensorValue() : 0;
 			case NXT_SENSOR_3:
-				if (getSensor3() == null) {
-					return 0;
-				}
-				return getSensor3().getLastSensorValue();
+				return sensor3 != null ? sensor3.getLastSensorValue() : 0;
 			case NXT_SENSOR_4:
-				if (getSensor4() == null) {
-					return 0;
-				}
-				return getSensor4().getLastSensorValue();
+				return sensor4 != null ? sensor4.getLastSensorValue() : 0;
 		}
 
 		return -1;
 	}
 
 	@Override
-	public MindstormsSensor getSensor1() {
+	public LegoSensor getSensor1() {
 		return sensor1;
 	}
 
 	@Override
-	public MindstormsSensor getSensor2() {
+	public LegoSensor getSensor2() {
 		return sensor2;
 	}
 
 	@Override
-	public MindstormsSensor getSensor3() {
+	public LegoSensor getSensor3() {
 		return sensor3;
 	}
 
 	@Override
-	public MindstormsSensor getSensor4() {
+	public LegoSensor getSensor4() {
 		return sensor4;
 	}
 
 	@Override
 	public void onSensorChanged() {
 		assignSensorsToPorts();
-	}
-
-	private NXTSensorService getSensorService() {
-		if (sensorService == null) {
-			sensorService = new NXTSensorService(context, mindstormsConnection);
-			sensorService.registerOnSensorChangedListener(this);
-		}
-
-		return sensorService;
 	}
 
 	@Override
@@ -291,12 +271,16 @@ public class LegoNXTImpl implements LegoNXT, NXTSensorService.OnSensorChangedLis
 	}
 
 	private synchronized void assignSensorsToPorts() {
-		NXTSensorService sensorService = getSensorService();
+		if (sensorService == null) {
+			sensorService = new LegoSensorService(Constants.NXT, mindstormsConnection,
+					PreferenceManager.getDefaultSharedPreferences(context));
+			sensorService.registerOnSensorChangedListener(this);
+		}
 
-		sensor1 = sensorService.createSensor1();
-		sensor2 = sensorService.createSensor2();
-		sensor3 = sensorService.createSensor3();
-		sensor4 = sensorService.createSensor4();
+		sensor1 = sensorService.createSensor(Constants.PORT_1);
+		sensor2 = sensorService.createSensor(Constants.PORT_2);
+		sensor3 = sensorService.createSensor(Constants.PORT_3);
+		sensor4 = sensorService.createSensor(Constants.PORT_4);
 	}
 
 	@Override

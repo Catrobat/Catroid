@@ -26,18 +26,17 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.IntDef;
 import android.support.v7.app.AlertDialog;
 
 import com.google.common.collect.ImmutableMap;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.Constants.LegoSensorType;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.util.Map;
 
 public class LegoSensorPortConfigDialog extends DialogFragment {
@@ -45,14 +44,8 @@ public class LegoSensorPortConfigDialog extends DialogFragment {
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_lego_sensor_port_config";
 	public static final String TAG = LegoSensorPortConfigDialog.class.getSimpleName();
 
-	@Retention(RetentionPolicy.SOURCE)
-	@IntDef({NXT, EV3})
-	public @interface LegoType {}
-	public static final int NXT = 0;
-	public static final int EV3 = 1;
-
 	private OnSetSensorListener listener;
-	private @LegoType int legoType;
+	private @LegoSensorType int legoType;
 	private SensorInfo sensorInfo;
 
 	private class SensorInfo {
@@ -94,26 +87,26 @@ public class LegoSensorPortConfigDialog extends DialogFragment {
 					new SensorInfo(R.string.ev3_sensor_nxt_temperature_f, EV3Sensor.Sensor.NXT_TEMPERATURE_F))
 			.build();
 
-	public LegoSensorPortConfigDialog(OnSetSensorListener listener, int clickedResItem, @LegoType int type) {
+	public LegoSensorPortConfigDialog(OnSetSensorListener listener, int clickedResItem, @LegoSensorType int type) {
 		this.listener = listener;
 		sensorInfo = getSensorInfo(clickedResItem, type);
 		legoType = type;
 
-		if (type != NXT && type != EV3) {
-			throw new IllegalArgumentException("LegoSensorPortConfigDialog: Unknown LegoType");
+		if (type != Constants.NXT && type != Constants.EV3) {
+			throw new IllegalArgumentException("LegoSensorPortConfigDialog: Unknown LegoSensorType");
 		}
 	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		final Enum[] sensorsByPort = legoType == NXT
+		final Enum[] sensorsByPort = legoType == Constants.NXT
 				? SettingsFragment.getLegoNXTSensorMapping(this.getActivity())
 				: SettingsFragment.getLegoEV3SensorMapping(this.getActivity());
 
 		String[] portNames = getResources().getStringArray(R.array.port_chooser);
 		String[] dialogItems = new String[portNames.length];
 		final String[] sensorNames = getResources()
-				.getStringArray(legoType == NXT ? R.array.nxt_sensor_chooser : R.array.ev3_sensor_chooser);
+				.getStringArray(legoType == Constants.NXT ? R.array.nxt_sensor_chooser : R.array.ev3_sensor_chooser);
 
 		for (int portNumber = 0; portNumber < portNames.length; portNumber++) {
 			int sensorNameIndex = sensorsByPort[portNumber].ordinal();
@@ -148,23 +141,23 @@ public class LegoSensorPortConfigDialog extends DialogFragment {
 		return dialog;
 	}
 
-	private SensorInfo getSensorInfo(int clickedItem, @LegoType int type) {
+	private SensorInfo getSensorInfo(int clickedItem, @LegoSensorType int type) {
 		SensorInfo info = sensorInfoMap.get(clickedItem);
-		Enum sensor = type == NXT ? NXTSensor.Sensor.NO_SENSOR : EV3Sensor.Sensor.NO_SENSOR;
+		Enum sensor = type == Constants.NXT ? NXTSensor.Sensor.NO_SENSOR : EV3Sensor.Sensor.NO_SENSOR;
 		return info != null ? info : new SensorInfo(R.string.nxt_sensor_not_found, sensor);
 	}
 
-	private void writeSensorPortConfig(int selectedPort, @LegoType int legoType) {
-		if (legoType == NXT) {
+	private void writeSensorPortConfig(int selectedPort, @LegoSensorType int legoType) {
+		if (legoType == Constants.NXT) {
 			SettingsFragment.setLegoMindstormsNXTSensorMapping(getActivity(), (NXTSensor.Sensor) sensorInfo.sensor,
 					SettingsFragment.NXT_SENSORS[selectedPort]);
-		} else if (legoType == EV3) {
+		} else if (legoType == Constants.EV3) {
 			SettingsFragment.setLegoMindstormsEV3SensorMapping(getActivity(), (EV3Sensor.Sensor) sensorInfo.sensor,
 					SettingsFragment.EV3_SENSORS[selectedPort]);
 		}
 	}
 
 	public interface OnSetSensorListener {
-		void onSetSensor(int setPort, @LegoType int type);
+		void onSetSensor(int setPort, @LegoSensorType int type);
 	}
 }

@@ -37,6 +37,8 @@ import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.NXT_SENSORS;
+
 public class NXTSensorsSettingsFragment extends PreferenceFragment {
 	public static final String TAG = NXTSensorsSettingsFragment.class.getSimpleName();
 
@@ -68,7 +70,7 @@ public class NXTSensorsSettingsFragment extends PreferenceFragment {
 				}
 			});
 
-			final String[] sensorPreferences = new String[] {SettingsFragment.NXT_SENSOR_1, SettingsFragment.NXT_SENSOR_2, SettingsFragment.NXT_SENSOR_3, SettingsFragment.NXT_SENSOR_4};
+			final String[] sensorPreferences = NXT_SENSORS;
 			for (String sensorPreference : sensorPreferences) {
 				ListPreference listPreference = (ListPreference) findPreference(sensorPreference);
 				listPreference.setEntries(R.array.nxt_sensor_chooser);

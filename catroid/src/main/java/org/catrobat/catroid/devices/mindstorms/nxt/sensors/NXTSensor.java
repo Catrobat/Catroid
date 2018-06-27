@@ -24,9 +24,9 @@ package org.catrobat.catroid.devices.mindstorms.nxt.sensors;
 
 import android.util.Log;
 
+import org.catrobat.catroid.devices.mindstorms.LegoSensor;
 import org.catrobat.catroid.devices.mindstorms.MindstormsConnection;
 import org.catrobat.catroid.devices.mindstorms.MindstormsException;
-import org.catrobat.catroid.devices.mindstorms.MindstormsSensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.Command;
 import org.catrobat.catroid.devices.mindstorms.nxt.CommandByte;
 import org.catrobat.catroid.devices.mindstorms.nxt.CommandType;
@@ -35,7 +35,7 @@ import org.catrobat.catroid.devices.mindstorms.nxt.NXTReply;
 
 import java.util.Locale;
 
-public abstract class NXTSensor implements MindstormsSensor {
+public abstract class NXTSensor implements LegoSensor {
 
 	public enum Sensor {
 		NO_SENSOR,
@@ -56,11 +56,7 @@ public abstract class NXTSensor implements MindstormsSensor {
 		}
 
 		public String getSensorCode() {
-			return getSensorCode(this);
-		}
-
-		public static String getSensorCode(NXTSensor.Sensor sensor) {
-			return sensor.name();
+			return this.name();
 		}
 
 		public static NXTSensor.Sensor getSensorFromSensorCode(String sensorCode) {
