@@ -51,14 +51,7 @@ def set_jenkins_variables_if_running_locally():
         print("INFO: It seems that the script runs outside Jenkins!")
 
 
-# Setup Android SDK is normally done in a single step in the Jenkinsfile,
-# only if the script runs outside Jenkins the Android-SDK is updated here
-def setup_android_sdk(skip_on_jenkins=False):
-    global running_on_jenkins
-
-    if running_on_jenkins and skip_on_jenkins:
-        return
-
+def setup_android_sdk():
     sdk_installer_cmd = get_jenkins_android_helper_executable('jenkins_android_sdk_installer') + [ '-d' ]
 
     system_image = get_emulator_image_from_properties()
@@ -254,4 +247,3 @@ def bring_emulator_in_running_state():
 ### Default calls
 check_environment()
 set_jenkins_variables_if_running_locally()
-setup_android_sdk(True)
