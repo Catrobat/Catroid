@@ -14,14 +14,11 @@ def usage():
 
 Executes the Static Analyisis steps PMD/CheckStyle/Lint.
 
-The environment variable ANDROID_SDK_ROOT needs to be set.
-
-Be aware that Jenkins cleans the workspace before every build, this can
-be partly replicated by './gradlew clean'.""")
+The environment variable ANDROID_SDK_ROOT needs to be set.""")
 
 build_helper_functions.check_number_of_parameters(valid_param_count=0, usage_func=usage)
 
-run_static_analysis_cmd = [ build_helper_functions.get_relative_gradle_name(), 'pmd', 'checkstyle', 'lint' ]
+run_static_analysis_cmd = [ build_helper_functions.get_relative_gradle_name(), 'clean', 'pmd', 'checkstyle', 'lint' ]
 print("Calling: " + " ".join(run_static_analysis_cmd))
 return_code = subprocess.run( run_static_analysis_cmd, cwd=os.environ['REPO_DIR'] ).returncode
 sys.exit(return_code)

@@ -13,10 +13,7 @@ def usage():
 
 Validates and if neccessary installs the Android SDK in ANDROID_SDK_ROOT.
 
-The environment variable ANDROID_SDK_ROOT needs to be set.
-
-Be aware that Jenkins cleans the workspace before every build, this can
-be partly replicated by './gradlew clean'.""")
+The environment variable ANDROID_SDK_ROOT needs to be set.""")
 
 build_helper_functions.check_number_of_parameters(valid_param_count=0, usage_func=usage)
 
