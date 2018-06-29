@@ -53,7 +53,11 @@ public class PenActor extends Actor {
 	}
 
 	@Override
-	public void draw(Batch batch, float parentAlpha) {
+	public synchronized void draw(Batch batch, float parentAlpha) {
+		if (buffer == null) {
+			return;
+		}
+
 		buffer.begin();
 		for (Sprite sprite : ProjectManager.getInstance().getCurrentlyPlayingScene().getSpriteList()) {
 			drawLinesForSprite(sprite);
@@ -69,13 +73,17 @@ public class PenActor extends Actor {
 		image.draw(batch, parentAlpha);
 	}
 
-	public void reset() {
-		XmlHeader header = ProjectManager.getInstance().getCurrentProject().getXmlHeader();
+	public synchronized void reset() {
 		buffer.dispose();
+		XmlHeader header = ProjectManager.getInstance().getCurrentProject().getXmlHeader();
 		buffer = new FrameBuffer(Pixmap.Format.RGBA8888, header.virtualScreenWidth, header.virtualScreenHeight, false);
 	}
 
-	public void stampToFrameBuffer() {
+	public synchronized void stampToFrameBuffer() {
+		if (buffer == null || bufferBatch == null) {
+			return;
+		}
+
 		bufferBatch.begin();
 		buffer.begin();
 		for (Sprite sprite : ProjectManager.getInstance().getCurrentlyPlayingScene().getSpriteList()) {
@@ -90,11 +98,11 @@ public class PenActor extends Actor {
 	}
 
 	private void drawLinesForSprite(Sprite sprite) {
-		float x = sprite.look.getXInUserInterfaceDimensionUnit();
-		float y = sprite.look.getYInUserInterfaceDimensionUnit();
 		Sprite.PenConfiguration pen = sprite.penConfiguration;
 
 		if (pen.previousPoint == null) {
+			float x = sprite.look.getXInUserInterfaceDimensionUnit();
+			float y = sprite.look.getYInUserInterfaceDimensionUnit();
 			pen.previousPoint = new PointF(x, y);
 			return;
 		}
@@ -103,18 +111,20 @@ public class PenActor extends Actor {
 		renderer.setColor(pen.penColor);
 		renderer.begin(ShapeRenderer.ShapeType.Filled);
 
-		if (pen.penDown && (pen.previousPoint.x != sprite.look.getX() || pen.previousPoint.y != sprite.look.getY())) {
+		PointF nextPoint = pen.pointsToDraw.poll();
+		while (nextPoint != null) {
 			renderer.circle(pen.previousPoint.x, pen.previousPoint.y, pen.penSize / 2);
-			renderer.rectLine(pen.previousPoint.x, pen.previousPoint.y, x, y, pen.penSize);
-			renderer.circle(x, y, pen.penSize / 2);
+			renderer.rectLine(pen.previousPoint.x, pen.previousPoint.y, nextPoint.x, nextPoint.y, pen.penSize);
+			renderer.circle(nextPoint.x, nextPoint.y, pen.penSize / 2);
+
+			pen.previousPoint = nextPoint;
+			nextPoint = pen.pointsToDraw.poll();
 		}
 
 		renderer.end();
-		pen.previousPoint.x = x;
-		pen.previousPoint.y = y;
 	}
 
-	public void dispose() {
+	public synchronized void dispose() {
 		if (buffer != null) {
 			buffer.dispose();
 			buffer = null;

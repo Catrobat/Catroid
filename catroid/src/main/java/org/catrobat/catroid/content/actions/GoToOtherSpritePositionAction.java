@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.content.actions;
 
+import android.graphics.PointF;
+
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
@@ -44,6 +46,11 @@ public class GoToOtherSpritePositionAction extends TemporalAction {
 
 		sprite.look.setXInUserInterfaceDimensionUnit(destinationSpriteXPosition);
 		sprite.look.setYInUserInterfaceDimensionUnit(destinationSpriteYPosition);
+
+		if (sprite.penConfiguration.penDown) {
+			sprite.penConfiguration.pointsToDraw.add(new PointF(sprite.look.getXInUserInterfaceDimensionUnit(),
+					sprite.look.getYInUserInterfaceDimensionUnit()));
+		}
 	}
 
 	public void setSprite(Sprite sprite) {

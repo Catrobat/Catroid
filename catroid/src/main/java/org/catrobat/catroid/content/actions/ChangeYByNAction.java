@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import android.graphics.PointF;
 import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
@@ -40,6 +41,11 @@ public class ChangeYByNAction extends TemporalAction {
 		try {
 			Float newY = yMovement == null ? Float.valueOf(0f) : yMovement.interpretFloat(sprite);
 			sprite.look.changeYInUserInterfaceDimensionUnit(newY);
+
+			if (sprite.penConfiguration.penDown) {
+				sprite.penConfiguration.pointsToDraw.add(new PointF(sprite.look.getXInUserInterfaceDimensionUnit(),
+						sprite.look.getYInUserInterfaceDimensionUnit()));
+			}
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 		}

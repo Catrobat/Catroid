@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.content.actions.conditional;
 
+import android.graphics.PointF;
 import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
@@ -102,6 +103,10 @@ public class GlideToAction extends TemporalAction {
 			currentX = startX + (endXValue - startX) * percent;
 			currentY = startY + (endYValue - startY) * percent;
 			sprite.look.setPositionInUserInterfaceDimensionUnit(currentX, currentY);
+		}
+		if (sprite.penConfiguration.penDown) {
+			sprite.penConfiguration.pointsToDraw.add(new PointF(sprite.look.getXInUserInterfaceDimensionUnit(),
+					sprite.look.getYInUserInterfaceDimensionUnit()));
 		}
 	}
 

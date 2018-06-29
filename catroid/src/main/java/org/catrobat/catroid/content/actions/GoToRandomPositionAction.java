@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.content.actions;
 
+import android.graphics.PointF;
+
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.common.ScreenValues;
@@ -43,6 +45,11 @@ public class GoToRandomPositionAction extends TemporalAction {
 
 		sprite.look.setXInUserInterfaceDimensionUnit(randomXPosition);
 		sprite.look.setYInUserInterfaceDimensionUnit(randomYPosition);
+
+		if (sprite.penConfiguration.penDown) {
+			sprite.penConfiguration.pointsToDraw.add(new PointF(sprite.look.getXInUserInterfaceDimensionUnit(),
+					sprite.look.getYInUserInterfaceDimensionUnit()));
+		}
 	}
 
 	public void setSprite(Sprite sprite) {
