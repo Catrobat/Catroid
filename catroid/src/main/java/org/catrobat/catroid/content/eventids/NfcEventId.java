@@ -23,12 +23,14 @@
 
 package org.catrobat.catroid.content.eventids;
 
+import android.support.annotation.NonNull;
+
 import com.google.common.base.Objects;
 
 public class NfcEventId extends EventId {
 	final String tag;
 
-	public NfcEventId(String tag) {
+	public NfcEventId(@NonNull String tag) {
 		this.tag = tag;
 	}
 
@@ -44,7 +46,7 @@ public class NfcEventId extends EventId {
 			return false;
 		}
 		NfcEventId that = (NfcEventId) o;
-		return tag == null || that.tag == null || Objects.equal(tag, that.tag);
+		return Objects.equal(tag, that.tag);
 	}
 
 	@Override
