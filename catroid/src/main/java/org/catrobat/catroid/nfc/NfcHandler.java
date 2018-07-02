@@ -38,7 +38,6 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.content.eventids.NfcEventId;
-import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -160,7 +159,7 @@ public final class NfcHandler {
 		}
 	}
 
-	public static NdefMessage createMessage(String message, int spinnerSelection) throws InterpretationException {
+	public static NdefMessage createMessage(String message, int spinnerSelection) {
 		NdefRecord ndefRecord;
 		short tnf = 0;
 		byte[] type;

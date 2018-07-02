@@ -344,7 +344,7 @@ public class RtlBrickTest {
 		// when start as a clone
 		checkIfBrickISRtl(WhenClonedBrick.class, R.id.brick_when_cloned_layout);
 
-		// set next NFC tag to
+		// Wait for next NFC tag to WRITE
 		checkIfBrickISRtl(SetNfcTagBrick.class, R.id.brick_set_nfc_tag_layout);
 	}
 
