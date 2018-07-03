@@ -86,7 +86,7 @@ public class WhenNfcScript extends Script {
 	@Override
 	public EventId createEventId(Sprite sprite) {
 		if (matchAll) {
-			return new NfcEventId(null);
+			return new EventId(EventId.ANY_NFC);
 		} else if (nfcTag != null) {
 			return new NfcEventId(nfcTag.getNfcTagUid());
 		}

@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.os.Build;
@@ -46,13 +47,16 @@ import java.util.List;
 public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 
 	public static final String TAG = NfcTagListFragment.class.getSimpleName();
+	private PendingIntent pendingIntent;
+	private NfcAdapter nfcAdapter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(getActivity());
-
+		nfcAdapter = NfcAdapter.getDefaultAdapter(getActivity());
+		Intent nfcIntent = new Intent(getActivity(), getActivity().getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		pendingIntent = PendingIntent.getActivity(getActivity(), 0, nfcIntent, 0);
 		if (nfcAdapter != null && !nfcAdapter.isEnabled()) {
 			ToastUtil.showError(getActivity(), R.string.nfc_not_activated);
 
@@ -65,6 +69,22 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 			}
 		} else if (nfcAdapter == null) {
 			ToastUtil.showError(getActivity(), R.string.no_nfc_available);
+		}
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		if (nfcAdapter != null) {
+			nfcAdapter.enableForegroundDispatch(getActivity(), pendingIntent, null, null);
+		}
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		if (nfcAdapter != null) {
+			nfcAdapter.disableForegroundDispatch(getActivity());
 		}
 	}
 
@@ -97,6 +117,7 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 			String name = uniqueNameProvider.getUniqueName(getString(R.string.default_tag_name), getScope());
 			item.setNfcTagName(name);
 			item.setNfcTagUid(uid);
+			addItem(item);
 		} else {
 			Log.e(TAG, "NFC Tag does not have a UID.");
 		}
