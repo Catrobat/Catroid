@@ -63,7 +63,9 @@ public abstract class Script implements Serializable {
 		List<Brick> copies = new ArrayList<>();
 
 		for (Brick brick : brickList) {
-			copies.add(brick.clone());
+			Brick clone = brick.clone();
+			clone.setCommentedOut(brick.isCommentedOut());
+			copies.add(clone);
 		}
 
 		for (Brick brick : brickList) {
