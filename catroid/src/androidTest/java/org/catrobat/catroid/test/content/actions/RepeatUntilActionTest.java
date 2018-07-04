@@ -74,15 +74,13 @@ public class RepeatUntilActionTest {
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(new SingleSprite("testSprite1"));
 
-		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().deleteUserVariableByName(TEST_USERVARIABLE);
-		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().addProjectUserVariable(TEST_USERVARIABLE);
-		userVariable = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
-				.getUserVariable(null, TEST_USERVARIABLE);
+		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().removeUserVariable(TEST_USERVARIABLE);
+		userVariable = new UserVariable(TEST_USERVARIABLE);
+		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().addUserVariable(userVariable);
 
-		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().deleteUserVariableByName(TEST_USERVARIABLE_2);
-		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().addProjectUserVariable(TEST_USERVARIABLE_2);
-		userVariable2 = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
-				.getUserVariable(null, TEST_USERVARIABLE_2);
+		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().removeUserVariable(TEST_USERVARIABLE_2);
+		userVariable2 = new UserVariable(TEST_USERVARIABLE_2);
+		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().addUserVariable(userVariable2);
 	}
 
 	@Test

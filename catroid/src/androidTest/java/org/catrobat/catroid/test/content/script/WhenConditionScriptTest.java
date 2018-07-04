@@ -77,7 +77,7 @@ public class WhenConditionScriptTest {
 		when(formula.interpretBoolean(any(Sprite.class))).thenReturn(true);
 		conditionScript.addBrick(new ChangeXByNBrick(POSITION_DELTA));
 		sprite.initializeEventThreads(EventId.START);
-		sprite.initConditionScriptTiggers();
+		sprite.initConditionScriptTriggers();
 
 		sprite.look.act(1.0f);
 		while (!sprite.look.haveAllThreadsFinished()) {
@@ -92,7 +92,7 @@ public class WhenConditionScriptTest {
 		when(formula.interpretBoolean(any(Sprite.class))).thenReturn(true, true, false, true);
 		conditionScript.addBrick(new ChangeXByNBrick(POSITION_DELTA));
 		sprite.initializeEventThreads(EventId.START);
-		sprite.initConditionScriptTiggers();
+		sprite.initConditionScriptTriggers();
 
 		for (int i = 0; i < 10; i++) {
 			sprite.look.act(1.0f);
@@ -107,7 +107,7 @@ public class WhenConditionScriptTest {
 		conditionScript.addBrick(new ChangeXByNBrick(POSITION_DELTA));
 		conditionScript.addBrick(new StopScriptBrick(0));
 		sprite.initializeEventThreads(EventId.START);
-		sprite.initConditionScriptTiggers();
+		sprite.initConditionScriptTriggers();
 
 		for (int i = 0; i < 10; i++) {
 			sprite.look.act(1.0f);

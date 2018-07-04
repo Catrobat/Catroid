@@ -263,7 +263,7 @@ public class InternFormulaParser {
 		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 
-		if (dataContainer.getUserVariable(currentSprite, currentToken.getTokenStringValue(), currentBrick) == null) {
+		if (dataContainer.getUserVariable(currentSprite, currentBrick, currentToken.getTokenStringValue()) == null) {
 			throw new InternFormulaParserException("Parse Error");
 		}
 

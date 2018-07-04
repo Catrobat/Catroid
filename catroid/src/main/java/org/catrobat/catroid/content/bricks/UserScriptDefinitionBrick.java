@@ -367,7 +367,7 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 				if (dataContainer != null) {
 					List<UserBrick> matchingBricks = currentSprite.getUserBricksByDefinitionBrick(this, true, true);
 					for (UserBrick userBrick : matchingBricks) {
-						UserVariable userVariable = dataContainer.getUserVariable(currentSprite, oldName, userBrick);
+						UserVariable userVariable = dataContainer.getUserVariable(currentSprite, userBrick, oldName);
 						if (userVariable != null) {
 							userVariable.setName(newName);
 						}

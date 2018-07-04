@@ -541,7 +541,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 	public void startStage() {
 		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
 			scene.firstStart = true;
-			scene.getDataContainer().resetAllDataObjects();
+			scene.getDataContainer().resetUserData();
 		}
 		setResult(RESULT_OK, returnToActivityIntent);
 		finish();

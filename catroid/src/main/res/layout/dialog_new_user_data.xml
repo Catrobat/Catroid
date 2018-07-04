@@ -57,13 +57,13 @@
                 android:id="@+id/global"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/formula_editor_dialog_for_all_sprites" />
+                android:text="@string/new_data_for_all_sprites" />
 
             <RadioButton
                 android:id="@+id/local"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/formula_editor_dialog_for_this_sprite_only" />
+                android:text="@string/new_data_for_this_sprite_only" />
         </RadioGroup>
 
         <CheckBox

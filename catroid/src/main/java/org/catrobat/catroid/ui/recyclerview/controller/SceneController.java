@@ -101,9 +101,7 @@ public class SceneController {
 			scene.getSpriteList().add(spriteController.copy(sprite, sceneToCopy, scene));
 		}
 
-		scene.mergeProjectVariables();
 		scene.correctUserVariableAndListReferences();
-
 		return scene;
 	}
 
@@ -123,8 +121,8 @@ public class SceneController {
 
 		Scene scene = new Scene();
 		scene.setName(name);
-
 		scene.setProject(null);
+		scene.setDataContainer(new DataContainer());
 
 		for (Sprite sprite : sceneToPack.getSpriteList()) {
 			scene.getSpriteList().add(spriteController.copy(sprite, sceneToPack, scene));

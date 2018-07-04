@@ -59,10 +59,9 @@ public class DeleteItemOfUserListActionTest {
 		testSprite = new SingleSprite("testSprite");
 		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().addProjectUserList(TEST_USER_LIST_NAME);
-		userList = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
-				.getUserList(null, TEST_USER_LIST_NAME);
-		userList.setList(INITIALIZED_LIST_VALUES);
+		userList = new UserList(TEST_USER_LIST_NAME, INITIALIZED_LIST_VALUES);
+		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().addUserList(userList);
+
 		INITIALIZED_LIST_VALUES.clear();
 		INITIALIZED_LIST_VALUES.add(1.0);
 		INITIALIZED_LIST_VALUES.add(2.0);

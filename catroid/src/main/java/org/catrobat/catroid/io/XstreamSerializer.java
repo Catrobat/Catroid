@@ -501,7 +501,7 @@ public final class XstreamSerializer {
 
 			for (Scene scene : project.getSceneList()) {
 				scene.setProject(project);
-				scene.getDataContainer().setProject(project);
+				scene.getDataContainer().setProjectUserData(project);
 			}
 
 			setFileReferences(project);

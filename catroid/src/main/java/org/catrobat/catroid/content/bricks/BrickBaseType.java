@@ -27,7 +27,6 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 
-import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
@@ -53,11 +52,6 @@ public abstract class BrickBaseType implements Brick {
 	@Override
 	public void setCommentedOut(boolean commentedOut) {
 		this.commentedOut = commentedOut;
-	}
-
-	@Override
-	public boolean isEqualBrick(Brick brick, Scene mergeResult, Scene current) {
-		return this.getClass().equals(brick.getClass());
 	}
 
 	@Override

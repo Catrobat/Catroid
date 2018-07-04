@@ -151,10 +151,6 @@ public class LookData implements Serializable, Cloneable {
 		}
 	}
 
-	public LookData shallowClone() {
-		return new LookData(name, file);
-	}
-
 	@Override
 	public int hashCode() {
 		return file.hashCode() + super.hashCode();

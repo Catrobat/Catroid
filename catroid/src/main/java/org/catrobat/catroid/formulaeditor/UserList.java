@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserList implements Serializable, UserData {
+
 	private static final long serialVersionUID = 1L;
 
 	private String name;
@@ -46,6 +47,21 @@ public class UserList implements Serializable, UserData {
 		this.list = value;
 	}
 
+	public UserList(UserList userList) {
+		this.name = userList.name;
+		this.list = new ArrayList<>(userList.list);
+	}
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public List<Object> getList() {
 		return list;
 	}
@@ -58,11 +74,8 @@ public class UserList implements Serializable, UserData {
 		this.list = list;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
+	@Override
+	public void reset() {
+		list.clear();
 	}
 }

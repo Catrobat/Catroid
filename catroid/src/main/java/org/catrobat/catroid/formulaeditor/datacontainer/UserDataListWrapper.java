@@ -23,37 +23,61 @@
 
 package org.catrobat.catroid.formulaeditor.datacontainer;
 
+import org.catrobat.catroid.formulaeditor.UserData;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-abstract class ProjectDataBehaviour<V> {
+public class UserDataListWrapper<E extends UserData> {
 
-	protected abstract List<V> getDataList();
-	protected abstract V newInstance(String name);
-	protected abstract String getDataName(V data);
-	protected abstract void setDataName(V data, String name);
+	private List<E> elements = new ArrayList<>();
 
-	V add(String name) {
-		V dataToAdd = newInstance(name);
-		getDataList().add(dataToAdd);
-		return dataToAdd;
+	UserDataListWrapper() {
 	}
 
-	V rename(String newName, String oldName) {
-		V dataToRename = find(oldName);
-		setDataName(dataToRename, newName);
-		return dataToRename;
+	public UserDataListWrapper(List<E> elements) {
+		this.elements = elements;
 	}
 
-	boolean exists(String name) {
-		return find(name) != null;
+	public boolean add(E element) {
+		return !contains(element.getName()) && elements.add(element);
 	}
 
-	V find(String name) {
-		for (V data : getDataList()) {
-			if (getDataName(data).equals(name)) {
-				return data;
+	public boolean contains(String name) {
+		for (E element : elements) {
+			if (element.getName().equals(name)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public E get(String name) {
+		for (E element : elements) {
+			if (element.getName().equals(name)) {
+				return element;
 			}
 		}
 		return null;
+	}
+
+	public boolean remove(String name) {
+		for (Iterator<E> iterator = elements.iterator(); iterator.hasNext(); ) {
+			E element = iterator.next();
+			if (element.getName().equals(name)) {
+				iterator.remove();
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public int size() {
+		return elements.size();
+	}
+
+	public List<E> getList() {
+		return elements;
 	}
 }

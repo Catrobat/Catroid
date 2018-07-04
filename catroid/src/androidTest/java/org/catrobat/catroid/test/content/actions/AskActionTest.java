@@ -51,10 +51,12 @@ public class AskActionTest {
 	public void setUp() throws Exception {
 		testSprite = new Sprite("testSprite");
 		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
+
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().addProjectUserVariable(TEST_USERVARIABLE);
-		userVariableForAnswer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
-				.getUserVariable(null, TEST_USERVARIABLE);
+
+		userVariableForAnswer = new UserVariable(TEST_USERVARIABLE);
+		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
+				.addUserVariable(userVariableForAnswer);
 	}
 
 	@Test

@@ -37,7 +37,6 @@ import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.BaseDataContainer;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
@@ -50,7 +49,6 @@ import org.catrobat.catroid.utils.Utils;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import static org.catrobat.catroid.common.Constants.Z_INDEX_BACKGROUND;
@@ -133,39 +131,12 @@ public class Project implements Serializable {
 		projectLists = supportProject.dataContainer.projectLists;
 
 		DataContainer container = new DataContainer(this);
-		removeInvalidVariablesAndLists(supportProject.dataContainer);
-		container.setSpriteVariablesForSupportContainer(supportProject.dataContainer);
+		container.setSpriteUserData(supportProject.dataContainer);
 
 		Scene scene = new Scene(context.getString(R.string.default_scene_name, 1), this);
 		scene.setDataContainer(container);
 		scene.getSpriteList().addAll(supportProject.spriteList);
 		sceneList.add(scene);
-	}
-
-	public void removeInvalidVariablesAndLists(BaseDataContainer dataContainer) {
-		if (dataContainer == null) {
-			return;
-		}
-
-		if (dataContainer.spriteListOfLists != null) {
-			Iterator listIterator = dataContainer.spriteListOfLists.keySet().iterator();
-			while (listIterator.hasNext()) {
-				Sprite sprite = (Sprite) listIterator.next();
-				if (sprite == null) {
-					listIterator.remove();
-				}
-			}
-		}
-
-		if (dataContainer.spriteVariables != null) {
-			Iterator variablesIterator = dataContainer.spriteVariables.keySet().iterator();
-			while (variablesIterator.hasNext()) {
-				Sprite sprite = (Sprite) variablesIterator.next();
-				if (sprite == null) {
-					variablesIterator.remove();
-				}
-			}
-		}
 	}
 
 	public List<Scene> getSceneList() {
