@@ -23,10 +23,7 @@ Build the 'Standalone-APK'. By default the program_id {} Tic-Tac-Toe is used.
 Default-URL: {}
 Default-Suffix: {}
 
-The environment variable ANDROID_SDK_ROOT needs to be set.
-
-Be aware that Jenkins cleans the workspace before every build, this can
-be partly replicated by './gradlew clean'.""".format(default_program_number, default_url, default_suffix))
+The environment variable ANDROID_SDK_ROOT needs to be set.""".format(default_program_number, default_url, default_suffix))
 
 build_helper_functions.check_number_of_parameters(valid_param_count_min=0, valid_param_count_max=2, usage_func=usage)
 

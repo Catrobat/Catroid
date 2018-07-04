@@ -15,10 +15,7 @@ def usage():
 This script is a simple wrapper for the build_helper_run_tests_on_emulator which runs
 with an defined parameter to test the package org.catrobat.catroid.test
 
-The environment variable ANDROID_SDK_ROOT needs to be set.
-
-Be aware that Jenkins cleans the workspace before every build, this can
-be partly replicated by './gradlew clean'.""")
+The environment variable ANDROID_SDK_ROOT needs to be set.""")
 
 build_helper_functions.check_number_of_parameters(valid_param_count=0, usage_func=usage)
 
