@@ -61,7 +61,6 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.EventWrapper;
-import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
@@ -88,6 +87,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static org.catrobat.catroid.common.Constants.Z_INDEX_BACKGROUND;
 
 public class StageListener implements ApplicationListener {
 
@@ -206,20 +207,9 @@ public class StageListener implements ApplicationListener {
 		physicsWorld = scene.resetPhysicsWorld();
 
 		sprites = new ArrayList<>(scene.getSpriteList());
-		boolean addPenActor = true;
-		for (Sprite sprite : sprites) {
-			sprite.resetSprite();
-			sprite.look.createBrightnessContrastHueShader();
-			stage.addActor(sprite.look);
-			if (addPenActor) {
-				penActor = new PenActor();
-				stage.addActor(penActor);
-				addPenActor = false;
-			}
-		}
 		passepartout = new Passepartout(ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT, maximizeViewPortWidth,
 				maximizeViewPortHeight, virtualWidth, virtualHeight);
-		stage.addActor(passepartout);
+		initStageActors();
 
 		if (DEBUG) {
 			OrthoCamController camController = new OrthoCamController(camera);
@@ -383,7 +373,9 @@ public class StageListener implements ApplicationListener {
 		VibratorUtil.reset();
 		TouchUtil.reset();
 		removeAllClonedSpritesFromStage();
-
+		synchronized (this) {
+			penActor.remove();
+		}
 		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
 			scene.firstStart = true;
 			scene.getDataContainer().resetAllDataObjects();
@@ -421,9 +413,6 @@ public class StageListener implements ApplicationListener {
 		}
 		PhysicsShapeBuilder.getInstance().reset();
 		CameraManager.getInstance().setToDefaultCamera();
-		if (penActor != null) {
-			penActor.dispose();
-		}
 		finished = true;
 	}
 
@@ -436,31 +425,12 @@ public class StageListener implements ApplicationListener {
 		}
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		if (reloadProject) {
-			int spriteSize = sprites.size();
 			stage.clear();
-			if (penActor != null) {
-				penActor.dispose();
-			}
 			SoundManager.getInstance().clear();
 
 			physicsWorld = scene.resetPhysicsWorld();
 
-			Sprite sprite;
-
-			boolean addPenActor = true;
-
-			for (int i = 0; i < spriteSize; i++) {
-				sprite = sprites.get(i);
-				sprite.resetSprite();
-				sprite.look.createBrightnessContrastHueShader();
-				stage.addActor(sprite.look);
-				if (addPenActor) {
-					penActor = new PenActor();
-					stage.addActor(penActor);
-					addPenActor = false;
-				}
-			}
-			stage.addActor(passepartout);
+			initStageActors();
 			initStageInputListener();
 
 			paused = true;
@@ -488,31 +458,31 @@ public class StageListener implements ApplicationListener {
 			}
 			scene.firstStart = false;
 		}
-		if (!paused) {
-			float deltaTime = Gdx.graphics.getDeltaTime();
+		synchronized (this) {
+			if (!paused) {
+				float deltaTime = Gdx.graphics.getDeltaTime();
 
-			float optimizedDeltaTime = deltaTime / deltaActionTimeDivisor;
-			long timeBeforeActionsUpdate = SystemClock.uptimeMillis();
-			while (deltaTime > 0f) {
-				physicsWorld.step(optimizedDeltaTime);
-				stage.act(optimizedDeltaTime);
-				deltaTime -= optimizedDeltaTime;
+				float optimizedDeltaTime = deltaTime / deltaActionTimeDivisor;
+				long timeBeforeActionsUpdate = SystemClock.uptimeMillis();
+				while (deltaTime > 0f) {
+					physicsWorld.step(optimizedDeltaTime);
+					stage.act(optimizedDeltaTime);
+					deltaTime -= optimizedDeltaTime;
+				}
+				long executionTimeOfActionsUpdate = SystemClock.uptimeMillis() - timeBeforeActionsUpdate;
+				if (executionTimeOfActionsUpdate <= ACTIONS_COMPUTATION_TIME_MAXIMUM) {
+					deltaActionTimeDivisor += 1f;
+					deltaActionTimeDivisor = Math.min(DELTA_ACTIONS_DIVIDER_MAXIMUM, deltaActionTimeDivisor);
+				} else {
+					deltaActionTimeDivisor -= 1f;
+					deltaActionTimeDivisor = Math.max(1f, deltaActionTimeDivisor);
+				}
 			}
-			long executionTimeOfActionsUpdate = SystemClock.uptimeMillis() - timeBeforeActionsUpdate;
-			if (executionTimeOfActionsUpdate <= ACTIONS_COMPUTATION_TIME_MAXIMUM) {
-				deltaActionTimeDivisor += 1f;
-				deltaActionTimeDivisor = Math.min(DELTA_ACTIONS_DIVIDER_MAXIMUM, deltaActionTimeDivisor);
-			} else {
-				deltaActionTimeDivisor -= 1f;
-				deltaActionTimeDivisor = Math.max(1f, deltaActionTimeDivisor);
+			if (!finished) {
+				stage.draw();
+				firstFrameDrawn = true;
 			}
 		}
-
-		if (!finished) {
-			stage.draw();
-			firstFrameDrawn = true;
-		}
-
 		if (makeAutomaticScreenshot) {
 			if (skipFirstFrameForAutomaticScreenshot) {
 				skipFirstFrameForAutomaticScreenshot = false;
@@ -553,6 +523,18 @@ public class StageListener implements ApplicationListener {
 		if (drawDebugCollisionPolygons) {
 			drawDebugCollisionPolygons();
 		}
+	}
+
+	private void initStageActors() {
+		for (Sprite sprite : sprites) {
+			sprite.resetSprite();
+			sprite.look.createBrightnessContrastHueShader();
+			stage.addActor(sprite.look);
+		}
+		penActor = new PenActor();
+		stage.addActor(penActor);
+		penActor.setZIndex(Z_INDEX_BACKGROUND + 1);
+		stage.addActor(passepartout);
 	}
 
 	private void printPhysicsLabelOnScreen() {
@@ -605,6 +587,9 @@ public class StageListener implements ApplicationListener {
 	public void dispose() {
 		if (!finished) {
 			this.finish();
+		}
+		synchronized (this) {
+			penActor.remove();
 		}
 		disposeStageButKeepActors();
 		font.dispose();
@@ -751,10 +736,6 @@ public class StageListener implements ApplicationListener {
 
 	public Stage getStage() {
 		return stage;
-	}
-
-	public void removeActor(Look look) {
-		look.remove();
 	}
 
 	public void setBubbleActorForSprite(Sprite sprite, ShowBubbleActor showBubbleActor) {

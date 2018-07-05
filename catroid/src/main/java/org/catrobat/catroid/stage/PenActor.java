@@ -114,14 +114,17 @@ public class PenActor extends Actor {
 		pen.previousPoint.y = y;
 	}
 
-	public void dispose() {
-		if (buffer != null) {
-			buffer.dispose();
-			buffer = null;
+	@Override
+	public boolean remove() {
+		boolean hadParent = super.remove();
+		if (hadParent) {
+			if (buffer != null) {
+				buffer.dispose();
+			}
+			if (bufferBatch != null) {
+				bufferBatch.dispose();
+			}
 		}
-		if (bufferBatch != null) {
-			bufferBatch.dispose();
-			bufferBatch = null;
-		}
+		return hadParent;
 	}
 }
