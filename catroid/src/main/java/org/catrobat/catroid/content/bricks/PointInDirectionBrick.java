@@ -84,9 +84,7 @@ public class PointInDirectionBrick extends FormulaBrick {
 
 	@Override
 	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+
 		view = View.inflate(context, R.layout.brick_point_in_direction, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_point_in_direction_checkbox);

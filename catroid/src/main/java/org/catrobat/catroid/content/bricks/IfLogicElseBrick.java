@@ -53,9 +53,7 @@ public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, All
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+
 		if (view == null) {
 			alphaValue = 255;
 		}

@@ -65,9 +65,7 @@ public class RaspiIfLogicBeginBrick extends IfLogicBeginBrick {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+
 		if (view == null) {
 			alphaValue = 255;
 		}

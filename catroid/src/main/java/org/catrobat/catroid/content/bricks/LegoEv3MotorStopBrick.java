@@ -80,9 +80,7 @@ public class LegoEv3MotorStopBrick extends BrickBaseType implements OnItemSelect
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+
 		if (view == null) {
 			alphaValue = 255;
 		}

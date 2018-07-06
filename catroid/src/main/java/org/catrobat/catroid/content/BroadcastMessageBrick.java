@@ -87,9 +87,7 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements New
 
 	@Override
 	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+
 		if (view == null) {
 			alphaValue = 255;
 		}

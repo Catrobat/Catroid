@@ -46,9 +46,7 @@ public class IfOnEdgeBounceBrick extends BrickBaseType {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+
 		view = View.inflate(context, R.layout.brick_if_on_edge_bounce, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 

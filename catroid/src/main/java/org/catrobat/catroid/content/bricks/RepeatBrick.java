@@ -86,9 +86,7 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+
 
 		view = View.inflate(context, R.layout.brick_repeat, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);

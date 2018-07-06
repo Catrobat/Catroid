@@ -101,9 +101,7 @@ public class ShowTextBrick extends UserVariableBrick {
 
 	@Override
 	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+
 
 		view = View.inflate(context, R.layout.brick_show_variable, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);

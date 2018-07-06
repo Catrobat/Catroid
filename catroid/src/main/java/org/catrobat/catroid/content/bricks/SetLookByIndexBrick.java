@@ -72,9 +72,7 @@ public class SetLookByIndexBrick extends FormulaBrick {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+
 
 		if (wait == EventWrapper.WAIT) {
 			view = View.inflate(context, R.layout.brick_set_look_by_index_and_wait, null);

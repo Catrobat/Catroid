@@ -83,9 +83,7 @@ public class LegoEv3SetLedBrick extends BrickBaseType implements OnItemSelectedL
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+
 		if (view == null) {
 			alphaValue = 255;
 		}

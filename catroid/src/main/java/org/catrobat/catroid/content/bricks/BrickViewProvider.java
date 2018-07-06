@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.Drawable;
@@ -38,20 +37,6 @@ public final class BrickViewProvider {
 	public static final int ALPHA_FULL = 255;
 	public static final int ALPHA_GREYED = 100;
 
-	public static View createView(Context context, int layout) {
-		View view = View.inflate(context, layout, null);
-		//TODO: - SetCheckboxView()
-		//      - EnableSpinners()
-		//      - SetOnclickListeners()
-		return view;
-	}
-
-	public static View createPrototypeView(Context context, int layout) {
-		View prototypeView = View.inflate(context, layout, null);
-
-		return prototypeView;
-	}
-
 	public static void setAlphaForBrick(Brick brick, int alphaValue) {
 		brick.setAlpha(alphaValue);
 		setAlphaOnView(((BrickBaseType) brick).view, alphaValue);
@@ -65,13 +50,12 @@ public final class BrickViewProvider {
 	}
 
 	public static void setSaturationOnBrick(Brick brick, boolean greyScale) {
-		setSaturationOnView(((BrickBaseType) brick).view, greyScale);
-	}
+		View view = ((BrickBaseType) brick).view;
 
-	public static void setSaturationOnView(View view, boolean greyScale) {
 		if (view == null) {
 			return;
 		}
+
 		Drawable background = getBrickLayout(view).getBackground();
 
 		if (greyScale) {
@@ -84,19 +68,19 @@ public final class BrickViewProvider {
 		}
 	}
 
-	public static void setCheckboxVisibility(Brick brick, int visibility) {
+	public static void setCheckboxVisibility(Brick brick, int visible) {
 		if (brick.getCheckBox() != null) {
-			brick.getCheckBox().setVisibility(visibility);
+			brick.getCheckBox().setVisibility(visible);
 		}
 	}
 
-	public static void setCheckboxClickability(Brick brick, boolean clickable) {
+	public static void setCheckBoxClickable(Brick brick, boolean clickable) {
 		if (brick.getCheckBox() != null) {
 			brick.getCheckBox().setEnabled(clickable);
 		}
 	}
 
-	public static void setSpinnerClickability(View view, boolean clickable) {
+	public static void setSpinnerClickable(View view, boolean clickable) {
 		if (view == null) {
 			return;
 		}
@@ -109,7 +93,7 @@ public final class BrickViewProvider {
 		if (view instanceof ViewGroup) {
 			ViewGroup viewGroup = (ViewGroup) view;
 			for (int pos = 0; pos < viewGroup.getChildCount(); pos++) {
-				setSpinnerClickability(viewGroup.getChildAt(pos), clickable);
+				setSpinnerClickable(viewGroup.getChildAt(pos), clickable);
 			}
 		}
 	}

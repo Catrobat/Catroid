@@ -54,9 +54,7 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 
 	@Override
 	public View getView(final Context context, int brickId, final BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+
 
 		if (view == null) {
 			alphaValue = 255;

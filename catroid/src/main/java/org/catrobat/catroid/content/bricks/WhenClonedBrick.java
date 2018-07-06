@@ -54,9 +54,7 @@ public class WhenClonedBrick extends BrickBaseType implements ScriptBrick {
 
 	@Override
 	public View getView(final Context context, int brickId, final BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+
 
 		view = View.inflate(context, R.layout.brick_when_cloned, null);
 

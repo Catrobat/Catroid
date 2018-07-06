@@ -72,9 +72,6 @@ public class SetVelocityBrick extends FormulaBrick {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
 
 		view = View.inflate(context, R.layout.brick_physics_set_velocity, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);

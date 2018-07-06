@@ -867,7 +867,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		BrickBaseType brick = (BrickBaseType) getItem(position);
 
 		View currentBrickView = brick.getView(context, position, this);
-		BrickViewProvider.setSaturationOnView(currentBrickView, brick.isCommentedOut());
+		BrickViewProvider.setSaturationOnBrick(brick, brick.isCommentedOut());
 		currentBrickView.setOnClickListener(this);
 
 		if (!(brick instanceof ScriptBrick)) {
@@ -1253,7 +1253,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 
 	public void setSpinnersEnabled(boolean enabled) {
 		for (Brick brick : brickList) {
-			BrickViewProvider.setSpinnerClickability(((BrickBaseType) brick).view, enabled);
+			BrickViewProvider.setSpinnerClickable(((BrickBaseType) brick).view, enabled);
 		}
 	}
 
@@ -1312,13 +1312,13 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 					int alphaValue = checked ? BrickViewProvider.ALPHA_GREYED : BrickViewProvider.ALPHA_FULL;
 					BrickViewProvider.setAlphaForBrick(currentBrick, alphaValue);
 					setCheckbox(currentBrick, checked);
-					BrickViewProvider.setCheckboxClickability(currentBrick, !checked);
+					BrickViewProvider.setCheckBoxClickable(currentBrick, !checked);
 					break;
 				case COMMENT_OUT:
 					currentBrick.setCommentedOut(checked);
 					BrickViewProvider.setSaturationOnBrick(currentBrick, checked);
 					setCheckbox(currentBrick, checked);
-					BrickViewProvider.setCheckboxClickability(currentBrick, !checked);
+					BrickViewProvider.setCheckBoxClickable(currentBrick, !checked);
 					break;
 			}
 		}

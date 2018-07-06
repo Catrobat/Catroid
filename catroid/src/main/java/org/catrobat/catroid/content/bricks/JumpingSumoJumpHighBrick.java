@@ -37,9 +37,7 @@ public class JumpingSumoJumpHighBrick extends BrickBaseType {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+
 
 		view = View.inflate(context, R.layout.brick_jumping_sumo_jump_high, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);

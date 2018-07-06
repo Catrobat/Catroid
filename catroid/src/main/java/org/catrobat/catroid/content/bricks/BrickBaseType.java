@@ -36,11 +36,12 @@ import java.util.List;
 public abstract class BrickBaseType implements Brick {
 
 	private static final long serialVersionUID = 1L;
+
 	public transient View view;
+
 	protected transient CheckBox checkbox;
 	protected transient BrickAdapter adapter;
 	protected transient int alphaValue = 255;
-	public transient boolean animationState = false;
 
 	protected boolean commentedOut;
 
@@ -55,21 +56,6 @@ public abstract class BrickBaseType implements Brick {
 	}
 
 	@Override
-	public boolean isChecked() {
-		return checkbox.isChecked();
-	}
-
-	@Override
-	public void setAnimationState(boolean animationState) {
-		this.animationState = animationState;
-	}
-
-	@Override
-	public int getAlphaValue() {
-		return alphaValue;
-	}
-
-	@Override
 	public void setBrickAdapter(BrickAdapter adapter) {
 		this.adapter = adapter;
 	}
@@ -81,11 +67,6 @@ public abstract class BrickBaseType implements Brick {
 
 	@Override
 	public void setCheckboxView(int id) {
-		setCheckboxView(id, view);
-	}
-
-	@Override
-	public void setCheckboxView(int id, View view) {
 		int checkboxVisibility = View.GONE;
 		boolean enabled = true;
 		boolean isChecked = false;
