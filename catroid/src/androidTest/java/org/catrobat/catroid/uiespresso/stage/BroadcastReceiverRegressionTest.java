@@ -88,7 +88,8 @@ public class BroadcastReceiverRegressionTest {
 	private void createProject() {
 		project = UiTestUtils.createEmptyProject("test");
 		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
-		userVariable = dataContainer.addProjectUserVariable(VARIABLE_NAME);
+		userVariable = new UserVariable(VARIABLE_NAME);
+		dataContainer.addUserVariable(userVariable);
 		sprite1 = project.getDefaultScene().getBackgroundSprite();
 		sprite1StartScript = new StartScript();
 		sprite1.addScript(sprite1StartScript);
@@ -257,7 +258,8 @@ public class BroadcastReceiverRegressionTest {
 	@Test
 	public void testBroadcastReceiverWithMoreThanOneReceiverScript() {
 		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
-		UserVariable userVariable2 = dataContainer.addProjectUserVariable(VARIABLE_NAME + "2");
+		UserVariable userVariable2 = new UserVariable(VARIABLE_NAME + "2");
+		dataContainer.addUserVariable(userVariable2);
 
 		sprite1StartScript.addBrick(new SetVariableBrick(new Formula(1.0), userVariable));
 		sprite1StartScript.addBrick(new SetVariableBrick(new Formula(1.0), userVariable2));

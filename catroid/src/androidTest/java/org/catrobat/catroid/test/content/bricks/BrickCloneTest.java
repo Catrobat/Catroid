@@ -73,6 +73,7 @@ import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -209,13 +210,12 @@ public class BrickCloneTest {
 	}
 
 	private <T extends Brick> void testVariableReferences(Class<T> typeOfBrick) throws Exception {
-		// set up project
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 		ProjectManager.getInstance().setProject(project);
 		project.getDefaultScene().addSprite(sprite);
 		StartScript script = new StartScript();
 		sprite.addScript(script);
-		project.getDefaultScene().getDataContainer().addSpriteUserVariableToSprite(sprite, VARIABLE_NAME);
+		project.getDefaultScene().getDataContainer().addUserVariable(sprite, new UserVariable(VARIABLE_NAME));
 		UserVariable spriteVariable = project.getDefaultScene().getDataContainer().getUserVariable(sprite, VARIABLE_NAME);
 		Formula formula = new Formula(new FormulaElement(ElementType.USER_VARIABLE, VARIABLE_NAME, null));
 
@@ -224,20 +224,21 @@ public class BrickCloneTest {
 		Constructor<T> constructor = typeOfBrick.getDeclaredConstructor(Formula.class, UserVariable.class);
 		T toBeTestedBrick = constructor.newInstance(formula, spriteVariable);
 
-		// add brick to project
 		script.addBrick(toBeTestedBrick);
 
-		// get references
-		Sprite clonedSprite = sprite.clone();
+		Sprite clonedSprite = new SpriteController().copy(sprite,
+				project.getDefaultScene(),
+				project.getDefaultScene());
+
 		@SuppressWarnings("unchecked")
 		T clonedBrick = (T) clonedSprite.getScript(0).getBrick(0);
 		UserVariable clonedVariable = project.getDefaultScene().getDataContainer().getUserVariable(clonedSprite, VARIABLE_NAME);
-		UserVariable clonedVariableFromBrick = (UserVariable) Reflection.getPrivateField(UserVariableBrick.class, clonedBrick, "userVariable");
+		UserVariable clonedVariableFromBrick = (UserVariable) Reflection
+				.getPrivateField(UserVariableBrick.class, clonedBrick, "userVariable");
 
-		// check them
 		assertNotNull(clonedVariable);
-		assertNotSame("references shouldn't be the same", spriteVariable, clonedVariable);
-		assertNotSame("references shouldn't be the same", spriteVariable, clonedVariableFromBrick);
+		assertNotSame(spriteVariable, clonedVariable);
+		assertNotSame(spriteVariable, clonedVariableFromBrick);
 		assertEquals(clonedVariable, clonedVariableFromBrick);
 	}
 

@@ -25,149 +25,92 @@ package org.catrobat.catroid.test.formulaeditor;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 public class DataContainerTest {
 
-	private static final String PROJECT_USER_LIST_NAME_2 = "project_user_list_2";
-	private static final String PROJECT_USER_LIST_NAME = "project_user_list";
-	private static final String PROJECT_USER_VARIABLE_NAME_2 = "project_user_variable_2";
-	private static final String PROJECT_USER_VARIABLE_NAME = "project_user_variable";
-	private static final String SPRITE_USER_LIST_NAME = "sprite_user_list";
-	private Sprite firstSprite;
+	@Test
+	public void testAddProjectVariablesWithSameName() {
 
-	private static final List<Object> USER_LIST_VALUES_SINGLE_NUMBER_STRING = new ArrayList<Object>();
-	static {
-		USER_LIST_VALUES_SINGLE_NUMBER_STRING.add("123345456");
-	}
+		String projectName = "project";
+		String varName = "var0";
 
-	private static final List<Object> USER_LIST_VALUES_MULTIPLE_NUMBER_STRING = new ArrayList<Object>();
-	static {
-		USER_LIST_VALUES_MULTIPLE_NUMBER_STRING.add("1");
-		USER_LIST_VALUES_MULTIPLE_NUMBER_STRING.add("2");
-		USER_LIST_VALUES_MULTIPLE_NUMBER_STRING.add("3");
-	}
+		UserVariable var = new UserVariable(varName);
 
-	private static final List<Object> USER_LIST_VALUES_MULTIPLE_NUMBERS = new ArrayList<Object>();
-	static {
-		USER_LIST_VALUES_MULTIPLE_NUMBERS.add(1.0);
-		USER_LIST_VALUES_MULTIPLE_NUMBERS.add(2.0);
-		USER_LIST_VALUES_MULTIPLE_NUMBERS.add(3.0);
-	}
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 
-	private static final List<Object> USER_LIST_VALUES_MULTIPLE_NUMBERS_STRING_INTEGER = new ArrayList<Object>();
-	static {
-		USER_LIST_VALUES_MULTIPLE_NUMBERS_STRING_INTEGER.add(1.0);
-		USER_LIST_VALUES_MULTIPLE_NUMBERS_STRING_INTEGER.add("2");
-		USER_LIST_VALUES_MULTIPLE_NUMBERS_STRING_INTEGER.add(3.0);
-		USER_LIST_VALUES_MULTIPLE_NUMBERS_STRING_INTEGER.add("4");
-	}
-
-	private static final List<Object> USER_LIST_VALUES_STRINGS_AND_NUMBERS = new ArrayList<Object>();
-	private DataContainer dataContainer;
-	static {
-		USER_LIST_VALUES_STRINGS_AND_NUMBERS.add("Hello");
-		USER_LIST_VALUES_STRINGS_AND_NUMBERS.add(42.0);
-		USER_LIST_VALUES_STRINGS_AND_NUMBERS.add("WORLDS");
-	}
-	@Before
-	public void setUp() {
-		Project project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
-		firstSprite = new SingleSprite("firstSprite");
-		StartScript startScript = new StartScript();
-		ChangeSizeByNBrick changeBrick = new ChangeSizeByNBrick(10);
-		firstSprite.addScript(startScript);
-		startScript.addBrick(changeBrick);
-		project.getDefaultScene().addSprite(firstSprite);
-		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
-
-		dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
-		dataContainer.addProjectUserList(PROJECT_USER_LIST_NAME);
-		dataContainer.addSpriteUserListToSprite(firstSprite, SPRITE_USER_LIST_NAME);
-		dataContainer.addProjectUserList(PROJECT_USER_LIST_NAME_2);
+		DataContainer dataContainer = new DataContainer(project);
+		assertTrue(dataContainer.addUserVariable(var));
+		assertFalse(dataContainer.addUserVariable(var));
 	}
 
 	@Test
-	public void testGetUserList() {
+	public void testGetVariables() {
 
-		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().deleteUserListByName(PROJECT_USER_LIST_NAME);
-		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().deleteUserListByName(PROJECT_USER_LIST_NAME_2);
-		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().deleteUserListByName(SPRITE_USER_LIST_NAME);
+		String projectName = "project";
+		String spriteName = "sprite";
+		String gVarName = "gVar";
+		String lVarName = "lVar";
 
-		assertNull(ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().getUserList());
+		UserVariable gVar = new UserVariable(gVarName);
+		UserVariable lVar = new UserVariable(lVarName);
 
-		dataContainer.addProjectUserList(PROJECT_USER_LIST_NAME);
-		dataContainer.getUserList(firstSprite, PROJECT_USER_LIST_NAME).setList(USER_LIST_VALUES_MULTIPLE_NUMBERS);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+		Sprite sprite = new Sprite(spriteName);
+		project.getDefaultScene().addSprite(sprite);
 
-		dataContainer.addProjectUserList(PROJECT_USER_LIST_NAME);
-		dataContainer.getUserList(firstSprite, PROJECT_USER_LIST_NAME).setList(USER_LIST_VALUES_SINGLE_NUMBER_STRING);
+		DataContainer dataContainer = new DataContainer(project);
+		assertTrue(dataContainer.addUserVariable(gVar));
+		assertTrue(dataContainer.addUserVariable(sprite, lVar));
 
-		UserList userList = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().getUserList();
-		assertEquals("getUserList returned wrong UserList values!", USER_LIST_VALUES_SINGLE_NUMBER_STRING, userList.getList());
+		assertEquals(gVar, dataContainer.getUserVariable(sprite, gVarName));
+		assertEquals(lVar, dataContainer.getUserVariable(sprite, lVarName));
+
+		assertEquals(1, dataContainer.getProjectUserVariables().size());
+		assertEquals(1, dataContainer.getSpriteUserVariables(sprite).size());
+
+		assertEquals(gVar, dataContainer.getProjectUserVariable(gVarName));
+		assertNull(dataContainer.getProjectUserVariable(lVarName));
 	}
 
 	@Test
-	public void testRenameListGlobal() {
-		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().deleteUserListByName(PROJECT_USER_LIST_NAME_2);
-		dataContainer.addProjectUserList(PROJECT_USER_LIST_NAME);
+	public void testGetLists() {
 
-		dataContainer.renameProjectUserList(PROJECT_USER_LIST_NAME_2, PROJECT_USER_LIST_NAME);
+		String projectName = "project";
+		String spriteName = "sprite";
+		String gListName = "gList";
+		String lListName = "lList";
 
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
-		UserList userList = dataContainer.findProjectList(PROJECT_USER_LIST_NAME_2);
-		assertEquals(userList.getName(), PROJECT_USER_LIST_NAME_2);
-	}
+		UserList gList = new UserList(gListName);
+		UserList lList = new UserList(lListName);
 
-	@Test
-	public void testRenameListLocal() {
-		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().deleteUserListByName(PROJECT_USER_LIST_NAME_2);
-		dataContainer.addSpriteUserList(PROJECT_USER_LIST_NAME);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+		Sprite sprite = new Sprite(spriteName);
+		project.getDefaultScene().addSprite(sprite);
 
-		dataContainer.renameSpriteUserList(PROJECT_USER_LIST_NAME, PROJECT_USER_LIST_NAME_2);
+		DataContainer dataContainer = new DataContainer(project);
+		assertTrue(dataContainer.addUserList(gList));
+		assertTrue(dataContainer.addUserList(sprite, lList));
 
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
-		UserList userList = dataContainer.findSpriteUserList(firstSprite, PROJECT_USER_LIST_NAME_2);
-		assertEquals(userList.getName(), PROJECT_USER_LIST_NAME_2);
-	}
+		assertEquals(gList, dataContainer.getUserList(sprite, gListName));
+		assertEquals(lList, dataContainer.getUserList(sprite, lListName));
 
-	@Test
-	public void testRenameVariableGlobal() {
-		dataContainer.addProjectUserVariable(PROJECT_USER_VARIABLE_NAME);
+		assertEquals(1, dataContainer.getProjectUserLists().size());
+		assertEquals(1, dataContainer.getSpriteUserLists(sprite).size());
 
-		dataContainer.renameProjectUserVariable(PROJECT_USER_VARIABLE_NAME_2, PROJECT_USER_VARIABLE_NAME);
-
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
-		UserVariable userVariable = dataContainer.findProjectVariable(PROJECT_USER_VARIABLE_NAME_2);
-		assertEquals(userVariable.getName(), PROJECT_USER_VARIABLE_NAME_2);
-	}
-
-	@Test
-	public void testRenameVariableLocal() {
-		dataContainer.addSpriteUserVariable(PROJECT_USER_VARIABLE_NAME);
-
-		dataContainer.renameSpriteUserVariable(PROJECT_USER_VARIABLE_NAME, PROJECT_USER_VARIABLE_NAME_2);
-
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
-		UserVariable userVariable = dataContainer.findSpriteUserVariable(firstSprite, PROJECT_USER_VARIABLE_NAME_2);
-		assertEquals(userVariable.getName(), PROJECT_USER_VARIABLE_NAME_2);
+		assertEquals(gList, dataContainer.getUserList(gListName));
+		assertNull(dataContainer.getUserList(lListName));
 	}
 }

@@ -38,6 +38,7 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.junit.Before;
 import org.junit.Test;
@@ -69,17 +70,20 @@ public class ParserTestUserVariables extends AndroidTestCase {
 		project.getDefaultScene().addSprite(firstSprite);
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+
 		UserBrick userBrick = new UserBrick(new UserScriptDefinitionBrick());
 		ProjectManager.getInstance().setCurrentUserBrick(userBrick);
-		DataContainer userVariableContainer = ProjectManager.getInstance().getCurrentlyEditedScene()
-				.getDataContainer();
-		userVariableContainer.addProjectUserVariable(PROJECT_USER_VARIABLE).setValue(USER_VARIABLE_1_VALUE_TYPE_DOUBLE);
-		userVariableContainer.addSpriteUserVariableToSprite(firstSprite, SPRITE_USER_VARIABLE).setValue(
-				USER_VARIABLE_2_VALUE_TYPE_DOUBLE);
-		userVariableContainer.addProjectUserVariable(PROJECT_USER_VARIABLE_2).setValue(
-				USER_VARIABLE_3_VALUE_TYPE_STRING);
-		userVariableContainer.addUserBrickVariableToUserBrick(userBrick, USER_BRICK_VARIABLE, 0d)
-				.setValue(USER_VARIABLE_VALUE3);
+
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
+
+		dataContainer
+				.addUserVariable(new UserVariable(PROJECT_USER_VARIABLE, USER_VARIABLE_1_VALUE_TYPE_DOUBLE));
+		dataContainer
+				.addUserVariable(firstSprite, new UserVariable(SPRITE_USER_VARIABLE, USER_VARIABLE_2_VALUE_TYPE_DOUBLE));
+		dataContainer
+				.addUserVariable(new UserVariable(PROJECT_USER_VARIABLE_2, USER_VARIABLE_3_VALUE_TYPE_STRING));
+
+		dataContainer.addUserVariable(userBrick, new UserVariable(USER_BRICK_VARIABLE, USER_VARIABLE_VALUE3));
 	}
 
 	@Test
@@ -92,7 +96,7 @@ public class ParserTestUserVariables extends AndroidTestCase {
 
 	@Test
 	public void testUserVariableResetting() {
-		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().resetAllDataObjects();
+		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().resetUserData();
 
 		assertEquals(USER_VARIABLE_RESET, interpretUserVariable(PROJECT_USER_VARIABLE));
 		assertEquals(USER_VARIABLE_RESET, interpretUserVariable(SPRITE_USER_VARIABLE));

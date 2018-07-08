@@ -40,7 +40,8 @@ public final class ScriptEvaluationGateBrick {
 	private ScriptEvaluationGateBrick(Script script) {
 		Project project = ProjectManager.getInstance().getCurrentProject();
 		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
-		userVariableGate = dataContainer.addProjectUserVariable("userVariableGate" + gateCounter);
+		userVariableGate = new UserVariable("userVariableGate" + gateCounter);
+		dataContainer.addUserVariable(userVariableGate);
 		gateCounter++;
 		reset();
 

@@ -27,10 +27,8 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 
 public class NewVariableDialogFragment extends NewDataDialogFragment {
 
@@ -57,24 +55,13 @@ public class NewVariableDialogFragment extends NewDataDialogFragment {
 			return false;
 		}
 
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
-		boolean isGlobal = (radioGroup.getCheckedRadioButtonId() == R.id.global);
-
-		if (!isVariableNameValid(name, isGlobal)) {
-			inputLayout.setError(getString(R.string.name_already_exists));
-			return false;
+		UserVariable var = new UserVariable(name);
+		if (addUserVariable(var)) {
+			newVariableInterface.onNewVariable(var);
+			return true;
 		}
-
-		UserVariable userVariable;
-
-		if (isGlobal) {
-			userVariable = dataContainer.addProjectUserVariable(name);
-		} else {
-			userVariable = dataContainer.addSpriteUserVariable(name);
-		}
-
-		newVariableInterface.onNewVariable(userVariable);
-		return true;
+		inputLayout.setError(getString(R.string.name_already_exists));
+		return false;
 	}
 
 	public interface NewVariableInterface {

@@ -27,16 +27,11 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.badlogic.gdx.utils.Array;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.stage.ShowTextActor;
 import org.catrobat.catroid.stage.StageActivity;
-
-import java.util.List;
-import java.util.Map;
 
 public class HideTextAction extends TemporalAction {
 
@@ -47,11 +42,6 @@ public class HideTextAction extends TemporalAction {
 
 	@Override
 	protected void begin() {
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyPlayingScene().getDataContainer();
-
-		List<UserVariable> variableList = dataContainer.getProjectVariables();
-		Map<Sprite, List<UserVariable>> spriteVariableMap = dataContainer.getSpriteVariableMap();
-
 		if (StageActivity.stageListener != null) {
 			Array<Actor> stageActors = StageActivity.stageListener.getStage().getActors();
 			ShowTextActor dummyActor = new ShowTextActor(new UserVariable("dummyActor"), 0, 0, sprite, userBrick);
@@ -67,29 +57,7 @@ public class HideTextAction extends TemporalAction {
 				}
 			}
 		}
-
-		setVariablesVisible(variableList);
-
-		if (sprite != null) {
-			List<UserVariable> spriteVariableList = spriteVariableMap.get(sprite);
-			setVariablesVisible(spriteVariableList);
-		}
-		if (userBrick != null) {
-			List<UserVariable> userBrickVariableList = dataContainer.getOrCreateVariableListForUserBrick(userBrick);
-			setVariablesVisible(userBrickVariableList);
-		}
-	}
-
-	private void setVariablesVisible(List<UserVariable> variableList) {
-		if (variableList == null) {
-			return;
-		}
-		for (UserVariable userVariable : variableList) {
-			if (userVariable.getName().equals(variableToHide.getName())) {
-				userVariable.setVisible(false);
-				break;
-			}
-		}
+		variableToHide.setVisible(false);
 	}
 
 	@Override

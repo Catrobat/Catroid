@@ -120,7 +120,8 @@ public class FormulaEditorKeyboardTest {
 
 		SetVariableBrick setVariableBrick = new SetVariableBrick();
 		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
-		UserVariable userVariable = dataContainer.addProjectUserVariable("Global1");
+		UserVariable userVariable = new UserVariable("Global1");
+		dataContainer.addUserVariable(userVariable);
 		setVariableBrick.setUserVariable(userVariable);
 
 		script.addBrick(setVariableBrick);

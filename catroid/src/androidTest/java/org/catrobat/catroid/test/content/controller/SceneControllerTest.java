@@ -35,6 +35,9 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
+import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
@@ -50,6 +53,7 @@ import java.io.File;
 import java.io.IOException;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 
 import static org.catrobat.catroid.common.Constants.BACKPACK_SCENE_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
@@ -234,6 +238,13 @@ public class SceneControllerTest {
 
 		Sprite sprite = new Sprite("testSprite");
 		scene.addSprite(sprite);
+
+		DataContainer dataContainer = scene.getDataContainer();
+
+		String spriteVarName = "spriteVar";
+		String spriteListName = "spriteList";
+		assertTrue(dataContainer.addUserVariable(sprite, new UserVariable(spriteVarName)));
+		assertTrue(dataContainer.addUserList(sprite, new UserList(spriteListName)));
 
 		StartScript script = new StartScript();
 		PlaceAtBrick placeAtBrick = new PlaceAtBrick(0, 0);

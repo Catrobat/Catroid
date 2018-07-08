@@ -457,20 +457,6 @@ public final class ProjectManager {
 		return temporaryDirectoryName;
 	}
 
-//	private void triggerFacebookTokenRefreshOnServer(Activity activity) {
-//		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
-//		sharedPreferences.edit().putBoolean(Constants.FACEBOOK_TOKEN_REFRESH_NEEDED, true);
-//		FacebookExchangeTokenTask facebookExchangeTokenTask = new FacebookExchangeTokenTask(activity,
-//				AccessToken.getCurrentAccessToken().getToken(),
-//				sharedPreferences.getString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL),
-//				sharedPreferences.getString(Constants.FACEBOOK_USERNAME, Constants.NO_FACEBOOK_USERNAME),
-//				sharedPreferences.getString(Constants.FACEBOOK_ID, Constants.NO_FACEBOOK_ID),
-//				sharedPreferences.getString(Constants.FACEBOOK_LOCALE, Constants.NO_FACEBOOK_LOCALE)
-//		);
-//		facebookExchangeTokenTask.setOnFacebookExchangeTokenCompleteListener(this);
-//		facebookExchangeTokenTask.execute();
-//	}
-
 	public boolean checkNestingBrickReferences(boolean assumeWrong, boolean inBackPack) {
 		boolean projectCorrect = true;
 		if (inBackPack) {

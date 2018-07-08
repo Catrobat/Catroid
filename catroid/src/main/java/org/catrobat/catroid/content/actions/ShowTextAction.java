@@ -29,18 +29,13 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.badlogic.gdx.utils.Array;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.stage.ShowTextActor;
 import org.catrobat.catroid.stage.StageActivity;
-
-import java.util.List;
-import java.util.Map;
 
 public class ShowTextAction extends TemporalAction {
 
@@ -60,13 +55,6 @@ public class ShowTextAction extends TemporalAction {
 			int xPosition = this.xPosition.interpretInteger(sprite);
 			int yPosition = this.yPosition.interpretInteger(sprite);
 
-			DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyPlayingScene().getDataContainer();
-			List<UserVariable> variableList = dataContainer.getProjectVariables();
-
-			Map<Sprite, List<UserVariable>> spriteVariableMap = dataContainer.getSpriteVariableMap();
-			Sprite currentSprite = sprite;
-			List<UserVariable> spriteVariableList = spriteVariableMap.get(currentSprite);
-			List<UserVariable> userBrickVariableList = dataContainer.getOrCreateVariableListForUserBrick(userBrick);
 			if (StageActivity.stageListener != null) {
 				Array<Actor> stageActors = StageActivity.stageListener.getStage().getActors();
 				ShowTextActor dummyActor = new ShowTextActor(new UserVariable("dummyActor"), 0, 0, sprite, userBrick);
@@ -86,23 +74,9 @@ public class ShowTextAction extends TemporalAction {
 				StageActivity.stageListener.addActor(actor);
 			}
 
-			setVariablesVisible(variableList);
-			setVariablesVisible(spriteVariableList);
-			setVariablesVisible(userBrickVariableList);
+			variableToShow.setVisible(true);
 		} catch (InterpretationException e) {
 			Log.d(TAG, "InterpretationException: " + e);
-		}
-	}
-
-	private void setVariablesVisible(List<UserVariable> variableList) {
-		if (variableList == null) {
-			return;
-		}
-		for (UserVariable userVariable : variableList) {
-			if (userVariable.getName().equals(variableToShow.getName())) {
-				userVariable.setVisible(true);
-				break;
-			}
 		}
 	}
 

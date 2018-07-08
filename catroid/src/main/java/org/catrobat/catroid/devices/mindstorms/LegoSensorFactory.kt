@@ -25,7 +25,6 @@ package org.catrobat.catroid.devices.mindstorms
 
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.*
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.*
-import kotlin.Enum;
 
 class LegoSensorFactory (private val connection: MindstormsConnection) {
     fun create(sensorType: Enum<*>, port: Int): LegoSensor = when (sensorType) {

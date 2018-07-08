@@ -27,7 +27,6 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 
-import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
@@ -140,6 +139,4 @@ public interface Brick extends Serializable, Cloneable {
 	void setAnimationState(boolean animationState);
 
 	void setAlpha(int alphaFull);
-
-	boolean isEqualBrick(Brick brick, Scene mergeResult, Scene current);
 }

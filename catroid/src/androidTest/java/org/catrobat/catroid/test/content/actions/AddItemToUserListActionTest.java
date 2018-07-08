@@ -60,14 +60,12 @@ public class AddItemToUserListActionTest {
 		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
-		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().addProjectUserList(TEST_USERLIST_NAME);
-		userList = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
-				.getUserList(null, TEST_USERLIST_NAME);
 
 		List<Object> initialList = new ArrayList<>();
 		initialList.add(1.0);
 		initialList.add(2.0);
-		userList.setList(initialList);
+		userList = new UserList(TEST_USERLIST_NAME, initialList);
+		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().addUserList(userList);
 	}
 
 	@Test

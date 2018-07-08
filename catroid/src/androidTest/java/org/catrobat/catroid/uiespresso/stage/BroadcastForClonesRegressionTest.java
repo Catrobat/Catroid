@@ -99,7 +99,8 @@ public class BroadcastForClonesRegressionTest {
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), "BroadcastForClonesRegressionTest");
 		ProjectManager.getInstance().setProject(project);
 		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
-		userVariable = dataContainer.addProjectUserVariable(VARIABLE_NAME);
+		userVariable = new UserVariable(VARIABLE_NAME);
+		dataContainer.addUserVariable(userVariable);
 
 		Sprite sprite = new Sprite("testSprite");
 

@@ -32,6 +32,7 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
+import org.catrobat.catroid.ui.fragment.SpriteFactory;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 
 import java.io.IOException;
@@ -45,9 +46,15 @@ public class SpriteController {
 	private LookController lookController = new LookController();
 	private SoundController soundController = new SoundController();
 
+	public Sprite convert(Sprite spriteToConvert, Scene parentScene) {
+		Sprite convertedSprite = spriteToConvert.convert();
+		parentScene.getDataContainer().updateSpriteUserDataMapping(spriteToConvert, convertedSprite);
+		return convertedSprite;
+	}
+
 	public Sprite copy(Sprite spriteToCopy, Scene srcScene, Scene dstScene) throws IOException {
 		String name = uniqueNameProvider.getUniqueName(spriteToCopy.getName(), dstScene.getSpriteNames());
-		Sprite sprite = new Sprite(name);
+		Sprite sprite = new SpriteFactory().newInstance(spriteToCopy.getClass().getSimpleName(), name);
 
 		for (LookData look : spriteToCopy.getLookList()) {
 			sprite.getLookList().add(lookController.copy(look, dstScene, sprite));
@@ -61,9 +68,11 @@ public class SpriteController {
 			sprite.getNfcTagList().add(nfcTag.clone());
 		}
 
+		dstScene.getDataContainer().copySpriteUserData(spriteToCopy, srcScene.getDataContainer(), sprite);
+
 		for (Script script : spriteToCopy.getScriptList()) {
 			try {
-				scriptController.copy(script, srcScene, dstScene, sprite);
+				sprite.addScript(scriptController.copy(script, dstScene, sprite));
 			} catch (CloneNotSupportedException e) {
 				Log.e(TAG, Log.getStackTraceString(e));
 			}
@@ -88,6 +97,15 @@ public class SpriteController {
 				Log.e(TAG, Log.getStackTraceString(e));
 			}
 		}
+	}
+
+	public void delete(Sprite spriteToDelete, Scene srcScene) {
+		if (spriteToDelete.isClone) {
+			throw new IllegalStateException("You are deleting a clone: this means you also delete the files that are "
+					+ "referenced by the original sprite because clones are shallow copies regarding files.");
+		}
+		delete(spriteToDelete);
+		srcScene.getDataContainer().removeSpriteUserData(spriteToDelete);
 	}
 
 	public Sprite pack(Sprite spriteToPack) throws IOException {

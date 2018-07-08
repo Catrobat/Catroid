@@ -58,6 +58,7 @@ import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
 import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -129,7 +130,7 @@ public class PhysicsSpriteCloneTest {
 	}
 
 	@Test
-	public void testSpriteCloneWithPhysicsScriptAndBricks() {
+	public void testSpriteCloneWithPhysicsScriptAndBricks() throws IOException {
 		CollisionScript collisionScript = new CollisionScript(null);
 		collisionScript.getScriptBrick();
 		Brick setBounceBrick = new SetBounceBrick(BOUNCE_TEST_VALUE);
@@ -152,13 +153,13 @@ public class PhysicsSpriteCloneTest {
 
 		sprite.addScript(collisionScript);
 
-		Sprite clonedSprite = sprite.clone();
+		Sprite clonedSprite = new SpriteController().copy(sprite, project.getDefaultScene(), project.getDefaultScene());
 
 		checkIfScriptsAndBricksClassesOfSpriteAreEqual(sprite, clonedSprite);
 	}
 
 	@Test
-	public void testSpriteCloneWithCollisionScript() {
+	public void testSpriteCloneWithCollisionScript() throws IOException {
 		CollisionScript collisionScript = new CollisionScript(null);
 		collisionScript.getScriptBrick();
 		Brick setBounceBrick = new SetBounceBrick(BOUNCE_TEST_VALUE);
@@ -166,7 +167,7 @@ public class PhysicsSpriteCloneTest {
 		collisionScript.addBrick(setBounceBrick);
 		sprite.addScript(collisionScript);
 
-		Sprite clonedSprite = sprite.clone();
+		Sprite clonedSprite = new SpriteController().copy(sprite, project.getDefaultScene(), project.getDefaultScene());
 
 		checkIfScriptsAndBricksClassesOfSpriteAreEqual(sprite, clonedSprite);
 
@@ -222,7 +223,7 @@ public class PhysicsSpriteCloneTest {
 
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 
-		Sprite clonedSprite = sprite.clone();
+		Sprite clonedSprite = new SpriteController().copy(sprite, project.getDefaultScene(), project.getDefaultScene());
 
 		assertNotNull(clonedSprite.look);
 

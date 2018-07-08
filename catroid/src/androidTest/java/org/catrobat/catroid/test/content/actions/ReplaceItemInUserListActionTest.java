@@ -60,14 +60,13 @@ public class ReplaceItemInUserListActionTest {
 		testSprite = new SingleSprite("testSprite");
 		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().addProjectUserList(TEST_USERLIST_NAME);
-		userList = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
-				.getUserList(null, TEST_USERLIST_NAME);
-		userList.setList(INITIALIZED_LIST_VALUES);
+
 		INITIALIZED_LIST_VALUES.clear();
 		INITIALIZED_LIST_VALUES.add(1.0);
 		INITIALIZED_LIST_VALUES.add(2.0);
 		INITIALIZED_LIST_VALUES.add(3.0);
+		userList = new UserList(TEST_USERLIST_NAME, INITIALIZED_LIST_VALUES);
+		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().addUserList(userList);
 	}
 
 	@Test
