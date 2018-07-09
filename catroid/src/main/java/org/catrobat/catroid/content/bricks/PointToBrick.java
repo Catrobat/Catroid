@@ -26,7 +26,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.ProjectManager;
@@ -34,6 +33,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.SpinnerAdapterWithNewOption;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewSpriteDialogWrapper;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
@@ -59,16 +59,13 @@ public class PointToBrick extends BrickBaseType implements
 	}
 
 	@Override
-	public Brick clone() {
-		return new PointToBrick(pointedObject);
+	protected int getLayoutRes() {
+		return R.layout.brick_point_to;
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-
-		view = View.inflate(context, R.layout.brick_point_to, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_point_to_checkbox);
+	public View getView(final Context context, BrickAdapter brickAdapter) {
+		super.getView(context, brickAdapter);
 
 		spinner = view.findViewById(R.id.brick_point_to_spinner);
 		spinnerAdapter = new SpinnerAdapterWithNewOption(context, getSpriteNames());
@@ -125,7 +122,7 @@ public class PointToBrick extends BrickBaseType implements
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View view = View.inflate(context, R.layout.brick_point_to, null);
+		View view = super.getPrototypeView(context);
 		spinner = view.findViewById(R.id.brick_point_to_spinner);
 
 		spinnerAdapter = new SpinnerAdapterWithNewOption(context, getSpriteNames());

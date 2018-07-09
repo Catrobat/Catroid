@@ -22,10 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.BaseAdapter;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -35,9 +31,9 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import java.util.List;
 
 public class WhenTouchDownBrick extends BrickBaseType implements ScriptBrick {
-	protected WhenTouchDownScript whenTouchDownScript;
-	private transient View prototypeView;
+
 	private static final long serialVersionUID = 1L;
+	protected WhenTouchDownScript whenTouchDownScript;
 
 	public WhenTouchDownBrick() {
 		this.whenTouchDownScript = new WhenTouchDownScript();
@@ -54,44 +50,26 @@ public class WhenTouchDownBrick extends BrickBaseType implements ScriptBrick {
 	@Override
 	public Script getScriptSafe() {
 		if (whenTouchDownScript == null) {
-			setWhenTouchDownScript(new WhenTouchDownScript());
+			whenTouchDownScript = new WhenTouchDownScript();
 		}
 		return whenTouchDownScript;
 	}
 
 	@Override
-	public Brick clone() {
-		return new WhenTouchDownBrick(new WhenTouchDownScript());
+	public Brick clone() throws CloneNotSupportedException {
+		WhenTouchDownBrick clone = (WhenTouchDownBrick) super.clone();
+		clone.whenTouchDownScript = new WhenTouchDownScript();
+		return clone;
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-
-
-		view = View.inflate(context, R.layout.brick_screen_touched, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_when_screen_touched_checkbox);
-
-		return view;
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_screen_touched, null);
-		return prototypeView;
+	protected int getLayoutRes() {
+		return R.layout.brick_screen_touched;
 	}
 
 	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		return null;
-	}
-
-	public WhenTouchDownScript getWhenTouchDownScript() {
-		return whenTouchDownScript;
-	}
-
-	public void setWhenTouchDownScript(WhenTouchDownScript whenTouchDownScript) {
-		this.whenTouchDownScript = whenTouchDownScript;
 	}
 
 	@Override

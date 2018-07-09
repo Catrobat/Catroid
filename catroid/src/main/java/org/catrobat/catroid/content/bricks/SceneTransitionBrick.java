@@ -27,7 +27,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.ProjectManager;
@@ -36,6 +35,7 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.SpinnerAdapterWithNewOption;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewSceneDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
@@ -66,16 +66,13 @@ public class SceneTransitionBrick extends BrickBaseType implements
 	}
 
 	@Override
-	public Brick clone() {
-		return new SceneTransitionBrick(sceneForTransition);
+	protected int getLayoutRes() {
+		return R.layout.brick_scene_transition;
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-
-		view = View.inflate(context, R.layout.brick_scene_transition, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_scene_transition_checkbox);
+	public View getView(final Context context, BrickAdapter brickAdapter) {
+		super.getView(context, brickAdapter);
 
 		spinner = view.findViewById(R.id.brick_scene_transition_spinner);
 
@@ -126,7 +123,7 @@ public class SceneTransitionBrick extends BrickBaseType implements
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View view = View.inflate(context, R.layout.brick_scene_transition, null);
+		View view = super.getPrototypeView(context);
 		spinner = view.findViewById(R.id.brick_scene_transition_spinner);
 
 		List<String> sceneNames = ProjectManager.getInstance().getCurrentProject().getSceneNames();

@@ -26,9 +26,9 @@ import java.util.List;
 
 public interface NestingBrick {
 
-	boolean isInitialized();
-
 	void initialize();
+
+	boolean isInitialized();
 
 	boolean isDraggableOver(Brick brick);
 

@@ -29,7 +29,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
@@ -39,6 +38,7 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
@@ -47,7 +47,6 @@ public class SetNfcTagBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
 	private transient Spinner spinner;
 	private int nfcTagNdefDefaultType = BrickValues.TNF_WELL_KNOWN_HTTPS;
 	private int nfcTagNdefType = nfcTagNdefDefaultType;
@@ -74,15 +73,13 @@ public class SetNfcTagBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
+	protected int getLayoutRes() {
+		return R.layout.brick_set_nfc_tag;
+	}
 
-		if (view == null) {
-			alphaValue = 255;
-		}
-
-		view = View.inflate(context, R.layout.brick_set_nfc_tag, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_set_nfc_tag_checkbox);
+	@Override
+	public View getView(final Context context, BrickAdapter brickAdapter) {
+		super.getView(context, brickAdapter);
 
 		spinner = (Spinner) view.findViewById(R.id.brick_set_nfc_tag_ndef_record_spinner);
 
@@ -129,7 +126,7 @@ public class SetNfcTagBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_set_nfc_tag, null);
+		View prototypeView = super.getPrototypeView(context);
 
 		spinner = (Spinner) prototypeView.findViewById(R.id.brick_set_nfc_tag_ndef_record_spinner);
 		SpinnerAdapter setLookSpinnerAdapter = createArrayAdapter(context);

@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.ProjectManager;
@@ -34,6 +33,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -57,15 +57,13 @@ public class HideTextBrick extends UserVariableBrick {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
+	protected int getLayoutRes() {
+		return R.layout.brick_hide_variable;
+	}
 
-		if (view == null) {
-			alphaValue = 255;
-		}
-
-		view = View.inflate(context, R.layout.brick_hide_variable, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_hide_variable_checkbox);
+	@Override
+	public View getView(final Context context, BrickAdapter brickAdapter) {
+		super.getView(context, brickAdapter);
 
 		Spinner variableSpinner = (Spinner) view.findViewById(R.id.hide_variable_spinner);
 
@@ -86,7 +84,7 @@ public class HideTextBrick extends UserVariableBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_hide_variable, null);
+		prototypeView = super.getPrototypeView(context);
 
 		Spinner variableSpinner = (Spinner) prototypeView.findViewById(R.id.hide_variable_spinner);
 

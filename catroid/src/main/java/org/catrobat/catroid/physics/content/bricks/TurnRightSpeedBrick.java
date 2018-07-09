@@ -24,24 +24,21 @@ package org.catrobat.catroid.physics.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.content.bricks.BrickViewProvider;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
 public class TurnRightSpeedBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
-
-	private transient View prototypeView;
 
 	public TurnRightSpeedBrick() {
 		addAllowedBrickField(BrickField.PHYSICS_TURN_RIGHT_SPEED);
@@ -66,12 +63,13 @@ public class TurnRightSpeedBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	protected int getLayoutRes() {
+		return R.layout.brick_physics_turn_right_speed;
+	}
 
-		view = View.inflate(context, R.layout.brick_physics_turn_right_speed, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_turn_right_speed_checkbox);
+	@Override
+	public View getView(Context context, BrickAdapter brickAdapter) {
+		super.getView(context, brickAdapter);
 
 		TextView edit = (TextView) view.findViewById(R.id.brick_turn_right_speed_edit_text);
 
@@ -85,7 +83,7 @@ public class TurnRightSpeedBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_physics_turn_right_speed, null);
+		View prototypeView = super.getPrototypeView(context);
 		TextView textTurnRightSpeed = (TextView) prototypeView.findViewById(R.id.brick_turn_right_speed_edit_text);
 		textTurnRightSpeed.setText(formatNumberForPrototypeView(BrickValues.PHYSIC_TURN_DEGREES));
 		return prototypeView;

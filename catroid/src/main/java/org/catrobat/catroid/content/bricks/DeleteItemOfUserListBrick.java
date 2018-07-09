@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -35,6 +34,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.ui.adapter.UserListAdapterWrapper;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -47,11 +47,6 @@ public class DeleteItemOfUserListBrick extends UserListBrick {
 
 	public DeleteItemOfUserListBrick() {
 		addAllowedBrickField(BrickField.LIST_DELETE_ITEM);
-	}
-
-	public DeleteItemOfUserListBrick(Formula userListFormula, UserList userList) {
-		initializeBrickFields(userListFormula);
-		this.userList = userList;
 	}
 
 	public DeleteItemOfUserListBrick(Integer value) {
@@ -71,12 +66,14 @@ public class DeleteItemOfUserListBrick extends UserListBrick {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
+	protected int getLayoutRes() {
+		return R.layout.brick_delete_item_of_userlist;
+	}
 
+	@Override
+	public View getView(final Context context, BrickAdapter brickAdapter) {
+		super.getView(context, brickAdapter);
 
-		view = View.inflate(context, R.layout.brick_delete_item_of_userlist, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_delete_item_of_userlist_checkbox);
 		TextView textField = (TextView) view.findViewById(R.id.brick_delete_item_of_userlist_edit_text);
 		getFormulaWithBrickField(BrickField.LIST_DELETE_ITEM).setTextFieldId(R.id.brick_delete_item_of_userlist_edit_text);
 		getFormulaWithBrickField(BrickField.LIST_DELETE_ITEM).refreshTextField(view);
@@ -100,7 +97,7 @@ public class DeleteItemOfUserListBrick extends UserListBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_delete_item_of_userlist, null);
+		View prototypeView = super.getPrototypeView(context);
 		Spinner userListSpinner = (Spinner) prototypeView.findViewById(R.id.delete_item_of_userlist_spinner);
 
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
@@ -126,8 +123,10 @@ public class DeleteItemOfUserListBrick extends UserListBrick {
 	}
 
 	@Override
-	public Brick clone() {
-		return new DeleteItemOfUserListBrick(getFormulaWithBrickField(BrickField.LIST_DELETE_ITEM).clone(), userList);
+	public Brick clone() throws CloneNotSupportedException {
+		DeleteItemOfUserListBrick clone = (DeleteItemOfUserListBrick) super.clone();
+		clone.initializeBrickFields(getFormulaWithBrickField(BrickField.LIST_DELETE_ITEM).clone());
+		return clone;
 	}
 
 	@Override

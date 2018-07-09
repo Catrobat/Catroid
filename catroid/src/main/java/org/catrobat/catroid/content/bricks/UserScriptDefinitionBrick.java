@@ -31,7 +31,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -52,6 +51,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.BrickLayout;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.dragndrop.BrickListView;
 import org.catrobat.catroid.ui.fragment.UserBrickElementEditorFragment;
 import org.catrobat.catroid.utils.Utils;
@@ -140,11 +140,14 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, final BaseAdapter baseAdapter) {
+	protected int getLayoutRes() {
+		return R.layout.brick_user_definition;
+	}
 
+	@Override
+	public View getView(final Context context, final BrickAdapter brickAdapter) {
+		super.getView(context, brickAdapter);
 
-		view = View.inflate(context, R.layout.brick_user_definition, null);
-		setCheckboxView(R.id.brick_user_definition_checkbox);
 		onLayoutChanged();
 
 		return view;
@@ -190,7 +193,7 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 	}
 
 	private View getUserBrickPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_user, null);
+		View prototypeView = super.getPrototypeView(context);
 		BrickLayout layout = (BrickLayout) prototypeView.findViewById(R.id.brick_user_flow_layout);
 		if (layout.getChildCount() > 0) {
 			layout.removeAllViews();
@@ -298,7 +301,7 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return getView(context, 0, null);
+		return getView(context, null);
 	}
 
 	@Override

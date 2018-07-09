@@ -23,9 +23,7 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -35,6 +33,7 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.ArrayList;
@@ -44,7 +43,7 @@ import java.util.List;
 public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 
 	private static final long serialVersionUID = 1L;
-	private static final String TAG = IfLogicBeginBrick.class.getSimpleName();
+
 	protected transient IfLogicElseBrick ifElseBrick;
 	protected transient IfLogicEndBrick ifEndBrick;
 
@@ -65,21 +64,16 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 		setFormulaWithBrickField(BrickField.IF_CONDITION, ifCondition);
 	}
 
-	@Override
-	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.IF_CONDITION).getRequiredResources();
-	}
-
 	public IfLogicElseBrick getIfElseBrick() {
 		return ifElseBrick;
 	}
 
-	public IfLogicEndBrick getIfEndBrick() {
-		return ifEndBrick;
-	}
-
 	public void setIfElseBrick(IfLogicElseBrick elseBrick) {
 		this.ifElseBrick = elseBrick;
+	}
+
+	public IfLogicEndBrick getIfEndBrick() {
+		return ifEndBrick;
 	}
 
 	public void setIfEndBrick(IfLogicEndBrick ifEndBrick) {
@@ -87,8 +81,48 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 	}
 
 	@Override
-	public Brick clone() {
-		return new IfLogicBeginBrick(getFormulaWithBrickField(BrickField.IF_CONDITION).clone());
+	public Brick clone() throws CloneNotSupportedException {
+		IfLogicBeginBrick clone = (IfLogicBeginBrick) super.clone();
+		clone.ifElseBrick = null;
+		clone.ifEndBrick = null;
+		return clone;
+	}
+
+	@Override
+	public int getRequiredResources() {
+		return getFormulaWithBrickField(BrickField.IF_CONDITION).getRequiredResources();
+	}
+
+	@Override
+	protected int getLayoutRes() {
+		return R.layout.brick_if_begin_if;
+	}
+
+	@Override
+	public View getPrototypeView(Context context) {
+		View prototypeView = super.getPrototypeView(context);
+		((TextView) prototypeView.findViewById(R.id.brick_if_begin_edit_text)).setText(BrickValues.IF_CONDITION);
+		return prototypeView;
+	}
+
+	@Override
+	public View getView(Context context, BrickAdapter brickAdapter) {
+		super.getView(context, brickAdapter);
+
+		TextView ifBeginTextView = view.findViewById(R.id.brick_if_begin_edit_text);
+		getFormulaWithBrickField(BrickField.IF_CONDITION).setTextFieldId(R.id.brick_if_begin_edit_text);
+		getFormulaWithBrickField(BrickField.IF_CONDITION).refreshTextField(view);
+
+		ifBeginTextView.setOnClickListener(this);
+		removePrototypeElseTextViews(view);
+
+		return view;
+	}
+
+	protected void removePrototypeElseTextViews(View view) {
+		view.findViewById(R.id.if_else_prototype_punctuation).setVisibility(View.GONE);
+		view.findViewById(R.id.if_prototype_else).setVisibility(View.GONE);
+		view.findViewById(R.id.if_else_prototype_punctuation2).setVisibility(View.GONE);
 	}
 
 	@Override
@@ -97,41 +131,9 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-
-
-		view = View.inflate(context, R.layout.brick_if_begin_if, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_if_begin_checkbox);
-
-		TextView ifBeginTextView = (TextView) view.findViewById(R.id.brick_if_begin_edit_text);
-
-		getFormulaWithBrickField(BrickField.IF_CONDITION).setTextFieldId(R.id.brick_if_begin_edit_text);
-		getFormulaWithBrickField(BrickField.IF_CONDITION).refreshTextField(view);
-
-		ifBeginTextView.setOnClickListener(this);
-
-		removePrototypeElseTextViews(view);
-
-		return view;
-	}
-
-	protected void removePrototypeElseTextViews(View view) {
-		TextView prototypeTextPunctuation = (TextView) view.findViewById(R.id.if_else_prototype_punctuation);
-		TextView prototypeTextElse = (TextView) view.findViewById(R.id.if_prototype_else);
-		TextView prototypeTextPunctuation2 = (TextView) view.findViewById(R.id.if_else_prototype_punctuation2);
-		prototypeTextPunctuation.setVisibility(View.GONE);
-		prototypeTextElse.setVisibility(View.GONE);
-		prototypeTextPunctuation2.setVisibility(View.GONE);
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_if_begin_if, null);
-		TextView textIfBegin = (TextView) prototypeView.findViewById(R.id.brick_if_begin_edit_text);
-		textIfBegin.setText(BrickValues.IF_CONDITION);
-		return prototypeView;
+	public void initialize() {
+		ifElseBrick = new IfLogicElseBrick(this);
+		ifEndBrick = new IfLogicEndBrick(ifElseBrick, this);
 	}
 
 	@Override
@@ -140,16 +142,14 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 	}
 
 	@Override
-	public void initialize() {
-		ifElseBrick = new IfLogicElseBrick(this);
-		ifEndBrick = new IfLogicEndBrick(ifElseBrick, this);
-		Log.w(TAG, "Creating if logic stuff");
+	public boolean isDraggableOver(Brick brick) {
+		return brick != ifElseBrick;
 	}
 
 	@Override
 	public List<NestingBrick> getAllNestingBrickParts(boolean sorted) {
 		//TODO: handle sorting
-		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
+		List<NestingBrick> nestingBrickList = new ArrayList<>();
 		if (sorted) {
 			nestingBrickList.add(this);
 			nestingBrickList.add(ifElseBrick);
@@ -160,11 +160,6 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 		}
 
 		return nestingBrickList;
-	}
-
-	@Override
-	public boolean isDraggableOver(Brick brick) {
-		return brick != ifElseBrick;
 	}
 
 	@Override

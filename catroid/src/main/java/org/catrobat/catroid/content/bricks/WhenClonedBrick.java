@@ -22,10 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.BaseAdapter;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -37,8 +33,8 @@ import java.util.List;
 
 public class WhenClonedBrick extends BrickBaseType implements ScriptBrick {
 
-	protected WhenClonedScript whenClonedScript;
 	private static final long serialVersionUID = 1L;
+	protected WhenClonedScript whenClonedScript;
 
 	public WhenClonedBrick(WhenClonedScript whenScript) {
 		this.whenClonedScript = whenScript;
@@ -48,29 +44,15 @@ public class WhenClonedBrick extends BrickBaseType implements ScriptBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
+	protected int getLayoutRes() {
+		return R.layout.brick_when_cloned;
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, final BaseAdapter baseAdapter) {
-
-
-		view = View.inflate(context, R.layout.brick_when_cloned, null);
-
-		setCheckboxView(R.id.brick_when_cloned_checkbox);
-
-		return view;
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		return getView(context, 0, null);
-	}
-
-	@Override
-	public Brick clone() {
-		return new WhenClonedBrick(null);
+	public Brick clone() throws CloneNotSupportedException {
+		WhenClonedBrick clone = (WhenClonedBrick) super.clone();
+		clone.whenClonedScript = new WhenClonedScript();
+		return clone;
 	}
 
 	@Override

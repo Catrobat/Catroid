@@ -27,7 +27,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.ProjectManager;
@@ -38,6 +37,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenBackgroundChangesScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.SpinnerAdapterWithNewOption;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewLookDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
@@ -85,18 +85,13 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 	}
 
 	@Override
-	public Brick clone() {
-		WhenBackgroundChangesBrick clone = new WhenBackgroundChangesBrick();
-		clone.setLook(getLook());
-		return clone;
+	protected int getLayoutRes() {
+		return R.layout.brick_when_background_changes_to;
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-
-		view = View.inflate(context, R.layout.brick_when_background_changes_to, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_when_background_checkbox);
+	public View getView(final Context context, BrickAdapter brickAdapter) {
+		super.getView(context, brickAdapter);
 
 		spinner = view.findViewById(R.id.brick_when_background_spinner);
 		spinnerAdapter = new SpinnerAdapterWithNewOption(context, getLookNames());
@@ -163,7 +158,7 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View view = View.inflate(context, R.layout.brick_when_background_changes_to, null);
+		View view = super.getPrototypeView(context);
 		spinner = view.findViewById(R.id.brick_when_background_spinner);
 
 		spinnerAdapter = new SpinnerAdapterWithNewOption(context, getLookNames());

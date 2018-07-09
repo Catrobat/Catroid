@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -38,6 +37,7 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternToExternGenerator;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -76,12 +76,12 @@ public class SetVariableBrick extends UserVariableBrick {
 		setFormulaWithBrickField(BrickField.VARIABLE, variableFormula);
 	}
 
-	public void setUserVariable(UserVariable userVariable) {
-		this.userVariable = userVariable;
-	}
-
 	public UserVariable getUserVariable() {
 		return userVariable;
+	}
+
+	public void setUserVariable(UserVariable userVariable) {
+		this.userVariable = userVariable;
 	}
 
 	@Override
@@ -97,21 +97,20 @@ public class SetVariableBrick extends UserVariableBrick {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
+	protected int getLayoutRes() {
+		return R.layout.brick_set_variable;
+	}
 
-		if (view == null) {
-			alphaValue = 255;
-		}
+	@Override
+	public View getView(final Context context, BrickAdapter brickAdapter) {
+		super.getView(context, brickAdapter);
 
-		view = View.inflate(context, R.layout.brick_set_variable, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_set_variable_checkbox);
-		TextView textField = (TextView) view.findViewById(R.id.brick_set_variable_edit_text);
+		TextView textField = view.findViewById(R.id.brick_set_variable_edit_text);
 		getFormulaWithBrickField(BrickField.VARIABLE).setTextFieldId(R.id.brick_set_variable_edit_text);
 		getFormulaWithBrickField(BrickField.VARIABLE).refreshTextField(view);
 		textField.setOnClickListener(this);
 
-		Spinner variableSpinner = (Spinner) view.findViewById(R.id.set_variable_spinner);
+		Spinner variableSpinner = view.findViewById(R.id.set_variable_spinner);
 
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
 				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
@@ -130,8 +129,8 @@ public class SetVariableBrick extends UserVariableBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_set_variable, null);
-		Spinner variableSpinner = (Spinner) prototypeView.findViewById(R.id.set_variable_spinner);
+		View prototypeView = super.getPrototypeView(context);
+		Spinner variableSpinner = prototypeView.findViewById(R.id.set_variable_spinner);
 
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
 				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
@@ -143,7 +142,7 @@ public class SetVariableBrick extends UserVariableBrick {
 		variableSpinner.setAdapter(userVariableAdapterWrapper);
 		setSpinnerSelection(variableSpinner, null);
 
-		TextView textSetVariable = (TextView) prototypeView.findViewById(R.id.brick_set_variable_edit_text);
+		TextView textSetVariable = prototypeView.findViewById(R.id.brick_set_variable_edit_text);
 
 		if (defaultPrototypeToken != null) {
 			int defaultValueId = InternToExternGenerator.getMappedString(defaultPrototypeToken);
@@ -161,8 +160,10 @@ public class SetVariableBrick extends UserVariableBrick {
 	}
 
 	@Override
-	public SetVariableBrick clone() {
-		return new SetVariableBrick(getFormulaWithBrickField(BrickField.VARIABLE).clone(), userVariable);
+	public Brick clone() throws CloneNotSupportedException {
+		SetVariableBrick clone = (SetVariableBrick) super.clone();
+		clone.initializeBrickFields(getFormulaWithBrickField(BrickField.VARIABLE).clone());
+		return clone;
 	}
 
 	public void showFormulaEditorToEditFormula(View view) {

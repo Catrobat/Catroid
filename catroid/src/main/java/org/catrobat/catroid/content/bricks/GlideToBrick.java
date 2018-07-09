@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
@@ -35,15 +34,15 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
 public class GlideToBrick extends FormulaBrick {
-	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
+	private static final long serialVersionUID = 1L;
 
 	public GlideToBrick() {
 		addAllowedBrickField(BrickField.X_DESTINATION);
@@ -69,14 +68,6 @@ public class GlideToBrick extends FormulaBrick {
 		setFormulaWithBrickField(BrickField.DURATION_IN_SECONDS, durationInSeconds);
 	}
 
-	public void setXDestination(Formula xDestination) {
-		setFormulaWithBrickField(BrickField.X_DESTINATION, xDestination);
-	}
-
-	public void setYDestination(Formula yDestination) {
-		setFormulaWithBrickField(BrickField.Y_DESTINATION, yDestination);
-	}
-
 	@Override
 	public int getRequiredResources() {
 		return getFormulaWithBrickField(BrickField.X_DESTINATION).getRequiredResources() | getFormulaWithBrickField(BrickField.Y_DESTINATION).getRequiredResources()
@@ -84,12 +75,14 @@ public class GlideToBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	protected int getLayoutRes() {
+		return R.layout.brick_glide_to;
+	}
 
-		view = View.inflate(context, R.layout.brick_glide_to, null);
-		BrickViewProvider.setAlphaOnView(view, alphaValue);
+	@Override
+	public View getView(Context context, BrickAdapter brickAdapter) {
 
-		setCheckboxView(R.id.brick_glide_to_checkbox);
+		super.getView(context, brickAdapter);
 
 		TextView editX = (TextView) view.findViewById(R.id.brick_glide_to_edit_text_x);
 		getFormulaWithBrickField(BrickField.X_DESTINATION).setTextFieldId(R.id.brick_glide_to_edit_text_x);
@@ -130,7 +123,7 @@ public class GlideToBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_glide_to, null);
+		View prototypeView = super.getPrototypeView(context);
 		TextView textX = (TextView) prototypeView.findViewById(R.id.brick_glide_to_edit_text_x);
 		TextView textY = (TextView) prototypeView.findViewById(R.id.brick_glide_to_edit_text_y);
 		TextView textDuration = (TextView) prototypeView.findViewById(R.id.brick_glide_to_edit_text_duration);

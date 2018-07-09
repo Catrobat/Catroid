@@ -20,30 +20,28 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content;
+package org.catrobat.catroid.content.bricks;
 
 import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.bricks.BrickBaseType;
-import org.catrobat.catroid.content.bricks.BrickViewProvider;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.adapter.BroadcastSpinnerAdapter;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewBroadcastMessageDialog;
 
 public abstract class BroadcastMessageBrick extends BrickBaseType implements NewBroadcastMessageDialog.NewBroadcastMessageInterface {
+
 	protected transient BroadcastSpinnerAdapter messageAdapter;
+
 	protected transient int viewId;
 	private transient int spinnerId = R.id.brick_broadcast_spinner;
-	private transient int checkboxId = R.id.brick_broadcast_checkbox;
 
 	protected Object readResolve() {
 		this.spinnerId = R.id.brick_broadcast_spinner;
-		this.checkboxId = R.id.brick_broadcast_checkbox;
 		return this;
 	}
 
@@ -73,7 +71,7 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements New
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, viewId, null);
+		View prototypeView = super.getPrototypeView(context);
 		Spinner broadcastSpinner = prototypeView.findViewById(spinnerId);
 
 		BroadcastSpinnerAdapter broadcastSpinnerAdapter = getMessageAdapter(context);
@@ -86,14 +84,14 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements New
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
+	protected int getLayoutRes() {
+		return viewId;
+	}
 
-		if (view == null) {
-			alphaValue = 255;
-		}
-		view = View.inflate(context, viewId, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(checkboxId);
+	@Override
+	public View getView(final Context context, BrickAdapter brickAdapter) {
+		super.getView(context, brickAdapter);
+
 		final Spinner broadcastSpinner = view.findViewById(spinnerId);
 
 		broadcastSpinner.setAdapter(getMessageAdapter(context));

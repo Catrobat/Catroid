@@ -33,12 +33,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ViewSwitchLock;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.adapter.BrickCategoryAdapter;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.SnackbarUtil;
@@ -56,16 +54,11 @@ public class BrickCategoryFragment extends ListFragment {
 	private CharSequence previousActionBarTitle;
 	private OnCategorySelectedListener scriptFragment;
 	private BrickCategoryAdapter adapter;
-	private BrickAdapter brickAdapter;
 
 	private Lock viewSwitchLock = new ViewSwitchLock();
 
 	public void setOnCategorySelectedListener(OnCategorySelectedListener listener) {
 		scriptFragment = listener;
-	}
-
-	public void setBrickAdapter(BrickAdapter brickAdapter) {
-		this.brickAdapter = brickAdapter;
 	}
 
 	private boolean onlyBeginnerBricks() {
@@ -175,11 +168,6 @@ public class BrickCategoryFragment extends ListFragment {
 
 		if (SettingsFragment.isMindstormsEV3SharedPreferenceEnabled(getActivity())) {
 			categories.add(inflater.inflate(R.layout.brick_category_lego_ev3, null));
-		}
-
-		if (BuildConfig.FEATURE_USERBRICKS_ENABLED && brickAdapter.getUserBrick() == null
-				&& !onlyBeginnerBricks()) {
-			categories.add(inflater.inflate(R.layout.brick_category_userbricks, null));
 		}
 
 		if (SettingsFragment.isDroneSharedPreferenceEnabled(getActivity())) {

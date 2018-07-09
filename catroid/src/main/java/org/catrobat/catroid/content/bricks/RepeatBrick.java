@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -37,6 +36,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.utils.Utils;
 
@@ -48,8 +48,6 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
-
 	protected transient LoopEndBrick loopEndBrick;
 
 	public RepeatBrick() {
@@ -60,13 +58,13 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 		initializeBrickFields(new Formula(timesToRepeatValue));
 	}
 
+	public RepeatBrick(Formula timesToRepeat) {
+		initializeBrickFields(timesToRepeat);
+	}
+
 	@Override
 	public int getRequiredResources() {
 		return getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).getRequiredResources();
-	}
-
-	public RepeatBrick(Formula timesToRepeat) {
-		initializeBrickFields(timesToRepeat);
 	}
 
 	private void initializeBrickFields(Formula timesToRepeat) {
@@ -75,8 +73,10 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 	}
 
 	@Override
-	public Brick clone() {
-		return new RepeatBrick(getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).clone());
+	public Brick clone() throws CloneNotSupportedException {
+		RepeatBrick clone = (RepeatBrick) super.clone();
+		clone.initializeBrickFields(getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).clone());
+		return clone;
 	}
 
 	@Override
@@ -85,13 +85,13 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	protected int getLayoutRes() {
+		return R.layout.brick_repeat;
+	}
 
-
-		view = View.inflate(context, R.layout.brick_repeat, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_repeat_checkbox);
+	@Override
+	public View getView(Context context, BrickAdapter brickAdapter) {
+		super.getView(context, brickAdapter);
 
 		TextView edit = (TextView) view.findViewById(R.id.brick_repeat_edit_text);
 		getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).setTextFieldId(R.id.brick_repeat_edit_text);
@@ -123,7 +123,7 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_repeat, null);
+		View prototypeView = super.getPrototypeView(context);
 		TextView textRepeat = (TextView) prototypeView.findViewById(R.id.brick_repeat_edit_text);
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_repeat_time_text_view);
 		textRepeat.setText(formatNumberForPrototypeView(BrickValues.REPEAT));

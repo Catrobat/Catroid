@@ -24,13 +24,13 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.util.List;
 
@@ -42,9 +42,13 @@ public class NextLookBrick extends BrickBaseType {
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		View view = View.inflate(context, R.layout.brick_next_look, null);
+	protected int getLayoutRes() {
+		return R.layout.brick_next_look;
+	}
 
+	@Override
+	public View getPrototypeView(Context context) {
+		View view = super.getPrototypeView(context);
 		if (ProjectManager.getInstance().getCurrentSprite().getName().equals(context.getString(R.string.background))) {
 			TextView textField = (TextView) view.findViewById(R.id.brick_next_look_text_view);
 			textField.setText(R.string.brick_next_background);
@@ -53,22 +57,12 @@ public class NextLookBrick extends BrickBaseType {
 	}
 
 	@Override
-	public Brick clone() {
-		return new NextLookBrick();
-	}
-
-	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-
-		view = View.inflate(context, R.layout.brick_next_look, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_next_look_checkbox);
+	public View getView(Context context, BrickAdapter brickAdapter) {
+		super.getView(context, brickAdapter);
 		if (ProjectManager.getInstance().getCurrentSprite().getName().equals(context.getString(R.string.background))) {
 			TextView textField = (TextView) view.findViewById(R.id.brick_next_look_text_view);
 			textField.setText(R.string.brick_next_background);
 		}
-
 		return view;
 	}
 

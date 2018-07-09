@@ -26,7 +26,6 @@ import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.R;
@@ -35,6 +34,7 @@ import org.catrobat.catroid.content.RaspiInterruptScript;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.util.ArrayList;
@@ -53,16 +53,13 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, final BaseAdapter baseAdapter) {
+	protected int getLayoutRes() {
+		return R.layout.brick_raspi_pin_changed;
+	}
 
-
-		if (view == null) {
-			alphaValue = 255;
-		}
-
-		view = View.inflate(context, R.layout.brick_raspi_pin_changed, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_raspi_when_checkbox);
+	@Override
+	public View getView(final Context context, final BrickAdapter brickAdapter) {
+		super.getView(context, brickAdapter);
 
 		setupValueSpinner(context);
 		setupPinSpinner(context);
@@ -72,7 +69,7 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_raspi_pin_changed, null);
+		View prototypeView = super.getPrototypeView(context);
 
 		Spinner pinSpinner = (Spinner) prototypeView.findViewById(R.id.brick_raspi_when_pinspinner);
 
@@ -146,11 +143,6 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 		messageAdapter.add(context.getString(R.string.brick_raspi_pressed_text));
 		messageAdapter.add(context.getString(R.string.brick_raspi_released_text));
 		return messageAdapter;
-	}
-
-	@Override
-	public Brick clone() {
-		return new WhenRaspiPinChangedBrick(script);
 	}
 
 	@Override

@@ -22,11 +22,7 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
 import android.util.Log;
-import android.view.View;
-import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
@@ -40,6 +36,7 @@ public class LoopEndBrick extends BrickBaseType implements NestingBrick, Allowed
 
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = LoopEndBrick.class.getSimpleName();
+
 	private transient LoopBeginBrick loopBeginBrick;
 
 	public LoopEndBrick() {
@@ -47,11 +44,6 @@ public class LoopEndBrick extends BrickBaseType implements NestingBrick, Allowed
 
 	public LoopEndBrick(LoopBeginBrick loopBeginBrick) {
 		this.loopBeginBrick = loopBeginBrick;
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
 	}
 
 	public LoopBeginBrick getLoopBeginBrick() {
@@ -63,28 +55,21 @@ public class LoopEndBrick extends BrickBaseType implements NestingBrick, Allowed
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-
-
-		if (view == null) {
-			view = View.inflate(context, R.layout.brick_loop_end, null);
-			view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-			checkbox = (CheckBox) view.findViewById(R.id.brick_loop_end_checkbox);
-
-			setCheckboxView(R.id.brick_loop_end_checkbox);
-		}
-
-		return view;
+	public Brick clone() throws CloneNotSupportedException {
+		LoopEndBrick clone = (LoopEndBrick) super.clone();
+		clone.loopBeginBrick = null;
+		return clone;
 	}
 
 	@Override
-	public Brick clone() {
-		return new LoopEndBrick();
+	protected int getLayoutRes() {
+		return R.layout.brick_loop_end;
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_loop_end, null);
+	public void initialize() {
+		loopBeginBrick = new ForeverBrick();
+		Log.w(TAG, "Not supposed to create the LoopBeginBrick!");
 	}
 
 	@Override
@@ -95,12 +80,6 @@ public class LoopEndBrick extends BrickBaseType implements NestingBrick, Allowed
 	@Override
 	public boolean isInitialized() {
 		return (loopBeginBrick != null);
-	}
-
-	@Override
-	public void initialize() {
-		loopBeginBrick = new ForeverBrick();
-		Log.w(TAG, "Not supposed to create the LoopBeginBrick!");
 	}
 
 	@Override

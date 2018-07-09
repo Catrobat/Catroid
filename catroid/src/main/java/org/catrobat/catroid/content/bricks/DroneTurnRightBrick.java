@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -32,11 +31,13 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
 public class DroneTurnRightBrick extends FormulaBrick {
+
 	private static final long serialVersionUID = 1L;
 
 	public DroneTurnRightBrick(int durationInMilliseconds, int powerInPercent) {
@@ -71,11 +72,13 @@ public class DroneTurnRightBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
-		view = View.inflate(context, R.layout.brick_drone_turn_right, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+	protected int getLayoutRes() {
+		return R.layout.brick_drone_turn_right;
+	}
 
-		setCheckboxView(R.id.brick_drone_turn_right_checkbox);
+	@Override
+	public View getView(Context context, BrickAdapter brickAdapter) {
+		super.getView(context, brickAdapter);
 
 		setSecondText(view, R.id.brick_drone_turn_right_text_second, R.id.brick_drone_turn_right_edit_text_second, BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
 
@@ -96,7 +99,7 @@ public class DroneTurnRightBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_drone_turn_right, null);
+		View prototypeView = super.getPrototypeView(context);
 		TextView textTime = (TextView) prototypeView.findViewById(R.id
 				.brick_drone_turn_right_edit_text_second);
 

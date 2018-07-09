@@ -22,10 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.BaseAdapter;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
@@ -33,25 +29,13 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import java.util.List;
 
 public class JumpingSumoNoSoundBrick extends BrickBaseType {
+
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-
-
-		view = View.inflate(context, R.layout.brick_jumping_sumo_nosound, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_jumping_sumo_nosound_checkbox);
-
-		return view;
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_jumping_sumo_nosound, null);
-
-		return prototypeView;
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		sequence.addAction(sprite.getActionFactory().createJumpingSumoNoSoundAction());
+		return null;
 	}
 
 	@Override
@@ -60,8 +44,7 @@ public class JumpingSumoNoSoundBrick extends BrickBaseType {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createJumpingSumoNoSoundAction());
-		return null;
+	protected int getLayoutRes() {
+		return R.layout.brick_jumping_sumo_nosound;
 	}
 }

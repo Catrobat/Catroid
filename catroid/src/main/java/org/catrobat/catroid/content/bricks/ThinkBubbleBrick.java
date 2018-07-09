@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -33,14 +32,15 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
 public class ThinkBubbleBrick extends FormulaBrick implements OnClickListener {
+
 	private static final long serialVersionUID = 1L;
 	protected int type = Constants.THINK_BRICK;
-	private transient View prototypeView;
 
 	public ThinkBubbleBrick() {
 		addAllowedBrickField(BrickField.STRING);
@@ -57,35 +57,31 @@ public class ThinkBubbleBrick extends FormulaBrick implements OnClickListener {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
+	protected int getLayoutRes() {
+		return type == Constants.SAY_BRICK ? R.layout.brick_say_bubble : R.layout.brick_think_bubble;
+	}
 
+	@Override
+	public View getView(final Context context, BrickAdapter brickAdapter) {
+		super.getView(context, brickAdapter);
 
-		int layoutId = type == Constants.SAY_BRICK ? R.layout.brick_say_bubble : R.layout.brick_think_bubble;
-		int checkboxId = type == Constants.SAY_BRICK ? R.id.brick_say_bubble_checkbox : R.id.brick_think_bubble_checkbox;
 		int editTextId = type == Constants.SAY_BRICK ? R.id.brick_say_bubble_edit_text : R.id.brick_think_bubble_edit_text;
-
-		view = View.inflate(context, layoutId, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(checkboxId);
-
 		TextView textField = (TextView) view.findViewById(editTextId);
 		getFormulaWithBrickField(BrickField.STRING).setTextFieldId(editTextId);
 		getFormulaWithBrickField(BrickField.STRING).refreshTextField(view);
 
 		textField.setOnClickListener(this);
-
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		int layoutId = type == Constants.SAY_BRICK ? R.layout.brick_say_bubble : R.layout.brick_think_bubble;
+		View prototypeView = super.getPrototypeView(context);
+
 		int stringId = type == Constants.SAY_BRICK ? R.string.brick_say_bubble_default_value : R.string.brick_think_bubble_default_value;
 		int prototypeTextViewId = type == Constants.SAY_BRICK ? R.id.brick_say_bubble_edit_text : R.id
 				.brick_think_bubble_edit_text;
 
-		prototypeView = View.inflate(context, layoutId, null);
 		TextView textSpeak = (TextView) prototypeView.findViewById(prototypeTextViewId);
 		textSpeak.setText(context.getString(stringId));
 		return prototypeView;
@@ -93,8 +89,8 @@ public class ThinkBubbleBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createThinkSayBubbleAction(sprite, getFormulaWithBrickField(BrickField
-				.STRING), type));
+		sequence.addAction(sprite.getActionFactory().createThinkSayBubbleAction(sprite,
+				getFormulaWithBrickField(BrickField.STRING), type));
 		return null;
 	}
 

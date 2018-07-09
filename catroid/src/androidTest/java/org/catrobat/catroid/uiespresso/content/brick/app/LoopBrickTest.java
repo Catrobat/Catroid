@@ -147,7 +147,7 @@ public class LoopBrickTest {
 		checkSetUpBrickArrangement();
 
 		List<Integer> idList = new ArrayList<Integer>();
-		idList.add(R.id.brick_repeat_checkbox);
+		idList.add(R.id.brick_checkbox);
 		selectMultipleBricksAndDelete(idList);
 
 		onView(withText(R.string.brick_repeat))

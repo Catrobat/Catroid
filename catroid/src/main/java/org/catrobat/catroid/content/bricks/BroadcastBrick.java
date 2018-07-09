@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.BroadcastMessageBrick;
 import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
@@ -58,13 +57,13 @@ public class BroadcastBrick extends BroadcastMessageBrick {
 	}
 
 	@Override
-	public void setBroadcastMessage(String newBroadcastMessage) {
-		this.broadcastMessage = newBroadcastMessage;
-		messageAdapter.add(newBroadcastMessage);
+	public String getBroadcastMessage() {
+		return broadcastMessage;
 	}
 
 	@Override
-	public String getBroadcastMessage() {
-		return broadcastMessage;
+	public void setBroadcastMessage(String newBroadcastMessage) {
+		this.broadcastMessage = newBroadcastMessage;
+		messageAdapter.add(newBroadcastMessage);
 	}
 }

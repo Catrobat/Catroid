@@ -26,7 +26,6 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -42,6 +41,7 @@ import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.BrickLayout;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -192,14 +192,15 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	protected int getLayoutRes() {
+		return R.layout.brick_user;
+	}
 
+	@Override
+	public View getView(Context context, BrickAdapter brickAdapter) {
 		setUserBrickParametersParent();
+		super.getView(context, brickAdapter);
 
-		view = View.inflate(context, R.layout.brick_user, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_user_checkbox);
 		onLayoutChanged(view);
 
 		return view;
@@ -215,7 +216,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_user, null);
+		prototypeView = super.getPrototypeView(context);
 		onLayoutChanged(prototypeView);
 		return prototypeView;
 	}

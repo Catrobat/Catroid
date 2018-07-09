@@ -42,6 +42,7 @@ import java.util.List;
 
 public abstract class FormulaBrick extends BrickBaseType implements View.OnClickListener {
 
+	protected transient BrickAdapter adapter;
 	ConcurrentFormulaHashMap formulaMap = new ConcurrentFormulaHashMap();
 
 	public Formula getFormulaWithBrickField(BrickField brickField) throws IllegalArgumentException {
@@ -102,7 +103,14 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		showFormulaEditorToEditFormula(view);
 	}
 
-	public View getCustomView(Context context, int brickId, BaseAdapter baseAdapter) {
+	@Override
+	public View getView(Context context, BrickAdapter adapter) {
+		super.getView(context, adapter);
+		this.adapter = adapter;
+		return view;
+	}
+
+	public View getCustomView(Context context, int brickId, BaseAdapter brickAdapter) {
 		return null;
 	}
 

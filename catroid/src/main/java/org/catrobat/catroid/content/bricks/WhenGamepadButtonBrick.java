@@ -27,7 +27,6 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.CatroidApplication;
@@ -36,6 +35,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenGamepadButtonScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.util.Arrays;
 import java.util.List;
@@ -55,13 +55,13 @@ public class WhenGamepadButtonBrick extends BrickBaseType implements ScriptBrick
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, final BaseAdapter baseAdapter) {
+	protected int getLayoutRes() {
+		return R.layout.brick_when_gamepad_button;
+	}
 
-
-		view = View.inflate(context, R.layout.brick_when_gamepad_button, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_when_gamepad_button_checkbox);
+	@Override
+	public View getView(final Context context, final BrickAdapter brickAdapter) {
+		super.getView(context, brickAdapter);
 
 		final Spinner actionSpinner = (Spinner) view.findViewById(R.id.brick_when_gamepad_button_spinner);
 
@@ -89,13 +89,14 @@ public class WhenGamepadButtonBrick extends BrickBaseType implements ScriptBrick
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return getView(context, 0, null);
+		return getView(context, null);
 	}
 
 	@Override
-	public Brick clone() {
-		WhenGamepadButtonScript clonedScript = new WhenGamepadButtonScript(whenGamepadButtonScript.getAction());
-		return new WhenGamepadButtonBrick(clonedScript);
+	public Brick clone() throws CloneNotSupportedException {
+		WhenGamepadButtonBrick clone = (WhenGamepadButtonBrick) super.clone();
+		clone.whenGamepadButtonScript = new WhenGamepadButtonScript(whenGamepadButtonScript.getAction());
+		return clone;
 	}
 
 	@Override

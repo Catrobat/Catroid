@@ -28,23 +28,6 @@ public class UserScriptDefinitionBrickElement implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = UserScriptDefinitionBrickElement.class.getSimpleName();
-
-	private enum UserBrickElementType {
-		VARIABLE(10),
-		LINEBREAK(20),
-		TEXT(30);
-
-		private int value;
-
-		UserBrickElementType(int value) {
-			this.value = value;
-		}
-
-		public int getValue() {
-			return value;
-		}
-	}
-
 	private String text;
 	private UserBrickElementType elementType;
 	private transient boolean newLineHint;
@@ -76,10 +59,6 @@ public class UserScriptDefinitionBrickElement implements Serializable {
 		return text;
 	}
 
-	public void setText(String name) {
-		this.text = name;
-	}
-
 	public UserBrickElementType getElementType() {
 		return elementType;
 	}
@@ -108,6 +87,10 @@ public class UserScriptDefinitionBrickElement implements Serializable {
 		return elementType.equals(UserBrickElementType.TEXT);
 	}
 
+	public void setText(String name) {
+		this.text = name;
+	}
+
 	public void setIsText() {
 		elementType = UserBrickElementType.TEXT;
 	}
@@ -118,5 +101,21 @@ public class UserScriptDefinitionBrickElement implements Serializable {
 
 	public void setNewLineHint(boolean newLineHint) {
 		this.newLineHint = newLineHint;
+	}
+
+	private enum UserBrickElementType {
+		VARIABLE(10),
+		LINEBREAK(20),
+		TEXT(30);
+
+		private int value;
+
+		UserBrickElementType(int value) {
+			this.value = value;
+		}
+
+		public int getValue() {
+			return value;
+		}
 	}
 }

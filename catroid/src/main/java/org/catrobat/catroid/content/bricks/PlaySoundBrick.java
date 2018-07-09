@@ -27,7 +27,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.ProjectManager;
@@ -36,6 +35,7 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.SpinnerAdapterWithNewOption;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewSoundDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
@@ -65,15 +65,7 @@ public class PlaySoundBrick extends BrickBaseType implements
 		this.sound = sound;
 	}
 
-	@Override
-	public Brick clone() {
-		PlaySoundBrick clone = new PlaySoundBrick();
-		clone.setSound(sound);
-		return clone;
-	}
-
-	protected View prepareView(Context context) {
-		return View.inflate(context, R.layout.brick_play_sound, null);
+	protected void prepareView(View view) {
 	}
 
 	protected Spinner findSpinner(View view) {
@@ -81,10 +73,14 @@ public class PlaySoundBrick extends BrickBaseType implements
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		view = prepareView(context);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_play_sound_checkbox);
+	protected int getLayoutRes() {
+		return R.layout.brick_play_sound;
+	}
+
+	@Override
+	public View getView(final Context context, BrickAdapter brickAdapter) {
+		super.getView(context, brickAdapter);
+		prepareView(view);
 
 		spinner = findSpinner(view);
 		spinnerAdapter = new SpinnerAdapterWithNewOption(context, getSoundNames());
@@ -150,7 +146,8 @@ public class PlaySoundBrick extends BrickBaseType implements
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View view = prepareView(context);
+		View view = super.getPrototypeView(context);
+		prepareView(view);
 		spinner = findSpinner(view);
 		spinnerAdapter = new SpinnerAdapterWithNewOption(context, getSoundNames());
 		spinner.setAdapter(spinnerAdapter);

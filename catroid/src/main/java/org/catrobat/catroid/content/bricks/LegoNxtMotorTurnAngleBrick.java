@@ -27,7 +27,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -36,6 +35,7 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
@@ -43,14 +43,8 @@ import java.util.List;
 public class LegoNxtMotorTurnAngleBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
 	private String motor;
 	private transient Motor motorEnum;
-	private transient TextView editSpeed;
-
-	public enum Motor {
-		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_B_C
-	}
 
 	public LegoNxtMotorTurnAngleBrick() {
 		addAllowedBrickField(BrickField.LEGO_NXT_DEGREES);
@@ -87,7 +81,7 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
+		View prototypeView = super.getPrototypeView(context);
 		TextView textX = (TextView) prototypeView.findViewById(R.id.motor_turn_angle_edit_text);
 		textX.setText(formatNumberForPrototypeView(BrickValues.LEGO_ANGLE));
 
@@ -108,15 +102,15 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
+	protected int getLayoutRes() {
+		return R.layout.brick_nxt_motor_turn_angle;
+	}
 
+	@Override
+	public View getView(final Context context, BrickAdapter brickAdapter) {
+		super.getView(context, brickAdapter);
 
-		view = View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_nxt_motor_turn_checkbox);
-
-		editSpeed = (TextView) view.findViewById(R.id.motor_turn_angle_edit_text);
+		TextView editSpeed = (TextView) view.findViewById(R.id.motor_turn_angle_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES).setTextFieldId(R.id.motor_turn_angle_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES).refreshTextField(view);
 
@@ -154,5 +148,9 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick {
 		sequence.addAction(sprite.getActionFactory().createLegoNxtMotorTurnAngleAction(sprite, motorEnum,
 				getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES)));
 		return null;
+	}
+
+	public enum Motor {
+		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_B_C
 	}
 }

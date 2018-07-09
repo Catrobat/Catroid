@@ -37,6 +37,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.SingleSeekbar;
 
@@ -45,18 +46,11 @@ import java.util.List;
 public class PhiroMotorMoveBackwardBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
-
 	private String motor;
 	private transient Motor motorEnum;
-	private transient TextView editSpeed;
 
 	private transient SingleSeekbar speedSeekbar =
 			new SingleSeekbar(this, BrickField.PHIRO_SPEED, R.string.phiro_motor_speed);
-
-	public enum Motor {
-		MOTOR_LEFT, MOTOR_RIGHT, MOTOR_BOTH
-	}
 
 	public PhiroMotorMoveBackwardBrick() {
 		addAllowedBrickField(BrickField.PHIRO_SPEED);
@@ -95,8 +89,13 @@ public class PhiroMotorMoveBackwardBrick extends FormulaBrick {
 	}
 
 	@Override
+	protected int getLayoutRes() {
+		return R.layout.brick_phiro_motor_backward;
+	}
+
+	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_phiro_motor_backward, null);
+		View prototypeView = super.getPrototypeView(context);
 		TextView textSpeed = (TextView) prototypeView.findViewById(R.id.brick_phiro_motor_backward_action_speed_edit_text);
 		textSpeed.setText(formatNumberForPrototypeView(BrickValues.PHIRO_SPEED));
 
@@ -113,25 +112,22 @@ public class PhiroMotorMoveBackwardBrick extends FormulaBrick {
 	}
 
 	@Override
-	public Brick clone() {
-		return new PhiroMotorMoveBackwardBrick(motor,
-				getFormulaWithBrickField(BrickField.PHIRO_SPEED).clone());
+	public Brick clone() throws CloneNotSupportedException {
+		PhiroMotorMoveBackwardBrick clone = (PhiroMotorMoveBackwardBrick) super.clone();
+		clone.initializeBrickFields(getFormulaWithBrickField(BrickField.PHIRO_SPEED).clone());
+		return clone;
 	}
 
 	@Override
-	public View getCustomView(Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getCustomView(Context context, int brickId, BaseAdapter brickAdapter) {
 		return speedSeekbar.getView(context);
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(Context context, BrickAdapter brickAdapter) {
+		super.getView(context, brickAdapter);
 
-
-		view = View.inflate(context, R.layout.brick_phiro_motor_backward, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_phiro_motor_backward_action_checkbox);
-
-		editSpeed = (TextView) view.findViewById(R.id.brick_phiro_motor_backward_action_speed_edit_text);
+		TextView editSpeed = (TextView) view.findViewById(R.id.brick_phiro_motor_backward_action_speed_edit_text);
 		getFormulaWithBrickField(BrickField.PHIRO_SPEED).setTextFieldId(R.id.brick_phiro_motor_backward_action_speed_edit_text);
 		getFormulaWithBrickField(BrickField.PHIRO_SPEED).refreshTextField(view);
 
@@ -181,5 +177,9 @@ public class PhiroMotorMoveBackwardBrick extends FormulaBrick {
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createPhiroMotorMoveBackwardActionAction(sprite, motorEnum, getFormulaWithBrickField(BrickField.PHIRO_SPEED)));
 		return null;
+	}
+
+	public enum Motor {
+		MOTOR_LEFT, MOTOR_RIGHT, MOTOR_BOTH
 	}
 }

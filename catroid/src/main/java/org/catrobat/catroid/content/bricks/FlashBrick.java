@@ -26,12 +26,12 @@ import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.util.List;
 
@@ -39,8 +39,6 @@ public class FlashBrick extends BrickBaseType {
 
 	private static final int FLASH_OFF = 0;
 	private static final int FLASH_ON = 1;
-
-	private transient View prototypeView;
 
 	private int spinnerSelectionID;
 
@@ -53,18 +51,18 @@ public class FlashBrick extends BrickBaseType {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	protected int getLayoutRes() {
+		return R.layout.brick_flash;
+	}
 
-		view = View.inflate(context, R.layout.brick_flash, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+	@Override
+	public View getView(Context context, BrickAdapter brickAdapter) {
+		super.getView(context, brickAdapter);
 
-		setCheckboxView(R.id.brick_flash_checkbox);
 		Spinner flashSpinner = (Spinner) view.findViewById(R.id.brick_flash_spinner);
-
 		ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
 
 		flashSpinner.setAdapter(spinnerAdapter);
-
 		flashSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
 			@Override
@@ -84,7 +82,7 @@ public class FlashBrick extends BrickBaseType {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_flash, null);
+		View prototypeView = super.getPrototypeView(context);
 
 		Spinner setFlashSpinner = (Spinner) prototypeView.findViewById(R.id.brick_flash_spinner);
 

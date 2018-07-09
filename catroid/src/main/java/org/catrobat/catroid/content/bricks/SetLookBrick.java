@@ -27,7 +27,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -38,6 +37,7 @@ import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.SpinnerAdapterWithNewOption;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewLookDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
@@ -68,21 +68,16 @@ public class SetLookBrick extends BrickBaseType implements
 	}
 
 	@Override
-	public Brick clone() {
-		SetLookBrick clone = new SetLookBrick();
+	public Brick clone() throws CloneNotSupportedException {
+		SetLookBrick clone = (SetLookBrick) super.clone();
 		clone.setLook(look);
 		return clone;
 	}
 
-	protected View prepareView(Context context) {
-		View view = View.inflate(context, R.layout.brick_set_look, null);
-
+	protected void prepareView(View view) {
 		if (getSprite().isBackgroundSprite()) {
-			((TextView) view.findViewById(R.id.brick_set_look_text_view))
-					.setText(R.string.brick_set_background);
+			((TextView) view.findViewById(R.id.brick_set_look_text_view)).setText(R.string.brick_set_background);
 		}
-
-		return view;
 	}
 
 	protected Spinner findSpinner(View view) {
@@ -90,10 +85,30 @@ public class SetLookBrick extends BrickBaseType implements
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		view = prepareView(context);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_set_look_checkbox);
+	protected int getLayoutRes() {
+		return R.layout.brick_set_look;
+	}
+
+	@Override
+	public View getPrototypeView(Context context) {
+		View view = super.getPrototypeView(context);
+		prepareView(view);
+
+		spinner = findSpinner(view);
+		spinnerAdapter = new SpinnerAdapterWithNewOption(context, getLookNames());
+		spinner.setAdapter(spinnerAdapter);
+		spinner.setSelection(spinnerAdapter.getPosition(look != null ? look.getName() : null));
+		return view;
+	}
+
+	@Override
+	public View getView(final Context context, BrickAdapter brickAdapter) {
+		super.getView(context, brickAdapter);
+		prepareView(view);
+
+		if (getSprite().isBackgroundSprite()) {
+			((TextView) view.findViewById(R.id.brick_set_look_text_view)).setText(R.string.brick_set_background);
+		}
 
 		spinner = findSpinner(view);
 		spinnerAdapter = new SpinnerAdapterWithNewOption(context, getLookNames());
@@ -155,16 +170,6 @@ public class SetLookBrick extends BrickBaseType implements
 		spinnerAdapter.add(item.getName());
 		look = item;
 		spinner.setSelection(spinnerAdapter.getPosition(item.getName()));
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		View view = prepareView(context);
-		spinner = findSpinner(view);
-		spinnerAdapter = new SpinnerAdapterWithNewOption(context, getLookNames());
-		spinner.setAdapter(spinnerAdapter);
-		spinner.setSelection(spinnerAdapter.getPosition(look != null ? look.getName() : null));
-		return view;
 	}
 
 	@Override

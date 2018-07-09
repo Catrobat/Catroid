@@ -22,10 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.BaseAdapter;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
@@ -40,25 +36,8 @@ public class ClearBackgroundBrick extends BrickBaseType {
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		View view = View.inflate(context, R.layout.brick_clear_background, null);
-
-		return view;
-	}
-
-	@Override
-	public Brick clone() {
-		return new ClearBackgroundBrick();
-	}
-
-	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-
-		view = View.inflate(context, R.layout.brick_clear_background, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_clear_background_checkbox);
-		return view;
+	protected int getLayoutRes() {
+		return R.layout.brick_clear_background;
 	}
 
 	@Override

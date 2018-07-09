@@ -31,25 +31,22 @@ import android.widget.Spinner;
 
 public final class BrickViewProvider {
 
+	public static final int ALPHA_FULL = 255;
+	public static final int ALPHA_GREYED = 100;
 	private BrickViewProvider() {
 	}
 
-	public static final int ALPHA_FULL = 255;
-	public static final int ALPHA_GREYED = 100;
+	public static void setAlphaOnBrick(Brick brick, int alphaValue) {
+		View view = ((BrickBaseType) brick).view;
 
-	public static void setAlphaForBrick(Brick brick, int alphaValue) {
-		brick.setAlpha(alphaValue);
-		setAlphaOnView(((BrickBaseType) brick).view, alphaValue);
-	}
-
-	public static View setAlphaOnView(View view, int alphaValue) {
-		if (view != null) {
-			getBrickLayout(view).setAlpha(convertAlphaValueToFloat(alphaValue));
+		if (view == null) {
+			return;
 		}
-		return view;
+
+		getBrickLayout(view).setAlpha(convertAlphaValueToFloat(alphaValue));
 	}
 
-	public static void setSaturationOnBrick(Brick brick, boolean greyScale) {
+	public static void setSaturationOnBrick(Brick brick, boolean grayScale) {
 		View view = ((BrickBaseType) brick).view;
 
 		if (view == null) {
@@ -58,7 +55,7 @@ public final class BrickViewProvider {
 
 		Drawable background = getBrickLayout(view).getBackground();
 
-		if (greyScale) {
+		if (grayScale) {
 			ColorMatrix matrix = new ColorMatrix();
 			matrix.setSaturation(0);
 			ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);

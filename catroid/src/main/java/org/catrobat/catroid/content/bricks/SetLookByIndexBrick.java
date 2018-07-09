@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
@@ -35,6 +34,7 @@ import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
@@ -44,7 +44,6 @@ import static org.catrobat.catroid.content.EventWrapper.NO_WAIT;
 public class SetLookByIndexBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
 	@EventWrapper.WaitMode
 	protected transient int wait = NO_WAIT;
 
@@ -71,17 +70,13 @@ public class SetLookByIndexBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	protected int getLayoutRes() {
+		return wait == EventWrapper.WAIT ? R.layout.brick_set_look_by_index_and_wait : R.layout.brick_set_look_by_index;
+	}
 
-
-		if (wait == EventWrapper.WAIT) {
-			view = View.inflate(context, R.layout.brick_set_look_by_index_and_wait, null);
-		} else {
-			view = View.inflate(context, R.layout.brick_set_look_by_index, null);
-		}
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_set_look_by_index_checkbox);
+	@Override
+	public View getView(Context context, BrickAdapter brickAdapter) {
+		super.getView(context, brickAdapter);
 
 		if (getSprite().getName().equals(context.getString(R.string.background))) {
 			TextView textField = (TextView) view.findViewById(R.id.brick_set_look_by_index_label);
@@ -98,11 +93,7 @@ public class SetLookByIndexBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		if (wait == EventWrapper.WAIT) {
-			prototypeView = View.inflate(context, R.layout.brick_set_look_by_index_and_wait, null);
-		} else {
-			prototypeView = View.inflate(context, R.layout.brick_set_look_by_index, null);
-		}
+		View prototypeView = super.getPrototypeView(context);
 
 		if (getSprite().getName().equals(context.getString(R.string.background))) {
 			TextView textField = (TextView) prototypeView.findViewById(R.id.brick_set_look_by_index_label);

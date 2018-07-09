@@ -27,13 +27,13 @@ import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.util.List;
 
@@ -41,8 +41,6 @@ public class CameraBrick extends BrickBaseType {
 
 	private static final int OFF = 0;
 	private static final int ON = 1;
-
-	private transient View prototypeView;
 
 	private int spinnerSelectionID;
 
@@ -55,12 +53,14 @@ public class CameraBrick extends BrickBaseType {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	protected int getLayoutRes() {
+		return R.layout.brick_video;
+	}
 
-		view = View.inflate(context, R.layout.brick_video, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+	@Override
+	public View getView(Context context, BrickAdapter brickAdapter) {
+		super.getView(context, brickAdapter);
 
-		setCheckboxView(R.id.brick_video_checkbox);
 		Spinner videoSpinner = (Spinner) view.findViewById(R.id.brick_video_spinner);
 
 		ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
@@ -86,7 +86,7 @@ public class CameraBrick extends BrickBaseType {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_video, null);
+		View prototypeView = super.getPrototypeView(context);
 
 		Spinner setVideoSpinner = (Spinner) prototypeView.findViewById(R.id.brick_video_spinner);
 

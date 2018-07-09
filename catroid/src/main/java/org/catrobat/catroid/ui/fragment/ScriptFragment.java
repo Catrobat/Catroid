@@ -35,11 +35,9 @@ import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -72,7 +70,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
-public class ScriptFragment extends ListFragment implements OnCategorySelectedListener, OnFormulaChangedListener,
+public class ScriptFragment extends ListFragment implements
+		ActionMode.Callback,
+		OnCategorySelectedListener,
+		OnFormulaChangedListener,
 		NewScriptGroupDialog.BackpackScriptInterface {
 
 	public static final String TAG = ScriptFragment.class.getSimpleName();
@@ -101,21 +102,23 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 
 	private Parcelable savedListViewState;
 
-	private ActionMode.Callback callback = new ActionMode.Callback() {
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			MenuInflater inflater = mode.getMenuInflater();
-			inflater.inflate(R.menu.context_menu, menu);
-
 			switch (actionModeType) {
 				case BACKPACK:
+					mode.setTitle(getString(R.string.am_backpack));
 					adapter.setActionMode(BrickAdapter.ActionModeEnum.BACKPACK);
 					break;
 				case COPY:
+					mode.setTitle(getString(R.string.am_copy));
+					adapter.setActionMode(BrickAdapter.ActionModeEnum.COPY_DELETE);
+					break;
 				case DELETE:
+					mode.setTitle(getString(R.string.am_delete));
 					adapter.setActionMode(BrickAdapter.ActionModeEnum.COPY_DELETE);
 					break;
 				case ENABLE_DISABLE:
+					mode.setTitle(getString(R.string.comment_in_out));
 					adapter.setActionMode(BrickAdapter.ActionModeEnum.COMMENT_OUT);
 					adapter.checkCommentedOutItems();
 					break;
@@ -124,11 +127,12 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 					return false;
 			}
 
-			for (int i = adapter.listItemCount; i < adapter.getBrickList().size(); i++) {
-				adapter.getView(i, null, getListView());
-			}
+			mode.getMenuInflater().inflate(R.menu.context_menu, menu);
 
-			adapter.setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
+//			for (int i = adapter.listItemCount; i < adapter.getBrickList().size(); i++) {
+//				adapter.getView(i, null, getListView());
+//			}
+
 			adapter.setCheckboxVisibility();
 			return true;
 		}
@@ -158,10 +162,9 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 		public void onDestroyActionMode(ActionMode mode) {
 			resetActionModeParameters();
 		}
-	};
 
 	private void handleContextualAction() {
-		if (adapter.getAmountOfCheckedItems() == 0) {
+		if (adapter.getCheckedBricks().isEmpty()) {
 			actionMode.finish();
 		}
 
@@ -185,9 +188,9 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 	}
 
 	private void resetActionModeParameters() {
-		adapter.setSelectMode(ListView.CHOICE_MODE_NONE);
-		adapter.clearCheckedItems();
 		actionModeType = NONE;
+		actionMode = null;
+		adapter.clearCheckedItems();
 
 		registerForContextMenu(listView);
 		BottomBar.showBottomBar(getActivity());
@@ -238,9 +241,6 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 		BottomBar.showPlayButton(getActivity());
 		BottomBar.showAddButton(getActivity());
 		initListeners();
-		if (adapter != null) {
-			adapter.resetAlphas();
-		}
 
 		if (savedListViewState != null) {
 			listView.onRestoreInstanceState(savedListViewState);
@@ -257,10 +257,6 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 		if (projectManager.getCurrentlyEditedScene() != null) {
 			projectManager.saveProject(getActivity().getApplicationContext());
 		}
-	}
-
-	public BrickAdapter getAdapter() {
-		return adapter;
 	}
 
 	@Override
@@ -312,7 +308,6 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 
 	private void showCategoryFragment() {
 		BrickCategoryFragment brickCategoryFragment = new BrickCategoryFragment();
-		brickCategoryFragment.setBrickAdapter(adapter);
 		brickCategoryFragment.setOnCategorySelectedListener(this);
 		FragmentManager fragmentManager = getActivity().getFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -372,8 +367,7 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 			ToastUtil.showError(getActivity(), R.string.am_empty_list);
 		} else {
 			actionModeType = type;
-			actionMode = getActivity().startActionMode(callback);
-			updateActionModeTitle();
+			actionMode = getActivity().startActionMode(this);
 			unregisterForContextMenu(listView);
 			BottomBar.hideBottomBar(getActivity());
 		}
@@ -469,11 +463,10 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 		}
 
 		if (brick instanceof ScriptBrick) {
-			scriptToEdit = ((ScriptBrick) brick).getScriptSafe();
 			try {
-				Script clonedScript = scriptToEdit.clone();
+				Script clonedScript = ((ScriptBrick) brick).getScriptSafe().clone();
 				sprite.addScript(clonedScript);
-				adapter.initBrickList();
+				adapter.refreshBrickList();
 				adapter.notifyDataSetChanged();
 			} catch (CloneNotSupportedException e) {
 				Log.e(TAG, Log.getStackTraceString(e));
@@ -491,12 +484,8 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 		try {
 			Brick copiedBrick = brick.clone();
 
-			Script scriptList;
-			if (adapter.getUserBrick() != null) {
-				scriptList = ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick().getUserScript();
-			} else {
-				scriptList = ProjectManager.getInstance().getCurrentScript();
-			}
+			Script scriptList = ProjectManager.getInstance().getCurrentScript();
+
 			if (brick instanceof NestingBrick) {
 				NestingBrick nestingBrickCopy = (NestingBrick) copiedBrick;
 				nestingBrickCopy.initialize();
@@ -509,7 +498,7 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 			}
 
 			adapter.addNewBrick(newPosition, copiedBrick, false);
-			adapter.initBrickList();
+			adapter.refreshBrickList();
 
 			ProjectManager.getInstance().saveProject(getActivity().getApplicationContext());
 			adapter.notifyDataSetChanged();
@@ -519,36 +508,17 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 		}
 	}
 
-	private void deleteBrick(Brick brick) {
-
-		if (brick instanceof ScriptBrick) {
-			scriptToEdit = ((ScriptBrick) brick).getScriptSafe();
-			adapter.handleScriptDelete(sprite, scriptToEdit);
-			return;
-		}
-		int brickId = adapter.getBrickList().indexOf(brick);
-		if (brickId == -1) {
-			return;
-		}
-		adapter.removeFromBrickListAndProject(brickId, true);
-	}
-
-	private void deleteCheckedBricks() {
-		List<Brick> checkedBricks = adapter.getReversedCheckedBrickList();
-
-		for (Brick brick : checkedBricks) {
-			deleteBrick(brick);
-		}
+	private void deleteSelectedItems() {
 	}
 
 	private void showDeleteAlert() {
 		new AlertDialog.Builder(getActivity())
-				.setTitle(getResources().getQuantityString(R.plurals.delete_bricks, adapter.getAmountOfCheckedItems()))
+				.setTitle(getResources().getQuantityString(R.plurals.delete_bricks, adapter.getCheckedBricks().size()))
 				.setMessage(R.string.dialog_confirm_delete)
 				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
-						deleteCheckedBricks();
+						deleteSelectedItems();
 						finishActionMode();
 					}
 				})
@@ -558,9 +528,7 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 				.show();
 	}
 
-	public void updateActionModeTitle() {
-		int selectedItemCnt = adapter.getAmountOfCheckedItems();
-
+	public void updateActionModeTitle(int selectedItemCnt) {
 		switch (actionModeType) {
 			case BACKPACK:
 				actionMode.setTitle(getResources().getQuantityString(R.plurals.am_pack_scripts_title,

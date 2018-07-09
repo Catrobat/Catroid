@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -37,6 +36,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -45,11 +45,8 @@ import java.util.List;
 
 public class ShowTextBrick extends UserVariableBrick {
 
-	private static final long serialVersionUID = 1L;
-
-	private transient View prototypeView;
-
 	public static final String TAG = ShowTextBrick.class.getSimpleName();
+	private static final long serialVersionUID = 1L;
 
 	public ShowTextBrick() {
 		addAllowedBrickField(BrickField.X_POSITION);
@@ -60,22 +57,10 @@ public class ShowTextBrick extends UserVariableBrick {
 		initializeBrickFields(new Formula(xPosition), new Formula(yPosition));
 	}
 
-	public ShowTextBrick(Formula xPosition, Formula yPosition) {
-		initializeBrickFields(xPosition, yPosition);
-	}
-
 	private void initializeBrickFields(Formula xPosition, Formula yPosition) {
 		addAllowedBrickField(BrickField.X_POSITION);
 		addAllowedBrickField(BrickField.Y_POSITION);
 		setFormulaWithBrickField(BrickField.X_POSITION, xPosition);
-		setFormulaWithBrickField(BrickField.Y_POSITION, yPosition);
-	}
-
-	public void setXPosition(Formula xPosition) {
-		setFormulaWithBrickField(BrickField.X_POSITION, xPosition);
-	}
-
-	public void setYPosition(Formula yPosition) {
 		setFormulaWithBrickField(BrickField.Y_POSITION, yPosition);
 	}
 
@@ -100,13 +85,13 @@ public class ShowTextBrick extends UserVariableBrick {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
+	protected int getLayoutRes() {
+		return R.layout.brick_show_variable;
+	}
 
-
-		view = View.inflate(context, R.layout.brick_show_variable, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_show_variable_checkbox);
+	@Override
+	public View getView(final Context context, BrickAdapter brickAdapter) {
+		super.getView(context, brickAdapter);
 
 		TextView editTextX = (TextView) view.findViewById(R.id.brick_show_variable_edit_text_x);
 		getFormulaWithBrickField(BrickField.X_POSITION).setTextFieldId(R.id.brick_show_variable_edit_text_x);
@@ -139,7 +124,7 @@ public class ShowTextBrick extends UserVariableBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_show_variable, null);
+		View prototypeView = super.getPrototypeView(context);
 
 		Spinner variableSpinner = (Spinner) prototypeView.findViewById(R.id.show_variable_spinner);
 

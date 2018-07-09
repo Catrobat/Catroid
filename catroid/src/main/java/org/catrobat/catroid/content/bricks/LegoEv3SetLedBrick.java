@@ -27,12 +27,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.util.List;
 
@@ -40,12 +40,6 @@ public class LegoEv3SetLedBrick extends BrickBaseType implements OnItemSelectedL
 	private static final long serialVersionUID = 1L;
 	private transient LedStatus ledStatusEnum;
 	private String ledStatus;
-
-	public enum LedStatus {
-		LED_OFF, LED_GREEN, LED_RED, LED_ORANGE,
-		LED_GREEN_FLASHING, LED_RED_FLASHING, LED_ORANGE_FLASHING,
-		LED_GREEN_PULSE, LED_RED_PULSE, LED_ORANGE_PULSE
-	}
 
 	public LegoEv3SetLedBrick(LedStatus ledStatus) {
 		this.ledStatusEnum = ledStatus;
@@ -65,8 +59,13 @@ public class LegoEv3SetLedBrick extends BrickBaseType implements OnItemSelectedL
 	}
 
 	@Override
+	protected int getLayoutRes() {
+		return R.layout.brick_ev3_set_led;
+	}
+
+	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_ev3_set_led, null);
+		View prototypeView = super.getPrototypeView(context);
 
 		Spinner ledStatusSpinner = (Spinner) prototypeView.findViewById(R.id.brick_ev3_set_led_spinner);
 		ledStatusSpinner.setFocusableInTouchMode(false);
@@ -82,15 +81,8 @@ public class LegoEv3SetLedBrick extends BrickBaseType implements OnItemSelectedL
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-
-		if (view == null) {
-			alphaValue = 255;
-		}
-		view = View.inflate(context, R.layout.brick_ev3_set_led, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_ev3_set_led_checkbox);
+	public View getView(Context context, BrickAdapter brickAdapter) {
+		super.getView(context, brickAdapter);
 
 		ArrayAdapter<CharSequence> ledStatusAdapter = ArrayAdapter.createFromResource(context,
 				R.array.ev3_led_status_chooser, android.R.layout.simple_spinner_item);
@@ -129,5 +121,11 @@ public class LegoEv3SetLedBrick extends BrickBaseType implements OnItemSelectedL
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createLegoEv3SetLedAction(ledStatusEnum));
 		return null;
+	}
+
+	public enum LedStatus {
+		LED_OFF, LED_GREEN, LED_RED, LED_ORANGE,
+		LED_GREEN_FLASHING, LED_RED_FLASHING, LED_ORANGE_FLASHING,
+		LED_GREEN_PULSE, LED_RED_PULSE, LED_ORANGE_PULSE
 	}
 }

@@ -23,10 +23,12 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
+import android.support.annotation.LayoutRes;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
@@ -38,10 +40,7 @@ public abstract class BrickBaseType implements Brick {
 	private static final long serialVersionUID = 1L;
 
 	public transient View view;
-
 	protected transient CheckBox checkbox;
-	protected transient BrickAdapter adapter;
-	protected transient int alphaValue = 255;
 
 	protected boolean commentedOut;
 
@@ -56,47 +55,17 @@ public abstract class BrickBaseType implements Brick {
 	}
 
 	@Override
-	public void setBrickAdapter(BrickAdapter adapter) {
-		this.adapter = adapter;
-	}
-
-	@Override
 	public CheckBox getCheckBox() {
 		return checkbox;
 	}
 
 	@Override
-	public void setCheckboxView(int id) {
-		int checkboxVisibility = View.GONE;
-		boolean enabled = true;
-		boolean isChecked = false;
-		if (checkbox != null) {
-			checkboxVisibility = checkbox.getVisibility();
-			enabled = checkbox.isEnabled();
-			isChecked = checkbox.isChecked();
-		}
-		checkbox = view.findViewById(id);
-		checkbox.setChecked(isChecked);
-		checkbox.setVisibility(checkboxVisibility);
-		checkbox.setEnabled(enabled);
-
-		final Brick instance = this;
-		checkbox.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				adapter.handleCheck(instance, ((CheckBox) view).isChecked());
-			}
-		});
-	}
-
-	@Override
 	public Brick clone() throws CloneNotSupportedException {
-		return (Brick) super.clone();
-	}
-
-	@Override
-	public void setAlpha(int newAlpha) {
-		alphaValue = newAlpha;
+		BrickBaseType clone = (BrickBaseType) super.clone();
+		clone.view = null;
+		clone.checkbox = null;
+		clone.commentedOut = commentedOut;
+		return clone;
 	}
 
 	@Override
@@ -104,11 +73,31 @@ public abstract class BrickBaseType implements Brick {
 		return NO_RESOURCES;
 	}
 
-	@Override
-	public abstract View getView(Context context, int brickId, BaseAdapter adapter);
+	protected abstract @LayoutRes int getLayoutRes();
 
 	@Override
-	public abstract View getPrototypeView(Context context);
+	public View getView(Context context, final BrickAdapter adapter) {
+		if (view == null) {
+			view = LayoutInflater.from(context).inflate(getLayoutRes(), null);
+			checkbox = view.findViewById(R.id.brick_checkbox);
+		}
+
+		final Brick instance = this;
+		BrickViewProvider.setSaturationOnBrick(instance, commentedOut);
+
+		checkbox.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				adapter.handleCheck(instance, ((CheckBox) view).isChecked());
+			}
+		});
+		return view;
+	}
+
+	@Override
+	public View getPrototypeView(Context context) {
+		return LayoutInflater.from(context).inflate(getLayoutRes(), null);
+	}
 
 	@Override
 	public abstract List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence);

@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -32,6 +31,7 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
@@ -39,22 +39,6 @@ import java.util.List;
 public class PointInDirectionBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
-
-	private transient View prototypeView;
-
-	public enum Direction {
-		RIGHT(90), LEFT(-90), UP(0), DOWN(180);
-
-		private double directionDegrees;
-
-		Direction(double degrees) {
-			directionDegrees = degrees;
-		}
-
-		public double getDegrees() {
-			return directionDegrees;
-		}
-	}
 
 	public PointInDirectionBrick() {
 		addAllowedBrickField(BrickField.DEGREES);
@@ -83,11 +67,15 @@ public class PointInDirectionBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
+	protected int getLayoutRes() {
+		return R.layout.brick_point_in_direction;
+	}
 
-		view = View.inflate(context, R.layout.brick_point_in_direction, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_point_in_direction_checkbox);
+	@Override
+	public View getView(final Context context, BrickAdapter brickAdapter) {
+
+		super.getView(context, brickAdapter);
+
 		TextView setAngleTextField = (TextView) view.findViewById(R.id.brick_point_in_direction_edit_text);
 
 		getFormulaWithBrickField(BrickField.DEGREES).setTextFieldId(R.id.brick_point_in_direction_edit_text);
@@ -99,9 +87,8 @@ public class PointInDirectionBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_point_in_direction, null);
-		TextView setAngleTextView = (TextView) prototypeView
-				.findViewById(R.id.brick_point_in_direction_edit_text);
+		View prototypeView = super.getPrototypeView(context);
+		TextView setAngleTextView = (TextView) prototypeView.findViewById(R.id.brick_point_in_direction_edit_text);
 		setAngleTextView.setText(formatNumberForPrototypeView(BrickValues.POINT_IN_DIRECTION));
 		return prototypeView;
 	}
@@ -116,5 +103,19 @@ public class PointInDirectionBrick extends FormulaBrick {
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
 		FormulaEditorFragment.showFragment(view, this, BrickField.DEGREES);
+	}
+
+	public enum Direction {
+		RIGHT(90), LEFT(-90), UP(0), DOWN(180);
+
+		private double directionDegrees;
+
+		Direction(double degrees) {
+			directionDegrees = degrees;
+		}
+
+		public double getDegrees() {
+			return directionDegrees;
+		}
 	}
 }

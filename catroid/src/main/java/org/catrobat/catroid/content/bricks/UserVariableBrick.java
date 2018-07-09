@@ -59,12 +59,12 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewVaria
 		}
 	}
 
-	public void setUserVariable(UserVariable userVariable) {
-		this.userVariable = userVariable;
-	}
-
 	public UserVariable getUserVariable() {
 		return userVariable;
+	}
+
+	public void setUserVariable(UserVariable userVariable) {
+		this.userVariable = userVariable;
 	}
 
 	protected View.OnTouchListener createSpinnerOnTouchListener() {

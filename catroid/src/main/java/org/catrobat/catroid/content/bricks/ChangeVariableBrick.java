@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -35,6 +34,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -68,17 +68,14 @@ public class ChangeVariableBrick extends UserVariableBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.VARIABLE_CHANGE).getRequiredResources();
+	protected int getLayoutRes() {
+		return R.layout.brick_change_variable_by;
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(final Context context, BrickAdapter brickAdapter) {
+		super.getView(context, brickAdapter);
 
-
-		view = View.inflate(context, R.layout.brick_change_variable_by, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_change_variable_checkbox);
 		TextView textField = (TextView) view.findViewById(R.id.brick_change_variable_edit_text);
 		getFormulaWithBrickField(BrickField.VARIABLE_CHANGE).setTextFieldId(R.id.brick_change_variable_edit_text);
 		getFormulaWithBrickField(BrickField.VARIABLE_CHANGE).refreshTextField(view);
@@ -103,7 +100,7 @@ public class ChangeVariableBrick extends UserVariableBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_change_variable_by, null);
+		View prototypeView = super.getPrototypeView(context);
 		Spinner variableSpinner = (Spinner) prototypeView.findViewById(R.id.change_variable_spinner);
 
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyEditedScene()
@@ -127,8 +124,10 @@ public class ChangeVariableBrick extends UserVariableBrick {
 	}
 
 	@Override
-	public ChangeVariableBrick clone() {
-		return new ChangeVariableBrick(getFormulaWithBrickField(BrickField.VARIABLE_CHANGE).clone(), userVariable);
+	public Brick clone() throws CloneNotSupportedException {
+		ChangeVariableBrick clone = (ChangeVariableBrick) super.clone();
+		clone.initializeBrickFields(getFormulaWithBrickField(BrickField.VARIABLE_CHANGE).clone());
+		return clone;
 	}
 
 	@Override

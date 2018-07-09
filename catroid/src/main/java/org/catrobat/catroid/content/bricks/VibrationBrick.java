@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
@@ -35,6 +34,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.utils.Utils;
 
@@ -42,8 +42,6 @@ import java.util.List;
 
 public class VibrationBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
-
-	private transient View prototypeView;
 
 	public VibrationBrick() {
 		addAllowedBrickField(BrickField.VIBRATE_DURATION_IN_SECONDS);
@@ -68,13 +66,13 @@ public class VibrationBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	protected int getLayoutRes() {
+		return R.layout.brick_vibration;
+	}
 
-
-		view = View.inflate(context, R.layout.brick_vibration, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_vibration_checkbox);
+	@Override
+	public View getView(Context context, BrickAdapter brickAdapter) {
+		super.getView(context, brickAdapter);
 
 		TextView editVibrate = (TextView) view.findViewById(R.id.brick_vibration_edit_text);
 		TextView secondTextVibrate = (TextView) view.findViewById(R.id.brick_vibration_second_label);
@@ -103,7 +101,7 @@ public class VibrationBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_vibration, null);
+		View prototypeView = super.getPrototypeView(context);
 		TextView textVibrate = (TextView) prototypeView.findViewById(R.id.brick_vibration_edit_text);
 		textVibrate.setText(formatNumberForPrototypeView(BrickValues.VIBRATE_SECONDS));
 		TextView secondTextVibrate = (TextView) prototypeView.findViewById(R.id.brick_vibration_second_label);

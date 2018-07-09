@@ -22,10 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.BaseAdapter;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
@@ -33,26 +29,8 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import java.util.List;
 
 public class JumpingSumoJumpHighBrick extends BrickBaseType {
+
 	private static final long serialVersionUID = 1L;
-
-	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-
-
-		view = View.inflate(context, R.layout.brick_jumping_sumo_jump_high, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_jumping_sumo_jump_high_checkbox);
-
-		return view;
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_jumping_sumo_jump_high, null);
-
-		return prototypeView;
-	}
 
 	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
@@ -63,5 +41,10 @@ public class JumpingSumoJumpHighBrick extends BrickBaseType {
 	@Override
 	public int getRequiredResources() {
 		return super.getRequiredResources() | Brick.JUMPING_SUMO;
+	}
+
+	@Override
+	protected int getLayoutRes() {
+		return R.layout.brick_jumping_sumo_jump_high;
 	}
 }
