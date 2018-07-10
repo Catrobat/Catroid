@@ -200,6 +200,10 @@ public class LookData implements Serializable, Cloneable {
 		return thumbnailBitmap;
 	}
 
+	public void invalidateThumbnailBitmap() {
+		thumbnailBitmap = null;
+	}
+
 	public int[] getMeasure() {
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inJustDecodeBounds = true;

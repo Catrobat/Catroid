@@ -229,6 +229,8 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 			return;
 		}
 
+		item.invalidateThumbnailBitmap();
+
 		Intent intent = new Intent("android.intent.action.MAIN");
 		intent.setComponent(new ComponentName(POCKET_PAINT_PACKAGE_NAME,
 				Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME));
@@ -260,8 +262,8 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 				getActivity().unregisterReceiver(this);
 
 				if (PocketPaintExchangeHandler.isPocketPaintInstalled(getActivity(), paintroidIntent)) {
-					ActivityManager activityManager = (ActivityManager) getActivity().getSystemService(Context
-							.ACTIVITY_SERVICE);
+					ActivityManager activityManager = (ActivityManager) getActivity()
+							.getSystemService(Context.ACTIVITY_SERVICE);
 					activityManager.moveTaskToFront(getActivity().getTaskId(), 0);
 					startActivityForResult(paintroidIntent, requestCode);
 				}
