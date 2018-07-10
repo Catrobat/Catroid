@@ -91,10 +91,6 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 	private boolean retryScriptDragging;
 	public boolean isDragging = false;
 
-	private List<Brick> animatedBricks;
-
-	private Lock viewSwitchLock = new ViewSwitchLock();
-
 	private ActionModeEnum actionMode = ActionModeEnum.NO_ACTION;
 
 	public BrickAdapter(ScriptFragment scriptFragment, Sprite sprite, BrickListView listView) {
@@ -107,7 +103,6 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		addingNewBrick = false;
 		firstDrag = true;
 		retryScriptDragging = false;
-		animatedBricks = new ArrayList<>();
 		refreshBrickList();
 	}
 
@@ -125,14 +120,6 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 
 	public void setActionMode(ActionModeEnum actionMode) {
 		this.actionMode = actionMode;
-	}
-
-	public List<Brick> getBrickList() {
-		return brickList;
-	}
-
-	public void setBrickList(List<Brick> brickList) {
-		this.brickList = brickList;
 	}
 
 	@Override
@@ -191,8 +178,6 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 			brickList.add(toOriginal, draggedBrick);
 			toEndDrag = toOriginal;
 		}
-
-		animatedBricks.clear();
 
 		notifyDataSetChanged();
 	}
@@ -776,7 +761,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 
 	@Override
 	public void onClick(final View view) {
-		if (actionMode != ActionModeEnum.NO_ACTION || isDragging || !viewSwitchLock.tryLock()) {
+		if (actionMode != ActionModeEnum.NO_ACTION || isDragging) {
 			return;
 		}
 
@@ -891,6 +876,58 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		}
 	}
 
+//	private void copyBrick(Brick brick) {
+//		if (brick instanceof NestingBrick
+//				&& (brick instanceof AllowedAfterDeadEndBrick || brick instanceof DeadEndBrick)) {
+//			return;
+//		}
+//
+//		if (brick instanceof ScriptBrick) {
+//			try {
+//				Script clonedScript = ((ScriptBrick) brick).getScriptSafe().clone();
+//				sprite.addScript(clonedScript);
+//				adapter.refreshBrickList();
+//				adapter.notifyDataSetChanged();
+//			} catch (CloneNotSupportedException e) {
+//				Log.e(TAG, Log.getStackTraceString(e));
+//			}
+//			return;
+//		}
+//
+//		int brickId = adapter.getBrickList().indexOf(brick);
+//		if (brickId == -1) {
+//			return;
+//		}
+//
+//		int newPosition = adapter.getCount();
+//
+//		try {
+//			Brick copiedBrick = brick.clone();
+//
+//			Script scriptList = ProjectManager.getInstance().getCurrentScript();
+//
+//			if (brick instanceof NestingBrick) {
+//				NestingBrick nestingBrickCopy = (NestingBrick) copiedBrick;
+//				nestingBrickCopy.initialize();
+//
+//				for (NestingBrick nestingBrick : nestingBrickCopy.getAllNestingBrickParts(true)) {
+//					scriptList.addBrick((Brick) nestingBrick);
+//				}
+//			} else {
+//				scriptList.addBrick(copiedBrick);
+//			}
+//
+//			adapter.addNewBrick(newPosition, copiedBrick, false);
+//			adapter.refreshBrickList();
+//
+//			ProjectManager.getInstance().saveProject(getActivity().getApplicationContext());
+//			adapter.notifyDataSetChanged();
+//		} catch (CloneNotSupportedException exception) {
+//			Log.e(getTag(), "Copying a Brick failed", exception);
+//			ToastUtil.showError(getActivity(), R.string.error_copying_brick);
+//		}
+//	}
+
 	private void showDeleteAlert(final Brick brick) {
 		String alertDialogTitle = brick instanceof ScriptBrick
 				? context.getResources().getQuantityString(R.plurals.delete_scripts, 1)
@@ -998,7 +1035,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		}
 	}
 
-	public void setCheckboxVisibility() {
+	public void updateCheckBoxVisibility() {
 		for (Brick brick : brickList) {
 			switch (actionMode) {
 				case NO_ACTION:

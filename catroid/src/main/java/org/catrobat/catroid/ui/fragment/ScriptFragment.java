@@ -42,13 +42,9 @@ import android.view.ViewGroup;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.AllowedAfterDeadEndBrick;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.DeadEndBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
-import org.catrobat.catroid.content.bricks.NestingBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.commands.ChangeFormulaCommand;
 import org.catrobat.catroid.content.commands.CommandFactory;
@@ -95,73 +91,69 @@ public class ScriptFragment extends ListFragment implements
 	private BrickAdapter adapter;
 	private BrickListView listView;
 
-	private Sprite sprite;
-	private Script scriptToEdit;
-
 	private ScriptController scriptController = new ScriptController();
-
 	private Parcelable savedListViewState;
 
-		@Override
-		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			switch (actionModeType) {
-				case BACKPACK:
-					mode.setTitle(getString(R.string.am_backpack));
-					adapter.setActionMode(BrickAdapter.ActionModeEnum.BACKPACK);
-					break;
-				case COPY:
-					mode.setTitle(getString(R.string.am_copy));
-					adapter.setActionMode(BrickAdapter.ActionModeEnum.COPY_DELETE);
-					break;
-				case DELETE:
-					mode.setTitle(getString(R.string.am_delete));
-					adapter.setActionMode(BrickAdapter.ActionModeEnum.COPY_DELETE);
-					break;
-				case ENABLE_DISABLE:
-					mode.setTitle(getString(R.string.comment_in_out));
-					adapter.setActionMode(BrickAdapter.ActionModeEnum.COMMENT_OUT);
-					adapter.checkCommentedOutItems();
-					break;
-				case NONE:
-					actionMode.finish();
-					return false;
-			}
+	@Override
+	public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+		switch (actionModeType) {
+			case BACKPACK:
+				mode.setTitle(getString(R.string.am_backpack));
+				adapter.setActionMode(BrickAdapter.ActionModeEnum.BACKPACK);
+				break;
+			case COPY:
+				mode.setTitle(getString(R.string.am_copy));
+				adapter.setActionMode(BrickAdapter.ActionModeEnum.COPY_DELETE);
+				break;
+			case DELETE:
+				mode.setTitle(getString(R.string.am_delete));
+				adapter.setActionMode(BrickAdapter.ActionModeEnum.COPY_DELETE);
+				break;
+			case ENABLE_DISABLE:
+				mode.setTitle(getString(R.string.comment_in_out));
+				adapter.setActionMode(BrickAdapter.ActionModeEnum.COMMENT_OUT);
+				adapter.checkCommentedOutItems();
+				break;
+			case NONE:
+				actionMode.finish();
+				return false;
+		}
 
-			mode.getMenuInflater().inflate(R.menu.context_menu, menu);
+		mode.getMenuInflater().inflate(R.menu.context_menu, menu);
 
 //			for (int i = adapter.listItemCount; i < adapter.getBrickList().size(); i++) {
 //				adapter.getView(i, null, getListView());
 //			}
 
-			adapter.setCheckboxVisibility();
+		adapter.updateCheckBoxVisibility();
+		return true;
+	}
+
+	@Override
+	public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+		if (actionModeType == ENABLE_DISABLE) {
+			menu.findItem(R.id.confirm).setVisible(false);
 			return true;
 		}
+		return false;
+	}
 
-		@Override
-		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-			if (actionModeType == ENABLE_DISABLE) {
-				menu.findItem(R.id.confirm).setVisible(false);
-				return true;
-			}
-			return false;
+	@Override
+	public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.confirm:
+				handleContextualAction();
+				break;
+			default:
+				return false;
 		}
+		return true;
+	}
 
-		@Override
-		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-			switch (item.getItemId()) {
-				case R.id.confirm:
-					handleContextualAction();
-					break;
-				default:
-					return false;
-			}
-			return true;
-		}
-
-		@Override
-		public void onDestroyActionMode(ActionMode mode) {
-			resetActionModeParameters();
-		}
+	@Override
+	public void onDestroyActionMode(ActionMode mode) {
+		resetActionModeParameters();
+	}
 
 	private void handleContextualAction() {
 		if (adapter.getCheckedBricks().isEmpty()) {
@@ -173,7 +165,7 @@ public class ScriptFragment extends ListFragment implements
 				showNewScriptGroupDialog();
 				break;
 			case COPY:
-				copyBricks();
+				copySelectedItems();
 				break;
 			case DELETE:
 				showDeleteAlert();
@@ -267,13 +259,10 @@ public class ScriptFragment extends ListFragment implements
 	@Override
 	public void onCategorySelected(String category) {
 		AddBrickFragment addBrickFragment = AddBrickFragment.newInstance(category, this);
-		FragmentManager fragmentManager = getActivity().getFragmentManager();
-		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-		fragmentTransaction.add(R.id.fragment_container, addBrickFragment,
-				AddBrickFragment.ADD_BRICK_FRAGMENT_TAG);
-
-		fragmentTransaction.addToBackStack(null);
-		fragmentTransaction.commit();
+		getActivity().getFragmentManager().beginTransaction()
+				.add(R.id.fragment_container, addBrickFragment, AddBrickFragment.ADD_BRICK_FRAGMENT_TAG)
+				.addToBackStack(null)
+				.commit();
 
 		adapter.notifyDataSetChanged();
 	}
@@ -289,20 +278,13 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	private void initListeners() {
-		sprite = ProjectManager.getInstance().getCurrentSprite();
-		if (sprite == null) {
-			return;
-		}
-
+		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 		adapter = new BrickAdapter(this, sprite, listView);
-
-		if (ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts() > 0) {
-			ProjectManager.getInstance().setCurrentScript(((ScriptBrick) adapter.getItem(0)).getScriptSafe());
-		}
 
 		listView.setOnCreateContextMenuListener(this);
 		listView.setOnDragAndDropListener(adapter);
 		listView.setAdapter(adapter);
+
 		registerForContextMenu(listView);
 	}
 
@@ -443,69 +425,17 @@ public class ScriptFragment extends ListFragment implements
 		adapter.notifyDataSetChanged();
 	}
 
-	private void copyBricks() {
+	private void copySelectedItems() {
 		List<Brick> checkedBricks = adapter.getCheckedBricks();
 
 		for (Brick brick : checkedBricks) {
-			copyBrick(brick);
+			//copyBrick(brick);
 			if (brick instanceof ScriptBrick) {
 				break;
 			}
 		}
 
 		actionMode.finish();
-	}
-
-	private void copyBrick(Brick brick) {
-		if (brick instanceof NestingBrick
-				&& (brick instanceof AllowedAfterDeadEndBrick || brick instanceof DeadEndBrick)) {
-			return;
-		}
-
-		if (brick instanceof ScriptBrick) {
-			try {
-				Script clonedScript = ((ScriptBrick) brick).getScriptSafe().clone();
-				sprite.addScript(clonedScript);
-				adapter.refreshBrickList();
-				adapter.notifyDataSetChanged();
-			} catch (CloneNotSupportedException e) {
-				Log.e(TAG, Log.getStackTraceString(e));
-			}
-			return;
-		}
-
-		int brickId = adapter.getBrickList().indexOf(brick);
-		if (brickId == -1) {
-			return;
-		}
-
-		int newPosition = adapter.getCount();
-
-		try {
-			Brick copiedBrick = brick.clone();
-
-			Script scriptList = ProjectManager.getInstance().getCurrentScript();
-
-			if (brick instanceof NestingBrick) {
-				NestingBrick nestingBrickCopy = (NestingBrick) copiedBrick;
-				nestingBrickCopy.initialize();
-
-				for (NestingBrick nestingBrick : nestingBrickCopy.getAllNestingBrickParts(true)) {
-					scriptList.addBrick((Brick) nestingBrick);
-				}
-			} else {
-				scriptList.addBrick(copiedBrick);
-			}
-
-			adapter.addNewBrick(newPosition, copiedBrick, false);
-			adapter.refreshBrickList();
-
-			ProjectManager.getInstance().saveProject(getActivity().getApplicationContext());
-			adapter.notifyDataSetChanged();
-		} catch (CloneNotSupportedException exception) {
-			Log.e(getTag(), "Copying a Brick failed", exception);
-			ToastUtil.showError(getActivity(), R.string.error_copying_brick);
-		}
 	}
 
 	private void deleteSelectedItems() {

@@ -162,27 +162,23 @@ public class AddBrickFragment extends ListFragment {
 				return;
 			}
 
-			if (brickToBeAdded instanceof ScriptBrick) {
-				Script script = ((ScriptBrick) brickToBeAdded).getScriptSafe();
-				ProjectManager.getInstance().setCurrentScript(script);
-			}
-
 			FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-			Fragment categoryFragment = getFragmentManager().findFragmentByTag(
-					BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
+			Fragment categoryFragment = getFragmentManager()
+					.findFragmentByTag(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
+
 			if (categoryFragment != null) {
 				fragmentTransaction.remove(categoryFragment);
 				getFragmentManager().popBackStack();
 			}
 			Fragment addBrickFragment = getFragmentManager().findFragmentByTag(AddBrickFragment.ADD_BRICK_FRAGMENT_TAG);
+
 			if (addBrickFragment != null) {
 				fragmentTransaction.remove(addBrickFragment);
 				getFragmentManager().popBackStack();
 			}
 			fragmentTransaction.commit();
 		} catch (CloneNotSupportedException exception) {
-			Log.e(getTag(), "Adding a Brick was not possible because cloning it from the preview failed",
-					exception);
+			Log.e(getTag(), "Adding a Brick was not possible because cloning it from the preview failed", exception);
 			ToastUtil.showError(getActivity(), R.string.error_adding_brick);
 		}
 	}
