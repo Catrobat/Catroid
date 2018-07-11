@@ -470,6 +470,11 @@
         <item quantity="one">Copy %d brick</item>
         <item quantity="other">Copy %d bricks</item>
     </plurals>
+    <plurals name="am_delete_bricks_title">
+        <item quantity="one">Delete %d brick</item>
+        <item quantity="other">Delete %d bricks</item>
+    </plurals>
+
     <plurals name="am_delete_scripts_title">
         <item quantity="one">Delete %d Script</item>
         <item quantity="other">Delete %d Scripts</item>
