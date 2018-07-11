@@ -143,7 +143,7 @@ public class NewLookDialogFragment extends DialogFragment implements View.OnClic
 	}
 
 	private String getMediaLibraryUrl() {
-		if (dstSprite.isBackgroundSprite()) {
+		if (ProjectManager.getInstance().getCurrentlyEditedScene().getBackgroundSprite() == dstSprite) {
 			if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
 				return Constants.LIBRARY_BACKGROUNDS_URL_LANDSCAPE;
 			} else {
