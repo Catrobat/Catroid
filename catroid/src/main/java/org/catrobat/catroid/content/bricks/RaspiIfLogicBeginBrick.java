@@ -33,7 +33,6 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -65,10 +64,10 @@ public class RaspiIfLogicBeginBrick extends IfLogicBeginBrick {
 	}
 
 	@Override
-	public View getView(Context context, BrickAdapter brickAdapter) {
-		super.getView(context, brickAdapter);
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
 
-		TextView ifBeginTextView = (TextView) view.findViewById(R.id.brick_raspi_if_begin_edit_text);
+		TextView ifBeginTextView = view.findViewById(R.id.brick_raspi_if_begin_edit_text);
 
 		getFormulaWithBrickField(BrickField.IF_CONDITION).setTextFieldId(R.id.brick_raspi_if_begin_edit_text);
 		getFormulaWithBrickField(BrickField.IF_CONDITION).refreshTextField(view);
@@ -80,7 +79,7 @@ public class RaspiIfLogicBeginBrick extends IfLogicBeginBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = super.getPrototypeView(context);
-		TextView textIfBegin = (TextView) prototypeView.findViewById(R.id.brick_raspi_if_begin_edit_text);
+		TextView textIfBegin = prototypeView.findViewById(R.id.brick_raspi_if_begin_edit_text);
 		textIfBegin.setText(formatNumberForPrototypeView(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER));
 		return prototypeView;
 	}

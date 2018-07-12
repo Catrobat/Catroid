@@ -35,7 +35,6 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenGamepadButtonScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.util.Arrays;
 import java.util.List;
@@ -60,8 +59,8 @@ public class WhenGamepadButtonBrick extends BrickBaseType implements ScriptBrick
 	}
 
 	@Override
-	public View getView(final Context context, final BrickAdapter brickAdapter) {
-		super.getView(context, brickAdapter);
+	public View onCreateView(final Context context) {
+		super.onCreateView(context);
 
 		final Spinner actionSpinner = (Spinner) view.findViewById(R.id.brick_when_gamepad_button_spinner);
 
@@ -89,7 +88,7 @@ public class WhenGamepadButtonBrick extends BrickBaseType implements ScriptBrick
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return getView(context, null);
+		return onCreateView(context);
 	}
 
 	@Override

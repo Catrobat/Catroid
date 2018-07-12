@@ -41,7 +41,6 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenNfcScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.util.List;
 
@@ -90,13 +89,13 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick {
 	}
 
 	@Override
-	public View getView(final Context context, BrickAdapter brickAdapter) {
+	public View onCreateView(final Context context) {
 
 		if (whenNfcScript == null) {
 			whenNfcScript = new WhenNfcScript(nfcTag);
 		}
 
-		super.getView(context, brickAdapter);
+		super.onCreateView(context);
 
 		final Spinner nfcSpinner = (Spinner) view.findViewById(R.id.brick_when_nfc_spinner);
 		final ArrayAdapter<NfcTagData> spinnerAdapter = createNfcTagAdapter(context);

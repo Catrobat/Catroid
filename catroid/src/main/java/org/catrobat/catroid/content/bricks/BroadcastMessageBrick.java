@@ -29,7 +29,6 @@ import android.widget.AdapterView;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.adapter.BroadcastSpinnerAdapter;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewBroadcastMessageDialog;
 
@@ -89,8 +88,8 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements New
 	}
 
 	@Override
-	public View getView(final Context context, BrickAdapter brickAdapter) {
-		super.getView(context, brickAdapter);
+	public View onCreateView(final Context context) {
+		super.onCreateView(context);
 
 		final Spinner broadcastSpinner = view.findViewById(spinnerId);
 

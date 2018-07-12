@@ -67,7 +67,7 @@ public class IfThenLogicBeginBrick extends IfLogicBeginBrick implements NestingB
 	}
 
 	@Override
-	public List<NestingBrick> getAllNestingBrickParts(boolean sorted) {
+	public List<NestingBrick> getAllNestingBrickParts() {
 		List<NestingBrick> nestingBrickList = new ArrayList<>();
 		nestingBrickList.add(this);
 		nestingBrickList.add(ifEndBrick);

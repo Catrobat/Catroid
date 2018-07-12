@@ -32,7 +32,6 @@ import android.widget.Spinner;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.util.List;
 
@@ -85,8 +84,8 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 	}
 
 	@Override
-	public View getView(Context context, BrickAdapter brickAdapter) {
-		super.getView(context, brickAdapter);
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
 
 		ArrayAdapter<CharSequence> animationAdapter = ArrayAdapter.createFromResource(context, R.array.brick_jumping_sumo_select_animation_spinner,
 				android.R.layout.simple_spinner_item);

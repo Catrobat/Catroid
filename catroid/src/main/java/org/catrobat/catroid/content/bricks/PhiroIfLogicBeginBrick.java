@@ -35,7 +35,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -87,8 +86,8 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 	}
 
 	@Override
-	public View getView(Context context, BrickAdapter brickAdapter) {
-		super.getView(context, brickAdapter);
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
 
 		Spinner phiroProSensorSpinner = (Spinner) view.findViewById(R.id.brick_phiro_sensor_action_spinner);
 
@@ -150,17 +149,11 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 	}
 
 	@Override
-	public List<NestingBrick> getAllNestingBrickParts(boolean sorted) {
-		//TODO: handle sorting
-		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
-		if (sorted) {
-			nestingBrickList.add(this);
-			nestingBrickList.add(ifElseBrick);
-			nestingBrickList.add(ifEndBrick);
-		} else {
-			nestingBrickList.add(this);
-			nestingBrickList.add(ifEndBrick);
-		}
+	public List<NestingBrick> getAllNestingBrickParts() {
+		List<NestingBrick> nestingBrickList = new ArrayList<>();
+		nestingBrickList.add(this);
+		nestingBrickList.add(ifElseBrick);
+		nestingBrickList.add(ifEndBrick);
 
 		return nestingBrickList;
 	}

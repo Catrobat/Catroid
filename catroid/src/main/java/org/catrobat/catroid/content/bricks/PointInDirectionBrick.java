@@ -31,7 +31,6 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
@@ -72,9 +71,9 @@ public class PointInDirectionBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(final Context context, BrickAdapter brickAdapter) {
+	public View onCreateView(final Context context) {
 
-		super.getView(context, brickAdapter);
+		super.onCreateView(context);
 
 		TextView setAngleTextField = (TextView) view.findViewById(R.id.brick_point_in_direction_edit_text);
 

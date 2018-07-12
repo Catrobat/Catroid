@@ -83,15 +83,10 @@ public class LoopEndBrick extends BrickBaseType implements NestingBrick, Allowed
 	}
 
 	@Override
-	public List<NestingBrick> getAllNestingBrickParts(boolean sorted) {
+	public List<NestingBrick> getAllNestingBrickParts() {
 		List<NestingBrick> nestingBrickList = new ArrayList<>();
-		if (sorted) {
-			nestingBrickList.add(loopBeginBrick);
-			nestingBrickList.add(this);
-		} else {
-			nestingBrickList.add(this);
-			nestingBrickList.add(loopBeginBrick);
-		}
+		nestingBrickList.add(loopBeginBrick);
+		nestingBrickList.add(this);
 		return nestingBrickList;
 	}
 

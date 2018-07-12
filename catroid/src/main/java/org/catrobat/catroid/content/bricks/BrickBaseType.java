@@ -31,7 +31,6 @@ import android.widget.CheckBox;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.util.List;
 
@@ -40,9 +39,19 @@ public abstract class BrickBaseType implements Brick {
 	private static final long serialVersionUID = 1L;
 
 	public transient View view;
-	protected transient CheckBox checkbox;
+	private transient CheckBox checkbox;
 
-	protected boolean commentedOut;
+	private transient boolean checkBoxEnabled = true;
+
+	protected boolean commentedOut = false;
+
+	public boolean isCheckBoxEnabled() {
+		return checkBoxEnabled;
+	}
+
+	public void setCheckBoxEnabled(boolean checkBoxEnabled) {
+		this.checkBoxEnabled = checkBoxEnabled;
+	}
 
 	@Override
 	public boolean isCommentedOut() {
@@ -76,21 +85,11 @@ public abstract class BrickBaseType implements Brick {
 	protected abstract @LayoutRes int getLayoutRes();
 
 	@Override
-	public View getView(Context context, final BrickAdapter adapter) {
+	public View onCreateView(Context context) {
 		if (view == null) {
 			view = LayoutInflater.from(context).inflate(getLayoutRes(), null);
 			checkbox = view.findViewById(R.id.brick_checkbox);
 		}
-
-		final Brick instance = this;
-		BrickViewProvider.setSaturationOnBrick(instance, commentedOut);
-
-		checkbox.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				adapter.handleCheck(instance, ((CheckBox) view).isChecked());
-			}
-		});
 		return view;
 	}
 

@@ -35,7 +35,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.util.List;
 
@@ -62,8 +61,8 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType implements Cloneabl
 	}
 
 	@Override
-	public View getView(Context context, BrickAdapter brickAdapter) {
-		super.getView(context, brickAdapter);
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
 
 		final Spinner spinner = (Spinner) view.findViewById(R.id.brick_set_physics_object_type_spinner);
 		spinner.setAdapter(createAdapter(context));

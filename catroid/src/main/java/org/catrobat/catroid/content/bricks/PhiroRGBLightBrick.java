@@ -37,7 +37,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.fragment.ColorSeekbar;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
@@ -142,8 +141,8 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, BrickAdapter brickAdapter) {
-		super.getView(context, brickAdapter);
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
 
 		TextView editRedValue = (TextView) view.findViewById(R.id.brick_phiro_rgb_led_action_red_edit_text);
 		getFormulaWithBrickField(BrickField.PHIRO_LIGHT_RED).setTextFieldId(R.id.brick_phiro_rgb_led_action_red_edit_text);

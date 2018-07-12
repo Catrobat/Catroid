@@ -32,7 +32,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
@@ -68,8 +67,8 @@ public class TurnRightSpeedBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, BrickAdapter brickAdapter) {
-		super.getView(context, brickAdapter);
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
 
 		TextView edit = (TextView) view.findViewById(R.id.brick_turn_right_speed_edit_text);
 
@@ -91,9 +90,6 @@ public class TurnRightSpeedBrick extends FormulaBrick {
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
 		FormulaEditorFragment.showFragment(view, this, BrickField.PHYSICS_TURN_RIGHT_SPEED);
 	}
 

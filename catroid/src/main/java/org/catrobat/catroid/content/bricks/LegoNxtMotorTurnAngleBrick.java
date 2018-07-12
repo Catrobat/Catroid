@@ -35,7 +35,6 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
@@ -107,8 +106,8 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(final Context context, BrickAdapter brickAdapter) {
-		super.getView(context, brickAdapter);
+	public View onCreateView(final Context context) {
+		super.onCreateView(context);
 
 		TextView editSpeed = (TextView) view.findViewById(R.id.motor_turn_angle_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES).setTextFieldId(R.id.motor_turn_angle_edit_text);

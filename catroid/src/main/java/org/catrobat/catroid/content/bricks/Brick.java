@@ -28,7 +28,6 @@ import android.widget.CheckBox;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.io.Serializable;
 import java.util.List;
@@ -67,7 +66,7 @@ public interface Brick extends Serializable, Cloneable {
 
 	View getPrototypeView(Context context);
 
-	View getView(Context context, BrickAdapter adapter);
+	View onCreateView(Context context);
 
 	CheckBox getCheckBox();
 

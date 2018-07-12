@@ -25,34 +25,24 @@ package org.catrobat.catroid.content.bricks;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Spinner;
 
 public final class BrickViewProvider {
 
-	public static final int ALPHA_FULL = 255;
-	public static final int ALPHA_GREYED = 100;
+	private static final int ALPHA_FULL = 255;
+	private static final int ALPHA_GRAYED = 100;
+
 	private BrickViewProvider() {
 	}
 
-	public static void setAlphaOnBrick(Brick brick, int alphaValue) {
-		View view = ((BrickBaseType) brick).view;
-
-		if (view == null) {
-			return;
-		}
-
-		getBrickLayout(view).setAlpha(convertAlphaValueToFloat(alphaValue));
+	public static void setAlphaOnView(@NonNull View view, boolean full) {
+		getBrickLayout(view).setAlpha(convertAlphaValueToFloat(full ? ALPHA_FULL : ALPHA_GRAYED));
 	}
 
-	public static void setSaturationOnBrick(Brick brick, boolean grayScale) {
-		View view = ((BrickBaseType) brick).view;
-
-		if (view == null) {
-			return;
-		}
-
+	public static void setSaturationOnView(View view, boolean grayScale) {
 		Drawable background = getBrickLayout(view).getBackground();
 
 		if (grayScale) {
@@ -62,18 +52,6 @@ public final class BrickViewProvider {
 			background.setColorFilter(filter);
 		} else {
 			background.clearColorFilter();
-		}
-	}
-
-	public static void setCheckboxVisibility(Brick brick, int visible) {
-		if (brick.getCheckBox() != null) {
-			brick.getCheckBox().setVisibility(visible);
-		}
-	}
-
-	public static void setCheckBoxClickable(Brick brick, boolean clickable) {
-		if (brick.getCheckBox() != null) {
-			brick.getCheckBox().setEnabled(clickable);
 		}
 	}
 

@@ -39,7 +39,6 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.util.List;
 
@@ -74,12 +73,12 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 	}
 
 	@Override
-	public View getView(final Context context, BrickAdapter brickAdapter) {
+	public View onCreateView(final Context context) {
 		if (collisionScript == null) {
 			collisionScript = new CollisionScript(getSpriteToCollideWithName());
 		}
 
-		super.getView(context, brickAdapter);
+		super.onCreateView(context);
 
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_collision_receive_spinner);
 

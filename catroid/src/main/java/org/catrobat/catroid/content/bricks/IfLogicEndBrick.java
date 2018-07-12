@@ -87,18 +87,11 @@ public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, Allo
 	}
 
 	@Override
-	public List<NestingBrick> getAllNestingBrickParts(boolean sorted) {
-		//TODO: handle sorting
-		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
-		if (sorted) {
-			nestingBrickList.add(ifBeginBrick);
-			nestingBrickList.add(ifElseBrick);
-			nestingBrickList.add(this);
-		} else {
-			nestingBrickList.add(this);
-			nestingBrickList.add(ifBeginBrick);
-			//nestingBrickList.add(ifElseBrick);
-		}
+	public List<NestingBrick> getAllNestingBrickParts() {
+		List<NestingBrick> nestingBrickList = new ArrayList<>();
+		nestingBrickList.add(ifBeginBrick);
+		nestingBrickList.add(ifElseBrick);
+		nestingBrickList.add(this);
 
 		return nestingBrickList;
 	}

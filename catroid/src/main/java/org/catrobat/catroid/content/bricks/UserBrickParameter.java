@@ -31,7 +31,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
@@ -79,8 +78,8 @@ public class UserBrickParameter extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, BrickAdapter adapter) {
-		return parent.getView(context, adapter);
+	public View onCreateView(Context context) {
+		return parent.onCreateView(context);
 	}
 
 	@Override

@@ -32,7 +32,6 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
@@ -79,8 +78,8 @@ public class JumpingSumoMoveForwardBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, BrickAdapter brickAdapter) {
-		super.getView(context, brickAdapter);
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
 
 		setSecondText(view, R.id.brick_jumping_sumo_move_forward_text_second, R.id
 				.brick_jumping_sumo_move_forward_edit_text_second, BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS);

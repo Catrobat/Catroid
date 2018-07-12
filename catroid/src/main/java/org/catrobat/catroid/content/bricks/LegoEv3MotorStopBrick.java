@@ -32,7 +32,6 @@ import android.widget.Spinner;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.util.List;
 
@@ -80,8 +79,8 @@ public class LegoEv3MotorStopBrick extends BrickBaseType implements OnItemSelect
 	}
 
 	@Override
-	public View getView(Context context, BrickAdapter brickAdapter) {
-		super.getView(context, brickAdapter);
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
 
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
 				R.array.ev3_stop_motor_chooser, android.R.layout.simple_spinner_item);
@@ -89,14 +88,6 @@ public class LegoEv3MotorStopBrick extends BrickBaseType implements OnItemSelect
 
 		Spinner motorSpinner = (Spinner) view.findViewById(R.id.ev3_stop_motor_spinner);
 		motorSpinner.setOnItemSelectedListener(this);
-
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			motorSpinner.setClickable(true);
-			motorSpinner.setEnabled(true);
-		} else {
-			motorSpinner.setClickable(false);
-			motorSpinner.setEnabled(false);
-		}
 
 		motorSpinner.setAdapter(motorAdapter);
 		if (motorEnum == null) {

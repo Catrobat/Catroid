@@ -35,7 +35,6 @@ import android.widget.SpinnerAdapter;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.util.List;
 
@@ -55,8 +54,8 @@ public class SetRotationStyleBrick extends BrickBaseType {
 	}
 
 	@Override
-	public View getView(Context context, BrickAdapter brickAdapter) {
-		super.getView(context, brickAdapter);
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
 
 		spinner = (Spinner) view.findViewById(R.id.brick_set_rotation_style_spinner);
 

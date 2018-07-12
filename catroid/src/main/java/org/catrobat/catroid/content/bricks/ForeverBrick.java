@@ -83,8 +83,8 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 	}
 
 	@Override
-	public List<NestingBrick> getAllNestingBrickParts(boolean sorted) {
-		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
+	public List<NestingBrick> getAllNestingBrickParts() {
+		List<NestingBrick> nestingBrickList = new ArrayList<>();
 		nestingBrickList.add(this);
 		nestingBrickList.add(loopEndBrick);
 

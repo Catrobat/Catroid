@@ -33,7 +33,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.util.List;
 
@@ -58,10 +57,10 @@ public class CameraBrick extends BrickBaseType {
 	}
 
 	@Override
-	public View getView(Context context, BrickAdapter brickAdapter) {
-		super.getView(context, brickAdapter);
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
 
-		Spinner videoSpinner = (Spinner) view.findViewById(R.id.brick_video_spinner);
+		Spinner videoSpinner = view.findViewById(R.id.brick_video_spinner);
 
 		ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
 
@@ -88,7 +87,7 @@ public class CameraBrick extends BrickBaseType {
 	public View getPrototypeView(Context context) {
 		View prototypeView = super.getPrototypeView(context);
 
-		Spinner setVideoSpinner = (Spinner) prototypeView.findViewById(R.id.brick_video_spinner);
+		Spinner setVideoSpinner = prototypeView.findViewById(R.id.brick_video_spinner);
 
 		ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
 		setVideoSpinner.setAdapter(spinnerAdapter);

@@ -27,14 +27,13 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 public abstract class DroneBasicControlBrick extends BrickBaseType {
 
 	@Override
-	public View getView(Context context, BrickAdapter brickAdapter) {
+	public View onCreateView(Context context) {
 
-		super.getView(context, brickAdapter);
+		super.onCreateView(context);
 
 		TextView label = (TextView) view.findViewById(R.id.ValueTextViewControl);
 		label.setText(getBrickLabel(view));

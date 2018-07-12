@@ -33,7 +33,6 @@ import com.parrot.freeflight.drone.DroneProxy.ARDRONE_LED_ANIMATION;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.util.List;
 
@@ -82,8 +81,8 @@ public class DronePlayLedAnimationBrick extends BrickBaseType {
 	}
 
 	@Override
-	public View getView(Context context, BrickAdapter brickAdapter) {
-		super.getView(context, brickAdapter);
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
 
 		ArrayAdapter<CharSequence> animationAdapter = ArrayAdapter.createFromResource(context,
 				R.array.brick_drone_play_led_animation_spinner, android.R.layout.simple_spinner_item);

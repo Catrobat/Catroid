@@ -33,7 +33,6 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -62,8 +61,8 @@ public class HideTextBrick extends UserVariableBrick {
 	}
 
 	@Override
-	public View getView(final Context context, BrickAdapter brickAdapter) {
-		super.getView(context, brickAdapter);
+	public View onCreateView(final Context context) {
+		super.onCreateView(context);
 
 		Spinner variableSpinner = (Spinner) view.findViewById(R.id.hide_variable_spinner);
 

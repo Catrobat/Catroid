@@ -34,7 +34,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.ui.adapter.UserListAdapterWrapper;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -76,8 +75,8 @@ public class AddItemToUserListBrick extends UserListBrick {
 	}
 
 	@Override
-	public View getView(final Context context, BrickAdapter brickAdapter) {
-		super.getView(context, brickAdapter);
+	public View onCreateView(final Context context) {
+		super.onCreateView(context);
 
 		TextView textField = view.findViewById(R.id.brick_add_item_to_userlist_edit_text);
 

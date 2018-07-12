@@ -37,7 +37,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenBackgroundChangesScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.SpinnerAdapterWithNewOption;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewLookDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
@@ -90,8 +89,8 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 	}
 
 	@Override
-	public View getView(final Context context, BrickAdapter brickAdapter) {
-		super.getView(context, brickAdapter);
+	public View onCreateView(final Context context) {
+		super.onCreateView(context);
 
 		spinner = view.findViewById(R.id.brick_when_background_spinner);
 		spinnerAdapter = new SpinnerAdapterWithNewOption(context, getLookNames());

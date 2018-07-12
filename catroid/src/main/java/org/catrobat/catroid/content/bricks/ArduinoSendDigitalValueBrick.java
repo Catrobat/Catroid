@@ -31,7 +31,6 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
@@ -91,8 +90,8 @@ public class ArduinoSendDigitalValueBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, BrickAdapter brickAdapter) {
-		super.getView(context, brickAdapter);
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
 
 		TextView editPinNumber = (TextView) view.findViewById(R.id.brick_arduino_set_digital_pin_edit_text);
 		getFormulaWithBrickField(BrickField.ARDUINO_DIGITAL_PIN_NUMBER).setTextFieldId(R.id.brick_arduino_set_digital_pin_edit_text);

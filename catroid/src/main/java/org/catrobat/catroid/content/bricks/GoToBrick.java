@@ -38,7 +38,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -76,8 +75,8 @@ public class GoToBrick extends BrickBaseType {
 	}
 
 	@Override
-	public View getView(final Context context, BrickAdapter brickAdapter) {
-		super.getView(context, brickAdapter);
+	public View onCreateView(final Context context) {
+		super.onCreateView(context);
 
 		final Spinner goToSpinner = (Spinner) view.findViewById(R.id.brick_go_to_spinner);
 		final ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);

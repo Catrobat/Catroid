@@ -41,7 +41,6 @@ import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.BrickLayout;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -197,9 +196,9 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 	}
 
 	@Override
-	public View getView(Context context, BrickAdapter brickAdapter) {
+	public View onCreateView(Context context) {
 		setUserBrickParametersParent();
-		super.getView(context, brickAdapter);
+		super.onCreateView(context);
 
 		onLayoutChanged(view);
 
@@ -290,10 +289,6 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 
 	@Override
 	public void onClick(View eventOrigin) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
-
 		for (UserBrickParameter userBrickParameter : userBrickParameters) {
 			int currentUserBrickParameterIndex = userBrickParameter.getTextView().getId();
 			int clickedUserBrickParameterIndex = eventOrigin.getId();

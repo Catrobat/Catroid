@@ -24,7 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import java.util.List;
 
-public interface NestingBrick {
+public interface NestingBrick extends Brick {
 
 	void initialize();
 
@@ -32,8 +32,5 @@ public interface NestingBrick {
 
 	boolean isDraggableOver(Brick brick);
 
-	/**
-	 * @return List of NestingBricks in order of their appearance
-	 */
-	List<NestingBrick> getAllNestingBrickParts(boolean sorted);
+	List<NestingBrick> getAllNestingBrickParts();
 }

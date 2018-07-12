@@ -34,7 +34,6 @@ import org.catrobat.catroid.content.RaspiInterruptScript;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.util.ArrayList;
@@ -58,8 +57,8 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 	}
 
 	@Override
-	public View getView(final Context context, final BrickAdapter brickAdapter) {
-		super.getView(context, brickAdapter);
+	public View onCreateView(final Context context) {
+		super.onCreateView(context);
 
 		setupValueSpinner(context);
 		setupPinSpinner(context);
