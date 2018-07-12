@@ -37,9 +37,6 @@ public class DroneFlipBrick extends BrickBaseType{
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
 
 		view = View.inflate(context, R.layout.brick_drone_flip, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);

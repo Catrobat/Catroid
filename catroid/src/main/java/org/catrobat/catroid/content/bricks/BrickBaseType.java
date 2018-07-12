@@ -40,7 +40,6 @@ public abstract class BrickBaseType implements Brick {
 	protected transient CheckBox checkbox;
 	protected transient BrickAdapter adapter;
 	protected transient int alphaValue = 255;
-	public transient boolean animationState = false;
 
 	protected boolean commentedOut;
 
@@ -52,11 +51,6 @@ public abstract class BrickBaseType implements Brick {
 	@Override
 	public void setCommentedOut(boolean commentedOut) {
 		this.commentedOut = commentedOut;
-	}
-
-	@Override
-	public void setAnimationState(boolean animationState) {
-		this.animationState = animationState;
 	}
 
 	@Override

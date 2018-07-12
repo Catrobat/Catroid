@@ -44,10 +44,6 @@ public abstract class DroneSpinnerBrick extends BrickBaseType {
 
 	@Override
 	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-
-		if (animationState) {
-			return view;
-		}
 		view = View.inflate(context, R.layout.brick_drone_spinner, null);
 		setCheckboxView(R.id.brick_drone_spinner_checkbox);
 

@@ -67,10 +67,6 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType implements Cloneabl
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-
 		view = View.inflate(context, R.layout.brick_physics_set_physics_object_type, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 

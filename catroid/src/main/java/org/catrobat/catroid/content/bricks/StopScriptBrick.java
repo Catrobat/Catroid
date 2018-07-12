@@ -57,9 +57,6 @@ public class StopScriptBrick extends BrickBaseType {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
 
 		view = View.inflate(context, R.layout.brick_stop_script, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);

@@ -57,9 +57,6 @@ public class IfThenLogicEndBrick extends BrickBaseType implements NestingBrick, 
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
 		view = View.inflate(context, R.layout.brick_if_end_if, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 

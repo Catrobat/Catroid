@@ -74,9 +74,6 @@ public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
 
 		view = View.inflate(context, R.layout.brick_when_condition_true, null);
 		BrickViewProvider.setAlphaOnView(view, alphaValue);

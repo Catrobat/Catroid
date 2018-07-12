@@ -73,7 +73,6 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 
 	@Override
 	public Brick clone() {
-		animationState = false;
 		UserBrick clonedUserBrick = new UserBrick(definitionBrick);
 		clonedUserBrick.userBrickParameters = new ArrayList<>();
 		if (userBrickParameters != null) {
@@ -194,9 +193,6 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
 		setUserBrickParametersParent();
 
 		view = View.inflate(context, R.layout.brick_user, null);

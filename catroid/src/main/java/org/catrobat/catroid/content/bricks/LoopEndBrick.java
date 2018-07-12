@@ -64,9 +64,6 @@ public class LoopEndBrick extends BrickBaseType implements NestingBrick, Allowed
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
 
 		if (view == null) {
 			view = View.inflate(context, R.layout.brick_loop_end, null);
