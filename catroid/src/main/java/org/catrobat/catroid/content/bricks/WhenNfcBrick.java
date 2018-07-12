@@ -88,9 +88,6 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick {
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
 		if (whenNfcScript == null) {
 			whenNfcScript = new WhenNfcScript(nfcTag);
 		}

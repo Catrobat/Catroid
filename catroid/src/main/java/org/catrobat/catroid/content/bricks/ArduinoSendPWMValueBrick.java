@@ -87,10 +87,6 @@ public class ArduinoSendPWMValueBrick extends FormulaBrick {
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
-
 		view = View.inflate(context, R.layout.brick_arduino_send_analog, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 

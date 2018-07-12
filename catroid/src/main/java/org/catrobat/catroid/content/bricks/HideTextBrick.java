@@ -61,10 +61,6 @@ public class HideTextBrick extends UserVariableBrick {
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
-
 		view = View.inflate(context, R.layout.brick_hide_variable, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_hide_variable_checkbox);

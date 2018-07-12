@@ -75,10 +75,6 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
-
 		view = View.inflate(context, R.layout.brick_insert_item_into_userlist, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_insert_item_into_userlist_checkbox);

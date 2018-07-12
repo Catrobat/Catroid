@@ -60,10 +60,6 @@ public class IfThenLogicEndBrick extends BrickBaseType implements NestingBrick, 
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
-
 		view = View.inflate(context, R.layout.brick_if_end_if, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 

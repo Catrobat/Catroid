@@ -116,10 +116,6 @@ public class SetPenColorBrick extends FormulaBrick {
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
-
 		view = View.inflate(context, R.layout.brick_set_pen_color, null);
 		setCheckboxView(R.id.brick_set_pen_color_checkbox);
 		editRedValue = (TextView) view.findViewById(R.id.brick_set_pen_color_action_red_edit_text);

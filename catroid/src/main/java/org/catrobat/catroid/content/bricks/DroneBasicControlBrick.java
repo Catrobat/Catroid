@@ -36,9 +36,6 @@ public abstract class DroneBasicControlBrick extends BrickBaseType {
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
 		view = View.inflate(context, R.layout.brick_drone_control, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 

@@ -89,10 +89,6 @@ public class RaspiSendDigitalValueBrick extends FormulaBrick {
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
-
 		view = View.inflate(context, R.layout.brick_raspi_send_digital, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 

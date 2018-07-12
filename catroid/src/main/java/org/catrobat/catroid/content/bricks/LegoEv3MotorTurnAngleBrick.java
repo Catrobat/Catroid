@@ -110,9 +110,6 @@ public class LegoEv3MotorTurnAngleBrick extends FormulaBrick {
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
 		view = View.inflate(context, R.layout.brick_ev3_motor_turn_angle, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
