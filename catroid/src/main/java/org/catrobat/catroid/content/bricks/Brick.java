@@ -120,21 +120,15 @@ public interface Brick extends Serializable, Cloneable {
 
 	int getRequiredResources();
 
-	int getAlphaValue();
-
 	void setBrickAdapter(BrickAdapter adapter);
 
 	CheckBox getCheckBox();
-
-	boolean isChecked();
 
 	boolean isCommentedOut();
 
 	void setCommentedOut(boolean commentedOut);
 
 	void setCheckboxView(int id);
-
-	void setCheckboxView(int id, View view);
 
 	void setAnimationState(boolean animationState);
 

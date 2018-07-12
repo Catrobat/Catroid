@@ -55,18 +55,8 @@ public abstract class BrickBaseType implements Brick {
 	}
 
 	@Override
-	public boolean isChecked() {
-		return checkbox.isChecked();
-	}
-
-	@Override
 	public void setAnimationState(boolean animationState) {
 		this.animationState = animationState;
-	}
-
-	@Override
-	public int getAlphaValue() {
-		return alphaValue;
 	}
 
 	@Override
@@ -81,11 +71,6 @@ public abstract class BrickBaseType implements Brick {
 
 	@Override
 	public void setCheckboxView(int id) {
-		setCheckboxView(id, view);
-	}
-
-	@Override
-	public void setCheckboxView(int id, View view) {
 		int checkboxVisibility = View.GONE;
 		boolean enabled = true;
 		boolean isChecked = false;
