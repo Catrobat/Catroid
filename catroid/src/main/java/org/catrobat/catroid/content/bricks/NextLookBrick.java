@@ -59,9 +59,6 @@ public class NextLookBrick extends BrickBaseType {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
 		view = View.inflate(context, R.layout.brick_next_look, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 

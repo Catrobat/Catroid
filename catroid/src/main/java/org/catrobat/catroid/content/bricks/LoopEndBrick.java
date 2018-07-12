@@ -49,11 +49,6 @@ public class LoopEndBrick extends BrickBaseType implements NestingBrick, Allowed
 		this.loopBeginBrick = loopBeginBrick;
 	}
 
-	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
-	}
-
 	public LoopBeginBrick getLoopBeginBrick() {
 		return loopBeginBrick;
 	}
@@ -64,9 +59,6 @@ public class LoopEndBrick extends BrickBaseType implements NestingBrick, Allowed
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
 
 		if (view == null) {
 			view = View.inflate(context, R.layout.brick_loop_end, null);

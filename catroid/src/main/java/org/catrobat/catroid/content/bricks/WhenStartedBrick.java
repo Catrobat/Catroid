@@ -51,15 +51,7 @@ public class WhenStartedBrick extends BrickBaseType implements ScriptBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
-	}
-
-	@Override
 	public View getView(Context context, int brickId, final BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
 		view = View.inflate(context, R.layout.brick_when_started, null);
 
 		setCheckboxView(R.id.brick_when_started_checkbox);

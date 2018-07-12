@@ -65,9 +65,6 @@ public class SetPenSizeBrick extends FormulaBrick {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
 
 		view = View.inflate(context, R.layout.brick_set_pen_size, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);

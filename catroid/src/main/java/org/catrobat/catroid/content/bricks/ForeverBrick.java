@@ -47,11 +47,6 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
-	}
-
-	@Override
 	public Brick clone() {
 		ForeverBrick clone = new ForeverBrick();
 		clone.setLoopEndBrick(loopEndBrick);
@@ -60,9 +55,6 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
 		view = View.inflate(context, R.layout.brick_forever, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 

@@ -88,9 +88,6 @@ public class ArduinoSendDigitalValueBrick extends FormulaBrick {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
 
 		view = View.inflate(context, R.layout.brick_arduino_send_digital, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);

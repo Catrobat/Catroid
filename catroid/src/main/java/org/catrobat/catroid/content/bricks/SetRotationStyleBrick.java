@@ -50,15 +50,7 @@ public class SetRotationStyleBrick extends BrickBaseType {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
-	}
-
-	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
 		view = View.inflate(context, R.layout.brick_set_rotation_style, null);
 		BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_set_rotation_style_normal_checkbox);

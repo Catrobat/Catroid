@@ -47,19 +47,7 @@ public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, All
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
-	}
-
-	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		if (view == null) {
-			alphaValue = 255;
-		}
-
 		view = View.inflate(context, R.layout.brick_if_else, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 

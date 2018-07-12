@@ -110,9 +110,6 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
 
 		view = View.inflate(context, R.layout.brick_nxt_motor_action, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);

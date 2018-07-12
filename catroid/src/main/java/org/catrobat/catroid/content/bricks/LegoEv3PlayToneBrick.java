@@ -97,12 +97,6 @@ public class LegoEv3PlayToneBrick extends FormulaBrick {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		if (view == null) {
-			alphaValue = 255;
-		}
 		view = View.inflate(context, R.layout.brick_ev3_play_tone, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 

@@ -48,11 +48,6 @@ public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, Allo
 		this.ifBeginBrick = beginBrick;
 	}
 
-	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
-	}
-
 	public IfLogicElseBrick getIfElseBrick() {
 		return ifElseBrick;
 	}
@@ -71,9 +66,6 @@ public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, Allo
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
 
 		view = View.inflate(context, R.layout.brick_if_end_if, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);

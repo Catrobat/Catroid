@@ -59,11 +59,6 @@ public abstract class UserListBrick extends FormulaBrick implements NewListDialo
 		}
 	}
 
-	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
-	}
-
 	public UserList getUserList() {
 		return userList;
 	}

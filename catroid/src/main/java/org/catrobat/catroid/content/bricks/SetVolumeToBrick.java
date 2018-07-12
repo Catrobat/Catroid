@@ -65,9 +65,6 @@ public class SetVolumeToBrick extends FormulaBrick {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
 		view = View.inflate(context, R.layout.brick_set_volume_to, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
