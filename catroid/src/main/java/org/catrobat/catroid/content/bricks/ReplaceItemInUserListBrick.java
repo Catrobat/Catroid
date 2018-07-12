@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -44,11 +43,6 @@ import java.util.List;
 public class ReplaceItemInUserListBrick extends UserListBrick {
 
 	private static final long serialVersionUID = 1L;
-
-	public ReplaceItemInUserListBrick(Formula userListFormulaValueToInsert, Formula userListFormulaIndexToReplace, UserList userList) {
-		initializeBrickFields(userListFormulaValueToInsert, userListFormulaIndexToReplace);
-		this.userList = userList;
-	}
 
 	public ReplaceItemInUserListBrick(double value, Integer indexToReplace) {
 		initializeBrickFields(new Formula(value), new Formula(indexToReplace));
@@ -70,14 +64,14 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	protected int getLayoutRes() {
+		return R.layout.brick_replace_item_in_userlist;
+	}
 
-		view = View.inflate(context, R.layout.brick_replace_item_in_userlist, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_replace_item_in_userlist_checkbox);
+	@Override
+	public View onCreateView(final Context context) {
+		super.onCreateView(context);
+
 		TextView textFieldValue = (TextView) view.findViewById(R.id.brick_replace_item_in_userlist_value_edit_text);
 		getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_VALUE).setTextFieldId(R.id.brick_replace_item_in_userlist_value_edit_text);
 		getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_VALUE).refreshTextField(view);
@@ -105,7 +99,7 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_replace_item_in_userlist, null);
+		View prototypeView = super.getPrototypeView(context);
 		Spinner userListSpinner = (Spinner) prototypeView.findViewById(R.id.replace_item_in_userlist_spinner);
 
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
@@ -134,10 +128,11 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 	}
 
 	@Override
-	public Brick clone() {
-		return new ReplaceItemInUserListBrick(
-				getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_VALUE).clone(),
-				getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_INDEX).clone(), userList);
+	public Brick clone() throws CloneNotSupportedException {
+		ReplaceItemInUserListBrick clone = (ReplaceItemInUserListBrick) super.clone();
+		clone.initializeBrickFields(getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_VALUE).clone(),
+				getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_INDEX).clone());
+		return clone;
 	}
 
 	@Override

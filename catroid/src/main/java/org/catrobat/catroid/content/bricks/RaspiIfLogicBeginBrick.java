@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -39,6 +38,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class RaspiIfLogicBeginBrick extends IfLogicBeginBrick {
+
 	private static final long serialVersionUID = 1L;
 
 	public RaspiIfLogicBeginBrick() {
@@ -59,38 +59,27 @@ public class RaspiIfLogicBeginBrick extends IfLogicBeginBrick {
 	}
 
 	@Override
-	public Brick clone() {
-		return new RaspiIfLogicBeginBrick(getFormulaWithBrickField(BrickField.IF_CONDITION).clone());
+	protected int getLayoutRes() {
+		return R.layout.brick_raspi_if_begin_if;
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		if (view == null) {
-			alphaValue = 255;
-		}
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
 
-		view = View.inflate(context, R.layout.brick_raspi_if_begin_if, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_raspi_if_begin_checkbox);
-
-		TextView ifBeginTextView = (TextView) view.findViewById(R.id.brick_raspi_if_begin_edit_text);
+		TextView ifBeginTextView = view.findViewById(R.id.brick_raspi_if_begin_edit_text);
 
 		getFormulaWithBrickField(BrickField.IF_CONDITION).setTextFieldId(R.id.brick_raspi_if_begin_edit_text);
 		getFormulaWithBrickField(BrickField.IF_CONDITION).refreshTextField(view);
 
 		ifBeginTextView.setOnClickListener(this);
-
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_raspi_if_begin_if, null);
-		TextView textIfBegin = (TextView) prototypeView.findViewById(R.id.brick_raspi_if_begin_edit_text);
+		View prototypeView = super.getPrototypeView(context);
+		TextView textIfBegin = prototypeView.findViewById(R.id.brick_raspi_if_begin_edit_text);
 		textIfBegin.setText(formatNumberForPrototypeView(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER));
 		return prototypeView;
 	}

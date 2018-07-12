@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.ProjectManager;
@@ -57,17 +56,13 @@ public class HideTextBrick extends UserVariableBrick {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		if (view == null) {
-			alphaValue = 255;
-		}
+	protected int getLayoutRes() {
+		return R.layout.brick_hide_variable;
+	}
 
-		view = View.inflate(context, R.layout.brick_hide_variable, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_hide_variable_checkbox);
+	@Override
+	public View onCreateView(final Context context) {
+		super.onCreateView(context);
 
 		Spinner variableSpinner = (Spinner) view.findViewById(R.id.hide_variable_spinner);
 
@@ -88,7 +83,7 @@ public class HideTextBrick extends UserVariableBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_hide_variable, null);
+		prototypeView = super.getPrototypeView(context);
 
 		Spinner variableSpinner = (Spinner) prototypeView.findViewById(R.id.hide_variable_spinner);
 

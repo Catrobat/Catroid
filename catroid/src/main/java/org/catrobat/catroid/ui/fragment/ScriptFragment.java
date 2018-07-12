@@ -27,6 +27,9 @@ import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.IntDef;
@@ -35,23 +38,26 @@ import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
+import android.widget.ImageView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.AllowedAfterDeadEndBrick;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.DeadEndBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
-import org.catrobat.catroid.content.bricks.NestingBrick;
+import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
+import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
+import org.catrobat.catroid.content.bricks.IfThenLogicEndBrick;
+import org.catrobat.catroid.content.bricks.LoopEndBrick;
+import org.catrobat.catroid.content.bricks.LoopEndlessBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
+import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.commands.ChangeFormulaCommand;
 import org.catrobat.catroid.content.commands.CommandFactory;
 import org.catrobat.catroid.content.commands.OnFormulaChangedListener;
@@ -66,13 +72,19 @@ import org.catrobat.catroid.ui.recyclerview.controller.ScriptController;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewScriptGroupDialog;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.UtilDeviceInfo;
 import org.catrobat.catroid.utils.Utils;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class ScriptFragment extends ListFragment implements OnCategorySelectedListener, OnFormulaChangedListener,
+public class ScriptFragment extends ListFragment implements
+		ActionMode.Callback,
+		OnCategorySelectedListener,
+		OnFormulaChangedListener,
 		NewScriptGroupDialog.BackpackScriptInterface {
 
 	public static final String TAG = ScriptFragment.class.getSimpleName();
@@ -94,74 +106,63 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 	private BrickAdapter adapter;
 	private BrickListView listView;
 
-	private Sprite sprite;
-	private Script scriptToEdit;
-
 	private ScriptController scriptController = new ScriptController();
-
 	private Parcelable savedListViewState;
 
-	private ActionMode.Callback callback = new ActionMode.Callback() {
-		@Override
-		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			MenuInflater inflater = mode.getMenuInflater();
-			inflater.inflate(R.menu.context_menu, menu);
-
-			switch (actionModeType) {
-				case BACKPACK:
-					adapter.setActionMode(BrickAdapter.ActionModeEnum.BACKPACK);
-					break;
-				case COPY:
-				case DELETE:
-					adapter.setActionMode(BrickAdapter.ActionModeEnum.COPY_DELETE);
-					break;
-				case ENABLE_DISABLE:
-					adapter.setActionMode(BrickAdapter.ActionModeEnum.COMMENT_OUT);
-					adapter.checkCommentedOutItems();
-					break;
-				case NONE:
-					actionMode.finish();
-					return false;
-			}
-
-			for (int i = adapter.listItemCount; i < adapter.getBrickList().size(); i++) {
-				adapter.getView(i, null, getListView());
-			}
-
-			adapter.setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
-			adapter.setCheckboxVisibility();
-			return true;
+	@Override
+	public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+		switch (actionModeType) {
+			case BACKPACK:
+				mode.setTitle(getString(R.string.am_backpack));
+				adapter.setActionMode(BrickAdapter.ActionModeEnum.BACKPACK);
+				break;
+			case COPY:
+				mode.setTitle(getString(R.string.am_copy));
+				adapter.setActionMode(BrickAdapter.ActionModeEnum.COPY_DELETE);
+				break;
+			case DELETE:
+				mode.setTitle(getString(R.string.am_delete));
+				adapter.setActionMode(BrickAdapter.ActionModeEnum.COPY_DELETE);
+				break;
+			case ENABLE_DISABLE:
+				mode.setTitle(getString(R.string.comment_in_out));
+				adapter.setActionMode(BrickAdapter.ActionModeEnum.COMMENT_OUT);
+				break;
+			case NONE:
+				actionMode.finish();
+				return false;
 		}
 
-		@Override
-		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-			if (actionModeType == ENABLE_DISABLE) {
-				menu.findItem(R.id.confirm).setVisible(false);
-				return true;
-			}
-			return false;
-		}
+		mode.getMenuInflater().inflate(R.menu.context_menu, menu);
+		adapter.notifyDataSetChanged();
+		return true;
+	}
 
-		@Override
-		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-			switch (item.getItemId()) {
-				case R.id.confirm:
-					handleContextualAction();
-					break;
-				default:
-					return false;
-			}
-			return true;
-		}
+	@Override
+	public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+		return false;
+	}
 
-		@Override
-		public void onDestroyActionMode(ActionMode mode) {
-			resetActionModeParameters();
+	@Override
+	public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.confirm:
+				handleContextualAction();
+				break;
+			default:
+				return false;
 		}
-	};
+		return true;
+	}
+
+	@Override
+	public void onDestroyActionMode(ActionMode mode) {
+		resetActionModeParameters();
+		adapter.clearCheckedItems();
+	}
 
 	private void handleContextualAction() {
-		if (adapter.getAmountOfCheckedItems() == 0) {
+		if (adapter.getCheckedBricks().isEmpty()) {
 			actionMode.finish();
 		}
 
@@ -170,10 +171,10 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 				showNewScriptGroupDialog();
 				break;
 			case COPY:
-				copyBricks();
+				copyItems(adapter.getCheckedBricks());
 				break;
 			case DELETE:
-				showDeleteAlert();
+				showDeleteAlert(adapter.getCheckedBricks());
 				break;
 			case ENABLE_DISABLE:
 				actionMode.finish();
@@ -185,9 +186,8 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 	}
 
 	private void resetActionModeParameters() {
-		adapter.setSelectMode(ListView.CHOICE_MODE_NONE);
-		adapter.clearCheckedItems();
 		actionModeType = NONE;
+		actionMode = null;
 
 		registerForContextMenu(listView);
 		BottomBar.showBottomBar(getActivity());
@@ -238,9 +238,6 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 		BottomBar.showPlayButton(getActivity());
 		BottomBar.showAddButton(getActivity());
 		initListeners();
-		if (adapter != null) {
-			adapter.resetAlphas();
-		}
 
 		if (savedListViewState != null) {
 			listView.onRestoreInstanceState(savedListViewState);
@@ -259,10 +256,6 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 		}
 	}
 
-	public BrickAdapter getAdapter() {
-		return adapter;
-	}
-
 	@Override
 	public BrickListView getListView() {
 		return listView;
@@ -271,13 +264,10 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 	@Override
 	public void onCategorySelected(String category) {
 		AddBrickFragment addBrickFragment = AddBrickFragment.newInstance(category, this);
-		FragmentManager fragmentManager = getActivity().getFragmentManager();
-		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-		fragmentTransaction.add(R.id.fragment_container, addBrickFragment,
-				AddBrickFragment.ADD_BRICK_FRAGMENT_TAG);
-
-		fragmentTransaction.addToBackStack(null);
-		fragmentTransaction.commit();
+		getActivity().getFragmentManager().beginTransaction()
+				.add(R.id.fragment_container, addBrickFragment, AddBrickFragment.ADD_BRICK_FRAGMENT_TAG)
+				.addToBackStack(null)
+				.commit();
 
 		adapter.notifyDataSetChanged();
 	}
@@ -293,26 +283,18 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 	}
 
 	private void initListeners() {
-		sprite = ProjectManager.getInstance().getCurrentSprite();
-		if (sprite == null) {
-			return;
-		}
-
+		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 		adapter = new BrickAdapter(this, sprite, listView);
-
-		if (ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts() > 0) {
-			ProjectManager.getInstance().setCurrentScript(((ScriptBrick) adapter.getItem(0)).getScriptSafe());
-		}
 
 		listView.setOnCreateContextMenuListener(this);
 		listView.setOnDragAndDropListener(adapter);
 		listView.setAdapter(adapter);
+
 		registerForContextMenu(listView);
 	}
 
 	private void showCategoryFragment() {
 		BrickCategoryFragment brickCategoryFragment = new BrickCategoryFragment();
-		brickCategoryFragment.setBrickAdapter(adapter);
 		brickCategoryFragment.setOnCategorySelectedListener(this);
 		FragmentManager fragmentManager = getActivity().getFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -372,14 +354,15 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 			ToastUtil.showError(getActivity(), R.string.am_empty_list);
 		} else {
 			actionModeType = type;
-			actionMode = getActivity().startActionMode(callback);
-			updateActionModeTitle();
+			actionMode = getActivity().startActionMode(this);
 			unregisterForContextMenu(listView);
 			BottomBar.hideBottomBar(getActivity());
 		}
 	}
 
 	public void finishActionMode() {
+		adapter.clearCheckedItems();
+
 		if (actionModeType != NONE) {
 			actionMode.finish();
 		}
@@ -449,11 +432,10 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 		adapter.notifyDataSetChanged();
 	}
 
-	private void copyBricks() {
-		List<Brick> checkedBricks = adapter.getCheckedBricks();
+	private void copyItems(List<Brick> selectedItems) {
 
-		for (Brick brick : checkedBricks) {
-			copyBrick(brick);
+		for (Brick brick : selectedItems) {
+			//copyBrick(brick);
 			if (brick instanceof ScriptBrick) {
 				break;
 			}
@@ -462,94 +444,24 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 		actionMode.finish();
 	}
 
-	private void copyBrick(Brick brick) {
-		if (brick instanceof NestingBrick
-				&& (brick instanceof AllowedAfterDeadEndBrick || brick instanceof DeadEndBrick)) {
-			return;
+	private void showDeleteAlert(final List<Brick> selectedItems) {
+		String alertDialogTitle;
+		if (selectedItems.size() == 1) {
+			alertDialogTitle = selectedItems.get(0) instanceof ScriptBrick
+					? getResources().getQuantityString(R.plurals.delete_scripts, 1)
+					: getResources().getQuantityString(R.plurals.delete_bricks, 1);
+		} else {
+			alertDialogTitle = getResources().getQuantityString(R.plurals.delete_bricks, selectedItems.size());
 		}
 
-		if (brick instanceof ScriptBrick) {
-			scriptToEdit = ((ScriptBrick) brick).getScriptSafe();
-			try {
-				Script clonedScript = scriptToEdit.clone();
-				sprite.addScript(clonedScript);
-				adapter.initBrickList();
-				adapter.notifyDataSetChanged();
-			} catch (CloneNotSupportedException e) {
-				Log.e(TAG, Log.getStackTraceString(e));
-			}
-			return;
-		}
-
-		int brickId = adapter.getBrickList().indexOf(brick);
-		if (brickId == -1) {
-			return;
-		}
-
-		int newPosition = adapter.getCount();
-
-		try {
-			Brick copiedBrick = brick.clone();
-
-			Script scriptList;
-			if (adapter.getUserBrick() != null) {
-				scriptList = ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick().getUserScript();
-			} else {
-				scriptList = ProjectManager.getInstance().getCurrentScript();
-			}
-			if (brick instanceof NestingBrick) {
-				NestingBrick nestingBrickCopy = (NestingBrick) copiedBrick;
-				nestingBrickCopy.initialize();
-
-				for (NestingBrick nestingBrick : nestingBrickCopy.getAllNestingBrickParts(true)) {
-					scriptList.addBrick((Brick) nestingBrick);
-				}
-			} else {
-				scriptList.addBrick(copiedBrick);
-			}
-
-			adapter.addNewBrick(newPosition, copiedBrick, false);
-			adapter.initBrickList();
-
-			ProjectManager.getInstance().saveProject(getActivity().getApplicationContext());
-			adapter.notifyDataSetChanged();
-		} catch (CloneNotSupportedException exception) {
-			Log.e(getTag(), "Copying a Brick failed", exception);
-			ToastUtil.showError(getActivity(), R.string.error_copying_brick);
-		}
-	}
-
-	private void deleteBrick(Brick brick) {
-
-		if (brick instanceof ScriptBrick) {
-			scriptToEdit = ((ScriptBrick) brick).getScriptSafe();
-			adapter.handleScriptDelete(sprite, scriptToEdit);
-			return;
-		}
-		int brickId = adapter.getBrickList().indexOf(brick);
-		if (brickId == -1) {
-			return;
-		}
-		adapter.removeFromBrickListAndProject(brickId, true);
-	}
-
-	private void deleteCheckedBricks() {
-		List<Brick> checkedBricks = adapter.getReversedCheckedBrickList();
-
-		for (Brick brick : checkedBricks) {
-			deleteBrick(brick);
-		}
-	}
-
-	private void showDeleteAlert() {
 		new AlertDialog.Builder(getActivity())
-				.setTitle(getResources().getQuantityString(R.plurals.delete_bricks, adapter.getAmountOfCheckedItems()))
+				.setTitle(alertDialogTitle)
 				.setMessage(R.string.dialog_confirm_delete)
 				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
-						deleteCheckedBricks();
-						finishActionMode();
+						deleteItems(selectedItems);
 					}
 				})
 				.setNegativeButton(R.string.no, null)
@@ -558,9 +470,15 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 				.show();
 	}
 
-	public void updateActionModeTitle() {
-		int selectedItemCnt = adapter.getAmountOfCheckedItems();
+	private void deleteItems(List<Brick> selectedItems) {
+		for (Brick brick : selectedItems) {
+			adapter.remove(brick);
+		}
+		adapter.refreshBrickList();
+		finishActionMode();
+	}
 
+	public void updateActionModeTitle(int selectedItemCnt) {
 		switch (actionModeType) {
 			case BACKPACK:
 				actionMode.setTitle(getResources().getQuantityString(R.plurals.am_pack_scripts_title,
@@ -579,5 +497,132 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 				break;
 			case NONE:
 		}
+	}
+
+	public void onItemClick(final Brick brick) {
+		final List<CharSequence> items = new ArrayList<>();
+
+		if (brick instanceof ScriptBrick) {
+			items.add(getText(R.string.backpack_add));
+			items.add(getText(R.string.brick_context_dialog_delete_script));
+		} else {
+			if (!(brick instanceof DeadEndBrick)) {
+				items.add(getText(R.string.brick_context_dialog_move_brick));
+			}
+			items.add(getText(R.string.brick_context_dialog_copy_brick));
+			items.add(getText(R.string.brick_context_dialog_delete_brick));
+		}
+
+		if (brick.isCommentedOut()) {
+			items.add(getText(R.string.brick_context_dialog_comment_in));
+		} else {
+			items.add(getText(R.string.brick_context_dialog_comment_out));
+		}
+
+		if (brick instanceof FormulaBrick) {
+			items.add(getText(R.string.brick_context_dialog_formula_edit_brick));
+		}
+
+		if (hasDescription(brick)) {
+			items.add(getText(R.string.brick_context_dialog_help));
+		}
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+		final View view = ((BrickBaseType) brick).view;
+		boolean drawingCacheEnabled = view.isDrawingCacheEnabled();
+		view.setDrawingCacheEnabled(true);
+		view.setDrawingCacheBackgroundColor(Color.TRANSPARENT);
+		view.buildDrawingCache(true);
+
+		if (view.getDrawingCache() != null) {
+			Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
+			view.setDrawingCacheEnabled(drawingCacheEnabled);
+
+			ImageView imageView = listView.getGlowingBorder(bitmap);
+			builder.setCustomTitle(imageView);
+		}
+
+		builder.setItems(items.toArray(new CharSequence[items.size()]), new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int item) {
+				CharSequence clickedItemText = items.get(item);
+				if (clickedItemText.equals(getText(R.string.brick_context_dialog_move_brick))) {
+					view.performLongClick();
+					return;
+				}
+				if (clickedItemText.equals(getText(R.string.brick_context_dialog_copy_brick))) {
+//					copyItems(Collections.singletonList(brick));
+					return;
+				}
+				if (clickedItemText.equals(getText(R.string.brick_context_dialog_delete_brick))
+						|| clickedItemText.equals(getText(R.string.brick_context_dialog_delete_script))) {
+					showDeleteAlert(Collections.singletonList(brick));
+					return;
+				}
+				if (clickedItemText.equals(getText(R.string.brick_context_dialog_formula_edit_brick))) {
+					if (!(brick instanceof FormulaBrick)) {
+						throw new IllegalStateException(brick.getClass().getSimpleName() + " is not a FormulaBrick: "
+								+ "You probably incorrectly added the \"Edit Formula\" option to th context menu for "
+								+ "this brick.");
+					}
+					((FormulaBrick) brick).showFormulaEditorToEditFormula(view);
+					return;
+				}
+				if (clickedItemText.equals(getText(R.string.backpack_add))) {
+					return;
+				}
+				if (clickedItemText.equals(getText(R.string.brick_context_dialog_comment_in))) {
+					//commentBrickOut(brick, false);
+					return;
+				}
+				if (clickedItemText.equals(getText(R.string.brick_context_dialog_comment_out))) {
+					//commentBrickOut(brick, true);
+					return;
+				}
+				if (clickedItemText.equals(getText(R.string.brick_context_dialog_help))) {
+					openHelpPageForBrick(brick);
+				}
+			}
+		});
+
+		builder.create().show();
+	}
+
+	private boolean hasDescription(Brick brick) {
+		if (brick instanceof IfLogicElseBrick) {
+			return false;
+		}
+		if (brick instanceof IfLogicEndBrick) {
+			return false;
+		}
+		if (brick instanceof IfThenLogicEndBrick) {
+			return false;
+		}
+		if (brick instanceof LoopEndlessBrick) {
+			return false;
+		}
+		if (brick instanceof LoopEndBrick) {
+			return false;
+		}
+		if (brick instanceof UserBrick) {
+			return false;
+		}
+		return true;
+	}
+
+	private void openHelpPageForBrick(Brick brick) {
+		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		CategoryBricksFactory categoryBricksFactory = new CategoryBricksFactory();
+		String language = UtilDeviceInfo.getUserLanguageCode();
+		String category = categoryBricksFactory.getBrickCategory(brick, sprite, getActivity());
+		String name = brick.getClass().getSimpleName();
+
+		if (!language.equals("en") && !language.equals("de") && !language.equals("es")) {
+			language = "en";
+		}
+		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://wiki.catrob.at/index"
+				+ ".php?title=" + category + "_Bricks/" + language + "#" + name));
+		startActivity(browserIntent);
 	}
 }

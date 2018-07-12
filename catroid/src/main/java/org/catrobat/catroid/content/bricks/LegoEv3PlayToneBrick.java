@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -40,8 +39,6 @@ import java.util.List;
 
 public class LegoEv3PlayToneBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
-
-	private transient View prototypeView;
 
 	public LegoEv3PlayToneBrick() {
 		addAllowedBrickField(BrickField.LEGO_EV3_FREQUENCY);
@@ -74,8 +71,13 @@ public class LegoEv3PlayToneBrick extends FormulaBrick {
 	}
 
 	@Override
+	protected int getLayoutRes() {
+		return R.layout.brick_ev3_play_tone;
+	}
+
+	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_ev3_play_tone, null);
+		View prototypeView = super.getPrototypeView(context);
 
 		TextView textDuration = (TextView) prototypeView.findViewById(R.id.brick_ev3_tone_duration_edit_text);
 
@@ -96,17 +98,8 @@ public class LegoEv3PlayToneBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		if (view == null) {
-			alphaValue = 255;
-		}
-		view = View.inflate(context, R.layout.brick_ev3_play_tone, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_ev3_play_tone_checkbox);
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
 
 		setSecondText(view, R.id.brick_ev3_tone_seconds, R.id.brick_ev3_tone_duration_edit_text, BrickField.LEGO_EV3_DURATION_IN_SECONDS);
 

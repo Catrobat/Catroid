@@ -83,11 +83,11 @@ public class Sprite implements Serializable, Cloneable {
 
 	public transient Look look = new Look(this);
 	public transient PenConfiguration penConfiguration = new PenConfiguration();
+	public transient boolean isClone = false;
 	private transient boolean convertToSingleSprite = false;
 	private transient boolean convertToGroupItemSprite = false;
 	private transient Multimap<EventId, EventThread> idToEventThreadMap = HashMultimap.create();
 	private transient Set<ConditionScriptTrigger> conditionScriptTriggers = new HashSet<>();
-
 	@XStreamAsAttribute
 	private String name;
 	private List<Script> scriptList = new ArrayList<>();
@@ -95,10 +95,7 @@ public class Sprite implements Serializable, Cloneable {
 	private List<SoundInfo> soundList = new ArrayList<>();
 	private List<UserBrick> userBricks = new ArrayList<>();
 	private List<NfcTagData> nfcTagList = new ArrayList<>();
-
 	private transient ActionFactory actionFactory = new ActionFactory();
-
-	public transient boolean isClone = false;
 
 	public Sprite(String name) {
 		this.name = name;
@@ -134,13 +131,6 @@ public class Sprite implements Serializable, Cloneable {
 		for (Script script : scriptList) {
 			allBricks.add(script.getScriptBrick());
 			allBricks.addAll(script.getBrickList());
-		}
-		for (UserBrick userBrick : userBricks) {
-			allBricks.add(userBrick);
-			Script userScript = userBrick.getDefinitionBrick().getUserScript();
-			if (userScript != null) {
-				allBricks.addAll(userScript.getBrickList());
-			}
 		}
 		return allBricks;
 	}
@@ -602,14 +592,6 @@ public class Sprite implements Serializable, Cloneable {
 		}
 	}
 
-	public class PenConfiguration {
-		public boolean penDown = false;
-		public float penSize = BrickValues.PEN_SIZE;
-		public Color penColor = BrickValues.PEN_COLOR;
-		public PointF previousPoint = null;
-		public boolean stamp = false;
-	}
-
 	public boolean toBeConverted() {
 		return convertToSingleSprite || convertToGroupItemSprite;
 	}
@@ -639,5 +621,13 @@ public class Sprite implements Serializable, Cloneable {
 
 	public Multimap<EventId, EventThread> getIdToEventThreadMap() {
 		return idToEventThreadMap;
+	}
+
+	public class PenConfiguration {
+		public boolean penDown = false;
+		public float penSize = BrickValues.PEN_SIZE;
+		public Color penColor = BrickValues.PEN_COLOR;
+		public PointF previousPoint = null;
+		public boolean stamp = false;
 	}
 }

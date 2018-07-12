@@ -22,10 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.BaseAdapter;
-
 import org.catrobat.catroid.R;
 
 public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
@@ -40,17 +36,7 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (view == null) {
-			view = View.inflate(context, R.layout.brick_loop_endless, null);
-			view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-			setCheckboxView(R.id.brick_loop_endless_checkbox);
-		}
-		return view;
-	}
-
-	@Override
-	public Brick clone() {
-		return new LoopEndlessBrick();
+	protected int getLayoutRes() {
+		return R.layout.brick_loop_endless;
 	}
 }

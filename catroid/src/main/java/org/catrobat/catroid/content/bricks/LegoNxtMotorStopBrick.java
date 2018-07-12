@@ -27,7 +27,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.R;
@@ -40,10 +39,6 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 	private static final long serialVersionUID = 1L;
 	private transient Motor motorEnum;
 	private String motor;
-
-	public enum Motor {
-		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_B_C, ALL_MOTORS
-	}
 
 	public LegoNxtMotorStopBrick(Motor motor) {
 		this.motorEnum = motor;
@@ -63,8 +58,13 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 	}
 
 	@Override
+	protected int getLayoutRes() {
+		return R.layout.brick_nxt_motor_stop;
+	}
+
+	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_nxt_motor_stop, null);
+		View prototypeView = super.getPrototypeView(context);
 		Spinner legoSpinner = (Spinner) prototypeView.findViewById(R.id.stop_motor_spinner);
 
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
@@ -77,15 +77,9 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
 
-		view = View.inflate(context, R.layout.brick_nxt_motor_stop, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_nxt_motor_stop_checkbox);
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
 				R.array.nxt_stop_motor_chooser, android.R.layout.simple_spinner_item);
 		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -114,5 +108,9 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createLegoNxtMotorStopAction(motorEnum));
 		return null;
+	}
+
+	public enum Motor {
+		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_B_C, ALL_MOTORS
 	}
 }

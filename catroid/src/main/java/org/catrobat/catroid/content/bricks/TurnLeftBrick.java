@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -39,8 +38,6 @@ import java.util.List;
 public class TurnLeftBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
-
-	private transient View prototypeView;
 
 	public TurnLeftBrick() {
 		addAllowedBrickField(BrickField.TURN_LEFT_DEGREES);
@@ -65,14 +62,14 @@ public class TurnLeftBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		view = View.inflate(context, R.layout.brick_turn_left, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+	protected int getLayoutRes() {
+		return R.layout.brick_turn_left;
+	}
 
-		setCheckboxView(R.id.brick_turn_left_checkbox);
+	@Override
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
+
 		TextView editDegrees = (TextView) view.findViewById(R.id.brick_turn_left_edit_text);
 		getFormulaWithBrickField(BrickField.TURN_LEFT_DEGREES).setTextFieldId(R.id.brick_turn_left_edit_text);
 		getFormulaWithBrickField(BrickField.TURN_LEFT_DEGREES).refreshTextField(view);
@@ -83,7 +80,7 @@ public class TurnLeftBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_turn_left, null);
+		View prototypeView = super.getPrototypeView(context);
 		TextView textDegrees = (TextView) prototypeView.findViewById(R.id.brick_turn_left_edit_text);
 		textDegrees.setText(formatNumberForPrototypeView(BrickValues.TURN_DEGREES));
 		return prototypeView;

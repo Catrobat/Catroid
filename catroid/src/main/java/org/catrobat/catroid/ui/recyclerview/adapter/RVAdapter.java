@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.ui.recyclerview.adapter;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,13 +62,13 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> imp
 	}
 
 	@Override
-	public CheckableVH onCreateViewHolder(final ViewGroup parent, int viewType) {
+	public CheckableVH onCreateViewHolder(@NonNull final ViewGroup parent, int viewType) {
 		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.vh_with_checkbox, parent, false);
 		return new CheckableVH(view);
 	}
 
 	@Override
-	public void onBindViewHolder(final CheckableVH holder, int position) {
+	public void onBindViewHolder(@NonNull final CheckableVH holder, int position) {
 		final T item = items.get(position);
 
 		holder.checkBox.setOnClickListener(new View.OnClickListener() {

@@ -27,7 +27,6 @@ import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -44,14 +43,8 @@ public class JumpingSumoSoundBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
 	private String soundName;
 	private transient Sounds soundType;
-	private transient TextView editVolume;
-
-	public enum Sounds {
-		DEFAULT, ROBOT, INSECT, MONSTER
-	}
 
 	public JumpingSumoSoundBrick(Sounds sound, int volumeInPercent) {
 		this.soundType = sound;
@@ -83,8 +76,13 @@ public class JumpingSumoSoundBrick extends FormulaBrick {
 	}
 
 	@Override
+	protected int getLayoutRes() {
+		return R.layout.brick_jumping_sumo_sound;
+	}
+
+	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_jumping_sumo_sound, null);
+		View prototypeView = super.getPrototypeView(context);
 		TextView editVolume = (TextView) prototypeView.findViewById(R.id.brick_jumping_sumo_sound_edit_text);
 		editVolume.setText(formatNumberForPrototypeView(BrickValues.JUMPING_SUMO_SOUND_BRICK_DEFAULT_VOLUME_PERCENT));
 
@@ -104,16 +102,10 @@ public class JumpingSumoSoundBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
 
-		view = View.inflate(context, R.layout.brick_jumping_sumo_sound, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_jumping_sumo_sound_checkbox);
-
-		editVolume = (TextView) view.findViewById(R.id.brick_jumping_sumo_sound_edit_text);
+		TextView editVolume = (TextView) view.findViewById(R.id.brick_jumping_sumo_sound_edit_text);
 		getFormulaWithBrickField(BrickField.JUMPING_SUMO_VOLUME).setTextFieldId(R.id.brick_jumping_sumo_sound_edit_text);
 		getFormulaWithBrickField(BrickField.JUMPING_SUMO_VOLUME).refreshTextField(view);
 
@@ -156,5 +148,9 @@ public class JumpingSumoSoundBrick extends FormulaBrick {
 		sequence.addAction(sprite.getActionFactory().createJumpingSumoSoundAction(sprite, soundType,
 				getFormulaWithBrickField(BrickField.JUMPING_SUMO_VOLUME)));
 		return null;
+	}
+
+	public enum Sounds {
+		DEFAULT, ROBOT, INSECT, MONSTER
 	}
 }

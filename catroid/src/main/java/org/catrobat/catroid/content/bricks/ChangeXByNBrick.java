@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -38,8 +37,6 @@ import java.util.List;
 
 public class ChangeXByNBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
-
-	private transient View prototypeView;
 
 	public ChangeXByNBrick() {
 		addAllowedBrickField(BrickField.X_POSITION_CHANGE);
@@ -64,15 +61,14 @@ public class ChangeXByNBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	protected int getLayoutRes() {
+		return R.layout.brick_change_x;
+	}
 
-		view = View.inflate(context, R.layout.brick_change_x, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+	@Override
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
 
-		setCheckboxView(R.id.brick_change_x_checkbox);
 		TextView editX = (TextView) view.findViewById(R.id.brick_change_x_edit_text);
 		getFormulaWithBrickField(BrickField.X_POSITION_CHANGE).setTextFieldId(R.id.brick_change_x_edit_text);
 		getFormulaWithBrickField(BrickField.X_POSITION_CHANGE).refreshTextField(view);
@@ -83,7 +79,7 @@ public class ChangeXByNBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_change_x, null);
+		View prototypeView = super.getPrototypeView(context);
 		TextView textXMovement = (TextView) prototypeView.findViewById(R.id.brick_change_x_edit_text);
 		textXMovement.setText(formatNumberForPrototypeView(BrickValues.CHANGE_X_BY));
 		return prototypeView;

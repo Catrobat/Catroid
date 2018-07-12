@@ -27,7 +27,6 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.CatroidApplication;
@@ -55,15 +54,13 @@ public class WhenGamepadButtonBrick extends BrickBaseType implements ScriptBrick
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, final BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	protected int getLayoutRes() {
+		return R.layout.brick_when_gamepad_button;
+	}
 
-		view = View.inflate(context, R.layout.brick_when_gamepad_button, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_when_gamepad_button_checkbox);
+	@Override
+	public View onCreateView(final Context context) {
+		super.onCreateView(context);
 
 		final Spinner actionSpinner = (Spinner) view.findViewById(R.id.brick_when_gamepad_button_spinner);
 
@@ -91,13 +88,14 @@ public class WhenGamepadButtonBrick extends BrickBaseType implements ScriptBrick
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return getView(context, 0, null);
+		return onCreateView(context);
 	}
 
 	@Override
-	public Brick clone() {
-		WhenGamepadButtonScript clonedScript = new WhenGamepadButtonScript(whenGamepadButtonScript.getAction());
-		return new WhenGamepadButtonBrick(clonedScript);
+	public Brick clone() throws CloneNotSupportedException {
+		WhenGamepadButtonBrick clone = (WhenGamepadButtonBrick) super.clone();
+		clone.whenGamepadButtonScript = new WhenGamepadButtonScript(whenGamepadButtonScript.getAction());
+		return clone;
 	}
 
 	@Override

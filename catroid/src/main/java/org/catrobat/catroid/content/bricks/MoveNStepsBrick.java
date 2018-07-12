@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
@@ -43,8 +42,6 @@ import java.util.List;
 public class MoveNStepsBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
-
-	private transient View prototypeView;
 
 	public MoveNStepsBrick() {
 		addAllowedBrickField(BrickField.STEPS);
@@ -69,14 +66,15 @@ public class MoveNStepsBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		view = View.inflate(context, R.layout.brick_move_n_steps, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+	protected int getLayoutRes() {
+		return R.layout.brick_move_n_steps;
+	}
 
-		setCheckboxView(R.id.brick_move_n_steps_checkbox);
+	@Override
+	public View onCreateView(Context context) {
+
+		super.onCreateView(context);
+
 		TextView edit = (TextView) view.findViewById(R.id.brick_move_n_steps_edit_text);
 
 		getFormulaWithBrickField(BrickField.STEPS).setTextFieldId(R.id.brick_move_n_steps_edit_text);
@@ -108,7 +106,7 @@ public class MoveNStepsBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_move_n_steps, null);
+		View prototypeView = super.getPrototypeView(context);
 		TextView textSteps = (TextView) prototypeView.findViewById(R.id.brick_move_n_steps_edit_text);
 		textSteps.setText(formatNumberForPrototypeView(BrickValues.MOVE_STEPS));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_move_n_steps_step_text_view);

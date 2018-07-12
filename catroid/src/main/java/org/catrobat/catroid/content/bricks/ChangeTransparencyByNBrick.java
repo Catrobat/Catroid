@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -39,8 +38,6 @@ import java.util.List;
 public class ChangeTransparencyByNBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
-
-	private transient View prototypeView;
 
 	public ChangeTransparencyByNBrick() {
 		addAllowedBrickField(BrickField.TRANSPARENCY_CHANGE);
@@ -65,15 +62,14 @@ public class ChangeTransparencyByNBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	protected int getLayoutRes() {
+		return R.layout.brick_change_transparency;
+	}
 
-		view = View.inflate(context, R.layout.brick_change_transparency, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+	@Override
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
 
-		setCheckboxView(R.id.brick_change_transparency_checkbox);
 		TextView editX = (TextView) view.findViewById(R.id.brick_change_transparency_edit_text);
 		getFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE)
 				.setTextFieldId(R.id.brick_change_transparency_edit_text);
@@ -85,7 +81,7 @@ public class ChangeTransparencyByNBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_change_transparency, null);
+		View prototypeView = super.getPrototypeView(context);
 		TextView textChangeGhostEffect = (TextView) prototypeView
 				.findViewById(R.id.brick_change_transparency_edit_text);
 		textChangeGhostEffect.setText(formatNumberForPrototypeView(BrickValues.CHANGE_TRANSPARENCY_EFFECT));

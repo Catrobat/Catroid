@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -39,8 +38,6 @@ import java.util.List;
 public class SetTransparencyBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
-
-	private transient View prototypeView;
 
 	public SetTransparencyBrick() {
 		addAllowedBrickField(BrickField.TRANSPARENCY);
@@ -65,15 +62,14 @@ public class SetTransparencyBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	protected int getLayoutRes() {
+		return R.layout.brick_set_transparency;
+	}
 
-		view = View.inflate(context, R.layout.brick_set_transparency, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+	@Override
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
 
-		setCheckboxView(R.id.brick_set_transparency_checkbox);
 		TextView editX = (TextView) view.findViewById(R.id.brick_set_transparency_to_edit_text);
 		getFormulaWithBrickField(BrickField.TRANSPARENCY).setTextFieldId(R.id.brick_set_transparency_to_edit_text);
 		getFormulaWithBrickField(BrickField.TRANSPARENCY).refreshTextField(view);
@@ -84,7 +80,7 @@ public class SetTransparencyBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_set_transparency, null);
+		View prototypeView = super.getPrototypeView(context);
 		TextView textSetTransparency = (TextView) prototypeView
 				.findViewById(R.id.brick_set_transparency_to_edit_text);
 		textSetTransparency.setText(formatNumberForPrototypeView(BrickValues.SET_TRANSPARENCY));

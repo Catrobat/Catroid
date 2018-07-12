@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -38,8 +37,6 @@ import java.util.List;
 
 public class SetBrightnessBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
-
-	private transient View prototypeView;
 
 	public SetBrightnessBrick() {
 		addAllowedBrickField(BrickField.BRIGHTNESS);
@@ -64,30 +61,28 @@ public class SetBrightnessBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	protected int getLayoutRes() {
+		return R.layout.brick_set_brightness;
+	}
 
-		view = View.inflate(context, R.layout.brick_set_brightness, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+	@Override
+	public View getPrototypeView(Context context) {
+		View prototypeView = super.getPrototypeView(context);
+		TextView textSetBrightness = prototypeView.findViewById(R.id.brick_set_brightness_edit_text);
+		textSetBrightness.setText(formatNumberForPrototypeView(BrickValues.SET_BRIGHTNESS_TO));
+		return prototypeView;
+	}
 
-		setCheckboxView(R.id.brick_set_brightness_checkbox);
-		TextView editX = (TextView) view.findViewById(R.id.brick_set_brightness_edit_text);
+	@Override
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
+
+		TextView editX = view.findViewById(R.id.brick_set_brightness_edit_text);
 		getFormulaWithBrickField(BrickField.BRIGHTNESS).setTextFieldId(R.id.brick_set_brightness_edit_text);
 		getFormulaWithBrickField(BrickField.BRIGHTNESS).refreshTextField(view);
 
 		editX.setOnClickListener(this);
 		return view;
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_set_brightness, null);
-		TextView textSetBrightness = (TextView) prototypeView
-				.findViewById(R.id.brick_set_brightness_edit_text);
-		textSetBrightness.setText(formatNumberForPrototypeView(BrickValues.SET_BRIGHTNESS_TO));
-		return prototypeView;
 	}
 
 	@Override

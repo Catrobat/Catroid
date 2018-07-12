@@ -31,7 +31,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -140,13 +139,14 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, final BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	protected int getLayoutRes() {
+		return R.layout.brick_user_definition;
+	}
 
-		view = View.inflate(context, R.layout.brick_user_definition, null);
-		setCheckboxView(R.id.brick_user_definition_checkbox);
+	@Override
+	public View onCreateView(final Context context) {
+		super.onCreateView(context);
+
 		onLayoutChanged();
 
 		return view;
@@ -192,7 +192,7 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 	}
 
 	private View getUserBrickPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_user, null);
+		View prototypeView = super.getPrototypeView(context);
 		BrickLayout layout = (BrickLayout) prototypeView.findViewById(R.id.brick_user_flow_layout);
 		if (layout.getChildCount() > 0) {
 			layout.removeAllViews();
@@ -300,7 +300,7 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return getView(context, 0, null);
+		return onCreateView(context);
 	}
 
 	@Override
@@ -310,10 +310,6 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 
 	@Override
 	public void onClick(View eventOrigin) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
-
 		UserBrickElementEditorFragment.showFragment(view, this);
 	}
 

@@ -29,7 +29,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
@@ -40,9 +39,9 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import java.util.List;
 
 public class SetRotationStyleBrick extends BrickBaseType {
+
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
 	private transient Spinner spinner;
 	private int selection;
 
@@ -50,18 +49,13 @@ public class SetRotationStyleBrick extends BrickBaseType {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
+	protected int getLayoutRes() {
+		return R.layout.brick_set_rotation_style;
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		view = View.inflate(context, R.layout.brick_set_rotation_style, null);
-		BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_set_rotation_style_normal_checkbox);
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
 
 		spinner = (Spinner) view.findViewById(R.id.brick_set_rotation_style_spinner);
 
@@ -95,7 +89,7 @@ public class SetRotationStyleBrick extends BrickBaseType {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_set_rotation_style, null);
+		View prototypeView = super.getPrototypeView(context);
 
 		spinner = (Spinner) prototypeView.findViewById(R.id.brick_set_rotation_style_spinner);
 
@@ -103,11 +97,6 @@ public class SetRotationStyleBrick extends BrickBaseType {
 		spinner.setAdapter(setLookSpinnerAdapter);
 		spinner.setSelection(selection, true);
 		return prototypeView;
-	}
-
-	@Override
-	public Brick clone() {
-		return new SetRotationStyleBrick();
 	}
 
 	@Override

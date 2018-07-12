@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -74,15 +73,13 @@ public class JumpingSumoMoveForwardBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	protected int getLayoutRes() {
+		return R.layout.brick_jumping_sumo_move_forward;
+	}
 
-		view = View.inflate(context, R.layout.brick_jumping_sumo_move_forward, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_jumping_sumo_move_forward_checkbox);
+	@Override
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
 
 		setSecondText(view, R.id.brick_jumping_sumo_move_forward_text_second, R.id
 				.brick_jumping_sumo_move_forward_edit_text_second, BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS);
@@ -104,7 +101,7 @@ public class JumpingSumoMoveForwardBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_jumping_sumo_move_forward, null);
+		View prototypeView = super.getPrototypeView(context);
 		TextView textTime = (TextView) prototypeView.findViewById(R.id
 				.brick_jumping_sumo_move_forward_edit_text_second);
 

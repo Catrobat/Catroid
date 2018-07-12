@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -38,8 +37,6 @@ import java.util.List;
 
 public class SetPenSizeBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
-
-	private transient View prototypeView;
 
 	public SetPenSizeBrick() {
 		addAllowedBrickField(BrickField.PEN_SIZE);
@@ -64,15 +61,13 @@ public class SetPenSizeBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	protected int getLayoutRes() {
+		return R.layout.brick_set_pen_size;
+	}
 
-		view = View.inflate(context, R.layout.brick_set_pen_size, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_set_pen_size_checkbox);
+	@Override
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
 
 		TextView penSizeEdit = (TextView) view.findViewById(R.id.brick_set_pen_size_edit_text);
 
@@ -86,7 +81,7 @@ public class SetPenSizeBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_set_pen_size, null);
+		View prototypeView = super.getPrototypeView(context);
 		TextView penSizeText = (TextView) prototypeView.findViewById(R.id.brick_set_pen_size_edit_text);
 		penSizeText.setText(formatNumberForPrototypeView(BrickValues.PEN_SIZE));
 		return prototypeView;

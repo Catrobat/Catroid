@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -35,16 +34,11 @@ import org.catrobat.catroid.content.actions.SpeakAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
-import java.io.File;
 import java.util.List;
 
 public class SpeakAndWaitBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
-	private transient View prototypeView;
-
-	File speechFile;
-	private float duration;
 
 	public SpeakAndWaitBrick() {
 		addAllowedBrickField(BrickField.SPEAK);
@@ -69,15 +63,14 @@ public class SpeakAndWaitBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, final BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	protected int getLayoutRes() {
+		return R.layout.brick_speak_and_wait;
+	}
 
-		view = View.inflate(context, R.layout.brick_speak_and_wait, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+	@Override
+	public View onCreateView(final Context context) {
+		super.onCreateView(context);
 
-		setCheckboxView(R.id.brick_speak_and_wait_checkbox);
 		TextView textField = (TextView) view.findViewById(R.id.brick_speak_and_wait_edit_text);
 		getFormulaWithBrickField(BrickField.SPEAK).setTextFieldId(R.id.brick_speak_and_wait_edit_text);
 		getFormulaWithBrickField(BrickField.SPEAK).refreshTextField(view);
@@ -88,7 +81,7 @@ public class SpeakAndWaitBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_speak_and_wait, null);
+		View prototypeView = super.getPrototypeView(context);
 		TextView textSpeak = (TextView) prototypeView.findViewById(R.id.brick_speak_and_wait_edit_text);
 		textSpeak.setText(context.getString(R.string.brick_speak_default_value));
 
@@ -104,7 +97,7 @@ public class SpeakAndWaitBrick extends FormulaBrick {
 		return null;
 	}
 
-	public float getDurationOfSpokenText(Sprite sprite, Formula text) {
+	private float getDurationOfSpokenText(Sprite sprite, Formula text) {
 		SpeakAction action = (SpeakAction) sprite.getActionFactory().createSpeakAction(sprite,
 				getFormulaWithBrickField(BrickField.SPEAK));
 		action.setSprite(sprite);
@@ -113,9 +106,7 @@ public class SpeakAndWaitBrick extends FormulaBrick {
 
 		action.act(1.0f);
 
-		duration = action.getLengthOfText() / 1000;
-
-		return duration;
+		return action.getLengthOfText() / 1000;
 	}
 
 	@Override

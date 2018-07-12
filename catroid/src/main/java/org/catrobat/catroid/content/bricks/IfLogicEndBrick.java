@@ -22,10 +22,7 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
 import android.util.Log;
-import android.view.View;
-import android.widget.BaseAdapter;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
@@ -57,12 +54,12 @@ public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, Allo
 		return ifElseBrick;
 	}
 
-	public IfLogicBeginBrick getIfBeginBrick() {
-		return ifBeginBrick;
-	}
-
 	public void setIfElseBrick(IfLogicElseBrick ifElseBrick) {
 		this.ifElseBrick = ifElseBrick;
+	}
+
+	public IfLogicBeginBrick getIfBeginBrick() {
+		return ifBeginBrick;
 	}
 
 	public void setIfBeginBrick(IfLogicBeginBrick ifBeginBrick) {
@@ -70,26 +67,8 @@ public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, Allo
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-
-		view = View.inflate(context, R.layout.brick_if_end_if, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_if_end_if_checkbox);
-		return view;
-	}
-
-	@Override
-	public Brick clone() {
-		return new IfLogicEndBrick(ifElseBrick, ifBeginBrick);
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_if_end_if, null);
+	protected int getLayoutRes() {
+		return R.layout.brick_if_end_if;
 	}
 
 	@Override
@@ -108,18 +87,11 @@ public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, Allo
 	}
 
 	@Override
-	public List<NestingBrick> getAllNestingBrickParts(boolean sorted) {
-		//TODO: handle sorting
-		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
-		if (sorted) {
-			nestingBrickList.add(ifBeginBrick);
-			nestingBrickList.add(ifElseBrick);
-			nestingBrickList.add(this);
-		} else {
-			nestingBrickList.add(this);
-			nestingBrickList.add(ifBeginBrick);
-			//nestingBrickList.add(ifElseBrick);
-		}
+	public List<NestingBrick> getAllNestingBrickParts() {
+		List<NestingBrick> nestingBrickList = new ArrayList<>();
+		nestingBrickList.add(ifBeginBrick);
+		nestingBrickList.add(ifElseBrick);
+		nestingBrickList.add(this);
 
 		return nestingBrickList;
 	}

@@ -30,7 +30,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
@@ -71,18 +70,15 @@ public class GoToBrick extends BrickBaseType {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	protected int getLayoutRes() {
+		return R.layout.brick_go_to;
+	}
 
-		view = View.inflate(context, R.layout.brick_go_to, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_go_to_checkbox);
+	@Override
+	public View onCreateView(final Context context) {
+		super.onCreateView(context);
 
 		final Spinner goToSpinner = (Spinner) view.findViewById(R.id.brick_go_to_spinner);
-
 		final ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
 
 		spinnerAdapterWrapper = new SpinnerAdapterWrapper(context, goToSpinner, spinnerAdapter);
@@ -119,13 +115,12 @@ public class GoToBrick extends BrickBaseType {
 		});
 
 		setSpinnerSelection(goToSpinner, context);
-
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_go_to, null);
+		View prototypeView = super.getPrototypeView(context);
 
 		Spinner goToSpinner = (Spinner) prototypeView.findViewById(R.id.brick_go_to_spinner);
 
@@ -290,12 +285,5 @@ public class GoToBrick extends BrickBaseType {
 		public ArrayAdapter<String> getAdapter() {
 			return spinnerAdapter;
 		}
-	}
-
-	@Override
-	public Brick clone() {
-		GoToBrick copy = new GoToBrick(destinationSprite);
-		copy.spinnerSelection = spinnerSelection;
-		return copy;
 	}
 }

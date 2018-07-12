@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
@@ -42,8 +41,6 @@ import java.util.List;
 
 public class VibrationBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
-
-	private transient View prototypeView;
 
 	public VibrationBrick() {
 		addAllowedBrickField(BrickField.VIBRATE_DURATION_IN_SECONDS);
@@ -68,15 +65,13 @@ public class VibrationBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	protected int getLayoutRes() {
+		return R.layout.brick_vibration;
+	}
 
-		view = View.inflate(context, R.layout.brick_vibration, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_vibration_checkbox);
+	@Override
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
 
 		TextView editVibrate = (TextView) view.findViewById(R.id.brick_vibration_edit_text);
 		TextView secondTextVibrate = (TextView) view.findViewById(R.id.brick_vibration_second_label);
@@ -105,7 +100,7 @@ public class VibrationBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_vibration, null);
+		View prototypeView = super.getPrototypeView(context);
 		TextView textVibrate = (TextView) prototypeView.findViewById(R.id.brick_vibration_edit_text);
 		textVibrate.setText(formatNumberForPrototypeView(BrickValues.VIBRATE_SECONDS));
 		TextView secondTextVibrate = (TextView) prototypeView.findViewById(R.id.brick_vibration_second_label);

@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
@@ -42,9 +41,18 @@ public class PreviousLookBrick extends BrickBaseType {
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		View view = View.inflate(context, R.layout.brick_previous_look, null);
+	public Brick clone() {
+		return new PreviousLookBrick();
+	}
 
+	@Override
+	protected int getLayoutRes() {
+		return R.layout.brick_previous_look;
+	}
+
+	@Override
+	public View getPrototypeView(Context context) {
+		View view = super.getPrototypeView(context);
 		if (ProjectManager.getInstance().getCurrentSprite().getName().equals(context.getString(R.string.background))) {
 			TextView textField = (TextView) view.findViewById(R.id.brick_previous_look_text_view);
 			textField.setText(R.string.brick_previous_background);
@@ -53,24 +61,12 @@ public class PreviousLookBrick extends BrickBaseType {
 	}
 
 	@Override
-	public Brick clone() {
-		return new PreviousLookBrick();
-	}
-
-	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		view = View.inflate(context, R.layout.brick_previous_look, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_previous_look_checkbox);
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
 		if (ProjectManager.getInstance().getCurrentSprite().getName().equals(context.getString(R.string.background))) {
 			TextView textField = (TextView) view.findViewById(R.id.brick_previous_look_text_view);
 			textField.setText(R.string.brick_previous_background);
 		}
-
 		return view;
 	}
 

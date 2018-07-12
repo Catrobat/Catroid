@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -49,18 +48,13 @@ public class WaitUntilBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		if (view == null) {
-			alphaValue = 255;
-		}
+	protected int getLayoutRes() {
+		return R.layout.brick_wait_until;
+	}
 
-		view = View.inflate(context, R.layout.brick_wait_until, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_wait_until_checkbox);
+	@Override
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
 
 		TextView ifBeginTextView = (TextView) view.findViewById(R.id.brick_wait_until_edit_text);
 
@@ -74,7 +68,7 @@ public class WaitUntilBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_wait_until, null);
+		View prototypeView = super.getPrototypeView(context);
 		TextView textIfBegin = (TextView) prototypeView.findViewById(R.id.brick_wait_until_edit_text);
 		textIfBegin.setText(BrickValues.IF_CONDITION);
 		return prototypeView;
@@ -88,6 +82,9 @@ public class WaitUntilBrick extends FormulaBrick {
 
 	@Override
 	public Brick clone() throws CloneNotSupportedException {
-		return new WaitUntilBrick(getFormulaWithBrickField(BrickField.IF_CONDITION).clone());
+		WaitUntilBrick clone = (WaitUntilBrick) super.clone();
+		clone.setFormulaWithBrickField(BrickField.IF_CONDITION,
+				getFormulaWithBrickField(BrickField.IF_CONDITION).clone());
+		return clone;
 	}
 }

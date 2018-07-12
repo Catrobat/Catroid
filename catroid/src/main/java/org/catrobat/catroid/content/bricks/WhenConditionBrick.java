@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -73,15 +72,13 @@ public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	protected int getLayoutRes() {
+		return R.layout.brick_when_condition_true;
+	}
 
-		view = View.inflate(context, R.layout.brick_when_condition_true, null);
-		BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_when_condition_checkbox);
+	@Override
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
 
 		TextView conditionEditText = (TextView) view.findViewById(R.id.brick_when_condition_edit_text);
 
@@ -99,7 +96,7 @@ public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_when_condition_true, null);
+		View prototypeView = super.getPrototypeView(context);
 		TextView textView = (TextView) prototypeView.findViewById(R.id.brick_when_condition_edit_text);
 		textView.setText(BrickValues.IF_CONDITION);
 		return prototypeView;
@@ -120,7 +117,10 @@ public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 	}
 
 	@Override
-	public Brick clone() {
-		return new WhenConditionBrick(getConditionFormula());
+	public Brick clone() throws CloneNotSupportedException {
+		WhenConditionBrick clone = (WhenConditionBrick) super.clone();
+		clone.init();
+		clone.setFormulaWithBrickField(BrickField.IF_CONDITION, getFormulaWithBrickField(BrickField.IF_CONDITION));
+		return clone;
 	}
 }

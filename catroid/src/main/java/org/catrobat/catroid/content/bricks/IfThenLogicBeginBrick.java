@@ -49,10 +49,6 @@ public class IfThenLogicBeginBrick extends IfLogicBeginBrick implements NestingB
 		initializeBrickFields(condition);
 	}
 
-	public void setIfThenEndBrick(IfThenLogicEndBrick ifEndBrick) {
-		this.ifEndBrick = ifEndBrick;
-	}
-
 	@Override
 	public Brick clone() {
 		return new IfThenLogicBeginBrick(getFormulaWithBrickField(BrickField.IF_CONDITION).clone());
@@ -71,7 +67,7 @@ public class IfThenLogicBeginBrick extends IfLogicBeginBrick implements NestingB
 	}
 
 	@Override
-	public List<NestingBrick> getAllNestingBrickParts(boolean sorted) {
+	public List<NestingBrick> getAllNestingBrickParts() {
 		List<NestingBrick> nestingBrickList = new ArrayList<>();
 		nestingBrickList.add(this);
 		nestingBrickList.add(ifEndBrick);
@@ -98,5 +94,9 @@ public class IfThenLogicBeginBrick extends IfLogicBeginBrick implements NestingB
 
 	public IfThenLogicEndBrick getIfThenEndBrick() {
 		return ifEndBrick;
+	}
+
+	public void setIfThenEndBrick(IfThenLogicEndBrick ifEndBrick) {
+		this.ifEndBrick = ifEndBrick;
 	}
 }

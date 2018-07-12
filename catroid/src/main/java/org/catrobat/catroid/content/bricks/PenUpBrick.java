@@ -22,10 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.BaseAdapter;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
@@ -40,27 +36,8 @@ public class PenUpBrick extends BrickBaseType {
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		View view = View.inflate(context, R.layout.brick_pen_up, null);
-
-		return view;
-	}
-
-	@Override
-	public Brick clone() {
-		return new PenUpBrick();
-	}
-
-	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		view = View.inflate(context, R.layout.brick_pen_up, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_pen_up_checkbox);
-		return view;
+	protected int getLayoutRes() {
+		return R.layout.brick_pen_up;
 	}
 
 	@Override

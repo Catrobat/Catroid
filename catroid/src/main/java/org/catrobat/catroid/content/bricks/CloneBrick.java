@@ -26,7 +26,6 @@ import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.ProjectManager;
@@ -51,27 +50,23 @@ public class CloneBrick extends BrickBaseType {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	protected int getLayoutRes() {
+		return R.layout.brick_clone;
+	}
 
-		view = View.inflate(context, R.layout.brick_clone, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_clone_checkbox);
+	@Override
+	public View onCreateView(final Context context) {
+		super.onCreateView(context);
 		setupValueSpinner(context);
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View view = View.inflate(context, R.layout.brick_clone, null);
-		Spinner cloneSpinner = (Spinner) view.findViewById(R.id.brick_clone_spinner);
-
+		View prototypeView = super.getPrototypeView(context);
+		Spinner cloneSpinner = prototypeView.findViewById(R.id.brick_clone_spinner);
 		cloneSpinner.setAdapter(getSpinnerArrayAdapter(context));
-
-		return view;
+		return prototypeView;
 	}
 
 	@Override

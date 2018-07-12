@@ -39,20 +39,11 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import java.util.List;
 
 public class SetPenColorBrick extends FormulaBrick {
+
 	private static final long serialVersionUID = 1L;
-
-	private transient View prototypeView;
-
-	private transient TextView editRedValue;
-	private transient TextView editGreenValue;
-	private transient TextView editBlueValue;
 
 	private transient ColorSeekbar colorSeekbar = new ColorSeekbar(this, BrickField.PEN_COLOR_RED,
 			BrickField.PEN_COLOR_GREEN, BrickField.PEN_COLOR_BLUE);
-
-	protected Object readResolve() {
-		return this;
-	}
 
 	public SetPenColorBrick() {
 		addAllowedBrickField(BrickField.PEN_COLOR_RED);
@@ -66,6 +57,10 @@ public class SetPenColorBrick extends FormulaBrick {
 
 	public SetPenColorBrick(Formula red, Formula green, Formula blue) {
 		initializeBrickFields(red, green, blue);
+	}
+
+	protected Object readResolve() {
+		return this;
 	}
 
 	private void initializeBrickFields(Formula red, Formula green, Formula blue) {
@@ -83,8 +78,13 @@ public class SetPenColorBrick extends FormulaBrick {
 	}
 
 	@Override
+	protected int getLayoutRes() {
+		return R.layout.brick_set_pen_color;
+	}
+
+	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_set_pen_color, null);
+		View prototypeView = super.getPrototypeView(context);
 
 		TextView textValueRed = (TextView) prototypeView.findViewById(R.id.brick_set_pen_color_action_red_edit_text);
 		textValueRed.setText(formatNumberForPrototypeView(BrickValues.PEN_COLOR.r * 255));
@@ -99,42 +99,36 @@ public class SetPenColorBrick extends FormulaBrick {
 	}
 
 	@Override
-	public Brick clone() {
-		return new SetPenColorBrick(getFormulaWithBrickField(BrickField.PEN_COLOR_RED).clone(),
+	public Brick clone() throws CloneNotSupportedException {
+		SetPenColorBrick clone = (SetPenColorBrick) super.clone();
+		clone.initializeBrickFields(getFormulaWithBrickField(BrickField.PEN_COLOR_RED).clone(),
 				getFormulaWithBrickField(BrickField.PEN_COLOR_GREEN).clone(),
 				getFormulaWithBrickField(BrickField.PEN_COLOR_BLUE).clone());
+		return clone;
 	}
 
 	@Override
-	public View getCustomView(Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getCustomView(Context context, int brickId, BaseAdapter brickAdapter) {
 		return colorSeekbar.getView(context);
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
 
-		if (animationState) {
-			return view;
-		}
-		if (view == null) {
-			alphaValue = 255;
-		}
-
-		view = View.inflate(context, R.layout.brick_set_pen_color, null);
-		setCheckboxView(R.id.brick_set_pen_color_checkbox);
-		editRedValue = (TextView) view.findViewById(R.id.brick_set_pen_color_action_red_edit_text);
+		TextView editRedValue = (TextView) view.findViewById(R.id.brick_set_pen_color_action_red_edit_text);
 		getFormulaWithBrickField(BrickField.PEN_COLOR_RED).setTextFieldId(R.id.brick_set_pen_color_action_red_edit_text);
 		getFormulaWithBrickField(BrickField.PEN_COLOR_RED).refreshTextField(view);
 
 		editRedValue.setOnClickListener(this);
 
-		editGreenValue = (TextView) view.findViewById(R.id.brick_set_pen_color_action_green_edit_text);
+		TextView editGreenValue = (TextView) view.findViewById(R.id.brick_set_pen_color_action_green_edit_text);
 		getFormulaWithBrickField(BrickField.PEN_COLOR_GREEN).setTextFieldId(R.id.brick_set_pen_color_action_green_edit_text);
 		getFormulaWithBrickField(BrickField.PEN_COLOR_GREEN).refreshTextField(view);
 
 		editGreenValue.setOnClickListener(this);
 
-		editBlueValue = (TextView) view.findViewById(R.id.brick_set_pen_color_action_blue_edit_text);
+		TextView editBlueValue = (TextView) view.findViewById(R.id.brick_set_pen_color_action_blue_edit_text);
 		getFormulaWithBrickField(BrickField.PEN_COLOR_BLUE).setTextFieldId(R.id.brick_set_pen_color_action_blue_edit_text);
 		getFormulaWithBrickField(BrickField.PEN_COLOR_BLUE).refreshTextField(view);
 

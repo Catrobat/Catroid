@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
@@ -74,8 +73,13 @@ public class UserBrickParameter extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
-		return parent.getView(context, brickId, adapter);
+	protected int getLayoutRes() {
+		return parent.getLayoutRes();
+	}
+
+	@Override
+	public View onCreateView(Context context) {
+		return parent.onCreateView(context);
 	}
 
 	@Override
@@ -98,35 +102,35 @@ public class UserBrickParameter extends FormulaBrick {
 		FormulaEditorFragment.showFragment(view, this, BrickField.USER_BRICK);
 	}
 
-	public void setParent(UserBrick parent) {
-		this.parent = parent;
-	}
-
 	public TextView getTextView() {
 		return textView;
-	}
-
-	public TextView getPrototypeView() {
-		return prototypeView;
-	}
-
-	public UserScriptDefinitionBrickElement getElement() {
-		return element;
 	}
 
 	public void setTextView(TextView textView) {
 		this.textView = textView;
 	}
 
+	public TextView getPrototypeView() {
+		return prototypeView;
+	}
+
 	public void setPrototypeView(TextView prototypeView) {
 		this.prototypeView = prototypeView;
+	}
+
+	public UserScriptDefinitionBrickElement getElement() {
+		return element;
+	}
+
+	public void setElement(UserScriptDefinitionBrickElement element) {
+		this.element = element;
 	}
 
 	public UserBrick getParent() {
 		return parent;
 	}
 
-	public void setElement(UserScriptDefinitionBrickElement element) {
-		this.element = element;
+	public void setParent(UserBrick parent) {
+		this.parent = parent;
 	}
 }

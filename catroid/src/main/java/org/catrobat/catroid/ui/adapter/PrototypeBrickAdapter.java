@@ -66,7 +66,7 @@ public class PrototypeBrickAdapter extends BrickBaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		Brick brick = brickList.get(position);
 		View view = brick.getPrototypeView(context);
-		BrickViewProvider.setSpinnerClickability(view, false);
+		BrickViewProvider.setSpinnerClickable(view, false);
 		return view;
 	}
 }

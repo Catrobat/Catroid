@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
 import android.media.MediaMetadataRetriever;
 import android.view.View;
 import android.widget.TextView;
@@ -42,16 +41,8 @@ public class PlaySoundAndWaitBrick extends PlaySoundBrick {
 	}
 
 	@Override
-	public Brick clone() {
-		PlaySoundAndWaitBrick clone = new PlaySoundAndWaitBrick();
-		clone.setSound(sound);
-		return clone;
-	}
-
-	protected View prepareView(Context context) {
-		View view = View.inflate(context, R.layout.brick_play_sound, null);
+	protected void prepareView(View view) {
 		((TextView) view.findViewById(R.id.brick_play_sound_text_view)).setText(R.string.brick_play_sound_and_wait);
-		return view;
 	}
 
 	@Override

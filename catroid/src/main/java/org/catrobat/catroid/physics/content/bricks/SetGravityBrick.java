@@ -24,7 +24,6 @@ package org.catrobat.catroid.physics.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.badlogic.gdx.math.Vector2;
@@ -33,7 +32,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.content.bricks.BrickViewProvider;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -42,8 +40,6 @@ import java.util.List;
 
 public class SetGravityBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
-
-	private transient View prototypeView;
 
 	public SetGravityBrick() {
 		addAllowedBrickField(BrickField.PHYSICS_GRAVITY_X);
@@ -71,15 +67,13 @@ public class SetGravityBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	protected int getLayoutRes() {
+		return R.layout.brick_physics_set_gravity;
+	}
 
-		view = View.inflate(context, R.layout.brick_physics_set_gravity, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_set_gravity_checkbox);
+	@Override
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
 
 		TextView editX = (TextView) view.findViewById(R.id.brick_set_gravity_edit_text_x);
 		getFormulaWithBrickField(BrickField.PHYSICS_GRAVITY_X).setTextFieldId(R.id.brick_set_gravity_edit_text_x);
@@ -97,7 +91,7 @@ public class SetGravityBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_physics_set_gravity, null);
+		View prototypeView = super.getPrototypeView(context);
 		TextView textGravityX = (TextView) prototypeView.findViewById(R.id.brick_set_gravity_edit_text_x);
 		textGravityX.setText(formatNumberForPrototypeView(BrickValues.PHYSIC_GRAVITY.x));
 		TextView textGravityY = (TextView) prototypeView.findViewById(R.id.brick_set_gravity_edit_text_y);
@@ -107,9 +101,6 @@ public class SetGravityBrick extends FormulaBrick {
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
 		switch (view.getId()) {
 			case R.id.brick_set_gravity_edit_text_y:
 				FormulaEditorFragment.showFragment(view, this, BrickField.PHYSICS_GRAVITY_Y);

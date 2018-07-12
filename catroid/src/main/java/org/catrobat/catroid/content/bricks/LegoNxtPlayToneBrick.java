@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -40,10 +39,6 @@ import java.util.List;
 
 public class LegoNxtPlayToneBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
-
-	private transient View prototypeView;
-
-	private transient TextView editFreq;
 
 	public LegoNxtPlayToneBrick() {
 		addAllowedBrickField(BrickField.LEGO_NXT_FREQUENCY);
@@ -67,12 +62,18 @@ public class LegoNxtPlayToneBrick extends FormulaBrick {
 
 	@Override
 	public int getRequiredResources() {
-		return BLUETOOTH_LEGO_NXT | getFormulaWithBrickField(BrickField.LEGO_NXT_FREQUENCY).getRequiredResources() | getFormulaWithBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS).getRequiredResources();
+		return BLUETOOTH_LEGO_NXT | getFormulaWithBrickField(BrickField.LEGO_NXT_FREQUENCY).getRequiredResources()
+				| getFormulaWithBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS).getRequiredResources();
+	}
+
+	@Override
+	protected int getLayoutRes() {
+		return R.layout.brick_nxt_play_tone;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_nxt_play_tone, null);
+		View prototypeView = super.getPrototypeView(context);
 		TextView textDuration = (TextView) prototypeView.findViewById(R.id.nxt_tone_duration_edit_text);
 
 		NumberFormat nf = NumberFormat.getInstance(context.getResources().getConfiguration().locale);
@@ -88,21 +89,12 @@ public class LegoNxtPlayToneBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		if (view == null) {
-			alphaValue = 255;
-		}
-		view = View.inflate(context, R.layout.brick_nxt_play_tone, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_nxt_play_tone_checkbox);
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
 
 		setSecondText(view, R.id.brick_nxt_play_tone_seconds, R.id.nxt_tone_duration_edit_text, BrickField.LEGO_NXT_DURATION_IN_SECONDS);
 
-		editFreq = (TextView) view.findViewById(R.id.nxt_tone_freq_edit_text);
+		TextView editFreq = (TextView) view.findViewById(R.id.nxt_tone_freq_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_NXT_FREQUENCY).setTextFieldId(R.id.nxt_tone_freq_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_NXT_FREQUENCY).refreshTextField(view);
 

@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
@@ -42,8 +41,6 @@ import java.util.List;
 
 public class WaitBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
-
-	private transient View prototypeView;
 
 	public WaitBrick() {
 		addAllowedBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS);
@@ -76,15 +73,14 @@ public class WaitBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	protected int getLayoutRes() {
+		return R.layout.brick_wait;
+	}
 
-		view = View.inflate(context, R.layout.brick_wait, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+	@Override
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
 
-		setCheckboxView(R.id.brick_wait_checkbox);
 		TextView edit = (TextView) view.findViewById(R.id.brick_wait_edit_text);
 		getFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS).setTextFieldId(R.id.brick_wait_edit_text);
 		getFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS).refreshTextField(view);
@@ -115,7 +111,7 @@ public class WaitBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_wait, null);
+		View prototypeView = super.getPrototypeView(context);
 		TextView textWait = (TextView) prototypeView.findViewById(R.id.brick_wait_edit_text);
 		textWait.setText(formatNumberForPrototypeView(BrickValues.WAIT / 1000));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_wait_second_text_view);

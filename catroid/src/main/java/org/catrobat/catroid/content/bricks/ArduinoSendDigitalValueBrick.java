@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -39,7 +38,6 @@ import java.util.List;
 public class ArduinoSendDigitalValueBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
-	private transient View prototypeView;
 
 	public ArduinoSendDigitalValueBrick() {
 		addAllowedBrickField(BrickField.ARDUINO_DIGITAL_PIN_NUMBER);
@@ -73,8 +71,13 @@ public class ArduinoSendDigitalValueBrick extends FormulaBrick {
 	}
 
 	@Override
+	protected int getLayoutRes() {
+		return R.layout.brick_raspi_send_digital;
+	}
+
+	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_arduino_send_digital, null);
+		View prototypeView = super.getPrototypeView(context);
 
 		TextView textSetPinNumber = (TextView) prototypeView.findViewById(R.id
 				.brick_arduino_set_digital_pin_edit_text);
@@ -87,15 +90,8 @@ public class ArduinoSendDigitalValueBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-
-		view = View.inflate(context, R.layout.brick_arduino_send_digital, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_arduino_send_digital_checkbox);
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
 
 		TextView editPinNumber = (TextView) view.findViewById(R.id.brick_arduino_set_digital_pin_edit_text);
 		getFormulaWithBrickField(BrickField.ARDUINO_DIGITAL_PIN_NUMBER).setTextFieldId(R.id.brick_arduino_set_digital_pin_edit_text);

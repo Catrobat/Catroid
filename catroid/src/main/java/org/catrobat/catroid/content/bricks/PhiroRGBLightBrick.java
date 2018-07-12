@@ -44,28 +44,10 @@ import java.util.List;
 
 public class PhiroRGBLightBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
-
-	private transient View prototypeView;
-
-	public enum Eye {
-		LEFT, RIGHT, BOTH
-	}
-
 	private String eye;
 	private transient Eye eyeEnum;
-	private transient TextView editRedValue;
-	private transient TextView editGreenValue;
-	private transient TextView editBlueValue;
-
 	private transient ColorSeekbar colorSeekbar = new ColorSeekbar(this, BrickField.PHIRO_LIGHT_RED,
 			BrickField.PHIRO_LIGHT_GREEN, BrickField.PHIRO_LIGHT_BLUE);
-
-	protected Object readResolve() {
-		if (eye != null) {
-			eyeEnum = Eye.valueOf(eye);
-		}
-		return this;
-	}
 
 	public PhiroRGBLightBrick() {
 		addAllowedBrickField(BrickField.PHIRO_LIGHT_RED);
@@ -89,6 +71,13 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 		initializeBrickFields(red, green, blue);
 	}
 
+	protected Object readResolve() {
+		if (eye != null) {
+			eyeEnum = Eye.valueOf(eye);
+		}
+		return this;
+	}
+
 	private void initializeBrickFields(Formula red, Formula green, Formula blue) {
 		addAllowedBrickField(BrickField.PHIRO_LIGHT_RED);
 		addAllowedBrickField(BrickField.PHIRO_LIGHT_GREEN);
@@ -107,8 +96,13 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 	}
 
 	@Override
+	protected int getLayoutRes() {
+		return R.layout.brick_phiro_rgb_light;
+	}
+
+	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_phiro_rgb_light, null);
+		View prototypeView = super.getPrototypeView(context);
 
 		TextView textValueRed = (TextView) prototypeView.findViewById(R.id.brick_phiro_rgb_led_action_red_edit_text);
 		textValueRed.setText(formatNumberForPrototypeView(BrickValues.PHIRO_VALUE_RED));
@@ -132,40 +126,37 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 	}
 
 	@Override
-	public Brick clone() {
-		return new PhiroRGBLightBrick(eye,
+	public Brick clone() throws CloneNotSupportedException {
+		PhiroRGBLightBrick clone = (PhiroRGBLightBrick) super.clone();
+		clone.initializeBrickFields(
 				getFormulaWithBrickField(BrickField.PHIRO_LIGHT_RED).clone(),
 				getFormulaWithBrickField(BrickField.PHIRO_LIGHT_GREEN).clone(),
 				getFormulaWithBrickField(BrickField.PHIRO_LIGHT_BLUE).clone());
+		return clone;
 	}
 
 	@Override
-	public View getCustomView(Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getCustomView(Context context, int brickId, BaseAdapter brickAdapter) {
 		return colorSeekbar.getView(context);
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
 
-		if (animationState) {
-			return view;
-		}
-
-		view = View.inflate(context, R.layout.brick_phiro_rgb_light, null);
-		setCheckboxView(R.id.brick_phiro_rgb_led_action_checkbox);
-		editRedValue = (TextView) view.findViewById(R.id.brick_phiro_rgb_led_action_red_edit_text);
+		TextView editRedValue = (TextView) view.findViewById(R.id.brick_phiro_rgb_led_action_red_edit_text);
 		getFormulaWithBrickField(BrickField.PHIRO_LIGHT_RED).setTextFieldId(R.id.brick_phiro_rgb_led_action_red_edit_text);
 		getFormulaWithBrickField(BrickField.PHIRO_LIGHT_RED).refreshTextField(view);
 
 		editRedValue.setOnClickListener(this);
 
-		editGreenValue = (TextView) view.findViewById(R.id.brick_phiro_rgb_led_action_green_edit_text);
+		TextView editGreenValue = (TextView) view.findViewById(R.id.brick_phiro_rgb_led_action_green_edit_text);
 		getFormulaWithBrickField(BrickField.PHIRO_LIGHT_GREEN).setTextFieldId(R.id.brick_phiro_rgb_led_action_green_edit_text);
 		getFormulaWithBrickField(BrickField.PHIRO_LIGHT_GREEN).refreshTextField(view);
 
 		editGreenValue.setOnClickListener(this);
 
-		editBlueValue = (TextView) view.findViewById(R.id.brick_phiro_rgb_led_action_blue_edit_text);
+		TextView editBlueValue = (TextView) view.findViewById(R.id.brick_phiro_rgb_led_action_blue_edit_text);
 		getFormulaWithBrickField(BrickField.PHIRO_LIGHT_BLUE).setTextFieldId(R.id.brick_phiro_rgb_led_action_blue_edit_text);
 		getFormulaWithBrickField(BrickField.PHIRO_LIGHT_BLUE).refreshTextField(view);
 
@@ -231,5 +222,9 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 				getFormulaWithBrickField(BrickField.PHIRO_LIGHT_GREEN),
 				getFormulaWithBrickField(BrickField.PHIRO_LIGHT_BLUE)));
 		return null;
+	}
+
+	public enum Eye {
+		LEFT, RIGHT, BOTH
 	}
 }

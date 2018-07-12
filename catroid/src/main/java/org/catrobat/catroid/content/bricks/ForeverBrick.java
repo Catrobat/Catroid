@@ -22,10 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.BaseAdapter;
-
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.R;
@@ -41,38 +37,14 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	protected transient LoopEndBrick loopEndBrick;
+	private transient LoopEndBrick loopEndBrick;
 
 	public ForeverBrick() {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
-	}
-
-	@Override
-	public Brick clone() {
-		ForeverBrick clone = new ForeverBrick();
-		clone.setLoopEndBrick(loopEndBrick);
-		return clone;
-	}
-
-	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		view = View.inflate(context, R.layout.brick_forever, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_forever_checkbox);
-		return view;
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_forever, null);
+	protected int getLayoutRes() {
+		return R.layout.brick_forever;
 	}
 
 	@Override
@@ -111,8 +83,8 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 	}
 
 	@Override
-	public List<NestingBrick> getAllNestingBrickParts(boolean sorted) {
-		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
+	public List<NestingBrick> getAllNestingBrickParts() {
+		List<NestingBrick> nestingBrickList = new ArrayList<>();
 		nestingBrickList.add(this);
 		nestingBrickList.add(loopEndBrick);
 

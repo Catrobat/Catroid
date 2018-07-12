@@ -31,7 +31,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
@@ -47,11 +46,10 @@ import java.util.List;
 
 public class WhenNfcBrick extends BrickBaseType implements ScriptBrick {
 
+	private static final long serialVersionUID = 1L;
 	protected WhenNfcScript whenNfcScript;
-	private transient View prototypeView;
 	private transient NfcTagData nfcTag;
 	private transient NfcTagData oldSelectedNfcTag;
-	private static final long serialVersionUID = 1L;
 
 	public WhenNfcBrick() {
 		this.oldSelectedNfcTag = null;
@@ -65,7 +63,7 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick {
 		this.nfcTag = script.getNfcTag();
 		this.whenNfcScript = script;
 
-		if (script != null && script.isCommentedOut()) {
+		if (script.isCommentedOut()) {
 			setCommentedOut(true);
 		}
 	}
@@ -79,28 +77,27 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick {
 	}
 
 	@Override
-	public Brick clone() {
-		return new WhenNfcBrick(new WhenNfcScript(nfcTag));
+	public Brick clone() throws CloneNotSupportedException {
+		WhenNfcBrick clone = (WhenNfcBrick) super.clone();
+		clone.whenNfcScript = new WhenNfcScript(nfcTag);
+		return clone;
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		if (view == null) {
-			alphaValue = 255;
-		}
+	protected int getLayoutRes() {
+		return R.layout.brick_when_nfc;
+	}
+
+	@Override
+	public View onCreateView(final Context context) {
+
 		if (whenNfcScript == null) {
 			whenNfcScript = new WhenNfcScript(nfcTag);
 		}
 
-		view = View.inflate(context, R.layout.brick_when_nfc, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_when_nfc_checkbox);
+		super.onCreateView(context);
 
 		final Spinner nfcSpinner = (Spinner) view.findViewById(R.id.brick_when_nfc_spinner);
-
 		final ArrayAdapter<NfcTagData> spinnerAdapter = createNfcTagAdapter(context);
 
 		SpinnerAdapterWrapper spinnerAdapterWrapper = new SpinnerAdapterWrapper(context, spinnerAdapter);
@@ -185,13 +182,37 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_when_nfc, null);
+		View prototypeView = super.getPrototypeView(context);
 		Spinner nfcSpinner = (Spinner) prototypeView.findViewById(R.id.brick_when_nfc_spinner);
 
 		SpinnerAdapter nfcSpinnerAdapter = createNfcTagAdapter(context); //NfcTagContainer.getMessageAdapter(context);
 		nfcSpinner.setAdapter(nfcSpinnerAdapter);
 		setSpinnerSelection(nfcSpinner);
 		return prototypeView;
+	}
+
+	@Override
+	public int getRequiredResources() {
+		return NFC_ADAPTER;
+	}
+
+	@Override
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		return null;
+	}
+
+	public NfcTagData getNfcTag() {
+		return nfcTag;
+	}
+
+	public void setWhenNfcScript(WhenNfcScript whenNfcScript) {
+		this.whenNfcScript = whenNfcScript;
+	}
+
+	@Override
+	public void setCommentedOut(boolean commentedOut) {
+		super.setCommentedOut(commentedOut);
+		getScriptSafe().setCommentedOut(commentedOut);
 	}
 
 	private class SpinnerAdapterWrapper implements SpinnerAdapter {
@@ -280,29 +301,5 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick {
 
 			return dropDownView;
 		}
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return NFC_ADAPTER;
-	}
-
-	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		return null;
-	}
-
-	public NfcTagData getNfcTag() {
-		return nfcTag;
-	}
-
-	public void setWhenNfcScript(WhenNfcScript whenNfcScript) {
-		this.whenNfcScript = whenNfcScript;
-	}
-
-	@Override
-	public void setCommentedOut(boolean commentedOut) {
-		super.setCommentedOut(commentedOut);
-		getScriptSafe().setCommentedOut(commentedOut);
 	}
 }

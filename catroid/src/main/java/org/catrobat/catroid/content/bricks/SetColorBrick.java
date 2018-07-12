@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -40,8 +39,6 @@ import java.util.List;
 public class SetColorBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
-
-	private transient View prototypeView;
 
 	public SetColorBrick() {
 		addAllowedBrickField(BrickField.COLOR);
@@ -66,15 +63,13 @@ public class SetColorBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	protected int getLayoutRes() {
+		return R.layout.brick_set_color_to;
+	}
 
-		view = View.inflate(context, R.layout.brick_set_color_to, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_set_color_checkbox);
+	@Override
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
 
 		TextView edit = (TextView) view.findViewById(R.id.brick_set_color_edit_text);
 		getFormulaWithBrickField(BrickField.COLOR).setTextFieldId(R.id.brick_set_color_edit_text);
@@ -86,7 +81,7 @@ public class SetColorBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_set_color_to, null);
+		View prototypeView = super.getPrototypeView(context);
 		TextView textSetSizeTo = (TextView) prototypeView.findViewById(R.id.brick_set_color_edit_text);
 		textSetSizeTo.setText(formatNumberForPrototypeView(BrickValues.SET_COLOR_TO));
 		return prototypeView;

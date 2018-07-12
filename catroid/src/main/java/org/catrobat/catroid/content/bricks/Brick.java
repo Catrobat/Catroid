@@ -24,17 +24,57 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.io.Serializable;
 import java.util.List;
 
 public interface Brick extends Serializable, Cloneable {
+
+	//use bitwise | for using multiple resources in a brick
+	int NO_RESOURCES = 0x0;
+	int TEXT_TO_SPEECH = 0x2;
+	int BLUETOOTH_LEGO_NXT = 0x4;
+	int PHYSICS = 0x8;
+	int FACE_DETECTION = 0x10;
+	int ARDRONE_SUPPORT = 0x20;
+	int BLUETOOTH_SENSORS_ARDUINO = 0x40;
+	int SOCKET_RASPI = 0x80;
+	int CAMERA_FLASH = 0x100;
+	int VIBRATOR = 0x200;
+	int BLUETOOTH_PHIRO = 0x400;
+	int CAMERA_BACK = 0x800;
+	int CAMERA_FRONT = 0x1000;
+	int SENSOR_ACCELERATION = 0x2000;
+	int SENSOR_INCLINATION = 0x4000;
+	int SENSOR_COMPASS = 0x8000;
+	int NFC_ADAPTER = 0x10000;
+	int VIDEO = 0x20000;
+	int SENSOR_GPS = 0x40000;
+	int COLLISION = 0x80000;
+	int BLUETOOTH_LEGO_EV3 = 0x100000;
+	int NETWORK_CONNECTION = 0x200000;
+	int CAST_REQUIRED = 0x400000;
+	int JUMPING_SUMO = 0x800000;
+
+	List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence);
+
+	int getRequiredResources();
+
+	View getPrototypeView(Context context);
+
+	View onCreateView(Context context);
+
+	CheckBox getCheckBox();
+
+	Brick clone() throws CloneNotSupportedException;
+
+	boolean isCommentedOut();
+
+	void setCommentedOut(boolean commentedOut);
 
 	enum BrickField {
 		COLOR, COLOR_CHANGE, BRIGHTNESS, BRIGHTNESS_CHANGE, X_POSITION, Y_POSITION, X_POSITION_CHANGE, Y_POSITION_CHANGE,
@@ -83,60 +123,4 @@ public interface Brick extends Serializable, Cloneable {
 			return false;
 		}
 	}
-
-	//use bitwise | for using multiple resources in a brick
-	int NO_RESOURCES = 0x0;
-	int TEXT_TO_SPEECH = 0x2;
-	int BLUETOOTH_LEGO_NXT = 0x4;
-	int PHYSICS = 0x8;
-	int FACE_DETECTION = 0x10;
-	int ARDRONE_SUPPORT = 0x20;
-	int BLUETOOTH_SENSORS_ARDUINO = 0x40;
-	int SOCKET_RASPI = 0x80;
-	int CAMERA_FLASH = 0x100;
-	int VIBRATOR = 0x200;
-	int BLUETOOTH_PHIRO = 0x400;
-	int CAMERA_BACK = 0x800;
-	int CAMERA_FRONT = 0x1000;
-	int SENSOR_ACCELERATION = 0x2000;
-	int SENSOR_INCLINATION = 0x4000;
-	int SENSOR_COMPASS = 0x8000;
-	int NFC_ADAPTER = 0x10000;
-	int VIDEO = 0x20000;
-	int SENSOR_GPS = 0x40000;
-	int COLLISION = 0x80000;
-	int BLUETOOTH_LEGO_EV3 = 0x100000;
-	int NETWORK_CONNECTION = 0x200000;
-	int CAST_REQUIRED = 0x400000;
-	int JUMPING_SUMO = 0x800000;
-
-	List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence);
-
-	View getView(Context context, int brickId, BaseAdapter adapter);
-
-	View getPrototypeView(Context context);
-
-	Brick clone() throws CloneNotSupportedException;
-
-	int getRequiredResources();
-
-	int getAlphaValue();
-
-	void setBrickAdapter(BrickAdapter adapter);
-
-	CheckBox getCheckBox();
-
-	boolean isChecked();
-
-	boolean isCommentedOut();
-
-	void setCommentedOut(boolean commentedOut);
-
-	void setCheckboxView(int id);
-
-	void setCheckboxView(int id, View view);
-
-	void setAnimationState(boolean animationState);
-
-	void setAlpha(int alphaFull);
 }

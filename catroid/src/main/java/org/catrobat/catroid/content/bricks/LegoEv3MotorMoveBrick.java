@@ -26,7 +26,6 @@ import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -42,15 +41,8 @@ import java.util.List;
 public class LegoEv3MotorMoveBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
-
 	private String motor;
 	private transient Motor motorEnum;
-	private transient TextView editSpeed;
-
-	public enum Motor {
-		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_D, MOTOR_B_C
-	}
 
 	public LegoEv3MotorMoveBrick() {
 		addAllowedBrickField(BrickField.LEGO_EV3_SPEED);
@@ -87,7 +79,7 @@ public class LegoEv3MotorMoveBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_ev3_motor_move, null);
+		View prototypeView = super.getPrototypeView(context);
 		TextView textSpeed = (TextView) prototypeView.findViewById(R.id.ev3_motor_move_speed_edit_text);
 		textSpeed.setText(formatNumberForPrototypeView(BrickValues.LEGO_SPEED));
 
@@ -110,18 +102,15 @@ public class LegoEv3MotorMoveBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		if (view == null) {
-			alphaValue = 255;
-		}
-		view = View.inflate(context, R.layout.brick_ev3_motor_move, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_ev3_motor_move_checkbox);
+	protected int getLayoutRes() {
+		return R.layout.brick_ev3_motor_move;
+	}
 
-		editSpeed = (TextView) view.findViewById(R.id.ev3_motor_move_speed_edit_text);
+	@Override
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
+
+		TextView editSpeed = (TextView) view.findViewById(R.id.ev3_motor_move_speed_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_EV3_SPEED).setTextFieldId(R.id.ev3_motor_move_speed_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_EV3_SPEED).refreshTextField(view);
 
@@ -158,5 +147,9 @@ public class LegoEv3MotorMoveBrick extends FormulaBrick {
 		sequence.addAction(sprite.getActionFactory().createLegoEv3SingleMotorMoveAction(sprite, motorEnum,
 				getFormulaWithBrickField(BrickField.LEGO_EV3_SPEED)));
 		return null;
+	}
+
+	public enum Motor {
+		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_D, MOTOR_B_C
 	}
 }

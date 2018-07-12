@@ -22,10 +22,7 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
 import android.util.Log;
-import android.view.View;
-import android.widget.BaseAdapter;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
@@ -46,39 +43,13 @@ public class IfThenLogicEndBrick extends BrickBaseType implements NestingBrick, 
 		this.ifBeginBrick = beginBrick;
 	}
 
-	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
-	}
-
 	public void setIfThenBeginBrick(IfThenLogicBeginBrick ifBeginBrick) {
 		this.ifBeginBrick = ifBeginBrick;
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		if (view == null) {
-			alphaValue = 255;
-		}
-
-		view = View.inflate(context, R.layout.brick_if_end_if, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_if_end_if_checkbox);
-		return view;
-	}
-
-	@Override
-	public Brick clone() {
-		return new IfThenLogicEndBrick(ifBeginBrick);
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_if_end_if, null);
+	protected int getLayoutRes() {
+		return R.layout.brick_if_end_if;
 	}
 
 	@Override
@@ -97,7 +68,7 @@ public class IfThenLogicEndBrick extends BrickBaseType implements NestingBrick, 
 	}
 
 	@Override
-	public List<NestingBrick> getAllNestingBrickParts(boolean sorted) {
+	public List<NestingBrick> getAllNestingBrickParts() {
 		List<NestingBrick> nestingBrickList = new ArrayList<>();
 		nestingBrickList.add(ifBeginBrick);
 		nestingBrickList.add(this);

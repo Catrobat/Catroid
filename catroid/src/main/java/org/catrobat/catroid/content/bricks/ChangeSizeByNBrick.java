@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -38,8 +37,6 @@ import java.util.List;
 
 public class ChangeSizeByNBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
-
-	private transient View prototypeView;
 
 	public ChangeSizeByNBrick() {
 		addAllowedBrickField(BrickField.SIZE_CHANGE);
@@ -64,16 +61,16 @@ public class ChangeSizeByNBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	protected int getLayoutRes() {
+		return R.layout.brick_change_size_by_n;
+	}
 
-		view = View.inflate(context, R.layout.brick_change_size_by_n, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+	@Override
+	public View onCreateView(Context context) {
 
-		setCheckboxView(R.id.brick_change_size_by_checkbox);
-		TextView edit = (TextView) view.findViewById(R.id.brick_change_size_by_edit_text);
+		super.onCreateView(context);
+
+		TextView edit = view.findViewById(R.id.brick_change_size_by_edit_text);
 		getFormulaWithBrickField(BrickField.SIZE_CHANGE).setTextFieldId(R.id.brick_change_size_by_edit_text);
 		getFormulaWithBrickField(BrickField.SIZE_CHANGE).refreshTextField(view);
 
@@ -83,9 +80,8 @@ public class ChangeSizeByNBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_change_size_by_n, null);
-		TextView textChangeSizeBy = (TextView) prototypeView
-				.findViewById(R.id.brick_change_size_by_edit_text);
+		View prototypeView = super.getPrototypeView(context);
+		TextView textChangeSizeBy = prototypeView.findViewById(R.id.brick_change_size_by_edit_text);
 		textChangeSizeBy.setText(formatNumberForPrototypeView(BrickValues.CHANGE_SIZE_BY));
 		return prototypeView;
 	}

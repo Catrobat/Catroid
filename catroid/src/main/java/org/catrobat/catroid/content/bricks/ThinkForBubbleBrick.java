@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
@@ -42,9 +41,9 @@ import org.catrobat.catroid.utils.Utils;
 import java.util.List;
 
 public class ThinkForBubbleBrick extends FormulaBrick {
+
 	private static final long serialVersionUID = 1L;
 	protected int type = Constants.THINK_BRICK;
-	private transient View prototypeView;
 
 	public ThinkForBubbleBrick() {
 		addAllowedBrickField(BrickField.STRING);
@@ -79,25 +78,20 @@ public class ThinkForBubbleBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	protected int getLayoutRes() {
+		return type == Constants.SAY_BRICK ? R.layout.brick_say_for_bubble : R.layout.brick_think_for_bubble;
+	}
 
-		int layoutId = type == Constants.SAY_BRICK ? R.layout.brick_say_for_bubble : R.layout.brick_think_for_bubble;
-		int checkboxId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_checkbox : R.id
-				.brick_think_for_bubble_checkbox;
+	@Override
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
+
 		int editTextId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_edit_text_text : R.id
 				.brick_think_for_bubble_edit_text_text;
 		int editDurationId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_edit_text_duration : R.id
 				.brick_think_for_bubble_edit_text_duration;
 		int thinkSaySecondsLabelId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_seconds_label : R.id
 				.brick_think_for_bubble_seconds_label;
-
-		view = View.inflate(context, layoutId, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(checkboxId);
 
 		TextView editText = (TextView) view.findViewById(editTextId);
 		getFormulaWithBrickField(BrickField.STRING).setTextFieldId(editTextId);
@@ -133,7 +127,8 @@ public class ThinkForBubbleBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		int layoutId = type == Constants.SAY_BRICK ? R.layout.brick_say_for_bubble : R.layout.brick_think_for_bubble;
+		View prototypeView = super.getPrototypeView(context);
+
 		int textTextId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_edit_text_text : R.id
 				.brick_think_for_bubble_edit_text_text;
 		int textDurationId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_edit_text_duration : R
@@ -142,7 +137,7 @@ public class ThinkForBubbleBrick extends FormulaBrick {
 				.brick_think_bubble_default_value;
 		int thinkSaySecondsLabelId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_seconds_label : R.id
 				.brick_think_for_bubble_seconds_label;
-		prototypeView = View.inflate(context, layoutId, null);
+
 		TextView textText = (TextView) prototypeView.findViewById(textTextId);
 		TextView textDuration = (TextView) prototypeView.findViewById(textDurationId);
 		TextView seconds = (TextView) prototypeView.findViewById(thinkSaySecondsLabelId);

@@ -29,7 +29,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
@@ -47,7 +46,6 @@ public class SetNfcTagBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
 	private transient Spinner spinner;
 	private int nfcTagNdefDefaultType = BrickValues.TNF_WELL_KNOWN_HTTPS;
 	private int nfcTagNdefType = nfcTagNdefDefaultType;
@@ -74,17 +72,13 @@ public class SetNfcTagBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		if (view == null) {
-			alphaValue = 255;
-		}
+	protected int getLayoutRes() {
+		return R.layout.brick_set_nfc_tag;
+	}
 
-		view = View.inflate(context, R.layout.brick_set_nfc_tag, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_set_nfc_tag_checkbox);
+	@Override
+	public View onCreateView(final Context context) {
+		super.onCreateView(context);
 
 		spinner = (Spinner) view.findViewById(R.id.brick_set_nfc_tag_ndef_record_spinner);
 
@@ -131,7 +125,7 @@ public class SetNfcTagBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_set_nfc_tag, null);
+		View prototypeView = super.getPrototypeView(context);
 
 		spinner = (Spinner) prototypeView.findViewById(R.id.brick_set_nfc_tag_ndef_record_spinner);
 		SpinnerAdapter setLookSpinnerAdapter = createArrayAdapter(context);

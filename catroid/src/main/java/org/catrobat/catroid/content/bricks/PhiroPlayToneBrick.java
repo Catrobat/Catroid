@@ -27,7 +27,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -45,14 +44,8 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
-
 	private String tone;
 	private transient Tone toneEnum;
-
-	public enum Tone {
-		DO, RE, MI, FA, SO, LA, TI
-	}
 
 	public PhiroPlayToneBrick() {
 		addAllowedBrickField(BrickField.PHIRO_DURATION_IN_SECONDS);
@@ -88,8 +81,13 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 	}
 
 	@Override
+	protected int getLayoutRes() {
+		return R.layout.brick_phiro_play_tone;
+	}
+
+	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_phiro_play_tone, null);
+		View prototypeView = super.getPrototypeView(context);
 		TextView textDuration = (TextView) prototypeView.findViewById(R.id.brick_phiro_play_tone_duration_edit_text);
 		textDuration.setText(formatNumberForPrototypeView(BrickValues.PHIRO_DURATION));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_phiro_play_tone_seconds_text_view);
@@ -108,14 +106,9 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	public View onCreateView(Context context) {
 
-		view = View.inflate(context, R.layout.brick_phiro_play_tone, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_phiro_play_tone_checkbox);
+		super.onCreateView(context);
 
 		setSecondText(view, R.id.brick_phiro_play_tone_seconds_text_view, R.id.brick_phiro_play_tone_duration_edit_text, BrickField.PHIRO_DURATION_IN_SECONDS);
 
@@ -157,5 +150,9 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 		sequence.addAction(sprite.getActionFactory().createDelayAction(sprite, getFormulaWithBrickField(BrickField
 				.PHIRO_DURATION_IN_SECONDS)));
 		return null;
+	}
+
+	public enum Tone {
+		DO, RE, MI, FA, SO, LA, TI
 	}
 }

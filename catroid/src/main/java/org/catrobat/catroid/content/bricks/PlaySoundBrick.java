@@ -27,7 +27,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.ProjectManager;
@@ -65,15 +64,7 @@ public class PlaySoundBrick extends BrickBaseType implements
 		this.sound = sound;
 	}
 
-	@Override
-	public Brick clone() {
-		PlaySoundBrick clone = new PlaySoundBrick();
-		clone.setSound(sound);
-		return clone;
-	}
-
-	protected View prepareView(Context context) {
-		return View.inflate(context, R.layout.brick_play_sound, null);
+	protected void prepareView(View view) {
 	}
 
 	protected Spinner findSpinner(View view) {
@@ -81,10 +72,14 @@ public class PlaySoundBrick extends BrickBaseType implements
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		view = prepareView(context);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_play_sound_checkbox);
+	protected int getLayoutRes() {
+		return R.layout.brick_play_sound;
+	}
+
+	@Override
+	public View onCreateView(final Context context) {
+		super.onCreateView(context);
+		prepareView(view);
 
 		spinner = findSpinner(view);
 		spinnerAdapter = new SpinnerAdapterWithNewOption(context, getSoundNames());
@@ -150,7 +145,8 @@ public class PlaySoundBrick extends BrickBaseType implements
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View view = prepareView(context);
+		View view = super.getPrototypeView(context);
+		prepareView(view);
 		spinner = findSpinner(view);
 		spinnerAdapter = new SpinnerAdapterWithNewOption(context, getSoundNames());
 		spinner.setAdapter(spinnerAdapter);

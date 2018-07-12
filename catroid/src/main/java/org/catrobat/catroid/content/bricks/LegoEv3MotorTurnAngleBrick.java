@@ -26,7 +26,6 @@ import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -42,14 +41,8 @@ import java.util.List;
 public class LegoEv3MotorTurnAngleBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
 	private String motor;
 	private transient Motor motorEnum;
-	private transient TextView editSpeed;
-
-	public enum Motor {
-		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_D, MOTOR_B_C, MOTOR_ALL
-	}
 
 	public LegoEv3MotorTurnAngleBrick(Motor motor, int degrees) {
 		this.motorEnum = motor;
@@ -82,7 +75,7 @@ public class LegoEv3MotorTurnAngleBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_ev3_motor_turn_angle, null);
+		View prototypeView = super.getPrototypeView(context);
 		TextView textX = (TextView) prototypeView.findViewById(R.id.ev3_motor_turn_angle_edit_text);
 		textX.setText(formatNumberForPrototypeView(BrickValues.LEGO_ANGLE));
 
@@ -106,19 +99,15 @@ public class LegoEv3MotorTurnAngleBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		if (view == null) {
-			alphaValue = 255;
-		}
-		view = View.inflate(context, R.layout.brick_ev3_motor_turn_angle, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+	protected int getLayoutRes() {
+		return R.layout.brick_ev3_motor_turn_angle;
+	}
 
-		setCheckboxView(R.id.brick_ev3_motor_turn_checkbox);
+	@Override
+	public View onCreateView(final Context context) {
+		super.onCreateView(context);
 
-		editSpeed = (TextView) view.findViewById(R.id.ev3_motor_turn_angle_edit_text);
+		TextView editSpeed = (TextView) view.findViewById(R.id.ev3_motor_turn_angle_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_EV3_DEGREES).setTextFieldId(R.id.ev3_motor_turn_angle_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_EV3_DEGREES).refreshTextField(view);
 
@@ -156,5 +145,9 @@ public class LegoEv3MotorTurnAngleBrick extends FormulaBrick {
 		sequence.addAction(sprite.getActionFactory().createLegoEv3MotorTurnAngleAction(sprite, motorEnum,
 				getFormulaWithBrickField(BrickField.LEGO_EV3_DEGREES)));
 		return null;
+	}
+
+	public enum Motor {
+		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_D, MOTOR_B_C, MOTOR_ALL
 	}
 }

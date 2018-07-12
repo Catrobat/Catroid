@@ -27,7 +27,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -61,12 +60,12 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 		return ifElseBrick;
 	}
 
-	public IfLogicEndBrick getIfEndBrick() {
-		return ifEndBrick;
-	}
-
 	public void setIfElseBrick(IfLogicElseBrick elseBrick) {
 		this.ifElseBrick = elseBrick;
+	}
+
+	public IfLogicEndBrick getIfEndBrick() {
+		return ifEndBrick;
 	}
 
 	public void setIfEndBrick(IfLogicEndBrick ifEndBrick) {
@@ -74,24 +73,21 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 	}
 
 	@Override
-	public Brick clone() {
-		return new PhiroIfLogicBeginBrick();
+	public Brick clone() throws CloneNotSupportedException {
+		PhiroIfLogicBeginBrick clone = (PhiroIfLogicBeginBrick) super.clone();
+		clone.ifElseBrick = null;
+		clone.ifEndBrick = null;
+		return clone;
 	}
 
 	@Override
-	public void showFormulaEditorToEditFormula(View view) {
+	protected int getLayoutRes() {
+		return R.layout.brick_phiro_if_sensor;
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-
-		view = View.inflate(context, R.layout.brick_phiro_if_sensor, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_phiro_sensor_checkbox);
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
 
 		Spinner phiroProSensorSpinner = (Spinner) view.findViewById(R.id.brick_phiro_sensor_action_spinner);
 
@@ -127,7 +123,7 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_phiro_if_sensor, null);
+		View prototypeView = super.getPrototypeView(context);
 
 		Spinner phiroProSensorSpinner = (Spinner) prototypeView.findViewById(R.id.brick_phiro_sensor_action_spinner);
 
@@ -153,17 +149,11 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 	}
 
 	@Override
-	public List<NestingBrick> getAllNestingBrickParts(boolean sorted) {
-		//TODO: handle sorting
-		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
-		if (sorted) {
-			nestingBrickList.add(this);
-			nestingBrickList.add(ifElseBrick);
-			nestingBrickList.add(ifEndBrick);
-		} else {
-			nestingBrickList.add(this);
-			nestingBrickList.add(ifEndBrick);
-		}
+	public List<NestingBrick> getAllNestingBrickParts() {
+		List<NestingBrick> nestingBrickList = new ArrayList<>();
+		nestingBrickList.add(this);
+		nestingBrickList.add(ifElseBrick);
+		nestingBrickList.add(ifEndBrick);
 
 		return nestingBrickList;
 	}

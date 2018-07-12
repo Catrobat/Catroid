@@ -27,16 +27,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
-import org.catrobat.catroid.content.bricks.BrickViewProvider;
 import org.catrobat.catroid.physics.PhysicsObject;
 
 import java.util.List;
@@ -45,8 +42,6 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType implements Cloneabl
 	private static final long serialVersionUID = 1L;
 
 	private PhysicsObject.Type type = PhysicsObject.Type.NONE;
-
-	private transient View prototypeView;
 
 	public SetPhysicsObjectTypeBrick() {
 	}
@@ -61,20 +56,13 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType implements Cloneabl
 	}
 
 	@Override
-	public Brick clone() {
-		return new SetPhysicsObjectTypeBrick(type);
+	protected int getLayoutRes() {
+		return R.layout.brick_physics_set_physics_object_type;
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-
-		view = View.inflate(context, R.layout.brick_physics_set_physics_object_type, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_set_physics_object_checkbox);
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
 
 		final Spinner spinner = (Spinner) view.findViewById(R.id.brick_set_physics_object_type_spinner);
 		spinner.setAdapter(createAdapter(context));
@@ -110,7 +98,7 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType implements Cloneabl
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_physics_set_physics_object_type, null);
+		View prototypeView = super.getPrototypeView(context);
 		Spinner pointToSpinner = (Spinner) prototypeView.findViewById(R.id.brick_set_physics_object_type_spinner);
 		SpinnerAdapter objectTypeSpinnerAdapter = createAdapter(context);
 		pointToSpinner.setAdapter(objectTypeSpinnerAdapter);

@@ -26,7 +26,6 @@ import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
 import com.parrot.freeflight.drone.DroneProxy.ARDRONE_LED_ANIMATION;
@@ -38,9 +37,9 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import java.util.List;
 
 public class DronePlayLedAnimationBrick extends BrickBaseType {
+
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
 	private String ledAnimationName;
 	private transient ARDRONE_LED_ANIMATION ledAnimation;
 
@@ -57,8 +56,13 @@ public class DronePlayLedAnimationBrick extends BrickBaseType {
 	}
 
 	@Override
+	protected int getLayoutRes() {
+		return R.layout.brick_drone_play_led_animation;
+	}
+
+	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_drone_play_led_animation, null);
+		View prototypeView = super.getPrototypeView(context);
 
 		Spinner dronePlayLedAnimationSpinner = (Spinner) prototypeView.findViewById(R.id
 				.brick_drone_play_led_animation_spinner);
@@ -77,14 +81,8 @@ public class DronePlayLedAnimationBrick extends BrickBaseType {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-
-		view = View.inflate(context, R.layout.brick_drone_play_led_animation, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_drone_play_led_animation_checkbox);
+	public View onCreateView(Context context) {
+		super.onCreateView(context);
 
 		ArrayAdapter<CharSequence> animationAdapter = ArrayAdapter.createFromResource(context,
 				R.array.brick_drone_play_led_animation_spinner, android.R.layout.simple_spinner_item);

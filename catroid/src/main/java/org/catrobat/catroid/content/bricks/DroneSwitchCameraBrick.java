@@ -22,10 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.BaseAdapter;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
@@ -33,28 +29,8 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import java.util.List;
 
 public class DroneSwitchCameraBrick extends BrickBaseType {
+
 	private static final long serialVersionUID = 1L;
-
-	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-
-		view = View.inflate(context, R.layout.brick_drone_switch_camera, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_drone_switch_camera_checkbox);
-
-		return view;
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_drone_switch_camera, null);
-
-		return prototypeView;
-	}
 
 	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
@@ -65,6 +41,11 @@ public class DroneSwitchCameraBrick extends BrickBaseType {
 	@Override
 	public int getRequiredResources() {
 		return super.getRequiredResources() | Brick.ARDRONE_SUPPORT;
+	}
+
+	@Override
+	protected int getLayoutRes() {
+		return R.layout.brick_drone_switch_camera;
 	}
 }
 
