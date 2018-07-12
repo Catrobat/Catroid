@@ -78,11 +78,6 @@ public class SetPenColorBrick extends FormulaBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
-	}
-
-	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_set_pen_color, null);
 

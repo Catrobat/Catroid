@@ -40,11 +40,6 @@ public class DeleteThisCloneBrick extends BrickBaseType {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
-	}
-
-	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 		view = View.inflate(context, R.layout.brick_delete_this_clone, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);

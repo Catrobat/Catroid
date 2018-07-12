@@ -51,11 +51,6 @@ public class StopScriptBrick extends BrickBaseType {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
-	}
-
-	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 
 		view = View.inflate(context, R.layout.brick_stop_script, null);

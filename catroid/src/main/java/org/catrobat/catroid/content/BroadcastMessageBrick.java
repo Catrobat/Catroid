@@ -53,11 +53,6 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements New
 		setSpinnerSelection(spinner);
 	}
 
-	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
-	}
-
 	private BroadcastSpinnerAdapter getMessageAdapter(Context context) {
 		if (messageAdapter == null) {
 			messageAdapter = new BroadcastSpinnerAdapter(context);

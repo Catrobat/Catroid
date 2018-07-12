@@ -50,11 +50,6 @@ public class SetRotationStyleBrick extends BrickBaseType {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
-	}
-
-	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 		view = View.inflate(context, R.layout.brick_set_rotation_style, null);
 		BrickViewProvider.setAlphaOnView(view, alphaValue);

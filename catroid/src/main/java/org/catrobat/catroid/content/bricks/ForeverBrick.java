@@ -47,11 +47,6 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
-	}
-
-	@Override
 	public Brick clone() {
 		ForeverBrick clone = new ForeverBrick();
 		clone.setLoopEndBrick(loopEndBrick);

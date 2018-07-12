@@ -48,11 +48,6 @@ public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, Allo
 		this.ifBeginBrick = beginBrick;
 	}
 
-	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
-	}
-
 	public IfLogicElseBrick getIfElseBrick() {
 		return ifElseBrick;
 	}

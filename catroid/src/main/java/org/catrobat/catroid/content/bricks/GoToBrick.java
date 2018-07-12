@@ -66,11 +66,6 @@ public class GoToBrick extends BrickBaseType {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
-	}
-
-	@Override
 	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
 
 		view = View.inflate(context, R.layout.brick_go_to, null);

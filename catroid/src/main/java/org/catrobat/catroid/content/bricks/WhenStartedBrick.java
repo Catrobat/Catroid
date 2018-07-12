@@ -51,11 +51,6 @@ public class WhenStartedBrick extends BrickBaseType implements ScriptBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
-	}
-
-	@Override
 	public View getView(Context context, int brickId, final BaseAdapter baseAdapter) {
 		view = View.inflate(context, R.layout.brick_when_started, null);
 
