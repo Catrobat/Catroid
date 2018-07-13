@@ -71,12 +71,12 @@ public class JumpingSumoMoveBackwardBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(Context context, BaseAdapter baseAdapter) {
 
 		view = View.inflate(context, R.layout.brick_jumping_sumo_move_backward, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_jumping_sumo_move_backward_checkbox);
+		setCheckboxView();
 
 		setSecondText(view, R.id.brick_jumping_sumo_move_backward_text_second, R.id.brick_jumping_sumo_move_backward_edit_text_second, BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS);
 

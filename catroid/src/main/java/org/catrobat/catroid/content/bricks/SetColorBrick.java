@@ -66,12 +66,12 @@ public class SetColorBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(Context context, BaseAdapter baseAdapter) {
 
 		view = View.inflate(context, R.layout.brick_set_color_to, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_set_color_checkbox);
+		setCheckboxView();
 
 		TextView edit = (TextView) view.findViewById(R.id.brick_set_color_edit_text);
 		getFormulaWithBrickField(BrickField.COLOR).setTextFieldId(R.id.brick_set_color_edit_text);

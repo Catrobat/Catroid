@@ -68,14 +68,14 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(final Context context, BaseAdapter baseAdapter) {
 		if (collisionScript == null) {
 			collisionScript = new CollisionScript(getSpriteToCollideWithName());
 		}
 
 		view = View.inflate(context, R.layout.brick_physics_collision_receive, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_collision_receive_checkbox);
+		setCheckboxView();
 
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_collision_receive_spinner);
 

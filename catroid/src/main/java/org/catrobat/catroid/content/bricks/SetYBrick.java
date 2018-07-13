@@ -64,11 +64,11 @@ public class SetYBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(Context context, BaseAdapter baseAdapter) {
 		view = View.inflate(context, R.layout.brick_set_y, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_set_y_checkbox);
+		setCheckboxView();
 		TextView editY = (TextView) view.findViewById(R.id.brick_set_y_edit_text);
 		getFormulaWithBrickField(BrickField.Y_POSITION).setTextFieldId(R.id.brick_set_y_edit_text);
 		getFormulaWithBrickField(BrickField.Y_POSITION).refreshTextField(view);

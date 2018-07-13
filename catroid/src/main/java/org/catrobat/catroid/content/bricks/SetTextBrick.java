@@ -86,11 +86,11 @@ public class SetTextBrick extends FormulaBrick implements View.OnClickListener {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(Context context, BaseAdapter baseAdapter) {
 		view = View.inflate(context, R.layout.brick_drone_set_text, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_set_text_checkbox);
+		setCheckboxView();
 
 		TextView editX = (TextView) view.findViewById(R.id.brick_set_text_edit_text_x);
 		TextView editY = (TextView) view.findViewById(R.id.brick_set_text_edit_text_y);

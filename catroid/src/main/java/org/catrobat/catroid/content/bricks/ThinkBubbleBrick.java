@@ -57,16 +57,15 @@ public class ThinkBubbleBrick extends FormulaBrick implements OnClickListener {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(final Context context, BaseAdapter baseAdapter) {
 
 		int layoutId = type == Constants.SAY_BRICK ? R.layout.brick_say_bubble : R.layout.brick_think_bubble;
-		int checkboxId = type == Constants.SAY_BRICK ? R.id.brick_say_bubble_checkbox : R.id.brick_think_bubble_checkbox;
 		int editTextId = type == Constants.SAY_BRICK ? R.id.brick_say_bubble_edit_text : R.id.brick_think_bubble_edit_text;
 
 		view = View.inflate(context, layoutId, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(checkboxId);
+		setCheckboxView();
 
 		TextView textField = (TextView) view.findViewById(editTextId);
 		getFormulaWithBrickField(BrickField.STRING).setTextFieldId(editTextId);

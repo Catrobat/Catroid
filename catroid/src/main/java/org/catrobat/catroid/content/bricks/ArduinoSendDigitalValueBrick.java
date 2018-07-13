@@ -87,12 +87,12 @@ public class ArduinoSendDigitalValueBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(Context context, BaseAdapter baseAdapter) {
 
 		view = View.inflate(context, R.layout.brick_arduino_send_digital, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_arduino_send_digital_checkbox);
+		setCheckboxView();
 
 		TextView editPinNumber = (TextView) view.findViewById(R.id.brick_arduino_set_digital_pin_edit_text);
 		getFormulaWithBrickField(BrickField.ARDUINO_DIGITAL_PIN_NUMBER).setTextFieldId(R.id.brick_arduino_set_digital_pin_edit_text);

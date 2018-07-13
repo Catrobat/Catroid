@@ -62,12 +62,12 @@ public class JumpingSumoRotateRightBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(Context context, BaseAdapter baseAdapter) {
 
 		view = View.inflate(context, R.layout.brick_jumping_sumo_rotate_right, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_jumping_sumo_rotate_right_checkbox);
+		setCheckboxView();
 
 		TextView editDegree = (TextView) view.findViewById(R.id.brick_jumping_sumo_change_right_variable_edit_text);
 		getFormulaWithBrickField(BrickField.JUMPING_SUMO_ROTATE)

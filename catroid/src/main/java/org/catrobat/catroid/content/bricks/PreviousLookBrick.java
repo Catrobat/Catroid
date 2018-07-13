@@ -58,11 +58,11 @@ public class PreviousLookBrick extends BrickBaseType {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(Context context, BaseAdapter baseAdapter) {
 		view = View.inflate(context, R.layout.brick_previous_look, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_previous_look_checkbox);
+		setCheckboxView();
 		if (ProjectManager.getInstance().getCurrentSprite().getName().equals(context.getString(R.string.background))) {
 			TextView textField = (TextView) view.findViewById(R.id.brick_previous_look_text_view);
 			textField.setText(R.string.brick_previous_background);

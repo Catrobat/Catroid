@@ -74,10 +74,10 @@ public class SetNfcTagBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(final Context context, BaseAdapter baseAdapter) {
 		view = View.inflate(context, R.layout.brick_set_nfc_tag, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_set_nfc_tag_checkbox);
+		setCheckboxView();
 
 		spinner = (Spinner) view.findViewById(R.id.brick_set_nfc_tag_ndef_record_spinner);
 

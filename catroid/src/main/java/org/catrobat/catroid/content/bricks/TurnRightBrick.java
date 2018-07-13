@@ -64,12 +64,12 @@ public class TurnRightBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(Context context, BaseAdapter baseAdapter) {
 
 		view = View.inflate(context, R.layout.brick_turn_right, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_turn_right_checkbox);
+		setCheckboxView();
 
 		TextView editDegrees = (TextView) view.findViewById(R.id.brick_turn_right_edit_text);
 		getFormulaWithBrickField(BrickField.TURN_RIGHT_DEGREES).setTextFieldId(R.id.brick_turn_right_edit_text);

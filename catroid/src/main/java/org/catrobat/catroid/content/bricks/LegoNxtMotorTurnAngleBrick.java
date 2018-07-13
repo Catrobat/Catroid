@@ -108,12 +108,12 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(final Context context, BaseAdapter baseAdapter) {
 
 		view = View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_nxt_motor_turn_checkbox);
+		setCheckboxView();
 
 		editSpeed = (TextView) view.findViewById(R.id.motor_turn_angle_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES).setTextFieldId(R.id.motor_turn_angle_edit_text);

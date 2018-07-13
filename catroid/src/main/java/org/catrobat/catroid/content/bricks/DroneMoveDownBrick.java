@@ -71,12 +71,12 @@ public class DroneMoveDownBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
+	public View getView(Context context, BaseAdapter adapter) {
 
 		view = View.inflate(context, R.layout.brick_drone_move_down, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_drone_move_down_checkbox);
+		setCheckboxView();
 
 		setSecondText(view, R.id.brick_drone_move_down_text_second, R.id
 				.brick_drone_move_down_edit_text_second, BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);

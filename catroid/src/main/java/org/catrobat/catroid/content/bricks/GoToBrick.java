@@ -66,12 +66,12 @@ public class GoToBrick extends BrickBaseType {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(final Context context, BaseAdapter baseAdapter) {
 
 		view = View.inflate(context, R.layout.brick_go_to, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_go_to_checkbox);
+		setCheckboxView();
 
 		final Spinner goToSpinner = (Spinner) view.findViewById(R.id.brick_go_to_spinner);
 

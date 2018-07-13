@@ -108,11 +108,11 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(Context context, BaseAdapter baseAdapter) {
 
 		view = View.inflate(context, R.layout.brick_phiro_play_tone, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_phiro_play_tone_checkbox);
+		setCheckboxView();
 
 		setSecondText(view, R.id.brick_phiro_play_tone_seconds_text_view, R.id.brick_phiro_play_tone_duration_edit_text, BrickField.PHIRO_DURATION_IN_SECONDS);
 

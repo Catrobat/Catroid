@@ -192,13 +192,13 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(Context context, BaseAdapter baseAdapter) {
 		setUserBrickParametersParent();
 
 		view = View.inflate(context, R.layout.brick_user, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_user_checkbox);
+		setCheckboxView();
 		onLayoutChanged(view);
 
 		return view;

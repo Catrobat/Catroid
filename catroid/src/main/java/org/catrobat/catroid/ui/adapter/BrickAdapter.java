@@ -866,7 +866,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 
 		BrickBaseType brick = (BrickBaseType) getItem(position);
 
-		View currentBrickView = brick.getView(context, position, this);
+		View currentBrickView = brick.getView(context, this);
 		BrickViewProvider.setSaturationOnView(currentBrickView, brick.isCommentedOut());
 		currentBrickView.setOnClickListener(this);
 

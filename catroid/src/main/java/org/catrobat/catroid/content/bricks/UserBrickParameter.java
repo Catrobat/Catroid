@@ -74,8 +74,8 @@ public class UserBrickParameter extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
-		return parent.getView(context, brickId, adapter);
+	public View getView(Context context, BaseAdapter adapter) {
+		return parent.getView(context, adapter);
 	}
 
 	@Override

@@ -90,10 +90,10 @@ public class SetLookBrick extends BrickBaseType implements
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(final Context context, BaseAdapter baseAdapter) {
 		view = prepareView(context);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_set_look_checkbox);
+		setCheckboxView();
 
 		spinner = findSpinner(view);
 		spinnerAdapter = new SpinnerAdapterWithNewOption(context, getLookNames());

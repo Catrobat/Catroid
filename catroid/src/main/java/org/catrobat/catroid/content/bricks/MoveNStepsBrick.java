@@ -69,11 +69,11 @@ public class MoveNStepsBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(Context context, BaseAdapter baseAdapter) {
 		view = View.inflate(context, R.layout.brick_move_n_steps, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_move_n_steps_checkbox);
+		setCheckboxView();
 		TextView edit = (TextView) view.findViewById(R.id.brick_move_n_steps_edit_text);
 
 		getFormulaWithBrickField(BrickField.STEPS).setTextFieldId(R.id.brick_move_n_steps_edit_text);

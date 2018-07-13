@@ -83,10 +83,10 @@ public class PointInDirectionBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(final Context context, BaseAdapter baseAdapter) {
 		view = View.inflate(context, R.layout.brick_point_in_direction, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_point_in_direction_checkbox);
+		setCheckboxView();
 		TextView setAngleTextField = (TextView) view.findViewById(R.id.brick_point_in_direction_edit_text);
 
 		getFormulaWithBrickField(BrickField.DEGREES).setTextFieldId(R.id.brick_point_in_direction_edit_text);

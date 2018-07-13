@@ -32,11 +32,11 @@ import org.catrobat.catroid.R;
 public abstract class DroneBasicControlBrick extends BrickBaseType {
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(Context context, BaseAdapter baseAdapter) {
 		view = View.inflate(context, R.layout.brick_drone_control, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_drone_basic_control_checkbox);
+		setCheckboxView();
 		TextView label = (TextView) view.findViewById(R.id.ValueTextViewControl);
 		label.setText(getBrickLabel(view));
 

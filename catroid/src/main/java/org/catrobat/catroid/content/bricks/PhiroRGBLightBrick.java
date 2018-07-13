@@ -145,10 +145,10 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(Context context, BaseAdapter baseAdapter) {
 
 		view = View.inflate(context, R.layout.brick_phiro_rgb_light, null);
-		setCheckboxView(R.id.brick_phiro_rgb_led_action_checkbox);
+		setCheckboxView();
 		editRedValue = (TextView) view.findViewById(R.id.brick_phiro_rgb_led_action_red_edit_text);
 		getFormulaWithBrickField(BrickField.PHIRO_LIGHT_RED).setTextFieldId(R.id.brick_phiro_rgb_led_action_red_edit_text);
 		getFormulaWithBrickField(BrickField.PHIRO_LIGHT_RED).refreshTextField(view);

@@ -66,11 +66,11 @@ public class TurnLeftSpeedBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(Context context, BaseAdapter baseAdapter) {
 		view = View.inflate(context, R.layout.brick_physics_turn_left_speed, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_turn_left_speed_checkbox);
+		setCheckboxView();
 
 		TextView edit = (TextView) view.findViewById(R.id.brick_turn_left_speed_edit_text);
 

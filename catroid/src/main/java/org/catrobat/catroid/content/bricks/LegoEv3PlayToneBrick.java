@@ -96,11 +96,11 @@ public class LegoEv3PlayToneBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(Context context, BaseAdapter baseAdapter) {
 		view = View.inflate(context, R.layout.brick_ev3_play_tone, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_ev3_play_tone_checkbox);
+		setCheckboxView();
 
 		setSecondText(view, R.id.brick_ev3_tone_seconds, R.id.brick_ev3_tone_duration_edit_text, BrickField.LEGO_EV3_DURATION_IN_SECONDS);
 

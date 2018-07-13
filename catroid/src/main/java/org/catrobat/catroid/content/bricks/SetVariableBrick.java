@@ -97,10 +97,10 @@ public class SetVariableBrick extends UserVariableBrick {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(final Context context, BaseAdapter baseAdapter) {
 		view = View.inflate(context, R.layout.brick_set_variable, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_set_variable_checkbox);
+		setCheckboxView();
 		TextView textField = (TextView) view.findViewById(R.id.brick_set_variable_edit_text);
 		getFormulaWithBrickField(BrickField.VARIABLE).setTextFieldId(R.id.brick_set_variable_edit_text);
 		getFormulaWithBrickField(BrickField.VARIABLE).refreshTextField(view);

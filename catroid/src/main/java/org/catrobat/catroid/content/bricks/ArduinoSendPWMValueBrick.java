@@ -83,11 +83,11 @@ public class ArduinoSendPWMValueBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(Context context, BaseAdapter baseAdapter) {
 		view = View.inflate(context, R.layout.brick_arduino_send_analog, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_arduino_send_analog_checkbox);
+		setCheckboxView();
 		TextView editPinNumber = (TextView) view.findViewById(R.id.brick_arduino_set_analog_pin_edit_text);
 		getFormulaWithBrickField(BrickField.ARDUINO_ANALOG_PIN_NUMBER).setTextFieldId(R.id.brick_arduino_set_analog_pin_edit_text);
 		getFormulaWithBrickField(BrickField.ARDUINO_ANALOG_PIN_NUMBER).refreshTextField(view);

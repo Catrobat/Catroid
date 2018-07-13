@@ -70,11 +70,11 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(final Context context, BaseAdapter baseAdapter) {
 
 		view = View.inflate(context, R.layout.brick_replace_item_in_userlist, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_replace_item_in_userlist_checkbox);
+		setCheckboxView();
 		TextView textFieldValue = (TextView) view.findViewById(R.id.brick_replace_item_in_userlist_value_edit_text);
 		getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_VALUE).setTextFieldId(R.id.brick_replace_item_in_userlist_value_edit_text);
 		getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_VALUE).refreshTextField(view);

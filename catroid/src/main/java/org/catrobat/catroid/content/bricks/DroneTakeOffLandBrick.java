@@ -36,12 +36,12 @@ public class DroneTakeOffLandBrick extends BrickBaseType{
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(Context context, BaseAdapter baseAdapter) {
 
 		view = View.inflate(context, R.layout.brick_drone_takeoff_land, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_drone_takeoff_land_checkbox);
+		setCheckboxView();
 
 		return view;
 	}

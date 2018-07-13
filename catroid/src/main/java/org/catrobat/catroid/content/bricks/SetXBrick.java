@@ -64,12 +64,12 @@ public class SetXBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(Context context, BaseAdapter baseAdapter) {
 
 		view = View.inflate(context, R.layout.brick_set_x, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_set_x_checkbox);
+		setCheckboxView();
 
 		TextView editX = (TextView) view.findViewById(R.id.brick_set_x_edit_text);
 

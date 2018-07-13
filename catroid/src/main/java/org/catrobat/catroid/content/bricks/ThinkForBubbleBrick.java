@@ -79,11 +79,9 @@ public class ThinkForBubbleBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(Context context, BaseAdapter baseAdapter) {
 
 		int layoutId = type == Constants.SAY_BRICK ? R.layout.brick_say_for_bubble : R.layout.brick_think_for_bubble;
-		int checkboxId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_checkbox : R.id
-				.brick_think_for_bubble_checkbox;
 		int editTextId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_edit_text_text : R.id
 				.brick_think_for_bubble_edit_text_text;
 		int editDurationId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_edit_text_duration : R.id
@@ -94,7 +92,7 @@ public class ThinkForBubbleBrick extends FormulaBrick {
 		view = View.inflate(context, layoutId, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(checkboxId);
+		setCheckboxView();
 
 		TextView editText = (TextView) view.findViewById(editTextId);
 		getFormulaWithBrickField(BrickField.STRING).setTextFieldId(editTextId);

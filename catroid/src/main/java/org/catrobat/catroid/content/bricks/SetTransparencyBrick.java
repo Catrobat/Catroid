@@ -65,12 +65,12 @@ public class SetTransparencyBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(Context context, BaseAdapter baseAdapter) {
 
 		view = View.inflate(context, R.layout.brick_set_transparency, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_set_transparency_checkbox);
+		setCheckboxView();
 		TextView editX = (TextView) view.findViewById(R.id.brick_set_transparency_to_edit_text);
 		getFormulaWithBrickField(BrickField.TRANSPARENCY).setTextFieldId(R.id.brick_set_transparency_to_edit_text);
 		getFormulaWithBrickField(BrickField.TRANSPARENCY).refreshTextField(view);

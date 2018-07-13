@@ -53,11 +53,11 @@ public class FlashBrick extends BrickBaseType {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(Context context, BaseAdapter baseAdapter) {
 		view = View.inflate(context, R.layout.brick_flash, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_flash_checkbox);
+		setCheckboxView();
 		Spinner flashSpinner = (Spinner) view.findViewById(R.id.brick_flash_spinner);
 
 		ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);

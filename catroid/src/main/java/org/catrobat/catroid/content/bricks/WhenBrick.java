@@ -51,17 +51,17 @@ public class WhenBrick extends BrickBaseType implements ScriptBrick {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, final BaseAdapter baseAdapter) {
+	public View getView(final Context context, final BaseAdapter baseAdapter) {
 
 		view = View.inflate(context, R.layout.brick_when, null);
 
-		setCheckboxView(R.id.brick_when_checkbox);
+		setCheckboxView();
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return getView(context, 0, null);
+		return getView(context, null);
 	}
 
 	@Override

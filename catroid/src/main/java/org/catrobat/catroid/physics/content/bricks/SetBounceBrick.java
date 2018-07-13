@@ -66,11 +66,11 @@ public class SetBounceBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(Context context, BaseAdapter baseAdapter) {
 		view = View.inflate(context, R.layout.brick_physics_set_bounce_factor, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_set_bounce_factor_checkbox);
+		setCheckboxView();
 
 		TextView edit = (TextView) view.findViewById(R.id.brick_set_bounce_factor_edit_text);
 

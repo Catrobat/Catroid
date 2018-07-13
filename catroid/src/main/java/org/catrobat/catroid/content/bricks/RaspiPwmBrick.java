@@ -82,11 +82,11 @@ public class RaspiPwmBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(Context context, BaseAdapter baseAdapter) {
 		view = View.inflate(context, R.layout.brick_raspi_pwm, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_raspi_pwm_checkbox);
+		setCheckboxView();
 		TextView editPinNumber = (TextView) view.findViewById(R.id.brick_raspi_pwm_pin_edit_text);
 		getFormulaWithBrickField(BrickField.RASPI_DIGITAL_PIN_NUMBER).setTextFieldId(R.id.brick_raspi_pwm_pin_edit_text);
 		getFormulaWithBrickField(BrickField.RASPI_DIGITAL_PIN_NUMBER).refreshTextField(view);

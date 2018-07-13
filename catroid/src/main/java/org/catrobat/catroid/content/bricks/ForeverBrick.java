@@ -54,11 +54,11 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(Context context, BaseAdapter baseAdapter) {
 		view = View.inflate(context, R.layout.brick_forever, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_forever_checkbox);
+		setCheckboxView();
 		return view;
 	}
 

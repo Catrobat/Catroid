@@ -39,11 +39,11 @@ public class ClearGraphicEffectBrick extends BrickBaseType {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(Context context, BaseAdapter baseAdapter) {
 		view = View.inflate(context, R.layout.brick_clear_graphic_effect, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_clear_graphic_effect_checkbox);
+		setCheckboxView();
 		return view;
 	}
 
