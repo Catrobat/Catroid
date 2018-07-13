@@ -1084,6 +1084,7 @@
     <!-- Looks bricks -->
     <string name="brick_set_look">Switch to look</string>
     <string name="brick_set_look_by_index">Switch to look with number</string>
+    <string name="brick_and_wait">and wait</string>
     <string name="brick_set_background">Set background</string>
     <string name="brick_set_background_and_wait">Set background and wait</string>
     <string name="brick_set_background_by_index">Set background to number</string>
@@ -1921,6 +1922,7 @@
 
     <!-- User Bricks strings -->
     <string name="define">Define</string>
+    <string name="new_user_brick_variable">Variable</string>
     <!--  -->
 
 

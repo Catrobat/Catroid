@@ -41,8 +41,8 @@
   <string name="no">No</string>
   <string name="agree">Acconsento</string>
   <string name="disagree">Non sono d\'accordo</string>
-  <string name="select_all">Select all</string>
-  <string name="deselect_all">Deselect all</string>
+  <string name="select_all">Seleziona tutto</string>
+  <string name="deselect_all">Deseleziona tutto</string>
   <string name="skip">salta</string>
   <string name="warning">Attenzione</string>
   <string name="error">Errore</string>
@@ -52,15 +52,15 @@
   <string name="backpack_add">Aggiungi allo zaino</string>
   <string name="share_website_text">www.pocketcode.org</string>
   <!-- Login/Logout Mechanism -->
-  <string name="loading_check_facebook_data">Retrieving Facebook data&#8230;</string>
-  <string name="loading_check_email">Checking if the e-mail is available&#8230;</string>
-  <string name="loading_check_oauth_token">Checking login data&#8230;</string>
-  <string name="loading_check_facebook_token_validity">Checking Facebook data&#8230;</string>
-  <string name="loading_check_oauth_username">Checking if the username is available&#8230;</string>
-  <string name="loading_facebook_exchange_token">Exchanging Facebook data&#8230;</string>
-  <string name="loading_facebook_login">Facebook login on our server is complete&#8230;</string>
-  <string name="loading_google_exchange_code">Exchanging Google+ data&#8230;</string>
-  <string name="loading_google_login">Google+ login on our server is complete&#8230;</string>
+  <string name="loading_check_facebook_data">Recupero dati da Facebook&#8230;</string>
+  <string name="loading_check_email">Verifico se l\'e-mail è disponibile&#8230;</string>
+  <string name="loading_check_oauth_token">Verifica dati di login&#8230;</string>
+  <string name="loading_check_facebook_token_validity">Controllo dei dati da Facebook&#8230;</string>
+  <string name="loading_check_oauth_username">Verifico se il nome utente è disponibile&#8230;</string>
+  <string name="loading_facebook_exchange_token">Scambio dati da Facebook&#8230;</string>
+  <string name="loading_facebook_login">Login completo con i dati da Facebook&#8230;</string>
+  <string name="loading_google_exchange_code">Scambio dati con Google+&#8230;</string>
+  <string name="loading_google_login">Login completo con dati da Google+&#8230;</string>
   <string name="delete_account">Elimina il mio account</string>
   <string name="logout_successful">Logout effettuato</string>
   <string name="degrees">gradi</string>
@@ -84,7 +84,7 @@
   <string name="main_menu_login">Login</string>
   <string name="main_menu_logout">Logout</string>
   <string name="main_menu_scratch_converter">Convertitore Scratch</string>
-  <string name="main_menu_play_store_not_installed">Google Play not found</string>
+  <string name="main_menu_play_store_not_installed">Google Play non trovato</string>
   <!--  -->
   <!-- Marketing activity -->
   <string name="marketing_created_with">Creato con</string>
@@ -93,78 +93,78 @@
   <!-- Settings activity -->
   <string name="preference_title">Impostazioni</string>
   <string name="preference_title_language">Lingua</string>
-  <string name="preference_description_language">Set the app\'s language</string>
-  <string name="preference_title_accessibility">Accessibility</string>
-  <string name="preference_description_accessibility">Change the app\'s appearance</string>
-  <string name="preference_title_accessibility_profiles">Accessibility profiles</string>
-  <string name="preference_title_accessibility_profile">Predefined profiles</string>
-  <string name="preference_title_accessibility_profile_headline">Profiles</string>
-  <string name="preference_title_accessibility_predefined_profile_headline">Predefined profiles</string>
-  <string name="preference_description_accessibility_profiles">Pick a predefined accessibility profile</string>
-  <string name="preference_title_accessibility_text_appearance">Text Appearance</string>
-  <string name="preference_title_accessibility_handling">Handling</string>
-  <string name="preference_title_accessibility_category_icons_big">Large Icons</string>
-  <string name="preference_description_accessibility_category_icons_big">Increase icon size.</string>
-  <string name="preference_title_accessibility_category_icons_high_contrast">High Contrast Icons</string>
-  <string name="preference_title_accessibility_Brick_icons">Brick Icons</string>
-  <string name="preference_title_accessibility_category_icons">Show icons</string>
-  <string name="preference_description_accessibility_category_icons">Add icons to categories and bricks.</string>
-  <string name="preference_title_accessibility_high_contrast">High Contrast</string>
-  <string name="preference_description_accessibility_high_contrast">Increase the text contrast on bricks.</string>
-  <string name="preference_description_accessibility_large_text">Increase the font size.</string>
-  <string name="preference_title_accessibility_large_text">Large Text</string>
-  <string name="preference_title_accessibility_element_spacing">Large Element Spacing</string>
-  <string name="preference_description_accessibility_element_spacing">Increase element spacing in lists.</string>
-  <string name="preference_title_accessibility_dragndrop_delay">Drag\'n\'drop delay</string>
-  <string name="preference_description_accessibility_dragndrop_delay">Drag\'n\'drop delay for bricks.</string>
-  <string name="preference_title_accessibility_beginner_bricks">Beginner Bricks</string>
-  <string name="preference_description_accessibility_beginner_bricks">Show basic bricks only.</string>
-  <string name="preference_title_accessibility_font_style">Choose a Fontface</string>
-  <string name="accessibility_font_regular">Regular</string>
+  <string name="preference_description_language">Imposta la lingua dell\'applicazione</string>
+  <string name="preference_title_accessibility">Accessibilità</string>
+  <string name="preference_description_accessibility">Modifica l\'aspetto dell\'app</string>
+  <string name="preference_title_accessibility_profiles">Profili di accessibilità</string>
+  <string name="preference_title_accessibility_profile">Profili predefiniti</string>
+  <string name="preference_title_accessibility_profile_headline">Profili</string>
+  <string name="preference_title_accessibility_predefined_profile_headline">Profili predefiniti</string>
+  <string name="preference_description_accessibility_profiles">Scegli un profilo di accessibilità predefinito</string>
+  <string name="preference_title_accessibility_text_appearance">Aspetto del testo</string>
+  <string name="preference_title_accessibility_handling">Amministrazione</string>
+  <string name="preference_title_accessibility_category_icons_big">Icone grandi</string>
+  <string name="preference_description_accessibility_category_icons_big">Aumenta la dimensione delle icone.</string>
+  <string name="preference_title_accessibility_category_icons_high_contrast">Icone ad alto contrasto</string>
+  <string name="preference_title_accessibility_Brick_icons">Icone dei mattoncini</string>
+  <string name="preference_title_accessibility_category_icons">Mostra icone</string>
+  <string name="preference_description_accessibility_category_icons">Aggiungi icone alle categorie e mattoncini.</string>
+  <string name="preference_title_accessibility_high_contrast">Alto contrasto</string>
+  <string name="preference_description_accessibility_high_contrast">Aumenta il contrasto del testo nei mattoncini.</string>
+  <string name="preference_description_accessibility_large_text">Aumenta la dimensione del font.</string>
+  <string name="preference_title_accessibility_large_text">Testo grande</string>
+  <string name="preference_title_accessibility_element_spacing">Aumenta spaziatura tra elementi</string>
+  <string name="preference_description_accessibility_element_spacing">Aumenta spaziatura tra elementi negli elenchi.</string>
+  <string name="preference_title_accessibility_dragndrop_delay">Ritardo nel Drag \'n \'drop</string>
+  <string name="preference_description_accessibility_dragndrop_delay">Ritardo nel Drag\'n\'drop dei mattoncini.</string>
+  <string name="preference_title_accessibility_beginner_bricks">Mattoncini principiante</string>
+  <string name="preference_description_accessibility_beginner_bricks">Mostra solo mattoncini di base.</string>
+  <string name="preference_title_accessibility_font_style">Scegli il tipo di carattere</string>
+  <string name="accessibility_font_regular">Regolare</string>
   <string name="accessibility_font_serif">Serif</string>
-  <string name="accessibility_font_dyslexic">Dyslexic</string>
-  <string name="accessibility_settings_applied">Changes applied</string>
-  <string name="preference_access_title_profile_default">Default</string>
-  <string name="preference_access_summary_profile_default">Default settings</string>
-  <string name="preference_access_title_profile_custom">My custom profile</string>
-  <string name="preference_access_summary_profile_custom">My personal settings</string>
+  <string name="accessibility_font_dyslexic">Dislessico</string>
+  <string name="accessibility_settings_applied">Modifiche applicate</string>
+  <string name="preference_access_title_profile_default">Predefinito</string>
+  <string name="preference_access_summary_profile_default">Impostazioni predefinite</string>
+  <string name="preference_access_title_profile_custom">Profilo personalizzato</string>
+  <string name="preference_access_summary_profile_custom">Impostazioni personali</string>
   <string name="preference_access_title_profile_argus">Argus</string>
-  <string name="preference_access_summary_profile_argus">High contrast, additional icons</string>
-  <string name="preference_access_title_profile_odin">Odin</string>
-  <string name="preference_access_summary_profile_odin">Large text, large icons, large element
-       spacing, high contrast</string>
+  <string name="preference_access_summary_profile_argus">Contrasto elevato, icone aggiuntive</string>
+  <string name="preference_access_title_profile_odin">Odino</string>
+  <string name="preference_access_summary_profile_odin">Testo di grandi dimensioni, icone grandi, elementi
+      con ampia spaziatura e alto contrasto</string>
   <string name="preference_access_title_profile_fenrir">Fenrir</string>
-  <string name="preference_access_summary_profile_fenrir">Large element spacing, drag\'n\'drop
-       delay</string>
-  <string name="preference_access_title_profile_tiro">Tiro</string>
-  <string name="preference_access_summary_profile_tiro">Beginner bricks</string>
+  <string name="preference_access_summary_profile_fenrir">Elementi molto distanziati, drag\'n\'drop
+       con ritardo</string>
+  <string name="preference_access_title_profile_tiro">Shoot</string>
+  <string name="preference_access_summary_profile_tiro">Mattoncini principiante</string>
   <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
   <string name="preference_title_enable_quadcopter_bricks">Mattoncini per Parrot AR. Drone 2.0</string>
-  <string name="preference_description_quadcopter_bricks">Allow the app to control AR.Drone 2.0 quadcopters</string>
+  <string name="preference_description_quadcopter_bricks">Permette all\'app di controllare i droni AR.Drone 2.0</string>
   <string name="preference_title_enable_jumpingsumo_bricks">Mattoncini per Parrot Jumping Sumo</string>
-  <string name="preference_description_jumpingsumo_bricks">Allow the app to control Parrot\'s Jumping Sumo</string>
+  <string name="preference_description_jumpingsumo_bricks">Permette all\'app di controllare i Jumping Sumo della Parrot</string>
   <string name="preference_title_enable_mindstorms_nxt_bricks">Mattoncini Lego Mindstorms NXT</string>
   <string name="preference_title_enable_mindstorms_ev3_bricks">Mattoncini Lego Mindstorms EV3</string>
-  <string name="preference_description_mindstorms_nxt_bricks">Allow the app to control Lego Mindstorms NXT robots</string>
-  <string name="preference_description_mindstorms_ev3_bricks">Allow the app to control Lego Mindstorms EV3 robots</string>
+  <string name="preference_description_mindstorms_nxt_bricks">Permette all\'app di controllare i robot Lego Mindstorms NXT</string>
+  <string name="preference_description_mindstorms_ev3_bricks">Permette all\'app di controllare i robot Lego Mindstorms EV3</string>
   <string name="preference_title_mindstorms_nxt_sensors">Sensori Lego NXT</string>
   <string name="preference_title_mindstorms_ev3_sensors">Sensori Lego EV3</string>
-  <string name="preference_title_drone_config_properties">AR.Drone 2.0 Configuration</string>
+  <string name="preference_title_drone_config_properties">Configura AR. Drone 2.0</string>
   <string name="preference_title_enable_phiro_bricks">Mattoncini Phiro</string>
-  <string name="preference_description_phiro_bricks">Allow the app to control Phiro robots</string>
+  <string name="preference_description_phiro_bricks">Permette all\'app di controllare robot Phiro</string>
   <string name="preference_title_enable_arduino_bricks">Mattoncini Arduino</string>
-  <string name="preference_title_enable_embroidery_bricks">Embroidery</string>
-  <string name="preference_description_embroidery_bricks">Create patterns for stitching machines</string>
+  <string name="preference_title_enable_embroidery_bricks">Ricamo</string>
+  <string name="preference_description_embroidery_bricks">Creare modelli per macchine da cucire</string>
   <string name="preference_title_cast_feature_globally_enabled">Abilitare le funzionalità di trasmissione</string>
-  <string name="preference_description_cast_feature_globally_enabled">Show cast button and enable cast projects</string>
+  <string name="preference_description_cast_feature_globally_enabled">Mostra pulsante di cast e attiva progetti cast</string>
   <string name="preference_title_enable_nfc_bricks">Near Field Communication</string>
-  <string name="preference_description_nfc_bricks">Allow the app to use NFC tags in programs</string>
+  <string name="preference_description_nfc_bricks">Abilita l\'app all\'uso dei tag NFC</string>
   <string name="preference_title_enable_crash_reports">Invia report anonimi sui crash</string>
-  <string name="preference_description_crash_reports">Allow the app to send crash reports automatically</string>
+  <string name="preference_description_crash_reports">Permetti all\'app di inviare automaticamente segnalazioni sugli arresti anomali</string>
   <!-- -->
-  <string name="preference_description_arduino_bricks">Allow the app to control Arduino boards</string>
+  <string name="preference_description_arduino_bricks">Permette all\'app di controllare le schede Arduino</string>
   <string name="preference_title_enable_raspi_bricks">Mattoncini Raspberry Pi</string>
-  <string name="preference_description_raspi_bricks">Allow the app to control Raspberry Pi computers</string>
+  <string name="preference_description_raspi_bricks">Consente all\'app di controllare computer Raspberry Pi</string>
   <string name="preference_raspi_enable_bricks">Abilita mattoncini Raspberry Pi</string>
   <string name="preference_raspi_help">Aiuto / Guida introduttiva</string>
   <string name="preference_raspi_help_summary">Ottieni informazioni su come configurare le impostazioni di connessione</string>
@@ -202,7 +202,7 @@
   <string name="error_cannot_open_failed_scratch_program">You can\'t open the program because it wasn\'t
         converted correctly. Please try to convert it again.</string>
   <string name="search_failed">Nothing found, please retry later.</string>
-  <string name="connection_lost_or_closed_by_server">Server connection lost.</string>
+  <string name="connection_lost_or_closed_by_server">Connessione al server interrotta.</string>
   <string name="connection_failed">We can\'t connect you to the server right now, please try again later.</string>
   <string name="authentication_failed">There seems to be a problem with your connection to the service, please
         contact the Catrobat team!</string>
@@ -218,19 +218,19 @@
   <string name="status_started">Iniziato&#8230;</string>
   <string name="status_conversion_finished">Conversione terminata</string>
   <plurals name="status_in_progress_x_jobs">
-    <item quantity="one">In progress: %d job</item>
-    <item quantity="other">In progress: %d jobs</item>
+    <item quantity="one">In lavorazione: %d processo</item>
+    <item quantity="other">In lavorazione: %d processi</item>
   </plurals>
   <plurals name="status_completed_x_jobs">
-    <item quantity="one">Completed: %d job</item>
-    <item quantity="other">Completed: %d jobs</item>
+    <item quantity="one">Completati: %d processo</item>
+    <item quantity="other">Completati: %d processi</item>
   </plurals>
   <string name="status_conversion_failed">Conversione non riuscita!</string>
   <string name="status_downloading">Download in corso&#8230;</string>
   <string name="status_download_finished">Download terminato!</string>
   <string name="status_download_canceled">Download annullato!</string>
-  <string name="scratch_programs_in_progress_title">In progress</string>
-  <string name="scratch_programs_finished_title">Converted programs</string>
+  <string name="scratch_programs_in_progress_title">In corso</string>
+  <string name="scratch_programs_finished_title">Programmi convertiti</string>
   <string name="by_x">per %1$s</string>
   <string name="warning_program_visibility">WARNING:\nThis seems to be a private program. You can try to
         convert it but it might not work.</string>
@@ -248,19 +248,19 @@
   <!-- ScratchReconvertDialog Strings -->
   <string name="reconvert_text">You converted this program converted %1$s ago.</string>
   <plurals name="minutes">
-    <item quantity="one">%d minute</item>
-    <item quantity="other">%d minutes</item>
+    <item quantity="one">%d minuto</item>
+    <item quantity="other">%d minuti</item>
   </plurals>
   <plurals name="hours">
-    <item quantity="one">%d hour</item>
-    <item quantity="other">%d hours</item>
+    <item quantity="one">%d ora</item>
+    <item quantity="other">%d ore</item>
   </plurals>
   <plurals name="days">
-    <item quantity="one">%d day</item>
-    <item quantity="other">%d days</item>
+    <item quantity="one">%d giorno</item>
+    <item quantity="other">%d giorni</item>
   </plurals>
-  <string name="reconvert_dialog_download">Download the program again</string>
-  <string name="reconvert_dialog_reconvert">Convert this program again</string>
+  <string name="reconvert_dialog_download">Scarica nuovamente il programma</string>
+  <string name="reconvert_dialog_reconvert">Converti nuovamente il programma</string>
   <!--  -->
   <!-- ERRORS -->
   <!-- Privacy Policy Error -->
@@ -281,7 +281,7 @@
   <string name="am_delete">Eliminare</string>
   <string name="am_rename">Rinomina</string>
   <string name="am_convert">Converti</string>
-  <string name="dialog_confirm_delete">You can\'t undo this!</string>
+  <string name="dialog_confirm_delete">Non è possibile annullarlo!</string>
   <string name="list_headline_sprites">Oggetti</string>
   <!-- Options Menu Options -->
   <string name="backpack">Zaino</string>
@@ -293,66 +293,66 @@
   <!-- Action Mode Titles -->
   <!-- Project Action Mode Titles -->
   <plurals name="am_pack_projects_title">
-    <item quantity="one">Pack %d Project</item>
-    <item quantity="other">Pack %d Projects</item>
+    <item quantity="one">Impacchetta %d progetto</item>
+    <item quantity="other">Impacchetta %d progetti</item>
   </plurals>
   <plurals name="am_copy_projects_title">
-    <item quantity="one">Copy %d Project</item>
-    <item quantity="other">Copy %d Projects</item>
+    <item quantity="one">Copia %d progetto</item>
+    <item quantity="other">Copia %d progetti</item>
   </plurals>
   <plurals name="am_delete_projects_title">
-    <item quantity="one">Delete %d Project</item>
-    <item quantity="other">Delete %d Projects</item>
+    <item quantity="one">Elimina %d progetto</item>
+    <item quantity="other">Elimina %d progetti</item>
   </plurals>
   <plurals name="am_rename_projects_title">
-    <item quantity="one">Rename %d Project</item>
-    <item quantity="other">Rename %d Projects</item>
+    <item quantity="one">Rinomina %d progetto</item>
+    <item quantity="other">Rinomina %d progetti</item>
   </plurals>
   <plurals name="am_convert_projects_title">
-    <item quantity="one">Convert %d Project</item>
-    <item quantity="other">Convert %d Projects</item>
+    <item quantity="one">Converti %d progetto</item>
+    <item quantity="other">Converti %d progetti</item>
   </plurals>
   <!-- Scene Action Mode Titles -->
   <plurals name="am_pack_scenes_title">
-    <item quantity="one">Pack %d Scene</item>
-    <item quantity="other">Pack %d Scenes</item>
+    <item quantity="one">Impacchetta %d scena</item>
+    <item quantity="other">Impacchetta %d scene</item>
   </plurals>
   <plurals name="am_unpack_scenes_title">
-    <item quantity="one">Unpack %d Scene</item>
-    <item quantity="other">Unpack %d Scenes</item>
+    <item quantity="one">Spacchetta %d scena</item>
+    <item quantity="other">Spacchetta %d scene</item>
   </plurals>
   <plurals name="am_copy_scenes_title">
-    <item quantity="one">Copy %d Scene</item>
-    <item quantity="other">Copy %d Scenes</item>
+    <item quantity="one">Copia %d scena</item>
+    <item quantity="other">Copia %d scene</item>
   </plurals>
   <plurals name="am_delete_scenes_title">
-    <item quantity="one">Delete %d Scene</item>
-    <item quantity="other">Delete %d Scenes</item>
+    <item quantity="one">Elimina %d scena</item>
+    <item quantity="other">Elimina %d scene</item>
   </plurals>
   <plurals name="am_rename_scenes_title">
-    <item quantity="one">Rename %d Scene</item>
-    <item quantity="other">Rename %d Scenes</item>
+    <item quantity="one">Rinomina %d scena</item>
+    <item quantity="other">Rinomina %d scene</item>
   </plurals>
   <!-- Sprite Action Mode Titles -->
   <plurals name="am_pack_sprites_title">
-    <item quantity="one">Pack %d Object</item>
-    <item quantity="other">Pack %d Objects</item>
+    <item quantity="one">Impacchetta %d oggetto</item>
+    <item quantity="other">Impacchetta %d oggetti</item>
   </plurals>
   <plurals name="am_unpack_sprites_title">
-    <item quantity="one">Unpack %d Object</item>
-    <item quantity="other">Unpack %d Objects</item>
+    <item quantity="one">Spacchetta %d oggetto</item>
+    <item quantity="other">Spacchetta %d oggetti</item>
   </plurals>
   <plurals name="am_copy_sprites_title">
-    <item quantity="one">Copy %d Object</item>
-    <item quantity="other">Copy %d Objects</item>
+    <item quantity="one">Copia %d oggetto</item>
+    <item quantity="other">Copia %d oggetti</item>
   </plurals>
   <plurals name="am_delete_sprites_title">
-    <item quantity="one">Delete %d Object</item>
-    <item quantity="other">Delete %d Objects</item>
+    <item quantity="one">Elimina %d oggetto</item>
+    <item quantity="other">Elimina %d oggetti</item>
   </plurals>
   <plurals name="am_rename_sprites_title">
-    <item quantity="one">Rename %d Object</item>
-    <item quantity="other">Rename %d Objects</item>
+    <item quantity="one">Rinomina %d oggetto</item>
+    <item quantity="other">Rinomina %d oggetti</item>
   </plurals>
   <!-- Look Action Mode Titles -->
   <plurals name="am_pack_looks_title">
@@ -372,64 +372,64 @@
     <item quantity="other">Delete %d Looks</item>
   </plurals>
   <plurals name="am_rename_looks_title">
-    <item quantity="one">Rename %d Look</item>
-    <item quantity="other">Rename %d Looks</item>
+    <item quantity="one">Rinomina %d aspetto</item>
+    <item quantity="other">Rinomina %d aspetti</item>
   </plurals>
   <!-- Sound Action Mode Titles -->
   <plurals name="am_pack_sounds_title">
-    <item quantity="one">Pack %d Sound</item>
-    <item quantity="other">Pack %d Sounds</item>
+    <item quantity="one">Impacchetta %d suono</item>
+    <item quantity="other">Impacchetta %d suoni</item>
   </plurals>
   <plurals name="am_unpack_sounds_title">
-    <item quantity="one">Unpack %d Sound</item>
-    <item quantity="other">Unpack %d Sounds</item>
+    <item quantity="one">Spacchetta %d suono</item>
+    <item quantity="other">Spacchetta %d suoni</item>
   </plurals>
   <plurals name="am_copy_sounds_title">
-    <item quantity="one">Copy %d Sound</item>
-    <item quantity="other">Copy %d Sounds</item>
+    <item quantity="one">Copia %d suono</item>
+    <item quantity="other">Copia %d suoni</item>
   </plurals>
   <plurals name="am_delete_sounds_title">
-    <item quantity="one">Delete %d Sound</item>
-    <item quantity="other">Delete %d Sounds</item>
+    <item quantity="one">Elimina %d suono</item>
+    <item quantity="other">Elimina %d suoni</item>
   </plurals>
   <plurals name="am_rename_sounds_title">
-    <item quantity="one">Rename %d Sound</item>
-    <item quantity="other">Rename %d Sounds</item>
+    <item quantity="one">Rinomina %d suono</item>
+    <item quantity="other">Rinomina %d suoni</item>
   </plurals>
   <!-- NFC Tag Action Mode Titles -->
   <plurals name="am_copy_nfc_tags_title">
-    <item quantity="one">Copy %d NFC Tag</item>
-    <item quantity="other">Copy %d NFC Tags</item>
+    <item quantity="one">Copia %d tag NFC</item>
+    <item quantity="other">Copia %d tag NFC</item>
   </plurals>
   <plurals name="am_delete_nfc_tags_title">
-    <item quantity="one">Delete %d NFC Tag</item>
-    <item quantity="other">Delete %d NFC Tags</item>
+    <item quantity="one">Elimina %d tag NFC</item>
+    <item quantity="other">Elimina %d tag NFC</item>
   </plurals>
   <plurals name="am_rename_nfc_tags_title">
-    <item quantity="one">Rename %d NFC Tag</item>
-    <item quantity="other">Rename %d NFC Tags</item>
+    <item quantity="one">Rinomina %d Tag NFC</item>
+    <item quantity="other">Rinomina %d Tag NFC</item>
   </plurals>
   <!-- Script Action Mode Titles -->
   <plurals name="am_pack_scripts_title">
-    <item quantity="one">Pack %d brick</item>
-    <item quantity="other">Pack %d bricks</item>
+    <item quantity="one">Impacchetta %d mattoncino</item>
+    <item quantity="other">Impacchetta %d mattoncini</item>
   </plurals>
   <plurals name="am_unpack_scripts_title">
-    <item quantity="one">Unpack %d Script</item>
-    <item quantity="other">Unpack %d Scripts</item>
+    <item quantity="one">Spacchetta %d script</item>
+    <item quantity="other">Spacchetta %d script</item>
   </plurals>
   <plurals name="am_copy_scripts_title">
-    <item quantity="one">Copy %d brick</item>
-    <item quantity="other">Copy %d bricks</item>
+    <item quantity="one">Copia %d mattoncino</item>
+    <item quantity="other">Copia %d mattoncini</item>
   </plurals>
   <plurals name="am_delete_scripts_title">
-    <item quantity="one">Delete %d Script</item>
-    <item quantity="other">Delete %d Scripts</item>
+    <item quantity="one">Elimina %d script</item>
+    <item quantity="other">Elimina %d script</item>
   </plurals>
   <!-- Data Item Action Mode Titles -->
   <plurals name="am_delete_user_data_items_title">
-    <item quantity="one">Delete %d Data Item</item>
-    <item quantity="other">Delete %d Data Items</item>
+    <item quantity="one">Elimina %d elemento dai dati</item>
+    <item quantity="other">Elimina %d elementi dai dati</item>
   </plurals>
   <!-- New Dialog Titles -->
   <string name="new_scene_dialog">Nuova scena</string>
@@ -467,13 +467,13 @@
     <item quantity="other">Elimina questi mattoncini?</item>
   </plurals>
   <!-- Dialog Labels -->
-  <string name="project_name_label">Program Name</string>
-  <string name="scene_name">Scene Name</string>
-  <string name="sprite_name_label">Object Name</string>
-  <string name="sprite_group_name_label">Group Name</string>
-  <string name="script_group_label">Script Group Name</string>
-  <string name="look_name_label">Look Name</string>
-  <string name="sound_name_label">Sound Name</string>
+  <string name="project_name_label">Nome del programma</string>
+  <string name="scene_name">Nome della scena</string>
+  <string name="sprite_name_label">Nome dell\'oggetto</string>
+  <string name="sprite_group_name_label">Nome del gruppo</string>
+  <string name="script_group_label">Nome del gruppo di script</string>
+  <string name="look_name_label">Nome dell\'aspetto</string>
+  <string name="sound_name_label">Nome del suono</string>
   <string name="string_label">Testo</string>
   <string name="data_label">Nome</string>
   <!-- Details -->
@@ -634,6 +634,9 @@
   <string name="local_vars_headline">Variables for this object only</string>
   <string name="global_lists_headline">Lists for all objects</string>
   <string name="local_lists_headline">Lists for this object only</string>
+  <!-- NewDataDialog -->
+  <string name="new_data_for_all_sprites">For all Objects</string>
+  <string name="new_data_for_this_sprite_only">For this Object only</string>
   <!-- Backpack -->
   <string name="backpack_title">Tuo zaino</string>
   <string name="pack">Impacchetta</string>
@@ -671,7 +674,7 @@
   <string name="add_sound_choose_file">Seleziona file</string>
   <string name="add_sound_music">Compositore di musica</string>
   <!-- Rating Dialog -->
-  <string name="rating_dialog_title">Rate Pocket Code</string>
+  <string name="rating_dialog_title">Valuta Pocket Code</string>
   <string name="rating_google_play_dialog_text">If you enjoy this app, please rate us on Google Play.</string>
   <string name="rating_dialog_rate_now">Ora</string>
   <string name="rating_dialog_rate_later">Più tardi</string>
@@ -698,7 +701,7 @@
   <!--  -->
   <!-- Privacy Policy -->
   <string name="dialog_privacy_policy_title">Norme sulla privacy</string>
-  <string name="disclaimer_privacy_police_header_headline">Welcome!</string>
+  <string name="disclaimer_privacy_police_header_headline">Benvenuto!</string>
   <string name="disclaimer_privacy_policy_header">Before you can start coding, please read and accept our Privacy 
         Policy to use the app:</string>
   <string name="dialog_privacy_policy_text">To offer you all the benefits of our services and the associated account,
@@ -723,7 +726,7 @@
             site. This will get displayed on your public profile and only be used for statistical and research
             purposes by us. It can be removed at any time in your profile settings.\n\n
         • You can withdraw the usage of the personal data belonging to your account at any time by deleting your
-            account through your profile page on https://share.catrob.at/. After deleting your account you will still
+            account through your profile page on https://share.catrob.at. After deleting your account you will still
             be able to use the provided services, but not to collaborate, e.g., through uploading programs,
             commenting, or liking. Also, all provided content linked to your account, e.g., uploaded programs,
             comments, etc., will be deleted.\n\n
@@ -733,13 +736,13 @@
             any institutions, unless sufficiently illegal actions are reasonably suspected and officially entitled
             legal institutions request it based on applicable law. Each case will be thoroughly checked on an
             individual basis by us first.\n\n
-        • You can voluntarily subscribe to the Catrobat Newsletter, on <a href="https://catrob.at/newsletter">https://catrob.at/newsletter</a> provided by us through the MailChimp
-            service (The Rocket Science Group LLC d/b/a MailChimp, USA). You will then receive updates on the
-            Catrobat project and its services to your provided e-mail adress. You can withdraw the newsletter at any
-            time by using the \"unsubscribe\" link in the footer of every newsletter. This newsletter is provided by
-            MailChimp with whom we do have a data-processing agreement and who committed to the EU General Data
-            Protection Regulation and EU-USA \"Privacy Shield\". For further details on MailChimp please also look up
-            MailChimp\'s Privacy Policy and Terms of Use.\n\n
+        • You can voluntarily subscribe to the Catrobat Newsletter, on https://catrob.at/newsletter provided
+            by us through the MailChimp service (The Rocket Science Group LLC d/b/a MailChimp, USA). You will then
+            receive updates on the Catrobat project and its services to your provided e-mail address. You can withdraw
+            the newsletter at any time by using the \"unsubscribe\" link in the footer of every newsletter. This
+            newsletter is provided by MailChimp with whom we do have a data-processing agreement and who committed to
+            the EU General Data Protection Regulation and EU-USA \"Privacy Shield\". For further details on MailChimp
+            please also look up MailChimp\'s Privacy Policy and Terms of Use.\n\n
         • All Services are provided by the free open source Catrobat project under the umbrella of the
             International Catrobat Association – Verein zur Förderung freier Software, a non-profit NGO incorporated
             in Graz, Austria (European Union). Our policies pay respect to EU and Austrian data protection law
@@ -753,12 +756,12 @@
         In case you are below the age of 14, this policy must be accepted by a legal guardian (usually a parent).\n\n
 
         Catrobat\'s official English language privacy policy is available on the web under
-                <a href="https://catrob.at/privacypolicy">https://catrob.at/privacypolicy</a>.\n\n
+        https://catrob.at/privacypolicy.\n\n
 
         Version 2.1, 25 June 2018\n\n
 
-        Find the previous, outdated, version of our privacy policy (2.0)
-            <a href="http://developer.catrobat.org/privacy_policy_2-0.html">here</a>.
+        Find the previous, outdated, version of our privacy policy (2.0) here:
+        http://developer.catrobat.org/privacy_policy_2-0
     </string>
   <string name="dialog_privacy_policy_declined_text">It is necessary to agree to the Privacy Policy to register or to
         continue using your account. If you do not want us to collect this data, you can delete your
@@ -778,6 +781,8 @@
   <!--  -->
   <!-- NetworkAlertDialog -->
   <string name="error_no_network_title">Nessuna Rete</string>
+  <string name="error_no_network_one_brick">Following brick will use the network:</string>
+  <string name="error_no_network_multiple_bricks">Following brick will use the networks:</string>
   <string name="error_no_network">Hai bisogno di una connessione di rete per utilizzare questo programma di Pocket Code. Attiva una rete Wi-Fi o altre rete nelle impostazioni di sistema.</string>
   <plurals name="bricks_using_network_headline">
     <item quantity="one">The following brick needs a network connection:</item>
@@ -819,7 +824,7 @@
   <string name="password_forgotten">Forgot your password?</string>
   <string name="new_user_registered">Nuovo account creato</string>
   <string name="user_logged_in">Login avvenuto con successo</string>
-  <string name="register_error">Login invalid</string>
+  <string name="register_error">Login non valido</string>
   <string name="register_terms">Registrandoti, accetti i nostri</string>
   <string name="register_code_terms_of_use_text">Condizioni d\'uso e servizio</string>
   <string name="login">Login</string>
@@ -828,39 +833,39 @@
   <string name="accountName">E-Mail</string>
   <string name="signin_thanks">Grazie per la creazione dell\'account!</string>
   <string name="signin_choose_username">Scegli il tuo nome utente:</string>
-  <string name="signin_choose_username_empty">Please enter a username!</string>
+  <string name="signin_choose_username_empty">Inserisci un nome utente!</string>
   <string name="signin_choose_username_hint">Il nome utente non dovrebbe essere il tuo vero nome.</string>
-  <string name="oauth_username_taken">Someone else already uses this name. Please choose a different one!</string>
+  <string name="oauth_username_taken">Nome già usato. Scegli uno diverso!</string>
   <string name="show_password">Mostra Password</string>
   <string name="register_password_mismatch">Le password non corrispondono</string>
   <string name="sign_in_error">Errore durante l\'accesso</string>
-  <string name="error_google_plus_sign_in">Google Sign-In error. Status: %s</string>
-  <string name="error_facebook_session_expired">Session expired, please log in.</string>
-  <string name="sign_in_with_facebook">Sign in with Facebook</string>
-  <string name="sign_in_with_google">Sign in with Google</string>
+  <string name="error_google_plus_sign_in">Errore di login su Google. Stato: %s</string>
+  <string name="error_facebook_session_expired">Sessione scaduta, effettua nuovamente il login.</string>
+  <string name="sign_in_with_facebook">Accedi con Facebook</string>
+  <string name="sign_in_with_google">Accedi con Google</string>
   <!--  -->
   <!-- OverwriteRenameDialog Strings -->
-  <string name="overwrite_text">A program with this name already exists. Please choose a different name!</string>
-  <string name="overwrite_replace">Replace Program</string>
+  <string name="overwrite_text">Esiste già un programma con questo nome. Scegli un nome diverso!</string>
+  <string name="overwrite_replace">Sostituisci il programma</string>
   <string name="overwrite_rename">Rinominare il programma scaricato</string>
   <!--  -->
   <!-- OverwriteRenameMediaDialog -->
-  <string name="overwrite_replace_look">Replace Look</string>
+  <string name="overwrite_replace_look">Sostituisci l\'aspetto</string>
   <string name="overwrite_rename_look">Rinomina l\'aspetto scaricato</string>
-  <string name="overwrite_replace_sound">Replace sound</string>
+  <string name="overwrite_replace_sound">Sostituisci suono</string>
   <string name="overwrite_rename_sound">Rinominare il suono scaricato</string>
-  <string name="overwrite_replace_default">Replace Media</string>
+  <string name="overwrite_replace_default">Sostituisci media</string>
   <string name="overwrite_rename_default">Rinominare i media esistenti</string>
   <!-- -->
   <!-- Music activity -->
-  <string name="pocket_music_default_project_name">Untitled Song</string>
-  <string name="pocket_music_default_track_name">Track 1</string>
+  <string name="pocket_music_default_project_name">Canzone senza titolo</string>
+  <string name="pocket_music_default_track_name">Traccia 1</string>
   <!--  -->
   <!-- PreStage activity -->
   <string name="prestage_text_to_speech_engine_not_installed">Motore di sintesi vocale non installato! \nVuoi installarlo?</string>
   <string name="prestage_resource_not_available_title">Componente non disponibile</string>
-  <string name="prestage_resource_not_available_text">Unfortunately this program does not work on your device.
-        The following components are unavailable:\n\n</string>
+  <string name="prestage_resource_not_available_text">Questo programma non funziona sul tuo dispositivo.
+        Non sono disponibili i seguenti componenti:\n\n</string>
   <string name="prestage_resource_in_use_text">Un altro dispositivo è connesso al Jumping Sumo. Assicurati
     di essere il solo a controllare il drone.</string>
   <string name="prestage_no_flash_available">\u2022 Flash\n</string>
@@ -870,10 +875,10 @@
   <string name="prestage_no_compass_sensor_available">\u2022 Bussola\n</string>
   <string name="prestage_no_gps_sensor_available">\u2022 GPS\n</string>
   <string name="prestage_text_to_speech_error">\u2022 Motore di sintesi vocale\n</string>
-  <string name="prestage_no_back_camera_available">\u2022 Rear camera\n</string>
+  <string name="prestage_no_back_camera_available">\u2022 Videocamera posteriore\n</string>
   <string name="prestage_no_camera_available">\u2022 Rileva volti\n</string>
   <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
-  <string name="prestage_no_front_camera_available">\u2022 Front camera\n</string>
+  <string name="prestage_no_front_camera_available">\u2022 Videocamera anteriore\n</string>
   <string name="prestage_default_resource_not_available">\u2022 Componente sconosciuto\n</string>
   <string name="no_nfc_available">NFC non disponibile</string>
   <string name="nfc_not_activated">Please activate NFC then press Back to return to the app!</string>
@@ -900,7 +905,7 @@
   <!-- -->
   <!-- Brick categories -->
   <string name="categories">Categorie</string>
-  <string name="category_embroidery">Embroidery</string>
+  <string name="category_embroidery">Ricamo</string>
   <string name="category_motion">Movimento</string>
   <string name="category_looks">Aspetto</string>
   <string name="category_pen">Penna</string>
@@ -972,6 +977,7 @@
   <!-- Looks bricks -->
   <string name="brick_set_look">Passa all\'aspetto</string>
   <string name="brick_set_look_by_index">Passa all\'aspetto numero</string>
+  <string name="brick_and_wait">e aspetta</string>
   <string name="brick_set_background">Imposta sfondo</string>
   <string name="brick_set_background_and_wait">Set background and wait</string>
   <string name="brick_set_background_by_index">Imposta lo sfondo numero</string>
@@ -1218,7 +1224,7 @@
   <string name="error_drone_wrong_platform">Impossibile eseguire il progetto AR.Drone 2.0 sul tuo dispositivo.</string>
   <string name="error_rename_incompatible_project">Non è possibile rinominare un progetto non compatibile.</string>
   <string name="error_unknown_error">Si è verificato un errore sconosciuto.</string>
-  <string name="error_gps_not_available">Error, GPS is not available.</string>
+  <string name="error_gps_not_available">Errore, GPS non disponibile.</string>
   <string name="error_set_description">Errore durante il salvataggio della nuova descrizione.</string>
   <string name="error_no_whatsapp">WhatsApp non è installato</string>
   <string name="error_unsupported_bricks_chromecast">This script can\'t be added  to a Chromecast
@@ -1256,7 +1262,7 @@
   <!-- Raspi Settings -->
   <string name="raspi_settings_title_name">Impostazioni Raspberry Pi</string>
   <string name="raspi_settings_gpio_version">Versione GPIO</string>
-  <string name="error_connecting_to">Error: Could not connect to %s : %d</string>
+  <string name="error_connecting_to">Errore: Impossibile connettersi a %s : %d</string>
   <!--  -->
   <!-- Lego Mindstorms Strings -->
   <string name="nxt_brick_motor_move">Imposta motore NXT</string>
@@ -1290,12 +1296,12 @@
   <string name="preference_disable_nxt_info_dialog_description">Le impostazioni specifiche per l\'NXT non vengono mostrare quando si apre un programma.</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">La mappatura dei sensori NXT alle porte è specifico per ogni programma e può essere configurata solo per i programmi aperti!</string>
   <string name="lego_nxt_sensor_config_info_text">Il programma attuale utilizza mattoncini Lego Mindstorms NXT o i suoi sensori. Per il corretto funzionamento si prega di collegare i sensori al robot come segue</string>
-  <string name="lego_port_1">Port 1</string>
-  <string name="lego_port_2">Port 2</string>
-  <string name="lego_port_3">Port 3</string>
-  <string name="lego_port_4">Port 4</string>
-  <string name="lego_sensor_config_dont_show_again">Do not show this message again.</string>
-  <string name="lego_sensor_port_config_dialog_title">Choose a port for connecting to %1$s!</string>
+  <string name="lego_port_1">Porta 1</string>
+  <string name="lego_port_2">Porta 2</string>
+  <string name="lego_port_3">Porta 3</string>
+  <string name="lego_port_4">Porta 4</string>
+  <string name="lego_sensor_config_dont_show_again">Non mostrare più questo messaggio.</string>
+  <string name="lego_sensor_port_config_dialog_title">Scegli una porta per la connessione a %1$s!</string>
   <string name="lego_ev3_sensor_config_info_title">Configurazione sensore EV3</string>
   <string name="preference_disable_ev3_info_dialog_description">Le impostazioni specifiche per EV3 non vengono mostrare quando si apre un programma.</string>
   <string name="preference_title_mindstorms_ev3_sensors_description">La mappatura dei sensori EV3 alle porte è specifico per ogni programma e può essere configurata solo per i programmi aperti!</string>
@@ -1658,7 +1664,7 @@
   <string name="formula_editor_logic_comparison">operatori di confronto</string>
   <string name="formula_editor_object_general">proprietà generali</string>
   <string name="formula_editor_object_movement">proprietà del movimento</string>
-  <string name="formula_editor_device_face_detection">Face Detection</string>
+  <string name="formula_editor_device_face_detection">Rilevamento del volto</string>
   <string name="formula_editor_device_date_and_time">Data e ora</string>
   <string name="formula_editor_device_touch_detection">Rilevamento tocco</string>
   <string name="formula_editor_device_lego_nxt">Lego NXT</string>
@@ -1687,8 +1693,6 @@
   <string name="formula_editor_image_button_description_delete">elimina</string>
   <string name="formula_editor_variable_dialog_title">Nuova variabile</string>
   <string name="formula_editor_list_dialog_title">Nuovo elenco</string>
-  <string name="formula_editor_dialog_for_all_sprites">For all objects</string>
-  <string name="formula_editor_dialog_for_this_sprite_only">For this object only</string>
   <string name="formula_editor_discard_changes_dialog_message">Si desidera salvare le modifiche?</string>
   <string name="formula_editor_discard_changes_dialog_title">Salvare le modifiche?</string>
   <string name="formula_editor_new_string_name">Nuovo testo</string>
@@ -1753,7 +1757,7 @@
   <string name="video_brick_camera_off">spento</string>
   <string name="brick_choose_camera">Usa la videocamera</string>
   <string name="choose_camera_front">anteriore</string>
-  <string name="choose_camera_back">rear</string>
+  <string name="choose_camera_back">posteriore</string>
   <string name="error_flash_camera">"&gt;You can only use the flash with a camera that has a one. Please add a \"Use
         camera\" brick and change to your device\'s camera that has a flash."</string>
   <string name="brick_wait_until">Aspetta fino a quando</string>

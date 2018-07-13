@@ -41,8 +41,8 @@
   <string name="no">لا</string>
   <string name="agree">موافق</string>
   <string name="disagree">غير موافق</string>
-  <string name="select_all">Select all</string>
-  <string name="deselect_all">Deselect all</string>
+  <string name="select_all">تحديد الكل</string>
+  <string name="deselect_all">إلغاء تحديد الكل</string>
   <string name="skip">تخطي</string>
   <string name="warning">تحذير</string>
   <string name="error">خطأ</string>
@@ -52,15 +52,15 @@
   <string name="backpack_add">إضافة الى حزمة الظهر</string>
   <string name="share_website_text">www.pocketcode.org</string>
   <!-- Login/Logout Mechanism -->
-  <string name="loading_check_facebook_data">Retrieving Facebook data&#8230;</string>
-  <string name="loading_check_email">Checking if the e-mail is available&#8230;</string>
-  <string name="loading_check_oauth_token">Checking login data&#8230;</string>
-  <string name="loading_check_facebook_token_validity">Checking Facebook data&#8230;</string>
-  <string name="loading_check_oauth_username">Checking if the username is available&#8230;</string>
-  <string name="loading_facebook_exchange_token">Exchanging Facebook data&#8230;</string>
-  <string name="loading_facebook_login">Facebook login on our server is complete&#8230;</string>
-  <string name="loading_google_exchange_code">Exchanging Google+ data&#8230;</string>
-  <string name="loading_google_login">Google+ login on our server is complete&#8230;</string>
+  <string name="loading_check_facebook_data">استرداد بيانات فيس بوك&#8230;</string>
+  <string name="loading_check_email">التحقق ما إذا كان البريد الإلكتروني متوفراً&#8230;</string>
+  <string name="loading_check_oauth_token">التحقق من بيانات تسجيل الدخول&#8230;</string>
+  <string name="loading_check_facebook_token_validity">التحقق من بيانات الفيس بوك&#8230;</string>
+  <string name="loading_check_oauth_username">التحقق ما إذا كان البريد الإلكتروني متوفراً&#8230;</string>
+  <string name="loading_facebook_exchange_token">تبادل بيانات الفيس بوك&#8230;</string>
+  <string name="loading_facebook_login">اكتمال تسجيل الدخول عبر فيسبوك على سيرفرنا&#8230;</string>
+  <string name="loading_google_exchange_code">تبادل بيانات جوجل بلس&#8230;</string>
+  <string name="loading_google_login">اكتمال تسجيل الدخول عبر جوجل بلس على سيرفرنا&#8230;</string>
   <string name="delete_account">حذف حسابي</string>
   <string name="logout_successful">تم الخروج بنجاح</string>
   <string name="degrees">درجة</string>
@@ -84,7 +84,7 @@
   <string name="main_menu_login">تسجيل الدخول</string>
   <string name="main_menu_logout">خروج</string>
   <string name="main_menu_scratch_converter">محول سكراتش</string>
-  <string name="main_menu_play_store_not_installed">Google Play not found</string>
+  <string name="main_menu_play_store_not_installed">لم يتم العثور على متجر جوجل بلي</string>
   <!--  -->
   <!-- Marketing activity -->
   <string name="marketing_created_with">تم إنشاؤها بواسطة</string>
@@ -93,78 +93,76 @@
   <!-- Settings activity -->
   <string name="preference_title">إعدادات</string>
   <string name="preference_title_language">اللغة</string>
-  <string name="preference_description_language">Set the app\'s language</string>
-  <string name="preference_title_accessibility">Accessibility</string>
-  <string name="preference_description_accessibility">Change the app\'s appearance</string>
-  <string name="preference_title_accessibility_profiles">Accessibility profiles</string>
-  <string name="preference_title_accessibility_profile">Predefined profiles</string>
-  <string name="preference_title_accessibility_profile_headline">Profiles</string>
-  <string name="preference_title_accessibility_predefined_profile_headline">Predefined profiles</string>
-  <string name="preference_description_accessibility_profiles">Pick a predefined accessibility profile</string>
-  <string name="preference_title_accessibility_text_appearance">Text Appearance</string>
-  <string name="preference_title_accessibility_handling">Handling</string>
-  <string name="preference_title_accessibility_category_icons_big">Large Icons</string>
-  <string name="preference_description_accessibility_category_icons_big">Increase icon size.</string>
-  <string name="preference_title_accessibility_category_icons_high_contrast">High Contrast Icons</string>
-  <string name="preference_title_accessibility_Brick_icons">Brick Icons</string>
-  <string name="preference_title_accessibility_category_icons">Show icons</string>
-  <string name="preference_description_accessibility_category_icons">Add icons to categories and bricks.</string>
-  <string name="preference_title_accessibility_high_contrast">High Contrast</string>
-  <string name="preference_description_accessibility_high_contrast">Increase the text contrast on bricks.</string>
-  <string name="preference_description_accessibility_large_text">Increase the font size.</string>
-  <string name="preference_title_accessibility_large_text">Large Text</string>
-  <string name="preference_title_accessibility_element_spacing">Large Element Spacing</string>
-  <string name="preference_description_accessibility_element_spacing">Increase element spacing in lists.</string>
-  <string name="preference_title_accessibility_dragndrop_delay">Drag\'n\'drop delay</string>
-  <string name="preference_description_accessibility_dragndrop_delay">Drag\'n\'drop delay for bricks.</string>
-  <string name="preference_title_accessibility_beginner_bricks">Beginner Bricks</string>
-  <string name="preference_description_accessibility_beginner_bricks">Show basic bricks only.</string>
-  <string name="preference_title_accessibility_font_style">Choose a Fontface</string>
-  <string name="accessibility_font_regular">Regular</string>
+  <string name="preference_description_language">تعيين لغة التطبيق</string>
+  <string name="preference_title_accessibility">إمكانية الوصول</string>
+  <string name="preference_description_accessibility">تغيير مظهر التطبيق</string>
+  <string name="preference_title_accessibility_profiles">ملفات تعريف إمكانية الوصول</string>
+  <string name="preference_title_accessibility_profile">ملفات تعريف محددة مسبقاً</string>
+  <string name="preference_title_accessibility_profile_headline">ملفات التعريف</string>
+  <string name="preference_title_accessibility_predefined_profile_headline">ملفات تعريف محددة مسبقاً</string>
+  <string name="preference_description_accessibility_profiles">اختيار ملف تعريف وصول مُعرف مسبقاً</string>
+  <string name="preference_title_accessibility_text_appearance">مظهر النص</string>
+  <string name="preference_title_accessibility_handling">معالجة</string>
+  <string name="preference_title_accessibility_category_icons_big">أيقونات كبيرة</string>
+  <string name="preference_description_accessibility_category_icons_big">زيادة حجم الأيقونات.</string>
+  <string name="preference_title_accessibility_category_icons_high_contrast">أيقونات التباين العالي</string>
+  <string name="preference_title_accessibility_Brick_icons">ايقونات اللبّنات البرمجية</string>
+  <string name="preference_title_accessibility_category_icons">إظهار الايقونات</string>
+  <string name="preference_description_accessibility_category_icons">إضافة الرموز إلى الفئات و اللبّنات البرمجية.</string>
+  <string name="preference_title_accessibility_high_contrast">تباين عالي</string>
+  <string name="preference_description_accessibility_high_contrast">زيادة تباين النص على اللبّنات البرمجية.</string>
+  <string name="preference_description_accessibility_large_text">زيادة حجم النص.</string>
+  <string name="preference_title_accessibility_large_text">نص عريض</string>
+  <string name="preference_title_accessibility_element_spacing">تباعد عريض للكائنات</string>
+  <string name="preference_description_accessibility_element_spacing">زيادة مسافة التباعد في القوائم.</string>
+  <string name="preference_title_accessibility_dragndrop_delay">تأخير السحب والإفلات</string>
+  <string name="preference_description_accessibility_dragndrop_delay">تأخير السحب والإفلات لـ اللبّنات البرمجية.</string>
+  <string name="preference_title_accessibility_beginner_bricks">البّنات البرمجية للمبتدئين</string>
+  <string name="preference_description_accessibility_beginner_bricks">إظهار اللبّنات البرمجية الأساسية فقط.</string>
+  <string name="preference_title_accessibility_font_style">اختر نوع خط</string>
+  <string name="accessibility_font_regular">عادي</string>
   <string name="accessibility_font_serif">Serif</string>
-  <string name="accessibility_font_dyslexic">Dyslexic</string>
-  <string name="accessibility_settings_applied">Changes applied</string>
-  <string name="preference_access_title_profile_default">Default</string>
-  <string name="preference_access_summary_profile_default">Default settings</string>
-  <string name="preference_access_title_profile_custom">My custom profile</string>
-  <string name="preference_access_summary_profile_custom">My personal settings</string>
-  <string name="preference_access_title_profile_argus">Argus</string>
-  <string name="preference_access_summary_profile_argus">High contrast, additional icons</string>
-  <string name="preference_access_title_profile_odin">Odin</string>
-  <string name="preference_access_summary_profile_odin">Large text, large icons, large element
-       spacing, high contrast</string>
-  <string name="preference_access_title_profile_fenrir">Fenrir</string>
-  <string name="preference_access_summary_profile_fenrir">Large element spacing, drag\'n\'drop
-       delay</string>
-  <string name="preference_access_title_profile_tiro">Tiro</string>
-  <string name="preference_access_summary_profile_tiro">Beginner bricks</string>
+  <string name="accessibility_font_dyslexic">عسر القراءة</string>
+  <string name="accessibility_settings_applied">تم تطبيق التغييرات</string>
+  <string name="preference_access_title_profile_default">افتراضي</string>
+  <string name="preference_access_summary_profile_default">الإعدادات الافتراضية</string>
+  <string name="preference_access_title_profile_custom">ملف تعريفي مخصص</string>
+  <string name="preference_access_summary_profile_custom">إعداداتي الشخصية</string>
+  <string name="preference_access_title_profile_argus">أرغوس</string>
+  <string name="preference_access_summary_profile_argus">التباين العالي، رموز إضافية</string>
+  <string name="preference_access_title_profile_odin">اودين</string>
+  <string name="preference_access_summary_profile_odin">نص عريض, أيقونات كبيرة, مسافة تباعد        بين العناصر, تباين عالي</string>
+  <string name="preference_access_title_profile_fenrir">الذئب العملاق</string>
+  <string name="preference_access_summary_profile_fenrir">مسافة تباعد بين العناصر, تأخير مدة        السحب واللإفلات</string>
+  <string name="preference_access_title_profile_tiro">مبتدىء</string>
+  <string name="preference_access_summary_profile_tiro">اللبّنات البرمجية للمبتدئين</string>
   <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
   <string name="preference_title_enable_quadcopter_bricks">اللبّنات البرمجية للطائرة بدون طيار</string>
-  <string name="preference_description_quadcopter_bricks">Allow the app to control AR.Drone 2.0 quadcopters</string>
+  <string name="preference_description_quadcopter_bricks">السماح للتطبيق بالتحكم في الطائرة بدون طيار 2.0 كوادكوبتر</string>
   <string name="preference_title_enable_jumpingsumo_bricks">اللبّنات البرمجية لـ Parrot Jumping Sumo</string>
-  <string name="preference_description_jumpingsumo_bricks">Allow the app to control Parrot\'s Jumping Sumo</string>
+  <string name="preference_description_jumpingsumo_bricks">السماح للتطبيق بالتحكم في Parrots Jumping Sumo</string>
   <string name="preference_title_enable_mindstorms_nxt_bricks">لبّنات برمجية لـ ليغو مايندستورمز (NXT)</string>
   <string name="preference_title_enable_mindstorms_ev3_bricks">لبّنات برمجية لـ ليغو مايندستورمز (EV3)</string>
-  <string name="preference_description_mindstorms_nxt_bricks">Allow the app to control Lego Mindstorms NXT robots</string>
-  <string name="preference_description_mindstorms_ev3_bricks">Allow the app to control Lego Mindstorms EV3 robots</string>
+  <string name="preference_description_mindstorms_nxt_bricks">السماح للتطبيق بالتحكم في روبوتات ليغو مايندستورمز(NXT)</string>
+  <string name="preference_description_mindstorms_ev3_bricks">السماح للتطبيق بالتحكم في روبوتات ليغو مايندستورمز(EV3)</string>
   <string name="preference_title_mindstorms_nxt_sensors">أجهزة إستشعار ليغو (NXT)</string>
   <string name="preference_title_mindstorms_ev3_sensors">أجهزة إستشعار ليغو (EV3)</string>
-  <string name="preference_title_drone_config_properties">AR.Drone 2.0 Configuration</string>
+  <string name="preference_title_drone_config_properties">إعدادات ضبط طائرة بدون طيار 2.0</string>
   <string name="preference_title_enable_phiro_bricks">لبّنات روبوت الأطفال البرمجية</string>
-  <string name="preference_description_phiro_bricks">Allow the app to control Phiro robots</string>
+  <string name="preference_description_phiro_bricks">للسماح للتطبيق بالتحكم في روبوت الأطفال</string>
   <string name="preference_title_enable_arduino_bricks">لبّنات برمجية لـ اردوينو</string>
-  <string name="preference_title_enable_embroidery_bricks">Embroidery</string>
-  <string name="preference_description_embroidery_bricks">Create patterns for stitching machines</string>
+  <string name="preference_title_enable_embroidery_bricks">التطريز</string>
+  <string name="preference_description_embroidery_bricks">إنشاء أنماط لآلات الخياطة</string>
   <string name="preference_title_cast_feature_globally_enabled">تفعيل مزايا البث والإرسال</string>
-  <string name="preference_description_cast_feature_globally_enabled">Show cast button and enable cast projects</string>
+  <string name="preference_description_cast_feature_globally_enabled">إظهار زر البث والإرسال وتفعيل مشاريع البث والإرسال</string>
   <string name="preference_title_enable_nfc_bricks">تقنية التواصل قريب المدى</string>
-  <string name="preference_description_nfc_bricks">Allow the app to use NFC tags in programs</string>
+  <string name="preference_description_nfc_bricks">السماح للتطبيق باستخدام وسوم NFC في البرنامج</string>
   <string name="preference_title_enable_crash_reports">إرسال تقارير الأعطال الغير معروفة</string>
-  <string name="preference_description_crash_reports">Allow the app to send crash reports automatically</string>
+  <string name="preference_description_crash_reports">السماح للتطبيق بإرسال تقارير الأعطال تلقائياً</string>
   <!-- -->
-  <string name="preference_description_arduino_bricks">Allow the app to control Arduino boards</string>
+  <string name="preference_description_arduino_bricks">السماح للتطبيق بالتحكم في لوحات الاردوينو</string>
   <string name="preference_title_enable_raspi_bricks">لبّنات راسبيري باي البرمجية</string>
-  <string name="preference_description_raspi_bricks">Allow the app to control Raspberry Pi computers</string>
+  <string name="preference_description_raspi_bricks">السماح للتطبيق بالتحكم بأجهزة راسبيري باي</string>
   <string name="preference_raspi_enable_bricks">تفعيل لّبنات راسبيري باي البرمجية</string>
   <string name="preference_raspi_help">مساعدة/الشروع في البدء</string>
   <string name="preference_raspi_help_summary">الحصول على مساعدة حول كيفية تكوين إعدادات الاتصال</string>
@@ -172,51 +170,37 @@
   <string name="preference_raspi_port">منفذ الراسبيري باي</string>
   <!--  -->
   <!-- Scratch Converter activity -->
-  <string name="beta">BETA</string>
-  <string name="error_scratch_program_not_accessible_any_more">Whoops! The program seems to have disappeared
-        or you might have lost access to it.</string>
-  <string name="error_scratch_project_data_not_available">Whoops! Some parts of the program seem to be
-        missing, please try again later.</string>
-  <string name="error_request_timeout">Whoops! Our server did not respond in time, please try again later.</string>
+  <string name="beta">بيتا</string>
+  <string name="error_scratch_program_not_accessible_any_more">اوووبس! يبدو أن البرنامج اختفى         أو انت فقدت الوصول اليه.</string>
+  <string name="error_scratch_project_data_not_available">أووبس! بعض أجزاء البرنامج تبدو         مفقودة, الرجاء المحاولة مجدداً لاحقاً.</string>
+  <string name="error_request_timeout">أووبس! لم يستجب الخادم الخاص بنا في الوقت المناسب, الرجاء المحاولة مجدداً لاحقاً.</string>
   <string name="error_scratch_program_conversion_failed">اووبس! فشلت محاولة تحويل برنامج سكراتش، الرجاء المحاولة مرة أخرى في وقت لاحق!</string>
   <string name="error_specific_scratch_program_conversion_failed_x">اووبس! فشلت محاولة تحويل %1$s، الرجاء المحاولة مرة أخرى في وقت لاحق!</string>
-  <string name="error_scratch_converter_outdated_app_version">Your version of Pocket Code is outdated. Our Scratch
-        converter only works on the latest version. Please update it through Google Play</string>
+  <string name="error_scratch_converter_outdated_app_version">إصدار بوكت كود قديم. محول سكراتش يعمل فقط على اللإصدار الأخير. من فضلك قم بتحديث التطبيق عبر جوجل بلاي</string>
   <string name="error_cannot_open_not_existing_scratch_program">لا يمكن فتح برنامج السكراتش. يبدو أنك قمت بإلغاء عملية التحويل/التحميل لبرنامج السكراتش أو أنك قمت بإعادة تسمية/حذف البرنامج!</string>
-  <string name="error_cannot_open_currently_downloading_scratch_program">You can\'t open the program
-        at the moment. Please wait until it\'s downloaded.</string>
-  <string name="error_cannot_open_not_yet_downloaded_scratch_program">You can\'t open the program just yet.
-        Please download it first and then open it.</string>
-  <string name="error_cannot_convert_deprecated_scratch_program_x_x">Cannot convert %1$s. This seems to be
-        an old scratch program from before %2$s, please try another one.</string>
+  <string name="error_cannot_open_currently_downloading_scratch_program">لا يمكنك فتح البرنامج         حالياً. من فضلك انتظر ريثما ينتهي التحميل.</string>
+  <string name="error_cannot_open_not_yet_downloaded_scratch_program">لا يمكنك فتح البرنامج فقط حتى الآن.         الرجاء تحميل البرنامج أولاً وقم بفتحه.</string>
+  <string name="error_cannot_convert_deprecated_scratch_program_x_x">لا يمكن تحويل %1$s. هذا يبدو انه برنامج سكراتش قديم قبل %2$s, من فضلك قم بتجربة برنامج اخر.</string>
   <plurals name="error_cannot_convert_more_than_x_programs">
-    <item quantity="zero">You can\'t convert more than %d programs at the same time. Please wait for the
-            running programs to finish first.</item>
-    <item quantity="one">You can\'t convert more than %d program at the same time. Please wait for the
-            running programs to finish first.</item>
-    <item quantity="two">You can\'t convert more than %d programs at the same time. Please wait for the
-            running programs to finish first.</item>
-    <item quantity="few">You can\'t convert more than %d programs at the same time. Please wait for the
-            running programs to finish first.</item>
-    <item quantity="many">You can\'t convert more than %d programs at the same time. Please wait for the
-            running programs to finish first.</item>
-    <item quantity="other">You can\'t convert more than %d programs at the same time. Please wait for the
-            running programs to finish first.</item>
+    <item quantity="zero">لا يمكنك تحويل أكثر من%d برنامج في نفس الوقت. من فضلك انتظر             أولاً انتهاء تحويل البرامج قيد التشغيل.</item>
+    <item quantity="one">لا يمكنك تحويل أكثر من%d برنامج في نفس الوقت. من فضلك انتظر             أولاً انتهاء تحويل البرامج قيد التشغيل.</item>
+    <item quantity="two">لا يمكنك تحويل أكثر من%d برنامج في نفس الوقت. من فضلك انتظر             أولاً انتهاء تحويل البرامج قيد التشغيل.</item>
+    <item quantity="few">لا يمكنك تحويل أكثر من%d برنامج في نفس الوقت. من فضلك انتظر             أولاً انتهاء تحويل البرامج قيد التشغيل.</item>
+    <item quantity="many">لا يمكنك تحويل أكثر من%d برنامج في نفس الوقت. من فضلك انتظر             أولاً انتهاء تحويل البرامج قيد التشغيل.</item>
+    <item quantity="other">لا يمكنك تحويل أكثر من%d برنامج في نفس الوقت. من فضلك انتظر             أولاً انتهاء تحويل البرامج قيد التشغيل.</item>
   </plurals>
-  <string name="error_cannot_open_failed_scratch_program">You can\'t open the program because it wasn\'t
-        converted correctly. Please try to convert it again.</string>
-  <string name="search_failed">Nothing found, please retry later.</string>
-  <string name="connection_lost_or_closed_by_server">Server connection lost.</string>
-  <string name="connection_failed">We can\'t connect you to the server right now, please try again later.</string>
-  <string name="authentication_failed">There seems to be a problem with your connection to the service, please
-        contact the Catrobat team!</string>
+  <string name="error_cannot_open_failed_scratch_program">لا يمكنك فتح هذا البرنامج لأنه لم يتم         تحويلها بشكل صحيح. الرجاء محاولة تحويله مرة أخرى.</string>
+  <string name="search_failed">لا شيء وجد، الرجاء إعادة المحاولة لاحقاً.</string>
+  <string name="connection_lost_or_closed_by_server">تم فقد الاتصال بالسيرفر.</string>
+  <string name="connection_failed">غير قادر على الاتصال بالسيرفر في الوقت الحالي،يرجى إعادة المحاولة لاحقاً.</string>
+  <string name="authentication_failed">يبدو انه لديك مشكلة في الاتصال بالسيرفر, الرجاء         الاتصال بفريق كاتروبات!</string>
   <plurals name="scratch_conversion_scheduled_x">
-    <item quantity="zero">Added %d Scratch programs to the queue…</item>
-    <item quantity="one">Added %d Scratch program to the queue&#8230;</item>
-    <item quantity="two">Added %d Scratch programs to the queue&#8230;</item>
-    <item quantity="few">Added %d Scratch programs to the queue&#8230;</item>
-    <item quantity="many">Added %d Scratch programs to the queue&#8230;</item>
-    <item quantity="other">Added %d Scratch programs to the queue&#8230;</item>
+    <item quantity="zero">تم إضافة %d برامج سكراتش لقائمة الإنتظار…</item>
+    <item quantity="one">تم إضافة %d برامج سكراتش لقائمة الإنتظار&#8230;</item>
+    <item quantity="two">تم إضافة %d برامج سكراتش لقائمة الإنتظار&#8230;</item>
+    <item quantity="few">تم إضافة %d برامج سكراتش لقائمة الإنتظار&#8230;</item>
+    <item quantity="many">تم إضافة %d برامج سكراتش لقائمة الإنتظار&#8230;</item>
+    <item quantity="other">تم إضافة %d برامج سكراتش لقائمة الإنتظار&#8230;</item>
   </plurals>
   <string name="scratch_conversion_started">بدأت عملية تحويل برنامج السكراتش&#8230;</string>
   <string name="convert">تحويل</string>
@@ -226,30 +210,29 @@
   <string name="status_started">بدأت&#8230;</string>
   <string name="status_conversion_finished">عملية التحويل قد انتهت</string>
   <plurals name="status_in_progress_x_jobs">
-    <item quantity="zero">In progress: %d jobs</item>
-    <item quantity="one">In progress: %d job</item>
-    <item quantity="two">In progress: %d jobs</item>
-    <item quantity="few">In progress: %d jobs</item>
-    <item quantity="many">In progress: %d jobs</item>
-    <item quantity="other">In progress: %d jobs</item>
+    <item quantity="zero">قيد المعالجة: %d مهمة</item>
+    <item quantity="one">قيد المعالجة: %d مهمة</item>
+    <item quantity="two">قيد المعالجة: %d مهمة</item>
+    <item quantity="few">قيد المعالجة: %d مهمات</item>
+    <item quantity="many">قيد المعالجة: %d مهمات</item>
+    <item quantity="other">قيد المعالجة: %d مهمات</item>
   </plurals>
   <plurals name="status_completed_x_jobs">
-    <item quantity="zero">Completed: %d jobs</item>
-    <item quantity="one">Completed: %d job</item>
-    <item quantity="two">Completed: %d jobs</item>
-    <item quantity="few">Completed: %d jobs</item>
-    <item quantity="many">Completed: %d jobs</item>
-    <item quantity="other">Completed: %d jobs</item>
+    <item quantity="zero">إكتملت: %d مهمة</item>
+    <item quantity="one">إكتملت: %d مهمة</item>
+    <item quantity="two">إكتملت: %d مهام</item>
+    <item quantity="few">إكتملت: %d مهام</item>
+    <item quantity="many">إكتملت: %d مهام</item>
+    <item quantity="other">إكتملت: %d مهام</item>
   </plurals>
   <string name="status_conversion_failed">فشلت عملية التحويل!</string>
   <string name="status_downloading">جاري التحميل&#8230;</string>
   <string name="status_download_finished">انتهت عملية التحميل!</string>
   <string name="status_download_canceled">تم إلغاء التحميل!</string>
-  <string name="scratch_programs_in_progress_title">In progress</string>
-  <string name="scratch_programs_finished_title">Converted programs</string>
+  <string name="scratch_programs_in_progress_title">في طور التقدم</string>
+  <string name="scratch_programs_finished_title">البرامج المُحولة</string>
   <string name="by_x">من قبل %1$s</string>
-  <string name="warning_program_visibility">WARNING:\nThis seems to be a private program. You can try to
-        convert it but it might not work.</string>
+  <string name="warning_program_visibility">تحذير:\n هذا يبدو أنه برنامج خاص. يمكنك تجربة         تحويله لكن ربما لن يعمل.</string>
   <string name="instructions">التعليمات</string>
   <string name="notes_and_credits">الملاحظات والائتمانات</string>
   <string name="shared_at_x">مشاركة: %1$s</string>
@@ -262,54 +245,53 @@
   <string name="remix_of">خليط مُعدل من:</string>
   <string name="description_hint">إضغط لإضافة وصف</string>
   <!-- ScratchReconvertDialog Strings -->
-  <string name="reconvert_text">You converted this program converted %1$s ago.</string>
+  <string name="reconvert_text">لقد قمت بتحويل هذا البرنامج مُحول منذ%1$s مضت.</string>
   <plurals name="minutes">
-    <item quantity="zero">%d minutes</item>
-    <item quantity="one">%d minute</item>
-    <item quantity="two">%d minutes</item>
-    <item quantity="few">%d minutes</item>
-    <item quantity="many">%d minutes</item>
-    <item quantity="other">%d minutes</item>
+    <item quantity="zero">%d دقيقة</item>
+    <item quantity="one">%d دقيقة</item>
+    <item quantity="two">%d دقائق</item>
+    <item quantity="few">%d دقائق</item>
+    <item quantity="many">%d دقائق</item>
+    <item quantity="other">%d دقائق</item>
   </plurals>
   <plurals name="hours">
-    <item quantity="zero">%d hours</item>
-    <item quantity="one">%d hour</item>
-    <item quantity="two">%d hours</item>
-    <item quantity="few">%d hours</item>
-    <item quantity="many">%d hours</item>
-    <item quantity="other">%d hours</item>
+    <item quantity="zero">%d ساعة</item>
+    <item quantity="one">%d ساعة</item>
+    <item quantity="two">%d ساعات</item>
+    <item quantity="few">%d ساعات</item>
+    <item quantity="many">%d ساعات</item>
+    <item quantity="other">%d ساعات</item>
   </plurals>
   <plurals name="days">
-    <item quantity="zero">%d days</item>
-    <item quantity="one">%d day</item>
-    <item quantity="two">%d days</item>
-    <item quantity="few">%d days</item>
-    <item quantity="many">%d days</item>
-    <item quantity="other">%d days</item>
+    <item quantity="zero">%d يوم</item>
+    <item quantity="one">%d يوم</item>
+    <item quantity="two">%d أيام</item>
+    <item quantity="few">%d أيام</item>
+    <item quantity="many">%d أيام</item>
+    <item quantity="other">%d أيام</item>
   </plurals>
-  <string name="reconvert_dialog_download">Download the program again</string>
-  <string name="reconvert_dialog_reconvert">Convert this program again</string>
+  <string name="reconvert_dialog_download">تحميل البرنامج مجدداً</string>
+  <string name="reconvert_dialog_reconvert">تحويل هذا البرنامج مجدداً</string>
   <!--  -->
   <!-- ERRORS -->
   <!-- Privacy Policy Error -->
-  <string name="declined_privacy_agreement_alert">To use our app, it is necessary to accept our Privacy Policy.
-        However, if you don’t feel comfortable to do so, you can use our free web-services on</string>
+  <string name="declined_privacy_agreement_alert">لاستخدام تطبيقنا, من الضروري الموافقة على سياسة الخصوصية.
+        ومع ذلك, اذا لم تشعر بالراحة بالقيام بذلك, يمكنك استخدام خدمات الويب الخاصة بنا مجاناً على</string>
   <string name="wtf_error">حدث خطأ غير متوقع: لا يمكن إستعادة البرنامج الإفتراضي.</string>
   <!-- Project Handling Errors -->
   <string name="error_copy_project">حدث خطأ أثناء نسخ المشروع</string>
   <!-- Dialog Errors -->
-  <string name="name_already_exists">This name is already in use, please choose another one.</string>
-  <string name="name_consists_of_spaces_only">You only put spaces into the text field, please enter a name
-        using letters, numbers or other special characters.</string>
+  <string name="name_already_exists">هذا الاسم مُستخدم بالفعل. يرجى اختيار اسم آخر.</string>
+  <string name="name_consists_of_spaces_only">يمكنك فقط وضع مسافات في حقل النص، الرجاء إدخال اسم         باستخدام أحرف, أرقام أو أحرف خاصة أخرى.</string>
   <!-- Recycler View -->
-  <string name="am_empty_list">There are no items in this list yet. Please add some first.</string>
+  <string name="am_empty_list">لا توجد أي عناصر في القائمة بعد. من فضلك أضف بعض العناصر أولاً.</string>
   <string name="am_backpack">حزمة</string>
   <string name="am_unpack">فك الحزمة</string>
   <string name="am_copy">نسخ</string>
   <string name="am_delete">حذف</string>
   <string name="am_rename">إعادة تسمية</string>
   <string name="am_convert">تحويل</string>
-  <string name="dialog_confirm_delete">You can\'t undo this!</string>
+  <string name="dialog_confirm_delete">لا يمكنك التراجع عن هذا!</string>
   <string name="list_headline_sprites">الكائنات</string>
   <!-- Options Menu Options -->
   <string name="backpack">حقيبة الظهر</string>
@@ -321,77 +303,77 @@
   <!-- Action Mode Titles -->
   <!-- Project Action Mode Titles -->
   <plurals name="am_pack_projects_title">
-    <item quantity="zero">Pack %d Projects</item>
-    <item quantity="one">Pack %d Project</item>
-    <item quantity="two">Pack %d Projects</item>
-    <item quantity="few">Pack %d Projects</item>
-    <item quantity="many">Pack %d Projects</item>
-    <item quantity="other">Pack %d Projects</item>
+    <item quantity="zero">حزم %d مشروع</item>
+    <item quantity="one">حزم %d مشروع</item>
+    <item quantity="two">حزم%d مشاريع</item>
+    <item quantity="few">حزم %d مشاريع</item>
+    <item quantity="many">حزم %d مشاريع</item>
+    <item quantity="other">حزم %d مشاريع</item>
   </plurals>
   <plurals name="am_copy_projects_title">
-    <item quantity="zero">Copy %d Projects</item>
-    <item quantity="one">Copy %d Project</item>
-    <item quantity="two">Copy %d Projects</item>
-    <item quantity="few">Copy %d Projects</item>
-    <item quantity="many">Copy %d Projects</item>
-    <item quantity="other">Copy %d Projects</item>
+    <item quantity="zero">نسخ %d مشروع</item>
+    <item quantity="one">نسخ %d مشروع</item>
+    <item quantity="two">نسخ %d مشاريع</item>
+    <item quantity="few">نسخ %d مشاريع</item>
+    <item quantity="many">نسخ %d مشاريع</item>
+    <item quantity="other">نسخ %d مشاريع</item>
   </plurals>
   <plurals name="am_delete_projects_title">
-    <item quantity="zero">Delete %d Projects</item>
-    <item quantity="one">Delete %d Project</item>
-    <item quantity="two">Delete %d Projects</item>
-    <item quantity="few">Delete %d Projects</item>
-    <item quantity="many">Delete %d Projects</item>
-    <item quantity="other">Delete %d Projects</item>
+    <item quantity="zero">حذف %d مشروع</item>
+    <item quantity="one">حذف %d مشروع</item>
+    <item quantity="two">حذف %d مشاريع</item>
+    <item quantity="few">حذف %d مشاريع</item>
+    <item quantity="many">حذف %d مشاريع</item>
+    <item quantity="other">حذف %d مشاريع</item>
   </plurals>
   <plurals name="am_rename_projects_title">
-    <item quantity="zero">Rename %d Projects</item>
-    <item quantity="one">Rename %d Project</item>
-    <item quantity="two">Rename %d Projects</item>
-    <item quantity="few">Rename %d Projects</item>
-    <item quantity="many">Rename %d Projects</item>
-    <item quantity="other">Rename %d Projects</item>
+    <item quantity="zero">إعادة تسمية %d مشروع</item>
+    <item quantity="one">إعادة تسمية %d مشروع</item>
+    <item quantity="two">إعادة تسمية %d مشاريع</item>
+    <item quantity="few">إعادة تسمية %d مشاريع</item>
+    <item quantity="many">إعادة تسمية %d مشاريع</item>
+    <item quantity="other">إعادة تسمية %d مشاريع</item>
   </plurals>
   <plurals name="am_convert_projects_title">
-    <item quantity="zero">Convert %d Projects</item>
-    <item quantity="one">Convert %d Project</item>
-    <item quantity="two">Convert %d Projects</item>
-    <item quantity="few">Convert %d Projects</item>
-    <item quantity="many">Convert %d Projects</item>
-    <item quantity="other">Convert %d Projects</item>
+    <item quantity="zero">تحويل %d مشروع</item>
+    <item quantity="one">تحويل %d مشروع</item>
+    <item quantity="two">تحويل %d مشاريع</item>
+    <item quantity="few">تحويل %d مشاريع</item>
+    <item quantity="many">تحويل %d مشاريع</item>
+    <item quantity="other">تحويل %d مشاريع</item>
   </plurals>
   <!-- Scene Action Mode Titles -->
   <plurals name="am_pack_scenes_title">
-    <item quantity="zero">Pack %d Scenes</item>
-    <item quantity="one">Pack %d Scene</item>
-    <item quantity="two">Pack %d Scenes</item>
-    <item quantity="few">Pack %d Scenes</item>
-    <item quantity="many">Pack %d Scenes</item>
-    <item quantity="other">Pack %d Scenes</item>
+    <item quantity="zero">حزم %d مشهد</item>
+    <item quantity="one">حزم %d مشهد</item>
+    <item quantity="two">حزم %d مشاهد</item>
+    <item quantity="few">حزم %d مشاهد</item>
+    <item quantity="many">حزم %d مشاهد</item>
+    <item quantity="other">حزم %d مشاهد</item>
   </plurals>
   <plurals name="am_unpack_scenes_title">
-    <item quantity="zero">Unpack %d Scenes</item>
-    <item quantity="one">Unpack %d Scene</item>
-    <item quantity="two">Unpack %d Scenes</item>
-    <item quantity="few">Unpack %d Scenes</item>
-    <item quantity="many">Unpack %d Scenes</item>
-    <item quantity="other">Unpack %d Scenes</item>
+    <item quantity="zero">فك حزم %d مشهد</item>
+    <item quantity="one">فك حزم %d مشهد</item>
+    <item quantity="two">فك حزم %d مشاهد</item>
+    <item quantity="few">فك حزم %d مشاهد</item>
+    <item quantity="many">فك حزم %d مشاهد</item>
+    <item quantity="other">فك حزم %d مشاهد</item>
   </plurals>
   <plurals name="am_copy_scenes_title">
-    <item quantity="zero">Copy %d Scenes</item>
-    <item quantity="one">Copy %d Scene</item>
-    <item quantity="two">Copy %d Scenes</item>
-    <item quantity="few">Copy %d Scenes</item>
-    <item quantity="many">Copy %d Scenes</item>
-    <item quantity="other">Copy %d Scenes</item>
+    <item quantity="zero">نسخ %d مشهد</item>
+    <item quantity="one">نسخ %d مشهد</item>
+    <item quantity="two">نسخ %d مشاهد</item>
+    <item quantity="few">نسخ %d مشاهد</item>
+    <item quantity="many">نسخ %d مشاهد</item>
+    <item quantity="other">نسخ %d مشاهد</item>
   </plurals>
   <plurals name="am_delete_scenes_title">
-    <item quantity="zero">Delete %d Scenes</item>
-    <item quantity="one">Delete %d Scene</item>
-    <item quantity="two">Delete %d Scenes</item>
-    <item quantity="few">Delete %d Scenes</item>
-    <item quantity="many">Delete %d Scenes</item>
-    <item quantity="other">Delete %d Scenes</item>
+    <item quantity="zero">حذف %d مشهد</item>
+    <item quantity="one">حذف %d مشهد</item>
+    <item quantity="two">حذف %d مشاهد</item>
+    <item quantity="few">حذف %d مشاهد</item>
+    <item quantity="many">حذف %d مشاهد</item>
+    <item quantity="other">حذف %d مشاهد</item>
   </plurals>
   <plurals name="am_rename_scenes_title">
     <item quantity="zero">Rename %d Scenes</item>
@@ -914,6 +896,9 @@
   <string name="local_vars_headline">Variables for this object only</string>
   <string name="global_lists_headline">Lists for all objects</string>
   <string name="local_lists_headline">Lists for this object only</string>
+  <!-- NewDataDialog -->
+  <string name="new_data_for_all_sprites">For all Objects</string>
+  <string name="new_data_for_this_sprite_only">For this Object only</string>
   <!-- Backpack -->
   <string name="backpack_title">حقيبة الظهر الخاصة بك</string>
   <string name="pack">حزمة</string>
@@ -1003,7 +988,7 @@
             site. This will get displayed on your public profile and only be used for statistical and research
             purposes by us. It can be removed at any time in your profile settings.\n\n
         • You can withdraw the usage of the personal data belonging to your account at any time by deleting your
-            account through your profile page on https://share.catrob.at/. After deleting your account you will still
+            account through your profile page on https://share.catrob.at. After deleting your account you will still
             be able to use the provided services, but not to collaborate, e.g., through uploading programs,
             commenting, or liking. Also, all provided content linked to your account, e.g., uploaded programs,
             comments, etc., will be deleted.\n\n
@@ -1013,13 +998,13 @@
             any institutions, unless sufficiently illegal actions are reasonably suspected and officially entitled
             legal institutions request it based on applicable law. Each case will be thoroughly checked on an
             individual basis by us first.\n\n
-        • You can voluntarily subscribe to the Catrobat Newsletter, on <a href="https://catrob.at/newsletter">https://catrob.at/newsletter</a> provided by us through the MailChimp
-            service (The Rocket Science Group LLC d/b/a MailChimp, USA). You will then receive updates on the
-            Catrobat project and its services to your provided e-mail adress. You can withdraw the newsletter at any
-            time by using the \"unsubscribe\" link in the footer of every newsletter. This newsletter is provided by
-            MailChimp with whom we do have a data-processing agreement and who committed to the EU General Data
-            Protection Regulation and EU-USA \"Privacy Shield\". For further details on MailChimp please also look up
-            MailChimp\'s Privacy Policy and Terms of Use.\n\n
+        • You can voluntarily subscribe to the Catrobat Newsletter, on https://catrob.at/newsletter provided
+            by us through the MailChimp service (The Rocket Science Group LLC d/b/a MailChimp, USA). You will then
+            receive updates on the Catrobat project and its services to your provided e-mail address. You can withdraw
+            the newsletter at any time by using the \"unsubscribe\" link in the footer of every newsletter. This
+            newsletter is provided by MailChimp with whom we do have a data-processing agreement and who committed to
+            the EU General Data Protection Regulation and EU-USA \"Privacy Shield\". For further details on MailChimp
+            please also look up MailChimp\'s Privacy Policy and Terms of Use.\n\n
         • All Services are provided by the free open source Catrobat project under the umbrella of the
             International Catrobat Association – Verein zur Förderung freier Software, a non-profit NGO incorporated
             in Graz, Austria (European Union). Our policies pay respect to EU and Austrian data protection law
@@ -1033,12 +1018,12 @@
         In case you are below the age of 14, this policy must be accepted by a legal guardian (usually a parent).\n\n
 
         Catrobat\'s official English language privacy policy is available on the web under
-                <a href="https://catrob.at/privacypolicy">https://catrob.at/privacypolicy</a>.\n\n
+        https://catrob.at/privacypolicy.\n\n
 
         Version 2.1, 25 June 2018\n\n
 
-        Find the previous, outdated, version of our privacy policy (2.0)
-            <a href="http://developer.catrobat.org/privacy_policy_2-0.html">here</a>.
+        Find the previous, outdated, version of our privacy policy (2.0) here:
+        http://developer.catrobat.org/privacy_policy_2-0
     </string>
   <string name="dialog_privacy_policy_declined_text">It is necessary to agree to the Privacy Policy to register or to
         continue using your account. If you do not want us to collect this data, you can delete your
@@ -1058,6 +1043,8 @@
   <!--  -->
   <!-- NetworkAlertDialog -->
   <string name="error_no_network_title">لا يوجد اتصال بالشبكة</string>
+  <string name="error_no_network_one_brick">Following brick will use the network:</string>
+  <string name="error_no_network_multiple_bricks">Following brick will use the networks:</string>
   <string name="error_no_network">انت بحاجة الى اتصال نشط بالإنترنت لاستخدام \"بوكت كوود\". من فضلك قم بتشغيل بيانات الهاتف او قم بالاتصال بشبكة لاسلكية في الاعدادات.</string>
   <plurals name="bricks_using_network_headline">
     <item quantity="zero">The following bricks need a network connection:</item>
@@ -1184,7 +1171,7 @@
   <!-- -->
   <!-- Brick categories -->
   <string name="categories">الفئات</string>
-  <string name="category_embroidery">Embroidery</string>
+  <string name="category_embroidery">التطريز</string>
   <string name="category_motion">الحركة</string>
   <string name="category_looks">المناظر</string>
   <string name="category_pen">القلم</string>
@@ -1264,6 +1251,7 @@
   <!-- Looks bricks -->
   <string name="brick_set_look">تبديل المظهر الى</string>
   <string name="brick_set_look_by_index">تبديل الى منظر مُحدد برقم</string>
+  <string name="brick_and_wait">والانتظار</string>
   <string name="brick_set_background">تعيين كـ خلفية شاشة</string>
   <string name="brick_set_background_and_wait">Set background and wait</string>
   <string name="brick_set_background_by_index">تعيين خلفية الشاشة الى عدد</string>
@@ -1987,8 +1975,6 @@
   <string name="formula_editor_image_button_description_delete">حذف</string>
   <string name="formula_editor_variable_dialog_title">متغير جديد</string>
   <string name="formula_editor_list_dialog_title">قائمة جديدة</string>
-  <string name="formula_editor_dialog_for_all_sprites">For all objects</string>
-  <string name="formula_editor_dialog_for_this_sprite_only">For this object only</string>
   <string name="formula_editor_discard_changes_dialog_message">هل تريد حفظ التغييرات؟</string>
   <string name="formula_editor_discard_changes_dialog_title">حفظ التغييرات؟</string>
   <string name="formula_editor_new_string_name">نص جديد</string>
