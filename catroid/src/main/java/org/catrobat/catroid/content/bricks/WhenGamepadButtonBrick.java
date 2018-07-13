@@ -55,7 +55,7 @@ public class WhenGamepadButtonBrick extends BrickBaseType implements ScriptBrick
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, final BaseAdapter baseAdapter) {
+	public View getView(final Context context, final BaseAdapter baseAdapter) {
 
 		view = View.inflate(context, R.layout.brick_when_gamepad_button, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
@@ -88,7 +88,7 @@ public class WhenGamepadButtonBrick extends BrickBaseType implements ScriptBrick
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return getView(context, 0, null);
+		return getView(context, null);
 	}
 
 	@Override

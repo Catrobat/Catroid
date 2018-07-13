@@ -73,7 +73,7 @@ public class ChangeVariableBrick extends UserVariableBrick {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(final Context context, BaseAdapter baseAdapter) {
 
 		view = View.inflate(context, R.layout.brick_change_variable_by, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);

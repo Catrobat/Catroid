@@ -71,7 +71,7 @@ public class DroneTurnRightBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
+	public View getView(Context context, BaseAdapter adapter) {
 
 		view = View.inflate(context, R.layout.brick_drone_turn_right, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);

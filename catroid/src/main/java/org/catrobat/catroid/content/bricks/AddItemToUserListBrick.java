@@ -66,7 +66,7 @@ public class AddItemToUserListBrick extends UserListBrick {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(final Context context, BaseAdapter baseAdapter) {
 		view = View.inflate(context, R.layout.brick_add_item_to_userlist, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 		setCheckboxView(R.id.brick_add_item_to_userlist_checkbox);

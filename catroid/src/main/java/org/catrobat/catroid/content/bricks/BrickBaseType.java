@@ -103,7 +103,7 @@ public abstract class BrickBaseType implements Brick {
 	}
 
 	@Override
-	public abstract View getView(Context context, int brickId, BaseAdapter adapter);
+	public abstract View getView(Context context, BaseAdapter adapter);
 
 	@Override
 	public abstract View getPrototypeView(Context context);

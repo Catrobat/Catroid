@@ -66,7 +66,7 @@ public class GoToBrick extends BrickBaseType {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(final Context context, BaseAdapter baseAdapter) {
 
 		view = View.inflate(context, R.layout.brick_go_to, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);

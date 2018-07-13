@@ -43,7 +43,7 @@ public abstract class DroneSpinnerBrick extends BrickBaseType {
 	protected int spinnerPosition = 0;
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(final Context context, BaseAdapter baseAdapter) {
 		view = View.inflate(context, R.layout.brick_drone_spinner, null);
 		setCheckboxView(R.id.brick_drone_spinner_checkbox);
 

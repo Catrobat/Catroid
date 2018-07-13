@@ -72,7 +72,7 @@ public class DroneMoveBackwardBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
+	public View getView(Context context, BaseAdapter adapter) {
 
 		view = View.inflate(context, R.layout.brick_drone_move_backward, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);

@@ -71,7 +71,7 @@ public class SceneStartBrick extends BrickBaseType implements
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(final Context context, BaseAdapter baseAdapter) {
 
 		view = View.inflate(context, R.layout.brick_scene_start, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);

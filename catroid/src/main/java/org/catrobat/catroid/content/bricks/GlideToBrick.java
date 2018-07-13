@@ -84,7 +84,7 @@ public class GlideToBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(Context context, BaseAdapter baseAdapter) {
 		view = View.inflate(context, R.layout.brick_glide_to, null);
 		BrickViewProvider.setAlphaOnView(view, alphaValue);
 

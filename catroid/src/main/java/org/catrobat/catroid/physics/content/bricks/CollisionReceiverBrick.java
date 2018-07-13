@@ -68,7 +68,7 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(final Context context, BaseAdapter baseAdapter) {
 		if (collisionScript == null) {
 			collisionScript = new CollisionScript(getSpriteToCollideWithName());
 		}

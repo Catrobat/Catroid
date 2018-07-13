@@ -145,7 +145,7 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(Context context, BaseAdapter baseAdapter) {
 
 		view = View.inflate(context, R.layout.brick_phiro_rgb_light, null);
 		setCheckboxView(R.id.brick_phiro_rgb_led_action_checkbox);

@@ -63,7 +63,7 @@ public class SpeakBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, final BaseAdapter baseAdapter) {
+	public View getView(final Context context, final BaseAdapter baseAdapter) {
 		view = View.inflate(context, R.layout.brick_speak, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 

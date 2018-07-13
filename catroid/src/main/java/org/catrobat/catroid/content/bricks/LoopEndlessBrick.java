@@ -40,7 +40,7 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(Context context, BaseAdapter baseAdapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.brick_loop_endless, null);
 			view = BrickViewProvider.setAlphaOnView(view, alphaValue);

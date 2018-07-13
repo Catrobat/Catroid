@@ -85,7 +85,7 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	public View getView(Context context, BaseAdapter baseAdapter) {
 
 		view = View.inflate(context, R.layout.brick_jumping_sumo_animations, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
