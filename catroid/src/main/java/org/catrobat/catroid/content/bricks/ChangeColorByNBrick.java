@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -64,12 +63,13 @@ public class ChangeColorByNBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, BaseAdapter baseAdapter) {
+	public int getViewResource() {
+		return R.layout.brick_change_color_by;
+	}
 
-		view = View.inflate(context, R.layout.brick_change_color_by, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView();
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
 		TextView editX = (TextView) view.findViewById(R.id.brick_change_color_by_edit_text);
 		getFormulaWithBrickField(BrickField.COLOR_CHANGE).setTextFieldId(R.id.brick_change_color_by_edit_text);
 		getFormulaWithBrickField(BrickField.COLOR_CHANGE).refreshTextField(view);
@@ -80,7 +80,7 @@ public class ChangeColorByNBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_change_color_by, null);
+		prototypeView = super.getPrototypeView(context);
 		TextView textChangeColor = (TextView) prototypeView
 				.findViewById(R.id.brick_change_color_by_edit_text);
 		textChangeColor.setText(formatNumberForPrototypeView(BrickValues.CHANGE_COLOR_BY));

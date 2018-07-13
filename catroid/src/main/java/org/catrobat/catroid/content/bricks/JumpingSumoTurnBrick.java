@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
@@ -36,19 +35,19 @@ public class JumpingSumoTurnBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public View getView(Context context, BaseAdapter baseAdapter) {
+	public int getViewResource() {
+		return R.layout.brick_jumping_sumo_turn;
+	}
 
-		view = View.inflate(context, R.layout.brick_jumping_sumo_turn, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView();
-
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_jumping_sumo_turn, null);
+		View prototypeView = super.getPrototypeView(context);
 
 		return prototypeView;
 	}

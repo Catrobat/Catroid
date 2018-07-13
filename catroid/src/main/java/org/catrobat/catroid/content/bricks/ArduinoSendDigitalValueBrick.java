@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -74,7 +73,7 @@ public class ArduinoSendDigitalValueBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_arduino_send_digital, null);
+		prototypeView = super.getPrototypeView(context);
 
 		TextView textSetPinNumber = (TextView) prototypeView.findViewById(R.id
 				.brick_arduino_set_digital_pin_edit_text);
@@ -87,13 +86,13 @@ public class ArduinoSendDigitalValueBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, BaseAdapter baseAdapter) {
+	public int getViewResource() {
+		return R.layout.brick_arduino_send_digital;
+	}
 
-		view = View.inflate(context, R.layout.brick_arduino_send_digital, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView();
-
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
 		TextView editPinNumber = (TextView) view.findViewById(R.id.brick_arduino_set_digital_pin_edit_text);
 		getFormulaWithBrickField(BrickField.ARDUINO_DIGITAL_PIN_NUMBER).setTextFieldId(R.id.brick_arduino_set_digital_pin_edit_text);
 		getFormulaWithBrickField(BrickField.ARDUINO_DIGITAL_PIN_NUMBER).refreshTextField(view);

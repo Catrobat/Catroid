@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -64,11 +63,13 @@ public class SetVolumeToBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, BaseAdapter baseAdapter) {
-		view = View.inflate(context, R.layout.brick_set_volume_to, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+	public int getViewResource() {
+		return R.layout.brick_set_volume_to;
+	}
 
-		setCheckboxView();
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
 		TextView edit = (TextView) view.findViewById(R.id.brick_set_volume_to_edit_text);
 		getFormulaWithBrickField(BrickField.VOLUME).setTextFieldId(R.id.brick_set_volume_to_edit_text);
 		getFormulaWithBrickField(BrickField.VOLUME).refreshTextField(view);
@@ -79,7 +80,7 @@ public class SetVolumeToBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_set_volume_to, null);
+		prototypeView = super.getPrototypeView(context);
 		TextView textSetVolumeTo = (TextView) prototypeView.findViewById(R.id.brick_set_volume_to_edit_text);
 		textSetVolumeTo.setText(formatNumberForPrototypeView(BrickValues.SET_VOLUME_TO));
 		return prototypeView;

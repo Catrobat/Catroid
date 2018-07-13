@@ -22,12 +22,10 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -44,8 +42,6 @@ import java.util.List;
 public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemSelectedListener {
 
 	private static final long serialVersionUID = 1L;
-	protected transient IfLogicElseBrick ifElseBrick;
-	protected transient IfLogicEndBrick ifEndBrick;
 	private int sensorSpinnerPosition = 0;
 
 	public PhiroIfLogicBeginBrick() {
@@ -61,12 +57,12 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 		return ifElseBrick;
 	}
 
-	public IfLogicEndBrick getIfEndBrick() {
-		return ifEndBrick;
-	}
-
 	public void setIfElseBrick(IfLogicElseBrick elseBrick) {
 		this.ifElseBrick = elseBrick;
+	}
+
+	public IfLogicEndBrick getIfEndBrick() {
+		return ifEndBrick;
 	}
 
 	public void setIfEndBrick(IfLogicEndBrick ifEndBrick) {
@@ -83,17 +79,18 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 	}
 
 	@Override
-	public View getView(Context context, BaseAdapter baseAdapter) {
+	public int getViewResource() {
+		return R.layout.brick_phiro_if_sensor;
+	}
 
-		view = View.inflate(context, R.layout.brick_phiro_if_sensor, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+	@Override
+	protected void onViewCreated(View view) {
+		Spinner phiroProSensorSpinner = view.findViewById(R.id.brick_phiro_sensor_action_spinner);
 
-		setCheckboxView();
+		ArrayAdapter<CharSequence> phiroProSensorAdapter = ArrayAdapter.createFromResource(view.getContext(),
+				R.array.brick_phiro_select_sensor_spinner,
+				android.R.layout.simple_spinner_item);
 
-		Spinner phiroProSensorSpinner = (Spinner) view.findViewById(R.id.brick_phiro_sensor_action_spinner);
-
-		ArrayAdapter<CharSequence> phiroProSensorAdapter = ArrayAdapter.createFromResource(context,
-				R.array.brick_phiro_select_sensor_spinner, android.R.layout.simple_spinner_item);
 		phiroProSensorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 		phiroProSensorSpinner.setAdapter(phiroProSensorAdapter);
@@ -110,8 +107,6 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
-
-		return view;
 	}
 
 	@Override
@@ -123,19 +118,17 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_phiro_if_sensor, null);
+	protected void onPrototypeViewCreated(View prototypeView) {
+		Spinner phiroProSensorSpinner = prototypeView.findViewById(R.id.brick_phiro_sensor_action_spinner);
 
-		Spinner phiroProSensorSpinner = (Spinner) prototypeView.findViewById(R.id.brick_phiro_sensor_action_spinner);
+		ArrayAdapter<CharSequence> phiroProSensorSpinnerAdapter = ArrayAdapter
+				.createFromResource(prototypeView.getContext(),
+						R.array.brick_phiro_select_sensor_spinner,
+						android.R.layout.simple_spinner_item);
 
-		ArrayAdapter<CharSequence> phiroProSensorSpinnerAdapter = ArrayAdapter.createFromResource(context,
-				R.array.brick_phiro_select_sensor_spinner, android.R.layout.simple_spinner_item);
 		phiroProSensorSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
 		phiroProSensorSpinner.setAdapter(phiroProSensorSpinnerAdapter);
 		phiroProSensorSpinner.setSelection(sensorSpinnerPosition);
-
-		return prototypeView;
 	}
 
 	@Override
@@ -151,7 +144,6 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 
 	@Override
 	public List<NestingBrick> getAllNestingBrickParts(boolean sorted) {
-		//TODO: handle sorting
 		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
 		if (sorted) {
 			nestingBrickList.add(this);

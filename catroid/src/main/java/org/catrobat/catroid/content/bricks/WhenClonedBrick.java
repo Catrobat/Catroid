@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
@@ -48,18 +47,14 @@ public class WhenClonedBrick extends BrickBaseType implements ScriptBrick {
 	}
 
 	@Override
-	public View getView(final Context context, final BaseAdapter baseAdapter) {
-
-		view = View.inflate(context, R.layout.brick_when_cloned, null);
-
-		setCheckboxView();
-
-		return view;
+	public int getViewResource() {
+		return R.layout.brick_when_cloned;
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		return getView(context, null);
+	public View getView(final Context context) {
+		super.getView(context);
+		return view;
 	}
 
 	@Override

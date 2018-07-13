@@ -27,7 +27,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.ProjectManager;
@@ -72,21 +71,16 @@ public class PlaySoundBrick extends BrickBaseType implements
 		return clone;
 	}
 
-	protected View prepareView(Context context) {
-		return View.inflate(context, R.layout.brick_play_sound, null);
-	}
-
-	protected Spinner findSpinner(View view) {
-		return view.findViewById(R.id.brick_play_sound_spinner);
+	@Override
+	public int getViewResource() {
+		return R.layout.brick_play_sound;
 	}
 
 	@Override
-	public View getView(final Context context, BaseAdapter baseAdapter) {
-		view = prepareView(context);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView();
-
-		spinner = findSpinner(view);
+	public View getView(Context context) {
+		super.getView(context);
+		onViewCreated(view);
+		spinner = view.findViewById(R.id.brick_play_sound_spinner);
 		spinnerAdapter = new SpinnerAdapterWithNewOption(context, getSoundNames());
 		spinnerAdapter.setOnDropDownItemClickListener(this);
 
@@ -105,6 +99,9 @@ public class PlaySoundBrick extends BrickBaseType implements
 		});
 		spinner.setSelection(spinnerAdapter.getPosition(sound != null ? sound.getName() : null));
 		return view;
+	}
+
+	protected void onViewCreated(View view) {
 	}
 
 	private SoundInfo getSoundByName(String name) {
@@ -150,12 +147,16 @@ public class PlaySoundBrick extends BrickBaseType implements
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View view = prepareView(context);
-		spinner = findSpinner(view);
+		View view = super.getPrototypeView(context);
+		onPrototypeViewCreated(view);
+		spinner = view.findViewById(R.id.brick_play_sound_spinner);
 		spinnerAdapter = new SpinnerAdapterWithNewOption(context, getSoundNames());
 		spinner.setAdapter(spinnerAdapter);
 		spinner.setSelection(spinnerAdapter.getPosition(sound != null ? sound.getName() : null));
 		return view;
+	}
+
+	protected void onPrototypeViewCreated(View prototypeView) {
 	}
 
 	@Override

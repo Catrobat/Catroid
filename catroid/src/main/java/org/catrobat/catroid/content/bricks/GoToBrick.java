@@ -30,7 +30,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
@@ -66,13 +65,13 @@ public class GoToBrick extends BrickBaseType {
 	}
 
 	@Override
-	public View getView(final Context context, BaseAdapter baseAdapter) {
+	public int getViewResource() {
+		return R.layout.brick_go_to;
+	}
 
-		view = View.inflate(context, R.layout.brick_go_to, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView();
-
+	@Override
+	public View getView(final Context context) {
+		super.getView(context);
 		final Spinner goToSpinner = (Spinner) view.findViewById(R.id.brick_go_to_spinner);
 
 		final ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
@@ -117,7 +116,7 @@ public class GoToBrick extends BrickBaseType {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_go_to, null);
+		View prototypeView = super.getPrototypeView(context);
 
 		Spinner goToSpinner = (Spinner) prototypeView.findViewById(R.id.brick_go_to_spinner);
 

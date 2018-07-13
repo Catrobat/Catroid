@@ -20,24 +20,22 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content;
+package org.catrobat.catroid.content.bricks;
 
 import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.bricks.BrickBaseType;
-import org.catrobat.catroid.content.bricks.BrickViewProvider;
 import org.catrobat.catroid.ui.adapter.BroadcastSpinnerAdapter;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewBroadcastMessageDialog;
 
 public abstract class BroadcastMessageBrick extends BrickBaseType implements NewBroadcastMessageDialog.NewBroadcastMessageInterface {
-	protected transient BroadcastSpinnerAdapter messageAdapter;
-	protected transient int viewId;
+
+	transient BroadcastSpinnerAdapter messageAdapter;
+	transient int viewId;
 	private transient int spinnerId = R.id.brick_broadcast_spinner;
 
 	protected Object readResolve() {
@@ -66,9 +64,9 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements New
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, viewId, null);
-		Spinner broadcastSpinner = prototypeView.findViewById(spinnerId);
+		View prototypeView = super.getPrototypeView(context);
 
+		Spinner broadcastSpinner = prototypeView.findViewById(spinnerId);
 		BroadcastSpinnerAdapter broadcastSpinnerAdapter = getMessageAdapter(context);
 		if (context.getString(R.string.new_broadcast_message).equals(getBroadcastMessage())) {
 			setBroadcastMessage(broadcastSpinnerAdapter.getItem(1));
@@ -79,18 +77,21 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements New
 	}
 
 	@Override
-	public View getView(final Context context, BaseAdapter baseAdapter) {
-		view = View.inflate(context, viewId, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView();
-		final Spinner broadcastSpinner = view.findViewById(spinnerId);
+	public int getViewResource() {
+		return viewId;
+	}
 
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
+		Spinner broadcastSpinner = view.findViewById(spinnerId);
 		broadcastSpinner.setAdapter(getMessageAdapter(context));
+
 		if (getBroadcastMessage().equals(context.getString(R.string.new_broadcast_message))) {
 			setBroadcastMessage(messageAdapter.getItem(1));
 		}
-		setOnItemSelectedListener(broadcastSpinner, context);
 
+		setOnItemSelectedListener(broadcastSpinner, context);
 		setSpinnerSelection(broadcastSpinner);
 		return view;
 	}

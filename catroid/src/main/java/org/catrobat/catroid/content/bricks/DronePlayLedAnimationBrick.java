@@ -26,7 +26,6 @@ import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
 import com.parrot.freeflight.drone.DroneProxy.ARDRONE_LED_ANIMATION;
@@ -58,7 +57,7 @@ public class DronePlayLedAnimationBrick extends BrickBaseType {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_drone_play_led_animation, null);
+		prototypeView = super.getPrototypeView(context);
 
 		Spinner dronePlayLedAnimationSpinner = (Spinner) prototypeView.findViewById(R.id
 				.brick_drone_play_led_animation_spinner);
@@ -77,12 +76,13 @@ public class DronePlayLedAnimationBrick extends BrickBaseType {
 	}
 
 	@Override
-	public View getView(Context context, BaseAdapter baseAdapter) {
+	public int getViewResource() {
+		return R.layout.brick_drone_play_led_animation;
+	}
 
-		view = View.inflate(context, R.layout.brick_drone_play_led_animation, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView();
-
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
 		ArrayAdapter<CharSequence> animationAdapter = ArrayAdapter.createFromResource(context,
 				R.array.brick_drone_play_led_animation_spinner, android.R.layout.simple_spinner_item);
 		animationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

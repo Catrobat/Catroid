@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.Drawable;
@@ -32,24 +31,10 @@ import android.widget.Spinner;
 
 public final class BrickViewProvider {
 
-	private BrickViewProvider() {
-	}
-
 	public static final int ALPHA_FULL = 255;
 	public static final int ALPHA_GREYED = 100;
 
-	public static View createView(Context context, int layout) {
-		View view = View.inflate(context, layout, null);
-		//TODO: - SetCheckboxView()
-		//      - EnableSpinners()
-		//      - SetOnclickListeners()
-		return view;
-	}
-
-	public static View createPrototypeView(Context context, int layout) {
-		View prototypeView = View.inflate(context, layout, null);
-
-		return prototypeView;
+	private BrickViewProvider() {
 	}
 
 	public static void setAlphaForBrick(Brick brick, int alphaValue) {

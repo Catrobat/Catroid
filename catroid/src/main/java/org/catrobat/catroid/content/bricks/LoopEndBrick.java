@@ -22,10 +22,7 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
 import android.util.Log;
-import android.view.View;
-import android.widget.BaseAdapter;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
@@ -57,25 +54,13 @@ public class LoopEndBrick extends BrickBaseType implements NestingBrick, Allowed
 	}
 
 	@Override
-	public View getView(Context context, BaseAdapter baseAdapter) {
-
-		if (view == null) {
-			view = View.inflate(context, R.layout.brick_loop_end, null);
-			view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-			setCheckboxView();
-		}
-
-		return view;
+	public int getViewResource() {
+		return R.layout.brick_loop_end;
 	}
 
 	@Override
 	public Brick clone() {
 		return new LoopEndBrick();
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_loop_end, null);
 	}
 
 	@Override

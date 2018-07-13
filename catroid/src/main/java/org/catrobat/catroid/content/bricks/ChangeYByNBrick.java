@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -64,12 +63,13 @@ public class ChangeYByNBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, BaseAdapter baseAdapter) {
-		view = View.inflate(context, R.layout.brick_change_y, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+	public int getViewResource() {
+		return R.layout.brick_change_y;
+	}
 
-		setCheckboxView();
-
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
 		TextView editY = (TextView) view.findViewById(R.id.brick_change_y_edit_text);
 		getFormulaWithBrickField(BrickField.Y_POSITION_CHANGE).setTextFieldId(R.id.brick_change_y_edit_text);
 		getFormulaWithBrickField(BrickField.Y_POSITION_CHANGE).refreshTextField(view);
@@ -80,7 +80,7 @@ public class ChangeYByNBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_change_y, null);
+		prototypeView = super.getPrototypeView(context);
 		TextView textYMovement = (TextView) prototypeView.findViewById(R.id.brick_change_y_edit_text);
 		textYMovement.setText(formatNumberForPrototypeView(BrickValues.CHANGE_Y_BY));
 		return prototypeView;
