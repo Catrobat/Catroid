@@ -143,7 +143,7 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 	public View getView(final Context context, final BaseAdapter baseAdapter) {
 
 		view = View.inflate(context, R.layout.brick_user_definition, null);
-		setCheckboxView(R.id.brick_user_definition_checkbox);
+		setCheckboxView();
 		onLayoutChanged();
 
 		return view;

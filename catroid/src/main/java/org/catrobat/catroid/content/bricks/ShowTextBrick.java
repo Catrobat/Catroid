@@ -105,7 +105,7 @@ public class ShowTextBrick extends UserVariableBrick {
 		view = View.inflate(context, R.layout.brick_show_variable, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_show_variable_checkbox);
+		setCheckboxView();
 
 		TextView editTextX = (TextView) view.findViewById(R.id.brick_show_variable_edit_text_x);
 		getFormulaWithBrickField(BrickField.X_POSITION).setTextFieldId(R.id.brick_show_variable_edit_text_x);

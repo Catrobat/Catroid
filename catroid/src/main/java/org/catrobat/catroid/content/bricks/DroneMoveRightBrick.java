@@ -76,7 +76,7 @@ public class DroneMoveRightBrick extends FormulaBrick {
 		view = View.inflate(context, R.layout.brick_drone_move_right, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_drone_move_right_checkbox);
+		setCheckboxView();
 
 		setSecondText(view, R.id.brick_drone_move_right_text_second, R.id
 				.brick_drone_move_right_edit_text_second, BrickField

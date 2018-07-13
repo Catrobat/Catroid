@@ -45,7 +45,7 @@ public abstract class DroneSpinnerBrick extends BrickBaseType {
 	@Override
 	public View getView(final Context context, BaseAdapter baseAdapter) {
 		view = View.inflate(context, R.layout.brick_drone_spinner, null);
-		setCheckboxView(R.id.brick_drone_spinner_checkbox);
+		setCheckboxView();
 
 		Spinner spinner = (Spinner) view.findViewById(R.id.brick_drone_spinner_ID);
 		spinner.setFocusableInTouchMode(false);

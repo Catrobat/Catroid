@@ -69,7 +69,7 @@ public class SetXBrick extends FormulaBrick {
 		view = View.inflate(context, R.layout.brick_set_x, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_set_x_checkbox);
+		setCheckboxView();
 
 		TextView editX = (TextView) view.findViewById(R.id.brick_set_x_edit_text);
 

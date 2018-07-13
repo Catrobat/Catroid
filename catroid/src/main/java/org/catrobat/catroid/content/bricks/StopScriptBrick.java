@@ -56,7 +56,7 @@ public class StopScriptBrick extends BrickBaseType {
 		view = View.inflate(context, R.layout.brick_stop_script, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_stop_script_checkbox);
+		setCheckboxView();
 		Spinner stopScriptSpinner = (Spinner) view.findViewById(R.id.brick_stop_script_spinner);
 
 		ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);

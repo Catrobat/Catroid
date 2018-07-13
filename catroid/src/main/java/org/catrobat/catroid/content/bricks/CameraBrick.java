@@ -59,7 +59,7 @@ public class CameraBrick extends BrickBaseType {
 		view = View.inflate(context, R.layout.brick_video, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_video_checkbox);
+		setCheckboxView();
 		Spinner videoSpinner = (Spinner) view.findViewById(R.id.brick_video_spinner);
 
 		ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);

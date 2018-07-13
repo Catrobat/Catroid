@@ -44,7 +44,7 @@ public class HideBrick extends BrickBaseType {
 		view = View.inflate(context, R.layout.brick_hide, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_hide_checkbox);
+		setCheckboxView();
 		return view;
 	}
 

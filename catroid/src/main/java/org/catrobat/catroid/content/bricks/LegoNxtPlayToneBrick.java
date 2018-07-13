@@ -92,7 +92,7 @@ public class LegoNxtPlayToneBrick extends FormulaBrick {
 		view = View.inflate(context, R.layout.brick_nxt_play_tone, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_nxt_play_tone_checkbox);
+		setCheckboxView();
 
 		setSecondText(view, R.id.brick_nxt_play_tone_seconds, R.id.nxt_tone_duration_edit_text, BrickField.LEGO_NXT_DURATION_IN_SECONDS);
 

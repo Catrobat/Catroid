@@ -75,7 +75,7 @@ public class SceneTransitionBrick extends BrickBaseType implements
 
 		view = View.inflate(context, R.layout.brick_scene_transition, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_scene_transition_checkbox);
+		setCheckboxView();
 
 		spinner = view.findViewById(R.id.brick_scene_transition_spinner);
 

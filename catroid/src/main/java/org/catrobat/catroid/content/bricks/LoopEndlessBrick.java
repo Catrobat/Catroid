@@ -44,7 +44,7 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 		if (view == null) {
 			view = View.inflate(context, R.layout.brick_loop_endless, null);
 			view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-			setCheckboxView(R.id.brick_loop_endless_checkbox);
+			setCheckboxView();
 		}
 		return view;
 	}

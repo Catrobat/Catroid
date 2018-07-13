@@ -56,7 +56,7 @@ public class PenUpBrick extends BrickBaseType {
 		view = View.inflate(context, R.layout.brick_pen_up, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_pen_up_checkbox);
+		setCheckboxView();
 		return view;
 	}
 

@@ -60,7 +60,7 @@ public class WhenGamepadButtonBrick extends BrickBaseType implements ScriptBrick
 		view = View.inflate(context, R.layout.brick_when_gamepad_button, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_when_gamepad_button_checkbox);
+		setCheckboxView();
 
 		final Spinner actionSpinner = (Spinner) view.findViewById(R.id.brick_when_gamepad_button_spinner);
 

@@ -48,8 +48,8 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
@@ -146,9 +146,9 @@ public class LoopBrickTest {
 	public void testSelectLoopBrickAndDelete() {
 		checkSetUpBrickArrangement();
 
-		List<Integer> idList = new ArrayList<Integer>();
-		idList.add(R.id.brick_repeat_checkbox);
-		selectMultipleBricksAndDelete(idList);
+		Set<Integer> posList = new HashSet<>();
+		posList.add(1);
+		selectMultipleBricksAndDelete(posList);
 
 		onView(withText(R.string.brick_repeat))
 				.check(doesNotExist());
@@ -191,14 +191,15 @@ public class LoopBrickTest {
 		checkSetUpBrickArrangement();
 	}
 
-	public void selectMultipleBricksAndDelete(List<Integer> brickCheckBoxIdList) {
+	public void selectMultipleBricksAndDelete(Set<Integer> brickPositionsToDelete) {
 		RecyclerViewActions.openOverflowMenu();
 
 		onView(withText(R.string.delete))
 				.perform(click());
 
-		for (int checkBoxId : brickCheckBoxIdList) {
-			onView(withId(checkBoxId))
+		for (int brickPos : brickPositionsToDelete) {
+			onBrickAtPosition(brickPos)
+					.onChildView(withId(R.id.brick_checkbox))
 					.perform(click());
 		}
 		onView(withId(R.id.confirm))

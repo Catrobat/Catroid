@@ -86,7 +86,7 @@ public class LegoEv3SetLedBrick extends BrickBaseType implements OnItemSelectedL
 		view = View.inflate(context, R.layout.brick_ev3_set_led, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_ev3_set_led_checkbox);
+		setCheckboxView();
 
 		ArrayAdapter<CharSequence> ledStatusAdapter = ArrayAdapter.createFromResource(context,
 				R.array.ev3_led_status_chooser, android.R.layout.simple_spinner_item);

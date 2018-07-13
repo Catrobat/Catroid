@@ -108,7 +108,7 @@ public class SetPenColorBrick extends FormulaBrick {
 	@Override
 	public View getView(Context context, BaseAdapter baseAdapter) {
 		view = View.inflate(context, R.layout.brick_set_pen_color, null);
-		setCheckboxView(R.id.brick_set_pen_color_checkbox);
+		setCheckboxView();
 		editRedValue = (TextView) view.findViewById(R.id.brick_set_pen_color_action_red_edit_text);
 		getFormulaWithBrickField(BrickField.PEN_COLOR_RED).setTextFieldId(R.id.brick_set_pen_color_action_red_edit_text);
 		getFormulaWithBrickField(BrickField.PEN_COLOR_RED).refreshTextField(view);

@@ -69,7 +69,7 @@ public class WhenTouchDownBrick extends BrickBaseType implements ScriptBrick {
 
 		view = View.inflate(context, R.layout.brick_screen_touched, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_when_screen_touched_checkbox);
+		setCheckboxView();
 
 		return view;
 	}

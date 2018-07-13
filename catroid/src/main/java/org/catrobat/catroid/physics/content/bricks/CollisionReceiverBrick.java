@@ -75,7 +75,7 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 
 		view = View.inflate(context, R.layout.brick_physics_collision_receive, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_collision_receive_checkbox);
+		setCheckboxView();
 
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_collision_receive_spinner);
 

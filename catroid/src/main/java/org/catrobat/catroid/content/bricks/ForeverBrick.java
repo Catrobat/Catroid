@@ -58,7 +58,7 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 		view = View.inflate(context, R.layout.brick_forever, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_forever_checkbox);
+		setCheckboxView();
 		return view;
 	}
 

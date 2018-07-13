@@ -81,7 +81,7 @@ public class AskSpeechBrick extends UserVariableBrick {
 
 		view = View.inflate(context, R.layout.brick_ask_speech, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_ask_speech_checkbox);
+		setCheckboxView();
 
 		TextView textField = (TextView) view.findViewById(R.id.brick_ask_speech_question_edit_text);
 

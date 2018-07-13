@@ -139,7 +139,7 @@ public class PhiroMotorMoveForwardBrick extends FormulaBrick {
 
 		view = View.inflate(context, R.layout.brick_phiro_motor_forward, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_phiro_motor_forward_action_checkbox);
+		setCheckboxView();
 
 		editSpeed = (TextView) view.findViewById(R.id.brick_phiro_motor_forward_action_speed_edit_text);
 		getFormulaWithBrickField(BrickField.PHIRO_SPEED).setTextFieldId(R.id.brick_phiro_motor_forward_action_speed_edit_text);

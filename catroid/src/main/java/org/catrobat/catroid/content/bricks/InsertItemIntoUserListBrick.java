@@ -74,7 +74,7 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 	public View getView(final Context context, BaseAdapter baseAdapter) {
 		view = View.inflate(context, R.layout.brick_insert_item_into_userlist, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_insert_item_into_userlist_checkbox);
+		setCheckboxView();
 
 		TextView textFieldValue = (TextView) view.findViewById(R.id.brick_insert_item_into_userlist_value_edit_text);
 

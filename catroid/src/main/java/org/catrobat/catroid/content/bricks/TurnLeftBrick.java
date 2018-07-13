@@ -69,7 +69,7 @@ public class TurnLeftBrick extends FormulaBrick {
 		view = View.inflate(context, R.layout.brick_turn_left, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_turn_left_checkbox);
+		setCheckboxView();
 		TextView editDegrees = (TextView) view.findViewById(R.id.brick_turn_left_edit_text);
 		getFormulaWithBrickField(BrickField.TURN_LEFT_DEGREES).setTextFieldId(R.id.brick_turn_left_edit_text);
 		getFormulaWithBrickField(BrickField.TURN_LEFT_DEGREES).refreshTextField(view);

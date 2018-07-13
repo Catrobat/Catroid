@@ -56,7 +56,7 @@ public class StampBrick extends BrickBaseType {
 		view = View.inflate(context, R.layout.brick_stamp, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_stamp_checkbox);
+		setCheckboxView();
 		return view;
 	}
 

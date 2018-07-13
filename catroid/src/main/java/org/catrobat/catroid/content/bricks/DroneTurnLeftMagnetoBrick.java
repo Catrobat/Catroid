@@ -76,7 +76,7 @@ public class DroneTurnLeftMagnetoBrick extends FormulaBrick {
 		view = View.inflate(context, R.layout.brick_drone_turn_left_magneto, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_drone_turn_left_magneto_checkbox);
+		setCheckboxView();
 		setSecondText(view, R.id.brick_drone_turn_left_magneto_text_second, R.id.brick_drone_turn_left_magneto_edit_text_second, BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
 
 		TextView editTime = (TextView) view.findViewById(R.id.brick_drone_turn_left_magneto_edit_text_second);

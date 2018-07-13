@@ -53,7 +53,7 @@ public class WaitUntilBrick extends FormulaBrick {
 		view = View.inflate(context, R.layout.brick_wait_until, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_wait_until_checkbox);
+		setCheckboxView();
 
 		TextView ifBeginTextView = (TextView) view.findViewById(R.id.brick_wait_until_edit_text);
 

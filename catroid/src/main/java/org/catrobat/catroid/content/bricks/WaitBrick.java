@@ -81,7 +81,7 @@ public class WaitBrick extends FormulaBrick {
 		view = View.inflate(context, R.layout.brick_wait, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_wait_checkbox);
+		setCheckboxView();
 		TextView edit = (TextView) view.findViewById(R.id.brick_wait_edit_text);
 		getFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS).setTextFieldId(R.id.brick_wait_edit_text);
 		getFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS).refreshTextField(view);

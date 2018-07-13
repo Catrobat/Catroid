@@ -60,7 +60,7 @@ public class HideTextBrick extends UserVariableBrick {
 	public View getView(final Context context, BaseAdapter baseAdapter) {
 		view = View.inflate(context, R.layout.brick_hide_variable, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_hide_variable_checkbox);
+		setCheckboxView();
 
 		Spinner variableSpinner = (Spinner) view.findViewById(R.id.hide_variable_spinner);
 

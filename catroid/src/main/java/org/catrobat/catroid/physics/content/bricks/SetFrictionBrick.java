@@ -70,7 +70,7 @@ public class SetFrictionBrick extends FormulaBrick {
 		view = View.inflate(context, R.layout.brick_physics_set_friction, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_set_friction_checkbox);
+		setCheckboxView();
 
 		TextView edit = (TextView) view.findViewById(R.id.brick_set_friction_edit_text);
 

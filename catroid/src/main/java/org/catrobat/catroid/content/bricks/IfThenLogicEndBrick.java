@@ -55,7 +55,7 @@ public class IfThenLogicEndBrick extends BrickBaseType implements NestingBrick, 
 		view = View.inflate(context, R.layout.brick_if_end_if, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_if_end_if_checkbox);
+		setCheckboxView();
 		return view;
 	}
 

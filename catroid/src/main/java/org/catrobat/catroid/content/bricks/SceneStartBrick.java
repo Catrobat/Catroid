@@ -75,7 +75,7 @@ public class SceneStartBrick extends BrickBaseType implements
 
 		view = View.inflate(context, R.layout.brick_scene_start, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_scene_start_checkbox);
+		setCheckboxView();
 
 		spinner = view.findViewById(R.id.brick_scene_start_spinner);
 		spinnerAdapter = new SpinnerAdapterWithNewOption(context,

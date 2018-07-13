@@ -82,7 +82,7 @@ public class PhiroMotorStopBrick extends BrickBaseType implements OnItemSelected
 		view = View.inflate(context, R.layout.brick_phiro_motor_stop, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_phiro_motor_stop_checkbox);
+		setCheckboxView();
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
 				R.array.brick_phiro_stop_motor_spinner, android.R.layout.simple_spinner_item);
 		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

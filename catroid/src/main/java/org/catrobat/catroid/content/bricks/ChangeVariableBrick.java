@@ -77,7 +77,7 @@ public class ChangeVariableBrick extends UserVariableBrick {
 
 		view = View.inflate(context, R.layout.brick_change_variable_by, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_change_variable_checkbox);
+		setCheckboxView();
 		TextView textField = (TextView) view.findViewById(R.id.brick_change_variable_edit_text);
 		getFormulaWithBrickField(BrickField.VARIABLE_CHANGE).setTextFieldId(R.id.brick_change_variable_edit_text);
 		getFormulaWithBrickField(BrickField.VARIABLE_CHANGE).refreshTextField(view);

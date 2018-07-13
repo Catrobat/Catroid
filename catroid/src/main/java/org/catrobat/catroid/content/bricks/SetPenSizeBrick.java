@@ -69,7 +69,7 @@ public class SetPenSizeBrick extends FormulaBrick {
 		view = View.inflate(context, R.layout.brick_set_pen_size, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_set_pen_size_checkbox);
+		setCheckboxView();
 
 		TextView penSizeEdit = (TextView) view.findViewById(R.id.brick_set_pen_size_edit_text);
 

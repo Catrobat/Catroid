@@ -52,7 +52,7 @@ public class WhenClonedBrick extends BrickBaseType implements ScriptBrick {
 
 		view = View.inflate(context, R.layout.brick_when_cloned, null);
 
-		setCheckboxView(R.id.brick_when_cloned_checkbox);
+		setCheckboxView();
 
 		return view;
 	}

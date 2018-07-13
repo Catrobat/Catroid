@@ -70,7 +70,7 @@ public class TurnRightSpeedBrick extends FormulaBrick {
 		view = View.inflate(context, R.layout.brick_physics_turn_right_speed, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_turn_right_speed_checkbox);
+		setCheckboxView();
 
 		TextView edit = (TextView) view.findViewById(R.id.brick_turn_right_speed_edit_text);
 

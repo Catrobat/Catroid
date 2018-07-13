@@ -43,7 +43,7 @@ public class ClearGraphicEffectBrick extends BrickBaseType {
 		view = View.inflate(context, R.layout.brick_clear_graphic_effect, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_clear_graphic_effect_checkbox);
+		setCheckboxView();
 		return view;
 	}
 

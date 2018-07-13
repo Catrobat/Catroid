@@ -69,7 +69,7 @@ public class ChangeXByNBrick extends FormulaBrick {
 		view = View.inflate(context, R.layout.brick_change_x, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_change_x_checkbox);
+		setCheckboxView();
 		TextView editX = (TextView) view.findViewById(R.id.brick_change_x_edit_text);
 		getFormulaWithBrickField(BrickField.X_POSITION_CHANGE).setTextFieldId(R.id.brick_change_x_edit_text);
 		getFormulaWithBrickField(BrickField.X_POSITION_CHANGE).refreshTextField(view);

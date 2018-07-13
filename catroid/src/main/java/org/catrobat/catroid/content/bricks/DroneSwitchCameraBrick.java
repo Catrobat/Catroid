@@ -41,7 +41,7 @@ public class DroneSwitchCameraBrick extends BrickBaseType {
 		view = View.inflate(context, R.layout.brick_drone_switch_camera, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_drone_switch_camera_checkbox);
+		setCheckboxView();
 
 		return view;
 	}

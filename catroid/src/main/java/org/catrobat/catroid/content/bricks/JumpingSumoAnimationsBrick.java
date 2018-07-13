@@ -89,7 +89,7 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 
 		view = View.inflate(context, R.layout.brick_jumping_sumo_animations, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_jumping_sumo_animation_checkbox);
+		setCheckboxView();
 
 		ArrayAdapter<CharSequence> animationAdapter = ArrayAdapter.createFromResource(context, R.array.brick_jumping_sumo_select_animation_spinner,
 				android.R.layout.simple_spinner_item);

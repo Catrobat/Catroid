@@ -51,7 +51,7 @@ public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, All
 		view = View.inflate(context, R.layout.brick_if_else, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_if_else_checkbox);
+		setCheckboxView();
 
 		return view;
 	}

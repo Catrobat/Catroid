@@ -73,7 +73,7 @@ public class VibrationBrick extends FormulaBrick {
 		view = View.inflate(context, R.layout.brick_vibration, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_vibration_checkbox);
+		setCheckboxView();
 
 		TextView editVibrate = (TextView) view.findViewById(R.id.brick_vibration_edit_text);
 		TextView secondTextVibrate = (TextView) view.findViewById(R.id.brick_vibration_second_label);

@@ -80,7 +80,7 @@ public class SetLookByIndexBrick extends FormulaBrick {
 		}
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_set_look_by_index_checkbox);
+		setCheckboxView();
 
 		if (getSprite().getName().equals(context.getString(R.string.background))) {
 			TextView textField = (TextView) view.findViewById(R.id.brick_set_look_by_index_label);

@@ -56,7 +56,7 @@ public class ClearBackgroundBrick extends BrickBaseType {
 		view = View.inflate(context, R.layout.brick_clear_background, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_clear_background_checkbox);
+		setCheckboxView();
 		return view;
 	}
 

@@ -55,7 +55,7 @@ public class WhenBrick extends BrickBaseType implements ScriptBrick {
 
 		view = View.inflate(context, R.layout.brick_when, null);
 
-		setCheckboxView(R.id.brick_when_checkbox);
+		setCheckboxView();
 		return view;
 	}
 

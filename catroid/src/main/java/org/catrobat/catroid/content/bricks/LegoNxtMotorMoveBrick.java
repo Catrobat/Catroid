@@ -113,7 +113,7 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 
 		view = View.inflate(context, R.layout.brick_nxt_motor_action, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_nxt_motor_action_checkbox);
+		setCheckboxView();
 
 		editSpeed = (TextView) view.findViewById(R.id.motor_action_speed_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_NXT_SPEED).setTextFieldId(R.id.motor_action_speed_edit_text);

@@ -83,7 +83,7 @@ public class LegoEv3MotorStopBrick extends BrickBaseType implements OnItemSelect
 		view = View.inflate(context, R.layout.brick_ev3_motor_stop, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_ev3_motor_stop_checkbox);
+		setCheckboxView();
 
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
 				R.array.ev3_stop_motor_chooser, android.R.layout.simple_spinner_item);

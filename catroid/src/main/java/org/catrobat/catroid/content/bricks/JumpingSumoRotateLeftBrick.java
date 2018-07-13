@@ -66,7 +66,7 @@ public class JumpingSumoRotateLeftBrick extends FormulaBrick {
 		view = View.inflate(context, R.layout.brick_jumping_sumo_rotate_left, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_jumping_sumo_rotate_left_checkbox);
+		setCheckboxView();
 
 		TextView editDegree = (TextView) view.findViewById(R.id.brick_jumping_sumo_change_left_variable_edit_text);
 		getFormulaWithBrickField(BrickField.JUMPING_SUMO_ROTATE)

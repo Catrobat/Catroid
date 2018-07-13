@@ -27,6 +27,7 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
@@ -64,7 +65,7 @@ public abstract class BrickBaseType implements Brick {
 	}
 
 	@Override
-	public void setCheckboxView(int id) {
+	public void setCheckboxView() {
 		int checkboxVisibility = View.GONE;
 		boolean enabled = true;
 		boolean isChecked = false;
@@ -73,7 +74,7 @@ public abstract class BrickBaseType implements Brick {
 			enabled = checkbox.isEnabled();
 			isChecked = checkbox.isChecked();
 		}
-		checkbox = view.findViewById(id);
+		checkbox = view.findViewById(R.id.brick_checkbox);
 		checkbox.setChecked(isChecked);
 		checkbox.setVisibility(checkboxVisibility);
 		checkbox.setEnabled(enabled);

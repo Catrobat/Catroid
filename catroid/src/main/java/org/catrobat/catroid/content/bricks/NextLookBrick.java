@@ -62,7 +62,7 @@ public class NextLookBrick extends BrickBaseType {
 		view = View.inflate(context, R.layout.brick_next_look, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_next_look_checkbox);
+		setCheckboxView();
 		if (ProjectManager.getInstance().getCurrentSprite().getName().equals(context.getString(R.string.background))) {
 			TextView textField = (TextView) view.findViewById(R.id.brick_next_look_text_view);
 			textField.setText(R.string.brick_next_background);

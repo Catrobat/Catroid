@@ -80,7 +80,7 @@ public class PlaceAtBrick extends FormulaBrick {
 		view = View.inflate(context, R.layout.brick_place_at, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_place_at_checkbox);
+		setCheckboxView();
 		TextView editX = (TextView) view.findViewById(R.id.brick_place_at_edit_text_x);
 		getFormulaWithBrickField(BrickField.X_POSITION).setTextFieldId(R.id.brick_place_at_edit_text_x);
 		getFormulaWithBrickField(BrickField.X_POSITION).refreshTextField(view);

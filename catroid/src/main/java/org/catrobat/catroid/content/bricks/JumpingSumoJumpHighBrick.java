@@ -41,7 +41,7 @@ public class JumpingSumoJumpHighBrick extends BrickBaseType {
 		view = View.inflate(context, R.layout.brick_jumping_sumo_jump_high, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_jumping_sumo_jump_high_checkbox);
+		setCheckboxView();
 
 		return view;
 	}

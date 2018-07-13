@@ -75,7 +75,7 @@ public class SetVelocityBrick extends FormulaBrick {
 		view = View.inflate(context, R.layout.brick_physics_set_velocity, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_set_velocity_checkbox);
+		setCheckboxView();
 		TextView editX = (TextView) view.findViewById(R.id.brick_set_velocity_edit_text_x);
 		getFormulaWithBrickField(BrickField.PHYSICS_VELOCITY_X).setTextFieldId(R.id.brick_set_velocity_edit_text_x);
 		getFormulaWithBrickField(BrickField.PHYSICS_VELOCITY_X).refreshTextField(view);

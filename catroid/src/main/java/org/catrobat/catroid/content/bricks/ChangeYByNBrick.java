@@ -68,7 +68,7 @@ public class ChangeYByNBrick extends FormulaBrick {
 		view = View.inflate(context, R.layout.brick_change_y, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_change_y_checkbox);
+		setCheckboxView();
 
 		TextView editY = (TextView) view.findViewById(R.id.brick_change_y_edit_text);
 		getFormulaWithBrickField(BrickField.Y_POSITION_CHANGE).setTextFieldId(R.id.brick_change_y_edit_text);

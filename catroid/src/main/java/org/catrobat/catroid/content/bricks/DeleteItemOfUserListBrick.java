@@ -75,7 +75,7 @@ public class DeleteItemOfUserListBrick extends UserListBrick {
 
 		view = View.inflate(context, R.layout.brick_delete_item_of_userlist, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_delete_item_of_userlist_checkbox);
+		setCheckboxView();
 		TextView textField = (TextView) view.findViewById(R.id.brick_delete_item_of_userlist_edit_text);
 		getFormulaWithBrickField(BrickField.LIST_DELETE_ITEM).setTextFieldId(R.id.brick_delete_item_of_userlist_edit_text);
 		getFormulaWithBrickField(BrickField.LIST_DELETE_ITEM).refreshTextField(view);

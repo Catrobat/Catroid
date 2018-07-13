@@ -84,7 +84,7 @@ public class PlaySoundBrick extends BrickBaseType implements
 	public View getView(final Context context, BaseAdapter baseAdapter) {
 		view = prepareView(context);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_play_sound_checkbox);
+		setCheckboxView();
 
 		spinner = findSpinner(view);
 		spinnerAdapter = new SpinnerAdapterWithNewOption(context, getSoundNames());

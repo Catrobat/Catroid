@@ -42,7 +42,7 @@ public class StopAllSoundsBrick extends BrickBaseType {
 	public View getView(Context context, BaseAdapter baseAdapter) {
 		view = View.inflate(context, R.layout.brick_stop_all_sounds, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_stop_all_sounds_checkbox);
+		setCheckboxView();
 
 		return view;
 	}

@@ -91,7 +91,7 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick {
 
 		view = View.inflate(context, R.layout.brick_when_nfc, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_when_nfc_checkbox);
+		setCheckboxView();
 
 		final Spinner nfcSpinner = (Spinner) view.findViewById(R.id.brick_when_nfc_spinner);
 

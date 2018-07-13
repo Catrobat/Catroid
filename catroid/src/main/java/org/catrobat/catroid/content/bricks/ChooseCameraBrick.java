@@ -57,7 +57,7 @@ public class ChooseCameraBrick extends BrickBaseType {
 		view = View.inflate(context, R.layout.brick_choose_camera, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_choose_camera_checkbox);
+		setCheckboxView();
 		Spinner videoSpinner = (Spinner) view.findViewById(R.id.brick_choose_camera_spinner);
 
 		ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);

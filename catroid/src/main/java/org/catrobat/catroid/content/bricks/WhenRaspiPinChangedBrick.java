@@ -56,7 +56,7 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 	public View getView(final Context context, final BaseAdapter baseAdapter) {
 		view = View.inflate(context, R.layout.brick_raspi_pin_changed, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_raspi_when_checkbox);
+		setCheckboxView();
 
 		setupValueSpinner(context);
 		setupPinSpinner(context);

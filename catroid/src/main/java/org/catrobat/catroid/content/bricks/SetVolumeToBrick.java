@@ -68,7 +68,7 @@ public class SetVolumeToBrick extends FormulaBrick {
 		view = View.inflate(context, R.layout.brick_set_volume_to, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_set_volume_to_checkbox);
+		setCheckboxView();
 		TextView edit = (TextView) view.findViewById(R.id.brick_set_volume_to_edit_text);
 		getFormulaWithBrickField(BrickField.VOLUME).setTextFieldId(R.id.brick_set_volume_to_edit_text);
 		getFormulaWithBrickField(BrickField.VOLUME).refreshTextField(view);

@@ -90,7 +90,7 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 		view = View.inflate(context, R.layout.brick_repeat, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_repeat_checkbox);
+		setCheckboxView();
 
 		TextView edit = (TextView) view.findViewById(R.id.brick_repeat_edit_text);
 		getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).setTextFieldId(R.id.brick_repeat_edit_text);

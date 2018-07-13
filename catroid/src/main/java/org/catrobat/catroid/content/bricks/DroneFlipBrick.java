@@ -41,7 +41,7 @@ public class DroneFlipBrick extends BrickBaseType{
 		view = View.inflate(context, R.layout.brick_drone_flip, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_drone_flip_checkbox);
+		setCheckboxView();
 
 		return view;
 	}

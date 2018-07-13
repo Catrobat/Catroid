@@ -75,7 +75,7 @@ public class SetGravityBrick extends FormulaBrick {
 		view = View.inflate(context, R.layout.brick_physics_set_gravity, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_set_gravity_checkbox);
+		setCheckboxView();
 
 		TextView editX = (TextView) view.findViewById(R.id.brick_set_gravity_edit_text_x);
 		getFormulaWithBrickField(BrickField.PHYSICS_GRAVITY_X).setTextFieldId(R.id.brick_set_gravity_edit_text_x);

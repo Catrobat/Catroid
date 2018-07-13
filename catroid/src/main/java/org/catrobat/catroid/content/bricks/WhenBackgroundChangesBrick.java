@@ -96,7 +96,7 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 
 		view = View.inflate(context, R.layout.brick_when_background_changes_to, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_when_background_checkbox);
+		setCheckboxView();
 
 		spinner = view.findViewById(R.id.brick_when_background_spinner);
 		spinnerAdapter = new SpinnerAdapterWithNewOption(context, getLookNames());

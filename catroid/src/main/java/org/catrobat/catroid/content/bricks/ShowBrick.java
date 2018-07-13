@@ -42,7 +42,7 @@ public class ShowBrick extends BrickBaseType {
 	public View getView(Context context, BaseAdapter baseAdapter) {
 		view = View.inflate(context, R.layout.brick_show, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_show_checkbox);
+		setCheckboxView();
 
 		return view;
 	}

@@ -41,7 +41,7 @@ public class JumpingSumoTakingPictureBrick extends BrickBaseType {
 		view = View.inflate(context, R.layout.brick_jumping_sumo_taking_picture, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_jumping_sumo_taking_picture_checkbox);
+		setCheckboxView();
 
 		return view;
 	}

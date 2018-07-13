@@ -198,7 +198,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 		view = View.inflate(context, R.layout.brick_user, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_user_checkbox);
+		setCheckboxView();
 		onLayoutChanged(view);
 
 		return view;

@@ -41,7 +41,7 @@ public class DroneEmergencyBrick extends BrickBaseType {
 		view = View.inflate(context, R.layout.brick_drone_emergency, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_drone_emergency_checkbox);
+		setCheckboxView();
 
 		return view;
 	}

@@ -68,7 +68,7 @@ public class RaspiIfLogicBeginBrick extends IfLogicBeginBrick {
 		view = View.inflate(context, R.layout.brick_raspi_if_begin_if, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_raspi_if_begin_checkbox);
+		setCheckboxView();
 
 		TextView ifBeginTextView = (TextView) view.findViewById(R.id.brick_raspi_if_begin_edit_text);
 

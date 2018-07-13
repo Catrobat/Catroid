@@ -113,7 +113,7 @@ public class LegoEv3MotorMoveBrick extends FormulaBrick {
 	public View getView(Context context, BaseAdapter baseAdapter) {
 		view = View.inflate(context, R.layout.brick_ev3_motor_move, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_ev3_motor_move_checkbox);
+		setCheckboxView();
 
 		editSpeed = (TextView) view.findViewById(R.id.ev3_motor_move_speed_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_EV3_SPEED).setTextFieldId(R.id.ev3_motor_move_speed_edit_text);

@@ -53,7 +53,7 @@ public class SetRotationStyleBrick extends BrickBaseType {
 	public View getView(Context context, BaseAdapter baseAdapter) {
 		view = View.inflate(context, R.layout.brick_set_rotation_style, null);
 		BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_set_rotation_style_normal_checkbox);
+		setCheckboxView();
 
 		spinner = (Spinner) view.findViewById(R.id.brick_set_rotation_style_spinner);
 

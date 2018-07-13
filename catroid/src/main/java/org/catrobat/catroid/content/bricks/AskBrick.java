@@ -80,7 +80,7 @@ public class AskBrick extends UserVariableBrick {
 
 		view = View.inflate(context, R.layout.brick_ask, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_ask_checkbox);
+		setCheckboxView();
 
 		TextView textField = view.findViewById(R.id.brick_ask_question_edit_text);
 

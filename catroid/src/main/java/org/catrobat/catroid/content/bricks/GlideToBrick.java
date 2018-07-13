@@ -88,7 +88,7 @@ public class GlideToBrick extends FormulaBrick {
 		view = View.inflate(context, R.layout.brick_glide_to, null);
 		BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_glide_to_checkbox);
+		setCheckboxView();
 
 		TextView editX = (TextView) view.findViewById(R.id.brick_glide_to_edit_text_x);
 		getFormulaWithBrickField(BrickField.X_DESTINATION).setTextFieldId(R.id.brick_glide_to_edit_text_x);

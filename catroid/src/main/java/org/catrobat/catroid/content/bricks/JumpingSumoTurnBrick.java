@@ -41,7 +41,7 @@ public class JumpingSumoTurnBrick extends BrickBaseType {
 		view = View.inflate(context, R.layout.brick_jumping_sumo_turn, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_jumping_sumo_turn_checkbox);
+		setCheckboxView();
 
 		return view;
 	}

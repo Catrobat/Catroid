@@ -70,7 +70,7 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType implements Cloneabl
 		view = View.inflate(context, R.layout.brick_physics_set_physics_object_type, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_set_physics_object_checkbox);
+		setCheckboxView();
 
 		final Spinner spinner = (Spinner) view.findViewById(R.id.brick_set_physics_object_type_spinner);
 		spinner.setAdapter(createAdapter(context));

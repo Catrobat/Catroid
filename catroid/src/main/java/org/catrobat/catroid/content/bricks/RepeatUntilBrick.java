@@ -82,7 +82,7 @@ public class RepeatUntilBrick extends FormulaBrick implements LoopBeginBrick {
 		view = View.inflate(context, R.layout.brick_repeat_until, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_repeat_until_checkbox);
+		setCheckboxView();
 
 		TextView edit = (TextView) view.findViewById(R.id.brick_repeat_until_edit_text);
 		getFormulaWithBrickField(BrickField.REPEAT_UNTIL_CONDITION).setTextFieldId(R.id.brick_repeat_until_edit_text);

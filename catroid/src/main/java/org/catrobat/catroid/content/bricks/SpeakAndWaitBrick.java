@@ -74,7 +74,7 @@ public class SpeakAndWaitBrick extends FormulaBrick {
 		view = View.inflate(context, R.layout.brick_speak_and_wait, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_speak_and_wait_checkbox);
+		setCheckboxView();
 		TextView textField = (TextView) view.findViewById(R.id.brick_speak_and_wait_edit_text);
 		getFormulaWithBrickField(BrickField.SPEAK).setTextFieldId(R.id.brick_speak_and_wait_edit_text);
 		getFormulaWithBrickField(BrickField.SPEAK).refreshTextField(view);

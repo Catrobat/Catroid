@@ -39,11 +39,9 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements New
 	protected transient BroadcastSpinnerAdapter messageAdapter;
 	protected transient int viewId;
 	private transient int spinnerId = R.id.brick_broadcast_spinner;
-	private transient int checkboxId = R.id.brick_broadcast_checkbox;
 
 	protected Object readResolve() {
 		this.spinnerId = R.id.brick_broadcast_spinner;
-		this.checkboxId = R.id.brick_broadcast_checkbox;
 		return this;
 	}
 
@@ -84,7 +82,7 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements New
 	public View getView(final Context context, BaseAdapter baseAdapter) {
 		view = View.inflate(context, viewId, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(checkboxId);
+		setCheckboxView();
 		final Spinner broadcastSpinner = view.findViewById(spinnerId);
 
 		broadcastSpinner.setAdapter(getMessageAdapter(context));

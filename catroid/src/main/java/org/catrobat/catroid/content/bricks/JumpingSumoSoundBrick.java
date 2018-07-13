@@ -108,7 +108,7 @@ public class JumpingSumoSoundBrick extends FormulaBrick {
 
 		view = View.inflate(context, R.layout.brick_jumping_sumo_sound, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_jumping_sumo_sound_checkbox);
+		setCheckboxView();
 
 		editVolume = (TextView) view.findViewById(R.id.brick_jumping_sumo_sound_edit_text);
 		getFormulaWithBrickField(BrickField.JUMPING_SUMO_VOLUME).setTextFieldId(R.id.brick_jumping_sumo_sound_edit_text);

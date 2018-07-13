@@ -70,7 +70,7 @@ public class SetMassBrick extends FormulaBrick {
 		view = View.inflate(context, R.layout.brick_physics_set_mass, null);
 		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-		setCheckboxView(R.id.brick_set_mass_checkbox);
+		setCheckboxView();
 
 		TextView edit = (TextView) view.findViewById(R.id.brick_set_mass_edit_text);
 
