@@ -23,9 +23,7 @@
 
 package org.catrobat.catroid.ui;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Html;
@@ -46,6 +44,7 @@ import org.catrobat.catroid.ui.recyclerview.dialog.login.LoginDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.login.RegistrationDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.login.SignInCompleteListener;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -95,11 +94,7 @@ public class SignInActivity extends BaseActivity implements SignInCompleteListen
 	}
 
 	public void onButtonClick(final View view) {
-		ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-		boolean isNetworkAvailable = connectivityManager != null
-				&& connectivityManager.getActiveNetworkInfo().isConnected();
-
-		if (!isNetworkAvailable) {
+		if (!Utils.isNetworkAvailable(this)) {
 			ToastUtil.showError(this, R.string.error_internet_connection);
 			return;
 		}

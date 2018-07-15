@@ -95,7 +95,9 @@ public final class Utils {
 	public static boolean isNetworkAvailable(Context context) {
 		ConnectivityManager connectivityManager = (ConnectivityManager) context
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
-		return connectivityManager != null && connectivityManager.getActiveNetworkInfo().isConnected();
+		return connectivityManager != null
+				&& connectivityManager.getActiveNetworkInfo() != null
+				&& connectivityManager.getActiveNetworkInfo().isConnected();
 	}
 
 	public static boolean checkForNetworkError(boolean success, WebconnectionException exception) {
