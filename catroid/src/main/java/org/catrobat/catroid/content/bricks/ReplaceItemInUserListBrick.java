@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -70,11 +69,13 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 	}
 
 	@Override
-	public View getView(final Context context, BaseAdapter baseAdapter) {
+	public int getViewResource() {
+		return R.layout.brick_replace_item_in_userlist;
+	}
 
-		view = View.inflate(context, R.layout.brick_replace_item_in_userlist, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView();
+	@Override
+	public View getView(final Context context) {
+		super.getView(context);
 		TextView textFieldValue = (TextView) view.findViewById(R.id.brick_replace_item_in_userlist_value_edit_text);
 		getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_VALUE).setTextFieldId(R.id.brick_replace_item_in_userlist_value_edit_text);
 		getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_VALUE).refreshTextField(view);
@@ -102,7 +103,7 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_replace_item_in_userlist, null);
+		View prototypeView = super.getPrototypeView(context);
 		Spinner userListSpinner = (Spinner) prototypeView.findViewById(R.id.replace_item_in_userlist_spinner);
 
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()

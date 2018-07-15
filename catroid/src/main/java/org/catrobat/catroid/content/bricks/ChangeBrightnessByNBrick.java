@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -64,12 +63,13 @@ public class ChangeBrightnessByNBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, BaseAdapter baseAdapter) {
+	public int getViewResource() {
+		return R.layout.brick_change_brightness;
+	}
 
-		view = View.inflate(context, R.layout.brick_change_brightness, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView();
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
 		TextView editX = (TextView) view.findViewById(R.id.brick_change_brightness_edit_text);
 		getFormulaWithBrickField(BrickField.BRIGHTNESS_CHANGE).setTextFieldId(R.id.brick_change_brightness_edit_text);
 		getFormulaWithBrickField(BrickField.BRIGHTNESS_CHANGE).refreshTextField(view);
@@ -80,7 +80,7 @@ public class ChangeBrightnessByNBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_change_brightness, null);
+		prototypeView = super.getPrototypeView(context);
 		TextView textChangeBrightness = (TextView) prototypeView
 				.findViewById(R.id.brick_change_brightness_edit_text);
 		textChangeBrightness.setText(formatNumberForPrototypeView(BrickValues.CHANGE_BRITHNESS_BY));

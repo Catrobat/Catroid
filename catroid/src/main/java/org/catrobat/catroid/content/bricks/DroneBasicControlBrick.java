@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -32,11 +31,13 @@ import org.catrobat.catroid.R;
 public abstract class DroneBasicControlBrick extends BrickBaseType {
 
 	@Override
-	public View getView(Context context, BaseAdapter baseAdapter) {
-		view = View.inflate(context, R.layout.brick_drone_control, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+	public int getViewResource() {
+		return R.layout.brick_drone_control;
+	}
 
-		setCheckboxView();
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
 		TextView label = (TextView) view.findViewById(R.id.ValueTextViewControl);
 		label.setText(getBrickLabel(view));
 
@@ -45,7 +46,7 @@ public abstract class DroneBasicControlBrick extends BrickBaseType {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_drone_control, null);
+		View prototypeView = super.getPrototypeView(context);
 
 		TextView label = (TextView) prototypeView.findViewById(R.id.ValueTextViewControl);
 		label.setText(getBrickLabel(prototypeView));

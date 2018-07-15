@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
@@ -49,11 +48,13 @@ public class SetBackgroundBrick extends SetLookBrick {
 	}
 
 	@Override
-	protected View prepareView(Context context) {
-		View view = View.inflate(context, R.layout.brick_set_look, null);
-		((TextView) view.findViewById(R.id.brick_set_look_text_view))
-				.setText(R.string.brick_set_background);
-		return view;
+	protected void onViewCreated(View view) {
+		((TextView) view.findViewById(R.id.brick_set_look_text_view)).setText(R.string.brick_set_background);
+	}
+
+	@Override
+	protected void onPrototypeViewCreated(View view) {
+		((TextView) view.findViewById(R.id.brick_set_look_text_view)).setText(R.string.brick_set_background);
 	}
 
 	@Override

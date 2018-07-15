@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
@@ -84,12 +83,14 @@ public class GlideToBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, BaseAdapter baseAdapter) {
-		view = View.inflate(context, R.layout.brick_glide_to, null);
+	public int getViewResource() {
+		return R.layout.brick_glide_to;
+	}
+
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
 		BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView();
-
 		TextView editX = (TextView) view.findViewById(R.id.brick_glide_to_edit_text_x);
 		getFormulaWithBrickField(BrickField.X_DESTINATION).setTextFieldId(R.id.brick_glide_to_edit_text_x);
 		getFormulaWithBrickField(BrickField.X_DESTINATION).refreshTextField(view);
@@ -129,7 +130,7 @@ public class GlideToBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_glide_to, null);
+		prototypeView = super.getPrototypeView(context);
 		TextView textX = (TextView) prototypeView.findViewById(R.id.brick_glide_to_edit_text_x);
 		TextView textY = (TextView) prototypeView.findViewById(R.id.brick_glide_to_edit_text_y);
 		TextView textDuration = (TextView) prototypeView.findViewById(R.id.brick_glide_to_edit_text_duration);

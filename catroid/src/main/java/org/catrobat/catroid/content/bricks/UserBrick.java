@@ -26,7 +26,6 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -187,20 +186,16 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 		return formulaList;
 	}
 
-	public void appendBrickToScript(Brick brick) {
-		definitionBrick.appendBrickToScript(brick);
+	@Override
+	public int getViewResource() {
+		return R.layout.brick_user;
 	}
 
 	@Override
-	public View getView(Context context, BaseAdapter baseAdapter) {
+	public View getView(Context context) {
+		super.getView(context);
 		setUserBrickParametersParent();
-
-		view = View.inflate(context, R.layout.brick_user, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView();
 		onLayoutChanged(view);
-
 		return view;
 	}
 
@@ -214,7 +209,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_user, null);
+		prototypeView = super.getPrototypeView(context);
 		onLayoutChanged(prototypeView);
 		return prototypeView;
 	}

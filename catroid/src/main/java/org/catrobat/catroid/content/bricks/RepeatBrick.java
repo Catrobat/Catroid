@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -85,13 +84,13 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 	}
 
 	@Override
-	public View getView(Context context, BaseAdapter baseAdapter) {
+	public int getViewResource() {
+		return R.layout.brick_repeat;
+	}
 
-		view = View.inflate(context, R.layout.brick_repeat, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView();
-
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
 		TextView edit = (TextView) view.findViewById(R.id.brick_repeat_edit_text);
 		getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).setTextFieldId(R.id.brick_repeat_edit_text);
 		getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).refreshTextField(view);
@@ -122,7 +121,7 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_repeat, null);
+		prototypeView = super.getPrototypeView(context);
 		TextView textRepeat = (TextView) prototypeView.findViewById(R.id.brick_repeat_edit_text);
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_repeat_time_text_view);
 		textRepeat.setText(formatNumberForPrototypeView(BrickValues.REPEAT));

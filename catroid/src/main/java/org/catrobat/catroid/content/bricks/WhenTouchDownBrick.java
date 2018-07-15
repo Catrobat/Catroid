@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
@@ -65,18 +64,19 @@ public class WhenTouchDownBrick extends BrickBaseType implements ScriptBrick {
 	}
 
 	@Override
-	public View getView(final Context context, BaseAdapter baseAdapter) {
+	public int getViewResource() {
+		return R.layout.brick_screen_touched;
+	}
 
-		view = View.inflate(context, R.layout.brick_screen_touched, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView();
-
+	@Override
+	public View getView(final Context context) {
+		super.getView(context);
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_screen_touched, null);
+		prototypeView = super.getPrototypeView(context);
 		return prototypeView;
 	}
 

@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 
 import org.catrobat.catroid.content.Sprite;
@@ -112,7 +111,7 @@ public interface Brick extends Serializable, Cloneable {
 
 	List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence);
 
-	View getView(Context context, BaseAdapter adapter);
+	View getView(Context context);
 
 	View getPrototypeView(Context context);
 
@@ -127,8 +126,6 @@ public interface Brick extends Serializable, Cloneable {
 	boolean isCommentedOut();
 
 	void setCommentedOut(boolean commentedOut);
-
-	void setCheckboxView();
 
 	void setAlpha(int alphaFull);
 }

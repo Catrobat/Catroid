@@ -22,10 +22,7 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
 import android.util.Log;
-import android.view.View;
-import android.widget.BaseAdapter;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
@@ -47,13 +44,8 @@ public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, All
 	}
 
 	@Override
-	public View getView(Context context, BaseAdapter baseAdapter) {
-		view = View.inflate(context, R.layout.brick_if_else, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView();
-
-		return view;
+	public int getViewResource() {
+		return R.layout.brick_if_else;
 	}
 
 	@Override
@@ -61,25 +53,20 @@ public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, All
 		return new IfLogicElseBrick(ifBeginBrick);
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_if_else, null);
-	}
-
-	public void setIfEndBrick(IfLogicEndBrick ifEndBrick) {
-		this.ifEndBrick = ifEndBrick;
+	public IfLogicBeginBrick getIfBeginBrick() {
+		return ifBeginBrick;
 	}
 
 	public void setIfBeginBrick(IfLogicBeginBrick ifBeginBrick) {
 		this.ifBeginBrick = ifBeginBrick;
 	}
 
-	public IfLogicBeginBrick getIfBeginBrick() {
-		return ifBeginBrick;
-	}
-
 	public IfLogicEndBrick getIfEndBrick() {
 		return ifEndBrick;
+	}
+
+	public void setIfEndBrick(IfLogicEndBrick ifEndBrick) {
+		this.ifEndBrick = ifEndBrick;
 	}
 
 	@Override

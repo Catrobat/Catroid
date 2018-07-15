@@ -26,7 +26,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.ProjectManager;
@@ -64,12 +63,13 @@ public class PointToBrick extends BrickBaseType implements
 	}
 
 	@Override
-	public View getView(final Context context, BaseAdapter baseAdapter) {
+	public int getViewResource() {
+		return R.layout.brick_point_to;
+	}
 
-		view = View.inflate(context, R.layout.brick_point_to, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView();
-
+	@Override
+	public View getView(final Context context) {
+		super.getView(context);
 		spinner = view.findViewById(R.id.brick_point_to_spinner);
 		spinnerAdapter = new SpinnerAdapterWithNewOption(context, getSpriteNames());
 		spinnerAdapter.setOnDropDownItemClickListener(this);
@@ -125,7 +125,7 @@ public class PointToBrick extends BrickBaseType implements
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View view = View.inflate(context, R.layout.brick_point_to, null);
+		View view = super.getPrototypeView(context);
 		spinner = view.findViewById(R.id.brick_point_to_spinner);
 
 		spinnerAdapter = new SpinnerAdapterWithNewOption(context, getSpriteNames());

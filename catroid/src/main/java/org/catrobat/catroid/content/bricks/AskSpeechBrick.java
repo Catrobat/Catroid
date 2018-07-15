@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -77,12 +76,13 @@ public class AskSpeechBrick extends UserVariableBrick {
 	}
 
 	@Override
-	public View getView(final Context context, BaseAdapter baseAdapter) {
+	public int getViewResource() {
+		return R.layout.brick_ask_speech;
+	}
 
-		view = View.inflate(context, R.layout.brick_ask_speech, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView();
-
+	@Override
+	public View getView(final Context context) {
+		super.getView(context);
 		TextView textField = (TextView) view.findViewById(R.id.brick_ask_speech_question_edit_text);
 
 		getFormulaWithBrickField(BrickField.ASK_SPEECH_QUESTION).setTextFieldId(R.id.brick_ask_speech_question_edit_text);
@@ -108,7 +108,7 @@ public class AskSpeechBrick extends UserVariableBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_ask_speech, null);
+		View prototypeView = super.getPrototypeView(context);
 		Spinner variableSpinner = (Spinner) prototypeView.findViewById(R.id.brick_ask_speech_spinner);
 
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyPlayingScene().getDataContainer()

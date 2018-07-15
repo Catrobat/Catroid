@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
@@ -69,11 +68,13 @@ public class MoveNStepsBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, BaseAdapter baseAdapter) {
-		view = View.inflate(context, R.layout.brick_move_n_steps, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+	public int getViewResource() {
+		return R.layout.brick_move_n_steps;
+	}
 
-		setCheckboxView();
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
 		TextView edit = (TextView) view.findViewById(R.id.brick_move_n_steps_edit_text);
 
 		getFormulaWithBrickField(BrickField.STEPS).setTextFieldId(R.id.brick_move_n_steps_edit_text);
@@ -105,7 +106,7 @@ public class MoveNStepsBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_move_n_steps, null);
+		prototypeView = super.getPrototypeView(context);
 		TextView textSteps = (TextView) prototypeView.findViewById(R.id.brick_move_n_steps_edit_text);
 		textSteps.setText(formatNumberForPrototypeView(BrickValues.MOVE_STEPS));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_move_n_steps_step_text_view);

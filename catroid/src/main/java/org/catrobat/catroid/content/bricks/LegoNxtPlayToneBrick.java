@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -72,7 +71,7 @@ public class LegoNxtPlayToneBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_nxt_play_tone, null);
+		prototypeView = super.getPrototypeView(context);
 		TextView textDuration = (TextView) prototypeView.findViewById(R.id.nxt_tone_duration_edit_text);
 
 		NumberFormat nf = NumberFormat.getInstance(context.getResources().getConfiguration().locale);
@@ -88,12 +87,13 @@ public class LegoNxtPlayToneBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, BaseAdapter baseAdapter) {
-		view = View.inflate(context, R.layout.brick_nxt_play_tone, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+	public int getViewResource() {
+		return R.layout.brick_nxt_play_tone;
+	}
 
-		setCheckboxView();
-
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
 		setSecondText(view, R.id.brick_nxt_play_tone_seconds, R.id.nxt_tone_duration_edit_text, BrickField.LEGO_NXT_DURATION_IN_SECONDS);
 
 		editFreq = (TextView) view.findViewById(R.id.nxt_tone_freq_edit_text);

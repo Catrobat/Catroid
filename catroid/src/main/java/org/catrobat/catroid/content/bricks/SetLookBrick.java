@@ -27,7 +27,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -74,29 +73,21 @@ public class SetLookBrick extends BrickBaseType implements
 		return clone;
 	}
 
-	protected View prepareView(Context context) {
-		View view = View.inflate(context, R.layout.brick_set_look, null);
-
-		if (getSprite().isBackgroundSprite()) {
-			((TextView) view.findViewById(R.id.brick_set_look_text_view))
-					.setText(R.string.brick_set_background);
-		}
-
-		return view;
-	}
-
 	protected Spinner findSpinner(View view) {
 		return view.findViewById(R.id.brick_set_look_spinner);
 	}
 
 	@Override
-	public View getView(final Context context, BaseAdapter baseAdapter) {
-		view = prepareView(context);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView();
+	public int getViewResource() {
+		return R.layout.brick_set_look;
+	}
 
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
+		onViewCreated(view);
 		spinner = findSpinner(view);
-		spinnerAdapter = new SpinnerAdapterWithNewOption(context, getLookNames());
+		spinnerAdapter = new SpinnerAdapterWithNewOption(view.getContext(), getLookNames());
 		spinnerAdapter.setOnDropDownItemClickListener(this);
 
 		spinner.setAdapter(spinnerAdapter);
@@ -114,6 +105,12 @@ public class SetLookBrick extends BrickBaseType implements
 		});
 		spinner.setSelection(spinnerAdapter.getPosition(look != null ? look.getName() : null));
 		return view;
+	}
+
+	protected void onViewCreated(View view) {
+		if (getSprite().isBackgroundSprite()) {
+			((TextView) view.findViewById(R.id.brick_set_look_text_view)).setText(R.string.brick_set_background);
+		}
 	}
 
 	private LookData getLookByName(String name) {
@@ -159,12 +156,19 @@ public class SetLookBrick extends BrickBaseType implements
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View view = prepareView(context);
+		View view = super.getPrototypeView(context);
+		onPrototypeViewCreated(view);
 		spinner = findSpinner(view);
-		spinnerAdapter = new SpinnerAdapterWithNewOption(context, getLookNames());
+		spinnerAdapter = new SpinnerAdapterWithNewOption(view.getContext(), getLookNames());
 		spinner.setAdapter(spinnerAdapter);
 		spinner.setSelection(spinnerAdapter.getPosition(look != null ? look.getName() : null));
 		return view;
+	}
+
+	protected void onPrototypeViewCreated(View view) {
+		if (getSprite().isBackgroundSprite()) {
+			((TextView) view.findViewById(R.id.brick_set_look_text_view)).setText(R.string.brick_set_background);
+		}
 	}
 
 	@Override

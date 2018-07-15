@@ -27,7 +27,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
@@ -39,15 +38,14 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
-import org.catrobat.catroid.content.bricks.BrickViewProvider;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 
 import java.util.List;
 
 public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick, Cloneable {
-	private static final long serialVersionUID = 1L;
-	public static final String ANYTHING_ESCAPE_CHAR = "\0";
 
+	public static final String ANYTHING_ESCAPE_CHAR = "\0";
+	private static final long serialVersionUID = 1L;
 	private CollisionScript collisionScript;
 	private transient ArrayAdapter<String> messageAdapter;
 
@@ -68,14 +66,17 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 	}
 
 	@Override
-	public View getView(final Context context, BaseAdapter baseAdapter) {
+	public int getViewResource() {
+		return R.layout.brick_physics_collision_receive;
+	}
+
+	@Override
+	public View getView(final Context context) {
+		super.getView(context);
+
 		if (collisionScript == null) {
 			collisionScript = new CollisionScript(getSpriteToCollideWithName());
 		}
-
-		view = View.inflate(context, R.layout.brick_physics_collision_receive, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView();
 
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_collision_receive_spinner);
 
@@ -102,7 +103,7 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_physics_collision_receive, null);
+		View prototypeView = super.getPrototypeView(context);
 		Spinner broadcastReceiverSpinner = (Spinner) prototypeView.findViewById(R.id.brick_collision_receive_spinner);
 
 		SpinnerAdapter collisionReceiverSpinnerAdapter = getCollisionObjectAdapter(context);

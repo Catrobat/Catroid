@@ -27,7 +27,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -89,7 +88,7 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_phiro_play_tone, null);
+		prototypeView = super.getPrototypeView(context);
 		TextView textDuration = (TextView) prototypeView.findViewById(R.id.brick_phiro_play_tone_duration_edit_text);
 		textDuration.setText(formatNumberForPrototypeView(BrickValues.PHIRO_DURATION));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_phiro_play_tone_seconds_text_view);
@@ -108,12 +107,13 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, BaseAdapter baseAdapter) {
+	public int getViewResource() {
+		return R.layout.brick_phiro_play_tone;
+	}
 
-		view = View.inflate(context, R.layout.brick_phiro_play_tone, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView();
-
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
 		setSecondText(view, R.id.brick_phiro_play_tone_seconds_text_view, R.id.brick_phiro_play_tone_duration_edit_text, BrickField.PHIRO_DURATION_IN_SECONDS);
 
 		ArrayAdapter<CharSequence> toneAdapter = ArrayAdapter.createFromResource(context, R.array.brick_phiro_select_tone_spinner,

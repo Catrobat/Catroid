@@ -27,7 +27,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.R;
@@ -64,7 +63,7 @@ public class LegoEv3MotorStopBrick extends BrickBaseType implements OnItemSelect
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_ev3_motor_stop, null);
+		View prototypeView = super.getPrototypeView(context);
 		Spinner legoSpinner = (Spinner) prototypeView.findViewById(R.id.ev3_stop_motor_spinner);
 		legoSpinner.setFocusableInTouchMode(false);
 		legoSpinner.setFocusable(false);
@@ -79,12 +78,13 @@ public class LegoEv3MotorStopBrick extends BrickBaseType implements OnItemSelect
 	}
 
 	@Override
-	public View getView(Context context, BaseAdapter baseAdapter) {
-		view = View.inflate(context, R.layout.brick_ev3_motor_stop, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+	public int getViewResource() {
+		return R.layout.brick_ev3_motor_stop;
+	}
 
-		setCheckboxView();
-
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
 				R.array.ev3_stop_motor_chooser, android.R.layout.simple_spinner_item);
 		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

@@ -341,7 +341,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		if (showCustomView) {
 			return clonedFormulaBrick.getCustomView(context, 0, null);
 		} else {
-			return clonedFormulaBrick.getView(context, null);
+			return clonedFormulaBrick.getView(context);
 		}
 	}
 

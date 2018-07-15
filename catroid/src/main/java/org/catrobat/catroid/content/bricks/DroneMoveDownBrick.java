@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -71,13 +70,13 @@ public class DroneMoveDownBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, BaseAdapter adapter) {
+	public int getViewResource() {
+		return R.layout.brick_drone_move_down;
+	}
 
-		view = View.inflate(context, R.layout.brick_drone_move_down, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView();
-
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
 		setSecondText(view, R.id.brick_drone_move_down_text_second, R.id
 				.brick_drone_move_down_edit_text_second, BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
 
@@ -98,7 +97,7 @@ public class DroneMoveDownBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_drone_move_down, null);
+		View prototypeView = super.getPrototypeView(context);
 		TextView textTime = (TextView) prototypeView.findViewById(R.id
 				.brick_drone_move_down_edit_text_second);
 
