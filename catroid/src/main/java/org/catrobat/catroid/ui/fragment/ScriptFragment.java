@@ -571,7 +571,7 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 						selectedItemCnt, selectedItemCnt));
 				break;
 			case DELETE:
-				actionMode.setTitle(getResources().getQuantityString(R.plurals.am_delete_scripts_title,
+				actionMode.setTitle(getResources().getQuantityString(R.plurals.am_delete_bricks_title,
 						selectedItemCnt, selectedItemCnt));
 				break;
 			case ENABLE_DISABLE:
