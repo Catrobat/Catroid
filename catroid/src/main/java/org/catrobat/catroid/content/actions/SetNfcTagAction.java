@@ -25,34 +25,22 @@ package org.catrobat.catroid.content.actions;
 import android.nfc.NdefMessage;
 import android.util.Log;
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.stage.StageActivity;
 
-public class SetNfcTagAction extends TemporalAction {
+public class SetNfcTagAction extends Action {
 
 	private Sprite sprite;
 	private Formula nfcNdefMessage;
 	private int nfcTagNdefSpinnerSelection;
+	private NdefMessage message;
+	private boolean firstExecution = true;
+
 	private static final String TAG = SetNfcTagAction.class.getSimpleName();
-
-	@Override
-	protected void update(float percent) {
-		if (nfcNdefMessage == null) {
-			return;
-		}
-
-		try {
-			NdefMessage message = NfcHandler.createMessage(nfcNdefMessage.interpretString(sprite),
-					nfcTagNdefSpinnerSelection);
-			StageActivity.addNfcTagMessageToDeque(message);
-		} catch (Exception e) {
-			Log.d(TAG, "No new message was added to the Deque", e);
-		}
-	}
 
 	public void setNfcTagNdefSpinnerSelection(int spinnerSelection) {
 		this.nfcTagNdefSpinnerSelection = spinnerSelection;
@@ -64,5 +52,32 @@ public class SetNfcTagAction extends TemporalAction {
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
+	}
+
+	@Override
+	public void restart() {
+		super.restart();
+		firstExecution = true;
+	}
+
+	@Override
+	public boolean act(float delta) {
+		if (nfcNdefMessage == null) {
+			return true;
+		}
+		if (firstExecution) {
+			try {
+				message = NfcHandler.createMessage(nfcNdefMessage.interpretString(sprite),
+						nfcTagNdefSpinnerSelection);
+				synchronized (StageActivity.class) {
+					StageActivity.setNfcTagMessage(message);
+				}
+				firstExecution = false;
+			} catch (Exception e) {
+				Log.d(TAG, "No new message was added to the Stage", e);
+				return true;
+			}
+		}
+		return StageActivity.getNfcTagMessage() != message;
 	}
 }

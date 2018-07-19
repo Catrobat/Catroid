@@ -615,8 +615,8 @@
   <!--  -->
   <!-- NfcTagListFragment -->
   <string name="fragment_nfctag_text_description">Scan NFC tags to add them</string>
-  <string name="ndef_record_label">as record type</string>
-  <string name="brick_set_nfc_tag">Setze NFC Tag auf</string>
+  <string name="ndef_record_label">als Datensatztyp</string>
+  <string name="brick_set_nfc_tag">Warte auf nächsten NFC Tag und schreibe</string>
   <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
   <string name="default_tag_name">nfc_tag</string>
   <string name="tnf_empty">Leer</string>
