@@ -84,11 +84,17 @@ pipeline {
 
 		stage('Unit and Device tests') {
 			steps {
-				// Run Unit and device tests for package: org.catrobat.catroid.test
+				// Run local unit tests
+				sh "./buildScripts/build_step_run_unit_tests__all_tests"
+				// ensure that the following test run does not overwrite the results
+				sh "mv ${env.GRADLE_PROJECT_MODULE_NAME}/build ${env.GRADLE_PROJECT_MODULE_NAME}/build-unittest"
+
+				// Run device tests for package: org.catrobat.catroid.test
 				sh "./buildScripts/build_step_run_tests_on_emulator__test_pkg"
 				// ensure that the following test run does not overwrite the results
-				sh "mv ${env.GRADLE_PROJECT_MODULE_NAME}/build/outputs/androidTest-results ${env.GRADLE_PROJECT_MODULE_NAME}/build/outputs/androidTest-results1"
-				// Run Unit and device tests for class: org.catrobat.catroid.uiespresso.testsuites.PullRequestTriggerSuite
+				sh "mv ${env.GRADLE_PROJECT_MODULE_NAME}/build ${env.GRADLE_PROJECT_MODULE_NAME}/build-test-test-pkg"
+
+				// Run device tests for class: org.catrobat.catroid.uiespresso.testsuites.PullRequestTriggerSuite
 				sh "./buildScripts/build_step_run_tests_on_emulator__pr_test_suite"
 			}
 
