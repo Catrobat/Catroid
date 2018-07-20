@@ -31,8 +31,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -213,12 +211,8 @@ public class WebViewActivity extends BaseActivity {
 
 		@Override
 		public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-			ConnectivityManager cm = (ConnectivityManager) getBaseContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-			NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-			boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-
 			int errorMessage;
-			if (!isConnected) {
+			if (!Utils.isNetworkAvailable(WebViewActivity.this)) {
 				errorMessage = R.string.error_internet_connection;
 			} else {
 				errorMessage = R.string.error_unknown_error;
