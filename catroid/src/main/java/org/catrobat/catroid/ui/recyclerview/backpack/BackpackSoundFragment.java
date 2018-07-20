@@ -38,6 +38,8 @@ import org.catrobat.catroid.utils.ToastUtil;
 import java.io.IOException;
 import java.util.List;
 
+import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_SOUNDS_PREFERENCE_KEY;
+
 public class BackpackSoundFragment extends BackpackRecyclerViewFragment<SoundInfo> {
 
 	public static final String TAG = BackpackSoundFragment.class.getSimpleName();
@@ -46,7 +48,7 @@ public class BackpackSoundFragment extends BackpackRecyclerViewFragment<SoundInf
 
 	@Override
 	protected void initializeAdapter() {
-		sharedPreferenceDetailsKey = "showDetailsSoundList";
+		sharedPreferenceDetailsKey = SHOW_DETAILS_SOUNDS_PREFERENCE_KEY;
 		hasDetails = true;
 		List<SoundInfo> items = BackpackListManager.getInstance().getBackpackedSounds();
 		adapter = new SoundAdapter(items);

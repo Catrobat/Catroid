@@ -64,6 +64,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_SPRITES_PREFERENCE_KEY;
+
 public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 
 	public static final String TAG = SpriteListFragment.class.getSimpleName();
@@ -171,7 +173,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	@Override
 	protected void initializeAdapter() {
 		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_objects);
-		sharedPreferenceDetailsKey = "showDetailsSpriteList";
+		sharedPreferenceDetailsKey = SHOW_DETAILS_SPRITES_PREFERENCE_KEY;
 		List<Sprite> items = ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList();
 		adapter = new MultiViewSpriteAdapter(items);
 		onAdapterReady();

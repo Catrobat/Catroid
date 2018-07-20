@@ -38,6 +38,8 @@ import org.catrobat.catroid.utils.ToastUtil;
 import java.io.IOException;
 import java.util.List;
 
+import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_LOOKS_PREFERENCE_KEY;
+
 public class BackpackLookFragment extends BackpackRecyclerViewFragment<LookData> {
 
 	public static final String TAG = BackpackLookFragment.class.getSimpleName();
@@ -46,7 +48,7 @@ public class BackpackLookFragment extends BackpackRecyclerViewFragment<LookData>
 
 	@Override
 	protected void initializeAdapter() {
-		sharedPreferenceDetailsKey = "showDetailsLookList";
+		sharedPreferenceDetailsKey = SHOW_DETAILS_LOOKS_PREFERENCE_KEY;
 		hasDetails = true;
 		List<LookData> items = BackpackListManager.getInstance().getBackpackedLooks();
 		adapter = new LookAdapter(items);

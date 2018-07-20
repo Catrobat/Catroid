@@ -38,6 +38,8 @@ import org.catrobat.catroid.utils.ToastUtil;
 import java.io.IOException;
 import java.util.List;
 
+import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_SCENES_PREFERENCE_KEY;
+
 public class BackpackSceneFragment extends BackpackRecyclerViewFragment<Scene> {
 
 	public static final String TAG = BackpackSceneFragment.class.getSimpleName();
@@ -47,7 +49,7 @@ public class BackpackSceneFragment extends BackpackRecyclerViewFragment<Scene> {
 	@Override
 	protected void initializeAdapter() {
 		List<Scene> items = BackpackListManager.getInstance().getScenes();
-		sharedPreferenceDetailsKey = "showDetailsSceneList";
+		sharedPreferenceDetailsKey = SHOW_DETAILS_SCENES_PREFERENCE_KEY;
 		hasDetails = true;
 		adapter = new SceneAdapter(items);
 		onAdapterReady();

@@ -48,6 +48,7 @@ import java.util.List;
 import java.util.Set;
 
 import static org.catrobat.catroid.common.Constants.Z_INDEX_BACKGROUND;
+import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_SCENES_PREFERENCE_KEY;
 
 public class SceneListFragment extends RecyclerViewFragment<Scene> {
 
@@ -83,7 +84,7 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 
 	@Override
 	protected void initializeAdapter() {
-		sharedPreferenceDetailsKey = "showDetailsSceneList";
+		sharedPreferenceDetailsKey = SHOW_DETAILS_SCENES_PREFERENCE_KEY;
 		List<Scene> items = ProjectManager.getInstance().getCurrentProject().getSceneList();
 		adapter = new SceneAdapter(items);
 		onAdapterReady();
