@@ -54,6 +54,7 @@ import java.util.List;
 import java.util.Set;
 
 import static org.catrobat.catroid.common.Constants.POCKET_PAINT_PACKAGE_NAME;
+import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_LOOKS_PREFERENCE_KEY;
 
 public class LookListFragment extends RecyclerViewFragment<LookData> {
 
@@ -70,7 +71,7 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 	@Override
 	protected void initializeAdapter() {
 		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_looks);
-		sharedPreferenceDetailsKey = "showDetailsLookList";
+		sharedPreferenceDetailsKey = SHOW_DETAILS_LOOKS_PREFERENCE_KEY;
 		List<LookData> items = ProjectManager.getInstance().getCurrentSprite().getLookList();
 		adapter = new LookAdapter(items);
 		emptyView.setText(R.string.fragment_look_text_description);
@@ -79,8 +80,8 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 
 	@Override
 	public void handleAddButton() {
-		NewLookDialogFragment dialog = new NewLookDialogFragment(
-				this, ProjectManager.getInstance().getCurrentlyEditedScene(), ProjectManager.getInstance().getCurrentSprite());
+		NewLookDialogFragment dialog = new NewLookDialogFragment(this,
+				ProjectManager.getInstance().getCurrentlyEditedScene(), ProjectManager.getInstance().getCurrentSprite());
 		dialog.show(getFragmentManager(), NewLookDialogFragment.TAG);
 	}
 

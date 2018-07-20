@@ -59,6 +59,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import static org.catrobat.catroid.common.SharedPreferenceKeys.SCRATCH_CONVERTER_CLIENT_ID_PREFERENCE_KEY;
+import static org.catrobat.catroid.common.SharedPreferenceKeys.SCRATCH_CONVERTER_DOWNLOAD_STATE_PREFERENCE_KEY;
+
 public class ScratchConversionManager implements ConversionManager {
 
 	private static final String TAG = ScratchConversionManager.class.getSimpleName();
@@ -153,7 +156,7 @@ public class ScratchConversionManager implements ConversionManager {
 	public void onSuccess(long clientID) {
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(currentActivity.getApplicationContext());
 		SharedPreferences.Editor editor = settings.edit();
-		editor.putLong(Constants.SCRATCH_CONVERTER_CLIENT_ID_SHARED_PREFERENCE_NAME, clientID);
+		editor.putLong(SCRATCH_CONVERTER_CLIENT_ID_PREFERENCE_KEY, clientID);
 		editor.commit();
 		Log.i(TAG, "Connection established (clientID: " + clientID + ")");
 		Preconditions.checkState(client.isAuthenticated());
@@ -468,7 +471,7 @@ public class ScratchConversionManager implements ConversionManager {
 					.getApplicationContext());
 			SharedPreferences.Editor editor = sharedPref.edit();
 
-			String data = sharedPref.getString(Constants.SCRATCH_CONVERTER_DOWNLOAD_STATE_SHARED_PREFERENCE_NAME, null);
+			String data = sharedPref.getString(SCRATCH_CONVERTER_DOWNLOAD_STATE_PREFERENCE_KEY, null);
 			HashMap<String, String> downloadStates = new HashMap<>();
 			if (data != null) {
 				JSONObject jsonObject = new JSONObject(data);
@@ -482,7 +485,7 @@ public class ScratchConversionManager implements ConversionManager {
 
 			downloadStates.put(Long.toString(jobID), Integer.toString(downloadState.getDownloadStateID()));
 			Log.d(TAG, downloadStates.toString());
-			editor.putString(Constants.SCRATCH_CONVERTER_DOWNLOAD_STATE_SHARED_PREFERENCE_NAME,
+			editor.putString(SCRATCH_CONVERTER_DOWNLOAD_STATE_PREFERENCE_KEY,
 					new JSONObject(downloadStates).toString());
 			editor.commit();
 		} catch (JSONException e) {
@@ -497,7 +500,7 @@ public class ScratchConversionManager implements ConversionManager {
 			SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(currentActivity
 					.getApplicationContext());
 
-			String data = sharedPref.getString(Constants.SCRATCH_CONVERTER_DOWNLOAD_STATE_SHARED_PREFERENCE_NAME, null);
+			String data = sharedPref.getString(SCRATCH_CONVERTER_DOWNLOAD_STATE_PREFERENCE_KEY, null);
 			HashMap<String, String> downloadStates = new HashMap<>();
 			if (data != null) {
 				JSONObject jsonObject = new JSONObject(data);

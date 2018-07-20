@@ -25,7 +25,6 @@ package org.catrobat.catroid.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
@@ -39,7 +38,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.FacebookLoginHandler;
 import org.catrobat.catroid.transfers.GooglePlusLoginHandler;
-import org.catrobat.catroid.ui.recyclerview.dialog.PrivacyPolicyDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.login.LoginDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.login.RegistrationDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.login.SignInCompleteListener;
@@ -54,9 +52,6 @@ import static org.catrobat.catroid.transfers.FacebookLoginHandler.FACEBOOK_PROFI
 import static org.catrobat.catroid.transfers.GooglePlusLoginHandler.REQUEST_CODE_GOOGLE_PLUS_SIGNIN;
 
 public class SignInActivity extends BaseActivity implements SignInCompleteListener {
-
-	private static final String SHARED_PREFERENCES_PRIVACY_POLICY_KEY = "USER_ACCEPTED_PRIVACY_POLICY";
-
 	public static final String LOGIN_SUCCESSFUL = "LOGIN_SUCCESSFUL";
 
 	private CallbackManager facebookCallbackManager;
@@ -96,20 +91,6 @@ public class SignInActivity extends BaseActivity implements SignInCompleteListen
 	public void onButtonClick(final View view) {
 		if (!Utils.isNetworkAvailable(this)) {
 			ToastUtil.showError(this, R.string.error_internet_connection);
-			return;
-		}
-
-		boolean privacyDialogAccepted = PreferenceManager.getDefaultSharedPreferences(this)
-				.getBoolean(SHARED_PREFERENCES_PRIVACY_POLICY_KEY, false);
-		if (!privacyDialogAccepted) {
-			PrivacyPolicyDialogFragment.PrivacyPolicyListener privacyPolicyListener = new PrivacyPolicyDialogFragment.PrivacyPolicyListener() {
-				@Override
-				public void onPrivacyPolicyAccepted() {
-					onButtonClickForRealThisTime(view);
-				}
-			};
-			new PrivacyPolicyDialogFragment(privacyPolicyListener, true)
-					.show(getFragmentManager(), PrivacyPolicyDialogFragment.TAG);
 		} else {
 			onButtonClickForRealThisTime(view);
 		}

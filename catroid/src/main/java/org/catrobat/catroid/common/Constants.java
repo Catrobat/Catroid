@@ -174,9 +174,7 @@ public final class Constants {
 	// Scratch Converter
 	public static final int DOWNLOAD_FILE_HTTP_TIMEOUT = 30_000;
 	public static final long INVALID_SCRATCH_PROGRAM_ID = 0;
-	public static final String SCRATCH_CONVERTER_CLIENT_ID_SHARED_PREFERENCE_NAME = "scratchconverter.clientID";
-	public static final String SCRATCH_CONVERTER_DOWNLOAD_STATE_SHARED_PREFERENCE_NAME = "scratchconverter"
-			+ ".downloadStatePref";
+
 	public static final String SCRATCH_CONVERTER_HOST = "scratch2.catrob.at";
 	public static final String SCRATCH_SEARCH_URL = "https://api.scratch.mit.edu/search/projects";
 	public static final int SCRATCH_CONVERTER_MAX_NUMBER_OF_JOBS_PER_CLIENT = 3;
@@ -278,15 +276,6 @@ public final class Constants {
 	public static final int STATUS_CODE_UPLOAD_SAVE_THUMBNAIL_FAILED = 514;
 	public static final int STATUS_CODE_UPLOAD_OLD_CATROBAT_LANGUAGE = 518;
 	public static final int STATUS_CODE_UPLOAD_OLD_CATROBAT_VERSION = 519;
-
-	//Multilingual feature
-	public static final String LANGUAGE_TAG_KEY = "applicationLanguage";
-	public static final String DEVICE_LANGUAGE = "deviceLanguage";
-	public static final String[] LANGUAGE_CODE = {DEVICE_LANGUAGE, "az", "in", "bs", "ca", "cs", "sr-rCS",
-			"sr-rSP", "da", "de", "en-rAU", "en-rCA", "en-rGB", "en", "es", "el", "fr", "gl", "hr", "it",
-			"sw", "hu", "mk", "ms", "nl", "no", "pl", "pt-rBR", "pt", "ru", "ro", "sq", "sl", "sk",
-			"sv", "vi", "tr", "uk", "bg", "ml", "ta", "kn", "te", "th", "gu", "hi", "ja", "ko", "lt", "zh-rCN",
-			"zh-rTW", "ar", "ur", "fa", "ps", "sd", "iw"};
 
 	private Constants() {
 		throw new AssertionError();

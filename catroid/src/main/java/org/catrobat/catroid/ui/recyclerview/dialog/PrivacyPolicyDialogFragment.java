@@ -37,10 +37,11 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.utils.Utils;
 
+import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY;
+
 public class PrivacyPolicyDialogFragment extends DialogFragment {
 
 	public static final String TAG = PrivacyPolicyDialogFragment.class.getSimpleName();
-	private static final String SHARED_PREFERENCES_PRIVACY_POLICY_KEY = "USER_ACCEPTED_PRIVACY_POLICY";
 
 	private PrivacyPolicyListener privacyPolicyListener;
 	private boolean forceAccept = false;
@@ -70,7 +71,7 @@ public class PrivacyPolicyDialogFragment extends DialogFragment {
 				@Override
 				public void onClick(DialogInterface dialog, int id) {
 					PreferenceManager.getDefaultSharedPreferences(getActivity()).edit()
-							.putBoolean(SHARED_PREFERENCES_PRIVACY_POLICY_KEY, true)
+							.putBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, true)
 							.apply();
 					privacyPolicyListener.onPrivacyPolicyAccepted();
 				}

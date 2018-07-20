@@ -42,8 +42,8 @@ import android.util.DisplayMetrics;
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DroneConfigPreference;
+import org.catrobat.catroid.common.SharedPreferenceKeys;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -56,9 +56,9 @@ import java.util.List;
 import java.util.Locale;
 
 import static org.catrobat.catroid.CatroidApplication.defaultSystemLanguage;
-import static org.catrobat.catroid.common.Constants.DEVICE_LANGUAGE;
-import static org.catrobat.catroid.common.Constants.LANGUAGE_CODE;
-import static org.catrobat.catroid.common.Constants.LANGUAGE_TAG_KEY;
+import static org.catrobat.catroid.common.SharedPreferenceKeys.DEVICE_LANGUAGE;
+import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_CODE;
+import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAG_KEY;
 
 public class SettingsFragment extends PreferenceFragment {
 
@@ -543,7 +543,7 @@ public class SettingsFragment extends PreferenceFragment {
 		if (languageTag.contains("-r")) {
 			String[] tags = languageTag.split("-r");
 			return new Locale(tags[0], tags[1]);
-		} else if (languageTag.equals(Constants.DEVICE_LANGUAGE)) {
+		} else if (languageTag.equals(SharedPreferenceKeys.DEVICE_LANGUAGE)) {
 			return new Locale(defaultSystemLanguage);
 		} else {
 			return new Locale(languageTag);

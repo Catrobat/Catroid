@@ -36,7 +36,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.scratchconverter.Client;
 import org.catrobat.catroid.scratchconverter.ConversionManager;
 import org.catrobat.catroid.scratchconverter.ScratchConversionManager;
@@ -54,6 +53,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.catrobat.catroid.common.SharedPreferenceKeys.SCRATCH_CONVERTER_CLIENT_ID_PREFERENCE_KEY;
 
 public class ScratchConverterActivity extends BaseActivity implements
 		BaseInfoViewListener,
@@ -104,7 +105,7 @@ public class ScratchConverterActivity extends BaseActivity implements
 
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		long clientID = sharedPreferences
-				.getLong(Constants.SCRATCH_CONVERTER_CLIENT_ID_SHARED_PREFERENCE_NAME, Client.INVALID_CLIENT_ID);
+				.getLong(SCRATCH_CONVERTER_CLIENT_ID_PREFERENCE_KEY, Client.INVALID_CLIENT_ID);
 
 		client = new WebSocketClient(clientID, new WebSocketMessageListener());
 		conversionManager = new ScratchConversionManager(this, client, false);
