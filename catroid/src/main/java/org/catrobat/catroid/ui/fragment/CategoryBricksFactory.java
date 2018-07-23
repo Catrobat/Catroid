@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,10 +26,15 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 
+import com.parrot.freeflight.drone.DroneProxy.ARDRONE_LED_ANIMATION;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
-import org.catrobat.catroid.common.MessageContainer;
+import org.catrobat.catroid.content.BroadcastScript;
+import org.catrobat.catroid.content.CollisionScript;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.RaspiInterruptScript;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenGamepadButtonScript;
 import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
@@ -58,12 +63,14 @@ import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick;
 import org.catrobat.catroid.content.bricks.DeleteThisCloneBrick;
 import org.catrobat.catroid.content.bricks.DroneEmergencyBrick;
+import org.catrobat.catroid.content.bricks.DroneFlipBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveDownBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveForwardBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveRightBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
+import org.catrobat.catroid.content.bricks.DronePlayLedAnimationBrick;
 import org.catrobat.catroid.content.bricks.DroneSwitchCameraBrick;
 import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
@@ -184,8 +191,8 @@ import org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.physics.content.bricks.SetVelocityBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
-import org.catrobat.catroid.ui.SettingsActivity;
-import org.catrobat.catroid.ui.UserBrickScriptActivity;
+import org.catrobat.catroid.ui.UserBrickSpriteActivity;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -196,7 +203,7 @@ public class CategoryBricksFactory {
 
 	public List<Brick> getBricks(String category, Sprite sprite, Context context) {
 
-		boolean isUserScriptMode = context instanceof UserBrickScriptActivity;
+		boolean isUserScriptMode = context instanceof UserBrickSpriteActivity;
 		List<Brick> tempList = new LinkedList<>();
 		List<Brick> toReturn = new ArrayList<>();
 		if (category.equals(context.getString(R.string.category_event))) {
@@ -232,6 +239,8 @@ public class CategoryBricksFactory {
 			tempList = setupChromecastCategoryList(context);
 		} else if (category.equals(context.getString(R.string.category_raspi))) {
 			tempList = setupRaspiCategoryList();
+		} else if (category.equals(context.getString(R.string.category_embroidery))) {
+			tempList = setupEmbroideryCategoryList();
 		}
 
 		for (Brick brick : tempList) {
@@ -242,7 +251,7 @@ public class CategoryBricksFactory {
 		return toReturn;
 	}
 
-	private List<Brick> setupEventCategoryList(Context context) {
+	protected List<Brick> setupEventCategoryList(Context context) {
 		FormulaElement defaultIf = new FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.SMALLER_THAN.toString(), null);
 		defaultIf.setLeftChild(new FormulaElement(ElementType.NUMBER, "1", null));
 		defaultIf.setRightChild(new FormulaElement(ElementType.NUMBER, "2", null));
@@ -251,22 +260,29 @@ public class CategoryBricksFactory {
 		eventBrickList.add(new WhenStartedBrick(null));
 		eventBrickList.add(new WhenBrick(null));
 		eventBrickList.add(new WhenTouchDownBrick());
-		final String broadcastMessage = MessageContainer.getFirst(context);
-		eventBrickList.add(new BroadcastReceiverBrick(broadcastMessage));
+
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		List<String> broadcastMessages = currentProject.getBroadcastMessageContainer().getBroadcastMessages();
+		String broadcastMessage = context.getString(R.string.new_broadcast_message);
+		if (broadcastMessages.size() > 0) {
+			broadcastMessage = broadcastMessages.get(0);
+		}
+		BroadcastScript broadcastScript = new BroadcastScript(broadcastMessage);
+		eventBrickList.add(new BroadcastReceiverBrick(broadcastScript));
 		eventBrickList.add(new BroadcastBrick(broadcastMessage));
 		eventBrickList.add(new BroadcastWaitBrick(broadcastMessage));
 		eventBrickList.add(new WhenConditionBrick(new Formula(defaultIf)));
-		eventBrickList.add(new CollisionReceiverBrick("object"));
+		eventBrickList.add(new CollisionReceiverBrick(new CollisionScript(null)));
 		eventBrickList.add(new WhenBackgroundChangesBrick());
 		eventBrickList.add(new WhenClonedBrick());
 
-		if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
+		if (SettingsFragment.isNfcSharedPreferenceEnabled(context)) {
 			eventBrickList.add(new WhenNfcBrick());
 		}
 		return eventBrickList;
 	}
 
-	private List<Brick> setupControlCategoryList(Context context) {
+	protected List<Brick> setupControlCategoryList(Context context) {
 		FormulaElement defaultIf = new FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.SMALLER_THAN.toString(), null);
 		defaultIf.setLeftChild(new FormulaElement(ElementType.NUMBER, "1", null));
 		defaultIf.setRightChild(new FormulaElement(ElementType.NUMBER, "2", null));
@@ -283,7 +299,7 @@ public class CategoryBricksFactory {
 		controlBrickList.add(new SceneTransitionBrick(null));
 		controlBrickList.add(new SceneStartBrick(null));
 
-		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
+		if (SettingsFragment.isPhiroSharedPreferenceEnabled(context)) {
 			controlBrickList.add(new PhiroIfLogicBeginBrick());
 		}
 
@@ -292,7 +308,7 @@ public class CategoryBricksFactory {
 		controlBrickList.add(new CloneBrick());
 		controlBrickList.add(new DeleteThisCloneBrick());
 		controlBrickList.add(new WhenClonedBrick());
-		if (SettingsActivity.isNfcSharedPreferenceEnabled(context)) {
+		if (SettingsFragment.isNfcSharedPreferenceEnabled(context)) {
 			controlBrickList.add(new SetNfcTagBrick(context.getString(R.string.brick_set_nfc_tag_default_value)));
 		}
 
@@ -319,7 +335,7 @@ public class CategoryBricksFactory {
 		return chromecastBrickList;
 	}
 
-	private List<Brick> setupMotionCategoryList(Sprite sprite, Context context) {
+	protected List<Brick> setupMotionCategoryList(Sprite sprite, Context context) {
 		List<Brick> motionBrickList = new ArrayList<>();
 		motionBrickList.add(new PlaceAtBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION));
 		motionBrickList.add(new SetXBrick(BrickValues.X_POSITION));
@@ -357,7 +373,7 @@ public class CategoryBricksFactory {
 		motionBrickList.add(new SetBounceBrick(BrickValues.PHYSIC_BOUNCE_FACTOR * 100));
 		motionBrickList.add(new SetFrictionBrick(BrickValues.PHYSIC_FRICTION * 100));
 
-		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
+		if (SettingsFragment.isPhiroSharedPreferenceEnabled(context)) {
 			motionBrickList.add(new PhiroMotorMoveForwardBrick(PhiroMotorMoveForwardBrick.Motor.MOTOR_LEFT,
 					BrickValues.PHIRO_SPEED));
 			motionBrickList.add(new PhiroMotorMoveBackwardBrick(PhiroMotorMoveBackwardBrick.Motor.MOTOR_LEFT,
@@ -368,7 +384,7 @@ public class CategoryBricksFactory {
 		return motionBrickList;
 	}
 
-	private List<Brick> setupSoundCategoryList(Context context) {
+	protected List<Brick> setupSoundCategoryList(Context context) {
 		List<Brick> soundBrickList = new ArrayList<>();
 		soundBrickList.add(new PlaySoundBrick());
 		soundBrickList.add(new PlaySoundAndWaitBrick());
@@ -386,7 +402,7 @@ public class CategoryBricksFactory {
 		soundBrickList.add(new SpeakBrick(context.getString(R.string.brick_speak_default_value)));
 		soundBrickList.add(new SpeakAndWaitBrick(context.getString(R.string.brick_speak_default_value)));
 
-		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
+		if (SettingsFragment.isPhiroSharedPreferenceEnabled(context)) {
 			soundBrickList.add(new PhiroPlayToneBrick(PhiroPlayToneBrick.Tone.DO,
 					BrickValues.PHIRO_DURATION));
 		}
@@ -395,7 +411,7 @@ public class CategoryBricksFactory {
 		return soundBrickList;
 	}
 
-	private List<Brick> setupLooksCategoryList(Context context, boolean isBackgroundSprite) {
+	protected List<Brick> setupLooksCategoryList(Context context, boolean isBackgroundSprite) {
 		List<Brick> looksBrickList = new ArrayList<>();
 
 		if (!isBackgroundSprite) {
@@ -434,7 +450,7 @@ public class CategoryBricksFactory {
 			looksBrickList.add(new FlashBrick());
 		}
 
-		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
+		if (SettingsFragment.isPhiroSharedPreferenceEnabled(context)) {
 			looksBrickList.add(new PhiroRGBLightBrick(PhiroRGBLightBrick.Eye.BOTH, BrickValues.PHIRO_VALUE_RED, BrickValues.PHIRO_VALUE_GREEN, BrickValues.PHIRO_VALUE_BLUE));
 		}
 
@@ -456,7 +472,7 @@ public class CategoryBricksFactory {
 		return penBrickList;
 	}
 
-	private List<Brick> setupDataCategoryList(Context context) {
+	protected List<Brick> setupDataCategoryList(Context context) {
 		List<Brick> dataBrickList = new ArrayList<>();
 		dataBrickList.add(new SetVariableBrick(BrickValues.SET_VARIABLE));
 		dataBrickList.add(new ChangeVariableBrick(BrickValues.CHANGE_VARIABLE));
@@ -500,24 +516,17 @@ public class CategoryBricksFactory {
 		List<Brick> droneBrickList = new ArrayList<>();
 		droneBrickList.add(new DroneTakeOffLandBrick());
 		droneBrickList.add(new DroneEmergencyBrick());
-		droneBrickList.add(new DroneMoveUpBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
-		droneBrickList.add(new DroneMoveDownBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
-		droneBrickList.add(new DroneMoveLeftBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
-		droneBrickList.add(new DroneMoveRightBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
-		droneBrickList.add(new DroneMoveForwardBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
-		droneBrickList.add(new DroneMoveBackwardBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
-		droneBrickList.add(new DroneTurnLeftBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
-		droneBrickList.add(new DroneTurnRightBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
+		droneBrickList.add(new DroneMoveUpBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT));
+		droneBrickList.add(new DroneMoveDownBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT));
+		droneBrickList.add(new DroneMoveLeftBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT));
+		droneBrickList.add(new DroneMoveRightBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT));
+		droneBrickList.add(new DroneMoveForwardBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT));
+		droneBrickList.add(new DroneMoveBackwardBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT));
+		droneBrickList.add(new DroneTurnLeftBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT));
+		droneBrickList.add(new DroneTurnRightBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT));
+		droneBrickList.add(new DroneFlipBrick());
+		droneBrickList.add(new DronePlayLedAnimationBrick(ARDRONE_LED_ANIMATION.ARDRONE_LED_ANIMATION_BLINK_GREEN_RED));
 		droneBrickList.add(new DroneSwitchCameraBrick());
-
-		/*
-			 Deprecated
-		     droneBrickList.add(new DroneAdvancedConfigBrick());
-		*/
-
-		// Only for demo purpose
-/*		droneBrickList.add(new SetTextBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION,
-				BrickValues.STRING_VALUE));*/
 
 		return droneBrickList;
 	}
@@ -572,8 +581,9 @@ public class CategoryBricksFactory {
 	}
 
 	private List<Brick> setupRaspiCategoryList() {
+		RaspiInterruptScript defaultScript = new RaspiInterruptScript(Integer.toString(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER), BrickValues.RASPI_EVENTS[0]);
 		List<Brick> raspiBrickList = new ArrayList<>();
-		raspiBrickList.add(new WhenRaspiPinChangedBrick(null));
+		raspiBrickList.add(new WhenRaspiPinChangedBrick(defaultScript));
 		raspiBrickList.add(new RaspiIfLogicBeginBrick(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER));
 		raspiBrickList.add(new RaspiSendDigitalValueBrick(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER, BrickValues.RASPI_DIGITAL_INITIAL_PIN_VALUE));
 		raspiBrickList.add(new RaspiPwmBrick(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER, BrickValues
@@ -582,8 +592,14 @@ public class CategoryBricksFactory {
 		return raspiBrickList;
 	}
 
-	private boolean isBackground(Sprite sprite) {
-		if (ProjectManager.getInstance().getCurrentScene().getSpriteList().indexOf(sprite) == 0) {
+	private List<Brick> setupEmbroideryCategoryList() {
+		List<Brick> embroideryBrickList = new ArrayList<>();
+
+		return embroideryBrickList;
+	}
+
+	protected boolean isBackground(Sprite sprite) {
+		if (ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList().indexOf(sprite) == 0) {
 			return true;
 		}
 		return false;
@@ -694,6 +710,12 @@ public class CategoryBricksFactory {
 		for (Brick categoryBrick : categoryBricks) {
 			if (brick.getClass().equals(categoryBrick.getClass())) {
 				category = res.getString(R.string.category_cast);
+			}
+		}
+		categoryBricks = setupEmbroideryCategoryList();
+		for (Brick categoryBrick : categoryBricks) {
+			if (brick.getClass().equals(categoryBrick.getClass())) {
+				category = res.getString(R.string.category_embroidery);
 			}
 		}
 

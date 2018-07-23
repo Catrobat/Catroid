@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,29 +22,26 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemSelectedListener {
+
 	private static final long serialVersionUID = 1L;
-	protected transient IfLogicElseBrick ifElseBrick;
-	protected transient IfLogicEndBrick ifEndBrick;
-	private transient PhiroIfLogicBeginBrick copy;
 	private int sensorSpinnerPosition = 0;
 
 	public PhiroIfLogicBeginBrick() {
@@ -60,16 +57,12 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 		return ifElseBrick;
 	}
 
-	public IfLogicEndBrick getIfEndBrick() {
-		return ifEndBrick;
-	}
-
-	public PhiroIfLogicBeginBrick getCopy() {
-		return copy;
-	}
-
 	public void setIfElseBrick(IfLogicElseBrick elseBrick) {
 		this.ifElseBrick = elseBrick;
+	}
+
+	public IfLogicEndBrick getIfEndBrick() {
+		return ifEndBrick;
 	}
 
 	public void setIfEndBrick(IfLogicEndBrick ifEndBrick) {
@@ -86,20 +79,18 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	public int getViewResource() {
+		return R.layout.brick_phiro_if_sensor;
+	}
 
-		view = View.inflate(context, R.layout.brick_phiro_if_sensor, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+	@Override
+	protected void onViewCreated(View view) {
+		Spinner phiroProSensorSpinner = view.findViewById(R.id.brick_phiro_sensor_action_spinner);
 
-		setCheckboxView(R.id.brick_phiro_sensor_checkbox);
+		ArrayAdapter<CharSequence> phiroProSensorAdapter = ArrayAdapter.createFromResource(view.getContext(),
+				R.array.brick_phiro_select_sensor_spinner,
+				android.R.layout.simple_spinner_item);
 
-		Spinner phiroProSensorSpinner = (Spinner) view.findViewById(R.id.brick_phiro_sensor_action_spinner);
-
-		ArrayAdapter<CharSequence> phiroProSensorAdapter = ArrayAdapter.createFromResource(context,
-				R.array.brick_phiro_select_sensor_spinner, android.R.layout.simple_spinner_item);
 		phiroProSensorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 		phiroProSensorSpinner.setAdapter(phiroProSensorAdapter);
@@ -116,8 +107,6 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
-
-		return view;
 	}
 
 	@Override
@@ -129,19 +118,17 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_phiro_if_sensor, null);
+	protected void onPrototypeViewCreated(View prototypeView) {
+		Spinner phiroProSensorSpinner = prototypeView.findViewById(R.id.brick_phiro_sensor_action_spinner);
 
-		Spinner phiroProSensorSpinner = (Spinner) prototypeView.findViewById(R.id.brick_phiro_sensor_action_spinner);
+		ArrayAdapter<CharSequence> phiroProSensorSpinnerAdapter = ArrayAdapter
+				.createFromResource(prototypeView.getContext(),
+						R.array.brick_phiro_select_sensor_spinner,
+						android.R.layout.simple_spinner_item);
 
-		ArrayAdapter<CharSequence> phiroProSensorSpinnerAdapter = ArrayAdapter.createFromResource(context,
-				R.array.brick_phiro_select_sensor_spinner, android.R.layout.simple_spinner_item);
 		phiroProSensorSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
 		phiroProSensorSpinner.setAdapter(phiroProSensorSpinnerAdapter);
 		phiroProSensorSpinner.setSelection(sensorSpinnerPosition);
-
-		return prototypeView;
 	}
 
 	@Override
@@ -157,7 +144,6 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 
 	@Override
 	public List<NestingBrick> getAllNestingBrickParts(boolean sorted) {
-		//TODO: handle sorting
 		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
 		if (sorted) {
 			nestingBrickList.add(this);
@@ -177,27 +163,17 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		SequenceAction ifAction = (SequenceAction) sprite.getActionFactory().createSequence();
-		SequenceAction elseAction = (SequenceAction) sprite.getActionFactory().createSequence();
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		ScriptSequenceAction ifAction = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
+		ScriptSequenceAction elseAction = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
 		Action action = sprite.getActionFactory().createPhiroSendSelectedSensorAction(sprite, sensorSpinnerPosition,
 				ifAction, elseAction);
 		sequence.addAction(action);
 
-		LinkedList<SequenceAction> returnActionList = new LinkedList<SequenceAction>();
+		LinkedList<ScriptSequenceAction> returnActionList = new LinkedList<>();
 		returnActionList.add(elseAction);
 		returnActionList.add(ifAction);
 
 		return returnActionList;
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		//ifEndBrick and ifElseBrick will be set in the copyBrickForSprite method of IfLogicEndBrick
-		PhiroIfLogicBeginBrick copyBrick = (PhiroIfLogicBeginBrick) clone(); //Using the clone method because of its flexibility if new fields are added
-		copyBrick.ifElseBrick = null; //if the Formula gets a field sprite, a separate copy method will be needed
-		copyBrick.ifEndBrick = null;
-		this.copy = copyBrick;
-		return copyBrick;
 	}
 }

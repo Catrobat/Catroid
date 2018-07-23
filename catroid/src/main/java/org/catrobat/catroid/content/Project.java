@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,14 +23,13 @@
 package org.catrobat.catroid.content;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.os.Build;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.BroadcastMessageContainer;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -38,20 +37,21 @@ import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.BaseDataContainer;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
 import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
-import org.catrobat.catroid.utils.UtilUi;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+import org.catrobat.catroid.utils.PathBuilder;
+import org.catrobat.catroid.utils.ScreenValueHandler;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+
+import static org.catrobat.catroid.common.Constants.Z_INDEX_BACKGROUND;
 
 @XStreamAlias("program")
 // Remove checkstyle disable when https://github.com/checkstyle/checkstyle/issues/1349 is fixed
@@ -78,15 +78,18 @@ public class Project implements Serializable {
 	@XStreamAlias("scenes")
 	private List<Scene> sceneList = new ArrayList<>();
 
-	public Project(Context context, String name, boolean landscapeMode, boolean isCastProject) {
+	private transient BroadcastMessageContainer broadcastMessageContainer = new BroadcastMessageContainer();
 
+	public Project() {
+	}
+
+	public Project(Context context, String name, boolean landscapeMode, boolean isCastProject) {
 		xmlHeader.setProgramName(name);
 		xmlHeader.setDescription("");
-
 		xmlHeader.setlandscapeMode(landscapeMode);
 
 		if (ScreenValues.SCREEN_HEIGHT == 0 || ScreenValues.SCREEN_WIDTH == 0) {
-			UtilUi.updateScreenWidthAndHeight(context);
+			ScreenValueHandler.updateScreenWidthAndHeight(context);
 		}
 		if (landscapeMode) {
 			ifPortraitSwitchWidthAndHeight();
@@ -95,20 +98,20 @@ public class Project implements Serializable {
 		}
 		xmlHeader.virtualScreenWidth = ScreenValues.SCREEN_WIDTH;
 		xmlHeader.virtualScreenHeight = ScreenValues.SCREEN_HEIGHT;
+
 		setDeviceData(context);
 
 		if (isCastProject) {
 			setChromecastFields();
 		}
 
-		MessageContainer.clear();
-		//This is used for tests
-		if (context == null) {
-			//Because in test project we can't find the string
-			sceneList.add(new Scene(context, "Scene 1", this));
-		} else {
-			sceneList.add(new Scene(context, context.getString(R.string.default_scene_name, 1), this));
-		}
+		Scene scene = new Scene(context.getString(R.string.default_scene_name, 1), this);
+		Sprite backgroundSprite = new Sprite(context.getString(R.string.background));
+		backgroundSprite.look.setZIndex(Z_INDEX_BACKGROUND);
+		scene.addSprite(backgroundSprite);
+
+		sceneList.add(scene);
+
 		xmlHeader.scenesEnabled = true;
 	}
 
@@ -120,67 +123,32 @@ public class Project implements Serializable {
 		this(context, name, false);
 	}
 
-	public Project(SupportProject oldProject, Context context) {
-		xmlHeader = oldProject.xmlHeader;
-		settings = oldProject.settings;
-		projectVariables = oldProject.dataContainer.projectVariables;
-		projectLists = oldProject.dataContainer.projectLists;
-		Scene scene;
+	public Project(SupportProject supportProject, Context context) {
+		xmlHeader = supportProject.xmlHeader;
+		settings = supportProject.settings;
 
-		try {
-			scene = new Scene(context, context.getString(R.string.default_scene_name, 1), this);
-		} catch (Resources.NotFoundException e) {
-			//Because in test project we can't find the string
-			scene = new Scene(context, "Scene 1", this);
-		}
+		projectVariables = supportProject.dataContainer.projectVariables;
+		projectLists = supportProject.dataContainer.projectLists;
+
 		DataContainer container = new DataContainer(this);
-		removeInvalidVariablesAndLists(oldProject.dataContainer);
-		container.setSpriteVariablesForSupportContainer(oldProject.dataContainer);
+		container.setSpriteUserData(supportProject.dataContainer);
+
+		Scene scene = new Scene(context.getString(R.string.default_scene_name, 1), this);
 		scene.setDataContainer(container);
-		scene.setSpriteList(oldProject.spriteList);
+		scene.getSpriteList().addAll(supportProject.spriteList);
 		sceneList.add(scene);
-	}
-
-	public void removeInvalidVariablesAndLists(BaseDataContainer dataContainer) {
-		if (dataContainer == null) {
-			return;
-		}
-
-		if (dataContainer.spriteListOfLists != null) {
-			Iterator listIterator = dataContainer.spriteListOfLists.keySet().iterator();
-			while (listIterator.hasNext()) {
-				Sprite sprite = (Sprite) listIterator.next();
-				if (sprite == null) {
-					listIterator.remove();
-				}
-			}
-		}
-
-		if (dataContainer.spriteVariables != null) {
-			Iterator variablesIterator = dataContainer.spriteVariables.keySet().iterator();
-			while (variablesIterator.hasNext()) {
-				Sprite sprite = (Sprite) variablesIterator.next();
-				if (sprite == null) {
-					variablesIterator.remove();
-				}
-			}
-		}
 	}
 
 	public List<Scene> getSceneList() {
 		return sceneList;
 	}
 
-	public List<String> getSceneOrder() {
-		List<String> sceneOrder = new ArrayList<>();
+	public List<String> getSceneNames() {
+		List<String> names = new ArrayList<>();
 		for (Scene scene : sceneList) {
-			sceneOrder.add(scene.getName());
+			names.add(scene.getName());
 		}
-		return sceneOrder;
-	}
-
-	public void setSceneList(List<Scene> scenes) {
-		sceneList = scenes;
+		return names;
 	}
 
 	public void addScene(Scene scene) {
@@ -209,24 +177,6 @@ public class Project implements Serializable {
 		return projectLists;
 	}
 
-	public UserVariable getProjectVariableWithName(String name) {
-		for (UserVariable variable : getProjectVariables()) {
-			if (name.equals(variable.getName())) {
-				return variable;
-			}
-		}
-		return null;
-	}
-
-	public UserList getProjectListWithName(String name) {
-		for (UserList list : getProjectLists()) {
-			if (name.equals(list.getName())) {
-				return list;
-			}
-		}
-		return null;
-	}
-
 	public void setChromecastFields() {
 		xmlHeader.virtualScreenHeight = ScreenValues.CAST_SCREEN_HEIGHT;
 		xmlHeader.virtualScreenWidth = ScreenValues.CAST_SCREEN_WIDTH;
@@ -250,10 +200,6 @@ public class Project implements Serializable {
 		}
 	}
 
-	public boolean isScenesEnabled() {
-		return sceneList.size() > 1;
-	}
-
 	public void setName(String name) {
 		xmlHeader.setProgramName(name);
 	}
@@ -261,8 +207,14 @@ public class Project implements Serializable {
 	public List<Sprite> getSpriteListWithClones() {
 		if (StageActivity.stageListener != null) {
 			return StageActivity.stageListener.getSpritesFromStage();
-		} else { // e.g. for ActionTests there is no Stage, only use sprites from Project
+		} else {
 			return getDefaultScene().getSpriteList();
+		}
+	}
+
+	public void fireToAllSprites(EventWrapper event) {
+		for (Sprite sprite : getSpriteListWithClones()) {
+			sprite.look.fire(event);
 		}
 	}
 
@@ -346,10 +298,6 @@ public class Project implements Serializable {
 		xmlHeader.setTags(tags);
 	}
 
-	// default constructor for XMLParser
-	public Project() {
-	}
-
 	public List<Setting> getSettings() {
 		return settings;
 	}
@@ -363,22 +311,14 @@ public class Project implements Serializable {
 		return null;
 	}
 
-	public boolean containsScene(Scene scene) {
-		return getSceneOrder().contains(scene.getName());
-	}
-
 	public boolean manualScreenshotExists(String manualScreenshotName) {
 
-		String path = Utils.buildProjectPath(getName()) + "/" + manualScreenshotName;
+		String path = PathBuilder.buildProjectPath(getName()) + "/" + manualScreenshotName;
 		File manualScreenShot = new File(path);
 		if (manualScreenShot.exists()) {
 			return false;
 		}
 		return true;
-	}
-
-	public void setXmlHeader(XmlHeader xmlHeader) {
-		this.xmlHeader = xmlHeader;
 	}
 
 	public void saveLegoNXTSettingsToProject(Context context) {
@@ -396,7 +336,7 @@ public class Project implements Serializable {
 			return;
 		}
 
-		NXTSensor.Sensor[] sensorMapping = SettingsActivity.getLegoMindstormsNXTSensorMapping(context);
+		NXTSensor.Sensor[] sensorMapping = SettingsFragment.getLegoNXTSensorMapping(context);
 		for (Setting setting : settings) {
 			if (setting instanceof LegoNXTSetting) {
 				((LegoNXTSetting) setting).updateMapping(sensorMapping);
@@ -423,7 +363,7 @@ public class Project implements Serializable {
 			return;
 		}
 
-		EV3Sensor.Sensor[] sensorMapping = SettingsActivity.getLegoMindstormsEV3SensorMapping(context);
+		EV3Sensor.Sensor[] sensorMapping = SettingsFragment.getLegoEV3SensorMapping(context);
 		for (Setting setting : settings) {
 			if (setting instanceof LegoEV3Setting) {
 				((LegoEV3Setting) setting).updateMapping(sensorMapping);
@@ -442,8 +382,8 @@ public class Project implements Serializable {
 
 		for (Setting setting : settings) {
 			if (setting instanceof LegoNXTSetting) {
-				SettingsActivity.enableLegoMindstormsNXTBricks(context);
-				SettingsActivity.setLegoMindstormsNXTSensorMapping(context, ((LegoNXTSetting) setting).getSensorMapping());
+				SettingsFragment.enableLegoMindstormsNXTBricks(context);
+				SettingsFragment.setLegoMindstormsNXTSensorMapping(context, ((LegoNXTSetting) setting).getSensorMapping());
 				return;
 			}
 		}
@@ -456,8 +396,8 @@ public class Project implements Serializable {
 
 		for (Setting setting : settings) {
 			if (setting instanceof LegoEV3Setting) {
-				SettingsActivity.enableLegoMindstormsEV3Bricks(context);
-				SettingsActivity.setLegoMindstormsEV3SensorMapping(context, ((LegoEV3Setting) setting).getSensorMapping());
+				SettingsFragment.enableLegoMindstormsEV3Bricks(context);
+				SettingsFragment.setLegoMindstormsEV3SensorMapping(context, ((LegoEV3Setting) setting).getSensorMapping());
 				return;
 			}
 		}
@@ -465,12 +405,6 @@ public class Project implements Serializable {
 
 	public boolean isCastProject() {
 		return xmlHeader.isCastProject();
-	}
-
-	public void refreshSpriteReferences() {
-		for (Scene scene : sceneList) {
-			scene.refreshSpriteReferences();
-		}
 	}
 
 	public void updateCollisionFormulasToVersion(float catroidLanguageVersion) {
@@ -497,11 +431,15 @@ public class Project implements Serializable {
 		}
 	}
 
-	public synchronized void updateMessageContainer() {
-		List<String> usedMessages = new ArrayList<>();
-		for (Scene scene : getSceneList()) {
-			scene.addUsedMessagesToList(usedMessages);
+	public BroadcastMessageContainer getBroadcastMessageContainer() {
+		return broadcastMessageContainer;
+	}
+
+	public void updateCollisionScripts() {
+		for (Scene scene : sceneList) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				sprite.updateCollisionScripts();
+			}
 		}
-		MessageContainer.removeUnusedMessages(usedMessages);
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,13 +22,20 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class PlaceAtBrickTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.fail;
+
+@RunWith(AndroidJUnit4.class)
+public class PlaceAtBrickTest {
 
 	private static final int Y_POSITION_VALUE = 200;
 	private static final int X_POSITION_VALUE = 100;
@@ -38,23 +45,22 @@ public class PlaceAtBrickTest extends AndroidTestCase {
 	private static final String NOT_NUMERICAL_STRING2 = "NOT_NUMERICAL_STRING2";
 	private Sprite sprite;
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		sprite = new SingleSprite("testSprite");
-		super.setUp();
 	}
 
+	@Test
 	public void testNormalBehavior() {
-		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Unexpected initial sprite y position", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 
 		sprite.getActionFactory().createPlaceAtAction(sprite, xPosition, yPosition).act(1.0f);
-		assertEquals("Incorrect sprite x position after PlaceAtBrick executed", X_POSITION_VALUE,
-				(int) sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Incorrect sprite y position after PlaceAtBrick executed", Y_POSITION_VALUE,
-				(int) sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(X_POSITION_VALUE, (int) sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(Y_POSITION_VALUE, (int) sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNullSprite() {
 		try {
 			sprite.getActionFactory().createPlaceAtAction(null, xPosition, yPosition).act(1.0f);
@@ -63,53 +69,45 @@ public class PlaceAtBrickTest extends AndroidTestCase {
 		}
 	}
 
+	@Test
 	public void testBoundaryPositions() {
 		Sprite sprite = new SingleSprite("testSprite");
 		sprite.getActionFactory().createPlaceAtAction(sprite, new Formula(Integer.MAX_VALUE),
 				new Formula(Integer.MAX_VALUE)).act(1.0f);
-		assertEquals("PlaceAtBrick failed to place Sprite at maximum x integer value", Integer.MAX_VALUE,
-				(int) sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("PlaceAtBrick failed to place Sprite at maximum y integer value", Integer.MAX_VALUE,
-				(int) sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(Integer.MAX_VALUE, (int) sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(Integer.MAX_VALUE, (int) sprite.look.getYInUserInterfaceDimensionUnit());
 
 		sprite.getActionFactory().createPlaceAtAction(sprite, new Formula(Integer.MIN_VALUE),
 				new Formula(Integer.MIN_VALUE)).act(1.0f);
-		assertEquals("PlaceAtBrick failed to place Sprite at minimum x integer value", Integer.MIN_VALUE,
-				(int) sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("PlaceAtBrick failed to place Sprite at minimum y integer value", Integer.MIN_VALUE,
-				(int) sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(Integer.MIN_VALUE, (int) sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(Integer.MIN_VALUE, (int) sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testBrickWithStringFormula() {
 		sprite.getActionFactory().createPlaceAtAction(sprite, new Formula(String.valueOf(X_POSITION_VALUE)),
 				new Formula(String.valueOf(Y_POSITION_VALUE))).act(1.0f);
-		assertEquals("Incorrect sprite x position after PlaceAtBrick executed", X_POSITION_VALUE,
-				(int) sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Incorrect sprite y position after PlaceAtBrick executed", Y_POSITION_VALUE,
-				(int) sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(X_POSITION_VALUE, (int) sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(Y_POSITION_VALUE, (int) sprite.look.getYInUserInterfaceDimensionUnit());
 
 		sprite.getActionFactory().createPlaceAtAction(sprite, new Formula(NOT_NUMERICAL_STRING),
 				new Formula(String.valueOf(NOT_NUMERICAL_STRING2))).act(1.0f);
-		assertEquals("Incorrect sprite x position after PlaceAtBrick executed", 0f,
-				sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Incorrect sprite y position after PlaceAtBrick executed", 0f,
-				sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNullFormula() {
 		sprite.getActionFactory().createPlaceAtAction(sprite, null, null).act(1.0f);
-		assertEquals("Incorrect sprite x position after PlaceAtBrick executed", 0f,
-				sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Incorrect sprite y position after PlaceAtBrick executed", 0f,
-				sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNotANumberFormula() {
 		sprite.getActionFactory().createPlaceAtAction(sprite, new Formula(Double.NaN), new Formula(Double.NaN))
 				.act(1.0f);
-		assertEquals("Incorrect sprite x position after PlaceAtBrick executed", 0f,
-				sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Incorrect sprite y position after PlaceAtBrick executed", 0f,
-				sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 }

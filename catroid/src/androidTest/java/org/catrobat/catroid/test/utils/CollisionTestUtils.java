@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,6 +24,7 @@
 package org.catrobat.catroid.test.utils;
 
 import android.content.Context;
+import android.support.test.InstrumentationRegistry;
 
 import com.badlogic.gdx.graphics.Pixmap;
 
@@ -34,10 +35,14 @@ import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.sensing.CollisionInformation;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
+import java.io.IOException;
+
+import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 
 public final class CollisionTestUtils {
 
@@ -47,36 +52,34 @@ public final class CollisionTestUtils {
 
 	public static LookData generateLookData(File testImage) {
 		LookData lookData = new LookData();
-		lookData.setLookFilename(testImage.getName());
-		lookData.setLookName(testImage.getName());
+		lookData.setFile(testImage);
+		lookData.setName(testImage.getName());
 		Pixmap pixmap = Utils.getPixmapFromFile(testImage);
 		lookData.setPixmap(pixmap);
 		return lookData;
 	}
 
-	public static void initializeSprite(Sprite sprite, int resourceId, String filename, Context context, Project
-			project) {
+	public static void initializeSprite(Sprite sprite, int resourceId, String filename, Context context,
+			Project project) throws IOException {
 		sprite.look = new Look(sprite);
 		sprite.setActionFactory(new ActionFactory());
 
 		String hashedFileName = Utils.md5Checksum(filename) + "_" + filename;
-		File file = null;
 
-		try {
-			file = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, project.getDefaultScene().getName(),
-					hashedFileName, resourceId, context,
-					TestUtils.TYPE_IMAGE_FILE);
-		} catch (Exception e) {
-			Assert.fail("Couldn't load file, exception thrown!");
-		}
+		File file = ResourceImporter.createImageFileFromResourcesInDirectory(
+				InstrumentationRegistry.getContext().getResources(),
+				resourceId,
+				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
+				hashedFileName,
+				1);
 
 		LookData lookData = generateLookData(file);
-		Assert.assertNotNull("lookData is null", lookData);
+		Assert.assertNotNull(lookData);
 		CollisionInformation collisionInformation = lookData.getCollisionInformation();
 		collisionInformation.loadOrCreateCollisionPolygon();
 
 		sprite.look.setLookData(lookData);
-		sprite.getLookDataList().add(lookData);
+		sprite.getLookList().add(lookData);
 		sprite.look.setHeight(sprite.look.getLookData().getPixmap().getHeight());
 		sprite.look.setWidth(sprite.look.getLookData().getPixmap().getWidth());
 		sprite.look.setPositionInUserInterfaceDimensionUnit(0, 0);

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -85,7 +85,7 @@ public class SpeakAction extends TemporalAction {
 		String fileName = hashText;
 		File pathToSpeechFile = new File(Constants.TEXT_TO_SPEECH_TMP_PATH);
 		pathToSpeechFile.mkdirs();
-		speechFile = new File(pathToSpeechFile, fileName + Constants.SOUND_STANDARD_EXTENSION);
+		speechFile = new File(pathToSpeechFile, fileName + Constants.DEFAULT_SOUND_EXTENSION);
 		listener = new OnUtteranceCompletedListener() {
 			@Override
 			public void onUtteranceCompleted(String utteranceId) {

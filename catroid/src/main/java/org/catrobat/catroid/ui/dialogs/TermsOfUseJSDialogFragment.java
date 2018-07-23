@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,12 +22,12 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnKeyListener;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
@@ -40,7 +40,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoInitializer;
 import org.catrobat.catroid.stage.PreStageActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 public class TermsOfUseJSDialogFragment extends DialogFragment {
 	private static final String TAG = TermsOfUseJSDialogFragment.class.getSimpleName();
@@ -81,7 +81,7 @@ public class TermsOfUseJSDialogFragment extends DialogFragment {
 				if (getActivity() instanceof PreStageActivity) {
 					if (checkboxTermsOfUseAcceptedPermanently != null
 							&& checkboxTermsOfUseAcceptedPermanently.isChecked()) {
-						SettingsActivity.setTermsOfServiceJSAgreedPermanently(getActivity(), true);
+						SettingsFragment.setTermsOfServiceJSAgreedPermanently(getActivity(), true);
 					}
 					JumpingSumoInitializer jsDiscoverer = ((PreStageActivity) getActivity()).getJumpingSumoInitialiser();
 					if (jsDiscoverer != null && jsDiscoverer.checkRequirements()) {

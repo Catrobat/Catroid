@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,65 +22,96 @@
  */
 package org.catrobat.catroid.test.physics.actions;
 
+import android.support.test.runner.AndroidJUnit4;
+
 import com.badlogic.gdx.scenes.scene2d.Action;
 
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.test.physics.PhysicsBaseTest;
+import org.catrobat.catroid.physics.PhysicsWorld;
+import org.catrobat.catroid.test.physics.PhysicsTestRule;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class SetMassActionTest extends PhysicsBaseTest {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+
+@RunWith(AndroidJUnit4.class)
+public class SetMassActionTest {
 
 	private static final float MASS = 10f;
 
-	public void testNormalBehavior() {
-		initMassValue(MASS);
-		assertEquals("Unexpected mass value", MASS, physicsWorld.getPhysicsObject(sprite).getMass());
+	@Rule
+	public PhysicsTestRule rule = new PhysicsTestRule();
+
+	private Sprite sprite;
+	private PhysicsWorld physicsWorld;
+
+	@Before
+	public void setUp() {
+		sprite = rule.sprite;
+		physicsWorld = rule.physicsWorld;
 	}
 
+	@Test
+	public void testNormalBehavior() {
+		initMassValue(MASS);
+		assertEquals(MASS, physicsWorld.getPhysicsObject(sprite).getMass());
+	}
+
+	@Test
 	public void testNegativeValue() {
 		float mass = -10f;
 		initMassValue(mass);
-		assertEquals("Unexpected mass value", PhysicsObject.MIN_MASS, physicsWorld.getPhysicsObject(sprite).getMass());
+		assertEquals(PhysicsObject.MIN_MASS, physicsWorld.getPhysicsObject(sprite).getMass());
 	}
 
+	@Test
 	public void testZeroValue() {
 		float mass = 0f;
 		initMassValue(mass);
-		assertEquals("Unexpected mass value", 0.0f, physicsWorld.getPhysicsObject(sprite).getMass());
+		assertEquals(0.0f, physicsWorld.getPhysicsObject(sprite).getMass());
 	}
 
 	private void initMassValue(float mass) {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		Action action = sprite.getActionFactory().createSetMassAction(sprite, new Formula(mass));
 
-		assertEquals("Unexpected mass value", PhysicsObject.DEFAULT_MASS, physicsObject.getMass());
+		assertEquals(PhysicsObject.DEFAULT_MASS, physicsObject.getMass());
 
 		action.act(1.0f);
 		physicsWorld.step(1.0f);
 	}
 
+	@Test
 	public void testBrickWithStringFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		sprite.getActionFactory().createSetMassAction(sprite, new Formula(String.valueOf(MASS))).act(1.0f);
-		assertEquals("Unexpected mass value", MASS, physicsObject.getMass());
+		assertEquals(MASS, physicsObject.getMass());
 
 		sprite.getActionFactory().createSetMassAction(sprite, new Formula(String.valueOf("not a numerical string")))
 				.act(1.0f);
-		assertEquals("Unexpected mass value", MASS, physicsObject.getMass());
+		assertEquals(MASS, physicsObject.getMass());
 	}
 
+	@Test
 	public void testNullFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		sprite.getActionFactory().createSetMassAction(sprite, null).act(1.0f);
-		assertEquals("Unexpected mass value", 0f, physicsObject.getMass());
+		assertEquals(0f, physicsObject.getMass());
 	}
 
+	@Test
 	public void testNotANumberFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		sprite.getActionFactory().createSetMassAction(sprite, new Formula(Double.NaN)).act(1.0f);
-		assertEquals("Unexpected mass value", PhysicsObject.DEFAULT_MASS, physicsObject.getMass());
+		assertEquals(PhysicsObject.DEFAULT_MASS, physicsObject.getMass());
 	}
 
+	@Test
 	public void testMassAcceleration() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		physicsObject.setType(PhysicsObject.Type.DYNAMIC);
@@ -94,6 +125,6 @@ public class SetMassActionTest extends PhysicsBaseTest {
 		physicsWorld.step(0.25f);
 		float currentVelocity = Math.abs(physicsObject.getVelocity().y);
 
-		assertTrue("Object does not accelerate", (currentVelocity - lastVelocity) > 1.0f);
+		assertTrue((currentVelocity - lastVelocity) > 1.0f);
 	}
 }

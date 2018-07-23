@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,19 +24,26 @@
 package org.catrobat.catroid.test.devices.mindstorms.nxt;
 
 import android.content.Context;
-import android.test.AndroidTestCase;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 import android.util.Pair;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PreferencesSensorMappingTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
 
+@RunWith(AndroidJUnit4.class)
+public class PreferencesSensorMappingTest {
+
+	@Test
 	public void testNXTSensorToTextMapping() {
-		Context context = this.getContext().getApplicationContext();
+		Context context = InstrumentationRegistry.getTargetContext().getApplicationContext();
 
 		final List<Pair<Integer, NXTSensor.Sensor>> correctMapping = new ArrayList<Pair<Integer, NXTSensor.Sensor>>();
 
@@ -50,15 +57,13 @@ public class PreferencesSensorMappingTest extends AndroidTestCase {
 		String[] sensorNames = context.getResources().getStringArray(R.array.nxt_sensor_chooser);
 		String[] sensorPreferencesCodes = NXTSensor.Sensor.getSensorCodes();
 
-		assertEquals("Wrong sensor name count", correctMapping.size(), sensorNames.length);
-		assertEquals("Wrong sensor preferences codes count", correctMapping.size(), sensorPreferencesCodes.length);
+		assertEquals(correctMapping.size(), sensorNames.length);
+		assertEquals(correctMapping.size(), sensorPreferencesCodes.length);
 
 		for (int i = 0; i < correctMapping.size(); ++i) {
-			assertEquals("Wrong mapping of nxt sensor names, maybe the order is wrong",
-					context.getString(correctMapping.get(i).first), sensorNames[i]);
+			assertEquals(context.getString(correctMapping.get(i).first), sensorNames[i]);
 
-			assertEquals("Wrong mapping of nxt sensor preferences codes, maybe the order is wrong",
-					correctMapping.get(i).second.getSensorCode(), sensorPreferencesCodes[i]);
+			assertEquals(correctMapping.get(i).second.getSensorCode(), sensorPreferencesCodes[i]);
 		}
 	}
 }

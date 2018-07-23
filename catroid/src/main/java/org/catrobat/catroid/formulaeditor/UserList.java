@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserList implements Serializable {
+public class UserList implements Serializable, UserData {
+
 	private static final long serialVersionUID = 1L;
 
 	private String name;
@@ -46,6 +47,21 @@ public class UserList implements Serializable {
 		this.list = value;
 	}
 
+	public UserList(UserList userList) {
+		this.name = userList.name;
+		this.list = new ArrayList<>(userList.list);
+	}
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public List<Object> getList() {
 		return list;
 	}
@@ -58,11 +74,8 @@ public class UserList implements Serializable {
 		this.list = list;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
+	@Override
+	public void reset() {
+		list.clear();
 	}
 }

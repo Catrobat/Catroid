@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,8 @@
  */
 package org.catrobat.catroid.test.physics;
 
-import android.test.InstrumentationTestCase;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
 import com.badlogic.gdx.graphics.Pixmap;
@@ -38,7 +39,9 @@ import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.ResourceImporter;
+import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsWorld;
@@ -48,107 +51,122 @@ import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class PhysicsLookTest extends InstrumentationTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
+
+import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
+
+@RunWith(AndroidJUnit4.class)
+public class PhysicsLookTest {
 
 	private static final String TAG = PhysicsLookTest.class.getSimpleName();
-
 	PhysicsWorld physicsWorld;
+	private final String projectName = "testProject";
+	private File projectDir;
 	private Project project;
 	private File testImage;
 	private String testImageFilename;
-	private static final int IMAGE_FILE_ID = R.raw.multible_mixed_polygons;
 	private Sprite sprite;
 	static {
 		GdxNativesLoader.load();
 	}
-	@Override
-	protected void setUp() throws Exception {
-		physicsWorld = new PhysicsWorld(1920, 1600);
-		File projectFile = new File(Constants.DEFAULT_ROOT + File.separator + TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
+	@Before
+	public void setUp() throws Exception {
+		physicsWorld = new PhysicsWorld(1920, 1600);
+		projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName);
+		if (projectDir.exists()) {
+			StorageOperations.deleteDir(projectDir);
 		}
 		testImageFilename = PhysicsTestUtils.getInternalImageFilenameFromFilename("testImage.png");
-
-		project = new Project(getInstrumentation().getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
-		StorageHandler.getInstance().saveProject(project);
+		project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
-		testImage = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, project.getDefaultScene().getName(), testImageFilename, IMAGE_FILE_ID,
-				getInstrumentation().getContext(), TestUtils.TYPE_IMAGE_FILE);
+		testImage = ResourceImporter.createImageFileFromResourcesInDirectory(
+				InstrumentationRegistry.getContext().getResources(),
+				R.raw.multible_mixed_polygons,
+				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
+				testImageFilename,
+				1);
 
 		sprite = new SingleSprite("TestSprite");
-		super.setUp();
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
-		TestUtils.clearProject(TestUtils.DEFAULT_TEST_PROJECT_NAME);
+	@After
+	public void tearDown() throws Exception {
+		TestUtils.deleteProjects(projectName);
 		physicsWorld = null;
 		sprite = null;
-		super.tearDown();
 	}
 
+	@Test
 	public void testShapeComputationOfLook() {
 		PhysicsShapeBuilder physicsShapeBuilder = PhysicsShapeBuilder.getInstance();
 
 		LookData lookData = new LookData();
-		lookData.setLookFilename(testImage.getName());
-		lookData.setLookName(testImage.getName());
-		sprite.getLookDataList().add(lookData);
+		lookData.setFile(testImage);
+		lookData.setName(testImage.getName());
+		sprite.getLookList().add(lookData);
 		Pixmap pixmap = null;
 		pixmap = Utils.getPixmapFromFile(testImage);
 		lookData.setPixmap(pixmap);
 
 		Shape[] shapes = physicsShapeBuilder.getScaledShapes(lookData, sprite.look.getSizeInUserInterfaceDimensionUnit() / 100f);
 
-		assertTrue("shapes are 0", shapes.length > 0);
+		assertTrue(shapes.length > 0);
 		physicsShapeBuilder.reset();
 	}
 
+	@Test
 	public void testPositionAndAngle() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		PhysicsLook physicsLook = new PhysicsLook(sprite, physicsWorld);
 
 		float x = 1.2f;
 		physicsLook.setX(x);
-		assertEquals("Wrong x position in PhysicsObject", x, physicsObject.getX());
-		assertEquals("Wrong x position in PhysicsLook", x, physicsLook.getX());
+		assertEquals(x, physicsObject.getX());
+		assertEquals(x, physicsLook.getX());
 
 		float y = -3.4f;
 		physicsLook.setY(y);
-		assertEquals("Wrong y position in PhysicsObject", y, physicsObject.getY());
-		assertEquals("Wrong y position in PhysicsLook", y, physicsLook.getY());
+		assertEquals(y, physicsObject.getY());
+		assertEquals(y, physicsLook.getY());
 
 		x = 5.6f;
 		y = 7.8f;
 		physicsLook.setPosition(x, y);
-		assertEquals("Wrong position", new Vector2(x, y), physicsObject.getPosition());
-		assertEquals("Wrong x position in PhysicsLook (due to set/getPosition)", x, physicsLook.getX());
-		assertEquals("Wrong y position in PhysicsLook (due to set/getPosition)", y, physicsLook.getY());
+		assertEquals(new Vector2(x, y), physicsObject.getPosition());
+		assertEquals(x, physicsLook.getX());
+		assertEquals(y, physicsLook.getY());
 
 		float rotation = 9.0f;
 		physicsLook.setRotation(rotation);
-		assertEquals("Wrong physics object angle", rotation, physicsObject.getDirection());
+		assertEquals(rotation, physicsObject.getDirection());
 
-		assertEquals("X position has changed", x, physicsLook.getX());
-		assertEquals("Y position has changed", y, physicsLook.getY());
-		assertEquals("Wrong rotation", rotation, physicsLook.getRotation());
+		assertEquals(x, physicsLook.getX());
+		assertEquals(y, physicsLook.getY());
+		assertEquals(rotation, physicsLook.getRotation());
 	}
 
+	@Test
 	public void testSetScale() {
 		LookData lookData = new LookData();
-		lookData.setLookFilename(testImage.getName());
-		lookData.setLookName(testImageFilename);
-		sprite.getLookDataList().add(lookData);
+		lookData.setFile(testImage);
+		lookData.setName(testImageFilename);
+		sprite.getLookList().add(lookData);
 		Pixmap pixmap = Utils.getPixmapFromFile(testImage);
 		lookData.setPixmap(pixmap);
 
@@ -156,15 +174,15 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 		PhysicsLook physicsLook = new PhysicsLook(sprite, physicsWorld);
 
 		Shape[] shapes = (Shape[]) Reflection.getPrivateField(physicsObject, "shapes");
-		assertEquals("Shapes are not null", null, shapes);
+		assertEquals(null, shapes);
 
 		physicsLook.setLookData(lookData);
 
 		Queue<Float> vertexXQueue = new LinkedList<Float>();
 		Queue<Float> vertexYQueue = new LinkedList<Float>();
 		shapes = (Shape[]) Reflection.getPrivateField(physicsObject, "shapes");
-		assertNotNull("shapes is null", shapes);
-		assertTrue("shapes length not > 0", shapes.length > 0);
+		assertNotNull(shapes);
+		assertTrue(shapes.length > 0);
 		Log.d(TAG, "shapes.length: " + shapes.length);
 		for (Shape shape : shapes) {
 			switch (shape.getType()) {
@@ -205,8 +223,8 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 
 		physicsLook.setScale(testScaleFactor, testScaleFactor);
 		shapes = (Shape[]) Reflection.getPrivateField(physicsObject, "shapes");
-		assertNotNull("shapes is null", shapes);
-		assertTrue("shapes length not > 0", shapes.length > 0);
+		assertNotNull(shapes);
+		assertTrue(shapes.length > 0);
 		Log.d(TAG, "shapes.length: " + shapes.length);
 		for (Shape shape : shapes) {
 			switch (shape.getType()) {
@@ -236,8 +254,8 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 						float scaledY = (float) Reflection.invokeMethod(PhysicsShapeScaleUtils.class, "scaleCoordinate",
 								parameterListY);
 
-						assertEquals("vertex x-value is not the expected", scaledX, vertex.x);
-						assertEquals("vertex x-value is not the expected", scaledY, vertex.y);
+						assertEquals(scaledX, vertex.x);
+						assertEquals(scaledY, vertex.y);
 						Log.d(TAG, "x=" + vertex.x + ";y=" + vertex.y);
 					}
 					break;
@@ -245,10 +263,11 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 		}
 	}
 
+	@Test
 	public void testSetLookDataWithNullPixmap() {
 		LookData lookData = new LookData();
-		lookData.setLookFilename(testImage.getName());
-		lookData.setLookName(testImage.getName());
+		lookData.setFile(testImage);
+		lookData.setName(testImage.getName());
 
 		sprite.look = new PhysicsLook(sprite, physicsWorld);
 		try {
@@ -259,6 +278,7 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 		}
 	}
 
+	@Test
 	public void testDefaultValueEqualityOfPhysicsLookAndLook() {
 		PhysicsLook physicsLook = new PhysicsLook(sprite, physicsWorld);
 		Look look = new Look(sprite);
@@ -298,10 +318,10 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 						+ look.getLookData() + ".",
 				physicsLook.getLookData(), look.getLookData());
 
-		assertEquals("physicsLook getAllActionsAreFinished()"
-						+ physicsLook.getAllActionsAreFinished() + " differs from look value"
-						+ look.getAllActionsAreFinished() + ".",
-				physicsLook.getAllActionsAreFinished(), look.getAllActionsAreFinished());
+		assertEquals("physicsLook haveAllThreadsFinished()"
+						+ physicsLook.haveAllThreadsFinished() + " differs from look value"
+						+ look.haveAllThreadsFinished() + ".",
+				physicsLook.haveAllThreadsFinished(), look.haveAllThreadsFinished());
 
 		assertEquals("physicsLook getImagePath()"
 						+ physicsLook.getImagePath() + " differs from look value"
@@ -364,6 +384,7 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 				physicsLook.getBrightnessInUserInterfaceDimensionUnit(), look.getBrightnessInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testCloneValues() {
 		PhysicsWorld world = new PhysicsWorld();
 
@@ -381,10 +402,8 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 
 		originLook.copyTo(cloneLook);
 
-		assertEquals("X position differs", originLook.getXInUserInterfaceDimensionUnit(),
-				cloneLook.getXInUserInterfaceDimensionUnit());
-		assertEquals("Brightness differs", originLook.getBrightnessInUserInterfaceDimensionUnit(),
-				cloneLook.getBrightnessInUserInterfaceDimensionUnit());
-		assertEquals("Mass differs", originPhysicsObject.getMass(), clonePhysicsObject.getMass());
+		assertEquals(originLook.getXInUserInterfaceDimensionUnit(), cloneLook.getXInUserInterfaceDimensionUnit());
+		assertEquals(originLook.getBrightnessInUserInterfaceDimensionUnit(), cloneLook.getBrightnessInUserInterfaceDimensionUnit());
+		assertEquals(originPhysicsObject.getMass(), clonePhysicsObject.getMass());
 	}
 }

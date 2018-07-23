@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,7 @@
 package org.catrobat.catroid.uiespresso.pocketmusic;
 
 import android.content.Intent;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.contrib.RecyclerViewActions;
@@ -37,11 +38,14 @@ import org.catrobat.catroid.pocketmusic.PocketMusicActivity;
 import org.catrobat.catroid.pocketmusic.ui.TactScrollRecyclerView;
 import org.catrobat.catroid.pocketmusic.ui.TrackRowView;
 import org.catrobat.catroid.pocketmusic.ui.TrackView;
+import org.catrobat.catroid.uiespresso.util.SystemAnimations;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -52,6 +56,7 @@ import java.util.Random;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.swipeLeft;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
@@ -68,6 +73,25 @@ public class PocketMusicActivityTest {
 	@Rule
 	public BaseActivityInstrumentationRule<PocketMusicActivity> pocketMusicActivityRule =
 			new BaseActivityInstrumentationRule<>(PocketMusicActivity.class, true, false);
+
+	// For testing all Animations are disabled, this causes troubles, because the PocketMusic
+	// functionality is highly coupled with the Animation-Framework. To avoid rewrites of
+	// PocketMusic simply activate the animations for that single Test-Class.
+	// See setUp()- and tearDown()-methods.
+	private static SystemAnimations systemAnimations = null;
+
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+		systemAnimations = new SystemAnimations(InstrumentationRegistry.getInstrumentation());
+		systemAnimations.storeCurrentSettings();
+		systemAnimations.enableAll();
+	}
+
+	@AfterClass
+	public static void tearDownAfterClass() throws Exception {
+		systemAnimations.resetToStoredSettings();
+		systemAnimations = null;
+	}
 
 	public static ViewAction toggleNoteViewAtPositionInTact(final int position) {
 
@@ -112,7 +136,7 @@ public class PocketMusicActivityTest {
 		return new RecyclerViewMatcher(recyclerViewId);
 	}
 
-	private static Matcher<View> withToggledNoteView(final int position) {
+	private static Matcher<View> isNoteViewToggled(final int position) {
 		return new BoundedMatcher<View, TrackView>(TrackView.class) {
 			@Override
 			public void describeTo(Description description) {
@@ -128,10 +152,39 @@ public class PocketMusicActivityTest {
 		};
 	}
 
+	private static Matcher<View> isRecyclerViewSizeZero() {
+		return new BoundedMatcher<View, TactScrollRecyclerView>(TactScrollRecyclerView.class) {
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("The calculated size of the RecyclerView is 0.");
+			}
+
+			@Override
+			protected boolean matchesSafely(TactScrollRecyclerView item) {
+				return item.getMeasuredHeight() > 0 && item.getMeasuredWidth() > 0;
+			}
+		};
+	}
+
+	private static Matcher<View> isRecyclerViewPlaying() {
+		return new BoundedMatcher<View, TactScrollRecyclerView>(TactScrollRecyclerView.class) {
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("The music doesn't play long enough.");
+			}
+
+			@Override
+			protected boolean matchesSafely(TactScrollRecyclerView item) {
+				return item.isPlaying();
+			}
+		};
+	}
+
 	@Test
 	public void toggleRandomNoteViewsAndAddTacts() {
+		onView(withId(R.id.tact_scroller)).check(matches(isRecyclerViewSizeZero()));
 
-		TactScrollRecyclerView recyclerView = (TactScrollRecyclerView) pocketMusicActivityRule
+		TactScrollRecyclerView recyclerView = pocketMusicActivityRule
 				.getActivity().findViewById(R.id.tact_scroller);
 
 		int[] randomPosition = new int[TACT_COUNT_TO_TOGGLE_RANDOM_NOTE_ON];
@@ -141,14 +194,14 @@ public class PocketMusicActivityTest {
 			randomPosition[i] = random.nextInt(TrackRowView.QUARTER_COUNT * TrackView.ROW_COUNT);
 
 			if (i == recyclerView.getAdapter().getItemCount() - 1) {
-				onView(withId(R.id.tact_scroller)).perform(RecyclerViewActions.actionOnItemAtPosition(i,
-						click()));
+				onView(withId(R.id.tact_scroller))
+						.perform(RecyclerViewActions.actionOnItemAtPosition(i, click()));
 			}
 
 			onView(withId(R.id.tact_scroller))
 					.perform(actionOnItemAtPosition(i, toggleNoteViewAtPositionInTact(randomPosition[i])));
 			onView(withTactScroller(R.id.tact_scroller).atPosition(i))
-					.check(matches(withToggledNoteView(randomPosition[i])));
+					.check(matches(isNoteViewToggled(randomPosition[i])));
 		}
 
 		relaunchActivityOpenJustSavedFile();
@@ -156,28 +209,40 @@ public class PocketMusicActivityTest {
 		for (int i = 0; i < TACT_COUNT_TO_TOGGLE_RANDOM_NOTE_ON; i++) {
 			onView(withId(R.id.tact_scroller)).perform(scrollToPosition(i));
 			onView(withTactScroller(R.id.tact_scroller).atPosition(i))
-					.check(matches(withToggledNoteView(randomPosition[i])));
+					.check(matches(isNoteViewToggled(randomPosition[i])));
 		}
 	}
 
 	private void relaunchActivityOpenJustSavedFile() {
 		pocketMusicActivityRule.getActivity().finish();
 
-		List<SoundInfo> soundInfo = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		List<SoundInfo> sounds = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 
-		assertNotNull("Soundinfo not found", soundInfo);
-		assertFalse("Soundinfo not found", soundInfo.isEmpty());
+		assertNotNull(sounds);
+		assertFalse(sounds.isEmpty());
 
 		Intent pocketMusicDataIntent = new Intent();
-		pocketMusicDataIntent.putExtra("FILENAME", soundInfo.get(0).getSoundFileName());
-		pocketMusicDataIntent.putExtra("TITLE", soundInfo.get(0).getTitle());
+		pocketMusicDataIntent.putExtra(PocketMusicActivity.TITLE, sounds.get(0).getName());
+		pocketMusicDataIntent.putExtra(PocketMusicActivity.ABSOLUTE_FILE_PATH,
+				sounds.get(0).getFile().getAbsolutePath());
 
 		pocketMusicActivityRule.launchActivity(pocketMusicDataIntent);
 		onView(withId(android.R.id.content)).check(matches(isDisplayed()));
 	}
 
 	@Test
-	public void playButtonElementExists() {
+	public void playButtonDoesPlay() {
 		onView(withId(R.id.pocketmusic_play_button)).check(matches(isDisplayed()));
+
+		onView(withId(R.id.tact_scroller)).perform(swipeLeft());
+
+		onView(withTactScroller(R.id.tact_scroller).atPosition(2)).perform(click());
+
+		onView(withId(R.id.tact_scroller)).perform(RecyclerViewActions.actionOnItemAtPosition(2,
+				toggleNoteViewAtPositionInTact(1)));
+
+		onView(withId(R.id.pocketmusic_play_button)).perform(click());
+
+		onView(withId(R.id.tact_scroller)).check(matches(isRecyclerViewPlaying()));
 	}
 }

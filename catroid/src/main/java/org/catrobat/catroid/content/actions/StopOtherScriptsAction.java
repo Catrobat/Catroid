@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,32 +24,40 @@
 package org.catrobat.catroid.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+import com.badlogic.gdx.utils.Array;
 
-public class StopOtherScriptsAction extends TemporalAction {
+import org.catrobat.catroid.content.Look;
+import org.catrobat.catroid.content.Script;
 
-	private Action currentAction;
+import java.util.Iterator;
+
+public class StopOtherScriptsAction extends Action {
+
+	private Script currentScript;
 
 	@Override
-	protected void update(float percent) {
-		if (this.actor == null || this.actor.getActions() == null) {
-			return;
+	public boolean act(float delta) {
+		if (!(actor instanceof Look) || actor.getActions() == null) {
+			return true;
 		}
-
-		boolean alreadyStopped = false;
-		String currentActionSignature = this.currentAction.toString();
-
-		for (Action action : this.actor.getActions()) {
-			if (!alreadyStopped && action.toString().contains(currentActionSignature)) {
-				alreadyStopped = true;
-				continue;
-			} else {
-				action.reset();
-			}
-		}
+		Look look = (Look) actor;
+		look.stopThreads(getOtherThreads(look));
+		return true;
 	}
 
-	public void setCurrentAction(Action currentAction) {
-		this.currentAction = currentAction;
+	private Array<Action> getOtherThreads(Look look) {
+		Array<Action> otherThreads = new Array<>(look.getActions());
+		Iterator<Action> it = otherThreads.iterator();
+		while (it.hasNext()) {
+			Action action = it.next();
+			if (action instanceof ScriptSequenceAction && ((ScriptSequenceAction) action).getScript() == currentScript) {
+				it.remove();
+			}
+		}
+		return otherThreads;
+	}
+
+	public void setCurrentScript(Script currentScript) {
+		this.currentScript = currentScript;
 	}
 }

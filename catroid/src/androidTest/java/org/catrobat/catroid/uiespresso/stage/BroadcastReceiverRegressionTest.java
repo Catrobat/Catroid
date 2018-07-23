@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,7 +28,6 @@ import android.support.test.runner.AndroidJUnit4;
 import junit.framework.Assert;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.BroadcastHandler;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -83,15 +82,15 @@ public class BroadcastReceiverRegressionTest {
 
 	@Before
 	public void setUp() throws Exception {
-		BroadcastHandler.clearActionMaps();
 		createProject();
 	}
 
 	private void createProject() {
 		project = UiTestUtils.createEmptyProject("test");
 		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
-		userVariable = dataContainer.addProjectUserVariable(VARIABLE_NAME);
-		sprite1 = project.getDefaultScene().getSpriteList().get(0);
+		userVariable = new UserVariable(VARIABLE_NAME);
+		dataContainer.addUserVariable(userVariable);
+		sprite1 = project.getDefaultScene().getBackgroundSprite();
 		sprite1StartScript = new StartScript();
 		sprite1.addScript(sprite1StartScript);
 	}
@@ -259,7 +258,8 @@ public class BroadcastReceiverRegressionTest {
 	@Test
 	public void testBroadcastReceiverWithMoreThanOneReceiverScript() {
 		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
-		UserVariable userVariable2 = dataContainer.addProjectUserVariable(VARIABLE_NAME + "2");
+		UserVariable userVariable2 = new UserVariable(VARIABLE_NAME + "2");
+		dataContainer.addUserVariable(userVariable2);
 
 		sprite1StartScript.addBrick(new SetVariableBrick(new Formula(1.0), userVariable));
 		sprite1StartScript.addBrick(new SetVariableBrick(new Formula(1.0), userVariable2));

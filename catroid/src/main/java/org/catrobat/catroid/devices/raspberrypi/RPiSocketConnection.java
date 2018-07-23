@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,12 +24,9 @@ package org.catrobat.catroid.devices.raspberrypi;
 
 import android.util.Log;
 
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.content.ActionFactory;
-import org.catrobat.catroid.content.SingleSprite;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.BroadcastAction;
-import org.catrobat.catroid.ui.fragment.SpriteFactory;
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.EventWrapper;
+import org.catrobat.catroid.content.eventids.RaspiEventId;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -133,11 +130,11 @@ public class RPiSocketConnection {
 	}
 
 	private void callEvent(String broadcastMessage) {
-		Sprite dummySenderSprite = new SpriteFactory().newInstance(SingleSprite.class.getSimpleName());
-		dummySenderSprite.setName("raspi_interrupt_dummy");
-		BroadcastAction action = (BroadcastAction) ActionFactory.createBroadcastAction(dummySenderSprite,
-				broadcastMessage);
-		action.act(0);
+		String[] messageSegments = broadcastMessage.split(" ");
+		if (messageSegments.length == 3 && ProjectManager.getInstance().getCurrentProject() != null) {
+			RaspiEventId id = new RaspiEventId(messageSegments[1], messageSegments[2]);
+			ProjectManager.getInstance().getCurrentProject().fireToAllSprites(new EventWrapper(id, EventWrapper.NO_WAIT));
+		}
 	}
 
 	public void setPin(int pin, boolean value) throws NoConnectionException, IOException, NoGpioException {
@@ -223,10 +220,8 @@ public class RPiSocketConnection {
 					if (receivedLine == null) {
 						break;
 					}
-
 					Log.d(TAG, "Interrupt: " + receivedLine);
-
-					callEvent(Constants.RASPI_BROADCAST_PREFIX + receivedLine);
+					callEvent(receivedLine);
 				}
 				receiverSocket.close();
 				Log.d(TAG, "RPiSocketReceiver closed");

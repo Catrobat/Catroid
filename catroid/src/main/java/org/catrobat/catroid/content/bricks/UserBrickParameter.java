@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,16 +24,16 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
-
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+
+import java.util.List;
 
 public class UserBrickParameter extends FormulaBrick {
 
@@ -73,22 +73,23 @@ public class UserBrickParameter extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
-		return parent.getView(context, brickId, adapter);
+	public int getViewResource() {
+		return parent.getViewResource();
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		return null;
+	public View getView(Context context) {
+		super.getView(context);
+		return parent.getView(context);
 	}
 
 	@Override
-	public java.util.List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
 		String variableName = element.getText();
 
 		sequence.addAction(sprite.getActionFactory().createSetVariableAction(sprite,
-				getFormulaWithBrickField(BrickField.VARIABLE), dataContainer.getUserVariable(sprite, variableName, parent)));
+				getFormulaWithBrickField(BrickField.VARIABLE), dataContainer.getUserVariable(sprite, parent, variableName)));
 		return null;
 	}
 
@@ -97,35 +98,35 @@ public class UserBrickParameter extends FormulaBrick {
 		FormulaEditorFragment.showFragment(view, this, BrickField.USER_BRICK);
 	}
 
-	public void setParent(UserBrick parent) {
-		this.parent = parent;
-	}
-
 	public TextView getTextView() {
 		return textView;
-	}
-
-	public TextView getPrototypeView() {
-		return prototypeView;
-	}
-
-	public UserScriptDefinitionBrickElement getElement() {
-		return element;
 	}
 
 	public void setTextView(TextView textView) {
 		this.textView = textView;
 	}
 
+	public TextView getPrototypeView() {
+		return prototypeView;
+	}
+
 	public void setPrototypeView(TextView prototypeView) {
 		this.prototypeView = prototypeView;
+	}
+
+	public UserScriptDefinitionBrickElement getElement() {
+		return element;
+	}
+
+	public void setElement(UserScriptDefinitionBrickElement element) {
+		this.element = element;
 	}
 
 	public UserBrick getParent() {
 		return parent;
 	}
 
-	public void setElement(UserScriptDefinitionBrickElement element) {
-		this.element = element;
+	public void setParent(UserBrick parent) {
+		this.parent = parent;
 	}
 }

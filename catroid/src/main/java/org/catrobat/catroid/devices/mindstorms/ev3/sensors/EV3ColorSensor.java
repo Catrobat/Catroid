@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,6 +29,7 @@ public class EV3ColorSensor extends EV3Sensor {
 
 	public static final String TAG = EV3ColorSensor.class.getSimpleName();
 	private static final int DEFAULT_VALUE = 50;
+	private static final int SENSOR_VALUE_READ_LENGTH = 1;
 
 	public EV3ColorSensor(int port, MindstormsConnection connection, EV3SensorMode mode) {
 		// Mode0: Reflected light
@@ -40,9 +41,10 @@ public class EV3ColorSensor extends EV3Sensor {
 	}
 
 	@Override
-	public int getValue() {
+	public float getValue() {
 		if (this.sensorMode == EV3SensorMode.MODE2) {
-			return getRawValue();
+			int color = getRawValue(SENSOR_VALUE_READ_LENGTH)[0] & 0xFF;
+			return color;
 		} else {
 			return getPercentValue();
 		}

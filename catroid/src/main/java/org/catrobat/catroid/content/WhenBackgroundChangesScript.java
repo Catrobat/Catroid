@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,10 +22,13 @@
  */
 package org.catrobat.catroid.content;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick;
+import org.catrobat.catroid.content.eventids.EventId;
+import org.catrobat.catroid.content.eventids.SetBackgroundEventId;
 
 import java.util.ArrayList;
 
@@ -36,10 +39,10 @@ public class WhenBackgroundChangesScript extends Script {
 	private LookData look;
 
 	@Override
-	public Script copyScriptForSprite(Sprite copySprite) {
-		WhenBackgroundChangesScript cloneScript = new WhenBackgroundChangesScript();
-		doCopy(copySprite, cloneScript);
-		return cloneScript;
+	public Script clone() throws CloneNotSupportedException {
+		WhenBackgroundChangesScript clone = new WhenBackgroundChangesScript();
+		clone.getBrickList().addAll(cloneBrickList());
+		return clone;
 	}
 
 	@Override
@@ -66,5 +69,11 @@ public class WhenBackgroundChangesScript extends Script {
 
 	public void setLook(LookData look) {
 		this.look = look;
+	}
+
+	@Override
+	public EventId createEventId(Sprite sprite) {
+		Sprite background = ProjectManager.getInstance().getCurrentlyPlayingScene().getBackgroundSprite();
+		return new SetBackgroundEventId(background, look);
 	}
 }

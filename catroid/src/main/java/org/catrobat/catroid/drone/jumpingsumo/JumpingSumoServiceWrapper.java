@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,8 +29,8 @@ import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.stage.PreStageActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.dialogs.TermsOfUseJSDialogFragment;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 public final class JumpingSumoServiceWrapper {
 
@@ -55,7 +55,7 @@ public final class JumpingSumoServiceWrapper {
 	}
 
 	public static boolean isJumpingSumoSharedPreferenceEnabled() {
-		return SettingsActivity.isJSSharedPreferenceEnabled(CatroidApplication.getAppContext());
+		return SettingsFragment.isJSSharedPreferenceEnabled(CatroidApplication.getAppContext());
 	}
 
 	public static void showTermsOfUseDialog(PreStageActivity preStageActivity) {
@@ -71,7 +71,7 @@ public final class JumpingSumoServiceWrapper {
 	}
 
 	public static void initJumpingSumo(PreStageActivity prestageStageActivity) {
-		if (SettingsActivity.areTermsOfServiceJSAgreedPermanently(prestageStageActivity.getApplicationContext())) {
+		if (SettingsFragment.areTermsOfServiceJSAgreedPermanently(prestageStageActivity.getApplicationContext())) {
 			jumpingSumoInitializer = getJumpingSumoInitialiser(prestageStageActivity);
 			jumpingSumoInitializer.initialise();
 			jumpingSumoInitializer.checkJumpingSumoAvailability(prestageStageActivity);

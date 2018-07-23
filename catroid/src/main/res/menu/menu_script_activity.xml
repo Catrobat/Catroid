@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2017 The Catrobat Team
+  ~ Copyright (C) 2010-2018 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -27,19 +27,6 @@
         android:showAsAction="never"
         android:visible="true"
         android:title="@string/backpack" />
-
-    <item
-        android:id="@+id/unpacking"
-        android:showAsAction="never"
-        android:visible="false"
-        android:title="@string/unpack" />
-
-    <item
-        android:id="@+id/unpacking_object"
-        android:showAsAction="never"
-        android:title="@string/unpack_object"
-        android:visible="false"/>
-
     <item
         android:id="@+id/copy"
         android:showAsAction="never"
@@ -48,21 +35,6 @@
         android:id="@+id/delete"
         android:showAsAction="never"
         android:title="@string/delete"/>
-    <item
-        android:id="@+id/cut"
-        android:showAsAction="never"
-        android:visible="false"
-        android:title="@string/cut"/>
-    <item
-        android:id="@+id/insert_below"
-        android:showAsAction="never"
-        android:title="@string/insert_below"
-        android:visible="false"/>
-    <item
-        android:id="@+id/move"
-        android:showAsAction="never"
-        android:title="@string/move"
-        android:visible="false"/>
     <item
         android:id="@+id/rename"
         android:showAsAction="never"
@@ -76,5 +48,4 @@
         android:showAsAction="never"
         android:title="@string/comment_in_out"
         android:visible="false"/>
-
 </menu>

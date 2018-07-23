@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.physics;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -34,45 +34,51 @@ import com.badlogic.gdx.utils.GdxNativesLoader;
 
 import org.catrobat.catroid.physics.PhysicsBoundaryBox;
 import org.catrobat.catroid.physics.PhysicsWorld;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class PhysicsBoundaryBoxTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class PhysicsBoundaryBoxTest {
 	static {
 		GdxNativesLoader.load();
 	}
 
 	private World world;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 
 		world = new World(PhysicsWorld.DEFAULT_GRAVITY, PhysicsWorld.IGNORE_SLEEPING_OBJECTS);
 	}
 
+	@Test
 	public void testDefaultSettings() {
-		assertEquals("Wrong configuration", 5, PhysicsBoundaryBox.FRAME_SIZE);
-		assertEquals("Wrong configuration", 0x0004, PhysicsWorld.MASK_BOUNDARYBOX);
-		assertEquals("Wrong configuration", 0x0002, PhysicsWorld.CATEGORY_BOUNDARYBOX);
+		assertEquals(5, PhysicsBoundaryBox.FRAME_SIZE);
+		assertEquals(0x0004, PhysicsWorld.MASK_BOUNDARYBOX);
+		assertEquals(0x0002, PhysicsWorld.CATEGORY_BOUNDARYBOX);
 	}
 
+	@Test
 	public void testProperties() {
-		assertEquals("World isn't emtpy", 0, world.getBodyCount());
+		assertEquals(0, world.getBodyCount());
 		new PhysicsBoundaryBox(world).create(40, 40);
-		assertEquals("World contains wrong number of boundary box sides", 4, world.getBodyCount());
+		assertEquals(4, world.getBodyCount());
 
 		Array<Body> bodies = new Array<Body>();
 		world.getBodies(bodies);
-		assertEquals("Bodies contains wrong number", 4, bodies.size);
+		assertEquals(4, bodies.size);
 		for (Body body : bodies) {
-			assertEquals("BodyType of boundary box side isn't static", BodyType.StaticBody, body.getType());
+			assertEquals(BodyType.StaticBody, body.getType());
 
 			Array<Fixture> fixtures = body.getFixtureList();
-			assertEquals("Body should contain only one shape (side)", 1, fixtures.size);
+			assertEquals(1, fixtures.size);
 			for (Fixture fixture : fixtures) {
 				Filter filter = fixture.getFilterData();
-				assertEquals("Wrong bit mask for collision", PhysicsWorld.MASK_BOUNDARYBOX, filter.maskBits);
-				assertEquals("Wrong category bits for collision", PhysicsWorld.CATEGORY_BOUNDARYBOX,
-						filter.categoryBits);
+				assertEquals(PhysicsWorld.MASK_BOUNDARYBOX, filter.maskBits);
+				assertEquals(PhysicsWorld.CATEGORY_BOUNDARYBOX, filter.categoryBits);
 			}
 		}
 	}

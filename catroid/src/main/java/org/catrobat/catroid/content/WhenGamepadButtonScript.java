@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,28 +22,18 @@
  */
 package org.catrobat.catroid.content;
 
-import org.catrobat.catroid.CatroidApplication;
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick;
+import org.catrobat.catroid.content.eventids.EventId;
+import org.catrobat.catroid.content.eventids.GamepadEventId;
 
 public class WhenGamepadButtonScript extends Script {
 
 	private static final long serialVersionUID = 1L;
 	private String action;
 
-	public WhenGamepadButtonScript() {
-		super();
-		this.action = CatroidApplication.getAppContext().getString(R.string.cast_gamepad_A);
-	}
-
-	public WhenGamepadButtonScript(WhenGamepadButtonBrick brick) {
-		this.brick = brick;
-	}
-
 	public WhenGamepadButtonScript(String action) {
-		super();
 		this.action = action;
 	}
 
@@ -66,7 +56,6 @@ public class WhenGamepadButtonScript extends Script {
 		if (brick == null) {
 			brick = new WhenGamepadButtonBrick(this);
 		}
-
 		return brick;
 	}
 
@@ -76,9 +65,14 @@ public class WhenGamepadButtonScript extends Script {
 	}
 
 	@Override
-	public Script copyScriptForSprite(Sprite copySprite) {
-		WhenGamepadButtonScript cloneScript = new WhenGamepadButtonScript();
-		doCopy(copySprite, cloneScript);
-		return cloneScript;
+	public Script clone() throws CloneNotSupportedException {
+		WhenGamepadButtonScript clone = new WhenGamepadButtonScript(action);
+		clone.getBrickList().addAll(cloneBrickList());
+		return clone;
+	}
+
+	@Override
+	public EventId createEventId(Sprite sprite) {
+		return new GamepadEventId(action);
 	}
 }

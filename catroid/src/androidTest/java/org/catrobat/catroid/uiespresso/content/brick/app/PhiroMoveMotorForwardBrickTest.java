@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.PhiroMotorMoveForwardBrick;
-import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
@@ -49,6 +49,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 import static org.hamcrest.Matchers.allOf;
 
 @RunWith(AndroidJUnit4.class)
@@ -57,8 +58,8 @@ public class PhiroMoveMotorForwardBrickTest {
 	private int initialSpeed = -70;
 
 	@Rule
-	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(ScriptActivity.class, true, false);
+	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 
 	@Before
 	public void setUp() {
@@ -67,7 +68,7 @@ public class PhiroMoveMotorForwardBrickTest {
 		BrickTestUtils.createProjectAndGetStartScript("PhiroMoveMotorForwardBrickTest")
 				.addBrick(phiroMotorMoveForwardBrick);
 		brickPosition = 1;
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Gadgets.class})
@@ -101,11 +102,9 @@ public class PhiroMoveMotorForwardBrickTest {
 				.check(matches(isDisplayed()))
 				.perform(click());
 
-		onView(withId(R.id.formula_editor_keyboard_5))
-				.perform(click());
-
-		onView(withId(R.id.formula_editor_keyboard_ok))
-				.perform(click());
+		onFormulaEditor()
+				.performEnterNumber(5)
+				.performCloseAndSave();
 
 		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_phiro_motor_forward_action_speed_edit_text)
 				.checkShowsNumber(5);

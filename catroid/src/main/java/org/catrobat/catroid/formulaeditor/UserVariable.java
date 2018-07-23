@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,8 @@ package org.catrobat.catroid.formulaeditor;
 
 import java.io.Serializable;
 
-public class UserVariable implements Serializable {
+public class UserVariable implements Serializable, UserData {
+
 	private static final long serialVersionUID = 1L;
 
 	private String name;
@@ -42,20 +43,27 @@ public class UserVariable implements Serializable {
 		this.value = value;
 	}
 
+	public UserVariable(UserVariable variable) {
+		this.name = variable.name;
+		this.value = variable.value;
+	}
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public Object getValue() {
 		return value;
 	}
 
 	public void setValue(Object value) {
 		this.value = value;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public boolean getVisible() {
@@ -72,5 +80,10 @@ public class UserVariable implements Serializable {
 
 	public void setDummy(boolean dummy) {
 		this.dummy = dummy;
+	}
+
+	@Override
+	public void reset() {
+		value = 0d;
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,35 +22,42 @@
  */
 package org.catrobat.catroid.test.facedetection;
 
-import junit.framework.TestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestFaceDetector;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class FaceDetectionHandlerTest extends TestCase {
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 
+@RunWith(AndroidJUnit4.class)
+public class FaceDetectionHandlerTest {
+
+	@Test
 	public void testResume() {
 		TestFaceDetector detector = new TestFaceDetector();
 		Reflection.setPrivateField(FaceDetectionHandler.class, "faceDetector", detector);
-		assertFalse("Unexpected start of FaceDetector", detector.started);
+		assertFalse(detector.started);
 
 		FaceDetectionHandler.resumeFaceDetection();
-		assertFalse("FaceDetector could be resumed although it was never started", detector.started);
+		assertFalse(detector.started);
 
 		FaceDetectionHandler.startFaceDetection();
-		assertTrue("FaceDetector was not started", detector.started);
+		assertTrue(detector.started);
 
 		FaceDetectionHandler.pauseFaceDetection();
-		assertFalse("FaceDetector was not stopped on pause call", detector.started);
+		assertFalse(detector.started);
 
 		FaceDetectionHandler.resumeFaceDetection();
-		assertTrue("FaceDetector was not resumed", detector.started);
+		assertTrue(detector.started);
 
 		FaceDetectionHandler.stopFaceDetection();
-		assertFalse("FaceDetector was not stopped", detector.started);
+		assertFalse(detector.started);
 
 		FaceDetectionHandler.resumeFaceDetection();
-		assertFalse("FaceDetector could be resumed although it was stopped", detector.started);
+		assertFalse(detector.started);
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,15 +22,11 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
 import android.util.Log;
-import android.view.View;
-import android.widget.BaseAdapter;
-
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -40,36 +36,25 @@ public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, Allo
 
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = IfLogicEndBrick.class.getSimpleName();
-	private transient IfLogicElseBrick ifElseBrick;
 
+	private transient IfLogicElseBrick ifElseBrick;
 	private transient IfLogicBeginBrick ifBeginBrick;
 
 	public IfLogicEndBrick(IfLogicElseBrick elseBrick, IfLogicBeginBrick beginBrick) {
 		this.ifElseBrick = elseBrick;
 		this.ifBeginBrick = beginBrick;
-		if (beginBrick != null) {
-			beginBrick.setIfEndBrick(this);
-		}
-		if (elseBrick != null) {
-			elseBrick.setIfEndBrick(this);
-		}
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
 	}
 
 	public IfLogicElseBrick getIfElseBrick() {
 		return ifElseBrick;
 	}
 
-	public IfLogicBeginBrick getIfBeginBrick() {
-		return ifBeginBrick;
-	}
-
 	public void setIfElseBrick(IfLogicElseBrick ifElseBrick) {
 		this.ifElseBrick = ifElseBrick;
+	}
+
+	public IfLogicBeginBrick getIfBeginBrick() {
+		return ifBeginBrick;
 	}
 
 	public void setIfBeginBrick(IfLogicBeginBrick ifBeginBrick) {
@@ -77,26 +62,13 @@ public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, Allo
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-
-		view = View.inflate(context, R.layout.brick_if_end_if, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_if_end_if_checkbox);
-		return view;
+	public int getViewResource() {
+		return R.layout.brick_if_end_if;
 	}
 
 	@Override
 	public Brick clone() {
 		return new IfLogicEndBrick(ifElseBrick, ifBeginBrick);
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_if_end_if, null);
 	}
 
 	@Override
@@ -132,24 +104,9 @@ public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, Allo
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		LinkedList<SequenceAction> returnActionList = new LinkedList<SequenceAction>();
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		LinkedList<ScriptSequenceAction> returnActionList = new LinkedList<>();
 		returnActionList.add(sequence);
 		return returnActionList;
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		IfLogicEndBrick copyBrick = (IfLogicEndBrick) clone(); //Using the clone method because of its flexibility if new fields are added
-		if (ifBeginBrick != null) {
-			ifBeginBrick.setIfEndBrick(this);
-		}
-		if (ifElseBrick != null) {
-			ifElseBrick.setIfEndBrick(this);
-		}
-
-		copyBrick.ifBeginBrick = null;
-		copyBrick.ifElseBrick = null;
-		return copyBrick;
 	}
 }

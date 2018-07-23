@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,10 +23,20 @@
 
 package org.catrobat.catroid.content.bricks;
 
+import android.view.View;
+import android.widget.TextView;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.EventWrapper;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+
+import java.util.Collections;
+import java.util.List;
+
 public class SetBackgroundAndWaitBrick extends SetBackgroundBrick {
 
 	public SetBackgroundAndWaitBrick() {
-		wait = true;
 	}
 
 	@Override
@@ -34,5 +44,21 @@ public class SetBackgroundAndWaitBrick extends SetBackgroundBrick {
 		SetBackgroundAndWaitBrick clonedBrick = new SetBackgroundAndWaitBrick();
 		clonedBrick.setLook(look);
 		return clonedBrick;
+	}
+
+	@Override
+	protected void onViewCreated(View view) {
+		((TextView) view.findViewById(R.id.brick_set_look_text_view)).setText(R.string.brick_set_background_and_wait);
+	}
+
+	@Override
+	protected void onPrototypeViewCreated(View view) {
+		((TextView) view.findViewById(R.id.brick_set_look_text_view)).setText(R.string.brick_set_background_and_wait);
+	}
+
+	@Override
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		sequence.addAction(sprite.getActionFactory().createSetLookAction(getSprite(), look, EventWrapper.WAIT));
+		return Collections.emptyList();
 	}
 }

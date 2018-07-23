@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,15 +23,14 @@
 
 package org.catrobat.catroid.ui.dialogs;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -76,7 +75,7 @@ public class ScratchReconvertDialog extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_scratch_reconvert, null);
+		View dialogView = View.inflate(getActivity(), R.layout.dialog_scratch_reconvert, null);
 
 		downloadExistingProgramRadioButton = (RadioButton) dialogView.findViewById(R.id.dialog_scratch_reconvert_radio_download);
 		reconvertProgramRadioButton = (RadioButton) dialogView.findViewById(R.id.dialog_scratch_reconvert_radio_reconvert);

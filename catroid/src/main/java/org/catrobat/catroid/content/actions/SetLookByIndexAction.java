@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.actions;
 
 import android.util.Log;
 
-import org.catrobat.catroid.content.BackgroundWaitHandler;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 
@@ -34,16 +33,9 @@ public class SetLookByIndexAction extends SetLookAction {
 	private Formula formula;
 
 	@Override
-	protected void doLookUpdate() {
+	public boolean act(float delta) {
 		updateLookFromFormula();
-
-		if (look != null && sprite != null && sprite.getLookDataList().contains(look)) {
-			if (wait) {
-				BackgroundWaitHandler.addObserver(look, this);
-			}
-			sprite.look.setLookData(look);
-			setLookDone = true;
-		}
+		return super.act(delta);
 	}
 
 	private void updateLookFromFormula() {
@@ -55,8 +47,8 @@ public class SetLookByIndexAction extends SetLookAction {
 			Log.d(getClass().getSimpleName(), "Formula Interpretation for look index failed", ex);
 		}
 
-		if (lookPosition > 0 && lookPosition <= sprite.getLookDataList().size()) {
-			look = sprite.getLookDataList().get(lookPosition - 1);
+		if (lookPosition > 0 && lookPosition <= sprite.getLookList().size()) {
+			look = sprite.getLookList().get(lookPosition - 1);
 		}
 	}
 

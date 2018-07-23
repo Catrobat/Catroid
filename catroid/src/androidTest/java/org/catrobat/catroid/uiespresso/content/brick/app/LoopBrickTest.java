@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.app;
 
-import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
@@ -33,11 +32,12 @@ import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
-import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickCoordinatesProvider;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
+import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewActions;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.matchers.BrickCategoryListMatchers;
 import org.catrobat.catroid.uiespresso.util.matchers.BrickPrototypeListMatchers;
@@ -48,15 +48,13 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
-import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
@@ -69,14 +67,14 @@ import static org.hamcrest.core.Is.is;
 public class LoopBrickTest {
 
 	@Rule
-	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(ScriptActivity.class, true, false);
+	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 
 	@Before
 	public void setUp() throws Exception {
 		createProject();
 
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 	}
 
 	@Category({Cat.AppUi.class, Level.Functional.class})
@@ -145,12 +143,12 @@ public class LoopBrickTest {
 
 	@Category({Cat.AppUi.class, Level.Functional.class})
 	@Test
-	public void testSelectLoopBrickAndDelete() throws InterpretationException {
+	public void testSelectLoopBrickAndDelete() {
 		checkSetUpBrickArrangement();
 
-		List<Integer> idList = new ArrayList<Integer>();
-		idList.add(R.id.brick_repeat_checkbox);
-		selectMultipleBricksAndDelete(idList);
+		Set<Integer> posList = new HashSet<>();
+		posList.add(1);
+		selectMultipleBricksAndDelete(posList);
 
 		onView(withText(R.string.brick_repeat))
 				.check(doesNotExist());
@@ -193,17 +191,18 @@ public class LoopBrickTest {
 		checkSetUpBrickArrangement();
 	}
 
-	public void selectMultipleBricksAndDelete(List<Integer> brickCheckBoxIdList) {
-		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+	public void selectMultipleBricksAndDelete(Set<Integer> brickPositionsToDelete) {
+		RecyclerViewActions.openOverflowMenu();
 
 		onView(withText(R.string.delete))
 				.perform(click());
 
-		for (int checkBoxId : brickCheckBoxIdList) {
-			onView(withId(checkBoxId))
+		for (int brickPos : brickPositionsToDelete) {
+			onBrickAtPosition(brickPos)
+					.onChildView(withId(R.id.brick_checkbox))
 					.perform(click());
 		}
-		onView(withContentDescription("Done"))
+		onView(withId(R.id.confirm))
 				.perform(click());
 
 		onView(allOf(withId(android.R.id.button1), withText(R.string.yes)))

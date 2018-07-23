@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,16 +31,19 @@ import android.os.Handler;
 import android.os.ResultReceiver;
 import android.util.Log;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.scratchconverter.Client;
 import org.catrobat.catroid.scratchconverter.Client.DownloadCallback;
 import org.catrobat.catroid.transfers.MediaDownloadService;
 import org.catrobat.catroid.transfers.ProjectDownloadService;
 import org.catrobat.catroid.ui.WebViewActivity;
-import org.catrobat.catroid.ui.dialogs.OverwriteRenameDialog;
-import org.catrobat.catroid.ui.dialogs.OverwriteRenameMediaDialog;
-import org.catrobat.catroid.ui.fragment.LookFragment;
-import org.catrobat.catroid.ui.fragment.SoundFragment;
+import org.catrobat.catroid.ui.recyclerview.dialog.ReplaceExistingMediaDialogFragment;
+import org.catrobat.catroid.ui.recyclerview.dialog.ReplaceExistingProjectDialogFragment;
+import org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment;
+import org.catrobat.catroid.ui.recyclerview.fragment.SoundListFragment;
 import org.catrobat.catroid.web.ProgressResponseBody;
 
 import java.io.UnsupportedEncodingException;
@@ -48,6 +51,7 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
@@ -82,14 +86,10 @@ public final class DownloadUtil {
 
 		boolean programNameExists = Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase(programName);
 		if (programNameExists) {
-			Log.v(TAG, "Program name exists - show overwrite dialog");
-			OverwriteRenameDialog renameDialog = new OverwriteRenameDialog();
-
-			renameDialog.setContext(activity);
-			renameDialog.setProgramName(programName);
-			renameDialog.setURL(url);
-
-			renameDialog.show(activity.getFragmentManager(), OverwriteRenameDialog.DIALOG_FRAGMENT_TAG);
+			ReplaceExistingProjectDialogFragment dialog = new ReplaceExistingProjectDialogFragment();
+			dialog.setProgramName(programName);
+			dialog.setURL(url);
+			dialog.show(activity.getFragmentManager(), ReplaceExistingProjectDialogFragment.TAG);
 		} else {
 			startDownload(activity, url, programName, false);
 		}
@@ -102,13 +102,13 @@ public final class DownloadUtil {
 		}
 
 		boolean mediaNameExists;
-		if (callingActivity.contains(LookFragment.TAG) || callingActivity.contains(SoundFragment.TAG)) {
+		if (callingActivity.contains(LookListFragment.TAG) || callingActivity.contains(SoundListFragment.TAG)) {
 			switch (mediaType) {
 				case Constants.MEDIA_TYPE_LOOK:
-					mediaNameExists = Utils.checkIfLookExists(mediaName);
+					mediaNameExists = !isLookNameUnique(mediaName);
 					break;
 				case Constants.MEDIA_TYPE_SOUND:
-					mediaNameExists = Utils.checkIfSoundExists(mediaName);
+					mediaNameExists = isSoundNameUnique(mediaName);
 					break;
 				default:
 					mediaNameExists = false;
@@ -120,20 +120,36 @@ public final class DownloadUtil {
 		webViewActivity = (WebViewActivity) activity;
 
 		if (mediaNameExists) {
-			OverwriteRenameMediaDialog renameMediaDialog = new OverwriteRenameMediaDialog();
-
-			renameMediaDialog.setContext(activity);
+			ReplaceExistingMediaDialogFragment renameMediaDialog = new ReplaceExistingMediaDialogFragment();
 			renameMediaDialog.setMediaName(mediaName);
 			renameMediaDialog.setMediaType(mediaType);
 			renameMediaDialog.setURL(url);
 			renameMediaDialog.setFilePath(filePath);
-			renameMediaDialog.setCallingActivity(callingActivity);
-			renameMediaDialog.setWebViewActivity(webViewActivity);
 
-			renameMediaDialog.show(activity.getFragmentManager(), OverwriteRenameMediaDialog.DIALOG_FRAGMENT_TAG);
+			renameMediaDialog.show(activity.getFragmentManager(), ReplaceExistingMediaDialogFragment.TAG);
 		} else {
 			startMediaDownload(activity, url, mediaName, filePath);
 		}
+	}
+
+	private boolean isLookNameUnique(String name) {
+		List<LookData> looks = ProjectManager.getInstance().getCurrentSprite().getLookList();
+		for (LookData look : looks) {
+			if (name.equals(look.getName())) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private boolean isSoundNameUnique(String name) {
+		List<SoundInfo> sounds = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		for (SoundInfo sound : sounds) {
+			if (name.equals(sound.getName())) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public void startMediaDownload(Context context, String url, String mediaName, String filePath) {

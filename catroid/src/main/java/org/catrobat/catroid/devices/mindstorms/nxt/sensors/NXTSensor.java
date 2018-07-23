@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,9 +24,9 @@ package org.catrobat.catroid.devices.mindstorms.nxt.sensors;
 
 import android.util.Log;
 
+import org.catrobat.catroid.devices.mindstorms.LegoSensor;
 import org.catrobat.catroid.devices.mindstorms.MindstormsConnection;
 import org.catrobat.catroid.devices.mindstorms.MindstormsException;
-import org.catrobat.catroid.devices.mindstorms.MindstormsSensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.Command;
 import org.catrobat.catroid.devices.mindstorms.nxt.CommandByte;
 import org.catrobat.catroid.devices.mindstorms.nxt.CommandType;
@@ -35,7 +35,7 @@ import org.catrobat.catroid.devices.mindstorms.nxt.NXTReply;
 
 import java.util.Locale;
 
-public abstract class NXTSensor implements MindstormsSensor {
+public abstract class NXTSensor implements LegoSensor {
 
 	public enum Sensor {
 		NO_SENSOR,
@@ -56,11 +56,7 @@ public abstract class NXTSensor implements MindstormsSensor {
 		}
 
 		public String getSensorCode() {
-			return getSensorCode(this);
-		}
-
-		public static String getSensorCode(NXTSensor.Sensor sensor) {
-			return sensor.name();
+			return this.name();
 		}
 
 		public static NXTSensor.Sensor getSensorFromSensorCode(String sensorCode) {
@@ -84,7 +80,7 @@ public abstract class NXTSensor implements MindstormsSensor {
 	protected final MindstormsConnection connection;
 
 	protected boolean hasInit;
-	protected int lastValidValue = 0;
+	protected float lastValidValue = 0;
 
 	public static final String TAG = NXTSensor.class.getSimpleName();
 
@@ -180,7 +176,7 @@ public abstract class NXTSensor implements MindstormsSensor {
 	}
 
 	@Override
-	public int getLastSensorValue() {
+	public float getLastSensorValue() {
 		return lastValidValue;
 	}
 

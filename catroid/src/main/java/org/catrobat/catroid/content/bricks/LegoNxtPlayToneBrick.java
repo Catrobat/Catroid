@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,16 +24,15 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
-
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.Utils;
 
 import java.text.NumberFormat;
 import java.util.List;
@@ -72,37 +71,30 @@ public class LegoNxtPlayToneBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_nxt_play_tone, null);
+		prototypeView = super.getPrototypeView(context);
 		TextView textDuration = (TextView) prototypeView.findViewById(R.id.nxt_tone_duration_edit_text);
 
 		NumberFormat nf = NumberFormat.getInstance(context.getResources().getConfiguration().locale);
 		nf.setMinimumFractionDigits(1);
 		textDuration.setText(nf.format(BrickValues.LEGO_DURATION));
+		TextView times = (TextView) prototypeView.findViewById(R.id.brick_nxt_play_tone_seconds);
+		times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(BrickValues.LEGO_DURATION)));
 		TextView textFreq = (TextView) prototypeView.findViewById(R.id.nxt_tone_freq_edit_text);
 
-		textFreq.setText(String.valueOf(BrickValues.LEGO_FREQUENCY));
+		textFreq.setText(formatNumberForPrototypeView(BrickValues.LEGO_FREQUENCY));
 		return prototypeView;
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		if (view == null) {
-			alphaValue = 255;
-		}
-		view = View.inflate(context, R.layout.brick_nxt_play_tone, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+	public int getViewResource() {
+		return R.layout.brick_nxt_play_tone;
+	}
 
-		setCheckboxView(R.id.brick_nxt_play_tone_checkbox);
-
-		TextView editDuration = (TextView) view.findViewById(R.id.nxt_tone_duration_edit_text);
-		getFormulaWithBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS)
-				.setTextFieldId(R.id.nxt_tone_duration_edit_text);
-		getFormulaWithBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS).refreshTextField(view);
-
-		editDuration.setOnClickListener(this);
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
+		setSecondText(view, R.id.brick_nxt_play_tone_seconds, R.id.nxt_tone_duration_edit_text, BrickField.LEGO_NXT_DURATION_IN_SECONDS);
 
 		editFreq = (TextView) view.findViewById(R.id.nxt_tone_freq_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_NXT_FREQUENCY).setTextFieldId(R.id.nxt_tone_freq_edit_text);
@@ -127,7 +119,7 @@ public class LegoNxtPlayToneBrick extends FormulaBrick {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createLegoNxtPlayToneAction(sprite,
 				getFormulaWithBrickField(BrickField.LEGO_NXT_FREQUENCY),
 				getFormulaWithBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS)));

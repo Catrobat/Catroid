@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2017 The Catrobat Team
+  ~ Copyright (C) 2010-2018 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -74,10 +74,16 @@
         <item>@string/nxt_sensor_ultrasonic</item>
     </string-array>
     <string-array name="port_chooser">
-        <item>@string/nxt_port_1</item>
-        <item>@string/nxt_port_2</item>
-        <item>@string/nxt_port_3</item>
-        <item>@string/nxt_port_4</item>
+        <item>@string/lego_port_1</item>
+        <item>@string/lego_port_2</item>
+        <item>@string/lego_port_3</item>
+        <item>@string/lego_port_4</item>
+    </string-array>
+    <string-array name="formula_editor_nxt_ports">
+        <item>@string/formula_editor_sensor_lego_nxt_1</item>
+        <item>@string/formula_editor_sensor_lego_nxt_2</item>
+        <item>@string/formula_editor_sensor_lego_nxt_3</item>
+        <item>@string/formula_editor_sensor_lego_nxt_4</item>
     </string-array>
 
     <string-array name="ev3_sensor_chooser">
@@ -87,6 +93,9 @@
         <item>@string/ev3_sensor_color_ambient</item>
         <item>@string/ev3_sensor_color_reflected</item>
         <item>@string/ev3_sensor_infrared</item>
+        <item>@string/ev3_sensor_hitechnic_color</item>
+        <item>@string/ev3_sensor_nxt_temperature_c</item>
+        <item>@string/ev3_sensor_nxt_temperature_f</item>
     </string-array>
     <string-array name="ev3_motor_chooser" >
         <item >@string/ev3_motor_a</item >
@@ -114,6 +123,12 @@
         <item >@string/ev3_led_status_green_pulse</item>
         <item >@string/ev3_led_status_red_pulse</item>
         <item >@string/ev3_led_status_orange_pulse</item>
+    </string-array>
+    <string-array name="formula_editor_ev3_ports">
+        <item>@string/formula_editor_sensor_lego_ev3_1</item>
+        <item>@string/formula_editor_sensor_lego_ev3_2</item>
+        <item>@string/formula_editor_sensor_lego_ev3_3</item>
+        <item>@string/formula_editor_sensor_lego_ev3_4</item>
     </string-array>
 
     <!-- Drone settings spinner-->
@@ -163,6 +178,31 @@
  		<item >@string/add_line_break</item >
  		<item >@string/close</item >
  	</string-array >
+
+    <!-- Drone Play LED animation spinner -->
+    <string-array name="brick_drone_play_led_animation_spinner">
+        <item>@string/drone_animation_blinkgreenred</item>
+        <item>@string/drone_animation_blinkgreen</item>
+        <item>@string/drone_animation_blinkred</item>
+        <item>@string/drone_animation_blinkorange</item>
+        <item>@string/drone_animation_snakegreenred</item>
+        <item>@string/drone_animation_fire</item>
+        <item>@string/drone_animation_standard</item>
+        <item>@string/drone_animation_red</item>
+        <item>@string/drone_animation_green</item>
+        <item>@string/drone_animation_redsnake</item>
+        <item>@string/drone_animation_blank</item>
+        <item>@string/drone_animation_rightmissile</item>
+        <item>@string/drone_animation_leftmissile</item>
+        <item>@string/drone_animation_doublemissile</item>
+        <item>@string/drone_animation_frontleftgreenothersred</item>
+        <item>@string/drone_animation_frontrightgreenothersred</item>
+        <item>@string/drone_animation_rearrightgreenothersred</item>
+        <item>@string/drone_animation_rearleftgreenothersred</item>
+        <item>@string/drone_animation_leftgreenrightred</item>
+        <item>@string/drone_animation_leftredrightgreen</item>
+        <item>@string/drone_animation_blinkstandard</item>
+    </string-array>
 
     <!-- Jumping Sumo animation spinner -->
     <string-array name="brick_jumping_sumo_select_animation_spinner">
@@ -233,5 +273,17 @@
         <item>@string/brick_set_physics_object_type_no</item>
     </string-array>
 
+    <!-- Accessibility settings font style spinner -->
+    <string-array name="accessiblity_font_style">
+        <item>@string/accessibility_font_regular</item>
+        <item>@string/accessibility_font_serif</item>
+        <item>@string/accessibility_font_dyslexic</item>
+    </string-array>
+
+    <string-array name="accessiblity_font_style_values">
+        <item>regular</item>
+        <item>serif</item>
+        <item>dyslexic</item>
+    </string-array>
 
 </resources>

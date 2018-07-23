@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,9 +26,10 @@ import android.content.Context;
 import android.view.View;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
+import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class IfThenLogicBeginBrick extends IfLogicBeginBrick implements NestingBrick {
+
 	private static final long serialVersionUID = 1L;
 	protected transient IfThenLogicEndBrick ifEndBrick;
 
@@ -82,22 +84,13 @@ public class IfThenLogicBeginBrick extends IfLogicBeginBrick implements NestingB
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		IfThenLogicBeginBrick copyBrick = (IfThenLogicBeginBrick) clone();
-		copyBrick.ifEndBrick = null; // will be set in copyBrickForSprite method of IfThenLogicEndBrick
-
-		this.copy = copyBrick;
-		return copyBrick;
-	}
-
-	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		SequenceAction ifAction = (SequenceAction) sprite.getActionFactory().createSequence();
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		ScriptSequenceAction ifAction = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
 		Action action = sprite.getActionFactory().createIfLogicAction(sprite,
 				getFormulaWithBrickField(BrickField.IF_CONDITION), ifAction, null);
 		sequence.addAction(action);
 
-		LinkedList<SequenceAction> returnActionList = new LinkedList<>();
+		LinkedList<ScriptSequenceAction> returnActionList = new LinkedList<>();
 		returnActionList.add(ifAction);
 
 		return returnActionList;

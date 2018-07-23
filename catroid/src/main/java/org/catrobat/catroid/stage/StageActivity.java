@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.stage;
 
-import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -36,7 +35,9 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.speech.RecognizerIntent;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
 import android.view.SurfaceView;
@@ -56,7 +57,6 @@ import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.ServiceProvider;
-import org.catrobat.catroid.content.BackgroundWaitHandler;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.AskAction;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -67,20 +67,15 @@ import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.StageAudioFocus;
 import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.ui.MarketingActivity;
-import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.utils.FlashUtil;
+import org.catrobat.catroid.utils.ScreenValueHandler;
 import org.catrobat.catroid.utils.SnackbarUtil;
-import org.catrobat.catroid.utils.UtilUi;
 import org.catrobat.catroid.utils.VibratorUtil;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
-import java.util.concurrent.BlockingDeque;
-import java.util.concurrent.LinkedBlockingDeque;
 
 public class StageActivity extends AndroidApplication {
 	public static final String TAG = StageActivity.class.getSimpleName();
@@ -94,7 +89,7 @@ public class StageActivity extends AndroidApplication {
 	private StageAudioFocus stageAudioFocus;
 	private PendingIntent pendingIntent;
 	private NfcAdapter nfcAdapter;
-	private static BlockingDeque<NdefMessage> ndefMessageBlockingDeque = new LinkedBlockingDeque<>();
+	private static NdefMessage nfcTagMessage;
 	private StageDialog stageDialog;
 	private boolean resizePossible;
 	private boolean askDialogUnanswered = false;
@@ -103,7 +98,8 @@ public class StageActivity extends AndroidApplication {
 
 	public static Handler messageHandler;
 	private JumpingSumoDeviceController controller;
-	public static Map<Integer, IntentListener> intentListeners = new HashMap<>();
+
+	public static SparseArray<IntentListener> intentListeners = new SparseArray<>();
 	public static Random randomGenerator = new Random();
 
 	AndroidApplicationConfiguration configuration = null;
@@ -165,7 +161,6 @@ public class StageActivity extends AndroidApplication {
 		CameraManager.getInstance().setStageActivity(this);
 		JumpingSumoInitializer.getInstance().setStageActivity(this);
 
-		BackgroundWaitHandler.reset();
 		SnackbarUtil.showHintSnackbar(this, R.string.hint_stage);
 	}
 
@@ -197,7 +192,7 @@ public class StageActivity extends AndroidApplication {
 	private void showDialog(String question, final AskAction askAction) {
 		pause();
 
-		AlertDialog.Builder alertBuilder = new AlertDialog.Builder(new ContextThemeWrapper(this, android.R.style.Theme_Holo_Dialog));
+		AlertDialog.Builder alertBuilder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.Theme_AppCompat_Dialog));
 		final EditText edittext = new EditText(getContext());
 		alertBuilder.setView(edittext);
 		alertBuilder.setMessage(getContext().getString(R.string.brick_ask_dialog_hint));
@@ -236,9 +231,12 @@ public class StageActivity extends AndroidApplication {
 		Log.d(TAG, "processIntent");
 		NfcHandler.processIntent(intent);
 
-		if (!ndefMessageBlockingDeque.isEmpty()) {
+		if (nfcTagMessage != null) {
 			Tag currentTag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-			NfcHandler.writeTag(currentTag, ndefMessageBlockingDeque.poll());
+			synchronized (StageActivity.class) {
+				NfcHandler.writeTag(currentTag, nfcTagMessage);
+				setNfcTagMessage(null);
+			}
 		}
 	}
 
@@ -246,7 +244,7 @@ public class StageActivity extends AndroidApplication {
 	public void onBackPressed() {
 		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
 			PreStageActivity.shutdownPersistentResources();
-			Intent marketingIntent = new Intent(StageActivity.this, MarketingActivity.class);
+			Intent marketingIntent = new Intent(this, MarketingActivity.class);
 			startActivity(marketingIntent);
 			finish();
 		} else {
@@ -328,7 +326,7 @@ public class StageActivity extends AndroidApplication {
 
 	public void resumeResources() {
 		int requiredResources = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
-		List<Sprite> spriteList = ProjectManager.getInstance().getSceneToPlay().getSpriteList();
+		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentlyPlayingScene().getSpriteList();
 
 		SensorHandler.startSensorListener(this);
 
@@ -382,7 +380,7 @@ public class StageActivity extends AndroidApplication {
 	}
 
 	private void calculateScreenSizes() {
-		UtilUi.updateScreenWidthAndHeight(getContext());
+		ScreenValueHandler.updateScreenWidthAndHeight(getContext());
 		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth;
 		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight;
 		if (virtualScreenHeight > virtualScreenWidth) {
@@ -448,7 +446,7 @@ public class StageActivity extends AndroidApplication {
 		CameraManager.getInstance().stopPreviewAsync();
 		CameraManager.getInstance().releaseCamera();
 		CameraManager.getInstance().setToDefaultCamera();
-		ProjectManager.getInstance().setSceneToPlay(ProjectManager.getInstance().getCurrentScene());
+		ProjectManager.getInstance().setCurrentlyPlayingScene(ProjectManager.getInstance().getCurrentlyEditedScene());
 		if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 			CastManager.getInstance().onStageDestroyed();
 		}
@@ -479,7 +477,7 @@ public class StageActivity extends AndroidApplication {
 		stageListener.finish();
 		manageLoadAndFinish();
 
-		final AlertDialog.Builder builder = new CustomAlertDialogBuilder(this);
+		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setMessage(R.string.error_flash_camera).setCancelable(false)
 				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 					@Override
@@ -513,8 +511,16 @@ public class StageActivity extends AndroidApplication {
 		return ++numberOfSpritesCloned;
 	}
 
-	public static void addNfcTagMessageToDeque(NdefMessage message) {
-		ndefMessageBlockingDeque.addLast(message);
+	public static void resetNumberOfClonedSprites() {
+		numberOfSpritesCloned = 0;
+	}
+
+	public static void setNfcTagMessage(NdefMessage message) {
+		nfcTagMessage = message;
+	}
+
+	public static NdefMessage getNfcTagMessage() {
+		return nfcTagMessage;
 	}
 
 	public synchronized void queueIntent(IntentListener asker) {
@@ -524,7 +530,7 @@ public class StageActivity extends AndroidApplication {
 		int newIdentId;
 		do {
 			newIdentId = StageActivity.randomGenerator.nextInt(Integer.MAX_VALUE);
-		} while (intentListeners.containsKey(newIdentId));
+		} while (intentListeners.indexOfKey(newIdentId) >= 0);
 
 		intentListeners.put(newIdentId, asker);
 		ArrayList<Object> params = new ArrayList<>();
@@ -534,7 +540,7 @@ public class StageActivity extends AndroidApplication {
 	}
 
 	private void startQueuedIntent(int intentKey) {
-		if (!intentListeners.containsKey(intentKey)) {
+		if (intentListeners.indexOfKey(intentKey) < 0) {
 			return;
 		}
 		Intent i = intentListeners.get(intentKey).getTargetIntent();
@@ -545,7 +551,7 @@ public class StageActivity extends AndroidApplication {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		//Register your intent with "queueIntent"
-		if (!intentListeners.containsKey(requestCode)) {
+		if (intentListeners.indexOfKey(requestCode) < 0) {
 			Log.e(TAG, "Unknown intent result recieved!");
 		} else {
 			IntentListener asker = intentListeners.get(requestCode);

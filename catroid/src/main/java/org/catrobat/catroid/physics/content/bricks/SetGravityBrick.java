@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,16 +24,14 @@ package org.catrobat.catroid.physics.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.BrickViewProvider;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -41,9 +39,8 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import java.util.List;
 
 public class SetGravityBrick extends FormulaBrick {
-	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
+	private static final long serialVersionUID = 1L;
 
 	public SetGravityBrick() {
 		addAllowedBrickField(BrickField.PHYSICS_GRAVITY_X);
@@ -71,15 +68,13 @@ public class SetGravityBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	public int getViewResource() {
+		return R.layout.brick_physics_set_gravity;
+	}
 
-		view = View.inflate(context, R.layout.brick_physics_set_gravity, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_set_gravity_checkbox);
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
 
 		TextView editX = (TextView) view.findViewById(R.id.brick_set_gravity_edit_text_x);
 		getFormulaWithBrickField(BrickField.PHYSICS_GRAVITY_X).setTextFieldId(R.id.brick_set_gravity_edit_text_x);
@@ -97,11 +92,11 @@ public class SetGravityBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_physics_set_gravity, null);
+		View prototypeView = super.getPrototypeView(context);
 		TextView textGravityX = (TextView) prototypeView.findViewById(R.id.brick_set_gravity_edit_text_x);
-		textGravityX.setText(String.valueOf(BrickValues.PHYSIC_GRAVITY.x));
+		textGravityX.setText(formatNumberForPrototypeView(BrickValues.PHYSIC_GRAVITY.x));
 		TextView textGravityY = (TextView) prototypeView.findViewById(R.id.brick_set_gravity_edit_text_y);
-		textGravityY.setText(String.valueOf(BrickValues.PHYSIC_GRAVITY.y));
+		textGravityY.setText(formatNumberForPrototypeView(BrickValues.PHYSIC_GRAVITY.y));
 		return prototypeView;
 	}
 
@@ -123,7 +118,7 @@ public class SetGravityBrick extends FormulaBrick {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSetGravityAction(sprite,
 				getFormulaWithBrickField(BrickField.PHYSICS_GRAVITY_X),
 				getFormulaWithBrickField(BrickField.PHYSICS_GRAVITY_Y)));

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,6 @@
 package org.catrobat.catroid.stage;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -35,6 +34,7 @@ import android.provider.Settings;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import com.parrot.arsdk.arcontroller.ARCONTROLLER_DEVICE_STATE_ENUM;
@@ -51,6 +51,7 @@ import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ServiceProvider;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -64,9 +65,8 @@ import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.sensing.GatherCollisionInformationTask;
 import org.catrobat.catroid.ui.BaseActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
-import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
-import org.catrobat.catroid.ui.dialogs.NoNetworkDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.NetworkAlertDialog;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.TouchUtil;
@@ -187,7 +187,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 		if (JumpingSumoServiceWrapper.checkJumpingSumoAvailability()) {
 			CatroidApplication.loadSDKLib();
 			if (CatroidApplication.parrotJSLibrariesLoaded) {
-				JumpingSumoServiceWrapper.initJumpingSumo(PreStageActivity.this);
+				JumpingSumoServiceWrapper.initJumpingSumo(this);
 			}
 		}
 
@@ -263,7 +263,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 				resourceInitialized();
 			} else {
 
-				if (!SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+				if (!SettingsFragment.isCastSharedPreferenceEnabled(this)) {
 					ToastUtil.showError(this, getString(R.string.cast_enable_cast_feature));
 				} else if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 					ToastUtil.showError(this, getString(R.string.cast_error_not_connected_msg));
@@ -284,7 +284,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 			if (!Utils.isNetworkAvailable(finalBaseContext)) {
 				List<Brick> networkBrickList = getBricksRequiringResource(Brick.NETWORK_CONNECTION);
 				networkBrickList = Utils.distinctListByClassOfObjects(networkBrickList);
-				NoNetworkDialog networkDialog = new NoNetworkDialog(this, networkBrickList);
+				NetworkAlertDialog networkDialog = new NetworkAlertDialog(this, networkBrickList);
 				networkDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
 					@Override
 					public void onCancel(DialogInterface dialogInterface) {
@@ -312,6 +312,8 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 		}
 
 		if ((requiredResources & Brick.SOCKET_RASPI) != 0) {
+			Project currentProject = ProjectManager.getInstance().getCurrentProject();
+			RaspberryPiService.getInstance().enableRaspberryInterruptPinsForProject(currentProject);
 			connectRaspberrySocket();
 		}
 	}
@@ -326,13 +328,13 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 	}
 
 	private void connectRaspberrySocket() {
-		String host = SettingsActivity.getRaspiHost(this.getBaseContext());
-		int port = SettingsActivity.getRaspiPort(this.getBaseContext());
+		String host = SettingsFragment.getRaspiHost(this.getBaseContext());
+		int port = SettingsFragment.getRaspiPort(this.getBaseContext());
 
 		if (RaspberryPiService.getInstance().connect(host, port)) {
 			resourceInitialized();
 		} else {
-			ToastUtil.showError(PreStageActivity.this, "Error: connecting to " + host + ":" + port + " failed");
+			ToastUtil.showError(this, getString(R.string.error_connecting_to, host, port));
 			resourceFailed();
 		}
 	}
@@ -539,7 +541,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 	public void startStage() {
 		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
 			scene.firstStart = true;
-			scene.getDataContainer().resetAllDataObjects();
+			scene.getDataContainer().resetUserData();
 		}
 		setResult(RESULT_OK, returnToActivityIntent);
 		finish();
@@ -583,7 +585,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 						resourceFailed();
 					}
 				} else {
-					AlertDialog.Builder builder = new CustomAlertDialogBuilder(this);
+					AlertDialog.Builder builder = new AlertDialog.Builder(this);
 					builder.setMessage(R.string.prestage_text_to_speech_engine_not_installed).setCancelable(false)
 							.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 								@Override
@@ -645,7 +647,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 	private void nfcInitialize() {
 		NfcAdapter adapter = NfcAdapter.getDefaultAdapter(getApplicationContext());
 		if (adapter != null && !adapter.isEnabled()) {
-			ToastUtil.showError(PreStageActivity.this, R.string.nfc_not_activated);
+			ToastUtil.showError(this, R.string.nfc_not_activated);
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 				Intent intent = new Intent(Settings.ACTION_NFC_SETTINGS);
 				startActivity(intent);
@@ -654,7 +656,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 				startActivity(intent);
 			}
 		} else if (adapter == null) {
-			ToastUtil.showError(PreStageActivity.this, R.string.no_nfc_available);
+			ToastUtil.showError(this, R.string.no_nfc_available);
 			// TODO: resourceFailed() & startActivityForResult(), if behaviour needed
 		}
 		resourceInitialized();

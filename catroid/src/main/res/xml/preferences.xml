@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2017 The Catrobat Team
+  ~ Copyright (C) 2010-2018 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -31,56 +31,16 @@
         android:summary="@string/preference_description_language"
         android:title="@string/preference_title_language" />
 
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="setting_embroidery_bricks"
+        android:summary="@string/preference_description_embroidery_bricks"
+        android:title="@string/preference_title_enable_embroidery_bricks" />
+
     <PreferenceScreen
         android:key="setting_nxt_screen"
         android:summary="@string/preference_description_mindstorms_nxt_bricks"
         android:title="@string/preference_title_enable_mindstorms_nxt_bricks">
-
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="settings_mindstorms_nxt_bricks_enabled"
-            android:summary="@string/preference_description_mindstorms_nxt_bricks"
-            android:title="@string/preference_title_enable_mindstorms_nxt_bricks" />
-
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="settings_mindstorms_nxt_show_sensor_info_box_disabled"
-            android:summary="@string/preference_disable_nxt_info_dialog_description"
-            android:title="@string/preference_disable_nxt_info_dialog" />
-
-        <PreferenceCategory android:key="setting_nxt_category"
-            android:title="@string/preference_title_mindstorms_nxt_sensors">
-            <Preference android:summary="@string/preference_title_mindstorms_nxt_sensors_description" />
-
-            <ListPreference
-                android:defaultValue="NO_SENSOR"
-                android:entries="@array/nxt_sensor_chooser"
-                android:entryValues="@array/nxt_sensor_chooser"
-                android:key="setting_mindstorms_nxt_sensor_1"
-                android:summary="%s"
-                android:title="@string/nxt_choose_sensor_1" />
-            <ListPreference
-                android:defaultValue="NO_SENSOR"
-                android:entries="@array/nxt_sensor_chooser"
-                android:entryValues="@array/nxt_sensor_chooser"
-                android:key="setting_mindstorms_nxt_sensor_2"
-                android:summary="%s"
-                android:title="@string/nxt_choose_sensor_2" />
-            <ListPreference
-                android:defaultValue="NO_SENSOR"
-                android:entries="@array/nxt_sensor_chooser"
-                android:entryValues="@array/nxt_sensor_chooser"
-                android:key="setting_mindstorms_nxt_sensor_3"
-                android:summary="%s"
-                android:title="@string/nxt_choose_sensor_3" />
-            <ListPreference
-                android:defaultValue="NO_SENSOR"
-                android:entries="@array/nxt_sensor_chooser"
-                android:entryValues="@array/nxt_sensor_chooser"
-                android:key="setting_mindstorms_nxt_sensor_4"
-                android:summary="%s"
-                android:title="@string/nxt_choose_sensor_4" />
-        </PreferenceCategory>
 
     </PreferenceScreen>
 
@@ -89,52 +49,6 @@
         android:summary="@string/preference_description_mindstorms_ev3_bricks"
         android:title="@string/preference_title_enable_mindstorms_ev3_bricks">
 
-         <CheckBoxPreference
-             android:defaultValue="false"
-             android:key="settings_mindstorms_ev3_bricks_enabled"
-             android:summary="@string/preference_description_mindstorms_ev3_bricks"
-             android:title="@string/preference_title_enable_mindstorms_ev3_bricks" />
-
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="settings_mindstorms_ev3_show_sensor_info_box_disabled"
-            android:summary="@string/preference_disable_ev3_info_dialog_description"
-            android:title="@string/preference_disable_nxt_info_dialog" />
-
-        <PreferenceCategory
-            android:key="setting_ev3_category"
-            android:title="@string/preference_title_mindstorms_ev3_sensors">
-            <Preference android:summary="@string/preference_title_mindstorms_ev3_sensors_description" />
-
-            <ListPreference
-                android:defaultValue="NO_SENSOR"
-                android:entries="@array/ev3_sensor_chooser"
-                android:entryValues="@array/ev3_sensor_chooser"
-                android:key="setting_mindstorms_ev3_sensor_1"
-                android:summary="%s"
-                android:title="@string/ev3_choose_sensor_1" />
-            <ListPreference
-                android:defaultValue="NO_SENSOR"
-                android:entries="@array/ev3_sensor_chooser"
-                android:entryValues="@array/ev3_sensor_chooser"
-                android:key="setting_mindstorms_ev3_sensor_2"
-                android:summary="%s"
-                android:title="@string/ev3_choose_sensor_2" />
-            <ListPreference
-                android:defaultValue="NO_SENSOR"
-                android:entries="@array/ev3_sensor_chooser"
-                android:entryValues="@array/ev3_sensor_chooser"
-                android:key="setting_mindstorms_ev3_sensor_3"
-                android:summary="%s"
-                android:title="@string/ev3_choose_sensor_3" />
-            <ListPreference
-                android:defaultValue="NO_SENSOR"
-                android:entries="@array/ev3_sensor_chooser"
-                android:entryValues="@array/ev3_sensor_chooser"
-                android:key="setting_mindstorms_ev3_sensor_4"
-                android:summary="%s"
-                android:title="@string/ev3_choose_sensor_4" />
-        </PreferenceCategory>
     </PreferenceScreen>
 
     <PreferenceScreen
@@ -142,70 +56,13 @@
         android:summary="@string/preference_description_quadcopter_bricks"
         android:title="@string/preference_title_enable_quadcopter_bricks">
 
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="setting_parrot_ar_drone_bricks"
-            android:summary="@string/preference_description_quadcopter_bricks"
-            android:title="@string/preference_title_enable_quadcopter_bricks" />
-
-
-        <PreferenceCategory
-            android:key="setting_drone_category"
-            android:title="@string/preference_title_drone_config_properties">
-
-            <ListPreference
-                android:defaultValue="FIRST"
-                android:entries="@array/drone_setting_default_config"
-                android:entryValues="@array/drone_setting_default_config"
-                android:key="setting_drone_basic_configs"
-                android:summary="%s"
-                android:title="@string/brick_drone_set_config" />
-
-            <ListPreference
-                android:defaultValue="FIRST"
-                android:entries="@array/drone_altitude_spinner_items"
-                android:entryValues="@array/drone_altitude_spinner_items"
-                android:key="setting_drone_altitude_limit"
-                android:summary="%s"
-                android:title="@string/brick_drone_set_altitude" />
-
-
-            <ListPreference
-                android:defaultValue="SECOND"
-                android:entries="@array/drone_max_vertical_speed_items"
-                android:entryValues="@array/drone_max_vertical_speed_items"
-                android:key="setting_drone_vertical_speed"
-                android:summary="%s"
-                android:title="@string/brick_drone_set_vertical_speed" />
-
-            <ListPreference
-                android:defaultValue="SECOND"
-                android:entries="@array/drone_max_rotation_speed_items"
-                android:entryValues="@array/drone_max_rotation_speed_items"
-                android:key="setting_drone_rotation_speed"
-                android:summary="%s"
-                android:title="@string/brick_drone_set_rotation_speed" />
-
-            <ListPreference
-                android:defaultValue="SECOND"
-                android:entries="@array/drone_max_tilt_angle_items"
-                android:entryValues="@array/drone_max_tilt_angle_items"
-                android:key="setting_drone_tilt_angle"
-                android:summary="%s"
-                android:title="@string/brick_drone_set_tilt_limit" />
-        </PreferenceCategory>
-
     </PreferenceScreen>
 
     <PreferenceScreen
             android:key="setting_parrot_jumping_sumo_bricks"
             android:summary="@string/preference_description_jumpingsumo_bricks"
             android:title="@string/preference_title_enable_jumpingsumo_bricks" >
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="setting_parrot_jumping_sumo_bricks"
-            android:summary="@string/preference_description_jumpingsumo_bricks"
-            android:title="@string/preference_title_enable_jumpingsumo_bricks" />
+
     </PreferenceScreen>
 
      <CheckBoxPreference
@@ -226,43 +83,6 @@
         android:summary="@string/preference_description_raspi_bricks"
         android:title="@string/preference_title_enable_raspi_bricks">
 
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="setting_raspi_bricks"
-            android:summary="@string/preference_raspi_enable_bricks"
-            android:title="@string/preference_title_enable_raspi_bricks" />
-
-        <PreferenceCategory
-            android:key="setting_raspi_connection_settings_category"
-            android:title="@string/raspi_settings_title_name">
-            <PreferenceScreen
-                android:summary="@string/preference_raspi_help_summary"
-                android:title="@string/preference_raspi_help">
-                <intent
-                    android:action="android.intent.action.VIEW"
-                    android:data="@string/preference_raspi_help_link" />
-            </PreferenceScreen>
-
-            <EditTextPreference
-                android:defaultValue="192.168.0.1"
-                android:key="setting_raspi_host_preference"
-                android:title="@string/preference_raspi_host" />
-
-            <EditTextPreference
-                android:defaultValue="10000"
-                android:inputType="number"
-                android:key="setting_raspi_port_preference"
-                android:title="@string/preference_raspi_port" />
-
-            <ListPreference
-                android:defaultValue="a01041"
-                android:entries="@array/raspi_version_spinner_names"
-                android:entryValues="@array/raspi_version_spinner_revisions"
-                android:key="setting_raspi_version_preference"
-                android:summary="%s"
-                android:title="@string/raspi_settings_gpio_version" />
-        </PreferenceCategory>
-
     </PreferenceScreen>
 
     <CheckBoxPreference
@@ -276,6 +96,12 @@
         android:key="setting_cast_globally_enabled"
         android:summary="@string/preference_description_cast_feature_globally_enabled"
         android:title="@string/preference_title_cast_feature_globally_enabled" />
+
+    <PreferenceScreen
+        android:key="setting_accessibility_screen"
+        android:summary="@string/preference_description_accessibility"
+        android:title="@string/preference_title_accessibility">
+    </PreferenceScreen>
 
     <CheckBoxPreference
         android:defaultValue="@string/SNACKBAR_HINTS_ENABLED"

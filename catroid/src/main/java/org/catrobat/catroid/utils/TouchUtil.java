@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,16 +23,18 @@
 package org.catrobat.catroid.utils;
 
 import android.graphics.PointF;
+import android.util.SparseIntArray;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.EventWrapper;
+import org.catrobat.catroid.content.eventids.EventId;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public final class TouchUtil {
-	private static HashMap<Integer, Integer> currentlyTouchingPointersToTouchIndex = new HashMap<>();
+
+	private static SparseIntArray currentlyTouchingPointersToTouchIndex = new SparseIntArray();
+
 	private static ArrayList<PointF> touches = new ArrayList<>();
 	private static ArrayList<Boolean> isTouching = new ArrayList<>();
 
@@ -52,7 +54,7 @@ public final class TouchUtil {
 	}
 
 	public static void touchDown(float x, float y, int pointer) {
-		if (currentlyTouchingPointersToTouchIndex.containsKey(pointer)) {
+		if (currentlyTouchingPointersToTouchIndex.indexOfKey(pointer) >= 0) {
 			return;
 		}
 		currentlyTouchingPointersToTouchIndex.put(pointer, touches.size());
@@ -62,12 +64,12 @@ public final class TouchUtil {
 	}
 
 	public static void touchUp(int pointer) {
-		if (!currentlyTouchingPointersToTouchIndex.containsKey(pointer)) {
+		if (currentlyTouchingPointersToTouchIndex.indexOfKey(pointer) < 0) {
 			return;
 		}
 		int index = currentlyTouchingPointersToTouchIndex.get(pointer);
 		isTouching.set(index, false);
-		currentlyTouchingPointersToTouchIndex.remove(pointer);
+		currentlyTouchingPointersToTouchIndex.delete(pointer);
 	}
 
 	public static boolean isFingerTouching(int index) {
@@ -103,16 +105,14 @@ public final class TouchUtil {
 	}
 
 	private static void fireTouchEvent() {
-		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteListWithClones();
-
-		for (Sprite sprite : spriteList) {
-			sprite.createTouchDownAction();
-		}
+		EventWrapper event = new EventWrapper(new EventId(EventId.TAP_BACKGROUND), EventWrapper.NO_WAIT);
+		ProjectManager.getInstance().getCurrentProject().fireToAllSprites(event);
 	}
 
 	public static ArrayList<PointF> getCurrentTouchingPoints() {
 		ArrayList<PointF> points = new ArrayList<>();
-		for (int index : currentlyTouchingPointersToTouchIndex.values()) {
+		for (int i = 0; i < currentlyTouchingPointersToTouchIndex.size(); i++) {
+			int index = currentlyTouchingPointersToTouchIndex.valueAt(i);
 			points.add(touches.get(index));
 		}
 		return points;

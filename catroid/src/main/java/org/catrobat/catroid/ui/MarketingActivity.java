@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -43,6 +43,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ScreenValues;
+import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
@@ -56,6 +57,7 @@ public class MarketingActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		final XmlHeader xmlheader = ProjectManager.getInstance().getCurrentProject().getXmlHeader();
 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -65,7 +67,7 @@ public class MarketingActivity extends Activity {
 		TextView appName = (TextView) findViewById(R.id.title);
 		appName.setText(ProjectManager.getInstance().getCurrentProject().getName());
 
-		Bitmap bitmap = scaleDrawable2Bitmap();
+		Bitmap bitmap = scaleDrawable2Bitmap(xmlheader.islandscapeMode());
 
 		ImageButton imageView = (ImageButton) findViewById(R.id.pocket_code_image);
 		imageView.setImageBitmap(bitmap);
@@ -88,7 +90,7 @@ public class MarketingActivity extends Activity {
 		website.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				String urlsString = ProjectManager.getInstance().getCurrentProject().getXmlHeader().getRemixParentsUrlString();
+				String urlsString = xmlheader.getRemixParentsUrlString();
 				if (urlsString == null || urlsString.length() == 0) {
 					Log.w(TAG, "Header of program contains not even one valid detail url!");
 					return;
@@ -123,10 +125,11 @@ public class MarketingActivity extends Activity {
 		});
 	}
 
-	private Bitmap scaleDrawable2Bitmap() {
+	private Bitmap scaleDrawable2Bitmap(boolean landscapeMode) {
 		Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.pocket_code);
 
-		int width = ScreenValues.SCREEN_WIDTH;
+		int width = landscapeMode ? ScreenValues.SCREEN_HEIGHT : ScreenValues.SCREEN_WIDTH;
+
 		double factor = ((float) width / (float) bitmap.getWidth());
 		int height = (int) ((float) bitmap.getHeight() * factor);
 		Log.d("GSOC", "width: " + width + "  height: " + height + "   scaleFactor: " + (int) ((float) width / (float) bitmap.getWidth()));
@@ -140,7 +143,7 @@ public class MarketingActivity extends Activity {
 			Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.BASE_URL_HTTPS));
 			startActivity(browserIntent);
 		} else {
-			Intent intent = new Intent(MarketingActivity.this, WebViewActivity.class);
+			Intent intent = new Intent(this, WebViewActivity.class);
 			intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url);
 			startActivity(intent);
 		}

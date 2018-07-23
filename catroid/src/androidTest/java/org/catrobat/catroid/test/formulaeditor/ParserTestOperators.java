@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,6 +33,8 @@ import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.Operators;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -43,11 +45,12 @@ public class ParserTestOperators extends AndroidTestCase {
 	private static final Double TRUE = 1d;
 	private static final Double FALSE = 0d;
 
-	@Override
-	protected void setUp() {
+	@Before
+	public void setUp() {
 		testSprite = new SingleSprite("sprite");
 	}
 
+	@Test
 	public void testOperatorChain() {
 		List<InternToken> firstTerm = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "1", Operators.PLUS, InternTokenType.NUMBER, "2");
 		firstTerm = FormulaEditorTestUtil.buildBinaryOperator(firstTerm, Operators.MULT, InternTokenType.NUMBER, "3");
@@ -59,6 +62,7 @@ public class ParserTestOperators extends AndroidTestCase {
 		FormulaEditorTestUtil.testBinaryOperator(firstTerm, Operators.POW, secondTerm, 17d, testSprite);
 	}
 
+	@Test
 	public void testOperatorLeftBinding() {
 		List<InternToken> firstTerm = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.MINUS, InternTokenType.NUMBER, "4");
 		FormulaEditorTestUtil.testBinaryOperator(firstTerm, Operators.MINUS, InternTokenType.NUMBER, "1", 0d, testSprite);
@@ -67,11 +71,13 @@ public class ParserTestOperators extends AndroidTestCase {
 		FormulaEditorTestUtil.testBinaryOperator(firstTerm, Operators.DIVIDE, InternTokenType.NUMBER, "10", 1d, testSprite);
 	}
 
+	@Test
 	public void testOperatorPriority() {
 		List<InternToken> firstTerm = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "1", Operators.MINUS, InternTokenType.NUMBER, "2");
 		FormulaEditorTestUtil.testBinaryOperator(firstTerm, Operators.MULT, InternTokenType.NUMBER, "2", -3d, testSprite);
 	}
 
+	@Test
 	public void testUnaryMinus() {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
@@ -80,10 +86,11 @@ public class ParserTestOperators extends AndroidTestCase {
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
 		FormulaElement parseTree = internParser.parseFormula();
 
-		assertNotNull("Formula is not parsed correctly: - 42.42", parseTree);
-		assertEquals("Formula interpretation is not as expected", -42.42, parseTree.interpretRecursive(testSprite));
+		assertNotNull(parseTree);
+		assertEquals(-42.42, parseTree.interpretRecursive(testSprite));
 	}
 
+	@Test
 	public void testGreaterThan() {
 		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "2", Operators.GREATER_THAN,
 				InternTokenType.NUMBER, "1", TRUE, testSprite);
@@ -96,6 +103,7 @@ public class ParserTestOperators extends AndroidTestCase {
 				InternTokenType.STRING, "1", FALSE, testSprite);
 	}
 
+	@Test
 	public void testGreaterOrEqualThan() {
 		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "2", Operators.GREATER_OR_EQUAL,
 				InternTokenType.NUMBER, "1", TRUE, testSprite);
@@ -112,6 +120,7 @@ public class ParserTestOperators extends AndroidTestCase {
 				InternTokenType.STRING, "1", FALSE, testSprite);
 	}
 
+	@Test
 	public void testSmallerThan() {
 		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.SMALLER_THAN,
 				InternTokenType.NUMBER, "1", FALSE, testSprite);
@@ -124,6 +133,7 @@ public class ParserTestOperators extends AndroidTestCase {
 				InternTokenType.STRING, "1", TRUE, testSprite);
 	}
 
+	@Test
 	public void testSmallerOrEqualThan() {
 		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "2", Operators.SMALLER_OR_EQUAL,
 				InternTokenType.NUMBER, "1", FALSE, testSprite);
@@ -140,6 +150,7 @@ public class ParserTestOperators extends AndroidTestCase {
 				InternTokenType.STRING, "1", TRUE, testSprite);
 	}
 
+	@Test
 	public void testEqual() {
 		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.EQUAL, InternTokenType.NUMBER, "1",
 				TRUE, testSprite);
@@ -164,28 +175,31 @@ public class ParserTestOperators extends AndroidTestCase {
 				InternTokenType.STRING, "055.77.77", FALSE, testSprite);
 	}
 
+	@Test
 	public void testNegativeZeroEqualsZero() {
 
 		FormulaElement formulaElement = new FormulaElement(ElementType.OPERATOR, Operators.EQUAL.name(), null,
 				new FormulaElement(ElementType.NUMBER, "-0", null),
 				new FormulaElement(ElementType.NUMBER, "0", null));
 
-		assertEquals("interpretOperatorEqual: -0 should be equal to 0", 1d, formulaElement.interpretRecursive(null));
+		assertEquals(1d, formulaElement.interpretRecursive(null));
 
 		formulaElement = new FormulaElement(ElementType.OPERATOR, Operators.EQUAL.name(), null,
 				new FormulaElement(ElementType.NUMBER, "0", null),
 				new FormulaElement(ElementType.NUMBER, "-0", null));
 
-		assertEquals("interpretOperatorEqual: 0 should be equal to -0", 1d, formulaElement.interpretRecursive(null));
+		assertEquals(1d, formulaElement.interpretRecursive(null));
 	}
 
+	@Test
 	public void testEqualsNaN() {
 		FormulaElement formulaElement = new FormulaElement(ElementType.OPERATOR, Operators.EQUAL.name(), null,
 				new FormulaElement(ElementType.NUMBER, String.valueOf(Double.NaN), null),
 				new FormulaElement(ElementType.NUMBER, String.valueOf(Double.NaN), null));
-		assertEquals("interpretOperatorEqual: NaN should be equal to NaN", 1d, formulaElement.interpretRecursive(null));
+		assertEquals(1d, formulaElement.interpretRecursive(null));
 	}
 
+	@Test
 	public void testNotEqual() {
 		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "1", Operators.NOT_EQUAL, InternTokenType.NUMBER,
 				"1", FALSE, testSprite);
@@ -198,6 +212,7 @@ public class ParserTestOperators extends AndroidTestCase {
 				"1", TRUE, testSprite);
 	}
 
+	@Test
 	public void testNOT() {
 		FormulaEditorTestUtil.testUnaryOperator(Operators.LOGICAL_NOT, InternTokenType.NUMBER, "1", FALSE, testSprite);
 		FormulaEditorTestUtil.testUnaryOperator(Operators.LOGICAL_NOT, InternTokenType.NUMBER, "0", TRUE, testSprite);
@@ -206,6 +221,7 @@ public class ParserTestOperators extends AndroidTestCase {
 		FormulaEditorTestUtil.testUnaryOperator(Operators.LOGICAL_NOT, InternTokenType.STRING, "0", TRUE, testSprite);
 	}
 
+	@Test
 	public void testAND() {
 		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "0", Operators.LOGICAL_AND,
 				InternTokenType.NUMBER, "0", FALSE, testSprite);
@@ -227,6 +243,7 @@ public class ParserTestOperators extends AndroidTestCase {
 				InternTokenType.NUMBER, "0", FALSE, testSprite);
 	}
 
+	@Test
 	public void testOR() {
 		FormulaEditorTestUtil.testBinaryOperator(InternTokenType.NUMBER, "0", Operators.LOGICAL_OR, InternTokenType.NUMBER,
 				"0", FALSE, testSprite);
@@ -248,6 +265,7 @@ public class ParserTestOperators extends AndroidTestCase {
 				"0", TRUE, testSprite);
 	}
 
+	@Test
 	public void testAddition() {
 		String firstOperand = "1.3";
 		String secondOperand = "3";
@@ -276,6 +294,7 @@ public class ParserTestOperators extends AndroidTestCase {
 		FormulaEditorTestUtil.testBinaryOperator(first, Operators.PLUS, second, Double.NaN, testSprite);
 	}
 
+	@Test
 	public void testDivision() {
 		String firstOperand = "9.0";
 		String secondOperand = "2";
@@ -304,6 +323,7 @@ public class ParserTestOperators extends AndroidTestCase {
 		FormulaEditorTestUtil.testBinaryOperator(first, Operators.DIVIDE, second, Double.NaN, testSprite);
 	}
 
+	@Test
 	public void testMultiplication() {
 		String firstOperand = "9.0";
 		String secondOperand = "2";
@@ -332,6 +352,7 @@ public class ParserTestOperators extends AndroidTestCase {
 		FormulaEditorTestUtil.testBinaryOperator(first, Operators.MULT, second, Double.NaN, testSprite);
 	}
 
+	@Test
 	public void testSubstraction() {
 		String firstOperand = "9.0";
 		String secondOperand = "2";

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2017 The Catrobat Team
+  ~ Copyright (C) 2010-2018 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -26,26 +26,18 @@
               android:layout_width="match_parent"
               android:layout_height="@dimen/activity_bottom_bar_height"
               android:layout_alignParentBottom="true"
-              android:background="@drawable/bottom_bar_background"
-              android:orientation="horizontal" >
+              android:orientation="horizontal"
+              android:divider="@drawable/bottom_bar_divider"
+              android:showDividers="middle">
 
     <ImageButton
-        style="@style/BottomBarImageButton"
+        style="@style/BottomBarButton"
         android:id="@+id/button_add"
         android:onClick="handleAddButton"
         android:src="@drawable/ic_plus" />
 
-    <ImageView
-        android:id="@+id/bottom_bar_separator"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/activity_bottom_bar_height"
-        android:paddingBottom="@dimen/activity_bottom_bar_image_view_padding"
-        android:paddingTop="@dimen/activity_bottom_bar_image_view_padding"
-        android:scaleType="fitXY"
-        android:src="@drawable/bottombar_separator" />
-
     <ImageButton
-        style="@style/BottomBarImageButton"
+        style="@style/BottomBarButton"
         android:id="@+id/button_play"
         android:onClick="handlePlayButton"
         android:src="@drawable/ic_play" />

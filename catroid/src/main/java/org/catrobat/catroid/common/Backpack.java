@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,6 @@ package org.catrobat.catroid.common;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.UserBrick;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -36,16 +35,11 @@ public class Backpack implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	public List<Scene> backpackedScenes = new CopyOnWriteArrayList<>();
+	public List<Sprite> backpackedSprites = new CopyOnWriteArrayList<>();
+
 	public List<SoundInfo> backpackedSounds = new CopyOnWriteArrayList<>();
 	public List<LookData> backpackedLooks = new CopyOnWriteArrayList<>();
-	public HashMap<String, List<Script>> backpackedScripts = new HashMap<>();
-	public HashMap<String, List<UserBrick>> backpackedUserBricks = new HashMap<>();
-	public List<Sprite> backpackedSprites = new CopyOnWriteArrayList<>();
-	public List<Scene> backpackedScenes = new CopyOnWriteArrayList<>();
 
-	public List<SoundInfo> hiddenBackpackedSounds = new CopyOnWriteArrayList<>();
-	public List<LookData> hiddenBackpackedLooks = new CopyOnWriteArrayList<>();
-	public HashMap<String, List<Script>> hiddenBackpackedScripts = new HashMap<>();
-	public List<Sprite> hiddenBackpackedSprites = new CopyOnWriteArrayList<>();
-	public List<Scene> hiddenBackpackedScenes = new CopyOnWriteArrayList<>();
+	public HashMap<String, List<Script>> backpackedScripts = new HashMap<>();
 }

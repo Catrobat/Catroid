@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.stage;
 
+import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import junit.framework.Assert;
@@ -38,7 +39,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
-import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
@@ -71,21 +72,26 @@ public class WhenNfcBrickHardwareStageTest {
 	private String tagID = "123456";
 
 	@Rule
-	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(ScriptActivity.class, true, false);
-
+	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 	@Before
 	public void setUp() throws Exception {
 		createProjectWithNfcAndSetVariable();
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 	}
 
 	private void createProjectWithNfcAndSetVariable() {
-		Project project = new Project(null, "whenNfcBrickHardwareTest");
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), "whenNfcBrickHardwareTest");
+
 		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
-		numDetectedTags = dataContainer.addProjectUserVariable(NUM_DETECTED_TAGS);
-		readTagId = dataContainer.addProjectUserVariable(READ_TAG_ID);
-		readTagMessage = dataContainer.addProjectUserVariable(READ_TAG_MESSAGE);
+
+		numDetectedTags = new UserVariable(NUM_DETECTED_TAGS);
+		readTagId = new UserVariable(READ_TAG_ID);
+		readTagMessage = new UserVariable(READ_TAG_MESSAGE);
+
+		dataContainer.addUserVariable(numDetectedTags);
+		dataContainer.addUserVariable(readTagId);
+		dataContainer.addUserVariable(readTagMessage);
 
 		Sprite sprite = new Sprite("testSprite");
 		WhenNfcScript script = new WhenNfcScript();

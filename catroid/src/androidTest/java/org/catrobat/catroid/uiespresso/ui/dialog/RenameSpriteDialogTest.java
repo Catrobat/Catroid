@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,6 +35,7 @@ import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
+import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewActions;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -42,19 +43,18 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
+import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.isDialog;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
+import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 import static org.hamcrest.Matchers.allOf;
 
 @RunWith(AndroidJUnit4.class)
@@ -62,14 +62,15 @@ public class RenameSpriteDialogTest {
 
 	@Rule
 	public BaseActivityInstrumentationRule<ProjectActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(ProjectActivity.class, true, false);
-
+			BaseActivityInstrumentationRule<>(ProjectActivity.class, ProjectActivity.EXTRA_FRAGMENT_POSITION,
+			ProjectActivity.FRAGMENT_SPRITES);
 	private String oldSpriteName = "secondSprite";
 
 	@Before
 	public void setUp() throws Exception {
 		createProject("renameSpriteDialogTest");
-		baseActivityTestRule.launchActivity(null);
+
+		baseActivityTestRule.launchActivity();
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -77,7 +78,34 @@ public class RenameSpriteDialogTest {
 	@Flaky
 	public void renameSpriteDialogTest() {
 		String newSpriteName = "renamedSprite";
-		renameFirstSpriteTo(newSpriteName);
+		renameSpriteTo(newSpriteName);
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void cancelRenameSpriteDialogTest() {
+		RecyclerViewActions.openOverflowMenu();
+		onView(withText(R.string.rename)).perform(click());
+
+		onRecyclerView().atPosition(2)
+				.performCheckItem();
+
+		onView(withId(R.id.confirm)).perform(click());
+
+		onView(withText(R.string.rename_sprite_dialog)).inRoot(isDialog())
+				.check(matches(isDisplayed()));
+
+		closeSoftKeyboard();
+
+		onView(allOf(withId(android.R.id.button2), withText(R.string.cancel)))
+				.perform(click());
+
+		onView(withText(oldSpriteName))
+				.check(matches(isDisplayed()));
+
+		onView(withText(InstrumentationRegistry.getTargetContext()
+				.getResources().getQuantityString(R.plurals.am_rename_sprites_title, 1, 1)))
+				.check(matches(isDisplayed()));
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -85,19 +113,21 @@ public class RenameSpriteDialogTest {
 	@Flaky
 	public void renameSpriteSwitchCaseDialogTest() {
 		String newSpriteName = "SeConDspRite";
-		renameFirstSpriteTo(newSpriteName);
+		renameSpriteTo(newSpriteName);
 	}
 
-	private void renameFirstSpriteTo(String newSpriteName) {
-		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+	private void renameSpriteTo(String newSpriteName) {
+		RecyclerViewActions.openOverflowMenu();
 		onView(withText(R.string.rename)).perform(click());
 
-		onView(withText(oldSpriteName)).perform(click());
-		onView(withContentDescription("Done")).perform(click());
+		onRecyclerView().atPosition(2)
+				.performCheckItem();
+
+		onView(withId(R.id.confirm)).perform(click());
 
 		onView(withText(R.string.rename_sprite_dialog)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.edit_text), withText(oldSpriteName), isDisplayed()))
+		onView(allOf(withText(oldSpriteName), isDisplayed()))
 				.perform(replaceText(newSpriteName));
 
 		closeSoftKeyboard();
@@ -112,7 +142,7 @@ public class RenameSpriteDialogTest {
 	}
 
 	private void createProject(String projectName) {
-		Project project = new Project(null, projectName);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 
 		Sprite firstSprite = new SingleSprite("firstSprite");
 		Sprite secondSprite = new SingleSprite(oldSpriteName);
@@ -121,6 +151,6 @@ public class RenameSpriteDialogTest {
 		project.getDefaultScene().addSprite(secondSprite);
 
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 	}
 }

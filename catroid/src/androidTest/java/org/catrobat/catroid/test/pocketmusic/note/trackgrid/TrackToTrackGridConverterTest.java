@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.pocketmusic.note.trackgrid;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.pocketmusic.note.MusicalBeat;
 import org.catrobat.catroid.pocketmusic.note.MusicalInstrument;
@@ -31,9 +31,15 @@ import org.catrobat.catroid.pocketmusic.note.Track;
 import org.catrobat.catroid.pocketmusic.note.trackgrid.TrackGrid;
 import org.catrobat.catroid.pocketmusic.note.trackgrid.TrackToTrackGridConverter;
 import org.catrobat.catroid.test.pocketmusic.note.TrackTestDataFactory;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class TrackToTrackGridConverterTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
 
+@RunWith(AndroidJUnit4.class)
+public class TrackToTrackGridConverterTest {
+
+	@Test
 	public void testConvertSimpleTrack() {
 		Track track = TrackTestDataFactory.createSimpleTrack();
 		TrackGrid simpleTrackGrid = TrackGridTestDataFactory.createSimpleTrackGrid();
@@ -41,9 +47,10 @@ public class TrackToTrackGridConverterTest extends AndroidTestCase {
 		TrackGrid convertedTrackGrid = TrackToTrackGridConverter.convertTrackToTrackGrid(track, Project.DEFAULT_BEAT, Project
 				.DEFAULT_BEATS_PER_MINUTE);
 
-		assertTrue("Failed to convert simple Track.", convertedTrackGrid.equals(simpleTrackGrid));
+		assertEquals(convertedTrackGrid, simpleTrackGrid);
 	}
 
+	@Test
 	public void testConvertTrackWithSeveralBreaks() {
 		Track track = TrackTestDataFactory.createTrackWithSeveralBreaks();
 		TrackGrid trackWithSeveralBreaks = TrackGridTestDataFactory.createTrackGridWithSeveralBreaks();
@@ -51,9 +58,10 @@ public class TrackToTrackGridConverterTest extends AndroidTestCase {
 		TrackGrid convertedTrackGrid = TrackToTrackGridConverter.convertTrackToTrackGrid(track, MusicalBeat.BEAT_4_4,
 				Project.DEFAULT_BEATS_PER_MINUTE);
 
-		assertTrue("Failed to convert Track with several breaks", convertedTrackGrid.equals(trackWithSeveralBreaks));
+		assertEquals(convertedTrackGrid, trackWithSeveralBreaks);
 	}
 
+	@Test
 	public void testConvertSemiComplexTrack() {
 		Track track = TrackTestDataFactory.createSemiComplexTrack(MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 		TrackGrid semiComplexTrack = TrackGridTestDataFactory.createSemiComplexTrackGrid();
@@ -61,9 +69,10 @@ public class TrackToTrackGridConverterTest extends AndroidTestCase {
 		TrackGrid convertedTrackGrid = TrackToTrackGridConverter.convertTrackToTrackGrid(track, MusicalBeat.BEAT_4_4,
 				Project.DEFAULT_BEATS_PER_MINUTE);
 
-		assertTrue("Failed to convert a more complex Track", convertedTrackGrid.equals(semiComplexTrack));
+		assertEquals(convertedTrackGrid, semiComplexTrack);
 	}
 
+	@Test
 	public void testConvertEmptyTrack() {
 		Track emptyTrack = TrackTestDataFactory.createEmptyTrack(MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 		TrackGrid emptyTrackGrid = TrackGridTestDataFactory.createEmptyTrackGrid();
@@ -71,6 +80,6 @@ public class TrackToTrackGridConverterTest extends AndroidTestCase {
 		TrackGrid convertedTrackGrid = TrackToTrackGridConverter.convertTrackToTrackGrid(emptyTrack, MusicalBeat.BEAT_4_4,
 				Project.DEFAULT_BEATS_PER_MINUTE);
 
-		assertTrue("Failed to convert empty Track", convertedTrackGrid.equals(emptyTrackGrid));
+		assertEquals(convertedTrackGrid, emptyTrackGrid);
 	}
 }

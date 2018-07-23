@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,60 +23,114 @@
 
 package org.catrobat.catroid.uiespresso.util;
 
-import android.content.Context;
-import android.content.pm.PackageManager;
-import android.os.IBinder;
-import android.util.Log;
+import android.app.Instrumentation;
+import android.os.ParcelFileDescriptor;
 
-import java.lang.reflect.Method;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-// Taken from https://gist.github.com/xrigau/11284124
 public class SystemAnimations {
-	private static final String TAG = SystemAnimations.class.getSimpleName();
 
-	private static final String ANIMATION_PERMISSION = "android.permission.SET_ANIMATION_SCALE";
-	private static final float DISABLED = 0.0f;
-	private static final float DEFAULT = 1.0f;
-
-	private final Context context;
-
-	public SystemAnimations(Context context) {
-		this.context = context;
+	private static final List<String> ANIMATION_PROPERTIES;
+	static {
+		ANIMATION_PROPERTIES = Collections.unmodifiableList(Arrays.asList(
+				"window_animation_scale", "transition_animation_scale",
+						"animator_duration_scale"));
 	}
 
-	public void disableAll() {
-		int permStatus = context.checkCallingOrSelfPermission(ANIMATION_PERMISSION);
-		if (permStatus == PackageManager.PERMISSION_GRANTED) {
-			setSystemAnimationsScale(DISABLED);
-		}
+	//DISABLED would be 0.0
+	private static final String DEFAULT = "1.0";
+	private static final String UNSET = "null";
+
+	private final Instrumentation instrumentation;
+
+	private Map<String, String> storedAnimationSettings = new HashMap<>();
+
+	public SystemAnimations(final Instrumentation instrumentation) {
+		this.instrumentation = instrumentation;
 	}
 
-	public void enableAll() {
-		int permStatus = context.checkCallingOrSelfPermission(ANIMATION_PERMISSION);
-		if (permStatus == PackageManager.PERMISSION_GRANTED) {
-			setSystemAnimationsScale(DEFAULT);
-		}
+	public void enableAll() throws IOException {
+		setSystemAnimationsScale(DEFAULT);
 	}
 
-	private void setSystemAnimationsScale(float animationScale) {
-		try {
-			Class<?> windowManagerStubClazz = Class.forName("android.view.IWindowManager$Stub");
-			Method asInterface = windowManagerStubClazz.getDeclaredMethod("asInterface", IBinder.class);
-			Class<?> serviceManagerClazz = Class.forName("android.os.ServiceManager");
-			Method getService = serviceManagerClazz.getDeclaredMethod("getService", String.class);
-			Class<?> windowManagerClazz = Class.forName("android.view.IWindowManager");
-			Method setAnimationScales = windowManagerClazz.getDeclaredMethod("setAnimationScales", float[].class);
-			Method getAnimationScales = windowManagerClazz.getDeclaredMethod("getAnimationScales");
-
-			IBinder windowManagerBinder = (IBinder) getService.invoke(null, "window");
-			Object windowManagerObj = asInterface.invoke(null, windowManagerBinder);
-			float[] currentScales = (float[]) getAnimationScales.invoke(windowManagerObj);
-			for (int i = 0; i < currentScales.length; i++) {
-				currentScales[i] = animationScale;
+	public void storeCurrentSettings() throws IOException {
+		storedAnimationSettings.clear();
+		for (String property : ANIMATION_PROPERTIES) {
+			final String val = getGlobalSetting(property);
+			if (isFloat(val) || UNSET.equals(val)) {
+				storedAnimationSettings.put(property, val);
 			}
-			setAnimationScales.invoke(windowManagerObj, new Object[] {currentScales});
-		} catch (Exception e) {
-			Log.e(TAG, "Could not change animation scale to " + animationScale + " :'(");
 		}
+	}
+
+	public void resetToStoredSettings() throws IOException {
+		for (String property : ANIMATION_PROPERTIES) {
+			final String value = storedAnimationSettings.get(property);
+			if (UNSET.equals(value)) {
+				deleteGlobalSetting(property);
+			} else if (value != null) {
+				setGlobalSetting(property, value);
+			}
+		}
+	}
+
+	private void setSystemAnimationsScale(String animationScale) throws IOException {
+		for (String property : ANIMATION_PROPERTIES) {
+			setGlobalSetting(property, animationScale);
+		}
+	}
+
+	private String getGlobalSetting(final String key) throws IOException {
+		return executeShellCommand("settings get global " + key).trim();
+	}
+
+	private void setGlobalSetting(final String key, final String value) throws IOException {
+		executeShellCommand("settings put global " + key + " " + value);
+	}
+
+	private void deleteGlobalSetting(final String key) throws IOException {
+		executeShellCommand("settings delete global " + key);
+	}
+
+	/**
+	 * Executes a shell command via the UIAutomator.
+	 * @param command the command to execute
+	 * @return the STDOUT of the command as String
+	 * @throws IOException if the command can't be executed or the output could not be parsed
+	 */
+	private String executeShellCommand(final String command) throws IOException {
+		StringBuilder cmdOutput = new StringBuilder();
+
+		try (ParcelFileDescriptor pfd = instrumentation.getUiAutomation()
+				.executeShellCommand(command);
+				BufferedReader reader = new BufferedReader(new InputStreamReader(
+						new FileInputStream(pfd.getFileDescriptor())))) {
+
+			final String line = reader.readLine();
+			if (line != null) {
+				cmdOutput.append(line);
+			}
+		}
+
+		return cmdOutput.toString();
+	}
+
+	@SuppressWarnings("ResultOfMethodCallIgnored")
+	private boolean isFloat(final String valueToCheck) {
+		boolean isFloat = true;
+		try {
+			Float.parseFloat(valueToCheck);
+		} catch (NumberFormatException nfe) {
+			isFloat = false;
+		}
+		return isFloat;
 	}
 }

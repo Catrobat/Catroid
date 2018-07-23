@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.uiespresso.facedetection;
 
+import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
@@ -35,7 +36,7 @@ import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Sensors;
-import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.stage.utils.ScriptEvaluationGateBrick;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
@@ -62,14 +63,13 @@ public class FaceDetectionResourceStartedTest {
 	private ScriptEvaluationGateBrick lastBrickInScript;
 
 	@Rule
-	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(ScriptActivity.class, true, false);
-
+	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 	@Before
 	public void setUp() throws Exception {
 	}
 
-	@Category({Cat.AppUi.class, Level.Functional.class})
+	@Category({Cat.AppUi.class, Level.Functional.class, Cat.Quarantine.class})
 	@Flaky
 	@Test
 	public void facedetectionResourceEnabledTest() {
@@ -77,7 +77,7 @@ public class FaceDetectionResourceStartedTest {
 				new FormulaElement(FormulaElement.ElementType.SENSOR, Sensors.FACE_SIZE.name(), null));
 		createProject();
 
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 		onView(withId(R.id.button_play)).perform(click());
 
 		lastBrickInScript.waitUntilEvaluated(3000);
@@ -90,14 +90,14 @@ public class FaceDetectionResourceStartedTest {
 		assertFalse(FaceDetectionHandler.isFaceDetectionRunning());
 	}
 
-	@Category({Cat.AppUi.class, Level.Functional.class})
+	@Category({Cat.AppUi.class, Level.Functional.class, Cat.Quarantine.class})
 	@Test
 	public void facedetectionResourceNotEnabledTest() {
 		formula = new Formula(
 				new FormulaElement(FormulaElement.ElementType.NUMBER, "42", null));
 		createProject();
 
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 		onView(withId(R.id.button_play)).perform(click());
 
 		lastBrickInScript.waitUntilEvaluated(3000);
@@ -110,7 +110,7 @@ public class FaceDetectionResourceStartedTest {
 		assertFalse(FaceDetectionHandler.isFaceDetectionRunning());
 	}
 
-	@Category({Cat.AppUi.class, Level.Functional.class})
+	@Category({Cat.AppUi.class, Level.Functional.class, Cat.Quarantine.class})
 	@Flaky
 	@Test
 	public void facedetectionResourceChangedTest() {
@@ -118,7 +118,7 @@ public class FaceDetectionResourceStartedTest {
 				new FormulaElement(FormulaElement.ElementType.SENSOR, Sensors.FACE_SIZE.name(), null));
 		createProject();
 
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 		onView(withId(R.id.button_play)).perform(click());
 
 		lastBrickInScript.waitUntilEvaluated(3000);
@@ -138,7 +138,7 @@ public class FaceDetectionResourceStartedTest {
 	}
 
 	private void createProject() {
-		Project project = new Project(null, "FaceDetectionResourceStartedTest");
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), "FaceDetectionResourceStartedTest");
 		Sprite sprite = new Sprite("testSprite");
 		Script startScript = new StartScript();
 		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(formula);

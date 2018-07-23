@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,11 +27,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
 import org.catrobat.catroid.utils.Utils;
@@ -132,10 +132,10 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 			return;
 		}
 		if (message == null) {
-			new CustomAlertDialogBuilder(context).setTitle(R.string.register_error).setMessage(messageId)
+			new AlertDialog.Builder(context).setTitle(R.string.register_error).setMessage(messageId)
 					.setPositiveButton(R.string.ok, null).show();
 		} else {
-			new CustomAlertDialogBuilder(context).setTitle(R.string.register_error).setMessage(message)
+			new AlertDialog.Builder(context).setTitle(R.string.register_error).setMessage(message)
 					.setPositiveButton(R.string.ok, null).show();
 		}
 	}

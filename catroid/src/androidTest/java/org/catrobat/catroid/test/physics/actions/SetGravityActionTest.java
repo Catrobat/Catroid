@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,20 +22,43 @@
  */
 package org.catrobat.catroid.test.physics.actions;
 
+import android.support.test.runner.AndroidJUnit4;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Action;
 
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.physics.PhysicsWorld;
-import org.catrobat.catroid.test.physics.PhysicsBaseTest;
+import org.catrobat.catroid.test.physics.PhysicsTestRule;
 import org.catrobat.catroid.test.utils.Reflection;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class SetGravityActionTest extends PhysicsBaseTest {
+import static junit.framework.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class SetGravityActionTest {
 
 	private static final float GRAVITY_X = 10.0f;
 	private static final float GRAVITY_Y = 10.0f;
 
+	@Rule
+	public PhysicsTestRule rule = new PhysicsTestRule();
+
+	private Sprite sprite;
+	private PhysicsWorld physicsWorld;
+
+	@Before
+	public void setUp() {
+		sprite = rule.sprite;
+		physicsWorld = rule.physicsWorld;
+	}
+
+	@Test
 	public void testNormalBehavior() {
 		float gravityX = GRAVITY_X;
 		float gravityY = GRAVITY_Y;
@@ -44,10 +67,11 @@ public class SetGravityActionTest extends PhysicsBaseTest {
 		Vector2 gravityVector = ((World) Reflection.getPrivateField(PhysicsWorld.class, physicsWorld, "world"))
 				.getGravity();
 
-		assertEquals("Unexpected gravityX value", gravityX, gravityVector.x);
-		assertEquals("Unexpected gravityY value", gravityY, gravityVector.y);
+		assertEquals(gravityX, gravityVector.x);
+		assertEquals(gravityY, gravityVector.y);
 	}
 
+	@Test
 	public void testNegativeValue() {
 		float gravityX = 10.0f;
 		float gravityY = -10.0f;
@@ -56,10 +80,11 @@ public class SetGravityActionTest extends PhysicsBaseTest {
 		Vector2 gravityVector = ((World) Reflection.getPrivateField(PhysicsWorld.class, physicsWorld, "world"))
 				.getGravity();
 
-		assertEquals("Unexpected gravityX value", gravityX, gravityVector.x);
-		assertEquals("Unexpected gravityY value", gravityY, gravityVector.y);
+		assertEquals(gravityX, gravityVector.x);
+		assertEquals(gravityY, gravityVector.y);
 	}
 
+	@Test
 	public void testZeroValue() {
 		float gravityX = 0.0f;
 		float gravityY = 10.0f;
@@ -68,8 +93,8 @@ public class SetGravityActionTest extends PhysicsBaseTest {
 		Vector2 gravityVector = ((World) Reflection.getPrivateField(PhysicsWorld.class, physicsWorld, "world"))
 				.getGravity();
 
-		assertEquals("Unexpected gravityX value", gravityX, gravityVector.x);
-		assertEquals("Unexpected gravityY value", gravityY, gravityVector.y);
+		assertEquals(gravityX, gravityVector.x);
+		assertEquals(gravityY, gravityVector.y);
 	}
 
 	private void initGravityValues(float gravityX, float gravityY) {
@@ -78,45 +103,48 @@ public class SetGravityActionTest extends PhysicsBaseTest {
 		Vector2 gravityVector = ((World) Reflection.getPrivateField(PhysicsWorld.class, physicsWorld, "world"))
 				.getGravity();
 
-		assertEquals("Unexpected gravityX value", PhysicsWorld.DEFAULT_GRAVITY.x, gravityVector.x);
-		assertEquals("Unexpected gravityY value", PhysicsWorld.DEFAULT_GRAVITY.y, gravityVector.y);
+		assertEquals(PhysicsWorld.DEFAULT_GRAVITY.x, gravityVector.x);
+		assertEquals(PhysicsWorld.DEFAULT_GRAVITY.y, gravityVector.y);
 
 		action.act(1.0f);
 	}
 
+	@Test
 	public void testBrickWithStringFormula() {
 		sprite.getActionFactory().createSetGravityAction(sprite, new Formula(String.valueOf(GRAVITY_X)),
 				new Formula(String.valueOf(GRAVITY_Y))).act(1.0f);
 		Vector2 gravityVector = ((World) Reflection.getPrivateField(PhysicsWorld.class, physicsWorld, "world"))
 				.getGravity();
 
-		assertEquals("Unexpected gravityX value", GRAVITY_X, gravityVector.x);
-		assertEquals("Unexpected gravityY value", GRAVITY_Y, gravityVector.y);
+		assertEquals(GRAVITY_X, gravityVector.x);
+		assertEquals(GRAVITY_Y, gravityVector.y);
 
 		sprite.getActionFactory().createSetGravityAction(sprite, new Formula(String.valueOf("not a numerical string")),
 				new Formula(String.valueOf("not a numerical string"))).act(1.0f);
 		gravityVector = ((World) Reflection.getPrivateField(PhysicsWorld.class, physicsWorld, "world")).getGravity();
 
-		assertEquals("Unexpected gravityX value", GRAVITY_X, gravityVector.x);
-		assertEquals("Unexpected gravityY value", GRAVITY_Y, gravityVector.y);
+		assertEquals(GRAVITY_X, gravityVector.x);
+		assertEquals(GRAVITY_Y, gravityVector.y);
 	}
 
+	@Test
 	public void testNullFormula() {
 		sprite.getActionFactory().createSetGravityAction(sprite, null, null).act(1.0f);
 		Vector2 gravityVector = ((World) Reflection.getPrivateField(PhysicsWorld.class, physicsWorld, "world"))
 				.getGravity();
 
-		assertEquals("Unexpected gravityX value", 0f, gravityVector.x);
-		assertEquals("Unexpected gravityY value", 0f, gravityVector.y);
+		assertEquals(0f, gravityVector.x);
+		assertEquals(0f, gravityVector.y);
 	}
 
+	@Test
 	public void testNotANumberFormula() {
 		sprite.getActionFactory().createSetGravityAction(sprite, new Formula(Double.NaN), new Formula(Double.NaN))
 				.act(1.0f);
 		Vector2 gravityVector = ((World) Reflection.getPrivateField(PhysicsWorld.class, physicsWorld, "world"))
 				.getGravity();
 
-		assertEquals("Unexpected gravityX value", PhysicsWorld.DEFAULT_GRAVITY.x, gravityVector.x);
-		assertEquals("Unexpected gravityY value", PhysicsWorld.DEFAULT_GRAVITY.y, gravityVector.y);
+		assertEquals(PhysicsWorld.DEFAULT_GRAVITY.x, gravityVector.x);
+		assertEquals(PhysicsWorld.DEFAULT_GRAVITY.y, gravityVector.y);
 	}
 }

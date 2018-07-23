@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.InstrumentationTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
@@ -30,15 +30,19 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
+import org.catrobat.catroid.content.eventids.EventId;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import java.util.HashMap;
-import java.util.List;
+import static junit.framework.Assert.assertEquals;
 
-public class ForeverActionTest extends InstrumentationTestCase {
+@RunWith(AndroidJUnit4.class)
+public class ForeverActionTest {
 
 	private static final int REPEAT_TIMES = 4;
 	private final float delta = 0.005f;
 
+	@Test
 	public void testLoopDelay() throws InterruptedException {
 		final int deltaY = -10;
 
@@ -54,7 +58,7 @@ public class ForeverActionTest extends InstrumentationTestCase {
 		testScript.addBrick(loopEndBrick);
 
 		testSprite.addScript(testScript);
-		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
+		testSprite.initializeEventThreads(EventId.START);
 
 		/*
 		 * This is only to document that a delay of 20ms is by contract. See Issue 28 in Google Code
@@ -69,7 +73,6 @@ public class ForeverActionTest extends InstrumentationTestCase {
 			}
 		}
 
-		assertEquals("Loop delay did was not 20ms!", deltaY * REPEAT_TIMES,
-				(int) testSprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(deltaY * REPEAT_TIMES, (int) testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 }

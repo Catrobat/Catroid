@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.formulaeditor;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.SingleSprite;
@@ -34,11 +34,18 @@ import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.Sensors;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class LookSensorValuesInterpretationTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.fail;
+
+@RunWith(AndroidJUnit4.class)
+public class LookSensorValuesInterpretationTest {
 
 	private static final float LOOK_ALPHA = 0.42f;
 	private static final float LOOK_Y_POSITION = 23.4f;
@@ -49,8 +56,8 @@ public class LookSensorValuesInterpretationTest extends AndroidTestCase {
 	private static final float DELTA = 0.01f;
 	private Sprite testSprite;
 
-	@Override
-	protected void setUp() {
+	@Before
+	public void setUp() {
 		testSprite = new SingleSprite("sprite");
 		testSprite.look.setXInUserInterfaceDimensionUnit(LOOK_X_POSITION);
 		testSprite.look.setYInUserInterfaceDimensionUnit(LOOK_Y_POSITION);
@@ -68,41 +75,36 @@ public class LookSensorValuesInterpretationTest extends AndroidTestCase {
 		return new Formula(parseTree);
 	}
 
+	@Test
 	public void testLookSensorValues() {
 
 		try {
 			Formula lookXPositionFormula = getFormulaBySensor(Sensors.OBJECT_X);
-			assertEquals("Formula interpretation is not as expected (x-Position)", LOOK_X_POSITION,
-					lookXPositionFormula.interpretDouble(testSprite), DELTA);
+			assertEquals(LOOK_X_POSITION, lookXPositionFormula.interpretDouble(testSprite), DELTA);
 
 			Formula lookYPositionFormula = getFormulaBySensor(Sensors.OBJECT_Y);
-			assertEquals("Formula interpretation is not as expected (y-Position)", LOOK_Y_POSITION,
-					lookYPositionFormula.interpretDouble(testSprite), DELTA);
+			assertEquals(LOOK_Y_POSITION, lookYPositionFormula.interpretDouble(testSprite), DELTA);
 
 			Formula lookAlphaValueFormula = getFormulaBySensor(Sensors.OBJECT_TRANSPARENCY);
-			assertEquals("Formula interpretation is not as expected (ghosteffect)", LOOK_ALPHA,
-					lookAlphaValueFormula.interpretDouble(testSprite), DELTA);
+			assertEquals(LOOK_ALPHA, lookAlphaValueFormula.interpretDouble(testSprite), DELTA);
 
 			Formula lookBrightnessFormula = getFormulaBySensor(Sensors.OBJECT_BRIGHTNESS);
-			assertEquals("Formula interpretation is not as expected (brightness)", LOOK_BRIGHTNESS,
-					lookBrightnessFormula.interpretDouble(testSprite), DELTA);
+			assertEquals(LOOK_BRIGHTNESS, lookBrightnessFormula.interpretDouble(testSprite), DELTA);
 
 			Formula lookScaleFormula = getFormulaBySensor(Sensors.OBJECT_SIZE);
-			assertEquals("Formula interpretation is not as expected (size)", LOOK_SCALE,
-					lookScaleFormula.interpretDouble(testSprite), DELTA);
+			assertEquals(LOOK_SCALE, lookScaleFormula.interpretDouble(testSprite), DELTA);
 
 			Formula lookRotateFormula = getFormulaBySensor(Sensors.OBJECT_ROTATION);
-			assertEquals("Formula interpretation is not as expected (rotation)", LOOK_ROTATION,
-					lookRotateFormula.interpretDouble(testSprite), DELTA);
+			assertEquals(LOOK_ROTATION, lookRotateFormula.interpretDouble(testSprite), DELTA);
 
 			Formula lookZPositionFormula = getFormulaBySensor(Sensors.OBJECT_LAYER);
-			assertEquals("Formula interpretation is not as expected (z-index)", testSprite.look.getZIndex(),
-					lookZPositionFormula.interpretInteger(testSprite).intValue() + Constants.Z_INDEX_NUMBER_VIRTUAL_LAYERS);
+			assertEquals(testSprite.look.getZIndex(), lookZPositionFormula.interpretInteger(testSprite).intValue() + Constants.Z_INDEX_NUMBER_VIRTUAL_LAYERS);
 		} catch (InterpretationException interpretationException) {
 			fail("Could not interprete Formula.");
 		}
 	}
 
+	@Test
 	public void testNotExistingLookSensorValues() {
 		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.SENSOR, "", 0);
 		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.SENSOR, "notExistingLookSensor", 0);

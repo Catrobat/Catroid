@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,15 +22,14 @@
  */
 package org.catrobat.catroid.uiespresso;
 
-import android.support.test.espresso.IdlingRegistry;
-import android.support.test.espresso.IdlingResource;
+import android.preference.PreferenceManager;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
-import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.DontGenerateDefaultProjectActivityInstrumentationRule;
 import org.junit.After;
 import org.junit.Before;
@@ -42,34 +41,52 @@ import org.junit.runner.RunWith;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-import static junit.framework.Assert.assertTrue;
+import static org.catrobat.catroid.uiespresso.util.UiTestUtils.assertCurrentActivityIsInstanceOf;
+import static org.hamcrest.Matchers.is;
 
 @RunWith(AndroidJUnit4.class)
 public class SmokeTest {
-	private IdlingResource idlingResource;
 
 	@Rule
 	public DontGenerateDefaultProjectActivityInstrumentationRule<MainMenuActivity> baseActivityTestRule = new
 			DontGenerateDefaultProjectActivityInstrumentationRule<>(MainMenuActivity.class);
 
+	private static final String AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY = "AgreedToPrivacyPolicy";
+	private boolean bufferedPreferenceSetting;
+
 	@Before
 	public void setUp() throws Exception {
-		baseActivityTestRule.launchActivity(null);
+		bufferedPreferenceSetting = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry
+				.getTargetContext())
+				.getBoolean(AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY, false);
 
-		idlingResource = baseActivityTestRule.getActivity().getIdlingResource();
-		IdlingRegistry.getInstance().register(idlingResource);
+		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
+				.edit()
+				.putBoolean(AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY, true)
+				.commit();
+		baseActivityTestRule.launchActivity(null);
+	}
+
+	@After
+	public void tearDown() {
+		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
+				.edit()
+				.putBoolean(AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY, bufferedPreferenceSetting)
+				.commit();
 	}
 
 	@Test
 	@Category(Level.Smoke.class)
 	public void newProject() {
-		onView(withId(R.id.main_menu_button_new))
+		onView(withText(R.string.main_menu_new))
 				.perform(click());
 
 		//check if dialog title is displayed
@@ -77,8 +94,9 @@ public class SmokeTest {
 				.check(matches(isDisplayed()));
 
 		//enter new project name
-		onView(withId(R.id.project_name_edittext))
-				.perform(typeText("TestProject"));
+		onView(withClassName(is("android.support.design.widget.TextInputEditText")))
+				.perform(typeText("TestProject"), closeSoftKeyboard());
+		//onView(withId(R.id.input)).perform(typeText("TestProject"));
 		onView(withText(R.string.ok))
 				.perform(click());
 
@@ -90,28 +108,19 @@ public class SmokeTest {
 				.perform(click());
 
 		//check if user ends up in right activity either by checking activity itself:
-		assertTrue(UiTestUtils.getCurrentActivity() instanceof ProjectActivity);
-
-		//or better by checking on ui elements that identify this activity
-		//onView(withText(toUpperCase(R.string.spritelist_background_headline))).check(matches(isDisplayed()));
-		//onView(withText(toUpperCase(R.string.sprites))).check(matches(isDisplayed()));
+		assertCurrentActivityIsInstanceOf(ProjectActivity.class);
 
 		//add sprite
 		onView(withId(R.id.button_add))
 				.perform(click());
 
 		//check if new object dialog is displayed
-		onView(withText(R.string.new_sprite_dialog_title))
+		onView(withText(R.string.new_look_dialog_title))
 				.check(matches(isDisplayed()));
 		//cancel by back
 		pressBack();
 
-		//something you shouldnt do in the first place, but heres how to wait:
+		//something you shouldn't do in the first place, but here's how to wait:
 		//onView(isRoot()).perform(CustomActions.wait(5000));
-	}
-
-	@After
-	public void tearDown() throws Exception {
-		IdlingRegistry.getInstance().unregister(idlingResource);
 	}
 }

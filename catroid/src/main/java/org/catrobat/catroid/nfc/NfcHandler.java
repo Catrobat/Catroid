@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,12 +35,13 @@ import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.BrickValues;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.InterpretationException;
+import org.catrobat.catroid.content.EventWrapper;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.eventids.EventId;
+import org.catrobat.catroid.content.eventids.NfcEventId;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.List;
 
 public final class NfcHandler {
 	private static final String TAG = NfcHandler.class.getSimpleName();
@@ -57,13 +58,10 @@ public final class NfcHandler {
 		}
 
 		String uid = getTagIdFromIntent(intent);
-		setLastNfcTagId(uid);
-		setLastNfcTagMessage(getMessageFromIntent(intent));
-
-		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteListWithClones();
-
-		for (Sprite sprite : spriteList) {
-			sprite.createWhenNfcScriptAction(uid);
+		if (uid != null) {
+			setLastNfcTagId(uid);
+			setLastNfcTagMessage(getMessageFromIntent(intent));
+			fireNfcEvents(uid);
 		}
 	}
 
@@ -106,6 +104,17 @@ public final class NfcHandler {
 			}
 		}
 		return null;
+	}
+
+	private static void fireNfcEvents(String uid) {
+		EventId nfcEventId = new NfcEventId(uid);
+		EventWrapper nfcEvent = new EventWrapper(nfcEventId, EventWrapper.NO_WAIT);
+		EventId anyNfcEventId = new EventId(EventId.ANY_NFC);
+		EventWrapper anyNfcEvent = new EventWrapper(anyNfcEventId, EventWrapper.NO_WAIT);
+
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		currentProject.fireToAllSprites(nfcEvent);
+		currentProject.fireToAllSprites(anyNfcEvent);
 	}
 
 	private static boolean payloadStartContainsText(byte payloadStart) {
@@ -161,7 +170,7 @@ public final class NfcHandler {
 		}
 	}
 
-	public static NdefMessage createMessage(String message, int spinnerSelection) throws InterpretationException {
+	public static NdefMessage createMessage(String message, int spinnerSelection) {
 		NdefRecord ndefRecord;
 		short tnf = 0;
 		byte[] type;

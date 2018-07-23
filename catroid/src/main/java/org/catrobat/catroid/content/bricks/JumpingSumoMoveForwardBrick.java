@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,14 +25,12 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
-
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
@@ -55,7 +53,7 @@ public class JumpingSumoMoveForwardBrick extends FormulaBrick {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		Log.i(TAG, "add time in ms: " + getFormulaWithBrickField(BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS) + " power: " + getFormulaWithBrickField(BrickField.JUMPING_SUMO_SPEED));
 		sequence.addAction(sprite.getActionFactory().createJumpingSumoMoveForwardAction(sprite,
 				getFormulaWithBrickField(BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS),
@@ -75,15 +73,15 @@ public class JumpingSumoMoveForwardBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	public int getViewResource() {
+		return R.layout.brick_jumping_sumo_move_forward;
+	}
 
-		view = View.inflate(context, R.layout.brick_jumping_sumo_move_forward, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_jumping_sumo_move_forward_checkbox);
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
+		setSecondText(view, R.id.brick_jumping_sumo_move_forward_text_second, R.id
+				.brick_jumping_sumo_move_forward_edit_text_second, BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS);
 
 		TextView editTime = (TextView) view.findViewById(R.id.brick_jumping_sumo_move_forward_edit_text_second);
 		getFormulaWithBrickField(BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS)
@@ -102,15 +100,16 @@ public class JumpingSumoMoveForwardBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_jumping_sumo_move_forward, null);
+		View prototypeView = super.getPrototypeView(context);
 		TextView textTime = (TextView) prototypeView.findViewById(R.id
 				.brick_jumping_sumo_move_forward_edit_text_second);
 
 		TextView textPower = (TextView) prototypeView.findViewById(R.id
 				.brick_jumping_sumo_move_forward_edit_text_power);
-		textTime.setText(String.valueOf(BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000));
+		textTime.setText(formatNumberForPrototypeView(BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000));
 
-		textPower.setText(String.valueOf(BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT));
+		textPower.setText(formatNumberForPrototypeView(BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT));
+		setSecondText(context, prototypeView, R.id.brick_jumping_sumo_move_forward_text_second);
 		return prototypeView;
 	}
 

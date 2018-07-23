@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.physics;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
 import com.badlogic.gdx.math.Vector2;
@@ -36,10 +36,21 @@ import org.catrobat.catroid.physics.PhysicsObject.Type;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.Reflection.ParameterList;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.Map;
 
-public class PhysicsWorldTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
+
+@RunWith(AndroidJUnit4.class)
+public class PhysicsWorldTest {
 	static {
 		GdxNativesLoader.load();
 	}
@@ -50,56 +61,60 @@ public class PhysicsWorldTest extends AndroidTestCase {
 	private Map<Sprite, PhysicsObject> physicsObjects;
 
 	@SuppressWarnings("unchecked")
-	@Override
+	@Before
 	public void setUp() {
 		physicsWorld = new PhysicsWorld(1920, 1600);
 		world = (World) Reflection.getPrivateField(physicsWorld, "world");
 		physicsObjects = (Map<Sprite, PhysicsObject>) Reflection.getPrivateField(physicsWorld, "physicsObjects");
-		PhysicsBaseTest.stabilizePhysicsWorld(physicsWorld);
+		PhysicsTestRule.stabilizePhysicsWorld(physicsWorld);
 	}
 
-	@Override
+	@After
 	public void tearDown() {
 		physicsWorld = null;
 		world = null;
 		physicsObjects = null;
 	}
 
+	@Test
 	public void testDefaultSettings() {
-		assertEquals("Wrong configuration", 10.0f, PhysicsWorld.RATIO);
-		assertEquals("Wrong configuration", 3, PhysicsWorld.VELOCITY_ITERATIONS);
-		assertEquals("Wrong configuration", 3, PhysicsWorld.POSITION_ITERATIONS);
+		assertEquals(10.0f, PhysicsWorld.RATIO);
+		assertEquals(3, PhysicsWorld.VELOCITY_ITERATIONS);
+		assertEquals(3, PhysicsWorld.POSITION_ITERATIONS);
 
-		assertEquals("Wrong configuration", new Vector2(0, -10), PhysicsWorld.DEFAULT_GRAVITY);
-		assertFalse("Wrong configuration", PhysicsWorld.IGNORE_SLEEPING_OBJECTS);
+		assertEquals(new Vector2(0, -10), PhysicsWorld.DEFAULT_GRAVITY);
+		assertFalse(PhysicsWorld.IGNORE_SLEEPING_OBJECTS);
 
-		assertEquals("Wrong configuration", 6, Reflection.getPrivateField(physicsWorld, "STABILIZING_STEPS"));
+		assertEquals(6, Reflection.getPrivateField(physicsWorld, "STABILIZING_STEPS"));
 
 		short expectedCategoryBoundaryBox = 0x0002;
 		short expectedCategoryPhysicsObject = 0x0004;
-		assertEquals("Wrong configuration", 0x0000, PhysicsWorld.CATEGORY_NO_COLLISION);
-		assertEquals("Wrong configuration", expectedCategoryBoundaryBox, PhysicsWorld.CATEGORY_BOUNDARYBOX);
-		assertEquals("Wrong configuration", expectedCategoryPhysicsObject, PhysicsWorld.CATEGORY_PHYSICSOBJECT);
+		assertEquals(0x0000, PhysicsWorld.CATEGORY_NO_COLLISION);
+		assertEquals(expectedCategoryBoundaryBox, PhysicsWorld.CATEGORY_BOUNDARYBOX);
+		assertEquals(expectedCategoryPhysicsObject, PhysicsWorld.CATEGORY_PHYSICSOBJECT);
 
-		assertEquals("Wrong configuration", expectedCategoryPhysicsObject, PhysicsWorld.MASK_BOUNDARYBOX);
-		assertEquals("Wrong configuration", ~expectedCategoryBoundaryBox, PhysicsWorld.MASK_PHYSICSOBJECT);
-		assertEquals("Wrong configuration", -1, PhysicsWorld.MASK_TO_BOUNCE);
-		assertEquals("Wrong configuration", 0, PhysicsWorld.MASK_NO_COLLISION);
+		assertEquals(expectedCategoryPhysicsObject, PhysicsWorld.MASK_BOUNDARYBOX);
+		assertEquals(~expectedCategoryBoundaryBox, PhysicsWorld.MASK_PHYSICSOBJECT);
+		assertEquals(-1, PhysicsWorld.MASK_TO_BOUNCE);
+		assertEquals(0, PhysicsWorld.MASK_NO_COLLISION);
 	}
 
+	@Test
 	public void testWrapper() {
-		assertNotNull("Didn't load box2d wrapper", world);
+		assertNotNull(world);
 	}
 
+	@Test
 	public void testGravity() {
-		assertEquals("Wrong initialization", PhysicsWorld.DEFAULT_GRAVITY, world.getGravity());
+		assertEquals(PhysicsWorld.DEFAULT_GRAVITY, world.getGravity());
 
 		Vector2 newGravity = new Vector2(-1.2f, 3.4f);
 		physicsWorld.setGravity(newGravity.x, newGravity.y);
 
-		assertEquals("Did not update gravity", newGravity, world.getGravity());
+		assertEquals(newGravity, world.getGravity());
 	}
 
+	@Test
 	public void testGetNullPhysicsObject() {
 		try {
 			physicsWorld.getPhysicsObject(null);
@@ -109,34 +124,38 @@ public class PhysicsWorldTest extends AndroidTestCase {
 		}
 	}
 
+	@Test
 	public void testGetPhysicsObject() {
 		Sprite sprite = new Sprite("TestSprite");
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 
-		assertNotNull("No physics object was created", physicsObject);
-		assertEquals("Wrong number of physics objects were stored", 1, physicsObjects.size());
-		assertTrue("Sprite wasn't saved into physics object map", physicsObjects.containsKey(sprite));
-		assertEquals("Wrong map relation for sprite", physicsObject, physicsObjects.get(sprite));
+		assertNotNull(physicsObject);
+		assertEquals(1, physicsObjects.size());
+		assertTrue(physicsObjects.containsKey(sprite));
+		assertEquals(physicsObject, physicsObjects.get(sprite));
 	}
 
+	@Test
 	public void testCreatePhysicsObject() {
 		Object[] values = {new Sprite("testsprite")};
 		ParameterList paramList = new ParameterList(values);
 		PhysicsObject physicsObject = (PhysicsObject) Reflection.invokeMethod(physicsWorld, "createPhysicsObject",
 				paramList);
 
-		assertEquals("Type is not the expected", Type.NONE, physicsObject.getType());
+		assertEquals(Type.NONE, physicsObject.getType());
 	}
 
+	@Test
 	public void testGetSamePhysicsObject() {
 		Sprite sprite = new Sprite("TestSprite");
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		PhysicsObject samePhysicsObject = physicsWorld.getPhysicsObject(sprite);
 
-		assertEquals("Wrong number of physics objects stored", 1, physicsObjects.size());
-		assertEquals("Physics objects are different", physicsObject, samePhysicsObject);
+		assertEquals(1, physicsObjects.size());
+		assertEquals(physicsObject, samePhysicsObject);
 	}
 
+	@Test
 	public void testSteps() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
 			IllegalAccessException {
 		Sprite sprite = new Sprite("TestSprite");
@@ -148,20 +167,20 @@ public class PhysicsWorldTest extends AndroidTestCase {
 		float rotationSpeed = 45.0f;
 		physicsWorld.setGravity(0.0f, 0.0f);
 
-		assertEquals("Physics object has a wrong start position", new Vector2(), physicsObject.getPosition());
+		assertEquals(new Vector2(), physicsObject.getPosition());
 
 		physicsObject.setVelocity(velocity.x, velocity.y);
 		physicsObject.setRotationSpeed(rotationSpeed);
 
 		physicsWorld.step(1.0f);
-		assertEquals("Wrong x position", velocity.x, physicsObject.getX(), 1e-8);
-		assertEquals("Wrong y position", velocity.y, physicsObject.getY(), 1e-8);
-		assertEquals("Wrong angle", rotationSpeed, physicsObject.getDirection(), 1e-8);
+		assertEquals(velocity.x, physicsObject.getX(), 1e-8);
+		assertEquals(velocity.y, physicsObject.getY(), 1e-8);
+		assertEquals(rotationSpeed, physicsObject.getDirection(), 1e-8);
 
 		// TODO[Physics] angle problem
 		physicsWorld.step(1.0f);
-		assertEquals("Wrong x position", 2 * velocity.x, physicsObject.getX(), 1e-8);
-		assertEquals("Wrong y position", 2 * velocity.y, physicsObject.getY(), 1e-8);
-		assertEquals("Wrong angle", 2 * rotationSpeed, physicsObject.getDirection(), 1e-8);
+		assertEquals(2 * velocity.x, physicsObject.getX(), 1e-8);
+		assertEquals(2 * velocity.y, physicsObject.getY(), 1e-8);
+		assertEquals(2 * rotationSpeed, physicsObject.getDirection(), 1e-8);
 	}
 }

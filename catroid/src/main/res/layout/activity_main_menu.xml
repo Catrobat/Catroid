@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2017 The Catrobat Team
+  ~ Copyright (C) 2010-2018 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -22,76 +22,25 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical" >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/progress_circle"
+    <include layout="@layout/toolbar" />
+
+    <include layout="@layout/progress_bar" />
+
+    <TextView
+        android:id="@+id/runtime_permission_error_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone" >
+        android:layout_gravity="center"
+        android:padding="@dimen/dialog_content_area_padding"
+        android:visibility="gone"/>
 
-        <ProgressBar
-            android:id="@+id/progress_bar_header"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout >
-
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:id="@+id/main_menu_buttons_container">
-
-        <Button
-            android:id="@+id/main_menu_button_continue"
-            style="@style/MainMenuButton"
-            android:layout_height="0dp"
-            android:layout_marginTop="3dp"
-            android:layout_weight="1.5"
-            android:drawableStart="@drawable/ic_main_menu_continue"
-            android:onClick="handleContinueButton"
-            android:text="@string/main_menu_continue" />
-
-        <Button
-            android:id="@+id/main_menu_button_new"
-            style="@style/MainMenuButton"
-            android:drawableStart="@drawable/ic_main_menu_new"
-            android:onClick="handleNewButton"
-            android:text="@string/main_menu_new" />
-
-        <Button
-            android:id="@+id/main_menu_button_programs"
-            style="@style/MainMenuButton"
-            android:drawableStart="@drawable/ic_main_menu_programs"
-            android:onClick="handleProgramsButton"
-            android:text="@string/main_menu_programs" />
-
-        <Button
-            android:id="@+id/main_menu_button_help"
-            style="@style/MainMenuButton"
-            android:drawableStart="@drawable/ic_main_menu_help"
-            android:onClick="handleHelpButton"
-            android:text="@string/main_menu_help" />
-
-        <Button
-            android:id="@+id/main_menu_button_web"
-            style="@style/MainMenuButton"
-            android:drawableStart="@drawable/ic_main_menu_community"
-            android:onClick="handleWebButton"
-            android:text="@string/main_menu_web" />
-
-        <Button
-            android:id="@+id/main_menu_button_upload"
-            style="@style/MainMenuButton"
-            android:drawableStart="@drawable/ic_main_menu_upload"
-            android:onClick="handleUploadButton"
-            android:text="@string/main_menu_upload" />
-
-    </LinearLayout>
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </LinearLayout>

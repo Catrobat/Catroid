@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,17 +30,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
-
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.controller.BackPackSpriteController;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -68,26 +65,13 @@ public class GoToBrick extends BrickBaseType {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
+	public int getViewResource() {
+		return R.layout.brick_go_to;
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		return clone();
-	}
-
-	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-
-		view = View.inflate(context, R.layout.brick_go_to, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_go_to_checkbox);
-
+	public View getView(final Context context) {
+		super.getView(context);
 		final Spinner goToSpinner = (Spinner) view.findViewById(R.id.brick_go_to_spinner);
 
 		final ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
@@ -107,7 +91,7 @@ public class GoToBrick extends BrickBaseType {
 					spinnerSelection = BrickValues.GO_TO_RANDOM_POSITION;
 				} else {
 					final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance()
-							.getCurrentScene().getSpriteList();
+							.getCurrentlyEditedScene().getSpriteList();
 
 					for (Sprite sprite : spriteList) {
 						String spriteName = sprite.getName();
@@ -132,7 +116,7 @@ public class GoToBrick extends BrickBaseType {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_go_to, null);
+		View prototypeView = super.getPrototypeView(context);
 
 		Spinner goToSpinner = (Spinner) prototypeView.findViewById(R.id.brick_go_to_spinner);
 
@@ -145,14 +129,14 @@ public class GoToBrick extends BrickBaseType {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createGoToAction(sprite, destinationSprite, spinnerSelection));
 
 		return Collections.emptyList();
 	}
 
 	private void setSpinnerSelection(Spinner spinner, Context context) {
-		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentScene()
+		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentlyEditedScene()
 				.getSpriteList();
 
 		if (spinnerSelection == BrickValues.GO_TO_TOUCH_POSITION) {
@@ -186,7 +170,7 @@ public class GoToBrick extends BrickBaseType {
 		arrayAdapter.add(context.getString(R.string.brick_go_to_touch_position));
 		arrayAdapter.add(context.getString(R.string.brick_go_to_random_position));
 
-		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentScene()
+		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentlyEditedScene()
 				.getSpriteList();
 
 		for (Sprite sprite : spriteList) {
@@ -304,21 +288,5 @@ public class GoToBrick extends BrickBaseType {
 		GoToBrick copy = new GoToBrick(destinationSprite);
 		copy.spinnerSelection = spinnerSelection;
 		return copy;
-	}
-
-	public Sprite getDestinationSprite() {
-		return destinationSprite;
-	}
-
-	public void setDestinationSprite(Sprite destinationSprite) {
-		this.destinationSprite = destinationSprite;
-	}
-
-	@Override
-	public void storeDataForBackPack(Sprite sprite) {
-		Sprite spriteToRestore = ProjectManager.getInstance().getCurrentSprite();
-		Sprite backPackedSprite = BackPackSpriteController.getInstance().backpackHiddenSprite(getDestinationSprite());
-		setDestinationSprite(backPackedSprite);
-		ProjectManager.getInstance().setCurrentSprite(spriteToRestore);
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,27 +23,26 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.util.Log;
+import android.support.annotation.CallSuper;
+import android.support.annotation.LayoutRes;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
-import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.util.List;
 
 public abstract class BrickBaseType implements Brick {
+
 	private static final long serialVersionUID = 1L;
-	private static final String TAG = BrickBaseType.class.getSimpleName();
 	public transient View view;
 	protected transient CheckBox checkbox;
 	protected transient BrickAdapter adapter;
 	protected transient int alphaValue = 255;
-	public transient boolean animationState = false;
 
 	protected boolean commentedOut;
 
@@ -58,29 +57,6 @@ public abstract class BrickBaseType implements Brick {
 	}
 
 	@Override
-	public boolean isEqualBrick(Brick brick, Scene mergeResult, Scene current) {
-		if (this.getClass().equals(brick.getClass())) {
-			return true;
-		}
-		return false;
-	}
-
-	@Override
-	public boolean isChecked() {
-		return checkbox.isChecked();
-	}
-
-	@Override
-	public void setAnimationState(boolean animationState) {
-		this.animationState = animationState;
-	}
-
-	@Override
-	public int getAlphaValue() {
-		return alphaValue;
-	}
-
-	@Override
 	public void setBrickAdapter(BrickAdapter adapter) {
 		this.adapter = adapter;
 	}
@@ -91,48 +67,8 @@ public abstract class BrickBaseType implements Brick {
 	}
 
 	@Override
-	public void setCheckboxView(int id) {
-		setCheckboxView(id, view);
-	}
-
-	@Override
-	public void setCheckboxView(int id, View view) {
-		int checkboxVisibility = View.GONE;
-		boolean enabled = true;
-		boolean isChecked = false;
-		if (checkbox != null) {
-			checkboxVisibility = checkbox.getVisibility();
-			enabled = checkbox.isEnabled();
-			isChecked = checkbox.isChecked();
-		}
-		checkbox = (CheckBox) view.findViewById(id);
-		checkbox.setChecked(isChecked);
-		checkbox.setVisibility(checkboxVisibility);
-		checkbox.setEnabled(enabled);
-
-		final Brick instance = this;
-		checkbox.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				adapter.handleCheck(instance, ((CheckBox) view).isChecked());
-			}
-		});
-	}
-
-	@Override
 	public Brick clone() throws CloneNotSupportedException {
 		return (Brick) super.clone();
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		BrickBaseType copyBrick = null;
-		try {
-			copyBrick = (BrickBaseType) clone();
-		} catch (CloneNotSupportedException exception) {
-			Log.e(TAG, Log.getStackTraceString(exception));
-		}
-		return copyBrick;
 	}
 
 	@Override
@@ -145,16 +81,44 @@ public abstract class BrickBaseType implements Brick {
 		return NO_RESOURCES;
 	}
 
-	@Override
-	public abstract View getView(Context context, int brickId, BaseAdapter adapter);
+	public abstract @LayoutRes int getViewResource();
 
+	@CallSuper
 	@Override
-	public abstract View getPrototypeView(Context context);
+	public View getView(Context context) {
+		view = LayoutInflater.from(context).inflate(getViewResource(), null);
 
-	@Override
-	public abstract List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence);
+		BrickViewProvider.setAlphaOnView(view, alphaValue);
 
-	@Override
-	public void storeDataForBackPack(Sprite sprite) {
+		int checkboxVisibility = View.GONE;
+		boolean enabled = true;
+		boolean isChecked = false;
+		if (checkbox != null) {
+			checkboxVisibility = checkbox.getVisibility();
+			enabled = checkbox.isEnabled();
+			isChecked = checkbox.isChecked();
+		}
+
+		checkbox = view.findViewById(R.id.brick_checkbox);
+		checkbox.setChecked(isChecked);
+		checkbox.setVisibility(checkboxVisibility);
+		checkbox.setEnabled(enabled);
+		checkbox.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				adapter.handleCheck(BrickBaseType.this, ((CheckBox) view).isChecked());
+			}
+		});
+
+		return view;
 	}
+
+	@CallSuper
+	@Override
+	public View getPrototypeView(Context context) {
+		return LayoutInflater.from(context).inflate(getViewResource(), null);
+	}
+
+	@Override
+	public abstract List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence);
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,37 +22,29 @@
  */
 package org.catrobat.catroid.test.physics;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.physics.PhysicsDebugSettings;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class PhysicsDebugSettingsTest extends AndroidTestCase {
+import static junit.framework.Assert.assertFalse;
+
+@RunWith(AndroidJUnit4.class)
+public class PhysicsDebugSettingsTest {
 
 	/*
 	 * Tests if all physics debug settings are configured correctly for the release.
 	 * Therefore there is no problem if it fails during programming or debugging.
 	 */
+	@Test
 	public void testDefaultSettingsForRelease() {
-		assertFalse(
-				"Tests if all physics debug settings are configured correctly for the release. Therefore there is no problem if it fails during programming or debugging",
-				PhysicsDebugSettings.Render.RENDER_COLLISION_FRAMES);
-		assertFalse(
-				"Tests if all physics debug settings are configured correctly for the release. Therefore there is no problem if it fails during programming or debugging.",
-				PhysicsDebugSettings.Render.RENDER_BODIES);
-		assertFalse(
-				"Tests if all physics debug settings are configured correctly for the release. Therefore there is no problem if it fails during programming or debugging.",
-				PhysicsDebugSettings.Render.RENDER_JOINTS);
-		assertFalse(
-				"Tests if all physics debug settings are configured correctly for the release. Therefore there is no problem if it fails during programming or debugging.",
-				PhysicsDebugSettings.Render.RENDER_AABB);
-		assertFalse(
-				"Tests if all physics debug settings are configured correctly for the release. Therefore there is no problem if it fails during programming or debugging.",
-				PhysicsDebugSettings.Render.RENDER_INACTIVE_BODIES);
-		assertFalse(
-				"Tests if all physics debug settings are configured correctly for the release. Therefore there is no problem if it fails during programming or debugging.",
-				PhysicsDebugSettings.Render.RENDER_VELOCITIES);
-		assertFalse(
-				"Tests if all physics debug settings are configured correctly for the release. Therefore there is no problem if it fails during programming or debugging.",
-				PhysicsDebugSettings.Render.RENDER_PHYSIC_OBJECT_LABELING);
+		assertFalse(PhysicsDebugSettings.Render.RENDER_COLLISION_FRAMES);
+		assertFalse(PhysicsDebugSettings.Render.RENDER_BODIES);
+		assertFalse(PhysicsDebugSettings.Render.RENDER_JOINTS);
+		assertFalse(PhysicsDebugSettings.Render.RENDER_AABB);
+		assertFalse(PhysicsDebugSettings.Render.RENDER_INACTIVE_BODIES);
+		assertFalse(PhysicsDebugSettings.Render.RENDER_VELOCITIES);
+		assertFalse(PhysicsDebugSettings.Render.RENDER_PHYSIC_OBJECT_LABELING);
 	}
 }

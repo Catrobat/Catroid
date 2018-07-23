@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2017 The Catrobat Team
+  ~ Copyright (C) 2010-2018 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -29,10 +29,10 @@
     android:orientation="horizontal">
 
 	<TextView
-		android:layout_marginLeft="18dp"
+		android:layout_marginStart="18dp"
 		android:drawableStart="@drawable/ic_cast_white"
 		android:drawablePadding="18dp"
-		android:layout_width="fill_parent"
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:id="@+id/cast_device_name"
 		android:textSize="17sp"/>

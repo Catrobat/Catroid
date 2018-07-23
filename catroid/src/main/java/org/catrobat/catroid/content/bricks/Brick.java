@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,13 +24,10 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
-import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.io.Serializable;
@@ -112,12 +109,9 @@ public interface Brick extends Serializable, Cloneable {
 	int CAST_REQUIRED = 0x400000;
 	int JUMPING_SUMO = 0x800000;
 
-	List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence);
+	List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence);
 
-	//needed for the Sprite#clone()-Method
-	Brick copyBrickForSprite(Sprite sprite);
-
-	View getView(Context context, int brickId, BaseAdapter adapter);
+	View getView(Context context);
 
 	View getPrototypeView(Context context);
 
@@ -125,27 +119,13 @@ public interface Brick extends Serializable, Cloneable {
 
 	int getRequiredResources();
 
-	int getAlphaValue();
-
 	void setBrickAdapter(BrickAdapter adapter);
 
 	CheckBox getCheckBox();
-
-	boolean isChecked();
 
 	boolean isCommentedOut();
 
 	void setCommentedOut(boolean commentedOut);
 
-	void setCheckboxView(int id);
-
-	void setCheckboxView(int id, View view);
-
-	void setAnimationState(boolean animationState);
-
 	void setAlpha(int alphaFull);
-
-	boolean isEqualBrick(Brick brick, Scene mergeResult, Scene current);
-
-	void storeDataForBackPack(Sprite sprite);
 }

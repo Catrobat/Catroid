@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,19 +22,25 @@
  */
 package org.catrobat.catroid.test.pocketmusic.note;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.pocketmusic.note.MusicalKey;
 import org.catrobat.catroid.pocketmusic.note.NoteName;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class MusicalKeyTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
 
+@RunWith(AndroidJUnit4.class)
+public class MusicalKeyTest {
+
+	@Test
 	public void testGetNoteNameOnMiddleLine1() {
-		assertEquals("Failed to get note name on middle line", NoteName.B4,
-				MusicalKey.VIOLIN.getNoteNameOnMiddleLine());
+		assertEquals(NoteName.B4, MusicalKey.VIOLIN.getNoteNameOnMiddleLine());
 	}
 
+	@Test
 	public void testGetNoteNameOnMiddleLine2() {
-		assertEquals("Failed to get note name on middle line", NoteName.D3, MusicalKey.BASS.getNoteNameOnMiddleLine());
+		assertEquals(NoteName.D3, MusicalKey.BASS.getNoteNameOnMiddleLine());
 	}
 }

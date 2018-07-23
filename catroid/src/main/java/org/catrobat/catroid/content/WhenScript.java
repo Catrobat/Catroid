@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,49 +24,17 @@ package org.catrobat.catroid.content;
 
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
+import org.catrobat.catroid.content.eventids.EventId;
 
 public class WhenScript extends Script {
 
 	private static final long serialVersionUID = 1L;
-	private static final String LONGPRESSED = "Long Pressed";
-	private static final String TAPPED = "Tapped";
-	private static final String DOUBLETAPPED = "Double Tapped";
-	private static final String SWIPELEFT = "Swipe Left";
-	private static final String SWIPERIGHT = "Swipe Right";
-	private static final String SWIPEUP = "Swipe Up";
-	private static final String SWIPEDOWN = "Swipe Down";
-	private static final String[] ACTIONS = {TAPPED, DOUBLETAPPED, LONGPRESSED, SWIPEUP, SWIPEDOWN, SWIPELEFT,
-			SWIPERIGHT};
-	private String action;
-	private transient int position;
 
 	public WhenScript() {
-		super();
-		this.position = 0;
-		this.action = TAPPED;
 	}
 
 	public WhenScript(WhenBrick brick) {
 		this.brick = brick;
-	}
-
-	@Override
-	protected Object readResolve() {
-		super.readResolve();
-		return this;
-	}
-
-	public void setAction(int position) {
-		this.position = position;
-		this.action = ACTIONS[position];
-	}
-
-	public String getAction() {
-		return action;
-	}
-
-	public int getPosition() {
-		return position;
 	}
 
 	@Override
@@ -79,10 +47,14 @@ public class WhenScript extends Script {
 	}
 
 	@Override
-	public Script copyScriptForSprite(Sprite copySprite) {
-		WhenScript cloneScript = new WhenScript();
-		doCopy(copySprite, cloneScript);
+	public Script clone() throws CloneNotSupportedException {
+		WhenScript clone = new WhenScript();
+		clone.getBrickList().addAll(cloneBrickList());
+		return clone;
+	}
 
-		return cloneScript;
+	@Override
+	public EventId createEventId(Sprite sprite) {
+		return new EventId(EventId.TAP);
 	}
 }

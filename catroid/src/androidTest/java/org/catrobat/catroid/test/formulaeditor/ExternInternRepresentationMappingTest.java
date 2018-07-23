@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,12 +23,18 @@
 
 package org.catrobat.catroid.test.formulaeditor;
 
-import android.test.InstrumentationTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.formulaeditor.ExternInternRepresentationMapping;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class ExternInternRepresentationMappingTest extends InstrumentationTestCase {
+import static junit.framework.Assert.assertEquals;
 
+@RunWith(AndroidJUnit4.class)
+public class ExternInternRepresentationMappingTest {
+
+	@Test
 	public void testGetExternTokenStartIndex() {
 
 		ExternInternRepresentationMapping externInternRepresentationMapping = new ExternInternRepresentationMapping();
@@ -40,15 +46,11 @@ public class ExternInternRepresentationMappingTest extends InstrumentationTestCa
 		externInternRepresentationMapping.putMapping(externTokenStringStartIndex, externTokenStringEndIndex,
 				internTokenListIndex);
 
-		assertEquals("getExternTokenStartIndex returns wrong value", externTokenStringStartIndex,
-				externInternRepresentationMapping.getExternTokenStartIndex(internTokenListIndex));
+		assertEquals(externTokenStringStartIndex, externInternRepresentationMapping.getExternTokenStartIndex(internTokenListIndex));
 
-		assertEquals("getExternTokenEndIndex returns wrong value", externTokenStringEndIndex,
-				externInternRepresentationMapping.getExternTokenEndIndex(internTokenListIndex));
+		assertEquals(externTokenStringEndIndex, externInternRepresentationMapping.getExternTokenEndIndex(internTokenListIndex));
 
-		assertEquals("Mapping should not exist", ExternInternRepresentationMapping.MAPPING_NOT_FOUND,
-				externInternRepresentationMapping.getExternTokenStartIndex(1));
-		assertEquals("Mapping should not exist", ExternInternRepresentationMapping.MAPPING_NOT_FOUND,
-				externInternRepresentationMapping.getExternTokenEndIndex(1));
+		assertEquals(ExternInternRepresentationMapping.MAPPING_NOT_FOUND, externInternRepresentationMapping.getExternTokenStartIndex(1));
+		assertEquals(ExternInternRepresentationMapping.MAPPING_NOT_FOUND, externInternRepresentationMapping.getExternTokenEndIndex(1));
 	}
 }

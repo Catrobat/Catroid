@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -94,7 +94,7 @@ public final class BrickValues {
 
 	//Constants Drone
 	public static final int DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS = 1000;
-	public static final float DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT = 0.2f;
+	public static final int DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT = 20;
 	public static final String STRING_VALUE = "default";
 
 	public static final int DRONE_ALTITUDE_MIN = 3;
@@ -152,8 +152,7 @@ public final class BrickValues {
 	//Constants Raspi
 	public static final int RASPI_DIGITAL_INITIAL_PIN_VALUE = 1;
 	public static final int RASPI_DIGITAL_INITIAL_PIN_NUMBER = 3;
-	public static final String RASPI_PRESSED_EVENT = "pressed";
-	public static final String RASPI_RELEASED_EVENT = "released";
+	public static final String[] RASPI_EVENTS = {"pressed", "released"};
 	public static final double RASPI_PWM_INITIAL_PERCENTAGE = 50.0;
 	public static final double RASPI_PWM_INITIAL_FREQUENCY = 100.0;
 

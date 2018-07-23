@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2017 The Catrobat Team
+  ~ Copyright (C) 2010-2018 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -28,7 +28,7 @@
     android:orientation="horizontal" >
 
     <CheckBox
-        android:id="@+id/brick_loop_endless_checkbox"
+        android:id="@+id/brick_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -38,6 +38,8 @@
         android:id="@+id/brick_loop_endless_layout"
         style="@style/BrickContainer.Control.Small"
         android:background="@drawable/brick_orange_1h_no_plug" >
+
+        <include layout="@layout/icon_brick_category_control"/>
 
         <TextView
             android:id="@+id/brick_loop_endless_label"

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,6 +27,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,6 +37,7 @@ import android.widget.Chronometer;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.BaseActivity;
+import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
@@ -53,12 +55,18 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_soundrecorder);
+		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+		getSupportActionBar().setTitle(R.string.soundrecorder_name);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-		recordButton = (RecordButton) findViewById(R.id.soundrecorder_record_button);
-		timeRecorderChronometer = (Chronometer) findViewById(R.id.soundrecorder_chronometer_time_recorded);
+		if (!Utils.isExternalStorageAvailable()) {
+			ToastUtil.showError(this, R.string.error_no_writiable_external_storage_available);
+			finish();
+		}
+
+		recordButton = findViewById(R.id.soundrecorder_record_button);
+		timeRecorderChronometer = findViewById(R.id.soundrecorder_chronometer_time_recorded);
 		recordButton.setOnClickListener(this);
-		Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	@Override
@@ -91,7 +99,7 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 			if (soundRecorder != null) {
 				soundRecorder.stop();
 			}
-			String recordPath = Utils.buildPath(Constants.TMP_PATH, getString(R.string.soundrecorder_recorded_filename)
+			String recordPath = PathBuilder.buildPath(Constants.TMP_PATH, getString(R.string.soundrecorder_recorded_filename)
 					+ SoundRecorder.RECORDING_EXTENSION);
 			soundRecorder = new SoundRecorder(recordPath);
 			soundRecorder.start();
@@ -100,11 +108,9 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 			Log.e(TAG, "Error recording sound.", e);
 			ToastUtil.showError(this, R.string.soundrecorder_error);
 		} catch (IllegalStateException e) {
-			// app would crash if other app uses mic, catch IllegalStateException and display Toast
 			Log.e(TAG, "Error recording sound (Other recorder running?).", e);
 			ToastUtil.showError(this, R.string.soundrecorder_error);
 		} catch (RuntimeException e) {
-			// device does not support audio or video format
 			Log.e(TAG, "Device does not support audio or video format.", e);
 			ToastUtil.showError(this, R.string.soundrecorder_error);
 		}

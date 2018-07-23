@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,8 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.AndroidTestCase;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -30,8 +31,14 @@ import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class ChangeVariableActionTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class ChangeVariableActionTest {
 
 	private static final String NOT_NUMERICAL_STRING = "changeVariable";
 	private static final String TEST_USERVARIABLE = "testUservariable";
@@ -41,44 +48,48 @@ public class ChangeVariableActionTest extends AndroidTestCase {
 	private UserVariable userVariable;
 	Project project;
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		testSprite = new SingleSprite("testSprite");
-		project = new Project(null, "testProject");
+		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().getCurrentScene().getDataContainer().addProjectUserVariable(TEST_USERVARIABLE);
-		userVariable = ProjectManager.getInstance().getCurrentScene().getDataContainer()
-				.getUserVariable(null, TEST_USERVARIABLE);
-		super.setUp();
+		userVariable = new UserVariable(TEST_USERVARIABLE);
+		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().addUserVariable(userVariable);
 	}
 
+	@Test
 	public void testChangeUserVariableWithNumericalFormula() {
 		testSprite.getActionFactory().createChangeVariableAction(testSprite, new Formula(CHANGE_VARIABLE_VALUE), userVariable).act(1f);
-		assertEquals("UserVariable did not change", CHANGE_VARIABLE_VALUE, userVariable.getValue());
+		assertEquals(CHANGE_VARIABLE_VALUE, userVariable.getValue());
 	}
 
+	@Test
 	public void testChangeUserVariableInvalidUserVariable() {
 		testSprite.getActionFactory().createChangeVariableAction(testSprite, new Formula(CHANGE_VARIABLE_VALUE), null).act(1f);
-		assertEquals("UserVariable changed, but should not!", INITIALIZED_VALUE, userVariable.getValue());
+		assertEquals(INITIALIZED_VALUE, userVariable.getValue());
 	}
 
+	@Test
 	public void testChangeUserVariableWithNumericalStringFormula() {
 		testSprite.getActionFactory().createChangeVariableAction(testSprite, new Formula(String.valueOf(CHANGE_VARIABLE_VALUE)), userVariable).act(1f);
-		assertEquals("UserVariable did not change", CHANGE_VARIABLE_VALUE, userVariable.getValue());
+		assertEquals(CHANGE_VARIABLE_VALUE, userVariable.getValue());
 	}
 
+	@Test
 	public void testChangeUserVariableWithStringFormula() {
 		testSprite.getActionFactory().createChangeVariableAction(testSprite, new Formula(NOT_NUMERICAL_STRING), userVariable).act(1f);
-		assertEquals("UserVariable should not have changed!", INITIALIZED_VALUE, userVariable.getValue());
+		assertEquals(INITIALIZED_VALUE, userVariable.getValue());
 	}
 
+	@Test
 	public void testNullFormula() {
 		testSprite.getActionFactory().createChangeVariableAction(testSprite, null, userVariable).act(1f);
-		assertEquals("UserVariable should not have changed!", INITIALIZED_VALUE, userVariable.getValue());
+		assertEquals(INITIALIZED_VALUE, userVariable.getValue());
 	}
 
+	@Test
 	public void testNotANumberFormula() {
 		testSprite.getActionFactory().createChangeVariableAction(testSprite, new Formula(Double.NaN), userVariable).act(1f);
-		assertEquals("UserVariable should not have changed!", INITIALIZED_VALUE, userVariable.getValue());
+		assertEquals(INITIALIZED_VALUE, userVariable.getValue());
 	}
 }

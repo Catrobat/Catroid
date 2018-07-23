@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -258,12 +258,12 @@ public class InternFormulaParser {
 	}
 
 	private FormulaElement userVariable() throws InternFormulaParserException {
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
 
 		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 
-		if (dataContainer.getUserVariable(currentSprite, currentToken.getTokenStringValue(), currentBrick) == null) {
+		if (dataContainer.getUserVariable(currentSprite, currentBrick, currentToken.getTokenStringValue()) == null) {
 			throw new InternFormulaParserException("Parse Error");
 		}
 
@@ -281,7 +281,7 @@ public class InternFormulaParser {
 		boolean formulaOk;
 		int spriteCount = 0;
 
-		for (Sprite sprite : ProjectManager.getInstance().getCurrentScene().getSpriteList()) {
+		for (Sprite sprite : ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList()) {
 			if (sprite.getName().compareTo(firstSpriteName) == 0 || sprite.getName().compareTo(secondSpriteName) == 0) {
 				spriteCount++;
 			}
@@ -301,7 +301,7 @@ public class InternFormulaParser {
 	}
 
 	private FormulaElement userList() throws InternFormulaParserException {
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 
 		if (dataContainer.getUserList(currentSprite, currentToken.getTokenStringValue()) == null) {

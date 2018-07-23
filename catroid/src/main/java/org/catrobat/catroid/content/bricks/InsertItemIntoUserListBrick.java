@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,29 +22,20 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.app.Activity;
 import android.content.Context;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
-import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.ui.adapter.UserListAdapterWrapper;
-import org.catrobat.catroid.ui.dialogs.NewDataDialog;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
@@ -70,7 +61,7 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createInsertItemIntoUserListAction(sprite,
 				getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_INDEX),
 				getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_VALUE), userList));
@@ -79,18 +70,13 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		if (view == null) {
-			alphaValue = 255;
-		}
+	public int getViewResource() {
+		return R.layout.brick_insert_item_into_userlist;
+	}
 
-		view = View.inflate(context, R.layout.brick_insert_item_into_userlist, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_insert_item_into_userlist_checkbox);
-
+	@Override
+	public View getView(final Context context) {
+		super.getView(context);
 		TextView textFieldValue = (TextView) view.findViewById(R.id.brick_insert_item_into_userlist_value_edit_text);
 
 		getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_VALUE).setTextFieldId(R.id.brick_insert_item_into_userlist_value_edit_text);
@@ -105,7 +91,7 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 		textFieldIndex.setOnClickListener(this);
 
 		Spinner userListSpinner = (Spinner) view.findViewById(R.id.insert_item_into_userlist_spinner);
-		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentScene().getDataContainer()
+		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
 				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
 		UserListAdapterWrapper userListAdapterWrapper = new UserListAdapterWrapper(context, dataAdapter);
 		userListAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
@@ -113,53 +99,17 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 		userListSpinner.setAdapter(userListAdapterWrapper);
 		setSpinnerSelection(userListSpinner, null);
 
-		userListSpinner.setOnTouchListener(new OnTouchListener() {
-
-			@Override
-			public boolean onTouch(View view, MotionEvent event) {
-				if (event.getAction() == MotionEvent.ACTION_DOWN
-						&& (((Spinner) view).getSelectedItemPosition() == 0 && ((Spinner) view).getAdapter().getCount() == 1)) {
-					NewDataDialog dialog = new NewDataDialog((Spinner) view, NewDataDialog.DialogType.USER_LIST);
-					dialog.addUserListDialogListener(InsertItemIntoUserListBrick.this);
-					dialog.show(((Activity) view.getContext()).getFragmentManager(),
-							NewDataDialog.DIALOG_FRAGMENT_TAG);
-					return true;
-				}
-
-				return false;
-			}
-		});
-		userListSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				if (position == 0 && ((UserListAdapterWrapper) parent.getAdapter()).isTouchInDropDownView()) {
-					NewDataDialog dialog = new NewDataDialog((Spinner) parent, NewDataDialog.DialogType.USER_LIST);
-					dialog.addUserListDialogListener(InsertItemIntoUserListBrick.this);
-					int spinnerPos = ((UserListAdapterWrapper) parent.getAdapter())
-							.getPositionOfItem(userList);
-					dialog.setUserVariableIfCancel(spinnerPos);
-					dialog.show(((Activity) view.getContext()).getFragmentManager(),
-							NewDataDialog.DIALOG_FRAGMENT_TAG);
-				}
-				((UserListAdapterWrapper) parent.getAdapter()).resetIsTouchInDropDownView();
-				userList = (UserList) parent.getItemAtPosition(position);
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-				userList = null;
-			}
-		});
-
+		userListSpinner.setOnTouchListener(createSpinnerOnTouchListener());
+		userListSpinner.setOnItemSelectedListener(createListSpinnerItemSelectedListener());
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_insert_item_into_userlist, null);
+		View prototypeView = super.getPrototypeView(context);
 		Spinner userListSpinner = (Spinner) prototypeView.findViewById(R.id.insert_item_into_userlist_spinner);
 
-		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentScene().getDataContainer()
+		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
 				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
 
 		UserListAdapterWrapper userListAdapterWrapper = new UserListAdapterWrapper(context, dataAdapter);
@@ -168,21 +118,25 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 		userListSpinner.setAdapter(userListAdapterWrapper);
 		setSpinnerSelection(userListSpinner, null);
 
-		TextView textViewValueToInsert = (TextView) prototypeView
-				.findViewById(R.id.brick_insert_item_into_userlist_value_edit_text);
-		textViewValueToInsert.setText(String.valueOf(BrickValues.INSERT_ITEM_INTO_USERLIST_VALUE));
-		TextView textViewInsertIndex = (TextView) prototypeView
-				.findViewById(R.id.brick_insert_item_into_userlist_at_index_edit_text);
-		textViewInsertIndex.setText(String.valueOf(BrickValues.INSERT_ITEM_INTO_USERLIST_INDEX));
+		TextView textViewValueToInsert = (TextView) prototypeView.findViewById(R.id.brick_insert_item_into_userlist_value_edit_text);
+		textViewValueToInsert.setText(formatNumberForPrototypeView(BrickValues.INSERT_ITEM_INTO_USERLIST_VALUE));
+		TextView textViewInsertIndex = (TextView) prototypeView.findViewById(R.id.brick_insert_item_into_userlist_at_index_edit_text);
+		textViewInsertIndex.setText(formatNumberForPrototypeView(BrickValues.INSERT_ITEM_INTO_USERLIST_INDEX));
 
 		return prototypeView;
 	}
 
 	@Override
+	public void onNewList(UserList userList) {
+		Spinner spinner = view.findViewById(R.id.insert_item_into_userlist_spinner);
+		setSpinnerSelection(spinner, userList);
+	}
+
+	@Override
 	public Brick clone() {
-		InsertItemIntoUserListBrick clonedBrick = new InsertItemIntoUserListBrick(getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_VALUE).clone(), getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_INDEX).clone(), userList);
-		clonedBrick.setBackPackedData(new BackPackedListData(backPackedData));
-		return clonedBrick;
+		return new InsertItemIntoUserListBrick(
+				getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_VALUE).clone(),
+				getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_INDEX).clone(), userList);
 	}
 
 	@Override
@@ -197,22 +151,5 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 				FormulaEditorFragment.showFragment(view, this, BrickField.INSERT_ITEM_INTO_USERLIST_INDEX);
 				break;
 		}
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		Scene currentScene = ProjectManager.getInstance().getCurrentScene();
-		if (currentScene == null) {
-			throw new RuntimeException("The current project must be set before cloning it");
-		}
-
-		InsertItemIntoUserListBrick copyBrick = (InsertItemIntoUserListBrick) clone();
-		copyBrick.userList = currentScene.getDataContainer().getUserList(sprite, userList.getName());
-		return copyBrick;
-	}
-
-	@Override
-	public void updateReferenceAfterMerge(Scene into, Scene from) {
-		super.updateUserListReference(into, from);
 	}
 }

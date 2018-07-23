@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.uiespresso.stage;
 
+import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
@@ -109,13 +110,13 @@ public class ObjectVariableTest {
 	}
 
 	private void createProject(String projectName) {
-		Project project = new Project(null, projectName);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().addSprite(new SingleSprite("background"));
-		ProjectManager.getInstance().addSprite(new SingleSprite("sprite1"));
-		ProjectManager.getInstance().addSprite(new SingleSprite("sprite2"));
-		ProjectManager.getInstance().addSprite(new SingleSprite("sprite3"));
-		ProjectManager.getInstance().addSprite(new SingleSprite("sprite4"));
+		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+		ProjectManager.getInstance().getCurrentlyEditedScene().addSprite(new SingleSprite("sprite1"));
+		ProjectManager.getInstance().getCurrentlyEditedScene().addSprite(new SingleSprite("sprite2"));
+		ProjectManager.getInstance().getCurrentlyEditedScene().addSprite(new SingleSprite("sprite3"));
+		ProjectManager.getInstance().getCurrentlyEditedScene().addSprite(new SingleSprite("sprite4"));
 
 		sprite = new SingleSprite("sprite5");
 		StartScript startScript = new StartScript();
@@ -143,7 +144,7 @@ public class ObjectVariableTest {
 
 		sprite.addScript(startScript);
 
-		ProjectManager.getInstance().addSprite(sprite);
+		ProjectManager.getInstance().getCurrentlyEditedScene().addSprite(sprite);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 
 		lastBrickInScript = ScriptEvaluationGateBrick.appendToScript(startScript);

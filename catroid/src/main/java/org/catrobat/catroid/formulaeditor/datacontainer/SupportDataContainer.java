@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,16 +24,32 @@ package org.catrobat.catroid.formulaeditor.datacontainer;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
+import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class SupportDataContainer extends BaseDataContainer {
+public class SupportDataContainer implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@XStreamAlias("programVariableList")
 	public List<UserVariable> projectVariables;
 
 	@XStreamAlias("programListOfLists")
 	public List<UserList> projectLists;
+
+	@XStreamAlias("objectVariableList")
+	public Map<Sprite, List<UserVariable>> spriteVariables = new HashMap<>();
+
+	@XStreamAlias("userBrickVariableList")
+	Map<UserBrick, List<UserVariable>> userBrickVariables = new HashMap<>();
+
+	@XStreamAlias("objectListOfList")
+	public Map<Sprite, List<UserList>> spriteListOfLists = new HashMap<>();
 }

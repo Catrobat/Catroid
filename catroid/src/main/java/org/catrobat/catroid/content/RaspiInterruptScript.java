@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,22 +22,17 @@
  */
 package org.catrobat.catroid.content;
 
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick;
-import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
+import org.catrobat.catroid.content.eventids.EventId;
+import org.catrobat.catroid.content.eventids.RaspiEventId;
 
-public class RaspiInterruptScript extends BroadcastScript {
-
+public class RaspiInterruptScript extends Script {
 	private static final long serialVersionUID = 1L;
-
 	private String pin;
 	private String eventValue;
 
 	public RaspiInterruptScript(String pin, String eventValue) {
-		super(Constants.RASPI_BROADCAST_INTERRUPT_PREFIX + pin + " " + eventValue);
-
 		this.pin = pin;
 		this.eventValue = eventValue;
 	}
@@ -47,22 +42,15 @@ public class RaspiInterruptScript extends BroadcastScript {
 		if (brick == null) {
 			brick = new WhenRaspiPinChangedBrick(this);
 		}
-
 		return brick;
 	}
 
 	public void setPin(String pin) {
 		this.pin = pin;
-		updateBroadcastMessage();
 	}
 
 	public void setEventValue(String eventValue) {
 		this.eventValue = eventValue;
-		updateBroadcastMessage();
-	}
-
-	private void updateBroadcastMessage() {
-		setBroadcastMessage(Constants.RASPI_BROADCAST_INTERRUPT_PREFIX + pin + " " + eventValue);
 	}
 
 	public String getPin() {
@@ -74,16 +62,14 @@ public class RaspiInterruptScript extends BroadcastScript {
 	}
 
 	@Override
-	public Script copyScriptForSprite(Sprite copySprite) {
-		RaspiInterruptScript cloneScript = new RaspiInterruptScript(pin, eventValue);
-
-		doCopy(copySprite, cloneScript);
-		return cloneScript;
+	public Script clone() throws CloneNotSupportedException {
+		RaspiInterruptScript clone = new RaspiInterruptScript(pin, eventValue);
+		clone.getBrickList().addAll(cloneBrickList());
+		return clone;
 	}
 
 	@Override
-	public int getRequiredResources() {
-		RaspberryPiService.getInstance().addPinInterrupt(Integer.parseInt(pin));
-		return super.getRequiredResources() | Brick.SOCKET_RASPI;
+	public EventId createEventId(Sprite sprite) {
+		return new RaspiEventId(pin, eventValue);
 	}
 }

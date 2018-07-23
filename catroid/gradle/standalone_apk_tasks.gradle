@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,11 +22,14 @@
  */
 
 import groovy.json.StringEscapeUtils
-import groovy.xml.XmlUtil
 import groovy.xml.StreamingMarkupBuilder
+import groovy.xml.XmlUtil
+
 import java.nio.file.Files
-import static java.nio.file.StandardCopyOption.*
 import java.util.zip.ZipFile
+
+import static java.nio.file.StandardCopyOption.COPY_ATTRIBUTES
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING
 
 ext {
     projectId = ''
@@ -77,7 +80,13 @@ task standalonePreparation() {
             from project.ext.appZipFile
             into project.ext.assetsPath
         }
+        println 'Copying zip file to assets from:'
+        println project.ext.appZipFile
+
         project.ext.appZipFileInAssets = file("$project.ext.assetsPath/${project.ext.projectId}.zip")
+        println 'to:'
+        println project.ext.appZipFileInAssets
+
         ZipFile app = new ZipFile(project.ext.appZipFileInAssets)
 
         removeUnecessaryPermissions(app)
@@ -85,7 +94,7 @@ task standalonePreparation() {
     }
 }
 
-task standaloneCleanup() {
+task standaloneCleanup(dependsOn: 'assembleStandaloneDebug') {
     doLast {
         if (!project.ext.appZipFile) {
             /*
@@ -97,6 +106,7 @@ task standaloneCleanup() {
 
         restoreFile(file(project.ext.iconPath))
         restoreFile(file(project.ext.manifestPath))
+        println 'Deleting zip file in assets'
         delete project.ext.appZipFileInAssets
     }
 }
@@ -264,11 +274,13 @@ def messUpIntentFilters() {
 /*
  * Ensure that the assembleStandaloneDebug task does the correct preparation
  * and clean-up steps necessary for standalone APK creation.
- */
+*/
+
 tasks.whenTaskAdded { task ->
-    if (task.name == 'prepareStandaloneDebugDependencies') {
+    if (task.name == 'preStandaloneDebugBuild') {
         task.dependsOn 'standalonePreparation'
     } else if (task.name == 'assembleStandaloneDebug') {
         task.finalizedBy 'standaloneCleanup'
     }
 }
+

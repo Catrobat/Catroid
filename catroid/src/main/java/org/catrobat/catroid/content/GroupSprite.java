@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,29 +31,49 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GroupSprite extends Sprite {
+
 	private static final long serialVersionUID = 1L;
 
-	private transient boolean isExpanded = false;
-
-	public GroupSprite(String name) {
-		super(name);
-	}
+	private transient boolean collapsed = true;
 
 	public GroupSprite() {
 		super();
 	}
 
-	public boolean shouldBeExpanded() {
-		return isExpanded;
+	public GroupSprite(String name) {
+		super(name);
 	}
 
-	public void setExpanded(boolean expanded) {
-		isExpanded = expanded;
+	public List<GroupItemSprite> getGroupItems() {
+		List<Sprite> allSprites = ProjectManager.getInstance().getCurrentlyPlayingScene().getSpriteList();
+		List<GroupItemSprite> groupItems = new ArrayList<>();
+
+		int position = allSprites.indexOf(this);
+
+		for (Sprite sprite : allSprites.subList(position + 1, allSprites.size())) {
+			if (sprite instanceof GroupItemSprite) {
+				groupItems.add((GroupItemSprite) sprite);
+			} else {
+				break;
+			}
+		}
+		return groupItems;
+	}
+
+	public boolean getCollapsed() {
+		return collapsed;
+	}
+
+	public void setCollapsed(boolean collapsed) {
+		this.collapsed = collapsed;
+		for (GroupItemSprite item : getGroupItems()) {
+			item.collapsed = collapsed;
+		}
 	}
 
 	public static List<Sprite> getSpritesFromGroupWithGroupName(String groupName) {
 		List<Sprite> result = new ArrayList<Sprite>();
-		List<Sprite> spriteList = ProjectManager.getInstance().getSceneToPlay().getSpriteList();
+		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentlyPlayingScene().getSpriteList();
 		int position = 0;
 		for (Sprite sprite : spriteList) {
 			if (groupName.equals(sprite.getName())) {
@@ -77,7 +97,7 @@ public class GroupSprite extends Sprite {
 		Log.i("GroupSprite", "Creating Collision Polygons for all Sprites of group!");
 		List<Sprite> groupSprites = getSpritesFromGroupWithGroupName(getName());
 		for (Sprite sprite : groupSprites) {
-			for (LookData lookData : sprite.getLookDataList()) {
+			for (LookData lookData : sprite.getLookList()) {
 				lookData.getCollisionInformation().calculate();
 			}
 		}

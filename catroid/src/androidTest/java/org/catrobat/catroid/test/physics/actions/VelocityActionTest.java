@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,12 +22,27 @@
  */
 package org.catrobat.catroid.test.physics.actions;
 
+import android.support.test.runner.AndroidJUnit4;
+
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsWorld;
-import org.catrobat.catroid.test.physics.PhysicsBaseTest;
+import org.catrobat.catroid.test.physics.PhysicsTestRule;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class VelocityActionTest extends PhysicsBaseTest {
+import static junit.framework.Assert.assertEquals;
+
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.lessThan;
+import static org.hamcrest.number.OrderingComparison.greaterThan;
+import static org.junit.Assert.assertThat;
+
+@RunWith(AndroidJUnit4.class)
+public class VelocityActionTest {
 
 	private static final float POSITIVE_X_TEST_VELOCITY = 10.0f;
 	private static final float POSITIVE_Y_TEST_VELOCITY = 10.0f;
@@ -39,23 +54,29 @@ public class VelocityActionTest extends PhysicsBaseTest {
 
 	private PhysicsObject physicsObject;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Rule
+	public PhysicsTestRule rule = new PhysicsTestRule();
 
+	private Sprite sprite;
+	private PhysicsWorld physicsWorld;
+
+	@Before
+	public void setUp() throws Exception {
+		sprite = rule.sprite;
+		physicsWorld = rule.physicsWorld;
 		physicsObject = physicsWorld.getPhysicsObject(sprite);
 		physicsObject.setType(PhysicsObject.Type.DYNAMIC);
 	}
 
+	@Test
 	public void testPositiveYVelocityWithoutGravity() {
-		assertEquals("Unexpected initial x-coordinate", 0, physicsObject.getX(), TestUtils.DELTA);
-		assertEquals("Unexpected initial y-coordinate", 0, physicsObject.getY(), TestUtils.DELTA);
+		assertEquals(0, physicsObject.getX(), TestUtils.DELTA);
+		assertEquals(0, physicsObject.getY(), TestUtils.DELTA);
 
 		physicsObject.setVelocity(0.0f, POSITIVE_Y_TEST_VELOCITY);
 
-		assertEquals("Unexpected initial x-velocity", 0, physicsObject.getVelocity().x, TestUtils.DELTA);
-		assertEquals("Unexpected initial y-velocity", POSITIVE_Y_TEST_VELOCITY, physicsObject.getVelocity().y,
-				TestUtils.DELTA);
+		assertEquals(0, physicsObject.getVelocity().x, TestUtils.DELTA);
+		assertEquals(POSITIVE_Y_TEST_VELOCITY, physicsObject.getVelocity().y, TestUtils.DELTA);
 
 		physicsWorld.setGravity(0.0f, 0.0f);
 
@@ -73,26 +94,23 @@ public class VelocityActionTest extends PhysicsBaseTest {
 			float postStepXCoordinate = physicsObject.getX();
 			float postStepYCoordinate = physicsObject.getY();
 
-			assertEquals("Unexpected step length: ", expectedStepLength, postStepYCoordinate - preStepYCoordinate,
-					TestUtils.DELTA);
+			assertEquals(expectedStepLength, postStepYCoordinate - preStepYCoordinate, TestUtils.DELTA);
 
-			assertTrue("Post-step y-coordinate (" + postStepYCoordinate + ") is lower than pre-step y-coordinate ("
-					+ preStepYCoordinate + "), should be higher!", postStepYCoordinate > preStepYCoordinate);
+			assertEquals(preStepXCoordinate, postStepXCoordinate);
 
-			assertTrue("Post-step x-coordinate (" + postStepXCoordinate + ") differs from pre-step x-coordinate ("
-					+ preStepXCoordinate + "), should be equal!", postStepXCoordinate == preStepXCoordinate);
+			assertThat(postStepYCoordinate, is(greaterThan(preStepYCoordinate)));
 		}
 	}
 
+	@Test
 	public void testNegativeYVelocityWithoutGravity() {
-		assertEquals("Unexpected initial x-coordinate", 0, physicsObject.getX(), TestUtils.DELTA);
-		assertEquals("Unexpected initial y-coordinate", 0, physicsObject.getY(), TestUtils.DELTA);
+		assertEquals(0, physicsObject.getX(), TestUtils.DELTA);
+		assertEquals(0, physicsObject.getY(), TestUtils.DELTA);
 
 		physicsObject.setVelocity(0.0f, NEGATIVE_Y_TEST_VELOCITY);
 
-		assertEquals("Unexpected initial x-velocity", 0, physicsObject.getVelocity().x, TestUtils.DELTA);
-		assertEquals("Unexpected initial y-velocity", NEGATIVE_Y_TEST_VELOCITY, physicsObject.getVelocity().y,
-				TestUtils.DELTA);
+		assertEquals(0, physicsObject.getVelocity().x, TestUtils.DELTA);
+		assertEquals(NEGATIVE_Y_TEST_VELOCITY, physicsObject.getVelocity().y, TestUtils.DELTA);
 
 		physicsWorld.setGravity(0.0f, 0.0f);
 
@@ -110,26 +128,23 @@ public class VelocityActionTest extends PhysicsBaseTest {
 			float postStepXCoordinate = physicsObject.getX();
 			float postStepYCoordinate = physicsObject.getY();
 
-			assertEquals("Unexpected step length: ", expectedStepLength, postStepYCoordinate - preStepYCoordinate,
-					TestUtils.DELTA);
+			assertEquals(expectedStepLength, postStepYCoordinate - preStepYCoordinate, TestUtils.DELTA);
 
-			assertTrue("Post-step y-coordinate (" + postStepYCoordinate + ") is higher than pre-step y-coordinate ("
-					+ preStepYCoordinate + "), should be lower!", postStepYCoordinate < preStepYCoordinate);
+			assertEquals(preStepXCoordinate, postStepXCoordinate);
 
-			assertTrue("Post-step x-coordinate (" + postStepXCoordinate + ") differs from pre-step x-coordinate ("
-					+ preStepXCoordinate + "), should be equal!", postStepXCoordinate == preStepXCoordinate);
+			assertThat(postStepYCoordinate, is(lessThan(preStepYCoordinate)));
 		}
 	}
 
+	@Test
 	public void testPositiveXVelocityWithoutGravity() {
-		assertEquals("Unexpected initial x-coordinate", 0, physicsObject.getX(), TestUtils.DELTA);
-		assertEquals("Unexpected initial y-coordinate", 0, physicsObject.getY(), TestUtils.DELTA);
+		assertEquals(0, physicsObject.getX(), TestUtils.DELTA);
+		assertEquals(0, physicsObject.getY(), TestUtils.DELTA);
 
 		physicsObject.setVelocity(POSITIVE_X_TEST_VELOCITY, 0.0f);
 
-		assertEquals("Unexpected initial x-velocity", POSITIVE_X_TEST_VELOCITY, physicsObject.getVelocity().x,
-				TestUtils.DELTA);
-		assertEquals("Unexpected initial y-velocity", 0.0f, physicsObject.getVelocity().y, TestUtils.DELTA);
+		assertEquals(POSITIVE_X_TEST_VELOCITY, physicsObject.getVelocity().x, TestUtils.DELTA);
+		assertEquals(0.0f, physicsObject.getVelocity().y, TestUtils.DELTA);
 
 		physicsWorld.setGravity(0.0f, 0.0f);
 
@@ -147,26 +162,23 @@ public class VelocityActionTest extends PhysicsBaseTest {
 			float postStepXCoordinate = physicsObject.getX();
 			float postStepYCoordinate = physicsObject.getY();
 
-			assertEquals("Unexpected step length: ", expectedStepLength, postStepXCoordinate - preStepXCoordinate,
-					TestUtils.DELTA);
+			assertEquals(expectedStepLength, postStepXCoordinate - preStepXCoordinate, TestUtils.DELTA);
 
-			assertTrue("Post-step x-coordinate (" + postStepXCoordinate + ") is lower than pre-step x-coordinate ("
-					+ preStepXCoordinate + "), should be higher!", postStepXCoordinate > preStepXCoordinate);
+			assertThat(postStepXCoordinate, is(greaterThan(preStepXCoordinate)));
 
-			assertTrue("Post-step Y-coordinate (" + postStepYCoordinate + ") differs from pre-step x-coordinate ("
-					+ preStepYCoordinate + "), should be equal!", postStepYCoordinate == preStepYCoordinate);
+			assertEquals(preStepYCoordinate, postStepYCoordinate);
 		}
 	}
 
+	@Test
 	public void testNegativeXVelocityWithoutGravity() {
-		assertEquals("Unexpected initial x-coordinate", 0, physicsObject.getX(), TestUtils.DELTA);
-		assertEquals("Unexpected initial y-coordinate", 0, physicsObject.getY(), TestUtils.DELTA);
+		assertEquals(0, physicsObject.getX(), TestUtils.DELTA);
+		assertEquals(0, physicsObject.getY(), TestUtils.DELTA);
 
 		physicsObject.setVelocity(NEGATIVE_X_TEST_VELOCITY, 0.0f);
 
-		assertEquals("Unexpected initial x-velocity", NEGATIVE_X_TEST_VELOCITY, physicsObject.getVelocity().x,
-				TestUtils.DELTA);
-		assertEquals("Unexpected initial y-velocity", 0.0f, physicsObject.getVelocity().y, TestUtils.DELTA);
+		assertEquals(NEGATIVE_X_TEST_VELOCITY, physicsObject.getVelocity().x, TestUtils.DELTA);
+		assertEquals(0.0f, physicsObject.getVelocity().y, TestUtils.DELTA);
 
 		physicsWorld.setGravity(0.0f, 0.0f);
 
@@ -184,14 +196,11 @@ public class VelocityActionTest extends PhysicsBaseTest {
 			float postStepXCoordinate = physicsObject.getX();
 			float postStepYCoordinate = physicsObject.getY();
 
-			assertEquals("Unexpected step length: ", expectedStepLength, postStepXCoordinate - preStepXCoordinate,
-					TestUtils.DELTA);
+			assertEquals(expectedStepLength, postStepXCoordinate - preStepXCoordinate, TestUtils.DELTA);
 
-			assertTrue("Post-step x-coordinate (" + postStepXCoordinate + ") is higher than pre-step x-coordinate ("
-					+ preStepXCoordinate + "), should be lower!", postStepXCoordinate < preStepXCoordinate);
+			assertThat(postStepXCoordinate, is(lessThan(preStepXCoordinate)));
 
-			assertTrue("Post-step Y-coordinate (" + postStepYCoordinate + ") differs from pre-step x-coordinate ("
-					+ preStepYCoordinate + "), should be equal!", postStepYCoordinate == preStepYCoordinate);
+			assertEquals(preStepYCoordinate, postStepYCoordinate);
 		}
 	}
 

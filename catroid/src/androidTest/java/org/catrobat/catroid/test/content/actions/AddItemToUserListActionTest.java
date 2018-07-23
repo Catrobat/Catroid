@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,8 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.AndroidTestCase;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.ActionFactory;
@@ -31,61 +32,68 @@ import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddItemToUserListActionTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class AddItemToUserListActionTest {
 
 	private static final String TEST_USERLIST_NAME = "testUserList";
 	private static final double DOUBLE_VALUE_ITEM_TO_ADD = 3.0;
-	private static final List<Object> INITIALIZED_LIST_VALUES = new ArrayList<Object>();
-	static {
-		INITIALIZED_LIST_VALUES.add(1.0);
-		INITIALIZED_LIST_VALUES.add(2.0);
-	}
+
 	private Sprite testSprite;
 	private Project project;
 	private UserList userList;
 
 	private ActionFactory actionFactory;
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		actionFactory = new ActionFactory();
 		testSprite = new SingleSprite("testSprite");
-		project = new Project(null, "testProject");
+		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentScene(project.getDefaultScene());
-		ProjectManager.getInstance().getCurrentScene().getDataContainer().addProjectUserList(TEST_USERLIST_NAME);
-		userList = ProjectManager.getInstance().getCurrentScene().getDataContainer()
-				.getUserList(null, TEST_USERLIST_NAME);
-		userList.setList(INITIALIZED_LIST_VALUES);
-		super.setUp();
+		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+
+		List<Object> initialList = new ArrayList<>();
+		initialList.add(1.0);
+		initialList.add(2.0);
+		userList = new UserList(TEST_USERLIST_NAME, initialList);
+		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().addUserList(userList);
 	}
 
+	@Test
 	public void testAddNumericalValueToUserList() {
 		actionFactory.createAddItemToUserListAction(testSprite, new Formula(DOUBLE_VALUE_ITEM_TO_ADD), userList).act(1f);
 		Object lastItemOfUserList = userList.getList().get(userList.getList().size() - 1);
 
-		assertEquals("UserList size not changed!", 4, userList.getList().size());
-		assertEquals("UserList not changed!", "3.0", lastItemOfUserList);
+		assertEquals(3, userList.getList().size());
+		assertEquals("3.0", lastItemOfUserList);
 	}
 
+	@Test
 	public void testAddItemWithInvalidUserList() {
 		actionFactory.createAddItemToUserListAction(testSprite, new Formula(DOUBLE_VALUE_ITEM_TO_ADD), null).act(1f);
-		assertEquals("UserList changed, but should not!", 2, userList.getList().size());
+		assertEquals(2, userList.getList().size());
 	}
 
+	@Test
 	public void testAddNullFormula() {
 		actionFactory.createAddItemToUserListAction(testSprite, null, userList).act(1f);
 		Object lastItemOfUserList = userList.getList().get(userList.getList().size() - 1);
-		assertEquals("UserList not changed!", 0d, lastItemOfUserList);
+		assertEquals(0d, lastItemOfUserList);
 	}
 
+	@Test
 	public void testNotANumberFormula() {
 		actionFactory.createAddItemToUserListAction(testSprite, new Formula(Double.NaN), userList).act(1f);
 		Object lastItemOfUserList = userList.getList().get(userList.getList().size() - 1);
-		assertEquals("String UserVariable not changed!", String.valueOf(Double.NaN), lastItemOfUserList);
+		assertEquals(String.valueOf(Double.NaN), lastItemOfUserList);
 	}
 }

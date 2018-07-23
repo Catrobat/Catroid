@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,13 +23,17 @@
 
 package org.catrobat.catroid.test.devices.arduino;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
 import org.catrobat.catroid.common.firmata.FirmataMessage;
 import org.catrobat.catroid.common.firmata.FirmataUtils;
 import org.catrobat.catroid.devices.arduino.Arduino;
 import org.catrobat.catroid.devices.arduino.ArduinoImpl;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import name.antonsmirnov.firmata.message.SetPinModeMessage;
 import name.antonsmirnov.firmata.writer.AnalogMessageWriter;
@@ -37,7 +41,10 @@ import name.antonsmirnov.firmata.writer.DigitalMessageWriter;
 import name.antonsmirnov.firmata.writer.ReportAnalogPinMessageWriter;
 import name.antonsmirnov.firmata.writer.SetPinModeMessageWriter;
 
-public class ArduinoImplTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class ArduinoImplTest {
 
 	private Arduino arduino;
 	private ConnectionDataLogger logger;
@@ -56,9 +63,8 @@ public class ArduinoImplTest extends AndroidTestCase {
 
 	private static final int MAX_ANALOG_VALUE_FIRMATA = (1 << 14) - 1;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 
 		arduino = new ArduinoImpl();
 		logger = ConnectionDataLogger.createLocalConnectionLogger();
@@ -66,13 +72,13 @@ public class ArduinoImplTest extends AndroidTestCase {
 		arduino.setConnection(logger.getConnectionProxy());
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
+	@After
+	public void tearDown() throws Exception {
 		arduino.disconnect();
 		logger.disconnectAndDestroy();
-		super.tearDown();
 	}
 
+	@Test
 	public void testSetDigitalArduinoPinIndividually() {
 		arduino.initialise();
 		doTestFirmataInitialization();
@@ -86,6 +92,7 @@ public class ArduinoImplTest extends AndroidTestCase {
 		}
 	}
 
+	@Test
 	public void testSetDigitalArduinoPinInterleavedOnPort() {
 		arduino.initialise();
 		doTestFirmataInitialization();
@@ -147,6 +154,7 @@ public class ArduinoImplTest extends AndroidTestCase {
 		}
 	}
 
+	@Test
 	public void testSetDigitalArduinoPinInterleavedBetweenPorts() {
 		arduino.initialise();
 		doTestFirmataInitialization();
@@ -162,6 +170,7 @@ public class ArduinoImplTest extends AndroidTestCase {
 		testDigital(0x21, 8);
 	}
 
+	@Test
 	public void testSetAnalogArduinoPin() {
 		arduino.initialise();
 		doTestFirmataInitialization();
@@ -184,6 +193,7 @@ public class ArduinoImplTest extends AndroidTestCase {
 		testAnalogOutOfRange(pin, -1, MAX_ANALOG_VALUE_FIRMATA);
 	}
 
+	@Test
 	public void testGetDigitalArduinoPin() {
 		arduino.initialise();
 		doTestFirmataInitialization();
@@ -191,6 +201,7 @@ public class ArduinoImplTest extends AndroidTestCase {
 		//TODO
 	}
 
+	@Test
 	public void testGetAnalogArduinoPin() {
 		arduino.initialise();
 		doTestFirmataInitialization();
@@ -202,9 +213,9 @@ public class ArduinoImplTest extends AndroidTestCase {
 		for (int pin : ArduinoImpl.PWM_PINS) {
 			FirmataMessage m = firmataUtils.getSetPinModeMessage();
 
-			assertEquals("Wrong Command, SET_PIN_MODE command expected", SET_PIN_MODE_COMMAND, m.getCommand());
-			assertEquals("Wrong pin used to set pin mode", pin, m.getPin());
-			assertEquals("Wrong pin mode is used", PWM_MODE, m.getData());
+			assertEquals(SET_PIN_MODE_COMMAND, m.getCommand());
+			assertEquals(pin, m.getPin());
+			assertEquals(PWM_MODE, m.getData());
 		}
 
 		testReportAnalogPin(true);
@@ -214,36 +225,34 @@ public class ArduinoImplTest extends AndroidTestCase {
 		for (int i = MIN_ANALOG_SENSOR_PIN; i <= MAX_ANALOG_SENSOR_PIN; i++) {
 			FirmataMessage m = firmataUtils.getReportAnalogPinMessage();
 
-			assertEquals("Wrong Command, REPORT_ANALOG_PIN command expected", REPORT_ANALOG_PIN_COMMAND, m.getCommand());
-			assertEquals("Wrong pin used to set pin to be reported", i, m.getPin());
-			assertEquals("Wrong enable bit used", enable ? 1 : 0, m.getData());
+			assertEquals(REPORT_ANALOG_PIN_COMMAND, m.getCommand());
+			assertEquals(i, m.getPin());
+			assertEquals(enable ? 1 : 0, m.getData());
 		}
 	}
 
 	private void testDigital(int portValue, int pin) {
 		FirmataMessage m = firmataUtils.getSetPinModeMessage();
-		assertEquals("Wrong Command, SET_PIN_MODE command expected", SET_PIN_MODE_COMMAND, m.getCommand());
-		assertEquals("Wrong pin used to set pin mode", pin, m.getPin());
-		assertEquals("Wrong pin mode is used", OUTPUT_MODE, m.getData());
+		assertEquals(SET_PIN_MODE_COMMAND, m.getCommand());
+		assertEquals(pin, m.getPin());
+		assertEquals(OUTPUT_MODE, m.getData());
 
 		m = firmataUtils.getDigitalMessageData();
-		assertEquals("Wrong command, DIGITAL_MESSAGE command expected",
-				DIGITAL_MESSAGE_COMMAND, m.getCommand());
-		assertEquals("Wrong port", ArduinoImpl.getPortFromPin(pin), m.getPin());
-		assertEquals("Wrong port value", portValue, m.getData());
+		assertEquals(DIGITAL_MESSAGE_COMMAND, m.getCommand());
+		assertEquals(ArduinoImpl.getPortFromPin(pin), m.getPin());
+		assertEquals(portValue, m.getData());
 	}
 
 	private void checkAnalog(int pin, int expectedValue) {
 		FirmataMessage m = firmataUtils.getSetPinModeMessage();
-		assertEquals("Wrong Command, SET_PIN_MODE command expected", SET_PIN_MODE_COMMAND, m.getCommand());
-		assertEquals("Wrong pin used to set pin mode", pin, m.getPin());
-		assertEquals("Wrong pin mode is used", PWM_MODE, m.getData());
+		assertEquals(SET_PIN_MODE_COMMAND, m.getCommand());
+		assertEquals(pin, m.getPin());
+		assertEquals(PWM_MODE, m.getData());
 
 		m = firmataUtils.getAnalogMessageData();
-		assertEquals("Wrong command, ANALOG_MESSAGE command expected",
-				ANALOG_MESSAGE_COMMAND, m.getCommand());
-		assertEquals("Wrong pin sent via Firmata", pin, m.getPin());
-		assertEquals("Wrong value sent via Firmata", expectedValue, m.getData());
+		assertEquals(ANALOG_MESSAGE_COMMAND, m.getCommand());
+		assertEquals(pin, m.getPin());
+		assertEquals(expectedValue, m.getData());
 	}
 
 	private void testAnalog(int pin, int value) {

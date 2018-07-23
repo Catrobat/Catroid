@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -58,12 +58,14 @@ import org.catrobat.catroid.content.bricks.CloneBrick;
 import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick;
 import org.catrobat.catroid.content.bricks.DeleteThisCloneBrick;
 import org.catrobat.catroid.content.bricks.DroneEmergencyBrick;
+import org.catrobat.catroid.content.bricks.DroneFlipBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveDownBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveForwardBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveRightBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
+import org.catrobat.catroid.content.bricks.DronePlayLedAnimationBrick;
 import org.catrobat.catroid.content.bricks.DroneSwitchCameraBrick;
 import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
@@ -167,8 +169,8 @@ import org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.physics.content.bricks.SetVelocityBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.ui.activity.rtl.RtlUiTestUtils;
@@ -198,15 +200,14 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
-import static org.catrobat.catroid.common.Constants.LANGUAGE_TAG_KEY;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_ARDUINO_BRICKS;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_NFC_BRICKS;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_PARROT_JUMPING_SUMO_BRICKS;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_PHIRO_BRICKS;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_RASPI_BRICKS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.PARROT_JUMPING_SUMO_SCREEN_KEY;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_ARDUINO_BRICKS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_NFC_BRICKS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PHIRO_BRICKS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_RASPI_BRICKS;
 import static org.catrobat.catroid.uiespresso.util.matchers.rtl.RtlViewDirection.isViewRtl;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
@@ -215,21 +216,20 @@ import static org.hamcrest.core.Is.is;
 @RunWith(AndroidJUnit4.class)
 public class RtlBrickTest {
 	@Rule
-	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(ScriptActivity.class, true, false);
+	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
+			SpriteActivity.FRAGMENT_SCRIPTS);
 	private Locale arLocale = new Locale("ar");
-	private Locale defaultLocale = Locale.getDefault();
 	private List<String> allPeripheralCategories = new ArrayList<>(Arrays.asList(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED,
 			SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED, SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, SETTINGS_SHOW_PHIRO_BRICKS,
-			SETTINGS_SHOW_ARDUINO_BRICKS, SETTINGS_SHOW_RASPI_BRICKS, SETTINGS_SHOW_NFC_BRICKS, SETTINGS_SHOW_PARROT_JUMPING_SUMO_BRICKS));
+			SETTINGS_SHOW_ARDUINO_BRICKS, SETTINGS_SHOW_RASPI_BRICKS, SETTINGS_SHOW_NFC_BRICKS,
+			PARROT_JUMPING_SUMO_SCREEN_KEY));
 	private List<String> enabledByThisTestPeripheralCategories = new ArrayList<>();
 
 	@Before
 	public void setUp() throws Exception {
+		SettingsFragment.setLanguageSharedPreference(getTargetContext(), "ar");
 		createProject("RtlBricksTest");
-		SettingsActivity.updateLocale(getTargetContext(), "ar", "");
-		baseActivityTestRule.launchActivity(null);
-
 		SharedPreferences sharedPreferences = PreferenceManager
 				.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
 
@@ -240,6 +240,7 @@ public class RtlBrickTest {
 				enabledByThisTestPeripheralCategories.add(category);
 			}
 		}
+		baseActivityTestRule.launchActivity();
 	}
 
 	@After
@@ -250,14 +251,14 @@ public class RtlBrickTest {
 			sharedPreferences.edit().putBoolean(category, false).commit();
 		}
 		enabledByThisTestPeripheralCategories.clear();
-		resetToDefaultLanguage();
+		SettingsFragment.removeLanguageSharedPreference(getTargetContext());
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void eventBricks() throws Exception {
-		assertEquals(Locale.getDefault().getDisplayLanguage(), arLocale.getDisplayLanguage());
-		assertTrue(RtlUiTestUtils.checkTextDirection(Locale.getDefault().getDisplayName()));
+	public void eventBricks() {
+		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
+		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 		openCategory(R.string.category_event);
 
 		// When program starts
@@ -296,9 +297,9 @@ public class RtlBrickTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void controlBricks() throws Exception {
-		assertEquals(Locale.getDefault().getDisplayLanguage(), arLocale.getDisplayLanguage());
-		assertTrue(RtlUiTestUtils.checkTextDirection(Locale.getDefault().getDisplayName()));
+	public void controlBricks() {
+		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
+		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 		openCategory(R.string.category_control);
 
 		// wait
@@ -343,15 +344,15 @@ public class RtlBrickTest {
 		// when start as a clone
 		checkIfBrickISRtl(WhenClonedBrick.class, R.id.brick_when_cloned_layout);
 
-		// set next NFC tag to
+		// Wait for next NFC tag to WRITE
 		checkIfBrickISRtl(SetNfcTagBrick.class, R.id.brick_set_nfc_tag_layout);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void motionBricks() throws Exception {
-		assertEquals(Locale.getDefault().getDisplayLanguage(), arLocale.getDisplayLanguage());
-		assertTrue(RtlUiTestUtils.checkTextDirection(Locale.getDefault().getDisplayName()));
+	public void motionBricks() {
+		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
+		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 		openCategory(R.string.category_motion);
 
 		//place at
@@ -423,16 +424,16 @@ public class RtlBrickTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void soundBricks() throws Exception {
-		assertEquals(Locale.getDefault().getDisplayLanguage(), arLocale.getDisplayLanguage());
-		assertTrue(RtlUiTestUtils.checkTextDirection(Locale.getDefault().getDisplayName()));
+	public void soundBricks() {
+		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
+		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 		openCategory(R.string.category_sound);
 
 		// Start sound
-		checkIfBrickISRtl(PlaySoundBrick.class, R.id.brick_play_sound_layout);
+		checkIfBrickAtPositionIsRtl(PlaySoundBrick.class, 0, R.id.brick_play_sound_layout);
 
 		// Start sound and wait
-		checkIfBrickISRtl(PlaySoundAndWaitBrick.class, R.id.brick_play_sound_and_wait_layout);
+		checkIfBrickISRtl(PlaySoundAndWaitBrick.class, R.id.brick_play_sound_layout);
 
 		// Stop all sounds
 		checkIfBrickISRtl(StopAllSoundsBrick.class, R.id.brick_stop_all_sounds_layout);
@@ -458,9 +459,9 @@ public class RtlBrickTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void looksBricks() throws Exception {
-		assertEquals(Locale.getDefault().getDisplayLanguage(), arLocale.getDisplayLanguage());
-		assertTrue(RtlUiTestUtils.checkTextDirection(Locale.getDefault().getDisplayName()));
+	public void looksBricks() {
+		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
+		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 		openCategory(R.string.category_looks);
 
 		// Next background
@@ -535,9 +536,9 @@ public class RtlBrickTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void penBricks() throws Exception {
-		assertEquals(Locale.getDefault().getDisplayLanguage(), arLocale.getDisplayLanguage());
-		assertTrue(RtlUiTestUtils.checkTextDirection(Locale.getDefault().getDisplayName()));
+	public void penBricks() {
+		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
+		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 		openCategory(R.string.category_pen);
 
 		// Pen down
@@ -561,9 +562,9 @@ public class RtlBrickTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void dataBricks() throws Exception {
-		assertEquals(Locale.getDefault().getDisplayLanguage(), arLocale.getDisplayLanguage());
-		assertTrue(RtlUiTestUtils.checkTextDirection(Locale.getDefault().getDisplayName()));
+	public void dataBricks() {
+		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
+		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 		openCategory(R.string.category_data);
 
 		// Set variable
@@ -599,9 +600,9 @@ public class RtlBrickTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void legoNxtBricks() throws Exception {
-		assertEquals(Locale.getDefault().getDisplayLanguage(), arLocale.getDisplayLanguage());
-		assertTrue(RtlUiTestUtils.checkTextDirection(Locale.getDefault().getDisplayName()));
+	public void legoNxtBricks() {
+		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
+		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 		openCategory(R.string.category_lego_nxt);
 
 		// Turn NXT motor by
@@ -619,9 +620,9 @@ public class RtlBrickTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void legoEv3Bricks() throws Exception {
-		assertEquals(Locale.getDefault().getDisplayLanguage(), arLocale.getDisplayLanguage());
-		assertTrue(RtlUiTestUtils.checkTextDirection(Locale.getDefault().getDisplayName()));
+	public void legoEv3Bricks() {
+		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
+		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 		openCategory(R.string.category_lego_ev3);
 
 		// Turn Ev3 motor by
@@ -642,50 +643,56 @@ public class RtlBrickTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void arDroneBricks() throws Exception {
-		assertEquals(Locale.getDefault().getDisplayLanguage(), arLocale.getDisplayLanguage());
-		assertTrue(RtlUiTestUtils.checkTextDirection(Locale.getDefault().getDisplayName()));
+	public void arDroneBricks() {
+		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
+		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 		openCategory(R.string.category_drone);
 
 		// Take off
-		checkIfBrickISRtl(DroneTakeOffLandBrick.class, R.id.brick_drone_basic_layout);
+		checkIfBrickISRtl(DroneTakeOffLandBrick.class, R.id.brick_drone_takeoff_land_layout);
 
 		// Emergency
-		checkIfBrickISRtl(DroneEmergencyBrick.class, R.id.brick_drone_basic_layout);
+		checkIfBrickISRtl(DroneEmergencyBrick.class, R.id.brick_drone_emergency_layout);
 
 		// Move up
-		checkIfBrickISRtl(DroneMoveUpBrick.class, R.id.brick_drone_move_layout);
+		checkIfBrickISRtl(DroneMoveUpBrick.class, R.id.brick_drone_move_up_layout);
 
 		// Move down
-		checkIfBrickISRtl(DroneMoveDownBrick.class, R.id.brick_drone_move_layout);
+		checkIfBrickISRtl(DroneMoveDownBrick.class, R.id.brick_drone_move_down_layout);
 
 		// Move Left
-		checkIfBrickISRtl(DroneMoveLeftBrick.class, R.id.brick_drone_move_layout);
+		checkIfBrickISRtl(DroneMoveLeftBrick.class, R.id.brick_drone_move_left_layout);
 
 		// Move Right
-		checkIfBrickISRtl(DroneMoveRightBrick.class, R.id.brick_drone_move_layout);
+		checkIfBrickISRtl(DroneMoveRightBrick.class, R.id.brick_drone_move_right_layout);
 
 		// Move forward
-		checkIfBrickISRtl(DroneMoveForwardBrick.class, R.id.brick_drone_move_layout);
+		checkIfBrickISRtl(DroneMoveForwardBrick.class, R.id.brick_drone_move_forward_layout);
 
 		// Move Backward
-		checkIfBrickISRtl(DroneMoveBackwardBrick.class, R.id.brick_drone_move_layout);
+		checkIfBrickISRtl(DroneMoveBackwardBrick.class, R.id.brick_drone_move_backward_layout);
 
 		// Turn Left
-		checkIfBrickISRtl(DroneTurnLeftBrick.class, R.id.brick_drone_move_layout);
+		checkIfBrickISRtl(DroneTurnLeftBrick.class, R.id.brick_drone_turn_left_layout);
 
 		// Turn Right
-		checkIfBrickISRtl(DroneTurnRightBrick.class, R.id.brick_drone_move_layout);
+		checkIfBrickISRtl(DroneTurnRightBrick.class, R.id.brick_drone_turn_right_layout);
+
+		// Flip
+		checkIfBrickISRtl(DroneFlipBrick.class, R.id.brick_drone_flip_layout);
+
+		// Play Led Animation
+		checkIfBrickISRtl(DronePlayLedAnimationBrick.class, R.id.brick_drone_play_led_animation_layout);
 
 		// Switch Drone camera
-		checkIfBrickISRtl(DroneSwitchCameraBrick.class, R.id.brick_drone_basic_look_layout);
+		checkIfBrickISRtl(DroneSwitchCameraBrick.class, R.id.brick_drone_switch_camera_layout);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void jumpingSumoBricks() throws Exception {
-		assertEquals(Locale.getDefault().getDisplayLanguage(), arLocale.getDisplayLanguage());
-		assertTrue(RtlUiTestUtils.checkTextDirection(Locale.getDefault().getDisplayName()));
+	public void jumpingSumoBricks() {
+		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
+		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 		openCategory(R.string.category_jumping_sumo);
 
 		// Move Jumping Sumo forward
@@ -724,9 +731,9 @@ public class RtlBrickTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void phiroBricks() throws Exception {
-		assertEquals(Locale.getDefault().getDisplayLanguage(), arLocale.getDisplayLanguage());
-		assertTrue(RtlUiTestUtils.checkTextDirection(Locale.getDefault().getDisplayName()));
+	public void phiroBricks() {
+		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
+		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 		openCategory(R.string.category_phiro);
 
 		// Move forward
@@ -758,9 +765,9 @@ public class RtlBrickTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void arduinoBricks() throws Exception {
-		assertEquals(Locale.getDefault().getDisplayLanguage(), arLocale.getDisplayLanguage());
-		assertTrue(RtlUiTestUtils.checkTextDirection(Locale.getDefault().getDisplayName()));
+	public void arduinoBricks() {
+		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
+		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 		openCategory(R.string.category_arduino);
 
 		// Set digital pin
@@ -772,9 +779,9 @@ public class RtlBrickTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void raspPiBricks() throws Exception {
-		assertEquals(Locale.getDefault().getDisplayLanguage(), arLocale.getDisplayLanguage());
-		assertTrue(RtlUiTestUtils.checkTextDirection(Locale.getDefault().getDisplayName()));
+	public void raspPiBricks() {
+		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
+		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 		openCategory(R.string.category_raspi);
 
 		// When RaspPi pin
@@ -806,7 +813,7 @@ public class RtlBrickTest {
 	private void createProject(String projectName) {
 		String nameSpriteTwo = "testSpriteTwo";
 
-		Project project = new Project(null, projectName);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		Sprite spriteOne = new Sprite("testSpriteOne");
 		project.getDefaultScene().addSprite(spriteOne);
 
@@ -816,17 +823,8 @@ public class RtlBrickTest {
 
 		project.getDefaultScene().addSprite(spriteTwo);
 		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 		ProjectManager.getInstance().setCurrentSprite(spriteTwo);
-	}
-
-	private void resetToDefaultLanguage() {
-		SharedPreferences.Editor editor = PreferenceManager
-				.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
-				.edit();
-		editor.putString(LANGUAGE_TAG_KEY, defaultLocale.getLanguage());
-		editor.commit();
-		SettingsActivity.updateLocale(InstrumentationRegistry.getTargetContext(), defaultLocale.getLanguage(),
-				defaultLocale.getCountry());
 	}
 
 	private void openCategory(int categoryNameStringResourceId) {

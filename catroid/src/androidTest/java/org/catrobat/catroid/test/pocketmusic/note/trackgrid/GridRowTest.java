@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,51 +23,67 @@
 
 package org.catrobat.catroid.test.pocketmusic.note.trackgrid;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.pocketmusic.note.trackgrid.GridRow;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class GridRowTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
 
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.core.IsNot.not;
+import static org.junit.Assert.assertThat;
+
+@RunWith(AndroidJUnit4.class)
+public class GridRowTest {
+
+	@Test
 	public void testEquals1() {
 		GridRow gridRow1 = GridRowTestDataFactory.createGridRowWithOnePosition();
 		GridRow gridRow2 = GridRowTestDataFactory.createGridRowWithOnePosition();
 
-		assertTrue("GridRows are not equal", gridRow1.equals(gridRow2));
+		assertEquals(gridRow1, gridRow2);
 	}
 
+	@Test
 	public void testEquals2() {
 		GridRow gridRow1 = GridRowTestDataFactory.createGridRowWithOnePosition();
 		GridRow gridRow2 = GridRowTestDataFactory.createGridRowWithDuplicatePositions();
 
-		assertFalse("GridRows are equal", gridRow1.equals(gridRow2));
+		assertThat(gridRow1, is(not(equalTo(gridRow2))));
 	}
 
+	@Test
 	public void testEquals3() {
 		GridRow gridRow1 = GridRowTestDataFactory.createGridRowWithDifferentPositions();
 		GridRow gridRow2 = GridRowTestDataFactory.createGridRowWithDuplicatePositions();
 
-		assertFalse("GridRows are equal", gridRow1.equals(gridRow2));
+		assertThat(gridRow1, is(not(equalTo(gridRow2))));
 	}
 
+	@Test
 	public void testEquals4() {
 		GridRow gridRow1 = GridRowTestDataFactory.createGridRowWithDifferentPositions();
 		GridRow gridRow2 = GridRowTestDataFactory.createGridRowWithDifferentPositions();
 
-		assertTrue("GridRows are not equal", gridRow1.equals(gridRow2));
+		assertEquals(gridRow1, gridRow2);
 	}
 
+	@Test
 	public void testHashCode1() {
 		GridRow gridRow1 = GridRowTestDataFactory.createGridRowWithOnePosition();
 		GridRow gridRow2 = GridRowTestDataFactory.createGridRowWithOnePosition();
 
-		assertTrue("GridRow hashcode error", gridRow1.hashCode() == gridRow2.hashCode());
+		assertEquals(gridRow1.hashCode(), gridRow2.hashCode());
 	}
 
+	@Test
 	public void testHashCode2() {
 		GridRow gridRow1 = GridRowTestDataFactory.createGridRowWithDifferentPositions();
 		GridRow gridRow2 = GridRowTestDataFactory.createGridRowWithOnePosition();
 
-		assertFalse("GridRow hashcode error", gridRow1.hashCode() == gridRow2.hashCode());
+		assertThat(gridRow1.hashCode(), is(not(equalTo(gridRow2.hashCode()))));
 	}
 }

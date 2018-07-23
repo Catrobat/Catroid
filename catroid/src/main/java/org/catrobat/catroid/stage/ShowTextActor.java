@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -42,7 +42,6 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 
 import java.util.List;
-import java.util.Map;
 
 public class ShowTextActor extends Actor {
 
@@ -90,16 +89,11 @@ public class ShowTextActor extends Actor {
 
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyPlayingScene().getDataContainer();
 
-		List<UserVariable> projectVariableList = dataContainer.getProjectVariables();
-		Map<Sprite, List<UserVariable>> spriteVariableMap = dataContainer.getSpriteVariableMap();
-		List<UserVariable> spriteVariableList = spriteVariableMap.get(sprite);
-		List<UserVariable> userBrickVariableList = dataContainer.getOrCreateVariableListForUserBrick(userBrick);
-
-		drawVariables(projectVariableList, batch);
-		drawVariables(spriteVariableList, batch);
-		drawVariables(userBrickVariableList, batch);
+		drawVariables(dataContainer.getProjectUserVariables(), batch);
+		drawVariables(dataContainer.getSpriteUserVariables(sprite), batch);
+		drawVariables(dataContainer.getUserBrickUserVariables(userBrick), batch);
 	}
 
 	private void drawVariables(List<UserVariable> variableList, Batch batch) {
@@ -116,6 +110,8 @@ public class ShowTextActor extends Actor {
 					if (variable.getVisible()) {
 						if (isNumberAndInteger(variableValue)) {
 							drawText(batch, variableValueWithoutDecimal, xPosition, yPosition);
+						} else if (variableValue.isEmpty()) {
+							drawText(batch, Constants.NO_VALUE_SET, xPosition, yPosition);
 						} else {
 							drawText(batch, variableValue, xPosition, yPosition);
 						}

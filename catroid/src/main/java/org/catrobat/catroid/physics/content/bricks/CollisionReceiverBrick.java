@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,87 +27,56 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.MessageContainer;
-import org.catrobat.catroid.content.BroadcastMessage;
 import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
-import org.catrobat.catroid.content.bricks.BrickViewProvider;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
-import org.catrobat.catroid.physics.PhysicsCollision;
 
 import java.util.List;
 
-public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick, BroadcastMessage, Cloneable {
-	private static final long serialVersionUID = 1L;
+public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick, Cloneable {
+
 	public static final String ANYTHING_ESCAPE_CHAR = "\0";
-
+	private static final long serialVersionUID = 1L;
 	private CollisionScript collisionScript;
-	private transient String selectedMessage;
-	ArrayAdapter<String> messageAdapter;
-
-	public CollisionReceiverBrick(String spriteName) {
-		this.selectedMessage = spriteName;
-	}
+	private transient ArrayAdapter<String> messageAdapter;
 
 	public CollisionReceiverBrick(CollisionScript collisionScript) {
 		this.collisionScript = collisionScript;
-		this.selectedMessage = "";
-
-		if (collisionScript != null && collisionScript.isCommentedOut()) {
-			setCommentedOut(true);
-		}
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		CollisionReceiverBrick copyBrick = (CollisionReceiverBrick) clone();
-		copyBrick.collisionScript = collisionScript;
-		return copyBrick;
+		setCommentedOut(collisionScript.isCommentedOut());
 	}
 
 	@Override
 	public Brick clone() {
-		return new CollisionReceiverBrick(new CollisionScript(getBroadcastMessage()));
+		CollisionScript clonedScript = new CollisionScript(getSpriteToCollideWithName());
+		clonedScript.setCommentedOut(collisionScript.isCommentedOut());
+		return new CollisionReceiverBrick(clonedScript);
+	}
+
+	private String getSpriteToCollideWithName() {
+		return collisionScript == null ? null : collisionScript.getSpriteToCollideWithName();
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return PHYSICS;
+	public int getViewResource() {
+		return R.layout.brick_physics_collision_receive;
 	}
 
 	@Override
-	public String getBroadcastMessage() {
-		if (collisionScript == null) {
-			return selectedMessage;
-		}
-		return collisionScript.getBroadcastMessage();
-	}
-
-	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	public View getView(final Context context) {
+		super.getView(context);
 
 		if (collisionScript == null) {
-			collisionScript = new CollisionScript(selectedMessage);
-			MessageContainer.addMessage(getBroadcastMessage());
+			collisionScript = new CollisionScript(getSpriteToCollideWithName());
 		}
-
-		view = View.inflate(context, R.layout.brick_physics_collision_receive, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_collision_receive_checkbox);
 
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_collision_receive_spinner);
 
@@ -116,12 +85,11 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				String collisionObjectOneIdentifier = ProjectManager.getInstance().getCurrentSprite().getName();
-				String collisionObjectTwoIdentifier = broadcastSpinner.getSelectedItem().toString();
-				if (collisionObjectTwoIdentifier.equals(getDisplayedAnythingString(context))) {
-					collisionObjectTwoIdentifier = PhysicsCollision.COLLISION_WITH_ANYTHING_IDENTIFIER;
+				String spriteToCollideWith = broadcastSpinner.getSelectedItem().toString();
+				if (spriteToCollideWith.equals(getDisplayedAnythingString(context))) {
+					spriteToCollideWith = null;
 				}
-				selectedMessage = collisionScript.setAndReturnBroadcastMessage(collisionObjectOneIdentifier, collisionObjectTwoIdentifier);
+				collisionScript.setSpriteToCollideWithName(spriteToCollideWith);
 			}
 
 			@Override
@@ -133,13 +101,24 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 		return view;
 	}
 
+	@Override
+	public View getPrototypeView(Context context) {
+		View prototypeView = super.getPrototypeView(context);
+		Spinner broadcastReceiverSpinner = (Spinner) prototypeView.findViewById(R.id.brick_collision_receive_spinner);
+
+		SpinnerAdapter collisionReceiverSpinnerAdapter = getCollisionObjectAdapter(context);
+		broadcastReceiverSpinner.setAdapter(collisionReceiverSpinnerAdapter);
+		setSpinnerSelection(broadcastReceiverSpinner);
+		return prototypeView;
+	}
+
 	public ArrayAdapter<String> getCollisionObjectAdapter(Context context) {
 		String spriteName = ProjectManager.getInstance().getCurrentSprite().getName();
 		messageAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
 		messageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		messageAdapter.add(getDisplayedAnythingString(context));
 		int resources = Brick.NO_RESOURCES;
-		for (Sprite sprite : ProjectManager.getInstance().getCurrentScene().getSpriteList()) {
+		for (Sprite sprite : ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList()) {
 			if (!spriteName.equals(sprite.getName())) {
 				resources |= sprite.getRequiredResources();
 				if ((resources & Brick.PHYSICS) > 0 && messageAdapter.getPosition(sprite.getName()) < 0) {
@@ -152,33 +131,13 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_physics_collision_receive, null);
-		Spinner broadcastReceiverSpinner = (Spinner) prototypeView.findViewById(R.id.brick_collision_receive_spinner);
-
-		SpinnerAdapter collisionReceiverSpinnerAdapter = getCollisionObjectAdapter(context);
-		broadcastReceiverSpinner.setAdapter(collisionReceiverSpinnerAdapter);
-		setSpinnerSelection(broadcastReceiverSpinner);
-		return prototypeView;
-	}
-
-	@Override
 	public Script getScriptSafe() {
 		return collisionScript;
 	}
 
 	private void setSpinnerSelection(Spinner spinner) {
-		String broadcastMessage = getBroadcastMessage();
-		if (broadcastMessage == null || broadcastMessage.equals("")) {
-			spinner.setSelection(0);
-		} else if (collisionScript != null && collisionScript.getBroadcastMessage().equals(broadcastMessage)) {
-			CollisionScript.CollisionObjectIdentifier identifier = collisionScript.splitBroadcastMessage();
-			int position = getPositionOfMessageInAdapter(spinner.getContext(), identifier.getCollisionObjectTwoIdentifier());
-			spinner.setSelection(position);
-		} else {
-			int position = getPositionOfMessageInAdapter(spinner.getContext(), broadcastMessage);
-			spinner.setSelection(position);
-		}
+		int position = getPositionOfMessageInAdapter(spinner.getContext(), getBroadcastMessage());
+		spinner.setSelection(position);
 	}
 
 	public int getPositionOfMessageInAdapter(Context context, String message) {
@@ -191,8 +150,15 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 		}
 	}
 
+	public String getBroadcastMessage() {
+		if (collisionScript.getSpriteToCollideWith() == null) {
+			return null;
+		}
+		return collisionScript.getSpriteToCollideWith().getName();
+	}
+
 	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		return null;
 	}
 
@@ -203,6 +169,11 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 	@Override
 	public void setCommentedOut(boolean commentedOut) {
 		super.setCommentedOut(commentedOut);
-		getScriptSafe().setCommentedOut(commentedOut);
+		collisionScript.setCommentedOut(commentedOut);
+	}
+
+	@Override
+	public int getRequiredResources() {
+		return PHYSICS;
 	}
 }

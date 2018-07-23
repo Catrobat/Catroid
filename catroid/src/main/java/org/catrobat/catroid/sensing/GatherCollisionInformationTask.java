@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -54,8 +54,8 @@ public class GatherCollisionInformationTask extends AsyncTask<Void, Void, Boolea
 
 	private void getCollisionInformation() {
 		Log.i(TAG, "Waiting for all calculation threads to finish...");
-		for (Sprite s : ProjectManager.getInstance().getCurrentScene().getSpriteList()) {
-			for (LookData lookData : s.getLookDataList()) {
+		for (Sprite s : ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList()) {
+			for (LookData lookData : s.getLookList()) {
 				if (lookData.getCollisionInformation().collisionPolygonCalculationThread == null) {
 					continue;
 				}
@@ -67,9 +67,9 @@ public class GatherCollisionInformationTask extends AsyncTask<Void, Void, Boolea
 			}
 		}
 
-		for (Sprite s : ProjectManager.getInstance().getCurrentScene().getSpriteList()) {
+		for (Sprite s : ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList()) {
 			if (s.hasCollision()) {
-				for (LookData l : s.getLookDataList()) {
+				for (LookData l : s.getLookList()) {
 					l.getCollisionInformation().loadOrCreateCollisionPolygon();
 				}
 			}

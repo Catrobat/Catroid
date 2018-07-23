@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,24 +23,28 @@
 package org.catrobat.catroid.uiespresso.util.rules;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Environment;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.util.Log;
 
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.uiespresso.annotations.Flaky;
-import org.catrobat.catroid.uiespresso.util.SystemAnimations;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
 import java.io.File;
+import java.io.IOException;
+
+import static org.catrobat.catroid.common.Constants.DEFAULT_ROOT_DIRECTORY;
 
 public class BaseActivityInstrumentationRule<T extends Activity> extends ActivityTestRule<T> {
-	private SystemAnimations systemAnimations;
+
 	private static final String TAG = BaseActivityInstrumentationRule.class.getSimpleName();
+	private Intent launchIntent = null;
 
 	public BaseActivityInstrumentationRule(Class<T> activityClass, boolean initialTouchMode, boolean launchActivity) {
 		super(activityClass, initialTouchMode, launchActivity);
@@ -57,35 +61,34 @@ public class BaseActivityInstrumentationRule<T extends Activity> extends Activit
 		setUpTestProjectFolder();
 	}
 
-	@Override
-	protected void afterActivityLaunched() {
-		systemAnimations = new SystemAnimations(InstrumentationRegistry.getTargetContext());
-		systemAnimations.disableAll();
-		super.afterActivityLaunched();
+	public BaseActivityInstrumentationRule(Class<T> activityClass, String extraFragementPosition, int fragment) {
+		super(activityClass, true, false);
+		launchIntent = new Intent();
+		launchIntent.putExtra(extraFragementPosition, fragment);
 	}
 
-	@Override
-	protected void afterActivityFinished() {
-		systemAnimations.enableAll();
-		super.afterActivityFinished();
-	}
-
-	void deleteRecursive(File fileOrDirectory) {
-		if (fileOrDirectory.isDirectory()) {
-			for (File child : fileOrDirectory.listFiles()) {
-				deleteRecursive(child);
-			}
-		}
-		fileOrDirectory.delete();
+	public void launchActivity() {
+		super.launchActivity(launchIntent);
 	}
 
 	void setUpTestProjectFolder() {
 		Reflection.setPrivateField(StageListener.class, "checkIfAutomaticScreenshotShouldBeTaken", false);
-		Reflection.setPrivateField(Constants.class, "DEFAULT_ROOT", Environment.getExternalStorageDirectory()
-				.getAbsolutePath() + "/Pocket Code uiTest");
-		File uiTestFolder = new File(Constants.DEFAULT_ROOT);
-		if (uiTestFolder.exists()) {
-			deleteRecursive(uiTestFolder);
+		Reflection.setPrivateField(Constants.class, "DEFAULT_ROOT_DIRECTORY",
+				new File(Environment.getExternalStorageDirectory(), "Pocket Code UiTest"));
+
+		if (DEFAULT_ROOT_DIRECTORY.exists()) {
+			try {
+				StorageOperations.deleteDir(DEFAULT_ROOT_DIRECTORY);
+			} catch (IOException e) {
+				Log.e(TAG, "Error deleting root directory:", e);
+			}
+		}
+
+		try {
+			StorageOperations.createDir(DEFAULT_ROOT_DIRECTORY);
+		} catch (IOException e) {
+			throw new RuntimeException("What a terrible failure! Cannot create root directory: "
+					+ DEFAULT_ROOT_DIRECTORY.getAbsolutePath());
 		}
 	}
 

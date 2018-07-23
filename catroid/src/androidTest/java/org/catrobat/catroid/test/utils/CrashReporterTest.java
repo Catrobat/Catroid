@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,7 +28,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.test.InstrumentationRegistry;
 
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.CrashReporter;
 import org.catrobat.catroid.utils.CrashReporterInterface;
 import org.junit.After;
@@ -38,6 +38,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
@@ -54,7 +55,7 @@ public class CrashReporterTest {
 	private Exception exception;
 
 	@Mock
-	CrashReporterInterface reporter;
+	private CrashReporterInterface reporter;
 
 	@Before
 	public void setUp() {
@@ -62,7 +63,7 @@ public class CrashReporterTest {
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 		editor = sharedPreferences.edit();
 		editor.clear();
-		editor.putBoolean(SettingsActivity.SETTINGS_CRASH_REPORTS, true);
+		editor.putBoolean(SettingsFragment.SETTINGS_CRASH_REPORTS, true);
 		editor.commit();
 		exception = new RuntimeException("Error");
 		CrashReporter.setIsCrashReportEnabled(true);
@@ -76,7 +77,7 @@ public class CrashReporterTest {
 
 	@Test
 	public void testCrashlyticsUninitializedOnAnonymousReportDisabled() {
-		editor.putBoolean(SettingsActivity.SETTINGS_CRASH_REPORTS, false);
+		editor.putBoolean(SettingsFragment.SETTINGS_CRASH_REPORTS, false);
 		editor.commit();
 
 		CrashReporter.initialize(context);
@@ -137,7 +138,7 @@ public class CrashReporterTest {
 		CrashReporter.storeUnhandledException(exception);
 		assertFalse(sharedPreferences.getString(CrashReporter.EXCEPTION_FOR_REPORT, "").isEmpty());
 
-		assertTrue(sharedPreferences.getString(CrashReporter.EXCEPTION_FOR_REPORT, "").equals(error1Data));
+		assertEquals(error1Data, sharedPreferences.getString(CrashReporter.EXCEPTION_FOR_REPORT, ""));
 	}
 
 	@Test
@@ -146,7 +147,7 @@ public class CrashReporterTest {
 
 		assertFalse(sharedPreferences.getString(CrashReporter.EXCEPTION_FOR_REPORT, "").isEmpty());
 
-		CrashReporter.sendUnhandledCaughtException();
+		CrashReporter.logUnhandledException();
 
 		assertTrue(sharedPreferences.getString(CrashReporter.EXCEPTION_FOR_REPORT, "").isEmpty());
 	}
@@ -157,27 +158,27 @@ public class CrashReporterTest {
 
 		assertFalse(sharedPreferences.getString(CrashReporter.EXCEPTION_FOR_REPORT, "").isEmpty());
 
-		CrashReporter.sendUnhandledCaughtException();
+		CrashReporter.logUnhandledException();
 
 		assertTrue(sharedPreferences.getString(CrashReporter.EXCEPTION_FOR_REPORT, "").isEmpty());
 	}
 
 	@Test
-	public void testUnhandledCaughtExceptionSentOnCrashReportEnabled() {
+	public void testUnhandledExceptionSentOnCrashReportEnabled() {
 		CrashReporter.storeUnhandledException(exception);
 
-		CrashReporter.sendUnhandledCaughtException();
+		CrashReporter.logUnhandledException();
 
 		verify(reporter, times(1)).logException(any(Throwable.class));
 	}
 
 	@Test
-	public void testUnhandledCaughtExceptionSentOnCrashReportDisabled() {
+	public void testUnhandledExceptionSentOnCrashReportDisabled() {
 		CrashReporter.storeUnhandledException(exception);
-		editor.putBoolean(SettingsActivity.SETTINGS_CRASH_REPORTS, false);
+		editor.putBoolean(SettingsFragment.SETTINGS_CRASH_REPORTS, false);
 		editor.commit();
 
-		CrashReporter.sendUnhandledCaughtException();
+		CrashReporter.logUnhandledException();
 
 		verify(reporter, times(0)).logException(any(Exception.class));
 	}
@@ -191,7 +192,7 @@ public class CrashReporterTest {
 
 	@Test
 	public void testLogExceptionGenerateNoLogsOnReportsDisabled() {
-		editor.putBoolean(SettingsActivity.SETTINGS_CRASH_REPORTS, false);
+		editor.putBoolean(SettingsFragment.SETTINGS_CRASH_REPORTS, false);
 		editor.commit();
 
 		CrashReporter.setIsCrashReportEnabled(false);

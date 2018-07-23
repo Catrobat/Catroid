@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,61 +23,73 @@
 
 package org.catrobat.catroid.test.sensing;
 
-import android.test.InstrumentationTestCase;
-
-import junit.framework.Assert;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.sensing.CollisionDetection;
 import org.catrobat.catroid.test.utils.CollisionTestUtils;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.TouchUtil;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class TouchesFingerTest extends InstrumentationTestCase {
+import static junit.framework.Assert.assertEquals;
+
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertThat;
+
+@RunWith(AndroidJUnit4.class)
+public class TouchesFingerTest {
 	protected Project project;
 	protected Sprite sprite1;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		TestUtils.deleteTestProjects();
+	@Before
+	public void setUp() throws Exception {
+		TestUtils.deleteProjects();
 
-		project = new Project(getInstrumentation().getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		project = new Project(InstrumentationRegistry.getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 		sprite1 = new Sprite("TestSprite1");
 		project.getDefaultScene().addSprite(sprite1);
 
-		StorageHandler.getInstance().saveProject(project);
+		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
 		CollisionTestUtils.initializeSprite(sprite1, org.catrobat.catroid.test.R.raw.collision_donut,
-				"collision_donut.png", getInstrumentation().getContext(), project);
+				"collision_donut.png", InstrumentationRegistry.getContext(), project);
 	}
 
+	@Test
 	public void testBasicOneTouchingPoint() {
 		TouchUtil.reset();
 		TouchUtil.touchDown(150, 150, 1);
-		Assert.assertTrue("Not detected as touching", CollisionDetection.collidesWithFinger(sprite1.look) == 1d);
+		assertEquals(1d, CollisionDetection.collidesWithFinger(sprite1.look));
 		TouchUtil.touchUp(1);
 		TouchUtil.touchDown(0, 0, 1);
-		Assert.assertFalse("Detected as touching", CollisionDetection.collidesWithFinger(sprite1.look) == 1d);
+		assertThat(CollisionDetection.collidesWithFinger(sprite1.look), is(not(equalTo(1d))));
 	}
 
+	@Test
 	public void testBasicMultipleTouchingPoints() {
 		TouchUtil.reset();
 		TouchUtil.touchDown(150, 150, 1);
 		TouchUtil.touchDown(0, 0, 2);
 		TouchUtil.touchDown(151, 151, 3);
-		Assert.assertTrue("Not detected as touching", CollisionDetection.collidesWithFinger(sprite1.look) == 1d);
+		assertEquals(1d, CollisionDetection.collidesWithFinger(sprite1.look));
 	}
 
+	@Test
 	public void testAdvancedOneTouchingPoint() {
 		TouchUtil.reset();
 		TouchUtil.touchDown(0, 0, 1);
 
-		Assert.assertFalse("Detected as touching", CollisionDetection.collidesWithFinger(sprite1.look) == 1d);
+		assertThat(CollisionDetection.collidesWithFinger(sprite1.look), is(not(equalTo(1d))));
 
 		float x = sprite1.look.getXInUserInterfaceDimensionUnit();
 		float y = sprite1.look.getYInUserInterfaceDimensionUnit();
@@ -85,6 +97,6 @@ public class TouchesFingerTest extends InstrumentationTestCase {
 		sprite1.look.setXInUserInterfaceDimensionUnit(x - 150);
 		sprite1.look.setYInUserInterfaceDimensionUnit(y - 150);
 
-		Assert.assertTrue("Not detected as touching", CollisionDetection.collidesWithFinger(sprite1.look) == 1d);
+		assertEquals(1d, CollisionDetection.collidesWithFinger(sprite1.look));
 	}
 }

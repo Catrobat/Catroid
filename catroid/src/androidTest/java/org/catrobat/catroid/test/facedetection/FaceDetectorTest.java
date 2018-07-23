@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,13 +22,21 @@
  */
 package org.catrobat.catroid.test.facedetection;
 
-import junit.framework.TestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.formulaeditor.SensorCustomEvent;
 import org.catrobat.catroid.formulaeditor.SensorCustomEventListener;
 import org.catrobat.catroid.test.utils.TestFaceDetector;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class FaceDetectorTest extends TestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
+
+@RunWith(AndroidJUnit4.class)
+public class FaceDetectorTest {
 
 	private int numberOfCalls = 0;
 	private boolean statusFaceDetected = false;
@@ -47,23 +55,24 @@ public class FaceDetectorTest extends TestCase {
 		}
 	};
 
+	@Test
 	public void testStatusListenerCallback() {
 		TestFaceDetector detector = new TestFaceDetector();
 		numberOfCalls = 0;
 		statusFaceDetected = false;
 		detector.addOnFaceDetectionStatusListener(onFaceDetectionStatusListener);
-		assertEquals("Status Listener received unexpected calls", 0, numberOfCalls);
+		assertEquals(0, numberOfCalls);
 		detector.sendFaceDetected(false);
-		assertEquals("Status Listener received call although still no face detected", 0, numberOfCalls);
-		assertFalse("Wrong detection status", statusFaceDetected);
+		assertEquals(0, numberOfCalls);
+		assertFalse(statusFaceDetected);
 		detector.sendFaceDetected(true);
-		assertTrue("Status Listener received the wrong status", statusFaceDetected);
-		assertTrue("Status Listener received too many calls for one event", numberOfCalls <= 1);
-		assertEquals("Status Listener did not receive a call although face detected", 1, numberOfCalls);
+		assertTrue(statusFaceDetected);
+		assertTrue(numberOfCalls <= 1);
+		assertEquals(1, numberOfCalls);
 		detector.sendFaceDetected(true);
-		assertEquals("Status Listener received a call although status did not change", 1, numberOfCalls);
+		assertEquals(1, numberOfCalls);
 		detector.sendFaceDetected(false);
-		assertEquals("Status Listener did not receive exactly one call for a change", 2, numberOfCalls);
-		assertFalse("Status Listener received the wrong status", statusFaceDetected);
+		assertEquals(2, numberOfCalls);
+		assertFalse(statusFaceDetected);
 	}
 }

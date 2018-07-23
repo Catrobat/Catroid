@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scratch_share_bar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/material_design_spacing_large"
+    android:layout_marginBottom="@dimen/material_design_spacing_large"
+    android:gravity="center_horizontal">
+
+    <ImageView
+        android:id="@+id/scratch_project_favorites_icon"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/favorites_72x72" />
+
+    <TextView
+        android:id="@+id/scratch_project_favorites_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_marginEnd="22dp"
+        android:layout_toEndOf="@+id/scratch_project_favorites_icon"
+        android:layout_marginTop="3dp" />
+
+    <ImageView
+        android:id="@+id/scratch_project_loves_icon"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/loves_72x72"
+        android:layout_toEndOf="@+id/scratch_project_favorites_text" />
+
+    <TextView
+        android:id="@+id/scratch_project_loves_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_marginEnd="22dp"
+        android:layout_toEndOf="@+id/scratch_project_loves_icon"
+        android:layout_marginTop="3dp" />
+
+    <ImageView
+        android:id="@+id/scratch_project_views_icon"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/views_72x72"
+        android:layout_toEndOf="@+id/scratch_project_loves_text" />
+
+    <TextView
+        android:id="@+id/scratch_project_views_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_toEndOf="@+id/scratch_project_views_icon"
+        android:layout_marginTop="3dp" />
+
+</RelativeLayout>

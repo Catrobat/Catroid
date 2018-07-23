@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,14 +26,25 @@ package org.catrobat.catroid.uiespresso.content.brick.utils;
 import android.support.test.espresso.DataInteraction;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 
+import java.util.List;
+
+import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+
+import static org.catrobat.catroid.uiespresso.util.matchers.UserDataItemMatchers.withUserVariableName;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.core.Is.is;
 
 public class BrickVariableSpinnerDataInteractionWrapper extends BrickSpinnerDataInteractionWrapper {
 	public BrickVariableSpinnerDataInteractionWrapper(DataInteraction dataInteraction) {
@@ -52,7 +63,7 @@ public class BrickVariableSpinnerDataInteractionWrapper extends BrickSpinnerData
 		dataInteraction.onChildView(withText(R.string.brick_variable_spinner_create_new_variable))
 				.perform(click());
 
-		enterTextOnDialogue(R.id.dialog_formula_editor_data_name_edit_text, variableName);
+		enterTextOnDialogue(R.id.input_edit_text, variableName);
 
 		return new BrickVariableSpinnerDataInteractionWrapper(dataInteraction);
 	}
@@ -63,19 +74,34 @@ public class BrickVariableSpinnerDataInteractionWrapper extends BrickSpinnerData
 		onView(withText(R.string.brick_variable_spinner_create_new_variable))
 				.perform(click());
 
-		enterTextOnDialogue(R.id.dialog_formula_editor_data_name_edit_text, variableName);
-		// todo: CAT-2359 to fix this:
+		enterTextOnDialogue(R.id.input_edit_text, variableName);
 		checkShowsText(variableName);
 
 		return new BrickVariableSpinnerDataInteractionWrapper(dataInteraction);
 	}
 
-	private static void enterTextOnDialogue(int dialogueId, String textToEnter) {
-		onView(withId(dialogueId))
-				.check(matches(isDisplayed()));
-		onView(withId(dialogueId))
-				.perform(typeText(textToEnter));
+	private static void enterTextOnDialogue(int editTextId, String textToEnter) {
+		onView(withId(editTextId))
+				.perform(typeText(textToEnter), closeSoftKeyboard());
 		onView(withId(android.R.id.button1))
 				.perform(click());
+	}
+
+	public BrickSpinnerDataInteractionWrapper checkShowsVariableNamesInAdapter(List<String> variableNames) {
+		dataInteraction.perform(click());
+		for (String variableName : variableNames) {
+			onData(allOf(is(instanceOf(UserVariable.class)), withUserVariableName(variableName)))
+					.check(matches(isDisplayed()));
+		}
+		pressBack();
+		return new BrickSpinnerDataInteractionWrapper(dataInteraction);
+	}
+
+	public BrickSpinnerDataInteractionWrapper checkShowsVariableNameInAdapter(String variableName) {
+		dataInteraction.perform(click());
+		onData(allOf(is(instanceOf(UserVariable.class)), withUserVariableName(variableName)))
+				.check(matches(isDisplayed()));
+		pressBack();
+		return new BrickSpinnerDataInteractionWrapper(dataInteraction);
 	}
 }

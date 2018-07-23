@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,14 +24,12 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
-
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenTouchDownScript;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
 import java.util.List;
 
@@ -53,14 +51,6 @@ public class WhenTouchDownBrick extends BrickBaseType implements ScriptBrick {
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		WhenTouchDownBrick copyBrick = (WhenTouchDownBrick) clone();
-
-		copyBrick.whenTouchDownScript = whenTouchDownScript;
-		return copyBrick;
-	}
-
-	@Override
 	public Script getScriptSafe() {
 		if (whenTouchDownScript == null) {
 			setWhenTouchDownScript(new WhenTouchDownScript());
@@ -74,26 +64,24 @@ public class WhenTouchDownBrick extends BrickBaseType implements ScriptBrick {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	public int getViewResource() {
+		return R.layout.brick_screen_touched;
+	}
 
-		view = View.inflate(context, R.layout.brick_screen_touched, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_when_screen_touched_checkbox);
-
+	@Override
+	public View getView(final Context context) {
+		super.getView(context);
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_screen_touched, null);
+		prototypeView = super.getPrototypeView(context);
 		return prototypeView;
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		return null;
 	}
 

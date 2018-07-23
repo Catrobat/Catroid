@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,8 @@
 package org.catrobat.catroid.test.content.actions;
 
 import android.media.MediaPlayer;
-import android.test.InstrumentationTestCase;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
@@ -33,36 +34,48 @@ import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.SoundManager;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-public class PlaySoundActionTest extends InstrumentationTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+
+import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
+import static org.catrobat.catroid.utils.PathBuilder.buildScenePath;
+
+@RunWith(AndroidJUnit4.class)
+public class PlaySoundActionTest {
 	private final SoundManager soundManager = SoundManager.getInstance();
 	private final int soundFileId = R.raw.testsound;
 	private final String projectName = TestUtils.DEFAULT_TEST_PROJECT_NAME;
 	private File soundFile;
 
-	@Override
-	protected void setUp() throws Exception {
-		TestUtils.deleteTestProjects();
+	@Before
+	public void setUp() throws Exception {
+		TestUtils.deleteProjects();
 		soundManager.clear();
 		this.createTestProject();
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
-		TestUtils.deleteTestProjects();
+	@After
+	public void tearDown() throws Exception {
+		TestUtils.deleteProjects();
 		soundManager.clear();
-		super.tearDown();
 	}
 
+	@Test
 	public void testPlaySound() throws InterruptedException {
 		Sprite testSprite = new SingleSprite("testSprite");
 		SoundInfo soundInfo = createSoundInfo(soundFile);
@@ -73,10 +86,11 @@ public class PlaySoundActionTest extends InstrumentationTestCase {
 		action.act(1.0f);
 
 		List<MediaPlayer> mediaPlayers = getMediaPlayers();
-		assertEquals("Wrong media player count", 1, mediaPlayers.size());
-		assertTrue("MediaPlayer is not playing", mediaPlayers.get(0).isPlaying());
+		assertEquals(1, mediaPlayers.size());
+		assertTrue(mediaPlayers.get(0).isPlaying());
 	}
 
+	@Test
 	public void testPlaySimultaneousSounds() {
 		Sprite testSprite = new SingleSprite("testSprite");
 		SoundInfo soundInfo = createSoundInfo(soundFile);
@@ -90,23 +104,26 @@ public class PlaySoundActionTest extends InstrumentationTestCase {
 		playSoundAction2.act(1.0f);
 
 		List<MediaPlayer> mediaPlayers = getMediaPlayers();
-		assertEquals("Wrong media player count", 2, mediaPlayers.size());
-		assertTrue("First MediaPlayer is not playing", mediaPlayers.get(0).isPlaying());
-		assertTrue("Second MediaPlayer is not playing", mediaPlayers.get(1).isPlaying());
+		assertEquals(2, mediaPlayers.size());
+		assertTrue(mediaPlayers.get(0).isPlaying());
+		assertTrue(mediaPlayers.get(1).isPlaying());
 	}
 
 	private void createTestProject() throws IOException {
-		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
-		StorageHandler.getInstance().saveProject(project);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
-		soundFile = TestUtils.saveFileToProject(projectName, project.getDefaultScene().getName(), "soundTest.mp3", soundFileId, getInstrumentation()
-				.getContext(), TestUtils.TYPE_SOUND_FILE);
+		soundFile = ResourceImporter.createSoundFileFromResourcesInDirectory(
+				InstrumentationRegistry.getContext().getResources(),
+				soundFileId,
+				new File(buildScenePath(projectName, project.getDefaultScene().getName()), SOUND_DIRECTORY_NAME),
+				"soundTest.mp3");
 	}
 
 	private SoundInfo createSoundInfo(File soundFile) {
 		SoundInfo soundInfo = new SoundInfo();
-		soundInfo.setSoundFileName(soundFile.getName());
+		soundInfo.setFile(soundFile);
 		return soundInfo;
 	}
 

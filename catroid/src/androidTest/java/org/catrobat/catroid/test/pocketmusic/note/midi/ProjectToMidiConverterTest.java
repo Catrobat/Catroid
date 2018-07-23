@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,58 +22,59 @@
  */
 package org.catrobat.catroid.test.pocketmusic.note.midi;
 
-import android.test.AndroidTestCase;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.pocketmusic.note.Project;
 import org.catrobat.catroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.catroid.pocketmusic.note.midi.ProjectToMidiConverter;
 import org.catrobat.catroid.test.pocketmusic.note.ProjectTestDataFactory;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.io.IOException;
 
-public class ProjectToMidiConverterTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+
+@RunWith(AndroidJUnit4.class)
+public class ProjectToMidiConverterTest {
 
 	private static final String FILE_NAME = "ProjectToMidiConverterTest.midi";
 	private File file;
 
-	@Override
-	protected void setUp() {
-		file = new File(getContext().getCacheDir(), FILE_NAME);
+	@Before
+	public void setUp() {
+		file = new File(InstrumentationRegistry.getTargetContext().getCacheDir(), FILE_NAME);
 	}
 
-	@Override
-	protected void tearDown() {
+	@After
+	public void tearDown() {
 		file.delete();
 	}
 
+	@Test
 	public void testWriteProjectAsMidi() throws IOException, MidiException {
 		Project project = ProjectTestDataFactory.createProject();
 		ProjectToMidiConverter converter = new ProjectToMidiConverter();
 
 		converter.writeProjectAsMidi(project, file);
 
-		assertTrue("File not successfully written", file.exists());
+		assertTrue(file.exists());
 	}
 
+	@Test
 	public void testGetMidiFileFromProjectName() throws IOException, MidiException {
 		Project project = ProjectTestDataFactory.createProject();
 		ProjectToMidiConverter converter = new ProjectToMidiConverter();
 
 		converter.writeProjectAsMidi(project, file);
-		File newFile = ProjectToMidiConverter.getMidiFileFromProjectName(ProjectToMidiConverter.removeMidiExtensionFromString(file.getName()));
+		File newFile = ProjectToMidiConverter.getMidiFileFromProjectName(ProjectToMidiConverter
+				.removeMidiExtensionFromString(file.getName()));
 
-		assertEquals("Error while reading midi file from project name", file.getName(), newFile.getName());
-	}
-
-	public void testDeleteMidiByName() throws IOException, MidiException {
-		Project project = ProjectTestDataFactory.createProject();
-		ProjectToMidiConverter converter = new ProjectToMidiConverter();
-		converter.writeProjectAsMidi(project);
-		if (converter.deleteMidiByName(ProjectToMidiConverter.removeMidiExtensionFromString(project.getName()))) {
-			assertFalse("Midi is in storage", ProjectTestDataFactory.checkIfProjectInStorage(project.getName()));
-		} else {
-			assertTrue("Midi is in storage", ProjectTestDataFactory.checkIfProjectInStorage(project.getName()));
-		}
+		assertEquals(file.getName(), newFile.getName());
 	}
 }

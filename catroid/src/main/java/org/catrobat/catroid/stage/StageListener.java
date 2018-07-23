@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -53,7 +53,6 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.google.common.collect.Multimap;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.camera.CameraManager;
@@ -61,16 +60,14 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
-import org.catrobat.catroid.content.BackgroundWaitHandler;
-import org.catrobat.catroid.content.BroadcastHandler;
+import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.WhenGamepadButtonScript;
+import org.catrobat.catroid.content.eventids.EventId;
+import org.catrobat.catroid.content.eventids.GamepadEventId;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.physics.PhysicsDebugSettings;
 import org.catrobat.catroid.physics.PhysicsLook;
@@ -79,8 +76,8 @@ import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.shapebuilder.PhysicsShapeBuilder;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.utils.FlashUtil;
+import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.TouchUtil;
-import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.utils.VibratorUtil;
 
 import java.io.File;
@@ -88,7 +85,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -99,17 +95,11 @@ public class StageListener implements ApplicationListener {
 	private static final float DELTA_ACTIONS_DIVIDER_MAXIMUM = 50f;
 	private static final int ACTIONS_COMPUTATION_TIME_MAXIMUM = 8;
 	private static final boolean DEBUG = false;
-	private static final java.lang.String SEQUENCE = "Sequence(";
-	public static final String BROADCAST_NOTIFY = ", BroadcastNotify)";
-
-	// needed for UiTests - is disabled to fix crashes with EMMA coverage
-	// CHECKSTYLE DISABLE StaticVariableNameCheck FOR 1 LINES
-	private static boolean DYNAMIC_SAMPLING_RATE_FOR_ACTIONS = true;
 
 	private float deltaActionTimeDivisor = 10f;
 	public static final String SCREENSHOT_AUTOMATIC_FILE_NAME = "automatic_screenshot"
-			+ Constants.IMAGE_STANDARD_EXTENSION;
-	public static final String SCREENSHOT_MANUAL_FILE_NAME = "manual_screenshot" + Constants.IMAGE_STANDARD_EXTENSION;
+			+ Constants.DEFAULT_IMAGE_EXTENSION;
+	public static final String SCREENSHOT_MANUAL_FILE_NAME = "manual_screenshot" + Constants.DEFAULT_IMAGE_EXTENSION;
 	private FPSLogger fpsLogger;
 
 	private Stage stage;
@@ -145,7 +135,6 @@ public class StageListener implements ApplicationListener {
 	private PenActor penActor;
 
 	private List<Sprite> sprites;
-	private HashSet<Sprite> clonedSprites;
 
 	private float virtualWidthHalf;
 	private float virtualHeightHalf;
@@ -193,8 +182,8 @@ public class StageListener implements ApplicationListener {
 		shapeRenderer = new ShapeRenderer();
 
 		project = ProjectManager.getInstance().getCurrentProject();
-		scene = ProjectManager.getInstance().getSceneToPlay();
-		pathForSceneScreenshot = Utils.buildScenePath(project.getName(), scene.getName()) + "/";
+		scene = ProjectManager.getInstance().getCurrentlyPlayingScene();
+		pathForSceneScreenshot = PathBuilder.buildScenePath(project.getName(), scene.getName()) + "/";
 
 		virtualWidth = project.getXmlHeader().virtualScreenWidth;
 		virtualHeight = project.getXmlHeader().virtualScreenHeight;
@@ -215,7 +204,6 @@ public class StageListener implements ApplicationListener {
 
 		physicsWorld = scene.resetPhysicsWorld();
 
-		clonedSprites = new HashSet<>();
 		sprites = new ArrayList<>(scene.getSpriteList());
 		boolean addPenActor = true;
 		for (Sprite sprite : sprites) {
@@ -245,14 +233,15 @@ public class StageListener implements ApplicationListener {
 		axes = new Texture(Gdx.files.internal("stage/red_pixel.bmp"));
 		skipFirstFrameForAutomaticScreenshot = true;
 		if (checkIfAutomaticScreenshotShouldBeTaken) {
-			makeAutomaticScreenshot = project.manualScreenshotExists(SCREENSHOT_MANUAL_FILE_NAME) || scene
-					.screenshotExists(SCREENSHOT_AUTOMATIC_FILE_NAME) || scene.screenshotExists(SCREENSHOT_MANUAL_FILE_NAME);
+			makeAutomaticScreenshot = project.manualScreenshotExists(SCREENSHOT_MANUAL_FILE_NAME)
+					|| scene.hasScreenshot();
 		}
 		if (drawDebugCollisionPolygons) {
 			collisionPolygonDebugRenderer.setProjectionMatrix(camera.combined);
 			collisionPolygonDebugRenderer.setAutoShapeType(true);
 			collisionPolygonDebugRenderer.setColor(Color.MAGENTA);
 		}
+		FaceDetectionHandler.resumeFaceDetection();
 	}
 
 	public void cloneSpriteAndAddToStage(Sprite cloneMe) {
@@ -260,51 +249,41 @@ public class StageListener implements ApplicationListener {
 		copy.look.createBrightnessContrastHueShader();
 		stage.getRoot().addActorBefore(cloneMe.look, copy.look);
 		sprites.add(copy);
-		clonedSprites.add(copy);
-
-		Map<String, List<String>> scriptActions = new HashMap<>();
-		copy.createStartScriptActionSequenceAndPutToMap(scriptActions);
-		precomputeActionsForBroadcastEvents(scriptActions);
-		if (!copy.getLookDataList().isEmpty()) {
-			copy.look.setLookData(copy.getLookDataList().get(0));
+		if (!copy.getLookList().isEmpty()) {
+			copy.look.setLookData(copy.getLookList().get(0));
 		}
-
-		copy.createWhenClonedAction();
+		copy.initializeEventThreads(EventId.START_AS_CLONE);
+		copy.initConditionScriptTriggers();
 	}
 
-	public void removeClonedSpriteFromStage(Sprite sprite) {
-		if (!sprite.isClone()) {
-			return;
+	public boolean removeClonedSpriteFromStage(Sprite sprite) {
+		if (!sprite.isClone) {
+			return false;
 		}
+		boolean removedSprite = sprites.remove(sprite);
+		if (removedSprite) {
+			ProjectManager.getInstance().getCurrentlyPlayingScene().getDataContainer()
+					.removeSpriteUserData(sprite);
 
-		Scene currentScene = ProjectManager.getInstance().getSceneToPlay();
-		DataContainer userVariables = currentScene.getDataContainer();
-		userVariables.removeVariableListForSprite(sprite);
-		BroadcastHandler.removeSpriteFromScriptSpriteMap(sprite);
-		sprite.look.setLookVisible(false);
-		sprite.look.remove();
-		sprites.remove(sprite);
-		clonedSprites.remove(sprite);
-	}
-
-	public void clearAllClonedSpritesFromStage() {
-		Scene currentScene = ProjectManager.getInstance().getSceneToPlay();
-		DataContainer userVariables = currentScene.getDataContainer();
-		for (Sprite sprite : clonedSprites) {
-			userVariables.removeVariableListForSprite(sprite);
-
-			BroadcastHandler.removeSpriteFromScriptSpriteMap(sprite);
-
-			sprite.look.setLookVisible(false);
 			sprite.look.remove();
-			sprites.remove(sprite);
+			sprite.invalidate();
 		}
-		clonedSprites.clear();
+		return removedSprite;
+	}
+
+	private void removeAllClonedSpritesFromStage() {
+		List<Sprite> spritesCopy = new ArrayList<>(sprites);
+		for (Sprite sprite : spritesCopy) {
+			if (sprite.isClone) {
+				removeClonedSpriteFromStage(sprite);
+			}
+		}
+		StageActivity.resetNumberOfClonedSprites();
 	}
 
 	private void disposeClonedSprites() {
 		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
-			scene.removeAllClones();
+			scene.removeClonedSprites();
 		}
 	}
 
@@ -363,7 +342,7 @@ public class StageListener implements ApplicationListener {
 		stageBackupMap.put(scene.getName(), saveToBackup());
 		pause();
 		scene = ProjectManager.getInstance().getCurrentProject().getSceneByName(sceneName);
-		ProjectManager.getInstance().setSceneToPlay(scene);
+		ProjectManager.getInstance().setCurrentlyPlayingScene(scene);
 		if (stageBackupMap.containsKey(scene.getName())) {
 			restoreFromBackup(stageBackupMap.get(scene.getName()));
 		}
@@ -382,11 +361,7 @@ public class StageListener implements ApplicationListener {
 			return;
 		}
 		transitionToScene(sceneName);
-		for (Sprite sprite : sceneToStart.getSpriteList()) {
-			sprite.getBroadcastSequenceMap().clear(sceneName);
-			sprite.getBroadcastWaitSequenceMap().clear(sceneName, sprite);
-			sprite.getBroadcastWaitSequenceMap().clearCurrentBroadcastEvent();
-		}
+
 		SoundManager.getInstance().clear();
 		stageBackupMap.remove(sceneName);
 		scene.firstStart = true;
@@ -403,18 +378,15 @@ public class StageListener implements ApplicationListener {
 		}
 		stageBackupMap.clear();
 
-		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
-			scene.firstStart = true;
-			scene.getDataContainer().resetAllDataObjects();
-		}
-
 		FlashUtil.reset();
 		VibratorUtil.reset();
 		TouchUtil.reset();
-		BackgroundWaitHandler.reset();
+		removeAllClonedSpritesFromStage();
 
-		clearAllClonedSpritesFromStage();
-
+		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
+			scene.firstStart = true;
+			scene.getDataContainer().resetUserData();
+		}
 		reloadProject = true;
 	}
 
@@ -448,6 +420,9 @@ public class StageListener implements ApplicationListener {
 		}
 		PhysicsShapeBuilder.getInstance().reset();
 		CameraManager.getInstance().setToDefaultCamera();
+		if (penActor != null) {
+			penActor.dispose();
+		}
 		finished = true;
 	}
 
@@ -462,6 +437,9 @@ public class StageListener implements ApplicationListener {
 		if (reloadProject) {
 			int spriteSize = sprites.size();
 			stage.clear();
+			if (penActor != null) {
+				penActor.dispose();
+			}
 			SoundManager.getInstance().clear();
 
 			physicsWorld = scene.resetPhysicsWorld();
@@ -499,56 +477,33 @@ public class StageListener implements ApplicationListener {
 
 		if (scene.firstStart) {
 			int spriteSize = sprites.size();
-
-			Map<String, List<String>> scriptActions = new HashMap<>();
 			for (int currentSprite = 0; currentSprite < spriteSize; currentSprite++) {
 				Sprite sprite = sprites.get(currentSprite);
-				sprite.createStartScriptActionSequenceAndPutToMap(scriptActions);
-				if (!sprite.getLookDataList().isEmpty()) {
-					sprite.look.setLookData(sprite.getLookDataList().get(0));
+				sprite.initializeEventThreads(EventId.START);
+				sprite.initConditionScriptTriggers();
+				if (!sprite.getLookList().isEmpty()) {
+					sprite.look.setLookData(sprite.getLookList().get(0));
 				}
 			}
-
-			if (scriptActions.get(Constants.BROADCAST_SCRIPT) != null && !scriptActions.get(Constants.BROADCAST_SCRIPT).isEmpty()) {
-				List<String> broadcastWaitNotifyActions = reconstructNotifyActions(scriptActions);
-				Map<String, List<String>> notifyMap = new HashMap<>();
-				notifyMap.put(Constants.BROADCAST_NOTIFY_ACTION, broadcastWaitNotifyActions);
-				scriptActions.putAll(notifyMap);
-			}
-			precomputeActionsForBroadcastEvents(scriptActions);
 			scene.firstStart = false;
 		}
 		if (!paused) {
 			float deltaTime = Gdx.graphics.getDeltaTime();
 
-			/*
-			 * Necessary for UiTests, when EMMA - code coverage is enabled.
-			 * 
-			 * Without setting DYNAMIC_SAMPLING_RATE_FOR_ACTIONS to false(via reflection), before
-			 * the UiTest enters the stage, random segmentation faults(triggered by EMMA) will occur.
-			 * 
-			 * Can be removed, when EMMA is replaced by an other code coverage tool, or when a
-			 * future EMMA - update will fix the bugs.
-			 */
-			if (!DYNAMIC_SAMPLING_RATE_FOR_ACTIONS) {
-				physicsWorld.step(deltaTime);
-				stage.act(deltaTime);
+			float optimizedDeltaTime = deltaTime / deltaActionTimeDivisor;
+			long timeBeforeActionsUpdate = SystemClock.uptimeMillis();
+			while (deltaTime > 0f) {
+				physicsWorld.step(optimizedDeltaTime);
+				stage.act(optimizedDeltaTime);
+				deltaTime -= optimizedDeltaTime;
+			}
+			long executionTimeOfActionsUpdate = SystemClock.uptimeMillis() - timeBeforeActionsUpdate;
+			if (executionTimeOfActionsUpdate <= ACTIONS_COMPUTATION_TIME_MAXIMUM) {
+				deltaActionTimeDivisor += 1f;
+				deltaActionTimeDivisor = Math.min(DELTA_ACTIONS_DIVIDER_MAXIMUM, deltaActionTimeDivisor);
 			} else {
-				float optimizedDeltaTime = deltaTime / deltaActionTimeDivisor;
-				long timeBeforeActionsUpdate = SystemClock.uptimeMillis();
-				while (deltaTime > 0f) {
-					physicsWorld.step(optimizedDeltaTime);
-					stage.act(optimizedDeltaTime);
-					deltaTime -= optimizedDeltaTime;
-				}
-				long executionTimeOfActionsUpdate = SystemClock.uptimeMillis() - timeBeforeActionsUpdate;
-				if (executionTimeOfActionsUpdate <= ACTIONS_COMPUTATION_TIME_MAXIMUM) {
-					deltaActionTimeDivisor += 1f;
-					deltaActionTimeDivisor = Math.min(DELTA_ACTIONS_DIVIDER_MAXIMUM, deltaActionTimeDivisor);
-				} else {
-					deltaActionTimeDivisor -= 1f;
-					deltaActionTimeDivisor = Math.max(1f, deltaActionTimeDivisor);
-				}
+				deltaActionTimeDivisor -= 1f;
+				deltaActionTimeDivisor = Math.max(1f, deltaActionTimeDivisor);
 			}
 		}
 
@@ -599,68 +554,6 @@ public class StageListener implements ApplicationListener {
 		}
 	}
 
-	private List<String> reconstructNotifyActions(Map<String, List<String>> actions) {
-		List<String> broadcastWaitNotifyActions = new ArrayList<>();
-		for (String actionString : actions.get(Constants.BROADCAST_SCRIPT)) {
-			String broadcastNotifyString = SEQUENCE + actionString.substring(0, actionString.indexOf(Constants.ACTION_SPRITE_SEPARATOR)) + BROADCAST_NOTIFY + actionString.substring(actionString.indexOf(Constants.ACTION_SPRITE_SEPARATOR));
-			broadcastWaitNotifyActions.add(broadcastNotifyString);
-		}
-		return broadcastWaitNotifyActions;
-	}
-
-	public void precomputeActionsForBroadcastEvents(Map<String, List<String>> currentActions) {
-		Multimap<String, String> actionsToRestartMap = BroadcastHandler.getActionsToRestartMap();
-		if (!actionsToRestartMap.isEmpty()) {
-			return;
-		}
-		List<String> actions = new ArrayList<>();
-		if (currentActions.get(Constants.START_SCRIPT) != null) {
-			actions.addAll(currentActions.get(Constants.START_SCRIPT));
-		}
-		if (currentActions.get(Constants.BROADCAST_SCRIPT) != null) {
-			actions.addAll(currentActions.get(Constants.BROADCAST_SCRIPT));
-		}
-		if (currentActions.get(Constants.BROADCAST_NOTIFY_ACTION) != null) {
-			actions.addAll(currentActions.get(Constants.BROADCAST_NOTIFY_ACTION));
-		}
-		if (currentActions.get(Constants.RASPI_SCRIPT) != null) {
-			actions.addAll(currentActions.get(Constants.RASPI_SCRIPT));
-		}
-		for (String action : actions) {
-			for (String actionOfLook : actions) {
-				if (action.equals(actionOfLook)
-						|| isFirstSequenceActionAndEqualsSecond(action, actionOfLook)
-						|| isFirstSequenceActionAndEqualsSecond(actionOfLook, action)) {
-					if (!actionsToRestartMap.containsKey(action)) {
-						actionsToRestartMap.put(action, actionOfLook);
-					} else {
-						actionsToRestartMap.get(action).add(actionOfLook);
-					}
-				}
-			}
-		}
-	}
-
-	private static boolean isFirstSequenceActionAndEqualsSecond(String action1, String action2) {
-		String spriteOfAction1 = action1.substring(action1.indexOf(Constants.ACTION_SPRITE_SEPARATOR));
-		String spriteOfAction2 = action2.substring(action2.indexOf(Constants.ACTION_SPRITE_SEPARATOR));
-
-		if (!spriteOfAction1.equals(spriteOfAction2)) {
-			return false;
-		}
-
-		if (!action1.startsWith(SEQUENCE) || !action1.contains(BROADCAST_NOTIFY)) {
-			return false;
-		}
-
-		int startIndex1 = action1.indexOf(Constants.OPENING_BRACE) + 1;
-		int endIndex1 = action1.indexOf(BROADCAST_NOTIFY);
-		String innerAction1 = action1.substring(startIndex1, endIndex1);
-
-		String action2Sub = action2.substring(0, action2.indexOf(Constants.ACTION_SPRITE_SEPARATOR));
-		return innerAction1.equals(action2Sub);
-	}
-
 	private void printPhysicsLabelOnScreen() {
 		PhysicsObject tempPhysicsObject;
 		final int fontOffset = 5;
@@ -697,6 +590,10 @@ public class StageListener implements ApplicationListener {
 		font.draw(batch, String.valueOf((int) virtualHeightHalf), layout.height / 2, virtualHeightHalf - 3);
 		font.draw(batch, "0", layout.height / 2, -layout.height / 2);
 		batch.end();
+	}
+
+	public PenActor getPenActor() {
+		return penActor;
 	}
 
 	@Override
@@ -829,7 +726,7 @@ public class StageListener implements ApplicationListener {
 	private void disposeTextures() {
 		for (Scene scene : project.getSceneList()) {
 			for (Sprite sprite : scene.getSpriteList()) {
-				for (LookData lookData : sprite.getLookDataList()) {
+				for (LookData lookData : sprite.getLookList()) {
 					lookData.dispose();
 				}
 			}
@@ -842,22 +739,9 @@ public class StageListener implements ApplicationListener {
 	}
 
 	public void gamepadPressed(String buttonType) {
-
-		for (Sprite sprite : sprites) {
-			if (hasSpriteGamepadScript(sprite)) {
-				sprite.createWhengamepadButtonScriptActionSequence(buttonType);
-			}
-		}
-	}
-
-	public static boolean hasSpriteGamepadScript(Sprite sprite) {
-
-		for (Script script : sprite.getScriptList()) {
-			if (script instanceof WhenGamepadButtonScript) {
-				return true;
-			}
-		}
-		return false;
+		EventId eventId = new GamepadEventId(buttonType);
+		EventWrapper gamepadEvent = new EventWrapper(eventId, EventWrapper.NO_WAIT);
+		project.fireToAllSprites(gamepadEvent);
 	}
 
 	public void addActor(Actor actor) {

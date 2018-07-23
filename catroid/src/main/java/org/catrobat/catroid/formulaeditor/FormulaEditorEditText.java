@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -173,6 +173,28 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		internFormula.selectWholeFormula();
 		highlightSelection();
 
+		history.push(internFormula.getInternFormulaState());
+		String resultingText = updateTextAndCursorFromInternFormula();
+		setSelection(absoluteCursorPosition);
+		formulaEditorFragment.refreshFormulaPreviewString(resultingText);
+	}
+
+	public void updateVariableReferences(String oldName, String newName) {
+		if (internFormula == null) {
+			return;
+		}
+		internFormula.updateVariableReferences(oldName, newName, this.context);
+		history.push(internFormula.getInternFormulaState());
+		String resultingText = updateTextAndCursorFromInternFormula();
+		setSelection(absoluteCursorPosition);
+		formulaEditorFragment.refreshFormulaPreviewString(resultingText);
+	}
+
+	public void updateListReferences(String oldName, String newName) {
+		if (internFormula == null) {
+			return;
+		}
+		internFormula.updateListReferences(oldName, newName, this.context);
 		history.push(internFormula.getInternFormulaState());
 		String resultingText = updateTextAndCursorFromInternFormula();
 		setSelection(absoluteCursorPosition);

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,13 +24,11 @@
 package org.catrobat.catroid.sensing;
 
 import android.os.Process;
-import android.util.Log;
 
 import org.catrobat.catroid.common.LookData;
 
 public class CollisionPolygonCreationTask implements Runnable {
 
-	private static final String TAG = CollisionPolygonCreationTask.class.getSimpleName();
 	private LookData lookdata;
 
 	public CollisionPolygonCreationTask(LookData lookdata) {
@@ -40,15 +38,6 @@ public class CollisionPolygonCreationTask implements Runnable {
 	@Override
 	public void run() {
 		android.os.Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
-		long startTime = System.currentTimeMillis();
-		Log.i(TAG, "Creating polygon in runnable for " + lookdata.getLookFileName());
 		lookdata.getCollisionInformation().loadOrCreateCollisionPolygon();
-		if (lookdata.getCollisionInformation().isCalculationCancelled()) {
-			return;
-		}
-		long stopTime = System.currentTimeMillis();
-		long time = (stopTime - startTime) / 1000;
-		Log.i(TAG, "Finished Creating polygon in runnable for " + lookdata.getLookFileName() + " in "
-				+ "" + time + " seconds.");
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.ActionFactory;
@@ -34,23 +34,27 @@ import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.stage.ShowBubbleActor;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InOrder;
 import org.mockito.Mockito;
 
-public class ThinkSayBubbleActionTest extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+public class ThinkSayBubbleActionTest {
 
-	@Override
+	@Before
 	public void setUp() throws Exception {
-		super.setUp();
 		StageActivity.stageListener = Mockito.mock(StageListener.class);
 	}
 
-	@Override
+	@After
 	public void tearDown() throws Exception {
-		super.tearDown();
 		StageActivity.stageListener = null;
 	}
 
+	@Test
 	public void testCreateBubbleActor() throws InterpretationException {
 		Formula emptyText = Mockito.mock(Formula.class);
 		Formula normalText = Mockito.mock(Formula.class);
@@ -67,6 +71,7 @@ public class ThinkSayBubbleActionTest extends AndroidTestCase {
 		assert (thinkActionNormalText.createBubbleActor() != null);
 	}
 
+	@Test
 	public void testBasicThinkSayBubble() throws InterpretationException {
 		Mockito.when(StageActivity.stageListener.getBubbleActorForSprite(Mockito.any(Sprite.class))).thenReturn(null);
 
@@ -84,6 +89,7 @@ public class ThinkSayBubbleActionTest extends AndroidTestCase {
 		Mockito.verify(StageActivity.stageListener, Mockito.never()).removeBubbleActorForSprite(sprite);
 	}
 
+	@Test
 	public void testRemoveThinkSayBubble() throws InterpretationException {
 		Mockito.when(StageActivity.stageListener.getBubbleActorForSprite(Mockito.any(Sprite.class))).thenReturn(null);
 		Sprite sprite = Mockito.mock(Sprite.class);

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,6 @@ package org.catrobat.catroid.scratchconverter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,6 +32,7 @@ import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import com.google.android.gms.common.images.WebImage;
@@ -42,7 +42,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.scratchconverter.protocol.Job;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.ScratchReconvertDialog;
 import org.catrobat.catroid.ui.scratchconverter.BaseInfoViewListener;
 import org.catrobat.catroid.ui.scratchconverter.JobViewListener;
@@ -59,6 +58,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+
+import static org.catrobat.catroid.common.SharedPreferenceKeys.SCRATCH_CONVERTER_CLIENT_ID_PREFERENCE_KEY;
+import static org.catrobat.catroid.common.SharedPreferenceKeys.SCRATCH_CONVERTER_DOWNLOAD_STATE_PREFERENCE_KEY;
 
 public class ScratchConversionManager implements ConversionManager {
 
@@ -154,7 +156,7 @@ public class ScratchConversionManager implements ConversionManager {
 	public void onSuccess(long clientID) {
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(currentActivity.getApplicationContext());
 		SharedPreferences.Editor editor = settings.edit();
-		editor.putLong(Constants.SCRATCH_CONVERTER_CLIENT_ID_SHARED_PREFERENCE_NAME, clientID);
+		editor.putLong(SCRATCH_CONVERTER_CLIENT_ID_PREFERENCE_KEY, clientID);
 		editor.commit();
 		Log.i(TAG, "Connection established (clientID: " + clientID + ")");
 		Preconditions.checkState(client.isAuthenticated());
@@ -274,7 +276,7 @@ public class ScratchConversionManager implements ConversionManager {
 				}
 
 				if (Constants.CURRENT_CATROBAT_LANGUAGE_VERSION < supportedCatrobatLanguageVersion) {
-					AlertDialog.Builder builder = new CustomAlertDialogBuilder(currentActivity);
+					AlertDialog.Builder builder = new AlertDialog.Builder(currentActivity);
 					builder.setTitle(R.string.warning);
 					builder.setMessage(R.string.error_scratch_converter_outdated_app_version);
 					builder.setNeutralButton(R.string.close, null);
@@ -469,7 +471,7 @@ public class ScratchConversionManager implements ConversionManager {
 					.getApplicationContext());
 			SharedPreferences.Editor editor = sharedPref.edit();
 
-			String data = sharedPref.getString(Constants.SCRATCH_CONVERTER_DOWNLOAD_STATE_SHARED_PREFERENCE_NAME, null);
+			String data = sharedPref.getString(SCRATCH_CONVERTER_DOWNLOAD_STATE_PREFERENCE_KEY, null);
 			HashMap<String, String> downloadStates = new HashMap<>();
 			if (data != null) {
 				JSONObject jsonObject = new JSONObject(data);
@@ -483,7 +485,7 @@ public class ScratchConversionManager implements ConversionManager {
 
 			downloadStates.put(Long.toString(jobID), Integer.toString(downloadState.getDownloadStateID()));
 			Log.d(TAG, downloadStates.toString());
-			editor.putString(Constants.SCRATCH_CONVERTER_DOWNLOAD_STATE_SHARED_PREFERENCE_NAME,
+			editor.putString(SCRATCH_CONVERTER_DOWNLOAD_STATE_PREFERENCE_KEY,
 					new JSONObject(downloadStates).toString());
 			editor.commit();
 		} catch (JSONException e) {
@@ -498,7 +500,7 @@ public class ScratchConversionManager implements ConversionManager {
 			SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(currentActivity
 					.getApplicationContext());
 
-			String data = sharedPref.getString(Constants.SCRATCH_CONVERTER_DOWNLOAD_STATE_SHARED_PREFERENCE_NAME, null);
+			String data = sharedPref.getString(SCRATCH_CONVERTER_DOWNLOAD_STATE_PREFERENCE_KEY, null);
 			HashMap<String, String> downloadStates = new HashMap<>();
 			if (data != null) {
 				JSONObject jsonObject = new JSONObject(data);

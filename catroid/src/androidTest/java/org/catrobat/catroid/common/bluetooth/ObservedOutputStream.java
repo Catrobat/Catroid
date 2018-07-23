@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -51,6 +51,11 @@ class ObservedOutputStream extends OutputStream {
 	public void write(int i) throws IOException {
 		outputStream.write(i);
 		logger.logSentData(BluetoothTestUtils.intToByteArray(i));
+	}
+
+	@Override
+	public void flush() throws IOException {
+		outputStream.flush();
 	}
 
 	@Override

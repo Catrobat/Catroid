@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,54 +22,65 @@
  */
 package org.catrobat.catroid.test.ui;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.ui.ViewSwitchLock;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.concurrent.locks.Lock;
 
-public class ViewSwitchLockTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
 
+@RunWith(AndroidJUnit4.class)
+public class ViewSwitchLockTest {
+
+	@Test
 	public void testViewSwitchLock() {
 		Lock viewSwitchLock = new ViewSwitchLock();
-		assertFalse("Wrong init value", (Boolean) Reflection.getPrivateField(viewSwitchLock, "locked"));
+		assertFalse((Boolean) Reflection.getPrivateField(viewSwitchLock, "locked"));
 
 		boolean returnValue = viewSwitchLock.tryLock();
-		assertTrue("ViewSwitch already locked", returnValue);
-		assertTrue("Wrong locked member value", (Boolean) Reflection.getPrivateField(viewSwitchLock, "locked"));
+		assertTrue(returnValue);
+		assertTrue((Boolean) Reflection.getPrivateField(viewSwitchLock, "locked"));
 
 		viewSwitchLock.unlock();
-		assertFalse("ViewSwitch hasn't been unlocked", (Boolean) Reflection.getPrivateField(viewSwitchLock, "locked"));
+		assertFalse((Boolean) Reflection.getPrivateField(viewSwitchLock, "locked"));
 
 		viewSwitchLock = new ViewSwitchLock();
 		returnValue = viewSwitchLock.tryLock();
-		assertTrue("ViewSwitch already locked", returnValue);
-		assertTrue("Wrong locked member value", (Boolean) Reflection.getPrivateField(viewSwitchLock, "locked"));
+		assertTrue(returnValue);
+		assertTrue((Boolean) Reflection.getPrivateField(viewSwitchLock, "locked"));
 
 		returnValue = viewSwitchLock.tryLock();
-		assertFalse("ViewSwitch has been relocked", returnValue);
-		assertTrue("Wrong locked member value", (Boolean) Reflection.getPrivateField(viewSwitchLock, "locked"));
+		assertFalse(returnValue);
+		assertTrue((Boolean) Reflection.getPrivateField(viewSwitchLock, "locked"));
 
 		viewSwitchLock.unlock();
-		assertFalse("ViewSwitch hasn't been unlocked", (Boolean) Reflection.getPrivateField(viewSwitchLock, "locked"));
+		assertFalse((Boolean) Reflection.getPrivateField(viewSwitchLock, "locked"));
 	}
 
+	@Test
 	public void testViewSwitchAutoUnlock() throws InterruptedException {
 		Lock viewSwitchLock = new ViewSwitchLock();
 		long timeout = (Long) Reflection.getPrivateField(ViewSwitchLock.class, "UNLOCK_TIMEOUT");
 
 		viewSwitchLock.tryLock();
-		assertTrue("ViewSwitch lock isn't locked", (Boolean) Reflection.getPrivateField(viewSwitchLock, "locked"));
+		assertTrue((Boolean) Reflection.getPrivateField(viewSwitchLock, "locked"));
 		Thread.sleep(timeout + 50);
-		assertFalse("ViewSwitch lock didn't unlock automatically",
-				(Boolean) Reflection.getPrivateField(viewSwitchLock, "locked"));
+		assertFalse((Boolean) Reflection.getPrivateField(viewSwitchLock, "locked"));
 	}
 
+	@Test
 	public void testDefaultSettings() {
-		assertEquals("Wrong default setting", 200L, Reflection.getPrivateField(ViewSwitchLock.class, "UNLOCK_TIMEOUT"));
+		assertEquals(200L, Reflection.getPrivateField(ViewSwitchLock.class, "UNLOCK_TIMEOUT"));
 	}
 
+	@Test
 	public void testUnsupportedMethods() {
 		Lock viewSwitchLock = new ViewSwitchLock();
 

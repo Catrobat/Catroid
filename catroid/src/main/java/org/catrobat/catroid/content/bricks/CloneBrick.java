@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,20 +26,17 @@ import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
-
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.controller.BackPackSpriteController;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
 import java.util.Collections;
 import java.util.List;
 
-public class CloneBrick extends BrickBaseType implements BrickWithSpriteReference {
+public class CloneBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
 
@@ -53,27 +50,20 @@ public class CloneBrick extends BrickBaseType implements BrickWithSpriteReferenc
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		return clone();
+	public int getViewResource() {
+		return R.layout.brick_clone;
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-
-		view = View.inflate(context, R.layout.brick_clone, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_clone_checkbox);
+	public View getView(final Context context) {
+		super.getView(context);
 		setupValueSpinner(context);
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View view = View.inflate(context, R.layout.brick_clone, null);
+		View view = super.getPrototypeView(context);
 		Spinner cloneSpinner = (Spinner) view.findViewById(R.id.brick_clone_spinner);
 
 		cloneSpinner.setAdapter(getSpinnerArrayAdapter(context));
@@ -87,27 +77,16 @@ public class CloneBrick extends BrickBaseType implements BrickWithSpriteReferenc
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(Sprite thisObject, SequenceAction sequence) {
+	public List<ScriptSequenceAction> addActionToSequence(Sprite thisObject, ScriptSequenceAction sequence) {
 		Sprite s = (objectToClone != null) ? objectToClone : thisObject;
 		sequence.addAction(thisObject.getActionFactory().createCloneAction(s));
 		return Collections.emptyList();
 	}
 
-	@Override
-	public void storeDataForBackPack(Sprite sprite) {
-		if (objectToClone == null) {
-			return;
-		}
-
-		Sprite spriteToRestore = ProjectManager.getInstance().getCurrentSprite();
-		objectToClone = BackPackSpriteController.getInstance().backpackHiddenSprite(objectToClone);
-		ProjectManager.getInstance().setCurrentSprite(spriteToRestore);
-	}
-
 	private void setupValueSpinner(final Context context) {
 		final Spinner valueSpinner = (Spinner) view.findViewById(R.id.brick_clone_spinner);
 
-		final List<Sprite> spriteList = ProjectManager.getInstance().getCurrentScene().getSpriteList();
+		final List<Sprite> spriteList = ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList();
 
 		ArrayAdapter<String> valueAdapter = getSpinnerArrayAdapter(context);
 		valueSpinner.setAdapter(valueAdapter);
@@ -137,7 +116,7 @@ public class CloneBrick extends BrickBaseType implements BrickWithSpriteReferenc
 		messageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		messageAdapter.add(context.getString(R.string.brick_clone_this));
 
-		final List<Sprite> spriteList = ProjectManager.getInstance().getCurrentScene().getSpriteList();
+		final List<Sprite> spriteList = ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList();
 
 		for (Sprite sprite : spriteList) {
 			if (sprite.getName().equals(context.getString(R.string.background))) {
@@ -147,15 +126,5 @@ public class CloneBrick extends BrickBaseType implements BrickWithSpriteReferenc
 		}
 
 		return messageAdapter;
-	}
-
-	@Override
-	public Sprite getSprite() {
-		return objectToClone;
-	}
-
-	@Override
-	public void setSprite(Sprite sprite) {
-		this.objectToClone = sprite;
 	}
 }

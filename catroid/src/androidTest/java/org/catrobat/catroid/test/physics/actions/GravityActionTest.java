@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,48 +22,68 @@
  */
 package org.catrobat.catroid.test.physics.actions;
 
+import android.support.test.runner.AndroidJUnit4;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsWorld;
-import org.catrobat.catroid.test.physics.PhysicsBaseTest;
+import org.catrobat.catroid.test.physics.PhysicsTestRule;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class GravityActionTest extends PhysicsBaseTest {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+
+@RunWith(AndroidJUnit4.class)
+public class GravityActionTest {
 
 	private static final int TEST_STEP_COUNT = 10;
 	private static final float TEST_STEP_DELTA_TIME = 0.1f;
 
 	PhysicsObject physicsObject;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Rule
+	public PhysicsTestRule rule = new PhysicsTestRule();
+
+	private Sprite sprite;
+	private PhysicsWorld physicsWorld;
+
+	@Before
+	public void setUp() throws Exception {
+		sprite = rule.sprite;
+		physicsWorld = rule.physicsWorld;
 		physicsObject = physicsWorld.getPhysicsObject(sprite);
 		physicsObject.setType(PhysicsObject.Type.DYNAMIC);
 	}
 
+	@Test
 	public void testDefaultGravity() {
 		Vector2 gravityVector = ((World) Reflection.getPrivateField(PhysicsWorld.class, physicsWorld, "world"))
 				.getGravity();
-		assertEquals("Unexpected initial gravityX value", PhysicsWorld.DEFAULT_GRAVITY.x, gravityVector.x);
-		assertEquals("Unexpected initial gravityY value", PhysicsWorld.DEFAULT_GRAVITY.y, gravityVector.y);
-		assertEquals("Unexpected initial velocity Y value", 0, physicsObject.getVelocity().y, TestUtils.DELTA);
-		assertEquals("Unexpected initial y-coordinate", 0, physicsObject.getY(), TestUtils.DELTA);
+		assertEquals(PhysicsWorld.DEFAULT_GRAVITY.x, gravityVector.x);
+		assertEquals(PhysicsWorld.DEFAULT_GRAVITY.y, gravityVector.y);
+		assertEquals(0, physicsObject.getVelocity().y, TestUtils.DELTA);
+		assertEquals(0, physicsObject.getY(), TestUtils.DELTA);
 		simulate();
 	}
 
+	@Test
 	public void testVaryingGravity() {
-		assertEquals("Unexpected initial y-coordinate", 0, physicsObject.getY(), TestUtils.DELTA);
+		assertEquals(0, physicsObject.getY(), TestUtils.DELTA);
 		simulate();
 		float velocityByDefaultGravity = Math.abs(physicsObject.getVelocity().y);
 		resetPhysicObject();
 		physicsWorld.setGravity(0.0f, PhysicsWorld.DEFAULT_GRAVITY.y * 2);
 		simulate();
 		float velocityByDuplexGravity = Math.abs(physicsObject.getVelocity().y);
-		assertTrue("velocity by stronger gravity(" + velocityByDuplexGravity + ") is lower than velocity by default-gravity (" + velocityByDefaultGravity + "), should be higher!", velocityByDuplexGravity > velocityByDefaultGravity);
+		assertTrue(velocityByDuplexGravity > velocityByDefaultGravity);
 	}
 
 	private void simulate() {
@@ -72,7 +92,7 @@ public class GravityActionTest extends PhysicsBaseTest {
 		for (int step = 1; step < TEST_STEP_COUNT; step++) {
 			physicsWorld.step(TEST_STEP_DELTA_TIME);
 			postVelocityYValue = Math.abs(physicsObject.getVelocity().y);
-			assertTrue("post velocity.y (" + postVelocityYValue + ") is lower than previous value (" + preVelocityYValue + "), should be higher!", postVelocityYValue > preVelocityYValue);
+			assertTrue(postVelocityYValue > preVelocityYValue);
 			preVelocityYValue = postVelocityYValue;
 		}
 	}

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,12 @@
 package org.catrobat.catroid.devices.raspberrypi;
 
 import android.util.Log;
+
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.RaspiInterruptScript;
+import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -56,7 +62,7 @@ public final class RaspberryPiService {
 
 	private RaspberryPiService() {
 		initGpioVersionMap();
-		pinInterrupts = new HashSet<Integer>();
+		pinInterrupts = new HashSet<>();
 	}
 
 	public void addPinInterrupt(int pin) {
@@ -184,6 +190,20 @@ public final class RaspberryPiService {
 		gpioVersionMap.put("0003", GpioVersionType.SMALL_GPIO);
 		gpioVersionMap.put("0002", GpioVersionType.SMALL_GPIO);
 		gpioVersionMap.put("Beta", GpioVersionType.SMALL_GPIO);
+	}
+
+	public void enableRaspberryInterruptPinsForProject(Project project) {
+		for (Scene scene : project.getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				for (Script script : sprite.getScriptList()) {
+					if (script instanceof RaspiInterruptScript) {
+						RaspiInterruptScript raspiInterruptScript = (RaspiInterruptScript) script;
+						int selectedPin = Integer.parseInt(raspiInterruptScript.getPin());
+						RaspberryPiService.getInstance().addPinInterrupt(selectedPin);
+					}
+				}
+			}
+		}
 	}
 
 	public boolean isValidPin(String revision, int pinNumber) {

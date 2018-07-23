@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -295,7 +295,7 @@ public class Formula implements Serializable {
 				return "ERROR";
 			}
 		} else if (formulaTree.isUserVariableWithTypeString(sprite)) {
-			DataContainer userVariables = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
+			DataContainer userVariables = ProjectManager.getInstance().getCurrentlyPlayingScene().getDataContainer();
 			UserVariable userVariable = userVariables.getUserVariable(sprite, formulaTree.getValue());
 			return (String) userVariable.getValue();
 		} else {

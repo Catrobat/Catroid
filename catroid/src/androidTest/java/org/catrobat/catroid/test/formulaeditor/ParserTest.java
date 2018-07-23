@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.formulaeditor;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
@@ -32,11 +32,19 @@ import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.Operators;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class ParserTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
+
+@RunWith(AndroidJUnit4.class)
+public class ParserTest {
 
 	private static final float LOOK_ALPHA = 50f;
 	private static final float LOOK_Y_POSITION = 23.4f;
@@ -48,8 +56,8 @@ public class ParserTest extends AndroidTestCase {
 	private static final int LOOK_ZPOSITION = 3;
 	private Sprite testSprite;
 
-	@Override
-	protected void setUp() {
+	@Before
+	public void setUp() {
 		testSprite = new SingleSprite("sprite");
 		testSprite.look.setXInUserInterfaceDimensionUnit(LOOK_X_POSITION);
 		testSprite.look.setYInUserInterfaceDimensionUnit(LOOK_Y_POSITION);
@@ -62,6 +70,7 @@ public class ParserTest extends AndroidTestCase {
 		testSprite.look.setZIndex(LOOK_ZPOSITION);
 	}
 
+	@Test
 	public void testNumbers() {
 		FormulaEditorTestUtil.testSingleToken(InternTokenType.NUMBER, "1.0", "1.0", testSprite);
 		FormulaEditorTestUtil.testSingleToken(InternTokenType.NUMBER, "1", "1", testSprite);
@@ -71,6 +80,7 @@ public class ParserTest extends AndroidTestCase {
 		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.NUMBER, ".1", 0);
 	}
 
+	@Test
 	public void testStrings() {
 		FormulaEditorTestUtil.testSingleToken(InternTokenType.STRING, "1.0", "1.0", testSprite);
 		FormulaEditorTestUtil.testSingleToken(InternTokenType.STRING, "1", "1", testSprite);
@@ -82,6 +92,7 @@ public class ParserTest extends AndroidTestCase {
 		FormulaEditorTestUtil.testSingleToken(InternTokenType.STRING, "\'^_^\'", "\'^_^\'", testSprite);
 	}
 
+	@Test
 	public void testBracket() {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 
@@ -100,8 +111,8 @@ public class ParserTest extends AndroidTestCase {
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
 		FormulaElement parseTree = internParser.parseFormula();
 
-		assertNotNull("Formula is not parsed correctly:  (1+2) x (1+2)", parseTree);
-		assertEquals("Formula interpretation is not as expected", 9.0, parseTree.interpretRecursive(testSprite));
+		assertNotNull(parseTree);
+		assertEquals(9.0, parseTree.interpretRecursive(testSprite));
 
 		internTokenList = new LinkedList<InternToken>();
 
@@ -124,21 +135,22 @@ public class ParserTest extends AndroidTestCase {
 		internParser = new InternFormulaParser(internTokenList);
 		parseTree = internParser.parseFormula();
 
-		assertNotNull("Formula is not parsed correctly:  -(1^2)--(-1--2)", parseTree);
-		assertEquals("Formula interpretation is not as expected", 0.0, parseTree.interpretRecursive(testSprite));
+		assertNotNull(parseTree);
+		assertEquals(0.0, parseTree.interpretRecursive(testSprite));
 	}
 
+	@Test
 	public void testEmptyInput() {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
 		FormulaElement parseTree = internParser.parseFormula();
 
-		assertNull("Formula is not parsed correctly: EMPTY FORMULA {}", parseTree);
-		assertEquals("Formula error value not as expected", InternFormulaParser.PARSER_NO_INPUT,
-				internParser.getErrorTokenIndex());
+		assertNull(parseTree);
+		assertEquals(InternFormulaParser.PARSER_NO_INPUT, internParser.getErrorTokenIndex());
 	}
 
+	@Test
 	public void testFuctionalAndSimpleBracketsCorrection() {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 
@@ -156,8 +168,8 @@ public class ParserTest extends AndroidTestCase {
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
 		FormulaElement parseTree = internParser.parseFormula();
 
-		assertNotNull("Formula is not parsed correctly: abs(2 * (5 - 10))", parseTree);
-		assertEquals("Formula interpretation is not as expected", 10.0, parseTree.interpretRecursive(testSprite));
+		assertNotNull(parseTree);
+		assertEquals(10.0, parseTree.interpretRecursive(testSprite));
 		internTokenList.clear();
 
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "3"));
@@ -174,8 +186,8 @@ public class ParserTest extends AndroidTestCase {
 		internParser = new InternFormulaParser(internTokenList);
 		parseTree = internParser.parseFormula();
 
-		assertNotNull("Formula is not parsed correctly: 3 * (2 + cos(0)) ", parseTree);
-		assertEquals("Formula interpretation is not as expected", 9.0, parseTree.interpretRecursive(testSprite));
+		assertNotNull(parseTree);
+		assertEquals(9.0, parseTree.interpretRecursive(testSprite));
 		internTokenList.clear();
 
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.MOD.name()));
@@ -200,7 +212,7 @@ public class ParserTest extends AndroidTestCase {
 		internParser = new InternFormulaParser(internTokenList);
 		parseTree = internParser.parseFormula();
 
-		assertNotNull("Formula is not parsed correctly: mod( 1 , mod( 1 , mod( 1 , ( 1 )))) ", parseTree);
-		assertEquals("Formula interpretation is not as expected", 0.0, parseTree.interpretRecursive(testSprite));
+		assertNotNull(parseTree);
+		assertEquals(0.0, parseTree.interpretRecursive(testSprite));
 	}
 }

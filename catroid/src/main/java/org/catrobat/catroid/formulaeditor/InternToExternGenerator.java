@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,7 @@ import android.util.Log;
 
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.utils.FormatNumberUtil;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -275,18 +275,7 @@ public class InternToExternGenerator {
 		switch (internToken.getInternTokenType()) {
 			case NUMBER:
 				String number = internToken.getTokenStringValue();
-				if (trimNumbers) {
-					number = Utils.getNumberStringForBricks(Float.parseFloat(number));
-				}
-
-				if (!number.contains(".")) {
-					return number;
-				}
-
-				String left = number.substring(0, number.indexOf('.'));
-				String right = number.substring(number.indexOf('.') + 1);
-
-				return left + getExternStringForInternTokenValue(".", context) + right;
+				return getExternStringForNumber(number, trimNumbers);
 
 			case OPERATOR:
 
@@ -317,6 +306,36 @@ public class InternToExternGenerator {
 			default:
 				return getExternStringForInternTokenValue(internToken.getTokenStringValue(), context);
 		}
+	}
+
+	private String getExternStringForNumber(String number, boolean trimNumbers) {
+
+		if (trimNumbers) {
+			number = getNumberExponentRepresentation(number);
+		}
+
+		if (!number.contains(".")) {
+			return number;
+		}
+
+		String left = number.substring(0, number.indexOf('.'));
+		String right = number.substring(number.indexOf('.') + 1);
+
+		return left + getExternStringForInternTokenValue(".", context) + right;
+	}
+
+	private String getNumberExponentRepresentation(String number) {
+
+		Double value = Double.parseDouble(number);
+		String numberToCheck = String.valueOf(value);
+
+		if (value < 1 && numberToCheck.contains("E")) {
+			number = numberToCheck;
+		} else {
+			number = FormatNumberUtil.cutTrailingZeros(number);
+		}
+
+		return number;
 	}
 
 	private boolean appendWhiteSpace(InternToken currentToken, InternToken nextToken) {

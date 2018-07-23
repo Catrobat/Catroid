@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,7 +29,8 @@ import android.content.Context;
 import java.util.Locale;
 
 public final class UtilDeviceInfo {
-	public static final String SERVER_VALUE_FOR_UNDEFINED_COUNTRY = "undef";
+
+	private static final String SERVER_VALUE_FOR_UNDEFINED_COUNTRY = "aq";
 
 	// Suppress default constructor for noninstantiability
 	private UtilDeviceInfo() {

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,36 +22,62 @@
  */
 package org.catrobat.catroid.test.physics.actions;
 
+import android.support.test.runner.AndroidJUnit4;
+
 import com.badlogic.gdx.scenes.scene2d.Action;
 
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.test.physics.PhysicsBaseTest;
+import org.catrobat.catroid.physics.PhysicsWorld;
+import org.catrobat.catroid.test.physics.PhysicsTestRule;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class SetPhysicsObjectTypeActionTest extends PhysicsBaseTest {
+import static junit.framework.Assert.assertEquals;
 
+@RunWith(AndroidJUnit4.class)
+public class SetPhysicsObjectTypeActionTest {
+
+	@Rule
+	public PhysicsTestRule rule = new PhysicsTestRule();
+
+	private Sprite sprite;
+	private PhysicsWorld physicsWorld;
+
+	@Before
+	public void setUp() {
+		sprite = rule.sprite;
+		physicsWorld = rule.physicsWorld;
+	}
+
+	@Test
 	public void testPhysicsTypeNone() {
 		PhysicsObject.Type type = PhysicsObject.Type.NONE;
 		initPhysicsTypeValue(type);
-		assertEquals("Unexpected physics object type", type, physicsWorld.getPhysicsObject(sprite).getType());
+		assertEquals(type, physicsWorld.getPhysicsObject(sprite).getType());
 	}
 
+	@Test
 	public void testPhysicsTypeDynamic() {
 		PhysicsObject.Type type = PhysicsObject.Type.DYNAMIC;
 		initPhysicsTypeValue(type);
-		assertEquals("Unexpected physics object type", type, physicsWorld.getPhysicsObject(sprite).getType());
+		assertEquals(type, physicsWorld.getPhysicsObject(sprite).getType());
 	}
 
+	@Test
 	public void testPhysicsTypeFixed() {
 		PhysicsObject.Type type = PhysicsObject.Type.FIXED;
 		initPhysicsTypeValue(type);
-		assertEquals("Unexpected physics object type", type, physicsWorld.getPhysicsObject(sprite).getType());
+		assertEquals(type, physicsWorld.getPhysicsObject(sprite).getType());
 	}
 
 	private void initPhysicsTypeValue(PhysicsObject.Type type) {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		Action action = sprite.getActionFactory().createSetPhysicsObjectTypeAction(sprite, type);
 
-		assertEquals("Unexpected physics object type", PhysicsObject.Type.NONE, physicsObject.getType());
+		assertEquals(PhysicsObject.Type.NONE, physicsObject.getType());
 
 		action.act(1.0f);
 	}

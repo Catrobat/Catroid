@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2017 The Catrobat Team
+  ~ Copyright (C) 2010-2018 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,6 @@
   -->
 <manifest package="org.catrobat.catroid.test"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:versionCode="14"
     android:versionName="0.9.7">
 
@@ -65,18 +64,10 @@
             android:exported="true">
         </activity>
 
-        <intent-filter>
-            <category android:name="android.intent.category.DEFAULT"/>
-        </intent-filter>
-    </application>
+</application>
 
-    <instrumentation
-        android:name="android.test.InstrumentationTestRunner"
-        android:targetPackage="org.catrobat.catroid"/>
-    <!-- this instrumentation is needed to run the tests from jenkins -->
-    <instrumentation
-        tools:replace="android:targetPackage"
-        android:name="pl.polidea.instrumentation.PolideaInstrumentationTestRunner"
-        android:targetPackage="org.catrobat.catroid"/>
+<instrumentation
+    android:name="android.test.InstrumentationTestRunner"
+    android:targetPackage="org.catrobat.catroid"/>
 
 </manifest>

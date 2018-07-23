@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,29 +22,35 @@
  */
 package org.catrobat.catroid.test.content.bricks;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
-import org.catrobat.catroid.content.ActionFactory;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.actions.EventThread;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 
-public class CommentOutTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class CommentOutTest {
 	private Sprite sprite;
 	private StartScript script;
-	private SequenceAction sequence;
+	private EventThread sequence;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 		sprite = new Sprite("testSprite");
 		script = new StartScript();
-		sequence = ActionFactory.sequence();
+		sequence = (EventThread) sprite.getActionFactory().createEventThread(Mockito.mock(Script.class));
 	}
 
+	@Test
 	public void testCommentOutSimple() {
 
 		script.addBrick(new WaitBrick(1));
@@ -57,9 +63,10 @@ public class CommentOutTest extends AndroidTestCase {
 
 		script.run(sprite, sequence);
 
-		assertEquals("action of disabled brick should not be in sequence:", sequence.getActions().size, 3);
+		assertEquals(sequence.getActions().size, 3);
 	}
 
+	@Test
 	public void testCommentOutScript() {
 		script.addBrick(new WaitBrick(1));
 		script.addBrick(new WaitBrick(1));
@@ -68,7 +75,7 @@ public class CommentOutTest extends AndroidTestCase {
 
 		script.run(sprite, sequence);
 
-		assertEquals("no action of a disabled script should be in the sequence:", sequence.getActions().size, 0);
+		assertEquals(sequence.getActions().size, 0);
 	}
 }
 

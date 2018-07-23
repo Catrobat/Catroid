@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,47 +22,27 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.BaseAdapter;
-import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
-
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.MessageContainer;
-import org.catrobat.catroid.content.BroadcastMessage;
+import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.physics.PhysicsCollision;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
 import java.util.List;
 
-public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
+public class BroadcastBrick extends BroadcastMessageBrick {
 	private static final long serialVersionUID = 1L;
 
 	protected String broadcastMessage;
-	protected transient AdapterView<?> adapterView;
-
-	protected Object readResolve() {
-		MessageContainer.addMessage(broadcastMessage);
-		return this;
-	}
 
 	public BroadcastBrick(String broadcastMessage) {
 		this.broadcastMessage = broadcastMessage;
-		MessageContainer.addMessage(broadcastMessage);
+		this.viewId = R.layout.brick_broadcast;
 	}
 
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		BroadcastBrick copyBrick = (BroadcastBrick) clone();
-		return copyBrick;
+	protected Object readResolve() {
+		super.readResolve();
+		this.viewId = R.layout.brick_broadcast;
+		return this;
 	}
 
 	@Override
@@ -71,104 +51,19 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		sequence.addAction(sprite.getActionFactory().createBroadcastAction(broadcastMessage, EventWrapper.NO_WAIT));
+		return null;
+	}
+
+	@Override
+	public void setBroadcastMessage(String newBroadcastMessage) {
+		this.broadcastMessage = newBroadcastMessage;
+		messageAdapter.add(newBroadcastMessage);
 	}
 
 	@Override
 	public String getBroadcastMessage() {
 		return broadcastMessage;
-	}
-
-	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		if (view == null) {
-			alphaValue = 255;
-		}
-		view = View.inflate(context, R.layout.brick_broadcast, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_broadcast_checkbox);
-		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_spinner);
-
-		broadcastSpinner.setAdapter(MessageContainer.getMessageAdapter(context));
-		broadcastSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				String selectedMessage = broadcastSpinner.getSelectedItem().toString();
-				if (selectedMessage.equals(context.getString(R.string.new_broadcast_message))) {
-					showNewMessageDialog(broadcastSpinner);
-				} else {
-					broadcastMessage = selectedMessage;
-				}
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
-			}
-		});
-
-		setSpinnerSelection(broadcastSpinner);
-		return view;
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_broadcast, null);
-		Spinner broadcastSpinner = (Spinner) prototypeView.findViewById(R.id.brick_broadcast_spinner);
-
-		SpinnerAdapter broadcastSpinnerAdapter = MessageContainer.getMessageAdapter(context);
-		broadcastSpinner.setAdapter(broadcastSpinnerAdapter);
-		setSpinnerSelection(broadcastSpinner);
-		return prototypeView;
-	}
-
-	protected void setSpinnerSelection(Spinner spinner) {
-		int position = MessageContainer.getPositionOfMessageInAdapter(spinner.getContext(), broadcastMessage);
-		spinner.setSelection(position, true);
-	}
-
-	// TODO: BroadcastBrick and BroadcastReceiverBrick contain this identical method.
-	protected void showNewMessageDialog(final Spinner spinner) {
-		final Context context = spinner.getContext();
-		BrickTextDialog editDialog = new BrickTextDialog(R.string.dialog_new_broadcast_message_title, R.string
-				.dialog_new_broadcast_message_name, context.getString(R.string.new_broadcast_message)) {
-
-			@Override
-			protected boolean handlePositiveButtonClick() {
-				String newMessage = input.getText().toString().trim();
-				if (newMessage.equals(context.getString(R.string.new_broadcast_message))) {
-					dismiss();
-					return false;
-				}
-
-				if (newMessage.contains(PhysicsCollision.COLLISION_MESSAGE_CONNECTOR)) {
-					input.setError(getString(R.string.brick_broadcast_invalid_symbol));
-					return false;
-				}
-
-				broadcastMessage = newMessage;
-				MessageContainer.addMessage(broadcastMessage);
-				setSpinnerSelection(spinner);
-				return true;
-			}
-
-			@Override
-			public void onDismiss(DialogInterface dialog) {
-				setSpinnerSelection(spinner);
-				super.onDismiss(dialog);
-			}
-		};
-
-		editDialog.show(((Activity) context).getFragmentManager(), "dialog_broadcast_brick");
-	}
-
-	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createBroadcastAction(sprite, broadcastMessage));
-		return null;
 	}
 }

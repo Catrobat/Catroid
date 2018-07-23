@@ -35,7 +35,8 @@ def buildApk():
 
     timestamp = time.strftime("%Y-%m-%d_%Hh%M")
 
-    shutil.copyfile("../catroid/build/outputs/apk/catroid-catroid-debug.apk", "./catroid-catroid-debug" + timestamp + ".apk")
+    shutil.copyfile("../catroid/build/outputs/apk/catroid/debug/catroid-catroid-debug.apk", "./catroid-catroid-debug"
+                    + timestamp + ".apk")
 
 def restoreBuildGradleAndAndroidManifest():
     shutil.move("../catroid/build.gradle_backup", "../catroid/build.gradle")

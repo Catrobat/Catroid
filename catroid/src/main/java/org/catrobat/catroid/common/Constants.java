@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,15 +23,16 @@
 package org.catrobat.catroid.common;
 
 import android.os.Environment;
+import android.support.annotation.IntDef;
 
+import java.io.File;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.Calendar;
 
 public final class Constants {
 
-	// Reflection in testcases needed
-	// http://stackoverflow.com/questions/1615163/modifying-final-fields-in-java?answertab=votes#tab-top
-
-	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = Float.valueOf(0.995f);
+	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = Float.valueOf(0.996f);
 
 	public static final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
 	public static final int CAST_CONNECTION_TIMEOUT = 5000; //in milliseconds
@@ -40,14 +41,14 @@ public final class Constants {
 	public static final String PLATFORM_NAME = "Android";
 	public static final int APPLICATION_BUILD_NUMBER = 0; // updated from jenkins nightly/release build
 	public static final String APPLICATION_BUILD_NAME = ""; // updated from jenkins nightly/release build
-	public static final String PROJECTCODE_NAME = "code.xml";
-	public static final String PROJECTPERMISSIONS_NAME = "permissions.txt";
-	public static final String PROJECTCODE_NAME_TMP = "tmp_" + PROJECTCODE_NAME;
+	public static final String CODE_XML_FILE_NAME = "code.xml";
+	public static final String PERMISSIONS_FILE_NAME = "permissions.txt";
+	public static final String TMP_CODE_XML_FILE_NAME = "tmp_" + CODE_XML_FILE_NAME;
 	public static final String SCENES_ENABLED_TAG = "<scenesEnabled>";
 
 	public static final String CATROBAT_EXTENSION = ".catrobat";
-	public static final String IMAGE_STANDARD_EXTENSION = ".png";
-	public static final String SOUND_STANDARD_EXTENSION = ".wav";
+	public static final String DEFAULT_IMAGE_EXTENSION = ".png";
+	public static final String DEFAULT_SOUND_EXTENSION = ".wav";
 	public static final char REMIX_URL_PREFIX_INDICATOR = '[';
 	public static final char REMIX_URL_SUFIX_INDICATOR = ']';
 	public static final char REMIX_URL_SEPARATOR = ',';
@@ -59,24 +60,30 @@ public final class Constants {
 	public static final String[] IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".png", ".gif"};
 	public static final String[] SOUND_EXTENSIONS = {".wav", ".mp3", ".mpga", ".wav", ".ogy"};
 
-	public static final String DEFAULT_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath()
+	private static final String DEFAULT_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath()
 			+ "/Pocket Code";
+
+	public static final File DEFAULT_ROOT_DIRECTORY = new File(DEFAULT_ROOT);
+
 	public static final String TMP_PATH = DEFAULT_ROOT + "/tmp";
-	public static final String TMP_IMAGE_PATH = TMP_PATH + "/PocketPaintImage.tmp";
 	public static final String TEXT_TO_SPEECH_TMP_PATH = TMP_PATH + "/textToSpeech";
-	public static final String IMAGE_DIRECTORY = "images";
-	public static final String SOUND_DIRECTORY = "sounds";
-	public static final String SCENES_DIRECTORY = "scenes";
-	public static final String BACKPACK_DIRECTORY = "backpack";
+	public static final String IMAGE_DIRECTORY_NAME = "images";
+	public static final String SOUND_DIRECTORY_NAME = "sounds";
+
 	public static final String TMP_LOOKS_PATH = TMP_PATH + "/looks";
 	public static final String TMP_SOUNDS_PATH = TMP_PATH + "/sounds";
 
-	public static final String BACKPACK_SOUND_DIRECTORY = "backpack_sound";
-	public static final String BACKPACK_IMAGE_DIRECTORY = "backpack_image";
-	public static final String NUMBER_OF_BRICKS_INSERTED_FROM_BACKPACK = "NUMBER_OF_BRICKS_INSERTED";
-	public static final String FILENAME_SEPARATOR = "_";
+	// Backpack Directories
+	public static final File BACKPACK_DIRECTORY = new File(DEFAULT_ROOT_DIRECTORY, "backpack");
+	public static final File BACKPACK_FILE = new File(BACKPACK_DIRECTORY, "backpack.json");
+	public static final File BACKPACK_SCENE_DIRECTORY = new File(BACKPACK_DIRECTORY, "scenes");
+	public static final File BACKPACK_SOUND_DIRECTORY = new File(BACKPACK_DIRECTORY, "backpack_sound");
+	public static final File BACKPACK_IMAGE_DIRECTORY = new File(BACKPACK_DIRECTORY, "backpack_image");
 
 	public static final String NO_MEDIA_FILE = ".nomedia";
+
+	public static final String AUTOMATIC_SCREENSHOT_FILE_NAME = "automatic_screenshot.png";
+	public static final String MANUAL_SCREENSHOT_FILE_NAME = "manual_screenshot.png";
 
 	public static final String TEXT_TO_SPEECH = "TEXT_TO_SPEECH";
 	public static final String BLUETOOTH_LEGO_NXT = "BLUETOOTH_LEGO_NXT";
@@ -87,8 +94,6 @@ public final class Constants {
 	public static final String VIBRATOR = "VIBRATOR";
 	public static final String FACE_DETECTION = "FACE_DETECTION";
 	public static final String NFC = "NFC";
-
-	public static final int NO_POSITION = -1;
 
 	//Broadcast system:
 	public static final String ACTION_SPRITE_SEPARATOR = "#";
@@ -169,12 +174,9 @@ public final class Constants {
 	// Scratch Converter
 	public static final int DOWNLOAD_FILE_HTTP_TIMEOUT = 30_000;
 	public static final long INVALID_SCRATCH_PROGRAM_ID = 0;
-	public static final String SCRATCH_CONVERTER_CLIENT_ID_SHARED_PREFERENCE_NAME = "scratchconverter.clientID";
-	public static final String SCRATCH_CONVERTER_DOWNLOAD_STATE_SHARED_PREFERENCE_NAME = "scratchconverter"
-			+ ".downloadStatePref";
+
 	public static final String SCRATCH_CONVERTER_HOST = "scratch2.catrob.at";
 	public static final String SCRATCH_SEARCH_URL = "https://api.scratch.mit.edu/search/projects";
-	public static final String SCRATCH_IMAGE_BASE_URL = "https://uploads.scratch.mit.edu/projects/thumbnails/";
 	public static final int SCRATCH_CONVERTER_MAX_NUMBER_OF_JOBS_PER_CLIENT = 3;
 	public static final String SCRATCH_CONVERTER_WEB_SOCKET = "ws://" + SCRATCH_CONVERTER_HOST + "/convertersocket";
 	public static final String SCRATCH_CONVERTER_BASE_URL = "http://" + SCRATCH_CONVERTER_HOST + "/";
@@ -190,11 +192,24 @@ public final class Constants {
 	public static final String DATE_FORMAT_DEFAULT = "yyyy-MM-dd HH:mm:ss";
 	public static final String DATE_FORMAT_ISO_8601 = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
-	public static final long MEMORY_OBJECT_CACHE_EXPIRE_TIME = 120_000;                          // 2 minutes (in ms)
-	public static final int MEMORY_OBJECT_CACHE_MAX_SIZE = 10_000;
 	public static final String INTENT_SCRATCH_PROGRAM_DATA = "scratchProgramData";
 	public static final int INTENT_REQUEST_CODE_SPEECH = 0;
 	public static final int INTENT_REQUEST_CODE_CONVERT = 1;
+
+	// Lego
+	@Retention(RetentionPolicy.SOURCE)
+	@IntDef({NXT, EV3})
+	public @interface LegoSensorType {}
+	public static final int NXT = 0;
+	public static final int EV3 = 1;
+
+	@Retention(RetentionPolicy.SOURCE)
+	@IntDef({PORT_1, PORT_2, PORT_3, PORT_4})
+	public @interface LegoPort {}
+	public static final int PORT_1 = 0;
+	public static final int PORT_2 = 1;
+	public static final int PORT_3 = 2;
+	public static final int PORT_4 = 3;
 
 	// Pocket Paint
 	public static final String EXTRA_PICTURE_PATH_POCKET_PAINT = "org.catrobat.extra.PAINTROID_PICTURE_PATH";
@@ -208,8 +223,6 @@ public final class Constants {
 	//Various:
 	public static final int BUFFER_8K = 8 * 1024;
 	public static final String PREF_PROJECTNAME_KEY = "projectName";
-	public static final String PROJECTNAME_TO_LOAD = "projectNameToLoad";
-	public static final String PROJECT_OPENED_FROM_PROJECTS_LIST = "projectList";
 	public static final String MEDIA_TYPE_LOOK = "look";
 	public static final String MEDIA_TYPE_SOUND = "sound";
 
@@ -232,6 +245,7 @@ public final class Constants {
 	public static final int Z_INDEX_FIRST_SPRITE = Z_INDEX_BACKGROUND + Z_INDEX_NUMBER_VIRTUAL_LAYERS + 1;
 
 	public static final String NO_VARIABLE_SELECTED = "No variable set";
+	public static final String NO_VALUE_SET = "No value set";
 	public static final String PROJECT_UPLOAD_NAME = "projectUploadName";
 	public static final String PROJECT_UPLOAD_DESCRIPTION = "setProjectDescription";
 	public static final int SAY_BRICK = 0;
@@ -263,15 +277,6 @@ public final class Constants {
 	public static final int STATUS_CODE_UPLOAD_OLD_CATROBAT_LANGUAGE = 518;
 	public static final int STATUS_CODE_UPLOAD_OLD_CATROBAT_VERSION = 519;
 
-	//Multilingual feature
-	public static final String LANGUAGE_TAG_KEY = "applicationLanguage";
-	public static final String DEVICE_LANGUAGE = "deviceLanguage";
-	public static final String[] LANGUAGE_CODE = {DEVICE_LANGUAGE, "az", "bs", "ca", "cs", "sr-rCS", "sr-rSP", "da",
-			"de", "en-rAU", "en-rCA", "en-rGB", "en", "es", "fr", "gl", "hr", "in", "it", "sw", "hu", "mk", "ms",
-			"nl", "no", "pl", "pt-rBR", "pt", "ru", "ro", "sq", "sl", "sk", "sv", "vi", "tr", "ml", "ta", "te", "th",
-			"gu", "hi", "ja", "ko", "zh-rCN", "zh-rTW", "ar", "ur", "fa", "ps", "sd", "iw"};
-
-	// Suppress default constructor for noninstantiability
 	private Constants() {
 		throw new AssertionError();
 	}

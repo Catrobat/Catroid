@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,10 +25,22 @@ package org.catrobat.catroid.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
+import org.catrobat.catroid.content.Look;
+import org.catrobat.catroid.content.Script;
+
 public class StopThisScriptAction extends Action {
+
+	private Script currentScript;
+
+	public void setCurrentScript(Script currentScript) {
+		this.currentScript = currentScript;
+	}
 
 	@Override
 	public boolean act(float delta) {
-		return false;
+		if (actor instanceof Look) {
+			((Look) actor).stopThreadWithScript(currentScript);
+		}
+		return true;
 	}
 }

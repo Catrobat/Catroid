@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,22 +25,18 @@ package org.catrobat.catroid.content;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.parrot.freeflight.drone.DroneProxy.ARDRONE_LED_ANIMATION;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
 import org.catrobat.catroid.content.actions.AddItemToUserListAction;
 import org.catrobat.catroid.content.actions.ArduinoSendDigitalValueAction;
 import org.catrobat.catroid.content.actions.ArduinoSendPWMValueAction;
 import org.catrobat.catroid.content.actions.AskAction;
 import org.catrobat.catroid.content.actions.AskSpeechAction;
-import org.catrobat.catroid.content.actions.BackgroundNotifyAction;
-import org.catrobat.catroid.content.actions.BroadcastAction;
-import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
 import org.catrobat.catroid.content.actions.CameraBrickAction;
 import org.catrobat.catroid.content.actions.ChangeBrightnessByNAction;
 import org.catrobat.catroid.content.actions.ChangeColorByNAction;
@@ -58,6 +54,7 @@ import org.catrobat.catroid.content.actions.ComeToFrontAction;
 import org.catrobat.catroid.content.actions.DeleteItemOfUserListAction;
 import org.catrobat.catroid.content.actions.DeleteThisCloneAction;
 import org.catrobat.catroid.content.actions.DroneEmergencyAction;
+import org.catrobat.catroid.content.actions.DroneFlipAction;
 import org.catrobat.catroid.content.actions.DroneMoveBackwardAction;
 import org.catrobat.catroid.content.actions.DroneMoveDownAction;
 import org.catrobat.catroid.content.actions.DroneMoveForwardAction;
@@ -71,6 +68,8 @@ import org.catrobat.catroid.content.actions.DroneTurnLeftAction;
 import org.catrobat.catroid.content.actions.DroneTurnLeftWithMagnetometerAction;
 import org.catrobat.catroid.content.actions.DroneTurnRightAction;
 import org.catrobat.catroid.content.actions.DroneTurnRightWithMagnetometerAction;
+import org.catrobat.catroid.content.actions.EventAction;
+import org.catrobat.catroid.content.actions.EventThread;
 import org.catrobat.catroid.content.actions.FlashAction;
 import org.catrobat.catroid.content.actions.GoNStepsBackAction;
 import org.catrobat.catroid.content.actions.GoToOtherSpritePositionAction;
@@ -101,6 +100,7 @@ import org.catrobat.catroid.content.actions.LegoNxtMotorTurnAngleAction;
 import org.catrobat.catroid.content.actions.LegoNxtPlayToneAction;
 import org.catrobat.catroid.content.actions.MoveNStepsAction;
 import org.catrobat.catroid.content.actions.NextLookAction;
+import org.catrobat.catroid.content.actions.NotifyEventWaiterAction;
 import org.catrobat.catroid.content.actions.PenDownAction;
 import org.catrobat.catroid.content.actions.PenUpAction;
 import org.catrobat.catroid.content.actions.PhiroMotorMoveBackwardAction;
@@ -121,6 +121,7 @@ import org.catrobat.catroid.content.actions.RepeatUntilAction;
 import org.catrobat.catroid.content.actions.ReplaceItemInUserListAction;
 import org.catrobat.catroid.content.actions.SceneStartAction;
 import org.catrobat.catroid.content.actions.SceneTransitionAction;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.actions.SetBrightnessAction;
 import org.catrobat.catroid.content.actions.SetColorAction;
 import org.catrobat.catroid.content.actions.SetLookAction;
@@ -169,6 +170,8 @@ import org.catrobat.catroid.content.bricks.PhiroMotorStopBrick;
 import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick;
 import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
+import org.catrobat.catroid.content.eventids.BroadcastEventId;
+import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -176,25 +179,24 @@ import org.catrobat.catroid.physics.PhysicsObject;
 
 public class ActionFactory extends Actions {
 
-	public static Action createBackgroundNotifyAction(LookData lookData) {
-		BackgroundNotifyAction action = Actions.action(BackgroundNotifyAction.class);
-		action.setLookData(lookData);
-		return action;
+	public EventAction createBroadcastAction(String broadcastMessage, @EventWrapper.WaitMode int waitMode) {
+		BroadcastEventId id = new BroadcastEventId(broadcastMessage);
+		return createEventAction(id, waitMode);
 	}
 
-	public static Action createBroadcastAction(Sprite sprite, String broadcastMessage) {
-		BroadcastAction action = Actions.action(BroadcastAction.class);
-		BroadcastEvent event = new BroadcastEvent();
-		event.setSenderSprite(sprite);
-		event.setBroadcastMessage(broadcastMessage);
-		event.setType(BroadcastType.broadcast);
-		action.setBroadcastEvent(event);
-		return action;
-	}
-
-	public static Action createBroadcastNotifyAction(BroadcastEvent event) {
-		BroadcastNotifyAction action = Actions.action(BroadcastNotifyAction.class);
+	private EventAction createEventAction(EventId eventId, @EventWrapper.WaitMode int waitMode) {
+		EventWrapper event = new EventWrapper(eventId, waitMode);
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		EventAction action = Actions.action(EventAction.class);
 		action.setEvent(event);
+		action.setReceivingSprites(currentProject.getSpriteListWithClones());
+		return action;
+	}
+
+	public Action createNotifyEventWaiterAction(Sprite sprite, EventWrapper event) {
+		NotifyEventWaiterAction action = Actions.action(NotifyEventWaiterAction.class);
+		action.setEvent(event);
+		action.setSprite(sprite);
 		return action;
 	}
 
@@ -209,17 +211,6 @@ public class ActionFactory extends Actions {
 		WaitForBubbleBrickAction action = Actions.action(WaitForBubbleBrickAction.class);
 		action.setSprite(sprite);
 		action.setDelay(delay);
-		return action;
-	}
-
-	public Action createBroadcastActionFromWaiter(Sprite sprite, String broadcastMessage) {
-		BroadcastAction action = Actions.action(BroadcastAction.class);
-		BroadcastEvent event = new BroadcastEvent();
-		event.setSenderSprite(sprite);
-		event.setBroadcastMessage(broadcastMessage);
-		event.setRun(false);
-		event.setType(BroadcastType.broadcastWait);
-		action.setBroadcastEvent(event);
 		return action;
 	}
 
@@ -588,6 +579,10 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
+	public Action createSetLookAction(Sprite sprite, LookData lookData, @EventWrapper.WaitMode int waitMode) {
+		return createSetLookEventAction((SetLookAction) createSetLookAction(sprite, lookData), waitMode);
+	}
+
 	public Action createSetLookAction(Sprite sprite, LookData lookData) {
 		SetLookAction action = Actions.action(SetLookAction.class);
 		action.setSprite(sprite);
@@ -595,22 +590,21 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createSetLookAction(Sprite sprite, LookData lookData, boolean wait) {
-		SetLookAction action = (SetLookAction) createSetLookAction(sprite, lookData);
-		action.setWait(wait);
+	private Action createSetLookEventAction(SetLookAction action, @EventWrapper.WaitMode int waitMode) {
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		action.setWaitMode(waitMode);
+		action.setReceivingSprites(currentProject.getSpriteListWithClones());
 		return action;
+	}
+
+	public Action createSetLookByIndexAction(Sprite sprite, Formula formula, @EventWrapper.WaitMode int waitMode) {
+		return createSetLookEventAction((SetLookAction) createSetLookByIndexAction(sprite, formula), waitMode);
 	}
 
 	public Action createSetLookByIndexAction(Sprite sprite, Formula formula) {
 		SetLookByIndexAction action = Actions.action(SetLookByIndexAction.class);
 		action.setSprite(sprite);
 		action.setFormula(formula);
-		return action;
-	}
-
-	public Action createSetLookByIndexAction(Sprite sprite, Formula formula, boolean wait) {
-		SetLookByIndexAction action = (SetLookByIndexAction) createSetLookByIndexAction(sprite, formula);
-		action.setWait(wait);
 		return action;
 	}
 
@@ -809,7 +803,7 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createForeverAction(Sprite sprite, SequenceAction foreverSequence) {
+	public Action createForeverAction(Sprite sprite, ScriptSequenceAction foreverSequence) {
 		RepeatAction action = Actions.action(RepeatAction.class);
 		action.setIsForeverRepeat(true);
 		action.setAction(foreverSequence);
@@ -824,8 +818,12 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createSequence() {
-		return Actions.sequence();
+	public static Action eventSequence(Script script) {
+		return new ScriptSequenceAction(script);
+	}
+
+	public static Action createEventThread(Script script) {
+		return new EventThread(script);
 	}
 
 	public Action createSetBounceFactorAction(Sprite sprite, Formula bounceFactor) {
@@ -862,6 +860,10 @@ public class ActionFactory extends Actions {
 
 	public Action createDroneTakeOffAndLandAction() {
 		return action(DroneTakeoffAndLandAction.class);
+	}
+
+	public Action createDroneFlipAction() {
+		return action(DroneFlipAction.class);
 	}
 
 	public Action createDroneMoveUpAction(Sprite sprite, Formula seconds, Formula powerInPercent) {
@@ -944,8 +946,10 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createDronePlayLedAnimationAction() {
-		return action(DronePlayLedAnimationAction.class);
+	public Action createDronePlayLedAnimationAction(ARDRONE_LED_ANIMATION ledAnimationType) {
+		DronePlayLedAnimationAction action = action(DronePlayLedAnimationAction.class);
+		action.setAnimationType(ledAnimationType);
+		return action;
 	}
 
 	public Action createDroneSwitchCameraAction() {
@@ -1140,14 +1144,16 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createStopScriptAction(int spinnerSelection, Action currentAction) {
+	public Action createStopScriptAction(int spinnerSelection, Script currentScript) {
 		switch (spinnerSelection) {
 			case BrickValues.STOP_THIS_SCRIPT:
-				return Actions.action(StopThisScriptAction.class);
+				StopThisScriptAction stopThisScriptAction = Actions.action(StopThisScriptAction.class);
+				stopThisScriptAction.setCurrentScript(currentScript);
+				return stopThisScriptAction;
 			case BrickValues.STOP_OTHER_SCRIPTS:
-				StopOtherScriptsAction action = Actions.action(StopOtherScriptsAction.class);
-				action.setCurrentAction(currentAction);
-				return action;
+				StopOtherScriptsAction stopOtherScriptsAction = Actions.action(StopOtherScriptsAction.class);
+				stopOtherScriptsAction.setCurrentScript(currentScript);
+				return stopOtherScriptsAction;
 			default:
 				return Actions.action(StopAllScriptsAction.class);
 		}

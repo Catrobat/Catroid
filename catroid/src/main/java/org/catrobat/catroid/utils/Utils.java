@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,27 +22,16 @@
  */
 package org.catrobat.catroid.utils;
 
-import android.app.Activity;
-import android.app.AlertDialog.Builder;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -55,21 +44,13 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DefaultProjectHandler;
-import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.common.ScratchProgramData;
-import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.XmlHeader;
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.exceptions.ProjectException;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.transfers.LogoutTask;
 import org.catrobat.catroid.ui.WebViewActivity;
-import org.catrobat.catroid.ui.controller.BackPackListManager;
-import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
@@ -78,8 +59,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
@@ -91,6 +70,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import static org.catrobat.catroid.common.Constants.DEFAULT_ROOT_DIRECTORY;
+
 public final class Utils {
 
 	private static final String TAG = Utils.class.getSimpleName();
@@ -101,51 +82,22 @@ public final class Utils {
 
 	public static final int TRANSLATION_PLURAL_OTHER_INTEGER = 767676;
 
-	// Suppress default constructor for noninstantiability
 	private Utils() {
 		throw new AssertionError();
 	}
 
-	public static boolean externalStorageAvailable() {
+	public static boolean isExternalStorageAvailable() {
 		String externalStorageState = Environment.getExternalStorageState();
 		return externalStorageState.equals(Environment.MEDIA_MOUNTED)
 				&& !externalStorageState.equals(Environment.MEDIA_MOUNTED_READ_ONLY);
 	}
 
-	public static boolean checkForExternalStorageAvailableAndDisplayErrorIfNot(final Context context) {
-		if (!externalStorageAvailable()) {
-			Builder builder = new CustomAlertDialogBuilder(context);
-
-			builder.setTitle(R.string.error);
-			builder.setMessage(R.string.error_no_writiable_external_storage_available);
-			builder.setNeutralButton(R.string.close, new OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					((Activity) context).moveTaskToBack(true);
-				}
-			});
-			builder.show();
-			return false;
-		}
-		return true;
-	}
-
-	public static boolean isNetworkAvailable(Context context, boolean createDialog) {
+	public static boolean isNetworkAvailable(Context context) {
 		ConnectivityManager connectivityManager = (ConnectivityManager) context
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-		boolean isAvailable = activeNetworkInfo != null && activeNetworkInfo.isConnected();
-		if (!isAvailable && createDialog) {
-			new CustomAlertDialogBuilder(context).setTitle(R.string.no_internet)
-					.setMessage(R.string.error_no_internet).setPositiveButton(R.string.ok, null)
-					.show();
-		}
-
-		return isAvailable;
-	}
-
-	public static boolean isNetworkAvailable(Context context) {
-		return isNetworkAvailable(context, false);
+		return connectivityManager != null
+				&& connectivityManager.getActiveNetworkInfo() != null
+				&& connectivityManager.getActiveNetworkInfo().isConnected();
 	}
 
 	public static boolean checkForNetworkError(boolean success, WebconnectionException exception) {
@@ -287,17 +239,13 @@ public final class Utils {
 		return false;
 	}
 
-	public static String extractParameterFromURL(final String url, final String parameterKey) {
-		final String query = url.split("\\?")[1];
-		return Splitter.on('&').trimResults().withKeyValueSeparator("=").split(query).get(parameterKey);
-	}
-
 	public static long extractScratchJobIDFromURL(final String url) {
 		if (!url.startsWith(Constants.SCRATCH_CONVERTER_BASE_URL)) {
 			return Constants.INVALID_SCRATCH_PROGRAM_ID;
 		}
 
-		final String jobIDString = extractParameterFromURL(url, "job_id");
+		final String query = url.split("\\?")[1];
+		final String jobIDString = Splitter.on('&').trimResults().withKeyValueSeparator("=").split(query).get("job_id");
 		if (jobIDString == null) {
 			return Constants.INVALID_SCRATCH_PROGRAM_ID;
 		}
@@ -327,106 +275,6 @@ public final class Utils {
 			return Integer.toString(number / 1_000) + "k";
 		}
 		return Integer.toString(number / 1_000_000) + "M";
-	}
-
-	public static boolean setListViewHeightBasedOnItems(ListView listView) {
-		ListAdapter listAdapter = listView.getAdapter();
-		if (listAdapter != null) {
-			int numberOfItems = listAdapter.getCount();
-			// Get total height of all items.
-			int totalItemsHeight = 0;
-			for (int itemPos = 0; itemPos < numberOfItems; ++itemPos) {
-				View item = listAdapter.getView(itemPos, null, listView);
-				item.measure(0, 0);
-				totalItemsHeight += item.getMeasuredHeight();
-			}
-
-			// Get total height of all item dividers.
-			int totalDividersHeight = listView.getDividerHeight() * (numberOfItems - 1);
-
-			// Set list height.
-			ViewGroup.LayoutParams params = listView.getLayoutParams();
-			params.height = totalItemsHeight + totalDividersHeight;
-			listView.setLayoutParams(params);
-			listView.requestLayout();
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * Constructs a path out of the pathElements.
-	 *
-	 * @param pathElements the strings to connect. They can have "/" in them which will be de-duped in the result, if necessary.
-	 * @return the path that was constructed.
-	 */
-	public static String buildPath(String... pathElements) {
-		StringBuilder result = new StringBuilder("/");
-
-		for (String pathElement : pathElements) {
-			result.append(pathElement).append('/');
-		}
-
-		String returnValue = result.toString().replaceAll("/+", "/");
-
-		if (returnValue.endsWith("/")) {
-			returnValue = returnValue.substring(0, returnValue.length() - 1);
-		}
-
-		return returnValue;
-	}
-
-	public static String buildProjectPath(String projectName) {
-		return buildPath(Constants.DEFAULT_ROOT, UtilFile.encodeSpecialCharsForFileSystem(projectName));
-	}
-
-	public static String buildScenePath(String projectName, String sceneName) {
-		return buildPath(buildProjectPath(projectName), UtilFile.encodeSpecialCharsForFileSystem(sceneName));
-	}
-
-	public static String buildBackpackScenePath(String sceneName) {
-		return buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY, Constants.SCENES_DIRECTORY,
-				UtilFile.encodeSpecialCharsForFileSystem(sceneName));
-	}
-
-	public static void showErrorDialog(Context context, int errorMessageId) {
-		Builder builder = new CustomAlertDialogBuilder(context);
-		builder.setTitle(R.string.error);
-		builder.setMessage(errorMessageId);
-		builder.setNeutralButton(R.string.close, new OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-			}
-		});
-		Dialog dialog = builder.create();
-		showDialog(context, dialog);
-	}
-
-	public static void showErrorDialog(Context context, String msg, int errorTitleId) {
-		Builder builder = new CustomAlertDialogBuilder(context);
-		builder.setTitle(errorTitleId);
-		builder.setMessage(msg);
-		builder.setNeutralButton(R.string.close, new OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-			}
-		});
-		Dialog dialog = builder.create();
-		showDialog(context, dialog);
-	}
-
-	public static void showErrorDialog(Context context, int errorTitleId, int errorMessageId) {
-		Builder builder = new CustomAlertDialogBuilder(context);
-		builder.setTitle(errorTitleId);
-		builder.setMessage(errorMessageId);
-		builder.setNeutralButton(R.string.close, new OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-			}
-		});
-		Dialog dialog = builder.create();
-		showDialog(context, dialog);
 	}
 
 	public static String md5Checksum(File file) {
@@ -479,19 +327,6 @@ public final class Utils {
 		return (double) Math.round(value * scale) / scale;
 	}
 
-	private static void showDialog(Context context, final Dialog dialog) {
-		if (context instanceof Activity) {
-			((Activity) context).runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					dialog.show();
-				}
-			});
-		} else {
-			dialog.show();
-		}
-	}
-
 	private static String toHex(byte[] messageDigest) {
 		final char[] hexChars = "0123456789ABCDEF".toCharArray();
 
@@ -517,30 +352,6 @@ public final class Utils {
 		return messageDigest;
 	}
 
-	public static ArrayList<String> formatStringForBubbleBricks(String text) {
-		ArrayList<String> lines = new ArrayList<>();
-
-		int cursorPos = 0;
-		while (cursorPos + Constants.MAX_STRING_LENGTH_BUBBLES < text.length()) {
-			String newLine = text.substring(cursorPos, cursorPos + Constants.MAX_STRING_LENGTH_BUBBLES);
-			int lastWhitespace = newLine.lastIndexOf(' ');
-			if (lastWhitespace < 0) {
-				lastWhitespace = Constants.MAX_STRING_LENGTH_BUBBLES;
-			}
-			newLine = text.substring(cursorPos, cursorPos + lastWhitespace);
-			while (newLine.contains("\n")) {
-				String subLine = newLine.substring(0, newLine.indexOf('\n') + 1);
-				lines.add(subLine);
-				newLine = newLine.replace(subLine, "");
-			}
-			lines.add(newLine);
-			cursorPos += lastWhitespace;
-		}
-		lines.add(text.substring(cursorPos, text.length()).trim());
-
-		return lines;
-	}
-
 	public static String getVersionName(Context context) {
 		String versionName = "unknown";
 		try {
@@ -558,273 +369,21 @@ public final class Utils {
 		return (int) (densityIndependentPixels * scale + 0.5f);
 	}
 
-	public static Activity getActivity() throws IllegalAccessException, NoSuchFieldException, ClassNotFoundException,
-			NoSuchMethodException, InvocationTargetException {
-		Class activityThreadClass = Class.forName("android.app.ActivityThread");
-		Object activityThread = activityThreadClass.getMethod("currentActivityThread").invoke(null);
-		Field activitiesField = activityThreadClass.getDeclaredField("mActivities");
-		activitiesField.setAccessible(true);
-		HashMap activities = (HashMap) activitiesField.get(activityThread);
-		for (Object activityRecord : activities.values()) {
-			Class activityRecordClass = activityRecord.getClass();
-			Field pausedField = activityRecordClass.getDeclaredField("paused");
-			pausedField.setAccessible(true);
-			if (!pausedField.getBoolean(activityRecord)) {
-				Field activityField = activityRecordClass.getDeclaredField("activity");
-				activityField.setAccessible(true);
-				Activity activity = (Activity) activityField.get(activityRecord);
-				return activity;
-			}
-		}
-		return null;
-	}
-
-	public static void saveToPreferences(Context context, String key, String message) {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-		Editor edit = sharedPreferences.edit();
-		edit.putString(key, message);
-		edit.commit();
-	}
-
-	public static void removeFromPreferences(Context context, String key) {
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		SharedPreferences.Editor edit = preferences.edit();
-		edit.remove(key);
-		edit.commit();
-	}
-
-	public static void loadProjectIfNeeded(Context context) {
-		String projectName;
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-		projectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
-		if (ProjectManager.getInstance().getCurrentProject() == null) {
-			if (projectName == null || !StorageHandler.getInstance().projectExists(projectName)) {
-				projectName = context.getString(R.string.default_project_name);
-			}
-
-			try {
-				ProjectManager.getInstance().loadProject(projectName, context);
-			} catch (ProjectException projectException) {
-				Log.e(TAG, "Project cannot load", projectException);
-				ProjectManager.getInstance().initializeDefaultProject(context);
-			}
-		}
-	}
-
 	public static String getCurrentProjectName(Context context) {
 		if (ProjectManager.getInstance().getCurrentProject() == null) {
 
-			if (UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT)).size() == 0) {
-				Log.i(TAG, "Somebody deleted all projects in the file-system");
+			if (FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).size() == 0) {
 				ProjectManager.getInstance().initializeDefaultProject(context);
 			}
 
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String currentProjectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
-			if (currentProjectName == null || !StorageHandler.getInstance().projectExists(currentProjectName)) {
-				currentProjectName = UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT)).get(0);
+			if (currentProjectName == null || !XstreamSerializer.getInstance().projectExists(currentProjectName)) {
+				currentProjectName = FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).get(0);
 			}
 			return currentProjectName;
 		}
 		return ProjectManager.getInstance().getCurrentProject().getName();
-	}
-
-	public static String deleteSpecialCharactersInString(String stringToAdapt) {
-		return stringToAdapt.replaceAll("[\"*/:<>?\\\\|]", "");
-	}
-
-	public static String getUniqueObjectName(String name) {
-		return searchForNonExistingObjectNameInCurrentProgram(name, 0);
-	}
-
-	private static String searchForNonExistingObjectNameInCurrentProgram(String name, int nextNumber) {
-		String newName;
-
-		if (nextNumber == 0) {
-			newName = name;
-		} else {
-			newName = name + "_" + nextNumber;
-		}
-
-		if (ProjectManager.getInstance().getCurrentScene().containsSpriteBySpriteName(newName)) {
-			return searchForNonExistingObjectNameInCurrentProgram(name, ++nextNumber);
-		}
-
-		return newName;
-	}
-
-	public static String getUniqueNfcTagName(String name) {
-		return searchForNonExistingNfcTagName(name, 0);
-	}
-
-	private static String searchForNonExistingNfcTagName(String name, int nextNumber) {
-		String newName;
-		List<NfcTagData> nfcTagDataList = ProjectManager.getInstance().getCurrentSprite().getNfcTagList();
-		if (nextNumber == 0) {
-			newName = name;
-		} else {
-			newName = name + "_" + nextNumber;
-		}
-		for (NfcTagData nfcTagData : nfcTagDataList) {
-			if (nfcTagData.getNfcTagName().equals(newName)) {
-				return searchForNonExistingNfcTagName(name, ++nextNumber);
-			}
-		}
-		return newName;
-	}
-
-	public static String getUniqueLookName(LookData lookData, boolean forBackPack) {
-		return searchForNonExistingLookName(lookData, 0, forBackPack);
-	}
-
-	private static String searchForNonExistingLookName(LookData originalLookData,
-			int nextNumber, boolean forBackPack) {
-		String newName;
-		List<LookData> lookDataList;
-		if (forBackPack) {
-			lookDataList = BackPackListManager.getInstance().getAllBackPackedLooks();
-		} else {
-			lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
-		}
-
-		if (nextNumber == 0) {
-			newName = originalLookData.getLookName();
-		} else {
-			newName = originalLookData.getLookName() + "_" + nextNumber;
-		}
-		for (LookData lookData : lookDataList) {
-			if (lookData.getLookName().equals(newName)) {
-				return searchForNonExistingLookName(originalLookData, ++nextNumber, forBackPack);
-			}
-		}
-		return newName;
-	}
-
-	public static String getUniqueSpriteName(Sprite sprite) {
-		return searchForNonExistingSpriteName(sprite, 0);
-	}
-
-	private static String searchForNonExistingSpriteName(Sprite sprite, int nextNumber) {
-		String newName;
-		List<Sprite> spriteList;
-		if (!sprite.isBackpackObject) {
-			spriteList = BackPackListManager.getInstance().getAllBackPackedSprites();
-		} else {
-			spriteList = ProjectManager.getInstance().getCurrentScene().getSpriteList();
-		}
-
-		if (nextNumber == 0) {
-			newName = sprite.getName();
-		} else {
-			newName = sprite.getName() + "_" + nextNumber;
-		}
-		for (Sprite spriteListItem : spriteList) {
-			if (spriteListItem.getName().equals(newName)) {
-				return searchForNonExistingSpriteName(sprite, ++nextNumber);
-			}
-		}
-		return newName;
-	}
-
-	public static String getUniqueSceneName(String sceneName, Project firstProject, Project secondProject) {
-		Project backup = ProjectManager.getInstance().getCurrentProject();
-		ProjectManager.getInstance().setCurrentProject(firstProject);
-		String result = getUniqueSceneName(sceneName, false);
-		ProjectManager.getInstance().setCurrentProject(secondProject);
-		sceneName = getUniqueSceneName(result, false);
-		ProjectManager.getInstance().setCurrentProject(backup);
-		return sceneName;
-	}
-
-	public static String getUniqueSceneName(String sceneName, boolean forBackPack) {
-		List<Scene> sceneList;
-
-		if (forBackPack) {
-			sceneList = BackPackListManager.getInstance().getAllBackpackedScenes();
-		} else {
-			sceneList = ProjectManager.getInstance().getCurrentProject().getSceneList();
-		}
-
-		String possibleNewName = sceneName;
-		Boolean check = true;
-		int nextNumber = 1;
-		while (check) {
-
-			check = false;
-			possibleNewName = sceneName + "_" + nextNumber;
-			for (Scene sceneListItem : sceneList) {
-				if (sceneListItem.getName().equals(possibleNewName)) {
-					check = true;
-					break;
-				}
-			}
-			nextNumber += 1;
-		}
-
-		return possibleNewName;
-	}
-
-	public static String searchForNonExistingSceneName(String sceneName, int nextNumber, boolean forBackPack) {
-		List<Scene> sceneList;
-
-		if (forBackPack) {
-			sceneList = BackPackListManager.getInstance().getAllBackpackedScenes();
-		} else {
-			sceneList = ProjectManager.getInstance().getCurrentProject().getSceneList();
-		}
-
-		String possibleNewName = String.format(sceneName, nextNumber);
-		for (Scene sceneListItem : sceneList) {
-			if (sceneListItem.getName().equals(possibleNewName)) {
-				return searchForNonExistingSceneName(sceneName, ++nextNumber, forBackPack);
-			}
-		}
-
-		return possibleNewName;
-	}
-
-	public static String getUniqueSoundName(SoundInfo soundInfo, boolean forBackPack) {
-		return searchForNonExistingSoundTitle(soundInfo, 0, forBackPack);
-	}
-
-	public static Project findValidProject(Context context) {
-		Project loadableProject = null;
-
-		List<String> projectNameList = UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT));
-		for (String projectName : projectNameList) {
-			loadableProject = StorageHandler.getInstance().loadProject(projectName, context);
-			if (loadableProject != null) {
-				break;
-			}
-		}
-		return loadableProject;
-	}
-
-	private static String searchForNonExistingSoundTitle(SoundInfo soundInfo, int nextNumber, boolean forBackPack) {
-		// search for sounds with the same title
-		String newTitle = "";
-		List<SoundInfo> soundInfoList;
-		if (forBackPack) {
-			soundInfoList = BackPackListManager.getInstance().getAllBackPackedSounds();
-		} else {
-			soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
-		}
-
-		if (nextNumber == 0) {
-			if (soundInfo != null) {
-				newTitle = soundInfo.getTitle();
-			}
-		} else {
-			if (soundInfo != null) {
-				newTitle = soundInfo.getTitle() + "_" + nextNumber;
-			}
-		}
-		for (SoundInfo soundInfoFromList : soundInfoList) {
-			if (soundInfoFromList.getTitle().equals(newTitle)) {
-				return searchForNonExistingSoundTitle(soundInfo, ++nextNumber, forBackPack);
-			}
-		}
-		return newTitle;
 	}
 
 	public static Pixmap getPixmapFromFile(File imageFile) {
@@ -840,127 +399,39 @@ public final class Utils {
 		return pixmap;
 	}
 
-	public static void rewriteImageFileForStage(Context context, File lookFile) throws IOException {
-		// if pixmap cannot be created, image would throw an Exception in stage
-		// so has to be loaded again with other Config
-		Pixmap pixmap;
-		pixmap = Utils.getPixmapFromFile(lookFile);
-
-		if (pixmap == null) {
-			ImageEditing.overwriteImageFileWithNewBitmap(lookFile);
-			pixmap = Utils.getPixmapFromFile(lookFile);
-
-			if (pixmap == null) {
-				Log.e(TAG, "error_load_image rewriteImageFileForStage");
-				Utils.showErrorDialog(context, R.string.error_load_image);
-				StorageHandler.getInstance().deleteFile(lookFile.getAbsolutePath(), false);
-				throw new IOException("Pixmap could not be fixed");
-			}
-		}
-	}
-
-	public static String getUniqueProjectName() {
-		String projectName = "project_" + System.currentTimeMillis();
-		while (StorageHandler.getInstance().projectExists(projectName)) {
-			projectName = "project_" + System.currentTimeMillis();
-		}
-		return projectName;
-	}
-
-	public static boolean isStandardScene(Project project, String sceneName, Context context) {
+	public static boolean isDefaultProject(Project projectToCheck, Context context) {
 		try {
-			Project standardProject = DefaultProjectHandler.createAndSaveDefaultProject(getUniqueProjectName(),
-					context);
-			Scene standardScene = standardProject.getDefaultScene();
-			ProjectManager.getInstance().deleteCurrentProject(null);
+			String uniqueProjectName = "project_" + System.currentTimeMillis();
 
-			ProjectManager.getInstance().setProject(project);
-			ProjectManager.getInstance().saveProject(context);
-			Scene sceneToCheck = ProjectManager.getInstance().getCurrentProject().getSceneByName(sceneName);
+			while (XstreamSerializer.getInstance().projectExists(uniqueProjectName)) {
+				uniqueProjectName = "project_" + System.currentTimeMillis();
+			}
 
-			if (sceneToCheck == null) {
-				Log.e(TAG, "isStandardScene: scene not found");
+			Project defaultProject = DefaultProjectHandler.createAndSaveDefaultProject(uniqueProjectName, context);
+
+			String defaultProjectXml = XstreamSerializer.getInstance().getXmlAsStringFromProject(defaultProject);
+
+			StorageOperations.deleteDir(new File(PathBuilder.buildProjectPath(defaultProject.getName())));
+
+			StringFinder stringFinder = new StringFinder();
+
+			if (!stringFinder.findBetween(defaultProjectXml, "<scenes>", "</scenes>")) {
 				return false;
 			}
 
-			boolean result = true;
-
-			for (int i = 0; i < standardScene.getSpriteList().size(); i++) {
-				Sprite standardSprite = standardScene.getSpriteList().get(i);
-				Sprite spriteToCheck = sceneToCheck.getSpriteList().get(i);
-
-				for (int t = 0; t < standardSprite.getLookDataList().size(); t++) {
-					LookData standardLook = standardSprite.getLookDataList().get(t);
-					LookData lookToCheck = spriteToCheck.getLookDataList().get(t);
-
-					result &= standardLook.equals(lookToCheck);
-					if (!result) {
-						Log.e(TAG, "isStandardScene: " + standardLook.getLookName() + " was not the same as "
-								+ lookToCheck.getLookName());
-						return false;
-					}
-				}
-
-				for (int t = 0; t < standardSprite.getSoundList().size(); t++) {
-					SoundInfo standardSound = standardSprite.getSoundList().get(t);
-					SoundInfo soundToCheck = spriteToCheck.getSoundList().get(t);
-
-					result &= standardSound.equals(soundToCheck);
-					if (!result) {
-						Log.e(TAG, "isStandardScene: " + standardSound.getTitle() + " was not the same as "
-								+ standardSound.getTitle());
-						return false;
-					}
-				}
-
-				for (int t = 0; t < standardSprite.getListWithAllBricks().size(); t++) {
-					Brick standardBrick = standardSprite.getListWithAllBricks().get(t);
-					Brick brickToCheck = spriteToCheck.getListWithAllBricks().get(t);
-
-					result &= standardBrick.getClass().toString().equals(brickToCheck.getClass().toString());
-					if (!result) {
-						Log.e(TAG, "isStandardScene: " + standardBrick.getClass().toString() + " was not the same as "
-								+ brickToCheck.getClass().toString());
-						return false;
-					}
-				}
-
-				result &= standardSprite.equals(spriteToCheck);
-				if (!result) {
-					Log.e(TAG, "isStandardScene: " + standardSprite.getName() + " was not the same as "
-							+ spriteToCheck.getName());
-					return false;
-				}
-			}
-
-			return result;
-		} catch (Exception e) {
-			Log.e(TAG, "Exception: isStandardScene: ", e);
-			return false;
-		}
-	}
-
-	public static boolean isStandardProject(Project projectToCheck, Context context) {
-		try {
-			Project standardProject = DefaultProjectHandler.createAndSaveDefaultProject(getUniqueProjectName(),
-					context);
-			String standardProjectXMLString = StorageHandler.getInstance().getXMLStringOfAProject(standardProject);
-			int start = standardProjectXMLString.indexOf("<scenes>");
-			int end = standardProjectXMLString.indexOf("</scenes>");
-			String standardProjectSpriteList = standardProjectXMLString.substring(start, end);
-			ProjectManager.getInstance().deleteCurrentProject(null);
+			String defaultProjectSpriteList = stringFinder.getResult();
 
 			ProjectManager.getInstance().setProject(projectToCheck);
 			ProjectManager.getInstance().saveProject(context);
 
-			projectToCheck.updateMessageContainer();
+			String projectToCheckXML = XstreamSerializer.getInstance().getXmlAsStringFromProject(projectToCheck);
 
-			String projectToCheckXMLString = StorageHandler.getInstance().getXMLStringOfAProject(projectToCheck);
-			start = projectToCheckXMLString.indexOf("<scenes>");
-			end = projectToCheckXMLString.indexOf("</scenes>");
-			String projectToCheckStringList = projectToCheckXMLString.substring(start, end);
+			if (!stringFinder.findBetween(projectToCheckXML, "<scenes>", "</scenes")) {
+				return false;
+			}
 
-			return standardProjectSpriteList.contentEquals(projectToCheckStringList);
+			String projectToCheckSpriteList = stringFinder.getResult();
+			return defaultProjectSpriteList.contentEquals(projectToCheckSpriteList);
 		} catch (IllegalArgumentException illegalArgumentException) {
 			Log.e(TAG, Log.getStackTraceString(illegalArgumentException));
 		} catch (IOException ioException) {
@@ -989,68 +460,45 @@ public final class Utils {
 			return true;
 		}
 
-		File projectDirectory = new File(Utils.buildProjectPath(programName));
+		File projectDirectory = new File(PathBuilder.buildProjectPath(programName));
 		return projectDirectory.exists();
-	}
-
-	public static boolean checkIfLookExists(String name) {
-		for (LookData lookData : ProjectManager.getInstance().getCurrentSprite().getLookDataList()) {
-			if (lookData.getLookName().compareTo(name) == 0) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public static boolean checkIfSoundExists(String name) {
-		for (SoundInfo soundInfo : ProjectManager.getInstance().getCurrentSprite().getSoundList()) {
-			if (soundInfo.getTitle().compareTo(name) == 0) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	public static void invalidateLoginTokenIfUserRestricted(Context context) {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 		if (sharedPreferences.getBoolean(Constants.RESTRICTED_USER, false)) {
 			logoutUser(context);
+			ToastUtil.showSuccess(context, R.string.logout_successful);
 		}
 	}
 
-	@SuppressWarnings("unused")
 	public static void logoutUser(Context context) {
-		logoutUser(context, true);
-	}
-
-	public static void logoutUser(Context context, boolean showToast) {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 		String userName = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
 		LogoutTask logoutTask = new LogoutTask(context, userName);
 		logoutTask.execute();
 
-		sharedPreferences.edit().putString(Constants.TOKEN, Constants.NO_TOKEN).commit();
-		sharedPreferences.edit().putString(Constants.USERNAME, Constants.NO_USERNAME).commit();
+		SharedPreferences.Editor sharedPreferenceEditor = sharedPreferences.edit();
 
-		sharedPreferences.edit().putBoolean(Constants.FACEBOOK_TOKEN_REFRESH_NEEDED, false).commit();
-		sharedPreferences.edit().putString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL).commit();
-		sharedPreferences.edit().putString(Constants.FACEBOOK_USERNAME, Constants.NO_FACEBOOK_USERNAME).commit();
-		sharedPreferences.edit().putString(Constants.FACEBOOK_ID, Constants.NO_FACEBOOK_ID).commit();
-		sharedPreferences.edit().putString(Constants.FACEBOOK_LOCALE, Constants.NO_FACEBOOK_LOCALE).commit();
+		sharedPreferenceEditor.putString(Constants.TOKEN, Constants.NO_TOKEN)
+				.putString(Constants.USERNAME, Constants.NO_USERNAME);
+
+		sharedPreferenceEditor.putBoolean(Constants.FACEBOOK_TOKEN_REFRESH_NEEDED, false)
+				.putString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL)
+				.putString(Constants.FACEBOOK_USERNAME, Constants.NO_FACEBOOK_USERNAME)
+				.putString(Constants.FACEBOOK_ID, Constants.NO_FACEBOOK_ID)
+				.putString(Constants.FACEBOOK_LOCALE, Constants.NO_FACEBOOK_LOCALE);
 		AccessToken.setCurrentAccessToken(null);
 
-		sharedPreferences.edit().putString(Constants.GOOGLE_EXCHANGE_CODE, Constants.NO_GOOGLE_EXCHANGE_CODE).commit();
-		sharedPreferences.edit().putString(Constants.GOOGLE_EMAIL, Constants.NO_GOOGLE_EMAIL).commit();
-		sharedPreferences.edit().putString(Constants.GOOGLE_USERNAME, Constants.NO_GOOGLE_USERNAME).commit();
-		sharedPreferences.edit().putString(Constants.GOOGLE_ID, Constants.NO_GOOGLE_ID).commit();
-		sharedPreferences.edit().putString(Constants.GOOGLE_LOCALE, Constants.NO_GOOGLE_LOCALE).commit();
-		sharedPreferences.edit().putString(Constants.GOOGLE_ID_TOKEN, Constants.NO_GOOGLE_ID_TOKEN).commit();
+		sharedPreferenceEditor.putString(Constants.GOOGLE_EXCHANGE_CODE, Constants.NO_GOOGLE_EXCHANGE_CODE)
+				.putString(Constants.GOOGLE_EMAIL, Constants.NO_GOOGLE_EMAIL)
+				.putString(Constants.GOOGLE_USERNAME, Constants.NO_GOOGLE_USERNAME)
+				.putString(Constants.GOOGLE_ID, Constants.NO_GOOGLE_ID)
+				.putString(Constants.GOOGLE_LOCALE, Constants.NO_GOOGLE_LOCALE)
+				.putString(Constants.GOOGLE_ID_TOKEN, Constants.NO_GOOGLE_ID_TOKEN);
 
+		sharedPreferenceEditor.commit();
 		WebViewActivity.clearCookies(context);
-
-		if (showToast) {
-			ToastUtil.showSuccess(context, R.string.logout_successful);
-		}
 	}
 
 	public static boolean isUserLoggedIn(Context context) {
@@ -1060,10 +508,6 @@ public final class Utils {
 		boolean tokenValid = !(token.equals(Constants.NO_TOKEN) || token.length() != ServerCalls.TOKEN_LENGTH
 				|| token.equals(ServerCalls.TOKEN_CODE_INVALID));
 		return tokenValid;
-	}
-
-	public static String getNumberStringForBricks(float value) {
-		return (int) value == value ? "" + (int) value : "" + value;
 	}
 
 	public static <T> List<T> distinctListByClassOfObjects(List<T> listToDistinct) {

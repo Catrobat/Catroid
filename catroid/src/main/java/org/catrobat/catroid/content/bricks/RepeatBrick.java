@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,16 +25,15 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -45,14 +44,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
+
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
 
 	protected transient LoopEndBrick loopEndBrick;
-	private transient long beginLoopTime;
-
-	private transient LoopBeginBrick copy;
 
 	public RepeatBrick() {
 		addAllowedBrickField(BrickField.TIMES_TO_REPEAT);
@@ -87,16 +84,13 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	public int getViewResource() {
+		return R.layout.brick_repeat;
+	}
 
-		view = View.inflate(context, R.layout.brick_repeat, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_repeat_checkbox);
-
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
 		TextView edit = (TextView) view.findViewById(R.id.brick_repeat_edit_text);
 		getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).setTextFieldId(R.id.brick_repeat_edit_text);
 		getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).refreshTextField(view);
@@ -127,42 +121,24 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_repeat, null);
+		prototypeView = super.getPrototypeView(context);
 		TextView textRepeat = (TextView) prototypeView.findViewById(R.id.brick_repeat_edit_text);
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_repeat_time_text_view);
-		textRepeat.setText(String.valueOf(BrickValues.REPEAT));
+		textRepeat.setText(formatNumberForPrototypeView(BrickValues.REPEAT));
 		times.setText(context.getResources().getQuantityString(R.plurals.time_plural,
 				Utils.convertDoubleToPluralInteger(BrickValues.REPEAT)));
 		return prototypeView;
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		SequenceAction repeatSequence = (SequenceAction) sprite.getActionFactory().createSequence();
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		ScriptSequenceAction repeatSequence = (ScriptSequenceAction) sprite.getActionFactory().eventSequence(sequence.getScript());
 		Action action = sprite.getActionFactory().createRepeatAction(sprite,
 				getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT), repeatSequence);
 		sequence.addAction(action);
-		LinkedList<SequenceAction> returnActionList = new LinkedList<SequenceAction>();
+		LinkedList<ScriptSequenceAction> returnActionList = new LinkedList<>();
 		returnActionList.add(repeatSequence);
 		return returnActionList;
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		//loopEndBrick will be set in the LoopEndBrick's copyBrickForSprite method
-		RepeatBrick copyBrick = (RepeatBrick) clone();
-		copy = copyBrick;
-		return copyBrick;
-	}
-
-	@Override
-	public long getBeginLoopTime() {
-		return beginLoopTime;
-	}
-
-	@Override
-	public void setBeginLoopTime(long beginLoopTime) {
-		this.beginLoopTime = beginLoopTime;
 	}
 
 	@Override
@@ -173,11 +149,6 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 	@Override
 	public void setLoopEndBrick(LoopEndBrick loopEndBrick) {
 		this.loopEndBrick = loopEndBrick;
-	}
-
-	@Override
-	public LoopBeginBrick getCopy() {
-		return copy;
 	}
 
 	@Override

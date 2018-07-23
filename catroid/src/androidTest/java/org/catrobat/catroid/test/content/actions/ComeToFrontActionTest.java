@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,8 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.AndroidTestCase;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -33,32 +34,42 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.junit.After;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.List;
 
-public class ComeToFrontActionTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
 
-	@Override
+@RunWith(AndroidJUnit4.class)
+public class ComeToFrontActionTest {
+
+	private String projectName = "testProject";
+
+	@After
 	public void tearDown() throws Exception {
-		TestUtils.clearProject("testProject");
-		super.tearDown();
+		TestUtils.deleteProjects("testProject");
 	}
 
+	@Test
 	public void testComeToFront() {
-		Project project = new Project(getContext(), "testProject");
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		Group parentGroup = new Group();
 
 		Sprite bottomSprite = new SingleSprite("catroid");
 		parentGroup.addActor(bottomSprite.look);
-		assertEquals("Unexpected initial z position of bottomSprite", 0, bottomSprite.look.getZIndex());
+		assertEquals(0, bottomSprite.look.getZIndex());
 
 		Sprite middleSprite = new SingleSprite("catroid cat");
 		parentGroup.addActor(middleSprite.look);
-		assertEquals("Unexpected initial z position of middleSprite", 1, middleSprite.look.getZIndex());
+		assertEquals(1, middleSprite.look.getZIndex());
 
 		Sprite topSprite = new SingleSprite("scratch");
 		parentGroup.addActor(topSprite.look);
-		assertEquals("Unexpected initial z position of topSprite", 2, topSprite.look.getZIndex());
+		assertEquals(2, topSprite.look.getZIndex());
 
 		project.getDefaultScene().addSprite(bottomSprite);
 		project.getDefaultScene().addSprite(middleSprite);
@@ -69,23 +80,19 @@ public class ComeToFrontActionTest extends AndroidTestCase {
 
 		ActionFactory factory = middleSprite.getActionFactory();
 		Action action = factory.createComeToFrontAction(middleSprite);
-		bottomSprite.look.addAction(action);
 		action.act(1.0f);
-		assertEquals("bottomSprite z position should now be 2", middleSprite.look.getZIndex(),
-				getZMaxValue(middleSprite));
+		assertEquals(middleSprite.look.getZIndex(), getZMaxValue(middleSprite));
 
 		Sprite nextSprite = new SingleSprite("dog");
 		parentGroup.addActor(nextSprite.look);
 		project.getDefaultScene().addSprite(nextSprite);
 
-		assertEquals("Unexpected initial z position of topSprite", 3, nextSprite.look.getZIndex());
+		assertEquals(3, nextSprite.look.getZIndex());
 
 		ActionFactory factory2 = middleSprite.getActionFactory();
 		Action action2 = factory2.createComeToFrontAction(bottomSprite);
-		bottomSprite.look.addAction(action2);
 		action2.act(1.0f);
-		assertEquals("bottomSprite z position should now be 3", bottomSprite.look.getZIndex(),
-				getZMaxValue(bottomSprite));
+		assertEquals(bottomSprite.look.getZIndex(), getZMaxValue(bottomSprite));
 
 		checkIfEveryZIndexUsedOnlyOnceFromZeroToNMinus1(project);
 	}
@@ -106,10 +113,11 @@ public class ComeToFrontActionTest extends AndroidTestCase {
 					break;
 				}
 			}
-			assertTrue("z-indexing not correct. z-index have to be from 0 to n-1 each value only once", zIndexFound);
+			assertTrue(zIndexFound);
 		}
 	}
 
+	@Test
 	public void testNullSprite() {
 		ActionFactory factory = new ActionFactory();
 		Action action = factory.createComeToFrontAction(null);
@@ -121,8 +129,9 @@ public class ComeToFrontActionTest extends AndroidTestCase {
 		}
 	}
 
+	@Test
 	public void testBoundaries() {
-		Project project = new Project(getContext(), "testProject");
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		Group parentGroup = new Group();
 
 		Sprite firstSprite = new SingleSprite("firstSprite");
@@ -140,11 +149,9 @@ public class ComeToFrontActionTest extends AndroidTestCase {
 
 		ActionFactory factory = firstSprite.getActionFactory();
 		Action action = factory.createComeToFrontAction(firstSprite);
-		firstSprite.look.addAction(action);
 		action.act(1.0f);
 
-		assertEquals("An Integer overflow occured during ComeToFrontBrick Execution", getZMaxValue(firstSprite),
-				firstSprite.look.getZIndex());
+		assertEquals(getZMaxValue(firstSprite), firstSprite.look.getZIndex());
 	}
 
 	private int getZMaxValue(Sprite sprite) {

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,25 +22,34 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class HideActionTest extends AndroidTestCase {
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
 
+@RunWith(AndroidJUnit4.class)
+public class HideActionTest {
+
+	@Test
 	public void testHide() {
 		Sprite sprite = new SingleSprite("new SingleSprite");
-		assertTrue("Unexpected default visibility", sprite.look.isVisible());
+		assertTrue(sprite.look.isVisible());
 		ActionFactory factory = sprite.getActionFactory();
 		Action action = factory.createHideAction(sprite);
 		action.act(1.0f);
-		assertFalse("Sprite is still visible after HideBrick executed", sprite.look.isLookVisible());
+		assertFalse(sprite.look.isLookVisible());
 	}
 
+	@Test
 	public void testNullSprite() {
 		ActionFactory factory = new ActionFactory();
 		Action action = factory.createHideAction(null);

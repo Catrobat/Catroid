@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2017 The Catrobat Team
+  ~ Copyright (C) 2010-2018 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,7 @@
 
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
 <solid android:color="@color/transparent" />
-<stroke android:width="1.5dp" android:color="#A8DFF4" />
+<stroke android:width="1.5dp" android:color="@color/image_view_border" />
 <padding android:left="1.5dp" android:top="1.5dp" android:right="1.5dp"
     android:bottom="1.5dp" />
 </shape>

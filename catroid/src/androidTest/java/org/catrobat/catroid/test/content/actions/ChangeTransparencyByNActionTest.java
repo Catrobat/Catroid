@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,15 +22,22 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class ChangeTransparencyByNActionTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.fail;
+
+@RunWith(AndroidJUnit4.class)
+public class ChangeTransparencyByNActionTest {
 
 	private static final float DELTA = 0.01f;
 	private static final float INCREASE_VALUE = 98.7f;
@@ -38,25 +45,23 @@ public class ChangeTransparencyByNActionTest extends AndroidTestCase {
 	private static final String NOT_NUMERICAL_STRING = "ghosts";
 	private Sprite sprite;
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		sprite = new SingleSprite("testSprite");
-		super.setUp();
 	}
 
+	@Test
 	public void testNormalBehavior() {
-		assertEquals("Unexpected initial sprite ghost effect value", 0f,
-				sprite.look.getTransparencyInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 
 		sprite.getActionFactory().createChangeTransparencyByNAction(sprite, new Formula(INCREASE_VALUE)).act(1.0f);
-		assertEquals("Incorrect sprite ghost effect value after ChangeTransparencyByNBrick executed", INCREASE_VALUE,
-				sprite.look.getTransparencyInUserInterfaceDimensionUnit());
+		assertEquals(INCREASE_VALUE, sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 
 		sprite.getActionFactory().createChangeTransparencyByNAction(sprite, new Formula(DECREASE_VALUE)).act(1.0f);
-		assertEquals("Incorrect sprite ghost effect value after ChangeTransparencyByNBrick executed", INCREASE_VALUE + DECREASE_VALUE,
-				sprite.look.getTransparencyInUserInterfaceDimensionUnit());
+		assertEquals(INCREASE_VALUE + DECREASE_VALUE, sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNullSprite() {
 		Action action = sprite.getActionFactory().createChangeTransparencyByNAction(null, new Formula(INCREASE_VALUE));
 		try {
@@ -66,26 +71,25 @@ public class ChangeTransparencyByNActionTest extends AndroidTestCase {
 		}
 	}
 
+	@Test
 	public void testBrickWithStringFormula() {
 		sprite.getActionFactory().createChangeTransparencyByNAction(sprite, new Formula(String.valueOf(INCREASE_VALUE)))
 				.act(1.0f);
-		assertEquals("Incorrect sprite ghost effect value after ChangeTransparencyByNBrick executed", INCREASE_VALUE,
-				sprite.look.getTransparencyInUserInterfaceDimensionUnit(), DELTA);
+		assertEquals(INCREASE_VALUE, sprite.look.getTransparencyInUserInterfaceDimensionUnit(), DELTA);
 
 		sprite.getActionFactory().createChangeTransparencyByNAction(sprite, new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
-		assertEquals("Incorrect sprite ghost effect value after ChangeTransparencyByNBrick executed", INCREASE_VALUE,
-				sprite.look.getTransparencyInUserInterfaceDimensionUnit(), DELTA);
+		assertEquals(INCREASE_VALUE, sprite.look.getTransparencyInUserInterfaceDimensionUnit(), DELTA);
 	}
 
+	@Test
 	public void testNullFormula() {
 		sprite.getActionFactory().createChangeTransparencyByNAction(sprite, null).act(1.0f);
-		assertEquals("Incorrect sprite ghost effect value after ChangeTransparencyByNBrick executed", 0f,
-				sprite.look.getTransparencyInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNotANumberFormula() {
 		sprite.getActionFactory().createChangeTransparencyByNAction(sprite, new Formula(Double.NaN)).act(1.0f);
-		assertEquals("Incorrect sprite ghost effect value after ChangeTransparencyByNBrick executed", 0f,
-				sprite.look.getTransparencyInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 	}
 }

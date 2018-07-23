@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2017 The Catrobat Team
+  ~ Copyright (C) 2010-2018 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -28,15 +28,14 @@
     android:layout_weight="1"
     android:orientation="vertical" >
 
-    <org.catrobat.catroid.ui.dragndrop.BrickDragAndDropListView
+    <org.catrobat.catroid.ui.dragndrop.BrickListView
         android:id="@android:id/list"
-        style="@style/ListViewShadowed"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="false"
         android:divider="@android:color/transparent"
         android:dividerHeight="-5dip" >
-    </org.catrobat.catroid.ui.dragndrop.BrickDragAndDropListView>
+    </org.catrobat.catroid.ui.dragndrop.BrickListView>
 
     <RelativeLayout
         android:id="@android:id/empty"
@@ -44,24 +43,12 @@
         android:layout_height="match_parent" >
 
         <TextView
-            android:id="@+id/fragment_script_text_heading"
+            android:id="@+id/fragment_script_text_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="@string/scripts"
-            android:textColor="@color/actionbar_title_color"
-            android:textSize="80sp" />
-
-        <TextView
-            android:id="@+id/fragment_script_text_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/fragment_script_text_heading"
-            android:gravity="center"
-            android:paddingTop="10dp"
             android:text="@string/fragment_script_text_description"
-            android:textColor="@color/actionbar_title_color"
             android:textSize="30sp" />
     </RelativeLayout>
 

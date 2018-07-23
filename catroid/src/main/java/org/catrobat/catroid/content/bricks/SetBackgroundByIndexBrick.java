@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,10 +23,9 @@
 
 package org.catrobat.catroid.content.bricks;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
 import java.util.Collections;
 import java.util.List;
@@ -42,12 +41,12 @@ public class SetBackgroundByIndexBrick extends SetLookByIndexBrick {
 
 	@Override
 	protected Sprite getSprite() {
-		return ProjectManager.getInstance().getCurrentScene().getSpriteList().get(0);
+		return ProjectManager.getInstance().getCurrentlyPlayingScene().getBackgroundSprite();
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		Sprite backgroundSprite = ProjectManager.getInstance().getSceneToPlay().getSpriteList().get(0);
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		Sprite backgroundSprite = ProjectManager.getInstance().getCurrentlyPlayingScene().getBackgroundSprite();
 		sequence.addAction(sprite.getActionFactory().createSetLookByIndexAction(backgroundSprite,
 				getFormulaWithBrickField(BrickField.LOOK_INDEX), wait));
 

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,19 +22,21 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-public class BrickTextDialog extends TextDialog {
+import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialogFragment;
 
-	public BrickTextDialog(int title, int inputLabel, String previousText) {
-		super(title, inputLabel, previousText, false);
+public class BrickTextDialog extends TextInputDialogFragment {
+
+	public BrickTextDialog(int title, int label, String previousText) {
+		super(title, label, previousText, false);
 	}
 
 	@Override
-	protected boolean handlePositiveButtonClick() {
+	protected boolean onPositiveButtonClick() {
 		return false;
 	}
 
 	@Override
-	protected void handleNegativeButtonClick() {
+	protected void onNegativeButtonClick() {
 		dismiss();
 	}
 }

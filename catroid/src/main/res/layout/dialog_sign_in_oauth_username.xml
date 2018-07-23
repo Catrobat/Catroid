@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2017 The Catrobat Team
+  ~ Copyright (C) 2010-2018 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -21,10 +21,14 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            style="@style/DefaultDialog"
-            android:orientation="vertical"
-            android:theme="@android:style/Theme.Light" >
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="@dimen/dialog_content_area_padding_top"
+    android:paddingStart="@dimen/dialog_content_area_padding_input"
+    android:paddingEnd="@dimen/dialog_content_area_padding_input">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,26 +37,29 @@
 
         <TextView
             android:id="@+id/dialog_signin_oauth_username_thanks"
-            style="@style/DefaultDialog.TextView"
-            android:layout_marginTop="@dimen/dialog_item_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/signin_thanks" />
 
-        <TextView
-            android:id="@+id/dialog_signin_oauth_username_choose_username"
-            android:labelFor="@+id/dialog_signin_oauth_username"
-            style="@style/DefaultDialog.TextView"
-            android:text="@string/signin_choose_username" />
-
-        <EditText
+        <android.support.design.widget.TextInputLayout
             android:id="@+id/dialog_signin_oauth_username"
-            style="@style/DefaultDialog.EditText"
-            android:selectAllOnFocus="true" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/signin_choose_username"
+            app:errorEnabled="true"
+            app:hintEnabled="true">
 
-         <TextView
-             android:id="@+id/dialog_signin_oauth_username_choose_username_hint"
-             style="@style/DefaultDialog.TextView"
-             android:text="@string/signin_choose_username_hint" />
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:selectAllOnFocus="true" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="@string/signin_choose_username_hint" />
 
     </LinearLayout >
-
 </ScrollView>

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,13 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 public interface LoopBeginBrick extends NestingBrick {
 
-	long getBeginLoopTime();
-
-	void setBeginLoopTime(long beginLoopTime);
-
 	LoopEndBrick getLoopEndBrick();
 
 	void setLoopEndBrick(LoopEndBrick loopEndBrick);
-
-	LoopBeginBrick getCopy();
 }

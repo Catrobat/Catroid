@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,7 +29,7 @@ import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.CameraBrick;
 import org.catrobat.catroid.content.bricks.ChooseCameraBrick;
-import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.stage.utils.ScriptEvaluationGateBrick;
@@ -61,8 +61,8 @@ public class CameraResourceTest {
 	private static final int ON = 1;
 
 	@Rule
-	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(ScriptActivity.class, true, false);
+	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 
 	@Before
 	public void setUp() throws Exception {
@@ -74,7 +74,7 @@ public class CameraResourceTest {
 		Script script = BrickTestUtils.createProjectAndGetStartScript("cameraResourceNotUsed");
 		ScriptEvaluationGateBrick lastBrickInScript = ScriptEvaluationGateBrick.appendToScript(script);
 
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 		onView(withId(R.id.button_play)).perform(click());
 
 		lastBrickInScript.waitUntilEvaluated(3000);
@@ -89,7 +89,7 @@ public class CameraResourceTest {
 		script.addBrick(new CameraBrick(ON));
 		ScriptEvaluationGateBrick lastBrickInScript = ScriptEvaluationGateBrick.appendToScript(script);
 
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 		onView(withId(R.id.button_play)).perform(click());
 
 		lastBrickInScript.waitUntilEvaluated(3000);
@@ -105,7 +105,7 @@ public class CameraResourceTest {
 		script.addBrick(new CameraBrick(ON));
 		ScriptEvaluationGateBrick lastBrickInScript = ScriptEvaluationGateBrick.appendToScript(script);
 
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 		onView(withId(R.id.button_play)).perform(click());
 
 		lastBrickInScript.waitUntilEvaluated(3000);
@@ -122,7 +122,7 @@ public class CameraResourceTest {
 		script.addBrick(new CameraBrick(OFF));
 		ScriptEvaluationGateBrick lastBrickInScript = ScriptEvaluationGateBrick.appendToScript(script);
 
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 		onView(withId(R.id.button_play)).perform(click());
 
 		lastBrickInScript.waitUntilEvaluated(3000);
@@ -139,7 +139,7 @@ public class CameraResourceTest {
 		script.addBrick(new CameraBrick(ON));
 		ScriptEvaluationGateBrick lastBrickInScript = ScriptEvaluationGateBrick.appendToScript(script);
 
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 		onView(withId(R.id.button_play)).perform(click());
 
 		lastBrickInScript.waitUntilEvaluated(3000);
@@ -158,7 +158,7 @@ public class CameraResourceTest {
 		script.addBrick(new CameraBrick(ON));
 		ScriptEvaluationGateBrick lastBrickInScript = ScriptEvaluationGateBrick.appendToScript(script);
 
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 		onView(withId(R.id.button_play)).perform(click());
 
 		lastBrickInScript.waitUntilEvaluated(3000);

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.physics;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
 import org.catrobat.catroid.content.CollisionScript;
@@ -32,7 +32,6 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
-import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
 import org.catrobat.catroid.physics.content.bricks.SetBounceBrick;
@@ -44,25 +43,35 @@ import org.catrobat.catroid.physics.content.bricks.SetVelocityBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
 import org.catrobat.catroid.test.utils.Reflection;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class PhysicsBricksCloneTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotSame;
+import static junit.framework.Assert.fail;
+
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
+
+@RunWith(AndroidJUnit4.class)
+public class PhysicsBricksCloneTest {
 
 	private static final String TAG = PhysicsBricksCloneTest.class.getSimpleName();
 
 	private static final int BRICK_FORMULA_VALUE = 1;
 	private static final String CLONE_BRICK_FORMULA_VALUE = "2";
-	private static final String COLLISION_RECEIVER_TEST_MESSAGE = "Collision_receiver_test_message";
 
 	Sprite sprite;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 		sprite = new SingleSprite("testSprite");
 	}
 
-	public void testClonePhysicsBricksWithFormula() {
-
+	@Test
+	public void testClonePhysicsBricksWithFormula() throws Exception {
 		Brick brick = new SetBounceBrick(new Formula(BRICK_FORMULA_VALUE));
 		brickClone(brick, Brick.BrickField.PHYSICS_BOUNCE_FACTOR);
 
@@ -85,9 +94,9 @@ public class PhysicsBricksCloneTest extends AndroidTestCase {
 		brickClone(brick, Brick.BrickField.PHYSICS_TURN_LEFT_SPEED);
 	}
 
+	@Test
 	public void testCloneCollisionReceiverBrick() {
-
-		Brick brick = new CollisionReceiverBrick(new CollisionScript(COLLISION_RECEIVER_TEST_MESSAGE));
+		Brick brick = new CollisionReceiverBrick(new CollisionScript(null));
 
 		Brick clonedBrick = null;
 		try {
@@ -100,28 +109,18 @@ public class PhysicsBricksCloneTest extends AndroidTestCase {
 		CollisionScript brickReceiverScript = (CollisionScript) Reflection.getPrivateField(brick, "collisionScript");
 		CollisionScript clonedBrickReceiverScript = (CollisionScript) Reflection.getPrivateField(clonedBrick, "collisionScript");
 
-		String scriptReceiveMessage = brickReceiverScript.getBroadcastMessage();
-		String clonedReceiveMessage = clonedBrickReceiverScript.getBroadcastMessage();
-
-		assertFalse("CollisionScripts have same address", brickReceiverScript == clonedBrickReceiverScript);
-		assertEquals("ReceiveMessages are not equal after clone()", scriptReceiveMessage, clonedReceiveMessage);
+		assertNotSame(brickReceiverScript, clonedBrickReceiverScript);
 	}
 
-	public void testCloneSetPhysicsObjectTypeBrick() {
+	@Test
+	public void testCloneSetPhysicsObjectTypeBrick() throws CloneNotSupportedException {
 		Brick dynamicBrick = new SetPhysicsObjectTypeBrick(PhysicsObject.Type.DYNAMIC);
 		Brick fixedBrick = new SetPhysicsObjectTypeBrick(PhysicsObject.Type.FIXED);
 		Brick noneBrick = new SetPhysicsObjectTypeBrick(PhysicsObject.Type.NONE);
 
-		Brick clonedDynamicBrick = null;
-		Brick clonedFixedBrick = null;
-		Brick clonedNoneBrick = null;
-		try {
-			clonedDynamicBrick = dynamicBrick.clone();
-			clonedFixedBrick = fixedBrick.clone();
-			clonedNoneBrick = noneBrick.clone();
-		} catch (CloneNotSupportedException e) {
-			Log.e(TAG, "Cloning SetPhysicsObjectTypeBrick not supported", e);
-		}
+		Brick clonedDynamicBrick = dynamicBrick.clone();
+		Brick clonedFixedBrick = fixedBrick.clone();
+		Brick clonedNoneBrick = noneBrick.clone();
 
 		PhysicsObject.Type dynamicBrickType = (PhysicsObject.Type) Reflection.getPrivateField(dynamicBrick, "type");
 		PhysicsObject.Type clonedDynamicBrickType = (PhysicsObject.Type) Reflection.getPrivateField(clonedDynamicBrick, "type");
@@ -132,33 +131,23 @@ public class PhysicsBricksCloneTest extends AndroidTestCase {
 		PhysicsObject.Type noneBrickType = (PhysicsObject.Type) Reflection.getPrivateField(noneBrick, "type");
 		PhysicsObject.Type clonedNoneBrickType = (PhysicsObject.Type) Reflection.getPrivateField(clonedNoneBrick, "type");
 
-		assertTrue("DYNAMIC Brick has wrong type after clone", dynamicBrickType.equals(clonedDynamicBrickType));
-		assertTrue("FIXED Brick has wrong type after clone", fixedBrickType.equals(clonedFixedBrickType));
-		assertTrue("NONE Brick has wrong type after clone", noneBrickType.equals(clonedNoneBrickType));
+		assertEquals(dynamicBrickType, clonedDynamicBrickType);
+		assertEquals(fixedBrickType, clonedFixedBrickType);
+		assertEquals(noneBrickType, clonedNoneBrickType);
 
-		assertTrue("Cloned DYNAMIC Brick has wrong Object-Type", clonedDynamicBrick.getClass().equals(dynamicBrick.getClass()));
-		assertTrue("Cloned FIXED Brick has wrong Object-Type", clonedFixedBrick.getClass().equals(fixedBrick.getClass()));
-		assertTrue("Cloned NONE Brick has wrong Object-Type", clonedNoneBrick.getClass().equals(noneBrick.getClass()));
+		assertThat(clonedDynamicBrick, is(instanceOf(dynamicBrick.getClass())));
+		assertThat(clonedFixedBrick, is(instanceOf(fixedBrick.getClass())));
+		assertThat(clonedNoneBrick, is(instanceOf(noneBrick.getClass())));
 	}
 
-	private void brickClone(Brick brick, Brick.BrickField... brickFields) {
-		try {
-			Brick cloneBrick = brick.clone();
-			for (Brick.BrickField brickField : brickFields) {
-				Formula brickFormula = ((FormulaBrick) brick).getFormulaWithBrickField(brickField);
-				Formula cloneBrickFormula = ((FormulaBrick) cloneBrick).getFormulaWithBrickField(brickField);
-				cloneBrickFormula.setRoot(new FormulaElement(FormulaElement.ElementType.NUMBER, CLONE_BRICK_FORMULA_VALUE, null));
-				try {
-					assertNotSame("Error - brick.clone() not working properly", brickFormula.interpretInteger(sprite),
-							cloneBrickFormula.interpretInteger(sprite));
-				} catch (InterpretationException interpretationException) {
-					Log.e(TAG, "InterpretationException thrown while interpreting.", interpretationException);
-					fail("InterpretationException thrown while interpreting.");
-				}
-			}
-		} catch (CloneNotSupportedException exception) {
-			Log.e(TAG, Log.getStackTraceString(exception));
-			fail("cloning the brick failed");
+	private void brickClone(Brick brick, Brick.BrickField... brickFields) throws Exception {
+		Brick cloneBrick = brick.clone();
+		for (Brick.BrickField brickField : brickFields) {
+			Formula brickFormula = ((FormulaBrick) brick).getFormulaWithBrickField(brickField);
+			Formula cloneBrickFormula = ((FormulaBrick) cloneBrick).getFormulaWithBrickField(brickField);
+			cloneBrickFormula.setRoot(new FormulaElement(FormulaElement.ElementType.NUMBER, CLONE_BRICK_FORMULA_VALUE, null));
+			assertNotSame(brickFormula.interpretInteger(sprite),
+						cloneBrickFormula.interpretInteger(sprite));
 		}
 	}
 }

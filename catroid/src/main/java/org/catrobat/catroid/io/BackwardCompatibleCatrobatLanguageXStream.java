@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -62,6 +62,7 @@ import org.catrobat.catroid.content.bricks.CloneBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.DeleteThisCloneBrick;
 import org.catrobat.catroid.content.bricks.DroneEmergencyBrick;
+import org.catrobat.catroid.content.bricks.DroneFlipBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveDownBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveForwardBrick;
@@ -170,7 +171,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -602,7 +605,10 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 		brickInfoMap.put("droneSwitchCameraBrick", brickInfo);
 
 		brickInfo = new BrickInfo(DroneEmergencyBrick.class.getSimpleName());
-		brickInfoMap.put("DroneEmergencyBrick", brickInfo);
+		brickInfoMap.put("droneEmergencyBrick", brickInfo);
+
+		brickInfo = new BrickInfo(DroneFlipBrick.class.getSimpleName());
+		brickInfoMap.put("droneFlipBrick", brickInfo);
 
 		brickInfo = new BrickInfo(SetTextBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("xDestination", BrickField.X_DESTINATION);
@@ -717,6 +723,7 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 			deleteChildNodeByName(originalDocument.getElementsByTagName("header").item(0), "isPhiroProProject");
 			deleteChildNodeByName(originalDocument, "brickList", "inUserBrick");
 
+			renameScriptChildNodeByName(originalDocument, "CollisionScript", "receivedMessage", "spriteToCollideWithName");
 			modifyScriptLists(originalDocument);
 			modifyBrickLists(originalDocument);
 			modifyVariables(originalDocument);
@@ -724,6 +731,37 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 
 			saveDocument(originalDocument, file);
 		}
+	}
+
+	private void renameScriptChildNodeByName(Document originalDocument, String scriptName, String oldChildNodeName,
+			String newChildNodeName) {
+		NodeList scripts = originalDocument.getElementsByTagName("script");
+		List<Node> collisionScripts = getElementsFilteredByAttribute(scripts, "type", scriptName);
+		for (Node collisionScript : collisionScripts) {
+			Element message = findNodeByName(collisionScript, oldChildNodeName);
+			originalDocument.renameNode(message, null, newChildNodeName);
+		}
+	}
+
+	private List<Node> getElementsFilteredByAttribute(NodeList unfiltered, String attributeName, String
+			filterAttributeValue) {
+		List<Node> filtered = new ArrayList<>();
+		for (int i = 0; i < unfiltered.getLength(); i++) {
+			Node node = unfiltered.item(i);
+			String attributeValue = getAttributeOfNode(attributeName, node);
+			if (attributeValue != null && attributeValue.equals(filterAttributeValue)) {
+				filtered.add(node);
+			}
+		}
+		return filtered;
+	}
+
+	private String getAttributeOfNode(String attributeName, Node node) {
+		NamedNodeMap attributes = node.getAttributes();
+		if (attributes != null) {
+			return attributes.getNamedItem(attributeName).getNodeValue();
+		}
+		return null;
 	}
 
 	private void updateLegoNXTFields(Document originalDocument) {

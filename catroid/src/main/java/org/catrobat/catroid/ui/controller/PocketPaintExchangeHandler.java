@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,10 +32,10 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.support.v7.app.AlertDialog;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 
 import java.util.List;
 
@@ -77,7 +77,7 @@ public final class PocketPaintExchangeHandler {
 	}
 
 	private static void showInstallPocketPaintDialog(Activity activity) {
-		Dialog dialog = new CustomAlertDialogBuilder(activity).setTitle(R.string.pocket_paint_not_installed_title)
+		Dialog dialog = new AlertDialog.Builder(activity).setTitle(R.string.pocket_paint_not_installed_title)
 				.setMessage(R.string.pocket_paint_not_installed_message)
 				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 					@Override

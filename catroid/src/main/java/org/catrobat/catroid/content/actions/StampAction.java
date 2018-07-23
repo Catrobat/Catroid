@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.actions;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.stage.StageActivity;
 
 public class StampAction extends TemporalAction {
 
@@ -33,6 +34,7 @@ public class StampAction extends TemporalAction {
 	@Override
 	protected void update(float delta) {
 		this.sprite.penConfiguration.stamp = true;
+		StageActivity.stageListener.getPenActor().stampToFrameBuffer();
 	}
 
 	public void setSprite(Sprite sprite) {

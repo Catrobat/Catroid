@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2017 The Catrobat Team
+  ~ Copyright (C) 2010-2018 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -22,110 +22,87 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/DefaultDialog"
-    android:orientation="vertical"
-    android:theme="@android:style/Theme.Light" >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="@dimen/dialog_content_area_padding_top"
+    android:paddingStart="@dimen/dialog_content_area_padding_input"
+    android:paddingEnd="@dimen/dialog_content_area_padding_input">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <org.catrobat.catroid.ui.CapitalizedTextView
-            android:id="@+id/dialog_register_username_text"
-            android:labelFor="@+id/dialog_register_username"
-            style="@style/DefaultDialog.TextView"
-            android:text="@string/username" />
-
-        <View
-            android:id="@+id/dialog_register_username_text_line"
-            style="@style/DefaultDialog.Line"
-            android:layout_below="@+id/dialog_register_username_text" />
-
-        <EditText
+        <android.support.design.widget.TextInputLayout
             android:id="@+id/dialog_register_username"
-            style="@style/DefaultDialog.EditText"
-            android:layout_below="@+id/dialog_register_username_text_line"
-            android:selectAllOnFocus="true" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/username"
+            app:errorEnabled="true"
+            app:hintEnabled="true">
 
-        <org.catrobat.catroid.ui.CapitalizedTextView
-            android:id="@+id/dialog_register_email_text"
-            android:labelFor="@+id/dialog_register_email"
-            style="@style/DefaultDialog.TextView"
-            android:text="@string/accountName"
-            android:inputType="text"
-            android:layout_below="@+id/dialog_register_username" />
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:selectAllOnFocus="true" />
 
-        <View
-            android:id="@+id/dialog_register_email_text_line"
-            style="@style/DefaultDialog.Line"
-            android:layout_below="@+id/dialog_register_email_text" />
+        </android.support.design.widget.TextInputLayout>
 
-        <EditText
+        <android.support.design.widget.TextInputLayout
             android:id="@+id/dialog_register_email"
-            style="@style/DefaultDialog.EditText"
-            android:layout_below="@+id/dialog_register_email_text_line"
-            android:inputType="textEmailAddress"
-            android:selectAllOnFocus="true" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/accountName"
+            app:errorEnabled="true"
+            app:hintEnabled="true">
 
-        <org.catrobat.catroid.ui.CapitalizedTextView
-            android:id="@+id/dialog_register_password_text"
-            android:labelFor="@+id/dialog_register_password"
-            style="@style/DefaultDialog.TextView"
-            android:layout_below="@+id/dialog_register_email"
-            android:text="@string/password" />
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:selectAllOnFocus="true" />
 
-        <View
-            android:id="@+id/dialog_register_password_text_id"
-            style="@style/DefaultDialog.Line"
-            android:layout_below="@+id/dialog_register_password_text" />
+        </android.support.design.widget.TextInputLayout>
 
-        <EditText
+        <android.support.design.widget.TextInputLayout
             android:id="@+id/dialog_register_password"
-            style="@style/DefaultDialog.EditText"
-            android:layout_below="@+id/dialog_register_password_text_id"
-            android:inputType="textPassword" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/password"
+            app:errorEnabled="true"
+            app:hintEnabled="true">
 
-        <org.catrobat.catroid.ui.CapitalizedTextView
-            android:id="@+id/dialog_register_password_confirm_text"
-            android:labelFor="@+id/dialog_register_password_confirm"
-            style="@style/DefaultDialog.TextView"
-            android:layout_below="@+id/dialog_register_password"
-            android:text="@string/password_confirm" />
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:selectAllOnFocus="true" />
 
-        <View
-            android:id="@+id/dialog_register_password_confirm_text_id"
-            style="@style/DefaultDialog.Line"
-            android:layout_below="@+id/dialog_register_password_confirm_text" />
+        </android.support.design.widget.TextInputLayout>
 
-        <EditText
+        <android.support.design.widget.TextInputLayout
             android:id="@+id/dialog_register_password_confirm"
-            style="@style/DefaultDialog.EditText"
-            android:layout_below="@+id/dialog_register_password_confirm_text_id"
-            android:inputType="textPassword" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/password_confirm"
+            app:errorEnabled="true"
+            app:hintEnabled="true">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:selectAllOnFocus="true" />
+
+        </android.support.design.widget.TextInputLayout>
 
         <CheckBox
-            android:id="@+id/dialog_register_checkbox_showpassword"
-            style="@style/DefaultDialog.Item"
-            android:layout_below="@+id/dialog_register_password_confirm"
+            android:id="@+id/show_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="bottom" />
+            android:text="@string/show_password"
+            android:gravity="center"/>
 
-        <TextView
-            android:id="@+id/dialog_register_showpassword_text"
-            style="@style/DefaultDialog.TextView"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_marginStart="@dimen/dialog_text_view_margin"
-            android:layout_marginEnd="@dimen/dialog_text_view_margin"
-            android:layout_marginTop="15dp"
-            android:layout_below="@+id/dialog_register_password_confirm"
-            android:layout_toEndOf="@+id/dialog_register_checkbox_showpassword"
-            android:gravity="center_horizontal"
-            android:text="@string/show_password" >
-        </TextView>
-
-
-    </RelativeLayout >
-
+    </LinearLayout>
 </ScrollView>

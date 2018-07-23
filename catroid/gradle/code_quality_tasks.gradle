@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,7 +31,7 @@ task checkstyle(type: Checkstyle) {
 
     // needed for console output of warnings/errors
     showViolations true
-    ignoreFailures false
+    ignoreFailures true
 
     reports {
         xml.enabled = true
@@ -40,13 +40,14 @@ task checkstyle(type: Checkstyle) {
 }
 
 task pmd(type: Pmd) {
-    ruleSets = ['catroid/config/pmd.xml']
+    ruleSetFiles = files('config/pmd.xml')
+    ruleSets = []
 
     source '.'
     include '**/*.java'
     exclude '**/gen/**', '**/build/**', '**/res/**'
 
-    ignoreFailures false
+    ignoreFailures true
 
     reports {
         xml.enabled = true

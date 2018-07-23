@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -47,6 +47,7 @@ ext {
 }
 
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 apply plugin: 'io.fabric'
 apply plugin: 'checkstyle'
 apply plugin: 'pmd'
@@ -54,6 +55,7 @@ apply plugin: 'pmd'
 apply from: 'gradle/code_quality_tasks.gradle'
 apply from: 'gradle/intellij_config_tasks.gradle'
 apply from: 'gradle/standalone_apk_tasks.gradle'
+apply from: 'gradle/android_tasks.gradle'
 
 check.dependsOn 'checkstyle'
 check.dependsOn 'pmd'
@@ -84,6 +86,7 @@ android {
     buildTypes {
 
         debug {
+            buildConfigField "boolean", "FEATURE_EMBROIDERY_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_LEGO_EV3_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_PHIRO_ENABLED", "true"
@@ -102,6 +105,7 @@ android {
             ext.enableCrashlytics = false
         }
         release {
+            buildConfigField "boolean", "FEATURE_EMBROIDERY_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_LEGO_EV3_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_PHIRO_ENABLED", "true"
@@ -120,8 +124,11 @@ android {
         }
     }
 
+    flavorDimensions "default"
+
     productFlavors {
         catroid {
+            dimension "default"
             applicationId appId
             buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
             buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
@@ -131,6 +138,7 @@ android {
         }
 
         standalone {
+            dimension "default"
             applicationId appId
             versionCode 1
             versionName '1.0'
@@ -139,6 +147,26 @@ android {
             buildConfigField "String", "PROJECT_NAME", "\"$appName\""
             // here!
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "false"
+            buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "false"
+        }
+
+        createAtSchool {
+            dimension "default"
+            applicationId appId
+            buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
+            buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
+            buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "false"
+            buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "false"
+        }
+
+        phiro {
+            dimension "default"
+            applicationId appId
+            buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
+            buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
+            buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "false"
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "false"
         }
@@ -156,19 +184,20 @@ configurations {
 }
 
 dependencies {
-    compile 'com.parrot:arsdk:3.9.2'
+    compile 'com.parrot:arsdk:3.12.6'
     //CAST
-    compile 'com.android.support:mediarouter-v7:22.+'
-    compile 'com.google.android.gms:play-services-cast:9.4.0'
+    compile 'com.google.android.gms:play-services-cast:12.0.0'
+
+    //Analytics
+    compile 'com.google.android.gms:play-services-analytics:12.0.0'
 
     compile 'com.google.guava:guava:19.0'
     compile 'com.squareup.okhttp:okhttp:2.3.0'
-    compile 'com.google.code.gson:gson:2.7'
+    compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.github.johnpersano:supertoasts:2.0@aar'
     compile 'com.github.mrengineer13:snackbar:1.2.0'
 
     compile 'com.koushikdutta.async:androidasync:2.+'
-    compile 'com.sothree.slidinguppanel:library:3.3.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
 
     compile ('com.thoughtworks.xstream:xstream:1.4.7') {
@@ -188,16 +217,16 @@ dependencies {
     natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
 
     compile 'com.facebook.android:facebook-android-sdk:4.14.1'
-    compile 'com.android.support:support-v4:24.1.1'
-    compile 'com.google.android.gms:play-services-auth:9.4.0'
-    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.android.support:appcompat-v7:27.1.0'
+    compile 'com.android.support:design:27.1.0'
+    compile 'com.google.android.gms:play-services-auth:12.0.0'
+    compile 'com.android.support:multidex:1.0.3'
     compile 'com.github.billthefarmer:mididriver:v1.13'
 
     compile group: 'ar.com.hjg', name: 'pngj', version: '2.1.0'
     compile fileTree(include: '*.jar', dir: 'src/main/libs')
     compile fileTree(include: '*.jar', dir: 'src/main/libs-natives')
     androidTestCompile fileTree(include: '*.jar', dir: 'src/androidTest/libs')
-    androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
     androidTestCompile 'com.linkedin.dexmaker:dexmaker-mockito:2.2.0'
     androidTestCompile 'org.mockito:mockito-core:2.8.47'
 
@@ -218,11 +247,16 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.8.47'
 
-    pmd 'net.sourceforge.pmd:pmd:5.1.1'
+    pmd(
+            'net.sourceforge.pmd:pmd-core:5.8.1',
+            'net.sourceforge.pmd:pmd-java:5.8.1'
+    )
+
     checkstyle 'com.puppycrawl.tools:checkstyle:7.6'
     compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
-        transitive = true;
+        transitive = true
     }
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 def getCurrentGitBranch() {
@@ -234,16 +268,17 @@ def getCurrentGitBranch() {
 }
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '25.0.0'
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
+
     defaultConfig {
         minSdkVersion 17
         targetSdkVersion 22
         applicationId appId
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-        versionCode 42
+        versionCode 43
         println "VersionCode is " + versionCode
-        versionName "0.9.33"
+        versionName "0.9.34"
         println "VersionName is " + versionName
         buildConfigField "String", "GIT_DESCRIBE", "\"${versionName}\""
         buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
@@ -271,11 +306,19 @@ android {
                 'GradleCompatible', 'WifiManagerLeak', 'ApplySharedPref', 'DefaultLocale', 'ObsoleteSdkInt',
                 'StaticFieldLeak' , 'AppCompatResource'
 
+        abortOnError false
+
         textReport true
         xmlReport true
         htmlReport true
         xmlOutput file("build/reports/lint-report.xml")
         htmlOutput file("build/reports/lint-report.html")
+    }
+}
+
+project.gradle.taskGraph.whenReady {
+    connectedCatroidDebugAndroidTest {
+        ignoreFailures = true
     }
 }
 

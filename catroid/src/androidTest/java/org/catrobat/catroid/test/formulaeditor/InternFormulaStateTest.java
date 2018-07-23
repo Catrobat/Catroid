@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,25 +23,35 @@
 
 package org.catrobat.catroid.test.formulaeditor;
 
-import android.test.InstrumentationTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.formulaeditor.InternFormula.TokenSelectionType;
 import org.catrobat.catroid.formulaeditor.InternFormulaState;
 import org.catrobat.catroid.formulaeditor.InternFormulaTokenSelection;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class InternFormulaStateTest extends InstrumentationTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.core.IsNot.not;
+import static org.junit.Assert.assertThat;
+
+@RunWith(AndroidJUnit4.class)
+public class InternFormulaStateTest {
 
 	private InternFormulaState internState;
 	private InternFormulaState internStateToCompare;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 
 		List<InternToken> internTokenList = new ArrayList<InternToken>();
 		InternFormulaTokenSelection internTokenSelection = new InternFormulaTokenSelection(
@@ -49,7 +59,7 @@ public class InternFormulaStateTest extends InstrumentationTestCase {
 		internState = new InternFormulaState(internTokenList, null, 0);
 		internStateToCompare = new InternFormulaState(internTokenList, internTokenSelection, 0);
 
-		assertFalse("TokenSelection is different", internState.equals(internStateToCompare));
+		assertFalse(internState.equals(internStateToCompare));
 
 		internTokenList = new ArrayList<InternToken>();
 		internTokenList.add(new InternToken(InternTokenType.NUMBER));
@@ -59,17 +69,20 @@ public class InternFormulaStateTest extends InstrumentationTestCase {
 		internStateToCompare = new InternFormulaState(internTokenList, null, 0);
 	}
 
+	@Test
 	public void testEquals() {
-		assertFalse("Token List ist different", internState.equals(internStateToCompare));
-		assertFalse("Object to compare is not instance of InternFormulaState", internState.equals(Integer.valueOf(1)));
+		assertThat(internState, not(equalTo(internStateToCompare)));
+		assertFalse(internState.equals(Integer.valueOf(1)));
 	}
 
+	@Test
 	public void testHashCode() {
 		int hashCodeInternalState = internState.hashCode();
 		int hashCodeInternStateToCompare = internStateToCompare.hashCode();
-		assertFalse("HashCodes are the same", hashCodeInternalState == hashCodeInternStateToCompare);
+		assertThat(hashCodeInternalState, not(equalTo(hashCodeInternStateToCompare)));
+
 		InternFormulaState internalState2 = internState;
-		assertTrue("HashCodes are different", internalState2.hashCode() == internState.hashCode());
-		assertFalse("HashCode function fail", internState.hashCode() == 1);
+		assertEquals(internState.hashCode(), internalState2.hashCode());
+		assertThat(internState.hashCode(), not(equalTo(1)));
 	}
 }

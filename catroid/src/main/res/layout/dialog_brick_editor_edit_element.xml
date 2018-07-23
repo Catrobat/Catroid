@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2017 The Catrobat Team
+  ~ Copyright (C) 2010-2018 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -29,6 +29,8 @@
     <EditText
         android:id="@+id/dialog_brick_editor_edit_element_edit_text"
         android:labelFor="@+id/dialog_brick_editor_edit_element_edit_text"
-        style="@style/DefaultDialog.EditText" />
+        android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

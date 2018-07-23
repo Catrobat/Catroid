@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,64 +22,90 @@
  */
 package org.catrobat.catroid.test.physics.actions;
 
+import android.support.test.runner.AndroidJUnit4;
+
 import com.badlogic.gdx.scenes.scene2d.Action;
 
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.test.physics.PhysicsBaseTest;
+import org.catrobat.catroid.physics.PhysicsWorld;
+import org.catrobat.catroid.test.physics.PhysicsTestRule;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class TurnLeftSpeedActionTest extends PhysicsBaseTest {
+import static junit.framework.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class TurnLeftSpeedActionTest {
 
 	private static final float SPEED = 45.55f;
 
-	public void testNormalBehavior() {
-		initLeftSpeedValue(SPEED);
-		assertEquals("Unexpected rotation speed value", SPEED, physicsWorld.getPhysicsObject(sprite)
-				.getRotationSpeed());
+	@Rule
+	public PhysicsTestRule rule = new PhysicsTestRule();
+
+	private Sprite sprite;
+	private PhysicsWorld physicsWorld;
+
+	@Before
+	public void setUp() {
+		sprite = rule.sprite;
+		physicsWorld = rule.physicsWorld;
 	}
 
+	@Test
+	public void testNormalBehavior() {
+		initLeftSpeedValue(SPEED);
+		assertEquals(SPEED, physicsWorld.getPhysicsObject(sprite).getRotationSpeed());
+	}
+
+	@Test
 	public void testNegativeValue() {
 		float speed = -45.55f;
 		initLeftSpeedValue(speed);
-		assertEquals("Unexpected rotation speed value", speed, physicsWorld.getPhysicsObject(sprite)
-				.getRotationSpeed());
+		assertEquals(speed, physicsWorld.getPhysicsObject(sprite).getRotationSpeed());
 	}
 
+	@Test
 	public void testZeroValue() {
 		float speed = 0f;
 		initLeftSpeedValue(speed);
-		assertEquals("Unexpected rotation speed value", speed, physicsWorld.getPhysicsObject(sprite)
-				.getRotationSpeed());
+		assertEquals(speed, physicsWorld.getPhysicsObject(sprite).getRotationSpeed());
 	}
 
 	private void initLeftSpeedValue(float speed) {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		Action action = sprite.getActionFactory().createTurnLeftSpeedAction(sprite, new Formula(speed));
 
-		assertEquals("Unexpected rotation speed value", 0.0f, physicsObject.getRotationSpeed());
+		assertEquals(0.0f, physicsObject.getRotationSpeed());
 
 		action.act(1.0f);
 	}
 
+	@Test
 	public void testBrickWithStringFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		sprite.getActionFactory().createTurnLeftSpeedAction(sprite, new Formula(String.valueOf(SPEED))).act(1.0f);
-		assertEquals("Unexpected rotation speed value", SPEED, physicsObject.getRotationSpeed());
+		assertEquals(SPEED, physicsObject.getRotationSpeed());
 
 		sprite.getActionFactory().createTurnLeftSpeedAction(sprite, new Formula(
 				String.valueOf("not a numerical string"))).act(1.0f);
-		assertEquals("Unexpected rotation speed value", SPEED, physicsObject.getRotationSpeed());
+		assertEquals(SPEED, physicsObject.getRotationSpeed());
 	}
 
+	@Test
 	public void testNullFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		sprite.getActionFactory().createTurnLeftSpeedAction(sprite, null).act(1.0f);
-		assertEquals("Unexpected rotation speed value", 0f, physicsObject.getRotationSpeed());
+		assertEquals(0f, physicsObject.getRotationSpeed());
 	}
 
+	@Test
 	public void testNotANumberFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		sprite.getActionFactory().createTurnLeftSpeedAction(sprite, new Formula(Double.NaN)).act(1.0f);
-		assertEquals("Unexpected rotation speed value", 0f, physicsObject.getRotationSpeed());
+		assertEquals(0f, physicsObject.getRotationSpeed());
 	}
 }

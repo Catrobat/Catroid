@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.test.formulaeditor;
 
+import android.support.test.InstrumentationRegistry;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
@@ -38,6 +39,8 @@ import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -54,9 +57,9 @@ public class ParserTestObject extends AndroidTestCase {
 	private static final float DELTA = 0.01f;
 	private Sprite testSprite;
 
-	@Override
-	protected void setUp() {
-		Project project = new Project(null, TestUtils.DEFAULT_TEST_PROJECT_NAME);
+	@Before
+	public void setUp() {
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 		ProjectManager.getInstance().setProject(project);
 		testSprite = new SingleSprite("sprite");
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
@@ -83,25 +86,19 @@ public class ParserTestObject extends AndroidTestCase {
 		return Double.NaN;
 	}
 
+	@Test
 	public void testLookSensorValues() {
-		assertEquals("Formula interpretation is not as expected (x-Position)", LOOK_X_POSITION,
-				interpretSensor(Sensors.OBJECT_X), DELTA);
-		assertEquals("Formula interpretation is not as expected (y-Position)", LOOK_Y_POSITION,
-				interpretSensor(Sensors.OBJECT_Y), DELTA);
-		assertEquals("Formula interpretation is not as expected (transparency)", LOOK_ALPHA,
-				interpretSensor(Sensors.OBJECT_TRANSPARENCY), DELTA);
-		assertEquals("Formula interpretation is not as expected (brightness)", LOOK_BRIGHTNESS,
-				interpretSensor(Sensors.OBJECT_BRIGHTNESS), DELTA);
-		assertEquals("Formula interpretation is not as expected (color)", LOOK_COLOR,
-				interpretSensor(Sensors.OBJECT_COLOR), DELTA);
-		assertEquals("Formula interpretation is not as expected (size)", LOOK_SCALE,
-				interpretSensor(Sensors.OBJECT_SIZE), DELTA);
-		assertEquals("Formula interpretation is not as expected (rotation)", LOOK_ROTATION,
-				interpretSensor(Sensors.OBJECT_ROTATION), DELTA);
-		assertEquals("Formula interpretation is not as expected (z-index)", testSprite.look.getZIndex(),
-				interpretSensor(Sensors.OBJECT_LAYER).intValue() + Constants.Z_INDEX_NUMBER_VIRTUAL_LAYERS);
+		assertEquals(LOOK_X_POSITION, interpretSensor(Sensors.OBJECT_X), DELTA);
+		assertEquals(LOOK_Y_POSITION, interpretSensor(Sensors.OBJECT_Y), DELTA);
+		assertEquals(LOOK_ALPHA, interpretSensor(Sensors.OBJECT_TRANSPARENCY), DELTA);
+		assertEquals(LOOK_BRIGHTNESS, interpretSensor(Sensors.OBJECT_BRIGHTNESS), DELTA);
+		assertEquals(LOOK_COLOR, interpretSensor(Sensors.OBJECT_COLOR), DELTA);
+		assertEquals(LOOK_SCALE, interpretSensor(Sensors.OBJECT_SIZE), DELTA);
+		assertEquals(LOOK_ROTATION, interpretSensor(Sensors.OBJECT_ROTATION), DELTA);
+		assertEquals(testSprite.look.getZIndex(), interpretSensor(Sensors.OBJECT_LAYER).intValue() + Constants.Z_INDEX_NUMBER_VIRTUAL_LAYERS);
 	}
 
+	@Test
 	public void testNotExistingLookSensorValues() {
 		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.SENSOR, "", 0);
 		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.SENSOR, "notExistingSensor O_O", 0);

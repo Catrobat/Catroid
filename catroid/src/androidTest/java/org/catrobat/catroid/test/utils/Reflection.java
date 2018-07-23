@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,18 +26,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 public final class Reflection {
-
-	// Suppress default constructor for noninstantiability
 	private Reflection() {
 		throw new AssertionError();
-	}
-
-	public static Object getPrivateFieldOfBaseClass(Object object, String fieldName) {
-		if (object == null) {
-			throw new IllegalArgumentException("Object is null");
-		}
-
-		return Reflection.getPrivateField(object.getClass().getSuperclass(), object, fieldName);
 	}
 
 	public static Object getPrivateField(Object object, String fieldName) {

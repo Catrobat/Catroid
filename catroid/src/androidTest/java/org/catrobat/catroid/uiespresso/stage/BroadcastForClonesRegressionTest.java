@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,13 +23,13 @@
 
 package org.catrobat.catroid.uiespresso.stage;
 
+import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import junit.framework.Assert;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.BroadcastHandler;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -72,7 +72,6 @@ public class BroadcastForClonesRegressionTest {
 
 	@Before
 	public void setUp() throws Exception {
-		BroadcastHandler.clearActionMaps();
 		createProject();
 	}
 
@@ -97,10 +96,11 @@ public class BroadcastForClonesRegressionTest {
 	}
 
 	private void createProject() {
-		Project project = new Project(null, "BroadcastForClonesRegressionTest");
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), "BroadcastForClonesRegressionTest");
 		ProjectManager.getInstance().setProject(project);
 		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
-		userVariable = dataContainer.addProjectUserVariable(VARIABLE_NAME);
+		userVariable = new UserVariable(VARIABLE_NAME);
+		dataContainer.addUserVariable(userVariable);
 
 		Sprite sprite = new Sprite("testSprite");
 
@@ -113,7 +113,7 @@ public class BroadcastForClonesRegressionTest {
 		broadcastReceiveScript.addBrick(new ChangeVariableBrick(new Formula(1), userVariable));
 		sprite.addScript(broadcastReceiveScript);
 
-		ProjectManager.getInstance().addSprite(sprite);
+		ProjectManager.getInstance().getCurrentlyEditedScene().addSprite(sprite);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 	}
 }

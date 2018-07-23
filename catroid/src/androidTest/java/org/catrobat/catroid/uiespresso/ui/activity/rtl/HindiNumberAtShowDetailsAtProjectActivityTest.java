@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.ui.activity.rtl;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -39,7 +37,7 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
 import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
@@ -53,77 +51,58 @@ import org.junit.runner.RunWith;
 
 import java.util.Locale;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.openContextualActionModeOverflowMenu;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
-import static org.catrobat.catroid.common.Constants.LANGUAGE_TAG_KEY;
-import static org.hamcrest.Matchers.allOf;
+import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 
 @RunWith(AndroidJUnit4.class)
 public class HindiNumberAtShowDetailsAtProjectActivityTest {
 	@Rule
 	public BaseActivityInstrumentationRule<ProjectActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(ProjectActivity.class);
+			BaseActivityInstrumentationRule<>(ProjectActivity.class, ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SPRITES);
 	private Locale arLocale = new Locale("ar");
-	private Locale defaultLocale = Locale.getDefault();
-	private String expectedHindiNumberOfScripts = "٢"; // 2
-	private String expectedHindiNumberOfBricks = "٧"; // 7
-	private String expectedHindiNumberOfLooks = "٢"; // 2
-	private String expectedHindiNumberOfSounds = "٠"; // 0
 
 	@Before
 	public void setUp() {
+		SettingsFragment.setLanguageSharedPreference(getTargetContext(), "ar");
 		createProject();
-		SettingsActivity.updateLocale(getTargetContext(), "ar", "");
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 
-		setShowDetails(true);
-	}
-
-	private void setShowDetails(final boolean show) {
-		getInstrumentation().runOnMainSync(new Runnable() {
-			public void run() {
-				baseActivityTestRule.getActivity().getSpritesListFragment().setShowDetails(show);
-			}
-		});
+		openContextualActionModeOverflowMenu();
+		onView(withText(R.string.show_details)).perform(click());
 	}
 
 	@After
 	public void tearDown() {
-		resetToDefaultLanguage();
-		setShowDetails(false);
+		openContextualActionModeOverflowMenu();
+		onView(withText(R.string.hide_details)).perform(click());
+		SettingsFragment.removeLanguageSharedPreference(getTargetContext());
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void hindiNumbers() throws Exception {
-		assertEquals(Locale.getDefault().getDisplayLanguage(), arLocale.getDisplayLanguage());
-		assertTrue(RtlUiTestUtils.checkTextDirection(Locale.getDefault().getDisplayName()));
+		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
+		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 
-		onView(allOf(withId(R.id.textView_number_of_scripts), isDisplayed()))
-				.check(matches(withText(UiTestUtils.getResourcesString(R.string.number_of_scripts) + " " + expectedHindiNumberOfScripts)));
-
-		onView(allOf(withId(R.id.textView_number_of_bricks), isDisplayed()))
-				.check(matches(withText(UiTestUtils.getResourcesString(R.string.number_of_bricks) + " " + expectedHindiNumberOfBricks)));
-
-		onView(allOf(withId(R.id.textView_number_of_looks), isDisplayed()))
-				.check(matches(withText(UiTestUtils.getResourcesString(R.string.number_of_looks) + " " + expectedHindiNumberOfLooks)));
-
-		onView(allOf(withId(R.id.textView_number_of_sounds), isDisplayed()))
-				.check(matches(withText(UiTestUtils.getResourcesString(R.string.number_of_sounds) + " " + expectedHindiNumberOfSounds)));
+		onRecyclerView().atPosition(1).onChildView(R.id.details_view)
+				.check(matches(withText(String.format(Locale.getDefault(),
+						UiTestUtils.getResourcesString(R.string.sprite_details),
+						7, 2, 0
+				))));
 	}
 
 	private void createProject() {
 		String projectName = "HindiNumberTest";
-		Project project = new Project(null, projectName);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 
 		Sprite firstSprite = new SingleSprite("firstSprite");
 
@@ -139,28 +118,16 @@ public class HindiNumberAtShowDetailsAtProjectActivityTest {
 		firstSprite.addScript(secondScript);
 
 		LookData lookData = new LookData();
-		lookData.setLookFilename("red");
-		lookData.setLookName("red");
-		firstSprite.getLookDataList().add(lookData);
+		lookData.setName("red");
+		firstSprite.getLookList().add(lookData);
 
 		LookData anotherLookData = new LookData();
-		anotherLookData.setLookFilename("blue");
-		anotherLookData.setLookName("blue");
-		firstSprite.getLookDataList().add(anotherLookData);
+		anotherLookData.setName("blue");
+		firstSprite.getLookList().add(anotherLookData);
 
 		project.getDefaultScene().addSprite(firstSprite);
 
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
-	}
-
-	private void resetToDefaultLanguage() {
-		SharedPreferences.Editor editor = PreferenceManager
-				.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
-				.edit();
-		editor.putString(LANGUAGE_TAG_KEY, defaultLocale.getLanguage());
-		editor.commit();
-		SettingsActivity.updateLocale(InstrumentationRegistry.getTargetContext(), defaultLocale.getLanguage(),
-				defaultLocale.getCountry());
+		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 	}
 }

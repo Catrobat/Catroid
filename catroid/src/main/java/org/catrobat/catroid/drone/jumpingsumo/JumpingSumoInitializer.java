@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.drone.jumpingsumo;
 
-import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -30,6 +29,8 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AlertDialog.Builder;
 import android.util.Log;
 
 import com.parrot.arsdk.arcontroller.ARCONTROLLER_DEVICE_STATE_ENUM;
@@ -54,7 +55,6 @@ import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -265,7 +265,7 @@ public class JumpingSumoInitializer {
 	}
 
 	public static void showUnCancellableErrorDialog(final StageActivity context, String title, String message) {
-		Builder builder = new CustomAlertDialogBuilder(context);
+		Builder builder = new AlertDialog.Builder(context);
 
 		builder.setTitle(title);
 		builder.setCancelable(false);
@@ -293,7 +293,7 @@ public class JumpingSumoInitializer {
 	}
 
 	public static void showUnCancellableErrorDialog(final PreStageActivity context, String title, String message) {
-		Builder builder = new CustomAlertDialogBuilder(context);
+		Builder builder = new AlertDialog.Builder(context);
 
 		builder.setTitle(title);
 		builder.setCancelable(false);

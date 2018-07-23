@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,8 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.InstrumentationTestCase;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
@@ -32,69 +33,66 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.io.ResourceImporter;
+import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.test.R;
-import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.uitest.util.UiTestUtils;
-import org.catrobat.catroid.utils.UtilFile;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.File;
+import java.io.IOException;
 
-public class NextLookActionTest extends InstrumentationTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNull;
 
-	private static final int IMAGE_FILE_ID = R.raw.icon;
+import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
+
+@RunWith(AndroidJUnit4.class)
+public class NextLookActionTest {
+
+	private final String projectName = "testProject";
+
+	private File projectDir;
 	private File testImage;
-	private String projectName = UiTestUtils.DEFAULT_TEST_PROJECT_NAME;
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
+		projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName);
 
-		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
-
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
+		if (projectDir.exists()) {
+			StorageOperations.deleteDir(projectDir);
 		}
 
-		UiTestUtils.createEmptyProject();
-		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
-		StorageHandler.getInstance().saveProject(project);
-		ProjectManager.getInstance().setProject(project);
-
-		testImage = TestUtils.saveFileToProject(projectName, project.getDefaultScene().getName(), "testImage.png", IMAGE_FILE_ID, getInstrumentation()
-				.getContext(), TestUtils.TYPE_IMAGE_FILE);
-
-		ScreenValues.SCREEN_HEIGHT = 200;
-		ScreenValues.SCREEN_WIDTH = 200;
+		createProject();
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
-		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
-
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
+	@After
+	public void tearDown() throws Exception {
+		if (projectDir.exists()) {
+			StorageOperations.deleteDir(projectDir);
 		}
-		if (testImage != null && testImage.exists()) {
-			testImage.delete();
-		}
-		super.tearDown();
 	}
 
+	@Test
 	public void testNextLook() {
-
 		Sprite sprite = new SingleSprite("cat");
 
 		LookData lookData1 = new LookData();
-		lookData1.setLookFilename(testImage.getName());
-		lookData1.setLookName("testImage1");
-		sprite.getLookDataList().add(lookData1);
+		lookData1.setFile(testImage);
+		lookData1.setName("testImage1");
+		sprite.getLookList().add(lookData1);
 
 		LookData lookData2 = new LookData();
-		lookData2.setLookFilename(testImage.getName());
-		lookData2.setLookName("testImage2");
-		sprite.getLookDataList().add(lookData2);
+		lookData2.setFile(testImage);
+		lookData2.setName("testImage2");
+		sprite.getLookList().add(lookData2);
 
 		ActionFactory factory = sprite.getActionFactory();
 		Action setLookAction = factory.createSetLookAction(sprite, lookData1);
@@ -103,29 +101,27 @@ public class NextLookActionTest extends InstrumentationTestCase {
 		setLookAction.act(1.0f);
 		nextLookAction.act(1.0f);
 
-		assertEquals("Look is not next look", lookData2, sprite.look.getLookData());
+		assertEquals(lookData2, sprite.look.getLookData());
 	}
 
+	@Test
 	public void testLastLook() {
 		Sprite sprite = new SingleSprite("cat");
 
 		LookData lookData1 = new LookData();
-		lookData1.setLookFilename(testImage.getName());
-		lookData1.setLookName("testImage1");
-		lookData1.setLookFilename("testImage1");
-		sprite.getLookDataList().add(lookData1);
+		lookData1.setFile(testImage);
+		lookData1.setName("testImage1");
+		sprite.getLookList().add(lookData1);
 
 		LookData lookData2 = new LookData();
-		lookData2.setLookFilename(testImage.getName());
-		lookData2.setLookName("testImage");
-		lookData2.setLookFilename("testImage2");
-		sprite.getLookDataList().add(lookData2);
+		lookData2.setFile(testImage);
+		lookData2.setName("testImage2");
+		sprite.getLookList().add(lookData2);
 
 		LookData lookData3 = new LookData();
-		lookData3.setLookFilename(testImage.getName());
-		lookData3.setLookName("testImage");
-		lookData3.setLookFilename("testImage3");
-		sprite.getLookDataList().add(lookData3);
+		lookData3.setFile(testImage);
+		lookData3.setName("testImage3");
+		sprite.getLookList().add(lookData3);
 
 		ActionFactory factory = sprite.getActionFactory();
 		Action setLookAction = factory.createSetLookAction(sprite, lookData3);
@@ -134,9 +130,10 @@ public class NextLookActionTest extends InstrumentationTestCase {
 		setLookAction.act(1.0f);
 		nextLookAction.act(1.0f);
 
-		assertEquals("Look is not next look", lookData1, sprite.look.getLookData());
+		assertEquals(lookData1, sprite.look.getLookData());
 	}
 
+	@Test
 	public void testLookGalleryNull() {
 
 		Sprite sprite = new SingleSprite("cat");
@@ -144,16 +141,17 @@ public class NextLookActionTest extends InstrumentationTestCase {
 		Action nextLookAction = factory.createNextLookAction(sprite);
 		nextLookAction.act(1.0f);
 
-		assertEquals("Look is not null", null, sprite.look.getLookData());
+		assertNull(sprite.look.getLookData());
 	}
 
+	@Test
 	public void testLookGalleryWithOneLook() {
 		Sprite sprite = new SingleSprite("cat");
 
 		LookData lookData1 = new LookData();
-		lookData1.setLookFilename(testImage.getName());
-		lookData1.setLookName("testImage1");
-		sprite.getLookDataList().add(lookData1);
+		lookData1.setFile(testImage);
+		lookData1.setName("testImage1");
+		sprite.getLookList().add(lookData1);
 
 		ActionFactory factory = sprite.getActionFactory();
 		Action setLookAction = factory.createSetLookAction(sprite, lookData1);
@@ -162,10 +160,10 @@ public class NextLookActionTest extends InstrumentationTestCase {
 		setLookAction.act(1.0f);
 		nextLookAction.act(1.0f);
 
-		assertEquals("Wrong look after executing NextLookBrick with just one look", lookData1,
-				sprite.look.getLookData());
+		assertEquals(lookData1, sprite.look.getLookData());
 	}
 
+	@Test
 	public void testNextLookWithNoLookSet() {
 
 		Sprite sprite = new SingleSprite("cat");
@@ -174,12 +172,35 @@ public class NextLookActionTest extends InstrumentationTestCase {
 		Action nextLookAction = factory.createNextLookAction(sprite);
 
 		LookData lookData1 = new LookData();
-		lookData1.setLookFilename(testImage.getName());
-		lookData1.setLookName("testImage1");
-		sprite.getLookDataList().add(lookData1);
+		lookData1.setFile(testImage);
+		lookData1.setName("testImage1");
+		sprite.getLookList().add(lookData1);
 
 		nextLookAction.act(1.0f);
 
-		assertNull("No Custume should be set.", sprite.look.getLookData());
+		assertNull(sprite.look.getLookData());
+	}
+
+	private void createProject() throws IOException {
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+		Sprite firstSprite = new SingleSprite("cat");
+		Script testScript = new StartScript();
+
+		firstSprite.addScript(testScript);
+		project.getDefaultScene().addSprite(firstSprite);
+
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+		ProjectManager.getInstance().setCurrentScript(testScript);
+
+		XstreamSerializer.getInstance().saveProject(project);
+
+		testImage = ResourceImporter.createImageFileFromResourcesInDirectory(
+				InstrumentationRegistry.getContext().getResources(),
+				R.raw.icon, new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
+				"testImage" + ".png", 1);
+
+		ScreenValues.SCREEN_HEIGHT = 200;
+		ScreenValues.SCREEN_WIDTH = 200;
 	}
 }

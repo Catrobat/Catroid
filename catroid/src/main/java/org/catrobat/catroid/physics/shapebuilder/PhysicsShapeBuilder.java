@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,6 +28,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.physics.box2d.Shape;
 
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -70,7 +71,7 @@ public final class PhysicsShapeBuilder {
 			return null;
 		}
 
-		String imageIdentifier = lookData.getChecksum();
+		String imageIdentifier = Utils.md5Checksum(lookData.getFile());
 		if (!imageShapesMap.containsKey(imageIdentifier)) {
 			imageShapesMap.put(imageIdentifier, new ImageShapes(pixmap));
 		}

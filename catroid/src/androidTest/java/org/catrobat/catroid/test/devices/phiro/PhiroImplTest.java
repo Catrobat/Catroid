@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.test.devices.phiro;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.google.common.base.Stopwatch;
 
@@ -32,10 +32,17 @@ import org.catrobat.catroid.common.firmata.FirmataMessage;
 import org.catrobat.catroid.common.firmata.FirmataUtils;
 import org.catrobat.catroid.devices.arduino.phiro.Phiro;
 import org.catrobat.catroid.devices.arduino.phiro.PhiroImpl;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.concurrent.TimeUnit;
 
-public class PhiroImplTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class PhiroImplTest {
 
 	private Phiro phiro;
 	private ConnectionDataLogger logger;
@@ -68,9 +75,8 @@ public class PhiroImplTest extends AndroidTestCase {
 	private static final int REPORT_ANALOG_PIN_COMMAND = 0xC0;
 	private static final int ANALOG_MESSAGE_COMMAND = 0xE0;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 
 		phiro = new PhiroImpl();
 		logger = ConnectionDataLogger.createLocalConnectionLogger();
@@ -78,15 +84,15 @@ public class PhiroImplTest extends AndroidTestCase {
 		phiro.setConnection(logger.getConnectionProxy());
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
+	@After
+	public void tearDown() throws Exception {
 		phiro.disconnect();
 		logger.disconnectAndDestroy();
-		super.tearDown();
 	}
 
 	private static final int SPEED_IN_PERCENT = 42;
 
+	@Test
 	public void testMoveLeftMotorForward() {
 		phiro.initialise();
 		doTestFirmataInitialization();
@@ -95,6 +101,7 @@ public class PhiroImplTest extends AndroidTestCase {
 		testSpeed(SPEED_IN_PERCENT, PIN_LEFT_MOTOR_SPEED);
 	}
 
+	@Test
 	public void testMoveLeftMotorBackward() {
 		phiro.initialise();
 		doTestFirmataInitialization();
@@ -103,6 +110,7 @@ public class PhiroImplTest extends AndroidTestCase {
 		testSpeed(SPEED_IN_PERCENT, PIN_LEFT_MOTOR_SPEED);
 	}
 
+	@Test
 	public void testMoveRightMotorForward() {
 		phiro.initialise();
 		doTestFirmataInitialization();
@@ -111,6 +119,7 @@ public class PhiroImplTest extends AndroidTestCase {
 		testSpeed(SPEED_IN_PERCENT, PIN_RIGHT_MOTOR_SPEED);
 	}
 
+	@Test
 	public void testMoveRightMotorBackward() {
 		phiro.initialise();
 		doTestFirmataInitialization();
@@ -119,6 +128,7 @@ public class PhiroImplTest extends AndroidTestCase {
 		testSpeed(SPEED_IN_PERCENT, PIN_RIGHT_MOTOR_SPEED);
 	}
 
+	@Test
 	public void testStopLeftMotor() {
 		phiro.initialise();
 		doTestFirmataInitialization();
@@ -128,6 +138,7 @@ public class PhiroImplTest extends AndroidTestCase {
 		testSpeed(0, PIN_LEFT_MOTOR_FORWARD_BACKWARD);
 	}
 
+	@Test
 	public void testStopRightMotor() {
 		phiro.initialise();
 		doTestFirmataInitialization();
@@ -136,6 +147,7 @@ public class PhiroImplTest extends AndroidTestCase {
 		testSpeed(0, PIN_RIGHT_MOTOR_SPEED);
 	}
 
+	@Test
 	public void testStopAllMovements() {
 		phiro.initialise();
 		doTestFirmataInitialization();
@@ -146,6 +158,7 @@ public class PhiroImplTest extends AndroidTestCase {
 		testSpeed(0, PIN_RIGHT_MOTOR_SPEED);
 	}
 
+	@Test
 	public void testSetLeftRGBLightColor() {
 		phiro.initialise();
 		doTestFirmataInitialization();
@@ -160,6 +173,7 @@ public class PhiroImplTest extends AndroidTestCase {
 		testLight(blue, PIN_RGB_BLUE_LEFT);
 	}
 
+	@Test
 	public void testSetRightRGBLightColor() {
 		phiro.initialise();
 		doTestFirmataInitialization();
@@ -174,6 +188,7 @@ public class PhiroImplTest extends AndroidTestCase {
 		testLight(blue, PIN_RGB_BLUE_RIGHT);
 	}
 
+	@Test
 	public void testPlayTone() throws InterruptedException {
 		phiro.initialise();
 		doTestFirmataInitialization();
@@ -185,32 +200,30 @@ public class PhiroImplTest extends AndroidTestCase {
 
 		FirmataMessage m = firmataUtils.getAnalogMessageData();
 
-		assertEquals("Wrong command, ANALOG_MESSAGE command on speaker pin expected",
-				ANALOG_MESSAGE_COMMAND, m.getCommand());
-		assertEquals("Wrong pin", PIN_SPEAKER_OUT, m.getPin());
-		assertEquals("Wrong tone", tone, m.getData());
+		assertEquals(ANALOG_MESSAGE_COMMAND, m.getCommand());
+		assertEquals(PIN_SPEAKER_OUT, m.getPin());
+		assertEquals(tone, m.getData());
 
 		Stopwatch stopwatch = Stopwatch.createStarted();
 		while (stopwatch.elapsed(TimeUnit.SECONDS) < durationInSeconds) {
-			assertEquals("Phiro play tone was stopped to early", 0, logger.getSentMessages(0).size());
+			assertEquals(0, logger.getSentMessages(0).size());
 			Thread.sleep(durationInSeconds * 100);
 		}
 
 		m = firmataUtils.getAnalogMessageData();
 
-		assertEquals("Wrong command, ANALOG_MESSAGE command on speaker pin expected",
-				ANALOG_MESSAGE_COMMAND, m.getCommand());
-		assertEquals("Wrong pin", PIN_SPEAKER_OUT, m.getPin());
-		assertEquals("Wrong tone", 0, m.getData());
+		assertEquals(ANALOG_MESSAGE_COMMAND, m.getCommand());
+		assertEquals(PIN_SPEAKER_OUT, m.getPin());
+		assertEquals(0, m.getData());
 	}
 
 	private void doTestFirmataInitialization() {
 		for (int i = MIN_PWM_PIN; i <= MAX_PWM_PIN; ++i) {
 			FirmataMessage m = firmataUtils.getSetPinModeMessage();
 
-			assertEquals("Wrong Command, SET_PIN_MODE command expected", SET_PIN_MODE_COMMAND, m.getCommand());
-			assertEquals("Wrong pin used to set pin mode", i, m.getPin());
-			assertEquals("Wrong pin mode is used", PWM_MODE, m.getData());
+			assertEquals(SET_PIN_MODE_COMMAND, m.getCommand());
+			assertEquals(i, m.getPin());
+			assertEquals(PWM_MODE, m.getData());
 		}
 
 		testReportAnalogPin(true);
@@ -220,9 +233,9 @@ public class PhiroImplTest extends AndroidTestCase {
 		for (int i = MIN_SENSOR_PIN; i <= MAX_SENSOR_PIN; ++i) {
 			FirmataMessage m = firmataUtils.getReportAnalogPinMessage();
 
-			assertEquals("Wrong Command, REPORT_ANALOG_PIN command expected", REPORT_ANALOG_PIN_COMMAND, m.getCommand());
-			assertEquals("Wrong pin used to set pin mode", i, m.getPin());
-			assertEquals("Wrong pin mode is used", enable ? 1 : 0, m.getData());
+			assertEquals(REPORT_ANALOG_PIN_COMMAND, m.getCommand());
+			assertEquals(i, m.getPin());
+			assertEquals(enable ? 1 : 0, m.getData());
 		}
 	}
 
@@ -231,19 +244,17 @@ public class PhiroImplTest extends AndroidTestCase {
 
 		FirmataMessage m = firmataUtils.getAnalogMessageData();
 
-		assertEquals("Wrong command, ANALOG_MESSAGE command expected",
-				ANALOG_MESSAGE_COMMAND, m.getCommand());
-		assertEquals("Wrong lsb speed", pin, m.getPin());
-		assertEquals("Wrong msb speed", speed, m.getData());
+		assertEquals(ANALOG_MESSAGE_COMMAND, m.getCommand());
+		assertEquals(pin, m.getPin());
+		assertEquals(speed, m.getData());
 	}
 
 	private void testLight(int color, int pin) {
 		FirmataMessage m = firmataUtils.getAnalogMessageData();
 
-		assertEquals("Wrong command, ANALOG_MESSAGE command expected",
-				ANALOG_MESSAGE_COMMAND, m.getCommand());
-		assertEquals("Wrong pin", pin, m.getPin());
-		assertEquals("Wrong color", color, m.getData());
+		assertEquals(ANALOG_MESSAGE_COMMAND, m.getCommand());
+		assertEquals(pin, m.getPin());
+		assertEquals(color, m.getData());
 	}
 
 	private int percentToSpeed(int percent) {

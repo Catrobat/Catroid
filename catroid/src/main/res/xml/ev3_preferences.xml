@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+    <PreferenceScreen
+        android:key="setting_ev3_screen"
+        android:summary="@string/preference_description_mindstorms_ev3_bricks"
+        android:title="@string/preference_title_enable_mindstorms_ev3_bricks"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+         <CheckBoxPreference
+             android:defaultValue="false"
+             android:key="settings_mindstorms_ev3_bricks_enabled"
+             android:summary="@string/preference_description_mindstorms_ev3_bricks"
+             android:title="@string/preference_title_enable_mindstorms_ev3_bricks" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="settings_mindstorms_ev3_show_sensor_info_box_disabled"
+            android:summary="@string/preference_disable_ev3_info_dialog_description"
+            android:title="@string/preference_disable_nxt_info_dialog" />
+
+        <PreferenceCategory
+            android:key="setting_ev3_category"
+            android:title="@string/preference_title_mindstorms_ev3_sensors">
+            <Preference android:summary="@string/preference_title_mindstorms_ev3_sensors_description" />
+
+            <ListPreference
+                android:defaultValue="NO_SENSOR"
+                android:entries="@array/ev3_sensor_chooser"
+                android:entryValues="@array/ev3_sensor_chooser"
+                android:key="setting_mindstorms_ev3_sensor_1"
+                android:summary="%s"
+                android:title="@string/ev3_choose_sensor_1" />
+            <ListPreference
+                android:defaultValue="NO_SENSOR"
+                android:entries="@array/ev3_sensor_chooser"
+                android:entryValues="@array/ev3_sensor_chooser"
+                android:key="setting_mindstorms_ev3_sensor_2"
+                android:summary="%s"
+                android:title="@string/ev3_choose_sensor_2" />
+            <ListPreference
+                android:defaultValue="NO_SENSOR"
+                android:entries="@array/ev3_sensor_chooser"
+                android:entryValues="@array/ev3_sensor_chooser"
+                android:key="setting_mindstorms_ev3_sensor_3"
+                android:summary="%s"
+                android:title="@string/ev3_choose_sensor_3" />
+            <ListPreference
+                android:defaultValue="NO_SENSOR"
+                android:entries="@array/ev3_sensor_chooser"
+                android:entryValues="@array/ev3_sensor_chooser"
+                android:key="setting_mindstorms_ev3_sensor_4"
+                android:summary="%s"
+                android:title="@string/ev3_choose_sensor_4" />
+        </PreferenceCategory>
+    </PreferenceScreen>

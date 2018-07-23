@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2017 The Catrobat Team
+  ~ Copyright (C) 2010-2018 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -23,54 +23,35 @@
   -->
 <resources>
 
+    <!-- Toolbar and Bottombar Colors -->
+    <color name="toolbar_background">#002B3B</color>
+    <color name="toolbar_border">#4D7F8F</color>
+
+    <!-- Backgrounds -->
+    <color name="app_background">#04222C</color>
+    <color name="button_background">#00475E</color>
+    <color name="button_border_top">#4D7F8F</color>
+    <color name="button_border_bottom">#001724</color>
+
+    <!-- Accent Colors -->
+    <color name="accent">#A8DFF4</color>
+    <color name="image_view_border">#A8DFF4</color>
+    <color name="separator">#51656C</color>
+
+    <!-- Material Design Colors -->
     <color name="solid_black">#000</color>
     <color name="solid_white">#FFFFFF</color>
     <color name="white">#FFFFFF</color>
     <color name="light_grey">#CCCCCC</color>
-    <color name="actionbar_title_color">#6F8E9B</color>
-    <color name="application_background_color">#04222C</color>
     <color name="transparent">#00000000</color>
     <color name="formula_editor_keyboard_text_color">#A8DFF4</color>
     <color name="formula_editor_intro_heading_color">#FF6600</color>
-    <color name="list_item_thumbnail_border_color">#A8DFF4</color>
-    <color name="button_background_gradient_start_color">#00475E</color>
-    <color name="button_background_gradient_end_color">#003F54</color>
-    <color name="button_background_top_border_color">#4D7F8F</color>
-    <color name="button_background_bottom_border_color">#001724</color>
-    <color name="scratch_converter_button_background_color">#01485f</color>
+
     <color name="holo_blue_light">#ff33b5e5</color>
     <color name="terms_of_use_text_color">#E68B00</color>
 
-    <!-- Main Menu Colors -->
-    <color name="main_menu_button_text_color">#A8DFF4</color>
-    <color name="main_menu_button_text_shadow_color">#7F000000</color>
-    <color name="main_menu_button_text_continue_program_name_color">@color/white</color>
-
     <!-- Project Activity Colors -->
-    <color name="spritelist_item_thumbnail_border_color">#A8DFF4</color>
     <color name="spritelist_details_text_color">#CCCCCC</color>
-    <color name="spritelist_separation_line_color">#51656C</color>
-
-    <!-- Program Menu Colors -->
-    <color name="program_menu_button_text_color">#A8DFF4</color>
-    <color name="program_menu_button_text_shadow_color">#7F000000</color>
-
-    <!-- Look Fragment Colors -->
-    <color name="look_fragment_text_main_color">#A8DFF4</color>
-    <color name="look_fragment_text_detail_color">#BFD0D6</color>
-
-    <!-- Sound Fragment Colors -->
-    <color name="sound_fragment_text_main_color">#A8DFF4</color>
-    <color name="sound_fragment_text_detail_color">#BFD0D6</color>
-
-    <!-- NfcTag Fragment Colors -->
-    <color name="nfctag_fragment_text_main_color">#A8DFF4</color>
-    <color name="nfctag_fragment_text_detail_color">#BFD0D6</color>
-
-    <!-- List View Item Colors -->
-    <color name="list_view_item_title_text_color">#A8DFF4</color>
-    <color name="list_view_item_details_text_color">@color/white</color>
-    <color name="list_view_item_title_text_shadow_color">#7F000000</color>
 
     <!-- Brick Category Fragment Colors -->
     <color name="brick_category_fragment_text_color">#FFFFFF</color>
@@ -81,7 +62,6 @@
 
     <!-- Device List Colors -->
     <color name="bluetooth_device_list_divider_color">#505050</color>
-    <color name="dialog_text_line">#696969</color>
 
     <!-- Scratch Converter Colors -->
     <color name="beta_label_color">#ff7700</color>
@@ -107,5 +87,9 @@
     <color name="pocketmusic_even_bright">#E0E0E0</color>
     <color name="pocketmusic_odd_dusk">#E0E0E0</color>
     <color name="pocketmusic_even_dusk">#BDBDBD</color>
+
+    <!-- Social media login colors -->
+    <color name="facebook_blue">#49639f</color>
+    <color name="google_red">#df4a32</color>
 
 </resources>

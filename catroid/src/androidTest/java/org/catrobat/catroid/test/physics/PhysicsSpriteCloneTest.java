@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,8 @@
  */
 package org.catrobat.catroid.test.physics;
 
-import android.test.InstrumentationTestCase;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
 import com.badlogic.gdx.math.Vector2;
@@ -42,7 +43,8 @@ import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.ResourceImporter;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
@@ -56,18 +58,30 @@ import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
 import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.io.IOException;
 
-public class PhysicsSpriteCloneTest extends InstrumentationTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNotSame;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
+
+import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
+
+@RunWith(AndroidJUnit4.class)
+public class PhysicsSpriteCloneTest {
 
 	private static final String TAG = PhysicsSpriteCloneTest.class.getSimpleName();
 
 	private Sprite sprite;
 	private Project project;
-	private static final int RECTANGLE125X125_RES_ID = org.catrobat.catroid.test.R.raw.rectangle_125x125;
-	private static final String COLLISION_RECEIVER_TEST_MESSAGE = "Collision_receiver_test_message";
 	private static final float BOUNCE_TEST_VALUE = 0.5f;
 	private static final float FRICTION_TEST_VALUE = 0.5f;
 	private static final Vector2 GRAVITY_TEST_VALUE = new Vector2(10.0f, 10.0f);
@@ -77,26 +91,24 @@ public class PhysicsSpriteCloneTest extends InstrumentationTestCase {
 	private static final float TURN_LEFT_SPEED_TEST_VALUE = 2.0f;
 	private static final float TURN_RIGHT_SPEED_TEST_VALUE = 3.0f;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		TestUtils.deleteTestProjects();
+	@Before
+	public void setUp() throws Exception {
+		TestUtils.deleteProjects();
 
-		project = new Project(getInstrumentation().getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
-		StorageHandler.getInstance().saveProject(project);
+		project = new Project(InstrumentationRegistry.getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
 		sprite = new SingleSprite("TestSprite");
 		project.getDefaultScene().addSprite(sprite);
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
+	@After
+	public void tearDown() throws Exception {
 		sprite = null;
 		project = null;
 
-		TestUtils.deleteTestProjects();
-		super.tearDown();
+		TestUtils.deleteProjects();
 	}
 
 	private void checkIfScriptsAndBricksClassesOfSpriteAreEqual(Sprite sprite, Sprite clonedSprite) {
@@ -104,21 +116,22 @@ public class PhysicsSpriteCloneTest extends InstrumentationTestCase {
 		for (int scriptIndex = 0; scriptIndex < scriptCount; scriptIndex++) {
 			Script script = sprite.getScript(scriptIndex);
 			Script clonedScript = clonedSprite.getScript(scriptIndex);
-			assertEquals("Cloned script class not equal to origin.", script.getClass().toString(), clonedScript.getClass().toString());
+			assertEquals(script.getClass().toString(), clonedScript.getClass().toString());
 			ScriptBrick scriptBrick = sprite.getScript(scriptIndex).getScriptBrick();
 			ScriptBrick clonedScriptBrick = clonedSprite.getScript(scriptIndex).getScriptBrick();
-			assertEquals("Cloned script brick class not equal to origin.", scriptBrick.getClass().toString(), clonedScriptBrick.getClass().toString());
+			assertEquals(scriptBrick.getClass().toString(), clonedScriptBrick.getClass().toString());
 			int brickCount = clonedSprite.getScript(scriptIndex).getBrickList().size();
 			for (int brickIndex = 0; brickIndex < brickCount; brickIndex++) {
 				Brick brick = sprite.getScript(scriptIndex).getBrickList().get(brickIndex);
 				Brick clonedBrick = clonedSprite.getScript(scriptIndex).getBrickList().get(brickIndex);
-				assertEquals("Cloned brick class not equal to origin.", brick.getClass().toString(), clonedBrick.getClass().toString());
+				assertEquals(brick.getClass().toString(), clonedBrick.getClass().toString());
 			}
 		}
 	}
 
-	public void testSpriteCloneWithPhysicsScriptAndBricks() {
-		CollisionScript collisionScript = new CollisionScript(COLLISION_RECEIVER_TEST_MESSAGE);
+	@Test
+	public void testSpriteCloneWithPhysicsScriptAndBricks() throws IOException {
+		CollisionScript collisionScript = new CollisionScript(null);
 		collisionScript.getScriptBrick();
 		Brick setBounceBrick = new SetBounceBrick(BOUNCE_TEST_VALUE);
 		Brick setFrictionBrick = new SetFrictionBrick(FRICTION_TEST_VALUE);
@@ -140,32 +153,33 @@ public class PhysicsSpriteCloneTest extends InstrumentationTestCase {
 
 		sprite.addScript(collisionScript);
 
-		Sprite clonedSprite = sprite.clone();
+		Sprite clonedSprite = new SpriteController().copy(sprite, project.getDefaultScene(), project.getDefaultScene());
 
 		checkIfScriptsAndBricksClassesOfSpriteAreEqual(sprite, clonedSprite);
 	}
 
-	public void testSpriteCloneWithCollisionScript() {
-		CollisionScript collisionScript = new CollisionScript(COLLISION_RECEIVER_TEST_MESSAGE);
+	@Test
+	public void testSpriteCloneWithCollisionScript() throws IOException {
+		CollisionScript collisionScript = new CollisionScript(null);
 		collisionScript.getScriptBrick();
 		Brick setBounceBrick = new SetBounceBrick(BOUNCE_TEST_VALUE);
 
 		collisionScript.addBrick(setBounceBrick);
 		sprite.addScript(collisionScript);
 
-		Sprite clonedSprite = sprite.clone();
+		Sprite clonedSprite = new SpriteController().copy(sprite, project.getDefaultScene(), project.getDefaultScene());
 
 		checkIfScriptsAndBricksClassesOfSpriteAreEqual(sprite, clonedSprite);
 
 		Script clonedScript = clonedSprite.getScript(0);
-		assertTrue("Cloned script has wrong class.", clonedScript instanceof CollisionScript);
+		assertTrue(clonedScript instanceof CollisionScript);
 		ScriptBrick clonedScriptBrick = clonedScript.getScriptBrick();
-		assertTrue("Cloned script brick has wrong class.", clonedScriptBrick instanceof CollisionReceiverBrick);
+		assertTrue(clonedScriptBrick instanceof CollisionReceiverBrick);
 		String clonedBroadcastMessage = ((CollisionReceiverBrick) clonedScriptBrick).getBroadcastMessage();
-		assertEquals("Cloned broadcast message is not equal to origin message.", COLLISION_RECEIVER_TEST_MESSAGE, clonedBroadcastMessage);
+		assertEquals(clonedBroadcastMessage, clonedBroadcastMessage);
 
 		Brick clonedSetBounceBrick = clonedScript.getBrickList().get(0);
-		assertTrue("Cloned brick has wrong class.", clonedSetBounceBrick instanceof SetBounceBrick);
+		assertTrue(clonedSetBounceBrick instanceof SetBounceBrick);
 
 		Formula clonedSetBounceBrickFormula = ((FormulaBrick) clonedSetBounceBrick)
 				.getFormulaWithBrickField(Brick.BrickField.PHYSICS_BOUNCE_FACTOR);
@@ -176,10 +190,11 @@ public class PhysicsSpriteCloneTest extends InstrumentationTestCase {
 			Log.e(TAG, "InterpretationException thrown while interpreting.", interpretationException);
 			fail("InterpretationException thrown while interpreting.");
 		}
-		assertEquals("Cloned bounce factor value is not equal to origin value.", BOUNCE_TEST_VALUE, clonedBounceFactorValue);
+		assertEquals(BOUNCE_TEST_VALUE, clonedBounceFactorValue);
 	}
 
-	public void testSpriteClonePhysicsLookAndPhysicsObject() {
+	@Test
+	public void testSpriteClonePhysicsLookAndPhysicsObject() throws IOException {
 		WhenStartedBrick brick = new WhenStartedBrick();
 		StartScript startScript = new StartScript(brick);
 		Brick setPhysicsObjectTypeBrick = new SetPhysicsObjectTypeBrick(TYPE_TEST_VALUE);
@@ -191,29 +206,30 @@ public class PhysicsSpriteCloneTest extends InstrumentationTestCase {
 		sprite.look = new Look(sprite);
 
 		String rectangle125x125FileName = PhysicsTestUtils.getInternalImageFilenameFromFilename("rectangle_125x125.png");
-		File rectangle125x125File = null;
 		LookData lookdata;
-		try {
-			rectangle125x125File = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, project.getDefaultScene().getName(),
-					rectangle125x125FileName, RECTANGLE125X125_RES_ID, getInstrumentation().getContext(),
-					TestUtils.TYPE_IMAGE_FILE);
-			lookdata = PhysicsTestUtils.generateLookData(rectangle125x125File);
-			sprite.look.setLookData(lookdata);
-		} catch (IOException e) {
-			Log.e(TAG, "IOException caught", e);
-		}
-		assertNotNull("File must not be null.", rectangle125x125File);
-		assertNotNull("Lookdata must not be null.", sprite.look.getLookData());
+
+		File rectangle125x125File = ResourceImporter.createImageFileFromResourcesInDirectory(
+				InstrumentationRegistry.getContext().getResources(),
+				org.catrobat.catroid.test.R.raw.rectangle_125x125,
+				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
+				rectangle125x125FileName,
+				1);
+
+		lookdata = PhysicsTestUtils.generateLookData(rectangle125x125File);
+		sprite.look.setLookData(lookdata);
+
+		assertNotNull(rectangle125x125File);
+		assertNotNull(sprite.look.getLookData());
 
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 
-		Sprite clonedSprite = sprite.clone();
+		Sprite clonedSprite = new SpriteController().copy(sprite, project.getDefaultScene(), project.getDefaultScene());
 
-		assertTrue("Look of cloned sprite is no look.", clonedSprite.look instanceof Look);
+		assertNotNull(clonedSprite.look);
 
 		PhysicsObject clonedPhysicsObject = physicsWorld.getPhysicsObject(clonedSprite);
-		assertEquals("Cloned Physics Object must be equal.", physicsObject.getType(), clonedPhysicsObject.getType());
+		assertEquals(physicsObject.getType(), clonedPhysicsObject.getType());
 		clonedPhysicsObject.setType(PhysicsObject.Type.FIXED);
-		assertNotSame("Cloned Physics Object value must be different.", physicsObject.getType(), clonedPhysicsObject.getType());
+		assertNotSame(physicsObject.getType(), clonedPhysicsObject.getType());
 	}
 }

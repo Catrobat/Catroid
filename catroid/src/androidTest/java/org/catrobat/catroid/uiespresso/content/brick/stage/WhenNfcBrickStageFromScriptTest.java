@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,6 +24,7 @@
 package org.catrobat.catroid.uiespresso.content.brick.stage;
 
 import android.nfc.NdefMessage;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import junit.framework.Assert;
@@ -45,7 +46,7 @@ import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.nfc.NfcHandler;
-import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
@@ -68,6 +69,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertEquals;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.NUM_DETECTED_TAGS;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.READ_TAG_ID;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.READ_TAG_MESSAGE;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.TAG_NAME_TEST1;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.TAG_NAME_TEST2;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.onNfcBrickAtPosition;
@@ -75,8 +79,8 @@ import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils
 @RunWith(AndroidJUnit4.class)
 public class WhenNfcBrickStageFromScriptTest {
 	@Rule
-	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(ScriptActivity.class, true, false);
+	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 
 	private NdefMessage ndefMessage1;
 	private UserVariable readTagId;
@@ -90,7 +94,7 @@ public class WhenNfcBrickStageFromScriptTest {
 	public void setUp() throws Exception {
 		ndefMessage1 = NfcHandler.createMessage(UiNFCTestUtils.NFC_NDEF_STRING_1, BrickValues.TNF_MIME_MEDIA);
 		createProjectWithNfcAndSetVariable();
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 	}
 
 	@Category({Cat.CatrobatLanguage.class, Level.Functional.class, Cat.SettingsAndPermissions.class})
@@ -149,13 +153,17 @@ public class WhenNfcBrickStageFromScriptTest {
 	}
 
 	private Script createProjectWithNfcAndSetVariable() {
-		Project project = new Project(null, "nfcTestProject");
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), "nfcTestProject");
 
 		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
 
-		readTagId = dataContainer.addProjectUserVariable(UiNFCTestUtils.READ_TAG_ID);
-		readTagMessage = dataContainer.addProjectUserVariable(UiNFCTestUtils.READ_TAG_MESSAGE);
-		numDetectedTags = dataContainer.addProjectUserVariable(UiNFCTestUtils.NUM_DETECTED_TAGS);
+		numDetectedTags = new UserVariable(NUM_DETECTED_TAGS);
+		readTagId = new UserVariable(READ_TAG_ID);
+		readTagMessage = new UserVariable(READ_TAG_MESSAGE);
+
+		dataContainer.addUserVariable(numDetectedTags);
+		dataContainer.addUserVariable(readTagId);
+		dataContainer.addUserVariable(readTagMessage);
 
 		Sprite sprite = new Sprite("testSprite");
 		WhenNfcScript script = new WhenNfcScript();

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,18 +25,13 @@ package org.catrobat.catroid.uiespresso.content.brick.utils;
 
 import android.support.test.espresso.DataInteraction;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.uiespresso.util.UiTestUtils;
-import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.catrobat.catroid.uiespresso.util.wrappers.DataInteractionWrapper;
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+
+import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 
 public class BrickFormulaEditTextDataInteractionWrapper extends DataInteractionWrapper {
 	public BrickFormulaEditTextDataInteractionWrapper(DataInteraction dataInteraction) {
@@ -55,51 +50,31 @@ public class BrickFormulaEditTextDataInteractionWrapper extends DataInteractionW
 
 	public <V extends Number> BrickFormulaEditTextDataInteractionWrapper performEnterNumber(V valueToBeEntered) {
 		dataInteraction.perform(click());
-		String valueToSet = "";
 
-		if (valueToBeEntered instanceof Float) {
-			valueToSet = Float.toString(valueToBeEntered.floatValue());
-		} else if (valueToBeEntered instanceof Double) {
-			valueToSet = Double.toString(valueToBeEntered.doubleValue());
-		} else if (valueToBeEntered instanceof Integer) {
-			valueToSet = Integer.toString(valueToBeEntered.intValue());
-		}
+		onFormulaEditor()
+				.performEnterNumber(valueToBeEntered)
+				.performCloseAndSave();
 
-		onView(withId(R.id.formula_editor_edit_field))
-				.perform(CustomActions.typeInValue(valueToSet));
-		onView(withId(R.id.formula_editor_keyboard_ok))
-				.perform(click());
-
-		// When using double or float, but value is an integer, the textField will show it as an integer
-		// e.g 12.0 -> 12
 		return new BrickFormulaEditTextDataInteractionWrapper(dataInteraction);
 	}
 
 	public BrickFormulaEditTextDataInteractionWrapper performEnterString(String stringToBeEntered) {
 		dataInteraction.perform(click());
 
-		onView(withId(R.id.formula_editor_keyboard_string))
-				.perform(click());
-		onView(withId(R.id.formula_editor_string_name_edit_text))
-				.perform(clearText(), typeText(stringToBeEntered));
-		onView(withText(R.string.ok))
-				.perform(click());
-		onView(withId(R.id.formula_editor_keyboard_ok))
-				.perform(click());
+		onFormulaEditor()
+				.performEnterString(stringToBeEntered)
+				.performCloseAndSave();
+
 		return new BrickFormulaEditTextDataInteractionWrapper(dataInteraction);
 	}
 
 	public BrickFormulaEditTextDataInteractionWrapper performEnterString(int stringResourceId) {
 		dataInteraction.perform(click());
 
-		onView(withId(R.id.formula_editor_keyboard_string))
-				.perform(click());
-		onView(withId(R.id.formula_editor_string_name_edit_text))
-				.perform(typeText(UiTestUtils.getResourcesString(stringResourceId)));
-		onView(withText(R.string.ok))
-				.perform(click());
-		onView(withId(R.id.formula_editor_keyboard_ok))
-				.perform(click());
+		onFormulaEditor()
+				.performEnterString(stringResourceId)
+				.performCloseAndSave();
+
 		return new BrickFormulaEditTextDataInteractionWrapper(dataInteraction);
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,8 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.InstrumentationTestCase;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
@@ -37,16 +38,20 @@ import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
+import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import java.util.HashMap;
-import java.util.List;
+import static junit.framework.Assert.assertEquals;
 
-public class RepeatUntilActionTest extends InstrumentationTestCase {
+@RunWith(AndroidJUnit4.class)
+public class RepeatUntilActionTest {
 
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
 	private Sprite testSprite;
@@ -60,28 +65,25 @@ public class RepeatUntilActionTest extends InstrumentationTestCase {
 	private static final String TEST_USERVARIABLE_2 = "testUservariable2";
 	private Project project;
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		testSprite = new SingleSprite("testSprite");
-		project = new Project(null, "testProject");
+		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		testScript = new StartScript();
 		testSprite.removeAllScripts();
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(new SingleSprite("testSprite1"));
 
-		ProjectManager.getInstance().getCurrentScene().getDataContainer().deleteUserVariableByName(TEST_USERVARIABLE);
-		ProjectManager.getInstance().getCurrentScene().getDataContainer().addProjectUserVariable(TEST_USERVARIABLE);
-		userVariable = ProjectManager.getInstance().getCurrentScene().getDataContainer()
-				.getUserVariable(null, TEST_USERVARIABLE);
+		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().removeUserVariable(TEST_USERVARIABLE);
+		userVariable = new UserVariable(TEST_USERVARIABLE);
+		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().addUserVariable(userVariable);
 
-		ProjectManager.getInstance().getCurrentScene().getDataContainer().deleteUserVariableByName(TEST_USERVARIABLE_2);
-		ProjectManager.getInstance().getCurrentScene().getDataContainer().addProjectUserVariable(TEST_USERVARIABLE_2);
-		userVariable2 = ProjectManager.getInstance().getCurrentScene().getDataContainer()
-				.getUserVariable(null, TEST_USERVARIABLE_2);
-
-		super.setUp();
+		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().removeUserVariable(TEST_USERVARIABLE_2);
+		userVariable2 = new UserVariable(TEST_USERVARIABLE_2);
+		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().addUserVariable(userVariable2);
 	}
 
+	@Test
 	public void testRepeatBrick() throws InterruptedException {
 
 		SetVariableBrick setVariableBrick = new SetVariableBrick(new Formula(START_VALUE), userVariable);
@@ -112,16 +114,16 @@ public class RepeatUntilActionTest extends InstrumentationTestCase {
 		testScript.addBrick(loopEndBrick);
 
 		testSprite.addScript(testScript);
-		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
+		testSprite.initializeEventThreads(EventId.START);
 
-		while (!testSprite.look.getAllActionsAreFinished()) {
+		while (!testSprite.look.haveAllThreadsFinished()) {
 			testSprite.look.act(1.0f);
 		}
 
-		assertEquals("Executed the wrong number of times!", (TRUE_VALUE - START_VALUE) * deltaY,
-				(int) testSprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals((TRUE_VALUE - START_VALUE) * deltaY, (int) testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNoRepeat() {
 		Formula validFormula = new Formula(1);
 		validFormula.setRoot(new FormulaElement(ElementType.OPERATOR, Operators.SMALLER_THAN.name(), null,
@@ -133,20 +135,23 @@ public class RepeatUntilActionTest extends InstrumentationTestCase {
 		this.testWithFormula(validFormula, 0.0f);
 	}
 
+	@Test
 	public void testBrickWithInValidStringFormula() {
 		Formula stringFormula = new Formula(String.valueOf(NOT_NUMERICAL_STRING));
 		testWithFormula(stringFormula, testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNullFormula() {
 		Action repeatedAction = testSprite.getActionFactory().createSetXAction(testSprite, new Formula(10));
 		Action repeatAction = testSprite.getActionFactory().createRepeatUntilAction(testSprite, null, repeatedAction);
 
 		repeatAction.act(1.0f);
 		int repeatCountValue = ((RepeatUntilAction) repeatAction).getExecutedCount();
-		assertEquals("Null Formula should not have been possible to interpret!", 0, repeatCountValue);
+		assertEquals(0, repeatCountValue);
 	}
 
+	@Test
 	public void testNotANumberFormula() {
 		Formula notANumber = new Formula(Double.NaN);
 		testWithFormula(notANumber, testSprite.look.getYInUserInterfaceDimensionUnit());
@@ -161,15 +166,15 @@ public class RepeatUntilActionTest extends InstrumentationTestCase {
 		testScript.addBrick(new ChangeYByNBrick(delta));
 		testScript.addBrick(loopEndBrick);
 		testSprite.addScript(testScript);
-		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
+		testSprite.initializeEventThreads(EventId.START);
 
-		while (!testSprite.look.getAllActionsAreFinished()) {
+		while (!testSprite.look.haveAllThreadsFinished()) {
 			testSprite.look.act(1.0f);
 		}
-		assertEquals("Executed the wrong number of times!", expected,
-				testSprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(expected, testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testConditionCheckedOnlyAtEnd() {
 		Formula validFormula = new Formula(1);
 		validFormula.setRoot(new FormulaElement(ElementType.OPERATOR, Operators.EQUAL.name(), null,
@@ -186,16 +191,16 @@ public class RepeatUntilActionTest extends InstrumentationTestCase {
 		testScript.addBrick(loopEndBrick);
 
 		testSprite.addScript(testScript);
-		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
+		testSprite.initializeEventThreads(EventId.START);
 
-		while (!testSprite.look.getAllActionsAreFinished()) {
+		while (!testSprite.look.haveAllThreadsFinished()) {
 			testSprite.look.act(1.0f);
 		}
 
 		int valueOfUserVariable = ((Double) userVariable.getValue()).intValue();
 		int valueOfUserVariable2 = ((Double) userVariable2.getValue()).intValue();
 
-		assertEquals("Wrong value for userVariable", TRUE_VALUE, valueOfUserVariable);
-		assertEquals("Wrong value for userVariable2", TRUE_VALUE, valueOfUserVariable2);
+		assertEquals(TRUE_VALUE, valueOfUserVariable);
+		assertEquals(TRUE_VALUE, valueOfUserVariable2);
 	}
 }

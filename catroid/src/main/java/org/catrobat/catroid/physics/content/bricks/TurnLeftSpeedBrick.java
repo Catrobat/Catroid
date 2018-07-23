@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,15 +24,12 @@ package org.catrobat.catroid.physics.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
-
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.BrickViewProvider;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -67,15 +64,13 @@ public class TurnLeftSpeedBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	public int getViewResource() {
+		return R.layout.brick_physics_turn_left_speed;
+	}
 
-		view = View.inflate(context, R.layout.brick_physics_turn_left_speed, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_turn_left_speed_checkbox);
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
 
 		TextView edit = (TextView) view.findViewById(R.id.brick_turn_left_speed_edit_text);
 
@@ -89,9 +84,9 @@ public class TurnLeftSpeedBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_physics_turn_left_speed, null);
+		prototypeView = super.getPrototypeView(context);
 		TextView textTurnLeftSpeed = (TextView) prototypeView.findViewById(R.id.brick_turn_left_speed_edit_text);
-		textTurnLeftSpeed.setText(String.valueOf(BrickValues.PHYSIC_TURN_DEGREES));
+		textTurnLeftSpeed.setText(formatNumberForPrototypeView(BrickValues.PHYSIC_TURN_DEGREES));
 		return prototypeView;
 	}
 
@@ -104,7 +99,7 @@ public class TurnLeftSpeedBrick extends FormulaBrick {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createTurnLeftSpeedAction(sprite,
 				getFormulaWithBrickField(BrickField.PHYSICS_TURN_LEFT_SPEED)));
 		return null;

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,7 @@ package org.catrobat.catroid.test.facedetection;
 
 import android.graphics.PointF;
 import android.hardware.Camera;
-import android.test.InstrumentationTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.facedetection.SlowFaceDetector;
@@ -33,10 +33,19 @@ import org.catrobat.catroid.formulaeditor.SensorCustomEventListener;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.Reflection.ParameterList;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.Random;
 
-public class SlowFaceDetectorTest extends InstrumentationTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
+
+@RunWith(AndroidJUnit4.class)
+public class SlowFaceDetectorTest {
 
 	private static final int DETECTION_WIDTH = 400;
 	private static final int DETECTION_HEIGHT = 300;
@@ -47,29 +56,13 @@ public class SlowFaceDetectorTest extends InstrumentationTestCase {
 	private static final int X_POSITION_INDEX = 2;
 	private static final int Y_POSITION_INDEX = 3;
 
-	@Override
+	@Before
 	public void setUp() throws Exception {
-		super.setUp();
 		ScreenValues.SCREEN_WIDTH = 720;
 		ScreenValues.SCREEN_HEIGHT = 1080;
 	}
 
-	public void testNotAvailable() {
-		Camera camera = null;
-		try {
-			camera = Camera.open();
-			SlowFaceDetector detector = new SlowFaceDetector();
-			boolean success = detector.startFaceDetection();
-			assertFalse("SlowFaceDetector should not start if camera not available.", success);
-		} catch (Exception exc) {
-			fail("Camera not available (" + exc.getMessage() + ")");
-		} finally {
-			if (camera != null) {
-				camera.release();
-			}
-		}
-	}
-
+	@Test
 	public void testStartAndStop() {
 
 		Camera camera = null;
@@ -84,7 +77,7 @@ public class SlowFaceDetectorTest extends InstrumentationTestCase {
 		}
 
 		SlowFaceDetector detector = new SlowFaceDetector();
-		assertNotNull("Cannot instantiate SlowFaceDetector", detector);
+		assertNotNull(detector);
 
 		try {
 			detector.startFaceDetection();
@@ -110,6 +103,7 @@ public class SlowFaceDetectorTest extends InstrumentationTestCase {
 		}
 	}
 
+	@Test
 	public void testDoubleStart() {
 		SlowFaceDetector detector = new SlowFaceDetector();
 		detector.startFaceDetection();
@@ -122,6 +116,7 @@ public class SlowFaceDetectorTest extends InstrumentationTestCase {
 		}
 	}
 
+	@Test
 	public void testOnFaceDetectedListener() {
 		SlowFaceDetector detector = new SlowFaceDetector();
 
@@ -132,7 +127,7 @@ public class SlowFaceDetectorTest extends InstrumentationTestCase {
 				detectedFaces[COUNTER_INDEX]++;
 				int value = (int) event.values[0];
 				float intFloatDifference = event.values[0] - value;
-				assertEquals("Face detection values should be integer", intFloatDifference, 0f);
+				assertEquals(intFloatDifference, 0f);
 				switch (event.sensor) {
 					case FACE_X_POSITION:
 						detectedFaces[X_POSITION_INDEX] = value;
@@ -149,30 +144,31 @@ public class SlowFaceDetectorTest extends InstrumentationTestCase {
 			}
 		};
 		detector.addOnFaceDetectedListener(detectionListener);
-		assertEquals("Face Detection Listener receives unexpected calls", 0, detectedFaces[COUNTER_INDEX]);
+		assertEquals(0, detectedFaces[COUNTER_INDEX]);
 
 		PointF centerPoint = new PointF(DETECTION_WIDTH / 2, DETECTION_HEIGHT / 2);
 		ParameterList parameters = new ParameterList(centerPoint, Float.valueOf(EYE_DISTANCE),
 				Integer.valueOf(DETECTION_WIDTH), Integer.valueOf(DETECTION_HEIGHT));
 		Reflection.invokeMethod(detector, "onFaceFound", parameters);
-		assertEquals("Face Detection Listener does not receive calls", 3, detectedFaces[COUNTER_INDEX]);
+		assertEquals(3, detectedFaces[COUNTER_INDEX]);
 
 		int expectedSize = (int) (EYE_DISTANCE * 400 / DETECTION_WIDTH);
-		assertEquals("Unexpected size of face", expectedSize, detectedFaces[SIZE_INDEX]);
+		assertEquals(expectedSize, detectedFaces[SIZE_INDEX]);
 
 		int expectedXPosition = (int) (centerPoint.x / DETECTION_WIDTH * (-1) * ScreenValues.SCREEN_WIDTH)
 				+ ScreenValues.SCREEN_WIDTH / 2;
-		assertEquals("Unexpected x position of face", expectedXPosition, detectedFaces[X_POSITION_INDEX]);
+		assertEquals(expectedXPosition, detectedFaces[X_POSITION_INDEX]);
 
 		int expectedYPosition = (int) (centerPoint.y / DETECTION_HEIGHT * (-1) * ScreenValues.SCREEN_HEIGHT)
 				+ ScreenValues.SCREEN_HEIGHT / 2;
-		assertEquals("Unexpected y position of face", expectedYPosition, detectedFaces[Y_POSITION_INDEX]);
+		assertEquals(expectedYPosition, detectedFaces[Y_POSITION_INDEX]);
 
 		Reflection.invokeMethod(detector, "onFaceFound", parameters);
-		assertTrue("Face Detection Listener reveices too many calls", detectedFaces[COUNTER_INDEX] <= 6);
-		assertEquals("Face Detection Listener does not receive calls", 6, detectedFaces[COUNTER_INDEX]);
+		assertTrue(detectedFaces[COUNTER_INDEX] <= 6);
+		assertEquals(6, detectedFaces[COUNTER_INDEX]);
 	}
 
+	@Test
 	public void testFaceSizeBounds() {
 		SlowFaceDetector detector = new SlowFaceDetector();
 
@@ -189,15 +185,15 @@ public class SlowFaceDetectorTest extends InstrumentationTestCase {
 		ParameterList parameters = new ParameterList(new PointF(), Float.valueOf(EYE_DISTANCE),
 				Integer.valueOf(DETECTION_WIDTH), Integer.valueOf(DETECTION_HEIGHT));
 		Reflection.invokeMethod(detector, "onFaceFound", parameters);
-		assertTrue("Face size must not be negative", faceSize[0] >= 0);
-		assertTrue("Illegal face size, range is [0,100]", faceSize[0] <= 100);
+		assertTrue(faceSize[0] >= 0);
+		assertTrue(faceSize[0] <= 100);
 
 		Random random = new Random();
 		parameters = new ParameterList(new PointF(), Float.valueOf(random.nextInt(DETECTION_WIDTH)),
 				Integer.valueOf(DETECTION_WIDTH), Integer.valueOf(DETECTION_HEIGHT));
 		Reflection.invokeMethod(detector, "onFaceFound", parameters);
-		assertTrue("Face size must not be negative", faceSize[0] >= 0);
-		assertTrue("Illegal face size, range is [0,100]", faceSize[0] <= 100);
+		assertTrue(faceSize[0] >= 0);
+		assertTrue(faceSize[0] <= 100);
 
 		detector.removeOnFaceDetectedListener(detectionListener);
 	}

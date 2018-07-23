@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
@@ -30,8 +30,15 @@ import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class GlideToActionTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.fail;
+
+@RunWith(AndroidJUnit4.class)
+public class GlideToActionTest {
 
 	private static final float X_POSITION = 12f;
 	private static final float Y_POSITION = 150f;
@@ -44,15 +51,15 @@ public class GlideToActionTest extends AndroidTestCase {
 	Formula duration = new Formula(DURATION);
 	private Sprite sprite;
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		sprite = new SingleSprite("testSprite");
-		super.setUp();
 	}
 
+	@Test
 	public void testNormalBehavior() throws InterruptedException {
-		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Unexpected initial sprite y position", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 		sprite.look.setWidth(100.0f);
 		sprite.look.setHeight(50.0f);
 
@@ -62,12 +69,11 @@ public class GlideToActionTest extends AndroidTestCase {
 			currentTimeDelta = System.currentTimeMillis() - currentTimeDelta;
 		} while (!action.act(currentTimeDelta));
 
-		assertEquals("Incorrect sprite x position after GlideToBrick executed", X_POSITION,
-				sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Incorrect sprite y position after GlideToBrick executed", Y_POSITION,
-				sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(X_POSITION, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(Y_POSITION, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNullActor() {
 		ActionFactory factory = new ActionFactory();
 		Action action = factory.createGlideToAction(null, xPosition, yPosition, duration);
@@ -78,23 +84,21 @@ public class GlideToActionTest extends AndroidTestCase {
 		}
 	}
 
+	@Test
 	public void testBoundaryPositions() {
 		Sprite sprite = new SingleSprite("testSprite");
 		sprite.getActionFactory().createPlaceAtAction(sprite, new Formula(Integer.MAX_VALUE), new Formula(
 				Integer.MAX_VALUE)).act(1.0f);
-		assertEquals("PlaceAtBrick failed to place Sprite at maximum x float value", (float) Integer.MAX_VALUE,
-				sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("PlaceAtBrick failed to place Sprite at maximum y float value", (float) Integer.MAX_VALUE,
-				sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals((float) Integer.MAX_VALUE, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals((float) Integer.MAX_VALUE, sprite.look.getYInUserInterfaceDimensionUnit());
 
 		sprite.getActionFactory().createPlaceAtAction(sprite, new Formula(Integer.MIN_VALUE), new Formula(
 				Integer.MIN_VALUE)).act(1.0f);
-		assertEquals("PlaceAtBrick failed to place Sprite at minimum x float value", (float) Integer.MIN_VALUE,
-				sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("PlaceAtBrick failed to place Sprite at minimum y float value", (float) Integer.MIN_VALUE,
-				sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals((float) Integer.MIN_VALUE, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals((float) Integer.MIN_VALUE, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testBrickWithStringFormula() {
 		Action action = sprite.getActionFactory().createGlideToAction(sprite, new Formula(String.valueOf(Y_POSITION)),
 				new Formula(String.valueOf(DURATION)), new Formula(String.valueOf(X_POSITION)));
@@ -104,10 +108,8 @@ public class GlideToActionTest extends AndroidTestCase {
 			currentTimeDelta = System.currentTimeMillis() - currentTimeDelta;
 		} while (!action.act(currentTimeDelta));
 
-		assertEquals("Incorrect sprite x position after GlideToBrick executed", Y_POSITION,
-				sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Incorrect sprite y position after GlideToBrick executed", DURATION,
-				sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(Y_POSITION, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(DURATION, sprite.look.getYInUserInterfaceDimensionUnit());
 
 		action = sprite.getActionFactory().createGlideToAction(sprite, new Formula(NOT_NUMERICAL_STRING), new Formula(
 				NOT_NUMERICAL_STRING2), new Formula(NOT_NUMERICAL_STRING3));
@@ -117,12 +119,11 @@ public class GlideToActionTest extends AndroidTestCase {
 			currentTimeDelta = System.currentTimeMillis() - currentTimeDelta;
 		} while (!action.act(currentTimeDelta));
 
-		assertEquals("Incorrect sprite x position after GlideToBrick executed", 0f,
-				sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Incorrect sprite y position after GlideToBrick executed", 0f,
-				sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNullFormula() {
 		Action action = sprite.getActionFactory().createGlideToAction(sprite, null, null, null);
 
@@ -131,12 +132,11 @@ public class GlideToActionTest extends AndroidTestCase {
 			currentTimeDelta = System.currentTimeMillis() - currentTimeDelta;
 		} while (!action.act(currentTimeDelta));
 
-		assertEquals("Incorrect sprite x position after GlideToBrick executed", 0f,
-				sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Incorrect sprite y position after GlideToBrick executed", 0f,
-				sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNotANumberFormula() {
 		Action action = sprite.getActionFactory().createGlideToAction(sprite, new Formula(Double.NaN),
 				new Formula(Double.NaN), new Formula(Double.NaN));
@@ -146,9 +146,7 @@ public class GlideToActionTest extends AndroidTestCase {
 			currentTimeDelta = System.currentTimeMillis() - currentTimeDelta;
 		} while (!action.act(currentTimeDelta));
 
-		assertEquals("Incorrect sprite x position after GlideToBrick executed", 0f,
-				sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Incorrect sprite y position after GlideToBrick executed", 0f,
-				sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 }

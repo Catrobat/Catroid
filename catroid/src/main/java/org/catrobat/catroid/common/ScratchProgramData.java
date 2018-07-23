@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -51,7 +51,7 @@ public class ScratchProgramData implements Serializable, Parcelable {
 	private Date sharedDate;
 	private List<String> tags;
 	private ScratchVisibilityState visibilityState;
-	private List<ScratchProgramData> remixes;
+	private List<ScratchProgramData> remixes = new ArrayList<>();
 
 	public ScratchProgramData(long id, String title, String owner, WebImage image) {
 		this.id = id;

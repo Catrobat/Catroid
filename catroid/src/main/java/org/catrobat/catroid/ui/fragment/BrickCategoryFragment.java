@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,9 +22,10 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import android.app.ActionBar;
 import android.app.ListFragment;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -36,15 +37,17 @@ import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.BottomBar;
-import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.adapter.BrickCategoryAdapter;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.SnackbarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
+
+import static org.catrobat.catroid.ui.settingsfragments.AccessibilityProfile.BEGINNER_BRICKS;
 
 public class BrickCategoryFragment extends ListFragment {
 
@@ -63,6 +66,11 @@ public class BrickCategoryFragment extends ListFragment {
 
 	public void setBrickAdapter(BrickAdapter brickAdapter) {
 		this.brickAdapter = brickAdapter;
+	}
+
+	private boolean onlyBeginnerBricks() {
+		return PreferenceManager.getDefaultSharedPreferences(getActivity())
+				.getBoolean(BEGINNER_BRICKS, false);
 	}
 
 	@Override
@@ -133,62 +141,67 @@ public class BrickCategoryFragment extends ListFragment {
 	}
 
 	private void setUpActionBar() {
-		ActionBar actionBar = getActivity().getActionBar();
-		actionBar.setDisplayShowTitleEnabled(true);
-
-		this.previousActionBarTitle = actionBar.getTitle();
-		actionBar.setTitle(R.string.categories);
+		((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
+		previousActionBarTitle = ((AppCompatActivity) getActivity()).getSupportActionBar().getTitle();
+		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.categories);
 	}
 
 	private void resetActionBar() {
-		ActionBar actionBar = getActivity().getActionBar();
-		actionBar.setDisplayShowTitleEnabled(true);
-		actionBar.setTitle(this.previousActionBarTitle);
+		((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
+		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(this.previousActionBarTitle);
 	}
 
 	private void setupBrickCategories() {
 		LayoutInflater inflater = getActivity().getLayoutInflater();
 		List<View> categories = new ArrayList<>();
+
+		if (SettingsFragment.isEmroiderySharedPreferenceEnabled(getActivity())) {
+			categories.add(inflater.inflate(R.layout.brick_category_embroidery, null));
+		}
+
 		categories.add(inflater.inflate(R.layout.brick_category_event, null));
 		categories.add(inflater.inflate(R.layout.brick_category_control, null));
 		categories.add(inflater.inflate(R.layout.brick_category_motion, null));
 		categories.add(inflater.inflate(R.layout.brick_category_sound, null));
 		categories.add(inflater.inflate(R.layout.brick_category_looks, null));
-		categories.add(inflater.inflate(R.layout.brick_category_pen, null));
+		if (!onlyBeginnerBricks()) {
+			categories.add(inflater.inflate(R.layout.brick_category_pen, null));
+		}
 		categories.add(inflater.inflate(R.layout.brick_category_data, null));
 
-		if (SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(getActivity())) {
+		if (SettingsFragment.isMindstormsNXTSharedPreferenceEnabled(getActivity())) {
 			categories.add(inflater.inflate(R.layout.brick_category_lego_nxt, null));
 		}
 
-		if (SettingsActivity.isMindstormsEV3SharedPreferenceEnabled(getActivity())) {
+		if (SettingsFragment.isMindstormsEV3SharedPreferenceEnabled(getActivity())) {
 			categories.add(inflater.inflate(R.layout.brick_category_lego_ev3, null));
 		}
 
-		if (BuildConfig.FEATURE_USERBRICKS_ENABLED && brickAdapter.getUserBrick() == null) {
+		if (BuildConfig.FEATURE_USERBRICKS_ENABLED && brickAdapter.getUserBrick() == null
+				&& !onlyBeginnerBricks()) {
 			categories.add(inflater.inflate(R.layout.brick_category_userbricks, null));
 		}
 
-		if (SettingsActivity.isDroneSharedPreferenceEnabled(getActivity())) {
+		if (SettingsFragment.isDroneSharedPreferenceEnabled(getActivity())) {
 			categories.add(inflater.inflate(R.layout.brick_category_drone, null));
 		}
 
-		if (SettingsActivity.isJSSharedPreferenceEnabled(getActivity())) {
+		if (SettingsFragment.isJSSharedPreferenceEnabled(getActivity())) {
 			categories.add(inflater.inflate(R.layout.brick_category_drone_js, null));
 		}
 
-		if (SettingsActivity.isPhiroSharedPreferenceEnabled(getActivity())) {
+		if (SettingsFragment.isPhiroSharedPreferenceEnabled(getActivity())) {
 			categories.add(inflater.inflate(R.layout.brick_category_phiro, null));
 		}
 
-		if (SettingsActivity.isArduinoSharedPreferenceEnabled(getActivity())) {
+		if (SettingsFragment.isArduinoSharedPreferenceEnabled(getActivity())) {
 			categories.add(inflater.inflate(R.layout.brick_category_arduino, null));
 		}
 
 		if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 			categories.add(inflater.inflate(R.layout.brick_category_chromecast, null));
 		}
-		if (SettingsActivity.isRaspiSharedPreferenceEnabled(getActivity())) {
+		if (SettingsFragment.isRaspiSharedPreferenceEnabled(getActivity())) {
 			categories.add(inflater.inflate(R.layout.brick_category_raspi, null));
 		}
 

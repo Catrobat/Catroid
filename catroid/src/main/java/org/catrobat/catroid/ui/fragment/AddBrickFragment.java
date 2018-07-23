@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,12 +22,13 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -49,6 +50,8 @@ import org.catrobat.catroid.utils.ToastUtil;
 
 import java.util.List;
 
+import static org.catrobat.catroid.ui.settingsfragments.AccessibilityProfile.BEGINNER_BRICKS;
+
 public class AddBrickFragment extends ListFragment {
 
 	private static final String BUNDLE_ARGUMENTS_SELECTED_CATEGORY = "selected_category";
@@ -56,10 +59,13 @@ public class AddBrickFragment extends ListFragment {
 	private ScriptFragment scriptFragment;
 	private CharSequence previousActionBarTitle;
 	private PrototypeBrickAdapter adapter;
-	private CategoryBricksFactory categoryBricksFactory = new CategoryBricksFactory();
-	public static AddBrickFragment addButtonHandler = null;
 
 	private static int listIndexToFocus = -1;
+
+	private boolean onlyBeginnerBricks() {
+		return PreferenceManager.getDefaultSharedPreferences(getActivity())
+				.getBoolean(BEGINNER_BRICKS, false);
+	}
 
 	public static AddBrickFragment newInstance(String selectedCategory, ScriptFragment scriptFragment) {
 		AddBrickFragment fragment = new AddBrickFragment();
@@ -73,10 +79,11 @@ public class AddBrickFragment extends ListFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_brick_add, container, false);
+		previousActionBarTitle = ((AppCompatActivity) getActivity()).getSupportActionBar().getTitle();
+		((AppCompatActivity) getActivity())
+				.getSupportActionBar().setTitle(getArguments().getString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY));
 
-		setUpActionBar();
 		setupSelectedBrickCategory();
-
 		return view;
 	}
 
@@ -84,6 +91,13 @@ public class AddBrickFragment extends ListFragment {
 		Context context = getActivity();
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 		String selectedCategory = getArguments().getString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY);
+
+		CategoryBricksFactory categoryBricksFactory;
+		if (onlyBeginnerBricks()) {
+			categoryBricksFactory = new CategoryBeginnerBricksFactory();
+		} else {
+			categoryBricksFactory = new CategoryBricksFactory();
+		}
 
 		List<Brick> brickList = categoryBricksFactory.getBricks(selectedCategory, sprite, context);
 		adapter = new PrototypeBrickAdapter(context, scriptFragment, this, brickList);
@@ -96,22 +110,6 @@ public class AddBrickFragment extends ListFragment {
 		setHasOptionsMenu(true);
 	}
 
-	private void setUpActionBar() {
-		ActionBar actionBar = getActivity().getActionBar();
-		if (actionBar != null) {
-			actionBar.setDisplayShowTitleEnabled(true);
-			previousActionBarTitle = actionBar.getTitle();
-			actionBar.setTitle(this.getArguments().getString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY));
-		}
-	}
-
-	private void resetActionBar() {
-		ActionBar actionBar = getActivity().getActionBar();
-		if (actionBar != null) {
-			actionBar.setTitle(previousActionBarTitle);
-		}
-	}
-
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
 		menu.findItem(R.id.comment_in_out).setVisible(false);
@@ -120,7 +118,7 @@ public class AddBrickFragment extends ListFragment {
 
 	@Override
 	public void onDestroy() {
-		resetActionBar();
+		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(previousActionBarTitle);
 		super.onDestroy();
 	}
 

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -628,16 +628,16 @@ public class BrickLayout extends ViewGroup {
 
 		private void readStyleParameters(Context context, AttributeSet attributeSet) {
 			TypedArray styledAttributes = context.obtainStyledAttributes(attributeSet,
-					R.styleable.FlowLayout_LayoutParams);
+					R.styleable.BrickLayout_Layout);
 			try {
 				horizontalSpacing = styledAttributes.getDimensionPixelSize(
-						R.styleable.FlowLayout_LayoutParams_layout_horizontalSpacing, NO_SPACING);
+						R.styleable.BrickLayout_Layout_layout_horizontalSpacing, NO_SPACING);
 				verticalSpacing = styledAttributes.getDimensionPixelSize(
-						R.styleable.FlowLayout_LayoutParams_layout_verticalSpacing, NO_SPACING);
-				newLine = styledAttributes.getBoolean(R.styleable.FlowLayout_LayoutParams_layout_newLine, false);
-				textField = styledAttributes.getBoolean(R.styleable.FlowLayout_LayoutParams_layout_textField, false);
+						R.styleable.BrickLayout_Layout_layout_verticalSpacing, NO_SPACING);
+				newLine = styledAttributes.getBoolean(R.styleable.BrickLayout_Layout_layout_newLine, false);
+				textField = styledAttributes.getBoolean(R.styleable.BrickLayout_Layout_layout_textField, false);
 				String inputTypeString = styledAttributes
-						.getString(R.styleable.FlowLayout_LayoutParams_layout_inputType);
+						.getString(R.styleable.BrickLayout_Layout_layout_inputType);
 
 				inputType = (inputTypeString != null && inputTypeString.equals("text") ? InputType.TEXT
 						: InputType.NUMBER);

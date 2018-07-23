@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,29 +22,33 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.InstrumentationTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.actions.EventThread;
 import org.catrobat.catroid.content.actions.RepeatAction;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
+import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.test.utils.Reflection;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import java.util.HashMap;
-import java.util.List;
+import static junit.framework.Assert.assertEquals;
 
-public class RepeatActionTest extends InstrumentationTestCase {
+@RunWith(AndroidJUnit4.class)
+public class RepeatActionTest {
 
 	private static final int REPEAT_TIMES = 4;
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
@@ -52,12 +56,13 @@ public class RepeatActionTest extends InstrumentationTestCase {
 	private Script testScript;
 	private int delta = 5;
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		testSprite = new SingleSprite("sprite");
 		testScript = new StartScript();
 	}
 
+	@Test
 	public void testLoopDelay() throws InterruptedException {
 		final int deltaY = -10;
 		final float delta = 0.005f;
@@ -73,7 +78,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		testScript.addBrick(new ChangeYByNBrick(150));
 
 		testSprite.addScript(testScript);
-		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
+		testSprite.initializeEventThreads(EventId.START);
 
 		// http://code.google.com/p/catroid/issues/detail?id=28
 		for (int index = 0; index < REPEAT_TIMES; index++) {
@@ -82,11 +87,11 @@ public class RepeatActionTest extends InstrumentationTestCase {
 			}
 		}
 
-		assertEquals("Loop delay did was not 20ms!", deltaY * REPEAT_TIMES,
-				(int) testSprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(deltaY * REPEAT_TIMES, (int) testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
-	public void testRepeatBrick() throws InterruptedException {
+	@Test
+	public void testRepeatBrick() {
 
 		RepeatBrick repeatBrick = new RepeatBrick(REPEAT_TIMES);
 		LoopEndBrick loopEndBrick = new LoopEndBrick(repeatBrick);
@@ -100,16 +105,16 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		testScript.addBrick(loopEndBrick);
 
 		testSprite.addScript(testScript);
-		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
+		testSprite.initializeEventThreads(EventId.START);
 
-		while (!testSprite.look.getAllActionsAreFinished()) {
+		while (!testSprite.look.haveAllThreadsFinished()) {
 			testSprite.look.act(1.0f);
 		}
 
-		assertEquals("Executed the wrong number of times!", REPEAT_TIMES * deltaY,
-				(int) testSprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(REPEAT_TIMES * deltaY, (int) testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testRepeatCount() {
 		Sprite testSprite = new SingleSprite("sprite");
 		Script testScript = new StartScript();
@@ -127,16 +132,16 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		testScript.addBrick(loopEndBrick);
 
 		testSprite.addScript(testScript);
-		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
+		testSprite.initializeEventThreads(EventId.START);
 
-		while (!testSprite.look.getAllActionsAreFinished()) {
+		while (!testSprite.look.haveAllThreadsFinished()) {
 			testSprite.look.act(1.0f);
 		}
 
-		assertEquals("Executed the wrong number of times!", deltaY * 9,
-				(int) testSprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(deltaY * 9, (int) testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNestedRepeatBrick() throws InterruptedException {
 		final int deltaY = -10;
 		final float delta = 0.005f;
@@ -157,24 +162,24 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		testScript.addBrick(loopEndBrick);
 
 		testSprite.addScript(testScript);
-		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
+		testSprite.initializeEventThreads(EventId.START);
 
 		float timePerActCycle = 0.5f;
 
-		while (!testSprite.look.getAllActionsAreFinished()) {
+		while (!testSprite.look.haveAllThreadsFinished()) {
 			testSprite.look.act(timePerActCycle);
 		}
 
 		testSprite.look.act(delta);
-		assertEquals("Executed the wrong number of times!", REPEAT_TIMES * REPEAT_TIMES * deltaY,
-				(int) testSprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(REPEAT_TIMES * REPEAT_TIMES * deltaY, (int) testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
-	public void testNegativeRepeats() throws InterruptedException {
+	@Test
+	public void testNegativeRepeats() {
 		Sprite testSprite = new SingleSprite("sprite");
 		RepeatBrick repeatBrick = new RepeatBrick(-1);
 
-		SequenceAction sequence = (SequenceAction) testSprite.getActionFactory().createSequence();
+		EventThread sequence = (EventThread) testSprite.getActionFactory().createEventThread(new StartScript());
 		repeatBrick.addActionToSequence(testSprite, sequence);
 
 		RepeatAction repeatAction = (RepeatAction) sequence.getActions().get(0);
@@ -184,10 +189,11 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		}
 		int executedCount = (Integer) Reflection.getPrivateField(repeatAction, "executedCount");
 
-		assertEquals("Executed the wrong number of times!", 0, executedCount);
+		assertEquals(0, executedCount);
 	}
 
-	public void testZeroRepeats() throws InterruptedException {
+	@Test
+	public void testZeroRepeats() {
 		final float decoyDeltaY = -150f;
 		final float expectedDeltaY = 150f;
 
@@ -199,29 +205,32 @@ public class RepeatActionTest extends InstrumentationTestCase {
 
 		int executedCount = (Integer) Reflection.getPrivateField(repeatAction, "executedCount");
 
-		assertEquals("Executed the wrong number of times!", 0, executedCount);
-		assertEquals("Loop was executed although repeats were set to zero!", expectedDeltaY,
-				testSprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(0, executedCount);
+		assertEquals(expectedDeltaY, testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testBrickWithValidStringFormula() {
 		Formula stringFormula = new Formula(String.valueOf(REPEAT_TIMES));
 		testWithFormula(stringFormula, testSprite.look.getYInUserInterfaceDimensionUnit() + delta * REPEAT_TIMES);
 	}
 
+	@Test
 	public void testBrickWithInValidStringFormula() {
 		Formula stringFormula = new Formula(String.valueOf(NOT_NUMERICAL_STRING));
 		testWithFormula(stringFormula, testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNullFormula() {
 		Action repeatedAction = testSprite.getActionFactory().createSetXAction(testSprite, new Formula(10));
 		Action repeatAction = testSprite.getActionFactory().createRepeatAction(testSprite, null, repeatedAction);
 		repeatAction.act(1.0f);
 		Object repeatCountValue = Reflection.getPrivateField(repeatAction, "repeatCountValue");
-		assertEquals("Null Formula should not have been possible to interpret!", 0, repeatCountValue);
+		assertEquals(0, repeatCountValue);
 	}
 
+	@Test
 	public void testNotANumberFormula() {
 		Formula notANumber = new Formula(Double.NaN);
 		testWithFormula(notANumber, testSprite.look.getYInUserInterfaceDimensionUnit());
@@ -236,12 +245,11 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		testScript.addBrick(new ChangeYByNBrick(delta));
 		testScript.addBrick(loopEndBrick);
 		testSprite.addScript(testScript);
-		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
+		testSprite.initializeEventThreads(EventId.START);
 
-		while (!testSprite.look.getAllActionsAreFinished()) {
+		while (!testSprite.look.haveAllThreadsFinished()) {
 			testSprite.look.act(1.0f);
 		}
-		assertEquals("Executed the wrong number of times!", expected,
-				testSprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(expected, testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 }

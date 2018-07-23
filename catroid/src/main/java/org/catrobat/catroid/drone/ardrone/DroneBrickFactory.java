@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,8 +22,11 @@
  */
 package org.catrobat.catroid.drone.ardrone;
 
+import com.parrot.freeflight.drone.DroneProxy.ARDRONE_LED_ANIMATION;
+
 import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.DroneEmergencyBrick;
+import org.catrobat.catroid.content.bricks.DroneFlipBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveDownBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveForwardBrick;
@@ -43,6 +46,7 @@ public final class DroneBrickFactory {
 
 	public enum DroneBricks {
 		DRONE_TAKE_OFF_LAND_BRICK,
+		DRONE_FLIP_BRICK,
 		DRONE_PLAY_LED_ANIMATION_BRICK,
 		DRONE_GO_EMERGENCY,
 		DRONE_MOVE_DOWN_BRICK,
@@ -63,8 +67,11 @@ public final class DroneBrickFactory {
 			case DRONE_TAKE_OFF_LAND_BRICK:
 				return new DroneTakeOffLandBrick();
 
+			case DRONE_FLIP_BRICK:
+				return new DroneFlipBrick();
+
 			case DRONE_PLAY_LED_ANIMATION_BRICK:
-				return new DronePlayLedAnimationBrick();
+				return new DronePlayLedAnimationBrick(ARDRONE_LED_ANIMATION.ARDRONE_LED_ANIMATION_BLINK_GREEN_RED);
 
 			case DRONE_MOVE_DOWN_BRICK:
 				return new DroneMoveDownBrick(timeInMilliseconds, powerInPercent);

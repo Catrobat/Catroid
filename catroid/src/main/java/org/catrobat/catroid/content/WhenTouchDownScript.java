@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,6 +25,7 @@ package org.catrobat.catroid.content;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.WhenTouchDownBrick;
+import org.catrobat.catroid.content.eventids.EventId;
 
 import java.util.ArrayList;
 
@@ -33,10 +34,10 @@ public class WhenTouchDownScript extends Script {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public Script copyScriptForSprite(Sprite copySprite) {
-		WhenTouchDownScript cloneScript = new WhenTouchDownScript();
-		doCopy(copySprite, cloneScript);
-		return cloneScript;
+	public Script clone() throws CloneNotSupportedException {
+		WhenTouchDownScript clone = new WhenTouchDownScript();
+		clone.getBrickList().addAll(cloneBrickList());
+		return clone;
 	}
 
 	@Override
@@ -56,5 +57,10 @@ public class WhenTouchDownScript extends Script {
 			resources |= brick.getRequiredResources();
 		}
 		return resources;
+	}
+
+	@Override
+	public EventId createEventId(Sprite sprite) {
+		return new EventId(EventId.TAP_BACKGROUND);
 	}
 }

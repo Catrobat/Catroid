@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,15 +25,14 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
@@ -42,11 +41,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
+
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = IfLogicBeginBrick.class.getSimpleName();
-	protected transient IfLogicElseBrick ifElseBrick;
-	protected transient IfLogicEndBrick ifEndBrick;
-	protected transient IfLogicBeginBrick copy;
+	transient IfLogicElseBrick ifElseBrick;
+	transient IfLogicEndBrick ifEndBrick;
 
 	public IfLogicBeginBrick() {
 		addAllowedBrickField(BrickField.IF_CONDITION);
@@ -74,16 +73,12 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 		return ifElseBrick;
 	}
 
-	public IfLogicEndBrick getIfEndBrick() {
-		return ifEndBrick;
-	}
-
-	public IfLogicBeginBrick getCopy() {
-		return copy;
-	}
-
 	public void setIfElseBrick(IfLogicElseBrick elseBrick) {
 		this.ifElseBrick = elseBrick;
+	}
+
+	public IfLogicEndBrick getIfEndBrick() {
+		return ifEndBrick;
 	}
 
 	public void setIfEndBrick(IfLogicEndBrick ifEndBrick) {
@@ -101,32 +96,29 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	public int getViewResource() {
+		return R.layout.brick_if_begin_if;
+	}
 
-		view = View.inflate(context, R.layout.brick_if_begin_if, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_if_begin_checkbox);
-
-		TextView ifBeginTextView = (TextView) view.findViewById(R.id.brick_if_begin_edit_text);
-
-		getFormulaWithBrickField(BrickField.IF_CONDITION).setTextFieldId(R.id.brick_if_begin_edit_text);
-		getFormulaWithBrickField(BrickField.IF_CONDITION).refreshTextField(view);
-
-		ifBeginTextView.setOnClickListener(this);
-
-		removePrototypeElseTextViews(view);
-
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
+		onViewCreated(view);
 		return view;
 	}
 
+	protected void onViewCreated(View view) {
+		TextView ifBeginTextView = view.findViewById(R.id.brick_if_begin_edit_text);
+		getFormulaWithBrickField(BrickField.IF_CONDITION).setTextFieldId(R.id.brick_if_begin_edit_text);
+		getFormulaWithBrickField(BrickField.IF_CONDITION).refreshTextField(view);
+		ifBeginTextView.setOnClickListener(this);
+		removePrototypeElseTextViews(view);
+	}
+
 	protected void removePrototypeElseTextViews(View view) {
-		TextView prototypeTextPunctuation = (TextView) view.findViewById(R.id.if_else_prototype_punctuation);
-		TextView prototypeTextElse = (TextView) view.findViewById(R.id.if_prototype_else);
-		TextView prototypeTextPunctuation2 = (TextView) view.findViewById(R.id.if_else_prototype_punctuation2);
+		TextView prototypeTextPunctuation = view.findViewById(R.id.if_else_prototype_punctuation);
+		TextView prototypeTextElse = view.findViewById(R.id.if_prototype_else);
+		TextView prototypeTextPunctuation2 = view.findViewById(R.id.if_else_prototype_punctuation2);
 		prototypeTextPunctuation.setVisibility(View.GONE);
 		prototypeTextElse.setVisibility(View.GONE);
 		prototypeTextPunctuation2.setVisibility(View.GONE);
@@ -134,10 +126,14 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_if_begin_if, null);
-		TextView textIfBegin = (TextView) prototypeView.findViewById(R.id.brick_if_begin_edit_text);
-		textIfBegin.setText(String.valueOf(BrickValues.IF_CONDITION));
+		View prototypeView = super.getPrototypeView(context);
+		onPrototypeViewCreated(prototypeView);
 		return prototypeView;
+	}
+
+	protected void onPrototypeViewCreated(View prototypeView) {
+		TextView textIfBegin = prototypeView.findViewById(R.id.brick_if_begin_edit_text);
+		textIfBegin.setText(BrickValues.IF_CONDITION);
 	}
 
 	@Override
@@ -174,27 +170,17 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		SequenceAction ifAction = (SequenceAction) sprite.getActionFactory().createSequence();
-		SequenceAction elseAction = (SequenceAction) sprite.getActionFactory().createSequence();
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		ScriptSequenceAction ifAction = (ScriptSequenceAction) sprite.getActionFactory().eventSequence(sequence.getScript());
+		ScriptSequenceAction elseAction = (ScriptSequenceAction) sprite.getActionFactory().eventSequence(sequence.getScript());
 		Action action = sprite.getActionFactory().createIfLogicAction(sprite,
 				getFormulaWithBrickField(BrickField.IF_CONDITION), ifAction, elseAction);
 		sequence.addAction(action);
 
-		LinkedList<SequenceAction> returnActionList = new LinkedList<>();
+		LinkedList<ScriptSequenceAction> returnActionList = new LinkedList<>();
 		returnActionList.add(elseAction);
 		returnActionList.add(ifAction);
 
 		return returnActionList;
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		//ifEndBrick and ifElseBrick will be set in the copyBrickForSprite method of IfLogicEndBrick
-		IfLogicBeginBrick copyBrick = (IfLogicBeginBrick) clone(); //Using the clone method because of its flexibility if new fields are added
-		copyBrick.ifElseBrick = null; //if the Formula gets a field sprite, a separate copy method will be needed
-		copyBrick.ifEndBrick = null;
-		this.copy = copyBrick;
-		return copyBrick;
 	}
 }

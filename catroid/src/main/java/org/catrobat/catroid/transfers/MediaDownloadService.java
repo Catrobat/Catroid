@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -93,7 +93,7 @@ public class MediaDownloadService extends IntentService {
 
 				@Override
 				public void run() {
-					ToastUtil.showError(getApplicationContext(), messageId);
+					ToastUtil.showError(getBaseContext(), messageId);
 				}
 			});
 		} else {
@@ -101,7 +101,7 @@ public class MediaDownloadService extends IntentService {
 
 				@Override
 				public void run() {
-					ToastUtil.showSuccess(getApplicationContext(), messageId);
+					ToastUtil.showSuccess(getBaseContext(), messageId);
 				}
 			});
 		}

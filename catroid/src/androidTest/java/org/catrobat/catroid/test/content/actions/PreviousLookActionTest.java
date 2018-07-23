@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.InstrumentationTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
@@ -33,33 +33,40 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.NextLookAction;
 import org.catrobat.catroid.content.actions.PreviousLookAction;
 import org.catrobat.catroid.content.actions.SetLookAction;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.File;
 
-public class PreviousLookActionTest extends InstrumentationTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNull;
+
+@RunWith(AndroidJUnit4.class)
+public class PreviousLookActionTest {
 
 	private File testImage;
 	private Sprite sprite;
 	private ActionFactory actionFactory;
 
-	@Override
-	protected void setUp() throws Exception {
-		final String imagePath = Constants.DEFAULT_ROOT + "/testImage.png";
-		testImage = new File(imagePath);
+	@Before
+	public void setUp() throws Exception {
+		testImage = new File(Constants.DEFAULT_ROOT_DIRECTORY, "testImage.png");
 		sprite = new Sprite("cat");
 		actionFactory = sprite.getActionFactory();
 	}
 
+	@Test
 	public void testPreviousLook() {
 		LookData lookData1 = new LookData();
-		lookData1.setLookFilename(testImage.getName());
-		lookData1.setLookName("testImage1");
-		sprite.getLookDataList().add(lookData1);
+		lookData1.setFile(testImage);
+		lookData1.setName("testImage1");
+		sprite.getLookList().add(lookData1);
 
 		LookData lookData2 = new LookData();
-		lookData2.setLookFilename(testImage.getName());
-		lookData2.setLookName("testImage2");
-		sprite.getLookDataList().add(lookData2);
+		lookData2.setFile(testImage);
+		lookData2.setName("testImage2");
+		sprite.getLookList().add(lookData2);
 
 		SetLookAction setLookAction = (SetLookAction) actionFactory.createSetLookAction(sprite, lookData1);
 		NextLookAction nextLookAction = (NextLookAction) actionFactory.createNextLookAction(sprite);
@@ -68,28 +75,29 @@ public class PreviousLookActionTest extends InstrumentationTestCase {
 		setLookAction.act(1.0f);
 		nextLookAction.act(1.0f);
 
-		assertEquals("Look is not next look", lookData2, sprite.look.getLookData());
+		assertEquals(lookData2, sprite.look.getLookData());
 
 		previousLookAction.act(1.0f);
 
-		assertEquals("Look is not previous look", lookData1.getLookName(), sprite.look.getLookData().getLookName());
+		assertEquals(lookData1, sprite.look.getLookData());
 	}
 
+	@Test
 	public void testLastLook() {
 		LookData lookData1 = new LookData();
-		lookData1.setLookFilename(testImage.getName());
-		lookData1.setLookName("testImage1");
-		sprite.getLookDataList().add(lookData1);
+		lookData1.setFile(testImage);
+		lookData1.setName("testImage1");
+		sprite.getLookList().add(lookData1);
 
 		LookData lookData2 = new LookData();
-		lookData2.setLookFilename(testImage.getName());
-		lookData2.setLookName("testImage2");
-		sprite.getLookDataList().add(lookData2);
+		lookData2.setFile(testImage);
+		lookData2.setName("testImage2");
+		sprite.getLookList().add(lookData2);
 
 		LookData lookData3 = new LookData();
-		lookData3.setLookFilename(testImage.getName());
-		lookData3.setLookName("testImage3");
-		sprite.getLookDataList().add(lookData3);
+		lookData3.setFile(testImage);
+		lookData3.setName("testImage3");
+		sprite.getLookList().add(lookData3);
 
 		Action setLookAction = actionFactory.createSetLookAction(sprite, lookData1);
 		Action previousLookAction = actionFactory.createPreviousLookAction(sprite);
@@ -97,21 +105,23 @@ public class PreviousLookActionTest extends InstrumentationTestCase {
 		setLookAction.act(1.0f);
 		previousLookAction.act(1.0f);
 
-		assertEquals("Look is not last look", lookData3.getLookName(), sprite.look.getLookData().getLookName());
+		assertEquals(lookData3.getName(), sprite.look.getLookData().getName());
 	}
 
+	@Test
 	public void testLookGalleryNull() {
 		Action previousLookAction = actionFactory.createPreviousLookAction(sprite);
 		previousLookAction.act(1.0f);
 
-		assertEquals("Look is not null", null, sprite.look.getLookData());
+		assertNull(sprite.look.getLookData());
 	}
 
+	@Test
 	public void testLookGalleryWithOneLook() {
 		LookData lookData1 = new LookData();
-		lookData1.setLookFilename(testImage.getName());
-		lookData1.setLookName("testImage1");
-		sprite.getLookDataList().add(lookData1);
+		lookData1.setFile(testImage);
+		lookData1.setName("testImage1");
+		sprite.getLookList().add(lookData1);
 
 		Action setLookAction = actionFactory.createSetLookAction(sprite, lookData1);
 		Action previousLookAction = actionFactory.createPreviousLookAction(sprite);
@@ -119,20 +129,20 @@ public class PreviousLookActionTest extends InstrumentationTestCase {
 		setLookAction.act(1.0f);
 		previousLookAction.act(1.0f);
 
-		assertEquals("Wrong look after executing PreviousLookBrick with just one look", lookData1.getLookName(),
-				sprite.look.getLookData().getLookName());
+		assertEquals(lookData1.getName(), sprite.look.getLookData().getName());
 	}
 
+	@Test
 	public void testPreviousLookWithNoLookSet() {
 		Action previousLookAction = actionFactory.createPreviousLookAction(sprite);
 
 		LookData lookData1 = new LookData();
-		lookData1.setLookFilename(testImage.getName());
-		lookData1.setLookName("testImage1");
-		sprite.getLookDataList().add(lookData1);
+		lookData1.setFile(testImage);
+		lookData1.setName("testImage1");
+		sprite.getLookList().add(lookData1);
 
 		previousLookAction.act(1.0f);
 
-		assertNull("No look should be set.", sprite.look.getLookData());
+		assertNull(sprite.look.getLookData());
 	}
 }

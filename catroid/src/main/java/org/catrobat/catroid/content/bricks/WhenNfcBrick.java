@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,11 +31,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
-
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -43,13 +40,11 @@ import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenNfcScript;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.fragment.NfcTagFragment;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
 import java.util.List;
 
-public class WhenNfcBrick extends BrickBaseType implements ScriptBrick, NfcTagFragment
-		.OnNfcTagDataListChangedAfterNewListener {
+public class WhenNfcBrick extends BrickBaseType implements ScriptBrick {
 
 	protected WhenNfcScript whenNfcScript;
 	private transient View prototypeView;
@@ -64,15 +59,6 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick, NfcTagFr
 		this.whenNfcScript.setMatchAll(true);
 	}
 
-	public WhenNfcBrick(String tagName, String tagUid) {
-		this.oldSelectedNfcTag = null;
-		this.nfcTag = new NfcTagData();
-		this.nfcTag.setNfcTagName(tagName);
-		this.nfcTag.setNfcTagUid(tagUid);
-		this.whenNfcScript = new WhenNfcScript(nfcTag);
-		this.whenNfcScript.setMatchAll(false);
-	}
-
 	public WhenNfcBrick(WhenNfcScript script) {
 		this.oldSelectedNfcTag = null;
 		this.nfcTag = script.getNfcTag();
@@ -81,20 +67,6 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick, NfcTagFr
 		if (script != null && script.isCommentedOut()) {
 			setCommentedOut(true);
 		}
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		WhenNfcBrick copyBrick = (WhenNfcBrick) clone();
-
-		for (NfcTagData data : sprite.getNfcTagList()) {
-			if (data.getNfcTagUid().equals(nfcTag.getNfcTagUid())) {
-				copyBrick.nfcTag = data;
-				break;
-			}
-		}
-		copyBrick.whenNfcScript = whenNfcScript;
-		return copyBrick;
 	}
 
 	@Override
@@ -107,25 +79,20 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick, NfcTagFr
 
 	@Override
 	public Brick clone() {
-		//return new WhenNfcBrick(sprite, new WhenNfcScript(sprite));
 		return new WhenNfcBrick(new WhenNfcScript(nfcTag));
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		if (view == null) {
-			alphaValue = 255;
-		}
+	public int getViewResource() {
+		return R.layout.brick_when_nfc;
+	}
+
+	@Override
+	public View getView(final Context context) {
 		if (whenNfcScript == null) {
 			whenNfcScript = new WhenNfcScript(nfcTag);
 		}
-
-		view = View.inflate(context, R.layout.brick_when_nfc, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
+		super.getView(context);
 		final Spinner nfcSpinner = (Spinner) view.findViewById(R.id.brick_when_nfc_spinner);
 
 		final ArrayAdapter<NfcTagData> spinnerAdapter = createNfcTagAdapter(context);
@@ -212,21 +179,13 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick, NfcTagFr
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_when_nfc, null);
+		prototypeView = super.getPrototypeView(context);
 		Spinner nfcSpinner = (Spinner) prototypeView.findViewById(R.id.brick_when_nfc_spinner);
 
 		SpinnerAdapter nfcSpinnerAdapter = createNfcTagAdapter(context); //NfcTagContainer.getMessageAdapter(context);
 		nfcSpinner.setAdapter(nfcSpinnerAdapter);
 		setSpinnerSelection(nfcSpinner);
 		return prototypeView;
-	}
-
-	private void setOnNfcTagDataListChangedAfterNewListener(Context context) {
-		ScriptActivity scriptActivity = (ScriptActivity) context;
-		NfcTagFragment nfcTagFragment = (NfcTagFragment) scriptActivity.getFragment(ScriptActivity.FRAGMENT_NFCTAGS);
-		if (nfcTagFragment != null) {
-			nfcTagFragment.setOnNfcTagDataListChangedAfterNewListener(this);
-		}
 	}
 
 	private class SpinnerAdapterWrapper implements SpinnerAdapter {
@@ -281,9 +240,7 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick, NfcTagFr
 		public View getView(int paramInt, View paramView, ViewGroup paramViewGroup) {
 			if (isTouchInDropDownView) {
 				isTouchInDropDownView = false;
-				if (paramInt == 0) {
-					switchToNfcTagFragmentFromScriptFragment();
-				}
+				//TODO: Switch to NFC Tag Fragment
 			}
 			return spinnerAdapter.getView(paramInt, paramView, paramViewGroup);
 		}
@@ -317,13 +274,6 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick, NfcTagFr
 
 			return dropDownView;
 		}
-
-		private void switchToNfcTagFragmentFromScriptFragment() {
-			ScriptActivity scriptActivity = ((ScriptActivity) context);
-			scriptActivity.switchToFragmentFromScriptFragment(ScriptActivity.FRAGMENT_NFCTAGS);
-
-			setOnNfcTagDataListChangedAfterNewListener(context);
-		}
 	}
 
 	@Override
@@ -332,26 +282,12 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick, NfcTagFr
 	}
 
 	@Override
-	public void onNfcTagDataListChangedAfterNew(NfcTagData nfcTagData) {
-		oldSelectedNfcTag = nfcTagData;
-		setNfcTag(nfcTagData);
-	}
-
-	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		return null;
 	}
 
 	public NfcTagData getNfcTag() {
 		return nfcTag;
-	}
-
-	public void setNfcTag(NfcTagData nfcTagData) {
-		this.nfcTag = nfcTagData;
-	}
-
-	public WhenNfcScript getWhenNfcScript() {
-		return whenNfcScript;
 	}
 
 	public void setWhenNfcScript(WhenNfcScript whenNfcScript) {

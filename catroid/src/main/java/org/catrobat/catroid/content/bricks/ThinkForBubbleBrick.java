@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,16 +25,14 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
-
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -43,9 +41,9 @@ import org.catrobat.catroid.utils.Utils;
 import java.util.List;
 
 public class ThinkForBubbleBrick extends FormulaBrick {
+
 	private static final long serialVersionUID = 1L;
 	protected int type = Constants.THINK_BRICK;
-	private transient View prototypeView;
 
 	public ThinkForBubbleBrick() {
 		addAllowedBrickField(BrickField.STRING);
@@ -80,25 +78,22 @@ public class ThinkForBubbleBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	public int getViewResource() {
+		return type == Constants.SAY_BRICK
+				? R.layout.brick_say_for_bubble
+				: R.layout.brick_think_for_bubble;
+	}
 
-		int layoutId = type == Constants.SAY_BRICK ? R.layout.brick_say_for_bubble : R.layout.brick_think_for_bubble;
-		int checkboxId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_checkbox : R.id
-				.brick_think_for_bubble_checkbox;
-		int editTextId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_edit_text_text : R.id
-				.brick_think_for_bubble_edit_text_text;
-		int editDurationId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_edit_text_duration : R.id
-				.brick_think_for_bubble_edit_text_duration;
-		int thinkSaySecondsLabelId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_seconds_label : R.id
-				.brick_think_for_bubble_seconds_label;
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
 
-		view = View.inflate(context, layoutId, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(checkboxId);
+		int editTextId = type == Constants.SAY_BRICK
+				? R.id.brick_say_for_bubble_edit_text_text : R.id.brick_think_for_bubble_edit_text_text;
+		int editDurationId = type == Constants.SAY_BRICK
+				? R.id.brick_say_for_bubble_edit_text_duration : R.id.brick_think_for_bubble_edit_text_duration;
+		int thinkSaySecondsLabelId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_seconds_label
+				: R.id.brick_think_for_bubble_seconds_label;
 
 		TextView editText = (TextView) view.findViewById(editTextId);
 		getFormulaWithBrickField(BrickField.STRING).setTextFieldId(editTextId);
@@ -121,7 +116,6 @@ public class ThinkForBubbleBrick extends FormulaBrick {
 				Log.d(getClass().getSimpleName(), "Couldn't interpret Formula.", interpretationException);
 			}
 		} else {
-
 			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
 			// in hopefully all possible languages
 			seconds.setText(view.getResources().getQuantityString(R.plurals.second_plural,
@@ -134,37 +128,39 @@ public class ThinkForBubbleBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		int layoutId = type == Constants.SAY_BRICK ? R.layout.brick_say_for_bubble : R.layout.brick_think_for_bubble;
-		int textTextId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_edit_text_text : R.id
-				.brick_think_for_bubble_edit_text_text;
-		int textDurationId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_edit_text_duration : R
-				.id.brick_think_for_bubble_edit_text_duration;
+		View prototypeView = super.getPrototypeView(context);
+
+		int textTextId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_edit_text_text
+				: R.id.brick_think_for_bubble_edit_text_text;
+		int textDurationId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_edit_text_duration
+				: R.id.brick_think_for_bubble_edit_text_duration;
 		int defaultStringId = type == Constants.SAY_BRICK ? R.string.brick_say_bubble_default_value : R.string
 				.brick_think_bubble_default_value;
-		int thinkSaySecondsLabelId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_seconds_label : R.id
-				.brick_think_for_bubble_seconds_label;
-		prototypeView = View.inflate(context, layoutId, null);
+		int thinkSaySecondsLabelId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_seconds_label
+				: R.id.brick_think_for_bubble_seconds_label;
+
 		TextView textText = (TextView) prototypeView.findViewById(textTextId);
 		TextView textDuration = (TextView) prototypeView.findViewById(textDurationId);
 		TextView seconds = (TextView) prototypeView.findViewById(thinkSaySecondsLabelId);
 		textText.setText(context.getString(defaultStringId));
-		textDuration.setText(Utils.getNumberStringForBricks(BrickValues.DURATION));
+		textDuration.setText(formatNumberForPrototypeView(BrickValues.DURATION));
 		seconds.setText(context.getResources().getQuantityString(R.plurals.second_plural,
 				Utils.convertDoubleToPluralInteger(BrickValues.DURATION)));
 		return prototypeView;
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createThinkSayForBubbleAction(sprite, getFormulaWithBrickField(BrickField
-				.STRING), type));
-		sequence.addAction(sprite.getActionFactory().createWaitForBubbleBrickAction(sprite, getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS)));
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		sequence.addAction(sprite.getActionFactory().createThinkSayForBubbleAction(sprite,
+				getFormulaWithBrickField(BrickField.STRING), type));
+		sequence.addAction(sprite.getActionFactory().createWaitForBubbleBrickAction(sprite,
+				getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS)));
 		return null;
 	}
 
 	public void showFormulaEditorToEditFormula(View view) {
-		int editTextId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_edit_text_text : R.id
-				.brick_think_for_bubble_edit_text_text;
+		int editTextId = type == Constants.SAY_BRICK ? R.id.brick_say_for_bubble_edit_text_text
+				: R.id.brick_think_for_bubble_edit_text_text;
 
 		if (view.getId() == editTextId) {
 			FormulaEditorFragment.showFragment(view, this, BrickField.STRING);

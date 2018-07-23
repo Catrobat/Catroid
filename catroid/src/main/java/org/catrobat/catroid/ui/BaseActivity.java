@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,47 +23,48 @@
 package org.catrobat.catroid.ui;
 
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
-import android.content.Intent;
-import android.net.Uri;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.cast.CastManager;
-import org.catrobat.catroid.ui.dialogs.AboutDialogFragment;
-import org.catrobat.catroid.ui.dialogs.PrivacyPolicyDialogFragment;
-import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
+import org.catrobat.catroid.ui.settingsfragments.AccessibilityProfile;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.CrashReporter;
-import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.Utils;
 
-public abstract class BaseActivity extends Activity {
+public abstract class BaseActivity extends AppCompatActivity {
 
-	private boolean returnToProjectsList;
-	private String titleActionBar;
-	private boolean returnByPressingBackButton;
 	public static final String RECOVERED_FROM_CRASH = "RECOVERED_FROM_CRASH";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		titleActionBar = null;
-		returnToProjectsList = false;
-		returnByPressingBackButton = false;
+		applyAccessibilityStyles();
+
 		Thread.setDefaultUncaughtExceptionHandler(new BaseExceptionHandler(this));
 		checkIfCrashRecoveryAndFinishActivity(this);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+
+		if (SettingsFragment.isCastSharedPreferenceEnabled(this)) {
 			CastManager.getInstance().initializeCast(this);
 		}
 	}
 
+	private void applyAccessibilityStyles() {
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		AccessibilityProfile profile = AccessibilityProfile.fromCurrentPreferences(sharedPreferences);
+		profile.applyAccessibilityStyles(getTheme());
+	}
+
+	@SuppressWarnings("PMD.DoNotCallGarbageCollectionExplicitly")
 	@Override
 	protected void onDestroy() {
 		// Partly from http://stackoverflow.com/a/5069354
@@ -77,76 +78,35 @@ public abstract class BaseActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 
-		if (getTitleActionBar() != null) {
-			getActionBar().setTitle(getTitleActionBar());
-		}
-
-		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+		if (SettingsFragment.isCastSharedPreferenceEnabled(this)) {
 			CastManager.getInstance().initializeCast(this);
 		}
 
 		invalidateOptionsMenu();
+		googleAnalyticsTrackScreenResume();
+	}
+
+	protected void googleAnalyticsTrackScreenResume() {
+		Tracker googleTracker = ((CatroidApplication) getApplication()).getDefaultTracker();
+		googleTracker.setScreenName(this.getClass().getName());
+		googleTracker.send(new HitBuilders.ScreenViewBuilder().build());
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case android.R.id.home:
-				if (returnToProjectsList) {
-					Intent intent = new Intent(this, MyProjectsActivity.class);
-					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					startActivity(intent);
-				} else if (returnByPressingBackButton) {
-					onBackPressed();
-				} else {
-					return false;
-				}
+				onBackPressed();
 				break;
-			case R.id.settings:
-				Intent settingsIntent = new Intent(this, SettingsActivity.class);
-				startActivity(settingsIntent);
-				break;
-			case R.id.menu_scratch_converter:
-				if (Utils.isNetworkAvailable(this)) {
-					final Intent scratchConverterIntent = new Intent(this, ScratchConverterActivity.class);
-					startActivity(scratchConverterIntent);
-				} else {
-					ToastUtil.showError(this, R.string.error_internet_connection);
-				}
-				break;
-			case R.id.menu_rate_app:
-				launchMarket();
-				return true;
-			case R.id.menu_terms_of_use:
-				TermsOfUseDialogFragment termsOfUseDialog = new TermsOfUseDialogFragment();
-				termsOfUseDialog.show(getFragmentManager(), TermsOfUseDialogFragment.DIALOG_FRAGMENT_TAG);
-				return true;
-			case R.id.menu_privacy_policy:
-				PrivacyPolicyDialogFragment privacyPolicyDialog = new PrivacyPolicyDialogFragment();
-				privacyPolicyDialog.show(getFragmentManager(), PrivacyPolicyDialogFragment.DIALOG_FRAGMENT_TAG);
-				return true;
-			case R.id.menu_about:
-				AboutDialogFragment aboutDialog = new AboutDialogFragment();
-				aboutDialog.show(getFragmentManager(), AboutDialogFragment.DIALOG_FRAGMENT_TAG);
-				return true;
-			case R.id.menu_logout:
-				Utils.logoutUser(this);
-				return true;
-			case R.id.cast_button:
-				CastManager.getInstance().openDeviceSelectorOrDisconnectDialog();
-				break;
-			case R.id.menu_login:
-				ProjectManager.getInstance().showSignInDialog(this, false);
-				return true;
 			default:
-				break;
+				return super.onOptionsItemSelected(item);
 		}
-		return super.onOptionsItemSelected(item);
+		return true;
 	}
 
 	private void checkIfCrashRecoveryAndFinishActivity(final Activity context) {
-		if (isRecoveredFromCrash()) {
-			CrashReporter.sendUnhandledCaughtException();
+		if (isRecoveringFromCrash()) {
+			CrashReporter.logUnhandledException();
 			if (!(context instanceof MainMenuActivity)) {
 				context.finish();
 			} else {
@@ -155,23 +115,8 @@ public abstract class BaseActivity extends Activity {
 		}
 	}
 
-	private boolean isRecoveredFromCrash() {
+	private boolean isRecoveringFromCrash() {
 		return PreferenceManager.getDefaultSharedPreferences(this).getBoolean(RECOVERED_FROM_CRASH, false);
-	}
-
-	// Taken from http://stackoverflow.com/a/11270668
-	private void launchMarket() {
-		if (!Utils.isNetworkAvailable(this, true)) {
-			return;
-		}
-
-		Uri uri = Uri.parse("market://details?id=" + getPackageName());
-		Intent myAppLinkToMarket = new Intent(Intent.ACTION_VIEW, uri);
-		try {
-			startActivity(myAppLinkToMarket);
-		} catch (ActivityNotFoundException e) {
-			ToastUtil.showError(this, R.string.main_menu_play_store_not_installed);
-		}
 	}
 
 	// Code from Stackoverflow to reduce memory problems
@@ -187,25 +132,5 @@ public abstract class BaseActivity extends Activity {
 			}
 			((ViewGroup) view).removeAllViews();
 		}
-	}
-
-	public boolean isReturnToProjectsList() {
-		return returnToProjectsList;
-	}
-
-	public void setReturnToProjectsList(boolean returnToProjectsList) {
-		this.returnToProjectsList = returnToProjectsList;
-	}
-
-	public void setReturnByPressingBackButton(boolean returnByPressingBackButton) {
-		this.returnByPressingBackButton = returnByPressingBackButton;
-	}
-
-	public String getTitleActionBar() {
-		return titleActionBar;
-	}
-
-	public void setTitleActionBar(String titleActionBar) {
-		this.titleActionBar = titleActionBar;
 	}
 }

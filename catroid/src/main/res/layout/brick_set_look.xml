@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2017 The Catrobat Team
+  ~ Copyright (C) 2010-2018 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -30,7 +30,7 @@
               android:orientation="horizontal" >
 
     <CheckBox
-        android:id="@+id/brick_set_look_checkbox"
+        android:id="@+id/brick_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -46,8 +46,10 @@
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
+        <include layout="@layout/icon_brick_category_look"/>
+
         <TextView
-            android:id="@+id/brick_set_look_prototype_text_view"
+            android:id="@+id/brick_set_look_text_view"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_set_look" />
 
@@ -55,13 +57,10 @@
             android:id="@+id/brick_set_look_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textDirection="locale"
             android:clickable="false"
             android:focusable="false" />
 
-        <TextView
-            android:id="@+id/brick_set_look_and_wait"
-            style="@style/BrickText.SingleLine"
-            android:text="@string/brick_and_wait" />
     </org.catrobat.catroid.ui.BrickLayout >
 
 </LinearLayout>

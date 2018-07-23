@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,14 +24,12 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
-
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
@@ -66,35 +64,30 @@ public class RaspiPwmBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_raspi_pwm, null);
+		prototypeView = super.getPrototypeView(context);
 
 		TextView textPinNumber = (TextView) prototypeView.findViewById(R.id.brick_raspi_pwm_pin_edit_text);
-		textPinNumber.setText(String.valueOf(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER));
+		textPinNumber.setText(formatNumberForPrototypeView(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER));
 
 		TextView textPwmPercentage = (TextView) prototypeView.findViewById(R.id
 				.brick_raspi_pwm_percentage_edit_text);
-		textPwmPercentage.setText(String.valueOf(BrickValues.RASPI_PWM_INITIAL_PERCENTAGE));
+		textPwmPercentage.setText(formatNumberForPrototypeView(BrickValues.RASPI_PWM_INITIAL_PERCENTAGE));
 
 		TextView textPwmFrequency = (TextView) prototypeView.findViewById(R.id
 				.brick_raspi_pwm_frequency_edit_text);
-		textPwmFrequency.setText(String.valueOf(BrickValues.RASPI_PWM_INITIAL_FREQUENCY));
+		textPwmFrequency.setText(formatNumberForPrototypeView(BrickValues.RASPI_PWM_INITIAL_FREQUENCY));
 
 		return prototypeView;
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		if (view == null) {
-			alphaValue = 255;
-		}
+	public int getViewResource() {
+		return R.layout.brick_raspi_pwm;
+	}
 
-		view = View.inflate(context, R.layout.brick_raspi_pwm, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_raspi_pwm_checkbox);
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
 		TextView editPinNumber = (TextView) view.findViewById(R.id.brick_raspi_pwm_pin_edit_text);
 		getFormulaWithBrickField(BrickField.RASPI_DIGITAL_PIN_NUMBER).setTextFieldId(R.id.brick_raspi_pwm_pin_edit_text);
 		getFormulaWithBrickField(BrickField.RASPI_DIGITAL_PIN_NUMBER).refreshTextField(view);
@@ -117,7 +110,7 @@ public class RaspiPwmBrick extends FormulaBrick {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSendRaspiPwmValueAction(sprite,
 				getFormulaWithBrickField(BrickField.RASPI_DIGITAL_PIN_NUMBER),
 				getFormulaWithBrickField(BrickField.RASPI_PWM_FREQUENCY),

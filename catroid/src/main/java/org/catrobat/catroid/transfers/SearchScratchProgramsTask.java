@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,17 +23,13 @@
 
 package org.catrobat.catroid.transfers;
 
-import android.content.Context;
 import android.os.AsyncTask;
-import android.os.Handler;
 import android.util.Log;
 
 import com.google.common.base.Preconditions;
 
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ScratchSearchResult;
-import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.web.ScratchDataFetcher;
 import org.catrobat.catroid.web.WebconnectionException;
 
@@ -48,16 +44,8 @@ public class SearchScratchProgramsTask extends AsyncTask<String, Void, ScratchSe
 
 	private static final String TAG = SearchScratchProgramsTask.class.getSimpleName();
 
-	private Context context;
-	private Handler handler;
 	private SearchScratchProgramsTaskDelegate delegate = null;
 	private ScratchDataFetcher fetcher = null;
-
-	public SearchScratchProgramsTask setContext(final Context context) {
-		this.context = context;
-		this.handler = new Handler(context.getMainLooper());
-		return this;
-	}
 
 	public SearchScratchProgramsTask setDelegate(SearchScratchProgramsTaskDelegate delegate) {
 		this.delegate = delegate;
@@ -119,12 +107,6 @@ public class SearchScratchProgramsTask extends AsyncTask<String, Void, ScratchSe
 			}
 		}
 		Log.w(TAG, "Maximum number of " + (maxNumRetries + 1) + " attempts exceeded! Server not reachable?!");
-		runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				ToastUtil.showError(context, context.getString(R.string.error_request_timeout));
-			}
-		});
 		return null;
 	}
 
@@ -134,9 +116,5 @@ public class SearchScratchProgramsTask extends AsyncTask<String, Void, ScratchSe
 		if (delegate != null && !isCancelled()) {
 			delegate.onPostExecute(result);
 		}
-	}
-
-	private void runOnUiThread(Runnable r) {
-		handler.post(r);
 	}
 }

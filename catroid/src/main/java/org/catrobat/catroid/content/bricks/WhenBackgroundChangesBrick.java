@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,20 +22,12 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import android.app.Activity;
 import android.content.Context;
-import android.database.DataSetObserver;
-import android.view.MotionEvent;
+import android.content.DialogInterface;
 import android.view.View;
-import android.view.View.OnTouchListener;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
-
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -43,20 +35,26 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenBackgroundChangesScript;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.controller.LookController;
-import org.catrobat.catroid.ui.fragment.LookFragment;
-import org.catrobat.catroid.ui.fragment.LookFragment.OnLookDataListChangedAfterNewListener;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.content.bricks.brickspinner.SpinnerAdapterWithNewOption;
+import org.catrobat.catroid.ui.recyclerview.dialog.NewLookDialogFragment;
+import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class WhenBackgroundChangesBrick extends BrickBaseType implements
-		ScriptBrick, OnLookDataListChangedAfterNewListener {
+		ScriptBrick,
+		SpinnerAdapterWithNewOption.OnNewOptionInDropDownClickListener,
+		NewItemInterface<LookData> {
+
 	private static final long serialVersionUID = 1L;
-	private transient View prototypeView;
-	private transient LookData oldSelectedLook;
 
 	private WhenBackgroundChangesScript script;
+	private transient LookData previouslySelectedLook;
+
+	private transient Spinner spinner;
+	private transient SpinnerAdapterWithNewOption spinnerAdapter;
 
 	public WhenBackgroundChangesBrick() {
 	}
@@ -65,32 +63,12 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 		this.script = script;
 	}
 
-	public void setLook(LookData lookData) {
-		getCastedScriptSafe().setLook(lookData);
-	}
-
 	public LookData getLook() {
 		return getCastedScriptSafe().getLook();
 	}
 
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		WhenBackgroundChangesBrick copyBrick = (WhenBackgroundChangesBrick) clone();
-		LookData look = getLook();
-
-		if (look != null && look.isBackpackLookData) {
-			copyBrick.setLook(look.clone());
-			return copyBrick;
-		}
-
-		for (LookData data : sprite.getLookDataList()) {
-			if (look != null && data != null && data.getAbsolutePath().equals(look.getAbsolutePath())) {
-				copyBrick.setLook(data.clone());
-				break;
-			}
-		}
-		copyBrick.getLook().isBackpackLookData = false;
-		return copyBrick;
+	public void setLook(LookData lookData) {
+		getCastedScriptSafe().setLook(lookData);
 	}
 
 	@Override
@@ -106,221 +84,97 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	public Brick clone() {
+		WhenBackgroundChangesBrick clone = new WhenBackgroundChangesBrick();
+		clone.setLook(getLook());
+		return clone;
+	}
 
-		view = View.inflate(context, R.layout.brick_when_background_changes_to, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+	@Override
+	public int getViewResource() {
+		return R.layout.brick_when_background_changes_to;
+	}
 
-		setCheckboxView(R.id.brick_when_background_checkbox);
+	@Override
+	public View getView(final Context context) {
+		super.getView(context);
+		spinner = view.findViewById(R.id.brick_when_background_spinner);
+		spinnerAdapter = new SpinnerAdapterWithNewOption(context, getLookNames());
+		spinnerAdapter.setOnDropDownItemClickListener(this);
 
-		final Spinner lookbrickSpinner = (Spinner) view.findViewById(R.id.brick_when_background_spinner);
-
-		final ArrayAdapter<LookData> spinnerAdapter = createLookAdapter(context);
-		SpinnerAdapterWrapper spinnerAdapterWrapper = new SpinnerAdapterWrapper(context, spinnerAdapter);
-		lookbrickSpinner.setAdapter(spinnerAdapterWrapper);
-		lookbrickSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-
+		spinner.setAdapter(spinnerAdapter);
+		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				if (position == 0) {
-					setLook(null);
-				} else {
-					setLook((LookData) parent.getItemAtPosition(position));
-					oldSelectedLook = getLook();
+				if (position != 0) {
+					setLook(getLookByName(spinnerAdapter.getItem(position)));
 				}
 			}
 
 			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
+			public void onNothingSelected(AdapterView<?> parent) {
 			}
 		});
-
-		setSpinnerSelection(lookbrickSpinner);
-
+		spinner.setSelection(spinnerAdapter.getPosition(getLook() != null ? getLook().getName() : null));
 		return view;
 	}
 
-	private ArrayAdapter<LookData> createLookAdapter(Context context) {
-		ArrayAdapter<LookData> arrayAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
-		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		LookData dummyLookData = new LookData();
-		dummyLookData.setLookName(context.getString(R.string.new_broadcast_message));
-		arrayAdapter.add(dummyLookData);
-		for (LookData lookData : getSprite().getLookDataList()) {
-			arrayAdapter.add(lookData);
+	private LookData getLookByName(String name) {
+		for (LookData look : ProjectManager.getInstance().getCurrentlyEditedScene().getBackgroundSprite().getLookList()) {
+			if (look.getName().equals(name)) {
+				return look;
+			}
 		}
-		return arrayAdapter;
+		return null;
+	}
+
+	private List<String> getLookNames() {
+		List<String> lookNames = new ArrayList<>();
+		for (LookData look : ProjectManager.getInstance().getCurrentlyEditedScene().getBackgroundSprite().getLookList()) {
+			lookNames.add(look.getName());
+		}
+		return lookNames;
+	}
+
+	@Override
+	public boolean onNewOptionInDropDownClicked(View v) {
+		previouslySelectedLook = getLook();
+		new NewLookDialogFragment(this,
+				ProjectManager.getInstance().getCurrentlyEditedScene(),
+				ProjectManager.getInstance().getCurrentSprite()) {
+
+			@Override
+			public void onCancel(DialogInterface dialog) {
+				super.onCancel(dialog);
+				setLook(previouslySelectedLook);
+				spinner.setSelection(spinnerAdapter.getPosition(getLook() != null ? getLook().getName() : null));
+			}
+		}.show(((Activity) v.getContext()).getFragmentManager(), NewLookDialogFragment.TAG);
+		return false;
+	}
+
+	@Override
+	public void addItem(LookData item) {
+		ProjectManager.getInstance().getCurrentSprite().getLookList().add(item);
+		spinnerAdapter.add(item.getName());
+		setLook(item);
+		spinner.setSelection(spinnerAdapter.getPosition(item.getName()));
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_when_background_changes_to, null);
-		Spinner setLookSpinner = (Spinner) prototypeView.findViewById(R.id.brick_when_background_spinner);
+		View view = super.getPrototypeView(context);
+		spinner = view.findViewById(R.id.brick_when_background_spinner);
 
-		SpinnerAdapter setLookSpinnerAdapter = createLookAdapter(context);
-		setLookSpinner.setAdapter(setLookSpinnerAdapter);
-		setSpinnerSelection(setLookSpinner);
-		return prototypeView;
+		spinnerAdapter = new SpinnerAdapterWithNewOption(context, getLookNames());
+		spinner.setAdapter(spinnerAdapter);
+		spinner.setSelection(spinnerAdapter.getPosition(getLook() != null ? getLook().getName() : null));
+		return view;
 	}
 
 	@Override
-	public Brick clone() {
-		WhenBackgroundChangesBrick clonedBrick = new WhenBackgroundChangesBrick();
-		clonedBrick.setLook(getLook());
-		return clonedBrick;
-	}
-
-	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSetLookAction(sprite, getLook()));
 		return null;
-	}
-
-	private void setSpinnerSelection(Spinner spinner) {
-		if (getSprite().getLookDataList().contains(getLook())) {
-			oldSelectedLook = getLook();
-			spinner.setSelection(getSprite().getLookDataList().indexOf(getLook()) + 1,
-					true);
-		} else {
-			if (spinner.getAdapter() != null && spinner.getAdapter().getCount() > 1) {
-				if (getSprite().getLookDataList().indexOf(oldSelectedLook) >= 0) {
-					spinner.setSelection(getSprite().getLookDataList()
-							.indexOf(oldSelectedLook) + 1, true);
-				} else {
-					spinner.setSelection(1, true);
-				}
-			} else {
-				spinner.setSelection(0, true);
-			}
-		}
-	}
-
-	private void setOnLookDataListChangedAfterNewListener(Context context) {
-		ScriptActivity scriptActivity = (ScriptActivity) context;
-		LookFragment lookFragment = (LookFragment) scriptActivity.getFragment(ScriptActivity.FRAGMENT_LOOKS);
-		if (lookFragment != null) {
-			lookFragment.setOnLookDataListChangedAfterNewListener(this);
-		}
-	}
-
-	private class SpinnerAdapterWrapper implements SpinnerAdapter {
-
-		protected Context context;
-		protected ArrayAdapter<LookData> spinnerAdapter;
-
-		private boolean isTouchInDropDownView;
-
-		SpinnerAdapterWrapper(Context context, ArrayAdapter<LookData> spinnerAdapter) {
-			this.context = context;
-			this.spinnerAdapter = spinnerAdapter;
-
-			this.isTouchInDropDownView = false;
-		}
-
-		@Override
-		public void registerDataSetObserver(DataSetObserver paramDataSetObserver) {
-			spinnerAdapter.registerDataSetObserver(paramDataSetObserver);
-		}
-
-		@Override
-		public void unregisterDataSetObserver(DataSetObserver paramDataSetObserver) {
-			spinnerAdapter.unregisterDataSetObserver(paramDataSetObserver);
-		}
-
-		@Override
-		public int getCount() {
-			return spinnerAdapter.getCount();
-		}
-
-		@Override
-		public Object getItem(int paramInt) {
-			return spinnerAdapter.getItem(paramInt);
-		}
-
-		@Override
-		public long getItemId(int paramInt) {
-			LookData currentLook = spinnerAdapter.getItem(paramInt);
-			if (!currentLook.getLookName().equals(context.getString(R.string.new_broadcast_message))) {
-				oldSelectedLook = currentLook;
-			}
-			return spinnerAdapter.getItemId(paramInt);
-		}
-
-		@Override
-		public boolean hasStableIds() {
-			return spinnerAdapter.hasStableIds();
-		}
-
-		@Override
-		public View getView(int paramInt, View paramView, ViewGroup paramViewGroup) {
-			if (isTouchInDropDownView) {
-				isTouchInDropDownView = false;
-				if (paramInt == 0) {
-					switchToLookFragmentFromScriptFragment();
-				}
-			}
-			return spinnerAdapter.getView(paramInt, paramView, paramViewGroup);
-		}
-
-		@Override
-		public int getItemViewType(int paramInt) {
-			return spinnerAdapter.getItemViewType(paramInt);
-		}
-
-		@Override
-		public int getViewTypeCount() {
-			return spinnerAdapter.getViewTypeCount();
-		}
-
-		@Override
-		public boolean isEmpty() {
-			return spinnerAdapter.isEmpty();
-		}
-
-		@Override
-		public View getDropDownView(int paramInt, View paramView, ViewGroup paramViewGroup) {
-			View dropDownView = spinnerAdapter.getDropDownView(paramInt, paramView, paramViewGroup);
-
-			dropDownView.setOnTouchListener(new OnTouchListener() {
-				@Override
-				public boolean onTouch(View paramView, MotionEvent paramMotionEvent) {
-					isTouchInDropDownView = true;
-					return false;
-				}
-			});
-
-			return dropDownView;
-		}
-
-		private void switchToLookFragmentFromScriptFragment() {
-			ScriptActivity scriptActivity = ((ScriptActivity) context);
-			scriptActivity.switchToFragmentFromScriptFragment(ScriptActivity.FRAGMENT_LOOKS);
-
-			setOnLookDataListChangedAfterNewListener(context);
-		}
-	}
-
-	@Override
-	public void onLookDataListChangedAfterNew(LookData lookData) {
-		setLook(lookData);
-		oldSelectedLook = lookData;
-	}
-
-	@Override
-	public void storeDataForBackPack(Sprite sprite) {
-		if (getLook() == null) {
-			return;
-		}
-		setLook(LookController.getInstance().backPackHiddenLook(this.getLook()));
-		if (sprite != null && !sprite.getLookDataList().contains(getLook())) {
-			sprite.getLookDataList().add(getLook());
-		}
-	}
-
-	private Sprite getSprite() {
-		return ProjectManager.getInstance().getCurrentScene().getSpriteList().get(0);
 	}
 }

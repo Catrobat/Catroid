@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,19 +23,19 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
-
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.UserList;
-import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.utils.FormatNumberUtil;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,11 +43,6 @@ import java.util.List;
 public abstract class FormulaBrick extends BrickBaseType implements View.OnClickListener {
 
 	ConcurrentFormulaHashMap formulaMap = new ConcurrentFormulaHashMap();
-
-	@XStreamOmitField
-	private List<BackPackedListData> backPackedListData = new ArrayList<>();
-	@XStreamOmitField
-	private List<BackPackedVariableData> backPackedVariableData = new ArrayList<>();
 
 	public Formula getFormulaWithBrickField(BrickField brickField) throws IllegalArgumentException {
 		if (formulaMap.containsKey(brickField)) {
@@ -80,7 +75,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 	@Override
 	public Brick clone() throws CloneNotSupportedException {
 		FormulaBrick clonedBrick = (FormulaBrick) super.clone();
-		clonedBrick.formulaMap = this.formulaMap.clone();
+		clonedBrick.formulaMap = formulaMap.clone();
 		return clonedBrick;
 	}
 
@@ -113,61 +108,42 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 
 	public abstract void showFormulaEditorToEditFormula(View view);
 
-	public void updateReferenceAfterMerge(Scene into, Scene from) {
-	}
+	public void setSecondText(View view, int textViewId, int editTextDurationId, BrickField brickField) {
+		TextView editDuration = (TextView) view.findViewById(editTextDurationId);
+		getFormulaWithBrickField(brickField)
+				.setTextFieldId(editTextDurationId);
+		getFormulaWithBrickField(brickField).refreshTextField(view);
 
-	@Override
-	public void storeDataForBackPack(Sprite sprite) {
-		DataContainer.DataType type;
-		List<String> variableNames = new ArrayList<>();
-		List<String> listNames = new ArrayList<>();
+		TextView times = (TextView) view.findViewById(textViewId);
 
-		if (backPackedListData == null) {
-			backPackedListData = new ArrayList<>();
-		}
-
-		if (backPackedVariableData == null) {
-			backPackedVariableData = new ArrayList<>();
-		}
-
-		Scene currentScene = ProjectManager.getInstance().getCurrentScene();
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-		DataContainer dataContainer = currentScene.getDataContainer();
-
-		for (Formula formula : formulaMap.values()) {
-			formula.getVariableAndListNames(variableNames, listNames);
-		}
-
-		for (String variableName : variableNames) {
-			UserVariable variable = dataContainer.getUserVariable(currentSprite, variableName);
-			if (variable == null) {
-				continue;
+		if (getFormulaWithBrickField(brickField).isSingleNumberFormula()) {
+			try {
+				times.setText(view.getResources().getQuantityString(
+						R.plurals.second_plural,
+						Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(brickField)
+								.interpretDouble(ProjectManager.getInstance().getCurrentSprite()))
+				));
+			} catch (InterpretationException interpretationException) {
+				Log.d(getClass().getSimpleName(), "Couldn't interpret Formula.", interpretationException);
 			}
-			type = dataContainer.getTypeOfUserVariable(variableName, currentSprite);
-			BackPackedVariableData backPackedData = new BackPackedVariableData();
-			backPackedData.userVariable = variable;
-			backPackedData.userVariableType = type;
-			backPackedVariableData.add(backPackedData);
+		} else {
+			times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
+					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
 		}
 
-		for (String listName : listNames) {
-			UserList userList = dataContainer.getUserList(currentSprite, listName);
-			if (userList == null) {
-				continue;
-			}
-			type = dataContainer.getTypeOfUserList(listName, currentSprite);
-			BackPackedListData backPackedData = new BackPackedListData();
-			backPackedData.userList = userList;
-			backPackedData.userListType = type;
-			backPackedListData.add(backPackedData);
-		}
+		editDuration.setOnClickListener(this);
 	}
 
-	public List<BackPackedListData> getBackPackedListData() {
-		return backPackedListData;
+	public void setSecondText(Context context, View prototypeView, int textViewId) {
+		TextView second = (TextView) prototypeView.findViewById(textViewId);
+		second.setText(context.getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000)));
 	}
 
-	public List<BackPackedVariableData> getBackPackedVariableData() {
-		return backPackedVariableData;
+	protected <T> String formatNumberForPrototypeView(T value) {
+
+		String number = String.valueOf(value);
+
+		return FormatNumberUtil.cutTrailingZeros(number);
 	}
 }

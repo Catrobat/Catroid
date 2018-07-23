@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,31 +22,26 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import android.app.ActionBar;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnKeyListener;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -68,16 +63,25 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternFormulaKeyboardAdapter;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
+import org.catrobat.catroid.formulaeditor.UserData;
+import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.BottomBar;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.FormulaEditorComputeDialog;
-import org.catrobat.catroid.ui.dialogs.NewStringDialog;
-import org.catrobat.catroid.utils.FormulaEditorIntroUtil;
+import org.catrobat.catroid.ui.dialogs.FormulaEditorIntroDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.NewStringDialogFragment;
+import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
+import org.catrobat.catroid.ui.recyclerview.fragment.CategoryListFragment;
+import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 
-public class FormulaEditorFragment extends Fragment implements OnKeyListener,
-		ViewTreeObserver.OnGlobalLayoutListener {
+import static org.catrobat.catroid.utils.SnackbarUtil.wasHintAlreadyShown;
+
+public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.OnGlobalLayoutListener,
+		DataListFragment.FormulaEditorDataInterface,
+		NewItemInterface<String> {
+
 	private static final String TAG = FormulaEditorFragment.class.getSimpleName();
 
 	private static final int SET_FORMULA_ON_CREATE_VIEW = 0;
@@ -105,18 +109,22 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 
 	private long[] confirmSwitchEditTextTimeStamp = {0, 0};
 	private int confirmSwitchEditTextCounter = 0;
-	private CharSequence previousActionBarTitle;
-	private VariableOrUserListDeletedReceiver variableOrUserListDeletedReceiver;
 	private static OnFormulaChangedListener onFormulaChangedListener;
 	private boolean hasFormulaBeenChanged = false;
+
+	private String previousActionBarTitle = "";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(!ViewConfiguration.get(getActivity()).hasPermanentMenuKey());
-		setUpActionBar();
-		onFormulaChangedListener = (OnFormulaChangedListener) ((ScriptActivity) getActivity())
-				.getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
+
+		ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+		previousActionBarTitle = actionBar.getTitle().toString();
+		actionBar.setTitle(R.string.formula_editor_title);
+
+		onFormulaChangedListener = (OnFormulaChangedListener) getFragmentManager()
+				.findFragmentByTag(ScriptFragment.TAG);
 
 		formulaBrick = (FormulaBrick) getArguments().getSerializable(FORMULA_BRICK_BUNDLE_ARGUMENT);
 		currentBrickField = Brick.BrickField.valueOf(getArguments().getString(BRICKFIELD_BUNDLE_ARGUMENT));
@@ -130,19 +138,6 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		setHasOptionsMenu(true);
 	}
 
-	private void setUpActionBar() {
-		ActionBar actionBar = getActivity().getActionBar();
-		previousActionBarTitle = ProjectManager.getInstance().getCurrentSprite().getName();
-		actionBar.setDisplayShowTitleEnabled(true);
-		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setTitle(R.string.formula_editor_title);
-	}
-
-	private void resetActionBar() {
-		ActionBar actionBar = getActivity().getActionBar();
-		actionBar.setTitle(previousActionBarTitle);
-	}
-
 	private void cloneFormulaBrick(FormulaBrick formulaBrick) {
 		try {
 			clonedFormulaBrick = (FormulaBrick) formulaBrick.clone();
@@ -154,13 +149,10 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 	}
 
 	private static void showFragment(View view, FormulaBrick formulaBrick, Brick.BrickField brickField, boolean showCustomView) {
-
 		Activity activity = (Activity) view.getContext();
+
 		FormulaEditorFragment formulaEditorFragment = (FormulaEditorFragment) activity.getFragmentManager()
 				.findFragmentByTag(FORMULA_EDITOR_FRAGMENT_TAG);
-
-		FragmentManager fragmentManager = activity.getFragmentManager();
-		FragmentTransaction fragTransaction = fragmentManager.beginTransaction();
 
 		if (formulaEditorFragment == null) {
 			formulaEditorFragment = new FormulaEditorFragment();
@@ -170,15 +162,11 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 			bundle.putString(BRICKFIELD_BUNDLE_ARGUMENT, brickField.name());
 			formulaEditorFragment.setArguments(bundle);
 
-			fragTransaction.add(R.id.fragment_container, formulaEditorFragment, FORMULA_EDITOR_FRAGMENT_TAG);
-			fragTransaction.hide(fragmentManager.findFragmentByTag(ScriptFragment.TAG));
-			fragTransaction.show(formulaEditorFragment);
-			BottomBar.hideBottomBar(activity);
-		} else if (formulaEditorFragment.isHidden()) {
-			formulaEditorFragment.showCustomView = showCustomView;
-			formulaEditorFragment.updateBrickViewAndFormula(formulaBrick, brickField);
-			fragTransaction.hide(fragmentManager.findFragmentByTag(ScriptFragment.TAG));
-			fragTransaction.show(formulaEditorFragment);
+			activity.getFragmentManager().beginTransaction()
+					.replace(R.id.fragment_container, formulaEditorFragment, FORMULA_EDITOR_FRAGMENT_TAG)
+					.addToBackStack(FORMULA_EDITOR_FRAGMENT_TAG)
+					.commit();
+
 			BottomBar.hideBottomBar(activity);
 		} else {
 			refreshUserBrickParameterValuesIfNecessary(formulaBrick, brickField, formulaEditorFragment);
@@ -186,9 +174,16 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 			formulaEditorFragment.updateBrickView();
 			formulaEditorFragment.setInputFormula(brickField, SET_FORMULA_ON_SWITCH_EDIT_TEXT);
 		}
-		fragTransaction.commit();
+	}
 
-		FormulaEditorIntroUtil.showIntro(view);
+	@Override
+	public void onResume() {
+		super.onResume();
+		if (SnackbarUtil.areHintsEnabled(this.getActivity())
+				&& !wasHintAlreadyShown(getActivity(), getActivity().getResources()
+				.getResourceName(R.string.formula_editor_intro_title_formula_editor))) {
+			new FormulaEditorIntroDialog(this, R.style.stage_dialog).show();
+		}
 	}
 
 	public static boolean saveFormulaForUserBrickParameterChange() {
@@ -296,21 +291,10 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		formulaEditorEditText.endEdit();
 		currentFormula.prepareToRemove();
 
-		Activity activity = getActivity();
-		FragmentManager fragmentManager = activity.getFragmentManager();
-		FragmentTransaction fragTransaction = fragmentManager.beginTransaction();
-		fragTransaction.hide(this);
-		fragTransaction.show(fragmentManager.findFragmentByTag(ScriptFragment.TAG));
-		fragTransaction.commit();
+		getFragmentManager().popBackStack();
 
-		resetActionBar();
-
-		BottomBar.showBottomBar(activity);
-		BottomBar.showPlayButton(activity);
-
-		if (FormulaEditorIntroUtil.isIntroVisible()) {
-			FormulaEditorIntroUtil.dismissIntro();
-		}
+		BottomBar.showBottomBar(getActivity());
+		BottomBar.showPlayButton(getActivity());
 	}
 
 	@Override
@@ -319,8 +303,6 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		fragmentView = inflater.inflate(R.layout.fragment_formula_editor, container, false);
 		fragmentView.setFocusableInTouchMode(true);
 		fragmentView.requestFocus();
-
-		FormulaEditorIntroUtil.initializeIntro(getActivity(), (ViewGroup) getView(), inflater);
 
 		context = getActivity();
 
@@ -338,7 +320,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		setInputFormula(currentBrickField, SET_FORMULA_ON_CREATE_VIEW);
 
 		setHasOptionsMenu(true);
-		setUpActionBar();
+		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.formula_editor_title);
 
 		handleCustomView();
 
@@ -359,7 +341,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		if (showCustomView) {
 			return clonedFormulaBrick.getCustomView(context, 0, null);
 		} else {
-			return clonedFormulaBrick.getView(context, 0, null);
+			return clonedFormulaBrick.getView(context);
 		}
 	}
 
@@ -435,40 +417,29 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 
 							return true;
 						case R.id.formula_editor_keyboard_function:
-							showFormularEditorCategorylistFragment(FormulaEditorCategoryListFragment.FUNCTION_TAG,
+							showCategoryListFragment(CategoryListFragment.FUNCTION_TAG,
 									R.string.formula_editor_functions);
 							return true;
 						case R.id.formula_editor_keyboard_logic:
-							showFormularEditorCategorylistFragment(FormulaEditorCategoryListFragment.LOGIC_TAG,
+							showCategoryListFragment(CategoryListFragment.LOGIC_TAG,
 									R.string.formula_editor_logic);
 							return true;
 						case R.id.formula_editor_keyboard_object:
-							showFormularEditorCategorylistFragment(FormulaEditorCategoryListFragment.OBJECT_TAG,
+							showCategoryListFragment(CategoryListFragment.OBJECT_TAG,
 									R.string.formula_editor_choose_object_variable);
 							return true;
 						case R.id.formula_editor_keyboard_sensors:
-							showFormularEditorCategorylistFragment(FormulaEditorCategoryListFragment.SENSOR_TAG,
+							showCategoryListFragment(CategoryListFragment.SENSOR_TAG,
 									R.string.formula_editor_device);
 							return true;
 						case R.id.formula_editor_keyboard_data:
-							showFormulaEditorDataFragment(FormulaEditorDataFragment.USER_DATA_TAG,
-									R.string.formula_editor_data);
+							showDataFragment();
 							return true;
 						case R.id.formula_editor_keyboard_ok:
 							endFormulaEditor();
 							return true;
 						case R.id.formula_editor_keyboard_string:
-							FragmentManager fragmentManager = ((Activity) context)
-									.getFragmentManager();
-							Fragment dialogFragment = fragmentManager
-									.findFragmentByTag(NewStringDialog.DIALOG_FRAGMENT_TAG);
-
-							if (dialogFragment == null) {
-								dialogFragment = NewStringDialog.newInstance();
-							}
-
-							((NewStringDialog) dialogFragment).show(fragmentManager,
-									NewStringDialog.DIALOG_FRAGMENT_TAG);
+							showNewStringDialog();
 							return true;
 						case R.id.formula_editor_keyboard_delete:
 							formulaEditorEditText.handleKeyEvent(view.getId(), "");
@@ -495,6 +466,28 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		updateButtonsOnKeyboardAndInvalidateOptionsMenu();
 
 		super.onStart();
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(previousActionBarTitle);
+	}
+
+	private void showNewStringDialog() {
+		NewStringDialogFragment dialog = new NewStringDialogFragment(getSelectedFormulaText(), this);
+		dialog.show(getFragmentManager(), NewStringDialogFragment.TAG);
+	}
+
+	@Override
+	public void addItem(String string) {
+		String previousString = getSelectedFormulaText();
+		if (previousString != null && !previousString.matches("\\s*")) {
+			overrideSelectedText(string);
+		} else {
+			addStringToActiveFormula(string);
+		}
+		updateButtonsOnKeyboardAndInvalidateOptionsMenu();
 	}
 
 	private void showComputeDialog(FormulaElement formulaElement) {
@@ -544,8 +537,6 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 
 		menu.findItem(R.id.menu_undo).setVisible(true);
 		menu.findItem(R.id.menu_redo).setVisible(true);
-		getActivity().getActionBar().setDisplayShowTitleEnabled(true);
-		getActivity().getActionBar().setTitle(getString(R.string.formula_editor_title));
 
 		super.onPrepareOptionsMenu(menu);
 	}
@@ -559,9 +550,6 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case android.R.id.home:
-				exitFormulaEditorFragment();
-				return true;
 			case R.id.menu_undo:
 				formulaEditorEditText.undo();
 				break;
@@ -678,37 +666,30 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 	 */
 	private void showToast(int resourceId, boolean error) {
 		if (error) {
-			ToastUtil.showError(getActivity().getApplicationContext(), resourceId);
+			ToastUtil.showError(getActivity(), resourceId);
 		} else {
-			ToastUtil.showSuccess(getActivity().getApplicationContext(), resourceId);
+			ToastUtil.showSuccess(getActivity(), resourceId);
 		}
 	}
 
-	@Override
-	public boolean onKey(View view, int keyCode, KeyEvent event) {
-		switch (keyCode) {
-			case KeyEvent.KEYCODE_BACK:
-				if (hasFormulaBeenChanged) {
-					showToast(R.string.formula_editor_changes_saved, false);
-					hasFormulaBeenChanged = false;
-				}
-				exitFormulaEditorFragment();
-				return true;
+	public void promptSave() {
+		if (hasFormulaBeenChanged) {
+			ToastUtil.showSuccess(getActivity(), R.string.formula_editor_changes_saved);
+			hasFormulaBeenChanged = false;
 		}
-		return false;
+		exitFormulaEditorFragment();
 	}
 
 	private void exitFormulaEditorFragment() {
 		if (formulaEditorEditText.hasChanges()) {
-			AlertDialog.Builder builder = new CustomAlertDialogBuilder(getActivity());
+			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 			builder.setTitle(R.string.formula_editor_discard_changes_dialog_title)
 					.setMessage(R.string.formula_editor_discard_changes_dialog_message)
 					.setNegativeButton(R.string.no, new OnClickListener() {
 
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-
-							showToast(R.string.formula_editor_changes_discarded, false);
+							ToastUtil.showError(getActivity(), R.string.formula_editor_changes_discarded);
 							currentFormula.setDisplayText(null);
 							onUserDismiss();
 						}
@@ -718,12 +699,14 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							if (saveFormulaIfPossible()) {
-								showToast(R.string.formula_editor_changes_saved, false);
+								ToastUtil.showSuccess(getActivity(), R.string.formula_editor_changes_saved);
 								hasFormulaBeenChanged = false;
 								onUserDismiss();
 							}
 						}
-					}).create().show();
+					})
+					.create()
+					.show();
 		} else {
 			onUserDismiss();
 		}
@@ -762,37 +745,48 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		}
 	}
 
-	private void showFormularEditorCategorylistFragment(String tag, int actionbarResId) {
-		FragmentManager fragmentManager = ((Activity) context).getFragmentManager();
-		Fragment fragment = fragmentManager.findFragmentByTag(tag);
+	private void showCategoryListFragment(String tag, int actionbarResId) {
+		CategoryListFragment fragment = new CategoryListFragment();
+		Bundle bundle = new Bundle();
+		bundle.putString(CategoryListFragment.ACTION_BAR_TITLE_BUNDLE_ARGUMENT,
+				getActivity().getString(actionbarResId));
+		bundle.putString(CategoryListFragment.FRAGMENT_TAG_BUNDLE_ARGUMENT, tag);
+		fragment.setArguments(bundle);
 
-		if (fragment == null) {
-			fragment = new FormulaEditorCategoryListFragment();
-			Bundle bundle = new Bundle();
-			bundle.putString(FormulaEditorCategoryListFragment.ACTION_BAR_TITLE_BUNDLE_ARGUMENT,
-					context.getString(actionbarResId));
-			bundle.putString(FormulaEditorCategoryListFragment.FRAGMENT_TAG_BUNDLE_ARGUMENT, tag);
-			fragment.setArguments(bundle);
-			fragmentManager.beginTransaction().add(R.id.fragment_container, fragment, tag).commit();
-		}
-		((FormulaEditorCategoryListFragment) fragment).showFragment(context);
+		getFragmentManager().beginTransaction()
+				.hide(getFragmentManager().findFragmentByTag(FORMULA_EDITOR_FRAGMENT_TAG))
+				.add(R.id.fragment_container, fragment, tag)
+				.addToBackStack(tag)
+				.commit();
 	}
 
-	private void showFormulaEditorDataFragment(String tag, int actionbarResId) {
-		FragmentManager fragmentManager = ((Activity) context).getFragmentManager();
-		Fragment fragment = fragmentManager.findFragmentByTag(tag);
+	private void showDataFragment() {
+		DataListFragment fragment = new DataListFragment();
+		fragment.setFormulaEditorDataInterface(this);
+		getFragmentManager().beginTransaction()
+				.hide(getFragmentManager().findFragmentByTag(FORMULA_EDITOR_FRAGMENT_TAG))
+				.add(R.id.fragment_container, fragment, DataListFragment.TAG)
+				.addToBackStack(DataListFragment.TAG)
+				.commit();
+	}
 
-		if (fragment == null) {
-			fragment = new FormulaEditorDataFragment();
-			Bundle bundle = new Bundle();
-			bundle.putString(FormulaEditorDataFragment.ACTION_BAR_TITLE_BUNDLE_ARGUMENT,
-					context.getString(actionbarResId));
-			bundle.putString(FormulaEditorDataFragment.FRAGMENT_TAG_BUNDLE_ARGUMENT, tag);
-			fragment.setArguments(bundle);
-			fragmentManager.beginTransaction().add(R.id.fragment_container, fragment, tag).commit();
+	@Override
+	public void onDataItemSelected(UserData item) {
+		if (item instanceof UserVariable) {
+			addUserVariableToActiveFormula(item.getName());
+		} else if (item instanceof UserList) {
+			addUserListToActiveFormula(item.getName());
 		}
-		((FormulaEditorDataFragment) fragment).setAddButtonListener(getActivity());
-		((FormulaEditorDataFragment) fragment).showFragment(context);
+	}
+
+	@Override
+	public void onVariableRenamed(String previousName, String newName) {
+		formulaEditorEditText.updateVariableReferences(previousName, newName);
+	}
+
+	@Override
+	public void onListRenamed(String previousName, String newName) {
+		formulaEditorEditText.updateListReferences(previousName, newName);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -804,7 +798,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		formulaEditorBrick.getGlobalVisibleRect(brickRect);
 		formulaEditorKeyboard.getGlobalVisibleRect(keyboardRec);
 
-		FormulaEditorIntroUtil.prepareIntro(fragmentView);
+		//FormulaEditorIntroUtil.prepareIntro(fragmentView);
 	}
 
 	public void addResourceToActiveFormula(int resource) {
@@ -842,38 +836,13 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 		formulaEditorEditText.overrideSelectedText(string);
 	}
 
-	private class VariableOrUserListDeletedReceiver extends BroadcastReceiver {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-
-			if (intent.getAction().equals(ScriptActivity.ACTION_VARIABLE_DELETED)
-					|| intent.getAction().equals(ScriptActivity.ACTION_USERLIST_DELETED)) {
-				updateBrickView();
-			}
-		}
-	}
-
 	@Override
-	public void onPause() {
-		super.onPause();
-
-		if (variableOrUserListDeletedReceiver != null) {
-			getActivity().unregisterReceiver(variableOrUserListDeletedReceiver);
+	public void onHiddenChanged(boolean hidden) {
+		if (!hidden) {
+			((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.formula_editor_title);
+			BottomBar.hideBottomBar(getActivity());
+			updateButtonsOnKeyboardAndInvalidateOptionsMenu();
 		}
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-
-		if (variableOrUserListDeletedReceiver == null) {
-			variableOrUserListDeletedReceiver = new VariableOrUserListDeletedReceiver();
-		}
-
-		IntentFilter filterVariableDeleted = new IntentFilter(ScriptActivity.ACTION_VARIABLE_DELETED);
-		BottomBar.hideBottomBar(getActivity());
-		filterVariableDeleted.addAction(ScriptActivity.ACTION_USERLIST_DELETED);
-		getActivity().registerReceiver(variableOrUserListDeletedReceiver, filterVariableDeleted);
 	}
 
 	public void updateButtonsOnKeyboardAndInvalidateOptionsMenu() {

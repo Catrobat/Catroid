@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,8 @@
  */
 package org.catrobat.catroid.test.physics;
 
-import android.test.InstrumentationTestCase;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
 import com.badlogic.gdx.math.Vector2;
@@ -36,7 +37,9 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.ResourceImporter;
+import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.shapebuilder.PhysicsShapeBuilder;
@@ -44,11 +47,21 @@ import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.utils.UtilFile;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.File;
 
-public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+
+import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
+
+@RunWith(AndroidJUnit4.class)
+public class PhysicsShapeBuilderTest {
 
 	private static final String TAG = PhysicsShapeBuilderTest.class.getSimpleName();
 
@@ -56,60 +69,65 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 	private PhysicsWorld physicsWorld;
 	private PhysicsLook physicsLook;
 	private Project project;
-	private File projectFile;
-	private static final int SIMPLE_SINGLE_CONVEX_POLYGON_RES_ID = R.raw.rectangle_125x125;
+	private File projectDir;
 	private File simpleSingleConvexPolygonFile;
 
-	private static final int COMPLEX_SINGLE_CONVEX_POLYGON_RES_ID = R.raw.complex_single_convex_polygon;
 	private File complexSingleConvexPolygonFile;
 
 	private Sprite sprite;
 	static {
 		GdxNativesLoader.load();
 	}
-	@Override
+	@Before
 	public void setUp() throws Exception {
-		super.setUp();
 		physicsWorld = new PhysicsWorld(1920, 1600);
-		projectFile = new File(Constants.DEFAULT_ROOT + File.separator + TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
+		if (projectDir.exists()) {
+			StorageOperations.deleteDir(projectDir);
 		}
 
 		physicsShapeBuilder = PhysicsShapeBuilder.getInstance();
 
-		project = new Project(getInstrumentation().getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
-		StorageHandler.getInstance().saveProject(project);
+		project = new Project(InstrumentationRegistry.getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
 		String simpleSingleConvexPolygonFileName = PhysicsTestUtils
 				.getInternalImageFilenameFromFilename("simple_single_convex_polygon.png");
-		simpleSingleConvexPolygonFile = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, project.getDefaultScene().getName(),
-				simpleSingleConvexPolygonFileName, SIMPLE_SINGLE_CONVEX_POLYGON_RES_ID, getInstrumentation()
-						.getContext(), TestUtils.TYPE_IMAGE_FILE);
+
+		simpleSingleConvexPolygonFile = ResourceImporter.createImageFileFromResourcesInDirectory(
+				InstrumentationRegistry.getContext().getResources(),
+				R.raw.rectangle_125x125,
+				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
+				simpleSingleConvexPolygonFileName,
+				1);
 
 		String complexSingleConvexPolygonFileName = PhysicsTestUtils
 				.getInternalImageFilenameFromFilename("complex_single_convex_polygon.png");
-		complexSingleConvexPolygonFile = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, project.getDefaultScene().getName(),
-				complexSingleConvexPolygonFileName, COMPLEX_SINGLE_CONVEX_POLYGON_RES_ID, getInstrumentation()
-						.getContext(), TestUtils.TYPE_IMAGE_FILE);
+
+		complexSingleConvexPolygonFile = ResourceImporter.createImageFileFromResourcesInDirectory(
+				InstrumentationRegistry.getContext().getResources(),
+				R.raw.complex_single_convex_polygon,
+				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
+				complexSingleConvexPolygonFileName,
+				1);
 
 		sprite = new SingleSprite("TestSprite");
 
 		physicsLook = new PhysicsLook(sprite, physicsWorld);
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
+	@After
+	public void tearDown() throws Exception {
+		if (projectDir.exists()) {
+			StorageOperations.deleteDir(projectDir);
 		}
 		physicsShapeBuilder.reset();
-		projectFile = null;
-		super.tearDown();
+		projectDir = null;
 	}
 
+	@Test
 	public void testSimpleSingleConvexPolygon() {
 		LookData lookData = PhysicsTestUtils.generateLookData(simpleSingleConvexPolygonFile);
 		physicsLook.setLookData(lookData);
@@ -122,6 +140,7 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 		checkBuiltShapes(shapes, expectedPolynoms, expectedVertices);
 	}
 
+	@Test
 	public void testDifferentAccuracySettings() {
 		LookData lookData = PhysicsTestUtils.generateLookData(complexSingleConvexPolygonFile);
 		physicsLook.setLookData(lookData);
@@ -133,26 +152,23 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 		Shape[] highestAccuracyShapes = null;
 		for (int accuracyIdx = 1; accuracyIdx < accuracyLevels.length; accuracyIdx++) {
 			Shape[] higherAccuracyShapes = physicsShapeBuilder.getScaledShapes(lookData, accuracyLevels[accuracyIdx]);
-			assertTrue("lower accuracy must have less or equal shapes than higher accuracy", lowerAccuracyShapes
-					.length <= higherAccuracyShapes.length);
+			assertTrue(lowerAccuracyShapes.length <= higherAccuracyShapes.length);
 			lowerAccuracyShapes = higherAccuracyShapes;
 			highestAccuracyShapes = higherAccuracyShapes;
 		}
-		assertTrue("lower accuracy must have less shapes than higher accuracy", lowestAccuracyShapes.length
-				< highestAccuracyShapes.length);
+		assertTrue(lowestAccuracyShapes.length < highestAccuracyShapes.length);
 	}
 
 	private void checkBuiltShapes(Shape[] shapes, int expectedPolynomCount, int[] expectedVertices) {
 		boolean debug = false;
 
-		assertNotNull("Shapes should not be null", shapes);
+		assertNotNull(shapes);
 
 		if (!debug) {
-			assertEquals("Polynom count is not correct", expectedPolynomCount, shapes.length);
+			assertEquals(expectedPolynomCount, shapes.length);
 		}
 		if (!debug) {
-			assertEquals("The array expectedVertices must have length of expectedPolynomCount", expectedPolynomCount,
-					expectedVertices.length);
+			assertEquals(expectedPolynomCount, expectedVertices.length);
 		}
 
 		for (int idx = 0; idx < shapes.length; idx++) {
@@ -176,7 +192,7 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 						Log.d(TAG, "x=" + vertex.x + ";y=" + vertex.y);
 					}
 					if (!debug) {
-						assertEquals("vertex count is not correct", expectedVertices[idx], vertexCount);
+						assertEquals(expectedVertices[idx], vertexCount);
 					}
 					break;
 			}

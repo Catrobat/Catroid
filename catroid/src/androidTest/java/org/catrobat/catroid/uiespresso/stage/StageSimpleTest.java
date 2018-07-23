@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,13 +34,13 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.ResourceImporter;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
-import org.catrobat.catroid.uiespresso.util.FileTestUtils;
 import org.catrobat.catroid.uiespresso.util.matchers.StageMatchers;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
-import org.catrobat.catroid.utils.UtilUi;
+import org.catrobat.catroid.utils.ScreenValueHandler;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -48,13 +48,17 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import java.io.File;
+import java.io.IOException;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isFocusable;
 
+import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
+
 @RunWith(AndroidJUnit4.class)
 public class StageSimpleTest {
+
 	private static final int PROJECT_WIDTH = 480;
 	private static final int PROJECT_HEIGHT = 800;
 
@@ -79,11 +83,11 @@ public class StageSimpleTest {
 				.check(matches(StageMatchers.isColorAtPx(blue, 1, 1)));
 	}
 
-	public Project createProjectWithBlueSprite(String projectName) {
+	public Project createProjectWithBlueSprite(String projectName) throws IOException {
 		ScreenValues.SCREEN_HEIGHT = PROJECT_HEIGHT;
 		ScreenValues.SCREEN_WIDTH = PROJECT_WIDTH;
 
-		Project project = new Project(null, projectName);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 
 		// blue Sprite
 		Sprite blueSprite = new SingleSprite("blueSprite");
@@ -91,9 +95,9 @@ public class StageSimpleTest {
 		LookData blueLookData = new LookData();
 		String blueImageName = "blue_image.bmp";
 
-		blueLookData.setLookName(blueImageName);
+		blueLookData.setName(blueImageName);
 
-		blueSprite.getLookDataList().add(blueLookData);
+		blueSprite.getLookList().add(blueLookData);
 
 		blueStartScript.addBrick(new PlaceAtBrick(0, 0));
 		blueStartScript.addBrick(new SetSizeToBrick(5000));
@@ -101,18 +105,21 @@ public class StageSimpleTest {
 
 		project.getDefaultScene().addSprite(blueSprite);
 
-		StorageHandler.getInstance().saveProject(project);
-		File blueImageFile = FileTestUtils.saveFileToProject(project.getName(), project.getDefaultScene().getName(),
+		XstreamSerializer.getInstance().saveProject(project);
+
+		File blueImageFile = ResourceImporter.createImageFileFromResourcesInDirectory(
+				InstrumentationRegistry.getContext().getResources(),
+				org.catrobat.catroid.test.R.raw.blue_image,
+				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
 				blueImageName,
-				org.catrobat.catroid.test.R.raw.blue_image, InstrumentationRegistry.getContext(),
-				FileTestUtils.FileTypes.IMAGE);
+				1);
 
-		blueLookData.setLookFilename(blueImageFile.getName());
+		blueLookData.setFile(blueImageFile);
 
-		StorageHandler.getInstance().saveProject(project);
+		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(blueSprite);
-		UtilUi.updateScreenWidthAndHeight(InstrumentationRegistry.getContext());
+		ScreenValueHandler.updateScreenWidthAndHeight(InstrumentationRegistry.getContext());
 
 		return project;
 	}

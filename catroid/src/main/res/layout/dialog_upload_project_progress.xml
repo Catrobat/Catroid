@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2017 The Catrobat Team
+  ~ Copyright (C) 2010-2018 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -21,38 +21,37 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/DefaultDialog"
-    android:orientation="vertical"
-    android:theme="@android:style/Theme.Light" >
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="@dimen/dialog_content_area_padding_top"
+    android:paddingStart="@dimen/dialog_content_area_padding"
+    android:paddingEnd="@dimen/dialog_content_area_padding" >
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-          <TextView
-              android:id="@+id/dialog_upload_progess_message"
-              style="@style/DefaultDialog.TextView"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="@string/progress_upload_dialog_message" />
+        <TextView
+          android:id="@+id/dialog_upload_progess_message"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:paddingBottom="@dimen/material_design_spacing_large"
+          android:text="@string/progress_upload_dialog_message" />
 
        <ProgressBar
            android:id="@+id/dialog_upload_progress_progressbar"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
-           android:layout_below="@+id/dialog_upload_progess_message"
-           android:layout_alignParentEnd="true"
-           android:layout_alignParentStart="true" />
+           android:layout_gravity="center"/>
 
         <ImageView
             android:id="@+id/dialog_upload_progress_success_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_below="@+id/dialog_upload_progess_message"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_gravity="center" />
 
-    </RelativeLayout>
-
+    </LinearLayout>
 </ScrollView>

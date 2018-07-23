@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,193 +22,142 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AlertDialog;
+
+import com.google.common.collect.ImmutableMap;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.Constants.LegoSensorType;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+
+import java.util.Map;
 
 public class LegoSensorPortConfigDialog extends DialogFragment {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_lego_sensor_port_config";
 	public static final String TAG = LegoSensorPortConfigDialog.class.getSimpleName();
 
-	public enum Lego {NXT, EV3}
+	private OnSetSensorListener listener;
+	private @LegoSensorType int legoType;
+	private SensorInfo sensorInfo;
 
-	private int clickedItem = 0;
-	private Lego legoType;
-	private String legoTypeString;
-	private String title;
-	private NXTSensor.Sensor nxtSensor;
-	private EV3Sensor.Sensor ev3Sensor;
+	private class SensorInfo {
+		int titleResId;
+		Enum sensor;
 
-	public LegoSensorPortConfigDialog(int clickedResItem, Lego type) {
-		clickedItem = clickedResItem;
+		SensorInfo(int titleResId, Enum sensor) {
+			this.titleResId = titleResId;
+			this.sensor = sensor;
+		}
+	}
+
+	private Map<Integer, SensorInfo> sensorInfoMap = ImmutableMap.<Integer, SensorInfo>builder()
+			.put(R.string.formula_editor_sensor_lego_nxt_touch,
+					new SensorInfo(R.string.nxt_sensor_touch, NXTSensor.Sensor.TOUCH))
+			.put(R.string.formula_editor_sensor_lego_nxt_sound,
+					new SensorInfo(R.string.nxt_sensor_sound, NXTSensor.Sensor.SOUND))
+			.put(R.string.formula_editor_sensor_lego_nxt_light,
+					new SensorInfo(R.string.nxt_sensor_light, NXTSensor.Sensor.LIGHT_INACTIVE))
+			.put(R.string.formula_editor_sensor_lego_nxt_light_active,
+					new SensorInfo(R.string.nxt_sensor_light_active, NXTSensor.Sensor.LIGHT_ACTIVE))
+			.put(R.string.formula_editor_sensor_lego_nxt_ultrasonic,
+					new SensorInfo(R.string.nxt_sensor_ultrasonic, NXTSensor.Sensor.ULTRASONIC))
+			.put(R.string.formula_editor_sensor_lego_ev3_sensor_touch,
+					new SensorInfo(R.string.ev3_sensor_touch, EV3Sensor.Sensor.TOUCH))
+			.put(R.string.formula_editor_sensor_lego_ev3_sensor_infrared,
+					new SensorInfo(R.string.ev3_sensor_infrared, EV3Sensor.Sensor.INFRARED))
+			.put(R.string.formula_editor_sensor_lego_ev3_sensor_color,
+					new SensorInfo(R.string.ev3_sensor_color, EV3Sensor.Sensor.COLOR))
+			.put(R.string.formula_editor_sensor_lego_ev3_sensor_color_ambient,
+					new SensorInfo(R.string.ev3_sensor_color_ambient, EV3Sensor.Sensor.COLOR_AMBIENT))
+			.put(R.string.formula_editor_sensor_lego_ev3_sensor_color_reflected,
+					new SensorInfo(R.string.ev3_sensor_color_reflected, EV3Sensor.Sensor.COLOR_REFLECT))
+			.put(R.string.formula_editor_sensor_lego_ev3_sensor_hitechnic_color,
+					new SensorInfo(R.string.ev3_sensor_hitechnic_color, EV3Sensor.Sensor.HT_NXT_COLOR))
+			.put(R.string.formula_editor_sensor_lego_ev3_sensor_nxt_temperature_c,
+					new SensorInfo(R.string.ev3_sensor_nxt_temperature_c, EV3Sensor.Sensor.NXT_TEMPERATURE_C))
+			.put(R.string.formula_editor_sensor_lego_ev3_sensor_nxt_temperature_f,
+					new SensorInfo(R.string.ev3_sensor_nxt_temperature_f, EV3Sensor.Sensor.NXT_TEMPERATURE_F))
+			.build();
+
+	public LegoSensorPortConfigDialog(OnSetSensorListener listener, int clickedResItem, @LegoSensorType int type) {
+		this.listener = listener;
+		sensorInfo = getSensorInfo(clickedResItem, type);
 		legoType = type;
-		legoTypeString = type == Lego.NXT ? "NXT" : "EV3";
+
+		if (type != Constants.NXT && type != Constants.EV3) {
+			throw new IllegalArgumentException("LegoSensorPortConfigDialog: Unknown LegoSensorType");
+		}
 	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		String[] portStrings;
-		final String[] sensorMappingStrings;
-		String[] sensorMappings;
-		Dialog dialog;
-		if (legoType == Lego.NXT) {
-			final NXTSensor.Sensor[] sensorMapping = SettingsActivity.getLegoMindstormsNXTSensorMapping(this.getActivity());
-			sensorMappingStrings = getResources().getStringArray(R.array.nxt_sensor_chooser);
-			portStrings = getResources().getStringArray(R.array.port_chooser);
+		final Enum[] sensorsByPort = legoType == Constants.NXT
+				? SettingsFragment.getLegoNXTSensorMapping(this.getActivity())
+				: SettingsFragment.getLegoEV3SensorMapping(this.getActivity());
 
-			sensorMappings = new String[portStrings.length];
+		String[] portNames = getResources().getStringArray(R.array.port_chooser);
+		String[] dialogItems = new String[portNames.length];
+		final String[] sensorNames = getResources()
+				.getStringArray(legoType == Constants.NXT ? R.array.nxt_sensor_chooser : R.array.ev3_sensor_chooser);
 
-			for (int index = 0; index < sensorMappings.length; index++) {
-				sensorMappings[index] = portStrings[index] + ": " + sensorMappingStrings[sensorMapping[index].ordinal()];
-			}
-			getAttributes(clickedItem, legoType);
-
-			dialog = new AlertDialog.Builder(getActivity())
-					.setTitle(title)
-					.setItems(sensorMappings, new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int which) {
-							checkIfOverwrite(which, sensorMappingStrings[sensorMapping[which].ordinal()], legoType);
-						}
-					}).create();
-
-			dialog.setCanceledOnTouchOutside(true);
-		} else {
-			final EV3Sensor.Sensor[] sensorMapping = SettingsActivity.getLegoMindstormsEV3SensorMapping(this.getActivity());
-			sensorMappingStrings = getResources().getStringArray(R.array.ev3_sensor_chooser);
-			portStrings = getResources().getStringArray(R.array.port_chooser);
-
-			sensorMappings = new String[portStrings.length];
-
-			for (int index = 0; index < sensorMappings.length; index++) {
-				sensorMappings[index] = portStrings[index] + ": " + sensorMappingStrings[sensorMapping[index].ordinal()];
-			}
-			getAttributes(clickedItem, legoType);
-
-			dialog = new AlertDialog.Builder(getActivity())
-					.setTitle(title)
-					.setItems(sensorMappings, new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int which) {
-							checkIfOverwrite(which, sensorMappingStrings[sensorMapping[which].ordinal()], legoType);
-						}
-					}).create();
-
-			dialog.setCanceledOnTouchOutside(true);
+		for (int portNumber = 0; portNumber < portNames.length; portNumber++) {
+			int sensorNameIndex = sensorsByPort[portNumber].ordinal();
+			dialogItems[portNumber] = portNames[portNumber] + ": " + sensorNames[sensorNameIndex];
 		}
 
+		Dialog dialog = new AlertDialog.Builder(getActivity())
+				.setTitle(getString(R.string.lego_sensor_port_config_dialog_title, getString(sensorInfo.titleResId)))
+				.setSingleChoiceItems(dialogItems, -1, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int selectedPort) {
+						((AlertDialog) dialog).getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(true);
+					}
+				})
+				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						int selectedPort = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
+						writeSensorPortConfig(selectedPort, legoType);
+						listener.onSetSensor(selectedPort, legoType);
+					}
+				})
+				.create();
+
+		dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+			@Override
+			public void onShow(DialogInterface dialog) {
+				((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+			}
+		});
+		dialog.setCanceledOnTouchOutside(true);
 		return dialog;
 	}
 
-	private void getAttributes(int clickedItem, Lego type) {
-		if (type == Lego.NXT) {
-			switch (clickedItem) {
-				case R.string.formula_editor_sensor_lego_nxt_touch:
-					title = getString(R.string.nxt_sensor_touch);
-					nxtSensor = NXTSensor.Sensor.TOUCH;
-					break;
-				case R.string.formula_editor_sensor_lego_nxt_sound:
-					title = getString(R.string.nxt_sensor_sound);
-					nxtSensor = NXTSensor.Sensor.SOUND;
-					break;
-				case R.string.formula_editor_sensor_lego_nxt_light:
-					title = getString(R.string.nxt_sensor_light);
-					nxtSensor = NXTSensor.Sensor.LIGHT_INACTIVE;
-					break;
-				case R.string.formula_editor_sensor_lego_nxt_light_active:
-					title = getString(R.string.nxt_sensor_light_active);
-					nxtSensor = NXTSensor.Sensor.LIGHT_ACTIVE;
-					break;
-				case R.string.formula_editor_sensor_lego_nxt_ultrasonic:
-					title = getString(R.string.nxt_sensor_ultrasonic);
-					nxtSensor = NXTSensor.Sensor.ULTRASONIC;
-					break;
-				default:
-					title = getString(R.string.nxt_sensor_not_found);
-					nxtSensor = NXTSensor.Sensor.NO_SENSOR;
-			}
-		} else {
-			switch (clickedItem) {
-				case R.string.formula_editor_sensor_lego_ev3_sensor_touch:
-					title = getString(R.string.ev3_sensor_touch);
-					ev3Sensor = EV3Sensor.Sensor.TOUCH;
-					break;
-				case R.string.formula_editor_sensor_lego_ev3_sensor_infrared:
-					title = getString(R.string.ev3_sensor_infrared);
-					ev3Sensor = EV3Sensor.Sensor.INFRARED;
-					break;
-				case R.string.formula_editor_sensor_lego_ev3_sensor_color:
-					title = getString(R.string.ev3_sensor_color);
-					ev3Sensor = EV3Sensor.Sensor.COLOR;
-					break;
-				case R.string.formula_editor_sensor_lego_ev3_sensor_color_ambient:
-					title = getString(R.string.ev3_sensor_color_ambient);
-					ev3Sensor = EV3Sensor.Sensor.COLOR_AMBIENT;
-					break;
-				case R.string.formula_editor_sensor_lego_ev3_sensor_color_reflected:
-					title = getString(R.string.ev3_sensor_color_reflected);
-					ev3Sensor = EV3Sensor.Sensor.COLOR_REFLECT;
-					break;
-				default:
-					title = getString(R.string.nxt_sensor_not_found);
-					ev3Sensor = EV3Sensor.Sensor.NO_SENSOR;
-			}
+	private SensorInfo getSensorInfo(int clickedItem, @LegoSensorType int type) {
+		SensorInfo info = sensorInfoMap.get(clickedItem);
+		Enum sensor = type == Constants.NXT ? NXTSensor.Sensor.NO_SENSOR : EV3Sensor.Sensor.NO_SENSOR;
+		return info != null ? info : new SensorInfo(R.string.nxt_sensor_not_found, sensor);
+	}
+
+	private void writeSensorPortConfig(int selectedPort, @LegoSensorType int legoType) {
+		if (legoType == Constants.NXT) {
+			SettingsFragment.setLegoMindstormsNXTSensorMapping(getActivity(), (NXTSensor.Sensor) sensorInfo.sensor,
+					SettingsFragment.NXT_SENSORS[selectedPort]);
+		} else if (legoType == Constants.EV3) {
+			SettingsFragment.setLegoMindstormsEV3SensorMapping(getActivity(), (EV3Sensor.Sensor) sensorInfo.sensor,
+					SettingsFragment.EV3_SENSORS[selectedPort]);
 		}
 	}
 
-	private void checkIfOverwrite(final int selectedPort, String selected, final Lego legoType) {
-		final Context dialogueContext = getActivity();
-		if (selected.equals(getString(R.string.nxt_no_sensor))) { // nxt_no_sensor equals ev3_no_sensor
-			overwrite(dialogueContext, selectedPort, legoType);
-		} else if (!selected.equals(title)) {
-			AlertDialog.Builder builder = new CustomAlertDialogBuilder(dialogueContext);
-			builder.setTitle(R.string.lego_nxt_overwrite_sensor_port_dialog_title)
-					.setMessage(R.string.lego_nxt_overwrite_sensor_port_dialog_message)
-					.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							dialog.dismiss();
-						}
-					})
-					.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							String sensor = legoType == Lego.NXT ? SettingsActivity.NXT_SENSORS[selectedPort]
-									: SettingsActivity.EV3_SENSORS[selectedPort];
-							if (dialogueContext != null) {
-								if (legoType == Lego.NXT) {
-									SettingsActivity.setLegoMindstormsNXTSensorMapping(dialogueContext, nxtSensor, sensor);
-								} else {
-									SettingsActivity.setLegoMindstormsEV3SensorMapping(dialogueContext, ev3Sensor, sensor);
-								}
-							} else {
-								Log.e(TAG, "Context == null :(");
-							}
-						}
-					}).create().show();
-		}
-		getTargetFragment().onActivityResult(getTargetRequestCode(), selectedPort, getActivity().getIntent().setType(legoTypeString));
-	}
-
-	private void overwrite(Context context, int selectedPort, Lego legoType) {
-		String sensor = legoType == Lego.NXT ? SettingsActivity.NXT_SENSORS[selectedPort]
-				: SettingsActivity.EV3_SENSORS[selectedPort];
-		if (getActivity() != null) {
-			if (legoType == Lego.NXT) {
-				SettingsActivity.setLegoMindstormsNXTSensorMapping(context, nxtSensor, sensor);
-			} else {
-				SettingsActivity.setLegoMindstormsEV3SensorMapping(context, ev3Sensor, sensor);
-			}
-		} else {
-			Log.e(TAG, "Context == null :(");
-		}
+	public interface OnSetSensorListener {
+		void onSetSensor(int setPort, @LegoSensorType int type);
 	}
 }

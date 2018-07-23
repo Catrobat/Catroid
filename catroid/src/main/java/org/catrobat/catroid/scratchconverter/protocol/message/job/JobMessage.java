@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,6 +25,7 @@ package org.catrobat.catroid.scratchconverter.protocol.message.job;
 
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.util.SparseArray;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.scratchconverter.protocol.JsonKeys;
@@ -39,10 +40,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.TimeZone;
 
 public abstract class JobMessage extends Message {
@@ -62,10 +61,10 @@ public abstract class JobMessage extends Message {
 
 		private int typeID;
 
-		private static Map<Integer, Type> map = new HashMap<>();
+		private static SparseArray<Type> types = new SparseArray<>();
 		static {
 			for (Type legEnum : Type.values()) {
-				map.put(legEnum.typeID, legEnum);
+				types.put(legEnum.typeID, legEnum);
 			}
 		}
 		Type(final int typeID) {
@@ -73,7 +72,7 @@ public abstract class JobMessage extends Message {
 		}
 
 		public static Type valueOf(int typeID) {
-			return map.get(typeID);
+			return types.get(typeID);
 		}
 
 		public int getTypeID() {

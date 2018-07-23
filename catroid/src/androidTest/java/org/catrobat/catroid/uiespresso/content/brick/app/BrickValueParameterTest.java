@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,6 +30,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -156,7 +157,7 @@ import org.catrobat.catroid.physics.content.bricks.SetGravityBrick;
 import org.catrobat.catroid.physics.content.bricks.SetMassBrick;
 import org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.physics.content.bricks.SetVelocityBrick;
-import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
@@ -184,13 +185,15 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withSpinnerText;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_ARDUINO_BRICKS;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_NFC_BRICKS;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_PHIRO_BRICKS;
-import static org.catrobat.catroid.ui.SettingsActivity.SETTINGS_SHOW_RASPI_BRICKS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_ARDUINO_BRICKS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_EMBROIDERY_BRICKS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_NFC_BRICKS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PHIRO_BRICKS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_RASPI_BRICKS;
+import static org.catrobat.catroid.uiespresso.util.UiTestUtils.getResources;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.core.Is.is;
@@ -201,18 +204,18 @@ public class BrickValueParameterTest {
 	private String nameSpriteOne = "testSpriteOne";
 
 	@Rule
-	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(ScriptActivity.class, true, false);
+	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 
 	private List<String> allPeripheralCategories = new ArrayList<>(Arrays.asList(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED,
 			SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED, SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, SETTINGS_SHOW_PHIRO_BRICKS,
-			SETTINGS_SHOW_ARDUINO_BRICKS, SETTINGS_SHOW_RASPI_BRICKS, SETTINGS_SHOW_NFC_BRICKS));
+			SETTINGS_SHOW_ARDUINO_BRICKS, SETTINGS_SHOW_RASPI_BRICKS, SETTINGS_SHOW_NFC_BRICKS, SETTINGS_SHOW_EMBROIDERY_BRICKS));
 	private List<String> enabledByThisTestPeripheralCategories = new ArrayList<>();
 
 	@Before
 	public void setUp() throws Exception {
 		createProject("brickDefaultValueParameterTest");
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 
 		SharedPreferences sharedPreferences = PreferenceManager
 				.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
@@ -243,6 +246,7 @@ public class BrickValueParameterTest {
 				.perform(click());
 
 		List<Integer> categoryResourceStrings = Arrays.asList(
+				R.string.category_embroidery,
 				R.string.category_event,
 				R.string.category_control,
 				R.string.category_motion,
@@ -292,7 +296,7 @@ public class BrickValueParameterTest {
 
 		//Broadcast and wait
 		checkIfBrickShowsText(BroadcastWaitBrick.class, R.string.brick_broadcast_wait);
-		checkIfBrickShowsSpinnerWithEditTextOverlayWithText(BroadcastReceiverBrick.class, R.id.brick_broadcast_wait_spinner, R.string
+		checkIfBrickShowsSpinnerWithEditTextOverlayWithText(BroadcastReceiverBrick.class, R.id.brick_broadcast_spinner, R.string
 				.brick_broadcast_default_value);
 
 		//When  becomes true
@@ -431,22 +435,22 @@ public class BrickValueParameterTest {
 		checkIfBrickShowsText(SetGravityBrick.class, R.string.x_label);
 		checkIfBrickShowsText(SetGravityBrick.class, R.string.y_label);
 		checkIfBrickShowsText(SetGravityBrick.class, R.string.brick_set_gravity_unit);
-		checkIfBrickShowsText(SetGravityBrick.class, "0.0");
-		checkIfBrickShowsText(SetGravityBrick.class, "-10.0");
+		checkIfBrickShowsText(SetGravityBrick.class, "0");
+		checkIfBrickShowsText(SetGravityBrick.class, "-10");
 
 		//Set mass
 		checkIfBrickShowsText(SetMassBrick.class, R.string.brick_set_mass);
-		checkIfBrickShowsText(SetMassBrick.class, "1.0");
+		checkIfBrickShowsText(SetMassBrick.class, "1");
 		checkIfBrickShowsText(SetMassBrick.class, R.string.brick_set_mass_unit);
 
 		//Set bounce
 		checkIfBrickShowsText(SetBounceBrick.class, R.string.brick_set_bounce_factor);
-		checkIfBrickShowsText(SetBounceBrick.class, "80.0");
+		checkIfBrickShowsText(SetBounceBrick.class, "80");
 		checkIfBrickShowsText(SetBounceBrick.class, R.string.percent_symbol);
 
 		//Set friction
 		checkIfBrickShowsText(SetFrictionBrick.class, R.string.brick_set_friction);
-		checkIfBrickShowsText(SetFrictionBrick.class, "20.0");
+		checkIfBrickShowsText(SetFrictionBrick.class, "20");
 		checkIfBrickShowsText(SetFrictionBrick.class, R.string.percent_symbol);
 	}
 
@@ -456,12 +460,14 @@ public class BrickValueParameterTest {
 		openCategory(R.string.category_sound);
 
 		//start sound - spinner "New..:"
-		checkIfBrickShowsText(PlaySoundBrick.class, R.string.brick_play_sound);
-		checkIfBrickShowsSpinnerWithText(PlaySoundBrick.class, R.id.playsound_spinner, R.string.new_broadcast_message);
+		checkIfBrickAtPositionShowsText(PlaySoundBrick.class, 0, R.string.brick_play_sound);
+		checkIfBrickAtPositionShowsSpinnerWithText(PlaySoundBrick.class, 0, R.id.brick_play_sound_spinner, R.string
+				.new_broadcast_message);
 
 		//start sound and wait  - spinner "new..:"
 		checkIfBrickShowsText(PlaySoundAndWaitBrick.class, R.string.brick_play_sound_and_wait);
-		checkIfBrickShowsSpinnerWithText(PlaySoundAndWaitBrick.class, R.id.playsound_spinner, R.string.new_broadcast_message);
+		checkIfBrickShowsSpinnerWithText(PlaySoundAndWaitBrick.class, R.id.brick_play_sound_spinner, R.string
+				.new_broadcast_message);
 
 		//stop all sounds
 		checkIfBrickShowsText(StopAllSoundsBrick.class, R.string.brick_stop_all_sounds);
@@ -469,11 +475,11 @@ public class BrickValueParameterTest {
 		//set volume to - edit text "60%"
 		checkIfBrickShowsText(SetVolumeToBrick.class, R.string.brick_set_volume_to);
 		checkIfBrickShowsText(SetVolumeToBrick.class, R.string.percent_symbol);
-		checkIfBrickShowsEditTextWithText(SetVolumeToBrick.class, R.id.brick_set_volume_to_edit_text, "60.0");
+		checkIfBrickShowsEditTextWithText(SetVolumeToBrick.class, R.id.brick_set_volume_to_edit_text, "60");
 
 		//change volume by - edit text "-10.0"
 		checkIfBrickShowsText(ChangeVolumeByNBrick.class, R.string.brick_change_volume_by);
-		checkIfBrickShowsEditTextWithText(ChangeVolumeByNBrick.class, R.id.brick_change_volume_by_edit_text, "-10.0");
+		checkIfBrickShowsEditTextWithText(ChangeVolumeByNBrick.class, R.id.brick_change_volume_by_edit_text, "-10");
 
 		//speak - edit text "hello"
 		checkIfBrickShowsText(SpeakBrick.class, R.string.brick_speak);
@@ -562,10 +568,10 @@ public class BrickValueParameterTest {
 		checkIfBrickShowsText(ChangeBrightnessByNBrick.class, "25");
 
 		checkIfBrickShowsText(SetColorBrick.class, R.string.brick_set_color);
-		checkIfBrickShowsText(SetColorBrick.class, "0.0");
+		checkIfBrickShowsText(SetColorBrick.class, "0");
 
 		checkIfBrickShowsText(ChangeColorByNBrick.class, R.string.brick_change_color);
-		checkIfBrickShowsText(ChangeColorByNBrick.class, "25.0");
+		checkIfBrickShowsText(ChangeColorByNBrick.class, "25");
 
 		checkIfBrickShowsText(ClearGraphicEffectBrick.class, R.string.brick_clear_graphic_effect);
 
@@ -574,13 +580,12 @@ public class BrickValueParameterTest {
 				R.id.brick_when_background_spinner,
 				R.string.brick_variable_spinner_create_new_variable);
 
-		checkIfBrickAtPositionShowsText(SetBackgroundBrick.class, 0, R.string.brick_set_look);
+		checkIfBrickAtPositionShowsText(SetBackgroundBrick.class, 0, R.string.brick_set_background);
 		checkIfBrickAtPositionShowsSpinnerWithText(SetBackgroundBrick.class, 0,
 				R.id.brick_set_look_spinner,
 				R.string.brick_variable_spinner_create_new_variable);
 
-		checkIfBrickAtPositionShowsText(SetBackgroundAndWaitBrick.class, 0, R.string.brick_set_look);
-		checkIfBrickAtPositionShowsText(SetBackgroundAndWaitBrick.class, 0, R.string.brick_and_wait);
+		checkIfBrickAtPositionShowsText(SetBackgroundAndWaitBrick.class, 0, R.string.brick_set_background_and_wait);
 		checkIfBrickAtPositionShowsSpinnerWithText(SetBackgroundAndWaitBrick.class, 0,
 				R.id.brick_set_look_spinner,
 				R.string.brick_variable_spinner_create_new_variable);
@@ -624,14 +629,14 @@ public class BrickValueParameterTest {
 
 		checkIfBrickShowsText(SetVariableBrick.class, R.string.brick_set_variable);
 		checkIfBrickShowsText(SetVariableBrick.class, R.string.to_label);
-		checkIfBrickShowsText(SetVariableBrick.class, "1.0");
+		checkIfBrickShowsText(SetVariableBrick.class, "1");
 		checkIfBrickShowsSpinnerWithEditTextOverlayWithText(SetVariableBrick.class,
 				R.id.set_variable_spinner,
 				R.string.brick_variable_spinner_create_new_variable);
 
 		checkIfBrickShowsText(ChangeVariableBrick.class, R.string.brick_change_variable);
 		checkIfBrickShowsText(ChangeVariableBrick.class, R.string.by_label);
-		checkIfBrickShowsText(ChangeVariableBrick.class, "1.0");
+		checkIfBrickShowsText(ChangeVariableBrick.class, "1");
 		checkIfBrickShowsSpinnerWithEditTextOverlayWithText(ChangeVariableBrick.class,
 				R.id.change_variable_spinner,
 				R.string.brick_variable_spinner_create_new_variable);
@@ -653,7 +658,7 @@ public class BrickValueParameterTest {
 
 		checkIfBrickShowsText(AddItemToUserListBrick.class, R.string.brick_add_item_to_userlist_add);
 		checkIfBrickShowsText(AddItemToUserListBrick.class, R.string.brick_add_item_to_userlist);
-		checkIfBrickShowsText(AddItemToUserListBrick.class, "1.0");
+		checkIfBrickShowsText(AddItemToUserListBrick.class, "1");
 		checkIfBrickShowsSpinnerWithEditTextOverlayWithText(AddItemToUserListBrick.class,
 				R.id.add_item_to_userlist_spinner,
 				R.string.brick_variable_spinner_create_new_variable);
@@ -668,8 +673,8 @@ public class BrickValueParameterTest {
 		checkIfBrickShowsText(InsertItemIntoUserListBrick.class, R.string.brick_insert_item_into_userlist_insert_into);
 		checkIfBrickShowsText(InsertItemIntoUserListBrick.class, R.string.brick_insert_item_into_userlist_into_list);
 		checkIfBrickShowsText(InsertItemIntoUserListBrick.class, R.string.brick_insert_item_into_userlist_at_position);
-		checkIfBrickShowsText(InsertItemIntoUserListBrick.class, "1.0");
-		checkIfBrickShowsText(InsertItemIntoUserListBrick.class, "1");
+		checkIfBrickShowsEditTextWithText(InsertItemIntoUserListBrick.class, R.id.brick_insert_item_into_userlist_value_edit_text, "1");
+		checkIfBrickShowsEditTextWithText(InsertItemIntoUserListBrick.class, R.id.brick_insert_item_into_userlist_at_index_edit_text, "1");
 		checkIfBrickShowsSpinnerWithEditTextOverlayWithText(InsertItemIntoUserListBrick.class,
 				R.id.insert_item_into_userlist_spinner,
 				R.string.brick_variable_spinner_create_new_variable);
@@ -677,8 +682,8 @@ public class BrickValueParameterTest {
 		checkIfBrickShowsText(ReplaceItemInUserListBrick.class, R.string.brick_replace_item_in_userlist_replace_in_list);
 		checkIfBrickShowsText(ReplaceItemInUserListBrick.class, R.string.brick_replace_item_in_userlist_item_at_index);
 		checkIfBrickShowsText(ReplaceItemInUserListBrick.class, R.string.brick_replace_item_in_userlist_with_value);
-		checkIfBrickShowsText(ReplaceItemInUserListBrick.class, "1.0");
-		checkIfBrickShowsText(ReplaceItemInUserListBrick.class, "1");
+		checkIfBrickShowsEditTextWithText(ReplaceItemInUserListBrick.class, R.id.brick_replace_item_in_userlist_at_index_edit_text, "1");
+		checkIfBrickShowsEditTextWithText(ReplaceItemInUserListBrick.class, R.id.brick_replace_item_in_userlist_value_edit_text, "1");
 		checkIfBrickShowsSpinnerWithEditTextOverlayWithText(ReplaceItemInUserListBrick.class,
 				R.id.replace_item_in_userlist_spinner,
 				R.string.brick_variable_spinner_create_new_variable);
@@ -713,7 +718,8 @@ public class BrickValueParameterTest {
 
 		checkIfBrickShowsText(LegoNxtPlayToneBrick.class, R.string.nxt_play_tone);
 		checkIfBrickShowsText(LegoNxtPlayToneBrick.class, R.string.nxt_tone_duration);
-		checkIfBrickShowsText(LegoNxtPlayToneBrick.class, R.string.nxt_seconds);
+		checkIfBrickShowsText(LegoNxtPlayToneBrick.class, getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(BrickValues.LEGO_DURATION)));
 		checkIfBrickShowsText(LegoNxtPlayToneBrick.class, R.string.nxt_tone_frequency);
 		checkIfBrickShowsText(LegoNxtPlayToneBrick.class, R.string.nxt_tone_hundred_hz);
 		checkIfBrickShowsText(LegoNxtPlayToneBrick.class, "1.0");
@@ -749,7 +755,8 @@ public class BrickValueParameterTest {
 
 		checkIfBrickShowsText(LegoEv3PlayToneBrick.class, R.string.ev3_play_tone);
 		checkIfBrickShowsText(LegoEv3PlayToneBrick.class, R.string.ev3_tone_duration_for);
-		checkIfBrickShowsText(LegoEv3PlayToneBrick.class, R.string.nxt_seconds);
+		checkIfBrickShowsText(LegoEv3PlayToneBrick.class, getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(BrickValues.LEGO_DURATION)));
 		checkIfBrickShowsText(LegoEv3PlayToneBrick.class, R.string.nxt_tone_frequency);
 		checkIfBrickShowsText(LegoEv3PlayToneBrick.class, R.string.nxt_tone_hundred_hz);
 		checkIfBrickShowsText(LegoEv3PlayToneBrick.class, R.string.ev3_tone_volume);
@@ -774,68 +781,82 @@ public class BrickValueParameterTest {
 		checkIfBrickShowsText(DroneEmergencyBrick.class, R.string.brick_drone_emergency);
 
 		checkIfBrickShowsText(DroneMoveUpBrick.class, R.string.brick_drone_move_up);
-		checkIfBrickShowsText(DroneMoveUpBrick.class, R.string.brick_drone_with);
-		checkIfBrickShowsText(DroneMoveUpBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol)
-				+ " "
-				+ UiTestUtils.getResourcesString(R.string.formula_editor_function_power));
+		checkIfBrickShowsText(DroneMoveUpBrick.class, getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000)));
+		checkIfBrickShowsText(DroneMoveUpBrick.class, R.string.brick_drone_with_);
+		checkIfBrickShowsText(DroneMoveUpBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol));
+		checkIfBrickShowsText(DroneMoveUpBrick.class, UiTestUtils.getResourcesString(R.string.formula_editor_function_power));
 		checkIfBrickShowsText(DroneMoveUpBrick.class, "1");
-		checkIfBrickShowsText(DroneMoveUpBrick.class, "20.0");
+		checkIfBrickShowsText(DroneMoveUpBrick.class, "20");
 
 		checkIfBrickShowsText(DroneMoveDownBrick.class, R.string.brick_drone_move_down);
-		checkIfBrickShowsText(DroneMoveDownBrick.class, R.string.brick_drone_with);
-		checkIfBrickShowsText(DroneMoveDownBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol)
-				+ " "
-				+ UiTestUtils.getResourcesString(R.string.formula_editor_function_power));
+		checkIfBrickShowsText(DroneMoveDownBrick.class, getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000)));
+		checkIfBrickShowsText(DroneMoveDownBrick.class, R.string.brick_drone_with_);
+		checkIfBrickShowsText(DroneMoveDownBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol));
+		checkIfBrickShowsText(DroneMoveDownBrick.class, UiTestUtils.getResourcesString(R.string
+				.formula_editor_function_power));
 		checkIfBrickShowsText(DroneMoveDownBrick.class, "1");
-		checkIfBrickShowsText(DroneMoveDownBrick.class, "20.0");
+		checkIfBrickShowsText(DroneMoveDownBrick.class, "20");
 
 		checkIfBrickShowsText(DroneMoveLeftBrick.class, R.string.brick_drone_move_left);
-		checkIfBrickShowsText(DroneMoveLeftBrick.class, R.string.brick_drone_with);
-		checkIfBrickShowsText(DroneMoveLeftBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol)
-				+ " "
-				+ UiTestUtils.getResourcesString(R.string.formula_editor_function_power));
+		checkIfBrickShowsText(DroneMoveLeftBrick.class, getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000)));
+		checkIfBrickShowsText(DroneMoveLeftBrick.class, R.string.brick_drone_with_);
+		checkIfBrickShowsText(DroneMoveLeftBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol));
+		checkIfBrickShowsText(DroneMoveLeftBrick.class, UiTestUtils.getResourcesString(R.string
+				.formula_editor_function_power));
 		checkIfBrickShowsText(DroneMoveLeftBrick.class, "1");
-		checkIfBrickShowsText(DroneMoveLeftBrick.class, "20.0");
+		checkIfBrickShowsText(DroneMoveLeftBrick.class, "20");
 
 		checkIfBrickShowsText(DroneMoveRightBrick.class, R.string.brick_drone_move_right);
-		checkIfBrickShowsText(DroneMoveRightBrick.class, R.string.brick_drone_with);
-		checkIfBrickShowsText(DroneMoveRightBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol)
-				+ " "
-				+ UiTestUtils.getResourcesString(R.string.formula_editor_function_power));
+		checkIfBrickShowsText(DroneMoveRightBrick.class, getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000)));
+		checkIfBrickShowsText(DroneMoveRightBrick.class, R.string.brick_drone_with_);
+		checkIfBrickShowsText(DroneMoveRightBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol));
+		checkIfBrickShowsText(DroneMoveRightBrick.class, UiTestUtils.getResourcesString(R.string
+				.formula_editor_function_power));
 		checkIfBrickShowsText(DroneMoveRightBrick.class, "1");
-		checkIfBrickShowsText(DroneMoveRightBrick.class, "20.0");
+		checkIfBrickShowsText(DroneMoveRightBrick.class, "20");
 
 		checkIfBrickShowsText(DroneMoveForwardBrick.class, R.string.brick_drone_move_forward);
-		checkIfBrickShowsText(DroneMoveForwardBrick.class, R.string.brick_drone_with);
-		checkIfBrickShowsText(DroneMoveForwardBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol)
-				+ " "
-				+ UiTestUtils.getResourcesString(R.string.formula_editor_function_power));
+		checkIfBrickShowsText(DroneMoveForwardBrick.class, getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000)));
+		checkIfBrickShowsText(DroneMoveForwardBrick.class, R.string.brick_drone_with_);
+		checkIfBrickShowsText(DroneMoveForwardBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol));
+		checkIfBrickShowsText(DroneMoveForwardBrick.class, UiTestUtils.getResourcesString(R.string
+				.formula_editor_function_power));
 		checkIfBrickShowsText(DroneMoveForwardBrick.class, "1");
-		checkIfBrickShowsText(DroneMoveForwardBrick.class, "20.0");
+		checkIfBrickShowsText(DroneMoveForwardBrick.class, "20");
 
 		checkIfBrickShowsText(DroneMoveBackwardBrick.class, R.string.brick_drone_move_backward);
-		checkIfBrickShowsText(DroneMoveBackwardBrick.class, R.string.brick_drone_with);
-		checkIfBrickShowsText(DroneMoveBackwardBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol)
-				+ " "
-				+ UiTestUtils.getResourcesString(R.string.formula_editor_function_power));
+		checkIfBrickShowsText(DroneMoveBackwardBrick.class, getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000)));
+		checkIfBrickShowsText(DroneMoveBackwardBrick.class, R.string.brick_drone_with_);
+		checkIfBrickShowsText(DroneMoveBackwardBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol));
+		checkIfBrickShowsText(DroneMoveBackwardBrick.class, UiTestUtils.getResourcesString(R.string
+				.formula_editor_function_power));
 		checkIfBrickShowsText(DroneMoveBackwardBrick.class, "1");
-		checkIfBrickShowsText(DroneMoveBackwardBrick.class, "20.0");
+		checkIfBrickShowsText(DroneMoveBackwardBrick.class, "20");
 
 		checkIfBrickShowsText(DroneTurnLeftBrick.class, R.string.brick_drone_turn_left);
-		checkIfBrickShowsText(DroneTurnLeftBrick.class, R.string.brick_drone_with);
-		checkIfBrickShowsText(DroneTurnLeftBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol)
-				+ " "
-				+ UiTestUtils.getResourcesString(R.string.formula_editor_function_power));
+		checkIfBrickShowsText(DroneTurnLeftBrick.class, getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000)));
+		checkIfBrickShowsText(DroneTurnLeftBrick.class, R.string.brick_drone_with_);
+		checkIfBrickShowsText(DroneTurnLeftBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol));
+		checkIfBrickShowsText(DroneTurnLeftBrick.class, UiTestUtils.getResourcesString(R.string.formula_editor_function_power));
 		checkIfBrickShowsText(DroneTurnLeftBrick.class, "1");
-		checkIfBrickShowsText(DroneTurnLeftBrick.class, "20.0");
+		checkIfBrickShowsText(DroneTurnLeftBrick.class, "20");
 
 		checkIfBrickShowsText(DroneTurnRightBrick.class, R.string.brick_drone_turn_right);
-		checkIfBrickShowsText(DroneTurnRightBrick.class, R.string.brick_drone_with);
-		checkIfBrickShowsText(DroneTurnRightBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol)
-				+ " "
-				+ UiTestUtils.getResourcesString(R.string.formula_editor_function_power));
+		checkIfBrickShowsText(DroneTurnRightBrick.class, getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000)));
+		checkIfBrickShowsText(DroneTurnRightBrick.class, R.string.brick_drone_with_);
+		checkIfBrickShowsText(DroneTurnRightBrick.class, UiTestUtils.getResourcesString(R.string.percent_symbol));
+		checkIfBrickShowsText(DroneTurnRightBrick.class, UiTestUtils.getResourcesString(R.string
+				.formula_editor_function_power));
 		checkIfBrickShowsText(DroneTurnRightBrick.class, "1");
-		checkIfBrickShowsText(DroneTurnRightBrick.class, "20.0");
+		checkIfBrickShowsText(DroneTurnRightBrick.class, "20");
 
 		checkIfBrickShowsText(DroneSwitchCameraBrick.class, R.string.brick_drone_switch_camera);
 	}
@@ -873,7 +894,8 @@ public class BrickValueParameterTest {
 
 		checkIfBrickShowsText(PhiroPlayToneBrick.class, R.string.phiro_play_tone);
 		checkIfBrickShowsText(PhiroPlayToneBrick.class, R.string.phiro_tone_duration);
-		checkIfBrickShowsText(PhiroPlayToneBrick.class, R.string.phiro_seconds);
+		checkIfBrickShowsText(PhiroPlayToneBrick.class, getResources().getQuantityString(R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(BrickValues.PHIRO_DURATION)));
 		checkIfBrickShowsText(PhiroPlayToneBrick.class, "1");
 		checkIfBrickShowsSpinnerWithEditTextOverlayWithText(PhiroPlayToneBrick.class,
 				R.id.brick_phiro_select_tone_spinner,
@@ -979,8 +1001,8 @@ public class BrickValueParameterTest {
 		checkIfBrickShowsText(RaspiPwmBrick.class, R.string.percent_symbol);
 		checkIfBrickShowsText(RaspiPwmBrick.class, R.string.hertz_symbol);
 		checkIfBrickShowsText(RaspiPwmBrick.class, "3");
-		checkIfBrickShowsText(RaspiPwmBrick.class, "50.0");
-		checkIfBrickShowsText(RaspiPwmBrick.class, "100.0");
+		checkIfBrickShowsText(RaspiPwmBrick.class, "50");
+		checkIfBrickShowsText(RaspiPwmBrick.class, "100");
 	}
 
 	//Educational Test on how to deal with old/hacked spinner default values
@@ -1005,7 +1027,7 @@ public class BrickValueParameterTest {
 		//wait - edit text "1" - second
 		checkIfBrickShowsText(WaitBrick.class, R.string.brick_wait);
 		checkIfBrickShowsEditTextWithText(WaitBrick.class, R.id.brick_wait_edit_text, "1");
-		checkIfBrickShowsText(WaitBrick.class, UiTestUtils.getResources().getQuantityString(R.plurals.second_plural,
+		checkIfBrickShowsText(WaitBrick.class, getResources().getQuantityString(R.plurals.second_plural,
 				Utils.convertDoubleToPluralInteger(1)));
 
 		//note - edit text "add comment here..."
@@ -1036,7 +1058,7 @@ public class BrickValueParameterTest {
 		//repeat  - edit text "10" - times
 		checkIfBrickShowsText(RepeatBrick.class, R.string.brick_repeat);
 		checkIfBrickShowsEditTextWithText(RepeatBrick.class, R.id.brick_repeat_edit_text, "10");
-		checkIfBrickShowsText(RepeatBrick.class, UiTestUtils.getResources().getQuantityString(R.plurals.time_plural,
+		checkIfBrickShowsText(RepeatBrick.class, getResources().getQuantityString(R.plurals.time_plural,
 				Utils.convertDoubleToPluralInteger(10)));
 
 		//repeat until - edit text "1 st 2" - is true
@@ -1050,8 +1072,8 @@ public class BrickValueParameterTest {
 
 		//start scene - spinner "new..."
 		checkIfBrickShowsText(SceneStartBrick.class, R.string.brick_scene_start);
-		checkIfBrickShowsSpinnerWithText(SceneStartBrick.class, R.id.brick_scene_start_spinner, R.string
-				.new_broadcast_message);
+		checkIfBrickShowsSpinnerWithText(SceneStartBrick.class, R.id.brick_scene_start_spinner,
+				InstrumentationRegistry.getTargetContext().getString(R.string.default_scene_name, 1));
 
 		//stop scripts - spinner "stop the script"
 		checkIfBrickShowsText(StopScriptBrick.class, R.string.brick_stop_script);
@@ -1150,7 +1172,7 @@ public class BrickValueParameterTest {
 	private void createProject(String projectName) {
 		String nameSpriteTwo = "testSpriteTwo";
 
-		Project project = new Project(null, projectName);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		Sprite spriteOne = new Sprite(nameSpriteOne);
 		project.getDefaultScene().addSprite(spriteOne);
 

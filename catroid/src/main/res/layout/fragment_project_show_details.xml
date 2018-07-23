@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2017 The Catrobat Team
+  ~ Copyright (C) 2010-2018 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -24,125 +24,123 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/application_background_color"
+    android:paddingStart="@dimen/view_holder_padding"
+    android:paddingEnd="@dimen/view_holder_padding"
     android:orientation="vertical">
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="10dp">
+        android:minHeight="@dimen/view_holder_height"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <ImageView
+            android:id="@+id/image"
             android:layout_width="72dp"
             android:layout_height="65dp"
-            android:id="@+id/image"
-            android:layout_marginLeft="9dp"
-            android:background="@drawable/spritelist_item_thumbnail_border"
+            android:layout_marginEnd="@dimen/img_margin"
+            android:background="@drawable/image_contour"
             android:cropToPadding="true"
-            android:padding="1.5dp"
             android:scaleType="centerCrop" />
 
         <TextView
+            android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/name"
-            style="@style/ListViewItemTitleText"
-            android:ellipsize="end"
-            android:paddingEnd="1.5dp"
-            android:paddingTop="20dp" />
+            android:textSize="?attr/large" />
     </LinearLayout>
 
     <TextView
+        android:id="@+id/description_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/description_title"
         android:text="@string/description"
-        style="@style/ShowDetailsTitle" />
+        android:textSize="?attr/large"
+        android:textColor="@color/accent" />
 
     <TextView
+        android:id="@+id/description_value"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/description_value"
-        style="@style/ShowDetailsValue"
         android:hint="@string/description_hint" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/author_title"
-        android:text="@string/author"
-        style="@style/ShowDetailsTitle" />
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/author"
+        android:textSize="?attr/large"
+        android:textColor="@color/accent" />
+
+    <TextView
         android:id="@+id/author_value"
-        style="@style/ShowDetailsValue" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/size_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/size"
-        style="@style/ShowDetailsTitle" />
+        android:textSize="?attr/large"
+        android:textColor="@color/accent" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/size_value"
-        style="@style/ShowDetailsValue" />
+        android:id="@+id/size_value" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/last_access_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/last_used"
-        style="@style/ShowDetailsTitle" />
+        android:textSize="?attr/large"
+        android:textColor="@color/accent" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/last_access_value"
-        style="@style/ShowDetailsValue" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/screen_size_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/screen_size"
-        style="@style/ShowDetailsTitle" />
+        android:textSize="?attr/large"
+        android:textColor="@color/accent" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/screen_size_value"
-        style="@style/ShowDetailsValue" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/mode_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/mode"
-        style="@style/ShowDetailsTitle" />
+        android:textSize="?attr/large"
+        android:textColor="@color/accent" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/mode_value"
-        style="@style/ShowDetailsValue" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/remix_of_title"
-        android:text="@string/remix_of"
-        style="@style/ShowDetailsTitle" />
-
-    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="@string/remix_of"
+        android:textSize="?attr/large"
+        android:textColor="@color/accent" />
+
+    <TextView
         android:id="@+id/remix_of_value"
-        style="@style/ShowDetailsValue"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

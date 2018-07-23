@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,13 +23,20 @@
 package org.catrobat.catroid.test.devices.mindstorms.ev3;
 
 import android.content.Context;
-import android.test.AndroidTestCase;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
 import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
 import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3Impl;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class LegoEV3ImplTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class LegoEV3ImplTest {
 
 	private Context applicationContext;
 
@@ -38,17 +45,17 @@ public class LegoEV3ImplTest extends AndroidTestCase {
 
 	private static final int BASIC_MESSAGE_BYTE_OFFSET = 6;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 
-		applicationContext = this.getContext().getApplicationContext();
+		applicationContext = InstrumentationRegistry.getTargetContext().getApplicationContext();
 
 		ev3 = new LegoEV3Impl(this.applicationContext);
 		logger = ConnectionDataLogger.createLocalConnectionLogger();
 		ev3.setConnection(logger.getConnectionProxy());
 	}
 
+	@Test
 	public void testSimplePlayToneTest() {
 
 		int inputHz = 9000;
@@ -63,10 +70,11 @@ public class LegoEV3ImplTest extends AndroidTestCase {
 
 		int offset = BASIC_MESSAGE_BYTE_OFFSET + 3; // 1 byte command, 1 bytes volume, 1 byte datatype
 
-		assertEquals("Expected Hz not same as input Hz", (byte) expectedHz, setOutputState[offset]);
-		assertEquals("Expected Hz not same as input Hz", (byte) (expectedHz >> 8), setOutputState[offset + 1]);
+		assertEquals((byte) expectedHz, setOutputState[offset]);
+		assertEquals((byte) (expectedHz >> 8), setOutputState[offset + 1]);
 	}
 
+	@Test
 	public void testPlayToneHzOverMaxValue() {
 
 		// MaxHz = 10000;
@@ -82,10 +90,11 @@ public class LegoEV3ImplTest extends AndroidTestCase {
 
 		int offset = BASIC_MESSAGE_BYTE_OFFSET + 3; // 1 byte command, 1 bytes volume, 1 byte datatype
 
-		assertEquals("Expected Hz not same as input Hz", (byte) expectedHz, setOutputState[offset]);
-		assertEquals("Expected Hz not same as input Hz", (byte) (expectedHz >> 8), setOutputState[offset + 1]);
+		assertEquals((byte) expectedHz, setOutputState[offset]);
+		assertEquals((byte) (expectedHz >> 8), setOutputState[offset + 1]);
 	}
 
+	@Test
 	public void testPlayToneCheckDuration() {
 
 		int inputHz = 9000;
@@ -100,11 +109,11 @@ public class LegoEV3ImplTest extends AndroidTestCase {
 
 		int offset = BASIC_MESSAGE_BYTE_OFFSET + 6; // 1 byte command, 1 bytes volume, 3 bytes freq, 1 byte datatype
 
-		assertEquals("Expected duration not same as input", (byte) expectedDurationInMs, setOutputState[offset]);
-		assertEquals("Expected duration not same as input", (byte) (expectedDurationInMs >> 8), setOutputState[offset
-				+ 1]);
+		assertEquals((byte) expectedDurationInMs, setOutputState[offset]);
+		assertEquals((byte) (expectedDurationInMs >> 8), setOutputState[offset + 1]);
 	}
 
+	@Test
 	public void testPlayToneCheckVolume() {
 
 		int inputHz = 9000;
@@ -119,8 +128,7 @@ public class LegoEV3ImplTest extends AndroidTestCase {
 
 		int offset = BASIC_MESSAGE_BYTE_OFFSET + 1; // 1 byte command
 
-		assertEquals("Expected volume-level doesn't match input 100%", (byte) expectedVolumeLevel1,
-				setOutputState[offset]);
+		assertEquals((byte) expectedVolumeLevel1, setOutputState[offset]);
 
 		int volume2 = 25;
 		int expectedVolumeLevel2 = 4;
@@ -128,10 +136,10 @@ public class LegoEV3ImplTest extends AndroidTestCase {
 
 		setOutputState = logger.getNextSentMessage(0, 2);
 
-		assertEquals("Expected volume-level doesn't match input 25%", (byte) expectedVolumeLevel2,
-				setOutputState[offset]);
+		assertEquals((byte) expectedVolumeLevel2, setOutputState[offset]);
 	}
 
+	@Test
 	public void testPlayToneWithZeroDuration() {
 
 		int inputHz = 13000;
@@ -143,9 +151,10 @@ public class LegoEV3ImplTest extends AndroidTestCase {
 
 		byte[] command = logger.getNextSentMessage(0, 2);
 
-		assertEquals("LastSentCommand Should be NULL", null, command);
+		assertEquals(null, command);
 	}
 
+	@Test
 	public void testPlayToneWithZeroVolume() {
 
 		int inputHz = 13000;
@@ -157,9 +166,10 @@ public class LegoEV3ImplTest extends AndroidTestCase {
 
 		byte[] command = logger.getNextSentMessage(0, 2);
 
-		assertEquals("LastSentCommand Should be NULL", null, command);
+		assertEquals(null, command);
 	}
 
+	@Test
 	public void testSimpleLED() {
 
 		int ledStatus = 0x04;
@@ -172,6 +182,6 @@ public class LegoEV3ImplTest extends AndroidTestCase {
 
 		int offset = BASIC_MESSAGE_BYTE_OFFSET + 2; // 1 byte command, 1 byte datatype
 
-		assertEquals("Sent LED-Status doesn't match expected Status", (byte) expectedLedStatus, setOutputState[offset]);
+		assertEquals((byte) expectedLedStatus, setOutputState[offset]);
 	}
 }

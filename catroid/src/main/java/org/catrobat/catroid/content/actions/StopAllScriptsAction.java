@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,29 +25,22 @@ package org.catrobat.catroid.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.badlogic.gdx.utils.Array;
 
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.stage.StageActivity;
 
-import java.util.List;
-import java.util.Map;
-
-public class StopAllScriptsAction extends TemporalAction {
+public class StopAllScriptsAction extends Action {
 
 	@Override
-	protected void update(float percent) {
+	public boolean act(float delta) {
 		Array<Actor> stageActors = StageActivity.stageListener.getStage().getActors();
 		for (Actor actor : stageActors) {
-			for (Action action : actor.getActions()) {
-				action.reset();
-			}
 			if (actor instanceof Look) {
 				Look look = (Look) actor;
-				Map<String, List<String>> scriptActions = look.createScriptActions();
-				StageActivity.stageListener.precomputeActionsForBroadcastEvents(scriptActions);
+				look.stopThreads(look.getActions());
 			}
 		}
+		return true;
 	}
 }

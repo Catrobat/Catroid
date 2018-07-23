@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,6 +24,7 @@
 package org.catrobat.catroid.uiespresso.content.brick.stage;
 
 import android.nfc.NdefMessage;
+import android.support.test.InstrumentationRegistry;
 
 import junit.framework.Assert;
 
@@ -54,6 +55,9 @@ import org.junit.experimental.categories.Category;
 
 import java.util.List;
 
+import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.NUM_DETECTED_TAGS;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.READ_TAG_ID;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.READ_TAG_MESSAGE;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.TAG_NAME_TEST1;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.TAG_NAME_TEST2;
 
@@ -77,12 +81,16 @@ public class WhenNfcBrickStageTest {
 	private WhenNfcScript scriptUnderTest;
 
 	private WhenNfcScript createProjectWithNfcAndSetVariable() {
-		Project project = new Project(null, "nfcStageTestProject");
-
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), "nfcStageTestProject");
 		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
-		readTagId = dataContainer.addProjectUserVariable(UiNFCTestUtils.READ_TAG_ID);
-		readTagMessage = dataContainer.addProjectUserVariable(UiNFCTestUtils.READ_TAG_MESSAGE);
-		numDetectedTags = dataContainer.addProjectUserVariable(UiNFCTestUtils.NUM_DETECTED_TAGS);
+
+		numDetectedTags = new UserVariable(NUM_DETECTED_TAGS);
+		readTagId = new UserVariable(READ_TAG_ID);
+		readTagMessage = new UserVariable(READ_TAG_MESSAGE);
+
+		dataContainer.addUserVariable(numDetectedTags);
+		dataContainer.addUserVariable(readTagId);
+		dataContainer.addUserVariable(readTagMessage);
 
 		Sprite sprite = new Sprite("testSprite");
 		WhenNfcScript script = new WhenNfcScript();

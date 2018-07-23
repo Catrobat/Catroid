@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,11 +27,10 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.ui.fragment.ColorSeekbar;
@@ -79,22 +78,17 @@ public class SetPenColorBrick extends FormulaBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
-	}
-
-	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_set_pen_color, null);
+		prototypeView = super.getPrototypeView(context);
 
 		TextView textValueRed = (TextView) prototypeView.findViewById(R.id.brick_set_pen_color_action_red_edit_text);
-		textValueRed.setText(String.valueOf(BrickValues.PEN_COLOR.r * 255));
+		textValueRed.setText(formatNumberForPrototypeView(BrickValues.PEN_COLOR.r * 255));
 
 		TextView textValueGreen = (TextView) prototypeView.findViewById(R.id.brick_set_pen_color_action_green_edit_text);
-		textValueGreen.setText(String.valueOf(BrickValues.PEN_COLOR.g * 255));
+		textValueGreen.setText(formatNumberForPrototypeView(BrickValues.PEN_COLOR.g * 255));
 
 		TextView textValueBlue = (TextView) prototypeView.findViewById(R.id.brick_set_pen_color_action_blue_edit_text);
-		textValueBlue.setText(String.valueOf(BrickValues.PEN_COLOR.b * 255));
+		textValueBlue.setText(formatNumberForPrototypeView(BrickValues.PEN_COLOR.b * 255));
 
 		return prototypeView;
 	}
@@ -112,17 +106,13 @@ public class SetPenColorBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+	public int getViewResource() {
+		return R.layout.brick_set_pen_color;
+	}
 
-		if (animationState) {
-			return view;
-		}
-		if (view == null) {
-			alphaValue = 255;
-		}
-
-		view = View.inflate(context, R.layout.brick_set_pen_color, null);
-		setCheckboxView(R.id.brick_set_pen_color_checkbox);
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
 		editRedValue = (TextView) view.findViewById(R.id.brick_set_pen_color_action_red_edit_text);
 		getFormulaWithBrickField(BrickField.PEN_COLOR_RED).setTextFieldId(R.id.brick_set_pen_color_action_red_edit_text);
 		getFormulaWithBrickField(BrickField.PEN_COLOR_RED).refreshTextField(view);
@@ -172,7 +162,7 @@ public class SetPenColorBrick extends FormulaBrick {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSetPenColorAction(sprite,
 				getFormulaWithBrickField(BrickField.PEN_COLOR_RED),
 				getFormulaWithBrickField(BrickField.PEN_COLOR_GREEN),

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,51 +33,64 @@ import android.widget.ImageButton;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.pocketmusic.note.NoteLength;
+import org.catrobat.catroid.pocketmusic.ui.AnimatorUpdateCallback;
+import org.catrobat.catroid.pocketmusic.ui.PianoView;
 import org.catrobat.catroid.pocketmusic.ui.TactScrollRecyclerView;
+import org.catrobat.catroid.pocketmusic.ui.TrackRowView;
 
 public class ScrollController {
 
-	private static final int LAST_NOTE_IN_TRACK_VIEW = 8;
-
-	private ObjectAnimator playLineAnimator;
+	private ObjectAnimator scrollingAnimator;
 	private final View playLine;
+	private final PianoView pianoView;
 	private final ImageButton playButton;
 	private final TactScrollRecyclerView scrollingView;
 	private final int beatsPerMinute;
+	private int oldScrollPosition = 0;
 
 	public ScrollController(ViewGroup pocketmusicMainLayout, TactScrollRecyclerView tactScrollRecyclerView, int beatsPerMinute) {
 		this.beatsPerMinute = beatsPerMinute;
 		this.scrollingView = tactScrollRecyclerView;
 		this.playLine = pocketmusicMainLayout.findViewById(R.id.pocketmusic_play_line);
-		this.playButton = (ImageButton) pocketmusicMainLayout.findViewById(R.id.pocketmusic_play_button);
+		this.playButton = pocketmusicMainLayout.findViewById(R.id.pocketmusic_play_button);
+		this.pianoView = pocketmusicMainLayout.findViewById(R.id.musicdroid_piano);
 		init();
 	}
 
 	private void init() {
 		initializePlayLine();
 		initializeAnimator();
+		scrollingView.setUpdateAnimatorCallback(new AnimatorUpdateCallback() {
+			@Override
+			public void updateCallback(int tactCount, int measuredWidth) {
+				final long singleButtonDuration = NoteLength.QUARTER.toMilliseconds(beatsPerMinute);
+				final int singleButtonWidth = measuredWidth / scrollingView.getNotesPerScreen();
+				final int buttonsInTrack = tactCount * TrackRowView.QUARTER_COUNT;
+				scrollingAnimator.setIntValues(singleButtonWidth * buttonsInTrack);
+				scrollingAnimator.setDuration(singleButtonDuration * buttonsInTrack);
+			}
+		});
 	}
 
 	@SuppressWarnings("unused")
-	private void setGlobalPlayPosition(float xPosition) {
-		int buttonWidth = scrollingView.getWidth() / LAST_NOTE_IN_TRACK_VIEW;
-		int newPlayLineIndex = (int) (xPosition / buttonWidth);
-
-		playLine.setX(xPosition);
+	private void setGlobalPlayPosition(int xPosition) {
+		scrollingView.scrollBy(xPosition - oldScrollPosition, 0);
+		oldScrollPosition = xPosition;
 	}
 
-	private void initializeAnimator() {
-		final long singleButtonDuration = NoteLength.QUARTER.toMilliseconds(beatsPerMinute);
-		playLineAnimator = ObjectAnimator.ofFloat(this, "globalPlayPosition", 0, scrollingView.getWidth());
-		playLineAnimator.setDuration(singleButtonDuration * LAST_NOTE_IN_TRACK_VIEW);
-		playLineAnimator.setInterpolator(new LinearInterpolator());
+	public void initializeAnimator() {
+		scrollingAnimator = ObjectAnimator.ofInt(this, "globalPlayPosition", 0);
 
-		playLineAnimator.addListener(new AnimatorListenerAdapter() {
+		scrollingAnimator.setInterpolator(new LinearInterpolator());
+
+		scrollingAnimator.addListener(new AnimatorListenerAdapter() {
 			@Override
 			public void onAnimationStart(Animator animation) {
 				playButton.setImageResource(R.drawable.ic_stop_24dp);
 				playLine.setVisibility(View.VISIBLE);
 				scrollingView.setPlaying(true);
+				scrollingView.smoothScrollToPosition(0);
+				scrollingView.getTrackGrid().startPlayback(pianoView);
 			}
 
 			@Override
@@ -85,6 +98,8 @@ public class ScrollController {
 				playButton.setImageResource(R.drawable.ic_play);
 				playLine.setVisibility(View.GONE);
 				scrollingView.setPlaying(false);
+				scrollingView.getTrackGrid().stopPlayback(pianoView);
+				scrollingView.smoothScrollToPosition(0);
 			}
 		});
 	}
@@ -102,13 +117,11 @@ public class ScrollController {
 		playButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (playLineAnimator.isRunning()) {
-					scrollingView.getTrackGrid().stopPlayback();
-					playLineAnimator.cancel();
-					playLineAnimator.setupStartValues();
+				if (scrollingAnimator.isRunning()) {
+					scrollingAnimator.end();
+					scrollingAnimator.setupStartValues();
 				} else {
-					playLineAnimator.start();
-					scrollingView.getTrackGrid().startPlayback();
+					scrollingAnimator.start();
 				}
 			}
 		});

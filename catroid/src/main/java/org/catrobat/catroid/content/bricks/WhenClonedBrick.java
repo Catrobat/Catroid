@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,19 +24,18 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
-
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenClonedScript;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
 import java.util.Collections;
 import java.util.List;
 
 public class WhenClonedBrick extends BrickBaseType implements ScriptBrick {
+
 	protected WhenClonedScript whenClonedScript;
 	private static final long serialVersionUID = 1L;
 
@@ -48,33 +47,14 @@ public class WhenClonedBrick extends BrickBaseType implements ScriptBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
+	public int getViewResource() {
+		return R.layout.brick_when_cloned;
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		WhenClonedBrick copyBrick = (WhenClonedBrick) clone();
-		copyBrick.whenClonedScript = whenClonedScript;
-		return copyBrick;
-	}
-
-	@Override
-	public View getView(final Context context, int brickId, final BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-
-		view = View.inflate(context, R.layout.brick_when_cloned, null);
-
-		setCheckboxView(R.id.brick_when_cloned_checkbox);
-
+	public View getView(final Context context) {
+		super.getView(context);
 		return view;
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		return getView(context, 0, null);
 	}
 
 	@Override
@@ -92,7 +72,7 @@ public class WhenClonedBrick extends BrickBaseType implements ScriptBrick {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		return Collections.emptyList();
 	}
 }

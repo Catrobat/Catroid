@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,10 +23,14 @@
 
 package org.catrobat.catroid.content.bricks;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import android.view.View;
+import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
 import java.util.Collections;
 import java.util.List;
@@ -37,22 +41,30 @@ public class SetBackgroundBrick extends SetLookBrick {
 	}
 
 	@Override
-	protected Sprite getSprite() {
-		return ProjectManager.getInstance().getCurrentScene().getSpriteList().get(0);
-	}
-
-	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		Sprite backgroundSprite = ProjectManager.getInstance().getSceneToPlay().getSpriteList().get(0);
-		sequence.addAction(sprite.getActionFactory().createSetLookAction(backgroundSprite, look, wait));
-
-		return Collections.emptyList();
-	}
-
-	@Override
 	public Brick clone() {
 		SetBackgroundBrick clonedBrick = new SetBackgroundBrick();
 		clonedBrick.setLook(look);
 		return clonedBrick;
+	}
+
+	@Override
+	protected void onViewCreated(View view) {
+		((TextView) view.findViewById(R.id.brick_set_look_text_view)).setText(R.string.brick_set_background);
+	}
+
+	@Override
+	protected void onPrototypeViewCreated(View view) {
+		((TextView) view.findViewById(R.id.brick_set_look_text_view)).setText(R.string.brick_set_background);
+	}
+
+	@Override
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		sequence.addAction(sprite.getActionFactory().createSetLookAction(getSprite(), look, EventWrapper.NO_WAIT));
+		return Collections.emptyList();
+	}
+
+	@Override
+	protected Sprite getSprite() {
+		return ProjectManager.getInstance().getCurrentlyPlayingScene().getBackgroundSprite();
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -68,10 +68,12 @@ public class XStreamBrickConverter extends ReflectionConverter {
 				return super.doUnmarshal(brick, reader, context);
 			} catch (ClassNotFoundException exception) {
 				Log.d(TAG, "Brick " + type + " not found in " + BRICKS_PACKAGE_NAMES[index]);
-				CrashReporter.logException(exception);
 			}
 		}
-		Log.i(TAG, "Brick " + type + " not found in packages");
+
+		Log.e(TAG, "Brick " + type + " not found in packages");
+		CrashReporter.logException(new RuntimeException("Brick " + type + " not found in packages"));
+
 		return super.doUnmarshal(result, reader, context);
 	}
 }

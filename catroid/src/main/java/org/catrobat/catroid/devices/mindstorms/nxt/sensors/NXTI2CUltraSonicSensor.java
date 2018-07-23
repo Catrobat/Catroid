@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -122,7 +122,7 @@ public class NXTI2CUltraSonicSensor extends NXTI2CSensor {
 	}
 
 	@Override
-	public int getValue() {
+	public float getValue() {
 		int sensorValue = readRegister(SensorRegister.Result1.getByte(), 1)[0] & 0xFF;
 		return getValueInDefinedUnitSystem(sensorValue);
 	}

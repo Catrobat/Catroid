@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,6 +33,7 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.bricks.Brick;
 
 import java.lang.reflect.Type;
@@ -65,7 +66,7 @@ public class BackpackBrickSerializerAndDeserializer implements JsonSerializer<Br
 			classToDeserialize = Class.forName(type);
 		} catch (ClassNotFoundException classNotFoundException) {
 			Log.e(TAG, "Could not deserialize backpacked brick element: " + type);
-			StorageHandler.getInstance().deleteBackpackFile();
+			Constants.BACKPACK_FILE.delete();
 			return null;
 		}
 		return context.deserialize(element, classToDeserialize);

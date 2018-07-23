@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,12 +23,11 @@
 package org.catrobat.catroid.uiespresso.util.rules;
 
 import android.app.Activity;
+import android.support.test.InstrumentationRegistry;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.io.StorageHandler;
-
-import java.io.File;
+import org.catrobat.catroid.io.XstreamSerializer;
 
 public class DontGenerateDefaultProjectActivityInstrumentationRule<T extends Activity> extends
 		BaseActivityInstrumentationRule<T> {
@@ -49,9 +48,9 @@ public class DontGenerateDefaultProjectActivityInstrumentationRule<T extends Act
 	}
 
 	void setUpDummyProject() {
-		File newUiTestFolder = new File(Constants.DEFAULT_ROOT);
-		newUiTestFolder.mkdir();
-		Project project = new Project(null, "DummyToPreventDefaultProjectCreation");
-		StorageHandler.getInstance().saveProject(project);
+		Constants.DEFAULT_ROOT_DIRECTORY.mkdir();
+		Project project = new Project(InstrumentationRegistry.getTargetContext(),
+				"DummyToPreventDefaultProjectCreation");
+		XstreamSerializer.getInstance().saveProject(project);
 	}
 }

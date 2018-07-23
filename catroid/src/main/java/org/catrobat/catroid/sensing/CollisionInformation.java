@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -67,7 +67,7 @@ public class CollisionInformation {
 
 	public void cancelCalculation() {
 		isCalculationThreadCancelled = true;
-		Log.i(TAG, "Collision Polygon Calculation of " + lookData.getLookName() + " cancelled!");
+		Log.i(TAG, "Collision Polygon Calculation of " + lookData.getName() + " cancelled!");
 	}
 
 	public int getNumberOfVertices() {
@@ -80,7 +80,7 @@ public class CollisionInformation {
 
 	public void loadOrCreateCollisionPolygon() {
 		isCalculationThreadCancelled = false;
-		String path = lookData.getAbsolutePath();
+		String path = lookData.getFile().getAbsolutePath();
 		if (collisionPolygons == null) {
 			if (!path.endsWith(".png")) {
 				Bitmap bitmap = BitmapFactory.decodeFile(path);
@@ -135,7 +135,7 @@ public class CollisionInformation {
 					return;
 				}
 				writeCollisionVerticesToPNGMeta(collisionPolygons, path);
-				Log.i("CollsionPolygon", "Polygon size of look " + lookData.getLookName() + ": " + getNumberOfVertices());
+				Log.i("CollsionPolygon", "Polygon size of look " + lookData.getName() + ": " + getNumberOfVertices());
 			}
 		}
 	}

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,16 +27,11 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.badlogic.gdx.utils.Array;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.stage.ShowTextActor;
 import org.catrobat.catroid.stage.StageActivity;
-
-import java.util.List;
-import java.util.Map;
 
 public class HideTextAction extends TemporalAction {
 
@@ -47,11 +42,6 @@ public class HideTextAction extends TemporalAction {
 
 	@Override
 	protected void begin() {
-		DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
-
-		List<UserVariable> variableList = dataContainer.getProjectVariables();
-		Map<Sprite, List<UserVariable>> spriteVariableMap = dataContainer.getSpriteVariableMap();
-
 		if (StageActivity.stageListener != null) {
 			Array<Actor> stageActors = StageActivity.stageListener.getStage().getActors();
 			ShowTextActor dummyActor = new ShowTextActor(new UserVariable("dummyActor"), 0, 0, sprite, userBrick);
@@ -61,35 +51,13 @@ public class HideTextAction extends TemporalAction {
 					ShowTextActor showTextActor = (ShowTextActor) actor;
 					if (showTextActor.getVariableNameToCompare().equals(variableToHide.getName())
 							&& showTextActor.getSprite().equals(sprite)
-							&& (userBrick != null ? showTextActor.getUserBrick().equals(userBrick) : true)) {
+							&& (userBrick == null || showTextActor.getUserBrick().equals(userBrick))) {
 						actor.remove();
 					}
 				}
 			}
 		}
-
-		setVariablesVisible(variableList);
-
-		if (sprite != null) {
-			List<UserVariable> spriteVariableList = spriteVariableMap.get(sprite);
-			setVariablesVisible(spriteVariableList);
-		}
-		if (userBrick != null) {
-			List<UserVariable> userBrickVariableList = dataContainer.getOrCreateVariableListForUserBrick(userBrick);
-			setVariablesVisible(userBrickVariableList);
-		}
-	}
-
-	private void setVariablesVisible(List<UserVariable> variableList) {
-		if (variableList == null) {
-			return;
-		}
-		for (UserVariable userVariable : variableList) {
-			if (userVariable.getName().equals(variableToHide.getName())) {
-				userVariable.setVisible(false);
-				break;
-			}
-		}
+		variableToHide.setVisible(false);
 	}
 
 	@Override

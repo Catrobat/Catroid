@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -61,7 +61,7 @@ public class PhysicsLook extends Look {
 	@Override
 	public void setLookData(LookData lookData) {
 		super.setLookData(lookData);
-		PhysicsWorld physicsWorld = ProjectManager.getInstance().getSceneToPlay().getPhysicsWorld();
+		PhysicsWorld physicsWorld = ProjectManager.getInstance().getCurrentlyPlayingScene().getPhysicsWorld();
 		physicsWorld.changeLook(physicsObject, this);
 		updatePhysicsObjectState(true);
 	}
@@ -180,7 +180,7 @@ public class PhysicsLook extends Look {
 		super.setScale(scaleX, scaleY);
 
 		if (physicsObject != null) {
-			PhysicsWorld physicsWorld = ProjectManager.getInstance().getSceneToPlay().getPhysicsWorld();
+			PhysicsWorld physicsWorld = ProjectManager.getInstance().getCurrentlyPlayingScene().getPhysicsWorld();
 			physicsWorld.changeLook(physicsObject, this);
 			updatePhysicsObjectState(true);
 		}

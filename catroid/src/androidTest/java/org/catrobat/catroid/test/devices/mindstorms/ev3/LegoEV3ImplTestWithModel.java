@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,26 +24,32 @@
 package org.catrobat.catroid.test.devices.mindstorms.ev3;
 
 import android.content.Context;
-import android.test.AndroidTestCase;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
 import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
 import org.catrobat.catroid.common.bluetooth.models.MindstormsEV3TestModel;
 import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
 import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3Impl;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class LegoEV3ImplTestWithModel extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class LegoEV3ImplTestWithModel {
 	private static final String TAG = LegoEV3ImplTestWithModel.class.getSimpleName();
 
 	private LegoEV3 ev3;
 	private MindstormsEV3TestModel ev3TestModel;
 	ConnectionDataLogger logger;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 
-		Context applicationContext = this.getContext().getApplicationContext();
+		Context applicationContext = InstrumentationRegistry.getTargetContext().getApplicationContext();
 
 		ev3TestModel = new MindstormsEV3TestModel();
 
@@ -52,6 +58,7 @@ public class LegoEV3ImplTestWithModel extends AndroidTestCase {
 		ev3.setConnection(logger.getConnectionProxy());
 	}
 
+	@Test
 	public void testKeepAlive() {
 		int expectedKeepAliveTime = 5; // defined in LegoEV3Impl
 
@@ -74,6 +81,6 @@ public class LegoEV3ImplTestWithModel extends AndroidTestCase {
 			}
 		}
 
-		assertEquals("Expected keep alive time deosn't match", expectedKeepAliveTime, ev3TestModel.getKeepAliveTime());
+		assertEquals(expectedKeepAliveTime, ev3TestModel.getKeepAliveTime());
 	}
 }

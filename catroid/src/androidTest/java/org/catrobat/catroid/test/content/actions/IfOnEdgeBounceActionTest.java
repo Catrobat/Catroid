@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,8 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.InstrumentationTestCase;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
@@ -32,12 +33,19 @@ import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+
+@RunWith(AndroidJUnit4.class)
+public class IfOnEdgeBounceActionTest {
 
 	private Action ifOnEdgeBounceAction;
 	private Sprite sprite;
@@ -57,7 +65,7 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 	private static final float BOUNCE_RIGHT_POSITION = RIGHT_BORDER_POSITION - (WIDTH / 2f);
 	private static final float BOUNCE_LEFT_POSITION = -BOUNCE_RIGHT_POSITION;
 
-	@Override
+	@Before
 	public void setUp() throws Exception {
 		sprite = new SingleSprite("Test");
 		sprite.look.setWidth(WIDTH);
@@ -67,19 +75,21 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 		ActionFactory factory = sprite.getActionFactory();
 		ifOnEdgeBounceAction = factory.createIfOnEdgeBounceAction(sprite);
 
-		Project project = new Project(null, "Test", false);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), "Test", false);
 		project.getXmlHeader().virtualScreenWidth = SCREEN_WIDTH;
 		project.getXmlHeader().virtualScreenHeight = SCREEN_HEIGHT;
 
 		ProjectManager.getInstance().setProject(project);
 	}
 
+	@Test
 	public void testNoBounce() {
 		setPositionAndDirection(0f, 0f, 90f);
 		executeIfOnEdgeBounceAction();
 		checkPositionAndDirection(0f, 0f, 90f);
 	}
 
+	@Test
 	public void testTopBounce() {
 		// Bounce if -90 < direction < 90
 
@@ -108,6 +118,7 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 		}
 	}
 
+	@Test
 	public void testBottomBounce() {
 		// Bounce if direction < -90 or direction > 90
 
@@ -136,6 +147,7 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 		}
 	}
 
+	@Test
 	public void testLeftBounce() {
 		// Bounce if -180 < direction < 0
 
@@ -164,6 +176,7 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 		}
 	}
 
+	@Test
 	public void testRightBounce() {
 		// Bounce if 0 < direction < 180
 
@@ -192,6 +205,7 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 		}
 	}
 
+	@Test
 	public void testUpLeftBounce() {
 		setPositionAndDirection(LEFT_BORDER_POSITION, TOP_BORDER_POSITION, 135f);
 		executeIfOnEdgeBounceAction();
@@ -202,6 +216,7 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 		checkPositionAndDirection(BOUNCE_LEFT_POSITION, BOUNCE_TOP_POSITION, 135f);
 	}
 
+	@Test
 	public void testUpRightBounce() {
 		setPositionAndDirection(RIGHT_BORDER_POSITION, TOP_BORDER_POSITION, -135f);
 		executeIfOnEdgeBounceAction();
@@ -212,6 +227,7 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 		checkPositionAndDirection(BOUNCE_RIGHT_POSITION, BOUNCE_TOP_POSITION, -135f);
 	}
 
+	@Test
 	public void testBottomLeftBounce() {
 		setPositionAndDirection(LEFT_BORDER_POSITION, BOTTOM_BORDER_POSITION, 45f);
 		executeIfOnEdgeBounceAction();
@@ -222,6 +238,7 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 		checkPositionAndDirection(BOUNCE_LEFT_POSITION, BOUNCE_BOTTOM_POSITION, 45f);
 	}
 
+	@Test
 	public void testBottomRightBounce() {
 		setPositionAndDirection(RIGHT_BORDER_POSITION, BOTTOM_BORDER_POSITION, -45f);
 		executeIfOnEdgeBounceAction();
@@ -233,20 +250,20 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 	}
 
 	private void checkIfExpectedDirectionsContainsAllKeys(Map<Float, Float> expectedDirections) {
-		assertEquals("The expected directions count is wrong", 12, expectedDirections.size());
+		assertEquals(12, expectedDirections.size());
 
-		assertTrue("A 90° direction is missing", expectedDirections.containsKey(90f));
-		assertTrue("A 120° direction is missing", expectedDirections.containsKey(120f));
-		assertTrue("A 150° direction is missing", expectedDirections.containsKey(150f));
-		assertTrue("A 180° direction is missing", expectedDirections.containsKey(180f));
-		assertTrue("A -150° direction is missing", expectedDirections.containsKey(-150f));
-		assertTrue("A -120° direction is missing", expectedDirections.containsKey(-120f));
-		assertTrue("A -90° direction is missing", expectedDirections.containsKey(-90f));
-		assertTrue("A -60° direction is missing", expectedDirections.containsKey(-60f));
-		assertTrue("A -30° direction is missing", expectedDirections.containsKey(-30f));
-		assertTrue("A 0° direction is missing", expectedDirections.containsKey(0f));
-		assertTrue("A 30° direction is missing", expectedDirections.containsKey(30f));
-		assertTrue("A 60° direction is missing", expectedDirections.containsKey(60f));
+		assertTrue(expectedDirections.containsKey(90f));
+		assertTrue(expectedDirections.containsKey(120f));
+		assertTrue(expectedDirections.containsKey(150f));
+		assertTrue(expectedDirections.containsKey(180f));
+		assertTrue(expectedDirections.containsKey(-150f));
+		assertTrue(expectedDirections.containsKey(-120f));
+		assertTrue(expectedDirections.containsKey(-90f));
+		assertTrue(expectedDirections.containsKey(-60f));
+		assertTrue(expectedDirections.containsKey(-30f));
+		assertTrue(expectedDirections.containsKey(0f));
+		assertTrue(expectedDirections.containsKey(30f));
+		assertTrue(expectedDirections.containsKey(60f));
 	}
 
 	private void setPositionAndDirection(float x, float y, float direction) {
@@ -262,8 +279,8 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 
 	private void checkPositionAndDirection(float expectedX, float expectedY, float expectedDirection) {
 		Look look = sprite.look;
-		assertEquals("Wrong x after bounce", expectedX, look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Wrong y after bounce", expectedY, look.getYInUserInterfaceDimensionUnit());
-		assertEquals("Wrong direction after bounce", expectedDirection, look.getDirectionInUserInterfaceDimensionUnit());
+		assertEquals(expectedX, look.getXInUserInterfaceDimensionUnit());
+		assertEquals(expectedY, look.getYInUserInterfaceDimensionUnit());
+		assertEquals(expectedDirection, look.getDirectionInUserInterfaceDimensionUnit());
 	}
 }

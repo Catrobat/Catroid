@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
@@ -31,37 +31,43 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.GoToRandomPositionAction;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class GoToRandomPositionActionTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.fail;
+
+@RunWith(AndroidJUnit4.class)
+public class GoToRandomPositionActionTest {
 
 	private Sprite sprite;
 	private Sprite dummySprite;
 	private GoToRandomPositionAction action;
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		sprite = new Sprite("testSprite");
 		dummySprite = new Sprite("dummySprite");
 		action = (GoToRandomPositionAction) sprite.getActionFactory().createGoToAction(
 				sprite, dummySprite, BrickValues.GO_TO_RANDOM_POSITION);
-		super.setUp();
 	}
 
+	@Test
 	public void testGoToOtherSpriteAction() throws InterruptedException {
 		sprite.look.setXInUserInterfaceDimensionUnit(0f);
 		sprite.look.setYInUserInterfaceDimensionUnit(0f);
 
-		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Unexpected initial sprite y position", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 
 		action.act(1f);
 
-		assertEquals("Incorrect sprite x position after GoToRandomPositionAction executed", action.getRandomXPosition(),
-				sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Incorrect sprite y position after GoToRandomPositionAction executed", action.getRandomYPosition(),
-				sprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(action.getRandomXPosition(), sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(action.getRandomYPosition(), sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNullActor() {
 		ActionFactory factory = new ActionFactory();
 		Action action = factory.createGoToAction(null, dummySprite, BrickValues.GO_TO_RANDOM_POSITION);

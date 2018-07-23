@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,8 @@
 package org.catrobat.catroid.test.content.actions;
 
 import android.graphics.BitmapFactory;
-import android.test.InstrumentationTestCase;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
@@ -36,17 +37,23 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.ResourceImporter;
+import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.test.R;
-import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.utils.UtilFile;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.File;
 
-public class SetLookActionTest extends InstrumentationTestCase {
+import static junit.framework.Assert.assertEquals;
 
-	protected static final int IMAGE_FILE_ID = R.raw.icon;
+import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
+
+@RunWith(AndroidJUnit4.class)
+public class SetLookActionTest {
 	protected String projectName = "testProject";
 	protected File testImage;
 	protected Project project;
@@ -54,20 +61,24 @@ public class SetLookActionTest extends InstrumentationTestCase {
 	protected LookData firstLookData;
 	protected LookData secondLookData;
 
-	@Override
-	protected void setUp() throws Exception {
-		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
+	@Before
+	public void setUp() throws Exception {
+		File projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName);
 
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
+		if (projectDir.exists()) {
+			StorageOperations.deleteDir(projectDir);
 		}
 
-		project = new Project(getInstrumentation().getTargetContext(), projectName);
-		StorageHandler.getInstance().saveProject(project);
+		project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
-		testImage = TestUtils.saveFileToProject(this.projectName, project.getDefaultScene().getName(), "testImage.png", IMAGE_FILE_ID, getInstrumentation()
-				.getContext(), TestUtils.TYPE_IMAGE_FILE);
+		testImage = ResourceImporter.createImageFileFromResourcesInDirectory(
+				InstrumentationRegistry.getContext().getResources(),
+				R.raw.icon,
+				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
+				"testImage.png",
+				1);
 
 		BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 		bitmapOptions.inJustDecodeBounds = true;
@@ -79,26 +90,22 @@ public class SetLookActionTest extends InstrumentationTestCase {
 		sprite = new SingleSprite("new sprite");
 		project.getDefaultScene().addSprite(sprite);
 		firstLookData = new LookData();
-		firstLookData.setLookFilename(testImage.getName());
-		firstLookData.setLookName("first look");
+		firstLookData.setFile(testImage);
+		firstLookData.setName("first look");
 		secondLookData = new LookData();
-		secondLookData.setLookFilename(testImage.getName());
-		secondLookData.setLookName("second look");
-		sprite.getLookDataList().add(firstLookData);
-		sprite.getLookDataList().add(secondLookData);
+		secondLookData.setFile(testImage);
+		secondLookData.setName("second look");
+		sprite.getLookList().add(firstLookData);
+		sprite.getLookList().add(secondLookData);
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
-		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
+	@After
+	public void tearDown() throws Exception {
+		File projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName);
 
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
+		if (projectDir.exists()) {
+			StorageOperations.deleteDir(projectDir);
 		}
-		if (testImage != null && testImage.exists()) {
-			testImage.delete();
-		}
-		super.tearDown();
 	}
 
 	@Test
@@ -106,7 +113,7 @@ public class SetLookActionTest extends InstrumentationTestCase {
 		ActionFactory factory = sprite.getActionFactory();
 		Action action = factory.createSetLookAction(sprite, firstLookData);
 		action.act(1.0f);
-		assertEquals("Action didn't set the LookData", firstLookData, sprite.look.getLookData());
+		assertEquals(firstLookData, sprite.look.getLookData());
 	}
 
 	@Test
@@ -116,12 +123,12 @@ public class SetLookActionTest extends InstrumentationTestCase {
 		ActionFactory factory = sprite.getActionFactory();
 		Action action = factory.createSetLookByIndexAction(sprite, formula);
 		action.act(1.0f);
-		assertEquals("Action didn't set the first LookData", firstLookData, sprite.look.getLookData());
+		assertEquals(firstLookData, sprite.look.getLookData());
 
 		formula = new Formula(2);
 		action = factory.createSetLookByIndexAction(sprite, formula);
 		action.act(1.0f);
-		assertEquals("Action didn't set the second LookData", secondLookData, sprite.look.getLookData());
+		assertEquals(secondLookData, sprite.look.getLookData());
 	}
 
 	@Test
@@ -132,13 +139,11 @@ public class SetLookActionTest extends InstrumentationTestCase {
 		ActionFactory factory = sprite.getActionFactory();
 		Action action = factory.createSetLookByIndexAction(sprite, formula);
 		action.act(1.0f);
-		assertEquals("Action did set Lookdata wrongly with negative Formula value.", firstLookData, sprite.look
-				.getLookData());
+		assertEquals(firstLookData, sprite.look.getLookData());
 
 		formula = new Formula(42);
 		action = factory.createSetLookByIndexAction(sprite, formula);
 		action.act(1.0f);
-		assertEquals("Action did set Lookdata wrongly with wrong Formula value.", firstLookData,
-				sprite.look.getLookData());
+		assertEquals(firstLookData, sprite.look.getLookData());
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,10 +22,9 @@
  */
 package org.catrobat.catroid.content;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
-import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
+import org.catrobat.catroid.content.eventids.EventId;
 
 public class StartScript extends Script {
 
@@ -53,25 +52,21 @@ public class StartScript extends Script {
 	@Override
 	public ScriptBrick getScriptBrick() {
 		if (brick == null) {
-			if (!isUserScript) {
-				brick = new WhenStartedBrick(this);
-			} else {
-				brick = ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick();
-				if (brick == null) {
-					brick = new UserScriptDefinitionBrick();
-				}
-			}
+			brick = new WhenStartedBrick(this);
 		}
 
 		return brick;
 	}
 
 	@Override
-	public Script copyScriptForSprite(Sprite copySprite) {
+	public Script clone() throws CloneNotSupportedException {
+		Script clone = new StartScript(isUserScript);
+		clone.getBrickList().addAll(cloneBrickList());
+		return clone;
+	}
 
-		Script cloneScript = new StartScript(isUserScript);
-
-		doCopy(copySprite, cloneScript);
-		return cloneScript;
+	@Override
+	public EventId createEventId(Sprite sprite) {
+		return new EventId(EventId.START);
 	}
 }

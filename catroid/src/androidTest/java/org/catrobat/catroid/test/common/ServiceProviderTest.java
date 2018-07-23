@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,28 +22,37 @@
  */
 package org.catrobat.catroid.test.common;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class ServiceProviderTest extends AndroidTestCase {
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertTrue;
 
+@RunWith(AndroidJUnit4.class)
+public class ServiceProviderTest {
+
+	@Test
 	public void testCommonServices() {
 		CatroidService service = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 
-		assertNotNull("BluetoothDeviceConnector service should be available here.", service);
-		assertTrue("Service is of wrong instance type", service instanceof BluetoothDeviceService);
+		assertNotNull(service);
+		assertTrue(service instanceof BluetoothDeviceService);
 	}
 
+	@Test
 	public void testRegisterAndGetService() {
-		assertNull("TestService not registered yet, should be null", ServiceProvider.getService(TestService.class));
+		assertNull(ServiceProvider.getService(TestService.class));
 
 		ServiceProvider.registerService(TestService.class, new TestService());
 
 		TestService service = ServiceProvider.getService(TestService.class);
-		assertNotNull("Service is registered now and shouldn't be null", service);
+		assertNotNull(service);
 	}
 
 	private static class TestService implements CatroidService {

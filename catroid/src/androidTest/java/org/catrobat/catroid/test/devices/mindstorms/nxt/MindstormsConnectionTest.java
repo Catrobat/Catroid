@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,22 +23,28 @@
 
 package org.catrobat.catroid.test.devices.mindstorms.nxt;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.devices.mindstorms.MindstormsConnectionImpl;
 import org.catrobat.catroid.devices.mindstorms.nxt.Command;
 import org.catrobat.catroid.devices.mindstorms.nxt.CommandByte;
 import org.catrobat.catroid.devices.mindstorms.nxt.CommandType;
 import org.catrobat.catroid.test.utils.Reflection;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 
-public class MindstormsConnectionTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class MindstormsConnectionTest {
 
 	public static final int HEADER_SIZE = 2;
 
+	@Test
 	public void testSend() {
 		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
 
@@ -56,16 +62,16 @@ public class MindstormsConnectionTest extends AndroidTestCase {
 
 		byte[] expectedMessage = command.getRawCommand();
 
-		assertEquals("Wrong message length. Before there should be a header with 2 bytes defining the message length",
-				expectedMessage.length + HEADER_SIZE, sentBytes.length);
-		assertEquals("Header should be the size of the message.", (byte) expectedMessage.length, sentBytes[0]);
-		assertEquals("Header should be the size of the message.", (byte) (expectedMessage.length >> 8), sentBytes[1]);
+		assertEquals(expectedMessage.length + HEADER_SIZE, sentBytes.length);
+		assertEquals((byte) expectedMessage.length, sentBytes[0]);
+		assertEquals((byte) (expectedMessage.length >> 8), sentBytes[1]);
 
 		for (int i = 0; i < expectedMessage.length; i++) {
-			assertEquals("Byte " + i + " is different", expectedMessage[i], sentBytes[i + HEADER_SIZE]);
+			assertEquals(expectedMessage[i], sentBytes[i + HEADER_SIZE]);
 		}
 	}
 
+	@Test
 	public void testSendAndReceive() {
 
 		byte[] inputBuffer = new byte[] {4, 0, 3, 4, 5, 7};
@@ -87,20 +93,18 @@ public class MindstormsConnectionTest extends AndroidTestCase {
 
 		byte[] expectedMessage = command.getRawCommand();
 
-		assertEquals("Wrong message length. Before there should be a header with 2 bytes defining the message length",
-				expectedMessage.length + HEADER_SIZE, sentBytes.length);
-		assertEquals("Header should be the size of the message.", expectedMessage.length, sentBytes[0]);
-		assertEquals("Header should be the size of the message.", (byte) (expectedMessage.length >> 8), sentBytes[1]);
+		assertEquals(expectedMessage.length + HEADER_SIZE, sentBytes.length);
+		assertEquals(expectedMessage.length, sentBytes[0]);
+		assertEquals((byte) (expectedMessage.length >> 8), sentBytes[1]);
 
 		for (int i = 0; i < expectedMessage.length; i++) {
-			assertEquals("Byte " + i + " is different", expectedMessage[i], sentBytes[i + HEADER_SIZE]);
+			assertEquals(expectedMessage[i], sentBytes[i + HEADER_SIZE]);
 		}
 
-		assertEquals("Wrong message length. Before there should be a header with 2 bytes defining the message length",
-				inputBuffer.length - HEADER_SIZE, receivedBytes.length);
+		assertEquals(inputBuffer.length - HEADER_SIZE, receivedBytes.length);
 
 		for (int i = 0; i < receivedBytes.length; i++) {
-			assertEquals("Byte " + i + " is different", inputBuffer[i + HEADER_SIZE], receivedBytes[i]);
+			assertEquals(inputBuffer[i + HEADER_SIZE], receivedBytes[i]);
 		}
 	}
 }

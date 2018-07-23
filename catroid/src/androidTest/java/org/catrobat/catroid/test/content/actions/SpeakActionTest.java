@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
@@ -33,8 +33,15 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.test.utils.Reflection;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class SpeakActionTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.fail;
+
+@RunWith(AndroidJUnit4.class)
+public class SpeakActionTest {
 
 	private Sprite sprite;
 	private static final String SPEAK = "hello world!";
@@ -43,33 +50,32 @@ public class SpeakActionTest extends AndroidTestCase {
 	private Formula textString;
 	private ActionFactory factory = new ActionFactory();
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		sprite = new SingleSprite("testSprite");
 		text = new Formula(666);
 		text2 = new Formula(888.88);
 		textString = new Formula(SPEAK);
-		super.setUp();
 	}
 
+	@Test
 	public void testSpeak() {
 		SpeakBrick speakBrick = new SpeakBrick(text);
 		Action action = factory.createSpeakAction(sprite, text);
 		Formula textAfterExecution = (Formula) Reflection.getPrivateField(action, "text");
 
-		assertEquals("Text is not updated after SpeakBrick executed", text, speakBrick
-				.getFormulaWithBrickField(Brick.BrickField.SPEAK));
-		assertEquals("Text is not updated after SpeakBrick executed", text, textAfterExecution);
+		assertEquals(text, speakBrick.getFormulaWithBrickField(Brick.BrickField.SPEAK));
+		assertEquals(text, textAfterExecution);
 
 		speakBrick = new SpeakBrick(text2);
 		action = factory.createSpeakAction(sprite, text);
 		textAfterExecution = (Formula) Reflection.getPrivateField(action, "text");
 
-		assertEquals("Text is not updated after SpeakBrick executed", text2, speakBrick
-				.getFormulaWithBrickField(Brick.BrickField.SPEAK));
-		assertEquals("Text is not updated after SpeakBrick executed", text, textAfterExecution);
+		assertEquals(text2, speakBrick.getFormulaWithBrickField(Brick.BrickField.SPEAK));
+		assertEquals(text, textAfterExecution);
 	}
 
+	@Test
 	public void testNullSprite() {
 		SpeakBrick speakBrick = new SpeakBrick(text);
 		Action action = factory.createSpeakAction(sprite, text);
@@ -79,39 +85,38 @@ public class SpeakActionTest extends AndroidTestCase {
 			fail("Execution of ShowBrick with null Sprite did not cause a NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
 		}
-		assertEquals("Stored wrong text in speak brick", text, speakBrick
-				.getFormulaWithBrickField(Brick.BrickField.SPEAK));
+		assertEquals(text, speakBrick.getFormulaWithBrickField(Brick.BrickField.SPEAK));
 	}
 
+	@Test
 	public void testRequirements() {
 		SpeakBrick speakBrick = new SpeakBrick(new Formula(""));
-		assertEquals("Wrong required brick resources", Brick.TEXT_TO_SPEECH, speakBrick.getRequiredResources());
+		assertEquals(Brick.TEXT_TO_SPEECH, speakBrick.getRequiredResources());
 	}
 
+	@Test
 	public void testBrickWithStringFormula() {
 		SpeakBrick speakBrick = new SpeakBrick(textString);
 		Action action = factory.createSpeakAction(sprite, textString);
 		Reflection.invokeMethod(action, "begin");
 
-		assertEquals("Text is not updated after SpeakBrick executed", textString, speakBrick
-				.getFormulaWithBrickField(Brick.BrickField.SPEAK));
-		assertEquals("Text is not updated after SpeakBrick executed", SPEAK,
-				String.valueOf(Reflection.getPrivateField(action, "interpretedText")));
+		assertEquals(textString, speakBrick.getFormulaWithBrickField(Brick.BrickField.SPEAK));
+		assertEquals(SPEAK, String.valueOf(Reflection.getPrivateField(action, "interpretedText")));
 	}
 
+	@Test
 	public void testNullFormula() {
 		Action action = factory.createSpeakAction(sprite, (Formula) null);
 		Reflection.invokeMethod(action, "begin");
 
-		assertEquals("Text is not updated after SpeakBrick executed", "",
-				String.valueOf(Reflection.getPrivateField(action, "interpretedText")));
+		assertEquals("", String.valueOf(Reflection.getPrivateField(action, "interpretedText")));
 	}
 
+	@Test
 	public void testNotANumberFormula() {
 		Action action = factory.createSpeakAction(sprite, new Formula(Double.NaN));
 		Reflection.invokeMethod(action, "begin");
 
-		assertEquals("Text is not updated after SpeakBrick executed", "",
-				String.valueOf(Reflection.getPrivateField(action, "interpretedText")));
+		assertEquals("", String.valueOf(Reflection.getPrivateField(action, "interpretedText")));
 	}
 }

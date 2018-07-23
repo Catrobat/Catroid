@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,12 +35,13 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.XstreamSerializer;
+import org.catrobat.catroid.io.ZipArchiver;
 import org.catrobat.catroid.utils.ImageEditing;
+import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
-import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
@@ -92,7 +93,7 @@ public class ProjectUploadService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		StorageHandler.getInstance().saveProject(ProjectManager.getInstance().getCurrentProject());
+		XstreamSerializer.getInstance().saveProject(ProjectManager.getInstance().getCurrentProject());
 
 		receiver = intent.getParcelableExtra("receiver");
 		try {
@@ -102,12 +103,10 @@ public class ProjectUploadService extends IntentService {
 				return;
 			}
 
-			File directoryPath = new File(projectPath);
-			String[] paths = directoryPath.list();
+			File projectDir = new File(projectPath);
 
-			if (paths == null) {
+			if (projectDir.listFiles().length == 0) {
 				result = false;
-				Log.e(TAG, "project path is not valid");
 				return;
 			}
 
@@ -123,21 +122,8 @@ public class ProjectUploadService extends IntentService {
 				}
 			}
 
-			for (int i = 0; i < paths.length; i++) {
-				paths[i] = Utils.buildPath(directoryPath.getAbsolutePath(), paths[i]);
-			}
-
-			String zipFileString = Utils.buildPath(Constants.TMP_PATH, UPLOAD_FILE_NAME);
-			File zipFile = new File(zipFileString);
-			if (!zipFile.exists()) {
-				zipFile.getParentFile().mkdirs();
-				zipFile.createNewFile();
-			}
-			if (!UtilZip.writeToZipFile(paths, zipFileString)) {
-				zipFile.delete();
-				result = false;
-				return;
-			}
+			File archive = new File(PathBuilder.buildPath(Constants.TMP_PATH, UPLOAD_FILE_NAME));
+			new ZipArchiver().zip(archive, projectDir.listFiles());
 
 			Context context = getApplicationContext();
 
@@ -173,10 +159,10 @@ public class ProjectUploadService extends IntentService {
 			uploadBackupBundle.putInt("notificationId", notificationId);
 			uploadBackupBundle.putParcelable("receiver", receiver);
 
-			ServerCalls.getInstance().uploadProject(projectName, projectDescription, zipFileString, userEmail,
+			ServerCalls.getInstance().uploadProject(projectName, projectDescription, archive.getAbsolutePath(), userEmail,
 					language, token, username, receiver, notificationId, context);
 
-			zipFile.delete();
+			archive.delete();
 		} catch (IOException ioException) {
 			Log.e(TAG, Log.getStackTraceString(ioException));
 			result = false;

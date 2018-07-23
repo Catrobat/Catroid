@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,9 +25,7 @@ package org.catrobat.catroid.common;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import java.util.HashMap;
-import java.util.Map;
+import android.util.SparseArray;
 
 public enum ScratchVisibilityState implements Parcelable {
 	// NOTE: do not change values!
@@ -37,10 +35,10 @@ public enum ScratchVisibilityState implements Parcelable {
 
 	private int visibilityState;
 
-	private static Map<Integer, ScratchVisibilityState> map = new HashMap<>();
+	private static SparseArray<ScratchVisibilityState> visibilityStates = new SparseArray<>();
 	static {
 		for (ScratchVisibilityState legEnum : ScratchVisibilityState.values()) {
-			map.put(legEnum.visibilityState, legEnum);
+			visibilityStates.put(legEnum.visibilityState, legEnum);
 		}
 	}
 	ScratchVisibilityState(final int visibilityState) {
@@ -48,7 +46,7 @@ public enum ScratchVisibilityState implements Parcelable {
 	}
 
 	public static ScratchVisibilityState valueOf(int visibilityState) {
-		return map.get(visibilityState);
+		return visibilityStates.get(visibilityState);
 	}
 
 	@Override

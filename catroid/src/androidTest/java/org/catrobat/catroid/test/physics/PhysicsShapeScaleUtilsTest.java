@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,8 @@
  */
 package org.catrobat.catroid.test.physics;
 
-import android.test.InstrumentationTestCase;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.math.Vector2;
@@ -34,7 +35,9 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.io.ResourceImporter;
+import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.shapebuilder.PhysicsShapeBuilderStrategy;
 import org.catrobat.catroid.physics.shapebuilder.PhysicsShapeBuilderStrategyFastHull;
@@ -43,61 +46,71 @@ import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.utils.UtilFile;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.File;
 
-public class PhysicsShapeScaleUtilsTest extends InstrumentationTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+
+import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
+
+@RunWith(AndroidJUnit4.class)
+public class PhysicsShapeScaleUtilsTest {
 
 	private static final float DELTA = 0.001f;
 
-	private static final int COMPLEX_SINGLE_CONVEX_POLYGON_RES_ID = R.raw.complex_single_convex_polygon;
-
 	private PhysicsWorld physicsWorld;
-	private File projectFile;
+	private File projectDir;
 	private Project project;
 	private PhysicsShapeBuilderStrategy strategy = new PhysicsShapeBuilderStrategyFastHull();
 	private Shape[] complexSingleConvexPolygonShapes;
 	static {
 		GdxNativesLoader.load();
 	}
-	@Override
+	@Before
 	public void setUp() throws Exception {
-		super.setUp();
 
 		physicsWorld = new PhysicsWorld(1920, 1600);
 		physicsWorld.step(0.1f);
-		projectFile = new File(Constants.DEFAULT_ROOT + File.separator + TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
+		if (projectDir.exists()) {
+			StorageOperations.deleteDir(projectDir);
 		}
 
-		project = new Project(getInstrumentation().getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
-		StorageHandler.getInstance().saveProject(project);
+		project = new Project(InstrumentationRegistry.getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
 		String complexSingleConvexPolygonFileName = PhysicsTestUtils
 				.getInternalImageFilenameFromFilename("complex_single_convex_polygon.png");
-		File complexSingleConvexPolygonFile = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, project.getDefaultScene().getName(),
-				complexSingleConvexPolygonFileName, COMPLEX_SINGLE_CONVEX_POLYGON_RES_ID, getInstrumentation()
-						.getContext(), TestUtils.TYPE_IMAGE_FILE);
+
+		File complexSingleConvexPolygonFile = ResourceImporter.createImageFileFromResourcesInDirectory(
+				InstrumentationRegistry.getContext().getResources(),
+				R.raw.complex_single_convex_polygon,
+				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
+				complexSingleConvexPolygonFileName,
+				1);
 
 		LookData complexSingleConvexPolygonLookData = PhysicsTestUtils.generateLookData(complexSingleConvexPolygonFile);
 		Pixmap pixmap = complexSingleConvexPolygonLookData.getPixmap();
 		complexSingleConvexPolygonShapes = strategy.build(pixmap, 1.0f);
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
+	@After
+	public void tearDown() throws Exception {
+		if (projectDir.exists()) {
+			StorageOperations.deleteDir(projectDir);
 		}
-		projectFile = null;
+		projectDir = null;
 		physicsWorld = null;
-		super.tearDown();
 	}
 
+	@Test
 	public void testShapeScaling() {
 		Shape[] ninetyPercent = PhysicsShapeScaleUtils.scaleShapes(complexSingleConvexPolygonShapes, 0.9f);
 		Shape[] oneHundredAndTenPercent = PhysicsShapeScaleUtils.scaleShapes(complexSingleConvexPolygonShapes, 1.1f);
@@ -109,6 +122,7 @@ public class PhysicsShapeScaleUtilsTest extends InstrumentationTestCase {
 		compareShapeSize(complexSingleConvexPolygonShapes, eightyPercent, 0.8f);
 	}
 
+	@Test
 	public void testScaleCoordinate() {
 		float coordinate = 100f;
 		float expectedCoordinate = 50f;
@@ -117,7 +131,7 @@ public class PhysicsShapeScaleUtilsTest extends InstrumentationTestCase {
 		Reflection.ParameterList parameterList = new Reflection.ParameterList(coordinate, scaleFactor);
 		actualCoordinate = (float) Reflection.invokeMethod(PhysicsShapeScaleUtils.class, "scaleCoordinate",
 				parameterList);
-		assertEquals("Scaled coordinates not as expected.", expectedCoordinate, actualCoordinate, DELTA);
+		assertEquals(expectedCoordinate, actualCoordinate, DELTA);
 
 		coordinate = 500f;
 		expectedCoordinate = 100f;
@@ -125,7 +139,7 @@ public class PhysicsShapeScaleUtilsTest extends InstrumentationTestCase {
 		parameterList = new Reflection.ParameterList(coordinate, scaleFactor);
 		actualCoordinate = (float) Reflection.invokeMethod(PhysicsShapeScaleUtils.class, "scaleCoordinate",
 				parameterList);
-		assertEquals("Scaled coordinates not as expected.", expectedCoordinate, actualCoordinate, DELTA);
+		assertEquals(expectedCoordinate, actualCoordinate, DELTA);
 
 		coordinate = 100;
 		expectedCoordinate = 150f;
@@ -133,7 +147,7 @@ public class PhysicsShapeScaleUtilsTest extends InstrumentationTestCase {
 		parameterList = new Reflection.ParameterList(coordinate, scaleFactor);
 		actualCoordinate = (float) Reflection.invokeMethod(PhysicsShapeScaleUtils.class, "scaleCoordinate",
 				parameterList);
-		assertEquals("Scaled coordinates not as expected.", expectedCoordinate, actualCoordinate, DELTA);
+		assertEquals(expectedCoordinate, actualCoordinate, DELTA);
 
 		coordinate = 500;
 		expectedCoordinate = 600f;
@@ -141,7 +155,7 @@ public class PhysicsShapeScaleUtilsTest extends InstrumentationTestCase {
 		parameterList = new Reflection.ParameterList(coordinate, scaleFactor);
 		actualCoordinate = (float) Reflection.invokeMethod(PhysicsShapeScaleUtils.class, "scaleCoordinate",
 				parameterList);
-		assertEquals("Scaled coordinates not as expected.", expectedCoordinate, actualCoordinate, DELTA);
+		assertEquals(expectedCoordinate, actualCoordinate, DELTA);
 
 		Vector2 coordinateVector = new Vector2(200, 400);
 		Vector2 expectedCoordinateVector = new Vector2(50, 100);
@@ -150,15 +164,13 @@ public class PhysicsShapeScaleUtilsTest extends InstrumentationTestCase {
 		parameterList = new Reflection.ParameterList(coordinateVector, scaleFactor);
 		actualCoordinateVector = (Vector2) Reflection.invokeMethod(PhysicsShapeScaleUtils.class, "scaleCoordinate",
 				parameterList);
-		assertEquals("Scaled x coordinates not as expected.", expectedCoordinateVector.x, actualCoordinateVector.x,
-				DELTA);
-		assertEquals("Scaled y coordinates not as expected.", expectedCoordinateVector.y, actualCoordinateVector.y,
-				DELTA);
+		assertEquals(expectedCoordinateVector.x, actualCoordinateVector.x, DELTA);
+		assertEquals(expectedCoordinateVector.y, actualCoordinateVector.y, DELTA);
 	}
 
 	private void compareShapeSize(Shape[] firstShapes, Shape[] secondShapes, float scaleFactor) {
-		assertNotNull("Shapes (one) should not be null", firstShapes);
-		assertNotNull("Shapes (two) should not be null", secondShapes);
+		assertNotNull(firstShapes);
+		assertNotNull(secondShapes);
 
 		for (int idx = 0; idx < firstShapes.length; idx++) {
 			Shape firstShape = firstShapes[idx];
@@ -178,11 +190,8 @@ public class PhysicsShapeScaleUtilsTest extends InstrumentationTestCase {
 					((PolygonShape) secondShape).getVertex(vertexIdx + 1, vertexTwo);
 					float secondShapeVertexDistance = vertexOne.dst(vertexTwo);
 
-					assertEquals("distance between vertices of shapes have not the correct relation",
-							firstShapeVertexDistance, secondShapeVertexDistance * (1 / scaleFactor), DELTA);
+					assertEquals(firstShapeVertexDistance, secondShapeVertexDistance * (1 / scaleFactor), DELTA);
 				}
-			} else {
-				assertTrue("There should be no other type than Polygon", false);
 			}
 		}
 	}

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,51 +22,55 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.InstrumentationTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.SoundManager;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class SetVolumeToActionTest extends InstrumentationTestCase {
+import static junit.framework.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class SetVolumeToActionTest {
 
 	private static final float VOLUME = 91f;
-	private final Formula volume = new Formula(VOLUME);
+	private final Formula volumeFormula = new Formula(VOLUME);
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
 	private Sprite sprite;
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		sprite = new SingleSprite("testSprite");
-		super.setUp();
 	}
 
+	@Test
 	public void testVolume() {
-		sprite.getActionFactory().createSetVolumeToAction(sprite, volume).act(1.0f);
-		assertEquals("Incorrect sprite volume value after SetVolumeToBrick executed", VOLUME,
-				SoundManager.getInstance().getVolume());
+		sprite.getActionFactory().createSetVolumeToAction(sprite, volumeFormula).act(1.0f);
+		assertEquals(VOLUME, SoundManager.getInstance().getVolume());
 	}
 
+	@Test
 	public void testBrickWithStringFormula() {
 		sprite.getActionFactory().createSetVolumeToAction(sprite, new Formula(String.valueOf(VOLUME))).act(1.0f);
-		assertEquals("Incorrect sprite volume value after SetVolumeToBrick executed", VOLUME, SoundManager.getInstance()
-				.getVolume());
+		assertEquals(VOLUME, SoundManager.getInstance().getVolume());
 
 		sprite.getActionFactory().createSetVolumeToAction(sprite, new Formula(String.valueOf(NOT_NUMERICAL_STRING))).act(1.0f);
-		assertEquals("Incorrect sprite volume value after SetVolumeToBrick executed", VOLUME, SoundManager.getInstance()
-				.getVolume());
+		assertEquals(VOLUME, SoundManager.getInstance().getVolume());
 	}
 
+	@Test
 	public void testNullFormula() {
 		sprite.getActionFactory().createSetVolumeToAction(sprite, null).act(1.0f);
-		assertEquals("Incorrect sprite volume value after SetVolumeToBrick executed", 0f, SoundManager.getInstance()
-				.getVolume());
+		assertEquals(0f, SoundManager.getInstance().getVolume());
 	}
 
+	@Test
 	public void testNotANumberFormula() {
 		sprite.getActionFactory().createSetVolumeToAction(sprite, new Formula(Double.NaN)).act(1.0f);
-		assertEquals("Incorrect sprite volume value after SetVolumeToBrick executed", VOLUME, SoundManager.getInstance()
-				.getVolume());
+		assertEquals(0f, SoundManager.getInstance().getVolume());
 	}
 }

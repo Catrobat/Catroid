@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,154 +22,69 @@
  */
 package org.catrobat.catroid.common;
 
-import android.util.Log;
+import android.support.annotation.NonNull;
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.utils.Utils;
+import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
-import java.io.FileNotFoundException;
+import org.catrobat.catroid.io.StorageOperations;
+
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 
-public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable {
+public class SoundInfo implements Serializable, Cloneable {
 
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = SoundInfo.class.getSimpleName();
-	public transient boolean isPlaying;
-	private transient boolean isBackpackSoundInfo;
+
+	@XStreamAsAttribute
 	private String name;
+	@XStreamAsAttribute
 	private String fileName;
+
+	private transient File file;
 
 	public SoundInfo() {
 	}
 
-	public SoundInfo(String name, String fileName) {
-		setTitle(name);
-		setSoundFileName(fileName);
+	public SoundInfo(String name, @NonNull File file) {
+		this.name = name;
+		this.file = file;
+		fileName = file.getName();
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (!(obj instanceof SoundInfo)) {
-			return false;
-		}
-		if (obj == this) {
-			return true;
-		}
-
-		SoundInfo soundInfo = (SoundInfo) obj;
-		return (soundInfo.fileName.equals(this.fileName) && soundInfo.name.equals(this.name));
-	}
-
-	@Override
-	public int hashCode() {
-		return fileName.hashCode() + super.hashCode();
-	}
-
-	@Override
-	public SoundInfo clone() {
-		SoundInfo cloneSoundInfo = new SoundInfo(this.name, this.fileName);
-
-		try {
-			ProjectManager.getInstance().getFileChecksumContainer().incrementUsage(getAbsolutePath());
-		} catch (FileNotFoundException fileNotFoundexception) {
-			Log.e(TAG, Log.getStackTraceString(fileNotFoundexception));
-		}
-
-		return cloneSoundInfo;
-	}
-
-	public String getAbsolutePath() {
-		if (fileName != null) {
-			if (isBackpackSoundInfo) {
-				return Utils.buildPath(getPathToBackPackSoundDirectory(), fileName);
-			} else {
-				return Utils.buildPath(getPathToSoundDirectory(), fileName);
-			}
-		} else {
-			return null;
-		}
-	}
-
-	public String getAbsoluteProjectPath() {
-		if (fileName != null) {
-			return Utils.buildPath(getPathToSoundDirectory(), fileName);
-		} else {
-			return null;
-		}
-	}
-
-	public String getAbsoluteBackPackPath() {
-		if (fileName != null) {
-			return Utils.buildPath(getPathToBackPackSoundDirectory(), fileName);
-		} else {
-			return null;
-		}
-	}
-
-	public String getTitle() {
+	public String getName() {
 		return name;
 	}
 
-	public void setTitle(String title) {
-		this.name = title;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getSoundFileName() {
+	public String getXstreamFileName() {
+		if (file != null) {
+			throw new IllegalStateException("This should be used only to deserialize the Object."
+					+ " You should use @getFile() instead.");
+		}
 		return fileName;
 	}
 
-	public void setSoundFileName(String fileName) {
-		this.fileName = fileName;
+	public File getFile() {
+		return file;
 	}
 
-	public String getChecksum() {
-		if (fileName == null) {
-			return null;
-		}
-		return fileName.substring(0, 32);
+	public void setFile(File file) {
+		this.file = file;
+		fileName = file.getName();
 	}
 
-	private String getPathToSoundDirectory() {
-		return Utils.buildPath(Utils.buildProjectPath(ProjectManager.getInstance().getCurrentProject().getName()),
-				getSceneNameBySoundInfo(), Constants.SOUND_DIRECTORY);
-	}
-
-	protected String getSceneNameBySoundInfo() {
-		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
-			for (Sprite sprite : scene.getSpriteList()) {
-				if (sprite.getSoundList().contains(this)) {
-					return scene.getName();
-				}
-			}
-		}
-		return ProjectManager.getInstance().getCurrentScene().getName();
-	}
-
-	private String getPathToBackPackSoundDirectory() {
-		return Utils.buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY,
-				Constants.BACKPACK_SOUND_DIRECTORY);
-	}
-
+	@SuppressWarnings("MethodDoesntCallSuperMethod")
 	@Override
-	public int compareTo(SoundInfo soundInfo) {
-		return name.compareTo(soundInfo.name);
-	}
-
-	@Override
-	public String toString() {
-		return name;
-	}
-
-	public boolean isBackpackSoundInfo() {
-		return isBackpackSoundInfo;
-	}
-
-	public void setBackpackSoundInfo(boolean backpackSoundInfo) {
-		for (StackTraceElement stackTraceElement : Thread.currentThread().getStackTrace()) {
-			Log.e(TAG, stackTraceElement.getMethodName() + " setting Backpack to " + backpackSoundInfo);
+	public SoundInfo clone() {
+		try {
+			return new SoundInfo(name, StorageOperations.duplicateFile(file));
+		} catch (IOException e) {
+			throw new RuntimeException(TAG + ": Could not copy file: " + file.getAbsolutePath());
 		}
-		isBackpackSoundInfo = backpackSoundInfo;
 	}
 }

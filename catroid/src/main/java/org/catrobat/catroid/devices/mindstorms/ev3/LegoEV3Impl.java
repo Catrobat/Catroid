@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,24 +24,25 @@
 package org.catrobat.catroid.devices.mindstorms.ev3;
 
 import android.content.Context;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.catrobat.catroid.bluetooth.base.BluetoothConnection;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.devices.mindstorms.LegoSensor;
+import org.catrobat.catroid.devices.mindstorms.LegoSensorService;
 import org.catrobat.catroid.devices.mindstorms.MindstormsConnection;
 import org.catrobat.catroid.devices.mindstorms.MindstormsConnectionImpl;
 import org.catrobat.catroid.devices.mindstorms.MindstormsException;
-import org.catrobat.catroid.devices.mindstorms.MindstormsSensor;
 import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandByte.EV3CommandByteCode;
 import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandByte.EV3CommandOpCode;
 import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandByte.EV3CommandParamFormat;
-import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
-import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3SensorService;
 import org.catrobat.catroid.formulaeditor.Sensors;
 
 import java.util.UUID;
 
-public class LegoEV3Impl implements LegoEV3, EV3SensorService.OnSensorChangedListener {
+public class LegoEV3Impl implements LegoEV3, LegoSensorService.OnSensorChangedListener {
 
 	private static final UUID LEGO_EV3_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 	private static final String TAG = LegoEV3Impl.class.getSimpleName();
@@ -50,6 +51,8 @@ public class LegoEV3Impl implements LegoEV3, EV3SensorService.OnSensorChangedLis
 
 	private static final int NUMBER_VOLUME_LEVELS = 13;
 	private static final int VOLUME_LEVEL_INCR = 8;
+	private static final int FREQ_MAX_VAL = 10000;
+	private static final int FREQ_MIN_VAL = 250;
 
 	private boolean isInitialized = false;
 
@@ -61,12 +64,12 @@ public class LegoEV3Impl implements LegoEV3, EV3SensorService.OnSensorChangedLis
 	private EV3Motor motorC;
 	private EV3Motor motorD;
 
-	private EV3Sensor sensor1;
-	private EV3Sensor sensor2;
-	private EV3Sensor sensor3;
-	private EV3Sensor sensor4;
+	private LegoSensor sensor1;
+	private LegoSensor sensor2;
+	private LegoSensor sensor3;
+	private LegoSensor sensor4;
 
-	private EV3SensorService sensorService;
+	private LegoSensorService sensorService;
 
 	public LegoEV3Impl(Context applicationContext) {
 		this.context = applicationContext;
@@ -95,11 +98,10 @@ public class LegoEV3Impl implements LegoEV3, EV3SensorService.OnSensorChangedLis
 			return;
 		}
 
-		//different sources suggest different min./max. values
-		if (frequencyInHz > 10000) {
-			frequencyInHz = 10000;
-		} else if (frequencyInHz < 250) {
-			frequencyInHz = 250;
+		if (frequencyInHz > FREQ_MAX_VAL) {
+			frequencyInHz = FREQ_MAX_VAL;
+		} else if (frequencyInHz < FREQ_MIN_VAL) {
+			frequencyInHz = FREQ_MIN_VAL;
 		}
 
 		int volumeLevel = NUMBER_VOLUME_LEVELS;
@@ -261,60 +263,39 @@ public class LegoEV3Impl implements LegoEV3, EV3SensorService.OnSensorChangedLis
 	}
 
 	@Override
-	public int getSensorValue(Sensors sensor) {
+	public float getSensorValue(Sensors sensor) {
 		switch (sensor) {
 			case EV3_SENSOR_1:
-				if (getSensor1() == null) {
-					return 0;
-				}
-				return getSensor1().getLastSensorValue();
+				return sensor1 != null ? sensor1.getLastSensorValue() : 0;
 			case EV3_SENSOR_2:
-				if (getSensor2() == null) {
-					return 0;
-				}
-				return getSensor2().getLastSensorValue();
+				return sensor2 != null ? sensor2.getLastSensorValue() : 0;
 			case EV3_SENSOR_3:
-				if (getSensor3() == null) {
-					return 0;
-				}
-				return getSensor3().getLastSensorValue();
+				return sensor3 != null ? sensor3.getLastSensorValue() : 0;
 			case EV3_SENSOR_4:
-				if (getSensor4() == null) {
-					return 0;
-				}
-				return getSensor4().getLastSensorValue();
+				return sensor4 != null ? sensor4.getLastSensorValue() : 0;
 		}
 
 		return -1;
 	}
 
 	@Override
-	public MindstormsSensor getSensor1() {
+	public LegoSensor getSensor1() {
 		return sensor1;
 	}
 
 	@Override
-	public MindstormsSensor getSensor2() {
+	public LegoSensor getSensor2() {
 		return sensor2;
 	}
 
 	@Override
-	public MindstormsSensor getSensor3() {
+	public LegoSensor getSensor3() {
 		return sensor3;
 	}
 
 	@Override
-	public MindstormsSensor getSensor4() {
+	public LegoSensor getSensor4() {
 		return sensor4;
-	}
-
-	private EV3SensorService getSensorService() {
-		if (sensorService == null) {
-			sensorService = new EV3SensorService(context, mindstormsConnection);
-			sensorService.registerOnSensorChangedListener(this);
-		}
-
-		return sensorService;
 	}
 
 	@Override
@@ -337,12 +318,16 @@ public class LegoEV3Impl implements LegoEV3, EV3SensorService.OnSensorChangedLis
 	}
 
 	private synchronized void assignSensorsToPorts() {
-		EV3SensorService sensorService = getSensorService();
+		if (sensorService == null) {
+			sensorService = new LegoSensorService(Constants.EV3, mindstormsConnection,
+					PreferenceManager.getDefaultSharedPreferences(context));
+			sensorService.registerOnSensorChangedListener(this);
+		}
 
-		sensor1 = sensorService.createSensor1();
-		sensor2 = sensorService.createSensor2();
-		sensor3 = sensorService.createSensor3();
-		sensor4 = sensorService.createSensor4();
+		sensor1 = sensorService.createSensor(Constants.PORT_1);
+		sensor2 = sensorService.createSensor(Constants.PORT_2);
+		sensor3 = sensorService.createSensor(Constants.PORT_3);
+		sensor4 = sensorService.createSensor(Constants.PORT_4);
 	}
 
 	@Override

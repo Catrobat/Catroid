@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,17 +23,31 @@
 package org.catrobat.catroid.ui;
 
 import android.view.Menu;
+import android.view.MenuItem;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 public abstract class BaseCastActivity extends BaseActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+		if (SettingsFragment.isCastSharedPreferenceEnabled(this)) {
 			CastManager.getInstance().setCastButton(menu.findItem(R.id.cast_button));
 		}
 		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.cast_button:
+				CastManager.getInstance().openDeviceSelectorOrDisconnectDialog();
+				break;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+		return true;
 	}
 }

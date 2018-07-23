@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,11 +23,11 @@
 
 package org.catrobat.catroid.drone.ardrone;
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import com.parrot.freeflight.drone.NavData;
@@ -147,7 +147,7 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 
 		DroneControlService dcs = DroneServiceWrapper.getInstance().getDroneService();
 		if (dcs != null && (value < DroneInitializer.DRONE_BATTERY_THRESHOLD) && dcs.getDroneNavData().flying && !droneBatteryMessageShown) {
-			ToastUtil.showError(this, R.string.notification_low_battery + " " + Integer.toString(value));
+			ToastUtil.showError(this, getString(R.string.notification_low_battery_with_value, value));
 			droneBatteryMessageShown = true;
 		}
 	}

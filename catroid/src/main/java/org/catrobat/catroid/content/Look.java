@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,29 +32,24 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DroneVideoLookData;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.common.ThreadScheduler;
+import org.catrobat.catroid.content.actions.EventThread;
+import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.utils.TouchUtil;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 public class Look extends Image {
 	private static final float DEGREE_UI_OFFSET = 90.0f;
 	private static final float COLOR_SCALE = 200.0f;
-	private static ArrayList<Action> actionsToRestart = new ArrayList<>();
 	private boolean lookVisible = true;
 	protected boolean imageChanged = false;
 	protected boolean brightnessChanged = false;
@@ -65,8 +60,6 @@ public class Look extends Image {
 	protected float brightness = 1f;
 	protected float hue = 0f;
 	protected Pixmap pixmap;
-	private ParallelAction whenParallelAction;
-	private boolean allActionsAreFinished = false;
 	private BrightnessContrastHueShader shader;
 	public static final int ROTATION_STYLE_ALL_AROUND = 1;
 	public static final int ROTATION_STYLE_LEFT_RIGHT_ONLY = 0;
@@ -74,9 +67,11 @@ public class Look extends Image {
 	private int rotationMode = ROTATION_STYLE_ALL_AROUND;
 	private float rotation = 90f;
 	private float realRotation = rotation;
+	private ThreadScheduler scheduler;
 
 	public Look(final Sprite sprite) {
 		this.sprite = sprite;
+		scheduler = new ThreadScheduler(this);
 		setBounds(0f, 0f, 0f, 0f);
 		setOrigin(0f, 0f);
 		setScale(1f, 1f);
@@ -102,18 +97,7 @@ public class Look extends Image {
 				return false;
 			}
 		});
-
-		this.addListener(new BroadcastListener() {
-			@Override
-			public void handleBroadcastEvent(BroadcastEvent event, String broadcastMessage) {
-				doHandleBroadcastEvent(event.getSenderSprite(), broadcastMessage);
-			}
-
-			@Override
-			public void handleBroadcastFromWaiterEvent(BroadcastEvent event, String broadcastMessage) {
-				doHandleBroadcastFromWaiterEvent(event, broadcastMessage);
-			}
-		});
+		this.addListener(new EventWrapperListener(this));
 	}
 
 	public boolean isLookVisible() {
@@ -124,12 +108,19 @@ public class Look extends Image {
 		this.lookVisible = lookVisible;
 	}
 
-	public static boolean actionsToRestartContains(Action action) {
-		return Look.actionsToRestart.contains(action);
-	}
-
-	public static void actionsToRestartAdd(Action action) {
-		Look.actionsToRestart.add(action);
+	@Override
+	public boolean remove() {
+		notifyAllWaiters();
+		setLookVisible(false);
+		boolean returnValue = super.remove();
+		for (EventListener listener : this.getListeners()) {
+			this.removeListener(listener);
+		}
+		getActions().clear();
+		scheduler = null;
+		this.sprite = null;
+		this.lookData = null;
+		return returnValue;
 	}
 
 	public void copyTo(final Look destination) {
@@ -158,11 +149,8 @@ public class Look extends Image {
 
 		if (x >= 0 && x < getWidth() && y >= 0 && y < getHeight()
 				&& ((pixmap != null && ((pixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)))) {
-			if (whenParallelAction == null) {
-				sprite.createWhenScriptActionSequence("Tapped");
-			} else {
-				whenParallelAction.restart();
-			}
+			EventWrapper event = new EventWrapper(new EventId(EventId.TAP), EventWrapper.NO_WAIT);
+			sprite.look.fire(event);
 			return true;
 		}
 
@@ -197,32 +185,28 @@ public class Look extends Image {
 
 	@Override
 	public void act(float delta) {
-		Array<Action> actions = getActions();
-		allActionsAreFinished = false;
-		int finishedCount = 0;
-
-		for (Iterator<Action> iterator = Look.actionsToRestart.iterator(); iterator.hasNext(); ) {
-			Action actionToRestart = iterator.next();
-			actionToRestart.restart();
-			iterator.remove();
-		}
-
-		int n = actions.size;
-		for (int i = 0; i < n; i++) {
-			Action action = actions.get(i);
-			if (action.act(delta)) {
-				finishedCount++;
-			}
-		}
-		if (finishedCount == actions.size) {
-			allActionsAreFinished = true;
+		scheduler.tick(delta);
+		if (sprite != null) {
+			sprite.evaluateConditionScriptTriggers();
 		}
 	}
 
-	@Override
-	public void addAction(Action action) {
-		super.addAction(action);
-		allActionsAreFinished = false;
+	public void startThread(EventThread threadToBeStarted) {
+		if (scheduler != null) {
+			scheduler.startThread(threadToBeStarted);
+		}
+	}
+
+	public void stopThreads(Array<Action> threads) {
+		if (scheduler != null) {
+			scheduler.stopThreads(threads);
+		}
+	}
+
+	public void stopThreadWithScript(Script script) {
+		if (scheduler != null) {
+			scheduler.stopThreadsWithScript(script);
+		}
 	}
 
 	protected void checkImageChanged() {
@@ -272,15 +256,10 @@ public class Look extends Image {
 	public void setLookData(LookData lookData) {
 		this.lookData = lookData;
 		imageChanged = true;
-
-		boolean isBackgroundLook = getZIndex() == Constants.Z_INDEX_BACKGROUND;
-		if (isBackgroundLook) {
-			BackgroundWaitHandler.fireBackgroundChangedEvent(lookData);
-		}
 	}
 
-	public boolean getAllActionsAreFinished() {
-		return allActionsAreFinished;
+	public boolean haveAllThreadsFinished() {
+		return scheduler.haveAllThreadsFinished();
 	}
 
 	public String getImagePath() {
@@ -288,13 +267,9 @@ public class Look extends Image {
 		if (this.lookData == null) {
 			path = "";
 		} else {
-			path = this.lookData.getAbsolutePath();
+			path = this.lookData.getFile().getAbsolutePath();
 		}
 		return path;
-	}
-
-	public void setWhenParallelAction(ParallelAction action) {
-		whenParallelAction = action;
 	}
 
 	public float getXInUserInterfaceDimensionUnit() {
@@ -368,9 +343,9 @@ public class Look extends Image {
 
 	private void flipLookDataIfNeeded(int mode) {
 		boolean orientedLeft = getDirectionInUserInterfaceDimensionUnit() < 0;
-		boolean differentModeButFlipped = mode != Look.ROTATION_STYLE_LEFT_RIGHT_ONLY && isFlipped();
-		boolean facingLeftButNotFlipped = mode == Look.ROTATION_STYLE_LEFT_RIGHT_ONLY && orientedLeft;
-		if (differentModeButFlipped || facingLeftButNotFlipped) {
+		boolean differentModeButFlipped = mode != ROTATION_STYLE_LEFT_RIGHT_ONLY && isFlipped();
+		boolean facingWrongDirection = mode == ROTATION_STYLE_LEFT_RIGHT_ONLY && (orientedLeft ^ isFlipped());
+		if (differentModeButFlipped || facingWrongDirection) {
 			getLookData().getTextureRegion().flip(true, false);
 		}
 	}
@@ -559,14 +534,6 @@ public class Look extends Image {
 		return breakDownCatroidAngle(catroidAngle);
 	}
 
-	protected void doHandleBroadcastEvent(Sprite senderSprite, String broadcastMessage) {
-		BroadcastHandler.doHandleBroadcastEvent(this, senderSprite, broadcastMessage);
-	}
-
-	protected void doHandleBroadcastFromWaiterEvent(BroadcastEvent event, String broadcastMessage) {
-		BroadcastHandler.doHandleBroadcastFromWaiterEvent(this, event, broadcastMessage);
-	}
-
 	private class BrightnessContrastHueShader extends ShaderProgram {
 
 		private static final String VERTEX_SHADER = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
@@ -644,13 +611,6 @@ public class Look extends Image {
 		}
 	}
 
-	public Map<String, List<String>> createScriptActions() {
-		this.setWhenParallelAction(null);
-		Map<String, List<String>> scriptActions = new HashMap<>();
-		sprite.createStartScriptActionSequenceAndPutToMap(scriptActions, false);
-		return scriptActions;
-	}
-
 	public Polygon[] getCurrentCollisionPolygon() {
 		Polygon[] originalPolygons;
 		if (getLookData() == null) {
@@ -673,5 +633,13 @@ public class Look extends Image {
 			transformedPolygons[p] = poly;
 		}
 		return transformedPolygons;
+	}
+
+	void notifyAllWaiters() {
+		for (Action action : getActions()) {
+			if (action instanceof EventThread) {
+				((EventThread) action).notifyWaiter();
+			}
+		}
 	}
 }

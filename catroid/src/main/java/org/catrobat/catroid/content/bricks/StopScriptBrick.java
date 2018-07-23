@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,14 +27,12 @@ import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
-
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
 import java.util.List;
 
@@ -52,25 +50,13 @@ public class StopScriptBrick extends BrickBaseType {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
+	public int getViewResource() {
+		return R.layout.brick_stop_script;
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		return clone();
-	}
-
-	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-
-		view = View.inflate(context, R.layout.brick_stop_script, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_stop_script_checkbox);
+	public View getView(Context context) {
+		super.getView(context);
 		Spinner stopScriptSpinner = (Spinner) view.findViewById(R.id.brick_stop_script_spinner);
 
 		ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
@@ -95,7 +81,7 @@ public class StopScriptBrick extends BrickBaseType {
 	@Override
 	public View getPrototypeView(Context context) {
 
-		View prototypeView = View.inflate(context, R.layout.brick_stop_script, null);
+		View prototypeView = super.getPrototypeView(context);
 
 		Spinner stopSctiptSpinner = (Spinner) prototypeView.findViewById(R.id.brick_stop_script_spinner);
 
@@ -120,8 +106,8 @@ public class StopScriptBrick extends BrickBaseType {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createStopScriptAction(spinnerSelection, sequence));
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		sequence.addAction(sprite.getActionFactory().createStopScriptAction(spinnerSelection, sequence.getScript()));
 		return null;
 	}
 

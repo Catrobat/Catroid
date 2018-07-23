@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -72,9 +72,9 @@ public class PhysicsWorld {
 
 	public static final int STABILIZING_STEPS = 6;
 	private final World world = new World(PhysicsWorld.DEFAULT_GRAVITY, PhysicsWorld.IGNORE_SLEEPING_OBJECTS);
-	private final Map<Sprite, PhysicsObject> physicsObjects = new HashMap<Sprite, PhysicsObject>();
-	private final ArrayList<Sprite> activeVerticalBounces = new ArrayList<Sprite>();
-	private final ArrayList<Sprite> activeHorizontalBounces = new ArrayList<Sprite>();
+	private final Map<Sprite, PhysicsObject> physicsObjects = new HashMap<>();
+	private final ArrayList<Sprite> activeVerticalBounces = new ArrayList<>();
+	private final ArrayList<Sprite> activeHorizontalBounces = new ArrayList<>();
 	private Box2DDebugRenderer renderer;
 	private int stabilizingSteCounter = 0;
 	private PhysicsBoundaryBox boundaryBox;
@@ -139,7 +139,7 @@ public class PhysicsWorld {
 
 	public void changeLook(PhysicsObject physicsObject, Look look) {
 		Shape[] shapes = null;
-		if (look.getLookData() != null && look.getLookData().getLookFileName() != null) {
+		if (look.getLookData() != null && look.getLookData().getFile() != null) {
 			shapes = physicsShapeBuilder.getScaledShapes(look.getLookData(),
 					look.getSizeInUserInterfaceDimensionUnit() / 100f);
 		}
@@ -173,15 +173,13 @@ public class PhysicsWorld {
 				case BBI_HORIZONTAL:
 					if (activeHorizontalBounces.remove(sprite) && !activeVerticalBounces.contains(sprite)) {
 						physicsObject.setIfOnEdgeBounce(false, sprite);
-						PhysicsCollisionBroadcast.fireEvent(PhysicsCollision.generateBroadcastMessage(sprite.getName(),
-								PhysicsCollision.COLLISION_WITH_ANYTHING_IDENTIFIER));
+						PhysicsCollisionBroadcast.fireEvent(sprite, null);
 					}
 					break;
 				case BBI_VERTICAL:
 					if (activeVerticalBounces.remove(sprite) && !activeHorizontalBounces.contains(sprite)) {
 						physicsObject.setIfOnEdgeBounce(false, sprite);
-						PhysicsCollisionBroadcast.fireEvent(PhysicsCollision.generateBroadcastMessage(sprite.getName(),
-								PhysicsCollision.COLLISION_WITH_ANYTHING_IDENTIFIER));
+						PhysicsCollisionBroadcast.fireEvent(sprite, null);
 					}
 					break;
 			}

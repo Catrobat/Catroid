@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.test.formulaeditor;
 
-import android.test.InstrumentationTestCase;
 import android.util.Log;
 
 import org.catrobat.catroid.content.Sprite;
@@ -36,6 +35,11 @@ import org.catrobat.catroid.formulaeditor.Operators;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.fail;
 
 public final class FormulaEditorTestUtil {
 
@@ -60,10 +64,8 @@ public final class FormulaEditorTestUtil {
 		List<InternToken> tokenList = FormulaEditorTestUtil.buildSingleParameterFunction(function, internTokenList);
 		FormulaElement parseTree = new InternFormulaParser(tokenList).parseFormula();
 
-		InstrumentationTestCase.assertNotNull("Formula is not parsed correctly: " + function + "(" + tokenList + ")",
-				parseTree);
-		InstrumentationTestCase.assertEquals("Formula interpretation is not as expected! " + function + "(" + tokenList
-				+ ")", expected, parseTree.interpretRecursive(testSprite));
+		assertNotNull(parseTree);
+		assertEquals(expected, parseTree.interpretRecursive(testSprite));
 	}
 
 	public static List<InternToken> buildSingleParameterFunction(Functions function, InternTokenType firstParameter,
@@ -103,11 +105,8 @@ public final class FormulaEditorTestUtil {
 				secondInternTokenList);
 		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula();
 
-		InstrumentationTestCase.assertNotNull("Formula is not parsed correctly: " + function.name() + "("
-				+ firstInternTokenList + "," + secondInternTokenList + ")", parseTree);
-		InstrumentationTestCase.assertEquals("Formula interpretation is not as expected! " + function.name() + "("
-						+ firstInternTokenList + "," + secondInternTokenList + ")", expected,
-				parseTree.interpretRecursive(testSprite));
+		assertNotNull(parseTree);
+		assertEquals(expected, parseTree.interpretRecursive(testSprite));
 	}
 
 	public static List<InternToken> buildDoubleParameterFunction(Functions function, InternTokenType firstParameter,
@@ -146,10 +145,8 @@ public final class FormulaEditorTestUtil {
 				firstParameter, secondInternTokenType, secondParameter);
 		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula();
 
-		InstrumentationTestCase.assertNotNull("Formula is not parsed correctly: " + function.name() + "("
-				+ firstParameter + "," + secondParameter + ")", parseTree);
-		InstrumentationTestCase.assertEquals("Formula interpretation is not as expected! " + function.name() + "("
-				+ firstParameter + "," + secondParameter + ")", expected, parseTree.interpretRecursive(testSprite));
+		assertNotNull(parseTree);
+		assertEquals(expected, parseTree.interpretRecursive(testSprite));
 	}
 
 	public static void testBinaryOperator(InternTokenType firstInternTokenType, String firstOperand,
@@ -159,10 +156,8 @@ public final class FormulaEditorTestUtil {
 				secondInternTokenType, secondOperand);
 		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula();
 
-		InstrumentationTestCase.assertNotNull("Formula is not parsed correctly: " + firstOperand + operatorType
-				+ secondOperand, parseTree);
-		InstrumentationTestCase.assertEquals("Formula interpretation is not as expected! " + firstOperand
-				+ operatorType + secondOperand, expected, parseTree.interpretRecursive(testSprite));
+		assertNotNull(parseTree);
+		assertEquals(expected, parseTree.interpretRecursive(testSprite));
 	}
 
 	public static void testBinaryOperator(InternTokenType firstInternTokenType, String firstOperand, Operators operatorType,
@@ -170,10 +165,8 @@ public final class FormulaEditorTestUtil {
 		List<InternToken> internTokenList = buildBinaryOperator(firstInternTokenType, firstOperand, operatorType, secondOperand);
 		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula();
 
-		InstrumentationTestCase.assertNotNull("Formula is not parsed correctly: " + firstOperand + operatorType
-				+ secondOperand, parseTree);
-		InstrumentationTestCase.assertEquals("Formula interpretation is not as expected! " + firstOperand
-				+ operatorType + secondOperand, expected, parseTree.interpretRecursive(testSprite));
+		assertNotNull(parseTree);
+		assertEquals(expected, parseTree.interpretRecursive(testSprite));
 	}
 
 	public static void testBinaryOperator(List<InternToken> firstOperand, Operators operatorType,
@@ -181,10 +174,8 @@ public final class FormulaEditorTestUtil {
 		List<InternToken> internTokenList = buildBinaryOperator(firstOperand, operatorType, secondInternTokenType, secondOperand);
 		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula();
 
-		InstrumentationTestCase.assertNotNull("Formula is not parsed correctly: " + firstOperand + operatorType
-				+ secondOperand, parseTree);
-		InstrumentationTestCase.assertEquals("Formula interpretation is not as expected! " + firstOperand
-				+ operatorType + secondOperand, expected, parseTree.interpretRecursive(testSprite));
+		assertNotNull(parseTree);
+		assertEquals(expected, parseTree.interpretRecursive(testSprite));
 	}
 
 	public static void testBinaryOperator(List<InternToken> firstOperand, Operators operatorType,
@@ -192,10 +183,8 @@ public final class FormulaEditorTestUtil {
 		List<InternToken> internTokenList = buildBinaryOperator(firstOperand, operatorType, secondOperand);
 		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula();
 
-		InstrumentationTestCase.assertNotNull("Formula is not parsed correctly: " + firstOperand + operatorType
-				+ secondOperand, parseTree);
-		InstrumentationTestCase.assertEquals("Formula interpretation is not as expected! " + firstOperand
-				+ operatorType + secondOperand, expected, parseTree.interpretRecursive(testSprite));
+		assertNotNull(parseTree);
+		assertEquals(expected, parseTree.interpretRecursive(testSprite));
 	}
 
 	public static void testSingleParameterFunction(Functions function, InternTokenType firstInternTokenType,
@@ -205,10 +194,8 @@ public final class FormulaEditorTestUtil {
 		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula();
 		Formula formula = new Formula(parseTree);
 
-		InstrumentationTestCase.assertNotNull("Formula is not parsed correctly: " + function + "(" + firstParameter
-				+ ")", parseTree);
-		InstrumentationTestCase.assertEquals("Formula interpretation is not as expected! " + function + "("
-				+ firstParameter + ")", expected, formula.interpretObject(testSprite));
+		assertNotNull(parseTree);
+		assertEquals(expected, formula.interpretObject(testSprite));
 	}
 
 	public static void testSingleToken(InternTokenType firstInternTokenType, String firstParameter, Object expected,
@@ -218,9 +205,8 @@ public final class FormulaEditorTestUtil {
 		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula();
 		Formula formula = new Formula(parseTree);
 
-		InstrumentationTestCase.assertNotNull("Formula is not parsed correctly: " + firstParameter, parseTree);
-		InstrumentationTestCase.assertEquals("Formula interpretation is not as expected! ", expected,
-				formula.interpretObject(testSprite));
+		assertNotNull(parseTree);
+		assertEquals(expected, formula.interpretObject(testSprite));
 	}
 
 	public static void testSingleTokenError(InternTokenType firstInternTokenType, String firstParameter, int expectedErrorTokenIndex) {
@@ -229,9 +215,8 @@ public final class FormulaEditorTestUtil {
 		InternFormulaParser internFormulaParser = new InternFormulaParser(internTokenList);
 		FormulaElement parseTree = internFormulaParser.parseFormula();
 
-		InstrumentationTestCase.assertNull("Formula should not have been parsed: " + firstParameter, parseTree);
-		InstrumentationTestCase.assertEquals("Error Token Index is not as expected! ", expectedErrorTokenIndex,
-				internFormulaParser.getErrorTokenIndex());
+		assertNull(parseTree);
+		assertEquals(expectedErrorTokenIndex, internFormulaParser.getErrorTokenIndex());
 	}
 
 	public static void testUnaryOperator(Operators operatorType, InternTokenType firstInternTokenType,
@@ -242,10 +227,8 @@ public final class FormulaEditorTestUtil {
 		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula();
 		Formula formula = new Formula(parseTree);
 
-		InstrumentationTestCase.assertNotNull("Formula is not parsed correctly: " + operatorType + firstParameter,
-				parseTree);
-		InstrumentationTestCase.assertEquals("Formula interpretation is not as expected! ", expected,
-				formula.interpretObject(testSprite));
+		assertNotNull(parseTree);
+		assertEquals(expected, formula.interpretObject(testSprite));
 	}
 
 	public static void testNotANumberWithBinaryOperator(InternTokenType firstInternTokenType, String firstOperand,
@@ -254,15 +237,12 @@ public final class FormulaEditorTestUtil {
 				secondInternTokenType, secondOperand);
 		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula();
 
-		InstrumentationTestCase.assertNotNull("Formula is not parsed correctly: " + firstOperand + operatorType
-				+ secondOperand, parseTree);
+		assertNotNull(parseTree);
 		try {
 			parseTree.interpretRecursive(testSprite);
-			InstrumentationTestCase.fail("Formula interpretation is not as expected: " + firstOperand + operatorType
-					+ secondOperand);
+			fail("Formula interpretation is not as expected: " + firstOperand + operatorType + secondOperand);
 		} catch (Exception exception) {
-			InstrumentationTestCase.assertEquals("Wrong exception message", exception.getMessage(),
-					String.valueOf(Double.NaN));
+			assertEquals(exception.getMessage(), String.valueOf(Double.NaN));
 		}
 	}
 
@@ -296,5 +276,15 @@ public final class FormulaEditorTestUtil {
 		List<InternToken> secondOperandList = new LinkedList<InternToken>();
 		secondOperandList.add(new InternToken(secondInternTokenType, secondOperand));
 		return buildBinaryOperator(firstOperandList, operatorType, secondOperandList);
+	}
+
+	public static void assertEqualsTokenLists(List<InternToken> expectedTokenList, List<InternToken> actualTokenList) {
+		assertEquals(expectedTokenList.size(), actualTokenList.size());
+		for (int index = 0; index < expectedTokenList.size(); index++) {
+			assertEquals(expectedTokenList.get(index).getInternTokenType(),
+					actualTokenList.get(index).getInternTokenType());
+			assertEquals(expectedTokenList.get(index).getTokenStringValue(),
+					actualTokenList.get(index).getTokenStringValue());
+		}
 	}
 }

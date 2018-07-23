@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,7 +36,7 @@ public class EV3TouchSensor extends EV3Sensor {
 	}
 
 	@Override
-	public int getValue() {
+	public float getValue() {
 		int percent = getPercentValue();
 		if (percent > 50) {
 			return 1;

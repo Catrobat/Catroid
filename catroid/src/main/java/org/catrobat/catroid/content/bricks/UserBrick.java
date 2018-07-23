@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,17 +26,16 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -72,15 +71,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 	}
 
 	@Override
-	public UserBrick copyBrickForSprite(Sprite sprite) {
-		UserBrick clonedBrick = (UserBrick) clone();
-		clonedBrick.definitionBrick = (UserScriptDefinitionBrick) definitionBrick.copyBrickForSprite(sprite);
-		return clonedBrick;
-	}
-
-	@Override
 	public Brick clone() {
-		animationState = false;
 		UserBrick clonedUserBrick = new UserBrick(definitionBrick);
 		clonedUserBrick.userBrickParameters = new ArrayList<>();
 		if (userBrickParameters != null) {
@@ -154,7 +145,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 	}
 
 	private void updateUserVariableValues() {
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentScene().getDataContainer();
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
 		List<UserVariable> variables = new ArrayList<>();
 
 		for (UserBrickParameter userBrickParameter : userBrickParameters) {
@@ -195,23 +186,16 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 		return formulaList;
 	}
 
-	public void appendBrickToScript(Brick brick) {
-		definitionBrick.appendBrickToScript(brick);
+	@Override
+	public int getViewResource() {
+		return R.layout.brick_user;
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	public View getView(Context context) {
+		super.getView(context);
 		setUserBrickParametersParent();
-
-		view = View.inflate(context, R.layout.brick_user, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_user_checkbox);
 		onLayoutChanged(view);
-
 		return view;
 	}
 
@@ -225,7 +209,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_user, null);
+		prototypeView = super.getPrototypeView(context);
 		onLayoutChanged(prototypeView);
 		return prototypeView;
 	}
@@ -313,18 +297,18 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		updateUserVariableValues();
-		List<SequenceAction> returnActionList = new ArrayList<>();
+		List<ScriptSequenceAction> returnActionList = new ArrayList<>();
 
 		ActionFactory actionFactory = sprite.getActionFactory();
-		SequenceAction userSequence = (SequenceAction) actionFactory.createSequence();
+		ScriptSequenceAction userSequence = (ScriptSequenceAction) actionFactory.eventSequence(definitionBrick.getScriptSafe());
 		definitionBrick.getScriptSafe().run(sprite, userSequence);
 		returnActionList.add(userSequence);
 		sequence.addAction(actionFactory.createUserBrickAction(userSequence, this));
 		ProjectManager.getInstance().setCurrentUserBrick(this);
 
-		if (sprite.isClone()) {
+		if (sprite.isClone) {
 			sprite.addUserBrick(this);
 		}
 
@@ -341,13 +325,5 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 
 	public List<UserScriptDefinitionBrickElement> getUserScriptDefinitionBrickElements() {
 		return definitionBrick.getUserScriptDefinitionBrickElements();
-	}
-
-	@Override
-	public void storeDataForBackPack(Sprite sprite) {
-		definitionBrick = (UserScriptDefinitionBrick) definitionBrick.copyBrickForSprite(sprite);
-		for (Brick brick : definitionBrick.getUserScript().getBrickList()) {
-			brick.storeDataForBackPack(sprite);
-		}
 	}
 }

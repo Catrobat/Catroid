@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,8 @@ package org.catrobat.catroid.test.web;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.test.InstrumentationTestCase;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
 import org.catrobat.catroid.common.Constants;
@@ -32,35 +33,47 @@ import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.transfers.DeleteTestUserTask;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
+
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.number.OrderingComparison.greaterThan;
+import static org.junit.Assert.assertThat;
 
 /*
  * These tests need an internet connection
  */
-public class ServerCallsTest extends InstrumentationTestCase implements DeleteTestUserTask.OnDeleteTestUserCompleteListener {
+@RunWith(AndroidJUnit4.class)
+public class ServerCallsTest implements DeleteTestUserTask.OnDeleteTestUserCompleteListener {
+
 	private static final String TAG = ServerCalls.class.getSimpleName();
-	public static final int STATUS_CODE_USER_PASSWORD_TOO_SHORT = 753;
-	public static final int STATUS_CODE_USER_ADD_EMAIL_EXISTS = 757;
-	public static final int STATUS_CODE_USER_EMAIL_INVALID = 765;
-	public static final int STATUS_CODE_AUTHENTICATION_FAILED = 601;
-	public static final int STATUS_CODE_USER_NOT_EXISTING = 764;
 
-	public ServerCallsTest() {
-		super();
-	}
+	private static final int STATUS_CODE_USER_PASSWORD_TOO_SHORT = 753;
+	private static final int STATUS_CODE_USER_ADD_EMAIL_EXISTS = 757;
+	private static final int STATUS_CODE_USER_EMAIL_INVALID = 765;
+	private static final int STATUS_CODE_AUTHENTICATION_FAILED = 601;
+	private static final int STATUS_CODE_USER_NOT_EXISTING = 764;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 		ServerCalls.useTestUrl = true;
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
-		TestUtils.deleteTestProjects("uploadtestProject");
+	@After
+	public void tearDown() throws Exception {
+		TestUtils.deleteProjects("uploadtestProject");
 		ServerCalls.useTestUrl = false;
-		super.tearDown();
 	}
 
+	@Test
 	public void testRegistrationOk() {
 		try {
 			String testUser = "testUser" + System.currentTimeMillis();
@@ -69,17 +82,16 @@ public class ServerCallsTest extends InstrumentationTestCase implements DeleteTe
 			String token = Constants.NO_TOKEN;
 
 			boolean userRegistered = ServerCalls.getInstance().register(testUser, testPassword, testEmail,
-					"de", "at", token, getInstrumentation().getTargetContext());
+					"de", "at", token, InstrumentationRegistry.getTargetContext());
 
-			assertTrue("Should be a new user, but server response indicates that this user already exists",
-					userRegistered);
+			assertTrue(userRegistered);
 
-			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getInstrumentation().getTargetContext());
+			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
 			token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 			boolean tokenOk = ServerCalls.getInstance().checkToken(token, testUser);
 
 			Log.i(TAG, "tokenOk: " + tokenOk);
-			assertTrue("token should be ok", tokenOk);
+			assertTrue(tokenOk);
 		} catch (WebconnectionException e) {
 			Log.e(TAG, "Webconnection error", e);
 			fail("WebconnectionException: the token should be valid \nstatus code:" + e.getStatusCode()
@@ -87,6 +99,7 @@ public class ServerCallsTest extends InstrumentationTestCase implements DeleteTe
 		}
 	}
 
+	@Test
 	public void testRegisterWithExistingUser() {
 		try {
 			String testUser = "testUser" + System.currentTimeMillis();
@@ -95,28 +108,26 @@ public class ServerCallsTest extends InstrumentationTestCase implements DeleteTe
 
 			String token = Constants.NO_TOKEN;
 			boolean userRegistered = ServerCalls.getInstance().register(testUser, testPassword, testEmail,
-					"de", "at", token, getInstrumentation().getTargetContext());
+					"de", "at", token, InstrumentationRegistry.getTargetContext());
 
 			Log.i(TAG, "user registered: " + userRegistered);
-			assertTrue("Should be a new user, but server response indicates that this user already exists",
-					userRegistered);
+			assertTrue(userRegistered);
 
-			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getInstrumentation().getTargetContext());
+			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
 			token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 			ServerCalls.getInstance().register(testUser, testPassword, testEmail, "de",
-					"at", token, getInstrumentation().getTargetContext());
+					"at", token, InstrumentationRegistry.getTargetContext());
 
-			assertFalse("should never be reached because the user is already registered and can't be registered again",
-					true);
+			fail("WebconnectionException not thrown");
 		} catch (WebconnectionException e) {
 			Log.i(TAG, "Webconnection error (this is expected behaviour)", e);
-			assertTrue("an exception should be thrown because the user(-e-mail) is already registered", true);
-			assertEquals("wrong status code from server", STATUS_CODE_USER_ADD_EMAIL_EXISTS, e.getStatusCode());
-			assertNotNull("no error message available", e.getMessage());
-			assertTrue("no error message available", e.getMessage().length() > 0);
+			assertEquals(STATUS_CODE_USER_ADD_EMAIL_EXISTS, e.getStatusCode());
+			assertNotNull(e.getMessage());
+			assertThat(e.getMessage().length(), is(greaterThan(0)));
 		}
 	}
 
+	@Test
 	public void testRegisterAndLogin() {
 		try {
 			String testUser = "testUser" + System.currentTimeMillis();
@@ -125,19 +136,17 @@ public class ServerCallsTest extends InstrumentationTestCase implements DeleteTe
 
 			String token = Constants.NO_TOKEN;
 			boolean userRegistered = ServerCalls.getInstance().register(testUser, testPassword, testEmail,
-					"de", "at", token, getInstrumentation().getTargetContext());
+					"de", "at", token, InstrumentationRegistry.getTargetContext());
 
 			Log.i(TAG, "user registered: " + userRegistered);
-			assertTrue("Should be a new user, but server response indicates that this user already exists",
-					userRegistered);
+			assertTrue(userRegistered);
 
-			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getInstrumentation().getTargetContext());
+			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
 			token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
-			boolean userLoggedIn = ServerCalls.getInstance().login(testUser, testPassword, token, getInstrumentation().getTargetContext());
+			boolean userLoggedIn = ServerCalls.getInstance().login(testUser, testPassword, token, InstrumentationRegistry.getTargetContext());
 
 			Log.i(TAG, "user logged in: " + userLoggedIn);
-			assertTrue("User should be logged in, but server response indicates that he was not",
-					userLoggedIn);
+			assertTrue(userLoggedIn);
 		} catch (WebconnectionException e) {
 			Log.e(TAG, "Webconnection error", e);
 			fail("an exception should not be thrown! \nstatus code:" + e.getStatusCode() + "\nmessage: "
@@ -145,25 +154,25 @@ public class ServerCallsTest extends InstrumentationTestCase implements DeleteTe
 		}
 	}
 
+	@Test
 	public void testLoginWithNotExistingUser() {
 		try {
 			String testUser = "testUser" + System.currentTimeMillis();
 			String testPassword = "pwspws";
 			String token = Constants.NO_TOKEN;
 
-			ServerCalls.getInstance().login(testUser, testPassword, token, getInstrumentation().getTargetContext());
+			ServerCalls.getInstance().login(testUser, testPassword, token, InstrumentationRegistry.getTargetContext());
 
-			assertFalse("should never be reached because the user to be logged in is not existing",
-					true);
+			fail("WebconnectionException not thrown");
 		} catch (WebconnectionException e) {
 			Log.i(TAG, "Webconnection error (this is expected behaviour)", e);
-			assertTrue("an exception should be thrown because the user does not exist", true);
-			assertEquals("wrong status code from server", STATUS_CODE_USER_NOT_EXISTING, e.getStatusCode());
-			assertNotNull("no error message available", e.getMessage());
-			assertTrue("no error message available", e.getMessage().length() > 0);
+			assertEquals(STATUS_CODE_USER_NOT_EXISTING, e.getStatusCode());
+			assertNotNull(e.getMessage());
+			assertThat(e.getMessage().length(), is(greaterThan(0)));
 		}
 	}
 
+	@Test
 	public void testRegisterWithExistingUserAndLoginWithWrongPassword() {
 		try {
 			String testUser = "testUser" + System.currentTimeMillis();
@@ -172,27 +181,26 @@ public class ServerCallsTest extends InstrumentationTestCase implements DeleteTe
 
 			String token = Constants.NO_TOKEN;
 			boolean userRegistered = ServerCalls.getInstance().register(testUser, testPassword, testEmail,
-					"de", "at", token, getInstrumentation().getTargetContext());
+					"de", "at", token, InstrumentationRegistry.getTargetContext());
 
 			Log.i(TAG, "user registered: " + userRegistered);
-			assertTrue("Should be a new user, but server response indicates that this user already exists",
-					userRegistered);
+			assertTrue(userRegistered);
 
 			String wrongPassword = "wrongpassword";
-			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getInstrumentation().getTargetContext());
+			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
 			token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
-			ServerCalls.getInstance().login(testUser, wrongPassword, token, getInstrumentation().getTargetContext());
+			ServerCalls.getInstance().login(testUser, wrongPassword, token, InstrumentationRegistry.getTargetContext());
 
-			assertFalse("should never be reached because the password is wrong", true);
+			fail("WebconnectionException not thrown");
 		} catch (WebconnectionException e) {
 			Log.i(TAG, "Webconnection error (this is expected behaviour)", e);
-			assertTrue("an exception should be thrown because the password is wrong", true);
-			assertEquals("wrong status code from server", STATUS_CODE_AUTHENTICATION_FAILED, e.getStatusCode());
-			assertNotNull("no error message available", e.getMessage());
-			assertTrue("no error message available", e.getMessage().length() > 0);
+			assertEquals(STATUS_CODE_AUTHENTICATION_FAILED, e.getStatusCode());
+			assertNotNull(e.getMessage());
+			assertThat(e.getMessage().length(), is(greaterThan(0)));
 		}
 	}
 
+	@Test
 	public void testRegisterWithNewUserButExistingEmail() {
 		try {
 			String testUser = "testUser" + System.currentTimeMillis();
@@ -201,30 +209,26 @@ public class ServerCallsTest extends InstrumentationTestCase implements DeleteTe
 
 			String token = Constants.NO_TOKEN;
 			boolean userRegistered = ServerCalls.getInstance().register(testUser, testPassword, testEmail,
-					"de", "at", token, getInstrumentation().getTargetContext());
+					"de", "at", token, InstrumentationRegistry.getTargetContext());
 
 			Log.i(TAG, "user registered: " + userRegistered);
-			assertTrue("Should be a new user, but server responce indicates that this user already exists",
-					userRegistered);
+			assertTrue(userRegistered);
 
 			String newUser = "testUser" + System.currentTimeMillis();
 			token = Constants.NO_TOKEN;
 			ServerCalls.getInstance().register(newUser, testPassword, testEmail, "de", "at", token,
-					getInstrumentation().getTargetContext());
+					InstrumentationRegistry.getTargetContext());
 
-			assertFalse(
-					"should never be reached because two registrations with the same email address are not allowed",
-					true);
+			fail("WebconnectionException not thrown");
 		} catch (WebconnectionException e) {
 			Log.i(TAG, "Webconnection error (this is expected behaviour)", e);
-			assertTrue("an exception should be thrown because the email already exists on the server", true);
-			assertEquals("wrong status code from server", STATUS_CODE_USER_ADD_EMAIL_EXISTS,
-					e.getStatusCode());
-			assertNotNull("no error message available", e.getMessage());
-			assertTrue("no error message available", e.getMessage().length() > 0);
+			assertEquals(STATUS_CODE_USER_ADD_EMAIL_EXISTS, e.getStatusCode());
+			assertNotNull(e.getMessage());
+			assertThat(e.getMessage().length(), is(greaterThan(0)));
 		}
 	}
 
+	@Test
 	public void testRegisterWithTooShortPassword() {
 		try {
 			String testUser = "testUser" + System.currentTimeMillis();
@@ -233,19 +237,18 @@ public class ServerCallsTest extends InstrumentationTestCase implements DeleteTe
 
 			String token = Constants.NO_TOKEN;
 			ServerCalls.getInstance().register(testUser, testPassword, testEmail, "de", "at", token,
-					getInstrumentation().getTargetContext());
+					InstrumentationRegistry.getTargetContext());
 
-			assertFalse("should never be reached because the password is too short", true);
+			fail("WebconnectionException not thrown");
 		} catch (WebconnectionException e) {
 			Log.i(TAG, "Webconnection error (this is expected behaviour)", e);
-			assertTrue("an exception should be thrown because the password is too short", true);
-			assertEquals("wrong status code from server", STATUS_CODE_USER_PASSWORD_TOO_SHORT,
-					e.getStatusCode());
-			assertNotNull("no error message available", e.getMessage());
-			assertTrue("no error message available", e.getMessage().length() > 0);
+			assertEquals(STATUS_CODE_USER_PASSWORD_TOO_SHORT, e.getStatusCode());
+			assertNotNull(e.getMessage());
+			assertThat(e.getMessage().length(), is(greaterThan(0)));
 		}
 	}
 
+	@Test
 	public void testRegisterWithInvalidEmail() {
 		try {
 			String testUser = "testUser" + System.currentTimeMillis();
@@ -254,19 +257,18 @@ public class ServerCallsTest extends InstrumentationTestCase implements DeleteTe
 
 			String token = Constants.NO_TOKEN;
 			ServerCalls.getInstance().register(testUser, testPassword, testEmail, "de", "at", token,
-					getInstrumentation().getTargetContext());
+					InstrumentationRegistry.getTargetContext());
 
-			assertFalse("should never be reached because the email is not valid", true);
+			fail("WebconnectionException not thrown");
 		} catch (WebconnectionException e) {
 			Log.i(TAG, "Webconnection error (this is expected behaviour)", e);
-			assertTrue("an exception should be thrown because the email is not valid", true);
-			assertEquals("wrong status code from server", STATUS_CODE_USER_EMAIL_INVALID,
-					e.getStatusCode());
-			assertNotNull("no error message available", e.getMessage());
-			assertTrue("no error message available", e.getMessage().length() > 0);
+			assertEquals(STATUS_CODE_USER_EMAIL_INVALID, e.getStatusCode());
+			assertNotNull(e.getMessage());
+			assertThat(e.getMessage().length(), is(greaterThan(0)));
 		}
 	}
 
+	@Test
 	public void testCheckTokenWrong() {
 		try {
 			String wrongToken = "blub";
@@ -274,16 +276,16 @@ public class ServerCallsTest extends InstrumentationTestCase implements DeleteTe
 			boolean tokenOk = ServerCalls.getInstance().checkToken(wrongToken, username);
 
 			Log.i(TAG, "tokenOk: " + tokenOk);
-			assertFalse("should not be reached, exception is thrown", tokenOk);
+			assertFalse(tokenOk);
 		} catch (WebconnectionException e) {
 			Log.i(TAG, "Webconnection error (this is expected behaviour)", e);
-			assertTrue("exception is thrown if we pass a wrong token", true);
-			assertEquals("wrong status code from server", STATUS_CODE_AUTHENTICATION_FAILED, e.getStatusCode());
-			assertNotNull("no error message available", e.getMessage());
-			assertTrue("no error message available", e.getMessage().length() > 0);
+			assertEquals(STATUS_CODE_AUTHENTICATION_FAILED, e.getStatusCode());
+			assertNotNull(e.getMessage());
+			assertThat(e.getMessage().length(), is(greaterThan(0)));
 		}
 	}
 
+	@Test
 	public void testCheckTokenOk() {
 		try {
 			String testUser = "testUser" + System.currentTimeMillis();
@@ -292,18 +294,17 @@ public class ServerCallsTest extends InstrumentationTestCase implements DeleteTe
 
 			String token = Constants.NO_TOKEN;
 			boolean userRegistered = ServerCalls.getInstance().register(testUser, testPassword, testEmail,
-					"de", "at", token, getInstrumentation().getTargetContext());
+					"de", "at", token, InstrumentationRegistry.getTargetContext());
 
 			Log.i(TAG, "user registered: " + userRegistered);
-			assertTrue("Should be a new user, but server responce indicates that this user already exists",
-					userRegistered);
+			assertTrue(userRegistered);
 
-			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getInstrumentation().getTargetContext());
+			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
 			token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 			boolean tokenOk = ServerCalls.getInstance().checkToken(token, testUser);
 
 			Log.i(TAG, "tokenOk: " + tokenOk);
-			assertTrue("token should be ok", tokenOk);
+			assertTrue(tokenOk);
 		} catch (WebconnectionException e) {
 			Log.e(TAG, "Webconnection error", e);
 			fail("WebconnectionException \nstatus code:" + e.getStatusCode() + "\nmessage: " + e.getMessage());
@@ -312,7 +313,7 @@ public class ServerCallsTest extends InstrumentationTestCase implements DeleteTe
 
 	@Override
 	public void onDeleteTestUserComplete(Boolean deleted) {
-		assertTrue("Test user accounts could not be deleted on server!", deleted);
+		assertTrue(deleted);
 		Log.d(TAG, "testUserAccountsDeleted");
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -38,6 +38,9 @@ import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensorMode;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensorType;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSoundSensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTTouchSensor;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 public class SensorTests extends AndroidTestCase {
 
@@ -55,9 +58,8 @@ public class SensorTests extends AndroidTestCase {
 	private MindstormsConnection mindstormsConnection;
 	private MindstormsNXTTestModel nxtModel;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 
 		nxtModel = new MindstormsNXTTestModel();
 		this.logger = ConnectionDataLogger.createLocalConnectionLoggerWithDeviceModel(nxtModel);
@@ -66,81 +68,84 @@ public class SensorTests extends AndroidTestCase {
 		mindstormsConnection.init();
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
+	@After
+	public void tearDown() throws Exception {
 		mindstormsConnection.disconnect();
 		logger.disconnectAndDestroy();
-
-		super.tearDown();
 	}
 
+	@Test
 	public void testTouchSensor() {
 
 		final int expectedSensorValue = 1;
 
 		nxtModel.setSensorValue(expectedSensorValue);
 		NXTSensor sensor = new NXTTouchSensor(PORT_NR_0, mindstormsConnection);
-		int sensorValue = sensor.getValue();
+		int sensorValue = (int) sensor.getValue();
 
 		testInitializationOfSensor(PORT_NR_0, NXTSensorType.TOUCH, NXTSensorMode.BOOL);
 		testGetInputValuesMessage(PORT_NR_0);
 
-		assertEquals("Received wrong touch sensor value", expectedSensorValue, sensorValue);
+		assertEquals(expectedSensorValue, sensorValue);
 	}
 
+	@Test
 	public void testSoundSensor() {
 		final int expectedSensorValue = 42;
 		nxtModel.setSensorValue(expectedSensorValue);
 
 		NXTSensor sensor = new NXTSoundSensor(PORT_NR_1, mindstormsConnection);
-		int sensorValue = sensor.getValue();
+		int sensorValue = (int) sensor.getValue();
 
 		testInitializationOfSensor(PORT_NR_1, NXTSensorType.SOUND_DBA, NXTSensorMode.Percent);
 		testGetInputValuesMessage(PORT_NR_1);
 
-		assertEquals("Received wrong sound sensor value", expectedSensorValue, sensorValue);
+		assertEquals(expectedSensorValue, sensorValue);
 	}
 
+	@Test
 	public void testLightSensor() {
 		final int expectedSensorValue = 24;
 
 		nxtModel.setSensorValue(expectedSensorValue);
 		NXTSensor sensor = new NXTLightSensor(PORT_NR_2, mindstormsConnection);
-		int sensorValue = sensor.getValue();
+		int sensorValue = (int) sensor.getValue();
 
 		testInitializationOfSensor(PORT_NR_2, NXTSensorType.LIGHT_INACTIVE, NXTSensorMode.Percent);
 		testGetInputValuesMessage(PORT_NR_2);
 
-		assertEquals("Received wrong light sensor value", expectedSensorValue, sensorValue);
+		assertEquals(expectedSensorValue, sensorValue);
 	}
 
+	@Test
 	public void testLightSensorActive() {
 		final int expectedSensorValue = 33;
 
 		nxtModel.setSensorValue(expectedSensorValue);
 		NXTSensor sensor = new NXTLightSensorActive(PORT_NR_2, mindstormsConnection);
-		int sensorValue = sensor.getValue();
+		int sensorValue = (int) sensor.getValue();
 
 		testInitializationOfSensor(PORT_NR_2, NXTSensorType.LIGHT_ACTIVE, NXTSensorMode.Percent);
 		testGetInputValuesMessage(PORT_NR_2);
 
-		assertEquals("Received wrong active light sensor value", expectedSensorValue, sensorValue);
+		assertEquals(expectedSensorValue, sensorValue);
 	}
 
+	@Test
 	public void testI2CUltrasonicSensor() {
 		final int expectedSensorValue = 142;
 		nxtModel.setSensorValue(expectedSensorValue);
 
 		NXTI2CUltraSonicSensor sensor = new NXTI2CUltraSonicSensor(mindstormsConnection);
 
-		int sensorValue = sensor.getValue();
+		int sensorValue = (int) sensor.getValue();
 
 		testInitializationOfI2CSensor(PORT_NR_3, NXTSensorType.LOW_SPEED_9V, NXTSensorMode.RAW);
 
 		testLsWriteMessage(SENSOR_REGISTER_RESULT1, PORT_NR_3);
 		testLsReadMessage(PORT_NR_3);
 
-		assertEquals("Received wrong ultrasonic sensor value", expectedSensorValue, sensorValue);
+		assertEquals(expectedSensorValue, sensorValue);
 	}
 
 	private void testInitializationOfSensor(int port, NXTSensorType sensorType, NXTSensorMode sensorMode) {
@@ -158,79 +163,79 @@ public class SensorTests extends AndroidTestCase {
 	private void testSetInputModeMessage(int port, NXTSensorType sensorType, NXTSensorMode sensorMode) {
 		byte[] setInputModeMsg = logger.getNextSentMessage(0, 2);
 
-		assertNotNull("No set input mode message.", setInputModeMsg);
-		assertEquals("Wrong command length", 5, setInputModeMsg.length);
+		assertNotNull(setInputModeMsg);
+		assertEquals(5, setInputModeMsg.length);
 
-		assertEquals("Incorrect CommandType", DIRECT_COMMAND_WITH_REPLY, setInputModeMsg[0]);
-		assertEquals("Incorrect CommandByte, should be SetInputMode", CommandByte.SET_INPUT_MODE.getByte(), setInputModeMsg[1]);
-		assertEquals("Wrong Port", port, setInputModeMsg[2]);
-		assertEquals("Wrong sensor type", sensorType.getByte(), setInputModeMsg[3]);
-		assertEquals("Wrong sensor mode", sensorMode.getByte(), setInputModeMsg[4]);
+		assertEquals(DIRECT_COMMAND_WITH_REPLY, setInputModeMsg[0]);
+		assertEquals(CommandByte.SET_INPUT_MODE.getByte(), setInputModeMsg[1]);
+		assertEquals(port, setInputModeMsg[2]);
+		assertEquals(sensorType.getByte(), setInputModeMsg[3]);
+		assertEquals(sensorMode.getByte(), setInputModeMsg[4]);
 	}
 
 	private void testResetInputScaledValueMessage(int port) {
 		byte[] resetScaledValueMsg = logger.getNextSentMessage(0, 2);
 
-		assertNotNull("No reset scaled value message", resetScaledValueMsg);
-		assertEquals("Wrong command length", 3, resetScaledValueMsg.length);
+		assertNotNull(resetScaledValueMsg);
+		assertEquals(3, resetScaledValueMsg.length);
 
-		assertEquals("Incorrect CommandType", DIRECT_COMMAND_WITHOUT_REPLY, resetScaledValueMsg[0]);
-		assertEquals("Incorrect CommandByte, should be ResetInputScaledValue", CommandByte.RESET_INPUT_SCALED_VALUE.getByte(), resetScaledValueMsg[1]);
-		assertEquals("Wrong Port", port, resetScaledValueMsg[2]);
+		assertEquals(DIRECT_COMMAND_WITHOUT_REPLY, resetScaledValueMsg[0]);
+		assertEquals(CommandByte.RESET_INPUT_SCALED_VALUE.getByte(), resetScaledValueMsg[1]);
+		assertEquals(port, resetScaledValueMsg[2]);
 	}
 
 	private void testGetInputValuesMessage(int port) {
 		byte[] getInputValuesMsg = logger.getNextSentMessage(0, 2);
 
-		assertNotNull("No get input value message", getInputValuesMsg);
-		assertEquals("Wrong command length", 3, getInputValuesMsg.length);
+		assertNotNull(getInputValuesMsg);
+		assertEquals(3, getInputValuesMsg.length);
 
-		assertEquals("Incorrect CommandType", DIRECT_COMMAND_WITH_REPLY, getInputValuesMsg[0]);
-		assertEquals("Wrong CommandByte, should be getInputValues", CommandByte.GET_INPUT_VALUES.getByte(), getInputValuesMsg[1]);
-		assertEquals("Wrong port", port, getInputValuesMsg[2]);
+		assertEquals(DIRECT_COMMAND_WITH_REPLY, getInputValuesMsg[0]);
+		assertEquals(CommandByte.GET_INPUT_VALUES.getByte(), getInputValuesMsg[1]);
+		assertEquals(port, getInputValuesMsg[2]);
 	}
 
 	private void testLsReadMessage(byte port) {
 
 		byte[] currentMessage = logger.getNextSentMessage(0, 2);
 
-		assertNotNull("No ls get status message", currentMessage);
+		assertNotNull(currentMessage);
 
 		do {
 			byte[] lsGetStatusMsg = currentMessage;
 
-			assertNotNull("No ls get status message", currentMessage);
-			assertEquals("Wrong command length", 3, lsGetStatusMsg.length);
+			assertNotNull(currentMessage);
+			assertEquals(3, lsGetStatusMsg.length);
 
-			assertEquals("Incorrect CommandType", DIRECT_COMMAND_WITH_REPLY, lsGetStatusMsg[0]);
-			assertEquals("Wrong CommandByte, should be LsGetStatus", CommandByte.LS_GET_STATUS.getByte(), lsGetStatusMsg[1]);
-			assertEquals("Wrong port", port, lsGetStatusMsg[2]);
+			assertEquals(DIRECT_COMMAND_WITH_REPLY, lsGetStatusMsg[0]);
+			assertEquals(CommandByte.LS_GET_STATUS.getByte(), lsGetStatusMsg[1]);
+			assertEquals(port, lsGetStatusMsg[2]);
 
 			currentMessage = logger.getNextSentMessage(0, 2);
 		} while (currentMessage[1] == CommandByte.LS_GET_STATUS.getByte());
 
 		byte[] lsReadMsg = currentMessage;
 
-		assertNotNull("No ls read message", lsReadMsg);
-		assertEquals("Wrong command length", 3, lsReadMsg.length);
+		assertNotNull(lsReadMsg);
+		assertEquals(3, lsReadMsg.length);
 
-		assertEquals("Incorrect CommandType", DIRECT_COMMAND_WITH_REPLY, lsReadMsg[0]);
-		assertEquals("Wrong CommandByte, should be LS Read", CommandByte.LS_READ.getByte(), lsReadMsg[1]);
-		assertEquals("Wrong port", port, lsReadMsg[2]);
+		assertEquals(DIRECT_COMMAND_WITH_REPLY, lsReadMsg[0]);
+		assertEquals(CommandByte.LS_READ.getByte(), lsReadMsg[1]);
+		assertEquals(port, lsReadMsg[2]);
 	}
 
 	private void testLsWriteMessage(byte register, byte port) {
 		byte[] lsWriteMsg = logger.getNextSentMessage(0, 2);
 
-		assertNotNull("No ls write message", lsWriteMsg);
-		assertEquals("Wrong command length", 7, lsWriteMsg.length);
+		assertNotNull(lsWriteMsg);
+		assertEquals(7, lsWriteMsg.length);
 
-		assertEquals("Incorrect CommandType", DIRECT_COMMAND_WITHOUT_REPLY, lsWriteMsg[0]);
-		assertEquals("Wrong CommandByte, should be LsWrite", CommandByte.LS_WRITE.getByte(), lsWriteMsg[1]);
-		assertEquals("Wrong port", port, lsWriteMsg[2]);
-		assertEquals("Wrong Tx data length", 2, lsWriteMsg[3]);
-		assertEquals("Wrong Rx data length", 1, lsWriteMsg[4]);
-		assertEquals("Wrong Tx address", ULTRASONIC_ADDRESS, lsWriteMsg[5]);
-		assertEquals("Wrong Tx register", register, lsWriteMsg[6]);
+		assertEquals(DIRECT_COMMAND_WITHOUT_REPLY, lsWriteMsg[0]);
+		assertEquals(CommandByte.LS_WRITE.getByte(), lsWriteMsg[1]);
+		assertEquals(port, lsWriteMsg[2]);
+		assertEquals(2, lsWriteMsg[3]);
+		assertEquals(1, lsWriteMsg[4]);
+		assertEquals(ULTRASONIC_ADDRESS, lsWriteMsg[5]);
+		assertEquals(register, lsWriteMsg[6]);
 	}
 }

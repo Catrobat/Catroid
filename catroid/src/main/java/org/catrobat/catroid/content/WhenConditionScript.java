@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,6 +28,8 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ConcurrentFormulaHashMap;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.WhenConditionBrick;
+import org.catrobat.catroid.content.eventids.EventId;
+import org.catrobat.catroid.content.eventids.WhenConditionEventId;
 import org.catrobat.catroid.utils.CrashReporter;
 
 import java.util.ArrayList;
@@ -43,18 +45,16 @@ public class WhenConditionScript extends Script {
 	}
 
 	@Override
-	public Script copyScriptForSprite(Sprite copySprite) {
-		WhenConditionScript cloneScript = new WhenConditionScript(null);
-
+	public Script clone() throws CloneNotSupportedException {
+		WhenConditionScript clone = new WhenConditionScript(null);
 		try {
-			cloneScript.formulaMap = this.formulaMap.clone();
+			clone.formulaMap = formulaMap.clone();
 		} catch (CloneNotSupportedException e) {
 			Log.e(getClass().getSimpleName(), "clone exception should never happen");
 			CrashReporter.logException(e);
 		}
-
-		doCopy(copySprite, cloneScript);
-		return cloneScript;
+		clone.getBrickList().addAll(cloneBrickList());
+		return clone;
 	}
 
 	@Override
@@ -81,5 +81,11 @@ public class WhenConditionScript extends Script {
 			resources |= brick.getRequiredResources();
 		}
 		return resources;
+	}
+
+	@Override
+	public EventId createEventId(Sprite sprite) {
+		WhenConditionBrick brick = (WhenConditionBrick) getScriptBrick();
+		return new WhenConditionEventId(brick.getConditionFormula());
 	}
 }

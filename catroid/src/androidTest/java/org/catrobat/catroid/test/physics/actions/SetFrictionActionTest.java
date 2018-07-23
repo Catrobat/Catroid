@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,67 +22,91 @@
  */
 package org.catrobat.catroid.test.physics.actions;
 
+import android.support.test.runner.AndroidJUnit4;
+
 import com.badlogic.gdx.scenes.scene2d.Action;
 
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.test.physics.PhysicsBaseTest;
+import org.catrobat.catroid.physics.PhysicsWorld;
+import org.catrobat.catroid.test.physics.PhysicsTestRule;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class SetFrictionActionTest extends PhysicsBaseTest {
+import static junit.framework.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class SetFrictionActionTest {
+
+	@Rule
+	public PhysicsTestRule rule = new PhysicsTestRule();
+
+	private Sprite sprite;
+	private PhysicsWorld physicsWorld;
+
+	@Before
+	public void setUp() {
+		sprite = rule.sprite;
+		physicsWorld = rule.physicsWorld;
+	}
 
 	private static final float FRICTION = 100f;
 
+	@Test
 	public void testNormalBehavior() {
 		initFrictionValue(FRICTION);
-		assertEquals("Unexpected friction value", FRICTION / 100.0f, physicsWorld.getPhysicsObject(sprite)
-				.getFriction());
+		assertEquals(FRICTION / 100.0f, physicsWorld.getPhysicsObject(sprite).getFriction());
 	}
 
+	@Test
 	public void testNegativeValue() {
 		float friction = -1f;
 		initFrictionValue(friction);
-		assertEquals("Unexpected friction value", PhysicsObject.MIN_FRICTION, physicsWorld.getPhysicsObject(sprite)
-				.getFriction());
+		assertEquals(PhysicsObject.MIN_FRICTION, physicsWorld.getPhysicsObject(sprite).getFriction());
 	}
 
+	@Test
 	public void testHighValue() {
 		float friction = 101f;
 		initFrictionValue(friction);
-		assertEquals("Unexpected friction value", PhysicsObject.MAX_FRICTION, physicsWorld.getPhysicsObject(sprite)
-				.getFriction());
+		assertEquals(PhysicsObject.MAX_FRICTION, physicsWorld.getPhysicsObject(sprite).getFriction());
 	}
 
 	private void initFrictionValue(float frictionFactor) {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		Action action = sprite.getActionFactory().createSetFrictionAction(sprite, new Formula(frictionFactor));
 
-		assertEquals("Unexpected friction value", PhysicsObject.DEFAULT_FRICTION, physicsObject.getFriction());
+		assertEquals(PhysicsObject.DEFAULT_FRICTION, physicsObject.getFriction());
 
 		action.act(1.0f);
 		physicsWorld.step(1.0f);
 	}
 
+	@Test
 	public void testBrickWithStringFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		sprite.getActionFactory().createSetFrictionAction(sprite, new Formula(String.valueOf(FRICTION))).act(1.0f);
-		assertEquals("Unexpected friction value", FRICTION / 100.f,
-				physicsObject.getFriction());
+		assertEquals(FRICTION / 100.f, physicsObject.getFriction());
 
 		sprite.getActionFactory().createSetFrictionAction(sprite, new Formula(String.valueOf("not a numerical string")))
 				.act(1.0f);
-		assertEquals("Unexpected friction value", FRICTION / 100.f,
-				physicsObject.getFriction());
+		assertEquals(FRICTION / 100.f, physicsObject.getFriction());
 	}
 
+	@Test
 	public void testNullFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		sprite.getActionFactory().createSetFrictionAction(sprite, null).act(1.0f);
-		assertEquals("Unexpected friction value", 0f, physicsObject.getFriction());
+		assertEquals(0f, physicsObject.getFriction());
 	}
 
+	@Test
 	public void testNotANumberFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		sprite.getActionFactory().createSetFrictionAction(sprite, new Formula(Double.NaN)).act(1.0f);
-		assertEquals("Unexpected friction value", PhysicsObject.DEFAULT_FRICTION, physicsObject.getFriction());
+		assertEquals(PhysicsObject.DEFAULT_FRICTION, physicsObject.getFriction());
 	}
 }

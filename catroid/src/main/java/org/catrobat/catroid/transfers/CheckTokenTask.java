@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,101 +22,40 @@
  */
 package org.catrobat.catroid.transfers;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
-import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
-public class CheckTokenTask extends AsyncTask<Void, Void, Boolean> {
+public class CheckTokenTask extends AsyncTask<String, Void, Boolean[]> {
+
 	private static final String TAG = CheckTokenTask.class.getSimpleName();
+	private TokenCheckListener onCheckTokenCompleteListener;
 
-	private Activity activity;
-	private ProgressDialog progressDialog;
-	private String token;
-	private String username;
-
-	private WebconnectionException exception;
-
-	private OnCheckTokenCompleteListener onCheckTokenCompleteListener;
-
-	public CheckTokenTask(Activity activity, String token, String username,
-			OnCheckTokenCompleteListener onCheckTokenCompleteListener) {
-		this.activity = activity;
-		this.token = token;
-		this.username = username;
+	public CheckTokenTask(TokenCheckListener onCheckTokenCompleteListener) {
 		this.onCheckTokenCompleteListener = onCheckTokenCompleteListener;
 	}
 
 	@Override
-	protected void onPreExecute() {
-		super.onPreExecute();
-		if (activity == null) {
-			return;
-		}
-		String title = activity.getString(R.string.please_wait);
-		String message = activity.getString(R.string.loading_check_token);
-		progressDialog = ProgressDialog.show(activity, title, message);
-	}
-
-	@Override
-	protected Boolean doInBackground(Void... arg0) {
+	protected Boolean[] doInBackground(String... arg0) {
 		try {
-			if (!Utils.isNetworkAvailable(activity)) {
-				exception = new WebconnectionException(WebconnectionException.ERROR_NETWORK, "Network not available!");
-				return false;
-			}
-
-			return ServerCalls.getInstance().checkToken(token, username);
-		} catch (WebconnectionException webconnectionException) {
-			Log.e(TAG, Log.getStackTraceString(webconnectionException));
-			exception = webconnectionException;
+			return new Boolean[]{ServerCalls.getInstance().checkToken(arg0[0], arg0[1]), false};
+		} catch (WebconnectionException e) {
+			Log.e(TAG, Log.getStackTraceString(e));
+			return new Boolean[]{false, true};
 		}
-		return false;
 	}
 
 	@Override
-	protected void onPostExecute(Boolean success) {
-		super.onPostExecute(success);
-
-		if (progressDialog != null && progressDialog.isShowing()) {
-			progressDialog.dismiss();
-		}
-
-		if (Utils.checkForNetworkError(success, exception)) {
-			showDialog(R.string.error_internet_connection);
-			return;
-		}
-		if (!success) {
-			// token is not valid -> maybe password has changed
-			onCheckTokenCompleteListener.onTokenNotValid(activity);
-			return;
-		}
-		onCheckTokenCompleteListener.onCheckTokenSuccess(activity);
+	protected void onPostExecute(Boolean[] b) {
+		boolean tokenValid = b[0];
+		boolean connectionFailed = b[1];
+		onCheckTokenCompleteListener.onTokenCheckComplete(tokenValid, connectionFailed);
 	}
 
-	private void showDialog(int messageId) {
-		if (activity == null) {
-			return;
-		}
-		if (exception.getMessage() == null) {
-			new CustomAlertDialogBuilder(activity).setMessage(messageId).setPositiveButton(R.string.ok, null)
-					.show();
-		} else {
-			new CustomAlertDialogBuilder(activity).setMessage(exception.getMessage())
-					.setPositiveButton(R.string.ok, null).show();
-		}
-	}
+	public interface TokenCheckListener {
 
-	public interface OnCheckTokenCompleteListener {
-
-		void onTokenNotValid(Activity activity);
-
-		void onCheckTokenSuccess(Activity activity);
+		void onTokenCheckComplete(boolean tokenValid, boolean connectionFailed);
 	}
 }

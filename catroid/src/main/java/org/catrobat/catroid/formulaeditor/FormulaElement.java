@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -281,7 +281,7 @@ public class FormulaElement implements Serializable {
 		String secondSpriteName = formula;
 		Sprite secondSprite;
 		try {
-			secondSprite = ProjectManager.getInstance().getSceneToPlay().getSpriteBySpriteName(secondSpriteName);
+			secondSprite = ProjectManager.getInstance().getCurrentlyPlayingScene().getSprite(secondSpriteName);
 		} catch (Resources.NotFoundException exception) {
 			return 0d;
 		}
@@ -303,7 +303,7 @@ public class FormulaElement implements Serializable {
 	}
 
 	private Object interpretUserList(Sprite sprite) {
-		DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyPlayingScene().getDataContainer();
 		UserList userList = dataContainer.getUserList(sprite, value);
 		if (userList == null) {
 			return NOT_EXISTING_USER_LIST_INTERPRETATION_VALUE;
@@ -373,7 +373,7 @@ public class FormulaElement implements Serializable {
 	}
 
 	private Object interpretUserVariable(Sprite sprite) {
-		DataContainer userVariables = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
+		DataContainer userVariables = ProjectManager.getInstance().getCurrentlyPlayingScene().getDataContainer();
 		UserVariable userVariable = userVariables.getUserVariable(sprite, value);
 		if (userVariable == null) {
 			return NOT_EXISTING_USER_VARIABLE_INTERPRETATION_VALUE;
@@ -543,7 +543,7 @@ public class FormulaElement implements Serializable {
 
 	private Object interpretFunctionContains(Object right, Sprite sprite) {
 		if (leftChild.getElementType() == ElementType.USER_LIST) {
-			DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
+			DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyPlayingScene().getDataContainer();
 			UserList userList = dataContainer.getUserList(sprite, leftChild.getValue());
 
 			if (userList == null) {
@@ -563,7 +563,7 @@ public class FormulaElement implements Serializable {
 	private Object interpretFunctionListItem(Object left, Sprite sprite) {
 		UserList userList = null;
 		if (rightChild.getElementType() == ElementType.USER_LIST) {
-			DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
+			DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyPlayingScene().getDataContainer();
 			userList = dataContainer.getUserList(sprite, rightChild.getValue());
 		}
 
@@ -638,7 +638,7 @@ public class FormulaElement implements Serializable {
 			return (double) handleLengthUserVariableParameter(sprite);
 		}
 		if (leftChild.type == ElementType.USER_LIST) {
-			DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay().getDataContainer();
+			DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyPlayingScene().getDataContainer();
 			UserList userList = dataContainer.getUserList(sprite, leftChild.getValue());
 			if (userList == null) {
 				return 0d;
@@ -827,7 +827,7 @@ public class FormulaElement implements Serializable {
 	private Object interpretObjectSensor(Sensors sensor, Sprite sprite) {
 		Object returnValue = 0d;
 		LookData lookData = sprite.look.getLookData();
-		List<LookData> lookDataList = sprite.getLookDataList();
+		List<LookData> lookDataList = sprite.getLookList();
 		if (lookData == null && lookDataList.size() > 0) {
 			lookData = lookDataList.get(0);
 		}
@@ -871,7 +871,7 @@ public class FormulaElement implements Serializable {
 				break;
 			case OBJECT_LOOK_NAME:
 			case OBJECT_BACKGROUND_NAME:
-				returnValue = (lookData != null) ? lookData.getLookName() : "";
+				returnValue = (lookData != null) ? lookData.getName() : "";
 				break;
 			case OBJECT_DISTANCE_TO:
 				returnValue = (double) sprite.look.getDistanceToTouchPositionInUserInterfaceDimensions();
@@ -1012,7 +1012,7 @@ public class FormulaElement implements Serializable {
 
 	public boolean isUserVariableWithTypeString(Sprite sprite) {
 		if (type == ElementType.USER_VARIABLE) {
-			DataContainer userVariableContainer = ProjectManager.getInstance().getSceneToPlay()
+			DataContainer userVariableContainer = ProjectManager.getInstance().getCurrentlyPlayingScene()
 					.getDataContainer();
 			UserVariable userVariable = userVariableContainer.getUserVariable(sprite, value);
 			Object userVariableValue = userVariable.getValue();
@@ -1022,7 +1022,7 @@ public class FormulaElement implements Serializable {
 	}
 
 	private int handleLengthUserVariableParameter(Sprite sprite) {
-		DataContainer userVariableContainer = ProjectManager.getInstance().getSceneToPlay()
+		DataContainer userVariableContainer = ProjectManager.getInstance().getCurrentlyPlayingScene()
 				.getDataContainer();
 		UserVariable userVariable = userVariableContainer.getUserVariable(sprite, leftChild.value);
 
@@ -1039,7 +1039,7 @@ public class FormulaElement implements Serializable {
 	}
 
 	private int handleNumberOfItemsOfUserListParameter(Sprite sprite) {
-		DataContainer dataContainer = ProjectManager.getInstance().getSceneToPlay()
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyPlayingScene()
 				.getDataContainer();
 		UserList userList = dataContainer.getUserList(sprite, leftChild.value);
 

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,30 +22,21 @@
  */
 package org.catrobat.catroid.content;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
-import org.catrobat.catroid.physics.PhysicsCollision;
+import org.catrobat.catroid.content.eventids.CollisionEventId;
+import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
 
-public class CollisionScript extends BroadcastScript {
+public class CollisionScript extends Script {
 
 	private static final long serialVersionUID = 1L;
+	private String spriteToCollideWithName;
 
-	public CollisionScript(String broadcastMessage) {
-		super(broadcastMessage);
-	}
+	private transient Sprite spriteToCollideWith;
 
-	public CollisionObjectIdentifier splitBroadcastMessage() {
-		String broadcastMessage = getBroadcastMessage();
-		if (broadcastMessage == null) {
-			return new CollisionObjectIdentifier("", "");
-		}
-
-		String[] collisionObjectIdentifierArray = broadcastMessage.split(PhysicsCollision.COLLISION_MESSAGE_CONNECTOR);
-		if (collisionObjectIdentifierArray.length != 2) {
-			return new CollisionObjectIdentifier("", "");
-		}
-
-		return new CollisionObjectIdentifier(collisionObjectIdentifierArray[0], collisionObjectIdentifierArray[1]);
+	public CollisionScript(String spriteToCollideWithName) {
+		this.spriteToCollideWithName = spriteToCollideWithName;
 	}
 
 	@Override
@@ -57,48 +48,36 @@ public class CollisionScript extends BroadcastScript {
 	}
 
 	@Override
-	public Script copyScriptForSprite(Sprite copySprite) {
-		CollisionScript cloneScript = new CollisionScript(receivedMessage);
-
-		doCopy(copySprite, cloneScript);
-		return cloneScript;
+	public Script clone() throws CloneNotSupportedException {
+		CollisionScript clone = new CollisionScript(spriteToCollideWithName);
+		clone.getBrickList().addAll(cloneBrickList());
+		return clone;
 	}
 
-	public void updateBroadcastMessage(String oldCollisionObjectIdentifier, String newCollisionObjectIdentifier) {
-		CollisionObjectIdentifier collisionObjectIdentifier = splitBroadcastMessage();
-		if (collisionObjectIdentifier.getCollisionObjectOneIdentifier().equals(oldCollisionObjectIdentifier)) {
-			// update first object identifier
-			String collisionObjectTwoIdentifier = collisionObjectIdentifier.getCollisionObjectTwoIdentifier();
-			setAndReturnBroadcastMessage(newCollisionObjectIdentifier, collisionObjectTwoIdentifier);
-		} else if (collisionObjectIdentifier.getCollisionObjectTwoIdentifier().equals(oldCollisionObjectIdentifier)) {
-			// update second object identifier
-			String collisionObjectOneIdentifier = collisionObjectIdentifier.getCollisionObjectOneIdentifier();
-			setAndReturnBroadcastMessage(collisionObjectOneIdentifier, newCollisionObjectIdentifier);
+	public String getSpriteToCollideWithName() {
+		return spriteToCollideWithName;
+	}
+
+	public void setSpriteToCollideWithName(String spriteToCollideWithName) {
+		this.spriteToCollideWithName = spriteToCollideWithName;
+		updateSpriteToCollideWith();
+	}
+
+	public Sprite getSpriteToCollideWith() {
+		updateSpriteToCollideWith();
+		return spriteToCollideWith;
+	}
+
+	private void updateSpriteToCollideWith() {
+		if (spriteToCollideWithName != null
+				&& (spriteToCollideWith == null || !spriteToCollideWithName.equals(spriteToCollideWith.getName()))) {
+			Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+			spriteToCollideWith = currentScene.getSprite(spriteToCollideWithName);
 		}
 	}
 
-	public String setAndReturnBroadcastMessage(String collisionObjectOneIdentifier, String collisionObjectTwoIdentifier) {
-		String collisionBroadcastMessage = PhysicsCollision.generateBroadcastMessage(collisionObjectOneIdentifier,
-				collisionObjectTwoIdentifier);
-		setBroadcastMessage(collisionBroadcastMessage);
-		return collisionBroadcastMessage;
-	}
-
-	public class CollisionObjectIdentifier {
-		private String collisionObjectOneIdentifier;
-		private String collisionObjectTwoIdentifier;
-
-		public CollisionObjectIdentifier(String collisionObjectOneIdentifier, String collisionObjectTwoIdentifier) {
-			this.collisionObjectOneIdentifier = collisionObjectOneIdentifier;
-			this.collisionObjectTwoIdentifier = collisionObjectTwoIdentifier;
-		}
-
-		public String getCollisionObjectTwoIdentifier() {
-			return collisionObjectTwoIdentifier;
-		}
-
-		public String getCollisionObjectOneIdentifier() {
-			return collisionObjectOneIdentifier;
-		}
+	@Override
+	public EventId createEventId(Sprite sprite) {
+		return new CollisionEventId(sprite, spriteToCollideWith);
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,18 +22,18 @@
  */
 package org.catrobat.catroid.content;
 
-import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
+import org.catrobat.catroid.content.eventids.BroadcastEventId;
+import org.catrobat.catroid.content.eventids.EventId;
 
-public class BroadcastScript extends Script implements BroadcastMessage {
+public class BroadcastScript extends Script {
 
 	private static final long serialVersionUID = 1L;
-	protected String receivedMessage;
+	private String receivedMessage;
 
 	public BroadcastScript(String broadcastMessage) {
-		super();
-		setBroadcastMessage(broadcastMessage);
+		this.receivedMessage = broadcastMessage;
 	}
 
 	@Override
@@ -41,33 +41,26 @@ public class BroadcastScript extends Script implements BroadcastMessage {
 		if (brick == null) {
 			brick = new BroadcastReceiverBrick(this);
 		}
-
 		return brick;
 	}
 
-	@Override
-	protected Object readResolve() {
-		MessageContainer.addMessage(receivedMessage, this);
-		super.readResolve();
-		return this;
-	}
-
-	@Override
 	public String getBroadcastMessage() {
 		return receivedMessage;
 	}
 
 	public void setBroadcastMessage(String broadcastMessage) {
-		MessageContainer.removeReceiverScript(this.receivedMessage, this);
 		this.receivedMessage = broadcastMessage;
-		MessageContainer.addMessage(this.receivedMessage, this);
 	}
 
 	@Override
-	public Script copyScriptForSprite(Sprite copySprite) {
-		BroadcastScript cloneScript = new BroadcastScript(receivedMessage);
+	public Script clone() throws CloneNotSupportedException {
+		BroadcastScript clone = new BroadcastScript(receivedMessage);
+		clone.getBrickList().addAll(cloneBrickList());
+		return clone;
+	}
 
-		doCopy(copySprite, cloneScript);
-		return cloneScript;
+	@Override
+	public EventId createEventId(Sprite sprite) {
+		return new BroadcastEventId(receivedMessage);
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,6 @@
 package org.catrobat.catroid.ui;
 
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -32,8 +31,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -50,6 +47,7 @@ import android.webkit.WebViewClient;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.utils.DownloadUtil;
+import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
@@ -68,7 +66,7 @@ public class WebViewActivity extends BaseActivity {
 	private static final String PACKAGE_NAME_WHATSAPP = "com.whatsapp";
 
 	private WebView webView;
-	private boolean callMainMenu = false;
+	private boolean allowGoBack = false;
 	private String url;
 	private String callingActivity;
 	private ProgressDialog progressDialog;
@@ -80,9 +78,6 @@ public class WebViewActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_webview);
 
-		ActionBar actionBar = getActionBar();
-		actionBar.hide();
-
 		Intent intent = getIntent();
 		url = intent.getStringExtra(INTENT_PARAMETER_URL);
 		if (url == null) {
@@ -91,7 +86,7 @@ public class WebViewActivity extends BaseActivity {
 		callingActivity = intent.getStringExtra(CALLING_ACTIVITY);
 
 		webView = (WebView) findViewById(R.id.webView);
-		webView.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.application_background_color, null));
+		webView.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.app_background, null));
 		webView.setWebViewClient(new MyWebViewClient());
 		webView.getSettings().setJavaScriptEnabled(true);
 		String language = String.valueOf(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
@@ -123,7 +118,7 @@ public class WebViewActivity extends BaseActivity {
 						case Constants.MEDIA_TYPE_SOUND:
 							tempPath = Constants.TMP_SOUNDS_PATH;
 					}
-					String filePath = Utils.buildPath(tempPath, fileName);
+					String filePath = PathBuilder.buildPath(tempPath, fileName);
 					resultIntent.putExtra(MEDIA_FILE_PATH, filePath);
 					DownloadUtil.getInstance().prepareMediaDownloadAndStartIfPossible(WebViewActivity.this, url,
 							mediaType, name, filePath, callingActivity);
@@ -162,7 +157,7 @@ public class WebViewActivity extends BaseActivity {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if ((keyCode == KeyEvent.KEYCODE_BACK) && webView.canGoBack()) {
-			callMainMenu = false;
+			allowGoBack = false;
 			webView.goBack();
 			return true;
 		}
@@ -172,23 +167,21 @@ public class WebViewActivity extends BaseActivity {
 	private class MyWebViewClient extends WebViewClient {
 		@Override
 		public void onPageStarted(WebView view, String urlClient, Bitmap favicon) {
-			if (webViewLoadingDialog == null) {
+			if (webViewLoadingDialog == null && !allowGoBack) {
 				webViewLoadingDialog = new ProgressDialog(view.getContext(), R.style.WebViewLoadingCircle);
 				webViewLoadingDialog.setCancelable(true);
 				webViewLoadingDialog.setCanceledOnTouchOutside(false);
 				webViewLoadingDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
 				webViewLoadingDialog.show();
-			}
-
-			if (callMainMenu && urlClient.equals(Constants.BASE_URL_HTTPS)) {
-				Intent intent = new Intent(getBaseContext(), MainMenuActivity.class);
-				startActivity(intent);
+			} else if (allowGoBack && urlClient.equals(Constants.BASE_URL_HTTPS)) {
+				allowGoBack = false;
+				onBackPressed();
 			}
 		}
 
 		@Override
 		public void onPageFinished(WebView view, String url) {
-			callMainMenu = true;
+			allowGoBack = true;
 			if (webViewLoadingDialog != null) {
 				webViewLoadingDialog.dismiss();
 				webViewLoadingDialog = null;
@@ -204,7 +197,7 @@ public class WebViewActivity extends BaseActivity {
 					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 					startActivity(intent);
 				} else {
-					ToastUtil.showError(getApplicationContext(), R.string.error_no_whatsapp);
+					ToastUtil.showError(getBaseContext(), R.string.error_no_whatsapp);
 				}
 				return true;
 			} else if (checkIfWebViewVisitExternalWebsite(url)) {
@@ -218,12 +211,8 @@ public class WebViewActivity extends BaseActivity {
 
 		@Override
 		public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-			ConnectivityManager cm = (ConnectivityManager) getBaseContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-			NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-			boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-
 			int errorMessage;
-			if (!isConnected) {
+			if (!Utils.isNetworkAvailable(WebViewActivity.this)) {
 				errorMessage = R.string.error_internet_connection;
 			} else {
 				errorMessage = R.string.error_unknown_error;
@@ -243,7 +232,7 @@ public class WebViewActivity extends BaseActivity {
 	}
 
 	public void createProgressDialog(String mediaName) {
-		progressDialog = new ProgressDialog(WebViewActivity.this);
+		progressDialog = new ProgressDialog(this);
 
 		progressDialog.setTitle(getString(R.string.notification_download_title_pending) + mediaName);
 		progressDialog.setMessage(getString(R.string.notification_download_pending));
@@ -343,6 +332,7 @@ public class WebViewActivity extends BaseActivity {
 	@Override
 	protected void onDestroy() {
 		webView.setDownloadListener(null);
+		webView.destroy();
 		super.onDestroy();
 	}
 }

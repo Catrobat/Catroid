@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,44 +23,43 @@
 package org.catrobat.catroid;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
-import com.parrot.freeflight.settings.ApplicationSettings;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
 
-import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.utils.CrashReporter;
 
-import java.util.Arrays;
 import java.util.Locale;
-
-import static org.catrobat.catroid.common.Constants.DEVICE_LANGUAGE;
-import static org.catrobat.catroid.common.Constants.LANGUAGE_CODE;
-import static org.catrobat.catroid.common.Constants.LANGUAGE_TAG_KEY;
 
 public class CatroidApplication extends MultiDexApplication {
 
 	private static final String TAG = CatroidApplication.class.getSimpleName();
 
-	private ApplicationSettings settings;
 	private static Context context;
+	public static String defaultSystemLanguage;
 
 	public static final String OS_ARCH = System.getProperty("os.arch");
 	public static boolean parrotLibrariesLoaded = false;
-	public static String defaultSystemLanguage;
 	public static boolean parrotJSLibrariesLoaded = false;
+
+	private static GoogleAnalytics googleAnalytics;
+	private static Tracker googleTracker;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		CrashReporter.initialize(this);
 		Log.d(TAG, "CatroidApplication onCreate");
-		settings = new ApplicationSettings(this);
-		CatroidApplication.context = getApplicationContext();
-		setAppLanguage();
+
+		CrashReporter.initialize(this);
+
+		context = getApplicationContext();
+		defaultSystemLanguage = Locale.getDefault().getLanguage();
+
+		googleAnalytics = GoogleAnalytics.getInstance(this);
+		googleAnalytics.setDryRun(BuildConfig.DEBUG);
 	}
 
 	@Override
@@ -69,10 +68,15 @@ public class CatroidApplication extends MultiDexApplication {
 		MultiDex.install(this);
 	}
 
-	public ApplicationSettings getParrotApplicationSettings() {
-		return settings;
+	public synchronized Tracker getDefaultTracker() {
+		if (googleTracker == null) {
+			googleTracker = googleAnalytics.newTracker(R.xml.global_tracker);
+		}
+
+		return googleTracker;
 	}
 
+	@SuppressWarnings("PMD.AvoidUsingNativeCode")
 	public static synchronized boolean loadNativeLibs() {
 		if (parrotLibrariesLoaded) {
 			return true;
@@ -94,22 +98,7 @@ public class CatroidApplication extends MultiDexApplication {
 		return parrotLibrariesLoaded;
 	}
 
-	private void setAppLanguage() {
-		defaultSystemLanguage = Locale.getDefault().getLanguage();
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-		String languageTag = sharedPreferences.getString(LANGUAGE_TAG_KEY, "");
-
-		if (languageTag.equals(DEVICE_LANGUAGE)) {
-			SettingsActivity.updateLocale(getAppContext(), defaultSystemLanguage, "");
-		} else if (Arrays.asList(LANGUAGE_CODE).contains(languageTag) && languageTag.length() == 2) {
-			SettingsActivity.updateLocale(getAppContext(), languageTag, "");
-		} else if (Arrays.asList(LANGUAGE_CODE).contains(languageTag) && languageTag.length() == 6) {
-			String language = languageTag.substring(0, 2);
-			String country = languageTag.substring(4);
-			SettingsActivity.updateLocale(getAppContext(), language, country);
-		}
-	}
-
+	@SuppressWarnings("PMD.AvoidUsingNativeCode")
 	public static synchronized boolean loadSDKLib() {
 		if (parrotJSLibrariesLoaded) {
 			return true;

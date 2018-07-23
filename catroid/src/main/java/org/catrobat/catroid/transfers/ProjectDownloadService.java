@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,14 +31,16 @@ import android.util.Log;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.exceptions.LoadingProjectException;
+import org.catrobat.catroid.io.XstreamSerializer;
+import org.catrobat.catroid.io.ZipArchiver;
 import org.catrobat.catroid.utils.DownloadUtil;
+import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.UtilZip;
-import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
+import java.io.File;
 import java.io.IOException;
 
 public class ProjectDownloadService extends IntentService {
@@ -68,40 +70,33 @@ public class ProjectDownloadService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		boolean result = false;
-
 		String projectName = intent.getStringExtra(DOWNLOAD_NAME_TAG);
-		String zipFileString = Utils.buildPath(Constants.TMP_PATH, DOWNLOAD_FILE_NAME);
+		String zipFileString = PathBuilder.buildPath(Constants.TMP_PATH, DOWNLOAD_FILE_NAME);
 		String url = intent.getStringExtra(URL_TAG);
 		Integer notificationId = intent.getIntExtra(ID_TAG, -1);
 
 		receiver = intent.getParcelableExtra(RECEIVER_TAG);
 		try {
 			ServerCalls.getInstance().downloadProject(url, zipFileString, projectName, receiver, notificationId);
-			result = UtilZip.unZipFile(zipFileString, Utils.buildProjectPath(projectName));
+			new ZipArchiver().unzip(new File(zipFileString), new File(PathBuilder.buildProjectPath(projectName)));
 
 			boolean renameProject = intent.getBooleanExtra(RENAME_AFTER_DOWNLOAD, false);
 			if (renameProject) {
-				Project projectTBRenamed = StorageHandler.getInstance().loadProject(projectName, getBaseContext());
+				Project projectTBRenamed = XstreamSerializer.getInstance().loadProject(projectName, getBaseContext());
 				if (projectTBRenamed != null) {
 					projectTBRenamed.setName(projectName);
-					StorageHandler.getInstance().saveProject(projectTBRenamed);
+					XstreamSerializer.getInstance().saveProject(projectTBRenamed);
 				}
 			}
-			StorageHandler.getInstance().updateCodefileOnDownload(projectName);
-			Log.v(TAG, "url: " + url + ", zip-file: " + zipFileString + ", notificationId: " + notificationId);
-		} catch (IOException ioException) {
-			Log.e(TAG, Log.getStackTraceString(ioException));
-		} catch (WebconnectionException webconnectionException) {
-			Log.e(TAG, Log.getStackTraceString(webconnectionException));
+
+			XstreamSerializer.getInstance().updateCodeFileOnDownload(projectName);
+		} catch (LoadingProjectException | IOException | WebconnectionException e) {
+			showToast(R.string.error_project_download, true);
+			Log.e(TAG, Log.getStackTraceString(e));
 		} finally {
 			DownloadUtil.getInstance().downloadFinished(projectName, url);
 		}
 
-		if (!result) {
-			showToast(R.string.error_project_download, true);
-			return;
-		}
 		showToast(R.string.notification_download_finished, false);
 	}
 
@@ -112,7 +107,7 @@ public class ProjectDownloadService extends IntentService {
 
 				@Override
 				public void run() {
-					ToastUtil.showError(getApplicationContext(), messageId);
+					ToastUtil.showError(getBaseContext(), messageId);
 				}
 			});
 		} else {
@@ -120,7 +115,7 @@ public class ProjectDownloadService extends IntentService {
 
 				@Override
 				public void run() {
-					ToastUtil.showSuccess(getApplicationContext(), messageId);
+					ToastUtil.showSuccess(getBaseContext(), messageId);
 				}
 			});
 		}

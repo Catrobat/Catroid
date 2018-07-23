@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,84 +22,46 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.BaseAdapter;
-
 import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
+
 	private static final long serialVersionUID = 1L;
 
 	protected transient LoopEndBrick loopEndBrick;
-	private transient long beginLoopTime;
-
-	private transient LoopBeginBrick copy;
 
 	public ForeverBrick() {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
-	}
-
-	@Override
 	public Brick clone() {
-		return new ForeverBrick();
+		ForeverBrick clone = new ForeverBrick();
+		clone.setLoopEndBrick(loopEndBrick);
+		return clone;
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		view = View.inflate(context, R.layout.brick_forever, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_forever_checkbox);
-		return view;
+	public int getViewResource() {
+		return R.layout.brick_forever;
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_forever, null);
-	}
-
-	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		SequenceAction foreverSequence = (SequenceAction) sprite.getActionFactory().createSequence();
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		ScriptSequenceAction foreverSequence = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
 		Action action = sprite.getActionFactory().createForeverAction(sprite, foreverSequence);
 		sequence.addAction(action);
-		LinkedList<SequenceAction> returnActionList = new LinkedList<SequenceAction>();
+		LinkedList<ScriptSequenceAction> returnActionList = new LinkedList<>();
 		returnActionList.add(foreverSequence);
 		return returnActionList;
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		//loopEndBrick will be set in the LoopEndBrick's copyBrickForSprite method
-		ForeverBrick copyBrick = (ForeverBrick) clone();
-		copy = copyBrick;
-		return copyBrick;
-	}
-
-	@Override
-	public long getBeginLoopTime() {
-		return beginLoopTime;
-	}
-
-	@Override
-	public void setBeginLoopTime(long beginLoopTime) {
-		this.beginLoopTime = beginLoopTime;
 	}
 
 	@Override
@@ -110,11 +72,6 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 	@Override
 	public void setLoopEndBrick(LoopEndBrick loopEndBrick) {
 		this.loopEndBrick = loopEndBrick;
-	}
-
-	@Override
-	public LoopBeginBrick getCopy() {
-		return copy;
 	}
 
 	@Override

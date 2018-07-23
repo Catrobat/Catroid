@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,7 +30,7 @@ import android.widget.ImageView;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.utils.ImageEditing;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.utils.PathBuilder;
 
 import java.io.File;
 import java.util.Collections;
@@ -39,6 +39,8 @@ import java.util.Map;
 import java.util.WeakHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import static org.catrobat.catroid.common.Constants.BACKPACK_SCENE_DIRECTORY;
 
 public class ProjectAndSceneScreenshotLoader {
 
@@ -173,21 +175,22 @@ public class ProjectAndSceneScreenshotLoader {
 			String pathOfAutomaticScreenshot;
 			if (projectAndSceneScreenshotData.sceneName != null) {
 				if (projectAndSceneScreenshotData.isBackpackScene) {
-					String backpackScenePath = Utils.buildBackpackScenePath(projectAndSceneScreenshotData.sceneName);
-					pathOfManualScreenshot = Utils.buildPath(backpackScenePath,
+					File sceneDir = new File(BACKPACK_SCENE_DIRECTORY, projectAndSceneScreenshotData.sceneName);
+
+					pathOfManualScreenshot = PathBuilder.buildPath(sceneDir.getAbsolutePath(),
 							StageListener.SCREENSHOT_MANUAL_FILE_NAME);
-					pathOfAutomaticScreenshot = Utils.buildPath(backpackScenePath,
+					pathOfAutomaticScreenshot = PathBuilder.buildPath(sceneDir.getAbsolutePath(),
 							StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
 				} else {
-					String scenePath = Utils.buildScenePath(projectAndSceneScreenshotData.projectName,
+					String scenePath = PathBuilder.buildScenePath(projectAndSceneScreenshotData.projectName,
 							projectAndSceneScreenshotData.sceneName);
-					pathOfManualScreenshot = Utils.buildPath(scenePath, StageListener.SCREENSHOT_MANUAL_FILE_NAME);
-					pathOfAutomaticScreenshot = Utils.buildPath(scenePath, StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
+					pathOfManualScreenshot = PathBuilder.buildPath(scenePath, StageListener.SCREENSHOT_MANUAL_FILE_NAME);
+					pathOfAutomaticScreenshot = PathBuilder.buildPath(scenePath, StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
 				}
 			} else {
-				String projectPath = Utils.buildProjectPath(projectAndSceneScreenshotData.projectName);
-				pathOfManualScreenshot = Utils.buildPath(projectPath, StageListener.SCREENSHOT_MANUAL_FILE_NAME);
-				pathOfAutomaticScreenshot = Utils.buildPath(projectPath, StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
+				String projectPath = PathBuilder.buildProjectPath(projectAndSceneScreenshotData.projectName);
+				pathOfManualScreenshot = PathBuilder.buildPath(projectPath, StageListener.SCREENSHOT_MANUAL_FILE_NAME);
+				pathOfAutomaticScreenshot = PathBuilder.buildPath(projectPath, StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
 			}
 
 			File projectAndSceneImageFile = new File(pathOfManualScreenshot);

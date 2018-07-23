@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2017 The Catrobat Team
+  ~ Copyright (C) 2010-2018 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -22,9 +22,9 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@color/application_background_color">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_background">
 
     <LinearLayout
         android:id="@+id/brick_data_editor_brick_space"
@@ -39,6 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/brick_data_editor_brick_space"
         android:clickable="true"
+        android:focusable="true"
         android:entries="@array/data_editor_buttons"
         android:footerDividersEnabled="true"
         android:headerDividersEnabled="true" >

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,8 +35,8 @@ public class PlaySoundAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		if (sound != null && sprite.getSoundList().contains(sound) && sound.getAbsolutePath() != null) {
-			SoundManager.getInstance().playSoundFile(sound.getAbsolutePath());
+		if (sound != null && sprite.getSoundList().contains(sound) && sound.getFile() != null) {
+			SoundManager.getInstance().playSoundFile(sound.getFile().getAbsolutePath());
 		}
 	}
 

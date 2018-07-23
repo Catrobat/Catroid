@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,18 +22,25 @@
  */
 package org.catrobat.catroid.test.pocketmusic.note;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.pocketmusic.note.MusicalInstrument;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class MusicalInstrumentTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
 
+@RunWith(AndroidJUnit4.class)
+public class MusicalInstrumentTest {
+
+	@Test
 	public void testGetInstrumentFromProgram1() {
 		MusicalInstrument expectedInstrument = MusicalInstrument.GUNSHOT;
 
 		assertGetInstrumentFromProgram(expectedInstrument.getProgram(), expectedInstrument);
 	}
 
+	@Test
 	public void testGetInstrumentFromProgram2() {
 		int invalidProgram = 0;
 
@@ -42,6 +49,6 @@ public class MusicalInstrumentTest extends AndroidTestCase {
 
 	private void assertGetInstrumentFromProgram(int program, MusicalInstrument expectedInstrument) {
 		MusicalInstrument actualInstrument = MusicalInstrument.getInstrumentFromProgram(program);
-		assertEquals("Failed to get instrument from Program", expectedInstrument, actualInstrument);
+		assertEquals(expectedInstrument, actualInstrument);
 	}
 }

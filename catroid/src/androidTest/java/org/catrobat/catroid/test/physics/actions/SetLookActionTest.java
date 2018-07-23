@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,48 +23,77 @@
 
 package org.catrobat.catroid.test.physics.actions;
 
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
+
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.test.physics.PhysicsBaseTest;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.io.ResourceImporter;
+import org.catrobat.catroid.test.physics.PhysicsTestRule;
 import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.File;
 
-public class SetLookActionTest extends PhysicsBaseTest {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+
+import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.core.IsNot.not;
+
+@RunWith(AndroidJUnit4.class)
+public class SetLookActionTest {
 
 	private String multipleConvexPolygonsFileName;
 	private File multipleConvexPolygonsFile;
-	private static final int MULTIPLE_CONVEX_POLYGONS_RES_ID = org.catrobat.catroid.test.R.raw.multible_convex_polygons;
 
 	private LookData lookData = null;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Rule
+	public PhysicsTestRule rule = new PhysicsTestRule();
+
+	private Sprite sprite;
+	private Project project;
+
+	@Before
+	public void setUp() throws Exception {
+		sprite = rule.sprite;
+		project = rule.project;
 
 		multipleConvexPolygonsFileName = PhysicsTestUtils.getInternalImageFilenameFromFilename("multible_convex_polygons.png");
 
-		multipleConvexPolygonsFile = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, project.getDefaultScene().getName(),
-				multipleConvexPolygonsFileName, MULTIPLE_CONVEX_POLYGONS_RES_ID, getInstrumentation().getContext(),
-				TestUtils.TYPE_IMAGE_FILE);
+		multipleConvexPolygonsFile = ResourceImporter.createImageFileFromResourcesInDirectory(
+				InstrumentationRegistry.getContext().getResources(),
+				org.catrobat.catroid.test.R.raw.multible_convex_polygons,
+				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
+				multipleConvexPolygonsFileName,
+				1);
 
 		lookData = PhysicsTestUtils.generateLookData(multipleConvexPolygonsFile);
 
-		assertTrue("getLookData is null", sprite.look.getLookData() != null);
+		assertNotNull(sprite.look.getLookData());
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
+	@After
+	public void tearDown() throws Exception {
 
 		multipleConvexPolygonsFileName = null;
 		multipleConvexPolygonsFile = null;
 
-		TestUtils.deleteTestProjects();
-		super.tearDown();
+		TestUtils.deleteProjects();
 	}
 
+	@Test
 	public void testLookChanged() {
 
 		LookData expectedLookData = lookData;
@@ -72,14 +101,14 @@ public class SetLookActionTest extends PhysicsBaseTest {
 
 		changeLook();
 
-		assertTrue("Look has not changed", sprite.look.getLookData() != previousLookData);
-		assertEquals("Look is not correct", sprite.look.getLookData(), expectedLookData);
+		assertThat(sprite.look.getLookData(), is(not(previousLookData)));
+		assertEquals(sprite.look.getLookData(), expectedLookData);
 	}
 
 	private void changeLook() {
-		sprite.getLookDataList().add(lookData);
+		sprite.getLookList().add(lookData);
 		Action action = sprite.getActionFactory().createSetLookAction(sprite, lookData);
 		action.act(1.0f);
-		assertNotNull("Current Look is null", sprite.look);
+		assertNotNull(sprite.look);
 	}
 }

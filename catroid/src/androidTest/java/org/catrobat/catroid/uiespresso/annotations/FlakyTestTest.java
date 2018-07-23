@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,17 +26,16 @@ package org.catrobat.catroid.uiespresso.annotations;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.Random;
-
-import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.assertEquals;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
@@ -44,22 +43,28 @@ import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInter
 public class FlakyTestTest {
 
 	@Rule
-	public BaseActivityInstrumentationRule<ScriptActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(ScriptActivity.class, true, false);
+	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
+			SpriteActivity.FRAGMENT_SCRIPTS);
+
+	private static int flakyTestCounter;
+
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+		flakyTestCounter = 0;
+	}
 
 	@Before
 	public void setUp() throws Exception {
 		BrickTestUtils.createProjectAndGetStartScript("flakyTestTest");
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 	}
 
 	@Test
 	@Flaky(5)
 	public void flakyTestTest() {
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
-
-		Random randomGenerator = new Random();
-		int randomNumber = randomGenerator.nextInt(100);
-		assertTrue(randomNumber < 50);
+		flakyTestCounter++;
+		assertEquals(5, flakyTestCounter);
 	}
 }

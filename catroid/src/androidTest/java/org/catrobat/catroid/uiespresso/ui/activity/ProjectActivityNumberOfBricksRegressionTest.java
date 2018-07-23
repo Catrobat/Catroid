@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.uiespresso.ui.activity;
 
+import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
@@ -37,6 +38,7 @@ import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
+import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewActions;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.After;
@@ -46,58 +48,48 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import java.util.Locale;
+
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-import static org.hamcrest.Matchers.allOf;
+import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 
 @RunWith(AndroidJUnit4.class)
 public class ProjectActivityNumberOfBricksRegressionTest {
 
 	@Rule
 	public BaseActivityInstrumentationRule<ProjectActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(ProjectActivity.class);
-
+			BaseActivityInstrumentationRule<>(ProjectActivity.class, ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SPRITES);
 	@Before
 	public void setUp() {
 		createProject();
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 
-		setShowDetails(true);
+		RecyclerViewActions.openOverflowMenu();
+		onView(withText(R.string.show_details)).perform(click());
 	}
 
 	@After
 	public void tearDown() {
-		setShowDetails(false);
-	}
-
-	private void setShowDetails(final boolean show) {
-		getInstrumentation().runOnMainSync(new Runnable() {
-			public void run() {
-				baseActivityTestRule.getActivity().getSpritesListFragment().setShowDetails(show);
-			}
-		});
+		RecyclerViewActions.openOverflowMenu();
+		onView(withText(R.string.hide_details)).perform(click());
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void numberOfBricksDetailsRegressionTest() throws Exception {
-		onView(allOf(withId(R.id.textView_number_of_scripts), isDisplayed()))
-				.check(matches(withText(UiTestUtils.getResourcesString(R.string.number_of_scripts).concat(" 2"))));
-
-		onView(allOf(withId(R.id.textView_number_of_bricks), isDisplayed()))
-				.check(matches(withText(UiTestUtils.getResourcesString(R.string.number_of_bricks).concat(" 7"))));
-
-		onView(allOf(withId(R.id.textView_number_of_looks), isDisplayed()))
-				.check(matches(withText(UiTestUtils.getResourcesString(R.string.number_of_looks).concat(" 2"))));
+		onRecyclerView().atPosition(1).onChildView(R.id.details_view)
+				.check(matches(withText(String.format(Locale.getDefault(),
+						UiTestUtils.getResourcesString(R.string.sprite_details),
+						7, 2, 0
+				))));
 	}
 
 	private void createProject() {
-		Project project = new Project(null, "ProjectActivityNumberOfBricksRegressionTest");
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), "ProjectActivityNumberOfBricksRegressionTest");
 
 		Sprite firstSprite = new SingleSprite("firstSprite");
 
@@ -113,14 +105,12 @@ public class ProjectActivityNumberOfBricksRegressionTest {
 		firstSprite.addScript(secondScript);
 
 		LookData lookData = new LookData();
-		lookData.setLookFilename("red");
-		lookData.setLookName("red");
-		firstSprite.getLookDataList().add(lookData);
+		lookData.setName("red");
+		firstSprite.getLookList().add(lookData);
 
 		LookData anotherLookData = new LookData();
-		anotherLookData.setLookFilename("blue");
-		anotherLookData.setLookName("blue");
-		firstSprite.getLookDataList().add(anotherLookData);
+		anotherLookData.setName("blue");
+		firstSprite.getLookList().add(anotherLookData);
 
 		project.getDefaultScene().addSprite(firstSprite);
 

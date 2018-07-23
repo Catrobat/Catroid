@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,59 +23,78 @@
 package org.catrobat.catroid.test.io;
 
 import android.media.MediaPlayer;
-import android.test.InstrumentationTestCase;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 
-import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.SoundManager;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.File;
-import java.lang.reflect.Constructor;
 import java.util.Collections;
 import java.util.List;
 
-public class SoundManagerTest extends InstrumentationTestCase {
-	private final SoundManager soundManager = SoundManager.getInstance();
-	private final int soundFileId = R.raw.testsound;
-	private final int soundFileDuration = 144;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
 
+import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
+
+@RunWith(AndroidJUnit4.class)
+public class SoundManagerTest {
+
+	private final SoundManager soundManager = SoundManager.getInstance();
+
+	private Project project;
 	private File soundFile;
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
+		TestUtils.deleteProjects();
+		createProject();
 		soundManager.clear();
-		soundFile = TestUtils.createTestMediaFile(Constants.DEFAULT_ROOT + "/testSound.mp3", soundFileId,
-				getInstrumentation().getContext());
-		super.setUp();
+
+		soundFile = ResourceImporter
+				.createSoundFileFromResourcesInDirectory(InstrumentationRegistry.getContext().getResources(),
+						R.raw.testsound, new File(project.getDefaultScene().getDirectory(), SOUND_DIRECTORY_NAME),
+						"testsound.m4a");
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
-		if (soundFile != null && soundFile.exists()) {
-			soundFile.delete();
-		}
+	@After
+	public void tearDown() throws Exception {
 		soundManager.clear();
-		super.tearDown();
+		TestUtils.deleteProjects();
 	}
 
+	@Test
 	public void testPlaySound() {
 		soundManager.playSoundFile(soundFile.getAbsolutePath());
 
 		MediaPlayer mediaPlayer = getMediaPlayers().get(0);
-		assertTrue("Media player isn't playing", mediaPlayer.isPlaying());
-		assertEquals("Wrong sound file is playing", soundFileDuration, mediaPlayer.getDuration());
+		assertTrue(mediaPlayer.isPlaying());
+		assertEquals(144, mediaPlayer.getDuration());
 	}
 
+	@Test
 	public void testClear() {
 		soundManager.playSoundFile(soundFile.getAbsolutePath());
 
 		MediaPlayer mediaPlayer = getMediaPlayers().get(0);
-		assertTrue("Media player isn't playing", mediaPlayer.isPlaying());
+		assertTrue(mediaPlayer.isPlaying());
 
 		soundManager.clear();
-		assertTrue("SoundManager still holds media player references", getMediaPlayers().isEmpty());
+		assertTrue(getMediaPlayers().isEmpty());
 		try {
 			mediaPlayer.isPlaying();
 			fail("The media player hasn't been released");
@@ -83,19 +102,21 @@ public class SoundManagerTest extends InstrumentationTestCase {
 		}
 	}
 
+	@Test
 	public void testPauseAndResume() {
 		soundManager.playSoundFile(soundFile.getAbsolutePath());
 
 		MediaPlayer mediaPlayer = getMediaPlayers().get(0);
-		assertTrue("Media player isn't playing", mediaPlayer.isPlaying());
+		assertTrue(mediaPlayer.isPlaying());
 
 		soundManager.pause();
-		assertFalse("Media player is still playing", mediaPlayer.isPlaying());
+		assertFalse(mediaPlayer.isPlaying());
 
 		soundManager.resume();
-		assertTrue("Media player isn't playing", mediaPlayer.isPlaying());
+		assertTrue(mediaPlayer.isPlaying());
 	}
 
+	@Test
 	public void testPauseAndResumeMultipleSounds() {
 		final int playSoundFilesCount = 3;
 		List<MediaPlayer> mediaPlayers = getMediaPlayers();
@@ -105,33 +126,35 @@ public class SoundManagerTest extends InstrumentationTestCase {
 		}
 
 		for (int index = 0; index < playSoundFilesCount; index++) {
-			assertTrue("Media player isn't playing", mediaPlayers.get(index).isPlaying());
+			assertTrue(mediaPlayers.get(index).isPlaying());
 		}
 
 		soundManager.pause();
 
 		for (int index = 0; index < playSoundFilesCount; index++) {
-			assertFalse("Media player is still playing", mediaPlayers.get(index).isPlaying());
+			assertFalse(mediaPlayers.get(index).isPlaying());
 		}
 
 		soundManager.resume();
 
 		for (int index = 0; index < playSoundFilesCount; index++) {
-			assertTrue("Media player isn't playing", mediaPlayers.get(index).isPlaying());
+			assertTrue(mediaPlayers.get(index).isPlaying());
 		}
 	}
 
+	@Test
 	public void testMediaPlayerLimit() {
-		assertEquals("Wrong maximum count of sound players", 7, SoundManager.MAX_MEDIA_PLAYERS);
+		assertEquals(7, SoundManager.MAX_MEDIA_PLAYERS);
 
 		List<MediaPlayer> mediaPlayers = getMediaPlayers();
 		for (int index = 0; index < SoundManager.MAX_MEDIA_PLAYERS + 3; index++) {
 			soundManager.playSoundFile(soundFile.getAbsolutePath());
 		}
 
-		assertEquals("Maximum count of media players is exceeded", SoundManager.MAX_MEDIA_PLAYERS, mediaPlayers.size());
+		assertEquals(SoundManager.MAX_MEDIA_PLAYERS, mediaPlayers.size());
 	}
 
+	@Test
 	public void testIfAllMediaPlayersInTheListAreUnique() {
 		List<MediaPlayer> mediaPlayers = getMediaPlayers();
 		for (int index = 0; index < SoundManager.MAX_MEDIA_PLAYERS; index++) {
@@ -139,31 +162,18 @@ public class SoundManagerTest extends InstrumentationTestCase {
 		}
 
 		for (MediaPlayer mediaPlayer : mediaPlayers) {
-			assertEquals("MediaPlayerList contains one media players twice.", 1,
-					Collections.frequency(mediaPlayers, mediaPlayer));
+			assertEquals(1, Collections.frequency(mediaPlayers, mediaPlayer));
 		}
 	}
 
-	/*
-	 * TODO: Since the SoundManager shouldn't be a Singleton, this is just a temporary solution.
-	 */
-	public void testInitialVolumeValue() {
-		Constructor<SoundManager> privateSoundManagerConstructor = null;
-		try {
-			privateSoundManagerConstructor = SoundManager.class.getDeclaredConstructor((Class<?>[]) null);
-			privateSoundManagerConstructor.setAccessible(true);
-			SoundManager soundManager = privateSoundManagerConstructor.newInstance();
-
-			assertEquals("Wrong initial sound volume value", 70.0f, soundManager.getVolume());
-		} catch (Exception exception) {
-			fail("Couldn't instantiate sound manager");
-		} finally {
-			if (privateSoundManagerConstructor != null) {
-				privateSoundManagerConstructor.setAccessible(false);
-			}
-		}
+	@Test
+	public void testInitialVolume() {
+		SoundManager soundManager = new SoundManager() {
+		};
+		assertEquals(70.0f, soundManager.getVolume());
 	}
 
+	@Test
 	public void testSetVolume() {
 		List<MediaPlayer> mediaPlayers = getMediaPlayers();
 		MediaPlayerMock mediaPlayerMock = new MediaPlayerMock();
@@ -172,9 +182,9 @@ public class SoundManagerTest extends InstrumentationTestCase {
 		float newVolume = 80.9f;
 		soundManager.setVolume(newVolume);
 
-		assertEquals("Volume hasn't changed", newVolume, soundManager.getVolume());
-		assertEquals("Wrong volume value", newVolume / 100f, mediaPlayerMock.leftVolume);
-		assertEquals("Wrong volume value", newVolume / 100f, mediaPlayerMock.rightVolume);
+		assertEquals(newVolume, soundManager.getVolume());
+		assertEquals(newVolume / 100f, mediaPlayerMock.leftVolume);
+		assertEquals(newVolume / 100f, mediaPlayerMock.rightVolume);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -191,5 +201,16 @@ public class SoundManagerTest extends InstrumentationTestCase {
 			this.leftVolume = leftVolume;
 			this.rightVolume = rightVolume;
 		}
+	}
+
+	private void createProject() {
+		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
+
+		Sprite sprite = new Sprite("TestSprite");
+
+		project.getDefaultScene().addSprite(sprite);
+
+		XstreamSerializer.getInstance().saveProject(project);
+		ProjectManager.getInstance().setProject(project);
 	}
 }

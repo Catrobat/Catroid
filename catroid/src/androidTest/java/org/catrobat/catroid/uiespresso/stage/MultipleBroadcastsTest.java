@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2017 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,6 @@ import android.support.test.runner.AndroidJUnit4;
 
 import junit.framework.Assert;
 
-import org.catrobat.catroid.content.BroadcastHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.SingleSprite;
@@ -67,14 +66,14 @@ public class MultipleBroadcastsTest {
 
 	@Before
 	public void setUp() throws Exception {
-		BroadcastHandler.clearActionMaps();
 		project = UiTestUtils.createEmptyProject("test");
 		dataContainer = project.getDefaultScene().getDataContainer();
 		userVariables = new ArrayList<>();
 		for (int i = 0; i < VALUES.length; i++) {
 			Sprite sprite = new SingleSprite("sprite" + i);
 			project.getDefaultScene().addSprite(sprite);
-			UserVariable userVariable = dataContainer.addProjectUserVariable("var" + i);
+			UserVariable userVariable = new UserVariable("var" + i);
+			dataContainer.addUserVariable(userVariable);
 			Script sendBroadcastScript = new StartScript();
 			sprite.addScript(sendBroadcastScript);
 			sendBroadcastScript.addBrick(new BroadcastBrick(BROADCAST_MESSAGE_1));
