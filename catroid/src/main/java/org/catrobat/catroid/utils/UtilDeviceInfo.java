@@ -30,7 +30,7 @@ import java.util.Locale;
 
 public final class UtilDeviceInfo {
 
-	private static final String SERVER_VALUE_FOR_UNDEFINED_COUNTRY = "undef";
+	private static final String SERVER_VALUE_FOR_UNDEFINED_COUNTRY = "aq";
 
 	// Suppress default constructor for noninstantiability
 	private UtilDeviceInfo() {
