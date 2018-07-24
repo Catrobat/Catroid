@@ -90,7 +90,7 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 		holder.title.setText(item.getName());
 
 		if (holder.getItemViewType() == SPRITE_GROUP) {
-			Drawable drawable = ((GroupSprite) item).collapsed
+			Drawable drawable = ((GroupSprite) item).getCollapsed()
 					? context.getResources().getDrawable(R.drawable.ic_play)
 					: context.getResources().getDrawable(R.drawable.ic_play_down);
 			holder.image.setImageDrawable(drawable);
@@ -180,5 +180,42 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 		fromItem.setConvertToGroupItemSprite(false);
 		fromItem.setConvertToSingleSprite(false);
 		return super.onItemMove(fromPosition, toPosition);
+	}
+
+	@Override
+	public boolean setSelection(Sprite item, boolean selection) {
+		if (items.indexOf(item) == 0) {
+			throw new IllegalArgumentException("You should never select the Background Sprite for any ActionMode "
+					+ "operation. Modifying it via ActionMode is not supported.");
+		}
+
+		return super.setSelection(item, selection);
+	}
+
+	@Override
+	public void selectAll() {
+		int backgroundIndex = 0;
+
+		for (Sprite item : items) {
+			if (items.indexOf(item) == backgroundIndex || item instanceof GroupSprite) {
+				continue;
+			}
+			selectionManager.setSelectionTo(true, items.indexOf(item));
+		}
+		notifyDataSetChanged();
+	}
+
+	@Override
+	public int getSelectableItemCount() {
+		int backgroundCount = 1;
+		int groupSpriteCount = 0;
+
+		for (Sprite item : items) {
+			if (item instanceof GroupSprite) {
+				groupSpriteCount++;
+			}
+		}
+
+		return items.size() - backgroundCount - groupSpriteCount;
 	}
 }

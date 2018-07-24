@@ -22,18 +22,25 @@
  */
 package org.catrobat.catroid.test.pocketmusic.note;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.pocketmusic.note.MusicalInstrument;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class MusicalInstrumentTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
 
+@RunWith(AndroidJUnit4.class)
+public class MusicalInstrumentTest {
+
+	@Test
 	public void testGetInstrumentFromProgram1() {
 		MusicalInstrument expectedInstrument = MusicalInstrument.GUNSHOT;
 
 		assertGetInstrumentFromProgram(expectedInstrument.getProgram(), expectedInstrument);
 	}
 
+	@Test
 	public void testGetInstrumentFromProgram2() {
 		int invalidProgram = 0;
 

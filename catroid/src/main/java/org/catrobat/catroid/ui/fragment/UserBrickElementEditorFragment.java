@@ -130,11 +130,11 @@ public class UserBrickElementEditorFragment extends Fragment implements
 
 		updateBrickView();
 
-		editorBrickSpace = (LinearLayout) fragmentView.findViewById(R.id.brick_data_editor_brick_space);
+		editorBrickSpace = fragmentView.findViewById(R.id.brick_data_editor_brick_space);
 
 		editorBrickSpace.addView(brickView);
 
-		ListView buttonList = (ListView) fragmentView.findViewById(R.id.button_list);
+		ListView buttonList = fragmentView.findViewById(R.id.button_list);
 
 		buttonList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
@@ -176,8 +176,7 @@ public class UserBrickElementEditorFragment extends Fragment implements
 	}
 
 	public void addVariableDialog() {
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
-		String variableName = dataContainer.getUniqueVariableName(getActivity());
+		String variableName = getString(R.string.new_user_brick_variable);
 		int indexOfNewVariableText = currentBrick.addUILocalizedVariable(variableName);
 		editElementDialog(variableName, false, R.string.add_variable, R.string.variable_hint);
 		indexOfCurrentlyEditedElement = indexOfNewVariableText;
@@ -188,9 +187,9 @@ public class UserBrickElementEditorFragment extends Fragment implements
 		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		UserBrick currentUserBrick = ProjectManager.getInstance().getCurrentUserBrick();
-		List<UserVariable> spriteVariables = dataContainer.getOrCreateVariableListForSprite(currentSprite);
-		List<UserVariable> globalVariables = dataContainer.getProjectVariables();
-		List<UserVariable> userBrickVariables = dataContainer.getOrCreateVariableListForUserBrick(currentUserBrick);
+		List<UserVariable> spriteVariables = dataContainer.getSpriteUserVariables(currentSprite);
+		List<UserVariable> globalVariables = dataContainer.getProjectUserVariables();
+		List<UserVariable> userBrickVariables = dataContainer.getUserBrickUserVariables(currentUserBrick);
 
 		ArrayList<String> takenVariables = new ArrayList<>();
 		for (UserVariable variable : userBrickVariables) {
@@ -224,7 +223,7 @@ public class UserBrickElementEditorFragment extends Fragment implements
 				String oldString = element.getText();
 				String newString = text.toString();
 				currentBrick.renameUIElement(element, oldString, newString, getActivity());
-			} else if (element.getText().toString().isEmpty()) {
+			} else if (element.getText().isEmpty()) {
 				currentBrick.getUserScriptDefinitionBrickElements().remove(element);
 			}
 		}
@@ -258,7 +257,7 @@ public class UserBrickElementEditorFragment extends Fragment implements
 	}
 
 	private void deleteButtonClicked(View theView) {
-		DragNDropBrickLayout layout = (DragNDropBrickLayout) brickView.findViewById(R.id.brick_user_flow_layout);
+		DragNDropBrickLayout layout = brickView.findViewById(R.id.brick_user_flow_layout);
 		int found = -1;
 		for (int i = 0; i < layout.getChildCount(); i++) {
 			if (layout.getChildAt(i) == theView) {
@@ -275,7 +274,7 @@ public class UserBrickElementEditorFragment extends Fragment implements
 	public void updateBrickView() {
 		Context context = brickView.getContext();
 
-		DragNDropBrickLayout layout = (DragNDropBrickLayout) brickView.findViewById(R.id.brick_user_flow_layout);
+		DragNDropBrickLayout layout = brickView.findViewById(R.id.brick_user_flow_layout);
 		layout.setListener(this);
 
 		if (layout.getChildCount() > 0) {
@@ -294,12 +293,12 @@ public class UserBrickElementEditorFragment extends Fragment implements
 				}
 			}
 
-			TextView textView = (TextView) dataView.findViewById(R.id.text_view);
+			TextView textView = dataView.findViewById(R.id.text_view);
 
 			if (textView != null) {
 				textView.setText(element.getText());
 			}
-			Button button = (Button) dataView.findViewById(R.id.button);
+			Button button = dataView.findViewById(R.id.button);
 			button.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {

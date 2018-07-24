@@ -24,19 +24,26 @@
 package org.catrobat.catroid.test.devices.mindstorms.nxt;
 
 import android.content.Context;
-import android.test.AndroidTestCase;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 import android.util.Pair;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PreferencesSensorMappingTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
 
+@RunWith(AndroidJUnit4.class)
+public class PreferencesSensorMappingTest {
+
+	@Test
 	public void testNXTSensorToTextMapping() {
-		Context context = this.getContext().getApplicationContext();
+		Context context = InstrumentationRegistry.getTargetContext().getApplicationContext();
 
 		final List<Pair<Integer, NXTSensor.Sensor>> correctMapping = new ArrayList<Pair<Integer, NXTSensor.Sensor>>();
 

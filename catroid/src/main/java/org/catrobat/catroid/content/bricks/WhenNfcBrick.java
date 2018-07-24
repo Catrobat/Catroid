@@ -31,7 +31,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
@@ -84,21 +83,16 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		if (view == null) {
-			alphaValue = 255;
-		}
+	public int getViewResource() {
+		return R.layout.brick_when_nfc;
+	}
+
+	@Override
+	public View getView(final Context context) {
 		if (whenNfcScript == null) {
 			whenNfcScript = new WhenNfcScript(nfcTag);
 		}
-
-		view = View.inflate(context, R.layout.brick_when_nfc, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_when_nfc_checkbox);
-
+		super.getView(context);
 		final Spinner nfcSpinner = (Spinner) view.findViewById(R.id.brick_when_nfc_spinner);
 
 		final ArrayAdapter<NfcTagData> spinnerAdapter = createNfcTagAdapter(context);
@@ -185,7 +179,7 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_when_nfc, null);
+		prototypeView = super.getPrototypeView(context);
 		Spinner nfcSpinner = (Spinner) prototypeView.findViewById(R.id.brick_when_nfc_spinner);
 
 		SpinnerAdapter nfcSpinnerAdapter = createNfcTagAdapter(context); //NfcTagContainer.getMessageAdapter(context);

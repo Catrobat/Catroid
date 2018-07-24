@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.InstrumentationTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
@@ -30,20 +30,27 @@ import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class SetSizeToActionTest extends InstrumentationTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.fail;
+
+@RunWith(AndroidJUnit4.class)
+public class SetSizeToActionTest {
 
 	private static final float SIZE = 70.7f;
 	private final Formula size = new Formula(SIZE);
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
 	private Sprite sprite;
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		sprite = new SingleSprite("testSprite");
-		super.setUp();
 	}
 
+	@Test
 	public void testSize() {
 		assertEquals(1f, sprite.look.getScaleX());
 		assertEquals(1f, sprite.look.getScaleY());
@@ -53,6 +60,7 @@ public class SetSizeToActionTest extends InstrumentationTestCase {
 		assertEquals(SIZE / 100, sprite.look.getScaleY());
 	}
 
+	@Test
 	public void testNegativeSize() {
 		float initialSize = sprite.look.getSizeInUserInterfaceDimensionUnit();
 		assertEquals(100f, initialSize);
@@ -61,6 +69,7 @@ public class SetSizeToActionTest extends InstrumentationTestCase {
 		assertEquals(0f, sprite.look.getSizeInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNullSprite() {
 		ActionFactory factory = new ActionFactory();
 		Action action = factory.createSetSizeToAction(null, size);
@@ -71,6 +80,7 @@ public class SetSizeToActionTest extends InstrumentationTestCase {
 		}
 	}
 
+	@Test
 	public void testBrickWithStringFormula() {
 		sprite.getActionFactory().createSetSizeToAction(sprite, new Formula(String.valueOf(SIZE))).act(1.0f);
 		assertEquals(SIZE, sprite.look.getSizeInUserInterfaceDimensionUnit());
@@ -82,11 +92,13 @@ public class SetSizeToActionTest extends InstrumentationTestCase {
 		assertEquals(0f, sprite.look.getSizeInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNullFormula() {
 		sprite.getActionFactory().createSetSizeToAction(sprite, null).act(1.0f);
 		assertEquals(0f, sprite.look.getSizeInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNotANumberFormula() {
 		sprite.getActionFactory().createSetSizeToAction(sprite, new Formula(Double.NaN)).act(1.0f);
 		assertEquals(100f, sprite.look.getSizeInUserInterfaceDimensionUnit());

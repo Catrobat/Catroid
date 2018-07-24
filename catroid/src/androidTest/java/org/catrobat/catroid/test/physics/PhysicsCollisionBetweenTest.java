@@ -23,12 +23,13 @@
 
 package org.catrobat.catroid.test.physics;
 
-import android.util.Log;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Contact;
 
 import org.catrobat.catroid.content.CollisionScript;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.eventids.CollisionEventId;
@@ -37,68 +38,78 @@ import org.catrobat.catroid.physics.PhysicsCollision;
 import org.catrobat.catroid.physics.PhysicsCollisionBroadcast;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.test.utils.Reflection;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.Map;
 
-public class PhysicsCollisionBetweenTest extends PhysicsCollisionBaseTest {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
 
-	private static final String TAG = PhysicsCollisionBetweenTest.class.getSimpleName();
+@RunWith(AndroidJUnit4.class)
+public class PhysicsCollisionBetweenTest {
 
-	public PhysicsCollisionBetweenTest() {
-		spritePosition = new Vector2(0.0f, 100.0f);
-		sprite2Position = new Vector2(0.0f, -200.0f);
-		physicsObject1Type = PhysicsObject.Type.DYNAMIC;
-		physicsObject2Type = PhysicsObject.Type.FIXED;
+	@Rule
+	public PhysicsCollisionTestRule rule = new PhysicsCollisionTestRule();
+
+	private Sprite sprite;
+	private Sprite sprite2;
+	private Project project;
+
+	@Before
+	public void setUp() {
+		sprite = rule.sprite;
+		sprite2 = rule.sprite2;
+		project = rule.project;
+
+		rule.spritePosition = new Vector2(0.0f, 100.0f);
+		rule.sprite2Position = new Vector2(0.0f, -200.0f);
+		rule.physicsObject1Type = PhysicsObject.Type.DYNAMIC;
+		rule.physicsObject2Type = PhysicsObject.Type.FIXED;
+		rule.initializeSpritesForCollision();
 	}
 
-	@Override
 	public void beginContactCallback(Contact contact) {
-		try {
-			super.beginContactCallback(contact);
-			Map<Integer, PhysicsCollisionBroadcast> physicsCollisionBroadcasts =
-					(Map<Integer, PhysicsCollisionBroadcast>) Reflection.getPrivateField(PhysicsCollision.class,
-							physicsCollisionTestListener, "physicsCollisionBroadcasts");
-			assertTrue(physicsCollisionBroadcasts.size() == 1);
-			Object[] parameters = {sprite, sprite2};
-			Reflection.ParameterList paramList = new Reflection.ParameterList(parameters);
-			CollisionEventId key = (CollisionEventId) Reflection.invokeMethod(PhysicsCollision.class,
-					physicsCollisionTestListener,
-					"generateKey", paramList);
-			PhysicsCollisionBroadcast collisionBroadcast = physicsCollisionBroadcasts.get(key);
-			assertEquals(collisionBroadcast.getContactCounter(), getContactDifference());
-		} catch (Exception exception) {
-			Log.e(TAG, Log.getStackTraceString(exception));
-			fail("An unexpected exception was captured. See Logcat for details");
-		}
+		rule.beginContactCallback(contact);
+		Map<Integer, PhysicsCollisionBroadcast> physicsCollisionBroadcasts =
+				(Map<Integer, PhysicsCollisionBroadcast>) Reflection.getPrivateField(PhysicsCollision.class,
+						rule.physicsCollisionTestListener, "physicsCollisionBroadcasts");
+		assertEquals(1, physicsCollisionBroadcasts.size());
+		Object[] parameters = {sprite, sprite2};
+		Reflection.ParameterList paramList = new Reflection.ParameterList(parameters);
+		CollisionEventId key = (CollisionEventId) Reflection.invokeMethod(PhysicsCollision.class,
+				rule.physicsCollisionTestListener,
+				"generateKey", paramList);
+		PhysicsCollisionBroadcast collisionBroadcast = physicsCollisionBroadcasts.get(key);
+		assertEquals(collisionBroadcast.getContactCounter(), rule.getContactDifference());
 	}
 
-	@Override
 	public void endContactCallback(Contact contact) {
-		try {
-			super.endContactCallback(contact);
-			Map<Integer, PhysicsCollisionBroadcast> physicsCollisionBroadcasts =
-					(Map<Integer, PhysicsCollisionBroadcast>) Reflection.getPrivateField(PhysicsCollision.class,
-							physicsCollisionTestListener, "physicsCollisionBroadcasts");
-			if (getContactDifference() == 0) {
-				assertTrue(physicsCollisionBroadcasts.size() == 0);
-			} else {
-				assertTrue(physicsCollisionBroadcasts.size() == 2);
-			}
-		} catch (Exception exception) {
-			Log.e(TAG, Log.getStackTraceString(exception));
-			fail("An unexpected exception was captured. See Logcat for details");
+		rule.endContactCallback(contact);
+		Map<Integer, PhysicsCollisionBroadcast> physicsCollisionBroadcasts =
+				(Map<Integer, PhysicsCollisionBroadcast>) Reflection.getPrivateField(PhysicsCollision.class,
+						rule.physicsCollisionTestListener, "physicsCollisionBroadcasts");
+		if (rule.getContactDifference() == 0) {
+			assertEquals(0, physicsCollisionBroadcasts.size());
+		} else {
+			assertEquals(2, physicsCollisionBroadcasts.size());
 		}
 	}
 
+	@Test
 	public void testIfBroadcastsAreCorrectPreparedAndFired() {
-		assertTrue(isContactRateOk());
-		assertTrue(simulateFullCollision());
-		assertTrue(isContactRateOk());
+		assertTrue(rule.isContactRateOk());
+		assertTrue(rule.simulateFullCollision());
+		assertTrue(rule.isContactRateOk());
 	}
 
+	@Test
 	public void testCollisionBroadcastOfTwoSprites() {
-		assertTrue(sprite.look.getLookData() != null);
-		assertTrue(sprite2.look.getLookData() != null);
+		assertNotNull(sprite.look.getLookData());
+		assertNotNull(sprite2.look.getLookData());
 
 		CollisionScript secondSpriteCollisionScript = new CollisionScript(null);
 		secondSpriteCollisionScript.setSpriteToCollideWithName(sprite.getName());
@@ -111,7 +122,7 @@ public class PhysicsCollisionBetweenTest extends PhysicsCollisionBaseTest {
 
 		sprite2.initializeEventThreads(EventId.START);
 
-		simulateFullCollision();
+		rule.simulateFullCollision();
 
 		while (!allActionsOfAllSpritesAreFinished()) {
 			for (Sprite spriteOfList : project.getDefaultScene().getSpriteList()) {

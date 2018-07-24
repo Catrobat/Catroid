@@ -333,9 +333,13 @@ public class WhenNfcBrickTest {
 
 		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
 
-		UserVariable readTagId = dataContainer.addProjectUserVariable(UiNFCTestUtils.READ_TAG_ID);
-		UserVariable readTagMessage = dataContainer.addProjectUserVariable(UiNFCTestUtils.READ_TAG_MESSAGE);
-		UserVariable numDetectedTags = dataContainer.addProjectUserVariable(UiNFCTestUtils.NUM_DETECTED_TAGS);
+		UserVariable readTagId = new UserVariable(UiNFCTestUtils.READ_TAG_ID);
+		UserVariable readTagMessage = new UserVariable(UiNFCTestUtils.READ_TAG_MESSAGE);
+		UserVariable numDetectedTags = new UserVariable(UiNFCTestUtils.NUM_DETECTED_TAGS);
+
+		dataContainer.addUserVariable(readTagId);
+		dataContainer.addUserVariable(readTagMessage);
+		dataContainer.addUserVariable(numDetectedTags);
 
 		Sprite sprite = new Sprite("testSprite");
 		WhenNfcScript script = new WhenNfcScript();

@@ -27,7 +27,6 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.CatroidApplication;
@@ -55,16 +54,13 @@ public class WhenGamepadButtonBrick extends BrickBaseType implements ScriptBrick
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, final BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	public int getViewResource() {
+		return R.layout.brick_when_gamepad_button;
+	}
 
-		view = View.inflate(context, R.layout.brick_when_gamepad_button, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_when_gamepad_button_checkbox);
-
+	@Override
+	public View getView(final Context context) {
+		super.getView(context);
 		final Spinner actionSpinner = (Spinner) view.findViewById(R.id.brick_when_gamepad_button_spinner);
 
 		ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(context,
@@ -87,11 +83,6 @@ public class WhenGamepadButtonBrick extends BrickBaseType implements ScriptBrick
 		});
 		actionSpinner.setSelection(actions.indexOf(whenGamepadButtonScript.getAction()));
 		return view;
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		return getView(context, 0, null);
 	}
 
 	@Override

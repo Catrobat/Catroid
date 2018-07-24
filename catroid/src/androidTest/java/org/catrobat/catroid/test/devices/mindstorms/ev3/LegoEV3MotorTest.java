@@ -24,14 +24,21 @@
 package org.catrobat.catroid.test.devices.mindstorms.ev3;
 
 import android.content.Context;
-import android.test.AndroidTestCase;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
 import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandByte;
 import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
 import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3Impl;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class LegoEV3MotorTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class LegoEV3MotorTest {
 
 	private Context applicationContext;
 
@@ -44,17 +51,17 @@ public class LegoEV3MotorTest extends AndroidTestCase {
 	private static final byte LONG_PARAMETER_BYTE_ONE_FOLLOW = (byte) 0x81;
 	private static final byte LONG_PARAMETER_BYTE_TWO_FOLLOW = (byte) 0x82;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 
-		applicationContext = this.getContext().getApplicationContext();
+		applicationContext = InstrumentationRegistry.getTargetContext().getApplicationContext();
 
 		ev3 = new LegoEV3Impl(this.applicationContext);
 		logger = ConnectionDataLogger.createLocalConnectionLogger();
 		ev3.setConnection(logger.getConnectionProxy());
 	}
 
+	@Test
 	public void testMotorMoveTest() {
 		int inputSpeed = -70;
 		byte outputField = (byte) 0x01;
@@ -85,6 +92,7 @@ public class LegoEV3MotorTest extends AndroidTestCase {
 		assertEquals(expectedOutputField, setOutputState[offset]);
 	}
 
+	@Test
 	public void testStopMotorTest() {
 		byte outputField = (byte) 0x01;
 		byte expectedOutputField = (byte) 0x01;
@@ -99,6 +107,7 @@ public class LegoEV3MotorTest extends AndroidTestCase {
 		assertEquals(expectedOutputField, setOutputState[offset]);
 	}
 
+	@Test
 	public void testMotorTurnAngle360DegreeTest() {
 		int step2Degrees = 360 - POWER_DOWN_RAMP_DEGREES;
 		int step3Degrees = POWER_DOWN_RAMP_DEGREES;
@@ -139,6 +148,7 @@ public class LegoEV3MotorTest extends AndroidTestCase {
 		assertEquals((byte) expectedStep3Degrees, setOutputState[offset]);
 	}
 
+	@Test
 	public void testMotorTurnAngleMinus15DegreeTest() {
 		int step2Degrees = 15;
 		int step3Degrees = 0;

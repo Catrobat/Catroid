@@ -27,4 +27,6 @@ public interface UserData {
 
 	String getName();
 	void setName(String name);
+
+	void reset();
 }

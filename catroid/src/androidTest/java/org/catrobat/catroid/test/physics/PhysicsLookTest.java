@@ -23,7 +23,7 @@
 package org.catrobat.catroid.test.physics;
 
 import android.support.test.InstrumentationRegistry;
-import android.test.InstrumentationTestCase;
+import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
 import com.badlogic.gdx.graphics.Pixmap;
@@ -52,14 +52,24 @@ import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.Utils;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
+
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 
-public class PhysicsLookTest extends InstrumentationTestCase {
+@RunWith(AndroidJUnit4.class)
+public class PhysicsLookTest {
 
 	private static final String TAG = PhysicsLookTest.class.getSimpleName();
 	PhysicsWorld physicsWorld;
@@ -73,15 +83,15 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 		GdxNativesLoader.load();
 	}
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		physicsWorld = new PhysicsWorld(1920, 1600);
 		projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName);
 		if (projectDir.exists()) {
 			StorageOperations.deleteDir(projectDir);
 		}
 		testImageFilename = PhysicsTestUtils.getInternalImageFilenameFromFilename("testImage.png");
-		project = new Project(getInstrumentation().getTargetContext(), projectName);
+		project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
@@ -93,17 +103,16 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 				1);
 
 		sprite = new SingleSprite("TestSprite");
-		super.setUp();
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
+	@After
+	public void tearDown() throws Exception {
 		TestUtils.deleteProjects(projectName);
 		physicsWorld = null;
 		sprite = null;
-		super.tearDown();
 	}
 
+	@Test
 	public void testShapeComputationOfLook() {
 		PhysicsShapeBuilder physicsShapeBuilder = PhysicsShapeBuilder.getInstance();
 
@@ -121,6 +130,7 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 		physicsShapeBuilder.reset();
 	}
 
+	@Test
 	public void testPositionAndAngle() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		PhysicsLook physicsLook = new PhysicsLook(sprite, physicsWorld);
@@ -151,6 +161,7 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 		assertEquals(rotation, physicsLook.getRotation());
 	}
 
+	@Test
 	public void testSetScale() {
 		LookData lookData = new LookData();
 		lookData.setFile(testImage);
@@ -252,6 +263,7 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 		}
 	}
 
+	@Test
 	public void testSetLookDataWithNullPixmap() {
 		LookData lookData = new LookData();
 		lookData.setFile(testImage);
@@ -266,6 +278,7 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 		}
 	}
 
+	@Test
 	public void testDefaultValueEqualityOfPhysicsLookAndLook() {
 		PhysicsLook physicsLook = new PhysicsLook(sprite, physicsWorld);
 		Look look = new Look(sprite);
@@ -371,6 +384,7 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 				physicsLook.getBrightnessInUserInterfaceDimensionUnit(), look.getBrightnessInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testCloneValues() {
 		PhysicsWorld world = new PhysicsWorld();
 

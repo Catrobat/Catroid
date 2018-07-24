@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.test.formulaeditor;
 
+import android.support.test.InstrumentationRegistry;
 import android.support.test.annotation.UiThreadTest;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -32,8 +33,6 @@ import org.catrobat.catroid.test.utils.SimulatedSoundRecorder;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
@@ -56,7 +55,7 @@ public class SensorLoudnessTest {
 		SimulatedSoundRecorder simSoundRec = new SimulatedSoundRecorder("/dev/null");
 		Reflection.setPrivateField(loudnessSensor, "recorder", simSoundRec);
 
-		SensorHandler.startSensorListener(getInstrumentation().getTargetContext());
+		SensorHandler.startSensorListener(InstrumentationRegistry.getTargetContext());
 		assertTrue(simSoundRec.isRecording());
 		SensorHandler.stopSensorListeners();
 		assertFalse(simSoundRec.isRecording());

@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -58,15 +57,13 @@ public class NoteBrick extends FormulaBrick implements OnClickListener {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	public int getViewResource() {
+		return R.layout.brick_note;
+	}
 
-		view = View.inflate(context, R.layout.brick_note, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_note_checkbox);
+	@Override
+	public View getView(final Context context) {
+		super.getView(context);
 		TextView textField = (TextView) view.findViewById(R.id.brick_note_edit_text);
 		getFormulaWithBrickField(BrickField.NOTE).setTextFieldId(R.id.brick_note_edit_text);
 		getFormulaWithBrickField(BrickField.NOTE).refreshTextField(view);
@@ -78,7 +75,7 @@ public class NoteBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_note, null);
+		prototypeView = super.getPrototypeView(context);
 		TextView textSpeak = (TextView) prototypeView.findViewById(R.id.brick_note_edit_text);
 		textSpeak.setText(context.getString(R.string.brick_note_default_value));
 		return prototypeView;

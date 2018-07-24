@@ -27,7 +27,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.ProjectManager;
@@ -92,12 +91,13 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
+	public int getViewResource() {
+		return R.layout.brick_when_background_changes_to;
+	}
 
-		view = View.inflate(context, R.layout.brick_when_background_changes_to, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_when_background_checkbox);
-
+	@Override
+	public View getView(final Context context) {
+		super.getView(context);
 		spinner = view.findViewById(R.id.brick_when_background_spinner);
 		spinnerAdapter = new SpinnerAdapterWithNewOption(context, getLookNames());
 		spinnerAdapter.setOnDropDownItemClickListener(this);
@@ -163,7 +163,7 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View view = View.inflate(context, R.layout.brick_when_background_changes_to, null);
+		View view = super.getPrototypeView(context);
 		spinner = view.findViewById(R.id.brick_when_background_spinner);
 
 		spinnerAdapter = new SpinnerAdapterWithNewOption(context, getLookNames());

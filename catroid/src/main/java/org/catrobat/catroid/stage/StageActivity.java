@@ -76,8 +76,6 @@ import org.catrobat.catroid.utils.VibratorUtil;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.BlockingDeque;
-import java.util.concurrent.LinkedBlockingDeque;
 
 public class StageActivity extends AndroidApplication {
 	public static final String TAG = StageActivity.class.getSimpleName();
@@ -91,7 +89,7 @@ public class StageActivity extends AndroidApplication {
 	private StageAudioFocus stageAudioFocus;
 	private PendingIntent pendingIntent;
 	private NfcAdapter nfcAdapter;
-	private static BlockingDeque<NdefMessage> ndefMessageBlockingDeque = new LinkedBlockingDeque<>();
+	private static NdefMessage nfcTagMessage;
 	private StageDialog stageDialog;
 	private boolean resizePossible;
 	private boolean askDialogUnanswered = false;
@@ -233,9 +231,12 @@ public class StageActivity extends AndroidApplication {
 		Log.d(TAG, "processIntent");
 		NfcHandler.processIntent(intent);
 
-		if (!ndefMessageBlockingDeque.isEmpty()) {
+		if (nfcTagMessage != null) {
 			Tag currentTag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-			NfcHandler.writeTag(currentTag, ndefMessageBlockingDeque.poll());
+			synchronized (StageActivity.class) {
+				NfcHandler.writeTag(currentTag, nfcTagMessage);
+				setNfcTagMessage(null);
+			}
 		}
 	}
 
@@ -514,8 +515,12 @@ public class StageActivity extends AndroidApplication {
 		numberOfSpritesCloned = 0;
 	}
 
-	public static void addNfcTagMessageToDeque(NdefMessage message) {
-		ndefMessageBlockingDeque.addLast(message);
+	public static void setNfcTagMessage(NdefMessage message) {
+		nfcTagMessage = message;
+	}
+
+	public static NdefMessage getNfcTagMessage() {
+		return nfcTagMessage;
 	}
 
 	public synchronized void queueIntent(IntentListener asker) {

@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -71,18 +70,13 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		if (view == null) {
-			alphaValue = 255;
-		}
+	public int getViewResource() {
+		return R.layout.brick_insert_item_into_userlist;
+	}
 
-		view = View.inflate(context, R.layout.brick_insert_item_into_userlist, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_insert_item_into_userlist_checkbox);
-
+	@Override
+	public View getView(final Context context) {
+		super.getView(context);
 		TextView textFieldValue = (TextView) view.findViewById(R.id.brick_insert_item_into_userlist_value_edit_text);
 
 		getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_VALUE).setTextFieldId(R.id.brick_insert_item_into_userlist_value_edit_text);
@@ -112,7 +106,7 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_insert_item_into_userlist, null);
+		View prototypeView = super.getPrototypeView(context);
 		Spinner userListSpinner = (Spinner) prototypeView.findViewById(R.id.insert_item_into_userlist_spinner);
 
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
@@ -140,9 +134,9 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 
 	@Override
 	public Brick clone() {
-		InsertItemIntoUserListBrick clonedBrick = new InsertItemIntoUserListBrick(getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_VALUE).clone(), getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_INDEX).clone(), userList);
-		clonedBrick.setBackPackedData(new BackPackedListData(backPackedData));
-		return clonedBrick;
+		return new InsertItemIntoUserListBrick(
+				getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_VALUE).clone(),
+				getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_INDEX).clone(), userList);
 	}
 
 	@Override

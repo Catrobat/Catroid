@@ -22,20 +22,43 @@
  */
 package org.catrobat.catroid.test.physics.actions;
 
+import android.support.test.runner.AndroidJUnit4;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Action;
 
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.physics.PhysicsWorld;
-import org.catrobat.catroid.test.physics.PhysicsBaseTest;
+import org.catrobat.catroid.test.physics.PhysicsTestRule;
 import org.catrobat.catroid.test.utils.Reflection;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class SetGravityActionTest extends PhysicsBaseTest {
+import static junit.framework.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class SetGravityActionTest {
 
 	private static final float GRAVITY_X = 10.0f;
 	private static final float GRAVITY_Y = 10.0f;
 
+	@Rule
+	public PhysicsTestRule rule = new PhysicsTestRule();
+
+	private Sprite sprite;
+	private PhysicsWorld physicsWorld;
+
+	@Before
+	public void setUp() {
+		sprite = rule.sprite;
+		physicsWorld = rule.physicsWorld;
+	}
+
+	@Test
 	public void testNormalBehavior() {
 		float gravityX = GRAVITY_X;
 		float gravityY = GRAVITY_Y;
@@ -48,6 +71,7 @@ public class SetGravityActionTest extends PhysicsBaseTest {
 		assertEquals(gravityY, gravityVector.y);
 	}
 
+	@Test
 	public void testNegativeValue() {
 		float gravityX = 10.0f;
 		float gravityY = -10.0f;
@@ -60,6 +84,7 @@ public class SetGravityActionTest extends PhysicsBaseTest {
 		assertEquals(gravityY, gravityVector.y);
 	}
 
+	@Test
 	public void testZeroValue() {
 		float gravityX = 0.0f;
 		float gravityY = 10.0f;
@@ -84,6 +109,7 @@ public class SetGravityActionTest extends PhysicsBaseTest {
 		action.act(1.0f);
 	}
 
+	@Test
 	public void testBrickWithStringFormula() {
 		sprite.getActionFactory().createSetGravityAction(sprite, new Formula(String.valueOf(GRAVITY_X)),
 				new Formula(String.valueOf(GRAVITY_Y))).act(1.0f);
@@ -101,6 +127,7 @@ public class SetGravityActionTest extends PhysicsBaseTest {
 		assertEquals(GRAVITY_Y, gravityVector.y);
 	}
 
+	@Test
 	public void testNullFormula() {
 		sprite.getActionFactory().createSetGravityAction(sprite, null, null).act(1.0f);
 		Vector2 gravityVector = ((World) Reflection.getPrivateField(PhysicsWorld.class, physicsWorld, "world"))
@@ -110,6 +137,7 @@ public class SetGravityActionTest extends PhysicsBaseTest {
 		assertEquals(0f, gravityVector.y);
 	}
 
+	@Test
 	public void testNotANumberFormula() {
 		sprite.getActionFactory().createSetGravityAction(sprite, new Formula(Double.NaN), new Formula(Double.NaN))
 				.act(1.0f);

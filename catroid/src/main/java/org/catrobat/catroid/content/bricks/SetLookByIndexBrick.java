@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
@@ -71,20 +70,15 @@ public class SetLookByIndexBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	public int getViewResource() {
+		return wait == EventWrapper.WAIT
+				? R.layout.brick_set_look_by_index_and_wait
+				: R.layout.brick_set_look_by_index;
+	}
 
-		if (wait == EventWrapper.WAIT) {
-			view = View.inflate(context, R.layout.brick_set_look_by_index_and_wait, null);
-		} else {
-			view = View.inflate(context, R.layout.brick_set_look_by_index, null);
-		}
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_set_look_by_index_checkbox);
-
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
 		if (getSprite().getName().equals(context.getString(R.string.background))) {
 			TextView textField = (TextView) view.findViewById(R.id.brick_set_look_by_index_label);
 			textField.setText(R.string.brick_set_background_by_index);
@@ -101,9 +95,9 @@ public class SetLookByIndexBrick extends FormulaBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		if (wait == EventWrapper.WAIT) {
-			prototypeView = View.inflate(context, R.layout.brick_set_look_by_index_and_wait, null);
+			prototypeView = super.getPrototypeView(context);
 		} else {
-			prototypeView = View.inflate(context, R.layout.brick_set_look_by_index, null);
+			prototypeView = super.getPrototypeView(context);
 		}
 
 		if (getSprite().getName().equals(context.getString(R.string.background))) {

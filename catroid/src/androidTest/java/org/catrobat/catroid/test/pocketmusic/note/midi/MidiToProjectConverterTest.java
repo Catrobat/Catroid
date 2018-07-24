@@ -22,33 +22,41 @@
  */
 package org.catrobat.catroid.test.pocketmusic.note.midi;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.pocketmusic.note.Project;
 import org.catrobat.catroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.catroid.pocketmusic.note.midi.MidiToProjectConverter;
 import org.catrobat.catroid.pocketmusic.note.midi.ProjectToMidiConverter;
 import org.catrobat.catroid.test.pocketmusic.note.ProjectTestDataFactory;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.io.IOException;
 
-public class MidiToProjectConverterTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class MidiToProjectConverterTest {
 
 	private Project project;
 	private File file;
 
-	@Override
-	protected void setUp() {
+	@Before
+	public void setUp() {
 		project = ProjectTestDataFactory.createProjectWithSemiComplexTracks();
 		file = new File(ProjectToMidiConverter.MIDI_FOLDER + File.separator + project.getName() + ProjectToMidiConverter.MIDI_FILE_EXTENSION);
 	}
 
-	@Override
-	protected void tearDown() {
+	@After
+	public void tearDown() {
 		file.delete();
 	}
 
+	@Test
 	public void testConvertToMidiToProject() throws MidiException, IOException {
 		ProjectToMidiConverter projectConverter = new ProjectToMidiConverter();
 		MidiToProjectConverter midiConverter = new MidiToProjectConverter();

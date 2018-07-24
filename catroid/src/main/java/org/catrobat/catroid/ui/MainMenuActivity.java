@@ -76,12 +76,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import static org.catrobat.catroid.common.Constants.PREF_PROJECTNAME_KEY;
+import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY;
 
 public class MainMenuActivity extends BaseCastActivity implements ProjectLoaderTask.ProjectLoaderListener {
 
 	public static final String TAG = MainMenuActivity.class.getSimpleName();
 
-	public static final String AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY = "AgreedToPrivacyPolicy";
 	private static final int ACCESS_STORAGE = 0;
 
 	@Retention(RetentionPolicy.SOURCE)
@@ -101,7 +101,7 @@ public class MainMenuActivity extends BaseCastActivity implements ProjectLoaderT
 		ScreenValueHandler.updateScreenWidthAndHeight(this);
 
 		boolean hasUserAgreedToPrivacyPolicy = PreferenceManager.getDefaultSharedPreferences(this)
-				.getBoolean(AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY, false);
+				.getBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, false);
 
 		if (hasUserAgreedToPrivacyPolicy) {
 			loadContent();
@@ -113,7 +113,7 @@ public class MainMenuActivity extends BaseCastActivity implements ProjectLoaderT
 	public void handleAgreedToPrivacyPolicyButton(View view) {
 		PreferenceManager.getDefaultSharedPreferences(this)
 				.edit()
-				.putBoolean(AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY, true)
+				.putBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, true)
 				.commit();
 		loadContent();
 	}

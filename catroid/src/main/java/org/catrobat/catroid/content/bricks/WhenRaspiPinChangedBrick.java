@@ -26,7 +26,6 @@ import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.R;
@@ -41,6 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBrick {
+
 	private static final long serialVersionUID = 1L;
 
 	private RaspiInterruptScript script;
@@ -53,48 +53,40 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, final BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	public int getViewResource() {
+		return R.layout.brick_raspi_pin_changed;
+	}
 
-		if (view == null) {
-			alphaValue = 255;
-		}
-
-		view = View.inflate(context, R.layout.brick_raspi_pin_changed, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_raspi_when_checkbox);
-
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
 		setupValueSpinner(context);
 		setupPinSpinner(context);
-
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_raspi_pin_changed, null);
+		View prototypeView = super.getPrototypeView(context);
 
-		Spinner pinSpinner = (Spinner) prototypeView.findViewById(R.id.brick_raspi_when_pinspinner);
+		Spinner pinSpinner = prototypeView.findViewById(R.id.brick_raspi_when_pinspinner);
 
-		ArrayAdapter<String> messageAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
+		ArrayAdapter<String> messageAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
 		messageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		messageAdapter.add(script.getPin());
 		pinSpinner.setAdapter(messageAdapter);
 
-		Spinner valueSpinner = (Spinner) prototypeView.findViewById(R.id.brick_raspi_when_valuespinner);
-
+		Spinner valueSpinner = prototypeView.findViewById(R.id.brick_raspi_when_valuespinner);
 		valueSpinner.setAdapter(getValueSpinnerArrayAdapter(context));
 		return prototypeView;
 	}
 
 	private void setupPinSpinner(Context context) {
-		final Spinner pinSpinner = (Spinner) view.findViewById(R.id.brick_raspi_when_pinspinner);
+		final Spinner pinSpinner = view.findViewById(R.id.brick_raspi_when_pinspinner);
 
 		String revision = SettingsFragment.getRaspiRevision(context);
 		ArrayList<Integer> availableGPIOs = RaspberryPiService.getInstance().getGpioList(revision);
-		ArrayAdapter<String> messageAdapter2 = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
+		ArrayAdapter<String> messageAdapter2 = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
 		messageAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		for (Integer gpio : availableGPIOs) {
 			messageAdapter2.add(gpio.toString());
@@ -118,7 +110,7 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 
 	private void setupValueSpinner(final Context context) {
 
-		final Spinner valueSpinner = (Spinner) view.findViewById(R.id.brick_raspi_when_valuespinner);
+		final Spinner valueSpinner = view.findViewById(R.id.brick_raspi_when_valuespinner);
 
 		ArrayAdapter<String> valueAdapter = getValueSpinnerArrayAdapter(context);
 		valueSpinner.setAdapter(valueAdapter);

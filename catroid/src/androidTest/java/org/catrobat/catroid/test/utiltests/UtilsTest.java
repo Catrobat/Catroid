@@ -23,7 +23,8 @@
 package org.catrobat.catroid.test.utiltests;
 
 import android.os.SystemClock;
-import android.test.AndroidTestCase;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
 import org.catrobat.catroid.common.Constants;
@@ -46,6 +47,10 @@ import org.catrobat.catroid.stage.ShowBubbleActor;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.Utils;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -57,7 +62,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-public class UtilsTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
+
+@RunWith(AndroidJUnit4.class)
+public class UtilsTest {
 	private static final String TAG = UtilsTest.class.getSimpleName();
 
 	private final String testFileContent = "Hello, this is a Test-String";
@@ -69,8 +81,8 @@ public class UtilsTest extends AndroidTestCase {
 
 	private Project defaultProject;
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		OutputStream outputStream = null;
 
 		try {
@@ -87,20 +99,18 @@ public class UtilsTest extends AndroidTestCase {
 				outputStream.close();
 			}
 		}
-
-		super.setUp();
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
+	@After
+	public void tearDown() throws Exception {
 		if (testFile != null && testFile.exists()) {
 			testFile.delete();
 		}
 
 		TestUtils.deleteProjects(NEW_PROGRAM_NAME);
-		super.tearDown();
 	}
 
+	@Test
 	public void testMD5CheckSumOfFile() throws IOException {
 
 		PrintWriter printWriter = null;
@@ -133,12 +143,14 @@ public class UtilsTest extends AndroidTestCase {
 		StorageOperations.deleteDir(tempDir);
 	}
 
+	@Test
 	public void testMD5CheckSumOfString() {
 		assertEquals(MD5_CATROID.toLowerCase(Locale.US), Utils.md5Checksum("catroid"));
 		assertEquals(MD5_EMPTY.toLowerCase(Locale.US), Utils.md5Checksum(""));
 		assertEquals(MD5_HELLO_WORLD.toLowerCase(Locale.US), Utils.md5Checksum("Hello World!"));
 	}
 
+	@Test
 	public void testBuildPath() {
 		String first = "/abc/abc";
 		String second = "/def/def/";
@@ -161,6 +173,7 @@ public class UtilsTest extends AndroidTestCase {
 		assertEquals(PathBuilder.buildPath(first, second), result);
 	}
 
+	@Test
 	public void testBuildProjectPath() {
 		if (!Utils.isExternalStorageAvailable()) {
 			fail("No SD card present");
@@ -170,13 +183,15 @@ public class UtilsTest extends AndroidTestCase {
 		assertEquals(expectedPath, PathBuilder.buildProjectPath(projectName));
 	}
 
+	@Test
 	public void testCompareProjectToDefaultProject() throws IOException, IllegalArgumentException {
 		ScreenValues.SCREEN_WIDTH = 480;
 		ScreenValues.SCREEN_HEIGHT = 800;
 
-		defaultProject = DefaultProjectHandler.createAndSaveDefaultProject(NEW_PROGRAM_NAME, getContext());
+		defaultProject = DefaultProjectHandler.createAndSaveDefaultProject(NEW_PROGRAM_NAME,
+				InstrumentationRegistry.getTargetContext());
 
-		assertTrue(Utils.isDefaultProject(defaultProject, getContext()));
+		assertTrue(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
 
 		addSpriteAndCompareToDefaultProject();
 		addScriptAndCompareToDefalutProject();
@@ -189,6 +204,7 @@ public class UtilsTest extends AndroidTestCase {
 		SystemClock.sleep(1000);
 	}
 
+	@Test
 	public void testExtractRemixUrlsOfProgramHeaderUrlFieldContainingSingleAbsoluteUrl() {
 		final String expectedFirstProgramRemixUrl = "https://share.catrob.at/pocketcode/program/16267";
 		final String remixUrlsString = expectedFirstProgramRemixUrl;
@@ -198,6 +214,7 @@ public class UtilsTest extends AndroidTestCase {
 		assertEquals(expectedFirstProgramRemixUrl, result.get(0));
 	}
 
+	@Test
 	public void testExtractRemixUrlsOfProgramHeaderUrlFieldContainingSingleRelativeUrl() {
 		final String expectedFirstProgramRemixUrl = "/pocketcode/program/3570";
 		final String remixUrlsString = expectedFirstProgramRemixUrl;
@@ -207,6 +224,7 @@ public class UtilsTest extends AndroidTestCase {
 		assertEquals(expectedFirstProgramRemixUrl, result.get(0));
 	}
 
+	@Test
 	public void testExtractRemixUrlsOfMergedProgramHeaderUrlFieldContainingTwoAbsoluteUrls() {
 		final String expectedFirstProgramRemixUrl = "https://share.catrob.at/pocketcode/program/16267";
 		final String expectedSecondProgramRemixUrl = "https://scratch.mit.edu/projects/110380057/";
@@ -227,6 +245,7 @@ public class UtilsTest extends AndroidTestCase {
 		assertEquals(expectedSecondProgramRemixUrl, result.get(1));
 	}
 
+	@Test
 	public void testExtractRemixUrlsOfMergedProgramHeaderUrlFieldContainingTwoRelativeUrls() {
 		final String expectedFirstProgramRemixUrl = "/pocketcode/program/16267";
 		final String expectedSecondProgramRemixUrl = "/pocketcode/program/3570";
@@ -248,6 +267,7 @@ public class UtilsTest extends AndroidTestCase {
 		assertEquals(expectedSecondProgramRemixUrl, result.get(1));
 	}
 
+	@Test
 	public void testExtractRemixUrlsOfMergedProgramHeaderUrlFieldContainingNoUrls() {
 		final XmlHeader headerOfFirstProgram = new XmlHeader();
 		headerOfFirstProgram.setProgramName("Program A");
@@ -262,6 +282,7 @@ public class UtilsTest extends AndroidTestCase {
 		assertEquals(0, result.size());
 	}
 
+	@Test
 	public void testExtractRemixUrlsOfMergedProgramHeaderUrlFieldContainingMultipleMixedUrls() {
 		final String expectedFirstProgramRemixUrl = "https://scratch.mit.edu/projects/117697631/";
 		final String expectedSecondProgramRemixUrl = "/pocketcode/program/3570";
@@ -283,6 +304,7 @@ public class UtilsTest extends AndroidTestCase {
 		assertEquals(expectedSecondProgramRemixUrl, result.get(1));
 	}
 
+	@Test
 	public void testExtractRemixUrlsOfRemergedProgramHeaderUrlFieldContainingMixedUrls() {
 		final String expectedFirstProgramRemixUrl = "https://scratch.mit.edu/projects/117697631/";
 		final String expectedSecondProgramRemixUrl = "/pocketcode/program/3570";
@@ -330,6 +352,7 @@ public class UtilsTest extends AndroidTestCase {
 		assertEquals(expectedFourthProgramRemixUrl, result.get(3));
 	}
 
+	@Test
 	public void testExtractRemixUrlsOfRemergedProgramHeaderUrlFieldContainingMissingUrls() {
 		final String expectedSecondProgramRemixUrl = "/pocketcode/program/3570";
 		final String expectedFourthProgramRemixUrl = "https://share.catrob.at/pocketcode/program/16267";
@@ -374,18 +397,18 @@ public class UtilsTest extends AndroidTestCase {
 	private void addSpriteAndCompareToDefaultProject() {
 		Sprite sprite = new SingleSprite("TestSprite");
 		defaultProject.getDefaultScene().addSprite(sprite);
-		assertFalse(Utils.isDefaultProject(defaultProject, getContext()));
+		assertFalse(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
 		defaultProject.getDefaultScene().removeSprite(sprite);
-		assertTrue(Utils.isDefaultProject(defaultProject, getContext()));
+		assertTrue(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
 	}
 
 	private void addScriptAndCompareToDefalutProject() {
 		Sprite catroidSprite = defaultProject.getDefaultScene().getSpriteList().get(1);
 		WhenScript whenScript = new WhenScript();
 		catroidSprite.addScript(whenScript);
-		assertFalse(Utils.isDefaultProject(defaultProject, getContext()));
+		assertFalse(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
 		catroidSprite.removeScript(whenScript);
-		assertTrue(Utils.isDefaultProject(defaultProject, getContext()));
+		assertTrue(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
 	}
 
 	private void addBrickAndCompareToDefaultProject() {
@@ -393,9 +416,9 @@ public class UtilsTest extends AndroidTestCase {
 		Brick brick = new HideBrick();
 		Script catroidScript = catroidSprite.getScript(0);
 		catroidScript.addBrick(brick);
-		assertFalse(Utils.isDefaultProject(defaultProject, getContext()));
+		assertFalse(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
 		catroidScript.removeBrick(brick);
-		assertTrue(Utils.isDefaultProject(defaultProject, getContext()));
+		assertTrue(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
 	}
 
 	private void changeParametersOfBricksAndCompareToDefaultProject() {
@@ -418,10 +441,10 @@ public class UtilsTest extends AndroidTestCase {
 			LookData oldLookData = setLookBrick.getLook();
 			LookData newLookData = new LookData();
 			setLookBrick.setLook(newLookData);
-			assertFalse(Utils.isDefaultProject(defaultProject, getContext()));
+			assertFalse(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
 
 			setLookBrick.setLook(oldLookData);
-			assertTrue(Utils.isDefaultProject(defaultProject, getContext()));
+			assertTrue(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
 		}
 
 		if (waitBrick != null) {
@@ -429,10 +452,10 @@ public class UtilsTest extends AndroidTestCase {
 			Formula newTimeToWait = new Formula(2345);
 
 			waitBrick.setTimeToWait(newTimeToWait);
-			assertFalse(Utils.isDefaultProject(defaultProject, getContext()));
+			assertFalse(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
 
 			waitBrick.setTimeToWait(oldTime);
-			assertTrue(Utils.isDefaultProject(defaultProject, getContext()));
+			assertTrue(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
 		}
 	}
 
@@ -441,20 +464,20 @@ public class UtilsTest extends AndroidTestCase {
 		ArrayList<Brick> brickList = catroidScript.getBrickList();
 		Brick brick = brickList.get(brickList.size() - 1);
 		brickList.remove(brickList.size() - 1);
-		assertFalse(Utils.isDefaultProject(defaultProject, getContext()));
+		assertFalse(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
 
 		brickList.add(brick);
-		assertTrue(Utils.isDefaultProject(defaultProject, getContext()));
+		assertTrue(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
 	}
 
 	private void removeScriptAndCompareToDefaultProject() {
 		Script catroidScript = defaultProject.getDefaultScene().getSpriteList().get(1).getScript(0);
 		Sprite sprite = defaultProject.getDefaultScene().getSpriteList().get(1);
 		sprite.removeScript(catroidScript);
-		assertFalse(Utils.isDefaultProject(defaultProject, getContext()));
+		assertFalse(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
 
 		sprite.addScript(catroidScript);
-		assertTrue(Utils.isDefaultProject(defaultProject, getContext()));
+		assertTrue(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
 	}
 
 	private void removeSpriteAndCompareToDefaultProject() {
@@ -462,92 +485,113 @@ public class UtilsTest extends AndroidTestCase {
 		int lastIndex = defaultProject.getDefaultScene().getSpriteList().size() - 1;
 		List<Sprite> spriteList = defaultProject.getDefaultScene().getSpriteList();
 		spriteList.remove(lastIndex);
-		assertFalse(Utils.isDefaultProject(defaultProject, getContext()));
+		assertFalse(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
 
 		spriteList.add(catroidSprite);
-		assertTrue(Utils.isDefaultProject(defaultProject, getContext()));
+		assertTrue(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
 	}
 
+	@Test
 	public void testSetBitAllOnesSetIndex0To1() {
 		assertEquals(0b11111111, Utils.setBit(0b11111111, 0, 1));
 	}
 
+	@Test
 	public void testSetBitAllButOneZerosSetIndex3To1() {
 		assertEquals(0b00001000, Utils.setBit(0b00001000, 3, 1));
 	}
 
+	@Test
 	public void testSetBitAllZerosSetIndex7To0() {
 		assertEquals(0b00000000, Utils.setBit(0b00000000, 7, 0));
 	}
 
+	@Test
 	public void testSetBitAllButOneOnesSetIndex4To0() {
 		assertEquals(0b11011111, Utils.setBit(0b11011111, 5, 0));
 	}
 
+	@Test
 	public void testSetBitAllZerosSetIndex0To1() {
 		assertEquals(0b00000001, Utils.setBit(0b00000000, 0, 1));
 	}
 
+	@Test
 	public void testSetBitAllOnesSetIndex0To0() {
 		assertEquals(0b11111110, Utils.setBit(0b11111111, 0, 0));
 	}
 
+	@Test
 	public void testSetBitAllZerosSetIndex7To1() {
 		assertEquals(0b10000000, Utils.setBit(0b00000000, 7, 1));
 	}
 
+	@Test
 	public void testSetBitAllOnesSetIndex7To0() {
 		assertEquals(0b01111111, Utils.setBit(0b11111111, 7, 0));
 	}
 
+	@Test
 	public void testSetBitNegativeIndex() {
 		assertEquals(0, Utils.setBit(0, -3, 1));
 	}
 
+	@Test
 	public void testSetBitMaxIndex() {
 		assertEquals(0x80000000, Utils.setBit(0x00000000, 31, 1));
 	}
 
+	@Test
 	public void testSetBitTooLargeIndex() {
 		assertEquals(0, Utils.setBit(0, 32, 1));
 	}
 
+	@Test
 	public void testSetBitNonbinaryValue() {
 		assertEquals(0b00000001, Utils.setBit(0b00000000, 0, 4));
 	}
 
+	@Test
 	public void testGetBitGet0FromIndex0() {
 		assertEquals(0, Utils.getBit(0b11111110, 0));
 	}
 
+	@Test
 	public void testGetBitGet1FromIndex0() {
 		assertEquals(1, Utils.getBit(0b00000001, 0));
 	}
 
+	@Test
 	public void testGetBitGet0FromIndex7() {
 		assertEquals(0, Utils.getBit(0b01111111, 7));
 	}
 
+	@Test
 	public void testGetBitGet1FromIndex7() {
 		assertEquals(1, Utils.getBit(0b10000000, 7));
 	}
 
+	@Test
 	public void testGetBitGet0FromMaxIndex() {
 		assertEquals(0, Utils.getBit(0x7FFFFFFF, 31));
 	}
 
+	@Test
 	public void testGetBitGet1FromMaxIndex() {
 		assertEquals(1, Utils.getBit(0x80000000, 31));
 	}
 
+	@Test
 	public void testGetBitNegativeIndex() {
 		assertEquals(0, Utils.getBit(0xFFFFFFFF, -3));
 	}
 
+	@Test
 	public void testGetBitTooLargeIndex() {
 		assertEquals(0, Utils.getBit(0xFFFFFFFF, 32));
 	}
 
+	@Test
 	public void testFormatStringForBubbleBricks() {
 		String testFirstCharWhitespace = " ThisIsAReallyLongishWord toTest TheWordWrapperFunc";
 		String[] expectedResult = {"ThisIsAReallyLon", "gishWord toTest", "TheWordWrapperFu", "nc"};

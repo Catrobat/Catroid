@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.InstrumentationTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
@@ -31,12 +31,18 @@ import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.eventids.EventId;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class ForeverActionTest extends InstrumentationTestCase {
+import static junit.framework.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class ForeverActionTest {
 
 	private static final int REPEAT_TIMES = 4;
 	private final float delta = 0.005f;
 
+	@Test
 	public void testLoopDelay() throws InterruptedException {
 		final int deltaY = -10;
 

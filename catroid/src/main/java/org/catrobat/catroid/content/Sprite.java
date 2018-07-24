@@ -57,8 +57,9 @@ import org.catrobat.catroid.physics.PhysicsCollision;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.ui.fragment.SpriteFactory;
+import org.catrobat.catroid.ui.recyclerview.controller.ScriptController;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -79,8 +80,6 @@ public class Sprite implements Serializable, Cloneable {
 
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = Sprite.class.getSimpleName();
-
-	private static SpriteFactory spriteFactory = new SpriteFactory();
 
 	public transient Look look = new Look(this);
 	public transient PenConfiguration penConfiguration = new PenConfiguration();
@@ -212,7 +211,7 @@ public class Sprite implements Serializable, Cloneable {
 		return matchingUserBricks;
 	}
 
-	public void initConditionScriptTiggers() {
+	public void initConditionScriptTriggers() {
 		conditionScriptTriggers.clear();
 		for (Script script : scriptList) {
 			if (script instanceof WhenConditionScript) {
@@ -252,80 +251,63 @@ public class Sprite implements Serializable, Cloneable {
 		this.actionFactory = actionFactory;
 	}
 
-	@Override
-	public Sprite clone() {
-		final Sprite cloneSprite = createSpriteInstance();
+	public Sprite convert() {
+		Sprite convertedSprite;
 
-		cloneSprite.setName(this.getName());
-		cloneSprite.convertToSingleSprite = false;
-		cloneSprite.convertToGroupItemSprite = false;
-
-		ProjectManager projectManager = ProjectManager.getInstance();
-		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
-		if (currentScene == null) {
-			throw new RuntimeException("Current scene was null, cannot clone Sprite.");
+		if (convertToSingleSprite) {
+			convertedSprite = new SingleSprite(name);
+		} else if (convertToGroupItemSprite) {
+			convertedSprite = new GroupItemSprite(name);
+		} else {
+			Log.d(TAG, "Nothing to convert: if this is not what you wanted have a look at the convert flags.");
+			return this;
 		}
 
-		Sprite originalSprite = projectManager.getCurrentSprite();
-		projectManager.setCurrentSprite(cloneSprite);
+		convertedSprite.look = new Look(convertedSprite);
+		convertedSprite.look.setLookData(look.getLookData());
 
-		cloneSpriteVariables(currentScene, cloneSprite);
-		cloneLooks(cloneSprite);
-		cloneSounds(cloneSprite);
-		cloneNfcTags(cloneSprite);
-		cloneScripts(cloneSprite);
-		cloneSprite.resetSprite();
-		cloneLook(cloneSprite);
+		convertedSprite.penConfiguration = penConfiguration;
 
-		setUserAndVariableBrickReferences(cloneSprite, userBricks);
+		convertedSprite.lookList = lookList;
+		convertedSprite.soundList = soundList;
+		convertedSprite.nfcTagList = nfcTagList;
+		convertedSprite.scriptList = scriptList;
 
-		projectManager.checkCurrentSprite(cloneSprite, false);
-		projectManager.setCurrentSprite(originalSprite);
-
-		return cloneSprite;
+		return convertedSprite;
 	}
 
 	public Sprite cloneForCloneBrick() {
-		final Sprite cloneSprite = new SpriteFactory().newInstance(SpriteFactory.SPRITE_SINGLE);
+		Sprite clone = new Sprite(name + "-c" + StageActivity.getAndIncrementNumberOfClonedSprites());
+		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 
-		cloneSprite.setName(this.getName() + "-c" + StageActivity.getAndIncrementNumberOfClonedSprites());
-		cloneSprite.isClone = true;
-		cloneSprite.actionFactory = this.actionFactory;
+		DataContainer dataContainer = currentScene.getDataContainer();
+		ScriptController scriptController = new ScriptController();
 
-		cloneSprite.soundList = this.soundList;
-		cloneSprite.nfcTagList = this.nfcTagList;
-		cloneSprite.idToEventThreadMap = HashMultimap.create();
-		cloneSprite.conditionScriptTriggers = new HashSet<>();
+		clone.isClone = true;
+		clone.actionFactory = actionFactory;
 
-		Sprite originalSprite = ProjectManager.getInstance().getCurrentSprite();
-		ProjectManager.getInstance().setCurrentSprite(cloneSprite);
-
-		shallowCloneLooks(cloneSprite);
-		cloneSpriteVariables(ProjectManager.getInstance().getCurrentlyEditedScene(), cloneSprite);
-		cloneScripts(cloneSprite);
-		cloneSprite.resetSprite();
-		cloneLook(cloneSprite);
-		setUserAndVariableBrickReferences(cloneSprite, userBricks);
-		ProjectManager.getInstance().setCurrentSprite(originalSprite);
-
-		return cloneSprite;
-	}
-
-	private Sprite createSpriteInstance() {
-		Sprite cloneSprite;
-		if (convertToSingleSprite) {
-			cloneSprite = spriteFactory.newInstance(SpriteFactory.SPRITE_SINGLE);
-		} else if (convertToGroupItemSprite) {
-			cloneSprite = spriteFactory.newInstance(SpriteFactory.SPRITE_GROUP_ITEM);
-		} else {
-			cloneSprite = spriteFactory.newInstance(getClass().getSimpleName());
+		for (LookData look : lookList) {
+			clone.lookList.add(new LookData(look.getName(), look.getFile()));
 		}
-		return cloneSprite;
-	}
 
-	public void setUserAndVariableBrickReferences(Sprite cloneSprite, List<UserBrick> originalPrototypeUserBricks) {
-		setDefinitionBrickReferences(cloneSprite, originalPrototypeUserBricks);
-		setVariableReferencesOfClonedSprite(cloneSprite);
+		clone.soundList.addAll(soundList);
+		clone.nfcTagList.addAll(nfcTagList);
+
+		dataContainer.copySpriteUserData(this, dataContainer, clone);
+
+		for (Script script : scriptList) {
+			try {
+				clone.addScript(scriptController.copy(script, currentScene, clone));
+			} catch (CloneNotSupportedException | IOException e) {
+				Log.e(TAG, Log.getStackTraceString(e));
+			}
+		}
+
+		clone.resetSprite();
+		cloneLook(clone);
+		setDefinitionBrickReferences(clone, userBricks);
+
+		return clone;
 	}
 
 	private void setDefinitionBrickReferences(Sprite cloneSprite, List<UserBrick> originalPrototypeUserBricks) {
@@ -358,71 +340,12 @@ public class Sprite implements Serializable, Cloneable {
 		}
 	}
 
-	private void setVariableReferencesOfClonedSprite(Sprite cloneSprite) {
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
-		List<UserVariable> clonedSpriteVariables = dataContainer.getOrCreateVariableListForSprite(cloneSprite);
-		cloneSprite.updateUserVariableReferencesInUserVariableBricks(clonedSpriteVariables);
-
-		List<UserVariable> clonedProjectVariables = dataContainer.getProjectVariables();
-		cloneSprite.updateUserVariableReferencesInUserVariableBricks(clonedProjectVariables);
-	}
-
-	private void cloneSpriteVariables(Scene currentScene, Sprite cloneSprite) {
-		DataContainer userVariables = currentScene.getDataContainer();
-		List<UserVariable> originalSpriteVariables = userVariables.getOrCreateVariableListForSprite(this);
-		List<UserVariable> clonedSpriteVariables = userVariables.getOrCreateVariableListForSprite(cloneSprite);
-		for (UserVariable variable : originalSpriteVariables) {
-			clonedSpriteVariables.add(new UserVariable(variable.getName(), variable.getValue()));
-		}
-	}
-
 	private void cloneLook(Sprite cloneSprite) {
 		int currentLookDataIndex = this.lookList.indexOf(this.look.getLookData());
 		if (currentLookDataIndex != -1) {
 			cloneSprite.look.setLookData(cloneSprite.lookList.get(currentLookDataIndex));
 		}
 		this.look.copyTo(cloneSprite.look);
-	}
-
-	private void cloneLooks(Sprite cloneSprite) {
-		for (LookData look : lookList) {
-			cloneSprite.getLookList().add(look.clone());
-		}
-	}
-
-	private void shallowCloneLooks(Sprite cloneSprite) {
-		for (LookData look : lookList) {
-			cloneSprite.getLookList().add(look.shallowClone());
-		}
-	}
-
-	private void cloneSounds(Sprite cloneSprite) {
-		List<SoundInfo> cloneSoundList = new ArrayList<>();
-		for (SoundInfo element : this.soundList) {
-			cloneSoundList.add(element.clone());
-		}
-		cloneSprite.soundList = cloneSoundList;
-	}
-
-	private void cloneNfcTags(Sprite cloneSprite) {
-		List<NfcTagData> cloneNfcTagList = new ArrayList<>();
-		for (NfcTagData element : this.nfcTagList) {
-			cloneNfcTagList.add(element.clone());
-		}
-		cloneSprite.nfcTagList = cloneNfcTagList;
-	}
-
-	private void cloneScripts(Sprite cloneSprite) {
-		List<Script> cloneScriptList = new ArrayList<>();
-		for (Script element : this.scriptList) {
-			try {
-				Script addElement = element.clone();
-				cloneScriptList.add(addElement);
-			} catch (CloneNotSupportedException e) {
-				Log.e(TAG, Log.getStackTraceString(e));
-			}
-		}
-		cloneSprite.scriptList = cloneScriptList;
 	}
 
 	private EventThread createEventThread(Script script) {
@@ -553,7 +476,7 @@ public class Sprite implements Serializable, Cloneable {
 		return false;
 	}
 
-	public boolean hasToCollideWith(Sprite other) {
+	private boolean hasToCollideWith(Sprite other) {
 		for (Script script : getScriptList()) {
 			Brick scriptBrick = script.getScriptBrick();
 			if (scriptBrick instanceof FormulaBrick) {
@@ -708,10 +631,6 @@ public class Sprite implements Serializable, Cloneable {
 			resourceBrickList.addAll(script.getBricksRequiringResources(resource));
 		}
 		return resourceBrickList;
-	}
-
-	public boolean isClone() {
-		return isClone;
 	}
 
 	public boolean isBackgroundSprite() {

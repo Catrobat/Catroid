@@ -23,7 +23,6 @@
 package org.catrobat.catroid.test.physics;
 
 import android.support.test.InstrumentationRegistry;
-import android.test.InstrumentationTestCase;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
@@ -37,28 +36,29 @@ import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
 import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.junit.rules.ExternalResource;
 
 import java.io.File;
 
+import static junit.framework.Assert.assertNotNull;
+
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 
-@SuppressWarnings("PMD.TestClassWithoutTestCases")
-public class PhysicsBaseTest extends InstrumentationTestCase {
+public class PhysicsTestRule extends ExternalResource {
 
-	protected Sprite sprite;
-	protected PhysicsWorld physicsWorld;
+	public Sprite sprite;
+	public PhysicsWorld physicsWorld;
 
-	protected Project project;
-	private String rectangle125x125FileName;
-	protected File rectangle125x125File;
+	public Project project;
+	public String rectangle125x125FileName;
+	public File rectangle125x125File;
 
 	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	protected void before() throws Throwable {
 		TestUtils.deleteProjects();
 		rectangle125x125FileName = PhysicsTestUtils.getInternalImageFilenameFromFilename("rectangle_125x125.png");
 
-		project = new Project(getInstrumentation().getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		project = new Project(InstrumentationRegistry.getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		physicsWorld = project.getDefaultScene().getPhysicsWorld();
 		sprite = new Sprite("TestSprite");
@@ -86,16 +86,13 @@ public class PhysicsBaseTest extends InstrumentationTestCase {
 	}
 
 	@Override
-	protected void tearDown() throws Exception {
+	protected void after() {
 		sprite = null;
 		physicsWorld = null;
 
 		project = null;
 		rectangle125x125FileName = null;
 		rectangle125x125File = null;
-
-		TestUtils.deleteProjects();
-		super.tearDown();
 	}
 
 	public static void stabilizePhysicsWorld(PhysicsWorld physicsWorld) {

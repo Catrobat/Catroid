@@ -23,7 +23,7 @@
 package org.catrobat.catroid.test.content.actions;
 
 import android.support.test.InstrumentationRegistry;
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -35,26 +35,35 @@ import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Operators;
+import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class WaitUntilActionTest extends AndroidTestCase {
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+
+@RunWith(AndroidJUnit4.class)
+public class WaitUntilActionTest {
 
 	private Sprite testSprite;
 	private Project project;
 	private static final String TEST_USERVARIABLE = "testUservariable";
 	private StartScript testScript;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 		testSprite = new SingleSprite("testSprite");
 		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		testSprite.removeAllScripts();
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(new SingleSprite("testSprite1"));
-		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().deleteUserVariableByName(TEST_USERVARIABLE);
-		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().addProjectUserVariable(TEST_USERVARIABLE);
+		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().removeUserVariable(TEST_USERVARIABLE);
+		UserVariable userVariable = new UserVariable(TEST_USERVARIABLE);
+		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().addUserVariable(userVariable);
 	}
 
+	@Test
 	public void testWaitUntilBrick() {
 
 		Formula validFormula = new Formula(1);
@@ -65,6 +74,7 @@ public class WaitUntilActionTest extends AndroidTestCase {
 		assertTrue(testSprite.look.haveAllThreadsFinished());
 	}
 
+	@Test
 	public void testWaitUntilBrickFail() {
 
 		Formula validFormula = new Formula(1);

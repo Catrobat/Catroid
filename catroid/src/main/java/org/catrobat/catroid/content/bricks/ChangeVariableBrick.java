@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -73,14 +72,13 @@ public class ChangeVariableBrick extends UserVariableBrick {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	public int getViewResource() {
+		return R.layout.brick_change_variable_by;
+	}
 
-		view = View.inflate(context, R.layout.brick_change_variable_by, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_change_variable_checkbox);
+	@Override
+	public View getView(final Context context) {
+		super.getView(context);
 		TextView textField = (TextView) view.findViewById(R.id.brick_change_variable_edit_text);
 		getFormulaWithBrickField(BrickField.VARIABLE_CHANGE).setTextFieldId(R.id.brick_change_variable_edit_text);
 		getFormulaWithBrickField(BrickField.VARIABLE_CHANGE).refreshTextField(view);
@@ -88,10 +86,8 @@ public class ChangeVariableBrick extends UserVariableBrick {
 
 		Spinner variableSpinner = (Spinner) view.findViewById(R.id.change_variable_spinner);
 
-		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
-
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
-				.createDataAdapter(context, currentBrick, ProjectManager.getInstance().getCurrentSprite());
+				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
 		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
 				dataAdapter);
 		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
@@ -107,13 +103,11 @@ public class ChangeVariableBrick extends UserVariableBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_change_variable_by, null);
+		View prototypeView = super.getPrototypeView(context);
 		Spinner variableSpinner = (Spinner) prototypeView.findViewById(R.id.change_variable_spinner);
 
-		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
-
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyEditedScene()
-				.getDataContainer().createDataAdapter(context, currentBrick, ProjectManager.getInstance().getCurrentSprite());
+				.getDataContainer().createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
 
 		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
 				dataAdapter);
@@ -134,10 +128,7 @@ public class ChangeVariableBrick extends UserVariableBrick {
 
 	@Override
 	public ChangeVariableBrick clone() {
-		ChangeVariableBrick clonedBrick = new ChangeVariableBrick(getFormulaWithBrickField(
-				BrickField.VARIABLE_CHANGE).clone(), userVariable);
-		clonedBrick.setBackPackedData(new BackPackedVariableData(backPackedData));
-		return clonedBrick;
+		return new ChangeVariableBrick(getFormulaWithBrickField(BrickField.VARIABLE_CHANGE).clone(), userVariable);
 	}
 
 	@Override

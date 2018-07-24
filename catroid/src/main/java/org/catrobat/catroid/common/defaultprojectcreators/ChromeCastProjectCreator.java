@@ -188,10 +188,10 @@ public class ChromeCastProjectCreator extends ProjectCreator {
 			soundInfo2.setName(tweet2);
 			soundInfo2.setFile(soundFile2);
 
-			DataContainer userVariables = defaultProject.getDefaultScene().getDataContainer();
+			DataContainer dataContainer = defaultProject.getDefaultScene().getDataContainer();
 
-			userVariables.addProjectUserVariable(varDirection);
-			UserVariable direction = userVariables.getUserVariable(backgroundSprite, varDirection);
+			UserVariable direction = new UserVariable(varDirection);
+			dataContainer.addUserVariable(direction);
 
 			//Clouds
 			Sprite cloudSprite1 = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), cloudSpriteName1);

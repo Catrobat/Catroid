@@ -26,23 +26,34 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
+import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
-
-import junit.framework.TestCase;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.Reflection.ParameterList;
 import org.catrobat.catroid.utils.ImageEditing;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
-public class ImageEditingTest extends TestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.fail;
+
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.core.IsNot.not;
+import static org.junit.Assert.assertThat;
+
+@RunWith(AndroidJUnit4.class)
+public class ImageEditingTest {
 	private static final String TAG = ImageEditingTest.class.getSimpleName();
 
+	@Test
 	public void testScaleImage() {
 		Bitmap bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.RGB_565);
 		Bitmap scaledBitmap = (Bitmap) Reflection.invokeMethod(ImageEditing.class, "scaleBitmap", new ParameterList(
@@ -52,6 +63,7 @@ public class ImageEditingTest extends TestCase {
 		assertEquals(70, scaledBitmap.getHeight());
 	}
 
+	@Test
 	public void testGetImageDimensions() {
 		File testImageFile = new File(Constants.DEFAULT_ROOT_DIRECTORY, "tmp.jpg");
 		FileOutputStream fileOutputStream = null;
@@ -77,6 +89,7 @@ public class ImageEditingTest extends TestCase {
 		assertEquals(200, dimensions[1]);
 	}
 
+	@Test
 	public void testGetBitmap() {
 		int maxBitmapWidth = 500;
 		int maxBitmapHeight = 500;
@@ -146,6 +159,7 @@ public class ImageEditingTest extends TestCase {
 		assertEquals(bitmap.getWidth(), loadedBitmap.getWidth());
 	}
 
+	@Test
 	public void testGetScaledBitmap() {
 		int targetBitmapWidth = 300;
 		int targetBitmapHeight = 500;
@@ -203,6 +217,7 @@ public class ImageEditingTest extends TestCase {
 		assertEquals(bitmapHeight, imageFileDimensions[1]);
 	}
 
+	@Test
 	public void testRotatePicture() {
 		Bitmap testBitmap = BitmapFactory.decodeResource(Resources.getSystem(), android.R.drawable.bottom_bar);
 
@@ -218,7 +233,7 @@ public class ImageEditingTest extends TestCase {
 				rotatedBitmap.getHeight());
 
 		for (int i = 0; i < widthBeforeRotation; i++) {
-			assertFalse((testBitmapPixels[i] == roatatedBitmapPixels[i]));
+			assertThat(testBitmapPixels[i], is(not(equalTo(roatatedBitmapPixels[i]))));
 		}
 	}
 

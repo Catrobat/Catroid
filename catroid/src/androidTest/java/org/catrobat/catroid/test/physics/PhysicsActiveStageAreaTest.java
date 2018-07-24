@@ -24,44 +24,69 @@
 package org.catrobat.catroid.test.physics;
 
 import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
 import org.catrobat.catroid.test.utils.PhysicsTestUtils;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.File;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 
-public class PhysicsActiveStageAreaTest extends PhysicsBaseTest {
+@RunWith(AndroidJUnit4.class)
+public class PhysicsActiveStageAreaTest {
 
 	private static final float EXPECTED_CIRCUMFERENCE_125X125 = (float) Math.sqrt(2 * Math.pow(125 / 2f, 2));
 	private static final float CIRCUMFERENCE_COMPARISON_DELTA = 1.0f;
 	private PhysicsObject physicsObject;
 	private PhysicsLook physicsLook;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Rule
+	public PhysicsTestRule rule = new PhysicsTestRule();
+
+	private Sprite sprite;
+	private PhysicsWorld physicsWorld;
+	private Project project;
+
+	@Before
+	public void setUp() throws Exception {
+		sprite = rule.sprite;
+		physicsWorld = rule.physicsWorld;
+		project = rule.project;
 		physicsObject = physicsWorld.getPhysicsObject(sprite);
 		physicsLook = ((PhysicsLook) sprite.look);
 	}
 
+	@Test
 	public void testCircumferenceCalculation() {
 		assertEquals(EXPECTED_CIRCUMFERENCE_125X125, physicsObject.getCircumference(), CIRCUMFERENCE_COMPARISON_DELTA);
 	}
 
+	@Test
 	public void testCenteredObjectIsActive() {
 		physicsObject.setPosition(0, 0);
 		physicsLook.updatePhysicsObjectState(true);
 		assertFalse(physicsLook.isHangedUp());
 	}
 
+	@Test
 	public void testXOutOfBounds() {
 		physicsObject.setX(PhysicsWorld.activeArea.x / 2.0f
 				+ physicsObject.getCircumference() - 1);
@@ -76,6 +101,7 @@ public class PhysicsActiveStageAreaTest extends PhysicsBaseTest {
 		assertTrue(physicsLook.isHangedUp());
 	}
 
+	@Test
 	public void testYOutOfBounds() {
 		physicsObject.setY(PhysicsWorld.activeArea.y / 2.0f
 				+ physicsObject.getCircumference() - 1);
@@ -90,6 +116,7 @@ public class PhysicsActiveStageAreaTest extends PhysicsBaseTest {
 		assertTrue(physicsLook.isHangedUp());
 	}
 
+	@Test
 	public void testNegativeXYOutOfBounds() {
 		physicsObject.setX(-PhysicsWorld.activeArea.x / 2.0f
 				- physicsObject.getCircumference() - 1);
@@ -100,6 +127,7 @@ public class PhysicsActiveStageAreaTest extends PhysicsBaseTest {
 		assertTrue(physicsLook.isHangedUp());
 	}
 
+	@Test
 	public void testResumeAfterXYHangup() {
 		physicsObject.setX(PhysicsWorld.activeArea.x / 2.0f
 				+ physicsObject.getCircumference() + 1);
@@ -115,6 +143,7 @@ public class PhysicsActiveStageAreaTest extends PhysicsBaseTest {
 		assertFalse(physicsLook.isHangedUp());
 	}
 
+	@Test
 	public void testSpriteLargerThanActiveAreaHangupAndResume() throws Exception {
 		String rectangle8192x8192FileName = PhysicsTestUtils.getInternalImageFilenameFromFilename("rectangle_8192x8192.png");
 

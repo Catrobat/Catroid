@@ -43,7 +43,7 @@ public class NewStringDialogFragment extends TextInputDialogFragment {
 
 	@Override
 	protected boolean onPositiveButtonClick() {
-		String string = inputLayout.getEditText().getText().toString().trim();
+		String string = inputLayout.getEditText().getText().toString();
 		newItemInterface.addItem(string);
 		return true;
 	}

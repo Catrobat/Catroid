@@ -26,7 +26,6 @@ import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.R;
@@ -53,14 +52,13 @@ public class FlashBrick extends BrickBaseType {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		view = View.inflate(context, R.layout.brick_flash, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+	public int getViewResource() {
+		return R.layout.brick_flash;
+	}
 
-		setCheckboxView(R.id.brick_flash_checkbox);
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
 		Spinner flashSpinner = (Spinner) view.findViewById(R.id.brick_flash_spinner);
 
 		ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
@@ -86,7 +84,7 @@ public class FlashBrick extends BrickBaseType {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_flash, null);
+		prototypeView = super.getPrototypeView(context);
 
 		Spinner setFlashSpinner = (Spinner) prototypeView.findViewById(R.id.brick_flash_spinner);
 

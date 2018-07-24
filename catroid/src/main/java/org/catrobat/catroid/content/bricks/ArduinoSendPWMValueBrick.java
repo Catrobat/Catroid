@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -72,7 +71,7 @@ public class ArduinoSendPWMValueBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_arduino_send_analog, null);
+		prototypeView = super.getPrototypeView(context);
 
 		TextView textSetPinNumber = (TextView) prototypeView.findViewById(R.id.brick_arduino_set_analog_pin_edit_text);
 		textSetPinNumber.setText(formatNumberForPrototypeView(BrickValues.ARDUINO_PWM_INITIAL_PIN_NUMBER));
@@ -83,18 +82,13 @@ public class ArduinoSendPWMValueBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		if (view == null) {
-			alphaValue = 255;
-		}
+	public int getViewResource() {
+		return R.layout.brick_arduino_send_analog;
+	}
 
-		view = View.inflate(context, R.layout.brick_arduino_send_analog, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_arduino_send_analog_checkbox);
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
 		TextView editPinNumber = (TextView) view.findViewById(R.id.brick_arduino_set_analog_pin_edit_text);
 		getFormulaWithBrickField(BrickField.ARDUINO_ANALOG_PIN_NUMBER).setTextFieldId(R.id.brick_arduino_set_analog_pin_edit_text);
 		getFormulaWithBrickField(BrickField.ARDUINO_ANALOG_PIN_NUMBER).refreshTextField(view);

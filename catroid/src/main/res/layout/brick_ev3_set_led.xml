@@ -30,7 +30,7 @@
               android:orientation="horizontal" >
 
     <CheckBox
-        android:id="@+id/brick_ev3_set_led_checkbox"
+        android:id="@+id/brick_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"

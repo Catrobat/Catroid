@@ -22,15 +22,14 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -39,6 +38,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class RaspiIfLogicBeginBrick extends IfLogicBeginBrick {
+
 	private static final long serialVersionUID = 1L;
 
 	public RaspiIfLogicBeginBrick() {
@@ -64,43 +64,32 @@ public class RaspiIfLogicBeginBrick extends IfLogicBeginBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		if (view == null) {
-			alphaValue = 255;
-		}
-
-		view = View.inflate(context, R.layout.brick_raspi_if_begin_if, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_raspi_if_begin_checkbox);
-
-		TextView ifBeginTextView = (TextView) view.findViewById(R.id.brick_raspi_if_begin_edit_text);
-
-		getFormulaWithBrickField(BrickField.IF_CONDITION).setTextFieldId(R.id.brick_raspi_if_begin_edit_text);
-		getFormulaWithBrickField(BrickField.IF_CONDITION).refreshTextField(view);
-
-		ifBeginTextView.setOnClickListener(this);
-
-		return view;
+	public int getViewResource() {
+		return R.layout.brick_raspi_if_begin_if;
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_raspi_if_begin_if, null);
-		TextView textIfBegin = (TextView) prototypeView.findViewById(R.id.brick_raspi_if_begin_edit_text);
+	public void onViewCreated(View view) {
+		TextView ifBeginTextView = view.findViewById(R.id.brick_raspi_if_begin_edit_text);
+		getFormulaWithBrickField(BrickField.IF_CONDITION).setTextFieldId(R.id.brick_raspi_if_begin_edit_text);
+		getFormulaWithBrickField(BrickField.IF_CONDITION).refreshTextField(view);
+		ifBeginTextView.setOnClickListener(this);
+	}
+
+	@Override
+	public void onPrototypeViewCreated(View prototypeView) {
+		TextView textIfBegin = prototypeView.findViewById(R.id.brick_raspi_if_begin_edit_text);
 		textIfBegin.setText(formatNumberForPrototypeView(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER));
-		return prototypeView;
 	}
 
 	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		ScriptSequenceAction ifAction = (ScriptSequenceAction) sprite.getActionFactory().eventSequence(sequence.getScript());
-		ScriptSequenceAction elseAction = (ScriptSequenceAction) sprite.getActionFactory().eventSequence(sequence.getScript());
-		Action action = sprite.getActionFactory().createRaspiIfLogicActionAction(sprite, getFormulaWithBrickField(BrickField.IF_CONDITION), ifAction,
-				elseAction);
+		ScriptSequenceAction ifAction = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
+		ScriptSequenceAction elseAction = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
+
+		Action action = sprite.getActionFactory().createRaspiIfLogicActionAction(sprite,
+				getFormulaWithBrickField(BrickField.IF_CONDITION), ifAction, elseAction);
+
 		sequence.addAction(action);
 
 		LinkedList<ScriptSequenceAction> returnActionList = new LinkedList<>();

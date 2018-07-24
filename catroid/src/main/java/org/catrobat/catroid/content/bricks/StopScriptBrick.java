@@ -27,7 +27,6 @@ import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.R;
@@ -51,20 +50,13 @@ public class StopScriptBrick extends BrickBaseType {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
+	public int getViewResource() {
+		return R.layout.brick_stop_script;
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-
-		view = View.inflate(context, R.layout.brick_stop_script, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_stop_script_checkbox);
+	public View getView(Context context) {
+		super.getView(context);
 		Spinner stopScriptSpinner = (Spinner) view.findViewById(R.id.brick_stop_script_spinner);
 
 		ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
@@ -89,7 +81,7 @@ public class StopScriptBrick extends BrickBaseType {
 	@Override
 	public View getPrototypeView(Context context) {
 
-		View prototypeView = View.inflate(context, R.layout.brick_stop_script, null);
+		View prototypeView = super.getPrototypeView(context);
 
 		Spinner stopSctiptSpinner = (Spinner) prototypeView.findViewById(R.id.brick_stop_script_spinner);
 

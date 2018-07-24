@@ -22,13 +22,21 @@
  */
 package org.catrobat.catroid.test.facedetection;
 
-import junit.framework.TestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.formulaeditor.SensorCustomEvent;
 import org.catrobat.catroid.formulaeditor.SensorCustomEventListener;
 import org.catrobat.catroid.test.utils.TestFaceDetector;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class FaceDetectorTest extends TestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
+
+@RunWith(AndroidJUnit4.class)
+public class FaceDetectorTest {
 
 	private int numberOfCalls = 0;
 	private boolean statusFaceDetected = false;
@@ -47,6 +55,7 @@ public class FaceDetectorTest extends TestCase {
 		}
 	};
 
+	@Test
 	public void testStatusListenerCallback() {
 		TestFaceDetector detector = new TestFaceDetector();
 		numberOfCalls = 0;

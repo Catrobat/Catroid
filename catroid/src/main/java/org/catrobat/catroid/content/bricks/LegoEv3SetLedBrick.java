@@ -27,7 +27,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.R;
@@ -66,7 +65,7 @@ public class LegoEv3SetLedBrick extends BrickBaseType implements OnItemSelectedL
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_ev3_set_led, null);
+		View prototypeView = super.getPrototypeView(context);
 
 		Spinner ledStatusSpinner = (Spinner) prototypeView.findViewById(R.id.brick_ev3_set_led_spinner);
 		ledStatusSpinner.setFocusableInTouchMode(false);
@@ -82,18 +81,13 @@ public class LegoEv3SetLedBrick extends BrickBaseType implements OnItemSelectedL
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		if (view == null) {
-			alphaValue = 255;
-		}
-		view = View.inflate(context, R.layout.brick_ev3_set_led, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+	public int getViewResource() {
+		return R.layout.brick_ev3_set_led;
+	}
 
-		setCheckboxView(R.id.brick_ev3_set_led_checkbox);
-
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
 		ArrayAdapter<CharSequence> ledStatusAdapter = ArrayAdapter.createFromResource(context,
 				R.array.ev3_led_status_chooser, android.R.layout.simple_spinner_item);
 		ledStatusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

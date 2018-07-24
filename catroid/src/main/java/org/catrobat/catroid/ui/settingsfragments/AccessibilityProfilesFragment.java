@@ -43,6 +43,7 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.utils.ToastUtil;
 
+import static org.catrobat.catroid.common.SharedPreferenceKeys.ACCESSIBILITY_PROFILE_PREFERENCE_KEY;
 import static org.catrobat.catroid.ui.settingsfragments.AccessibilityProfile.BEGINNER_BRICKS;
 import static org.catrobat.catroid.ui.settingsfragments.AccessibilityProfile.DRAGNDROP_DELAY;
 import static org.catrobat.catroid.ui.settingsfragments.AccessibilityProfile.ELEMENT_SPACING;
@@ -56,8 +57,6 @@ public class AccessibilityProfilesFragment extends Fragment implements View.OnCl
 
 	public static final String TAG = AccessibilityProfilesFragment.class.getSimpleName();
 	public static final String SETTINGS_FRAGMENT_INTENT_KEY = "rollBackToAccessibilityFragment";
-
-	private static final String SHARED_PREFERENCES_ACCESSIBILITY_PROFILE_KEY = "accessibilityProfile";
 
 	private View parent;
 
@@ -128,7 +127,7 @@ public class AccessibilityProfilesFragment extends Fragment implements View.OnCl
 		viewHolder.subtitle.setText(R.string.preference_access_summary_profile_tiro);
 
 		int selectedProfileViewId = PreferenceManager.getDefaultSharedPreferences(getActivity())
-				.getInt(SHARED_PREFERENCES_ACCESSIBILITY_PROFILE_KEY, R.id.default_profile);
+				.getInt(ACCESSIBILITY_PROFILE_PREFERENCE_KEY, R.id.default_profile);
 
 		new AccessibilityProfileVH(parent.findViewById(selectedProfileViewId)).radioButton.setChecked(true);
 	}
@@ -168,7 +167,7 @@ public class AccessibilityProfilesFragment extends Fragment implements View.OnCl
 		}
 
 		sharedPreferences.edit()
-				.putInt(SHARED_PREFERENCES_ACCESSIBILITY_PROFILE_KEY, v.getId())
+				.putInt(ACCESSIBILITY_PROFILE_PREFERENCE_KEY, v.getId())
 				.commit();
 
 		newProfile.setAsCurrent(sharedPreferences);

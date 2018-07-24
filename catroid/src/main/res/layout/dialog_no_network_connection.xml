@@ -34,8 +34,7 @@
     <TextView
         android:id="@+id/headline_bricks"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/error_no_network_one_brick" />
+        android:layout_height="wrap_content" />
 
     <ScrollView
         android:layout_width="match_parent"

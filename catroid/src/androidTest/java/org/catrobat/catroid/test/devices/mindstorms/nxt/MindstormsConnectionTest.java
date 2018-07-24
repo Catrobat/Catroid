@@ -23,22 +23,28 @@
 
 package org.catrobat.catroid.test.devices.mindstorms.nxt;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.devices.mindstorms.MindstormsConnectionImpl;
 import org.catrobat.catroid.devices.mindstorms.nxt.Command;
 import org.catrobat.catroid.devices.mindstorms.nxt.CommandByte;
 import org.catrobat.catroid.devices.mindstorms.nxt.CommandType;
 import org.catrobat.catroid.test.utils.Reflection;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 
-public class MindstormsConnectionTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class MindstormsConnectionTest {
 
 	public static final int HEADER_SIZE = 2;
 
+	@Test
 	public void testSend() {
 		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
 
@@ -65,6 +71,7 @@ public class MindstormsConnectionTest extends AndroidTestCase {
 		}
 	}
 
+	@Test
 	public void testSendAndReceive() {
 
 		byte[] inputBuffer = new byte[] {4, 0, 3, 4, 5, 7};

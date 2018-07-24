@@ -36,15 +36,12 @@ import android.widget.RadioGroup;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DialogInputWatcher;
-
-import java.util.List;
 
 public class NewDataDialogFragment extends DialogFragment {
 
@@ -105,6 +102,28 @@ public class NewDataDialogFragment extends DialogFragment {
 		return alertDialog;
 	}
 
+	protected boolean addUserList(UserList list) {
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
+		boolean createProjectVariable = (radioGroup.getCheckedRadioButtonId() == R.id.global);
+
+		if (createProjectVariable) {
+			return dataContainer.addUserList(list);
+		} else {
+			return dataContainer.addUserList(ProjectManager.getInstance().getCurrentSprite(), list);
+		}
+	}
+
+	protected boolean addUserVariable(UserVariable var) {
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
+		boolean createProjectVariable = (radioGroup.getCheckedRadioButtonId() == R.id.global);
+
+		if (createProjectVariable) {
+			return dataContainer.addUserVariable(var);
+		} else {
+			return dataContainer.addUserVariable(ProjectManager.getInstance().getCurrentSprite(), var);
+		}
+	}
+
 	protected boolean onPositiveButtonClick() {
 		String name = inputLayout.getEditText().getText().toString().trim();
 
@@ -113,63 +132,22 @@ public class NewDataDialogFragment extends DialogFragment {
 			return false;
 		}
 
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
-		boolean isGlobal = (radioGroup.getCheckedRadioButtonId() == R.id.global);
 		if (makeList.isChecked()) {
-			if (!isListNameValid(name, isGlobal)) {
-				inputLayout.setError(getString(R.string.name_already_exists));
-				return false;
+			UserList list = new UserList(name);
+			if (addUserList(list)) {
+				newDataInterface.addItem(list);
+				return true;
 			}
-
-			UserList item;
-			if (isGlobal) {
-				item = dataContainer.addProjectUserList(name);
-			} else {
-				item = dataContainer.addSpriteUserList(name);
-			}
-			newDataInterface.addItem(item);
+			inputLayout.setError(getString(R.string.name_already_exists));
+			return false;
 		} else {
-			if (!isVariableNameValid(name, isGlobal)) {
-				inputLayout.setError(getString(R.string.name_already_exists));
-				return false;
+			UserVariable var = new UserVariable(name);
+			if (addUserVariable(var)) {
+				newDataInterface.addItem(var);
+				return true;
 			}
-
-			UserVariable item;
-			if (isGlobal) {
-				item = dataContainer.addProjectUserVariable(name);
-			} else {
-				item = dataContainer.addSpriteUserVariable(name);
-			}
-			newDataInterface.addItem(item);
-		}
-		return true;
-	}
-
-	protected boolean isListNameValid(String name, boolean isGlobal) {
-		DataContainer currentData = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
-
-		if (isGlobal) {
-			List<Sprite> sprites = ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList();
-			return !currentData.existListInAnySprite(sprites, name)
-					&& !currentData.existProjectListWithName(name);
-		} else {
-			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-			return !currentData.existProjectListWithName(name)
-					&& !currentData.existSpriteListByName(currentSprite, name);
-		}
-	}
-
-	protected boolean isVariableNameValid(String name, boolean isGlobal) {
-		DataContainer currentData = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
-
-		if (isGlobal) {
-			List<Sprite> sprites = ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList();
-			return !currentData.variableExistsInAnySprite(sprites, name)
-					&& !currentData.existProjectVariableWithName(name);
-		} else {
-			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-			return !currentData.existProjectVariableWithName(name)
-					&& !currentData.spriteVariableExistsByName(currentSprite, name);
+			inputLayout.setError(getString(R.string.name_already_exists));
+			return false;
 		}
 	}
 }

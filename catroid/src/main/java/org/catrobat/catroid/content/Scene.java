@@ -26,12 +26,10 @@ import android.support.annotation.NonNull;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.FormulaBrick;
+import org.catrobat.catroid.content.bricks.BroadcastMessageBrick;
 import org.catrobat.catroid.content.bricks.UserListBrick;
 import org.catrobat.catroid.content.bricks.UserVariableBrick;
-import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.PhysicsWorld;
@@ -40,6 +38,7 @@ import org.catrobat.catroid.utils.PathBuilder;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -177,56 +176,13 @@ public class Scene implements Serializable {
 		return automaticScreenshot.exists() || manualScreenshot.exists();
 	}
 
-	public boolean mergeProjectVariables() {
-		List<String> variables = new ArrayList<>();
-		List<String> lists = new ArrayList<>();
+	public void removeClonedSprites() {
+		dataContainer.removeUserDataOfClones();
 
-		for (Sprite sprite : spriteList) {
-			for (Brick brick : sprite.getAllBricks()) {
-				if (brick instanceof UserVariableBrick
-						&& !variables.contains(((UserVariableBrick) brick).getUserVariable().getName())) {
-					variables.add(((UserVariableBrick) brick).getUserVariable().getName());
-				}
-				if (brick instanceof UserListBrick
-						&& !lists.contains(((UserListBrick) brick).getUserList().getName())) {
-					lists.add(((UserListBrick) brick).getUserList().getName());
-				}
-				if (brick instanceof FormulaBrick) {
-					for (Formula formula : ((FormulaBrick) brick).getFormulas()) {
-						formula.getVariableAndListNames(variables, lists);
-					}
-				}
-			}
-		}
-
-		for (String variable : variables) {
-			if (dataContainer.variableExistsInAnySprite(spriteList, variable)) {
-				return false;
-			}
-			if (!dataContainer.existProjectVariableWithName(variable)
-					&& !dataContainer.existUserVariableWithName(variable)) {
-				dataContainer.addProjectUserVariable(variable);
-			}
-		}
-
-		for (String list : lists) {
-			if (dataContainer.existListInAnySprite(spriteList, list)) {
-				return false;
-			}
-			if (!dataContainer.existProjectListWithName(list)) {
-				dataContainer.addProjectUserList(list);
-			}
-		}
-
-		return true;
-	}
-
-	public void removeAllClones() {
-		ProjectManager.getInstance().getCurrentProject().removeInvalidVariablesAndLists(dataContainer);
-		dataContainer.removeVariablesOfClones();
-		for (Sprite s : new ArrayList<>(spriteList)) {
-			if (s.isClone()) {
-				spriteList.remove(s);
+		for (Iterator<Sprite> iterator = spriteList.iterator(); iterator.hasNext(); ) {
+			Sprite sprite = iterator.next();
+			if (sprite.isClone) {
+				iterator.remove();
 			}
 		}
 	}

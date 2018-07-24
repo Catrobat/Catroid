@@ -22,27 +22,53 @@
  */
 package org.catrobat.catroid.test.physics.actions;
 
+import android.support.test.runner.AndroidJUnit4;
+
 import com.badlogic.gdx.scenes.scene2d.Action;
 
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.test.physics.PhysicsBaseTest;
+import org.catrobat.catroid.physics.PhysicsWorld;
+import org.catrobat.catroid.test.physics.PhysicsTestRule;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class SetFrictionActionTest extends PhysicsBaseTest {
+import static junit.framework.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class SetFrictionActionTest {
+
+	@Rule
+	public PhysicsTestRule rule = new PhysicsTestRule();
+
+	private Sprite sprite;
+	private PhysicsWorld physicsWorld;
+
+	@Before
+	public void setUp() {
+		sprite = rule.sprite;
+		physicsWorld = rule.physicsWorld;
+	}
 
 	private static final float FRICTION = 100f;
 
+	@Test
 	public void testNormalBehavior() {
 		initFrictionValue(FRICTION);
 		assertEquals(FRICTION / 100.0f, physicsWorld.getPhysicsObject(sprite).getFriction());
 	}
 
+	@Test
 	public void testNegativeValue() {
 		float friction = -1f;
 		initFrictionValue(friction);
 		assertEquals(PhysicsObject.MIN_FRICTION, physicsWorld.getPhysicsObject(sprite).getFriction());
 	}
 
+	@Test
 	public void testHighValue() {
 		float friction = 101f;
 		initFrictionValue(friction);
@@ -59,6 +85,7 @@ public class SetFrictionActionTest extends PhysicsBaseTest {
 		physicsWorld.step(1.0f);
 	}
 
+	@Test
 	public void testBrickWithStringFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		sprite.getActionFactory().createSetFrictionAction(sprite, new Formula(String.valueOf(FRICTION))).act(1.0f);
@@ -69,12 +96,14 @@ public class SetFrictionActionTest extends PhysicsBaseTest {
 		assertEquals(FRICTION / 100.f, physicsObject.getFriction());
 	}
 
+	@Test
 	public void testNullFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		sprite.getActionFactory().createSetFrictionAction(sprite, null).act(1.0f);
 		assertEquals(0f, physicsObject.getFriction());
 	}
 
+	@Test
 	public void testNotANumberFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		sprite.getActionFactory().createSetFrictionAction(sprite, new Formula(Double.NaN)).act(1.0f);

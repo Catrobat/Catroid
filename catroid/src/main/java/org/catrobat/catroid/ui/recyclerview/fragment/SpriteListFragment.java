@@ -64,6 +64,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_SPRITES_PREFERENCE_KEY;
+
 public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 
 	public static final String TAG = SpriteListFragment.class.getSimpleName();
@@ -93,6 +95,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 
 			switch (actionState) {
 				case ItemTouchHelper.ACTION_STATE_IDLE:
+					Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 					List<Sprite> items = adapter.getItems();
 
 					for (Sprite sprite : items) {
@@ -100,14 +103,15 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 							continue;
 						}
 						if (sprite.toBeConverted()) {
-							Sprite convertedSprite = sprite.clone();
+							Sprite convertedSprite = spriteController.convert(sprite, currentScene);
 							items.set(items.indexOf(sprite), convertedSprite);
 						}
 					}
 
 					for (Sprite item : items) {
 						if (item instanceof GroupSprite) {
-							((GroupSprite) item).setCollapsed(((GroupSprite) item).collapsed);
+							GroupSprite groupSprite = (GroupSprite) item;
+							groupSprite.setCollapsed(groupSprite.getCollapsed());
 						}
 					}
 
@@ -169,7 +173,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	@Override
 	protected void initializeAdapter() {
 		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_objects);
-		sharedPreferenceDetailsKey = "showDetailsSpriteList";
+		sharedPreferenceDetailsKey = SHOW_DETAILS_SPRITES_PREFERENCE_KEY;
 		List<Sprite> items = ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList();
 		adapter = new MultiViewSpriteAdapter(items);
 		onAdapterReady();
@@ -257,17 +261,18 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	@Override
 	protected void deleteItems(List<Sprite> selectedItems) {
 		setShowProgressBar(true);
+		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 
 		for (Sprite item : selectedItems) {
 			if (item instanceof GroupSprite) {
 				for (Sprite sprite : ((GroupSprite) item).getGroupItems()) {
 					sprite.setConvertToSingleSprite(true);
-					Sprite convertedSprite = sprite.clone();
+					Sprite convertedSprite = spriteController.convert(sprite, currentScene);
 					adapter.getItems().set(adapter.getItems().indexOf(sprite), convertedSprite);
 				}
 				adapter.notifyDataSetChanged();
 			}
-			spriteController.delete(item);
+			spriteController.delete(item, currentScene);
 			adapter.remove(item);
 		}
 
@@ -323,7 +328,8 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	@Override
 	public void onItemClick(Sprite item) {
 		if (item instanceof GroupSprite) {
-			((GroupSprite) item).setCollapsed(!((GroupSprite) item).collapsed);
+			GroupSprite groupSprite = (GroupSprite) item;
+			groupSprite.setCollapsed(!groupSprite.getCollapsed());
 			adapter.notifyDataSetChanged();
 		} else if (actionModeType == NONE) {
 			ProjectManager.getInstance().setCurrentSprite(item);

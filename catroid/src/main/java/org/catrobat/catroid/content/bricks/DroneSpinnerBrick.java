@@ -27,7 +27,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -43,18 +42,13 @@ public abstract class DroneSpinnerBrick extends BrickBaseType {
 	protected int spinnerPosition = 0;
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
+	public int getViewResource() {
+		return R.layout.brick_drone_spinner;
+	}
 
-		if (animationState) {
-			return view;
-		}
-		if (view == null) {
-			alphaValue = 255;
-		}
-
-		view = View.inflate(context, R.layout.brick_drone_spinner, null);
-		setCheckboxView(R.id.brick_drone_spinner_checkbox);
-
+	@Override
+	public View getView(final Context context) {
+		super.getView(context);
 		Spinner spinner = (Spinner) view.findViewById(R.id.brick_drone_spinner_ID);
 		spinner.setFocusableInTouchMode(false);
 		spinner.setFocusable(false);
@@ -90,7 +84,7 @@ public abstract class DroneSpinnerBrick extends BrickBaseType {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_drone_spinner, null);
+		View prototypeView = super.getPrototypeView(context);
 
 		Spinner spinner = (Spinner) prototypeView.findViewById(R.id.brick_drone_spinner_ID);
 

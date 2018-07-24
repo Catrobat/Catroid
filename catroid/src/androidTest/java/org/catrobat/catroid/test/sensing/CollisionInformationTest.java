@@ -25,7 +25,7 @@ package org.catrobat.catroid.test.sensing;
 
 import android.graphics.Bitmap;
 import android.support.test.InstrumentationRegistry;
-import android.test.InstrumentationTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.math.Polygon;
 
@@ -40,18 +40,29 @@ import org.catrobat.catroid.sensing.CollisionPolygonVertex;
 import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.Utils;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertArrayEquals;
 
-public class CollisionInformationTest extends InstrumentationTestCase {
+@RunWith(AndroidJUnit4.class)
+public class CollisionInformationTest {
+	private static final float DELTA = Float.MIN_VALUE;
+
+	@Test
 	public void testCheckMetaString() {
 		String isNull = null;
 		Assert.assertFalse(CollisionInformation.checkMetaDataString(isNull));
@@ -73,25 +84,28 @@ public class CollisionInformationTest extends InstrumentationTestCase {
 		Assert.assertFalse(CollisionInformation.checkMetaDataString(faulty7));
 
 		String correct1 = "1.0;1.0;1.0;1.0;1.0;1.0";
-		Assert.assertTrue(CollisionInformation.checkMetaDataString(correct1));
+		assertTrue(CollisionInformation.checkMetaDataString(correct1));
 		String correct2 = "1.0;1.0;1.0;1.0;1.0;1.0|1.0;1.0;1.0;1.0;1.0;1.0";
-		Assert.assertTrue(CollisionInformation.checkMetaDataString(correct2));
+		assertTrue(CollisionInformation.checkMetaDataString(correct2));
 		String correct3 = "1.0;1.0;1.0;1.0;1.0;1.0;1.0;1.0;1.0;1.0;1.0;1.0";
-		Assert.assertTrue(CollisionInformation.checkMetaDataString(correct3));
+		assertTrue(CollisionInformation.checkMetaDataString(correct3));
 		String correct4 = "1.0;1.0;1.0;1.0;1.0;1.0|1.0;1.0;1.0;1.0;1.0;1.0|1.0;1.0;1.0;1.0;1.0;1.0";
-		Assert.assertTrue(CollisionInformation.checkMetaDataString(correct4));
+		assertTrue(CollisionInformation.checkMetaDataString(correct4));
 	}
 
+	@Test
 	public void testCreateCollisionPolygonByHitbox() {
 		Bitmap bitmap = Bitmap.createBitmap(200, 100, Bitmap.Config.ALPHA_8);
 		Polygon[] polygons = CollisionInformation.createCollisionPolygonByHitbox(bitmap);
-		Assert.assertTrue(Arrays.equals(polygons[0].getVertices(), new float[] {0.0f, 0.0f, 200.0f, 0.0f, 200.0f, 100.0f, 0.0f, 100.0f}));
+		assertArrayEquals(new float[] {0.0f, 0.0f, 200.0f, 0.0f, 200.0f, 100.0f, 0.0f, 100.0f},
+				polygons[0].getVertices(), DELTA);
 	}
 
+	@Test
 	public void testGetCollisionPolygonFromPNGMeta() throws IOException {
 		TestUtils.deleteProjects();
 
-		Project project = new Project(getInstrumentation().getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
@@ -107,16 +121,18 @@ public class CollisionInformationTest extends InstrumentationTestCase {
 
 		Polygon[] collisionPolygons = CollisionInformation.getCollisionPolygonFromPNGMeta(file.getAbsolutePath());
 
-		Assert.assertNotNull(collisionPolygons);
+		assertNotNull(collisionPolygons);
 		assertThat(collisionPolygons.length, is(greaterThan(0)));
-		Assert.assertEquals(1, collisionPolygons.length);
-		Assert.assertTrue(Arrays.equals(collisionPolygons[0].getVertices(), new float[] {0.0f, 47.0f, 17.0f, 98.0f, 52.0f, 98.0f, 68.0f, 44.0f, 52.0f, 0.0f, 17.0f, 0.0f}));
+		assertEquals(1, collisionPolygons.length);
+		assertArrayEquals(new float[] {0.0f, 47.0f, 17.0f, 98.0f, 52.0f, 98.0f, 68.0f, 44.0f, 52.0f, 0.0f, 17.0f, 0.0f},
+				collisionPolygons[0].getVertices(), DELTA);
 	}
 
+	@Test
 	public void testWriteReadCollisionVerticesToPNGMeta() throws IOException {
 		TestUtils.deleteProjects();
 
-		Project project = new Project(getInstrumentation().getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
@@ -139,13 +155,14 @@ public class CollisionInformationTest extends InstrumentationTestCase {
 
 		boolean sameVertices = Arrays.equals(testPolygons[0].getVertices(), firstVertices)
 				&& Arrays.equals(testPolygons[1].getVertices(), secondVertices);
-		Assert.assertTrue(sameVertices);
+		assertTrue(sameVertices);
 	}
 
+	@Test
 	public void testWriteReadEmptyCollisionVerticesToPNGMeta() throws IOException {
 		TestUtils.deleteProjects();
 
-		Project project = new Project(getInstrumentation().getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
@@ -178,6 +195,7 @@ public class CollisionInformationTest extends InstrumentationTestCase {
 		return array;
 	}
 
+	@Test
 	public void testCreateHorizontalAndVerticalVertices() {
 		boolean[][] grid = new boolean[][] {{false, false, true, true, true, false, false},
 				{false, false, true, false, true, false, false},
@@ -207,7 +225,7 @@ public class CollisionInformationTest extends InstrumentationTestCase {
 
 		Assert.assertEquals(horizontalCorrect.length, horizontalTest.length);
 		Assert.assertEquals(verticalCorrect.length, verticalTest.length);
-		Assert.assertTrue(Arrays.equals(horizontalTest, horizontalCorrect));
-		Assert.assertTrue(Arrays.equals(verticalTest, verticalCorrect));
+		assertArrayEquals(horizontalCorrect, horizontalTest, DELTA);
+		assertArrayEquals(verticalCorrect, verticalTest, DELTA);
 	}
 }

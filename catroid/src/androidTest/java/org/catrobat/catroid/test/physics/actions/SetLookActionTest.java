@@ -24,32 +24,51 @@
 package org.catrobat.catroid.test.physics.actions;
 
 import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.ResourceImporter;
-import org.catrobat.catroid.test.physics.PhysicsBaseTest;
+import org.catrobat.catroid.test.physics.PhysicsTestRule;
 import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.File;
+
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
 
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.IsNot.not;
 
-public class SetLookActionTest extends PhysicsBaseTest {
+@RunWith(AndroidJUnit4.class)
+public class SetLookActionTest {
 
 	private String multipleConvexPolygonsFileName;
 	private File multipleConvexPolygonsFile;
 
 	private LookData lookData = null;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Rule
+	public PhysicsTestRule rule = new PhysicsTestRule();
+
+	private Sprite sprite;
+	private Project project;
+
+	@Before
+	public void setUp() throws Exception {
+		sprite = rule.sprite;
+		project = rule.project;
 
 		multipleConvexPolygonsFileName = PhysicsTestUtils.getInternalImageFilenameFromFilename("multible_convex_polygons.png");
 
@@ -65,16 +84,16 @@ public class SetLookActionTest extends PhysicsBaseTest {
 		assertNotNull(sprite.look.getLookData());
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
+	@After
+	public void tearDown() throws Exception {
 
 		multipleConvexPolygonsFileName = null;
 		multipleConvexPolygonsFile = null;
 
 		TestUtils.deleteProjects();
-		super.tearDown();
 	}
 
+	@Test
 	public void testLookChanged() {
 
 		LookData expectedLookData = lookData;

@@ -23,7 +23,8 @@
 package org.catrobat.catroid.test.devices.mindstorms.nxt;
 
 import android.content.Context;
-import android.test.AndroidTestCase;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
 import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
@@ -34,10 +35,19 @@ import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSoundSensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTTouchSensor;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 
-public class LegoNXTImplTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+
+@RunWith(AndroidJUnit4.class)
+public class LegoNXTImplTest {
 
 	private Context applicationContext;
 
@@ -46,24 +56,23 @@ public class LegoNXTImplTest extends AndroidTestCase {
 
 	private static final int PREFERENCES_SAVE_BROADCAST_DELAY = 50;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 
-		applicationContext = this.getContext().getApplicationContext();
+		applicationContext = InstrumentationRegistry.getTargetContext().getApplicationContext();
 
 		nxt = new LegoNXTImpl(this.applicationContext);
 		logger = ConnectionDataLogger.createLocalConnectionLogger();
 		nxt.setConnection(logger.getConnectionProxy());
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
+	@After
+	public void tearDown() throws Exception {
 		nxt.disconnect();
 		logger.disconnectAndDestroy();
-		super.tearDown();
 	}
 
+	@Test
 	public void testSensorAssignment() throws InterruptedException {
 
 		SettingsFragment.setLegoMindstormsNXTSensorMapping(applicationContext,
@@ -90,17 +99,18 @@ public class LegoNXTImplTest extends AndroidTestCase {
 	}
 
 	private void resetSensorMappingToDefault() throws InterruptedException {
-		SettingsFragment.setLegoMindstormsNXTSensorMapping(this.getContext(),
+		SettingsFragment.setLegoMindstormsNXTSensorMapping(InstrumentationRegistry.getContext(),
 				new NXTSensor.Sensor[] {NXTSensor.Sensor.TOUCH, NXTSensor.Sensor.SOUND,
 						NXTSensor.Sensor.LIGHT_INACTIVE, NXTSensor.Sensor.ULTRASONIC});
 	}
 
+	@Test
 	public void testSensorAssignmentChange() throws InterruptedException {
 		resetSensorMappingToDefault();
 		nxt.initialise();
 
 		SettingsFragment.setLegoMindstormsNXTSensorMapping(applicationContext,
-				NXTSensor.Sensor.LIGHT_INACTIVE, SettingsFragment.NXT_SENSOR_1);
+				NXTSensor.Sensor.LIGHT_INACTIVE, SettingsFragment.NXT_SENSORS[0]);
 
 		Thread.sleep(PREFERENCES_SAVE_BROADCAST_DELAY);
 
@@ -108,7 +118,7 @@ public class LegoNXTImplTest extends AndroidTestCase {
 		assertTrue(nxt.getSensor1() instanceof NXTLightSensor);
 
 		SettingsFragment.setLegoMindstormsNXTSensorMapping(applicationContext,
-				NXTSensor.Sensor.TOUCH, SettingsFragment.NXT_SENSOR_1);
+				NXTSensor.Sensor.TOUCH, SettingsFragment.NXT_SENSORS[0]);
 
 		Thread.sleep(PREFERENCES_SAVE_BROADCAST_DELAY);
 
@@ -116,6 +126,7 @@ public class LegoNXTImplTest extends AndroidTestCase {
 		assertTrue(nxt.getSensor1() instanceof NXTTouchSensor);
 	}
 
+	@Test
 	public void testSimplePlayToneTest() {
 
 		int inputHz = 100;
@@ -131,6 +142,7 @@ public class LegoNXTImplTest extends AndroidTestCase {
 		assertEquals((byte) (expectedHz >> 8), setOutputState[3]);
 	}
 
+	@Test
 	public void testPlayToneHzOverMaxValue() {
 
 		// MaxHz = 14000;
@@ -147,6 +159,7 @@ public class LegoNXTImplTest extends AndroidTestCase {
 		assertEquals((byte) (expectedHz >> 8), setOutputState[3]);
 	}
 
+	@Test
 	public void testCheckDurationOfTone() {
 
 		int inputHz = 130;
@@ -164,6 +177,7 @@ public class LegoNXTImplTest extends AndroidTestCase {
 		assertEquals((byte) (expectedDurationInMs >> 8), setOutputState[5]);
 	}
 
+	@Test
 	public void testWithZeroDuration() {
 
 		int inputHz = 13000;

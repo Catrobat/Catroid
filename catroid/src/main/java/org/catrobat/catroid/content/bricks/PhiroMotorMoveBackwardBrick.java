@@ -96,7 +96,7 @@ public class PhiroMotorMoveBackwardBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_phiro_motor_backward, null);
+		prototypeView = super.getPrototypeView(context);
 		TextView textSpeed = (TextView) prototypeView.findViewById(R.id.brick_phiro_motor_backward_action_speed_edit_text);
 		textSpeed.setText(formatNumberForPrototypeView(BrickValues.PHIRO_SPEED));
 
@@ -124,15 +124,13 @@ public class PhiroMotorMoveBackwardBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	public int getViewResource() {
+		return R.layout.brick_phiro_motor_backward;
+	}
 
-		view = View.inflate(context, R.layout.brick_phiro_motor_backward, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_phiro_motor_backward_action_checkbox);
-
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
 		editSpeed = (TextView) view.findViewById(R.id.brick_phiro_motor_backward_action_speed_edit_text);
 		getFormulaWithBrickField(BrickField.PHIRO_SPEED).setTextFieldId(R.id.brick_phiro_motor_backward_action_speed_edit_text);
 		getFormulaWithBrickField(BrickField.PHIRO_SPEED).refreshTextField(view);

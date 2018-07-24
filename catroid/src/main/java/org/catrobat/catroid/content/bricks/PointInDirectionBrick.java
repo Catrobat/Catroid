@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -83,13 +82,13 @@ public class PointInDirectionBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		view = View.inflate(context, R.layout.brick_point_in_direction, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_point_in_direction_checkbox);
+	public int getViewResource() {
+		return R.layout.brick_point_in_direction;
+	}
+
+	@Override
+	public View getView(final Context context) {
+		super.getView(context);
 		TextView setAngleTextField = (TextView) view.findViewById(R.id.brick_point_in_direction_edit_text);
 
 		getFormulaWithBrickField(BrickField.DEGREES).setTextFieldId(R.id.brick_point_in_direction_edit_text);
@@ -101,7 +100,7 @@ public class PointInDirectionBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_point_in_direction, null);
+		prototypeView = super.getPrototypeView(context);
 		TextView setAngleTextView = (TextView) prototypeView
 				.findViewById(R.id.brick_point_in_direction_edit_text);
 		setAngleTextView.setText(formatNumberForPrototypeView(BrickValues.POINT_IN_DIRECTION));

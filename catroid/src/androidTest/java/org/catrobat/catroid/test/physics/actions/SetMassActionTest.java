@@ -22,27 +22,54 @@
  */
 package org.catrobat.catroid.test.physics.actions;
 
+import android.support.test.runner.AndroidJUnit4;
+
 import com.badlogic.gdx.scenes.scene2d.Action;
 
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.test.physics.PhysicsBaseTest;
+import org.catrobat.catroid.physics.PhysicsWorld;
+import org.catrobat.catroid.test.physics.PhysicsTestRule;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class SetMassActionTest extends PhysicsBaseTest {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+
+@RunWith(AndroidJUnit4.class)
+public class SetMassActionTest {
 
 	private static final float MASS = 10f;
 
+	@Rule
+	public PhysicsTestRule rule = new PhysicsTestRule();
+
+	private Sprite sprite;
+	private PhysicsWorld physicsWorld;
+
+	@Before
+	public void setUp() {
+		sprite = rule.sprite;
+		physicsWorld = rule.physicsWorld;
+	}
+
+	@Test
 	public void testNormalBehavior() {
 		initMassValue(MASS);
 		assertEquals(MASS, physicsWorld.getPhysicsObject(sprite).getMass());
 	}
 
+	@Test
 	public void testNegativeValue() {
 		float mass = -10f;
 		initMassValue(mass);
 		assertEquals(PhysicsObject.MIN_MASS, physicsWorld.getPhysicsObject(sprite).getMass());
 	}
 
+	@Test
 	public void testZeroValue() {
 		float mass = 0f;
 		initMassValue(mass);
@@ -59,6 +86,7 @@ public class SetMassActionTest extends PhysicsBaseTest {
 		physicsWorld.step(1.0f);
 	}
 
+	@Test
 	public void testBrickWithStringFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		sprite.getActionFactory().createSetMassAction(sprite, new Formula(String.valueOf(MASS))).act(1.0f);
@@ -69,18 +97,21 @@ public class SetMassActionTest extends PhysicsBaseTest {
 		assertEquals(MASS, physicsObject.getMass());
 	}
 
+	@Test
 	public void testNullFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		sprite.getActionFactory().createSetMassAction(sprite, null).act(1.0f);
 		assertEquals(0f, physicsObject.getMass());
 	}
 
+	@Test
 	public void testNotANumberFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		sprite.getActionFactory().createSetMassAction(sprite, new Formula(Double.NaN)).act(1.0f);
 		assertEquals(PhysicsObject.DEFAULT_MASS, physicsObject.getMass());
 	}
 
+	@Test
 	public void testMassAcceleration() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		physicsObject.setType(PhysicsObject.Type.DYNAMIC);

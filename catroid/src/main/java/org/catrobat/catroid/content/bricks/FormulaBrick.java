@@ -28,18 +28,11 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
-import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
-import org.catrobat.catroid.formulaeditor.UserList;
-import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.utils.FormatNumberUtil;
 import org.catrobat.catroid.utils.Utils;
@@ -50,11 +43,6 @@ import java.util.List;
 public abstract class FormulaBrick extends BrickBaseType implements View.OnClickListener {
 
 	ConcurrentFormulaHashMap formulaMap = new ConcurrentFormulaHashMap();
-
-	@XStreamOmitField
-	private List<BackPackedListData> backPackedListData = new ArrayList<>();
-	@XStreamOmitField
-	private List<BackPackedVariableData> backPackedVariableData = new ArrayList<>();
 
 	public Formula getFormulaWithBrickField(BrickField brickField) throws IllegalArgumentException {
 		if (formulaMap.containsKey(brickField)) {
@@ -150,61 +138,6 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		TextView second = (TextView) prototypeView.findViewById(textViewId);
 		second.setText(context.getResources().getQuantityString(R.plurals.second_plural,
 				Utils.convertDoubleToPluralInteger(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000)));
-	}
-
-	@Override
-	public void storeDataForBackPack(Sprite sprite) {
-		DataContainer.DataType type;
-		List<String> variableNames = new ArrayList<>();
-		List<String> listNames = new ArrayList<>();
-
-		if (backPackedListData == null) {
-			backPackedListData = new ArrayList<>();
-		}
-
-		if (backPackedVariableData == null) {
-			backPackedVariableData = new ArrayList<>();
-		}
-
-		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-		DataContainer dataContainer = currentScene.getDataContainer();
-
-		for (Formula formula : formulaMap.values()) {
-			formula.getVariableAndListNames(variableNames, listNames);
-		}
-
-		for (String variableName : variableNames) {
-			UserVariable variable = dataContainer.getUserVariable(currentSprite, variableName);
-			if (variable == null) {
-				continue;
-			}
-			type = dataContainer.getTypeOfUserVariable(variableName, currentSprite);
-			BackPackedVariableData backPackedData = new BackPackedVariableData();
-			backPackedData.userVariable = variable;
-			backPackedData.userVariableType = type;
-			backPackedVariableData.add(backPackedData);
-		}
-
-		for (String listName : listNames) {
-			UserList userList = dataContainer.getUserList(currentSprite, listName);
-			if (userList == null) {
-				continue;
-			}
-			type = dataContainer.getTypeOfUserList(listName, currentSprite);
-			BackPackedListData backPackedData = new BackPackedListData();
-			backPackedData.userList = userList;
-			backPackedData.userListType = type;
-			backPackedListData.add(backPackedData);
-		}
-	}
-
-	public List<BackPackedListData> getBackPackedListData() {
-		return backPackedListData;
-	}
-
-	public List<BackPackedVariableData> getBackPackedVariableData() {
-		return backPackedVariableData;
 	}
 
 	protected <T> String formatNumberForPrototypeView(T value) {

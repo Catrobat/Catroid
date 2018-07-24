@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.InstrumentationTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
@@ -33,22 +33,30 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.NextLookAction;
 import org.catrobat.catroid.content.actions.PreviousLookAction;
 import org.catrobat.catroid.content.actions.SetLookAction;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.File;
 
-public class PreviousLookActionTest extends InstrumentationTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNull;
+
+@RunWith(AndroidJUnit4.class)
+public class PreviousLookActionTest {
 
 	private File testImage;
 	private Sprite sprite;
 	private ActionFactory actionFactory;
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		testImage = new File(Constants.DEFAULT_ROOT_DIRECTORY, "testImage.png");
 		sprite = new Sprite("cat");
 		actionFactory = sprite.getActionFactory();
 	}
 
+	@Test
 	public void testPreviousLook() {
 		LookData lookData1 = new LookData();
 		lookData1.setFile(testImage);
@@ -74,6 +82,7 @@ public class PreviousLookActionTest extends InstrumentationTestCase {
 		assertEquals(lookData1, sprite.look.getLookData());
 	}
 
+	@Test
 	public void testLastLook() {
 		LookData lookData1 = new LookData();
 		lookData1.setFile(testImage);
@@ -99,6 +108,7 @@ public class PreviousLookActionTest extends InstrumentationTestCase {
 		assertEquals(lookData3.getName(), sprite.look.getLookData().getName());
 	}
 
+	@Test
 	public void testLookGalleryNull() {
 		Action previousLookAction = actionFactory.createPreviousLookAction(sprite);
 		previousLookAction.act(1.0f);
@@ -106,6 +116,7 @@ public class PreviousLookActionTest extends InstrumentationTestCase {
 		assertNull(sprite.look.getLookData());
 	}
 
+	@Test
 	public void testLookGalleryWithOneLook() {
 		LookData lookData1 = new LookData();
 		lookData1.setFile(testImage);
@@ -121,6 +132,7 @@ public class PreviousLookActionTest extends InstrumentationTestCase {
 		assertEquals(lookData1.getName(), sprite.look.getLookData().getName());
 	}
 
+	@Test
 	public void testPreviousLookWithNoLookSet() {
 		Action previousLookAction = actionFactory.createPreviousLookAction(sprite);
 

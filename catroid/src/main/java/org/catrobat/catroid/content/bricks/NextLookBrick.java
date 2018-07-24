@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
@@ -43,7 +42,7 @@ public class NextLookBrick extends BrickBaseType {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View view = View.inflate(context, R.layout.brick_next_look, null);
+		View view = super.getPrototypeView(context);
 
 		if (ProjectManager.getInstance().getCurrentSprite().getName().equals(context.getString(R.string.background))) {
 			TextView textField = (TextView) view.findViewById(R.id.brick_next_look_text_view);
@@ -58,14 +57,13 @@ public class NextLookBrick extends BrickBaseType {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		view = View.inflate(context, R.layout.brick_next_look, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+	public int getViewResource() {
+		return R.layout.brick_next_look;
+	}
 
-		setCheckboxView(R.id.brick_next_look_checkbox);
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
 		if (ProjectManager.getInstance().getCurrentSprite().getName().equals(context.getString(R.string.background))) {
 			TextView textField = (TextView) view.findViewById(R.id.brick_next_look_text_view);
 			textField.setText(R.string.brick_next_background);

@@ -23,7 +23,7 @@
 package org.catrobat.catroid.test.content.actions;
 
 import android.support.test.InstrumentationRegistry;
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.ActionFactory;
@@ -32,11 +32,17 @@ import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeleteItemOfUserListActionTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class DeleteItemOfUserListActionTest {
 
 	private static final String TEST_USER_LIST_NAME = "testUserList";
 	private static final List<Object> INITIALIZED_LIST_VALUES = new ArrayList<Object>();
@@ -47,23 +53,22 @@ public class DeleteItemOfUserListActionTest extends AndroidTestCase {
 
 	private ActionFactory actionFactory;
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		actionFactory = new ActionFactory();
 		testSprite = new SingleSprite("testSprite");
 		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().addProjectUserList(TEST_USER_LIST_NAME);
-		userList = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
-				.getUserList(null, TEST_USER_LIST_NAME);
-		userList.setList(INITIALIZED_LIST_VALUES);
+		userList = new UserList(TEST_USER_LIST_NAME, INITIALIZED_LIST_VALUES);
+		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().addUserList(userList);
+
 		INITIALIZED_LIST_VALUES.clear();
 		INITIALIZED_LIST_VALUES.add(1.0);
 		INITIALIZED_LIST_VALUES.add(2.0);
 		INITIALIZED_LIST_VALUES.add(3.0);
-		super.setUp();
 	}
 
+	@Test
 	public void testDeleteItemOfUserList() {
 		actionFactory.createDeleteItemOfUserListAction(testSprite, new Formula(1d), userList).act(1f);
 		Object lastItemOfUserList = userList.getList().get(userList.getList().size() - 1);
@@ -74,11 +79,13 @@ public class DeleteItemOfUserListActionTest extends AndroidTestCase {
 		assertEquals(3.0, lastItemOfUserList);
 	}
 
+	@Test
 	public void testDeleteItemWithInvalidUserList() {
 		actionFactory.createAddItemToUserListAction(testSprite, new Formula(1d), null).act(1f);
 		assertEquals(3, userList.getList().size());
 	}
 
+	@Test
 	public void testDeleteNullFormula() {
 		actionFactory.createDeleteItemOfUserListAction(testSprite, null, userList).act(1f);
 
@@ -90,6 +97,7 @@ public class DeleteItemOfUserListActionTest extends AndroidTestCase {
 		assertEquals(3.0, lastItemOfUserList);
 	}
 
+	@Test
 	public void testNotANumberFormula() {
 		actionFactory.createDeleteItemOfUserListAction(testSprite, new Formula(Double.NaN), userList).act(1f);
 

@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
@@ -68,15 +67,13 @@ public class GoNStepsBackBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		view = View.inflate(context, R.layout.brick_go_back, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+	public int getViewResource() {
+		return R.layout.brick_go_back;
+	}
 
-		setCheckboxView(R.id.brick_go_back_checkbox);
-
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
 		TextView edit = (TextView) view.findViewById(R.id.brick_go_back_edit_text);
 
 		getFormulaWithBrickField(BrickField.STEPS).setTextFieldId(R.id.brick_go_back_edit_text);
@@ -108,7 +105,7 @@ public class GoNStepsBackBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_go_back, null);
+		prototypeView = super.getPrototypeView(context);
 		TextView textSteps = (TextView) prototypeView.findViewById(R.id.brick_go_back_edit_text);
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_go_back_layers_text_view);
 		textSteps.setText(formatNumberForPrototypeView(BrickValues.GO_BACK));

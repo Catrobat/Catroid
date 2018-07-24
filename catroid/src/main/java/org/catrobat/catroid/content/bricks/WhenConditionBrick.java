@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -73,16 +72,14 @@ public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	public int getViewResource() {
+		return R.layout.brick_when_condition_true;
+	}
 
-		view = View.inflate(context, R.layout.brick_when_condition_true, null);
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
 		BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_when_condition_checkbox);
-
 		TextView conditionEditText = (TextView) view.findViewById(R.id.brick_when_condition_edit_text);
 
 		getFormulaWithBrickField(BrickField.IF_CONDITION).setTextFieldId(R.id.brick_when_condition_edit_text);
@@ -99,7 +96,7 @@ public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_when_condition_true, null);
+		View prototypeView = super.getPrototypeView(context);
 		TextView textView = (TextView) prototypeView.findViewById(R.id.brick_when_condition_edit_text);
 		textView.setText(BrickValues.IF_CONDITION);
 		return prototypeView;

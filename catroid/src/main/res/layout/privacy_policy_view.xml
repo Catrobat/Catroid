@@ -59,6 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/material_design_spacing_large"
+            android:autoLink="all"
             android:text="@string/dialog_privacy_policy_text" />
 
     </ScrollView>

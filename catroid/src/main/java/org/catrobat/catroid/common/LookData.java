@@ -151,10 +151,6 @@ public class LookData implements Serializable, Cloneable {
 		}
 	}
 
-	public LookData shallowClone() {
-		return new LookData(name, file);
-	}
-
 	@Override
 	public int hashCode() {
 		return file.hashCode() + super.hashCode();
@@ -202,6 +198,10 @@ public class LookData implements Serializable, Cloneable {
 					ImageEditing.ResizeType.STAY_IN_RECTANGLE_WITH_SAME_ASPECT_RATIO, false);
 		}
 		return thumbnailBitmap;
+	}
+
+	public void invalidateThumbnailBitmap() {
+		thumbnailBitmap = null;
 	}
 
 	public int[] getMeasure() {

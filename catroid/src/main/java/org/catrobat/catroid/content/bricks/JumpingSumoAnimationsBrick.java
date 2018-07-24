@@ -27,7 +27,6 @@ import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.R;
@@ -67,7 +66,7 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_jumping_sumo_animations, null);
+		prototypeView = super.getPrototypeView(context);
 
 		Spinner jsAnimationSpinner = (Spinner) prototypeView.findViewById(R.id.brick_jumping_sumo_animation_spinner);
 		jsAnimationSpinner.setFocusableInTouchMode(false);
@@ -85,15 +84,13 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	public int getViewResource() {
+		return R.layout.brick_jumping_sumo_animations;
+	}
 
-		view = View.inflate(context, R.layout.brick_jumping_sumo_animations, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_jumping_sumo_animation_checkbox);
-
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
 		ArrayAdapter<CharSequence> animationAdapter = ArrayAdapter.createFromResource(context, R.array.brick_jumping_sumo_select_animation_spinner,
 				android.R.layout.simple_spinner_item);
 		animationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

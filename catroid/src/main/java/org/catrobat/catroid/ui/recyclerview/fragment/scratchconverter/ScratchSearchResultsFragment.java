@@ -64,14 +64,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_SCRATCH_PROJECTS_PREFERENCE_KEY;
+
 public class ScratchSearchResultsFragment extends Fragment implements
 		ActionMode.Callback,
 		RVAdapter.SelectionListener,
 		RVAdapter.OnItemClickListener<ScratchProgramData> {
 
 	public static final String TAG = ScratchSearchResultsFragment.class.getSimpleName();
-
-	private static final String SHARED_PREFERENCE_DETAILS_KEY = "showDetailsScratchProjects";
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({NONE, CONVERT})
@@ -228,7 +228,7 @@ public class ScratchSearchResultsFragment extends Fragment implements
 
 		adapter = new ScratchProgramAdapter(new ArrayList<ScratchProgramData>());
 		adapter.showDetails = PreferenceManager.getDefaultSharedPreferences(
-				getActivity()).getBoolean(SHARED_PREFERENCE_DETAILS_KEY, false);
+				getActivity()).getBoolean(SHOW_DETAILS_SCRATCH_PROJECTS_PREFERENCE_KEY, false);
 
 		recyclerView.setAdapter(adapter);
 
@@ -259,7 +259,7 @@ public class ScratchSearchResultsFragment extends Fragment implements
 	public void onPrepareOptionsMenu(Menu menu) {
 		super.onPrepareOptionsMenu(menu);
 		adapter.showDetails = PreferenceManager.getDefaultSharedPreferences(
-				getActivity()).getBoolean(SHARED_PREFERENCE_DETAILS_KEY, false);
+				getActivity()).getBoolean(SHOW_DETAILS_SCRATCH_PROJECTS_PREFERENCE_KEY, false);
 
 		menu.findItem(R.id.show_details).setTitle(adapter.showDetails
 				? R.string.hide_details
@@ -276,7 +276,7 @@ public class ScratchSearchResultsFragment extends Fragment implements
 				adapter.showDetails = !adapter.showDetails;
 				PreferenceManager.getDefaultSharedPreferences(getActivity())
 						.edit()
-						.putBoolean(SHARED_PREFERENCE_DETAILS_KEY, adapter.showDetails)
+						.putBoolean(SHOW_DETAILS_SCRATCH_PROJECTS_PREFERENCE_KEY, adapter.showDetails)
 						.commit();
 				adapter.notifyDataSetChanged();
 				break;

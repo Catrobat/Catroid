@@ -24,7 +24,8 @@
 package org.catrobat.catroid.test.devices.mindstorms.ev3;
 
 import android.content.Context;
-import android.test.AndroidTestCase;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
 import org.catrobat.catroid.common.bluetooth.models.MindstormsEV3TestModel;
@@ -39,8 +40,17 @@ import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3SensorMode;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3TouchSensor;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.HiTechnicColorSensor;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.TemperatureSensor;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class LegoEV3SensorTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+
+@RunWith(AndroidJUnit4.class)
+public class LegoEV3SensorTest {
 
 	private static final byte PORT_NR_0 = 0;
 	private static final byte PORT_NR_1 = 1;
@@ -52,11 +62,10 @@ public class LegoEV3SensorTest extends AndroidTestCase {
 	ConnectionDataLogger logger;
 	private MindstormsConnection mindstormsConnection;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 
-		Context applicationContext = this.getContext().getApplicationContext();
+		Context applicationContext = InstrumentationRegistry.getContext().getApplicationContext();
 
 		ev3TestModel = new MindstormsEV3TestModel();
 
@@ -68,14 +77,14 @@ public class LegoEV3SensorTest extends AndroidTestCase {
 		mindstormsConnection.init();
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
+	@After
+	public void tearDown() throws Exception {
 		ev3.disconnect();
 		mindstormsConnection.disconnect();
 		logger.disconnectAndDestroy();
-		super.tearDown();
 	}
 
+	@Test
 	public void testEV3IRSensor() {
 
 		ev3TestModel.setSensorType(PORT_NR_0, EV3Sensor.Sensor.INFRARED);
@@ -93,6 +102,7 @@ public class LegoEV3SensorTest extends AndroidTestCase {
 		assertEquals(expectedSensorValue, sensorValue);
 	}
 
+	@Test
 	public void testEV3ColorSensor() {
 
 		ev3TestModel.setSensorType(PORT_NR_1, EV3Sensor.Sensor.COLOR);
@@ -110,6 +120,7 @@ public class LegoEV3SensorTest extends AndroidTestCase {
 		assertEquals(expectedSensorValue, sensorValue);
 	}
 
+	@Test
 	public void testEV3ColorSensorAmbient() {
 
 		ev3TestModel.setSensorType(PORT_NR_2, EV3Sensor.Sensor.COLOR_AMBIENT);
@@ -127,6 +138,7 @@ public class LegoEV3SensorTest extends AndroidTestCase {
 		assertEquals(expectedSensorValue, sensorValue);
 	}
 
+	@Test
 	public void testEV3ColorSensorReflected() {
 
 		ev3TestModel.setSensorType(PORT_NR_3, EV3Sensor.Sensor.COLOR_REFLECT);
@@ -144,6 +156,7 @@ public class LegoEV3SensorTest extends AndroidTestCase {
 		assertEquals(expectedSensorValue, sensorValue);
 	}
 
+	@Test
 	public void testEV3TouchSensor() {
 
 		ev3TestModel.setSensorType(PORT_NR_3, EV3Sensor.Sensor.TOUCH);
@@ -162,6 +175,7 @@ public class LegoEV3SensorTest extends AndroidTestCase {
 		assertEquals(expectedSensorValue, sensorValue);
 	}
 
+	@Test
 	public void testEV3TemperatureSensor() {
 		ev3TestModel.setSensorType(PORT_NR_2, EV3Sensor.Sensor.NXT_TEMPERATURE_C);
 		EV3Sensor tempSensC = new TemperatureSensor(PORT_NR_2, mindstormsConnection, EV3SensorMode.MODE0);
@@ -196,6 +210,7 @@ public class LegoEV3SensorTest extends AndroidTestCase {
 		assertEquals(expectedSensorValueF, sensorValue);
 	}
 
+	@Test
 	public void testEV3hitecColorSensor() {
 		ev3TestModel.setSensorType(PORT_NR_1, EV3Sensor.Sensor.HT_NXT_COLOR);
 		EV3Sensor sensor = new HiTechnicColorSensor(PORT_NR_1, mindstormsConnection, EV3SensorMode.MODE0);

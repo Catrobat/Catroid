@@ -23,7 +23,7 @@
 package org.catrobat.catroid.test.content.actions;
 
 import android.support.test.InstrumentationRegistry;
-import android.test.InstrumentationTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
@@ -40,12 +40,19 @@ import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.test.R;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.File;
 
+import static junit.framework.Assert.assertEquals;
+
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 
-public class TurnRightActionTest extends InstrumentationTestCase {
+@RunWith(AndroidJUnit4.class)
+public class TurnRightActionTest {
 
 	private String projectName = "testProject";
 	private File testImage;
@@ -53,7 +60,7 @@ public class TurnRightActionTest extends InstrumentationTestCase {
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
 	private static final float VALUE = 33;
 
-	@Override
+	@Before
 	public void setUp() throws Exception {
 		File projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName);
 
@@ -61,7 +68,7 @@ public class TurnRightActionTest extends InstrumentationTestCase {
 			StorageOperations.deleteDir(projectDir);
 		}
 
-		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
@@ -80,16 +87,16 @@ public class TurnRightActionTest extends InstrumentationTestCase {
 		ScreenValues.SCREEN_WIDTH = 480;
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
+	@After
+	public void tearDown() throws Exception {
 		File projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName);
 
 		if (projectDir.exists()) {
 			StorageOperations.deleteDir(projectDir);
 		}
-		super.tearDown();
 	}
 
+	@Test
 	public void testTurnRightTwice() {
 		Sprite sprite = new SingleSprite("test");
 		sprite.look.setLookData(lookData);
@@ -110,6 +117,7 @@ public class TurnRightActionTest extends InstrumentationTestCase {
 		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testTurnRightAndScale() {
 		Sprite sprite = new SingleSprite("test");
 		sprite.look.setLookData(lookData);
@@ -126,6 +134,7 @@ public class TurnRightActionTest extends InstrumentationTestCase {
 		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testScaleandTurnRight() {
 		Sprite sprite = new SingleSprite("test");
 		sprite.look.setLookData(lookData);
@@ -142,6 +151,7 @@ public class TurnRightActionTest extends InstrumentationTestCase {
 		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testTurnRightNegative() {
 		Sprite sprite = new SingleSprite("test");
 		sprite.look.setLookData(lookData);
@@ -155,6 +165,7 @@ public class TurnRightActionTest extends InstrumentationTestCase {
 		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testTurnRight() {
 		Sprite sprite = new SingleSprite("test");
 		sprite.look.setLookData(lookData);
@@ -168,6 +179,7 @@ public class TurnRightActionTest extends InstrumentationTestCase {
 		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testTurnRightAndTurnLeft() {
 		Sprite sprite = new SingleSprite("test");
 		sprite.look.setLookData(lookData);
@@ -183,6 +195,7 @@ public class TurnRightActionTest extends InstrumentationTestCase {
 		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testBrickWithStringFormula() {
 		Sprite sprite = new SingleSprite("test");
 		Action action = sprite.getActionFactory().createTurnRightAction(sprite,
@@ -200,6 +213,7 @@ public class TurnRightActionTest extends InstrumentationTestCase {
 		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNullFormula() {
 		Sprite sprite = new SingleSprite("test");
 		Action action = sprite.getActionFactory().createTurnRightAction(sprite, null);
@@ -209,6 +223,7 @@ public class TurnRightActionTest extends InstrumentationTestCase {
 		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
+	@Test
 	public void testNotANumberFormula() {
 		Sprite sprite = new SingleSprite("test");
 		Action action = sprite.getActionFactory().createTurnRightAction(sprite, new Formula(Double.NaN));

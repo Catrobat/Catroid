@@ -22,25 +22,51 @@
  */
 package org.catrobat.catroid.test.physics.actions;
 
+import android.support.test.runner.AndroidJUnit4;
+
 import com.badlogic.gdx.scenes.scene2d.Action;
 
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.test.physics.PhysicsBaseTest;
+import org.catrobat.catroid.physics.PhysicsWorld;
+import org.catrobat.catroid.test.physics.PhysicsTestRule;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class SetPhysicsObjectTypeActionTest extends PhysicsBaseTest {
+import static junit.framework.Assert.assertEquals;
 
+@RunWith(AndroidJUnit4.class)
+public class SetPhysicsObjectTypeActionTest {
+
+	@Rule
+	public PhysicsTestRule rule = new PhysicsTestRule();
+
+	private Sprite sprite;
+	private PhysicsWorld physicsWorld;
+
+	@Before
+	public void setUp() {
+		sprite = rule.sprite;
+		physicsWorld = rule.physicsWorld;
+	}
+
+	@Test
 	public void testPhysicsTypeNone() {
 		PhysicsObject.Type type = PhysicsObject.Type.NONE;
 		initPhysicsTypeValue(type);
 		assertEquals(type, physicsWorld.getPhysicsObject(sprite).getType());
 	}
 
+	@Test
 	public void testPhysicsTypeDynamic() {
 		PhysicsObject.Type type = PhysicsObject.Type.DYNAMIC;
 		initPhysicsTypeValue(type);
 		assertEquals(type, physicsWorld.getPhysicsObject(sprite).getType());
 	}
 
+	@Test
 	public void testPhysicsTypeFixed() {
 		PhysicsObject.Type type = PhysicsObject.Type.FIXED;
 		initPhysicsTypeValue(type);

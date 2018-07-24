@@ -68,7 +68,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.content.eventids.GamepadEventId;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.physics.PhysicsDebugSettings;
 import org.catrobat.catroid.physics.PhysicsLook;
@@ -254,18 +253,18 @@ public class StageListener implements ApplicationListener {
 			copy.look.setLookData(copy.getLookList().get(0));
 		}
 		copy.initializeEventThreads(EventId.START_AS_CLONE);
-		copy.initConditionScriptTiggers();
+		copy.initConditionScriptTriggers();
 	}
 
 	public boolean removeClonedSpriteFromStage(Sprite sprite) {
-		if (!sprite.isClone()) {
+		if (!sprite.isClone) {
 			return false;
 		}
 		boolean removedSprite = sprites.remove(sprite);
 		if (removedSprite) {
-			Scene currentScene = ProjectManager.getInstance().getCurrentlyPlayingScene();
-			DataContainer userVariables = currentScene.getDataContainer();
-			userVariables.removeVariableListForSprite(sprite);
+			ProjectManager.getInstance().getCurrentlyPlayingScene().getDataContainer()
+					.removeSpriteUserData(sprite);
+
 			sprite.look.remove();
 			sprite.invalidate();
 		}
@@ -275,7 +274,7 @@ public class StageListener implements ApplicationListener {
 	private void removeAllClonedSpritesFromStage() {
 		List<Sprite> spritesCopy = new ArrayList<>(sprites);
 		for (Sprite sprite : spritesCopy) {
-			if (sprite.isClone()) {
+			if (sprite.isClone) {
 				removeClonedSpriteFromStage(sprite);
 			}
 		}
@@ -284,7 +283,7 @@ public class StageListener implements ApplicationListener {
 
 	private void disposeClonedSprites() {
 		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
-			scene.removeAllClones();
+			scene.removeClonedSprites();
 		}
 	}
 
@@ -386,7 +385,7 @@ public class StageListener implements ApplicationListener {
 
 		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
 			scene.firstStart = true;
-			scene.getDataContainer().resetAllDataObjects();
+			scene.getDataContainer().resetUserData();
 		}
 		reloadProject = true;
 	}
@@ -481,7 +480,7 @@ public class StageListener implements ApplicationListener {
 			for (int currentSprite = 0; currentSprite < spriteSize; currentSprite++) {
 				Sprite sprite = sprites.get(currentSprite);
 				sprite.initializeEventThreads(EventId.START);
-				sprite.initConditionScriptTiggers();
+				sprite.initConditionScriptTriggers();
 				if (!sprite.getLookList().isEmpty()) {
 					sprite.look.setLookData(sprite.getLookList().get(0));
 				}

@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -64,16 +63,13 @@ public class SetSizeToBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	public int getViewResource() {
+		return R.layout.brick_set_size_to;
+	}
 
-		view = View.inflate(context, R.layout.brick_set_size_to, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_set_size_to_checkbox);
-
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
 		TextView edit = (TextView) view.findViewById(R.id.brick_set_size_to_edit_text);
 		getFormulaWithBrickField(BrickField.SIZE).setTextFieldId(R.id.brick_set_size_to_edit_text);
 		getFormulaWithBrickField(BrickField.SIZE).refreshTextField(view);
@@ -83,7 +79,7 @@ public class SetSizeToBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_set_size_to, null);
+		prototypeView = super.getPrototypeView(context);
 		TextView textSetSizeTo = (TextView) prototypeView.findViewById(R.id.brick_set_size_to_edit_text);
 		textSetSizeTo.setText(formatNumberForPrototypeView(BrickValues.SET_SIZE_TO));
 		return prototypeView;

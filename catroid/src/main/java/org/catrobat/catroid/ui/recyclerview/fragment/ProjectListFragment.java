@@ -59,6 +59,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import static org.catrobat.catroid.common.Constants.DEFAULT_ROOT_DIRECTORY;
+import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_PROJECTS_PREFERENCE_KEY;
 
 public class ProjectListFragment extends RecyclerViewFragment<ProjectData> implements
 		ProjectCreatorTask.ProjectCreatorListener,
@@ -79,7 +80,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 
 	@Override
 	protected void initializeAdapter() {
-		sharedPreferenceDetailsKey = "showDetailsProjectList";
+		sharedPreferenceDetailsKey = SHOW_DETAILS_PROJECTS_PREFERENCE_KEY;
 		adapter = new ProjectAdapter(getItemList());
 		onAdapterReady();
 	}

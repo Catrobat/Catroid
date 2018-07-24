@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.physics;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.math.Vector2;
 
@@ -31,19 +31,15 @@ import junit.framework.Assert;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.PhysicsWorldConverter;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class PhysicsWorldConverterTest extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+public class PhysicsWorldConverterTest {
 
 	private float ratio = PhysicsWorld.RATIO;
 
-	@Override
-	public void setUp() {
-	}
-
-	@Override
-	public void tearDown() {
-	}
-
+	@Test
 	public void testAngleConversion() {
 		float angle = 0.0f;
 		Assert.assertEquals(angle, PhysicsWorldConverter.convertBox2dToNormalAngle(angle));
@@ -61,6 +57,7 @@ public class PhysicsWorldConverterTest extends AndroidTestCase {
 		}
 	}
 
+	@Test
 	public void testLengthConversion() {
 		float length = 0.0f;
 		Assert.assertEquals(length, PhysicsWorldConverter.convertBox2dToNormalCoordinate(length));
@@ -73,6 +70,7 @@ public class PhysicsWorldConverterTest extends AndroidTestCase {
 		}
 	}
 
+	@Test
 	public void testVectorConversation() {
 		Vector2 vector = new Vector2();
 		Assert.assertEquals(vector, PhysicsWorldConverter.convertBox2dToNormalVector(vector));

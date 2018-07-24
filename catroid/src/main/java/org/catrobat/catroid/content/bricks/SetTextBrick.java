@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -86,15 +85,13 @@ public class SetTextBrick extends FormulaBrick implements View.OnClickListener {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		view = View.inflate(context, R.layout.brick_drone_set_text, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+	public int getViewResource() {
+		return R.layout.brick_drone_set_text;
+	}
 
-		setCheckboxView(R.id.brick_set_text_checkbox);
-
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
 		TextView editX = (TextView) view.findViewById(R.id.brick_set_text_edit_text_x);
 		TextView editY = (TextView) view.findViewById(R.id.brick_set_text_edit_text_y);
 
@@ -117,7 +114,7 @@ public class SetTextBrick extends FormulaBrick implements View.OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_drone_set_text, null);
+		prototypeView = super.getPrototypeView(context);
 
 		TextView posX = (TextView) prototypeView.findViewById(R.id.brick_set_text_edit_text_x);
 		TextView posY = (TextView) prototypeView.findViewById(R.id.brick_set_text_edit_text_y);

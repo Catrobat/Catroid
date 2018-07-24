@@ -31,7 +31,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -118,37 +117,20 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 		return resources;
 	}
 
-	public void appendBrickToScript(Brick brick) {
-		this.getScriptSafe().addBrick(brick);
-	}
-
 	@Override
 	public CheckBox getCheckBox() {
 		return null;
 	}
 
-	public List<UserScriptDefinitionBrickElement> cloneDefinitionBrickElements() {
-		List<UserScriptDefinitionBrickElement> cloneList = new ArrayList<>();
-		for (UserScriptDefinitionBrickElement originalUserBrickElement : userScriptDefinitionBrickElements) {
-			UserScriptDefinitionBrickElement clonedUserBrickElement = new UserScriptDefinitionBrickElement();
-			clonedUserBrickElement.setText(originalUserBrickElement.getText());
-			clonedUserBrickElement.setElementType(originalUserBrickElement.getElementType());
-			clonedUserBrickElement.setNewLineHint(originalUserBrickElement.isNewLineHint());
-			cloneList.add(clonedUserBrickElement);
-		}
-		return cloneList;
+	@Override
+	public int getViewResource() {
+		return R.layout.brick_user_definition;
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, final BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-
-		view = View.inflate(context, R.layout.brick_user_definition, null);
-		setCheckboxView(R.id.brick_user_definition_checkbox);
+	public View getView(final Context context) {
+		super.getView(context);
 		onLayoutChanged();
-
 		return view;
 	}
 
@@ -192,7 +174,7 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 	}
 
 	private View getUserBrickPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_user, null);
+		View prototypeView = super.getPrototypeView(context);
 		BrickLayout layout = (BrickLayout) prototypeView.findViewById(R.id.brick_user_flow_layout);
 		if (layout.getChildCount() > 0) {
 			layout.removeAllViews();
@@ -299,11 +281,6 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		return getView(context, 0, null);
-	}
-
-	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		return null;
 	}
@@ -367,7 +344,7 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 				if (dataContainer != null) {
 					List<UserBrick> matchingBricks = currentSprite.getUserBricksByDefinitionBrick(this, true, true);
 					for (UserBrick userBrick : matchingBricks) {
-						UserVariable userVariable = dataContainer.getUserVariable(currentSprite, oldName, userBrick);
+						UserVariable userVariable = dataContainer.getUserVariable(currentSprite, userBrick, oldName);
 						if (userVariable != null) {
 							userVariable.setName(newName);
 						}

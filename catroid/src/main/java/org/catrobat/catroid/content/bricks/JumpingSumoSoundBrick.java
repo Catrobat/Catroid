@@ -27,7 +27,6 @@ import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -84,7 +83,7 @@ public class JumpingSumoSoundBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_jumping_sumo_sound, null);
+		prototypeView = super.getPrototypeView(context);
 		TextView editVolume = (TextView) prototypeView.findViewById(R.id.brick_jumping_sumo_sound_edit_text);
 		editVolume.setText(formatNumberForPrototypeView(BrickValues.JUMPING_SUMO_SOUND_BRICK_DEFAULT_VOLUME_PERCENT));
 
@@ -104,15 +103,13 @@ public class JumpingSumoSoundBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	public int getViewResource() {
+		return R.layout.brick_jumping_sumo_sound;
+	}
 
-		view = View.inflate(context, R.layout.brick_jumping_sumo_sound, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_jumping_sumo_sound_checkbox);
-
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
 		editVolume = (TextView) view.findViewById(R.id.brick_jumping_sumo_sound_edit_text);
 		getFormulaWithBrickField(BrickField.JUMPING_SUMO_VOLUME).setTextFieldId(R.id.brick_jumping_sumo_sound_edit_text);
 		getFormulaWithBrickField(BrickField.JUMPING_SUMO_VOLUME).refreshTextField(view);

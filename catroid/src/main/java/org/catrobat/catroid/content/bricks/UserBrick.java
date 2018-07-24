@@ -26,7 +26,6 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -73,7 +72,6 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 
 	@Override
 	public Brick clone() {
-		animationState = false;
 		UserBrick clonedUserBrick = new UserBrick(definitionBrick);
 		clonedUserBrick.userBrickParameters = new ArrayList<>();
 		if (userBrickParameters != null) {
@@ -188,23 +186,16 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 		return formulaList;
 	}
 
-	public void appendBrickToScript(Brick brick) {
-		definitionBrick.appendBrickToScript(brick);
+	@Override
+	public int getViewResource() {
+		return R.layout.brick_user;
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	public View getView(Context context) {
+		super.getView(context);
 		setUserBrickParametersParent();
-
-		view = View.inflate(context, R.layout.brick_user, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_user_checkbox);
 		onLayoutChanged(view);
-
 		return view;
 	}
 
@@ -218,7 +209,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_user, null);
+		prototypeView = super.getPrototypeView(context);
 		onLayoutChanged(prototypeView);
 		return prototypeView;
 	}
@@ -317,7 +308,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 		sequence.addAction(actionFactory.createUserBrickAction(userSequence, this));
 		ProjectManager.getInstance().setCurrentUserBrick(this);
 
-		if (sprite.isClone()) {
+		if (sprite.isClone) {
 			sprite.addUserBrick(this);
 		}
 
@@ -334,9 +325,5 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 
 	public List<UserScriptDefinitionBrickElement> getUserScriptDefinitionBrickElements() {
 		return definitionBrick.getUserScriptDefinitionBrickElements();
-	}
-
-	@Override
-	public void storeDataForBackPack(Sprite sprite) {
 	}
 }

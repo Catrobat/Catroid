@@ -27,7 +27,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -88,7 +87,7 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_nxt_motor_action, null);
+		prototypeView = super.getPrototypeView(context);
 		TextView textSpeed = (TextView) prototypeView.findViewById(R.id.motor_action_speed_edit_text);
 		textSpeed.setText(formatNumberForPrototypeView(BrickValues.LEGO_SPEED));
 
@@ -109,15 +108,13 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	public int getViewResource() {
+		return R.layout.brick_nxt_motor_action;
+	}
 
-		view = View.inflate(context, R.layout.brick_nxt_motor_action, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_nxt_motor_action_checkbox);
-
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
 		editSpeed = (TextView) view.findViewById(R.id.motor_action_speed_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_NXT_SPEED).setTextFieldId(R.id.motor_action_speed_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_NXT_SPEED).refreshTextField(view);

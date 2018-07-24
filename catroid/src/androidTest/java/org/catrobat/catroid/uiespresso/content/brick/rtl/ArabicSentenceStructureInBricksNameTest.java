@@ -279,7 +279,7 @@ public class ArabicSentenceStructureInBricksNameTest {
 				.check(matches(isDisplayed()))
 				.check(isLeftOf(withId(R.id.brick_jumping_sumo_change_right_variable_edit_text)));
 
-		// set next NFC tag to
+		// Wait for next NFC tag to WRITE
 		checkIfBrickISRtl(SetNfcTagBrick.class, R.id.brick_set_nfc_tag_layout);
 		onView(withId(R.id.brick_set_nfc_tag_label))
 				.check(matches(isDisplayed()));

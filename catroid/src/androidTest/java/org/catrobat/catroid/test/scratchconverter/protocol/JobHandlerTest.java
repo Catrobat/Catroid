@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.test.scratchconverter.protocol;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.scratchconverter.Client;
@@ -37,11 +37,19 @@ import org.catrobat.catroid.scratchconverter.protocol.message.job.JobOutputMessa
 import org.catrobat.catroid.scratchconverter.protocol.message.job.JobProgressMessage;
 import org.catrobat.catroid.scratchconverter.protocol.message.job.JobReadyMessage;
 import org.catrobat.catroid.scratchconverter.protocol.message.job.JobRunningMessage;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import java.util.Date;
+
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.fail;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doAnswer;
@@ -50,7 +58,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
-public class JobHandlerTest extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+public class JobHandlerTest {
 
 	private static final long JOB_ID_OF_JOB_HANDLER = 1;
 	private static final long WRONG_JOB_ID = 2;
@@ -58,9 +67,8 @@ public class JobHandlerTest extends AndroidTestCase {
 	private Job expectedJob;
 	private JobHandler jobHandler;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 		expectedJob = new Job(JOB_ID_OF_JOB_HANDLER, "My program", null);
 		convertCallbackMock = Mockito.mock(Client.ConvertCallback.class);
 		jobHandler = new JobHandler(expectedJob, convertCallbackMock);
@@ -69,6 +77,7 @@ public class JobHandlerTest extends AndroidTestCase {
 	//------------------------------------------------------------------------------------------------------------------
 	// Receive job-message event tests
 	//------------------------------------------------------------------------------------------------------------------
+	@Test
 	public void testReceivedJobMessageWithWrongJobIDShouldFail() {
 		expectedJob.setState(Job.State.SCHEDULED);
 		try {
@@ -82,6 +91,7 @@ public class JobHandlerTest extends AndroidTestCase {
 		}
 	}
 
+	@Test
 	public void testReceivedJobMessageWhenJobIsNotInProgressShouldFail() {
 		// tests all not-in-progress states! -> see: Job.State.isInProgress()
 		for (Job.State givenState : new Job.State[] {Job.State.UNSCHEDULED, Job.State.FINISHED, Job.State.FAILED}) {
@@ -98,6 +108,7 @@ public class JobHandlerTest extends AndroidTestCase {
 		}
 	}
 
+	@Test
 	public void testReceivedJobReadyMessageWhenHandlerIsInScheduledStateShouldWork() {
 		doAnswer(new Answer<Void>() {
 			@Override
@@ -117,6 +128,7 @@ public class JobHandlerTest extends AndroidTestCase {
 		verifyNoMoreInteractions(convertCallbackMock);
 	}
 
+	@Test
 	public void testReceivedJobReadyMessageWhenHandlerIsNotInScheduledStateButInProgressShouldBeIgnored() {
 		for (Job.State givenState : new Job.State[] {Job.State.READY, Job.State.RUNNING}) {
 			expectedJob.setState(givenState);
@@ -127,6 +139,7 @@ public class JobHandlerTest extends AndroidTestCase {
 		verifyZeroInteractions(convertCallbackMock);
 	}
 
+	@Test
 	public void testReceivedJobAlreadyRunningMessageWhenHandlerIsInScheduledStateShouldWork() {
 		doAnswer(new Answer<Void>() {
 			@Override
@@ -149,6 +162,7 @@ public class JobHandlerTest extends AndroidTestCase {
 		verifyNoMoreInteractions(convertCallbackMock);
 	}
 
+	@Test
 	public void testReceivedJobAlreadyRunningMessageWhenHandlerIsNotInScheduledStateButInProgressShouldBeIgnored() {
 		for (Job.State givenState : new Job.State[] {Job.State.READY, Job.State.RUNNING}) {
 			expectedJob.setState(givenState);
@@ -163,6 +177,7 @@ public class JobHandlerTest extends AndroidTestCase {
 		verifyZeroInteractions(convertCallbackMock);
 	}
 
+	@Test
 	public void testReceivedJobProgressMessageWhenHandlerIsInRunningStateShouldWork() {
 		final short expectedProgress = 31;
 
@@ -188,6 +203,7 @@ public class JobHandlerTest extends AndroidTestCase {
 		verifyNoMoreInteractions(convertCallbackMock);
 	}
 
+	@Test
 	public void testReceivedJobProgressMessageWhenHandlerIsNotInRunningStateButInProgressShouldBeIgnored() {
 		for (Job.State givenState : new Job.State[] {Job.State.SCHEDULED, Job.State.READY}) {
 			final short expectedProgress = 31;
@@ -200,6 +216,7 @@ public class JobHandlerTest extends AndroidTestCase {
 		verifyZeroInteractions(convertCallbackMock);
 	}
 
+	@Test
 	public void testReceivedJobOutputMessageWhenHandlerIsInRunningStateShouldWork() {
 		final String[] expectedLines = new String[] {"line1", "line2"};
 
@@ -227,6 +244,7 @@ public class JobHandlerTest extends AndroidTestCase {
 		verifyNoMoreInteractions(convertCallbackMock);
 	}
 
+	@Test
 	public void testReceivedJobOutputMessageWhenHandlerIsNotInRunningStateButInProgressShouldBeIgnored() {
 		for (Job.State givenState : new Job.State[] {Job.State.SCHEDULED, Job.State.READY}) {
 			final String[] expectedLines = new String[] {"line1", "line2"};
@@ -240,6 +258,7 @@ public class JobHandlerTest extends AndroidTestCase {
 		verifyZeroInteractions(convertCallbackMock);
 	}
 
+	@Test
 	public void testReceivedJobFinishedMessageWhenHandlerIsInScheduledOrRunningStateShouldWork() {
 		final String expectedDownloadURL = Constants.SCRATCH_CONVERTER_BASE_URL
 				+ "/download?job_id=1&client_id=1&fname=My%20program";
@@ -281,6 +300,7 @@ public class JobHandlerTest extends AndroidTestCase {
 		verifyNoMoreInteractions(convertCallbackMock);
 	}
 
+	@Test
 	public void testReceivedJobFinishedMessageWhenHandlerIsNotInScheduledOrRunningStateButInProgressShouldBeIgnored() {
 		final Job.State givenState = Job.State.READY;
 		expectedJob.setState(givenState);
@@ -295,6 +315,7 @@ public class JobHandlerTest extends AndroidTestCase {
 		verifyZeroInteractions(convertCallbackMock);
 	}
 
+	@Test
 	public void testReceivedJobFailedMessageWhenHandlerIsInScheduledStateShouldWork() {
 		final String expectedErrorMessage = "Error message successfully received";
 
@@ -323,6 +344,7 @@ public class JobHandlerTest extends AndroidTestCase {
 		verifyNoMoreInteractions(convertCallbackMock);
 	}
 
+	@Test
 	public void testReceivedJobFailedMessageWhenHandlerIsNotInScheduledOrRunningStateButInProgressShouldBeIgnored() {
 		final Job.State givenState = Job.State.READY;
 		final String errorMessage = "Error message successfully received";
@@ -334,6 +356,7 @@ public class JobHandlerTest extends AndroidTestCase {
 		verifyZeroInteractions(convertCallbackMock);
 	}
 
+	@Test
 	public void testReceivedJobRunningMessageWhenHandlerIsInReadyStateShouldWork() {
 		doAnswer(new Answer<Void>() {
 			@Override
@@ -354,6 +377,7 @@ public class JobHandlerTest extends AndroidTestCase {
 		verifyNoMoreInteractions(convertCallbackMock);
 	}
 
+	@Test
 	public void testReceivedJobRunningMessageWhenHandlerIsNotInReadyStateButInProgressShouldBeIgnored() {
 		for (Job.State givenState : new Job.State[] {Job.State.SCHEDULED, Job.State.RUNNING}) {
 			expectedJob.setState(givenState);
@@ -370,6 +394,7 @@ public class JobHandlerTest extends AndroidTestCase {
 	//------------------------------------------------------------------------------------------------------------------
 	// Other event tests
 	//------------------------------------------------------------------------------------------------------------------
+	@Test
 	public void testReceivedOnJobScheduledEvent() {
 		doAnswer(new Answer<Void>() {
 			@Override
@@ -390,6 +415,7 @@ public class JobHandlerTest extends AndroidTestCase {
 		verifyNoMoreInteractions(convertCallbackMock);
 	}
 
+	@Test
 	public void testReceivedOnDownloadStartedEvent() {
 		final String expectedDownloadURL = Constants.SCRATCH_CONVERTER_BASE_URL
 				+ "/download?job_id=1&client_id=1&fname=My%20program";
@@ -403,6 +429,7 @@ public class JobHandlerTest extends AndroidTestCase {
 		verifyZeroInteractions(convertCallbackMock);
 	}
 
+	@Test
 	public void testReceivedOnDownloadFinishedEvent() {
 		final String expectedDownloadURL = Constants.SCRATCH_CONVERTER_BASE_URL
 				+ "/download?job_id=1&client_id=1&fname=My%20program";
@@ -416,6 +443,7 @@ public class JobHandlerTest extends AndroidTestCase {
 		verifyZeroInteractions(convertCallbackMock);
 	}
 
+	@Test
 	public void testReceivedOnUserCanceledDownloadEvent() {
 		final String expectedDownloadURL = Constants.SCRATCH_CONVERTER_BASE_URL
 				+ "/download?job_id=1&client_id=1&fname=My%20program";
@@ -429,6 +457,7 @@ public class JobHandlerTest extends AndroidTestCase {
 		verifyZeroInteractions(convertCallbackMock);
 	}
 
+	@Test
 	public void testReceivedOnUserCanceledConversionEvent() {
 		expectedJob.setState(Job.State.RUNNING);
 		jobHandler.onUserCanceledConversion();
@@ -440,15 +469,16 @@ public class JobHandlerTest extends AndroidTestCase {
 	//------------------------------------------------------------------------------------------------------------------
 	// Wrapper method tests
 	//------------------------------------------------------------------------------------------------------------------
+	@Test
 	public void testIsJobInProgressWrapperCalled() {
 		for (Job.State givenState : Job.State.values()) {
 			expectedJob.setState(givenState);
-			boolean expectedResult = expectedJob.isInProgress();
-			assertTrue(expectedResult == jobHandler.isInProgress());
+			assertEquals(expectedJob.isInProgress(), jobHandler.isInProgress());
 		}
 		verifyZeroInteractions(convertCallbackMock);
 	}
 
+	@Test
 	public void testIsGetJobIDWrapperCalled() {
 		final long expectedJobID = expectedJob.getJobID();
 		assertEquals(expectedJobID, jobHandler.getJobID());

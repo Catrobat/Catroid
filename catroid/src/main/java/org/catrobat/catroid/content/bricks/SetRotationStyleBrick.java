@@ -29,7 +29,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
@@ -50,19 +49,14 @@ public class SetRotationStyleBrick extends BrickBaseType {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
+	public int getViewResource() {
+		return R.layout.brick_set_rotation_style;
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		view = View.inflate(context, R.layout.brick_set_rotation_style, null);
+	public View getView(Context context) {
+		super.getView(context);
 		BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_set_rotation_style_normal_checkbox);
-
 		spinner = (Spinner) view.findViewById(R.id.brick_set_rotation_style_spinner);
 
 		final ArrayAdapter<String> spinnerAdapter = createSpinnerAdapter(context);
@@ -95,7 +89,7 @@ public class SetRotationStyleBrick extends BrickBaseType {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_set_rotation_style, null);
+		prototypeView = super.getPrototypeView(context);
 
 		spinner = (Spinner) prototypeView.findViewById(R.id.brick_set_rotation_style_spinner);
 

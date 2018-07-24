@@ -20,38 +20,20 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.devices.mindstorms;
 
-package org.catrobat.catroid.formulaeditor.datacontainer;
+import org.catrobat.catroid.common.Constants;
 
-import org.catrobat.catroid.formulaeditor.UserVariable;
+public interface LegoSensor {
 
-import java.util.List;
+	float getValue();
 
-class ProjectVariableBehaviour extends ProjectDataBehaviour<UserVariable> {
+	int getUpdateInterval();
+	void updateLastSensorValue();
+	float getLastSensorValue();
 
-	private DataContainer dataContainer;
+	String getName();
 
-	ProjectVariableBehaviour(DataContainer dataContainer) {
-		this.dataContainer = dataContainer;
-	}
-
-	@Override
-	protected List<UserVariable> getDataList() {
-		return dataContainer.getProjectVariables();
-	}
-
-	@Override
-	protected UserVariable newInstance(String name) {
-		return new UserVariable(name);
-	}
-
-	@Override
-	protected String getDataName(UserVariable data) {
-		return data.getName();
-	}
-
-	@Override
-	protected void setDataName(UserVariable data, String name) {
-		data.setName(name);
-	}
+	@Constants.LegoPort
+	int getConnectedPort();
 }

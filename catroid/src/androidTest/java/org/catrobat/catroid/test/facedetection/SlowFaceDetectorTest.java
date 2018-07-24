@@ -24,7 +24,7 @@ package org.catrobat.catroid.test.facedetection;
 
 import android.graphics.PointF;
 import android.hardware.Camera;
-import android.test.InstrumentationTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.facedetection.SlowFaceDetector;
@@ -33,10 +33,19 @@ import org.catrobat.catroid.formulaeditor.SensorCustomEventListener;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.Reflection.ParameterList;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.Random;
 
-public class SlowFaceDetectorTest extends InstrumentationTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
+
+@RunWith(AndroidJUnit4.class)
+public class SlowFaceDetectorTest {
 
 	private static final int DETECTION_WIDTH = 400;
 	private static final int DETECTION_HEIGHT = 300;
@@ -47,13 +56,13 @@ public class SlowFaceDetectorTest extends InstrumentationTestCase {
 	private static final int X_POSITION_INDEX = 2;
 	private static final int Y_POSITION_INDEX = 3;
 
-	@Override
+	@Before
 	public void setUp() throws Exception {
-		super.setUp();
 		ScreenValues.SCREEN_WIDTH = 720;
 		ScreenValues.SCREEN_HEIGHT = 1080;
 	}
 
+	@Test
 	public void testStartAndStop() {
 
 		Camera camera = null;
@@ -94,6 +103,7 @@ public class SlowFaceDetectorTest extends InstrumentationTestCase {
 		}
 	}
 
+	@Test
 	public void testDoubleStart() {
 		SlowFaceDetector detector = new SlowFaceDetector();
 		detector.startFaceDetection();
@@ -106,6 +116,7 @@ public class SlowFaceDetectorTest extends InstrumentationTestCase {
 		}
 	}
 
+	@Test
 	public void testOnFaceDetectedListener() {
 		SlowFaceDetector detector = new SlowFaceDetector();
 
@@ -157,6 +168,7 @@ public class SlowFaceDetectorTest extends InstrumentationTestCase {
 		assertEquals(6, detectedFaces[COUNTER_INDEX]);
 	}
 
+	@Test
 	public void testFaceSizeBounds() {
 		SlowFaceDetector detector = new SlowFaceDetector();
 

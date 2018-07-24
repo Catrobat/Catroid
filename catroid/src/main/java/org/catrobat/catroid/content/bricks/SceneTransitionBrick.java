@@ -27,7 +27,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.ProjectManager;
@@ -71,12 +70,13 @@ public class SceneTransitionBrick extends BrickBaseType implements
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
+	public int getViewResource() {
+		return R.layout.brick_scene_transition;
+	}
 
-		view = View.inflate(context, R.layout.brick_scene_transition, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_scene_transition_checkbox);
-
+	@Override
+	public View getView(final Context context) {
+		super.getView(context);
 		spinner = view.findViewById(R.id.brick_scene_transition_spinner);
 
 		List<String> sceneNames = ProjectManager.getInstance().getCurrentProject().getSceneNames();
@@ -126,7 +126,7 @@ public class SceneTransitionBrick extends BrickBaseType implements
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View view = View.inflate(context, R.layout.brick_scene_transition, null);
+		View view = super.getPrototypeView(context);
 		spinner = view.findViewById(R.id.brick_scene_transition_spinner);
 
 		List<String> sceneNames = ProjectManager.getInstance().getCurrentProject().getSceneNames();

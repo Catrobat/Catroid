@@ -23,7 +23,7 @@
 package org.catrobat.catroid.test.content.actions;
 
 import android.support.test.InstrumentationRegistry;
-import android.test.InstrumentationTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
@@ -33,12 +33,19 @@ import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+
+@RunWith(AndroidJUnit4.class)
+public class IfOnEdgeBounceActionTest {
 
 	private Action ifOnEdgeBounceAction;
 	private Sprite sprite;
@@ -58,7 +65,7 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 	private static final float BOUNCE_RIGHT_POSITION = RIGHT_BORDER_POSITION - (WIDTH / 2f);
 	private static final float BOUNCE_LEFT_POSITION = -BOUNCE_RIGHT_POSITION;
 
-	@Override
+	@Before
 	public void setUp() throws Exception {
 		sprite = new SingleSprite("Test");
 		sprite.look.setWidth(WIDTH);
@@ -75,12 +82,14 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 		ProjectManager.getInstance().setProject(project);
 	}
 
+	@Test
 	public void testNoBounce() {
 		setPositionAndDirection(0f, 0f, 90f);
 		executeIfOnEdgeBounceAction();
 		checkPositionAndDirection(0f, 0f, 90f);
 	}
 
+	@Test
 	public void testTopBounce() {
 		// Bounce if -90 < direction < 90
 
@@ -109,6 +118,7 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 		}
 	}
 
+	@Test
 	public void testBottomBounce() {
 		// Bounce if direction < -90 or direction > 90
 
@@ -137,6 +147,7 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 		}
 	}
 
+	@Test
 	public void testLeftBounce() {
 		// Bounce if -180 < direction < 0
 
@@ -165,6 +176,7 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 		}
 	}
 
+	@Test
 	public void testRightBounce() {
 		// Bounce if 0 < direction < 180
 
@@ -193,6 +205,7 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 		}
 	}
 
+	@Test
 	public void testUpLeftBounce() {
 		setPositionAndDirection(LEFT_BORDER_POSITION, TOP_BORDER_POSITION, 135f);
 		executeIfOnEdgeBounceAction();
@@ -203,6 +216,7 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 		checkPositionAndDirection(BOUNCE_LEFT_POSITION, BOUNCE_TOP_POSITION, 135f);
 	}
 
+	@Test
 	public void testUpRightBounce() {
 		setPositionAndDirection(RIGHT_BORDER_POSITION, TOP_BORDER_POSITION, -135f);
 		executeIfOnEdgeBounceAction();
@@ -213,6 +227,7 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 		checkPositionAndDirection(BOUNCE_RIGHT_POSITION, BOUNCE_TOP_POSITION, -135f);
 	}
 
+	@Test
 	public void testBottomLeftBounce() {
 		setPositionAndDirection(LEFT_BORDER_POSITION, BOTTOM_BORDER_POSITION, 45f);
 		executeIfOnEdgeBounceAction();
@@ -223,6 +238,7 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 		checkPositionAndDirection(BOUNCE_LEFT_POSITION, BOUNCE_BOTTOM_POSITION, 45f);
 	}
 
+	@Test
 	public void testBottomRightBounce() {
 		setPositionAndDirection(RIGHT_BORDER_POSITION, BOTTOM_BORDER_POSITION, -45f);
 		executeIfOnEdgeBounceAction();

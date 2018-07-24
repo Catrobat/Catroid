@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui.recyclerview.adapter;
 
 import android.support.annotation.IntDef;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -157,7 +158,7 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 				+ localListAdapter.getItemCount())) {
 			return LIST_LOCAL;
 		}
-		throw new IndexOutOfBoundsException("Non of the sub adapters provides this position. size:" + getItemCount()
+		throw new IndexOutOfBoundsException("None of the sub adapters provides this position. size:" + getItemCount()
 				+ "index: " + position);
 	}
 
@@ -179,8 +180,9 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 		localListAdapter.setOnItemClickListener(onItemClickListener);
 	}
 
+	@NonNull
 	@Override
-	public CheckableVH onCreateViewHolder(ViewGroup parent, @LayoutRes int viewType) {
+	public CheckableVH onCreateViewHolder(@NonNull ViewGroup parent, @LayoutRes int viewType) {
 		switch (viewType) {
 			case R.layout.vh_variable_with_headline:
 			case R.layout.vh_variable:
@@ -210,7 +212,7 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 	}
 
 	@Override
-	public void onBindViewHolder(CheckableVH holder, int position) {
+	public void onBindViewHolder(@NonNull CheckableVH holder, int position) {
 		@DataType
 		int dataType = getDataType(position);
 		position = getRelativeItemPosition(position, dataType);

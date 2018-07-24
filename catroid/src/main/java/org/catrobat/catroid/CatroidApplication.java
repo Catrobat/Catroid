@@ -29,7 +29,6 @@ import android.util.Log;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
-import com.parrot.freeflight.settings.ApplicationSettings;
 
 import org.catrobat.catroid.utils.CrashReporter;
 
@@ -39,12 +38,11 @@ public class CatroidApplication extends MultiDexApplication {
 
 	private static final String TAG = CatroidApplication.class.getSimpleName();
 
-	private ApplicationSettings settings;
 	private static Context context;
+	public static String defaultSystemLanguage;
 
 	public static final String OS_ARCH = System.getProperty("os.arch");
 	public static boolean parrotLibrariesLoaded = false;
-	public static String defaultSystemLanguage;
 	public static boolean parrotJSLibrariesLoaded = false;
 
 	private static GoogleAnalytics googleAnalytics;
@@ -53,11 +51,12 @@ public class CatroidApplication extends MultiDexApplication {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		defaultSystemLanguage = Locale.getDefault().getLanguage();
-		CrashReporter.initialize(this);
 		Log.d(TAG, "CatroidApplication onCreate");
-		settings = new ApplicationSettings(this);
-		CatroidApplication.context = getApplicationContext();
+
+		CrashReporter.initialize(this);
+
+		context = getApplicationContext();
+		defaultSystemLanguage = Locale.getDefault().getLanguage();
 
 		googleAnalytics = GoogleAnalytics.getInstance(this);
 		googleAnalytics.setDryRun(BuildConfig.DEBUG);
@@ -75,10 +74,6 @@ public class CatroidApplication extends MultiDexApplication {
 		}
 
 		return googleTracker;
-	}
-
-	public ApplicationSettings getParrotApplicationSettings() {
-		return settings;
 	}
 
 	@SuppressWarnings("PMD.AvoidUsingNativeCode")

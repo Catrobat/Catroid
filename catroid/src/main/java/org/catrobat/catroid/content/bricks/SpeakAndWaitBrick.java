@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -69,15 +68,13 @@ public class SpeakAndWaitBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, final BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	public int getViewResource() {
+		return R.layout.brick_speak_and_wait;
+	}
 
-		view = View.inflate(context, R.layout.brick_speak_and_wait, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_speak_and_wait_checkbox);
+	@Override
+	public View getView(final Context context) {
+		super.getView(context);
 		TextView textField = (TextView) view.findViewById(R.id.brick_speak_and_wait_edit_text);
 		getFormulaWithBrickField(BrickField.SPEAK).setTextFieldId(R.id.brick_speak_and_wait_edit_text);
 		getFormulaWithBrickField(BrickField.SPEAK).refreshTextField(view);
@@ -88,7 +85,7 @@ public class SpeakAndWaitBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_speak_and_wait, null);
+		prototypeView = super.getPrototypeView(context);
 		TextView textSpeak = (TextView) prototypeView.findViewById(R.id.brick_speak_and_wait_edit_text);
 		textSpeak.setText(context.getString(R.string.brick_speak_default_value));
 

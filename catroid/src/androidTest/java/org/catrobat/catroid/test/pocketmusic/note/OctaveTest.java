@@ -22,15 +22,21 @@
  */
 package org.catrobat.catroid.test.pocketmusic.note;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.pocketmusic.note.NoteName;
 import org.catrobat.catroid.pocketmusic.note.Octave;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import java.util.Arrays;
+import static junit.framework.Assert.assertEquals;
 
-public class OctaveTest extends AndroidTestCase {
+import static org.junit.Assert.assertArrayEquals;
 
+@RunWith(AndroidJUnit4.class)
+public class OctaveTest {
+
+	@Test
 	public void testGetNoteNames() {
 		NoteName[] noteNames = new NoteName[] {
 				NoteName.C4, NoteName.C4S, NoteName.D4,
@@ -39,9 +45,10 @@ public class OctaveTest extends AndroidTestCase {
 				NoteName.A4, NoteName.A4S, NoteName.B4};
 		Octave octave = Octave.ONE_LINE_OCTAVE;
 
-		assertTrue(Arrays.equals(noteNames, octave.getNoteNames()));
+		assertArrayEquals(noteNames, octave.getNoteNames());
 	}
 
+	@Test
 	public void testNext() {
 		Octave octave = Octave.ONE_LINE_OCTAVE;
 		Octave nextOctave = Octave.TWO_LINE_OCTAVE;
@@ -49,12 +56,14 @@ public class OctaveTest extends AndroidTestCase {
 		assertEquals(nextOctave, octave.next());
 	}
 
+	@Test
 	public void testNextNoChange() {
 		Octave lastOctave = Octave.FOUR_LINE_OCTAVE;
 
 		assertEquals(lastOctave, lastOctave.next());
 	}
 
+	@Test
 	public void testPrevious() {
 		Octave octave = Octave.THREE_LINE_OCTAVE;
 		Octave previousOctave = Octave.TWO_LINE_OCTAVE;
@@ -62,6 +71,7 @@ public class OctaveTest extends AndroidTestCase {
 		assertEquals(previousOctave, octave.previous());
 	}
 
+	@Test
 	public void testPreviousNoChange() {
 		Octave firstOctave = Octave.CONTRA_OCTAVE;
 

@@ -35,7 +35,10 @@ import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.Operators;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -48,21 +51,20 @@ public class ParserTestStringFunctions extends AndroidTestCase {
 	private static final String PROJECT_USER_VARIABLE_NAME = "projectUserVariable";
 	private static final String PROJECT_USER_VARIABLE_NAME2 = "projectUserVariable2";
 
-	@Override
-	protected void setUp() {
+	@Before
+	public void setUp() {
 		testSprite = new SingleSprite("testsprite");
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		project.getDefaultScene().addSprite(testSprite);
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
-		DataContainer userVariableContainer = ProjectManager.getInstance().getCurrentlyEditedScene()
-				.getDataContainer();
-		userVariableContainer.addProjectUserVariable(PROJECT_USER_VARIABLE_NAME).setValue(
-				USER_VARIABLE_1_VALUE_TYPE_DOUBLE);
-		userVariableContainer.addProjectUserVariable(PROJECT_USER_VARIABLE_NAME2).setValue(
-				USER_VARIABLE_2_VALUE_TYPE_STRING);
+
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
+		dataContainer.addUserVariable(new UserVariable(PROJECT_USER_VARIABLE_NAME, USER_VARIABLE_1_VALUE_TYPE_DOUBLE));
+		dataContainer.addUserVariable(new UserVariable(PROJECT_USER_VARIABLE_NAME2, USER_VARIABLE_2_VALUE_TYPE_STRING));
 	}
 
+	@Test
 	public void testLength() {
 		String firstParameter = "testString";
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LENGTH, InternTokenType.STRING, firstParameter,
@@ -84,6 +86,7 @@ public class ParserTestStringFunctions extends AndroidTestCase {
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LENGTH, firstParameterList, 0d, testSprite);
 	}
 
+	@Test
 	public void testLetter() {
 		String letterString = "letterString";
 		String index = "7";
@@ -132,6 +135,7 @@ public class ParserTestStringFunctions extends AndroidTestCase {
 				testSprite);
 	}
 
+	@Test
 	public void testJoin() {
 		String firstParameter = "first";
 		String secondParameter = "second";
@@ -179,6 +183,7 @@ public class ParserTestStringFunctions extends AndroidTestCase {
 				+ Double.NaN + Double.NaN, testSprite);
 	}
 
+	@Test
 	public void testStringFunctionsNested() {
 		String firstParameter = "hello";
 		String secondParameter = " world";

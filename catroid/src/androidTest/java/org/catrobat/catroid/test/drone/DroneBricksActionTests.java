@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.test.drone;
 
+import android.support.test.InstrumentationRegistry;
 import android.test.InstrumentationTestCase;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -46,6 +47,8 @@ import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
 import org.catrobat.catroid.drone.ardrone.DroneServiceWrapper;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Mockito;
 
 import static org.mockito.Mockito.when;
@@ -66,12 +69,11 @@ public class DroneBricksActionTests extends InstrumentationTestCase {
 		durationInSeconds = 2;
 	}
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 		//Workaround for Android 4.4 Devices
 		//https://code.google.com/p/dexmaker/issues/detail?id=2
-		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
+		System.setProperty("dexmaker.dexcache", InstrumentationRegistry.getTargetContext().getCacheDir().getPath());
 
 		droneControlService = Mockito.mock(DroneControlService.class);
 		droneConfig = Mockito.mock(DroneConfig.class);
@@ -93,16 +95,19 @@ public class DroneBricksActionTests extends InstrumentationTestCase {
 		action.act(actDuration);
 	}
 
+	@Test
 	public void testTakeOff() {
 		addActionToSequenceAndAct(new DroneTakeOffLandBrick());
 		Mockito.verify(droneControlService, Mockito.atLeast(1)).triggerTakeOff();
 	}
 
+	@Test
 	public void testLand() {
 		addActionToSequenceAndAct(new DroneTakeOffLandBrick());
 		Mockito.verify(droneControlService, Mockito.atLeast(1)).triggerTakeOff();
 	}
 
+	@Test
 	public void testMoveUp() {
 		DroneMoveUpBrick moveUpBrick = new DroneMoveUpBrick(durationInSeconds, powerInPercent);
 
@@ -112,6 +117,7 @@ public class DroneBricksActionTests extends InstrumentationTestCase {
 		Mockito.verify(droneControlService, Mockito.atLeast(1)).moveUp(0);
 	}
 
+	@Test
 	public void testMoveDown() {
 		DroneMoveDownBrick moveDownBrick = new DroneMoveDownBrick(durationInSeconds, powerInPercent);
 
@@ -121,6 +127,7 @@ public class DroneBricksActionTests extends InstrumentationTestCase {
 		Mockito.verify(droneControlService, Mockito.atLeast(1)).moveDown(0);
 	}
 
+	@Test
 	public void testMoveLeft() {
 		DroneMoveLeftBrick moveLeftBrick = new DroneMoveLeftBrick(durationInSeconds, powerInPercent);
 
@@ -130,6 +137,7 @@ public class DroneBricksActionTests extends InstrumentationTestCase {
 		Mockito.verify(droneControlService, Mockito.atLeast(1)).moveLeft(0);
 	}
 
+	@Test
 	public void testMoveRight() {
 		DroneMoveRightBrick moveRightBrick = new DroneMoveRightBrick(durationInSeconds, powerInPercent);
 
@@ -139,6 +147,7 @@ public class DroneBricksActionTests extends InstrumentationTestCase {
 		Mockito.verify(droneControlService, Mockito.atLeast(1)).moveRight(0);
 	}
 
+	@Test
 	public void testMoveForward() {
 		DroneMoveForwardBrick moveForwardBrick = new DroneMoveForwardBrick(durationInSeconds, powerInPercent);
 
@@ -148,6 +157,7 @@ public class DroneBricksActionTests extends InstrumentationTestCase {
 		Mockito.verify(droneControlService, Mockito.atLeast(1)).moveForward(0);
 	}
 
+	@Test
 	public void testMoveBackward() {
 		DroneMoveBackwardBrick moveBackwardBrick = new DroneMoveBackwardBrick(durationInSeconds, powerInPercent);
 
@@ -156,6 +166,7 @@ public class DroneBricksActionTests extends InstrumentationTestCase {
 		Mockito.verify(droneControlService, Mockito.atLeast(1)).moveBackward(0);
 	}
 
+	@Test
 	public void testTurnLeft() {
 		DroneTurnLeftBrick turnLeftBrick = new DroneTurnLeftBrick(durationInSeconds, powerInPercent);
 
@@ -164,6 +175,7 @@ public class DroneBricksActionTests extends InstrumentationTestCase {
 		Mockito.verify(droneControlService, Mockito.atLeast(1)).turnLeft(0);
 	}
 
+	@Test
 	public void testTurnRight() {
 		DroneTurnRightBrick turnRightBrick = new DroneTurnRightBrick(durationInSeconds, powerInPercent);
 
@@ -193,6 +205,7 @@ public class DroneBricksActionTests extends InstrumentationTestCase {
 //		Mockito.verify(droneConfig, Mockito.atLeast(1)).setOutdoorFlight(true);
 //	}
 
+	@Test
 	public void testSwitch() {
 		DroneSwitchCameraBrick switchBrick = new DroneSwitchCameraBrick();
 		addActionToSequenceAndAct(switchBrick);

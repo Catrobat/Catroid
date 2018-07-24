@@ -38,6 +38,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
@@ -137,7 +138,7 @@ public class CrashReporterTest {
 		CrashReporter.storeUnhandledException(exception);
 		assertFalse(sharedPreferences.getString(CrashReporter.EXCEPTION_FOR_REPORT, "").isEmpty());
 
-		assertTrue(sharedPreferences.getString(CrashReporter.EXCEPTION_FOR_REPORT, "").equals(error1Data));
+		assertEquals(error1Data, sharedPreferences.getString(CrashReporter.EXCEPTION_FOR_REPORT, ""));
 	}
 
 	@Test

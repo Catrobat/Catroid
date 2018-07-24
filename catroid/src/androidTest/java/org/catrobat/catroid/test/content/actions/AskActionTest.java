@@ -23,7 +23,7 @@
 package org.catrobat.catroid.test.content.actions;
 
 import android.support.test.InstrumentationRegistry;
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -31,8 +31,14 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.AskAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class AskActionTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class AskActionTest {
 
 	private static final String TEST_USERVARIABLE = "testUservariable";
 	private static final String ASK_QUESTION = "What's your name";
@@ -41,17 +47,19 @@ public class AskActionTest extends AndroidTestCase {
 	private Project project;
 	private UserVariable userVariableForAnswer;
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		testSprite = new Sprite("testSprite");
 		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
+
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().addProjectUserVariable(TEST_USERVARIABLE);
-		userVariableForAnswer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
-				.getUserVariable(null, TEST_USERVARIABLE);
-		super.setUp();
+
+		userVariableForAnswer = new UserVariable(TEST_USERVARIABLE);
+		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
+				.addUserVariable(userVariableForAnswer);
 	}
 
+	@Test
 	public void testAskAndCheckAnswer() {
 		AskAction action = (AskAction) testSprite.getActionFactory().createAskAction(testSprite, new Formula(ASK_QUESTION),
 				userVariableForAnswer);

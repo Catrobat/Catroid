@@ -22,12 +22,27 @@
  */
 package org.catrobat.catroid.test.physics.actions;
 
+import android.support.test.runner.AndroidJUnit4;
+
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsWorld;
-import org.catrobat.catroid.test.physics.PhysicsBaseTest;
+import org.catrobat.catroid.test.physics.PhysicsTestRule;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class VelocityActionTest extends PhysicsBaseTest {
+import static junit.framework.Assert.assertEquals;
+
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.lessThan;
+import static org.hamcrest.number.OrderingComparison.greaterThan;
+import static org.junit.Assert.assertThat;
+
+@RunWith(AndroidJUnit4.class)
+public class VelocityActionTest {
 
 	private static final float POSITIVE_X_TEST_VELOCITY = 10.0f;
 	private static final float POSITIVE_Y_TEST_VELOCITY = 10.0f;
@@ -39,14 +54,21 @@ public class VelocityActionTest extends PhysicsBaseTest {
 
 	private PhysicsObject physicsObject;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Rule
+	public PhysicsTestRule rule = new PhysicsTestRule();
 
+	private Sprite sprite;
+	private PhysicsWorld physicsWorld;
+
+	@Before
+	public void setUp() throws Exception {
+		sprite = rule.sprite;
+		physicsWorld = rule.physicsWorld;
 		physicsObject = physicsWorld.getPhysicsObject(sprite);
 		physicsObject.setType(PhysicsObject.Type.DYNAMIC);
 	}
 
+	@Test
 	public void testPositiveYVelocityWithoutGravity() {
 		assertEquals(0, physicsObject.getX(), TestUtils.DELTA);
 		assertEquals(0, physicsObject.getY(), TestUtils.DELTA);
@@ -74,12 +96,13 @@ public class VelocityActionTest extends PhysicsBaseTest {
 
 			assertEquals(expectedStepLength, postStepYCoordinate - preStepYCoordinate, TestUtils.DELTA);
 
-			assertTrue(postStepYCoordinate > preStepYCoordinate);
+			assertEquals(preStepXCoordinate, postStepXCoordinate);
 
-			assertTrue(postStepXCoordinate == preStepXCoordinate);
+			assertThat(postStepYCoordinate, is(greaterThan(preStepYCoordinate)));
 		}
 	}
 
+	@Test
 	public void testNegativeYVelocityWithoutGravity() {
 		assertEquals(0, physicsObject.getX(), TestUtils.DELTA);
 		assertEquals(0, physicsObject.getY(), TestUtils.DELTA);
@@ -107,12 +130,13 @@ public class VelocityActionTest extends PhysicsBaseTest {
 
 			assertEquals(expectedStepLength, postStepYCoordinate - preStepYCoordinate, TestUtils.DELTA);
 
-			assertTrue(postStepYCoordinate < preStepYCoordinate);
+			assertEquals(preStepXCoordinate, postStepXCoordinate);
 
-			assertTrue(postStepXCoordinate == preStepXCoordinate);
+			assertThat(postStepYCoordinate, is(lessThan(preStepYCoordinate)));
 		}
 	}
 
+	@Test
 	public void testPositiveXVelocityWithoutGravity() {
 		assertEquals(0, physicsObject.getX(), TestUtils.DELTA);
 		assertEquals(0, physicsObject.getY(), TestUtils.DELTA);
@@ -140,12 +164,13 @@ public class VelocityActionTest extends PhysicsBaseTest {
 
 			assertEquals(expectedStepLength, postStepXCoordinate - preStepXCoordinate, TestUtils.DELTA);
 
-			assertTrue(postStepXCoordinate > preStepXCoordinate);
+			assertThat(postStepXCoordinate, is(greaterThan(preStepXCoordinate)));
 
-			assertTrue(postStepYCoordinate == preStepYCoordinate);
+			assertEquals(preStepYCoordinate, postStepYCoordinate);
 		}
 	}
 
+	@Test
 	public void testNegativeXVelocityWithoutGravity() {
 		assertEquals(0, physicsObject.getX(), TestUtils.DELTA);
 		assertEquals(0, physicsObject.getY(), TestUtils.DELTA);
@@ -173,9 +198,9 @@ public class VelocityActionTest extends PhysicsBaseTest {
 
 			assertEquals(expectedStepLength, postStepXCoordinate - preStepXCoordinate, TestUtils.DELTA);
 
-			assertTrue(postStepXCoordinate < preStepXCoordinate);
+			assertThat(postStepXCoordinate, is(lessThan(preStepXCoordinate)));
 
-			assertTrue(postStepYCoordinate == preStepYCoordinate);
+			assertEquals(preStepYCoordinate, postStepYCoordinate);
 		}
 	}
 

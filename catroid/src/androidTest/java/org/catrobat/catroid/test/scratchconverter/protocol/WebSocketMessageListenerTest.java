@@ -24,7 +24,8 @@
 package org.catrobat.catroid.test.scratchconverter.protocol;
 
 import android.net.Uri;
-import android.test.AndroidTestCase;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.google.android.gms.common.images.WebImage;
 
@@ -51,6 +52,9 @@ import org.catrobat.catroid.scratchconverter.protocol.message.job.JobReadyMessag
 import org.catrobat.catroid.scratchconverter.protocol.message.job.JobRunningMessage;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.json.JSONObject;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -63,6 +67,12 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertTrue;
+
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.times;
@@ -71,7 +81,8 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
-public class WebSocketMessageListenerTest extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+public class WebSocketMessageListenerTest {
 
 	private static final long VALID_CLIENT_ID = 1;
 	private static final long JOB_ID_OF_JOB_HANDLER = 1;
@@ -80,10 +91,9 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 	private BaseMessageHandler baseMessageHandlerMock;
 	private JobHandler jobHandlerMock;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		System.setProperty("dexmaker.dexcache", getContext().getCacheDir().getPath());
+	@Before
+	public void setUp() throws Exception {
+		System.setProperty("dexmaker.dexcache", InstrumentationRegistry.getTargetContext().getCacheDir().getPath());
 		baseMessageHandlerMock = Mockito.mock(BaseMessageHandler.class);
 
 		webSocketMessageListener = new WebSocketMessageListener();
@@ -100,11 +110,13 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 	//------------------------------------------------------------------------------------------------------------------
 	// WebSocket.StringCallback interface tests
 	//------------------------------------------------------------------------------------------------------------------
+	@Test
 	public void testReceivingInvalidStringMessageShouldRaiseNoException() {
 		webSocketMessageListener.onStringAvailable(null);
 		webSocketMessageListener.onStringAvailable("");
 	}
 
+	@Test
 	public void testReceivingClientIDMessage() {
 		final long expectedClientID = VALID_CLIENT_ID;
 
@@ -130,6 +142,7 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 		verifyNoMoreInteractions(baseMessageHandlerMock);
 	}
 
+	@Test
 	public void testReceivingErrorMessage() {
 		final String expectedErrorMessage = "Error message successfully extracted";
 
@@ -155,6 +168,7 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 		verifyNoMoreInteractions(baseMessageHandlerMock);
 	}
 
+	@Test
 	public void testReceivingInfoMessage() {
 		final float expectedCatrobatLanguageVersion = Constants.CURRENT_CATROBAT_LANGUAGE_VERSION;
 		final String expectedProgramImageURL = "https://cdn2.scratch.mit.edu/get_image/project/11656680_480x360.png";
@@ -176,7 +190,7 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 				InfoMessage infoMessage = (InfoMessage) invocation.getArguments()[0];
 				assertEquals(expectedCatrobatLanguageVersion, infoMessage.getCatrobatLanguageVersion());
 				Job[] jobs = infoMessage.getJobList();
-				assertTrue(jobs.length == 2);
+				assertEquals(2, jobs.length);
 
 				// first job
 				assertEquals(expectedFirstJob.getState(), jobs[0].getState());
@@ -215,6 +229,7 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 		verifyNoMoreInteractions(baseMessageHandlerMock);
 	}
 
+	@Test
 	public void testReceivingJobAlreadyRunningMessage() {
 		final String expectedJobTitle = "My program";
 		final String expectedJobImageURL = "https://cdn2.scratch.mit.edu/get_image/project/11656680_480x360.png";
@@ -247,6 +262,7 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 		verifyNoMoreInteractions(jobHandlerMock);
 	}
 
+	@Test
 	public void testReceivingJobFailedMessage() {
 		final String expectedJobFailedMessage = "Failed to convert the program!";
 
@@ -275,6 +291,7 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 		verifyNoMoreInteractions(jobHandlerMock);
 	}
 
+	@Test
 	public void testReceivingJobFinishedMessage() {
 		final String expectedDownloadURL = "http://scratch2.catrob.at/download?job_id=1&client_id=1&fname=My%20program";
 		final String expectedCachedUTCDateString = "2016-08-02 17:30:01";
@@ -309,6 +326,7 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 		verifyNoMoreInteractions(jobHandlerMock);
 	}
 
+	@Test
 	public void testReceivingJobOutputMessage() {
 		final String[] expectedLines = new String[] {"line1", "line2"};
 
@@ -339,6 +357,7 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 		verifyNoMoreInteractions(jobHandlerMock);
 	}
 
+	@Test
 	public void testReceivingJobProgressMessage() {
 		final short expectedProgress = 21;
 
@@ -366,6 +385,7 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 		verifyNoMoreInteractions(jobHandlerMock);
 	}
 
+	@Test
 	public void testReceivingJobReadyMessage() {
 		doAnswer(new Answer<Void>() {
 			@Override
@@ -389,6 +409,7 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 		verifyNoMoreInteractions(jobHandlerMock);
 	}
 
+	@Test
 	public void testReceivingJobRunningMessage() {
 		final String expectedJobTitle = "My program";
 		final String expectedJobImageURL = "https://cdn2.scratch.mit.edu/get_image/project/11656680_480x360.png";
@@ -423,6 +444,7 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 	// MessageListener interface tests
 	//------------------------------------------------------------------------------------------------------------------
 
+	@Test
 	public void testScheduleJobNotInProgress() {
 		final String expectedJobTitle = "My program";
 		final String expectedJobImageURL = "https://cdn2.scratch.mit.edu/get_image/project/11656680_480x360.png";
@@ -449,6 +471,7 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 		verifyNoMoreInteractions(jobHandlerMock);
 	}
 
+	@Test
 	public void testReschedulingAlreadyRunningJobWithDisabledForceFlagShouldFail() {
 		final String expectedJobTitle = "My program";
 		final String expectedJobImageURL = "https://cdn2.scratch.mit.edu/get_image/project/11656680_480x360.png";
@@ -464,6 +487,7 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 		verifyNoMoreInteractions(jobHandlerMock);
 	}
 
+	@Test
 	public void testReschedulingAlreadyRunningJobWithEnabledForceFlagShouldWork() {
 		final String expectedJobTitle = "My program";
 		final String expectedJobImageURL = "https://cdn2.scratch.mit.edu/get_image/project/11656680_480x360.png";
@@ -488,6 +512,7 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 		verifyNoMoreInteractions(jobHandlerMock);
 	}
 
+	@Test
 	public void testRestoreJobStatus() {
 		final String expectedJobTitle = "My program";
 		final String expectedJobImageURL = "https://cdn2.scratch.mit.edu/get_image/project/11656680_480x360.png";
@@ -512,6 +537,7 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 		verifyNoMoreInteractions(jobHandlerMock);
 	}
 
+	@Test
 	public void testIsJobInProgressOfRunningJobShouldReturnTrue() {
 		when(jobHandlerMock.isInProgress()).thenReturn(true);
 		assertTrue(webSocketMessageListener.isJobInProgress(JOB_ID_OF_JOB_HANDLER));
@@ -519,22 +545,26 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 		verifyNoMoreInteractions(jobHandlerMock);
 	}
 
+	@Test
 	public void testIsJobInProgressOfUnscheduledJobShouldReturnFalse() {
 		assertFalse(webSocketMessageListener.isJobInProgress(JOB_ID_OF_UNSCHEDULED_JOB_THAT_HAS_NO_JOB_HANDLER));
 		verifyZeroInteractions(jobHandlerMock);
 	}
 
+	@Test
 	public void testOnUserCanceledConversionEventOfRunningJobShouldForwardCallToCorrespondingJobHandler() {
 		webSocketMessageListener.onUserCanceledConversion(JOB_ID_OF_JOB_HANDLER);
 		verify(jobHandlerMock, times(1)).onUserCanceledConversion();
 		verifyNoMoreInteractions(jobHandlerMock);
 	}
 
+	@Test
 	public void testOnUserCanceledConversionEventOfUnscheduledJobShouldNotForwardCallToCorrespondingJobHandler() {
 		webSocketMessageListener.onUserCanceledConversion(JOB_ID_OF_UNSCHEDULED_JOB_THAT_HAS_NO_JOB_HANDLER);
 		verifyZeroInteractions(jobHandlerMock);
 	}
 
+	@Test
 	public void testGetNumberOfJobsInProgressWhenThereExistsOnlyOneRunningJobShouldReturnOne() {
 		when(jobHandlerMock.isInProgress()).thenReturn(true);
 		assertEquals(webSocketMessageListener.getNumberOfJobsInProgress(), 1);
@@ -542,6 +572,7 @@ public class WebSocketMessageListenerTest extends AndroidTestCase {
 		verifyNoMoreInteractions(jobHandlerMock);
 	}
 
+	@Test
 	public void testGetNumberOfJobsInProgressWhenThereExistsOnlyOneButNotRunningJobShouldReturnZero() {
 		when(jobHandlerMock.isInProgress()).thenReturn(false);
 		assertEquals(webSocketMessageListener.getNumberOfJobsInProgress(), 0);

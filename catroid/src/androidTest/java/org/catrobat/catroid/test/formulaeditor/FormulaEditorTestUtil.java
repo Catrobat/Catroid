@@ -277,4 +277,14 @@ public final class FormulaEditorTestUtil {
 		secondOperandList.add(new InternToken(secondInternTokenType, secondOperand));
 		return buildBinaryOperator(firstOperandList, operatorType, secondOperandList);
 	}
+
+	public static void assertEqualsTokenLists(List<InternToken> expectedTokenList, List<InternToken> actualTokenList) {
+		assertEquals(expectedTokenList.size(), actualTokenList.size());
+		for (int index = 0; index < expectedTokenList.size(); index++) {
+			assertEquals(expectedTokenList.get(index).getInternTokenType(),
+					actualTokenList.get(index).getInternTokenType());
+			assertEquals(expectedTokenList.get(index).getTokenStringValue(),
+					actualTokenList.get(index).getTokenStringValue());
+		}
+	}
 }

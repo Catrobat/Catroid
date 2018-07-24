@@ -25,69 +25,66 @@
 <resources>
   <!-- General terms -->
   <string name="app_name">بوكت كوود</string>
-  <string name="cancel">إلغاء</string>
-  <string name="next">التالي</string>
-  <string name="done">موافق</string>
-  <string name="select_all">اختيار الكلّ</string>
-  <string name="yes">نعم</string>
-  <string name="no">لا</string>
-  <string name="back">رجوع</string>
-  <string name="ok">موافق</string>
-  <string name="agree">موافق</string>
-  <string name="disagree">غير موافق</string>
-  <string name="delete_account">حذف حسابي</string>
-  <string name="warning">تحذير</string>
-  <string name="backpack_add">إضافة الى حزمة الظهر</string>
-  <string name="close">إغلاق</string>
-  <string name="error">خطأ</string>
-  <string name="please_wait">الرجاء الانتظار</string>
-  <string name="loading">جاري التحميل&#8230;</string>
-  <string name="search_hint">جاري البحث&#8230;</string>
-  <string name="no_internet">لا يوجد إتصال بالإنترنت</string>
-  <string name="loading_check_token">التحقق من الرمز المميز على الخادم&#8230;</string>
-  <string name="loading_check_facebook_data">يتم استرداد بيانات الفيس بوك&#8230;</string>
-  <string name="loading_check_email">التحقق من توفر البريد الإلكتروني على الخادم&#8230;</string>
-  <string name="loading_check_oauth_token">التحقق من الرمز المميز لبروتوكول OAuth على الخادم&#8230;</string>
-  <string name="loading_check_facebook_token_validity">التحقق من صلاحية الرمز المميز لـ فيسبوك على الخادم&#8230;</string>
-  <string name="loading_check_oauth_username">التحقق من توفر اسم المستخدم على الخادم&#8230;</string>
-  <string name="loading_facebook_exchange_token">تبادل الرمز المميز لـ فيسبوك مع الخادم&#8230;</string>
-  <string name="loading_facebook_login">إكمال عملية تسجيل الدخول لـ فيسبوك على الخادم لدينا&#8230;</string>
-  <string name="loading_google_exchange_code">تم تبادل جوجل + التعليمات البرمجية على الخادم&#8230;</string>
-  <string name="loading_google_login">تم إكمال عملية جوجل +تسجيل الدخول على الخادم&#8230;</string>
-  <string name="background">خلفية الشاشة</string>
   <string name="stage">المسرح</string>
   <string name="play">تشغيل</string>
   <string name="settings">إعدادات</string>
   <string name="redo">الإعادة</string>
   <string name="undo">التراجع عن</string>
-  <string name="name_exists">هذا الاسم موجود مسبقا</string>
-  <string name="no_name">بدون اسم</string>
-  <string name="new_group">مجموعة جديدة</string>
-  <string name="my_group">مجموعتي</string>
-  <string name="name">الاسم:</string>
+  <string name="confirm">تأكيد</string>
+  <string name="cancel">إلغاء</string>
+  <string name="next">التالي</string>
+  <string name="back">رجوع</string>
+  <string name="ok">موافق</string>
+  <string name="done">موافق</string>
+  <string name="close">إغلاق</string>
+  <string name="yes">نعم</string>
+  <string name="no">لا</string>
+  <string name="agree">موافق</string>
+  <string name="disagree">غير موافق</string>
+  <string name="select_all">تحديد الكل</string>
+  <string name="deselect_all">إلغاء تحديد الكل</string>
+  <string name="skip">تخطي</string>
+  <string name="warning">تحذير</string>
+  <string name="error">خطأ</string>
+  <string name="loading">جاري التحميل&#8230;</string>
+  <string name="please_wait">الرجاء الانتظار</string>
+  <string name="search_hint">جاري البحث&#8230;</string>
+  <string name="backpack_add">إضافة الى حزمة الظهر</string>
+  <string name="share_website_text">www.pocketcode.org</string>
+  <!-- Login/Logout Mechanism -->
+  <string name="loading_check_facebook_data">استرداد بيانات فيس بوك&#8230;</string>
+  <string name="loading_check_email">التحقق ما إذا كان البريد الإلكتروني متوفراً&#8230;</string>
+  <string name="loading_check_oauth_token">التحقق من بيانات تسجيل الدخول&#8230;</string>
+  <string name="loading_check_facebook_token_validity">التحقق من بيانات الفيس بوك&#8230;</string>
+  <string name="loading_check_oauth_username">التحقق ما إذا كان البريد الإلكتروني متوفراً&#8230;</string>
+  <string name="loading_facebook_exchange_token">تبادل بيانات الفيس بوك&#8230;</string>
+  <string name="loading_facebook_login">اكتمال تسجيل الدخول عبر فيسبوك على سيرفرنا&#8230;</string>
+  <string name="loading_google_exchange_code">تبادل بيانات جوجل بلس&#8230;</string>
+  <string name="loading_google_login">اكتمال تسجيل الدخول عبر جوجل بلس على سيرفرنا&#8230;</string>
+  <string name="delete_account">حذف حسابي</string>
+  <string name="logout_successful">تم الخروج بنجاح</string>
   <string name="degrees">درجة</string>
+  <string name="background">خلفية الشاشة</string>
   <string name="landscape">المشهد الطبيعي</string>
   <string name="portrait">بورتريت</string>
   <string name="unknown">غير معروف</string>
-  <string name="skip">تخطي</string>
   <string name="disconnect">قطع الاتصال</string>
   <!--  -->
-  <!-- Main menu activity -->
-  <string name="main_menu_new">جديد</string>
+  <!-- Main Menu -->
   <string name="main_menu_continue">متابعة</string>
+  <string name="main_menu_new">جديد</string>
   <string name="main_menu_programs">البرامج</string>
   <string name="main_menu_help">المساعدة</string>
   <string name="main_menu_web">إستعراض</string>
   <string name="main_menu_upload">تحميل</string>
+  <string name="main_menu_rate_app">قم بالتقييم!</string>
+  <string name="main_menu_terms_of_use">شروط الاستخدام والخدمات</string>
   <string name="main_menu_privacy_policy">سياسة الخصوصية</string>
   <string name="main_menu_about">حول تطبيق بوكت كوود</string>
-  <string name="main_menu_terms_of_use">شروط الاستخدام والخدمات</string>
-  <string name="main_menu_rate_app">قم بالتقييم!</string>
-  <string name="main_menu_play_store_not_installed">لم يتم العثور على تطبيق بلي ستور</string>
-  <string name="main_menu_logout">خروج</string>
   <string name="main_menu_login">تسجيل الدخول</string>
+  <string name="main_menu_logout">خروج</string>
   <string name="main_menu_scratch_converter">محول سكراتش</string>
-  <string name="logout_successful">تم الخروج بنجاح</string>
+  <string name="main_menu_play_store_not_installed">لم يتم العثور على متجر جوجل بلي</string>
   <!--  -->
   <!-- Marketing activity -->
   <string name="marketing_created_with">تم إنشاؤها بواسطة</string>
@@ -96,31 +93,76 @@
   <!-- Settings activity -->
   <string name="preference_title">إعدادات</string>
   <string name="preference_title_language">اللغة</string>
-  <string name="preference_description_language">اختر لغة التطبيق</string>
+  <string name="preference_description_language">تعيين لغة التطبيق</string>
+  <string name="preference_title_accessibility">إمكانية الوصول</string>
+  <string name="preference_description_accessibility">تغيير مظهر التطبيق</string>
+  <string name="preference_title_accessibility_profiles">ملفات تعريف إمكانية الوصول</string>
+  <string name="preference_title_accessibility_profile">ملفات تعريف محددة مسبقاً</string>
+  <string name="preference_title_accessibility_profile_headline">ملفات التعريف</string>
+  <string name="preference_title_accessibility_predefined_profile_headline">ملفات تعريف محددة مسبقاً</string>
+  <string name="preference_description_accessibility_profiles">اختيار ملف تعريف وصول مُعرف مسبقاً</string>
+  <string name="preference_title_accessibility_text_appearance">مظهر النص</string>
+  <string name="preference_title_accessibility_handling">معالجة</string>
+  <string name="preference_title_accessibility_category_icons_big">أيقونات كبيرة</string>
+  <string name="preference_description_accessibility_category_icons_big">زيادة حجم الأيقونات.</string>
+  <string name="preference_title_accessibility_category_icons_high_contrast">أيقونات التباين العالي</string>
+  <string name="preference_title_accessibility_Brick_icons">ايقونات اللبّنات البرمجية</string>
+  <string name="preference_title_accessibility_category_icons">إظهار الايقونات</string>
+  <string name="preference_description_accessibility_category_icons">إضافة الرموز إلى الفئات و اللبّنات البرمجية.</string>
+  <string name="preference_title_accessibility_high_contrast">تباين عالي</string>
+  <string name="preference_description_accessibility_high_contrast">زيادة تباين النص على اللبّنات البرمجية.</string>
+  <string name="preference_description_accessibility_large_text">زيادة حجم النص.</string>
+  <string name="preference_title_accessibility_large_text">نص عريض</string>
+  <string name="preference_title_accessibility_element_spacing">تباعد عريض للكائنات</string>
+  <string name="preference_description_accessibility_element_spacing">زيادة مسافة التباعد في القوائم.</string>
+  <string name="preference_title_accessibility_dragndrop_delay">تأخير السحب والإفلات</string>
+  <string name="preference_description_accessibility_dragndrop_delay">تأخير السحب والإفلات لـ اللبّنات البرمجية.</string>
+  <string name="preference_title_accessibility_beginner_bricks">البّنات البرمجية للمبتدئين</string>
+  <string name="preference_description_accessibility_beginner_bricks">إظهار اللبّنات البرمجية الأساسية فقط.</string>
+  <string name="preference_title_accessibility_font_style">اختر نوع خط</string>
+  <string name="accessibility_font_regular">عادي</string>
+  <string name="accessibility_font_serif">Serif</string>
+  <string name="accessibility_font_dyslexic">عسر القراءة</string>
+  <string name="accessibility_settings_applied">تم تطبيق التغييرات</string>
+  <string name="preference_access_title_profile_default">افتراضي</string>
+  <string name="preference_access_summary_profile_default">الإعدادات الافتراضية</string>
+  <string name="preference_access_title_profile_custom">ملف تعريفي مخصص</string>
+  <string name="preference_access_summary_profile_custom">إعداداتي الشخصية</string>
+  <string name="preference_access_title_profile_argus">أرغوس</string>
+  <string name="preference_access_summary_profile_argus">التباين العالي، رموز إضافية</string>
+  <string name="preference_access_title_profile_odin">اودين</string>
+  <string name="preference_access_summary_profile_odin">نص عريض, أيقونات كبيرة, مسافة تباعد        بين العناصر, تباين عالي</string>
+  <string name="preference_access_title_profile_fenrir">الذئب العملاق</string>
+  <string name="preference_access_summary_profile_fenrir">مسافة تباعد بين العناصر, تأخير مدة        السحب واللإفلات</string>
+  <string name="preference_access_title_profile_tiro">مبتدىء</string>
+  <string name="preference_access_summary_profile_tiro">اللبّنات البرمجية للمبتدئين</string>
+  <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
   <string name="preference_title_enable_quadcopter_bricks">اللبّنات البرمجية للطائرة بدون طيار</string>
-  <string name="preference_description_quadcopter_bricks">السماح بالتحكم في الطائرة بدون طيار 2.0</string>
+  <string name="preference_description_quadcopter_bricks">السماح للتطبيق بالتحكم في الطائرة بدون طيار 2.0 كوادكوبتر</string>
   <string name="preference_title_enable_jumpingsumo_bricks">اللبّنات البرمجية لـ Parrot Jumping Sumo</string>
-  <string name="preference_description_jumpingsumo_bricks">السماح بالتحكم في Parrots Jumping Sumo</string>
+  <string name="preference_description_jumpingsumo_bricks">السماح للتطبيق بالتحكم في Parrots Jumping Sumo</string>
   <string name="preference_title_enable_mindstorms_nxt_bricks">لبّنات برمجية لـ ليغو مايندستورمز (NXT)</string>
   <string name="preference_title_enable_mindstorms_ev3_bricks">لبّنات برمجية لـ ليغو مايندستورمز (EV3)</string>
-  <string name="preference_description_mindstorms_nxt_bricks">السماح بالتحكم في روبوتات ليغو مايندستورمز(NXT)</string>
-  <string name="preference_description_mindstorms_ev3_bricks">السماح بالتحكم في روبوتات ليغو مايندستورمز (EV3)</string>
+  <string name="preference_description_mindstorms_nxt_bricks">السماح للتطبيق بالتحكم في روبوتات ليغو مايندستورمز(NXT)</string>
+  <string name="preference_description_mindstorms_ev3_bricks">السماح للتطبيق بالتحكم في روبوتات ليغو مايندستورمز(EV3)</string>
   <string name="preference_title_mindstorms_nxt_sensors">أجهزة إستشعار ليغو (NXT)</string>
   <string name="preference_title_mindstorms_ev3_sensors">أجهزة إستشعار ليغو (EV3)</string>
-  <string name="preference_title_drone_config_properties">خصائص تكوين الطائرة بدون طيار</string>
+  <string name="preference_title_drone_config_properties">إعدادات ضبط طائرة بدون طيار 2.0</string>
   <string name="preference_title_enable_phiro_bricks">لبّنات روبوت الأطفال البرمجية</string>
-  <string name="preference_description_phiro_bricks">السماح بالتحكم في روبوتات الاطفال</string>
+  <string name="preference_description_phiro_bricks">للسماح للتطبيق بالتحكم في روبوت الأطفال</string>
   <string name="preference_title_enable_arduino_bricks">لبّنات برمجية لـ اردوينو</string>
+  <string name="preference_title_enable_embroidery_bricks">التطريز</string>
+  <string name="preference_description_embroidery_bricks">إنشاء أنماط لآلات الخياطة</string>
   <string name="preference_title_cast_feature_globally_enabled">تفعيل مزايا البث والإرسال</string>
-  <string name="preference_description_cast_feature_globally_enabled">إظهار زر البث والإرسال والسماح بإنشاء مشروع بث وإرسال</string>
+  <string name="preference_description_cast_feature_globally_enabled">إظهار زر البث والإرسال وتفعيل مشاريع البث والإرسال</string>
   <string name="preference_title_enable_nfc_bricks">تقنية التواصل قريب المدى</string>
-  <string name="preference_description_nfc_bricks">السماح باستخدام وسوم NFC في البرنامج</string>
+  <string name="preference_description_nfc_bricks">السماح للتطبيق باستخدام وسوم NFC في البرنامج</string>
   <string name="preference_title_enable_crash_reports">إرسال تقارير الأعطال الغير معروفة</string>
-  <string name="preference_description_crash_reports">السماح بإرسال تقارير الأعطال تلقائياً</string>
+  <string name="preference_description_crash_reports">السماح للتطبيق بإرسال تقارير الأعطال تلقائياً</string>
   <!-- -->
-  <string name="preference_description_arduino_bricks">السماح بالتحكم في لوحات الاردوينو</string>
+  <string name="preference_description_arduino_bricks">السماح للتطبيق بالتحكم في لوحات الاردوينو</string>
   <string name="preference_title_enable_raspi_bricks">لبّنات راسبيري باي البرمجية</string>
-  <string name="preference_description_raspi_bricks">السماح بالتحكم بأجهزة راسبيري باي</string>
+  <string name="preference_description_raspi_bricks">السماح للتطبيق بالتحكم بأجهزة راسبيري باي</string>
   <string name="preference_raspi_enable_bricks">تفعيل لّبنات راسبيري باي البرمجية</string>
   <string name="preference_raspi_help">مساعدة/الشروع في البدء</string>
   <string name="preference_raspi_help_summary">الحصول على مساعدة حول كيفية تكوين إعدادات الاتصال</string>
@@ -128,38 +170,37 @@
   <string name="preference_raspi_port">منفذ الراسبيري باي</string>
   <!--  -->
   <!-- Scratch Converter activity -->
-  <string name="beta">تجريبي</string>
-  <string name="title_activity_scratch_converter">تحويل برنامج السكراتش</string>
-  <string name="error_scratch_program_not_accessible_any_more">أووبس! بيانات هذا البرنامج لا يمكن الوصول لها البتة!</string>
-  <string name="error_scratch_project_data_not_available">اووبس! بعض البيانات لا يمكن تحميلها من خلال هذا برنامج سكراتش. الرجاء المحاولة مرة أخرى في وقت لاحق!</string>
-  <string name="error_request_timeout">اووبس! لا يمكن الوصول إلى الخادم الخاص بنا في هذه اللحظة، الرجاء المحاولة في وقت لاحق!</string>
+  <string name="beta">بيتا</string>
+  <string name="error_scratch_program_not_accessible_any_more">اوووبس! يبدو أن البرنامج اختفى         أو انت فقدت الوصول اليه.</string>
+  <string name="error_scratch_project_data_not_available">أووبس! بعض أجزاء البرنامج تبدو         مفقودة, الرجاء المحاولة مجدداً لاحقاً.</string>
+  <string name="error_request_timeout">أووبس! لم يستجب الخادم الخاص بنا في الوقت المناسب, الرجاء المحاولة مجدداً لاحقاً.</string>
   <string name="error_scratch_program_conversion_failed">اووبس! فشلت محاولة تحويل برنامج سكراتش، الرجاء المحاولة مرة أخرى في وقت لاحق!</string>
   <string name="error_specific_scratch_program_conversion_failed_x">اووبس! فشلت محاولة تحويل %1$s، الرجاء المحاولة مرة أخرى في وقت لاحق!</string>
-  <string name="error_scratch_converter_outdated_app_version">\"بوكت كوود\" الخاص بك غير محدث. يدعم محول السكراتش فقط أحدث الإصدارات لـ \"بوكت كوود\". الرجاء القيام بتحديثة على متجر الجوجل بلي!</string>
+  <string name="error_scratch_converter_outdated_app_version">إصدار بوكت كود قديم. محول سكراتش يعمل فقط على اللإصدار الأخير. من فضلك قم بتحديث التطبيق عبر جوجل بلاي</string>
   <string name="error_cannot_open_not_existing_scratch_program">لا يمكن فتح برنامج السكراتش. يبدو أنك قمت بإلغاء عملية التحويل/التحميل لبرنامج السكراتش أو أنك قمت بإعادة تسمية/حذف البرنامج!</string>
-  <string name="error_cannot_open_currently_downloading_scratch_program">لا يمكن فتح برنامج السكراتش خلال عملية تحميله! الرجاء المحاولة مرة أخرى لاحقاً!</string>
-  <string name="error_cannot_open_not_yet_downloaded_scratch_program">لا يمكن فتح برنامج السكراتش لانه لم يتم تنزيله بعد! الرجاء المحاولة مرة أخرى لاحقاً!</string>
-  <string name="error_cannot_convert_deprecated_scratch_program_x_x">لا يمكن تحويل %1$s! السكراتش القديم قبل %2$s البرامج غير المدعومة!</string>
+  <string name="error_cannot_open_currently_downloading_scratch_program">لا يمكنك فتح البرنامج         حالياً. من فضلك انتظر ريثما ينتهي التحميل.</string>
+  <string name="error_cannot_open_not_yet_downloaded_scratch_program">لا يمكنك فتح البرنامج فقط حتى الآن.         الرجاء تحميل البرنامج أولاً وقم بفتحه.</string>
+  <string name="error_cannot_convert_deprecated_scratch_program_x_x">لا يمكن تحويل %1$s. هذا يبدو انه برنامج سكراتش قديم قبل %2$s, من فضلك قم بتجربة برنامج اخر.</string>
   <plurals name="error_cannot_convert_more_than_x_programs">
-    <item quantity="zero">لا يمكن تحويل أكثر من برنامج واحد في نفس الوقت!</item>
-    <item quantity="one">لا يمكن تحويل أكثر من %d برامج في نفس الوقت!</item>
-    <item quantity="two">لا يمكن تحويل أكثر من %d برامج في نفس الوقت!</item>
-    <item quantity="few">لا يمكن تحويل أكثر من %d برامج في نفس الوقت!</item>
-    <item quantity="many">لا يمكن تحويل أكثر من %d برامج في نفس الوقت!</item>
-    <item quantity="other">لا يمكن تحويل أكثر من %d برامج في نفس الوقت!</item>
+    <item quantity="zero">لا يمكنك تحويل أكثر من%d برنامج في نفس الوقت. من فضلك انتظر             أولاً انتهاء تحويل البرامج قيد التشغيل.</item>
+    <item quantity="one">لا يمكنك تحويل أكثر من%d برنامج في نفس الوقت. من فضلك انتظر             أولاً انتهاء تحويل البرامج قيد التشغيل.</item>
+    <item quantity="two">لا يمكنك تحويل أكثر من%d برنامج في نفس الوقت. من فضلك انتظر             أولاً انتهاء تحويل البرامج قيد التشغيل.</item>
+    <item quantity="few">لا يمكنك تحويل أكثر من%d برنامج في نفس الوقت. من فضلك انتظر             أولاً انتهاء تحويل البرامج قيد التشغيل.</item>
+    <item quantity="many">لا يمكنك تحويل أكثر من%d برنامج في نفس الوقت. من فضلك انتظر             أولاً انتهاء تحويل البرامج قيد التشغيل.</item>
+    <item quantity="other">لا يمكنك تحويل أكثر من%d برنامج في نفس الوقت. من فضلك انتظر             أولاً انتهاء تحويل البرامج قيد التشغيل.</item>
   </plurals>
-  <string name="error_cannot_open_failed_scratch_program">لا يمكن فتح برنامج السكراتش بسبب فشل عملية التحويل!</string>
-  <string name="search_failed">فشلت عملية البحث، يرجى إعادة المحاولة في وقت لاحق!</string>
-  <string name="connection_lost_or_closed_by_server">لقد فقدت الاتصال أو أن الإتصال مغلق من قبل الخادم!</string>
-  <string name="connection_failed">لقد فشل الاتصال بالخادم ، الرجاء إعادة المحاولة في وقت لاحق!</string>
-  <string name="authentication_failed">لقد فشلت عملية المصادقة، الرجاء الاتصال بفريق \"البوكت كوود\"!</string>
+  <string name="error_cannot_open_failed_scratch_program">لا يمكنك فتح هذا البرنامج لأنه لم يتم         تحويلها بشكل صحيح. الرجاء محاولة تحويله مرة أخرى.</string>
+  <string name="search_failed">لا شيء وجد، الرجاء إعادة المحاولة لاحقاً.</string>
+  <string name="connection_lost_or_closed_by_server">تم فقد الاتصال بالسيرفر.</string>
+  <string name="connection_failed">غير قادر على الاتصال بالسيرفر في الوقت الحالي،يرجى إعادة المحاولة لاحقاً.</string>
+  <string name="authentication_failed">يبدو انه لديك مشكلة في الاتصال بالسيرفر, الرجاء         الاتصال بفريق كاتروبات!</string>
   <plurals name="scratch_conversion_scheduled_x">
-    <item quantity="zero">لقد تم جدولة برنامج سكراتش واحد…</item>
-    <item quantity="one">لقد تم جدولة برنامجي سكراتش&#8230;</item>
-    <item quantity="two">لقد تم جدولة %d برامج سكراتش&#8230;</item>
-    <item quantity="few">لقد تم جدولة %d برامج سكراتش&#8230;</item>
-    <item quantity="many">لقد تم جدولة %d برامج سكراتش&#8230;</item>
-    <item quantity="other">لقد تم جدولة %d برامج سكراتش&#8230;</item>
+    <item quantity="zero">تم إضافة %d برامج سكراتش لقائمة الإنتظار…</item>
+    <item quantity="one">تم إضافة %d برامج سكراتش لقائمة الإنتظار&#8230;</item>
+    <item quantity="two">تم إضافة %d برامج سكراتش لقائمة الإنتظار&#8230;</item>
+    <item quantity="few">تم إضافة %d برامج سكراتش لقائمة الإنتظار&#8230;</item>
+    <item quantity="many">تم إضافة %d برامج سكراتش لقائمة الإنتظار&#8230;</item>
+    <item quantity="other">تم إضافة %d برامج سكراتش لقائمة الإنتظار&#8230;</item>
   </plurals>
   <string name="scratch_conversion_started">بدأت عملية تحويل برنامج السكراتش&#8230;</string>
   <string name="convert">تحويل</string>
@@ -169,33 +210,29 @@
   <string name="status_started">بدأت&#8230;</string>
   <string name="status_conversion_finished">عملية التحويل قد انتهت</string>
   <plurals name="status_in_progress_x_jobs">
-    <item quantity="zero">بصدد الإنجاز تحويل مهمة واحدة</item>
-    <item quantity="one">بصدد الإنجاز تحويل مهمتان</item>
-    <item quantity="two">بصدد الإنجاز تحويل: %d مهام</item>
-    <item quantity="few">بصدد الإنجاز تحويل: %d مهام</item>
-    <item quantity="many">بصدد الإنجاز تحويل: %d مهام</item>
-    <item quantity="other">بصدد الإنجاز تحويل: %d مهام</item>
+    <item quantity="zero">قيد المعالجة: %d مهمة</item>
+    <item quantity="one">قيد المعالجة: %d مهمة</item>
+    <item quantity="two">قيد المعالجة: %d مهمة</item>
+    <item quantity="few">قيد المعالجة: %d مهمات</item>
+    <item quantity="many">قيد المعالجة: %d مهمات</item>
+    <item quantity="other">قيد المعالجة: %d مهمات</item>
   </plurals>
   <plurals name="status_completed_x_jobs">
-    <item quantity="zero">إكتملت: مهمة واحدة</item>
-    <item quantity="one">إكتملت: مهمتان</item>
+    <item quantity="zero">إكتملت: %d مهمة</item>
+    <item quantity="one">إكتملت: %d مهمة</item>
     <item quantity="two">إكتملت: %d مهام</item>
     <item quantity="few">إكتملت: %d مهام</item>
     <item quantity="many">إكتملت: %d مهام</item>
     <item quantity="other">إكتملت: %d مهام</item>
   </plurals>
   <string name="status_conversion_failed">فشلت عملية التحويل!</string>
-  <string name="status_conversion_canceled">تم إلغاء التحويل!</string>
   <string name="status_downloading">جاري التحميل&#8230;</string>
   <string name="status_download_finished">انتهت عملية التحميل!</string>
   <string name="status_download_canceled">تم إلغاء التحميل!</string>
-  <string name="scratch_programs_in_progress_title">بصدد الإنجاز</string>
-  <string name="scratch_programs_finished_title">البرامج التي تم تحويلها</string>
-  <string name="status">الحالة</string>
-  <string name="title">العنوان</string>
+  <string name="scratch_programs_in_progress_title">في طور التقدم</string>
+  <string name="scratch_programs_finished_title">البرامج المُحولة</string>
   <string name="by_x">من قبل %1$s</string>
-  <string name="by_author">الكاتب</string>
-  <string name="warning_program_visibility">تحذير: n\ على ما يبدو أنه برنامج خاص. قد تفشل عملية التحويل!</string>
+  <string name="warning_program_visibility">تحذير:\n هذا يبدو أنه برنامج خاص. يمكنك تجربة         تحويله لكن ربما لن يعمل.</string>
   <string name="instructions">التعليمات</string>
   <string name="notes_and_credits">الملاحظات والائتمانات</string>
   <string name="shared_at_x">مشاركة: %1$s</string>
@@ -208,51 +245,54 @@
   <string name="remix_of">خليط مُعدل من:</string>
   <string name="description_hint">إضغط لإضافة وصف</string>
   <!-- ScratchReconvertDialog Strings -->
-  <string name="reconvert_text">هذا البرنامج قد تم تحويله %1$s سابقاً.</string>
+  <string name="reconvert_text">لقد قمت بتحويل هذا البرنامج مُحول منذ%1$s مضت.</string>
   <plurals name="minutes">
-    <item quantity="zero">دقيقة واحدة</item>
-    <item quantity="one">دقيقتان</item>
+    <item quantity="zero">%d دقيقة</item>
+    <item quantity="one">%d دقيقة</item>
     <item quantity="two">%d دقائق</item>
     <item quantity="few">%d دقائق</item>
     <item quantity="many">%d دقائق</item>
     <item quantity="other">%d دقائق</item>
   </plurals>
   <plurals name="hours">
-    <item quantity="zero">ساعة واحدة</item>
-    <item quantity="one">ساعتان</item>
-    <item quantity="two">%d ساعة</item>
-    <item quantity="few">%d ساعة</item>
-    <item quantity="many">%d ساعة</item>
-    <item quantity="other">%d ساعة</item>
+    <item quantity="zero">%d ساعة</item>
+    <item quantity="one">%d ساعة</item>
+    <item quantity="two">%d ساعات</item>
+    <item quantity="few">%d ساعات</item>
+    <item quantity="many">%d ساعات</item>
+    <item quantity="other">%d ساعات</item>
   </plurals>
   <plurals name="days">
-    <item quantity="zero">يوم واحد</item>
-    <item quantity="one">يومان</item>
+    <item quantity="zero">%d يوم</item>
+    <item quantity="one">%d يوم</item>
     <item quantity="two">%d أيام</item>
     <item quantity="few">%d أيام</item>
     <item quantity="many">%d أيام</item>
     <item quantity="other">%d أيام</item>
   </plurals>
-  <string name="reconvert_dialog_download">التحميل قام فعلاً بتحويل البرنامج</string>
-  <string name="reconvert_dialog_reconvert">إعادة تحويل هذا البرنامج</string>
+  <string name="reconvert_dialog_download">تحميل البرنامج مجدداً</string>
+  <string name="reconvert_dialog_reconvert">تحويل هذا البرنامج مجدداً</string>
   <!--  -->
   <!-- ERRORS -->
+  <!-- Privacy Policy Error -->
+  <string name="declined_privacy_agreement_alert">لاستخدام تطبيقنا, من الضروري الموافقة على سياسة الخصوصية.
+        ومع ذلك, اذا لم تشعر بالراحة بالقيام بذلك, يمكنك استخدام خدمات الويب الخاصة بنا مجاناً على</string>
   <string name="wtf_error">حدث خطأ غير متوقع: لا يمكن إستعادة البرنامج الإفتراضي.</string>
   <!-- Project Handling Errors -->
   <string name="error_copy_project">حدث خطأ أثناء نسخ المشروع</string>
   <!-- Dialog Errors -->
-  <string name="name_already_exists">هذا الاسم مُستخدم بالفعل. يرجى اختيار اسم آخر!</string>
-  <string name="name_consists_of_spaces_only">لا يمكن أن يتكون الاسم من مسافات فقط.</string>
+  <string name="name_already_exists">هذا الاسم مُستخدم بالفعل. يرجى اختيار اسم آخر.</string>
+  <string name="name_consists_of_spaces_only">يمكنك فقط وضع مسافات في حقل النص، الرجاء إدخال اسم         باستخدام أحرف, أرقام أو أحرف خاصة أخرى.</string>
   <!-- Recycler View -->
-  <string name="am_empty_list">لا توجد عناصر في هذه القائمة حالياً.</string>
+  <string name="am_empty_list">لا توجد أي عناصر في القائمة بعد. من فضلك أضف بعض العناصر أولاً.</string>
   <string name="am_backpack">حزمة</string>
   <string name="am_unpack">فك الحزمة</string>
   <string name="am_copy">نسخ</string>
   <string name="am_delete">حذف</string>
   <string name="am_rename">إعادة تسمية</string>
-  <string name="dialog_confirm_delete">لا يمكن التراجع عن هذا!</string>
-  <string name="list_headline_background">خلفية</string>
-  <string name="list_headline_sprites">كائنات</string>
+  <string name="am_convert">تحويل</string>
+  <string name="dialog_confirm_delete">لا يمكنك التراجع عن هذا!</string>
+  <string name="list_headline_sprites">الكائنات</string>
   <!-- Options Menu Options -->
   <string name="backpack">حقيبة الظهر</string>
   <string name="copy">نسخ</string>
@@ -261,140 +301,362 @@
   <string name="show_details">إظهار التفاصيل</string>
   <string name="hide_details">إخفاء التفاصيل</string>
   <!-- Action Mode Titles -->
-  <plurals name="am_projects_title">
-    <item quantity="zero">%d مشروع</item>
-    <item quantity="one">%d مشروع</item>
-    <item quantity="two">%d مشاريع</item>
-    <item quantity="few">%d مشاريع</item>
-    <item quantity="many">%d مشاريع</item>
-    <item quantity="other">%d مشاريع</item>
+  <!-- Project Action Mode Titles -->
+  <plurals name="am_pack_projects_title">
+    <item quantity="zero">حزم %d مشروع</item>
+    <item quantity="one">حزم %d مشروع</item>
+    <item quantity="two">حزم%d مشاريع</item>
+    <item quantity="few">حزم %d مشاريع</item>
+    <item quantity="many">حزم %d مشاريع</item>
+    <item quantity="other">حزم %d مشاريع</item>
   </plurals>
-  <plurals name="am_scenes_title">
-    <item quantity="zero">%d مشهد</item>
-    <item quantity="one">%d مشاهد</item>
-    <item quantity="two">%d مشاهد</item>
-    <item quantity="few">%d مشاهد</item>
-    <item quantity="many">%d مشاهد</item>
-    <item quantity="other">%d مشاهد</item>
+  <plurals name="am_copy_projects_title">
+    <item quantity="zero">نسخ %d مشروع</item>
+    <item quantity="one">نسخ %d مشروع</item>
+    <item quantity="two">نسخ %d مشاريع</item>
+    <item quantity="few">نسخ %d مشاريع</item>
+    <item quantity="many">نسخ %d مشاريع</item>
+    <item quantity="other">نسخ %d مشاريع</item>
   </plurals>
-  <plurals name="am_sprites_title">
-    <item quantity="zero">%d كائن</item>
-    <item quantity="one">%d كائن</item>
-    <item quantity="two">%d كائنات</item>
-    <item quantity="few">%d كائنات</item>
-    <item quantity="many">%d كائنات</item>
-    <item quantity="other">%d كائنات</item>
+  <plurals name="am_delete_projects_title">
+    <item quantity="zero">حذف %d مشروع</item>
+    <item quantity="one">حذف %d مشروع</item>
+    <item quantity="two">حذف %d مشاريع</item>
+    <item quantity="few">حذف %d مشاريع</item>
+    <item quantity="many">حذف %d مشاريع</item>
+    <item quantity="other">حذف %d مشاريع</item>
   </plurals>
-  <plurals name="am_looks_title">
-    <item quantity="zero">%d مظهر</item>
-    <item quantity="one">%d مظهر</item>
-    <item quantity="two">%d مظاهر</item>
-    <item quantity="few">%d مظاهر</item>
-    <item quantity="many">%d مظاهر</item>
-    <item quantity="other">%d مظاهر</item>
+  <plurals name="am_rename_projects_title">
+    <item quantity="zero">إعادة تسمية %d مشروع</item>
+    <item quantity="one">إعادة تسمية %d مشروع</item>
+    <item quantity="two">إعادة تسمية %d مشاريع</item>
+    <item quantity="few">إعادة تسمية %d مشاريع</item>
+    <item quantity="many">إعادة تسمية %d مشاريع</item>
+    <item quantity="other">إعادة تسمية %d مشاريع</item>
   </plurals>
-  <plurals name="am_sounds_title">
-    <item quantity="zero">%d ملف صوتي</item>
-    <item quantity="one">%d ملف صوتي</item>
-    <item quantity="two">%d ملفات صوتية</item>
-    <item quantity="few">%d ملفات صوتية</item>
-    <item quantity="many">%d ملفات صوتية</item>
-    <item quantity="other">%d ملفات صوتية</item>
+  <plurals name="am_convert_projects_title">
+    <item quantity="zero">تحويل %d مشروع</item>
+    <item quantity="one">تحويل %d مشروع</item>
+    <item quantity="two">تحويل %d مشاريع</item>
+    <item quantity="few">تحويل %d مشاريع</item>
+    <item quantity="many">تحويل %d مشاريع</item>
+    <item quantity="other">تحويل %d مشاريع</item>
   </plurals>
-  <plurals name="am_nfc_tags_title">
-    <item quantity="zero">%d وسم NFC</item>
-    <item quantity="one">%d وسم NFC</item>
-    <item quantity="two">%d وسوم NFC</item>
-    <item quantity="few">%d وسوم NFC</item>
-    <item quantity="many">%d وسوم NFC</item>
-    <item quantity="other">%d وسوم NFC</item>
+  <!-- Scene Action Mode Titles -->
+  <plurals name="am_pack_scenes_title">
+    <item quantity="zero">حزم %d مشهد</item>
+    <item quantity="one">حزم %d مشهد</item>
+    <item quantity="two">حزم %d مشاهد</item>
+    <item quantity="few">حزم %d مشاهد</item>
+    <item quantity="many">حزم %d مشاهد</item>
+    <item quantity="other">حزم %d مشاهد</item>
   </plurals>
-  <plurals name="am_scripts_title">
-    <item quantity="zero">%d نص برمجي</item>
-    <item quantity="one">%d نص برمجي</item>
-    <item quantity="two">%d نصوص برمجية</item>
-    <item quantity="few">%d نصوص برمجية</item>
-    <item quantity="many">%d نصوص برمجية</item>
-    <item quantity="other">%d نصوص برمجية</item>
+  <plurals name="am_unpack_scenes_title">
+    <item quantity="zero">فك حزم %d مشهد</item>
+    <item quantity="one">فك حزم %d مشهد</item>
+    <item quantity="two">فك حزم %d مشاهد</item>
+    <item quantity="few">فك حزم %d مشاهد</item>
+    <item quantity="many">فك حزم %d مشاهد</item>
+    <item quantity="other">فك حزم %d مشاهد</item>
+  </plurals>
+  <plurals name="am_copy_scenes_title">
+    <item quantity="zero">نسخ %d مشهد</item>
+    <item quantity="one">نسخ %d مشهد</item>
+    <item quantity="two">نسخ %d مشاهد</item>
+    <item quantity="few">نسخ %d مشاهد</item>
+    <item quantity="many">نسخ %d مشاهد</item>
+    <item quantity="other">نسخ %d مشاهد</item>
+  </plurals>
+  <plurals name="am_delete_scenes_title">
+    <item quantity="zero">حذف %d مشهد</item>
+    <item quantity="one">حذف %d مشهد</item>
+    <item quantity="two">حذف %d مشاهد</item>
+    <item quantity="few">حذف %d مشاهد</item>
+    <item quantity="many">حذف %d مشاهد</item>
+    <item quantity="other">حذف %d مشاهد</item>
+  </plurals>
+  <plurals name="am_rename_scenes_title">
+    <item quantity="zero">Rename %d Scenes</item>
+    <item quantity="one">Rename %d Scene</item>
+    <item quantity="two">Rename %d Scenes</item>
+    <item quantity="few">Rename %d Scenes</item>
+    <item quantity="many">Rename %d Scenes</item>
+    <item quantity="other">Rename %d Scenes</item>
+  </plurals>
+  <!-- Sprite Action Mode Titles -->
+  <plurals name="am_pack_sprites_title">
+    <item quantity="zero">Pack %d Objects</item>
+    <item quantity="one">Pack %d Object</item>
+    <item quantity="two">Pack %d Objects</item>
+    <item quantity="few">Pack %d Objects</item>
+    <item quantity="many">Pack %d Objects</item>
+    <item quantity="other">Pack %d Objects</item>
+  </plurals>
+  <plurals name="am_unpack_sprites_title">
+    <item quantity="zero">Unpack %d Objects</item>
+    <item quantity="one">Unpack %d Object</item>
+    <item quantity="two">Unpack %d Objects</item>
+    <item quantity="few">Unpack %d Objects</item>
+    <item quantity="many">Unpack %d Objects</item>
+    <item quantity="other">Unpack %d Objects</item>
+  </plurals>
+  <plurals name="am_copy_sprites_title">
+    <item quantity="zero">Copy %d Objects</item>
+    <item quantity="one">Copy %d Object</item>
+    <item quantity="two">Copy %d Objects</item>
+    <item quantity="few">Copy %d Objects</item>
+    <item quantity="many">Copy %d Objects</item>
+    <item quantity="other">Copy %d Objects</item>
+  </plurals>
+  <plurals name="am_delete_sprites_title">
+    <item quantity="zero">Delete %d Objects</item>
+    <item quantity="one">Delete %d Object</item>
+    <item quantity="two">Delete %d Objects</item>
+    <item quantity="few">Delete %d Objects</item>
+    <item quantity="many">Delete %d Objects</item>
+    <item quantity="other">Delete %d Objects</item>
+  </plurals>
+  <plurals name="am_rename_sprites_title">
+    <item quantity="zero">Rename %d Objects</item>
+    <item quantity="one">Rename %d Object</item>
+    <item quantity="two">Rename %d Objects</item>
+    <item quantity="few">Rename %d Objects</item>
+    <item quantity="many">Rename %d Objects</item>
+    <item quantity="other">Rename %d Objects</item>
+  </plurals>
+  <!-- Look Action Mode Titles -->
+  <plurals name="am_pack_looks_title">
+    <item quantity="zero">Pack %d Looks</item>
+    <item quantity="one">Pack %d Look</item>
+    <item quantity="two">Pack %d Looks</item>
+    <item quantity="few">Pack %d Looks</item>
+    <item quantity="many">Pack %d Looks</item>
+    <item quantity="other">Pack %d Looks</item>
+  </plurals>
+  <plurals name="am_unpack_looks_title">
+    <item quantity="zero">Unpack %d Looks</item>
+    <item quantity="one">Unpack %d Look</item>
+    <item quantity="two">Unpack %d Looks</item>
+    <item quantity="few">Unpack %d Looks</item>
+    <item quantity="many">Unpack %d Looks</item>
+    <item quantity="other">Unpack %d Looks</item>
+  </plurals>
+  <plurals name="am_copy_looks_title">
+    <item quantity="zero">Copy %d Looks</item>
+    <item quantity="one">Copy %d Look</item>
+    <item quantity="two">Copy %d Looks</item>
+    <item quantity="few">Copy %d Looks</item>
+    <item quantity="many">Copy %d Looks</item>
+    <item quantity="other">Copy %d Looks</item>
+  </plurals>
+  <plurals name="am_delete_looks_title">
+    <item quantity="zero">Delete %d Looks</item>
+    <item quantity="one">Delete %d Look</item>
+    <item quantity="two">Delete %d Looks</item>
+    <item quantity="few">Delete %d Looks</item>
+    <item quantity="many">Delete %d Looks</item>
+    <item quantity="other">Delete %d Looks</item>
+  </plurals>
+  <plurals name="am_rename_looks_title">
+    <item quantity="zero">Rename %d Looks</item>
+    <item quantity="one">Rename %d Look</item>
+    <item quantity="two">Rename %d Looks</item>
+    <item quantity="few">Rename %d Looks</item>
+    <item quantity="many">Rename %d Looks</item>
+    <item quantity="other">Rename %d Looks</item>
+  </plurals>
+  <!-- Sound Action Mode Titles -->
+  <plurals name="am_pack_sounds_title">
+    <item quantity="zero">Pack %d Sounds</item>
+    <item quantity="one">Pack %d Sound</item>
+    <item quantity="two">Pack %d Sounds</item>
+    <item quantity="few">Pack %d Sounds</item>
+    <item quantity="many">Pack %d Sounds</item>
+    <item quantity="other">Pack %d Sounds</item>
+  </plurals>
+  <plurals name="am_unpack_sounds_title">
+    <item quantity="zero">Unpack %d Sounds</item>
+    <item quantity="one">Unpack %d Sound</item>
+    <item quantity="two">Unpack %d Sounds</item>
+    <item quantity="few">Unpack %d Sounds</item>
+    <item quantity="many">Unpack %d Sounds</item>
+    <item quantity="other">Unpack %d Sounds</item>
+  </plurals>
+  <plurals name="am_copy_sounds_title">
+    <item quantity="zero">Copy %d Sounds</item>
+    <item quantity="one">Copy %d Sound</item>
+    <item quantity="two">Copy %d Sounds</item>
+    <item quantity="few">Copy %d Sounds</item>
+    <item quantity="many">Copy %d Sounds</item>
+    <item quantity="other">Copy %d Sounds</item>
+  </plurals>
+  <plurals name="am_delete_sounds_title">
+    <item quantity="zero">Delete %d Sounds</item>
+    <item quantity="one">Delete %d Sound</item>
+    <item quantity="two">Delete %d Sounds</item>
+    <item quantity="few">Delete %d Sounds</item>
+    <item quantity="many">Delete %d Sounds</item>
+    <item quantity="other">Delete %d Sounds</item>
+  </plurals>
+  <plurals name="am_rename_sounds_title">
+    <item quantity="zero">Rename %d Sounds</item>
+    <item quantity="one">Rename %d Sound</item>
+    <item quantity="two">Rename %d Sounds</item>
+    <item quantity="few">Rename %d Sounds</item>
+    <item quantity="many">Rename %d Sounds</item>
+    <item quantity="other">Rename %d Sounds</item>
+  </plurals>
+  <!-- NFC Tag Action Mode Titles -->
+  <plurals name="am_copy_nfc_tags_title">
+    <item quantity="zero">Copy %d NFC Tags</item>
+    <item quantity="one">Copy %d NFC Tag</item>
+    <item quantity="two">Copy %d NFC Tags</item>
+    <item quantity="few">Copy %d NFC Tags</item>
+    <item quantity="many">Copy %d NFC Tags</item>
+    <item quantity="other">Copy %d NFC Tags</item>
+  </plurals>
+  <plurals name="am_delete_nfc_tags_title">
+    <item quantity="zero">Delete %d NFC Tags</item>
+    <item quantity="one">Delete %d NFC Tag</item>
+    <item quantity="two">Delete %d NFC Tags</item>
+    <item quantity="few">Delete %d NFC Tags</item>
+    <item quantity="many">Delete %d NFC Tags</item>
+    <item quantity="other">Delete %d NFC Tags</item>
+  </plurals>
+  <plurals name="am_rename_nfc_tags_title">
+    <item quantity="zero">Rename %d NFC Tags</item>
+    <item quantity="one">Rename %d NFC Tag</item>
+    <item quantity="two">Rename %d NFC Tags</item>
+    <item quantity="few">Rename %d NFC Tags</item>
+    <item quantity="many">Rename %d NFC Tags</item>
+    <item quantity="other">Rename %d NFC Tags</item>
+  </plurals>
+  <!-- Script Action Mode Titles -->
+  <plurals name="am_pack_scripts_title">
+    <item quantity="zero">Pack %d bricks</item>
+    <item quantity="one">Pack %d brick</item>
+    <item quantity="two">Pack %d bricks</item>
+    <item quantity="few">Pack %d bricks</item>
+    <item quantity="many">Pack %d bricks</item>
+    <item quantity="other">Pack %d bricks</item>
+  </plurals>
+  <plurals name="am_unpack_scripts_title">
+    <item quantity="zero">Unpack %d Scripts</item>
+    <item quantity="one">Unpack %d Script</item>
+    <item quantity="two">Unpack %d Scripts</item>
+    <item quantity="few">Unpack %d Scripts</item>
+    <item quantity="many">Unpack %d Scripts</item>
+    <item quantity="other">Unpack %d Scripts</item>
+  </plurals>
+  <plurals name="am_copy_scripts_title">
+    <item quantity="zero">Copy %d bricks</item>
+    <item quantity="one">Copy %d brick</item>
+    <item quantity="two">Copy %d bricks</item>
+    <item quantity="few">Copy %d bricks</item>
+    <item quantity="many">Copy %d bricks</item>
+    <item quantity="other">Copy %d bricks</item>
+  </plurals>
+  <plurals name="am_delete_scripts_title">
+    <item quantity="zero">Delete %d Scripts</item>
+    <item quantity="one">Delete %d Script</item>
+    <item quantity="two">Delete %d Scripts</item>
+    <item quantity="few">Delete %d Scripts</item>
+    <item quantity="many">Delete %d Scripts</item>
+    <item quantity="other">Delete %d Scripts</item>
+  </plurals>
+  <!-- Data Item Action Mode Titles -->
+  <plurals name="am_delete_user_data_items_title">
+    <item quantity="zero">Delete %d Data Items</item>
+    <item quantity="one">Delete %d Data Item</item>
+    <item quantity="two">Delete %d Data Items</item>
+    <item quantity="few">Delete %d Data Items</item>
+    <item quantity="many">Delete %d Data Items</item>
+    <item quantity="other">Delete %d Data Items</item>
   </plurals>
   <!-- New Dialog Titles -->
   <string name="new_scene_dialog">مشهد جديد</string>
-  <string name="scene_name">اسم المشهد:</string>
   <!-- Delete Dialog Titles -->
   <plurals name="delete_projects">
-    <item quantity="zero">Delete these Projects?</item>
-    <item quantity="one">Delete this Project?</item>
-    <item quantity="two">Delete these Projects?</item>
-    <item quantity="few">Delete these Projects?</item>
-    <item quantity="many">Delete these Projects?</item>
-    <item quantity="other">Delete these Projects?</item>
+    <item quantity="zero">هل تريد حذف هذا المشروع؟</item>
+    <item quantity="one">هل تريد حذف هذا المشروع؟</item>
+    <item quantity="two">هل تريد حذف هذين المشروعين؟</item>
+    <item quantity="few">هل تريد حذف هذه المشاريع؟</item>
+    <item quantity="many">هل تريد حذف هذه المشاريع؟</item>
+    <item quantity="other">هل تريد حذف هذه المشاريع؟</item>
   </plurals>
   <plurals name="delete_scenes">
-    <item quantity="zero">Delete these Scenes?</item>
-    <item quantity="one">Delete this Scene?</item>
-    <item quantity="two">Delete these Scenes?</item>
-    <item quantity="few">Delete these Scenes?</item>
-    <item quantity="many">Delete these Scenes?</item>
-    <item quantity="other">Delete these Scenes?</item>
+    <item quantity="zero">هل تريد حذف هذا المشهد؟</item>
+    <item quantity="one">هل تريد حذف هذا المشهد؟</item>
+    <item quantity="two">هل تريد حذف هذين المشهدين؟</item>
+    <item quantity="few">هل تريد حذف هذه المشاهد؟</item>
+    <item quantity="many">هل تريد حذف هذه المشاهد؟</item>
+    <item quantity="other">هل تريد حذف هذه المشاهد؟</item>
   </plurals>
   <plurals name="delete_sprites">
-    <item quantity="zero">Delete these Objects?</item>
-    <item quantity="one">Delete this Object?</item>
-    <item quantity="two">Delete these Objects?</item>
-    <item quantity="few">Delete these Objects?</item>
-    <item quantity="many">Delete these Objects?</item>
-    <item quantity="other">Delete these Objects?</item>
+    <item quantity="zero">هل تريد حذف هذا الكائن؟</item>
+    <item quantity="one">هل تريد حذف هذا الكائن؟</item>
+    <item quantity="two">هل تريد حذف هذين الكائنين؟</item>
+    <item quantity="few">هل تريد حذف هذه الكائنات؟</item>
+    <item quantity="many">هل تريد حذف هذه الكائنات؟</item>
+    <item quantity="other">هل تريد حذف هذه الكائنات؟</item>
   </plurals>
   <plurals name="delete_looks">
-    <item quantity="zero">Delete these Looks?</item>
-    <item quantity="one">Delete this Look?</item>
-    <item quantity="two">Delete these Looks?</item>
-    <item quantity="few">Delete these Looks?</item>
-    <item quantity="many">Delete these Looks?</item>
-    <item quantity="other">Delete these Looks?</item>
+    <item quantity="zero">هل تريد حذف هذا المنظر؟</item>
+    <item quantity="one">هل تريد حذف هذا المنظر؟</item>
+    <item quantity="two">هل تريد حذف هذين المنظرين؟</item>
+    <item quantity="few">هل تريد حذف هذه المناظر؟</item>
+    <item quantity="many">هل تريد حذف هذه المناظر؟</item>
+    <item quantity="other">هل تريد حذف هذه المناظر؟</item>
   </plurals>
   <plurals name="delete_sounds">
-    <item quantity="zero">Delete these Sounds?</item>
-    <item quantity="one">Delete this Sound?</item>
-    <item quantity="two">Delete these Sounds?</item>
-    <item quantity="few">Delete these Sounds?</item>
-    <item quantity="many">Delete these Sounds?</item>
-    <item quantity="other">Delete these Sounds?</item>
+    <item quantity="zero">هل تريد حذف هذا الملف الصوتي؟</item>
+    <item quantity="one">هل تريد حذف هذا الملف الصوتي؟</item>
+    <item quantity="two">هل تريد حذف هذين الملفين الصوتيين؟</item>
+    <item quantity="few">هل تريد حذف هذه الملفات الصوتية؟</item>
+    <item quantity="many">هل تريد حذف هذه الملفات الصوتية؟</item>
+    <item quantity="other">هل تريد حذف هذه الملفات الصوتية؟</item>
   </plurals>
   <plurals name="delete_nfc_tags">
-    <item quantity="zero">Delete these Tags?</item>
-    <item quantity="one">Delete this Tag?</item>
-    <item quantity="two">Delete these Tags?</item>
-    <item quantity="few">Delete these Tags?</item>
-    <item quantity="many">Delete these Tags?</item>
-    <item quantity="other">Delete these Tags?</item>
+    <item quantity="zero">هل تريد حذف هذا الوسم؟</item>
+    <item quantity="one">هل تريد حذف هذا الوسم؟</item>
+    <item quantity="two">هل تريد حذف هذين الوسمين؟</item>
+    <item quantity="few">هل تريد حذف هذه الأوسمة؟</item>
+    <item quantity="many">هل تريد حذف هذه الأوسمة؟</item>
+    <item quantity="other">هل تريد حذف هذه الأوسمة؟</item>
   </plurals>
   <plurals name="delete_scripts">
-    <item quantity="zero">Delete these Scripts?</item>
-    <item quantity="one">Delete this Script?</item>
-    <item quantity="two">Delete these Scripts?</item>
-    <item quantity="few">Delete these Scripts?</item>
-    <item quantity="many">Delete these Scripts?</item>
-    <item quantity="other">Delete these Scripts?</item>
+    <item quantity="zero">هل تريد حذف هذا النص البرمجي؟</item>
+    <item quantity="one">هل تريد حذف هذا النص البرمجي؟</item>
+    <item quantity="two">هل تريد حذف هذين النصين البرمجيين؟</item>
+    <item quantity="few">هل تريد حذف هذه النصوص البرمجية؟</item>
+    <item quantity="many">هل تريد حذف هذه النصوص البرمجية؟</item>
+    <item quantity="other">هل تريد حذف هذه النصوص البرمجية؟</item>
   </plurals>
   <plurals name="delete_bricks">
-    <item quantity="zero">Delete these Bricks?</item>
-    <item quantity="one">Delete this Brick?</item>
-    <item quantity="two">Delete these Bricks?</item>
-    <item quantity="few">Delete these Bricks?</item>
-    <item quantity="many">Delete these Bricks?</item>
-    <item quantity="other">Delete these Bricks?</item>
+    <item quantity="zero">هل تريد حذف هذه اللبّنة البرمجية؟</item>
+    <item quantity="one">هل تريد حذف هذه اللبّنة البرمجية؟</item>
+    <item quantity="two">هل تريد حذف هذين اللّبنتين البرمجيتين؟</item>
+    <item quantity="few">هل تريد حذف هذه اللّبنات البرمجية؟</item>
+    <item quantity="many">هل تريد حذف هذه اللّبنات البرمجية؟</item>
+    <item quantity="other">هل تريد حذف هذه اللّبنات البرمجية؟</item>
   </plurals>
   <!-- Dialog Labels -->
-  <string name="project_name_label">Program:</string>
-  <string name="sprite_name_label">Object name:</string>
-  <string name="look_name_label">Look name:</string>
-  <string name="sound_name_label">Sound name:</string>
-  <!-- Details Labels -->
-  <string name="number_of_scripts">النص البرمجي:</string>
-  <string name="number_of_bricks">اللّبنات البرمجية:</string>
-  <string name="number_of_looks">المناظر:</string>
-  <string name="number_of_sounds">الأصوات:</string>
+  <string name="project_name_label">Program Name</string>
+  <string name="scene_name">Scene Name</string>
+  <string name="sprite_name_label">Object Name</string>
+  <string name="sprite_group_name_label">Group Name</string>
+  <string name="script_group_label">Script Group Name</string>
+  <string name="look_name_label">Look Name</string>
+  <string name="sound_name_label">Sound Name</string>
+  <string name="string_label">النص</string>
+  <string name="data_label">الإسم</string>
+  <!-- Details -->
+  <string name="project_details">Last access: %s, Size: %s</string>
+  <string name="scene_details">Objects: %d, Looks: %d, Sounds: %d</string>
+  <string name="sprite_details">Bricks: %d, Looks: %d, Sounds: %d</string>
+  <string name="look_details">Measure: %s, Size: %s</string>
+  <string name="sound_duration">Duration: %s</string>
+  <string name="sound_details">Duration: %s, Size: %s</string>
   <!--  -->
   <!-- Rename Dialog Titles -->
   <string name="rename_project">إعادة تسمية البرنامج</string>
@@ -403,228 +665,220 @@
   <string name="rename_look_dialog">إعادة تسمية المنظر</string>
   <string name="rename_sound_dialog">إعادة تسمية الصوت</string>
   <string name="rename_nfctag_dialog">إعادة تسمية وسم Nfc</string>
+  <string name="rename_data_dialog">إعادة تسمية</string>
+  <!-- New Script Group Dialog -->
+  <string name="new_group">مجموعة جديدة</string>
+  <!-- New Scene Menu Object -->
+  <string name="new_scene">مشهد جديد</string>
   <!-- Action Toasts -->
+  <!-- Backpack -->
   <plurals name="packed_scenes">
-    <item quantity="zero">Backpacked %d Scenes!</item>
-    <item quantity="one">Backpacked %d Scene!</item>
-    <item quantity="two">Backpacked %d Scenes!</item>
-    <item quantity="few">Backpacked %d Scenes!</item>
-    <item quantity="many">Backpacked %d Scenes!</item>
-    <item quantity="other">Backpacked %d Scenes!</item>
+    <item quantity="zero">تم حزم %d مشهد!</item>
+    <item quantity="one">تم حزم %d مشهد!</item>
+    <item quantity="two">تم حزم %d مشهدين!</item>
+    <item quantity="few">تم حزم %d مشاهد!</item>
+    <item quantity="many">تم حزم %d مشاهد!</item>
+    <item quantity="other">تم حزم %d مشاهد!</item>
   </plurals>
   <plurals name="packed_sprites">
-    <item quantity="zero">Backpacked %d Objects!</item>
-    <item quantity="one">Backpacked %d Object!</item>
-    <item quantity="two">Backpacked %d Objects!</item>
-    <item quantity="few">Backpacked %d Objects!</item>
-    <item quantity="many">Backpacked %d Objects!</item>
-    <item quantity="other">Backpacked %d Objects!</item>
+    <item quantity="zero">تم حزم %d كائن!</item>
+    <item quantity="one">تم حزم %d كائن!</item>
+    <item quantity="two">تم حزم %d كائنين!</item>
+    <item quantity="few">تم حزم %d كائنات!</item>
+    <item quantity="many">تم حزم %d كائنات!</item>
+    <item quantity="other">تم حزم %d كائنات!</item>
   </plurals>
   <plurals name="packed_looks">
-    <item quantity="zero">Backpacked %d Looks!</item>
-    <item quantity="one">Backpacked %d Look!</item>
-    <item quantity="two">Backpacked %d Looks!</item>
-    <item quantity="few">Backpacked %d Looks!</item>
-    <item quantity="many">Backpacked %d Looks!</item>
-    <item quantity="other">Backpacked %d Looks!</item>
+    <item quantity="zero">تم حزم %d منظر!</item>
+    <item quantity="one">تم حزم %d منظر!</item>
+    <item quantity="two">تم حزم %d منظرين!</item>
+    <item quantity="few">تم حزم %d مناظر!</item>
+    <item quantity="many">تم حزم %d مناظر!</item>
+    <item quantity="other">تم حزم %d مناظر!</item>
   </plurals>
   <plurals name="packed_sounds">
-    <item quantity="zero">Backpacked %d Sounds!</item>
-    <item quantity="one">Backpacked %d Sound!</item>
-    <item quantity="two">Backpacked %d Sounds!</item>
-    <item quantity="few">Backpacked %d Sounds!</item>
-    <item quantity="many">Backpacked %d Sounds!</item>
-    <item quantity="other">Backpacked %d Sounds!</item>
+    <item quantity="zero">تم حزم %d ملف صوتي!</item>
+    <item quantity="one">تم حزم %d ملف صوتي!</item>
+    <item quantity="two">تم حزم %d ملفين صوتيين!</item>
+    <item quantity="few">تم حزم %d ملفات صوتية!</item>
+    <item quantity="many">تم حزم %d ملفات صوتية!</item>
+    <item quantity="other">تم حزم %d ملفات صوتية!</item>
   </plurals>
-  <string name="packed_script_group">Backpacked 1 Script Group!</string>
+  <string name="packed_script_group">تم حزم مجموعة نصوص برمجية!</string>
+  <!-- Unpack -->
   <plurals name="unpacked_scenes">
-    <item quantity="zero">Unpacked %d Scenes!</item>
-    <item quantity="one">Unpacked %d Scene!</item>
-    <item quantity="two">Unpacked %d Scenes!</item>
-    <item quantity="few">Unpacked %d Scenes!</item>
-    <item quantity="many">Unpacked %d Scenes!</item>
-    <item quantity="other">Unpacked %d Scenes!</item>
+    <item quantity="zero">فك حزم %d مشهد!</item>
+    <item quantity="one">فك حزم %d مشهد!</item>
+    <item quantity="two">فك حزم %d مشهدين!</item>
+    <item quantity="few">فك حزم %d مشاهد!</item>
+    <item quantity="many">فك حزم %d مشاهد!</item>
+    <item quantity="other">فك حزم %d مشاهد!</item>
   </plurals>
   <plurals name="unpacked_sprites">
-    <item quantity="zero">Unpacked %d Objects!</item>
-    <item quantity="one">Unpacked %d Object!</item>
-    <item quantity="two">Unpacked %d Objects!</item>
-    <item quantity="few">Unpacked %d Objects!</item>
-    <item quantity="many">Unpacked %d Objects!</item>
-    <item quantity="other">Unpacked %d Objects!</item>
+    <item quantity="zero">فك حزم %d كائن!</item>
+    <item quantity="one">فك حزم %d كائن!</item>
+    <item quantity="two">فك حزم %d كائنين!</item>
+    <item quantity="few">فك حزم %d كائنات!</item>
+    <item quantity="many">فك حزم %d كائنات!</item>
+    <item quantity="other">فك حزم %d كائنات!</item>
   </plurals>
   <plurals name="unpacked_looks">
-    <item quantity="zero">Unpacked %d Looks!</item>
-    <item quantity="one">Unpacked %d Look!</item>
-    <item quantity="two">Unpacked %d Looks!</item>
-    <item quantity="few">Unpacked %d Looks!</item>
-    <item quantity="many">Unpacked %d Looks!</item>
-    <item quantity="other">Unpacked %d Looks!</item>
+    <item quantity="zero">فك حزم %d منظر!</item>
+    <item quantity="one">فك حزم %d منظر!</item>
+    <item quantity="two">فك حزم %d منظرين!</item>
+    <item quantity="few">فك حزم %d مناظر!</item>
+    <item quantity="many">فك حزم %d مناظر!</item>
+    <item quantity="other">فك حزم %d مناظر!</item>
   </plurals>
   <plurals name="unpacked_sounds">
-    <item quantity="zero">Unpacked %d Sounds!</item>
-    <item quantity="one">Unpacked %d Sound!</item>
-    <item quantity="two">Unpacked %d Sounds!</item>
-    <item quantity="few">Unpacked %d Sounds!</item>
-    <item quantity="many">Unpacked %d Sounds!</item>
-    <item quantity="other">Unpacked %d Sounds!</item>
+    <item quantity="zero">فك حزم %d ملف صوتي!</item>
+    <item quantity="one">فك حزم %d ملف صوتي!</item>
+    <item quantity="two">فك حزم %d ملفين صوتيين!</item>
+    <item quantity="few">فك حزم %d ملفات صوتية!</item>
+    <item quantity="many">فك حزم %d ملفات صوتية!</item>
+    <item quantity="other">فك حزم %d ملفات صوتية!</item>
   </plurals>
   <plurals name="unpacked_scripts">
-    <item quantity="zero">Unpacked %d Scripts!</item>
-    <item quantity="one">Unpacked %d Script!</item>
-    <item quantity="two">Unpacked %d Scripts!</item>
-    <item quantity="few">Unpacked %d Scripts!</item>
-    <item quantity="many">Unpacked %d Scripts!</item>
-    <item quantity="other">Unpacked %d Scripts!</item>
+    <item quantity="zero">فك حزم %d نص برمجي!</item>
+    <item quantity="one">فك حزم %d نص برمجي!</item>
+    <item quantity="two">فك حزم %d نصين برمجيين!</item>
+    <item quantity="few">فك حزم %d نصوص برمجية!</item>
+    <item quantity="many">فك حزم %d نصوص برمجية!</item>
+    <item quantity="other">فك حزم %d نصوص برمجية!</item>
   </plurals>
+  <!-- Copy -->
   <plurals name="copied_scenes">
-    <item quantity="zero">Copied %d Scenes!</item>
-    <item quantity="one">Copied %d Scene!</item>
-    <item quantity="two">Copied %d Scenes!</item>
-    <item quantity="few">Copied %d Scenes!</item>
-    <item quantity="many">Copied %d Scenes!</item>
-    <item quantity="other">Copied %d Scenes!</item>
+    <item quantity="zero">تم نسخ %d مشهد!</item>
+    <item quantity="one">تم نسخ %d مشهد!</item>
+    <item quantity="two">تم نسخ %d مشهدين!</item>
+    <item quantity="few">تم نسخ %d مشاهد!</item>
+    <item quantity="many">تم نسخ %d مشاهد!</item>
+    <item quantity="other">تم نسخ %d مشاهد!</item>
   </plurals>
   <plurals name="copied_sprites">
-    <item quantity="zero">Copied %d Objects!</item>
-    <item quantity="one">Copied %d Object!</item>
-    <item quantity="two">Copied %d Objects!</item>
-    <item quantity="few">Copied %d Objects!</item>
-    <item quantity="many">Copied %d Objects!</item>
-    <item quantity="other">Copied %d Objects!</item>
+    <item quantity="zero">تم نسخ %d كائن!</item>
+    <item quantity="one">تم نسخ %d كائن!</item>
+    <item quantity="two">تم نسخ %d كائنين!</item>
+    <item quantity="few">تم نسخ %d كائنات!</item>
+    <item quantity="many">تم نسخ %d كائنات!</item>
+    <item quantity="other">تم نسخ %d كائنات!</item>
   </plurals>
   <plurals name="copied_looks">
-    <item quantity="zero">Copied %d Looks!</item>
-    <item quantity="one">Copied %d Look!</item>
-    <item quantity="two">Copied %d Looks!</item>
-    <item quantity="few">Copied %d Looks!</item>
-    <item quantity="many">Copied %d Looks!</item>
-    <item quantity="other">Copied %d Looks!</item>
+    <item quantity="zero">تم نسخ %d منظر!</item>
+    <item quantity="one">تم نسخ %d منظر!</item>
+    <item quantity="two">تم نسخ %d منظرين!</item>
+    <item quantity="few">تم نسخ %d مناظر!</item>
+    <item quantity="many">تم نسخ %d مناظر!</item>
+    <item quantity="other">تم نسخ %d مناظر!</item>
   </plurals>
   <plurals name="copied_sounds">
-    <item quantity="zero">Copied %d Sounds!</item>
-    <item quantity="one">Copied %d Sound!</item>
-    <item quantity="two">Copied %d Sounds!</item>
-    <item quantity="few">Copied %d Sounds!</item>
-    <item quantity="many">Copied %d Sounds!</item>
-    <item quantity="other">Copied %d Sounds!</item>
+    <item quantity="zero">تم نسخ %d ملف صوتي!</item>
+    <item quantity="one">تم نسخ %d ملف صوتي!</item>
+    <item quantity="two">تم نسخ %d ملفين صوتيين!</item>
+    <item quantity="few">تم نسخ %d ملفات صوتية!</item>
+    <item quantity="many">تم نسخ %d ملفات صوتية!</item>
+    <item quantity="other">تم نسخ %d ملفات صوتية!</item>
   </plurals>
   <plurals name="copied_nfc_tags">
-    <item quantity="zero">Copied %d NFC Tags!</item>
-    <item quantity="one">Copied %d NFC Tag!</item>
-    <item quantity="two">Copied %d NFC Tags!</item>
-    <item quantity="few">Copied %d NFC Tags!</item>
-    <item quantity="many">Copied %d NFC Tags!</item>
-    <item quantity="other">Copied %d NFC Tags!</item>
+    <item quantity="zero">تم نسخ %d وسم NFC!</item>
+    <item quantity="one">تم نسخ %d وسم NFC!</item>
+    <item quantity="two">تم نسخ %d وسمين NFC!</item>
+    <item quantity="few">تم نسخ %d وسوم NFC!</item>
+    <item quantity="many">تم نسخ %d وسوم NFC!</item>
+    <item quantity="other">تم نسخ %d وسوم NFC!</item>
   </plurals>
+  <!-- Delete -->
   <plurals name="deleted_projects">
-    <item quantity="zero">Deleted %d Projects!</item>
-    <item quantity="one">Deleted %d Project!</item>
-    <item quantity="two">Deleted %d Projects!</item>
-    <item quantity="few">Deleted %d Projects!</item>
-    <item quantity="many">Deleted %d Projects!</item>
-    <item quantity="other">Deleted %d Projects!</item>
+    <item quantity="zero">تم حذف %d مشروع!</item>
+    <item quantity="one">تم حذف %d مشروع!</item>
+    <item quantity="two">تم حذف %d مشروعين!</item>
+    <item quantity="few">تم حذف %d مشاريع!</item>
+    <item quantity="many">تم حذف %d مشاريع!</item>
+    <item quantity="other">تم حذف %d مشاريع!</item>
   </plurals>
   <plurals name="deleted_scenes">
-    <item quantity="zero">Deleted %d Scenes!</item>
-    <item quantity="one">Deleted %d Scene!</item>
-    <item quantity="two">Deleted %d Scenes!</item>
-    <item quantity="few">Deleted %d Scenes!</item>
-    <item quantity="many">Deleted %d Scenes!</item>
-    <item quantity="other">Deleted %d Scenes!</item>
+    <item quantity="zero">تم حذف %d مشهد!</item>
+    <item quantity="one">تم حذف %d مشهد!</item>
+    <item quantity="two">تم حذف %d مشهدين!</item>
+    <item quantity="few">تم حذف %d مشاهد!</item>
+    <item quantity="many">تم حذف %d مشاهد!</item>
+    <item quantity="other">تم حذف %d مشاهد!</item>
   </plurals>
   <plurals name="deleted_sprites">
-    <item quantity="zero">Deleted %d Sprites!</item>
-    <item quantity="one">Deleted %d Sprite!</item>
-    <item quantity="two">Deleted %d Sprites!</item>
-    <item quantity="few">Deleted %d Sprites!</item>
-    <item quantity="many">Deleted %d Sprites!</item>
-    <item quantity="other">Deleted %d Sprites!</item>
+    <item quantity="zero">تم حذف %d كائن!</item>
+    <item quantity="one">تم حذف %d كائن!</item>
+    <item quantity="two">تم حذف %d كائنين!</item>
+    <item quantity="few">تم حذف %d كائنات!</item>
+    <item quantity="many">تم حذف %d كائنات!</item>
+    <item quantity="other">تم حذف %d كائنات!</item>
   </plurals>
   <plurals name="deleted_looks">
-    <item quantity="zero">Deleted %d Looks!</item>
-    <item quantity="one">Deleted %d Look!</item>
-    <item quantity="two">Deleted %d Looks!</item>
-    <item quantity="few">Deleted %d Looks!</item>
-    <item quantity="many">Deleted %d Looks!</item>
-    <item quantity="other">Deleted %d Looks!</item>
+    <item quantity="zero">تم حذف %d منظر!</item>
+    <item quantity="one">تم حذف %d منظر!</item>
+    <item quantity="two">تم حذف %d منظرين!</item>
+    <item quantity="few">تم حذف %d مناظر!</item>
+    <item quantity="many">تم حذف %d مناظر!</item>
+    <item quantity="other">تم حذف %d مناظر!</item>
   </plurals>
   <plurals name="deleted_sounds">
-    <item quantity="zero">Deleted %d Sounds!</item>
-    <item quantity="one">Deleted %d Sound!</item>
-    <item quantity="two">Deleted %d Sounds!</item>
-    <item quantity="few">Deleted %d Sounds!</item>
-    <item quantity="many">Deleted %d Sounds!</item>
-    <item quantity="other">Deleted %d Sounds!</item>
+    <item quantity="zero">تم حذف %d ملف صوتي!</item>
+    <item quantity="one">تم حذف %d ملف صوتي!</item>
+    <item quantity="two">تم حذف %d ملفين صوتيين!</item>
+    <item quantity="few">تم حذف %d ملفات صوتية!</item>
+    <item quantity="many">تم حذف %d ملفات صوتية!</item>
+    <item quantity="other">تم حذف %d ملفات صوتية!</item>
   </plurals>
   <plurals name="deleted_nfc_tags">
-    <item quantity="zero">Deleted %d NFC Tags!</item>
-    <item quantity="one">Deleted %d NFC Tag!</item>
-    <item quantity="two">Deleted %d NFC Tags!</item>
-    <item quantity="few">Deleted %d NFC Tags!</item>
-    <item quantity="many">Deleted %d NFC Tags!</item>
-    <item quantity="other">Deleted %d NFC Tags!</item>
+    <item quantity="zero">تم حذف %d وسم NFC!</item>
+    <item quantity="one">تم حذف %d وسم NFC!</item>
+    <item quantity="two">تم حذف %d وسمين NFC!</item>
+    <item quantity="few">تم حذف %d وسوم NFC!</item>
+    <item quantity="many">تم حذف %d وسوم NFC!</item>
+    <item quantity="other">تم حذف %d وسوم NFC!</item>
   </plurals>
   <plurals name="deleted_scripts">
-    <item quantity="zero">Deleted %d Scripts!</item>
-    <item quantity="one">Deleted %d Script!</item>
-    <item quantity="two">Deleted %d Scripts!</item>
-    <item quantity="few">Deleted %d Scripts!</item>
-    <item quantity="many">Deleted %d Scripts!</item>
-    <item quantity="other">Deleted %d Scripts!</item>
+    <item quantity="zero">تم حذف %d كائن!</item>
+    <item quantity="one">تم حذف %d كائن!</item>
+    <item quantity="two">تم حذف %d كائنين!</item>
+    <item quantity="few">تم حذف %d كائنات!</item>
+    <item quantity="many">تم حذف %d كائنات!</item>
+    <item quantity="other">تم حذف %d كائنات!</item>
+  </plurals>
+  <plurals name="deleted_Items">
+    <item quantity="zero">Deleted %d Items!</item>
+    <item quantity="one">Deleted %d Item!</item>
+    <item quantity="two">Deleted %d Items!</item>
+    <item quantity="few">Deleted %d Items!</item>
+    <item quantity="many">Deleted %d Items!</item>
+    <item quantity="other">Deleted %d Items!</item>
   </plurals>
   <!--  -->
   <!-- ProjectListActivity and ProjectListFragment -->
   <string name="project_list_title">البرامج</string>
   <string name="last_used">تاريخ آخر وصول:</string>
+  <string name="size">الحجم:</string>
   <string name="description">الوصف:</string>
   <string name="set_description">وصف مجموعة</string>
   <string name="details_date_today">اليوم</string>
   <!--  -->
   <!-- ScriptListFragment -->
   <string name="fragment_script_text_description">انقر فوق \"+\" لإضافة نصوص برمجية</string>
-  <plurals name="number_of_bricks_to_delete">
-    <item quantity="zero">حذف %d لبّنة برمجية</item>
-    <item quantity="one">حذف %d لبنة</item>
-    <item quantity="two">حذف %d لبّنات</item>
-    <item quantity="few">حذف %d لبّنات</item>
-    <item quantity="many">حذف %d لبّنات</item>
-    <item quantity="other">حذف %d لبّنات</item>
-  </plurals>
-  <plurals name="number_of_bricks_to_copy">
-    <item quantity="zero">نسخ %d لبّنة برمجية</item>
-    <item quantity="one">نسخ %d لبنات</item>
-    <item quantity="two">نسخ %d لبنات</item>
-    <item quantity="few">نسخ %d لبنات</item>
-    <item quantity="many">نسخ %d لبنات</item>
-    <item quantity="other">نسخ %d لبنات</item>
-  </plurals>
-  <plurals name="number_of_bricks_to_backpack">
-    <item quantity="zero">إنشاء حقيبة الظهر %d لبّنة برمجية</item>
-    <item quantity="one">إنشاء حقيبة الظهر %d لبّنة</item>
-    <item quantity="two">إنشاء حقيبة الظهر %d لبّنة</item>
-    <item quantity="few">إنشاء حقيبة الظهر %d لبّنة</item>
-    <item quantity="many">إنشاء حقيبة الظهر %d لبّنة</item>
-    <item quantity="other">إنشاء حقيبة الظهر %d لبّنة</item>
-  </plurals>
   <!--  -->
   <!-- LookListFragment -->
   <string name="fragment_look_text_description">انقر فوق \"+\" لإضافة منظر</string>
   <string name="pocket_paint_not_installed_title">لم يتم تثبيت بوكت بينت!</string>
-  <string name="pocket_paint_not_installed_message">الرجاء قم بتثبيت بوكت بينت</string>
+  <string name="pocket_paint_not_installed_message">Please install Pocket Paint.</string>
   <string name="default_look_name">منظر</string>
   <string name="select_look_from_gallery">قم بإختيارالصورة</string>
   <string name="select_look_from_camera">قم بتحديد الصورة</string>
-  <string name="look_measure">القياس:</string>
   <!--  -->
   <!-- SoundListFragment -->
   <string name="fragment_sound_text_description">انقر فوق \"+\" لإضافة الأصوات</string>
   <string name="sound_select_source">قم بتحديد ملف الصوت</string>
-  <string name="length">الطول:</string>
   <!--  -->
   <!-- NfcTagListFragment -->
-  <string name="fragment_nfctag_text_description">المسح الضوئي للعلامات من أجل الإضافة</string>
-  <string name="ndef_record_label">تحديد نوع سجل البيانات الى</string>
+  <string name="fragment_nfctag_text_description">Scan NFC tags to add them</string>
+  <string name="ndef_record_label">as record type</string>
   <string name="brick_set_nfc_tag">تعيين النقطة التفاعلية التالية لـ NFC الى</string>
   <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
   <string name="default_tag_name">وسم Nfc</string>
@@ -637,6 +891,14 @@
   <string name="tnf_well_known_sms">رسالة قصيرة</string>
   <string name="tnf_well_known_mailto">البريد الإلكتروني</string>
   <!--  -->
+  <!-- DataListFragment -->
+  <string name="global_vars_headline">Variables for all objects</string>
+  <string name="local_vars_headline">Variables for this object only</string>
+  <string name="global_lists_headline">Lists for all objects</string>
+  <string name="local_lists_headline">Lists for this object only</string>
+  <!-- NewDataDialog -->
+  <string name="new_data_for_all_sprites">For all Objects</string>
+  <string name="new_data_for_this_sprite_only">For this Object only</string>
   <!-- Backpack -->
   <string name="backpack_title">حقيبة الظهر الخاصة بك</string>
   <string name="pack">حزمة</string>
@@ -648,18 +910,14 @@
   <string name="looks">المناظر</string>
   <string name="sounds">الأصوات</string>
   <string name="nfctags">وسوم NFC</string>
-  <string name="size">الحجم:</string>
   <!-- NewProjectDialog -->
   <string name="new_project_dialog_title">برنامج جديد</string>
-  <string name="new_project_dialog_hint">البرنامج الخاص بي</string>
-  <string name="new_project_description_dialog_hint">الوصف الخاص بي</string>
-  <string name="new_project_name">اسم البرنامج</string>
   <string name="new_project_empty">إنشاء برنامج فارغ</string>
   <string name="new_project_default">إنشاء برنامج يحتوي على مثال</string>
-  <string name="new_project_default_drone">Create example AR.Drone 2.0 program</string>
+  <string name="new_project_default_drone">إنشاء برنامح مثال على \"طائرة بدون طيار\"</string>
   <string name="new_project_default_jumping_sumo">إنشاء برنامج مثال على Jumping Sumo</string>
   <string name="project_orientation_title">الإتجاه:</string>
-  <string name="project_select_screen_title">الشاشة</string>
+  <string name="project_select_screen_title">Screen:</string>
   <!--  -->
   <!-- NewSpriteDialog -->
   <string name="new_sprite_dialog_title">كائن جديد</string>
@@ -670,101 +928,143 @@
   <string name="add_look_draw_new_image">رسم صورة </string>
   <string name="add_look_choose_image">اختر الصورة</string>
   <string name="add_look_media_library">مكتبة الوسائط</string>
-  <string name="add_look_drone_video">AR.Drone 2.0 video</string>
+  <string name="add_look_drone_video">فيديو \" طائرة بدون طيار\"</string>
   <!--  -->
   <!-- NewSoundDialog -->
   <string name="new_sound_dialog_title">إضافة صوت</string>
   <string name="add_sound_from_recorder">تسجيل صوت</string>
   <string name="add_sound_choose_file">حدد الملف</string>
   <string name="add_sound_music">مُلحن الموسيقى</string>
-  <!-- Privacy Policy -->
-  <string name="dialog_privacy_policy_title">سياسة الخصوصية</string>
-  <string name="dialog_privacy_policy_text">الإصدار 2.0, 20 أيلول 2017\n\n
-
-        لكي نقدم لكم كل فوائد التعاون في خدماتنا والحساب المقترن بها, من الضروري        جمع بيانات محددة منكم.\n\n
-
-    • لاستخدام حسابك في أنظمتنا, وحتى يتم ابلاغك بالتغييرات الضرورية في حسابك ( مثلاً,,         التحديثات / انتهاك شروط الاستخدام للخدمة أو لقواعد المجتمع) أو سياساتنا, سوف        نقوم بتخزين اسم المستخدم الخاص بك, اذا قمت بتزويدنا به, الايميل الالكتروني الخاص بك. في حال كان حسابك متصل بجوجل        بلص أو فيسبوك, بلاضافة لذلك نقوم بتخزين مفتاح تحديد الهوية المرتبط بحسابك على هذه الخدمات. لن         نقوم باستخدام هذه البيانات لاي أغراض اخرى (مثلاً.. التسويق), ما لم تسمح انت لنا بالقيام بذلك.\n\n
-
-    • لتجنب اساءة خدماتنا (مثلاً.. من خلال تحميلات أو تعليقات المستخدم المساهم) لأغراض         غير مشروعة, المستخدم        سيولد بيانات عامة والتي سوف تخزن داخليا في قاعدة البيانات, جنباً الى جنب مع الطابع الزمني و رقم         الايبي.\n\n
-
-    • لتحسين خدماتنا ( التطبيقات والموقع الإلكتروني) و للقيام ببحث علمي في المجالات التعليمية ICT و STEM, نحن نستخدم  خدمات جوجل Google
-        Analytics, Crashlytics and Firebas. للحصول على بيانات التعريف حول الاستخدام ( مثلاً..الطوابع الزمنية والصفحات / الشاشات       التي قمت بزيارتها, انظمة التشغيل المستخدمة, ومعلومات حول موفر خدمة الانترنت). هذا التحليل والبيانات         التي تم جمعها غير مرتبطة بملف التعريف الخاص بك ولا تحتوي أية معلومات شخصية.\n\n
-
-    • على أساس تطوعي, يمكنك تزويدنا بمعلومات بلد الاقامة من خلال صفحة ملف تعريفك على موقعنا التشاركي. والذي           سوف يتم استخدامه من قبلنا لاغراض الاحصاء والبحث ويمكن ازالتها في أي وقت من خلال اعدادات          ملفك الشخصي.\n\n
-
-    • يمكنك التراجع عن استخدام هذه البيانات بحذف حسابك من خلال صفحة ملف تعريفك الشخصي على         https://share.catrob.at/. بعد القيام بحذف حسابك سوف تكون قادراً على استخدام الخدمات المقدمة,         ولكن لن تستطيع المشاركة, مثلاُ  تحميل برامج أو كتابة التعليقات أو الاعجابات..
-أيضا كل المحتوى المرتبط بحسابك          مثلاُ البرامج المحملة والتعليقات, سوف يتم حذفها.\n\n
-
-    • كل الخدمات موفرة من قبل مشروع كاتروبات المفتوح المصدر والغير هادف للربح تحت مظلة رابطة كاتروبات الدولية -         International Catrobat Association – Verein zur Förderung freier Software (Graz, Austria).\n\n
-
-    •  للاتصال بنا, من خلال الايميل الالكتروني على contact@catrobat.org  أو من خلال البريد على العنوان التالي,\n
-        c/o\n
-        Institute of Software Technology,\n
-        Inffeldgasse 16b/II,\n
-        8010 Graz, Austria.\n\n
-
-    في حال كان عمرك أقل من 16, يجب ان تقبل هذه السياسة بوصي قانوني ( عادة الأهل).
-    </string>
-  <string name="dialog_privacy_policy_declined_text">من الضروري الموافقة على سياسة الخصوصية للتسجيل أو         لمواصلة استخدام حسابك. في حال لم يناسبك أن يتم جمع هذه البيانات يمكنك حذف حسابك الحالي         عبر صفحة ملف التعريف على موقعنا و الاستمرار في الاستخدام كل الخدمات لهذا التطبيق والتي لا تحتاج الى حساب.
-    </string>
-  <!-- -->
+  <!-- Rating Dialog -->
+  <string name="rating_dialog_title">Rate Pocket Code</string>
+  <string name="rating_google_play_dialog_text">If you enjoy this app, please rate us on Google Play.</string>
+  <string name="rating_dialog_rate_now">الآن</string>
+  <string name="rating_dialog_rate_later">في وقت لاحق</string>
+  <string name="rating_dialog_rate_never">أبداً</string>
+  <!--  -->
   <!-- Terms of Use Dialog -->
   <string name="dialog_terms_of_use_title">شروط الاستخدام والخدمات</string>
-  <string name="dialog_terms_of_use_info">من أجل السماح باستخدام \"البوكت كود\" والبرامج الأخرى التي يقدمها مشروع الكاتروبات, يجب عليك الموافقة على شروط الاستخدام والخدمات واتباعها بشكل صارم عند استخدام البوكت كود أو البرامج الأخرى.
-يرجى الإطلاع على الرابط إدناه للحصول على الصياغة الدقيقة\n</string>
+  <string name="dialog_terms_of_use_info">In order to
+    be allowed to use the apps and other executables offered by the Catrobat project, you
+    must agree to our Terms of Use and Services. You have to follow these terms strictly when using our apps
+    and other executables. Please see the link below for their precise formulation.\n</string>
   <string name="dialog_terms_of_use_link_text">شروط الاستخدام والخدمات</string>
   <!--  -->
   <!-- Terms of Use Dialog Parrot ARDrone-->
   <string name="dialog_terms_of_use_link_text_parrot_reminder">شروط الاستخدام والخدمات لـ بوكت كود</string>
-  <string name="dialog_terms_of_use_parrot_reminder_text">يمكنك الشروع في استخدام التطبيق جنباً إلى جنب مع الطائرة بدون طيار من شركة Parrot
-        نذكركم بشدة الامتثال لشروط الاستخدام والخدمات للطائرة بدون طيار من شركة Parrot
-         وشروط الاستخدام والخدمة
-         الخاصة بـ
-        كاتروبات.</string>
+  <string name="dialog_terms_of_use_parrot_reminder_text">You are about to use this app together with Parrot\'s
+        AR.Drone 2.0. We strongly remind you to abide by both Parrot\'s and Catrobat\'s Terms of Use and Services.</string>
   <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">لاتذكرني مرة أخرى.</string>
   <!--  -->
   <!-- Terms of Use Dialog Parrot Jumping Sumo-->
-  <string name="dialog_terms_of_use_jumpingsumo_reminder_text">يمكنك الشروع في استخدام \"البوكت كوود\" جنباً إلى جنب مع Parrot\'s
-        Jumping Sumo. نذكركم بشدة الامتثال لشروط الاستخدام والخدمات للطائرة بدون طيار من شركة Parrot وشروط الاستخدام الخاصة بالبوكت كود من
-        كاتروبات.</string>
+  <string name="dialog_terms_of_use_jumpingsumo_reminder_text">You are about to use this app together with
+        Parrot\'s Jumping Sumo. We strongly remind you to abide by both Parrot\'s and Catrobat\'s Terms of Use and
+        Services.</string>
   <!--  -->
+  <!-- Privacy Policy -->
+  <string name="dialog_privacy_policy_title">سياسة الخصوصية</string>
+  <string name="disclaimer_privacy_police_header_headline">Welcome!</string>
+  <string name="disclaimer_privacy_policy_header">Before you can start coding, please read and accept our Privacy 
+        Policy to use the app:</string>
+  <string name="dialog_privacy_policy_text">To offer you all the benefits of our services and the associated account,
+        it is necessary to collect certain data from you.\n\n
+
+        • To maintain and improve our services (apps and websites) and to do scientific research on ICT and
+            STEM/STEAM education, we use Google Analytics, Crashlytics, and Firebase, all by Google LLC (USA), to get
+            metadata about the usage of our services, e.g., crash information, timestamps, visited pages/screens,
+            usage of our apps and services, used operating system, and information about the network provider. This
+            analysis and the collected data is not linked to your profile and does not contain any personal
+            information (last bits of the IP address get anonymized). However, the collected data will get
+            transferred to the service-provider (Google LLC, USA). Data processing is based on an agreement with
+            Google LLC. This relationship to the service provider conforms to the European Union\'s General Data
+            Protection Regulation (EU GDPR) and EU-USA \"Privacy Shield\" agreement.\n\n
+        • To create and use an account in our systems, and to inform you about necessary changes about your
+            account per e-mail, e.g., updates or violations of our Terms of Use and Service, our community rules, or
+            our policies, we will store your username and, if provided by you, your e-mail address. If you have
+            connected your account via Google Plus or Facebook, we additionally store an identification key connected
+            to your account on these services. We will not use this data for any other (e.g., marketing) purposes,
+            unless you explicitly allowed us to do so.\n\n
+        • On a voluntary basis, you can give us your country of residence through your account page on the sharing
+            site. This will get displayed on your public profile and only be used for statistical and research
+            purposes by us. It can be removed at any time in your profile settings.\n\n
+        • You can withdraw the usage of the personal data belonging to your account at any time by deleting your
+            account through your profile page on https://share.catrob.at. After deleting your account you will still
+            be able to use the provided services, but not to collaborate, e.g., through uploading programs,
+            commenting, or liking. Also, all provided content linked to your account, e.g., uploaded programs,
+            comments, etc., will be deleted.\n\n
+        • To avoid misuse of our services, e.g., through user contributed uploads or comments for illegal
+            purposes, all user generated public data (uploads, comments) will be stored internally in a database,
+            together with a timestamp and the used internet address. This data will not be used by or forwarded to
+            any institutions, unless sufficiently illegal actions are reasonably suspected and officially entitled
+            legal institutions request it based on applicable law. Each case will be thoroughly checked on an
+            individual basis by us first.\n\n
+        • You can voluntarily subscribe to the Catrobat Newsletter, on https://catrob.at/newsletter provided
+            by us through the MailChimp service (The Rocket Science Group LLC d/b/a MailChimp, USA). You will then
+            receive updates on the Catrobat project and its services to your provided e-mail address. You can withdraw
+            the newsletter at any time by using the \"unsubscribe\" link in the footer of every newsletter. This
+            newsletter is provided by MailChimp with whom we do have a data-processing agreement and who committed to
+            the EU General Data Protection Regulation and EU-USA \"Privacy Shield\". For further details on MailChimp
+            please also look up MailChimp\'s Privacy Policy and Terms of Use.\n\n
+        • All Services are provided by the free open source Catrobat project under the umbrella of the
+            International Catrobat Association – Verein zur Förderung freier Software, a non-profit NGO incorporated
+            in Graz, Austria (European Union). Our policies pay respect to EU and Austrian data protection law
+            (GDPR). To get in touch with us, please send an e-mail to contact@catrobat.org or mail us to Catrobat,\n
+                c/o\n
+                Institute of Software Technology,\n
+                Graz University of Technology,\n
+                Inffeldgasse 16b,\n
+                A-8010 Graz, Austria\n
+                (European Union).\n\n
+        In case you are below the age of 14, this policy must be accepted by a legal guardian (usually a parent).\n\n
+
+        Catrobat\'s official English language privacy policy is available on the web under
+        https://catrob.at/privacypolicy.\n\n
+
+        Version 2.1, 25 June 2018\n\n
+
+        Find the previous, outdated, version of our privacy policy (2.0) here:
+        http://developer.catrobat.org/privacy_policy_2-0
+    </string>
+  <string name="dialog_privacy_policy_declined_text">It is necessary to agree to the Privacy Policy to register or to
+        continue using your account. If you do not want us to collect this data, you can delete your
+        account via the profile page on our web interface. Then you will still be able to use all services that do
+        not require an account.
+    </string>
+  <!-- -->
   <!-- About Dialog -->
   <string name="dialog_about_title">حول تطبيق بوكت كوود</string>
-  <string name="dialog_about_license_info">البوكت كوود هو بيئة برمجية ومفسر لأجهزة الاندرويد للغات البرمجة المرئية لكاتروبات n\n\
-مصدر النص البرمجي للبوكت كوود هو مرخص من قبل (GNU AGPL v3 License). للحصول على تفاصيل أكثر للرخصة يمكنك الاطلاع على الرابط في الاسفل. n\</string>
+  <string name="dialog_about_license_info">This app offers a programming
+        environment and interpreter for the visual
+        programming language Catrobat.\n
+        The source code of this app is mainly licensed under the GNU AGPL v3 License.
+        For further details on the license see the link below.\n</string>
   <string name="dialog_about_license_link_text">ترخيص مصدر النص البرمجي</string>
   <string name="dialog_about_catrobat_link_text">حول كاتروبات</string>
   <!--  -->
-  <!-- SoundRecorderActivty -->
+  <!-- NetworkAlertDialog -->
+  <string name="error_no_network_title">لا يوجد اتصال بالشبكة</string>
+  <string name="error_no_network_one_brick">Following brick will use the network:</string>
+  <string name="error_no_network_multiple_bricks">Following brick will use the networks:</string>
+  <string name="error_no_network">انت بحاجة الى اتصال نشط بالإنترنت لاستخدام \"بوكت كوود\". من فضلك قم بتشغيل بيانات الهاتف او قم بالاتصال بشبكة لاسلكية في الاعدادات.</string>
+  <plurals name="bricks_using_network_headline">
+    <item quantity="zero">The following bricks need a network connection:</item>
+    <item quantity="one">The following brick needs a network connection:</item>
+    <item quantity="two">The following bricks need a network connection:</item>
+    <item quantity="few">The following bricks need a network connection:</item>
+    <item quantity="many">The following bricks need a network connection:</item>
+    <item quantity="other">The following bricks need a network connection:</item>
+  </plurals>
+  <!-- UploadProjectDialog -->
+  <string name="error_no_program_name_entered">الرجاء إدخال اسم البرنامج.</string>
+  <string name="upload_button">تحميل</string>
+  <string name="upload_project_dialog_title">تحميل البرنامج</string>
+  <string name="upload_description">الوصف:</string>
+  <string name="upload_tag_dialog_title">Please choose up to three categories</string>
+  <!-- SoundRecorderActivity -->
   <string name="soundrecorder_name">مسجل البوكت كوود</string>
   <string name="soundrecorder_error">لقد فشل في تسجيل الصوت</string>
   <string name="soundrecorder_recorded_filename">تسجيل</string>
   <string name="soundrecorder_text_view">اضغط على الأيقونة أعلاه لبدء وإيقاف التسجيل.</string>
-  <!--  -->
-  <!-- Music activity -->
-  <string name="music_recorded_filename">موسيقى</string>
-  <!--  -->
-  <!-- PreStage activity -->
-  <string name="prestage_text_to_speech_engine_not_installed">محرك تحويل النص إلى كلام غير مثبت! \n هل تريد تثبيته؟</string>
-  <string name="prestage_resource_not_available_title">المكون غير متوفر</string>
-  <string name="prestage_resource_not_available_text">لا يمكن تشغيل هذه اللعبة على الجهاز الخاص بك. المكونات التالية غير متوفرة: \n\n</string>
-  <string name="prestage_resource_in_use_text">جهاز أخر متصل بـ  Jumping Sumo. تأكد من أنك 
-        المتحكم الوحيد بالطائرة بدون طيار.</string>
-  <string name="prestage_no_flash_available">\u2022 الفلاش\n</string>
-  <string name="prestage_no_vibrator_available">\u2022 الهزاز\n</string>
-  <string name="prestage_no_acceleration_sensor_available">\u2022 جهاز استشعار التسارع\n</string>
-  <string name="prestage_no_inclination_sensor_available">\u2022 جهاز استشعار الميل\n</string>
-  <string name="prestage_no_compass_sensor_available">\u2022 البوصلة\n</string>
-  <string name="prestage_no_gps_sensor_available">\u2022 نظام تحديد المواقعGPS\n</string>
-  <string name="prestage_text_to_speech_error">\u2022 محرك تحويل النص إلى كلام\n</string>
-  <string name="prestage_no_back_camera_available">\u2022 العودة للكاميرا الأمامية\n</string>
-  <string name="prestage_no_camera_available">\u2022 اكتشاف الوجه\n</string>
-  <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
-  <string name="prestage_no_front_camera_available">\u2022 الكاميرا الأمامية المواجهة\n</string>
-  <string name="prestage_default_resource_not_available">\u2022 مكون غير معروف\n</string>
-  <string name="no_nfc_available">NFC غير متوفر</string>
-  <string name="nfc_not_activated">الرجاء تفعيل NFC واضغط على زر العودة للرجوع إلى التطبيق!</string>
-  <string name="nfc_facedetection_support">الدمج بين NFC و كشف الوجه قد يؤدي لمشاكل في الأداء!</string>
   <!--  -->
   <!-- Brick context dialog -->
   <string name="brick_context_dialog_move_brick">أنقل اللبّنة البرمجية</string>
@@ -781,45 +1081,76 @@
   <!-- Play scene dialog -->
   <string name="play_scene_dialog_title">تشغيل المشهد:</string>
   <string name="play_scene_dialog_default">المشهد الأول (%1$s)</string>
-  <string name="play_scene_dialog_current">الحالي (%1$s)</string>
+  <string name="play_scene_dialog_current">Current Scene (%1$s)</string>
   <!--  -->
   <!-- Sign In dialogs -->
   <string name="sign_in_dialog_title">تسجيل الدخول</string>
-  <string name="username">اسم المستخدم:</string>
-  <string name="password">كلمة المرور:</string>
-  <string name="password_forgotten">هل نسيت كلمة السر؟</string>
+  <string name="username">اسم المستخدم</string>
+  <string name="password">كلمة المرور</string>
+  <string name="password_forgotten">Forgot your password?</string>
   <string name="new_user_registered">إنشاء حساب جديد</string>
   <string name="user_logged_in">تم تسجيل الدخول بنجاح</string>
-  <string name="register_error">تسجيل الدخول غير صحيح</string>
+  <string name="register_error">Login invalid</string>
   <string name="register_terms">بالتسجيل، أنت توافق على</string>
   <string name="register_code_terms_of_use_text">شروط الاستخدام والخدمات</string>
   <string name="login">تسجيل الدخول</string>
   <string name="register">تسجيل</string>
-  <string name="or">أو</string>
   <string name="password_confirm">تأكيد كلمة السر</string>
   <string name="accountName">البريد الإلكتروني</string>
   <string name="signin_thanks">شكراً لكم على التسجيل في \"بوكت كوود\"!</string>
   <string name="signin_choose_username">الرجاء اختيار اسم المستخدم الخاص بك:</string>
-  <string name="signin_choose_username_empty">الرجاء إدخال اسم المستخدم</string>
+  <string name="signin_choose_username_empty">Please enter a username!</string>
   <string name="signin_choose_username_hint">يجب أن لا يكون اسم المستخدم هو اسمك الحقيقي.</string>
-  <string name="oauth_username_taken">اسم المستخدم موجود بالفعل مسبقاً. الرجاء اختيار اسم مستخدم مختلف!</string>
+  <string name="oauth_username_taken">Someone else already uses this name. Please choose a different one!</string>
   <string name="show_password">إظهار كلمة المرور</string>
   <string name="register_password_mismatch">كلمات المرور لا تتطابق</string>
   <string name="sign_in_error">حدث خطأ أثناء تسجيل الدخول</string>
+  <string name="error_google_plus_sign_in">Google Sign-In error. Status: %s</string>
+  <string name="error_facebook_session_expired">Session expired, please log in.</string>
+  <string name="sign_in_with_facebook">Sign in with Facebook</string>
+  <string name="sign_in_with_google">Sign in with Google</string>
   <!--  -->
   <!-- OverwriteRenameDialog Strings -->
-  <string name="overwrite_text">البرنامج بهذا الاسم موجود مسبقاً. الرجاء اختيار اسم أخر مختلف!</string>
-  <string name="overwrite_replace">قم باستبدال البرنامج الموجود</string>
+  <string name="overwrite_text">A program with this name already exists. Please choose a different name!</string>
+  <string name="overwrite_replace">Replace Program</string>
   <string name="overwrite_rename">إعادة تسمية البرنامج الذي تم تحميله</string>
   <!--  -->
   <!-- OverwriteRenameMediaDialog -->
-  <string name="overwrite_replace_look">قم باستبدال المنظر الموجود مسبقاً</string>
+  <string name="overwrite_replace_look">Replace Look</string>
   <string name="overwrite_rename_look">قم بإعادة تسمية المنظر الذي تم تنزيله</string>
-  <string name="overwrite_replace_sound">قم باستبدال ملف الصوت الموجود</string>
+  <string name="overwrite_replace_sound">Replace sound</string>
   <string name="overwrite_rename_sound">قم بإعادة تسمية ملف الصوت الذي تم تنزيله</string>
-  <string name="overwrite_replace_default">قم باستبدال الوسائط الموجودة مسبقاً</string>
+  <string name="overwrite_replace_default">Replace Media</string>
   <string name="overwrite_rename_default">قم باعادة تسمية الوسائط الموجودة مسبقاً</string>
   <!-- -->
+  <!-- Music activity -->
+  <string name="pocket_music_default_project_name">Untitled Song</string>
+  <string name="pocket_music_default_track_name">Track 1</string>
+  <!--  -->
+  <!-- PreStage activity -->
+  <string name="prestage_text_to_speech_engine_not_installed">محرك تحويل النص إلى كلام غير مثبت! \n هل تريد تثبيته؟</string>
+  <string name="prestage_resource_not_available_title">المكون غير متوفر</string>
+  <string name="prestage_resource_not_available_text">Unfortunately this program does not work on your device.
+        The following components are unavailable:\n\n</string>
+  <string name="prestage_resource_in_use_text">جهاز أخر متصل بـ  Jumping Sumo. تأكد من أنك 
+        المتحكم الوحيد بالطائرة بدون طيار.</string>
+  <string name="prestage_no_flash_available">\u2022 الفلاش\n</string>
+  <string name="prestage_no_vibrator_available">\u2022 الهزاز\n</string>
+  <string name="prestage_no_acceleration_sensor_available">\u2022 جهاز استشعار التسارع\n</string>
+  <string name="prestage_no_inclination_sensor_available">\u2022 جهاز استشعار الميل\n</string>
+  <string name="prestage_no_compass_sensor_available">\u2022 البوصلة\n</string>
+  <string name="prestage_no_gps_sensor_available">\u2022 نظام تحديد المواقعGPS\n</string>
+  <string name="prestage_text_to_speech_error">\u2022 محرك تحويل النص إلى كلام\n</string>
+  <string name="prestage_no_back_camera_available">\u2022 Rear camera\n</string>
+  <string name="prestage_no_camera_available">\u2022 اكتشاف الوجه\n</string>
+  <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
+  <string name="prestage_no_front_camera_available">\u2022 Front camera\n</string>
+  <string name="prestage_default_resource_not_available">\u2022 مكون غير معروف\n</string>
+  <string name="no_nfc_available">NFC غير متوفر</string>
+  <string name="nfc_not_activated">Please activate NFC then press Back to return to the app!</string>
+  <string name="nfc_facedetection_support">Using NFC and face detection at the same time might lead to performance
+        issues!</string>
+  <!--  -->
   <!-- Stage menu dialog -->
   <string name="stage_dialog_back">رجوع</string>
   <string name="stage_dialog_resume">استمرار</string>
@@ -840,6 +1171,7 @@
   <!-- -->
   <!-- Brick categories -->
   <string name="categories">الفئات</string>
+  <string name="category_embroidery">التطريز</string>
   <string name="category_motion">الحركة</string>
   <string name="category_looks">المناظر</string>
   <string name="category_pen">القلم</string>
@@ -919,9 +1251,10 @@
   <!-- Looks bricks -->
   <string name="brick_set_look">تبديل المظهر الى</string>
   <string name="brick_set_look_by_index">تبديل الى منظر مُحدد برقم</string>
-  <string name="brick_set_background">تعيين كـ خلفية شاشة</string>
-  <string name="brick_set_background_by_index">تعيين خلفية الشاشة الى عدد</string>
   <string name="brick_and_wait">والانتظار</string>
+  <string name="brick_set_background">تعيين كـ خلفية شاشة</string>
+  <string name="brick_set_background_and_wait">Set background and wait</string>
+  <string name="brick_set_background_by_index">تعيين خلفية الشاشة الى عدد</string>
   <string name="brick_when_background">عند تغيير الخلفية إلى</string>
   <string name="brick_set_size_to">تعيين الحجم الى</string>
   <string name="brick_change_size_by">تغيير الحجم بمقدار</string>
@@ -1024,7 +1357,6 @@
   <string name="brick_if_begin_second_part">تحقق الشرط</string>
   <string name="brick_if_else">عدا ذلك</string>
   <string name="brick_if_end">نهاية إذا</string>
-  <string name="brick_broadcast_invalid_symbol">"رسالة محفوظة لـ:\n\"عند التصادم الفعلي بين\"-اللبّنات البرمجية\n من فضلك جرب مرة أُخرى!"</string>
   <string name="brick_set_variable">تعيين قيمة المتغير</string>
   <string name="brick_change_variable">تغيير قيمة المتغير</string>
   <string name="brick_variable_spinner_create_new_variable">جديد&#8230;</string>
@@ -1043,7 +1375,7 @@
   <string name="brick_replace_item_in_userlist_item_at_index">في الموقع</string>
   <string name="brick_replace_item_in_userlist_with_value">مع</string>
   <!--  -->
-  <!-- defaultValues -->
+  <!-- Default Values -->
   <string name="default_project_name">برنامجي الأول</string>
   <string name="default_scene_name">المشهد %1$d</string>
   <string name="default_project_background_name">خلفية الشاشة</string>
@@ -1055,8 +1387,8 @@
   <string name="default_project_sprites_bird_name_wing_down">أجنحة الطير تهبط</string>
   <string name="default_project_sprites_tweet_1">زقزقة1</string>
   <string name="default_project_sprites_tweet_2">زقزقة2</string>
-  <!-- defaultCastValues -->
-  <string name="default_cast_project_background_name">خلفية</string>
+  <!-- Default ChromeCast Values -->
+  <string name="default_cast_project_background_name">خلفية الشاشة</string>
   <string name="default_cast_project_cloud_name">السُحب</string>
   <string name="default_cast_project_cloud_sprite_name1">سحابة 1</string>
   <string name="default_cast_project_cloud_sprite_name2">سحابة 2</string>
@@ -1069,8 +1401,8 @@
   <string name="default_cast_project_sprites_tweet_2">زقزقة2</string>
   <string name="default_cast_project_var_direction">الاتجاه</string>
   <string name="default_cast_project_name">برنامجي البث والإرسال الأول</string>
-  <!-- defaultDroneValues -->
-  <string name="default_drone_project_name">My first AR.Drone 2.0 program</string>
+  <!-- Default Drone Values -->
+  <string name="default_drone_project_name">برنامجي الأول \"طائرة بدون طيار\"</string>
   <string name="default_drone_project_sprites_takeoff">إقلاع</string>
   <string name="default_drone_project_sprites_flip">قلب افقي-عمودي</string>
   <string name="default_drone_project_sprites_up">الأعلى</string>
@@ -1111,9 +1443,8 @@
   <string name="drone_set_tilt_outdoor">20 درجة </string>
   <string name="drone_set_tilt_max">30 درجة</string>
   <!-- Notifications -->
-  <string name="notification_invalid_text_entered">الرجاء إدخال قيمة</string>
   <string name="notification_screenshot_ok">معاينة الصورة المحفوظة</string>
-  <string name="notification_download_project_cancel"> إلغاء تحميل البرنامج</string>
+  <string name="notification_download_project_cancel">Canceled program download</string>
   <string name="notification_reconvert_download_program_cancel">إلغاء اللتحميل/إعادة التحويل البرنامج</string>
   <string name="notification_copy_title_pending">"نسخ "</string>
   <string name="notification_copy_pending">جاري النسخ</string>
@@ -1129,17 +1460,13 @@
   <string name="notification_download_pending">جاري التنزيل</string>
   <string name="notification_download_finished">تم التنزيل بنجاح</string>
   <string name="notification_title_open">"فتح"</string>
-  <string name="notification_low_battery">تحذير. طاقة البطارية منخفضة. الوضع الحالي =</string>
-  <string name="project_rename">(سيتم إعادة تسمية البرنامج الخاص بك.)</string>
+  <string name="notification_low_battery_with_value">Attention. Battery is low. Current status is %d</string>
   <string name="size_of_project">الحجم:</string>
-  <string name="upload_button">تحميل</string>
-  <string name="upload_project_dialog_title">تحميل البرنامج</string>
-  <string name="upload_description">الوصف:</string>
-  <string name="upload_tag_dialog_title">اختر كحد أقصى ثلاث فئات</string>
   <string name="drone_emergency_battery_low">البطارية منخفضة (الهبوط الأوتوماتيكي).</string>
   <string name="drone_emergency_camera">كاميرا واحدة أو أكثر لا تعطي إستجابة.</string>
   <string name="drone_emergency_ultrasound">استشعار الموجات فوق الصوتية لا يستجيب.</string>
-  <string name="drone_emergency_angle">الطائرة بدون طيار أرتفعت عالياً. تم إيقاف المحركات لتفادي أي تصرف         خطير.</string>
+  <string name="drone_emergency_angle">AR.Drone 2.0 Euler angles went too high. Motors shut down to prevent dangerous
+        behavior.</string>
   <string name="drone_emergency_cutout">واحد أو أكثر من المحركات توقفت بسبب البيئة.</string>
   <string name="drone_alert_battery_low">طاقة البطارية منخفض جداً للإنطلاق مرة أخرى.</string>
   <string name="drone_alert_ultrasound">استشعار الموجات فوق الصوتية لا يمكنه تحديد إرتفاع الطائرة بدون طيار.</string>
@@ -1147,23 +1474,22 @@
   <string name="drone_emergency_title">حالات الطوارئ</string>
   <!--  -->
   <!-- Error messages -->
-  <string name="error_no_writiable_external_storage_available">يتطلب برنامج البوكت كوود ذاكرة خارجية قابلة للكتابة مثل (SD) حتى يعمل، ولكنها غير موجودة.\n بإمكانك حل المشكلة بجعل الذاكرة الخارجية قابلة للكتابة أو إضافة كرت (SD) ، ثم قم بالمحاولة مرة أخرى.</string>
-  <string name="error_no_program_name_entered">الرجاء إدخال اسم البرنامج.</string>
-  <string name="error_no_userbrick_name_entered">الرجاء إدخال اسم اللّبنة البرمجية.</string>
-  <string name="error_project_exists">الرجاء اختيار اسم برنامج آخر.</string>
+  <string name="error_no_writiable_external_storage_available">This app needs writable external storage like a SD
+        card in order to run, but none was found.\nYou can fix this by making the external storage writable or inserting
+        a SD card, then trying again.</string>
+  <string name="error_no_write_access">This app needs permission to write data to your device. Otherwise you
+        can\'t create, modify or run programs. To continue, open settings and enable write access for
+        this app.</string>
   <string name="error_project_upload">حدث خطأ أثناء تحميل البرنامج.</string>
   <string name="error_project_download">حدث خطأ أثناء تنزيل البرنامج.</string>
   <string name="error_new_project">حدث خطأ أثناء إنشاء برنامج جديد.</string>
-  <string name="error_rename_project">حدث خطأ أثناء إعادة تسمية البرنامج قبل التحميل.</string>
   <string name="error_rename_scene">حدث خطأ أثناء إعادة تسمية المشهد.</string>
   <string name="error_load_project">حدث خطأ أثناء تحميل البرنامج.</string>
   <string name="error_screenshot_failed">حدث خطأ أثناء حفظ صورة المعاينة.</string>
   <string name="error_internet_connection">حدث خطأ غير معروف. تحقق من اتصال الإنترنت الخاص بك.</string>
-  <string name="error_no_internet">الرجاء إنشاء اتصال بإلانترنت.</string>
   <string name="error_project_compatability">البرنامج غير متوافق مع هذا الإصدار من بوكت كوود.</string>
   <string name="error_outdated_version">إصدار \"البوكت كوود\" قديم جداً. قم بالتحديث الآن؟</string>
   <string name="error_upload_project_with_default_name">لا يمكن أن تقوم بتحميل البرنامج باسم \'برنامجي الأول\'. الرجاء إعادة تسمية البرنامج.</string>
-  <string name="error_upload_default_project">لا يمكن تحميل هذا البرنامج لأنه هو نفسه كما في \'برنامجي الأول\'. الرجاء تعديل ذلك، وحاول مرة أخرى.</string>
   <string name="error_adding_brick">حدث خطأ أثناء إضافة هذه اللبّنة البرمجية</string>
   <string name="error_copying_brick">حدث خطأ أثناء نسخ هذه اللبّنة البرمجية</string>
   <string name="error_no_drone_connected_title">لا يمكن العثور على الطائرة بدون طيار 2.0.</string>
@@ -1180,17 +1506,14 @@
   <string name="error_drone_wrong_platform">لا يمكننا تشغيل مشروع الطائرة بدون طيار 2.0 على الجهاز الخاص بك.</string>
   <string name="error_rename_incompatible_project">إعادة تسمية مشروع \"غير متوافق\" هو غير ممكن.</string>
   <string name="error_unknown_error">حدث خطأ غير معروف.</string>
-  <string name="error_gps_not_available">خطأ، نظام تحديد المواقع غير متاح.</string>
+  <string name="error_gps_not_available">Error, GPS is not available.</string>
   <string name="error_set_description">حصل خطأ أثناء حفظ الإجراء.</string>
-  <string name="error_no_network">انت بحاجة الى اتصال نشط بالإنترنت لاستخدام \"بوكت كوود\". من فضلك قم بتشغيل بيانات الهاتف او قم بالاتصال بشبكة لاسلكية في الاعدادات.</string>
-  <string name="error_no_network_one_brick">اللبّنة البرمجية التالية سوف تستخدم اتصال الشبكة:</string>
-  <string name="error_no_network_multiple_bricks">اللبّنات البرمجية التالية سوف تستخدم اتصال الشبكة:</string>
-  <string name="error_no_network_title">لا يوجد اتصال بالشبكة</string>
   <string name="error_no_whatsapp">تطبيق الواتساب غير مُثبت</string>
-  <string name="error_unsupported_bricks_chromecast">لا يمكن إضافة اللبّنات البرمجية الموجودة ضمن البرنامج النصي الى برنامج         بث كروم كاست.</string>
+  <string name="error_unsupported_bricks_chromecast">This script can\'t be added  to a Chromecast
+        program.</string>
   <!--  -->
   <!-- Bluetooth Connection Strings -->
-  <string name="notification_blueth_err">لا يمكن تفعيل تقنية bluetooth، إغلاق المرحلة</string>
+  <string name="notification_blueth_err">Can\'t enable Bluetooth, please try turning it off and on again.</string>
   <string name="title_paired_devices">الأجهزة المقترنة</string>
   <string name="title_other_devices">أجهزة جديدة</string>
   <string name="searching_devices">جاري البحث عن الأجهزة&#8230;</string>
@@ -1221,6 +1544,7 @@
   <!-- Raspi Settings -->
   <string name="raspi_settings_title_name">إعدادات راسبيري باي</string>
   <string name="raspi_settings_gpio_version">إصدار مدخل الدخل/الخرج</string>
+  <string name="error_connecting_to">Error: Could not connect to %s : %d</string>
   <!--  -->
   <!-- Lego Mindstorms Strings -->
   <string name="nxt_brick_motor_move">تعيين محرك NXT</string>
@@ -1233,7 +1557,6 @@
   <string name="nxt_tone_duration">المدة</string>
   <string name="nxt_tone_frequency">التردد</string>
   <string name="nxt_tone_hundred_hz">X ١٠٠هرتز</string>
-  <string name="nxt_seconds">ثوان</string>
   <string name="nxt_motor_a">أ</string>
   <string name="nxt_motor_b">ب</string>
   <string name="nxt_motor_c">ج</string>
@@ -1255,13 +1578,12 @@
   <string name="preference_disable_nxt_info_dialog_description">إعدادات برنامج (NXT) المُحدد لن تُعرض عند فتح البرنامج.</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">مسح أجهزة استشعار (NXT) للمنافذ هو برنامج مُحدد يمكن تكوينه فقط للبرامج المفتوحة!</string>
   <string name="lego_nxt_sensor_config_info_text">البرنامج الحالي يستخدم أجهزة الاستشعار أو اللبّنات البرمجية لـ ليغو مايندستورمز(NXT). للحصول على وظائف مناسبة الرجاء توصيل أجهزة الاستشعار بالروبوت على النحو التالي</string>
-  <string name="lego_port_1">المنفذ 1</string>
-  <string name="lego_port_2">المنفذ 2</string>
-  <string name="lego_port_3">المنفذ 3</string>
-  <string name="lego_port_4">المنفذ 4</string>
-  <string name="lego_sensor_config_dont_show_again">عدم إظهار هذه الرسالة مرة أخرى.</string>
-  <string name="lego_nxt_overwrite_sensor_port_dialog_message">هل تريد إلغاء الاستشعار عن المنفذ الذي اخترته؟</string>
-  <string name="lego_nxt_overwrite_sensor_port_dialog_title">إلغاء الاستشعار؟</string>
+  <string name="lego_port_1">Port 1</string>
+  <string name="lego_port_2">Port 2</string>
+  <string name="lego_port_3">Port 3</string>
+  <string name="lego_port_4">Port 4</string>
+  <string name="lego_sensor_config_dont_show_again">Do not show this message again.</string>
+  <string name="lego_sensor_port_config_dialog_title">Choose a port for connecting to %1$s!</string>
   <string name="lego_ev3_sensor_config_info_title">ضبط اعدادات جهاز استشعار(EV3)</string>
   <string name="preference_disable_ev3_info_dialog_description">إعدادات برنامج EV3 المُحدد لن تُعرض عند فتح البرنامج.</string>
   <string name="preference_title_mindstorms_ev3_sensors_description">مسح أجهزة استشعار (EV3) للمنافذ هو برنامج مُحدد يمكن تكوينه فقط للبرامج المفتوحة!</string>
@@ -1276,9 +1598,9 @@
   <string name="ev3_sensor_color">مستشعر الألوان (EV3)</string>
   <string name="ev3_sensor_color_ambient">مستشعر الألوان المحيطة(EV3)</string>
   <string name="ev3_sensor_color_reflected">مستشعر الألوان المنعكسة(Ev3)</string>
-  <string name="ev3_sensor_hitechnic_color">HiTechnic color sensor</string>
-  <string name="ev3_sensor_nxt_temperature_c">NXT temperature sensor (°C)</string>
-  <string name="ev3_sensor_nxt_temperature_f">NXT temperature sensor (°F)</string>
+  <string name="ev3_sensor_hitechnic_color">مستشعر لون هايتكنيك</string>
+  <string name="ev3_sensor_nxt_temperature_c">مستشعر درجة حرارة مئوية NXT</string>
+  <string name="ev3_sensor_nxt_temperature_f">مستشعر درجة حرارة فهرنهايت NXT</string>
   <string name="ev3_motor_a">أ</string>
   <string name="ev3_motor_b">ب</string>
   <string name="ev3_motor_c">ج</string>
@@ -1308,7 +1630,7 @@
   <!-- Drone Bricks -->
   <string name="brick_drone_takeoff_land">الإقلاع / الهبوط</string>
   <string name="brick_drone_play_led_animation">تشغيل مؤثرات الفلاش بالطائرة بدون طيار</string>
-  <string name="brick_drone_flip">Flip AR.Drone 2.0</string>
+  <string name="brick_drone_flip">قلب طائرة بدون طيار</string>
   <string name="brick_drone_move_left">التحرك نحو اليسار</string>
   <string name="brick_drone_move_right">التحرك نحو اليمين</string>
   <string name="brick_drone_move_forward">التحرك نحو الأمام</string>
@@ -1326,35 +1648,34 @@
   <string name="brick_drone_set_vertical_speed">الحد الأقصى للسرعة العمودية</string>
   <string name="brick_drone_set_rotation_speed">الحد الأقصى لسرعة الدوران</string>
   <string name="brick_drone_set_tilt_limit">الحد الأقصى للميل</string>
-  <string name="brick_drone_with">ثانية مع</string>
-  <string name="brick_drone_percent_power">٪ قوة دفع</string>
+  <string name="brick_drone_with.">مع</string>
+  <string name="brick_drone_power">القوة</string>
   <!--  -->
   <!-- Drone play led animation strings -->
-  <string name="drone_animation_blinkgreenred">Blink Green Red</string>
-  <string name="drone_animation_blinkgreen">Blink Green</string>
-  <string name="drone_animation_blinkred">Blink Red</string>
-  <string name="drone_animation_blinkorange">Blink Orange</string>
-  <string name="drone_animation_snakegreenred">Snake Green Red</string>
-  <string name="drone_animation_fire">Fire</string>
+  <string name="drone_animation_blinkgreenred">وميض أخضر أحمر</string>
+  <string name="drone_animation_blinkgreen">وميض أخضر</string>
+  <string name="drone_animation_blinkred">وميض أحمر</string>
+  <string name="drone_animation_blinkorange">وميض برتقالي</string>
+  <string name="drone_animation_snakegreenred">تموج أخصر أحمر</string>
+  <string name="drone_animation_fire">نار</string>
   <string name="drone_animation_standard">أساسي</string>
   <string name="drone_animation_red">أحمر</string>
   <string name="drone_animation_green">أخضر</string>
-  <string name="drone_animation_redsnake">Red Snake</string>
-  <string name="drone_animation_blank">Blank</string>
-  <string name="drone_animation_rightmissile">Right Missile</string>
-  <string name="drone_animation_leftmissile">Left Missile</string>
-  <string name="drone_animation_doublemissile">Double Missile</string>
-  <string name="drone_animation_frontleftgreenothersred">Front Left Green Others Red</string>
-  <string name="drone_animation_frontrightgreenothersred">Front Right Green Others Red</string>
-  <string name="drone_animation_rearrightgreenothersred">Rear Right Green Others Red</string>
-  <string name="drone_animation_rearleftgreenothersred">Rear Left Green Others Red</string>
-  <string name="drone_animation_leftgreenrightred">Left Green Right Red</string>
-  <string name="drone_animation_leftredrightgreen">Left Red Right Green</string>
-  <string name="drone_animation_blinkstandard">Blink Standard</string>
+  <string name="drone_animation_redsnake">تموج أحمر</string>
+  <string name="drone_animation_blank">فارغ</string>
+  <string name="drone_animation_rightmissile">صاروخ أيمن</string>
+  <string name="drone_animation_leftmissile">صاروح أيسر</string>
+  <string name="drone_animation_doublemissile">صاروخ مزدوج</string>
+  <string name="drone_animation_frontleftgreenothersred">أمامي ايسر أخضر والبقية أحمر</string>
+  <string name="drone_animation_frontrightgreenothersred">أمامي أيمن أخضر والبقية أحمر</string>
+  <string name="drone_animation_rearrightgreenothersred">أيمن قريب أخضر والبقية أحمر</string>
+  <string name="drone_animation_rearleftgreenothersred">أيسر قريب أخضر والبقية أحمر</string>
+  <string name="drone_animation_leftgreenrightred">أيسر أخضر وأيمن أحمر</string>
+  <string name="drone_animation_leftredrightgreen">أيسر أحمر واليمين أخضر</string>
+  <string name="drone_animation_blinkstandard">وميض قياسي</string>
   <!-- Jumping Sumo Bricks -->
   <string name="brick_jumping_sumo_move_forward">تحريك Jumping Sumo نحو الأمام</string>
   <string name="brick_jumping_sumo_move_backward">تحريك Jumping Sumo نحو الخلف</string>
-  <string name="brick_jumping_sumo_percent_power">٪ قوة دفع</string>
   <string name="brick_jumping_sumo_animation">حركات Jumping Sumo</string>
   <string name="brick_jumping_sumo_no_sound">Jumping Sumo بدون صوت</string>
   <string name="brick_jumping_sumo_sound">الصوت</string>
@@ -1513,7 +1834,7 @@
   <string name="formula_editor_function_letter">حرف من النص</string>
   <string name="formula_editor_function_letter_parameter">(1، \'مرحباً بالعالم\')</string>
   <string name="formula_editor_function_join">الانضمام إلى</string>
-  <string name="formula_editor_function_join_parameter">(\'hello\',\' world\')</string>
+  <string name="formula_editor_function_join_parameter">(\'مرحباً\'، \'بالعالم\')</string>
   <string name="formula_editor_function_arduino_read_pin_value_digital">دبوس اردوينو الرقمي</string>
   <string name="formula_editor_function_arduino_read_pin_value_analog">دبوس أردوينو التناظري</string>
   <string name="formula_editor_function_raspi_read_pin_value_digital">دبوس راسبيري باي</string>
@@ -1580,9 +1901,9 @@
   <string name="formula_editor_sensor_lego_ev3_sensor_color">لون_EV3</string>
   <string name="formula_editor_sensor_lego_ev3_sensor_color_ambient">اللون_المحيطي_EV3</string>
   <string name="formula_editor_sensor_lego_ev3_sensor_color_reflected">اللون_المنعكس_EV3</string>
-  <string name="formula_editor_sensor_lego_ev3_sensor_hitechnic_color">EV3_hitechnic_color</string>
-  <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_c">EV3_NXT_temperature_°C</string>
-  <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_f">EV3_NXT_temperature_°F</string>
+  <string name="formula_editor_sensor_lego_ev3_sensor_hitechnic_color">EV3 لون هايتكنيك</string>
+  <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_c">EV3_NXT درجة حرارة مئوية</string>
+  <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_f">EV3_NXT درجة حرارة فهرنهايت</string>
   <string name="formula_editor_sensor_gamepad_a_pressed">زر لوح تحكم الألعاب a تم النقر عليه</string>
   <string name="formula_editor_sensor_gamepad_b_pressed">زر لوح تحكم الألعاب b تم النقر عليه</string>
   <string name="formula_editor_sensor_gamepad_up_pressed">زر لوح تحكم الألعاب للأعلى تم النقر عليه</string>
@@ -1618,7 +1939,6 @@
   <string name="formula_editor_logic">المنطق</string>
   <string name="formula_editor_device">الجهاز</string>
   <string name="formula_editor_device_sensors">أجهزة إستشعار الجهاز</string>
-  <string name="formula_editor_variables">المتغيرات</string>
   <string name="formula_editor_functions_maths">الرياضيات</string>
   <string name="formula_editor_functions_strings">نصوص</string>
   <string name="formula_editor_functions_lists">قوائم</string>
@@ -1655,21 +1975,12 @@
   <string name="formula_editor_image_button_description_delete">حذف</string>
   <string name="formula_editor_variable_dialog_title">متغير جديد</string>
   <string name="formula_editor_list_dialog_title">قائمة جديدة</string>
-  <string name="formula_editor_dialog_for_all_sprites">لكافة الكائنات</string>
-  <string name="formula_editor_dialog_for_this_sprite_only">لهذا الكائن فقط</string>
-  <string name="formula_editor_dialog_change_text">تغيير النص</string>
-  <string name="formula_editor_data_dialog_hint">ادخل الاسم</string>
   <string name="formula_editor_discard_changes_dialog_message">هل تريد حفظ التغييرات؟</string>
   <string name="formula_editor_discard_changes_dialog_title">حفظ التغييرات؟</string>
   <string name="formula_editor_new_string_name">نص جديد</string>
-  <string name="formula_editor_new_string_dialog_hint">أدخل النص الجديد هنا.</string>
-  <string name="formula_editor_data_dialog_title">جديد</string>
-  <string name="formula_editor_rename_variable_dialog_title">إعادة تسمية</string>
-  <string name="formula_editor_existing_data_item">اسم قيد الاستخدام مسبقاً!</string>
+  <string name="formula_editor_dialog_change_text">تغيير النص</string>
   <string name="formula_editor_fragment_data_current_items">العناصر الحالية</string>
   <string name="formula_editor_data_dialog_is_list">اجعله قائمة</string>
-  <string name="formula_editor_lists">قوائم</string>
-  <string name="formula_editor_variable_dialog_for_this_brick">لهذه اللبّنة البرمجية</string>
   <string name="formula_editor_sensor_face_detected">هل تم تحري الوجه</string>
   <string name="formula_editor_sensor_face_size">حجم الوجه</string>
   <string name="formula_editor_sensor_face_x_position">موقع الوجه باتجاه س</string>
@@ -1694,21 +2005,7 @@
   <string name="formula_editor_intro_summary_device">في \"الجهاز\" يمكنك إيجاد معلومات والتي        يقوم هاتفك أو لوحك الذكي بتسجيلها.\n مثلاً, مَيل جهازك, أو قيمة الضجيج في مُحيطك.</string>
   <string name="formula_editor_intro_title_data">البيانات</string>
   <string name="formula_editor_intro_summary_data">المتغيرات والقوائم المُستخدمة في          برنامجك موجودة هنا.\n يمكنك ببساطة إدراجها في صيغتك, أو إضافة واحدة جديدة.</string>
-  <plurals name="formula_editor_data_am_title">
-    <item quantity="zero">%d Items selected</item>
-    <item quantity="one">%d Item selected</item>
-    <item quantity="two">%d Items selected</item>
-    <item quantity="few">%d Items selected</item>
-    <item quantity="many">%d Items selected</item>
-    <item quantity="other">%d Items selected</item>
-  </plurals>
   <!--  -->
-  <!-- New Data Dialog -->
-  <string name="user_variablename_already_exists">الرجاء اختيار اسم متغير آخر.</string>
-  <string name="user_listname_already_exists">الرجاء اختيار اسم قائمة آخر.</string>
-  <string name="no_variablename_entered">الرجاء إدخال اسم متغير.</string>
-  <string name="no_listname_entered">الرجاء إدخال اسم قائمة.</string>
-  <!-- -->
   <!-- Brick Data Editor Strings -->
   <string name="separator">|</string>
   <string name="add_text">إضافة نص</string>
@@ -1719,14 +2016,11 @@
   <string name="edit_variable">تحرير متغير</string>
   <string name="variable_hint">اسم المتغير</string>
   <string name="brick_show_variable">إظهار المتغير</string>
-  <string name="brick_show_variable_position">"في "</string>
   <string name="brick_hide_variable">إخفاء المتغير</string>
+  <string name="brick_show_variable_position">"في "</string>
   <!-- -->
   <!-- User Bricks strings -->
   <string name="define">تعريف</string>
-  <string name="new_user_brick">لبّنة برمجية جديدة</string>
-  <string name="new_user_brick_variable">متغير</string>
-  <string name="new_user_brick_name">الرجاء اختيار اسم لبّنة برمجية:</string>
   <!--  -->
   <!-- Camera related strings -->
   <string name="brick_video">تشغيل الكاميرا</string>
@@ -1735,8 +2029,9 @@
   <string name="brick_choose_camera">إستخدام الكاميرا
  </string>
   <string name="choose_camera_front">الأمامية</string>
-  <string name="choose_camera_back">الخلفية</string>
-  <string name="error_flash_camera">"الفلاش يمكن استخدامه فقط مع الكاميرا التي تحتوي فلاش. من فضلك قم بإضافة اللّبنة البرمجية \"استخدام         كاميرا\" وقم باختيار كاميرا جهازك التي تحتوي فلاش."</string>
+  <string name="choose_camera_back">rear</string>
+  <string name="error_flash_camera">"&gt;You can only use the flash with a camera that has a one. Please add a \"Use
+        camera\" brick and change to your device\'s camera that has a flash."</string>
   <string name="brick_wait_until">انتظر حتى</string>
   <string name="brick_wait_until_second_part">تحقق الشرط</string>
   <!-- -->
@@ -1754,22 +2049,15 @@
   <string name="cast_ready_to_cast">جاهز للبث والإرسال الى</string>
   <string name="cast_enable_cast_feature">ميزات البث والإرسال مُعطلة. الرجاء تفعيل ميزات البث والإرسال في الإعدادات.</string>
   <string name="cast_searching_for_cast_devices">البحث عن أجهزة بث و إرسال</string>
-  <string name="cast_trouble_finding_devices_tip">.\n لم يتم عرض جهازك؟ جرب ايقاف الوايفاي في جهازك وإعادة تشغيله.</string>
+  <string name="cast_trouble_finding_devices_tip">.\nDon\'t see your device? Try turning your phone\'s Wifi off
+        and on.</string>
   <string name="cast_connection_timout_msg">انتهاء مهلة التواصل مع شبكة الاتصال. يُرجى المحاولة مرّة أخرى.</string>
   <string name="cast_screen_pause_text">مُتوقف</string>
   <!-- -->
-  <!-- Rating Dialog -->
-  <string name="rating_dialog_title">قم بتقييم البوكت كوود</string>
-  <string name="rating_google_play_dialog_text">إذا كنت مستمتع بـهذا التطبيق، يرجى تقييمنا على متجر الجوجل بلي!</string>
-  <string name="rating_dialog_rate_now">الآن</string>
-  <string name="rating_dialog_rate_later">في وقت لاحق</string>
-  <string name="rating_dialog_rate_never">أبداً</string>
-  <!--  -->
   <!-- Delete User Variable Alert Dialog -->
   <string name="deletion_alert_title">تحذير!</string>
   <string name="deletion_alert_text">حذف المتغير الذي لا يزال قيد الاستخدام يعتبر أمراً خطيراً! هل أنت متأكد؟</string>
   <string name="deletion_alert_yes">نعم، قم بحذفه على أية حال!</string>
-  <string name="deletion_alert_no">لا.</string>
   <!--  -->
   <!-- Upload progress dialog -->
   <string name="progress_upload_dialog_message">البرنامج الخاص بك الذي قد تم تحميله إلى صفحة المجتمع  يمكن للأخرين استخدامه وتنزيله. يمكنك أيضا تحميل البرنامج الخاص بك كتطبيق مستقل.</string>
@@ -1787,18 +2075,16 @@
   <string name="hint_sounds">هنا يمكنك إضافة أصوات جديدة للكائن الخاص بك. ضع في اعتبارك استخدام لبّنة برمجية من فئة الصوت.</string>
   <string name="hint_objects">يتكون البرنامج الخاص بك من كائنات مختلفة يمكن لها أن تتفاعل مع بعضها البعض. لإضافة كائن جديد أنقر على الرمز \"+\".</string>
   <string name="hint_stage">أنقر على الزر \'الرجوع الى الوراء\' لإيقاف البرنامج الخاص بك. لإظهار المحاور وحجم الشاشة الخاص بجهازك أنقر على  أيقونة \"المحاور\".</string>
-  <string name="hint_scenes">يمكن أن يتألف البرنامج من مشاهد مختلفة و مستقلة. لإضافة مشهد جديد أُتقر على الرمز \"+\".</string>
   <!--  -->
   <!-- Crash report dialog -->
-  <string name="app_has_crashed">توقف التطبيق عن العمل!</string>
-  <string name="crash_dialog_text">الرجاء المساعدة لتحسين \"البوكت كوود\" وذلك بإرسال تقارير الأعطال والمشاكل الغير معروفة!</string>
-  <string name="crash_dialog_always_send">دائماً أرسل</string>
-  <string name="crash_dialog_send">أرسل</string>
   <!--  -->
   <!-- Multilingual List -->
   <string name="device_language">لغة الجهاز</string>
+  <!-- Symbols -->
+  <string name="percent_symbol">%</string>
+  <string name="hertz_symbol">㎐</string>
   <!-- UtilFile SizeUnits String -->
-  <string name="Byte_short">ب</string>
+  <string name="Byte_short">بايت</string>
   <string name="KiloByte_short">كيلوبايت</string>
   <string name="MegaByte_short">ميغابايت</string>
   <string name="GigaByte_short">غيغابايت</string>

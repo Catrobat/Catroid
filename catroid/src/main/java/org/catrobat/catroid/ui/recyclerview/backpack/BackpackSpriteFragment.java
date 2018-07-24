@@ -38,6 +38,8 @@ import org.catrobat.catroid.utils.ToastUtil;
 import java.io.IOException;
 import java.util.List;
 
+import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_SPRITES_PREFERENCE_KEY;
+
 public class BackpackSpriteFragment extends BackpackRecyclerViewFragment<Sprite> {
 
 	public static final String TAG = BackpackSpriteFragment.class.getSimpleName();
@@ -46,7 +48,7 @@ public class BackpackSpriteFragment extends BackpackRecyclerViewFragment<Sprite>
 
 	@Override
 	protected void initializeAdapter() {
-		sharedPreferenceDetailsKey = "showDetailsSpriteList";
+		sharedPreferenceDetailsKey = SHOW_DETAILS_SPRITES_PREFERENCE_KEY;
 		hasDetails = true;
 		List<Sprite> items = BackpackListManager.getInstance().getSprites();
 		adapter = new SpriteAdapter(items);

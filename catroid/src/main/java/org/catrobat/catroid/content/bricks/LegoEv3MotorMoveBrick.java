@@ -26,7 +26,6 @@ import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -87,7 +86,7 @@ public class LegoEv3MotorMoveBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_ev3_motor_move, null);
+		prototypeView = super.getPrototypeView(context);
 		TextView textSpeed = (TextView) prototypeView.findViewById(R.id.ev3_motor_move_speed_edit_text);
 		textSpeed.setText(formatNumberForPrototypeView(BrickValues.LEGO_SPEED));
 
@@ -110,17 +109,13 @@ public class LegoEv3MotorMoveBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		if (view == null) {
-			alphaValue = 255;
-		}
-		view = View.inflate(context, R.layout.brick_ev3_motor_move, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_ev3_motor_move_checkbox);
+	public int getViewResource() {
+		return R.layout.brick_ev3_motor_move;
+	}
 
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
 		editSpeed = (TextView) view.findViewById(R.id.ev3_motor_move_speed_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_EV3_SPEED).setTextFieldId(R.id.ev3_motor_move_speed_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_EV3_SPEED).refreshTextField(view);

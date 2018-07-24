@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -100,16 +99,13 @@ public class ShowTextBrick extends UserVariableBrick {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	public int getViewResource() {
+		return R.layout.brick_show_variable;
+	}
 
-		view = View.inflate(context, R.layout.brick_show_variable, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_show_variable_checkbox);
-
+	@Override
+	public View getView(final Context context) {
+		super.getView(context);
 		TextView editTextX = (TextView) view.findViewById(R.id.brick_show_variable_edit_text_x);
 		getFormulaWithBrickField(BrickField.X_POSITION).setTextFieldId(R.id.brick_show_variable_edit_text_x);
 		getFormulaWithBrickField(BrickField.X_POSITION).refreshTextField(view);
@@ -124,10 +120,8 @@ public class ShowTextBrick extends UserVariableBrick {
 
 		Spinner variableSpinner = (Spinner) view.findViewById(R.id.show_variable_spinner);
 
-		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
-
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
-				.createDataAdapter(context, currentBrick, ProjectManager.getInstance().getCurrentSprite());
+				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
 		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
 				dataAdapter);
 		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
@@ -143,13 +137,12 @@ public class ShowTextBrick extends UserVariableBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_show_variable, null);
+		prototypeView = super.getPrototypeView(context);
 
 		Spinner variableSpinner = (Spinner) prototypeView.findViewById(R.id.show_variable_spinner);
-		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
 
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
-				.createDataAdapter(context, currentBrick, ProjectManager.getInstance().getCurrentSprite());
+				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
 
 		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
 				dataAdapter);

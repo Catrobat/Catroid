@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
@@ -33,8 +33,15 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.test.utils.Reflection;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class SpeakActionTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.fail;
+
+@RunWith(AndroidJUnit4.class)
+public class SpeakActionTest {
 
 	private Sprite sprite;
 	private static final String SPEAK = "hello world!";
@@ -43,15 +50,15 @@ public class SpeakActionTest extends AndroidTestCase {
 	private Formula textString;
 	private ActionFactory factory = new ActionFactory();
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		sprite = new SingleSprite("testSprite");
 		text = new Formula(666);
 		text2 = new Formula(888.88);
 		textString = new Formula(SPEAK);
-		super.setUp();
 	}
 
+	@Test
 	public void testSpeak() {
 		SpeakBrick speakBrick = new SpeakBrick(text);
 		Action action = factory.createSpeakAction(sprite, text);
@@ -68,6 +75,7 @@ public class SpeakActionTest extends AndroidTestCase {
 		assertEquals(text, textAfterExecution);
 	}
 
+	@Test
 	public void testNullSprite() {
 		SpeakBrick speakBrick = new SpeakBrick(text);
 		Action action = factory.createSpeakAction(sprite, text);
@@ -80,11 +88,13 @@ public class SpeakActionTest extends AndroidTestCase {
 		assertEquals(text, speakBrick.getFormulaWithBrickField(Brick.BrickField.SPEAK));
 	}
 
+	@Test
 	public void testRequirements() {
 		SpeakBrick speakBrick = new SpeakBrick(new Formula(""));
 		assertEquals(Brick.TEXT_TO_SPEECH, speakBrick.getRequiredResources());
 	}
 
+	@Test
 	public void testBrickWithStringFormula() {
 		SpeakBrick speakBrick = new SpeakBrick(textString);
 		Action action = factory.createSpeakAction(sprite, textString);
@@ -94,6 +104,7 @@ public class SpeakActionTest extends AndroidTestCase {
 		assertEquals(SPEAK, String.valueOf(Reflection.getPrivateField(action, "interpretedText")));
 	}
 
+	@Test
 	public void testNullFormula() {
 		Action action = factory.createSpeakAction(sprite, (Formula) null);
 		Reflection.invokeMethod(action, "begin");
@@ -101,6 +112,7 @@ public class SpeakActionTest extends AndroidTestCase {
 		assertEquals("", String.valueOf(Reflection.getPrivateField(action, "interpretedText")));
 	}
 
+	@Test
 	public void testNotANumberFormula() {
 		Action action = factory.createSpeakAction(sprite, new Formula(Double.NaN));
 		Reflection.invokeMethod(action, "begin");

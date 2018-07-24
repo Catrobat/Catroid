@@ -28,6 +28,7 @@ import android.app.ListFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.IntDef;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -97,6 +98,8 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 	private Script scriptToEdit;
 
 	private ScriptController scriptController = new ScriptController();
+
+	private Parcelable savedListViewState;
 
 	private ActionMode.Callback callback = new ActionMode.Callback() {
 		@Override
@@ -238,12 +241,18 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 		if (adapter != null) {
 			adapter.resetAlphas();
 		}
+
+		if (savedListViewState != null) {
+			listView.onRestoreInstanceState(savedListViewState);
+		}
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
 		ProjectManager projectManager = ProjectManager.getInstance();
+
+		savedListViewState = listView.onSaveInstanceState();
 
 		if (projectManager.getCurrentlyEditedScene() != null) {
 			projectManager.saveProject(getActivity().getApplicationContext());
@@ -562,7 +571,7 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 						selectedItemCnt, selectedItemCnt));
 				break;
 			case DELETE:
-				actionMode.setTitle(getResources().getQuantityString(R.plurals.am_delete_scripts_title,
+				actionMode.setTitle(getResources().getQuantityString(R.plurals.am_delete_bricks_title,
 						selectedItemCnt, selectedItemCnt));
 				break;
 			case ENABLE_DISABLE:

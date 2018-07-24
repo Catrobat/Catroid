@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -76,27 +75,23 @@ public class AskBrick extends UserVariableBrick {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	public int getViewResource() {
+		return R.layout.brick_ask;
+	}
 
-		view = View.inflate(context, R.layout.brick_ask, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_ask_checkbox);
-
-		TextView textField = (TextView) view.findViewById(R.id.brick_ask_question_edit_text);
+	@Override
+	public View getView(final Context context) {
+		super.getView(context);
+		TextView textField = view.findViewById(R.id.brick_ask_question_edit_text);
 
 		getFormulaWithBrickField(BrickField.ASK_QUESTION).setTextFieldId(R.id.brick_ask_question_edit_text);
 		getFormulaWithBrickField(BrickField.ASK_QUESTION).refreshTextField(view);
 		textField.setOnClickListener(this);
 
-		Spinner variableSpinner = (Spinner) view.findViewById(R.id.brick_ask_spinner);
-
-		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
+		Spinner variableSpinner = view.findViewById(R.id.brick_ask_spinner);
 
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyPlayingScene().getDataContainer()
-				.createDataAdapter(context, currentBrick, ProjectManager.getInstance().getCurrentSprite());
+				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
 		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
 				dataAdapter);
 		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
@@ -112,12 +107,11 @@ public class AskBrick extends UserVariableBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_ask, null);
-		Spinner variableSpinner = (Spinner) prototypeView.findViewById(R.id.brick_ask_spinner);
-		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
+		View prototypeView = super.getPrototypeView(context);
+		Spinner variableSpinner = prototypeView.findViewById(R.id.brick_ask_spinner);
 
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyPlayingScene().getDataContainer()
-				.createDataAdapter(context, currentBrick, ProjectManager.getInstance().getCurrentSprite());
+				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
 
 		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
 				dataAdapter);
@@ -126,7 +120,7 @@ public class AskBrick extends UserVariableBrick {
 		variableSpinner.setAdapter(userVariableAdapterWrapper);
 		setSpinnerSelection(variableSpinner, null);
 
-		TextView textSetVariable = (TextView) prototypeView.findViewById(R.id.brick_ask_question_edit_text);
+		TextView textSetVariable = prototypeView.findViewById(R.id.brick_ask_question_edit_text);
 
 		if (defaultPrototypeToken != null) {
 			int defaultValueId = InternToExternGenerator.getMappedString(defaultPrototypeToken);
@@ -145,9 +139,7 @@ public class AskBrick extends UserVariableBrick {
 
 	@Override
 	public AskBrick clone() {
-		AskBrick clonedBrick = new AskBrick(getFormulaWithBrickField(BrickField.ASK_QUESTION).clone(), userVariable);
-		clonedBrick.setBackPackedData(backPackedData);
-		return clonedBrick;
+		return new AskBrick(getFormulaWithBrickField(BrickField.ASK_QUESTION).clone(), userVariable);
 	}
 
 	public void showFormulaEditorToEditFormula(View view) {

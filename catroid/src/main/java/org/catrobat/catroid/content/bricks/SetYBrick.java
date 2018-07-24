@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -64,14 +63,13 @@ public class SetYBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		view = View.inflate(context, R.layout.brick_set_y, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
+	public int getViewResource() {
+		return R.layout.brick_set_y;
+	}
 
-		setCheckboxView(R.id.brick_set_y_checkbox);
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
 		TextView editY = (TextView) view.findViewById(R.id.brick_set_y_edit_text);
 		getFormulaWithBrickField(BrickField.Y_POSITION).setTextFieldId(R.id.brick_set_y_edit_text);
 		getFormulaWithBrickField(BrickField.Y_POSITION).refreshTextField(view);
@@ -81,7 +79,7 @@ public class SetYBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_set_y, null);
+		prototypeView = super.getPrototypeView(context);
 		TextView textYPosition = (TextView) prototypeView.findViewById(R.id.brick_set_y_edit_text);
 		textYPosition.setText(formatNumberForPrototypeView(BrickValues.Y_POSITION));
 		return prototypeView;

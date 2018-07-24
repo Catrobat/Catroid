@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
@@ -36,22 +35,19 @@ public class DroneFlipBrick extends BrickBaseType{
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	public int getViewResource() {
+		return R.layout.brick_drone_flip;
+	}
 
-		view = View.inflate(context, R.layout.brick_drone_flip, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_drone_flip_checkbox);
-
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_drone_flip, null);
+		View prototypeView = super.getPrototypeView(context);
 
 		return prototypeView;
 	}

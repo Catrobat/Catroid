@@ -82,10 +82,16 @@ public class WhenNfcBrickHardwareStageTest {
 
 	private void createProjectWithNfcAndSetVariable() {
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), "whenNfcBrickHardwareTest");
+
 		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
-		numDetectedTags = dataContainer.addProjectUserVariable(NUM_DETECTED_TAGS);
-		readTagId = dataContainer.addProjectUserVariable(READ_TAG_ID);
-		readTagMessage = dataContainer.addProjectUserVariable(READ_TAG_MESSAGE);
+
+		numDetectedTags = new UserVariable(NUM_DETECTED_TAGS);
+		readTagId = new UserVariable(READ_TAG_ID);
+		readTagMessage = new UserVariable(READ_TAG_MESSAGE);
+
+		dataContainer.addUserVariable(numDetectedTags);
+		dataContainer.addUserVariable(readTagId);
+		dataContainer.addUserVariable(readTagMessage);
 
 		Sprite sprite = new Sprite("testSprite");
 		WhenNfcScript script = new WhenNfcScript();

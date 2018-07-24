@@ -23,11 +23,13 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
+import android.support.annotation.CallSuper;
+import android.support.annotation.LayoutRes;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 
-import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
@@ -41,7 +43,6 @@ public abstract class BrickBaseType implements Brick {
 	protected transient CheckBox checkbox;
 	protected transient BrickAdapter adapter;
 	protected transient int alphaValue = 255;
-	public transient boolean animationState = false;
 
 	protected boolean commentedOut;
 
@@ -56,26 +57,6 @@ public abstract class BrickBaseType implements Brick {
 	}
 
 	@Override
-	public boolean isEqualBrick(Brick brick, Scene mergeResult, Scene current) {
-		return this.getClass().equals(brick.getClass());
-	}
-
-	@Override
-	public boolean isChecked() {
-		return checkbox.isChecked();
-	}
-
-	@Override
-	public void setAnimationState(boolean animationState) {
-		this.animationState = animationState;
-	}
-
-	@Override
-	public int getAlphaValue() {
-		return alphaValue;
-	}
-
-	@Override
 	public void setBrickAdapter(BrickAdapter adapter) {
 		this.adapter = adapter;
 	}
@@ -83,35 +64,6 @@ public abstract class BrickBaseType implements Brick {
 	@Override
 	public CheckBox getCheckBox() {
 		return checkbox;
-	}
-
-	@Override
-	public void setCheckboxView(int id) {
-		setCheckboxView(id, view);
-	}
-
-	@Override
-	public void setCheckboxView(int id, View view) {
-		int checkboxVisibility = View.GONE;
-		boolean enabled = true;
-		boolean isChecked = false;
-		if (checkbox != null) {
-			checkboxVisibility = checkbox.getVisibility();
-			enabled = checkbox.isEnabled();
-			isChecked = checkbox.isChecked();
-		}
-		checkbox = view.findViewById(id);
-		checkbox.setChecked(isChecked);
-		checkbox.setVisibility(checkboxVisibility);
-		checkbox.setEnabled(enabled);
-
-		final Brick instance = this;
-		checkbox.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				adapter.handleCheck(instance, ((CheckBox) view).isChecked());
-			}
-		});
 	}
 
 	@Override
@@ -129,16 +81,44 @@ public abstract class BrickBaseType implements Brick {
 		return NO_RESOURCES;
 	}
 
-	@Override
-	public abstract View getView(Context context, int brickId, BaseAdapter adapter);
+	public abstract @LayoutRes int getViewResource();
 
+	@CallSuper
 	@Override
-	public abstract View getPrototypeView(Context context);
+	public View getView(Context context) {
+		view = LayoutInflater.from(context).inflate(getViewResource(), null);
+
+		BrickViewProvider.setAlphaOnView(view, alphaValue);
+
+		int checkboxVisibility = View.GONE;
+		boolean enabled = true;
+		boolean isChecked = false;
+		if (checkbox != null) {
+			checkboxVisibility = checkbox.getVisibility();
+			enabled = checkbox.isEnabled();
+			isChecked = checkbox.isChecked();
+		}
+
+		checkbox = view.findViewById(R.id.brick_checkbox);
+		checkbox.setChecked(isChecked);
+		checkbox.setVisibility(checkboxVisibility);
+		checkbox.setEnabled(enabled);
+		checkbox.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				adapter.handleCheck(BrickBaseType.this, ((CheckBox) view).isChecked());
+			}
+		});
+
+		return view;
+	}
+
+	@CallSuper
+	@Override
+	public View getPrototypeView(Context context) {
+		return LayoutInflater.from(context).inflate(getViewResource(), null);
+	}
 
 	@Override
 	public abstract List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence);
-
-	@Override
-	public void storeDataForBackPack(Sprite sprite) {
-	}
 }

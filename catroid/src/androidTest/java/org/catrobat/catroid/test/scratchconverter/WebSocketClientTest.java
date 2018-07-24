@@ -24,7 +24,8 @@
 package org.catrobat.catroid.test.scratchconverter;
 
 import android.net.Uri;
-import android.test.AndroidTestCase;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.google.android.gms.common.images.WebImage;
 import com.koushikdutta.async.callback.CompletedCallback;
@@ -49,12 +50,26 @@ import org.catrobat.catroid.scratchconverter.protocol.message.base.ClientIDMessa
 import org.catrobat.catroid.scratchconverter.protocol.message.base.ErrorMessage;
 import org.catrobat.catroid.scratchconverter.protocol.message.base.InfoMessage;
 import org.catrobat.catroid.test.utils.Reflection;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import java.lang.reflect.Field;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
+
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.nullable;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyFloat;
@@ -67,17 +82,17 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
-public class WebSocketClientTest extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+public class WebSocketClientTest {
 
 	private static final int VALID_CLIENT_ID = 1;
 	private MessageListener messageListenerMock;
 	private AsyncHttpClient asyncHttpClientMock;
 	private WebSocketClient webSocketClient;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		System.setProperty("dexmaker.dexcache", getContext().getCacheDir().getPath());
+	@Before
+	public void setUp() throws Exception {
+		System.setProperty("dexmaker.dexcache", InstrumentationRegistry.getTargetContext().getCacheDir().getPath());
 		messageListenerMock = Mockito.mock(WebSocketMessageListener.class);
 		asyncHttpClientMock = Mockito.mock(AsyncHttpClient.class);
 		webSocketClient = new WebSocketClient(VALID_CLIENT_ID, messageListenerMock);
@@ -86,6 +101,7 @@ public class WebSocketClientTest extends AndroidTestCase {
 	//------------------------------------------------------------------------------------------------------------------
 	// Connect, Disconnect & Authenticate tests
 	//------------------------------------------------------------------------------------------------------------------
+	@Test
 	public void testAsyncConnectAndAuthenticateWhetherWebSocketObjectSettersAreCalledCorrectly() {
 		final WebSocket webSocketMock = Mockito.mock(WebSocket.class);
 		final Client.ConnectAuthCallback connectAuthCallbackMock = Mockito.mock(Client.ConnectAuthCallback.class);
@@ -135,6 +151,7 @@ public class WebSocketClientTest extends AndroidTestCase {
 		verifyNoMoreInteractions(asyncHttpClientMock);
 	}
 
+	@Test
 	public void testAsyncConnectAndAuthenticateSuccessfullyConnectedAndAuthenticatedWithValidClientID()
 			throws NoSuchFieldException, IllegalAccessException {
 		final long expectedClientID = VALID_CLIENT_ID;
@@ -198,6 +215,7 @@ public class WebSocketClientTest extends AndroidTestCase {
 		webSocketClient.connectAndAuthenticate(connectAuthCallbackMock);
 	}
 
+	@Test
 	public void testAsyncConnectAndAuthenticateSuccessfullyConnectedAndAuthenticatedWithInvalidClientID()
 			throws NoSuchFieldException, IllegalAccessException {
 		final long unexpectedInvalidClientID = Client.INVALID_CLIENT_ID;
@@ -214,7 +232,7 @@ public class WebSocketClientTest extends AndroidTestCase {
 				assertFalse(webSocketClient.isClosed());
 				assertTrue(webSocketClient.isConnected());
 				assertTrue(webSocketClient.isAuthenticated());
-				assertTrue(newClientID != unexpectedInvalidClientID);
+				assertThat(newClientID, is(not(equalTo(unexpectedInvalidClientID))));
 				return null;
 			}
 		}).when(connectAuthCallbackMock).onSuccess(anyLong());
@@ -262,6 +280,7 @@ public class WebSocketClientTest extends AndroidTestCase {
 		webSocketClient.connectAndAuthenticate(connectAuthCallbackMock);
 	}
 
+	@Test
 	public void testAsyncConnectAndAuthenticateConnectionFailed() {
 		final String expectedCancelExceptionMessage = "Successfully canceled the connection by the server!";
 
@@ -303,6 +322,7 @@ public class WebSocketClientTest extends AndroidTestCase {
 		webSocketClient.connectAndAuthenticate(connectAuthCallbackMock);
 	}
 
+	@Test
 	public void testAsyncConnectAndAuthenticateAuthenticationFailed() throws NoSuchFieldException,
 			IllegalAccessException {
 
@@ -361,6 +381,7 @@ public class WebSocketClientTest extends AndroidTestCase {
 		webSocketClient.connectAndAuthenticate(connectAuthCallbackMock);
 	}
 
+	@Test
 	public void testServerClosedConnectionAfterConnectionIsEstablished()
 			throws NoSuchFieldException, IllegalAccessException {
 		final String expectedClosedExceptionMessage = "Successfully closed the connection!";
@@ -390,6 +411,7 @@ public class WebSocketClientTest extends AndroidTestCase {
 		verifyNoMoreInteractions(connectAuthCallbackMock);
 	}
 
+	@Test
 	public void testClientClosedConnection() throws InterruptedException, NoSuchFieldException, IllegalAccessException {
 		final String expectedExceptionMessage = "Client closed connection successfully!";
 
@@ -435,6 +457,7 @@ public class WebSocketClientTest extends AndroidTestCase {
 	//------------------------------------------------------------------------------------------------------------------
 	// Command tests
 	//------------------------------------------------------------------------------------------------------------------
+	@Test
 	public void testSendRetrieveInfoCommand() throws NoSuchFieldException, IllegalAccessException {
 		final RetrieveInfoCommand expectedRetrieveInfoCommand = new RetrieveInfoCommand();
 
@@ -461,6 +484,7 @@ public class WebSocketClientTest extends AndroidTestCase {
 		verifyNoMoreInteractions(webSocketMock);
 	}
 
+	@Test
 	public void testSendScheduleJobCommand() throws NoSuchFieldException, IllegalAccessException {
 		final long expectedJobID = 1;
 		final boolean expectedForceValue = false;
@@ -517,6 +541,7 @@ public class WebSocketClientTest extends AndroidTestCase {
 	//------------------------------------------------------------------------------------------------------------------
 	// Event tests
 	//------------------------------------------------------------------------------------------------------------------
+	@Test
 	public void testReceivedOnBaseMessageEventWithInfoMessage() throws NoSuchFieldException, IllegalAccessException {
 		final Job expectedUnscheduledJob = new Job(1, "Test program",
 				new WebImage(Uri.parse("http://www.catrobat.org/images/logo.png")));
@@ -613,6 +638,7 @@ public class WebSocketClientTest extends AndroidTestCase {
 		verifyNoMoreInteractions(messageListenerMock);
 	}
 
+	@Test
 	public void testReceivedOnBaseMessageEventWithErrorMessageWhenClientIsNotConnected()
 			throws NoSuchFieldException, IllegalAccessException {
 		final String expectedErrorMessageString = "Error message successfully received";
@@ -646,6 +672,7 @@ public class WebSocketClientTest extends AndroidTestCase {
 		verifyNoMoreInteractions(convertCallbackMock);
 	}
 
+	@Test
 	public void testReceivedOnBaseMessageEventWithErrorMessageWhenClientIsConnectedButNotAuthenticated()
 			throws NoSuchFieldException, IllegalAccessException {
 		final String expectedErrorMessageString = "Error message successfully received";
@@ -681,6 +708,7 @@ public class WebSocketClientTest extends AndroidTestCase {
 		verifyZeroInteractions(convertCallbackMock);
 	}
 
+	@Test
 	public void testReceivedOnBaseMessageEventWithErrorMessageWhenClientIsConnectedAndAuthenticated()
 			throws NoSuchFieldException, IllegalAccessException {
 		final String expectedErrorMessageString = "Error message successfully received";
@@ -719,6 +747,7 @@ public class WebSocketClientTest extends AndroidTestCase {
 		verifyNoMoreInteractions(convertCallbackMock);
 	}
 
+	@Test
 	public void testReceivedUserCanceledConversionEvent() throws NoSuchFieldException, IllegalAccessException {
 		final long expectedJobID = 1;
 
@@ -747,6 +776,7 @@ public class WebSocketClientTest extends AndroidTestCase {
 	//------------------------------------------------------------------------------------------------------------------
 	// Wrapper method tests
 	//------------------------------------------------------------------------------------------------------------------
+	@Test
 	public void testIsJobInProgressWrapperCalled() {
 		final long expectedJobID1 = 1;
 		final long expectedJobID2 = 2;
@@ -776,6 +806,7 @@ public class WebSocketClientTest extends AndroidTestCase {
 		verifyNoMoreInteractions(messageListenerMock);
 	}
 
+	@Test
 	public void testGetNumberOfJobsInProgressWrapperCalled() {
 		final int firstNumberOfJobsResult = 1;
 		final int secondNumberOfJobsResult = 2;

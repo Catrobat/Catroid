@@ -22,18 +22,24 @@
  */
 package org.catrobat.catroid.test.drone;
 
-import android.test.InstrumentationTestCase;
+import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
 import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.drone.ardrone.DroneBrickFactory;
 import org.catrobat.catroid.drone.ardrone.DroneBrickFactory.DroneBricks;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class DroneBrickTest extends InstrumentationTestCase {
+import static junit.framework.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class DroneBrickTest {
 
 	private static final String TAG = DroneBrickTest.class.getSimpleName();
 	private static final int DRONE_RESOURCE = 0x20;
 
+	@Test
 	public void testAllBrickResources() {
 		for (DroneBricks brick : DroneBrickFactory.DroneBricks.values()) {
 			BrickBaseType brickFromFactory = DroneBrickFactory.getInstanceOfDroneBrick(brick, 0, 0);

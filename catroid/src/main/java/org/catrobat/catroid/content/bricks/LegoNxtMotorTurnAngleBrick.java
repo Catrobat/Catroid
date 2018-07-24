@@ -27,7 +27,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -87,7 +86,7 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
+		prototypeView = super.getPrototypeView(context);
 		TextView textX = (TextView) prototypeView.findViewById(R.id.motor_turn_angle_edit_text);
 		textX.setText(formatNumberForPrototypeView(BrickValues.LEGO_ANGLE));
 
@@ -108,16 +107,13 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
+	public int getViewResource() {
+		return R.layout.brick_nxt_motor_turn_angle;
+	}
 
-		view = View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		setCheckboxView(R.id.brick_nxt_motor_turn_checkbox);
-
+	@Override
+	public View getView(final Context context) {
+		super.getView(context);
 		editSpeed = (TextView) view.findViewById(R.id.motor_turn_angle_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES).setTextFieldId(R.id.motor_turn_angle_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES).refreshTextField(view);

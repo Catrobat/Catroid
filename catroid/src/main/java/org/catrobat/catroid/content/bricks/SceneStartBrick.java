@@ -27,7 +27,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.ProjectManager;
@@ -71,12 +70,13 @@ public class SceneStartBrick extends BrickBaseType implements
 	}
 
 	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
+	public int getViewResource() {
+		return R.layout.brick_scene_start;
+	}
 
-		view = View.inflate(context, R.layout.brick_scene_start, null);
-		view = BrickViewProvider.setAlphaOnView(view, alphaValue);
-		setCheckboxView(R.id.brick_scene_start_checkbox);
-
+	@Override
+	public View getView(final Context context) {
+		super.getView(context);
 		spinner = view.findViewById(R.id.brick_scene_start_spinner);
 		spinnerAdapter = new SpinnerAdapterWithNewOption(context,
 				ProjectManager.getInstance().getCurrentProject().getSceneNames());
@@ -123,7 +123,7 @@ public class SceneStartBrick extends BrickBaseType implements
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View view = View.inflate(context, R.layout.brick_scene_start, null);
+		View view = super.getPrototypeView(context);
 		spinner = view.findViewById(R.id.brick_scene_start_spinner);
 
 		spinnerAdapter = new SpinnerAdapterWithNewOption(context,

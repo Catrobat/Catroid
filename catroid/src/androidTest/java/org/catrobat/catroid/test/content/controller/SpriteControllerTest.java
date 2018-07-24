@@ -34,6 +34,9 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
+import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
@@ -48,6 +51,10 @@ import java.io.File;
 import java.io.IOException;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNotSame;
+import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertTrue;
 
 import static org.catrobat.catroid.common.Constants.BACKPACK_IMAGE_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.BACKPACK_SOUND_DIRECTORY;
@@ -82,6 +89,13 @@ public class SpriteControllerTest {
 	@Test
 	public void testCopySprite() throws IOException {
 		SpriteController controller = new SpriteController();
+		DataContainer dataContainer = scene.getDataContainer();
+
+		String spriteVarName = "spriteVar";
+		String spriteListName = "spriteList";
+		assertTrue(dataContainer.addUserVariable(sprite, new UserVariable(spriteVarName)));
+		assertTrue(dataContainer.addUserList(sprite, new UserList(spriteListName)));
+
 		Sprite copy = controller.copy(sprite, scene, scene);
 
 		assertEquals(2, scene.getSpriteList().size());
@@ -91,6 +105,16 @@ public class SpriteControllerTest {
 		assertEquals(sprite.getNumberOfScripts(), copy.getNumberOfScripts());
 		assertEquals(sprite.getNumberOfBricks(), copy.getNumberOfBricks());
 
+		assertNotNull(dataContainer.getUserVariable(sprite, spriteVarName));
+		assertNotNull(dataContainer.getUserVariable(copy, spriteVarName));
+		assertNotSame(dataContainer.getUserVariable(sprite, spriteVarName),
+				dataContainer.getUserVariable(copy, spriteVarName));
+
+		assertNotNull(dataContainer.getUserList(sprite, spriteListName));
+		assertNotNull(dataContainer.getUserList(copy, spriteListName));
+		assertNotSame(dataContainer.getUserList(sprite, spriteListName),
+				dataContainer.getUserList(copy, spriteListName));
+
 		assertFileExists(copy.getLookList().get(0).getFile());
 		assertFileExists(copy.getSoundList().get(0).getFile());
 	}
@@ -98,15 +122,25 @@ public class SpriteControllerTest {
 	@Test
 	public void testDeleteSprite() {
 		SpriteController controller = new SpriteController();
+		DataContainer dataContainer = scene.getDataContainer();
+
+		String spriteVarName = "spriteVar";
+		String spriteListName = "spriteList";
+		assertTrue(dataContainer.addUserVariable(sprite, new UserVariable(spriteVarName)));
+		assertTrue(dataContainer.addUserList(sprite, new UserList(spriteListName)));
+
 		File deletedLookFile = sprite.getLookList().get(0).getFile();
 		File deletedSoundFile = sprite.getSoundList().get(0).getFile();
 
-		controller.delete(sprite);
+		controller.delete(sprite, scene);
 
 		assertEquals(2, scene.getSpriteList().size());
 
 		assertFileDoesNotExist(deletedLookFile);
 		assertFileDoesNotExist(deletedSoundFile);
+
+		assertNull(dataContainer.getUserVariable(sprite, spriteVarName));
+		assertNull(dataContainer.getUserList(sprite, spriteListName));
 	}
 
 	@Test
@@ -230,7 +264,6 @@ public class SpriteControllerTest {
 				"longsound.mp3");
 
 		sprite.getSoundList().add(new SoundInfo("testSound", soundFile));
-
 		XstreamSerializer.getInstance().saveProject(project);
 	}
 

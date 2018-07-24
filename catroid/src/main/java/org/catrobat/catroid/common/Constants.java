@@ -23,8 +23,11 @@
 package org.catrobat.catroid.common;
 
 import android.os.Environment;
+import android.support.annotation.IntDef;
 
 import java.io.File;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.Calendar;
 
 public final class Constants {
@@ -171,9 +174,7 @@ public final class Constants {
 	// Scratch Converter
 	public static final int DOWNLOAD_FILE_HTTP_TIMEOUT = 30_000;
 	public static final long INVALID_SCRATCH_PROGRAM_ID = 0;
-	public static final String SCRATCH_CONVERTER_CLIENT_ID_SHARED_PREFERENCE_NAME = "scratchconverter.clientID";
-	public static final String SCRATCH_CONVERTER_DOWNLOAD_STATE_SHARED_PREFERENCE_NAME = "scratchconverter"
-			+ ".downloadStatePref";
+
 	public static final String SCRATCH_CONVERTER_HOST = "scratch2.catrob.at";
 	public static final String SCRATCH_SEARCH_URL = "https://api.scratch.mit.edu/search/projects";
 	public static final int SCRATCH_CONVERTER_MAX_NUMBER_OF_JOBS_PER_CLIENT = 3;
@@ -194,6 +195,21 @@ public final class Constants {
 	public static final String INTENT_SCRATCH_PROGRAM_DATA = "scratchProgramData";
 	public static final int INTENT_REQUEST_CODE_SPEECH = 0;
 	public static final int INTENT_REQUEST_CODE_CONVERT = 1;
+
+	// Lego
+	@Retention(RetentionPolicy.SOURCE)
+	@IntDef({NXT, EV3})
+	public @interface LegoSensorType {}
+	public static final int NXT = 0;
+	public static final int EV3 = 1;
+
+	@Retention(RetentionPolicy.SOURCE)
+	@IntDef({PORT_1, PORT_2, PORT_3, PORT_4})
+	public @interface LegoPort {}
+	public static final int PORT_1 = 0;
+	public static final int PORT_2 = 1;
+	public static final int PORT_3 = 2;
+	public static final int PORT_4 = 3;
 
 	// Pocket Paint
 	public static final String EXTRA_PICTURE_PATH_POCKET_PAINT = "org.catrobat.extra.PAINTROID_PICTURE_PATH";
@@ -260,15 +276,6 @@ public final class Constants {
 	public static final int STATUS_CODE_UPLOAD_SAVE_THUMBNAIL_FAILED = 514;
 	public static final int STATUS_CODE_UPLOAD_OLD_CATROBAT_LANGUAGE = 518;
 	public static final int STATUS_CODE_UPLOAD_OLD_CATROBAT_VERSION = 519;
-
-	//Multilingual feature
-	public static final String LANGUAGE_TAG_KEY = "applicationLanguage";
-	public static final String DEVICE_LANGUAGE = "deviceLanguage";
-	public static final String[] LANGUAGE_CODE = {DEVICE_LANGUAGE, "az", "in", "bs", "ca", "cs", "sr-rCS",
-			"sr-rSP", "da", "de", "en-rAU", "en-rCA", "en-rGB", "en", "es", "el", "fr", "gl", "hr", "it",
-			"sw", "hu", "mk", "ms", "nl", "no", "pl", "pt-rBR", "pt", "ru", "ro", "sq", "sl", "sk",
-			"sv", "vi", "tr", "uk", "bg", "ml", "ta", "kn", "te", "th", "gu", "hi", "ja", "ko", "lt", "zh-rCN",
-			"zh-rTW", "ar", "ur", "fa", "ps", "sd", "iw"};
 
 	private Constants() {
 		throw new AssertionError();
