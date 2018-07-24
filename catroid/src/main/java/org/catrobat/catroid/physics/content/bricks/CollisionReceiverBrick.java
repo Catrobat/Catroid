@@ -78,7 +78,7 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 			collisionScript = new CollisionScript(getSpriteToCollideWithName());
 		}
 
-		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_collision_receive_spinner);
+		final Spinner broadcastSpinner = view.findViewById(R.id.brick_collision_receive_spinner);
 
 		broadcastSpinner.setAdapter(getCollisionObjectAdapter(context));
 		broadcastSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -104,9 +104,9 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = super.getPrototypeView(context);
-		Spinner broadcastReceiverSpinner = (Spinner) prototypeView.findViewById(R.id.brick_collision_receive_spinner);
-
+		Spinner broadcastReceiverSpinner = prototypeView.findViewById(R.id.brick_collision_receive_spinner);
 		SpinnerAdapter collisionReceiverSpinnerAdapter = getCollisionObjectAdapter(context);
+
 		broadcastReceiverSpinner.setAdapter(collisionReceiverSpinnerAdapter);
 		setSpinnerSelection(broadcastReceiverSpinner);
 		return prototypeView;

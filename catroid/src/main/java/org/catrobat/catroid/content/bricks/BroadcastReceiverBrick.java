@@ -31,15 +31,16 @@ import org.catrobat.catroid.ui.recyclerview.dialog.NewBroadcastMessageDialog;
 
 import java.util.List;
 
-public class BroadcastReceiverBrick extends BroadcastMessageBrick implements ScriptBrick, NewBroadcastMessageDialog.NewBroadcastMessageInterface {
+public class BroadcastReceiverBrick extends BroadcastMessageBrick implements
+		ScriptBrick, NewBroadcastMessageDialog.NewBroadcastMessageInterface {
+
 	private static final long serialVersionUID = 1L;
 
 	private final BroadcastScript broadcastScript;
 
 	public BroadcastReceiverBrick(BroadcastScript broadcastScript) {
 		this.broadcastScript = broadcastScript;
-		setCommentedOut(broadcastScript.isCommentedOut());
-		this.viewId = R.layout.brick_broadcast_receive;
+		commentedOut = broadcastScript.isCommentedOut();
 	}
 
 	@Override
@@ -52,6 +53,11 @@ public class BroadcastReceiverBrick extends BroadcastMessageBrick implements Scr
 	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		return null;
+	}
+
+	@Override
+	public int getViewResource() {
+		return R.layout.brick_broadcast_receive;
 	}
 
 	@Override

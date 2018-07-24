@@ -44,9 +44,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WhenBackgroundChangesBrick extends BrickBaseType implements
-		ScriptBrick,
-		SpinnerAdapterWithNewOption.OnNewOptionInDropDownClickListener,
-		NewItemInterface<LookData> {
+		ScriptBrick, SpinnerAdapterWithNewOption.OnNewOptionInDropDownClickListener, NewItemInterface<LookData> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -74,7 +72,7 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 	@Override
 	public Script getScriptSafe() {
 		if (script == null) {
-			this.script = new WhenBackgroundChangesScript();
+			script = new WhenBackgroundChangesScript();
 		}
 		return script;
 	}

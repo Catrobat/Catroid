@@ -32,10 +32,10 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.adapter.BroadcastSpinnerAdapter;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewBroadcastMessageDialog;
 
-public abstract class BroadcastMessageBrick extends BrickBaseType implements NewBroadcastMessageDialog.NewBroadcastMessageInterface {
+public abstract class BroadcastMessageBrick extends BrickBaseType implements
+		NewBroadcastMessageDialog.NewBroadcastMessageInterface {
 
 	transient BroadcastSpinnerAdapter messageAdapter;
-	transient int viewId;
 	private transient int spinnerId = R.id.brick_broadcast_spinner;
 
 	protected Object readResolve() {
@@ -74,11 +74,6 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements New
 		broadcastSpinner.setAdapter(broadcastSpinnerAdapter);
 		setSpinnerSelection(broadcastSpinner);
 		return prototypeView;
-	}
-
-	@Override
-	public int getViewResource() {
-		return viewId;
 	}
 
 	@Override

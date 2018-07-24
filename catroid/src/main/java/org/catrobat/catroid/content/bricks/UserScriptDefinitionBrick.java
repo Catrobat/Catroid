@@ -70,7 +70,7 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 	private List<UserScriptDefinitionBrickElement> userScriptDefinitionBrickElements;
 
 	public UserScriptDefinitionBrick() {
-		this.script = new StartScript(true);
+		this.script = new StartScript();
 		this.userScriptDefinitionBrickElements = new ArrayList<>();
 	}
 
