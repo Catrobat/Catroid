@@ -348,28 +348,28 @@ public class FormulaElement implements Serializable {
 				}
 			}
 		}
-		String concatenatedList = "";
+
+		StringBuilder stringBuilder = new StringBuilder(userListStringValues.size());
 		boolean isFirstListItem = true;
 		for (String userListStringValue : userListStringValues) {
 
 			if (!concatenateWithoutWhitespace && !isFirstListItem) {
-				concatenatedList += " ";
+				stringBuilder.append(' ');
 			}
 			if (isFirstListItem) {
 				isFirstListItem = false;
 			}
-			concatenatedList += userListStringValue;
+			stringBuilder.append(userListStringValue);
 		}
-		return concatenatedList;
+		return stringBuilder.toString();
 	}
 
-	private boolean isNumberAIntegerBetweenZeroAndNine(Double valueToCheck) {
-		for (Double index = 0.0; index <= 9.0; index++) {
-			if (valueToCheck.equals(index)) {
-				return true;
-			}
-		}
-		return false;
+	public boolean isNumberAIntegerBetweenZeroAndNine(Double valueToCheck) {
+		return !valueToCheck.isNaN()
+				&& !valueToCheck.isInfinite()
+				&& Math.floor(valueToCheck) == valueToCheck
+				&& valueToCheck <= 9.0
+				&& valueToCheck >= 0.0;
 	}
 
 	private Object interpretUserVariable(Sprite sprite) {
