@@ -22,9 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -38,6 +35,9 @@ public class WhenBrick extends BrickBaseType implements ScriptBrick {
 	protected WhenScript whenScript;
 	private static final long serialVersionUID = 1L;
 
+	public WhenBrick() {
+	}
+
 	public WhenBrick(WhenScript whenScript) {
 		this.whenScript = whenScript;
 
@@ -46,18 +46,9 @@ public class WhenBrick extends BrickBaseType implements ScriptBrick {
 		}
 	}
 
-	public WhenBrick() {
-	}
-
 	@Override
 	public int getViewResource() {
 		return R.layout.brick_when;
-	}
-
-	@Override
-	public View getView(final Context context) {
-		super.getView(context);
-		return view;
 	}
 
 	@Override

@@ -43,18 +43,16 @@ public abstract class Script implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	protected ArrayList<Brick> brickList;
-	protected transient ScriptBrick brick;
+	protected ArrayList<Brick> brickList = new ArrayList<>();
 	protected boolean commentedOut = false;
 
-	protected Script() {
-		brickList = new ArrayList<>();
-	}
+	protected transient ScriptBrick brick;
 
 	public ArrayList<Brick> getBrickList() {
 		return brickList;
 	}
 
+	@Override
 	public abstract Script clone() throws CloneNotSupportedException;
 
 	public abstract EventId createEventId(Sprite sprite);
@@ -121,10 +119,6 @@ public abstract class Script implements Serializable {
 		return copies;
 	}
 
-	protected Object readResolve() {
-		return this;
-	}
-
 	public abstract ScriptBrick getScriptBrick();
 
 	public void run(Sprite sprite, ScriptSequenceAction sequence) {
@@ -187,20 +181,14 @@ public abstract class Script implements Serializable {
 		return brickList.get(index);
 	}
 
-	public void setBrick(ScriptBrick brick) {
-		this.brick = brick;
-	}
-
 	public boolean isCommentedOut() {
 		return commentedOut;
 	}
 
 	public void setCommentedOut(boolean commentedOut) {
 		this.commentedOut = commentedOut;
-		if (commentedOut) {
-			for (Brick brick : brickList) {
-				brick.setCommentedOut(commentedOut);
-			}
+		for (Brick brick : brickList) {
+			brick.setCommentedOut(commentedOut);
 		}
 	}
 

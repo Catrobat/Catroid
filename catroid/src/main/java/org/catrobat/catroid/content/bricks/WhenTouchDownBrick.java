@@ -22,9 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -34,8 +31,8 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import java.util.List;
 
 public class WhenTouchDownBrick extends BrickBaseType implements ScriptBrick {
+
 	protected WhenTouchDownScript whenTouchDownScript;
-	private transient View prototypeView;
 	private static final long serialVersionUID = 1L;
 
 	public WhenTouchDownBrick() {
@@ -53,7 +50,7 @@ public class WhenTouchDownBrick extends BrickBaseType implements ScriptBrick {
 	@Override
 	public Script getScriptSafe() {
 		if (whenTouchDownScript == null) {
-			setWhenTouchDownScript(new WhenTouchDownScript());
+			whenTouchDownScript = new WhenTouchDownScript();
 		}
 		return whenTouchDownScript;
 	}
@@ -69,28 +66,8 @@ public class WhenTouchDownBrick extends BrickBaseType implements ScriptBrick {
 	}
 
 	@Override
-	public View getView(final Context context) {
-		super.getView(context);
-		return view;
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
-		return prototypeView;
-	}
-
-	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		return null;
-	}
-
-	public WhenTouchDownScript getWhenTouchDownScript() {
-		return whenTouchDownScript;
-	}
-
-	public void setWhenTouchDownScript(WhenTouchDownScript whenTouchDownScript) {
-		this.whenTouchDownScript = whenTouchDownScript;
 	}
 
 	@Override

@@ -31,12 +31,6 @@ public class WhenClonedScript extends Script {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	protected Object readResolve() {
-		super.readResolve();
-		return this;
-	}
-
-	@Override
 	public ScriptBrick getScriptBrick() {
 		if (brick == null) {
 			brick = new WhenClonedBrick(this);

@@ -40,6 +40,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class WhenGamepadButtonBrick extends BrickBaseType implements ScriptBrick {
+
 	private static final long serialVersionUID = 1L;
 	private WhenGamepadButtonScript whenGamepadButtonScript;
 	private List<String> actions = Arrays.asList(CatroidApplication.getAppContext().getResources().getStringArray(R.array.gamepad_buttons_array));
@@ -61,7 +62,7 @@ public class WhenGamepadButtonBrick extends BrickBaseType implements ScriptBrick
 	@Override
 	public View getView(final Context context) {
 		super.getView(context);
-		final Spinner actionSpinner = (Spinner) view.findViewById(R.id.brick_when_gamepad_button_spinner);
+		final Spinner actionSpinner = view.findViewById(R.id.brick_when_gamepad_button_spinner);
 
 		ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(context,
 				R.array.gamepad_buttons_array, android.R.layout.simple_spinner_item);

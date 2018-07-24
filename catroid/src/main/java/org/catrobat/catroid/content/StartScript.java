@@ -29,24 +29,12 @@ import org.catrobat.catroid.content.eventids.EventId;
 public class StartScript extends Script {
 
 	private static final long serialVersionUID = 1L;
-	private boolean isUserScript;
 
 	public StartScript() {
-		super();
-	}
-
-	public StartScript(boolean isUserScript) {
-		this.isUserScript = isUserScript;
 	}
 
 	public StartScript(WhenStartedBrick brick) {
 		this.brick = brick;
-	}
-
-	@Override
-	protected Object readResolve() {
-		super.readResolve();
-		return this;
 	}
 
 	@Override
@@ -60,7 +48,7 @@ public class StartScript extends Script {
 
 	@Override
 	public Script clone() throws CloneNotSupportedException {
-		Script clone = new StartScript(isUserScript);
+		Script clone = new StartScript();
 		clone.getBrickList().addAll(cloneBrickList());
 		return clone;
 	}

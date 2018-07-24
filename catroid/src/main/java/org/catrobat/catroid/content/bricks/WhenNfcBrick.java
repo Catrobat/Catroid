@@ -47,7 +47,6 @@ import java.util.List;
 public class WhenNfcBrick extends BrickBaseType implements ScriptBrick {
 
 	protected WhenNfcScript whenNfcScript;
-	private transient View prototypeView;
 	private transient NfcTagData nfcTag;
 	private transient NfcTagData oldSelectedNfcTag;
 	private static final long serialVersionUID = 1L;
@@ -93,7 +92,7 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick {
 			whenNfcScript = new WhenNfcScript(nfcTag);
 		}
 		super.getView(context);
-		final Spinner nfcSpinner = (Spinner) view.findViewById(R.id.brick_when_nfc_spinner);
+		final Spinner nfcSpinner = view.findViewById(R.id.brick_when_nfc_spinner);
 
 		final ArrayAdapter<NfcTagData> spinnerAdapter = createNfcTagAdapter(context);
 
@@ -179,8 +178,8 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
-		Spinner nfcSpinner = (Spinner) prototypeView.findViewById(R.id.brick_when_nfc_spinner);
+		View prototypeView = super.getPrototypeView(context);
+		Spinner nfcSpinner = prototypeView.findViewById(R.id.brick_when_nfc_spinner);
 
 		SpinnerAdapter nfcSpinnerAdapter = createNfcTagAdapter(context); //NfcTagContainer.getMessageAdapter(context);
 		nfcSpinner.setAdapter(nfcSpinnerAdapter);
@@ -240,7 +239,6 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick {
 		public View getView(int paramInt, View paramView, ViewGroup paramViewGroup) {
 			if (isTouchInDropDownView) {
 				isTouchInDropDownView = false;
-				//TODO: Switch to NFC Tag Fragment
 			}
 			return spinnerAdapter.getView(paramInt, paramView, paramViewGroup);
 		}

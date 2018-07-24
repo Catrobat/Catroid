@@ -79,8 +79,7 @@ public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 	@Override
 	public View getView(Context context) {
 		super.getView(context);
-		BrickViewProvider.setAlphaOnView(view, alphaValue);
-		TextView conditionEditText = (TextView) view.findViewById(R.id.brick_when_condition_edit_text);
+		TextView conditionEditText = view.findViewById(R.id.brick_when_condition_edit_text);
 
 		getFormulaWithBrickField(BrickField.IF_CONDITION).setTextFieldId(R.id.brick_when_condition_edit_text);
 		getFormulaWithBrickField(BrickField.IF_CONDITION).refreshTextField(view);
@@ -97,7 +96,7 @@ public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = super.getPrototypeView(context);
-		TextView textView = (TextView) prototypeView.findViewById(R.id.brick_when_condition_edit_text);
+		TextView textView = prototypeView.findViewById(R.id.brick_when_condition_edit_text);
 		textView.setText(BrickValues.IF_CONDITION);
 		return prototypeView;
 	}
