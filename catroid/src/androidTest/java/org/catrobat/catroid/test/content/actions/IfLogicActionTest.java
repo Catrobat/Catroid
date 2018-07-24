@@ -201,7 +201,7 @@ public class IfLogicActionTest {
 	}
 
 	@Test
-	public void testNullFormula() {
+	public void testNullFormula() throws Exception {
 		Object userVariableExpected = userVariable.getValue();
 		Action ifAction = testSprite.getActionFactory().createSetVariableAction(testSprite, new Formula(IF_TRUE_VALUE),
 				userVariable);

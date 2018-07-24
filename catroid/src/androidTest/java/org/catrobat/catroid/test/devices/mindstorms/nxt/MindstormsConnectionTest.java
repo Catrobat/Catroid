@@ -45,7 +45,7 @@ public class MindstormsConnectionTest {
 	public static final int HEADER_SIZE = 2;
 
 	@Test
-	public void testSend() {
+	public void testSend() throws Exception {
 		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
 
 		MindstormsConnectionImpl connection = new MindstormsConnectionImpl(null);
@@ -72,7 +72,7 @@ public class MindstormsConnectionTest {
 	}
 
 	@Test
-	public void testSendAndReceive() {
+	public void testSendAndReceive() throws Exception {
 
 		byte[] inputBuffer = new byte[] {4, 0, 3, 4, 5, 7};
 		ByteArrayInputStream inStream = new ByteArrayInputStream(inputBuffer);

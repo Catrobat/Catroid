@@ -24,7 +24,6 @@ package org.catrobat.catroid.test.io;
 
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
@@ -57,7 +56,6 @@ import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
-import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
@@ -79,12 +77,12 @@ import java.util.Set;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
 
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.PERMISSIONS_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.TMP_CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.utils.PathBuilder.buildProjectPath;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.number.OrderingComparison.greaterThan;
 import static org.junit.Assert.assertThat;
@@ -183,9 +181,9 @@ public class XstreamSerializerTest {
 		Formula actualSize = ((FormulaBrick) postSpriteList.get(1).getScript(0).getBrickList().get(2))
 				.getFormulaWithBrickField(Brick.BrickField.SIZE);
 
-		assertEquals(size, interpretFormula(actualSize, null));
-		assertEquals(xPosition, interpretFormula(actualXPosition, null).intValue());
-		assertEquals(yPosition, interpretFormula(actualYPosition, null).intValue());
+		assertEquals(size, actualSize.interpretFloat(null));
+		assertEquals(xPosition, actualXPosition.interpretFloat(null).intValue());
+		assertEquals(yPosition, actualYPosition.interpretFloat(null).intValue());
 	}
 
 	@Test
@@ -231,13 +229,11 @@ public class XstreamSerializerTest {
 		storageHandler.saveProject(project);
 
 		assertTrue(currentCodeFile.exists());
-		assertTrue(currentCodeFile.length() > 0);
+		assertThat(currentCodeFile.length(), is(greaterThan(0L)));
 
 		// simulate 1st Option: tmp_code.xml exists but code.xml doesn't exist
 		// --> saveProject process will restore from tmp_code.xml
-		if (!tmpCodeFile.createNewFile()) {
-			fail("Could not create tmp file");
-		}
+		assertTrue(tmpCodeFile.createNewFile());
 
 		StorageOperations.transferData(currentCodeFile, tmpCodeFile);
 		String currentCodeFileXml = Files.toString(currentCodeFile, Charsets.UTF_8);
@@ -257,15 +253,6 @@ public class XstreamSerializerTest {
 		storageHandler.saveProject(project);
 
 		assertFalse(tmpCodeFile.exists());
-	}
-
-	private Float interpretFormula(Formula formula, Sprite sprite) {
-		try {
-			return formula.interpretFloat(sprite);
-		} catch (InterpretationException interpretationException) {
-			Log.d(getClass().getSimpleName(), "Formula interpretation for Formula failed.", interpretationException);
-		}
-		return Float.NaN;
 	}
 
 	@Test
@@ -351,7 +338,7 @@ public class XstreamSerializerTest {
 		setting = project.getSettings().get(0);
 		nxtSetting = (LegoNXTSetting) setting;
 
-		assertTrue(setting instanceof LegoNXTSetting);
+		assertThat(setting, instanceOf(LegoNXTSetting.class));
 
 		actualSensorMapping = nxtSetting.getSensorMapping();
 

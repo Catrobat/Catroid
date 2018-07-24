@@ -31,14 +31,18 @@ import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.fail;
 
 @RunWith(AndroidJUnit4.class)
 public class GlideToActionTest {
+
+	@Rule
+	public final ExpectedException exception = ExpectedException.none();
 
 	private static final float X_POSITION = 12f;
 	private static final float Y_POSITION = 150f;
@@ -77,11 +81,8 @@ public class GlideToActionTest {
 	public void testNullActor() {
 		ActionFactory factory = new ActionFactory();
 		Action action = factory.createGlideToAction(null, xPosition, yPosition, duration);
-		try {
-			action.act(1.0f);
-			fail("Execution of GlideToBrick with null Sprite did not cause a " + "NullPointerException to be thrown");
-		} catch (NullPointerException expected) {
-		}
+		exception.expect(NullPointerException.class);
+		action.act(1.0f);
 	}
 
 	@Test

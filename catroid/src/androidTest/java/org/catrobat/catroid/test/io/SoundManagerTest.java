@@ -37,7 +37,9 @@ import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
 import java.io.File;
@@ -47,12 +49,14 @@ import java.util.List;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
 
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 
 @RunWith(AndroidJUnit4.class)
 public class SoundManagerTest {
+
+	@Rule
+	public final ExpectedException exception = ExpectedException.none();
 
 	private final SoundManager soundManager = SoundManager.getInstance();
 
@@ -78,7 +82,7 @@ public class SoundManagerTest {
 	}
 
 	@Test
-	public void testPlaySound() {
+	public void testPlaySound() throws Exception {
 		soundManager.playSoundFile(soundFile.getAbsolutePath());
 
 		MediaPlayer mediaPlayer = getMediaPlayers().get(0);
@@ -87,7 +91,7 @@ public class SoundManagerTest {
 	}
 
 	@Test
-	public void testClear() {
+	public void testClear() throws Exception {
 		soundManager.playSoundFile(soundFile.getAbsolutePath());
 
 		MediaPlayer mediaPlayer = getMediaPlayers().get(0);
@@ -95,15 +99,13 @@ public class SoundManagerTest {
 
 		soundManager.clear();
 		assertTrue(getMediaPlayers().isEmpty());
-		try {
-			mediaPlayer.isPlaying();
-			fail("The media player hasn't been released");
-		} catch (IllegalStateException expected) {
-		}
+
+		exception.expect(IllegalStateException.class);
+		mediaPlayer.isPlaying();
 	}
 
 	@Test
-	public void testPauseAndResume() {
+	public void testPauseAndResume() throws Exception {
 		soundManager.playSoundFile(soundFile.getAbsolutePath());
 
 		MediaPlayer mediaPlayer = getMediaPlayers().get(0);
@@ -117,7 +119,7 @@ public class SoundManagerTest {
 	}
 
 	@Test
-	public void testPauseAndResumeMultipleSounds() {
+	public void testPauseAndResumeMultipleSounds() throws Exception {
 		final int playSoundFilesCount = 3;
 		List<MediaPlayer> mediaPlayers = getMediaPlayers();
 
@@ -143,7 +145,7 @@ public class SoundManagerTest {
 	}
 
 	@Test
-	public void testMediaPlayerLimit() {
+	public void testMediaPlayerLimit() throws Exception {
 		assertEquals(7, SoundManager.MAX_MEDIA_PLAYERS);
 
 		List<MediaPlayer> mediaPlayers = getMediaPlayers();
@@ -155,7 +157,7 @@ public class SoundManagerTest {
 	}
 
 	@Test
-	public void testIfAllMediaPlayersInTheListAreUnique() {
+	public void testIfAllMediaPlayersInTheListAreUnique() throws Exception {
 		List<MediaPlayer> mediaPlayers = getMediaPlayers();
 		for (int index = 0; index < SoundManager.MAX_MEDIA_PLAYERS; index++) {
 			SoundManager.getInstance().playSoundFile(soundFile.getAbsolutePath());
@@ -174,7 +176,7 @@ public class SoundManagerTest {
 	}
 
 	@Test
-	public void testSetVolume() {
+	public void testSetVolume() throws Exception {
 		List<MediaPlayer> mediaPlayers = getMediaPlayers();
 		MediaPlayerMock mediaPlayerMock = new MediaPlayerMock();
 		mediaPlayers.add(mediaPlayerMock);
@@ -188,7 +190,7 @@ public class SoundManagerTest {
 	}
 
 	@SuppressWarnings("unchecked")
-	private List<MediaPlayer> getMediaPlayers() {
+	private List<MediaPlayer> getMediaPlayers() throws Exception {
 		return (List<MediaPlayer>) Reflection.getPrivateField(soundManager, "mediaPlayers");
 	}
 

@@ -24,7 +24,6 @@ package org.catrobat.catroid.test.physics;
 
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
 
 import com.badlogic.gdx.math.Vector2;
 
@@ -71,14 +70,11 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNotSame;
 import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
 
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 
 @RunWith(AndroidJUnit4.class)
 public class PhysicsSpriteCloneTest {
-
-	private static final String TAG = PhysicsSpriteCloneTest.class.getSimpleName();
 
 	private Sprite sprite;
 	private Project project;
@@ -159,7 +155,7 @@ public class PhysicsSpriteCloneTest {
 	}
 
 	@Test
-	public void testSpriteCloneWithCollisionScript() throws IOException {
+	public void testSpriteCloneWithCollisionScript() throws IOException, InterpretationException {
 		CollisionScript collisionScript = new CollisionScript(null);
 		collisionScript.getScriptBrick();
 		Brick setBounceBrick = new SetBounceBrick(BOUNCE_TEST_VALUE);
@@ -184,12 +180,8 @@ public class PhysicsSpriteCloneTest {
 		Formula clonedSetBounceBrickFormula = ((FormulaBrick) clonedSetBounceBrick)
 				.getFormulaWithBrickField(Brick.BrickField.PHYSICS_BOUNCE_FACTOR);
 		float clonedBounceFactorValue = 0;
-		try {
-			clonedBounceFactorValue = clonedSetBounceBrickFormula.interpretFloat(clonedSprite);
-		} catch (InterpretationException interpretationException) {
-			Log.e(TAG, "InterpretationException thrown while interpreting.", interpretationException);
-			fail("InterpretationException thrown while interpreting.");
-		}
+		clonedBounceFactorValue = clonedSetBounceBrickFormula.interpretFloat(clonedSprite);
+
 		assertEquals(BOUNCE_TEST_VALUE, clonedBounceFactorValue);
 	}
 

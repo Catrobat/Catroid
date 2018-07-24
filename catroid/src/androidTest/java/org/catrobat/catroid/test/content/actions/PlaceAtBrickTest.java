@@ -28,14 +28,18 @@ import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.fail;
 
 @RunWith(AndroidJUnit4.class)
 public class PlaceAtBrickTest {
+
+	@Rule
+	public final ExpectedException exception = ExpectedException.none();
 
 	private static final int Y_POSITION_VALUE = 200;
 	private static final int X_POSITION_VALUE = 100;
@@ -62,11 +66,8 @@ public class PlaceAtBrickTest {
 
 	@Test
 	public void testNullSprite() {
-		try {
-			sprite.getActionFactory().createPlaceAtAction(null, xPosition, yPosition).act(1.0f);
-			fail("Execution of PlaceAtBrick with null Sprite did not cause a " + "NullPointerException to be thrown");
-		} catch (NullPointerException expected) {
-		}
+		exception.expect(NullPointerException.class);
+		sprite.getActionFactory().createPlaceAtAction(null, xPosition, yPosition).act(1.0f);
 	}
 
 	@Test

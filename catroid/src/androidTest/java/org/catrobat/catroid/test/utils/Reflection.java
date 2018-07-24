@@ -30,7 +30,7 @@ public final class Reflection {
 		throw new AssertionError();
 	}
 
-	public static Object getPrivateField(Object object, String fieldName) {
+	public static Object getPrivateField(Object object, String fieldName) throws Exception {
 		if (object == null) {
 			throw new IllegalArgumentException("Object is null");
 		}
@@ -38,21 +38,17 @@ public final class Reflection {
 		return Reflection.getPrivateField(object.getClass(), object, fieldName);
 	}
 
-	public static Object getPrivateField(Class<?> clazz, String fieldName) {
+	public static Object getPrivateField(Class<?> clazz, String fieldName) throws Exception {
 		return Reflection.getPrivateField(clazz, null, fieldName);
 	}
 
-	public static Object getPrivateField(Class<?> clazz, Object object, String fieldName) {
-		try {
-			Field field = clazz.getDeclaredField(fieldName);
-			field.setAccessible(true);
-			return field.get(object);
-		} catch (Exception exception) {
-			throw new RuntimeException(exception);
-		}
+	public static Object getPrivateField(Class<?> clazz, Object object, String fieldName) throws Exception {
+		Field field = clazz.getDeclaredField(fieldName);
+		field.setAccessible(true);
+		return field.get(object);
 	}
 
-	public static void setPrivateField(Object object, String fieldName, Object value) {
+	public static void setPrivateField(Object object, String fieldName, Object value) throws Exception {
 		if (object == null) {
 			throw new IllegalArgumentException("Object is null");
 		}
@@ -60,18 +56,14 @@ public final class Reflection {
 		Reflection.setPrivateField(object.getClass(), object, fieldName, value);
 	}
 
-	public static void setPrivateField(Class<?> fieldOwnerType, String fieldName, Object value) {
+	public static void setPrivateField(Class<?> fieldOwnerType, String fieldName, Object value) throws Exception {
 		Reflection.setPrivateField(fieldOwnerType, null, fieldName, value);
 	}
 
-	public static void setPrivateField(Class<?> fieldOwnerType, Object object, String fieldName, Object value) {
-		try {
-			Field field = fieldOwnerType.getDeclaredField(fieldName);
-			field.setAccessible(true);
-			field.set(object, value);
-		} catch (Exception exception) {
-			throw new RuntimeException(exception);
-		}
+	public static void setPrivateField(Class<?> fieldOwnerType, Object object, String fieldName, Object value) throws Exception {
+		Field field = fieldOwnerType.getDeclaredField(fieldName);
+		field.setAccessible(true);
+		field.set(object, value);
 	}
 
 	public static class Parameter {
@@ -148,11 +140,11 @@ public final class Reflection {
 		}
 	}
 
-	public static Object invokeMethod(Object object, String methodName) {
+	public static Object invokeMethod(Object object, String methodName) throws Exception {
 		return invokeMethod(object, methodName, new ParameterList());
 	}
 
-	public static Object invokeMethod(Object object, String methodName, ParameterList parameterList) {
+	public static Object invokeMethod(Object object, String methodName, ParameterList parameterList) throws Exception {
 		if (object == null) {
 			throw new IllegalArgumentException("Object is null");
 		}
@@ -160,25 +152,21 @@ public final class Reflection {
 		return Reflection.invokeMethod(object.getClass(), object, methodName, parameterList);
 	}
 
-	public static Object invokeMethod(Class<?> clazz, String methodName) {
+	public static Object invokeMethod(Class<?> clazz, String methodName) throws Exception {
 		return invokeMethod(clazz, methodName, new ParameterList());
 	}
 
-	public static Object invokeMethod(Class<?> clazz, String methodName, ParameterList parameterList) {
+	public static Object invokeMethod(Class<?> clazz, String methodName, ParameterList parameterList) throws Exception {
 		return Reflection.invokeMethod(clazz, null, methodName, parameterList);
 	}
 
-	public static Object invokeMethod(Class<?> clazz, Object object, String methodName) {
+	public static Object invokeMethod(Class<?> clazz, Object object, String methodName) throws Exception {
 		return invokeMethod(clazz, object, methodName, new ParameterList());
 	}
 
-	public static Object invokeMethod(Class<?> clazz, Object object, String methodName, ParameterList parameterList) {
-		try {
-			Method method = clazz.getDeclaredMethod(methodName, parameterList.types);
-			method.setAccessible(true);
-			return method.invoke(object, parameterList.values);
-		} catch (Exception exception) {
-			throw new RuntimeException(exception);
-		}
+	public static Object invokeMethod(Class<?> clazz, Object object, String methodName, ParameterList parameterList) throws Exception {
+		Method method = clazz.getDeclaredMethod(methodName, parameterList.types);
+		method.setAccessible(true);
+		return method.invoke(object, parameterList.values);
 	}
 }

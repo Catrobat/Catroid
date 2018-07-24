@@ -123,7 +123,7 @@ public class PhysicsShapeScaleUtilsTest {
 	}
 
 	@Test
-	public void testScaleCoordinate() {
+	public void testScaleCoordinate() throws Exception {
 		float coordinate = 100f;
 		float expectedCoordinate = 50f;
 		float actualCoordinate;

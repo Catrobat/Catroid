@@ -37,7 +37,7 @@ import static junit.framework.Assert.assertTrue;
 public class FaceDetectionHandlerTest {
 
 	@Test
-	public void testResume() {
+	public void testResume() throws Exception {
 		TestFaceDetector detector = new TestFaceDetector();
 		Reflection.setPrivateField(FaceDetectionHandler.class, "faceDetector", detector);
 		assertFalse(detector.started);

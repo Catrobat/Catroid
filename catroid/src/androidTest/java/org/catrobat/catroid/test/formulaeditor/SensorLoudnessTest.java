@@ -49,7 +49,7 @@ public class SensorLoudnessTest {
 
 	@Test
 	@UiThreadTest
-	public void testMicRelease() {
+	public void testMicRelease() throws Exception {
 		SensorLoudness.getSensorLoudness();
 		SensorLoudness loudnessSensor = (SensorLoudness) Reflection.getPrivateField(SensorLoudness.class, "instance");
 		SimulatedSoundRecorder simSoundRec = new SimulatedSoundRecorder("/dev/null");
