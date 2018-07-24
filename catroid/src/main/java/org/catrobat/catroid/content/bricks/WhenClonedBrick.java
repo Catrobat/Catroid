@@ -22,9 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -39,22 +36,16 @@ public class WhenClonedBrick extends BrickBaseType implements ScriptBrick {
 	protected WhenClonedScript whenClonedScript;
 	private static final long serialVersionUID = 1L;
 
-	public WhenClonedBrick(WhenClonedScript whenScript) {
-		this.whenClonedScript = whenScript;
+	public WhenClonedBrick() {
 	}
 
-	public WhenClonedBrick() {
+	public WhenClonedBrick(WhenClonedScript whenScript) {
+		this.whenClonedScript = whenScript;
 	}
 
 	@Override
 	public int getViewResource() {
 		return R.layout.brick_when_cloned;
-	}
-
-	@Override
-	public View getView(final Context context) {
-		super.getView(context);
-		return view;
 	}
 
 	@Override

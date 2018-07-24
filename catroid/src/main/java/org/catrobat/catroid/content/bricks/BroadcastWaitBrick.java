@@ -30,17 +30,17 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import java.util.List;
 
 public class BroadcastWaitBrick extends BroadcastBrick {
+
 	private static final long serialVersionUID = 1L;
 
 	public BroadcastWaitBrick(String broadcastMessage) {
 		super(broadcastMessage);
-		this.viewId = R.layout.brick_broadcast_wait;
 	}
 
-	protected Object readResolve() {
-		super.readResolve();
-		this.viewId = R.layout.brick_broadcast_wait;
-		return this;
+	@Override
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		sequence.addAction(sprite.getActionFactory().createBroadcastAction(broadcastMessage, EventWrapper.WAIT));
+		return null;
 	}
 
 	@Override
@@ -49,8 +49,7 @@ public class BroadcastWaitBrick extends BroadcastBrick {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createBroadcastAction(broadcastMessage, EventWrapper.WAIT));
-		return null;
+	public int getViewResource() {
+		return R.layout.brick_broadcast_wait;
 	}
 }

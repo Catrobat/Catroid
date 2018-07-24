@@ -296,6 +296,7 @@ public final class XstreamSerializer {
 
 		xstream.omitField(RaspiInterruptScript.class, "receivedMessage");
 		xstream.omitField(WhenScript.class, "action");
+		xstream.omitField(StartScript.class, "isUserScript");
 
 		xstream.alias("look", LookData.class);
 		xstream.alias("droneLook", DroneVideoLookData.class);

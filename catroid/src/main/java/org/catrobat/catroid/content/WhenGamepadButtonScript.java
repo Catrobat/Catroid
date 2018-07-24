@@ -37,12 +37,6 @@ public class WhenGamepadButtonScript extends Script {
 		this.action = action;
 	}
 
-	@Override
-	protected Object readResolve() {
-		super.readResolve();
-		return this;
-	}
-
 	public void setAction(String action) {
 		this.action = action;
 	}
