@@ -22,6 +22,9 @@
  */
 package org.catrobat.catroid.utils;
 
+import android.annotation.SuppressLint;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -31,6 +34,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.util.Log;
 
 import com.badlogic.gdx.files.FileHandle;
@@ -67,6 +71,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import static android.content.Context.CLIPBOARD_SERVICE;
 
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
@@ -516,5 +522,41 @@ public final class Utils {
 			return (number >> index) & 0x1;
 		}
 		return 0;
+	}
+
+	public static void copyToClipboard(Context context, String valueToCopy) {
+		ClipboardManager clipboard = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
+		ClipData clip = ClipData.newPlainText("labelAdMobDeviceId", valueToCopy);
+		clipboard.setPrimaryClip(clip);
+	}
+
+	public static String md5(final String s) {
+		final String md5 = "MD5";
+		try {
+			// Create MD5 Hash
+			MessageDigest digest = java.security.MessageDigest.getInstance(md5);
+			digest.update(s.getBytes());
+			byte[] messageDigest = digest.digest();
+
+			// Create Hex String
+			StringBuilder hexString = new StringBuilder();
+			for (byte aMessageDigest : messageDigest) {
+				String h = Integer.toHexString(0xFF & aMessageDigest);
+				while (h.length() < 2) {
+					h = "0" + h;
+				}
+				hexString.append(h);
+			}
+			return hexString.toString().toUpperCase(Locale.US);
+		} catch (NoSuchAlgorithmException e) {
+			Log.e(TAG, e.getMessage());
+		}
+		return "";
+	}
+
+	@SuppressLint("HardwareIds")
+	public static String getAdMobDeviceId(Context context) {
+		String deviceId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+		return md5(deviceId);
 	}
 }

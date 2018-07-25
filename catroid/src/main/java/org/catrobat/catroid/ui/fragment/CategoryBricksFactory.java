@@ -38,6 +38,8 @@ import org.catrobat.catroid.content.RaspiInterruptScript;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenConditionScript;
 import org.catrobat.catroid.content.WhenGamepadButtonScript;
+import org.catrobat.catroid.content.bricks.AdMobHideBannerBrick;
+import org.catrobat.catroid.content.bricks.AdMobShowBannerBrick;
 import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
@@ -241,6 +243,8 @@ public class CategoryBricksFactory {
 			tempList = setupRaspiCategoryList();
 		} else if (category.equals(context.getString(R.string.category_embroidery))) {
 			tempList = setupEmbroideryCategoryList();
+		} else if (category.equals(context.getString(R.string.category_admob))) {
+			tempList = setupAdMobCategoryList();
 		}
 
 		for (Brick brick : tempList) {
@@ -614,6 +618,13 @@ public class CategoryBricksFactory {
 
 	private List<Brick> setupEmbroideryCategoryList() {
 		return new ArrayList<>();
+	}
+
+	private List<Brick> setupAdMobCategoryList() {
+		List<Brick> adMobBrickList = new ArrayList<>();
+		adMobBrickList.add(new AdMobShowBannerBrick(AdMobShowBannerBrick.AdMobBannerPositionEnum.TOP, AdMobShowBannerBrick.AdMobBannerSizeEnum.BANNER));
+		adMobBrickList.add(new AdMobHideBannerBrick());
+		return adMobBrickList;
 	}
 
 	protected boolean isBackground(Sprite sprite) {

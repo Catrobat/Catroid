@@ -41,13 +41,16 @@ import android.util.SparseArray;
 import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
 import android.view.SurfaceView;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.badlogic.gdx.backends.android.surfaceview.GLSurfaceView20;
+import com.google.android.gms.ads.AdSize;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
@@ -59,6 +62,7 @@ import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.AskAction;
+import org.catrobat.catroid.content.admob.AdMobBanner;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoDeviceController;
 import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoInitializer;
@@ -86,6 +90,14 @@ public class StageActivity extends AndroidApplication {
 	public static final int REGISTER_INTENT = 1;
 	private static final int PERFORM_INTENT = 2;
 
+	public static final int ADMOB_HIDE_BANNER = 404;
+	public static final int ADMOB_BANNER_BOTTOM = 20;
+	public static final int ADMOB_SMART_BANNER_BOTTOM = 21;
+	public static final int ADMOB_LARGE_BANNER_BOTTOM = 22;
+	public static final int ADMOB_BANNER_TOP = 30;
+	public static final int ADMOB_SMART_BANNER_TOP = 31;
+	public static final int ADMOB_LARGE_BANNER_TOP = 32;
+
 	private StageAudioFocus stageAudioFocus;
 	private PendingIntent pendingIntent;
 	private NfcAdapter nfcAdapter;
@@ -97,7 +109,11 @@ public class StageActivity extends AndroidApplication {
 	private static int numberOfSpritesCloned;
 
 	public static Handler messageHandler;
+	public static Handler adMobHandler;
 	private JumpingSumoDeviceController controller;
+	private RelativeLayout stageLayout;
+	private View stageView;
+	private AdMobBanner adMobBanner;
 
 	public static SparseArray<IntentListener> intentListeners = new SparseArray<>();
 	public static Random randomGenerator = new Random();
@@ -108,6 +124,8 @@ public class StageActivity extends AndroidApplication {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Log.d(TAG, "onCreate()");
+		stageLayout = new RelativeLayout(getContext());
+		adMobBanner = new AdMobBanner(getContext());
 
 		numberOfSpritesCloned = 0;
 		setupAskHandler();
@@ -136,7 +154,10 @@ public class StageActivity extends AndroidApplication {
 			CastManager.getInstance()
 					.addStageViewToLayout((GLSurfaceView20) initializeForView(stageListener, configuration));
 		} else {
-			initialize(stageListener, configuration);
+			stageView = initializeForView(stageListener, configuration);
+			stageLayout.addView(stageView, 0);
+			setupAdMobBannerHandler();
+			setContentView(stageLayout);
 		}
 
 		if (graphics.getView() instanceof SurfaceView) {
@@ -187,6 +208,53 @@ public class StageActivity extends AndroidApplication {
 				}
 			}
 		};
+	}
+
+	private void setupAdMobBannerHandler() {
+		adMobHandler = new Handler(Looper.getMainLooper()) {
+			@Override
+			public void handleMessage(Message msg) {
+				super.handleMessage(msg);
+				switch (msg.what) {
+					case ADMOB_BANNER_TOP:
+						showAdMobBannerOnStage(AdSize.BANNER, RelativeLayout.ALIGN_PARENT_TOP);
+						break;
+					case ADMOB_SMART_BANNER_TOP:
+						showAdMobBannerOnStage(AdSize.SMART_BANNER, RelativeLayout.ALIGN_PARENT_TOP);
+						break;
+					case ADMOB_LARGE_BANNER_TOP:
+						showAdMobBannerOnStage(AdSize.LARGE_BANNER, RelativeLayout.ALIGN_PARENT_TOP);
+						break;
+					case ADMOB_BANNER_BOTTOM:
+						showAdMobBannerOnStage(AdSize.BANNER, RelativeLayout.ALIGN_PARENT_BOTTOM);
+						break;
+					case ADMOB_SMART_BANNER_BOTTOM:
+						showAdMobBannerOnStage(AdSize.SMART_BANNER, RelativeLayout.ALIGN_PARENT_BOTTOM);
+						break;
+					case ADMOB_LARGE_BANNER_BOTTOM:
+						showAdMobBannerOnStage(AdSize.LARGE_BANNER, RelativeLayout.ALIGN_PARENT_BOTTOM);
+						break;
+					case ADMOB_HIDE_BANNER:
+						adMobBanner.hideAdMobBanner();
+						break;
+					default:
+						Log.e(TAG, "Unhandled message in adMobBannerHandler, case " + msg.what);
+						break;
+				}
+			}
+		};
+	}
+
+	private void showAdMobBannerOnStage(AdSize adSize, int position) {
+		if (stageLayout.getChildAt(1) != null) {
+			stageLayout.removeViewAt(1);
+			adMobBanner.hideAdMobBanner();
+		}
+		adMobBanner = null;
+		adMobBanner = new AdMobBanner(getContext());
+		adMobBanner.createNewAdMobBanner(adSize, position);
+		adMobBanner.showAdMobBanner();
+		stageLayout.addView(adMobBanner.getAdView(), 1);
 	}
 
 	private void showDialog(String question, final AskAction askAction) {
@@ -269,6 +337,7 @@ public class StageActivity extends AndroidApplication {
 				Log.e(TAG, "Disabling NFC foreground dispatching went wrong!", illegalStateException);
 			}
 		}
+		adMobBanner.pauseAdMobBanner();
 		SensorHandler.stopSensorListeners();
 		stageAudioFocus.releaseAudioFocus();
 		FlashUtil.pauseFlash();
@@ -284,6 +353,7 @@ public class StageActivity extends AndroidApplication {
 	@Override
 	public void onResume() {
 		resumeResources();
+		adMobBanner.resumeAdMobBanner();
 		super.onResume();
 	}
 
@@ -296,6 +366,7 @@ public class StageActivity extends AndroidApplication {
 		stageListener.menuPause();
 		FlashUtil.pauseFlash();
 		VibratorUtil.pauseVibrator();
+		adMobBanner.pauseAdMobBanner();
 		FaceDetectionHandler.pauseFaceDetection();
 
 		CameraManager.getInstance().pausePreviewAsync();

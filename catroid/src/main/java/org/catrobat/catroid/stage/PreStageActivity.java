@@ -37,6 +37,7 @@ import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
+import com.google.android.gms.ads.MobileAds;
 import com.parrot.arsdk.arcontroller.ARCONTROLLER_DEVICE_STATE_ENUM;
 import com.parrot.arsdk.arcontroller.ARControllerException;
 import com.parrot.arsdk.arcontroller.ARDeviceController;
@@ -92,6 +93,12 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 	public static final int REQUEST_GPS = 1;
 	private int requiredResourceCounter;
 	private Set<Integer> failedResources;
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		MobileAds.initialize(this, BuildConfig.ADMOB_BANNER_APP_ID);
+	}
 
 	private static TextToSpeech textToSpeech;
 	private static OnUtteranceCompletedListenerContainer onUtteranceCompletedListenerContainer;

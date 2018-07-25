@@ -284,3 +284,34 @@ tasks.whenTaskAdded { task ->
     }
 }
 
+ext.getAdMobAppID = { ->
+
+    if (System.getProperty('ADMOB_BANNER_APP_ID') != null ) {
+        return System.getProperty('ADMOB_BANNER_APP_ID');
+    }
+    else{
+        return "ca-app-pub-3940256099942544~3347511713";
+    }
+}
+
+ext.getAdMobTestDevice = { ->
+
+    if (System.getProperty('ADMOB_BANNER_TEST_DEVICE') != null ) {
+        return System.getProperty('ADMOB_BANNER_TEST_DEVICE');
+    }
+    else{
+        return "no device";
+    }
+}
+
+ext.getAdMobUnitID = { ->
+
+    if (System.getProperty('ADMOB_BANNER_UNIT_ID') != null ) {
+        return System.getProperty('ADMOB_BANNER_UNIT_ID');
+    }
+    else{
+        //default
+        return "ca-app-pub-3940256099942544/6300978111" ;
+    }
+}
+

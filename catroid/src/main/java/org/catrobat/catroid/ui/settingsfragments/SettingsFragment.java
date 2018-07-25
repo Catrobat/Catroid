@@ -59,6 +59,8 @@ import static org.catrobat.catroid.CatroidApplication.defaultSystemLanguage;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.DEVICE_LANGUAGE;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_CODE;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAG_KEY;
+import static org.catrobat.catroid.ui.settingsfragments.AdMobSettingsFragment.ADMOB_SCREEN_KEY;
+import static org.catrobat.catroid.ui.settingsfragments.AdMobSettingsFragment.SETTINGS_SHOW_ADMOB_BRICKS;
 
 public class SettingsFragment extends PreferenceFragment {
 
@@ -184,6 +186,12 @@ public class SettingsFragment extends PreferenceFragment {
 	public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
 		String key = preference.getKey();
 		switch (key) {
+			case ADMOB_SCREEN_KEY:
+				getFragmentManager().beginTransaction()
+						.replace(R.id.content_frame, new AdMobSettingsFragment(), AdMobSettingsFragment.TAG)
+						.addToBackStack(AdMobSettingsFragment.TAG)
+						.commit();
+				break;
 			case ACCESSIBILITY_SCREEN_KEY:
 				getFragmentManager().beginTransaction()
 						.replace(R.id.content_frame, new AccessibilitySettingsFragment(), AccessibilitySettingsFragment.TAG)
@@ -245,6 +253,10 @@ public class SettingsFragment extends PreferenceFragment {
 	public static void setTermsOfServiceJSAgreedPermanently(Context context, boolean agreed) {
 		setBooleanSharedPreference(agreed, SETTINGS_PARROT_JUMPING_SUMO_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY,
 				context);
+	}
+
+	public static boolean isAdMobSharedPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_SHOW_ADMOB_BRICKS, context);
 	}
 
 	public static boolean isEmroiderySharedPreferenceEnabled(Context context) {
@@ -462,6 +474,12 @@ public class SettingsFragment extends PreferenceFragment {
 	public static void enableLegoMindstormsEV3Bricks(Context context) {
 		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
 		editor.putBoolean(SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED, true);
+		editor.commit();
+	}
+
+	public static void enableAdMobBannerBricks(Context context) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(SETTINGS_SHOW_ADMOB_BRICKS, true);
 		editor.commit();
 	}
 
