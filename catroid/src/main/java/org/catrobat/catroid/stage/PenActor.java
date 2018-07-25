@@ -23,7 +23,9 @@
 
 package org.catrobat.catroid.stage;
 
+import android.content.res.Resources;
 import android.graphics.PointF;
+import android.util.DisplayMetrics;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -43,6 +45,7 @@ public class PenActor extends Actor {
 	private FrameBuffer buffer;
 	private Batch bufferBatch;
 	private OrthographicCamera camera;
+	private Float screenRatio;
 
 	public PenActor() {
 		XmlHeader header = ProjectManager.getInstance().getCurrentProject().getXmlHeader();
@@ -50,6 +53,7 @@ public class PenActor extends Actor {
 		bufferBatch = new SpriteBatch();
 		camera = new OrthographicCamera(header.virtualScreenWidth, header.virtualScreenHeight);
 		bufferBatch.setProjectionMatrix(camera.combined);
+		screenRatio = calculateScreenRatio();
 	}
 
 	@Override
@@ -104,9 +108,10 @@ public class PenActor extends Actor {
 		renderer.begin(ShapeRenderer.ShapeType.Filled);
 
 		if (pen.penDown && (pen.previousPoint.x != sprite.look.getX() || pen.previousPoint.y != sprite.look.getY())) {
-			renderer.circle(pen.previousPoint.x, pen.previousPoint.y, pen.penSize / 2);
-			renderer.rectLine(pen.previousPoint.x, pen.previousPoint.y, x, y, pen.penSize);
-			renderer.circle(x, y, pen.penSize / 2);
+			Float penSize = pen.penSize * screenRatio;
+			renderer.circle(pen.previousPoint.x, pen.previousPoint.y, penSize / 2);
+			renderer.rectLine(pen.previousPoint.x, pen.previousPoint.y, x, y, penSize);
+			renderer.circle(x, y, penSize / 2);
 		}
 
 		renderer.end();
@@ -123,5 +128,15 @@ public class PenActor extends Actor {
 			bufferBatch.dispose();
 			bufferBatch = null;
 		}
+	}
+
+	private float calculateScreenRatio() {
+		DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
+		float deviceDiagonalPixel = (float) Math.sqrt(Math.pow(metrics.widthPixels, 2) + Math.pow(metrics.heightPixels, 2));
+
+		XmlHeader header = ProjectManager.getInstance().getCurrentProject().getXmlHeader();
+		float creatorDiagonalPixel = (float) Math.sqrt(Math.pow(header.getVirtualScreenWidth(), 2)
+				+ Math.pow(header.getVirtualScreenHeight(), 2));
+		return creatorDiagonalPixel / deviceDiagonalPixel;
 	}
 }
