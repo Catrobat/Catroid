@@ -237,9 +237,9 @@ public final class Constants {
 	// background sprite is always on index 0
 	public static final int Z_INDEX_BACKGROUND = 0;
 
-	// this offset reflects the offset caused by "virtual" layers (currently only PenActor)
+	// this offset reflects the offset caused by "virtual" layers (currently only PenActor, EmbroideryActor)
 	// which are sneaked in at the Stage creation when starting the scene.
-	public static final int Z_INDEX_NUMBER_VIRTUAL_LAYERS = 1;
+	public static final int Z_INDEX_NUMBER_VIRTUAL_LAYERS = 2;
 
 	// the minimum z index a real sprite layer can have
 	public static final int Z_INDEX_FIRST_SPRITE = Z_INDEX_BACKGROUND + Z_INDEX_NUMBER_VIRTUAL_LAYERS + 1;

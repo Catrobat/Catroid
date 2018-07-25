@@ -59,6 +59,7 @@ public class GoNStepsBackActionTest {
 	private Sprite background;
 	private Sprite sprite;
 	private Sprite sprite2;
+	private Sprite sprite3;
 
 	@Before
 	public void setUp() throws Exception {
@@ -67,12 +68,15 @@ public class GoNStepsBackActionTest {
 
 		background = new SingleSprite("background");
 		parentGroup.addActor(background.look);
-		sprite = new SingleSprite("testSprite");
+		sprite = new SingleSprite("penActor");
 		parentGroup.addActor(sprite.look);
 		project.getDefaultScene().addSprite(sprite);
-		sprite2 = new SingleSprite("testSprite2");
+		sprite2 = new SingleSprite("embroideryActor");
 		parentGroup.addActor(sprite2.look);
 		project.getDefaultScene().addSprite(sprite2);
+		sprite3 = new SingleSprite("testSprite");
+		parentGroup.addActor(sprite3.look);
+		project.getDefaultScene().addSprite(sprite3);
 
 		ProjectManager.getInstance().setProject(project);
 	}
@@ -142,52 +146,59 @@ public class GoNStepsBackActionTest {
 		parentGroup.addActor(background.look);
 		assertEquals(0, background.look.getZIndex());
 
-		Sprite sprite = new SingleSprite("testSprite");
+		Sprite sprite = new SingleSprite("PenActor");
 		parentGroup.addActor(sprite.look);
 		assertEquals(1, sprite.look.getZIndex());
 
-		Sprite sprite2 = new SingleSprite("testSprite2");
+		Sprite sprite2 = new SingleSprite("EmbroideryActor");
 		parentGroup.addActor(sprite2.look);
 		assertEquals(2, sprite2.look.getZIndex());
+
+		Sprite sprite3 = new SingleSprite("testSprite");
+		parentGroup.addActor(sprite3.look);
+		assertEquals(Constants.Z_INDEX_FIRST_SPRITE, sprite3.look.getZIndex());
 
 		project.getDefaultScene().addSprite(sprite);
 		project.getDefaultScene().addSprite(sprite2);
 		ProjectManager.getInstance().setProject(project);
 
 		sprite.getActionFactory().createGoNStepsBackAction(sprite, new Formula(Integer.MAX_VALUE)).act(1.0f);
-		assertEquals(Constants.Z_INDEX_FIRST_SPRITE, sprite.look.getZIndex());
 		assertEquals(1, sprite2.look.getZIndex());
 
-		sprite.getActionFactory().createGoNStepsBackAction(sprite, new Formula(Integer.MIN_VALUE)).act(1.0f);
-		assertEquals(2, sprite.look.getZIndex());
+		sprite.getActionFactory().createGoNStepsBackAction(sprite2, new Formula(Integer.MIN_VALUE)).act(1.0f);
+		assertEquals(3, sprite2.look.getZIndex());
 	}
 
 	@Test
 	public void testBrickWithStringFormula() {
-		sprite.getActionFactory().createGoNStepsBackAction(sprite2, new Formula(String.valueOf(STEPS))).act(1.0f);
+		sprite.getActionFactory().createGoNStepsBackAction(sprite3, new Formula(String.valueOf(STEPS))).act(1.0f);
 		assertEquals(0, background.look.getZIndex());
-		assertEquals(Constants.Z_INDEX_FIRST_SPRITE, sprite2.look.getZIndex());
 		assertEquals(1, sprite.look.getZIndex());
+		assertEquals(2, sprite2.look.getZIndex());
+		assertEquals(Constants.Z_INDEX_FIRST_SPRITE, sprite3.look.getZIndex());
 
 		sprite.getActionFactory().createGoNStepsBackAction(sprite, new Formula(String.valueOf(NOT_NUMERICAL_STRING))).act(1.0f);
 		assertEquals(0, background.look.getZIndex());
-		assertEquals(Constants.Z_INDEX_FIRST_SPRITE, sprite2.look.getZIndex());
 		assertEquals(1, sprite.look.getZIndex());
+		assertEquals(2, sprite2.look.getZIndex());
+		assertEquals(Constants.Z_INDEX_FIRST_SPRITE, sprite3.look.getZIndex());
 	}
 
 	@Test
 	public void testNullFormula() {
-		sprite.getActionFactory().createGoNStepsBackAction(sprite2, null).act(1.0f);
+		sprite.getActionFactory().createGoNStepsBackAction(sprite3, null).act(1.0f);
 		assertEquals(0, background.look.getZIndex());
 		assertEquals(1, sprite.look.getZIndex());
 		assertEquals(2, sprite2.look.getZIndex());
+		assertEquals(Constants.Z_INDEX_FIRST_SPRITE, sprite3.look.getZIndex());
 	}
 
 	@Test
 	public void testNotANumberFormula() {
-		sprite.getActionFactory().createGoNStepsBackAction(sprite2, new Formula(Double.NaN)).act(1.0f);
+		sprite.getActionFactory().createGoNStepsBackAction(sprite3, new Formula(Double.NaN)).act(1.0f);
 		assertEquals(0, background.look.getZIndex());
 		assertEquals(1, sprite.look.getZIndex());
 		assertEquals(2, sprite2.look.getZIndex());
+		assertEquals(Constants.Z_INDEX_FIRST_SPRITE, sprite3.look.getZIndex());
 	}
 }
