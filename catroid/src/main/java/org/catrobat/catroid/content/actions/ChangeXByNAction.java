@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import android.graphics.PointF;
 import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
@@ -40,6 +41,11 @@ public class ChangeXByNAction extends TemporalAction {
 		try {
 			Float newX = xMovement == null ? Float.valueOf(0f) : xMovement.interpretFloat(sprite);
 			sprite.look.changeXInUserInterfaceDimensionUnit(newX);
+
+			if (sprite.penConfiguration.penDown) {
+				sprite.penConfiguration.pointsToDraw.add(new PointF(sprite.look.getXInUserInterfaceDimensionUnit(),
+						sprite.look.getYInUserInterfaceDimensionUnit()));
+			}
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 		}

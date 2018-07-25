@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import android.graphics.PointF;
 import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
@@ -42,6 +43,11 @@ public class MoveNStepsAction extends TemporalAction {
 			double radians = Math.toRadians(sprite.look.getDirectionInUserInterfaceDimensionUnit());
 			sprite.look.changeXInUserInterfaceDimensionUnit((float) (stepsValue * Math.sin(radians)));
 			sprite.look.changeYInUserInterfaceDimensionUnit((float) (stepsValue * Math.cos(radians)));
+
+			if (sprite.penConfiguration.penDown) {
+				sprite.penConfiguration.pointsToDraw.add(new PointF(sprite.look.getXInUserInterfaceDimensionUnit(),
+						sprite.look.getYInUserInterfaceDimensionUnit()));
+			}
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 		}
