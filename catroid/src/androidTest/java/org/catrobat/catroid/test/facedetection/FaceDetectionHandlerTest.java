@@ -25,39 +25,52 @@ package org.catrobat.catroid.test.facedetection;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
-import org.catrobat.catroid.test.utils.Reflection;
-import org.catrobat.catroid.test.utils.TestFaceDetector;
+import org.catrobat.catroid.facedetection.FaceDetector;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InOrder;
+import org.mockito.Mockito;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
+import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 @RunWith(AndroidJUnit4.class)
 public class FaceDetectionHandlerTest {
 
+	@After
+	public void tearDown() {
+		FaceDetectionHandler.setFaceDetector(null);
+	}
+
 	@Test
-	public void testResume() throws Exception {
-		TestFaceDetector detector = new TestFaceDetector();
-		Reflection.setPrivateField(FaceDetectionHandler.class, "faceDetector", detector);
-		assertFalse(detector.started);
+	public void testResume() {
+		FaceDetector detector = Mockito.mock(FaceDetector.class);
+		when(detector.startFaceDetection()).thenReturn(true);
+		InOrder inOrder = inOrder(detector);
+		FaceDetectionHandler.setFaceDetector(detector);
 
 		FaceDetectionHandler.resumeFaceDetection();
-		assertFalse(detector.started);
+		verifyNoMoreInteractions(detector);
 
 		FaceDetectionHandler.startFaceDetection();
-		assertTrue(detector.started);
+		inOrder.verify(detector).startFaceDetection();
+		verifyNoMoreInteractions(detector);
 
 		FaceDetectionHandler.pauseFaceDetection();
-		assertFalse(detector.started);
+		inOrder.verify(detector).stopFaceDetection();
+		verifyNoMoreInteractions(detector);
 
 		FaceDetectionHandler.resumeFaceDetection();
-		assertTrue(detector.started);
+		inOrder.verify(detector).startFaceDetection();
+		verifyNoMoreInteractions(detector);
 
 		FaceDetectionHandler.stopFaceDetection();
-		assertFalse(detector.started);
+		inOrder.verify(detector).stopFaceDetection();
+		verifyNoMoreInteractions(detector);
 
 		FaceDetectionHandler.resumeFaceDetection();
-		assertFalse(detector.started);
+		verifyNoMoreInteractions(detector);
 	}
 }
