@@ -27,8 +27,6 @@ import android.nfc.NdefMessage;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
-import junit.framework.Assert;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
@@ -50,7 +48,6 @@ import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
-import org.catrobat.catroid.uiespresso.util.UserVariableTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -75,6 +72,7 @@ import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils
 import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.TAG_NAME_TEST1;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.TAG_NAME_TEST2;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.onNfcBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.util.UserVariableAssertions.assertUserVariableEqualsWithTimeout;
 
 @RunWith(AndroidJUnit4.class)
 public class WhenNfcBrickStageFromScriptTest {
@@ -106,8 +104,8 @@ public class WhenNfcBrickStageFromScriptTest {
 		onView(withId(R.id.button_play))
 				.perform(click());
 
-		Assert.assertTrue(UserVariableTestUtils.userVariableEqualsWithinTimeout(readTagId, 0, 2000));
-		Assert.assertTrue(UserVariableTestUtils.userVariableEqualsWithinTimeout(readTagMessage, "0.0", 2000));
+		assertUserVariableEqualsWithTimeout(readTagId, 0, 2000);
+		assertUserVariableEqualsWithTimeout(readTagMessage, "0.0", 2000);
 	}
 
 	@Category({Cat.CatrobatLanguage.class, Level.Functional.class, Cat.Gadgets.class, Cat.SettingsAndPermissions.class})
