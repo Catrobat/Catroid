@@ -1468,6 +1468,7 @@
     <string name="ev3_sensor_nxt_light">NXT light sensor</string>
     <string name="ev3_sensor_nxt_light_active">NXT light sensor active</string>
     <string name="ev3_sensor_nxt_sound">NXT sound sensor</string>
+    <string name="ev3_sensor_nxt_ultrasonic">NXT ultrasonic sensor</string>
 
     <string name="ev3_motor_a">A</string>
     <string name="ev3_motor_b">B</string>
@@ -1794,6 +1795,7 @@
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light">EV3_NXT_light</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light_active">EV3_NXT_light_active</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_sound">EV3_NXT_sound</string>
+     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_ultrasonic">EV3_NXT_ultrasonic</string>
     <string name="formula_editor_sensor_gamepad_a_pressed">gamepad_a_pressed</string>
     <string name="formula_editor_sensor_gamepad_b_pressed">gamepad_b_pressed</string>
     <string name="formula_editor_sensor_gamepad_up_pressed">gamepad_up_pressed</string>

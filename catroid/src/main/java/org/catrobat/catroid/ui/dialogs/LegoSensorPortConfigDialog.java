@@ -87,11 +87,13 @@ public final class LegoSensorPortConfigDialog extends AlertDialog {
 						new SensorInfo(R.string.ev3_sensor_nxt_temperature_f, EV3Sensor.Sensor.NXT_TEMPERATURE_F))
 				.put(R.string.formula_editor_sensor_lego_ev3_sensor_nxt_light,
 					new SensorInfo(R.string.ev3_sensor_nxt_light, EV3Sensor.Sensor.NXT_LIGHT))
-			    .put(R.string.formula_editor_sensor_lego_ev3_sensor_nxt_light_active,
+				.put(R.string.formula_editor_sensor_lego_ev3_sensor_nxt_light_active,
 					new SensorInfo(R.string.ev3_sensor_nxt_light_active, EV3Sensor.Sensor.NXT_LIGHT_ACTIVE))
-			.put(R.string.formula_editor_sensor_lego_ev3_sensor_nxt_sound,
+				.put(R.string.formula_editor_sensor_lego_ev3_sensor_nxt_sound,
 					new SensorInfo(R.string.ev3_sensor_nxt_sound, EV3Sensor.Sensor.NXT_SOUND))
-			.build();
+				.put(R.string.formula_editor_sensor_lego_ev3_sensor_nxt_ultrasonic,
+					new SensorInfo(R.string.ev3_sensor_nxt_ultrasonic, EV3Sensor.Sensor.NXT_ULTRASONIC))
+				.build();
 
 		SensorInfo getSensorInfo(int selectedItem, @Constants.LegoSensorType int type) {
 			SensorInfo info = sensorInfoMap.get(selectedItem);
