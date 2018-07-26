@@ -26,8 +26,6 @@ package org.catrobat.catroid.uiespresso.content.brick.stage;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
-import junit.framework.Assert;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
@@ -43,7 +41,6 @@ import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
-import org.catrobat.catroid.uiespresso.util.UserVariableTestUtils;
 import org.catrobat.catroid.uiespresso.util.hardware.SensorTestArduinoServerConnection;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.Before;
@@ -60,6 +57,8 @@ import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInter
 import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.NUM_DETECTED_TAGS;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.READ_TAG_ID;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.READ_TAG_MESSAGE;
+import static org.catrobat.catroid.uiespresso.util.UserVariableAssertions.assertUserVariableContainsStringWithTimeout;
+import static org.catrobat.catroid.uiespresso.util.UserVariableAssertions.assertUserVariableEqualsWithTimeout;
 
 @RunWith(AndroidJUnit4.class)
 public class WhenNfcBrickHardwareStageTest {
@@ -123,8 +122,8 @@ public class WhenNfcBrickHardwareStageTest {
 		onBrickAtPosition(whenNfcBrickPosition).checkShowsText(R.string.brick_when_nfc);
 		onView(withId(R.id.button_play)).perform(click());
 		SensorTestArduinoServerConnection.emulateNfcTag(true, tagID, catrobatUrl);
-		Assert.assertTrue(UserVariableTestUtils.userVariableContainsWithinTimeout(readTagId, tagID, waitingTime));
-		Assert.assertTrue(UserVariableTestUtils.userVariableContainsWithinTimeout(readTagMessage, catrobatUrl, waitingTime));
-		Assert.assertTrue(UserVariableTestUtils.userVariableEqualsWithinTimeout(numDetectedTags, 1, waitingTime));
+		assertUserVariableContainsStringWithTimeout(readTagId, tagID, waitingTime);
+		assertUserVariableContainsStringWithTimeout(readTagMessage, catrobatUrl, waitingTime);
+		assertUserVariableEqualsWithTimeout(numDetectedTags, 1, waitingTime);
 	}
 }
