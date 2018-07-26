@@ -184,6 +184,20 @@ public class LegoEV3SensorTest {
 	}
 
 	@Test
+	public void testNXTSoundSensor() {
+		final EV3SensorType expectedType = EV3SensorType.NXT_SOUND;
+		final EV3SensorMode expectedMode = EV3SensorMode.MODE1;
+
+		SettingsFragment.setLegoMindstormsEV3SensorMapping(applicationContext, EV3Sensor.Sensor.NXT_SOUND, EV3_SENSOR_1);
+
+		initSensor();
+		ev3.getSensor1().updateLastSensorValue();
+
+		checkInitializationCommand(expectedType, expectedMode);
+		checkPercentValueCommand(expectedType, expectedMode);
+	}
+
+	@Test
 	public void testInfraredSensor() {
 		final EV3SensorType expectedType = EV3SensorType.EV3_INFRARED;
 		final EV3SensorMode expectedMode = EV3SensorMode.MODE0;
