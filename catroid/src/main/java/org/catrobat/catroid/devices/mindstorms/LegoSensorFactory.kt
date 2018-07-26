@@ -42,6 +42,8 @@ class LegoSensorFactory (private val connection: MindstormsConnection) {
         EV3Sensor.Sensor.HT_NXT_COLOR -> HiTechnicColorSensor(port, connection, EV3SensorMode.MODE1)
         EV3Sensor.Sensor.NXT_TEMPERATURE_C -> TemperatureSensor(port, connection, EV3SensorMode.MODE0)
         EV3Sensor.Sensor.NXT_TEMPERATURE_F -> TemperatureSensor(port, connection, EV3SensorMode.MODE1)
+        EV3Sensor.Sensor.NXT_LIGHT -> EV3LightSensorNXT(port, connection, EV3SensorMode.MODE1)
+        EV3Sensor.Sensor.NXT_LIGHT_ACTIVE -> EV3LightSensorNXT(port, connection, EV3SensorMode.MODE0)
         else -> throw IllegalArgumentException("Trying to create Ev3Sensor with invalid sensorType: " + sensorType)
     }
 
