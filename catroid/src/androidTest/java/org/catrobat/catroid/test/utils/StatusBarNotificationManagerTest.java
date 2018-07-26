@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.test.utils;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
@@ -46,7 +48,7 @@ public class StatusBarNotificationManagerTest {
 
 	@After
 	public void tearDown() throws Exception {
-		TestUtils.cancelAllNotifications(InstrumentationRegistry.getTargetContext());
+		cancelAllNotifications(InstrumentationRegistry.getTargetContext());
 	}
 
 	@Test
@@ -116,5 +118,22 @@ public class StatusBarNotificationManagerTest {
 		assertNotNull(data.getPendingIntent());
 		assertNotNull(data.getNotificationBuilder());
 		assertEquals(TestUtils.DEFAULT_TEST_PROJECT_NAME, data.getProgramName());
+	}
+
+	private void cancelAllNotifications(Context context) throws Exception {
+		NotificationManager notificationManager = (NotificationManager) context
+				.getSystemService(Context.NOTIFICATION_SERVICE);
+		@SuppressWarnings("unchecked")
+		SparseArray<NotificationData> notificationMap = (SparseArray<NotificationData>) Reflection.getPrivateField(
+				StatusBarNotificationManager.class, StatusBarNotificationManager.getInstance(), "notificationDataMap");
+		if (notificationMap == null) {
+			return;
+		}
+
+		for (int i = 0; i < notificationMap.size(); i++) {
+			notificationManager.cancel(notificationMap.keyAt(i));
+		}
+
+		notificationMap.clear();
 	}
 }

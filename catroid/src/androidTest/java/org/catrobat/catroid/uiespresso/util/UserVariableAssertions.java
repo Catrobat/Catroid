@@ -29,76 +29,84 @@ import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 
-public final class UserVariableTestUtils {
+import static junit.framework.Assert.assertEquals;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+
+public final class UserVariableAssertions {
 
 	private static final double EPSILON = 0.001;
 
-	private UserVariableTestUtils() {
+	private UserVariableAssertions() {
 		throw new AssertionError();
 	}
 
-	public static boolean userVariableEqualsWithinTimeout(UserVariable userVariable, double expectedValue,
+	public static void assertUserVariableEqualsWithTimeout(UserVariable userVariable, double expectedValue,
 			int timeoutMillis) {
-		int intervalMillis = 10;
-		for (; timeoutMillis > 0; timeoutMillis -= intervalMillis) {
+		for (int intervalMillis = 10; timeoutMillis > 0; timeoutMillis -= intervalMillis) {
 			if (areEqualWithinEpsilon(expectedValue, (Double) userVariable.getValue())) {
-				return true;
+				assertEquals(expectedValue, (Double) userVariable.getValue(), EPSILON);
+				return;
 			}
 			onView(isRoot())
 					.perform(CustomActions.wait(intervalMillis));
 		}
-		return false;
+		assertEquals(expectedValue, (Double) userVariable.getValue(), EPSILON);
 	}
 
-	public static boolean userVariableDoesDifferWithinTimeout(UserVariable userVariable, double expectedValue,
+	public static void assertUserVariableNotEqualsForTimeMs(UserVariable userVariable, double expectedValue,
 			int timeoutMillis) {
-		int intervalMillis = 10;
-		for (; timeoutMillis > 0; timeoutMillis -= intervalMillis) {
+		for (int intervalMillis = 10; timeoutMillis > 0; timeoutMillis -= intervalMillis) {
 			if (areEqualWithinEpsilon(expectedValue, (Double) userVariable.getValue())) {
-				return false;
+				assertThat((Double) userVariable.getValue(), not(equalTo(expectedValue)));
 			}
 			onView(isRoot())
 					.perform(CustomActions.wait(intervalMillis));
 		}
-		return true;
+		assertThat((Double) userVariable.getValue(), not(equalTo(expectedValue)));
 	}
 
-	public static boolean userVariableEqualsWithinTimeout(UserVariable userVariable, String expectedValue,
+	public static void assertUserVariableEqualsWithTimeout(UserVariable userVariable, String expectedValue,
 			int timeoutMillis) {
-		int intervalMillis = 10;
-		for (; timeoutMillis > 0; timeoutMillis -= intervalMillis) {
+		for (int intervalMillis = 10; timeoutMillis > 0; timeoutMillis -= intervalMillis) {
 			if (expectedValue.equals(userVariable.getValue().toString())) {
-				return true;
+				assertEquals(expectedValue, userVariable.getValue().toString());
+				return;
 			}
 			onView(isRoot())
 					.perform(CustomActions.wait(intervalMillis));
 		}
-		return false;
+		assertEquals(expectedValue, userVariable.getValue().toString());
 	}
 
-	public static boolean userVariableContainsWithinTimeout(UserVariable userVariable, String expectedValue,
+	public static void assertUserVariableContainsStringWithTimeout(UserVariable userVariable, String expectedValue,
 			int timeoutMillis) {
-		int intervalMillis = 10;
-		for (; timeoutMillis > 0; timeoutMillis -= intervalMillis) {
+		for (int intervalMillis = 10; timeoutMillis > 0; timeoutMillis -= intervalMillis) {
 			if (userVariable.getValue().toString().contains(expectedValue)) {
-				return true;
+				assertThat(userVariable.getValue().toString(), containsString(expectedValue));
+				return;
 			}
 			onView(isRoot())
 					.perform(CustomActions.wait(intervalMillis));
 		}
-		return false;
+		assertThat(userVariable.getValue().toString(), containsString(expectedValue));
 	}
 
-	public static boolean userVariableGreaterThanWithinTimeout(UserVariable userVariable, double expectedValue,
+	public static void assertUserVariableIsGreaterThanWithTimeout(UserVariable userVariable, double expectedValue,
 			int timeoutMillis) {
-		int step = 10;
-		for (; timeoutMillis > 0; timeoutMillis -= step) {
+		for (int intervalMillis = 10; timeoutMillis > 0; timeoutMillis -= intervalMillis) {
 			if ((double) userVariable.getValue() > (expectedValue + EPSILON)) {
-				return true;
+				assertThat((double) userVariable.getValue(), is(greaterThan(expectedValue + EPSILON)));
+				return;
 			}
-			onView(isRoot()).perform(CustomActions.wait(step));
+			onView(isRoot()).perform(CustomActions.wait(intervalMillis));
 		}
-		return false;
+		assertThat((double) userVariable.getValue(), is(greaterThan(expectedValue + EPSILON)));
 	}
 
 	private static boolean areEqualWithinEpsilon(double expected, double actual) {

@@ -26,8 +26,6 @@ package org.catrobat.catroid.uiespresso.stage;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
-import junit.framework.Assert;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -51,7 +49,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
-import static org.catrobat.catroid.uiespresso.util.UserVariableTestUtils.userVariableEqualsWithinTimeout;
+import static org.catrobat.catroid.uiespresso.util.UserVariableAssertions.assertUserVariableEqualsWithTimeout;
 
 @RunWith(AndroidJUnit4.class)
 public class DisabledBrickInClonesRegressionTest {
@@ -103,6 +101,6 @@ public class DisabledBrickInClonesRegressionTest {
 	public void setVariableInCloneShouldNotBeExecutedTest() {
 		baseActivityTestRule.launchActivity();
 		lastBrickInScript.waitUntilEvaluated(3000);
-		Assert.assertTrue(userVariableEqualsWithinTimeout(userVariable, 1D, 2000));
+		assertUserVariableEqualsWithTimeout(userVariable, 1D, 2000);
 	}
 }

@@ -88,7 +88,8 @@ public class ProjectManagerTest {
 
 	@Test
 	public void testShouldReturnFalseIfCatrobatLanguageVersionNotSupported() throws IOException, ProjectException {
-		TestUtils.createTestProjectOnLocalStorageWithCatrobatLanguageVersion(CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED);
+		TestUtils.createProjectWithLanguageVersion(CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED,
+				"testProject");
 
 		try {
 			projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, InstrumentationRegistry.getTargetContext());
@@ -98,7 +99,8 @@ public class ProjectManagerTest {
 
 		TestUtils.deleteProjects();
 
-		TestUtils.createTestProjectOnLocalStorageWithCatrobatLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION);
+		TestUtils.createProjectWithLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION,
+				"testProject");
 
 		projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, InstrumentationRegistry.getTargetContext());
 	}
@@ -107,12 +109,13 @@ public class ProjectManagerTest {
 	public void testShouldKeepExistingProjectIfCannotLoadNewProject() throws IOException,
 			CompatibilityProjectException, OutdatedVersionProjectException, LoadingProjectException {
 
-		TestUtils.createTestProjectOnLocalStorageWithCatrobatLanguageVersionAndName(CURRENT_CATROBAT_LANGUAGE_VERSION,
+		TestUtils.createProjectWithLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION,
 				OLD_PROJECT);
 
 		projectManager.loadProject(OLD_PROJECT, InstrumentationRegistry.getTargetContext());
 
-		TestUtils.createTestProjectOnLocalStorageWithCatrobatLanguageVersion(CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED);
+		TestUtils.createProjectWithLanguageVersion(CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED,
+				"testProject");
 
 		try {
 			projectManager.loadProject(NEW_PROJECT, InstrumentationRegistry.getTargetContext());
@@ -139,7 +142,7 @@ public class ProjectManagerTest {
 	@Test
 	public void testSavingAProjectDuringDelete() throws IOException, CompatibilityProjectException,
 			OutdatedVersionProjectException, LoadingProjectException {
-		TestUtils.createTestProjectOnLocalStorageWithCatrobatLanguageVersionAndName(
+		TestUtils.createProjectWithLanguageVersion(
 				CURRENT_CATROBAT_LANGUAGE_VERSION, TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, InstrumentationRegistry.getTargetContext());
