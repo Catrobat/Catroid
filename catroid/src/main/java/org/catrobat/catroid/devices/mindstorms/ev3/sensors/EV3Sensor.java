@@ -53,7 +53,8 @@ public abstract class EV3Sensor implements LegoSensor {
 		NXT_TEMPERATURE_F,
 		NXT_LIGHT,
 		NXT_LIGHT_ACTIVE,
-		NXT_SOUND;
+		NXT_SOUND,
+		NXT_ULTRASONIC;
 
 		public static String[] getSensorCodes() {
 			String[] valueStrings = new String[values().length];
@@ -125,6 +126,13 @@ public abstract class EV3Sensor implements LegoSensor {
 		}
 	}
 
+	public enum CpuCommandFlag {
+		INCLUDE_TYPE_AND_MODE,
+		NO_TYPE_AND_MODE,
+		INCLUDE_RETURN_VALUE,
+		NO_RETURN_VALUE
+	}
+
 	protected final int port;
 	protected final EV3SensorType sensorType;
 	protected final EV3SensorMode sensorMode;
@@ -175,7 +183,7 @@ public abstract class EV3Sensor implements LegoSensor {
 			hasInit = true;
 
 			EV3Command command = buildCommand(1, EV3CommandByteCode.INPUT_DEVICE_READY_RAW,
-					EV3CommandOpCode.OP_INPUT_DEVICE, true, true);
+					EV3CommandOpCode.OP_INPUT_DEVICE, CpuCommandFlag.INCLUDE_TYPE_AND_MODE, CpuCommandFlag.INCLUDE_RETURN_VALUE);
 
 			try {
 				sendCommandAndGetReply(command, commandCounter);
@@ -196,7 +204,7 @@ public abstract class EV3Sensor implements LegoSensor {
 			int commandCount = connection.getCommandCounter();
 
 			EV3Command command = buildCommand(1, null, EV3CommandOpCode.OP_INPUT_READ,
-					true, false);
+					CpuCommandFlag.INCLUDE_TYPE_AND_MODE, CpuCommandFlag.NO_RETURN_VALUE);
 
 			try {
 				EV3Reply reply = sendCommandAndGetReply(command, commandCount);
@@ -217,7 +225,7 @@ public abstract class EV3Sensor implements LegoSensor {
 			int commandCount = connection.getCommandCounter();
 
 			EV3Command command = buildCommand(numBytes, EV3CommandByteCode.INPUT_DEVICE_GET_RAW,
-					EV3CommandOpCode.OP_INPUT_DEVICE, false, false);
+					EV3CommandOpCode.OP_INPUT_DEVICE, CpuCommandFlag.NO_TYPE_AND_MODE, CpuCommandFlag.NO_RETURN_VALUE);
 
 			try {
 				EV3Reply reply = sendCommandAndGetReply(command, commandCount);
@@ -240,7 +248,7 @@ public abstract class EV3Sensor implements LegoSensor {
 			int commandCount = connection.getCommandCounter();
 
 			EV3Command command = buildCommand(numBytes, null, EV3CommandOpCode.OP_INPUT_READ_SI,
-					true, false);
+					CpuCommandFlag.INCLUDE_TYPE_AND_MODE, CpuCommandFlag.NO_RETURN_VALUE);
 
 			try {
 				EV3Reply reply = sendCommandAndGetReply(command, commandCount);
@@ -254,8 +262,8 @@ public abstract class EV3Sensor implements LegoSensor {
 		return siValue;
 	}
 
-	private EV3Command buildCommand(int globalVars, EV3CommandByteCode commandCode, EV3CommandOpCode opCode, boolean
-			addTypeAndMode, boolean addReturnValue) {
+	private EV3Command buildCommand(int globalVars, EV3CommandByteCode commandCode, EV3CommandOpCode opCode, CpuCommandFlag
+			addTypeAndMode, CpuCommandFlag addReturnValue) {
 
 		EV3Command command = new EV3Command(connection.getCommandCounter(), EV3CommandType.DIRECT_COMMAND_REPLY,
 				globalVars, 0, opCode);
@@ -274,12 +282,12 @@ public abstract class EV3Sensor implements LegoSensor {
 		command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, chainLayer);
 		command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, this.port);
 
-		if (addTypeAndMode) {
+		if (addTypeAndMode == CpuCommandFlag.INCLUDE_TYPE_AND_MODE) {
 			command.append(EV3CommandParamFormat.PARAM_FORMAT_LONG, type);
 			command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, mode);
 		}
 
-		if (addReturnValue) {
+		if (addReturnValue == CpuCommandFlag.INCLUDE_RETURN_VALUE) {
 			command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, returnValue);
 		}
 

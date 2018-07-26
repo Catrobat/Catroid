@@ -161,7 +161,8 @@ public class CategoryListFragment extends Fragment implements
 			R.string.formula_editor_sensor_lego_ev3_sensor_nxt_temperature_f,
 			R.string.formula_editor_sensor_lego_ev3_sensor_nxt_light,
 			R.string.formula_editor_sensor_lego_ev3_sensor_nxt_light_active,
-			R.string.formula_editor_sensor_lego_ev3_sensor_nxt_sound);
+			R.string.formula_editor_sensor_lego_ev3_sensor_nxt_sound,
+			R.string.formula_editor_sensor_lego_ev3_sensor_nxt_ultrasonic);
 	private static final List<Integer> SENSORS_PHIRO = Arrays.asList(R.string.formula_editor_phiro_sensor_front_left,
 			R.string.formula_editor_phiro_sensor_front_right,
 			R.string.formula_editor_phiro_sensor_side_left,
