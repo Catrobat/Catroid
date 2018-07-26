@@ -136,11 +136,11 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 	}
 
 	private void setSpinnerSelection(Spinner spinner) {
-		int position = getPositionOfMessageInAdapter(spinner.getContext(), getBroadcastMessage());
+		int position = getPositionOfMessageInAdapter(spinner.getContext(), getSpriteToCollideWithName());
 		spinner.setSelection(position);
 	}
 
-	public int getPositionOfMessageInAdapter(Context context, String message) {
+	private int getPositionOfMessageInAdapter(Context context, String message) {
 		getCollisionObjectAdapter(context);
 		int position = messageAdapter.getPosition(message);
 		if (position == -1) {
@@ -148,13 +148,6 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 		} else {
 			return position;
 		}
-	}
-
-	public String getBroadcastMessage() {
-		if (collisionScript.getSpriteToCollideWith() == null) {
-			return null;
-		}
-		return collisionScript.getSpriteToCollideWith().getName();
 	}
 
 	@Override
