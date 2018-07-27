@@ -39,7 +39,7 @@ import java.util.List;
 public class IfThenLogicBeginBrick extends IfLogicBeginBrick implements NestingBrick {
 
 	private static final long serialVersionUID = 1L;
-	protected transient IfThenLogicEndBrick ifEndBrick;
+	private transient IfThenLogicEndBrick ifEndBrick;
 
 	public IfThenLogicBeginBrick(int condition) {
 		initializeBrickFields(new Formula(condition));
@@ -51,11 +51,6 @@ public class IfThenLogicBeginBrick extends IfLogicBeginBrick implements NestingB
 
 	public void setIfThenEndBrick(IfThenLogicEndBrick ifEndBrick) {
 		this.ifEndBrick = ifEndBrick;
-	}
-
-	@Override
-	public Brick clone() {
-		return new IfThenLogicBeginBrick(getFormulaWithBrickField(BrickField.IF_CONDITION).clone());
 	}
 
 	@Override
@@ -71,7 +66,7 @@ public class IfThenLogicBeginBrick extends IfLogicBeginBrick implements NestingB
 	}
 
 	@Override
-	public List<NestingBrick> getAllNestingBrickParts(boolean sorted) {
+	public List<NestingBrick> getAllNestingBrickParts() {
 		List<NestingBrick> nestingBrickList = new ArrayList<>();
 		nestingBrickList.add(this);
 		nestingBrickList.add(ifEndBrick);

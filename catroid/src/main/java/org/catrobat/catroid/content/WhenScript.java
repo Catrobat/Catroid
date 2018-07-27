@@ -30,27 +30,12 @@ public class WhenScript extends Script {
 
 	private static final long serialVersionUID = 1L;
 
-	public WhenScript() {
-	}
-
-	public WhenScript(WhenBrick brick) {
-		this.brick = brick;
-	}
-
 	@Override
 	public ScriptBrick getScriptBrick() {
-		if (brick == null) {
-			brick = new WhenBrick(this);
+		if (scriptBrick == null) {
+			scriptBrick = new WhenBrick(this);
 		}
-
-		return brick;
-	}
-
-	@Override
-	public Script clone() throws CloneNotSupportedException {
-		WhenScript clone = new WhenScript();
-		clone.getBrickList().addAll(cloneBrickList());
-		return clone;
+		return scriptBrick;
 	}
 
 	@Override

@@ -62,7 +62,7 @@ public class WhenConditionScriptTest {
 
 		formula = Mockito.mock(Formula.class);
 		WhenConditionBrick whenConditionBrick = new WhenConditionBrick(formula);
-		conditionScript = (WhenConditionScript) whenConditionBrick.getScriptSafe();
+		conditionScript = (WhenConditionScript) whenConditionBrick.getScript();
 		sprite.addScript(conditionScript);
 	}
 

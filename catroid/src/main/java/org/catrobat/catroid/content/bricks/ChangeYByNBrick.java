@@ -36,9 +36,8 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import java.util.List;
 
 public class ChangeYByNBrick extends FormulaBrick {
-	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
+	private static final long serialVersionUID = 1L;
 
 	public ChangeYByNBrick() {
 		addAllowedBrickField(BrickField.Y_POSITION_CHANGE);
@@ -70,26 +69,25 @@ public class ChangeYByNBrick extends FormulaBrick {
 	@Override
 	public View getView(Context context) {
 		super.getView(context);
-		TextView editY = (TextView) view.findViewById(R.id.brick_change_y_edit_text);
+		TextView editY = view.findViewById(R.id.brick_change_y_edit_text);
 		getFormulaWithBrickField(BrickField.Y_POSITION_CHANGE).setTextFieldId(R.id.brick_change_y_edit_text);
 		getFormulaWithBrickField(BrickField.Y_POSITION_CHANGE).refreshTextField(view);
-
 		editY.setOnClickListener(this);
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
-		TextView textYMovement = (TextView) prototypeView.findViewById(R.id.brick_change_y_edit_text);
+		View prototypeView = super.getPrototypeView(context);
+		TextView textYMovement = prototypeView.findViewById(R.id.brick_change_y_edit_text);
 		textYMovement.setText(formatNumberForPrototypeView(BrickValues.CHANGE_Y_BY));
 		return prototypeView;
 	}
 
 	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createChangeYByNAction(sprite,
-				getFormulaWithBrickField(BrickField.Y_POSITION_CHANGE)));
+		sequence.addAction(sprite.getActionFactory()
+				.createChangeYByNAction(sprite, getFormulaWithBrickField(BrickField.Y_POSITION_CHANGE)));
 		return null;
 	}
 

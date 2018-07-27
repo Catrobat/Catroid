@@ -39,8 +39,6 @@ public class ChangeVolumeByNBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
-
 	public ChangeVolumeByNBrick() {
 		addAllowedBrickField(BrickField.VOLUME_CHANGE);
 	}
@@ -71,26 +69,25 @@ public class ChangeVolumeByNBrick extends FormulaBrick {
 	@Override
 	public View getView(Context context) {
 		super.getView(context);
-		TextView edit = (TextView) view.findViewById(R.id.brick_change_volume_by_edit_text);
+		TextView edit = view.findViewById(R.id.brick_change_volume_by_edit_text);
 		getFormulaWithBrickField(BrickField.VOLUME_CHANGE).setTextFieldId(R.id.brick_change_volume_by_edit_text);
 		getFormulaWithBrickField(BrickField.VOLUME_CHANGE).refreshTextField(view);
-
 		edit.setOnClickListener(this);
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
-		TextView textSetVolumenTo = (TextView) prototypeView
-				.findViewById(R.id.brick_change_volume_by_edit_text);
-		textSetVolumenTo.setText(formatNumberForPrototypeView(BrickValues.CHANGE_VOLUME_BY));
+		View prototypeView = super.getPrototypeView(context);
+		TextView textSetVolumeTo = prototypeView.findViewById(R.id.brick_change_volume_by_edit_text);
+		textSetVolumeTo.setText(formatNumberForPrototypeView(BrickValues.CHANGE_VOLUME_BY));
 		return prototypeView;
 	}
 
 	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createChangeVolumeByNAction(sprite, getFormulaWithBrickField(BrickField.VOLUME_CHANGE)));
+		sequence.addAction(sprite.getActionFactory()
+				.createChangeVolumeByNAction(sprite, getFormulaWithBrickField(BrickField.VOLUME_CHANGE)));
 		return null;
 	}
 

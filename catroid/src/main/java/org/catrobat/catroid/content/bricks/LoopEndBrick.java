@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.util.Log;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
@@ -35,7 +33,6 @@ import java.util.List;
 public class LoopEndBrick extends BrickBaseType implements NestingBrick, AllowedAfterDeadEndBrick {
 
 	private static final long serialVersionUID = 1L;
-	private static final String TAG = LoopEndBrick.class.getSimpleName();
 	private transient LoopBeginBrick loopBeginBrick;
 
 	public LoopEndBrick() {
@@ -59,8 +56,10 @@ public class LoopEndBrick extends BrickBaseType implements NestingBrick, Allowed
 	}
 
 	@Override
-	public Brick clone() {
-		return new LoopEndBrick();
+	public BrickBaseType clone() throws CloneNotSupportedException {
+		LoopEndBrick clone = (LoopEndBrick) super.clone();
+		clone.loopBeginBrick = null;
+		return clone;
 	}
 
 	@Override
@@ -76,19 +75,13 @@ public class LoopEndBrick extends BrickBaseType implements NestingBrick, Allowed
 	@Override
 	public void initialize() {
 		loopBeginBrick = new ForeverBrick();
-		Log.w(TAG, "Not supposed to create the LoopBeginBrick!");
 	}
 
 	@Override
-	public List<NestingBrick> getAllNestingBrickParts(boolean sorted) {
+	public List<NestingBrick> getAllNestingBrickParts() {
 		List<NestingBrick> nestingBrickList = new ArrayList<>();
-		if (sorted) {
-			nestingBrickList.add(loopBeginBrick);
-			nestingBrickList.add(this);
-		} else {
-			nestingBrickList.add(this);
-			nestingBrickList.add(loopBeginBrick);
-		}
+		nestingBrickList.add(loopBeginBrick);
+		nestingBrickList.add(this);
 		return nestingBrickList;
 	}
 

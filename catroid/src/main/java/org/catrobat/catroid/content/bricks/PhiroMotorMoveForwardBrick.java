@@ -46,11 +46,8 @@ public class PhiroMotorMoveForwardBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
-
 	private String motor;
 	private transient Motor motorEnum;
-	private transient TextView editSpeed;
 
 	private transient SingleSeekbar speedSeekbar =
 			new SingleSeekbar(this, BrickField.PHIRO_SPEED, R.string.phiro_motor_speed);
@@ -98,7 +95,7 @@ public class PhiroMotorMoveForwardBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
+		View prototypeView = super.getPrototypeView(context);
 		TextView textSpeed = (TextView) prototypeView.findViewById(R.id.brick_phiro_motor_forward_action_speed_edit_text);
 		textSpeed.setText(formatNumberForPrototypeView(BrickValues.PHIRO_SPEED));
 
@@ -115,7 +112,7 @@ public class PhiroMotorMoveForwardBrick extends FormulaBrick {
 	}
 
 	@Override
-	public Brick clone() {
+	public BrickBaseType clone() {
 		return new PhiroMotorMoveForwardBrick(motor,
 				getFormulaWithBrickField(BrickField.PHIRO_SPEED).clone());
 	}
@@ -142,7 +139,7 @@ public class PhiroMotorMoveForwardBrick extends FormulaBrick {
 	@Override
 	public View getView(Context context) {
 		super.getView(context);
-		editSpeed = (TextView) view.findViewById(R.id.brick_phiro_motor_forward_action_speed_edit_text);
+		TextView editSpeed = (TextView) view.findViewById(R.id.brick_phiro_motor_forward_action_speed_edit_text);
 		getFormulaWithBrickField(BrickField.PHIRO_SPEED).setTextFieldId(R.id.brick_phiro_motor_forward_action_speed_edit_text);
 		getFormulaWithBrickField(BrickField.PHIRO_SPEED).refreshTextField(view);
 

@@ -34,18 +34,11 @@ public class WhenTouchDownScript extends Script {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public Script clone() throws CloneNotSupportedException {
-		WhenTouchDownScript clone = new WhenTouchDownScript();
-		clone.getBrickList().addAll(cloneBrickList());
-		return clone;
-	}
-
-	@Override
 	public ScriptBrick getScriptBrick() {
-		if (brick == null) {
-			brick = new WhenTouchDownBrick(this);
+		if (scriptBrick == null) {
+			scriptBrick = new WhenTouchDownBrick(this);
 		}
-		return brick;
+		return scriptBrick;
 	}
 
 	@Override

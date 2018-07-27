@@ -33,14 +33,25 @@ import java.util.List;
 
 public class WhenClonedBrick extends BrickBaseType implements ScriptBrick {
 
-	protected WhenClonedScript whenClonedScript;
 	private static final long serialVersionUID = 1L;
+	private WhenClonedScript whenClonedScript;
 
 	public WhenClonedBrick() {
+		this(new WhenClonedScript());
 	}
 
-	public WhenClonedBrick(WhenClonedScript whenScript) {
-		this.whenClonedScript = whenScript;
+	public WhenClonedBrick(WhenClonedScript whenClonedScript) {
+		whenClonedScript.setScriptBrick(this);
+		commentedOut = whenClonedScript.isCommentedOut();
+		this.whenClonedScript = whenClonedScript;
+	}
+
+	@Override
+	public BrickBaseType clone() throws CloneNotSupportedException {
+		WhenClonedBrick clone = (WhenClonedBrick) super.clone();
+		clone.whenClonedScript = (WhenClonedScript) whenClonedScript.clone();
+		clone.whenClonedScript.setScriptBrick(clone);
+		return clone;
 	}
 
 	@Override
@@ -49,16 +60,7 @@ public class WhenClonedBrick extends BrickBaseType implements ScriptBrick {
 	}
 
 	@Override
-	public Brick clone() {
-		return new WhenClonedBrick(null);
-	}
-
-	@Override
-	public Script getScriptSafe() {
-		if (whenClonedScript == null) {
-			whenClonedScript = new WhenClonedScript();
-		}
-
+	public Script getScript() {
 		return whenClonedScript;
 	}
 

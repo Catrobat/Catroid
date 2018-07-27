@@ -39,7 +39,6 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
-import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.io.ResourceImporter;
@@ -186,8 +185,7 @@ public class PhysicsSpriteCloneTest {
 
 	@Test
 	public void testSpriteClonePhysicsLookAndPhysicsObject() throws IOException {
-		WhenStartedBrick brick = new WhenStartedBrick();
-		StartScript startScript = new StartScript(brick);
+		StartScript startScript = new StartScript();
 		Brick setPhysicsObjectTypeBrick = new SetPhysicsObjectTypeBrick(TYPE_TEST_VALUE);
 
 		startScript.addBrick(setPhysicsObjectTypeBrick);

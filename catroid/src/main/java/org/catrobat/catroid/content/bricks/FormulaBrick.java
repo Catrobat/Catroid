@@ -64,7 +64,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		formulaMap.putIfAbsent(brickField, new Formula(0));
 	}
 
-	protected void replaceFormulaBrickField(BrickField oldBrickField, BrickField newBrickField) {
+	void replaceFormulaBrickField(BrickField oldBrickField, BrickField newBrickField) {
 		if (formulaMap.containsKey(oldBrickField)) {
 			Formula brickFormula = formulaMap.get(oldBrickField);
 			formulaMap.remove(oldBrickField);
@@ -73,15 +73,14 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 	}
 
 	@Override
-	public Brick clone() throws CloneNotSupportedException {
-		FormulaBrick clonedBrick = (FormulaBrick) super.clone();
-		clonedBrick.formulaMap = formulaMap.clone();
-		return clonedBrick;
+	public BrickBaseType clone() throws CloneNotSupportedException {
+		FormulaBrick clone = (FormulaBrick) super.clone();
+		clone.formulaMap = formulaMap.clone();
+		return clone;
 	}
 
 	public List<Formula> getFormulas() {
 		List<Formula> formulas = new ArrayList<>();
-
 		for (BrickField brickField : formulaMap.keySet()) {
 			formulas.add(formulaMap.get(brickField));
 		}
@@ -109,12 +108,12 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 	public abstract void showFormulaEditorToEditFormula(View view);
 
 	public void setSecondText(View view, int textViewId, int editTextDurationId, BrickField brickField) {
-		TextView editDuration = (TextView) view.findViewById(editTextDurationId);
+		TextView editDuration = view.findViewById(editTextDurationId);
 		getFormulaWithBrickField(brickField)
 				.setTextFieldId(editTextDurationId);
 		getFormulaWithBrickField(brickField).refreshTextField(view);
 
-		TextView times = (TextView) view.findViewById(textViewId);
+		TextView times = view.findViewById(textViewId);
 
 		if (getFormulaWithBrickField(brickField).isSingleNumberFormula()) {
 			try {
@@ -135,7 +134,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 	}
 
 	public void setSecondText(Context context, View prototypeView, int textViewId) {
-		TextView second = (TextView) prototypeView.findViewById(textViewId);
+		TextView second = prototypeView.findViewById(textViewId);
 		second.setText(context.getResources().getQuantityString(R.plurals.second_plural,
 				Utils.convertDoubleToPluralInteger(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000)));
 	}

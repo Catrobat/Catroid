@@ -32,7 +32,6 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.formulaeditor.Formula;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -42,25 +41,15 @@ public class RaspiIfLogicBeginBrick extends IfLogicBeginBrick {
 	private static final long serialVersionUID = 1L;
 
 	public RaspiIfLogicBeginBrick() {
-		super();
 	}
 
 	public RaspiIfLogicBeginBrick(int condition) {
 		super(condition);
 	}
 
-	public RaspiIfLogicBeginBrick(Formula condition) {
-		super(condition);
-	}
-
 	@Override
 	public int getRequiredResources() {
 		return SOCKET_RASPI;
-	}
-
-	@Override
-	public Brick clone() {
-		return new RaspiIfLogicBeginBrick(getFormulaWithBrickField(BrickField.IF_CONDITION).clone());
 	}
 
 	@Override

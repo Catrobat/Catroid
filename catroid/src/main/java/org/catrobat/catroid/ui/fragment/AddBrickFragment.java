@@ -140,13 +140,7 @@ public class AddBrickFragment extends ListFragment {
 		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Brick clickedBrick = adapter.getItem(position);
-				try {
-					Brick brickToBeAdded = clickedBrick.clone();
-					addBrickToScript(brickToBeAdded);
-				} catch (CloneNotSupportedException cloneNotSupportedException) {
-					Log.e(getTag(), "CloneNotSupportedException!", cloneNotSupportedException);
-				}
+				addBrickToScript(adapter.getItem(position));
 			}
 		});
 	}
@@ -163,7 +157,7 @@ public class AddBrickFragment extends ListFragment {
 			}
 
 			if (brickToBeAdded instanceof ScriptBrick) {
-				Script script = ((ScriptBrick) brickToBeAdded).getScriptSafe();
+				Script script = ((ScriptBrick) brickToBeAdded).getScript();
 				ProjectManager.getInstance().setCurrentScript(script);
 			}
 
@@ -180,9 +174,8 @@ public class AddBrickFragment extends ListFragment {
 				getFragmentManager().popBackStack();
 			}
 			fragmentTransaction.commit();
-		} catch (CloneNotSupportedException exception) {
-			Log.e(getTag(), "Adding a Brick was not possible because cloning it from the preview failed",
-					exception);
+		} catch (CloneNotSupportedException e) {
+			Log.e(getTag(), e.getLocalizedMessage());
 			ToastUtil.showError(getActivity(), R.string.error_adding_brick);
 		}
 	}

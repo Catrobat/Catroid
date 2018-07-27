@@ -30,20 +30,22 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 public class WhenStartedBrick extends BrickBaseType implements ScriptBrick {
+
 	private static final long serialVersionUID = 1L;
 
 	private Script script;
 
-	public WhenStartedBrick(Script script) {
-		this.script = script;
-
-		if (script != null && script.isCommentedOut()) {
-			setCommentedOut(true);
-		}
+	public WhenStartedBrick() {
+		this(new StartScript());
 	}
 
-	public WhenStartedBrick() {
+	public WhenStartedBrick(@Nonnull StartScript script) {
+		script.setScriptBrick(this);
+		commentedOut = script.isCommentedOut();
+		this.script = script;
 	}
 
 	@Override
@@ -52,16 +54,15 @@ public class WhenStartedBrick extends BrickBaseType implements ScriptBrick {
 	}
 
 	@Override
-	public Brick clone() {
-		return new WhenStartedBrick(null);
+	public BrickBaseType clone() throws CloneNotSupportedException {
+		WhenStartedBrick clone = (WhenStartedBrick) super.clone();
+		clone.script = script.clone();
+		clone.script.setScriptBrick(clone);
+		return clone;
 	}
 
 	@Override
-	public Script getScriptSafe() {
-		if (script == null) {
-			script = new StartScript();
-		}
-
+	public Script getScript() {
 		return script;
 	}
 
@@ -73,6 +74,6 @@ public class WhenStartedBrick extends BrickBaseType implements ScriptBrick {
 	@Override
 	public void setCommentedOut(boolean commentedOut) {
 		super.setCommentedOut(commentedOut);
-		getScriptSafe().setCommentedOut(commentedOut);
+		getScript().setCommentedOut(commentedOut);
 	}
 }

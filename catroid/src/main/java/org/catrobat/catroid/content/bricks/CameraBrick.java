@@ -41,8 +41,6 @@ public class CameraBrick extends BrickBaseType {
 	private static final int OFF = 0;
 	private static final int ON = 1;
 
-	private transient View prototypeView;
-
 	private int spinnerSelectionID;
 
 	public CameraBrick() {
@@ -61,7 +59,7 @@ public class CameraBrick extends BrickBaseType {
 	@Override
 	public View getView(Context context) {
 		super.getView(context);
-		Spinner videoSpinner = (Spinner) view.findViewById(R.id.brick_video_spinner);
+		Spinner videoSpinner = view.findViewById(R.id.brick_video_spinner);
 
 		ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
 
@@ -86,9 +84,9 @@ public class CameraBrick extends BrickBaseType {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
+		View prototypeView = super.getPrototypeView(context);
 
-		Spinner setVideoSpinner = (Spinner) prototypeView.findViewById(R.id.brick_video_spinner);
+		Spinner setVideoSpinner = prototypeView.findViewById(R.id.brick_video_spinner);
 
 		ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
 		setVideoSpinner.setAdapter(spinnerAdapter);

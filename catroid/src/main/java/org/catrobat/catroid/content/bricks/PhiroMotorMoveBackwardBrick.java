@@ -43,16 +43,13 @@ import org.catrobat.catroid.ui.fragment.SingleSeekbar;
 import java.util.List;
 
 public class PhiroMotorMoveBackwardBrick extends FormulaBrick {
-	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
+	private static final long serialVersionUID = 1L;
 
 	private String motor;
 	private transient Motor motorEnum;
-	private transient TextView editSpeed;
 
-	private transient SingleSeekbar speedSeekbar =
-			new SingleSeekbar(this, BrickField.PHIRO_SPEED, R.string.phiro_motor_speed);
+	private transient SingleSeekbar speedSeekbar = new SingleSeekbar(this, BrickField.PHIRO_SPEED, R.string.phiro_motor_speed);
 
 	public enum Motor {
 		MOTOR_LEFT, MOTOR_RIGHT, MOTOR_BOTH
@@ -96,11 +93,11 @@ public class PhiroMotorMoveBackwardBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
-		TextView textSpeed = (TextView) prototypeView.findViewById(R.id.brick_phiro_motor_backward_action_speed_edit_text);
+		View prototypeView = super.getPrototypeView(context);
+		TextView textSpeed = prototypeView.findViewById(R.id.brick_phiro_motor_backward_action_speed_edit_text);
 		textSpeed.setText(formatNumberForPrototypeView(BrickValues.PHIRO_SPEED));
 
-		Spinner phiroProMotorSpinner = (Spinner) prototypeView.findViewById(R.id.brick_phiro_motor_backward_action_spinner);
+		Spinner phiroProMotorSpinner = prototypeView.findViewById(R.id.brick_phiro_motor_backward_action_spinner);
 
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context, R.array.brick_phiro_select_motor_spinner,
 				android.R.layout.simple_spinner_item);
@@ -113,7 +110,7 @@ public class PhiroMotorMoveBackwardBrick extends FormulaBrick {
 	}
 
 	@Override
-	public Brick clone() {
+	public BrickBaseType clone() {
 		return new PhiroMotorMoveBackwardBrick(motor,
 				getFormulaWithBrickField(BrickField.PHIRO_SPEED).clone());
 	}
@@ -131,7 +128,7 @@ public class PhiroMotorMoveBackwardBrick extends FormulaBrick {
 	@Override
 	public View getView(Context context) {
 		super.getView(context);
-		editSpeed = (TextView) view.findViewById(R.id.brick_phiro_motor_backward_action_speed_edit_text);
+		TextView editSpeed = view.findViewById(R.id.brick_phiro_motor_backward_action_speed_edit_text);
 		getFormulaWithBrickField(BrickField.PHIRO_SPEED).setTextFieldId(R.id.brick_phiro_motor_backward_action_speed_edit_text);
 		getFormulaWithBrickField(BrickField.PHIRO_SPEED).refreshTextField(view);
 
@@ -140,7 +137,7 @@ public class PhiroMotorMoveBackwardBrick extends FormulaBrick {
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context, R.array.brick_phiro_select_motor_spinner,
 				android.R.layout.simple_spinner_item);
 		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		Spinner motorSpinner = (Spinner) view.findViewById(R.id.brick_phiro_motor_backward_action_spinner);
+		Spinner motorSpinner = view.findViewById(R.id.brick_phiro_motor_backward_action_spinner);
 
 		motorSpinner.setAdapter(motorAdapter);
 		motorSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
