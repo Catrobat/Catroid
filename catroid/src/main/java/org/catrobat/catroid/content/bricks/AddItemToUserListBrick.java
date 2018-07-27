@@ -72,14 +72,14 @@ public class AddItemToUserListBrick extends UserListBrick {
 	@Override
 	public View getView(final Context context) {
 		super.getView(context);
-		TextView textField = (TextView) view.findViewById(R.id.brick_add_item_to_userlist_edit_text);
+		TextView textField = view.findViewById(R.id.brick_add_item_to_userlist_edit_text);
 
 		getFormulaWithBrickField(BrickField.LIST_ADD_ITEM).setTextFieldId(R.id.brick_add_item_to_userlist_edit_text);
 		getFormulaWithBrickField(BrickField.LIST_ADD_ITEM).refreshTextField(view);
 
 		textField.setOnClickListener(this);
 
-		Spinner userListSpinner = (Spinner) view.findViewById(R.id.add_item_to_userlist_spinner);
+		Spinner userListSpinner = view.findViewById(R.id.add_item_to_userlist_spinner);
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
 				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
 		UserListAdapterWrapper userListAdapterWrapper = new UserListAdapterWrapper(context, dataAdapter);
@@ -97,7 +97,7 @@ public class AddItemToUserListBrick extends UserListBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = super.getPrototypeView(context);
-		Spinner userListSpinner = (Spinner) prototypeView.findViewById(R.id.add_item_to_userlist_spinner);
+		Spinner userListSpinner = prototypeView.findViewById(R.id.add_item_to_userlist_spinner);
 
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
 				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
@@ -108,7 +108,7 @@ public class AddItemToUserListBrick extends UserListBrick {
 		userListSpinner.setAdapter(userListAdapterWrapper);
 		setSpinnerSelection(userListSpinner, null);
 
-		TextView textAddItemToList = (TextView) prototypeView.findViewById(R.id.brick_add_item_to_userlist_edit_text);
+		TextView textAddItemToList = prototypeView.findViewById(R.id.brick_add_item_to_userlist_edit_text);
 		textAddItemToList.setText(formatNumberForPrototypeView(BrickValues.ADD_ITEM_TO_USERLIST));
 
 		return prototypeView;
@@ -118,11 +118,6 @@ public class AddItemToUserListBrick extends UserListBrick {
 	public void onNewList(UserList userList) {
 		Spinner spinner = view.findViewById(R.id.add_item_to_userlist_spinner);
 		setSpinnerSelection(spinner, userList);
-	}
-
-	@Override
-	public Brick clone() {
-		return new AddItemToUserListBrick(getFormulaWithBrickField(BrickField.LIST_ADD_ITEM).clone(), userList);
 	}
 
 	@Override

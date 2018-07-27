@@ -37,16 +37,9 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	protected transient LoopEndBrick loopEndBrick;
+	private transient LoopEndBrick loopEndBrick;
 
 	public ForeverBrick() {
-	}
-
-	@Override
-	public Brick clone() {
-		ForeverBrick clone = new ForeverBrick();
-		clone.setLoopEndBrick(loopEndBrick);
-		return clone;
 	}
 
 	@Override
@@ -90,7 +83,7 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 	}
 
 	@Override
-	public List<NestingBrick> getAllNestingBrickParts(boolean sorted) {
+	public List<NestingBrick> getAllNestingBrickParts() {
 		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
 		nestingBrickList.add(this);
 		nestingBrickList.add(loopEndBrick);

@@ -40,7 +40,6 @@ import java.util.List;
 public class ArduinoSendPWMValueBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
-	private transient View prototypeView;
 
 	public ArduinoSendPWMValueBrick() {
 		addAllowedBrickField(BrickField.ARDUINO_ANALOG_PIN_NUMBER);
@@ -71,11 +70,11 @@ public class ArduinoSendPWMValueBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
+		View prototypeView = super.getPrototypeView(context);
 
-		TextView textSetPinNumber = (TextView) prototypeView.findViewById(R.id.brick_arduino_set_analog_pin_edit_text);
+		TextView textSetPinNumber = prototypeView.findViewById(R.id.brick_arduino_set_analog_pin_edit_text);
 		textSetPinNumber.setText(formatNumberForPrototypeView(BrickValues.ARDUINO_PWM_INITIAL_PIN_NUMBER));
-		TextView textSetPinValue = (TextView) prototypeView.findViewById(R.id.brick_arduino_set_analog_value_edit_text);
+		TextView textSetPinValue = prototypeView.findViewById(R.id.brick_arduino_set_analog_value_edit_text);
 		textSetPinValue.setText(formatNumberForPrototypeView(BrickValues.ARDUINO_PWM_INITIAL_PIN_VALUE));
 
 		return prototypeView;
@@ -89,13 +88,13 @@ public class ArduinoSendPWMValueBrick extends FormulaBrick {
 	@Override
 	public View getView(Context context) {
 		super.getView(context);
-		TextView editPinNumber = (TextView) view.findViewById(R.id.brick_arduino_set_analog_pin_edit_text);
+		TextView editPinNumber = view.findViewById(R.id.brick_arduino_set_analog_pin_edit_text);
 		getFormulaWithBrickField(BrickField.ARDUINO_ANALOG_PIN_NUMBER).setTextFieldId(R.id.brick_arduino_set_analog_pin_edit_text);
 		getFormulaWithBrickField(BrickField.ARDUINO_ANALOG_PIN_NUMBER).refreshTextField(view);
 
 		editPinNumber.setOnClickListener(this);
 
-		TextView editPinValue = (TextView) view.findViewById(R.id.brick_arduino_set_analog_value_edit_text);
+		TextView editPinValue = view.findViewById(R.id.brick_arduino_set_analog_value_edit_text);
 		getFormulaWithBrickField(BrickField.ARDUINO_ANALOG_PIN_VALUE).setTextFieldId(R.id.brick_arduino_set_analog_value_edit_text);
 		getFormulaWithBrickField(BrickField.ARDUINO_ANALOG_PIN_VALUE).refreshTextField(view);
 

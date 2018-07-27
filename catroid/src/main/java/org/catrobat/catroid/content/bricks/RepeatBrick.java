@@ -47,9 +47,7 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
-
-	protected transient LoopEndBrick loopEndBrick;
+	private transient LoopEndBrick loopEndBrick;
 
 	public RepeatBrick() {
 		addAllowedBrickField(BrickField.TIMES_TO_REPEAT);
@@ -74,7 +72,7 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 	}
 
 	@Override
-	public Brick clone() {
+	public BrickBaseType clone() {
 		return new RepeatBrick(getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).clone());
 	}
 
@@ -91,11 +89,11 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 	@Override
 	public View getView(Context context) {
 		super.getView(context);
-		TextView edit = (TextView) view.findViewById(R.id.brick_repeat_edit_text);
+		TextView edit = view.findViewById(R.id.brick_repeat_edit_text);
 		getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).setTextFieldId(R.id.brick_repeat_edit_text);
 		getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).refreshTextField(view);
 
-		TextView times = (TextView) view.findViewById(R.id.brick_repeat_time_text_view);
+		TextView times = view.findViewById(R.id.brick_repeat_time_text_view);
 
 		if (getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).isSingleNumberFormula()) {
 			try {
@@ -121,9 +119,9 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
-		TextView textRepeat = (TextView) prototypeView.findViewById(R.id.brick_repeat_edit_text);
-		TextView times = (TextView) prototypeView.findViewById(R.id.brick_repeat_time_text_view);
+		View prototypeView = super.getPrototypeView(context);
+		TextView textRepeat = prototypeView.findViewById(R.id.brick_repeat_edit_text);
+		TextView times = prototypeView.findViewById(R.id.brick_repeat_time_text_view);
 		textRepeat.setText(formatNumberForPrototypeView(BrickValues.REPEAT));
 		times.setText(context.getResources().getQuantityString(R.plurals.time_plural,
 				Utils.convertDoubleToPluralInteger(BrickValues.REPEAT)));
@@ -167,7 +165,7 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 	}
 
 	@Override
-	public List<NestingBrick> getAllNestingBrickParts(boolean sorted) {
+	public List<NestingBrick> getAllNestingBrickParts() {
 		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
 		nestingBrickList.add(this);
 		nestingBrickList.add(loopEndBrick);

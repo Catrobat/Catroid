@@ -35,13 +35,13 @@ import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemSelectedListener {
 
 	private static final long serialVersionUID = 1L;
+
 	private int sensorSpinnerPosition = 0;
 
 	public PhiroIfLogicBeginBrick() {
@@ -67,11 +67,6 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 
 	public void setIfEndBrick(IfLogicEndBrick ifEndBrick) {
 		this.ifEndBrick = ifEndBrick;
-	}
-
-	@Override
-	public Brick clone() {
-		return new PhiroIfLogicBeginBrick();
 	}
 
 	@Override
@@ -140,21 +135,6 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 	public void initialize() {
 		ifElseBrick = new IfLogicElseBrick(this);
 		ifEndBrick = new IfLogicEndBrick(ifElseBrick, this);
-	}
-
-	@Override
-	public List<NestingBrick> getAllNestingBrickParts(boolean sorted) {
-		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
-		if (sorted) {
-			nestingBrickList.add(this);
-			nestingBrickList.add(ifElseBrick);
-			nestingBrickList.add(ifEndBrick);
-		} else {
-			nestingBrickList.add(this);
-			nestingBrickList.add(ifEndBrick);
-		}
-
-		return nestingBrickList;
 	}
 
 	@Override

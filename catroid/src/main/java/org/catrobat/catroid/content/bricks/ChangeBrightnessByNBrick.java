@@ -36,9 +36,8 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import java.util.List;
 
 public class ChangeBrightnessByNBrick extends FormulaBrick {
-	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
+	private static final long serialVersionUID = 1L;
 
 	public ChangeBrightnessByNBrick() {
 		addAllowedBrickField(BrickField.BRIGHTNESS_CHANGE);
@@ -70,7 +69,7 @@ public class ChangeBrightnessByNBrick extends FormulaBrick {
 	@Override
 	public View getView(Context context) {
 		super.getView(context);
-		TextView editX = (TextView) view.findViewById(R.id.brick_change_brightness_edit_text);
+		TextView editX = view.findViewById(R.id.brick_change_brightness_edit_text);
 		getFormulaWithBrickField(BrickField.BRIGHTNESS_CHANGE).setTextFieldId(R.id.brick_change_brightness_edit_text);
 		getFormulaWithBrickField(BrickField.BRIGHTNESS_CHANGE).refreshTextField(view);
 
@@ -80,17 +79,16 @@ public class ChangeBrightnessByNBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
-		TextView textChangeBrightness = (TextView) prototypeView
-				.findViewById(R.id.brick_change_brightness_edit_text);
+		View prototypeView = super.getPrototypeView(context);
+		TextView textChangeBrightness = prototypeView.findViewById(R.id.brick_change_brightness_edit_text);
 		textChangeBrightness.setText(formatNumberForPrototypeView(BrickValues.CHANGE_BRITHNESS_BY));
 		return prototypeView;
 	}
 
 	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createChangeBrightnessByNAction(sprite,
-				getFormulaWithBrickField(BrickField.BRIGHTNESS_CHANGE)));
+		sequence.addAction(sprite.getActionFactory()
+				.createChangeBrightnessByNAction(sprite, getFormulaWithBrickField(BrickField.BRIGHTNESS_CHANGE)));
 		return null;
 	}
 

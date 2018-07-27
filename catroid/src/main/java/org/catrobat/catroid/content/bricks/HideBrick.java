@@ -29,7 +29,7 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import java.util.List;
 
 public class HideBrick extends BrickBaseType {
-	public static final String TAG = HideBrick.class.getSimpleName();
+
 	private static final long serialVersionUID = 1L;
 
 	public HideBrick() {
@@ -38,11 +38,6 @@ public class HideBrick extends BrickBaseType {
 	@Override
 	public int getViewResource() {
 		return R.layout.brick_hide;
-	}
-
-	@Override
-	public Brick clone() {
-		return new HideBrick();
 	}
 
 	@Override

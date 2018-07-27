@@ -37,9 +37,8 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import java.util.List;
 
 public class SetTextBrick extends FormulaBrick implements View.OnClickListener {
-	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
+	private static final long serialVersionUID = 1L;
 
 	public SetTextBrick() {
 		addAllowedBrickField(BrickField.X_DESTINATION);
@@ -65,14 +64,6 @@ public class SetTextBrick extends FormulaBrick implements View.OnClickListener {
 		setFormulaWithBrickField(BrickField.STRING, text);
 	}
 
-	public void setXDestination(Formula xDestination) {
-		setFormulaWithBrickField(BrickField.X_DESTINATION, xDestination);
-	}
-
-	public void setYDestination(Formula yDestination) {
-		setFormulaWithBrickField(BrickField.Y_DESTINATION, yDestination);
-	}
-
 	public void setText(Formula text) {
 		setFormulaWithBrickField(BrickField.STRING, text);
 	}
@@ -92,8 +83,8 @@ public class SetTextBrick extends FormulaBrick implements View.OnClickListener {
 	@Override
 	public View getView(Context context) {
 		super.getView(context);
-		TextView editX = (TextView) view.findViewById(R.id.brick_set_text_edit_text_x);
-		TextView editY = (TextView) view.findViewById(R.id.brick_set_text_edit_text_y);
+		TextView editX = view.findViewById(R.id.brick_set_text_edit_text_x);
+		TextView editY = view.findViewById(R.id.brick_set_text_edit_text_y);
 
 		getFormulaWithBrickField(BrickField.X_DESTINATION).setTextFieldId(R.id.brick_set_text_edit_text_x);
 		getFormulaWithBrickField(BrickField.X_DESTINATION).refreshTextField(view);
@@ -103,7 +94,7 @@ public class SetTextBrick extends FormulaBrick implements View.OnClickListener {
 		getFormulaWithBrickField(BrickField.Y_DESTINATION).refreshTextField(view);
 		editY.setOnClickListener(this);
 
-		TextView editText = (TextView) view.findViewById(R.id.brick_set_text_edit_text);
+		TextView editText = view.findViewById(R.id.brick_set_text_edit_text);
 
 		getFormulaWithBrickField(BrickField.STRING).setTextFieldId(R.id.brick_set_text_edit_text);
 		getFormulaWithBrickField(BrickField.STRING).refreshTextField(view);
@@ -114,13 +105,13 @@ public class SetTextBrick extends FormulaBrick implements View.OnClickListener {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
+		View prototypeView = super.getPrototypeView(context);
 
-		TextView posX = (TextView) prototypeView.findViewById(R.id.brick_set_text_edit_text_x);
-		TextView posY = (TextView) prototypeView.findViewById(R.id.brick_set_text_edit_text_y);
+		TextView posX = prototypeView.findViewById(R.id.brick_set_text_edit_text_x);
+		TextView posY = prototypeView.findViewById(R.id.brick_set_text_edit_text_y);
 
-		TextView text = (TextView) prototypeView.findViewById(R.id.brick_set_text_edit_text);
-		TextView secondText = (TextView) prototypeView.findViewById(R.id.brick_set_text_seconds_text_view);
+		TextView text = prototypeView.findViewById(R.id.brick_set_text_edit_text);
+		TextView secondText = prototypeView.findViewById(R.id.brick_set_text_seconds_text_view);
 
 		posX.setText(formatNumberForPrototypeView(BrickValues.X_POSITION));
 		posY.setText(formatNumberForPrototypeView(BrickValues.Y_POSITION));

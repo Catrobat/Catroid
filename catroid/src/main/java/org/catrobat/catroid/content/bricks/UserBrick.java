@@ -71,7 +71,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 	}
 
 	@Override
-	public Brick clone() {
+	public BrickBaseType clone() {
 		UserBrick clonedUserBrick = new UserBrick(definitionBrick);
 		clonedUserBrick.userBrickParameters = new ArrayList<>();
 		if (userBrickParameters != null) {
@@ -302,8 +302,8 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 		List<ScriptSequenceAction> returnActionList = new ArrayList<>();
 
 		ActionFactory actionFactory = sprite.getActionFactory();
-		ScriptSequenceAction userSequence = (ScriptSequenceAction) actionFactory.eventSequence(definitionBrick.getScriptSafe());
-		definitionBrick.getScriptSafe().run(sprite, userSequence);
+		ScriptSequenceAction userSequence = (ScriptSequenceAction) actionFactory.eventSequence(definitionBrick.getScript());
+		definitionBrick.getScript().run(sprite, userSequence);
 		returnActionList.add(userSequence);
 		sequence.addAction(actionFactory.createUserBrickAction(userSequence, this));
 		ProjectManager.getInstance().setCurrentUserBrick(this);

@@ -39,10 +39,13 @@ import java.util.List;
 public abstract class BrickBaseType implements Brick {
 
 	private static final long serialVersionUID = 1L;
+
 	public transient View view;
+
 	protected transient CheckBox checkbox;
 	protected transient BrickAdapter adapter;
-	protected transient int alphaValue = 255;
+
+	transient int alphaValue = 255;
 
 	protected boolean commentedOut;
 
@@ -67,13 +70,18 @@ public abstract class BrickBaseType implements Brick {
 	}
 
 	@Override
-	public Brick clone() throws CloneNotSupportedException {
-		return (Brick) super.clone();
+	public BrickBaseType clone() throws CloneNotSupportedException {
+		BrickBaseType clone = (BrickBaseType) super.clone();
+		clone.view = null;
+		clone.checkbox = null;
+		clone.alphaValue = alphaValue;
+		clone.commentedOut = commentedOut;
+		return clone;
 	}
 
 	@Override
-	public void setAlpha(int newAlpha) {
-		alphaValue = newAlpha;
+	public void setAlpha(int alphaValue) {
+		this.alphaValue = alphaValue;
 	}
 
 	@Override
@@ -81,7 +89,8 @@ public abstract class BrickBaseType implements Brick {
 		return NO_RESOURCES;
 	}
 
-	public abstract @LayoutRes int getViewResource();
+	@LayoutRes
+	public abstract int getViewResource();
 
 	@CallSuper
 	@Override

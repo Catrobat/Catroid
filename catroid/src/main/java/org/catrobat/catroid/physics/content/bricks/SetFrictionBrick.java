@@ -70,37 +70,30 @@ public class SetFrictionBrick extends FormulaBrick {
 	@Override
 	public View getView(Context context) {
 		super.getView(context);
-
-		TextView edit = (TextView) view.findViewById(R.id.brick_set_friction_edit_text);
-
+		TextView edit = view.findViewById(R.id.brick_set_friction_edit_text);
 		getFormulaWithBrickField(BrickField.PHYSICS_FRICTION).setTextFieldId(R.id.brick_set_friction_edit_text);
 		getFormulaWithBrickField(BrickField.PHYSICS_FRICTION).refreshTextField(view);
-
 		edit.setOnClickListener(this);
-
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = super.getPrototypeView(context);
-		TextView textFriction = (TextView) prototypeView.findViewById(R.id.brick_set_friction_edit_text);
+		TextView textFriction = prototypeView.findViewById(R.id.brick_set_friction_edit_text);
 		textFriction.setText(formatNumberForPrototypeView(BrickValues.PHYSIC_FRICTION * 100));
 		return prototypeView;
 	}
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
 		FormulaEditorFragment.showFragment(view, this, BrickField.PHYSICS_FRICTION);
 	}
 
 	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createSetFrictionAction(sprite,
-				getFormulaWithBrickField(BrickField.PHYSICS_FRICTION)));
+		sequence.addAction(sprite.getActionFactory()
+				.createSetFrictionAction(sprite, getFormulaWithBrickField(BrickField.PHYSICS_FRICTION)));
 		return null;
 	}
 }

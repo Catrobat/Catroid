@@ -137,7 +137,7 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 	public void onLayoutChanged() {
 		Context context = view.getContext();
 
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_user_definition_layout);
+		LinearLayout layout = view.findViewById(R.id.brick_user_definition_layout);
 		layout.setFocusable(false);
 		layout.setFocusableInTouchMode(false);
 		if (layout.getChildCount() > 0) {
@@ -175,7 +175,7 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 
 	private View getUserBrickPrototypeView(Context context) {
 		View prototypeView = super.getPrototypeView(context);
-		BrickLayout layout = (BrickLayout) prototypeView.findViewById(R.id.brick_user_flow_layout);
+		BrickLayout layout = prototypeView.findViewById(R.id.brick_user_flow_layout);
 		if (layout.getChildCount() > 0) {
 			layout.removeAllViews();
 		}
@@ -295,12 +295,14 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 	}
 
 	@Override
-	public Brick clone() {
-		return new UserScriptDefinitionBrick();
+	public BrickBaseType clone() throws CloneNotSupportedException {
+		UserScriptDefinitionBrick clone = (UserScriptDefinitionBrick) super.clone();
+		clone.script = null;
+		return clone;
 	}
 
 	@Override
-	public Script getScriptSafe() {
+	public Script getScript() {
 		return getUserScript();
 	}
 
@@ -448,6 +450,6 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 	@Override
 	public void setCommentedOut(boolean commentedOut) {
 		super.setCommentedOut(commentedOut);
-		getScriptSafe().setCommentedOut(commentedOut);
+		getScript().setCommentedOut(commentedOut);
 	}
 }

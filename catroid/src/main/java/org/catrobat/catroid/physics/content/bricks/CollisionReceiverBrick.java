@@ -42,7 +42,7 @@ import org.catrobat.catroid.content.bricks.ScriptBrick;
 
 import java.util.List;
 
-public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick, Cloneable {
+public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick {
 
 	public static final String ANYTHING_ESCAPE_CHAR = "\0";
 	private static final long serialVersionUID = 1L;
@@ -50,19 +50,18 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 	private transient ArrayAdapter<String> messageAdapter;
 
 	public CollisionReceiverBrick(CollisionScript collisionScript) {
+		collisionScript.setScriptBrick(this);
+		commentedOut = collisionScript.isCommentedOut();
 		this.collisionScript = collisionScript;
-		setCommentedOut(collisionScript.isCommentedOut());
 	}
 
 	@Override
-	public Brick clone() {
-		CollisionScript clonedScript = new CollisionScript(getSpriteToCollideWithName());
-		clonedScript.setCommentedOut(collisionScript.isCommentedOut());
-		return new CollisionReceiverBrick(clonedScript);
-	}
-
-	private String getSpriteToCollideWithName() {
-		return collisionScript == null ? null : collisionScript.getSpriteToCollideWithName();
+	public BrickBaseType clone() throws CloneNotSupportedException {
+		CollisionReceiverBrick clone = (CollisionReceiverBrick) super.clone();
+		clone.messageAdapter = null;
+		clone.collisionScript = (CollisionScript) collisionScript.clone();
+		clone.collisionScript.setScriptBrick(clone);
+		return clone;
 	}
 
 	@Override
@@ -73,10 +72,6 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 	@Override
 	public View getView(final Context context) {
 		super.getView(context);
-
-		if (collisionScript == null) {
-			collisionScript = new CollisionScript(getSpriteToCollideWithName());
-		}
 
 		final Spinner broadcastSpinner = view.findViewById(R.id.brick_collision_receive_spinner);
 
@@ -112,7 +107,7 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 		return prototypeView;
 	}
 
-	public ArrayAdapter<String> getCollisionObjectAdapter(Context context) {
+	private ArrayAdapter<String> getCollisionObjectAdapter(Context context) {
 		String spriteName = ProjectManager.getInstance().getCurrentSprite().getName();
 		messageAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
 		messageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -131,7 +126,7 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 	}
 
 	@Override
-	public Script getScriptSafe() {
+	public Script getScript() {
 		return collisionScript;
 	}
 
@@ -140,7 +135,7 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 		spinner.setSelection(position);
 	}
 
-	public int getPositionOfMessageInAdapter(Context context, String message) {
+	private int getPositionOfMessageInAdapter(Context context, String message) {
 		getCollisionObjectAdapter(context);
 		int position = messageAdapter.getPosition(message);
 		if (position == -1) {
@@ -169,7 +164,7 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 	@Override
 	public void setCommentedOut(boolean commentedOut) {
 		super.setCommentedOut(commentedOut);
-		collisionScript.setCommentedOut(commentedOut);
+		getScript().setCommentedOut(commentedOut);
 	}
 
 	@Override

@@ -30,27 +30,13 @@ public class StartScript extends Script {
 
 	private static final long serialVersionUID = 1L;
 
-	public StartScript() {
-	}
-
-	public StartScript(WhenStartedBrick brick) {
-		this.brick = brick;
-	}
-
 	@Override
 	public ScriptBrick getScriptBrick() {
-		if (brick == null) {
-			brick = new WhenStartedBrick(this);
+		if (scriptBrick == null) {
+			scriptBrick = new WhenStartedBrick(this);
 		}
 
-		return brick;
-	}
-
-	@Override
-	public Script clone() throws CloneNotSupportedException {
-		Script clone = new StartScript();
-		clone.getBrickList().addAll(cloneBrickList());
-		return clone;
+		return scriptBrick;
 	}
 
 	@Override

@@ -43,8 +43,6 @@ public class HideTextBrick extends UserVariableBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
-
 	public HideTextBrick() {
 		addAllowedBrickField(BrickField.X_POSITION);
 		addAllowedBrickField(BrickField.Y_POSITION);
@@ -63,7 +61,7 @@ public class HideTextBrick extends UserVariableBrick {
 	@Override
 	public View getView(final Context context) {
 		super.getView(context);
-		Spinner variableSpinner = (Spinner) view.findViewById(R.id.hide_variable_spinner);
+		Spinner variableSpinner = view.findViewById(R.id.hide_variable_spinner);
 
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
 				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
@@ -82,9 +80,9 @@ public class HideTextBrick extends UserVariableBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
+		View prototypeView = super.getPrototypeView(context);
 
-		Spinner variableSpinner = (Spinner) prototypeView.findViewById(R.id.hide_variable_spinner);
+		Spinner variableSpinner = prototypeView.findViewById(R.id.hide_variable_spinner);
 
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
 				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());

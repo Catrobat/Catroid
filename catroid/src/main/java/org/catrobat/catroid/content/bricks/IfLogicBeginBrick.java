@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -31,6 +30,7 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -43,7 +43,7 @@ import java.util.List;
 public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 
 	private static final long serialVersionUID = 1L;
-	private static final String TAG = IfLogicBeginBrick.class.getSimpleName();
+
 	transient IfLogicElseBrick ifElseBrick;
 	transient IfLogicEndBrick ifEndBrick;
 
@@ -86,8 +86,11 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 	}
 
 	@Override
-	public Brick clone() {
-		return new IfLogicBeginBrick(getFormulaWithBrickField(BrickField.IF_CONDITION).clone());
+	public BrickBaseType clone() throws CloneNotSupportedException {
+		IfLogicBeginBrick clone = (IfLogicBeginBrick) super.clone();
+		clone.ifElseBrick = null;
+		clone.ifEndBrick = null;
+		return clone;
 	}
 
 	@Override
@@ -145,22 +148,14 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 	public void initialize() {
 		ifElseBrick = new IfLogicElseBrick(this);
 		ifEndBrick = new IfLogicEndBrick(ifElseBrick, this);
-		Log.w(TAG, "Creating if logic stuff");
 	}
 
 	@Override
-	public List<NestingBrick> getAllNestingBrickParts(boolean sorted) {
-		//TODO: handle sorting
-		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
-		if (sorted) {
-			nestingBrickList.add(this);
-			nestingBrickList.add(ifElseBrick);
-			nestingBrickList.add(ifEndBrick);
-		} else {
-			nestingBrickList.add(this);
-			nestingBrickList.add(ifEndBrick);
-		}
-
+	public List<NestingBrick> getAllNestingBrickParts() {
+		List<NestingBrick> nestingBrickList = new ArrayList<>();
+		nestingBrickList.add(this);
+		nestingBrickList.add(ifElseBrick);
+		nestingBrickList.add(ifEndBrick);
 		return nestingBrickList;
 	}
 
@@ -171,8 +166,8 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 
 	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		ScriptSequenceAction ifAction = (ScriptSequenceAction) sprite.getActionFactory().eventSequence(sequence.getScript());
-		ScriptSequenceAction elseAction = (ScriptSequenceAction) sprite.getActionFactory().eventSequence(sequence.getScript());
+		ScriptSequenceAction ifAction = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
+		ScriptSequenceAction elseAction = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
 		Action action = sprite.getActionFactory().createIfLogicAction(sprite,
 				getFormulaWithBrickField(BrickField.IF_CONDITION), ifAction, elseAction);
 		sequence.addAction(action);

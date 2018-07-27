@@ -35,5 +35,5 @@ public interface NestingBrick {
 	/**
 	 * @return List of NestingBricks in order of their appearance
 	 */
-	List<NestingBrick> getAllNestingBrickParts(boolean sorted);
+	List<NestingBrick> getAllNestingBrickParts();
 }

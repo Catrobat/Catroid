@@ -103,12 +103,12 @@ public class SetVariableBrick extends UserVariableBrick {
 	@Override
 	public View getView(final Context context) {
 		super.getView(context);
-		TextView textField = (TextView) view.findViewById(R.id.brick_set_variable_edit_text);
+		TextView textField = view.findViewById(R.id.brick_set_variable_edit_text);
 		getFormulaWithBrickField(BrickField.VARIABLE).setTextFieldId(R.id.brick_set_variable_edit_text);
 		getFormulaWithBrickField(BrickField.VARIABLE).refreshTextField(view);
 		textField.setOnClickListener(this);
 
-		Spinner variableSpinner = (Spinner) view.findViewById(R.id.set_variable_spinner);
+		Spinner variableSpinner = view.findViewById(R.id.set_variable_spinner);
 
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
 				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
@@ -128,7 +128,7 @@ public class SetVariableBrick extends UserVariableBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = super.getPrototypeView(context);
-		Spinner variableSpinner = (Spinner) prototypeView.findViewById(R.id.set_variable_spinner);
+		Spinner variableSpinner = prototypeView.findViewById(R.id.set_variable_spinner);
 
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
 				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
@@ -140,7 +140,7 @@ public class SetVariableBrick extends UserVariableBrick {
 		variableSpinner.setAdapter(userVariableAdapterWrapper);
 		setSpinnerSelection(variableSpinner, null);
 
-		TextView textSetVariable = (TextView) prototypeView.findViewById(R.id.brick_set_variable_edit_text);
+		TextView textSetVariable = prototypeView.findViewById(R.id.brick_set_variable_edit_text);
 
 		if (defaultPrototypeToken != null) {
 			int defaultValueId = InternToExternGenerator.getMappedString(defaultPrototypeToken);
@@ -155,11 +155,6 @@ public class SetVariableBrick extends UserVariableBrick {
 	public void onNewVariable(UserVariable userVariable) {
 		Spinner spinner = view.findViewById(R.id.set_variable_spinner);
 		setSpinnerSelection(spinner, userVariable);
-	}
-
-	@Override
-	public SetVariableBrick clone() {
-		return new SetVariableBrick(getFormulaWithBrickField(BrickField.VARIABLE).clone(), userVariable);
 	}
 
 	public void showFormulaEditorToEditFormula(View view) {

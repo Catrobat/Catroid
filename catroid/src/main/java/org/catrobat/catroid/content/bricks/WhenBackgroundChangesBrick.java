@@ -43,49 +43,50 @@ import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterf
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 public class WhenBackgroundChangesBrick extends BrickBaseType implements
 		ScriptBrick, SpinnerAdapterWithNewOption.OnNewOptionInDropDownClickListener, NewItemInterface<LookData> {
 
 	private static final long serialVersionUID = 1L;
 
 	private WhenBackgroundChangesScript script;
-	private transient LookData previouslySelectedLook;
 
+	private transient int spinnerSelectionBuffer = 0;
 	private transient Spinner spinner;
 	private transient SpinnerAdapterWithNewOption spinnerAdapter;
 
 	public WhenBackgroundChangesBrick() {
+		this(new WhenBackgroundChangesScript());
 	}
 
-	public WhenBackgroundChangesBrick(WhenBackgroundChangesScript script) {
+	public WhenBackgroundChangesBrick(@Nonnull WhenBackgroundChangesScript script) {
+		script.setScriptBrick(this);
+		commentedOut = script.isCommentedOut();
 		this.script = script;
 	}
 
 	public LookData getLook() {
-		return getCastedScriptSafe().getLook();
+		return script.getLook();
 	}
 
-	public void setLook(LookData lookData) {
-		getCastedScriptSafe().setLook(lookData);
-	}
-
-	@Override
-	public Script getScriptSafe() {
-		if (script == null) {
-			script = new WhenBackgroundChangesScript();
-		}
-		return script;
-	}
-
-	private WhenBackgroundChangesScript getCastedScriptSafe() {
-		return (WhenBackgroundChangesScript) getScriptSafe();
+	public void setLook(LookData look) {
+		script.setLook(look);
 	}
 
 	@Override
-	public Brick clone() {
-		WhenBackgroundChangesBrick clone = new WhenBackgroundChangesBrick();
-		clone.setLook(getLook());
+	public BrickBaseType clone() throws CloneNotSupportedException {
+		WhenBackgroundChangesBrick clone = (WhenBackgroundChangesBrick) super.clone();
+		clone.script = (WhenBackgroundChangesScript) script.clone();
+		clone.script.setScriptBrick(clone);
+		clone.spinner = null;
+		clone.spinnerAdapter = null;
 		return clone;
+	}
+
+	@Override
+	public Script getScript() {
+		return script;
 	}
 
 	@Override
@@ -96,10 +97,9 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 	@Override
 	public View getView(final Context context) {
 		super.getView(context);
-		spinner = view.findViewById(R.id.brick_when_background_spinner);
 		spinnerAdapter = new SpinnerAdapterWithNewOption(context, getLookNames());
 		spinnerAdapter.setOnDropDownItemClickListener(this);
-
+		spinner = view.findViewById(R.id.brick_when_background_spinner);
 		spinner.setAdapter(spinnerAdapter);
 		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			@Override
@@ -136,7 +136,7 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 
 	@Override
 	public boolean onNewOptionInDropDownClicked(View v) {
-		previouslySelectedLook = getLook();
+		spinnerSelectionBuffer = spinner.getSelectedItemPosition();
 		new NewLookDialogFragment(this,
 				ProjectManager.getInstance().getCurrentlyEditedScene(),
 				ProjectManager.getInstance().getCurrentSprite()) {
@@ -144,8 +144,7 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 			@Override
 			public void onCancel(DialogInterface dialog) {
 				super.onCancel(dialog);
-				setLook(previouslySelectedLook);
-				spinner.setSelection(spinnerAdapter.getPosition(getLook() != null ? getLook().getName() : null));
+				spinner.setSelection(spinnerSelectionBuffer);
 			}
 		}.show(((Activity) v.getContext()).getFragmentManager(), NewLookDialogFragment.TAG);
 		return false;
@@ -162,9 +161,8 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 	@Override
 	public View getPrototypeView(Context context) {
 		View view = super.getPrototypeView(context);
-		spinner = view.findViewById(R.id.brick_when_background_spinner);
-
 		spinnerAdapter = new SpinnerAdapterWithNewOption(context, getLookNames());
+		spinner = view.findViewById(R.id.brick_when_background_spinner);
 		spinner.setAdapter(spinnerAdapter);
 		spinner.setSelection(spinnerAdapter.getPosition(getLook() != null ? getLook().getName() : null));
 		return view;

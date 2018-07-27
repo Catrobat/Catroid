@@ -30,39 +30,40 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 public class WhenBrick extends BrickBaseType implements ScriptBrick {
 
-	protected WhenScript whenScript;
 	private static final long serialVersionUID = 1L;
 
+	private WhenScript whenScript;
+
 	public WhenBrick() {
+		this(new WhenScript());
 	}
 
-	public WhenBrick(WhenScript whenScript) {
+	public WhenBrick(@Nonnull WhenScript whenScript) {
+		whenScript.setScriptBrick(this);
+		commentedOut = whenScript.isCommentedOut();
 		this.whenScript = whenScript;
+	}
 
-		if (whenScript != null && whenScript.isCommentedOut()) {
-			setCommentedOut(true);
-		}
+	@Override
+	public BrickBaseType clone() throws CloneNotSupportedException {
+		WhenBrick clone = (WhenBrick) super.clone();
+		clone.whenScript = (WhenScript) whenScript.clone();
+		clone.whenScript.setScriptBrick(clone);
+		return clone;
+	}
+
+	@Override
+	public Script getScript() {
+		return whenScript;
 	}
 
 	@Override
 	public int getViewResource() {
 		return R.layout.brick_when;
-	}
-
-	@Override
-	public Brick clone() {
-		return new WhenBrick(null);
-	}
-
-	@Override
-	public Script getScriptSafe() {
-		if (whenScript == null) {
-			whenScript = new WhenScript();
-		}
-
-		return whenScript;
 	}
 
 	@Override
@@ -73,6 +74,6 @@ public class WhenBrick extends BrickBaseType implements ScriptBrick {
 	@Override
 	public void setCommentedOut(boolean commentedOut) {
 		super.setCommentedOut(commentedOut);
-		getScriptSafe().setCommentedOut(commentedOut);
+		getScript().setCommentedOut(commentedOut);
 	}
 }

@@ -126,11 +126,6 @@ public class DeleteItemOfUserListBrick extends UserListBrick {
 	}
 
 	@Override
-	public Brick clone() {
-		return new DeleteItemOfUserListBrick(getFormulaWithBrickField(BrickField.LIST_DELETE_ITEM).clone(), userList);
-	}
-
-	@Override
 	public void showFormulaEditorToEditFormula(View view) {
 		FormulaEditorFragment.showFragment(view, this, BrickField.LIST_DELETE_ITEM);
 	}

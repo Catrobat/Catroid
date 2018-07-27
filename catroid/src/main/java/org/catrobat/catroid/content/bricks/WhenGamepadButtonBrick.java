@@ -46,7 +46,17 @@ public class WhenGamepadButtonBrick extends BrickBaseType implements ScriptBrick
 	private List<String> actions = Arrays.asList(CatroidApplication.getAppContext().getResources().getStringArray(R.array.gamepad_buttons_array));
 
 	public WhenGamepadButtonBrick(@NonNull WhenGamepadButtonScript whenGamepadButtonScript) {
+		whenGamepadButtonScript.setScriptBrick(this);
+		commentedOut = whenGamepadButtonScript.isCommentedOut();
 		this.whenGamepadButtonScript = whenGamepadButtonScript;
+	}
+
+	@Override
+	public BrickBaseType clone() throws CloneNotSupportedException {
+		WhenGamepadButtonBrick clone = (WhenGamepadButtonBrick) super.clone();
+		clone.whenGamepadButtonScript = (WhenGamepadButtonScript) whenGamepadButtonScript.clone();
+		clone.whenGamepadButtonScript.setScriptBrick(clone);
+		return clone;
 	}
 
 	@Override
@@ -87,13 +97,7 @@ public class WhenGamepadButtonBrick extends BrickBaseType implements ScriptBrick
 	}
 
 	@Override
-	public Brick clone() {
-		WhenGamepadButtonScript clonedScript = new WhenGamepadButtonScript(whenGamepadButtonScript.getAction());
-		return new WhenGamepadButtonBrick(clonedScript);
-	}
-
-	@Override
-	public Script getScriptSafe() {
+	public Script getScript() {
 		return whenGamepadButtonScript;
 	}
 

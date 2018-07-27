@@ -41,24 +41,27 @@ public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 
 	private WhenConditionScript script;
 
-	public WhenConditionBrick() {
-		init();
-	}
-
 	public WhenConditionBrick(Formula condition) {
-		init();
+		this(new WhenConditionScript());
 		setFormulaWithBrickField(BrickField.IF_CONDITION, condition);
 	}
 
 	public WhenConditionBrick(WhenConditionScript script) {
+		script.setScriptBrick(this);
+		commentedOut = script.isCommentedOut();
 		this.script = script;
-		init();
+
+		formulaMap = script.getFormulaMap();
+		addAllowedBrickField(BrickField.IF_CONDITION);
 	}
 
-	private void init() {
-		getScriptSafe();
-		formulaMap = this.script.getFormulaMap();
-		addAllowedBrickField(BrickField.IF_CONDITION);
+	@Override
+	public BrickBaseType clone() throws CloneNotSupportedException {
+		WhenConditionBrick clone = (WhenConditionBrick) super.clone();
+		clone.script = (WhenConditionScript) script.clone();
+		clone.script.setScriptBrick(clone);
+		clone.formulaMap = clone.script.getFormulaMap();
+		return clone;
 	}
 
 	@Override
@@ -80,12 +83,9 @@ public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 	public View getView(Context context) {
 		super.getView(context);
 		TextView conditionEditText = view.findViewById(R.id.brick_when_condition_edit_text);
-
 		getFormulaWithBrickField(BrickField.IF_CONDITION).setTextFieldId(R.id.brick_when_condition_edit_text);
 		getFormulaWithBrickField(BrickField.IF_CONDITION).refreshTextField(view);
-
 		conditionEditText.setOnClickListener(this);
-
 		return view;
 	}
 
@@ -107,16 +107,7 @@ public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 	}
 
 	@Override
-	public Script getScriptSafe() {
-		if (script == null) {
-			script = new WhenConditionScript(this);
-			formulaMap = script.getFormulaMap();
-		}
+	public Script getScript() {
 		return script;
-	}
-
-	@Override
-	public Brick clone() {
-		return new WhenConditionBrick(getConditionFormula());
 	}
 }

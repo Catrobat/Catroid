@@ -39,18 +39,11 @@ public class WhenBackgroundChangesScript extends Script {
 	private LookData look;
 
 	@Override
-	public Script clone() throws CloneNotSupportedException {
-		WhenBackgroundChangesScript clone = new WhenBackgroundChangesScript();
-		clone.getBrickList().addAll(cloneBrickList());
-		return clone;
-	}
-
-	@Override
 	public ScriptBrick getScriptBrick() {
-		if (brick == null) {
-			brick = new WhenBackgroundChangesBrick(this);
+		if (scriptBrick == null) {
+			scriptBrick = new WhenBackgroundChangesBrick(this);
 		}
-		return brick;
+		return scriptBrick;
 	}
 
 	@Override

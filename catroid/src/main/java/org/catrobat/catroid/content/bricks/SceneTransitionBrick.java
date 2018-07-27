@@ -41,8 +41,7 @@ import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterf
 import java.util.List;
 
 public class SceneTransitionBrick extends BrickBaseType implements
-		SpinnerAdapterWithNewOption.OnNewOptionInDropDownClickListener,
-		NewItemInterface<Scene> {
+		SpinnerAdapterWithNewOption.OnNewOptionInDropDownClickListener, NewItemInterface<Scene> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -65,8 +64,11 @@ public class SceneTransitionBrick extends BrickBaseType implements
 	}
 
 	@Override
-	public Brick clone() {
-		return new SceneTransitionBrick(sceneForTransition);
+	public BrickBaseType clone() throws CloneNotSupportedException {
+		SceneTransitionBrick clone = (SceneTransitionBrick) super.clone();
+		clone.spinner = null;
+		clone.spinnerAdapter = null;
+		return clone;
 	}
 
 	@Override

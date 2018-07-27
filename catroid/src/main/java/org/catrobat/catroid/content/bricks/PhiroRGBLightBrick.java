@@ -45,17 +45,12 @@ import java.util.List;
 public class PhiroRGBLightBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
-
 	public enum Eye {
 		LEFT, RIGHT, BOTH
 	}
 
 	private String eye;
 	private transient Eye eyeEnum;
-	private transient TextView editRedValue;
-	private transient TextView editGreenValue;
-	private transient TextView editBlueValue;
 
 	private transient ColorSeekbar colorSeekbar = new ColorSeekbar(this, BrickField.PHIRO_LIGHT_RED,
 			BrickField.PHIRO_LIGHT_GREEN, BrickField.PHIRO_LIGHT_BLUE);
@@ -108,18 +103,18 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
+		View prototypeView = super.getPrototypeView(context);
 
-		TextView textValueRed = (TextView) prototypeView.findViewById(R.id.brick_phiro_rgb_led_action_red_edit_text);
+		TextView textValueRed = prototypeView.findViewById(R.id.brick_phiro_rgb_led_action_red_edit_text);
 		textValueRed.setText(formatNumberForPrototypeView(BrickValues.PHIRO_VALUE_RED));
 
-		TextView textValueGreen = (TextView) prototypeView.findViewById(R.id.brick_phiro_rgb_led_action_green_edit_text);
+		TextView textValueGreen = prototypeView.findViewById(R.id.brick_phiro_rgb_led_action_green_edit_text);
 		textValueGreen.setText(formatNumberForPrototypeView(BrickValues.PHIRO_VALUE_GREEN));
 
-		TextView textValueBlue = (TextView) prototypeView.findViewById(R.id.brick_phiro_rgb_led_action_blue_edit_text);
+		TextView textValueBlue = prototypeView.findViewById(R.id.brick_phiro_rgb_led_action_blue_edit_text);
 		textValueBlue.setText(formatNumberForPrototypeView(BrickValues.PHIRO_VALUE_BLUE));
 
-		Spinner eyeSpinner = (Spinner) prototypeView.findViewById(R.id.brick_phiro_rgb_light_spinner);
+		Spinner eyeSpinner = prototypeView.findViewById(R.id.brick_phiro_rgb_light_spinner);
 
 		ArrayAdapter<CharSequence> eyeAdapter = ArrayAdapter.createFromResource(context,
 				R.array.brick_phiro_select_light_spinner, android.R.layout.simple_spinner_item);
@@ -132,7 +127,7 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 	}
 
 	@Override
-	public Brick clone() {
+	public BrickBaseType clone() {
 		return new PhiroRGBLightBrick(eye,
 				getFormulaWithBrickField(BrickField.PHIRO_LIGHT_RED).clone(),
 				getFormulaWithBrickField(BrickField.PHIRO_LIGHT_GREEN).clone(),
@@ -152,19 +147,19 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 	@Override
 	public View getView(Context context) {
 		super.getView(context);
-		editRedValue = (TextView) view.findViewById(R.id.brick_phiro_rgb_led_action_red_edit_text);
+		TextView editRedValue = view.findViewById(R.id.brick_phiro_rgb_led_action_red_edit_text);
 		getFormulaWithBrickField(BrickField.PHIRO_LIGHT_RED).setTextFieldId(R.id.brick_phiro_rgb_led_action_red_edit_text);
 		getFormulaWithBrickField(BrickField.PHIRO_LIGHT_RED).refreshTextField(view);
 
 		editRedValue.setOnClickListener(this);
 
-		editGreenValue = (TextView) view.findViewById(R.id.brick_phiro_rgb_led_action_green_edit_text);
+		TextView editGreenValue = view.findViewById(R.id.brick_phiro_rgb_led_action_green_edit_text);
 		getFormulaWithBrickField(BrickField.PHIRO_LIGHT_GREEN).setTextFieldId(R.id.brick_phiro_rgb_led_action_green_edit_text);
 		getFormulaWithBrickField(BrickField.PHIRO_LIGHT_GREEN).refreshTextField(view);
 
 		editGreenValue.setOnClickListener(this);
 
-		editBlueValue = (TextView) view.findViewById(R.id.brick_phiro_rgb_led_action_blue_edit_text);
+		TextView editBlueValue = view.findViewById(R.id.brick_phiro_rgb_led_action_blue_edit_text);
 		getFormulaWithBrickField(BrickField.PHIRO_LIGHT_BLUE).setTextFieldId(R.id.brick_phiro_rgb_led_action_blue_edit_text);
 		getFormulaWithBrickField(BrickField.PHIRO_LIGHT_BLUE).refreshTextField(view);
 
@@ -173,7 +168,7 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 		ArrayAdapter<CharSequence> eyeAdapter = ArrayAdapter.createFromResource(context,
 				R.array.brick_phiro_select_light_spinner, android.R.layout.simple_spinner_item);
 		eyeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		Spinner eyeSpinner = (Spinner) view.findViewById(R.id.brick_phiro_rgb_light_spinner);
+		Spinner eyeSpinner = view.findViewById(R.id.brick_phiro_rgb_light_spinner);
 
 		eyeSpinner.setAdapter(eyeAdapter);
 		eyeSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {

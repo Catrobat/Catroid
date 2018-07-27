@@ -38,13 +38,6 @@ public class WhenNfcScript extends Script {
 	private NfcTagData nfcTag;
 	private boolean matchAll = true;
 
-	@Override
-	public Script clone() throws CloneNotSupportedException {
-		WhenNfcScript clone = new WhenNfcScript(nfcTag);
-		clone.getBrickList().addAll(cloneBrickList());
-		return clone;
-	}
-
 	public WhenNfcScript() {
 	}
 
@@ -54,10 +47,10 @@ public class WhenNfcScript extends Script {
 
 	@Override
 	public ScriptBrick getScriptBrick() {
-		if (brick == null) {
-			brick = new WhenNfcBrick(this);
+		if (scriptBrick == null) {
+			scriptBrick = new WhenNfcBrick(this);
 		}
-		return brick;
+		return scriptBrick;
 	}
 
 	@Override
