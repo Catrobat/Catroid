@@ -31,7 +31,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.sensing.CollisionDetection;
-import org.catrobat.catroid.test.utils.CollisionTestUtils;
+import org.catrobat.catroid.test.physics.collision.CollisionTestUtils;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.TouchUtil;
 import org.junit.Before;

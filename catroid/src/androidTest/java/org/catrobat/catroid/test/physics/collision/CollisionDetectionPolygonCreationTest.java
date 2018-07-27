@@ -21,12 +21,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.test.sensing;
+package org.catrobat.catroid.test.physics.collision;
 
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
-
-import com.badlogic.gdx.graphics.Pixmap;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
@@ -35,9 +33,8 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.sensing.CollisionInformation;
-import org.catrobat.catroid.test.utils.PhysicsTestUtils;
+import org.catrobat.catroid.test.physics.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.utils.Utils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,6 +46,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
+import static org.catrobat.catroid.test.physics.PhysicsTestUtils.generateLookData;
 import static org.junit.Assert.assertArrayEquals;
 
 @RunWith(AndroidJUnit4.class)
@@ -56,15 +54,6 @@ public class CollisionDetectionPolygonCreationTest {
 	protected Project project;
 	protected Sprite sprite;
 	private static final float DELTA = Float.MIN_VALUE;
-
-	public static LookData generateLookData(File testImage) {
-		LookData lookData = new LookData();
-		lookData.setFile(testImage);
-		lookData.setName(testImage.getName());
-		Pixmap pixmap = Utils.getPixmapFromFile(testImage);
-		lookData.setPixmap(pixmap);
-		return lookData;
-	}
 
 	@Before
 	public void setUp() throws Exception {

@@ -38,7 +38,6 @@ import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.test.R;
-import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -58,8 +57,6 @@ import static org.catrobat.catroid.utils.PathBuilder.buildScenePath;
 @RunWith(AndroidJUnit4.class)
 public class PlaySoundActionTest {
 	private final SoundManager soundManager = SoundManager.getInstance();
-	private final int soundFileId = R.raw.testsound;
-	private final String projectName = TestUtils.DEFAULT_TEST_PROJECT_NAME;
 	private File soundFile;
 
 	@Before
@@ -76,7 +73,7 @@ public class PlaySoundActionTest {
 	}
 
 	@Test
-	public void testPlaySound() throws Exception {
+	public void testPlaySound() {
 		Sprite testSprite = new SingleSprite("testSprite");
 		SoundInfo soundInfo = createSoundInfo(soundFile);
 		testSprite.getSoundList().add(soundInfo);
@@ -85,13 +82,13 @@ public class PlaySoundActionTest {
 		Action action = factory.createPlaySoundAction(testSprite, soundInfo);
 		action.act(1.0f);
 
-		List<MediaPlayer> mediaPlayers = getMediaPlayers();
+		List<MediaPlayer> mediaPlayers = soundManager.getMediaPlayers();
 		assertEquals(1, mediaPlayers.size());
 		assertTrue(mediaPlayers.get(0).isPlaying());
 	}
 
 	@Test
-	public void testPlaySimultaneousSounds() throws Exception {
+	public void testPlaySimultaneousSounds() {
 		Sprite testSprite = new SingleSprite("testSprite");
 		SoundInfo soundInfo = createSoundInfo(soundFile);
 		testSprite.getSoundList().add(soundInfo);
@@ -103,17 +100,19 @@ public class PlaySoundActionTest {
 		playSoundAction1.act(1.0f);
 		playSoundAction2.act(1.0f);
 
-		List<MediaPlayer> mediaPlayers = getMediaPlayers();
+		List<MediaPlayer> mediaPlayers = soundManager.getMediaPlayers();
 		assertEquals(2, mediaPlayers.size());
 		assertTrue(mediaPlayers.get(0).isPlaying());
 		assertTrue(mediaPlayers.get(1).isPlaying());
 	}
 
 	private void createTestProject() throws IOException {
+		String projectName = "testProject";
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
+		int soundFileId = R.raw.testsound;
 		soundFile = ResourceImporter.createSoundFileFromResourcesInDirectory(
 				InstrumentationRegistry.getContext().getResources(),
 				soundFileId,
@@ -125,10 +124,5 @@ public class PlaySoundActionTest {
 		SoundInfo soundInfo = new SoundInfo();
 		soundInfo.setFile(soundFile);
 		return soundInfo;
-	}
-
-	@SuppressWarnings("unchecked")
-	private List<MediaPlayer> getMediaPlayers() throws Exception {
-		return (List<MediaPlayer>) Reflection.getPrivateField(soundManager, "mediaPlayers");
 	}
 }

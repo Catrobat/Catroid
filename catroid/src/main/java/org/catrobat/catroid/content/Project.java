@@ -24,6 +24,7 @@ package org.catrobat.catroid.content;
 
 import android.content.Context;
 import android.os.Build;
+import android.support.annotation.VisibleForTesting;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
@@ -269,8 +270,6 @@ public class Project implements Serializable {
 		return resources;
 	}
 
-	// this method should be removed by the nex refactoring
-	// (used only in tests)
 	public void setCatrobatLanguageVersion(float catrobatLanguageVersion) {
 		xmlHeader.setCatrobatLanguageVersion(catrobatLanguageVersion);
 	}
@@ -441,5 +440,10 @@ public class Project implements Serializable {
 				sprite.updateCollisionScripts();
 			}
 		}
+	}
+
+	@VisibleForTesting
+	public void setXmlHeader(XmlHeader xmlHeader) {
+		this.xmlHeader = xmlHeader;
 	}
 }

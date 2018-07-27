@@ -22,12 +22,10 @@
  */
 package org.catrobat.catroid.test.drone;
 
-import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.parrot.freeflight.drone.DroneProxy;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -35,19 +33,11 @@ import org.mockito.Mockito;
 @RunWith(AndroidJUnit4.class)
 public class DroneDemoTest {
 
-	@Before
-	public void setUp() throws Exception {
-		//Workaround for Android 4.4 Devices
-		//https://code.google.com/p/dexmaker/issues/detail?id=2
-		System.setProperty("dexmaker.dexcache", InstrumentationRegistry.getTargetContext().getCacheDir().getPath());
-	}
-
 	@Test
 	public void testDemo() {
 		DroneProxy droneMock = Mockito.mock(DroneProxy.class);
 
 		droneMock.doFlip();
-		// was the method called once?
 		Mockito.verify(droneMock, Mockito.atLeast(1)).doFlip();
 	}
 }

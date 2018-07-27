@@ -23,6 +23,7 @@
 package org.catrobat.catroid.formulaeditor;
 
 import android.os.Handler;
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import org.catrobat.catroid.soundrecorder.SoundRecorder;
@@ -112,5 +113,15 @@ public final class SensorLoudness {
 				lastValue = 0f;
 			}
 		}
+	}
+
+	@VisibleForTesting
+	public void setSoundRecorder(SoundRecorder soundRecorder) {
+		recorder = soundRecorder;
+	}
+
+	@VisibleForTesting
+	public SoundRecorder getSoundRecorder() {
+		return recorder;
 	}
 }

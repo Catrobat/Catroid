@@ -23,6 +23,7 @@
 package org.catrobat.catroid.content;
 
 import android.graphics.PointF;
+import android.support.annotation.VisibleForTesting;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -514,7 +515,7 @@ public class Look extends Image {
 		return (catroidAngle > -180 && catroidAngle <= 180);
 	}
 
-	private float breakDownCatroidAngle(float catroidAngle) {
+	public float breakDownCatroidAngle(float catroidAngle) {
 		catroidAngle = catroidAngle % 360;
 		if (catroidAngle >= 0 && !isAngleInCatroidInterval(catroidAngle)) {
 			return catroidAngle - 360;
@@ -524,12 +525,12 @@ public class Look extends Image {
 		return catroidAngle;
 	}
 
-	protected float convertCatroidAngleToStageAngle(float catroidAngle) {
+	public float convertCatroidAngleToStageAngle(float catroidAngle) {
 		catroidAngle = breakDownCatroidAngle(catroidAngle);
 		return -catroidAngle + DEGREE_UI_OFFSET;
 	}
 
-	protected float convertStageAngleToCatroidAngle(float stageAngle) {
+	public float convertStageAngleToCatroidAngle(float stageAngle) {
 		float catroidAngle = -stageAngle + DEGREE_UI_OFFSET;
 		return breakDownCatroidAngle(catroidAngle);
 	}
@@ -641,5 +642,15 @@ public class Look extends Image {
 				((EventThread) action).notifyWaiter();
 			}
 		}
+	}
+
+	@VisibleForTesting
+	public float getAlpha() {
+		return alpha;
+	}
+
+	@VisibleForTesting
+	public float getBrightness() {
+		return brightness;
 	}
 }

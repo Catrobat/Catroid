@@ -23,7 +23,6 @@
 package org.catrobat.catroid.test.io;
 
 import android.support.test.runner.AndroidJUnit4;
-import android.test.MoreAsserts;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
@@ -48,6 +47,8 @@ import java.util.List;
 import java.util.Map;
 
 import static junit.framework.Assert.assertEquals;
+
+import static org.junit.Assert.assertArrayEquals;
 
 @RunWith(AndroidJUnit4.class)
 public class CatroidFieldKeySorterTest {
@@ -95,14 +96,16 @@ public class CatroidFieldKeySorterTest {
 	public void testSortTagsAlphabetically() {
 		xstream.toXML(new BaseClass());
 
-		MoreAsserts.assertEquals(new String[] {"a", "x"}, fieldKeySorter.getFieldNames(BaseClass.class));
+		assertArrayEquals(new String[] {"a", "x"},
+				fieldKeySorter.getFieldNames(BaseClass.class));
 	}
 
 	@Test
 	public void testSortTagsAlphabeticallyByClassHierarchy() {
 		xstream.toXML(new SubClass());
 
-		MoreAsserts.assertEquals(new String[] {"a", "x", "b", "y", "z"}, fieldKeySorter.getFieldNames(SubClass.class));
+		assertArrayEquals(new String[] {"a", "x", "b", "y", "z"},
+				fieldKeySorter.getFieldNames(SubClass.class));
 	}
 
 	@SuppressWarnings("PMD.UnusedPrivateField")
@@ -139,7 +142,8 @@ public class CatroidFieldKeySorterTest {
 		xstream.processAnnotations(SortAlphabeticallyWithAliases.class);
 		xstream.toXML(new SortAlphabeticallyWithAliases());
 
-		MoreAsserts.assertEquals(new String[] {"b", "x", "y"}, fieldKeySorter.getFieldNames(SortAlphabeticallyWithAliases.class));
+		assertArrayEquals(new String[] {"b", "x", "y"},
+				fieldKeySorter.getFieldNames(SortAlphabeticallyWithAliases.class));
 	}
 
 	@SuppressWarnings("PMD.UnusedPrivateField")
@@ -154,7 +158,8 @@ public class CatroidFieldKeySorterTest {
 	public void testSortByAnnotation() {
 		xstream.toXML(new SortByAnnotation());
 
-		MoreAsserts.assertEquals(new String[] {"c", "a", "d", "b"}, fieldKeySorter.getFieldNames(SortByAnnotation.class));
+		assertArrayEquals(new String[] {"c", "a", "d", "b"},
+				fieldKeySorter.getFieldNames(SortByAnnotation.class));
 	}
 
 	// Remove checkstyle disable when https://github.com/checkstyle/checkstyle/issues/1349 is fixed
@@ -177,7 +182,8 @@ public class CatroidFieldKeySorterTest {
 	public void testSortByAnnotationWithAliases() {
 		xstream.toXML(new SortByAnnotationWithAliases());
 
-		MoreAsserts.assertEquals(new String[] {"x", "b"}, fieldKeySorter.getFieldNames(SortByAnnotationWithAliases.class));
+		assertArrayEquals(new String[] {"x", "b"},
+				fieldKeySorter.getFieldNames(SortByAnnotationWithAliases.class));
 	}
 
 	// Remove checkstyle disable when https://github.com/checkstyle/checkstyle/issues/1349 is fixed
@@ -214,7 +220,8 @@ public class CatroidFieldKeySorterTest {
 	public void testSortByAnnotationIsInBaseClass() {
 		xstream.toXML(new SubClassWithoutAnnotation());
 
-		MoreAsserts.assertEquals(new String[] {"b", "a"}, fieldKeySorter.getFieldNames(SubClassWithoutAnnotation.class));
+		assertArrayEquals(new String[] {"b", "a"},
+				fieldKeySorter.getFieldNames(SubClassWithoutAnnotation.class));
 	}
 
 	@Test

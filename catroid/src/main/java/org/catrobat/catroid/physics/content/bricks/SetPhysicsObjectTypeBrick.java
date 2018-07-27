@@ -23,6 +23,7 @@
 package org.catrobat.catroid.physics.content.bricks;
 
 import android.content.Context;
+import android.support.annotation.VisibleForTesting;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -117,5 +118,10 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType implements Cloneabl
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSetPhysicsObjectTypeAction(sprite, type));
 		return null;
+	}
+
+	@VisibleForTesting
+	public PhysicsObject.Type getType() {
+		return type;
 	}
 }

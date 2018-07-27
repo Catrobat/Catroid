@@ -32,6 +32,7 @@ import android.graphics.Point;
 import android.graphics.PointF;
 import android.media.FaceDetector;
 import android.media.FaceDetector.Face;
+import android.support.annotation.VisibleForTesting;
 
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.camera.JpgPreviewCallback;
@@ -104,5 +105,10 @@ public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDet
 		int relativeFaceSize = 200 * estimatedFaceWidth / detectionWidth;
 		relativeFaceSize = relativeFaceSize > 100 ? 100 : relativeFaceSize;
 		onFaceDetected(relativePoint, relativeFaceSize);
+	}
+
+	@VisibleForTesting
+	public void callOnFaceFound(PointF centerPoint, float eyeDistance, int detectionWidth, int detectionHeight) {
+		onFaceFound(centerPoint, eyeDistance, detectionWidth, detectionHeight);
 	}
 }
