@@ -50,6 +50,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'io.fabric'
 apply plugin: 'checkstyle'
+apply plugin: 'jacoco-android'
 apply plugin: 'pmd'
 
 apply from: 'gradle/code_quality_tasks.gradle'
@@ -71,6 +72,16 @@ if (project.hasProperty('independent')) {
 }
 ant.copy(file: 'google-services-template.json', tofile: 'google-services.json', overwrite: true)
 ant.replace(file: 'google-services.json', token: '@appId@', value: appId)
+
+jacoco {
+    toolVersion = "0.8.1"
+}
+
+jacocoAndroidUnitTestReport {
+    csv.enabled false
+    html.enabled true
+    xml.enabled true
+}
 
 android {
     dexOptions {
@@ -103,6 +114,7 @@ android {
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
             resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
             ext.enableCrashlytics = false
+            testCoverageEnabled = true
         }
         release {
             buildConfigField "boolean", "FEATURE_EMBROIDERY_ENABLED", "false"

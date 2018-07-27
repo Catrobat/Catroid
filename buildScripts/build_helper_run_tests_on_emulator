@@ -51,7 +51,7 @@ print("Calling: " + " ".join(disable_cmd))
 return_code = subprocess.run( disable_cmd, cwd=os.environ['REPO_DIR'] ).returncode
 
 ## RUN tests
-test_runner_cmd = build_helper_functions.get_jenkins_android_helper_executable('jenkins_android_cmd_wrapper') + [ '-I', build_helper_functions.get_relative_gradle_name(), 'clean', 'adbDisableAnimationsGlobally', 'connectedCatroidDebugAndroidTest' ]
+test_runner_cmd = build_helper_functions.get_jenkins_android_helper_executable('jenkins_android_cmd_wrapper') + [ '-I', build_helper_functions.get_relative_gradle_name(), 'clean', 'adbDisableAnimationsGlobally', 'createCatroidDebugAndroidTestCoverageReport' ]
 if test_runner_arg is not None and test_runner_arg != "":
     test_runner_cmd = test_runner_cmd + [ test_runner_arg ]
 
