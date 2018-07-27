@@ -23,6 +23,7 @@
 package org.catrobat.catroid.io;
 
 import android.media.MediaPlayer;
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class SoundManager {
 	private final List<MediaPlayer> mediaPlayers = new ArrayList<MediaPlayer>(MAX_MEDIA_PLAYERS);
 	private float volume = 70.0f;
 
-	protected SoundManager() {
+	public SoundManager() {
 	}
 
 	public static SoundManager getInstance() {
@@ -144,5 +145,10 @@ public class SoundManager {
 				mediaPlayer.stop();
 			}
 		}
+	}
+
+	@VisibleForTesting
+	public List<MediaPlayer> getMediaPlayers() {
+		return mediaPlayers;
 	}
 }

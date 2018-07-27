@@ -70,7 +70,6 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
 import org.junit.Before;
@@ -230,8 +229,7 @@ public class BrickCloneTest {
 		@SuppressWarnings("unchecked")
 		T clonedBrick = (T) clonedSprite.getScript(0).getBrick(0);
 		UserVariable clonedVariable = project.getDefaultScene().getDataContainer().getUserVariable(clonedSprite, VARIABLE_NAME);
-		UserVariable clonedVariableFromBrick = (UserVariable) Reflection
-				.getPrivateField(UserVariableBrick.class, clonedBrick, "userVariable");
+		UserVariable clonedVariableFromBrick = ((UserVariableBrick) clonedBrick).getUserVariable();
 
 		assertNotNull(clonedVariable);
 		assertNotSame(spriteVariable, clonedVariable);

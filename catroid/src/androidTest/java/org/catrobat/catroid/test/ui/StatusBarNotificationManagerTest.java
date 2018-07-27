@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.test.utils;
+package org.catrobat.catroid.test.ui;
 
 import android.app.NotificationManager;
 import android.content.Context;
@@ -31,6 +31,8 @@ import android.support.test.runner.AndroidJUnit4;
 import android.util.SparseArray;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.test.utils.Reflection;
+import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.NotificationData;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.junit.After;
@@ -39,7 +41,10 @@ import org.junit.runner.RunWith;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.is;
 
 @RunWith(AndroidJUnit4.class)
 public class StatusBarNotificationManagerTest {
@@ -107,7 +112,7 @@ public class StatusBarNotificationManagerTest {
 	}
 
 	private void checkNotificationData(int id) throws Exception {
-		assertTrue(id >= 0);
+		assertThat(id, is(greaterThanOrEqualTo(0)));
 
 		@SuppressWarnings("unchecked")
 		SparseArray<NotificationData> notificationDataMap = (SparseArray<NotificationData>) Reflection.getPrivateField(

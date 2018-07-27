@@ -33,7 +33,6 @@ import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.test.R;
-import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -41,6 +40,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 
 import java.io.File;
 import java.util.Collections;
@@ -51,6 +51,7 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
+import static org.mockito.Mockito.verify;
 
 @RunWith(AndroidJUnit4.class)
 public class SoundManagerTest {
@@ -82,33 +83,33 @@ public class SoundManagerTest {
 	}
 
 	@Test
-	public void testPlaySound() throws Exception {
+	public void testPlaySound() {
 		soundManager.playSoundFile(soundFile.getAbsolutePath());
 
-		MediaPlayer mediaPlayer = getMediaPlayers().get(0);
+		MediaPlayer mediaPlayer = soundManager.getMediaPlayers().get(0);
 		assertTrue(mediaPlayer.isPlaying());
 		assertEquals(144, mediaPlayer.getDuration());
 	}
 
 	@Test
-	public void testClear() throws Exception {
+	public void testClear() {
 		soundManager.playSoundFile(soundFile.getAbsolutePath());
 
-		MediaPlayer mediaPlayer = getMediaPlayers().get(0);
+		MediaPlayer mediaPlayer = soundManager.getMediaPlayers().get(0);
 		assertTrue(mediaPlayer.isPlaying());
 
 		soundManager.clear();
-		assertTrue(getMediaPlayers().isEmpty());
+		assertTrue(soundManager.getMediaPlayers().isEmpty());
 
 		exception.expect(IllegalStateException.class);
 		mediaPlayer.isPlaying();
 	}
 
 	@Test
-	public void testPauseAndResume() throws Exception {
+	public void testPauseAndResume() {
 		soundManager.playSoundFile(soundFile.getAbsolutePath());
 
-		MediaPlayer mediaPlayer = getMediaPlayers().get(0);
+		MediaPlayer mediaPlayer = soundManager.getMediaPlayers().get(0);
 		assertTrue(mediaPlayer.isPlaying());
 
 		soundManager.pause();
@@ -119,9 +120,9 @@ public class SoundManagerTest {
 	}
 
 	@Test
-	public void testPauseAndResumeMultipleSounds() throws Exception {
+	public void testPauseAndResumeMultipleSounds() {
 		final int playSoundFilesCount = 3;
-		List<MediaPlayer> mediaPlayers = getMediaPlayers();
+		List<MediaPlayer> mediaPlayers = soundManager.getMediaPlayers();
 
 		for (int index = 0; index < playSoundFilesCount; index++) {
 			soundManager.playSoundFile(soundFile.getAbsolutePath());
@@ -145,10 +146,10 @@ public class SoundManagerTest {
 	}
 
 	@Test
-	public void testMediaPlayerLimit() throws Exception {
+	public void testMediaPlayerLimit() {
 		assertEquals(7, SoundManager.MAX_MEDIA_PLAYERS);
 
-		List<MediaPlayer> mediaPlayers = getMediaPlayers();
+		List<MediaPlayer> mediaPlayers = soundManager.getMediaPlayers();
 		for (int index = 0; index < SoundManager.MAX_MEDIA_PLAYERS + 3; index++) {
 			soundManager.playSoundFile(soundFile.getAbsolutePath());
 		}
@@ -157,8 +158,8 @@ public class SoundManagerTest {
 	}
 
 	@Test
-	public void testIfAllMediaPlayersInTheListAreUnique() throws Exception {
-		List<MediaPlayer> mediaPlayers = getMediaPlayers();
+	public void testIfAllMediaPlayersInTheListAreUnique() {
+		List<MediaPlayer> mediaPlayers = soundManager.getMediaPlayers();
 		for (int index = 0; index < SoundManager.MAX_MEDIA_PLAYERS; index++) {
 			SoundManager.getInstance().playSoundFile(soundFile.getAbsolutePath());
 		}
@@ -170,39 +171,21 @@ public class SoundManagerTest {
 
 	@Test
 	public void testInitialVolume() {
-		SoundManager soundManager = new SoundManager() {
-		};
+		SoundManager soundManager = new SoundManager();
 		assertEquals(70.0f, soundManager.getVolume());
 	}
 
 	@Test
-	public void testSetVolume() throws Exception {
-		List<MediaPlayer> mediaPlayers = getMediaPlayers();
-		MediaPlayerMock mediaPlayerMock = new MediaPlayerMock();
+	public void testSetVolume() {
+		List<MediaPlayer> mediaPlayers = soundManager.getMediaPlayers();
+		MediaPlayer mediaPlayerMock = Mockito.mock(MediaPlayer.class);
 		mediaPlayers.add(mediaPlayerMock);
 
 		float newVolume = 80.9f;
 		soundManager.setVolume(newVolume);
-
 		assertEquals(newVolume, soundManager.getVolume());
-		assertEquals(newVolume / 100f, mediaPlayerMock.leftVolume);
-		assertEquals(newVolume / 100f, mediaPlayerMock.rightVolume);
-	}
 
-	@SuppressWarnings("unchecked")
-	private List<MediaPlayer> getMediaPlayers() throws Exception {
-		return (List<MediaPlayer>) Reflection.getPrivateField(soundManager, "mediaPlayers");
-	}
-
-	private class MediaPlayerMock extends MediaPlayer {
-		private float leftVolume;
-		private float rightVolume;
-
-		@Override
-		public void setVolume(float leftVolume, float rightVolume) {
-			this.leftVolume = leftVolume;
-			this.rightVolume = rightVolume;
-		}
+		verify(mediaPlayerMock).setVolume(newVolume / 100f, newVolume / 100f);
 	}
 
 	private void createProject() {

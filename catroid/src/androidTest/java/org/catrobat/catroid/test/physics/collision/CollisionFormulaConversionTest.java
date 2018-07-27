@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.test.sensing;
+package org.catrobat.catroid.test.physics.collision;
 
 import android.content.Context;
 import android.content.res.Configuration;

@@ -169,4 +169,9 @@ public final class FaceDetectionHandler {
 	public static void setFaceDetector(FaceDetector detector) {
 		faceDetector = detector;
 	}
+
+	@VisibleForTesting
+	public static FaceDetector getFaceDetector() {
+		return faceDetector;
+	}
 }

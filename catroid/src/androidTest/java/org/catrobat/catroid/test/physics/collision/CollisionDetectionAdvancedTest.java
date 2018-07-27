@@ -21,12 +21,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.test.sensing;
+package org.catrobat.catroid.test.physics.collision;
 
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.scenes.scene2d.Action;
 
@@ -55,6 +54,7 @@ import java.io.IOException;
 import static junit.framework.Assert.assertEquals;
 
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
+import static org.catrobat.catroid.test.physics.PhysicsTestUtils.generateLookData;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
@@ -65,16 +65,7 @@ public class CollisionDetectionAdvancedTest {
 	protected Sprite sprite1;
 	protected Sprite sprite2;
 
-	protected static LookData generateLookData(File testImage) {
-		LookData lookData = new LookData();
-		lookData.setFile(testImage);
-		lookData.setName(testImage.getName());
-		Pixmap pixmap = Utils.getPixmapFromFile(testImage);
-		lookData.setPixmap(pixmap);
-		return lookData;
-	}
-
-	protected void initializeSprite(Sprite sprite, int resourceId, String filename) throws IOException {
+	private void initializeSprite(Sprite sprite, int resourceId, String filename) throws IOException {
 		sprite.look = new Look(sprite);
 		sprite.setActionFactory(new ActionFactory());
 
