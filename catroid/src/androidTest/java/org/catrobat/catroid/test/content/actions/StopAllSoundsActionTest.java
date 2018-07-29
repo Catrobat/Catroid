@@ -38,7 +38,6 @@ import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.test.R;
-import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -59,7 +58,6 @@ import static org.catrobat.catroid.utils.PathBuilder.buildScenePath;
 @RunWith(AndroidJUnit4.class)
 public class StopAllSoundsActionTest {
 	private final SoundManager soundManager = SoundManager.getInstance();
-	private final int soundFileId = R.raw.testsound;
 	private File soundFile;
 
 	@Before
@@ -81,7 +79,7 @@ public class StopAllSoundsActionTest {
 		SoundInfo soundInfo = createSoundInfo(soundFile);
 		testSprite.getSoundList().add(soundInfo);
 
-		List<MediaPlayer> mediaPlayers = getMediaPlayers();
+		List<MediaPlayer> mediaPlayers = soundManager.getMediaPlayers();
 
 		ActionFactory factory = testSprite.getActionFactory();
 		Action playSoundAction = factory.createPlaySoundAction(testSprite, soundInfo);
@@ -110,7 +108,7 @@ public class StopAllSoundsActionTest {
 		playSoundAction1.act(1.0f);
 		playSoundAction2.act(1.0f);
 
-		List<MediaPlayer> mediaPlayers = getMediaPlayers();
+		List<MediaPlayer> mediaPlayers = soundManager.getMediaPlayers();
 		assertEquals(2, mediaPlayers.size());
 		assertTrue(mediaPlayers.get(0).isPlaying());
 		assertTrue(mediaPlayers.get(1).isPlaying());
@@ -129,6 +127,7 @@ public class StopAllSoundsActionTest {
 		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
+		int soundFileId = R.raw.testsound;
 		soundFile = ResourceImporter.createSoundFileFromResourcesInDirectory(
 				InstrumentationRegistry.getContext().getResources(),
 				soundFileId,
@@ -140,10 +139,5 @@ public class StopAllSoundsActionTest {
 		SoundInfo soundInfo = new SoundInfo();
 		soundInfo.setFile(soundFile);
 		return soundInfo;
-	}
-
-	@SuppressWarnings("unchecked")
-	private List<MediaPlayer> getMediaPlayers() throws Exception {
-		return (List<MediaPlayer>) Reflection.getPrivateField(soundManager, "mediaPlayers");
 	}
 }

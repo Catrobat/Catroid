@@ -21,12 +21,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.test.utils;
+package org.catrobat.catroid.test.physics.collision;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
-
-import com.badlogic.gdx.graphics.Pixmap;
 
 import junit.framework.Assert;
 
@@ -43,20 +41,12 @@ import java.io.File;
 import java.io.IOException;
 
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
+import static org.catrobat.catroid.test.physics.PhysicsTestUtils.generateLookData;
 
 public final class CollisionTestUtils {
 
 	private CollisionTestUtils() {
 		throw new AssertionError();
-	}
-
-	public static LookData generateLookData(File testImage) {
-		LookData lookData = new LookData();
-		lookData.setFile(testImage);
-		lookData.setName(testImage.getName());
-		Pixmap pixmap = Utils.getPixmapFromFile(testImage);
-		lookData.setPixmap(pixmap);
-		return lookData;
 	}
 
 	public static void initializeSprite(Sprite sprite, int resourceId, String filename, Context context,

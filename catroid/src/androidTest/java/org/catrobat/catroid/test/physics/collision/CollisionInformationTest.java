@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.test.sensing;
+package org.catrobat.catroid.test.physics.collision;
 
 import android.graphics.Bitmap;
 import android.support.test.InstrumentationRegistry;
@@ -37,7 +37,7 @@ import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.sensing.CollisionInformation;
 import org.catrobat.catroid.sensing.CollisionPolygonVertex;
-import org.catrobat.catroid.test.utils.PhysicsTestUtils;
+import org.catrobat.catroid.test.physics.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.Utils;
 import org.junit.Test;

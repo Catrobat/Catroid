@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.test.utils;
+package org.catrobat.catroid.test.web;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

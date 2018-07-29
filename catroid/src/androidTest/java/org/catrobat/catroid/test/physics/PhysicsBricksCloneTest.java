@@ -41,7 +41,6 @@ import org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.physics.content.bricks.SetVelocityBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
-import org.catrobat.catroid.test.utils.Reflection;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -95,8 +94,8 @@ public class PhysicsBricksCloneTest {
 		Brick brick = new CollisionReceiverBrick(new CollisionScript(null));
 		Brick clonedBrick = brick.clone();
 
-		CollisionScript brickReceiverScript = (CollisionScript) Reflection.getPrivateField(brick, "collisionScript");
-		CollisionScript clonedBrickReceiverScript = (CollisionScript) Reflection.getPrivateField(clonedBrick, "collisionScript");
+		CollisionScript brickReceiverScript = (CollisionScript) ((CollisionReceiverBrick) brick).getScriptSafe();
+		CollisionScript clonedBrickReceiverScript = (CollisionScript) ((CollisionReceiverBrick) clonedBrick).getScriptSafe();
 
 		assertNotSame(brickReceiverScript, clonedBrickReceiverScript);
 	}
@@ -111,22 +110,23 @@ public class PhysicsBricksCloneTest {
 		Brick clonedFixedBrick = fixedBrick.clone();
 		Brick clonedNoneBrick = noneBrick.clone();
 
-		PhysicsObject.Type dynamicBrickType = (PhysicsObject.Type) Reflection.getPrivateField(dynamicBrick, "type");
-		PhysicsObject.Type clonedDynamicBrickType = (PhysicsObject.Type) Reflection.getPrivateField(clonedDynamicBrick, "type");
-
-		PhysicsObject.Type fixedBrickType = (PhysicsObject.Type) Reflection.getPrivateField(fixedBrick, "type");
-		PhysicsObject.Type clonedFixedBrickType = (PhysicsObject.Type) Reflection.getPrivateField(clonedFixedBrick, "type");
-
-		PhysicsObject.Type noneBrickType = (PhysicsObject.Type) Reflection.getPrivateField(noneBrick, "type");
-		PhysicsObject.Type clonedNoneBrickType = (PhysicsObject.Type) Reflection.getPrivateField(clonedNoneBrick, "type");
-
+		PhysicsObject.Type dynamicBrickType = ((SetPhysicsObjectTypeBrick) dynamicBrick).getType();
+		PhysicsObject.Type clonedDynamicBrickType = ((SetPhysicsObjectTypeBrick) clonedDynamicBrick).getType();
 		assertEquals(dynamicBrickType, clonedDynamicBrickType);
-		assertEquals(fixedBrickType, clonedFixedBrickType);
-		assertEquals(noneBrickType, clonedNoneBrickType);
-
 		assertThat(clonedDynamicBrick, is(instanceOf(dynamicBrick.getClass())));
+		assertNotSame(clonedDynamicBrick, dynamicBrickType);
+
+		PhysicsObject.Type fixedBrickType = ((SetPhysicsObjectTypeBrick) fixedBrick).getType();
+		PhysicsObject.Type clonedFixedBrickType = ((SetPhysicsObjectTypeBrick) clonedFixedBrick).getType();
+		assertEquals(fixedBrickType, clonedFixedBrickType);
 		assertThat(clonedFixedBrick, is(instanceOf(fixedBrick.getClass())));
+		assertNotSame(clonedFixedBrick, fixedBrick);
+
+		PhysicsObject.Type noneBrickType = ((SetPhysicsObjectTypeBrick) noneBrick).getType();
+		PhysicsObject.Type clonedNoneBrickType = ((SetPhysicsObjectTypeBrick) clonedNoneBrick).getType();
+		assertEquals(noneBrickType, clonedNoneBrickType);
 		assertThat(clonedNoneBrick, is(instanceOf(noneBrick.getClass())));
+		assertNotSame(clonedNoneBrick, noneBrick);
 	}
 
 	private void brickClone(Brick brick, Brick.BrickField... brickFields) throws Exception {

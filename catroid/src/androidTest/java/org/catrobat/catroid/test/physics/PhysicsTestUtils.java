@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.utils;
+package org.catrobat.catroid.test.physics;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -32,6 +32,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsWorld;
+import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;

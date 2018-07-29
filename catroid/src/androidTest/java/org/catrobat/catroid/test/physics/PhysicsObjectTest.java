@@ -40,7 +40,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.PhysicsWorldConverter;
-import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.Reflection.ParameterList;
 import org.catrobat.catroid.test.utils.TestUtils;

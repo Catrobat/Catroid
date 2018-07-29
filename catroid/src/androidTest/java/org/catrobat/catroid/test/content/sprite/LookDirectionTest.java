@@ -20,29 +20,53 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.drone;
 
-import android.support.test.runner.AndroidJUnit4;
+package org.catrobat.catroid.test.content.sprite;
 
-import org.catrobat.catroid.content.bricks.BrickBaseType;
-import org.catrobat.catroid.drone.ardrone.DroneBrickFactory;
-import org.catrobat.catroid.drone.ardrone.DroneBrickFactory.DroneBricks;
+import android.support.annotation.IdRes;
+
+import org.catrobat.catroid.content.Look;
+import org.catrobat.catroid.content.SingleSprite;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+
+import java.util.Arrays;
 
 import static junit.framework.Assert.assertEquals;
 
-@RunWith(AndroidJUnit4.class)
-public class DroneBrickTest {
+@RunWith(Parameterized.class)
+public class LookDirectionTest {
 
-	private static final int DRONE_RESOURCE = 0x20;
+	@Parameterized.Parameters(name = "{0}")
+	public static Iterable<Object[]> data() {
+		return Arrays.asList(new Object[][] {
+				{90f, 0f},
+				{60f, 30f},
+				{30f, 60f},
+				{0f, 90f},
+				{-30f, 120f},
+				{-60f, 150f},
+				{-90f, 180.0f},
+				{-120f, 210f},
+				{-150f, 240f},
+				{180f, -90f},
+				{150f, -60f},
+				{120f, -30f}
+		});
+	}
+
+	@Parameterized.Parameter
+	public @IdRes float degreesInUserInterfaceDimensionUnit;
+
+	@Parameterized.Parameter(1)
+	public @IdRes float degrees;
 
 	@Test
-	public void testAllBrickResources() {
-		for (DroneBricks brick : DroneBrickFactory.DroneBricks.values()) {
-			BrickBaseType brickFromFactory = DroneBrickFactory.getInstanceOfDroneBrick(brick, 0, 0);
-			String brickName = brickFromFactory.getClass().getSimpleName();
-			assertEquals("Resource is wrong for brick: " + brickName, DRONE_RESOURCE, brickFromFactory.getRequiredResources());
-		}
+	public void testDirection() {
+		Look look = new Look(new SingleSprite("testsprite"));
+		look.setDirectionInUserInterfaceDimensionUnit(degreesInUserInterfaceDimensionUnit);
+		assertEquals(degreesInUserInterfaceDimensionUnit, look.getDirectionInUserInterfaceDimensionUnit());
+		assertEquals(degrees, look.getRotation());
 	}
 }

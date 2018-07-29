@@ -35,7 +35,6 @@ import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
-import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

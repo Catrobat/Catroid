@@ -27,78 +27,89 @@ import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.stage.OnUtteranceCompletedListenerContainer;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
-import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
+
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @SuppressWarnings("deprecation")
 @RunWith(AndroidJUnit4.class)
 public class OnUtteranceCompletedListenerContainerTest {
 
-	private List<String> onUtteranceCompletedIds;
-	private OnUtteranceCompletedListenerContainer container;
+	@Rule
+	public MockitoRule mockitoRule = MockitoJUnit.rule();
 
-	private final File existingFile = new FileMock(true);
-	private final File nonExistingFile = new FileMock(false);
+	private OnUtteranceCompletedListenerContainer container;
 
 	private final String utteranceId1 = "hash1";
 	private final String utteranceId2 = "hash2";
 
+	@Mock
+	private File nonExistingFile;
+	@Mock
+	private File existingFile;
+
 	@Before
 	public void setUp() throws Exception {
 		container = new OnUtteranceCompletedListenerContainer();
-		onUtteranceCompletedIds = new ArrayList<String>();
+
+		when(nonExistingFile.exists()).thenReturn(false);
+		when(existingFile.exists()).thenReturn(true);
 	}
 
 	@Test
 	public void testExistingSpeechFile() {
-		final OnUtteranceCompletedListener listener = new OnUtteranceCompletedListenerMock();
+		OnUtteranceCompletedListener listener = Mockito.mock(OnUtteranceCompletedListener.class);
 
 		boolean returnValue = container.addOnUtteranceCompletedListener(existingFile, listener, utteranceId1);
 		assertFalse(returnValue);
-		assertTrue(onUtteranceCompletedIds.contains(utteranceId1));
+		verify(listener, times(1)).onUtteranceCompleted(utteranceId1);
 	}
 
 	@Test
 	public void testNonExistingSpeechFile() {
-		final OnUtteranceCompletedListener listener = new OnUtteranceCompletedListenerMock();
+		OnUtteranceCompletedListener listener = Mockito.mock(OnUtteranceCompletedListener.class);
 
 		boolean returnValue = container.addOnUtteranceCompletedListener(nonExistingFile, listener, utteranceId1);
 		assertTrue(returnValue);
 
 		container.onUtteranceCompleted(utteranceId1);
-		assertTrue(onUtteranceCompletedIds.contains(utteranceId1));
+		verify(listener, times(1)).onUtteranceCompleted(utteranceId1);
 	}
 
 	@Test
 	public void testSpeechFilesWithSameHashValue() {
-		final OnUtteranceCompletedListener listener1 = new OnUtteranceCompletedListenerMock();
-
+		OnUtteranceCompletedListener listener1 = Mockito.mock(OnUtteranceCompletedListener.class);
 		boolean returnValue = container.addOnUtteranceCompletedListener(nonExistingFile, listener1, utteranceId1);
 		assertTrue(returnValue);
 
-		final OnUtteranceCompletedListener listener2 = new OnUtteranceCompletedListenerMock();
+		OnUtteranceCompletedListener listener2 = Mockito.mock(OnUtteranceCompletedListener.class);
 		returnValue = container.addOnUtteranceCompletedListener(nonExistingFile, listener2, utteranceId1);
 		assertFalse(returnValue);
 
 		container.onUtteranceCompleted(utteranceId1);
 
-		assertTrue(onUtteranceCompletedIds.contains(utteranceId1));
-		assertEquals(2, onUtteranceCompletedIds.size());
+		verify(listener1, times(1)).onUtteranceCompleted(utteranceId1);
+		verify(listener2, times(1)).onUtteranceCompleted(utteranceId1);
 	}
 
 	@Test
 	public void testNormalBehavior() {
-		final OnUtteranceCompletedListener listener1 = new OnUtteranceCompletedListenerMock();
-		final OnUtteranceCompletedListener listener2 = new OnUtteranceCompletedListenerMock();
-		final OnUtteranceCompletedListener listener3 = new OnUtteranceCompletedListenerMock();
+		OnUtteranceCompletedListener listener1 = Mockito.mock(OnUtteranceCompletedListener.class);
+		OnUtteranceCompletedListener listener2 = Mockito.mock(OnUtteranceCompletedListener.class);
+		OnUtteranceCompletedListener listener3 = Mockito.mock(OnUtteranceCompletedListener.class);
 
 		boolean returnValue = container.addOnUtteranceCompletedListener(nonExistingFile, listener1, utteranceId1);
 		assertTrue(returnValue);
@@ -107,34 +118,13 @@ public class OnUtteranceCompletedListenerContainerTest {
 		assertTrue(returnValue);
 
 		container.onUtteranceCompleted(utteranceId1);
-		assertTrue(onUtteranceCompletedIds.contains(utteranceId1));
+		verify(listener1, times(1)).onUtteranceCompleted(utteranceId1);
 
 		returnValue = container.addOnUtteranceCompletedListener(existingFile, listener3, utteranceId1);
 		assertFalse(returnValue);
-		assertEquals(onUtteranceCompletedIds.get(1), utteranceId1);
+		verify(listener3, times(1)).onUtteranceCompleted(utteranceId1);
 
 		container.onUtteranceCompleted(utteranceId2);
-		assertTrue(onUtteranceCompletedIds.contains(utteranceId2));
-	}
-
-	private class OnUtteranceCompletedListenerMock implements OnUtteranceCompletedListener {
-		public void onUtteranceCompleted(String utteranceId) {
-			onUtteranceCompletedIds.add(utteranceId);
-		}
-	}
-
-	private class FileMock extends File {
-		private static final long serialVersionUID = 1L;
-		private boolean exists;
-
-		FileMock(boolean exists) {
-			super("");
-			this.exists = exists;
-		}
-
-		@Override
-		public boolean exists() {
-			return exists;
-		}
+		verify(listener2, times(1)).onUtteranceCompleted(utteranceId2);
 	}
 }

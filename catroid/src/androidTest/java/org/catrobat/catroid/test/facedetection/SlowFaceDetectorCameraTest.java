@@ -25,7 +25,9 @@ package org.catrobat.catroid.test.facedetection;
 import android.hardware.Camera;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.ScreenValues;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.facedetection.SlowFaceDetector;
 import org.junit.After;
 import org.junit.Before;
@@ -33,6 +35,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 public class SlowFaceDetectorCameraTest {
@@ -42,8 +45,7 @@ public class SlowFaceDetectorCameraTest {
 	public void setUp() throws Exception {
 		ScreenValues.SCREEN_WIDTH = 720;
 		ScreenValues.SCREEN_HEIGHT = 1080;
-
-		camera = Camera.open();
+		ProjectManager.getInstance().setCurrentProject(new Project());
 	}
 
 	@After
@@ -58,9 +60,11 @@ public class SlowFaceDetectorCameraTest {
 		SlowFaceDetector detector = new SlowFaceDetector();
 		assertNotNull(detector);
 
-		detector.startFaceDetection();
+		assertTrue(detector.startFaceDetection());
+
 		detector.stopFaceDetection();
 
 		camera = Camera.open();
+		assertNotNull(Camera.open());
 	}
 }

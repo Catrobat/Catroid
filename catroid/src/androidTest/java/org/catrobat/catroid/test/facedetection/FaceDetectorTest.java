@@ -52,44 +52,38 @@ public class FaceDetectorTest {
 
 	@Test
 	public void testStatusListenerCallback() {
-		TestFaceDetector detector = new TestFaceDetector();
+		FaceDetector detector = new FaceDetector() {
+			@Override
+			public boolean startFaceDetection() {
+				return true;
+			}
+
+			@Override
+			public void stopFaceDetection() {
+			}
+		};
 
 		SensorCustomEventListener onFaceDetectionStatusListener = Mockito.mock(SensorCustomEventListener.class);
 
 		detector.addOnFaceDetectionStatusListener(onFaceDetectionStatusListener);
 		verifyNoMoreInteractions(onFaceDetectionStatusListener);
 
-		detector.sendFaceDetected(false);
+		detector.callOnFaceDetected(false);
 		verifyNoMoreInteractions(onFaceDetectionStatusListener);
 
-		detector.sendFaceDetected(true);
+		detector.callOnFaceDetected(true);
 		verify(onFaceDetectionStatusListener).onCustomSensorChanged(captor.capture());
 		assertEquals(1.0f, captor.getValue().values[0]);
 		verifyNoMoreInteractions(onFaceDetectionStatusListener);
 
-		detector.sendFaceDetected(true);
+		detector.callOnFaceDetected(true);
 		verify(onFaceDetectionStatusListener).onCustomSensorChanged(captor.capture());
 		assertEquals(1.0f, captor.getValue().values[0]);
 		verifyNoMoreInteractions(onFaceDetectionStatusListener);
 
-		detector.sendFaceDetected(false);
+		detector.callOnFaceDetected(false);
 		verify(onFaceDetectionStatusListener, times(2)).onCustomSensorChanged(captor.capture());
 		assertEquals(0.0f, captor.getValue().values[0]);
 		verifyNoMoreInteractions(onFaceDetectionStatusListener);
-	}
-
-	public class TestFaceDetector extends FaceDetector {
-		@Override
-		public boolean startFaceDetection() {
-			return true;
-		}
-
-		@Override
-		public void stopFaceDetection() {
-		}
-
-		void sendFaceDetected(boolean detected) {
-			this.onFaceDetected(detected);
-		}
 	}
 }

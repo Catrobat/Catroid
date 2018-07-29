@@ -48,7 +48,6 @@ import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.shapebuilder.PhysicsShapeBuilder;
 import org.catrobat.catroid.physics.shapebuilder.PhysicsShapeScaleUtils;
 import org.catrobat.catroid.test.R;
-import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.Utils;
