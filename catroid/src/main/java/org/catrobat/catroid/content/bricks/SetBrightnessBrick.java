@@ -36,9 +36,8 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import java.util.List;
 
 public class SetBrightnessBrick extends FormulaBrick {
-	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
+	private static final long serialVersionUID = 1L;
 
 	public SetBrightnessBrick() {
 		addAllowedBrickField(BrickField.BRIGHTNESS);
@@ -70,7 +69,7 @@ public class SetBrightnessBrick extends FormulaBrick {
 	@Override
 	public View getView(Context context) {
 		super.getView(context);
-		TextView editX = (TextView) view.findViewById(R.id.brick_set_brightness_edit_text);
+		TextView editX = view.findViewById(R.id.brick_set_brightness_edit_text);
 		getFormulaWithBrickField(BrickField.BRIGHTNESS).setTextFieldId(R.id.brick_set_brightness_edit_text);
 		getFormulaWithBrickField(BrickField.BRIGHTNESS).refreshTextField(view);
 
@@ -80,8 +79,8 @@ public class SetBrightnessBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
-		TextView textSetBrightness = (TextView) prototypeView
+		View prototypeView = super.getPrototypeView(context);
+		TextView textSetBrightness = prototypeView
 				.findViewById(R.id.brick_set_brightness_edit_text);
 		textSetBrightness.setText(formatNumberForPrototypeView(BrickValues.SET_BRIGHTNESS_TO));
 		return prototypeView;

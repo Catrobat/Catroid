@@ -48,12 +48,12 @@ public class AskBrick extends UserVariableBrick {
 	private transient String defaultPrototypeToken = null;
 
 	public AskBrick(Formula questionFormula, UserVariable answerVariable) {
-		this.userVariable = answerVariable;
+		userVariable = answerVariable;
 		initializeBrickFields(questionFormula);
 	}
 
 	public AskBrick(String questionText) {
-		this.userVariable = null;
+		userVariable = null;
 		initializeBrickFields(new Formula(questionText));
 	}
 
@@ -69,8 +69,8 @@ public class AskBrick extends UserVariableBrick {
 
 	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createAskAction(sprite,
-				getFormulaWithBrickField(BrickField.ASK_QUESTION), userVariable));
+		sequence.addAction(sprite.getActionFactory()
+				.createAskAction(sprite, getFormulaWithBrickField(BrickField.ASK_QUESTION), userVariable));
 		return Collections.emptyList();
 	}
 
@@ -135,11 +135,6 @@ public class AskBrick extends UserVariableBrick {
 	public void onNewVariable(UserVariable userVariable) {
 		Spinner spinner = view.findViewById(R.id.brick_ask_spinner);
 		setSpinnerSelection(spinner, userVariable);
-	}
-
-	@Override
-	public AskBrick clone() {
-		return new AskBrick(getFormulaWithBrickField(BrickField.ASK_QUESTION).clone(), userVariable);
 	}
 
 	public void showFormulaEditorToEditFormula(View view) {

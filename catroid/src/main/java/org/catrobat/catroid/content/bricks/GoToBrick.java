@@ -50,7 +50,6 @@ public class GoToBrick extends BrickBaseType {
 	private Sprite destinationSprite;
 	private transient String oldSelectedObject;
 
-	private transient SpinnerAdapterWrapper spinnerAdapterWrapper;
 	private int spinnerSelection;
 
 	public GoToBrick() {
@@ -72,11 +71,11 @@ public class GoToBrick extends BrickBaseType {
 	@Override
 	public View getView(final Context context) {
 		super.getView(context);
-		final Spinner goToSpinner = (Spinner) view.findViewById(R.id.brick_go_to_spinner);
+		final Spinner goToSpinner = view.findViewById(R.id.brick_go_to_spinner);
 
 		final ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
 
-		spinnerAdapterWrapper = new SpinnerAdapterWrapper(context, goToSpinner, spinnerAdapter);
+		SpinnerAdapterWrapper spinnerAdapterWrapper = new SpinnerAdapterWrapper(context, goToSpinner, spinnerAdapter);
 
 		goToSpinner.setAdapter(spinnerAdapterWrapper);
 
@@ -118,7 +117,7 @@ public class GoToBrick extends BrickBaseType {
 	public View getPrototypeView(Context context) {
 		View prototypeView = super.getPrototypeView(context);
 
-		Spinner goToSpinner = (Spinner) prototypeView.findViewById(R.id.brick_go_to_spinner);
+		Spinner goToSpinner = prototypeView.findViewById(R.id.brick_go_to_spinner);
 
 		SpinnerAdapter goToSpinnerAdapter = createArrayAdapter(context);
 
@@ -281,12 +280,5 @@ public class GoToBrick extends BrickBaseType {
 		public ArrayAdapter<String> getAdapter() {
 			return spinnerAdapter;
 		}
-	}
-
-	@Override
-	public Brick clone() {
-		GoToBrick copy = new GoToBrick(destinationSprite);
-		copy.spinnerSelection = spinnerSelection;
-		return copy;
 	}
 }

@@ -36,34 +36,20 @@ public class BroadcastReceiverBrick extends BroadcastMessageBrick implements
 
 	private static final long serialVersionUID = 1L;
 
-	private final BroadcastScript broadcastScript;
+	private BroadcastScript broadcastScript;
 
 	public BroadcastReceiverBrick(BroadcastScript broadcastScript) {
-		this.broadcastScript = broadcastScript;
+		broadcastScript.setScriptBrick(this);
 		commentedOut = broadcastScript.isCommentedOut();
+		this.broadcastScript = broadcastScript;
 	}
 
 	@Override
-	public Brick clone() {
-		BroadcastScript broadcastScript = new BroadcastScript(getBroadcastMessage());
-		broadcastScript.setCommentedOut(broadcastScript.isCommentedOut());
-		return new BroadcastReceiverBrick(broadcastScript);
-	}
-
-	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		return null;
-	}
-
-	@Override
-	public int getViewResource() {
-		return R.layout.brick_broadcast_receive;
-	}
-
-	@Override
-	public void setCommentedOut(boolean commentedOut) {
-		super.setCommentedOut(commentedOut);
-		getScriptSafe().setCommentedOut(commentedOut);
+	public BrickBaseType clone() throws CloneNotSupportedException {
+		BroadcastReceiverBrick clone = (BroadcastReceiverBrick) super.clone();
+		clone.broadcastScript = (BroadcastScript) broadcastScript.clone();
+		clone.broadcastScript.setScriptBrick(clone);
+		return clone;
 	}
 
 	@Override
@@ -78,7 +64,23 @@ public class BroadcastReceiverBrick extends BroadcastMessageBrick implements
 	}
 
 	@Override
-	public Script getScriptSafe() {
+	public Script getScript() {
 		return broadcastScript;
+	}
+
+	@Override
+	public int getViewResource() {
+		return R.layout.brick_broadcast_receive;
+	}
+
+	@Override
+	public void setCommentedOut(boolean commentedOut) {
+		super.setCommentedOut(commentedOut);
+		getScript().setCommentedOut(commentedOut);
+	}
+
+	@Override
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		return null;
 	}
 }

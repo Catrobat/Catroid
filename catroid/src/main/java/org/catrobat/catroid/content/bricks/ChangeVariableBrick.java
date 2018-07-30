@@ -127,11 +127,6 @@ public class ChangeVariableBrick extends UserVariableBrick {
 	}
 
 	@Override
-	public ChangeVariableBrick clone() {
-		return new ChangeVariableBrick(getFormulaWithBrickField(BrickField.VARIABLE_CHANGE).clone(), userVariable);
-	}
-
-	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createChangeVariableAction(sprite, getFormulaWithBrickField(BrickField.VARIABLE_CHANGE), userVariable));
 		return null;

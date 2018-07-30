@@ -32,32 +32,30 @@ import java.util.List;
 
 public class WhenTouchDownBrick extends BrickBaseType implements ScriptBrick {
 
-	protected WhenTouchDownScript whenTouchDownScript;
+	private WhenTouchDownScript whenTouchDownScript;
 	private static final long serialVersionUID = 1L;
 
 	public WhenTouchDownBrick() {
-		this.whenTouchDownScript = new WhenTouchDownScript();
+		this(new WhenTouchDownScript());
 	}
 
-	public WhenTouchDownBrick(WhenTouchDownScript script) {
-		this.whenTouchDownScript = script;
-
-		if (script != null && script.isCommentedOut()) {
-			setCommentedOut(true);
-		}
+	public WhenTouchDownBrick(WhenTouchDownScript whenTouchDownScript) {
+		whenTouchDownScript.setScriptBrick(this);
+		commentedOut = whenTouchDownScript.isCommentedOut();
+		this.whenTouchDownScript = whenTouchDownScript;
 	}
 
 	@Override
-	public Script getScriptSafe() {
-		if (whenTouchDownScript == null) {
-			whenTouchDownScript = new WhenTouchDownScript();
-		}
+	public Script getScript() {
 		return whenTouchDownScript;
 	}
 
 	@Override
-	public Brick clone() {
-		return new WhenTouchDownBrick(new WhenTouchDownScript());
+	public BrickBaseType clone() throws CloneNotSupportedException {
+		WhenTouchDownBrick clone = (WhenTouchDownBrick) super.clone();
+		clone.whenTouchDownScript = (WhenTouchDownScript) whenTouchDownScript.clone();
+		clone.whenTouchDownScript.setScriptBrick(clone);
+		return clone;
 	}
 
 	@Override
@@ -73,6 +71,6 @@ public class WhenTouchDownBrick extends BrickBaseType implements ScriptBrick {
 	@Override
 	public void setCommentedOut(boolean commentedOut) {
 		super.setCommentedOut(commentedOut);
-		getScriptSafe().setCommentedOut(commentedOut);
+		getScript().setCommentedOut(commentedOut);
 	}
 }

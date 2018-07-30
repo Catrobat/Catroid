@@ -76,13 +76,13 @@ public class SetVelocityBrick extends FormulaBrick {
 	public View getView(Context context) {
 		super.getView(context);
 
-		TextView editX = (TextView) view.findViewById(R.id.brick_set_velocity_edit_text_x);
+		TextView editX = view.findViewById(R.id.brick_set_velocity_edit_text_x);
 		getFormulaWithBrickField(BrickField.PHYSICS_VELOCITY_X).setTextFieldId(R.id.brick_set_velocity_edit_text_x);
 		getFormulaWithBrickField(BrickField.PHYSICS_VELOCITY_X).refreshTextField(view);
 
 		editX.setOnClickListener(this);
 
-		TextView editY = (TextView) view.findViewById(R.id.brick_set_velocity_edit_text_y);
+		TextView editY = view.findViewById(R.id.brick_set_velocity_edit_text_y);
 		getFormulaWithBrickField(BrickField.PHYSICS_VELOCITY_Y).setTextFieldId(R.id.brick_set_velocity_edit_text_y);
 		getFormulaWithBrickField(BrickField.PHYSICS_VELOCITY_Y).refreshTextField(view);
 
@@ -93,18 +93,15 @@ public class SetVelocityBrick extends FormulaBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = super.getPrototypeView(context);
-		TextView textVelocityX = (TextView) prototypeView.findViewById(R.id.brick_set_velocity_edit_text_x);
+		TextView textVelocityX = prototypeView.findViewById(R.id.brick_set_velocity_edit_text_x);
 		textVelocityX.setText(formatNumberForPrototypeView(BrickValues.PHYSIC_VELOCITY.x));
-		TextView textVelocityY = (TextView) prototypeView.findViewById(R.id.brick_set_velocity_edit_text_y);
+		TextView textVelocityY = prototypeView.findViewById(R.id.brick_set_velocity_edit_text_y);
 		textVelocityY.setText(formatNumberForPrototypeView(BrickValues.PHYSIC_VELOCITY.y));
 		return prototypeView;
 	}
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
 		switch (view.getId()) {
 			case R.id.brick_set_velocity_edit_text_y:
 				FormulaEditorFragment.showFragment(view, this, BrickField.PHYSICS_VELOCITY_Y);

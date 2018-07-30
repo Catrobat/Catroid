@@ -32,18 +32,11 @@ public class WhenClonedScript extends Script {
 
 	@Override
 	public ScriptBrick getScriptBrick() {
-		if (brick == null) {
-			brick = new WhenClonedBrick(this);
+		if (scriptBrick == null) {
+			scriptBrick = new WhenClonedBrick(this);
 		}
 
-		return brick;
-	}
-
-	@Override
-	public Script clone() throws CloneNotSupportedException {
-		WhenClonedScript clone = new WhenClonedScript();
-		clone.getBrickList().addAll(cloneBrickList());
-		return clone;
+		return scriptBrick;
 	}
 
 	@Override

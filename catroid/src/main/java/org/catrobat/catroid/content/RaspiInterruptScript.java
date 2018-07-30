@@ -39,10 +39,10 @@ public class RaspiInterruptScript extends Script {
 
 	@Override
 	public ScriptBrick getScriptBrick() {
-		if (brick == null) {
-			brick = new WhenRaspiPinChangedBrick(this);
+		if (scriptBrick == null) {
+			scriptBrick = new WhenRaspiPinChangedBrick(this);
 		}
-		return brick;
+		return scriptBrick;
 	}
 
 	public void setPin(String pin) {
@@ -59,13 +59,6 @@ public class RaspiInterruptScript extends Script {
 
 	public String getEventValue() {
 		return eventValue;
-	}
-
-	@Override
-	public Script clone() throws CloneNotSupportedException {
-		RaspiInterruptScript clone = new RaspiInterruptScript(pin, eventValue);
-		clone.getBrickList().addAll(cloneBrickList());
-		return clone;
 	}
 
 	@Override

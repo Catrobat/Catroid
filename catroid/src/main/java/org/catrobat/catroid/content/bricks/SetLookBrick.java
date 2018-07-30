@@ -44,8 +44,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SetLookBrick extends BrickBaseType implements
-		SpinnerAdapterWithNewOption.OnNewOptionInDropDownClickListener,
-		NewItemInterface<LookData> {
+		SpinnerAdapterWithNewOption.OnNewOptionInDropDownClickListener, NewItemInterface<LookData> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -66,15 +65,16 @@ public class SetLookBrick extends BrickBaseType implements
 		this.look = look;
 	}
 
-	@Override
-	public Brick clone() {
-		SetLookBrick clone = new SetLookBrick();
-		clone.setLook(look);
-		return clone;
+	private Spinner findSpinner(View view) {
+		return view.findViewById(R.id.brick_set_look_spinner);
 	}
 
-	protected Spinner findSpinner(View view) {
-		return view.findViewById(R.id.brick_set_look_spinner);
+	@Override
+	public BrickBaseType clone() throws CloneNotSupportedException {
+		SetLookBrick clone = (SetLookBrick) super.clone();
+		clone.spinner = null;
+		clone.spinnerAdapter = null;
+		return clone;
 	}
 
 	@Override

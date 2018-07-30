@@ -46,11 +46,6 @@ public class BroadcastBrick extends BroadcastMessageBrick {
 	}
 
 	@Override
-	public Brick clone() {
-		return new BroadcastBrick(broadcastMessage);
-	}
-
-	@Override
 	public int getViewResource() {
 		return R.layout.brick_broadcast;
 	}

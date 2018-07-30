@@ -36,9 +36,8 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import java.util.List;
 
 public class ChangeXByNBrick extends FormulaBrick {
-	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
+	private static final long serialVersionUID = 1L;
 
 	public ChangeXByNBrick() {
 		addAllowedBrickField(BrickField.X_POSITION_CHANGE);
@@ -70,7 +69,7 @@ public class ChangeXByNBrick extends FormulaBrick {
 	@Override
 	public View getView(Context context) {
 		super.getView(context);
-		TextView editX = (TextView) view.findViewById(R.id.brick_change_x_edit_text);
+		TextView editX = view.findViewById(R.id.brick_change_x_edit_text);
 		getFormulaWithBrickField(BrickField.X_POSITION_CHANGE).setTextFieldId(R.id.brick_change_x_edit_text);
 		getFormulaWithBrickField(BrickField.X_POSITION_CHANGE).refreshTextField(view);
 
@@ -80,16 +79,16 @@ public class ChangeXByNBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
-		TextView textXMovement = (TextView) prototypeView.findViewById(R.id.brick_change_x_edit_text);
+		View prototypeView = super.getPrototypeView(context);
+		TextView textXMovement = prototypeView.findViewById(R.id.brick_change_x_edit_text);
 		textXMovement.setText(formatNumberForPrototypeView(BrickValues.CHANGE_X_BY));
 		return prototypeView;
 	}
 
 	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createChangeXByNAction(sprite,
-				getFormulaWithBrickField(BrickField.X_POSITION_CHANGE)));
+		sequence.addAction(sprite.getActionFactory()
+				.createChangeXByNAction(sprite, getFormulaWithBrickField(BrickField.X_POSITION_CHANGE)));
 		return null;
 	}
 

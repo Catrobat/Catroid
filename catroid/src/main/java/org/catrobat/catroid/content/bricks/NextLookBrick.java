@@ -45,15 +45,10 @@ public class NextLookBrick extends BrickBaseType {
 		View view = super.getPrototypeView(context);
 
 		if (ProjectManager.getInstance().getCurrentSprite().getName().equals(context.getString(R.string.background))) {
-			TextView textField = (TextView) view.findViewById(R.id.brick_next_look_text_view);
+			TextView textField = view.findViewById(R.id.brick_next_look_text_view);
 			textField.setText(R.string.brick_next_background);
 		}
 		return view;
-	}
-
-	@Override
-	public Brick clone() {
-		return new NextLookBrick();
 	}
 
 	@Override
@@ -65,7 +60,7 @@ public class NextLookBrick extends BrickBaseType {
 	public View getView(Context context) {
 		super.getView(context);
 		if (ProjectManager.getInstance().getCurrentSprite().getName().equals(context.getString(R.string.background))) {
-			TextView textField = (TextView) view.findViewById(R.id.brick_next_look_text_view);
+			TextView textField = view.findViewById(R.id.brick_next_look_text_view);
 			textField.setText(R.string.brick_next_background);
 		}
 

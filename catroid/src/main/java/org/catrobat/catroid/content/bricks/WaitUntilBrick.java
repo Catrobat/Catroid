@@ -55,7 +55,7 @@ public class WaitUntilBrick extends FormulaBrick {
 	@Override
 	public View getView(Context context) {
 		super.getView(context);
-		TextView ifBeginTextView = (TextView) view.findViewById(R.id.brick_wait_until_edit_text);
+		TextView ifBeginTextView = view.findViewById(R.id.brick_wait_until_edit_text);
 
 		getFormulaWithBrickField(BrickField.IF_CONDITION).setTextFieldId(R.id.brick_wait_until_edit_text);
 		getFormulaWithBrickField(BrickField.IF_CONDITION).refreshTextField(view);
@@ -68,7 +68,7 @@ public class WaitUntilBrick extends FormulaBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = super.getPrototypeView(context);
-		TextView textIfBegin = (TextView) prototypeView.findViewById(R.id.brick_wait_until_edit_text);
+		TextView textIfBegin = prototypeView.findViewById(R.id.brick_wait_until_edit_text);
 		textIfBegin.setText(BrickValues.IF_CONDITION);
 		return prototypeView;
 	}
@@ -77,10 +77,5 @@ public class WaitUntilBrick extends FormulaBrick {
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createWaitUntilAction(sprite, getFormulaWithBrickField(BrickField.IF_CONDITION)));
 		return null;
-	}
-
-	@Override
-	public Brick clone() throws CloneNotSupportedException {
-		return new WaitUntilBrick(getFormulaWithBrickField(BrickField.IF_CONDITION).clone());
 	}
 }

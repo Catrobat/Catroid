@@ -40,9 +40,8 @@ import org.catrobat.catroid.utils.Utils;
 import java.util.List;
 
 public class GoNStepsBackBrick extends FormulaBrick {
-	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
+	private static final long serialVersionUID = 1L;
 
 	public GoNStepsBackBrick() {
 		addAllowedBrickField(BrickField.STEPS);
@@ -74,12 +73,12 @@ public class GoNStepsBackBrick extends FormulaBrick {
 	@Override
 	public View getView(Context context) {
 		super.getView(context);
-		TextView edit = (TextView) view.findViewById(R.id.brick_go_back_edit_text);
+		TextView edit = view.findViewById(R.id.brick_go_back_edit_text);
 
 		getFormulaWithBrickField(BrickField.STEPS).setTextFieldId(R.id.brick_go_back_edit_text);
 		getFormulaWithBrickField(BrickField.STEPS).refreshTextField(view);
 
-		TextView times = (TextView) view.findViewById(R.id.brick_go_back_layers_text_view);
+		TextView times = view.findViewById(R.id.brick_go_back_layers_text_view);
 
 		if (getFormulaWithBrickField(BrickField.STEPS).isSingleNumberFormula()) {
 			try {
@@ -105,9 +104,9 @@ public class GoNStepsBackBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
-		TextView textSteps = (TextView) prototypeView.findViewById(R.id.brick_go_back_edit_text);
-		TextView times = (TextView) prototypeView.findViewById(R.id.brick_go_back_layers_text_view);
+		View prototypeView = super.getPrototypeView(context);
+		TextView textSteps = prototypeView.findViewById(R.id.brick_go_back_edit_text);
+		TextView times = prototypeView.findViewById(R.id.brick_go_back_layers_text_view);
 		textSteps.setText(formatNumberForPrototypeView(BrickValues.GO_BACK));
 		times.setText(context.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural,
 				Utils.convertDoubleToPluralInteger(BrickValues.GO_BACK)));
@@ -117,8 +116,8 @@ public class GoNStepsBackBrick extends FormulaBrick {
 
 	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createGoNStepsBackAction(sprite,
-				getFormulaWithBrickField(BrickField.STEPS)));
+		sequence.addAction(sprite.getActionFactory()
+				.createGoNStepsBackAction(sprite, getFormulaWithBrickField(BrickField.STEPS)));
 		return null;
 	}
 

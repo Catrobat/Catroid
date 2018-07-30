@@ -37,32 +37,25 @@ public class WhenGamepadButtonScript extends Script {
 		this.action = action;
 	}
 
-	public void setAction(String action) {
-		this.action = action;
-	}
-
 	public String getAction() {
 		return action;
 	}
 
+	public void setAction(String action) {
+		this.action = action;
+	}
+
 	@Override
 	public ScriptBrick getScriptBrick() {
-		if (brick == null) {
-			brick = new WhenGamepadButtonBrick(this);
+		if (scriptBrick == null) {
+			scriptBrick = new WhenGamepadButtonBrick(this);
 		}
-		return brick;
+		return scriptBrick;
 	}
 
 	@Override
 	public int getRequiredResources() {
 		return Brick.CAST_REQUIRED | super.getRequiredResources();
-	}
-
-	@Override
-	public Script clone() throws CloneNotSupportedException {
-		WhenGamepadButtonScript clone = new WhenGamepadButtonScript(action);
-		clone.getBrickList().addAll(cloneBrickList());
-		return clone;
 	}
 
 	@Override

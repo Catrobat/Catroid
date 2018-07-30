@@ -88,7 +88,7 @@ public class DisabledBrickInClonesRegressionTest {
 		startScript.addBrick(new CloneBrick());
 
 		Script whenClonedScript = new WhenClonedScript();
-		sprite.addScript(startScript);
+		sprite.addScript(whenClonedScript);
 		Brick shouldntBeExecuted = new SetVariableBrick(new Formula(9000.1D), userVariable);
 		shouldntBeExecuted.setCommentedOut(true);
 		whenClonedScript.addBrick(shouldntBeExecuted);

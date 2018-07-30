@@ -43,9 +43,7 @@ public class RepeatUntilBrick extends FormulaBrick implements LoopBeginBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
-
-	protected transient LoopEndBrick loopEndBrick;
+	private transient LoopEndBrick loopEndBrick;
 
 	public RepeatUntilBrick(int condition) {
 		initializeBrickFields(new Formula(condition));
@@ -66,11 +64,6 @@ public class RepeatUntilBrick extends FormulaBrick implements LoopBeginBrick {
 	}
 
 	@Override
-	public Brick clone() {
-		return new RepeatUntilBrick(getFormulaWithBrickField(BrickField.REPEAT_UNTIL_CONDITION).clone());
-	}
-
-	@Override
 	public void showFormulaEditorToEditFormula(View view) {
 		FormulaEditorFragment.showFragment(view, this, BrickField.REPEAT_UNTIL_CONDITION);
 	}
@@ -83,7 +76,7 @@ public class RepeatUntilBrick extends FormulaBrick implements LoopBeginBrick {
 	@Override
 	public View getView(Context context) {
 		super.getView(context);
-		TextView edit = (TextView) view.findViewById(R.id.brick_repeat_until_edit_text);
+		TextView edit = view.findViewById(R.id.brick_repeat_until_edit_text);
 		getFormulaWithBrickField(BrickField.REPEAT_UNTIL_CONDITION).setTextFieldId(R.id.brick_repeat_until_edit_text);
 		getFormulaWithBrickField(BrickField.REPEAT_UNTIL_CONDITION).refreshTextField(view);
 
@@ -93,8 +86,8 @@ public class RepeatUntilBrick extends FormulaBrick implements LoopBeginBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
-		TextView textRepeat = (TextView) prototypeView.findViewById(R.id.brick_repeat_until_edit_text);
+		View prototypeView = super.getPrototypeView(context);
+		TextView textRepeat = prototypeView.findViewById(R.id.brick_repeat_until_edit_text);
 		textRepeat.setText(BrickValues.IF_CONDITION);
 		return prototypeView;
 	}
@@ -137,7 +130,7 @@ public class RepeatUntilBrick extends FormulaBrick implements LoopBeginBrick {
 	}
 
 	@Override
-	public List<NestingBrick> getAllNestingBrickParts(boolean sorted) {
+	public List<NestingBrick> getAllNestingBrickParts() {
 		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
 		nestingBrickList.add(this);
 		nestingBrickList.add(loopEndBrick);

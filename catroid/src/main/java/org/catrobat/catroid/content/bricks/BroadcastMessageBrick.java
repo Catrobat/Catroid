@@ -36,16 +36,17 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 		NewBroadcastMessageDialog.NewBroadcastMessageInterface {
 
 	transient BroadcastSpinnerAdapter messageAdapter;
-	private transient int spinnerId = R.id.brick_broadcast_spinner;
 
-	protected Object readResolve() {
-		this.spinnerId = R.id.brick_broadcast_spinner;
-		return this;
+	@Override
+	public BrickBaseType clone() throws CloneNotSupportedException {
+		BroadcastMessageBrick clone = (BroadcastMessageBrick) super.clone();
+		clone.messageAdapter = null;
+		return clone;
 	}
 
 	@Override
 	public void updateSpinnerSelection() {
-		Spinner spinner = view.findViewById(spinnerId);
+		Spinner spinner = view.findViewById(R.id.brick_broadcast_spinner);
 		setSpinnerSelection(spinner);
 	}
 
@@ -66,7 +67,7 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 	public View getPrototypeView(Context context) {
 		View prototypeView = super.getPrototypeView(context);
 
-		Spinner broadcastSpinner = prototypeView.findViewById(spinnerId);
+		Spinner broadcastSpinner = prototypeView.findViewById(R.id.brick_broadcast_spinner);
 		BroadcastSpinnerAdapter broadcastSpinnerAdapter = getMessageAdapter(context);
 		if (context.getString(R.string.new_broadcast_message).equals(getBroadcastMessage())) {
 			setBroadcastMessage(broadcastSpinnerAdapter.getItem(1));
@@ -79,7 +80,7 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 	@Override
 	public View getView(Context context) {
 		super.getView(context);
-		Spinner broadcastSpinner = view.findViewById(spinnerId);
+		Spinner broadcastSpinner = view.findViewById(R.id.brick_broadcast_spinner);
 		broadcastSpinner.setAdapter(getMessageAdapter(context));
 
 		if (getBroadcastMessage().equals(context.getString(R.string.new_broadcast_message))) {

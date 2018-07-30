@@ -94,8 +94,8 @@ public class PhysicsBricksCloneTest {
 		Brick brick = new CollisionReceiverBrick(new CollisionScript(null));
 		Brick clonedBrick = brick.clone();
 
-		CollisionScript brickReceiverScript = (CollisionScript) ((CollisionReceiverBrick) brick).getScriptSafe();
-		CollisionScript clonedBrickReceiverScript = (CollisionScript) ((CollisionReceiverBrick) clonedBrick).getScriptSafe();
+		CollisionScript brickReceiverScript = (CollisionScript) ((CollisionReceiverBrick) brick).getScript();
+		CollisionScript clonedBrickReceiverScript = (CollisionScript) ((CollisionReceiverBrick) clonedBrick).getScript();
 
 		assertNotSame(brickReceiverScript, clonedBrickReceiverScript);
 	}

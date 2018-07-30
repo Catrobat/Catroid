@@ -77,20 +77,20 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 	@Override
 	public View getView(final Context context) {
 		super.getView(context);
-		TextView textFieldValue = (TextView) view.findViewById(R.id.brick_insert_item_into_userlist_value_edit_text);
+		TextView textFieldValue = view.findViewById(R.id.brick_insert_item_into_userlist_value_edit_text);
 
 		getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_VALUE).setTextFieldId(R.id.brick_insert_item_into_userlist_value_edit_text);
 		getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_VALUE).refreshTextField(view);
 		textFieldValue.setVisibility(View.VISIBLE);
 		textFieldValue.setOnClickListener(this);
 
-		TextView textFieldIndex = (TextView) view.findViewById(R.id.brick_insert_item_into_userlist_at_index_edit_text);
+		TextView textFieldIndex = view.findViewById(R.id.brick_insert_item_into_userlist_at_index_edit_text);
 		getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_INDEX).setTextFieldId(R.id.brick_insert_item_into_userlist_at_index_edit_text);
 		getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_INDEX).refreshTextField(view);
 		textFieldIndex.setVisibility(View.VISIBLE);
 		textFieldIndex.setOnClickListener(this);
 
-		Spinner userListSpinner = (Spinner) view.findViewById(R.id.insert_item_into_userlist_spinner);
+		Spinner userListSpinner = view.findViewById(R.id.insert_item_into_userlist_spinner);
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
 				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
 		UserListAdapterWrapper userListAdapterWrapper = new UserListAdapterWrapper(context, dataAdapter);
@@ -107,7 +107,7 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = super.getPrototypeView(context);
-		Spinner userListSpinner = (Spinner) prototypeView.findViewById(R.id.insert_item_into_userlist_spinner);
+		Spinner userListSpinner = prototypeView.findViewById(R.id.insert_item_into_userlist_spinner);
 
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
 				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
@@ -118,9 +118,9 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 		userListSpinner.setAdapter(userListAdapterWrapper);
 		setSpinnerSelection(userListSpinner, null);
 
-		TextView textViewValueToInsert = (TextView) prototypeView.findViewById(R.id.brick_insert_item_into_userlist_value_edit_text);
+		TextView textViewValueToInsert = prototypeView.findViewById(R.id.brick_insert_item_into_userlist_value_edit_text);
 		textViewValueToInsert.setText(formatNumberForPrototypeView(BrickValues.INSERT_ITEM_INTO_USERLIST_VALUE));
-		TextView textViewInsertIndex = (TextView) prototypeView.findViewById(R.id.brick_insert_item_into_userlist_at_index_edit_text);
+		TextView textViewInsertIndex = prototypeView.findViewById(R.id.brick_insert_item_into_userlist_at_index_edit_text);
 		textViewInsertIndex.setText(formatNumberForPrototypeView(BrickValues.INSERT_ITEM_INTO_USERLIST_INDEX));
 
 		return prototypeView;
@@ -130,13 +130,6 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 	public void onNewList(UserList userList) {
 		Spinner spinner = view.findViewById(R.id.insert_item_into_userlist_spinner);
 		setSpinnerSelection(spinner, userList);
-	}
-
-	@Override
-	public Brick clone() {
-		return new InsertItemIntoUserListBrick(
-				getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_VALUE).clone(),
-				getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_INDEX).clone(), userList);
 	}
 
 	@Override

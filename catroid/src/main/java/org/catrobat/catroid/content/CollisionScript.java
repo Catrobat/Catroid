@@ -41,17 +41,10 @@ public class CollisionScript extends Script {
 
 	@Override
 	public ScriptBrick getScriptBrick() {
-		if (brick == null) {
-			brick = new CollisionReceiverBrick(this);
+		if (scriptBrick == null) {
+			scriptBrick = new CollisionReceiverBrick(this);
 		}
-		return brick;
-	}
-
-	@Override
-	public Script clone() throws CloneNotSupportedException {
-		CollisionScript clone = new CollisionScript(spriteToCollideWithName);
-		clone.getBrickList().addAll(cloneBrickList());
-		return clone;
+		return scriptBrick;
 	}
 
 	public String getSpriteToCollideWithName() {

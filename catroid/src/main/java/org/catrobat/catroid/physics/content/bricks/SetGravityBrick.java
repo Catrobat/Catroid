@@ -76,13 +76,13 @@ public class SetGravityBrick extends FormulaBrick {
 	public View getView(Context context) {
 		super.getView(context);
 
-		TextView editX = (TextView) view.findViewById(R.id.brick_set_gravity_edit_text_x);
+		TextView editX = view.findViewById(R.id.brick_set_gravity_edit_text_x);
 		getFormulaWithBrickField(BrickField.PHYSICS_GRAVITY_X).setTextFieldId(R.id.brick_set_gravity_edit_text_x);
 		getFormulaWithBrickField(BrickField.PHYSICS_GRAVITY_X).refreshTextField(view);
 
 		editX.setOnClickListener(this);
 
-		TextView editY = (TextView) view.findViewById(R.id.brick_set_gravity_edit_text_y);
+		TextView editY = view.findViewById(R.id.brick_set_gravity_edit_text_y);
 		getFormulaWithBrickField(BrickField.PHYSICS_GRAVITY_Y).setTextFieldId(R.id.brick_set_gravity_edit_text_y);
 		getFormulaWithBrickField(BrickField.PHYSICS_GRAVITY_Y).refreshTextField(view);
 
@@ -93,23 +93,19 @@ public class SetGravityBrick extends FormulaBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = super.getPrototypeView(context);
-		TextView textGravityX = (TextView) prototypeView.findViewById(R.id.brick_set_gravity_edit_text_x);
+		TextView textGravityX = prototypeView.findViewById(R.id.brick_set_gravity_edit_text_x);
 		textGravityX.setText(formatNumberForPrototypeView(BrickValues.PHYSIC_GRAVITY.x));
-		TextView textGravityY = (TextView) prototypeView.findViewById(R.id.brick_set_gravity_edit_text_y);
+		TextView textGravityY = prototypeView.findViewById(R.id.brick_set_gravity_edit_text_y);
 		textGravityY.setText(formatNumberForPrototypeView(BrickValues.PHYSIC_GRAVITY.y));
 		return prototypeView;
 	}
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
 		switch (view.getId()) {
 			case R.id.brick_set_gravity_edit_text_y:
 				FormulaEditorFragment.showFragment(view, this, BrickField.PHYSICS_GRAVITY_Y);
 				break;
-
 			case R.id.brick_set_gravity_edit_text_x:
 			default:
 				FormulaEditorFragment.showFragment(view, this, BrickField.PHYSICS_GRAVITY_X);

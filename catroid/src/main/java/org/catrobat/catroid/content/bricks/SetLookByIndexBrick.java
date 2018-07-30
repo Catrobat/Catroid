@@ -43,7 +43,6 @@ import static org.catrobat.catroid.content.EventWrapper.NO_WAIT;
 public class SetLookByIndexBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
 	@EventWrapper.WaitMode
 	protected transient int wait = NO_WAIT;
 
@@ -80,11 +79,11 @@ public class SetLookByIndexBrick extends FormulaBrick {
 	public View getView(Context context) {
 		super.getView(context);
 		if (getSprite().getName().equals(context.getString(R.string.background))) {
-			TextView textField = (TextView) view.findViewById(R.id.brick_set_look_by_index_label);
+			TextView textField = view.findViewById(R.id.brick_set_look_by_index_label);
 			textField.setText(R.string.brick_set_background_by_index);
 		}
 
-		TextView edit = (TextView) view.findViewById(R.id.brick_set_look_by_index_edit_text);
+		TextView edit = view.findViewById(R.id.brick_set_look_by_index_edit_text);
 		getFormulaWithBrickField(BrickField.LOOK_INDEX).setTextFieldId(R.id.brick_set_look_by_index_edit_text);
 		getFormulaWithBrickField(BrickField.LOOK_INDEX).refreshTextField(view);
 		edit.setOnClickListener(this);
@@ -94,6 +93,7 @@ public class SetLookByIndexBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
+		View prototypeView;
 		if (wait == EventWrapper.WAIT) {
 			prototypeView = super.getPrototypeView(context);
 		} else {
@@ -101,11 +101,11 @@ public class SetLookByIndexBrick extends FormulaBrick {
 		}
 
 		if (getSprite().getName().equals(context.getString(R.string.background))) {
-			TextView textField = (TextView) prototypeView.findViewById(R.id.brick_set_look_by_index_label);
+			TextView textField = prototypeView.findViewById(R.id.brick_set_look_by_index_label);
 			textField.setText(R.string.brick_set_background_by_index);
 		}
 
-		TextView textSetLookByIndex = (TextView) prototypeView.findViewById(R.id.brick_set_look_by_index_edit_text);
+		TextView textSetLookByIndex = prototypeView.findViewById(R.id.brick_set_look_by_index_edit_text);
 		textSetLookByIndex.setText(formatNumberForPrototypeView(BrickValues.SET_LOOK_BY_INDEX));
 
 		return prototypeView;

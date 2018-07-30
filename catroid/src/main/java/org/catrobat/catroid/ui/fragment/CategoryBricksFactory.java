@@ -257,8 +257,8 @@ public class CategoryBricksFactory {
 		defaultIf.setRightChild(new FormulaElement(ElementType.NUMBER, "2", null));
 
 		List<Brick> eventBrickList = new ArrayList<>();
-		eventBrickList.add(new WhenStartedBrick(null));
-		eventBrickList.add(new WhenBrick(null));
+		eventBrickList.add(new WhenStartedBrick());
+		eventBrickList.add(new WhenBrick());
 		eventBrickList.add(new WhenTouchDownBrick());
 
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
@@ -267,8 +267,7 @@ public class CategoryBricksFactory {
 		if (broadcastMessages.size() > 0) {
 			broadcastMessage = broadcastMessages.get(0);
 		}
-		BroadcastScript broadcastScript = new BroadcastScript(broadcastMessage);
-		eventBrickList.add(new BroadcastReceiverBrick(broadcastScript));
+		eventBrickList.add(new BroadcastReceiverBrick(new BroadcastScript(broadcastMessage)));
 		eventBrickList.add(new BroadcastBrick(broadcastMessage));
 		eventBrickList.add(new BroadcastWaitBrick(broadcastMessage));
 		eventBrickList.add(new WhenConditionBrick(new Formula(defaultIf)));

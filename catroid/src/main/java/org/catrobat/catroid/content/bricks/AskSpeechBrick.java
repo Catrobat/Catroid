@@ -83,13 +83,13 @@ public class AskSpeechBrick extends UserVariableBrick {
 	@Override
 	public View getView(final Context context) {
 		super.getView(context);
-		TextView textField = (TextView) view.findViewById(R.id.brick_ask_speech_question_edit_text);
+		TextView textField = view.findViewById(R.id.brick_ask_speech_question_edit_text);
 
 		getFormulaWithBrickField(BrickField.ASK_SPEECH_QUESTION).setTextFieldId(R.id.brick_ask_speech_question_edit_text);
 		getFormulaWithBrickField(BrickField.ASK_SPEECH_QUESTION).refreshTextField(view);
 		textField.setOnClickListener(this);
 
-		Spinner variableSpinner = (Spinner) view.findViewById(R.id.brick_ask_speech_spinner);
+		Spinner variableSpinner = view.findViewById(R.id.brick_ask_speech_spinner);
 
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyPlayingScene().getDataContainer()
 				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
@@ -109,7 +109,7 @@ public class AskSpeechBrick extends UserVariableBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = super.getPrototypeView(context);
-		Spinner variableSpinner = (Spinner) prototypeView.findViewById(R.id.brick_ask_speech_spinner);
+		Spinner variableSpinner = prototypeView.findViewById(R.id.brick_ask_speech_spinner);
 
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyPlayingScene().getDataContainer()
 				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
@@ -121,7 +121,7 @@ public class AskSpeechBrick extends UserVariableBrick {
 		variableSpinner.setAdapter(userVariableAdapterWrapper);
 		setSpinnerSelection(variableSpinner, null);
 
-		TextView textSetVariable = (TextView) prototypeView.findViewById(R.id.brick_ask_speech_question_edit_text);
+		TextView textSetVariable = prototypeView.findViewById(R.id.brick_ask_speech_question_edit_text);
 
 		if (defaultPrototypeToken != null) {
 			int defaultValueId = InternToExternGenerator.getMappedString(defaultPrototypeToken);
@@ -136,11 +136,6 @@ public class AskSpeechBrick extends UserVariableBrick {
 	public void onNewVariable(UserVariable userVariable) {
 		Spinner spinner = view.findViewById(R.id.brick_ask_speech_spinner);
 		setSpinnerSelection(spinner, userVariable);
-	}
-
-	@Override
-	public AskSpeechBrick clone() {
-		return new AskSpeechBrick(getFormulaWithBrickField(BrickField.ASK_SPEECH_QUESTION).clone(), userVariable);
 	}
 
 	public void showFormulaEditorToEditFormula(View view) {

@@ -42,8 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlaySoundBrick extends BrickBaseType implements
-		SpinnerAdapterWithNewOption.OnNewOptionInDropDownClickListener,
-		NewItemInterface<SoundInfo> {
+		SpinnerAdapterWithNewOption.OnNewOptionInDropDownClickListener, NewItemInterface<SoundInfo> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -65,9 +64,10 @@ public class PlaySoundBrick extends BrickBaseType implements
 	}
 
 	@Override
-	public Brick clone() {
-		PlaySoundBrick clone = new PlaySoundBrick();
-		clone.setSound(sound);
+	public BrickBaseType clone() throws CloneNotSupportedException {
+		PlaySoundBrick clone = (PlaySoundBrick) super.clone();
+		clone.spinner = null;
+		clone.spinnerAdapter = null;
 		return clone;
 	}
 

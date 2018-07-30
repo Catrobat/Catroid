@@ -40,8 +40,6 @@ public class SetColorBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
-
 	public SetColorBrick() {
 		addAllowedBrickField(BrickField.COLOR);
 	}
@@ -72,7 +70,7 @@ public class SetColorBrick extends FormulaBrick {
 	@Override
 	public View getView(Context context) {
 		super.getView(context);
-		TextView edit = (TextView) view.findViewById(R.id.brick_set_color_edit_text);
+		TextView edit = view.findViewById(R.id.brick_set_color_edit_text);
 		getFormulaWithBrickField(BrickField.COLOR).setTextFieldId(R.id.brick_set_color_edit_text);
 		getFormulaWithBrickField(BrickField.COLOR).refreshTextField(view);
 
@@ -82,8 +80,8 @@ public class SetColorBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
-		TextView textSetSizeTo = (TextView) prototypeView.findViewById(R.id.brick_set_color_edit_text);
+		View prototypeView = super.getPrototypeView(context);
+		TextView textSetSizeTo = prototypeView.findViewById(R.id.brick_set_color_edit_text);
 		textSetSizeTo.setText(formatNumberForPrototypeView(BrickValues.SET_COLOR_TO));
 		return prototypeView;
 	}

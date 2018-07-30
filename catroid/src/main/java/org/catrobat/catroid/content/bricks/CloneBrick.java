@@ -42,10 +42,6 @@ public class CloneBrick extends BrickBaseType {
 
 	private Sprite objectToClone;
 
-	public CloneBrick(Sprite objectToClone) {
-		this.objectToClone = objectToClone;
-	}
-
 	public CloneBrick() {
 	}
 
@@ -64,16 +60,8 @@ public class CloneBrick extends BrickBaseType {
 	@Override
 	public View getPrototypeView(Context context) {
 		View view = super.getPrototypeView(context);
-		Spinner cloneSpinner = (Spinner) view.findViewById(R.id.brick_clone_spinner);
-
-		cloneSpinner.setAdapter(getSpinnerArrayAdapter(context));
-
+		((Spinner) view.findViewById(R.id.brick_clone_spinner)).setAdapter(getSpinnerArrayAdapter(context));
 		return view;
-	}
-
-	@Override
-	public Brick clone() {
-		return new CloneBrick(objectToClone);
 	}
 
 	@Override
@@ -84,8 +72,7 @@ public class CloneBrick extends BrickBaseType {
 	}
 
 	private void setupValueSpinner(final Context context) {
-		final Spinner valueSpinner = (Spinner) view.findViewById(R.id.brick_clone_spinner);
-
+		final Spinner valueSpinner = view.findViewById(R.id.brick_clone_spinner);
 		final List<Sprite> spriteList = ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList();
 
 		ArrayAdapter<String> valueAdapter = getSpinnerArrayAdapter(context);

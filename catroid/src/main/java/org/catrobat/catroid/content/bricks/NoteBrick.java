@@ -36,8 +36,8 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import java.util.List;
 
 public class NoteBrick extends FormulaBrick implements OnClickListener {
+
 	private static final long serialVersionUID = 1L;
-	private transient View prototypeView;
 
 	public NoteBrick() {
 		addAllowedBrickField(BrickField.NOTE);
@@ -64,19 +64,17 @@ public class NoteBrick extends FormulaBrick implements OnClickListener {
 	@Override
 	public View getView(final Context context) {
 		super.getView(context);
-		TextView textField = (TextView) view.findViewById(R.id.brick_note_edit_text);
+		TextView textField = view.findViewById(R.id.brick_note_edit_text);
 		getFormulaWithBrickField(BrickField.NOTE).setTextFieldId(R.id.brick_note_edit_text);
 		getFormulaWithBrickField(BrickField.NOTE).refreshTextField(view);
-
 		textField.setOnClickListener(this);
-
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
-		TextView textSpeak = (TextView) prototypeView.findViewById(R.id.brick_note_edit_text);
+		View prototypeView = super.getPrototypeView(context);
+		TextView textSpeak = prototypeView.findViewById(R.id.brick_note_edit_text);
 		textSpeak.setText(context.getString(R.string.brick_note_default_value));
 		return prototypeView;
 	}
