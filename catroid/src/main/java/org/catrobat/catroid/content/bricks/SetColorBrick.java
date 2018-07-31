@@ -49,11 +49,6 @@ public class SetColorBrick extends FormulaBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.COLOR).getRequiredResources();
-	}
-
-	@Override
 	public int getViewResource() {
 		return R.layout.brick_set_color_to;
 	}

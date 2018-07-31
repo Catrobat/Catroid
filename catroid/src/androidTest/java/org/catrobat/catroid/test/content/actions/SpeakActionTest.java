@@ -38,6 +38,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 
 @RunWith(AndroidJUnit4.class)
@@ -91,7 +92,9 @@ public class SpeakActionTest {
 	@Test
 	public void testRequirements() {
 		SpeakBrick speakBrick = new SpeakBrick(new Formula(""));
-		assertEquals(Brick.TEXT_TO_SPEECH, speakBrick.getRequiredResources());
+		Brick.ResourcesSet resourcesSet = new Brick.ResourcesSet();
+		speakBrick.addRequiredResources(resourcesSet);
+		assertTrue(resourcesSet.contains(Brick.TEXT_TO_SPEECH));
 	}
 
 	@Test

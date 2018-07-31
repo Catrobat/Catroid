@@ -48,11 +48,6 @@ public class TurnLeftBrick extends FormulaBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.TURN_LEFT_DEGREES).getRequiredResources();
-	}
-
-	@Override
 	public int getViewResource() {
 		return R.layout.brick_turn_left;
 	}

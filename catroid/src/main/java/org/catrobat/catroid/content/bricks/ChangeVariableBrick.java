@@ -61,11 +61,6 @@ public class ChangeVariableBrick extends UserVariableBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.VARIABLE_CHANGE).getRequiredResources();
-	}
-
-	@Override
 	public int getViewResource() {
 		return R.layout.brick_change_variable_by;
 	}

@@ -51,8 +51,9 @@ public class SpeakBrick extends FormulaBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return TEXT_TO_SPEECH;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(TEXT_TO_SPEECH);
+		super.addRequiredResources(requiredResourcesSet);
 	}
 
 	@Override

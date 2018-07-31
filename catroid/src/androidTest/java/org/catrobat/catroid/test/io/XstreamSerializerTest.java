@@ -257,11 +257,11 @@ public class XstreamSerializerTest {
 
 	@Test
 	public void testGetRequiredResources() {
-		int resources = generateMultiplePermissionsProject().getRequiredResources();
-		assertEquals(Brick.ARDRONE_SUPPORT
-				| Brick.FACE_DETECTION
-				| Brick.BLUETOOTH_LEGO_NXT
-				| Brick.TEXT_TO_SPEECH, resources);
+		Brick.ResourcesSet resources = generateMultiplePermissionsProject().getRequiredResources();
+		assertTrue(resources.contains(Brick.ARDRONE_SUPPORT));
+		assertTrue(resources.contains(Brick.FACE_DETECTION));
+		assertTrue(resources.contains(Brick.BLUETOOTH_LEGO_NXT));
+		assertTrue(resources.contains(Brick.TEXT_TO_SPEECH));
 	}
 
 	@Test
@@ -352,13 +352,7 @@ public class XstreamSerializerTest {
 
 	private Project generateMultiplePermissionsProject() {
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
-		Sprite firstSprite = new SingleSprite("first");
-		Sprite secondSprite = new SingleSprite("second");
-		Script testScript = new StartScript();
-		Script otherScript = new StartScript();
-		HideBrick hideBrick = new HideBrick();
-		ShowBrick showBrick = new ShowBrick();
-		SpeakBrick speakBrick = new SpeakBrick("");
+
 		LegoNxtMotorMoveBrick motorBrick = new LegoNxtMotorMoveBrick(
 				LegoNxtMotorMoveBrick.Motor.MOTOR_A, SET_SPEED_INITIALLY);
 
@@ -370,14 +364,18 @@ public class XstreamSerializerTest {
 				DroneBrickFactory.DroneBricks.DRONE_MOVE_FORWARD_BRICK,
 				DEFAULT_MOVE_TIME_IN_MILLISECONDS, DEFAULT_MOVE_POWER_IN_PERCENT);
 
-		testScript.addBrick(hideBrick);
-		testScript.addBrick(showBrick);
-		testScript.addBrick(speakBrick);
+		Sprite firstSprite = new SingleSprite("first");
+		Script testScript = new StartScript();
+		testScript.addBrick(new HideBrick());
+		testScript.addBrick(new ShowBrick());
+		testScript.addBrick(new SpeakBrick(""));
 		testScript.addBrick(motorBrick);
+		firstSprite.addScript(testScript);
+
+		Sprite secondSprite = new SingleSprite("second");
+		Script otherScript = new StartScript();
 		otherScript.addBrick(setSizeToBrick);
 		otherScript.addBrick(moveBrick);
-
-		firstSprite.addScript(testScript);
 		secondSprite.addScript(otherScript);
 
 		project.getDefaultScene().addSprite(firstSprite);

@@ -63,6 +63,11 @@ public class LegoEv3MotorStopBrick extends BrickBaseType implements OnItemSelect
 	}
 
 	@Override
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(BLUETOOTH_LEGO_EV3);
+	}
+
+	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = super.getPrototypeView(context);
 		Spinner legoSpinner = prototypeView.findViewById(R.id.ev3_stop_motor_spinner);
@@ -112,11 +117,6 @@ public class LegoEv3MotorStopBrick extends BrickBaseType implements OnItemSelect
 
 	@Override
 	public void onNothingSelected(AdapterView<?> arg0) {
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return BLUETOOTH_LEGO_EV3;
 	}
 
 	@Override

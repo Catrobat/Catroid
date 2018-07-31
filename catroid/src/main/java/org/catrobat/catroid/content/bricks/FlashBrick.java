@@ -98,8 +98,8 @@ public class FlashBrick extends BrickBaseType {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return CAMERA_FLASH;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(CAMERA_FLASH);
 	}
 
 	@Override

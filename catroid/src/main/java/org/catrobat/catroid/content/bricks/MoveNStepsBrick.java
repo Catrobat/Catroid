@@ -93,11 +93,6 @@ public class MoveNStepsBrick extends FormulaBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.STEPS).getRequiredResources();
-	}
-
-	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
 				.createMoveNStepsAction(sprite, getFormulaWithBrickField(BrickField.STEPS)));

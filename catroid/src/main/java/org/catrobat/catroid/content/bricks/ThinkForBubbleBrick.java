@@ -69,12 +69,6 @@ public class ThinkForBubbleBrick extends FormulaBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.STRING).getRequiredResources()
-				| getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS).getRequiredResources();
-	}
-
-	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createThinkSayForBubbleAction(sprite,
 				getFormulaWithBrickField(BrickField.STRING), THINK_BRICK));

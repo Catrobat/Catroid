@@ -60,8 +60,8 @@ public class WhenGamepadButtonBrick extends BrickBaseType implements ScriptBrick
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return CAST_REQUIRED;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(CAST_REQUIRED);
 	}
 
 	@Override

@@ -155,8 +155,8 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return Brick.SOCKET_RASPI;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(SOCKET_RASPI);
 	}
 
 	@Override

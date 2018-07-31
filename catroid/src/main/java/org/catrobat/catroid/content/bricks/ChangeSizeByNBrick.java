@@ -48,11 +48,6 @@ public class ChangeSizeByNBrick extends FormulaBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.SIZE_CHANGE).getRequiredResources();
-	}
-
-	@Override
 	public int getViewResource() {
 		return R.layout.brick_change_size_by_n;
 	}

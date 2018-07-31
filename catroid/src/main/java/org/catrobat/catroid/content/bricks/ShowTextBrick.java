@@ -62,12 +62,6 @@ public class ShowTextBrick extends UserVariableBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.Y_POSITION).getRequiredResources() | getFormulaWithBrickField(
-				BrickField.X_POSITION).getRequiredResources();
-	}
-
-	@Override
 	public int getViewResource() {
 		return R.layout.brick_show_variable;
 	}

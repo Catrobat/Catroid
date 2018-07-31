@@ -59,8 +59,8 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return super.getRequiredResources() | Brick.JUMPING_SUMO;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(JUMPING_SUMO);
 	}
 
 	@Override

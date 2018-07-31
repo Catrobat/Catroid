@@ -81,8 +81,7 @@ public abstract class BrickBaseType implements Brick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
 	}
 
 	@LayoutRes

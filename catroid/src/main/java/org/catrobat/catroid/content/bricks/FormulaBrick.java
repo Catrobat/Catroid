@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
+import android.support.annotation.CallSuper;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -74,6 +75,14 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 	protected void addAllowedBrickField(BrickField brickField, int textViewResourceId) {
 		formulaMap.putIfAbsent(brickField, new Formula(0));
 		brickFieldToTextViewIdMap.put(brickField, textViewResourceId);
+	}
+
+	@Override
+	@CallSuper
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		for (Formula formula : formulaMap.values()) {
+			formula.addRequiredResources(requiredResourcesSet);
+		}
 	}
 
 	void replaceFormulaBrickField(BrickField oldBrickField, BrickField newBrickField) {

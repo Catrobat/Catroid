@@ -29,8 +29,6 @@ import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.content.eventids.NfcEventId;
 
-import java.util.ArrayList;
-
 public class WhenNfcScript extends Script {
 
 	private static final long serialVersionUID = 1L;
@@ -54,14 +52,9 @@ public class WhenNfcScript extends Script {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		int resources = Brick.NO_RESOURCES;
-		resources |= getScriptBrick().getRequiredResources();
-		ArrayList<Brick> brickList = getBrickList();
-		for (Brick brick : brickList) {
-			resources |= brick.getRequiredResources();
-		}
-		return resources;
+	public void addRequiredResources(final Brick.ResourcesSet resourcesSet) {
+		resourcesSet.add(Brick.NFC_ADAPTER);
+		super.addRequiredResources(resourcesSet);
 	}
 
 	public void setMatchAll(boolean matchAll) {

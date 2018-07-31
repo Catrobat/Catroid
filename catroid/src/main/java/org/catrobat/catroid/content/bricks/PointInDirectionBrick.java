@@ -48,11 +48,6 @@ public class PointInDirectionBrick extends FormulaBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.DEGREES).getRequiredResources();
-	}
-
-	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
 				.createPointInDirectionAction(sprite, getFormulaWithBrickField(BrickField.DEGREES)));

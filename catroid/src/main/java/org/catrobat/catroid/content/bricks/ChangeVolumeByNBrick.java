@@ -48,11 +48,6 @@ public class ChangeVolumeByNBrick extends FormulaBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.VOLUME_CHANGE).getRequiredResources();
-	}
-
-	@Override
 	public int getViewResource() {
 		return R.layout.brick_change_volume_by;
 	}

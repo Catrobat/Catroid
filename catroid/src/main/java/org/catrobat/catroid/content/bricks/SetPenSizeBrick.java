@@ -53,11 +53,6 @@ public class SetPenSizeBrick extends FormulaBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.PEN_SIZE).getRequiredResources();
-	}
-
-	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
 				.createSetPenSizeAction(sprite, getFormulaWithBrickField(BrickField.PEN_SIZE)));

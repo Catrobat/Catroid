@@ -70,6 +70,12 @@ public class LegoEv3MotorTurnAngleBrick extends FormulaBrick {
 	}
 
 	@Override
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(BLUETOOTH_LEGO_EV3);
+		super.addRequiredResources(requiredResourcesSet);
+	}
+
+	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = super.getPrototypeView(context);
 
@@ -116,11 +122,6 @@ public class LegoEv3MotorTurnAngleBrick extends FormulaBrick {
 
 		motorSpinner.setSelection(motorEnum.ordinal());
 		return view;
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return BLUETOOTH_LEGO_EV3 | getFormulaWithBrickField(BrickField.LEGO_EV3_DEGREES).getRequiredResources();
 	}
 
 	@Override

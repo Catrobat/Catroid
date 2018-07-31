@@ -105,16 +105,14 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 		return super.hashCode() * TAG.hashCode();
 	}
 
-	public int getRequiredResources() {
-		int resources = Brick.NO_RESOURCES;
-
+	@Override
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
 		for (Brick brick : script.getBrickList()) {
 			if (brick instanceof UserBrick && ((UserBrick) brick).getDefinitionBrick() == this) {
 				continue;
 			}
-			resources |= brick.getRequiredResources();
+			brick.addRequiredResources(requiredResourcesSet);
 		}
-		return resources;
 	}
 
 	@Override

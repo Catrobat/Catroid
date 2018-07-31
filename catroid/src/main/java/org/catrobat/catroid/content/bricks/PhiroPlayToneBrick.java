@@ -74,6 +74,12 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 	}
 
 	@Override
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(BLUETOOTH_LEGO_EV3);
+		super.addRequiredResources(requiredResourcesSet);
+	}
+
+	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = super.getPrototypeView(context);
 
@@ -116,11 +122,6 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 		toneSpinner.setSelection(toneEnum.ordinal());
 		setSecondsLabel(view, BrickField.PHIRO_DURATION_IN_SECONDS);
 		return view;
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return BLUETOOTH_PHIRO | getFormulaWithBrickField(BrickField.PHIRO_DURATION_IN_SECONDS).getRequiredResources();
 	}
 
 	@Override

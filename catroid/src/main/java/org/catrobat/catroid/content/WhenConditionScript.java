@@ -28,8 +28,7 @@ import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.WhenConditionBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.content.eventids.WhenConditionEventId;
-
-import java.util.ArrayList;
+import org.catrobat.catroid.formulaeditor.Formula;
 
 public class WhenConditionScript extends Script {
 
@@ -60,14 +59,13 @@ public class WhenConditionScript extends Script {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		int resources = Brick.NO_RESOURCES;
-		resources |= getScriptBrick().getRequiredResources();
-		ArrayList<Brick> brickList = getBrickList();
-		for (Brick brick : brickList) {
-			resources |= brick.getRequiredResources();
+	public void addRequiredResources(final Brick.ResourcesSet requiredResourcesSet) {
+		for (Formula formula : formulaMap.values()) {
+			formula.addRequiredResources(requiredResourcesSet);
 		}
-		return resources;
+		for (Brick brick : brickList) {
+			brick.addRequiredResources(requiredResourcesSet);
+		}
 	}
 
 	@Override

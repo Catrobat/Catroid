@@ -73,8 +73,9 @@ public class DroneMoveForwardBrick extends FormulaBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return super.getRequiredResources() | Brick.ARDRONE_SUPPORT;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(ARDRONE_SUPPORT);
+		super.addRequiredResources(requiredResourcesSet);
 	}
 
 	@Override

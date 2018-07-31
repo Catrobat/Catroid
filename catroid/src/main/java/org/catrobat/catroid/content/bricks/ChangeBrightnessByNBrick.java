@@ -48,11 +48,6 @@ public class ChangeBrightnessByNBrick extends FormulaBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.BRIGHTNESS_CHANGE).getRequiredResources();
-	}
-
-	@Override
 	public int getViewResource() {
 		return R.layout.brick_change_brightness;
 	}

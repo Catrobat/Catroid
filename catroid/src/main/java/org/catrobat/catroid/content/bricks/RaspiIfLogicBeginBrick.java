@@ -52,8 +52,9 @@ public class RaspiIfLogicBeginBrick extends IfLogicBeginBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return SOCKET_RASPI;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(SOCKET_RASPI);
+		super.addRequiredResources(requiredResourcesSet);
 	}
 
 	@Override

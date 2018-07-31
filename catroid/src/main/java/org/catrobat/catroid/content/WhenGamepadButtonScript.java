@@ -54,8 +54,9 @@ public class WhenGamepadButtonScript extends Script {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return Brick.CAST_REQUIRED | super.getRequiredResources();
+	public void addRequiredResources(final Brick.ResourcesSet resourcesSet) {
+		resourcesSet.add(Brick.CAST_REQUIRED);
+		super.addRequiredResources(resourcesSet);
 	}
 
 	@Override

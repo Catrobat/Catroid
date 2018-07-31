@@ -51,8 +51,9 @@ public class JumpingSumoMoveForwardBrick extends FormulaBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return super.getRequiredResources() | Brick.JUMPING_SUMO;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(JUMPING_SUMO);
+		super.addRequiredResources(requiredResourcesSet);
 	}
 
 	@Override

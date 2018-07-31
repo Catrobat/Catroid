@@ -56,6 +56,12 @@ public class VibrationBrick extends FormulaBrick {
 	}
 
 	@Override
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(VIBRATOR);
+		super.addRequiredResources(requiredResourcesSet);
+	}
+
+	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = super.getPrototypeView(context);
 		setSecondsLabel(prototypeView, BrickField.VIBRATE_DURATION_IN_SECONDS);
@@ -67,11 +73,6 @@ public class VibrationBrick extends FormulaBrick {
 		super.getView(context);
 		setSecondsLabel(view, BrickField.VIBRATE_DURATION_IN_SECONDS);
 		return view;
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return VIBRATOR;
 	}
 
 	@Override

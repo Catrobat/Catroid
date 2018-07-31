@@ -49,8 +49,9 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return BLUETOOTH_PHIRO;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(BLUETOOTH_PHIRO);
+		super.addRequiredResources(requiredResourcesSet);
 	}
 
 	@Override

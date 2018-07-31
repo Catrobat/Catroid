@@ -261,8 +261,8 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return NFC_ADAPTER;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(NFC_ADAPTER);
 	}
 
 	@Override

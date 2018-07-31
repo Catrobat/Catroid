@@ -50,10 +50,9 @@ public class RaspiSendDigitalValueBrick extends FormulaBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return SOCKET_RASPI
-				| getFormulaWithBrickField(BrickField.RASPI_DIGITAL_PIN_NUMBER).getRequiredResources()
-				| getFormulaWithBrickField(BrickField.RASPI_DIGITAL_PIN_VALUE).getRequiredResources();
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(SOCKET_RASPI);
+		super.addRequiredResources(requiredResourcesSet);
 	}
 
 	@Override

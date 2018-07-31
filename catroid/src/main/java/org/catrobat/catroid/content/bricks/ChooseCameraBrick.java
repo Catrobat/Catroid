@@ -101,11 +101,12 @@ public class ChooseCameraBrick extends BrickBaseType {
 	}
 
 	@Override
-	public int getRequiredResources() {
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
 		if (spinnerSelectionID == FRONT) {
-			return CAMERA_FRONT;
+			requiredResourcesSet.add(CAMERA_FRONT);
+		} else {
+			requiredResourcesSet.add(CAMERA_BACK);
 		}
-		return CAMERA_BACK;
 	}
 
 	@Override

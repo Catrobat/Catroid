@@ -75,11 +75,6 @@ public class SetVariableBrick extends UserVariableBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.VARIABLE).getRequiredResources();
-	}
-
-	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSetVariableAction(sprite,
 				getFormulaWithBrickField(BrickField.VARIABLE), userVariable));

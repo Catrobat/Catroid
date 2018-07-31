@@ -41,13 +41,13 @@ public class JumpingSumoTurnBrick extends BrickBaseType {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return super.getRequiredResources() | Brick.JUMPING_SUMO;
-	}
-
-	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createJumpingSumoTurnAction());
 		return null;
+	}
+
+	@Override
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(JUMPING_SUMO);
 	}
 }

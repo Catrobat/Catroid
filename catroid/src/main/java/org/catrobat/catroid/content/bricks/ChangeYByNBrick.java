@@ -48,11 +48,6 @@ public class ChangeYByNBrick extends FormulaBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.Y_POSITION_CHANGE).getRequiredResources();
-	}
-
-	@Override
 	public int getViewResource() {
 		return R.layout.brick_change_y;
 	}

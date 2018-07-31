@@ -52,9 +52,9 @@ public class AskSpeechBrick extends UserVariableBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.ASK_SPEECH_QUESTION).getRequiredResources()
-				| Brick.NETWORK_CONNECTION;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(NETWORK_CONNECTION);
+		super.addRequiredResources(requiredResourcesSet);
 	}
 
 	@Override

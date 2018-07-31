@@ -60,8 +60,8 @@ public class LegoEv3SetLedBrick extends BrickBaseType implements OnItemSelectedL
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return BLUETOOTH_LEGO_EV3;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(BLUETOOTH_LEGO_EV3);
 	}
 
 	@Override
