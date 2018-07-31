@@ -22,16 +22,11 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.TextView;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
@@ -40,20 +35,16 @@ public class ChangeSizeByNBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public ChangeSizeByNBrick() {
-		addAllowedBrickField(BrickField.SIZE_CHANGE);
+		this(new Formula(BrickValues.CHANGE_SIZE_BY));
 	}
 
 	public ChangeSizeByNBrick(double sizeValue) {
-		initializeBrickFields(new Formula(sizeValue));
+		this(new Formula(sizeValue));
 	}
 
-	public ChangeSizeByNBrick(Formula size) {
-		initializeBrickFields(size);
-	}
-
-	private void initializeBrickFields(Formula size) {
-		addAllowedBrickField(BrickField.SIZE_CHANGE);
-		setFormulaWithBrickField(BrickField.SIZE_CHANGE, size);
+	public ChangeSizeByNBrick(Formula formula) {
+		addAllowedBrickField(BrickField.SIZE_CHANGE, R.id.brick_change_size_by_edit_text);
+		setFormulaWithBrickField(BrickField.SIZE_CHANGE, formula);
 	}
 
 	@Override
@@ -67,32 +58,9 @@ public class ChangeSizeByNBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context) {
-		super.getView(context);
-		TextView edit = view.findViewById(R.id.brick_change_size_by_edit_text);
-		getFormulaWithBrickField(BrickField.SIZE_CHANGE).setTextFieldId(R.id.brick_change_size_by_edit_text);
-		getFormulaWithBrickField(BrickField.SIZE_CHANGE).refreshTextField(view);
-		edit.setOnClickListener(this);
-		return view;
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-		TextView textChangeSizeBy = prototypeView.findViewById(R.id.brick_change_size_by_edit_text);
-		textChangeSizeBy.setText(formatNumberForPrototypeView(BrickValues.CHANGE_SIZE_BY));
-		return prototypeView;
-	}
-
-	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
 				.createChangeSizeByNAction(sprite, getFormulaWithBrickField(BrickField.SIZE_CHANGE)));
 		return null;
-	}
-
-	@Override
-	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.SIZE_CHANGE);
 	}
 }

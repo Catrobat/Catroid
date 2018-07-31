@@ -23,16 +23,11 @@
 
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.TextView;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
@@ -41,20 +36,16 @@ public class SetColorBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public SetColorBrick() {
-		addAllowedBrickField(BrickField.COLOR);
+		this(new Formula(BrickValues.SET_COLOR_TO));
 	}
 
-	public SetColorBrick(Float color) {
-		initializeBrickField(new Formula(color));
+	public SetColorBrick(double color) {
+		this(new Formula(color));
 	}
 
-	public SetColorBrick(Formula color) {
-		initializeBrickField(color);
-	}
-
-	private void initializeBrickField(Formula color) {
-		addAllowedBrickField(BrickField.COLOR);
-		setFormulaWithBrickField(BrickField.COLOR, color);
+	public SetColorBrick(Formula formula) {
+		addAllowedBrickField(BrickField.COLOR, R.id.brick_set_color_edit_text);
+		setFormulaWithBrickField(BrickField.COLOR, formula);
 	}
 
 	@Override
@@ -68,33 +59,9 @@ public class SetColorBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context) {
-		super.getView(context);
-		TextView edit = view.findViewById(R.id.brick_set_color_edit_text);
-		getFormulaWithBrickField(BrickField.COLOR).setTextFieldId(R.id.brick_set_color_edit_text);
-		getFormulaWithBrickField(BrickField.COLOR).refreshTextField(view);
-
-		edit.setOnClickListener(this);
-		return view;
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-		TextView textSetSizeTo = prototypeView.findViewById(R.id.brick_set_color_edit_text);
-		textSetSizeTo.setText(formatNumberForPrototypeView(BrickValues.SET_COLOR_TO));
-		return prototypeView;
-	}
-
-	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createSetColorAction(sprite,
-				getFormulaWithBrickField(BrickField.COLOR)));
+		sequence.addAction(sprite.getActionFactory()
+				.createSetColorAction(sprite, getFormulaWithBrickField(BrickField.COLOR)));
 		return null;
-	}
-
-	@Override
-	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.COLOR);
 	}
 }

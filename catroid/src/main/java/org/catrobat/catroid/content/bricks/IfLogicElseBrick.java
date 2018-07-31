@@ -41,11 +41,6 @@ public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, All
 		this.ifBeginBrick = ifBeginBrick;
 	}
 
-	@Override
-	public int getViewResource() {
-		return R.layout.brick_if_else;
-	}
-
 	public IfLogicBeginBrick getIfBeginBrick() {
 		return ifBeginBrick;
 	}
@@ -63,8 +58,8 @@ public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, All
 	}
 
 	@Override
-	public boolean isDraggableOver(Brick brick) {
-		return brick != ifBeginBrick && brick != ifEndBrick;
+	public int getViewResource() {
+		return R.layout.brick_if_else;
 	}
 
 	@Override
@@ -74,6 +69,11 @@ public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, All
 
 	@Override
 	public void initialize() {
+	}
+
+	@Override
+	public boolean isDraggableOver(Brick brick) {
+		return brick != ifBeginBrick && brick != ifEndBrick;
 	}
 
 	@Override

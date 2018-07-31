@@ -22,16 +22,13 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.TextView;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
@@ -40,20 +37,16 @@ public class NoteBrick extends FormulaBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 
 	public NoteBrick() {
-		addAllowedBrickField(BrickField.NOTE);
+		this(new Formula(BrickValues.NOTE));
 	}
 
 	public NoteBrick(String note) {
-		initializeBrickFields(new Formula(note));
+		this(new Formula(note));
 	}
 
-	public NoteBrick(Formula note) {
-		initializeBrickFields(note);
-	}
-
-	private void initializeBrickFields(Formula note) {
-		addAllowedBrickField(BrickField.NOTE);
-		setFormulaWithBrickField(BrickField.NOTE, note);
+	public NoteBrick(Formula formula) {
+		addAllowedBrickField(BrickField.NOTE, R.id.brick_note_edit_text);
+		setFormulaWithBrickField(BrickField.NOTE, formula);
 	}
 
 	@Override
@@ -62,30 +55,7 @@ public class NoteBrick extends FormulaBrick implements OnClickListener {
 	}
 
 	@Override
-	public View getView(final Context context) {
-		super.getView(context);
-		TextView textField = view.findViewById(R.id.brick_note_edit_text);
-		getFormulaWithBrickField(BrickField.NOTE).setTextFieldId(R.id.brick_note_edit_text);
-		getFormulaWithBrickField(BrickField.NOTE).refreshTextField(view);
-		textField.setOnClickListener(this);
-		return view;
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-		TextView textSpeak = prototypeView.findViewById(R.id.brick_note_edit_text);
-		textSpeak.setText(context.getString(R.string.brick_note_default_value));
-		return prototypeView;
-	}
-
-	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		return null;
-	}
-
-	@Override
-	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.NOTE);
 	}
 }

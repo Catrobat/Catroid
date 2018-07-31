@@ -30,7 +30,6 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.badlogic.gdx.files.FileHandle;
@@ -54,11 +53,9 @@ import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
@@ -115,22 +112,6 @@ public final class Utils {
 
 	public static String formatDate(Date date, Locale locale) {
 		return DateFormat.getDateInstance(DateFormat.LONG, locale).format(date);
-	}
-
-	@Nullable
-	public static byte[] convertInputStreamToByteArray(final InputStream inputStream) {
-		try {
-			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-			byte[] buffer = new byte[4096];
-			int len;
-			while ((len = inputStream.read(buffer)) > -1) {
-				byteArrayOutputStream.write(buffer, 0, len);
-			}
-			byteArrayOutputStream.flush();
-			return byteArrayOutputStream.toByteArray();
-		} catch (IOException e) {
-			return null;
-		}
 	}
 
 	public static String generateRemixUrlsStringForMergedProgram(XmlHeader headerOfFirstProgram, XmlHeader headerOfSecondProgram) {
@@ -448,8 +429,6 @@ public final class Utils {
 			if (absoluteValue == 0.0 || absoluteValue == 1.0 || absoluteValue == 2.0) {
 				return (int) absoluteValue;
 			} else {
-				// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
-				// in hopefully all possible languages
 				return TRANSLATION_PLURAL_OTHER_INTEGER;
 			}
 		}

@@ -29,12 +29,10 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -44,29 +42,21 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	transient IfLogicElseBrick ifElseBrick;
-	transient IfLogicEndBrick ifEndBrick;
+	private transient IfLogicElseBrick ifElseBrick;
+	private transient IfLogicEndBrick ifEndBrick;
 
 	public IfLogicBeginBrick() {
-		addAllowedBrickField(BrickField.IF_CONDITION);
+		//For ridiculous inheritance -> call only from PhiroIfLogicBeginBrick
+		//Should be removed asap.
 	}
 
 	public IfLogicBeginBrick(int condition) {
-		initializeBrickFields(new Formula(condition));
+		this(new Formula(condition));
 	}
 
-	public IfLogicBeginBrick(Formula condition) {
-		initializeBrickFields(condition);
-	}
-
-	protected void initializeBrickFields(Formula ifCondition) {
-		addAllowedBrickField(BrickField.IF_CONDITION);
-		setFormulaWithBrickField(BrickField.IF_CONDITION, ifCondition);
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.IF_CONDITION).getRequiredResources();
+	public IfLogicBeginBrick(Formula formula) {
+		addAllowedBrickField(BrickField.IF_CONDITION, R.id.brick_if_begin_edit_text);
+		setFormulaWithBrickField(BrickField.IF_CONDITION, formula);
 	}
 
 	public IfLogicElseBrick getIfElseBrick() {
@@ -86,16 +76,16 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 	}
 
 	@Override
+	public int getRequiredResources() {
+		return getFormulaWithBrickField(BrickField.IF_CONDITION).getRequiredResources();
+	}
+
+	@Override
 	public BrickBaseType clone() throws CloneNotSupportedException {
 		IfLogicBeginBrick clone = (IfLogicBeginBrick) super.clone();
 		clone.ifElseBrick = null;
 		clone.ifEndBrick = null;
 		return clone;
-	}
-
-	@Override
-	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.IF_CONDITION);
 	}
 
 	@Override
@@ -106,37 +96,23 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 	@Override
 	public View getView(Context context) {
 		super.getView(context);
-		onViewCreated(view);
+		onSuperGetViewCalled(context);
 		return view;
 	}
 
-	protected void onViewCreated(View view) {
-		TextView ifBeginTextView = view.findViewById(R.id.brick_if_begin_edit_text);
-		getFormulaWithBrickField(BrickField.IF_CONDITION).setTextFieldId(R.id.brick_if_begin_edit_text);
-		getFormulaWithBrickField(BrickField.IF_CONDITION).refreshTextField(view);
-		ifBeginTextView.setOnClickListener(this);
-		removePrototypeElseTextViews(view);
+	protected void onSuperGetViewCalled(Context context) {
+		//For ridiculous inheritance -> to override from PhiroIfLogicBeginBrick
+		//Should be removed asap.
+		hidePrototypeElseAndPunctuation();
 	}
 
-	protected void removePrototypeElseTextViews(View view) {
+	void hidePrototypeElseAndPunctuation() {
 		TextView prototypeTextPunctuation = view.findViewById(R.id.if_else_prototype_punctuation);
 		TextView prototypeTextElse = view.findViewById(R.id.if_prototype_else);
 		TextView prototypeTextPunctuation2 = view.findViewById(R.id.if_else_prototype_punctuation2);
 		prototypeTextPunctuation.setVisibility(View.GONE);
 		prototypeTextElse.setVisibility(View.GONE);
 		prototypeTextPunctuation2.setVisibility(View.GONE);
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-		onPrototypeViewCreated(prototypeView);
-		return prototypeView;
-	}
-
-	protected void onPrototypeViewCreated(View prototypeView) {
-		TextView textIfBegin = prototypeView.findViewById(R.id.brick_if_begin_edit_text);
-		textIfBegin.setText(BrickValues.IF_CONDITION);
 	}
 
 	@Override
@@ -147,7 +123,12 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 	@Override
 	public void initialize() {
 		ifElseBrick = new IfLogicElseBrick(this);
-		ifEndBrick = new IfLogicEndBrick(ifElseBrick, this);
+		ifEndBrick = new IfLogicEndBrick(this, ifElseBrick);
+	}
+
+	@Override
+	public boolean isDraggableOver(Brick brick) {
+		return brick != ifElseBrick;
 	}
 
 	@Override
@@ -160,16 +141,12 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 	}
 
 	@Override
-	public boolean isDraggableOver(Brick brick) {
-		return brick != ifElseBrick;
-	}
-
-	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		ScriptSequenceAction ifAction = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
 		ScriptSequenceAction elseAction = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
-		Action action = sprite.getActionFactory().createIfLogicAction(sprite,
-				getFormulaWithBrickField(BrickField.IF_CONDITION), ifAction, elseAction);
+
+		Action action = sprite.getActionFactory()
+				.createIfLogicAction(sprite, getFormulaWithBrickField(BrickField.IF_CONDITION), ifAction, elseAction);
 		sequence.addAction(action);
 
 		LinkedList<ScriptSequenceAction> returnActionList = new LinkedList<>();

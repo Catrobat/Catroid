@@ -37,8 +37,6 @@ import java.util.List;
 
 public class ChooseCameraBrick extends BrickBaseType {
 
-	private transient View prototypeView;
-
 	private int spinnerSelectionID;
 	private static final int BACK = 0;
 	private static final int FRONT = 1;
@@ -59,12 +57,10 @@ public class ChooseCameraBrick extends BrickBaseType {
 	@Override
 	public View getView(Context context) {
 		super.getView(context);
-		Spinner videoSpinner = (Spinner) view.findViewById(R.id.brick_choose_camera_spinner);
 
+		Spinner videoSpinner = view.findViewById(R.id.brick_choose_camera_spinner);
 		ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
-
 		videoSpinner.setAdapter(spinnerAdapter);
-
 		videoSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
 			@Override
@@ -78,16 +74,14 @@ public class ChooseCameraBrick extends BrickBaseType {
 		});
 
 		videoSpinner.setSelection(spinnerSelectionID);
-
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
+		View prototypeView = super.getPrototypeView(context);
 
-		Spinner setVideoSpinner = (Spinner) prototypeView.findViewById(R.id.brick_choose_camera_spinner);
-
+		Spinner setVideoSpinner = prototypeView.findViewById(R.id.brick_choose_camera_spinner);
 		ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
 		setVideoSpinner.setAdapter(spinnerAdapter);
 		setVideoSpinner.setSelection(spinnerSelectionID);

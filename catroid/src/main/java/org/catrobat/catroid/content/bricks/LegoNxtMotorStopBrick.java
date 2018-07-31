@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import java.util.List;
 
 public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelectedListener {
+
 	private static final long serialVersionUID = 1L;
 	private transient Motor motorEnum;
 	private String motor;

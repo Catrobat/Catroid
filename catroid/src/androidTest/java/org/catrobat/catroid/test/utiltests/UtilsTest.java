@@ -28,7 +28,6 @@ import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DefaultProjectHandler;
-import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -38,9 +37,6 @@ import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.HideBrick;
-import org.catrobat.catroid.content.bricks.SetLookBrick;
-import org.catrobat.catroid.content.bricks.WaitBrick;
-import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.stage.ShowBubbleActor;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -172,7 +168,6 @@ public class UtilsTest {
 		addSpriteAndCompareToDefaultProject();
 		addScriptAndCompareToDefalutProject();
 		addBrickAndCompareToDefaultProject();
-		changeParametersOfBricksAndCompareToDefaultProject();
 		removeBrickAndCompareToDefaultProject();
 		removeScriptAndCompareToDefaultProject();
 		removeSpriteAndCompareToDefaultProject();
@@ -395,44 +390,6 @@ public class UtilsTest {
 		assertFalse(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
 		catroidScript.removeBrick(brick);
 		assertTrue(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
-	}
-
-	private void changeParametersOfBricksAndCompareToDefaultProject() {
-		Script catroidScript = defaultProject.getDefaultScene().getSpriteList().get(1).getScript(0);
-		ArrayList<Brick> brickList = catroidScript.getBrickList();
-		SetLookBrick setLookBrick = null;
-		WaitBrick waitBrick = null;
-		for (int i = 0; i < brickList.size(); i++) {
-			if (brickList.get(i) instanceof SetLookBrick) {
-				setLookBrick = (SetLookBrick) brickList.get(i);
-				break;
-			}
-			if (brickList.get(i) instanceof WaitBrick) {
-				waitBrick = (WaitBrick) brickList.get(i);
-				break;
-			}
-		}
-
-		if (setLookBrick != null) {
-			LookData oldLookData = setLookBrick.getLook();
-			LookData newLookData = new LookData();
-			setLookBrick.setLook(newLookData);
-			assertFalse(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
-
-			setLookBrick.setLook(oldLookData);
-			assertTrue(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
-		}
-
-		if (waitBrick != null) {
-			Formula oldTime = waitBrick.getTimeToWait();
-			Formula newTimeToWait = new Formula(2345);
-
-			waitBrick.setTimeToWait(newTimeToWait);
-			assertFalse(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
-
-			waitBrick.setTimeToWait(oldTime);
-			assertTrue(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
-		}
 	}
 
 	private void removeBrickAndCompareToDefaultProject() {

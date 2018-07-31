@@ -52,7 +52,7 @@ public class PointInDirectionBrickTest {
 	public void setUp() throws Exception {
 		brickPosition = 1;
 		BrickTestUtils.createProjectAndGetStartScript("PointInDirectionBrick")
-				.addBrick(new PointInDirectionBrick(PointInDirectionBrick.Direction.RIGHT));
+				.addBrick(new PointInDirectionBrick(90));
 		baseActivityTestRule.launchActivity();
 	}
 

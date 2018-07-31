@@ -27,10 +27,12 @@ import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfThenLogicEndBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
@@ -136,7 +138,7 @@ public class IfThenBrickTest {
 
 		Script script = BrickTestUtils.createProjectAndGetStartScript("IfThenBrickTest");
 		script.addBrick(ifThenLogicBeginBrick);
-		script.addBrick(new SetXBrick());
+		script.addBrick(new SetXBrick(new Formula(BrickValues.X_POSITION)));
 		script.addBrick(ifThenLogicEndBrick);
 
 		ProjectManager.getInstance().checkNestingBrickReferences(true, false);

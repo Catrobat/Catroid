@@ -48,7 +48,6 @@
         <include layout="@layout/icon_brick_category_raspberrypi"/>
 
         <TextView
-            android:id="@+id/raspi_if_label"
             style="@style/BrickText.Multiple"
             android:text="@string/brick_raspi_if_begin" >
         </TextView >
@@ -60,7 +59,7 @@
             app:layout_textField="true" />
 
         <TextView
-            android:id="@+id/if_raspi_label_second_part"
+            android:id="@+id/if_label_second_part"
             style="@style/BrickText.Multiple"
             android:paddingStart="5dip"
             android:text="@string/brick_raspi_if_begin_second_part" >

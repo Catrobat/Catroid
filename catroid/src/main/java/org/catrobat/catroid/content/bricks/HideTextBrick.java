@@ -35,23 +35,12 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
 public class HideTextBrick extends UserVariableBrick {
 
 	private static final long serialVersionUID = 1L;
-
-	public HideTextBrick() {
-		addAllowedBrickField(BrickField.X_POSITION);
-		addAllowedBrickField(BrickField.Y_POSITION);
-	}
-
-	@Override
-	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.changeInputField(view, BrickField.HIDETEXT);
-	}
 
 	@Override
 	public int getViewResource() {

@@ -30,11 +30,7 @@ import android.view.View;
 import android.widget.CheckBox;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-
-import java.util.List;
 
 public abstract class BrickBaseType implements Brick {
 
@@ -95,7 +91,7 @@ public abstract class BrickBaseType implements Brick {
 	@CallSuper
 	@Override
 	public View getView(Context context) {
-		view = LayoutInflater.from(context).inflate(getViewResource(), null);
+		view = LayoutInflater.from(context).inflate(getViewResource(), null, false);
 
 		BrickViewProvider.setAlphaOnView(view, alphaValue);
 
@@ -127,7 +123,4 @@ public abstract class BrickBaseType implements Brick {
 	public View getPrototypeView(Context context) {
 		return LayoutInflater.from(context).inflate(getViewResource(), null);
 	}
-
-	@Override
-	public abstract List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence);
 }
