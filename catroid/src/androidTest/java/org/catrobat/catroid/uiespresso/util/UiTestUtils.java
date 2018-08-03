@@ -59,6 +59,10 @@ public final class UiTestUtils {
 	public static String getResourcesString(int stringId) {
 		return InstrumentationRegistry.getTargetContext().getResources().getString(stringId);
 	}
+	
+	public static String getResourcesString(int stringId, Object... formatArgs) {
+		return InstrumentationRegistry.getTargetContext().getResources().getString(stringId, formatArgs);
+	}
 
 	public static String getQuantitiyString(int stringId, int quantity) {
 		return InstrumentationRegistry.getTargetContext().getResources().getQuantityString(stringId, quantity);
