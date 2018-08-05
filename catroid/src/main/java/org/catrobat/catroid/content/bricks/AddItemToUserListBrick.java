@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.view.View;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -36,7 +35,6 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.ui.adapter.UserListAdapterWrapper;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
@@ -45,23 +43,16 @@ public class AddItemToUserListBrick extends UserListBrick {
 	private static final long serialVersionUID = 1L;
 
 	public AddItemToUserListBrick() {
-		addAllowedBrickField(BrickField.LIST_ADD_ITEM);
-	}
-
-	public AddItemToUserListBrick(Formula userListFormula, UserList userList) {
-		initializeBrickFields(userListFormula);
-		this.userList = userList;
+		this(new Formula(BrickValues.ADD_ITEM_TO_USERLIST));
 	}
 
 	public AddItemToUserListBrick(double value) {
-		initializeBrickFields(new Formula(value));
+		this(new Formula(value));
 	}
 
-	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createAddItemToUserListAction(sprite,
-				getFormulaWithBrickField(BrickField.LIST_ADD_ITEM), userList));
-		return null;
+	public AddItemToUserListBrick(Formula formula) {
+		addAllowedBrickField(BrickField.LIST_ADD_ITEM, R.id.brick_add_item_to_userlist_edit_text);
+		setFormulaWithBrickField(BrickField.LIST_ADD_ITEM, formula);
 	}
 
 	@Override
@@ -70,14 +61,8 @@ public class AddItemToUserListBrick extends UserListBrick {
 	}
 
 	@Override
-	public View getView(final Context context) {
+	public View getView(Context context) {
 		super.getView(context);
-		TextView textField = view.findViewById(R.id.brick_add_item_to_userlist_edit_text);
-
-		getFormulaWithBrickField(BrickField.LIST_ADD_ITEM).setTextFieldId(R.id.brick_add_item_to_userlist_edit_text);
-		getFormulaWithBrickField(BrickField.LIST_ADD_ITEM).refreshTextField(view);
-
-		textField.setOnClickListener(this);
 
 		Spinner userListSpinner = view.findViewById(R.id.add_item_to_userlist_spinner);
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
@@ -108,9 +93,6 @@ public class AddItemToUserListBrick extends UserListBrick {
 		userListSpinner.setAdapter(userListAdapterWrapper);
 		setSpinnerSelection(userListSpinner, null);
 
-		TextView textAddItemToList = prototypeView.findViewById(R.id.brick_add_item_to_userlist_edit_text);
-		textAddItemToList.setText(formatNumberForPrototypeView(BrickValues.ADD_ITEM_TO_USERLIST));
-
 		return prototypeView;
 	}
 
@@ -121,12 +103,9 @@ public class AddItemToUserListBrick extends UserListBrick {
 	}
 
 	@Override
-	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.LIST_ADD_ITEM);
-	}
-
-	private void initializeBrickFields(Formula listAddItemFormula) {
-		addAllowedBrickField(BrickField.LIST_ADD_ITEM);
-		setFormulaWithBrickField(BrickField.LIST_ADD_ITEM, listAddItemFormula);
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		sequence.addAction(sprite.getActionFactory()
+				.createAddItemToUserListAction(sprite, getFormulaWithBrickField(BrickField.LIST_ADD_ITEM), userList));
+		return null;
 	}
 }

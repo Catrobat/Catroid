@@ -22,16 +22,11 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.TextView;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
@@ -40,19 +35,15 @@ public class SetYBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public SetYBrick() {
-		addAllowedBrickField(BrickField.Y_POSITION);
+		this(new Formula(BrickValues.Y_POSITION));
 	}
 
 	public SetYBrick(int yPositionValue) {
-		initializeBrickFields(new Formula(yPositionValue));
+		this(new Formula(yPositionValue));
 	}
 
 	public SetYBrick(Formula yPosition) {
-		initializeBrickFields(yPosition);
-	}
-
-	private void initializeBrickFields(Formula yPosition) {
-		addAllowedBrickField(BrickField.Y_POSITION);
+		addAllowedBrickField(BrickField.Y_POSITION, R.id.brick_set_y_edit_text);
 		setFormulaWithBrickField(BrickField.Y_POSITION, yPosition);
 	}
 
@@ -67,32 +58,9 @@ public class SetYBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context) {
-		super.getView(context);
-		TextView editY = view.findViewById(R.id.brick_set_y_edit_text);
-		getFormulaWithBrickField(BrickField.Y_POSITION).setTextFieldId(R.id.brick_set_y_edit_text);
-		getFormulaWithBrickField(BrickField.Y_POSITION).refreshTextField(view);
-		editY.setOnClickListener(this);
-		return view;
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-		TextView textYPosition = prototypeView.findViewById(R.id.brick_set_y_edit_text);
-		textYPosition.setText(formatNumberForPrototypeView(BrickValues.Y_POSITION));
-		return prototypeView;
-	}
-
-	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createSetYAction(sprite,
-				getFormulaWithBrickField(BrickField.Y_POSITION)));
+		sequence.addAction(sprite.getActionFactory()
+				.createSetYAction(sprite, getFormulaWithBrickField(BrickField.Y_POSITION)));
 		return null;
-	}
-
-	@Override
-	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.Y_POSITION);
 	}
 }

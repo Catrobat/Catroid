@@ -106,7 +106,7 @@ public class PhiroIfBrickTest {
 	private void createProject() {
 		ifBrick = new PhiroIfLogicBeginBrick();
 		IfLogicElseBrick ifLogicElseBrick = new IfLogicElseBrick(ifBrick);
-		IfLogicEndBrick ifLogicEndBrick = new IfLogicEndBrick(ifLogicElseBrick, ifBrick);
+		IfLogicEndBrick ifLogicEndBrick = new IfLogicEndBrick(ifBrick, ifLogicElseBrick);
 		ifBrick.setIfElseBrick(ifLogicElseBrick);
 		ifBrick.setIfEndBrick(ifLogicEndBrick);
 		Script script = BrickTestUtils.createProjectAndGetStartScript("PhiroIfBrickTest");

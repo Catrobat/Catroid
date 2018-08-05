@@ -22,10 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.TextView;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Script;
@@ -33,7 +29,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenConditionScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
@@ -41,18 +36,22 @@ public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 
 	private WhenConditionScript script;
 
-	public WhenConditionBrick(Formula condition) {
-		this(new WhenConditionScript());
-		setFormulaWithBrickField(BrickField.IF_CONDITION, condition);
+	public WhenConditionBrick(Formula formula) {
+		this(formula, new WhenConditionScript());
 	}
 
 	public WhenConditionBrick(WhenConditionScript script) {
+		this(new Formula(BrickValues.IF_CONDITION), script);
+	}
+
+	public WhenConditionBrick(Formula formula, WhenConditionScript script) {
 		script.setScriptBrick(this);
 		commentedOut = script.isCommentedOut();
 		this.script = script;
 
 		formulaMap = script.getFormulaMap();
-		addAllowedBrickField(BrickField.IF_CONDITION);
+		addAllowedBrickField(BrickField.IF_CONDITION, R.id.brick_when_condition_edit_text);
+		setFormulaWithBrickField(BrickField.IF_CONDITION, formula);
 	}
 
 	@Override
@@ -65,28 +64,8 @@ public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return getConditionFormula().getRequiredResources();
-	}
-
-	@Override
-	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.IF_CONDITION);
-	}
-
-	@Override
 	public int getViewResource() {
 		return R.layout.brick_when_condition_true;
-	}
-
-	@Override
-	public View getView(Context context) {
-		super.getView(context);
-		TextView conditionEditText = view.findViewById(R.id.brick_when_condition_edit_text);
-		getFormulaWithBrickField(BrickField.IF_CONDITION).setTextFieldId(R.id.brick_when_condition_edit_text);
-		getFormulaWithBrickField(BrickField.IF_CONDITION).refreshTextField(view);
-		conditionEditText.setOnClickListener(this);
-		return view;
 	}
 
 	public Formula getConditionFormula() {
@@ -94,20 +73,23 @@ public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-		TextView textView = prototypeView.findViewById(R.id.brick_when_condition_edit_text);
-		textView.setText(BrickValues.IF_CONDITION);
-		return prototypeView;
+	public Script getScript() {
+		return script;
+	}
+
+	@Override
+	public void setCommentedOut(boolean commentedOut) {
+		super.setCommentedOut(commentedOut);
+		getScript().setCommentedOut(commentedOut);
+	}
+
+	@Override
+	public int getRequiredResources() {
+		return getConditionFormula().getRequiredResources();
 	}
 
 	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		return null;
-	}
-
-	@Override
-	public Script getScript() {
-		return script;
 	}
 }

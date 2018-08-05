@@ -69,7 +69,7 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 
 		Spinner broadcastSpinner = prototypeView.findViewById(R.id.brick_broadcast_spinner);
 		BroadcastSpinnerAdapter broadcastSpinnerAdapter = getMessageAdapter(context);
-		if (context.getString(R.string.new_broadcast_message).equals(getBroadcastMessage())) {
+		if (getBroadcastMessage().equals(context.getString(R.string.new_broadcast_message))) {
 			setBroadcastMessage(broadcastSpinnerAdapter.getItem(1));
 		}
 		broadcastSpinner.setAdapter(broadcastSpinnerAdapter);

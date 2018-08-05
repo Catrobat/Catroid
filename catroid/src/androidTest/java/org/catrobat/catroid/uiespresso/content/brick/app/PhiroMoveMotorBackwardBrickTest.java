@@ -100,7 +100,7 @@ public class PhiroMoveMotorBackwardBrickTest {
 		onView(allOf(withId(R.id.single_seekbar_title), withText(R.string.phiro_motor_speed)))
 				.check(matches(isDisplayed()));
 
-		onView(allOf(withId(R.id.single_seekbar_value), withText(Integer.toString(setSpeed) + " ")))
+		onView(allOf(withId(R.id.single_seekbar_value), withText(Integer.toString(setSpeed))))
 				.check(matches(isDisplayed()))
 				.perform(click());
 

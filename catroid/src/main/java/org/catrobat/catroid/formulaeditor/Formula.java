@@ -23,9 +23,6 @@
 package org.catrobat.catroid.formulaeditor;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.view.View;
-import android.widget.TextView;
 
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
@@ -35,15 +32,13 @@ import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class Formula implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private FormulaElement formulaTree;
-	private transient Integer formulaTextFieldId = null;
+
 	private transient InternFormula internFormula = null;
-	private transient String displayText = null;
 
 	public Object readResolve() {
 
@@ -92,24 +87,16 @@ public class Formula implements Serializable {
 	public void updateVariableReferences(String oldName, String newName, Context context) {
 		internFormula.updateVariableReferences(oldName, newName, context);
 		formulaTree.updateVariableReferences(oldName, newName);
-		displayText = null;
-	}
-
-	public void getVariableAndListNames(List<String> variables, List<String> lists) {
-		internFormula.getVariableAndListNames(variables, lists);
-		formulaTree.getVariableAndListNames(variables, lists);
 	}
 
 	public void updateCollisionFormulas(String oldName, String newName, Context context) {
 		internFormula.updateCollisionFormula(oldName, newName, context);
 		formulaTree.updateCollisionFormula(oldName, newName);
-		displayText = null;
 	}
 
 	public void updateCollisionFormulasToVersion(float catroidLanguageVersion) {
 		internFormula.updateCollisionFormulaToVersion(CatroidApplication.getAppContext(), catroidLanguageVersion);
 		formulaTree.updateCollisionFormulaToVersion(catroidLanguageVersion);
-		displayText = null;
 	}
 
 	public boolean containsSpriteInCollision(String name) {
@@ -125,10 +112,6 @@ public class Formula implements Serializable {
 			formulaTree = new FormulaElement(ElementType.STRING, value, null);
 			internFormula = new InternFormula(formulaTree.getInternTokenList());
 		}
-	}
-
-	public void setDisplayText(String text) {
-		displayText = text;
 	}
 
 	public Boolean interpretBoolean(Sprite sprite) throws InterpretationException {
@@ -185,7 +168,6 @@ public class Formula implements Serializable {
 	}
 
 	public void setRoot(FormulaElement formula) {
-		displayText = null;
 		formulaTree = formula;
 		internFormula = new InternFormula(formula.getInternTokenList());
 	}
@@ -194,52 +176,8 @@ public class Formula implements Serializable {
 		return formulaTree;
 	}
 
-	public void setTextFieldId(int id) {
-		formulaTextFieldId = id;
-	}
-
-	public String getDisplayString(Context context) {
-		if (displayText != null) {
-			return displayText;
-		}
-
-		if (context != null) {
-			internFormula.generateExternFormulaStringAndInternExternMapping(context);
-		}
-		return internFormula.getExternFormulaString();
-	}
-
-	public void refreshTextField(View view) {
-		refreshTextField(view, getTrimmedFormulaString(view.getContext()));
-	}
-
-	public void refreshTextField(View view, String formulaString) {
-		if (formulaTextFieldId != null && formulaTree != null && view != null) {
-			TextView formulaTextField = (TextView) view.findViewById(formulaTextFieldId);
-			if (formulaTextField != null) {
-				formulaTextField.setText(formulaString);
-			}
-		}
-	}
-
-	@SuppressWarnings("deprecation")
-	public void highlightTextField(View brickView) {
-		Drawable highlightBackground;
-		highlightBackground = brickView.getResources().getDrawable(R.drawable.textfield_pressed_android4);
-
-		TextView formulaTextField = (TextView) brickView.findViewById(formulaTextFieldId);
-
-		if (formulaTextField != null) {
-			formulaTextField.setBackgroundDrawable(highlightBackground);
-		}
-	}
-
 	public String getTrimmedFormulaString(Context context) {
 		return internFormula.trimExternFormulaString(context);
-	}
-
-	public void prepareToRemove() {
-		formulaTextFieldId = null;
 	}
 
 	public InternFormulaState getInternFormulaState() {

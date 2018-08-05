@@ -27,39 +27,34 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
 public class LegoEv3MotorTurnAngleBrick extends FormulaBrick {
+
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
 	private String motor;
 	private transient Motor motorEnum;
-	private transient TextView editSpeed;
 
 	public enum Motor {
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_D, MOTOR_B_C, MOTOR_ALL
 	}
 
 	public LegoEv3MotorTurnAngleBrick(Motor motor, int degrees) {
-		this.motorEnum = motor;
-		this.motor = motorEnum.name();
-		initializeBrickFields(new Formula(degrees));
+		this(motor, new Formula(degrees));
 	}
 
 	public LegoEv3MotorTurnAngleBrick(Motor motor, Formula degreesFormula) {
 		this.motorEnum = motor;
 		this.motor = motorEnum.name();
-		initializeBrickFields(degreesFormula);
+		addAllowedBrickField(BrickField.LEGO_EV3_DEGREES, R.id.ev3_motor_turn_angle_edit_text);
+		setFormulaWithBrickField(BrickField.LEGO_EV3_DEGREES, degreesFormula);
 	}
 
 	protected Object readResolve() {
@@ -69,23 +64,16 @@ public class LegoEv3MotorTurnAngleBrick extends FormulaBrick {
 		return this;
 	}
 
-	private void initializeBrickFields(Formula degreesFormula) {
-		addAllowedBrickField(BrickField.LEGO_EV3_DEGREES);
-		setFormulaWithBrickField(BrickField.LEGO_EV3_DEGREES, degreesFormula);
-	}
-
 	@Override
-	public int getRequiredResources() {
-		return BLUETOOTH_LEGO_EV3 | getFormulaWithBrickField(BrickField.LEGO_EV3_DEGREES).getRequiredResources();
+	public int getViewResource() {
+		return R.layout.brick_ev3_motor_turn_angle;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
-		TextView textX = (TextView) prototypeView.findViewById(R.id.ev3_motor_turn_angle_edit_text);
-		textX.setText(formatNumberForPrototypeView(BrickValues.LEGO_ANGLE));
+		View prototypeView = super.getPrototypeView(context);
 
-		Spinner legoSpinner = (Spinner) prototypeView.findViewById(R.id.lego_ev3_motor_turn_angle_spinner);
+		Spinner legoSpinner = prototypeView.findViewById(R.id.lego_ev3_motor_turn_angle_spinner);
 		legoSpinner.setFocusableInTouchMode(false);
 		legoSpinner.setFocusable(false);
 		legoSpinner.setEnabled(false);
@@ -100,30 +88,14 @@ public class LegoEv3MotorTurnAngleBrick extends FormulaBrick {
 	}
 
 	@Override
-	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.LEGO_EV3_DEGREES);
-	}
-
-	@Override
-	public int getViewResource() {
-		return R.layout.brick_ev3_motor_turn_angle;
-	}
-
-	@Override
 	public View getView(final Context context) {
 		super.getView(context);
-		editSpeed = (TextView) view.findViewById(R.id.ev3_motor_turn_angle_edit_text);
-		getFormulaWithBrickField(BrickField.LEGO_EV3_DEGREES).setTextFieldId(R.id.ev3_motor_turn_angle_edit_text);
-		getFormulaWithBrickField(BrickField.LEGO_EV3_DEGREES).refreshTextField(view);
-
-		editSpeed.setOnClickListener(this);
 
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context, R.array.ev3_motor_chooser,
 				android.R.layout.simple_spinner_item);
+
 		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-		Spinner motorSpinner = (Spinner) view.findViewById(R.id.lego_ev3_motor_turn_angle_spinner);
-
+		Spinner motorSpinner = view.findViewById(R.id.lego_ev3_motor_turn_angle_spinner);
 		motorSpinner.setAdapter(motorAdapter);
 		motorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -137,12 +109,18 @@ public class LegoEv3MotorTurnAngleBrick extends FormulaBrick {
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
+
 		if (motorEnum == null) {
 			readResolve();
 		}
-		motorSpinner.setSelection(motorEnum.ordinal());
 
+		motorSpinner.setSelection(motorEnum.ordinal());
 		return view;
+	}
+
+	@Override
+	public int getRequiredResources() {
+		return BLUETOOTH_LEGO_EV3 | getFormulaWithBrickField(BrickField.LEGO_EV3_DEGREES).getRequiredResources();
 	}
 
 	@Override

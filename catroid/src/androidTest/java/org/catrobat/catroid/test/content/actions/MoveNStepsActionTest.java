@@ -29,7 +29,6 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.PointInDirectionBrick.Direction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.junit.Before;
 import org.junit.Test;
@@ -67,7 +66,7 @@ public class MoveNStepsActionTest {
 
 	@Test
 	public void testMoveVerticalUp() {
-		sprite.look.setDirectionInUserInterfaceDimensionUnit((float) Direction.UP.getDegrees());
+		sprite.look.setDirectionInUserInterfaceDimensionUnit(0);
 		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new Formula(steps));
 
 		executeTest(moveNStepsAction, 0, steps);
@@ -75,7 +74,7 @@ public class MoveNStepsActionTest {
 
 	@Test
 	public void testMoveVerticalDown() {
-		sprite.look.setDirectionInUserInterfaceDimensionUnit((float) Direction.DOWN.getDegrees());
+		sprite.look.setDirectionInUserInterfaceDimensionUnit(180);
 		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new Formula(steps));
 
 		executeTest(moveNStepsAction, 0, -steps);

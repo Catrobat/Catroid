@@ -22,17 +22,12 @@
  */
 package org.catrobat.catroid.physics.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.TextView;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
@@ -41,20 +36,16 @@ public class SetFrictionBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public SetFrictionBrick() {
-		addAllowedBrickField(BrickField.PHYSICS_FRICTION);
+		this(new Formula(BrickValues.PHYSIC_FRICTION));
 	}
 
-	public SetFrictionBrick(float friction) {
-		initializeBrickFields(new Formula(friction));
+	public SetFrictionBrick(double friction) {
+		this(new Formula(friction));
 	}
 
-	public SetFrictionBrick(Formula friction) {
-		initializeBrickFields(friction);
-	}
-
-	private void initializeBrickFields(Formula friction) {
-		addAllowedBrickField(BrickField.PHYSICS_FRICTION);
-		setFormulaWithBrickField(BrickField.PHYSICS_FRICTION, friction);
+	public SetFrictionBrick(Formula formula) {
+		addAllowedBrickField(BrickField.PHYSICS_FRICTION, R.id.brick_set_friction_edit_text);
+		setFormulaWithBrickField(BrickField.PHYSICS_FRICTION, formula);
 	}
 
 	@Override
@@ -65,29 +56,6 @@ public class SetFrictionBrick extends FormulaBrick {
 	@Override
 	public int getViewResource() {
 		return R.layout.brick_physics_set_friction;
-	}
-
-	@Override
-	public View getView(Context context) {
-		super.getView(context);
-		TextView edit = view.findViewById(R.id.brick_set_friction_edit_text);
-		getFormulaWithBrickField(BrickField.PHYSICS_FRICTION).setTextFieldId(R.id.brick_set_friction_edit_text);
-		getFormulaWithBrickField(BrickField.PHYSICS_FRICTION).refreshTextField(view);
-		edit.setOnClickListener(this);
-		return view;
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-		TextView textFriction = prototypeView.findViewById(R.id.brick_set_friction_edit_text);
-		textFriction.setText(formatNumberForPrototypeView(BrickValues.PHYSIC_FRICTION * 100));
-		return prototypeView;
-	}
-
-	@Override
-	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.PHYSICS_FRICTION);
 	}
 
 	@Override

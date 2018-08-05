@@ -109,7 +109,7 @@ public class CollisionFormulaConversionTest {
 		assertThat(brick, is(instanceOf(FormulaBrick.class)));
 
 		FormulaBrick formulaBrick = (FormulaBrick) brick;
-		String newFormula = formulaBrick.getFormulas().get(0).getDisplayString(InstrumentationRegistry
+		String newFormula = formulaBrick.getFormulas().get(0).getTrimmedFormulaString(InstrumentationRegistry
 				.getTargetContext());
 		String expected = collisionTag + "(" + thirdSpriteName + ") ";
 		assertEquals(expected, newFormula);
@@ -149,7 +149,7 @@ public class CollisionFormulaConversionTest {
 		assertThat(brick, is(instanceOf(FormulaBrick.class)));
 
 		FormulaBrick formulaBrick = (FormulaBrick) brick;
-		String newFormula = formulaBrick.getFormulas().get(0).getDisplayString(InstrumentationRegistry
+		String newFormula = formulaBrick.getFormulas().get(0).getTrimmedFormulaString(InstrumentationRegistry
 				.getTargetContext());
 		String expected = collisionTag + "(" + thirdSpriteName + ") ";
 		assertEquals(expected, newFormula);

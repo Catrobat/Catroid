@@ -289,14 +289,19 @@ public final class XstreamSerializer {
 		xstream.omitField(CameraBrick.class, "spinnerValues");
 		xstream.omitField(ChooseCameraBrick.class, "spinnerValues");
 		xstream.omitField(FlashBrick.class, "spinnerValues");
+
+		xstream.omitField(SpeakAndWaitBrick.class, "speechFile");
+		xstream.omitField(SpeakAndWaitBrick.class, "duration");
+
 		xstream.omitField(StopScriptBrick.class, "spinnerValue");
 
 		xstream.omitField(ShowTextBrick.class, "userVariableName");
 		xstream.omitField(HideTextBrick.class, "userVariableName");
 
-		xstream.omitField(RaspiInterruptScript.class, "receivedMessage");
-		xstream.omitField(WhenScript.class, "action");
 		xstream.omitField(StartScript.class, "isUserScript");
+		xstream.omitField(WhenScript.class, "action");
+
+		xstream.omitField(RaspiInterruptScript.class, "receivedMessage");
 
 		xstream.alias("look", LookData.class);
 		xstream.alias("droneLook", DroneVideoLookData.class);

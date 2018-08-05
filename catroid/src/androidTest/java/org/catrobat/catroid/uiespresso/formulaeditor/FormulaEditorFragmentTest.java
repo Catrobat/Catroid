@@ -94,7 +94,7 @@ public class FormulaEditorFragmentTest {
 	@Test
 	public void testDiscardChanges() {
 		onView(withId(R.id.brick_set_variable_edit_text))
-				.check(matches(withText("0 ")));
+				.check(matches(withText("1 ")));
 		onBrickAtPosition(1).onChildView(withId(R.id.brick_set_variable_edit_text))
 				.perform(click());
 		onFormulaEditor()
@@ -105,7 +105,7 @@ public class FormulaEditorFragmentTest {
 		onView(withId(android.R.id.button2))
 				.perform(click());
 		onBrickAtPosition(1).onChildView(withId(R.id.brick_set_variable_edit_text))
-				.check(matches(withText("0 ")));
+				.check(matches(withText("1 ")));
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})

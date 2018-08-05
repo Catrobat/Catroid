@@ -48,7 +48,6 @@
         <include layout="@layout/icon_brick_category_motion"/>
 
         <TextView
-            android:id="@+id/brick_glide_to_label"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_glide" >
         </TextView >
@@ -62,7 +61,7 @@
         </TextView >
 
         <TextView
-            android:id="@+id/brick_glide_to_seconds_text_view"
+            android:id="@+id/brick_seconds_label"
             style="@style/BrickText.SingleLine" >
         </TextView >
 

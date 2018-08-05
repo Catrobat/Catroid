@@ -27,7 +27,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:orientation="horizontal" >
+    android:orientation="horizontal">
 
     <CheckBox
         android:id="@+id/brick_checkbox"
@@ -44,30 +44,28 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
-        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
+        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing">
 
-        <include layout="@layout/icon_brick_category_look"/>
-
-        <TextView
-            android:id="@+id/brick_set_color_label"
-            style="@style/BrickText.SingleLine"
-            android:text="@string/brick_set_color" >
-        </TextView >
+        <include layout="@layout/icon_brick_category_look" />
 
         <TextView
-            android:id="@+id/brick_set_color_to_textview"
             style="@style/BrickText.SingleLine"
-            app:layout_newLine="true"
-            android:text="@string/to_label" >
-        </TextView >
+            android:text="@string/brick_set_color">
+        </TextView>
+
+        <TextView
+            style="@style/BrickText.SingleLine"
+            android:text="@string/to_label"
+            app:layout_newLine="true">
+        </TextView>
 
         <TextView
             android:id="@+id/brick_set_color_edit_text"
             style="@style/BrickEditText"
+            android:maxEms="10"
             app:layout_inputType="number"
-            app:layout_textField="true"
-            android:maxEms="10" >
-        </TextView >
-    </org.catrobat.catroid.ui.BrickLayout >
+            app:layout_textField="true">
+        </TextView>
+    </org.catrobat.catroid.ui.BrickLayout>
 
 </LinearLayout>

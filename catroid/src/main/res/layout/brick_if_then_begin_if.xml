@@ -23,11 +23,11 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:gravity="center_vertical"
-              android:orientation="horizontal" >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal" >
 
     <CheckBox
         android:id="@+id/brick_checkbox"
@@ -37,29 +37,40 @@
         android:visibility="gone" />
 
     <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/brick_drone_spinner_layout"
-        style="@style/BrickContainer.Control.Medium"
+        android:id="@+id/brick_if_begin_layout"
+        style="@style/BrickContainer.Control.Small"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
         android:orientation="horizontal"
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
-        <include layout="@layout/icon_brick_category_ardrone"/>
+        <include layout="@layout/icon_brick_category_control"/>
 
         <TextView
-            android:id="@+id/brick_drone_spinner_label"
-            style="@style/BrickText.SingleLine"
-            android:text="" />
+            android:id="@+id/if_label"
+            style="@style/BrickText.Multiple"
+            android:text="@string/brick_if_begin" />
 
-        <Spinner
-            android:id="@+id/brick_drone_spinner_ID"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="false"
-            android:textDirection="locale"
-            android:focusable="false" />
+        <TextView
+            android:id="@+id/brick_if_begin_edit_text"
+            style="@style/BrickEditText"
+            app:layout_inputType="number"
+            app:layout_textField="true" />
+
+        <TextView
+            android:id="@+id/if_label_second_part"
+            style="@style/BrickText.Multiple"
+            android:paddingStart="5dip"
+            android:text="@string/brick_if_begin_second_part" />
+
+        <TextView
+            android:id="@+id/if_prototype_punctuation"
+            style="@style/BrickText.Multiple"
+            app:layout_newLine="true"
+            android:paddingStart="5dip"
+            android:text="@string/punctuation_mark" />
+
     </org.catrobat.catroid.ui.BrickLayout >
 
 </LinearLayout>

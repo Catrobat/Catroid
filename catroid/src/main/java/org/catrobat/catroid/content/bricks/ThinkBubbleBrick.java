@@ -22,82 +22,39 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.TextView;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
+
+import static org.catrobat.catroid.common.Constants.THINK_BRICK;
 
 public class ThinkBubbleBrick extends FormulaBrick implements OnClickListener {
 
 	private static final long serialVersionUID = 1L;
-	protected int type = Constants.THINK_BRICK;
-
-	public ThinkBubbleBrick() {
-		addAllowedBrickField(BrickField.STRING);
-	}
 
 	public ThinkBubbleBrick(String text) {
-		addAllowedBrickField(BrickField.STRING);
-		initializeBrickFields(new Formula(text));
+		this(new Formula(text));
 	}
 
-	protected void initializeBrickFields(Formula text) {
-		addAllowedBrickField(BrickField.STRING);
-		setFormulaWithBrickField(BrickField.STRING, text);
+	public ThinkBubbleBrick(Formula formula) {
+		addAllowedBrickField(BrickField.STRING, R.id.brick_bubble_edit_text);
+		setFormulaWithBrickField(BrickField.STRING, formula);
 	}
 
 	@Override
 	public int getViewResource() {
-		return type == Constants.SAY_BRICK
-				? R.layout.brick_say_bubble
-				: R.layout.brick_think_bubble;
-	}
-
-	@Override
-	public View getView(Context context) {
-		super.getView(context);
-
-		int editTextId = type == Constants.SAY_BRICK ? R.id.brick_say_bubble_edit_text : R.id.brick_think_bubble_edit_text;
-
-		TextView textField = (TextView) view.findViewById(editTextId);
-		getFormulaWithBrickField(BrickField.STRING).setTextFieldId(editTextId);
-		getFormulaWithBrickField(BrickField.STRING).refreshTextField(view);
-
-		textField.setOnClickListener(this);
-
-		return view;
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-		int stringId = type == Constants.SAY_BRICK ? R.string.brick_say_bubble_default_value : R.string.brick_think_bubble_default_value;
-		int prototypeTextViewId = type == Constants.SAY_BRICK
-				? R.id.brick_say_bubble_edit_text : R.id.brick_think_bubble_edit_text;
-
-		TextView textSpeak = (TextView) prototypeView.findViewById(prototypeTextViewId);
-		textSpeak.setText(context.getString(stringId));
-		return prototypeView;
+		return R.layout.brick_think_bubble;
 	}
 
 	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createThinkSayBubbleAction(sprite,
-				getFormulaWithBrickField(BrickField.STRING), type));
+				getFormulaWithBrickField(BrickField.STRING), THINK_BRICK));
 		return null;
-	}
-
-	@Override
-	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.STRING);
 	}
 }

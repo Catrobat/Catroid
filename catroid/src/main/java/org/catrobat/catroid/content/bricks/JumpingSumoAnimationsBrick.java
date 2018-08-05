@@ -39,7 +39,6 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
 	private String animationName;
 	private transient Animation animation;
 
@@ -66,9 +65,9 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
+		View prototypeView = super.getPrototypeView(context);
 
-		Spinner jsAnimationSpinner = (Spinner) prototypeView.findViewById(R.id.brick_jumping_sumo_animation_spinner);
+		Spinner jsAnimationSpinner = prototypeView.findViewById(R.id.brick_jumping_sumo_animation_spinner);
 		jsAnimationSpinner.setFocusableInTouchMode(false);
 		jsAnimationSpinner.setFocusable(false);
 		jsAnimationSpinner.setEnabled(false);
@@ -94,7 +93,7 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 		ArrayAdapter<CharSequence> animationAdapter = ArrayAdapter.createFromResource(context, R.array.brick_jumping_sumo_select_animation_spinner,
 				android.R.layout.simple_spinner_item);
 		animationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		Spinner animationSpinner = (Spinner) view.findViewById(R.id.brick_jumping_sumo_animation_spinner);
+		Spinner animationSpinner = view.findViewById(R.id.brick_jumping_sumo_animation_spinner);
 
 		animationSpinner.setAdapter(animationAdapter);
 		animationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
