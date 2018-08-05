@@ -853,6 +853,7 @@ public class StageListener implements ApplicationListener {
 
 		bubbleActorMap.clear();
 		bubbleActorMap.putAll(backup.bubbleActorMap);
+		embroideryList = backup.embroideryList;
 
 		embroideryList = backup.embroideryList;
 
