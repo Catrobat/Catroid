@@ -77,6 +77,6 @@ public class WhenGamepadButtonBrickTest {
 				R.string.cast_gamepad_up);
 
 		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_when_gamepad_button_spinner)
-				.checkValuesAvailable(spinnerValuesResourceIds);
+				.checkStringIdValuesAvailable(spinnerValuesResourceIds);
 	}
 }

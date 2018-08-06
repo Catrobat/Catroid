@@ -48,13 +48,13 @@ public class SetSizeToBrick extends FormulaBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.SIZE).getRequiredResources();
+	public int getViewResource() {
+		return R.layout.brick_set_size_to;
 	}
 
 	@Override
-	public int getViewResource() {
-		return R.layout.brick_set_size_to;
+	public int getRequiredResources() {
+		return getFormulaWithBrickField(BrickField.SIZE).getRequiredResources();
 	}
 
 	@Override

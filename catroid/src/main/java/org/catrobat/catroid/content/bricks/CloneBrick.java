@@ -30,6 +30,7 @@ import android.widget.Spinner;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
@@ -53,15 +54,34 @@ public class CloneBrick extends BrickBaseType {
 	@Override
 	public View getView(final Context context) {
 		super.getView(context);
-		setupValueSpinner(context);
+		final Spinner spinner = view.findViewById(R.id.brick_clone_spinner);
+		final ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
+
+		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinnerAdapter.add(context.getString(R.string.brick_clone_this));
+		spinnerAdapter.addAll(ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteNames());
+		spinnerAdapter.remove(context.getString(R.string.background));
+
+		spinner.setAdapter(spinnerAdapter);
+		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				Scene scene = ProjectManager.getInstance().getCurrentlyEditedScene();
+				objectToClone = scene.getSprite(spinnerAdapter.getItem(position));
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+			}
+		});
+		spinner.setSelection(objectToClone != null ? spinnerAdapter.getPosition(objectToClone.getName()) : 0);
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View view = super.getPrototypeView(context);
-		((Spinner) view.findViewById(R.id.brick_clone_spinner)).setAdapter(getSpinnerArrayAdapter(context));
-		return view;
+		super.getPrototypeView(context);
+		return getView(context);
 	}
 
 	@Override
@@ -69,49 +89,5 @@ public class CloneBrick extends BrickBaseType {
 		Sprite s = (objectToClone != null) ? objectToClone : thisObject;
 		sequence.addAction(thisObject.getActionFactory().createCloneAction(s));
 		return Collections.emptyList();
-	}
-
-	private void setupValueSpinner(final Context context) {
-		final Spinner valueSpinner = view.findViewById(R.id.brick_clone_spinner);
-		final List<Sprite> spriteList = ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList();
-
-		ArrayAdapter<String> valueAdapter = getSpinnerArrayAdapter(context);
-		valueSpinner.setAdapter(valueAdapter);
-		valueSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				String selectedObject = valueSpinner.getSelectedItem().toString();
-
-				objectToClone = null;
-				for (Sprite sprite : spriteList) {
-					if (sprite.getName().equals(selectedObject)) {
-						objectToClone = sprite;
-						break;
-					}
-				}
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
-			}
-		});
-		valueSpinner.setSelection(objectToClone != null ? valueAdapter.getPosition(objectToClone.getName()) : 0, true);
-	}
-
-	private ArrayAdapter<String> getSpinnerArrayAdapter(Context context) {
-		ArrayAdapter<String> messageAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
-		messageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		messageAdapter.add(context.getString(R.string.brick_clone_this));
-
-		final List<Sprite> spriteList = ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList();
-
-		for (Sprite sprite : spriteList) {
-			if (sprite.getName().equals(context.getString(R.string.background))) {
-				continue;
-			}
-			messageAdapter.add(sprite.getName());
-		}
-
-		return messageAdapter;
 	}
 }

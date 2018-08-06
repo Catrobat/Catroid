@@ -161,10 +161,10 @@ public class BroadcastBricksTest {
 		onBrickAtPosition(position).onSpinner(spinnerResourceId)
 				.perform(click());
 
-		onView(withText(R.string.new_broadcast_message))
+		onView(withText(R.string.new_option))
 				.perform(click());
 
-		onView(allOf(withText(R.string.new_broadcast_message), isDisplayed(), instanceOf(EditText.class)))
+		onView(allOf(withText(R.string.new_option), isDisplayed(), instanceOf(EditText.class)))
 				.perform(replaceText(message));
 		closeSoftKeyboard();
 

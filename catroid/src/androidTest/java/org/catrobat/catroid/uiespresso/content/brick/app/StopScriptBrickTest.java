@@ -77,6 +77,6 @@ public class StopScriptBrickTest {
 				R.string.brick_stop_other_scripts);
 
 		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_stop_script_spinner)
-				.checkValuesAvailable(spinnerValuesResourceIds);
+				.checkStringIdValuesAvailable(spinnerValuesResourceIds);
 	}
 }

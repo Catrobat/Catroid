@@ -90,7 +90,7 @@ public class ReplaceItemInUserListTest {
 		String secondUserListName = "testList2";
 
 		onBrickAtPosition(brickPosition).onVariableSpinner(R.id.replace_item_in_userlist_spinner)
-				.performNewVariableInitial(userListName);
+				.performNewVariable(userListName);
 
 		onBrickAtPosition(brickPosition).onVariableSpinner(R.id.replace_item_in_userlist_spinner)
 				.performNewVariable(secondUserListName);
@@ -114,7 +114,7 @@ public class ReplaceItemInUserListTest {
 				.check(doesNotExist());
 		onView(withText(userListName))
 				.check(matches(isDisplayed()));
-		onView(withText(R.string.brick_variable_spinner_create_new_variable))
+		onView(withText(R.string.new_option))
 				.check(matches(isDisplayed()));
 	}
 

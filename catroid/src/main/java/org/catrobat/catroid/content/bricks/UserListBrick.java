@@ -24,40 +24,26 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.app.Activity;
-import android.view.MotionEvent;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Spinner;
 
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.brickspinner.SpinnerWithNewOption;
 import org.catrobat.catroid.formulaeditor.UserList;
-import org.catrobat.catroid.ui.adapter.UserListAdapterWrapper;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewListDialogFragment;
 
-public abstract class UserListBrick extends FormulaBrick implements NewListDialogFragment.NewListInterface {
+import java.util.ArrayList;
+import java.util.List;
+
+public abstract class UserListBrick extends FormulaBrick implements NewListDialogFragment.NewListInterface,
+		SpinnerWithNewOption.SpinnerSelectionListener<UserList> {
 
 	protected UserList userList;
 
-	private void updateUserListIfDeleted(UserListAdapterWrapper userListAdapterWrapper) {
-		if (userList != null && (userListAdapterWrapper.getPositionOfItem(userList) == 0)) {
-			userList = null;
-		}
-	}
-
-	protected void setSpinnerSelection(Spinner userListSpinner, UserList newUserList) {
-		UserListAdapterWrapper userListAdapterWrapper = (UserListAdapterWrapper) userListSpinner.getAdapter();
-
-		updateUserListIfDeleted(userListAdapterWrapper);
-
-		if (newUserList != null) {
-			userListSpinner.setSelection(userListAdapterWrapper.getPositionOfItem(newUserList), true);
-			userList = newUserList;
-		} else if (userList != null) {
-			userListSpinner.setSelection(userListAdapterWrapper.getPositionOfItem(userList), true);
-		} else {
-			userListSpinner.setSelection(userListAdapterWrapper.getCount() - 1, true);
-			userList = userListAdapterWrapper.getItem(userListAdapterWrapper.getCount() - 1);
-		}
-	}
+	private transient SpinnerWithNewOption<UserList> spinner;
 
 	public UserList getUserList() {
 		return userList;
@@ -67,39 +53,62 @@ public abstract class UserListBrick extends FormulaBrick implements NewListDialo
 		this.userList = userList;
 	}
 
-	protected View.OnTouchListener createSpinnerOnTouchListener() {
-		return new View.OnTouchListener() {
-			@Override
-			public boolean onTouch(View view, MotionEvent event) {
-				if (event.getAction() == MotionEvent.ACTION_DOWN && ((Spinner) view).getAdapter().getCount() == 1) {
-					showNewListDialog();
-					return true;
-				}
-				return false;
-			}
-		};
+	@Override
+	public BrickBaseType clone() throws CloneNotSupportedException {
+		UserListBrick clone = (UserListBrick) super.clone();
+		clone.spinner = null;
+		return clone;
 	}
 
-	AdapterView.OnItemSelectedListener createListSpinnerItemSelectedListener() {
-		return new AdapterView.OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				if (position == 0) {
-					showNewListDialog();
-				} else {
-					userList = ((UserList) parent.getItemAtPosition(position));
-				}
-			}
+	protected abstract int getSpinnerId();
 
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-				userList = null;
-			}
-		};
+	private List<UserList> getUserLists() {
+		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
+
+		List<UserList> lists = new ArrayList<>();
+		lists.addAll(dataContainer.getSpriteUserLists(sprite));
+		lists.addAll(dataContainer.getProjectUserLists());
+		return lists;
 	}
 
-	private void showNewListDialog() {
-		NewListDialogFragment dialog = new NewListDialogFragment(this);
-		dialog.show(((Activity) view.getContext()).getFragmentManager(), NewListDialogFragment.TAG);
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
+		spinner = new SpinnerWithNewOption<>(getSpinnerId(), view, getUserLists(), this);
+		spinner.setSelection(userList);
+		return view;
+	}
+
+	@Override
+	public View getPrototypeView(Context context) {
+		super.getPrototypeView(context);
+		return getView(context);
+	}
+
+	@Override
+	public boolean onNewOptionClicked() {
+		new NewListDialogFragment(this) {
+
+			@Override
+			public void onCancel(DialogInterface dialog) {
+				super.onCancel(dialog);
+				spinner.setSelection(userList);
+			}
+		}.show(((Activity) view.getContext()).getFragmentManager(), NewListDialogFragment.TAG);
+		return false;
+	}
+
+	@Override
+	public void onNewList(UserList item) {
+		userList = item;
+		spinner.add(item);
+		//TODO: This should work some other way: i.e. it should not rely on the Brick being able to access its adapter.
+		adapter.notifyDataSetChanged();
+	}
+
+	@Override
+	public void onItemSelected(UserList item) {
+		userList = item;
 	}
 }

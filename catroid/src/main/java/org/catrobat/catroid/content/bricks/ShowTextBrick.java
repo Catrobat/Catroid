@@ -23,11 +23,6 @@
 
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.Spinner;
-
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.Constants;
@@ -35,16 +30,12 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.ui.adapter.DataAdapter;
-import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
 
 import java.util.List;
 
 public class ShowTextBrick extends UserVariableBrick {
 
 	private static final long serialVersionUID = 1L;
-
-	public static final String TAG = ShowTextBrick.class.getSimpleName();
 
 	public ShowTextBrick() {
 		this(new Formula(BrickValues.X_POSITION), new Formula(BrickValues.Y_POSITION));
@@ -62,60 +53,19 @@ public class ShowTextBrick extends UserVariableBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.Y_POSITION).getRequiredResources() | getFormulaWithBrickField(
-				BrickField.X_POSITION).getRequiredResources();
-	}
-
-	@Override
 	public int getViewResource() {
 		return R.layout.brick_show_variable;
 	}
 
 	@Override
-	public View getView(final Context context) {
-		super.getView(context);
-
-		Spinner variableSpinner = view.findViewById(R.id.show_variable_spinner);
-
-		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
-				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
-		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
-				dataAdapter);
-		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
-
-		variableSpinner.setAdapter(userVariableAdapterWrapper);
-		setSpinnerSelection(variableSpinner, null);
-
-		variableSpinner.setOnTouchListener(createSpinnerOnTouchListener());
-		variableSpinner.setOnItemSelectedListener(createVariableSpinnerItemSelectedListener());
-
-		return view;
+	protected int getSpinnerId() {
+		return R.id.show_variable_spinner;
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-
-		Spinner variableSpinner = prototypeView.findViewById(R.id.show_variable_spinner);
-
-		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
-				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
-
-		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
-				dataAdapter);
-
-		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
-		variableSpinner.setAdapter(userVariableAdapterWrapper);
-		setSpinnerSelection(variableSpinner, null);
-
-		return prototypeView;
-	}
-
-	@Override
-	public void onNewVariable(UserVariable userVariable) {
-		Spinner spinner = view.findViewById(R.id.show_variable_spinner);
-		setSpinnerSelection(spinner, userVariable);
+	public int getRequiredResources() {
+		return getFormulaWithBrickField(BrickField.Y_POSITION).getRequiredResources() | getFormulaWithBrickField(
+				BrickField.X_POSITION).getRequiredResources();
 	}
 
 	@Override

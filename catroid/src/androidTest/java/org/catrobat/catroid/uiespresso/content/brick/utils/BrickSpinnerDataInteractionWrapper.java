@@ -28,6 +28,7 @@ import android.support.test.espresso.DataInteraction;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.wrappers.DataInteractionWrapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.support.test.espresso.Espresso.onData;
@@ -58,15 +59,23 @@ public class BrickSpinnerDataInteractionWrapper extends DataInteractionWrapper {
 		return new BrickSpinnerDataInteractionWrapper(dataInteraction);
 	}
 
-	public BrickSpinnerDataInteractionWrapper checkValuesAvailable(List<Integer> stringResourceIdValues) {
+	public BrickSpinnerDataInteractionWrapper checkStringValuesAvailable(List<String> stringValues) {
 		dataInteraction.perform(click());
 
-		for (Integer stringResourceId : stringResourceIdValues) {
-			onData(allOf(is(instanceOf(String.class)), is(UiTestUtils.getResourcesString(stringResourceId))))
+		for (String string : stringValues) {
+			onData(allOf(is(instanceOf(String.class)), is(string)))
 					.check(matches(isDisplayed()));
 		}
 		pressBack();
 		return new BrickSpinnerDataInteractionWrapper(dataInteraction);
+	}
+
+	public BrickSpinnerDataInteractionWrapper checkStringIdValuesAvailable(List<Integer> stringResourceIdValues) {
+		List<String> stringValues = new ArrayList<>();
+		for (Integer stringResourceId : stringResourceIdValues) {
+			stringValues.add(UiTestUtils.getResourcesString(stringResourceId));
+		}
+		return checkStringValuesAvailable(stringValues);
 	}
 
 	public BrickSpinnerDataInteractionWrapper performSelect(int selectionStringResourceId) {

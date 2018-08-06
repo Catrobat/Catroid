@@ -23,6 +23,7 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
+import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -32,17 +33,23 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
 public class FlashBrick extends BrickBaseType {
 
-	private static final int FLASH_OFF = 0;
-	private static final int FLASH_ON = 1;
+	@Retention(RetentionPolicy.SOURCE)
+	@IntDef({OFF, ON})
+	@interface FlashState {}
+	private static final int OFF = 0;
+	private static final int ON = 1;
 
+	@FlashState
 	private int spinnerSelectionID;
 
 	public FlashBrick() {
-		spinnerSelectionID = FLASH_ON;
+		spinnerSelectionID = ON;
 	}
 
 	@Override
@@ -53,11 +60,16 @@ public class FlashBrick extends BrickBaseType {
 	@Override
 	public View getView(Context context) {
 		super.getView(context);
-		Spinner flashSpinner = view.findViewById(R.id.brick_flash_spinner);
 
-		ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
-		flashSpinner.setAdapter(spinnerAdapter);
-		flashSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+		Spinner spinner = view.findViewById(R.id.brick_flash_spinner);
+
+		ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
+		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinnerAdapter.add(context.getString(R.string.brick_flash_off));
+		spinnerAdapter.add(context.getString(R.string.brick_flash_on));
+
+		spinner.setAdapter(spinnerAdapter);
+		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
 			@Override
 			public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
@@ -69,32 +81,14 @@ public class FlashBrick extends BrickBaseType {
 			}
 		});
 
-		flashSpinner.setSelection(spinnerSelectionID);
+		spinner.setSelection(spinnerSelectionID);
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-
-		Spinner setFlashSpinner = prototypeView.findViewById(R.id.brick_flash_spinner);
-
-		ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
-		setFlashSpinner.setAdapter(spinnerAdapter);
-		setFlashSpinner.setSelection(spinnerSelectionID);
-
-		return prototypeView;
-	}
-
-	private ArrayAdapter<String> createArrayAdapter(Context context) {
-		String[] spinnerValues = new String[2];
-		spinnerValues[FLASH_OFF] = context.getString(R.string.brick_flash_off);
-		spinnerValues[FLASH_ON] = context.getString(R.string.brick_flash_on);
-
-		ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, spinnerValues);
-		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-		return spinnerAdapter;
+		super.getPrototypeView(context);
+		return getView(context);
 	}
 
 	@Override
@@ -104,11 +98,11 @@ public class FlashBrick extends BrickBaseType {
 
 	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		if (spinnerSelectionID == FLASH_ON) {
+		if (spinnerSelectionID == ON) {
 			sequence.addAction(sprite.getActionFactory().createTurnFlashOnAction());
-			return null;
+		} else {
+			sequence.addAction(sprite.getActionFactory().createTurnFlashOffAction());
 		}
-		sequence.addAction(sprite.getActionFactory().createTurnFlashOffAction());
 		return null;
 	}
 }

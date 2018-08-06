@@ -91,7 +91,7 @@ public abstract class BrickBaseType implements Brick {
 	@CallSuper
 	@Override
 	public View getView(Context context) {
-		view = LayoutInflater.from(context).inflate(getViewResource(), null, false);
+		view = LayoutInflater.from(context).inflate(getViewResource(), null);
 
 		BrickViewProvider.setAlphaOnView(view, alphaValue);
 

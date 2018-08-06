@@ -79,7 +79,7 @@ public class LegoNXTMotorMoveBrickTest {
 				R.string.nxt_motor_b_and_c);
 
 		onBrickAtPosition(brickPosition).onSpinner(R.id.lego_motor_action_spinner)
-				.checkValuesAvailable(spinnerValuesResourceIds);
+				.checkStringIdValuesAvailable(spinnerValuesResourceIds);
 
 		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.motor_action_speed_edit_text)
 				.performEnterNumber(velocityToChange)

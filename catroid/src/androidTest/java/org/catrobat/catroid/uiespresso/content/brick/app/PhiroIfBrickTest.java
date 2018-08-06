@@ -82,7 +82,7 @@ public class PhiroIfBrickTest {
 				R.string.phiro_sensor_bottom_right);
 
 		onBrickAtPosition(1).onSpinner(R.id.brick_phiro_sensor_action_spinner)
-				.checkValuesAvailable(spinnerValuesResourceIds);
+				.checkStringIdValuesAvailable(spinnerValuesResourceIds);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Gadgets.class})

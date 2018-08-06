@@ -83,6 +83,6 @@ public class JumpingSumoAnimationBrickTest {
 				R.string.animation_slalom);
 
 		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_jumping_sumo_animation_spinner)
-				.checkValuesAvailable(spinnerValuesResourceIds);
+				.checkStringIdValuesAvailable(spinnerValuesResourceIds);
 	}
 }

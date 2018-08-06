@@ -72,6 +72,6 @@ public class PhiroStopMotorBrickTest {
 				R.string.phiro_motor_both);
 
 		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_phiro_stop_motor_spinner)
-				.checkValuesAvailable(spinnerValuesResourceIds);
+				.checkStringIdValuesAvailable(spinnerValuesResourceIds);
 	}
 }

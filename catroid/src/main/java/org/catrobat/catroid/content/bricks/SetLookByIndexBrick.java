@@ -40,6 +40,7 @@ import java.util.List;
 import static org.catrobat.catroid.content.EventWrapper.NO_WAIT;
 
 public class SetLookByIndexBrick extends FormulaBrick {
+
 	private static final long serialVersionUID = 1L;
 
 	@EventWrapper.WaitMode

@@ -85,14 +85,14 @@ public class DeleteItemOfUserListBrickTest {
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_delete_item_from_userlist);
 
 		onBrickAtPosition(brickPosition).onSpinner(R.id.delete_item_of_userlist_spinner)
-				.checkShowsText(R.string.brick_variable_spinner_create_new_variable);
+				.checkShowsText(R.string.new_option);
 
 		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_delete_item_of_userlist_edit_text)
 				.performEnterNumber(newPosition)
 				.checkShowsNumber(newPosition);
 
 		onBrickAtPosition(brickPosition).onVariableSpinner(R.id.delete_item_of_userlist_spinner)
-				.performNewVariableInitial(userListName)
+				.performNewVariable(userListName)
 				.checkShowsText(userListName);
 	}
 
@@ -104,7 +104,7 @@ public class DeleteItemOfUserListBrickTest {
 		String secondUserListName = "test2";
 
 		onBrickAtPosition(brickPosition).onVariableSpinner(R.id.delete_item_of_userlist_spinner)
-				.performNewVariableInitial(firstUserListName);
+				.performNewVariable(firstUserListName);
 
 		UserList userList = deleteItemOfUserListBrick.getUserList();
 		assertNotNull(userList);

@@ -146,7 +146,7 @@ public class WhenNfcBrickStageFromScriptTest {
 	private void gotoNfcFragment(int nfcBrickPosition) {
 		onBrickAtPosition(nfcBrickPosition).onSpinner(R.id.brick_when_nfc_spinner)
 				.perform(click());
-		onView(withText(R.string.new_nfc_tag))
+		onView(withText(R.string.new_option))
 				.perform(click());
 	}
 

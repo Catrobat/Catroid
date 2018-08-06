@@ -24,82 +24,91 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.app.Activity;
-import android.view.MotionEvent;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Spinner;
 
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.brickspinner.SpinnerWithNewOption;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewVariableDialogFragment;
 
-public abstract class UserVariableBrick extends FormulaBrick implements NewVariableDialogFragment.NewVariableInterface {
+import java.util.ArrayList;
+import java.util.List;
+
+public abstract class UserVariableBrick extends FormulaBrick implements NewVariableDialogFragment.NewVariableInterface,
+		SpinnerWithNewOption.SpinnerSelectionListener<UserVariable> {
 
 	protected UserVariable userVariable;
 
-	private void updateUserVariableIfDeleted(UserVariableAdapterWrapper userVariableAdapterWrapper) {
-		if (userVariable != null && (userVariableAdapterWrapper.getPositionOfItem(userVariable) == 0)) {
-			userVariable = null;
-		}
-	}
+	private transient SpinnerWithNewOption<UserVariable> spinner;
 
-	protected void setSpinnerSelection(Spinner variableSpinner, UserVariable newUserVariable) {
-		UserVariableAdapterWrapper userVariableAdapterWrapper = (UserVariableAdapterWrapper) variableSpinner
-				.getAdapter();
-
-		updateUserVariableIfDeleted(userVariableAdapterWrapper);
-		if (newUserVariable != null) {
-			variableSpinner.setSelection(userVariableAdapterWrapper.getPositionOfItem(newUserVariable), true);
-			userVariable = newUserVariable;
-		} else if (userVariable != null) {
-			variableSpinner.setSelection(userVariableAdapterWrapper.getPositionOfItem(userVariable), true);
-		} else {
-			variableSpinner.setSelection(userVariableAdapterWrapper.getCount() - 1, true);
-			userVariable = userVariableAdapterWrapper.getItem(userVariableAdapterWrapper.getCount() - 1);
-		}
+	public UserVariable getUserVariable() {
+		return userVariable;
 	}
 
 	public void setUserVariable(UserVariable userVariable) {
 		this.userVariable = userVariable;
 	}
 
-	public UserVariable getUserVariable() {
-		return userVariable;
+	@Override
+	public BrickBaseType clone() throws CloneNotSupportedException {
+		UserVariableBrick clone = (UserVariableBrick) super.clone();
+		clone.spinner = null;
+		return clone;
 	}
 
-	protected View.OnTouchListener createSpinnerOnTouchListener() {
-		return new View.OnTouchListener() {
-			@Override
-			public boolean onTouch(View view, MotionEvent event) {
-				if (event.getAction() == MotionEvent.ACTION_DOWN && ((Spinner) view).getAdapter().getCount() == 1) {
-					showNewVariableDialog();
-					return true;
-				}
-				return false;
-			}
-		};
+	protected abstract int getSpinnerId();
+
+	private List<UserVariable> getUserVariables() {
+		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
+
+		List<UserVariable> variables = new ArrayList<>();
+		variables.addAll(dataContainer.getSpriteUserVariables(sprite));
+		variables.addAll(dataContainer.getProjectUserVariables());
+		return variables;
 	}
 
-	AdapterView.OnItemSelectedListener createVariableSpinnerItemSelectedListener() {
-		return new AdapterView.OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				if (position == 0) {
-					showNewVariableDialog();
-				} else {
-					userVariable = (UserVariable) parent.getItemAtPosition(position);
-				}
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-				userVariable = null;
-			}
-		};
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
+		spinner = new SpinnerWithNewOption<>(getSpinnerId(), view, getUserVariables(), this);
+		spinner.setSelection(userVariable);
+		return view;
 	}
 
-	private void showNewVariableDialog() {
-		NewVariableDialogFragment dialog = new NewVariableDialogFragment(this);
-		dialog.show(((Activity) view.getContext()).getFragmentManager(), NewVariableDialogFragment.TAG);
+	@Override
+	public View getPrototypeView(Context context) {
+		super.getPrototypeView(context);
+		return getView(context);
+	}
+
+	@Override
+	public boolean onNewOptionClicked() {
+		new NewVariableDialogFragment(this) {
+
+			@Override
+			public void onCancel(DialogInterface dialog) {
+				super.onCancel(dialog);
+				spinner.setSelection(userVariable);
+			}
+		}.show(((Activity) view.getContext()).getFragmentManager(), NewVariableDialogFragment.TAG);
+		return false;
+	}
+
+	@Override
+	public void onNewVariable(UserVariable item) {
+		userVariable = item;
+		spinner.add(item);
+		//TODO: This should work some other way: i.e. it should not rely on the Brick being able to access its adapter.
+		adapter.notifyDataSetChanged();
+	}
+
+	@Override
+	public void onItemSelected(UserVariable item) {
+		userVariable = item;
 	}
 }

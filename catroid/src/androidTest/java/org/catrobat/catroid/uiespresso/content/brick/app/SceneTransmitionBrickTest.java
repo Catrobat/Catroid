@@ -63,6 +63,6 @@ public class SceneTransmitionBrickTest {
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_scene_transition);
 		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_scene_transition_spinner)
-				.checkShowsText(R.string.brick_variable_spinner_create_new_variable);
+				.checkShowsText(R.string.new_option);
 	}
 }
