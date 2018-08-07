@@ -22,19 +22,12 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.Spinner;
-
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
-import org.catrobat.catroid.ui.adapter.DataAdapter;
-import org.catrobat.catroid.ui.adapter.UserListAdapterWrapper;
 
 import java.util.List;
 
@@ -61,56 +54,19 @@ public class DeleteItemOfUserListBrick extends UserListBrick {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory()
-				.createDeleteItemOfUserListAction(sprite, getFormulaWithBrickField(BrickField.LIST_DELETE_ITEM), userList));
-		return null;
-	}
-
-	@Override
 	public int getViewResource() {
 		return R.layout.brick_delete_item_of_userlist;
 	}
 
 	@Override
-	public View getView(final Context context) {
-		super.getView(context);
-
-		Spinner userListSpinner = view.findViewById(R.id.delete_item_of_userlist_spinner);
-		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
-				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
-
-		UserListAdapterWrapper userListAdapterWrapper = new UserListAdapterWrapper(context, dataAdapter);
-		userListAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
-
-		userListSpinner.setAdapter(userListAdapterWrapper);
-		setSpinnerSelection(userListSpinner, null);
-		userListSpinner.setOnTouchListener(createSpinnerOnTouchListener());
-		userListSpinner.setOnItemSelectedListener(createListSpinnerItemSelectedListener());
-		return view;
+	protected int getSpinnerId() {
+		return R.id.delete_item_of_userlist_spinner;
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-
-		Spinner userListSpinner = prototypeView.findViewById(R.id.delete_item_of_userlist_spinner);
-
-		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
-				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
-
-		UserListAdapterWrapper userListAdapterWrapper = new UserListAdapterWrapper(context, dataAdapter);
-
-		userListAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
-		userListSpinner.setAdapter(userListAdapterWrapper);
-		setSpinnerSelection(userListSpinner, null);
-
-		return prototypeView;
-	}
-
-	@Override
-	public void onNewList(UserList userList) {
-		Spinner spinner = view.findViewById(R.id.delete_item_of_userlist_spinner);
-		setSpinnerSelection(spinner, userList);
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		sequence.addAction(sprite.getActionFactory()
+				.createDeleteItemOfUserListAction(sprite, getFormulaWithBrickField(BrickField.LIST_DELETE_ITEM), userList));
+		return null;
 	}
 }

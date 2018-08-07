@@ -71,6 +71,6 @@ public class FlashBrickTest {
 		spinnerValues.add(R.string.brick_flash_on);
 		spinnerValues.add(R.string.brick_flash_off);
 		onBrickAtPosition(flashBrickPosition).onSpinner(R.id.brick_flash_spinner)
-				.checkValuesAvailable(spinnerValues);
+				.checkStringIdValuesAvailable(spinnerValues);
 	}
 }

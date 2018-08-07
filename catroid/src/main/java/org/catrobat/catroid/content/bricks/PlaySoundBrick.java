@@ -26,31 +26,26 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Spinner;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.content.bricks.brickspinner.SpinnerAdapterWithNewOption;
+import org.catrobat.catroid.content.bricks.brickspinner.SpinnerWithNewOption;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewSoundDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class PlaySoundBrick extends BrickBaseType implements
-		SpinnerAdapterWithNewOption.OnNewOptionInDropDownClickListener, NewItemInterface<SoundInfo> {
+public class PlaySoundBrick extends BrickBaseType implements NewItemInterface<SoundInfo>,
+		SpinnerWithNewOption.SpinnerSelectionListener<SoundInfo> {
 
 	private static final long serialVersionUID = 1L;
 
 	protected SoundInfo sound;
 
-	private transient int spinnerSelectionBuffer = 0;
-	private transient Spinner spinner;
-	private transient SpinnerAdapterWithNewOption spinnerAdapter;
+	private transient SpinnerWithNewOption<SoundInfo> spinner;
 
 	public PlaySoundBrick() {
 	}
@@ -67,7 +62,6 @@ public class PlaySoundBrick extends BrickBaseType implements
 	public BrickBaseType clone() throws CloneNotSupportedException {
 		PlaySoundBrick clone = (PlaySoundBrick) super.clone();
 		clone.spinner = null;
-		clone.spinnerAdapter = null;
 		return clone;
 	}
 
@@ -80,50 +74,23 @@ public class PlaySoundBrick extends BrickBaseType implements
 	public View getView(Context context) {
 		super.getView(context);
 		onViewCreated(view);
-		spinner = view.findViewById(R.id.brick_play_sound_spinner);
-		spinnerAdapter = new SpinnerAdapterWithNewOption(context, getSoundNames());
-		spinnerAdapter.setOnDropDownItemClickListener(this);
-
-		spinner.setAdapter(spinnerAdapter);
-		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				if (position != 0) {
-					sound = getSoundByName(spinnerAdapter.getItem(position));
-				}
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
-			}
-		});
-		spinner.setSelection(spinnerAdapter.getPosition(sound != null ? sound.getName() : null));
+		List<SoundInfo> sounds = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		spinner = new SpinnerWithNewOption<>(R.id.brick_play_sound_spinner, view, sounds, this);
+		spinner.setSelection(sound);
 		return view;
 	}
 
 	protected void onViewCreated(View view) {
 	}
 
-	private SoundInfo getSoundByName(String name) {
-		for (SoundInfo sound : ProjectManager.getInstance().getCurrentSprite().getSoundList()) {
-			if (sound.getName().equals(name)) {
-				return sound;
-			}
-		}
-		return null;
-	}
-
-	private List<String> getSoundNames() {
-		List<String> soundNames = new ArrayList<>();
-		for (SoundInfo sound : ProjectManager.getInstance().getCurrentSprite().getSoundList()) {
-			soundNames.add(sound.getName());
-		}
-		return soundNames;
+	@Override
+	public View getPrototypeView(Context context) {
+		super.getPrototypeView(context);
+		return getView(context);
 	}
 
 	@Override
-	public boolean onNewOptionInDropDownClicked(View v) {
-		spinnerSelectionBuffer = spinner.getSelectedItemPosition();
+	public boolean onNewOptionClicked() {
 		new NewSoundDialogFragment(this,
 				ProjectManager.getInstance().getCurrentlyEditedScene(),
 				ProjectManager.getInstance().getCurrentSprite()) {
@@ -131,32 +98,22 @@ public class PlaySoundBrick extends BrickBaseType implements
 			@Override
 			public void onCancel(DialogInterface dialog) {
 				super.onCancel(dialog);
-				spinner.setSelection(spinnerSelectionBuffer);
+				spinner.setSelection(sound);
 			}
-		}.show(((Activity) v.getContext()).getFragmentManager(), NewSoundDialogFragment.TAG);
+		}.show(((Activity) view.getContext()).getFragmentManager(), NewSoundDialogFragment.TAG);
 		return false;
 	}
 
 	@Override
 	public void addItem(SoundInfo item) {
 		ProjectManager.getInstance().getCurrentSprite().getSoundList().add(item);
-		spinnerAdapter.add(item.getName());
 		sound = item;
-		spinner.setSelection(spinnerAdapter.getPosition(item.getName()));
+		spinner.add(item);
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		View view = super.getPrototypeView(context);
-		onPrototypeViewCreated(view);
-		spinner = view.findViewById(R.id.brick_play_sound_spinner);
-		spinnerAdapter = new SpinnerAdapterWithNewOption(context, getSoundNames());
-		spinner.setAdapter(spinnerAdapter);
-		spinner.setSelection(spinnerAdapter.getPosition(sound != null ? sound.getName() : null));
-		return view;
-	}
-
-	protected void onPrototypeViewCreated(View prototypeView) {
+	public void onItemSelected(SoundInfo item) {
+		sound = item;
 	}
 
 	@Override

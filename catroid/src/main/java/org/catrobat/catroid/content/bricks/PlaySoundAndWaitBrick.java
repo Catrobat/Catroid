@@ -47,12 +47,6 @@ public class PlaySoundAndWaitBrick extends PlaySoundBrick {
 	}
 
 	@Override
-	protected void onPrototypeViewCreated(View prototypeView) {
-		((TextView) prototypeView.findViewById(R.id.brick_play_sound_text_view))
-				.setText(R.string.brick_play_sound_and_wait);
-	}
-
-	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createPlaySoundAction(sprite, sound));
 

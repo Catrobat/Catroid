@@ -21,11 +21,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.formulaeditor;
+package org.catrobat.catroid.common;
 
-import org.catrobat.catroid.common.Nameable;
+public interface Nameable {
 
-public interface UserData extends Nameable {
+	String getName();
 
-	void reset();
+	void setName(String name);
 }

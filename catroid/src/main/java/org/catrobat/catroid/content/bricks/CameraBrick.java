@@ -24,6 +24,7 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
+import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -34,20 +35,26 @@ import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
 public class CameraBrick extends BrickBaseType {
 
+	@Retention(RetentionPolicy.SOURCE)
+	@IntDef({OFF, ON})
+	@interface CameraState {}
 	private static final int OFF = 0;
 	private static final int ON = 1;
 
+	@CameraState
 	private int spinnerSelectionID;
 
 	public CameraBrick() {
 		spinnerSelectionID = ON;
 	}
 
-	public CameraBrick(int onOrOff) {
+	public CameraBrick(@CameraState int onOrOff) {
 		spinnerSelectionID = onOrOff;
 	}
 
@@ -60,11 +67,15 @@ public class CameraBrick extends BrickBaseType {
 	public View getView(Context context) {
 		super.getView(context);
 
-		Spinner videoSpinner = view.findViewById(R.id.brick_video_spinner);
+		Spinner spinner = view.findViewById(R.id.brick_video_spinner);
 
-		ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
-		videoSpinner.setAdapter(spinnerAdapter);
-		videoSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+		ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
+		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinnerAdapter.add(context.getString(R.string.video_brick_camera_off));
+		spinnerAdapter.add(context.getString(R.string.video_brick_camera_on));
+
+		spinner.setAdapter(spinnerAdapter);
+		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
 			@Override
 			public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
@@ -76,33 +87,14 @@ public class CameraBrick extends BrickBaseType {
 			}
 		});
 
-		videoSpinner.setSelection(spinnerSelectionID);
-
+		spinner.setSelection(spinnerSelectionID);
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-
-		Spinner setVideoSpinner = prototypeView.findViewById(R.id.brick_video_spinner);
-
-		ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
-		setVideoSpinner.setAdapter(spinnerAdapter);
-		setVideoSpinner.setSelection(spinnerSelectionID);
-
-		return prototypeView;
-	}
-
-	private ArrayAdapter<String> createArrayAdapter(Context context) {
-		String[] spinnerValues = new String[2];
-		spinnerValues[OFF] = context.getString(R.string.video_brick_camera_off);
-		spinnerValues[ON] = context.getString(R.string.video_brick_camera_on);
-
-		ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, spinnerValues);
-		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-		return spinnerAdapter;
+		super.getPrototypeView(context);
+		return getView(context);
 	}
 
 	@Override

@@ -85,7 +85,7 @@ public class PhiroMoveMotorForwardBrickTest {
 				R.string.phiro_motor_both);
 
 		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_phiro_motor_forward_action_spinner)
-				.checkValuesAvailable(spinnerValuesResourceIds);
+				.checkStringIdValuesAvailable(spinnerValuesResourceIds);
 
 		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_phiro_motor_forward_action_speed_edit_text)
 				.checkShowsNumber(initialSpeed)

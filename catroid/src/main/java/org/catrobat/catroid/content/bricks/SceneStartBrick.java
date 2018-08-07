@@ -40,15 +40,13 @@ import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterf
 
 import java.util.List;
 
-public class SceneStartBrick extends BrickBaseType implements
-		SpinnerAdapterWithNewOption.OnNewOptionInDropDownClickListener, NewItemInterface<Scene> {
+public class SceneStartBrick extends BrickBaseType implements NewItemInterface<Scene>,
+		SpinnerAdapterWithNewOption.OnNewOptionInDropDownClickListener {
 
 	private static final long serialVersionUID = 1L;
 
 	private String sceneToStart;
 
-	private transient int spinnerSelectionBuffer = 0;
-	private transient Spinner spinner;
 	private transient SpinnerAdapterWithNewOption spinnerAdapter;
 
 	public SceneStartBrick(String sceneToStart) {
@@ -66,7 +64,6 @@ public class SceneStartBrick extends BrickBaseType implements
 	@Override
 	public BrickBaseType clone() throws CloneNotSupportedException {
 		SceneStartBrick clone = (SceneStartBrick) super.clone();
-		clone.spinner = null;
 		clone.spinnerAdapter = null;
 		return clone;
 	}
@@ -79,7 +76,7 @@ public class SceneStartBrick extends BrickBaseType implements
 	@Override
 	public View getView(final Context context) {
 		super.getView(context);
-		spinner = view.findViewById(R.id.brick_scene_start_spinner);
+		Spinner spinner = view.findViewById(R.id.brick_scene_start_spinner);
 		spinnerAdapter = new SpinnerAdapterWithNewOption(context,
 				ProjectManager.getInstance().getCurrentProject().getSceneNames());
 		spinnerAdapter.setOnDropDownItemClickListener(this);
@@ -103,13 +100,13 @@ public class SceneStartBrick extends BrickBaseType implements
 
 	@Override
 	public boolean onNewOptionInDropDownClicked(View v) {
-		spinnerSelectionBuffer = spinner.getSelectedItemPosition();
 		new NewSceneDialogFragment(this, ProjectManager.getInstance().getCurrentProject()) {
 
 			@Override
 			public void onCancel(DialogInterface dialog) {
 				super.onCancel(dialog);
-				spinner.setSelection(spinnerSelectionBuffer);
+				Spinner spinner = view.findViewById(R.id.brick_scene_start_spinner);
+				spinner.setSelection(spinnerAdapter.getPosition(sceneToStart));
 			}
 		}.show(((Activity) v.getContext()).getFragmentManager(), NewSceneDialogFragment.TAG);
 		return false;
@@ -120,19 +117,14 @@ public class SceneStartBrick extends BrickBaseType implements
 		ProjectManager.getInstance().getCurrentProject().addScene(item);
 		spinnerAdapter.add(item.getName());
 		sceneToStart = item.getName();
+		Spinner spinner = view.findViewById(R.id.brick_scene_start_spinner);
 		spinner.setSelection(spinnerAdapter.getPosition(item.getName()));
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View view = super.getPrototypeView(context);
-		spinner = view.findViewById(R.id.brick_scene_start_spinner);
-
-		spinnerAdapter = new SpinnerAdapterWithNewOption(context,
-				ProjectManager.getInstance().getCurrentProject().getSceneNames());
-		spinner.setAdapter(spinnerAdapter);
-		spinner.setSelection(spinnerAdapter.getPosition(sceneToStart));
-		return view;
+		super.getPrototypeView(context);
+		return getView(context);
 	}
 
 	@Override

@@ -45,7 +45,7 @@ public class SpinnerAdapterWithNewOption extends ArrayAdapter<String> implements
 
 	public SpinnerAdapterWithNewOption(@NonNull Context context, @NonNull List<String> objects) {
 		super(context, android.R.layout.simple_spinner_item);
-		super.add(context.getString(R.string.new_broadcast_message));
+		super.add(context.getString(R.string.new_option));
 		super.addAll(objects);
 	}
 

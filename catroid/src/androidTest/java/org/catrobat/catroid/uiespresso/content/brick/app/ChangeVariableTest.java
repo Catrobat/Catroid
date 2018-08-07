@@ -75,7 +75,7 @@ public class ChangeVariableTest {
 		onBrickAtPosition(1)
 				.checkShowsText(R.string.brick_change_variable);
 		onBrickAtPosition(1).onVariableSpinner(R.id.change_variable_spinner)
-				.performNewVariableInitial(userVariableName);
+				.performNewVariable(userVariableName);
 		onBrickAtPosition(1).onVariableSpinner(R.id.change_variable_spinner)
 				.performNewVariable(secondUserVariableName);
 
@@ -102,8 +102,8 @@ public class ChangeVariableTest {
 		performNewVariableFromFormulaEditor(1, userVariableName1);
 		onBrickAtPosition(1)
 				.checkShowsText(userVariableName1);
-		onBrickAtPosition(1).onVariableSpinner(R.id.change_variable_spinner)
-				.checkShowsVariableNameInAdapter(userVariableName1);
+		onBrickAtPosition(1).onSpinner(R.id.change_variable_spinner)
+				.performSelect(userVariableName1);
 	}
 
 	@Test
@@ -118,7 +118,7 @@ public class ChangeVariableTest {
 		performNewVariableFromFormulaEditor(1, userVariableName2);
 		onBrickAtPosition(1).performDragNDrop(BrickCoordinatesProvider.DOWN_ONE_POSITION);
 		onBrickAtPosition(1).onVariableSpinner(R.id.change_variable_spinner)
-				.checkShowsVariableNamesInAdapter(Arrays.asList(userVariableName, userVariableName2));
+				.checkStringValuesAvailable(Arrays.asList(userVariableName, userVariableName2));
 	}
 
 	private void performNewVariableFromFormulaEditor(int brickId, String variableName) {

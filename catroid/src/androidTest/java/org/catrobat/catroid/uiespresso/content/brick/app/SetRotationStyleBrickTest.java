@@ -74,6 +74,6 @@ public class SetRotationStyleBrickTest {
 				R.string.brick_set_rotation_style_no);
 
 		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_set_rotation_style_spinner)
-				.checkValuesAvailable(spinnerValuesResourceIds);
+				.checkStringIdValuesAvailable(spinnerValuesResourceIds);
 	}
 }

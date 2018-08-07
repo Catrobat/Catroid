@@ -45,11 +45,6 @@ public class SetBackgroundAndWaitBrick extends SetBackgroundBrick {
 	}
 
 	@Override
-	protected void onPrototypeViewCreated(View view) {
-		((TextView) view.findViewById(R.id.brick_set_look_text_view)).setText(R.string.brick_set_background_and_wait);
-	}
-
-	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSetLookAction(getSprite(), look, EventWrapper.WAIT));
 		return Collections.emptyList();

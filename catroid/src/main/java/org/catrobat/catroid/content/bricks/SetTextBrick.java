@@ -38,8 +38,7 @@ public class SetTextBrick extends FormulaBrick implements View.OnClickListener {
 	private static final long serialVersionUID = 1L;
 
 	public SetTextBrick() {
-		this(new Formula(BrickValues.X_POSITION),
-				new Formula(BrickValues.Y_POSITION),
+		this(new Formula(BrickValues.X_POSITION), new Formula(BrickValues.Y_POSITION),
 				new Formula(BrickValues.STRING_VALUE));
 	}
 
@@ -58,15 +57,15 @@ public class SetTextBrick extends FormulaBrick implements View.OnClickListener {
 	}
 
 	@Override
+	public int getViewResource() {
+		return R.layout.brick_set_text;
+	}
+
+	@Override
 	public int getRequiredResources() {
 		return getFormulaWithBrickField(BrickField.X_DESTINATION).getRequiredResources()
 				| getFormulaWithBrickField(BrickField.Y_DESTINATION).getRequiredResources()
 				| getFormulaWithBrickField(BrickField.STRING).getRequiredResources();
-	}
-
-	@Override
-	public int getViewResource() {
-		return R.layout.brick_set_text;
 	}
 
 	@Override

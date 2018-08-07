@@ -20,23 +20,31 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.ui.dialogs;
 
-import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialogFragment;
+package org.catrobat.catroid.ui.recyclerview.dialog;
 
-public class BrickTextDialog extends TextInputDialogFragment {
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
-	public BrickTextDialog(int title, int label, String previousText) {
-		super(title, label, previousText, false);
+public class NewBroadcastMessageDialogFragment extends TextInputDialogFragment {
+
+	public static final String TAG = NewBroadcastMessageDialogFragment.class.getSimpleName();
+
+	private NewItemInterface<String> newItemInterface;
+
+	public NewBroadcastMessageDialogFragment(NewItemInterface<String> newItemInterface) {
+		super(R.string.dialog_new_broadcast_message_title, R.string.dialog_new_broadcast_message_name, null, false);
+		this.newItemInterface = newItemInterface;
 	}
 
 	@Override
 	protected boolean onPositiveButtonClick() {
-		return false;
+		String string = inputLayout.getEditText().getText().toString();
+		newItemInterface.addItem(string);
+		return true;
 	}
 
 	@Override
 	protected void onNegativeButtonClick() {
-		dismiss();
 	}
 }

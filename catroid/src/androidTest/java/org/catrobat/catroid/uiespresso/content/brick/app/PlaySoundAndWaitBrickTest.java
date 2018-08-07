@@ -243,7 +243,7 @@ public class PlaySoundAndWaitBrickTest {
 	}
 
 	private void recordNewSound(int durationMillis) {
-		onView(withText(R.string.brick_variable_spinner_create_new_variable))
+		onView(withText(R.string.new_option))
 				.perform(click());
 
 		onView(withText(R.string.add_sound_from_recorder))

@@ -31,6 +31,7 @@ import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
+import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -38,8 +39,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
@@ -48,6 +48,7 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -85,7 +86,7 @@ public class SetVariableTest {
 		onBrickAtPosition(1)
 				.checkShowsText(R.string.brick_set_variable);
 		onBrickAtPosition(1).onVariableSpinner(R.id.set_variable_spinner)
-				.performNewVariableInitial(userVariableName);
+				.performNewVariable(userVariableName);
 		onBrickAtPosition(1).onVariableSpinner(R.id.set_variable_spinner)
 				.performNewVariable(secondUserVariableName);
 		onBrickAtPosition(1).onFormulaTextField(R.id.brick_set_variable_edit_text)
@@ -117,11 +118,10 @@ public class SetVariableTest {
 				.perform(click());
 		onBrickAtPosition(1).onVariableSpinner(R.id.set_variable_spinner)
 				.performNewVariable(userVariableNameTwo);
-		List<String> variableNames = new ArrayList<>();
-		variableNames.add(userVariableName);
-		variableNames.add(userVariableNameTwo);
+
+		onView(isRoot()).perform(CustomActions.wait(5000));
 		onBrickAtPosition(2).onVariableSpinner(R.id.set_variable_spinner)
-				.checkShowsVariableNamesInAdapter(variableNames);
+				.checkStringValuesAvailable(Arrays.asList(userVariableName, userVariableNameTwo));
 	}
 
 	public void addNewVariableViaFormulaEditor(int brickPosition, String userVariableName) {

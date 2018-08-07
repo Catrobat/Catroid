@@ -31,6 +31,7 @@
     <string name="redo">Redo</string>
     <string name="undo">Undo</string>
 
+    <string name="new_option">New…</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
 
@@ -998,13 +999,11 @@
     <!--  -->
 
     <!-- Broadcast spinner -->
-    <string name="new_broadcast_message">New…</string>
     <string name="dialog_new_broadcast_message_title">New message</string>
     <string name="dialog_new_broadcast_message_name">message:</string>
     <!--  -->
 
     <!-- NFC spinner -->
-    <string name="new_nfc_tag">New…</string>
     <string name="brick_when_nfc_default_all">all</string>
     <!-- -->
 
@@ -1201,11 +1200,9 @@
     <string name="brick_if_end">End If</string>
     <string name="brick_set_variable">Set variable</string>
     <string name="brick_change_variable">Change variable</string>
-    <string name="brick_variable_spinner_create_new_variable">New…</string>
     <string name="brick_note_default_value">add comment here…</string>
     <string name="brick_think_bubble_default_value">Hmmmm!</string>
     <string name="brick_say_bubble_default_value">Hello!</string>
-    <string name="brick_broadcast_default_value">"new message"</string>
     <string name="brick_add_item_to_userlist_add">Add</string>
     <string name="brick_add_item_to_userlist">to list</string>
     <string name="brick_delete_item_from_userlist_delete">Delete item from list</string>
@@ -2005,7 +2002,7 @@
     <string name="hertz_symbol">㎐</string>
 
     <!-- UtilFile SizeUnits String -->
-     <string name="Byte_short">B</string>
+    <string name="Byte_short">B</string>
      <string name="KiloByte_short">KB</string>
      <string name="MegaByte_short">MB</string>
      <string name="GigaByte_short">GB</string>

@@ -40,9 +40,13 @@ public class BroadcastBrick extends BroadcastMessageBrick {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createBroadcastAction(broadcastMessage, EventWrapper.NO_WAIT));
-		return null;
+	public String getBroadcastMessage() {
+		return broadcastMessage;
+	}
+
+	@Override
+	public void setBroadcastMessage(String broadcastMessage) {
+		this.broadcastMessage = broadcastMessage;
 	}
 
 	@Override
@@ -51,13 +55,8 @@ public class BroadcastBrick extends BroadcastMessageBrick {
 	}
 
 	@Override
-	public String getBroadcastMessage() {
-		return broadcastMessage;
-	}
-
-	@Override
-	public void setBroadcastMessage(String broadcastMessage) {
-		this.broadcastMessage = broadcastMessage;
-		messageAdapter.add(broadcastMessage);
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		sequence.addAction(sprite.getActionFactory().createBroadcastAction(broadcastMessage, EventWrapper.NO_WAIT));
+		return null;
 	}
 }

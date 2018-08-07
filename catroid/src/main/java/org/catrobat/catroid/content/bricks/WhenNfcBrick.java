@@ -156,7 +156,7 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick {
 		ArrayAdapter<NfcTagData> arrayAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
 		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		NfcTagData dummyNfcTagData = new NfcTagData();
-		dummyNfcTagData.setNfcTagName(context.getString(R.string.new_broadcast_message));
+		dummyNfcTagData.setNfcTagName(context.getString(R.string.new_option));
 		arrayAdapter.add(dummyNfcTagData);
 		dummyNfcTagData = new NfcTagData();
 		dummyNfcTagData.setNfcTagName(context.getString(R.string.brick_when_nfc_default_all));
