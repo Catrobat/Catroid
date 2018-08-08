@@ -273,8 +273,9 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 								}
 								return false;
 							}
-							if ((formulaElement.getRequiredResources() & Brick.SENSOR_GPS) > 0 && !SensorHandler
-									.gpsAvailable()) {
+							Brick.ResourcesSet resourcesSet = new Brick.ResourcesSet();
+							formulaElement.addRequiredResources(resourcesSet);
+							if (resourcesSet.contains(Brick.SENSOR_GPS) && !SensorHandler.gpsAvailable()) {
 								formulaElementForComputeDialog = formulaElement;
 								Intent checkIntent = new Intent();
 								checkIntent.setAction(Settings.ACTION_LOCATION_SOURCE_SETTINGS);

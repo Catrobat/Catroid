@@ -112,13 +112,13 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 		messageAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
 		messageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		messageAdapter.add(getDisplayedAnythingString(context));
-		int resources = Brick.NO_RESOURCES;
+
 		for (Sprite sprite : ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList()) {
 			if (!spriteName.equals(sprite.getName())) {
-				resources |= sprite.getRequiredResources();
-				if ((resources & Brick.PHYSICS) > 0 && messageAdapter.getPosition(sprite.getName()) < 0) {
+				ResourcesSet resourcesSet = new ResourcesSet();
+				sprite.addRequiredResources(resourcesSet);
+				if (resourcesSet.contains(Brick.PHYSICS) && messageAdapter.getPosition(sprite.getName()) < 0) {
 					messageAdapter.add(sprite.getName());
-					resources &= ~Brick.PHYSICS;
 				}
 			}
 		}
@@ -168,7 +168,7 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return PHYSICS;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(PHYSICS);
 	}
 }

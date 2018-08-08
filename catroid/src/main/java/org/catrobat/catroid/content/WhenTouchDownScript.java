@@ -22,12 +22,9 @@
  */
 package org.catrobat.catroid.content;
 
-import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.WhenTouchDownBrick;
 import org.catrobat.catroid.content.eventids.EventId;
-
-import java.util.ArrayList;
 
 public class WhenTouchDownScript extends Script {
 
@@ -39,17 +36,6 @@ public class WhenTouchDownScript extends Script {
 			scriptBrick = new WhenTouchDownBrick(this);
 		}
 		return scriptBrick;
-	}
-
-	@Override
-	public int getRequiredResources() {
-		int resources = Brick.NO_RESOURCES;
-		resources |= getScriptBrick().getRequiredResources();
-		ArrayList<Brick> brickList = getBrickList();
-		for (Brick brick : brickList) {
-			resources |= brick.getRequiredResources();
-		}
-		return resources;
 	}
 
 	@Override

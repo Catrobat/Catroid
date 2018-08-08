@@ -325,7 +325,7 @@ public class StageActivity extends AndroidApplication {
 	}
 
 	public void resumeResources() {
-		int requiredResources = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
+		Brick.ResourcesSet resourcesSet = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
 		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentlyPlayingScene().getSpriteList();
 
 		SensorHandler.startSensorListener(this);
@@ -337,35 +337,35 @@ public class StageActivity extends AndroidApplication {
 			}
 		}
 
-		if ((requiredResources & Brick.CAMERA_FLASH) != 0) {
+		if (resourcesSet.contains(Brick.CAMERA_FLASH)) {
 			FlashUtil.resumeFlash();
 		}
 
-		if ((requiredResources & Brick.VIBRATOR) != 0) {
+		if (resourcesSet.contains(Brick.VIBRATOR)) {
 			VibratorUtil.resumeVibrator();
 		}
 
-		if ((requiredResources & Brick.FACE_DETECTION) != 0) {
+		if (resourcesSet.contains(Brick.FACE_DETECTION)) {
 			FaceDetectionHandler.resumeFaceDetection();
 		}
 
-		if ((requiredResources & Brick.BLUETOOTH_LEGO_NXT) != 0
-				|| (requiredResources & Brick.BLUETOOTH_PHIRO) != 0
-				|| (requiredResources & Brick.BLUETOOTH_SENSORS_ARDUINO) != 0) {
+		if (resourcesSet.contains(Brick.BLUETOOTH_LEGO_NXT)
+				|| resourcesSet.contains(Brick.BLUETOOTH_PHIRO)
+				|| resourcesSet.contains(Brick.BLUETOOTH_SENSORS_ARDUINO)) {
 			ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).start();
 		}
 
-		if ((requiredResources & Brick.CAMERA_BACK) != 0
-				|| (requiredResources & Brick.CAMERA_FRONT) != 0
-				|| (requiredResources & Brick.VIDEO) != 0) {
+		if (resourcesSet.contains(Brick.CAMERA_BACK)
+				|| resourcesSet.contains(Brick.CAMERA_FRONT)
+				|| resourcesSet.contains(Brick.VIDEO)) {
 			CameraManager.getInstance().resumePreviewAsync();
 		}
 
-		if ((requiredResources & Brick.TEXT_TO_SPEECH) != 0) {
+		if (resourcesSet.contains(Brick.TEXT_TO_SPEECH)) {
 			stageAudioFocus.requestAudioFocus();
 		}
 
-		if ((requiredResources & Brick.NFC_ADAPTER) != 0
+		if (resourcesSet.contains(Brick.NFC_ADAPTER)
 				&& nfcAdapter != null) {
 			nfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
 		}

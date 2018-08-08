@@ -111,14 +111,14 @@ public class DronePlayLedAnimationBrick extends BrickBaseType {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return super.getRequiredResources() | Brick.ARDRONE_SUPPORT;
-	}
-
-	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createDronePlayLedAnimationAction(ledAnimation));
 		return null;
+	}
+
+	@Override
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(ARDRONE_SUPPORT);
 	}
 }
 

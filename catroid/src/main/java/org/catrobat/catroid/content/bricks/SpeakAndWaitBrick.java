@@ -49,13 +49,14 @@ public class SpeakAndWaitBrick extends FormulaBrick {
 	}
 
 	@Override
-	public int getViewResource() {
-		return R.layout.brick_speak_and_wait;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(TEXT_TO_SPEECH);
+		super.addRequiredResources(requiredResourcesSet);
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return TEXT_TO_SPEECH;
+	public int getViewResource() {
+		return R.layout.brick_speak_and_wait;
 	}
 
 	@Override

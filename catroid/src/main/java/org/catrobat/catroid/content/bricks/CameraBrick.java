@@ -106,8 +106,8 @@ public class CameraBrick extends BrickBaseType {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return Brick.VIDEO;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(VIDEO);
 	}
 
 	@Override

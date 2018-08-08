@@ -59,11 +59,6 @@ public class SetLookByIndexBrick extends FormulaBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.LOOK_INDEX).getRequiredResources();
-	}
-
-	@Override
 	public int getViewResource() {
 		return wait == EventWrapper.WAIT
 				? R.layout.brick_set_look_by_index_and_wait

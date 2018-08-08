@@ -61,6 +61,11 @@ public class PhiroMotorStopBrick extends BrickBaseType implements OnItemSelected
 	}
 
 	@Override
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(BLUETOOTH_PHIRO);
+	}
+
+	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = super.getPrototypeView(context);
 		Spinner phiroProSpinner = prototypeView.findViewById(R.id.brick_phiro_stop_motor_spinner);
@@ -102,11 +107,6 @@ public class PhiroMotorStopBrick extends BrickBaseType implements OnItemSelected
 
 	@Override
 	public void onNothingSelected(AdapterView<?> arg0) {
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return BLUETOOTH_PHIRO;
 	}
 
 	@Override

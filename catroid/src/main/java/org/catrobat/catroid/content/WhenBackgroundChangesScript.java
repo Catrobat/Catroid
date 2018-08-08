@@ -24,13 +24,10 @@ package org.catrobat.catroid.content;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.content.eventids.SetBackgroundEventId;
-
-import java.util.ArrayList;
 
 public class WhenBackgroundChangesScript extends Script {
 
@@ -44,16 +41,6 @@ public class WhenBackgroundChangesScript extends Script {
 			scriptBrick = new WhenBackgroundChangesBrick(this);
 		}
 		return scriptBrick;
-	}
-
-	@Override
-	public int getRequiredResources() {
-		int resources = Brick.NO_RESOURCES;
-		ArrayList<Brick> brickList = getBrickList();
-		for (Brick brick : brickList) {
-			resources |= brick.getRequiredResources();
-		}
-		return resources;
 	}
 
 	public LookData getLook() {

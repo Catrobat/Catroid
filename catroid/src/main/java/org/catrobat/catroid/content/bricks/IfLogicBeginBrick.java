@@ -76,11 +76,6 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.IF_CONDITION).getRequiredResources();
-	}
-
-	@Override
 	public BrickBaseType clone() throws CloneNotSupportedException {
 		IfLogicBeginBrick clone = (IfLogicBeginBrick) super.clone();
 		clone.ifElseBrick = null;

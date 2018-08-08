@@ -55,6 +55,12 @@ public class LegoEv3PlayToneBrick extends FormulaBrick {
 	}
 
 	@Override
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(BLUETOOTH_LEGO_EV3);
+		super.addRequiredResources(requiredResourcesSet);
+	}
+
+	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = super.getPrototypeView(context);
 		setSecondsLabel(prototypeView, BrickField.LEGO_EV3_DURATION_IN_SECONDS);
@@ -66,13 +72,6 @@ public class LegoEv3PlayToneBrick extends FormulaBrick {
 		super.getView(context);
 		setSecondsLabel(view, BrickField.LEGO_EV3_DURATION_IN_SECONDS);
 		return view;
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return BLUETOOTH_LEGO_EV3 | getFormulaWithBrickField(BrickField.LEGO_EV3_FREQUENCY).getRequiredResources()
-				| getFormulaWithBrickField(BrickField.LEGO_EV3_DURATION_IN_SECONDS).getRequiredResources()
-				| getFormulaWithBrickField(BrickField.LEGO_EV3_VOLUME).getRequiredResources();
 	}
 
 	@Override

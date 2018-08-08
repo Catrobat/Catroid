@@ -49,10 +49,10 @@ public class TurnRightSpeedBrick extends FormulaBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return PHYSICS;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(PHYSICS);
+		super.addRequiredResources(requiredResourcesSet);
 	}
-
 	@Override
 	public int getViewResource() {
 		return R.layout.brick_physics_turn_right_speed;

@@ -71,6 +71,12 @@ public class JumpingSumoSoundBrick extends FormulaBrick {
 	}
 
 	@Override
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(JUMPING_SUMO);
+		super.addRequiredResources(requiredResourcesSet);
+	}
+
+	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = super.getPrototypeView(context);
 
@@ -119,11 +125,6 @@ public class JumpingSumoSoundBrick extends FormulaBrick {
 		soundSpinner.setSelection(soundType.ordinal());
 
 		return view;
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return super.getRequiredResources() | Brick.JUMPING_SUMO;
 	}
 
 	@Override

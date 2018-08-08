@@ -63,11 +63,6 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).getRequiredResources();
-	}
-
-	@Override
 	public BrickBaseType clone() throws CloneNotSupportedException {
 		RepeatBrick clone = (RepeatBrick) super.clone();
 		clone.loopEndBrick = null;

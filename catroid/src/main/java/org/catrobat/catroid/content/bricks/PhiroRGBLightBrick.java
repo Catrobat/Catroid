@@ -79,11 +79,9 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return BLUETOOTH_PHIRO
-				| getFormulaWithBrickField(BrickField.PHIRO_LIGHT_RED).getRequiredResources()
-				| getFormulaWithBrickField(BrickField.PHIRO_LIGHT_GREEN).getRequiredResources()
-				| getFormulaWithBrickField(BrickField.PHIRO_LIGHT_BLUE).getRequiredResources();
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(BLUETOOTH_PHIRO);
+		super.addRequiredResources(requiredResourcesSet);
 	}
 
 	@Override

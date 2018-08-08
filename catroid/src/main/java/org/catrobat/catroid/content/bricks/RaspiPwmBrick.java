@@ -53,11 +53,9 @@ public class RaspiPwmBrick extends FormulaBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return SOCKET_RASPI
-				| getFormulaWithBrickField(BrickField.RASPI_DIGITAL_PIN_NUMBER).getRequiredResources()
-				| getFormulaWithBrickField(BrickField.RASPI_PWM_FREQUENCY).getRequiredResources()
-				| getFormulaWithBrickField(BrickField.RASPI_PWM_PERCENTAGE).getRequiredResources();
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(SOCKET_RASPI);
+		super.addRequiredResources(requiredResourcesSet);
 	}
 
 	@Override

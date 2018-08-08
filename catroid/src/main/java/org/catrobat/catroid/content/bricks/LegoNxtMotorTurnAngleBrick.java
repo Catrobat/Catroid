@@ -71,6 +71,12 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick {
 	}
 
 	@Override
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(BLUETOOTH_LEGO_NXT);
+		super.addRequiredResources(requiredResourcesSet);
+	}
+
+	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = super.getPrototypeView(context);
 
@@ -114,11 +120,6 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick {
 
 		motorSpinner.setSelection(motorEnum.ordinal());
 		return view;
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return BLUETOOTH_LEGO_NXT | getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES).getRequiredResources();
 	}
 
 	@Override

@@ -55,11 +55,6 @@ public class RepeatUntilBrick extends FormulaBrick implements LoopBeginBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.REPEAT_UNTIL_CONDITION).getRequiredResources();
-	}
-
-	@Override
 	public int getViewResource() {
 		return R.layout.brick_repeat_until;
 	}

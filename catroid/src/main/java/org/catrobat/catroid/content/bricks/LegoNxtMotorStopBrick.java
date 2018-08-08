@@ -58,8 +58,8 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return BLUETOOTH_LEGO_NXT;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(BLUETOOTH_LEGO_NXT);
 	}
 
 	@Override

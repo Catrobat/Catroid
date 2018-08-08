@@ -78,13 +78,6 @@ public class GlideToBrick extends FormulaBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.X_DESTINATION).getRequiredResources()
-				| getFormulaWithBrickField(BrickField.Y_DESTINATION).getRequiredResources()
-				| getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS).getRequiredResources();
-	}
-
-	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createGlideToAction(sprite,
 				getFormulaWithBrickField(BrickField.X_DESTINATION),

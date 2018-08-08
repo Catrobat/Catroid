@@ -193,25 +193,11 @@ public abstract class Script implements Serializable, Cloneable {
 		}
 	}
 
-	public int getRequiredResources() {
-		int resources = Brick.NO_RESOURCES;
-
+	public void addRequiredResources(final Brick.ResourcesSet resourcesSet) {
 		for (Brick brick : brickList) {
 			if (!brick.isCommentedOut()) {
-				resources |= brick.getRequiredResources();
+				brick.addRequiredResources(resourcesSet);
 			}
 		}
-		return resources;
-	}
-
-	public List<Brick> getBricksRequiringResources(int resource) {
-		List<Brick> resourceBrickList = new ArrayList<>();
-
-		for (Brick brick : brickList) {
-			if ((brick.getRequiredResources() & resource) != 0) {
-				resourceBrickList.add(brick);
-			}
-		}
-		return resourceBrickList;
 	}
 }

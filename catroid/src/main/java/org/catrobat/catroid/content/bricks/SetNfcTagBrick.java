@@ -63,6 +63,12 @@ public class SetNfcTagBrick extends FormulaBrick {
 	}
 
 	@Override
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(NFC_ADAPTER);
+		super.addRequiredResources(requiredResourcesSet);
+	}
+
+	@Override
 	public View getView(final Context context) {
 		super.getView(context);
 		spinner = view.findViewById(R.id.brick_set_nfc_tag_ndef_record_spinner);
@@ -113,11 +119,6 @@ public class SetNfcTagBrick extends FormulaBrick {
 		spinner.setSelection(nfcTagNdefType, true);
 
 		return prototypeView;
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return NFC_ADAPTER;
 	}
 
 	@Override

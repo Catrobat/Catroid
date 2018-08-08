@@ -75,27 +75,30 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 			SensorHandler.startSensorListener(context);
 			SensorHandler.registerListener(this);
 		}
-		int resources = formula.getRequiredResources();
-		if ((resources & Brick.FACE_DETECTION) > 0) {
+
+		Brick.ResourcesSet resourcesSet = new Brick.ResourcesSet();
+		formula.addRequiredResources(resourcesSet);
+
+		if (resourcesSet.contains(Brick.FACE_DETECTION)) {
 			FaceDetectionHandler.startFaceDetection();
 		}
 
-		if ((resources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
+		if (resourcesSet.contains(Brick.BLUETOOTH_LEGO_NXT)) {
 			BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 			btService.connectDevice(BluetoothDevice.LEGO_NXT, this.getContext());
 		}
 
-		if ((resources & Brick.BLUETOOTH_LEGO_EV3) > 0) {
+		if (resourcesSet.contains(Brick.BLUETOOTH_LEGO_EV3)) {
 			BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 			btService.connectDevice(BluetoothDevice.LEGO_EV3, this.getContext());
 		}
 
-		if ((resources & Brick.BLUETOOTH_SENSORS_ARDUINO) > 0) {
+		if (resourcesSet.contains(Brick.BLUETOOTH_SENSORS_ARDUINO)) {
 			BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 			btService.connectDevice(BluetoothDevice.ARDUINO, this.getContext());
 		}
 
-		if ((resources & Brick.BLUETOOTH_PHIRO) > 0) {
+		if (resourcesSet.contains(Brick.BLUETOOTH_PHIRO)) {
 			BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 			btService.connectDevice(BluetoothDevice.PHIRO, this.getContext());
 		}

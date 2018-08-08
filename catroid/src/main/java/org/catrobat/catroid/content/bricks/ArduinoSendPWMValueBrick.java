@@ -58,10 +58,9 @@ public class ArduinoSendPWMValueBrick extends FormulaBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return BLUETOOTH_SENSORS_ARDUINO
-				| getFormulaWithBrickField(BrickField.ARDUINO_ANALOG_PIN_NUMBER).getRequiredResources()
-				| getFormulaWithBrickField(BrickField.ARDUINO_ANALOG_PIN_VALUE).getRequiredResources();
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(BLUETOOTH_SENSORS_ARDUINO);
+		super.addRequiredResources(requiredResourcesSet);
 	}
 
 	@Override

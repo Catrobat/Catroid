@@ -112,8 +112,9 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return BLUETOOTH_LEGO_NXT | getFormulaWithBrickField(BrickField.LEGO_NXT_SPEED).getRequiredResources();
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(BLUETOOTH_LEGO_NXT);
+		super.addRequiredResources(requiredResourcesSet);
 	}
 
 	@Override

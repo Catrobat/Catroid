@@ -58,13 +58,6 @@ public class SetTextBrick extends FormulaBrick implements View.OnClickListener {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.X_DESTINATION).getRequiredResources()
-				| getFormulaWithBrickField(BrickField.Y_DESTINATION).getRequiredResources()
-				| getFormulaWithBrickField(BrickField.STRING).getRequiredResources();
-	}
-
-	@Override
 	public int getViewResource() {
 		return R.layout.brick_set_text;
 	}

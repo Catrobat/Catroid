@@ -32,6 +32,7 @@ import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 
 import java.io.Serializable;
+import java.util.Set;
 
 public class Formula implements Serializable {
 
@@ -205,8 +206,8 @@ public class Formula implements Serializable {
 		internFormula.removeVariableReferences(name, context);
 	}
 
-	public int getRequiredResources() {
-		return formulaTree.getRequiredResources();
+	public void addRequiredResources(final Set<Integer> requiredResourcesSet) {
+		formulaTree.addRequiredResources(requiredResourcesSet);
 	}
 
 	public String getResultForComputeDialog(Context context) {

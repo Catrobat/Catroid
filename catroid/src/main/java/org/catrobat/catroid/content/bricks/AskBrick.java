@@ -57,11 +57,6 @@ public class AskBrick extends UserVariableBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.ASK_QUESTION).getRequiredResources();
-	}
-
-	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
 				.createAskAction(sprite, getFormulaWithBrickField(BrickField.ASK_QUESTION), userVariable));
