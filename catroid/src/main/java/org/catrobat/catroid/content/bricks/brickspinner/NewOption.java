@@ -21,11 +21,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.formulaeditor;
+package org.catrobat.catroid.content.bricks.brickspinner;
 
 import org.catrobat.catroid.common.Nameable;
 
-public interface UserData extends Nameable {
+public final class NewOption implements Nameable {
 
-	void reset();
+	private String name;
+
+	public NewOption(String name) {
+		this.name = name;
+	}
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public void setName(String name) {
+		this.name = name;
+	}
 }

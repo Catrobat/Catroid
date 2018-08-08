@@ -23,6 +23,7 @@
 package org.catrobat.catroid.content;
 
 import android.graphics.PointF;
+import android.support.annotation.IntDef;
 import android.support.annotation.VisibleForTesting;
 
 import com.badlogic.gdx.graphics.Pixmap;
@@ -48,7 +49,18 @@ import org.catrobat.catroid.content.actions.EventThread;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.utils.TouchUtil;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 public class Look extends Image {
+
+	@Retention(RetentionPolicy.SOURCE)
+	@IntDef({ROTATION_STYLE_LEFT_RIGHT_ONLY, ROTATION_STYLE_ALL_AROUND, ROTATION_STYLE_NONE})
+	public @interface RotationStyle {}
+	public static final int ROTATION_STYLE_LEFT_RIGHT_ONLY = 0;
+	public static final int ROTATION_STYLE_ALL_AROUND = 1;
+	public static final int ROTATION_STYLE_NONE = 2;
+
 	private static final float DEGREE_UI_OFFSET = 90.0f;
 	private static final float COLOR_SCALE = 200.0f;
 	private boolean lookVisible = true;
@@ -62,9 +74,6 @@ public class Look extends Image {
 	protected float hue = 0f;
 	protected Pixmap pixmap;
 	private BrightnessContrastHueShader shader;
-	public static final int ROTATION_STYLE_ALL_AROUND = 1;
-	public static final int ROTATION_STYLE_LEFT_RIGHT_ONLY = 0;
-	public static final int ROTATION_STYLE_NONE = 2;
 	private int rotationMode = ROTATION_STYLE_ALL_AROUND;
 	private float rotation = 90f;
 	private float realRotation = rotation;

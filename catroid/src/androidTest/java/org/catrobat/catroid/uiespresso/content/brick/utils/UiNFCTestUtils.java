@@ -133,7 +133,7 @@ public final class UiNFCTestUtils {
 			super(dataInteraction);
 		}
 
-		public NfcBrickSpinnerDataInteractionWrapper performSelect(String selection) {
+		public NfcBrickSpinnerDataInteractionWrapper performSelectString(String selection) {
 			dataInteraction.perform(click());
 
 			onView(withText(selection))

@@ -79,6 +79,6 @@ public class LegoEv3MotorStopBrickTest {
 				R.string.ev3_motor_all);
 
 		onBrickAtPosition(brickPosition).onSpinner(R.id.ev3_stop_motor_spinner)
-				.checkValuesAvailable(spinnerValuesResourceIds);
+				.checkStringIdValuesAvailable(spinnerValuesResourceIds);
 	}
 }

@@ -23,43 +23,84 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.database.DataSetObserver;
-import android.view.MotionEvent;
+import android.support.annotation.Nullable;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.formulaeditor.Formula;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class SetNfcTagBrick extends FormulaBrick {
+public class SetNfcTagBrick extends FormulaBrick implements
+		BrickSpinner.OnItemSelectedListener<SetNfcTagBrick.NfcTypeOption> {
 
 	private static final long serialVersionUID = 1L;
 
-	private transient Spinner spinner;
-	private int nfcTagNdefDefaultType = BrickValues.TNF_WELL_KNOWN_HTTPS;
-	private int nfcTagNdefType = nfcTagNdefDefaultType;
+	private int nfcTagNdefType = BrickValues.TNF_WELL_KNOWN_HTTPS;
+
+	public SetNfcTagBrick() {
+		this(new Formula("www.catrobat.org"));
+	}
 
 	public SetNfcTagBrick(String messageString) {
 		this(new Formula(messageString));
 	}
 
-	public SetNfcTagBrick(Formula message) {
+	public SetNfcTagBrick(Formula messageFormula) {
 		addAllowedBrickField(BrickField.NFC_NDEF_MESSAGE, R.id.brick_set_nfc_tag_edit_text);
-		setFormulaWithBrickField(BrickField.NFC_NDEF_MESSAGE, message);
+		setFormulaWithBrickField(BrickField.NFC_NDEF_MESSAGE, messageFormula);
 	}
 
 	@Override
 	public int getViewResource() {
 		return R.layout.brick_set_nfc_tag;
+	}
+
+	@Override
+	public View getPrototypeView(Context context) {
+		super.getPrototypeView(context);
+		return getView(context);
+	}
+
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
+
+		List<Nameable> items = new ArrayList<>();
+		items.add(new NfcTypeOption(context.getString(R.string.tnf_mime_media), BrickValues.TNF_MIME_MEDIA));
+		items.add(new NfcTypeOption(context.getString(R.string.tnf_well_known_http), BrickValues.TNF_WELL_KNOWN_HTTP));
+		items.add(new NfcTypeOption(context.getString(R.string.tnf_well_known_https), BrickValues.TNF_WELL_KNOWN_HTTPS));
+		items.add(new NfcTypeOption(context.getString(R.string.tnf_well_known_sms), BrickValues.TNF_WELL_KNOWN_SMS));
+		items.add(new NfcTypeOption(context.getString(R.string.tnf_well_known_tel), BrickValues.TNF_WELL_KNOWN_TEL));
+		items.add(new NfcTypeOption(context.getString(R.string.tnf_well_known_mailto), BrickValues.TNF_WELL_KNOWN_MAILTO));
+		items.add(new NfcTypeOption(context.getString(R.string.tnf_external_type), BrickValues.TNF_EXTERNAL_TYPE));
+		items.add(new NfcTypeOption(context.getString(R.string.tnf_empty), BrickValues.TNF_EMPTY));
+
+		BrickSpinner<NfcTypeOption> spinner = new BrickSpinner<>(R.id.brick_set_nfc_tag_ndef_record_spinner,
+				view, items);
+		spinner.setOnItemSelectedListener(this);
+		spinner.setSelection(nfcTagNdefType);
+
+		return view;
+	}
+
+	@Override
+	public void onNewOptionSelected() {
+	}
+
+	@Override
+	public void onStringOptionSelected(String string) {
+	}
+
+	@Override
+	public void onItemSelected(@Nullable NfcTypeOption item) {
+		nfcTagNdefType = item.getNfcTagNdefType();
 	}
 
 	@Override
@@ -69,153 +110,34 @@ public class SetNfcTagBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(final Context context) {
-		super.getView(context);
-		spinner = view.findViewById(R.id.brick_set_nfc_tag_ndef_record_spinner);
-
-		final ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
-		SpinnerAdapterWrapper spinnerAdapterWrapper = new SpinnerAdapterWrapper(context, spinnerAdapter);
-		spinner.setAdapter(spinnerAdapterWrapper);
-		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				String itemSelected = parent.getSelectedItem().toString();
-				if (itemSelected.equals(context.getString(R.string.tnf_mime_media))) {
-					nfcTagNdefType = BrickValues.TNF_MIME_MEDIA;
-				} else if (itemSelected.equals(context.getString(R.string.tnf_well_known_http))) {
-					nfcTagNdefType = BrickValues.TNF_WELL_KNOWN_HTTP;
-				} else if (itemSelected.equals(context.getString(R.string.tnf_well_known_https))) {
-					nfcTagNdefType = BrickValues.TNF_WELL_KNOWN_HTTPS;
-				} else if (itemSelected.equals(context.getString(R.string.tnf_well_known_sms))) {
-					nfcTagNdefType = BrickValues.TNF_WELL_KNOWN_SMS;
-				} else if (itemSelected.equals(context.getString(R.string.tnf_well_known_tel))) {
-					nfcTagNdefType = BrickValues.TNF_WELL_KNOWN_TEL;
-				} else if (itemSelected.equals(context.getString(R.string.tnf_well_known_mailto))) {
-					nfcTagNdefType = BrickValues.TNF_WELL_KNOWN_MAILTO;
-				} else if (itemSelected.equals(context.getString(R.string.tnf_external_type))) {
-					nfcTagNdefType = BrickValues.TNF_EXTERNAL_TYPE;
-				} else {
-					nfcTagNdefType = BrickValues.TNF_EMPTY;
-				}
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
-			}
-		});
-
-		spinner.setSelection(nfcTagNdefType, true);
-		return view;
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-
-		spinner = prototypeView.findViewById(R.id.brick_set_nfc_tag_ndef_record_spinner);
-		SpinnerAdapter setLookSpinnerAdapter = createArrayAdapter(context);
-		spinner.setAdapter(setLookSpinnerAdapter);
-		spinner.setSelection(nfcTagNdefType, true);
-
-		return prototypeView;
-	}
-
-	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
 				.createSetNfcTagAction(sprite, getFormulaWithBrickField(BrickField.NFC_NDEF_MESSAGE), nfcTagNdefType));
 		return null;
 	}
 
-	private ArrayAdapter<String> createArrayAdapter(Context context) {
-		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
+	class NfcTypeOption implements Nameable {
 
-		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		arrayAdapter.addAll(
-				context.getString(R.string.tnf_mime_media),
-				context.getString(R.string.tnf_well_known_http),
-				context.getString(R.string.tnf_well_known_https),
-				context.getString(R.string.tnf_well_known_sms),
-				context.getString(R.string.tnf_well_known_tel),
-				context.getString(R.string.tnf_well_known_mailto),
-				context.getString(R.string.tnf_external_type),
-				context.getString(R.string.tnf_empty));
+		private String name;
+		private int nfcTagNdefType;
 
-		return arrayAdapter;
-	}
-
-	private static class SpinnerAdapterWrapper implements SpinnerAdapter {
-
-		protected Context context;
-		protected ArrayAdapter<String> spinnerAdapter;
-
-		SpinnerAdapterWrapper(Context context, ArrayAdapter<String> spinnerAdapter) {
-			this.context = context;
-			this.spinnerAdapter = spinnerAdapter;
+		NfcTypeOption(String name, int nfcTagNdefType) {
+			this.name = name;
+			this.nfcTagNdefType = nfcTagNdefType;
 		}
 
 		@Override
-		public void registerDataSetObserver(DataSetObserver paramDataSetObserver) {
-			spinnerAdapter.registerDataSetObserver(paramDataSetObserver);
+		public String getName() {
+			return name;
 		}
 
 		@Override
-		public void unregisterDataSetObserver(DataSetObserver paramDataSetObserver) {
-			spinnerAdapter.unregisterDataSetObserver(paramDataSetObserver);
+		public void setName(String name) {
+			this.name = name;
 		}
 
-		@Override
-		public int getCount() {
-			return spinnerAdapter.getCount();
-		}
-
-		@Override
-		public Object getItem(int paramInt) {
-			return spinnerAdapter.getItem(paramInt);
-		}
-
-		@Override
-		public long getItemId(int paramInt) {
-			return spinnerAdapter.getItemId(paramInt);
-		}
-
-		@Override
-		public boolean hasStableIds() {
-			return spinnerAdapter.hasStableIds();
-		}
-
-		@Override
-		public View getView(int paramInt, View paramView, ViewGroup paramViewGroup) {
-			return spinnerAdapter.getView(paramInt, paramView, paramViewGroup);
-		}
-
-		@Override
-		public int getItemViewType(int paramInt) {
-			return spinnerAdapter.getItemViewType(paramInt);
-		}
-
-		@Override
-		public int getViewTypeCount() {
-			return spinnerAdapter.getViewTypeCount();
-		}
-
-		@Override
-		public boolean isEmpty() {
-			return spinnerAdapter.isEmpty();
-		}
-
-		@Override
-		public View getDropDownView(int paramInt, View paramView, ViewGroup paramViewGroup) {
-			View dropDownView = spinnerAdapter.getDropDownView(paramInt, paramView, paramViewGroup);
-
-			dropDownView.setOnTouchListener(new View.OnTouchListener() {
-				@Override
-				public boolean onTouch(View paramView, MotionEvent paramMotionEvent) {
-					return false;
-				}
-			});
-			return dropDownView;
+		int getNfcTagNdefType() {
+			return nfcTagNdefType;
 		}
 	}
 }

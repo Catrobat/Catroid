@@ -49,7 +49,7 @@ public final class NfcTagContainer {
 		if (tagNameAdapter == null) {
 			tagNameAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, tagNameList);
 			//TODO: use .add() instead of .insert()
-			tagNameAdapter.insert(context.getString(R.string.new_nfc_tag), 0);
+			tagNameAdapter.insert(context.getString(R.string.new_option), 0);
 			tagNameAdapter.insert(context.getString(R.string.brick_when_nfc_default_all), 1);
 
 			tagNameAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

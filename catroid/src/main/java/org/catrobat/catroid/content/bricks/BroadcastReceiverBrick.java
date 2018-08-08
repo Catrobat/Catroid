@@ -27,12 +27,10 @@ import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.ui.recyclerview.dialog.NewBroadcastMessageDialog;
 
 import java.util.List;
 
-public class BroadcastReceiverBrick extends BroadcastMessageBrick implements
-		ScriptBrick, NewBroadcastMessageDialog.NewBroadcastMessageInterface {
+public class BroadcastReceiverBrick extends BroadcastMessageBrick implements ScriptBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -45,27 +43,26 @@ public class BroadcastReceiverBrick extends BroadcastMessageBrick implements
 	}
 
 	@Override
-	public BrickBaseType clone() throws CloneNotSupportedException {
-		BroadcastReceiverBrick clone = (BroadcastReceiverBrick) super.clone();
-		clone.broadcastScript = (BroadcastScript) broadcastScript.clone();
-		clone.broadcastScript.setScriptBrick(clone);
-		return clone;
-	}
-
-	@Override
 	public String getBroadcastMessage() {
 		return broadcastScript.getBroadcastMessage();
 	}
 
 	@Override
-	public void setBroadcastMessage(String newBroadcastMessage) {
-		broadcastScript.setBroadcastMessage(newBroadcastMessage);
-		messageAdapter.add(newBroadcastMessage);
+	public void setBroadcastMessage(String broadcastMessage) {
+		broadcastScript.setBroadcastMessage(broadcastMessage);
 	}
 
 	@Override
 	public Script getScript() {
 		return broadcastScript;
+	}
+
+	@Override
+	public BrickBaseType clone() throws CloneNotSupportedException {
+		BroadcastReceiverBrick clone = (BroadcastReceiverBrick) super.clone();
+		clone.broadcastScript = (BroadcastScript) broadcastScript.clone();
+		clone.broadcastScript.setScriptBrick(clone);
+		return clone;
 	}
 
 	@Override

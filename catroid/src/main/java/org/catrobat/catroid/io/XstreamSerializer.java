@@ -290,6 +290,8 @@ public final class XstreamSerializer {
 		xstream.omitField(ChooseCameraBrick.class, "spinnerValues");
 		xstream.omitField(FlashBrick.class, "spinnerValues");
 
+		xstream.omitField(SetNfcTagBrick.class, "nfcTagNdefDefaultType");
+
 		xstream.omitField(SpeakAndWaitBrick.class, "speechFile");
 		xstream.omitField(SpeakAndWaitBrick.class, "duration");
 

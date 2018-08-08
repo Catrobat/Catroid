@@ -38,13 +38,13 @@ public class BroadcastWaitBrick extends BroadcastBrick {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createBroadcastAction(broadcastMessage, EventWrapper.WAIT));
-		return null;
+	public int getViewResource() {
+		return R.layout.brick_broadcast_wait;
 	}
 
 	@Override
-	public int getViewResource() {
-		return R.layout.brick_broadcast_wait;
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		sequence.addAction(sprite.getActionFactory().createBroadcastAction(broadcastMessage, EventWrapper.WAIT));
+		return null;
 	}
 }

@@ -78,6 +78,6 @@ public class JumpingSumoSoundBrickTest {
 				R.string.sound_monster);
 
 		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_jumping_sumo_sound_spinner)
-				.checkValuesAvailable(spinnerValuesResourceIds);
+				.checkStringIdValuesAvailable(spinnerValuesResourceIds);
 	}
 }

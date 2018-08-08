@@ -20,23 +20,26 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.ui.dialogs;
 
-import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialogFragment;
+package org.catrobat.catroid.content.bricks.brickspinner;
 
-public class BrickTextDialog extends TextInputDialogFragment {
+import org.catrobat.catroid.common.Nameable;
 
-	public BrickTextDialog(int title, int label, String previousText) {
-		super(title, label, previousText, false);
+public final class StringOption implements Nameable {
+
+	private String name;
+
+	public StringOption(String name) {
+		this.name = name;
 	}
 
 	@Override
-	protected boolean onPositiveButtonClick() {
-		return false;
+	public String getName() {
+		return name;
 	}
 
 	@Override
-	protected void onNegativeButtonClick() {
-		dismiss();
+	public void setName(String name) {
+		this.name = name;
 	}
 }

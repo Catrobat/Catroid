@@ -68,7 +68,7 @@ public class StopScriptBrickTest {
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_stop_script);
 
 		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_stop_script_spinner)
-				.performSelect(R.string.brick_stop_this_script)
+				.performSelectString(R.string.brick_stop_this_script)
 				.checkShowsText(R.string.brick_stop_this_script);
 
 		List<Integer> spinnerValuesResourceIds = Arrays.asList(
@@ -77,6 +77,6 @@ public class StopScriptBrickTest {
 				R.string.brick_stop_other_scripts);
 
 		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_stop_script_spinner)
-				.checkValuesAvailable(spinnerValuesResourceIds);
+				.checkStringIdValuesAvailable(spinnerValuesResourceIds);
 	}
 }
