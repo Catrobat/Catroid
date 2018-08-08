@@ -33,8 +33,6 @@ public class CollisionScript extends Script {
 	private static final long serialVersionUID = 1L;
 	private String spriteToCollideWithName;
 
-	private transient Sprite spriteToCollideWith;
-
 	public CollisionScript(String spriteToCollideWithName) {
 		this.spriteToCollideWithName = spriteToCollideWithName;
 	}
@@ -60,24 +58,11 @@ public class CollisionScript extends Script {
 
 	public void setSpriteToCollideWithName(String spriteToCollideWithName) {
 		this.spriteToCollideWithName = spriteToCollideWithName;
-		updateSpriteToCollideWith();
-	}
-
-	public Sprite getSpriteToCollideWith() {
-		updateSpriteToCollideWith();
-		return spriteToCollideWith;
-	}
-
-	private void updateSpriteToCollideWith() {
-		if (spriteToCollideWithName != null
-				&& (spriteToCollideWith == null || !spriteToCollideWithName.equals(spriteToCollideWith.getName()))) {
-			Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
-			spriteToCollideWith = currentScene.getSprite(spriteToCollideWithName);
-		}
 	}
 
 	@Override
 	public EventId createEventId(Sprite sprite) {
-		return new CollisionEventId(sprite, spriteToCollideWith);
+		Scene currentlyPlayingScene = ProjectManager.getInstance().getCurrentlyPlayingScene();
+		return new CollisionEventId(sprite, currentlyPlayingScene.getSprite(spriteToCollideWithName));
 	}
 }
