@@ -37,6 +37,7 @@
         android:id="@+id/confirm"
         android:title="@string/confirm"
         android:icon="@drawable/done_white"
-        app:showAsAction="ifRoom">
+        app:showAsAction="always"
+        android:showAsAction="always">
     </item>
 </menu>
