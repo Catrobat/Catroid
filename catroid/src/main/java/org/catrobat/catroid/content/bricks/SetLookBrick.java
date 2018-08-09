@@ -135,7 +135,7 @@ public class SetLookBrick extends BrickBaseType implements
 		spinnerSelectionBuffer = spinner.getSelectedItemPosition();
 		new NewLookDialogFragment(this,
 				ProjectManager.getInstance().getCurrentlyEditedScene(),
-				ProjectManager.getInstance().getCurrentSprite()) {
+				getSprite()) {
 
 			@Override
 			public void onCancel(DialogInterface dialog) {
