@@ -95,7 +95,7 @@ class AndroidSDK:
 
     ### ndk versions and properties contents
     #### Currently catroid can only be build with Android NDK r16, manual install that version
-    ANDROID_NDK_WORKAROUND_KEEP_R16 = True
+    ANDROID_NDK_WORKAROUND_KEEP_R16 = False
     ANDROID_NDK_PROP_VAL_PKG_REV = "16.1.4479499"
     ANDROID_NDK_PROP_VAL_PKG_PATH = None
     ANDROID_NDK_PROP_VAL_PKG_DESC = "Android NDK"
