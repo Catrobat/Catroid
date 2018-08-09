@@ -59,33 +59,33 @@ public class ScriptController {
 		Script script = scriptToCopy.clone();
 
 		for (Brick brick : script.getBrickList()) {
-			if (brick instanceof SetLookBrick) {
+			if (brick instanceof SetLookBrick && ((SetLookBrick) brick).getLook() != null) {
 				((SetLookBrick) brick).setLook(lookController
 						.findOrCopy(((SetLookBrick) brick).getLook(), dstScene, dstSprite));
 			}
 
-			if (brick instanceof WhenBackgroundChangesBrick) {
+			if (brick instanceof WhenBackgroundChangesBrick && ((WhenBackgroundChangesBrick) brick).getLook() != null) {
 				((WhenBackgroundChangesBrick) brick).setLook(lookController
 						.findOrCopy(((WhenBackgroundChangesBrick) brick).getLook(), dstScene, dstSprite));
 			}
 
-			if (brick instanceof PlaySoundBrick) {
+			if (brick instanceof PlaySoundBrick && ((PlaySoundBrick) brick).getSound() != null) {
 				((PlaySoundBrick) brick).setSound(soundController
 						.findOrCopy(((PlaySoundBrick) brick).getSound(), dstScene, dstSprite));
 			}
 
-			if (brick instanceof PlaySoundAndWaitBrick) {
+			if (brick instanceof PlaySoundAndWaitBrick && ((PlaySoundAndWaitBrick) brick).getSound() != null) {
 				((PlaySoundAndWaitBrick) brick).setSound(soundController
 						.findOrCopy(((PlaySoundAndWaitBrick) brick).getSound(), dstScene, dstSprite));
 			}
 
-			if (brick instanceof UserVariableBrick) {
+			if (brick instanceof UserVariableBrick && ((UserVariableBrick) brick).getUserVariable() != null) {
 				UserVariable previousUserVar = ((UserVariableBrick) brick).getUserVariable();
 				((UserVariableBrick) brick).setUserVariable(dstScene.getDataContainer()
 						.getUserVariable(dstSprite, previousUserVar.getName()));
 			}
 
-			if (brick instanceof UserListBrick) {
+			if (brick instanceof UserListBrick && ((UserListBrick) brick).getUserList() != null) {
 				UserList previousUserList = ((UserListBrick) brick).getUserList();
 				((UserListBrick) brick).setUserList(dstScene.getDataContainer()
 						.getUserList(dstSprite, previousUserList.getName()));
@@ -113,22 +113,22 @@ public class ScriptController {
 		Script script = scriptToPack.clone();
 
 		for (Brick brick : script.getBrickList()) {
-			if (brick instanceof SetLookBrick) {
+			if (brick instanceof SetLookBrick && ((SetLookBrick) brick).getLook() != null) {
 				((SetLookBrick) brick).setLook(lookController
 						.packForSprite(((SetLookBrick) brick).getLook(), dstSprite));
 			}
 
-			if (brick instanceof WhenBackgroundChangesBrick) {
+			if (brick instanceof WhenBackgroundChangesBrick && ((WhenBackgroundChangesBrick) brick).getLook() != null) {
 				((WhenBackgroundChangesBrick) brick).setLook(lookController
 						.packForSprite(((WhenBackgroundChangesBrick) brick).getLook(), dstSprite));
 			}
 
-			if (brick instanceof PlaySoundBrick) {
+			if (brick instanceof PlaySoundBrick && ((PlaySoundBrick) brick).getSound() != null) {
 				((PlaySoundBrick) brick).setSound(soundController
 						.packForSprite(((PlaySoundBrick) brick).getSound(), dstSprite));
 			}
 
-			if (brick instanceof PlaySoundAndWaitBrick) {
+			if (brick instanceof PlaySoundAndWaitBrick && ((PlaySoundAndWaitBrick) brick).getSound() != null) {
 				((PlaySoundAndWaitBrick) brick).setSound(soundController
 						.packForSprite(((PlaySoundAndWaitBrick) brick).getSound(), dstSprite));
 			}
@@ -162,36 +162,28 @@ public class ScriptController {
 				return;
 			}
 
-			if (brick instanceof SetLookBrick) {
+			if (brick instanceof SetLookBrick && ((SetLookBrick) brick).getLook() != null) {
 				((SetLookBrick) brick)
 						.setLook(lookController
-								.unpackForSprite(((SetLookBrick) brick).getLook(),
-										dstScene,
-										dstSprite));
+								.unpackForSprite(((SetLookBrick) brick).getLook(), dstScene, dstSprite));
 			}
 
-			if (brick instanceof WhenBackgroundChangesBrick) {
+			if (brick instanceof WhenBackgroundChangesBrick && ((WhenBackgroundChangesBrick) brick).getLook() != null) {
 				((WhenBackgroundChangesBrick) brick)
 						.setLook(lookController
-								.unpackForSprite(((WhenBackgroundChangesBrick) brick).getLook(),
-										dstScene,
-										dstSprite));
+								.unpackForSprite(((WhenBackgroundChangesBrick) brick).getLook(), dstScene, dstSprite));
 			}
 
-			if (brick instanceof PlaySoundBrick) {
+			if (brick instanceof PlaySoundBrick && ((PlaySoundBrick) brick).getSound() != null) {
 				((PlaySoundBrick) brick)
 						.setSound(soundController
-								.unpackForSprite(((PlaySoundBrick) brick).getSound(),
-										dstScene,
-										dstSprite));
+								.unpackForSprite(((PlaySoundBrick) brick).getSound(), dstScene, dstSprite));
 			}
 
-			if (brick instanceof PlaySoundAndWaitBrick) {
+			if (brick instanceof PlaySoundAndWaitBrick && ((PlaySoundAndWaitBrick) brick).getSound() != null) {
 				((PlaySoundAndWaitBrick) brick)
 						.setSound(soundController
-								.unpackForSprite(((PlaySoundAndWaitBrick) brick).getSound(),
-										dstScene,
-										dstSprite));
+								.unpackForSprite(((PlaySoundAndWaitBrick) brick).getSound(), dstScene, dstSprite));
 			}
 		}
 
