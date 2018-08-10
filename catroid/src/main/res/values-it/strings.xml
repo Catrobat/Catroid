@@ -53,10 +53,8 @@
   <string name="share_website_text">www.pocketcode.org</string>
   <!-- Login/Logout Mechanism -->
   <string name="loading_check_facebook_data">Recupero dati da Facebook&#8230;</string>
-  <string name="loading_check_email">Verifico se l\'e-mail è disponibile&#8230;</string>
   <string name="loading_check_oauth_token">Verifica dati di login&#8230;</string>
   <string name="loading_check_facebook_token_validity">Controllo dei dati da Facebook&#8230;</string>
-  <string name="loading_check_oauth_username">Verifico se il nome utente è disponibile&#8230;</string>
   <string name="loading_facebook_exchange_token">Scambio dati da Facebook&#8230;</string>
   <string name="loading_facebook_login">Login completo con i dati da Facebook&#8230;</string>
   <string name="loading_google_exchange_code">Scambio dati con Google+&#8230;</string>
@@ -781,8 +779,6 @@
   <!--  -->
   <!-- NetworkAlertDialog -->
   <string name="error_no_network_title">Nessuna Rete</string>
-  <string name="error_no_network_one_brick">Following brick will use the network:</string>
-  <string name="error_no_network_multiple_bricks">Following brick will use the networks:</string>
   <string name="error_no_network">Hai bisogno di una connessione di rete per utilizzare questo programma di Pocket Code. Attiva una rete Wi-Fi o altre rete nelle impostazioni di sistema.</string>
   <plurals name="bricks_using_network_headline">
     <item quantity="one">The following brick needs a network connection:</item>
@@ -837,7 +833,6 @@
   <string name="signin_choose_username_hint">Il nome utente non dovrebbe essere il tuo vero nome.</string>
   <string name="oauth_username_taken">Nome già usato. Scegli uno diverso!</string>
   <string name="show_password">Mostra Password</string>
-  <string name="register_password_mismatch">Le password non corrispondono</string>
   <string name="sign_in_error">Errore durante l\'accesso</string>
   <string name="error_google_plus_sign_in">Errore di login su Google. Stato: %s</string>
   <string name="error_facebook_session_expired">Sessione scaduta, effettua nuovamente il login.</string>

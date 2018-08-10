@@ -27,7 +27,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
@@ -51,7 +50,7 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 	private String message;
 	private boolean userRegistered;
 
-	private OnRegistrationCompleteListener onRegistrationCompleteListener;
+	private OnRegistrationListener onRegistrationListener;
 	private WebconnectionException exception;
 
 	public RegistrationTask(Context activity, String username, String password, String email) {
@@ -61,8 +60,8 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 		this.email = email;
 	}
 
-	public void setOnRegistrationCompleteListener(OnRegistrationCompleteListener listener) {
-		onRegistrationCompleteListener = listener;
+	public void setOnRegistrationListener(OnRegistrationListener listener) {
+		onRegistrationListener = listener;
 	}
 
 	@Override
@@ -109,12 +108,16 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 		}
 
 		if (Utils.checkForNetworkError(exception)) {
-			showDialog(R.string.error_internet_connection);
+			ToastUtil.showError(context, R.string.error_internet_connection);
 			return;
 		}
 
 		if (Utils.checkForSignInError(success, exception, context, userRegistered)) {
-			showDialog(R.string.sign_in_error);
+			if (message == null) {
+				message = context.getString(R.string.register_error);
+			}
+			onRegistrationListener.onRegistrationFailed(message);
+			Log.e(TAG, message);
 			return;
 		}
 
@@ -122,26 +125,15 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 			ToastUtil.showSuccess(context, R.string.new_user_registered);
 		}
 
-		if (onRegistrationCompleteListener != null) {
-			onRegistrationCompleteListener.onRegistrationComplete();
+		if (onRegistrationListener != null) {
+			onRegistrationListener.onRegistrationComplete();
 		}
 	}
 
-	private void showDialog(int messageId) {
-		if (context == null) {
-			return;
-		}
-		if (message == null) {
-			new AlertDialog.Builder(context).setTitle(R.string.register_error).setMessage(messageId)
-					.setPositiveButton(R.string.ok, null).show();
-		} else {
-			new AlertDialog.Builder(context).setTitle(R.string.register_error).setMessage(message)
-					.setPositiveButton(R.string.ok, null).show();
-		}
-	}
-
-	public interface OnRegistrationCompleteListener {
+	public interface OnRegistrationListener {
 
 		void onRegistrationComplete();
+
+		void onRegistrationFailed(String msg);
 	}
 }

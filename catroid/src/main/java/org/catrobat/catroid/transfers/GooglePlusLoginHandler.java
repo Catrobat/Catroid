@@ -168,8 +168,7 @@ public class GooglePlusLoginHandler implements GoogleApiClient.ConnectionCallbac
 			googleLogInTask.execute();
 		} else {
 			String email = sharedPreferences.getString(Constants.GOOGLE_EMAIL, Constants.NO_GOOGLE_EMAIL);
-			CheckEmailAvailableTask checkEmailAvailableTask = new CheckEmailAvailableTask(activity,
-					email, Constants.GOOGLE_PLUS);
+			CheckEmailAvailableTask checkEmailAvailableTask = new CheckEmailAvailableTask(email, Constants.GOOGLE_PLUS);
 			checkEmailAvailableTask.setOnCheckEmailAvailableCompleteListener(this);
 			checkEmailAvailableTask.execute();
 		}

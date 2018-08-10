@@ -29,6 +29,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
+import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,7 +54,7 @@ public class LookController {
 
 	LookData findOrCopy(LookData lookToCopy, Scene dstScene, Sprite dstSprite) throws IOException {
 		for (LookData look : dstSprite.getLookList()) {
-			if (look.getFile().equals(lookToCopy.getFile())) {
+			if (compareByChecksum(look.getFile(), lookToCopy.getFile())) {
 				return look;
 			}
 		}
@@ -77,7 +78,7 @@ public class LookController {
 
 	LookData packForSprite(LookData lookToPack, Sprite dstSprite) throws IOException {
 		for (LookData look : dstSprite.getLookList()) {
-			if (look.getFile().equals(lookToPack.getFile())) {
+			if (compareByChecksum(look.getFile(), lookToPack.getFile())) {
 				return look;
 			}
 		}
@@ -96,7 +97,7 @@ public class LookController {
 
 	LookData unpackForSprite(LookData lookToUnpack, Scene dstScene, Sprite dstSprite) throws IOException {
 		for (LookData look : dstSprite.getLookList()) {
-			if (look.getFile().equals(lookToUnpack.getFile())) {
+			if (compareByChecksum(look.getFile(), lookToUnpack.getFile())) {
 				return look;
 			}
 		}
@@ -116,5 +117,12 @@ public class LookController {
 
 	private File getImageDir(Scene scene) {
 		return new File(scene.getDirectory(), IMAGE_DIRECTORY_NAME);
+	}
+
+	private boolean compareByChecksum(File file1, File file2) {
+		String checksum1 = Utils.md5Checksum(file1);
+		String checksum2 = Utils.md5Checksum(file2);
+
+		return checksum1.equals(checksum2);
 	}
 }
