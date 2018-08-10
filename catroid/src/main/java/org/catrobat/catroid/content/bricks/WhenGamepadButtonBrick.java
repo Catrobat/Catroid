@@ -40,17 +40,28 @@ import java.util.Arrays;
 import java.util.List;
 
 public class WhenGamepadButtonBrick extends BrickBaseType implements ScriptBrick {
+
 	private static final long serialVersionUID = 1L;
 	private WhenGamepadButtonScript whenGamepadButtonScript;
 	private List<String> actions = Arrays.asList(CatroidApplication.getAppContext().getResources().getStringArray(R.array.gamepad_buttons_array));
 
 	public WhenGamepadButtonBrick(@NonNull WhenGamepadButtonScript whenGamepadButtonScript) {
+		whenGamepadButtonScript.setScriptBrick(this);
+		commentedOut = whenGamepadButtonScript.isCommentedOut();
 		this.whenGamepadButtonScript = whenGamepadButtonScript;
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return CAST_REQUIRED;
+	public BrickBaseType clone() throws CloneNotSupportedException {
+		WhenGamepadButtonBrick clone = (WhenGamepadButtonBrick) super.clone();
+		clone.whenGamepadButtonScript = (WhenGamepadButtonScript) whenGamepadButtonScript.clone();
+		clone.whenGamepadButtonScript.setScriptBrick(clone);
+		return clone;
+	}
+
+	@Override
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(CAST_REQUIRED);
 	}
 
 	@Override
@@ -61,7 +72,7 @@ public class WhenGamepadButtonBrick extends BrickBaseType implements ScriptBrick
 	@Override
 	public View getView(final Context context) {
 		super.getView(context);
-		final Spinner actionSpinner = (Spinner) view.findViewById(R.id.brick_when_gamepad_button_spinner);
+		final Spinner actionSpinner = view.findViewById(R.id.brick_when_gamepad_button_spinner);
 
 		ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(context,
 				R.array.gamepad_buttons_array, android.R.layout.simple_spinner_item);
@@ -86,13 +97,7 @@ public class WhenGamepadButtonBrick extends BrickBaseType implements ScriptBrick
 	}
 
 	@Override
-	public Brick clone() {
-		WhenGamepadButtonScript clonedScript = new WhenGamepadButtonScript(whenGamepadButtonScript.getAction());
-		return new WhenGamepadButtonBrick(clonedScript);
-	}
-
-	@Override
-	public Script getScriptSafe() {
+	public Script getScript() {
 		return whenGamepadButtonScript;
 	}
 

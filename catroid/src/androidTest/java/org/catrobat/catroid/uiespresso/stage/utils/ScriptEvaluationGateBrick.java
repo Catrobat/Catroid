@@ -30,7 +30,8 @@ import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
-import org.catrobat.catroid.uiespresso.util.UserVariableTestUtils;
+
+import static org.catrobat.catroid.uiespresso.util.UserVariableAssertions.assertUserVariableEqualsWithTimeout;
 
 public final class ScriptEvaluationGateBrick {
 	private static int gateCounter;
@@ -53,8 +54,8 @@ public final class ScriptEvaluationGateBrick {
 		return new ScriptEvaluationGateBrick(script);
 	}
 
-	public boolean waitUntilEvaluated(int timeoutMillis) {
-		return UserVariableTestUtils.userVariableEqualsWithinTimeout(userVariableGate, DONEVALUE, timeoutMillis);
+	public void waitUntilEvaluated(int timeoutMillis) {
+		assertUserVariableEqualsWithTimeout(userVariableGate, DONEVALUE, timeoutMillis);
 	}
 
 	public void reset() {

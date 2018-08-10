@@ -272,7 +272,6 @@ public class InternFormulaUtilsTest {
 
 	@Test
 	public void testIsNumberOnError() {
-
 		assertFalse(InternFormulaUtils.isNumberToken(null));
 	}
 

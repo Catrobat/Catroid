@@ -29,7 +29,6 @@ import android.view.View;
 import com.badlogic.gdx.backends.android.surfaceview.GLSurfaceView20;
 
 import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
@@ -46,7 +45,7 @@ public final class StageMatchers {
 			@Override
 			protected boolean matchesSafely(GLSurfaceView20 view) {
 				byte[] testPixels = StageActivity.stageListener.getPixels(x, y, 1, 1);
-				return UiTestUtils.comparePixelRgbaArrays(testPixels, color);
+				return comparePixelRgbaArrays(testPixels, color);
 			}
 
 			@Override
@@ -55,5 +54,17 @@ public final class StageMatchers {
 						+ " y=" + Integer.toString(y) + " is white");
 			}
 		};
+	}
+
+	private static boolean comparePixelRgbaArrays(byte[] firstArray, byte[] secondArray) {
+		if (firstArray == null || secondArray == null || firstArray.length != 4 || secondArray.length != 4) {
+			return false;
+		}
+		for (int i = 0; i < 4; i++) {
+			if (Math.abs((firstArray[i] & 0xFF) - (secondArray[i] & 0xFF)) > 10) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

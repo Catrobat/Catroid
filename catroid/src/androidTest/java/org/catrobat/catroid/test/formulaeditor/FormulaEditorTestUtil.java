@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.test.formulaeditor;
 
-import android.util.Log;
-
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
@@ -39,11 +37,8 @@ import java.util.List;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
-import static junit.framework.Assert.fail;
 
 public final class FormulaEditorTestUtil {
-
-	private static final String TAG = FormulaEditorTestUtil.class.getSimpleName();
 
 	private FormulaEditorTestUtil() {
 		throw new AssertionError();
@@ -69,17 +64,13 @@ public final class FormulaEditorTestUtil {
 	}
 
 	public static List<InternToken> buildSingleParameterFunction(Functions function, InternTokenType firstParameter,
-			String parameterNumberValue) {
+			String parameterNumberValue) throws NumberFormatException {
 		List<InternToken> tokenList = new LinkedList<InternToken>();
 		tokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, function.name()));
 		tokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
-		try {
-			if (Double.valueOf(parameterNumberValue) < 0) {
-				tokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
-				parameterNumberValue = String.valueOf(Math.abs(Double.valueOf(parameterNumberValue)));
-			}
-		} catch (NumberFormatException numberFormatException) {
-			Log.e(TAG, Log.getStackTraceString(numberFormatException));
+		if (isParsableDouble(parameterNumberValue) && Double.valueOf(parameterNumberValue) < 0) {
+			tokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
+			parameterNumberValue = String.valueOf(Math.abs(Double.valueOf(parameterNumberValue)));
 		}
 		tokenList.add(new InternToken(firstParameter, parameterNumberValue));
 		tokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
@@ -110,28 +101,23 @@ public final class FormulaEditorTestUtil {
 	}
 
 	public static List<InternToken> buildDoubleParameterFunction(Functions function, InternTokenType firstParameter,
-			String firstParameterNumberValue, InternTokenType secondParameter, String secondParameterNumberValue) {
+			String firstParameterNumberValue, InternTokenType secondParameter, String secondParameterNumberValue)
+			throws NumberFormatException {
 		List<InternToken> tokenList = new LinkedList<InternToken>();
 		tokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, function.name()));
 		tokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
-		try {
-			if (Double.valueOf(firstParameterNumberValue) < 0) {
-				tokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
-				firstParameterNumberValue = String.valueOf(Math.abs(Double.valueOf(firstParameterNumberValue)));
-			}
-		} catch (NumberFormatException numberFormatException) {
-			Log.e(TAG, Log.getStackTraceString(numberFormatException));
+		if (isParsableDouble(firstParameterNumberValue) && Double.valueOf(firstParameterNumberValue) < 0) {
+			tokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
+			firstParameterNumberValue = String.valueOf(Math.abs(Double.valueOf(firstParameterNumberValue)));
 		}
+
 		tokenList.add(new InternToken(firstParameter, firstParameterNumberValue));
 		tokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER));
-		try {
-			if (Double.valueOf(secondParameterNumberValue) < 0) {
-				tokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
-				secondParameterNumberValue = String.valueOf(Math.abs(Double.valueOf(secondParameterNumberValue)));
-			}
-		} catch (NumberFormatException numberFormatException) {
-			Log.e(TAG, Log.getStackTraceString(numberFormatException));
+		if (isParsableDouble(secondParameterNumberValue) && Double.valueOf(secondParameterNumberValue) < 0) {
+			tokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
+			secondParameterNumberValue = String.valueOf(Math.abs(Double.valueOf(secondParameterNumberValue)));
 		}
+
 		tokenList.add(new InternToken(secondParameter, secondParameterNumberValue));
 		tokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
 		return tokenList;
@@ -154,15 +140,6 @@ public final class FormulaEditorTestUtil {
 			Sprite testSprite) {
 		List<InternToken> internTokenList = buildBinaryOperator(firstInternTokenType, firstOperand, operatorType,
 				secondInternTokenType, secondOperand);
-		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula();
-
-		assertNotNull(parseTree);
-		assertEquals(expected, parseTree.interpretRecursive(testSprite));
-	}
-
-	public static void testBinaryOperator(InternTokenType firstInternTokenType, String firstOperand, Operators operatorType,
-			List<InternToken> secondOperand, Object expected, Sprite testSprite) {
-		List<InternToken> internTokenList = buildBinaryOperator(firstInternTokenType, firstOperand, operatorType, secondOperand);
 		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula();
 
 		assertNotNull(parseTree);
@@ -231,21 +208,6 @@ public final class FormulaEditorTestUtil {
 		assertEquals(expected, formula.interpretObject(testSprite));
 	}
 
-	public static void testNotANumberWithBinaryOperator(InternTokenType firstInternTokenType, String firstOperand,
-			Operators operatorType, InternTokenType secondInternTokenType, String secondOperand, Sprite testSprite) {
-		List<InternToken> internTokenList = buildBinaryOperator(firstInternTokenType, firstOperand, operatorType,
-				secondInternTokenType, secondOperand);
-		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula();
-
-		assertNotNull(parseTree);
-		try {
-			parseTree.interpretRecursive(testSprite);
-			fail("Formula interpretation is not as expected: " + firstOperand + operatorType + secondOperand);
-		} catch (Exception exception) {
-			assertEquals(exception.getMessage(), String.valueOf(Double.NaN));
-		}
-	}
-
 	public static List<InternToken> buildBinaryOperator(InternTokenType firstInternTokenType, String firstOperand,
 			Operators operatorType, InternTokenType secondInternTokenType, String secondOperand) {
 		List<InternToken> firstOperandList = new LinkedList<InternToken>();
@@ -285,6 +247,15 @@ public final class FormulaEditorTestUtil {
 					actualTokenList.get(index).getInternTokenType());
 			assertEquals(expectedTokenList.get(index).getTokenStringValue(),
 					actualTokenList.get(index).getTokenStringValue());
+		}
+	}
+
+	private static boolean isParsableDouble(String value) {
+		try {
+			Double.valueOf(value);
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
 		}
 	}
 }

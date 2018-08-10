@@ -23,7 +23,6 @@
 package org.catrobat.catroid.test.physics;
 
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
@@ -38,7 +37,9 @@ import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.Reflection.ParameterList;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
 import java.util.Map;
@@ -47,22 +48,24 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
 
 @RunWith(AndroidJUnit4.class)
 public class PhysicsWorldTest {
+
+	@Rule
+	public final ExpectedException exception = ExpectedException.none();
+
 	static {
 		GdxNativesLoader.load();
 	}
 
-	private static final String TAG = PhysicsWorldTest.class.getSimpleName();
 	private PhysicsWorld physicsWorld;
 	private World world;
 	private Map<Sprite, PhysicsObject> physicsObjects;
 
 	@SuppressWarnings("unchecked")
 	@Before
-	public void setUp() {
+	public void setUp() throws Exception {
 		physicsWorld = new PhysicsWorld(1920, 1600);
 		world = (World) Reflection.getPrivateField(physicsWorld, "world");
 		physicsObjects = (Map<Sprite, PhysicsObject>) Reflection.getPrivateField(physicsWorld, "physicsObjects");
@@ -77,7 +80,7 @@ public class PhysicsWorldTest {
 	}
 
 	@Test
-	public void testDefaultSettings() {
+	public void testDefaultSettings() throws Exception {
 		assertEquals(10.0f, PhysicsWorld.RATIO);
 		assertEquals(3, PhysicsWorld.VELOCITY_ITERATIONS);
 		assertEquals(3, PhysicsWorld.POSITION_ITERATIONS);
@@ -116,12 +119,8 @@ public class PhysicsWorldTest {
 
 	@Test
 	public void testGetNullPhysicsObject() {
-		try {
-			physicsWorld.getPhysicsObject(null);
-			fail("Get physics object of a null sprite didn't cause a null pointer exception");
-		} catch (NullPointerException exception) {
-			Log.d(TAG, "Exception thrown as expected");
-		}
+		exception.expect(NullPointerException.class);
+		physicsWorld.getPhysicsObject(null);
 	}
 
 	@Test
@@ -136,7 +135,7 @@ public class PhysicsWorldTest {
 	}
 
 	@Test
-	public void testCreatePhysicsObject() {
+	public void testCreatePhysicsObject() throws Exception {
 		Object[] values = {new Sprite("testsprite")};
 		ParameterList paramList = new ParameterList(values);
 		PhysicsObject physicsObject = (PhysicsObject) Reflection.invokeMethod(physicsWorld, "createPhysicsObject",

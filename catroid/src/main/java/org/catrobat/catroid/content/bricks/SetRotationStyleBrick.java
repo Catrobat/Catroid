@@ -39,10 +39,9 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import java.util.List;
 
 public class SetRotationStyleBrick extends BrickBaseType {
+
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
-	private transient Spinner spinner;
 	private int selection;
 
 	public SetRotationStyleBrick() {
@@ -57,7 +56,7 @@ public class SetRotationStyleBrick extends BrickBaseType {
 	public View getView(Context context) {
 		super.getView(context);
 		BrickViewProvider.setAlphaOnView(view, alphaValue);
-		spinner = (Spinner) view.findViewById(R.id.brick_set_rotation_style_spinner);
+		Spinner spinner = view.findViewById(R.id.brick_set_rotation_style_spinner);
 
 		final ArrayAdapter<String> spinnerAdapter = createSpinnerAdapter(context);
 		SpinnerAdapterWrapper spinnerAdapterWrapper = new SpinnerAdapterWrapper(context, spinnerAdapter);
@@ -89,19 +88,12 @@ public class SetRotationStyleBrick extends BrickBaseType {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
-
-		spinner = (Spinner) prototypeView.findViewById(R.id.brick_set_rotation_style_spinner);
-
+		View prototypeView = super.getPrototypeView(context);
+		Spinner spinner = prototypeView.findViewById(R.id.brick_set_rotation_style_spinner);
 		SpinnerAdapter setLookSpinnerAdapter = createSpinnerAdapter(context);
 		spinner.setAdapter(setLookSpinnerAdapter);
 		spinner.setSelection(selection, true);
 		return prototypeView;
-	}
-
-	@Override
-	public Brick clone() {
-		return new SetRotationStyleBrick();
 	}
 
 	@Override

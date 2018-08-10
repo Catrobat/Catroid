@@ -29,21 +29,12 @@ import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.content.eventids.NfcEventId;
 
-import java.util.ArrayList;
-
 public class WhenNfcScript extends Script {
 
 	private static final long serialVersionUID = 1L;
 
 	private NfcTagData nfcTag;
 	private boolean matchAll = true;
-
-	@Override
-	public Script clone() throws CloneNotSupportedException {
-		WhenNfcScript clone = new WhenNfcScript(nfcTag);
-		clone.getBrickList().addAll(cloneBrickList());
-		return clone;
-	}
 
 	public WhenNfcScript() {
 	}
@@ -54,21 +45,16 @@ public class WhenNfcScript extends Script {
 
 	@Override
 	public ScriptBrick getScriptBrick() {
-		if (brick == null) {
-			brick = new WhenNfcBrick(this);
+		if (scriptBrick == null) {
+			scriptBrick = new WhenNfcBrick(this);
 		}
-		return brick;
+		return scriptBrick;
 	}
 
 	@Override
-	public int getRequiredResources() {
-		int resources = Brick.NO_RESOURCES;
-		resources |= getScriptBrick().getRequiredResources();
-		ArrayList<Brick> brickList = getBrickList();
-		for (Brick brick : brickList) {
-			resources |= brick.getRequiredResources();
-		}
-		return resources;
+	public void addRequiredResources(final Brick.ResourcesSet resourcesSet) {
+		resourcesSet.add(Brick.NFC_ADAPTER);
+		super.addRequiredResources(resourcesSet);
 	}
 
 	public void setMatchAll(boolean matchAll) {

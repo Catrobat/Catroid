@@ -21,15 +21,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.test.utils;
+package org.catrobat.catroid.test.ui;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
 import android.util.SparseArray;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.test.utils.Reflection;
+import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.NotificationData;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.junit.After;
@@ -38,22 +41,23 @@ import org.junit.runner.RunWith;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.is;
 
 @RunWith(AndroidJUnit4.class)
 public class StatusBarNotificationManagerTest {
-	private static final String TAG = StatusBarNotificationManagerTest.class.getSimpleName();
 
 	private final StatusBarNotificationManager notificationManager = StatusBarNotificationManager.getInstance();
 
 	@After
 	public void tearDown() throws Exception {
-		TestUtils.cancelAllNotifications(InstrumentationRegistry.getTargetContext());
+		cancelAllNotifications(InstrumentationRegistry.getTargetContext());
 	}
 
 	@Test
-	public void testCreateCopyNotification() {
+	public void testCreateCopyNotification() throws Exception {
 		int id = notificationManager.createCopyNotification(InstrumentationRegistry.getTargetContext(), TestUtils
 				.DEFAULT_TEST_PROJECT_NAME);
 		checkNotificationData(id);
@@ -64,7 +68,7 @@ public class StatusBarNotificationManagerTest {
 	}
 
 	@Test
-	public void testCreateDownloadNotification() {
+	public void testCreateDownloadNotification() throws Exception {
 		int id = notificationManager.createDownloadNotification(InstrumentationRegistry.getTargetContext(), TestUtils
 				.DEFAULT_TEST_PROJECT_NAME);
 		checkNotificationData(id);
@@ -75,7 +79,7 @@ public class StatusBarNotificationManagerTest {
 	}
 
 	@Test
-	public void testCreateUploadNotification() {
+	public void testCreateUploadNotification() throws Exception {
 		int id = notificationManager.createUploadNotification(InstrumentationRegistry.getTargetContext(), TestUtils
 				.DEFAULT_TEST_PROJECT_NAME);
 		checkNotificationData(id);
@@ -88,16 +92,11 @@ public class StatusBarNotificationManagerTest {
 
 	@Test
 	public void testShowOrUpdateNotification() {
-		try {
-			notificationManager.showOrUpdateNotification(-1, 0);
-		} catch (Exception ex) {
-			Log.e(TAG, "showOrUpdateNotification() failed", ex);
-			fail("there shouldn't be any exception thrown");
-		}
+		notificationManager.showOrUpdateNotification(-1, 0);
 	}
 
 	@Test
-	public void testUploadRejectedNotification() {
+	public void testUploadRejectedNotification() throws Exception {
 		int id = notificationManager.createUploadNotification(InstrumentationRegistry.getTargetContext(), TestUtils
 				.DEFAULT_TEST_PROJECT_NAME);
 		checkNotificationData(id);
@@ -112,8 +111,8 @@ public class StatusBarNotificationManagerTest {
 				.getString(R.string.error_project_upload));
 	}
 
-	private void checkNotificationData(int id) {
-		assertTrue(id >= 0);
+	private void checkNotificationData(int id) throws Exception {
+		assertThat(id, is(greaterThanOrEqualTo(0)));
 
 		@SuppressWarnings("unchecked")
 		SparseArray<NotificationData> notificationDataMap = (SparseArray<NotificationData>) Reflection.getPrivateField(
@@ -124,5 +123,22 @@ public class StatusBarNotificationManagerTest {
 		assertNotNull(data.getPendingIntent());
 		assertNotNull(data.getNotificationBuilder());
 		assertEquals(TestUtils.DEFAULT_TEST_PROJECT_NAME, data.getProgramName());
+	}
+
+	private void cancelAllNotifications(Context context) throws Exception {
+		NotificationManager notificationManager = (NotificationManager) context
+				.getSystemService(Context.NOTIFICATION_SERVICE);
+		@SuppressWarnings("unchecked")
+		SparseArray<NotificationData> notificationMap = (SparseArray<NotificationData>) Reflection.getPrivateField(
+				StatusBarNotificationManager.class, StatusBarNotificationManager.getInstance(), "notificationDataMap");
+		if (notificationMap == null) {
+			return;
+		}
+
+		for (int i = 0; i < notificationMap.size(); i++) {
+			notificationManager.cancel(notificationMap.keyAt(i));
+		}
+
+		notificationMap.clear();
 	}
 }

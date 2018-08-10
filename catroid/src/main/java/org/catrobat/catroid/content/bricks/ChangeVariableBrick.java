@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.view.View;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -36,7 +35,6 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
@@ -45,30 +43,21 @@ public class ChangeVariableBrick extends UserVariableBrick {
 	private static final long serialVersionUID = 1L;
 
 	public ChangeVariableBrick() {
-		addAllowedBrickField(BrickField.VARIABLE_CHANGE);
-	}
-
-	public ChangeVariableBrick(Formula variableFormula) {
-		initializeBrickFields(variableFormula);
-	}
-
-	public ChangeVariableBrick(Formula variableFormula, UserVariable userVariable) {
-		initializeBrickFields(variableFormula);
-		this.userVariable = userVariable;
+		this(new Formula(BrickValues.CHANGE_VARIABLE));
 	}
 
 	public ChangeVariableBrick(double value) {
-		initializeBrickFields(new Formula(value));
+		this(new Formula(value));
 	}
 
-	private void initializeBrickFields(Formula variableFormula) {
-		addAllowedBrickField(BrickField.VARIABLE_CHANGE);
-		setFormulaWithBrickField(BrickField.VARIABLE_CHANGE, variableFormula);
+	public ChangeVariableBrick(Formula formula, UserVariable userVariable) {
+		this(formula);
+		this.userVariable = userVariable;
 	}
 
-	@Override
-	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.VARIABLE_CHANGE).getRequiredResources();
+	public ChangeVariableBrick(Formula formula) {
+		addAllowedBrickField(BrickField.VARIABLE_CHANGE, R.id.brick_change_variable_edit_text);
+		setFormulaWithBrickField(BrickField.VARIABLE_CHANGE, formula);
 	}
 
 	@Override
@@ -77,25 +66,20 @@ public class ChangeVariableBrick extends UserVariableBrick {
 	}
 
 	@Override
-	public View getView(final Context context) {
+	public View getView(Context context) {
 		super.getView(context);
-		TextView textField = (TextView) view.findViewById(R.id.brick_change_variable_edit_text);
-		getFormulaWithBrickField(BrickField.VARIABLE_CHANGE).setTextFieldId(R.id.brick_change_variable_edit_text);
-		getFormulaWithBrickField(BrickField.VARIABLE_CHANGE).refreshTextField(view);
-		textField.setOnClickListener(this);
 
-		Spinner variableSpinner = (Spinner) view.findViewById(R.id.change_variable_spinner);
+		Spinner variableSpinner = view.findViewById(R.id.change_variable_spinner);
 
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
 				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
+
 		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
 				dataAdapter);
+
 		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
-
 		variableSpinner.setAdapter(userVariableAdapterWrapper);
-
 		setSpinnerSelection(variableSpinner, null);
-
 		variableSpinner.setOnTouchListener(createSpinnerOnTouchListener());
 		variableSpinner.setOnItemSelectedListener(createVariableSpinnerItemSelectedListener());
 		return view;
@@ -104,19 +88,16 @@ public class ChangeVariableBrick extends UserVariableBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = super.getPrototypeView(context);
-		Spinner variableSpinner = (Spinner) prototypeView.findViewById(R.id.change_variable_spinner);
+		Spinner variableSpinner = prototypeView.findViewById(R.id.change_variable_spinner);
 
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyEditedScene()
 				.getDataContainer().createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
 
-		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
-				dataAdapter);
+		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context, dataAdapter);
 		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
 		variableSpinner.setAdapter(userVariableAdapterWrapper);
 		setSpinnerSelection(variableSpinner, null);
 
-		TextView textChangeVariable = (TextView) prototypeView.findViewById(R.id.brick_change_variable_edit_text);
-		textChangeVariable.setText(formatNumberForPrototypeView(BrickValues.CHANGE_VARIABLE));
 		return prototypeView;
 	}
 
@@ -127,17 +108,9 @@ public class ChangeVariableBrick extends UserVariableBrick {
 	}
 
 	@Override
-	public ChangeVariableBrick clone() {
-		return new ChangeVariableBrick(getFormulaWithBrickField(BrickField.VARIABLE_CHANGE).clone(), userVariable);
-	}
-
-	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createChangeVariableAction(sprite, getFormulaWithBrickField(BrickField.VARIABLE_CHANGE), userVariable));
+		sequence.addAction(sprite.getActionFactory()
+				.createChangeVariableAction(sprite, getFormulaWithBrickField(BrickField.VARIABLE_CHANGE), userVariable));
 		return null;
-	}
-
-	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.VARIABLE_CHANGE);
 	}
 }

@@ -22,80 +22,41 @@
  */
 package org.catrobat.catroid.physics.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.TextView;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
 public class TurnLeftSpeedBrick extends FormulaBrick {
+
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
-
 	public TurnLeftSpeedBrick() {
-		addAllowedBrickField(BrickField.PHYSICS_BOUNCE_FACTOR);
+		this(new Formula(BrickValues.PHYSIC_TURN_DEGREES));
 	}
 
-	public TurnLeftSpeedBrick(float degreesPerSecond) {
-		initializeBrickFields(new Formula(degreesPerSecond));
+	public TurnLeftSpeedBrick(double degreesPerSecond) {
+		this(new Formula(degreesPerSecond));
 	}
 
-	public TurnLeftSpeedBrick(Formula degreesPerSecond) {
-		initializeBrickFields(degreesPerSecond);
-	}
-
-	private void initializeBrickFields(Formula degreesPerSecond) {
-		addAllowedBrickField(BrickField.PHYSICS_TURN_LEFT_SPEED);
-		setFormulaWithBrickField(BrickField.PHYSICS_TURN_LEFT_SPEED, degreesPerSecond);
+	public TurnLeftSpeedBrick(Formula formula) {
+		addAllowedBrickField(BrickField.PHYSICS_TURN_LEFT_SPEED, R.id.brick_turn_left_speed_edit_text);
+		setFormulaWithBrickField(BrickField.PHYSICS_TURN_LEFT_SPEED, formula);
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return PHYSICS;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(PHYSICS);
+		super.addRequiredResources(requiredResourcesSet);
 	}
 
 	@Override
 	public int getViewResource() {
 		return R.layout.brick_physics_turn_left_speed;
-	}
-
-	@Override
-	public View getView(Context context) {
-		super.getView(context);
-
-		TextView edit = (TextView) view.findViewById(R.id.brick_turn_left_speed_edit_text);
-
-		getFormulaWithBrickField(BrickField.PHYSICS_TURN_LEFT_SPEED).setTextFieldId(R.id.brick_turn_left_speed_edit_text);
-		getFormulaWithBrickField(BrickField.PHYSICS_TURN_LEFT_SPEED).refreshTextField(view);
-
-		edit.setOnClickListener(this);
-
-		return view;
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
-		TextView textTurnLeftSpeed = (TextView) prototypeView.findViewById(R.id.brick_turn_left_speed_edit_text);
-		textTurnLeftSpeed.setText(formatNumberForPrototypeView(BrickValues.PHYSIC_TURN_DEGREES));
-		return prototypeView;
-	}
-
-	@Override
-	public void showFormulaEditorToEditFormula(View view) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
-		FormulaEditorFragment.showFragment(view, this, BrickField.PHYSICS_TURN_LEFT_SPEED);
 	}
 
 	@Override

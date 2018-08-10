@@ -24,7 +24,6 @@ package org.catrobat.catroid.test.physics;
 
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
 
 import com.badlogic.gdx.math.Vector2;
 
@@ -40,7 +39,6 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
-import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.io.ResourceImporter;
@@ -56,7 +54,6 @@ import org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.physics.content.bricks.SetVelocityBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
-import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
 import org.junit.After;
@@ -71,14 +68,11 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNotSame;
 import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
 
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 
 @RunWith(AndroidJUnit4.class)
 public class PhysicsSpriteCloneTest {
-
-	private static final String TAG = PhysicsSpriteCloneTest.class.getSimpleName();
 
 	private Sprite sprite;
 	private Project project;
@@ -159,7 +153,7 @@ public class PhysicsSpriteCloneTest {
 	}
 
 	@Test
-	public void testSpriteCloneWithCollisionScript() throws IOException {
+	public void testSpriteCloneWithCollisionScript() throws IOException, InterpretationException {
 		CollisionScript collisionScript = new CollisionScript(null);
 		collisionScript.getScriptBrick();
 		Brick setBounceBrick = new SetBounceBrick(BOUNCE_TEST_VALUE);
@@ -184,19 +178,14 @@ public class PhysicsSpriteCloneTest {
 		Formula clonedSetBounceBrickFormula = ((FormulaBrick) clonedSetBounceBrick)
 				.getFormulaWithBrickField(Brick.BrickField.PHYSICS_BOUNCE_FACTOR);
 		float clonedBounceFactorValue = 0;
-		try {
-			clonedBounceFactorValue = clonedSetBounceBrickFormula.interpretFloat(clonedSprite);
-		} catch (InterpretationException interpretationException) {
-			Log.e(TAG, "InterpretationException thrown while interpreting.", interpretationException);
-			fail("InterpretationException thrown while interpreting.");
-		}
+		clonedBounceFactorValue = clonedSetBounceBrickFormula.interpretFloat(clonedSprite);
+
 		assertEquals(BOUNCE_TEST_VALUE, clonedBounceFactorValue);
 	}
 
 	@Test
 	public void testSpriteClonePhysicsLookAndPhysicsObject() throws IOException {
-		WhenStartedBrick brick = new WhenStartedBrick();
-		StartScript startScript = new StartScript(brick);
+		StartScript startScript = new StartScript();
 		Brick setPhysicsObjectTypeBrick = new SetPhysicsObjectTypeBrick(TYPE_TEST_VALUE);
 
 		startScript.addBrick(setPhysicsObjectTypeBrick);

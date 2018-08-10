@@ -26,114 +26,68 @@ import android.graphics.Rect;
 import android.hardware.Camera;
 import android.hardware.Camera.Face;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
 
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.facedetection.IcsFaceDetector;
 import org.catrobat.catroid.formulaeditor.SensorCustomEvent;
 import org.catrobat.catroid.formulaeditor.SensorCustomEventListener;
-import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.uiespresso.annotations.Device;
+import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 
+import java.util.List;
 import java.util.Random;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
+
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.core.IsNot.not;
+import static org.hamcrest.number.OrderingComparison.greaterThanOrEqualTo;
+import static org.hamcrest.number.OrderingComparison.lessThanOrEqualTo;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.verify;
+import static org.mockito.internal.verification.VerificationModeFactory.times;
 
 @RunWith(AndroidJUnit4.class)
 public class IcsFaceDetectorTest {
 
-	private static final String TAG = IcsFaceDetectorTest.class.getSimpleName();
-	private static final int FACE_RECT_SIZE = 2000; // see reference of Camera.Face.rect (1000 - -1000 = 2000)
+	@Rule
+	public MockitoRule rule = MockitoJUnit.rule();
 
-	private static final int COUNTER_INDEX = 0;
-	private static final int SIZE_INDEX = 1;
-	private static final int X_POSITION_INDEX = 2;
-	private static final int Y_POSITION_INDEX = 3;
+	@Captor
+	private ArgumentCaptor<SensorCustomEvent> captor;
+
+	private static final int FACE_RECT_SIZE = 2000; // see reference of Camera.Face.rect (1000 - -1000 = 2000)
 
 	private static final int FACE_LEFT = -20;
 	private static final int FACE_RIGHT = 200;
 	private static final int FACE_TOP = -100;
 	private static final int FACE_BOTTOM = 300;
 	private static final int LOW_SCORE_FACE_WIDTH = 10;
+	private Camera camera;
+	private IcsFaceDetector detector;
 
 	@Before
 	public void setUp() throws Exception {
 		ScreenValues.SCREEN_WIDTH = 720;
 		ScreenValues.SCREEN_HEIGHT = 1080;
+		camera = Camera.open();
+		detector = new IcsFaceDetector();
 	}
 
-	// does not run on emulator, and nexus 7
-	@Device
-	@Test
-	public void testDeviceFaceDetectionSupport() {
+	@After
+	public void tearDown() {
+		detector.stopFaceDetection();
 
-		int possibleFaces = 0;
-		Camera camera = null;
-
-		try {
-			camera = Camera.open();
-			possibleFaces = camera.getParameters().getMaxNumDetectedFaces();
-			camera.release();
-		} catch (Exception exc) {
-			Log.e(TAG, Log.getStackTraceString(exc));
-		} finally {
-			if (camera != null) {
-				camera.release();
-			}
-		}
-		if (possibleFaces == 0) {
-			Log.w(TAG, "The hardware does not support facedetection");
-		}
-	}
-
-	@Device
-	@Test
-	public void testNotAvailable() {
-		Camera camera = null;
-		try {
-			camera = Camera.open();
-			IcsFaceDetector detector = new IcsFaceDetector();
-			if ((camera.getParameters()).getMaxNumDetectedFaces() > 0) {
-				assertFalse(detector.startFaceDetection());
-			}
-		} catch (Exception exc) {
-			fail("Camera not available (" + exc.getMessage() + ")");
-		} finally {
-			if (camera != null) {
-				camera.release();
-			}
-		}
-	}
-
-	@Device
-	@Test
-	public void testDoubleStart() {
-
-		Camera camera = null;
-		try {
-			camera = Camera.open();
-		} catch (Exception exc) {
-			fail("Camera not available (" + exc.getMessage() + ")");
-		}
-		IcsFaceDetector detector = new IcsFaceDetector();
-		if ((camera.getParameters()).getMaxNumDetectedFaces() > 0) {
-			detector.startFaceDetection();
-			try {
-				detector.startFaceDetection();
-			} catch (Exception e) {
-				fail("Second start of face detector should be ignored and not cause errors: " + e.getMessage());
-			} finally {
-				detector.stopFaceDetection();
-				camera.release();
-				camera = null;
-			}
-		}
 		if (camera != null) {
 			camera.release();
 		}
@@ -142,8 +96,6 @@ public class IcsFaceDetectorTest {
 	@Device
 	@Test
 	public void testOnFaceDetectionStatusListener() {
-
-		IcsFaceDetector detector = new IcsFaceDetector();
 		final float[] detected = new float[1];
 		SensorCustomEventListener listener = new SensorCustomEventListener() {
 			public void onCustomSensorChanged(SensorCustomEvent event) {
@@ -167,35 +119,8 @@ public class IcsFaceDetectorTest {
 	@Device
 	@Test
 	public void testOnFaceDetectedListener() {
-
-		IcsFaceDetector detector = new IcsFaceDetector();
-
-		final int[] detectedFaces = new int[4];
-		SensorCustomEventListener detectionListener = new SensorCustomEventListener() {
-
-			public void onCustomSensorChanged(SensorCustomEvent event) {
-				detectedFaces[COUNTER_INDEX]++;
-				int icsValue = (int) event.values[0];
-				float intFloatDifference = event.values[0] - icsValue;
-				assertEquals(intFloatDifference, 0f);
-				switch (event.sensor) {
-					case FACE_X_POSITION:
-						detectedFaces[X_POSITION_INDEX] = icsValue;
-						break;
-					case FACE_Y_POSITION:
-						detectedFaces[Y_POSITION_INDEX] = icsValue;
-						break;
-					case FACE_SIZE:
-						detectedFaces[SIZE_INDEX] = icsValue;
-						break;
-					default:
-						fail("Unexpected Sensor on Ics Face Detection event. Expected face size or position."
-								+ event.sensor);
-				}
-			}
-		};
-		detector.addOnFaceDetectedListener(detectionListener);
-		assertEquals(0, detectedFaces[COUNTER_INDEX]);
+		SensorCustomEventListener mockedListener = Mockito.mock(SensorCustomEventListener.class);
+		detector.addOnFaceDetectedListener(mockedListener);
 
 		Rect faceBounds = new Rect(FACE_LEFT, FACE_TOP, FACE_RIGHT, FACE_BOTTOM);
 		Face[] faces = new Face[2];
@@ -207,46 +132,33 @@ public class IcsFaceDetectorTest {
 		faces[1].score = 80;
 
 		detector.onFaceDetection(faces, null);
-		assertEquals(3, detectedFaces[COUNTER_INDEX]);
+		verify(mockedListener, times(3)).onCustomSensorChanged(captor.capture());
+		List<SensorCustomEvent> capturedEvents = captor.getAllValues();
 
-		int lowScoreFaceSize = LOW_SCORE_FACE_WIDTH * 100 * 2 / FACE_RECT_SIZE;
-		if (detectedFaces[SIZE_INDEX] == lowScoreFaceSize) {
-			fail("Wrong face used for face detection");
-		}
+		assertThat(LOW_SCORE_FACE_WIDTH * 100 * 2 / FACE_RECT_SIZE, is(not((int) capturedEvents.get(2).values[0])));
 
-		int expectedSize = (FACE_RIGHT - FACE_LEFT) * 100 * 2 / FACE_RECT_SIZE;
-		assertEquals(expectedSize, detectedFaces[SIZE_INDEX]);
+		float expectedSize = (FACE_RIGHT - FACE_LEFT) * 100 * 2 / FACE_RECT_SIZE;
+		assertEquals(expectedSize, capturedEvents.get(2).values[0]);
 
-		int expectedXPosition = Math.abs((FACE_TOP + (FACE_BOTTOM - FACE_TOP) / 2) * ScreenValues.SCREEN_WIDTH
+		float expectedXPosition = Math.abs((FACE_TOP + (FACE_BOTTOM - FACE_TOP) / 2) * ScreenValues.SCREEN_WIDTH
 				/ FACE_RECT_SIZE);
-		assertEquals(expectedXPosition, Math.abs(detectedFaces[X_POSITION_INDEX]));
+		assertEquals(expectedXPosition, Math.abs(capturedEvents.get(0).values[0]));
 
-		int expectedYPosition = Math.abs((FACE_LEFT + (FACE_RIGHT - FACE_LEFT) / 2) * ScreenValues.SCREEN_HEIGHT
+		float expectedYPosition = Math.abs((FACE_LEFT + (FACE_RIGHT - FACE_LEFT) / 2) * ScreenValues.SCREEN_HEIGHT
 				/ FACE_RECT_SIZE);
-		assertEquals(expectedYPosition, Math.abs(detectedFaces[Y_POSITION_INDEX]));
+		assertEquals(expectedYPosition, Math.abs(capturedEvents.get(1).values[0]));
 
 		detector.onFaceDetection(faces, null);
-		assertTrue(detectedFaces[COUNTER_INDEX] <= 6);
-		assertEquals(6, detectedFaces[COUNTER_INDEX]);
+		verify(mockedListener, times(6)).onCustomSensorChanged(captor.capture());
 
-		detector.removeOnFaceDetectedListener(detectionListener);
+		detector.removeOnFaceDetectedListener(mockedListener);
 	}
 
 	@Device
 	@Test
 	public void testFaceSizeBounds() {
-
-		IcsFaceDetector detector = new IcsFaceDetector();
-
-		final float[] faceSize = new float[1];
-		SensorCustomEventListener detectionListener = new SensorCustomEventListener() {
-			public void onCustomSensorChanged(SensorCustomEvent event) {
-				if (event.sensor == Sensors.FACE_SIZE) {
-					faceSize[0] = event.values[0];
-				}
-			}
-		};
-		detector.addOnFaceDetectedListener(detectionListener);
+		SensorCustomEventListener mockedListener = Mockito.mock(SensorCustomEventListener.class);
+		detector.addOnFaceDetectedListener(mockedListener);
 
 		Rect faceBounds = new Rect(FACE_LEFT, FACE_TOP, FACE_RIGHT, FACE_BOTTOM);
 		Face[] faces = new Face[1];
@@ -254,8 +166,10 @@ public class IcsFaceDetectorTest {
 		faces[0].rect = faceBounds;
 
 		detector.onFaceDetection(faces, null);
-		assertTrue(faceSize[0] >= 0);
-		assertTrue(faceSize[0] <= 100);
+		verify(mockedListener, times(3)).onCustomSensorChanged(captor.capture());
+		List<SensorCustomEvent> capturedEvents = captor.getAllValues();
+
+		assertThat(capturedEvents.get(1).values[0], allOf(greaterThanOrEqualTo(0f), lessThanOrEqualTo(100f)));
 
 		Random random = new Random();
 		int left = random.nextInt(FACE_RECT_SIZE - 1);
@@ -266,10 +180,13 @@ public class IcsFaceDetectorTest {
 				- FACE_RECT_SIZE / 2);
 
 		faces[0].rect = faceBounds;
-		detector.onFaceDetection(faces, null);
-		assertTrue(faceSize[0] >= 0);
-		assertTrue(faceSize[0] <= 100);
 
-		detector.removeOnFaceDetectedListener(detectionListener);
+		detector.onFaceDetection(faces, null);
+		verify(mockedListener, times(6)).onCustomSensorChanged(captor.capture());
+		capturedEvents = captor.getAllValues();
+
+		assertThat(capturedEvents.get(1).values[0], allOf(greaterThanOrEqualTo(0f), lessThanOrEqualTo(100f)));
+
+		detector.removeOnFaceDetectedListener(mockedListener);
 	}
 }

@@ -75,13 +75,13 @@ public class ThinkForBubbleBrickTest {
 		onBrickAtPosition(brickPositionOneSecond)
 				.checkShowsText(R.string.brick_think_bubble);
 
-		onBrickAtPosition(brickPositionOneSecond).onFormulaTextField(R.id.brick_think_for_bubble_edit_text_text)
+		onBrickAtPosition(brickPositionOneSecond).onFormulaTextField(R.id.brick_for_bubble_edit_text_text)
 				.checkShowsText(thinkString);
 
 		onBrickAtPosition(brickPositionOneSecond)
 				.checkShowsText(R.string.brick_think_say_for_text);
 
-		onBrickAtPosition(brickPositionOneSecond).onFormulaTextField(R.id.brick_think_for_bubble_edit_text_duration)
+		onBrickAtPosition(brickPositionOneSecond).onFormulaTextField(R.id.brick_for_bubble_edit_text_duration)
 				.check(matches(withText("1 ")));
 
 		String second = UiTestUtils.getResources().getQuantityString(R.plurals.second_plural, (int) durationOne);
@@ -89,7 +89,7 @@ public class ThinkForBubbleBrickTest {
 		onBrickAtPosition(brickPositionOneSecond)
 				.checkShowsText(second);
 
-		onBrickAtPosition(brickPositionTwoSeconds).onFormulaTextField(R.id.brick_think_for_bubble_edit_text_duration)
+		onBrickAtPosition(brickPositionTwoSeconds).onFormulaTextField(R.id.brick_for_bubble_edit_text_duration)
 				.check(matches(withText("2 ")));
 
 		String seconds = UiTestUtils.getResources().getQuantityString(R.plurals.second_plural, (int) durationTwo);

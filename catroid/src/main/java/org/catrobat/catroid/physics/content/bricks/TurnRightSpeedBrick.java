@@ -22,86 +22,46 @@
  */
 package org.catrobat.catroid.physics.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.TextView;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
 public class TurnRightSpeedBrick extends FormulaBrick {
+
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
-
 	public TurnRightSpeedBrick() {
-		addAllowedBrickField(BrickField.PHYSICS_TURN_RIGHT_SPEED);
+		this(new Formula(BrickValues.PHYSIC_TURN_DEGREES));
 	}
 
-	public TurnRightSpeedBrick(float degreesPerSecond) {
-		initializeBrickFields(new Formula(degreesPerSecond));
+	public TurnRightSpeedBrick(double degreesPerSecond) {
+		this(new Formula(degreesPerSecond));
 	}
 
-	public TurnRightSpeedBrick(Formula degreesPerSecond) {
-		initializeBrickFields(degreesPerSecond);
-	}
-
-	private void initializeBrickFields(Formula degreesPerSecond) {
-		addAllowedBrickField(BrickField.PHYSICS_TURN_RIGHT_SPEED);
-		setFormulaWithBrickField(BrickField.PHYSICS_TURN_RIGHT_SPEED, degreesPerSecond);
+	public TurnRightSpeedBrick(Formula formula) {
+		addAllowedBrickField(BrickField.PHYSICS_TURN_RIGHT_SPEED, R.id.brick_turn_right_speed_edit_text);
+		setFormulaWithBrickField(BrickField.PHYSICS_TURN_RIGHT_SPEED, formula);
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return PHYSICS;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(PHYSICS);
+		super.addRequiredResources(requiredResourcesSet);
 	}
-
 	@Override
 	public int getViewResource() {
 		return R.layout.brick_physics_turn_right_speed;
 	}
 
 	@Override
-	public View getView(Context context) {
-		super.getView(context);
-
-		TextView edit = (TextView) view.findViewById(R.id.brick_turn_right_speed_edit_text);
-
-		getFormulaWithBrickField(BrickField.PHYSICS_TURN_RIGHT_SPEED).setTextFieldId(R.id.brick_turn_right_speed_edit_text);
-		getFormulaWithBrickField(BrickField.PHYSICS_TURN_RIGHT_SPEED).refreshTextField(view);
-
-		edit.setOnClickListener(this);
-
-		return view;
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
-		TextView textTurnRightSpeed = (TextView) prototypeView.findViewById(R.id.brick_turn_right_speed_edit_text);
-		textTurnRightSpeed.setText(formatNumberForPrototypeView(BrickValues.PHYSIC_TURN_DEGREES));
-		return prototypeView;
-	}
-
-	@Override
-	public void showFormulaEditorToEditFormula(View view) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
-		FormulaEditorFragment.showFragment(view, this, BrickField.PHYSICS_TURN_RIGHT_SPEED);
-	}
-
-	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createTurnRightSpeedAction(sprite,
-				getFormulaWithBrickField(BrickField.PHYSICS_TURN_RIGHT_SPEED)));
+		sequence.addAction(sprite.getActionFactory()
+				.createTurnRightSpeedAction(sprite, getFormulaWithBrickField(BrickField.PHYSICS_TURN_RIGHT_SPEED)));
 		return null;
 	}
 }

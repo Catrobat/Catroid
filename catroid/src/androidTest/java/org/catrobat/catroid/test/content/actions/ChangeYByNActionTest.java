@@ -30,14 +30,17 @@ import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.fail;
 
 @RunWith(AndroidJUnit4.class)
 public class ChangeYByNActionTest {
+	@Rule
+	public final ExpectedException exception = ExpectedException.none();
 
 	private static final float CHANGE_VALUE = 66.6f;
 	private static final String NOT_NUMERICAL_STRING = "yPosition";
@@ -59,11 +62,8 @@ public class ChangeYByNActionTest {
 	@Test
 	public void testNullSprite() {
 		Action action = sprite.getActionFactory().createChangeYByNAction(null, new Formula(CHANGE_VALUE));
-		try {
-			action.act(1.0f);
-			fail("Execution of ChangeYByNBrick with null Sprite did not cause a " + "NullPointerException to be thrown");
-		} catch (NullPointerException expected) {
-		}
+		exception.expect(NullPointerException.class);
+		action.act(1.0f);
 	}
 
 	@Test

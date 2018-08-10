@@ -32,7 +32,7 @@ import java.util.Calendar;
 
 public final class Constants {
 
-	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = Float.valueOf(0.996f);
+	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = 0.998f;
 
 	public static final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
 	public static final int CAST_CONNECTION_TIMEOUT = 5000; //in milliseconds
@@ -199,13 +199,17 @@ public final class Constants {
 	// Lego
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({NXT, EV3})
-	public @interface LegoSensorType {}
+	public @interface LegoSensorType {
+	}
+
 	public static final int NXT = 0;
 	public static final int EV3 = 1;
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({PORT_1, PORT_2, PORT_3, PORT_4})
-	public @interface LegoPort {}
+	public @interface LegoPort {
+	}
+
 	public static final int PORT_1 = 0;
 	public static final int PORT_2 = 1;
 	public static final int PORT_3 = 2;
@@ -278,6 +282,6 @@ public final class Constants {
 	public static final int STATUS_CODE_UPLOAD_OLD_CATROBAT_VERSION = 519;
 
 	private Constants() {
-		throw new AssertionError();
+		throw new AssertionError("No.");
 	}
 }

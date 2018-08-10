@@ -39,9 +39,4 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 	public int getViewResource() {
 		return R.layout.brick_loop_endless;
 	}
-
-	@Override
-	public Brick clone() {
-		return new LoopEndlessBrick();
-	}
 }

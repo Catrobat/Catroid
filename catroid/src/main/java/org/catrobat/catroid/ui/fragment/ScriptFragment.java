@@ -301,7 +301,7 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 		adapter = new BrickAdapter(this, sprite, listView);
 
 		if (ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts() > 0) {
-			ProjectManager.getInstance().setCurrentScript(((ScriptBrick) adapter.getItem(0)).getScriptSafe());
+			ProjectManager.getInstance().setCurrentScript(((ScriptBrick) adapter.getItem(0)).getScript());
 		}
 
 		listView.setOnCreateContextMenuListener(this);
@@ -469,7 +469,7 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 		}
 
 		if (brick instanceof ScriptBrick) {
-			scriptToEdit = ((ScriptBrick) brick).getScriptSafe();
+			scriptToEdit = ((ScriptBrick) brick).getScript();
 			try {
 				Script clonedScript = scriptToEdit.clone();
 				sprite.addScript(clonedScript);
@@ -501,7 +501,7 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 				NestingBrick nestingBrickCopy = (NestingBrick) copiedBrick;
 				nestingBrickCopy.initialize();
 
-				for (NestingBrick nestingBrick : nestingBrickCopy.getAllNestingBrickParts(true)) {
+				for (NestingBrick nestingBrick : nestingBrickCopy.getAllNestingBrickParts()) {
 					scriptList.addBrick((Brick) nestingBrick);
 				}
 			} else {
@@ -522,7 +522,7 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 	private void deleteBrick(Brick brick) {
 
 		if (brick instanceof ScriptBrick) {
-			scriptToEdit = ((ScriptBrick) brick).getScriptSafe();
+			scriptToEdit = ((ScriptBrick) brick).getScript();
 			adapter.handleScriptDelete(sprite, scriptToEdit);
 			return;
 		}

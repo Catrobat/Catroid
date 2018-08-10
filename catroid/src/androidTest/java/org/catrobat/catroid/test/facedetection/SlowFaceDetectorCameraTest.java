@@ -20,44 +20,51 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.formulaeditor;
+package org.catrobat.catroid.test.facedetection;
 
-import android.support.test.InstrumentationRegistry;
-import android.support.test.annotation.UiThreadTest;
+import android.hardware.Camera;
 import android.support.test.runner.AndroidJUnit4;
 
-import org.catrobat.catroid.formulaeditor.SensorHandler;
-import org.catrobat.catroid.formulaeditor.SensorLoudness;
-import org.catrobat.catroid.test.utils.Reflection;
-import org.catrobat.catroid.test.utils.SimulatedSoundRecorder;
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.common.ScreenValues;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.facedetection.SlowFaceDetector;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
-public class SensorLoudnessTest {
+public class SlowFaceDetectorCameraTest {
+	private Camera camera;
+
+	@Before
+	public void setUp() throws Exception {
+		ScreenValues.SCREEN_WIDTH = 720;
+		ScreenValues.SCREEN_HEIGHT = 1080;
+		ProjectManager.getInstance().setCurrentProject(new Project());
+	}
 
 	@After
-	@UiThreadTest
-	public void tearDown() throws Exception {
-		SensorHandler.stopSensorListeners();
-		Reflection.setPrivateField(SensorLoudness.class, "instance", null);
+	public void tearDown() {
+		if (camera != null) {
+			camera.release();
+		}
 	}
 
 	@Test
-	@UiThreadTest
-	public void testMicRelease() {
-		SensorLoudness.getSensorLoudness();
-		SensorLoudness loudnessSensor = (SensorLoudness) Reflection.getPrivateField(SensorLoudness.class, "instance");
-		SimulatedSoundRecorder simSoundRec = new SimulatedSoundRecorder("/dev/null");
-		Reflection.setPrivateField(loudnessSensor, "recorder", simSoundRec);
+	public void testStartAndStop() {
+		SlowFaceDetector detector = new SlowFaceDetector();
+		assertNotNull(detector);
 
-		SensorHandler.startSensorListener(InstrumentationRegistry.getTargetContext());
-		assertTrue(simSoundRec.isRecording());
-		SensorHandler.stopSensorListeners();
-		assertFalse(simSoundRec.isRecording());
+		assertTrue(detector.startFaceDetection());
+
+		detector.stopFaceDetection();
+
+		camera = Camera.open();
+		assertNotNull(Camera.open());
 	}
 }

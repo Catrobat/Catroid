@@ -121,7 +121,6 @@ import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
-import org.catrobat.catroid.content.bricks.PointInDirectionBrick.Direction;
 import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.PreviousLookBrick;
 import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick;
@@ -257,8 +256,8 @@ public class CategoryBricksFactory {
 		defaultIf.setRightChild(new FormulaElement(ElementType.NUMBER, "2", null));
 
 		List<Brick> eventBrickList = new ArrayList<>();
-		eventBrickList.add(new WhenStartedBrick(null));
-		eventBrickList.add(new WhenBrick(null));
+		eventBrickList.add(new WhenStartedBrick());
+		eventBrickList.add(new WhenBrick());
 		eventBrickList.add(new WhenTouchDownBrick());
 
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
@@ -267,8 +266,7 @@ public class CategoryBricksFactory {
 		if (broadcastMessages.size() > 0) {
 			broadcastMessage = broadcastMessages.get(0);
 		}
-		BroadcastScript broadcastScript = new BroadcastScript(broadcastMessage);
-		eventBrickList.add(new BroadcastReceiverBrick(broadcastScript));
+		eventBrickList.add(new BroadcastReceiverBrick(new BroadcastScript(broadcastMessage)));
 		eventBrickList.add(new BroadcastBrick(broadcastMessage));
 		eventBrickList.add(new BroadcastWaitBrick(broadcastMessage));
 		eventBrickList.add(new WhenConditionBrick(new Formula(defaultIf)));
@@ -338,7 +336,7 @@ public class CategoryBricksFactory {
 	protected List<Brick> setupMotionCategoryList(Sprite sprite, Context context) {
 		List<Brick> motionBrickList = new ArrayList<>();
 		motionBrickList.add(new PlaceAtBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION));
-		motionBrickList.add(new SetXBrick(BrickValues.X_POSITION));
+		motionBrickList.add(new SetXBrick(new Formula(BrickValues.X_POSITION)));
 		motionBrickList.add(new SetYBrick(BrickValues.Y_POSITION));
 		motionBrickList.add(new ChangeXByNBrick(BrickValues.CHANGE_X_BY));
 		motionBrickList.add(new ChangeYByNBrick(BrickValues.CHANGE_Y_BY));
@@ -351,7 +349,7 @@ public class CategoryBricksFactory {
 		motionBrickList.add(new MoveNStepsBrick(BrickValues.MOVE_STEPS));
 		motionBrickList.add(new TurnLeftBrick(BrickValues.TURN_DEGREES));
 		motionBrickList.add(new TurnRightBrick(BrickValues.TURN_DEGREES));
-		motionBrickList.add(new PointInDirectionBrick(Direction.RIGHT));
+		motionBrickList.add(new PointInDirectionBrick(90));
 		motionBrickList.add(new PointToBrick(null));
 		motionBrickList.add(new SetRotationStyleBrick());
 		motionBrickList.add(new GlideToBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION,
@@ -392,7 +390,7 @@ public class CategoryBricksFactory {
 		soundBrickList.add(new SetVolumeToBrick(BrickValues.SET_VOLUME_TO));
 
 		// workaround to set a negative default value for a Brick
-		float positiveDefaultValueChangeVolumeBy = Math.abs(BrickValues.CHANGE_VOLUME_BY);
+		double positiveDefaultValueChangeVolumeBy = Math.abs(BrickValues.CHANGE_VOLUME_BY);
 		FormulaElement defaultValueChangeVolumeBy = new FormulaElement(ElementType.OPERATOR, Operators.MINUS.name(),
 				null, null, new FormulaElement(ElementType.NUMBER, String.valueOf(positiveDefaultValueChangeVolumeBy),
 				null)
@@ -443,7 +441,7 @@ public class CategoryBricksFactory {
 		looksBrickList.add(new SetBackgroundByIndexBrick(BrickValues.SET_LOOK_BY_INDEX));
 		looksBrickList.add(new SetBackgroundAndWaitBrick());
 		looksBrickList.add(new SetBackgroundByIndexAndWaitBrick(BrickValues.SET_LOOK_BY_INDEX));
-		//only add these bricks to the list if the current program is NOT a cast program
+
 		if (!ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 			looksBrickList.add(new CameraBrick());
 			looksBrickList.add(new ChooseCameraBrick());
@@ -451,7 +449,8 @@ public class CategoryBricksFactory {
 		}
 
 		if (SettingsFragment.isPhiroSharedPreferenceEnabled(context)) {
-			looksBrickList.add(new PhiroRGBLightBrick(PhiroRGBLightBrick.Eye.BOTH, BrickValues.PHIRO_VALUE_RED, BrickValues.PHIRO_VALUE_GREEN, BrickValues.PHIRO_VALUE_BLUE));
+			looksBrickList.add(new PhiroRGBLightBrick(PhiroRGBLightBrick.Eye.BOTH,
+					BrickValues.PHIRO_VALUE_RED, BrickValues.PHIRO_VALUE_GREEN, BrickValues.PHIRO_VALUE_BLUE));
 		}
 
 		return looksBrickList;
@@ -463,7 +462,7 @@ public class CategoryBricksFactory {
 		if (!isBackground(sprite)) {
 			penBrickList.add(new PenDownBrick());
 			penBrickList.add(new PenUpBrick());
-			penBrickList.add(new SetPenSizeBrick(4));
+			penBrickList.add(new SetPenSizeBrick(BrickValues.PEN_SIZE));
 			penBrickList.add(new SetPenColorBrick(0, 0, 255));
 			penBrickList.add(new StampBrick());
 		}
@@ -480,8 +479,10 @@ public class CategoryBricksFactory {
 		dataBrickList.add(new HideTextBrick());
 		dataBrickList.add(new AddItemToUserListBrick(BrickValues.ADD_ITEM_TO_USERLIST));
 		dataBrickList.add(new DeleteItemOfUserListBrick(BrickValues.DELETE_ITEM_OF_USERLIST));
-		dataBrickList.add(new InsertItemIntoUserListBrick(BrickValues.INSERT_ITEM_INTO_USERLIST_VALUE, BrickValues.INSERT_ITEM_INTO_USERLIST_INDEX));
-		dataBrickList.add(new ReplaceItemInUserListBrick(BrickValues.REPLACE_ITEM_IN_USERLIST_VALUE, BrickValues.REPLACE_ITEM_IN_USERLIST_INDEX));
+		dataBrickList.add(new InsertItemIntoUserListBrick(BrickValues.INSERT_ITEM_INTO_USERLIST_VALUE,
+				BrickValues.INSERT_ITEM_INTO_USERLIST_INDEX));
+		dataBrickList.add(new ReplaceItemInUserListBrick(BrickValues.REPLACE_ITEM_IN_USERLIST_VALUE,
+				BrickValues.REPLACE_ITEM_IN_USERLIST_INDEX));
 		dataBrickList.add(new AskBrick(context.getString(R.string.brick_ask_default_question)));
 		dataBrickList.add(new AskSpeechBrick(context.getString(R.string.brick_ask_speech_default_question)));
 		return dataBrickList;
@@ -506,7 +507,8 @@ public class CategoryBricksFactory {
 		legoEV3BrickList.add(new LegoEv3MotorMoveBrick(LegoEv3MotorMoveBrick.Motor.MOTOR_A,
 				BrickValues.LEGO_SPEED));
 		legoEV3BrickList.add(new LegoEv3MotorStopBrick(LegoEv3MotorStopBrick.Motor.MOTOR_A));
-		legoEV3BrickList.add(new LegoEv3PlayToneBrick(BrickValues.LEGO_FREQUENCY, BrickValues.LEGO_DURATION, BrickValues.LEGO_VOLUME));
+		legoEV3BrickList.add(new LegoEv3PlayToneBrick(BrickValues.LEGO_FREQUENCY,
+				BrickValues.LEGO_DURATION, BrickValues.LEGO_VOLUME));
 		legoEV3BrickList.add(new LegoEv3SetLedBrick(LegoEv3SetLedBrick.LedStatus.LED_GREEN));
 
 		return legoEV3BrickList;
@@ -516,14 +518,22 @@ public class CategoryBricksFactory {
 		List<Brick> droneBrickList = new ArrayList<>();
 		droneBrickList.add(new DroneTakeOffLandBrick());
 		droneBrickList.add(new DroneEmergencyBrick());
-		droneBrickList.add(new DroneMoveUpBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT));
-		droneBrickList.add(new DroneMoveDownBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT));
-		droneBrickList.add(new DroneMoveLeftBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT));
-		droneBrickList.add(new DroneMoveRightBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT));
-		droneBrickList.add(new DroneMoveForwardBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT));
-		droneBrickList.add(new DroneMoveBackwardBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT));
-		droneBrickList.add(new DroneTurnLeftBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT));
-		droneBrickList.add(new DroneTurnRightBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT));
+		droneBrickList.add(new DroneMoveUpBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS,
+				BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT));
+		droneBrickList.add(new DroneMoveDownBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS,
+				BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT));
+		droneBrickList.add(new DroneMoveLeftBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS,
+				BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT));
+		droneBrickList.add(new DroneMoveRightBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS,
+				BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT));
+		droneBrickList.add(new DroneMoveForwardBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS,
+				BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT));
+		droneBrickList.add(new DroneMoveBackwardBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS,
+				BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT));
+		droneBrickList.add(new DroneTurnLeftBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS,
+				BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT));
+		droneBrickList.add(new DroneTurnRightBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS,
+				BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT));
 		droneBrickList.add(new DroneFlipBrick());
 		droneBrickList.add(new DronePlayLedAnimationBrick(ARDRONE_LED_ANIMATION.ARDRONE_LED_ANIMATION_BLINK_GREEN_RED));
 		droneBrickList.add(new DroneSwitchCameraBrick());
@@ -533,13 +543,16 @@ public class CategoryBricksFactory {
 
 	private List<Brick> setupJumpingSumoCategoryList() {
 		List<Brick> jumpingSumoBrickList = new ArrayList<>();
-		jumpingSumoBrickList.add(new JumpingSumoMoveForwardBrick(BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, BrickValues
-				.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT));
-		jumpingSumoBrickList.add(new JumpingSumoMoveBackwardBrick(BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, BrickValues
-				.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT));
+		jumpingSumoBrickList.add(new JumpingSumoMoveForwardBrick(
+				BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS,
+				BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT));
+		jumpingSumoBrickList.add(new JumpingSumoMoveBackwardBrick(
+				BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS,
+				BrickValues
+						.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT));
 		jumpingSumoBrickList.add(new JumpingSumoAnimationsBrick(JumpingSumoAnimationsBrick.Animation.SPIN));
-		jumpingSumoBrickList.add(new JumpingSumoSoundBrick(JumpingSumoSoundBrick.Sounds.DEFAULT, BrickValues
-				.JUMPING_SUMO_SOUND_BRICK_DEFAULT_VOLUME_PERCENT));
+		jumpingSumoBrickList.add(new JumpingSumoSoundBrick(JumpingSumoSoundBrick.Sounds.DEFAULT,
+				BrickValues.JUMPING_SUMO_SOUND_BRICK_DEFAULT_VOLUME_PERCENT));
 		jumpingSumoBrickList.add(new JumpingSumoNoSoundBrick());
 		jumpingSumoBrickList.add(new JumpingSumoJumpLongBrick());
 		jumpingSumoBrickList.add(new JumpingSumoJumpHighBrick());
@@ -560,7 +573,8 @@ public class CategoryBricksFactory {
 		phiroProBrickList.add(new PhiroMotorStopBrick(PhiroMotorStopBrick.Motor.MOTOR_BOTH));
 		phiroProBrickList.add(new PhiroPlayToneBrick(PhiroPlayToneBrick.Tone.DO,
 				BrickValues.PHIRO_DURATION));
-		phiroProBrickList.add(new PhiroRGBLightBrick(PhiroRGBLightBrick.Eye.BOTH, BrickValues.PHIRO_VALUE_RED, BrickValues.PHIRO_VALUE_GREEN, BrickValues.PHIRO_VALUE_BLUE));
+		phiroProBrickList.add(new PhiroRGBLightBrick(PhiroRGBLightBrick.Eye.BOTH, BrickValues.PHIRO_VALUE_RED,
+				BrickValues.PHIRO_VALUE_GREEN, BrickValues.PHIRO_VALUE_BLUE));
 		phiroProBrickList.add(new PhiroIfLogicBeginBrick());
 		phiroProBrickList.add(new SetVariableBrick(Sensors.PHIRO_FRONT_LEFT));
 		phiroProBrickList.add(new SetVariableBrick(Sensors.PHIRO_FRONT_RIGHT));
@@ -574,39 +588,39 @@ public class CategoryBricksFactory {
 
 	private List<Brick> setupArduinoCategoryList() {
 		List<Brick> arduinoBrickList = new ArrayList<>();
-		arduinoBrickList.add(new ArduinoSendDigitalValueBrick(BrickValues.ARDUINO_DIGITAL_INITIAL_PIN_NUMBER, BrickValues.ARDUINO_DIGITAL_INITIAL_PIN_VALUE));
-		arduinoBrickList.add(new ArduinoSendPWMValueBrick(BrickValues.ARDUINO_PWM_INITIAL_PIN_NUMBER, BrickValues.ARDUINO_PWM_INITIAL_PIN_VALUE));
+		arduinoBrickList.add(new ArduinoSendDigitalValueBrick(BrickValues.ARDUINO_DIGITAL_INITIAL_PIN_NUMBER,
+				BrickValues.ARDUINO_DIGITAL_INITIAL_PIN_VALUE));
+		arduinoBrickList.add(new ArduinoSendPWMValueBrick(BrickValues.ARDUINO_PWM_INITIAL_PIN_NUMBER,
+				BrickValues.ARDUINO_PWM_INITIAL_PIN_VALUE));
 
 		return arduinoBrickList;
 	}
 
 	private List<Brick> setupRaspiCategoryList() {
-		RaspiInterruptScript defaultScript = new RaspiInterruptScript(Integer.toString(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER), BrickValues.RASPI_EVENTS[0]);
+		RaspiInterruptScript defaultScript = new RaspiInterruptScript(
+				Integer.toString(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER), BrickValues.RASPI_EVENTS[0]);
+
 		List<Brick> raspiBrickList = new ArrayList<>();
 		raspiBrickList.add(new WhenRaspiPinChangedBrick(defaultScript));
 		raspiBrickList.add(new RaspiIfLogicBeginBrick(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER));
-		raspiBrickList.add(new RaspiSendDigitalValueBrick(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER, BrickValues.RASPI_DIGITAL_INITIAL_PIN_VALUE));
-		raspiBrickList.add(new RaspiPwmBrick(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER, BrickValues
-				.RASPI_PWM_INITIAL_FREQUENCY, BrickValues.RASPI_PWM_INITIAL_PERCENTAGE));
+		raspiBrickList.add(new RaspiSendDigitalValueBrick(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER,
+				BrickValues.RASPI_DIGITAL_INITIAL_PIN_VALUE));
+		raspiBrickList.add(new RaspiPwmBrick(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER,
+				BrickValues.RASPI_PWM_INITIAL_FREQUENCY, BrickValues.RASPI_PWM_INITIAL_PERCENTAGE));
 
 		return raspiBrickList;
 	}
 
 	private List<Brick> setupEmbroideryCategoryList() {
-		List<Brick> embroideryBrickList = new ArrayList<>();
-
-		return embroideryBrickList;
+		return new ArrayList<>();
 	}
 
 	protected boolean isBackground(Sprite sprite) {
-		if (ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList().indexOf(sprite) == 0) {
-			return true;
-		}
-		return false;
+		return ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList().indexOf(sprite) == 0;
 	}
 
 	public String getBrickCategory(Brick brick, Sprite sprite, Context context) {
-		List<Brick> categoryBricks = new LinkedList<>();
+		List<Brick> categoryBricks;
 		categoryBricks = setupControlCategoryList(context);
 
 		Resources res = context.getResources();

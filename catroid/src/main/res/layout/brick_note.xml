@@ -22,11 +22,11 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:gravity="center_vertical"
-              android:orientation="horizontal" >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
 
     <CheckBox
         android:id="@+id/brick_checkbox"
@@ -42,14 +42,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
-        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
+        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing">
 
-        <include layout="@layout/icon_brick_category_control"/>
+        <include layout="@layout/icon_brick_category_control" />
 
         <TextView
-            android:id="@+id/brick_note_text_view"
-            android:labelFor="@+id/brick_note_edit_text"
             style="@style/BrickText.SingleLine"
+            android:labelFor="@+id/brick_note_edit_text"
             android:text="@string/brick_note" />
 
         <EditText
@@ -57,11 +56,11 @@
             style="@style/BrickEditText"
             android:layout_width="match_parent"
             android:layout_gravity="center_vertical"
-            app:layout_inputType="text"
-            app:layout_textField="true"
             android:gravity="start"
             android:maxLines="3"
-            android:minLines="1" />
-    </org.catrobat.catroid.ui.BrickLayout >
+            android:minLines="1"
+            app:layout_inputType="text"
+            app:layout_textField="true" />
+    </org.catrobat.catroid.ui.BrickLayout>
 
 </LinearLayout>

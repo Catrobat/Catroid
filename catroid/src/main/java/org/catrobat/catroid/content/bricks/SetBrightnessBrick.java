@@ -22,44 +22,29 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.TextView;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
 public class SetBrightnessBrick extends FormulaBrick {
+
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
-
 	public SetBrightnessBrick() {
-		addAllowedBrickField(BrickField.BRIGHTNESS);
+		this(new Formula(BrickValues.SET_BRIGHTNESS_TO));
 	}
 
-	public SetBrightnessBrick(double brightnessValue) {
-		initializeBrickFields(new Formula(brightnessValue));
+	public SetBrightnessBrick(double brightness) {
+		this(new Formula(brightness));
 	}
 
-	public SetBrightnessBrick(Formula brightness) {
-		initializeBrickFields(brightness);
-	}
-
-	private void initializeBrickFields(Formula brightness) {
-		addAllowedBrickField(BrickField.BRIGHTNESS);
-		setFormulaWithBrickField(BrickField.BRIGHTNESS, brightness);
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.BRIGHTNESS).getRequiredResources();
+	public SetBrightnessBrick(Formula formula) {
+		addAllowedBrickField(BrickField.BRIGHTNESS, R.id.brick_set_brightness_edit_text);
+		setFormulaWithBrickField(BrickField.BRIGHTNESS, formula);
 	}
 
 	@Override
@@ -68,34 +53,9 @@ public class SetBrightnessBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context) {
-		super.getView(context);
-		TextView editX = (TextView) view.findViewById(R.id.brick_set_brightness_edit_text);
-		getFormulaWithBrickField(BrickField.BRIGHTNESS).setTextFieldId(R.id.brick_set_brightness_edit_text);
-		getFormulaWithBrickField(BrickField.BRIGHTNESS).refreshTextField(view);
-
-		editX.setOnClickListener(this);
-		return view;
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
-		TextView textSetBrightness = (TextView) prototypeView
-				.findViewById(R.id.brick_set_brightness_edit_text);
-		textSetBrightness.setText(formatNumberForPrototypeView(BrickValues.SET_BRIGHTNESS_TO));
-		return prototypeView;
-	}
-
-	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSetBrightnessAction(sprite,
 				getFormulaWithBrickField(BrickField.BRIGHTNESS)));
 		return null;
-	}
-
-	@Override
-	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.BRIGHTNESS);
 	}
 }

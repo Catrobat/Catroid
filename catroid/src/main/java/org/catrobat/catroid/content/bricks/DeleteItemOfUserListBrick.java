@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.view.View;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -36,7 +35,6 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.ui.adapter.UserListAdapterWrapper;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
@@ -45,27 +43,27 @@ public class DeleteItemOfUserListBrick extends UserListBrick {
 	private static final long serialVersionUID = 1L;
 
 	public DeleteItemOfUserListBrick() {
-		addAllowedBrickField(BrickField.LIST_DELETE_ITEM);
+		this(new Formula(BrickValues.DELETE_ITEM_OF_USERLIST));
 	}
 
-	public DeleteItemOfUserListBrick(Formula userListFormula, UserList userList) {
-		initializeBrickFields(userListFormula);
+	public DeleteItemOfUserListBrick(Integer item) {
+		this(new Formula(item));
+	}
+
+	public DeleteItemOfUserListBrick(Formula formula, UserList userList) {
+		this(formula);
 		this.userList = userList;
 	}
 
-	public DeleteItemOfUserListBrick(Integer value) {
-		initializeBrickFields(new Formula(value));
-	}
-
-	private void initializeBrickFields(Formula listAddItemFormula) {
-		addAllowedBrickField(BrickField.LIST_DELETE_ITEM);
-		setFormulaWithBrickField(BrickField.LIST_DELETE_ITEM, listAddItemFormula);
+	public DeleteItemOfUserListBrick(Formula formula) {
+		addAllowedBrickField(BrickField.LIST_DELETE_ITEM, R.id.brick_delete_item_of_userlist_edit_text);
+		setFormulaWithBrickField(BrickField.LIST_DELETE_ITEM, formula);
 	}
 
 	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createDeleteItemOfUserListAction(sprite,
-				getFormulaWithBrickField(BrickField.LIST_DELETE_ITEM), userList));
+		sequence.addAction(sprite.getActionFactory()
+				.createDeleteItemOfUserListAction(sprite, getFormulaWithBrickField(BrickField.LIST_DELETE_ITEM), userList));
 		return null;
 	}
 
@@ -77,22 +75,16 @@ public class DeleteItemOfUserListBrick extends UserListBrick {
 	@Override
 	public View getView(final Context context) {
 		super.getView(context);
-		TextView textField = (TextView) view.findViewById(R.id.brick_delete_item_of_userlist_edit_text);
-		getFormulaWithBrickField(BrickField.LIST_DELETE_ITEM).setTextFieldId(R.id.brick_delete_item_of_userlist_edit_text);
-		getFormulaWithBrickField(BrickField.LIST_DELETE_ITEM).refreshTextField(view);
 
-		textField.setOnClickListener(this);
-
-		Spinner userListSpinner = (Spinner) view.findViewById(R.id.delete_item_of_userlist_spinner);
+		Spinner userListSpinner = view.findViewById(R.id.delete_item_of_userlist_spinner);
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
 				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
+
 		UserListAdapterWrapper userListAdapterWrapper = new UserListAdapterWrapper(context, dataAdapter);
 		userListAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
 
 		userListSpinner.setAdapter(userListAdapterWrapper);
-
 		setSpinnerSelection(userListSpinner, null);
-
 		userListSpinner.setOnTouchListener(createSpinnerOnTouchListener());
 		userListSpinner.setOnItemSelectedListener(createListSpinnerItemSelectedListener());
 		return view;
@@ -101,7 +93,8 @@ public class DeleteItemOfUserListBrick extends UserListBrick {
 	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = super.getPrototypeView(context);
-		Spinner userListSpinner = (Spinner) prototypeView.findViewById(R.id.delete_item_of_userlist_spinner);
+
+		Spinner userListSpinner = prototypeView.findViewById(R.id.delete_item_of_userlist_spinner);
 
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
 				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
@@ -112,10 +105,6 @@ public class DeleteItemOfUserListBrick extends UserListBrick {
 		userListSpinner.setAdapter(userListAdapterWrapper);
 		setSpinnerSelection(userListSpinner, null);
 
-		TextView textAddItemToList = (TextView) prototypeView
-				.findViewById(R.id.brick_delete_item_of_userlist_edit_text);
-		textAddItemToList.setText(formatNumberForPrototypeView(BrickValues.DELETE_ITEM_OF_USERLIST));
-
 		return prototypeView;
 	}
 
@@ -123,15 +112,5 @@ public class DeleteItemOfUserListBrick extends UserListBrick {
 	public void onNewList(UserList userList) {
 		Spinner spinner = view.findViewById(R.id.delete_item_of_userlist_spinner);
 		setSpinnerSelection(spinner, userList);
-	}
-
-	@Override
-	public Brick clone() {
-		return new DeleteItemOfUserListBrick(getFormulaWithBrickField(BrickField.LIST_DELETE_ITEM).clone(), userList);
-	}
-
-	@Override
-	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.LIST_DELETE_ITEM);
 	}
 }

@@ -153,7 +153,7 @@ public class WebSocketClientTest {
 
 	@Test
 	public void testAsyncConnectAndAuthenticateSuccessfullyConnectedAndAuthenticatedWithValidClientID()
-			throws NoSuchFieldException, IllegalAccessException {
+			throws Exception {
 		final long expectedClientID = VALID_CLIENT_ID;
 
 		Reflection.setPrivateField(WebSocketClient.class, webSocketClient, "clientID", expectedClientID);
@@ -217,7 +217,7 @@ public class WebSocketClientTest {
 
 	@Test
 	public void testAsyncConnectAndAuthenticateSuccessfullyConnectedAndAuthenticatedWithInvalidClientID()
-			throws NoSuchFieldException, IllegalAccessException {
+			throws Exception {
 		final long unexpectedInvalidClientID = Client.INVALID_CLIENT_ID;
 
 		Reflection.setPrivateField(WebSocketClient.class, webSocketClient, "clientID", unexpectedInvalidClientID);
@@ -323,8 +323,7 @@ public class WebSocketClientTest {
 	}
 
 	@Test
-	public void testAsyncConnectAndAuthenticateAuthenticationFailed() throws NoSuchFieldException,
-			IllegalAccessException {
+	public void testAsyncConnectAndAuthenticateAuthenticationFailed() throws Exception {
 
 		final long clientID = VALID_CLIENT_ID;
 
@@ -382,8 +381,7 @@ public class WebSocketClientTest {
 	}
 
 	@Test
-	public void testServerClosedConnectionAfterConnectionIsEstablished()
-			throws NoSuchFieldException, IllegalAccessException {
+	public void testServerClosedConnectionAfterConnectionIsEstablished() throws Exception {
 		final String expectedClosedExceptionMessage = "Successfully closed the connection!";
 
 		final Client.ConnectAuthCallback connectAuthCallbackMock = Mockito.mock(Client.ConnectAuthCallback.class);
@@ -412,7 +410,7 @@ public class WebSocketClientTest {
 	}
 
 	@Test
-	public void testClientClosedConnection() throws InterruptedException, NoSuchFieldException, IllegalAccessException {
+	public void testClientClosedConnection() throws Exception {
 		final String expectedExceptionMessage = "Client closed connection successfully!";
 
 		final Client.ConnectAuthCallback connectAuthCallbackMock = Mockito.mock(Client.ConnectAuthCallback.class);
@@ -458,7 +456,7 @@ public class WebSocketClientTest {
 	// Command tests
 	//------------------------------------------------------------------------------------------------------------------
 	@Test
-	public void testSendRetrieveInfoCommand() throws NoSuchFieldException, IllegalAccessException {
+	public void testSendRetrieveInfoCommand() throws Exception {
 		final RetrieveInfoCommand expectedRetrieveInfoCommand = new RetrieveInfoCommand();
 
 		final WebSocket webSocketMock = Mockito.mock(WebSocket.class);
@@ -485,7 +483,7 @@ public class WebSocketClientTest {
 	}
 
 	@Test
-	public void testSendScheduleJobCommand() throws NoSuchFieldException, IllegalAccessException {
+	public void testSendScheduleJobCommand() throws Exception {
 		final long expectedJobID = 1;
 		final boolean expectedForceValue = false;
 		final boolean expectedVerboseValue = false;
@@ -542,7 +540,7 @@ public class WebSocketClientTest {
 	// Event tests
 	//------------------------------------------------------------------------------------------------------------------
 	@Test
-	public void testReceivedOnBaseMessageEventWithInfoMessage() throws NoSuchFieldException, IllegalAccessException {
+	public void testReceivedOnBaseMessageEventWithInfoMessage() throws Exception {
 		final Job expectedUnscheduledJob = new Job(1, "Test program",
 				new WebImage(Uri.parse("http://www.catrobat.org/images/logo.png")));
 		expectedUnscheduledJob.setState(Job.State.UNSCHEDULED);
@@ -639,8 +637,7 @@ public class WebSocketClientTest {
 	}
 
 	@Test
-	public void testReceivedOnBaseMessageEventWithErrorMessageWhenClientIsNotConnected()
-			throws NoSuchFieldException, IllegalAccessException {
+	public void testReceivedOnBaseMessageEventWithErrorMessageWhenClientIsNotConnected() throws Exception {
 		final String expectedErrorMessageString = "Error message successfully received";
 		final ErrorMessage expectedErrorMessage = new ErrorMessage(expectedErrorMessageString);
 

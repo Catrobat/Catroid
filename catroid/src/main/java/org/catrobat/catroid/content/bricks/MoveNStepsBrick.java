@@ -34,7 +34,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
@@ -43,28 +42,17 @@ public class MoveNStepsBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
-
 	public MoveNStepsBrick() {
-		addAllowedBrickField(BrickField.STEPS);
+		this(new Formula(BrickValues.MOVE_STEPS));
 	}
 
-	public MoveNStepsBrick(double stepsValue) {
-		initializeBrickFields(new Formula(stepsValue));
+	public MoveNStepsBrick(double steps) {
+		this(new Formula(steps));
 	}
 
-	public MoveNStepsBrick(Formula steps) {
-		initializeBrickFields(steps);
-	}
-
-	private void initializeBrickFields(Formula steps) {
-		addAllowedBrickField(BrickField.STEPS);
-		setFormulaWithBrickField(BrickField.STEPS, steps);
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.STEPS).getRequiredResources();
+	public MoveNStepsBrick(Formula formula) {
+		addAllowedBrickField(BrickField.STEPS, R.id.brick_move_n_steps_edit_text);
+		setFormulaWithBrickField(BrickField.STEPS, formula);
 	}
 
 	@Override
@@ -73,18 +61,22 @@ public class MoveNStepsBrick extends FormulaBrick {
 	}
 
 	@Override
+	public View getPrototypeView(Context context) {
+		View prototypeView = super.getPrototypeView(context);
+		TextView label = prototypeView.findViewById(R.id.brick_move_n_steps_step_text_view);
+		label.setText(context.getResources().getQuantityString(R.plurals.brick_move_n_step_plural,
+				Utils.convertDoubleToPluralInteger(BrickValues.MOVE_STEPS)));
+		return prototypeView;
+	}
+
+	@Override
 	public View getView(Context context) {
 		super.getView(context);
-		TextView edit = (TextView) view.findViewById(R.id.brick_move_n_steps_edit_text);
 
-		getFormulaWithBrickField(BrickField.STEPS).setTextFieldId(R.id.brick_move_n_steps_edit_text);
-		getFormulaWithBrickField(BrickField.STEPS).refreshTextField(view);
-
-		TextView times = (TextView) view.findViewById(R.id.brick_move_n_steps_step_text_view);
-
+		TextView label = view.findViewById(R.id.brick_move_n_steps_step_text_view);
 		if (getFormulaWithBrickField(BrickField.STEPS).isSingleNumberFormula()) {
 			try {
-				times.setText(view.getResources().getQuantityString(
+				label.setText(view.getResources().getQuantityString(
 						R.plurals.brick_move_n_step_plural,
 						Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.STEPS).interpretDouble(
 								ProjectManager.getInstance().getCurrentSprite()))
@@ -93,37 +85,17 @@ public class MoveNStepsBrick extends FormulaBrick {
 				Log.d(getClass().getSimpleName(), "Couldn't interpret Formula.", interpretationException);
 			}
 		} else {
-
-			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
-			// in hopefully all possible languages
-			times.setText(view.getResources().getQuantityString(R.plurals.brick_move_n_step_plural,
+			label.setText(view.getResources().getQuantityString(R.plurals.brick_move_n_step_plural,
 					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
 		}
 
-		edit.setOnClickListener(this);
 		return view;
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
-		TextView textSteps = (TextView) prototypeView.findViewById(R.id.brick_move_n_steps_edit_text);
-		textSteps.setText(formatNumberForPrototypeView(BrickValues.MOVE_STEPS));
-		TextView times = (TextView) prototypeView.findViewById(R.id.brick_move_n_steps_step_text_view);
-		times.setText(context.getResources().getQuantityString(R.plurals.brick_move_n_step_plural,
-				Utils.convertDoubleToPluralInteger(BrickValues.MOVE_STEPS)));
-		return prototypeView;
-	}
-
-	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createMoveNStepsAction(sprite,
-				getFormulaWithBrickField(BrickField.STEPS)));
+		sequence.addAction(sprite.getActionFactory()
+				.createMoveNStepsAction(sprite, getFormulaWithBrickField(BrickField.STEPS)));
 		return null;
-	}
-
-	@Override
-	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.STEPS);
 	}
 }

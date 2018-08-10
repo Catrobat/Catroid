@@ -40,13 +40,6 @@ public class SetBackgroundAndWaitBrick extends SetBackgroundBrick {
 	}
 
 	@Override
-	public Brick clone() {
-		SetBackgroundAndWaitBrick clonedBrick = new SetBackgroundAndWaitBrick();
-		clonedBrick.setLook(look);
-		return clonedBrick;
-	}
-
-	@Override
 	protected void onViewCreated(View view) {
 		((TextView) view.findViewById(R.id.brick_set_look_text_view)).setText(R.string.brick_set_background_and_wait);
 	}

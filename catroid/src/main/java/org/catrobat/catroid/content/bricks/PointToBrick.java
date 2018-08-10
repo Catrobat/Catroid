@@ -39,8 +39,7 @@ import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterf
 import java.util.List;
 
 public class PointToBrick extends BrickBaseType implements
-		SpinnerAdapterWithNewOption.OnNewOptionInDropDownClickListener,
-		NewItemInterface<Sprite> {
+		SpinnerAdapterWithNewOption.OnNewOptionInDropDownClickListener, NewItemInterface<Sprite> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -58,8 +57,11 @@ public class PointToBrick extends BrickBaseType implements
 	}
 
 	@Override
-	public Brick clone() {
-		return new PointToBrick(pointedObject);
+	public BrickBaseType clone() throws CloneNotSupportedException {
+		PointToBrick clone = (PointToBrick) super.clone();
+		clone.spinner = null;
+		clone.spinnerAdapter = null;
+		return clone;
 	}
 
 	@Override
@@ -127,7 +129,6 @@ public class PointToBrick extends BrickBaseType implements
 	public View getPrototypeView(Context context) {
 		View view = super.getPrototypeView(context);
 		spinner = view.findViewById(R.id.brick_point_to_spinner);
-
 		spinnerAdapter = new SpinnerAdapterWithNewOption(context, getSpriteNames());
 		spinner.setAdapter(spinnerAdapter);
 		spinner.setSelection(spinnerAdapter.getPosition(pointedObject != null ? pointedObject.getName() : null));

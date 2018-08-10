@@ -26,7 +26,6 @@ import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.PointInDirectionBrick.Direction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,28 +46,28 @@ public class PointInDirectionActionTest {
 
 	@Test
 	public void testPointRight() {
-		sprite.getActionFactory().createPointInDirectionAction(sprite, new Formula(Direction.RIGHT.getDegrees()))
+		sprite.getActionFactory().createPointInDirectionAction(sprite, new Formula(90))
 				.act(1.0f);
 		assertEquals(90f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), 1e-3);
 	}
 
 	@Test
 	public void testPointLeft() {
-		sprite.getActionFactory().createPointInDirectionAction(sprite, new Formula(Direction.LEFT.getDegrees()))
+		sprite.getActionFactory().createPointInDirectionAction(sprite, new Formula(-90))
 				.act(1.0f);
 		assertEquals(-90f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), 1e-3);
 	}
 
 	@Test
 	public void testPointUp() {
-		sprite.getActionFactory().createPointInDirectionAction(sprite, new Formula(Direction.UP.getDegrees()))
+		sprite.getActionFactory().createPointInDirectionAction(sprite, new Formula(0))
 				.act(1.0f);
 		assertEquals(0f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), 1e-3);
 	}
 
 	@Test
 	public void testPointDown() {
-		sprite.getActionFactory().createPointInDirectionAction(sprite, new Formula(Direction.DOWN.getDegrees()))
+		sprite.getActionFactory().createPointInDirectionAction(sprite, new Formula(180))
 				.act(1.0f);
 		assertEquals(180f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), 1e-3);
 	}
@@ -77,18 +76,18 @@ public class PointInDirectionActionTest {
 	public void testRotateAndPoint() {
 		Sprite sprite = new SingleSprite("test");
 		sprite.look.setRotation(-42);
-		sprite.getActionFactory().createPointInDirectionAction(sprite, new Formula(Direction.RIGHT.getDegrees()))
+		sprite.getActionFactory().createPointInDirectionAction(sprite, new Formula(90))
 				.act(1.0f);
 		assertEquals(90f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), 1e-3);
 	}
 
 	@Test
 	public void testBrickWithStringFormula() {
-		sprite.getActionFactory().createPointInDirectionAction(sprite, new Formula(String.valueOf(Direction.RIGHT.getDegrees()))).act(1.0f);
-		assertEquals((float) Direction.RIGHT.getDegrees(), sprite.look.getDirectionInUserInterfaceDimensionUnit());
+		sprite.getActionFactory().createPointInDirectionAction(sprite, new Formula(90)).act(1.0f);
+		assertEquals(90f, sprite.look.getDirectionInUserInterfaceDimensionUnit());
 
 		sprite.getActionFactory().createPointInDirectionAction(sprite, new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
-		assertEquals((float) Direction.RIGHT.getDegrees(), sprite.look.getDirectionInUserInterfaceDimensionUnit());
+		assertEquals(90f, sprite.look.getDirectionInUserInterfaceDimensionUnit());
 	}
 
 	@Test

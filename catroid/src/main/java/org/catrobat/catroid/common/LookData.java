@@ -105,8 +105,7 @@ public class LookData implements Serializable, Cloneable {
 		fileName = file.getName();
 	}
 
-	public int getRequiredResources() {
-		return Brick.NO_RESOURCES;
+	public void addRequiredResources(final Brick.ResourcesSet requiredResourcesSet) {
 	}
 
 	public void draw(Batch batch, float alpha) {

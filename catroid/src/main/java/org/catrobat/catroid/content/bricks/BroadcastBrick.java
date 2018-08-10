@@ -30,24 +30,13 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import java.util.List;
 
 public class BroadcastBrick extends BroadcastMessageBrick {
+
 	private static final long serialVersionUID = 1L;
 
 	protected String broadcastMessage;
 
 	public BroadcastBrick(String broadcastMessage) {
 		this.broadcastMessage = broadcastMessage;
-		this.viewId = R.layout.brick_broadcast;
-	}
-
-	protected Object readResolve() {
-		super.readResolve();
-		this.viewId = R.layout.brick_broadcast;
-		return this;
-	}
-
-	@Override
-	public Brick clone() {
-		return new BroadcastBrick(broadcastMessage);
 	}
 
 	@Override
@@ -57,13 +46,18 @@ public class BroadcastBrick extends BroadcastMessageBrick {
 	}
 
 	@Override
-	public void setBroadcastMessage(String newBroadcastMessage) {
-		this.broadcastMessage = newBroadcastMessage;
-		messageAdapter.add(newBroadcastMessage);
+	public int getViewResource() {
+		return R.layout.brick_broadcast;
 	}
 
 	@Override
 	public String getBroadcastMessage() {
 		return broadcastMessage;
+	}
+
+	@Override
+	public void setBroadcastMessage(String broadcastMessage) {
+		this.broadcastMessage = broadcastMessage;
+		messageAdapter.add(broadcastMessage);
 	}
 }

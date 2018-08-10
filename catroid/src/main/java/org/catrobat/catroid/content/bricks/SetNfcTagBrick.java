@@ -31,14 +31,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
-import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
@@ -46,30 +44,17 @@ public class SetNfcTagBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
 	private transient Spinner spinner;
 	private int nfcTagNdefDefaultType = BrickValues.TNF_WELL_KNOWN_HTTPS;
 	private int nfcTagNdefType = nfcTagNdefDefaultType;
 
 	public SetNfcTagBrick(String messageString) {
-		initializeBrickFields(new Formula(messageString));
+		this(new Formula(messageString));
 	}
 
-	private void initializeBrickFields(Formula message) {
-		addAllowedBrickField(BrickField.NFC_NDEF_MESSAGE);
+	public SetNfcTagBrick(Formula message) {
+		addAllowedBrickField(BrickField.NFC_NDEF_MESSAGE, R.id.brick_set_nfc_tag_edit_text);
 		setFormulaWithBrickField(BrickField.NFC_NDEF_MESSAGE, message);
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return NFC_ADAPTER;
-	}
-
-	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createSetNfcTagAction(sprite,
-				getFormulaWithBrickField(BrickField.NFC_NDEF_MESSAGE), nfcTagNdefType));
-		return null;
 	}
 
 	@Override
@@ -78,9 +63,15 @@ public class SetNfcTagBrick extends FormulaBrick {
 	}
 
 	@Override
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(NFC_ADAPTER);
+		super.addRequiredResources(requiredResourcesSet);
+	}
+
+	@Override
 	public View getView(final Context context) {
 		super.getView(context);
-		spinner = (Spinner) view.findViewById(R.id.brick_set_nfc_tag_ndef_record_spinner);
+		spinner = view.findViewById(R.id.brick_set_nfc_tag_ndef_record_spinner);
 
 		final ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
 		SpinnerAdapterWrapper spinnerAdapterWrapper = new SpinnerAdapterWrapper(context, spinnerAdapter);
@@ -115,31 +106,26 @@ public class SetNfcTagBrick extends FormulaBrick {
 		});
 
 		spinner.setSelection(nfcTagNdefType, true);
-		TextView textField = (TextView) view.findViewById(R.id.brick_set_nfc_tag_edit_text);
-		getFormulaWithBrickField(BrickField.NFC_NDEF_MESSAGE).setTextFieldId(R.id.brick_set_nfc_tag_edit_text);
-		getFormulaWithBrickField(BrickField.NFC_NDEF_MESSAGE).refreshTextField(view);
-		textField.setOnClickListener(this);
-
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
+		View prototypeView = super.getPrototypeView(context);
 
-		spinner = (Spinner) prototypeView.findViewById(R.id.brick_set_nfc_tag_ndef_record_spinner);
+		spinner = prototypeView.findViewById(R.id.brick_set_nfc_tag_ndef_record_spinner);
 		SpinnerAdapter setLookSpinnerAdapter = createArrayAdapter(context);
 		spinner.setAdapter(setLookSpinnerAdapter);
 		spinner.setSelection(nfcTagNdefType, true);
 
-		TextView textSetNfcTag = (TextView) prototypeView.findViewById(R.id.brick_set_nfc_tag_edit_text);
-		textSetNfcTag.setText(context.getString(R.string.brick_set_nfc_tag_default_value));
 		return prototypeView;
 	}
 
 	@Override
-	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.NFC_NDEF_MESSAGE);
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		sequence.addAction(sprite.getActionFactory()
+				.createSetNfcTagAction(sprite, getFormulaWithBrickField(BrickField.NFC_NDEF_MESSAGE), nfcTagNdefType));
+		return null;
 	}
 
 	private ArrayAdapter<String> createArrayAdapter(Context context) {

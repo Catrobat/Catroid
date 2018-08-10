@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import java.util.List;
 
 public class LegoEv3MotorStopBrick extends BrickBaseType implements OnItemSelectedListener {
+
 	private static final long serialVersionUID = 1L;
 	private transient Motor motorEnum;
 	private String motor;
@@ -57,14 +58,19 @@ public class LegoEv3MotorStopBrick extends BrickBaseType implements OnItemSelect
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return BLUETOOTH_LEGO_EV3;
+	public int getViewResource() {
+		return R.layout.brick_ev3_motor_stop;
+	}
+
+	@Override
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(BLUETOOTH_LEGO_EV3);
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = super.getPrototypeView(context);
-		Spinner legoSpinner = (Spinner) prototypeView.findViewById(R.id.ev3_stop_motor_spinner);
+		Spinner legoSpinner = prototypeView.findViewById(R.id.ev3_stop_motor_spinner);
 		legoSpinner.setFocusableInTouchMode(false);
 		legoSpinner.setFocusable(false);
 
@@ -78,18 +84,13 @@ public class LegoEv3MotorStopBrick extends BrickBaseType implements OnItemSelect
 	}
 
 	@Override
-	public int getViewResource() {
-		return R.layout.brick_ev3_motor_stop;
-	}
-
-	@Override
 	public View getView(Context context) {
 		super.getView(context);
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
 				R.array.ev3_stop_motor_chooser, android.R.layout.simple_spinner_item);
 		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-		Spinner motorSpinner = (Spinner) view.findViewById(R.id.ev3_stop_motor_spinner);
+		Spinner motorSpinner = view.findViewById(R.id.ev3_stop_motor_spinner);
 		motorSpinner.setOnItemSelectedListener(this);
 
 		if (!(checkbox.getVisibility() == View.VISIBLE)) {

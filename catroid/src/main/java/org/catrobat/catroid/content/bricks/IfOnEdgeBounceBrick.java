@@ -41,11 +41,6 @@ public class IfOnEdgeBounceBrick extends BrickBaseType {
 	}
 
 	@Override
-	public Brick clone() {
-		return new IfOnEdgeBounceBrick();
-	}
-
-	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createIfOnEdgeBounceAction(sprite));
 		return null;

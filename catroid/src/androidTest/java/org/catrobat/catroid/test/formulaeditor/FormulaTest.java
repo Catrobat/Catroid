@@ -46,40 +46,60 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.is;
+
 @RunWith(AndroidJUnit4.class)
 public class FormulaTest {
 
 	@Test
 	public void testRequiredRessources() {
 		Formula formula0 = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.FACE_DETECTED.name(), null));
-		assertEquals(formula0.getRequiredResources(), Brick.FACE_DETECTION);
+		Brick.ResourcesSet resourcesSet = new Brick.ResourcesSet();
+		formula0.addRequiredResources(resourcesSet);
+		assertTrue(resourcesSet.contains(Brick.FACE_DETECTION));
 
 		Formula formula1 = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.FACE_SIZE.name(), null));
-		assertEquals(formula1.getRequiredResources(), Brick.FACE_DETECTION);
+		resourcesSet = new Brick.ResourcesSet();
+		formula1.addRequiredResources(resourcesSet);
+		assertTrue(resourcesSet.contains(Brick.FACE_DETECTION));
 
 		Formula formula2 = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.FACE_X_POSITION.name(), null));
-		assertEquals(formula2.getRequiredResources(), Brick.FACE_DETECTION);
+		resourcesSet = new Brick.ResourcesSet();
+		formula2.addRequiredResources(resourcesSet);
+		assertTrue(resourcesSet.contains(Brick.FACE_DETECTION));
 
 		Formula formula3 = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.FACE_Y_POSITION.name(), null));
-		assertEquals(formula3.getRequiredResources(), Brick.FACE_DETECTION);
+		resourcesSet = new Brick.ResourcesSet();
+		formula3.addRequiredResources(resourcesSet);
+		assertTrue(resourcesSet.contains(Brick.FACE_DETECTION));
 
 		Formula simpleFormula = new Formula(42.0d);
-		assertEquals(simpleFormula.getRequiredResources(), Brick.NO_RESOURCES);
+		resourcesSet = new Brick.ResourcesSet();
+		simpleFormula.addRequiredResources(resourcesSet);
+		assertThat(resourcesSet, is(empty()));
 
 		Formula formulaWithRessourceLeft = new Formula(new FormulaElement(ElementType.OPERATOR, Operators.PLUS.name(),
 				null, new FormulaElement(ElementType.SENSOR, Sensors.FACE_Y_POSITION.name(), null), new FormulaElement(
 				ElementType.NUMBER, Double.toString(96d), null)));
-		assertEquals(formulaWithRessourceLeft.getRequiredResources(), Brick.FACE_DETECTION);
+		resourcesSet = new Brick.ResourcesSet();
+		formulaWithRessourceLeft.addRequiredResources(resourcesSet);
+		assertTrue(resourcesSet.contains(Brick.FACE_DETECTION));
 
 		Formula formulaWithRessourceRight = new Formula(new FormulaElement(ElementType.OPERATOR, Operators.PLUS.name(),
 				null, new FormulaElement(ElementType.NUMBER, Double.toString(96d), null), new FormulaElement(
 				ElementType.SENSOR, Sensors.FACE_X_POSITION.name(), null)));
-		assertEquals(formulaWithRessourceRight.getRequiredResources(), Brick.FACE_DETECTION);
+		resourcesSet = new Brick.ResourcesSet();
+		formulaWithRessourceRight.addRequiredResources(resourcesSet);
+		assertTrue(resourcesSet.contains(Brick.FACE_DETECTION));
 
 		Formula formulaSameRessourceTwice = new Formula(new FormulaElement(ElementType.OPERATOR, Operators.PLUS.name(),
 				null, new FormulaElement(ElementType.SENSOR, Sensors.FACE_DETECTED.name(), null), new FormulaElement(
 				ElementType.SENSOR, Sensors.FACE_SIZE.name(), null)));
-		assertEquals(formulaSameRessourceTwice.getRequiredResources(), Brick.FACE_DETECTION);
+		resourcesSet = new Brick.ResourcesSet();
+		formulaSameRessourceTwice.addRequiredResources(resourcesSet);
+		assertTrue(resourcesSet.contains(Brick.FACE_DETECTION));
 	}
 
 	@Test

@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.utils;
+package org.catrobat.catroid.test.physics;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -32,6 +32,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsWorld;
+import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
@@ -74,23 +75,23 @@ public final class PhysicsTestUtils {
 		return createPhysicsObject(physicsWorld, null, null);
 	}
 
-	public static Body getBody(PhysicsObject physicsObject) {
+	public static Body getBody(PhysicsObject physicsObject) throws Exception {
 		return (Body) Reflection.getPrivateField(physicsObject, "body");
 	}
 
-	public static PhysicsObject.Type getType(PhysicsObject physicsObject) {
+	public static PhysicsObject.Type getType(PhysicsObject physicsObject) throws Exception {
 		return (PhysicsObject.Type) Reflection.getPrivateField(physicsObject, "type");
 	}
 
-	public static float getMass(PhysicsObject physicsObject) {
+	public static float getMass(PhysicsObject physicsObject) throws Exception {
 		return (Float) Reflection.getPrivateField(physicsObject, "mass");
 	}
 
-	public static Shape[] getShapes(PhysicsObject physicsObject) {
+	public static Shape[] getShapes(PhysicsObject physicsObject) throws Exception {
 		return (Shape[]) Reflection.getPrivateField(physicsObject, "shapes");
 	}
 
-	public static FixtureDef getFixtureDef(PhysicsObject physicsObject) {
+	public static FixtureDef getFixtureDef(PhysicsObject physicsObject) throws Exception {
 		return (FixtureDef) Reflection.getPrivateField(physicsObject, "fixtureDef");
 	}
 

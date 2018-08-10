@@ -57,12 +57,10 @@ public class StopScriptBrick extends BrickBaseType {
 	@Override
 	public View getView(Context context) {
 		super.getView(context);
-		Spinner stopScriptSpinner = (Spinner) view.findViewById(R.id.brick_stop_script_spinner);
-
-		ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
-		stopScriptSpinner.setAdapter(spinnerAdapter);
-
-		stopScriptSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+		Spinner spinner = view.findViewById(R.id.brick_stop_script_spinner);
+		spinner.setAdapter(createArrayAdapter(context));
+		spinner.setSelection(spinnerSelection);
+		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
 				spinnerSelection = position;
@@ -72,34 +70,25 @@ public class StopScriptBrick extends BrickBaseType {
 			public void onNothingSelected(AdapterView<?> parent) {
 			}
 		});
-
-		stopScriptSpinner.setSelection(spinnerSelection);
-
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-
 		View prototypeView = super.getPrototypeView(context);
-
-		Spinner stopSctiptSpinner = (Spinner) prototypeView.findViewById(R.id.brick_stop_script_spinner);
-
-		ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
-		stopSctiptSpinner.setAdapter(spinnerAdapter);
-		stopSctiptSpinner.setSelection(spinnerSelection);
-
+		Spinner spinner = prototypeView.findViewById(R.id.brick_stop_script_spinner);
+		spinner.setAdapter(createArrayAdapter(context));
+		spinner.setSelection(spinnerSelection);
 		return prototypeView;
 	}
 
 	private ArrayAdapter<String> createArrayAdapter(Context context) {
-		String[] spinnerValue = new String[3];
-		spinnerValue[BrickValues.STOP_THIS_SCRIPT] = context.getString(R.string.brick_stop_this_script);
-		spinnerValue[BrickValues.STOP_ALL_SCRIPTS] = context.getString(R.string.brick_stop_all_scripts);
-		spinnerValue[BrickValues.STOP_OTHER_SCRIPTS] = context.getString(R.string.brick_stop_other_scripts);
+		String[] values = new String[3];
+		values[BrickValues.STOP_THIS_SCRIPT] = context.getString(R.string.brick_stop_this_script);
+		values[BrickValues.STOP_ALL_SCRIPTS] = context.getString(R.string.brick_stop_all_scripts);
+		values[BrickValues.STOP_OTHER_SCRIPTS] = context.getString(R.string.brick_stop_other_scripts);
 
-		ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item,
-				spinnerValue);
+		ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, values);
 		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 		return spinnerAdapter;
@@ -109,10 +98,5 @@ public class StopScriptBrick extends BrickBaseType {
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createStopScriptAction(spinnerSelection, sequence.getScript()));
 		return null;
-	}
-
-	@Override
-	public Brick clone() {
-		return new StopScriptBrick(this.spinnerSelection);
 	}
 }

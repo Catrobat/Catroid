@@ -48,20 +48,15 @@ public class GoToBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 
 	private Sprite destinationSprite;
-	private transient String oldSelectedObject;
-
-	private transient SpinnerAdapterWrapper spinnerAdapterWrapper;
 	private int spinnerSelection;
 
+	private transient String oldSelectedObject = "";
+
 	public GoToBrick() {
-		this.spinnerSelection = 0;
-		this.oldSelectedObject = "";
 	}
 
 	public GoToBrick(Sprite destinationSprite) {
 		this.destinationSprite = destinationSprite;
-		this.spinnerSelection = 0;
-		this.oldSelectedObject = "";
 	}
 
 	@Override
@@ -72,14 +67,12 @@ public class GoToBrick extends BrickBaseType {
 	@Override
 	public View getView(final Context context) {
 		super.getView(context);
-		final Spinner goToSpinner = (Spinner) view.findViewById(R.id.brick_go_to_spinner);
+		final Spinner goToSpinner = view.findViewById(R.id.brick_go_to_spinner);
 
 		final ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
 
-		spinnerAdapterWrapper = new SpinnerAdapterWrapper(context, goToSpinner, spinnerAdapter);
-
+		SpinnerAdapterWrapper spinnerAdapterWrapper = new SpinnerAdapterWrapper(context, goToSpinner, spinnerAdapter);
 		goToSpinner.setAdapter(spinnerAdapterWrapper);
-
 		goToSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -118,8 +111,7 @@ public class GoToBrick extends BrickBaseType {
 	public View getPrototypeView(Context context) {
 		View prototypeView = super.getPrototypeView(context);
 
-		Spinner goToSpinner = (Spinner) prototypeView.findViewById(R.id.brick_go_to_spinner);
-
+		Spinner goToSpinner = prototypeView.findViewById(R.id.brick_go_to_spinner);
 		SpinnerAdapter goToSpinnerAdapter = createArrayAdapter(context);
 
 		goToSpinner.setAdapter(goToSpinnerAdapter);
@@ -281,12 +273,5 @@ public class GoToBrick extends BrickBaseType {
 		public ArrayAdapter<String> getAdapter() {
 			return spinnerAdapter;
 		}
-	}
-
-	@Override
-	public Brick clone() {
-		GoToBrick copy = new GoToBrick(destinationSprite);
-		copy.spinnerSelection = spinnerSelection;
-		return copy;
 	}
 }

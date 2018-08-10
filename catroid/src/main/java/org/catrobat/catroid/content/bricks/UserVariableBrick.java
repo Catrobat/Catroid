@@ -80,7 +80,7 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewVaria
 		};
 	}
 
-	protected AdapterView.OnItemSelectedListener createVariableSpinnerItemSelectedListener() {
+	AdapterView.OnItemSelectedListener createVariableSpinnerItemSelectedListener() {
 		return new AdapterView.OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
