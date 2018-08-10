@@ -45,6 +45,7 @@ public final class BrickTestUtils {
 		project.getDefaultScene().addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
+		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 		return script;
 	}
 }

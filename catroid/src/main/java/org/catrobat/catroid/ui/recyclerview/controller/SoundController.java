@@ -29,6 +29,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
+import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,7 +54,7 @@ public class SoundController {
 
 	SoundInfo findOrCopy(SoundInfo soundToCopy, Scene dstScene, Sprite dstSprite) throws IOException {
 		for (SoundInfo sound : dstSprite.getSoundList()) {
-			if (sound.getFile().equals(soundToCopy.getFile())) {
+			if (compareByChecksum(sound.getFile(), soundToCopy.getFile())) {
 				return sound;
 			}
 		}
@@ -77,7 +78,7 @@ public class SoundController {
 
 	SoundInfo packForSprite(SoundInfo soundToPack, Sprite dstSprite) throws IOException {
 		for (SoundInfo sound : dstSprite.getSoundList()) {
-			if (sound.getFile().equals(soundToPack.getFile())) {
+			if (compareByChecksum(sound.getFile(), soundToPack.getFile())) {
 				return sound;
 			}
 		}
@@ -97,7 +98,7 @@ public class SoundController {
 
 	SoundInfo unpackForSprite(SoundInfo soundToUnpack, Scene dstScene, Sprite dstSprite) throws IOException {
 		for (SoundInfo sound : dstSprite.getSoundList()) {
-			if (sound.getFile().equals(soundToUnpack.getFile())) {
+			if (compareByChecksum(sound.getFile(), soundToUnpack.getFile())) {
 				return sound;
 			}
 		}
@@ -117,5 +118,12 @@ public class SoundController {
 
 	private File getSoundDir(Scene scene) {
 		return new File(scene.getDirectory(), SOUND_DIRECTORY_NAME);
+	}
+
+	private boolean compareByChecksum(File file1, File file2) {
+		String checksum1 = Utils.md5Checksum(file1);
+		String checksum2 = Utils.md5Checksum(file2);
+
+		return checksum1.equals(checksum2);
 	}
 }

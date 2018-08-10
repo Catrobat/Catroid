@@ -60,19 +60,22 @@ public class CollisionScript extends Script {
 
 	public void setSpriteToCollideWithName(String spriteToCollideWithName) {
 		this.spriteToCollideWithName = spriteToCollideWithName;
-		updateSpriteToCollideWith();
+		updateSpriteToCollideWith(ProjectManager.getInstance().getCurrentlyEditedScene());
 	}
 
 	public Sprite getSpriteToCollideWith() {
-		updateSpriteToCollideWith();
+		updateSpriteToCollideWith(ProjectManager.getInstance().getCurrentlyEditedScene());
 		return spriteToCollideWith;
 	}
 
-	private void updateSpriteToCollideWith() {
-		if (spriteToCollideWithName != null
-				&& (spriteToCollideWith == null || !spriteToCollideWithName.equals(spriteToCollideWith.getName()))) {
-			Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
-			spriteToCollideWith = currentScene.getSprite(spriteToCollideWithName);
+	public void updateSpriteToCollideWith(Scene scene) {
+		if (spriteToCollideWithName == null) {
+			spriteToCollideWith = null;
+		} else {
+			spriteToCollideWith = scene.getSprite(spriteToCollideWithName);
+			if (spriteToCollideWith == null) {
+				spriteToCollideWithName = null;
+			}
 		}
 	}
 
