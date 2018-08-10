@@ -47,8 +47,20 @@ public class LegoSensorConfigInfoDialog extends DialogFragment {
 
 	private @LegoSensorType int legoSensorType;
 
+	public LegoSensorConfigInfoDialog() {
+	}
+
 	public LegoSensorConfigInfoDialog(@LegoSensorType int legoSensorType) {
 		this.legoSensorType = legoSensorType;
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		boolean isRestoringPreviouslyDestroyedActivity = savedInstanceState != null;
+		if (isRestoringPreviouslyDestroyedActivity) {
+			dismiss();
+		}
 	}
 
 	@Override

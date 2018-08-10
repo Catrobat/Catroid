@@ -58,6 +58,15 @@ public class NewDataDialogFragment extends DialogFragment {
 	}
 
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		boolean isRestoringPreviouslyDestroyedActivity = savedInstanceState != null;
+		if (isRestoringPreviouslyDestroyedActivity) {
+			dismiss();
+		}
+	}
+
+	@Override
 	public Dialog onCreateDialog(Bundle bundle) {
 		View view = View.inflate(getActivity(), R.layout.dialog_new_user_data, null);
 

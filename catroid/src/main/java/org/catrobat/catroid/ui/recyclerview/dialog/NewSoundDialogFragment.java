@@ -65,6 +65,18 @@ public class NewSoundDialogFragment extends DialogFragment implements View.OnCli
 
 	private UniqueNameProvider uniqueNameProvider = new UniqueNameProvider();
 
+	public NewSoundDialogFragment() {
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		boolean isRestoringPreviouslyDestroyedActivity = savedInstanceState != null;
+		if (isRestoringPreviouslyDestroyedActivity) {
+			dismiss();
+		}
+	}
+
 	public NewSoundDialogFragment(NewItemInterface<SoundInfo> newItemInterface, Scene dstScene, Sprite dstSprite) {
 		this.newItemInterface = newItemInterface;
 		this.dstScene = dstScene;

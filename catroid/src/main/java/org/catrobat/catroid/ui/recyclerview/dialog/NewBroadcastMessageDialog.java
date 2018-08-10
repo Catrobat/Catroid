@@ -35,6 +35,9 @@ public class NewBroadcastMessageDialog extends BrickTextDialog {
 	NewBroadcastMessageInterface newBroadcastMessageInterface;
 	String newString;
 
+	public NewBroadcastMessageDialog() {
+	}
+
 	public NewBroadcastMessageDialog(NewBroadcastMessageInterface newBroadcastMessageInterface, String newString) {
 		super(R.string.dialog_new_broadcast_message_title, R.string.dialog_new_broadcast_message_name, newString);
 		this.newBroadcastMessageInterface = newBroadcastMessageInterface;

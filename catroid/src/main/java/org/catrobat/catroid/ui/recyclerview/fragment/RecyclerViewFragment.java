@@ -24,6 +24,7 @@
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -249,12 +250,17 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
 		super.onPrepareOptionsMenu(menu);
-		adapter.showDetails = PreferenceManager.getDefaultSharedPreferences(
-				getActivity()).getBoolean(sharedPreferenceDetailsKey, false);
+		Context context = getActivity();
+		// necessary because of cast! blows up when activity is restored (CATROID-37)
+		// see BaseCastActivity
+		if (context != null) {
+			adapter.showDetails = PreferenceManager.getDefaultSharedPreferences(
+					context).getBoolean(sharedPreferenceDetailsKey, false);
 
-		menu.findItem(R.id.show_details).setTitle(adapter.showDetails
-				? R.string.hide_details
-				: R.string.show_details);
+			menu.findItem(R.id.show_details).setTitle(adapter.showDetails
+					? R.string.hide_details
+					: R.string.show_details);
+		}
 	}
 
 	@Override

@@ -41,8 +41,20 @@ public class PlaySceneDialogFragment extends DialogFragment {
 	private PlaySceneInterface playSceneInterface;
 	private RadioGroup radioGroup;
 
+	public PlaySceneDialogFragment() {
+	}
+
 	public PlaySceneDialogFragment(PlaySceneInterface playSceneInterface) {
 		this.playSceneInterface = playSceneInterface;
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		boolean isRestoringPreviouslyDestroyedActivity = savedInstanceState != null;
+		if (isRestoringPreviouslyDestroyedActivity) {
+			dismiss();
+		}
 	}
 
 	@Override

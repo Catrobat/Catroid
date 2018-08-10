@@ -44,6 +44,9 @@ public class NewSceneDialogFragment extends TextInputDialogFragment {
 	private NewItemInterface<Scene> newItemInterface;
 	private Project dstProject;
 
+	public NewSceneDialogFragment() {
+	}
+
 	public NewSceneDialogFragment(NewItemInterface<Scene> newItemInterface, Project dstProject) {
 		super(R.string.new_scene_dialog, R.string.scene_name, null, false);
 		this.newItemInterface = newItemInterface;
