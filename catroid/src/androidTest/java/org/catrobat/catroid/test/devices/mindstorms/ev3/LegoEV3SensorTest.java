@@ -28,211 +28,255 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
-import org.catrobat.catroid.common.bluetooth.models.MindstormsEV3TestModel;
-import org.catrobat.catroid.devices.mindstorms.MindstormsConnection;
-import org.catrobat.catroid.devices.mindstorms.MindstormsConnectionImpl;
+import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandByte;
 import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
 import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3Impl;
-import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3ColorSensor;
-import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3InfraredSensor;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3SensorMode;
-import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3TouchSensor;
-import org.catrobat.catroid.devices.mindstorms.ev3.sensors.HiTechnicColorSensor;
-import org.catrobat.catroid.devices.mindstorms.ev3.sensors.TemperatureSensor;
-import org.junit.After;
+import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3SensorType;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
-
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.hamcrest.Matchers.lessThanOrEqualTo;
-import static org.junit.Assert.assertThat;
 
 @RunWith(AndroidJUnit4.class)
 public class LegoEV3SensorTest {
 
-	private static final byte PORT_NR_0 = 0;
-	private static final byte PORT_NR_1 = 1;
-	private static final byte PORT_NR_2 = 2;
-	private static final byte PORT_NR_3 = 3;
+	private Context applicationContext;
 
 	private LegoEV3 ev3;
-	private MindstormsEV3TestModel ev3TestModel;
+	private final int expectedPort = 0;
 	ConnectionDataLogger logger;
-	private MindstormsConnection mindstormsConnection;
 
 	@Before
 	public void setUp() throws Exception {
-
-		Context applicationContext = InstrumentationRegistry.getContext().getApplicationContext();
-
-		ev3TestModel = new MindstormsEV3TestModel();
-
+		applicationContext = InstrumentationRegistry.getTargetContext().getApplicationContext();
 		ev3 = new LegoEV3Impl(applicationContext);
-		logger = ConnectionDataLogger.createLocalConnectionLoggerWithDeviceModel(ev3TestModel);
+
+		logger = ConnectionDataLogger.createLocalConnectionLogger();
 		ev3.setConnection(logger.getConnectionProxy());
-
-		this.mindstormsConnection = new MindstormsConnectionImpl(logger.getConnectionProxy());
-		mindstormsConnection.init();
-	}
-
-	@After
-	public void tearDown() throws Exception {
-		ev3.disconnect();
-		mindstormsConnection.disconnect();
-		logger.disconnectAndDestroy();
 	}
 
 	@Test
-	public void testEV3IRSensor() {
+	public void testTouchSensor() {
+		final EV3SensorType expectedType = EV3SensorType.EV3_TOUCH;
+		final EV3SensorMode expectedMode = EV3SensorMode.MODE0;
 
-		ev3TestModel.setSensorType(PORT_NR_0, EV3Sensor.Sensor.INFRARED);
-		EV3Sensor sensor = new EV3InfraredSensor(PORT_NR_0, mindstormsConnection);
-		sensor.getValue(); // will initialize the sensor
-		assertTrue(ev3TestModel.isSensorActive(PORT_NR_0));
+		SettingsFragment.setLegoMindstormsEV3SensorMapping(applicationContext, EV3Sensor.Sensor.TOUCH, SettingsFragment.EV3_SENSORS[0]);
 
-		ev3TestModel.generateSensorValue(PORT_NR_0);
-		int sensorValue = (int) sensor.getValue();
+		initSensor();
+		ev3.getSensor1().updateLastSensorValue();
 
-		assertThat(sensorValue, allOf(greaterThanOrEqualTo(0), lessThanOrEqualTo(100)));
-
-		final int expectedSensorValue = 12;
-		ev3TestModel.setSensorValue(PORT_NR_0, expectedSensorValue);
-		sensorValue = (int) sensor.getValue();
-		assertEquals(expectedSensorValue, sensorValue);
+		checkInitializationCommand(expectedType, expectedMode);
+		checkPercentValueCommand(expectedType, expectedMode);
 	}
 
 	@Test
-	public void testEV3ColorSensor() {
+	public void testNxtLightActiveSensor() {
+		final EV3SensorType expectedType = EV3SensorType.NXT_LIGHT;
+		final EV3SensorMode expectedMode = EV3SensorMode.MODE0;
 
-		ev3TestModel.setSensorType(PORT_NR_1, EV3Sensor.Sensor.COLOR);
-		EV3Sensor sensor = new EV3ColorSensor(PORT_NR_1, mindstormsConnection, EV3SensorMode.MODE2);
-		sensor.getValue(); // will initialize the sensor
-		assertTrue(ev3TestModel.isSensorActive(PORT_NR_1));
+		SettingsFragment.setLegoMindstormsEV3SensorMapping(applicationContext, EV3Sensor.Sensor.NXT_LIGHT_ACTIVE, SettingsFragment.EV3_SENSORS[0]);
 
-		ev3TestModel.generateSensorValue(PORT_NR_1);
-		int sensorValue = (int) sensor.getValue();
+		initSensor();
+		ev3.getSensor1().updateLastSensorValue();
 
-		assertThat(sensorValue, allOf(greaterThanOrEqualTo(0), lessThanOrEqualTo(7)));
-
-		final int expectedSensorValue = 3;
-		ev3TestModel.setSensorValue(PORT_NR_1, expectedSensorValue);
-		sensorValue = (int) sensor.getValue();
-		assertEquals(expectedSensorValue, sensorValue);
+		checkInitializationCommand(expectedType, expectedMode);
+		checkPercentValueCommand(expectedType, expectedMode);
 	}
 
 	@Test
-	public void testEV3ColorSensorAmbient() {
+	public void testNxtLightSensor() {
+		final EV3SensorType expectedType = EV3SensorType.NXT_LIGHT;
+		final EV3SensorMode expectedMode = EV3SensorMode.MODE1;
 
-		ev3TestModel.setSensorType(PORT_NR_2, EV3Sensor.Sensor.COLOR_AMBIENT);
-		EV3Sensor sensor = new EV3ColorSensor(PORT_NR_2, mindstormsConnection, EV3SensorMode.MODE1);
-		sensor.getValue(); // will initialize the sensor
-		assertTrue(ev3TestModel.isSensorActive(PORT_NR_2));
+		SettingsFragment.setLegoMindstormsEV3SensorMapping(applicationContext, EV3Sensor.Sensor.NXT_LIGHT, SettingsFragment.EV3_SENSORS[0]);
 
-		ev3TestModel.generateSensorValue(PORT_NR_2);
-		int sensorValue = (int) sensor.getValue();
+		initSensor();
+		ev3.getSensor1().updateLastSensorValue();
 
-		assertThat(sensorValue, allOf(greaterThanOrEqualTo(0), lessThanOrEqualTo(100)));
-
-		final int expectedSensorValue = 33;
-		ev3TestModel.setSensorValue(PORT_NR_2, expectedSensorValue);
-		sensorValue = (int) sensor.getValue();
-		assertEquals(expectedSensorValue, sensorValue);
+		checkInitializationCommand(expectedType, expectedMode);
+		checkPercentValueCommand(expectedType, expectedMode);
 	}
 
 	@Test
-	public void testEV3ColorSensorReflected() {
+	public void testColorSensor() {
+		final EV3SensorType expectedType = EV3SensorType.EV3_COLOR;
+		final EV3SensorMode expectedMode = EV3SensorMode.MODE2;
 
-		ev3TestModel.setSensorType(PORT_NR_3, EV3Sensor.Sensor.COLOR_REFLECT);
-		EV3Sensor sensor = new EV3ColorSensor(PORT_NR_3, mindstormsConnection, EV3SensorMode.MODE0);
-		sensor.getValue(); // will initialize the sensor
-		assertTrue(ev3TestModel.isSensorActive(PORT_NR_3));
+		SettingsFragment.setLegoMindstormsEV3SensorMapping(applicationContext, EV3Sensor.Sensor.COLOR, SettingsFragment.EV3_SENSORS[0]);
 
-		ev3TestModel.generateSensorValue(PORT_NR_3);
-		int sensorValue = (int) sensor.getValue();
+		initSensor();
+		ev3.getSensor1().updateLastSensorValue();
 
-		assertThat(sensorValue, allOf(greaterThanOrEqualTo(0), lessThanOrEqualTo(100)));
-
-		final int expectedSensorValue = 42;
-		ev3TestModel.setSensorValue(PORT_NR_3, expectedSensorValue);
-		sensorValue = (int) sensor.getValue();
-		assertEquals(expectedSensorValue, sensorValue);
+		checkInitializationCommand(expectedType, expectedMode);
+		checkRawValueCommand();
 	}
 
 	@Test
-	public void testEV3TouchSensor() {
+	public void testEV3ColorReflectSensor() {
+		final EV3SensorType expectedType = EV3SensorType.EV3_COLOR;
+		final EV3SensorMode expectedMode = EV3SensorMode.MODE1;
 
-		ev3TestModel.setSensorType(PORT_NR_3, EV3Sensor.Sensor.TOUCH);
-		EV3Sensor sensor = new EV3TouchSensor(PORT_NR_3, mindstormsConnection);
-		sensor.getValue(); // will initialize the sensor
-		assertTrue(ev3TestModel.isSensorActive(PORT_NR_3));
+		SettingsFragment.setLegoMindstormsEV3SensorMapping(applicationContext, EV3Sensor.Sensor.COLOR_REFLECT, SettingsFragment.EV3_SENSORS[0]);
 
-		ev3TestModel.generateSensorValue(PORT_NR_3);
-		int sensorValue = (int) sensor.getValue();
+		initSensor();
+		ev3.getSensor1().updateLastSensorValue();
 
-		assertThat(sensorValue, allOf(greaterThanOrEqualTo(0), lessThanOrEqualTo(1)));
-
-		final int expectedSensorValue = 1;
-		final int touchPercentValue = 82;
-		ev3TestModel.setSensorValue(PORT_NR_3, touchPercentValue);
-		sensorValue = (int) sensor.getValue();
-		assertEquals(expectedSensorValue, sensorValue);
+		checkInitializationCommand(expectedType, expectedMode);
+		checkPercentValueCommand(expectedType, expectedMode);
 	}
 
 	@Test
-	public void testEV3TemperatureSensor() {
-		ev3TestModel.setSensorType(PORT_NR_2, EV3Sensor.Sensor.NXT_TEMPERATURE_C);
-		EV3Sensor tempSensC = new TemperatureSensor(PORT_NR_2, mindstormsConnection, EV3SensorMode.MODE0);
-		tempSensC.getValue(); // will initialize the sensor
-		assertTrue(ev3TestModel.isSensorActive(PORT_NR_2));
+	public void testEV3ColorAmbientSensor() {
+		final EV3SensorType expectedType = EV3SensorType.EV3_COLOR;
+		final EV3SensorMode expectedMode = EV3SensorMode.MODE0;
 
-		assertEquals(ev3TestModel.getSensormode(PORT_NR_2), EV3SensorMode.MODE0.getByte());
+		SettingsFragment.setLegoMindstormsEV3SensorMapping(applicationContext, EV3Sensor.Sensor.COLOR_AMBIENT, SettingsFragment.EV3_SENSORS[0]);
 
-		ev3TestModel.setSensorType(PORT_NR_3, EV3Sensor.Sensor.NXT_TEMPERATURE_F);
-		EV3Sensor tempSensF = new TemperatureSensor(PORT_NR_3, mindstormsConnection, EV3SensorMode.MODE1);
-		tempSensF.getValue(); // will initialize the sensor
-		assertTrue(ev3TestModel.isSensorActive(PORT_NR_3));
+		initSensor();
+		ev3.getSensor1().updateLastSensorValue();
 
-		assertEquals(ev3TestModel.getSensormode(PORT_NR_3), EV3SensorMode.MODE1.getByte());
+		checkInitializationCommand(expectedType, expectedMode);
+		checkPercentValueCommand(expectedType, expectedMode);
+	}
 
-		ev3TestModel.generateSensorValue(PORT_NR_2);
-		float sensorValueC = tempSensC.getValue();
-		assertThat(sensorValueC, allOf(greaterThanOrEqualTo(-550f), lessThanOrEqualTo(1280f)));
+	public void testHiTechnicColorSensor() {
+		final EV3SensorType expectedType = EV3SensorType.IIC;
+		final EV3SensorMode expectedMode = EV3SensorMode.MODE1;
 
-		ev3TestModel.generateSensorValue(PORT_NR_3);
-		float sensorValueF = tempSensF.getValue();
-		assertThat(sensorValueF, allOf(greaterThanOrEqualTo(-670f), lessThanOrEqualTo(2624f)));
+		SettingsFragment.setLegoMindstormsEV3SensorMapping(applicationContext, EV3Sensor.Sensor.HT_NXT_COLOR, SettingsFragment.EV3_SENSORS[0]);
 
-		final float expectedSensorValueC = 27.53f;
-		ev3TestModel.setSensorValue(PORT_NR_2, expectedSensorValueC);
-		float sensorValue = tempSensC.getValue();
-		assertEquals(expectedSensorValueC, sensorValue);
+		initSensor();
+		ev3.getSensor1().updateLastSensorValue();
 
-		final float expectedSensorValueF = 49.53f;
-		ev3TestModel.setSensorValue(PORT_NR_3, expectedSensorValueF);
-		sensorValue = tempSensF.getValue();
-		assertEquals(expectedSensorValueF, sensorValue);
+		checkInitializationCommand(expectedType, expectedMode);
+		checkRawValueCommand();
 	}
 
 	@Test
-	public void testEV3hitecColorSensor() {
-		ev3TestModel.setSensorType(PORT_NR_1, EV3Sensor.Sensor.HT_NXT_COLOR);
-		EV3Sensor sensor = new HiTechnicColorSensor(PORT_NR_1, mindstormsConnection, EV3SensorMode.MODE0);
-		sensor.getValue(); // will initialize the sensor
-		assertTrue(ev3TestModel.isSensorActive(PORT_NR_1));
+	public void testNxtTemperatureFSensor() {
+		final EV3SensorType expectedType = EV3SensorType.NXT_TEMPERATURE;
+		final EV3SensorMode expectedMode = EV3SensorMode.MODE1;
 
-		ev3TestModel.generateSensorValue(PORT_NR_1);
-		float sensorValue = sensor.getValue();
-		assertThat(sensorValue, allOf(greaterThanOrEqualTo(0f), lessThanOrEqualTo(17f)));
+		SettingsFragment.setLegoMindstormsEV3SensorMapping(applicationContext, EV3Sensor.Sensor.NXT_TEMPERATURE_F, SettingsFragment.EV3_SENSORS[0]);
 
-		final float expectedSensorValue = 13;
-		ev3TestModel.setSensorValue(PORT_NR_1, expectedSensorValue);
-		sensorValue = sensor.getValue();
-		assertEquals(expectedSensorValue, sensorValue);
+		initSensor();
+		ev3.getSensor1().updateLastSensorValue();
+
+		checkInitializationCommand(expectedType, expectedMode);
+		checkSiValueCommand(expectedType, expectedMode);
+	}
+
+	@Test
+	public void testTemperatureCSensor() {
+		final EV3SensorType expectedType = EV3SensorType.NXT_TEMPERATURE;
+		final EV3SensorMode expectedMode = EV3SensorMode.MODE0;
+
+		SettingsFragment.setLegoMindstormsEV3SensorMapping(applicationContext, EV3Sensor.Sensor.NXT_TEMPERATURE_C, SettingsFragment.EV3_SENSORS[0]);
+
+		initSensor();
+		ev3.getSensor1().updateLastSensorValue();
+
+		checkInitializationCommand(expectedType, expectedMode);
+		checkSiValueCommand(expectedType, expectedMode);
+	}
+
+	@Test
+	public void testNXTSoundSensor() {
+		final EV3SensorType expectedType = EV3SensorType.NXT_SOUND;
+		final EV3SensorMode expectedMode = EV3SensorMode.MODE1;
+
+		SettingsFragment.setLegoMindstormsEV3SensorMapping(applicationContext, EV3Sensor.Sensor.NXT_SOUND, SettingsFragment.EV3_SENSORS[0]);
+
+		initSensor();
+		ev3.getSensor1().updateLastSensorValue();
+
+		checkInitializationCommand(expectedType, expectedMode);
+		checkPercentValueCommand(expectedType, expectedMode);
+	}
+
+	@Test
+	public void testInfraredSensor() {
+		final EV3SensorType expectedType = EV3SensorType.EV3_INFRARED;
+		final EV3SensorMode expectedMode = EV3SensorMode.MODE0;
+
+		SettingsFragment.setLegoMindstormsEV3SensorMapping(applicationContext, EV3Sensor.Sensor.INFRARED, SettingsFragment.EV3_SENSORS[0]);
+
+		initSensor();
+		ev3.getSensor1().updateLastSensorValue();
+
+		checkInitializationCommand(expectedType, expectedMode);
+		checkPercentValueCommand(expectedType, expectedMode);
+	}
+
+	@Test
+	public void testEV3UltrasonicSensorNXT() {
+		final EV3SensorType expectedType = EV3SensorType.NXT_ULTRASONIC;
+		final EV3SensorMode expectedMode = EV3SensorMode.MODE0;
+
+		SettingsFragment.setLegoMindstormsEV3SensorMapping(applicationContext, EV3Sensor.Sensor.NXT_ULTRASONIC, SettingsFragment.EV3_SENSORS[0]);
+
+		initSensor();
+		ev3.getSensor1().updateLastSensorValue();
+
+		checkInitializationCommand(expectedType, expectedMode);
+		checkRawValueCommand();
+	}
+
+	private void checkInitializationCommand(EV3SensorType expectedType, EV3SensorMode expectedMode) {
+		final int expectedCommandCounter = 1;
+
+		byte[] commandBytes = logger.getNextSentMessage(0, 2);
+
+		assertEquals((byte) expectedCommandCounter, commandBytes[0]);
+		assertEquals(EV3CommandByte.EV3CommandOpCode.OP_INPUT_DEVICE.getByte(), commandBytes[5]);
+		assertEquals(EV3CommandByte.EV3CommandByteCode.INPUT_DEVICE_READY_RAW.getByte(), commandBytes[6]);
+		assertEquals((byte) expectedPort, commandBytes[8]);
+		assertEquals(expectedType.getByte(), commandBytes[10]);
+		assertEquals(expectedMode.getByte(), commandBytes[11]);
+	}
+
+	private void checkPercentValueCommand(EV3SensorType expectedType, EV3SensorMode expectedMode) {
+		final int expectedCommandCounter = 2;
+
+		byte[] commandBytes = logger.getNextSentMessage(0, 2);
+
+		assertEquals((byte) expectedCommandCounter, commandBytes[0]);
+		assertEquals(EV3CommandByte.EV3CommandOpCode.OP_INPUT_READ.getByte(), commandBytes[5]);
+		assertEquals((byte) expectedPort, commandBytes[7]);
+		assertEquals(expectedType.getByte(), commandBytes[9]);
+		assertEquals(expectedMode.getByte(), commandBytes[10]);
+	}
+
+	private void checkSiValueCommand(EV3SensorType expectedType, EV3SensorMode expectedMode) {
+		final int expectedCommandCounter = 2;
+
+		byte[] commandBytes = logger.getNextSentMessage(0, 2);
+
+		assertEquals((byte) expectedCommandCounter, commandBytes[0]);
+		assertEquals(EV3CommandByte.EV3CommandOpCode.OP_INPUT_READ_SI.getByte(), commandBytes[5]);
+		assertEquals((byte) expectedPort, commandBytes[7]);
+		assertEquals(expectedType.getByte(), commandBytes[9]);
+		assertEquals(expectedMode.getByte(), commandBytes[10]);
+	}
+
+	private void checkRawValueCommand() {
+		final int expectedCommandCounter = 2;
+
+		byte[] commandBytes = logger.getNextSentMessage(0, 2);
+
+		assertEquals((byte) expectedCommandCounter, commandBytes[0]);
+		assertEquals(EV3CommandByte.EV3CommandOpCode.OP_INPUT_DEVICE.getByte(), commandBytes[5]);
+		assertEquals(EV3CommandByte.EV3CommandByteCode.INPUT_DEVICE_GET_RAW.getByte(), commandBytes[6]);
+		assertEquals((byte) expectedPort, commandBytes[8]);
+	}
+
+	private void initSensor() {
+		ev3.initialise();
+
+		ev3.getSensor1().updateLastSensorValue(); // First time the Sensor gets initialized
 	}
 }
