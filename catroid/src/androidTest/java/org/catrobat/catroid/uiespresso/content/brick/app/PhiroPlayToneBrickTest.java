@@ -78,7 +78,7 @@ public class PhiroPlayToneBrickTest {
 				R.string.phiro_tone_la);
 
 		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_phiro_select_tone_spinner)
-				.checkValuesAvailable(spinnerValuesResourceIds);
+				.checkStringIdValuesAvailable(spinnerValuesResourceIds);
 
 		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_phiro_play_tone_duration_edit_text)
 				.checkShowsNumber(toneDurationInitially)

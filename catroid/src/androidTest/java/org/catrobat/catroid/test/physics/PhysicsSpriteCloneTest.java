@@ -169,8 +169,6 @@ public class PhysicsSpriteCloneTest {
 		assertTrue(clonedScript instanceof CollisionScript);
 		ScriptBrick clonedScriptBrick = clonedScript.getScriptBrick();
 		assertTrue(clonedScriptBrick instanceof CollisionReceiverBrick);
-		String clonedBroadcastMessage = ((CollisionReceiverBrick) clonedScriptBrick).getBroadcastMessage();
-		assertEquals(clonedBroadcastMessage, clonedBroadcastMessage);
 
 		Brick clonedSetBounceBrick = clonedScript.getBrickList().get(0);
 		assertTrue(clonedSetBounceBrick instanceof SetBounceBrick);

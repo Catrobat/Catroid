@@ -25,9 +25,12 @@ package org.catrobat.catroid.uiespresso.content.brick.utils;
 
 import android.support.test.espresso.DataInteraction;
 
+import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
+import org.catrobat.catroid.uiespresso.util.matchers.NameableItemMatchers;
 import org.catrobat.catroid.uiespresso.util.wrappers.DataInteractionWrapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.support.test.espresso.Espresso.onData;
@@ -42,6 +45,7 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.core.Is.is;
 
 public class BrickSpinnerDataInteractionWrapper extends DataInteractionWrapper {
+
 	public BrickSpinnerDataInteractionWrapper(DataInteraction dataInteraction) {
 		super(dataInteraction);
 	}
@@ -58,27 +62,54 @@ public class BrickSpinnerDataInteractionWrapper extends DataInteractionWrapper {
 		return new BrickSpinnerDataInteractionWrapper(dataInteraction);
 	}
 
-	public BrickSpinnerDataInteractionWrapper checkValuesAvailable(List<Integer> stringResourceIdValues) {
+	public BrickSpinnerDataInteractionWrapper checkStringValuesAvailable(List<String> stringValues) {
 		dataInteraction.perform(click());
 
-		for (Integer stringResourceId : stringResourceIdValues) {
-			onData(allOf(is(instanceOf(String.class)), is(UiTestUtils.getResourcesString(stringResourceId))))
+		for (String string : stringValues) {
+			onData(allOf(is(instanceOf(String.class)), is(string)))
 					.check(matches(isDisplayed()));
 		}
 		pressBack();
 		return new BrickSpinnerDataInteractionWrapper(dataInteraction);
 	}
 
-	public BrickSpinnerDataInteractionWrapper performSelect(int selectionStringResourceId) {
+	public BrickSpinnerDataInteractionWrapper checkStringIdValuesAvailable(List<Integer> stringResourceIdValues) {
+		List<String> stringValues = new ArrayList<>();
+		for (Integer stringResourceId : stringResourceIdValues) {
+			stringValues.add(UiTestUtils.getResourcesString(stringResourceId));
+		}
+		return checkStringValuesAvailable(stringValues);
+	}
+
+	public BrickSpinnerDataInteractionWrapper checkNameableValuesAvailable(List<String> stringValues) {
 		dataInteraction.perform(click());
 
-		onData(allOf(is(instanceOf(String.class)), is(UiTestUtils.getResourcesString(selectionStringResourceId))))
+		for (String string : stringValues) {
+			onData(allOf(is(instanceOf(Nameable.class)), NameableItemMatchers.withNameable(string)))
+					.check(matches(isDisplayed()));
+		}
+		pressBack();
+		return new BrickSpinnerDataInteractionWrapper(dataInteraction);
+	}
+
+	public BrickSpinnerDataInteractionWrapper performSelectNameable(int selectionStringResourceId) {
+		return performSelectNameable(UiTestUtils.getResourcesString(selectionStringResourceId));
+	}
+
+	public BrickSpinnerDataInteractionWrapper performSelectNameable(String selection) {
+		dataInteraction.perform(click());
+
+		onData(allOf(is(instanceOf(Nameable.class)), NameableItemMatchers.withNameable(selection)))
 				.perform(click());
 
 		return new BrickSpinnerDataInteractionWrapper(dataInteraction);
 	}
 
-	public BrickSpinnerDataInteractionWrapper performSelect(String selection) {
+	public BrickSpinnerDataInteractionWrapper performSelectString(int selectionStringResourceId) {
+		return performSelectString(UiTestUtils.getResourcesString(selectionStringResourceId));
+	}
+
+	public BrickSpinnerDataInteractionWrapper performSelectString(String selection) {
 		dataInteraction.perform(click());
 
 		onData(allOf(is(instanceOf(String.class)), is(selection)))

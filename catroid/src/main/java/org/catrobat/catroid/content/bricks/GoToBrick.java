@@ -24,33 +24,28 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.database.DataSetObserver;
-import android.view.MotionEvent;
+import android.support.annotation.Nullable;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
+import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class GoToBrick extends BrickBaseType {
+public class GoToBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<Sprite> {
 
 	private static final long serialVersionUID = 1L;
 
 	private Sprite destinationSprite;
 	private int spinnerSelection;
-
-	private transient String oldSelectedObject = "";
 
 	public GoToBrick() {
 	}
@@ -65,213 +60,62 @@ public class GoToBrick extends BrickBaseType {
 	}
 
 	@Override
-	public View getView(final Context context) {
+	public View getPrototypeView(Context context) {
+		super.getPrototypeView(context);
+		return getView(context);
+	}
+
+	@Override
+	public View getView(Context context) {
 		super.getView(context);
-		final Spinner goToSpinner = view.findViewById(R.id.brick_go_to_spinner);
 
-		final ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
+		List<Nameable> items = new ArrayList<>();
+		items.add(new StringOption(context.getString(R.string.brick_go_to_touch_position)));
+		items.add(new StringOption(context.getString(R.string.brick_go_to_random_position)));
+		items.addAll(ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList());
+		items.remove(ProjectManager.getInstance().getCurrentlyEditedScene().getBackgroundSprite());
+		items.remove(ProjectManager.getInstance().getCurrentSprite());
 
-		SpinnerAdapterWrapper spinnerAdapterWrapper = new SpinnerAdapterWrapper(context, goToSpinner, spinnerAdapter);
-		goToSpinner.setAdapter(spinnerAdapterWrapper);
-		goToSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				String itemSelected = parent.getSelectedItem().toString();
-
-				if (itemSelected.equals(context.getString(R.string.brick_go_to_touch_position))) {
-					spinnerSelection = BrickValues.GO_TO_TOUCH_POSITION;
-				} else if (itemSelected.equals(context.getString(R.string.brick_go_to_random_position))) {
-					spinnerSelection = BrickValues.GO_TO_RANDOM_POSITION;
-				} else {
-					final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance()
-							.getCurrentlyEditedScene().getSpriteList();
-
-					for (Sprite sprite : spriteList) {
-						String spriteName = sprite.getName();
-						if (spriteName.equals(itemSelected)) {
-							destinationSprite = sprite;
-							spinnerSelection = BrickValues.GO_TO_OTHER_SPRITE_POSITION;
-							break;
-						}
-					}
-				}
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
-			}
-		});
-
-		setSpinnerSelection(goToSpinner, context);
-
+		BrickSpinner<Sprite> spinner = new BrickSpinner<>(R.id.brick_go_to_spinner, view, items);
+		spinner.setOnItemSelectedListener(this);
+		if (spinnerSelection == BrickValues.GO_TO_TOUCH_POSITION) {
+			spinner.setSelection(0);
+		}
+		if (spinnerSelection == BrickValues.GO_TO_RANDOM_POSITION) {
+			spinner.setSelection(1);
+		}
+		if (spinnerSelection == BrickValues.GO_TO_OTHER_SPRITE_POSITION) {
+			spinner.setSelection(destinationSprite);
+		}
 		return view;
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
+	public void onNewOptionSelected() {
+	}
 
-		Spinner goToSpinner = prototypeView.findViewById(R.id.brick_go_to_spinner);
-		SpinnerAdapter goToSpinnerAdapter = createArrayAdapter(context);
+	@Override
+	public void onStringOptionSelected(String string) {
+		Context context = view.getContext();
 
-		goToSpinner.setAdapter(goToSpinnerAdapter);
-		setSpinnerSelection(goToSpinner, context);
+		if (string.equals(context.getString(R.string.brick_go_to_touch_position))) {
+			spinnerSelection = BrickValues.GO_TO_TOUCH_POSITION;
+		}
 
-		return prototypeView;
+		if (string.equals(context.getString(R.string.brick_go_to_random_position))) {
+			spinnerSelection = BrickValues.GO_TO_RANDOM_POSITION;
+		}
+	}
+
+	@Override
+	public void onItemSelected(@Nullable Sprite item) {
+		spinnerSelection = BrickValues.GO_TO_OTHER_SPRITE_POSITION;
+		destinationSprite = item;
 	}
 
 	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createGoToAction(sprite, destinationSprite, spinnerSelection));
-
 		return Collections.emptyList();
-	}
-
-	private void setSpinnerSelection(Spinner spinner, Context context) {
-		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentlyEditedScene()
-				.getSpriteList();
-
-		if (spinnerSelection == BrickValues.GO_TO_TOUCH_POSITION) {
-			spinner.setSelection(0, true);
-			oldSelectedObject = context.getString(R.string.brick_go_to_touch_position);
-		} else if (spinnerSelection == BrickValues.GO_TO_RANDOM_POSITION) {
-			spinner.setSelection(1, true);
-			oldSelectedObject = context.getString(R.string.brick_go_to_random_position);
-		} else if (spriteList.contains(destinationSprite)) {
-			oldSelectedObject = destinationSprite.getName();
-			spinner.setSelection(
-					((SpinnerAdapterWrapper) spinner.getAdapter()).getAdapter()
-							.getPosition(destinationSprite.getName()), true);
-		} else {
-			if (oldSelectedObject != null && !oldSelectedObject.equals("")) {
-				spinner.setSelection(
-						((SpinnerAdapterWrapper) spinner.getAdapter()).getAdapter()
-								.getPosition(this.oldSelectedObject), true);
-			} else {
-				spinner.setSelection(0, true);
-			}
-		}
-	}
-
-	private ArrayAdapter<String> createArrayAdapter(Context context) {
-		final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(context,
-				android.R.layout.simple_spinner_item);
-
-		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-		arrayAdapter.add(context.getString(R.string.brick_go_to_touch_position));
-		arrayAdapter.add(context.getString(R.string.brick_go_to_random_position));
-
-		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentlyEditedScene()
-				.getSpriteList();
-
-		for (Sprite sprite : spriteList) {
-			String spriteName = sprite.getName();
-			String currentSprite = ProjectManager.getInstance().getCurrentSprite().getName();
-			if (!spriteName.equals(currentSprite) && !spriteName.equals(context.getString(R.string.background))) {
-				arrayAdapter.add(sprite.getName());
-			}
-		}
-
-		return arrayAdapter;
-	}
-
-	public final class SpinnerAdapterWrapper implements SpinnerAdapter {
-		protected Context context;
-		protected Spinner spinner;
-		protected ArrayAdapter<String> spinnerAdapter;
-		private DataSetObserver currentDataSetObserver;
-
-		private boolean isTouchInDropDownView;
-
-		private SpinnerAdapterWrapper(Context context, Spinner spinner, ArrayAdapter<String> spinnerAdapter) {
-			this.context = context;
-			this.spinner = spinner;
-			this.spinnerAdapter = spinnerAdapter;
-
-			this.isTouchInDropDownView = false;
-		}
-
-		@Override
-		public void registerDataSetObserver(DataSetObserver paramDataSetObserver) {
-			currentDataSetObserver = paramDataSetObserver;
-			spinnerAdapter.registerDataSetObserver(paramDataSetObserver);
-		}
-
-		@Override
-		public void unregisterDataSetObserver(DataSetObserver paramDataSetObserver) {
-			spinnerAdapter.unregisterDataSetObserver(paramDataSetObserver);
-		}
-
-		@Override
-		public int getCount() {
-			return spinnerAdapter.getCount();
-		}
-
-		@Override
-		public Object getItem(int paramInt) {
-			return spinnerAdapter.getItem(paramInt);
-		}
-
-		@Override
-		public long getItemId(int paramInt) {
-			String currentItemName = spinnerAdapter.getItem(paramInt);
-			if (!(currentItemName.equals(context.getString(R.string.brick_go_to_touch_position))
-					|| currentItemName.equals(context.getString(R.string.brick_go_to_random_position)))) {
-				oldSelectedObject = currentItemName;
-			}
-
-			return spinnerAdapter.getItemId(paramInt);
-		}
-
-		@Override
-		public boolean hasStableIds() {
-			return spinnerAdapter.hasStableIds();
-		}
-
-		@Override
-		public View getView(int paramInt, View paramView, ViewGroup paramViewGroup) {
-			if (isTouchInDropDownView) {
-				isTouchInDropDownView = false;
-			}
-
-			return spinnerAdapter.getView(paramInt, paramView, paramViewGroup);
-		}
-
-		@Override
-		public int getItemViewType(int paramInt) {
-			return spinnerAdapter.getItemViewType(paramInt);
-		}
-
-		@Override
-		public int getViewTypeCount() {
-			return spinnerAdapter.getViewTypeCount();
-		}
-
-		@Override
-		public boolean isEmpty() {
-			return spinnerAdapter.isEmpty();
-		}
-
-		@Override
-		public View getDropDownView(int paramInt, View paramView, ViewGroup paramViewGroup) {
-			spinnerAdapter = createArrayAdapter(context);
-			registerDataSetObserver(currentDataSetObserver);
-			View dropDownView = spinnerAdapter.getDropDownView(paramInt, paramView, paramViewGroup);
-
-			dropDownView.setOnTouchListener(new View.OnTouchListener() {
-				@Override
-				public boolean onTouch(View paramView, MotionEvent paramMotionEvent) {
-					isTouchInDropDownView = true;
-					return false;
-				}
-			});
-
-			return dropDownView;
-		}
-
-		public ArrayAdapter<String> getAdapter() {
-			return spinnerAdapter;
-		}
 	}
 }

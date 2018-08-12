@@ -22,11 +22,8 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.TextView;
-
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -38,7 +35,7 @@ public class SpeakBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public SpeakBrick() {
-		addAllowedBrickField(BrickField.SPEAK, R.id.brick_speak_edit_text);
+		this(new Formula(BrickValues.STRING_VALUE));
 	}
 
 	public SpeakBrick(String text) {
@@ -51,22 +48,14 @@ public class SpeakBrick extends FormulaBrick {
 	}
 
 	@Override
-	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
-		requiredResourcesSet.add(TEXT_TO_SPEECH);
-		super.addRequiredResources(requiredResourcesSet);
-	}
-
-	@Override
 	public int getViewResource() {
 		return R.layout.brick_speak;
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-		TextView textSpeak = prototypeView.findViewById(R.id.brick_speak_edit_text);
-		textSpeak.setText(context.getString(R.string.brick_speak_default_value));
-		return prototypeView;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(TEXT_TO_SPEECH);
+		super.addRequiredResources(requiredResourcesSet);
 	}
 
 	@Override

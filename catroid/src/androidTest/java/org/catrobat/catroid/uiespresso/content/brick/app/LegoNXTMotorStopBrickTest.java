@@ -78,6 +78,6 @@ public class LegoNXTMotorStopBrickTest {
 				R.string.nxt_motor_all);
 
 		onBrickAtPosition(brickPosition).onSpinner(R.id.stop_motor_spinner)
-				.checkValuesAvailable(spinnerValuesResourceIds);
+				.checkStringIdValuesAvailable(spinnerValuesResourceIds);
 	}
 }

@@ -62,22 +62,8 @@ public class DronePlayLedAnimationBrick extends BrickBaseType {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-
-		Spinner dronePlayLedAnimationSpinner = prototypeView
-				.findViewById(R.id.brick_drone_play_led_animation_spinner);
-		dronePlayLedAnimationSpinner.setFocusableInTouchMode(false);
-		dronePlayLedAnimationSpinner.setFocusable(false);
-		dronePlayLedAnimationSpinner.setEnabled(false);
-
-		ArrayAdapter<CharSequence> animationAdapter = ArrayAdapter.createFromResource(context,
-				R.array.brick_drone_play_led_animation_spinner, android.R.layout.simple_spinner_item);
-		animationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-		dronePlayLedAnimationSpinner.setAdapter(animationAdapter);
-		dronePlayLedAnimationSpinner.setSelection(ledAnimation.ordinal());
-
-		return prototypeView;
+		super.getPrototypeView(context);
+		return getView(context);
 	}
 
 	@Override

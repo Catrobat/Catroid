@@ -51,7 +51,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static android.support.test.espresso.action.ViewActions.replaceText;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -95,7 +95,7 @@ public class BroadcastBricksTest {
 		createNewMessageOnSpinner(R.id.brick_broadcast_spinner, broadcastSendPosition, uselessMessage);
 
 		onBrickAtPosition(broadcastSendPosition).onSpinner(R.id.brick_broadcast_spinner)
-				.performSelect(defaultMessage);
+				.performSelectString(defaultMessage);
 
 		onView(withId(R.id.button_play))
 				.perform(click());
@@ -121,7 +121,7 @@ public class BroadcastBricksTest {
 		createNewMessageOnSpinner(R.id.brick_broadcast_spinner, broadcastReceivePosition, uselessMessage);
 
 		onBrickAtPosition(broadcastReceivePosition).onSpinner(R.id.brick_broadcast_spinner)
-				.performSelect(defaultMessage);
+				.performSelectString(defaultMessage);
 
 		onView(withId(R.id.button_play))
 				.perform(click());
@@ -161,16 +161,16 @@ public class BroadcastBricksTest {
 		onBrickAtPosition(position).onSpinner(spinnerResourceId)
 				.perform(click());
 
-		onView(withText(R.string.new_broadcast_message))
+		onView(withText(R.string.new_option))
 				.perform(click());
 
-		onView(allOf(withText(R.string.new_broadcast_message), isDisplayed(), instanceOf(EditText.class)))
-				.perform(replaceText(message));
+		onView(allOf(withId(R.id.input_edit_text), isDisplayed(), instanceOf(EditText.class)))
+				.perform(typeText(message));
 		closeSoftKeyboard();
 
 		onView(withId(android.R.id.button1))
 				.perform(click());
-		// todo: CAT-2359 to fix this:
+
 		onBrickAtPosition(position).onSpinner(spinnerResourceId)
 				.checkShowsText(message);
 	}

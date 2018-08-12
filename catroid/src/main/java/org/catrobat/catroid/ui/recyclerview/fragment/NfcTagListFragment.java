@@ -192,7 +192,7 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 	@Override
 	protected void showRenameDialog(List<NfcTagData> selectedItems) {
 		String name = selectedItems.get(0).getNfcTagName();
-		RenameDialogFragment dialog = new RenameDialogFragment(R.string.rename_nfctag_dialog, R.string.new_nfc_tag, name, this);
+		RenameDialogFragment dialog = new RenameDialogFragment(R.string.rename_nfctag_dialog, R.string.new_option, name, this);
 		dialog.show(getFragmentManager(), RenameDialogFragment.TAG);
 	}
 

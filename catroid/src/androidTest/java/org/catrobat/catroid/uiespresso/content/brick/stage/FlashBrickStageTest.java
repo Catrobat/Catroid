@@ -65,7 +65,7 @@ public class FlashBrickStageTest {
 	@Test
 	public void testActualFlashOnBrick() {
 		onBrickAtPosition(flashBrickPosition).onSpinner(R.id.brick_flash_spinner)
-				.performSelect(R.string.brick_flash_on);
+				.performSelectString(R.string.brick_flash_on);
 		onView(withId(R.id.button_play))
 				.perform(click());
 
@@ -78,7 +78,7 @@ public class FlashBrickStageTest {
 	@Test
 	public void testActualFlashOffBrick() {
 		onBrickAtPosition(flashBrickPosition).onSpinner(R.id.brick_flash_spinner)
-				.performSelect(R.string.brick_flash_off);
+				.performSelectString(R.string.brick_flash_off);
 		onView(withId(R.id.button_play))
 				.perform(click());
 

@@ -21,11 +21,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.formulaeditor;
+package org.catrobat.catroid.uiespresso.util.matchers;
 
 import org.catrobat.catroid.common.Nameable;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 
-public interface UserData extends Nameable {
+public final class NameableItemMatchers {
+	private NameableItemMatchers() {
+		throw new AssertionError();
+	}
 
-	void reset();
+	public static Matcher<Nameable> withNameable(final String expectedName) {
+		return new TypeSafeMatcher<Nameable>() {
+			@Override
+			protected boolean matchesSafely(Nameable nameable) {
+				return expectedName.equals(nameable.getName());
+			}
+
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("withNameable");
+			}
+		};
+	}
 }

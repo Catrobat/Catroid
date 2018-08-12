@@ -32,7 +32,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 
-public class SoundInfo implements Serializable, Cloneable {
+public class SoundInfo implements Cloneable, Nameable, Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = SoundInfo.class.getSimpleName();

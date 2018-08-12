@@ -99,8 +99,9 @@ public class InsertItemToUserListTest {
 		onBrickAtPosition(brickPosition)
 				.onFormulaTextField(R.id.brick_insert_item_into_userlist_value_edit_text)
 				.checkShowsNumber(valueToInsert);
+
 		onBrickAtPosition(brickPosition)
-				.onSpinner(R.id.insert_item_into_userlist_spinner)
+				.onVariableSpinner(R.id.insert_item_into_userlist_spinner)
 				.checkShowsText(userListName);
 		onBrickAtPosition(brickPosition)
 				.onFormulaTextField(R.id.brick_insert_item_into_userlist_at_index_edit_text)

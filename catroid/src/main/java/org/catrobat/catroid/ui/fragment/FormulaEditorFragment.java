@@ -674,6 +674,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 			((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.formula_editor_title);
 			BottomBar.hideBottomBar(getActivity());
 			updateButtonsOnKeyboardAndInvalidateOptionsMenu();
+			updateBrickView();
 		}
 	}
 
