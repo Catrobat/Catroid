@@ -59,9 +59,21 @@ public class UserBrickEditElementDialog extends DialogFragment {
 	private View fragmentView;
 	private UserBrickElementEditorFragment userBrickElementEditorFragment;
 
+	public UserBrickEditElementDialog() {
+	}
+
 	public UserBrickEditElementDialog(View fragmentView) {
 		super();
 		this.fragmentView = fragmentView;
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		boolean isRestoringPreviouslyDestroyedActivity = savedInstanceState != null;
+		if (isRestoringPreviouslyDestroyedActivity) {
+			dismiss();
+		}
 	}
 
 	public interface DialogListener {

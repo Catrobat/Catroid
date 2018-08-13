@@ -39,6 +39,9 @@ public class NewGroupDialogFragment extends TextInputDialogFragment {
 	private NewItemInterface<Sprite> newItemInterface;
 	private Scene dstScene;
 
+	public NewGroupDialogFragment() {
+	}
+
 	public NewGroupDialogFragment(NewItemInterface<Sprite> newItemInterface, Scene dstScene) {
 		super(R.string.new_group, R.string.sprite_group_name_label, null, false);
 		this.newItemInterface = newItemInterface;

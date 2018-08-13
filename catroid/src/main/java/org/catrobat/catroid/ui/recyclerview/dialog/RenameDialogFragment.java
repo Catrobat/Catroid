@@ -31,6 +31,9 @@ public class RenameDialogFragment extends TextInputDialogFragment {
 
 	private RenameInterface renameInterface;
 
+	public RenameDialogFragment() {
+	}
+
 	public RenameDialogFragment(int title, int hint, String text, RenameInterface renameInterface) {
 		super(title, hint, text, false);
 		this.renameInterface = renameInterface;

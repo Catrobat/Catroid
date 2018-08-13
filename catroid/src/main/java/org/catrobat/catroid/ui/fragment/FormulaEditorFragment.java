@@ -24,6 +24,7 @@ package org.catrobat.catroid.ui.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -117,11 +118,14 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setHasOptionsMenu(!ViewConfiguration.get(getActivity()).hasPermanentMenuKey());
 
-		ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-		previousActionBarTitle = actionBar.getTitle().toString();
-		actionBar.setTitle(R.string.formula_editor_title);
+		boolean isRestoringPreviouslyDestroyedActivity = savedInstanceState != null;
+		if (isRestoringPreviouslyDestroyedActivity) {
+			getFragmentManager().popBackStack(FORMULA_EDITOR_FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+			return;
+		}
+
+		setHasOptionsMenu(!ViewConfiguration.get(getActivity()).hasPermanentMenuKey());
 
 		onFormulaChangedListener = (OnFormulaChangedListener) getFragmentManager()
 				.findFragmentByTag(ScriptFragment.TAG);
@@ -135,6 +139,11 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+
+		ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+		previousActionBarTitle = actionBar.getTitle().toString();
+		actionBar.setTitle(R.string.formula_editor_title);
+
 		setHasOptionsMenu(true);
 	}
 
@@ -839,9 +848,13 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	@Override
 	public void onHiddenChanged(boolean hidden) {
 		if (!hidden) {
-			((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.formula_editor_title);
-			BottomBar.hideBottomBar(getActivity());
-			updateButtonsOnKeyboardAndInvalidateOptionsMenu();
+			ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+			boolean isRestoringPreviouslyDestroyedActivity = actionBar == null;
+			if (!isRestoringPreviouslyDestroyedActivity) {
+				actionBar.setTitle(R.string.formula_editor_title);
+				BottomBar.hideBottomBar(getActivity());
+				updateButtonsOnKeyboardAndInvalidateOptionsMenu();
+			}
 		}
 	}
 

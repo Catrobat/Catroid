@@ -87,6 +87,9 @@ public class LegoSensorPortConfigDialog extends DialogFragment {
 					new SensorInfo(R.string.ev3_sensor_nxt_temperature_f, EV3Sensor.Sensor.NXT_TEMPERATURE_F))
 			.build();
 
+	public LegoSensorPortConfigDialog() {
+	}
+
 	public LegoSensorPortConfigDialog(OnSetSensorListener listener, int clickedResItem, @LegoSensorType int type) {
 		this.listener = listener;
 		sensorInfo = getSensorInfo(clickedResItem, type);
@@ -94,6 +97,15 @@ public class LegoSensorPortConfigDialog extends DialogFragment {
 
 		if (type != Constants.NXT && type != Constants.EV3) {
 			throw new IllegalArgumentException("LegoSensorPortConfigDialog: Unknown LegoSensorType");
+		}
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		boolean isRestoringPreviouslyDestroyedActivity = savedInstanceState != null;
+		if (isRestoringPreviouslyDestroyedActivity) {
+			dismiss();
 		}
 	}
 

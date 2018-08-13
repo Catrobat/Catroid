@@ -75,6 +75,18 @@ public class NewLookDialogFragment extends DialogFragment implements View.OnClic
 	private UniqueNameProvider uniqueNameProvider = new UniqueNameProvider();
 	private Uri uri;
 
+	public NewLookDialogFragment() {
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		boolean isRestoringPreviouslyDestroyedActivity = savedInstanceState != null;
+		if (isRestoringPreviouslyDestroyedActivity) {
+			dismiss();
+		}
+	}
+
 	public NewLookDialogFragment(NewItemInterface<LookData> newItemInterface, Scene dstScene, Sprite dstSprite) {
 		this.newItemInterface = newItemInterface;
 		this.dstScene = dstScene;
