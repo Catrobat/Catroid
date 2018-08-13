@@ -23,7 +23,6 @@
 package org.catrobat.catroid.physics.content.bricks;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
@@ -36,7 +35,7 @@ public class TurnLeftSpeedBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public TurnLeftSpeedBrick() {
-		this(new Formula(BrickValues.PHYSIC_TURN_DEGREES));
+		addAllowedBrickField(BrickField.PHYSICS_TURN_LEFT_SPEED, R.id.brick_turn_left_speed_edit_text);
 	}
 
 	public TurnLeftSpeedBrick(double degreesPerSecond) {
@@ -44,7 +43,7 @@ public class TurnLeftSpeedBrick extends FormulaBrick {
 	}
 
 	public TurnLeftSpeedBrick(Formula formula) {
-		addAllowedBrickField(BrickField.PHYSICS_TURN_LEFT_SPEED, R.id.brick_turn_left_speed_edit_text);
+		this();
 		setFormulaWithBrickField(BrickField.PHYSICS_TURN_LEFT_SPEED, formula);
 	}
 

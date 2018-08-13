@@ -45,7 +45,7 @@ public class SetNfcTagBrick extends FormulaBrick implements
 	private int nfcTagNdefType = BrickValues.TNF_WELL_KNOWN_HTTPS;
 
 	public SetNfcTagBrick() {
-		this(new Formula("www.catrobat.org"));
+		addAllowedBrickField(BrickField.NFC_NDEF_MESSAGE, R.id.brick_set_nfc_tag_edit_text);
 	}
 
 	public SetNfcTagBrick(String messageString) {
@@ -53,7 +53,7 @@ public class SetNfcTagBrick extends FormulaBrick implements
 	}
 
 	public SetNfcTagBrick(Formula messageFormula) {
-		addAllowedBrickField(BrickField.NFC_NDEF_MESSAGE, R.id.brick_set_nfc_tag_edit_text);
+		this();
 		setFormulaWithBrickField(BrickField.NFC_NDEF_MESSAGE, messageFormula);
 	}
 

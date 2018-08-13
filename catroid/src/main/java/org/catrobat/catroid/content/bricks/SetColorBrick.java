@@ -24,7 +24,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -36,7 +35,7 @@ public class SetColorBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public SetColorBrick() {
-		this(new Formula(BrickValues.SET_COLOR_TO));
+		addAllowedBrickField(BrickField.COLOR, R.id.brick_set_color_edit_text);
 	}
 
 	public SetColorBrick(double color) {
@@ -44,7 +43,7 @@ public class SetColorBrick extends FormulaBrick {
 	}
 
 	public SetColorBrick(Formula formula) {
-		addAllowedBrickField(BrickField.COLOR, R.id.brick_set_color_edit_text);
+		this();
 		setFormulaWithBrickField(BrickField.COLOR, formula);
 	}
 

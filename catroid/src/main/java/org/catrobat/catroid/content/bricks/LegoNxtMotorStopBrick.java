@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -35,45 +34,27 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
 import java.util.List;
 
-public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelectedListener {
+public class LegoNxtMotorStopBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
-	private transient Motor motorEnum;
+
 	private String motor;
 
 	public enum Motor {
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_B_C, ALL_MOTORS
 	}
 
-	public LegoNxtMotorStopBrick(Motor motor) {
-		this.motorEnum = motor;
-		this.motor = motorEnum.name();
+	public LegoNxtMotorStopBrick() {
 	}
 
-	protected Object readResolve() {
-		if (motor != null) {
-			motorEnum = Motor.valueOf(motor);
-		}
-		return this;
-	}
-
-	@Override
-	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
-		requiredResourcesSet.add(BLUETOOTH_LEGO_NXT);
+	public LegoNxtMotorStopBrick(Motor motorEnum) {
+		motor = motorEnum.name();
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-		Spinner legoSpinner = (Spinner) prototypeView.findViewById(R.id.stop_motor_spinner);
-
-		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
-				R.array.nxt_stop_motor_chooser, android.R.layout.simple_spinner_item);
-		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-		legoSpinner.setAdapter(motorAdapter);
-		legoSpinner.setSelection(motorEnum.ordinal());
-		return prototypeView;
+		super.getPrototypeView(context);
+		return getView(context);
 	}
 
 	@Override
@@ -84,33 +65,36 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 	@Override
 	public View getView(Context context) {
 		super.getView(context);
-		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
-				R.array.nxt_stop_motor_chooser, android.R.layout.simple_spinner_item);
-		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-		Spinner motorSpinner = (Spinner) view.findViewById(R.id.stop_motor_spinner);
-		motorSpinner.setOnItemSelectedListener(this);
-		motorSpinner.setAdapter(motorAdapter);
-		if (motorEnum == null) {
-			readResolve();
-		}
-		motorSpinner.setSelection(motorEnum.ordinal());
+		ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter
+				.createFromResource(context, R.array.nxt_stop_motor_chooser, android.R.layout.simple_spinner_item);
+		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+		Spinner spinner = view.findViewById(R.id.stop_motor_spinner);
+		spinner.setAdapter(spinnerAdapter);
+		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
+				motor = Motor.values()[position].name();
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+			}
+		});
+		spinner.setSelection(Motor.valueOf(motor).ordinal());
 		return view;
 	}
 
 	@Override
-	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-		motorEnum = Motor.values()[position];
-		motor = motorEnum.name();
-	}
-
-	@Override
-	public void onNothingSelected(AdapterView<?> arg0) {
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(BLUETOOTH_LEGO_NXT);
 	}
 
 	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createLegoNxtMotorStopAction(motorEnum));
+		sequence.addAction(sprite.getActionFactory().createLegoNxtMotorStopAction(Motor.valueOf(motor)));
 		return null;
 	}
 }

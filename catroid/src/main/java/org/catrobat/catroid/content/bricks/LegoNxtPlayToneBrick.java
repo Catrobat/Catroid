@@ -26,7 +26,6 @@ import android.content.Context;
 import android.view.View;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -38,7 +37,8 @@ public class LegoNxtPlayToneBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public LegoNxtPlayToneBrick() {
-		this(new Formula(BrickValues.LEGO_FREQUENCY), new Formula(BrickValues.LEGO_DURATION));
+		addAllowedBrickField(BrickField.LEGO_NXT_FREQUENCY, R.id.nxt_tone_freq_edit_text);
+		addAllowedBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS, R.id.nxt_tone_duration_edit_text);
 	}
 
 	public LegoNxtPlayToneBrick(double frequencyValue, double durationValue) {
@@ -46,8 +46,7 @@ public class LegoNxtPlayToneBrick extends FormulaBrick {
 	}
 
 	public LegoNxtPlayToneBrick(Formula frequencyFormula, Formula durationFormula) {
-		addAllowedBrickField(BrickField.LEGO_NXT_FREQUENCY, R.id.nxt_tone_freq_edit_text);
-		addAllowedBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS, R.id.nxt_tone_duration_edit_text);
+		this();
 		setFormulaWithBrickField(BrickField.LEGO_NXT_FREQUENCY, frequencyFormula);
 		setFormulaWithBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS, durationFormula);
 	}
@@ -55,12 +54,6 @@ public class LegoNxtPlayToneBrick extends FormulaBrick {
 	@Override
 	public int getViewResource() {
 		return R.layout.brick_nxt_play_tone;
-	}
-
-	@Override
-	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
-		requiredResourcesSet.add(BLUETOOTH_LEGO_NXT);
-		super.addRequiredResources(requiredResourcesSet);
 	}
 
 	@Override
@@ -75,6 +68,12 @@ public class LegoNxtPlayToneBrick extends FormulaBrick {
 		super.getView(context);
 		setSecondsLabel(view, BrickField.LEGO_NXT_DURATION_IN_SECONDS);
 		return view;
+	}
+
+	@Override
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(BLUETOOTH_LEGO_NXT);
+		super.addRequiredResources(requiredResourcesSet);
 	}
 
 	@Override

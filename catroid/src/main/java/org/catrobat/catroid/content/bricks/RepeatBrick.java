@@ -50,7 +50,7 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 	private transient LoopEndBrick loopEndBrick;
 
 	public RepeatBrick() {
-		this(new Formula(BrickValues.REPEAT));
+		addAllowedBrickField(BrickField.TIMES_TO_REPEAT, R.id.brick_repeat_edit_text);
 	}
 
 	public RepeatBrick(int timesToRepeat) {
@@ -58,7 +58,7 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 	}
 
 	public RepeatBrick(Formula timesToRepeat) {
-		addAllowedBrickField(BrickField.TIMES_TO_REPEAT, R.id.brick_repeat_edit_text);
+		this();
 		setFormulaWithBrickField(BrickField.TIMES_TO_REPEAT, timesToRepeat);
 	}
 

@@ -25,7 +25,6 @@ package org.catrobat.catroid.physics.content.bricks;
 import com.badlogic.gdx.math.Vector2;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
@@ -38,7 +37,8 @@ public class SetVelocityBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public SetVelocityBrick() {
-		this(new Formula(BrickValues.PHYSIC_VELOCITY.x), new Formula(BrickValues.PHYSIC_VELOCITY.y));
+		addAllowedBrickField(BrickField.PHYSICS_VELOCITY_X, R.id.brick_set_velocity_edit_text_x);
+		addAllowedBrickField(BrickField.PHYSICS_VELOCITY_Y, R.id.brick_set_velocity_edit_text_y);
 	}
 
 	public SetVelocityBrick(Vector2 velocity) {
@@ -46,8 +46,7 @@ public class SetVelocityBrick extends FormulaBrick {
 	}
 
 	public SetVelocityBrick(Formula velocityX, Formula velocityY) {
-		addAllowedBrickField(BrickField.PHYSICS_VELOCITY_X, R.id.brick_set_velocity_edit_text_x);
-		addAllowedBrickField(BrickField.PHYSICS_VELOCITY_Y, R.id.brick_set_velocity_edit_text_y);
+		this();
 		setFormulaWithBrickField(BrickField.PHYSICS_VELOCITY_X, velocityX);
 		setFormulaWithBrickField(BrickField.PHYSICS_VELOCITY_Y, velocityY);
 	}

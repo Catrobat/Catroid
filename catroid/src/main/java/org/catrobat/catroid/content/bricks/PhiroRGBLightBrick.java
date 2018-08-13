@@ -30,7 +30,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -44,17 +43,16 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
+	private String eye;
+
 	public enum Eye {
 		LEFT, RIGHT, BOTH
 	}
 
-	private String eye;
-	private transient Eye eyeEnum;
-
 	public PhiroRGBLightBrick() {
-		this(Eye.BOTH, new Formula(BrickValues.PHIRO_VALUE_RED),
-				new Formula(BrickValues.PHIRO_VALUE_GREEN),
-				new Formula(BrickValues.PHIRO_VALUE_BLUE));
+		addAllowedBrickField(BrickField.PHIRO_LIGHT_RED, R.id.brick_phiro_rgb_led_action_red_edit_text);
+		addAllowedBrickField(BrickField.PHIRO_LIGHT_GREEN, R.id.brick_phiro_rgb_led_action_green_edit_text);
+		addAllowedBrickField(BrickField.PHIRO_LIGHT_BLUE, R.id.brick_phiro_rgb_led_action_blue_edit_text);
 	}
 
 	public PhiroRGBLightBrick(Eye eyeEnum, int red, int green, int blue) {
@@ -62,75 +60,53 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 	}
 
 	public PhiroRGBLightBrick(Eye eyeEnum, Formula redFormula, Formula greenFormula, Formula blueFormula) {
-		this.eyeEnum = eyeEnum;
-		this.eye = eyeEnum.name();
-
-		addAllowedBrickField(BrickField.PHIRO_LIGHT_RED, R.id.brick_phiro_rgb_led_action_red_edit_text);
-		addAllowedBrickField(BrickField.PHIRO_LIGHT_GREEN, R.id.brick_phiro_rgb_led_action_green_edit_text);
-		addAllowedBrickField(BrickField.PHIRO_LIGHT_BLUE, R.id.brick_phiro_rgb_led_action_blue_edit_text);
+		this();
+		eye = eyeEnum.name();
 		setFormulaWithBrickField(BrickField.PHIRO_LIGHT_RED, redFormula);
 		setFormulaWithBrickField(BrickField.PHIRO_LIGHT_GREEN, greenFormula);
 		setFormulaWithBrickField(BrickField.PHIRO_LIGHT_BLUE, blueFormula);
 	}
 
-	public Object readResolve() {
-		eyeEnum = Eye.valueOf(eye);
-		return this;
-	}
-
 	@Override
-	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
-		requiredResourcesSet.add(BLUETOOTH_PHIRO);
-		super.addRequiredResources(requiredResourcesSet);
+	public int getViewResource() {
+		return R.layout.brick_phiro_rgb_light;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-
-		Spinner eyeSpinner = prototypeView.findViewById(R.id.brick_phiro_rgb_light_spinner);
-
-		ArrayAdapter<CharSequence> eyeAdapter = ArrayAdapter.createFromResource(context,
-				R.array.brick_phiro_select_light_spinner, android.R.layout.simple_spinner_item);
-		eyeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-		eyeSpinner.setAdapter(eyeAdapter);
-		eyeSpinner.setSelection(eyeEnum.ordinal());
-
-		return prototypeView;
-	}
-
-	@Override
-	public View getView(Context context) {
-		super.getView(context);
-
-		ArrayAdapter<CharSequence> eyeAdapter = ArrayAdapter.createFromResource(context,
-				R.array.brick_phiro_select_light_spinner, android.R.layout.simple_spinner_item);
-		eyeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		Spinner eyeSpinner = view.findViewById(R.id.brick_phiro_rgb_light_spinner);
-
-		eyeSpinner.setAdapter(eyeAdapter);
-		eyeSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-
-			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
-				eyeEnum = Eye.values()[position];
-				eye = eyeEnum.name();
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-			}
-		});
-
-		eyeSpinner.setSelection(eyeEnum.ordinal());
-		return view;
+		super.getPrototypeView(context);
+		return getView(context);
 	}
 
 	@Override
 	public View getCustomView(Context context) {
 		return new ColorSeekbar(this, BrickField.PHIRO_LIGHT_RED,
 				BrickField.PHIRO_LIGHT_GREEN, BrickField.PHIRO_LIGHT_BLUE).getView(context);
+	}
+
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
+
+		ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(context,
+				R.array.brick_phiro_select_light_spinner, android.R.layout.simple_spinner_item);
+		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+		Spinner spinner = view.findViewById(R.id.brick_phiro_rgb_light_spinner);
+		spinner.setAdapter(spinnerAdapter);
+		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
+				eye = Eye.values()[position].name();
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+			}
+		});
+		spinner.setSelection(Eye.valueOf(eye).ordinal());
+		return view;
 	}
 
 	@Override
@@ -164,13 +140,14 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 	}
 
 	@Override
-	public int getViewResource() {
-		return R.layout.brick_phiro_rgb_light;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(BLUETOOTH_PHIRO);
+		super.addRequiredResources(requiredResourcesSet);
 	}
 
 	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createPhiroRgbLedEyeActionAction(sprite, eyeEnum,
+		sequence.addAction(sprite.getActionFactory().createPhiroRgbLedEyeActionAction(sprite, Eye.valueOf(eye),
 				getFormulaWithBrickField(BrickField.PHIRO_LIGHT_RED),
 				getFormulaWithBrickField(BrickField.PHIRO_LIGHT_GREEN),
 				getFormulaWithBrickField(BrickField.PHIRO_LIGHT_BLUE)));

@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -35,7 +34,7 @@ public class ChangeTransparencyByNBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public ChangeTransparencyByNBrick() {
-		this(new Formula(BrickValues.CHANGE_TRANSPARENCY_EFFECT));
+		addAllowedBrickField(BrickField.TRANSPARENCY_CHANGE, R.id.brick_change_transparency_edit_text);
 	}
 
 	public ChangeTransparencyByNBrick(double changeTransparencyValue) {
@@ -43,7 +42,7 @@ public class ChangeTransparencyByNBrick extends FormulaBrick {
 	}
 
 	public ChangeTransparencyByNBrick(Formula formula) {
-		addAllowedBrickField(BrickField.TRANSPARENCY_CHANGE, R.id.brick_change_transparency_edit_text);
+		this();
 		setFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE, formula);
 	}
 

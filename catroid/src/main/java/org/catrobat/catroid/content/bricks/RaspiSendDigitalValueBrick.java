@@ -33,13 +33,17 @@ public class RaspiSendDigitalValueBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
+	public RaspiSendDigitalValueBrick() {
+		addAllowedBrickField(BrickField.RASPI_DIGITAL_PIN_NUMBER, R.id.brick_raspi_set_digital_pin_edit_text);
+		addAllowedBrickField(BrickField.RASPI_DIGITAL_PIN_VALUE, R.id.brick_raspi_set_digital_value_edit_text);
+	}
+
 	public RaspiSendDigitalValueBrick(int pinNumber, int pinValue) {
 		this(new Formula(pinNumber), new Formula(pinValue));
 	}
 
 	public RaspiSendDigitalValueBrick(Formula pinNumber, Formula pinValue) {
-		addAllowedBrickField(BrickField.RASPI_DIGITAL_PIN_NUMBER, R.id.brick_raspi_set_digital_pin_edit_text);
-		addAllowedBrickField(BrickField.RASPI_DIGITAL_PIN_VALUE, R.id.brick_raspi_set_digital_value_edit_text);
+		this();
 		setFormulaWithBrickField(BrickField.RASPI_DIGITAL_PIN_NUMBER, pinNumber);
 		setFormulaWithBrickField(BrickField.RASPI_DIGITAL_PIN_VALUE, pinValue);
 	}

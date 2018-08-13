@@ -36,14 +36,18 @@ public class LegoEv3PlayToneBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
+	public LegoEv3PlayToneBrick() {
+		addAllowedBrickField(BrickField.LEGO_EV3_FREQUENCY, R.id.brick_ev3_tone_freq_edit_text);
+		addAllowedBrickField(BrickField.LEGO_EV3_DURATION_IN_SECONDS, R.id.brick_ev3_tone_duration_edit_text);
+		addAllowedBrickField(BrickField.LEGO_EV3_VOLUME, R.id.brick_ev3_tone_volume_edit_text);
+	}
+
 	public LegoEv3PlayToneBrick(double frequencyValue, double durationValue, double volumeValue) {
 		this(new Formula(frequencyValue), new Formula(durationValue), new Formula(volumeValue));
 	}
 
 	public LegoEv3PlayToneBrick(Formula frequencyFormula, Formula durationFormula, Formula volumeFormula) {
-		addAllowedBrickField(BrickField.LEGO_EV3_FREQUENCY, R.id.brick_ev3_tone_freq_edit_text);
-		addAllowedBrickField(BrickField.LEGO_EV3_DURATION_IN_SECONDS, R.id.brick_ev3_tone_duration_edit_text);
-		addAllowedBrickField(BrickField.LEGO_EV3_VOLUME, R.id.brick_ev3_tone_volume_edit_text);
+		this();
 		setFormulaWithBrickField(BrickField.LEGO_EV3_FREQUENCY, frequencyFormula);
 		setFormulaWithBrickField(BrickField.LEGO_EV3_DURATION_IN_SECONDS, durationFormula);
 		setFormulaWithBrickField(BrickField.LEGO_EV3_VOLUME, volumeFormula);

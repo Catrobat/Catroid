@@ -31,8 +31,14 @@ import java.util.List;
 
 public class WaitUntilBrick extends FormulaBrick {
 
-	public WaitUntilBrick(Formula formula) {
+	private static final long serialVersionUID = 1L;
+
+	public WaitUntilBrick() {
 		addAllowedBrickField(BrickField.IF_CONDITION, R.id.brick_wait_until_edit_text);
+	}
+
+	public WaitUntilBrick(Formula formula) {
+		this();
 		setFormulaWithBrickField(BrickField.IF_CONDITION, formula);
 	}
 

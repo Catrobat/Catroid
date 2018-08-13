@@ -38,13 +38,17 @@ public class ThinkForBubbleBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
+	public ThinkForBubbleBrick() {
+		addAllowedBrickField(BrickField.STRING, R.id.brick_for_bubble_edit_text_text);
+		addAllowedBrickField(BrickField.DURATION_IN_SECONDS, R.id.brick_for_bubble_edit_text_duration);
+	}
+
 	public ThinkForBubbleBrick(String text, float durationInSecondsValue) {
 		this(new Formula(text), new Formula(durationInSecondsValue));
 	}
 
 	public ThinkForBubbleBrick(Formula text, Formula formula) {
-		addAllowedBrickField(BrickField.STRING, R.id.brick_for_bubble_edit_text_text);
-		addAllowedBrickField(BrickField.DURATION_IN_SECONDS, R.id.brick_for_bubble_edit_text_duration);
+		this();
 		setFormulaWithBrickField(BrickField.STRING, text);
 		setFormulaWithBrickField(BrickField.DURATION_IN_SECONDS, formula);
 	}

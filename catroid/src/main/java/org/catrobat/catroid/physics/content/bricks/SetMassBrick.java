@@ -23,7 +23,6 @@
 package org.catrobat.catroid.physics.content.bricks;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
@@ -36,7 +35,7 @@ public class SetMassBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public SetMassBrick() {
-		this(new Formula(BrickValues.PHYSIC_MASS));
+		addAllowedBrickField(BrickField.PHYSICS_MASS, R.id.brick_set_mass_edit_text);
 	}
 
 	public SetMassBrick(double mass) {
@@ -44,7 +43,7 @@ public class SetMassBrick extends FormulaBrick {
 	}
 
 	public SetMassBrick(Formula formula) {
-		addAllowedBrickField(BrickField.PHYSICS_MASS, R.id.brick_set_mass_edit_text);
+		this();
 		setFormulaWithBrickField(BrickField.PHYSICS_MASS, formula);
 	}
 

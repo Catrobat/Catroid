@@ -30,6 +30,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 public class SetBackgroundByIndexBrick extends SetLookByIndexBrick {
 
 	public SetBackgroundByIndexBrick() {
+		super();
 	}
 
 	public SetBackgroundByIndexBrick(int index) {

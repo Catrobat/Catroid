@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -36,7 +35,7 @@ public class DeleteItemOfUserListBrick extends UserListBrick {
 	private static final long serialVersionUID = 1L;
 
 	public DeleteItemOfUserListBrick() {
-		this(new Formula(BrickValues.DELETE_ITEM_OF_USERLIST));
+		addAllowedBrickField(BrickField.LIST_DELETE_ITEM, R.id.brick_delete_item_of_userlist_edit_text);
 	}
 
 	public DeleteItemOfUserListBrick(Integer item) {
@@ -49,7 +48,7 @@ public class DeleteItemOfUserListBrick extends UserListBrick {
 	}
 
 	public DeleteItemOfUserListBrick(Formula formula) {
-		addAllowedBrickField(BrickField.LIST_DELETE_ITEM, R.id.brick_delete_item_of_userlist_edit_text);
+		this();
 		setFormulaWithBrickField(BrickField.LIST_DELETE_ITEM, formula);
 	}
 

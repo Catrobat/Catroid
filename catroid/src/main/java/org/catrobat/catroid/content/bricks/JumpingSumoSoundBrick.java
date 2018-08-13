@@ -41,33 +41,59 @@ public class JumpingSumoSoundBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	private String soundName;
-	private transient Sounds soundType;
 
 	public enum Sounds {
 		DEFAULT, ROBOT, INSECT, MONSTER
 	}
 
-	public JumpingSumoSoundBrick(Sounds sound, int volumeInPercent) {
-		this(sound, new Formula(volumeInPercent));
-	}
-
-	public JumpingSumoSoundBrick(Sounds sound, Formula formula) {
-		this.soundType = sound;
-		this.soundName = soundType.name();
+	public JumpingSumoSoundBrick() {
 		addAllowedBrickField(BrickField.JUMPING_SUMO_VOLUME, R.id.brick_jumping_sumo_sound_edit_text);
-		setFormulaWithBrickField(BrickField.JUMPING_SUMO_VOLUME, formula);
 	}
 
-	protected Object readResolve() {
-		if (soundName != null) {
-			soundType = Sounds.valueOf(soundName);
-		}
-		return this;
+	public JumpingSumoSoundBrick(Sounds soundEnum, int volumeInPercent) {
+		this(soundEnum, new Formula(volumeInPercent));
+	}
+
+	public JumpingSumoSoundBrick(Sounds soundEnum, Formula formula) {
+		this();
+		soundName = soundEnum.name();
+		setFormulaWithBrickField(BrickField.JUMPING_SUMO_VOLUME, formula);
 	}
 
 	@Override
 	public int getViewResource() {
 		return R.layout.brick_jumping_sumo_sound;
+	}
+
+	@Override
+	public View getPrototypeView(Context context) {
+		super.getPrototypeView(context);
+		return getView(context);
+	}
+
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
+
+		ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(context,
+				R.array.brick_jumping_sumo_select_sound_spinner, android.R.layout.simple_spinner_item);
+		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+		Spinner spinner = view.findViewById(R.id.brick_jumping_sumo_sound_spinner);
+		spinner.setAdapter(spinnerAdapter);
+		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
+				soundName = Sounds.values()[position].name();
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+			}
+		});
+		spinner.setSelection(Sounds.valueOf(soundName).ordinal());
+		return view;
 	}
 
 	@Override
@@ -77,59 +103,8 @@ public class JumpingSumoSoundBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-
-		Spinner soundSpinner = prototypeView.findViewById(R.id.brick_jumping_sumo_sound_spinner);
-		soundSpinner.setFocusableInTouchMode(false);
-		soundSpinner.setFocusable(false);
-		soundSpinner.setEnabled(false);
-
-		ArrayAdapter<CharSequence> soundAdapter = ArrayAdapter.createFromResource(context, R.array.brick_jumping_sumo_select_sound_spinner,
-				android.R.layout.simple_spinner_item);
-		soundAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-		soundSpinner.setAdapter(soundAdapter);
-		soundSpinner.setSelection(soundType.ordinal());
-
-		return prototypeView;
-	}
-
-	@Override
-	public View getView(Context context) {
-		super.getView(context);
-
-		ArrayAdapter<CharSequence> soundAdapter = ArrayAdapter.createFromResource(context,
-				R.array.brick_jumping_sumo_select_sound_spinner,
-				android.R.layout.simple_spinner_item);
-		soundAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-		Spinner soundSpinner = view.findViewById(R.id.brick_jumping_sumo_sound_spinner);
-		soundSpinner.setAdapter(soundAdapter);
-		soundSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
-				soundType = Sounds.values()[position];
-				soundName = soundType.name();
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-			}
-		});
-		if (soundType == null) {
-			readResolve();
-		}
-
-		soundSpinner.setSelection(soundType.ordinal());
-
-		return view;
-	}
-
-	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createJumpingSumoSoundAction(sprite, soundType,
+		sequence.addAction(sprite.getActionFactory().createJumpingSumoSoundAction(sprite, Sounds.valueOf(soundName),
 				getFormulaWithBrickField(BrickField.JUMPING_SUMO_VOLUME)));
 		return null;
 	}

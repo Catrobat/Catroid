@@ -24,7 +24,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
@@ -38,7 +37,8 @@ public class ShowTextBrick extends UserVariableBrick {
 	private static final long serialVersionUID = 1L;
 
 	public ShowTextBrick() {
-		this(new Formula(BrickValues.X_POSITION), new Formula(BrickValues.Y_POSITION));
+		addAllowedBrickField(BrickField.X_POSITION, R.id.brick_show_variable_edit_text_x);
+		addAllowedBrickField(BrickField.Y_POSITION, R.id.brick_show_variable_edit_text_y);
 	}
 
 	public ShowTextBrick(int xPosition, int yPosition) {
@@ -46,8 +46,7 @@ public class ShowTextBrick extends UserVariableBrick {
 	}
 
 	public ShowTextBrick(Formula xPosition, Formula yPosition) {
-		addAllowedBrickField(BrickField.X_POSITION, R.id.brick_show_variable_edit_text_x);
-		addAllowedBrickField(BrickField.Y_POSITION, R.id.brick_show_variable_edit_text_y);
+		this();
 		setFormulaWithBrickField(BrickField.X_POSITION, xPosition);
 		setFormulaWithBrickField(BrickField.Y_POSITION, yPosition);
 	}

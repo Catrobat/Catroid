@@ -37,6 +37,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 public class LegoEv3MotorMoveAction extends TemporalAction {
+
 	private static final int MIN_SPEED = -100;
 	private static final int MAX_SPEED = 100;
 

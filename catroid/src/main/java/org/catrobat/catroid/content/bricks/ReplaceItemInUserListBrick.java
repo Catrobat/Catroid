@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -36,8 +35,10 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 	private static final long serialVersionUID = 1L;
 
 	public ReplaceItemInUserListBrick() {
-		this(new Formula(BrickValues.REPLACE_ITEM_IN_USERLIST_VALUE),
-				new Formula(BrickValues.REPLACE_ITEM_IN_USERLIST_INDEX));
+		addAllowedBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_VALUE,
+				R.id.brick_replace_item_in_userlist_value_edit_text);
+		addAllowedBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_INDEX,
+				R.id.brick_replace_item_in_userlist_at_index_edit_text);
 	}
 
 	public ReplaceItemInUserListBrick(double value, Integer indexToReplace) {
@@ -50,10 +51,7 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 	}
 
 	public ReplaceItemInUserListBrick(Formula valueFormula, Formula indexFormula) {
-		addAllowedBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_VALUE,
-				R.id.brick_replace_item_in_userlist_value_edit_text);
-		addAllowedBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_INDEX,
-				R.id.brick_replace_item_in_userlist_at_index_edit_text);
+		this();
 		setFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_VALUE, valueFormula);
 		setFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_INDEX, indexFormula);
 	}

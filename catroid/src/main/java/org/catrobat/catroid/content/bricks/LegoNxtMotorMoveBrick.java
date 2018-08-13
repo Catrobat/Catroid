@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -41,28 +40,23 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	private String motor;
-	private transient Motor motorEnum;
 
 	public enum Motor {
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_B_C
 	}
 
-	public LegoNxtMotorMoveBrick(Motor motor, int speedValue) {
-		this(motor, new Formula(speedValue));
-	}
-
-	public LegoNxtMotorMoveBrick(Motor motor, Formula formula) {
-		this.motorEnum = motor;
-		this.motor = motorEnum.name();
+	public LegoNxtMotorMoveBrick() {
 		addAllowedBrickField(BrickField.LEGO_NXT_SPEED, R.id.motor_action_speed_edit_text);
-		setFormulaWithBrickField(BrickField.LEGO_NXT_SPEED, formula);
 	}
 
-	protected Object readResolve() {
-		if (motor != null) {
-			motorEnum = Motor.valueOf(motor);
-		}
-		return this;
+	public LegoNxtMotorMoveBrick(Motor motorEnum, int speedValue) {
+		this(motorEnum, new Formula(speedValue));
+	}
+
+	public LegoNxtMotorMoveBrick(Motor motorEnum, Formula formula) {
+		this();
+		motor = motorEnum.name();
+		setFormulaWithBrickField(BrickField.LEGO_NXT_SPEED, formula);
 	}
 
 	@Override
@@ -72,42 +66,32 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-		Spinner spinner = prototypeView.findViewById(R.id.lego_motor_action_spinner);
-		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context, R.array.nxt_motor_chooser,
-				android.R.layout.simple_spinner_item);
-		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		spinner.setAdapter(motorAdapter);
-		spinner.setSelection(motorEnum.ordinal());
-		return prototypeView;
+		super.getPrototypeView(context);
+		return getView(context);
 	}
 
 	@Override
 	public View getView(Context context) {
 		super.getView(context);
 
-		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context, R.array.nxt_motor_chooser,
-				android.R.layout.simple_spinner_item);
-		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		Spinner motorSpinner = view.findViewById(R.id.lego_motor_action_spinner);
-		motorSpinner.setAdapter(motorAdapter);
-		motorSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+		ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter
+				.createFromResource(context, R.array.nxt_motor_chooser, android.R.layout.simple_spinner_item);
+		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+		Spinner spinner = view.findViewById(R.id.lego_motor_action_spinner);
+		spinner.setAdapter(spinnerAdapter);
+		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
-				motorEnum = Motor.values()[position];
-				motor = motorEnum.name();
+				motor = Motor.values()[position].name();
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
-		if (motorEnum == null) {
-			readResolve();
-		}
-		motorSpinner.setSelection(motorEnum.ordinal());
-
+		spinner.setSelection(Motor.valueOf(motor).ordinal());
 		return view;
 	}
 
@@ -119,7 +103,7 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 
 	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createLegoNxtMotorMoveAction(sprite, motorEnum,
+		sequence.addAction(sprite.getActionFactory().createLegoNxtMotorMoveAction(sprite, Motor.valueOf(motor),
 				getFormulaWithBrickField(BrickField.LEGO_NXT_SPEED)));
 		return null;
 	}

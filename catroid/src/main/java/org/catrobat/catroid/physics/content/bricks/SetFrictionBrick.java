@@ -23,7 +23,6 @@
 package org.catrobat.catroid.physics.content.bricks;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
@@ -36,7 +35,7 @@ public class SetFrictionBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public SetFrictionBrick() {
-		this(new Formula(BrickValues.PHYSIC_FRICTION));
+		addAllowedBrickField(BrickField.PHYSICS_FRICTION, R.id.brick_set_friction_edit_text);
 	}
 
 	public SetFrictionBrick(double friction) {
@@ -44,7 +43,7 @@ public class SetFrictionBrick extends FormulaBrick {
 	}
 
 	public SetFrictionBrick(Formula formula) {
-		addAllowedBrickField(BrickField.PHYSICS_FRICTION, R.id.brick_set_friction_edit_text);
+		this();
 		setFormulaWithBrickField(BrickField.PHYSICS_FRICTION, formula);
 	}
 

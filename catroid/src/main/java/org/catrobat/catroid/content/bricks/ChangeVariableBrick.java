@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -36,7 +35,7 @@ public class ChangeVariableBrick extends UserVariableBrick {
 	private static final long serialVersionUID = 1L;
 
 	public ChangeVariableBrick() {
-		this(new Formula(BrickValues.CHANGE_VARIABLE));
+		addAllowedBrickField(BrickField.VARIABLE_CHANGE, R.id.brick_change_variable_edit_text);
 	}
 
 	public ChangeVariableBrick(double value) {
@@ -49,7 +48,7 @@ public class ChangeVariableBrick extends UserVariableBrick {
 	}
 
 	public ChangeVariableBrick(Formula formula) {
-		addAllowedBrickField(BrickField.VARIABLE_CHANGE, R.id.brick_change_variable_edit_text);
+		this();
 		setFormulaWithBrickField(BrickField.VARIABLE_CHANGE, formula);
 	}
 

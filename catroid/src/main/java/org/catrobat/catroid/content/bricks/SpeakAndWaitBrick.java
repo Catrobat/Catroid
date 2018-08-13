@@ -44,7 +44,7 @@ public class SpeakAndWaitBrick extends FormulaBrick {
 	}
 
 	public SpeakAndWaitBrick(Formula formula) {
-		addAllowedBrickField(BrickField.SPEAK, R.id.brick_speak_and_wait_edit_text);
+		this();
 		setFormulaWithBrickField(BrickField.SPEAK, formula);
 	}
 

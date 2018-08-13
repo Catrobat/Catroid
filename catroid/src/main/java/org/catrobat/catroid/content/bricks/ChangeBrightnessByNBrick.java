@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -35,7 +34,7 @@ public class ChangeBrightnessByNBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public ChangeBrightnessByNBrick() {
-		this(new Formula(BrickValues.CHANGE_BRITHNESS_BY));
+		addAllowedBrickField(BrickField.BRIGHTNESS_CHANGE, R.id.brick_change_brightness_edit_text);
 	}
 
 	public ChangeBrightnessByNBrick(double changeBrightnessValue) {
@@ -43,7 +42,7 @@ public class ChangeBrightnessByNBrick extends FormulaBrick {
 	}
 
 	public ChangeBrightnessByNBrick(Formula formula) {
-		addAllowedBrickField(BrickField.BRIGHTNESS_CHANGE, R.id.brick_change_brightness_edit_text);
+		this();
 		setFormulaWithBrickField(BrickField.BRIGHTNESS_CHANGE, formula);
 	}
 

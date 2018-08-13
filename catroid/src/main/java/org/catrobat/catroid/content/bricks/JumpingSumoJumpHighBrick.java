@@ -32,19 +32,22 @@ public class JumpingSumoJumpHighBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
 
+	public JumpingSumoJumpHighBrick() {
+	}
+
 	@Override
 	public int getViewResource() {
 		return R.layout.brick_jumping_sumo_jump_high;
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createJumpingSumoJumpHighAction());
-		return null;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(JUMPING_SUMO);
 	}
 
 	@Override
-	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
-		requiredResourcesSet.add(JUMPING_SUMO);
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		sequence.addAction(sprite.getActionFactory().createJumpingSumoJumpHighAction());
+		return null;
 	}
 }

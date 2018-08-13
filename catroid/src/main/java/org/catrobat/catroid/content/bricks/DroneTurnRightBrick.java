@@ -36,13 +36,17 @@ public class DroneTurnRightBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
+	public DroneTurnRightBrick() {
+		addAllowedBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS, R.id.brick_drone_turn_right_edit_text_second);
+		addAllowedBrickField(BrickField.DRONE_POWER_IN_PERCENT, R.id.brick_drone_turn_right_edit_text_power);
+	}
+
 	public DroneTurnRightBrick(int durationInMilliseconds, int powerInPercent) {
 		this(new Formula(durationInMilliseconds / 1000.0), new Formula(powerInPercent));
 	}
 
 	public DroneTurnRightBrick(Formula durationInSeconds, Formula powerInPercent) {
-		addAllowedBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS, R.id.brick_drone_turn_right_edit_text_second);
-		addAllowedBrickField(BrickField.DRONE_POWER_IN_PERCENT, R.id.brick_drone_turn_right_edit_text_power);
+		this();
 		setFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS, durationInSeconds);
 		setFormulaWithBrickField(BrickField.DRONE_POWER_IN_PERCENT, powerInPercent);
 	}

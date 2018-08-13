@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -35,7 +34,7 @@ public class TurnRightBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public TurnRightBrick() {
-		this(new Formula(BrickValues.TURN_DEGREES));
+		addAllowedBrickField(BrickField.TURN_RIGHT_DEGREES, R.id.brick_turn_right_edit_text);
 	}
 
 	public TurnRightBrick(double degreesValue) {
@@ -43,7 +42,7 @@ public class TurnRightBrick extends FormulaBrick {
 	}
 
 	public TurnRightBrick(Formula formula) {
-		addAllowedBrickField(BrickField.TURN_RIGHT_DEGREES, R.id.brick_turn_right_edit_text);
+		this();
 		setFormulaWithBrickField(BrickField.TURN_RIGHT_DEGREES, formula);
 	}
 

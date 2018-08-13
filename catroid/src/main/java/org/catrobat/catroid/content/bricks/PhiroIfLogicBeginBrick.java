@@ -36,26 +36,44 @@ import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemSelectedListener {
+public class PhiroIfLogicBeginBrick extends BrickBaseType implements IfElseLogicBeginBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	private int sensorSpinnerPosition = 0;
 
+	private transient IfLogicElseBrick ifElseBrick;
+	private transient IfLogicEndBrick ifEndBrick;
+
 	public PhiroIfLogicBeginBrick() {
 	}
 
-	@Override
-	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
-		requiredResourcesSet.add(BLUETOOTH_PHIRO);
-		super.addRequiredResources(requiredResourcesSet);
+	public IfLogicElseBrick getIfElseBrick() {
+		return ifElseBrick;
+	}
+
+	public void setIfElseBrick(IfLogicElseBrick elseBrick) {
+		this.ifElseBrick = elseBrick;
+	}
+
+	public IfLogicEndBrick getIfEndBrick() {
+		return ifEndBrick;
+	}
+
+	public void setIfEndBrick(IfLogicEndBrick ifEndBrick) {
+		this.ifEndBrick = ifEndBrick;
 	}
 
 	@Override
-	public void showFormulaEditorToEditFormula(View view) {
+	public BrickBaseType clone() throws CloneNotSupportedException {
+		PhiroIfLogicBeginBrick clone = (PhiroIfLogicBeginBrick) super.clone();
+		clone.ifElseBrick = null;
+		clone.ifEndBrick = null;
+		return clone;
 	}
 
 	@Override
@@ -65,34 +83,24 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-		Spinner phiroProSensorSpinner = prototypeView.findViewById(R.id.brick_phiro_sensor_action_spinner);
-
-		ArrayAdapter<CharSequence> phiroProSensorSpinnerAdapter = ArrayAdapter
-				.createFromResource(prototypeView.getContext(),
-						R.array.brick_phiro_select_sensor_spinner,
-						android.R.layout.simple_spinner_item);
-
-		phiroProSensorSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		phiroProSensorSpinner.setAdapter(phiroProSensorSpinnerAdapter);
-		phiroProSensorSpinner.setSelection(sensorSpinnerPosition);
-		return prototypeView;
+		super.getPrototypeView(context);
+		return getView(context);
 	}
 
 	@Override
-	protected void onSuperGetViewCalled(Context context) {
-		Spinner phiroProSensorSpinner = view.findViewById(R.id.brick_phiro_sensor_action_spinner);
+	public View getView(Context context) {
+		super.getView(context);
+		Spinner spinner = view.findViewById(R.id.brick_phiro_sensor_action_spinner);
 
-		ArrayAdapter<CharSequence> phiroProSensorAdapter = ArrayAdapter.createFromResource(view.getContext(),
+		ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(view.getContext(),
 				R.array.brick_phiro_select_sensor_spinner,
 				android.R.layout.simple_spinner_item);
 
-		phiroProSensorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-		phiroProSensorSpinner.setAdapter(phiroProSensorAdapter);
-		phiroProSensorSpinner.setSelection(sensorSpinnerPosition);
-
-		phiroProSensorSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+		spinner.setAdapter(spinnerAdapter);
+		spinner.setSelection(sensorSpinnerPosition);
+		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -103,14 +111,38 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
+		return view;
 	}
 
 	@Override
-	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+	public boolean isInitialized() {
+		return ifElseBrick != null;
 	}
 
 	@Override
-	public void onNothingSelected(AdapterView<?> arg0) {
+	public void initialize() {
+		ifElseBrick = new IfLogicElseBrick(this);
+		ifEndBrick = new IfLogicEndBrick(this, ifElseBrick);
+	}
+
+	@Override
+	public boolean isDraggableOver(Brick brick) {
+		return brick != ifElseBrick;
+	}
+
+	@Override
+	public List<NestingBrick> getAllNestingBrickParts() {
+		List<NestingBrick> nestingBrickList = new ArrayList<>();
+		nestingBrickList.add(this);
+		nestingBrickList.add(ifElseBrick);
+		nestingBrickList.add(ifEndBrick);
+		return nestingBrickList;
+	}
+
+	@Override
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(BLUETOOTH_PHIRO);
+		super.addRequiredResources(requiredResourcesSet);
 	}
 
 	@Override

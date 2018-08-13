@@ -20,41 +20,16 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.content.bricks;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.formulaeditor.Formula;
+public interface IfElseLogicBeginBrick extends Brick, NestingBrick {
 
-import java.util.List;
+	IfLogicElseBrick getIfElseBrick();
 
-public class SetVolumeToBrick extends FormulaBrick {
+	void setIfElseBrick(IfLogicElseBrick elseBrick);
 
-	private static final long serialVersionUID = 1L;
+	IfLogicEndBrick getIfEndBrick();
 
-	public SetVolumeToBrick() {
-		addAllowedBrickField(BrickField.VOLUME, R.id.brick_set_volume_to_edit_text);
-	}
-
-	public SetVolumeToBrick(double volume) {
-		this(new Formula(volume));
-	}
-
-	public SetVolumeToBrick(Formula formula) {
-		this();
-		setFormulaWithBrickField(BrickField.VOLUME, formula);
-	}
-
-	@Override
-	public int getViewResource() {
-		return R.layout.brick_set_volume_to;
-	}
-
-	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory()
-				.createSetVolumeToAction(sprite, getFormulaWithBrickField(BrickField.VOLUME)));
-		return null;
-	}
+	void setIfEndBrick(IfLogicEndBrick ifEndBrick);
 }

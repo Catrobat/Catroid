@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -35,7 +34,7 @@ public class SetPenSizeBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public SetPenSizeBrick() {
-		this(new Formula(BrickValues.PEN_SIZE));
+		addAllowedBrickField(BrickField.PEN_SIZE, R.id.brick_set_pen_size_edit_text);
 	}
 
 	public SetPenSizeBrick(double penSize) {
@@ -43,7 +42,7 @@ public class SetPenSizeBrick extends FormulaBrick {
 	}
 
 	public SetPenSizeBrick(Formula formula) {
-		addAllowedBrickField(BrickField.PEN_SIZE, R.id.brick_set_pen_size_edit_text);
+		this();
 		setFormulaWithBrickField(BrickField.PEN_SIZE, formula);
 	}
 

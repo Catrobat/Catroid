@@ -23,7 +23,6 @@
 package org.catrobat.catroid.physics.content.bricks;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
@@ -36,7 +35,7 @@ public class SetBounceBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public SetBounceBrick() {
-		this(new Formula(BrickValues.PHYSIC_BOUNCE_FACTOR));
+		addAllowedBrickField(BrickField.PHYSICS_BOUNCE_FACTOR, R.id.brick_set_bounce_factor_edit_text);
 	}
 
 	public SetBounceBrick(double bounceFactor) {
@@ -44,7 +43,7 @@ public class SetBounceBrick extends FormulaBrick {
 	}
 
 	public SetBounceBrick(Formula formula) {
-		addAllowedBrickField(BrickField.PHYSICS_BOUNCE_FACTOR, R.id.brick_set_bounce_factor_edit_text);
+		this();
 		setFormulaWithBrickField(BrickField.PHYSICS_BOUNCE_FACTOR, formula);
 	}
 

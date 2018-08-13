@@ -26,7 +26,6 @@ import android.content.Context;
 import android.view.View;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -38,7 +37,7 @@ public class VibrationBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public VibrationBrick() {
-		this(new Formula(BrickValues.VIBRATE_SECONDS));
+		addAllowedBrickField(BrickField.VIBRATE_DURATION_IN_SECONDS, R.id.brick_vibration_edit_text);
 	}
 
 	public VibrationBrick(double vibrateDurationInSeconds) {
@@ -46,7 +45,7 @@ public class VibrationBrick extends FormulaBrick {
 	}
 
 	public VibrationBrick(Formula vibrateDurationInSecondsFormula) {
-		addAllowedBrickField(BrickField.VIBRATE_DURATION_IN_SECONDS, R.id.brick_vibration_edit_text);
+		this();
 		setFormulaWithBrickField(BrickField.VIBRATE_DURATION_IN_SECONDS, vibrateDurationInSecondsFormula);
 	}
 

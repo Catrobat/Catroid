@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -36,8 +35,10 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 	private static final long serialVersionUID = 1L;
 
 	public InsertItemIntoUserListBrick() {
-		this(new Formula(BrickValues.INSERT_ITEM_INTO_USERLIST_VALUE),
-				new Formula(BrickValues.INSERT_ITEM_INTO_USERLIST_INDEX));
+		addAllowedBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_VALUE,
+				R.id.brick_insert_item_into_userlist_value_edit_text);
+		addAllowedBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_INDEX,
+				R.id.brick_insert_item_into_userlist_at_index_edit_text);
 	}
 
 	public InsertItemIntoUserListBrick(Formula userListFormulaValueToInsert, Formula userListFormulaIndexToInsert, UserList userList) {
@@ -50,10 +51,7 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 	}
 
 	public InsertItemIntoUserListBrick(Formula userListFormulaValueToInsert, Formula userListFormulaIndexToInsert) {
-		addAllowedBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_VALUE,
-				R.id.brick_insert_item_into_userlist_value_edit_text);
-		addAllowedBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_INDEX,
-				R.id.brick_insert_item_into_userlist_at_index_edit_text);
+		this();
 		setFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_VALUE, userListFormulaValueToInsert);
 		setFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_INDEX, userListFormulaIndexToInsert);
 	}

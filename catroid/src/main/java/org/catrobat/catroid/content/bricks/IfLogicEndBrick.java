@@ -34,19 +34,19 @@ public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, Allo
 
 	private static final long serialVersionUID = 1L;
 
-	private transient IfLogicBeginBrick ifBeginBrick;
+	private transient IfElseLogicBeginBrick ifBeginBrick;
 	private transient IfLogicElseBrick ifElseBrick;
 
-	public IfLogicEndBrick(IfLogicBeginBrick ifLogicBeginBrick, IfLogicElseBrick ifElseBrick) {
+	public IfLogicEndBrick(IfElseLogicBeginBrick ifLogicBeginBrick, IfLogicElseBrick ifElseBrick) {
 		this.ifBeginBrick = ifLogicBeginBrick;
 		this.ifElseBrick = ifElseBrick;
 	}
 
-	public IfLogicBeginBrick getIfBeginBrick() {
+	public IfElseLogicBeginBrick getIfBeginBrick() {
 		return ifBeginBrick;
 	}
 
-	public void setIfBeginBrick(IfLogicBeginBrick ifBeginBrick) {
+	public void setIfBeginBrick(IfElseLogicBeginBrick ifBeginBrick) {
 		this.ifBeginBrick = ifBeginBrick;
 	}
 

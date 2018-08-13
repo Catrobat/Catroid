@@ -2011,7 +2011,7 @@
     <string name="hertz_symbol">㎐</string>
 
     <!-- UtilFile SizeUnits String -->
-     <string name="Byte_short">B</string>
+    <string name="Byte_short">B</string>
      <string name="KiloByte_short">KB</string>
      <string name="MegaByte_short">MB</string>
      <string name="GigaByte_short">GB</string>

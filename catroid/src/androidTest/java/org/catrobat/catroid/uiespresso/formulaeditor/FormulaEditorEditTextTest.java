@@ -28,6 +28,7 @@ import android.support.test.runner.AndroidJUnit4;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
@@ -76,12 +77,13 @@ public class FormulaEditorEditTextTest {
 	@Before
 	public void setUp() throws Exception {
 		Script script = BrickTestUtils.createProjectAndGetStartScript("FormulaEditorEditTextTest");
-		script.addBrick(new ChangeSizeByNBrick());
+		script.addBrick(new ChangeSizeByNBrick(new Formula(10)));
 		baseActivityTestRule.launchActivity();
 		no = getResourcesString(R.string.no);
 		yes = getResourcesString(R.string.yes);
 		decimalMark = getResourcesString(R.string.formula_editor_decimal_mark);
 		onBrickAtPosition(1)
+				.onFormulaTextField(R.id.brick_change_size_by_edit_text)
 				.perform(click());
 	}
 

@@ -24,7 +24,7 @@ package org.catrobat.catroid.content;
 
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfElseLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
@@ -96,10 +96,10 @@ public abstract class Script implements Serializable, Cloneable {
 
 				beginBrick.setIfThenEndBrick(endBrick);
 				endBrick.setIfThenBeginBrick(beginBrick);
-			} else if (brick instanceof IfLogicBeginBrick) {
+			} else if (brick instanceof IfElseLogicBeginBrick) {
 				int begin = brickList.indexOf(brick);
-				int middle = brickList.indexOf(((IfLogicBeginBrick) brick).getIfElseBrick());
-				int end = brickList.indexOf(((IfLogicBeginBrick) brick).getIfEndBrick());
+				int middle = brickList.indexOf(((IfElseLogicBeginBrick) brick).getIfElseBrick());
+				int end = brickList.indexOf(((IfElseLogicBeginBrick) brick).getIfEndBrick());
 
 				// The structure of the nested bricks should be reworked -> having to update references in all bricks
 				// is error prone and has no benefit whatsoever. This workaround should not be necessary:
@@ -107,7 +107,7 @@ public abstract class Script implements Serializable, Cloneable {
 					continue;
 				}
 
-				IfLogicBeginBrick beginBrick = (IfLogicBeginBrick) clones.get(begin);
+				IfElseLogicBeginBrick beginBrick = (IfElseLogicBeginBrick) clones.get(begin);
 				IfLogicElseBrick elseBrick = (IfLogicElseBrick) clones.get(middle);
 				IfLogicEndBrick endBrick = (IfLogicEndBrick) clones.get(end);
 

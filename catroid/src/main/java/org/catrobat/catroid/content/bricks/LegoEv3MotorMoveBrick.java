@@ -40,29 +40,23 @@ public class LegoEv3MotorMoveBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	private String motor;
-	private transient Motor motorEnum;
 
 	public enum Motor {
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_D, MOTOR_B_C
 	}
 
-	public LegoEv3MotorMoveBrick(Motor motor, int speedValue) {
-
-		this(motor, new Formula(speedValue));
-	}
-
-	public LegoEv3MotorMoveBrick(Motor motor, Formula speed) {
-		this.motorEnum = motor;
-		this.motor = motorEnum.name();
+	public LegoEv3MotorMoveBrick() {
 		addAllowedBrickField(BrickField.LEGO_EV3_SPEED, R.id.ev3_motor_move_speed_edit_text);
-		setFormulaWithBrickField(BrickField.LEGO_EV3_SPEED, speed);
 	}
 
-	protected Object readResolve() {
-		if (motor != null) {
-			motorEnum = Motor.valueOf(motor);
-		}
-		return this;
+	public LegoEv3MotorMoveBrick(Motor motorEnum, int speedValue) {
+		this(motorEnum, new Formula(speedValue));
+	}
+
+	public LegoEv3MotorMoveBrick(Motor motorEnum, Formula speed) {
+		this();
+		motor = motorEnum.name();
+		setFormulaWithBrickField(BrickField.LEGO_EV3_SPEED, speed);
 	}
 
 	@Override
@@ -72,49 +66,32 @@ public class LegoEv3MotorMoveBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-
-		Spinner motorSpinner = prototypeView.findViewById(R.id.brick_ev3_motor_move_spinner);
-		motorSpinner.setFocusableInTouchMode(false);
-		motorSpinner.setFocusable(false);
-
-		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
-				R.array.ev3_motor_chooser, android.R.layout.simple_spinner_item);
-		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-		motorSpinner.setAdapter(motorAdapter);
-		motorSpinner.setSelection(motorEnum.ordinal());
-		return prototypeView;
+		super.getPrototypeView(context);
+		return getView(context);
 	}
 
 	@Override
 	public View getView(Context context) {
 		super.getView(context);
 
-		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context, R.array.ev3_motor_chooser,
-				android.R.layout.simple_spinner_item);
+		ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter
+				.createFromResource(context, R.array.ev3_motor_chooser, android.R.layout.simple_spinner_item);
+		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		Spinner motorSpinner = view.findViewById(R.id.brick_ev3_motor_move_spinner);
-
-		motorSpinner.setAdapter(motorAdapter);
-		motorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+		Spinner spinner = view.findViewById(R.id.brick_ev3_motor_move_spinner);
+		spinner.setAdapter(spinnerAdapter);
+		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
-				motorEnum = Motor.values()[position];
-				motor = motorEnum.name();
+				motor = Motor.values()[position].name();
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
-		if (motorEnum == null) {
-			readResolve();
-		}
-		motorSpinner.setSelection(motorEnum.ordinal());
-
+		spinner.setSelection(Motor.valueOf(motor).ordinal());
 		return view;
 	}
 
@@ -126,7 +103,7 @@ public class LegoEv3MotorMoveBrick extends FormulaBrick {
 
 	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createLegoEv3SingleMotorMoveAction(sprite, motorEnum,
+		sequence.addAction(sprite.getActionFactory().createLegoEv3SingleMotorMoveAction(sprite, Motor.valueOf(motor),
 				getFormulaWithBrickField(BrickField.LEGO_EV3_SPEED)));
 		return null;
 	}

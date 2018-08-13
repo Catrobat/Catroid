@@ -30,7 +30,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -45,14 +44,13 @@ public class PhiroMotorMoveBackwardBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	private String motor;
-	private transient Motor motorEnum;
 
 	public enum Motor {
 		MOTOR_LEFT, MOTOR_RIGHT, MOTOR_BOTH
 	}
 
 	public PhiroMotorMoveBackwardBrick() {
-		this(Motor.MOTOR_LEFT, new Formula(BrickValues.PHIRO_SPEED));
+		addAllowedBrickField(BrickField.PHIRO_SPEED, R.id.brick_phiro_motor_backward_action_speed_edit_text);
 	}
 
 	public PhiroMotorMoveBackwardBrick(Motor motorEnum, int speed) {
@@ -60,36 +58,15 @@ public class PhiroMotorMoveBackwardBrick extends FormulaBrick {
 	}
 
 	public PhiroMotorMoveBackwardBrick(Motor motorEnum, Formula formula) {
-		this.motorEnum = motorEnum;
-		this.motor = motorEnum.name();
-		addAllowedBrickField(BrickField.PHIRO_SPEED, R.id.brick_phiro_motor_backward_action_speed_edit_text);
+		this();
+		motor = motorEnum.name();
 		setFormulaWithBrickField(BrickField.PHIRO_SPEED, formula);
-	}
-
-	public Object readResolve() {
-		motorEnum = Motor.valueOf(motor);
-		return this;
-	}
-
-	@Override
-	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
-		requiredResourcesSet.add(BLUETOOTH_PHIRO);
-		super.addRequiredResources(requiredResourcesSet);
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-
-		Spinner phiroProMotorSpinner = prototypeView.findViewById(R.id.brick_phiro_motor_backward_action_spinner);
-		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter
-				.createFromResource(context, R.array.brick_phiro_select_motor_spinner, android.R.layout.simple_spinner_item);
-		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-		phiroProMotorSpinner.setAdapter(motorAdapter);
-		phiroProMotorSpinner.setSelection(motorEnum.ordinal());
-
-		return prototypeView;
+		super.getPrototypeView(context);
+		return getView(context);
 	}
 
 	@Override
@@ -105,26 +82,24 @@ public class PhiroMotorMoveBackwardBrick extends FormulaBrick {
 	@Override
 	public View getView(Context context) {
 		super.getView(context);
-		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter
-				.createFromResource(context, R.array.brick_phiro_select_motor_spinner, android.R.layout.simple_spinner_item);
-		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		Spinner motorSpinner = view.findViewById(R.id.brick_phiro_motor_backward_action_spinner);
+		ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(context,
+				R.array.brick_phiro_select_motor_spinner, android.R.layout.simple_spinner_item);
+		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-		motorSpinner.setAdapter(motorAdapter);
-		motorSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+		Spinner spinner = view.findViewById(R.id.brick_phiro_motor_backward_action_spinner);
+		spinner.setAdapter(spinnerAdapter);
+		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
-				motorEnum = Motor.values()[position];
-				motor = motorEnum.name();
+				motor = Motor.values()[position].name();
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
-
-		motorSpinner.setSelection(motorEnum.ordinal());
+		spinner.setSelection(Motor.valueOf(motor).ordinal());
 		return view;
 	}
 
@@ -143,9 +118,15 @@ public class PhiroMotorMoveBackwardBrick extends FormulaBrick {
 	}
 
 	@Override
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(BLUETOOTH_PHIRO);
+		super.addRequiredResources(requiredResourcesSet);
+	}
+
+	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createPhiroMotorMoveBackwardActionAction(sprite, motorEnum,
-				getFormulaWithBrickField(BrickField.PHIRO_SPEED)));
+		sequence.addAction(sprite.getActionFactory().createPhiroMotorMoveBackwardActionAction(sprite,
+				Motor.valueOf(motor), getFormulaWithBrickField(BrickField.PHIRO_SPEED)));
 		return null;
 	}
 }

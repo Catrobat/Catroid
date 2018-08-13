@@ -43,6 +43,9 @@ public class UserBrickParameter extends FormulaBrick {
 
 	private transient UserBrick parent;
 
+	public UserBrickParameter() {
+	}
+
 	@Override
 	public int getViewResource() {
 		return parent.getViewResource();

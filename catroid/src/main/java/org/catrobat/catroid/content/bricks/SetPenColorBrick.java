@@ -39,9 +39,6 @@ public class SetPenColorBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	private transient ColorSeekbar colorSeekbar = new ColorSeekbar(this, BrickField.PEN_COLOR_RED,
-			BrickField.PEN_COLOR_GREEN, BrickField.PEN_COLOR_BLUE);
-
 	public SetPenColorBrick() {
 		addAllowedBrickField(BrickField.PEN_COLOR_RED, R.id.brick_set_pen_color_action_red_edit_text);
 		addAllowedBrickField(BrickField.PEN_COLOR_GREEN, R.id.brick_set_pen_color_action_green_edit_text);
@@ -53,9 +50,7 @@ public class SetPenColorBrick extends FormulaBrick {
 	}
 
 	public SetPenColorBrick(Formula red, Formula green, Formula blue) {
-		addAllowedBrickField(BrickField.PEN_COLOR_RED, R.id.brick_set_pen_color_action_red_edit_text);
-		addAllowedBrickField(BrickField.PEN_COLOR_GREEN, R.id.brick_set_pen_color_action_green_edit_text);
-		addAllowedBrickField(BrickField.PEN_COLOR_BLUE, R.id.brick_set_pen_color_action_blue_edit_text);
+		this();
 		setFormulaWithBrickField(BrickField.PEN_COLOR_RED, red);
 		setFormulaWithBrickField(BrickField.PEN_COLOR_GREEN, green);
 		setFormulaWithBrickField(BrickField.PEN_COLOR_BLUE, blue);
@@ -63,7 +58,8 @@ public class SetPenColorBrick extends FormulaBrick {
 
 	@Override
 	public View getCustomView(Context context) {
-		return colorSeekbar.getView(context);
+		return new ColorSeekbar(this, BrickField.PEN_COLOR_RED,
+				BrickField.PEN_COLOR_GREEN, BrickField.PEN_COLOR_BLUE).getView(context);
 	}
 
 	@Override
@@ -81,9 +77,12 @@ public class SetPenColorBrick extends FormulaBrick {
 	}
 
 	private boolean areAllBrickFieldsNumbers() {
-		return (getFormulaWithBrickField(BrickField.PEN_COLOR_RED).getRoot().getElementType() == FormulaElement.ElementType.NUMBER)
-				&& (getFormulaWithBrickField(BrickField.PEN_COLOR_GREEN).getRoot().getElementType() == FormulaElement.ElementType.NUMBER)
-				&& (getFormulaWithBrickField(BrickField.PEN_COLOR_BLUE).getRoot().getElementType() == FormulaElement.ElementType.NUMBER);
+		return (getFormulaWithBrickField(BrickField.PEN_COLOR_RED).getRoot().getElementType()
+				== FormulaElement.ElementType.NUMBER)
+				&& (getFormulaWithBrickField(BrickField.PEN_COLOR_GREEN).getRoot().getElementType()
+				== FormulaElement.ElementType.NUMBER)
+				&& (getFormulaWithBrickField(BrickField.PEN_COLOR_BLUE).getRoot().getElementType()
+				== FormulaElement.ElementType.NUMBER);
 	}
 
 	private BrickField getClickedBrickField(View view) {
