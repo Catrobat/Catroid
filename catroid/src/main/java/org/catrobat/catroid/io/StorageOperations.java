@@ -24,15 +24,7 @@
 package org.catrobat.catroid.io;
 
 import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.database.Cursor;
-import android.database.CursorIndexOutOfBoundsException;
 import android.net.Uri;
-import android.os.Build;
-import android.os.Environment;
-import android.provider.DocumentsContract;
-import android.provider.MediaStore;
-import android.util.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -51,7 +43,6 @@ import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 public final class StorageOperations {
 
 	private static final String FILE_NAME_APPENDIX = "_#";
-	private static final String TAG = StorageOperations.class.getSimpleName();
 
 	private StorageOperations() {
 		throw new AssertionError();
@@ -81,83 +72,6 @@ public final class StorageOperations {
 
 		noMediaFile = new File(soundDir, NO_MEDIA_FILE);
 		noMediaFile.createNewFile();
-	}
-
-	public static String getPathFromUri(ContentResolver contentResolver, Uri uri) {
-
-		if (uri.getScheme().equalsIgnoreCase("file")) {
-			return uri.getPath();
-		}
-
-		String[] projection = {MediaStore.MediaColumns.DATA};
-		String[] arguments;
-		String selection = null;
-		String[] selectionArgs = null;
-
-		if (uri.getScheme().equalsIgnoreCase("content") && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-
-			String identifier = DocumentsContract.getDocumentId(uri);
-
-			// Downloads
-			if (uri.getAuthority().equalsIgnoreCase("com.android.providers.downloads.documents")) {
-				uri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"),
-						Long.valueOf(identifier));
-				return resolveContent(contentResolver, uri, projection, selection, selectionArgs);
-			}
-
-			arguments = identifier.split(":");
-
-			// External Storage
-			if (uri.getAuthority().equalsIgnoreCase("com.android.externalstorage.documents")) {
-				return Environment.getExternalStorageDirectory() + "/" + arguments[1];
-			}
-
-			selection = "_id=?";
-
-			// Media Documents
-			if (uri.getAuthority().equalsIgnoreCase("com.android.providers.media.documents")) {
-				if (arguments[0].equalsIgnoreCase("audio")) {
-					uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-				}
-				if (arguments[0].equalsIgnoreCase("image")) {
-					uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-				}
-				if (arguments[0].equalsIgnoreCase("video")) {
-					uri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-				}
-
-				selectionArgs = new String[] {arguments[1]};
-				return resolveContent(contentResolver, uri, projection, selection, selectionArgs);
-			}
-
-			// Google Photos
-			if (uri.getAuthority().equalsIgnoreCase("com.google.android.apps.photos.content")) {
-				selectionArgs = new String[] {arguments[1]};
-				return resolveContent(contentResolver, uri, projection, selection, selectionArgs);
-			}
-		}
-
-		return "";
-	}
-
-	private static String resolveContent(ContentResolver contentResolver,
-			Uri uri,
-			String[] projection,
-			String selection,
-			String[] selectionArgs) {
-
-		String path = "";
-		Cursor cursor = contentResolver.query(uri, projection, selection, selectionArgs, null);
-		cursor.moveToFirst();
-		int index = cursor.getColumnIndex(MediaStore.MediaColumns.DATA);
-		try {
-			path = cursor.getString(index);
-		} catch (CursorIndexOutOfBoundsException e) {
-			Log.e(TAG, Log.getStackTraceString(e));
-		} finally {
-			cursor.close();
-		}
-		return path;
 	}
 
 	public static String getSanitizedFileName(File file) {
@@ -228,6 +142,12 @@ public final class StorageOperations {
 		}
 
 		return transferData(inputStream, dstFile);
+	}
+
+	public static File copyUriToDir(ContentResolver contentResolver, Uri uri, File dstDir, String fileName) throws
+			IOException {
+		InputStream inputStream = contentResolver.openInputStream(uri);
+		return copyStreamToDir(inputStream, dstDir, fileName);
 	}
 
 	public static void transferData(File srcFile, File dstFile) throws IOException {

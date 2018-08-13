@@ -183,23 +183,18 @@ public class NewLookDialogFragment extends DialogFragment implements View.OnClic
 			return;
 		}
 
-		String srcPath;
 		switch (requestCode) {
 			case POCKET_PAINT:
-				srcPath = data.getStringExtra(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT);
-				createItem(srcPath);
+				createItem(data.getStringExtra(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT));
 				break;
 			case LIBRARY:
-				srcPath = data.getStringExtra(WebViewActivity.MEDIA_FILE_PATH);
-				createItem(srcPath);
+				createItem(data.getStringExtra(WebViewActivity.MEDIA_FILE_PATH));
 				break;
 			case FILE:
-				srcPath = StorageOperations.getPathFromUri(getActivity().getContentResolver(), data.getData());
-				createItem(srcPath);
+				createItem(data.getData());
 				break;
 			case CAMERA:
-				srcPath = StorageOperations.getPathFromUri(getActivity().getContentResolver(), uri);
-				createItem(srcPath);
+				createItem(uri);
 				break;
 			default:
 				break;
@@ -208,7 +203,7 @@ public class NewLookDialogFragment extends DialogFragment implements View.OnClic
 	}
 
 	private void createItem(String srcPath) {
-		if (srcPath.isEmpty()) {
+		if (srcPath == null || srcPath.isEmpty()) {
 			return;
 		}
 		try {
@@ -217,6 +212,22 @@ public class NewLookDialogFragment extends DialogFragment implements View.OnClic
 
 			File file = StorageOperations.copyFileToDir(srcFile,
 					new File(dstScene.getDirectory(), IMAGE_DIRECTORY_NAME));
+
+			newItemInterface.addItem(new LookData(uniqueNameProvider.getUniqueName(name, getScope(dstSprite)), file));
+		} catch (IOException e) {
+			Log.e(TAG, Log.getStackTraceString(e));
+		}
+	}
+
+	private void createItem(Uri uri) {
+		if (uri == null) {
+			return;
+		}
+		try {
+			String name = getString(R.string.default_look_name);
+
+			File file = StorageOperations.copyUriToDir(getActivity().getContentResolver(),
+					uri, new File(dstScene.getDirectory(), IMAGE_DIRECTORY_NAME), name);
 
 			newItemInterface.addItem(new LookData(uniqueNameProvider.getUniqueName(name, getScope(dstSprite)), file));
 		} catch (IOException e) {

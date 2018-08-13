@@ -27,6 +27,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -126,8 +127,7 @@ public class NewSoundDialogFragment extends DialogFragment implements View.OnCli
 		switch (requestCode) {
 			case RECORD:
 			case FILE:
-				srcPath = StorageOperations.getPathFromUri(getActivity().getContentResolver(), data.getData());
-				createItem(srcPath);
+				createItem(data.getData());
 				break;
 			case LIBRARY:
 				srcPath = data.getStringExtra(WebViewActivity.MEDIA_FILE_PATH);
@@ -140,7 +140,7 @@ public class NewSoundDialogFragment extends DialogFragment implements View.OnCli
 	}
 
 	private void createItem(String srcPath) {
-		if (srcPath.isEmpty()) {
+		if (srcPath == null || srcPath.isEmpty()) {
 			return;
 		}
 		try {
@@ -149,6 +149,23 @@ public class NewSoundDialogFragment extends DialogFragment implements View.OnCli
 
 			File file = StorageOperations.copyFileToDir(srcFile,
 					new File(dstScene.getDirectory(), SOUND_DIRECTORY_NAME));
+
+			newItemInterface
+					.addItem(new SoundInfo(uniqueNameProvider.getUniqueName(name, getScope(dstSprite)), file));
+		} catch (IOException e) {
+			Log.e(TAG, Log.getStackTraceString(e));
+		}
+	}
+
+	private void createItem(Uri uri) {
+		if (uri == null) {
+			return;
+		}
+		try {
+			String name = getString(R.string.soundrecorder_recorded_filename);
+
+			File file = StorageOperations.copyUriToDir(getActivity().getContentResolver(),
+					uri, new File(dstScene.getDirectory(), SOUND_DIRECTORY_NAME), name);
 
 			newItemInterface
 					.addItem(new SoundInfo(uniqueNameProvider.getUniqueName(name, getScope(dstSprite)), file));
