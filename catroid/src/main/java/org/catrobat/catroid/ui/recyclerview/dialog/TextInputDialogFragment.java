@@ -43,6 +43,18 @@ public abstract class TextInputDialogFragment extends DialogFragment {
 	protected String text;
 	protected boolean allowEmptyInput;
 
+	public TextInputDialogFragment() {
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		boolean isRestoringPreviouslyDestroyedActivity = savedInstanceState != null;
+		if (isRestoringPreviouslyDestroyedActivity) {
+			dismiss();
+		}
+	}
+
 	public TextInputDialogFragment(int title, int hint, @Nullable String text, boolean allowEmptyInput) {
 		this.title = title;
 		this.hint = hint;

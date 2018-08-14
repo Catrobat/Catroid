@@ -31,6 +31,7 @@ import android.widget.Spinner;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
@@ -102,14 +103,8 @@ public class SceneStartBrick extends BrickBaseType implements
 	@Override
 	public boolean onNewOptionInDropDownClicked(View v) {
 		spinnerSelectionBuffer = spinner.getSelectedItemPosition();
-		new NewSceneDialogFragment(this, ProjectManager.getInstance().getCurrentProject()) {
-
-			@Override
-			public void onCancel(DialogInterface dialog) {
-				super.onCancel(dialog);
-				spinner.setSelection(spinnerSelectionBuffer);
-			}
-		}.show(((Activity) v.getContext()).getFragmentManager(), NewSceneDialogFragment.TAG);
+		new NewSceneFromBrickDialogFragment(this, ProjectManager.getInstance().getCurrentProject())
+				.show(((Activity) v.getContext()).getFragmentManager(), NewSceneDialogFragment.TAG);
 		return false;
 	}
 
@@ -137,5 +132,25 @@ public class SceneStartBrick extends BrickBaseType implements
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSceneStartAction(sceneToStart));
 		return null;
+	}
+
+	public static class NewSceneFromBrickDialogFragment extends NewSceneDialogFragment {
+
+		private SceneStartBrick sceneStartBrick;
+
+		public NewSceneFromBrickDialogFragment(SceneStartBrick sceneStartBrick, Project dstProject) {
+			super(sceneStartBrick, dstProject);
+			this.sceneStartBrick = sceneStartBrick;
+		}
+
+		public NewSceneFromBrickDialogFragment() {
+			super();
+		}
+
+		@Override
+		public void onCancel(DialogInterface dialog) {
+			super.onCancel(dialog);
+			sceneStartBrick.spinner.setSelection(sceneStartBrick.spinnerSelectionBuffer);
+		}
 	}
 }

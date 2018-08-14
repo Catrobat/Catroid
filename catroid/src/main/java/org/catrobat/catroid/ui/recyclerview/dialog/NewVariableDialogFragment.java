@@ -38,6 +38,18 @@ public class NewVariableDialogFragment extends NewDataDialogFragment {
 		this.newVariableInterface = newVariableInterface;
 	}
 
+	public NewVariableDialogFragment() {
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		boolean isRestoringPreviouslyDestroyedActivity = savedInstanceState != null;
+		if (isRestoringPreviouslyDestroyedActivity) {
+			dismiss();
+		}
+	}
+
 	@Override
 	public Dialog onCreateDialog(Bundle bundle) {
 		Dialog dialog = super.onCreateDialog(bundle);

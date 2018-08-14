@@ -26,6 +26,9 @@ import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialogFragment;
 
 public class BrickTextDialog extends TextInputDialogFragment {
 
+	public BrickTextDialog() {
+	}
+
 	public BrickTextDialog(int title, int label, String previousText) {
 		super(title, label, previousText, false);
 	}

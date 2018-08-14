@@ -32,6 +32,7 @@ import android.widget.Spinner;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.SpinnerAdapterWithNewOption;
@@ -124,16 +125,10 @@ public class PlaySoundBrick extends BrickBaseType implements
 	@Override
 	public boolean onNewOptionInDropDownClicked(View v) {
 		spinnerSelectionBuffer = spinner.getSelectedItemPosition();
-		new NewSoundDialogFragment(this,
+		new NewSoundFromBrickSpinnerDialogFragment(this,
 				ProjectManager.getInstance().getCurrentlyEditedScene(),
-				ProjectManager.getInstance().getCurrentSprite()) {
-
-			@Override
-			public void onCancel(DialogInterface dialog) {
-				super.onCancel(dialog);
-				spinner.setSelection(spinnerSelectionBuffer);
-			}
-		}.show(((Activity) v.getContext()).getFragmentManager(), NewSoundDialogFragment.TAG);
+				ProjectManager.getInstance().getCurrentSprite())
+				.show(((Activity) v.getContext()).getFragmentManager(), NewSoundDialogFragment.TAG);
 		return false;
 	}
 
@@ -149,7 +144,7 @@ public class PlaySoundBrick extends BrickBaseType implements
 	public View getPrototypeView(Context context) {
 		View view = super.getPrototypeView(context);
 		onPrototypeViewCreated(view);
-		spinner = view.findViewById(R.id.brick_play_sound_spinner);
+		spinner = (Spinner) view.findViewById(R.id.brick_play_sound_spinner);
 		spinnerAdapter = new SpinnerAdapterWithNewOption(context, getSoundNames());
 		spinner.setAdapter(spinnerAdapter);
 		spinner.setSelection(spinnerAdapter.getPosition(sound != null ? sound.getName() : null));
@@ -163,5 +158,24 @@ public class PlaySoundBrick extends BrickBaseType implements
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createPlaySoundAction(sprite, sound));
 		return null;
+	}
+
+	public static class NewSoundFromBrickSpinnerDialogFragment extends NewSoundDialogFragment {
+
+		private PlaySoundBrick playSoundBrick;
+
+		public NewSoundFromBrickSpinnerDialogFragment() {
+		}
+
+		public NewSoundFromBrickSpinnerDialogFragment(PlaySoundBrick playSoundBrick, Scene dstScene, Sprite dstSprite) {
+			super(playSoundBrick, dstScene, dstSprite);
+			this.playSoundBrick = playSoundBrick;
+		}
+
+		@Override
+		public void onCancel(DialogInterface dialog) {
+			super.onCancel(dialog);
+			playSoundBrick.spinner.setSelection(playSoundBrick.spinnerSelectionBuffer);
+		}
 	}
 }

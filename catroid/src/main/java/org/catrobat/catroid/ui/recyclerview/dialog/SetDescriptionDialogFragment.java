@@ -30,6 +30,9 @@ public class SetDescriptionDialogFragment extends TextInputDialogFragment {
 
 	private ChangeDescriptionInterface descriptionInterface;
 
+	public SetDescriptionDialogFragment() {
+	}
+
 	public SetDescriptionDialogFragment(String text, ChangeDescriptionInterface descriptionInterface) {
 		super(R.string.set_description, R.string.description, text, true);
 		this.descriptionInterface = descriptionInterface;

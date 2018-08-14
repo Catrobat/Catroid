@@ -46,9 +46,21 @@ public class SelectSpriteDialogFragment extends DialogFragment {
 	private List<Sprite> selectableSprites;
 	private Spinner spinner;
 
+	public SelectSpriteDialogFragment() {
+	}
+
 	public SelectSpriteDialogFragment(SelectSpriteListener listener, List<Sprite> selectableSprites) {
 		this.listener = listener;
 		this.selectableSprites = selectableSprites;
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		boolean isRestoringPreviouslyDestroyedActivity = savedInstanceState != null;
+		if (isRestoringPreviouslyDestroyedActivity) {
+			dismiss();
+		}
 	}
 
 	@Override
