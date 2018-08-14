@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -37,8 +36,8 @@ public class ArduinoSendPWMValueBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public ArduinoSendPWMValueBrick() {
-		this(new Formula(BrickValues.ARDUINO_PWM_INITIAL_PIN_NUMBER),
-				new Formula(BrickValues.ARDUINO_PWM_INITIAL_PIN_VALUE));
+		addAllowedBrickField(BrickField.ARDUINO_ANALOG_PIN_NUMBER, R.id.brick_arduino_set_analog_pin_edit_text);
+		addAllowedBrickField(BrickField.ARDUINO_ANALOG_PIN_VALUE, R.id.brick_arduino_set_analog_value_edit_text);
 	}
 
 	public ArduinoSendPWMValueBrick(int pinNumber, int pinValue) {
@@ -46,8 +45,7 @@ public class ArduinoSendPWMValueBrick extends FormulaBrick {
 	}
 
 	public ArduinoSendPWMValueBrick(Formula pinNumber, Formula pinValue) {
-		addAllowedBrickField(BrickField.ARDUINO_ANALOG_PIN_NUMBER, R.id.brick_arduino_set_analog_pin_edit_text);
-		addAllowedBrickField(BrickField.ARDUINO_ANALOG_PIN_VALUE, R.id.brick_arduino_set_analog_value_edit_text);
+		this();
 		setFormulaWithBrickField(BrickField.ARDUINO_ANALOG_PIN_NUMBER, pinNumber);
 		setFormulaWithBrickField(BrickField.ARDUINO_ANALOG_PIN_VALUE, pinValue);
 	}

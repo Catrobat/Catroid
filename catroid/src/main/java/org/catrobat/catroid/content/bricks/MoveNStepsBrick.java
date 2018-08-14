@@ -43,7 +43,7 @@ public class MoveNStepsBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public MoveNStepsBrick() {
-		this(new Formula(BrickValues.MOVE_STEPS));
+		addAllowedBrickField(BrickField.STEPS, R.id.brick_move_n_steps_edit_text);
 	}
 
 	public MoveNStepsBrick(double steps) {
@@ -51,7 +51,7 @@ public class MoveNStepsBrick extends FormulaBrick {
 	}
 
 	public MoveNStepsBrick(Formula formula) {
-		addAllowedBrickField(BrickField.STEPS, R.id.brick_move_n_steps_edit_text);
+		this();
 		setFormulaWithBrickField(BrickField.STEPS, formula);
 	}
 

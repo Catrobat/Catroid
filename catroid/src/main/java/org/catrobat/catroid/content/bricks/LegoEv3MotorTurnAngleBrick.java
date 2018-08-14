@@ -40,28 +40,23 @@ public class LegoEv3MotorTurnAngleBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	private String motor;
-	private transient Motor motorEnum;
 
 	public enum Motor {
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_D, MOTOR_B_C, MOTOR_ALL
 	}
 
-	public LegoEv3MotorTurnAngleBrick(Motor motor, int degrees) {
-		this(motor, new Formula(degrees));
-	}
-
-	public LegoEv3MotorTurnAngleBrick(Motor motor, Formula degreesFormula) {
-		this.motorEnum = motor;
-		this.motor = motorEnum.name();
+	public LegoEv3MotorTurnAngleBrick() {
 		addAllowedBrickField(BrickField.LEGO_EV3_DEGREES, R.id.ev3_motor_turn_angle_edit_text);
-		setFormulaWithBrickField(BrickField.LEGO_EV3_DEGREES, degreesFormula);
 	}
 
-	protected Object readResolve() {
-		if (motor != null) {
-			motorEnum = Motor.valueOf(motor);
-		}
-		return this;
+	public LegoEv3MotorTurnAngleBrick(Motor motorEnum, int degrees) {
+		this(motorEnum, new Formula(degrees));
+	}
+
+	public LegoEv3MotorTurnAngleBrick(Motor motorEnum, Formula degreesFormula) {
+		this();
+		motor = motorEnum.name();
+		setFormulaWithBrickField(BrickField.LEGO_EV3_DEGREES, degreesFormula);
 	}
 
 	@Override
@@ -77,56 +72,38 @@ public class LegoEv3MotorTurnAngleBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-
-		Spinner legoSpinner = prototypeView.findViewById(R.id.lego_ev3_motor_turn_angle_spinner);
-		legoSpinner.setFocusableInTouchMode(false);
-		legoSpinner.setFocusable(false);
-		legoSpinner.setEnabled(false);
-
-		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context, R.array.ev3_motor_chooser,
-				android.R.layout.simple_spinner_item);
-		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-		legoSpinner.setAdapter(motorAdapter);
-		legoSpinner.setSelection(motorEnum.ordinal());
-		return prototypeView;
+		super.getPrototypeView(context);
+		return getView(context);
 	}
 
 	@Override
 	public View getView(final Context context) {
 		super.getView(context);
 
-		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context, R.array.ev3_motor_chooser,
-				android.R.layout.simple_spinner_item);
+		ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter
+				.createFromResource(context, R.array.ev3_motor_chooser, android.R.layout.simple_spinner_item);
+		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		Spinner motorSpinner = view.findViewById(R.id.lego_ev3_motor_turn_angle_spinner);
-		motorSpinner.setAdapter(motorAdapter);
-		motorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+		Spinner spinner = view.findViewById(R.id.lego_ev3_motor_turn_angle_spinner);
+		spinner.setAdapter(spinnerAdapter);
+		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
-				motorEnum = Motor.values()[position];
-				motor = motorEnum.name();
+				motor = Motor.values()[position].name();
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
-
-		if (motorEnum == null) {
-			readResolve();
-		}
-
-		motorSpinner.setSelection(motorEnum.ordinal());
+		spinner.setSelection(Motor.valueOf(motor).ordinal());
 		return view;
 	}
 
 	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createLegoEv3MotorTurnAngleAction(sprite, motorEnum,
+		sequence.addAction(sprite.getActionFactory().createLegoEv3MotorTurnAngleAction(sprite, Motor.valueOf(motor),
 				getFormulaWithBrickField(BrickField.LEGO_EV3_DEGREES)));
 		return null;
 	}

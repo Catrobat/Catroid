@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -35,7 +34,7 @@ public class ChangeYByNBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public ChangeYByNBrick() {
-		this(new Formula(BrickValues.CHANGE_Y_BY));
+		addAllowedBrickField(BrickField.Y_POSITION_CHANGE, R.id.brick_change_y_edit_text);
 	}
 
 	public ChangeYByNBrick(int yMovementValue) {
@@ -43,7 +42,7 @@ public class ChangeYByNBrick extends FormulaBrick {
 	}
 
 	public ChangeYByNBrick(Formula formula) {
-		addAllowedBrickField(BrickField.Y_POSITION_CHANGE, R.id.brick_change_y_edit_text);
+		this();
 		setFormulaWithBrickField(BrickField.Y_POSITION_CHANGE, formula);
 	}
 

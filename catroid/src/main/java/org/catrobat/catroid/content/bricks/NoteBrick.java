@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import android.view.View.OnClickListener;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -37,7 +36,7 @@ public class NoteBrick extends FormulaBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 
 	public NoteBrick() {
-		this(new Formula(BrickValues.NOTE));
+		addAllowedBrickField(BrickField.NOTE, R.id.brick_note_edit_text);
 	}
 
 	public NoteBrick(String note) {
@@ -45,7 +44,7 @@ public class NoteBrick extends FormulaBrick implements OnClickListener {
 	}
 
 	public NoteBrick(Formula formula) {
-		addAllowedBrickField(BrickField.NOTE, R.id.brick_note_edit_text);
+		this();
 		setFormulaWithBrickField(BrickField.NOTE, formula);
 	}
 

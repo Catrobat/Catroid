@@ -38,7 +38,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
+public class IfLogicBeginBrick extends FormulaBrick implements IfElseLogicBeginBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -46,8 +46,7 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 	private transient IfLogicEndBrick ifEndBrick;
 
 	public IfLogicBeginBrick() {
-		//For ridiculous inheritance -> call only from PhiroIfLogicBeginBrick
-		//Should be removed asap.
+		addAllowedBrickField(BrickField.IF_CONDITION, R.id.brick_if_begin_edit_text);
 	}
 
 	public IfLogicBeginBrick(int condition) {
@@ -55,7 +54,7 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 	}
 
 	public IfLogicBeginBrick(Formula formula) {
-		addAllowedBrickField(BrickField.IF_CONDITION, R.id.brick_if_begin_edit_text);
+		this();
 		setFormulaWithBrickField(BrickField.IF_CONDITION, formula);
 	}
 

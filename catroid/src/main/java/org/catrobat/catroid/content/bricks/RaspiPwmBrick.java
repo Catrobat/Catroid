@@ -33,15 +33,18 @@ public class RaspiPwmBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
+	public RaspiPwmBrick() {
+		addAllowedBrickField(BrickField.RASPI_DIGITAL_PIN_NUMBER, R.id.brick_raspi_pwm_pin_edit_text);
+		addAllowedBrickField(BrickField.RASPI_PWM_FREQUENCY, R.id.brick_raspi_pwm_frequency_edit_text);
+		addAllowedBrickField(BrickField.RASPI_PWM_PERCENTAGE, R.id.brick_raspi_pwm_percentage_edit_text);
+	}
+
 	public RaspiPwmBrick(int pinNumber, double pwmFrequency, double pwmPercentage) {
 		this(new Formula(pinNumber), new Formula(pwmFrequency), new Formula(pwmPercentage));
 	}
 
 	public RaspiPwmBrick(Formula pinNumber, Formula pwmFrequency, Formula pwmPercentage) {
-		addAllowedBrickField(BrickField.RASPI_DIGITAL_PIN_NUMBER, R.id.brick_raspi_pwm_pin_edit_text);
-		addAllowedBrickField(BrickField.RASPI_PWM_FREQUENCY, R.id.brick_raspi_pwm_frequency_edit_text);
-		addAllowedBrickField(BrickField.RASPI_PWM_PERCENTAGE, R.id.brick_raspi_pwm_percentage_edit_text);
-
+		this();
 		setFormulaWithBrickField(BrickField.RASPI_DIGITAL_PIN_NUMBER, pinNumber);
 		setFormulaWithBrickField(BrickField.RASPI_PWM_FREQUENCY, pwmFrequency);
 		setFormulaWithBrickField(BrickField.RASPI_PWM_PERCENTAGE, pwmPercentage);

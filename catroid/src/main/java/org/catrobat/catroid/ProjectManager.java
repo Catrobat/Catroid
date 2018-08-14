@@ -38,7 +38,7 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfElseLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
@@ -538,9 +538,9 @@ public final class ProjectManager {
 						+ currentBrick);
 				return false;
 			}
-		} else if (currentBrick instanceof IfLogicBeginBrick) {
-			IfLogicElseBrick elseBrick = ((IfLogicBeginBrick) currentBrick).getIfElseBrick();
-			IfLogicEndBrick endBrick = ((IfLogicBeginBrick) currentBrick).getIfEndBrick();
+		} else if (currentBrick instanceof IfElseLogicBeginBrick) {
+			IfLogicElseBrick elseBrick = ((IfElseLogicBeginBrick) currentBrick).getIfElseBrick();
+			IfLogicEndBrick endBrick = ((IfElseLogicBeginBrick) currentBrick).getIfEndBrick();
 			if (elseBrick == null || endBrick == null || elseBrick.getIfBeginBrick() == null
 					|| elseBrick.getIfEndBrick() == null || endBrick.getIfBeginBrick() == null
 					|| endBrick.getIfElseBrick() == null
@@ -565,7 +565,7 @@ public final class ProjectManager {
 	}
 
 	private void correctAllNestedReferences(Script script) {
-		ArrayList<IfLogicBeginBrick> ifBeginList = new ArrayList<>();
+		ArrayList<IfElseLogicBeginBrick> ifBeginList = new ArrayList<>();
 		ArrayList<IfThenLogicBeginBrick> ifThenBeginList = new ArrayList<>();
 		ArrayList<Brick> loopBeginList = new ArrayList<>();
 		ArrayList<Brick> bricksWithInvalidReferences = new ArrayList<>();
@@ -573,8 +573,8 @@ public final class ProjectManager {
 		for (Brick currentBrick : script.getBrickList()) {
 			if (currentBrick instanceof IfThenLogicBeginBrick) {
 				ifThenBeginList.add((IfThenLogicBeginBrick) currentBrick);
-			} else if (currentBrick instanceof IfLogicBeginBrick) {
-				ifBeginList.add((IfLogicBeginBrick) currentBrick);
+			} else if (currentBrick instanceof IfElseLogicBeginBrick) {
+				ifBeginList.add((IfElseLogicBeginBrick) currentBrick);
 			} else if (currentBrick instanceof LoopBeginBrick) {
 				loopBeginList.add(currentBrick);
 			} else if (currentBrick instanceof LoopEndBrick) {
@@ -593,7 +593,7 @@ public final class ProjectManager {
 					bricksWithInvalidReferences.add(currentBrick);
 					continue;
 				}
-				IfLogicBeginBrick ifBeginBrick = ifBeginList.get(ifBeginList.size() - 1);
+				IfElseLogicBeginBrick ifBeginBrick = ifBeginList.get(ifBeginList.size() - 1);
 				ifBeginBrick.setIfElseBrick((IfLogicElseBrick) currentBrick);
 				((IfLogicElseBrick) currentBrick).setIfBeginBrick(ifBeginBrick);
 			} else if (currentBrick instanceof IfThenLogicEndBrick) {
@@ -612,7 +612,7 @@ public final class ProjectManager {
 					bricksWithInvalidReferences.add(currentBrick);
 					continue;
 				}
-				IfLogicBeginBrick ifBeginBrick = ifBeginList.get(ifBeginList.size() - 1);
+				IfElseLogicBeginBrick ifBeginBrick = ifBeginList.get(ifBeginList.size() - 1);
 				IfLogicElseBrick elseBrick = ifBeginBrick.getIfElseBrick();
 				ifBeginBrick.setIfEndBrick((IfLogicEndBrick) currentBrick);
 				elseBrick.setIfEndBrick((IfLogicEndBrick) currentBrick);

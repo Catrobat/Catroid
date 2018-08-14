@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -35,7 +34,7 @@ public class SetSizeToBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public SetSizeToBrick() {
-		this(new Formula(BrickValues.SET_SIZE_TO));
+		addAllowedBrickField(BrickField.SIZE, R.id.brick_set_size_to_edit_text);
 	}
 
 	public SetSizeToBrick(double size) {
@@ -43,7 +42,7 @@ public class SetSizeToBrick extends FormulaBrick {
 	}
 
 	public SetSizeToBrick(Formula formula) {
-		addAllowedBrickField(BrickField.SIZE, R.id.brick_set_size_to_edit_text);
+		this();
 		setFormulaWithBrickField(BrickField.SIZE, formula);
 	}
 

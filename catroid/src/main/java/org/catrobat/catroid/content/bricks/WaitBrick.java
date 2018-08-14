@@ -26,7 +26,6 @@ import android.content.Context;
 import android.view.View;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -38,7 +37,7 @@ public class WaitBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public WaitBrick() {
-		this(new Formula(BrickValues.WAIT));
+		addAllowedBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS, R.id.brick_wait_edit_text);
 	}
 
 	public WaitBrick(int timeToWaitInMillisecondsValue) {
@@ -46,7 +45,7 @@ public class WaitBrick extends FormulaBrick {
 	}
 
 	public WaitBrick(Formula formula) {
-		addAllowedBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS, R.id.brick_wait_edit_text);
+		this();
 		setFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS, formula);
 	}
 

@@ -35,6 +35,9 @@ public class HideTextBrick extends UserVariableBrick {
 
 	private static final long serialVersionUID = 1L;
 
+	public HideTextBrick() {
+	}
+
 	@Override
 	public int getViewResource() {
 		return R.layout.brick_hide_variable;

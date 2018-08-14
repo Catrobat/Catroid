@@ -37,12 +37,16 @@ public class ThinkBubbleBrick extends FormulaBrick implements OnClickListener {
 
 	private static final long serialVersionUID = 1L;
 
+	public ThinkBubbleBrick() {
+		addAllowedBrickField(BrickField.STRING, R.id.brick_bubble_edit_text);
+	}
+
 	public ThinkBubbleBrick(String text) {
 		this(new Formula(text));
 	}
 
 	public ThinkBubbleBrick(Formula formula) {
-		addAllowedBrickField(BrickField.STRING, R.id.brick_bubble_edit_text);
+		this();
 		setFormulaWithBrickField(BrickField.STRING, formula);
 	}
 

@@ -26,7 +26,6 @@ import android.content.Context;
 import android.view.View;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -38,9 +37,9 @@ public class GlideToBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public GlideToBrick() {
-		this(new Formula(BrickValues.X_POSITION),
-				new Formula(BrickValues.Y_POSITION),
-				new Formula(BrickValues.GLIDE_SECONDS));
+		addAllowedBrickField(BrickField.X_DESTINATION, R.id.brick_glide_to_edit_text_x);
+		addAllowedBrickField(BrickField.Y_DESTINATION, R.id.brick_glide_to_edit_text_y);
+		addAllowedBrickField(BrickField.DURATION_IN_SECONDS, R.id.brick_glide_to_edit_text_duration);
 	}
 
 	public GlideToBrick(int xDestinationValue, int yDestinationValue, int durationInMilliSecondsValue) {
@@ -50,9 +49,7 @@ public class GlideToBrick extends FormulaBrick {
 	}
 
 	public GlideToBrick(Formula xDestination, Formula yDestination, Formula durationInSeconds) {
-		addAllowedBrickField(BrickField.X_DESTINATION, R.id.brick_glide_to_edit_text_x);
-		addAllowedBrickField(BrickField.Y_DESTINATION, R.id.brick_glide_to_edit_text_y);
-		addAllowedBrickField(BrickField.DURATION_IN_SECONDS, R.id.brick_glide_to_edit_text_duration);
+		this();
 		setFormulaWithBrickField(BrickField.X_DESTINATION, xDestination);
 		setFormulaWithBrickField(BrickField.Y_DESTINATION, yDestination);
 		setFormulaWithBrickField(BrickField.DURATION_IN_SECONDS, durationInSeconds);

@@ -33,12 +33,16 @@ public class JumpingSumoRotateLeftBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
+	public JumpingSumoRotateLeftBrick() {
+		addAllowedBrickField(BrickField.JUMPING_SUMO_ROTATE, R.id.brick_jumping_sumo_change_left_variable_edit_text);
+	}
+
 	public JumpingSumoRotateLeftBrick(double degree) {
 		this(new Formula(degree));
 	}
 
 	public JumpingSumoRotateLeftBrick(Formula formula) {
-		addAllowedBrickField(BrickField.JUMPING_SUMO_ROTATE, R.id.brick_jumping_sumo_change_left_variable_edit_text);
+		this();
 		setFormulaWithBrickField(BrickField.JUMPING_SUMO_ROTATE, formula);
 	}
 

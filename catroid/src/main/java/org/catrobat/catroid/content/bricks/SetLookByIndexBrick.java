@@ -29,7 +29,6 @@ import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
@@ -46,7 +45,7 @@ public class SetLookByIndexBrick extends FormulaBrick {
 	protected transient int wait = NO_WAIT;
 
 	public SetLookByIndexBrick() {
-		this(new Formula(BrickValues.SET_LOOK_BY_INDEX));
+		addAllowedBrickField(BrickField.LOOK_INDEX, R.id.brick_set_look_by_index_edit_text);
 	}
 
 	public SetLookByIndexBrick(int index) {
@@ -54,7 +53,7 @@ public class SetLookByIndexBrick extends FormulaBrick {
 	}
 
 	public SetLookByIndexBrick(Formula formula) {
-		addAllowedBrickField(BrickField.LOOK_INDEX, R.id.brick_set_look_by_index_edit_text);
+		this();
 		setFormulaWithBrickField(BrickField.LOOK_INDEX, formula);
 	}
 

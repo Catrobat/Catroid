@@ -26,7 +26,6 @@ import android.content.Context;
 import android.view.View;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -38,8 +37,8 @@ public class DroneMoveBackwardBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public DroneMoveBackwardBrick() {
-		this(new Formula(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000.0),
-				new Formula(BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT));
+		addAllowedBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS, R.id.brick_drone_move_backward_edit_text_second);
+		addAllowedBrickField(BrickField.DRONE_POWER_IN_PERCENT, R.id.brick_drone_move_backward_edit_text_power);
 	}
 
 	public DroneMoveBackwardBrick(int durationInMilliseconds, int powerInPercent) {
@@ -47,8 +46,7 @@ public class DroneMoveBackwardBrick extends FormulaBrick {
 	}
 
 	public DroneMoveBackwardBrick(Formula durationInSeconds, Formula powerInPercent) {
-		addAllowedBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS, R.id.brick_drone_move_backward_edit_text_second);
-		addAllowedBrickField(BrickField.DRONE_POWER_IN_PERCENT, R.id.brick_drone_move_backward_edit_text_power);
+		this();
 		setFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS, durationInSeconds);
 		setFormulaWithBrickField(BrickField.DRONE_POWER_IN_PERCENT, powerInPercent);
 	}

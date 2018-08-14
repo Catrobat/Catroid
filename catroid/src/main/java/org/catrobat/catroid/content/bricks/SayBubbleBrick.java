@@ -34,6 +34,10 @@ public class SayBubbleBrick extends ThinkBubbleBrick {
 
 	private static final long serialVersionUID = 1L;
 
+	public SayBubbleBrick() {
+		super();
+	}
+
 	public SayBubbleBrick(String text) {
 		super(text);
 	}

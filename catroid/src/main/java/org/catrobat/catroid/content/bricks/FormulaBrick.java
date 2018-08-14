@@ -68,10 +68,6 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		}
 	}
 
-	protected void addAllowedBrickField(BrickField brickField) {
-		formulaMap.putIfAbsent(brickField, new Formula(0));
-	}
-
 	protected void addAllowedBrickField(BrickField brickField, int textViewResourceId) {
 		formulaMap.putIfAbsent(brickField, new Formula(0));
 		brickFieldToTextViewIdMap.put(brickField, textViewResourceId);
@@ -162,7 +158,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 	}
 
 	public View getCustomView(Context context) {
-		throw new IllegalStateException("There is no custom view for this brick");
+		throw new IllegalStateException("There is no custom view for the " + getClass().getSimpleName() + ".");
 	}
 
 	protected void setSecondsLabel(View view, BrickField brickField) {

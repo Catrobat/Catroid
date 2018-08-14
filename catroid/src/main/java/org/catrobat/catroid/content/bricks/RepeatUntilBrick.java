@@ -45,12 +45,16 @@ public class RepeatUntilBrick extends FormulaBrick implements LoopBeginBrick {
 
 	private transient LoopEndBrick loopEndBrick;
 
+	public RepeatUntilBrick() {
+		addAllowedBrickField(BrickField.REPEAT_UNTIL_CONDITION, R.id.brick_repeat_until_edit_text);
+	}
+
 	public RepeatUntilBrick(int condition) {
 		this(new Formula(condition));
 	}
 
 	public RepeatUntilBrick(Formula condition) {
-		addAllowedBrickField(BrickField.REPEAT_UNTIL_CONDITION, R.id.brick_repeat_until_edit_text);
+		this();
 		setFormulaWithBrickField(BrickField.REPEAT_UNTIL_CONDITION, condition);
 	}
 

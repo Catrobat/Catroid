@@ -43,7 +43,7 @@ public class GoNStepsBackBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public GoNStepsBackBrick() {
-		this(new Formula(BrickValues.GO_BACK));
+		addAllowedBrickField(BrickField.STEPS, R.id.brick_go_back_edit_text);
 	}
 
 	public GoNStepsBackBrick(int steps) {
@@ -51,7 +51,7 @@ public class GoNStepsBackBrick extends FormulaBrick {
 	}
 
 	public GoNStepsBackBrick(Formula formula) {
-		addAllowedBrickField(BrickField.STEPS, R.id.brick_go_back_edit_text);
+		this();
 		setFormulaWithBrickField(BrickField.STEPS, formula);
 	}
 

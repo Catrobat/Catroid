@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -35,7 +34,7 @@ public class SetXBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public SetXBrick() {
-		this(new Formula(BrickValues.X_POSITION));
+		addAllowedBrickField(BrickField.X_POSITION, R.id.brick_set_x_edit_text);
 	}
 
 	public SetXBrick(int xPositionValue) {
@@ -43,7 +42,7 @@ public class SetXBrick extends FormulaBrick {
 	}
 
 	public SetXBrick(Formula xPosition) {
-		addAllowedBrickField(BrickField.X_POSITION, R.id.brick_set_x_edit_text);
+		this();
 		setFormulaWithBrickField(BrickField.X_POSITION, xPosition);
 	}
 

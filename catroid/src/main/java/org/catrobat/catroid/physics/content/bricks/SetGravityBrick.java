@@ -25,7 +25,6 @@ package org.catrobat.catroid.physics.content.bricks;
 import com.badlogic.gdx.math.Vector2;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
@@ -38,7 +37,8 @@ public class SetGravityBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public SetGravityBrick() {
-		this(new Formula(BrickValues.PHYSIC_GRAVITY.x), new Formula(BrickValues.PHYSIC_GRAVITY.y));
+		addAllowedBrickField(BrickField.PHYSICS_GRAVITY_X, R.id.brick_set_gravity_edit_text_x);
+		addAllowedBrickField(BrickField.PHYSICS_GRAVITY_Y, R.id.brick_set_gravity_edit_text_y);
 	}
 
 	public SetGravityBrick(Vector2 gravity) {
@@ -46,8 +46,7 @@ public class SetGravityBrick extends FormulaBrick {
 	}
 
 	public SetGravityBrick(Formula gravityX, Formula gravityY) {
-		addAllowedBrickField(BrickField.PHYSICS_GRAVITY_X, R.id.brick_set_gravity_edit_text_x);
-		addAllowedBrickField(BrickField.PHYSICS_GRAVITY_Y, R.id.brick_set_gravity_edit_text_y);
+		this();
 		setFormulaWithBrickField(BrickField.PHYSICS_GRAVITY_X, gravityX);
 		setFormulaWithBrickField(BrickField.PHYSICS_GRAVITY_Y, gravityY);
 	}

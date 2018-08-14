@@ -33,14 +33,18 @@ public class JumpingSumoMoveBackwardBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
+	public JumpingSumoMoveBackwardBrick() {
+		addAllowedBrickField(BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS,
+				R.id.brick_jumping_sumo_move_backward_edit_text_second);
+		addAllowedBrickField(BrickField.JUMPING_SUMO_SPEED, R.id.brick_jumping_sumo_move_backward_edit_text_power);
+	}
+
 	public JumpingSumoMoveBackwardBrick(int durationInMilliseconds, int powerInPercent) {
 		this(new Formula(durationInMilliseconds / 1000.0), new Formula(powerInPercent));
 	}
 
 	public JumpingSumoMoveBackwardBrick(Formula durationInSeconds, Formula powerInPercent) {
-		addAllowedBrickField(BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS,
-				R.id.brick_jumping_sumo_move_backward_edit_text_second);
-		addAllowedBrickField(BrickField.JUMPING_SUMO_SPEED, R.id.brick_jumping_sumo_move_backward_edit_text_power);
+		this();
 		setFormulaWithBrickField(BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS, durationInSeconds);
 		setFormulaWithBrickField(BrickField.JUMPING_SUMO_SPEED, powerInPercent);
 	}

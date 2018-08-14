@@ -32,6 +32,9 @@ public class JumpingSumoNoSoundBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
 
+	public JumpingSumoNoSoundBrick() {
+	}
+
 	@Override
 	public int getViewResource() {
 		return R.layout.brick_jumping_sumo_nosound;

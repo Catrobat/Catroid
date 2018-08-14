@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -35,7 +34,7 @@ public class AddItemToUserListBrick extends UserListBrick {
 	private static final long serialVersionUID = 1L;
 
 	public AddItemToUserListBrick() {
-		this(new Formula(BrickValues.ADD_ITEM_TO_USERLIST));
+		addAllowedBrickField(BrickField.LIST_ADD_ITEM, R.id.brick_add_item_to_userlist_edit_text);
 	}
 
 	public AddItemToUserListBrick(double value) {
@@ -43,7 +42,7 @@ public class AddItemToUserListBrick extends UserListBrick {
 	}
 
 	public AddItemToUserListBrick(Formula formula) {
-		addAllowedBrickField(BrickField.LIST_ADD_ITEM, R.id.brick_add_item_to_userlist_edit_text);
+		this();
 		setFormulaWithBrickField(BrickField.LIST_ADD_ITEM, formula);
 	}
 

@@ -33,12 +33,16 @@ public class PointInDirectionBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
+	public PointInDirectionBrick() {
+		addAllowedBrickField(BrickField.DEGREES, R.id.brick_point_in_direction_edit_text);
+	}
+
 	public PointInDirectionBrick(double direction) {
 		this(new Formula(direction));
 	}
 
 	public PointInDirectionBrick(Formula direction) {
-		addAllowedBrickField(BrickField.DEGREES, R.id.brick_point_in_direction_edit_text);
+		this();
 		setFormulaWithBrickField(BrickField.DEGREES, direction);
 	}
 

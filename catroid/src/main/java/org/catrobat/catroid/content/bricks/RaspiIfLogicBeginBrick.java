@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
@@ -39,16 +38,15 @@ public class RaspiIfLogicBeginBrick extends IfLogicBeginBrick {
 	private static final long serialVersionUID = 1L;
 
 	public RaspiIfLogicBeginBrick() {
-		this(new Formula(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER));
+		super();
 	}
 
 	public RaspiIfLogicBeginBrick(int condition) {
-		this(new Formula(condition));
+		super(new Formula(condition));
 	}
 
 	public RaspiIfLogicBeginBrick(Formula formula) {
-		addAllowedBrickField(BrickField.IF_CONDITION, R.id.brick_raspi_if_begin_edit_text);
-		setFormulaWithBrickField(BrickField.IF_CONDITION, formula);
+		super(formula);
 	}
 
 	@Override

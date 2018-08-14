@@ -36,6 +36,10 @@ public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 
 	private WhenConditionScript script;
 
+	public WhenConditionBrick() {
+		addAllowedBrickField(BrickField.IF_CONDITION, R.id.brick_when_condition_edit_text);
+	}
+
 	public WhenConditionBrick(Formula formula) {
 		this(formula, new WhenConditionScript());
 	}

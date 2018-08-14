@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -35,7 +34,7 @@ public class SpeakBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public SpeakBrick() {
-		this(new Formula(BrickValues.STRING_VALUE));
+		addAllowedBrickField(BrickField.SPEAK, R.id.brick_speak_edit_text);
 	}
 
 	public SpeakBrick(String text) {
@@ -43,7 +42,7 @@ public class SpeakBrick extends FormulaBrick {
 	}
 
 	public SpeakBrick(Formula formula) {
-		addAllowedBrickField(BrickField.SPEAK, R.id.brick_speak_edit_text);
+		this();
 		setFormulaWithBrickField(BrickField.SPEAK, formula);
 	}
 

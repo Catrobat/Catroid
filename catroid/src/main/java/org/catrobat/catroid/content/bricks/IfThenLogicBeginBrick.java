@@ -44,12 +44,16 @@ public class IfThenLogicBeginBrick extends FormulaBrick implements NestingBrick 
 
 	private transient IfThenLogicEndBrick ifEndBrick;
 
+	public IfThenLogicBeginBrick() {
+		addAllowedBrickField(BrickField.IF_CONDITION, R.id.brick_if_begin_edit_text);
+	}
+
 	public IfThenLogicBeginBrick(int condition) {
 		this(new Formula(condition));
 	}
 
 	public IfThenLogicBeginBrick(Formula formula) {
-		addAllowedBrickField(BrickField.IF_CONDITION, R.id.brick_if_begin_edit_text);
+		this();
 		setFormulaWithBrickField(BrickField.IF_CONDITION, formula);
 	}
 
@@ -59,6 +63,13 @@ public class IfThenLogicBeginBrick extends FormulaBrick implements NestingBrick 
 
 	public void setIfThenEndBrick(IfThenLogicEndBrick ifEndBrick) {
 		this.ifEndBrick = ifEndBrick;
+	}
+
+	@Override
+	public BrickBaseType clone() throws CloneNotSupportedException {
+		IfThenLogicBeginBrick clone = (IfThenLogicBeginBrick) super.clone();
+		clone.ifEndBrick = null;
+		return clone;
 	}
 
 	@Override
