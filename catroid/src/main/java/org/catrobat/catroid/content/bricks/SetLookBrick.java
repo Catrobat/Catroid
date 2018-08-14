@@ -106,10 +106,10 @@ public class SetLookBrick extends BrickBaseType implements NewItemInterface<Look
 
 	@Override
 	public void onNewOptionSelected() {
-        new NewLookFromBrickDialogFragment(this,
-                ProjectManager.getInstance().getCurrentlyEditedScene(),
-                getSprite())
-                .show(((Activity) view.getContext()).getFragmentManager(), NewLookDialogFragment.TAG);
+		new NewLookFromBrickDialogFragment(this,
+				ProjectManager.getInstance().getCurrentlyEditedScene(),
+				getSprite())
+				.show(((Activity) view.getContext()).getFragmentManager(), NewLookDialogFragment.TAG);
 	}
 
 	@Override

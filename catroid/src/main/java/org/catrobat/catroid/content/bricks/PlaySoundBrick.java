@@ -101,10 +101,10 @@ public class PlaySoundBrick extends BrickBaseType implements NewItemInterface<So
 
 	@Override
 	public void onNewOptionSelected() {
-        new NewSoundFromBrickSpinnerDialogFragment(this,
-                ProjectManager.getInstance().getCurrentlyEditedScene(),
-                ProjectManager.getInstance().getCurrentSprite())
-                .show(((Activity) view.getContext()).getFragmentManager(), NewSoundDialogFragment.TAG);
+		new NewSoundFromBrickSpinnerDialogFragment(this,
+				ProjectManager.getInstance().getCurrentlyEditedScene(),
+				ProjectManager.getInstance().getCurrentSprite())
+				.show(((Activity) view.getContext()).getFragmentManager(), NewSoundDialogFragment.TAG);
 	}
 
 	@Override

@@ -294,7 +294,7 @@ android {
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         versionCode 45
         println "VersionCode is " + versionCode
-        versionName "0.9.38"
+        versionName "0.9.39"
         println "VersionName is " + versionName
         buildConfigField "String", "GIT_DESCRIBE", "\"${versionName}\""
         buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
