@@ -24,6 +24,7 @@ package org.catrobat.catroid.ui.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -107,16 +108,29 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-		actionBarTitleBuffer = actionBar.getTitle().toString();
-		actionBar.setTitle(R.string.formula_editor_title);
+		boolean isRestoringPreviouslyDestroyedActivity = savedInstanceState != null;
+		if (isRestoringPreviouslyDestroyedActivity) {
+			getFragmentManager().popBackStack(FORMULA_EDITOR_FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+			return;
+		}
 
 		onFormulaChangedListener = (OnFormulaChangedListener) getFragmentManager()
 				.findFragmentByTag(ScriptFragment.TAG);
 
-		formulaBrick = (FormulaBrick) getArguments().getSerializable(FORMULA_BRICK_BUNDLE_ARGUMENT);
-		currentBrickField = Brick.BrickField.valueOf(getArguments().getString(BRICK_FIELD_BUNDLE_ARGUMENT));
-		currentFormula = formulaBrick.getFormulaWithBrickField(currentBrickField);
+        formulaBrick = (FormulaBrick) getArguments().getSerializable(FORMULA_BRICK_BUNDLE_ARGUMENT);
+        currentBrickField = Brick.BrickField.valueOf(getArguments().getString(BRICK_FIELD_BUNDLE_ARGUMENT));
+        currentFormula = formulaBrick.getFormulaWithBrickField(currentBrickField);
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+
+		ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        actionBarTitleBuffer = actionBar.getTitle().toString();
+		actionBar.setTitle(R.string.formula_editor_title);
+
+		setHasOptionsMenu(true);
 	}
 
 	private static void showFragment(Context context, FormulaBrick formulaBrick, Brick.BrickField brickField,
@@ -671,10 +685,14 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	@Override
 	public void onHiddenChanged(boolean hidden) {
 		if (!hidden) {
-			((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.formula_editor_title);
-			BottomBar.hideBottomBar(getActivity());
-			updateButtonsOnKeyboardAndInvalidateOptionsMenu();
-			updateBrickView();
+			ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+			boolean isRestoringPreviouslyDestroyedActivity = actionBar == null;
+			if (!isRestoringPreviouslyDestroyedActivity) {
+				actionBar.setTitle(R.string.formula_editor_title);
+				BottomBar.hideBottomBar(getActivity());
+				updateButtonsOnKeyboardAndInvalidateOptionsMenu();
+                updateBrickView();
+			}
 		}
 	}
 

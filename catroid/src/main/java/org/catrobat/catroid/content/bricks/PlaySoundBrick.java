@@ -32,6 +32,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
@@ -100,16 +101,10 @@ public class PlaySoundBrick extends BrickBaseType implements NewItemInterface<So
 
 	@Override
 	public void onNewOptionSelected() {
-		new NewSoundDialogFragment(this,
-				ProjectManager.getInstance().getCurrentlyEditedScene(),
-				ProjectManager.getInstance().getCurrentSprite()) {
-
-			@Override
-			public void onCancel(DialogInterface dialog) {
-				super.onCancel(dialog);
-				spinner.setSelection(sound);
-			}
-		}.show(((Activity) view.getContext()).getFragmentManager(), NewSoundDialogFragment.TAG);
+        new NewSoundFromBrickSpinnerDialogFragment(this,
+                ProjectManager.getInstance().getCurrentlyEditedScene(),
+                ProjectManager.getInstance().getCurrentSprite())
+                .show(((Activity) view.getContext()).getFragmentManager(), NewSoundDialogFragment.TAG);
 	}
 
 	@Override
@@ -132,5 +127,24 @@ public class PlaySoundBrick extends BrickBaseType implements NewItemInterface<So
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createPlaySoundAction(sprite, sound));
 		return null;
+	}
+
+	public static class NewSoundFromBrickSpinnerDialogFragment extends NewSoundDialogFragment {
+
+		private PlaySoundBrick playSoundBrick;
+
+		public NewSoundFromBrickSpinnerDialogFragment() {
+		}
+
+		public NewSoundFromBrickSpinnerDialogFragment(PlaySoundBrick playSoundBrick, Scene dstScene, Sprite dstSprite) {
+			super(playSoundBrick, dstScene, dstSprite);
+			this.playSoundBrick = playSoundBrick;
+		}
+
+		@Override
+		public void onCancel(DialogInterface dialog) {
+			super.onCancel(dialog);
+			playSoundBrick.spinner.setSelection(playSoundBrick.sound);
+		}
 	}
 }

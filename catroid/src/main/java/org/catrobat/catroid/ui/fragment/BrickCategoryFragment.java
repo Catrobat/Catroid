@@ -22,9 +22,11 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
+import android.app.FragmentManager;
 import android.app.ListFragment;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -76,6 +78,11 @@ public class BrickCategoryFragment extends ListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		boolean isRestoringPreviouslyDestroyedActivity = savedInstanceState != null;
+		if (isRestoringPreviouslyDestroyedActivity) {
+			getFragmentManager().popBackStack(BRICK_CATEGORY_FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+			return;
+		}
 		setHasOptionsMenu(true);
 	}
 
@@ -125,10 +132,15 @@ public class BrickCategoryFragment extends ListFragment {
 
 	@Override
 	public void onDestroy() {
-		resetActionBar();
 		super.onDestroy();
-		BottomBar.showBottomBar(getActivity());
-		BottomBar.showPlayButton(getActivity());
+		ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+		boolean isRestoringPreviouslyDestroyedActivity = actionBar == null;
+		if (!isRestoringPreviouslyDestroyedActivity) {
+			actionBar.setDisplayShowTitleEnabled(true);
+			actionBar.setTitle(this.previousActionBarTitle);
+			BottomBar.showBottomBar(getActivity());
+			BottomBar.showPlayButton(getActivity());
+		}
 	}
 
 	@Override
@@ -144,11 +156,6 @@ public class BrickCategoryFragment extends ListFragment {
 		((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
 		previousActionBarTitle = ((AppCompatActivity) getActivity()).getSupportActionBar().getTitle();
 		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.categories);
-	}
-
-	private void resetActionBar() {
-		((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
-		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(this.previousActionBarTitle);
 	}
 
 	private void setupBrickCategories() {

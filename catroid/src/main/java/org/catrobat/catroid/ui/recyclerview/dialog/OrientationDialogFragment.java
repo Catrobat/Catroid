@@ -48,9 +48,21 @@ public class OrientationDialogFragment extends DialogFragment {
 	private boolean createEmptyProject;
 	private RadioGroup radioGroup;
 
+	public OrientationDialogFragment() {
+	}
+
 	public OrientationDialogFragment(String name, boolean createEmptyProject) {
 		this.name = name;
 		this.createEmptyProject = createEmptyProject;
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		boolean isRestoringPreviouslyDestroyedActivity = savedInstanceState != null;
+		if (isRestoringPreviouslyDestroyedActivity) {
+			dismiss();
+		}
 	}
 
 	@Override

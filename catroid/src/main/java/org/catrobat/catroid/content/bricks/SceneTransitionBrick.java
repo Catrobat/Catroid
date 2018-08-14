@@ -30,6 +30,7 @@ import android.view.View;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
@@ -98,14 +99,8 @@ public class SceneTransitionBrick extends BrickBaseType implements NewItemInterf
 
 	@Override
 	public void onNewOptionSelected() {
-		new NewSceneDialogFragment(this, ProjectManager.getInstance().getCurrentProject()) {
-
-			@Override
-			public void onCancel(DialogInterface dialog) {
-				super.onCancel(dialog);
-				spinner.setSelection(sceneForTransition);
-			}
-		}.show(((Activity) view.getContext()).getFragmentManager(), NewSceneDialogFragment.TAG);
+        new NewSceneFromBrickDialogFragment(this, ProjectManager.getInstance().getCurrentProject())
+                .show(((Activity) view.getContext()).getFragmentManager(), NewSceneDialogFragment.TAG);
 	}
 
 	@Override
@@ -128,5 +123,25 @@ public class SceneTransitionBrick extends BrickBaseType implements NewItemInterf
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSceneTransitionAction(sceneForTransition));
 		return null;
+	}
+
+	public static class NewSceneFromBrickDialogFragment extends NewSceneDialogFragment {
+
+		private SceneTransitionBrick sceneTransitionBrick;
+
+		public NewSceneFromBrickDialogFragment() {
+			super();
+		}
+
+		public NewSceneFromBrickDialogFragment(SceneTransitionBrick sceneTransitionBrick, Project dstProject) {
+			super(sceneTransitionBrick, dstProject);
+			this.sceneTransitionBrick = sceneTransitionBrick;
+		}
+
+		@Override
+		public void onCancel(DialogInterface dialog) {
+			super.onCancel(dialog);
+			sceneTransitionBrick.spinner.setSelection(sceneTransitionBrick.sceneForTransition);
+		}
 	}
 }

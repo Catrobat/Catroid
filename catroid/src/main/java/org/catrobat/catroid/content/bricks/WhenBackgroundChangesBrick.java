@@ -31,6 +31,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.Nameable;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenBackgroundChangesScript;
@@ -114,16 +115,10 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements ScriptB
 
 	@Override
 	public void onNewOptionSelected() {
-		new NewLookDialogFragment(this,
+		new NewLookFromBrickDialogFragment(this,
 				ProjectManager.getInstance().getCurrentlyEditedScene(),
-				ProjectManager.getInstance().getCurrentlyEditedScene().getBackgroundSprite()) {
-
-			@Override
-			public void onCancel(DialogInterface dialog) {
-				super.onCancel(dialog);
-				spinner.setSelection(getLook());
-			}
-		}.show(((Activity) view.getContext()).getFragmentManager(), NewLookDialogFragment.TAG);
+				ProjectManager.getInstance().getCurrentSprite())
+				.show(((Activity) view.getContext()).getFragmentManager(), NewLookDialogFragment.TAG);
 	}
 
 	@Override
@@ -146,5 +141,24 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements ScriptB
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSetLookAction(sprite, getLook()));
 		return null;
+	}
+
+	public static class NewLookFromBrickDialogFragment extends NewLookDialogFragment {
+
+		private WhenBackgroundChangesBrick whenBackgroundChangesBrick;
+
+		public NewLookFromBrickDialogFragment() {
+		}
+
+		public NewLookFromBrickDialogFragment(WhenBackgroundChangesBrick whenBackgroundChangesBrick, Scene dstScene, Sprite dstSprite) {
+			super(whenBackgroundChangesBrick, dstScene, dstSprite);
+			this.whenBackgroundChangesBrick = whenBackgroundChangesBrick;
+		}
+
+		@Override
+		public void onCancel(DialogInterface dialog) {
+			super.onCancel(dialog);
+			whenBackgroundChangesBrick.spinner.setSelection(whenBackgroundChangesBrick.getLook());
+		}
 	}
 }

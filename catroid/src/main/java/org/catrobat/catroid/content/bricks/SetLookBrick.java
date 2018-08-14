@@ -34,6 +34,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.EventWrapper;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
@@ -105,16 +106,10 @@ public class SetLookBrick extends BrickBaseType implements NewItemInterface<Look
 
 	@Override
 	public void onNewOptionSelected() {
-		new NewLookDialogFragment(this,
-				ProjectManager.getInstance().getCurrentlyEditedScene(),
-				getSprite()) {
-
-			@Override
-			public void onCancel(DialogInterface dialog) {
-				super.onCancel(dialog);
-				spinner.setSelection(look);
-			}
-		}.show(((Activity) view.getContext()).getFragmentManager(), NewLookDialogFragment.TAG);
+        new NewLookFromBrickDialogFragment(this,
+                ProjectManager.getInstance().getCurrentlyEditedScene(),
+                getSprite())
+                .show(((Activity) view.getContext()).getFragmentManager(), NewLookDialogFragment.TAG);
 	}
 
 	@Override
@@ -141,5 +136,24 @@ public class SetLookBrick extends BrickBaseType implements NewItemInterface<Look
 
 	protected Sprite getSprite() {
 		return ProjectManager.getInstance().getCurrentSprite();
+	}
+
+	public static class NewLookFromBrickDialogFragment extends NewLookDialogFragment {
+
+		private SetLookBrick setLookBrick;
+
+		public NewLookFromBrickDialogFragment() {
+		}
+
+		public NewLookFromBrickDialogFragment(SetLookBrick setLookBrick, Scene dstScene, Sprite dstSprite) {
+			super(setLookBrick, dstScene, dstSprite);
+			this.setLookBrick = setLookBrick;
+		}
+
+		@Override
+		public void onCancel(DialogInterface dialog) {
+			super.onCancel(dialog);
+			setLookBrick.spinner.setSelection(setLookBrick.look);
+		}
 	}
 }

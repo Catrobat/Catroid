@@ -47,10 +47,22 @@ public class SelectCastDialog extends DialogFragment {
 	private Activity activity;
 	private AlertDialog dialog;
 
+	public SelectCastDialog() {
+	}
+
 	public SelectCastDialog(ArrayAdapter<MediaRouter.RouteInfo> adapter, Activity activity) {
 		this.deviceAdapter = adapter;
 		this.activity = activity;
 		CastManager.getInstance().setCallback(MediaRouter.CALLBACK_FLAG_PERFORM_ACTIVE_SCAN);
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		boolean isRestoringPreviouslyDestroyedActivity = savedInstanceState != null;
+		if (isRestoringPreviouslyDestroyedActivity) {
+			dismiss();
+		}
 	}
 
 	public void openDialog() {
