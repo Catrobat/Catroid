@@ -29,17 +29,16 @@ import android.widget.EditText;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
-import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
+import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -54,6 +53,7 @@ import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
@@ -62,11 +62,10 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 
 @RunWith(AndroidJUnit4.class)
-public class BroadcastBricksTest {
+public class BroadcastSendBrickTest {
 	private String defaultMessage = "defaultMessage";
 
 	private int broadcastSendPosition = 1;
-	private int broadcastReceivePosition = 2;
 
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
@@ -74,16 +73,8 @@ public class BroadcastBricksTest {
 
 	@Before
 	public void setUp() throws Exception {
-		createProjectAndGetStartScriptWithImages("BroadcastBrickTest");
+		createProject("BroadcastBrickTest");
 		baseActivityTestRule.launchActivity();
-	}
-
-	@Category({Cat.AppUi.class, Level.Smoke.class})
-	@Test
-	public void testBroadcastBricksLayout() {
-		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
-		onBrickAtPosition(broadcastSendPosition).checkShowsText(R.string.brick_broadcast);
-		onBrickAtPosition(broadcastReceivePosition).checkShowsText(R.string.brick_broadcast_receive);
 	}
 
 	@Category({Cat.AppUi.class, Level.Functional.class, Cat.Quarantine.class})
@@ -91,56 +82,29 @@ public class BroadcastBricksTest {
 	@Flaky
 	public void testRemoveUnusedMessagesBroadcastSend() {
 		String uselessMessage = "useless";
-
 		createNewMessageOnSpinner(R.id.brick_broadcast_spinner, broadcastSendPosition, uselessMessage);
 
 		onBrickAtPosition(broadcastSendPosition).onSpinner(R.id.brick_broadcast_spinner)
-				.performSelectString(defaultMessage);
+				.perform(click());
+		onView(withText(defaultMessage))
+				.perform(click());
 
 		onView(withId(R.id.button_play))
 				.perform(click());
-		pressBack();
-		onView(withId(R.id.stage_dialog_button_back))
-				.perform(click());
-		onBrickAtPosition(broadcastSendPosition).onSpinner(R.id.brick_broadcast_spinner)
-				.perform(click());
-
-		onView(withText(uselessMessage)).check(doesNotExist());
-
-		pressBack();
-
-		onBrickAtPosition(broadcastSendPosition).onSpinner(R.id.brick_broadcast_spinner)
-				.checkShowsText(defaultMessage);
-	}
-
-	@Category({Cat.AppUi.class, Level.Functional.class, Cat.Quarantine.class})
-	@Test
-	@Flaky
-	public void testRemoveUnusedMessagesBroadcastReceive() {
-		String uselessMessage = "useless";
-		createNewMessageOnSpinner(R.id.brick_broadcast_spinner, broadcastReceivePosition, uselessMessage);
-
-		onBrickAtPosition(broadcastReceivePosition).onSpinner(R.id.brick_broadcast_spinner)
-				.performSelectString(defaultMessage);
-
-		onView(withId(R.id.button_play))
-				.perform(click());
+		onView(isRoot()).perform(CustomActions.wait(500));
 		pressBack();
 		onView(withId(R.id.stage_dialog_button_back))
 				.perform(click());
 
-		onBrickAtPosition(broadcastReceivePosition).onSpinner(R.id.brick_broadcast_spinner)
-				.perform(click());
-
-		onView(withText(uselessMessage)).check(doesNotExist());
-
-		pressBack();
-
-		onBrickAtPosition(broadcastReceivePosition).onSpinner(R.id.brick_broadcast_spinner)
+		onBrickAtPosition(broadcastSendPosition).onSpinner(R.id.brick_broadcast_spinner)
 				.checkShowsText(defaultMessage);
+
+		onBrickAtPosition(broadcastSendPosition).onSpinner(R.id.brick_broadcast_spinner)
+				.perform(click());
+		onView(withText(uselessMessage)).check(doesNotExist());
 	}
 
-	private Script createProjectAndGetStartScriptWithImages(String projectName) {
+	private void createProject(String projectName) {
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		Sprite sprite = new Sprite("testSprite");
 		Script script = new StartScript();
@@ -148,13 +112,11 @@ public class BroadcastBricksTest {
 		sprite.addScript(script);
 
 		script.addBrick(new BroadcastBrick(defaultMessage));
-		script.addBrick(new BroadcastReceiverBrick(new BroadcastScript(defaultMessage)));
 
 		project.getDefaultScene().addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
-		return script;
 	}
 
 	public void createNewMessageOnSpinner(int spinnerResourceId, int position, String message) {

@@ -39,6 +39,8 @@ import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.util.Map;
 
+import static org.catrobat.catroid.common.Constants.NXT;
+
 public class LegoSensorPortConfigDialog extends DialogFragment {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_lego_sensor_port_config";
@@ -88,6 +90,9 @@ public class LegoSensorPortConfigDialog extends DialogFragment {
 			.build();
 
 	public LegoSensorPortConfigDialog() {
+		listener = null;
+		sensorInfo = getSensorInfo(R.string.formula_editor_sensor_lego_nxt_touch, NXT);
+		legoType = NXT;
 	}
 
 	public LegoSensorPortConfigDialog(OnSetSensorListener listener, int clickedResItem, @LegoSensorType int type) {
@@ -95,7 +100,7 @@ public class LegoSensorPortConfigDialog extends DialogFragment {
 		sensorInfo = getSensorInfo(clickedResItem, type);
 		legoType = type;
 
-		if (type != Constants.NXT && type != Constants.EV3) {
+		if (type != NXT && type != Constants.EV3) {
 			throw new IllegalArgumentException("LegoSensorPortConfigDialog: Unknown LegoSensorType");
 		}
 	}
@@ -111,14 +116,14 @@ public class LegoSensorPortConfigDialog extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		final Enum[] sensorsByPort = legoType == Constants.NXT
+		final Enum[] sensorsByPort = legoType == NXT
 				? SettingsFragment.getLegoNXTSensorMapping(this.getActivity())
 				: SettingsFragment.getLegoEV3SensorMapping(this.getActivity());
 
 		String[] portNames = getResources().getStringArray(R.array.port_chooser);
 		String[] dialogItems = new String[portNames.length];
 		final String[] sensorNames = getResources()
-				.getStringArray(legoType == Constants.NXT ? R.array.nxt_sensor_chooser : R.array.ev3_sensor_chooser);
+				.getStringArray(legoType == NXT ? R.array.nxt_sensor_chooser : R.array.ev3_sensor_chooser);
 
 		for (int portNumber = 0; portNumber < portNames.length; portNumber++) {
 			int sensorNameIndex = sensorsByPort[portNumber].ordinal();
@@ -155,12 +160,12 @@ public class LegoSensorPortConfigDialog extends DialogFragment {
 
 	private SensorInfo getSensorInfo(int clickedItem, @LegoSensorType int type) {
 		SensorInfo info = sensorInfoMap.get(clickedItem);
-		Enum sensor = type == Constants.NXT ? NXTSensor.Sensor.NO_SENSOR : EV3Sensor.Sensor.NO_SENSOR;
+		Enum sensor = type == NXT ? NXTSensor.Sensor.NO_SENSOR : EV3Sensor.Sensor.NO_SENSOR;
 		return info != null ? info : new SensorInfo(R.string.nxt_sensor_not_found, sensor);
 	}
 
 	private void writeSensorPortConfig(int selectedPort, @LegoSensorType int legoType) {
-		if (legoType == Constants.NXT) {
+		if (legoType == NXT) {
 			SettingsFragment.setLegoMindstormsNXTSensorMapping(getActivity(), (NXTSensor.Sensor) sensorInfo.sensor,
 					SettingsFragment.NXT_SENSORS[selectedPort]);
 		} else if (legoType == Constants.EV3) {

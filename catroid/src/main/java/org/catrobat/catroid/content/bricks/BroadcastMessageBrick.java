@@ -87,20 +87,8 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements New
 
 	@Override
 	public void onNewOptionSelected() {
-		new NewBroadcastMessageDialogFragment(this) {
-
-			@Override
-			public void onDismiss(DialogInterface dialog) {
-				super.onDismiss(dialog);
-				spinner.setSelection(getBroadcastMessage());
-			}
-
-			@Override
-			public void onCancel(DialogInterface dialog) {
-				super.onCancel(dialog);
-				spinner.setSelection(getBroadcastMessage());
-			}
-		}.show(((Activity) view.getContext()).getFragmentManager(), NewBroadcastMessageDialogFragment.TAG);
+		new NewBroadCastMessageDialogFragmentForBrick(this, spinner, getBroadcastMessage())
+				.show(((Activity) view.getContext()).getFragmentManager(), NewBroadcastMessageDialogFragment.TAG);
 	}
 
 	@Override
@@ -120,5 +108,33 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements New
 
 	@Override
 	public void onItemSelected(@Nullable StringOption item) {
+	}
+
+	public static class NewBroadCastMessageDialogFragmentForBrick extends NewBroadcastMessageDialogFragment {
+		private BrickSpinner<StringOption> spinner;
+		private String broadcastMessage;
+
+		public NewBroadCastMessageDialogFragmentForBrick() {
+		}
+
+		public NewBroadCastMessageDialogFragmentForBrick(NewItemInterface<String> newItemInterface, BrickSpinner<StringOption> spinner, String broadcastMessage) {
+			super(newItemInterface);
+			this.spinner = spinner;
+			this.broadcastMessage = broadcastMessage;
+		}
+
+		@Override
+		public void onDismiss(DialogInterface dialog) {
+			super.onDismiss(dialog);
+			if (spinner != null) {
+				spinner.setSelection(broadcastMessage);
+			}
+		}
+
+		@Override
+		public void onCancel(DialogInterface dialog) {
+			super.onCancel(dialog);
+			spinner.setSelection(broadcastMessage);
+		}
 	}
 }

@@ -38,6 +38,7 @@ import org.catrobat.catroid.pocketmusic.PocketMusicActivity;
 import org.catrobat.catroid.pocketmusic.ui.TactScrollRecyclerView;
 import org.catrobat.catroid.pocketmusic.ui.TrackRowView;
 import org.catrobat.catroid.pocketmusic.ui.TrackView;
+import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.util.SystemAnimations;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
@@ -231,6 +232,7 @@ public class PocketMusicActivityTest {
 	}
 
 	@Test
+	@Flaky
 	public void playButtonDoesPlay() {
 		onView(withId(R.id.pocketmusic_play_button)).check(matches(isDisplayed()));
 

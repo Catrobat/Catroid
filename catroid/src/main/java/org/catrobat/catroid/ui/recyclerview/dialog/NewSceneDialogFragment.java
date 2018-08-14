@@ -45,6 +45,7 @@ public class NewSceneDialogFragment extends TextInputDialogFragment {
 	private Project dstProject;
 
 	public NewSceneDialogFragment() {
+		super(R.string.new_scene_dialog, R.string.scene_name, null, false);
 	}
 
 	public NewSceneDialogFragment(NewItemInterface<Scene> newItemInterface, Project dstProject) {
@@ -55,7 +56,9 @@ public class NewSceneDialogFragment extends TextInputDialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		super.text = getDefaultSceneName(getScope(dstProject));
+		if (dstProject != null) {
+			super.text = getDefaultSceneName(getScope(dstProject));
+		}
 		return super.onCreateDialog(savedInstanceState);
 	}
 
@@ -66,6 +69,10 @@ public class NewSceneDialogFragment extends TextInputDialogFragment {
 		if (name.isEmpty()) {
 			inputLayout.setError(getString(R.string.name_consists_of_spaces_only));
 			return false;
+		}
+
+		if (dstProject == null) {
+			return true;
 		}
 
 		if (getScope(dstProject).contains(name)) {
