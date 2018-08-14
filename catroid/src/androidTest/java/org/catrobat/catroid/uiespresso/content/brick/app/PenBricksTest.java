@@ -173,7 +173,7 @@ public class PenBricksTest {
 		sprite1.addScript(startScript);
 		startScript.addBrick(new PenDownBrick());
 		startScript.addBrick(new PenUpBrick());
-		startScript.addBrick(new SetPenSizeBrick());
+		startScript.addBrick(new SetPenSizeBrick(5));
 		startScript.addBrick(new SetPenColorBrick(255, 0, 0));
 		project.getDefaultScene().addSprite(sprite1);
 		ProjectManager.getInstance().setProject(project);

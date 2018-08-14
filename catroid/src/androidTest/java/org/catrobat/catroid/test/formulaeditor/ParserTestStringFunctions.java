@@ -23,7 +23,7 @@
 package org.catrobat.catroid.test.formulaeditor;
 
 import android.support.test.InstrumentationRegistry;
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -39,11 +39,16 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class ParserTestStringFunctions extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+
+@RunWith(AndroidJUnit4.class)
+public class ParserTestStringFunctions {
 
 	private Sprite testSprite;
 	private static final double USER_VARIABLE_1_VALUE_TYPE_DOUBLE = 888.88;
@@ -197,13 +202,8 @@ public class ParserTestStringFunctions extends AndroidTestCase {
 				lengthTokenList, secondInternTokenList);
 		FormulaElement parseTree = new InternFormulaParser(letterTokenList).parseFormula();
 
-		assertNotNull("Formula is not parsed correctly: " + Functions.LETTER.name() + "(" + Functions.LENGTH.name()
-				+ "(" + Functions.JOIN.name() + "(" + firstParameter + "," + secondParameter + ")" + ")" + ","
-				+ firstParameter + secondParameter + ")", parseTree);
-		assertEquals(
-				"Formula interpretation is not as expected: " + Functions.LETTER.name() + "(" + Functions.LENGTH.name()
-						+ "(" + Functions.JOIN.name() + "(" + firstParameter + "," + secondParameter + ")" + ")" + ","
-						+ firstParameter + secondParameter + ")", String.valueOf((firstParameter + secondParameter)
+		assertNotNull(parseTree);
+		assertEquals(String.valueOf((firstParameter + secondParameter)
 						.charAt((firstParameter + secondParameter).length() - 1)),
 				parseTree.interpretRecursive(testSprite));
 	}

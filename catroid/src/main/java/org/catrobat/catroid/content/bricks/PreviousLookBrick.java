@@ -41,34 +41,27 @@ public class PreviousLookBrick extends BrickBaseType {
 	}
 
 	@Override
+	public int getViewResource() {
+		return R.layout.brick_previous_look;
+	}
+
+	@Override
 	public View getPrototypeView(Context context) {
 		View view = super.getPrototypeView(context);
-
 		if (ProjectManager.getInstance().getCurrentSprite().getName().equals(context.getString(R.string.background))) {
-			TextView textField = (TextView) view.findViewById(R.id.brick_previous_look_text_view);
+			TextView textField = view.findViewById(R.id.brick_previous_look_text_view);
 			textField.setText(R.string.brick_previous_background);
 		}
 		return view;
 	}
 
 	@Override
-	public Brick clone() {
-		return new PreviousLookBrick();
-	}
-
-	@Override
-	public int getViewResource() {
-		return R.layout.brick_previous_look;
-	}
-
-	@Override
 	public View getView(Context context) {
 		super.getView(context);
 		if (ProjectManager.getInstance().getCurrentSprite().getName().equals(context.getString(R.string.background))) {
-			TextView textField = (TextView) view.findViewById(R.id.brick_previous_look_text_view);
+			TextView textField = view.findViewById(R.id.brick_previous_look_text_view);
 			textField.setText(R.string.brick_previous_background);
 		}
-
 		return view;
 	}
 

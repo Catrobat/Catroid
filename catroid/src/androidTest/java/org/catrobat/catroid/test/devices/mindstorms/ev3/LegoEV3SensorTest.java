@@ -46,8 +46,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
+
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.lessThanOrEqualTo;
+import static org.junit.Assert.assertThat;
 
 @RunWith(AndroidJUnit4.class)
 public class LegoEV3SensorTest {
@@ -94,7 +98,8 @@ public class LegoEV3SensorTest {
 
 		ev3TestModel.generateSensorValue(PORT_NR_0);
 		int sensorValue = (int) sensor.getValue();
-		assertFalse((sensorValue < 0 || sensorValue > 100));
+
+		assertThat(sensorValue, allOf(greaterThanOrEqualTo(0), lessThanOrEqualTo(100)));
 
 		final int expectedSensorValue = 12;
 		ev3TestModel.setSensorValue(PORT_NR_0, expectedSensorValue);
@@ -112,7 +117,8 @@ public class LegoEV3SensorTest {
 
 		ev3TestModel.generateSensorValue(PORT_NR_1);
 		int sensorValue = (int) sensor.getValue();
-		assertFalse((sensorValue < 0 || sensorValue > 7));
+
+		assertThat(sensorValue, allOf(greaterThanOrEqualTo(0), lessThanOrEqualTo(7)));
 
 		final int expectedSensorValue = 3;
 		ev3TestModel.setSensorValue(PORT_NR_1, expectedSensorValue);
@@ -130,7 +136,8 @@ public class LegoEV3SensorTest {
 
 		ev3TestModel.generateSensorValue(PORT_NR_2);
 		int sensorValue = (int) sensor.getValue();
-		assertFalse((sensorValue < 0 || sensorValue > 100));
+
+		assertThat(sensorValue, allOf(greaterThanOrEqualTo(0), lessThanOrEqualTo(100)));
 
 		final int expectedSensorValue = 33;
 		ev3TestModel.setSensorValue(PORT_NR_2, expectedSensorValue);
@@ -148,7 +155,8 @@ public class LegoEV3SensorTest {
 
 		ev3TestModel.generateSensorValue(PORT_NR_3);
 		int sensorValue = (int) sensor.getValue();
-		assertFalse((sensorValue < 0 || sensorValue > 100));
+
+		assertThat(sensorValue, allOf(greaterThanOrEqualTo(0), lessThanOrEqualTo(100)));
 
 		final int expectedSensorValue = 42;
 		ev3TestModel.setSensorValue(PORT_NR_3, expectedSensorValue);
@@ -166,7 +174,8 @@ public class LegoEV3SensorTest {
 
 		ev3TestModel.generateSensorValue(PORT_NR_3);
 		int sensorValue = (int) sensor.getValue();
-		assertFalse((sensorValue < 0 || sensorValue > 1));
+
+		assertThat(sensorValue, allOf(greaterThanOrEqualTo(0), lessThanOrEqualTo(1)));
 
 		final int expectedSensorValue = 1;
 		final int touchPercentValue = 82;
@@ -193,11 +202,11 @@ public class LegoEV3SensorTest {
 
 		ev3TestModel.generateSensorValue(PORT_NR_2);
 		float sensorValueC = tempSensC.getValue();
-		assertFalse((sensorValueC < -550 || sensorValueC > 1280));
+		assertThat(sensorValueC, allOf(greaterThanOrEqualTo(-550f), lessThanOrEqualTo(1280f)));
 
 		ev3TestModel.generateSensorValue(PORT_NR_3);
 		float sensorValueF = tempSensF.getValue();
-		assertFalse((sensorValueF < -670 || sensorValueF > 2624));
+		assertThat(sensorValueF, allOf(greaterThanOrEqualTo(-670f), lessThanOrEqualTo(2624f)));
 
 		final float expectedSensorValueC = 27.53f;
 		ev3TestModel.setSensorValue(PORT_NR_2, expectedSensorValueC);
@@ -219,7 +228,7 @@ public class LegoEV3SensorTest {
 
 		ev3TestModel.generateSensorValue(PORT_NR_1);
 		float sensorValue = sensor.getValue();
-		assertFalse((sensorValue < 0 || sensorValue > 17));
+		assertThat(sensorValue, allOf(greaterThanOrEqualTo(0f), lessThanOrEqualTo(17f)));
 
 		final float expectedSensorValue = 13;
 		ev3TestModel.setSensorValue(PORT_NR_1, expectedSensorValue);

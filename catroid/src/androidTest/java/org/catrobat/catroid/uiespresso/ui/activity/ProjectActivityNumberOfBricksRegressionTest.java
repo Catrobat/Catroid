@@ -28,6 +28,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -35,6 +36,7 @@ import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetXBrick;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
@@ -94,14 +96,14 @@ public class ProjectActivityNumberOfBricksRegressionTest {
 		Sprite firstSprite = new SingleSprite("firstSprite");
 
 		Script firstScript = new StartScript();
-		firstScript.addBrick(new SetXBrick());
-		firstScript.addBrick(new SetXBrick());
+		firstScript.addBrick(new SetXBrick(new Formula(BrickValues.X_POSITION)));
+		firstScript.addBrick(new SetXBrick(new Formula(BrickValues.X_POSITION)));
 		firstSprite.addScript(firstScript);
 
 		Script secondScript = new StartScript();
-		secondScript.addBrick(new SetXBrick());
-		secondScript.addBrick(new SetXBrick());
-		secondScript.addBrick(new SetXBrick());
+		secondScript.addBrick(new SetXBrick(new Formula(BrickValues.X_POSITION)));
+		secondScript.addBrick(new SetXBrick(new Formula(BrickValues.X_POSITION)));
+		secondScript.addBrick(new SetXBrick(new Formula(BrickValues.X_POSITION)));
 		firstSprite.addScript(secondScript);
 
 		LookData lookData = new LookData();

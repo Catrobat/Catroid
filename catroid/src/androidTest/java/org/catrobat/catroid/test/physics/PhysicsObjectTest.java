@@ -23,7 +23,6 @@
 package org.catrobat.catroid.test.physics;
 
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -41,13 +40,14 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.PhysicsWorldConverter;
-import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.Reflection.ParameterList;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
 import java.util.Locale;
@@ -57,7 +57,6 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotSame;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
@@ -66,11 +65,13 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(AndroidJUnit4.class)
 public class PhysicsObjectTest {
+
+	@Rule
+	public final ExpectedException exception = ExpectedException.none();
+
 	static {
 		GdxNativesLoader.load();
 	}
-
-	private static final String TAG = PhysicsObjectTest.class.getSimpleName();
 
 	private PhysicsWorld physicsWorld;
 
@@ -102,16 +103,12 @@ public class PhysicsObjectTest {
 
 	@Test
 	public void testNullBody() {
-		try {
-			new PhysicsObject(null, new SingleSprite("TestSprite"));
-			fail("Creating a physics object with no body doesn't cause a NullPointerException");
-		} catch (NullPointerException exception) {
-			Log.e(TAG, exception.toString());
-		}
+		exception.expect(NullPointerException.class);
+		new PhysicsObject(null, new SingleSprite("TestSprite"));
 	}
 
 	@Test
-	public void testDefaultProperties() {
+	public void testDefaultProperties() throws Exception {
 		PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld);
 
 		assertEquals(PhysicsObject.Type.NONE, PhysicsTestUtils.getType(physicsObject));
@@ -130,7 +127,7 @@ public class PhysicsObjectTest {
 	}
 
 	@Test
-	public void testSetShape() {
+	public void testSetShape() throws Exception {
 		PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld);
 		PolygonShape[] rectangle = new PolygonShape[] {PhysicsTestUtils.createRectanglePolygonShape(5.0f, 5.0f)};
 		physicsObject.setShape(rectangle);
@@ -139,7 +136,7 @@ public class PhysicsObjectTest {
 	}
 
 	@Test
-	public void testSetNewShape() {
+	public void testSetNewShape() throws Exception {
 		PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld);
 		Shape[] shape = new PolygonShape[] {PhysicsTestUtils.createRectanglePolygonShape(5.0f, 5.0f)};
 		physicsObject.setShape(shape);
@@ -153,7 +150,7 @@ public class PhysicsObjectTest {
 	}
 
 	@Test
-	public void testSetSameShape() {
+	public void testSetSameShape() throws Exception {
 		PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld);
 		Body body = PhysicsTestUtils.getBody(physicsObject);
 
@@ -169,7 +166,7 @@ public class PhysicsObjectTest {
 	}
 
 	@Test
-	public void testSetNullShapeRemovesAllFixtures() {
+	public void testSetNullShapeRemovesAllFixtures() throws Exception {
 		PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld);
 		Body body = PhysicsTestUtils.getBody(physicsObject);
 
@@ -182,7 +179,7 @@ public class PhysicsObjectTest {
 	}
 
 	@Test
-	public void testSetShapeUpdatesDensityButNotMass() {
+	public void testSetShapeUpdatesDensityButNotMass() throws Exception {
 		PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld);
 		physicsObject.setShape(new Shape[] {PhysicsTestUtils.createRectanglePolygonShape(5.0f, 5.0f)});
 		Body body = PhysicsTestUtils.getBody(physicsObject);
@@ -197,7 +194,7 @@ public class PhysicsObjectTest {
 	}
 
 	@Test
-	public void testSetType() {
+	public void testSetType() throws Exception {
 		PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld);
 		Body body = PhysicsTestUtils.getBody(physicsObject);
 
@@ -215,7 +212,7 @@ public class PhysicsObjectTest {
 	}
 
 	@Test
-	public void testSetCollisionBits() {
+	public void testSetCollisionBits() throws Exception {
 		PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, PhysicsObject.Type.NONE,
 				10.0f, 5.0f);
 		checkCollisionMask(physicsObject, PhysicsWorld.CATEGORY_PHYSICSOBJECT, PhysicsWorld.MASK_NO_COLLISION);
@@ -231,7 +228,7 @@ public class PhysicsObjectTest {
 	}
 
 	@Test
-	public void testSetTypeToDynamicUpdatesMass() {
+	public void testSetTypeToDynamicUpdatesMass() throws Exception {
 		PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, PhysicsObject.Type.NONE);
 		Body body = PhysicsTestUtils.getBody(physicsObject);
 
@@ -248,7 +245,7 @@ public class PhysicsObjectTest {
 	}
 
 	@Test
-	public void testAngle() {
+	public void testAngle() throws Exception {
 		for (PhysicsObject.Type type : PhysicsObject.Type.values()) {
 			PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, type);
 			assertEquals(0.0f, PhysicsTestUtils.getBody(physicsObject).getAngle());
@@ -262,7 +259,7 @@ public class PhysicsObjectTest {
 	}
 
 	@Test
-	public void testPosition() {
+	public void testPosition() throws Exception {
 		for (PhysicsObject.Type type : PhysicsObject.Type.values()) {
 			PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, type);
 			assertEquals(new Vector2(), PhysicsTestUtils.getBody(physicsObject).getPosition());
@@ -289,7 +286,7 @@ public class PhysicsObjectTest {
 	}
 
 	@Test
-	public void testAngleAndPosition() {
+	public void testAngleAndPosition() throws Exception {
 		for (PhysicsObject.Type type : PhysicsObject.Type.values()) {
 			PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, type);
 			assertEquals(0.0f, PhysicsTestUtils.getBody(physicsObject).getAngle());
@@ -312,7 +309,7 @@ public class PhysicsObjectTest {
 	}
 
 	@Test
-	public void testSetDensity() {
+	public void testSetDensity() throws Exception {
 		for (PhysicsObject.Type type : PhysicsObject.Type.values()) {
 			PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, type);
 			physicsObject.setShape(new Shape[] {new PolygonShape(), new PolygonShape()});
@@ -343,7 +340,7 @@ public class PhysicsObjectTest {
 	}
 
 	@Test
-	public void testSetDensityUpdatesMassData() {
+	public void testSetDensityUpdatesMassData() throws Exception {
 		PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, PhysicsObject.Type.DYNAMIC,
 				5.0f, 5.0f);
 		Body body = PhysicsTestUtils.getBody(physicsObject);
@@ -360,7 +357,7 @@ public class PhysicsObjectTest {
 	}
 
 	@Test
-	public void testSetDensityAtMassChange() {
+	public void testSetDensityAtMassChange() throws Exception {
 		PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, PhysicsObject.Type.DYNAMIC);
 		Body body = PhysicsTestUtils.getBody(physicsObject);
 
@@ -377,7 +374,7 @@ public class PhysicsObjectTest {
 	}
 
 	@Test
-	public void testSetFriction() {
+	public void testSetFriction() throws Exception {
 		for (PhysicsObject.Type type : PhysicsObject.Type.values()) {
 			PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, type);
 			physicsObject.setShape(new Shape[] {new PolygonShape(), new PolygonShape()});
@@ -405,7 +402,7 @@ public class PhysicsObjectTest {
 	}
 
 	@Test
-	public void testSetBounceFactor() {
+	public void testSetBounceFactor() throws Exception {
 		for (PhysicsObject.Type type : PhysicsObject.Type.values()) {
 			PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, type);
 			physicsObject.setShape(new Shape[] {new PolygonShape(), new PolygonShape()});
@@ -433,7 +430,7 @@ public class PhysicsObjectTest {
 	}
 
 	@Test
-	public void testMass() {
+	public void testMass() throws Exception {
 		for (PhysicsObject.Type type : PhysicsObject.Type.values()) {
 			PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, type, 5.0f, 5.0f);
 			Body body = PhysicsTestUtils.getBody(physicsObject);
@@ -470,7 +467,7 @@ public class PhysicsObjectTest {
 	}
 
 	@Test
-	public void testMassWithNoShapeArea() {
+	public void testMassWithNoShapeArea() throws Exception {
 		PhysicsObject[] physicsObjects = {
 				PhysicsTestUtils.createPhysicsObject(physicsWorld, PhysicsObject.Type.DYNAMIC),
 				PhysicsTestUtils.createPhysicsObject(physicsWorld, PhysicsObject.Type.DYNAMIC, 0.0f, 0.0f)};
@@ -489,7 +486,7 @@ public class PhysicsObjectTest {
 	}
 
 	@Test
-	public void testSetRotationSpeed() {
+	public void testSetRotationSpeed() throws Exception {
 		PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, PhysicsObject.Type.DYNAMIC);
 		Body body = PhysicsTestUtils.getBody(physicsObject);
 
@@ -501,7 +498,7 @@ public class PhysicsObjectTest {
 	}
 
 	@Test
-	public void testSetVelocity() {
+	public void testSetVelocity() throws Exception {
 		PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, PhysicsObject.Type.DYNAMIC);
 		Body body = PhysicsTestUtils.getBody(physicsObject);
 
@@ -514,7 +511,7 @@ public class PhysicsObjectTest {
 	}
 
 	@Test
-	public void testIfOnEndgeBounce() {
+	public void testIfOnEndgeBounce() throws Exception {
 		PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, PhysicsObject.Type.DYNAMIC,
 				1.0f, 1.0f);
 		Sprite sprite = new SingleSprite("TestSprite");
@@ -531,7 +528,7 @@ public class PhysicsObjectTest {
 	/*
 	 * Helper
 	 */
-	private void checkCollisionMask(PhysicsObject physicsObject, short categoryBits, short maskBits) {
+	private void checkCollisionMask(PhysicsObject physicsObject, short categoryBits, short maskBits) throws Exception {
 		FixtureDef fixtureDef = PhysicsTestUtils.getFixtureDef(physicsObject);
 		assertEquals(categoryBits, fixtureDef.filter.categoryBits);
 		assertEquals(maskBits, fixtureDef.filter.maskBits);

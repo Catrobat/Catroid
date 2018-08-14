@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.formulaeditor;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
@@ -35,11 +35,16 @@ import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class ParserTestOperators extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+
+@RunWith(AndroidJUnit4.class)
+public class ParserTestOperators {
 
 	private Sprite testSprite;
 	private static final Double TRUE = 1d;

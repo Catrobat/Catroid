@@ -32,14 +32,18 @@ import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.utils.TouchUtil;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.fail;
 
 @RunWith(AndroidJUnit4.class)
 public class GoToTouchPositionActionTest {
+
+	@Rule
+	public final ExpectedException exception = ExpectedException.none();
 
 	private static final float EXPECTED_X_POSITION = 20f;
 	private static final float EXPECTED_Y_POSITION = 25f;
@@ -74,10 +78,7 @@ public class GoToTouchPositionActionTest {
 	public void testNullActor() {
 		ActionFactory factory = new ActionFactory();
 		Action action = factory.createGoToAction(null, dummySprite, BrickValues.GO_TO_TOUCH_POSITION);
-		try {
-			action.act(1.0f);
-			fail("Execution of GoToBrick with null Sprite did not cause a " + "NullPointerException to be thrown");
-		} catch (NullPointerException expected) {
-		}
+		exception.expect(NullPointerException.class);
+		action.act(1.0f);
 	}
 }

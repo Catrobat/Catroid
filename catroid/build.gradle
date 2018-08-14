@@ -50,6 +50,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'io.fabric'
 apply plugin: 'checkstyle'
+apply plugin: 'jacoco-android'
 apply plugin: 'pmd'
 
 apply from: 'gradle/code_quality_tasks.gradle'
@@ -72,6 +73,16 @@ if (project.hasProperty('independent')) {
 ant.copy(file: 'google-services-template.json', tofile: 'google-services.json', overwrite: true)
 ant.replace(file: 'google-services.json', token: '@appId@', value: appId)
 
+jacoco {
+    toolVersion = "0.8.1"
+}
+
+jacocoAndroidUnitTestReport {
+    csv.enabled false
+    html.enabled true
+    xml.enabled true
+}
+
 android {
     dexOptions {
         javaMaxHeapSize "4g"
@@ -81,6 +92,7 @@ android {
         exclude 'META-INF/maven/com.google.guava/guava/pom.xml'
         exclude 'META-INF/INDEX.LIST'  //compile problem with parrot arsdk
         exclude 'lib/arm64-v8a/*' // exclude all arm64-v8a libs as we don't have all libs for that architecture
+        exclude 'lib/mips/*'      // Mips devices are deprecated
     }
 
     buildTypes {
@@ -103,6 +115,7 @@ android {
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
             resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
             ext.enableCrashlytics = false
+            testCoverageEnabled = true
         }
         release {
             buildConfigField "boolean", "FEATURE_EMBROIDERY_ENABLED", "false"
@@ -178,88 +191,88 @@ ext {
 }
 
 configurations {
-    compile.exclude group: 'org.apache.sanselan' //compile problem with parrot arsdk
-    compile.exclude group: 'xpp3' //compile problem with xstream
+    implementation.exclude group: 'org.apache.sanselan' //compile problem with parrot arsdk
+    implementation.exclude group: 'xpp3' //compile problem with xstream
     natives
 }
 
 dependencies {
-    compile 'com.parrot:arsdk:3.12.6'
+    implementation 'com.parrot:arsdk:3.12.6'
     //CAST
-    compile 'com.google.android.gms:play-services-cast:12.0.0'
+    implementation 'com.google.android.gms:play-services-cast:12.0.0'
 
     //Analytics
-    compile 'com.google.android.gms:play-services-analytics:12.0.0'
+    implementation 'com.google.android.gms:play-services-analytics:12.0.0'
 
-    compile 'com.google.guava:guava:19.0'
-    compile 'com.squareup.okhttp:okhttp:2.3.0'
-    compile 'com.google.code.gson:gson:2.8.0'
-    compile 'com.github.johnpersano:supertoasts:2.0@aar'
-    compile 'com.github.mrengineer13:snackbar:1.2.0'
+    implementation 'com.google.guava:guava:19.0'
+    implementation 'com.squareup.okhttp:okhttp:2.3.0'
+    implementation 'com.google.code.gson:gson:2.8.0'
+    implementation 'com.github.johnpersano:supertoasts:2.0@aar'
+    implementation 'com.github.mrengineer13:snackbar:1.2.0'
 
-    compile 'com.koushikdutta.async:androidasync:2.+'
-    compile 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.koushikdutta.async:androidasync:2.+'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
 
-    compile ('com.thoughtworks.xstream:xstream:1.4.7') {
+    implementation ('com.thoughtworks.xstream:xstream:1.4.7') {
         exclude group: 'xmlpull'
     }
-    compile 'com.github.oliewa92:MidiDroid:v1.1'
+    implementation 'com.github.oliewa92:MidiDroid:v1.1'
 
     def gdxVersion = '1.6.2'
-    compile 'com.badlogicgames.gdx:gdx:' + gdxVersion
-    compile 'com.badlogicgames.gdx:gdx-backend-android:' + gdxVersion
+    implementation 'com.badlogicgames.gdx:gdx:' + gdxVersion
+    implementation 'com.badlogicgames.gdx:gdx-backend-android:' + gdxVersion
     natives 'com.badlogicgames.gdx:gdx-platform:' + gdxVersion + ':natives-x86'
     natives 'com.badlogicgames.gdx:gdx-platform:' + gdxVersion + ':natives-armeabi'
     natives 'com.badlogicgames.gdx:gdx-platform:' + gdxVersion + ':natives-armeabi-v7a'
-    compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+    implementation "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
     natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi"
     natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi-v7a"
     natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
 
-    compile 'com.facebook.android:facebook-android-sdk:4.14.1'
-    compile 'com.android.support:appcompat-v7:27.1.0'
-    compile 'com.android.support:design:27.1.0'
-    compile 'com.google.android.gms:play-services-auth:12.0.0'
-    compile 'com.android.support:multidex:1.0.3'
-    compile 'com.github.billthefarmer:mididriver:v1.13'
+    implementation 'com.facebook.android:facebook-android-sdk:4.14.1'
+    implementation 'com.android.support:appcompat-v7:27.1.0'
+    implementation 'com.android.support:design:27.1.0'
+    implementation 'com.google.android.gms:play-services-auth:12.0.0'
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.github.billthefarmer:mididriver:v1.13'
 
-    compile group: 'ar.com.hjg', name: 'pngj', version: '2.1.0'
-    compile fileTree(include: '*.jar', dir: 'src/main/libs')
-    compile fileTree(include: '*.jar', dir: 'src/main/libs-natives')
-    androidTestCompile fileTree(include: '*.jar', dir: 'src/androidTest/libs')
-    androidTestCompile 'com.linkedin.dexmaker:dexmaker-mockito:2.2.0'
-    androidTestCompile 'org.mockito:mockito-core:2.8.47'
+    implementation group: 'ar.com.hjg', name: 'pngj', version: '2.1.0'
+    implementation fileTree(include: '*.jar', dir: 'src/main/libs')
+    implementation fileTree(include: '*.jar', dir: 'src/main/libs-natives')
+    androidTestImplementation fileTree(include: '*.jar', dir: 'src/androidTest/libs')
+    androidTestImplementation 'com.linkedin.dexmaker:dexmaker-mockito:2.2.0'
+    androidTestImplementation 'org.mockito:mockito-core:2.8.47'
 
-    androidTestCompile ('com.android.support.test:runner:1.0.1') {
+    androidTestImplementation ('com.android.support.test:runner:1.0.1') {
         exclude group: 'com.android.support'
     }
-    androidTestCompile ('com.android.support.test.espresso:espresso-core:3.0.1') {
+    androidTestImplementation ('com.android.support.test.espresso:espresso-core:3.0.1') {
         exclude group: 'com.android.support'
     }
-    androidTestCompile ('com.android.support.test.espresso:espresso-contrib:3.0.1') {
+    androidTestImplementation ('com.android.support.test.espresso:espresso-contrib:3.0.1') {
         exclude group: 'com.android.support'
     }
     androidTestCompile ('com.android.support.test.espresso:espresso-intents:3.0.1') {
         exclude group: 'com.android.support'
     }
 
-    compile ('com.android.support.test.espresso:espresso-core:3.0.1') {
+    implementation ('com.android.support.test.espresso:espresso-core:3.0.1') {
         exclude group: 'com.android.support'
     }
 
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:2.8.47'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:2.8.47'
 
-    pmd(
+    pmd (
             'net.sourceforge.pmd:pmd-core:5.8.1',
             'net.sourceforge.pmd:pmd-java:5.8.1'
     )
 
     checkstyle 'com.puppycrawl.tools:checkstyle:7.6'
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
+    implementation ('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
         transitive = true
     }
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 def getCurrentGitBranch() {
@@ -326,9 +339,9 @@ project.gradle.taskGraph.whenReady {
 }
 
 task copyAndroidNatives() {
-    file("src/main/jniLibs/armeabi/").mkdirs();
-    file("src/main/jniLibs/armeabi-v7a/").mkdirs();
-    file("src/main/jniLibs/x86/").mkdirs();
+    file("src/main/jniLibs/armeabi/").mkdirs()
+    file("src/main/jniLibs/armeabi-v7a/").mkdirs()
+    file("src/main/jniLibs/x86/").mkdirs()
     configurations.natives.files.each { jar ->
         def outputDir = null
         if (jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("src/main/jniLibs/armeabi-v7a")

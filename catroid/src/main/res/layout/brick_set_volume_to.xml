@@ -23,11 +23,11 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:gravity="center_vertical"
-              android:orientation="horizontal" >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
 
     <CheckBox
         android:id="@+id/brick_checkbox"
@@ -43,29 +43,27 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
-        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
+        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing">
 
-        <include layout="@layout/icon_brick_category_sound"/>
+        <include layout="@layout/icon_brick_category_sound" />
 
         <TextView
-            android:id="@+id/brick_set_volume_to_text_view"
             style="@style/BrickText.SingleLine"
-            android:text="@string/brick_set_volume_to" >
-        </TextView >
+            android:text="@string/brick_set_volume_to">
+        </TextView>
 
         <TextView
             android:id="@+id/brick_set_volume_to_edit_text"
             style="@style/BrickEditText"
+            android:ems="5"
             app:layout_inputType="number"
-            app:layout_textField="true"
-            android:ems="5" >
-        </TextView >
+            app:layout_textField="true">
+        </TextView>
 
         <TextView
-            android:id="@+id/brick_set_volume_to_percent"
             style="@style/BrickText.SingleLine"
-            android:text="@string/percent_symbol" >
-        </TextView >
-    </org.catrobat.catroid.ui.BrickLayout >
+            android:text="@string/percent_symbol">
+        </TextView>
+    </org.catrobat.catroid.ui.BrickLayout>
 
 </LinearLayout>

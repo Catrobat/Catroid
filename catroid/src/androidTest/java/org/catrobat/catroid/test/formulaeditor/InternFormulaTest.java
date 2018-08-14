@@ -41,7 +41,6 @@ import org.catrobat.catroid.test.utils.Reflection;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -361,7 +360,7 @@ public class InternFormulaTest {
 	}
 
 	@Test
-	public void testReplaceSelection() {
+	public void testReplaceSelection() throws Exception {
 		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
 		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
 
@@ -401,7 +400,7 @@ public class InternFormulaTest {
 	}
 
 	@Test
-	public void testDeleteInternTokenByIndex() {
+	public void testDeleteInternTokenByIndex() throws Exception {
 		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
 		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
 		internTokens.add(new InternToken(InternTokenType.OPERATOR, Operators.PLUS.name()));
@@ -477,8 +476,7 @@ public class InternFormulaTest {
 	}
 
 	@Test
-	public void testSetExternCursorPositionLeftTo() throws NoSuchMethodException, IllegalArgumentException,
-			IllegalAccessException, InvocationTargetException {
+	public void testSetExternCursorPositionLeftTo() throws Exception {
 
 		Method setExternCursorPositionLeftTo = InternFormula.class.getDeclaredMethod("setExternCursorPositionLeftTo",
 				int.class);
@@ -504,8 +502,7 @@ public class InternFormulaTest {
 	}
 
 	@Test
-	public void testSetExternCursorPositionRightTo() throws NoSuchMethodException, IllegalArgumentException,
-			IllegalAccessException, InvocationTargetException {
+	public void testSetExternCursorPositionRightTo() throws Exception {
 
 		Method setExternCursorPositionRightTo = InternFormula.class.getDeclaredMethod("setExternCursorPositionRightTo",
 				int.class);
@@ -545,8 +542,7 @@ public class InternFormulaTest {
 	}
 
 	@Test
-	public void testSelectCursorPositionInternTokenOnError() throws IllegalArgumentException, IllegalAccessException,
-			InvocationTargetException, NoSuchMethodException {
+	public void testSelectCursorPositionInternTokenOnError() throws Exception {
 
 		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
 		internTokens.add(new InternToken(InternTokenType.BRACKET_OPEN));
@@ -567,8 +563,7 @@ public class InternFormulaTest {
 	}
 
 	@Test
-	public void testSelectCursorPositionInternToken() throws IllegalArgumentException, IllegalAccessException,
-			InvocationTargetException, NoSuchMethodException {
+	public void testSelectCursorPositionInternToken() throws Exception {
 
 		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
 		internTokens.add(new InternToken(InternTokenType.BRACKET_OPEN));
@@ -633,8 +628,7 @@ public class InternFormulaTest {
 	}
 
 	@Test
-	public void testreplaceCursorPositionInternTokenByTokenList() throws NoSuchMethodException,
-			IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+	public void testreplaceCursorPositionInternTokenByTokenList() throws Exception {
 
 		Method method = InternFormula.class
 				.getDeclaredMethod("replaceCursorPositionInternTokenByTokenList", List.class);

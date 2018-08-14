@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import java.util.List;
 
 public class LegoEv3SetLedBrick extends BrickBaseType implements OnItemSelectedListener {
+
 	private static final long serialVersionUID = 1L;
 	private transient LedStatus ledStatusEnum;
 	private String ledStatus;
@@ -59,15 +60,15 @@ public class LegoEv3SetLedBrick extends BrickBaseType implements OnItemSelectedL
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return BLUETOOTH_LEGO_EV3;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(BLUETOOTH_LEGO_EV3);
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = super.getPrototypeView(context);
 
-		Spinner ledStatusSpinner = (Spinner) prototypeView.findViewById(R.id.brick_ev3_set_led_spinner);
+		Spinner ledStatusSpinner = prototypeView.findViewById(R.id.brick_ev3_set_led_spinner);
 		ledStatusSpinner.setFocusableInTouchMode(false);
 		ledStatusSpinner.setFocusable(false);
 
@@ -92,7 +93,7 @@ public class LegoEv3SetLedBrick extends BrickBaseType implements OnItemSelectedL
 				R.array.ev3_led_status_chooser, android.R.layout.simple_spinner_item);
 		ledStatusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-		Spinner ledStatusSpinner = (Spinner) view.findViewById(R.id.brick_ev3_set_led_spinner);
+		Spinner ledStatusSpinner = view.findViewById(R.id.brick_ev3_set_led_spinner);
 		ledStatusSpinner.setOnItemSelectedListener(this);
 
 		if (!(checkbox.getVisibility() == View.VISIBLE)) {

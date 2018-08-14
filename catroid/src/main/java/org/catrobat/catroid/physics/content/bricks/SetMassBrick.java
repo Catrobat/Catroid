@@ -22,17 +22,12 @@
  */
 package org.catrobat.catroid.physics.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.TextView;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
@@ -41,25 +36,22 @@ public class SetMassBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public SetMassBrick() {
-		addAllowedBrickField(BrickField.PHYSICS_MASS);
+		this(new Formula(BrickValues.PHYSIC_MASS));
 	}
 
-	public SetMassBrick(float mass) {
-		initializeBrickFields(new Formula(mass));
+	public SetMassBrick(double mass) {
+		this(new Formula(mass));
 	}
 
-	public SetMassBrick(Formula mass) {
-		initializeBrickFields(mass);
-	}
-
-	private void initializeBrickFields(Formula mass) {
-		addAllowedBrickField(BrickField.PHYSICS_MASS);
-		setFormulaWithBrickField(BrickField.PHYSICS_MASS, mass);
+	public SetMassBrick(Formula formula) {
+		addAllowedBrickField(BrickField.PHYSICS_MASS, R.id.brick_set_mass_edit_text);
+		setFormulaWithBrickField(BrickField.PHYSICS_MASS, formula);
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return PHYSICS;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(PHYSICS);
+		super.addRequiredResources(requiredResourcesSet);
 	}
 
 	@Override
@@ -68,39 +60,9 @@ public class SetMassBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context) {
-		super.getView(context);
-
-		TextView edit = (TextView) view.findViewById(R.id.brick_set_mass_edit_text);
-
-		getFormulaWithBrickField(BrickField.PHYSICS_MASS).setTextFieldId(R.id.brick_set_mass_edit_text);
-		getFormulaWithBrickField(BrickField.PHYSICS_MASS).refreshTextField(view);
-
-		edit.setOnClickListener(this);
-
-		return view;
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-		TextView textMass = (TextView) prototypeView.findViewById(R.id.brick_set_mass_edit_text);
-		textMass.setText(formatNumberForPrototypeView(BrickValues.PHYSIC_MASS));
-		return prototypeView;
-	}
-
-	@Override
-	public void showFormulaEditorToEditFormula(View view) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
-		FormulaEditorFragment.showFragment(view, this, BrickField.PHYSICS_MASS);
-	}
-
-	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createSetMassAction(sprite,
-				getFormulaWithBrickField(BrickField.PHYSICS_MASS)));
+		sequence.addAction(sprite.getActionFactory()
+				.createSetMassAction(sprite, getFormulaWithBrickField(BrickField.PHYSICS_MASS)));
 		return null;
 	}
 }

@@ -26,14 +26,18 @@ package org.catrobat.catroid.test.utiltests;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.utils.StringFinder;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.fail;
 
 @RunWith(AndroidJUnit4.class)
 public class StringFinderTest {
+
+	@Rule
+	public final ExpectedException exception = ExpectedException.none();
 
 	private String singleLine = "Catrobat HQ. You will never find a more wretched hive of scum and villainy.";
 	private String multiLine = "I must not fear.\n"
@@ -97,13 +101,9 @@ public class StringFinderTest {
 
 	@Test
 	public void testGetResultWithoutFind() {
-		try {
-			new StringFinder().getResult();
-			fail("Expected an IllegalStateException");
-		} catch (IllegalStateException expectedException) {
-			assertEquals("You must call findBetween(String string, String start, String end) "
-					+ "first.", expectedException.getMessage());
-		}
+		exception.expect(IllegalStateException.class);
+		exception.expectMessage("You must call findBetween(String string, String start, String end) first.");
+		new StringFinder().getResult();
 	}
 
 	@Test
@@ -114,12 +114,9 @@ public class StringFinderTest {
 		StringFinder stringFinder = new StringFinder();
 		stringFinder.findBetween(singleLine, start, end);
 		stringFinder.getResult();
-		try {
-			stringFinder.getResult();
-			fail("Expected an IllegalStateException");
-		} catch (IllegalStateException expectedException) {
-			assertEquals("You must call findBetween(String string, String start, String end) "
-					+ "first.", expectedException.getMessage());
-		}
+
+		exception.expect(IllegalStateException.class);
+		exception.expectMessage("You must call findBetween(String string, String start, String end) first.");
+		stringFinder.getResult();
 	}
 }

@@ -65,7 +65,7 @@ public class PhysicsObjectStateTest {
 	}
 
 	@Test
-	public void testVisibility() {
+	public void testVisibility() throws Exception {
 		allConditionsInactiveCheck();
 		transparency(100);
 		hangupNonCollidingActiveCheck();
@@ -98,7 +98,7 @@ public class PhysicsObjectStateTest {
 	}
 
 	@Test
-	public void testPos() {
+	public void testPos() throws Exception {
 		allConditionsInactiveCheck();
 		setX(10 + PhysicsWorld.activeArea.x);
 		hangupNonCollidingActiveCheck();
@@ -119,7 +119,7 @@ public class PhysicsObjectStateTest {
 	}
 
 	@Test
-	public void testGlideTo() {
+	public void testGlideTo() throws Exception {
 		allConditionsInactiveCheck();
 		Action action = glideTo(new Formula(100), new Formula(100));
 		hangupFixedActiveCheck();
@@ -128,7 +128,7 @@ public class PhysicsObjectStateTest {
 	}
 
 	@Test
-	public void testPositionAndGlideTo() {
+	public void testPositionAndGlideTo() throws Exception {
 		allConditionsInactiveCheck();
 		Action action = glideTo(new Formula(10 + PhysicsWorld.activeArea.x), new Formula(100));
 		hangupFixedActiveCheck();
@@ -139,7 +139,7 @@ public class PhysicsObjectStateTest {
 	}
 
 	@Test
-	public void testVisibleAndPositionAndGlideTo() {
+	public void testVisibleAndPositionAndGlideTo() throws Exception {
 		allConditionsInactiveCheck();
 		Action action = glideTo(new Formula(10 + PhysicsWorld.activeArea.x), new Formula(100));
 		hangupFixedActiveCheck();
@@ -171,7 +171,7 @@ public class PhysicsObjectStateTest {
 
 	// HELPER ----------------------------------------------------------------------------------------------------------
 
-	private void allConditionsInactiveCheck() {
+	private void allConditionsInactiveCheck() throws Exception {
 		((PhysicsLook) sprite.look).updatePhysicsObjectState(true);
 		boolean hangedUp = (Boolean) Reflection.getPrivateField(physicsObjectStateHandler, "hangedUp");
 		assertFalse(hangedUp);
@@ -183,7 +183,7 @@ public class PhysicsObjectStateTest {
 		assertFalse(fixed);
 	}
 
-	private void hangupNonCollidingActiveCheck() {
+	private void hangupNonCollidingActiveCheck() throws Exception {
 		((PhysicsLook) sprite.look).updatePhysicsObjectState(true);
 		boolean hangedUp = (Boolean) Reflection.getPrivateField(physicsObjectStateHandler, "hangedUp");
 		assertTrue(hangedUp);
@@ -195,7 +195,7 @@ public class PhysicsObjectStateTest {
 		assertFalse(fixed);
 	}
 
-	private void hangupFixedActiveCheck() {
+	private void hangupFixedActiveCheck() throws Exception {
 		((PhysicsLook) sprite.look).updatePhysicsObjectState(true);
 		boolean hangedUp = (Boolean) Reflection.getPrivateField(physicsObjectStateHandler, "hangedUp");
 		assertTrue(hangedUp);
@@ -207,7 +207,7 @@ public class PhysicsObjectStateTest {
 		assertTrue(fixed);
 	}
 
-	private void hangupFixedNonCollidingActiveCheck() {
+	private void hangupFixedNonCollidingActiveCheck() throws Exception {
 		((PhysicsLook) sprite.look).updatePhysicsObjectState(true);
 		boolean hangedUp = (Boolean) Reflection.getPrivateField(physicsObjectStateHandler, "hangedUp");
 		assertTrue(hangedUp);

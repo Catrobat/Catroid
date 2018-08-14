@@ -22,43 +22,29 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.TextView;
-
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
 public class SpeakBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
-	private transient View prototypeView;
 
 	public SpeakBrick() {
-		addAllowedBrickField(BrickField.SPEAK);
+		this(new Formula(BrickValues.STRING_VALUE));
 	}
 
-	public SpeakBrick(String speak) {
-		initializeBrickFields(new Formula(speak));
+	public SpeakBrick(String text) {
+		this(new Formula(text));
 	}
 
-	public SpeakBrick(Formula speak) {
-		initializeBrickFields(speak);
-	}
-
-	private void initializeBrickFields(Formula speak) {
-		addAllowedBrickField(BrickField.SPEAK);
-		setFormulaWithBrickField(BrickField.SPEAK, speak);
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return TEXT_TO_SPEECH;
+	public SpeakBrick(Formula formula) {
+		addAllowedBrickField(BrickField.SPEAK, R.id.brick_speak_edit_text);
+		setFormulaWithBrickField(BrickField.SPEAK, formula);
 	}
 
 	@Override
@@ -67,33 +53,15 @@ public class SpeakBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(final Context context) {
-		super.getView(context);
-		TextView textField = (TextView) view.findViewById(R.id.brick_speak_edit_text);
-		getFormulaWithBrickField(BrickField.SPEAK).setTextFieldId(R.id.brick_speak_edit_text);
-		getFormulaWithBrickField(BrickField.SPEAK).refreshTextField(view);
-
-		textField.setOnClickListener(this);
-		return view;
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
-		TextView textSpeak = (TextView) prototypeView.findViewById(R.id.brick_speak_edit_text);
-		textSpeak.setText(context.getString(R.string.brick_speak_default_value));
-		return prototypeView;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(TEXT_TO_SPEECH);
+		super.addRequiredResources(requiredResourcesSet);
 	}
 
 	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createSpeakAction(sprite,
-				getFormulaWithBrickField(BrickField.SPEAK)));
+		sequence.addAction(sprite.getActionFactory()
+				.createSpeakAction(sprite, getFormulaWithBrickField(BrickField.SPEAK)));
 		return null;
-	}
-
-	@Override
-	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.SPEAK);
 	}
 }

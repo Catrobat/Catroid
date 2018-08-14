@@ -34,7 +34,6 @@ import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
@@ -43,30 +42,20 @@ import static org.catrobat.catroid.content.EventWrapper.NO_WAIT;
 public class SetLookByIndexBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
 	@EventWrapper.WaitMode
 	protected transient int wait = NO_WAIT;
 
 	public SetLookByIndexBrick() {
-		addAllowedBrickField(BrickField.LOOK_INDEX);
+		this(new Formula(BrickValues.SET_LOOK_BY_INDEX));
 	}
 
 	public SetLookByIndexBrick(int index) {
-		initializeBrickFields(new Formula(index));
+		this(new Formula(index));
 	}
 
-	public SetLookByIndexBrick(Formula index) {
-		initializeBrickFields(index);
-	}
-
-	protected void initializeBrickFields(Formula index) {
-		addAllowedBrickField(BrickField.LOOK_INDEX);
-		setFormulaWithBrickField(BrickField.LOOK_INDEX, index);
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.LOOK_INDEX).getRequiredResources();
+	public SetLookByIndexBrick(Formula formula) {
+		addAllowedBrickField(BrickField.LOOK_INDEX, R.id.brick_set_look_by_index_edit_text);
+		setFormulaWithBrickField(BrickField.LOOK_INDEX, formula);
 	}
 
 	@Override
@@ -79,48 +68,32 @@ public class SetLookByIndexBrick extends FormulaBrick {
 	@Override
 	public View getView(Context context) {
 		super.getView(context);
-		if (getSprite().getName().equals(context.getString(R.string.background))) {
-			TextView textField = (TextView) view.findViewById(R.id.brick_set_look_by_index_label);
-			textField.setText(R.string.brick_set_background_by_index);
-		}
 
-		TextView edit = (TextView) view.findViewById(R.id.brick_set_look_by_index_edit_text);
-		getFormulaWithBrickField(BrickField.LOOK_INDEX).setTextFieldId(R.id.brick_set_look_by_index_edit_text);
-		getFormulaWithBrickField(BrickField.LOOK_INDEX).refreshTextField(view);
-		edit.setOnClickListener(this);
+		if (getSprite().getName().equals(context.getString(R.string.background))) {
+			TextView label = view.findViewById(R.id.brick_set_look_by_index_label);
+			label.setText(R.string.brick_set_background_by_index);
+		}
 
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		if (wait == EventWrapper.WAIT) {
-			prototypeView = super.getPrototypeView(context);
-		} else {
-			prototypeView = super.getPrototypeView(context);
-		}
+		View prototypeView = super.getPrototypeView(context);
 
 		if (getSprite().getName().equals(context.getString(R.string.background))) {
-			TextView textField = (TextView) prototypeView.findViewById(R.id.brick_set_look_by_index_label);
-			textField.setText(R.string.brick_set_background_by_index);
+			TextView label = prototypeView.findViewById(R.id.brick_set_look_by_index_label);
+			label.setText(R.string.brick_set_background_by_index);
 		}
-
-		TextView textSetLookByIndex = (TextView) prototypeView.findViewById(R.id.brick_set_look_by_index_edit_text);
-		textSetLookByIndex.setText(formatNumberForPrototypeView(BrickValues.SET_LOOK_BY_INDEX));
 
 		return prototypeView;
 	}
 
 	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createSetLookByIndexAction(sprite,
-				getFormulaWithBrickField(BrickField.LOOK_INDEX), wait));
+		sequence.addAction(sprite.getActionFactory()
+				.createSetLookByIndexAction(getSprite(), getFormulaWithBrickField(BrickField.LOOK_INDEX), wait));
 		return null;
-	}
-
-	@Override
-	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.LOOK_INDEX);
 	}
 
 	protected Sprite getSprite() {

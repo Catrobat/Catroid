@@ -31,14 +31,18 @@ import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.fail;
 
 @RunWith(AndroidJUnit4.class)
 public class SetColorActionTest {
+
+	@Rule
+	public final ExpectedException exception = ExpectedException.none();
 
 	private static final float COLOR = 100.0f;
 	private Formula color = new Formula(COLOR);
@@ -70,11 +74,8 @@ public class SetColorActionTest {
 	@Test
 	public void testNullSprite() {
 		Action action = sprite.getActionFactory().createSetColorAction(null, color);
-		try {
-			action.act(1.0f);
-			fail("Execution of SetColorToBrick with null Sprite did not cause a NullPointerException to be thrown");
-		} catch (NullPointerException expected) {
-		}
+		exception.expect(NullPointerException.class);
+		action.act(1.0f);
 	}
 
 	@Test

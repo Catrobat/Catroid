@@ -30,6 +30,7 @@ import org.catrobat.catroid.content.Sprite;
 public class SetRotationStyleAction extends TemporalAction {
 
 	private Sprite sprite;
+	@Look.RotationStyle
 	private int mode;
 
 	@Override
@@ -50,7 +51,7 @@ public class SetRotationStyleAction extends TemporalAction {
 		this.sprite = sprite;
 	}
 
-	public void setRotationStyle(int mode) {
+	public void setRotationStyle(@Look.RotationStyle int mode) {
 		this.mode = mode;
 	}
 }

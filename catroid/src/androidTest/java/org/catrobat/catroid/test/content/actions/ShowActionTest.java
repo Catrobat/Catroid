@@ -29,15 +29,19 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
 
 @RunWith(AndroidJUnit4.class)
 public class ShowActionTest {
+
+	@Rule
+	public final ExpectedException exception = ExpectedException.none();
 
 	@Test
 	public void testShow() {
@@ -55,10 +59,7 @@ public class ShowActionTest {
 	public void testNullSprite() {
 		ActionFactory factory = new ActionFactory();
 		Action action = factory.createShowAction(null);
-		try {
-			action.act(1.0f);
-			fail("Execution of ShowBrick with null Sprite did not cause a NullPointerException to be thrown");
-		} catch (NullPointerException expected) {
-		}
+		exception.expect(NullPointerException.class);
+		action.act(1.0f);
 	}
 }

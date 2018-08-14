@@ -54,12 +54,10 @@ import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 
 @RunWith(AndroidJUnit4.class)
 public class SetLookActionTest {
-	protected String projectName = "testProject";
-	protected File testImage;
-	protected Project project;
-	protected Sprite sprite;
-	protected LookData firstLookData;
-	protected LookData secondLookData;
+	private String projectName = "testProject";
+	private Sprite sprite;
+	private LookData firstLookData;
+	private LookData secondLookData;
 
 	@Before
 	public void setUp() throws Exception {
@@ -69,11 +67,11 @@ public class SetLookActionTest {
 			StorageOperations.deleteDir(projectDir);
 		}
 
-		project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
-		testImage = ResourceImporter.createImageFileFromResourcesInDirectory(
+		File testImage = ResourceImporter.createImageFileFromResourcesInDirectory(
 				InstrumentationRegistry.getContext().getResources(),
 				R.raw.icon,
 				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
@@ -82,7 +80,7 @@ public class SetLookActionTest {
 
 		BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 		bitmapOptions.inJustDecodeBounds = true;
-		BitmapFactory.decodeFile(this.testImage.getAbsolutePath(), bitmapOptions);
+		BitmapFactory.decodeFile(testImage.getAbsolutePath(), bitmapOptions);
 
 		ScreenValues.SCREEN_HEIGHT = 200;
 		ScreenValues.SCREEN_WIDTH = 200;

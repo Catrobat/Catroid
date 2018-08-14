@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.formulaeditor.datacontainer;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
@@ -33,10 +32,8 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.ui.adapter.DataAdapter;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -278,12 +275,5 @@ public class DataContainer implements Serializable {
 	public void updateSpriteUserDataMapping(Sprite previousKey, Sprite newKey) {
 		spriteUserVariables.updateKey(previousKey, newKey);
 		spriteUserLists.updateKey(previousKey, newKey);
-	}
-
-	public DataAdapter createDataAdapter(Context context, Sprite sprite) {
-		return new DataAdapter(context,
-				spriteUserLists.get(sprite), projectUserLists.getList(),
-				spriteUserVariables.get(sprite), projectUserVariables.getList(),
-				new ArrayList<UserVariable>());
 	}
 }

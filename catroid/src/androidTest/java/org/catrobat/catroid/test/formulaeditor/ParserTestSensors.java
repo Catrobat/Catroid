@@ -26,7 +26,6 @@ import android.graphics.Point;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.annotation.UiThreadTest;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -43,34 +42,33 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
-import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.SensorLoudness;
 import org.catrobat.catroid.formulaeditor.Sensors;
-import org.catrobat.catroid.test.utils.Reflection;
-import org.catrobat.catroid.test.utils.Reflection.ParameterList;
-import org.catrobat.catroid.test.utils.SimulatedSoundRecorder;
+import org.catrobat.catroid.soundrecorder.SoundRecorder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InOrder;
+import org.mockito.Mockito;
 
-import java.lang.reflect.Method;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
+
+import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.when;
 
 @RunWith(AndroidJUnit4.class)
 public class ParserTestSensors {
-	private static final String TAG = ParserTestSensors.class.getSimpleName();
 
 	private Project project;
 	private Sprite firstSprite;
-	Script startScript1;
+	private Script startScript1;
 	private float delta = 0.001f;
 
 	@Before
@@ -79,19 +77,12 @@ public class ParserTestSensors {
 		createProject();
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
-		//For initialization
-		SensorLoudness.getSensorLoudness();
-		SensorLoudness loudnessSensor = (SensorLoudness) Reflection.getPrivateField(SensorLoudness.class, "instance");
-		SimulatedSoundRecorder simSoundRec = new SimulatedSoundRecorder("/dev/null");
-		Reflection.setPrivateField(loudnessSensor, "recorder", simSoundRec);
 	}
 
 	@After
 	@UiThreadTest
 	public void tearDown() throws Exception {
 		SensorHandler.stopSensorListeners();
-		Reflection.setPrivateField(SensorHandler.class, "instance", null);
-		Reflection.setPrivateField(SensorLoudness.class, "instance", null);
 	}
 
 	@Test
@@ -101,11 +92,7 @@ public class ParserTestSensors {
 		SensorHandler.unregisterListener(null);
 		SensorHandler.startSensorListener(InstrumentationRegistry.getTargetContext());
 
-		if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
-			assertEquals(0d, Math.abs((Double) SensorHandler.getSensorValue(Sensors.Y_ACCELERATION)));
-		} else {
-			assertEquals(0d, Math.abs((Double) SensorHandler.getSensorValue(Sensors.X_ACCELERATION)));
-		}
+		assertEquals(0d, Math.abs((Double) SensorHandler.getSensorValue(Sensors.X_ACCELERATION)));
 	}
 
 	@Test
@@ -118,23 +105,16 @@ public class ParserTestSensors {
 
 	@Test
 	@UiThreadTest
-	public void testFaceDetection() {
+	public void testFaceDetection() throws Exception {
 		SensorHandler.startSensorListener(InstrumentationRegistry.getTargetContext());
-		FaceDetector faceDetector = (FaceDetector) Reflection.getPrivateField(FaceDetectionHandler.class,
-				"faceDetector");
+		FaceDetector faceDetector = FaceDetectionHandler.getFaceDetector();
 
 		assertNotNull(faceDetector);
 
 		assertEquals(0d, SensorHandler.getSensorValue(Sensors.FACE_DETECTED));
 		assertEquals(0d, SensorHandler.getSensorValue(Sensors.FACE_SIZE));
 
-		Method[] methods = faceDetector.getClass().getSuperclass().getDeclaredMethods();
-		for (Method method : methods) {
-			Log.e(TAG, method.getName());
-		}
-
-		ParameterList parameters = new ParameterList(Boolean.TRUE);
-		Reflection.invokeMethod(faceDetector.getClass().getSuperclass(), faceDetector, "onFaceDetected", parameters);
+		faceDetector.callOnFaceDetected(true);
 
 		int expectedFaceSize = (int) (Math.random() * 100);
 		int exampleScreenWidth = 320;
@@ -142,9 +122,7 @@ public class ParserTestSensors {
 		int expectedFaceXPosition = (int) (-exampleScreenWidth / 2 + (Math.random() * exampleScreenWidth));
 		int expectedFaceYPosition = (int) (-exampleScreenHeight / 2 + (Math.random() * exampleScreenHeight));
 
-		parameters = new ParameterList(new Point(expectedFaceXPosition, expectedFaceYPosition),
-				expectedFaceSize);
-		Reflection.invokeMethod(faceDetector.getClass().getSuperclass(), faceDetector, "onFaceDetected", parameters);
+		faceDetector.callOnFaceDetected(new Point(expectedFaceXPosition, expectedFaceYPosition), expectedFaceSize);
 
 		Formula formula6 = createFormulaWithSensor(Sensors.FACE_DETECTED);
 		ChangeSizeByNBrick faceDetectionStatusBrick = new ChangeSizeByNBrick(formula6);
@@ -162,35 +140,32 @@ public class ParserTestSensors {
 		ChangeSizeByNBrick faceYPositionBrick = new ChangeSizeByNBrick(formula9);
 		startScript1.addBrick(faceYPositionBrick);
 
-		assertEquals(1d, interpretFormula(formula6));
+		assertEquals(1d, formula6.interpretFloat(firstSprite), delta);
 
-		assertEquals(expectedFaceSize, interpretFormula(formula7), delta);
+		assertEquals(expectedFaceSize, formula7.interpretFloat(firstSprite), delta);
 
-		if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
-			assertEquals(expectedFaceXPosition, interpretFormula(formula9), delta);
+		assertEquals(expectedFaceXPosition, formula8.interpretFloat(firstSprite), delta);
 
-			assertEquals(expectedFaceYPosition, -interpretFormula(formula8), delta);
-		} else {
-			assertEquals(expectedFaceXPosition, interpretFormula(formula8), delta);
+		assertEquals(expectedFaceYPosition, -formula9.interpretFloat(firstSprite), delta);
 
-			assertEquals(expectedFaceYPosition, -interpretFormula(formula9), delta);
-		}
 		SensorHandler.stopSensorListeners();
 	}
 
 	@Test
 	@UiThreadTest
-	public void testMicRelease() {
+	public void testMicRelease() throws IOException {
+		SensorLoudness loudnessSensor = SensorLoudness.getSensorLoudness();
+		SoundRecorder soundRecorder = Mockito.mock(SoundRecorder.class);
+		loudnessSensor.setSoundRecorder(soundRecorder);
+		InOrder inOrder = inOrder(soundRecorder);
 
-		SensorLoudness.getSensorLoudness();
-		SensorLoudness loudnessSensor = (SensorLoudness) Reflection.getPrivateField(SensorLoudness.class, "instance");
-		SimulatedSoundRecorder simulatedSoundRecorder = new SimulatedSoundRecorder("/dev/null");
-		Reflection.setPrivateField(loudnessSensor, "recorder", simulatedSoundRecorder);
-
+		when(soundRecorder.isRecording()).thenReturn(false);
 		SensorHandler.startSensorListener(InstrumentationRegistry.getTargetContext());
-		assertTrue(simulatedSoundRecorder.isRecording());
+		inOrder.verify(soundRecorder).start();
+
+		when(soundRecorder.isRecording()).thenReturn(true);
 		SensorHandler.stopSensorListeners();
-		assertFalse(simulatedSoundRecorder.isRecording());
+		inOrder.verify(soundRecorder).stop();
 	}
 
 	private Formula createFormulaWithSensor(Sensors sensor) {
@@ -205,18 +180,9 @@ public class ParserTestSensors {
 		this.project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		firstSprite = new SingleSprite("zwoosh");
 		startScript1 = new StartScript();
-		Brick changeBrick = new ChangeSizeByNBrick(10);
 		firstSprite.addScript(startScript1);
+		Brick changeBrick = new ChangeSizeByNBrick(10);
 		startScript1.addBrick(changeBrick);
 		project.getDefaultScene().addSprite(firstSprite);
-	}
-
-	private Double interpretFormula(Formula formula) {
-		try {
-			return formula.interpretDouble(firstSprite);
-		} catch (InterpretationException interpretationException) {
-			Log.d(getClass().getSimpleName(), "Formula interpretation for Formula failed.", interpretationException);
-		}
-		return Double.NaN;
 	}
 }

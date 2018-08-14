@@ -78,11 +78,11 @@ public class CategoryBeginnerBricksFactory extends CategoryBricksFactory {
 	@Override
 	protected List<Brick> setupEventCategoryList(Context context) {
 		List<Brick> eventBrickList = new ArrayList<>();
-		eventBrickList.add(new WhenStartedBrick(null));
+		eventBrickList.add(new WhenStartedBrick());
 		eventBrickList.add(new WhenTouchDownBrick());
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		List<String> broadcastMessages = currentProject.getBroadcastMessageContainer().getBroadcastMessages();
-		String broadcastMessage = context.getString(R.string.new_broadcast_message);
+		String broadcastMessage = context.getString(R.string.brick_broadcast_default_value);
 		if (broadcastMessages.size() > 0) {
 			broadcastMessage = broadcastMessages.get(0);
 		}

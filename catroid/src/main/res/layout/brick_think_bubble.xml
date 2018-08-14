@@ -47,14 +47,13 @@
         <include layout="@layout/icon_brick_category_look"/>
 
         <TextView
-            android:id="@+id/brick_think_bubble_text_view"
-            android:labelFor="@+id/brick_think_bubble_edit_text"
+            android:labelFor="@+id/brick_bubble_edit_text"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_think_bubble" >
         </TextView >
 
         <EditText
-            android:id="@+id/brick_think_bubble_edit_text"
+            android:id="@+id/brick_bubble_edit_text"
             style="@style/BrickEditText"
             android:layout_width="match_parent"
             android:layout_gravity="center_vertical"

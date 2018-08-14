@@ -105,7 +105,7 @@ public class DroneVideoLookData extends LookData {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return Brick.ARDRONE_SUPPORT;
+	public void addRequiredResources(final Brick.ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(Brick.ARDRONE_SUPPORT);
 	}
 }

@@ -175,7 +175,7 @@ public class RepeatActionTest {
 	}
 
 	@Test
-	public void testNegativeRepeats() {
+	public void testNegativeRepeats() throws Exception {
 		Sprite testSprite = new SingleSprite("sprite");
 		RepeatBrick repeatBrick = new RepeatBrick(-1);
 
@@ -193,7 +193,7 @@ public class RepeatActionTest {
 	}
 
 	@Test
-	public void testZeroRepeats() {
+	public void testZeroRepeats() throws Exception {
 		final float decoyDeltaY = -150f;
 		final float expectedDeltaY = 150f;
 
@@ -222,7 +222,7 @@ public class RepeatActionTest {
 	}
 
 	@Test
-	public void testNullFormula() {
+	public void testNullFormula() throws Exception {
 		Action repeatedAction = testSprite.getActionFactory().createSetXAction(testSprite, new Formula(10));
 		Action repeatAction = testSprite.getActionFactory().createRepeatAction(testSprite, null, repeatedAction);
 		repeatAction.act(1.0f);

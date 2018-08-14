@@ -163,6 +163,12 @@ public final class ProjectManager {
 			project.setCatrobatLanguageVersion(0.996f);
 		}
 		if (project.getCatrobatLanguageVersion() == 0.996f) {
+			project.setCatrobatLanguageVersion(0.997f);
+		}
+		if (project.getCatrobatLanguageVersion() == 0.997f) {
+			project.setCatrobatLanguageVersion(0.998f);
+		}
+		if (project.getCatrobatLanguageVersion() == 0.998f) {
 			project.setCatrobatLanguageVersion(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
 		}
 
@@ -182,17 +188,17 @@ public final class ProjectManager {
 		project.loadLegoNXTSettingsFromProject(context);
 		project.loadLegoEV3SettingsFromProject(context);
 
-		int resources = project.getRequiredResources();
+		Brick.ResourcesSet resourcesSet = project.getRequiredResources();
 
-		if ((resources & Brick.BLUETOOTH_PHIRO) > 0) {
+		if (resourcesSet.contains(Brick.BLUETOOTH_PHIRO)) {
 			SettingsFragment.setPhiroSharedPreferenceEnabled(context, true);
 		}
 
-		if ((resources & Brick.JUMPING_SUMO) > 0) {
+		if (resourcesSet.contains(Brick.JUMPING_SUMO)) {
 			SettingsFragment.setJumpingSumoSharedPreferenceEnabled(context, true);
 		}
 
-		if ((resources & Brick.BLUETOOTH_SENSORS_ARDUINO) > 0) {
+		if (resourcesSet.contains(Brick.BLUETOOTH_SENSORS_ARDUINO)) {
 			SettingsFragment.setArduinoSharedPreferenceEnabled(context, true);
 		}
 

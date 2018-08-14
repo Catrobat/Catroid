@@ -22,44 +22,29 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.TextView;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
 public class ChangeColorByNBrick extends FormulaBrick {
+
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
-
 	public ChangeColorByNBrick() {
-		addAllowedBrickField(BrickField.COLOR_CHANGE);
+		this(new Formula(BrickValues.CHANGE_COLOR_BY));
 	}
 
-	public ChangeColorByNBrick(Float changeColorValue) {
-		initializeBrickFields(new Formula(changeColorValue));
+	public ChangeColorByNBrick(double changeColorValue) {
+		this(new Formula(changeColorValue));
 	}
 
-	public ChangeColorByNBrick(Formula changeColor) {
-		initializeBrickFields(changeColor);
-	}
-
-	private void initializeBrickFields(Formula changeColor) {
-		addAllowedBrickField(BrickField.COLOR_CHANGE);
-		setFormulaWithBrickField(BrickField.COLOR_CHANGE, changeColor);
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.COLOR_CHANGE).getRequiredResources();
+	public ChangeColorByNBrick(Formula formula) {
+		addAllowedBrickField(BrickField.COLOR_CHANGE, R.id.brick_change_color_by_edit_text);
+		setFormulaWithBrickField(BrickField.COLOR_CHANGE, formula);
 	}
 
 	@Override
@@ -68,34 +53,9 @@ public class ChangeColorByNBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context) {
-		super.getView(context);
-		TextView editX = (TextView) view.findViewById(R.id.brick_change_color_by_edit_text);
-		getFormulaWithBrickField(BrickField.COLOR_CHANGE).setTextFieldId(R.id.brick_change_color_by_edit_text);
-		getFormulaWithBrickField(BrickField.COLOR_CHANGE).refreshTextField(view);
-
-		editX.setOnClickListener(this);
-		return view;
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
-		TextView textChangeColor = (TextView) prototypeView
-				.findViewById(R.id.brick_change_color_by_edit_text);
-		textChangeColor.setText(formatNumberForPrototypeView(BrickValues.CHANGE_COLOR_BY));
-		return prototypeView;
-	}
-
-	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createChangeColorByNAction(sprite,
-				getFormulaWithBrickField(BrickField.COLOR_CHANGE)));
+		sequence.addAction(sprite.getActionFactory()
+				.createChangeColorByNAction(sprite, getFormulaWithBrickField(BrickField.COLOR_CHANGE)));
 		return null;
-	}
-
-	@Override
-	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.COLOR_CHANGE);
 	}
 }

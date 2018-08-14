@@ -72,14 +72,7 @@
     <color name="color_chooser_rgb_blue">#FF0284E7</color>
     <color name="holo_blue_bright">#33B5E5</color>
 
-    <!-- Drone advanced preferences -->
-    <color name="drone_altitude_color">#FFEB4618</color>
-    <color name="drone_vertical_color">#FF078707</color>
-    <color name="drone_rotation_color">#FF0284E7</color>,
-    <color name="drone_tilt_color">#FFE01B</color>
-    <color name="drone_holo_blue_bright">#33B5E5</color>
-
-    <!-- Pocketmusic colors -->
+    <!-- Pocket Music Colors -->
     <color name="turquoise_play_line">#FF008b96</color>
     <color name="opaque_turquoise_play_line">#FF80c5ca</color>
     <color name="opaque_turquoise_play_line_dark">#FF5EA3A8</color>
@@ -88,7 +81,7 @@
     <color name="pocketmusic_odd_dusk">#E0E0E0</color>
     <color name="pocketmusic_even_dusk">#BDBDBD</color>
 
-    <!-- Social media login colors -->
+    <!-- Social Media Colors -->
     <color name="facebook_blue">#49639f</color>
     <color name="google_red">#df4a32</color>
 

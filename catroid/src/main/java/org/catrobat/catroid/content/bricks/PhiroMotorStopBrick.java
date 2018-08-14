@@ -36,7 +36,9 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import java.util.List;
 
 public class PhiroMotorStopBrick extends BrickBaseType implements OnItemSelectedListener {
+
 	private static final long serialVersionUID = 1L;
+
 	private transient Motor motorEnum;
 	private String motor;
 
@@ -44,27 +46,29 @@ public class PhiroMotorStopBrick extends BrickBaseType implements OnItemSelected
 		MOTOR_LEFT, MOTOR_RIGHT, MOTOR_BOTH
 	}
 
-	public PhiroMotorStopBrick(Motor motor) {
-		this.motorEnum = motor;
+	public PhiroMotorStopBrick() {
+		this(Motor.MOTOR_BOTH);
+	}
+
+	public PhiroMotorStopBrick(Motor motorEnum) {
+		this.motorEnum = motorEnum;
 		this.motor = motorEnum.name();
 	}
 
-	protected Object readResolve() {
-		if (motor != null) {
-			motorEnum = Motor.valueOf(motor);
-		}
+	public Object readResolve() {
+		motorEnum = Motor.valueOf(motor);
 		return this;
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return BLUETOOTH_PHIRO;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(BLUETOOTH_PHIRO);
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = super.getPrototypeView(context);
-		Spinner phiroProSpinner = (Spinner) prototypeView.findViewById(R.id.brick_phiro_stop_motor_spinner);
+		Spinner phiroProSpinner = prototypeView.findViewById(R.id.brick_phiro_stop_motor_spinner);
 
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
 				R.array.brick_phiro_stop_motor_spinner, android.R.layout.simple_spinner_item);
@@ -87,13 +91,10 @@ public class PhiroMotorStopBrick extends BrickBaseType implements OnItemSelected
 				R.array.brick_phiro_stop_motor_spinner, android.R.layout.simple_spinner_item);
 		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-		Spinner motorSpinner = (Spinner) view.findViewById(R.id.brick_phiro_stop_motor_spinner);
+		Spinner motorSpinner = view.findViewById(R.id.brick_phiro_stop_motor_spinner);
 		motorSpinner.setOnItemSelectedListener(this);
 
 		motorSpinner.setAdapter(motorAdapter);
-		if (motorEnum == null) {
-			readResolve();
-		}
 		motorSpinner.setSelection(motorEnum.ordinal());
 		return view;
 	}

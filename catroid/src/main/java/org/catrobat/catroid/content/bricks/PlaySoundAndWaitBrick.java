@@ -41,21 +41,8 @@ public class PlaySoundAndWaitBrick extends PlaySoundBrick {
 	}
 
 	@Override
-	public Brick clone() {
-		PlaySoundAndWaitBrick clone = new PlaySoundAndWaitBrick();
-		clone.setSound(sound);
-		return clone;
-	}
-
-	@Override
 	protected void onViewCreated(View prototypeView) {
 		((TextView) view.findViewById(R.id.brick_play_sound_text_view))
-				.setText(R.string.brick_play_sound_and_wait);
-	}
-
-	@Override
-	protected void onPrototypeViewCreated(View prototypeView) {
-		((TextView) prototypeView.findViewById(R.id.brick_play_sound_text_view))
 				.setText(R.string.brick_play_sound_and_wait);
 	}
 

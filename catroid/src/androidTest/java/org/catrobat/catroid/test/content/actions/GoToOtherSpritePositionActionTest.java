@@ -31,14 +31,18 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.fail;
 
 @RunWith(AndroidJUnit4.class)
 public class GoToOtherSpritePositionActionTest {
+
+	@Rule
+	public final ExpectedException exception = ExpectedException.none();
 
 	private static final float DESTINATION_X_POSITION = 150f;
 	private static final float DESTINATION_Y_POSITION = 300f;
@@ -75,10 +79,7 @@ public class GoToOtherSpritePositionActionTest {
 	public void testNullActor() {
 		ActionFactory factory = new ActionFactory();
 		Action action = factory.createGoToAction(null, destinationSprite, BrickValues.GO_TO_OTHER_SPRITE_POSITION);
-		try {
-			action.act(1.0f);
-			fail("Execution of GoToBrick with null Sprite did not cause a " + "NullPointerException to be thrown");
-		} catch (NullPointerException expected) {
-		}
+		exception.expect(NullPointerException.class);
+		action.act(1.0f);
 	}
 }

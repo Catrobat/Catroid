@@ -73,6 +73,10 @@ import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.times;
@@ -124,7 +128,7 @@ public class WebSocketMessageListenerTest {
 			@Override
 			public Void answer(InvocationOnMock invocation) throws Throwable {
 				assertNotNull(invocation.getArguments()[0]);
-				assertTrue(invocation.getArguments()[0] instanceof ClientIDMessage);
+				assertThat(invocation.getArguments()[0], is(instanceOf(ClientIDMessage.class)));
 				ClientIDMessage clientIDMessage = (ClientIDMessage) invocation.getArguments()[0];
 				assertEquals(expectedClientID, clientIDMessage.getClientID());
 				return null;
@@ -150,7 +154,7 @@ public class WebSocketMessageListenerTest {
 			@Override
 			public Void answer(InvocationOnMock invocation) throws Throwable {
 				assertNotNull(invocation.getArguments()[0]);
-				assertTrue(invocation.getArguments()[0] instanceof ErrorMessage);
+				assertThat(invocation.getArguments()[0], is(instanceOf(ErrorMessage.class)));
 				ErrorMessage errorMessage = (ErrorMessage) invocation.getArguments()[0];
 				assertEquals(expectedErrorMessage, errorMessage.getMessage());
 				return null;
@@ -186,7 +190,7 @@ public class WebSocketMessageListenerTest {
 			@Override
 			public Void answer(InvocationOnMock invocation) throws Throwable {
 				assertNotNull(invocation.getArguments()[0]);
-				assertTrue(invocation.getArguments()[0] instanceof InfoMessage);
+				assertThat(invocation.getArguments()[0], is(instanceOf(InfoMessage.class)));
 				InfoMessage infoMessage = (InfoMessage) invocation.getArguments()[0];
 				assertEquals(expectedCatrobatLanguageVersion, infoMessage.getCatrobatLanguageVersion());
 				Job[] jobs = infoMessage.getJobList();
@@ -238,7 +242,7 @@ public class WebSocketMessageListenerTest {
 			@Override
 			public Void answer(InvocationOnMock invocation) throws Throwable {
 				assertNotNull(invocation.getArguments()[0]);
-				assertTrue(invocation.getArguments()[0] instanceof JobAlreadyRunningMessage);
+				assertThat(invocation.getArguments()[0], is(instanceOf(JobAlreadyRunningMessage.class)));
 				JobAlreadyRunningMessage alreadyRunningMessage;
 				alreadyRunningMessage = (JobAlreadyRunningMessage) invocation.getArguments()[0];
 				assertEquals(JOB_ID_OF_JOB_HANDLER, alreadyRunningMessage.getJobID());
@@ -270,7 +274,7 @@ public class WebSocketMessageListenerTest {
 			@Override
 			public Void answer(InvocationOnMock invocation) throws Throwable {
 				assertNotNull(invocation.getArguments()[0]);
-				assertTrue(invocation.getArguments()[0] instanceof JobFailedMessage);
+				assertThat(invocation.getArguments()[0], is(instanceOf(JobFailedMessage.class)));
 				JobFailedMessage failedMessage = (JobFailedMessage) invocation.getArguments()[0];
 				assertEquals(JOB_ID_OF_JOB_HANDLER, failedMessage.getJobID());
 				assertEquals(expectedJobFailedMessage, failedMessage.getMessage());
@@ -300,7 +304,7 @@ public class WebSocketMessageListenerTest {
 			@Override
 			public Void answer(InvocationOnMock invocation) throws Throwable {
 				assertNotNull(invocation.getArguments()[0]);
-				assertTrue(invocation.getArguments()[0] instanceof JobFinishedMessage);
+				assertThat(invocation.getArguments()[0], is(instanceOf(JobFinishedMessage.class)));
 				JobFinishedMessage finishedMessage = (JobFinishedMessage) invocation.getArguments()[0];
 				assertEquals(JOB_ID_OF_JOB_HANDLER, finishedMessage.getJobID());
 				assertEquals(expectedDownloadURL, finishedMessage.getDownloadURL());
@@ -334,7 +338,7 @@ public class WebSocketMessageListenerTest {
 			@Override
 			public Void answer(InvocationOnMock invocation) throws Throwable {
 				assertNotNull(invocation.getArguments()[0]);
-				assertTrue(invocation.getArguments()[0] instanceof JobOutputMessage);
+				assertThat(invocation.getArguments()[0], is(instanceOf(JobOutputMessage.class)));
 				JobOutputMessage outputMessage = (JobOutputMessage) invocation.getArguments()[0];
 				assertEquals(JOB_ID_OF_JOB_HANDLER, outputMessage.getJobID());
 				final String[] lines = outputMessage.getLines();
@@ -365,7 +369,7 @@ public class WebSocketMessageListenerTest {
 			@Override
 			public Void answer(InvocationOnMock invocation) throws Throwable {
 				assertNotNull(invocation.getArguments()[0]);
-				assertTrue(invocation.getArguments()[0] instanceof JobProgressMessage);
+				assertThat(invocation.getArguments()[0], is(instanceOf(JobProgressMessage.class)));
 				JobProgressMessage progressMessage = (JobProgressMessage) invocation.getArguments()[0];
 				assertEquals(JOB_ID_OF_JOB_HANDLER, progressMessage.getJobID());
 				assertEquals(expectedProgress, progressMessage.getProgress());
@@ -391,7 +395,7 @@ public class WebSocketMessageListenerTest {
 			@Override
 			public Void answer(InvocationOnMock invocation) throws Throwable {
 				assertNotNull(invocation.getArguments()[0]);
-				assertTrue(invocation.getArguments()[0] instanceof JobReadyMessage);
+				assertThat(invocation.getArguments()[0], is(instanceOf(JobReadyMessage.class)));
 				JobReadyMessage readyMessage = (JobReadyMessage) invocation.getArguments()[0];
 				assertEquals(JOB_ID_OF_JOB_HANDLER, readyMessage.getJobID());
 				return null;
@@ -418,7 +422,7 @@ public class WebSocketMessageListenerTest {
 			@Override
 			public Void answer(InvocationOnMock invocation) throws Throwable {
 				assertNotNull(invocation.getArguments()[0]);
-				assertTrue(invocation.getArguments()[0] instanceof JobRunningMessage);
+				assertThat(invocation.getArguments()[0], is(instanceOf(JobRunningMessage.class)));
 				JobRunningMessage runningMessage = (JobRunningMessage) invocation.getArguments()[0];
 				assertEquals(JOB_ID_OF_JOB_HANDLER, runningMessage.getJobID());
 				assertEquals(expectedJobTitle, runningMessage.getJobTitle());
@@ -592,7 +596,7 @@ public class WebSocketMessageListenerTest {
 		final JSONObject jsonObject = new JSONObject(payloadMap);
 		final String jsonMessage = jsonObject.toString();
 		assertNotNull(jsonMessage);
-		assertTrue(jsonMessage.length() > 0);
+		assertThat(jsonMessage.length(), is(greaterThan(0)));
 		return jsonMessage;
 	}
 
@@ -605,7 +609,7 @@ public class WebSocketMessageListenerTest {
 		final JSONObject jsonObject = new JSONObject(payloadMap);
 		final String jsonMessage = jsonObject.toString();
 		assertNotNull(jsonMessage);
-		assertTrue(jsonMessage.length() > 0);
+		assertThat(jsonMessage.length(), is(greaterThan(0)));
 		return jsonMessage;
 	}
 

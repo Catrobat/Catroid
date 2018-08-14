@@ -30,6 +30,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class DeleteThisCloneBrick extends BrickBaseType {
+
 	private static final long serialVersionUID = 1L;
 
 	public DeleteThisCloneBrick() {
@@ -38,11 +39,6 @@ public class DeleteThisCloneBrick extends BrickBaseType {
 	@Override
 	public int getViewResource() {
 		return R.layout.brick_delete_this_clone;
-	}
-
-	@Override
-	public Brick clone() {
-		return new DeleteThisCloneBrick();
 	}
 
 	@Override

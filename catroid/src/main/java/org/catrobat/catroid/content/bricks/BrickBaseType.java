@@ -30,19 +30,18 @@ import android.view.View;
 import android.widget.CheckBox;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-
-import java.util.List;
 
 public abstract class BrickBaseType implements Brick {
 
 	private static final long serialVersionUID = 1L;
+
 	public transient View view;
+
 	protected transient CheckBox checkbox;
 	protected transient BrickAdapter adapter;
-	protected transient int alphaValue = 255;
+
+	transient int alphaValue = 255;
 
 	protected boolean commentedOut;
 
@@ -67,26 +66,31 @@ public abstract class BrickBaseType implements Brick {
 	}
 
 	@Override
-	public Brick clone() throws CloneNotSupportedException {
-		return (Brick) super.clone();
+	public BrickBaseType clone() throws CloneNotSupportedException {
+		BrickBaseType clone = (BrickBaseType) super.clone();
+		clone.view = null;
+		clone.checkbox = null;
+		clone.alphaValue = alphaValue;
+		clone.commentedOut = commentedOut;
+		return clone;
 	}
 
 	@Override
-	public void setAlpha(int newAlpha) {
-		alphaValue = newAlpha;
+	public void setAlpha(int alphaValue) {
+		this.alphaValue = alphaValue;
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
 	}
 
-	public abstract @LayoutRes int getViewResource();
+	@LayoutRes
+	public abstract int getViewResource();
 
 	@CallSuper
 	@Override
 	public View getView(Context context) {
-		view = LayoutInflater.from(context).inflate(getViewResource(), null);
+		view = LayoutInflater.from(context).inflate(getViewResource(), null, false);
 
 		BrickViewProvider.setAlphaOnView(view, alphaValue);
 
@@ -118,7 +122,4 @@ public abstract class BrickBaseType implements Brick {
 	public View getPrototypeView(Context context) {
 		return LayoutInflater.from(context).inflate(getViewResource(), null);
 	}
-
-	@Override
-	public abstract List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence);
 }

@@ -29,6 +29,7 @@ import android.support.test.runner.AndroidJUnit4;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.rules.DontGenerateDefaultProjectActivityInstrumentationRule;
 import org.junit.After;
@@ -84,6 +85,7 @@ public class SmokeTest {
 	}
 
 	@Test
+	@Flaky
 	@Category(Level.Smoke.class)
 	public void newProject() {
 		onView(withText(R.string.main_menu_new))

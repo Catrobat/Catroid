@@ -64,9 +64,6 @@ public class PhiroSeekBarColorBrickTest {
 	private static final Integer MAX_COLOR_VALUE = 255;
 	private static final Integer INIT_COLOR_VALUE = 128;
 
-	private static Integer whenBrickPosition = 0;
-	private static Integer phiroRGBLightBrickPosition = 1;
-
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
@@ -111,7 +108,9 @@ public class PhiroSeekBarColorBrickTest {
 
 	@Test
 	public void testSeekBar() {
+		Integer whenBrickPosition = 0;
 		onBrickAtPosition(whenBrickPosition).checkShowsText(R.string.brick_when_started);
+		Integer phiroRGBLightBrickPosition = 1;
 		onBrickAtPosition(phiroRGBLightBrickPosition).checkShowsText(R.string.brick_phiro_rgb_led_action);
 
 		onBrickAtPosition(phiroRGBLightBrickPosition).onFormulaTextField(brickActionEditTextId)
@@ -121,11 +120,11 @@ public class PhiroSeekBarColorBrickTest {
 		onView(withId(colorRgbSeekbarId))
 				.perform(swipeLeftSlow());
 		onView(withId(rgbValueId))
-				.check(matches(withText(MIN_COLOR_VALUE.toString() + " ")));
+				.check(matches(withText(MIN_COLOR_VALUE.toString())));
 		onView(withId(colorRgbSeekbarId))
 				.perform(swipeRightSlow());
 		onView(withId(rgbValueId))
-				.check(matches(withText(MAX_COLOR_VALUE.toString() + " ")));
+				.check(matches(withText(MAX_COLOR_VALUE.toString())));
 		onView(withId(rgbValueId))
 				.perform(click());
 		onView(withId(R.id.formula_editor_keyboard_ok))

@@ -27,44 +27,35 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
 public class LegoEv3MotorMoveBrick extends FormulaBrick {
-	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
+	private static final long serialVersionUID = 1L;
 
 	private String motor;
 	private transient Motor motorEnum;
-	private transient TextView editSpeed;
 
 	public enum Motor {
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_D, MOTOR_B_C
 	}
 
-	public LegoEv3MotorMoveBrick() {
-		addAllowedBrickField(BrickField.LEGO_EV3_SPEED);
-	}
-
 	public LegoEv3MotorMoveBrick(Motor motor, int speedValue) {
-		this.motorEnum = motor;
-		this.motor = motorEnum.name();
-		initializeBrickFields(new Formula(speedValue));
+
+		this(motor, new Formula(speedValue));
 	}
 
-	public LegoEv3MotorMoveBrick(Motor motor, Formula speedFormula) {
+	public LegoEv3MotorMoveBrick(Motor motor, Formula speed) {
 		this.motorEnum = motor;
 		this.motor = motorEnum.name();
-		initializeBrickFields(speedFormula);
+		addAllowedBrickField(BrickField.LEGO_EV3_SPEED, R.id.ev3_motor_move_speed_edit_text);
+		setFormulaWithBrickField(BrickField.LEGO_EV3_SPEED, speed);
 	}
 
 	protected Object readResolve() {
@@ -74,23 +65,16 @@ public class LegoEv3MotorMoveBrick extends FormulaBrick {
 		return this;
 	}
 
-	private void initializeBrickFields(Formula speed) {
-		addAllowedBrickField(BrickField.LEGO_EV3_SPEED);
-		setFormulaWithBrickField(BrickField.LEGO_EV3_SPEED, speed);
-	}
-
 	@Override
-	public int getRequiredResources() {
-		return BLUETOOTH_LEGO_EV3 | getFormulaWithBrickField(BrickField.LEGO_EV3_SPEED).getRequiredResources();
+	public int getViewResource() {
+		return R.layout.brick_ev3_motor_move;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
-		TextView textSpeed = (TextView) prototypeView.findViewById(R.id.ev3_motor_move_speed_edit_text);
-		textSpeed.setText(formatNumberForPrototypeView(BrickValues.LEGO_SPEED));
+		View prototypeView = super.getPrototypeView(context);
 
-		Spinner motorSpinner = (Spinner) prototypeView.findViewById(R.id.brick_ev3_motor_move_spinner);
+		Spinner motorSpinner = prototypeView.findViewById(R.id.brick_ev3_motor_move_spinner);
 		motorSpinner.setFocusableInTouchMode(false);
 		motorSpinner.setFocusable(false);
 
@@ -104,28 +88,14 @@ public class LegoEv3MotorMoveBrick extends FormulaBrick {
 	}
 
 	@Override
-	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.LEGO_EV3_SPEED);
-	}
-
-	@Override
-	public int getViewResource() {
-		return R.layout.brick_ev3_motor_move;
-	}
-
-	@Override
 	public View getView(Context context) {
 		super.getView(context);
-		editSpeed = (TextView) view.findViewById(R.id.ev3_motor_move_speed_edit_text);
-		getFormulaWithBrickField(BrickField.LEGO_EV3_SPEED).setTextFieldId(R.id.ev3_motor_move_speed_edit_text);
-		getFormulaWithBrickField(BrickField.LEGO_EV3_SPEED).refreshTextField(view);
-
-		editSpeed.setOnClickListener(this);
 
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context, R.array.ev3_motor_chooser,
 				android.R.layout.simple_spinner_item);
+
 		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		Spinner motorSpinner = (Spinner) view.findViewById(R.id.brick_ev3_motor_move_spinner);
+		Spinner motorSpinner = view.findViewById(R.id.brick_ev3_motor_move_spinner);
 
 		motorSpinner.setAdapter(motorAdapter);
 		motorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -146,6 +116,12 @@ public class LegoEv3MotorMoveBrick extends FormulaBrick {
 		motorSpinner.setSelection(motorEnum.ordinal());
 
 		return view;
+	}
+
+	@Override
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(BLUETOOTH_LEGO_NXT);
+		super.addRequiredResources(requiredResourcesSet);
 	}
 
 	@Override

@@ -121,12 +121,13 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 				history.updateCurrentSelection(internFormula.getSelection());
 				history.updateCurrentCursor(absoluteCursorPosition);
 
-				formulaEditorFragment.refreshFormulaPreviewString();
+				formulaEditorFragment.refreshFormulaPreviewString(internFormula.getExternFormulaString());
 				formulaEditorFragment.updateButtonsOnKeyboardAndInvalidateOptionsMenu();
 			}
 			return true;
 		}
 	});
+
 	private boolean doNotMoveCursorOnTab = false;
 
 	public FormulaEditorEditText(Context context) {
@@ -162,21 +163,6 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		} else {
 			history.init(internFormula.getInternFormulaState());
 		}
-	}
-
-	public void overwriteCurrentFormula(InternFormulaState internFormulaState) {
-		internFormula = internFormulaState.createInternFormulaFromState();
-		internFormula.generateExternFormulaStringAndInternExternMapping(context);
-
-		updateTextAndCursorFromInternFormula();
-
-		internFormula.selectWholeFormula();
-		highlightSelection();
-
-		history.push(internFormula.getInternFormulaState());
-		String resultingText = updateTextAndCursorFromInternFormula();
-		setSelection(absoluteCursorPosition);
-		formulaEditorFragment.refreshFormulaPreviewString(resultingText);
 	}
 
 	public void updateVariableReferences(String oldName, String newName) {
@@ -312,7 +298,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 			updateTextAndCursorFromInternFormula();
 		}
 
-		formulaEditorFragment.refreshFormulaPreviewString();
+		formulaEditorFragment.refreshFormulaPreviewString(internFormula.getExternFormulaString());
 		return true;
 	}
 
@@ -328,7 +314,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 			internFormula.updateInternCursorPosition();
 			updateTextAndCursorFromInternFormula();
 		}
-		formulaEditorFragment.refreshFormulaPreviewString();
+		formulaEditorFragment.refreshFormulaPreviewString(internFormula.getExternFormulaString());
 		return true;
 	}
 
@@ -361,10 +347,6 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
 	public boolean isDoNotMoveCursorOnTab() {
 		return doNotMoveCursorOnTab;
-	}
-
-	public void setDoNotMoveCursorOnTab(boolean doNotMoveCursorOnTab) {
-		this.doNotMoveCursorOnTab = doNotMoveCursorOnTab;
 	}
 
 	public FormulaEditorHistory getHistory() {

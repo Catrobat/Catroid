@@ -63,7 +63,7 @@ public class SayBubbleBrickTest {
 
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_say_bubble);
 
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_say_bubble_edit_text)
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_bubble_edit_text)
 				.checkShowsText(sayString);
 	}
 }

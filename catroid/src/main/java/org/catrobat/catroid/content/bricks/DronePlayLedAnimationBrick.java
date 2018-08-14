@@ -37,9 +37,9 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import java.util.List;
 
 public class DronePlayLedAnimationBrick extends BrickBaseType {
+
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
 	private String ledAnimationName;
 	private transient ARDRONE_LED_ANIMATION ledAnimation;
 
@@ -56,28 +56,14 @@ public class DronePlayLedAnimationBrick extends BrickBaseType {
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
-
-		Spinner dronePlayLedAnimationSpinner = (Spinner) prototypeView.findViewById(R.id
-				.brick_drone_play_led_animation_spinner);
-		dronePlayLedAnimationSpinner.setFocusableInTouchMode(false);
-		dronePlayLedAnimationSpinner.setFocusable(false);
-		dronePlayLedAnimationSpinner.setEnabled(false);
-
-		ArrayAdapter<CharSequence> animationAdapter = ArrayAdapter.createFromResource(context,
-				R.array.brick_drone_play_led_animation_spinner, android.R.layout.simple_spinner_item);
-		animationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-		dronePlayLedAnimationSpinner.setAdapter(animationAdapter);
-		dronePlayLedAnimationSpinner.setSelection(ledAnimation.ordinal());
-
-		return prototypeView;
+	public int getViewResource() {
+		return R.layout.brick_drone_play_led_animation;
 	}
 
 	@Override
-	public int getViewResource() {
-		return R.layout.brick_drone_play_led_animation;
+	public View getPrototypeView(Context context) {
+		super.getPrototypeView(context);
+		return getView(context);
 	}
 
 	@Override
@@ -86,7 +72,7 @@ public class DronePlayLedAnimationBrick extends BrickBaseType {
 		ArrayAdapter<CharSequence> animationAdapter = ArrayAdapter.createFromResource(context,
 				R.array.brick_drone_play_led_animation_spinner, android.R.layout.simple_spinner_item);
 		animationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		Spinner animationSpinner = (Spinner) view.findViewById(R.id.brick_drone_play_led_animation_spinner);
+		Spinner animationSpinner = view.findViewById(R.id.brick_drone_play_led_animation_spinner);
 
 		animationSpinner.setAdapter(animationAdapter);
 		animationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -117,8 +103,8 @@ public class DronePlayLedAnimationBrick extends BrickBaseType {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return super.getRequiredResources() | Brick.ARDRONE_SUPPORT;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(ARDRONE_SUPPORT);
 	}
 }
 

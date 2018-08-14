@@ -39,16 +39,10 @@ public class FlashBrick extends BrickBaseType {
 	private static final int FLASH_OFF = 0;
 	private static final int FLASH_ON = 1;
 
-	private transient View prototypeView;
-
 	private int spinnerSelectionID;
 
 	public FlashBrick() {
 		spinnerSelectionID = FLASH_ON;
-	}
-
-	public FlashBrick(int onOrOff) {
-		spinnerSelectionID = onOrOff;
 	}
 
 	@Override
@@ -59,12 +53,10 @@ public class FlashBrick extends BrickBaseType {
 	@Override
 	public View getView(Context context) {
 		super.getView(context);
-		Spinner flashSpinner = (Spinner) view.findViewById(R.id.brick_flash_spinner);
+		Spinner flashSpinner = view.findViewById(R.id.brick_flash_spinner);
 
 		ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
-
 		flashSpinner.setAdapter(spinnerAdapter);
-
 		flashSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
 			@Override
@@ -78,15 +70,14 @@ public class FlashBrick extends BrickBaseType {
 		});
 
 		flashSpinner.setSelection(spinnerSelectionID);
-
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
+		View prototypeView = super.getPrototypeView(context);
 
-		Spinner setFlashSpinner = (Spinner) prototypeView.findViewById(R.id.brick_flash_spinner);
+		Spinner setFlashSpinner = prototypeView.findViewById(R.id.brick_flash_spinner);
 
 		ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
 		setFlashSpinner.setAdapter(spinnerAdapter);
@@ -107,8 +98,8 @@ public class FlashBrick extends BrickBaseType {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return CAMERA_FLASH;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(CAMERA_FLASH);
 	}
 
 	@Override
