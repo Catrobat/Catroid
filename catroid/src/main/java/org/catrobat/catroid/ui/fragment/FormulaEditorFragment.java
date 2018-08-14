@@ -117,9 +117,9 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		onFormulaChangedListener = (OnFormulaChangedListener) getFragmentManager()
 				.findFragmentByTag(ScriptFragment.TAG);
 
-        formulaBrick = (FormulaBrick) getArguments().getSerializable(FORMULA_BRICK_BUNDLE_ARGUMENT);
-        currentBrickField = Brick.BrickField.valueOf(getArguments().getString(BRICK_FIELD_BUNDLE_ARGUMENT));
-        currentFormula = formulaBrick.getFormulaWithBrickField(currentBrickField);
+		formulaBrick = (FormulaBrick) getArguments().getSerializable(FORMULA_BRICK_BUNDLE_ARGUMENT);
+		currentBrickField = Brick.BrickField.valueOf(getArguments().getString(BRICK_FIELD_BUNDLE_ARGUMENT));
+		currentFormula = formulaBrick.getFormulaWithBrickField(currentBrickField);
 	}
 
 	@Override
@@ -127,7 +127,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		super.onActivityCreated(savedInstanceState);
 
 		ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        actionBarTitleBuffer = actionBar.getTitle().toString();
+		actionBarTitleBuffer = actionBar.getTitle().toString();
 		actionBar.setTitle(R.string.formula_editor_title);
 
 		setHasOptionsMenu(true);
@@ -691,7 +691,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 				actionBar.setTitle(R.string.formula_editor_title);
 				BottomBar.hideBottomBar(getActivity());
 				updateButtonsOnKeyboardAndInvalidateOptionsMenu();
-                updateBrickView();
+				updateBrickView();
 			}
 		}
 	}
