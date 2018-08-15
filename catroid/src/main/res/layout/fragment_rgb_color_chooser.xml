@@ -52,7 +52,7 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="5dp"
             android:layout_toEndOf="@id/color_rgb_textview_color_preview"
-            android:background="@color/white">
+            android:background="@color/solid_white">
 
             </Button>
 
@@ -116,7 +116,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="27"
                 android:text="255"
-                android:textColor="@color/white"
+                android:textColor="@color/solid_white"
                 tools:ignore="HardcodedText" />
 
         </TableRow>
@@ -173,7 +173,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="27"
                 android:text="255"
-                android:textColor="@color/white"
+                android:textColor="@color/solid_white"
                 tools:ignore="HardcodedText" />
 
         </TableRow>
@@ -230,7 +230,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="27"
                 android:text="255"
-                android:textColor="@color/white"
+                android:textColor="@color/solid_white"
                 tools:ignore="HardcodedText" />
         </TableRow>
 

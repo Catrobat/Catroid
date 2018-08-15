@@ -54,14 +54,14 @@
             style="@style/StageButton"
             android:drawableTop="@drawable/stage_dialog_button_back_selector"
             android:text="@string/stage_dialog_back"
-            android:textColor="@color/stage_dialog_text_color" />
+            android:textColor="@color/accented_text" />
 
         <Button
             android:id="@+id/stage_dialog_button_restart"
             style="@style/StageButton"
             android:drawableTop="@drawable/stage_dialog_button_restart_selector"
             android:text="@string/stage_dialog_restart"
-            android:textColor="@color/stage_dialog_text_color" />
+            android:textColor="@color/accented_text" />
 
         <Button
             android:id="@+id/stage_dialog_button_continue"
@@ -70,21 +70,21 @@
             android:layout_width="0dp"
             android:drawableTop="@drawable/stage_dialog_button_continue_selector"
             android:text="@string/stage_dialog_resume"
-            android:textColor="@color/stage_dialog_text_color" />
+            android:textColor="@color/accented_text" />
 
         <Button
             android:id="@+id/stage_dialog_button_screenshot"
             style="@style/StageButton"
             android:drawableTop="@drawable/stage_dialog_button_screenshot_selector"
             android:text="@string/stage_dialog_screenshot"
-            android:textColor="@color/stage_dialog_text_color" />
+            android:textColor="@color/accented_text" />
 
         <Button
             android:id="@+id/stage_dialog_button_toggle_axes"
             style="@style/StageButton"
             android:drawableTop="@drawable/stage_dialog_button_toggle_axis_selector"
             android:text="@string/stage_dialog_axes_on"
-            android:textColor="@color/stage_dialog_text_color" />
+            android:textColor="@color/accented_text" />
     </LinearLayout>
 
     <ImageView
@@ -110,7 +110,7 @@
         android:layout_height="@dimen/dialog_image_button_layout_width_height"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:background="@color/stage_dialog_background_color"
+        android:background="@color/stage_dialog_maximize_button_background"
         android:layout_margin="20dp"
         android:contentDescription="@string/stage_dialog_maximize"
         android:src="@drawable/stage_dialog_button_stretch_selector" />

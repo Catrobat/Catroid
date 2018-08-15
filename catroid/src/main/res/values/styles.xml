@@ -28,7 +28,7 @@
 
         <!-- Colors -->
         <item name="android:windowBackground">@color/app_background</item>
-        <item name="colorAccent">@color/accent</item>
+        <item name="colorAccent">@color/accented_text</item>
 
         <!-- Action Mode -->
         <item name="windowActionModeOverlay">true</item>
@@ -434,7 +434,7 @@
 
     <style name="FormulaEditorButton">
         <item name="android:background">@drawable/formula_editor_keyboard_button</item>
-        <item name="android:textColor">@color/formula_editor_keyboard_text_color</item>
+        <item name="android:textColor">@color/accented_text</item>
         <item name="android:lines">1</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">0dp</item>

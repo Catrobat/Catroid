@@ -59,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="?attr/large"
-            android:textColor="@color/white" />
+            android:textColor="@color/solid_white" />
 
     </LinearLayout>
 </LinearLayout>

@@ -125,7 +125,7 @@ public class TrackView extends TableLayout {
 			if (isBlackRow) {
 				noteColorId = R.color.light_grey;
 			} else {
-				noteColorId = R.color.white;
+				noteColorId = R.color.solid_white;
 			}
 			trackRowViews.get(i).getChildAt(column).setBackgroundColor(ContextCompat.getColor(getContext(),
 					noteColorId));

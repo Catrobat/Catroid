@@ -21,13 +21,24 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
+<resources>
 
-<TextView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/app_background"
-    android:textColor="@color/solid_white"
-    android:textSize="@dimen/plus_button_size"
-    android:text="@string/plus"
-    android:gravity="center"/>
+    <!-- Toolbar and Bottombar Colors -->
+    <color name="toolbar_background">#8275a2</color>
+    <color name="toolbar_border">#2a1848</color>
+
+    <!-- Backgrounds -->
+    <color name="app_background">#392757</color>
+    <color name="button_background">#3f3352</color>
+    <color name="button_border_top">#2a1848</color>
+    <color name="button_border_bottom">#392757</color>
+
+    <!-- Accent Colors -->
+    <color name="accented_text">#392757</color>
+    <color name="image_view_border">#392757</color>
+
+    <!-- Stage Dialog Colors -->
+    <color name="stage_dialog_maximize_button_background">#392757</color>
+
+
+</resources>
