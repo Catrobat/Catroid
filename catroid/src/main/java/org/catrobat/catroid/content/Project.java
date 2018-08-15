@@ -261,6 +261,7 @@ public class Project implements Serializable {
 				sprite.addRequiredResources(resourcesSet);
 				if (resourcesSet.contains(Brick.PHYSICS)) {
 					sprite.setActionFactory(physicsActionFactory);
+					resourcesSet.remove(Brick.PHYSICS);
 				} else {
 					sprite.setActionFactory(actionFactory);
 				}
