@@ -256,7 +256,7 @@ dependencies {
         exclude group: 'com.android.support'
     }
 
-    implementation ('com.android.support.test.espresso:espresso-core:3.0.1') {
+    implementation ('com.android.support.test.espresso:espresso-idling-resource:3.0.1') {
         exclude group: 'com.android.support'
     }
 

@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.database.DataSetObserver;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -44,8 +45,6 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
 import java.util.List;
 
-import javax.annotation.Nonnull;
-
 public class WhenNfcBrick extends BrickBaseType implements ScriptBrick {
 
 	private static final long serialVersionUID = 1L;
@@ -58,7 +57,7 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick {
 		this(new WhenNfcScript());
 	}
 
-	public WhenNfcBrick(@Nonnull WhenNfcScript whenNfcScript) {
+	public WhenNfcBrick(@NonNull WhenNfcScript whenNfcScript) {
 		nfcTag = whenNfcScript.getNfcTag();
 		whenNfcScript.setScriptBrick(this);
 		commentedOut = whenNfcScript.isCommentedOut();

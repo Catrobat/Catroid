@@ -25,6 +25,8 @@ package org.catrobat.catroid.content.bricks;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 
 import org.catrobat.catroid.ProjectManager;
@@ -44,9 +46,6 @@ import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterf
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 public class WhenBackgroundChangesBrick extends BrickBaseType implements ScriptBrick, NewItemInterface<LookData>,
 		BrickSpinner.OnItemSelectedListener<LookData> {
 
@@ -60,7 +59,7 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements ScriptB
 		this(new WhenBackgroundChangesScript());
 	}
 
-	public WhenBackgroundChangesBrick(@Nonnull WhenBackgroundChangesScript script) {
+	public WhenBackgroundChangesBrick(@NonNull WhenBackgroundChangesScript script) {
 		script.setScriptBrick(this);
 		commentedOut = script.isCommentedOut();
 		this.script = script;

@@ -64,8 +64,6 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import static android.support.test.InstrumentationRegistry.getContext;
-
 public class ScratchProgramDetailsActivity extends BaseActivity implements
 		FetchScratchProgramDetailsTask.ScratchProgramListTaskDelegate,
 		JobViewListener, Client.DownloadCallback,
@@ -128,7 +126,7 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 			public void onClick(View v) {
 				final int numberOfJobsInProgress = conversionManager.getNumberOfJobsInProgress();
 				if (numberOfJobsInProgress >= Constants.SCRATCH_CONVERTER_MAX_NUMBER_OF_JOBS_PER_CLIENT) {
-					ToastUtil.showError(getContext(), getResources().getQuantityString(
+					ToastUtil.showError(getApplicationContext(), getResources().getQuantityString(
 							R.plurals.error_cannot_convert_more_than_x_programs,
 							Constants.SCRATCH_CONVERTER_MAX_NUMBER_OF_JOBS_PER_CLIENT,
 							Constants.SCRATCH_CONVERTER_MAX_NUMBER_OF_JOBS_PER_CLIENT));
