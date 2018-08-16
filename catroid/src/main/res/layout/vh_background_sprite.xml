@@ -34,6 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/list_headline_sprites"
-        android:padding="@dimen/view_holder_padding"/>
+        android:padding="@dimen/view_holder_padding"
+        android:textColor="@color/accented_text" />
 
 </LinearLayout>

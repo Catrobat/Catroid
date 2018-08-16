@@ -30,5 +30,6 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="3.9dp"
     android:background="@drawable/toolbar_background"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-    app:titleTextAppearance="@style/ToolbarTitle" />
+    android:theme="@style/Catroid"
+    app:titleTextAppearance="@style/ToolbarTitle"
+    android:popupTheme="@style/Catroid"/>
