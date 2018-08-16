@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.SpinnerAdapterWithNewOption;
+import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewSoundDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
@@ -125,10 +126,15 @@ public class PlaySoundBrick extends BrickBaseType implements
 	@Override
 	public boolean onNewOptionInDropDownClicked(View v) {
 		spinnerSelectionBuffer = spinner.getSelectedItemPosition();
+		Activity activity = UiUtils.getActivityFromView(v);
+		if (activity == null) {
+			return false;
+		}
+
 		new NewSoundFromBrickSpinnerDialogFragment(this,
 				ProjectManager.getInstance().getCurrentlyEditedScene(),
 				ProjectManager.getInstance().getCurrentSprite())
-				.show(((Activity) v.getContext()).getFragmentManager(), NewSoundDialogFragment.TAG);
+				.show(activity.getFragmentManager(), NewSoundDialogFragment.TAG);
 		return false;
 	}
 

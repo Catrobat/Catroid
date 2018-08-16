@@ -38,6 +38,7 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.SpinnerAdapterWithNewOption;
+import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewLookDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
@@ -134,10 +135,15 @@ public class SetLookBrick extends BrickBaseType implements
 	@Override
 	public boolean onNewOptionInDropDownClicked(View v) {
 		spinnerSelectionBuffer = spinner.getSelectedItemPosition();
+		Activity activity = UiUtils.getActivityFromView(view);
+		if (activity == null) {
+			return false;
+		}
+
 		new NewLookFromBrickDialogFragment(this,
 				ProjectManager.getInstance().getCurrentlyEditedScene(),
 				getSprite())
-				.show(((Activity) v.getContext()).getFragmentManager(), NewLookDialogFragment.TAG);
+				.show(activity.getFragmentManager(), NewLookDialogFragment.TAG);
 		return false;
 	}
 
