@@ -23,10 +23,7 @@
 
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
-import android.app.ActivityManager;
-import android.content.BroadcastReceiver;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.PluralsRes;
@@ -39,7 +36,6 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
-import org.catrobat.catroid.ui.controller.PocketPaintExchangeHandler;
 import org.catrobat.catroid.ui.recyclerview.adapter.LookAdapter;
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
 import org.catrobat.catroid.ui.recyclerview.controller.LookController;
@@ -53,7 +49,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.catrobat.catroid.common.Constants.POCKET_PAINT_PACKAGE_NAME;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_LOOKS_PREFERENCE_KEY;
 
 public class LookListFragment extends RecyclerViewFragment<LookData> {
@@ -233,42 +228,12 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 		item.invalidateThumbnailBitmap();
 
 		Intent intent = new Intent("android.intent.action.MAIN");
-		intent.setComponent(new ComponentName(POCKET_PAINT_PACKAGE_NAME,
-				Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME));
-
+		intent.setComponent(new ComponentName(getActivity(), Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME));
 		Bundle bundle = new Bundle();
 		bundle.putString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT, item.getFile().getAbsolutePath());
 		intent.putExtras(bundle);
 		intent.addCategory("android.intent.category.LAUNCHER");
 
-		if (PocketPaintExchangeHandler.isPocketPaintInstalled(getActivity(), intent)) {
-			startActivityForResult(intent, POCKET_PAINT);
-		} else {
-			BroadcastReceiver receiver = createPocketPaintBroadcastReceiver(intent, POCKET_PAINT);
-			PocketPaintExchangeHandler.installPocketPaintAndRegister(receiver, getActivity());
-		}
-	}
-
-	private BroadcastReceiver createPocketPaintBroadcastReceiver(final Intent paintroidIntent, final int
-			requestCode) {
-		return new BroadcastReceiver() {
-			@Override
-			public void onReceive(Context context, Intent intent) {
-
-				String packageName = intent.getData().getEncodedSchemeSpecificPart();
-				if (!packageName.equals(POCKET_PAINT_PACKAGE_NAME)) {
-					return;
-				}
-
-				getActivity().unregisterReceiver(this);
-
-				if (PocketPaintExchangeHandler.isPocketPaintInstalled(getActivity(), paintroidIntent)) {
-					ActivityManager activityManager = (ActivityManager) getActivity()
-							.getSystemService(Context.ACTIVITY_SERVICE);
-					activityManager.moveTaskToFront(getActivity().getTaskId(), 0);
-					startActivityForResult(paintroidIntent, requestCode);
-				}
-			}
-		};
+		startActivityForResult(intent, POCKET_PAINT);
 	}
 }

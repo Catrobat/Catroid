@@ -670,8 +670,6 @@
 
     <!-- LookListFragment -->
     <string name="fragment_look_text_description">Tap \"+\" to add Looks</string>
-    <string name="pocket_paint_not_installed_title">Pocket Paint is not installed!</string>
-    <string name="pocket_paint_not_installed_message">Please install Pocket Paint.</string>
     <string name="default_look_name">Look</string>
     <string name="select_look_from_gallery">Select Image</string>
     <string name="select_look_from_camera">Select Photo</string>
