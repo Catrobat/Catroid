@@ -22,29 +22,24 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.TextView;
-
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
 public class WaitUntilBrick extends FormulaBrick {
 
-	public WaitUntilBrick(Formula condition) {
-		addAllowedBrickField(BrickField.IF_CONDITION);
-		setFormulaWithBrickField(BrickField.IF_CONDITION, condition);
+	private static final long serialVersionUID = 1L;
+
+	public WaitUntilBrick() {
+		addAllowedBrickField(BrickField.IF_CONDITION, R.id.brick_wait_until_edit_text);
 	}
 
-	@Override
-	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.IF_CONDITION);
+	public WaitUntilBrick(Formula formula) {
+		this();
+		setFormulaWithBrickField(BrickField.IF_CONDITION, formula);
 	}
 
 	@Override
@@ -53,29 +48,9 @@ public class WaitUntilBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context) {
-		super.getView(context);
-		TextView ifBeginTextView = view.findViewById(R.id.brick_wait_until_edit_text);
-
-		getFormulaWithBrickField(BrickField.IF_CONDITION).setTextFieldId(R.id.brick_wait_until_edit_text);
-		getFormulaWithBrickField(BrickField.IF_CONDITION).refreshTextField(view);
-
-		ifBeginTextView.setOnClickListener(this);
-
-		return view;
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-		TextView textIfBegin = prototypeView.findViewById(R.id.brick_wait_until_edit_text);
-		textIfBegin.setText(BrickValues.IF_CONDITION);
-		return prototypeView;
-	}
-
-	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createWaitUntilAction(sprite, getFormulaWithBrickField(BrickField.IF_CONDITION)));
+		sequence.addAction(sprite.getActionFactory()
+				.createWaitUntilAction(sprite, getFormulaWithBrickField(BrickField.IF_CONDITION)));
 		return null;
 	}
 }

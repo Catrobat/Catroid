@@ -38,6 +38,7 @@ import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.eventids.EventId;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -78,7 +79,7 @@ public class EventActionTest {
 	public void testBroadcast() {
 		int testPosition = 100;
 		startScript.addBrick(new BroadcastBrick(MESSAGE1));
-		broadcastScript1.addBrick(new SetXBrick(testPosition));
+		broadcastScript1.addBrick(new SetXBrick(new Formula(testPosition)));
 
 		sprite.initializeEventThreads(EventId.START);
 
@@ -93,9 +94,9 @@ public class EventActionTest {
 		int setTestPosition = 20;
 
 		startScript.addBrick(new BroadcastWaitBrick(MESSAGE1));
-		startScript.addBrick(new SetXBrick(testPosition));
+		startScript.addBrick(new SetXBrick(new Formula(testPosition)));
 		broadcastScript1.addBrick(new WaitBrick(500));
-		broadcastScript1.addBrick(new SetXBrick(setTestPosition));
+		broadcastScript1.addBrick(new SetXBrick(new Formula(setTestPosition)));
 
 		sprite.initializeEventThreads(EventId.START);
 
@@ -153,7 +154,7 @@ public class EventActionTest {
 
 		Script startScript2 = new StartScript();
 		startScript2.addBrick(new BroadcastWaitBrick(MESSAGE1));
-		startScript2.addBrick(new SetXBrick(xPosition));
+		startScript2.addBrick(new SetXBrick(new Formula(xPosition)));
 		sprite.addScript(startScript2);
 
 		sprite.initializeEventThreads(EventId.START);

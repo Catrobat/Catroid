@@ -26,7 +26,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import org.catrobat.catroid.web.ServerCalls;
-import org.catrobat.catroid.web.WebconnectionException;
+import org.catrobat.catroid.web.WebConnectionException;
 
 public class CheckTokenTask extends AsyncTask<String, Void, Boolean[]> {
 
@@ -41,7 +41,7 @@ public class CheckTokenTask extends AsyncTask<String, Void, Boolean[]> {
 	protected Boolean[] doInBackground(String... arg0) {
 		try {
 			return new Boolean[]{ServerCalls.getInstance().checkToken(arg0[0], arg0[1]), false};
-		} catch (WebconnectionException e) {
+		} catch (WebConnectionException e) {
 			Log.e(TAG, Log.getStackTraceString(e));
 			return new Boolean[]{false, true};
 		}

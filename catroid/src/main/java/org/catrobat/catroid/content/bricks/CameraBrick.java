@@ -59,12 +59,11 @@ public class CameraBrick extends BrickBaseType {
 	@Override
 	public View getView(Context context) {
 		super.getView(context);
+
 		Spinner videoSpinner = view.findViewById(R.id.brick_video_spinner);
 
 		ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
-
 		videoSpinner.setAdapter(spinnerAdapter);
-
 		videoSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
 			@Override
@@ -107,8 +106,8 @@ public class CameraBrick extends BrickBaseType {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return Brick.VIDEO;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(VIDEO);
 	}
 
 	@Override

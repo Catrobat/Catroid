@@ -30,8 +30,6 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
 import java.util.List;
 
-import javax.annotation.Nonnull;
-
 public class WhenStartedBrick extends BrickBaseType implements ScriptBrick {
 
 	private static final long serialVersionUID = 1L;
@@ -42,7 +40,7 @@ public class WhenStartedBrick extends BrickBaseType implements ScriptBrick {
 		this(new StartScript());
 	}
 
-	public WhenStartedBrick(@Nonnull StartScript script) {
+	public WhenStartedBrick(StartScript script) {
 		script.setScriptBrick(this);
 		commentedOut = script.isCommentedOut();
 		this.script = script;
@@ -67,13 +65,13 @@ public class WhenStartedBrick extends BrickBaseType implements ScriptBrick {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		return null;
-	}
-
-	@Override
 	public void setCommentedOut(boolean commentedOut) {
 		super.setCommentedOut(commentedOut);
 		getScript().setCommentedOut(commentedOut);
+	}
+
+	@Override
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		return null;
 	}
 }

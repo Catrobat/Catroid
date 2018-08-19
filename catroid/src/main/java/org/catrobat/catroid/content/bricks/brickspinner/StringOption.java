@@ -20,39 +20,26 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.web;
 
-import android.util.Log;
+package org.catrobat.catroid.content.bricks.brickspinner;
 
-public class WebconnectionException extends Exception {
-	private static final String TAG = WebconnectionException.class.getSimpleName();
+import org.catrobat.catroid.common.Nameable;
 
-	private static final long serialVersionUID = 1L;
+public final class StringOption implements Nameable {
 
-	public static final int ERROR_JSON = 1001;
-	public static final int ERROR_NETWORK = 1002;
+	private String name;
 
-	private final int statusCode;
-	private final String message;
-
-	public WebconnectionException(int statusCode, String message) {
-		super(message);
-		if (message == null) {
-			message = "Unknown Error, no exception message given.";
-		}
-
-		this.statusCode = statusCode;
-		this.message = message;
-	}
-
-	public int getStatusCode() {
-		return statusCode;
+	public StringOption(String name) {
+		this.name = name;
 	}
 
 	@Override
-	public String getMessage() {
+	public String getName() {
+		return name;
+	}
 
-		Log.d(TAG, "Error #" + statusCode + ": " + message);
-		return message;
+	@Override
+	public void setName(String name) {
+		this.name = name;
 	}
 }

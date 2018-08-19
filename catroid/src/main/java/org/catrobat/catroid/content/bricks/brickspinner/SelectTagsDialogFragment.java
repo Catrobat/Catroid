@@ -48,6 +48,18 @@ public class SelectTagsDialogFragment extends DialogFragment {
 		this.tags = tags;
 	}
 
+	public SelectTagsDialogFragment() {
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		boolean isRestoringPreviouslyDestroyedActivity = savedInstanceState != null;
+		if (isRestoringPreviouslyDestroyedActivity) {
+			dismiss();
+		}
+	}
+
 	@Override
 	public Dialog onCreateDialog(final Bundle bundle) {
 		final List<String> checkedTags = new ArrayList<>();

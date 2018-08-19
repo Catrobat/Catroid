@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import android.support.annotation.NonNull;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -29,8 +31,6 @@ import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
 import java.util.List;
-
-import javax.annotation.Nonnull;
 
 public class WhenBrick extends BrickBaseType implements ScriptBrick {
 
@@ -42,7 +42,7 @@ public class WhenBrick extends BrickBaseType implements ScriptBrick {
 		this(new WhenScript());
 	}
 
-	public WhenBrick(@Nonnull WhenScript whenScript) {
+	public WhenBrick(@NonNull WhenScript whenScript) {
 		whenScript.setScriptBrick(this);
 		commentedOut = whenScript.isCommentedOut();
 		this.whenScript = whenScript;

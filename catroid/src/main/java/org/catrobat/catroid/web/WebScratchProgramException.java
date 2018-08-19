@@ -26,7 +26,7 @@ package org.catrobat.catroid.web;
 import android.util.Log;
 
 public class WebScratchProgramException extends Exception {
-	private static final String TAG = WebconnectionException.class.getSimpleName();
+	private static final String TAG = WebConnectionException.class.getSimpleName();
 
 	private static final long serialVersionUID = 1L;
 

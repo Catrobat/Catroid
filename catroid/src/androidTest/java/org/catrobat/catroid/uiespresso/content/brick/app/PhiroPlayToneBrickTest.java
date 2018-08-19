@@ -27,6 +27,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
@@ -57,7 +58,7 @@ public class PhiroPlayToneBrickTest {
 		brickPosition = 1;
 
 		BrickTestUtils.createProjectAndGetStartScript("PhiroPlayToneBrickTest")
-				.addBrick(new PhiroPlayToneBrick(PhiroPlayToneBrick.Tone.DO, toneDurationInitially));
+				.addBrick(new PhiroPlayToneBrick(PhiroPlayToneBrick.Tone.DO, new Formula(toneDurationInitially)));
 		baseActivityTestRule.launchActivity();
 	}
 
@@ -78,7 +79,7 @@ public class PhiroPlayToneBrickTest {
 				R.string.phiro_tone_la);
 
 		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_phiro_select_tone_spinner)
-				.checkValuesAvailable(spinnerValuesResourceIds);
+				.checkStringIdValuesAvailable(spinnerValuesResourceIds);
 
 		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_phiro_play_tone_duration_edit_text)
 				.checkShowsNumber(toneDurationInitially)

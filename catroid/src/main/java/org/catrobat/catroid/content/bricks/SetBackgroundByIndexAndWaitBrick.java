@@ -28,6 +28,7 @@ import org.catrobat.catroid.content.EventWrapper;
 public class SetBackgroundByIndexAndWaitBrick extends SetBackgroundByIndexBrick {
 
 	public SetBackgroundByIndexAndWaitBrick() {
+		super();
 		wait = EventWrapper.WAIT;
 	}
 

@@ -64,7 +64,7 @@ public class ThinkBubbleBrickTest {
 
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_think_bubble);
 
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_think_bubble_edit_text)
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_bubble_edit_text)
 				.checkShowsText(thinkString);
 	}
 }

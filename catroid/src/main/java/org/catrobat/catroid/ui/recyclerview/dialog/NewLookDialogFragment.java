@@ -49,8 +49,8 @@ import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.controller.PocketPaintExchangeHandler;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
+import org.catrobat.catroid.utils.NetworkUtils;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -74,6 +74,18 @@ public class NewLookDialogFragment extends DialogFragment implements View.OnClic
 
 	private UniqueNameProvider uniqueNameProvider = new UniqueNameProvider();
 	private Uri uri;
+
+	public NewLookDialogFragment() {
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		boolean isRestoringPreviouslyDestroyedActivity = savedInstanceState != null;
+		if (isRestoringPreviouslyDestroyedActivity) {
+			dismiss();
+		}
+	}
 
 	public NewLookDialogFragment(NewItemInterface<LookData> newItemInterface, Scene dstScene, Sprite dstSprite) {
 		this.newItemInterface = newItemInterface;
@@ -118,7 +130,7 @@ public class NewLookDialogFragment extends DialogFragment implements View.OnClic
 				}
 				break;
 			case R.id.dialog_new_look_media_library:
-				if (!Utils.isNetworkAvailable(getActivity())) {
+				if (!NetworkUtils.isNetworkAvailable(getActivity())) {
 					ToastUtil.showError(getActivity(), R.string.error_internet_connection);
 				} else {
 					intent = new Intent(getActivity(), WebViewActivity.class)
@@ -183,23 +195,18 @@ public class NewLookDialogFragment extends DialogFragment implements View.OnClic
 			return;
 		}
 
-		String srcPath;
 		switch (requestCode) {
 			case POCKET_PAINT:
-				srcPath = data.getStringExtra(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT);
-				createItem(srcPath);
+				createItem(data.getStringExtra(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT));
 				break;
 			case LIBRARY:
-				srcPath = data.getStringExtra(WebViewActivity.MEDIA_FILE_PATH);
-				createItem(srcPath);
+				createItem(data.getStringExtra(WebViewActivity.MEDIA_FILE_PATH));
 				break;
 			case FILE:
-				srcPath = StorageOperations.getPathFromUri(getActivity().getContentResolver(), data.getData());
-				createItem(srcPath);
+				createItem(data.getData());
 				break;
 			case CAMERA:
-				srcPath = StorageOperations.getPathFromUri(getActivity().getContentResolver(), uri);
-				createItem(srcPath);
+				createItem(uri);
 				break;
 			default:
 				break;
@@ -208,7 +215,7 @@ public class NewLookDialogFragment extends DialogFragment implements View.OnClic
 	}
 
 	private void createItem(String srcPath) {
-		if (srcPath.isEmpty()) {
+		if (srcPath == null || srcPath.isEmpty()) {
 			return;
 		}
 		try {
@@ -217,6 +224,22 @@ public class NewLookDialogFragment extends DialogFragment implements View.OnClic
 
 			File file = StorageOperations.copyFileToDir(srcFile,
 					new File(dstScene.getDirectory(), IMAGE_DIRECTORY_NAME));
+
+			newItemInterface.addItem(new LookData(uniqueNameProvider.getUniqueName(name, getScope(dstSprite)), file));
+		} catch (IOException e) {
+			Log.e(TAG, Log.getStackTraceString(e));
+		}
+	}
+
+	private void createItem(Uri uri) {
+		if (uri == null) {
+			return;
+		}
+		try {
+			String name = getString(R.string.default_look_name);
+
+			File file = StorageOperations.copyUriToDir(getActivity().getContentResolver(),
+					uri, new File(dstScene.getDirectory(), IMAGE_DIRECTORY_NAME), name);
 
 			newItemInterface.addItem(new LookData(uniqueNameProvider.getUniqueName(name, getScope(dstSprite)), file));
 		} catch (IOException e) {

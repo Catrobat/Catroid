@@ -30,9 +30,9 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.utils.NetworkUtils;
 import org.catrobat.catroid.web.ServerCalls;
-import org.catrobat.catroid.web.WebconnectionException;
+import org.catrobat.catroid.web.WebConnectionException;
 
 public class GoogleExchangeCodeTask extends AsyncTask<Void, Void, Boolean> {
 
@@ -48,7 +48,7 @@ public class GoogleExchangeCodeTask extends AsyncTask<Void, Void, Boolean> {
 	private final String idToken;
 	private String message;
 	private OnFacebookExchangeCodeCompleteListener onGoogleExchangeCodeCompleteListener;
-	private WebconnectionException exception;
+	private WebConnectionException exception;
 	private boolean tokenExchanged;
 
 	public GoogleExchangeCodeTask(Activity activity, String code, String mail, String username, String id, String
@@ -80,16 +80,16 @@ public class GoogleExchangeCodeTask extends AsyncTask<Void, Void, Boolean> {
 	@Override
 	protected Boolean doInBackground(Void... arg0) {
 		try {
-			if (!Utils.isNetworkAvailable(context)) {
-				exception = new WebconnectionException(WebconnectionException.ERROR_NETWORK, "Network not available!");
+			if (!NetworkUtils.isNetworkAvailable(context)) {
+				exception = new WebConnectionException(WebConnectionException.ERROR_NETWORK, "Network not available!");
 				return false;
 			}
 
 			tokenExchanged = ServerCalls.getInstance().googleExchangeCode(code, id, username, mail, locale, idToken);
 			return true;
-		} catch (WebconnectionException webconnectionException) {
-			Log.e(TAG, Log.getStackTraceString(webconnectionException));
-			message = webconnectionException.getMessage();
+		} catch (WebConnectionException webConnectionException) {
+			Log.e(TAG, Log.getStackTraceString(webConnectionException));
+			message = webConnectionException.getMessage();
 		}
 		return false;
 	}
@@ -102,7 +102,7 @@ public class GoogleExchangeCodeTask extends AsyncTask<Void, Void, Boolean> {
 			progressDialog.dismiss();
 		}
 
-		if (Utils.checkForNetworkError(exception)) {
+		if (NetworkUtils.checkForNetworkError(exception)) {
 			showDialog(R.string.error_internet_connection);
 			return;
 		}

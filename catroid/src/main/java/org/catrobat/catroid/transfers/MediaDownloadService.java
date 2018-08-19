@@ -32,7 +32,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.web.ServerCalls;
-import org.catrobat.catroid.web.WebconnectionException;
+import org.catrobat.catroid.web.WebConnectionException;
 
 import java.io.IOException;
 
@@ -71,8 +71,8 @@ public class MediaDownloadService extends IntentService {
 			Log.e(TAG, Log.getStackTraceString(ioException));
 			result = false;
 			receiver.send(Constants.UPDATE_DOWNLOAD_ERROR, null);
-		} catch (WebconnectionException webconnectionException) {
-			Log.e(TAG, Log.getStackTraceString(webconnectionException));
+		} catch (WebConnectionException webConnectionException) {
+			Log.e(TAG, Log.getStackTraceString(webConnectionException));
 			result = false;
 			errorMessage = R.string.error_internet_connection;
 			receiver.send(Constants.UPDATE_DOWNLOAD_ERROR, null);

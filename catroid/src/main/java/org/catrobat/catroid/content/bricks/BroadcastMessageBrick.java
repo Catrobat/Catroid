@@ -24,98 +24,101 @@ package org.catrobat.catroid.content.bricks;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Spinner;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.adapter.BroadcastSpinnerAdapter;
-import org.catrobat.catroid.ui.recyclerview.dialog.NewBroadcastMessageDialog;
+import org.catrobat.catroid.common.Nameable;
+import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
+import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
+import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
+import org.catrobat.catroid.ui.recyclerview.dialog.NewBroadcastMessageDialogFragment;
+import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
-public abstract class BroadcastMessageBrick extends BrickBaseType implements
-		NewBroadcastMessageDialog.NewBroadcastMessageInterface {
+import java.util.ArrayList;
+import java.util.List;
 
-	transient BroadcastSpinnerAdapter messageAdapter;
+public abstract class BroadcastMessageBrick extends BrickBaseType implements NewItemInterface<String>,
+		BrickSpinner.OnItemSelectedListener<StringOption> {
+
+	private transient BrickSpinner<StringOption> spinner;
+
+	public abstract String getBroadcastMessage();
+
+	public abstract void setBroadcastMessage(String broadcastMessage);
 
 	@Override
 	public BrickBaseType clone() throws CloneNotSupportedException {
 		BroadcastMessageBrick clone = (BroadcastMessageBrick) super.clone();
-		clone.messageAdapter = null;
+		clone.spinner = null;
 		return clone;
 	}
 
 	@Override
-	public void updateSpinnerSelection() {
-		Spinner spinner = view.findViewById(R.id.brick_broadcast_spinner);
-		setSpinnerSelection(spinner);
-	}
-
-	private BroadcastSpinnerAdapter getMessageAdapter(Context context) {
-		if (messageAdapter == null) {
-			messageAdapter = new BroadcastSpinnerAdapter(context);
-		}
-		messageAdapter.update();
-		return messageAdapter;
-	}
-
-	private void setSpinnerSelection(Spinner spinner) {
-		int position = messageAdapter.getPosition(getBroadcastMessage());
-		spinner.setSelection(position, true);
-	}
-
-	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-
-		Spinner broadcastSpinner = prototypeView.findViewById(R.id.brick_broadcast_spinner);
-		BroadcastSpinnerAdapter broadcastSpinnerAdapter = getMessageAdapter(context);
-		if (context.getString(R.string.new_broadcast_message).equals(getBroadcastMessage())) {
-			setBroadcastMessage(broadcastSpinnerAdapter.getItem(1));
-		}
-		broadcastSpinner.setAdapter(broadcastSpinnerAdapter);
-		setSpinnerSelection(broadcastSpinner);
-		return prototypeView;
+		super.getPrototypeView(context);
+		return getView(context);
 	}
 
 	@Override
 	public View getView(Context context) {
 		super.getView(context);
-		Spinner broadcastSpinner = view.findViewById(R.id.brick_broadcast_spinner);
-		broadcastSpinner.setAdapter(getMessageAdapter(context));
 
-		if (getBroadcastMessage().equals(context.getString(R.string.new_broadcast_message))) {
-			setBroadcastMessage(messageAdapter.getItem(1));
+		List<String> messages = ProjectManager.getInstance().getCurrentProject()
+				.getBroadcastMessageContainer().getBroadcastMessages();
+
+		if (messages.isEmpty()) {
+			messages.add(context.getString(R.string.brick_broadcast_default_value));
 		}
 
-		setOnItemSelectedListener(broadcastSpinner, context);
-		setSpinnerSelection(broadcastSpinner);
+		List<Nameable> items = new ArrayList<>();
+		items.add(new NewOption(context.getString(R.string.new_option)));
+		for (String message : messages) {
+			items.add(new StringOption(message));
+		}
+
+		spinner = new BrickSpinner<>(R.id.brick_broadcast_spinner, view, items);
+		spinner.setOnItemSelectedListener(this);
+		spinner.setSelection(getBroadcastMessage());
 		return view;
 	}
 
-	private void setOnItemSelectedListener(final Spinner broadcastSpinner, final Context context) {
-		broadcastSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+	@Override
+	public void onNewOptionSelected() {
+		new NewBroadcastMessageDialogFragment(this) {
 
 			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				String selectedMessage = broadcastSpinner.getSelectedItem().toString();
-				if (selectedMessage.equals(context.getString(R.string.new_broadcast_message))) {
-					showNewMessageDialog(broadcastSpinner);
-				} else {
-					setBroadcastMessage(selectedMessage);
-				}
+			public void onDismiss(DialogInterface dialog) {
+				super.onDismiss(dialog);
+				spinner.setSelection(getBroadcastMessage());
 			}
 
 			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
+			public void onCancel(DialogInterface dialog) {
+				super.onCancel(dialog);
+				spinner.setSelection(getBroadcastMessage());
 			}
-		});
+		}.show(((Activity) view.getContext()).getFragmentManager(), NewBroadcastMessageDialogFragment.TAG);
 	}
 
-	private void showNewMessageDialog(final Spinner spinner) {
-		final Context context = spinner.getContext();
-		NewBroadcastMessageDialog editDialog = new NewBroadcastMessageDialog(this, view.getContext().getString(R.string.new_broadcast_message));
-		editDialog.show(((Activity) context).getFragmentManager(), "dialog_broadcast_brick");
+	@Override
+	public void addItem(String item) {
+		if (ProjectManager.getInstance().getCurrentProject().getBroadcastMessageContainer().addBroadcastMessage(item)) {
+			spinner.add(new StringOption(item));
+		}
+		spinner.setSelection(item);
+		//TODO: This should work some other way: i.e. it should not rely on the Brick being able to access its adapter.
+		adapter.notifyDataSetChanged();
 	}
 
-	public abstract String getBroadcastMessage();
+	@Override
+	public void onStringOptionSelected(String string) {
+		setBroadcastMessage(string);
+	}
+
+	@Override
+	public void onItemSelected(@Nullable StringOption item) {
+	}
 }

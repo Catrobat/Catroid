@@ -46,11 +46,6 @@ public class SetBackgroundBrick extends SetLookBrick {
 	}
 
 	@Override
-	protected void onPrototypeViewCreated(View view) {
-		((TextView) view.findViewById(R.id.brick_set_look_text_view)).setText(R.string.brick_set_background);
-	}
-
-	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSetLookAction(getSprite(), look, EventWrapper.NO_WAIT));
 		return Collections.emptyList();

@@ -20,44 +20,39 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.bricks;
+package org.catrobat.catroid.web;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.TextView;
+import android.util.Log;
 
-import org.catrobat.catroid.R;
+public class WebConnectionException extends Exception {
+	private static final String TAG = WebConnectionException.class.getSimpleName();
 
-public abstract class DroneBasicControlBrick extends BrickBaseType {
+	private static final long serialVersionUID = 1L;
 
-	@Override
-	public int getViewResource() {
-		return R.layout.brick_drone_control;
+	public static final int ERROR_JSON = 1001;
+	public static final int ERROR_NETWORK = 1002;
+
+	private final int statusCode;
+	private final String message;
+
+	public WebConnectionException(int statusCode, String message) {
+		super(message);
+		if (message == null) {
+			message = "Unknown Error, no exception message given.";
+		}
+
+		this.statusCode = statusCode;
+		this.message = message;
+	}
+
+	public int getStatusCode() {
+		return statusCode;
 	}
 
 	@Override
-	public View getView(Context context) {
-		super.getView(context);
-		TextView label = (TextView) view.findViewById(R.id.ValueTextViewControl);
-		label.setText(getBrickLabel(view));
+	public String getMessage() {
 
-		return view;
+		Log.d(TAG, "Error #" + statusCode + ": " + message);
+		return message;
 	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-
-		TextView label = (TextView) prototypeView.findViewById(R.id.ValueTextViewControl);
-		label.setText(getBrickLabel(prototypeView));
-
-		return prototypeView;
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return super.getRequiredResources() | Brick.ARDRONE_SUPPORT;
-	}
-
-	protected abstract String getBrickLabel(View view);
 }

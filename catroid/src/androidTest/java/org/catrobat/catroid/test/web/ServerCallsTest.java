@@ -31,7 +31,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.transfers.DeleteTestUserTask;
 import org.catrobat.catroid.web.ServerCalls;
-import org.catrobat.catroid.web.WebconnectionException;
+import org.catrobat.catroid.web.WebConnectionException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -71,7 +71,7 @@ public class ServerCallsTest implements DeleteTestUserTask.OnDeleteTestUserCompl
 	}
 
 	@Test
-	public void testRegistrationOk() throws WebconnectionException {
+	public void testRegistrationOk() throws WebConnectionException {
 		String testUser = "testUser" + System.currentTimeMillis();
 		String testPassword = "pwspws";
 		String testEmail = testUser + "@gmail.com";
@@ -90,7 +90,7 @@ public class ServerCallsTest implements DeleteTestUserTask.OnDeleteTestUserCompl
 	}
 
 	@Test
-	public void testRegisterWithExistingUser() throws WebconnectionException {
+	public void testRegisterWithExistingUser() throws WebConnectionException {
 		String testUser = "testUser" + System.currentTimeMillis();
 		String testPassword = "pwspws";
 		String testEmail = testUser + "@gmail.com";
@@ -108,8 +108,8 @@ public class ServerCallsTest implements DeleteTestUserTask.OnDeleteTestUserCompl
 		try {
 			ServerCalls.getInstance().register(testUser, testPassword, testEmail, "de",
 					"at", token, InstrumentationRegistry.getTargetContext());
-			fail("WebconnectionException not thrown");
-		} catch (WebconnectionException e) {
+			fail("WebConnectionException not thrown");
+		} catch (WebConnectionException e) {
 			assertEquals(STATUS_CODE_USER_ADD_EMAIL_EXISTS, e.getStatusCode());
 			assertNotNull(e.getMessage());
 			assertThat(e.getMessage().length(), is(greaterThan(0)));
@@ -117,7 +117,7 @@ public class ServerCallsTest implements DeleteTestUserTask.OnDeleteTestUserCompl
 	}
 
 	@Test
-	public void testRegisterAndLogin() throws WebconnectionException {
+	public void testRegisterAndLogin() throws WebConnectionException {
 		String testUser = "testUser" + System.currentTimeMillis();
 		String testPassword = "pwspws";
 		String testEmail = testUser + "@gmail.com";
@@ -143,8 +143,8 @@ public class ServerCallsTest implements DeleteTestUserTask.OnDeleteTestUserCompl
 
 		try {
 			ServerCalls.getInstance().login(testUser, testPassword, token, InstrumentationRegistry.getTargetContext());
-			fail("WebconnectionException not thrown");
-		} catch (WebconnectionException e) {
+			fail("WebConnectionException not thrown");
+		} catch (WebConnectionException e) {
 			assertEquals(STATUS_CODE_USER_NOT_EXISTING, e.getStatusCode());
 			assertNotNull(e.getMessage());
 			assertThat(e.getMessage().length(), is(greaterThan(0)));
@@ -152,7 +152,7 @@ public class ServerCallsTest implements DeleteTestUserTask.OnDeleteTestUserCompl
 	}
 
 	@Test
-	public void testRegisterWithExistingUserAndLoginWithWrongPassword() throws WebconnectionException {
+	public void testRegisterWithExistingUserAndLoginWithWrongPassword() throws WebConnectionException {
 		String testUser = "testUser" + System.currentTimeMillis();
 		String testPassword = "pwspws";
 		String testEmail = testUser + "@gmail.com";
@@ -170,8 +170,8 @@ public class ServerCallsTest implements DeleteTestUserTask.OnDeleteTestUserCompl
 
 		try {
 			ServerCalls.getInstance().login(testUser, wrongPassword, token, InstrumentationRegistry.getTargetContext());
-			fail("WebconnectionException not thrown");
-		} catch (WebconnectionException e) {
+			fail("WebConnectionException not thrown");
+		} catch (WebConnectionException e) {
 			assertEquals(STATUS_CODE_AUTHENTICATION_FAILED, e.getStatusCode());
 			assertNotNull(e.getMessage());
 			assertThat(e.getMessage().length(), is(greaterThan(0)));
@@ -179,7 +179,7 @@ public class ServerCallsTest implements DeleteTestUserTask.OnDeleteTestUserCompl
 	}
 
 	@Test
-	public void testRegisterWithNewUserButExistingEmail() throws WebconnectionException {
+	public void testRegisterWithNewUserButExistingEmail() throws WebConnectionException {
 		String testUser = "testUser" + System.currentTimeMillis();
 		String testPassword = "pwspws";
 		String testEmail = testUser + "@gmail.com";
@@ -198,8 +198,8 @@ public class ServerCallsTest implements DeleteTestUserTask.OnDeleteTestUserCompl
 			ServerCalls.getInstance().register(newUser, testPassword, testEmail, "de", "at", token,
 					InstrumentationRegistry.getTargetContext());
 
-			fail("WebconnectionException not thrown");
-		} catch (WebconnectionException e) {
+			fail("WebConnectionException not thrown");
+		} catch (WebConnectionException e) {
 			assertEquals(STATUS_CODE_USER_ADD_EMAIL_EXISTS, e.getStatusCode());
 			assertNotNull(e.getMessage());
 			assertThat(e.getMessage().length(), is(greaterThan(0)));
@@ -217,8 +217,8 @@ public class ServerCallsTest implements DeleteTestUserTask.OnDeleteTestUserCompl
 			ServerCalls.getInstance().register(testUser, testPassword, testEmail, "de", "at", token,
 					InstrumentationRegistry.getTargetContext());
 
-			fail("WebconnectionException not thrown");
-		} catch (WebconnectionException e) {
+			fail("WebConnectionException not thrown");
+		} catch (WebConnectionException e) {
 			assertEquals(STATUS_CODE_USER_PASSWORD_TOO_SHORT, e.getStatusCode());
 			assertNotNull(e.getMessage());
 			assertThat(e.getMessage().length(), is(greaterThan(0)));
@@ -237,8 +237,8 @@ public class ServerCallsTest implements DeleteTestUserTask.OnDeleteTestUserCompl
 			ServerCalls.getInstance().register(testUser, testPassword, testEmail, "de", "at", token,
 					InstrumentationRegistry.getTargetContext());
 
-			fail("WebconnectionException not thrown");
-		} catch (WebconnectionException e) {
+			fail("WebConnectionException not thrown");
+		} catch (WebConnectionException e) {
 			assertEquals(STATUS_CODE_USER_EMAIL_INVALID, e.getStatusCode());
 			assertNotNull(e.getMessage());
 			assertThat(e.getMessage().length(), is(greaterThan(0)));
@@ -253,7 +253,7 @@ public class ServerCallsTest implements DeleteTestUserTask.OnDeleteTestUserCompl
 			boolean tokenOk = ServerCalls.getInstance().checkToken(wrongToken, username);
 
 			assertFalse(tokenOk);
-		} catch (WebconnectionException e) {
+		} catch (WebConnectionException e) {
 			assertEquals(STATUS_CODE_AUTHENTICATION_FAILED, e.getStatusCode());
 			assertNotNull(e.getMessage());
 			assertThat(e.getMessage().length(), is(greaterThan(0)));
@@ -261,7 +261,7 @@ public class ServerCallsTest implements DeleteTestUserTask.OnDeleteTestUserCompl
 	}
 
 	@Test
-	public void testCheckTokenOk() throws WebconnectionException {
+	public void testCheckTokenOk() throws WebConnectionException {
 		String testUser = "testUser" + System.currentTimeMillis();
 		String testPassword = "pwspws";
 		String testEmail = testUser + "@gmail.com";

@@ -34,6 +34,9 @@ public class NewScriptGroupDialog extends TextInputDialogFragment {
 
 	private BackpackScriptInterface backpackInterface;
 
+	public NewScriptGroupDialog() {
+	}
+
 	public NewScriptGroupDialog(BackpackScriptInterface backpackInterface) {
 		super(R.string.new_group, R.string.script_group_label, null, false);
 		this.backpackInterface = backpackInterface;

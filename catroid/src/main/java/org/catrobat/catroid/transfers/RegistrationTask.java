@@ -27,16 +27,16 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.utils.NetworkUtils;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
-import org.catrobat.catroid.web.WebconnectionException;
+import org.catrobat.catroid.web.WebConnectionException;
 
 public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 
@@ -51,8 +51,8 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 	private String message;
 	private boolean userRegistered;
 
-	private OnRegistrationCompleteListener onRegistrationCompleteListener;
-	private WebconnectionException exception;
+	private OnRegistrationListener onRegistrationListener;
+	private WebConnectionException exception;
 
 	public RegistrationTask(Context activity, String username, String password, String email) {
 		this.context = activity;
@@ -61,8 +61,8 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 		this.email = email;
 	}
 
-	public void setOnRegistrationCompleteListener(OnRegistrationCompleteListener listener) {
-		onRegistrationCompleteListener = listener;
+	public void setOnRegistrationListener(OnRegistrationListener listener) {
+		onRegistrationListener = listener;
 	}
 
 	@Override
@@ -79,8 +79,8 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 	@Override
 	protected Boolean doInBackground(Void... arg0) {
 		try {
-			if (!Utils.isNetworkAvailable(context)) {
-				exception = new WebconnectionException(WebconnectionException.ERROR_NETWORK, "Network not available!");
+			if (!NetworkUtils.isNetworkAvailable(context)) {
+				exception = new WebConnectionException(WebConnectionException.ERROR_NETWORK, "Network not available!");
 				return false;
 			}
 
@@ -93,9 +93,9 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 					country, token, context);
 
 			return true;
-		} catch (WebconnectionException webconnectionException) {
-			Log.e(TAG, Log.getStackTraceString(webconnectionException));
-			message = webconnectionException.getMessage();
+		} catch (WebConnectionException webConnectionException) {
+			Log.e(TAG, Log.getStackTraceString(webConnectionException));
+			message = webConnectionException.getMessage();
 		}
 		return false;
 	}
@@ -108,13 +108,17 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 			progressDialog.dismiss();
 		}
 
-		if (Utils.checkForNetworkError(exception)) {
-			showDialog(R.string.error_internet_connection);
+		if (NetworkUtils.checkForNetworkError(exception)) {
+			ToastUtil.showError(context, R.string.error_internet_connection);
 			return;
 		}
 
 		if (Utils.checkForSignInError(success, exception, context, userRegistered)) {
-			showDialog(R.string.sign_in_error);
+			if (message == null) {
+				message = context.getString(R.string.register_error);
+			}
+			onRegistrationListener.onRegistrationFailed(message);
+			Log.e(TAG, message);
 			return;
 		}
 
@@ -122,26 +126,15 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 			ToastUtil.showSuccess(context, R.string.new_user_registered);
 		}
 
-		if (onRegistrationCompleteListener != null) {
-			onRegistrationCompleteListener.onRegistrationComplete();
+		if (onRegistrationListener != null) {
+			onRegistrationListener.onRegistrationComplete();
 		}
 	}
 
-	private void showDialog(int messageId) {
-		if (context == null) {
-			return;
-		}
-		if (message == null) {
-			new AlertDialog.Builder(context).setTitle(R.string.register_error).setMessage(messageId)
-					.setPositiveButton(R.string.ok, null).show();
-		} else {
-			new AlertDialog.Builder(context).setTitle(R.string.register_error).setMessage(message)
-					.setPositiveButton(R.string.ok, null).show();
-		}
-	}
-
-	public interface OnRegistrationCompleteListener {
+	public interface OnRegistrationListener {
 
 		void onRegistrationComplete();
+
+		void onRegistrationFailed(String msg);
 	}
 }

@@ -101,7 +101,6 @@ public class SceneController {
 			scene.getSpriteList().add(spriteController.copy(sprite, sceneToCopy, scene));
 		}
 
-		scene.correctUserVariableAndListReferences();
 		return scene;
 	}
 

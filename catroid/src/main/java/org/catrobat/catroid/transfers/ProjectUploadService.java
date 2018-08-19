@@ -44,7 +44,7 @@ import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
-import org.catrobat.catroid.web.WebconnectionException;
+import org.catrobat.catroid.web.WebConnectionException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -166,9 +166,9 @@ public class ProjectUploadService extends IntentService {
 		} catch (IOException ioException) {
 			Log.e(TAG, Log.getStackTraceString(ioException));
 			result = false;
-		} catch (WebconnectionException webconnectionException) {
-			serverAnswer = webconnectionException.getMessage();
-			statusCode = webconnectionException.getStatusCode();
+		} catch (WebConnectionException webConnectionException) {
+			serverAnswer = webConnectionException.getMessage();
+			statusCode = webConnectionException.getStatusCode();
 			Log.e(TAG, serverAnswer);
 			result = false;
 		}

@@ -53,10 +53,8 @@
   <string name="share_website_text">www.pocketcode.org</string>
   <!-- Login/Logout Mechanism -->
   <string name="loading_check_facebook_data">Pobieranie danych Facebooka&#8230;</string>
-  <string name="loading_check_email">Sprawdzenie, czy e-mail jest dostępny&#8230;</string>
   <string name="loading_check_oauth_token">Sprawdzanie danych logowania&#8230;</string>
   <string name="loading_check_facebook_token_validity">Sprawdzanie danych Facebooka&#8230;</string>
-  <string name="loading_check_oauth_username">Sprawdzenie, czy nazwa użytkownika jest dostępna&#8230;</string>
   <string name="loading_facebook_exchange_token">Wymiana danych z Facebooka&#8230;</string>
   <string name="loading_facebook_login">Logowanie do Facebooka na naszym serwerze zostało zakończone&#8230;</string>
   <string name="loading_google_exchange_code">Wymiana danych z Google+&#8230;</string>
@@ -887,8 +885,6 @@
   <!--  -->
   <!-- NetworkAlertDialog -->
   <string name="error_no_network_title">Brak sieci</string>
-  <string name="error_no_network_one_brick">Following brick will use the network:</string>
-  <string name="error_no_network_multiple_bricks">Following brick will use the networks:</string>
   <string name="error_no_network">Potrzebujesz połączenia sieciowego, aby korzystać z tego programu Pocket Code. Włącz sieć komórkową lub Wi-Fi w ustawieniach.</string>
   <plurals name="bricks_using_network_headline">
     <item quantity="one">Następujący bloczek wymaga połączenia sieciowego:</item>
@@ -945,7 +941,6 @@
   <string name="signin_choose_username_hint">Nazwa użytkownika nie powinna być Twoim prawdziwym nazwiskiem.</string>
   <string name="oauth_username_taken">Ktoś już używa tej nazwy. Proszę wybrać inną!</string>
   <string name="show_password">Pokaż hasło</string>
-  <string name="register_password_mismatch">Hasła nie pasują</string>
   <string name="sign_in_error">Wystąpił błąd podczas logowania</string>
   <string name="error_google_plus_sign_in">Błąd logowania Google. Status: %s</string>
   <string name="error_facebook_session_expired">Twoja sesja wygasła, zaloguj się ponownie.</string>

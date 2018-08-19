@@ -31,6 +31,8 @@
     <string name="redo">Redo</string>
     <string name="undo">Undo</string>
 
+    <string name="new_option">New…</string>
+
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
 
@@ -64,10 +66,8 @@
 
     <!-- Login/Logout Mechanism -->
     <string name="loading_check_facebook_data">Retrieving Facebook data…</string>
-    <string name="loading_check_email">Checking if the e-mail is available…</string>
     <string name="loading_check_oauth_token">Checking login data…</string>
     <string name="loading_check_facebook_token_validity">Checking Facebook data…</string>
-    <string name="loading_check_oauth_username">Checking if the username is available…</string>
     <string name="loading_facebook_exchange_token">Exchanging Facebook data…</string>
     <string name="loading_facebook_login">Facebook login on our server is complete…</string>
     <string name="loading_google_exchange_code">Exchanging Google+ data…</string>
@@ -930,12 +930,22 @@
     <string name="signin_choose_username_hint">The username should not be your real name.</string>
     <string name="oauth_username_taken">Someone else already uses this name. Please choose a different one!</string>
     <string name="show_password">Show Password</string>
-    <string name="register_password_mismatch">Passwords do not match</string>
     <string name="sign_in_error">Error during Sign-In</string>
     <string name="error_google_plus_sign_in">Google Sign-In error. Status: %s</string>
     <string name="error_facebook_session_expired">Session expired, please log in.</string>
     <string name="sign_in_with_facebook">Sign in with Facebook</string>
     <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="error_register_empty_username">Empty username</string>
+    <string name="error_register_username_as_email">E-mail address can not be used as username</string>
+    <string name="error_register_invalid_username">Username can contain only Latin–letters (a–z), numbers (0–9), dashes (-), underscores (_), and periods (.).</string>
+    <string name="error_register_username_start_with">Username can not start with dashes (-), underscores (_), and periods (.).</string>
+    <string name="error_register_invalid_email_format">Invalid E-mail format</string>
+    <string name="error_register_empty_password">Empty Password</string>
+    <string name="error_register_password_at_least_6_characters">Password should be at least 6 characters</string>
+    <string name="error_register_passwords_mismatch">Passwords mismatch</string>
+    <string name="error_register_empty_confirm_password">Empty confirm password</string>
+    <string name="error_register_username_already_exists">Username already exists</string>
+    <string name="error_register_email_exists">Email Address already exists</string>
     <!--  -->
 
 
@@ -998,13 +1008,11 @@
     <!--  -->
 
     <!-- Broadcast spinner -->
-    <string name="new_broadcast_message">New…</string>
     <string name="dialog_new_broadcast_message_title">New message</string>
     <string name="dialog_new_broadcast_message_name">message:</string>
     <!--  -->
 
     <!-- NFC spinner -->
-    <string name="new_nfc_tag">New…</string>
     <string name="brick_when_nfc_default_all">all</string>
     <!-- -->
 
@@ -1117,12 +1125,12 @@
     <string name="brick_vibration">Vibrate for</string>
     <string name="brick_ask_label">Ask</string>
     <string name="brick_ask_store">and store written answer in</string>
-    <string name="brick_ask_default_question">\'What\'s your name?\'</string>
+    <string name="brick_ask_default_question">What\'s your name?</string>
     <string name="brick_ask_dialog_hint">"Enter your answer:"</string>
     <string name="brick_ask_dialog_submit">Submit answer</string>
     <string name="brick_ask_speech_label">Ask</string>
     <string name="brick_ask_speech_store">and store spoken answer in</string>
-    <string name="brick_ask_speech_default_question">\'What\'s your name?\'</string>
+    <string name="brick_ask_speech_default_question">What\'s your name?</string>
     <!--  -->
 
 
@@ -1143,7 +1151,7 @@
     <string name="brick_set_volume_to">Set volume to</string>
     <string name="brick_change_volume_by">Change volume by</string>
     <string name="brick_speak">Speak</string>
-    <string name="brick_speak_default_value">"Hello!"</string>
+    <string name="brick_speak_default_value">Hello!</string>
     <string name="brick_speak_and_wait">and wait</string>
     <!--  -->
 
@@ -1201,10 +1209,9 @@
     <string name="brick_if_end">End If</string>
     <string name="brick_set_variable">Set variable</string>
     <string name="brick_change_variable">Change variable</string>
-    <string name="brick_variable_spinner_create_new_variable">New…</string>
-    <string name="brick_note_default_value">"add comment here…"</string>
-    <string name="brick_think_bubble_default_value">"Hmmmm!"</string>
-    <string name="brick_say_bubble_default_value">"Hello!"</string>
+    <string name="brick_note_default_value">add comment here…</string>
+    <string name="brick_think_bubble_default_value">Hmmmm!</string>
+    <string name="brick_say_bubble_default_value">Hello!</string>
     <string name="brick_broadcast_default_value">"new message"</string>
     <string name="brick_add_item_to_userlist_add">Add</string>
     <string name="brick_add_item_to_userlist">to list</string>
@@ -1515,8 +1522,6 @@
     <string name="brick_drone_emergency">Emergency AR.Drone 2.0</string>
     <string name="brick_drone_turn_right">Turn AR.Drone 2.0 right</string>
     <string name="brick_drone_turn_left">Turn AR.Drone 2.0 left</string>
-    <string name="brick_drone_turn_left_magneto">Turn AR.Drone 2.0 left [angle]</string>
-    <string name="brick_drone_turn_right_magneto">Turn AR.Drone 2.0 right [angle]</string>
     <string name="brick_drone_set_config">Set config AR.Drone 2.0</string>
     <string name="brick_drone_switch_camera">Switch AR.Drone 2.0 camera</string>
     <string name="brick_drone_set_altitude">Altitude limit </string>
@@ -1877,7 +1882,6 @@
     <string name="formula_editor_sensor_face_y_position">face_y_position</string>
     <string name="formula_editor_function_number_of_items">number_of_items</string>
     <string name="formula_editor_function_number_of_items_parameter">(*list name*)</string>
-
     <string name="formula_editor_intro_title_formula_editor">Formula editor</string>
     <string name="formula_editor_intro_summary_formula_editor">With the  formula editor you can create mathematical and
         logical formulas that you can use in your bricks.\n\nYou can continue through this little intro by tapping
@@ -2007,7 +2011,7 @@
     <string name="hertz_symbol">㎐</string>
 
     <!-- UtilFile SizeUnits String -->
-     <string name="Byte_short">B</string>
+    <string name="Byte_short">B</string>
      <string name="KiloByte_short">KB</string>
      <string name="MegaByte_short">MB</string>
      <string name="GigaByte_short">GB</string>

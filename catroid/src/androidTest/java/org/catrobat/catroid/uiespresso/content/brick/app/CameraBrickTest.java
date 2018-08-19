@@ -75,7 +75,7 @@ public class CameraBrickTest {
 		spinnerValues.add(R.string.video_brick_camera_on);
 		spinnerValues.add(R.string.video_brick_camera_off);
 		onBrickAtPosition(cameraBrickPosition).onSpinner(R.id.brick_video_spinner)
-			.checkValuesAvailable(spinnerValues);
+			.checkStringIdValuesAvailable(spinnerValues);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -89,6 +89,6 @@ public class CameraBrickTest {
 		spinnerValues.add(R.string.choose_camera_front);
 		spinnerValues.add(R.string.choose_camera_back);
 		onBrickAtPosition(chooseCameraBrickPosition).onSpinner(R.id.brick_choose_camera_spinner)
-				.checkValuesAvailable(spinnerValues);
+				.checkStringIdValuesAvailable(spinnerValues);
 	}
 }

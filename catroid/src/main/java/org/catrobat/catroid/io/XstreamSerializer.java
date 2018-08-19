@@ -289,14 +289,21 @@ public final class XstreamSerializer {
 		xstream.omitField(CameraBrick.class, "spinnerValues");
 		xstream.omitField(ChooseCameraBrick.class, "spinnerValues");
 		xstream.omitField(FlashBrick.class, "spinnerValues");
+
+		xstream.omitField(SetNfcTagBrick.class, "nfcTagNdefDefaultType");
+
+		xstream.omitField(SpeakAndWaitBrick.class, "speechFile");
+		xstream.omitField(SpeakAndWaitBrick.class, "duration");
+
 		xstream.omitField(StopScriptBrick.class, "spinnerValue");
 
 		xstream.omitField(ShowTextBrick.class, "userVariableName");
 		xstream.omitField(HideTextBrick.class, "userVariableName");
 
-		xstream.omitField(RaspiInterruptScript.class, "receivedMessage");
-		xstream.omitField(WhenScript.class, "action");
 		xstream.omitField(StartScript.class, "isUserScript");
+		xstream.omitField(WhenScript.class, "action");
+
+		xstream.omitField(RaspiInterruptScript.class, "receivedMessage");
 
 		xstream.alias("look", LookData.class);
 		xstream.alias("droneLook", DroneVideoLookData.class);
@@ -717,34 +724,34 @@ public final class XstreamSerializer {
 		return xmlString;
 	}
 
-	private Set<String> generatePermissionsSetFromResource(int resources) {
+	private Set<String> generatePermissionsSetFromResource(Brick.ResourcesSet resources) {
 		Set<String> permissionsSet = new HashSet<>();
 
-		if ((resources & Brick.TEXT_TO_SPEECH) > 0) {
+		if (resources.contains(Brick.TEXT_TO_SPEECH)) {
 			permissionsSet.add(TEXT_TO_SPEECH);
 		}
-		if ((resources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
+		if (resources.contains(Brick.BLUETOOTH_LEGO_NXT)) {
 			permissionsSet.add(BLUETOOTH_LEGO_NXT);
 		}
-		if ((resources & Brick.ARDRONE_SUPPORT) > 0) {
+		if (resources.contains(Brick.ARDRONE_SUPPORT)) {
 			permissionsSet.add(ARDRONE_SUPPORT);
 		}
-		if ((resources & Brick.JUMPING_SUMO) > 0) {
+		if (resources.contains(Brick.JUMPING_SUMO)) {
 			permissionsSet.add(JUMPING_SUMO_SUPPORT);
 		}
-		if ((resources & Brick.BLUETOOTH_PHIRO) > 0) {
+		if (resources.contains(Brick.BLUETOOTH_PHIRO)) {
 			permissionsSet.add(BLUETOOTH_PHIRO_PRO);
 		}
-		if ((resources & Brick.CAMERA_FLASH) > 0) {
+		if (resources.contains(Brick.CAMERA_FLASH)) {
 			permissionsSet.add(CAMERA_FLASH);
 		}
-		if ((resources & Brick.VIBRATOR) > 0) {
+		if (resources.contains(Brick.VIBRATOR)) {
 			permissionsSet.add(VIBRATOR);
 		}
-		if ((resources & Brick.FACE_DETECTION) > 0) {
+		if (resources.contains(Brick.FACE_DETECTION)) {
 			permissionsSet.add(FACE_DETECTION);
 		}
-		if ((resources & Brick.NFC_ADAPTER) > 0) {
+		if (resources.contains(Brick.NFC_ADAPTER)) {
 			permissionsSet.add(NFC);
 		}
 		return permissionsSet;

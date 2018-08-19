@@ -24,10 +24,7 @@ package org.catrobat.catroid.drone.jumpingsumo;
 
 import android.os.Bundle;
 
-import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.CatroidApplication;
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.ui.dialogs.TermsOfUseJSDialogFragment;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
@@ -46,12 +43,6 @@ public final class JumpingSumoServiceWrapper {
 		}
 
 		return instance;
-	}
-
-	public static boolean checkJumpingSumoAvailability() {
-		int requiredResources = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
-		boolean isJSAvailable = (((requiredResources & Brick.JUMPING_SUMO) > 0) && BuildConfig.FEATURE_PARROT_JUMPING_SUMO_ENABLED);
-		return isJSAvailable;
 	}
 
 	public static boolean isJumpingSumoSharedPreferenceEnabled() {

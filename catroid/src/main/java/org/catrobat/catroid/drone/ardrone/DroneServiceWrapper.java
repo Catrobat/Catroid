@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.drone.ardrone;
 
-import android.util.Log;
-
 import com.parrot.freeflight.service.DroneControlService;
 
 import org.catrobat.catroid.BuildConfig;
@@ -33,7 +31,6 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 public final class DroneServiceWrapper {
-	private static final String TAG = DroneServiceWrapper.class.getSimpleName();
 
 	private static DroneServiceWrapper instance = null;
 	private static DroneControlService droneControlService = null;
@@ -58,10 +55,10 @@ public final class DroneServiceWrapper {
 	}
 
 	public static boolean checkARDroneAvailability() {
-		int requiredResources = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
-		boolean isDroneAvailable = (((requiredResources & Brick.ARDRONE_SUPPORT) > 0) && BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED);
-		Log.d(TAG, "drone pref enabled? " + isDroneSharedPreferenceEnabled());
-		return isDroneAvailable; // isDroneSharedPreferenceEnabled()
+		Brick.ResourcesSet resourcesSet = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
+		boolean isDroneAvailable = (resourcesSet.contains(Brick.ARDRONE_SUPPORT) && BuildConfig
+				.FEATURE_PARROT_AR_DRONE_ENABLED);
+		return isDroneAvailable;
 	}
 
 	public static boolean isDroneSharedPreferenceEnabled() {

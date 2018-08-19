@@ -28,82 +28,36 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
 public class LegoNxtMotorTurnAngleBrick extends FormulaBrick {
+
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
 	private String motor;
-	private transient Motor motorEnum;
-	private transient TextView editSpeed;
 
 	public enum Motor {
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_B_C
 	}
 
 	public LegoNxtMotorTurnAngleBrick() {
-		addAllowedBrickField(BrickField.LEGO_NXT_DEGREES);
+		addAllowedBrickField(BrickField.LEGO_NXT_DEGREES, R.id.motor_turn_angle_edit_text);
 	}
 
-	public LegoNxtMotorTurnAngleBrick(Motor motor, int degrees) {
-		this.motorEnum = motor;
+	public LegoNxtMotorTurnAngleBrick(Motor motorEnum, int degrees) {
+		this(motorEnum, new Formula(degrees));
+	}
+
+	public LegoNxtMotorTurnAngleBrick(Motor motorEnum, Formula degreesFormula) {
+		this();
 		this.motor = motorEnum.name();
-		initializeBrickFields(new Formula(degrees));
-	}
-
-	public LegoNxtMotorTurnAngleBrick(Motor motor, Formula degreesFormula) {
-		this.motorEnum = motor;
-		this.motor = motorEnum.name();
-		initializeBrickFields(degreesFormula);
-	}
-
-	protected Object readResolve() {
-		if (motor != null) {
-			motorEnum = Motor.valueOf(motor);
-		}
-		return this;
-	}
-
-	private void initializeBrickFields(Formula degreesFormula) {
-		addAllowedBrickField(BrickField.LEGO_NXT_DEGREES);
 		setFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES, degreesFormula);
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return BLUETOOTH_LEGO_NXT | getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES).getRequiredResources();
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
-		TextView textX = (TextView) prototypeView.findViewById(R.id.motor_turn_angle_edit_text);
-		textX.setText(formatNumberForPrototypeView(BrickValues.LEGO_ANGLE));
-
-		Spinner legoSpinner = (Spinner) prototypeView.findViewById(R.id.lego_motor_turn_angle_spinner);
-
-		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context, R.array.nxt_motor_chooser,
-				android.R.layout.simple_spinner_item);
-		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-		legoSpinner.setAdapter(motorAdapter);
-		legoSpinner.setSelection(motorEnum.ordinal());
-		return prototypeView;
-	}
-
-	@Override
-	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.LEGO_NXT_DEGREES);
 	}
 
 	@Override
@@ -112,44 +66,46 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick {
 	}
 
 	@Override
+	public View getPrototypeView(Context context) {
+		super.getPrototypeView(context);
+		return getView(context);
+	}
+
+	@Override
 	public View getView(final Context context) {
 		super.getView(context);
-		editSpeed = (TextView) view.findViewById(R.id.motor_turn_angle_edit_text);
-		getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES).setTextFieldId(R.id.motor_turn_angle_edit_text);
-		getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES).refreshTextField(view);
 
-		editSpeed.setOnClickListener(this);
+		ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter
+				.createFromResource(context, R.array.nxt_motor_chooser, android.R.layout.simple_spinner_item);
+		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context, R.array.nxt_motor_chooser,
-				android.R.layout.simple_spinner_item);
-		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-		Spinner motorSpinner = (Spinner) view.findViewById(R.id.lego_motor_turn_angle_spinner);
-
-		motorSpinner.setAdapter(motorAdapter);
-		motorSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+		Spinner spinner = view.findViewById(R.id.lego_motor_turn_angle_spinner);
+		spinner.setAdapter(spinnerAdapter);
+		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
-				motorEnum = Motor.values()[position];
-				motor = motorEnum.name();
+				motor = Motor.values()[position].name();
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
-		if (motorEnum == null) {
-			readResolve();
-		}
-		motorSpinner.setSelection(motorEnum.ordinal());
 
+		spinner.setSelection(Motor.valueOf(motor).ordinal());
 		return view;
 	}
 
 	@Override
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(BLUETOOTH_LEGO_NXT);
+		super.addRequiredResources(requiredResourcesSet);
+	}
+
+	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createLegoNxtMotorTurnAngleAction(sprite, motorEnum,
+		sequence.addAction(sprite.getActionFactory().createLegoNxtMotorTurnAngleAction(sprite, Motor.valueOf(motor),
 				getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES)));
 		return null;
 	}

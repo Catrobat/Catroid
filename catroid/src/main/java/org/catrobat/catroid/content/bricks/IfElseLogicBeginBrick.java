@@ -20,23 +20,16 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.ui.dialogs;
 
-import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialogFragment;
+package org.catrobat.catroid.content.bricks;
 
-public class BrickTextDialog extends TextInputDialogFragment {
+public interface IfElseLogicBeginBrick extends Brick, NestingBrick {
 
-	public BrickTextDialog(int title, int label, String previousText) {
-		super(title, label, previousText, false);
-	}
+	IfLogicElseBrick getIfElseBrick();
 
-	@Override
-	protected boolean onPositiveButtonClick() {
-		return false;
-	}
+	void setIfElseBrick(IfLogicElseBrick elseBrick);
 
-	@Override
-	protected void onNegativeButtonClick() {
-		dismiss();
-	}
+	IfLogicEndBrick getIfEndBrick();
+
+	void setIfEndBrick(IfLogicEndBrick ifEndBrick);
 }

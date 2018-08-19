@@ -53,7 +53,6 @@
   <string name="share_website_text">www.pocketcode.org</string>
   <!-- Login/Logout Mechanism -->
   <string name="loading_check_facebook_data">استرداد بيانات فيس بوك&#8230;</string>
-  <string name="loading_check_email">التحقق ما إذا كان البريد الإلكتروني متوفراً&#8230;</string>
   <string name="loading_check_oauth_token">التحقق من بيانات تسجيل الدخول&#8230;</string>
   <string name="loading_check_facebook_token_validity">التحقق من بيانات الفيس بوك&#8230;</string>
   <string name="loading_check_oauth_username">التحقق ما إذا كان البريد الإلكتروني متوفراً&#8230;</string>
@@ -1043,8 +1042,6 @@
   <!--  -->
   <!-- NetworkAlertDialog -->
   <string name="error_no_network_title">لا يوجد اتصال بالشبكة</string>
-  <string name="error_no_network_one_brick">Following brick will use the network:</string>
-  <string name="error_no_network_multiple_bricks">Following brick will use the networks:</string>
   <string name="error_no_network">انت بحاجة الى اتصال نشط بالإنترنت لاستخدام \"بوكت كوود\". من فضلك قم بتشغيل بيانات الهاتف او قم بالاتصال بشبكة لاسلكية في الاعدادات.</string>
   <plurals name="bricks_using_network_headline">
     <item quantity="zero">The following bricks need a network connection:</item>
@@ -1103,7 +1100,6 @@
   <string name="signin_choose_username_hint">يجب أن لا يكون اسم المستخدم هو اسمك الحقيقي.</string>
   <string name="oauth_username_taken">Someone else already uses this name. Please choose a different one!</string>
   <string name="show_password">إظهار كلمة المرور</string>
-  <string name="register_password_mismatch">كلمات المرور لا تتطابق</string>
   <string name="sign_in_error">حدث خطأ أثناء تسجيل الدخول</string>
   <string name="error_google_plus_sign_in">Google Sign-In error. Status: %s</string>
   <string name="error_facebook_session_expired">Session expired, please log in.</string>

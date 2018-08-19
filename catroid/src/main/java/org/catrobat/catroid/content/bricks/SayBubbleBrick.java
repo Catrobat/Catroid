@@ -22,18 +22,35 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+
+import java.util.List;
+
+import static org.catrobat.catroid.common.Constants.SAY_BRICK;
 
 public class SayBubbleBrick extends ThinkBubbleBrick {
+
+	private static final long serialVersionUID = 1L;
+
 	public SayBubbleBrick() {
-		type = Constants.SAY_BRICK;
-		addAllowedBrickField(BrickField.STRING);
+		super();
 	}
 
 	public SayBubbleBrick(String text) {
-		type = Constants.SAY_BRICK;
-		addAllowedBrickField(BrickField.STRING);
-		initializeBrickFields(new Formula(text));
+		super(text);
+	}
+
+	@Override
+	public int getViewResource() {
+		return R.layout.brick_say_bubble;
+	}
+
+	@Override
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		sequence.addAction(sprite.getActionFactory().createThinkSayBubbleAction(sprite,
+				getFormulaWithBrickField(BrickField.STRING), SAY_BRICK));
+		return null;
 	}
 }

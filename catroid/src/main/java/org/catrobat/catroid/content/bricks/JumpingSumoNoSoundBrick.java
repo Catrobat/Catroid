@@ -22,9 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
@@ -32,7 +29,11 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import java.util.List;
 
 public class JumpingSumoNoSoundBrick extends BrickBaseType {
+
 	private static final long serialVersionUID = 1L;
+
+	public JumpingSumoNoSoundBrick() {
+	}
 
 	@Override
 	public int getViewResource() {
@@ -40,21 +41,8 @@ public class JumpingSumoNoSoundBrick extends BrickBaseType {
 	}
 
 	@Override
-	public View getView(Context context) {
-		super.getView(context);
-		return view;
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-
-		return prototypeView;
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return super.getRequiredResources() | Brick.JUMPING_SUMO;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(JUMPING_SUMO);
 	}
 
 	@Override

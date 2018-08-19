@@ -32,12 +32,13 @@ import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfElseLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
@@ -165,6 +166,9 @@ public final class ProjectManager {
 			project.setCatrobatLanguageVersion(0.997f);
 		}
 		if (project.getCatrobatLanguageVersion() == 0.997f) {
+			project.setCatrobatLanguageVersion(0.998f);
+		}
+		if (project.getCatrobatLanguageVersion() == 0.998f) {
 			project.setCatrobatLanguageVersion(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
 		}
 
@@ -172,6 +176,7 @@ public final class ProjectManager {
 
 		makeShallowCopiesDeepAgain(project);
 		checkNestingBrickReferences(true, false);
+		updateCollisionScriptsSpriteReference(project);
 
 		if (project.getCatrobatLanguageVersion() == Constants.CURRENT_CATROBAT_LANGUAGE_VERSION) {
 			localizeBackgroundSprite(context);
@@ -183,17 +188,17 @@ public final class ProjectManager {
 		project.loadLegoNXTSettingsFromProject(context);
 		project.loadLegoEV3SettingsFromProject(context);
 
-		int resources = project.getRequiredResources();
+		Brick.ResourcesSet resourcesSet = project.getRequiredResources();
 
-		if ((resources & Brick.BLUETOOTH_PHIRO) > 0) {
+		if (resourcesSet.contains(Brick.BLUETOOTH_PHIRO)) {
 			SettingsFragment.setPhiroSharedPreferenceEnabled(context, true);
 		}
 
-		if ((resources & Brick.JUMPING_SUMO) > 0) {
+		if (resourcesSet.contains(Brick.JUMPING_SUMO)) {
 			SettingsFragment.setJumpingSumoSharedPreferenceEnabled(context, true);
 		}
 
-		if ((resources & Brick.BLUETOOTH_SENSORS_ARDUINO) > 0) {
+		if (resourcesSet.contains(Brick.BLUETOOTH_SENSORS_ARDUINO)) {
 			SettingsFragment.setArduinoSharedPreferenceEnabled(context, true);
 		}
 
@@ -533,9 +538,9 @@ public final class ProjectManager {
 						+ currentBrick);
 				return false;
 			}
-		} else if (currentBrick instanceof IfLogicBeginBrick) {
-			IfLogicElseBrick elseBrick = ((IfLogicBeginBrick) currentBrick).getIfElseBrick();
-			IfLogicEndBrick endBrick = ((IfLogicBeginBrick) currentBrick).getIfEndBrick();
+		} else if (currentBrick instanceof IfElseLogicBeginBrick) {
+			IfLogicElseBrick elseBrick = ((IfElseLogicBeginBrick) currentBrick).getIfElseBrick();
+			IfLogicEndBrick endBrick = ((IfElseLogicBeginBrick) currentBrick).getIfEndBrick();
 			if (elseBrick == null || endBrick == null || elseBrick.getIfBeginBrick() == null
 					|| elseBrick.getIfEndBrick() == null || endBrick.getIfBeginBrick() == null
 					|| endBrick.getIfElseBrick() == null
@@ -560,7 +565,7 @@ public final class ProjectManager {
 	}
 
 	private void correctAllNestedReferences(Script script) {
-		ArrayList<IfLogicBeginBrick> ifBeginList = new ArrayList<>();
+		ArrayList<IfElseLogicBeginBrick> ifBeginList = new ArrayList<>();
 		ArrayList<IfThenLogicBeginBrick> ifThenBeginList = new ArrayList<>();
 		ArrayList<Brick> loopBeginList = new ArrayList<>();
 		ArrayList<Brick> bricksWithInvalidReferences = new ArrayList<>();
@@ -568,8 +573,8 @@ public final class ProjectManager {
 		for (Brick currentBrick : script.getBrickList()) {
 			if (currentBrick instanceof IfThenLogicBeginBrick) {
 				ifThenBeginList.add((IfThenLogicBeginBrick) currentBrick);
-			} else if (currentBrick instanceof IfLogicBeginBrick) {
-				ifBeginList.add((IfLogicBeginBrick) currentBrick);
+			} else if (currentBrick instanceof IfElseLogicBeginBrick) {
+				ifBeginList.add((IfElseLogicBeginBrick) currentBrick);
 			} else if (currentBrick instanceof LoopBeginBrick) {
 				loopBeginList.add(currentBrick);
 			} else if (currentBrick instanceof LoopEndBrick) {
@@ -588,7 +593,7 @@ public final class ProjectManager {
 					bricksWithInvalidReferences.add(currentBrick);
 					continue;
 				}
-				IfLogicBeginBrick ifBeginBrick = ifBeginList.get(ifBeginList.size() - 1);
+				IfElseLogicBeginBrick ifBeginBrick = ifBeginList.get(ifBeginList.size() - 1);
 				ifBeginBrick.setIfElseBrick((IfLogicElseBrick) currentBrick);
 				((IfLogicElseBrick) currentBrick).setIfBeginBrick(ifBeginBrick);
 			} else if (currentBrick instanceof IfThenLogicEndBrick) {
@@ -607,7 +612,7 @@ public final class ProjectManager {
 					bricksWithInvalidReferences.add(currentBrick);
 					continue;
 				}
-				IfLogicBeginBrick ifBeginBrick = ifBeginList.get(ifBeginList.size() - 1);
+				IfElseLogicBeginBrick ifBeginBrick = ifBeginList.get(ifBeginList.size() - 1);
 				IfLogicElseBrick elseBrick = ifBeginBrick.getIfElseBrick();
 				ifBeginBrick.setIfEndBrick((IfLogicEndBrick) currentBrick);
 				elseBrick.setIfEndBrick((IfLogicEndBrick) currentBrick);
@@ -623,6 +628,19 @@ public final class ProjectManager {
 
 		for (Brick brick : bricksWithInvalidReferences) {
 			script.removeBrick(brick);
+		}
+	}
+
+	private void updateCollisionScriptsSpriteReference(Project project) {
+		for (Scene scene : project.getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				for (Script script : sprite.getScriptList()) {
+					if (script instanceof CollisionScript) {
+						CollisionScript collisionScript = (CollisionScript) script;
+						collisionScript.updateSpriteToCollideWith(scene);
+					}
+				}
+			}
 		}
 	}
 

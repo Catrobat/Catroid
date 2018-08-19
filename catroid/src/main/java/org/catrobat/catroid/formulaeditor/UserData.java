@@ -23,10 +23,9 @@
 
 package org.catrobat.catroid.formulaeditor;
 
-public interface UserData {
+import org.catrobat.catroid.common.Nameable;
 
-	String getName();
-	void setName(String name);
+public interface UserData extends Nameable {
 
 	void reset();
 }

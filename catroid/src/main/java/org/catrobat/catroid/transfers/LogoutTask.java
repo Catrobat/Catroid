@@ -25,7 +25,7 @@ package org.catrobat.catroid.transfers;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.utils.NetworkUtils;
 import org.catrobat.catroid.web.ServerCalls;
 
 public class LogoutTask extends AsyncTask<Void, Void, Boolean> {
@@ -48,7 +48,7 @@ public class LogoutTask extends AsyncTask<Void, Void, Boolean> {
 
 	@Override
 	protected Boolean doInBackground(Void... arg0) {
-		if (!Utils.isNetworkAvailable(context)) {
+		if (!NetworkUtils.isNetworkAvailable(context)) {
 			return false;
 		}
 		ServerCalls.getInstance().logout(username);

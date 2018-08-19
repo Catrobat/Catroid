@@ -22,21 +22,10 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.Spinner;
-import android.widget.TextView;
-
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.InternToExternGenerator;
-import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.ui.adapter.DataAdapter;
-import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.Collections;
 import java.util.List;
@@ -45,34 +34,17 @@ public class AskSpeechBrick extends UserVariableBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	private transient String defaultPrototypeToken = null;
-
-	public AskSpeechBrick(Formula questionFormula, UserVariable answerVariable) {
-		this.userVariable = answerVariable;
-		initializeBrickFields(questionFormula);
+	public AskSpeechBrick() {
+		addAllowedBrickField(BrickField.ASK_SPEECH_QUESTION, R.id.brick_ask_speech_question_edit_text);
 	}
 
 	public AskSpeechBrick(String questionText) {
-		this.userVariable = null;
-		initializeBrickFields(new Formula(questionText));
+		this(new Formula(questionText));
 	}
 
-	private void initializeBrickFields(Formula questionFormula) {
-		addAllowedBrickField(BrickField.ASK_SPEECH_QUESTION);
+	public AskSpeechBrick(Formula questionFormula) {
+		this();
 		setFormulaWithBrickField(BrickField.ASK_SPEECH_QUESTION, questionFormula);
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.ASK_SPEECH_QUESTION).getRequiredResources()
-				| Brick.NETWORK_CONNECTION;
-	}
-
-	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createAskSpeechAction(sprite,
-				getFormulaWithBrickField(BrickField.ASK_SPEECH_QUESTION), userVariable));
-		return Collections.emptyList();
 	}
 
 	@Override
@@ -81,64 +53,20 @@ public class AskSpeechBrick extends UserVariableBrick {
 	}
 
 	@Override
-	public View getView(final Context context) {
-		super.getView(context);
-		TextView textField = view.findViewById(R.id.brick_ask_speech_question_edit_text);
-
-		getFormulaWithBrickField(BrickField.ASK_SPEECH_QUESTION).setTextFieldId(R.id.brick_ask_speech_question_edit_text);
-		getFormulaWithBrickField(BrickField.ASK_SPEECH_QUESTION).refreshTextField(view);
-		textField.setOnClickListener(this);
-
-		Spinner variableSpinner = view.findViewById(R.id.brick_ask_speech_spinner);
-
-		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyPlayingScene().getDataContainer()
-				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
-		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
-				dataAdapter);
-		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
-
-		variableSpinner.setAdapter(userVariableAdapterWrapper);
-
-		setSpinnerSelection(variableSpinner, null);
-
-		variableSpinner.setOnTouchListener(createSpinnerOnTouchListener());
-		variableSpinner.setOnItemSelectedListener(createVariableSpinnerItemSelectedListener());
-		return view;
+	protected int getSpinnerId() {
+		return R.id.brick_ask_speech_spinner;
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-		Spinner variableSpinner = prototypeView.findViewById(R.id.brick_ask_speech_spinner);
-
-		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentlyPlayingScene().getDataContainer()
-				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
-
-		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
-				dataAdapter);
-
-		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
-		variableSpinner.setAdapter(userVariableAdapterWrapper);
-		setSpinnerSelection(variableSpinner, null);
-
-		TextView textSetVariable = prototypeView.findViewById(R.id.brick_ask_speech_question_edit_text);
-
-		if (defaultPrototypeToken != null) {
-			int defaultValueId = InternToExternGenerator.getMappedString(defaultPrototypeToken);
-			textSetVariable.setText(context.getText(defaultValueId));
-		} else {
-			textSetVariable.setText(context.getString(R.string.brick_ask_speech_default_question));
-		}
-		return prototypeView;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(NETWORK_CONNECTION);
+		super.addRequiredResources(requiredResourcesSet);
 	}
 
 	@Override
-	public void onNewVariable(UserVariable userVariable) {
-		Spinner spinner = view.findViewById(R.id.brick_ask_speech_spinner);
-		setSpinnerSelection(spinner, userVariable);
-	}
-
-	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.ASK_SPEECH_QUESTION);
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		sequence.addAction(sprite.getActionFactory()
+				.createAskSpeechAction(sprite, getFormulaWithBrickField(BrickField.ASK_SPEECH_QUESTION), userVariable));
+		return Collections.emptyList();
 	}
 }

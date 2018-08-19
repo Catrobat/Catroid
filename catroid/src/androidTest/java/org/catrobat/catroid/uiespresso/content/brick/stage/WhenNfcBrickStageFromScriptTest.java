@@ -39,7 +39,6 @@ import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
@@ -97,7 +96,7 @@ public class WhenNfcBrickStageFromScriptTest {
 
 	@Category({Cat.CatrobatLanguage.class, Level.Functional.class, Cat.SettingsAndPermissions.class})
 	@Test
-	public void testNfcSensorVariable() throws InterpretationException {
+	public void testNfcSensorVariable() {
 		gotoNfcFragment(nfcBrickPosition);
 		UiNFCTestUtils.fakeNfcTag(UiNFCTestUtils.FIRST_TEST_TAG_ID, ndefMessage1, null, baseActivityTestRule.getActivity());
 
@@ -115,7 +114,7 @@ public class WhenNfcBrickStageFromScriptTest {
 				.checkShowsText(R.string.brick_when_nfc_default_all);
 
 		onNfcBrickAtPosition(nfcBrickPosition).onSpinner(R.id.brick_when_nfc_spinner)
-				.performSelect(TAG_NAME_TEST1);
+				.performSelectString(TAG_NAME_TEST1);
 
 		onView(withId(R.id.button_play))
 				.perform(click());
@@ -129,7 +128,7 @@ public class WhenNfcBrickStageFromScriptTest {
 				.checkShowsText(TAG_NAME_TEST1);
 
 		onNfcBrickAtPosition(nfcBrickPosition).onSpinner(R.id.brick_when_nfc_spinner)
-				.performSelect(TAG_NAME_TEST2);
+				.performSelectString(TAG_NAME_TEST2);
 
 		onView(withId(R.id.button_play))
 				.perform(click());
@@ -146,7 +145,7 @@ public class WhenNfcBrickStageFromScriptTest {
 	private void gotoNfcFragment(int nfcBrickPosition) {
 		onBrickAtPosition(nfcBrickPosition).onSpinner(R.id.brick_when_nfc_spinner)
 				.perform(click());
-		onView(withText(R.string.new_nfc_tag))
+		onView(withText(R.string.new_option))
 				.perform(click());
 	}
 

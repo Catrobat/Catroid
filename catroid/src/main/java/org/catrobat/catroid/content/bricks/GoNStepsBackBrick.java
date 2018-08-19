@@ -34,7 +34,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
@@ -44,25 +43,16 @@ public class GoNStepsBackBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public GoNStepsBackBrick() {
-		addAllowedBrickField(BrickField.STEPS);
+		addAllowedBrickField(BrickField.STEPS, R.id.brick_go_back_edit_text);
 	}
 
-	public GoNStepsBackBrick(int stepsValue) {
-		initializeBrickFields(new Formula(stepsValue));
+	public GoNStepsBackBrick(int steps) {
+		this(new Formula(steps));
 	}
 
-	public GoNStepsBackBrick(Formula steps) {
-		initializeBrickFields(steps);
-	}
-
-	private void initializeBrickFields(Formula steps) {
-		addAllowedBrickField(BrickField.STEPS);
-		setFormulaWithBrickField(BrickField.STEPS, steps);
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.STEPS).getRequiredResources();
+	public GoNStepsBackBrick(Formula formula) {
+		this();
+		setFormulaWithBrickField(BrickField.STEPS, formula);
 	}
 
 	@Override
@@ -73,10 +63,6 @@ public class GoNStepsBackBrick extends FormulaBrick {
 	@Override
 	public View getView(Context context) {
 		super.getView(context);
-		TextView edit = view.findViewById(R.id.brick_go_back_edit_text);
-
-		getFormulaWithBrickField(BrickField.STEPS).setTextFieldId(R.id.brick_go_back_edit_text);
-		getFormulaWithBrickField(BrickField.STEPS).refreshTextField(view);
 
 		TextView times = view.findViewById(R.id.brick_go_back_layers_text_view);
 
@@ -91,26 +77,19 @@ public class GoNStepsBackBrick extends FormulaBrick {
 				Log.d(getClass().getSimpleName(), "Couldn't interpret Formula.", interpretationException);
 			}
 		} else {
-
-			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
-			// in hopefully all possible languages
 			times.setText(view.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural,
 					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
 		}
 
-		edit.setOnClickListener(this);
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = super.getPrototypeView(context);
-		TextView textSteps = prototypeView.findViewById(R.id.brick_go_back_edit_text);
 		TextView times = prototypeView.findViewById(R.id.brick_go_back_layers_text_view);
-		textSteps.setText(formatNumberForPrototypeView(BrickValues.GO_BACK));
-		times.setText(context.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural,
-				Utils.convertDoubleToPluralInteger(BrickValues.GO_BACK)));
-
+		times.setText(context.getResources()
+				.getQuantityString(R.plurals.brick_go_back_layer_plural, Utils.convertDoubleToPluralInteger(BrickValues.GO_BACK)));
 		return prototypeView;
 	}
 
@@ -119,10 +98,5 @@ public class GoNStepsBackBrick extends FormulaBrick {
 		sequence.addAction(sprite.getActionFactory()
 				.createGoNStepsBackAction(sprite, getFormulaWithBrickField(BrickField.STEPS)));
 		return null;
-	}
-
-	@Override
-	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.STEPS);
 	}
 }

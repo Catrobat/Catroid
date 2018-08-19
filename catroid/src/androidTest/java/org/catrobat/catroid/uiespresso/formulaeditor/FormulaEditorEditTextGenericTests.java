@@ -29,6 +29,7 @@ import android.view.View;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
@@ -81,7 +82,7 @@ public class FormulaEditorEditTextGenericTests {
 	@Before
 	public void setUp() throws Exception {
 		Script script = BrickTestUtils.createProjectAndGetStartScript("FormulaEditorEditTextTest");
-		script.addBrick(new ChangeSizeByNBrick());
+		script.addBrick(new ChangeSizeByNBrick(new Formula(10)));
 		baseActivityTestRule.launchActivity();
 		onView(withId(R.id.brick_change_size_by_edit_text))
 				.perform(click());
@@ -118,7 +119,8 @@ public class FormulaEditorEditTextGenericTests {
 	}
 
 	@Parameter
-	public @StringRes Matcher<View> formulaEditorKeyboardButton;
+	@StringRes
+	public Matcher<View> formulaEditorKeyboardButton;
 
 	@Parameter(1)
 	public String shouldBe;

@@ -28,16 +28,16 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.utils.NetworkUtils;
 import org.catrobat.catroid.web.ServerCalls;
-import org.catrobat.catroid.web.WebconnectionException;
+import org.catrobat.catroid.web.WebConnectionException;
 
 public class DeleteTestUserTask extends AsyncTask<Void, Void, Boolean> {
 	private static final String TAG = DeleteTestUserTask.class.getSimpleName();
 
 	private Context context;
 
-	private WebconnectionException exception;
+	private WebConnectionException exception;
 
 	private OnDeleteTestUserCompleteListener onDeleteTestUserCompleteListener;
 
@@ -60,15 +60,15 @@ public class DeleteTestUserTask extends AsyncTask<Void, Void, Boolean> {
 	@Override
 	protected Boolean doInBackground(Void... params) {
 		try {
-			if (!Utils.isNetworkAvailable(context)) {
-				exception = new WebconnectionException(WebconnectionException.ERROR_NETWORK, "Network not available!");
+			if (!NetworkUtils.isNetworkAvailable(context)) {
+				exception = new WebConnectionException(WebConnectionException.ERROR_NETWORK, "Network not available!");
 				return false;
 			}
 
 			return ServerCalls.getInstance().deleteTestUserAccountsOnServer();
-		} catch (WebconnectionException webconnectionException) {
-			Log.e(TAG, Log.getStackTraceString(webconnectionException));
-			exception = webconnectionException;
+		} catch (WebConnectionException webConnectionException) {
+			Log.e(TAG, Log.getStackTraceString(webConnectionException));
+			exception = webConnectionException;
 		}
 		return false;
 	}
@@ -77,7 +77,7 @@ public class DeleteTestUserTask extends AsyncTask<Void, Void, Boolean> {
 	protected void onPostExecute(Boolean deleted) {
 		super.onPostExecute(deleted);
 
-		if (Utils.checkForNetworkError(exception)) {
+		if (NetworkUtils.checkForNetworkError(exception)) {
 			showDialog(R.string.error_internet_connection);
 			return;
 		}

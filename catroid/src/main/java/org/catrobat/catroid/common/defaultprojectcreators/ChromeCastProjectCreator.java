@@ -272,13 +272,13 @@ public class ChromeCastProjectCreator extends ProjectCreator {
 			birdScriptBroadcast.addBrick(placeTop);
 			IfLogicElseBrick ifLogicElseBrickMaxY = new IfLogicElseBrick(ifLogicBeginBrickMaxY);
 			birdScriptBroadcast.addBrick(ifLogicElseBrickMaxY);
-			IfLogicEndBrick ifLogicEndBrickMaxY = new IfLogicEndBrick(ifLogicElseBrickMaxY, ifLogicBeginBrickMaxY);
+			IfLogicEndBrick ifLogicEndBrickMaxY = new IfLogicEndBrick(ifLogicBeginBrickMaxY, ifLogicElseBrickMaxY);
 			birdScriptBroadcast.addBrick(ifLogicEndBrickMaxY);
 			ChangeYByNBrick changeYByNBrickUp = new ChangeYByNBrick(5);
 			birdScriptBroadcast.addBrick(changeYByNBrickUp);
 			IfLogicElseBrick ifLogicElseBrickUp = new IfLogicElseBrick(ifLogicBeginBrickUp);
 			birdScriptBroadcast.addBrick(ifLogicElseBrickUp);
-			IfLogicEndBrick ifLogicEndBrickUp = new IfLogicEndBrick(ifLogicElseBrickUp, ifLogicBeginBrickUp);
+			IfLogicEndBrick ifLogicEndBrickUp = new IfLogicEndBrick(ifLogicBeginBrickUp, ifLogicElseBrickUp);
 			birdScriptBroadcast.addBrick(ifLogicEndBrickUp);
 			//Down
 			IfLogicBeginBrick ifLogicBeginBrickDown = new IfLogicBeginBrick(new Formula(
@@ -293,13 +293,13 @@ public class ChromeCastProjectCreator extends ProjectCreator {
 			birdScriptBroadcast.addBrick(placeBottom);
 			IfLogicElseBrick ifLogicElseBrickMinY = new IfLogicElseBrick(ifLogicBeginBrickMinY);
 			birdScriptBroadcast.addBrick(ifLogicElseBrickMinY);
-			IfLogicEndBrick ifLogicEndBrickMinY = new IfLogicEndBrick(ifLogicElseBrickMinY, ifLogicBeginBrickMinY);
+			IfLogicEndBrick ifLogicEndBrickMinY = new IfLogicEndBrick(ifLogicBeginBrickMinY, ifLogicElseBrickMinY);
 			birdScriptBroadcast.addBrick(ifLogicEndBrickMinY);
 			ChangeYByNBrick changeYByNBrickDown = new ChangeYByNBrick(-5);
 			birdScriptBroadcast.addBrick(changeYByNBrickDown);
 			IfLogicElseBrick ifLogicElseBrickDown = new IfLogicElseBrick(ifLogicBeginBrickDown);
 			birdScriptBroadcast.addBrick(ifLogicElseBrickDown);
-			IfLogicEndBrick ifLogicEndBrickDown = new IfLogicEndBrick(ifLogicElseBrickDown, ifLogicBeginBrickDown);
+			IfLogicEndBrick ifLogicEndBrickDown = new IfLogicEndBrick(ifLogicBeginBrickDown, ifLogicElseBrickDown);
 			birdScriptBroadcast.addBrick(ifLogicEndBrickDown);
 			//Left
 			IfLogicBeginBrick ifLogicBeginBrickLeft = new IfLogicBeginBrick(new Formula(
@@ -320,13 +320,13 @@ public class ChromeCastProjectCreator extends ProjectCreator {
 			birdScriptBroadcast.addBrick(placeRight);
 			IfLogicElseBrick ifLogicElseBrickMinX = new IfLogicElseBrick(ifLogicBeginBrickMinX);
 			birdScriptBroadcast.addBrick(ifLogicElseBrickMinX);
-			IfLogicEndBrick ifLogicEndBrickMinX = new IfLogicEndBrick(ifLogicElseBrickMinX, ifLogicBeginBrickMinX);
+			IfLogicEndBrick ifLogicEndBrickMinX = new IfLogicEndBrick(ifLogicBeginBrickMinX, ifLogicElseBrickMinX);
 			birdScriptBroadcast.addBrick(ifLogicEndBrickMinX);
 			ChangeXByNBrick changeXByNBrickLeft = new ChangeXByNBrick(-5);
 			birdScriptBroadcast.addBrick(changeXByNBrickLeft);
 			IfLogicElseBrick ifLogicElseBrickLeft = new IfLogicElseBrick(ifLogicBeginBrickLeft);
 			birdScriptBroadcast.addBrick(ifLogicElseBrickLeft);
-			IfLogicEndBrick ifLogicEndBrickLeft = new IfLogicEndBrick(ifLogicElseBrickLeft, ifLogicBeginBrickLeft);
+			IfLogicEndBrick ifLogicEndBrickLeft = new IfLogicEndBrick(ifLogicBeginBrickLeft, ifLogicElseBrickLeft);
 			birdScriptBroadcast.addBrick(ifLogicEndBrickLeft);
 			//Right
 			IfLogicBeginBrick ifLogicBeginBrickRight = new IfLogicBeginBrick(new Formula(
@@ -347,13 +347,13 @@ public class ChromeCastProjectCreator extends ProjectCreator {
 			birdScriptBroadcast.addBrick(placeLeft);
 			IfLogicElseBrick ifLogicElseBrickMaxX = new IfLogicElseBrick(ifLogicBeginBrickMaxX);
 			birdScriptBroadcast.addBrick(ifLogicElseBrickMaxX);
-			IfLogicEndBrick ifLogicEndBrickMaxX = new IfLogicEndBrick(ifLogicElseBrickMaxX, ifLogicBeginBrickMaxX);
+			IfLogicEndBrick ifLogicEndBrickMaxX = new IfLogicEndBrick(ifLogicBeginBrickMaxX, ifLogicElseBrickMaxX);
 			birdScriptBroadcast.addBrick(ifLogicEndBrickMaxX);
 			ChangeXByNBrick changeXByNBrickRight = new ChangeXByNBrick(5);
 			birdScriptBroadcast.addBrick(changeXByNBrickRight);
 			IfLogicElseBrick ifLogicElseBrickRight = new IfLogicElseBrick(ifLogicBeginBrickRight);
 			birdScriptBroadcast.addBrick(ifLogicElseBrickRight);
-			IfLogicEndBrick ifLogicEndBrickRight = new IfLogicEndBrick(ifLogicElseBrickRight, ifLogicBeginBrickRight);
+			IfLogicEndBrick ifLogicEndBrickRight = new IfLogicEndBrick(ifLogicBeginBrickRight, ifLogicElseBrickRight);
 			birdScriptBroadcast.addBrick(ifLogicEndBrickRight);
 
 			LoopEndlessBrick loopEndlessBrickBroadcast = new LoopEndlessBrick(foreverBrickBroadcast);
@@ -387,7 +387,7 @@ public class ChromeCastProjectCreator extends ProjectCreator {
 			setLookBrickUpRight.setLook(birdWingUpLookData);
 			birdScriptButtonA.addBrick(setLookBrickUpRight);
 			//end if
-			IfLogicEndBrick ifLogicEndBrickBirdRight = new IfLogicEndBrick(ifLogicElseBrickBirdRight, ifLogicBeginBrickBirdRight);
+			IfLogicEndBrick ifLogicEndBrickBirdRight = new IfLogicEndBrick(ifLogicBeginBrickBirdRight, ifLogicElseBrickBirdRight);
 			birdScriptButtonA.addBrick(ifLogicEndBrickBirdRight);
 
 			birdSprite.addScript(birdScriptButtonA);
@@ -405,7 +405,7 @@ public class ChromeCastProjectCreator extends ProjectCreator {
 			PlaySoundBrick playSoundBrickBird2 = new PlaySoundBrick();
 			playSoundBrickBird2.setSound(soundInfo2);
 			birdScriptButtonB.addBrick(playSoundBrickBird2);
-			IfLogicEndBrick ifLogicEndBrickBirdLeft = new IfLogicEndBrick(ifLogicElseBrickBirdLeft, ifLogicBeginBrickBirdLeft);
+			IfLogicEndBrick ifLogicEndBrickBirdLeft = new IfLogicEndBrick(ifLogicBeginBrickBirdLeft, ifLogicElseBrickBirdLeft);
 			birdScriptButtonB.addBrick(ifLogicEndBrickBirdLeft);
 
 			birdSprite.addScript(birdScriptButtonB);

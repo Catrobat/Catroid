@@ -48,16 +48,6 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		ScriptSequenceAction foreverSequence = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
-		Action action = sprite.getActionFactory().createForeverAction(sprite, foreverSequence);
-		sequence.addAction(action);
-		LinkedList<ScriptSequenceAction> returnActionList = new LinkedList<>();
-		returnActionList.add(foreverSequence);
-		return returnActionList;
-	}
-
-	@Override
 	public LoopEndBrick getLoopEndBrick() {
 		return loopEndBrick;
 	}
@@ -87,7 +77,16 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
 		nestingBrickList.add(this);
 		nestingBrickList.add(loopEndBrick);
-
 		return nestingBrickList;
+	}
+
+	@Override
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		ScriptSequenceAction foreverSequence = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
+		Action action = sprite.getActionFactory().createForeverAction(sprite, foreverSequence);
+		sequence.addAction(action);
+		LinkedList<ScriptSequenceAction> returnActionList = new LinkedList<>();
+		returnActionList.add(foreverSequence);
+		return returnActionList;
 	}
 }

@@ -23,25 +23,27 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.database.DataSetObserver;
-import android.view.MotionEvent;
+import android.support.annotation.Nullable;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Nameable;
+import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class SetRotationStyleBrick extends BrickBaseType {
+import static org.catrobat.catroid.content.Look.ROTATION_STYLE_LEFT_RIGHT_ONLY;
+
+public class SetRotationStyleBrick extends BrickBaseType implements
+		BrickSpinner.OnItemSelectedListener<SetRotationStyleBrick.RotationStyleOption> {
 
 	private static final long serialVersionUID = 1L;
 
+	@Look.RotationStyle
 	private int selection;
 
 	public SetRotationStyleBrick() {
@@ -53,47 +55,28 @@ public class SetRotationStyleBrick extends BrickBaseType {
 	}
 
 	@Override
-	public View getView(Context context) {
-		super.getView(context);
-		BrickViewProvider.setAlphaOnView(view, alphaValue);
-		Spinner spinner = view.findViewById(R.id.brick_set_rotation_style_spinner);
-
-		final ArrayAdapter<String> spinnerAdapter = createSpinnerAdapter(context);
-		SpinnerAdapterWrapper spinnerAdapterWrapper = new SpinnerAdapterWrapper(context, spinnerAdapter);
-		spinner.setAdapter(spinnerAdapterWrapper);
-		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				selection = position;
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-			}
-		});
-		spinner.setSelection(selection, true);
-
-		return view;
-	}
-
-	private ArrayAdapter<String> createSpinnerAdapter(Context context) {
-		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
-		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		arrayAdapter.add(context.getString(R.string.brick_set_rotation_style_lr));
-		arrayAdapter.add(context.getString(R.string.brick_set_rotation_style_normal));
-		arrayAdapter.add(context.getString(R.string.brick_set_rotation_style_no));
-		return arrayAdapter;
+	public View getPrototypeView(Context context) {
+		super.getPrototypeView(context);
+		return getView(context);
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-		Spinner spinner = prototypeView.findViewById(R.id.brick_set_rotation_style_spinner);
-		SpinnerAdapter setLookSpinnerAdapter = createSpinnerAdapter(context);
-		spinner.setAdapter(setLookSpinnerAdapter);
-		spinner.setSelection(selection, true);
-		return prototypeView;
+	public View getView(Context context) {
+		super.getView(context);
+
+		List<Nameable> items = new ArrayList<>();
+		items.add(new RotationStyleOption(context.getString(R.string.brick_set_rotation_style_lr),
+				ROTATION_STYLE_LEFT_RIGHT_ONLY));
+		items.add(new RotationStyleOption(context.getString(R.string.brick_set_rotation_style_normal),
+				Look.ROTATION_STYLE_ALL_AROUND));
+		items.add(new RotationStyleOption(context.getString(R.string.brick_set_rotation_style_no),
+				Look.ROTATION_STYLE_NONE));
+
+		BrickSpinner<RotationStyleOption> spinner = new BrickSpinner<>(R.id.brick_set_rotation_style_spinner,
+				view, items);
+		spinner.setOnItemSelectedListener(this);
+		spinner.setSelection(selection);
+		return view;
 	}
 
 	@Override
@@ -102,77 +85,43 @@ public class SetRotationStyleBrick extends BrickBaseType {
 		return null;
 	}
 
-	private class SpinnerAdapterWrapper implements SpinnerAdapter {
+	@Override
+	public void onNewOptionSelected() {
+	}
 
-		protected Context context;
-		protected ArrayAdapter<String> spinnerAdapter;
+	@Override
+	public void onStringOptionSelected(String string) {
+	}
 
-		SpinnerAdapterWrapper(Context context, ArrayAdapter<String> spinnerAdapter) {
-			this.context = context;
-			this.spinnerAdapter = spinnerAdapter;
+	@Override
+	public void onItemSelected(@Nullable RotationStyleOption item) {
+		selection = item != null ? item.getRotationStyle() : 0;
+	}
+
+	class RotationStyleOption implements Nameable {
+
+		private String name;
+
+		@Look.RotationStyle
+		private int rotationStyle;
+
+		RotationStyleOption(String name, @Look.RotationStyle int rotationStyle) {
+			this.name = name;
+			this.rotationStyle = rotationStyle;
 		}
 
 		@Override
-		public void registerDataSetObserver(DataSetObserver paramDataSetObserver) {
-			spinnerAdapter.registerDataSetObserver(paramDataSetObserver);
+		public String getName() {
+			return name;
 		}
 
 		@Override
-		public void unregisterDataSetObserver(DataSetObserver paramDataSetObserver) {
-			spinnerAdapter.unregisterDataSetObserver(paramDataSetObserver);
+		public void setName(String name) {
+			this.name = name;
 		}
 
-		@Override
-		public int getCount() {
-			return spinnerAdapter.getCount();
-		}
-
-		@Override
-		public Object getItem(int paramInt) {
-			return spinnerAdapter.getItem(paramInt);
-		}
-
-		@Override
-		public long getItemId(int paramInt) {
-			return spinnerAdapter.getItemId(paramInt);
-		}
-
-		@Override
-		public boolean hasStableIds() {
-			return spinnerAdapter.hasStableIds();
-		}
-
-		@Override
-		public View getView(int paramInt, View paramView, ViewGroup paramViewGroup) {
-			return spinnerAdapter.getView(paramInt, paramView, paramViewGroup);
-		}
-
-		@Override
-		public int getItemViewType(int paramInt) {
-			return spinnerAdapter.getItemViewType(paramInt);
-		}
-
-		@Override
-		public int getViewTypeCount() {
-			return spinnerAdapter.getViewTypeCount();
-		}
-
-		@Override
-		public boolean isEmpty() {
-			return spinnerAdapter.isEmpty();
-		}
-
-		@Override
-		public View getDropDownView(int paramInt, View paramView, ViewGroup paramViewGroup) {
-			View dropDownView = spinnerAdapter.getDropDownView(paramInt, paramView, paramViewGroup);
-
-			dropDownView.setOnTouchListener(new View.OnTouchListener() {
-				@Override
-				public boolean onTouch(View paramView, MotionEvent paramMotionEvent) {
-					return false;
-				}
-			});
-			return dropDownView;
+		int getRotationStyle() {
+			return rotationStyle;
 		}
 	}
 }

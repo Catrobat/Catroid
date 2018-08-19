@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.util.Log;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
@@ -35,12 +33,15 @@ import java.util.List;
 public class IfThenLogicEndBrick extends BrickBaseType implements NestingBrick, AllowedAfterDeadEndBrick {
 
 	private static final long serialVersionUID = 1L;
-	private static final String TAG = IfThenLogicEndBrick.class.getSimpleName();
 
 	private transient IfThenLogicBeginBrick ifBeginBrick;
 
-	public IfThenLogicEndBrick(IfThenLogicBeginBrick beginBrick) {
-		this.ifBeginBrick = beginBrick;
+	public IfThenLogicEndBrick(IfThenLogicBeginBrick ifBeginBrick) {
+		this.ifBeginBrick = ifBeginBrick;
+	}
+
+	public IfThenLogicBeginBrick getIfBeginBrick() {
+		return ifBeginBrick;
 	}
 
 	public void setIfThenBeginBrick(IfThenLogicBeginBrick ifBeginBrick) {
@@ -64,7 +65,6 @@ public class IfThenLogicEndBrick extends BrickBaseType implements NestingBrick, 
 
 	@Override
 	public void initialize() {
-		Log.w(TAG, "Cannot create the IfLogic Bricks from here!");
 	}
 
 	@Override
@@ -80,9 +80,5 @@ public class IfThenLogicEndBrick extends BrickBaseType implements NestingBrick, 
 		LinkedList<ScriptSequenceAction> returnActionList = new LinkedList<>();
 		returnActionList.add(sequence);
 		return returnActionList;
-	}
-
-	public IfThenLogicBeginBrick getIfBeginBrick() {
-		return ifBeginBrick;
 	}
 }

@@ -30,9 +30,9 @@ import android.util.Log;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.utils.NetworkUtils;
 import org.catrobat.catroid.web.ServerCalls;
-import org.catrobat.catroid.web.WebconnectionException;
+import org.catrobat.catroid.web.WebConnectionException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -44,7 +44,7 @@ public class GetFacebookUserInfoTask extends AsyncTask<String, Void, Boolean> {
 	private String token;
 	private final String facebookId;
 
-	private WebconnectionException exception;
+	private WebConnectionException exception;
 
 	private OnGetFacebookUserInfoTaskCompleteListener onGetFacebookUserInfoTaskCompleteListener;
 	private String name;
@@ -76,8 +76,8 @@ public class GetFacebookUserInfoTask extends AsyncTask<String, Void, Boolean> {
 	@Override
 	protected Boolean doInBackground(String... params) {
 		try {
-			if (!Utils.isNetworkAvailable(activity)) {
-				exception = new WebconnectionException(WebconnectionException.ERROR_NETWORK, "Network not available!");
+			if (!NetworkUtils.isNetworkAvailable(activity)) {
+				exception = new WebConnectionException(WebConnectionException.ERROR_NETWORK, "Network not available!");
 				return false;
 			}
 			JSONObject serverReponse = ServerCalls.getInstance().getFacebookUserInfo(facebookId, token);
@@ -90,7 +90,7 @@ public class GetFacebookUserInfoTask extends AsyncTask<String, Void, Boolean> {
 					if (errorCode == Constants.ERROR_CODE_FACEBOOK_SESSION_EXPIRED) {
 						facebookSessionExpired = true;
 					} else {
-						exception = new WebconnectionException(WebconnectionException.ERROR_JSON, serverReponse.toString());
+						exception = new WebConnectionException(WebConnectionException.ERROR_JSON, serverReponse.toString());
 					}
 				}
 				if (serverReponse.has(Constants.USERNAME)) {
@@ -107,9 +107,9 @@ public class GetFacebookUserInfoTask extends AsyncTask<String, Void, Boolean> {
 			}
 
 			return true;
-		} catch (WebconnectionException webconnectionException) {
-			Log.e(TAG, Log.getStackTraceString(webconnectionException));
-			exception = webconnectionException;
+		} catch (WebConnectionException webConnectionException) {
+			Log.e(TAG, Log.getStackTraceString(webConnectionException));
+			exception = webConnectionException;
 		}
 		return false;
 	}
@@ -122,7 +122,7 @@ public class GetFacebookUserInfoTask extends AsyncTask<String, Void, Boolean> {
 			progressDialog.dismiss();
 		}
 
-		if (Utils.checkForNetworkError(exception)) {
+		if (NetworkUtils.checkForNetworkError(exception)) {
 			showDialog(R.string.error_internet_connection);
 			return;
 		}

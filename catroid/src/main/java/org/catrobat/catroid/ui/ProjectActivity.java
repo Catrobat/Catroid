@@ -195,18 +195,18 @@ public class ProjectActivity extends BaseCastActivity implements PlaySceneDialog
 	}
 
 	private void showLegoSensorConfigInfo() {
-		int requiredResources = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		boolean nxtDialogDisabled = preferences.getBoolean(
 				SettingsFragment.SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED, false);
 		boolean ev3DialogDisabled = preferences.getBoolean(
 				SettingsFragment.SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED, false);
 
-		if (!nxtDialogDisabled && (Brick.BLUETOOTH_LEGO_NXT & requiredResources) != 0) {
+		Brick.ResourcesSet resourcesSet = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
+		if (!nxtDialogDisabled && resourcesSet.contains(Brick.BLUETOOTH_LEGO_NXT)) {
 			DialogFragment dialog = new LegoSensorConfigInfoDialog(Constants.NXT);
 			dialog.show(getFragmentManager(), LegoSensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
 		}
-		if (!ev3DialogDisabled && (Brick.BLUETOOTH_LEGO_EV3 & requiredResources) != 0) {
+		if (!ev3DialogDisabled && resourcesSet.contains(Brick.BLUETOOTH_LEGO_EV3)) {
 			DialogFragment dialog = new LegoSensorConfigInfoDialog(Constants.EV3);
 			dialog.show(getFragmentManager(), LegoSensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
 		}

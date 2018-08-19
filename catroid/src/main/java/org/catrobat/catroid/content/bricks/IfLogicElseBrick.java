@@ -34,23 +34,18 @@ public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, All
 
 	private static final long serialVersionUID = 1L;
 
-	private transient IfLogicBeginBrick ifBeginBrick;
+	private transient IfElseLogicBeginBrick ifBeginBrick;
 	private transient IfLogicEndBrick ifEndBrick;
 
-	public IfLogicElseBrick(IfLogicBeginBrick ifBeginBrick) {
+	public IfLogicElseBrick(IfElseLogicBeginBrick ifBeginBrick) {
 		this.ifBeginBrick = ifBeginBrick;
 	}
 
-	@Override
-	public int getViewResource() {
-		return R.layout.brick_if_else;
-	}
-
-	public IfLogicBeginBrick getIfBeginBrick() {
+	public IfElseLogicBeginBrick getIfBeginBrick() {
 		return ifBeginBrick;
 	}
 
-	public void setIfBeginBrick(IfLogicBeginBrick ifBeginBrick) {
+	public void setIfBeginBrick(IfElseLogicBeginBrick ifBeginBrick) {
 		this.ifBeginBrick = ifBeginBrick;
 	}
 
@@ -63,8 +58,8 @@ public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, All
 	}
 
 	@Override
-	public boolean isDraggableOver(Brick brick) {
-		return brick != ifBeginBrick && brick != ifEndBrick;
+	public int getViewResource() {
+		return R.layout.brick_if_else;
 	}
 
 	@Override
@@ -74,6 +69,11 @@ public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, All
 
 	@Override
 	public void initialize() {
+	}
+
+	@Override
+	public boolean isDraggableOver(Brick brick) {
+		return brick != ifBeginBrick && brick != ifEndBrick;
 	}
 
 	@Override

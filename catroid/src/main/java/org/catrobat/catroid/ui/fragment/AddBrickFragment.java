@@ -28,6 +28,7 @@ import android.app.ListFragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -118,7 +119,11 @@ public class AddBrickFragment extends ListFragment {
 
 	@Override
 	public void onDestroy() {
-		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(previousActionBarTitle);
+		ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+		boolean isRestoringPreviouslyDestroyedActivity = actionBar == null;
+		if (!isRestoringPreviouslyDestroyedActivity) {
+			actionBar.setTitle(previousActionBarTitle);
+		}
 		super.onDestroy();
 	}
 

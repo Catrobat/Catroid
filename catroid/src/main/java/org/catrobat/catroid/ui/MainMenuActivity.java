@@ -64,6 +64,7 @@ import org.catrobat.catroid.ui.recyclerview.dialog.AboutDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.PrivacyPolicyDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.MainMenuFragment;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+import org.catrobat.catroid.utils.NetworkUtils;
 import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.ScreenValueHandler;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -264,7 +265,7 @@ public class MainMenuActivity extends BaseCastActivity implements ProjectLoaderT
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.menu_rate_app:
-				if (Utils.isNetworkAvailable(this)) {
+				if (NetworkUtils.isNetworkAvailable(this)) {
 					try {
 						startActivity(new Intent(Intent.ACTION_VIEW,
 								Uri.parse("market://details?id=" + getPackageName())));
@@ -285,7 +286,7 @@ public class MainMenuActivity extends BaseCastActivity implements ProjectLoaderT
 				new AboutDialogFragment().show(getFragmentManager(), AboutDialogFragment.TAG);
 				break;
 			case R.id.menu_scratch_converter:
-				if (Utils.isNetworkAvailable(this)) {
+				if (NetworkUtils.isNetworkAvailable(this)) {
 					startActivity(new Intent(this, ScratchConverterActivity.class));
 				} else {
 					ToastUtil.showError(this, R.string.error_internet_connection);

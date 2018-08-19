@@ -22,19 +22,13 @@
  */
 package org.catrobat.catroid.physics.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.TextView;
-
 import com.badlogic.gdx.math.Vector2;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
@@ -43,75 +37,29 @@ public class SetVelocityBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public SetVelocityBrick() {
-		addAllowedBrickField(BrickField.PHYSICS_VELOCITY_X);
-		addAllowedBrickField(BrickField.PHYSICS_VELOCITY_Y);
+		addAllowedBrickField(BrickField.PHYSICS_VELOCITY_X, R.id.brick_set_velocity_edit_text_x);
+		addAllowedBrickField(BrickField.PHYSICS_VELOCITY_Y, R.id.brick_set_velocity_edit_text_y);
 	}
 
 	public SetVelocityBrick(Vector2 velocity) {
-		initializeBrickFields(new Formula(velocity.x), new Formula(velocity.y));
+		this(new Formula(velocity.x), new Formula(velocity.y));
 	}
 
 	public SetVelocityBrick(Formula velocityX, Formula velocityY) {
-		initializeBrickFields(velocityX, velocityY);
-	}
-
-	private void initializeBrickFields(Formula velocityX, Formula velocityY) {
-		addAllowedBrickField(BrickField.PHYSICS_VELOCITY_X);
-		addAllowedBrickField(BrickField.PHYSICS_VELOCITY_Y);
+		this();
 		setFormulaWithBrickField(BrickField.PHYSICS_VELOCITY_X, velocityX);
 		setFormulaWithBrickField(BrickField.PHYSICS_VELOCITY_Y, velocityY);
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return PHYSICS;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(PHYSICS);
+		super.addRequiredResources(requiredResourcesSet);
 	}
 
 	@Override
 	public int getViewResource() {
 		return R.layout.brick_physics_set_velocity;
-	}
-
-	@Override
-	public View getView(Context context) {
-		super.getView(context);
-
-		TextView editX = view.findViewById(R.id.brick_set_velocity_edit_text_x);
-		getFormulaWithBrickField(BrickField.PHYSICS_VELOCITY_X).setTextFieldId(R.id.brick_set_velocity_edit_text_x);
-		getFormulaWithBrickField(BrickField.PHYSICS_VELOCITY_X).refreshTextField(view);
-
-		editX.setOnClickListener(this);
-
-		TextView editY = view.findViewById(R.id.brick_set_velocity_edit_text_y);
-		getFormulaWithBrickField(BrickField.PHYSICS_VELOCITY_Y).setTextFieldId(R.id.brick_set_velocity_edit_text_y);
-		getFormulaWithBrickField(BrickField.PHYSICS_VELOCITY_Y).refreshTextField(view);
-
-		editY.setOnClickListener(this);
-		return view;
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-		TextView textVelocityX = prototypeView.findViewById(R.id.brick_set_velocity_edit_text_x);
-		textVelocityX.setText(formatNumberForPrototypeView(BrickValues.PHYSIC_VELOCITY.x));
-		TextView textVelocityY = prototypeView.findViewById(R.id.brick_set_velocity_edit_text_y);
-		textVelocityY.setText(formatNumberForPrototypeView(BrickValues.PHYSIC_VELOCITY.y));
-		return prototypeView;
-	}
-
-	@Override
-	public void showFormulaEditorToEditFormula(View view) {
-		switch (view.getId()) {
-			case R.id.brick_set_velocity_edit_text_y:
-				FormulaEditorFragment.showFragment(view, this, BrickField.PHYSICS_VELOCITY_Y);
-				break;
-
-			case R.id.brick_set_velocity_edit_text_x:
-			default:
-				FormulaEditorFragment.showFragment(view, this, BrickField.PHYSICS_VELOCITY_X);
-				break;
-		}
 	}
 
 	@Override

@@ -82,7 +82,7 @@ public class PhiroIfBrickTest {
 				R.string.phiro_sensor_bottom_right);
 
 		onBrickAtPosition(1).onSpinner(R.id.brick_phiro_sensor_action_spinner)
-				.checkValuesAvailable(spinnerValuesResourceIds);
+				.checkStringIdValuesAvailable(spinnerValuesResourceIds);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Gadgets.class})
@@ -106,7 +106,7 @@ public class PhiroIfBrickTest {
 	private void createProject() {
 		ifBrick = new PhiroIfLogicBeginBrick();
 		IfLogicElseBrick ifLogicElseBrick = new IfLogicElseBrick(ifBrick);
-		IfLogicEndBrick ifLogicEndBrick = new IfLogicEndBrick(ifLogicElseBrick, ifBrick);
+		IfLogicEndBrick ifLogicEndBrick = new IfLogicEndBrick(ifBrick, ifLogicElseBrick);
 		ifBrick.setIfElseBrick(ifLogicElseBrick);
 		ifBrick.setIfEndBrick(ifLogicEndBrick);
 		Script script = BrickTestUtils.createProjectAndGetStartScript("PhiroIfBrickTest");

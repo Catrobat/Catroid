@@ -59,14 +59,7 @@ public class NewSpriteDialogWrapper implements NewItemInterface<LookData> {
 	public void showDialog(FragmentManager manager) {
 		fragmentManager = manager;
 		sprite = new Sprite();
-		NewLookDialogFragment dialog = new NewLookDialogFragment(this, dstScene, sprite) {
-
-			@Override
-			public void onCancel(DialogInterface dialog) {
-				super.onCancel(dialog);
-				onWorkflowCanceled();
-			}
-		};
+		NewLookDialogFragment dialog = new NewLookForNewSpriteDialogFragment(this, dstScene, sprite);
 		dialog.show(fragmentManager, NewLookDialogFragment.TAG);
 	}
 
@@ -135,6 +128,25 @@ public class NewSpriteDialogWrapper implements NewItemInterface<LookData> {
 			} catch (IOException e) {
 				Log.e(TAG, Log.getStackTraceString(e));
 			}
+		}
+	}
+
+	public static class NewLookForNewSpriteDialogFragment extends NewLookDialogFragment {
+		private NewSpriteDialogWrapper dialogWrapper;
+
+		public NewLookForNewSpriteDialogFragment(NewSpriteDialogWrapper dialogWrapper, Scene dstScene, Sprite dstSprite) {
+			super(dialogWrapper, dstScene, dstSprite);
+			this.dialogWrapper = dialogWrapper;
+		}
+
+		public NewLookForNewSpriteDialogFragment() {
+			super();
+		}
+
+		@Override
+		public void onCancel(DialogInterface dialog) {
+			super.onCancel(dialog);
+			dialogWrapper.onWorkflowCanceled();
 		}
 	}
 }

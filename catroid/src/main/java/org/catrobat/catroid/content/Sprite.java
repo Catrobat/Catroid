@@ -36,6 +36,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.actions.EventThread;
@@ -76,7 +77,7 @@ import java.util.Set;
 		"userBricks",
 		"nfcTagList"
 })
-public class Sprite implements Serializable, Cloneable {
+public class Sprite implements Cloneable, Nameable, Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = Sprite.class.getSimpleName();
@@ -156,7 +157,9 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public void resetSprite() {
-		if ((getRequiredResources() & Brick.PHYSICS) > 0) {
+		Brick.ResourcesSet resourcesSet = new Brick.ResourcesSet();
+		addRequiredResources(resourcesSet);
+		if (resourcesSet.contains(Brick.PHYSICS)) {
 			PhysicsWorld physicsWorld = ProjectManager.getInstance().getCurrentlyPlayingScene().getPhysicsWorld();
 			look = new PhysicsLook(this, physicsWorld);
 		} else {
@@ -414,20 +417,16 @@ public class Sprite implements Serializable, Cloneable {
 		return soundList;
 	}
 
-	public int getRequiredResources() {
-		int resources = Brick.NO_RESOURCES;
-
+	public void addRequiredResources(final Brick.ResourcesSet resourcesSet) {
 		for (Script script : scriptList) {
 			if (!script.isCommentedOut()) {
-				resources |= script.getRequiredResources();
+				script.addRequiredResources(resourcesSet);
 			}
 		}
 
 		for (LookData lookData : getLookList()) {
-			resources |= lookData.getRequiredResources();
+			lookData.addRequiredResources(resourcesSet);
 		}
-
-		return resources;
 	}
 
 	public List<NfcTagData> getNfcTagList() {
@@ -463,8 +462,9 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public boolean hasCollision() {
-		boolean hasCollision = (this.getRequiredResources() & Brick.COLLISION) > 0;
-		if (hasCollision) {
+		Brick.ResourcesSet resourcesSet = new Brick.ResourcesSet();
+		addRequiredResources(resourcesSet);
+		if (resourcesSet.contains(Brick.COLLISION)) {
 			return true;
 		}
 		Scene scene = ProjectManager.getInstance().getCurrentlyEditedScene();
@@ -604,7 +604,7 @@ public class Sprite implements Serializable, Cloneable {
 
 	public class PenConfiguration {
 		public boolean penDown = false;
-		public float penSize = BrickValues.PEN_SIZE;
+		public double penSize = BrickValues.PEN_SIZE;
 		public Color penColor = BrickValues.PEN_COLOR;
 		public PointF previousPoint = null;
 		public boolean stamp = false;
@@ -622,15 +622,6 @@ public class Sprite implements Serializable, Cloneable {
 	public void setConvertToGroupItemSprite(boolean convertToGroupItemSprite) {
 		this.convertToSingleSprite = false;
 		this.convertToGroupItemSprite = convertToGroupItemSprite;
-	}
-
-	public List<Brick> getBricksRequiringResource(int resource) {
-		List<Brick> resourceBrickList = new ArrayList<>();
-
-		for (Script script : scriptList) {
-			resourceBrickList.addAll(script.getBricksRequiringResources(resource));
-		}
-		return resourceBrickList;
 	}
 
 	public boolean isBackgroundSprite() {

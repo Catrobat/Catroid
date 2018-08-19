@@ -30,10 +30,10 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -45,43 +45,22 @@ public class RepeatUntilBrick extends FormulaBrick implements LoopBeginBrick {
 
 	private transient LoopEndBrick loopEndBrick;
 
-	public RepeatUntilBrick(int condition) {
-		initializeBrickFields(new Formula(condition));
+	public RepeatUntilBrick() {
+		addAllowedBrickField(BrickField.REPEAT_UNTIL_CONDITION, R.id.brick_repeat_until_edit_text);
 	}
 
-	@Override
-	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.REPEAT_UNTIL_CONDITION).getRequiredResources();
+	public RepeatUntilBrick(int condition) {
+		this(new Formula(condition));
 	}
 
 	public RepeatUntilBrick(Formula condition) {
-		initializeBrickFields(condition);
-	}
-
-	private void initializeBrickFields(Formula condition) {
-		addAllowedBrickField(BrickField.REPEAT_UNTIL_CONDITION);
+		this();
 		setFormulaWithBrickField(BrickField.REPEAT_UNTIL_CONDITION, condition);
-	}
-
-	@Override
-	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.REPEAT_UNTIL_CONDITION);
 	}
 
 	@Override
 	public int getViewResource() {
 		return R.layout.brick_repeat_until;
-	}
-
-	@Override
-	public View getView(Context context) {
-		super.getView(context);
-		TextView edit = view.findViewById(R.id.brick_repeat_until_edit_text);
-		getFormulaWithBrickField(BrickField.REPEAT_UNTIL_CONDITION).setTextFieldId(R.id.brick_repeat_until_edit_text);
-		getFormulaWithBrickField(BrickField.REPEAT_UNTIL_CONDITION).refreshTextField(view);
-
-		edit.setOnClickListener(this);
-		return view;
 	}
 
 	@Override
@@ -94,10 +73,11 @@ public class RepeatUntilBrick extends FormulaBrick implements LoopBeginBrick {
 
 	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		ScriptSequenceAction repeatSequence = (ScriptSequenceAction) sprite.getActionFactory().eventSequence(sequence.getScript());
+		ScriptSequenceAction repeatSequence = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
 
-		Action action = sprite.getActionFactory().createRepeatUntilAction(sprite,
-				getFormulaWithBrickField(BrickField.REPEAT_UNTIL_CONDITION), repeatSequence);
+		Action action = sprite.getActionFactory()
+				.createRepeatUntilAction(sprite, getFormulaWithBrickField(BrickField.REPEAT_UNTIL_CONDITION), repeatSequence);
+
 		sequence.addAction(action);
 		LinkedList<ScriptSequenceAction> returnActionList = new LinkedList<>();
 		returnActionList.add(repeatSequence);

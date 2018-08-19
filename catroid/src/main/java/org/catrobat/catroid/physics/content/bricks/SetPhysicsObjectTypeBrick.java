@@ -53,8 +53,8 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return PHYSICS;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(PHYSICS);
 	}
 
 	@Override

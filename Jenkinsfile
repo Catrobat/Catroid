@@ -12,7 +12,15 @@ pipeline {
 			// the container for the ssh-agent to work.
 			// Another way would be to simply map the passwd file, but would spoil additional information
 			additionalBuildArgs '--build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g)'
-			args "--device /dev/kvm:/dev/kvm -v /var/local/container_shared/gradle/:/.gradle -v /var/local/container_shared/android-sdk:/usr/local/android-sdk -v /var/local/container_shared/android-home:/.android -v /var/local/container_shared/emulator_console_auth_token:/.emulator_console_auth_token -v /var/local/container_shared/analytics.settings:/analytics.settings"
+			// Currently there are two different NDK behaviors in place, one to keep NDK r16b, which
+			// was needed because of the removal of armeabi and MIPS support and one to always use the
+			// latest NDK, which is the suggestion from the NDK documentations.
+			// Therefore two different SDK locations on the host are currently in place:
+			// NDK r16b  : /var/local/container_shared/android-sdk
+			// NDK latest: /var/local/container_shared/android-sdk-ndk-latest
+			// As android-sdk was used from the beginning and is already 'released' this can't be changed
+			// to eg android-sdk-ndk-r16b and must be kept to the previously used value
+			args "--device /dev/kvm:/dev/kvm -v /var/local/container_shared/gradle/:/.gradle -v /var/local/container_shared/android-sdk-ndk-latest:/usr/local/android-sdk -v /var/local/container_shared/android-home:/.android -v /var/local/container_shared/emulator_console_auth_token:/.emulator_console_auth_token -v /var/local/container_shared/analytics.settings:/analytics.settings"
 		}
 	}
 
@@ -48,9 +56,11 @@ pipeline {
 		APK_LOCATION_DEBUG = "${env.GRADLE_PROJECT_MODULE_NAME}/build/outputs/apk/catroid/debug/catroid-catroid-debug.apk"
 		APK_LOCATION_STANDALONE = "${env.GRADLE_PROJECT_MODULE_NAME}/build/outputs/apk/standalone/debug/catroid-standalone-debug.apk"
 
-		// share.catrob.at
-		CATROBAT_SHARE_UPLOAD_BRANCH = "develop"
-		CATROBAT_SHARE_APK_NAME = "org.catrobat.catroid_debug_${env.CATROBAT_SHARE_UPLOAD_BRANCH}_latest.apk"
+		JACOCO_XML = "${env.GRADLE_PROJECT_MODULE_NAME}/build/reports/coverage/catroid/debug/report.xml"
+		JACOCO_UNIT_XML = "${env.GRADLE_PROJECT_MODULE_NAME}/build/reports/jacoco/jacocoTestCatroidDebugUnitTestReport/jacocoTestCatroidDebugUnitTestReport.xml"
+
+		// place the cobertura xml relative to the source, so that the source can be found
+		JAVA_SRC = "${env.GRADLE_PROJECT_MODULE_NAME}/src/main/java"
 	}
 
 	options {
@@ -87,21 +97,34 @@ pipeline {
 			steps {
 				// Run local unit tests
 				sh "./buildScripts/build_step_run_unit_tests__all_tests"
+				// Convert the JaCoCo coverate to the Cobertura XML file format.
+				// This is done since the Jenkins JaCoCo plugin does not work well.
+				// See also JENKINS-212 on jira.catrob.at
+				sh "if [ -f '$JACOCO_UNIT_XML' ]; then ./buildScripts/cover2cover.py $JACOCO_UNIT_XML > $JAVA_SRC/coverage1.xml; fi"
 				// ensure that the following test run does not overwrite the results
 				sh "mv ${env.GRADLE_PROJECT_MODULE_NAME}/build ${env.GRADLE_PROJECT_MODULE_NAME}/build-unittest"
 
 				// Run device tests for package: org.catrobat.catroid.test
 				sh "./buildScripts/build_step_run_tests_on_emulator__test_pkg"
+				// Convert the JaCoCo coverate to the Cobertura XML file format.
+				// This is done since the Jenkins JaCoCo plugin does not work well.
+				// See also JENKINS-212 on jira.catrob.at
+				sh "if [ -f '$JACOCO_XML' ]; then ./buildScripts/cover2cover.py $JACOCO_XML > $JAVA_SRC/coverage2.xml; fi"
 				// ensure that the following test run does not overwrite the results
 				sh "mv ${env.GRADLE_PROJECT_MODULE_NAME}/build ${env.GRADLE_PROJECT_MODULE_NAME}/build-test-test-pkg"
 
 				// Run device tests for class: org.catrobat.catroid.uiespresso.testsuites.PullRequestTriggerSuite
 				sh "./buildScripts/build_step_run_tests_on_emulator__pr_test_suite"
+				// Convert the JaCoCo coverate to the Cobertura XML file format.
+				// This is done since the Jenkins JaCoCo plugin does not work well.
+				// See also JENKINS-212 on jira.catrob.at
+				sh "if [ -f '$JACOCO_XML' ]; then ./buildScripts/cover2cover.py $JACOCO_XML > $JAVA_SRC/coverage3.xml; fi"
 			}
 
 			post {
 				always {
 					junit '**/*TEST*.xml'
+					step([$class: 'CoberturaPublisher', autoUpdateHealth: false, autoUpdateStability: false, coberturaReportFile: "$JAVA_SRC/coverage*.xml", failUnhealthy: false, failUnstable: false, maxNumberOfBuilds: 0, onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false, failNoReports: false])
 
 					// stop/kill emulator
 					sh "./buildScripts/build_helper_stop_emulator"
@@ -123,21 +146,7 @@ pipeline {
 			// The resulting APK is not verified on itself.
 			steps {
 				sh "./buildScripts/build_step_create_independent_apk"
-				stash name: "apk-independent", includes: "${env.APK_LOCATION_DEBUG}"
 				archiveArtifacts "${env.APK_LOCATION_DEBUG}"
-			}
-		}
-
-		stage('Upload to share') {
-			when {
-				branch "${env.CATROBAT_SHARE_UPLOAD_BRANCH}"
-			}
-
-			steps {
-				unstash "apk-independent"
-				script {
-					uploadFileToShare "${env.APK_LOCATION_DEBUG}", "${env.CATROBAT_SHARE_APK_NAME}"
-				}
 			}
 		}
 	}

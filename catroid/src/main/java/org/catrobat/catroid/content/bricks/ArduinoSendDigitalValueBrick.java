@@ -22,16 +22,10 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.TextView;
-
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
@@ -40,46 +34,18 @@ public class ArduinoSendDigitalValueBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public ArduinoSendDigitalValueBrick() {
-		addAllowedBrickField(BrickField.ARDUINO_DIGITAL_PIN_NUMBER);
-		addAllowedBrickField(BrickField.ARDUINO_DIGITAL_PIN_VALUE);
+		addAllowedBrickField(BrickField.ARDUINO_DIGITAL_PIN_NUMBER, R.id.brick_arduino_set_digital_pin_edit_text);
+		addAllowedBrickField(BrickField.ARDUINO_DIGITAL_PIN_VALUE, R.id.brick_arduino_set_digital_value_edit_text);
 	}
 
 	public ArduinoSendDigitalValueBrick(int pinNumber, int pinValue) {
-		initializeBrickFields(new Formula(pinNumber), new Formula(pinValue));
+		this(new Formula(pinNumber), new Formula(pinValue));
 	}
 
 	public ArduinoSendDigitalValueBrick(Formula pinNumber, Formula pinValue) {
-		initializeBrickFields(pinNumber, pinValue);
-	}
-
-	public ArduinoSendDigitalValueBrick(int pinNumber, String pinValue) {
-		initializeBrickFields(new Formula(pinNumber), new Formula(pinValue));
-	}
-
-	private void initializeBrickFields(Formula pinNumber, Formula pinValue) {
-		addAllowedBrickField(BrickField.ARDUINO_DIGITAL_PIN_NUMBER);
-		addAllowedBrickField(BrickField.ARDUINO_DIGITAL_PIN_VALUE);
+		this();
 		setFormulaWithBrickField(BrickField.ARDUINO_DIGITAL_PIN_NUMBER, pinNumber);
 		setFormulaWithBrickField(BrickField.ARDUINO_DIGITAL_PIN_VALUE, pinValue);
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return BLUETOOTH_SENSORS_ARDUINO
-				| getFormulaWithBrickField(BrickField.ARDUINO_DIGITAL_PIN_NUMBER).getRequiredResources()
-				| getFormulaWithBrickField(BrickField.ARDUINO_DIGITAL_PIN_VALUE).getRequiredResources();
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-
-		TextView textSetPinNumber = prototypeView.findViewById(R.id.brick_arduino_set_digital_pin_edit_text);
-		textSetPinNumber.setText(formatNumberForPrototypeView(BrickValues.ARDUINO_DIGITAL_INITIAL_PIN_NUMBER));
-		TextView textSetPinValue = prototypeView.findViewById(R.id.brick_arduino_set_digital_value_edit_text);
-		textSetPinValue.setText(formatNumberForPrototypeView(BrickValues.ARDUINO_DIGITAL_INITIAL_PIN_VALUE));
-
-		return prototypeView;
 	}
 
 	@Override
@@ -88,21 +54,9 @@ public class ArduinoSendDigitalValueBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context) {
-		super.getView(context);
-		TextView editPinNumber = view.findViewById(R.id.brick_arduino_set_digital_pin_edit_text);
-		getFormulaWithBrickField(BrickField.ARDUINO_DIGITAL_PIN_NUMBER).setTextFieldId(R.id.brick_arduino_set_digital_pin_edit_text);
-		getFormulaWithBrickField(BrickField.ARDUINO_DIGITAL_PIN_NUMBER).refreshTextField(view);
-
-		editPinNumber.setOnClickListener(this);
-
-		TextView editPinValue = view.findViewById(R.id.brick_arduino_set_digital_value_edit_text);
-		getFormulaWithBrickField(BrickField.ARDUINO_DIGITAL_PIN_VALUE).setTextFieldId(R.id.brick_arduino_set_digital_value_edit_text);
-		getFormulaWithBrickField(BrickField.ARDUINO_DIGITAL_PIN_VALUE).refreshTextField(view);
-
-		editPinValue.setOnClickListener(this);
-
-		return view;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(BLUETOOTH_SENSORS_ARDUINO);
+		super.addRequiredResources(requiredResourcesSet);
 	}
 
 	@Override
@@ -111,18 +65,5 @@ public class ArduinoSendDigitalValueBrick extends FormulaBrick {
 				getFormulaWithBrickField(BrickField.ARDUINO_DIGITAL_PIN_NUMBER),
 				getFormulaWithBrickField(BrickField.ARDUINO_DIGITAL_PIN_VALUE)));
 		return null;
-	}
-
-	public void showFormulaEditorToEditFormula(View view) {
-		switch (view.getId()) {
-			case R.id.brick_arduino_set_digital_value_edit_text:
-				FormulaEditorFragment.showFragment(view, this, BrickField.ARDUINO_DIGITAL_PIN_VALUE);
-				break;
-
-			case R.id.brick_arduino_set_digital_pin_edit_text:
-			default:
-				FormulaEditorFragment.showFragment(view, this, BrickField.ARDUINO_DIGITAL_PIN_NUMBER);
-				break;
-		}
 	}
 }

@@ -26,10 +26,9 @@ import android.support.annotation.NonNull;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastMessageBrick;
-import org.catrobat.catroid.content.bricks.UserListBrick;
-import org.catrobat.catroid.content.bricks.UserVariableBrick;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.PhysicsWorld;
@@ -55,7 +54,7 @@ import static org.catrobat.catroid.common.Constants.MANUAL_SCREENSHOT_FILE_NAME;
 		"objectList",
 		"data"
 })
-public class Scene implements Serializable {
+public class Scene implements Nameable, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -202,21 +201,5 @@ public class Scene implements Serializable {
 			}
 		}
 		return messagesInUse;
-	}
-
-	public synchronized void correctUserVariableAndListReferences() {
-		for (Sprite sprite : spriteList) {
-			for (Brick brick : sprite.getAllBricks()) {
-				if (brick instanceof UserVariableBrick) {
-					((UserVariableBrick) brick).setUserVariable(dataContainer.getUserVariable(sprite,
-							((UserVariableBrick) brick).getUserVariable().getName()));
-				}
-
-				if (brick instanceof UserListBrick) {
-					((UserListBrick) brick).setUserList(dataContainer.getUserList(sprite,
-							((UserListBrick) brick).getUserList().getName()));
-				}
-			}
-		}
 	}
 }

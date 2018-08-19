@@ -32,8 +32,5 @@ public interface NestingBrick {
 
 	boolean isDraggableOver(Brick brick);
 
-	/**
-	 * @return List of NestingBricks in order of their appearance
-	 */
 	List<NestingBrick> getAllNestingBrickParts();
 }

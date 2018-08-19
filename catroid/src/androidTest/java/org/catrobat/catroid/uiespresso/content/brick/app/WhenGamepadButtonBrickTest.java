@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.app;
 
+import android.content.Context;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
@@ -68,15 +70,17 @@ public class WhenGamepadButtonBrickTest {
 	public void whenGamepadButtonBrickTest() {
 		onBrickAtPosition(brickPosition).checkShowsText("A");
 
-		List<Integer> spinnerValuesResourceIds = Arrays.asList(
-				R.string.cast_gamepad_A,
-				R.string.cast_gamepad_B,
-				R.string.cast_gamepad_down,
-				R.string.cast_gamepad_left,
-				R.string.cast_gamepad_right,
-				R.string.cast_gamepad_up);
+		Context context = InstrumentationRegistry.getTargetContext();
+
+		List<String> spinnerValuesResourceIds = Arrays.asList(
+				context.getString(R.string.cast_gamepad_A),
+				context.getString(R.string.cast_gamepad_B),
+				context.getString(R.string.cast_gamepad_down),
+				context.getString(R.string.cast_gamepad_left),
+				context.getString(R.string.cast_gamepad_right),
+				context.getString(R.string.cast_gamepad_up));
 
 		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_when_gamepad_button_spinner)
-				.checkValuesAvailable(spinnerValuesResourceIds);
+				.checkNameableValuesAvailable(spinnerValuesResourceIds);
 	}
 }

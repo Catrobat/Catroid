@@ -30,8 +30,8 @@ import java.io.InterruptedIOException;
 
 public interface ScratchDataFetcher {
 	ScratchProgramData fetchScratchProgramDetails(long programID)
-			throws WebconnectionException, WebScratchProgramException, InterruptedIOException;
-	ScratchSearchResult fetchDefaultScratchPrograms() throws WebconnectionException, InterruptedIOException;
+			throws WebConnectionException, WebScratchProgramException, InterruptedIOException;
+	ScratchSearchResult fetchDefaultScratchPrograms() throws WebConnectionException, InterruptedIOException;
 	ScratchSearchResult scratchSearch(String query, int numberOfItems, int pageNumber)
-			throws WebconnectionException, InterruptedIOException;
+			throws WebConnectionException, InterruptedIOException;
 }
