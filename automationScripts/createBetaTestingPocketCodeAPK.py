@@ -38,6 +38,9 @@ def buildApk():
     shutil.copyfile("../catroid/build/outputs/apk/catroid/debug/catroid-catroid-debug.apk", "./catroid-catroid-debug"
                     + timestamp + ".apk")
 
+    shutil.copyfile("../catroid/build/outputs/apk/lunaAndCat/debug/catroid-lunaAndCat-debug.apk", "./catroid-lunaAndCat-debug"
+                    + timestamp + ".apk")
+
 def restoreBuildGradleAndAndroidManifest():
     shutil.move("../catroid/build.gradle_backup", "../catroid/build.gradle")
     shutil.move("../catroid/src/main/AndroidManifest.xml_backup", "../catroid/src/main/AndroidManifest.xml")
