@@ -27,8 +27,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -52,7 +50,7 @@ import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.transfers.LogoutTask;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.web.ServerCalls;
-import org.catrobat.catroid.web.WebconnectionException;
+import org.catrobat.catroid.web.WebConnectionException;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -90,27 +88,9 @@ public final class Utils {
 				&& !externalStorageState.equals(Environment.MEDIA_MOUNTED_READ_ONLY);
 	}
 
-	public static boolean isNetworkAvailable(Context context) {
-		ConnectivityManager connectivityManager = (ConnectivityManager) context
-				.getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo activeNetworkInfo = null;
-		if (connectivityManager != null) {
-			activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-		}
-		return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-	}
-
-	public static boolean checkForNetworkError(boolean success, WebconnectionException exception) {
-		return !success && exception != null && exception.getStatusCode() == WebconnectionException.ERROR_NETWORK;
-	}
-
-	public static boolean checkForSignInError(boolean success, WebconnectionException exception, Context context,
-			boolean userSignedIn) {
+	public static boolean checkForSignInError(boolean success, WebConnectionException exception, Context context,
+											boolean userSignedIn) {
 		return (!success && exception != null) || context == null || !userSignedIn;
-	}
-
-	public static boolean checkForNetworkError(WebconnectionException exception) {
-		return exception != null && exception.getStatusCode() == WebconnectionException.ERROR_NETWORK;
 	}
 
 	public static String formatDate(Date date, Locale locale) {

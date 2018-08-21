@@ -29,9 +29,9 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.utils.NetworkUtils;
 import org.catrobat.catroid.web.ServerCalls;
-import org.catrobat.catroid.web.WebconnectionException;
+import org.catrobat.catroid.web.WebConnectionException;
 
 public class CheckFacebookServerTokenValidityTask extends AsyncTask<Void, Void, Boolean> {
 	private static final String TAG = CheckFacebookServerTokenValidityTask.class.getSimpleName();
@@ -42,7 +42,7 @@ public class CheckFacebookServerTokenValidityTask extends AsyncTask<Void, Void, 
 
 	private Boolean requestNewToken;
 
-	private WebconnectionException exception;
+	private WebConnectionException exception;
 
 	private OnCheckFacebookServerTokenValidityCompleteListener onCheckFacebookServerTokenValidityCompleteListener;
 
@@ -69,15 +69,15 @@ public class CheckFacebookServerTokenValidityTask extends AsyncTask<Void, Void, 
 	@Override
 	protected Boolean doInBackground(Void... params) {
 		try {
-			if (!Utils.isNetworkAvailable(activity)) {
-				exception = new WebconnectionException(WebconnectionException.ERROR_NETWORK, "Network not available!");
+			if (!NetworkUtils.isNetworkAvailable(activity)) {
+				exception = new WebConnectionException(WebConnectionException.ERROR_NETWORK, "Network not available!");
 				return false;
 			}
 			requestNewToken = ServerCalls.getInstance().checkFacebookServerTokenValidity(id);
 			return true;
-		} catch (WebconnectionException webconnectionException) {
-			Log.e(TAG, Log.getStackTraceString(webconnectionException));
-			exception = webconnectionException;
+		} catch (WebConnectionException webConnectionException) {
+			Log.e(TAG, Log.getStackTraceString(webConnectionException));
+			exception = webConnectionException;
 		}
 		return false;
 	}
@@ -90,7 +90,7 @@ public class CheckFacebookServerTokenValidityTask extends AsyncTask<Void, Void, 
 			progressDialog.dismiss();
 		}
 
-		if (Utils.checkForNetworkError(exception)) {
+		if (NetworkUtils.checkForNetworkError(exception)) {
 			showDialog(R.string.error_internet_connection);
 			return;
 		}

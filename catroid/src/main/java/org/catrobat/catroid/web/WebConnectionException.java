@@ -24,8 +24,8 @@ package org.catrobat.catroid.web;
 
 import android.util.Log;
 
-public class WebconnectionException extends Exception {
-	private static final String TAG = WebconnectionException.class.getSimpleName();
+public class WebConnectionException extends Exception {
+	private static final String TAG = WebConnectionException.class.getSimpleName();
 
 	private static final long serialVersionUID = 1L;
 
@@ -35,7 +35,7 @@ public class WebconnectionException extends Exception {
 	private final int statusCode;
 	private final String message;
 
-	public WebconnectionException(int statusCode, String message) {
+	public WebConnectionException(int statusCode, String message) {
 		super(message);
 		if (message == null) {
 			message = "Unknown Error, no exception message given.";

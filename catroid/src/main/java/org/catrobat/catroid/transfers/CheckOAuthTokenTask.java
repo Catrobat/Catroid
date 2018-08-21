@@ -29,9 +29,9 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.utils.NetworkUtils;
 import org.catrobat.catroid.web.ServerCalls;
-import org.catrobat.catroid.web.WebconnectionException;
+import org.catrobat.catroid.web.WebConnectionException;
 
 public class CheckOAuthTokenTask extends AsyncTask<String, Void, Boolean> {
 	private static final String TAG = CheckOAuthTokenTask.class.getSimpleName();
@@ -43,7 +43,7 @@ public class CheckOAuthTokenTask extends AsyncTask<String, Void, Boolean> {
 
 	private Boolean tokenAvailable;
 
-	private WebconnectionException exception;
+	private WebConnectionException exception;
 
 	private OnCheckOAuthTokenCompleteListener onCheckOAuthTokenCompleteListener;
 
@@ -71,16 +71,16 @@ public class CheckOAuthTokenTask extends AsyncTask<String, Void, Boolean> {
 	@Override
 	protected Boolean doInBackground(String... params) {
 		try {
-			if (!Utils.isNetworkAvailable(activity)) {
-				exception = new WebconnectionException(WebconnectionException.ERROR_NETWORK, "Network not available!");
+			if (!NetworkUtils.isNetworkAvailable(activity)) {
+				exception = new WebConnectionException(WebConnectionException.ERROR_NETWORK, "Network not available!");
 				return false;
 			}
 
 			tokenAvailable = ServerCalls.getInstance().checkOAuthToken(id, provider, activity);
 			return true;
-		} catch (WebconnectionException webconnectionException) {
-			Log.e(TAG, Log.getStackTraceString(webconnectionException));
-			exception = webconnectionException;
+		} catch (WebConnectionException webConnectionException) {
+			Log.e(TAG, Log.getStackTraceString(webConnectionException));
+			exception = webConnectionException;
 		}
 		return false;
 	}
@@ -93,7 +93,7 @@ public class CheckOAuthTokenTask extends AsyncTask<String, Void, Boolean> {
 			progressDialog.dismiss();
 		}
 
-		if (Utils.checkForNetworkError(exception)) {
+		if (NetworkUtils.checkForNetworkError(exception)) {
 			showDialog(R.string.error_internet_connection);
 			return;
 		}

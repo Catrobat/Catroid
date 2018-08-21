@@ -41,8 +41,8 @@ import org.catrobat.catroid.transfers.GooglePlusLoginHandler;
 import org.catrobat.catroid.ui.recyclerview.dialog.login.LoginDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.login.RegistrationDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.login.SignInCompleteListener;
+import org.catrobat.catroid.utils.NetworkUtils;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.Utils;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -89,7 +89,7 @@ public class SignInActivity extends BaseActivity implements SignInCompleteListen
 	}
 
 	public void onButtonClick(final View view) {
-		if (!Utils.isNetworkAvailable(this)) {
+		if (!NetworkUtils.isNetworkAvailable(this)) {
 			ToastUtil.showError(this, R.string.error_internet_connection);
 		} else {
 			onButtonClickForRealThisTime(view);

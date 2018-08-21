@@ -31,10 +31,11 @@ import android.util.Log;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.utils.NetworkUtils;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
-import org.catrobat.catroid.web.WebconnectionException;
+import org.catrobat.catroid.web.WebConnectionException;
 
 public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 
@@ -49,7 +50,7 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 	private boolean userLoggedIn;
 
 	private OnLoginListener onLoginListener;
-	private WebconnectionException exception;
+	private WebConnectionException exception;
 
 	public LoginTask(Context activity, String username, String password) {
 		this.context = activity;
@@ -82,7 +83,7 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 			userLoggedIn = ServerCalls.getInstance().login(username, password, token, context);
 
 			return true;
-		} catch (WebconnectionException webconnectionException) {
+		} catch (WebConnectionException webconnectionException) {
 			Log.e(TAG, Log.getStackTraceString(webconnectionException));
 			exception = webconnectionException;
 			message = webconnectionException.getMessage();
@@ -98,7 +99,7 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 			progressDialog.dismiss();
 		}
 
-		if (Utils.checkForNetworkError(exception)) {
+		if (NetworkUtils.checkForNetworkError(exception)) {
 			ToastUtil.showError(context, R.string.error_internet_connection);
 			return;
 		}

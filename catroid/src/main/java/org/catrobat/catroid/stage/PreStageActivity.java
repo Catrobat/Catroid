@@ -70,6 +70,7 @@ import org.catrobat.catroid.ui.BaseActivity;
 import org.catrobat.catroid.ui.recyclerview.dialog.NetworkAlertDialog;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.FlashUtil;
+import org.catrobat.catroid.utils.NetworkUtils;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.TouchUtil;
 import org.catrobat.catroid.utils.Utils;
@@ -310,8 +311,8 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 
 		if (requiredResourcesSet.contains(Brick.NETWORK_CONNECTION)) {
 			final Context finalBaseContext = this.getBaseContext();
-			if (!Utils.isNetworkAvailable(finalBaseContext)) {
 
+			if (!NetworkUtils.isNetworkAvailable(finalBaseContext)) {
 				List<Brick> networkBrickList = getNetworkBricks();
 				networkBrickList = Utils.distinctListByClassOfObjects(networkBrickList);
 				NetworkAlertDialog networkDialog = new NetworkAlertDialog(this, networkBrickList);
@@ -324,7 +325,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 				networkDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
 					@Override
 					public void onDismiss(DialogInterface dialogInterface) {
-						if (Utils.isNetworkAvailable(finalBaseContext)) {
+						if (NetworkUtils.isNetworkAvailable(finalBaseContext)) {
 							resourceInitialized();
 						} else {
 							resourceFailed();

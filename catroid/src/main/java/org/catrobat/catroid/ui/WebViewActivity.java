@@ -47,6 +47,7 @@ import android.webkit.WebViewClient;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.utils.DownloadUtil;
+import org.catrobat.catroid.utils.NetworkUtils;
 import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
@@ -212,7 +213,7 @@ public class WebViewActivity extends BaseActivity {
 		@Override
 		public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
 			int errorMessage;
-			if (!Utils.isNetworkAvailable(WebViewActivity.this)) {
+			if (!NetworkUtils.isNetworkAvailable(WebViewActivity.this)) {
 				errorMessage = R.string.error_internet_connection;
 			} else {
 				errorMessage = R.string.error_unknown_error;

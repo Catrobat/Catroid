@@ -26,7 +26,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import org.catrobat.catroid.web.ServerCalls;
-import org.catrobat.catroid.web.WebconnectionException;
+import org.catrobat.catroid.web.WebConnectionException;
 
 public class CheckEmailAvailableTask extends AsyncTask<String, Void, Boolean> {
 	private static final String TAG = CheckEmailAvailableTask.class.getSimpleName();
@@ -52,7 +52,7 @@ public class CheckEmailAvailableTask extends AsyncTask<String, Void, Boolean> {
 		try {
 			emailAvailable = ServerCalls.getInstance().checkEMailAvailable(email);
 			return true;
-		} catch (WebconnectionException webconnectionException) {
+		} catch (WebConnectionException webconnectionException) {
 			Log.e(TAG, Log.getStackTraceString(webconnectionException));
 		}
 		return false;

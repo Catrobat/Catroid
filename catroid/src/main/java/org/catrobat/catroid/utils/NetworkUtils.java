@@ -21,17 +21,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.web;
+package org.catrobat.catroid.utils;
 
-import org.catrobat.catroid.common.ScratchProgramData;
-import org.catrobat.catroid.common.ScratchSearchResult;
+import android.content.Context;
+import android.net.ConnectivityManager;
 
-import java.io.InterruptedIOException;
+import org.catrobat.catroid.web.WebConnectionException;
 
-public interface ScratchDataFetcher {
-	ScratchProgramData fetchScratchProgramDetails(long programID)
-			throws WebConnectionException, WebScratchProgramException, InterruptedIOException;
-	ScratchSearchResult fetchDefaultScratchPrograms() throws WebConnectionException, InterruptedIOException;
-	ScratchSearchResult scratchSearch(String query, int numberOfItems, int pageNumber)
-			throws WebConnectionException, InterruptedIOException;
+public final class NetworkUtils {
+
+	private NetworkUtils() {
+		throw new AssertionError();
+	}
+
+	public static boolean isNetworkAvailable(Context context) {
+		ConnectivityManager connectivityManager = (ConnectivityManager) context
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		return connectivityManager != null && connectivityManager.getActiveNetworkInfo().isConnected();
+	}
+
+	public static boolean checkForNetworkError(boolean success, WebConnectionException exception) {
+		return !success && exception != null && exception.getStatusCode() == WebConnectionException.ERROR_NETWORK;
+	}
+
+	public static boolean checkForNetworkError(WebConnectionException exception) {
+		return exception != null && exception.getStatusCode() == WebConnectionException.ERROR_NETWORK;
+	}
 }

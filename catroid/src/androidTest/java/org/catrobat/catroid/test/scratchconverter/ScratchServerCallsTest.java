@@ -28,8 +28,8 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ScratchProgramData;
 import org.catrobat.catroid.common.ScratchSearchResult;
 import org.catrobat.catroid.web.ServerCalls;
+import org.catrobat.catroid.web.WebConnectionException;
 import org.catrobat.catroid.web.WebScratchProgramException;
-import org.catrobat.catroid.web.WebconnectionException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -67,7 +67,7 @@ public class ScratchServerCallsTest {
 	}
 
 	@Test
-	public void testScratchSearchWithEmptyQueryParam() throws WebconnectionException, InterruptedIOException {
+	public void testScratchSearchWithEmptyQueryParam() throws WebConnectionException, InterruptedIOException {
 		ScratchSearchResult searchResult = ServerCalls.getInstance().scratchSearch("", 20, 0);
 		List<ScratchProgramData> programDataList = searchResult.getProgramDataList();
 
@@ -101,7 +101,7 @@ public class ScratchServerCallsTest {
 	}
 
 	@Test
-	public void testScratchSearchWithQueryParam() throws WebconnectionException, InterruptedIOException {
+	public void testScratchSearchWithQueryParam() throws WebConnectionException, InterruptedIOException {
 		ScratchSearchResult searchResult = ServerCalls.getInstance().scratchSearch("test", 20, 0);
 		List<ScratchProgramData> programDataList = searchResult.getProgramDataList();
 
@@ -118,7 +118,7 @@ public class ScratchServerCallsTest {
 	}
 
 	@Test
-	public void testScratchSearchMaxNumberOfItemsParam() throws WebconnectionException, InterruptedIOException {
+	public void testScratchSearchMaxNumberOfItemsParam() throws WebConnectionException, InterruptedIOException {
 		final int maxNumberOfItems = 10;
 
 		ScratchSearchResult searchResult = ServerCalls.getInstance().scratchSearch("test", maxNumberOfItems, 0);
@@ -138,7 +138,7 @@ public class ScratchServerCallsTest {
 	}
 
 	@Test
-	public void testScratchSearchPagination() throws WebconnectionException, InterruptedIOException {
+	public void testScratchSearchPagination() throws WebConnectionException, InterruptedIOException {
 		for (int pageIndex = 1; pageIndex < 3; pageIndex++) {
 			ScratchSearchResult searchResult = ServerCalls.getInstance().scratchSearch("test", 20, pageIndex);
 			List<ScratchProgramData> programDataList = searchResult.getProgramDataList();
@@ -157,7 +157,7 @@ public class ScratchServerCallsTest {
 	}
 
 	@Test
-	public void testFetchDefaultScratchPrograms() throws InterruptedIOException, WebconnectionException {
+	public void testFetchDefaultScratchPrograms() throws InterruptedIOException, WebConnectionException {
 		ScratchSearchResult searchResult = ServerCalls.getInstance().fetchDefaultScratchPrograms();
 		List<ScratchProgramData> programDataList = searchResult.getProgramDataList();
 
@@ -174,7 +174,7 @@ public class ScratchServerCallsTest {
 
 	@Test
 	public void testFetchScratchProgramDetails() throws
-			WebconnectionException,
+			WebConnectionException,
 			WebScratchProgramException,
 			InterruptedIOException {
 

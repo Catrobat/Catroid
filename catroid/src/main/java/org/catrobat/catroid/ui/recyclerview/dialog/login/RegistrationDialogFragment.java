@@ -44,9 +44,9 @@ import org.catrobat.catroid.transfers.CheckEmailAvailableTask;
 import org.catrobat.catroid.transfers.CheckUserNameAvailableTask;
 import org.catrobat.catroid.transfers.RegistrationTask;
 import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationListener;
+import org.catrobat.catroid.utils.NetworkUtils;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
-import org.catrobat.catroid.utils.Utils;
 
 public class RegistrationDialogFragment extends DialogFragment implements OnRegistrationListener {
 
@@ -283,7 +283,7 @@ public class RegistrationDialogFragment extends DialogFragment implements OnRegi
 	private void handleRegisterBtnStatus() {
 		if (alertDialog.getButton(AlertDialog.BUTTON_POSITIVE) != null) {
 			if (!usernameInputLayout.isErrorEnabled() && !emailInputLayout.isErrorEnabled() && !passwordInputLayout
-					.isErrorEnabled() && !confirmPasswordInputLayout.isErrorEnabled() && Utils.isNetworkAvailable(getActivity())) {
+					.isErrorEnabled() && !confirmPasswordInputLayout.isErrorEnabled() && NetworkUtils.isNetworkAvailable(getActivity())) {
 				alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
 			} else {
 				alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);

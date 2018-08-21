@@ -26,12 +26,11 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import org.catrobat.catroid.web.ServerCalls;
-import org.catrobat.catroid.web.WebconnectionException;
+import org.catrobat.catroid.web.WebConnectionException;
 
 public class CheckUserNameAvailableTask extends AsyncTask<Void, Void, Boolean> {
 	private static final String TAG = CheckUserNameAvailableTask.class.getSimpleName();
 	private String username;
-
 	private Boolean userNameAvailable;
 
 	private OnCheckUserNameAvailableCompleteListener onCheckUserNameAvailableCompleteListener;
@@ -49,7 +48,7 @@ public class CheckUserNameAvailableTask extends AsyncTask<Void, Void, Boolean> {
 		try {
 			userNameAvailable = ServerCalls.getInstance().checkUserNameAvailable(username);
 			return true;
-		} catch (WebconnectionException webconnectionException) {
+		} catch (WebConnectionException webconnectionException) {
 			Log.e(TAG, Log.getStackTraceString(webconnectionException));
 		}
 		return false;

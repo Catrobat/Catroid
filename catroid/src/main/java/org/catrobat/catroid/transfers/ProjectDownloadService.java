@@ -38,7 +38,7 @@ import org.catrobat.catroid.utils.DownloadUtil;
 import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.web.ServerCalls;
-import org.catrobat.catroid.web.WebconnectionException;
+import org.catrobat.catroid.web.WebConnectionException;
 
 import java.io.File;
 import java.io.IOException;
@@ -90,7 +90,7 @@ public class ProjectDownloadService extends IntentService {
 			}
 
 			XstreamSerializer.getInstance().updateCodeFileOnDownload(projectName);
-		} catch (LoadingProjectException | IOException | WebconnectionException e) {
+		} catch (LoadingProjectException | IOException | WebConnectionException e) {
 			showToast(R.string.error_project_download, true);
 			Log.e(TAG, Log.getStackTraceString(e));
 		} finally {
