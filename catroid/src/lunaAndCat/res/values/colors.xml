@@ -21,23 +21,25 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:minHeight="@dimen/user_data_vh_height"
-    android:paddingStart="@dimen/view_holder_padding"
-    android:paddingEnd="@dimen/view_holder_padding"
-    android:gravity="center_vertical"
-    android:layout_marginTop="?attr/element_spacing"
-    android:layout_marginBottom="?attr/element_spacing"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="Overdraw"
-    android:background="@drawable/button_background_selector">
+<resources>
 
-    <TextView
-        android:id="@+id/title_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="?attr/large"
-        android:textColor="@color/accented_text" />
-</LinearLayout>
+    <!-- Toolbar and Bottombar Colors -->
+    <color name="toolbar_background">#8275a2</color>
+    <color name="toolbar_border">#2a1848</color>
+
+    <!-- Backgrounds -->
+    <color name="app_background">#392757</color>
+    <color name="button_background">#3f3352</color>
+    <color name="button_border_top">#2a1848</color>
+    <color name="button_border_bottom">#392757</color>
+
+    <!-- Accent Colors -->
+    <color name="accented_text">#d8c6f6</color>
+    <color name="image_view_border">#d8c6f6</color>
+
+
+    <!-- Stage Dialog Colors -->
+    <color name="stage_dialog_maximize_button_background">#392757</color>
+
+
+</resources>

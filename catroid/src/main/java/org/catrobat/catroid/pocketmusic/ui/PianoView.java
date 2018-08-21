@@ -62,7 +62,7 @@ public class PianoView extends ViewGroup {
 		margin = getResources().getDimensionPixelSize(R.dimen.pocketmusic_trackrow_margin);
 		for (int i = 0; i < WHITE_KEY_COUNT; i++) {
 			View whiteButton = new View(context);
-			whiteButton.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
+			whiteButton.setBackgroundColor(ContextCompat.getColor(context, R.color.solid_white));
 			whitePianoKeys.add(whiteButton);
 			addView(whiteButton);
 		}
@@ -183,10 +183,10 @@ public class PianoView extends ViewGroup {
 			noteView = whitePianoKeys.get(i);
 		}
 		if (active) {
-			noteView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.terms_of_use_text_color));
+			noteView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.orange));
 		} else {
 			noteView.setBackgroundColor(ContextCompat.getColor(getContext(), note.isSigned() ? R.color.solid_black : R
-					.color.white));
+					.color.solid_white));
 		}
 	}
 

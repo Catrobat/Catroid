@@ -47,7 +47,7 @@
            android:id="@+id/dialog_terms_of_use_check_box_agree_permanently"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
-           android:textColor="@color/spritelist_details_text_color"
+           android:textColor="@color/light_grey"
            android:visibility="gone" />
     </LinearLayout>
 </ScrollView>

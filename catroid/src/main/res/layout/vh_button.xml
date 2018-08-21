@@ -49,13 +49,15 @@
             android:id="@+id/title_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="?attr/x_large" />
+            android:textSize="?attr/x_large"
+            android:textColor="@color/accented_text" />
 
         <TextView
             android:id="@+id/subtitle_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            android:textColor="@color/accented_text" />
 
     </LinearLayout>
 </LinearLayout>

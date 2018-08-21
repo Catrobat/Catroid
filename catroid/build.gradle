@@ -183,6 +183,16 @@ android {
             buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "false"
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "false"
         }
+
+        lunaAndCat {
+            dimension "default"
+            applicationId appId
+            buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
+            buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
+            buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "false"
+            buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
+        }
     }
 }
 
@@ -332,11 +342,11 @@ android {
     }
 }
 
-project.gradle.taskGraph.whenReady {
-    connectedCatroidDebugAndroidTest {
-        ignoreFailures = true
-    }
-}
+//project.gradle.taskGraph.whenReady {
+//    connectedCatroidDebugAndroidTest {
+//        ignoreFailures = true
+//    }
+//}
 
 task copyAndroidNatives() {
     file("src/main/jniLibs/armeabi/").mkdirs()

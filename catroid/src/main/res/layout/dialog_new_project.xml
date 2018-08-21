@@ -45,7 +45,8 @@
                 android:id="@+id/input_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:selectAllOnFocus="true" />
+                android:selectAllOnFocus="true"
+                android:textColor="@color/accented_text"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -59,27 +60,31 @@
                 android:id="@+id/project_empty_radio_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/new_project_empty" />
+                android:text="@string/new_project_empty"
+                android:textColor="@color/accented_text"/>
 
             <RadioButton
                 android:id="@+id/project_default_radio_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/new_project_default" />
+                android:text="@string/new_project_default"
+                android:textColor="@color/accented_text"/>
 
             <RadioButton
                 android:id="@+id/project_default_drone_radio_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/new_project_default_drone"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:textColor="@color/accented_text"/>
 
             <RadioButton
                 android:id="@+id/project_default_jumping_sumo_radio_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/new_project_default_jumping_sumo"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:textColor="@color/accented_text"/>
         </RadioGroup>
     </LinearLayout>
 </ScrollView>

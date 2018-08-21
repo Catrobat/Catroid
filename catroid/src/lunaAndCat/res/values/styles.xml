@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
   ~ Copyright (C) 2010-2018 The Catrobat Team
@@ -21,23 +20,18 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:minHeight="@dimen/user_data_vh_height"
-    android:paddingStart="@dimen/view_holder_padding"
-    android:paddingEnd="@dimen/view_holder_padding"
-    android:gravity="center_vertical"
-    android:layout_marginTop="?attr/element_spacing"
-    android:layout_marginBottom="?attr/element_spacing"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="Overdraw"
-    android:background="@drawable/button_background_selector">
 
-    <TextView
-        android:id="@+id/title_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="?attr/large"
-        android:textColor="@color/accented_text" />
-</LinearLayout>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="ToolbarTitle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textColor">@color/accented_text</item>
+    </style>
+
+    <style name="ActionModeTitle" parent="TextAppearance.AppCompat.Widget.ActionMode.Title">
+        <item name="android:textColor">@color/accented_text</item>
+    </style>
+
+
+
+</resources>
