@@ -40,7 +40,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
+
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.lessThan;
+import static org.junit.Assert.assertThat;
 
 @RunWith(AndroidJUnit4.class)
 public class SetBounceFactorActionTest {
@@ -132,7 +135,7 @@ public class SetBounceFactorActionTest {
 	public void testBounceWithDifferentValues() {
 		float bounce01Height = bounce(0.1f);
 		float bounce06Height = bounce(0.6f);
-		assertTrue(bounce01Height < bounce06Height);
+		assertThat(bounce01Height, is(lessThan(bounce06Height)));
 	}
 
 	private float bounce(float bounceFactor) {

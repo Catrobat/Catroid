@@ -22,9 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
@@ -39,26 +36,8 @@ public class StampBrick extends BrickBaseType {
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		View view = super.getPrototypeView(context);
-
-		return view;
-	}
-
-	@Override
-	public Brick clone() {
-		return new StampBrick();
-	}
-
-	@Override
 	public int getViewResource() {
 		return R.layout.brick_stamp;
-	}
-
-	@Override
-	public View getView(Context context) {
-		super.getView(context);
-		return view;
 	}
 
 	@Override

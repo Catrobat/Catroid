@@ -24,33 +24,40 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 
-import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenGamepadButtonScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
+import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
-public class WhenGamepadButtonBrick extends BrickBaseType implements ScriptBrick {
+public class WhenGamepadButtonBrick extends BrickBaseType implements ScriptBrick,
+		BrickSpinner.OnItemSelectedListener<StringOption> {
+
 	private static final long serialVersionUID = 1L;
+
 	private WhenGamepadButtonScript whenGamepadButtonScript;
-	private List<String> actions = Arrays.asList(CatroidApplication.getAppContext().getResources().getStringArray(R.array.gamepad_buttons_array));
 
 	public WhenGamepadButtonBrick(@NonNull WhenGamepadButtonScript whenGamepadButtonScript) {
+		whenGamepadButtonScript.setScriptBrick(this);
+		commentedOut = whenGamepadButtonScript.isCommentedOut();
 		this.whenGamepadButtonScript = whenGamepadButtonScript;
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return CAST_REQUIRED;
+	public BrickBaseType clone() throws CloneNotSupportedException {
+		WhenGamepadButtonBrick clone = (WhenGamepadButtonBrick) super.clone();
+		clone.whenGamepadButtonScript = (WhenGamepadButtonScript) whenGamepadButtonScript.clone();
+		clone.whenGamepadButtonScript.setScriptBrick(clone);
+		return clone;
 	}
 
 	@Override
@@ -59,41 +66,44 @@ public class WhenGamepadButtonBrick extends BrickBaseType implements ScriptBrick
 	}
 
 	@Override
-	public View getView(final Context context) {
+	public View getView(Context context) {
 		super.getView(context);
-		final Spinner actionSpinner = (Spinner) view.findViewById(R.id.brick_when_gamepad_button_spinner);
 
-		ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(context,
-				R.array.gamepad_buttons_array, android.R.layout.simple_spinner_item);
-		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		List<Nameable> items = new ArrayList<>();
+		items.add(new StringOption(context.getString(R.string.cast_gamepad_A)));
+		items.add(new StringOption(context.getString(R.string.cast_gamepad_B)));
+		items.add(new StringOption(context.getString(R.string.cast_gamepad_up)));
+		items.add(new StringOption(context.getString(R.string.cast_gamepad_down)));
+		items.add(new StringOption(context.getString(R.string.cast_gamepad_left)));
+		items.add(new StringOption(context.getString(R.string.cast_gamepad_right)));
 
-		actionSpinner.setAdapter(arrayAdapter);
-
-		actionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				String actionChosen = actionSpinner.getSelectedItem().toString();
-				whenGamepadButtonScript.setAction(actionChosen);
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
-			}
-		});
-		actionSpinner.setSelection(actions.indexOf(whenGamepadButtonScript.getAction()));
+		BrickSpinner<StringOption> spinner = new BrickSpinner<>(R.id.brick_when_gamepad_button_spinner, view, items);
+		spinner.setOnItemSelectedListener(this);
+		spinner.setSelection(whenGamepadButtonScript.getAction());
 		return view;
 	}
 
 	@Override
-	public Brick clone() {
-		WhenGamepadButtonScript clonedScript = new WhenGamepadButtonScript(whenGamepadButtonScript.getAction());
-		return new WhenGamepadButtonBrick(clonedScript);
+	public void onNewOptionSelected() {
 	}
 
 	@Override
-	public Script getScriptSafe() {
+	public void onStringOptionSelected(String string) {
+		whenGamepadButtonScript.setAction(string);
+	}
+
+	@Override
+	public void onItemSelected(@Nullable StringOption item) {
+	}
+
+	@Override
+	public Script getScript() {
 		return whenGamepadButtonScript;
+	}
+
+	@Override
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(CAST_REQUIRED);
 	}
 
 	@Override

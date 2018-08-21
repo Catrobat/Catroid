@@ -23,6 +23,7 @@
 package org.catrobat.catroid.facedetection;
 
 import android.hardware.Camera;
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import org.catrobat.catroid.camera.CameraManager;
@@ -162,5 +163,15 @@ public final class FaceDetectionHandler {
 			return camera.getParameters().getMaxNumDetectedFaces();
 		}
 		return 0;
+	}
+
+	@VisibleForTesting
+	public static void setFaceDetector(FaceDetector detector) {
+		faceDetector = detector;
+	}
+
+	@VisibleForTesting
+	public static FaceDetector getFaceDetector() {
+		return faceDetector;
 	}
 }

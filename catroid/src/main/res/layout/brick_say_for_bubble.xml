@@ -23,11 +23,11 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:gravity="center_vertical"
-              android:orientation="horizontal" >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
 
     <CheckBox
         android:id="@+id/brick_checkbox"
@@ -43,43 +43,40 @@
         android:paddingBottom="0dp"
         android:paddingTop="0dp"
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
-        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
+        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing">
 
-        <include layout="@layout/icon_brick_category_look"/>
+        <include layout="@layout/icon_brick_category_look" />
 
         <TextView
-            android:id="@+id/brick_say_for_bubble_label"
             style="@style/BrickText.SingleLine"
-            android:text="@string/brick_say_bubble" >
-        </TextView >
+            android:text="@string/brick_say_bubble">
+        </TextView>
 
         <TextView
-            android:id="@+id/brick_say_for_bubble_edit_text_text"
+            android:id="@+id/brick_for_bubble_edit_text_text"
             style="@style/BrickEditText"
             app:layout_inputType="string"
-            app:layout_textField="true" >
-        </TextView >
+            app:layout_textField="true">
+        </TextView>
 
         <TextView
-            android:id="@+id/brick_say_for_bubble_for"
             style="@style/BrickText.SingleLine"
-            app:layout_newLine="true"
-            android:text="@string/brick_think_say_for_text" >
-        </TextView >
+            android:text="@string/brick_think_say_for_text"
+            app:layout_newLine="true">
+        </TextView>
 
         <TextView
-            android:id="@+id/brick_say_for_bubble_edit_text_duration"
+            android:id="@+id/brick_for_bubble_edit_text_duration"
             style="@style/BrickEditText"
             android:layout_width="match_parent"
             app:layout_inputType="number"
-            app:layout_textField="true" >
-        </TextView >
+            app:layout_textField="true">
+        </TextView>
 
         <TextView
-            android:id="@+id/brick_say_for_bubble_seconds_label"
-            style="@style/BrickText.SingleLine"
-            android:text="@string/phiro_seconds" >
-        </TextView >
-    </org.catrobat.catroid.ui.BrickLayout >
+            android:id="@+id/brick_seconds_label"
+            style="@style/BrickText.SingleLine">
+        </TextView>
+    </org.catrobat.catroid.ui.BrickLayout>
 
 </LinearLayout>

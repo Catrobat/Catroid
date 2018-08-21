@@ -98,7 +98,7 @@ public class VariableBrickTest {
 	public void testCreatingNewVariable() {
 		final String variableName = "testVariable";
 		onBrickAtPosition(setBrickPosition).onVariableSpinner(R.id.set_variable_spinner)
-				.performNewVariableInitial(variableName)
+				.performNewVariable(variableName)
 				.checkShowsText(variableName);
 	}
 
@@ -108,11 +108,15 @@ public class VariableBrickTest {
 	public void testNewVariableCanceling() {
 		onBrickAtPosition(setBrickPosition).onVariableSpinner(R.id.set_variable_spinner)
 				.perform(click());
+
+		onView(withText(R.string.brick_variable_spinner_create_new_variable))
+				.perform(click());
+
 		closeSoftKeyboard();
 		onView(withText(R.string.cancel))
 				.perform(click());
 		onBrickAtPosition(setBrickPosition).onVariableSpinner(R.id.set_variable_spinner)
-				.checkShowsText(R.string.brick_variable_spinner_create_new_variable);
+				.checkShowsText(R.string.new_option);
 	}
 
 	@Category({Cat.AppUi.class, Level.Functional.class})
@@ -120,7 +124,7 @@ public class VariableBrickTest {
 	public void testAfterDeleteBrickVariableStillVisible() {
 		final String variableName = "testVariable";
 		onBrickAtPosition(setBrickPosition).onVariableSpinner(R.id.set_variable_spinner)
-				.performNewVariableInitial(variableName);
+				.performNewVariable(variableName);
 
 		onBrickAtPosition(setBrickPosition)
 				.performDeleteBrick();

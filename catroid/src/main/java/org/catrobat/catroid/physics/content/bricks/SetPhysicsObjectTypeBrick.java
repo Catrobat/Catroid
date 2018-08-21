@@ -23,6 +23,7 @@
 package org.catrobat.catroid.physics.content.bricks;
 
 import android.content.Context;
+import android.support.annotation.VisibleForTesting;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -33,13 +34,12 @@ import android.widget.SpinnerAdapter;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.physics.PhysicsObject;
 
 import java.util.List;
 
-public class SetPhysicsObjectTypeBrick extends BrickBaseType implements Cloneable {
+public class SetPhysicsObjectTypeBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
 
@@ -53,13 +53,8 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType implements Cloneabl
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return PHYSICS;
-	}
-
-	@Override
-	public Brick clone() {
-		return new SetPhysicsObjectTypeBrick(type);
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(PHYSICS);
 	}
 
 	@Override
@@ -71,7 +66,7 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType implements Cloneabl
 	public View getView(Context context) {
 		super.getView(context);
 
-		final Spinner spinner = (Spinner) view.findViewById(R.id.brick_set_physics_object_type_spinner);
+		final Spinner spinner = view.findViewById(R.id.brick_set_physics_object_type_spinner);
 		spinner.setAdapter(createAdapter(context));
 		spinner.setSelection(type.ordinal());
 
@@ -106,7 +101,7 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType implements Cloneabl
 	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = super.getPrototypeView(context);
-		Spinner pointToSpinner = (Spinner) prototypeView.findViewById(R.id.brick_set_physics_object_type_spinner);
+		Spinner pointToSpinner = prototypeView.findViewById(R.id.brick_set_physics_object_type_spinner);
 		SpinnerAdapter objectTypeSpinnerAdapter = createAdapter(context);
 		pointToSpinner.setAdapter(objectTypeSpinnerAdapter);
 		pointToSpinner.setSelection(PhysicsObject.Type.DYNAMIC.ordinal());
@@ -117,5 +112,10 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType implements Cloneabl
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSetPhysicsObjectTypeAction(sprite, type));
 		return null;
+	}
+
+	@VisibleForTesting
+	public PhysicsObject.Type getType() {
+		return type;
 	}
 }

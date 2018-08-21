@@ -22,17 +22,14 @@
  */
 package org.catrobat.catroid.test.utils;
 
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.test.InstrumentationRegistry;
-import android.util.SparseArray;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -41,13 +38,8 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.HideBrick;
-import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
-import org.catrobat.catroid.utils.NotificationData;
-import org.catrobat.catroid.utils.StatusBarNotificationManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -71,9 +63,8 @@ public final class TestUtils {
 		}
 	}
 
-	public static Project createTestProjectOnLocalStorageWithCatrobatLanguageVersionAndName(
-			float catrobatLanguageVersion, String name) {
-		Project project = new Project(InstrumentationRegistry.getTargetContext(), name);
+	public static void createProjectWithLanguageVersion(float catrobatLanguageVersion, String projectName) {
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		project.setCatrobatLanguageVersion(catrobatLanguageVersion);
 
 		Sprite firstSprite = new SingleSprite("cat");
@@ -85,29 +76,6 @@ public final class TestUtils {
 		project.getDefaultScene().addSprite(firstSprite);
 
 		XstreamSerializer.getInstance().saveProject(project);
-		return project;
-	}
-
-	public static Project createTestProjectOnLocalStorageWithCatrobatLanguageVersion(float catrobatLanguageVersion) {
-		return createTestProjectOnLocalStorageWithCatrobatLanguageVersionAndName(catrobatLanguageVersion,
-				DEFAULT_TEST_PROJECT_NAME);
-	}
-
-	public static void cancelAllNotifications(Context context) {
-		NotificationManager notificationManager = (NotificationManager) context
-				.getSystemService(Context.NOTIFICATION_SERVICE);
-		@SuppressWarnings("unchecked")
-		SparseArray<NotificationData> notificationMap = (SparseArray<NotificationData>) Reflection.getPrivateField(
-				StatusBarNotificationManager.class, StatusBarNotificationManager.getInstance(), "notificationDataMap");
-		if (notificationMap == null) {
-			return;
-		}
-
-		for (int i = 0; i < notificationMap.size(); i++) {
-			notificationManager.cancel(notificationMap.keyAt(i));
-		}
-
-		notificationMap.clear();
 	}
 
 	public static void removeFromPreferences(Context context, String key) {
@@ -115,33 +83,6 @@ public final class TestUtils {
 		SharedPreferences.Editor edit = preferences.edit();
 		edit.remove(key);
 		edit.commit();
-	}
-
-	public static Project createProjectWithOldCollisionFormulas(String name, Context context, String firstSprite,
-			String secondSprite, String thirdSprite, String collisionTag) {
-		Project project = new Project(context, name);
-		project.setCatrobatLanguageVersion(0.992f);
-		Sprite sprite1 = new Sprite(firstSprite);
-		Sprite sprite2 = new Sprite(secondSprite);
-		Sprite sprite3 = new Sprite(thirdSprite);
-
-		Script firstScript = new StartScript();
-
-		FormulaElement element1 = new FormulaElement(FormulaElement.ElementType.COLLISION_FORMULA, firstSprite + " "
-				+ collisionTag + " " + thirdSprite, null);
-		Formula formula1 = new Formula(element1);
-		IfLogicBeginBrick ifBrick = new IfLogicBeginBrick(formula1);
-
-		firstScript.addBrick(ifBrick);
-		sprite1.addScript(firstScript);
-
-		project.getDefaultScene().addSprite(sprite1);
-		project.getDefaultScene().addSprite(sprite2);
-		project.getDefaultScene().addSprite(sprite3);
-
-		ProjectManager projectManager = ProjectManager.getInstance();
-		projectManager.setCurrentProject(project);
-		return project;
 	}
 
 	public static Pixmap createRectanglePixmap(int width, int height, Color color) {

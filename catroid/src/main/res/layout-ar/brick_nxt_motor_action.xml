@@ -23,11 +23,11 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:gravity="center_vertical"
-              android:orientation="horizontal" >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
 
     <CheckBox
         android:id="@+id/brick_checkbox"
@@ -46,51 +46,49 @@
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing">
 
-        <include layout="@layout/icon_brick_category_legonxt"/>
+        <include layout="@layout/icon_brick_category_legonxt" />
 
                 <TextView
                     android:id="@+id/lego_motor_action_label"
                     style="@style/BrickText.Multiple"
-                    android:text="@string/nxt_brick_motor_move" >
-                </TextView >
+                    android:text="@string/nxt_brick_motor_move">
+                </TextView>
 
                 <Spinner
                     android:id="@+id/lego_motor_action_spinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textDirection="locale"
                     android:clickable="false"
-                    android:focusable="false" >
-
-                    <!-- do not add spinner items here! -->
-                </Spinner >
+                    android:focusable="false"
+                    android:textDirection="locale">
+                </Spinner>
 
                 <TextView
                     android:id="@+id/lego_motor_action_to_text"
                     style="@style/BrickText.Multiple"
-                    app:layout_newLine="true"
-                    android:text="@string/nxt_motor_speed_to" >
-                </TextView >
+                    android:text="@string/nxt_motor_speed_to"
+                    app:layout_newLine="true">
+                </TextView>
                 <TextView
                     android:id="@+id/lego_motor_action_speed_text"
                     style="@style/BrickText"
                     android:paddingStart="5dip"
-                    android:text="@string/nxt_motor_speed" >
-                </TextView >
+                    android:text="@string/nxt_motor_speed">
+                </TextView>
 
                 <TextView
                     android:id="@+id/motor_action_speed_edit_text"
                     style="@style/BrickEditText"
                     app:layout_inputType="number"
                     app:layout_textField="true">
-                </TextView >
+                </TextView>
 
                 <TextView
                     android:id="@+id/lego_motor_action_percent"
                     style="@style/BrickText"
-                    android:text="@string/percent_symbol" >
-                </TextView >
+                    android:text="@string/percent_symbol">
+                </TextView>
 
-    </org.catrobat.catroid.ui.BrickLayout >
+    </org.catrobat.catroid.ui.BrickLayout>
 
 </LinearLayout>

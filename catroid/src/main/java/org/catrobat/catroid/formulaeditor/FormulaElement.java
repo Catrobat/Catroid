@@ -48,6 +48,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 public class FormulaElement implements Serializable {
 
@@ -348,28 +349,28 @@ public class FormulaElement implements Serializable {
 				}
 			}
 		}
-		String concatenatedList = "";
+
+		StringBuilder stringBuilder = new StringBuilder(userListStringValues.size());
 		boolean isFirstListItem = true;
 		for (String userListStringValue : userListStringValues) {
 
 			if (!concatenateWithoutWhitespace && !isFirstListItem) {
-				concatenatedList += " ";
+				stringBuilder.append(' ');
 			}
 			if (isFirstListItem) {
 				isFirstListItem = false;
 			}
-			concatenatedList += userListStringValue;
+			stringBuilder.append(userListStringValue);
 		}
-		return concatenatedList;
+		return stringBuilder.toString();
 	}
 
-	private boolean isNumberAIntegerBetweenZeroAndNine(Double valueToCheck) {
-		for (Double index = 0.0; index <= 9.0; index++) {
-			if (valueToCheck.equals(index)) {
-				return true;
-			}
-		}
-		return false;
+	public boolean isNumberAIntegerBetweenZeroAndNine(Double valueToCheck) {
+		return !valueToCheck.isNaN()
+				&& !valueToCheck.isInfinite()
+				&& Math.floor(valueToCheck) == valueToCheck
+				&& valueToCheck <= 9.0
+				&& valueToCheck >= 0.0;
 	}
 
 	private Object interpretUserVariable(Sprite sprite) {
@@ -1067,23 +1068,22 @@ public class FormulaElement implements Serializable {
 		return new FormulaElement(type, value == null ? "" : value, null, leftChildClone, rightChildClone);
 	}
 
-	public int getRequiredResources() {
-		int resources = Brick.NO_RESOURCES;
+	public void addRequiredResources(final Set<Integer> requiredResourcesSet) {
 		if (leftChild != null) {
-			resources |= leftChild.getRequiredResources();
+			leftChild.addRequiredResources(requiredResourcesSet);
 		}
 		if (rightChild != null) {
-			resources |= rightChild.getRequiredResources();
+			rightChild.addRequiredResources(requiredResourcesSet);
 		}
 		if (type == ElementType.FUNCTION) {
 			Functions functions = Functions.getFunctionByValue(value);
 			switch (functions) {
 				case ARDUINOANALOG:
 				case ARDUINODIGITAL:
-					resources |= Brick.BLUETOOTH_SENSORS_ARDUINO;
+					requiredResourcesSet.add(Brick.BLUETOOTH_SENSORS_ARDUINO);
 					break;
 				case RASPIDIGITAL:
-					resources |= Brick.SOCKET_RASPI;
+					requiredResourcesSet.add(Brick.SOCKET_RASPI);
 					break;
 			}
 		}
@@ -1093,44 +1093,44 @@ public class FormulaElement implements Serializable {
 				case X_ACCELERATION:
 				case Y_ACCELERATION:
 				case Z_ACCELERATION:
-					resources |= Brick.SENSOR_ACCELERATION;
+					requiredResourcesSet.add(Brick.SENSOR_ACCELERATION);
 					break;
 
 				case X_INCLINATION:
 				case Y_INCLINATION:
-					resources |= Brick.SENSOR_INCLINATION;
+					requiredResourcesSet.add(Brick.SENSOR_INCLINATION);
 					break;
 
 				case COMPASS_DIRECTION:
-					resources |= Brick.SENSOR_COMPASS;
+					requiredResourcesSet.add(Brick.SENSOR_COMPASS);
 					break;
 
 				case LATITUDE:
 				case LONGITUDE:
 				case LOCATION_ACCURACY:
 				case ALTITUDE:
-					resources |= Brick.SENSOR_GPS;
+					requiredResourcesSet.add(Brick.SENSOR_GPS);
 					break;
 
 				case FACE_DETECTED:
 				case FACE_SIZE:
 				case FACE_X_POSITION:
 				case FACE_Y_POSITION:
-					resources |= Brick.FACE_DETECTION;
+					requiredResourcesSet.add(Brick.FACE_DETECTION);
 					break;
 
 				case NXT_SENSOR_1:
 				case NXT_SENSOR_2:
 				case NXT_SENSOR_3:
 				case NXT_SENSOR_4:
-					resources |= Brick.BLUETOOTH_LEGO_NXT;
+					requiredResourcesSet.add(Brick.BLUETOOTH_LEGO_NXT);
 					break;
 
 				case EV3_SENSOR_1:
 				case EV3_SENSOR_2:
 				case EV3_SENSOR_3:
 				case EV3_SENSOR_4:
-					resources |= Brick.BLUETOOTH_LEGO_EV3;
+					requiredResourcesSet.add(Brick.BLUETOOTH_LEGO_EV3);
 					break;
 
 				case PHIRO_FRONT_LEFT:
@@ -1139,7 +1139,7 @@ public class FormulaElement implements Serializable {
 				case PHIRO_SIDE_RIGHT:
 				case PHIRO_BOTTOM_LEFT:
 				case PHIRO_BOTTOM_RIGHT:
-					resources |= Brick.BLUETOOTH_PHIRO;
+					requiredResourcesSet.add(Brick.BLUETOOTH_PHIRO);
 					break;
 
 				case DRONE_BATTERY_STATUS:
@@ -1152,19 +1152,19 @@ public class FormulaElement implements Serializable {
 				case DRONE_RECORDING:
 				case DRONE_USB_ACTIVE:
 				case DRONE_USB_REMAINING_TIME:
-					resources |= Brick.ARDRONE_SUPPORT;
+					requiredResourcesSet.add(Brick.ARDRONE_SUPPORT);
 					break;
 
 				case NFC_TAG_MESSAGE:
 				case NFC_TAG_ID:
-					resources |= Brick.NFC_ADAPTER;
+					requiredResourcesSet.add(Brick.NFC_ADAPTER);
 					break;
 
 				case COLLIDES_WITH_EDGE:
-					resources |= Brick.COLLISION;
+					requiredResourcesSet.add(Brick.COLLISION);
 					break;
 				case COLLIDES_WITH_FINGER:
-					resources |= Brick.COLLISION;
+					requiredResourcesSet.add(Brick.COLLISION);
 					break;
 
 				case GAMEPAD_A_PRESSED:
@@ -1173,14 +1173,13 @@ public class FormulaElement implements Serializable {
 				case GAMEPAD_UP_PRESSED:
 				case GAMEPAD_LEFT_PRESSED:
 				case GAMEPAD_RIGHT_PRESSED:
-					resources |= Brick.CAST_REQUIRED;
+					requiredResourcesSet.add(Brick.CAST_REQUIRED);
 					break;
 				default:
 			}
 		}
 		if (type == ElementType.COLLISION_FORMULA) {
-			resources |= Brick.COLLISION;
+			requiredResourcesSet.add(Brick.COLLISION);
 		}
-		return resources;
 	}
 }

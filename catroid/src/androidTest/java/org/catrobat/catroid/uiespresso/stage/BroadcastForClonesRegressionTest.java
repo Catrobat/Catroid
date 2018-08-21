@@ -26,8 +26,6 @@ package org.catrobat.catroid.uiespresso.stage;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
-import junit.framework.Assert;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.BroadcastScript;
@@ -56,7 +54,7 @@ import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
-import static org.catrobat.catroid.uiespresso.util.UserVariableTestUtils.userVariableEqualsWithinTimeout;
+import static org.catrobat.catroid.uiespresso.util.UserVariableAssertions.assertUserVariableEqualsWithTimeout;
 
 @RunWith(AndroidJUnit4.class)
 public class BroadcastForClonesRegressionTest {
@@ -80,7 +78,7 @@ public class BroadcastForClonesRegressionTest {
 	public void testIfBroadcastsAreReceivedByClones() {
 		baseActivityTestRule.launchActivity(null);
 
-		Assert.assertTrue(userVariableEqualsWithinTimeout(userVariable, 2, 1000));
+		assertUserVariableEqualsWithTimeout(userVariable, 2, 1000);
 	}
 
 	@Category({Level.Functional.class, Cat.CatrobatLanguage.class})
@@ -92,7 +90,7 @@ public class BroadcastForClonesRegressionTest {
 		onView(withId(R.id.stage_dialog_button_restart))
 				.perform(click());
 
-		Assert.assertTrue(userVariableEqualsWithinTimeout(userVariable, 2, 1000));
+		assertUserVariableEqualsWithTimeout(userVariable, 2, 1000);
 	}
 
 	private void createProject() {

@@ -23,7 +23,6 @@
 package org.catrobat.catroid.test.content.project;
 
 import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -34,7 +33,6 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.XmlHeader;
-import org.catrobat.catroid.test.utils.Reflection;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -50,14 +48,14 @@ public class ProjectTest {
 	private static final String OLD_PLATFORM = "iOS";
 
 	@Test
-	public void testVersionName() throws NameNotFoundException {
+	public void testVersionName() throws Exception {
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		PackageInfo packageInfo = InstrumentationRegistry.getTargetContext().getPackageManager()
 				.getPackageInfo(InstrumentationRegistry.getTargetContext().getPackageName(), 0);
 
 		XmlHeader projectXmlHeader = project.getXmlHeader();
 
-		assertEquals(packageInfo.versionName, (String) Reflection.getPrivateField(projectXmlHeader, "applicationVersion"));
+		assertEquals(packageInfo.versionName, projectXmlHeader.getApplicationVersion());
 	}
 
 	@Test
@@ -107,28 +105,15 @@ public class ProjectTest {
 	public void testSetDeviceData() {
 		Project project = new Project();
 		XmlHeader header = project.getXmlHeader();
-		Reflection.setPrivateField(header, "catrobatLanguageVersion", OLD_LANGUAGE_VERSION);
-		Reflection.setPrivateField(header, "applicationName", OLD_APPLICATION_NAME);
-		Reflection.setPrivateField(header, "platform", OLD_PLATFORM);
 
-		float languageVersion = (Float) Reflection.getPrivateField(header, "catrobatLanguageVersion");
-		assertEquals(OLD_LANGUAGE_VERSION, languageVersion);
-
-		String applicationName = (String) Reflection.getPrivateField(header, "applicationName");
-		assertEquals(OLD_APPLICATION_NAME, applicationName);
-
-		String platform = (String) Reflection.getPrivateField(header, "platform");
-		assertEquals(OLD_PLATFORM, platform);
+		header.setCatrobatLanguageVersion(OLD_LANGUAGE_VERSION);
+		header.setApplicationName(OLD_APPLICATION_NAME);
+		header.setPlatform(OLD_PLATFORM);
 
 		project.setDeviceData(InstrumentationRegistry.getTargetContext());
 
-		languageVersion = (Float) Reflection.getPrivateField(header, "catrobatLanguageVersion");
-		assertEquals(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION, languageVersion);
-
-		applicationName = (String) Reflection.getPrivateField(header, "applicationName");
-		assertEquals(InstrumentationRegistry.getTargetContext().getString(R.string.app_name), applicationName);
-
-		platform = (String) Reflection.getPrivateField(header, "platform");
-		assertEquals(Constants.PLATFORM_NAME, platform);
+		assertEquals(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION, header.getCatrobatLanguageVersion());
+		assertEquals(InstrumentationRegistry.getTargetContext().getString(R.string.app_name), header.getApplicationName());
+		assertEquals(Constants.PLATFORM_NAME, header.getPlatform());
 	}
 }

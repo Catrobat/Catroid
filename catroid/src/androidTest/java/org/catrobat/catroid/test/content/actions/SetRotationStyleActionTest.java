@@ -29,7 +29,6 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.PointInDirectionBrick.Direction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsObject;
@@ -56,8 +55,7 @@ public class SetRotationStyleActionTest {
 	public void testNormalMode() {
 		ActionFactory factory = sprite.getActionFactory();
 		Action rotationStyleAction = factory.createSetRotationStyleAction(sprite, Look.ROTATION_STYLE_ALL_AROUND);
-		Action pointInDirectionAction = factory.createPointInDirectionAction(sprite, new Formula(Direction.RIGHT
-				.getDegrees()));
+		Action pointInDirectionAction = factory.createPointInDirectionAction(sprite, new Formula(90));
 
 		rotationStyleAction.act(1.0f);
 		pointInDirectionAction.act(1.0f);
@@ -68,8 +66,7 @@ public class SetRotationStyleActionTest {
 	public void testNoMode() {
 		ActionFactory factory = sprite.getActionFactory();
 		Action rotationStyleAction = factory.createSetRotationStyleAction(sprite, Look.ROTATION_STYLE_NONE);
-		Action pointInDirectionAction = factory.createPointInDirectionAction(sprite, new Formula(Direction.LEFT
-				.getDegrees()));
+		Action pointInDirectionAction = factory.createPointInDirectionAction(sprite, new Formula(-90));
 
 		rotationStyleAction.act(1.0f);
 		pointInDirectionAction.act(1.0f);
@@ -81,8 +78,7 @@ public class SetRotationStyleActionTest {
 	public void testLRMode() {
 		ActionFactory factory = sprite.getActionFactory();
 		Action rotationStyleAction = factory.createSetRotationStyleAction(sprite, Look.ROTATION_STYLE_LEFT_RIGHT_ONLY);
-		Action pointInDirectionAction = factory.createPointInDirectionAction(sprite, new Formula(Direction.LEFT
-				.getDegrees()));
+		Action pointInDirectionAction = factory.createPointInDirectionAction(sprite, new Formula(-90));
 
 		rotationStyleAction.act(1.0f);
 		pointInDirectionAction.act(1.0f);
@@ -100,19 +96,19 @@ public class SetRotationStyleActionTest {
 
 		physicsLook.setRotationMode(Look.ROTATION_STYLE_ALL_AROUND);
 
-		physicsLook.setRotation((float) Direction.RIGHT.getDegrees());
+		physicsLook.setRotation(90);
 		assertEquals(90f, physicsObject.getDirection());
 		assertEquals(90f, physicsLook.getRotation());
 
-		physicsLook.setRotation((float) Direction.LEFT.getDegrees());
+		physicsLook.setRotation(-90);
 		assertEquals(-90f, physicsObject.getDirection());
 		assertEquals(-90f, physicsLook.getRotation());
 
-		physicsLook.setRotation((float) Direction.UP.getDegrees());
+		physicsLook.setRotation(0);
 		assertEquals(0f, physicsObject.getDirection());
 		assertEquals(0f, physicsLook.getRotation());
 
-		physicsLook.setRotation((float) Direction.DOWN.getDegrees());
+		physicsLook.setRotation(180);
 		assertEquals(180f, physicsObject.getDirection());
 		assertEquals(180f, physicsLook.getRotation());
 	}
@@ -124,19 +120,19 @@ public class SetRotationStyleActionTest {
 
 		physicsLook.setRotationMode(Look.ROTATION_STYLE_NONE);
 
-		physicsLook.setRotation((float) Direction.RIGHT.getDegrees());
+		physicsLook.setRotation(90);
 		assertEquals(90f, physicsObject.getDirection());
 		assertEquals(0f, physicsLook.getRotation());
 
-		physicsLook.setRotation((float) Direction.LEFT.getDegrees());
+		physicsLook.setRotation(-90);
 		assertEquals(-90f, physicsObject.getDirection());
 		assertEquals(0f, physicsLook.getRotation());
 
-		physicsLook.setRotation((float) Direction.UP.getDegrees());
+		physicsLook.setRotation(0);
 		assertEquals(0f, physicsObject.getDirection());
 		assertEquals(0f, physicsLook.getRotation());
 
-		physicsLook.setRotation((float) Direction.DOWN.getDegrees());
+		physicsLook.setRotation(180);
 		assertEquals(180f, physicsObject.getDirection());
 		assertEquals(0f, physicsLook.getRotation());
 	}
@@ -148,19 +144,19 @@ public class SetRotationStyleActionTest {
 
 		physicsLook.setRotationMode(Look.ROTATION_STYLE_LEFT_RIGHT_ONLY);
 
-		physicsLook.setRotation((float) Direction.RIGHT.getDegrees());
+		physicsLook.setRotation(90);
 		assertEquals(90f, physicsObject.getDirection());
 		assertEquals(0f, physicsLook.getRotation());
 
-		physicsLook.setRotation((float) Direction.LEFT.getDegrees());
+		physicsLook.setRotation(-90);
 		assertEquals(-90f, physicsObject.getDirection());
 		assertEquals(0f, physicsLook.getRotation());
 
-		physicsLook.setRotation((float) Direction.UP.getDegrees());
+		physicsLook.setRotation(0);
 		assertEquals(0f, physicsObject.getDirection());
 		assertEquals(0f, physicsLook.getRotation());
 
-		physicsLook.setRotation((float) Direction.DOWN.getDegrees());
+		physicsLook.setRotation(180);
 		assertEquals(180f, physicsObject.getDirection());
 		assertEquals(0f, physicsLook.getRotation());
 	}

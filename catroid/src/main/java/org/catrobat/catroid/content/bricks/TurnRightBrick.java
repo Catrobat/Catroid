@@ -22,44 +22,28 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.TextView;
-
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
 public class TurnRightBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
-	private transient View prototypeView;
 
 	public TurnRightBrick() {
-		addAllowedBrickField(BrickField.TURN_RIGHT_DEGREES);
+		addAllowedBrickField(BrickField.TURN_RIGHT_DEGREES, R.id.brick_turn_right_edit_text);
 	}
 
 	public TurnRightBrick(double degreesValue) {
-		initializeBrickFields(new Formula(degreesValue));
+		this(new Formula(degreesValue));
 	}
 
-	public TurnRightBrick(Formula degreesFormula) {
-		initializeBrickFields(degreesFormula);
-	}
-
-	private void initializeBrickFields(Formula degrees) {
-		addAllowedBrickField(BrickField.TURN_RIGHT_DEGREES);
-		setFormulaWithBrickField(BrickField.TURN_RIGHT_DEGREES, degrees);
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.TURN_RIGHT_DEGREES).getRequiredResources();
+	public TurnRightBrick(Formula formula) {
+		this();
+		setFormulaWithBrickField(BrickField.TURN_RIGHT_DEGREES, formula);
 	}
 
 	@Override
@@ -68,33 +52,9 @@ public class TurnRightBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context) {
-		super.getView(context);
-		TextView editDegrees = (TextView) view.findViewById(R.id.brick_turn_right_edit_text);
-		getFormulaWithBrickField(BrickField.TURN_RIGHT_DEGREES).setTextFieldId(R.id.brick_turn_right_edit_text);
-		getFormulaWithBrickField(BrickField.TURN_RIGHT_DEGREES).refreshTextField(view);
-
-		editDegrees.setOnClickListener(this);
-		return view;
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
-		TextView textDegrees = (TextView) prototypeView.findViewById(R.id.brick_turn_right_edit_text);
-		textDegrees.setText(formatNumberForPrototypeView(BrickValues.TURN_DEGREES));
-		return prototypeView;
-	}
-
-	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createTurnRightAction(sprite,
-				getFormulaWithBrickField(BrickField.TURN_RIGHT_DEGREES)));
+		sequence.addAction(sprite.getActionFactory()
+				.createTurnRightAction(sprite, getFormulaWithBrickField(BrickField.TURN_RIGHT_DEGREES)));
 		return null;
-	}
-
-	@Override
-	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.TURN_RIGHT_DEGREES);
 	}
 }

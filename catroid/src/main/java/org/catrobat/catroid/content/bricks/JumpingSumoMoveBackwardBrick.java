@@ -22,16 +22,10 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.TextView;
-
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
@@ -39,34 +33,20 @@ public class JumpingSumoMoveBackwardBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	public JumpingSumoMoveBackwardBrick(int durationInMilliseconds, int powerInPercent) {
-		initializeBrickFields(new Formula(durationInMilliseconds / 1000.0), new Formula(powerInPercent));
+	public JumpingSumoMoveBackwardBrick() {
+		addAllowedBrickField(BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS,
+				R.id.brick_jumping_sumo_move_backward_edit_text_second);
+		addAllowedBrickField(BrickField.JUMPING_SUMO_SPEED, R.id.brick_jumping_sumo_move_backward_edit_text_power);
 	}
 
-	private void initializeBrickFields(Formula durationInSeconds, Formula powerInPercent) {
-		addAllowedBrickField(BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS);
-		addAllowedBrickField(BrickField.JUMPING_SUMO_SPEED);
+	public JumpingSumoMoveBackwardBrick(int durationInMilliseconds, int powerInPercent) {
+		this(new Formula(durationInMilliseconds / 1000.0), new Formula(powerInPercent));
+	}
+
+	public JumpingSumoMoveBackwardBrick(Formula durationInSeconds, Formula powerInPercent) {
+		this();
 		setFormulaWithBrickField(BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS, durationInSeconds);
 		setFormulaWithBrickField(BrickField.JUMPING_SUMO_SPEED, powerInPercent);
-	}
-
-	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createJumpingSumoMoveBackwardAction(sprite,
-				getFormulaWithBrickField(BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS),
-				getFormulaWithBrickField(BrickField.JUMPING_SUMO_SPEED)));
-		return null;
-	}
-
-	public void showFormulaEditorToEditFormula(View view) {
-		switch (view.getId()) {
-			case R.id.brick_jumping_sumo_move_backward_edit_text_second:
-				FormulaEditorFragment.showFragment(view, this, BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS);
-				break;
-			case R.id.brick_jumping_sumo_move_backward_edit_text_power:
-				FormulaEditorFragment.showFragment(view, this, BrickField.JUMPING_SUMO_SPEED);
-				break;
-		}
 	}
 
 	@Override
@@ -75,42 +55,16 @@ public class JumpingSumoMoveBackwardBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context) {
-		super.getView(context);
-		setSecondText(view, R.id.brick_jumping_sumo_move_backward_text_second, R.id.brick_jumping_sumo_move_backward_edit_text_second, BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS);
-
-		TextView editTime = (TextView) view.findViewById(R.id.brick_jumping_sumo_move_backward_edit_text_second);
-		getFormulaWithBrickField(BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS)
-				.setTextFieldId(R.id.brick_jumping_sumo_move_backward_edit_text_second);
-		getFormulaWithBrickField(BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS).refreshTextField(view);
-		editTime.setOnClickListener(this);
-
-		TextView editPower = (TextView) view.findViewById(R.id.brick_jumping_sumo_move_backward_edit_text_power);
-		getFormulaWithBrickField(BrickField.JUMPING_SUMO_SPEED)
-				.setTextFieldId(R.id.brick_jumping_sumo_move_backward_edit_text_power);
-		getFormulaWithBrickField(BrickField.JUMPING_SUMO_SPEED).refreshTextField(view);
-		editPower.setOnClickListener(this);
-
-		return view;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(JUMPING_SUMO);
+		super.addRequiredResources(requiredResourcesSet);
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-		TextView textTime = (TextView) prototypeView.findViewById(R.id
-				.brick_jumping_sumo_move_backward_edit_text_second);
-
-		TextView textPower = (TextView) prototypeView.findViewById(R.id
-				.brick_jumping_sumo_move_backward_edit_text_power);
-		textTime.setText(formatNumberForPrototypeView(BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000));
-
-		textPower.setText(formatNumberForPrototypeView(BrickValues.JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT));
-		setSecondText(context, prototypeView, R.id.brick_jumping_sumo_move_backward_text_second);
-		return prototypeView;
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return super.getRequiredResources() | Brick.JUMPING_SUMO;
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		sequence.addAction(sprite.getActionFactory().createJumpingSumoMoveBackwardAction(sprite,
+				getFormulaWithBrickField(BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS),
+				getFormulaWithBrickField(BrickField.JUMPING_SUMO_SPEED)));
+		return null;
 	}
 }

@@ -27,6 +27,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
@@ -54,7 +55,7 @@ public class LegoEv3MotorMoveBrickTest {
 		brickPosition = 1;
 		int initialSpeed = 5;
 		BrickTestUtils.createProjectAndGetStartScript("legoMoveBrickTest1")
-				.addBrick(new LegoEv3MotorMoveBrick(LegoEv3MotorMoveBrick.Motor.MOTOR_A, initialSpeed));
+				.addBrick(new LegoEv3MotorMoveBrick(LegoEv3MotorMoveBrick.Motor.MOTOR_A, new Formula(initialSpeed)));
 		baseActivityTestRule.launchActivity();
 	}
 

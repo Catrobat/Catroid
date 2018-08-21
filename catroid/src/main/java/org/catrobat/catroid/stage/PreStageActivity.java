@@ -41,6 +41,7 @@ import com.parrot.arsdk.arcontroller.ARCONTROLLER_DEVICE_STATE_ENUM;
 import com.parrot.arsdk.arcontroller.ARControllerException;
 import com.parrot.arsdk.arcontroller.ARDeviceController;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -54,6 +55,7 @@ import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.AskSpeechBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.drone.ardrone.DroneInitializer;
@@ -79,7 +81,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 
 @SuppressWarnings("deprecation")
@@ -88,7 +89,6 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 	private static final String TAG = PreStageActivity.class.getSimpleName();
 	private static final int REQUEST_CONNECT_DEVICE = 1000;
 	public static final int REQUEST_RESOURCES_INIT = 101;
-	public static final int REQUEST_TEXT_TO_SPEECH = 10;
 	public static final int REQUEST_GPS = 1;
 	private int requiredResourceCounter;
 	private Set<Integer> failedResources;
@@ -100,6 +100,8 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 	private JumpingSumoInitializer jumpingSumoInitializer = null;
 
 	private Intent returnToActivityIntent = null;
+
+	private Brick.ResourcesSet requiredResourcesSet;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -113,14 +115,12 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 		setContentView(R.layout.activity_prestage);
 
 		TouchUtil.reset();
-
-		int requiredResources = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
-		requiredResourceCounter = Integer.bitCount(requiredResources);
-		failedResources = new HashSet<>();
-
 		SensorHandler sensorHandler = SensorHandler.getInstance(getApplicationContext());
+		failedResources = new HashSet<>();
+		requiredResourcesSet = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
+		requiredResourceCounter = requiredResourcesSet.size();
 
-		if ((requiredResources & Brick.SENSOR_ACCELERATION) != 0) {
+		if (requiredResourcesSet.contains(Brick.SENSOR_ACCELERATION)) {
 			if (sensorHandler.accelerationAvailable()) {
 				resourceInitialized();
 			} else {
@@ -128,7 +128,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 			}
 		}
 
-		if ((requiredResources & Brick.SENSOR_INCLINATION) != 0) {
+		if (requiredResourcesSet.contains(Brick.SENSOR_INCLINATION)) {
 			if (sensorHandler.inclinationAvailable()) {
 				resourceInitialized();
 			} else {
@@ -136,7 +136,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 			}
 		}
 
-		if ((requiredResources & Brick.SENSOR_COMPASS) != 0) {
+		if (requiredResourcesSet.contains(Brick.SENSOR_COMPASS)) {
 			if (sensorHandler.compassAvailable()) {
 				resourceInitialized();
 			} else {
@@ -144,7 +144,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 			}
 		}
 
-		if ((requiredResources & Brick.SENSOR_GPS) != 0) {
+		if (requiredResourcesSet.contains(Brick.SENSOR_GPS)) {
 			if (SensorHandler.gpsAvailable()) {
 				resourceInitialized();
 			} else {
@@ -154,25 +154,53 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 			}
 		}
 
-		if ((requiredResources & Brick.TEXT_TO_SPEECH) != 0) {
-			Intent checkIntent = new Intent();
-			checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
-			startActivityForResult(checkIntent, REQUEST_TEXT_TO_SPEECH);
+		if (requiredResourcesSet.contains(Brick.TEXT_TO_SPEECH)) {
+			textToSpeech = new TextToSpeech(this, new OnInitListener() {
+				@Override
+				public void onInit(int status) {
+					if (status == TextToSpeech.SUCCESS) {
+						onUtteranceCompletedListenerContainer = new OnUtteranceCompletedListenerContainer();
+						textToSpeech.setOnUtteranceCompletedListener(onUtteranceCompletedListenerContainer);
+						resourceInitialized();
+					} else {
+						AlertDialog.Builder builder = new AlertDialog.Builder(PreStageActivity.this);
+						builder.setMessage(R.string.prestage_text_to_speech_engine_not_installed).setCancelable(false)
+								.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog, int id) {
+										Intent installIntent = new Intent();
+										installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+										startActivity(installIntent);
+										resourceFailed(Brick.TEXT_TO_SPEECH);
+									}
+								})
+								.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog, int id) {
+										dialog.cancel();
+										resourceFailed(Brick.TEXT_TO_SPEECH);
+									}
+								});
+						AlertDialog alert = builder.create();
+						alert.show();
+					}
+				}
+			});
 		}
 
-		if ((requiredResources & Brick.BLUETOOTH_LEGO_NXT) != 0) {
+		if (requiredResourcesSet.contains(Brick.BLUETOOTH_LEGO_NXT)) {
 			connectBTDevice(BluetoothDevice.LEGO_NXT);
 		}
 
-		if ((requiredResources & Brick.BLUETOOTH_LEGO_EV3) != 0) {
+		if (requiredResourcesSet.contains(Brick.BLUETOOTH_LEGO_EV3)) {
 			connectBTDevice(BluetoothDevice.LEGO_EV3);
 		}
 
-		if ((requiredResources & Brick.BLUETOOTH_PHIRO) != 0) {
+		if (requiredResourcesSet.contains(Brick.BLUETOOTH_PHIRO)) {
 			connectBTDevice(BluetoothDevice.PHIRO);
 		}
 
-		if ((requiredResources & Brick.BLUETOOTH_SENSORS_ARDUINO) != 0) {
+		if (requiredResourcesSet.contains(Brick.BLUETOOTH_SENSORS_ARDUINO)) {
 			connectBTDevice(BluetoothDevice.ARDUINO);
 		}
 
@@ -184,14 +212,14 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 			}
 		}
 
-		if (JumpingSumoServiceWrapper.checkJumpingSumoAvailability()) {
+		if (BuildConfig.FEATURE_PARROT_JUMPING_SUMO_ENABLED && requiredResourcesSet.contains(Brick.JUMPING_SUMO)) {
 			CatroidApplication.loadSDKLib();
 			if (CatroidApplication.parrotJSLibrariesLoaded) {
 				JumpingSumoServiceWrapper.initJumpingSumo(this);
 			}
 		}
 
-		if ((requiredResources & Brick.CAMERA_BACK) != 0) {
+		if (requiredResourcesSet.contains(Brick.CAMERA_BACK)) {
 			if (CameraManager.getInstance().hasBackCamera()) {
 				resourceInitialized();
 			} else {
@@ -199,7 +227,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 			}
 		}
 
-		if ((requiredResources & Brick.CAMERA_FRONT) != 0) {
+		if (requiredResourcesSet.contains(Brick.CAMERA_FRONT)) {
 			if (CameraManager.getInstance().hasFrontCamera()) {
 				resourceInitialized();
 			} else {
@@ -207,7 +235,7 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 			}
 		}
 
-		if ((requiredResources & Brick.VIDEO) != 0) {
+		if (requiredResourcesSet.contains(Brick.VIDEO)) {
 			if (CameraManager.getInstance().hasFrontCamera()
 					|| CameraManager.getInstance().hasBackCamera()) {
 				resourceInitialized();
@@ -216,11 +244,11 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 			}
 		}
 
-		if ((requiredResources & Brick.CAMERA_FLASH) != 0) {
+		if (requiredResourcesSet.contains(Brick.CAMERA_FLASH)) {
 			flashInitialize();
 		}
 
-		if ((requiredResources & Brick.VIBRATOR) != 0) {
+		if (requiredResourcesSet.contains(Brick.VIBRATOR)) {
 			Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 			if (vibrator != null) {
 				VibratorUtil.setContext(this.getBaseContext());
@@ -231,17 +259,8 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 			}
 		}
 
-		FaceDetectionHandler.resetFaceDedection();
-		if ((requiredResources & Brick.FACE_DETECTION) != 0) {
-			boolean success = FaceDetectionHandler.startFaceDetection();
-			if (success) {
-				resourceInitialized();
-			} else {
-				resourceFailed(Brick.FACE_DETECTION);
-			}
-		}
-		if ((requiredResources & Brick.NFC_ADAPTER) != 0) {
-			if ((requiredResources & Brick.FACE_DETECTION) != 0) {
+		if (requiredResourcesSet.contains(Brick.NFC_ADAPTER)) {
+			if (requiredResourcesSet.contains(Brick.FACE_DETECTION)) {
 				AlertDialog.Builder builder = new AlertDialog.Builder(this);
 				builder.setMessage(getString(R.string.nfc_facedetection_support)).setCancelable(false)
 						.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
@@ -257,7 +276,17 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 			}
 		}
 
-		if ((requiredResources & Brick.CAST_REQUIRED) != 0) {
+		FaceDetectionHandler.resetFaceDedection();
+		if (requiredResourcesSet.contains(Brick.FACE_DETECTION)) {
+			boolean success = FaceDetectionHandler.startFaceDetection();
+			if (success) {
+				resourceInitialized();
+			} else {
+				resourceFailed(Brick.FACE_DETECTION);
+			}
+		}
+
+		if (requiredResourcesSet.contains(Brick.CAST_REQUIRED)) {
 
 			if (CastManager.getInstance().isConnected()) {
 				resourceInitialized();
@@ -274,15 +303,16 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 			}
 		}
 
-		if ((requiredResources & Brick.COLLISION) != 0) {
+		if (requiredResourcesSet.contains(Brick.COLLISION)) {
 			GatherCollisionInformationTask task = new GatherCollisionInformationTask(this);
 			task.execute();
 		}
 
-		if ((requiredResources & Brick.NETWORK_CONNECTION) != 0) {
+		if (requiredResourcesSet.contains(Brick.NETWORK_CONNECTION)) {
 			final Context finalBaseContext = this.getBaseContext();
 			if (!Utils.isNetworkAvailable(finalBaseContext)) {
-				List<Brick> networkBrickList = getBricksRequiringResource(Brick.NETWORK_CONNECTION);
+
+				List<Brick> networkBrickList = getNetworkBricks();
 				networkBrickList = Utils.distinctListByClassOfObjects(networkBrickList);
 				NetworkAlertDialog networkDialog = new NetworkAlertDialog(this, networkBrickList);
 				networkDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -307,11 +337,11 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 			}
 		}
 
-		if (requiredResourceCounter == Brick.NO_RESOURCES) {
+		if (requiredResourceCounter == 0) {
 			startStage();
 		}
 
-		if ((requiredResources & Brick.SOCKET_RASPI) != 0) {
+		if (requiredResourcesSet.contains(Brick.SOCKET_RASPI)) {
 			Project currentProject = ProjectManager.getInstance().getCurrentProject();
 			RaspberryPiService.getInstance().enableRaspberryInterruptPinsForProject(currentProject);
 			connectRaspberrySocket();
@@ -528,7 +558,9 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 		if (requiredResourceCounter == 0) {
 			if (failedResources.isEmpty()) {
 				Log.d(TAG, "Start Stage");
-				if (JumpingSumoServiceWrapper.checkJumpingSumoAvailability() && (!verifyJSConnection())) {
+				if (BuildConfig.FEATURE_PARROT_JUMPING_SUMO_ENABLED
+						&& requiredResourcesSet.contains(Brick.JUMPING_SUMO)
+						&& !verifyJSConnection()) {
 					return;
 				}
 				startStage();
@@ -562,49 +594,6 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 					case Activity.RESULT_CANCELED:
 						resourceFailed();
 						break;
-				}
-				break;
-
-			case REQUEST_TEXT_TO_SPEECH:
-				if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
-					textToSpeech = new TextToSpeech(getApplicationContext(), new OnInitListener() {
-						@Override
-						public void onInit(int status) {
-							onUtteranceCompletedListenerContainer = new OnUtteranceCompletedListenerContainer();
-							textToSpeech.setOnUtteranceCompletedListener(onUtteranceCompletedListenerContainer);
-							resourceInitialized();
-							if (status == TextToSpeech.ERROR) {
-								resourceFailed(Brick.TEXT_TO_SPEECH);
-							}
-						}
-					});
-					if (textToSpeech.isLanguageAvailable(Locale.getDefault()) == TextToSpeech.LANG_MISSING_DATA) {
-						Intent installIntent = new Intent();
-						installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
-						startActivity(installIntent);
-						resourceFailed();
-					}
-				} else {
-					AlertDialog.Builder builder = new AlertDialog.Builder(this);
-					builder.setMessage(R.string.prestage_text_to_speech_engine_not_installed).setCancelable(false)
-							.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog, int id) {
-									Intent installIntent = new Intent();
-									installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
-									startActivity(installIntent);
-									resourceFailed();
-								}
-							})
-							.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog, int id) {
-									dialog.cancel();
-									resourceFailed();
-								}
-							});
-					AlertDialog alert = builder.create();
-					alert.show();
 				}
 				break;
 			case REQUEST_GPS:
@@ -683,16 +672,19 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 		return connected;
 	}
 
-	private static List<Brick> getBricksRequiringResource(int resource) {
-		List<Brick> brickList = new ArrayList<Brick>();
-		List<Scene> sceneList = ProjectManager.getInstance().getCurrentProject().getSceneList();
+	private static List<Brick> getNetworkBricks() {
+		List<Brick> networkBricksList = new ArrayList<Brick>();
 
-		for (Scene scene : sceneList) {
+		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
 			for (Sprite sprite : scene.getSpriteList()) {
-				brickList.addAll(sprite.getBricksRequiringResource(resource));
+				for (Brick brick : sprite.getAllBricks()) {
+					if (brick instanceof AskSpeechBrick) {
+						networkBricksList.add(brick);
+					}
+				}
 			}
 		}
-		return brickList;
+		return networkBricksList;
 	}
 
 	@Override

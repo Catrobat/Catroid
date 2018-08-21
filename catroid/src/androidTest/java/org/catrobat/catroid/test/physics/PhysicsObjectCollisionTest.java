@@ -64,7 +64,7 @@ public class PhysicsObjectCollisionTest {
 	};
 
 	@Before
-	public void setUp() {
+	public void setUp() throws Exception {
 		rule.spritePosition = new Vector2(-125f, 0f);
 		rule.sprite2Position = new Vector2(125f, 0f);
 		rule.physicsObject1Type = PhysicsObject.Type.DYNAMIC;

@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Set;
 
 public class BroadcastMessageContainer {
+
 	private final List<String> broadcastMessages;
 
 	public BroadcastMessageContainer() {
@@ -42,11 +43,11 @@ public class BroadcastMessageContainer {
 		broadcastMessages.addAll(usedMessages);
 	}
 
-	public void addBroadcastMessage(String messageToAdd) {
-		if (messageToAdd != null && !messageToAdd.isEmpty()
-				&& !broadcastMessages.contains(messageToAdd)) {
-			broadcastMessages.add(messageToAdd);
-		}
+	public boolean addBroadcastMessage(String messageToAdd) {
+		return messageToAdd != null
+				&& !messageToAdd.isEmpty()
+				&& !broadcastMessages.contains(messageToAdd)
+				&& broadcastMessages.add(messageToAdd);
 	}
 
 	public List<String> getBroadcastMessages() {

@@ -38,6 +38,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 
 @RunWith(AndroidJUnit4.class)
@@ -59,7 +60,7 @@ public class SpeakActionTest {
 	}
 
 	@Test
-	public void testSpeak() {
+	public void testSpeak() throws Exception {
 		SpeakBrick speakBrick = new SpeakBrick(text);
 		Action action = factory.createSpeakAction(sprite, text);
 		Formula textAfterExecution = (Formula) Reflection.getPrivateField(action, "text");
@@ -91,11 +92,13 @@ public class SpeakActionTest {
 	@Test
 	public void testRequirements() {
 		SpeakBrick speakBrick = new SpeakBrick(new Formula(""));
-		assertEquals(Brick.TEXT_TO_SPEECH, speakBrick.getRequiredResources());
+		Brick.ResourcesSet resourcesSet = new Brick.ResourcesSet();
+		speakBrick.addRequiredResources(resourcesSet);
+		assertTrue(resourcesSet.contains(Brick.TEXT_TO_SPEECH));
 	}
 
 	@Test
-	public void testBrickWithStringFormula() {
+	public void testBrickWithStringFormula() throws Exception {
 		SpeakBrick speakBrick = new SpeakBrick(textString);
 		Action action = factory.createSpeakAction(sprite, textString);
 		Reflection.invokeMethod(action, "begin");
@@ -105,7 +108,7 @@ public class SpeakActionTest {
 	}
 
 	@Test
-	public void testNullFormula() {
+	public void testNullFormula() throws Exception {
 		Action action = factory.createSpeakAction(sprite, (Formula) null);
 		Reflection.invokeMethod(action, "begin");
 
@@ -113,7 +116,7 @@ public class SpeakActionTest {
 	}
 
 	@Test
-	public void testNotANumberFormula() {
+	public void testNotANumberFormula() throws Exception {
 		Action action = factory.createSpeakAction(sprite, new Formula(Double.NaN));
 		Reflection.invokeMethod(action, "begin");
 

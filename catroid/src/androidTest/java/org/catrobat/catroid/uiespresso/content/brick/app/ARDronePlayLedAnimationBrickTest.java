@@ -98,6 +98,6 @@ public class ARDronePlayLedAnimationBrickTest {
 				R.string.drone_animation_blinkstandard);
 
 		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_drone_play_led_animation_spinner)
-				.checkValuesAvailable(spinnerValuesResourceIds);
+				.checkStringIdValuesAvailable(spinnerValuesResourceIds);
 	}
 }

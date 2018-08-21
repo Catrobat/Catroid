@@ -22,17 +22,13 @@
  */
 package org.catrobat.catroid.content;
 
-import android.util.Log;
-
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ConcurrentFormulaHashMap;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.WhenConditionBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.content.eventids.WhenConditionEventId;
-import org.catrobat.catroid.utils.CrashReporter;
-
-import java.util.ArrayList;
+import org.catrobat.catroid.formulaeditor.Formula;
 
 public class WhenConditionScript extends Script {
 
@@ -40,29 +36,19 @@ public class WhenConditionScript extends Script {
 
 	private ConcurrentFormulaHashMap formulaMap;
 
-	public WhenConditionScript(ScriptBrick brick) {
-		this.brick = brick;
-	}
-
 	@Override
 	public Script clone() throws CloneNotSupportedException {
-		WhenConditionScript clone = new WhenConditionScript(null);
-		try {
-			clone.formulaMap = formulaMap.clone();
-		} catch (CloneNotSupportedException e) {
-			Log.e(getClass().getSimpleName(), "clone exception should never happen");
-			CrashReporter.logException(e);
-		}
-		clone.getBrickList().addAll(cloneBrickList());
+		WhenConditionScript clone = (WhenConditionScript) super.clone();
+		clone.formulaMap = formulaMap.clone();
 		return clone;
 	}
 
 	@Override
 	public ScriptBrick getScriptBrick() {
-		if (brick == null) {
-			brick = new WhenConditionBrick(this);
+		if (scriptBrick == null) {
+			scriptBrick = new WhenConditionBrick(this);
 		}
-		return brick;
+		return scriptBrick;
 	}
 
 	public ConcurrentFormulaHashMap getFormulaMap() {
@@ -73,14 +59,13 @@ public class WhenConditionScript extends Script {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		int resources = Brick.NO_RESOURCES;
-		resources |= getScriptBrick().getRequiredResources();
-		ArrayList<Brick> brickList = getBrickList();
-		for (Brick brick : brickList) {
-			resources |= brick.getRequiredResources();
+	public void addRequiredResources(final Brick.ResourcesSet requiredResourcesSet) {
+		for (Formula formula : formulaMap.values()) {
+			formula.addRequiredResources(requiredResourcesSet);
 		}
-		return resources;
+		for (Brick brick : brickList) {
+			brick.addRequiredResources(requiredResourcesSet);
+		}
 	}
 
 	@Override

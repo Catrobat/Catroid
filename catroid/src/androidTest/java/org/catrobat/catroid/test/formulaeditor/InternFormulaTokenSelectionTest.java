@@ -68,7 +68,7 @@ public class InternFormulaTokenSelectionTest {
 	}
 
 	@Test
-	public void testReplaceFunctionByToken() {
+	public void testReplaceFunctionByToken() throws Exception {
 		assertEquals(0, internFormula.getSelection().getStartIndex());
 		assertEquals(3, internFormula.getSelection().getEndIndex());
 
@@ -93,7 +93,7 @@ public class InternFormulaTokenSelectionTest {
 	}
 
 	@Test
-	public void testHashCodeFunction() {
+	public void testHashCodeFunction() throws Exception {
 		InternFormulaTokenSelection tokenSelection = internFormula.getSelection();
 		InternFormulaTokenSelection tokenSelectionDeepCopy = tokenSelection.deepCopy();
 

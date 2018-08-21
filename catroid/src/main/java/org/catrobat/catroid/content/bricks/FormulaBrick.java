@@ -23,18 +23,22 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
+import android.support.annotation.CallSuper;
 import android.util.Log;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.utils.FormatNumberUtil;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.ArrayList;
@@ -44,11 +48,14 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 
 	ConcurrentFormulaHashMap formulaMap = new ConcurrentFormulaHashMap();
 
+	private transient BiMap<BrickField, Integer> brickFieldToTextViewIdMap = HashBiMap.create(2);
+
 	public Formula getFormulaWithBrickField(BrickField brickField) throws IllegalArgumentException {
 		if (formulaMap.containsKey(brickField)) {
 			return formulaMap.get(brickField);
 		} else {
-			throw new IllegalArgumentException("Incompatible Brick Field : " + brickField.toString());
+			throw new IllegalArgumentException("Incompatible Brick Field: " + this.getClass().getSimpleName()
+					+ " does have BrickField." + brickField.toString());
 		}
 	}
 
@@ -56,15 +63,25 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		if (formulaMap.containsKey(brickField)) {
 			formulaMap.replace(brickField, formula);
 		} else {
-			throw new IllegalArgumentException("Incompatible Brick Field : " + brickField.toString());
+			throw new IllegalArgumentException("Incompatible Brick Field: Cannot set BrickField."
+					+ brickField.toString() + " fot " + this.getClass().getSimpleName());
 		}
 	}
 
-	protected void addAllowedBrickField(BrickField brickField) {
+	protected void addAllowedBrickField(BrickField brickField, int textViewResourceId) {
 		formulaMap.putIfAbsent(brickField, new Formula(0));
+		brickFieldToTextViewIdMap.put(brickField, textViewResourceId);
 	}
 
-	protected void replaceFormulaBrickField(BrickField oldBrickField, BrickField newBrickField) {
+	@Override
+	@CallSuper
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		for (Formula formula : formulaMap.values()) {
+			formula.addRequiredResources(requiredResourcesSet);
+		}
+	}
+
+	void replaceFormulaBrickField(BrickField oldBrickField, BrickField newBrickField) {
 		if (formulaMap.containsKey(oldBrickField)) {
 			Formula brickFormula = formulaMap.get(oldBrickField);
 			formulaMap.remove(oldBrickField);
@@ -73,19 +90,49 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 	}
 
 	@Override
-	public Brick clone() throws CloneNotSupportedException {
-		FormulaBrick clonedBrick = (FormulaBrick) super.clone();
-		clonedBrick.formulaMap = formulaMap.clone();
-		return clonedBrick;
+	public BrickBaseType clone() throws CloneNotSupportedException {
+		FormulaBrick clone = (FormulaBrick) super.clone();
+		clone.formulaMap = formulaMap.clone();
+		return clone;
+	}
+
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
+
+		for (BiMap.Entry<BrickField, Integer> entry : brickFieldToTextViewIdMap.entrySet()) {
+			TextView brickFieldView = view.findViewById(entry.getValue());
+			brickFieldView.setText(getFormulaWithBrickField(entry.getKey()).getTrimmedFormulaString(context));
+			brickFieldView.setOnClickListener(this);
+		}
+
+		return view;
+	}
+
+	@Override
+	public View getPrototypeView(Context context) {
+		View prototypeView = super.getPrototypeView(context);
+		for (BiMap.Entry<BrickField, Integer> entry : brickFieldToTextViewIdMap.entrySet()) {
+			TextView brickFieldView = prototypeView.findViewById(entry.getValue());
+			brickFieldView.setText(getFormulaWithBrickField(entry.getKey()).getTrimmedFormulaString(context));
+		}
+		return prototypeView;
 	}
 
 	public List<Formula> getFormulas() {
-		List<Formula> formulas = new ArrayList<>();
+		return new ArrayList<>(formulaMap.values());
+	}
 
-		for (BrickField brickField : formulaMap.keySet()) {
-			formulas.add(formulaMap.get(brickField));
-		}
-		return formulas;
+	public TextView getTextView(BrickField brickField) {
+		return view.findViewById(brickFieldToTextViewIdMap.get(brickField));
+	}
+
+	public void highlightTextView(BrickField brickField) {
+		TextView formulaTextField = view.findViewById(brickFieldToTextViewIdMap.get(brickField));
+
+		formulaTextField.getBackground().mutate()
+				.setColorFilter(view.getContext().getResources()
+						.getColor(R.color.holo_blue_bright), PorterDuff.Mode.SRC_ATOP);
 	}
 
 	@Override
@@ -102,48 +149,36 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		showFormulaEditorToEditFormula(view);
 	}
 
-	public View getCustomView(Context context, int brickId, BaseAdapter baseAdapter) {
-		return null;
+	public void showFormulaEditorToEditFormula(View view) {
+		if (brickFieldToTextViewIdMap.inverse().containsKey(view.getId())) {
+			FormulaEditorFragment.showFragment(view.getContext(), this, brickFieldToTextViewIdMap.inverse().get(view.getId()));
+		} else {
+			FormulaEditorFragment.showFragment(view.getContext(), this, formulaMap.keys().nextElement());
+		}
 	}
 
-	public abstract void showFormulaEditorToEditFormula(View view);
+	public View getCustomView(Context context) {
+		throw new IllegalStateException("There is no custom view for the " + getClass().getSimpleName() + ".");
+	}
 
-	public void setSecondText(View view, int textViewId, int editTextDurationId, BrickField brickField) {
-		TextView editDuration = (TextView) view.findViewById(editTextDurationId);
-		getFormulaWithBrickField(brickField)
-				.setTextFieldId(editTextDurationId);
-		getFormulaWithBrickField(brickField).refreshTextField(view);
-
-		TextView times = (TextView) view.findViewById(textViewId);
+	protected void setSecondsLabel(View view, BrickField brickField) {
+		TextView textView = view.findViewById(R.id.brick_seconds_label);
+		Context context = textView.getContext();
 
 		if (getFormulaWithBrickField(brickField).isSingleNumberFormula()) {
 			try {
-				times.setText(view.getResources().getQuantityString(
-						R.plurals.second_plural,
-						Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(brickField)
-								.interpretDouble(ProjectManager.getInstance().getCurrentSprite()))
-				));
-			} catch (InterpretationException interpretationException) {
-				Log.d(getClass().getSimpleName(), "Couldn't interpret Formula.", interpretationException);
+				Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+				Double formulaValue = formulaMap.get(brickField).interpretDouble(sprite);
+				textView.setText(context.getResources().getQuantityString(R.plurals.second_plural,
+						Utils.convertDoubleToPluralInteger(formulaValue)));
+				return;
+			} catch (InterpretationException e) {
+				Log.e(getClass().getSimpleName(),
+						"Interpretation of formula failed, "
+								+ "fallback to quantity \"other\" for \"second(s)\" label.", e);
 			}
-		} else {
-			times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
-					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
 		}
-
-		editDuration.setOnClickListener(this);
-	}
-
-	public void setSecondText(Context context, View prototypeView, int textViewId) {
-		TextView second = (TextView) prototypeView.findViewById(textViewId);
-		second.setText(context.getResources().getQuantityString(R.plurals.second_plural,
-				Utils.convertDoubleToPluralInteger(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000)));
-	}
-
-	protected <T> String formatNumberForPrototypeView(T value) {
-
-		String number = String.valueOf(value);
-
-		return FormatNumberUtil.cutTrailingZeros(number);
+		textView.setText(context.getResources()
+				.getQuantityString(R.plurals.second_plural, Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
 	}
 }

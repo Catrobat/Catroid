@@ -87,7 +87,7 @@ public class PhiroMoveMotorBackwardBrickTest {
 				R.string.phiro_motor_left,
 				R.string.phiro_motor_both);
 		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_phiro_motor_backward_action_spinner)
-				.checkValuesAvailable(spinnerValuesResourceIds);
+				.checkStringIdValuesAvailable(spinnerValuesResourceIds);
 
 		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_phiro_motor_backward_action_speed_edit_text)
 				.checkShowsNumber(initialSpeed)
@@ -100,7 +100,7 @@ public class PhiroMoveMotorBackwardBrickTest {
 		onView(allOf(withId(R.id.single_seekbar_title), withText(R.string.phiro_motor_speed)))
 				.check(matches(isDisplayed()));
 
-		onView(allOf(withId(R.id.single_seekbar_value), withText(Integer.toString(setSpeed) + " ")))
+		onView(allOf(withId(R.id.single_seekbar_value), withText(Integer.toString(setSpeed))))
 				.check(matches(isDisplayed()))
 				.perform(click());
 

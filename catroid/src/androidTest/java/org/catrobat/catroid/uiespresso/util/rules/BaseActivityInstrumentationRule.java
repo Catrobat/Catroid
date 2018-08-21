@@ -72,9 +72,13 @@ public class BaseActivityInstrumentationRule<T extends Activity> extends Activit
 	}
 
 	void setUpTestProjectFolder() {
-		Reflection.setPrivateField(StageListener.class, "checkIfAutomaticScreenshotShouldBeTaken", false);
-		Reflection.setPrivateField(Constants.class, "DEFAULT_ROOT_DIRECTORY",
-				new File(Environment.getExternalStorageDirectory(), "Pocket Code UiTest"));
+		try {
+			Reflection.setPrivateField(StageListener.class, "checkIfAutomaticScreenshotShouldBeTaken", false);
+			Reflection.setPrivateField(Constants.class, "DEFAULT_ROOT_DIRECTORY",
+					new File(Environment.getExternalStorageDirectory(), "Pocket Code UiTest"));
+		} catch (Exception e) {
+			Log.e(TAG, "Error setting default root directory", e);
+		}
 
 		if (DEFAULT_ROOT_DIRECTORY.exists()) {
 			try {

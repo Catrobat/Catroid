@@ -41,7 +41,6 @@ import org.catrobat.catroid.uiespresso.stage.utils.ScriptEvaluationGateBrick;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -55,7 +54,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.catrobat.catroid.uiespresso.util.UiTestUtils.getResourcesString;
-import static org.catrobat.catroid.uiespresso.util.UserVariableTestUtils.userVariableEqualsWithinTimeout;
+import static org.catrobat.catroid.uiespresso.util.UserVariableAssertions.assertUserVariableEqualsWithTimeout;
 import static org.hamcrest.core.StringEndsWith.endsWith;
 
 @RunWith(AndroidJUnit4.class)
@@ -84,7 +83,7 @@ public class AskBrickStageTest {
 		onView(withText(R.string.brick_ask_dialog_submit))
 				.perform(click());
 
-		Assert.assertTrue(userVariableEqualsWithinTimeout(userVariable, testAnswer, 1000));
+		assertUserVariableEqualsWithTimeout(userVariable, testAnswer, 1000);
 	}
 
 	@Category({Cat.CatrobatLanguage.class, Level.Functional.class})
@@ -99,7 +98,7 @@ public class AskBrickStageTest {
 		onView(withText(R.string.brick_ask_dialog_submit))
 				.perform(click());
 
-		Assert.assertTrue(userVariableEqualsWithinTimeout(userVariable, testAnswer, 1000));
+		assertUserVariableEqualsWithTimeout(userVariable, testAnswer, 1000);
 	}
 
 	private void createProject(String projectName) {

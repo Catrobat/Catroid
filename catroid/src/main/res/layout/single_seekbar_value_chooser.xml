@@ -21,9 +21,9 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout android:id="@+id/motor_base_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/motor_base_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -34,20 +34,22 @@
         android:layout_height="match_parent"
         android:paddingBottom="30dp"
         android:paddingTop="40dp"
+        android:paddingEnd="@dimen/material_design_spacing_small"
+        android:paddingStart="@dimen/material_design_spacing_small"
         android:weightSum="100"
         tools:ignore="UselessParent">
 
         <TextView
-            style="@style/SingleSeekbarTextView"
             android:id="@+id/single_seekbar_title"
+            style="@style/SingleSeekbarTextView"
             android:layout_width="match_parent"
             android:layout_weight="5"
-            android:paddingEnd="5dp"
+            android:paddingEnd="@dimen/material_design_spacing_small"
             android:textColor="@color/white" />
 
         <TextView
-            style="@style/SingleSeekbarTextView"
             android:id="@+id/single_seekbar_start_value"
+            style="@style/SingleSeekbarTextView"
             android:layout_weight="5"
             android:text="0"
             tools:ignore="HardcodedText" />
@@ -56,14 +58,14 @@
             android:id="@+id/single_seekbar_seekbar"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
             android:layout_weight="50"
-            android:maxHeight="60dp"
             android:max="100"
-            android:layout_marginTop="10dp" />
+            android:maxHeight="60dp" />
 
         <TextView
-            style="@style/SingleSeekbarTextView"
             android:id="@+id/single_seekbar_end_value"
+            style="@style/SingleSeekbarTextView"
             android:layout_weight="10"
             android:text="100"
             tools:ignore="HardcodedText" />

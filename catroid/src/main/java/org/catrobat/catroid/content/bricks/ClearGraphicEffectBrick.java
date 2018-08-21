@@ -29,6 +29,7 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import java.util.List;
 
 public class ClearGraphicEffectBrick extends BrickBaseType {
+
 	private static final long serialVersionUID = 1L;
 
 	public ClearGraphicEffectBrick() {
@@ -37,11 +38,6 @@ public class ClearGraphicEffectBrick extends BrickBaseType {
 	@Override
 	public int getViewResource() {
 		return R.layout.brick_clear_graphic_effect;
-	}
-
-	@Override
-	public Brick clone() {
-		return new ClearGraphicEffectBrick();
 	}
 
 	@Override

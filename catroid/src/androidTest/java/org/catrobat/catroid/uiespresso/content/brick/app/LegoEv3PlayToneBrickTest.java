@@ -27,6 +27,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.LegoEv3PlayToneBrick;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
@@ -56,7 +57,8 @@ public class LegoEv3PlayToneBrickTest {
 		int startVolume = 100;
 
 		BrickTestUtils.createProjectAndGetStartScript("LegoEv3PlayToneBrickTest")
-				.addBrick(new LegoEv3PlayToneBrick(startFrequency, startDuration, startVolume));
+				.addBrick(new LegoEv3PlayToneBrick(new Formula(startFrequency),
+						new Formula(startDuration), new Formula(startVolume)));
 		baseActivityTestRule.launchActivity();
 	}
 

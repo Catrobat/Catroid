@@ -90,7 +90,7 @@ public class API19SpinnerAndFormulaFieldCrashesRegressionTest {
 		baseActivityTestRule.launchActivity();
 		onBrickAtPosition(1)
 				.onSpinner(R.id.brick_play_sound_spinner)
-				.performSelect(R.string.new_broadcast_message);
+				.performSelectNameable(R.string.new_option);
 		onView(withText(R.string.new_sound_dialog_title))
 				.check(matches(isDisplayed()));
 	}
@@ -103,7 +103,7 @@ public class API19SpinnerAndFormulaFieldCrashesRegressionTest {
 		baseActivityTestRule.launchActivity();
 		onBrickAtPosition(1)
 				.onSpinner(R.id.brick_point_to_spinner)
-				.performSelect(R.string.new_broadcast_message);
+				.performSelectNameable(R.string.new_option);
 		onView(withText(R.string.new_look_dialog_title))
 				.check(matches(isDisplayed()));
 	}
@@ -116,7 +116,7 @@ public class API19SpinnerAndFormulaFieldCrashesRegressionTest {
 		baseActivityTestRule.launchActivity();
 		onBrickAtPosition(1)
 				.onSpinner(R.id.brick_scene_start_spinner)
-				.performSelect(R.string.new_broadcast_message);
+				.performSelectNameable(R.string.new_option);
 		onView(withText(R.string.new_scene_dialog))
 				.check(matches(isDisplayed()));
 	}
@@ -129,7 +129,7 @@ public class API19SpinnerAndFormulaFieldCrashesRegressionTest {
 		baseActivityTestRule.launchActivity();
 		onBrickAtPosition(1)
 				.onSpinner(R.id.brick_scene_transition_spinner)
-				.performSelect(R.string.new_broadcast_message);
+				.performSelectNameable(R.string.new_option);
 		onView(withText(R.string.new_scene_dialog))
 				.check(matches(isDisplayed()));
 	}
@@ -142,7 +142,7 @@ public class API19SpinnerAndFormulaFieldCrashesRegressionTest {
 		baseActivityTestRule.launchActivity();
 		onBrickAtPosition(1)
 				.onSpinner(R.id.brick_set_look_spinner)
-				.performSelect(R.string.new_broadcast_message);
+				.performSelectNameable(R.string.new_option);
 		onView(withText(R.string.new_look_dialog_title))
 				.check(matches(isDisplayed()));
 	}
@@ -155,7 +155,7 @@ public class API19SpinnerAndFormulaFieldCrashesRegressionTest {
 		baseActivityTestRule.launchActivity();
 		onBrickAtPosition(1)
 				.onSpinner(R.id.brick_when_background_spinner)
-				.performSelect(R.string.new_broadcast_message);
+				.performSelectNameable(R.string.new_option);
 		onView(withText(R.string.new_look_dialog_title))
 				.check(matches(isDisplayed()));
 	}

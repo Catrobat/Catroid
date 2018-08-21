@@ -24,6 +24,7 @@ package org.catrobat.catroid.content;
 
 import android.content.Context;
 import android.os.Build;
+import android.support.annotation.VisibleForTesting;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
@@ -246,31 +247,29 @@ public class Project implements Serializable {
 		return this.xmlHeader;
 	}
 
-	public int getRequiredResources() {
-		int resources = Brick.NO_RESOURCES;
+	public Brick.ResourcesSet getRequiredResources() {
+		Brick.ResourcesSet resourcesSet = new Brick.ResourcesSet();
+
 		if (isCastProject()) {
-			resources = Brick.CAST_REQUIRED;
+			resourcesSet.add(Brick.CAST_REQUIRED);
 		}
 		ActionFactory physicsActionFactory = new ActionPhysicsFactory();
 		ActionFactory actionFactory = new ActionFactory();
 
 		for (Scene scene : sceneList) {
 			for (Sprite sprite : scene.getSpriteList()) {
-				int tempResources = sprite.getRequiredResources();
-				if ((tempResources & Brick.PHYSICS) != 0) {
+				sprite.addRequiredResources(resourcesSet);
+				if (resourcesSet.contains(Brick.PHYSICS)) {
 					sprite.setActionFactory(physicsActionFactory);
-					tempResources &= ~Brick.PHYSICS;
+					resourcesSet.remove(Brick.PHYSICS);
 				} else {
 					sprite.setActionFactory(actionFactory);
 				}
-				resources |= tempResources;
 			}
 		}
-		return resources;
+		return resourcesSet;
 	}
 
-	// this method should be removed by the nex refactoring
-	// (used only in tests)
 	public void setCatrobatLanguageVersion(float catrobatLanguageVersion) {
 		xmlHeader.setCatrobatLanguageVersion(catrobatLanguageVersion);
 	}
@@ -325,8 +324,8 @@ public class Project implements Serializable {
 		if (context == null) {
 			return;
 		}
-
-		if ((getRequiredResources() & Brick.BLUETOOTH_LEGO_NXT) == 0) {
+		Brick.ResourcesSet resourcesSet = getRequiredResources();
+		if (!resourcesSet.contains(Brick.BLUETOOTH_LEGO_NXT)) {
 			for (Object setting : settings.toArray()) {
 				if (setting instanceof LegoNXTSetting) {
 					settings.remove(setting);
@@ -352,8 +351,8 @@ public class Project implements Serializable {
 		if (context == null) {
 			return;
 		}
-
-		if ((getRequiredResources() & Brick.BLUETOOTH_LEGO_EV3) == 0) {
+		Brick.ResourcesSet resourcesSet = getRequiredResources();
+		if (!resourcesSet.contains(Brick.BLUETOOTH_LEGO_EV3)) {
 			for (Object setting : settings.toArray()) {
 				if (setting instanceof LegoEV3Setting) {
 					settings.remove(setting);
@@ -441,5 +440,10 @@ public class Project implements Serializable {
 				sprite.updateCollisionScripts();
 			}
 		}
+	}
+
+	@VisibleForTesting
+	public void setXmlHeader(XmlHeader xmlHeader) {
+		this.xmlHeader = xmlHeader;
 	}
 }

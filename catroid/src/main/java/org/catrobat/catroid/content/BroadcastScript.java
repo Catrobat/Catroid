@@ -32,16 +32,16 @@ public class BroadcastScript extends Script {
 	private static final long serialVersionUID = 1L;
 	private String receivedMessage;
 
-	public BroadcastScript(String broadcastMessage) {
-		this.receivedMessage = broadcastMessage;
+	public BroadcastScript(String receivedMessage) {
+		this.receivedMessage = receivedMessage;
 	}
 
 	@Override
 	public ScriptBrick getScriptBrick() {
-		if (brick == null) {
-			brick = new BroadcastReceiverBrick(this);
+		if (scriptBrick == null) {
+			scriptBrick = new BroadcastReceiverBrick(this);
 		}
-		return brick;
+		return scriptBrick;
 	}
 
 	public String getBroadcastMessage() {
@@ -50,13 +50,6 @@ public class BroadcastScript extends Script {
 
 	public void setBroadcastMessage(String broadcastMessage) {
 		this.receivedMessage = broadcastMessage;
-	}
-
-	@Override
-	public Script clone() throws CloneNotSupportedException {
-		BroadcastScript clone = new BroadcastScript(receivedMessage);
-		clone.getBrickList().addAll(cloneBrickList());
-		return clone;
 	}
 
 	@Override

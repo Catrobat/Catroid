@@ -32,6 +32,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.SpriteActivity;
@@ -94,7 +95,7 @@ public class FormulaEditorFragmentTest {
 	@Test
 	public void testDiscardChanges() {
 		onView(withId(R.id.brick_set_variable_edit_text))
-				.check(matches(withText("0 ")));
+				.check(matches(withText("1 ")));
 		onBrickAtPosition(1).onChildView(withId(R.id.brick_set_variable_edit_text))
 				.perform(click());
 		onFormulaEditor()
@@ -105,7 +106,7 @@ public class FormulaEditorFragmentTest {
 		onView(withId(android.R.id.button2))
 				.perform(click());
 		onBrickAtPosition(1).onChildView(withId(R.id.brick_set_variable_edit_text))
-				.check(matches(withText("0 ")));
+				.check(matches(withText("1 ")));
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -202,7 +203,7 @@ public class FormulaEditorFragmentTest {
 		Sprite sprite = new Sprite("testSprite");
 		Script script = new StartScript();
 
-		SetVariableBrick setVariableBrick = new SetVariableBrick();
+		SetVariableBrick setVariableBrick = new SetVariableBrick(new Formula(1), new UserVariable("var"));
 		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
 		UserVariable userVariable = new UserVariable("Global1");
 		dataContainer.addUserVariable(userVariable);

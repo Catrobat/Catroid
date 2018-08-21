@@ -24,55 +24,66 @@ package org.catrobat.catroid.test.facedetection;
 
 import android.support.test.runner.AndroidJUnit4;
 
+import org.catrobat.catroid.facedetection.FaceDetector;
 import org.catrobat.catroid.formulaeditor.SensorCustomEvent;
 import org.catrobat.catroid.formulaeditor.SensorCustomEventListener;
-import org.catrobat.catroid.test.utils.TestFaceDetector;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
+
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 @RunWith(AndroidJUnit4.class)
 public class FaceDetectorTest {
+	@Rule
+	public MockitoRule rule = MockitoJUnit.rule();
 
-	private int numberOfCalls = 0;
-	private boolean statusFaceDetected = false;
-
-	private SensorCustomEventListener onFaceDetectionStatusListener = new SensorCustomEventListener() {
-
-		public void onCustomSensorChanged(SensorCustomEvent event) {
-			numberOfCalls++;
-			if (event.values[0] == 1.0f) {
-				statusFaceDetected = true;
-			} else if (event.values[0] == 0.0f) {
-				statusFaceDetected = false;
-			} else {
-				fail("Unexpected value for face detected. Should be 1 for \"detected\" or 0 for \"not detected\".");
-			}
-		}
-	};
+	@Captor
+	private ArgumentCaptor<SensorCustomEvent> captor;
 
 	@Test
 	public void testStatusListenerCallback() {
-		TestFaceDetector detector = new TestFaceDetector();
-		numberOfCalls = 0;
-		statusFaceDetected = false;
+		FaceDetector detector = new FaceDetector() {
+			@Override
+			public boolean startFaceDetection() {
+				return true;
+			}
+
+			@Override
+			public void stopFaceDetection() {
+			}
+		};
+
+		SensorCustomEventListener onFaceDetectionStatusListener = Mockito.mock(SensorCustomEventListener.class);
+
 		detector.addOnFaceDetectionStatusListener(onFaceDetectionStatusListener);
-		assertEquals(0, numberOfCalls);
-		detector.sendFaceDetected(false);
-		assertEquals(0, numberOfCalls);
-		assertFalse(statusFaceDetected);
-		detector.sendFaceDetected(true);
-		assertTrue(statusFaceDetected);
-		assertTrue(numberOfCalls <= 1);
-		assertEquals(1, numberOfCalls);
-		detector.sendFaceDetected(true);
-		assertEquals(1, numberOfCalls);
-		detector.sendFaceDetected(false);
-		assertEquals(2, numberOfCalls);
-		assertFalse(statusFaceDetected);
+		verifyNoMoreInteractions(onFaceDetectionStatusListener);
+
+		detector.callOnFaceDetected(false);
+		verifyNoMoreInteractions(onFaceDetectionStatusListener);
+
+		detector.callOnFaceDetected(true);
+		verify(onFaceDetectionStatusListener).onCustomSensorChanged(captor.capture());
+		assertEquals(1.0f, captor.getValue().values[0]);
+		verifyNoMoreInteractions(onFaceDetectionStatusListener);
+
+		detector.callOnFaceDetected(true);
+		verify(onFaceDetectionStatusListener).onCustomSensorChanged(captor.capture());
+		assertEquals(1.0f, captor.getValue().values[0]);
+		verifyNoMoreInteractions(onFaceDetectionStatusListener);
+
+		detector.callOnFaceDetected(false);
+		verify(onFaceDetectionStatusListener, times(2)).onCustomSensorChanged(captor.capture());
+		assertEquals(0.0f, captor.getValue().values[0]);
+		verifyNoMoreInteractions(onFaceDetectionStatusListener);
 	}
 }

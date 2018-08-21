@@ -22,41 +22,20 @@
  */
 package org.catrobat.catroid.content;
 
-import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.WhenTouchDownBrick;
 import org.catrobat.catroid.content.eventids.EventId;
-
-import java.util.ArrayList;
 
 public class WhenTouchDownScript extends Script {
 
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public Script clone() throws CloneNotSupportedException {
-		WhenTouchDownScript clone = new WhenTouchDownScript();
-		clone.getBrickList().addAll(cloneBrickList());
-		return clone;
-	}
-
-	@Override
 	public ScriptBrick getScriptBrick() {
-		if (brick == null) {
-			brick = new WhenTouchDownBrick(this);
+		if (scriptBrick == null) {
+			scriptBrick = new WhenTouchDownBrick(this);
 		}
-		return brick;
-	}
-
-	@Override
-	public int getRequiredResources() {
-		int resources = Brick.NO_RESOURCES;
-		resources |= getScriptBrick().getRequiredResources();
-		ArrayList<Brick> brickList = getBrickList();
-		for (Brick brick : brickList) {
-			resources |= brick.getRequiredResources();
-		}
-		return resources;
+		return scriptBrick;
 	}
 
 	@Override

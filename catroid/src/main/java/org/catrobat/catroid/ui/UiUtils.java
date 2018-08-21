@@ -32,8 +32,7 @@ public final class UiUtils {
 	private UiUtils() {
 	}
 
-	public static Activity getActivityFromView(View view) {
-		Context context = view.getContext();
+	public static Activity getActivityFromContextWrapper(Context context) {
 		while (context instanceof ContextWrapper) {
 			if (context instanceof Activity) {
 				break;
@@ -45,5 +44,9 @@ public final class UiUtils {
 			return (Activity) context;
 		}
 		return null;
+	}
+
+	public static Activity getActivityFromView(View view) {
+		return getActivityFromContextWrapper(view.getContext());
 	}
 }

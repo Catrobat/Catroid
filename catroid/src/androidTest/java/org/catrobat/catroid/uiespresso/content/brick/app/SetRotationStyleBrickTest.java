@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.app;
 
+import android.content.Context;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
@@ -46,16 +48,19 @@ import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInter
 
 @RunWith(AndroidJUnit4.class)
 public class SetRotationStyleBrickTest {
+
 	private int brickPosition;
 
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
+			SpriteActivity.FRAGMENT_SCRIPTS);
 
 	@Before
 	public void setUp() throws Exception {
 		brickPosition = 1;
-		BrickTestUtils.createProjectAndGetStartScript("rotationStyleBrickTest1").addBrick(new SetRotationStyleBrick());
+		BrickTestUtils.createProjectAndGetStartScript("rotationStyleBrickTest1")
+				.addBrick(new SetRotationStyleBrick());
 		baseActivityTestRule.launchActivity();
 	}
 
@@ -69,11 +74,12 @@ public class SetRotationStyleBrickTest {
 		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_set_rotation_style_spinner)
 				.checkShowsText(R.string.brick_set_rotation_style_lr);
 
-		List<Integer> spinnerValuesResourceIds = Arrays.asList(
-				R.string.brick_set_rotation_style_normal,
-				R.string.brick_set_rotation_style_no);
+		Context context = InstrumentationRegistry.getTargetContext();
+		List<String> spinnerValues = Arrays.asList(
+				context.getString(R.string.brick_set_rotation_style_normal),
+				context.getString(R.string.brick_set_rotation_style_no));
 
 		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_set_rotation_style_spinner)
-				.checkValuesAvailable(spinnerValuesResourceIds);
+				.checkNameableValuesAvailable(spinnerValues);
 	}
 }

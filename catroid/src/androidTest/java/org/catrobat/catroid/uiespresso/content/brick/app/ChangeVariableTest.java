@@ -75,7 +75,7 @@ public class ChangeVariableTest {
 		onBrickAtPosition(1)
 				.checkShowsText(R.string.brick_change_variable);
 		onBrickAtPosition(1).onVariableSpinner(R.id.change_variable_spinner)
-				.performNewVariableInitial(userVariableName);
+				.performNewVariable(userVariableName);
 		onBrickAtPosition(1).onVariableSpinner(R.id.change_variable_spinner)
 				.performNewVariable(secondUserVariableName);
 

@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.formulaeditor;
 
-import android.test.AndroidTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
@@ -33,17 +33,28 @@ import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
 
 import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-public class ParserTestFunctions extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+public class ParserTestFunctions {
+
+	@Rule
+	public final ExpectedException exception = ExpectedException.none();
 
 	private Sprite testSprite;
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";

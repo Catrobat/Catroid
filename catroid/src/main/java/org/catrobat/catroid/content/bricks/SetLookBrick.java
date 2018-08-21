@@ -25,19 +25,20 @@ package org.catrobat.catroid.content.bricks;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.content.bricks.brickspinner.SpinnerAdapterWithNewOption;
+import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
+import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewLookDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
@@ -45,17 +46,14 @@ import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterf
 import java.util.ArrayList;
 import java.util.List;
 
-public class SetLookBrick extends BrickBaseType implements
-		SpinnerAdapterWithNewOption.OnNewOptionInDropDownClickListener,
-		NewItemInterface<LookData> {
+public class SetLookBrick extends BrickBaseType implements NewItemInterface<LookData>, BrickSpinner
+		.OnItemSelectedListener<LookData> {
 
 	private static final long serialVersionUID = 1L;
 
 	protected LookData look;
 
-	private transient int spinnerSelectionBuffer = 0;
-	private transient Spinner spinner;
-	private transient SpinnerAdapterWithNewOption spinnerAdapter;
+	private transient BrickSpinner<LookData> spinner;
 
 	public SetLookBrick() {
 	}
@@ -69,14 +67,10 @@ public class SetLookBrick extends BrickBaseType implements
 	}
 
 	@Override
-	public Brick clone() {
-		SetLookBrick clone = new SetLookBrick();
-		clone.setLook(look);
+	public BrickBaseType clone() throws CloneNotSupportedException {
+		SetLookBrick clone = (SetLookBrick) super.clone();
+		clone.spinner = null;
 		return clone;
-	}
-
-	protected Spinner findSpinner(View view) {
-		return view.findViewById(R.id.brick_set_look_spinner);
 	}
 
 	@Override
@@ -85,27 +79,23 @@ public class SetLookBrick extends BrickBaseType implements
 	}
 
 	@Override
+	public View getPrototypeView(Context context) {
+		super.getPrototypeView(context);
+		return getView(context);
+	}
+
+	@Override
 	public View getView(Context context) {
 		super.getView(context);
 		onViewCreated(view);
-		spinner = findSpinner(view);
-		spinnerAdapter = new SpinnerAdapterWithNewOption(view.getContext(), getLookNames());
-		spinnerAdapter.setOnDropDownItemClickListener(this);
 
-		spinner.setAdapter(spinnerAdapter);
-		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				if (position != 0) {
-					look = getLookByName(spinnerAdapter.getItem(position));
-				}
-			}
+		List<Nameable> items = new ArrayList<>();
+		items.add(new NewOption(context.getString(R.string.new_option)));
+		items.addAll(getSprite().getLookList());
+		spinner = new BrickSpinner<>(R.id.brick_set_look_spinner, view, items);
+		spinner.setOnItemSelectedListener(this);
+		spinner.setSelection(look);
 
-			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
-			}
-		});
-		spinner.setSelection(spinnerAdapter.getPosition(look != null ? look.getName() : null));
 		return view;
 	}
 
@@ -115,61 +105,33 @@ public class SetLookBrick extends BrickBaseType implements
 		}
 	}
 
-	private LookData getLookByName(String name) {
-		for (LookData look : getSprite().getLookList()) {
-			if (look.getName().equals(name)) {
-				return look;
-			}
-		}
-		return null;
-	}
-
-	private List<String> getLookNames() {
-		List<String> lookNames = new ArrayList<>();
-		for (LookData look : getSprite().getLookList()) {
-			lookNames.add(look.getName());
-		}
-		return lookNames;
-	}
-
 	@Override
-	public boolean onNewOptionInDropDownClicked(View v) {
-		spinnerSelectionBuffer = spinner.getSelectedItemPosition();
+	public void onNewOptionSelected() {
 		Activity activity = UiUtils.getActivityFromView(view);
 		if (activity == null) {
-			return false;
+			return;
 		}
 
 		new NewLookFromBrickDialogFragment(this,
 				ProjectManager.getInstance().getCurrentlyEditedScene(),
 				getSprite())
 				.show(activity.getFragmentManager(), NewLookDialogFragment.TAG);
-		return false;
 	}
 
 	@Override
 	public void addItem(LookData item) {
-		ProjectManager.getInstance().getCurrentSprite().getLookList().add(item);
-		spinnerAdapter.add(item.getName());
-		look = item;
-		spinner.setSelection(spinnerAdapter.getPosition(item.getName()));
+		getSprite().getLookList().add(item);
+		spinner.add(item);
+		spinner.setSelection(item);
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		View view = super.getPrototypeView(context);
-		onPrototypeViewCreated(view);
-		spinner = findSpinner(view);
-		spinnerAdapter = new SpinnerAdapterWithNewOption(view.getContext(), getLookNames());
-		spinner.setAdapter(spinnerAdapter);
-		spinner.setSelection(spinnerAdapter.getPosition(look != null ? look.getName() : null));
-		return view;
+	public void onStringOptionSelected(String string) {
 	}
 
-	protected void onPrototypeViewCreated(View view) {
-		if (getSprite().isBackgroundSprite()) {
-			((TextView) view.findViewById(R.id.brick_set_look_text_view)).setText(R.string.brick_set_background);
-		}
+	@Override
+	public void onItemSelected(@Nullable LookData item) {
+		look = item;
 	}
 
 	@Override
@@ -197,7 +159,7 @@ public class SetLookBrick extends BrickBaseType implements
 		@Override
 		public void onCancel(DialogInterface dialog) {
 			super.onCancel(dialog);
-			setLookBrick.spinner.setSelection(setLookBrick.spinnerSelectionBuffer);
+			setLookBrick.spinner.setSelection(setLookBrick.look);
 		}
 	}
 }

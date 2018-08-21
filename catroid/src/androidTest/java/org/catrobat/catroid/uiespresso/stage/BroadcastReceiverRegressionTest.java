@@ -25,8 +25,6 @@ package org.catrobat.catroid.uiespresso.stage;
 
 import android.support.test.runner.AndroidJUnit4;
 
-import junit.framework.Assert;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
@@ -48,7 +46,6 @@ import org.catrobat.catroid.uiespresso.stage.utils.StageTestUtils;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
-import org.catrobat.catroid.uiespresso.util.UserVariableTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -61,8 +58,8 @@ import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
-import static org.catrobat.catroid.uiespresso.util.UserVariableTestUtils.userVariableEqualsWithinTimeout;
-import static org.catrobat.catroid.uiespresso.util.UserVariableTestUtils.userVariableGreaterThanWithinTimeout;
+import static org.catrobat.catroid.uiespresso.util.UserVariableAssertions.assertUserVariableEqualsWithTimeout;
+import static org.catrobat.catroid.uiespresso.util.UserVariableAssertions.assertUserVariableIsGreaterThanWithTimeout;
 
 @RunWith(AndroidJUnit4.class)
 public class BroadcastReceiverRegressionTest {
@@ -104,7 +101,7 @@ public class BroadcastReceiverRegressionTest {
 
 		baseActivityTestRule.launchActivity(null);
 
-		Assert.assertTrue(userVariableEqualsWithinTimeout(userVariable, 1, 2000));
+		assertUserVariableEqualsWithTimeout(userVariable, 1, 2000);
 	}
 
 	@Category({Level.Functional.class, Cat.CatrobatLanguage.class})
@@ -116,7 +113,7 @@ public class BroadcastReceiverRegressionTest {
 
 		baseActivityTestRule.launchActivity(null);
 
-		Assert.assertTrue(userVariableEqualsWithinTimeout(userVariable, 3, 2000));
+		assertUserVariableEqualsWithTimeout(userVariable, 3, 2000);
 	}
 
 	@Category({Level.Functional.class, Cat.CatrobatLanguage.class})
@@ -128,12 +125,12 @@ public class BroadcastReceiverRegressionTest {
 		StageTestUtils.addBroadcastScriptSettingUserVariableToSprite(sprite1, BROADCAST_MESSAGE_1, userVariable, 3.0);
 
 		baseActivityTestRule.launchActivity(null);
-		userVariableEqualsWithinTimeout(userVariable, 3, 2000);
+		assertUserVariableEqualsWithTimeout(userVariable, 3, 2000);
 		pressBack();
 		userVariable.setValue(initialValue);
 		onView(withId(R.id.stage_dialog_button_restart)).perform(click());
 
-		Assert.assertTrue(userVariableEqualsWithinTimeout(userVariable, 3, 2000));
+		assertUserVariableEqualsWithTimeout(userVariable, 3, 2000);
 	}
 
 	@Category({Level.Functional.class, Cat.CatrobatLanguage.class})
@@ -148,7 +145,7 @@ public class BroadcastReceiverRegressionTest {
 
 		baseActivityTestRule.launchActivity(null);
 
-		Assert.assertTrue(userVariableGreaterThanWithinTimeout(userVariable, 1.0, 2000));
+		assertUserVariableIsGreaterThanWithTimeout(userVariable, 1.0, 2000);
 	}
 
 	@Category({Level.Functional.class, Cat.CatrobatLanguage.class})
@@ -166,7 +163,7 @@ public class BroadcastReceiverRegressionTest {
 
 		baseActivityTestRule.launchActivity(null);
 
-		Assert.assertTrue(userVariableGreaterThanWithinTimeout(userVariable, 5, 1000));
+		assertUserVariableIsGreaterThanWithTimeout(userVariable, 5, 1000);
 	}
 
 	@Category({Level.Functional.class, Cat.CatrobatLanguage.class})
@@ -191,7 +188,7 @@ public class BroadcastReceiverRegressionTest {
 
 		baseActivityTestRule.launchActivity(null);
 
-		Assert.assertTrue(userVariableEqualsWithinTimeout(userVariable, 3101, 1000));
+		assertUserVariableEqualsWithTimeout(userVariable, 3101, 1000);
 	}
 
 	@Category({Level.Functional.class, Cat.CatrobatLanguage.class})
@@ -215,7 +212,7 @@ public class BroadcastReceiverRegressionTest {
 
 		baseActivityTestRule.launchActivity(null);
 
-		Assert.assertTrue(userVariableGreaterThanWithinTimeout(userVariable, 2002, 1000));
+		assertUserVariableIsGreaterThanWithTimeout(userVariable, 2002, 1000);
 	}
 
 	@Category({Level.Functional.class, Cat.CatrobatLanguage.class})
@@ -240,7 +237,7 @@ public class BroadcastReceiverRegressionTest {
 
 		baseActivityTestRule.launchActivity(null);
 
-		Assert.assertTrue(userVariableEqualsWithinTimeout(userVariable, 20, 1000));
+		assertUserVariableEqualsWithTimeout(userVariable, 20, 1000);
 	}
 
 	public Sprite createSpriteAndAddToProject(String name, Project project) {
@@ -269,7 +266,7 @@ public class BroadcastReceiverRegressionTest {
 
 		baseActivityTestRule.launchActivity(null);
 
-		Assert.assertTrue(UserVariableTestUtils.userVariableEqualsWithinTimeout(userVariable, 3, 2000));
-		Assert.assertTrue(UserVariableTestUtils.userVariableEqualsWithinTimeout(userVariable2, 4, 2000));
+		assertUserVariableEqualsWithTimeout(userVariable, 3, 2000);
+		assertUserVariableEqualsWithTimeout(userVariable2, 4, 2000);
 	}
 }

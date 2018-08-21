@@ -37,7 +37,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
+
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 @RunWith(AndroidJUnit4.class)
 public class SetMassActionTest {
@@ -125,6 +128,6 @@ public class SetMassActionTest {
 		physicsWorld.step(0.25f);
 		float currentVelocity = Math.abs(physicsObject.getVelocity().y);
 
-		assertTrue((currentVelocity - lastVelocity) > 1.0f);
+		assertThat((currentVelocity - lastVelocity), is(greaterThan(1.0f)));
 	}
 }

@@ -23,6 +23,7 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
+import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.CheckBox;
 
@@ -31,6 +32,9 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.io.Serializable;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.util.HashSet;
 import java.util.List;
 
 public interface Brick extends Serializable, Cloneable {
@@ -44,7 +48,7 @@ public interface Brick extends Serializable, Cloneable {
 		PEN_SIZE, PEN_COLOR_RED, PEN_COLOR_GREEN, PEN_COLOR_BLUE,
 
 		IF_CONDITION, TIMES_TO_REPEAT, VIBRATE_DURATION_IN_SECONDS, USER_BRICK, NOTE, SPEAK,
-		SHOWTEXT, HIDETEXT, STRING, ROTATION_STYLE, REPEAT_UNTIL_CONDITION, ASK_QUESTION, NFC_NDEF_MESSAGE, ASK_SPEECH_QUESTION,
+		SHOWTEXT, STRING, ROTATION_STYLE, REPEAT_UNTIL_CONDITION, ASK_QUESTION, NFC_NDEF_MESSAGE, ASK_SPEECH_QUESTION,
 		LOOK_INDEX,
 
 		LEGO_NXT_SPEED, LEGO_NXT_DEGREES, LEGO_NXT_FREQUENCY, LEGO_NXT_DURATION_IN_SECONDS,
@@ -60,7 +64,6 @@ public interface Brick extends Serializable, Cloneable {
 		JUMPING_SUMO_SPEED, JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS, JUMPING_SUMO_VOLUME, JUMPING_SUMO_ROTATE,
 
 		PHIRO_SPEED, PHIRO_DURATION_IN_SECONDS, PHIRO_LIGHT_RED, PHIRO_LIGHT_GREEN, PHIRO_LIGHT_BLUE,
-		IF_PHIRO_SENSOR_CONDITION,
 
 		PHYSICS_BOUNCE_FACTOR, PHYSICS_FRICTION, PHYSICS_GRAVITY_X, PHYSICS_GRAVITY_Y, PHYSICS_MASS,
 		PHYSICS_VELOCITY_X, PHYSICS_VELOCITY_Y, PHYSICS_TURN_LEFT_SPEED, PHYSICS_TURN_RIGHT_SPEED,
@@ -83,31 +86,44 @@ public interface Brick extends Serializable, Cloneable {
 		}
 	}
 
-	//use bitwise | for using multiple resources in a brick
-	int NO_RESOURCES = 0x0;
-	int TEXT_TO_SPEECH = 0x2;
-	int BLUETOOTH_LEGO_NXT = 0x4;
-	int PHYSICS = 0x8;
-	int FACE_DETECTION = 0x10;
-	int ARDRONE_SUPPORT = 0x20;
-	int BLUETOOTH_SENSORS_ARDUINO = 0x40;
-	int SOCKET_RASPI = 0x80;
-	int CAMERA_FLASH = 0x100;
-	int VIBRATOR = 0x200;
-	int BLUETOOTH_PHIRO = 0x400;
-	int CAMERA_BACK = 0x800;
-	int CAMERA_FRONT = 0x1000;
-	int SENSOR_ACCELERATION = 0x2000;
-	int SENSOR_INCLINATION = 0x4000;
-	int SENSOR_COMPASS = 0x8000;
-	int NFC_ADAPTER = 0x10000;
-	int VIDEO = 0x20000;
-	int SENSOR_GPS = 0x40000;
-	int COLLISION = 0x80000;
-	int BLUETOOTH_LEGO_EV3 = 0x100000;
-	int NETWORK_CONNECTION = 0x200000;
-	int CAST_REQUIRED = 0x400000;
-	int JUMPING_SUMO = 0x800000;
+	@Retention(RetentionPolicy.SOURCE)
+	@IntDef({TEXT_TO_SPEECH, BLUETOOTH_LEGO_NXT, PHYSICS, FACE_DETECTION, ARDRONE_SUPPORT,
+			BLUETOOTH_SENSORS_ARDUINO, SOCKET_RASPI, CAMERA_FLASH, VIBRATOR, BLUETOOTH_PHIRO, CAMERA_BACK, CAMERA_FRONT,
+			SENSOR_ACCELERATION, SENSOR_INCLINATION, SENSOR_COMPASS, NFC_ADAPTER, VIDEO, SENSOR_GPS, COLLISION,
+			BLUETOOTH_LEGO_EV3, NETWORK_CONNECTION, CAST_REQUIRED, JUMPING_SUMO})
+	@interface Resources {}
+	int TEXT_TO_SPEECH = 1;
+	int BLUETOOTH_LEGO_NXT = 2;
+	int PHYSICS = 3;
+	int FACE_DETECTION = 4;
+	int ARDRONE_SUPPORT = 5;
+	int BLUETOOTH_SENSORS_ARDUINO = 6;
+	int SOCKET_RASPI = 7;
+	int CAMERA_FLASH = 8;
+	int VIBRATOR = 9;
+	int BLUETOOTH_PHIRO = 10;
+	int CAMERA_BACK = 11;
+	int CAMERA_FRONT = 12;
+	int SENSOR_ACCELERATION = 13;
+	int SENSOR_INCLINATION = 14;
+	int SENSOR_COMPASS = 15;
+	int NFC_ADAPTER = 16;
+	int VIDEO = 17;
+	int SENSOR_GPS = 18;
+	int COLLISION = 19;
+	int BLUETOOTH_LEGO_EV3 = 20;
+	int NETWORK_CONNECTION = 21;
+	int CAST_REQUIRED = 22;
+	int JUMPING_SUMO = 23;
+
+	class ResourcesSet extends HashSet<Integer> {
+		@Override
+		public boolean add(@Resources Integer integer) {
+			return super.add(integer);
+		}
+	}
+
+	void addRequiredResources(ResourcesSet requiredResourcesSet);
 
 	List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence);
 
@@ -116,8 +132,6 @@ public interface Brick extends Serializable, Cloneable {
 	View getPrototypeView(Context context);
 
 	Brick clone() throws CloneNotSupportedException;
-
-	int getRequiredResources();
 
 	void setBrickAdapter(BrickAdapter adapter);
 

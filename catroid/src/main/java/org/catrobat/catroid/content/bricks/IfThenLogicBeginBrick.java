@@ -24,9 +24,11 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
@@ -36,17 +38,27 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class IfThenLogicBeginBrick extends IfLogicBeginBrick implements NestingBrick {
+public class IfThenLogicBeginBrick extends FormulaBrick implements NestingBrick {
 
 	private static final long serialVersionUID = 1L;
-	protected transient IfThenLogicEndBrick ifEndBrick;
 
-	public IfThenLogicBeginBrick(int condition) {
-		initializeBrickFields(new Formula(condition));
+	private transient IfThenLogicEndBrick ifEndBrick;
+
+	public IfThenLogicBeginBrick() {
+		addAllowedBrickField(BrickField.IF_CONDITION, R.id.brick_if_begin_edit_text);
 	}
 
-	public IfThenLogicBeginBrick(Formula condition) {
-		initializeBrickFields(condition);
+	public IfThenLogicBeginBrick(int condition) {
+		this(new Formula(condition));
+	}
+
+	public IfThenLogicBeginBrick(Formula formula) {
+		this();
+		setFormulaWithBrickField(BrickField.IF_CONDITION, formula);
+	}
+
+	public IfThenLogicEndBrick getIfThenEndBrick() {
+		return ifEndBrick;
 	}
 
 	public void setIfThenEndBrick(IfThenLogicEndBrick ifEndBrick) {
@@ -54,15 +66,32 @@ public class IfThenLogicBeginBrick extends IfLogicBeginBrick implements NestingB
 	}
 
 	@Override
-	public Brick clone() {
-		return new IfThenLogicBeginBrick(getFormulaWithBrickField(BrickField.IF_CONDITION).clone());
+	public BrickBaseType clone() throws CloneNotSupportedException {
+		IfThenLogicBeginBrick clone = (IfThenLogicBeginBrick) super.clone();
+		clone.ifEndBrick = null;
+		return clone;
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-		removePrototypeElseTextViews(prototypeView);
-		return prototypeView;
+	public int getViewResource() {
+		return R.layout.brick_if_then_begin_if;
+	}
+
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
+		hidePrototypePunctuation();
+		return view;
+	}
+
+	private void hidePrototypePunctuation() {
+		TextView prototypeTextPunctuation = view.findViewById(R.id.if_prototype_punctuation);
+		prototypeTextPunctuation.setVisibility(View.GONE);
+	}
+
+	@Override
+	public boolean isInitialized() {
+		return ifEndBrick != null;
 	}
 
 	@Override
@@ -71,7 +100,12 @@ public class IfThenLogicBeginBrick extends IfLogicBeginBrick implements NestingB
 	}
 
 	@Override
-	public List<NestingBrick> getAllNestingBrickParts(boolean sorted) {
+	public boolean isDraggableOver(Brick brick) {
+		return brick != ifEndBrick;
+	}
+
+	@Override
+	public List<NestingBrick> getAllNestingBrickParts() {
 		List<NestingBrick> nestingBrickList = new ArrayList<>();
 		nestingBrickList.add(this);
 		nestingBrickList.add(ifEndBrick);
@@ -79,24 +113,16 @@ public class IfThenLogicBeginBrick extends IfLogicBeginBrick implements NestingB
 	}
 
 	@Override
-	public boolean isDraggableOver(Brick brick) {
-		return brick != ifEndBrick;
-	}
-
-	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		ScriptSequenceAction ifAction = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
-		Action action = sprite.getActionFactory().createIfLogicAction(sprite,
-				getFormulaWithBrickField(BrickField.IF_CONDITION), ifAction, null);
+
+		Action action = sprite.getActionFactory()
+				.createIfLogicAction(sprite, getFormulaWithBrickField(BrickField.IF_CONDITION), ifAction, null);
 		sequence.addAction(action);
 
 		LinkedList<ScriptSequenceAction> returnActionList = new LinkedList<>();
 		returnActionList.add(ifAction);
 
 		return returnActionList;
-	}
-
-	public IfThenLogicEndBrick getIfThenEndBrick() {
-		return ifEndBrick;
 	}
 }

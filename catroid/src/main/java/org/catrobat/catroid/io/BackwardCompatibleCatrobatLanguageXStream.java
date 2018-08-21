@@ -349,7 +349,6 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 		brickInfoMap.put("phiroRGBLightBrick", brickInfo);
 
 		brickInfo = new BrickInfo(PhiroIfLogicBeginBrick.class.getSimpleName());
-		brickInfo.addBrickFieldToMap("ifPhiroSensorCondition", BrickField.IF_PHIRO_SENSOR_CONDITION);
 		brickInfoMap.put("phiroSensorBrick", brickInfo);
 
 		brickInfo = new BrickInfo(IfLogicElseBrick.class.getSimpleName());

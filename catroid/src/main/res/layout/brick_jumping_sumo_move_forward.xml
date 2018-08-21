@@ -60,7 +60,7 @@
             app:layout_newLine="true" />
 
         <TextView
-            android:id="@+id/brick_jumping_sumo_move_forward_text_second"
+            android:id="@+id/brick_seconds_label"
             style="@style/BrickText.SingleLine" />
 
         <TextView
