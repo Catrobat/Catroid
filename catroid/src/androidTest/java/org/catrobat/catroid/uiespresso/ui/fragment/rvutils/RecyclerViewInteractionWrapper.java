@@ -36,11 +36,11 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnHolderItem;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
-public final class RecyclerViewInteractionWrapper extends ViewInteractionWrapper {
+public class RecyclerViewInteractionWrapper extends ViewInteractionWrapper {
 	private static int recyclerViewId = R.id.recycler_view;
 	private static final Matcher<View> RV_MATCHER = withId(recyclerViewId);
 
-	private RecyclerViewInteractionWrapper(ViewInteraction viewInteraction) {
+	protected RecyclerViewInteractionWrapper(ViewInteraction viewInteraction) {
 		super(viewInteraction);
 	}
 

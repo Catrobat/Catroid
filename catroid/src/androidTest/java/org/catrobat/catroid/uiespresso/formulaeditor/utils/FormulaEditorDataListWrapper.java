@@ -23,6 +23,7 @@
 package org.catrobat.catroid.uiespresso.formulaeditor.utils;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.uiespresso.util.wrappers.ViewInteractionWrapper;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
@@ -38,7 +39,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 import static org.catrobat.catroid.uiespresso.util.matchers.FormulaEditorDataListMatchers.isDataListView;
 
-public final class FormulaEditorDataListWrapper {
+public final class FormulaEditorDataListWrapper extends ViewInteractionWrapper {
 
 	public enum ItemScope {
 		GLOBAL,
@@ -51,11 +52,12 @@ public final class FormulaEditorDataListWrapper {
 	}
 
 	private FormulaEditorDataListWrapper() {
+		super(onView(isDataListView()));
+		onView(isDataListView())
+				.check(matches(isDisplayed()));
 	}
 
 	public static FormulaEditorDataListWrapper onDataList() {
-		onView(isDataListView())
-				.check(matches(isDisplayed()));
 		return new FormulaEditorDataListWrapper();
 	}
 

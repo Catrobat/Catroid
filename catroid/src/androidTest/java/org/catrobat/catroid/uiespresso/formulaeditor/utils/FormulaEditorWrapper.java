@@ -27,6 +27,7 @@ import android.view.View;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
+import org.catrobat.catroid.uiespresso.util.wrappers.ViewInteractionWrapper;
 import org.hamcrest.Matcher;
 
 import java.util.Collections;
@@ -45,11 +46,12 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorCategoryListWrapper.onCategoryList;
 import static org.hamcrest.Matchers.equalToIgnoringWhiteSpace;
 
-public final class FormulaEditorWrapper{
+public final class FormulaEditorWrapper extends ViewInteractionWrapper {
 	public static final Matcher<View> FORMULA_EDITOR_KEYBOARD_MATCHER = withId(R.id.formula_editor_keyboardview);
 	public static final Matcher<View> FORMULA_EDITOR_TEXT_FIELD_MATCHER = withId(R.id.formula_editor_edit_field);
 
 	private FormulaEditorWrapper() {
+		super(onView(FORMULA_EDITOR_KEYBOARD_MATCHER));
 		onView(FORMULA_EDITOR_KEYBOARD_MATCHER)
 				.check(matches(isDisplayed()));
 		onView(FORMULA_EDITOR_TEXT_FIELD_MATCHER)
