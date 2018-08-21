@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.uiespresso.formulaeditor.utils;
 
+import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.matchers.FormulaEditorCategoryListMatchers;
 
@@ -31,10 +32,9 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 
-import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
-
-public final class FormulaEditorCategoryListWrapper {
+public final class FormulaEditorCategoryListWrapper extends RecyclerViewInteractionWrapper {
 	private FormulaEditorCategoryListWrapper() {
+		super(onView(FormulaEditorCategoryListMatchers.isFunctionListView()));
 		onView(FormulaEditorCategoryListMatchers.isFunctionListView())
 				.check(matches(isDisplayed()));
 	}
@@ -43,15 +43,12 @@ public final class FormulaEditorCategoryListWrapper {
 		return new FormulaEditorCategoryListWrapper();
 	}
 
-	public FormulaEditorWrapper performSelect(String selection) {
-		onRecyclerView()
-				.performOnItemWithText(selection, click());
-
-		return FormulaEditorWrapper.onFormulaEditor();
+	public void performSelect(String selection) {
+		performOnItemWithText(selection, click());
 	}
 
-	public FormulaEditorWrapper performSelect(int stringResourceId) {
-		String selection = UiTestUtils.getResourcesString(stringResourceId);
-		return performSelect(selection);
+	public void performSelect(int stringResourceId) {
+		UiTestUtils.getResourcesString(stringResourceId);
+		performSelect(UiTestUtils.getResourcesString(stringResourceId));
 	}
 }
