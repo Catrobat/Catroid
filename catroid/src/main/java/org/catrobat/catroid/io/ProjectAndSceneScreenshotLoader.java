@@ -29,6 +29,7 @@ import android.widget.ImageView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.stage.StageListener;
+import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.PathBuilder;
 
@@ -126,8 +127,6 @@ public class ProjectAndSceneScreenshotLoader {
 				return;
 			}
 
-			Activity uiActivity = (Activity) projectAndSceneScreenshotData.imageView.getContext();
-
 			File projectAndSceneImageFile = getScreenshotFile();
 			String pathOfScreenshot = projectAndSceneImageFile.getAbsolutePath();
 
@@ -155,19 +154,23 @@ public class ProjectAndSceneScreenshotLoader {
 				return;
 			}
 
-			uiActivity.runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					if (imageViewReused(projectAndSceneScreenshotData)) {
-						return;
+			Activity uiActivity = UiUtils.getActivityFromView(projectAndSceneScreenshotData.imageView);
+
+			if (uiActivity != null) {
+				uiActivity.runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						if (imageViewReused(projectAndSceneScreenshotData)) {
+							return;
+						}
+						if (projectAndSceneImage != null) {
+							projectAndSceneScreenshotData.imageView.setImageBitmap(projectAndSceneImage);
+						} else {
+							projectAndSceneScreenshotData.imageView.setImageBitmap(null);
+						}
 					}
-					if (projectAndSceneImage != null) {
-						projectAndSceneScreenshotData.imageView.setImageBitmap(projectAndSceneImage);
-					} else {
-						projectAndSceneScreenshotData.imageView.setImageBitmap(null);
-					}
-				}
-			});
+				});
+			}
 		}
 
 		File getScreenshotFile() {

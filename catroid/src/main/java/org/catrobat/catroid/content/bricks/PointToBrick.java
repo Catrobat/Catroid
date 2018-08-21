@@ -33,6 +33,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.SpinnerAdapterWithNewOption;
+import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewSpriteDialogWrapper;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
@@ -104,6 +105,11 @@ public class PointToBrick extends BrickBaseType implements
 	@Override
 	public boolean onNewOptionInDropDownClicked(View v) {
 		spinnerSelectionBuffer = spinner.getSelectedItemPosition();
+		Activity activity = UiUtils.getActivityFromView(v);
+		if (activity == null) {
+			return false;
+		}
+
 		new NewSpriteDialogWrapper(this, ProjectManager.getInstance().getCurrentlyEditedScene()) {
 
 			@Override
@@ -111,7 +117,7 @@ public class PointToBrick extends BrickBaseType implements
 				super.onWorkflowCanceled();
 				spinner.setSelection(spinnerSelectionBuffer);
 			}
-		}.showDialog(((Activity) v.getContext()).getFragmentManager());
+		}.showDialog(activity.getFragmentManager());
 		return false;
 	}
 

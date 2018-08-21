@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.SpinnerAdapterWithNewOption;
+import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewSceneDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
@@ -106,8 +107,13 @@ public class SceneTransitionBrick extends BrickBaseType implements
 	@Override
 	public boolean onNewOptionInDropDownClicked(View v) {
 		spinnerSelectionBuffer = spinner.getSelectedItemPosition();
+		Activity activity = UiUtils.getActivityFromView(v);
+		if (activity == null) {
+			return false;
+		}
+
 		new NewSceneFromBrickDialogFragment(this, ProjectManager.getInstance().getCurrentProject())
-				.show(((Activity) v.getContext()).getFragmentManager(), NewSceneDialogFragment.TAG);
+				.show(activity.getFragmentManager(), NewSceneDialogFragment.TAG);
 		return false;
 	}
 
