@@ -37,6 +37,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
+import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewSceneDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
@@ -99,8 +100,13 @@ public class SceneTransitionBrick extends BrickBaseType implements NewItemInterf
 
 	@Override
 	public void onNewOptionSelected() {
+		Activity activity = UiUtils.getActivityFromView(view);
+		if (activity == null) {
+			return;
+		}
+
 		new NewSceneFromBrickDialogFragment(this, ProjectManager.getInstance().getCurrentProject())
-				.show(((Activity) view.getContext()).getFragmentManager(), NewSceneDialogFragment.TAG);
+				.show(activity.getFragmentManager(), NewSceneDialogFragment.TAG);
 	}
 
 	@Override

@@ -55,6 +55,7 @@ import org.catrobat.catroid.ui.BrickLayout;
 import org.catrobat.catroid.ui.DragAndDropBrickLayoutListener;
 import org.catrobat.catroid.ui.DragNDropBrickLayout;
 import org.catrobat.catroid.ui.LineBreakListener;
+import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.dialogs.UserBrickEditElementDialog;
 
 import java.util.ArrayList;
@@ -86,7 +87,10 @@ public class UserBrickElementEditorFragment extends Fragment implements
 	}
 
 	public static void showFragment(View view, UserScriptDefinitionBrick brick) {
-		Activity activity = (Activity) view.getContext();
+		Activity activity = UiUtils.getActivityFromView(view);
+		if (activity == null) {
+			return;
+		}
 
 		UserBrickElementEditorFragment dataEditorFragment = (UserBrickElementEditorFragment) activity
 				.getFragmentManager().findFragmentByTag(BRICK_DATA_EDITOR_FRAGMENT_TAG);

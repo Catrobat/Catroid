@@ -39,6 +39,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
+import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewLookDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
@@ -106,10 +107,15 @@ public class SetLookBrick extends BrickBaseType implements NewItemInterface<Look
 
 	@Override
 	public void onNewOptionSelected() {
+		Activity activity = UiUtils.getActivityFromView(view);
+		if (activity == null) {
+			return;
+		}
+
 		new NewLookFromBrickDialogFragment(this,
 				ProjectManager.getInstance().getCurrentlyEditedScene(),
 				getSprite())
-				.show(((Activity) view.getContext()).getFragmentManager(), NewLookDialogFragment.TAG);
+				.show(activity.getFragmentManager(), NewLookDialogFragment.TAG);
 	}
 
 	@Override

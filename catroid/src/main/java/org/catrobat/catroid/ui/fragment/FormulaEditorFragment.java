@@ -64,6 +64,7 @@ import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.BottomBar;
+import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.dialogs.FormulaEditorComputeDialog;
 import org.catrobat.catroid.ui.dialogs.FormulaEditorIntroDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewStringDialogFragment;
@@ -136,7 +137,10 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	private static void showFragment(Context context, FormulaBrick formulaBrick, Brick.BrickField brickField,
 			boolean showCustomView) {
 
-		Activity activity = (Activity) context;
+		Activity activity = UiUtils.getActivityFromContextWrapper(context);
+		if (activity == null) {
+			return;
+		}
 
 		FormulaEditorFragment formulaEditorFragment = (FormulaEditorFragment) activity.getFragmentManager()
 				.findFragmentByTag(FORMULA_EDITOR_FRAGMENT_TAG);

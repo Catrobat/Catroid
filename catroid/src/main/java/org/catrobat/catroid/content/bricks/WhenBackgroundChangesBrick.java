@@ -40,6 +40,7 @@ import org.catrobat.catroid.content.WhenBackgroundChangesScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
+import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewLookDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
@@ -114,10 +115,15 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements ScriptB
 
 	@Override
 	public void onNewOptionSelected() {
+		Activity activity = UiUtils.getActivityFromView(view);
+		if (activity == null) {
+			return;
+		}
+
 		new NewLookFromBrickDialogFragment(this,
 				ProjectManager.getInstance().getCurrentlyEditedScene(),
 				ProjectManager.getInstance().getCurrentSprite())
-				.show(((Activity) view.getContext()).getFragmentManager(), NewLookDialogFragment.TAG);
+				.show(activity.getFragmentManager(), NewLookDialogFragment.TAG);
 	}
 
 	@Override
