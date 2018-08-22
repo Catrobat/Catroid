@@ -27,16 +27,14 @@ buildscript {
         maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
         classpath 'io.fabric.tools:gradle:1.21.5'
+        classpath 'com.google.gms:google-services:3.0.0'
     }
 }
 
 repositories {
-    jcenter()
     maven { url "https://jitpack.io" }
     maven { url 'https://maven.fabric.io/public' }
-    maven { url 'https://maven.google.com' }
 }
 
 ext {
@@ -73,9 +71,7 @@ if (project.hasProperty('independent')) {
 ant.copy(file: 'google-services-template.json', tofile: 'google-services.json', overwrite: true)
 ant.replace(file: 'google-services.json', token: '@appId@', value: appId)
 
-jacoco {
-    toolVersion = "0.8.1"
-}
+jacoco.toolVersion = "0.8.1"
 
 jacocoAndroidUnitTestReport {
     csv.enabled false
@@ -84,10 +80,52 @@ jacocoAndroidUnitTestReport {
 }
 
 android {
-    dexOptions {
-        javaMaxHeapSize "4g"
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
+
+    defaultConfig {
+        minSdkVersion 17
+        targetSdkVersion 22
+        applicationId appId
+        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+        versionCode 46
+        println "VersionCode is $versionCode"
+        versionName "0.9.41"
+        println "VersionName is $versionName"
+        buildConfigField "String", "GIT_DESCRIBE", "\"${versionName}\""
+        buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
+        multiDexEnabled true
+        manifestPlaceholders += [appName: manifestAppName, appIcon: manifestAppIcon]
     }
+
+    lintOptions {
+        // specific ignores should be defined via lint.xml file, all general ignores should be added here
+        lintConfig file('config/lint.xml')
+        // CommitPrefEdits should be reviewed, if using apply instead of commit is working with our tests
+        // RtlSymmetry/RtlHardcoded should be reviewed
+        // IconMissingDensityFolder - currently no xxxhdpi icons available
+        // TODO ticket for HandlerLeak
+        // TODO don't know if WrongRegion warning is a false-positive one
+        ignore 'ContentDescription', 'InvalidPackage', 'ValidFragment', 'GradleDependency',
+                'ClickableViewAccessibility', 'UnusedAttribute', 'CommitPrefEdits', 'OldTargetApi',
+                'RtlSymmetry', 'RtlHardcoded', 'HandlerLeak', 'IconMissingDensityFolder',
+                'WrongRegion', 'RelativeOverlap', 'IconColors', 'MissingTranslation', 'ExtraTranslation',
+                'GradleCompatible', 'WifiManagerLeak', 'ApplySharedPref', 'ObsoleteSdkInt',
+                'StaticFieldLeak', 'AppCompatResource'
+
+        abortOnError false
+
+        textReport true
+        xmlReport true
+        htmlReport true
+        xmlOutput file("build/reports/lint-report.xml")
+        htmlOutput file("build/reports/lint-report.html")
+    }
+
+    dexOptions.javaMaxHeapSize "4g"
+
     packagingOptions {
+        exclude 'LICENSE.txt'
         exclude 'META-INF/maven/com.google.guava/guava/pom.properties'
         exclude 'META-INF/maven/com.google.guava/guava/pom.xml'
         exclude 'META-INF/INDEX.LIST'  //compile problem with parrot arsdk
@@ -188,6 +226,10 @@ android {
 
 ext {
     projectVersion = "0.9"
+    gdxVersion = "1.6.2"
+    mockitoVersion = "2.8.47"
+    espressoVersion = "3.0.1"
+    supportLibraryVersion = "27.1.0"
 }
 
 configurations {
@@ -197,11 +239,29 @@ configurations {
 }
 
 dependencies {
+    implementation fileTree(include: '*.jar', dir: 'src/main/libs')
+    implementation fileTree(include: '*.jar', dir: 'src/main/libs-natives')
+
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    // Support libraries
+    implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
+    implementation "com.android.support:mediarouter-v7:$supportLibraryVersion"
+    implementation "com.android.support:cardview-v7:$supportLibraryVersion"
+    implementation "com.android.support:design:$supportLibraryVersion"
+    implementation "com.android.support:customtabs:$supportLibraryVersion"
+
+    implementation "com.android.support.test.espresso:espresso-idling-resource:$espressoVersion"
+    implementation 'com.android.support:multidex:1.0.3'
+
+    // Drone
     implementation 'com.parrot:arsdk:3.12.6'
-    //CAST
+
+    // CAST
     implementation 'com.google.android.gms:play-services-cast:12.0.0'
 
-    //Analytics
+    // Analytics
     implementation 'com.google.android.gms:play-services-analytics:12.0.0'
 
     implementation 'com.google.guava:guava:19.0'
@@ -210,69 +270,52 @@ dependencies {
     implementation 'com.github.johnpersano:supertoasts:2.0@aar'
     implementation 'com.github.mrengineer13:snackbar:1.2.0'
 
-    implementation 'com.koushikdutta.async:androidasync:2.+'
+    implementation 'com.koushikdutta.async:androidasync:2.2.1'
     implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'ar.com.hjg:pngj:2.1.0'
 
     implementation ('com.thoughtworks.xstream:xstream:1.4.7') {
         exclude group: 'xmlpull'
     }
+
+    // Pocket Music
     implementation 'com.github.oliewa92:MidiDroid:v1.1'
-
-    def gdxVersion = '1.6.2'
-    implementation 'com.badlogicgames.gdx:gdx:' + gdxVersion
-    implementation 'com.badlogicgames.gdx:gdx-backend-android:' + gdxVersion
-    natives 'com.badlogicgames.gdx:gdx-platform:' + gdxVersion + ':natives-x86'
-    natives 'com.badlogicgames.gdx:gdx-platform:' + gdxVersion + ':natives-armeabi'
-    natives 'com.badlogicgames.gdx:gdx-platform:' + gdxVersion + ':natives-armeabi-v7a'
-    implementation "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
-    natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi"
-    natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi-v7a"
-    natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
-
-    implementation 'com.facebook.android:facebook-android-sdk:4.14.1'
-    implementation 'com.android.support:appcompat-v7:27.1.0'
-    implementation 'com.android.support:design:27.1.0'
-    implementation 'com.google.android.gms:play-services-auth:12.0.0'
-    implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.github.billthefarmer:mididriver:v1.13'
 
-    implementation group: 'ar.com.hjg', name: 'pngj', version: '2.1.0'
-    implementation fileTree(include: '*.jar', dir: 'src/main/libs')
-    implementation fileTree(include: '*.jar', dir: 'src/main/libs-natives')
-    androidTestImplementation fileTree(include: '*.jar', dir: 'src/androidTest/libs')
-    androidTestImplementation 'com.linkedin.dexmaker:dexmaker-mockito:2.2.0'
-    androidTestImplementation 'org.mockito:mockito-core:2.8.47'
+    // libGDX
+    implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
+    implementation "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
+    implementation "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+    natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
+    natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi"
+    natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
+    natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
+    natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi"
+    natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi-v7a"
 
-    androidTestImplementation ('com.android.support.test:runner:1.0.1') {
-        exclude group: 'com.android.support'
-    }
-    androidTestImplementation ('com.android.support.test.espresso:espresso-core:3.0.1') {
-        exclude group: 'com.android.support'
-    }
-    androidTestImplementation ('com.android.support.test.espresso:espresso-contrib:3.0.1') {
-        exclude group: 'com.android.support'
-    }
-    androidTestCompile ('com.android.support.test.espresso:espresso-intents:3.0.1') {
-        exclude group: 'com.android.support'
-    }
+    implementation 'com.facebook.android:facebook-android-sdk:4.14.1'
+    implementation 'com.google.android.gms:play-services-auth:12.0.0'
 
-    implementation ('com.android.support.test.espresso:espresso-idling-resource:3.0.1') {
-        exclude group: 'com.android.support'
-    }
-
-    testImplementation 'junit:junit:4.12'
-    testImplementation 'org.mockito:mockito-core:2.8.47'
-
-    pmd (
-            'net.sourceforge.pmd:pmd-core:5.8.1',
-            'net.sourceforge.pmd:pmd-java:5.8.1'
-    )
-
-    checkstyle 'com.puppycrawl.tools:checkstyle:7.6'
     implementation ('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
         transitive = true
     }
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    testImplementation 'junit:junit:4.12'
+    testImplementation "org.mockito:mockito-core:$mockitoVersion"
+
+    androidTestImplementation fileTree(include: '*.jar', dir: 'src/androidTest/libs')
+    androidTestImplementation 'com.linkedin.dexmaker:dexmaker-mockito:2.2.0'
+    androidTestImplementation "org.mockito:mockito-core:$mockitoVersion"
+
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
+    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$espressoVersion"
+    androidTestImplementation "com.android.support.test.espresso:espresso-intents:$espressoVersion"
+
+    pmd 'net.sourceforge.pmd:pmd-core:5.8.1'
+    pmd 'net.sourceforge.pmd:pmd-java:5.8.1'
+
+    checkstyle 'com.puppycrawl.tools:checkstyle:7.6'
 }
 
 def getCurrentGitBranch() {
@@ -283,59 +326,8 @@ def getCurrentGitBranch() {
     }
 }
 
-android {
-    compileSdkVersion 26
-    buildToolsVersion '26.0.2'
-
-    defaultConfig {
-        minSdkVersion 17
-        targetSdkVersion 22
-        applicationId appId
-        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-        versionCode 46
-        println "VersionCode is " + versionCode
-        versionName "0.9.41"
-        println "VersionName is " + versionName
-        buildConfigField "String", "GIT_DESCRIBE", "\"${versionName}\""
-        buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
-        multiDexEnabled true
-        manifestPlaceholders += [appName: manifestAppName, appIcon: manifestAppIcon]
-    }
-
-    packagingOptions {
-        exclude 'LICENSE.txt'
-    }
-
-    lintOptions {
-        // specific ignores should be defined via lint.xml file, all general ignores should be added here
-        lintConfig file('config/lint.xml')
-        // CommitPrefEdits should be reviewed, if using apply instead of commit is working with our tests
-        // RtlSymmetry/RtlHardcoded should be reviewed
-        // GradleDynamicVersion ignored - e.g. according to sdkmanager:gradle-plugin it should be imported this way
-        // IconMissingDensityFolder - currently no xxxhdpi icons available
-        // TODO ticket for HandlerLeak
-        // TODO don't know if WrongRegion warning is a false-positive one
-        ignore 'ContentDescription', 'InvalidPackage', 'ValidFragment', 'GradleDependency',
-                'ClickableViewAccessibility', 'UnusedAttribute', 'CommitPrefEdits', 'OldTargetApi',
-                'RtlSymmetry', 'GradleDynamicVersion', 'RtlHardcoded', 'HandlerLeak', 'IconMissingDensityFolder',
-                'WrongRegion', 'RelativeOverlap', 'IconColors', 'MissingTranslation', 'ExtraTranslation',
-                'GradleCompatible', 'WifiManagerLeak', 'ApplySharedPref', 'DefaultLocale', 'ObsoleteSdkInt',
-                'StaticFieldLeak' , 'AppCompatResource'
-
-        abortOnError false
-
-        textReport true
-        xmlReport true
-        htmlReport true
-        xmlOutput file("build/reports/lint-report.xml")
-        htmlOutput file("build/reports/lint-report.html")
-    }
-}
-
 project.gradle.taskGraph.whenReady {
-    connectedCatroidDebugAndroidTest {
-        ignoreFailures = true
-    }
+    connectedCatroidDebugAndroidTest.ignoreFailures = true
 }
 
 task copyAndroidNatives() {
