@@ -44,7 +44,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white" >
+            android:background="@color/solid_white" >
 
             <org.catrobat.catroid.formulaeditor.FormulaEditorEditText
                 android:id="@+id/formula_editor_edit_field"
@@ -54,7 +54,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginStart="5dp"
                 android:layout_marginBottom="5dp"
-                android:background="@color/white"
+                android:background="@color/solid_white"
                 android:hint="@string/formula_nothing_selected"
                 android:inputType="textMultiLine"
                 android:lineSpacingExtra="5dp"

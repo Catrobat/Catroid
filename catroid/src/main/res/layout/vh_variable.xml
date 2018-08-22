@@ -52,14 +52,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingEnd="@dimen/details_spacing"
+            android:textColor="@color/vh_item_title"
             android:textSize="?attr/large"/>
 
         <TextView
             android:id="@+id/value_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="?attr/large"
-            android:textColor="@color/white" />
+            android:textColor="@color/solid_white"
+            android:textSize="?attr/large" />
 
     </LinearLayout>
 </LinearLayout>

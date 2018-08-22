@@ -148,7 +148,6 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 		ImageView preview = getBorderedPreview(brickImage);
 
 		TextView define = new TextView(context);
-		define.setTextAppearance(context, R.style.BrickText);
 		define.setText(context.getString(R.string.define).concat(" "));
 
 		layout.addView(define);
