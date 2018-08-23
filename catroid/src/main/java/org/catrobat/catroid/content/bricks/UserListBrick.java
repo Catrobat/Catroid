@@ -23,11 +23,11 @@
 
 package org.catrobat.catroid.content.bricks;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import org.catrobat.catroid.ProjectManager;
@@ -39,12 +39,12 @@ import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewListDialogFragment;
+import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class UserListBrick extends FormulaBrick implements NewListDialogFragment.NewListInterface,
-		BrickSpinner.OnItemSelectedListener<UserList> {
+public abstract class UserListBrick extends FormulaBrick implements BrickSpinner.OnItemSelectedListener<UserList> {
 
 	protected UserList userList;
 
@@ -95,29 +95,25 @@ public abstract class UserListBrick extends FormulaBrick implements NewListDialo
 
 	@Override
 	public void onNewOptionSelected() {
-		new NewListDialogFragment(this) {
+		Context context = view.getContext();
 
-			@Override
-			public void onDismiss(DialogInterface dialog) {
-				super.onDismiss(dialog);
-				spinner.setSelection(userList);
-			}
+		TextInputDialog.Builder builder = new TextInputDialog.Builder(context);
 
-			@Override
-			public void onCancel(DialogInterface dialog) {
-				super.onCancel(dialog);
-				spinner.setSelection(userList);
-			}
-		}.show(((Activity) view.getContext()).getFragmentManager(), NewListDialogFragment.TAG);
+		builder.setHint(context.getString(R.string.data_label));
+
+		builder.setTitle(context.getString(R.string.formula_editor_list_dialog_title))
+				.setNegativeButton(R.string.cancel, null)
+				.create()
+				.show();
 	}
 
-	@Override
-	public void onNewList(UserList userList) {
-		spinner.add(userList);
-		spinner.setSelection(userList);
-		//TODO: This should work some other way: i.e. it should not rely on the Brick being able to access its adapter.
-		adapter.notifyDataSetChanged();
-	}
+//	@Override
+//	public void onNewList(UserList userList) {
+//		spinner.add(userList);
+//		spinner.setSelection(userList);
+//		//TODO: This should work some other way: i.e. it should not rely on the Brick being able to access its adapter.
+//		adapter.notifyDataSetChanged();
+//	}
 
 	@Override
 	public void onStringOptionSelected(String string) {

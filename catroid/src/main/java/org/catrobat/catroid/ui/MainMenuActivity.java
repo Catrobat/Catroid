@@ -86,7 +86,9 @@ public class MainMenuActivity extends BaseCastActivity implements ProjectLoaderT
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({PROGRESS_BAR, FRAGMENT, ERROR})
-	@interface Content {}
+	@interface Content {
+	}
+
 	protected static final int PROGRESS_BAR = 0;
 	protected static final int FRAGMENT = 1;
 	protected static final int ERROR = 2;
@@ -152,7 +154,7 @@ public class MainMenuActivity extends BaseCastActivity implements ProjectLoaderT
 			onPermissionsGranted();
 		} else {
 			ActivityCompat.requestPermissions(this,
-					new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, ACCESS_STORAGE);
+					new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, ACCESS_STORAGE);
 		}
 	}
 
@@ -187,7 +189,7 @@ public class MainMenuActivity extends BaseCastActivity implements ProjectLoaderT
 			return;
 		}
 
-		getFragmentManager().beginTransaction()
+		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.fragment_container, new MainMenuFragment(), MainMenuFragment.TAG)
 				.commit();
 		showContentView(FRAGMENT);
@@ -276,13 +278,13 @@ public class MainMenuActivity extends BaseCastActivity implements ProjectLoaderT
 				}
 				break;
 			case R.id.menu_terms_of_use:
-				new TermsOfUseDialogFragment().show(getFragmentManager(), TermsOfUseDialogFragment.TAG);
+				new TermsOfUseDialogFragment().show(getSupportFragmentManager(), TermsOfUseDialogFragment.TAG);
 				break;
 			case R.id.menu_privacy_policy:
-				new PrivacyPolicyDialogFragment().show(getFragmentManager(), PrivacyPolicyDialogFragment.TAG);
+				new PrivacyPolicyDialogFragment().show(getSupportFragmentManager(), PrivacyPolicyDialogFragment.TAG);
 				break;
 			case R.id.menu_about:
-				new AboutDialogFragment().show(getFragmentManager(), AboutDialogFragment.TAG);
+				new AboutDialogFragment().show(getSupportFragmentManager(), AboutDialogFragment.TAG);
 				break;
 			case R.id.menu_scratch_converter:
 				if (Utils.isNetworkAvailable(this)) {

@@ -22,10 +22,10 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
@@ -107,7 +107,7 @@ public class SetLookBrick extends BrickBaseType implements NewItemInterface<Look
 
 	@Override
 	public void onNewOptionSelected() {
-		Activity activity = UiUtils.getActivityFromView(view);
+		AppCompatActivity activity = UiUtils.getActivityFromView(view);
 		if (activity == null) {
 			return;
 		}
@@ -115,7 +115,7 @@ public class SetLookBrick extends BrickBaseType implements NewItemInterface<Look
 		new NewLookFromBrickDialogFragment(this,
 				ProjectManager.getInstance().getCurrentlyEditedScene(),
 				getSprite())
-				.show(activity.getFragmentManager(), NewLookDialogFragment.TAG);
+				.show(activity.getSupportFragmentManager(), NewLookDialogFragment.TAG);
 	}
 
 	@Override

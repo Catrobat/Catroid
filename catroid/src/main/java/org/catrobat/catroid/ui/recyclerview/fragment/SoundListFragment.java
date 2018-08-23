@@ -39,14 +39,11 @@ import org.catrobat.catroid.ui.recyclerview.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
 import org.catrobat.catroid.ui.recyclerview.controller.SoundController;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewSoundDialogFragment;
-import org.catrobat.catroid.ui.recyclerview.dialog.RenameDialogFragment;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_SOUNDS_PREFERENCE_KEY;
 
@@ -170,28 +167,13 @@ public class SoundListFragment extends RecyclerViewFragment<SoundInfo> {
 	}
 
 	@Override
-	protected void showRenameDialog(List<SoundInfo> selectedItems) {
-		String name = selectedItems.get(0).getName();
-		RenameDialogFragment dialog = new RenameDialogFragment(R.string.rename_sound_dialog, R.string.sound_name_label, name, this);
-		dialog.show(getFragmentManager(), RenameDialogFragment.TAG);
+	protected int getRenameDialogTitle() {
+		return R.string.rename_sound_dialog;
 	}
 
 	@Override
-	public boolean isNameUnique(String name) {
-		Set<String> scope = new HashSet<>();
-		for (SoundInfo item : adapter.getItems()) {
-			scope.add(item.getName());
-		}
-		return !scope.contains(name);
-	}
-
-	@Override
-	public void renameItem(String name) {
-		SoundInfo item = adapter.getSelectedItems().get(0);
-		if (!item.getName().equals(name)) {
-			item.setName(name);
-		}
-		finishActionMode();
+	protected int getRenameDialogHint() {
+		return R.string.sound_name_label;
 	}
 
 	@Override

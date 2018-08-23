@@ -205,7 +205,7 @@ public class LoopBrickTest {
 		onView(withId(R.id.confirm))
 				.perform(click());
 
-		onView(allOf(withId(android.R.id.button1), withText(R.string.yes)))
+		onView(allOf(withId(android.R.id.button1), withText(R.string.delete)))
 				.perform(click());
 	}
 

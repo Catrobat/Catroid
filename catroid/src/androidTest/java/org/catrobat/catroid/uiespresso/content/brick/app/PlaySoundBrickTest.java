@@ -100,7 +100,7 @@ public class PlaySoundBrickTest {
 				.perform(click());
 		onView(allOf(withText(soundName), isDisplayed(), instanceOf(EditText.class)))
 				.perform(replaceText(newSoundName));
-		onView(allOf(withId(android.R.id.button1), withText(R.string.ok), isDisplayed()))
+		onView(allOf(withId(android.R.id.button1), withText(R.string.rename), isDisplayed()))
 				.perform(closeSoftKeyboard())
 				.perform(click());
 		pressBack();
@@ -116,9 +116,9 @@ public class PlaySoundBrickTest {
 				.performCheckItem();
 		onView(withId(R.id.confirm))
 				.perform(click());
-		onView(allOf(withId(android.R.id.button1), withText(R.string.yes)))
+		onView(allOf(withId(android.R.id.button1), withText(R.string.delete)))
 				.check(matches(isDisplayed()));
-		onView(allOf(withId(android.R.id.button1), withText(R.string.yes)))
+		onView(allOf(withId(android.R.id.button1), withText(R.string.delete)))
 				.perform(click());
 		pressBack();
 	}

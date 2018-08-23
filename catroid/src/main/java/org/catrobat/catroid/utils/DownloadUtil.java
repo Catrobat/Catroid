@@ -23,12 +23,12 @@
 package org.catrobat.catroid.utils;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
@@ -78,7 +78,7 @@ public final class DownloadUtil {
 		programDownloadCallback = callback;
 	}
 
-	public void prepareDownloadAndStartIfPossible(Activity activity, String url) {
+	public void prepareDownloadAndStartIfPossible(AppCompatActivity activity, String url) {
 		String programName = getProjectNameFromUrl(url);
 		if (programName == null) {
 			return;
@@ -89,13 +89,13 @@ public final class DownloadUtil {
 			ReplaceExistingProjectDialogFragment dialog = new ReplaceExistingProjectDialogFragment();
 			dialog.setProgramName(programName);
 			dialog.setURL(url);
-			dialog.show(activity.getFragmentManager(), ReplaceExistingProjectDialogFragment.TAG);
+			dialog.show(activity.getSupportFragmentManager(), ReplaceExistingProjectDialogFragment.TAG);
 		} else {
 			startDownload(activity, url, programName, false);
 		}
 	}
 
-	public void prepareMediaDownloadAndStartIfPossible(Activity activity, String url, String mediaType,
+	public void prepareMediaDownloadAndStartIfPossible(AppCompatActivity activity, String url, String mediaType,
 			String mediaName, String filePath, String callingActivity) {
 		if (mediaName == null) {
 			return;
@@ -126,7 +126,7 @@ public final class DownloadUtil {
 			renameMediaDialog.setURL(url);
 			renameMediaDialog.setFilePath(filePath);
 
-			renameMediaDialog.show(activity.getFragmentManager(), ReplaceExistingMediaDialogFragment.TAG);
+			renameMediaDialog.show(activity.getSupportFragmentManager(), ReplaceExistingMediaDialogFragment.TAG);
 		} else {
 			startMediaDownload(activity, url, mediaName, filePath);
 		}

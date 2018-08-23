@@ -29,7 +29,6 @@ import org.catrobat.catroid.R;
 
 public final class BottomBar {
 
-	// Suppress default constructor for noninstantiability
 	private BottomBar() {
 		throw new AssertionError();
 	}

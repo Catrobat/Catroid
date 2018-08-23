@@ -522,10 +522,6 @@
         <item name="android:background">@drawable/brick_selection_background_chromecast</item>
     </style>
 
-    <style name="userBrickDataTextBackground">
- 		<item name="android:background">@drawable/brick_data_round_rect</item>
- 	</style>
-
      <style name="WebViewLoadingCircle" parent="android:Theme.Holo.Dialog">
         <item name="android:alertDialogStyle">@style/WebViewLoadingCircleStyle</item>
         <item name="android:windowBackground">@color/transparent</item>

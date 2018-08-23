@@ -119,8 +119,8 @@ public class WhenNfcBrickStageFromScriptTest {
 		onView(withId(R.id.button_play))
 				.perform(click());
 
-		assertEquals("Tag not set", ((WhenNfcBrick) scriptUnderTest.getScriptBrick()).getNfcTag().getNfcTagName(),
-				tagDataList.get(0).getNfcTagName());
+		assertEquals("Tag not set", ((WhenNfcBrick) scriptUnderTest.getScriptBrick()).getNfcTag().getName(),
+				tagDataList.get(0).getName());
 		pressBack();
 		pressBack();
 
@@ -133,8 +133,8 @@ public class WhenNfcBrickStageFromScriptTest {
 		onView(withId(R.id.button_play))
 				.perform(click());
 
-		assertEquals("tag not set", ((WhenNfcBrick) scriptUnderTest.getScriptBrick()).getNfcTag().getNfcTagName(),
-				tagDataList.get(1).getNfcTagName());
+		assertEquals("tag not set", ((WhenNfcBrick) scriptUnderTest.getScriptBrick()).getNfcTag().getName(),
+				tagDataList.get(1).getName());
 		pressBack();
 		pressBack();
 
@@ -184,12 +184,12 @@ public class WhenNfcBrickStageFromScriptTest {
 		tagDataList = ProjectManager.getInstance().getCurrentSprite().getNfcTagList();
 		NfcTagData firstTagData = new NfcTagData();
 
-		firstTagData.setNfcTagName(TAG_NAME_TEST1);
+		firstTagData.setName(TAG_NAME_TEST1);
 		firstTagData.setNfcTagUid(NfcHandler.byteArrayToHex(UiNFCTestUtils.FIRST_TEST_TAG_ID.getBytes()));
 		tagDataList.add(firstTagData);
 
 		NfcTagData secondTagData = new NfcTagData();
-		secondTagData.setNfcTagName(TAG_NAME_TEST2);
+		secondTagData.setName(TAG_NAME_TEST2);
 		secondTagData.setNfcTagUid(NfcHandler.byteArrayToHex(UiNFCTestUtils.SECOND_TEST_TAG_ID.getBytes()));
 		tagDataList.add(secondTagData);
 

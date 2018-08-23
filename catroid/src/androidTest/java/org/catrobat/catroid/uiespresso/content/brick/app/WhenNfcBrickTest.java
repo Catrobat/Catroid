@@ -247,7 +247,7 @@ public class WhenNfcBrickTest {
 //				.perform(click());
 //		onView(withContentDescription(R.string.done))
 //				.perform(click());
-//		onView(allOf(withId(android.R.id.button1), withText(R.string.yes)))
+//		onView(allOf(withId(android.R.id.button1), withText(R.string.delete)))
 //				.perform(click());
 //		onView(withText(tagName))
 //				.check(doesNotExist());
@@ -309,7 +309,7 @@ public class WhenNfcBrickTest {
 			return new TypeSafeMatcher<NfcTagData>() {
 				@Override
 				protected boolean matchesSafely(NfcTagData nfcTagData) {
-					String nfcTagName = nfcTagData.getNfcTagName();
+					String nfcTagName = nfcTagData.getName();
 					return nfcTagName.equals(expectedTagName);
 				}
 
@@ -363,12 +363,12 @@ public class WhenNfcBrickTest {
 		List<NfcTagData> tagDataList = ProjectManager.getInstance().getCurrentSprite().getNfcTagList();
 		NfcTagData firstTagData = new NfcTagData();
 
-		firstTagData.setNfcTagName(TAG_NAME_TEST1);
+		firstTagData.setName(TAG_NAME_TEST1);
 		firstTagData.setNfcTagUid(NfcHandler.byteArrayToHex(UiNFCTestUtils.FIRST_TEST_TAG_ID.getBytes()));
 		tagDataList.add(firstTagData);
 
 		NfcTagData secondTagData = new NfcTagData();
-		secondTagData.setNfcTagName(TAG_NAME_TEST2);
+		secondTagData.setName(TAG_NAME_TEST2);
 		secondTagData.setNfcTagUid(NfcHandler.byteArrayToHex(UiNFCTestUtils.SECOND_TEST_TAG_ID.getBytes()));
 		tagDataList.add(secondTagData);
 

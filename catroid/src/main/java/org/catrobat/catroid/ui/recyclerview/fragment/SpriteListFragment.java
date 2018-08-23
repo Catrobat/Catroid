@@ -48,11 +48,11 @@ import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperAdapt
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperCallback;
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
-import org.catrobat.catroid.ui.recyclerview.dialog.NewGroupDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewSceneDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewSpriteDialogWrapper;
-import org.catrobat.catroid.ui.recyclerview.dialog.RenameDialogFragment;
+import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.SetUniqueNameDialogTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -60,9 +60,7 @@ import org.catrobat.catroid.utils.ToastUtil;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_SPRITES_PREFERENCE_KEY;
 
@@ -155,9 +153,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.new_group:
-				Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
-				new NewGroupDialogFragment(this, currentScene)
-						.show(getFragmentManager(), NewGroupDialogFragment.TAG);
+				showNewGroupDialog();
 				break;
 			case R.id.new_scene:
 				Project currentProject = ProjectManager.getInstance().getCurrentProject();
@@ -168,6 +164,28 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 				super.onOptionsItemSelected(item);
 		}
 		return true;
+	}
+
+	private void showNewGroupDialog() {
+		final GroupSprite item = new GroupSprite();
+
+		TextInputDialog.Builder builder = new TextInputDialog.Builder(getContext());
+
+		builder.setHint(getString(R.string.sprite_group_name_label))
+				.setText(item.getName())
+				.setDialogTextWatcher(new SetUniqueNameDialogTextWatcher<>(item, adapter.getItems()))
+				.setPositiveButton(getString(R.string.ok), new TextInputDialog.OnTextDialogClickListener() {
+					@Override
+					public void onPositiveButtonClick(String text) {
+						item.setName(text);
+						adapter.add(item);
+					}
+				});
+
+		builder.setTitle(R.string.new_group)
+				.setNegativeButton(R.string.cancel, null)
+				.create()
+				.show();
 	}
 
 	@Override
@@ -283,28 +301,13 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	}
 
 	@Override
-	protected void showRenameDialog(List<Sprite> selectedItems) {
-		String name = selectedItems.get(0).getName();
-		RenameDialogFragment dialog = new RenameDialogFragment(R.string.rename_sprite_dialog, R.string.sprite_name_label, name, this);
-		dialog.show(getFragmentManager(), RenameDialogFragment.TAG);
+	protected int getRenameDialogTitle() {
+		return R.string.rename_sprite_dialog;
 	}
 
 	@Override
-	public boolean isNameUnique(String name) {
-		Set<String> scope = new HashSet<>();
-		for (Sprite item : adapter.getItems()) {
-			scope.add(item.getName());
-		}
-		return !scope.contains(name);
-	}
-
-	@Override
-	public void renameItem(String name) {
-		Sprite item = adapter.getSelectedItems().get(0);
-		if (!item.getName().equals(name)) {
-			item.setName(name);
-		}
-		finishActionMode();
+	protected int getRenameDialogHint() {
+		return R.string.sprite_name_label;
 	}
 
 	@Override

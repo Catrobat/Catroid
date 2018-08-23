@@ -134,7 +134,6 @@ import org.catrobat.catroid.content.bricks.SayBubbleBrick;
 import org.catrobat.catroid.content.bricks.SayForBubbleBrick;
 import org.catrobat.catroid.content.bricks.SceneStartBrick;
 import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
-import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.SetBackgroundAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SetBackgroundBrick;
 import org.catrobat.catroid.content.bricks.SetBackgroundByIndexAndWaitBrick;
@@ -191,11 +190,9 @@ import org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.physics.content.bricks.SetVelocityBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
-import org.catrobat.catroid.ui.UserBrickSpriteActivity;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
@@ -203,52 +200,44 @@ public class CategoryBricksFactory {
 
 	public List<Brick> getBricks(String category, Sprite sprite, Context context) {
 
-		boolean isUserScriptMode = context instanceof UserBrickSpriteActivity;
-		List<Brick> tempList = new LinkedList<>();
-		List<Brick> toReturn = new ArrayList<>();
 		if (category.equals(context.getString(R.string.category_event))) {
-			tempList = setupEventCategoryList(context);
+			return setupEventCategoryList(context);
 		} else if (category.equals(context.getString(R.string.category_control))) {
-			tempList = setupControlCategoryList(context);
+			return setupControlCategoryList(context);
 		} else if (category.equals(context.getString(R.string.category_motion))) {
-			tempList = setupMotionCategoryList(sprite, context);
+			return setupMotionCategoryList(sprite, context);
 		} else if (category.equals(context.getString(R.string.category_sound))) {
-			tempList = setupSoundCategoryList(context);
+			return setupSoundCategoryList(context);
 		} else if (category.equals(context.getString(R.string.category_looks))) {
 			boolean isBackgroundSprite = sprite.getName().equals(context.getString(R.string.background));
-			tempList = setupLooksCategoryList(context, isBackgroundSprite);
+			return setupLooksCategoryList(context, isBackgroundSprite);
 		} else if (category.equals(context.getString(R.string.category_pen))) {
-			tempList = setupPenCategoryList(sprite);
+			return setupPenCategoryList(sprite);
 		} else if (category.equals(context.getString(R.string.category_user_bricks))) {
-			tempList = setupUserBricksCategoryList();
+			return setupUserBricksCategoryList();
 		} else if (category.equals(context.getString(R.string.category_data))) {
-			tempList = setupDataCategoryList(context);
+			return setupDataCategoryList(context);
 		} else if (category.equals(context.getString(R.string.category_lego_nxt))) {
-			tempList = setupLegoNxtCategoryList();
+			return setupLegoNxtCategoryList();
 		} else if (category.equals(context.getString(R.string.category_lego_ev3))) {
-			tempList = setupLegoEv3CategoryList();
+			return setupLegoEv3CategoryList();
 		} else if (category.equals(context.getString(R.string.category_arduino))) {
-			tempList = setupArduinoCategoryList();
+			return setupArduinoCategoryList();
 		} else if (category.equals(context.getString(R.string.category_drone))) {
-			tempList = setupDroneCategoryList();
+			return setupDroneCategoryList();
 		} else if (category.equals(context.getString(R.string.category_jumping_sumo))) {
-			tempList = setupJumpingSumoCategoryList();
+			return setupJumpingSumoCategoryList();
 		} else if (category.equals(context.getString(R.string.category_phiro))) {
-			tempList = setupPhiroProCategoryList();
+			return setupPhiroProCategoryList();
 		} else if (category.equals(context.getString(R.string.category_cast))) {
-			tempList = setupChromecastCategoryList(context);
+			return setupChromecastCategoryList(context);
 		} else if (category.equals(context.getString(R.string.category_raspi))) {
-			tempList = setupRaspiCategoryList();
+			return setupRaspiCategoryList();
 		} else if (category.equals(context.getString(R.string.category_embroidery))) {
-			tempList = setupEmbroideryCategoryList();
+			return setupEmbroideryCategoryList();
 		}
 
-		for (Brick brick : tempList) {
-			if (!isUserScriptMode || !(brick instanceof ScriptBrick)) {
-				toReturn.add(brick);
-			}
-		}
-		return toReturn;
+		return new ArrayList<>();
 	}
 
 	protected List<Brick> setupEventCategoryList(Context context) {

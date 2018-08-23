@@ -22,13 +22,13 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import android.app.Activity;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.media.MediaRouter;
 import android.view.View;
 import android.widget.AdapterView;
@@ -44,13 +44,13 @@ public class SelectCastDialog extends DialogFragment {
 
 	private static final String DIALOG_TAG = "cast_device_selector";
 	private ArrayAdapter<MediaRouter.RouteInfo> deviceAdapter;
-	private Activity activity;
+	private AppCompatActivity activity;
 	private AlertDialog dialog;
 
 	public SelectCastDialog() {
 	}
 
-	public SelectCastDialog(ArrayAdapter<MediaRouter.RouteInfo> adapter, Activity activity) {
+	public SelectCastDialog(ArrayAdapter<MediaRouter.RouteInfo> adapter, AppCompatActivity activity) {
 		this.deviceAdapter = adapter;
 		this.activity = activity;
 		CastManager.getInstance().setCallback(MediaRouter.CALLBACK_FLAG_PERFORM_ACTIVE_SCAN);
@@ -66,7 +66,7 @@ public class SelectCastDialog extends DialogFragment {
 	}
 
 	public void openDialog() {
-		show(activity.getFragmentManager(), DIALOG_TAG);
+		show(activity.getSupportFragmentManager(), DIALOG_TAG);
 	}
 
 	@Override

@@ -21,25 +21,48 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.ui.recyclerview.adapter;
+package org.catrobat.catroid.ui.recyclerview.dialog.textwatcher;
+
+import android.content.Context;
+import android.support.annotation.Nullable;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.NfcTagData;
-import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedVH;
+import org.catrobat.catroid.common.Nameable;
+import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 
 import java.util.List;
 
-public class NfcTagAdapter extends ExtendedRVAdapter<NfcTagData> {
+public class SetUniqueNameDialogTextWatcher<T extends Nameable> extends TextInputDialog.DialogTextWatcher {
 
-	public NfcTagAdapter(List<NfcTagData> items) {
-		super(items);
+	private T item;
+	private List<T> scope;
+
+	public SetUniqueNameDialogTextWatcher(T item, List<T> scope) {
+		this.item = item;
+		this.scope = scope;
 	}
 
-	@Override
-	public void onBindViewHolder(ExtendedVH holder, int position) {
-		NfcTagData item = items.get(position);
+	private boolean isNameUnique(String name) {
+		for (Nameable item : scope) {
+			if (item.getName().equals(name)) {
+				return false;
+			}
+		}
+		return true;
+	}
 
-		holder.title.setText(item.getName());
-		holder.image.setImageResource(R.drawable.ic_program_menu_nfc);
+	@Nullable
+	@Override
+	public String validateInput(String input, Context context) {
+		String error = null;
+		input = input.trim();
+
+		if (input.isEmpty()) {
+			error = context.getString(R.string.name_consists_of_spaces_only);
+		} else if (!input.equals(item.getName()) && !isNameUnique(input)) {
+			error = context.getString(R.string.name_already_exists);
+		}
+
+		return error;
 	}
 }

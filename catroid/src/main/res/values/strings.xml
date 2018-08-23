@@ -531,6 +531,7 @@
     <string name="script_group_label">Script Group Name</string>
     <string name="look_name_label">Look Name</string>
     <string name="sound_name_label">Sound Name</string>
+    <string name="nfc_tag_name_label">NFC Tag Name</string>
     <string name="string_label">Text</string>
     <string name="data_label">Name</string>
 

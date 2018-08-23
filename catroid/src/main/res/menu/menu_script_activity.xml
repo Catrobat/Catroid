@@ -21,31 +21,35 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
         android:id="@+id/backpack"
-        android:showAsAction="never"
         android:visible="true"
-        android:title="@string/backpack" />
+        android:title="@string/backpack"
+        app:showAsAction="never" />
     <item
         android:id="@+id/copy"
-        android:showAsAction="never"
-        android:title="@string/copy"/>
+        android:title="@string/copy"
+        app:showAsAction="never" />
     <item
         android:id="@+id/delete"
-        android:showAsAction="never"
-        android:title="@string/delete"/>
+        android:title="@string/delete"
+        app:showAsAction="never" />
     <item
         android:id="@+id/rename"
-        android:showAsAction="never"
-        android:title="@string/rename"/>
+        android:title="@string/rename"
+        app:showAsAction="never" />
     <item
         android:id="@+id/show_details"
-        android:showAsAction="never"
-        android:title="@string/show_details"/>
+        android:title="@string/show_details"
+        app:showAsAction="never" />
     <item
         android:id="@+id/comment_in_out"
-        android:showAsAction="never"
         android:title="@string/comment_in_out"
-        android:visible="false"/>
+        android:visible="false"
+        app:showAsAction="never" />
+
 </menu>

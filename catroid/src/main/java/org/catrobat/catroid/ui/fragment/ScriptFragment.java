@@ -22,14 +22,12 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.app.ListFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.IntDef;
+import android.support.v4.app.ListFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -283,13 +281,11 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 	@Override
 	public void onCategorySelected(String category) {
 		AddBrickFragment addBrickFragment = AddBrickFragment.newInstance(category, this);
-		FragmentManager fragmentManager = getActivity().getFragmentManager();
-		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-		fragmentTransaction.add(R.id.fragment_container, addBrickFragment,
-				AddBrickFragment.ADD_BRICK_FRAGMENT_TAG);
 
-		fragmentTransaction.addToBackStack(null);
-		fragmentTransaction.commit();
+		getFragmentManager().beginTransaction()
+				.add(R.id.fragment_container, addBrickFragment, AddBrickFragment.ADD_BRICK_FRAGMENT_TAG)
+				.addToBackStack(null)
+				.commit();
 
 		adapter.notifyDataSetChanged();
 	}
@@ -326,14 +322,12 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 		BrickCategoryFragment brickCategoryFragment = new BrickCategoryFragment();
 		brickCategoryFragment.setBrickAdapter(adapter);
 		brickCategoryFragment.setOnCategorySelectedListener(this);
-		FragmentManager fragmentManager = getActivity().getFragmentManager();
-		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-		fragmentTransaction.add(R.id.fragment_container, brickCategoryFragment,
-				BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
+		getFragmentManager().beginTransaction()
+				.add(R.id.fragment_container, brickCategoryFragment, BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG)
+				.addToBackStack(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG)
+				.commit();
 
-		fragmentTransaction.addToBackStack(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
-		fragmentTransaction.commit();
 		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_category);
 
 		adapter.notifyDataSetChanged();
@@ -557,14 +551,14 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 		new AlertDialog.Builder(getActivity())
 				.setTitle(getResources().getQuantityString(R.plurals.delete_bricks, adapter.getAmountOfCheckedItems()))
 				.setMessage(R.string.dialog_confirm_delete)
-				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+				.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
 						deleteCheckedBricks();
 						finishActionMode();
 					}
 				})
-				.setNegativeButton(R.string.no, null)
+				.setNegativeButton(R.string.cancel, null)
 				.setCancelable(false)
 				.create()
 				.show();

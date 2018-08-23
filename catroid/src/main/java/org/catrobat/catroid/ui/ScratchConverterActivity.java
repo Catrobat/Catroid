@@ -22,12 +22,12 @@
  */
 package org.catrobat.catroid.ui;
 
-import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -65,7 +65,9 @@ public class ScratchConverterActivity extends BaseActivity implements
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({FRAGMENT_SEARCH, FRAGMENT_PROJECTS})
-	@interface FragmentPosition {}
+	@interface FragmentPosition {
+	}
+
 	public static final int FRAGMENT_SEARCH = 0;
 	public static final int FRAGMENT_PROJECTS = 1;
 
@@ -140,18 +142,18 @@ public class ScratchConverterActivity extends BaseActivity implements
 
 		searchResultsFragment.setConversionManager(conversionManager);
 
-		getFragmentManager().beginTransaction()
+		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.fragment_container, searchResultsFragment)
 				.commit();
 	}
 
 	private void switchToFragment(@FragmentPosition int fragmentPosition) {
-		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+		FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
 		switch (fragmentPosition) {
 			case FRAGMENT_SEARCH:
-				if (getFragmentManager().getBackStackEntryCount() > 0) {
-					getFragmentManager().popBackStack();
+				if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+					getSupportFragmentManager().popBackStack();
 				} else {
 					fragmentTransaction.replace(R.id.fragment_container, searchResultsFragment);
 				}
@@ -170,8 +172,8 @@ public class ScratchConverterActivity extends BaseActivity implements
 
 	@Override
 	public void onBackPressed() {
-		if (getFragmentManager().getBackStackEntryCount() > 0) {
-			getFragmentManager().popBackStack();
+		if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+			getSupportFragmentManager().popBackStack();
 		} else {
 			super.onBackPressed();
 		}

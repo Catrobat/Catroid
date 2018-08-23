@@ -45,7 +45,6 @@ import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectCreatorTask;
 import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectLoaderTask;
 import org.catrobat.catroid.ui.recyclerview.controller.ProjectController;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewProjectDialogFragment;
-import org.catrobat.catroid.ui.recyclerview.dialog.RenameDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.PathBuilder;
@@ -146,6 +145,14 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 		copyTask.execute(selectedItems.get(0).projectName, name);
 	}
 
+	private List<String> getScope() {
+		List<String> scope = new ArrayList<>();
+		for (ProjectData item : adapter.getItems()) {
+			scope.add(item.projectName);
+		}
+		return scope;
+	}
+
 	@Override
 	@PluralsRes
 	protected int getDeleteAlertTitleId() {
@@ -180,32 +187,22 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 	}
 
 	@Override
-	protected void showRenameDialog(List<ProjectData> selectedItems) {
-		String name = selectedItems.get(0).projectName;
-		RenameDialogFragment dialog = new RenameDialogFragment(R.string.rename_project, R.string.project_name_label, name, this);
-		dialog.show(getFragmentManager(), RenameDialogFragment.TAG);
-	}
-
-	private List<String> getScope() {
-		List<String> scope = new ArrayList<>();
-		for (ProjectData item : adapter.getItems()) {
-			scope.add(item.projectName);
-		}
-		return scope;
+	protected int getRenameDialogTitle() {
+		return R.string.rename_project;
 	}
 
 	@Override
-	public boolean isNameUnique(String name) {
-		return !getScope().contains(name);
+	protected int getRenameDialogHint() {
+		return R.string.project_name_label;
 	}
 
 	@Override
-	public void renameItem(String name) {
+	public void renameItem(ProjectData item, String name) {
 		ProjectManager projectManager = ProjectManager.getInstance();
 
-		if (!name.equals(adapter.getSelectedItems().get(0).projectName)) {
+		if (!name.equals(item.projectName)) {
 			try {
-				projectManager.loadProject(adapter.getSelectedItems().get(0).projectName, getActivity());
+				projectManager.loadProject(item.projectName, getActivity());
 				projectManager.renameProject(name, getActivity());
 				projectManager.loadProject(name, getActivity());
 			} catch (ProjectException e) {

@@ -38,7 +38,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.ui.recyclerview.adapter.NfcTagAdapter;
-import org.catrobat.catroid.ui.recyclerview.dialog.RenameDialogFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -115,7 +114,7 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 		if (uid != null) {
 			NfcTagData item = new NfcTagData();
 			String name = uniqueNameProvider.getUniqueName(getString(R.string.default_tag_name), getScope());
-			item.setNfcTagName(name);
+			item.setName(name);
 			item.setNfcTagUid(uid);
 			addItem(item);
 		} else {
@@ -147,10 +146,10 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 	protected void copyItems(List<NfcTagData> selectedItems) {
 		setShowProgressBar(true);
 		for (NfcTagData item : selectedItems) {
-			String name = uniqueNameProvider.getUniqueName(item.getNfcTagName(), getScope());
+			String name = uniqueNameProvider.getUniqueName(item.getName(), getScope());
 
 			NfcTagData newItem = new NfcTagData();
-			newItem.setNfcTagName(name);
+			newItem.setName(name);
 			newItem.setNfcTagUid(item.getNfcTagUid());
 
 			adapter.add(newItem);
@@ -164,7 +163,7 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 	protected List<String> getScope() {
 		List<String> scope = new ArrayList<>();
 		for (NfcTagData item : adapter.getItems()) {
-			scope.add(item.getNfcTagName());
+			scope.add(item.getName());
 		}
 		return scope;
 	}
@@ -190,24 +189,13 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 	}
 
 	@Override
-	protected void showRenameDialog(List<NfcTagData> selectedItems) {
-		String name = selectedItems.get(0).getNfcTagName();
-		RenameDialogFragment dialog = new RenameDialogFragment(R.string.rename_nfctag_dialog, R.string.new_option, name, this);
-		dialog.show(getFragmentManager(), RenameDialogFragment.TAG);
+	protected int getRenameDialogTitle() {
+		return R.string.rename_nfctag_dialog;
 	}
 
 	@Override
-	public boolean isNameUnique(String name) {
-		return !getScope().contains(name);
-	}
-
-	@Override
-	public void renameItem(String name) {
-		NfcTagData item = adapter.getSelectedItems().get(0);
-		if (!item.getNfcTagName().equals(name)) {
-			item.setNfcTagName(name);
-		}
-		finishActionMode();
+	protected int getRenameDialogHint() {
+		return R.string.nfc_tag_name_label;
 	}
 
 	@Override

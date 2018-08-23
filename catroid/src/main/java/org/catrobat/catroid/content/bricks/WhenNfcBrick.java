@@ -114,7 +114,7 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick {
 						whenNfcScript.setNfcTag(new NfcTagData());
 					}
 					for (NfcTagData selTag : ProjectManager.getInstance().getCurrentSprite().getNfcTagList()) {
-						if (selTag.getNfcTagName().equals(selectedTag)) {
+						if (selTag.getName().equals(selectedTag)) {
 							whenNfcScript.setNfcTag(selTag);
 							nfcTag = (NfcTagData) parent.getItemAtPosition(position); //selTag
 							break;
@@ -155,10 +155,10 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick {
 		ArrayAdapter<NfcTagData> arrayAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
 		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		NfcTagData dummyNfcTagData = new NfcTagData();
-		dummyNfcTagData.setNfcTagName(context.getString(R.string.new_option));
+		dummyNfcTagData.setName(context.getString(R.string.new_option));
 		arrayAdapter.add(dummyNfcTagData);
 		dummyNfcTagData = new NfcTagData();
-		dummyNfcTagData.setNfcTagName(context.getString(R.string.brick_when_nfc_default_all));
+		dummyNfcTagData.setName(context.getString(R.string.brick_when_nfc_default_all));
 		arrayAdapter.add(dummyNfcTagData);
 		for (NfcTagData nfcTagData : ProjectManager.getInstance().getCurrentSprite().getNfcTagList()) {
 			arrayAdapter.add(nfcTagData);

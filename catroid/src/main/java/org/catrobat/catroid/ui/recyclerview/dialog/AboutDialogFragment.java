@@ -23,8 +23,9 @@
 package org.catrobat.catroid.ui.recyclerview.dialog;
 
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -39,6 +40,7 @@ public class AboutDialogFragment extends DialogFragment {
 
 	public static final String TAG = AboutDialogFragment.class.getSimpleName();
 
+	@NonNull
 	@Override
 	public Dialog onCreateDialog(Bundle bundle) {
 		View view = View.inflate(getActivity(), R.layout.dialog_about, null);

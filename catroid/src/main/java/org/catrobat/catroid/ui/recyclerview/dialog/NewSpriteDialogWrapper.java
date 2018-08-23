@@ -24,9 +24,9 @@
 package org.catrobat.catroid.ui.recyclerview.dialog;
 
 import android.app.Dialog;
-import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
