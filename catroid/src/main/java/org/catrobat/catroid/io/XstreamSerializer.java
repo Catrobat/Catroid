@@ -300,6 +300,12 @@ public final class XstreamSerializer {
 		xstream.omitField(ShowTextBrick.class, "userVariableName");
 		xstream.omitField(HideTextBrick.class, "userVariableName");
 
+		xstream.omitField(SayBubbleBrick.class, "type");
+		xstream.omitField(SayBubbleBrick.class, "type");
+
+		xstream.omitField(ThinkBubbleBrick.class, "type");
+		xstream.omitField(ThinkForBubbleBrick.class, "type");
+
 		xstream.omitField(StartScript.class, "isUserScript");
 		xstream.omitField(WhenScript.class, "action");
 

@@ -34,7 +34,20 @@ public class WhenConditionScript extends Script {
 
 	private static final long serialVersionUID = 1L;
 
-	private ConcurrentFormulaHashMap formulaMap;
+	private ConcurrentFormulaHashMap formulaMap = new ConcurrentFormulaHashMap();
+
+	public WhenConditionScript() {
+		formulaMap.putIfAbsent(Brick.BrickField.IF_CONDITION, new Formula(0));
+	}
+
+	public WhenConditionScript(Formula formula) {
+		this();
+		formulaMap.replace(Brick.BrickField.IF_CONDITION, formula);
+	}
+
+	public ConcurrentFormulaHashMap getFormulaMap() {
+		return formulaMap;
+	}
 
 	@Override
 	public Script clone() throws CloneNotSupportedException {
@@ -49,13 +62,6 @@ public class WhenConditionScript extends Script {
 			scriptBrick = new WhenConditionBrick(this);
 		}
 		return scriptBrick;
-	}
-
-	public ConcurrentFormulaHashMap getFormulaMap() {
-		if (formulaMap == null) {
-			formulaMap = new ConcurrentFormulaHashMap();
-		}
-		return formulaMap;
 	}
 
 	@Override

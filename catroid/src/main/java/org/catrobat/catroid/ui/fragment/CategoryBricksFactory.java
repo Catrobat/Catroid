@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.RaspiInterruptScript;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.WhenConditionScript;
 import org.catrobat.catroid.content.WhenGamepadButtonScript;
 import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick;
@@ -269,7 +270,7 @@ public class CategoryBricksFactory {
 		eventBrickList.add(new BroadcastReceiverBrick(new BroadcastScript(broadcastMessage)));
 		eventBrickList.add(new BroadcastBrick(broadcastMessage));
 		eventBrickList.add(new BroadcastWaitBrick(broadcastMessage));
-		eventBrickList.add(new WhenConditionBrick(new Formula(defaultIf)));
+		eventBrickList.add(new WhenConditionBrick(new WhenConditionScript(new Formula(defaultIf))));
 		eventBrickList.add(new CollisionReceiverBrick(new CollisionScript(null)));
 		eventBrickList.add(new WhenBackgroundChangesBrick());
 		eventBrickList.add(new WhenClonedBrick());
