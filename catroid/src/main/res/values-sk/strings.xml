@@ -24,7 +24,6 @@
   -->
 <resources>
   <!-- General terms -->
-  <string name="app_name">Pocket Code</string>
   <string name="stage">Javisko</string>
   <string name="play">Prehrať</string>
   <string name="settings">Nastavenia</string>

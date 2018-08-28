@@ -24,7 +24,6 @@
   -->
 <resources>
   <!-- General terms -->
-  <string name="app_name">口袋编程</string>
   <string name="stage">舞台</string>
   <string name="play">开始</string>
   <string name="settings">设置</string>

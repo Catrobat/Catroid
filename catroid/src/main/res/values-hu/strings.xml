@@ -24,7 +24,6 @@
   -->
 <resources>
   <!-- General terms -->
-  <string name="app_name">Pocket Code</string>
   <string name="stage">Szint</string>
   <string name="play">Indítás</string>
   <string name="settings">Beállítások</string>

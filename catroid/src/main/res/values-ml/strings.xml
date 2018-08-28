@@ -24,7 +24,6 @@
   -->
 <resources>
   <!-- General terms -->
-  <string name="app_name">പോക്കറ്റ് കോഡ്</string>
   <string name="stage">Stage</string>
   <string name="play">കളിക്കുക</string>
   <string name="settings">Settings</string>

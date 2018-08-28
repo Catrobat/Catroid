@@ -24,7 +24,6 @@
   -->
 <resources>
   <!-- General terms -->
-  <string name="app_name">ポケット\nコード</string>
   <string name="stage">ステージ</string>
   <string name="play">プレイ</string>
   <string name="settings">設定</string>

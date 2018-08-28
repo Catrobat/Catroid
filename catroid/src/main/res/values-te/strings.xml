@@ -24,7 +24,6 @@
   -->
 <resources>
   <!-- General terms -->
-  <string name="app_name">పాకెట్ కోడ్</string>
   <string name="stage">వేదిక</string>
   <string name="play">Play</string>
   <string name="settings">అమరికలు</string>

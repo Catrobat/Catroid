@@ -24,7 +24,6 @@
   -->
 <resources>
   <!-- General terms -->
-  <string name="app_name">Pocket Code</string>
   <string name="stage">Tahap</string>
   <string name="play">Mainkan</string>
   <string name="settings">Pengaturan</string>

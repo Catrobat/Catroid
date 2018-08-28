@@ -24,7 +24,6 @@
   -->
 <resources>
   <!-- General terms -->
-  <string name="app_name">پاکٹ کوڈ</string>
   <string name="stage">مرحلہ</string>
   <string name="play">چلائیں</string>
   <string name="settings">ترتیبات</string>

@@ -24,7 +24,6 @@
   -->
 <resources>
   <!-- General terms -->
-  <string name="app_name">פוקטקוד</string>
   <string name="stage">במה</string>
   <string name="play">הפעל</string>
   <string name="settings">הגדרות</string>

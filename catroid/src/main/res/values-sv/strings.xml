@@ -24,7 +24,6 @@
   -->
 <resources>
   <!-- General terms -->
-  <string name="app_name">Pocked Code</string>
   <string name="stage">Scen</string>
   <string name="play">Spela</string>
   <string name="settings">inställningar</string>

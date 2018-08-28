@@ -24,7 +24,6 @@
   -->
 <resources>
   <!-- General terms -->
-  <string name="app_name">पॉकेट कोड</string>
   <string name="stage">मंच</string>
   <string name="play">चलाएँ</string>
   <string name="settings">व्यवस्था</string>

@@ -24,7 +24,6 @@
   -->
 <resources>
   <!-- General terms -->
-  <string name="app_name">Pocket Code</string>
   <string name="stage">Сцена</string>
   <string name="play">Запуск</string>
   <string name="settings">Настройки</string>
