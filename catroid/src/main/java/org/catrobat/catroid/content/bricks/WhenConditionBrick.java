@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenConditionScript;
@@ -40,22 +39,13 @@ public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 		addAllowedBrickField(BrickField.IF_CONDITION, R.id.brick_when_condition_edit_text);
 	}
 
-	public WhenConditionBrick(Formula formula) {
-		this(formula, new WhenConditionScript());
-	}
-
 	public WhenConditionBrick(WhenConditionScript script) {
-		this(new Formula(BrickValues.IF_CONDITION), script);
-	}
-
-	public WhenConditionBrick(Formula formula, WhenConditionScript script) {
+		this();
 		script.setScriptBrick(this);
 		commentedOut = script.isCommentedOut();
 		this.script = script;
 
 		formulaMap = script.getFormulaMap();
-		addAllowedBrickField(BrickField.IF_CONDITION, R.id.brick_when_condition_edit_text);
-		setFormulaWithBrickField(BrickField.IF_CONDITION, formula);
 	}
 
 	@Override
@@ -63,7 +53,6 @@ public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 		WhenConditionBrick clone = (WhenConditionBrick) super.clone();
 		clone.script = (WhenConditionScript) script.clone();
 		clone.script.setScriptBrick(clone);
-		clone.formulaMap = clone.script.getFormulaMap();
 		return clone;
 	}
 
