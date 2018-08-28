@@ -46,6 +46,7 @@ import android.webkit.WebViewClient;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.utils.DownloadUtil;
 import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -81,7 +82,7 @@ public class WebViewActivity extends BaseActivity {
 		Intent intent = getIntent();
 		url = intent.getStringExtra(INTENT_PARAMETER_URL);
 		if (url == null) {
-			url = Constants.BASE_URL_HTTPS;
+			url = FlavoredConstants.BASE_URL_HTTPS;
 		}
 		callingActivity = intent.getStringExtra(CALLING_ACTIVITY);
 
@@ -106,7 +107,7 @@ public class WebViewActivity extends BaseActivity {
 
 				if (getExtensionFromContentDisposition(contentDisposition).contains(Constants.CATROBAT_EXTENSION)) {
 					DownloadUtil.getInstance().prepareDownloadAndStartIfPossible(WebViewActivity.this, url);
-				} else if (url.contains(Constants.LIBRARY_BASE_URL)) {
+				} else if (url.contains(FlavoredConstants.LIBRARY_BASE_URL)) {
 					String name = getMediaNameFromUrl(url);
 					String mediaType = getMediaTypeFromContentDisposition(contentDisposition);
 					String fileName = name + getExtensionFromContentDisposition(contentDisposition);
@@ -173,7 +174,7 @@ public class WebViewActivity extends BaseActivity {
 				webViewLoadingDialog.setCanceledOnTouchOutside(false);
 				webViewLoadingDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
 				webViewLoadingDialog.show();
-			} else if (allowGoBack && urlClient.equals(Constants.BASE_URL_HTTPS)) {
+			} else if (allowGoBack && urlClient.equals(FlavoredConstants.BASE_URL_HTTPS)) {
 				allowGoBack = false;
 				onBackPressed();
 			}
@@ -223,8 +224,8 @@ public class WebViewActivity extends BaseActivity {
 
 		private boolean checkIfWebViewVisitExternalWebsite(String url) {
 			// help URL has to be opened in an external browser
-			if ((url.contains(Constants.MAIN_URL_HTTPS) && !url.contains(Constants.CATROBAT_HELP_URL))
-					|| url.contains(Constants.LIBRARY_BASE_URL)) {
+			if ((url.contains(FlavoredConstants.MAIN_URL_HTTPS) && !url.contains(Constants.CATROBAT_HELP_URL))
+					|| url.contains(FlavoredConstants.LIBRARY_BASE_URL)) {
 				return false;
 			}
 			return true;

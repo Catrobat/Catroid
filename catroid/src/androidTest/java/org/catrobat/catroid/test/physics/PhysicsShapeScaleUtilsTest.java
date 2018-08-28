@@ -32,7 +32,7 @@ import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.ResourceImporter;
@@ -75,7 +75,7 @@ public class PhysicsShapeScaleUtilsTest {
 
 		physicsWorld = new PhysicsWorld(1920, 1600);
 		physicsWorld.step(0.1f);
-		projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		projectDir = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		if (projectDir.exists()) {
 			StorageOperations.deleteDir(projectDir);

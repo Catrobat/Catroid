@@ -24,7 +24,6 @@
   -->
 <resources>
   <!-- General terms -->
-  <string name="app_name">พอกเก็ต โค้ด</string>
   <string name="stage">Stage</string>
   <string name="play">เล่น</string>
   <string name="settings">การตั้งค่า</string>

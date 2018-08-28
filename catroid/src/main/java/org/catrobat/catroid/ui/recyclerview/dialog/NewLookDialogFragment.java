@@ -41,6 +41,7 @@ import android.view.View;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
@@ -157,12 +158,12 @@ public class NewLookDialogFragment extends DialogFragment implements View.OnClic
 	private String getMediaLibraryUrl() {
 		if (ProjectManager.getInstance().getCurrentlyEditedScene().getBackgroundSprite() == dstSprite) {
 			if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
-				return Constants.LIBRARY_BACKGROUNDS_URL_LANDSCAPE;
+				return FlavoredConstants.LIBRARY_BACKGROUNDS_URL_LANDSCAPE;
 			} else {
-				return Constants.LIBRARY_BACKGROUNDS_URL_PORTRAIT;
+				return FlavoredConstants.LIBRARY_BACKGROUNDS_URL_PORTRAIT;
 			}
 		} else {
-			return Constants.LIBRARY_LOOKS_URL;
+			return FlavoredConstants.LIBRARY_LOOKS_URL;
 		}
 	}
 
@@ -256,7 +257,7 @@ public class NewLookDialogFragment extends DialogFragment implements View.OnClic
 	}
 
 	private Uri getDefaultLookFromCameraUri(String defLookName) {
-		File pictureFile = new File(Constants.DEFAULT_ROOT_DIRECTORY, defLookName + ".jpg");
+		File pictureFile = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, defLookName + ".jpg");
 		return Uri.fromFile(pictureFile);
 	}
 }

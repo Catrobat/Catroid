@@ -24,7 +24,6 @@
   -->
 <resources>
   <!-- General terms -->
-  <string name="app_name">Pocket Code</string>
   <string name="stage">Palco</string>
   <string name="play">Reproduzir</string>
   <string name="settings">Configurações</string>

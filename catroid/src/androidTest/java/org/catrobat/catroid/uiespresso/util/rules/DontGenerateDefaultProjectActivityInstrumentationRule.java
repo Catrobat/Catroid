@@ -25,7 +25,7 @@ package org.catrobat.catroid.uiespresso.util.rules;
 import android.app.Activity;
 import android.support.test.InstrumentationRegistry;
 
-import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.XstreamSerializer;
 
@@ -48,7 +48,7 @@ public class DontGenerateDefaultProjectActivityInstrumentationRule<T extends Act
 	}
 
 	void setUpDummyProject() {
-		Constants.DEFAULT_ROOT_DIRECTORY.mkdir();
+		FlavoredConstants.DEFAULT_ROOT_DIRECTORY.mkdir();
 		Project project = new Project(InstrumentationRegistry.getTargetContext(),
 				"DummyToPreventDefaultProjectCreation");
 		XstreamSerializer.getInstance().saveProject(project);

@@ -26,8 +26,8 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DefaultProjectHandler;
+import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
@@ -59,7 +59,7 @@ public class DefaultProjectHandlerTest {
 
 	@After
 	public void tearDown() throws Exception {
-		StorageOperations.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName));
+		StorageOperations.deleteDir(new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName));
 	}
 
 	@Test

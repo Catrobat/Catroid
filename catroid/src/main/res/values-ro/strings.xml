@@ -24,7 +24,6 @@
   -->
 <resources>
   <!-- General terms -->
-  <string name="app_name">Pocket Code</string>
   <string name="stage">Etapă</string>
   <string name="play">Piesă de teatru</string>
   <string name="settings">Setări</string>

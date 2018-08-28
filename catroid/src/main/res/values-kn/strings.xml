@@ -24,7 +24,6 @@
   -->
 <resources>
   <!-- General terms -->
-  <string name="app_name">ಪಾಕೆಟ್ ಕೋಡ್</string>
   <string name="stage">ವೇದಿಕೆ</string>
   <string name="play">ಪ್ಲೇ ಮಾಡಿ</string>
   <string name="settings">ಸೆಟ್ಟಿಂಗ್ಗಳು</string>

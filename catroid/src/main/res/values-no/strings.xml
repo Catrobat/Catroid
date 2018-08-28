@@ -24,7 +24,6 @@
   -->
 <resources>
   <!-- General terms -->
-  <string name="app_name">Pocket Code</string>
   <string name="stage">Scene</string>
   <string name="play">Kjør</string>
   <string name="settings">Innstillinger</string>

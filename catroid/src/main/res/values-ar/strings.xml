@@ -24,7 +24,6 @@
   -->
 <resources>
   <!-- General terms -->
-  <string name="app_name">بوكت كوود</string>
   <string name="stage">المسرح</string>
   <string name="play">تشغيل</string>
   <string name="settings">إعدادات</string>

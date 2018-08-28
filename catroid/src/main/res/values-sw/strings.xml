@@ -24,7 +24,6 @@
   -->
 <resources>
   <!-- General terms -->
-  <string name="app_name">Msimbo Mfuko</string>
   <string name="stage">Steji</string>
   <string name="play">Cheza</string>
   <string name="settings">Mipangilio</string>

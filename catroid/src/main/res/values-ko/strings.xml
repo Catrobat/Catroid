@@ -24,7 +24,6 @@
   -->
 <resources>
   <!-- General terms -->
-  <string name="app_name">포켓 코드</string>
   <string name="stage">무대</string>
   <string name="play">실행</string>
   <string name="settings">설정</string>
