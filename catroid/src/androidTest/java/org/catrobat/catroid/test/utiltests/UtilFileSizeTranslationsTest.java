@@ -26,7 +26,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.StorageOperations;
@@ -72,7 +72,7 @@ public class UtilFileSizeTranslationsTest {
 	@After
 	public void tearDown() throws Exception {
 		SettingsFragment.updateLocale(getTargetContext(), defaultLocale);
-		File projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName);
+		File projectDir = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName);
 		if (projectDir.exists() && projectDir.isDirectory()) {
 			StorageOperations.deleteDir(projectDir);
 		}

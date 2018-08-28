@@ -42,6 +42,7 @@ import android.widget.ProgressBar;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.transfers.ProjectUploadService;
 import org.catrobat.catroid.ui.WebViewActivity;
@@ -132,7 +133,7 @@ public class UploadProgressDialogFragment extends DialogFragment {
 		dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startWebViewActivity(Constants.SHARE_PROGRAM_URL + ServerCalls.getInstance().getProjectId());
+				startWebViewActivity(FlavoredConstants.SHARE_PROGRAM_URL + ServerCalls.getInstance().getProjectId());
 				dismiss();
 			}
 		});

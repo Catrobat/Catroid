@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.common;
 
-import android.os.Environment;
 import android.support.annotation.IntDef;
 
 import java.io.File;
@@ -60,12 +59,7 @@ public final class Constants {
 	public static final String[] IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".png", ".gif"};
 	public static final String[] SOUND_EXTENSIONS = {".wav", ".mp3", ".mpga", ".wav", ".ogy"};
 
-	private static final String DEFAULT_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath()
-			+ "/Pocket Code";
-
-	public static final File DEFAULT_ROOT_DIRECTORY = new File(DEFAULT_ROOT);
-
-	public static final String TMP_PATH = DEFAULT_ROOT + "/tmp";
+	public static final String TMP_PATH = FlavoredConstants.DEFAULT_ROOT_DIRECTORY.getAbsolutePath() + "/tmp";
 	public static final String TEXT_TO_SPEECH_TMP_PATH = TMP_PATH + "/textToSpeech";
 	public static final String IMAGE_DIRECTORY_NAME = "images";
 	public static final String SOUND_DIRECTORY_NAME = "sounds";
@@ -74,7 +68,7 @@ public final class Constants {
 	public static final String TMP_SOUNDS_PATH = TMP_PATH + "/sounds";
 
 	// Backpack Directories
-	public static final File BACKPACK_DIRECTORY = new File(DEFAULT_ROOT_DIRECTORY, "backpack");
+	public static final File BACKPACK_DIRECTORY = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "backpack");
 	public static final File BACKPACK_FILE = new File(BACKPACK_DIRECTORY, "backpack.json");
 	public static final File BACKPACK_SCENE_DIRECTORY = new File(BACKPACK_DIRECTORY, "scenes");
 	public static final File BACKPACK_SOUND_DIRECTORY = new File(BACKPACK_DIRECTORY, "backpack_sound");
@@ -105,24 +99,14 @@ public final class Constants {
 	public static final String RASPI_BROADCAST_INTERRUPT_PREFIX = RASPI_BROADCAST_PREFIX + "interrupt ";
 	public static final String OPENING_BRACE = "(";
 
-	//Web:
-	public static final String MAIN_URL_HTTPS = "https://share.catrob.at";
-	public static final String BASE_URL_HTTPS = MAIN_URL_HTTPS + "/pocketcode/";
-	public static final String LIBRARY_LOOKS_URL = "https://share.catrob.at/pocketcode/pocket-library/looks";
-	public static final String LIBRARY_BACKGROUNDS_URL_PORTRAIT = "https://share.catrob.at/pocketcode/pocket-library/backgrounds-portrait";
-	public static final String LIBRARY_BACKGROUNDS_URL_LANDSCAPE = "https://share.catrob.at/pocketcode/pocket-library/backgrounds-landscape";
-	public static final String LIBRARY_SOUNDS_URL = "https://share.catrob.at/pocketcode/pocket-library/sounds";
-	public static final String LIBRARY_BASE_URL = "https://share.catrob.at/pocketcode/download-media/";
-	public static final String SHARE_PROGRAM_URL = "https://share.catrob.at/pocketcode/program/";
-
-	public static final String CATROBAT_TERMS_OF_USE_URL = BASE_URL_HTTPS + "termsOfUse";
+	public static final String CATROBAT_TERMS_OF_USE_URL = FlavoredConstants.BASE_URL_HTTPS + "termsOfUse";
 
 	public static final String CATROBAT_ABOUT_URL = "http://www.catrobat.org/";
 	public static final String ABOUT_POCKETCODE_LICENSE_URL = "http://developer.catrobat.org/licenses";
 
-	public static final String CATROBAT_DELETE_ACCOUNT_URL = BASE_URL_HTTPS + "profile/edit";
-	public static final String CATROBAT_HELP_URL = BASE_URL_HTTPS + "help";
-	public static final String CATROBAT_TOKEN_LOGIN_URL = BASE_URL_HTTPS + "tokenlogin?username=";
+	public static final String CATROBAT_DELETE_ACCOUNT_URL = FlavoredConstants.BASE_URL_HTTPS + "profile/edit";
+	public static final String CATROBAT_HELP_URL = FlavoredConstants.BASE_URL_HTTPS + "help";
+	public static final String CATROBAT_TOKEN_LOGIN_URL = FlavoredConstants.BASE_URL_HTTPS + "tokenlogin?username=";
 	public static final String CATROBAT_TOKEN_LOGIN_AMP_TOKEN = "&token=";
 
 	public static final String STANDALONE_URL = "http://catrob.at/csadttwt";

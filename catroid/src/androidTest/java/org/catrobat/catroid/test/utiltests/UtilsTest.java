@@ -28,6 +28,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DefaultProjectHandler;
+import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -151,7 +152,7 @@ public class UtilsTest {
 	public void testBuildProjectPath() {
 		assertTrue(Utils.isExternalStorageAvailable());
 		String projectName = "test?Projekt\"1";
-		String expectedPath = Constants.DEFAULT_ROOT_DIRECTORY.getAbsolutePath() + "/test%3FProjekt%221";
+		String expectedPath = FlavoredConstants.DEFAULT_ROOT_DIRECTORY.getAbsolutePath() + "/test%3FProjekt%221";
 		assertEquals(expectedPath, PathBuilder.buildProjectPath(projectName));
 	}
 

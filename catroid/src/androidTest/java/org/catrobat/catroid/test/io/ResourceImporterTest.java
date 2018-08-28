@@ -26,7 +26,7 @@ package org.catrobat.catroid.test.io;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
-import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.StorageOperations;
 import org.junit.After;
@@ -42,7 +42,7 @@ import static junit.framework.Assert.assertTrue;
 @RunWith(AndroidJUnit4.class)
 public class ResourceImporterTest {
 
-	private File testDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, "ResourceImporterTest");
+	private File testDir = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "ResourceImporterTest");
 
 	@Before
 	public void setUp() {

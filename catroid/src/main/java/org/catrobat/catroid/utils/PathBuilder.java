@@ -25,7 +25,7 @@ package org.catrobat.catroid.utils;
 
 import java.io.File;
 
-import static org.catrobat.catroid.common.Constants.DEFAULT_ROOT_DIRECTORY;
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public final class PathBuilder {
 
