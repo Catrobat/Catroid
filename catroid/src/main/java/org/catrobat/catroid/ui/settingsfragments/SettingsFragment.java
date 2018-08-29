@@ -28,7 +28,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
@@ -143,7 +142,7 @@ public class SettingsFragment extends PreferenceFragment {
 		}
 
 		//disable Cast features before API 19 - KitKat
-		if ((!BuildConfig.FEATURE_CAST_ENABLED) || (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT)) {
+		if ((!BuildConfig.FEATURE_CAST_ENABLED)) {
 			CheckBoxPreference globalCastPreference = (CheckBoxPreference) findPreference(SETTINGS_CAST_GLOBALLY_ENABLED);
 			globalCastPreference.setEnabled(false);
 			screen.removePreference(globalCastPreference);
