@@ -24,7 +24,6 @@
   -->
 <resources>
   <!-- General terms -->
-  <string name="app_name">ポケット\nコード</string>
   <string name="stage">ステージ</string>
   <string name="play">プレイ</string>
   <string name="settings">設定</string>
@@ -597,7 +596,7 @@
   <string name="add_sound_choose_file">ファイルを選択</string>
   <string name="add_sound_music">音楽の作曲</string>
   <!-- Rating Dialog -->
-  <string name="rating_dialog_title">Rate Pocket Code</string>
+  <string name="rating_dialog_title">Rate App</string>
   <string name="rating_google_play_dialog_text">If you enjoy this app, please rate us on Google Play.</string>
   <string name="rating_dialog_rate_now">今すぐ</string>
   <string name="rating_dialog_rate_later">後で</string>
@@ -1016,9 +1015,9 @@
   <string name="default_project_cloud_name">雲</string>
   <string name="default_project_cloud_sprite_name_1">雲1</string>
   <string name="default_project_cloud_sprite_name_2">雲2</string>
-  <string name="default_project_sprites_bird_name">鳥</string>
-  <string name="default_project_sprites_bird_name_wing_up">鳥の翼をあげる</string>
-  <string name="default_project_sprites_bird_name_wing_down">鳥の翼をおろす</string>
+  <string name="default_project_sprites_animal_name">鳥</string>
+  <string name="default_project_sprites_animal_wings_up">鳥の翼をあげる</string>
+  <string name="default_project_sprites_animal_wings_down">鳥の翼をおろす</string>
   <string name="default_project_sprites_tweet_1">さえずり1</string>
   <string name="default_project_sprites_tweet_2">さえずり2</string>
   <!-- Default ChromeCast Values -->

@@ -57,7 +57,7 @@ public final class SnackbarUtil {
 					.withMessage(message)
 					.withActionMessage(activity.getResources().getString(R.string.got_it))
 					.withTextColorId(R.color.solid_black)
-					.withBackgroundColorId(R.color.holo_blue_light)
+					.withBackgroundColorId(R.color.snackbar)
 					.withOnClickListener(new SnackBar.OnMessageClickListener() {
 						@Override
 						public void onMessageClick(Parcelable token) {

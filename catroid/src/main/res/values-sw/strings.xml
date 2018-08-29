@@ -24,7 +24,6 @@
   -->
 <resources>
   <!-- General terms -->
-  <string name="app_name">Msimbo Mfuko</string>
   <string name="stage">Steji</string>
   <string name="play">Cheza</string>
   <string name="settings">Mipangilio</string>
@@ -668,7 +667,7 @@
   <string name="add_sound_choose_file">Chagua faili</string>
   <string name="add_sound_music">Mtungaji wa muziki</string>
   <!-- Rating Dialog -->
-  <string name="rating_dialog_title">Rate Pocket Code</string>
+  <string name="rating_dialog_title">Rate App</string>
   <string name="rating_google_play_dialog_text">If you enjoy this app, please rate us on Google Play.</string>
   <string name="rating_dialog_rate_now">Sasa</string>
   <string name="rating_dialog_rate_later">Baadaye</string>
@@ -1092,9 +1091,9 @@
   <string name="default_project_cloud_name">Mawingu</string>
   <string name="default_project_cloud_sprite_name_1">Mawingu 1</string>
   <string name="default_project_cloud_sprite_name_2">Mawingu</string>
-  <string name="default_project_sprites_bird_name">Ndege</string>
-  <string name="default_project_sprites_bird_name_wing_up">Mabawa ya ndege juu</string>
-  <string name="default_project_sprites_bird_name_wing_down">Mbawa za ndege chini</string>
+  <string name="default_project_sprites_animal_name">Ndege</string>
+  <string name="default_project_sprites_animal_wings_up">Mabawa ya ndege juu</string>
+  <string name="default_project_sprites_animal_wings_down">Mbawa za ndege chini</string>
   <string name="default_project_sprites_tweet_1">Tweet1</string>
   <string name="default_project_sprites_tweet_2">Tweet2</string>
   <!-- Default ChromeCast Values -->

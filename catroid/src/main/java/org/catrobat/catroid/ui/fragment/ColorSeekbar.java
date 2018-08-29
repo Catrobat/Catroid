@@ -62,7 +62,7 @@ public class ColorSeekbar {
 	}
 
 	public View getView(final Context context) {
-		seekbarView = View.inflate(context, R.layout.fragment_rgb_color_chooser, null);
+		seekbarView = View.inflate(context, R.layout.rgb_seek_bar_view, null);
 
 		seekbarView.setFocusableInTouchMode(true);
 		seekbarView.requestFocus();

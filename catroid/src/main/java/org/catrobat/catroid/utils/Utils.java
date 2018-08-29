@@ -68,7 +68,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import static org.catrobat.catroid.common.Constants.DEFAULT_ROOT_DIRECTORY;
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public final class Utils {
 

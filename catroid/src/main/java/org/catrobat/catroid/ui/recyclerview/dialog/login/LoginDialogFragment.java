@@ -39,6 +39,7 @@ import android.widget.EditText;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.transfers.LoginTask;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.web.ServerCalls;
@@ -183,7 +184,7 @@ public class LoginDialogFragment extends DialogFragment implements LoginTask.OnL
 	}
 
 	private void onPasswordForgottenButtonClick() {
-		String baseUrl = ServerCalls.useTestUrl ? ServerCalls.BASE_URL_TEST_HTTPS : Constants.BASE_URL_HTTPS;
+		String baseUrl = ServerCalls.useTestUrl ? ServerCalls.BASE_URL_TEST_HTTPS : FlavoredConstants.BASE_URL_HTTPS;
 		String url = baseUrl + PASSWORD_FORGOTTEN_PATH;
 
 		Intent intent = new Intent(getActivity(), WebViewActivity.class);

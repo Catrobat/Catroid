@@ -23,11 +23,9 @@
 package org.catrobat.catroid.pocketmusic.ui;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.widget.TableLayout;
 
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.pocketmusic.note.MusicalBeat;
 import org.catrobat.catroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.catroid.pocketmusic.note.MusicalKey;
@@ -98,48 +96,5 @@ public class TrackView extends TableLayout {
 
 	public void updateGridRowPosition(NoteName noteName, int columnIndex, NoteLength noteLength, boolean toggled) {
 		trackGrid.updateGridRowPosition(noteName, columnIndex, noteLength, tactPosition, toggled);
-	}
-
-	public void colorGridColumn(int column) {
-		column = columnSanityCheck(column);
-
-		for (int i = 0; i < ROW_COUNT; i++) {
-			boolean isBlackRow = Arrays.binarySearch(BLACK_KEY_INDICES, i) > -1;
-			int noteColorId;
-			if (isBlackRow) {
-				noteColorId = R.color.opaque_turquoise_play_line_dark;
-			} else {
-				noteColorId = R.color.opaque_turquoise_play_line;
-			}
-			trackRowViews.get(i).getChildAt(column).setBackgroundColor(ContextCompat.getColor(getContext(),
-					noteColorId));
-		}
-	}
-
-	public void clearColorGridColumn(int column) {
-		column = columnSanityCheck(column);
-
-		for (int i = 0; i < ROW_COUNT; i++) {
-			boolean isBlackRow = Arrays.binarySearch(BLACK_KEY_INDICES, i) > -1;
-			int noteColorId;
-			if (isBlackRow) {
-				noteColorId = R.color.light_grey;
-			} else {
-				noteColorId = R.color.white;
-			}
-			trackRowViews.get(i).getChildAt(column).setBackgroundColor(ContextCompat.getColor(getContext(),
-					noteColorId));
-		}
-	}
-
-	private int columnSanityCheck(int column) {
-		int notesPerTact = trackRowViews.get(0).getChildCount();
-		if (column >= notesPerTact) {
-			column = notesPerTact - 1;
-		}
-		if (column < 0) {
-			column = 0;
-		}
-		return column;
 	}
 }

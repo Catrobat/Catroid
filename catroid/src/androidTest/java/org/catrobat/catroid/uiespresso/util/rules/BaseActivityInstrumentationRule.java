@@ -39,7 +39,7 @@ import org.junit.runners.model.Statement;
 import java.io.File;
 import java.io.IOException;
 
-import static org.catrobat.catroid.common.Constants.DEFAULT_ROOT_DIRECTORY;
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public class BaseActivityInstrumentationRule<T extends Activity> extends ActivityTestRule<T> {
 

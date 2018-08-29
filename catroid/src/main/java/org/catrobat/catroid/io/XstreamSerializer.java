@@ -228,7 +228,6 @@ import static org.catrobat.catroid.common.Constants.BLUETOOTH_PHIRO_PRO;
 import static org.catrobat.catroid.common.Constants.BUFFER_8K;
 import static org.catrobat.catroid.common.Constants.CAMERA_FLASH;
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
-import static org.catrobat.catroid.common.Constants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.FACE_DETECTION;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.JUMPING_SUMO_SUPPORT;
@@ -239,6 +238,7 @@ import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.TEXT_TO_SPEECH;
 import static org.catrobat.catroid.common.Constants.TMP_CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.VIBRATOR;
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.utils.PathBuilder.buildProjectPath;
 import static org.catrobat.catroid.utils.PathBuilder.buildScenePath;
 

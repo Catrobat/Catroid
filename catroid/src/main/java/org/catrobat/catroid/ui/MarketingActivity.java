@@ -41,13 +41,15 @@ import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
+
+import static org.catrobat.catroid.common.Constants.MAIN_URL_HTTPS;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class MarketingActivity extends Activity {
@@ -104,7 +106,7 @@ public class MarketingActivity extends Activity {
 
 				String url = extractedUrls.get(0);
 				if (!urlsString.trim().startsWith("http")) {
-					url = Constants.MAIN_URL_HTTPS + urlsString;
+					url = MAIN_URL_HTTPS + urlsString;
 				}
 				Log.d(TAG, "Program detail url: " + url);
 				startWebViewActivity(url);
@@ -140,7 +142,7 @@ public class MarketingActivity extends Activity {
 	private void startWebViewActivity(String url) {
 		// TODO just a quick fix for not properly working webview on old devices
 		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
-			Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.BASE_URL_HTTPS));
+			Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(FlavoredConstants.BASE_URL_HTTPS));
 			startActivity(browserIntent);
 		} else {
 			Intent intent = new Intent(this, WebViewActivity.class);

@@ -32,7 +32,7 @@
         android:id="@+id/formula_editor_compute_dialog_textview"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:background="@color/white"
+        android:background="@color/solid_white"
         android:textColor="@color/solid_black"
         android:gravity="center"
         android:textSize="@dimen/dialog_text_view_text_size_large" />

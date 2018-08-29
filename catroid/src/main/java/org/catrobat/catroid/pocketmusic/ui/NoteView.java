@@ -59,7 +59,7 @@ public class NoteView extends ImageView implements View.OnClickListener {
 
 	private void initNoteDrawable() {
 		noteDrawable = ContextCompat.getDrawable(getContext(), R.drawable.ic_pocketmusic_note_toggle);
-		noteDrawable.setColorFilter(ContextCompat.getColor(getContext(), R.color.terms_of_use_text_color), PorterDuff.Mode.SRC_IN);
+		noteDrawable.setColorFilter(ContextCompat.getColor(getContext(), R.color.orange), PorterDuff.Mode.SRC_IN);
 		noteDrawable.mutate();
 		noteDrawable.setAlpha(HIDDEN);
 		setImageDrawable(noteDrawable);

@@ -29,7 +29,7 @@ import android.support.test.runner.AndroidJUnit4;
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.ActionFactory;
@@ -61,7 +61,7 @@ public class SetLookActionTest {
 
 	@Before
 	public void setUp() throws Exception {
-		File projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName);
+		File projectDir = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName);
 
 		if (projectDir.exists()) {
 			StorageOperations.deleteDir(projectDir);
@@ -99,7 +99,7 @@ public class SetLookActionTest {
 
 	@After
 	public void tearDown() throws Exception {
-		File projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName);
+		File projectDir = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName);
 
 		if (projectDir.exists()) {
 			StorageOperations.deleteDir(projectDir);

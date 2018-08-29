@@ -24,7 +24,6 @@
   -->
 <resources>
   <!-- General terms -->
-  <string name="app_name">口袋编程</string>
   <string name="stage">舞台</string>
   <string name="play">开始</string>
   <string name="settings">设置</string>
@@ -597,7 +596,7 @@
   <string name="add_sound_choose_file">选择文件</string>
   <string name="add_sound_music">音乐作曲家</string>
   <!-- Rating Dialog -->
-  <string name="rating_dialog_title">Rate Pocket Code</string>
+  <string name="rating_dialog_title">Rate App</string>
   <string name="rating_google_play_dialog_text">If you enjoy this app, please rate us on Google Play.</string>
   <string name="rating_dialog_rate_now">现在</string>
   <string name="rating_dialog_rate_later">稍后</string>
@@ -1014,9 +1013,9 @@
   <string name="default_project_cloud_name">云</string>
   <string name="default_project_cloud_sprite_name_1">云1</string>
   <string name="default_project_cloud_sprite_name_2">云2</string>
-  <string name="default_project_sprites_bird_name">鸟</string>
-  <string name="default_project_sprites_bird_name_wing_up">鸟的翅膀向上</string>
-  <string name="default_project_sprites_bird_name_wing_down">鸟的翅膀向下</string>
+  <string name="default_project_sprites_animal_name">鸟</string>
+  <string name="default_project_sprites_animal_wings_up">鸟的翅膀向上</string>
+  <string name="default_project_sprites_animal_wings_down">鸟的翅膀向下</string>
   <string name="default_project_sprites_tweet_1">鸟鸣1</string>
   <string name="default_project_sprites_tweet_2">鸟鸣2</string>
   <!-- Default ChromeCast Values -->

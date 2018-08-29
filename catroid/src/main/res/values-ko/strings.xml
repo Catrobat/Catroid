@@ -24,7 +24,6 @@
   -->
 <resources>
   <!-- General terms -->
-  <string name="app_name">포켓 코드</string>
   <string name="stage">무대</string>
   <string name="play">실행</string>
   <string name="settings">설정</string>
@@ -597,7 +596,7 @@
   <string name="add_sound_choose_file">파일 선택</string>
   <string name="add_sound_music">음악 작곡가</string>
   <!-- Rating Dialog -->
-  <string name="rating_dialog_title">Rate Pocket Code</string>
+  <string name="rating_dialog_title">Rate App</string>
   <string name="rating_google_play_dialog_text">If you enjoy this app, please rate us on Google Play.</string>
   <string name="rating_dialog_rate_now">지금</string>
   <string name="rating_dialog_rate_later">다음에</string>
@@ -1015,9 +1014,9 @@
   <string name="default_project_cloud_name">클라우드</string>
   <string name="default_project_cloud_sprite_name_1">클라우드1</string>
   <string name="default_project_cloud_sprite_name_2">클라우드2</string>
-  <string name="default_project_sprites_bird_name">새</string>
-  <string name="default_project_sprites_bird_name_wing_up">새 날개를 위로</string>
-  <string name="default_project_sprites_bird_name_wing_down">새 날개를 아래로</string>
+  <string name="default_project_sprites_animal_name">새</string>
+  <string name="default_project_sprites_animal_wings_up">새 날개를 위로</string>
+  <string name="default_project_sprites_animal_wings_down">새 날개를 아래로</string>
   <string name="default_project_sprites_tweet_1">Tweet1</string>
   <string name="default_project_sprites_tweet_2">Tweet2</string>
   <!-- Default ChromeCast Values -->

@@ -26,7 +26,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -66,8 +66,8 @@ public class MessageContainerTest {
 
 	@After
 	public void tearDown() throws Exception {
-		StorageOperations.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName1));
-		StorageOperations.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName2));
+		StorageOperations.deleteDir(new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName1));
+		StorageOperations.deleteDir(new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName2));
 	}
 
 	@Test

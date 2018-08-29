@@ -24,7 +24,6 @@
   -->
 <resources>
   <!-- General terms -->
-  <string name="app_name">Pocket Code</string>
   <string name="stage">Tahap</string>
   <string name="play">Mainkan</string>
   <string name="settings">Pengaturan</string>
@@ -601,7 +600,7 @@
   <string name="add_sound_choose_file">Pilih File</string>
   <string name="add_sound_music">Komposer musik</string>
   <!-- Rating Dialog -->
-  <string name="rating_dialog_title">Rate Pocket Code</string>
+  <string name="rating_dialog_title">Rate App</string>
   <string name="rating_google_play_dialog_text">If you enjoy this app, please rate us on Google Play.</string>
   <string name="rating_dialog_rate_now">Sekarang</string>
   <string name="rating_dialog_rate_later">Lain kali</string>
@@ -1019,9 +1018,9 @@
   <string name="default_project_cloud_name">Awan</string>
   <string name="default_project_cloud_sprite_name_1">Awan1</string>
   <string name="default_project_cloud_sprite_name_2">Awan2</string>
-  <string name="default_project_sprites_bird_name">Burung</string>
-  <string name="default_project_sprites_bird_name_wing_up">Sayap burung</string>
-  <string name="default_project_sprites_bird_name_wing_down">Sayap burung turun</string>
+  <string name="default_project_sprites_animal_name">Burung</string>
+  <string name="default_project_sprites_animal_wings_up">Sayap burung</string>
+  <string name="default_project_sprites_animal_wings_down">Sayap burung turun</string>
   <string name="default_project_sprites_tweet_1">Kicau1</string>
   <string name="default_project_sprites_tweet_2">Kicau2</string>
   <!-- Default ChromeCast Values -->
