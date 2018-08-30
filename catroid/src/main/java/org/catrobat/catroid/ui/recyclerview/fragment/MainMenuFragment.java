@@ -23,10 +23,13 @@
 
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
+import android.Manifest;
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -36,8 +39,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.io.XstreamSerializer;
+import org.catrobat.catroid.ui.BaseActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ProjectListActivity;
 import org.catrobat.catroid.ui.WebViewActivity;
@@ -47,16 +53,18 @@ import org.catrobat.catroid.ui.recyclerview.adapter.ButtonAdapter;
 import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectLoaderTask;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewProjectDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.viewholder.ButtonVH;
+import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.Utils;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.catrobat.catroid.common.Constants.DEFAULT_ROOT_DIRECTORY;
+
 public class MainMenuFragment extends Fragment implements ButtonAdapter.OnItemClickListener,
-		ProjectLoaderTask.ProjectLoaderListener {
+		ProjectLoaderTask.ProjectLoaderListener, BaseActivity.PermissionRequester {
 
 	public static final String TAG = MainMenuFragment.class.getSimpleName();
 
@@ -70,9 +78,29 @@ public class MainMenuFragment extends Fragment implements ButtonAdapter.OnItemCl
 	private static final int EXPLORE = 4;
 	private static final int UPLOAD = 5;
 
+	private static final int ACCESS_STORAGE = 42;
+
 	private View parent;
 	private RecyclerView recyclerView;
 	private ButtonAdapter adapter;
+
+	private String currentProjectName = "";
+
+	private static class MainMenuButtonAdapter extends ButtonAdapter {
+
+		MainMenuButtonAdapter(List<RVButton> items) {
+			super(items);
+		}
+
+		@NonNull
+		@Override
+		public ButtonVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+			View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.vh_button, parent, false);
+			int itemHeight = parent.getHeight() / items.size();
+			view.setMinimumHeight(itemHeight);
+			return new ButtonVH(view);
+		}
+	}
 
 	@Nullable
 	@Override
@@ -86,21 +114,12 @@ public class MainMenuFragment extends Fragment implements ButtonAdapter.OnItemCl
 	@Override
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		List<RVButton> items = getItems();
-		adapter = new ButtonAdapter(items) {
 
-			@NonNull
-			@Override
-			public ButtonVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-				View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.vh_button, parent, false);
-				int itemHeight = parent.getHeight() / items.size();
-				view.setMinimumHeight(itemHeight);
-				return new ButtonVH(view);
-			}
-		};
+		adapter = new MainMenuButtonAdapter(getItems());
 		adapter.setOnItemClickListener(this);
 		recyclerView.setAdapter(adapter);
-		setShowProgressBar(false);
+
+		getCurrentProjectProjectName();
 	}
 
 	private List<RVButton> getItems() {
@@ -120,12 +139,61 @@ public class MainMenuFragment extends Fragment implements ButtonAdapter.OnItemCl
 		return items;
 	}
 
+	private void getCurrentProjectProjectName() {
+		if (ProjectManager.getInstance().getCurrentProject() != null) {
+			currentProjectName = ProjectManager.getInstance().getCurrentProject().getName();
+			setShowProgressBar(false);
+			adapter.items.get(0).subtitle = currentProjectName;
+			adapter.notifyDataSetChanged();
+		}
+
+		BaseActivity activity = (BaseActivity) getActivity();
+
+		if (activity.checkPermissions(new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE})) {
+			currentProjectName = getCurrentProjectNameFromStorage();
+			setShowProgressBar(false);
+			adapter.items.get(0).subtitle = currentProjectName;
+			adapter.notifyDataSetChanged();
+		} else {
+			activity.registerPermissionRequester(this);
+			activity.askForPermissions(new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, ACCESS_STORAGE);
+		}
+	}
+
+	private String getCurrentProjectNameFromStorage() {
+		if (FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).size() == 0) {
+			ProjectManager.getInstance().initializeDefaultProject(getActivity());
+		}
+
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		String currentProjectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
+		if (currentProjectName == null || !XstreamSerializer.getInstance().projectExists(currentProjectName)) {
+			currentProjectName = FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).get(0);
+		}
+
+		return currentProjectName;
+	}
+
 	@Override
-	public void onResume() {
-		super.onResume();
-		setShowProgressBar(false);
-		adapter.items.get(0).subtitle = Utils.getCurrentProjectName(getActivity());
-		adapter.notifyDataSetChanged();
+	public void onAskForPermissionsResult(int requestCode, @NonNull String[] permissions, boolean permissionsGranted) {
+		if (requestCode == ACCESS_STORAGE) {
+			if (permissionsGranted) {
+				currentProjectName = getCurrentProjectNameFromStorage();
+				adapter.items.get(0).subtitle = currentProjectName;
+				adapter.notifyDataSetChanged();
+				setShowProgressBar(false);
+			} else {
+				BaseActivity activity = (BaseActivity) getActivity();
+				activity.showPermissionDeniedDialog(requestCode, permissions, R.string.error_no_write_access);
+			}
+		}
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		BaseActivity activity = (BaseActivity) getActivity();
+		activity.unregisterPermissionRequester(this);
 	}
 
 	public void setShowProgressBar(boolean show) {
@@ -139,7 +207,7 @@ public class MainMenuFragment extends Fragment implements ButtonAdapter.OnItemCl
 			case CONTINUE:
 				ProjectLoaderTask loaderTask = new ProjectLoaderTask(getActivity(), this);
 				setShowProgressBar(true);
-				loaderTask.execute(Utils.getCurrentProjectName(getActivity()));
+				loaderTask.execute(currentProjectName);
 				break;
 			case NEW:
 				new NewProjectDialogFragment().show(getFragmentManager(), NewProjectDialogFragment.TAG);
@@ -159,15 +227,10 @@ public class MainMenuFragment extends Fragment implements ButtonAdapter.OnItemCl
 			case UPLOAD:
 				setShowProgressBar(true);
 				Intent intent = new Intent(getActivity(), ProjectUploadActivity.class)
-						.putExtra(ProjectUploadActivity.PROJECT_NAME, Utils.getCurrentProjectName(getActivity()));
+						.putExtra(ProjectUploadActivity.PROJECT_NAME, currentProjectName);
 				startActivity(intent);
 				break;
 		}
-	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 	@Override

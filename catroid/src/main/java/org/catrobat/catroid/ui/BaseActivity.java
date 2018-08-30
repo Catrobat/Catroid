@@ -23,33 +23,57 @@
 package org.catrobat.catroid.ui;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.CallSuper;
+import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
 import org.catrobat.catroid.CatroidApplication;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.ui.settingsfragments.AccessibilityProfile;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.CrashReporter;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public abstract class BaseActivity extends AppCompatActivity {
 
 	public static final String RECOVERED_FROM_CRASH = "RECOVERED_FROM_CRASH";
 
+	public interface PermissionRequester {
+
+		void onAskForPermissionsResult(int requestCode, @NonNull String[] permissions, boolean permissionsGranted);
+	}
+
+	private Set<PermissionRequester> permissionRequesters = new HashSet<>();
+
+	public void registerPermissionRequester(@NonNull PermissionRequester permissionRequester) {
+		permissionRequesters.add(permissionRequester);
+	}
+
+	public void unregisterPermissionRequester(PermissionRequester permissionRequester) {
+		permissionRequesters.remove(permissionRequester);
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		applyAccessibilityStyles();
 
+		applyAccessibilityStyles();
 		Thread.setDefaultUncaughtExceptionHandler(new BaseExceptionHandler(this));
 		checkIfCrashRecoveryAndFinishActivity(this);
 
@@ -64,14 +88,65 @@ public abstract class BaseActivity extends AppCompatActivity {
 		profile.applyAccessibilityStyles(getTheme());
 	}
 
-	@SuppressWarnings("PMD.DoNotCallGarbageCollectionExplicitly")
-	@Override
-	protected void onDestroy() {
-		// Partly from http://stackoverflow.com/a/5069354
-		unbindDrawables(((ViewGroup) findViewById(android.R.id.content)).getChildAt(0));
-		System.gc();
+	public boolean checkPermissions(String[] permissions) {
+		for (String permission : permissions) {
+			if (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_DENIED) {
+				return false;
+			}
+		}
+		return true;
+	}
 
-		super.onDestroy();
+	public void askForPermissions(String[] permissions, int requestCode) {
+		if (checkPermissions(permissions)) {
+			onAskForPermissionsResult(requestCode, permissions, true);
+		} else {
+			ActivityCompat.requestPermissions(this, permissions, requestCode);
+		}
+	}
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+		if (grantResults.length > 0) {
+			boolean permissionsGranted = true;
+
+			for (int result : grantResults) {
+				if (result == PackageManager.PERMISSION_DENIED) {
+					permissionsGranted = false;
+					break;
+				}
+			}
+
+			onAskForPermissionsResult(requestCode, permissions, permissionsGranted);
+		}
+	}
+
+	@CallSuper
+	public void onAskForPermissionsResult(int requestCode, @NonNull String[] permissions, boolean permissionsGranted) {
+		for (PermissionRequester permissionRequester : permissionRequesters) {
+			permissionRequester.onAskForPermissionsResult(requestCode, permissions, permissionsGranted);
+		}
+	}
+
+	public void showPermissionDeniedDialog(final int requestCode, final String[] permissions, @StringRes int messageId) {
+		new AlertDialog.Builder(this)
+				.setMessage(messageId)
+				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						askForPermissions(permissions, requestCode);
+					}
+				})
+				.setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						finishAffinity();
+					}
+				})
+				.setCancelable(false)
+				.show();
 	}
 
 	@Override
@@ -104,33 +179,20 @@ public abstract class BaseActivity extends AppCompatActivity {
 		return true;
 	}
 
-	private void checkIfCrashRecoveryAndFinishActivity(final Activity context) {
+	private void checkIfCrashRecoveryAndFinishActivity(Activity activity) {
 		if (isRecoveringFromCrash()) {
 			CrashReporter.logUnhandledException();
-			if (!(context instanceof MainMenuActivity)) {
-				context.finish();
+			if (activity instanceof MainMenuActivity) {
+				PreferenceManager.getDefaultSharedPreferences(this).edit()
+						.putBoolean(RECOVERED_FROM_CRASH, false)
+						.commit();
 			} else {
-				PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean(RECOVERED_FROM_CRASH, false).commit();
+				activity.finish();
 			}
 		}
 	}
 
 	private boolean isRecoveringFromCrash() {
 		return PreferenceManager.getDefaultSharedPreferences(this).getBoolean(RECOVERED_FROM_CRASH, false);
-	}
-
-	// Code from Stackoverflow to reduce memory problems
-	// onDestroy() and unbindDrawables() methods taken from
-	// http://stackoverflow.com/a/6779067
-	protected void unbindDrawables(View view) {
-		if (view.getBackground() != null) {
-			view.getBackground().setCallback(null);
-		}
-		if (view instanceof ViewGroup && !(view instanceof AdapterView)) {
-			for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
-				unbindDrawables(((ViewGroup) view).getChildAt(i));
-			}
-			((ViewGroup) view).removeAllViews();
-		}
 	}
 }
