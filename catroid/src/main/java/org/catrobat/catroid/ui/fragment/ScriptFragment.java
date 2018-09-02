@@ -31,6 +31,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.IntDef;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -199,6 +200,16 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 		setHasOptionsMenu(true);
 	}
 
+	private void updateActionBarTitle() {
+		String currentSceneName = ProjectManager.getInstance().getCurrentlyEditedScene().getName();
+		String currentSpriteName = ProjectManager.getInstance().getCurrentSprite().getName();
+		if (ProjectManager.getInstance().getCurrentProject().getSceneList().size() == 1) {
+			((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(currentSpriteName);
+		} else {
+			((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(currentSceneName + ": " + currentSpriteName);
+		}
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = View.inflate(getActivity(), R.layout.fragment_script, null);
@@ -225,6 +236,7 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 	@Override
 	public void onResume() {
 		super.onResume();
+		updateActionBarTitle();
 
 		if (!Utils.isExternalStorageAvailable()) {
 			ToastUtil.showError(getActivity(), R.string.error_no_writiable_external_storage_available);
