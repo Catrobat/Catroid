@@ -68,8 +68,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import static org.catrobat.catroid.common.Constants.DEFAULT_ROOT_DIRECTORY;
-
 public final class Utils {
 
 	private static final String TAG = Utils.class.getSimpleName();
@@ -351,23 +349,6 @@ public final class Utils {
 	public static int getPhysicalPixels(int densityIndependentPixels, Context context) {
 		final float scale = context.getResources().getDisplayMetrics().density;
 		return (int) (densityIndependentPixels * scale + 0.5f);
-	}
-
-	public static String getCurrentProjectName(Context context) {
-		if (ProjectManager.getInstance().getCurrentProject() == null) {
-
-			if (FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).size() == 0) {
-				ProjectManager.getInstance().initializeDefaultProject(context);
-			}
-
-			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-			String currentProjectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
-			if (currentProjectName == null || !XstreamSerializer.getInstance().projectExists(currentProjectName)) {
-				currentProjectName = FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).get(0);
-			}
-			return currentProjectName;
-		}
-		return ProjectManager.getInstance().getCurrentProject().getName();
 	}
 
 	public static Pixmap getPixmapFromFile(File imageFile) {

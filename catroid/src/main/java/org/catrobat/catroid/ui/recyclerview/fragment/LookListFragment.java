@@ -100,8 +100,7 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 
 		for (LookData item : selectedItems) {
 			try {
-				BackpackListManager.getInstance().getBackpackedLooks().add(
-						lookController.pack(item));
+				BackpackListManager.getInstance().getBackpackedLooks().add(lookController.pack(item));
 				BackpackListManager.getInstance().saveBackpack();
 				packedItemCnt++;
 			} catch (IOException e) {

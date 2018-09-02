@@ -23,12 +23,14 @@
 
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
+import android.Manifest;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
 import android.support.annotation.PluralsRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -43,6 +45,7 @@ import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.BaseActivity;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.ExtendedRVAdapter;
@@ -63,7 +66,10 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 		RVAdapter.SelectionListener,
 		RVAdapter.OnItemClickListener<T>,
 		NewItemInterface<T>,
-		RenameDialogFragment.RenameInterface {
+		RenameDialogFragment.RenameInterface,
+		BaseActivity.PermissionRequester {
+
+	private static final int ACCESS_STORAGE_TO_SAVE_PROJECT = 12;
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({NONE, BACKPACK, COPY, DELETE, RENAME})
@@ -80,6 +86,9 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 
 	protected ExtendedRVAdapter<T> adapter;
 	protected ActionMode actionMode;
+
+	@ActionModeType
+	protected int actionModeType = NONE;
 
 	protected String sharedPreferenceDetailsKey = "";
 
@@ -100,9 +109,6 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 			setShowEmptyView(adapter.getItemCount() == 0);
 		}
 	};
-
-	@ActionModeType
-	protected int actionModeType = NONE;
 
 	@Override
 	public boolean onCreateActionMode(ActionMode mode, Menu menu) {
@@ -182,6 +188,7 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 			case NONE:
 				throw new IllegalStateException("ActionModeType not set correctly");
 		}
+		saveProject();
 	}
 
 	protected void resetActionModeParameters() {
@@ -225,6 +232,7 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 	@Override
 	public void onResume() {
 		super.onResume();
+
 		setShowProgressBar(false);
 
 		BackpackListManager.getInstance().loadBackpack();
@@ -237,7 +245,6 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 	@Override
 	public void onPause() {
 		super.onPause();
-		ProjectManager.getInstance().saveProject(getActivity());
 		adapter.unregisterAdapterDataObserver(observer);
 	}
 
@@ -245,6 +252,22 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 	public void onStop() {
 		super.onStop();
 		finishActionMode();
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		BaseActivity activity = (BaseActivity) getActivity();
+		activity.unregisterPermissionRequester(this);
+	}
+
+	@Override
+	public void onAskForPermissionsResult(int requestCode, @NonNull String[] permissions, boolean permissionsGranted) {
+		switch (requestCode) {
+			case ACCESS_STORAGE_TO_SAVE_PROJECT:
+				ProjectManager.getInstance().saveProject(getActivity());
+				break;
+		}
 	}
 
 	@Override
@@ -389,6 +412,17 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 	protected void setShowEmptyView(boolean visible) {
 		recyclerView.setVisibility(visible ? View.GONE : View.VISIBLE);
 		emptyView.setVisibility(visible ? View.VISIBLE : View.GONE);
+	}
+
+	private void saveProject() {
+		BaseActivity activity = (BaseActivity) getActivity();
+		if (activity.checkPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE})) {
+			ProjectManager.getInstance().saveProject(getActivity());
+		} else {
+			activity.registerPermissionRequester(this);
+			activity.askForPermissions(
+					new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, ACCESS_STORAGE_TO_SAVE_PROJECT);
+		}
 	}
 
 	@PluralsRes
