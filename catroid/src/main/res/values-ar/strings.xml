@@ -24,7 +24,6 @@
   -->
 <resources>
   <!-- General terms -->
-  <string name="app_name">بوكت كوود</string>
   <string name="stage">المسرح</string>
   <string name="play">تشغيل</string>
   <string name="settings">إعدادات</string>
@@ -935,7 +934,7 @@
   <string name="add_sound_choose_file">حدد الملف</string>
   <string name="add_sound_music">مُلحن الموسيقى</string>
   <!-- Rating Dialog -->
-  <string name="rating_dialog_title">Rate Pocket Code</string>
+  <string name="rating_dialog_title">Rate App</string>
   <string name="rating_google_play_dialog_text">If you enjoy this app, please rate us on Google Play.</string>
   <string name="rating_dialog_rate_now">الآن</string>
   <string name="rating_dialog_rate_later">في وقت لاحق</string>
@@ -1378,9 +1377,9 @@
   <string name="default_project_cloud_name">السُحب</string>
   <string name="default_project_cloud_sprite_name_1">سحابة 1</string>
   <string name="default_project_cloud_sprite_name_2">سحابة 2</string>
-  <string name="default_project_sprites_bird_name">الطير</string>
-  <string name="default_project_sprites_bird_name_wing_up">أجنحة الطير ترتفع</string>
-  <string name="default_project_sprites_bird_name_wing_down">أجنحة الطير تهبط</string>
+  <string name="default_project_sprites_animal_name">الطير</string>
+  <string name="default_project_sprites_animal_wings_up">أجنحة الطير ترتفع</string>
+  <string name="default_project_sprites_animal_wings_down">أجنحة الطير تهبط</string>
   <string name="default_project_sprites_tweet_1">زقزقة1</string>
   <string name="default_project_sprites_tweet_2">زقزقة2</string>
   <!-- Default ChromeCast Values -->

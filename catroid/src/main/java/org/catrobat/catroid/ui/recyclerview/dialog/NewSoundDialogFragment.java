@@ -35,7 +35,7 @@ import android.view.View;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
@@ -113,7 +113,7 @@ public class NewSoundDialogFragment extends DialogFragment implements View.OnCli
 				break;
 			case R.id.dialog_new_sound_media_library:
 				intent = new Intent(getActivity(), WebViewActivity.class)
-						.putExtra(WebViewActivity.INTENT_PARAMETER_URL, Constants.LIBRARY_SOUNDS_URL)
+						.putExtra(WebViewActivity.INTENT_PARAMETER_URL, FlavoredConstants.LIBRARY_SOUNDS_URL)
 						.putExtra(WebViewActivity.CALLING_ACTIVITY, TAG);
 				startActivityForResult(intent, LIBRARY);
 				break;

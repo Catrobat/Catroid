@@ -69,7 +69,7 @@
             android:layout_marginStart="20dp"
             android:text="@string/skip"
             android:textSize="@dimen/text_size_large"
-            android:textColor="@color/white"
+            android:textColor="@color/solid_white"
             android:background="@color/transparent"
             android:layout_weight="1.0"
             style="?android:attr/buttonBarButtonStyle"/>
@@ -81,7 +81,7 @@
             android:layout_marginEnd="20dp"
             android:text="@string/next"
             android:textSize="@dimen/text_size_large"
-            android:textColor="@color/white"
+            android:textColor="@color/solid_white"
             android:background="@color/transparent"
             android:layout_weight="1.0"
             style="?android:attr/buttonBarButtonStyle"/>

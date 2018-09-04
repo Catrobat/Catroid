@@ -28,14 +28,27 @@
 
         <!-- Colors -->
         <item name="android:windowBackground">@color/app_background</item>
+
         <item name="colorAccent">@color/accent</item>
 
+        <!-- android:textColorPrimary changes TextViews, and DialogTitles -->
+        <item name="android:textColorPrimary">@color/dialog_title_and_text_view</item>
+
+        <!-- android:textColorPrimaryDisableOnly changes Checkboxes and RadioButton description -->
+        <item name="android:textColorPrimaryDisableOnly">@color/checkbox_and_radio_button_description</item>
+
+        <!-- android:textColorSecondary changes unchecked Checkboxes, disabled buttons, spinner icon -->
+        <item name="android:textColorSecondary">@color/spinner_icon_and_inactive_elements</item>
+
+        <!-- android:textColorHint changes only non focused hints -->
+        <!-- <item name="android:textColorHint">@color/accent</item> -->
+
         <!-- Action Mode -->
-        <item name="windowActionModeOverlay">true</item>
         <item name="actionModeStyle">@style/ActionMode</item>
+        <item name="windowActionModeOverlay">true</item>
 
         <!-- Accessibility REGULAR styles-->
-             <!-- Font Sizes -->
+        <!-- Font Sizes -->
         <item name="android:textSize">16sp</item>
         <item name="x_small">10sp</item>
         <item name="small">14sp</item>
@@ -43,21 +56,21 @@
         <item name="large">18sp</item>
         <item name="x_large">22sp</item>
         <item name="xx_large">28sp</item>
-            <!-- High Contrast -->
+        <!-- High Contrast -->
         <item name="android:shadowColor">@color/transparent</item>
         <item name="android:shadowDx">0</item>
         <item name="android:shadowDy">0</item>
         <item name="android:shadowRadius">0</item>
-            <!-- Element Spacing -->
+        <!-- Element Spacing -->
         <item name="element_spacing">0dp</item>
-            <!-- Fonts -->
+        <!-- Fonts -->
         <item name="android:fontFamily">sans-serif</item>
         <item name="app_font">sans-serif</item>
-            <!-- Category Icon Visibility -->
+        <!-- Category Icon Visibility -->
         <item name="category_icon_visiblity">2</item>
-            <!-- Category Icon Visibility -->
+        <!-- Category Icon Visibility -->
         <item name="category_icon_size">40dp</item>
-            <!-- Icon Contrast -->
+        <!-- Icon Contrast -->
         <item name="icon_ardrone">@drawable/ardrone_pos</item>
         <item name="icon_data">@drawable/data_pos</item>
         <item name="icon_motion">@drawable/motion_pos</item>
@@ -74,11 +87,14 @@
         <item name="icon_embroidery">@drawable/embroidery_pos</item>
     </style>
 
+    <!-- Toolbar -->
     <style name="ToolbarTitle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textColor">@color/toolbar_title</item>
         <item name="android:textSize">?attr/medium</item>
         <item name="android:fontFamily">?attr/app_font</item>
     </style>
 
+    <!-- ActionMode -->
     <style name="ActionMode" parent="Widget.AppCompat.ActionMode">
         <item name="background">@drawable/toolbar_background</item>
         <item name="titleTextStyle">@style/ActionModeTitle</item>
@@ -100,7 +116,7 @@
         <item name="android:layout_marginEnd">@dimen/material_design_spacing_large</item>
     </style>
 
-    <style name="stage_dialog" parent="android:style/Theme.Dialog">
+    <style name="StageDialog" parent="android:style/Theme.Dialog">
         <item name="android:windowBackground">@null</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">true</item>
@@ -130,7 +146,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">?attr/large</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">@color/solid_white</item>
         <item name="android:textStyle">bold</item>
     </style>
 
@@ -142,28 +158,14 @@
         <item name="android:maxLines">1</item>
     </style>
 
-    <style name="BrickEditText" parent="android:style/Widget.EditText">
+    <style name="BrickEditText" parent="Widget.AppCompat.EditText">
         <item name="android:textSize">?attr/large</item>
+        <item name="backgroundTint">@color/solid_white</item>
         <item name="android:focusable">false</item>
         <item name="android:focusableInTouchMode">false</item>
         <item name="android:clickable">false</item>
-        <item name="android:minWidth">@dimen/brick_edit_text_and_prototype_text_view_minimum_width</item>
+        <item name="android:minWidth">@dimen/brick_edit_text_min_width</item>
         <item name="android:gravity">center_horizontal</item>
-        <item name="android:minEms">1</item>
-        <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:singleLine">true</item>
-        <item name="android:ellipsize">end</item>
-    </style>
-
-    <style name="FragmentSeekbarChooserTextView" parent="android:style/Widget.EditText">
-        <item name="android:focusable">false</item>
-        <item name="android:focusableInTouchMode">false</item>
-        <item name="android:clickable">false</item>
-        <item name="android:minWidth">@dimen/fragment_color_chooser_edit_text_and_prototype_text_view_minimum_width</item>
-        <item name="android:gravity">center</item>
-        <item name="android:minEms">1</item>
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -434,7 +436,7 @@
 
     <style name="FormulaEditorButton">
         <item name="android:background">@drawable/formula_editor_keyboard_button</item>
-        <item name="android:textColor">@color/formula_editor_keyboard_text_color</item>
+        <item name="android:textColor">@color/accent</item>
         <item name="android:lines">1</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">0dp</item>
@@ -545,13 +547,6 @@
         <item name="android:fullDark">@color/transparent</item>
         <item name="android:topBright">@color/transparent</item>
         <item name="android:topDark">@color/transparent</item>
-    </style>
-
-    <style name="SingleSeekbarTextView">
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_width">0dp</item>
-        <item name="android:textColor">@color/holo_blue_bright</item>
-        <item name="android:layout_marginTop">20dp</item>
     </style>
 
 </resources>

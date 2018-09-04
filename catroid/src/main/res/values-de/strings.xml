@@ -24,7 +24,6 @@
   -->
 <resources>
   <!-- General terms -->
-  <string name="app_name">Pocket Code</string>
   <string name="stage">Bühne</string>
   <string name="play">Spielen</string>
   <string name="settings">Einstellungen</string>
@@ -671,7 +670,7 @@
   <string name="add_sound_choose_file">Klang auswählen</string>
   <string name="add_sound_music">Komponist</string>
   <!-- Rating Dialog -->
-  <string name="rating_dialog_title">Rate Pocket Code</string>
+  <string name="rating_dialog_title">Rate App</string>
   <string name="rating_google_play_dialog_text">If you enjoy this app, please rate us on Google Play.</string>
   <string name="rating_dialog_rate_now">Jetzt</string>
   <string name="rating_dialog_rate_later">Später</string>
@@ -1093,9 +1092,9 @@
   <string name="default_project_cloud_name">Wolken</string>
   <string name="default_project_cloud_sprite_name_1">Wolken1</string>
   <string name="default_project_cloud_sprite_name_2">Wolken2</string>
-  <string name="default_project_sprites_bird_name">Vogel</string>
-  <string name="default_project_sprites_bird_name_wing_up">Fügel oben</string>
-  <string name="default_project_sprites_bird_name_wing_down">Flügel unten</string>
+  <string name="default_project_sprites_animal_name">Tier</string>
+  <string name="default_project_sprites_animal_wings_up">Fügel oben</string>
+  <string name="default_project_sprites_animal_wings_down">Flügel unten</string>
   <string name="default_project_sprites_tweet_1">Zwitscher1</string>
   <string name="default_project_sprites_tweet_2">Zwitscher2</string>
   <!-- Default ChromeCast Values -->

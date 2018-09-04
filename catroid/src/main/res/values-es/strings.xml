@@ -24,7 +24,6 @@
   -->
 <resources>
   <!-- General terms -->
-  <string name="app_name">Pocket Code</string>
   <string name="stage">Escenario</string>
   <string name="play">Jugar</string>
   <string name="settings">Configuración</string>
@@ -669,7 +668,7 @@
   <string name="add_sound_choose_file">Seleccione Archivo</string>
   <string name="add_sound_music">Compositor musical</string>
   <!-- Rating Dialog -->
-  <string name="rating_dialog_title">Rate Pocket Code</string>
+  <string name="rating_dialog_title">Rate App</string>
   <string name="rating_google_play_dialog_text">If you enjoy this app, please rate us on Google Play.</string>
   <string name="rating_dialog_rate_now">Ahora</string>
   <string name="rating_dialog_rate_later">Despues</string>
@@ -1091,9 +1090,9 @@
   <string name="default_project_cloud_name">Nubes</string>
   <string name="default_project_cloud_sprite_name_1">Nubes1</string>
   <string name="default_project_cloud_sprite_name_2">Nubes2</string>
-  <string name="default_project_sprites_bird_name">Aves</string>
-  <string name="default_project_sprites_bird_name_wing_up">Pájaro con alas hacia arriba</string>
-  <string name="default_project_sprites_bird_name_wing_down">Pájaro con alas hacia abajo</string>
+  <string name="default_project_sprites_animal_name">Aves</string>
+  <string name="default_project_sprites_animal_wings_up">Pájaro con alas hacia arriba</string>
+  <string name="default_project_sprites_animal_wings_down">Pájaro con alas hacia abajo</string>
   <string name="default_project_sprites_tweet_1">Tweet1</string>
   <string name="default_project_sprites_tweet_2">Tweet2</string>
   <!-- Default ChromeCast Values -->

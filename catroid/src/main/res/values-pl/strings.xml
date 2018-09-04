@@ -24,7 +24,6 @@
   -->
 <resources>
   <!-- General terms -->
-  <string name="app_name">Pocket Code</string>
   <string name="stage">Scena</string>
   <string name="play">Graj</string>
   <string name="settings">Ustawienia</string>
@@ -1208,9 +1207,9 @@
   <string name="default_project_cloud_name">Chmury</string>
   <string name="default_project_cloud_sprite_name_1">Chmura1</string>
   <string name="default_project_cloud_sprite_name_2">Chmura2</string>
-  <string name="default_project_sprites_bird_name">Ptak</string>
-  <string name="default_project_sprites_bird_name_wing_up">Ptak ze skrzydłami do góry</string>
-  <string name="default_project_sprites_bird_name_wing_down">Ptak ze skrzydłami na dole</string>
+  <string name="default_project_sprites_animal_name">Ptak</string>
+  <string name="default_project_sprites_animal_wings_up">Ptak ze skrzydłami do góry</string>
+  <string name="default_project_sprites_animal_wings_down">Ptak ze skrzydłami na dole</string>
   <string name="default_project_sprites_tweet_1">Tweet1</string>
   <string name="default_project_sprites_tweet_2">Tweet2</string>
   <!-- Default ChromeCast Values -->

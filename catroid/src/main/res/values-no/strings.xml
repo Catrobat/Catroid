@@ -24,7 +24,6 @@
   -->
 <resources>
   <!-- General terms -->
-  <string name="app_name">Pocket Code</string>
   <string name="stage">Scene</string>
   <string name="play">Kjør</string>
   <string name="settings">Innstillinger</string>
@@ -668,7 +667,7 @@
   <string name="add_sound_choose_file">Velg fil</string>
   <string name="add_sound_music">Music Composer</string>
   <!-- Rating Dialog -->
-  <string name="rating_dialog_title">Rate Pocket Code</string>
+  <string name="rating_dialog_title">Rate App</string>
   <string name="rating_google_play_dialog_text">If you enjoy this app, please rate us on Google Play.</string>
   <string name="rating_dialog_rate_now">Nå</string>
   <string name="rating_dialog_rate_later">Senere</string>
@@ -1091,9 +1090,9 @@
   <string name="default_project_cloud_name">Skyer</string>
   <string name="default_project_cloud_sprite_name_1">Skyer1</string>
   <string name="default_project_cloud_sprite_name_2">Skyer2</string>
-  <string name="default_project_sprites_bird_name">Fugl</string>
-  <string name="default_project_sprites_bird_name_wing_up">Fugl vinger opp</string>
-  <string name="default_project_sprites_bird_name_wing_down">Fugl vinger ned</string>
+  <string name="default_project_sprites_animal_name">Fugl</string>
+  <string name="default_project_sprites_animal_wings_up">Fugl vinger opp</string>
+  <string name="default_project_sprites_animal_wings_down">Fugl vinger ned</string>
   <string name="default_project_sprites_tweet_1">Kvitring1</string>
   <string name="default_project_sprites_tweet_2">Kvitring2</string>
   <!-- Default ChromeCast Values -->

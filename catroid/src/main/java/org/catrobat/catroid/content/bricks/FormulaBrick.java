@@ -132,7 +132,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 
 		formulaTextField.getBackground().mutate()
 				.setColorFilter(view.getContext().getResources()
-						.getColor(R.color.holo_blue_bright), PorterDuff.Mode.SRC_ATOP);
+						.getColor(R.color.brick_field_highlight), PorterDuff.Mode.SRC_ATOP);
 	}
 
 	@Override

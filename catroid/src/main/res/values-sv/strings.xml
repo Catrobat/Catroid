@@ -24,7 +24,6 @@
   -->
 <resources>
   <!-- General terms -->
-  <string name="app_name">Pocked Code</string>
   <string name="stage">Scen</string>
   <string name="play">Spela</string>
   <string name="settings">inställningar</string>
@@ -672,7 +671,7 @@
   <string name="add_sound_choose_file">Välj fil</string>
   <string name="add_sound_music">Music Composer</string>
   <!-- Rating Dialog -->
-  <string name="rating_dialog_title">Rate Pocket Code</string>
+  <string name="rating_dialog_title">Rate App</string>
   <string name="rating_google_play_dialog_text">If you enjoy this app, please rate us on Google Play.</string>
   <string name="rating_dialog_rate_now">Nu</string>
   <string name="rating_dialog_rate_later">Senare</string>
@@ -1096,9 +1095,9 @@
   <string name="default_project_cloud_name">Moln</string>
   <string name="default_project_cloud_sprite_name_1">Clouds1</string>
   <string name="default_project_cloud_sprite_name_2">Clouds2</string>
-  <string name="default_project_sprites_bird_name">Fågel</string>
-  <string name="default_project_sprites_bird_name_wing_up">Bird wings up</string>
-  <string name="default_project_sprites_bird_name_wing_down">Bird wings down</string>
+  <string name="default_project_sprites_animal_name">Fågel</string>
+  <string name="default_project_sprites_animal_wings_up">Wings up</string>
+  <string name="default_project_sprites_animal_wings_down">Wings down</string>
   <string name="default_project_sprites_tweet_1">Tweet1</string>
   <string name="default_project_sprites_tweet_2">Tweet2</string>
   <!-- Default ChromeCast Values -->

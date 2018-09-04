@@ -30,7 +30,7 @@ import android.support.test.InstrumentationRegistry;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 
-import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.SingleSprite;
@@ -56,7 +56,7 @@ public final class TestUtils {
 
 	public static void deleteProjects(String... projectNames) throws IOException {
 		for (String projectName : projectNames) {
-			File projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName);
+			File projectDir = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName);
 			if (projectDir.exists() && projectDir.isDirectory()) {
 				StorageOperations.deleteDir(projectDir);
 			}

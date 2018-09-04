@@ -48,7 +48,7 @@ public class SingleSeekBar {
 	}
 
 	public View getView(final Context context) {
-		View view = View.inflate(context, R.layout.single_seekbar_value_chooser, null);
+		View view = View.inflate(context, R.layout.single_seek_bar_view, null);
 		view.setFocusableInTouchMode(true);
 		view.requestFocus();
 

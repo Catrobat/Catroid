@@ -52,6 +52,8 @@ import org.catrobat.catroid.web.ServerCalls;
 
 import java.util.List;
 
+import static org.catrobat.catroid.common.Constants.SHARE_PROGRAM_URL;
+
 public class UploadProgressDialogFragment extends DialogFragment {
 
 	public static final String TAG = UploadProgressDialogFragment.class.getSimpleName();
@@ -132,7 +134,7 @@ public class UploadProgressDialogFragment extends DialogFragment {
 		dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startWebViewActivity(Constants.SHARE_PROGRAM_URL + ServerCalls.getInstance().getProjectId());
+				startWebViewActivity(SHARE_PROGRAM_URL + ServerCalls.getInstance().getProjectId());
 				dismiss();
 			}
 		});

@@ -24,7 +24,6 @@
   -->
 <resources>
   <!-- General terms -->
-  <string name="app_name">Pocket Code</string>
   <string name="stage">Stage</string>
   <string name="play">Gioca</string>
   <string name="settings">Impostazioni</string>
@@ -1095,9 +1094,9 @@
   <string name="default_project_cloud_name">Nuvole</string>
   <string name="default_project_cloud_sprite_name_1">Nuvole1</string>
   <string name="default_project_cloud_sprite_name_2">Nuvole2</string>
-  <string name="default_project_sprites_bird_name">Uccello</string>
-  <string name="default_project_sprites_bird_name_wing_up">Ali di uccello su</string>
-  <string name="default_project_sprites_bird_name_wing_down">Ali di uccello giù</string>
+  <string name="default_project_sprites_animal_name">Uccello</string>
+  <string name="default_project_sprites_animal_wings_up">Ali di uccello su</string>
+  <string name="default_project_sprites_animal_wings_down">Ali di uccello giù</string>
   <string name="default_project_sprites_tweet_1">Cinguettio1</string>
   <string name="default_project_sprites_tweet_2">Cinguettio2</string>
   <!-- Default ChromeCast Values -->

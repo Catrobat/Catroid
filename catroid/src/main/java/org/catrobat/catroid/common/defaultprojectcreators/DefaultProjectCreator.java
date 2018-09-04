@@ -80,9 +80,9 @@ public class DefaultProjectCreator extends ProjectCreator {
 			throw new IllegalArgumentException("Project with name '" + projectName + "' already exists!");
 		}
 
-		String birdLookName = context.getString(R.string.default_project_sprites_bird_name);
-		String birdWingUpLookName = context.getString(R.string.default_project_sprites_bird_name_wing_up);
-		String birdWingDownLookName = context.getString(R.string.default_project_sprites_bird_name_wing_down);
+		String birdLookName = context.getString(R.string.default_project_sprites_animal_name);
+		String birdWingUpLookName = context.getString(R.string.default_project_sprites_animal_wings_up);
+		String birdWingDownLookName = context.getString(R.string.default_project_sprites_animal_wings_down);
 
 		String cloudSpriteName1 = context.getString(R.string.default_project_cloud_sprite_name_1);
 		String cloudSpriteName2 = context.getString(R.string.default_project_cloud_sprite_name_2);

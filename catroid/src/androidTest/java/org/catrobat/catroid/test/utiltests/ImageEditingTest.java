@@ -29,6 +29,7 @@ import android.graphics.BitmapFactory;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.Reflection.ParameterList;
 import org.catrobat.catroid.utils.ImageEditing;
@@ -63,7 +64,7 @@ public class ImageEditingTest {
 
 	@Test
 	public void testGetImageDimensions() throws IOException {
-		File testImageFile = new File(Constants.DEFAULT_ROOT_DIRECTORY, "tmp.jpg");
+		File testImageFile = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "tmp.jpg");
 
 		Bitmap bitmap = Bitmap.createBitmap(100, 200, Bitmap.Config.RGB_565);
 
@@ -87,7 +88,7 @@ public class ImageEditingTest {
 		int bitmapWidth = 100;
 		int bitmapHeight = 200;
 
-		File testImageFile = new File(Constants.DEFAULT_ROOT_DIRECTORY, "tmp.jpg");
+		File testImageFile = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "tmp.jpg");
 
 		Bitmap bitmap = Bitmap.createBitmap(bitmapWidth, bitmapHeight, Bitmap.Config.RGB_565);
 
@@ -144,7 +145,7 @@ public class ImageEditingTest {
 		int bitmapWidth = 1000;
 		int bitmapHeight = 900;
 
-		File testImageFile = new File(Constants.DEFAULT_ROOT_DIRECTORY, "tmp.jpg");
+		File testImageFile = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "tmp.jpg");
 
 		Bitmap bitmap = Bitmap.createBitmap(bitmapWidth, bitmapHeight, Bitmap.Config.RGB_565);
 
