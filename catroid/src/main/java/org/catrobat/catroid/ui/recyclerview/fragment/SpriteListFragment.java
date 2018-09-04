@@ -33,6 +33,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -135,6 +136,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 		}
 
 		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(title);
+		setShowSpriteEmptyView(adapter.getItemCount() == 1);
 	}
 
 	@Override
@@ -176,6 +178,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 		sharedPreferenceDetailsKey = SHOW_DETAILS_SPRITES_PREFERENCE_KEY;
 		List<Sprite> items = ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList();
 		adapter = new MultiViewSpriteAdapter(items);
+		emptyView.setText(R.string.fragment_sprite_text_description);
 		onAdapterReady();
 	}
 
@@ -275,7 +278,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 			spriteController.delete(item, currentScene);
 			adapter.remove(item);
 		}
-
+		setShowSpriteEmptyView(adapter.getItemCount() == 1);
 		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_sprites,
 				selectedItems.size(),
 				selectedItems.size()));
@@ -367,5 +370,9 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 		} else {
 			super.onItemLongClick(item, holder);
 		}
+	}
+
+	private void setShowSpriteEmptyView(boolean visible) {
+		emptyView.setVisibility(visible ? View.VISIBLE : View.GONE);
 	}
 }
