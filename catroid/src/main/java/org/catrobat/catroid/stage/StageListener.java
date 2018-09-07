@@ -245,15 +245,17 @@ public class StageListener implements ApplicationListener {
 	}
 
 	public void cloneSpriteAndAddToStage(Sprite cloneMe) {
-		Sprite copy = cloneMe.cloneForCloneBrick();
-		copy.look.createBrightnessContrastHueShader();
-		stage.getRoot().addActorBefore(cloneMe.look, copy.look);
-		sprites.add(copy);
-		if (!copy.getLookList().isEmpty()) {
-			copy.look.setLookData(copy.getLookList().get(0));
+		if (scene.getSprite(cloneMe.getName()) != null) {
+			Sprite copy = cloneMe.cloneForCloneBrick();
+			copy.look.createBrightnessContrastHueShader();
+			stage.getRoot().addActorBefore(cloneMe.look, copy.look);
+			sprites.add(copy);
+			if (!copy.getLookList().isEmpty()) {
+				copy.look.setLookData(copy.getLookList().get(0));
+			}
+			copy.initializeEventThreads(EventId.START_AS_CLONE);
+			copy.initConditionScriptTriggers();
 		}
-		copy.initializeEventThreads(EventId.START_AS_CLONE);
-		copy.initConditionScriptTriggers();
 	}
 
 	public boolean removeClonedSpriteFromStage(Sprite sprite) {

@@ -34,7 +34,7 @@ import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import static org.catrobat.catroid.uiespresso.util.UserVariableAssertions.assertUserVariableEqualsWithTimeout;
 
 public final class ScriptEvaluationGateBrick {
-	private static int gateCounter;
+	private static int gateCounter = 0;
 	private UserVariable userVariableGate;
 	private static final double DONEVALUE = 42.0;
 
