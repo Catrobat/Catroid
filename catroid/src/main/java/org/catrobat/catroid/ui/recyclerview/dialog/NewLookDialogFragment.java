@@ -24,12 +24,9 @@
 package org.catrobat.catroid.ui.recyclerview.dialog;
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.BroadcastReceiver;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -47,7 +44,6 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.ui.WebViewActivity;
-import org.catrobat.catroid.ui.controller.PocketPaintExchangeHandler;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -59,7 +55,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
-import static org.catrobat.catroid.common.Constants.POCKET_PAINT_PACKAGE_NAME;
 import static org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment.CAMERA;
 import static org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment.FILE;
 import static org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment.LIBRARY;
@@ -114,8 +109,7 @@ public class NewLookDialogFragment extends DialogFragment implements View.OnClic
 		switch (v.getId()) {
 			case R.id.dialog_new_look_paintroid:
 				Intent intent = new Intent("android.intent.action.MAIN")
-						.setComponent(new ComponentName(POCKET_PAINT_PACKAGE_NAME,
-								Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME));
+						.setComponent(new ComponentName(getActivity(), Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME));
 
 				Bundle bundle = new Bundle();
 				bundle.putString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT, "");
@@ -123,12 +117,7 @@ public class NewLookDialogFragment extends DialogFragment implements View.OnClic
 				intent.putExtras(bundle);
 				intent.addCategory("android.intent.category.LAUNCHER");
 
-				if (PocketPaintExchangeHandler.isPocketPaintInstalled(getActivity(), intent)) {
-					startActivityForResult(intent, POCKET_PAINT);
-				} else {
-					BroadcastReceiver receiver = createPocketPaintBroadcastReceiver(intent, POCKET_PAINT);
-					PocketPaintExchangeHandler.installPocketPaintAndRegister(receiver, getActivity());
-				}
+				startActivityForResult(intent, POCKET_PAINT);
 				break;
 			case R.id.dialog_new_look_media_library:
 				if (!Utils.isNetworkAvailable(getActivity())) {
@@ -165,28 +154,6 @@ public class NewLookDialogFragment extends DialogFragment implements View.OnClic
 		} else {
 			return FlavoredConstants.LIBRARY_LOOKS_URL;
 		}
-	}
-
-	private BroadcastReceiver createPocketPaintBroadcastReceiver(final Intent paintroidIntent, final int
-			requestCode) {
-		return new BroadcastReceiver() {
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				String packageName = intent.getData().getEncodedSchemeSpecificPart();
-				if (!packageName.equals(POCKET_PAINT_PACKAGE_NAME)) {
-					return;
-				}
-
-				getActivity().unregisterReceiver(this);
-
-				if (PocketPaintExchangeHandler.isPocketPaintInstalled(getActivity(), paintroidIntent)) {
-					ActivityManager activityManager = (ActivityManager) getActivity().getSystemService(Context
-							.ACTIVITY_SERVICE);
-					activityManager.moveTaskToFront(getActivity().getTaskId(), 0);
-					startActivityForResult(paintroidIntent, requestCode);
-				}
-			}
-		};
 	}
 
 	@Override

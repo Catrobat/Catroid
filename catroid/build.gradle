@@ -130,6 +130,7 @@ android {
         exclude 'META-INF/maven/com.google.guava/guava/pom.xml'
         exclude 'META-INF/INDEX.LIST'  //compile problem with parrot arsdk
         exclude 'lib/arm64-v8a/*' // exclude all arm64-v8a libs as we don't have all libs for that architecture
+        exclude 'lib/x86_64/*'    // exclude all x86_64 libs as we don't have all libs for that architecture
         exclude 'lib/mips/*'      // Mips devices are deprecated
     }
 
@@ -240,6 +241,7 @@ ext {
     mockitoVersion = "2.8.47"
     espressoVersion = "3.0.1"
     supportLibraryVersion = "27.1.0"
+    paintroidVersion = "2.0.1"
 }
 
 configurations {
@@ -291,6 +293,12 @@ dependencies {
     // Pocket Music
     implementation 'com.github.oliewa92:MidiDroid:v1.1'
     implementation 'com.github.billthefarmer:mididriver:v1.13'
+
+    // Pocket Paint
+    catroidImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
+    createAtSchoolImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
+    lunaAndCatImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
+    phiroImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
 
     // libGDX
     implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
