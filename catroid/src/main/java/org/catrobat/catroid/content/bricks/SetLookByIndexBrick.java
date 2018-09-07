@@ -91,7 +91,7 @@ public class SetLookByIndexBrick extends FormulaBrick {
 	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
-				.createSetLookByIndexAction(getSprite(), getFormulaWithBrickField(BrickField.LOOK_INDEX), wait));
+				.createSetLookByIndexAction(sprite, getFormulaWithBrickField(BrickField.LOOK_INDEX), wait));
 		return null;
 	}
 
