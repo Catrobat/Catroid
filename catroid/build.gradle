@@ -136,6 +136,7 @@ android {
     buildTypes {
 
         debug {
+            buildConfigField "boolean", "FEATURE_ADMOB_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_EMBROIDERY_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_LEGO_EV3_ENABLED", "true"
@@ -154,8 +155,14 @@ android {
             resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
             ext.enableCrashlytics = false
             testCoverageEnabled = true
+
+            //AdMob
+            buildConfigField "String", "ADMOB_BANNER_TEST_DEVICE", "\"${(String) getAdMobTestDevice()}\"";
+            buildConfigField "String", "ADMOB_BANNER_APP_ID", "\"${(String) getAdMobAppID()}\"";
+            buildConfigField "String", "ADMOB_BANNER_UNIT_ID", "\"${(String) getAdMobUnitID()}\"";
         }
         release {
+            buildConfigField "boolean", "FEATURE_ADMOB_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_EMBROIDERY_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_LEGO_EV3_ENABLED", "true"
@@ -172,6 +179,11 @@ android {
             buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "false"
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
             resValue "string", "SNACKBAR_HINTS_ENABLED", "true"
+
+            //AdMob
+            buildConfigField "String", "ADMOB_BANNER_TEST_DEVICE", "\"${(String) getAdMobTestDevice()}\"";
+            buildConfigField "String", "ADMOB_BANNER_APP_ID", "\"${(String) getAdMobAppID()}\"";
+            buildConfigField "String", "ADMOB_BANNER_UNIT_ID", "\"${(String) getAdMobUnitID()}\"";
         }
     }
 
@@ -200,6 +212,11 @@ android {
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "false"
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "false"
+
+            //AdMob
+            buildConfigField "String", "ADMOB_BANNER_TEST_DEVICE", "\"${(String) getAdMobTestDevice()}\"";
+            buildConfigField "String", "ADMOB_BANNER_APP_ID", "\"${(String) getAdMobAppID()}\"";
+            buildConfigField "String", "ADMOB_BANNER_UNIT_ID", "\"${(String) getAdMobUnitID()}\"";
         }
 
         createAtSchool {
@@ -305,6 +322,7 @@ dependencies {
 
     implementation 'com.facebook.android:facebook-android-sdk:4.14.1'
     implementation 'com.google.android.gms:play-services-auth:12.0.0'
+    implementation 'com.google.android.gms:play-services-ads:12.0.0'
 
     implementation ('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
         transitive = true

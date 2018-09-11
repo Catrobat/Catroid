@@ -194,6 +194,15 @@
     <string name="preference_raspi_port">Raspberry Pi Port</string>
     <!--  -->
 
+    <!-- AdMob Settings -->
+    <string name="preference_description_enable_admob_bricks">Enable AdMob Bricks</string>
+    <string name="preference_description_admob_Bricks">Allow to use AdMob in Programs</string>
+    <string name="preference_title_admob">AdMob Bricks</string>
+    <string name="preference_admob_device_id">Your Device ID:</string>
+    <string name="preference_admob_help_summary">Get help on how to configure AdMob settings</string>
+    <string name="preference_admob_help">Help / Getting Started</string>
+    <!--  -->
+
     <!-- Scratch Converter activity -->
     <string name="beta">BETA</string>
     <string name="error_scratch_program_not_accessible_any_more">Whoops! The program seems to have disappeared
@@ -1021,6 +1030,7 @@
 
     <!-- Brick categories -->
     <string name="categories">Categories</string>
+    <string name="category_admob">AdMob</string>
     <string name="category_embroidery">Embroidery</string>
     <string name="category_motion">Motion</string>
     <string name="category_looks">Looks</string>
@@ -1667,6 +1677,17 @@
     <string name="color_green">Green</string>
     <string name="color_blue">Blue</string>
     <string name="color_preview">Color Preview</string>
+    <!-- -->
+
+    <!-- AdMob Bricks Strings -->
+    <string name="brick_hide_admob_banner">Hide AdMob Banner</string>
+    <string name="brick_show_admob_banner">Show AdMob Banner at:</string>
+    <string name="brick_admob_show_banner_size">With Size </string>
+    <string name="brick_admob_position_top">Top</string>
+    <string name="brick_admob_position_bottom">Bottom</string>
+    <string name="brick_admob_size_banner">BANNER</string>
+    <string name="brick_admob_size_smart_banner">SMART_BANNER</string>
+    <string name="brick_admob_size_large_banner">LARGE_BANNER</string>
     <!-- -->
 
     <!-- Formula Editor Strings -->

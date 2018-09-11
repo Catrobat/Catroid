@@ -32,6 +32,8 @@ import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.content.actions.AdMobHideBannerAction;
+import org.catrobat.catroid.content.actions.AdMobShowBannerAction;
 import org.catrobat.catroid.content.actions.AddItemToUserListAction;
 import org.catrobat.catroid.content.actions.ArduinoSendDigitalValueAction;
 import org.catrobat.catroid.content.actions.ArduinoSendPWMValueAction;
@@ -155,6 +157,7 @@ import org.catrobat.catroid.content.actions.WaitForBubbleBrickAction;
 import org.catrobat.catroid.content.actions.WaitUntilAction;
 import org.catrobat.catroid.content.actions.conditional.GlideToAction;
 import org.catrobat.catroid.content.actions.conditional.IfOnEdgeBounceAction;
+import org.catrobat.catroid.content.bricks.AdMobShowBannerBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoAnimationsBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoSoundBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick;
@@ -1165,5 +1168,17 @@ public class ActionFactory extends Actions {
 		setNfcTagAction.setNfcTagNdefSpinnerSelection(nfcNdefSpinnerSelection);
 		setNfcTagAction.setNfcNdefMessage(nfcNdefMessage);
 		return setNfcTagAction;
+	}
+
+	public Action createAdMobHideBannerAction() {
+		return Actions.action(AdMobHideBannerAction.class);
+	}
+
+	public Action createAdMobShowBannerAction(final AdMobShowBannerBrick.AdMobBannerPositionEnum bannerPositionEnum, final AdMobShowBannerBrick.AdMobBannerSizeEnum bannerSizeEnum) {
+		AdMobShowBannerAction showBannerAction = Actions.action(AdMobShowBannerAction.class);
+		showBannerAction.setAdMobPositionEnum(bannerPositionEnum);
+		showBannerAction.setMobSizeEnum(bannerSizeEnum);
+
+		return showBannerAction;
 	}
 }

@@ -47,6 +47,7 @@
     <!-- Category icons -->
     <declare-styleable name="CategoryIcons">
         <attr name="icon_ardrone" format="reference"/>
+        <attr name="icon_admob" format="reference"/>
         <attr name="icon_data" format="reference"/>
         <attr name="icon_motion" format="reference"/>
         <attr name="icon_sound" format="reference"/>

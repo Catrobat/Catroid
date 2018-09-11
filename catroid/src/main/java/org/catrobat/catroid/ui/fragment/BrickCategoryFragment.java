@@ -211,6 +211,9 @@ public class BrickCategoryFragment extends ListFragment {
 		if (SettingsFragment.isRaspiSharedPreferenceEnabled(getActivity())) {
 			categories.add(inflater.inflate(R.layout.brick_category_raspi, null));
 		}
+		if (SettingsFragment.isAdMobSharedPreferenceEnabled(getActivity())) {
+			categories.add(inflater.inflate(R.layout.brick_category_admob, null));
+		}
 
 		adapter = new BrickCategoryAdapter(categories);
 		this.setListAdapter(adapter);

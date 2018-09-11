@@ -85,6 +85,7 @@
         <item name="icon_look">@drawable/look_pos</item>
         <item name="icon_raspberrypi">@drawable/raspberrypi_pos</item>
         <item name="icon_embroidery">@drawable/embroidery_pos</item>
+        <item name="icon_admob">@drawable/admob_pos</item>
     </style>
 
     <!-- Toolbar -->
@@ -414,6 +415,18 @@
         <item name="android:background">@drawable/brick_brown_2h_9</item>
     </style>
 
+    <style name="BrickContainer.AdMob"></style>
+
+    <style name="BrickContainer.AdMob.Small">
+        <item name="android:minHeight">@dimen/brick_height_small</item>
+        <item name="android:background">@drawable/brick_red_1h</item>
+    </style>
+
+    <style name="BrickContainer.AdMob.Medium">
+        <item name="android:minHeight">@dimen/brick_height_medium</item>
+        <item name="android:background">@drawable/brick_red_2h</item>
+    </style>
+
     <style name="BrickContainer.Script"></style>
 
     <style name="BrickContainer.Script.Small">
@@ -520,6 +533,10 @@
 
     <style name="BrickCategory.Cast">
         <item name="android:background">@drawable/brick_selection_background_chromecast</item>
+    </style>
+
+    <style name="BrickCategory.AdMob">
+        <item name="android:background">@drawable/brick_selection_background_admob</item>
     </style>
 
     <style name="userBrickDataTextBackground">

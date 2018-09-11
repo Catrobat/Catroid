@@ -276,4 +276,18 @@
         <item>dyslexic</item>
     </string-array>
 
+
+    <!-- AdMob Banner Size-->
+    <string-array name="brick_admob_banner_position">
+        <item>@string/brick_admob_position_top</item>
+        <item>@string/brick_admob_position_bottom</item>
+    </string-array>
+
+    <string-array name="brick_admob_banner_size">
+        <item>@string/brick_admob_size_banner</item>
+        <item>@string/brick_admob_size_smart_banner</item>
+        <item>@string/brick_admob_size_large_banner</item>
+    </string-array>
+    <!-- -->
+
 </resources>

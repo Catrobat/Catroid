@@ -56,5 +56,6 @@
     <string name="preference_raspi_help_link">https://catrob.at/RaspberryPi</string>
 
     <string name="facebook_app_id" translatable="false">1602051133371458</string>
+    <string name="preference_admob_help_link" translatable="false">https://support.google.com/admob/answer/7356431</string>
 
 </resources>
