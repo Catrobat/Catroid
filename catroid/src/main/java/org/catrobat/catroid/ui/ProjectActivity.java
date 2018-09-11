@@ -22,13 +22,13 @@
  */
 package org.catrobat.catroid.ui;
 
-import android.app.DialogFragment;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.IntDef;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -95,7 +95,7 @@ public class ProjectActivity extends BaseCastActivity implements PlaySceneDialog
 	}
 
 	private void loadFragment(@FragmentPosition int fragmentPosition) {
-		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+		FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
 		switch (fragmentPosition) {
 			case FRAGMENT_SCENES:
@@ -134,12 +134,12 @@ public class ProjectActivity extends BaseCastActivity implements PlaySceneDialog
 
 	@Override
 	public void onBackPressed() {
-		if (getFragmentManager().getBackStackEntryCount() > 0) {
-			getFragmentManager().popBackStack();
+		if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+			getSupportFragmentManager().popBackStack();
 		} else {
 			if ((ProjectManager.getInstance().getCurrentProject().getSceneList().size() > 1)
-					&& (getFragmentManager().findFragmentById(R.id.fragment_container) instanceof SpriteListFragment)) {
-				getFragmentManager().beginTransaction()
+					&& (getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof SpriteListFragment)) {
+				getSupportFragmentManager().beginTransaction()
 						.replace(R.id.fragment_container, new SceneListFragment(), SceneListFragment.TAG)
 						.commit();
 			} else {
@@ -149,7 +149,7 @@ public class ProjectActivity extends BaseCastActivity implements PlaySceneDialog
 	}
 
 	public void handleAddButton(View view) {
-		((RecyclerViewFragment) getFragmentManager().findFragmentById(R.id.fragment_container)).handleAddButton();
+		((RecyclerViewFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container)).handleAddButton();
 	}
 
 	public void handlePlayButton(View view) {
@@ -161,7 +161,7 @@ public class ProjectActivity extends BaseCastActivity implements PlaySceneDialog
 			startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
 		} else {
 			PlaySceneDialogFragment playSceneDialog = new PlaySceneDialogFragment(this);
-			playSceneDialog.show(getFragmentManager(), PlaySceneDialogFragment.TAG);
+			playSceneDialog.show(getSupportFragmentManager(), PlaySceneDialogFragment.TAG);
 		}
 	}
 
@@ -209,11 +209,11 @@ public class ProjectActivity extends BaseCastActivity implements PlaySceneDialog
 		Brick.ResourcesSet resourcesSet = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
 		if (!nxtDialogDisabled && resourcesSet.contains(Brick.BLUETOOTH_LEGO_NXT)) {
 			DialogFragment dialog = new LegoSensorConfigInfoDialog(Constants.NXT);
-			dialog.show(getFragmentManager(), LegoSensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
+			dialog.show(getSupportFragmentManager(), LegoSensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
 		}
 		if (!ev3DialogDisabled && resourcesSet.contains(Brick.BLUETOOTH_LEGO_EV3)) {
 			DialogFragment dialog = new LegoSensorConfigInfoDialog(Constants.EV3);
-			dialog.show(getFragmentManager(), LegoSensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
+			dialog.show(getSupportFragmentManager(), LegoSensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
 		}
 	}
 }

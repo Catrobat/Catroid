@@ -24,7 +24,6 @@
 package org.catrobat.catroid.scratchconverter;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,6 +32,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.google.android.gms.common.images.WebImage;
@@ -66,7 +66,7 @@ public class ScratchConversionManager implements ConversionManager {
 
 	private static final String TAG = ScratchConversionManager.class.getSimpleName();
 
-	private Activity currentActivity;
+	private AppCompatActivity currentActivity;
 	private final Client client;
 	private final boolean verbose;
 	private Map<String, Client.DownloadCallback> downloadCallbacks;
@@ -77,7 +77,7 @@ public class ScratchConversionManager implements ConversionManager {
 	private boolean shutdown;
 
 	@SuppressLint("UseSparseArrays")
-	public ScratchConversionManager(final Activity rootActivity, final Client client, final boolean verbose) {
+	public ScratchConversionManager(AppCompatActivity rootActivity, Client client, boolean verbose) {
 		this.currentActivity = rootActivity;
 		this.client = client;
 		this.verbose = verbose;
@@ -92,7 +92,7 @@ public class ScratchConversionManager implements ConversionManager {
 	}
 
 	@Override
-	public void setCurrentActivity(final Activity activity) {
+	public void setCurrentActivity(AppCompatActivity activity) {
 		currentActivity = activity;
 	}
 
@@ -136,7 +136,7 @@ public class ScratchConversionManager implements ConversionManager {
 	}
 
 	@Override
-	public void convertProgram(final long jobID, final String title, final WebImage image, final boolean force) {
+	public void convertProgram(long jobID, String title, WebImage image, boolean force) {
 		updateDownloadStateOnDisk(jobID, Job.DownloadState.NOT_READY);
 		client.convertProgram(jobID, title, image, verbose, force);
 	}
@@ -184,7 +184,7 @@ public class ScratchConversionManager implements ConversionManager {
 	}
 
 	@Override
-	public void onConnectionFailure(final ClientException ex) {
+	public void onConnectionFailure(ClientException ex) {
 		Log.e(TAG, ex.getMessage());
 		currentActivity.runOnUiThread(new Runnable() {
 			@Override
@@ -196,7 +196,7 @@ public class ScratchConversionManager implements ConversionManager {
 	}
 
 	@Override
-	public void onAuthenticationFailure(final ClientException ex) {
+	public void onAuthenticationFailure(ClientException ex) {
 		Log.e(TAG, ex.getMessage());
 		currentActivity.runOnUiThread(new Runnable() {
 			@Override
@@ -328,7 +328,7 @@ public class ScratchConversionManager implements ConversionManager {
 	}
 
 	@Override
-	public void onConversionFinished(final Job job, final Client.DownloadCallback downloadCallback,
+	public void onConversionFinished(Job job, Client.DownloadCallback downloadCallback,
 			final String downloadURL, final Date cachedUTCDate) {
 		Log.i(TAG, "Conversion finished!");
 		updateDownloadStateOnDisk(job.getJobID(), Job.DownloadState.READY);
@@ -343,8 +343,7 @@ public class ScratchConversionManager implements ConversionManager {
 		conversionFinished(job, downloadCallback, downloadURL, null);
 	}
 
-	private void conversionFinished(final Job job, final Client.DownloadCallback downloadCallback,
-			final String downloadURL, final Date cachedUTCDate) {
+	private void conversionFinished(final Job job, final Client.DownloadCallback downloadCallback, final String downloadURL, final Date cachedUTCDate) {
 		final String baseUrl = Constants.SCRATCH_CONVERTER_BASE_URL;
 		final String fullDownloadURL = baseUrl.substring(0, baseUrl.length() - 1) + downloadURL;
 		Job.DownloadState localDownloadState = readDownloadStateFromDisk(job.getJobID());
@@ -394,7 +393,7 @@ public class ScratchConversionManager implements ConversionManager {
 							}
 						}
 					});
-					reconvertDialog.show(currentActivity.getFragmentManager(), ScratchReconvertDialog.DIALOG_FRAGMENT_TAG);
+					reconvertDialog.show(currentActivity.getSupportFragmentManager(), ScratchReconvertDialog.DIALOG_FRAGMENT_TAG);
 					return;
 				}
 

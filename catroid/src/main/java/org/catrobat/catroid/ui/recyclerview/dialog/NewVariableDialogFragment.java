@@ -34,11 +34,11 @@ public class NewVariableDialogFragment extends NewDataDialogFragment {
 
 	private NewVariableInterface newVariableInterface;
 
-	public NewVariableDialogFragment(NewVariableInterface newVariableInterface) {
-		this.newVariableInterface = newVariableInterface;
+	public NewVariableDialogFragment() {
 	}
 
-	public NewVariableDialogFragment() {
+	public NewVariableDialogFragment(NewVariableInterface newVariableInterface) {
+		this.newVariableInterface = newVariableInterface;
 	}
 
 	@Override

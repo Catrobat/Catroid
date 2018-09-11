@@ -155,7 +155,7 @@ public class SpriteAttributesActivity extends BaseActivity implements
 		String name = ProjectManager.getInstance().getCurrentSprite().getName();
 		RenameDialogFragment dialog = new RenameDialogFragment(R.string.rename_sprite_dialog,
 				R.string.sprite_name_label, name, this);
-		dialog.show(getFragmentManager(), RenameDialogFragment.TAG);
+		dialog.show(getSupportFragmentManager(), RenameDialogFragment.TAG);
 	}
 
 	@Override
@@ -223,7 +223,7 @@ public class SpriteAttributesActivity extends BaseActivity implements
 		}
 
 		PlaySceneDialogFragment playSceneDialog = new PlaySceneDialogFragment(this);
-		playSceneDialog.show(getFragmentManager(), PlaySceneDialogFragment.TAG);
+		playSceneDialog.show(getSupportFragmentManager(), PlaySceneDialogFragment.TAG);
 	}
 
 	@Override

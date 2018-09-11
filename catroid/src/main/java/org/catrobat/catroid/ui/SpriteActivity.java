@@ -22,10 +22,10 @@
  */
 package org.catrobat.catroid.ui;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
@@ -101,7 +101,7 @@ public class SpriteActivity extends BaseActivity implements PlaySceneDialogFragm
 	}
 
 	private void loadFragment(int fragmentPosition) {
-		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+		FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
 		switch (fragmentPosition) {
 			case FRAGMENT_SCRIPTS:
@@ -128,7 +128,7 @@ public class SpriteActivity extends BaseActivity implements PlaySceneDialogFragm
 		super.onNewIntent(intent);
 
 		if (fragmentPosition == FRAGMENT_NFC_TAGS) {
-			((NfcTagListFragment) getFragmentManager().findFragmentById(R.id.fragment_container)).onNewIntent(intent);
+			((NfcTagListFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container)).onNewIntent(intent);
 		}
 	}
 
@@ -170,14 +170,14 @@ public class SpriteActivity extends BaseActivity implements PlaySceneDialogFragm
 
 	@Override
 	public void onBackPressed() {
-		Fragment fragment = getFragmentManager().findFragmentById(R.id.fragment_container);
+		Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 		if (fragment instanceof FormulaEditorFragment) {
 			((FormulaEditorFragment) fragment).promptSave();
 			return;
 		}
 
-		if (getFragmentManager().getBackStackEntryCount() > 0) {
-			getFragmentManager().popBackStack();
+		if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+			getSupportFragmentManager().popBackStack();
 		} else {
 			super.onBackPressed();
 		}
@@ -186,7 +186,7 @@ public class SpriteActivity extends BaseActivity implements PlaySceneDialogFragm
 	public void handleAddButton(View view) {
 		switch (fragmentPosition) {
 			case FRAGMENT_SCRIPTS:
-				Fragment fragment = getFragmentManager().findFragmentById(R.id.fragment_container);
+				Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 				if (fragment instanceof ScriptFragment) {
 					((ScriptFragment) fragment).handleAddButton();
 				}
@@ -197,7 +197,7 @@ public class SpriteActivity extends BaseActivity implements PlaySceneDialogFragm
 			case FRAGMENT_LOOKS:
 			case FRAGMENT_SOUNDS:
 			case FRAGMENT_NFC_TAGS:
-				((RecyclerViewFragment) getFragmentManager()
+				((RecyclerViewFragment) getSupportFragmentManager()
 						.findFragmentById(R.id.fragment_container))
 						.handleAddButton();
 				break;
@@ -208,13 +208,13 @@ public class SpriteActivity extends BaseActivity implements PlaySceneDialogFragm
 
 	public void handlePlayButton(View view) {
 		if (isHoveringActive()) {
-			ScriptFragment fragment = ((ScriptFragment) getFragmentManager().findFragmentById(R.id.fragment_container));
+			ScriptFragment fragment = ((ScriptFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container));
 			fragment.getListView().animateHoveringBrick();
 			return;
 		}
 
-		while (getFragmentManager().getBackStackEntryCount() > 0) {
-			getFragmentManager().popBackStack();
+		while (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+			getSupportFragmentManager().popBackStack();
 		}
 
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
@@ -228,7 +228,7 @@ public class SpriteActivity extends BaseActivity implements PlaySceneDialogFragm
 		}
 
 		PlaySceneDialogFragment playSceneDialog = new PlaySceneDialogFragment(this);
-		playSceneDialog.show(getFragmentManager(), PlaySceneDialogFragment.TAG);
+		playSceneDialog.show(getSupportFragmentManager(), PlaySceneDialogFragment.TAG);
 	}
 
 	@Override
@@ -239,7 +239,7 @@ public class SpriteActivity extends BaseActivity implements PlaySceneDialogFragm
 
 	public boolean isHoveringActive() {
 		if (fragmentPosition == FRAGMENT_SCRIPTS) {
-			ScriptFragment fragment = ((ScriptFragment) getFragmentManager().findFragmentById(R.id.fragment_container));
+			ScriptFragment fragment = ((ScriptFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container));
 			return fragment.getListView().isCurrentlyDragging();
 		} else {
 			return false;

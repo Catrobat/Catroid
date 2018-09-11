@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.scratchconverter;
 
-import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 
 import com.google.android.gms.common.images.WebImage;
 
@@ -34,7 +34,8 @@ import org.catrobat.catroid.ui.scratchconverter.BaseInfoViewListener;
 import org.catrobat.catroid.ui.scratchconverter.JobViewListener;
 
 public interface ConversionManager extends ConnectAuthCallback, ConvertCallback, DownloadCallback {
-	void setCurrentActivity(Activity activity);
+
+	void setCurrentActivity(AppCompatActivity activity);
 	void connectAndAuthenticate();
 	void shutdown();
 	void convertProgram(long jobID, String title, WebImage image, boolean force);

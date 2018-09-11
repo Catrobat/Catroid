@@ -23,13 +23,13 @@
 package org.catrobat.catroid.ui.fragment;
 
 import android.app.ActionBar;
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -87,18 +87,19 @@ public class UserBrickElementEditorFragment extends Fragment implements
 	}
 
 	public static void showFragment(View view, UserScriptDefinitionBrick brick) {
-		Activity activity = UiUtils.getActivityFromView(view);
+		AppCompatActivity activity = UiUtils.getActivityFromView(view);
 		if (activity == null) {
 			return;
 		}
 
-		UserBrickElementEditorFragment dataEditorFragment = (UserBrickElementEditorFragment) activity
-				.getFragmentManager().findFragmentByTag(BRICK_DATA_EDITOR_FRAGMENT_TAG);
+		FragmentManager fragmentManager = activity.getSupportFragmentManager();
 
-		FragmentManager fragmentManager = activity.getFragmentManager();
-		FragmentTransaction fragTransaction = fragmentManager.beginTransaction();
+		UserBrickElementEditorFragment dataEditorFragment =
+				(UserBrickElementEditorFragment) fragmentManager.findFragmentByTag(BRICK_DATA_EDITOR_FRAGMENT_TAG);
 
-		fragTransaction.addToBackStack(null);
+		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+		fragmentTransaction.addToBackStack(null);
 
 		if (dataEditorFragment == null) {
 			dataEditorFragment = new UserBrickElementEditorFragment();
@@ -106,17 +107,17 @@ public class UserBrickElementEditorFragment extends Fragment implements
 			bundle.putSerializable(BRICK_BUNDLE_ARGUMENT, brick);
 			dataEditorFragment.setArguments(bundle);
 
-			fragTransaction.add(R.id.fragment_container, dataEditorFragment, BRICK_DATA_EDITOR_FRAGMENT_TAG);
-			fragTransaction.hide(fragmentManager.findFragmentByTag(ScriptFragment.TAG));
-			fragTransaction.show(dataEditorFragment);
+			fragmentTransaction.add(R.id.fragment_container, dataEditorFragment, BRICK_DATA_EDITOR_FRAGMENT_TAG);
+			fragmentTransaction.hide(fragmentManager.findFragmentByTag(ScriptFragment.TAG));
+			fragmentTransaction.show(dataEditorFragment);
 			BottomBar.hideBottomBar(activity);
 		} else if (dataEditorFragment.isHidden()) {
 			dataEditorFragment.updateBrickView();
-			fragTransaction.hide(fragmentManager.findFragmentByTag(ScriptFragment.TAG));
-			fragTransaction.show(dataEditorFragment);
+			fragmentTransaction.hide(fragmentManager.findFragmentByTag(ScriptFragment.TAG));
+			fragmentTransaction.show(dataEditorFragment);
 			BottomBar.hideBottomBar(activity);
 		}
-		fragTransaction.commit();
+		fragmentTransaction.commit();
 	}
 
 	private void onUserDismiss() {
@@ -208,7 +209,7 @@ public class UserBrickElementEditorFragment extends Fragment implements
 
 		UserBrickEditElementDialog dialog = new UserBrickEditElementDialog(fragmentView);
 		dialog.addDialogListener(this);
-		dialog.show(getActivity().getFragmentManager(),
+		dialog.show(getFragmentManager(),
 				UserBrickEditElementDialog.DIALOG_FRAGMENT_TAG);
 
 		UserBrickEditElementDialog.setTakenVariables(takenVariables);

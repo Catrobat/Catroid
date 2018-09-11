@@ -23,11 +23,11 @@
 
 package org.catrobat.catroid.content.bricks;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import org.catrobat.catroid.ProjectManager;
@@ -38,6 +38,7 @@ import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
+import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewListDialogFragment;
 
 import java.util.ArrayList;
@@ -95,20 +96,13 @@ public abstract class UserListBrick extends FormulaBrick implements NewListDialo
 
 	@Override
 	public void onNewOptionSelected() {
-		new NewListDialogFragment(this) {
+		AppCompatActivity activity = UiUtils.getActivityFromView(view);
+		if (activity == null) {
+			return;
+		}
 
-			@Override
-			public void onDismiss(DialogInterface dialog) {
-				super.onDismiss(dialog);
-				spinner.setSelection(userList);
-			}
-
-			@Override
-			public void onCancel(DialogInterface dialog) {
-				super.onCancel(dialog);
-				spinner.setSelection(userList);
-			}
-		}.show(((Activity) view.getContext()).getFragmentManager(), NewListDialogFragment.TAG);
+		new NewListFromBrickDialogFragment(this)
+				.show(activity.getSupportFragmentManager(), NewListFromBrickDialogFragment.TAG);
 	}
 
 	@Override
@@ -126,5 +120,30 @@ public abstract class UserListBrick extends FormulaBrick implements NewListDialo
 	@Override
 	public void onItemSelected(@Nullable UserList item) {
 		userList = item;
+	}
+
+	public static class NewListFromBrickDialogFragment extends NewListDialogFragment {
+
+		private UserListBrick userListBrick;
+
+		public NewListFromBrickDialogFragment() {
+		}
+
+		public NewListFromBrickDialogFragment(UserListBrick userListBrick) {
+			super(userListBrick);
+			this.userListBrick = userListBrick;
+		}
+
+		@Override
+		public void onDismiss(DialogInterface dialog) {
+			super.onDismiss(dialog);
+			userListBrick.spinner.setSelection(userListBrick.userList);
+		}
+
+		@Override
+		public void onCancel(DialogInterface dialog) {
+			super.onCancel(dialog);
+			userListBrick.spinner.setSelection(userListBrick.userList);
+		}
 	}
 }

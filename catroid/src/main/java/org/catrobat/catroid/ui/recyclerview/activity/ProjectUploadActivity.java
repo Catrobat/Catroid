@@ -202,7 +202,7 @@ public class ProjectUploadActivity extends BaseActivity implements
 		SelectTagsDialogFragment dialog = new SelectTagsDialogFragment();
 		dialog.setTags(tags);
 		dialog.setArguments(bundle);
-		dialog.show(getFragmentManager(), SelectTagsDialogFragment.TAG);
+		dialog.show(getSupportFragmentManager(), SelectTagsDialogFragment.TAG);
 	}
 
 	@Override

@@ -22,10 +22,10 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import android.app.FragmentManager;
-import android.app.ListFragment;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.ListFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;

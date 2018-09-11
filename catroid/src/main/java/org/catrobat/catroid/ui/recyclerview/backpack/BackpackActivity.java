@@ -23,10 +23,10 @@
 
 package org.catrobat.catroid.ui.recyclerview.backpack;
 
-import android.app.FragmentTransaction;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
@@ -67,28 +67,28 @@ public class BackpackActivity extends BaseActivity {
 	}
 
 	private void switchToFragment(int fragmentTag) {
-		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+		FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
 		switch (fragmentTag) {
 			case FRAGMENT_SCENES:
-				fragmentTransaction.replace(R.id.fragment_container, new BackpackSceneFragment(),
-						BackpackSceneFragment.TAG);
+				fragmentTransaction
+						.replace(R.id.fragment_container, new BackpackSceneFragment(), BackpackSceneFragment.TAG);
 				break;
 			case FRAGMENT_SPRITES:
-				fragmentTransaction.replace(R.id.fragment_container, new BackpackSpriteFragment(),
-						BackpackSpriteFragment.TAG);
+				fragmentTransaction
+						.replace(R.id.fragment_container, new BackpackSpriteFragment(), BackpackSpriteFragment.TAG);
 				break;
 			case FRAGMENT_LOOKS:
-				fragmentTransaction.replace(R.id.fragment_container, new BackpackLookFragment(),
-						BackpackLookFragment.TAG);
+				fragmentTransaction
+						.replace(R.id.fragment_container, new BackpackLookFragment(), BackpackLookFragment.TAG);
 				break;
 			case FRAGMENT_SOUNDS:
-				fragmentTransaction.replace(R.id.fragment_container, new BackpackSoundFragment(),
-						BackpackSoundFragment.TAG);
+				fragmentTransaction
+						.replace(R.id.fragment_container, new BackpackSoundFragment(), BackpackSoundFragment.TAG);
 				break;
 			case FRAGMENT_SCRIPTS:
-				fragmentTransaction.replace(R.id.fragment_container, new BackpackScriptFragment(),
-						BackpackScriptFragment.TAG);
+				fragmentTransaction
+						.replace(R.id.fragment_container, new BackpackScriptFragment(), BackpackScriptFragment.TAG);
 				break;
 			default:
 				return;
@@ -105,7 +105,7 @@ public class BackpackActivity extends BaseActivity {
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		BackpackRecyclerViewFragment currentFragment = ((BackpackRecyclerViewFragment) getFragmentManager()
+		BackpackRecyclerViewFragment currentFragment = ((BackpackRecyclerViewFragment) getSupportFragmentManager()
 				.findFragmentById(R.id
 				.fragment_container));
 

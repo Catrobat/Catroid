@@ -22,10 +22,10 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import org.catrobat.catroid.ProjectManager;
@@ -34,6 +34,7 @@ import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
+import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewBroadcastMessageDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
@@ -87,8 +88,12 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements New
 
 	@Override
 	public void onNewOptionSelected() {
+		AppCompatActivity activity = UiUtils.getActivityFromView(view);
+		if (activity == null) {
+			return;
+		}
 		new NewBroadCastMessageDialogFragmentForBrick(this, spinner, getBroadcastMessage())
-				.show(((Activity) view.getContext()).getFragmentManager(), NewBroadcastMessageDialogFragment.TAG);
+				.show(activity.getSupportFragmentManager(), NewBroadcastMessageDialogFragment.TAG);
 	}
 
 	@Override
