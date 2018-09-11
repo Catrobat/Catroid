@@ -22,8 +22,8 @@
  */
 package org.catrobat.catroid.ui;
 
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
@@ -50,7 +50,7 @@ public class ProjectListActivity extends BaseCastActivity {
 	}
 
 	private void loadFragment(Fragment fragment) {
-		getFragmentManager().beginTransaction()
+		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.fragment_container, fragment, fragment.getTag())
 				.commit();
 	}
@@ -63,14 +63,14 @@ public class ProjectListActivity extends BaseCastActivity {
 
 	@Override
 	public void onBackPressed() {
-		if (getFragmentManager().getBackStackEntryCount() > 0) {
-			getFragmentManager().popBackStack();
+		if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+			getSupportFragmentManager().popBackStack();
 		} else {
 			super.onBackPressed();
 		}
 	}
 
 	public void handleAddButton(View view) {
-		((RecyclerViewFragment) getFragmentManager().findFragmentById(R.id.fragment_container)).handleAddButton();
+		((RecyclerViewFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container)).handleAddButton();
 	}
 }

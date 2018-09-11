@@ -23,13 +23,13 @@
 
 package org.catrobat.catroid.ui.recyclerview.dialog;
 
-import android.app.Activity;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
@@ -131,7 +131,7 @@ public class NewSoundDialogFragment extends DialogFragment implements View.OnCli
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode == Activity.RESULT_CANCELED) {
+		if (resultCode == AppCompatActivity.RESULT_CANCELED) {
 			return;
 		}
 

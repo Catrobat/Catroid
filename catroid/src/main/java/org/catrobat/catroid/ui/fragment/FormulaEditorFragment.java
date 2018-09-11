@@ -22,9 +22,6 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -33,6 +30,8 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -134,15 +133,14 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		setHasOptionsMenu(true);
 	}
 
-	private static void showFragment(Context context, FormulaBrick formulaBrick, Brick.BrickField brickField,
-			boolean showCustomView) {
+	private static void showFragment(Context context, FormulaBrick formulaBrick, Brick.BrickField brickField, boolean showCustomView) {
 
-		Activity activity = UiUtils.getActivityFromContextWrapper(context);
+		AppCompatActivity activity = UiUtils.getActivityFromContextWrapper(context);
 		if (activity == null) {
 			return;
 		}
 
-		FormulaEditorFragment formulaEditorFragment = (FormulaEditorFragment) activity.getFragmentManager()
+		FormulaEditorFragment formulaEditorFragment = (FormulaEditorFragment) activity.getSupportFragmentManager()
 				.findFragmentByTag(FORMULA_EDITOR_FRAGMENT_TAG);
 
 		if (formulaEditorFragment == null) {
@@ -153,7 +151,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 			bundle.putString(BRICK_FIELD_BUNDLE_ARGUMENT, brickField.name());
 			formulaEditorFragment.setArguments(bundle);
 
-			activity.getFragmentManager().beginTransaction()
+			activity.getSupportFragmentManager().beginTransaction()
 					.replace(R.id.fragment_container, formulaEditorFragment, FORMULA_EDITOR_FRAGMENT_TAG)
 					.addToBackStack(FORMULA_EDITOR_FRAGMENT_TAG)
 					.commit();
@@ -388,7 +386,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == REQUEST_GPS && resultCode == Activity.RESULT_CANCELED && SensorHandler.gpsAvailable()) {
+		if (requestCode == REQUEST_GPS && resultCode == AppCompatActivity.RESULT_CANCELED && SensorHandler.gpsAvailable()) {
 			showComputeDialog(formulaElementForComputeDialog);
 		} else {
 			ToastUtil.showError(getActivity(), R.string.error_gps_not_available);

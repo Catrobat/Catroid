@@ -34,6 +34,9 @@ public class NewListDialogFragment extends NewDataDialogFragment {
 
 	private NewListInterface newListInterface;
 
+	public NewListDialogFragment() {
+	}
+
 	public NewListDialogFragment(NewListInterface newListInterface) {
 		this.newListInterface = newListInterface;
 	}

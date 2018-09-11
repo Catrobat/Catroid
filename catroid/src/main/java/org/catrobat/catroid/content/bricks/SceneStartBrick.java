@@ -22,10 +22,10 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import org.catrobat.catroid.ProjectManager;
@@ -99,13 +99,13 @@ public class SceneStartBrick extends BrickBaseType implements NewItemInterface<S
 
 	@Override
 	public void onNewOptionSelected() {
-		Activity activity = UiUtils.getActivityFromView(view);
+		AppCompatActivity activity = UiUtils.getActivityFromView(view);
 		if (activity == null) {
 			return;
 		}
 
 		new NewSceneFromBrickDialogFragment(this, ProjectManager.getInstance().getCurrentProject())
-				.show(activity.getFragmentManager(), NewSceneDialogFragment.TAG);
+				.show(activity.getSupportFragmentManager(), NewSceneDialogFragment.TAG);
 	}
 
 	@Override

@@ -38,6 +38,7 @@ import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.utils.ToastUtil;
 
 public class AccessibilitySettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+
 	public static final String TAG = AccessibilitySettingsFragment.class.getSimpleName();
 
 	private boolean preferenceChanged = false;

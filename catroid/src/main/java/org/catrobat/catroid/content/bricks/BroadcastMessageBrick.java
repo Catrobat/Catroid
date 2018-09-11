@@ -22,10 +22,10 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import org.catrobat.catroid.ProjectManager;
@@ -34,6 +34,7 @@ import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
+import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewBroadcastMessageDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
@@ -87,20 +88,13 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements New
 
 	@Override
 	public void onNewOptionSelected() {
-		new NewBroadcastMessageDialogFragment(this) {
+		AppCompatActivity activity = UiUtils.getActivityFromView(view);
+		if (activity == null) {
+			return;
+		}
 
-			@Override
-			public void onDismiss(DialogInterface dialog) {
-				super.onDismiss(dialog);
-				spinner.setSelection(getBroadcastMessage());
-			}
-
-			@Override
-			public void onCancel(DialogInterface dialog) {
-				super.onCancel(dialog);
-				spinner.setSelection(getBroadcastMessage());
-			}
-		}.show(((Activity) view.getContext()).getFragmentManager(), NewBroadcastMessageDialogFragment.TAG);
+		new NewBroadCastMessageFromBrickDialogFragment(this)
+				.show(activity.getSupportFragmentManager(), NewBroadCastMessageFromBrickDialogFragment.TAG);
 	}
 
 	@Override
@@ -120,5 +114,30 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements New
 
 	@Override
 	public void onItemSelected(@Nullable StringOption item) {
+	}
+
+	public static class NewBroadCastMessageFromBrickDialogFragment extends NewBroadcastMessageDialogFragment {
+
+		private BroadcastMessageBrick broadcastMessageBrick;
+
+		public NewBroadCastMessageFromBrickDialogFragment() {
+		}
+
+		public NewBroadCastMessageFromBrickDialogFragment(BroadcastMessageBrick broadcastMessageBrick) {
+			super(broadcastMessageBrick);
+			this.broadcastMessageBrick = broadcastMessageBrick;
+		}
+
+		@Override
+		public void onDismiss(DialogInterface dialog) {
+			super.onDismiss(dialog);
+			broadcastMessageBrick.spinner.setSelection(broadcastMessageBrick.getBroadcastMessage());
+		}
+
+		@Override
+		public void onCancel(DialogInterface dialog) {
+			super.onCancel(dialog);
+			broadcastMessageBrick.spinner.setSelection(broadcastMessageBrick.getBroadcastMessage());
+		}
 	}
 }

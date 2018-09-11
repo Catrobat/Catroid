@@ -23,11 +23,11 @@
 
 package org.catrobat.catroid.content.bricks;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import org.catrobat.catroid.ProjectManager;
@@ -38,6 +38,7 @@ import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
+import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewVariableDialogFragment;
 
 import java.util.ArrayList;
@@ -95,20 +96,13 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewVaria
 
 	@Override
 	public void onNewOptionSelected() {
-		new NewVariableDialogFragment(this) {
+		AppCompatActivity activity = UiUtils.getActivityFromView(view);
+		if (activity == null) {
+			return;
+		}
 
-			@Override
-			public void onDismiss(DialogInterface dialog) {
-				super.onDismiss(dialog);
-				spinner.setSelection(userVariable);
-			}
-
-			@Override
-			public void onCancel(DialogInterface dialog) {
-				super.onCancel(dialog);
-				spinner.setSelection(userVariable);
-			}
-		}.show(((Activity) view.getContext()).getFragmentManager(), NewVariableDialogFragment.TAG);
+		new NewVariableFromBrickDialogFragment(this)
+				.show(activity.getSupportFragmentManager(), NewVariableFromBrickDialogFragment.TAG);
 	}
 
 	@Override
@@ -126,5 +120,30 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewVaria
 	@Override
 	public void onItemSelected(@Nullable UserVariable item) {
 		userVariable = item;
+	}
+
+	public static class NewVariableFromBrickDialogFragment extends NewVariableDialogFragment {
+
+		private UserVariableBrick userVariableBrick;
+
+		public NewVariableFromBrickDialogFragment() {
+		}
+
+		public NewVariableFromBrickDialogFragment(UserVariableBrick userVariableBrick) {
+			super(userVariableBrick);
+			this.userVariableBrick = userVariableBrick;
+		}
+
+		@Override
+		public void onDismiss(DialogInterface dialog) {
+			super.onDismiss(dialog);
+			userVariableBrick.spinner.setSelection(userVariableBrick.userVariable);
+		}
+
+		@Override
+		public void onCancel(DialogInterface dialog) {
+			super.onCancel(dialog);
+			userVariableBrick.spinner.setSelection(userVariableBrick.userVariable);
+		}
 	}
 }

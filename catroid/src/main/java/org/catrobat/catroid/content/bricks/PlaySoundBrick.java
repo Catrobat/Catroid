@@ -22,10 +22,10 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import org.catrobat.catroid.ProjectManager;
@@ -102,7 +102,7 @@ public class PlaySoundBrick extends BrickBaseType implements NewItemInterface<So
 
 	@Override
 	public void onNewOptionSelected() {
-		Activity activity = UiUtils.getActivityFromView(view);
+		AppCompatActivity activity = UiUtils.getActivityFromView(view);
 		if (activity == null) {
 			return;
 		}
@@ -110,7 +110,7 @@ public class PlaySoundBrick extends BrickBaseType implements NewItemInterface<So
 		new NewSoundFromBrickSpinnerDialogFragment(this,
 				ProjectManager.getInstance().getCurrentlyEditedScene(),
 				ProjectManager.getInstance().getCurrentSprite())
-				.show(activity.getFragmentManager(), NewSoundDialogFragment.TAG);
+				.show(activity.getSupportFragmentManager(), NewSoundDialogFragment.TAG);
 	}
 
 	@Override

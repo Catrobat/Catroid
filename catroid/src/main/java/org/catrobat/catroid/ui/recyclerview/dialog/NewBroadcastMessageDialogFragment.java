@@ -32,6 +32,9 @@ public class NewBroadcastMessageDialogFragment extends TextInputDialogFragment {
 
 	private NewItemInterface<String> newItemInterface;
 
+	public NewBroadcastMessageDialogFragment() {
+	}
+
 	public NewBroadcastMessageDialogFragment(NewItemInterface<String> newItemInterface) {
 		super(R.string.dialog_new_broadcast_message_title, R.string.dialog_new_broadcast_message_name, null, false);
 		this.newItemInterface = newItemInterface;

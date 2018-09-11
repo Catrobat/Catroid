@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.stage;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -35,6 +34,7 @@ import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.parrot.arsdk.arcontroller.ARCONTROLLER_DEVICE_STATE_ENUM;
@@ -587,11 +587,11 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 
 			case REQUEST_CONNECT_DEVICE:
 				switch (resultCode) {
-					case Activity.RESULT_OK:
+					case AppCompatActivity.RESULT_OK:
 						resourceInitialized();
 						break;
 
-					case Activity.RESULT_CANCELED:
+					case AppCompatActivity.RESULT_CANCELED:
 						resourceFailed();
 						break;
 				}
