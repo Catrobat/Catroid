@@ -23,10 +23,10 @@
 
 package org.catrobat.catroid.ui.recyclerview.backpack;
 
-import android.app.FragmentTransaction;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
@@ -67,7 +67,7 @@ public class BackpackActivity extends BaseActivity {
 	}
 
 	private void switchToFragment(int fragmentTag) {
-		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+		FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
 		switch (fragmentTag) {
 			case FRAGMENT_SCENES:
@@ -105,9 +105,8 @@ public class BackpackActivity extends BaseActivity {
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		BackpackRecyclerViewFragment currentFragment = ((BackpackRecyclerViewFragment) getFragmentManager()
-				.findFragmentById(R.id
-				.fragment_container));
+		BackpackRecyclerViewFragment currentFragment = ((BackpackRecyclerViewFragment) getSupportFragmentManager()
+				.findFragmentById(R.id.fragment_container));
 
 		menu.findItem(R.id.show_details).setVisible(currentFragment.hasDetails);
 		return true;

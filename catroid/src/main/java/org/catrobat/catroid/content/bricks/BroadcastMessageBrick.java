@@ -22,10 +22,10 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import org.catrobat.catroid.ProjectManager;
@@ -100,7 +100,7 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements New
 				super.onCancel(dialog);
 				spinner.setSelection(getBroadcastMessage());
 			}
-		}.show(((Activity) view.getContext()).getFragmentManager(), NewBroadcastMessageDialogFragment.TAG);
+		}.show(((AppCompatActivity) view.getContext()).getSupportFragmentManager(), NewBroadcastMessageDialogFragment.TAG);
 	}
 
 	@Override

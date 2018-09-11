@@ -39,20 +39,14 @@ import android.widget.TextView;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ScreenValues;
-import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.BrickLayout;
 import org.catrobat.catroid.ui.dragndrop.BrickListView;
-import org.catrobat.catroid.ui.fragment.UserBrickElementEditorFragment;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.ArrayList;
@@ -62,7 +56,6 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = UserScriptDefinitionBrick.class.getSimpleName();
-	private static final String LINE_BREAK = "linebreak";
 
 	private StartScript script;
 
@@ -284,11 +277,6 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 
 	@Override
 	public void onClick(View eventOrigin) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
-
-		UserBrickElementEditorFragment.showFragment(view, this);
 	}
 
 	@Override
@@ -307,77 +295,6 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 		return script;
 	}
 
-	public int addUIText(String text) {
-		UserScriptDefinitionBrickElement element = new UserScriptDefinitionBrickElement();
-		element.setIsText();
-		element.setText(text);
-		int toReturn = userScriptDefinitionBrickElements.size();
-		userScriptDefinitionBrickElements.add(element);
-		return toReturn;
-	}
-
-	public void addUILineBreak() {
-		UserScriptDefinitionBrickElement element = new UserScriptDefinitionBrickElement();
-		element.setIsLineBreak();
-		element.setText(LINE_BREAK);
-		userScriptDefinitionBrickElements.add(element);
-	}
-
-	public int addUILocalizedVariable(String name) {
-		UserScriptDefinitionBrickElement element = new UserScriptDefinitionBrickElement();
-		element.setIsVariable();
-		element.setText(name);
-
-		int toReturn = userScriptDefinitionBrickElements.size();
-		userScriptDefinitionBrickElements.add(element);
-		return toReturn;
-	}
-
-	public void renameUIElement(UserScriptDefinitionBrickElement element, String oldName, String newName, Context context) {
-		if (element.getText().equals(oldName)) {
-			element.setText(newName);
-			if (element.isVariable()) {
-				Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
-				Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-				DataContainer dataContainer = currentScene.getDataContainer();
-				if (dataContainer != null) {
-					List<UserBrick> matchingBricks = currentSprite.getUserBricksByDefinitionBrick(this, true, true);
-					for (UserBrick userBrick : matchingBricks) {
-						UserVariable userVariable = dataContainer.getUserVariable(currentSprite, userBrick, oldName);
-						if (userVariable != null) {
-							userVariable.setName(newName);
-						}
-					}
-				}
-			}
-		}
-
-		renameVariablesInFormulasAndBricks(oldName, newName, context);
-	}
-
-	public void removeDataAt(int id, Context context) {
-		removeVariablesInFormulas(getUserScriptDefinitionBrickElements().get(id).getText(), context);
-		userScriptDefinitionBrickElements.remove(id);
-	}
-
-	/**
-	 * Removes element at <b>from</b> and adds it after element at <b>to</b>
-	 */
-	public void reorderUIData(int from, int to) {
-
-		if (to == -1) {
-			UserScriptDefinitionBrickElement element = getUserScriptDefinitionBrickElements().remove(from);
-			userScriptDefinitionBrickElements.add(0, element);
-		} else if (from <= to) {
-			UserScriptDefinitionBrickElement element = getUserScriptDefinitionBrickElements().remove(from);
-			userScriptDefinitionBrickElements.add(to, element);
-		} else {
-			// from > to
-			UserScriptDefinitionBrickElement element = getUserScriptDefinitionBrickElements().remove(from);
-			userScriptDefinitionBrickElements.add(to + 1, element);
-		}
-	}
-
 	public CharSequence getName() {
 		CharSequence name = "";
 		for (UserScriptDefinitionBrickElement element : getUserScriptDefinitionBrickElements()) {
@@ -391,57 +308,6 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 
 	public List<UserScriptDefinitionBrickElement> getUserScriptDefinitionBrickElements() {
 		return userScriptDefinitionBrickElements;
-	}
-
-	public void renameVariablesInFormulasAndBricks(String oldName, String newName, Context context) {
-		List<Brick> brickList = script.getBrickList();
-		for (Brick brick : brickList) {
-			if (brick instanceof UserBrick) {
-				List<Formula> formulaList = ((UserBrick) brick).getFormulas();
-				for (Formula formula : formulaList) {
-					formula.updateVariableReferences(oldName, newName, context);
-				}
-			}
-			if (brick instanceof FormulaBrick) {
-				List<Formula> formulas = ((FormulaBrick) brick).getFormulas();
-				for (Formula formula : formulas) {
-					formula.updateVariableReferences(oldName, newName, context);
-				}
-			}
-			if (brick instanceof ShowTextBrick) {
-				ShowTextBrick showTextBrick = (ShowTextBrick) brick;
-				if (showTextBrick.getUserVariable().getName().equals(oldName)) {
-					((ShowTextBrick) brick).getUserVariable().setName(newName);
-				}
-			}
-			if (brick instanceof HideTextBrick) {
-				HideTextBrick showTextBrick = (HideTextBrick) brick;
-				if (showTextBrick.getUserVariable().getName().equals(oldName)) {
-					((HideTextBrick) brick).getUserVariable().setName(newName);
-				}
-			}
-		}
-	}
-
-	public void removeVariablesInFormulas(String name, Context context) {
-		if (ProjectManager.getInstance().getCurrentScript() == null) {
-			return;
-		}
-		List<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
-		for (Brick brick : brickList) {
-			if (brick instanceof UserBrick) {
-				List<Formula> formulaList = ((UserBrick) brick).getFormulas();
-				for (Formula formula : formulaList) {
-					formula.removeVariableReferences(name, context);
-				}
-			}
-			if (brick instanceof FormulaBrick) {
-				List<Formula> formulas = ((FormulaBrick) brick).getFormulas();
-				for (Formula formula : formulas) {
-					formula.removeVariableReferences(name, context);
-				}
-			}
-		}
 	}
 
 	@Override

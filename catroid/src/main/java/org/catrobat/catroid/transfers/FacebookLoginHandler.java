@@ -27,6 +27,7 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
 
 import com.facebook.AccessToken;
 import com.facebook.FacebookCallback;
@@ -47,12 +48,12 @@ public class FacebookLoginHandler implements FacebookCallback<LoginResult>,
 		FacebookExchangeTokenTask.OnFacebookExchangeTokenCompleteListener,
 		CheckEmailAvailableTask.OnCheckEmailAvailableCompleteListener {
 
-	private Activity activity;
+	private AppCompatActivity activity;
 
 	public static final String FACEBOOK_PROFILE_PERMISSION = "public_profile";
 	public static final String FACEBOOK_EMAIL_PERMISSION = "email";
 
-	public FacebookLoginHandler(Activity activity) {
+	public FacebookLoginHandler(AppCompatActivity activity) {
 		this.activity = activity;
 	}
 
@@ -137,7 +138,7 @@ public class FacebookLoginHandler implements FacebookCallback<LoginResult>,
 			bundle.putString(Constants.CURRENT_OAUTH_PROVIDER, provider);
 			dialog.setArguments(bundle);
 			dialog.setSignInCompleteListener((SignInCompleteListener) activity);
-			dialog.show(activity.getFragmentManager(), OAuthUsernameDialogFragment.TAG);
+			dialog.show(activity.getSupportFragmentManager(), OAuthUsernameDialogFragment.TAG);
 		}
 	}
 

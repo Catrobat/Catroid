@@ -33,6 +33,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.google.android.gms.common.images.WebImage;
@@ -66,7 +67,7 @@ public class ScratchConversionManager implements ConversionManager {
 
 	private static final String TAG = ScratchConversionManager.class.getSimpleName();
 
-	private Activity currentActivity;
+	private AppCompatActivity currentActivity;
 	private final Client client;
 	private final boolean verbose;
 	private Map<String, Client.DownloadCallback> downloadCallbacks;
@@ -77,8 +78,8 @@ public class ScratchConversionManager implements ConversionManager {
 	private boolean shutdown;
 
 	@SuppressLint("UseSparseArrays")
-	public ScratchConversionManager(final Activity rootActivity, final Client client, final boolean verbose) {
-		this.currentActivity = rootActivity;
+	public ScratchConversionManager(final AppCompatActivity activity, final Client client, final boolean verbose) {
+		this.currentActivity = activity;
 		this.client = client;
 		this.verbose = verbose;
 		this.downloadCallbacks = new HashMap<>();
@@ -93,7 +94,7 @@ public class ScratchConversionManager implements ConversionManager {
 
 	@Override
 	public void setCurrentActivity(final Activity activity) {
-		currentActivity = activity;
+		currentActivity = (AppCompatActivity) activity;
 	}
 
 	@Override
@@ -394,7 +395,8 @@ public class ScratchConversionManager implements ConversionManager {
 							}
 						}
 					});
-					reconvertDialog.show(currentActivity.getFragmentManager(), ScratchReconvertDialog.DIALOG_FRAGMENT_TAG);
+					reconvertDialog.show(currentActivity.getSupportFragmentManager(),
+							ScratchReconvertDialog.DIALOG_FRAGMENT_TAG);
 					return;
 				}
 

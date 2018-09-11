@@ -57,7 +57,7 @@ public final class JumpingSumoServiceWrapper {
 		termsOfUseDialog.setPrestageStageActivity(preStageActivity);
 		termsOfUseDialog.setArguments(args);
 
-		termsOfUseDialog.show(preStageActivity.getFragmentManager(),
+		termsOfUseDialog.show(preStageActivity.getSupportFragmentManager(),
 				TermsOfUseJSDialogFragment.DIALOG_FRAGMENT_TAG);
 	}
 

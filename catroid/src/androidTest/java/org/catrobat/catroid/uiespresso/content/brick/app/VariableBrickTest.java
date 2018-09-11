@@ -109,7 +109,7 @@ public class VariableBrickTest {
 		onBrickAtPosition(setBrickPosition).onVariableSpinner(R.id.set_variable_spinner)
 				.perform(click());
 
-		onView(withText(R.string.brick_variable_spinner_create_new_variable))
+		onView(withText(R.string.new_option))
 				.perform(click());
 
 		closeSoftKeyboard();

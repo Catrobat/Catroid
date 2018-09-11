@@ -21,15 +21,17 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/convert"
-        android:showAsAction="never"
-        android:title="@string/convert" />
+        android:title="@string/convert"
+        app:showAsAction="never" />
     <item
         android:id="@+id/show_details"
-        android:showAsAction="never"
-        android:title="@string/show_details" />
+        android:title="@string/show_details"
+        app:showAsAction="never" />
 
 </menu>

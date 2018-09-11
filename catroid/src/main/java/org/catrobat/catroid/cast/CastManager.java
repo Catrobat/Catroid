@@ -23,7 +23,6 @@
 package org.catrobat.catroid.cast;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -31,6 +30,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.media.MediaRouteSelector;
 import android.support.v7.media.MediaRouter;
 import android.view.HapticFeedbackConstants;
@@ -79,7 +79,7 @@ public final class CastManager {
 	private CastDevice selectedDevice;
 	private boolean isConnected = false;
 	private GLSurfaceView20 stageViewDisplayedOnCast;
-	private Activity initializingActivity;
+	private AppCompatActivity initializingActivity;
 	private RelativeLayout remoteLayout;
 	private RelativeLayout pausedView = null;
 	private MenuItem castButton;
@@ -150,7 +150,7 @@ public final class CastManager {
 		return selectedDevice;
 	}
 
-	public synchronized void initializeCast(Activity activity) {
+	public synchronized void initializeCast(AppCompatActivity activity) {
 
 		initializingActivity = activity;
 
@@ -287,7 +287,7 @@ public final class CastManager {
 		return (!isConnected && selectedDevice != null);
 	}
 
-	public synchronized void openDeviceSelectorOrDisconnectDialog(Activity activity) {
+	public synchronized void openDeviceSelectorOrDisconnectDialog(AppCompatActivity activity) {
 		SelectCastDialog dialog = new SelectCastDialog(deviceAdapter, activity);
 		dialog.openDialog();
 	}
@@ -434,7 +434,7 @@ public final class CastManager {
 			CastRemoteDisplayLocalService.stopService();
 		}
 
-		public void startCastService(final Activity activity) {
+		public void startCastService(final AppCompatActivity activity) {
 
 			Intent intent = new Intent(activity, activity.getClass());
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);

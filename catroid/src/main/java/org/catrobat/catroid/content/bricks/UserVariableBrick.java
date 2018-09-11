@@ -23,11 +23,11 @@
 
 package org.catrobat.catroid.content.bricks;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import org.catrobat.catroid.ProjectManager;
@@ -39,11 +39,13 @@ import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewVariableDialogFragment;
+import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.SetUniqueNameDialogTextWatcher;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class UserVariableBrick extends FormulaBrick implements NewVariableDialogFragment.NewVariableInterface,
+public abstract class UserVariableBrick extends FormulaBrick implements
 		BrickSpinner.OnItemSelectedListener<UserVariable> {
 
 	protected UserVariable userVariable;
@@ -95,29 +97,25 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewVaria
 
 	@Override
 	public void onNewOptionSelected() {
-		new NewVariableDialogFragment(this) {
+		Context context = view.getContext();
 
-			@Override
-			public void onDismiss(DialogInterface dialog) {
-				super.onDismiss(dialog);
-				spinner.setSelection(userVariable);
-			}
+		TextInputDialog.Builder builder = new TextInputDialog.Builder(context);
 
-			@Override
-			public void onCancel(DialogInterface dialog) {
-				super.onCancel(dialog);
-				spinner.setSelection(userVariable);
-			}
-		}.show(((Activity) view.getContext()).getFragmentManager(), NewVariableDialogFragment.TAG);
+		builder.setHint(context.getString(R.string.data_label));
+
+		builder.setTitle(context.getString(R.string.formula_editor_variable_dialog_title))
+				.setNegativeButton(R.string.cancel, null)
+				.create()
+				.show();
 	}
 
-	@Override
-	public void onNewVariable(UserVariable userVariable) {
-		spinner.add(userVariable);
-		spinner.setSelection(userVariable);
-		//TODO: This should work some other way: i.e. it should not rely on the Brick being able to access its adapter.
-		adapter.notifyDataSetChanged();
-	}
+//	@Override
+//	public void onNewVariable(UserVariable userVariable) {
+//		spinner.add(userVariable);
+//		spinner.setSelection(userVariable);
+//		//TODO: This should work some other way: i.e. it should not rely on the Brick being able to access its adapter.
+//		adapter.notifyDataSetChanged();
+//	}
 
 	@Override
 	public void onStringOptionSelected(String string) {

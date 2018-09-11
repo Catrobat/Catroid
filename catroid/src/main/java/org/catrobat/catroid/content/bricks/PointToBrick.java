@@ -22,9 +22,9 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import org.catrobat.catroid.ProjectManager;
@@ -94,7 +94,7 @@ public class PointToBrick extends BrickBaseType implements NewItemInterface<Spri
 
 	@Override
 	public void onNewOptionSelected() {
-		Activity activity = UiUtils.getActivityFromView(view);
+		AppCompatActivity activity = UiUtils.getActivityFromView(view);
 		if (activity == null) {
 			return;
 		}
@@ -106,7 +106,7 @@ public class PointToBrick extends BrickBaseType implements NewItemInterface<Spri
 				super.onWorkflowCanceled();
 				spinner.setSelection(pointedObject);
 			}
-		}.showDialog(activity.getFragmentManager());
+		}.showDialog(activity.getSupportFragmentManager());
 	}
 
 	@Override

@@ -132,7 +132,7 @@ public class RenameSpriteDialogTest {
 
 		closeSoftKeyboard();
 
-		onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
+		onView(allOf(withId(android.R.id.button1), withText(R.string.rename)))
 				.perform(click());
 
 		onView(withText(newSpriteName))

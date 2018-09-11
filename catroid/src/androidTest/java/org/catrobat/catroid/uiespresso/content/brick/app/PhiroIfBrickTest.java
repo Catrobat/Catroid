@@ -92,7 +92,7 @@ public class PhiroIfBrickTest {
 				.perform(click());
 		onView(withText(R.string.brick_context_dialog_delete_brick))
 				.perform(click());
-		onView(withText(R.string.yes))
+		onView(withText(R.string.delete))
 				.perform(click());
 
 		onView(withText(R.string.brick_phiro_sensor_begin))

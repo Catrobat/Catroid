@@ -1081,7 +1081,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 		}
 
 		builder.setMessage(R.string.dialog_confirm_delete);
-		builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+		builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				if (getItem(clickItemPosition) instanceof ScriptBrick) {
@@ -1093,7 +1093,7 @@ public class BrickAdapter extends BrickBaseAdapter implements DragAndDropListene
 				}
 			}
 		});
-		builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.cancel();

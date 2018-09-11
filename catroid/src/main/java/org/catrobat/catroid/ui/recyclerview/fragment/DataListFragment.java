@@ -23,10 +23,11 @@
 
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
-import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -49,8 +50,9 @@ import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.recyclerview.adapter.DataListAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewDataDialogFragment;
-import org.catrobat.catroid.ui.recyclerview.dialog.RenameDialogFragment;
+import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.SetUniqueNameDialogTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.utils.ToastUtil;
 
@@ -58,22 +60,21 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class DataListFragment extends Fragment implements
 		ActionMode.Callback,
 		RVAdapter.SelectionListener,
 		RVAdapter.OnItemClickListener<UserData>,
-		NewItemInterface<UserData>,
-		RenameDialogFragment.RenameInterface {
+		NewItemInterface<UserData> {
 
 	public static final String TAG = DataListFragment.class.getSimpleName();
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({NONE, DELETE})
-	@interface ActionModeType {}
+	@interface ActionModeType {
+	}
+
 	private static final int NONE = 0;
 	private static final int DELETE = 1;
 
@@ -153,7 +154,7 @@ public class DataListFragment extends Fragment implements
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View parent = inflater.inflate(R.layout.fragment_list_view, container, false);
 		recyclerView = parent.findViewById(R.id.recycler_view);
 		setHasOptionsMenu(true);
@@ -175,8 +176,8 @@ public class DataListFragment extends Fragment implements
 	}
 
 	@Override
-	public void onStop() {
-		super.onStop();
+	public void onDetach() {
+		super.onDetach();
 		finishActionMode();
 		BottomBar.hideBottomBar(getActivity());
 	}
@@ -281,25 +282,30 @@ public class DataListFragment extends Fragment implements
 	}
 
 	private void showRenameDialog(List<UserData> selectedItems) {
-		String name = selectedItems.get(0).getName();
-		RenameDialogFragment dialog = new RenameDialogFragment(R.string.rename_data_dialog, R.string.data_label, name, this);
-		dialog.show(getFragmentManager(), RenameDialogFragment.TAG);
+		final UserData item = selectedItems.get(0);
+
+		TextInputDialog.Builder builder = new TextInputDialog.Builder(getContext());
+
+		builder.setHint(getString(R.string.data_label))
+				.setText(item.getName())
+				.setDialogTextWatcher(new SetUniqueNameDialogTextWatcher<>(item, adapter.getItems()))
+				.setPositiveButton(getString(R.string.rename), new TextInputDialog.OnTextDialogClickListener() {
+					@Override
+					public void onPositiveButtonClick(String text) {
+						renameItem(item, text);
+					}
+				});
+
+		builder.setTitle(R.string.rename_data_dialog)
+				.setNegativeButton(R.string.cancel, null)
+				.create()
+				.show();
 	}
 
-	@Override
-	public boolean isNameUnique(String name) {
-		Set<String> scope = new HashSet<>();
-		for (UserData item : adapter.getItems()) {
-			scope.add(item.getName());
-		}
-		return !scope.contains(name);
-	}
-
-	@Override
-	public void renameItem(String name) {
-		UserData item = adapter.getSelectedItems().get(0);
+	public void renameItem(UserData item, String name) {
 		String previousName = item.getName();
 		item.setName(name);
+
 		adapter.updateDataSet();
 		finishActionMode();
 

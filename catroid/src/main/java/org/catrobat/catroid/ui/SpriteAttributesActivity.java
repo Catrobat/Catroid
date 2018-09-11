@@ -48,20 +48,17 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.recyclerview.RVButton;
 import org.catrobat.catroid.ui.recyclerview.adapter.ButtonAdapter;
 import org.catrobat.catroid.ui.recyclerview.dialog.PlaySceneDialogFragment;
-import org.catrobat.catroid.ui.recyclerview.dialog.RenameDialogFragment;
+import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.SetUniqueNameDialogTextWatcher;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-public class SpriteAttributesActivity extends BaseActivity implements
-		ButtonAdapter.OnItemClickListener,
-		PlaySceneDialogFragment.PlaySceneInterface,
-		RenameDialogFragment.RenameInterface {
+public class SpriteAttributesActivity extends BaseActivity implements ButtonAdapter.OnItemClickListener,
+		PlaySceneDialogFragment.PlaySceneInterface {
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({SCRIPTS, LOOKS, SOUNDS, NFC_TAGS})
@@ -147,24 +144,28 @@ public class SpriteAttributesActivity extends BaseActivity implements
 	}
 
 	private void showRenameDialog() {
-		String name = ProjectManager.getInstance().getCurrentSprite().getName();
-		RenameDialogFragment dialog = new RenameDialogFragment(R.string.rename_sprite_dialog,
-				R.string.sprite_name_label, name, this);
-		dialog.show(getFragmentManager(), RenameDialogFragment.TAG);
+		final Sprite item = ProjectManager.getInstance().getCurrentSprite();
+		List<Sprite> sprites = ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList();
+
+		TextInputDialog.Builder builder = new TextInputDialog.Builder(this);
+
+		builder.setHint(getString(R.string.sprite_name_label))
+				.setText(item.getName())
+				.setDialogTextWatcher(new SetUniqueNameDialogTextWatcher<>(item, sprites))
+				.setPositiveButton(getString(R.string.rename), new TextInputDialog.OnTextDialogClickListener() {
+					@Override
+					public void onPositiveButtonClick(String text) {
+						renameItem(item, text);
+					}
+				});
+
+		builder.setTitle(R.string.rename_sprite_dialog)
+				.setNegativeButton(R.string.cancel, null)
+				.create()
+				.show();
 	}
 
-	@Override
-	public boolean isNameUnique(String name) {
-		Set<String> scope = new HashSet<>();
-		for (Sprite item : ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList()) {
-			scope.add(item.getName());
-		}
-		return !scope.contains(name);
-	}
-
-	@Override
-	public void renameItem(String name) {
-		Sprite item = ProjectManager.getInstance().getCurrentSprite();
+	private void renameItem(Sprite item, String name) {
 		if (!item.getName().equals(name)) {
 			item.setName(name);
 		}
@@ -218,7 +219,7 @@ public class SpriteAttributesActivity extends BaseActivity implements
 		}
 
 		PlaySceneDialogFragment playSceneDialog = new PlaySceneDialogFragment(this);
-		playSceneDialog.show(getFragmentManager(), PlaySceneDialogFragment.TAG);
+		playSceneDialog.show(getSupportFragmentManager(), PlaySceneDialogFragment.TAG);
 	}
 
 	@Override

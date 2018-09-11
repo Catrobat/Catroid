@@ -23,12 +23,13 @@
 
 package org.catrobat.catroid.ui.recyclerview.backpack;
 
-import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
 import android.support.annotation.PluralsRes;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -59,7 +60,9 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({NONE, UNPACK, DELETE})
-	@interface ActionModeType {}
+	@interface ActionModeType {
+	}
+
 	protected static final int NONE = 0;
 	protected static final int UNPACK = 1;
 	protected static final int DELETE = 2;
@@ -147,7 +150,7 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		parentView = inflater.inflate(R.layout.fragment_list_view, container, false);
 		recyclerView = parentView.findViewById(R.id.recycler_view);
 		setHasOptionsMenu(true);
@@ -181,8 +184,8 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 	}
 
 	@Override
-	public void onStop() {
-		super.onStop();
+	public void onDetach() {
+		super.onDetach();
 		finishActionMode();
 	}
 
@@ -250,19 +253,13 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 		new AlertDialog.Builder(getActivity())
 				.setTitle(getResources().getQuantityString(getDeleteAlertTitleId(), selectedItems.size()))
 				.setMessage(R.string.dialog_confirm_delete)
-				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+				.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
 						deleteItems(selectedItems);
 					}
 				})
-				.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						finishActionMode();
-						dialog.dismiss();
-					}
-				})
+				.setNegativeButton(R.string.cancel, null)
 				.setCancelable(false)
 				.create()
 				.show();

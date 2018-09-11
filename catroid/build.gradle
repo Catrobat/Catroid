@@ -106,12 +106,12 @@ android {
         // IconMissingDensityFolder - currently no xxxhdpi icons available
         // TODO ticket for HandlerLeak
         // TODO don't know if WrongRegion warning is a false-positive one
-        ignore 'ContentDescription', 'InvalidPackage', 'ValidFragment', 'GradleDependency',
+        ignore 'ContentDescription', 'InvalidPackage', 'GradleDependency',
                 'ClickableViewAccessibility', 'UnusedAttribute', 'CommitPrefEdits', 'OldTargetApi',
                 'RtlSymmetry', 'RtlHardcoded', 'HandlerLeak', 'IconMissingDensityFolder',
                 'WrongRegion', 'RelativeOverlap', 'IconColors', 'MissingTranslation', 'ExtraTranslation',
                 'GradleCompatible', 'WifiManagerLeak', 'ApplySharedPref', 'ObsoleteSdkInt',
-                'StaticFieldLeak', 'AppCompatResource'
+                'StaticFieldLeak'
 
         abortOnError false
 

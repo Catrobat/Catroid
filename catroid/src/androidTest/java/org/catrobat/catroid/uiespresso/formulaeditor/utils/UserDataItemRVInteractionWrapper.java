@@ -36,6 +36,8 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
+import static org.hamcrest.Matchers.allOf;
+
 public abstract class UserDataItemRVInteractionWrapper<T extends UserDataItemRVInteractionWrapper<T>>
 		extends RecyclerViewItemInteractionWrapper {
 
@@ -64,7 +66,7 @@ public abstract class UserDataItemRVInteractionWrapper<T extends UserDataItemRVI
 				.perform(click());
 		onView(withId(R.id.input_edit_text))
 				.perform(replaceText(newName), closeSoftKeyboard());
-		onView(withText(R.string.ok))
+		onView(allOf(withId(android.R.id.button1), withText(R.string.rename)))
 				.perform(click());
 	}
 

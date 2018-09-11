@@ -24,11 +24,11 @@
 package org.catrobat.catroid.ui.dialogs;
 
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.CheckBox;
@@ -43,15 +43,21 @@ import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTING
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED;
 
 public class LegoSensorConfigInfoDialog extends DialogFragment {
-	public static final String DIALOG_FRAGMENT_TAG = "dialog_lego_sensor_config_info";
 
-	private @LegoSensorType int legoSensorType;
+	public static final String DIALOG_FRAGMENT_TAG = "dialog_lego_sensor_config_info";
+	private static final String BUNDLE_EXTRA_SENSOR_TYPE = "sensor_type";
 
 	public LegoSensorConfigInfoDialog() {
+
 	}
 
-	public LegoSensorConfigInfoDialog(@LegoSensorType int legoSensorType) {
-		this.legoSensorType = legoSensorType;
+	public static LegoSensorConfigInfoDialog newInstance(@LegoSensorType int legoSensorType) {
+		Bundle args = new Bundle();
+		args.putInt(BUNDLE_EXTRA_SENSOR_TYPE, legoSensorType);
+
+		LegoSensorConfigInfoDialog fragment = new LegoSensorConfigInfoDialog();
+		fragment.setArguments(args);
+		return fragment;
 	}
 
 	@Override
@@ -69,6 +75,9 @@ public class LegoSensorConfigInfoDialog extends DialogFragment {
 		int infoStringResId;
 		Enum[] sensorMapping;
 		String[] sensorMappingStrings;
+
+		final int legoSensorType = getArguments().getInt(BUNDLE_EXTRA_SENSOR_TYPE);
+
 		switch (legoSensorType) {
 			case Constants.NXT:
 				titleStringResId = R.string.lego_nxt_sensor_config_info_title;
@@ -76,14 +85,12 @@ public class LegoSensorConfigInfoDialog extends DialogFragment {
 				sensorMapping = SettingsFragment.getLegoNXTSensorMapping(getActivity());
 				sensorMappingStrings = getResources().getStringArray(R.array.nxt_sensor_chooser);
 				break;
-
 			case Constants.EV3:
 				titleStringResId = R.string.lego_ev3_sensor_config_info_title;
 				infoStringResId = R.string.lego_ev3_sensor_config_info_text;
 				sensorMapping = SettingsFragment.getLegoEV3SensorMapping(getActivity());
 				sensorMappingStrings = getResources().getStringArray(R.array.ev3_sensor_chooser);
 				break;
-
 			default:
 				throw new IllegalArgumentException("LegoSensorConfigInfoDialog: Constructor called with invalid sensor type");
 		}
@@ -109,9 +116,9 @@ public class LegoSensorConfigInfoDialog extends DialogFragment {
 						if (disableShowInfoDialog.isChecked()) {
 							SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(
 									LegoSensorConfigInfoDialog.this.getActivity()).edit();
-							if (LegoSensorConfigInfoDialog.this.legoSensorType == Constants.NXT) {
+							if (legoSensorType == Constants.NXT) {
 								editor.putBoolean(SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED, true);
-							} else if (LegoSensorConfigInfoDialog.this.legoSensorType == Constants.EV3) {
+							} else if (legoSensorType == Constants.EV3) {
 								editor.putBoolean(SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED, true);
 							}
 							editor.commit();

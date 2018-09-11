@@ -45,6 +45,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
+import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.core.AnyOf.anyOf;
 
@@ -104,7 +105,7 @@ public class BrickDataInteractionWrapper extends DataInteractionWrapper {
 		onView(anyOf(withText(R.string.brick_context_dialog_delete_brick),
 				withText(R.string.brick_context_dialog_delete_script)))
 				.perform(click());
-		onView(withText(R.string.yes))
+		onView(allOf(withId(android.R.id.button1), withText(R.string.delete)))
 				.perform(click());
 	}
 
