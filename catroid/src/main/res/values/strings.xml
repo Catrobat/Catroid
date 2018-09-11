@@ -665,11 +665,15 @@
     <!--  -->
 
     <!-- ScriptListFragment -->
-    <string name="fragment_script_text_description">Tap \"+\" to add Scripts</string>
+    <string name="fragment_script_text_description">Tap \"+\" to add scripts</string>
+    <!--  -->
+
+    <!-- SpriteListFragment -->
+    <string name="fragment_sprite_text_description">Tap \"+\" to add objects</string>
     <!--  -->
 
     <!-- LookListFragment -->
-    <string name="fragment_look_text_description">Tap \"+\" to add Looks</string>
+    <string name="fragment_look_text_description">Tap \"+\" to add looks</string>
     <string name="pocket_paint_not_installed_title">Pocket Paint is not installed!</string>
     <string name="pocket_paint_not_installed_message">Please install Pocket Paint.</string>
     <string name="default_look_name">Look</string>
@@ -678,7 +682,7 @@
     <!--  -->
 
     <!-- SoundListFragment -->
-    <string name="fragment_sound_text_description">Tap \"+\" to add Sounds</string>
+    <string name="fragment_sound_text_description">Tap \"+\" to add sounds</string>
     <string name="sound_select_source">Select a sound</string>
     <!--  -->
 
