@@ -34,6 +34,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
@@ -58,6 +59,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.catrobat.catroid.common.Constants.FILE_PROVIDER_AUTHORITY;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.POCKET_PAINT_PACKAGE_NAME;
 import static org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment.CAMERA;
@@ -147,10 +149,20 @@ public class NewLookDialogFragment extends DialogFragment implements View.OnClic
 				break;
 			case R.id.dialog_new_look_camera:
 				intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-				uri = getDefaultLookFromCameraUri(getString(R.string.default_look_name));
+				intent.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+				String childName = getString(R.string.default_look_name);
+				File cacheDir = new File(getActivity().getCacheDir()
+						.getAbsolutePath() + "/cameraCache");
+				if (!cacheDir.exists()) {
+					cacheDir.mkdirs();
+				}
+				File pictureFile = new File(cacheDir, childName + ".jpg");
+				uri = FileProvider.getUriForFile(getActivity(), FILE_PROVIDER_AUTHORITY, pictureFile);
 				intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
 				Intent chooser = Intent.createChooser(intent, getString(R.string.select_look_from_camera));
-				startActivityForResult(chooser, CAMERA);
+				if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+					startActivityForResult(chooser, CAMERA);
+				}
 				break;
 		}
 	}
@@ -240,7 +252,7 @@ public class NewLookDialogFragment extends DialogFragment implements View.OnClic
 			String name = getString(R.string.default_look_name);
 
 			File file = StorageOperations.copyUriToDir(getActivity().getContentResolver(),
-					uri, new File(dstScene.getDirectory(), IMAGE_DIRECTORY_NAME), name);
+					uri, new File(dstScene.getDirectory(), IMAGE_DIRECTORY_NAME), name.concat(".jpg"));
 
 			newItemInterface.addItem(new LookData(uniqueNameProvider.getUniqueName(name, getScope(dstSprite)), file));
 		} catch (IOException e) {
@@ -254,10 +266,5 @@ public class NewLookDialogFragment extends DialogFragment implements View.OnClic
 			scope.add(item.getName());
 		}
 		return scope;
-	}
-
-	private Uri getDefaultLookFromCameraUri(String defLookName) {
-		File pictureFile = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, defLookName + ".jpg");
-		return Uri.fromFile(pictureFile);
 	}
 }
