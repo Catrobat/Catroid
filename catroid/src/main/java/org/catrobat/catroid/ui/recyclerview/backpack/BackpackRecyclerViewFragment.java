@@ -256,13 +256,7 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 						deleteItems(selectedItems);
 					}
 				})
-				.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						finishActionMode();
-						dialog.dismiss();
-					}
-				})
+				.setNegativeButton(R.string.no, null)
 				.setCancelable(false)
 				.create()
 				.show();

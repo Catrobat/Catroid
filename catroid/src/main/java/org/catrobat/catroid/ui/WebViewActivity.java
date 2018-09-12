@@ -66,14 +66,11 @@ public class WebViewActivity extends BaseActivity {
 	public static final String INTENT_PARAMETER_URL = "url";
 	public static final String ANDROID_APPLICATION_EXTENSION = ".apk";
 	public static final String MEDIA_FILE_PATH = "media_file_path";
-	public static final String CALLING_ACTIVITY = "calling_activity";
 	private static final String FILENAME_TAG = "fname=";
 	private static final String PACKAGE_NAME_WHATSAPP = "com.whatsapp";
 
 	private WebView webView;
 	private boolean allowGoBack = false;
-	private String url;
-	private String callingActivity;
 	private ProgressDialog progressDialog;
 	private ProgressDialog webViewLoadingDialog;
 	private Intent resultIntent = new Intent();
@@ -83,14 +80,12 @@ public class WebViewActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_webview);
 
-		Intent intent = getIntent();
-		url = intent.getStringExtra(INTENT_PARAMETER_URL);
+		String url = getIntent().getStringExtra(INTENT_PARAMETER_URL);
 		if (url == null) {
 			url = FlavoredConstants.BASE_URL_HTTPS;
 		}
-		callingActivity = intent.getStringExtra(CALLING_ACTIVITY);
 
-		webView = (WebView) findViewById(R.id.webView);
+		webView = findViewById(R.id.webView);
 		webView.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.app_background, null));
 		webView.setWebViewClient(new MyWebViewClient());
 		webView.getSettings().setJavaScriptEnabled(true);
@@ -125,8 +120,7 @@ public class WebViewActivity extends BaseActivity {
 					}
 					String filePath = PathBuilder.buildPath(tempPath, fileName);
 					resultIntent.putExtra(MEDIA_FILE_PATH, filePath);
-					DownloadUtil.getInstance().prepareMediaDownloadAndStartIfPossible(WebViewActivity.this, url,
-							mediaType, name, filePath, callingActivity);
+					DownloadUtil.getInstance().startMediaDownload(WebViewActivity.this, url, name, filePath);
 				} else {
 					DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
 
@@ -241,7 +235,7 @@ public class WebViewActivity extends BaseActivity {
 
 		progressDialog.setTitle(getString(R.string.notification_download_title_pending) + mediaName);
 		progressDialog.setMessage(getString(R.string.notification_download_pending));
-		progressDialog.setProgressStyle(progressDialog.STYLE_HORIZONTAL);
+		progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 		progressDialog.setProgress(0);
 		progressDialog.setMax(100);
 		progressDialog.setProgressNumberFormat(null);

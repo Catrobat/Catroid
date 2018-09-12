@@ -86,6 +86,10 @@ public class BrickSpinner<T extends Nameable> implements AdapterView.OnItemSelec
 		adapter.add(item);
 	}
 
+	public List<T> getItems() {
+		return (List<T>) adapter.getItems();
+	}
+
 	public void setSelection(int position) {
 		spinner.setSelection(position);
 	}
@@ -137,10 +141,13 @@ public class BrickSpinner<T extends Nameable> implements AdapterView.OnItemSelec
 		}
 	}
 
-	class BrickSpinnerAdapter extends ArrayAdapter<Nameable> {
+	private class BrickSpinnerAdapter extends ArrayAdapter<Nameable> {
+
+		private List<Nameable> items;
 
 		BrickSpinnerAdapter(@NonNull Context context, int resource, @NonNull List<Nameable> items) {
 			super(context, resource, items);
+			this.items = items;
 		}
 
 		@Override
@@ -178,7 +185,7 @@ public class BrickSpinner<T extends Nameable> implements AdapterView.OnItemSelec
 			return convertView;
 		}
 
-		public int getPosition(@Nullable String itemName) {
+		int getPosition(@Nullable String itemName) {
 			for (int position = 0; position < getCount(); position++) {
 				if (getItem(position).getName().equals(itemName)) {
 					return position;
@@ -188,9 +195,13 @@ public class BrickSpinner<T extends Nameable> implements AdapterView.OnItemSelec
 			return -1;
 		}
 
+		List<Nameable> getItems() {
+			return items;
+		}
+
 		boolean containsNewOption() {
-			for (int position = 0; position < getCount(); position++) {
-				if (getItem(position) instanceof NewOption) {
+			for (Nameable item : items) {
+				if (item instanceof NewOption) {
 					return true;
 				}
 			}

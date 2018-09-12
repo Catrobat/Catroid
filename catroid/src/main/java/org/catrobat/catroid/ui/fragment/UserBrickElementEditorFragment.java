@@ -207,7 +207,7 @@ public class UserBrickElementEditorFragment extends Fragment implements
 			takenVariables.add(variable.getName());
 		}
 
-		UserBrickEditElementDialog dialog = new UserBrickEditElementDialog(fragmentView);
+		UserBrickEditElementDialog dialog = new UserBrickEditElementDialog();
 		dialog.addDialogListener(this);
 		dialog.show(getFragmentManager(),
 				UserBrickEditElementDialog.DIALOG_FRAGMENT_TAG);

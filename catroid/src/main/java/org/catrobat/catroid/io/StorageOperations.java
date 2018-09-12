@@ -24,7 +24,9 @@
 package org.catrobat.catroid.io;
 
 import android.content.ContentResolver;
+import android.database.Cursor;
 import android.net.Uri;
+import android.provider.OpenableColumns;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -74,24 +76,44 @@ public final class StorageOperations {
 		noMediaFile.createNewFile();
 	}
 
-	public static String getSanitizedFileName(File file) {
-		if (file.isDirectory()) {
-			return file.getName();
-		}
-
-		String name = file.getName();
-		int extensionStartIndex = name.lastIndexOf('.');
-		int appendixStartIndex = name.lastIndexOf(FILE_NAME_APPENDIX);
+	public static String getSanitizedFileName(String fileName) {
+		int extensionStartIndex = fileName.lastIndexOf('.');
+		int appendixStartIndex = fileName.lastIndexOf(FILE_NAME_APPENDIX);
 
 		if (appendixStartIndex == -1) {
 			appendixStartIndex = extensionStartIndex;
 		}
 
 		if (appendixStartIndex == -1) {
-			return name;
+			return fileName;
 		}
 
-		return name.substring(0, appendixStartIndex);
+		return fileName.substring(0, appendixStartIndex);
+	}
+
+	public static String resolveFileName(ContentResolver contentResolver, Uri uri) {
+		String result = null;
+
+		if (uri.getScheme().equals("content")) {
+			Cursor cursor = contentResolver.query(uri, null, null, null, null);
+			try {
+				if (cursor != null && cursor.moveToFirst()) {
+					result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+				}
+			} finally {
+				cursor.close();
+			}
+		}
+
+		if (result == null) {
+			result = uri.getPath();
+			int cut = result.lastIndexOf('/');
+			if (cut != -1) {
+				result = result.substring(cut + 1);
+			}
+		}
+
+		return result;
 	}
 
 	public static File duplicateFile(File src) throws IOException {
@@ -144,8 +166,7 @@ public final class StorageOperations {
 		return transferData(inputStream, dstFile);
 	}
 
-	public static File copyUriToDir(ContentResolver contentResolver, Uri uri, File dstDir, String fileName) throws
-			IOException {
+	public static File copyUriToDir(ContentResolver contentResolver, Uri uri, File dstDir, String fileName) throws IOException {
 		InputStream inputStream = contentResolver.openInputStream(uri);
 		return copyStreamToDir(inputStream, dstDir, fileName);
 	}

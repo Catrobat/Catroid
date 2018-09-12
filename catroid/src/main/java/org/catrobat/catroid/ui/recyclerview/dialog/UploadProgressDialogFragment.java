@@ -25,7 +25,6 @@ package org.catrobat.catroid.ui.recyclerview.dialog;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -42,7 +41,6 @@ import android.widget.ProgressBar;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.transfers.ProjectUploadService;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
@@ -80,14 +78,10 @@ public class UploadProgressDialogFragment extends DialogFragment {
 		progressBarDialog = new AlertDialog.Builder(getActivity())
 				.setTitle(getString(R.string.upload_project_dialog_title))
 				.setView(view)
+				.setPositiveButton(R.string.progress_upload_dialog_show_program, null)
+				.setNegativeButton(R.string.cancel, null)
 				.setCancelable(false)
 				.create();
-
-		progressBarDialog.setCanceledOnTouchOutside(false);
-		progressBarDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.cancel),
-				(DialogInterface.OnClickListener) null);
-		progressBarDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.progress_upload_dialog_show_program),
-				(DialogInterface.OnClickListener) null);
 
 		return progressBarDialog;
 	}
@@ -96,11 +90,10 @@ public class UploadProgressDialogFragment extends DialogFragment {
 	public void onStart() {
 		super.onStart();
 
-		final AlertDialog dialog = (AlertDialog) getDialog();
-		dialog.setCanceledOnTouchOutside(false);
-		dialog.setCancelable(false);
-		dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setText(getString(R.string.done));
-		dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+		final AlertDialog alertDialog = (AlertDialog) getDialog();
+
+		alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setText(getString(R.string.done));
+		alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
 
 		uploadProject(getArguments().getString(Constants.PROJECT_UPLOAD_NAME),
 				getArguments().getString(Constants.PROJECT_UPLOAD_DESCRIPTION));
@@ -114,7 +107,7 @@ public class UploadProgressDialogFragment extends DialogFragment {
 
 						public void run() {
 							if (progressPercent == 100) {
-								dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+								alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
 								progressBar.setVisibility(View.GONE);
 								successImage.setImageResource(R.drawable.ic_upload_success);
 								successImage.setVisibility(View.VISIBLE);
@@ -131,7 +124,7 @@ public class UploadProgressDialogFragment extends DialogFragment {
 			}
 		}).start();
 
-		dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+		alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				startWebViewActivity(SHARE_PROGRAM_URL + ServerCalls.getInstance().getProjectId());
@@ -139,7 +132,7 @@ public class UploadProgressDialogFragment extends DialogFragment {
 			}
 		});
 
-		dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(new View.OnClickListener() {
+		alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				dismiss();
@@ -187,9 +180,11 @@ public class UploadProgressDialogFragment extends DialogFragment {
 		String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 		String username = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
 		Intent intent = new Intent(getActivity(), ProjectUploadService.class);
-		String[] sceneNames = getSceneNamesAsArray(projectManager.getCurrentProject().getSceneList());
 
-		// TODO check this extras - e.g. project description isn't used by web
+		List<String> sceneNameList = projectManager.getCurrentProject().getSceneNames();
+		String[] sceneNames = new String[sceneNameList.size()];
+		sceneNameList.toArray(sceneNames);
+
 		intent.putExtra("receiver", new UploadReceiver(new Handler()));
 		intent.putExtra("uploadName", uploadName);
 		intent.putExtra("projectDescription", projectDescription);
@@ -212,14 +207,8 @@ public class UploadProgressDialogFragment extends DialogFragment {
 			new RatePocketCodeDialogFragment().show(getFragmentManager(), RatePocketCodeDialogFragment.TAG);
 		}
 
-		sharedPreferences.edit().putInt(NUMBER_OF_UPLOADED_PROJECTS, numberOfUploadedProjects).commit();
-	}
-
-	private String[] getSceneNamesAsArray(List<Scene> sceneList) {
-		String[] sceneNames = new String[sceneList.size()];
-		for (int i = 0; i < sceneNames.length; i++) {
-			sceneNames[i] = sceneList.get(i).getName();
-		}
-		return sceneNames;
+		sharedPreferences.edit()
+				.putInt(NUMBER_OF_UPLOADED_PROJECTS, numberOfUploadedProjects)
+				.commit();
 	}
 }

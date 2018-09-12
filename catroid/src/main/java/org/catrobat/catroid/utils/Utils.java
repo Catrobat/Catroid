@@ -63,10 +63,8 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
@@ -490,14 +488,6 @@ public final class Utils {
 		boolean tokenValid = !(token.equals(Constants.NO_TOKEN) || token.length() != ServerCalls.TOKEN_LENGTH
 				|| token.equals(ServerCalls.TOKEN_CODE_INVALID));
 		return tokenValid;
-	}
-
-	public static <T> List<T> distinctListByClassOfObjects(List<T> listToDistinct) {
-		Map<Class, T> uniqueMap = new HashMap<>();
-		for (T objectInstance : listToDistinct) {
-			uniqueMap.put(objectInstance.getClass(), objectInstance);
-		}
-		return new ArrayList<>(uniqueMap.values());
 	}
 
 	public static int setBit(int number, int index, int value) {

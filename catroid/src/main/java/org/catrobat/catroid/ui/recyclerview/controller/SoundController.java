@@ -33,8 +33,6 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.catrobat.catroid.common.Constants.BACKPACK_SOUND_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
@@ -44,7 +42,7 @@ public class SoundController {
 	private UniqueNameProvider uniqueNameProvider = new UniqueNameProvider();
 
 	public SoundInfo copy(SoundInfo soundToCopy, Scene dstScene, Sprite dstSprite) throws IOException {
-		String name = uniqueNameProvider.getUniqueName(soundToCopy.getName(), getScope(dstSprite.getSoundList()));
+		String name = uniqueNameProvider.getUniqueNameInNameables(soundToCopy.getName(), dstSprite.getSoundList());
 
 		File dstDir = getSoundDir(dstScene);
 		File file = StorageOperations.copyFileToDir(soundToCopy.getFile(), dstDir);
@@ -68,8 +66,8 @@ public class SoundController {
 	}
 
 	public SoundInfo pack(SoundInfo soundToPack) throws IOException {
-		String name = uniqueNameProvider.getUniqueName(soundToPack.getName(),
-				getScope(BackpackListManager.getInstance().getBackpackedSounds()));
+		String name = uniqueNameProvider.getUniqueNameInNameables(
+				soundToPack.getName(), BackpackListManager.getInstance().getBackpackedSounds());
 
 		File file = StorageOperations.copyFileToDir(soundToPack.getFile(), BACKPACK_SOUND_DIRECTORY);
 
@@ -91,7 +89,7 @@ public class SoundController {
 	}
 
 	public SoundInfo unpack(SoundInfo soundToUnpack, Scene dstScene, Sprite dstSprite) throws IOException {
-		String name = uniqueNameProvider.getUniqueName(soundToUnpack.getName(), getScope(dstSprite.getSoundList()));
+		String name = uniqueNameProvider.getUniqueNameInNameables(soundToUnpack.getName(), dstSprite.getSoundList());
 		File file = StorageOperations.copyFileToDir(soundToUnpack.getFile(), getSoundDir(dstScene));
 		return new SoundInfo(name, file);
 	}
@@ -106,14 +104,6 @@ public class SoundController {
 		SoundInfo soundInfo = unpack(soundToUnpack, dstScene, dstSprite);
 		dstSprite.getSoundList().add(soundInfo);
 		return soundInfo;
-	}
-
-	private List<String> getScope(List<SoundInfo> items) {
-		List<String> scope = new ArrayList<>();
-		for (SoundInfo item : items) {
-			scope.add(item.getName());
-		}
-		return scope;
 	}
 
 	private File getSoundDir(Scene scene) {

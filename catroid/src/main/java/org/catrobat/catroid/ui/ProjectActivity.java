@@ -22,14 +22,20 @@
  */
 package org.catrobat.catroid.ui;
 
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.IntDef;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,40 +44,65 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.drone.ardrone.DroneServiceWrapper;
 import org.catrobat.catroid.drone.ardrone.DroneStageActivity;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
+import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.ui.controller.PocketPaintExchangeHandler;
 import org.catrobat.catroid.ui.dialogs.LegoSensorConfigInfoDialog;
 import org.catrobat.catroid.ui.recyclerview.activity.ProjectUploadActivity;
-import org.catrobat.catroid.ui.recyclerview.dialog.PlaySceneDialogFragment;
+import org.catrobat.catroid.ui.recyclerview.controller.SceneController;
+import org.catrobat.catroid.ui.recyclerview.dialog.PlaySceneDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.NewItemTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.fragment.RecyclerViewFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SceneListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SpriteListFragment;
+import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+import java.io.File;
+import java.io.IOException;
 
-public class ProjectActivity extends BaseCastActivity implements PlaySceneDialogFragment.PlaySceneInterface {
+import static android.provider.MediaStore.ACTION_IMAGE_CAPTURE;
+import static android.provider.MediaStore.EXTRA_OUTPUT;
 
-	public static final String EXTRA_FRAGMENT_POSITION = "FRAGMENT_POSITION";
+import static org.catrobat.catroid.common.Constants.EXTRA_PICTURE_NAME_POCKET_PAINT;
+import static org.catrobat.catroid.common.Constants.EXTRA_PICTURE_PATH_POCKET_PAINT;
+import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
+import static org.catrobat.catroid.common.Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME;
+import static org.catrobat.catroid.common.Constants.POCKET_PAINT_PACKAGE_NAME;
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_LOOKS_URL;
+import static org.catrobat.catroid.ui.WebViewActivity.INTENT_PARAMETER_URL;
+import static org.catrobat.catroid.ui.WebViewActivity.MEDIA_FILE_PATH;
+
+public class ProjectActivity extends BaseCastActivity {
+
 	public static final String TAG = ProjectActivity.class.getSimpleName();
 
-	@Retention(RetentionPolicy.SOURCE)
-	@IntDef({FRAGMENT_SCENES, FRAGMENT_SPRITES})
-	@interface FragmentPosition {}
 	public static final int FRAGMENT_SCENES = 0;
 	public static final int FRAGMENT_SPRITES = 1;
+
+	public static final int LOOK_POCKET_PAINT = 0;
+	public static final int LOOK_LIBRARY = 1;
+	public static final int LOOK_FILE = 2;
+	public static final int LOOK_CAMERA = 3;
+
+	public static final String EXTRA_FRAGMENT_POSITION = "fragmentPosition";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		SettingsFragment.setToChosenLanguage(this);
 
 		setContentView(R.layout.activity_recycler);
@@ -79,17 +110,16 @@ public class ProjectActivity extends BaseCastActivity implements PlaySceneDialog
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		int fragmentPosition = FRAGMENT_SCENES;
-		Bundle bundle = getIntent().getExtras();
 
+		Bundle bundle = getIntent().getExtras();
 		if (bundle != null) {
 			fragmentPosition = bundle.getInt(EXTRA_FRAGMENT_POSITION, FRAGMENT_SCENES);
 		}
-
 		loadFragment(fragmentPosition);
 		showLegoSensorConfigInfo();
 	}
 
-	private void loadFragment(@FragmentPosition int fragmentPosition) {
+	private void loadFragment(int fragmentPosition) {
 		FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
 		switch (fragmentPosition) {
@@ -100,10 +130,14 @@ public class ProjectActivity extends BaseCastActivity implements PlaySceneDialog
 				fragmentTransaction.replace(R.id.fragment_container, new SpriteListFragment(), SpriteListFragment.TAG);
 				break;
 			default:
-				return;
+				throw new IllegalArgumentException("Invalid fragmentPosition in Activity.");
 		}
 
 		fragmentTransaction.commit();
+	}
+
+	private Fragment getCurrentFragment() {
+		return getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 	}
 
 	@Override
@@ -115,10 +149,13 @@ public class ProjectActivity extends BaseCastActivity implements PlaySceneDialog
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+			case R.id.new_scene:
+				handleAddSceneButton();
+				break;
 			case R.id.upload:
-				Intent intent = new Intent(this, ProjectUploadActivity.class)
-						.putExtra(ProjectUploadActivity.PROJECT_NAME,
-								ProjectManager.getInstance().getCurrentProject().getName());
+				Project currentProject = ProjectManager.getInstance().getCurrentProject();
+				Intent intent = new Intent(this, ProjectUploadActivity.class);
+				intent.putExtra(ProjectUploadActivity.PROJECT_NAME, currentProject.getName());
 				startActivity(intent);
 				break;
 			default:
@@ -131,58 +168,27 @@ public class ProjectActivity extends BaseCastActivity implements PlaySceneDialog
 	public void onBackPressed() {
 		if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
 			getSupportFragmentManager().popBackStack();
-		} else {
-			if ((ProjectManager.getInstance().getCurrentProject().getSceneList().size() > 1)
-					&& (getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof SpriteListFragment)) {
-				getSupportFragmentManager().beginTransaction()
-						.replace(R.id.fragment_container, new SceneListFragment(), SceneListFragment.TAG)
-						.commit();
-			} else {
-				super.onBackPressed();
-			}
+			return;
 		}
-	}
 
-	public void handleAddButton(View view) {
-		((RecyclerViewFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container)).handleAddButton();
-	}
+		boolean multiSceneProject = ProjectManager.getInstance().getCurrentProject().getSceneList().size() > 1;
 
-	public void handlePlayButton(View view) {
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
-
-		if (currentScene.getName().equals(currentProject.getDefaultScene().getName())) {
-			Intent intent = new Intent(this, PreStageActivity.class);
-			startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
+		if (getCurrentFragment() instanceof SpriteListFragment && multiSceneProject) {
+			getSupportFragmentManager().beginTransaction()
+					.replace(R.id.fragment_container, new SceneListFragment(), SceneListFragment.TAG)
+					.commit();
 		} else {
-			PlaySceneDialogFragment playSceneDialog = new PlaySceneDialogFragment(this);
-			playSceneDialog.show(getSupportFragmentManager(), PlaySceneDialogFragment.TAG);
+			super.onBackPressed();
 		}
-	}
-
-	public void startPreStageActivity() {
-		Intent intent = new Intent(this, PreStageActivity.class);
-		startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
 	}
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
-		switch (requestCode) {
-			case PreStageActivity.REQUEST_RESOURCES_INIT:
-				if (resultCode == RESULT_OK) {
-					if (DroneServiceWrapper.checkARDroneAvailability()) {
-						startActivity(new Intent(this, DroneStageActivity.class));
-					} else {
-						startActivity(new Intent(this, StageActivity.class));
-					}
-				}
-				break;
-			case StageActivity.STAGE_ACTIVITY_FINISH:
-				SensorHandler.stopSensorListeners();
-				FaceDetectionHandler.stopFaceDetection();
-				break;
+		if (requestCode == StageActivity.STAGE_ACTIVITY_FINISH) {
+			SensorHandler.stopSensorListeners();
+			FaceDetectionHandler.stopFaceDetection();
 		}
 
 		if (requestCode != RESULT_OK
@@ -192,22 +198,224 @@ public class ProjectActivity extends BaseCastActivity implements PlaySceneDialog
 
 			CastManager.getInstance().openDeviceSelectorOrDisconnectDialog(this);
 		}
+
+		Uri uri;
+
+		switch (requestCode) {
+			case PreStageActivity.REQUEST_RESOURCES_INIT:
+				startStage();
+				break;
+			case LOOK_POCKET_PAINT:
+				uri = Uri.fromFile(new File(data.getStringExtra(EXTRA_PICTURE_PATH_POCKET_PAINT)));
+				addSpriteFromUri(uri);
+				break;
+			case LOOK_LIBRARY:
+				uri = Uri.fromFile(new File(data.getStringExtra(MEDIA_FILE_PATH)));
+				addSpriteFromUri(uri);
+				break;
+			case LOOK_FILE:
+				uri = data.getData();
+				addSpriteFromUri(uri);
+				break;
+			case LOOK_CAMERA:
+				uri = Uri.fromFile(new File(DEFAULT_ROOT_DIRECTORY, getString(R.string.default_look_name) + ".jpg"));
+				addSpriteFromUri(uri);
+				break;
+		}
+	}
+
+	private void addSpriteFromUri(final Uri uri) {
+		final Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+
+		String name = StorageOperations.resolveFileName(getContentResolver(), uri);
+		if (name == null) {
+			name = getString(R.string.default_look_name);
+		} else {
+			name = StorageOperations.getSanitizedFileName(name);
+		}
+		name = new UniqueNameProvider().getUniqueNameInNameables(name, currentScene.getSpriteList());
+		final String lookName = name;
+
+		TextInputDialog.Builder builder = new TextInputDialog.Builder(this);
+
+		builder.setHint(getString(R.string.sprite_name_label))
+				.setText(name)
+				.setTextWatcher(new NewItemTextWatcher<>(currentScene.getSpriteList()))
+				.setPositiveButton(getString(R.string.ok), new TextInputDialog.OnClickListener() {
+					@Override
+					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
+						File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
+						Sprite sprite = new Sprite(textInput);
+						try {
+							File file = StorageOperations.copyUriToDir(getContentResolver(), uri, imageDirectory, lookName);
+							sprite.getLookList().add(new LookData(lookName, file));
+							currentScene.getSpriteList().add(sprite);
+						} catch (IOException e) {
+							Log.e(TAG, Log.getStackTraceString(e));
+						}
+						if (getCurrentFragment() instanceof SpriteListFragment) {
+							((SpriteListFragment) getCurrentFragment()).notifyDataSetChanged();
+						}
+					}
+				});
+
+		builder.setTitle(R.string.new_sprite_dialog_title)
+				.setNegativeButton(R.string.cancel, null)
+				.create()
+				.show();
+	}
+
+	public void handleAddButton(View view) {
+		if (getCurrentFragment() instanceof SceneListFragment) {
+			handleAddSceneButton();
+			return;
+		}
+		if (getCurrentFragment() instanceof SpriteListFragment) {
+			handleAddSpriteButton();
+		}
+	}
+
+	public void handleAddSceneButton() {
+		final Project currentProject = ProjectManager.getInstance().getCurrentProject();
+
+		String defaultSceneName = SceneController
+				.getUniqueDefaultSceneName(getResources(), currentProject.getSceneList());
+
+		TextInputDialog.Builder builder = new TextInputDialog.Builder(this);
+
+		builder.setHint(getString(R.string.scene_name_label))
+				.setText(defaultSceneName)
+				.setTextWatcher(new NewItemTextWatcher<>(currentProject.getSceneList()))
+				.setPositiveButton(getString(R.string.ok), new TextInputDialog.OnClickListener() {
+					@Override
+					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
+						Scene scene = SceneController
+								.newSceneWithBackgroundSprite(textInput, getString(R.string.background), currentProject);
+						currentProject.addScene(scene);
+
+						if (getCurrentFragment() instanceof SceneListFragment) {
+							((RecyclerViewFragment) getCurrentFragment()).notifyDataSetChanged();
+						} else {
+							Intent intent = new Intent(ProjectActivity.this, ProjectActivity.class);
+							intent.putExtra(ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SCENES);
+							startActivity(intent);
+							finish();
+						}
+					}
+				});
+
+		builder.setTitle(R.string.new_scene_dialog)
+				.setNegativeButton(R.string.cancel, null)
+				.create()
+				.show();
+	}
+
+	public void handleAddSpriteButton() {
+		View view = View.inflate(this, R.layout.dialog_new_look, null);
+
+		final AlertDialog alertDialog = new AlertDialog.Builder(this)
+				.setTitle(R.string.new_sprite_dialog_title)
+				.setView(view)
+				.create();
+
+		View.OnClickListener onClickListener = new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Intent intent;
+				switch (view.getId()) {
+					case R.id.dialog_new_look_paintroid:
+						intent = PocketPaintExchangeHandler
+								.createPocketPaintIntent(getString(R.string.default_look_name));
+
+						startPocketPaintIntent(intent);
+						break;
+					case R.id.dialog_new_look_media_library:
+						intent = new Intent(ProjectActivity.this, WebViewActivity.class);
+						intent.putExtra(INTENT_PARAMETER_URL, LIBRARY_LOOKS_URL);
+						startActivityForResult(intent, LOOK_LIBRARY);
+						break;
+					case R.id.dialog_new_look_gallery:
+						intent = new Intent(Intent.ACTION_GET_CONTENT).setType("image/*");
+						startActivityForResult(Intent.createChooser(intent, getString(R.string.select_look_from_gallery)), LOOK_FILE);
+						break;
+					case R.id.dialog_new_look_camera:
+						intent = new Intent(ACTION_IMAGE_CAPTURE);
+						Uri uri = Uri.fromFile(new File(DEFAULT_ROOT_DIRECTORY, getString(R.string.default_look_name) + ".jpg"));
+						intent.putExtra(EXTRA_OUTPUT, uri);
+						Intent chooser = Intent.createChooser(intent, getString(R.string.select_look_from_camera));
+						startActivityForResult(chooser, LOOK_CAMERA);
+						break;
+				}
+				alertDialog.dismiss();
+			}
+		};
+
+		view.findViewById(R.id.dialog_new_look_paintroid).setOnClickListener(onClickListener);
+		view.findViewById(R.id.dialog_new_look_media_library).setOnClickListener(onClickListener);
+		view.findViewById(R.id.dialog_new_look_gallery).setOnClickListener(onClickListener);
+		view.findViewById(R.id.dialog_new_look_camera).setOnClickListener(onClickListener);
+		alertDialog.show();
+	}
+
+	public void handlePlayButton(View view) {
+		ProjectManager projectManager = ProjectManager.getInstance();
+		Scene currentScene = projectManager.getCurrentlyEditedScene();
+		Scene defaultScene = projectManager.getCurrentProject().getDefaultScene();
+
+		if (currentScene.getName().equals(defaultScene.getName())) {
+			projectManager.setCurrentlyPlayingScene(defaultScene);
+			projectManager.setStartScene(defaultScene);
+			startPreStage();
+		} else {
+			new PlaySceneDialog.Builder(this)
+					.setPositiveButton(R.string.play, new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							startPreStage();
+						}
+					})
+					.create()
+					.show();
+		}
+	}
+
+	void startPreStage() {
+		Intent intent = new Intent(this, PreStageActivity.class);
+		startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
+	}
+
+	void startStage() {
+		if (DroneServiceWrapper.checkARDroneAvailability()) {
+			startActivity(new Intent(this, DroneStageActivity.class));
+		} else {
+			startActivity(new Intent(this, StageActivity.class));
+		}
+	}
+
+	void startPocketPaintIntent(Intent intent) {
+		if (PocketPaintExchangeHandler.isPocketPaintInstalled(this, intent)) {
+			startActivityForResult(intent, LOOK_POCKET_PAINT);
+		} else {
+			BroadcastReceiver receiver = PocketPaintExchangeHandler
+					.createPocketPaintBroadcastReceiver(this, intent, LOOK_POCKET_PAINT);
+			PocketPaintExchangeHandler.installPocketPaintAndRegister(receiver, this);
+		}
 	}
 
 	private void showLegoSensorConfigInfo() {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		boolean nxtDialogDisabled = preferences.getBoolean(
-				SettingsFragment.SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED, false);
-		boolean ev3DialogDisabled = preferences.getBoolean(
-				SettingsFragment.SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED, false);
+		boolean nxtDialogDisabled = preferences
+				.getBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED, false);
+		boolean ev3DialogDisabled = preferences
+				.getBoolean(SettingsFragment.SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED, false);
 
 		Brick.ResourcesSet resourcesSet = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
 		if (!nxtDialogDisabled && resourcesSet.contains(Brick.BLUETOOTH_LEGO_NXT)) {
-			DialogFragment dialog = new LegoSensorConfigInfoDialog(Constants.NXT);
+			DialogFragment dialog = LegoSensorConfigInfoDialog.newInstance(Constants.NXT);
 			dialog.show(getSupportFragmentManager(), LegoSensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
 		}
 		if (!ev3DialogDisabled && resourcesSet.contains(Brick.BLUETOOTH_LEGO_EV3)) {
-			DialogFragment dialog = new LegoSensorConfigInfoDialog(Constants.EV3);
+			DialogFragment dialog = LegoSensorConfigInfoDialog.newInstance(Constants.EV3);
 			dialog.show(getSupportFragmentManager(), LegoSensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
 		}
 	}

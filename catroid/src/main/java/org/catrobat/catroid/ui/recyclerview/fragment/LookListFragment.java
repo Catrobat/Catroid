@@ -23,10 +23,8 @@
 
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
-import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.PluralsRes;
@@ -43,16 +41,13 @@ import org.catrobat.catroid.ui.controller.PocketPaintExchangeHandler;
 import org.catrobat.catroid.ui.recyclerview.adapter.LookAdapter;
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
 import org.catrobat.catroid.ui.recyclerview.controller.LookController;
-import org.catrobat.catroid.ui.recyclerview.dialog.NewLookDialogFragment;
-import org.catrobat.catroid.ui.recyclerview.dialog.RenameDialogFragment;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
+import static org.catrobat.catroid.common.Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME;
 import static org.catrobat.catroid.common.Constants.POCKET_PAINT_PACKAGE_NAME;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_LOOKS_PREFERENCE_KEY;
 
@@ -60,11 +55,7 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 
 	public static final String TAG = LookListFragment.class.getSimpleName();
 
-	public static final int POCKET_PAINT = 0;
-	public static final int LIBRARY = 1;
-	public static final int FILE = 2;
-	public static final int CAMERA = 3;
-	public static final int DRONE = 4;
+	public static final int REQUEST_CODE_POCKET_PAINT = 0;
 
 	private LookController lookController = new LookController();
 
@@ -79,29 +70,13 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 	}
 
 	@Override
-	public void handleAddButton() {
-		NewLookDialogFragment dialog = new NewLookDialogFragment(this,
-				ProjectManager.getInstance().getCurrentlyEditedScene(), ProjectManager.getInstance().getCurrentSprite());
-		dialog.show(getFragmentManager(), NewLookDialogFragment.TAG);
-	}
-
-	@Override
-	public void addItem(LookData item) {
-		if (ProjectManager.getInstance().getCurrentSprite().hasCollision()) {
-			item.getCollisionInformation().calculate();
-		}
-		adapter.add(item);
-	}
-
-	@Override
 	protected void packItems(List<LookData> selectedItems) {
 		setShowProgressBar(true);
 		int packedItemCnt = 0;
 
 		for (LookData item : selectedItems) {
 			try {
-				BackpackListManager.getInstance().getBackpackedLooks().add(
-						lookController.pack(item));
+				BackpackListManager.getInstance().getBackpackedLooks().add(lookController.pack(item));
 				BackpackListManager.getInstance().saveBackpack();
 				packedItemCnt++;
 			} catch (IOException e) {
@@ -134,9 +109,10 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 	@Override
 	protected void copyItems(List<LookData> selectedItems) {
 		setShowProgressBar(true);
+		int copiedItemCnt = 0;
+
 		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-		int copiedItemCnt = 0;
 
 		for (LookData item : selectedItems) {
 			try {
@@ -182,28 +158,13 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 	}
 
 	@Override
-	protected void showRenameDialog(List<LookData> selectedItems) {
-		String name = selectedItems.get(0).getName();
-		RenameDialogFragment dialog = new RenameDialogFragment(R.string.rename_look_dialog, R.string.look_name_label, name, this);
-		dialog.show(getFragmentManager(), RenameDialogFragment.TAG);
+	protected int getRenameDialogTitle() {
+		return R.string.rename_look_dialog;
 	}
 
 	@Override
-	public boolean isNameUnique(String name) {
-		Set<String> scope = new HashSet<>();
-		for (LookData item : adapter.getItems()) {
-			scope.add(item.getName());
-		}
-		return !scope.contains(name);
-	}
-
-	@Override
-	public void renameItem(String name) {
-		LookData item = adapter.getSelectedItems().get(0);
-		if (!item.getName().equals(name)) {
-			item.setName(name);
-		}
-		finishActionMode();
+	protected int getRenameDialogHint() {
+		return R.string.look_name_label;
 	}
 
 	@Override
@@ -233,8 +194,7 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 		item.invalidateThumbnailBitmap();
 
 		Intent intent = new Intent("android.intent.action.MAIN");
-		intent.setComponent(new ComponentName(POCKET_PAINT_PACKAGE_NAME,
-				Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME));
+		intent.setComponent(new ComponentName(POCKET_PAINT_PACKAGE_NAME, POCKET_PAINT_INTENT_ACTIVITY_NAME));
 
 		Bundle bundle = new Bundle();
 		bundle.putString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT, item.getFile().getAbsolutePath());
@@ -242,33 +202,11 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 		intent.addCategory("android.intent.category.LAUNCHER");
 
 		if (PocketPaintExchangeHandler.isPocketPaintInstalled(getActivity(), intent)) {
-			startActivityForResult(intent, POCKET_PAINT);
+			startActivity(intent);
 		} else {
-			BroadcastReceiver receiver = createPocketPaintBroadcastReceiver(intent, POCKET_PAINT);
+			BroadcastReceiver receiver = PocketPaintExchangeHandler
+					.createPocketPaintBroadcastReceiver(getActivity(), intent, REQUEST_CODE_POCKET_PAINT);
 			PocketPaintExchangeHandler.installPocketPaintAndRegister(receiver, getActivity());
 		}
-	}
-
-	private BroadcastReceiver createPocketPaintBroadcastReceiver(final Intent paintroidIntent, final int
-			requestCode) {
-		return new BroadcastReceiver() {
-			@Override
-			public void onReceive(Context context, Intent intent) {
-
-				String packageName = intent.getData().getEncodedSchemeSpecificPart();
-				if (!packageName.equals(POCKET_PAINT_PACKAGE_NAME)) {
-					return;
-				}
-
-				getActivity().unregisterReceiver(this);
-
-				if (PocketPaintExchangeHandler.isPocketPaintInstalled(getActivity(), paintroidIntent)) {
-					ActivityManager activityManager = (ActivityManager) getActivity()
-							.getSystemService(Context.ACTIVITY_SERVICE);
-					activityManager.moveTaskToFront(getActivity().getTaskId(), 0);
-					startActivityForResult(paintroidIntent, requestCode);
-				}
-			}
-		};
 	}
 }

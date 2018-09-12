@@ -21,33 +21,55 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.ui.recyclerview.dialog;
+package org.catrobat.catroid.ui.recyclerview.dialog.textwatcher;
+
+import android.content.Context;
+import android.support.annotation.Nullable;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
+import org.catrobat.catroid.common.Nameable;
+import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 
-public class NewBroadcastMessageDialogFragment extends TextInputDialogFragment {
+import java.util.List;
 
-	public static final String TAG = NewBroadcastMessageDialogFragment.class.getSimpleName();
+public class NewItemTextWatcher<T extends Nameable> extends TextInputDialog.TextWatcher {
 
-	private NewItemInterface<String> newItemInterface;
+	private List<T> scope;
 
-	public NewBroadcastMessageDialogFragment() {
+	public NewItemTextWatcher(List<T> scope) {
+		this.scope = scope;
 	}
 
-	public NewBroadcastMessageDialogFragment(NewItemInterface<String> newItemInterface) {
-		super(R.string.dialog_new_broadcast_message_title, R.string.dialog_new_broadcast_message_name, null, false);
-		this.newItemInterface = newItemInterface;
+	public void setScope(List<T> scope) {
+		this.scope = scope;
 	}
 
-	@Override
-	protected boolean onPositiveButtonClick() {
-		String string = inputLayout.getEditText().getText().toString();
-		newItemInterface.addItem(string);
+	private boolean isNameUnique(String name) {
+		for (Nameable item : scope) {
+			if (item.getName().equals(name)) {
+				return false;
+			}
+		}
 		return true;
 	}
 
+	@Nullable
 	@Override
-	protected void onNegativeButtonClick() {
+	public String validateInput(String input, Context context) {
+		String error = null;
+
+		if (input.isEmpty()) {
+			return context.getString(R.string.name_empty);
+		}
+
+		input = input.trim();
+
+		if (input.isEmpty()) {
+			error = context.getString(R.string.name_consists_of_spaces_only);
+		} else if (!isNameUnique(input)) {
+			error = context.getString(R.string.name_already_exists);
+		}
+
+		return error;
 	}
 }

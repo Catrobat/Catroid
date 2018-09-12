@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.content.bricks;
 
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
@@ -31,6 +32,8 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.ui.UiUtils;
 
 import java.util.Collections;
 import java.util.List;
@@ -43,6 +46,16 @@ public class SetBackgroundBrick extends SetLookBrick {
 	@Override
 	protected void onViewCreated(View view) {
 		((TextView) view.findViewById(R.id.brick_set_look_text_view)).setText(R.string.brick_set_background);
+	}
+
+	@Override
+	public void onNewOptionSelected() {
+		AppCompatActivity activity = UiUtils.getActivityFromView(view);
+		if (activity == null || !(activity instanceof SpriteActivity)) {
+			return;
+		}
+		((SpriteActivity) activity).registerOnNewLookListener(this);
+		((SpriteActivity) activity).handleAddBackgroundButton();
 	}
 
 	@Override

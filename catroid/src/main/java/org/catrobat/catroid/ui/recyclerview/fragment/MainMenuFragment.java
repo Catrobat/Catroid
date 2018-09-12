@@ -76,7 +76,7 @@ public class MainMenuFragment extends Fragment implements ButtonAdapter.OnItemCl
 
 	@Nullable
 	@Override
-	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 		parent = inflater.inflate(R.layout.fragment_list_view, container, false);
 		recyclerView = parent.findViewById(R.id.recycler_view);
 		setShowProgressBar(true);

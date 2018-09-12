@@ -283,6 +283,20 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 		return items;
 	}
 
+	public List<UserVariable> getVariables() {
+		List<UserVariable> items = new ArrayList<>();
+		items.addAll(globalVarAdapter.getItems());
+		items.addAll(localVarAdapter.getItems());
+		return items;
+	}
+
+	public List<UserList> getLists() {
+		List<UserList> items = new ArrayList<>();
+		items.addAll(globalListAdapter.getItems());
+		items.addAll(localListAdapter.getItems());
+		return items;
+	}
+
 	public List<UserData> getSelectedItems() {
 		List<UserData> selectedItems = new ArrayList<>();
 		selectedItems.addAll(globalVarAdapter.getSelectedItems());

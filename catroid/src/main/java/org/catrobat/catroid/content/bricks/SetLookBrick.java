@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -34,20 +33,19 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.EventWrapper;
-import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
-import org.catrobat.catroid.ui.recyclerview.dialog.NewLookDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SetLookBrick extends BrickBaseType implements NewItemInterface<LookData>, BrickSpinner
-		.OnItemSelectedListener<LookData> {
+public class SetLookBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<LookData>,
+		NewItemInterface<LookData> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -108,19 +106,15 @@ public class SetLookBrick extends BrickBaseType implements NewItemInterface<Look
 	@Override
 	public void onNewOptionSelected() {
 		AppCompatActivity activity = UiUtils.getActivityFromView(view);
-		if (activity == null) {
+		if (activity == null || !(activity instanceof SpriteActivity)) {
 			return;
 		}
-
-		new NewLookFromBrickDialogFragment(this,
-				ProjectManager.getInstance().getCurrentlyEditedScene(),
-				getSprite())
-				.show(activity.getSupportFragmentManager(), NewLookDialogFragment.TAG);
+		((SpriteActivity) activity).registerOnNewLookListener(this);
+		((SpriteActivity) activity).handleAddLookButton();
 	}
 
 	@Override
 	public void addItem(LookData item) {
-		getSprite().getLookList().add(item);
 		spinner.add(item);
 		spinner.setSelection(item);
 	}
@@ -142,24 +136,5 @@ public class SetLookBrick extends BrickBaseType implements NewItemInterface<Look
 
 	protected Sprite getSprite() {
 		return ProjectManager.getInstance().getCurrentSprite();
-	}
-
-	public static class NewLookFromBrickDialogFragment extends NewLookDialogFragment {
-
-		private SetLookBrick setLookBrick;
-
-		public NewLookFromBrickDialogFragment() {
-		}
-
-		public NewLookFromBrickDialogFragment(SetLookBrick setLookBrick, Scene dstScene, Sprite dstSprite) {
-			super(setLookBrick, dstScene, dstSprite);
-			this.setLookBrick = setLookBrick;
-		}
-
-		@Override
-		public void onCancel(DialogInterface dialog) {
-			super.onCancel(dialog);
-			setLookBrick.spinner.setSelection(setLookBrick.look);
-		}
 	}
 }

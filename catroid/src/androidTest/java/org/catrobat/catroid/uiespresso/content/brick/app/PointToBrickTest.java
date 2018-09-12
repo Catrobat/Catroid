@@ -73,7 +73,7 @@ public class PointToBrickTest {
 				.checkShowsText(R.string.new_option)
 				.performSelectNameable(R.string.new_option);
 
-		onView(withText(R.string.new_look_dialog_title))
+		onView(withText(R.string.new_sprite_dialog_title))
 				.check(matches(isDisplayed()));
 	}
 
