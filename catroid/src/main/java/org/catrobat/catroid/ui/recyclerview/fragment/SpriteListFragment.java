@@ -41,7 +41,6 @@ import org.catrobat.catroid.content.GroupSprite;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.SpriteAttributesActivity;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.MultiViewSpriteAdapter;
@@ -49,11 +48,8 @@ import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperAdapt
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperCallback;
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
-import org.catrobat.catroid.ui.recyclerview.dialog.NewGroupDialogFragment;
-import org.catrobat.catroid.ui.recyclerview.dialog.NewSceneDialogFragment;
-import org.catrobat.catroid.ui.recyclerview.dialog.NewSpriteDialogWrapper;
-import org.catrobat.catroid.ui.recyclerview.dialog.RenameDialogFragment;
-import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
+import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.NewItemTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -61,9 +57,7 @@ import org.catrobat.catroid.utils.ToastUtil;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_SPRITES_PREFERENCE_KEY;
 
@@ -72,17 +66,6 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	public static final String TAG = SpriteListFragment.class.getSimpleName();
 
 	private SpriteController spriteController = new SpriteController();
-
-	private NewItemInterface<Scene> newSceneInterface = new NewItemInterface<Scene>() {
-		@Override
-		public void addItem(Scene item) {
-			ProjectManager.getInstance().getCurrentProject().addScene(item);
-			Intent intent = new Intent(getActivity(), ProjectActivity.class);
-			intent.putExtra(ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SCENES);
-			startActivity(intent);
-			getActivity().finish();
-		}
-	};
 
 	class MultiViewTouchHelperCallback extends TouchHelperCallback {
 
@@ -157,19 +140,30 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.new_group:
-				Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
-				new NewGroupDialogFragment(this, currentScene)
-						.show(getFragmentManager(), NewGroupDialogFragment.TAG);
-				break;
-			case R.id.new_scene:
-				Project currentProject = ProjectManager.getInstance().getCurrentProject();
-				new NewSceneDialogFragment(newSceneInterface, currentProject)
-						.show(getFragmentManager(), NewSceneDialogFragment.TAG);
+				showNewGroupDialog();
 				break;
 			default:
 				super.onOptionsItemSelected(item);
 		}
 		return true;
+	}
+
+	private void showNewGroupDialog() {
+		TextInputDialog.Builder builder = new TextInputDialog.Builder(getContext());
+
+		builder.setHint(getString(R.string.sprite_group_name_label))
+				.setTextWatcher(new NewItemTextWatcher<>(adapter.getItems()))
+				.setPositiveButton(getString(R.string.ok), new TextInputDialog.OnClickListener() {
+					@Override
+					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
+						adapter.add(new GroupSprite(textInput));
+					}
+				});
+
+		builder.setTitle(R.string.new_group)
+				.setNegativeButton(R.string.cancel, null)
+				.create()
+				.show();
 	}
 
 	@Override
@@ -180,18 +174,6 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 		adapter = new MultiViewSpriteAdapter(items);
 		emptyView.setText(R.string.fragment_sprite_text_description);
 		onAdapterReady();
-	}
-
-	@Override
-	public void handleAddButton() {
-		NewSpriteDialogWrapper dialogWrapper = new NewSpriteDialogWrapper(
-				this, ProjectManager.getInstance().getCurrentlyEditedScene());
-		dialogWrapper.showDialog(getFragmentManager());
-	}
-
-	@Override
-	public void addItem(Sprite item) {
-		adapter.add(item);
 	}
 
 	@Override
@@ -286,28 +268,13 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	}
 
 	@Override
-	protected void showRenameDialog(List<Sprite> selectedItems) {
-		String name = selectedItems.get(0).getName();
-		RenameDialogFragment dialog = new RenameDialogFragment(R.string.rename_sprite_dialog, R.string.sprite_name_label, name, this);
-		dialog.show(getFragmentManager(), RenameDialogFragment.TAG);
+	protected int getRenameDialogTitle() {
+		return R.string.rename_sprite_dialog;
 	}
 
 	@Override
-	public boolean isNameUnique(String name) {
-		Set<String> scope = new HashSet<>();
-		for (Sprite item : adapter.getItems()) {
-			scope.add(item.getName());
-		}
-		return !scope.contains(name);
-	}
-
-	@Override
-	public void renameItem(String name) {
-		Sprite item = adapter.getSelectedItems().get(0);
-		if (!item.getName().equals(name)) {
-			item.setName(name);
-		}
-		finishActionMode();
+	protected int getRenameDialogHint() {
+		return R.string.sprite_name_label;
 	}
 
 	@Override
@@ -358,8 +325,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 									showDeleteAlert(new ArrayList<>(Collections.singletonList(item)));
 									break;
 								case 1:
-									adapter.setSelection(item, true);
-									showRenameDialog(adapter.getSelectedItems());
+									showRenameDialog(new ArrayList<>(Collections.singletonList(item)));
 									break;
 								default:
 									dialog.dismiss();

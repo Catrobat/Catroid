@@ -29,8 +29,9 @@ import android.view.Menu;
 import android.view.View;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.recyclerview.dialog.NewProjectDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.ProjectListFragment;
-import org.catrobat.catroid.ui.recyclerview.fragment.RecyclerViewFragment;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 public class ProjectListActivity extends BaseCastActivity {
 
@@ -38,8 +39,9 @@ public class ProjectListActivity extends BaseCastActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.activity_recycler);
+		SettingsFragment.setToChosenLanguage(this);
 
+		setContentView(R.layout.activity_recycler);
 		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 		getSupportActionBar().setTitle(R.string.project_list_title);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -51,7 +53,7 @@ public class ProjectListActivity extends BaseCastActivity {
 
 	private void loadFragment(Fragment fragment) {
 		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.fragment_container, fragment, fragment.getTag())
+				.replace(R.id.fragment_container, fragment, ProjectListFragment.TAG)
 				.commit();
 	}
 
@@ -71,6 +73,7 @@ public class ProjectListActivity extends BaseCastActivity {
 	}
 
 	public void handleAddButton(View view) {
-		((RecyclerViewFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container)).handleAddButton();
+		NewProjectDialogFragment dialog = new NewProjectDialogFragment();
+		dialog.show(getSupportFragmentManager(), NewProjectDialogFragment.TAG);
 	}
 }

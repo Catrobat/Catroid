@@ -43,16 +43,17 @@ import org.junit.runner.RunWith;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
+import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_CAST_GLOBALLY_ENABLED;
 import static org.catrobat.catroid.uiespresso.util.UiTestUtils.assertCurrentActivityIsInstanceOf;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.core.IsNot.not;
 
 @RunWith(AndroidJUnit4.class)
 public class OrientationDialogTest {
@@ -96,18 +97,24 @@ public class OrientationDialogTest {
 
 	@Test
 	@Category({Level.Smoke.class, Cat.AppUi.class, Cat.Gadgets.class})
-	public void newProject() {
+	public void testCreateNewCastProject() {
 		onView(withText(R.string.main_menu_new))
 				.perform(click());
 		onView(withText(R.string.new_project_dialog_title))
 				.check(matches(isDisplayed()));
-		onView(withClassName(is("android.support.design.widget.TextInputEditText")))
-				.perform(typeText("TestCastProject"), closeSoftKeyboard());
-		onView(withText(R.string.ok))
+
+		onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
+				.check(matches(allOf(isDisplayed(), not(isEnabled()))));
+
+		onView(allOf(withId(R.id.input_edit_text), isDisplayed()))
+				.perform(replaceText("TestCastProject"), closeSoftKeyboard());
+
+		onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
 				.perform(click());
 		onView(withText(R.string.project_select_screen_title))
 				.check(matches(isDisplayed()));
-		onView(withId(R.id.cast)).perform(click());
+		onView(withId(R.id.cast))
+				.perform(click());
 		onView(withText(R.string.ok))
 				.perform(click());
 

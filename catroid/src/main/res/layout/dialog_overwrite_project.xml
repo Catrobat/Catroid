@@ -36,7 +36,8 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/overwrite_text" />
+            android:text="@string/overwrite_text"
+            android:paddingBottom="@dimen/material_design_spacing_large"/>
 
         <RadioGroup
             android:id="@+id/radio_group"

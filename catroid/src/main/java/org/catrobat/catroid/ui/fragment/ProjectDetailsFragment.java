@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.format.DateFormat;
@@ -41,7 +42,7 @@ import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.BottomBar;
-import org.catrobat.catroid.ui.recyclerview.dialog.SetDescriptionDialogFragment;
+import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -50,7 +51,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 
-public class ProjectDetailsFragment extends Fragment implements SetDescriptionDialogFragment.ChangeDescriptionInterface {
+public class ProjectDetailsFragment extends Fragment {
 
 	public static final String TAG = ProjectDetailsFragment.class.getSimpleName();
 	public static final String SELECTED_PROJECT_KEY = "selectedProject";
@@ -111,8 +112,21 @@ public class ProjectDetailsFragment extends Fragment implements SetDescriptionDi
 	}
 
 	private void handleDescriptionPressed() {
-		SetDescriptionDialogFragment dialog = new SetDescriptionDialogFragment(projectData.project.getDescription(), this);
-		dialog.show(getFragmentManager(), SetDescriptionDialogFragment.TAG);
+		TextInputDialog.Builder builder = new TextInputDialog.Builder(getContext());
+
+		builder.setHint(getString(R.string.description))
+				.setText(projectData.project.getDescription())
+				.setPositiveButton(getString(R.string.ok), new TextInputDialog.OnClickListener() {
+					@Override
+					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
+						setDescription(textInput);
+					}
+				});
+
+		builder.setTitle(R.string.set_description)
+				.setNegativeButton(R.string.cancel, null)
+				.create()
+				.show();
 	}
 
 	@Override
@@ -152,7 +166,6 @@ public class ProjectDetailsFragment extends Fragment implements SetDescriptionDi
 		return remixOf;
 	}
 
-	@Override
 	public void setDescription(String description) {
 		projectData.project.setDescription(description);
 		if (XstreamSerializer.getInstance().saveProject(projectData.project)) {

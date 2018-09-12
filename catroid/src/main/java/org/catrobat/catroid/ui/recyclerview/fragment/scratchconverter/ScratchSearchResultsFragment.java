@@ -136,7 +136,6 @@ public class ScratchSearchResultsFragment extends Fragment implements
 				ToastUtil.showError(getActivity(), R.string.search_failed);
 			} else if (result.getProgramDataList() != null) {
 				adapter.setItems(result.getProgramDataList());
-				//TODO: potentially cache results.
 			}
 		}
 	}

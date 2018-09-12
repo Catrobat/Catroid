@@ -134,6 +134,10 @@ public final class CastManager {
 		return mediaRouter;
 	}
 
+	public ArrayAdapter<MediaRouter.RouteInfo> getDeviceAdapter() {
+		return deviceAdapter;
+	}
+
 	public ArrayList<MediaRouter.RouteInfo> getRouteInfos() {
 		return routeInfos;
 	}
@@ -288,14 +292,13 @@ public final class CastManager {
 	}
 
 	public synchronized void openDeviceSelectorOrDisconnectDialog(AppCompatActivity activity) {
-		SelectCastDialog dialog = new SelectCastDialog(deviceAdapter, activity);
-		dialog.openDialog();
+		SelectCastDialog dialog = new SelectCastDialog();
+		dialog.show(activity.getSupportFragmentManager(), SelectCastDialog.TAG);
 	}
 
 	public synchronized void setCastButton(MenuItem castButton) {
 		this.castButton = castButton;
-		castButton.setVisible(mediaRouter.isRouteAvailable(mediaRouteSelector, MediaRouter
-				.AVAILABILITY_FLAG_REQUIRE_MATCH));
+		castButton.setVisible(mediaRouter.isRouteAvailable(mediaRouteSelector, MediaRouter.AVAILABILITY_FLAG_REQUIRE_MATCH));
 		setIsConnected(isConnected);
 	}
 

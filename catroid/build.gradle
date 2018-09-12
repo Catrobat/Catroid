@@ -100,7 +100,7 @@ android {
     lintOptions {
         lintConfig file('config/lint.xml')
         // IconMissingDensityFolder: we do not provide xxxhdpi icons (yet).
-        ignore 'ContentDescription', 'InvalidPackage', 'ValidFragment', 'GradleDependency',
+        ignore 'ContentDescription', 'InvalidPackage', 'GradleDependency',
                 'ClickableViewAccessibility', 'UnusedAttribute', 'CommitPrefEdits', 'OldTargetApi',
                 'RtlSymmetry', 'RtlHardcoded', 'HandlerLeak', 'IconMissingDensityFolder',
                 'WrongRegion', 'RelativeOverlap', 'IconColors', 'MissingTranslation', 'ExtraTranslation',

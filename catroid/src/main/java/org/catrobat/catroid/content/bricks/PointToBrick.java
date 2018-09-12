@@ -34,15 +34,15 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
-import org.catrobat.catroid.ui.recyclerview.dialog.NewSpriteDialogWrapper;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PointToBrick extends BrickBaseType implements NewItemInterface<Sprite>,
-		BrickSpinner.OnItemSelectedListener<Sprite> {
+public class PointToBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<Sprite>,
+		NewItemInterface<Sprite> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -95,23 +95,15 @@ public class PointToBrick extends BrickBaseType implements NewItemInterface<Spri
 	@Override
 	public void onNewOptionSelected() {
 		AppCompatActivity activity = UiUtils.getActivityFromView(view);
-		if (activity == null) {
+		if (activity == null || !(activity instanceof SpriteActivity)) {
 			return;
 		}
-
-		new NewSpriteDialogWrapper(this, ProjectManager.getInstance().getCurrentlyEditedScene()) {
-
-			@Override
-			public void onWorkflowCanceled() {
-				super.onWorkflowCanceled();
-				spinner.setSelection(pointedObject);
-			}
-		}.showDialog(activity.getSupportFragmentManager());
+		((SpriteActivity) activity).registerOnNewSpriteListener(this);
+		((SpriteActivity) activity).handleAddSpriteButton();
 	}
 
 	@Override
 	public void addItem(Sprite item) {
-		ProjectManager.getInstance().getCurrentlyEditedScene().addSprite(item);
 		spinner.add(item);
 		spinner.setSelection(item);
 	}

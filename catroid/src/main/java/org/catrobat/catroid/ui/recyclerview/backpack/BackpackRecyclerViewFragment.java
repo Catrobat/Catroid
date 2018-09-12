@@ -247,7 +247,7 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 	}
 
 	protected void showDeleteAlert(final List<T> selectedItems) {
-		new AlertDialog.Builder(getActivity())
+		new AlertDialog.Builder(getContext())
 				.setTitle(getResources().getQuantityString(getDeleteAlertTitleId(), selectedItems.size()))
 				.setMessage(R.string.dialog_confirm_delete)
 				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -256,13 +256,7 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 						deleteItems(selectedItems);
 					}
 				})
-				.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						finishActionMode();
-						dialog.dismiss();
-					}
-				})
+				.setNegativeButton(R.string.no, null)
 				.setCancelable(false)
 				.create()
 				.show();
@@ -274,7 +268,7 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 			return;
 		}
 		CharSequence[] items = new CharSequence[] {getString(R.string.unpack), getString(R.string.delete)};
-		new AlertDialog.Builder(getActivity())
+		new AlertDialog.Builder(getContext())
 				.setTitle(getItemName(item))
 				.setItems(items, new DialogInterface.OnClickListener() {
 					@Override

@@ -21,20 +21,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.ui.recyclerview.dialog;
+package org.catrobat.catroid.ui.recyclerview.dialog.textwatcher;
 
-import android.app.Dialog;
-import android.view.View;
-import android.view.WindowManager;
+import android.content.Context;
+import android.support.annotation.Nullable;
 
-public class OpenSoftkeyboardRightAway implements View.OnFocusChangeListener {
-	private Dialog dialog;
-	public OpenSoftkeyboardRightAway(Dialog dialog) {
-		this.dialog = dialog;
-	}
-	public void onFocusChange(View v, boolean hasFocus) {
-		if (hasFocus) {
-			dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
+
+public class NonEmptyStringTextWatcher extends TextInputDialog.TextWatcher {
+
+	@Nullable
+	@Override
+	public String validateInput(String input, Context context) {
+		String error = null;
+
+		if (input.isEmpty()) {
+			return context.getString(R.string.name_empty);
 		}
+
+		input = input.trim();
+
+		if (input.isEmpty()) {
+			error = context.getString(R.string.name_consists_of_spaces_only);
+		}
+
+		return error;
 	}
 }

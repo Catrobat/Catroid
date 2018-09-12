@@ -23,14 +23,13 @@
 package org.catrobat.catroid.ui.recyclerview.dialog;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AlertDialog;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RadioGroup;
 
 import org.catrobat.catroid.ProjectManager;
@@ -38,7 +37,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.drone.ardrone.DroneServiceWrapper;
 import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoServiceWrapper;
 import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DialogInputWatcher;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
@@ -48,17 +46,11 @@ public class NewProjectDialogFragment extends DialogFragment {
 
 	public static final String TAG = NewProjectDialogFragment.class.getSimpleName();
 
-	private TextInputLayout inputLayout;
-	private RadioGroup radioGroup;
-
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View view = View.inflate(getActivity(), R.layout.dialog_new_project, null);
 
-		inputLayout = view.findViewById(R.id.input);
-		inputLayout.setHint(getActivity().getString(R.string.project_name_label));
-
-		radioGroup = view.findViewById(R.id.radio_group);
+		final RadioGroup radioGroup = view.findViewById(R.id.radio_group);
 
 		if (DroneServiceWrapper.isDroneSharedPreferenceEnabled()) {
 			view.findViewById(R.id.project_default_drone_radio_button).setVisibility(View.VISIBLE);
@@ -68,75 +60,70 @@ public class NewProjectDialogFragment extends DialogFragment {
 			view.findViewById(R.id.project_default_jumping_sumo_radio_button).setVisibility(View.VISIBLE);
 		}
 
-		final AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
-				.setTitle(R.string.new_project_dialog_title)
-				.setView(view)
-				.setPositiveButton(R.string.ok, null)
-				.setNegativeButton(R.string.cancel, null)
-				.create();
+		final TextInputDialog.TextWatcher textWatcher = new TextInputDialog.TextWatcher() {
 
-		alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+			@Nullable
 			@Override
-			public void onShow(DialogInterface dialog) {
-				Button buttonPositive = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
-				buttonPositive.setOnClickListener(new View.OnClickListener() {
+			public String validateInput(String input, Context context) {
+				String error = null;
+
+				if (input.isEmpty()) {
+					return context.getString(R.string.name_empty);
+				}
+
+				input = input.trim();
+
+				if (input.isEmpty()) {
+					error = context.getString(R.string.name_consists_of_spaces_only);
+				} else if (Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase(input)) {
+					error = context.getString(R.string.name_already_exists);
+				}
+
+				return error;
+			}
+		};
+
+		TextInputDialog.Builder builder = new TextInputDialog.Builder(getContext())
+				.setHint(getString(R.string.project_name_label))
+				.setTextWatcher(textWatcher)
+				.setPositiveButton(getString(R.string.ok), new TextInputDialog.OnClickListener() {
 					@Override
-					public void onClick(View v) {
-						if (onPositiveButtonClick()) {
-							dismiss();
+					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
+						switch (radioGroup.getCheckedRadioButtonId()) {
+							case R.id.project_empty_radio_button:
+								showOrientationDialog(textInput, true);
+								break;
+							case R.id.project_default_radio_button:
+								showOrientationDialog(textInput, false);
+								break;
+							case R.id.project_default_drone_radio_button:
+								createDroneProject(textInput, false);
+								break;
+							case R.id.project_default_jumping_sumo_radio_button:
+								createDroneProject(textInput, true);
+								break;
+							default:
+								throw new IllegalStateException(TAG + ": No radio button id match, check layout?");
 						}
 					}
 				});
-				buttonPositive.setEnabled(!inputLayout.getEditText().getText().toString().isEmpty());
-				DialogInputWatcher inputWatcher = new DialogInputWatcher(inputLayout, buttonPositive, false);
-				inputLayout.getEditText().addTextChangedListener(inputWatcher);
-			}
-		});
-		inputLayout.getEditText().setOnFocusChangeListener(new OpenSoftkeyboardRightAway(alertDialog));
-		return alertDialog;
+
+		return builder
+				.setTitle(R.string.new_project_dialog_title)
+				.setView(view)
+				.setNegativeButton(R.string.cancel, null)
+				.create();
 	}
 
-	private boolean onPositiveButtonClick() {
-		String name = inputLayout.getEditText().getText().toString().trim();
-
-		if (name.isEmpty()) {
-			inputLayout.setError(getString(R.string.name_consists_of_spaces_only));
-			return false;
-		}
-
-		if (Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase(name)) {
-			inputLayout.setError(getString(R.string.name_already_exists));
-			return false;
-		} else {
-			switch (radioGroup.getCheckedRadioButtonId()) {
-				case R.id.project_empty_radio_button:
-					showOrientationDialog(name, true);
-					break;
-				case R.id.project_default_radio_button:
-					showOrientationDialog(name, false);
-					break;
-				case R.id.project_default_drone_radio_button:
-					createDroneProject(name, false);
-					break;
-				case R.id.project_default_jumping_sumo_radio_button:
-					createDroneProject(name, true);
-					break;
-				default:
-					throw new IllegalStateException(TAG + ": Cannot find RadioButton.");
-			}
-			return true;
-		}
-	}
-
-	private void showOrientationDialog(String name, boolean createEmptyProject) {
-		OrientationDialogFragment dialog = new OrientationDialogFragment(name, createEmptyProject);
+	void showOrientationDialog(String projectName, boolean createEmptyProject) {
+		OrientationDialogFragment dialog = OrientationDialogFragment.newInstance(projectName, createEmptyProject);
 		dialog.show(getFragmentManager(), OrientationDialogFragment.TAG);
 	}
 
-	private void createDroneProject(String name, boolean jumpingSumo) {
+	void createDroneProject(String name, boolean jumpingSumo) {
 		try {
-			ProjectManager.getInstance()
-					.initializeNewProject(name, getActivity(), false, true, false, false, jumpingSumo);
+			ProjectManager.getInstance().initializeNewProject(name, getActivity(), false, true,
+					false, false, jumpingSumo);
 			Intent intent = new Intent(getActivity(), ProjectActivity.class);
 			getActivity().startActivity(intent);
 		} catch (IOException e) {

@@ -20,38 +20,42 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.ui.recyclerview.dialog;
+
+package org.catrobat.catroid.ui.recyclerview.dialog.textwatcher;
+
+import android.content.Context;
+import android.support.annotation.Nullable;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 
-public class SetDescriptionDialogFragment extends TextInputDialogFragment {
+import java.util.List;
 
-	public static final String TAG = SetDescriptionDialogFragment.class.getSimpleName();
+public class UniqueStringTextWatcher extends TextInputDialog.TextWatcher {
 
-	private ChangeDescriptionInterface descriptionInterface;
+	private List<String> scope;
 
-	public SetDescriptionDialogFragment() {
-		super(R.string.set_description, R.string.description, null, true);
+	public UniqueStringTextWatcher(List<String> scope) {
+		this.scope = scope;
 	}
 
-	public SetDescriptionDialogFragment(String text, ChangeDescriptionInterface descriptionInterface) {
-		super(R.string.set_description, R.string.description, text, true);
-		this.descriptionInterface = descriptionInterface;
-	}
-
+	@Nullable
 	@Override
-	protected boolean onPositiveButtonClick() {
-		String description = inputLayout.getEditText().getText().toString().trim();
-		descriptionInterface.setDescription(description);
-		return true;
-	}
+	public String validateInput(String input, Context context) {
+		String error = null;
 
-	@Override
-	protected void onNegativeButtonClick() {
-	}
+		if (input.isEmpty()) {
+			return context.getString(R.string.name_empty);
+		}
 
-	public interface ChangeDescriptionInterface {
+		input = input.trim();
 
-		void setDescription(String description);
+		if (input.isEmpty()) {
+			error = context.getString(R.string.name_consists_of_spaces_only);
+		} else if (scope.contains(input)) {
+			error = context.getString(R.string.name_already_exists);
+		}
+
+		return error;
 	}
 }

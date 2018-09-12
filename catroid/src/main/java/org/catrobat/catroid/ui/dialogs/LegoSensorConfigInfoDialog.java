@@ -25,7 +25,6 @@ package org.catrobat.catroid.ui.dialogs;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
@@ -43,32 +42,34 @@ import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTING
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED;
 
 public class LegoSensorConfigInfoDialog extends DialogFragment {
-	public static final String DIALOG_FRAGMENT_TAG = "dialog_lego_sensor_config_info";
 
-	private @LegoSensorType int legoSensorType;
+	public static final String DIALOG_FRAGMENT_TAG = LegoSensorConfigInfoDialog.class.getSimpleName();
+	private static final String BUNDLE_KEY_SENSOR_TYPE = "legoSensorType";
 
-	public LegoSensorConfigInfoDialog() {
-	}
+	public static LegoSensorConfigInfoDialog newInstance(@LegoSensorType int legoSensorType) {
+		LegoSensorConfigInfoDialog dialog = new LegoSensorConfigInfoDialog();
 
-	public LegoSensorConfigInfoDialog(@LegoSensorType int legoSensorType) {
-		this.legoSensorType = legoSensorType;
-	}
+		Bundle bundle = new Bundle();
+		bundle.putInt(BUNDLE_KEY_SENSOR_TYPE, legoSensorType);
+		dialog.setArguments(bundle);
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		boolean isRestoringPreviouslyDestroyedActivity = savedInstanceState != null;
-		if (isRestoringPreviouslyDestroyedActivity) {
-			dismiss();
-		}
+		return dialog;
 	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		int titleStringResId;
 		int infoStringResId;
+
 		Enum[] sensorMapping;
 		String[] sensorMappingStrings;
+
+		if (getArguments() == null) {
+			dismiss();
+		}
+
+		final int legoSensorType = getArguments().getInt(BUNDLE_KEY_SENSOR_TYPE, Constants.NXT);
+
 		switch (legoSensorType) {
 			case Constants.NXT:
 				titleStringResId = R.string.lego_nxt_sensor_config_info_title;
@@ -76,21 +77,21 @@ public class LegoSensorConfigInfoDialog extends DialogFragment {
 				sensorMapping = SettingsFragment.getLegoNXTSensorMapping(getActivity());
 				sensorMappingStrings = getResources().getStringArray(R.array.nxt_sensor_chooser);
 				break;
-
 			case Constants.EV3:
 				titleStringResId = R.string.lego_ev3_sensor_config_info_title;
 				infoStringResId = R.string.lego_ev3_sensor_config_info_text;
 				sensorMapping = SettingsFragment.getLegoEV3SensorMapping(getActivity());
 				sensorMappingStrings = getResources().getStringArray(R.array.ev3_sensor_chooser);
 				break;
-
 			default:
 				throw new IllegalArgumentException("LegoSensorConfigInfoDialog: Constructor called with invalid sensor type");
 		}
 
-		View dialogView = View.inflate(getActivity(), R.layout.dialog_lego_sensor_config_info, null);
+		final View dialogView = View.inflate(getActivity(), R.layout.dialog_lego_sensor_config_info, null);
+		final CheckBox disableShowInfoDialog = dialogView.findViewById(R.id.lego_sensor_config_info_disable_show_dialog);
 
-		((TextView) dialogView.findViewById(R.id.lego_sensor_config_info_text)).setText(infoStringResId);
+		((TextView) dialogView.findViewById(R.id.lego_sensor_config_info_text))
+				.setText(infoStringResId);
 		((TextView) dialogView.findViewById(R.id.lego_sensor_config_info_port_1_mapping))
 				.setText(sensorMappingStrings[sensorMapping[0].ordinal()]);
 		((TextView) dialogView.findViewById(R.id.lego_sensor_config_info_port_2_mapping))
@@ -100,26 +101,23 @@ public class LegoSensorConfigInfoDialog extends DialogFragment {
 		((TextView) dialogView.findViewById(R.id.lego_sensor_config_info_port_4_mapping))
 				.setText(sensorMappingStrings[sensorMapping[3].ordinal()]);
 
-		final CheckBox disableShowInfoDialog = dialogView.findViewById(R.id.lego_sensor_config_info_disable_show_dialog);
-		Dialog dialog = new AlertDialog.Builder(getActivity())
-				.setView(dialogView)
+		return new AlertDialog.Builder(getActivity())
 				.setTitle(titleStringResId)
+				.setView(dialogView)
 				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+					@Override
 					public void onClick(DialogInterface dialog, int id) {
 						if (disableShowInfoDialog.isChecked()) {
-							SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(
-									LegoSensorConfigInfoDialog.this.getActivity()).edit();
-							if (LegoSensorConfigInfoDialog.this.legoSensorType == Constants.NXT) {
-								editor.putBoolean(SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED, true);
-							} else if (LegoSensorConfigInfoDialog.this.legoSensorType == Constants.EV3) {
-								editor.putBoolean(SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED, true);
-							}
-							editor.commit();
+							String preferenceKey = legoSensorType == Constants.NXT
+									? SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED
+									: SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED;
+
+							PreferenceManager.getDefaultSharedPreferences(getActivity()).edit()
+									.putBoolean(preferenceKey, true)
+									.commit();
 						}
 					}
-				}).create();
-
-		dialog.setCanceledOnTouchOutside(true);
-		return dialog;
+				})
+				.create();
 	}
 }

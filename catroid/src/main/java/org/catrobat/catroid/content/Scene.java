@@ -99,16 +99,6 @@ public class Scene implements Nameable, Serializable {
 		return spriteList;
 	}
 
-	public List<String> getSpriteNames() {
-		List<String> spriteNames = new ArrayList<>();
-
-		for (Sprite sprite : spriteList) {
-			spriteNames.add(sprite.getName());
-		}
-
-		return spriteNames;
-	}
-
 	public Sprite getSprite(String spriteName) {
 		for (Sprite sprite : spriteList) {
 			if (spriteName.equals(sprite.getName())) {

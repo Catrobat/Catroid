@@ -28,7 +28,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.media.MediaRouter;
 import android.view.View;
 import android.widget.AdapterView;
@@ -42,31 +41,12 @@ import org.catrobat.catroid.common.Constants;
 
 public class SelectCastDialog extends DialogFragment {
 
-	private static final String DIALOG_TAG = "cast_device_selector";
-	private ArrayAdapter<MediaRouter.RouteInfo> deviceAdapter;
-	private AppCompatActivity activity;
-	private AlertDialog dialog;
-
-	public SelectCastDialog() {
-	}
-
-	public SelectCastDialog(ArrayAdapter<MediaRouter.RouteInfo> adapter, AppCompatActivity activity) {
-		this.deviceAdapter = adapter;
-		this.activity = activity;
-		CastManager.getInstance().setCallback(MediaRouter.CALLBACK_FLAG_PERFORM_ACTIVE_SCAN);
-	}
+	public static final String TAG = SelectCastDialog.class.getSimpleName();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		boolean isRestoringPreviouslyDestroyedActivity = savedInstanceState != null;
-		if (isRestoringPreviouslyDestroyedActivity) {
-			dismiss();
-		}
-	}
-
-	public void openDialog() {
-		show(activity.getSupportFragmentManager(), DIALOG_TAG);
+		CastManager.getInstance().setCallback(MediaRouter.CALLBACK_FLAG_PERFORM_ACTIVE_SCAN);
 	}
 
 	@Override
@@ -77,9 +57,11 @@ public class SelectCastDialog extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		final ArrayAdapter<MediaRouter.RouteInfo> deviceAdapter = CastManager.getInstance().getDeviceAdapter();
+
 		if (CastManager.getInstance().currentlyConnecting() || CastManager.getInstance().isConnected()) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-			builder.setMessage(activity.getString(R.string.cast_ready_to_cast) + " "
+			AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+			builder.setMessage(getString(R.string.cast_ready_to_cast) + " "
 					+ CastManager.getInstance().getSelectedDevice().getFriendlyName());
 			builder.setPositiveButton(R.string.disconnect, new DialogInterface.OnClickListener() {
 				@Override
@@ -89,47 +71,47 @@ public class SelectCastDialog extends DialogFragment {
 					}
 				}
 			});
-			dialog = builder.create();
-			return dialog;
-		} else {
-			final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-			View view = View.inflate(getActivity(), R.layout.dialog_select_cast, null);
-			ListView listView = (ListView) view.findViewById(R.id.cast_device_list_view);
-			listView.setEmptyView(view.findViewById(R.id.empty_view_item));
-			builder.setView(view).setTitle(getString(R.string.cast_device_selector_dialog_title));
-			listView.setAdapter(deviceAdapter);
-			listView.setDivider(null);
-
-			dialog = builder.create();
-
-			listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-				@Override
-				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-					synchronized (this) {
-						MediaRouter.RouteInfo routeInfo = CastManager.getInstance().getRouteInfos().get(position);
-						CastManager.getInstance().setCallback();
-						CastManager.getInstance().startCastButtonAnimation();
-						CastManager.getInstance().selectRoute(routeInfo);
-						dialog.dismiss();
-					}
-				}
-			});
-
-			// Show a tip inside of the empty view after CAST_NOT_SEEING_DEVICE_TIMEOUT milliseconds.
-			(new Handler()).postDelayed(new Runnable() {
-				@Override
-				public void run() {
-					synchronized (this) {
-						if (dialog != null && dialog.isShowing() && deviceAdapter.isEmpty()) {
-							TextView textview = (TextView) dialog.findViewById(R.id.cast_searching_for_cast_text_view);
-							String text = activity.getText(R.string.cast_searching_for_cast_devices).toString()
-									+ activity.getText(R.string.cast_trouble_finding_devices_tip);
-							textview.setText(text);
-						}
-					}
-				}
-			}, Constants.CAST_NOT_SEEING_DEVICE_TIMEOUT);
-			return dialog;
+			return builder.create();
 		}
+
+		View view = View.inflate(getActivity(), R.layout.dialog_select_cast, null);
+		ListView listView = view.findViewById(R.id.cast_device_list_view);
+		listView.setEmptyView(view.findViewById(R.id.empty_view_item));
+		listView.setAdapter(deviceAdapter);
+		listView.setDivider(null);
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(getContext())
+				.setTitle(getString(R.string.cast_device_selector_dialog_title))
+				.setView(view);
+
+		final AlertDialog alertDialog = builder.create();
+
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				synchronized (this) {
+					MediaRouter.RouteInfo routeInfo = CastManager.getInstance().getRouteInfos().get(position);
+					CastManager.getInstance().setCallback();
+					CastManager.getInstance().startCastButtonAnimation();
+					CastManager.getInstance().selectRoute(routeInfo);
+					alertDialog.dismiss();
+				}
+			}
+		});
+
+		new Handler().postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				synchronized (this) {
+					if (alertDialog != null && alertDialog.isShowing() && deviceAdapter.isEmpty()) {
+						TextView textview = alertDialog.findViewById(R.id.cast_searching_for_cast_text_view);
+						String text = getString(R.string.cast_searching_for_cast_devices)
+								+ getString(R.string.cast_trouble_finding_devices_tip);
+						textview.setText(text);
+					}
+				}
+			}
+		}, Constants.CAST_NOT_SEEING_DEVICE_TIMEOUT);
+		return alertDialog;
 	}
 }

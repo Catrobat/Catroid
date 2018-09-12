@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.ResourceImporter;
+import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
@@ -57,6 +58,7 @@ import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.isDialog;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
@@ -64,6 +66,7 @@ import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.not;
 
 @RunWith(AndroidJUnit4.class)
 public class RenameLookTest {
@@ -75,6 +78,7 @@ public class RenameLookTest {
 
 	private String oldLookName = "oldLookName";
 	private String newLookName = "newLookName";
+	private String secondLookName = "secondLookName";
 
 	@Before
 	public void setUp() throws Exception {
@@ -133,6 +137,49 @@ public class RenameLookTest {
 		onView(withText(oldLookName)).check(matches(isDisplayed()));
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void invalidInputRenameLookTest() {
+		RecyclerViewActions.openOverflowMenu();
+		onView(withText(R.string.rename)).perform(click());
+
+		onRecyclerView().atPosition(0)
+				.performCheckItem();
+
+		onView(withId(R.id.confirm)).perform(click());
+
+		onView(withText(R.string.rename_look_dialog)).inRoot(isDialog())
+				.check(matches(isDisplayed()));
+
+		String emptyInput = "";
+		String spacesOnlyInput = "   ";
+
+		onView(allOf(withText(oldLookName), isDisplayed(), instanceOf(EditText.class)))
+				.perform(replaceText(emptyInput));
+		closeSoftKeyboard();
+
+		onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
+				.check(matches(allOf(isDisplayed(), not(isEnabled()))));
+
+		onView(allOf(withText(emptyInput), isDisplayed(), instanceOf(EditText.class)))
+				.perform(replaceText(spacesOnlyInput));
+
+		onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
+				.check(matches(allOf(isDisplayed(), not(isEnabled()))));
+
+		onView(allOf(withText(spacesOnlyInput), isDisplayed(), instanceOf(EditText.class)))
+				.perform(replaceText(secondLookName));
+
+		onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
+				.check(matches(allOf(isDisplayed(), not(isEnabled()))));
+
+		onView(allOf(withText(secondLookName), isDisplayed(), instanceOf(EditText.class)))
+				.perform(replaceText(newLookName));
+
+		onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
+				.check(matches(allOf(isDisplayed(), isEnabled())));
+	}
+
 	private void createProject() throws IOException {
 		String projectName = "renameLookFragmentTest";
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
@@ -144,7 +191,7 @@ public class RenameLookTest {
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		XstreamSerializer.getInstance().saveProject(project);
 
-		File imageFile = ResourceImporter.createImageFileFromResourcesInDirectory(
+		File imageFile0 = ResourceImporter.createImageFileFromResourcesInDirectory(
 				InstrumentationRegistry.getContext().getResources(),
 				org.catrobat.catroid.test.R.drawable.catroid_banzai,
 				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
@@ -152,9 +199,15 @@ public class RenameLookTest {
 				1);
 
 		List<LookData> lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookList();
-		LookData lookData = new LookData();
-		lookData.setFile(imageFile);
-		lookData.setName(oldLookName);
-		lookDataList.add(lookData);
+		LookData lookData0 = new LookData();
+		lookData0.setFile(imageFile0);
+		lookData0.setName(oldLookName);
+		lookDataList.add(lookData0);
+
+		File imageFile1 = StorageOperations.duplicateFile(imageFile0);
+		LookData lookData1 = new LookData();
+		lookData1.setFile(imageFile1);
+		lookData1.setName(secondLookName);
+		lookDataList.add(lookData1);
 	}
 }

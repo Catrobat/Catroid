@@ -24,7 +24,6 @@ package org.catrobat.catroid.ui.fragment;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -66,8 +65,7 @@ import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.dialogs.FormulaEditorComputeDialog;
 import org.catrobat.catroid.ui.dialogs.FormulaEditorIntroDialog;
-import org.catrobat.catroid.ui.recyclerview.dialog.NewStringDialogFragment;
-import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
+import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.fragment.CategoryListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
 import org.catrobat.catroid.utils.SnackbarUtil;
@@ -76,7 +74,7 @@ import org.catrobat.catroid.utils.ToastUtil;
 import static org.catrobat.catroid.utils.SnackbarUtil.wasHintAlreadyShown;
 
 public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.OnGlobalLayoutListener,
-		DataListFragment.FormulaEditorDataInterface, NewItemInterface<String> {
+		DataListFragment.FormulaEditorDataInterface {
 
 	private static final int SET_FORMULA_ON_CREATE_VIEW = 0;
 	private static final int SET_FORMULA_ON_SWITCH_EDIT_TEXT = 1;
@@ -359,12 +357,29 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	}
 
 	private void showNewStringDialog() {
-		NewStringDialogFragment dialog = new NewStringDialogFragment(getSelectedFormulaText(), this);
-		dialog.show(getFragmentManager(), NewStringDialogFragment.TAG);
+		String selectedFormulaText = getSelectedFormulaText();
+
+		TextInputDialog.Builder builder = new TextInputDialog.Builder(getContext());
+
+		builder.setHint(getString(R.string.string_label))
+				.setText(selectedFormulaText)
+				.setPositiveButton(getString(R.string.ok), new TextInputDialog.OnClickListener() {
+					@Override
+					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
+						addString(textInput);
+					}
+				});
+
+		int titleId = selectedFormulaText == null
+				? R.string.formula_editor_dialog_change_text : R.string.formula_editor_new_string_name;
+
+		builder.setTitle(titleId)
+				.setNegativeButton(R.string.cancel, null)
+				.create()
+				.show();
 	}
 
-	@Override
-	public void addItem(String string) {
+	public void addString(String string) {
 		String previousString = getSelectedFormulaText();
 		if (previousString != null && !previousString.matches("\\s*")) {
 			overrideSelectedText(string);
@@ -552,7 +567,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 			builder.setTitle(R.string.formula_editor_discard_changes_dialog_title)
 					.setMessage(R.string.formula_editor_discard_changes_dialog_message)
-					.setNegativeButton(R.string.no, new OnClickListener() {
+					.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
 
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
@@ -560,7 +575,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 							onUserDismiss();
 						}
 					})
-					.setPositiveButton(R.string.yes, new OnClickListener() {
+					.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 
 						@Override
 						public void onClick(DialogInterface dialog, int which) {

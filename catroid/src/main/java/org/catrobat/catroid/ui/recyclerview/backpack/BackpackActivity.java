@@ -37,7 +37,7 @@ public class BackpackActivity extends BaseActivity {
 
 	public static final String TAG = BackpackActivity.class.getSimpleName();
 
-	public static final String EXTRA_FRAGMENT_POSITION = "FRAGMENT_POSITION";
+	public static final String EXTRA_FRAGMENT_POSITION = "fragmentPosition";
 	public static final int FRAGMENT_SCENES = 0;
 	public static final int FRAGMENT_SPRITES = 1;
 	public static final int FRAGMENT_LOOKS = 2;
@@ -66,10 +66,10 @@ public class BackpackActivity extends BaseActivity {
 		switchToFragment(fragmentPosition);
 	}
 
-	private void switchToFragment(int fragmentTag) {
+	private void switchToFragment(int fragmentPosition) {
 		FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
-		switch (fragmentTag) {
+		switch (fragmentPosition) {
 			case FRAGMENT_SCENES:
 				fragmentTransaction
 						.replace(R.id.fragment_container, new BackpackSceneFragment(), BackpackSceneFragment.TAG);
@@ -105,11 +105,10 @@ public class BackpackActivity extends BaseActivity {
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		BackpackRecyclerViewFragment currentFragment = ((BackpackRecyclerViewFragment) getSupportFragmentManager()
-				.findFragmentById(R.id
-				.fragment_container));
+		BackpackRecyclerViewFragment fragment = ((BackpackRecyclerViewFragment) getSupportFragmentManager()
+				.findFragmentById(R.id.fragment_container));
 
-		menu.findItem(R.id.show_details).setVisible(currentFragment.hasDetails);
+		menu.findItem(R.id.show_details).setVisible(fragment.hasDetails);
 		return true;
 	}
 }

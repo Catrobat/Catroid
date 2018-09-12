@@ -73,7 +73,8 @@
                 android:drawableTop="@drawable/ic_pocketmusic"
                 android:gravity="center"
                 android:text="@string/add_sound_music"
-                android:textSize="?attr/medium"/>
+                android:textSize="?attr/medium"
+                android:visibility="gone" />
 
         </TableRow>
     </TableLayout>
