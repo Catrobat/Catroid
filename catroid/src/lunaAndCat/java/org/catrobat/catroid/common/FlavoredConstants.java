@@ -25,17 +25,22 @@ package org.catrobat.catroid.common;
 
 import android.os.Environment;
 
+import org.catrobat.catroid.CatroidApplication;
+
 import java.io.File;
 
 import static org.catrobat.catroid.common.Constants.MAIN_URL_HTTPS;
 
 public final class FlavoredConstants {
-
-	public static final File DEFAULT_ROOT_DIRECTORY = new File(
-			Environment.getExternalStorageDirectory().getAbsolutePath() + "/Luna&Cat");
-
 	// Web:
 	public static final String BASE_URL_HTTPS = MAIN_URL_HTTPS + "/luna/";
+
+	public static final String POCKET_CODE_EXTERNAL_STORAGE_FOLDER_NAME = "Luna&Cat";
+
+	public static final File DEFAULT_ROOT_DIRECTORY = CatroidApplication.getAppContext().getFilesDir();
+
+	public static final File EXTERNAL_STORAGE_ROOT_DIRECTORY = new File(
+			Environment.getExternalStorageDirectory().getAbsolutePath(), POCKET_CODE_EXTERNAL_STORAGE_FOLDER_NAME);
 
 	// Media Library:
 	public static final String LIBRARY_BASE_URL = "https://share.catrob.at/pocketcode/download-media/";

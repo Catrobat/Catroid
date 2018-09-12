@@ -228,7 +228,7 @@ public final class StorageOperations {
 		return dstDir;
 	}
 
-	private static synchronized File getUniqueFile(String originalName, File dstDir) throws IOException {
+	public static synchronized File getUniqueFile(String originalName, File dstDir) throws IOException {
 		File dstFile = new File(dstDir, originalName);
 
 		if (!dstFile.exists()) {

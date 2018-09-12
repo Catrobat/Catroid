@@ -664,6 +664,14 @@
     <string name="description">Description:</string>
     <string name="set_description">Set description</string>
     <string name="details_date_today">Today</string>
+    <string name="import_dialog_title">Import projects</string>
+    <string name="import_dialog_message">Your projects will be moved to private memory.</string>
+    <string name="import_dialog_copy_btn">Copy</string>
+    <string name="import_dialog_move_btn">Move</string>
+    <string name="projects_successful_moved_toast">Projects successfully moved.\n</string>
+    <string name="projects_successful_copied_toast">Projects successfully copied.\n</string>
+    <string name="error_during_copying_projects_toast">Error during copying / moving projects</string>
+    <string name="copying">Copying......</string>
     <!--  -->
 
     <!-- ScriptListFragment -->

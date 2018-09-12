@@ -71,7 +71,6 @@ import java.io.IOException;
 
 import static org.catrobat.catroid.common.Constants.EXTRA_PICTURE_PATH_POCKET_PAINT;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
-import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_LOOKS_URL;
 import static org.catrobat.catroid.ui.WebViewActivity.MEDIA_FILE_PATH;
 
@@ -214,7 +213,7 @@ public class ProjectActivity extends BaseCastActivity {
 				addSpriteFromUri(uri);
 				break;
 			case SPRITE_CAMERA:
-				uri = Uri.fromFile(new File(DEFAULT_ROOT_DIRECTORY, getString(R.string.default_look_name) + ".jpg"));
+				uri = new ImportFromCameraLauncher(this).getCacheCameraUri();
 				addSpriteFromUri(uri);
 				break;
 		}
@@ -333,8 +332,7 @@ public class ProjectActivity extends BaseCastActivity {
 								.startActivityForResult(SPRITE_FILE);
 						break;
 					case R.id.dialog_new_look_camera:
-						Uri uri = Uri.fromFile(new File(DEFAULT_ROOT_DIRECTORY, getString(R.string.default_look_name) + ".jpg"));
-						new ImportFromCameraLauncher(ProjectActivity.this, uri)
+						new ImportFromCameraLauncher(ProjectActivity.this)
 								.startActivityForResult(SPRITE_CAMERA);
 						break;
 				}

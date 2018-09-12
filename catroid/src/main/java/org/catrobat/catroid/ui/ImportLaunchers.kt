@@ -28,11 +28,15 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore.ACTION_IMAGE_CAPTURE
-import android.provider.MediaStore.EXTRA_OUTPUT
 import android.support.v7.app.AppCompatActivity
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants.*
 import org.catrobat.catroid.ui.WebViewActivity.INTENT_PARAMETER_URL
+import android.provider.MediaStore
+import org.catrobat.catroid.common.Constants.FILE_PROVIDER_AUTHORITY
+import android.support.v4.content.FileProvider
+import java.io.File
+
 
 interface ImportLauncher {
 
@@ -72,12 +76,26 @@ class ImportFromFileLauncher(private val activity: AppCompatActivity, private va
     }
 }
 
-class ImportFromCameraLauncher(private val activity: AppCompatActivity, private val uri: Uri) : ImportLauncher {
+class ImportFromCameraLauncher(private val activity: AppCompatActivity) : ImportLauncher {
+
+    fun getCacheCameraUri(): Uri {
+        val childName = activity.getString(R.string.default_look_name)
+        val cacheDir = File(activity.cacheDir.absolutePath + "/cameraCache")
+        if (!cacheDir.exists()) {
+            cacheDir.mkdirs()
+        }
+        val pictureFile = File(cacheDir, "$childName.jpg")
+        return FileProvider.getUriForFile(activity, FILE_PROVIDER_AUTHORITY, pictureFile)
+    }
 
     override fun startActivityForResult(requestCode: Int) {
         val intent = Intent(ACTION_IMAGE_CAPTURE)
-        intent.putExtra(EXTRA_OUTPUT, uri)
+        intent.flags = Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+        val uri = getCacheCameraUri()
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
         val chooser = Intent.createChooser(intent, activity.getString(R.string.select_look_from_camera))
-        activity.startActivityForResult(chooser, requestCode)
+        if (intent.resolveActivity(activity.packageManager) != null) {
+            activity.startActivityForResult(chooser, requestCode)
+        }
     }
 }
