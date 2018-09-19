@@ -80,8 +80,8 @@ public class ReplaceExistingProjectDialogFragment extends DialogFragment {
 		});
 
 		final AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
-				.setTitle(R.string.overwrite_text)
 				.setView(view)
+				.setTitle(R.string.overwrite_title)
 				.setPositiveButton(R.string.ok, null)
 				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 					@Override
