@@ -74,6 +74,11 @@ public class SpriteAttributesActivity extends BaseActivity implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		if (isFinishing()) {
+			return;
+		}
+
 		SettingsFragment.setToChosenLanguage(this);
 
 		setContentView(R.layout.activity_sprite_attributes);
