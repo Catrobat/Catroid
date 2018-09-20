@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.common;
 
-import android.os.Environment;
+import org.catrobat.catroid.CatroidApplication;
 
 import java.io.File;
 
@@ -32,7 +32,7 @@ import static org.catrobat.catroid.common.Constants.MAIN_URL_HTTPS;
 public final class FlavoredConstants {
 
 	public static final File DEFAULT_ROOT_DIRECTORY = new File(
-			Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pocket Code");
+			CatroidApplication.getAppContext().getFilesDir().getAbsolutePath() + "/Programs");
 
 	// Web:
 	public static final String BASE_URL_HTTPS = MAIN_URL_HTTPS + "/pocketcode/";

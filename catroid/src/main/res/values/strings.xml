@@ -662,6 +662,9 @@
     <string name="description">Description:</string>
     <string name="set_description">Set description</string>
     <string name="details_date_today">Today</string>
+    <string name="import_dialog_title">Import projects</string>
+    <string name="import_dialog_message">Your projects will be moved to private memory.</string>
+    <string name="import_dialog_copy_only">Copy Only</string>
     <!--  -->
 
     <!-- ScriptListFragment -->
