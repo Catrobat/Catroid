@@ -69,6 +69,10 @@ pipeline {
 		buildDiscarder(logRotator(numToKeepStr: '30'))
 	}
 
+	triggers {
+		cron(env.BRANCH_NAME == 'develop' ? '@midnight' : '')
+	}
+
 	stages {
 		stage('Setup Android SDK') {
 			steps {
@@ -119,12 +123,38 @@ pipeline {
 				// This is done since the Jenkins JaCoCo plugin does not work well.
 				// See also JENKINS-212 on jira.catrob.at
 				sh "if [ -f '$JACOCO_XML' ]; then ./buildScripts/cover2cover.py $JACOCO_XML > $JAVA_SRC/coverage3.xml; fi"
+				// ensure that the following test run does not overwrite the results
+				sh "mv ${env.GRADLE_PROJECT_MODULE_NAME}/build ${env.GRADLE_PROJECT_MODULE_NAME}/build-test-emulator-pr-test-suite"
 			}
 
 			post {
 				always {
 					junit '**/*TEST*.xml'
 					step([$class: 'CoberturaPublisher', autoUpdateHealth: false, autoUpdateStability: false, coberturaReportFile: "$JAVA_SRC/coverage*.xml", failUnhealthy: false, failUnstable: false, maxNumberOfBuilds: 0, onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false, failNoReports: false])
+
+					// stop/kill emulator
+					sh "./buildScripts/build_helper_stop_emulator"
+				}
+			}
+		}
+
+		stage('Quarantined Tests') {
+			when {
+				expression { isJobStartedByTimer() }
+			}
+
+			steps {
+				sh './buildScripts/build_helper_start_emulator'
+				sh './gradlew -PenableCoverage clean adbDisableAnimationsGlobally createCatroidDebugAndroidTestCoverageReport -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.uiespresso.testsuites.QuarantineTestSuite'
+				archiveArtifacts "$JACOCO_XML"
+				sh "if [ -f '$JACOCO_XML' ]; then ./buildScripts/cover2cover.py $JACOCO_XML > $JAVA_SRC/coverage4.xml; fi"
+
+			}
+
+			post {
+				always {
+					junit 'catroid/build/**/*TEST*.xml'
+					step([$class: 'CoberturaPublisher', autoUpdateHealth: false, autoUpdateStability: false, coberturaReportFile: "$JAVA_SRC/coverage4.xml", failUnhealthy: false, failUnstable: false, maxNumberOfBuilds: 0, onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false, failNoReports: false])
 
 					// stop/kill emulator
 					sh "./buildScripts/build_helper_stop_emulator"
