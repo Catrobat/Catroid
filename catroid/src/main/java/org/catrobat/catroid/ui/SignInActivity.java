@@ -101,12 +101,12 @@ public class SignInActivity extends BaseActivity implements SignInCompleteListen
 			case R.id.sign_in_login:
 				LoginDialogFragment logInDialog = new LoginDialogFragment();
 				logInDialog.setSignInCompleteListener(this);
-				logInDialog.show(getFragmentManager(), LoginDialogFragment.TAG);
+				logInDialog.show(getSupportFragmentManager(), LoginDialogFragment.TAG);
 				break;
 			case R.id.sign_in_register:
 				RegistrationDialogFragment registrationDialog = new RegistrationDialogFragment();
 				registrationDialog.setSignInCompleteListener(this);
-				registrationDialog.show(getFragmentManager(), RegistrationDialogFragment.TAG);
+				registrationDialog.show(getSupportFragmentManager(), RegistrationDialogFragment.TAG);
 				break;
 			case R.id.sign_in_facebook_login_button:
 				Collection<String> permissions = Arrays.asList(FACEBOOK_PROFILE_PERMISSION, FACEBOOK_EMAIL_PERMISSION);

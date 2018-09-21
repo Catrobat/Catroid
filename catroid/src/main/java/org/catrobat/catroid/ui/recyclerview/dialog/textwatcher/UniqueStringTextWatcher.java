@@ -21,50 +21,40 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.ui.recyclerview.dialog;
+package org.catrobat.catroid.ui.recyclerview.dialog.textwatcher;
+
+import android.content.Context;
+import android.support.annotation.Nullable;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 
-public class RenameDialogFragment extends TextInputDialogFragment {
+import java.util.List;
 
-	public static final String TAG = RenameDialogFragment.class.getSimpleName();
+public class UniqueStringTextWatcher extends TextInputDialog.TextWatcher {
 
-	private RenameInterface renameInterface;
+	private List<String> scope;
 
-	public RenameDialogFragment() {
+	public UniqueStringTextWatcher(List<String> scope) {
+		this.scope = scope;
 	}
 
-	public RenameDialogFragment(int title, int hint, String text, RenameInterface renameInterface) {
-		super(title, hint, text, false);
-		this.renameInterface = renameInterface;
+	private boolean isNameUnique(String name) {
+		return !scope.contains(name);
 	}
 
+	@Nullable
 	@Override
-	protected boolean onPositiveButtonClick() {
-		String name = inputLayout.getEditText().getText().toString().trim();
+	public String validateInput(String input, Context context) {
+		String error = null;
+		input = input.trim();
 
-		if (name.isEmpty()) {
-			inputLayout.setError(getString(R.string.name_consists_of_spaces_only));
-			return false;
+		if (input.isEmpty()) {
+			error = context.getString(R.string.name_consists_of_spaces_only);
+		} else if (!isNameUnique(input)) {
+			error = context.getString(R.string.name_already_exists);
 		}
 
-		if (renameInterface.isNameUnique(name) || name.equals(text)) {
-			renameInterface.renameItem(name);
-			return true;
-		} else {
-			inputLayout.setError(getString(R.string.name_already_exists));
-			return false;
-		}
-	}
-
-	@Override
-	protected void onNegativeButtonClick() {
-	}
-
-	public interface RenameInterface {
-
-		boolean isNameUnique(String name);
-
-		void renameItem(String name);
+		return error;
 	}
 }

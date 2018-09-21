@@ -23,30 +23,32 @@
 
 package org.catrobat.catroid.ui;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 public final class UiUtils {
+
 	private UiUtils() {
+		throw new AssertionError("No.");
 	}
 
-	public static Activity getActivityFromContextWrapper(Context context) {
+	public static AppCompatActivity getActivityFromContextWrapper(Context context) {
 		while (context instanceof ContextWrapper) {
-			if (context instanceof Activity) {
+			if (context instanceof AppCompatActivity) {
 				break;
 			}
 			context = ((ContextWrapper) context).getBaseContext();
 		}
 
-		if (context instanceof Activity) {
-			return (Activity) context;
+		if (context instanceof AppCompatActivity) {
+			return (AppCompatActivity) context;
 		}
 		return null;
 	}
 
-	public static Activity getActivityFromView(View view) {
+	public static AppCompatActivity getActivityFromView(View view) {
 		return getActivityFromContextWrapper(view.getContext());
 	}
 }

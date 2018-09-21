@@ -23,12 +23,12 @@
 
 package org.catrobat.catroid.ui.recyclerview.backpack;
 
-import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.IntDef;
 import android.support.annotation.PluralsRes;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -256,13 +256,7 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 						deleteItems(selectedItems);
 					}
 				})
-				.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						finishActionMode();
-						dialog.dismiss();
-					}
-				})
+				.setNegativeButton(R.string.no, null)
 				.setCancelable(false)
 				.create()
 				.show();

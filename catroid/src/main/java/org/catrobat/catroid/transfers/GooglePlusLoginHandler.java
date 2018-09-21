@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.transfers;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
@@ -32,6 +31,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -54,14 +54,14 @@ public class GooglePlusLoginHandler implements GoogleApiClient.ConnectionCallbac
 		CheckEmailAvailableTask.OnCheckEmailAvailableCompleteListener,
 		GoogleExchangeCodeTask.OnFacebookExchangeCodeCompleteListener {
 
-	private Activity activity;
+	private AppCompatActivity activity;
 	public static final int GPLUS_REQUEST_CODE_SIGN_IN = 0;
 	public static final int REQUEST_CODE_GOOGLE_PLUS_SIGNIN = 100;
 	public static final int STATUS_CODE_SIGN_IN_CURRENTLY_IN_PROGRESS = 12502;
 	private GoogleApiClient googleApiClient;
 	private static final String GOOGLE_PLUS_CATROWEB_SERVER_CLIENT_ID = "427226922034-r016ige5kb30q9vflqbt1h0i3arng8u1.apps.googleusercontent.com";
 
-	public GooglePlusLoginHandler(Activity activity) {
+	public GooglePlusLoginHandler(AppCompatActivity activity) {
 		this.activity = activity;
 
 		GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -209,7 +209,7 @@ public class GooglePlusLoginHandler implements GoogleApiClient.ConnectionCallbac
 		bundle.putString(Constants.CURRENT_OAUTH_PROVIDER, provider);
 		dialog.setArguments(bundle);
 		dialog.setSignInCompleteListener((SignInCompleteListener) activity);
-		dialog.show(activity.getFragmentManager(), OAuthUsernameDialogFragment.TAG);
+		dialog.show(activity.getSupportFragmentManager(), OAuthUsernameDialogFragment.TAG);
 	}
 
 	@Override

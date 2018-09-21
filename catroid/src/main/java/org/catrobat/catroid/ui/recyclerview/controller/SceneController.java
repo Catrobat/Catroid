@@ -23,9 +23,11 @@
 
 package org.catrobat.catroid.ui.recyclerview.controller;
 
+import android.content.res.Resources;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
@@ -41,10 +43,12 @@ import org.catrobat.catroid.utils.PathBuilder;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import static org.catrobat.catroid.common.Constants.BACKPACK_SCENE_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
+import static org.catrobat.catroid.common.Constants.Z_INDEX_BACKGROUND;
 
 public class SceneController {
 
@@ -52,6 +56,34 @@ public class SceneController {
 
 	private UniqueNameProvider uniqueNameProvider = new UniqueNameProvider();
 	private SpriteController spriteController = new SpriteController();
+
+	public static String getUniqueDefaultSceneName(Resources resources, List<Scene> scope) {
+
+		for (int i = 1; i < Integer.MAX_VALUE; i++) {
+			String name = resources.getString(R.string.default_scene_name, i);
+
+			boolean isNameUnique = true;
+			for (Scene scene : scope) {
+				if (scene.getName().equals(name)) {
+					isNameUnique = false;
+				}
+			}
+
+			if (isNameUnique) {
+				return name;
+			}
+		}
+
+		throw new IllegalStateException("Could not find new Scene name.");
+	}
+
+	public static Scene newSceneWithBackgroundSprite(String sceneName, String backgroundName, Project dstProject) {
+		Scene scene = new Scene(sceneName, dstProject);
+		Sprite backgroundSprite = new Sprite(backgroundName);
+		backgroundSprite.look.setZIndex(Z_INDEX_BACKGROUND);
+		scene.addSprite(backgroundSprite);
+		return scene;
+	}
 
 	public boolean rename(Scene sceneToRename, String name) {
 		String previousName = sceneToRename.getName();
@@ -81,7 +113,7 @@ public class SceneController {
 	}
 
 	public Scene copy(Scene sceneToCopy, Project dstProject) throws IOException {
-		String name = uniqueNameProvider.getUniqueName(sceneToCopy.getName(), dstProject.getSceneNames());
+		String name = uniqueNameProvider.getUniqueNameInNameables(sceneToCopy.getName(), dstProject.getSceneList());
 
 		File dir = new File(PathBuilder.buildScenePath(dstProject.getName(), name));
 
@@ -110,7 +142,7 @@ public class SceneController {
 
 	public Scene pack(Scene sceneToPack) throws IOException {
 		String name = uniqueNameProvider
-				.getUniqueName(sceneToPack.getName(), BackpackListManager.getInstance().getSceneNames());
+				.getUniqueNameInNameables(sceneToPack.getName(), BackpackListManager.getInstance().getScenes());
 
 		File dir = new File(BACKPACK_SCENE_DIRECTORY, name);
 

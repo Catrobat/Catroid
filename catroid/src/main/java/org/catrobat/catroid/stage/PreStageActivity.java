@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.stage;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.nfc.NfcAdapter;
@@ -35,6 +33,7 @@ import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.parrot.arsdk.arcontroller.ARCONTROLLER_DEVICE_STATE_ENUM;
@@ -54,8 +53,6 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.AskSpeechBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.drone.ardrone.DroneInitializer;
@@ -67,7 +64,6 @@ import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.sensing.GatherCollisionInformationTask;
 import org.catrobat.catroid.ui.BaseActivity;
-import org.catrobat.catroid.ui.recyclerview.dialog.NetworkAlertDialog;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -76,11 +72,9 @@ import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.utils.VibratorUtil;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 @SuppressWarnings("deprecation")
@@ -309,29 +303,29 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 		}
 
 		if (requiredResourcesSet.contains(Brick.NETWORK_CONNECTION)) {
-			final Context finalBaseContext = this.getBaseContext();
-			if (!Utils.isNetworkAvailable(finalBaseContext)) {
-
-				List<Brick> networkBrickList = getNetworkBricks();
-				networkBrickList = Utils.distinctListByClassOfObjects(networkBrickList);
-				NetworkAlertDialog networkDialog = new NetworkAlertDialog(this, networkBrickList);
-				networkDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-					@Override
-					public void onCancel(DialogInterface dialogInterface) {
-						resourceFailed();
-					}
-				});
-				networkDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-					@Override
-					public void onDismiss(DialogInterface dialogInterface) {
-						if (Utils.isNetworkAvailable(finalBaseContext)) {
-							resourceInitialized();
-						} else {
-							resourceFailed();
-						}
-					}
-				});
-				networkDialog.show();
+			if (!Utils.isNetworkAvailable(this)) {
+				new AlertDialog.Builder(this)
+						.setTitle(R.string.error_no_network_title)
+						.setPositiveButton(R.string.preference_title, new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								startActivity(new Intent(Settings.ACTION_SETTINGS));
+							}
+						})
+						.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								resourceFailed();
+							}
+						})
+						.setOnDismissListener(new DialogInterface.OnDismissListener() {
+							@Override
+							public void onDismiss(DialogInterface dialog) {
+								resourceFailed();
+							}
+						})
+						.create()
+						.show();
 			} else {
 				resourceInitialized();
 			}
@@ -587,11 +581,11 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 
 			case REQUEST_CONNECT_DEVICE:
 				switch (resultCode) {
-					case Activity.RESULT_OK:
+					case AppCompatActivity.RESULT_OK:
 						resourceInitialized();
 						break;
 
-					case Activity.RESULT_CANCELED:
+					case AppCompatActivity.RESULT_CANCELED:
 						resourceFailed();
 						break;
 				}
@@ -670,21 +664,6 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 			connected = true;
 		}
 		return connected;
-	}
-
-	private static List<Brick> getNetworkBricks() {
-		List<Brick> networkBricksList = new ArrayList<Brick>();
-
-		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
-			for (Sprite sprite : scene.getSpriteList()) {
-				for (Brick brick : sprite.getAllBricks()) {
-					if (brick instanceof AskSpeechBrick) {
-						networkBricksList.add(brick);
-					}
-				}
-			}
-		}
-		return networkBricksList;
 	}
 
 	@Override

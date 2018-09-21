@@ -24,20 +24,29 @@
 package org.catrobat.catroid.ui.controller;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 
 import java.util.List;
+
+import static org.catrobat.catroid.common.Constants.EXTRA_PICTURE_NAME_POCKET_PAINT;
+import static org.catrobat.catroid.common.Constants.EXTRA_PICTURE_PATH_POCKET_PAINT;
+import static org.catrobat.catroid.common.Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME;
+import static org.catrobat.catroid.common.Constants.POCKET_PAINT_PACKAGE_NAME;
 
 public final class PocketPaintExchangeHandler {
 
@@ -52,6 +61,18 @@ public final class PocketPaintExchangeHandler {
 				PackageManager.MATCH_DEFAULT_ONLY);
 
 		return !packages.isEmpty();
+	}
+
+	public static Intent createPocketPaintIntent(String extraPictureName) {
+		Intent intent = new Intent("android.intent.action.MAIN");
+		intent.setComponent(new ComponentName(POCKET_PAINT_PACKAGE_NAME, POCKET_PAINT_INTENT_ACTIVITY_NAME));
+
+		Bundle bundle = new Bundle();
+		bundle.putString(EXTRA_PICTURE_PATH_POCKET_PAINT, "");
+		bundle.putString(EXTRA_PICTURE_NAME_POCKET_PAINT, extraPictureName);
+		intent.putExtras(bundle);
+		intent.addCategory("android.intent.category.LAUNCHER");
+		return intent;
 	}
 
 	public static void installPocketPaintAndRegister(BroadcastReceiver receiver, Activity activity) {
@@ -76,17 +97,33 @@ public final class PocketPaintExchangeHandler {
 		}
 	}
 
-	private static void showInstallPocketPaintDialog(Activity activity) {
-		Dialog dialog = new AlertDialog.Builder(activity).setTitle(R.string.pocket_paint_not_installed_title)
-				.setMessage(R.string.pocket_paint_not_installed_message)
-				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-					}
-				}).create();
+	public static BroadcastReceiver createPocketPaintBroadcastReceiver(final Activity activity, final Intent pocketPaintIntent, final int requestCode) {
+		return new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
 
-		dialog.setCanceledOnTouchOutside(true);
-		dialog.show();
+				String packageName = intent.getData().getEncodedSchemeSpecificPart();
+				if (!packageName.equals(POCKET_PAINT_PACKAGE_NAME)) {
+					return;
+				}
+
+				activity.unregisterReceiver(this);
+
+				if (PocketPaintExchangeHandler.isPocketPaintInstalled(activity, pocketPaintIntent)) {
+					ActivityManager activityManager = (ActivityManager) activity.getSystemService(Context.ACTIVITY_SERVICE);
+					activityManager.moveTaskToFront(activity.getTaskId(), 0);
+					activity.startActivityForResult(pocketPaintIntent, requestCode);
+				}
+			}
+		};
+	}
+
+	private static void showInstallPocketPaintDialog(Activity activity) {
+		new AlertDialog.Builder(activity)
+				.setTitle(R.string.pocket_paint_not_installed_title)
+				.setMessage(R.string.pocket_paint_not_installed_message)
+				.setPositiveButton(R.string.ok, null)
+				.create()
+				.show();
 	}
 }

@@ -53,7 +53,7 @@ public class SpriteController {
 	}
 
 	public Sprite copy(Sprite spriteToCopy, Scene srcScene, Scene dstScene) throws IOException {
-		String name = uniqueNameProvider.getUniqueName(spriteToCopy.getName(), dstScene.getSpriteNames());
+		String name = uniqueNameProvider.getUniqueNameInNameables(spriteToCopy.getName(), dstScene.getSpriteList());
 		Sprite sprite = new SpriteFactory().newInstance(spriteToCopy.getClass().getSimpleName(), name);
 
 		for (LookData look : spriteToCopy.getLookList()) {
@@ -110,7 +110,7 @@ public class SpriteController {
 
 	public Sprite pack(Sprite spriteToPack) throws IOException {
 		String name = uniqueNameProvider
-				.getUniqueName(spriteToPack.getName(), BackpackListManager.getInstance().getSpriteNames());
+				.getUniqueNameInNameables(spriteToPack.getName(), BackpackListManager.getInstance().getSprites());
 
 		Sprite sprite = new Sprite(name);
 
@@ -138,7 +138,7 @@ public class SpriteController {
 	}
 
 	public Sprite unpack(Sprite spriteToUnpack, Scene dstScene) throws IOException {
-		String name = uniqueNameProvider.getUniqueName(spriteToUnpack.getName(), dstScene.getSpriteNames());
+		String name = uniqueNameProvider.getUniqueNameInNameables(spriteToUnpack.getName(), dstScene.getSpriteList());
 		Sprite sprite = new Sprite(name);
 
 		for (LookData look : spriteToUnpack.getLookList()) {

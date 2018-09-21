@@ -20,37 +20,56 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.ui.recyclerview.dialog;
+
+package org.catrobat.catroid.ui.recyclerview.dialog.textwatcher;
+
+import android.content.Context;
+import android.support.annotation.Nullable;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Nameable;
+import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 
-public class SetDescriptionDialogFragment extends TextInputDialogFragment {
+import java.util.List;
 
-	public static final String TAG = SetDescriptionDialogFragment.class.getSimpleName();
+public class NewItemTextWatcher<T extends Nameable> extends TextInputDialog.TextWatcher {
 
-	private ChangeDescriptionInterface descriptionInterface;
+	private List<T> scope;
 
-	public SetDescriptionDialogFragment() {
+	public NewItemTextWatcher(List<T> scope) {
+		this.scope = scope;
 	}
 
-	public SetDescriptionDialogFragment(String text, ChangeDescriptionInterface descriptionInterface) {
-		super(R.string.set_description, R.string.description, text, true);
-		this.descriptionInterface = descriptionInterface;
+	public void setScope(List<T> scope) {
+		this.scope = scope;
 	}
 
-	@Override
-	protected boolean onPositiveButtonClick() {
-		String description = inputLayout.getEditText().getText().toString().trim();
-		descriptionInterface.setDescription(description);
+	private boolean isNameUnique(String name) {
+		for (Nameable item : scope) {
+			if (item.getName().equals(name)) {
+				return false;
+			}
+		}
 		return true;
 	}
 
+	@Nullable
 	@Override
-	protected void onNegativeButtonClick() {
-	}
+	public String validateInput(String input, Context context) {
+		String error = null;
 
-	public interface ChangeDescriptionInterface {
+		if (input.isEmpty()) {
+			return context.getString(R.string.name_empty);
+		}
 
-		void setDescription(String description);
+		input = input.trim();
+
+		if (input.isEmpty()) {
+			error = context.getString(R.string.name_consists_of_spaces_only);
+		} else if (!isNameUnique(input)) {
+			error = context.getString(R.string.name_already_exists);
+		}
+
+		return error;
 	}
 }

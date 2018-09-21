@@ -20,38 +20,54 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.ui.recyclerview.dialog;
 
+package org.catrobat.catroid.ui.recyclerview.dialog.textwatcher;
+
+import android.content.Context;
 import android.support.annotation.Nullable;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
+import org.catrobat.catroid.common.Nameable;
+import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 
-public class NewStringDialogFragment extends TextInputDialogFragment {
+import java.util.List;
 
-	public static final String TAG = NewStringDialogFragment.class.getSimpleName();
+public class RenameItemTextWatcher<T extends Nameable> extends TextInputDialog.TextWatcher {
 
-	private NewItemInterface<String> newItemInterface;
+	private T item;
+	private List<T> scope;
 
-	public NewStringDialogFragment() {
+	public RenameItemTextWatcher(T item, List<T> scope) {
+		this.item = item;
+		this.scope = scope;
 	}
 
-	public NewStringDialogFragment(@Nullable String previousString, NewItemInterface<String> newItemInterface) {
-		super(R.string.formula_editor_new_string_name, R.string.string_label, previousString, true);
-		if (previousString != null) {
-			title = R.string.formula_editor_dialog_change_text;
+	private boolean isNameUnique(String name) {
+		for (Nameable item : scope) {
+			if (item.getName().equals(name)) {
+				return false;
+			}
 		}
-		this.newItemInterface = newItemInterface;
-	}
-
-	@Override
-	protected boolean onPositiveButtonClick() {
-		String string = inputLayout.getEditText().getText().toString();
-		newItemInterface.addItem(string);
 		return true;
 	}
 
+	@Nullable
 	@Override
-	protected void onNegativeButtonClick() {
+	public String validateInput(String input, Context context) {
+		String error = null;
+
+		if (input.isEmpty()) {
+			return context.getString(R.string.name_empty);
+		}
+
+		input = input.trim();
+
+		if (input.isEmpty()) {
+			error = context.getString(R.string.name_consists_of_spaces_only);
+		} else if (!input.equals(item.getName()) && !isNameUnique(input)) {
+			error = context.getString(R.string.name_already_exists);
+		}
+
+		return error;
 	}
 }

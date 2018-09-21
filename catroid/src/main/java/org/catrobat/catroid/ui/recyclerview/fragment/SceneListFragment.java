@@ -38,14 +38,10 @@ import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.SceneAdapter;
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
 import org.catrobat.catroid.ui.recyclerview.controller.SceneController;
-import org.catrobat.catroid.ui.recyclerview.dialog.NewSceneDialogFragment;
-import org.catrobat.catroid.ui.recyclerview.dialog.RenameDialogFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static org.catrobat.catroid.common.Constants.Z_INDEX_BACKGROUND;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_SCENES_PREFERENCE_KEY;
@@ -88,17 +84,6 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 		List<Scene> items = ProjectManager.getInstance().getCurrentProject().getSceneList();
 		adapter = new SceneAdapter(items);
 		onAdapterReady();
-	}
-
-	@Override
-	public void handleAddButton() {
-		new NewSceneDialogFragment(this, ProjectManager.getInstance().getCurrentProject())
-				.show(getFragmentManager(), NewSceneDialogFragment.TAG);
-	}
-
-	@Override
-	public void addItem(Scene item) {
-		adapter.add(item);
 	}
 
 	@Override
@@ -209,24 +194,17 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 	}
 
 	@Override
-	protected void showRenameDialog(List<Scene> selectedItems) {
-		String name = selectedItems.get(0).getName();
-		RenameDialogFragment dialog = new RenameDialogFragment(R.string.rename_scene_dialog, R.string.scene_name, name, this);
-		dialog.show(getFragmentManager(), RenameDialogFragment.TAG);
+	protected int getRenameDialogTitle() {
+		return R.string.rename_scene_dialog;
 	}
 
 	@Override
-	public boolean isNameUnique(String name) {
-		Set<String> scope = new HashSet<>();
-		for (Scene item : adapter.getItems()) {
-			scope.add(item.getName());
-		}
-		return !scope.contains(name);
+	protected int getRenameDialogHint() {
+		return R.string.scene_name_label;
 	}
 
 	@Override
-	public void renameItem(String name) {
-		Scene item = adapter.getSelectedItems().get(0);
+	public void renameItem(Scene item, String name) {
 		if (!item.getName().equals(name)) {
 			if (sceneController.rename(item, name)) {
 				ProjectManager.getInstance().saveProject(getActivity());

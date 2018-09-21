@@ -21,30 +21,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.ui.recyclerview.dialog;
+package org.catrobat.catroid.ui.recyclerview.dialog.textwatcher;
+
+import android.content.Context;
+import android.support.annotation.Nullable;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
+import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 
-public class NewBroadcastMessageDialogFragment extends TextInputDialogFragment {
+public class NonEmptyStringTextWatcher extends TextInputDialog.TextWatcher {
 
-	public static final String TAG = NewBroadcastMessageDialogFragment.class.getSimpleName();
-
-	private NewItemInterface<String> newItemInterface;
-
-	public NewBroadcastMessageDialogFragment(NewItemInterface<String> newItemInterface) {
-		super(R.string.dialog_new_broadcast_message_title, R.string.dialog_new_broadcast_message_name, null, false);
-		this.newItemInterface = newItemInterface;
-	}
-
+	@Nullable
 	@Override
-	protected boolean onPositiveButtonClick() {
-		String string = inputLayout.getEditText().getText().toString();
-		newItemInterface.addItem(string);
-		return true;
-	}
+	public String validateInput(String input, Context context) {
+		String error = null;
 
-	@Override
-	protected void onNegativeButtonClick() {
+		if (input.isEmpty()) {
+			return context.getString(R.string.name_empty);
+		}
+
+		input = input.trim();
+
+		if (input.isEmpty()) {
+			error = context.getString(R.string.name_consists_of_spaces_only);
+		}
+
+		return error;
 	}
 }

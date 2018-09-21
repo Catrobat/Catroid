@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -38,7 +39,6 @@ import android.view.View;
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.drone.ardrone.DroneServiceWrapper;
@@ -47,21 +47,17 @@ import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.recyclerview.RVButton;
 import org.catrobat.catroid.ui.recyclerview.adapter.ButtonAdapter;
-import org.catrobat.catroid.ui.recyclerview.dialog.PlaySceneDialogFragment;
-import org.catrobat.catroid.ui.recyclerview.dialog.RenameDialogFragment;
+import org.catrobat.catroid.ui.recyclerview.dialog.PlaySceneDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.RenameItemTextWatcher;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-public class SpriteAttributesActivity extends BaseActivity implements
-		ButtonAdapter.OnItemClickListener,
-		PlaySceneDialogFragment.PlaySceneInterface,
-		RenameDialogFragment.RenameInterface {
+public class SpriteAttributesActivity extends BaseActivity implements ButtonAdapter.OnItemClickListener {
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({SCRIPTS, LOOKS, SOUNDS, NFC_TAGS})
@@ -147,24 +143,28 @@ public class SpriteAttributesActivity extends BaseActivity implements
 	}
 
 	private void showRenameDialog() {
-		String name = ProjectManager.getInstance().getCurrentSprite().getName();
-		RenameDialogFragment dialog = new RenameDialogFragment(R.string.rename_sprite_dialog,
-				R.string.sprite_name_label, name, this);
-		dialog.show(getFragmentManager(), RenameDialogFragment.TAG);
+		final Sprite item = ProjectManager.getInstance().getCurrentSprite();
+		List<Sprite> sprites = ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList();
+
+		TextInputDialog.Builder builder = new TextInputDialog.Builder(this);
+
+		builder.setHint(getString(R.string.sprite_name_label))
+				.setText(item.getName())
+				.setTextWatcher(new RenameItemTextWatcher<>(item, sprites))
+				.setPositiveButton(getString(R.string.rename), new TextInputDialog.OnClickListener() {
+					@Override
+					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
+						renameItem(item, textInput);
+					}
+				});
+
+		builder.setTitle(R.string.rename_sprite_dialog)
+				.setNegativeButton(R.string.cancel, null)
+				.create()
+				.show();
 	}
 
-	@Override
-	public boolean isNameUnique(String name) {
-		Set<String> scope = new HashSet<>();
-		for (Sprite item : ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList()) {
-			scope.add(item.getName());
-		}
-		return !scope.contains(name);
-	}
-
-	@Override
-	public void renameItem(String name) {
-		Sprite item = ProjectManager.getInstance().getCurrentSprite();
+	private void renameItem(Sprite item, String name) {
 		if (!item.getName().equals(name)) {
 			item.setName(name);
 		}
@@ -207,21 +207,27 @@ public class SpriteAttributesActivity extends BaseActivity implements
 	}
 
 	public void handlePlayButton(View view) {
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+		final ProjectManager projectManager = ProjectManager.getInstance();
+		final Scene currentScene = projectManager.getCurrentlyEditedScene();
+		final Scene defaultScene = projectManager.getCurrentProject().getDefaultScene();
 
-		if (currentScene.getName().equals(currentProject.getDefaultScene().getName())) {
-			ProjectManager.getInstance().setCurrentlyPlayingScene(currentScene);
-			ProjectManager.getInstance().setStartScene(currentScene);
+		if (currentScene.getName().equals(defaultScene.getName())) {
+			projectManager.setCurrentlyPlayingScene(defaultScene);
+			projectManager.setStartScene(defaultScene);
 			startPreStageActivity();
-			return;
+		} else {
+			new PlaySceneDialog.Builder(this)
+					.setPositiveButton(R.string.play, new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							startPreStageActivity();
+						}
+					})
+					.create()
+					.show();
 		}
-
-		PlaySceneDialogFragment playSceneDialog = new PlaySceneDialogFragment(this);
-		playSceneDialog.show(getFragmentManager(), PlaySceneDialogFragment.TAG);
 	}
 
-	@Override
 	public void startPreStageActivity() {
 		Intent intent = new Intent(this, PreStageActivity.class);
 		startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);

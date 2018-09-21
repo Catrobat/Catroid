@@ -70,7 +70,8 @@
             android:id="@+id/make_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/formula_editor_data_dialog_is_list" />
+            android:text="@string/formula_editor_data_dialog_is_list"
+            android:visibility="gone"/>
 
     </LinearLayout>
 </ScrollView>

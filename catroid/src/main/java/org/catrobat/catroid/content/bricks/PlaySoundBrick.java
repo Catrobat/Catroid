@@ -22,30 +22,28 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
-import org.catrobat.catroid.ui.recyclerview.dialog.NewSoundDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlaySoundBrick extends BrickBaseType implements NewItemInterface<SoundInfo>,
-		BrickSpinner.OnItemSelectedListener<SoundInfo> {
+public class PlaySoundBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<SoundInfo>,
+		NewItemInterface<SoundInfo> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -102,20 +100,16 @@ public class PlaySoundBrick extends BrickBaseType implements NewItemInterface<So
 
 	@Override
 	public void onNewOptionSelected() {
-		Activity activity = UiUtils.getActivityFromView(view);
-		if (activity == null) {
+		AppCompatActivity activity = UiUtils.getActivityFromView(view);
+		if (activity == null || !(activity instanceof SpriteActivity)) {
 			return;
 		}
-
-		new NewSoundFromBrickSpinnerDialogFragment(this,
-				ProjectManager.getInstance().getCurrentlyEditedScene(),
-				ProjectManager.getInstance().getCurrentSprite())
-				.show(activity.getFragmentManager(), NewSoundDialogFragment.TAG);
+		((SpriteActivity) activity).registerOnNewSoundListener(this);
+		((SpriteActivity) activity).handleAddSoundButton();
 	}
 
 	@Override
 	public void addItem(SoundInfo item) {
-		ProjectManager.getInstance().getCurrentSprite().getSoundList().add(item);
 		spinner.add(item);
 		spinner.setSelection(item);
 	}
@@ -133,24 +127,5 @@ public class PlaySoundBrick extends BrickBaseType implements NewItemInterface<So
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createPlaySoundAction(sprite, sound));
 		return null;
-	}
-
-	public static class NewSoundFromBrickSpinnerDialogFragment extends NewSoundDialogFragment {
-
-		private PlaySoundBrick playSoundBrick;
-
-		public NewSoundFromBrickSpinnerDialogFragment() {
-		}
-
-		public NewSoundFromBrickSpinnerDialogFragment(PlaySoundBrick playSoundBrick, Scene dstScene, Sprite dstSprite) {
-			super(playSoundBrick, dstScene, dstSprite);
-			this.playSoundBrick = playSoundBrick;
-		}
-
-		@Override
-		public void onCancel(DialogInterface dialog) {
-			super.onCancel(dialog);
-			playSoundBrick.spinner.setSelection(playSoundBrick.sound);
-		}
 	}
 }
