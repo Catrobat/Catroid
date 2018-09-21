@@ -34,6 +34,7 @@ public class NewStringDialogFragment extends TextInputDialogFragment {
 	private NewItemInterface<String> newItemInterface;
 
 	public NewStringDialogFragment() {
+		super(R.string.formula_editor_new_string_name, R.string.string_label, null, true);
 	}
 
 	public NewStringDialogFragment(@Nullable String previousString, NewItemInterface<String> newItemInterface) {

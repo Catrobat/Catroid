@@ -89,7 +89,7 @@ public final class FormulaEditorWrapper extends ViewInteractionWrapper {
 	}
 
 	public FormulaEditorWrapper performEnterString(String stringToBeEntered) {
-		onView(withId(R.id.formula_editor_keyboard_string))
+		onView(Control.TEXT)
 				.perform(click());
 		onView(withId(R.id.input_edit_text))
 				.perform(clearText(), typeText(stringToBeEntered));
@@ -99,7 +99,7 @@ public final class FormulaEditorWrapper extends ViewInteractionWrapper {
 	}
 
 	public FormulaEditorWrapper performEnterString(int stringResourceId) {
-		onView(withId(R.id.formula_editor_keyboard_string))
+		onView(Control.TEXT)
 				.perform(click());
 		onView(withId(R.id.input_edit_text))
 				.perform(typeText(UiTestUtils.getResourcesString(stringResourceId)));
@@ -220,6 +220,7 @@ public final class FormulaEditorWrapper extends ViewInteractionWrapper {
 		public static final Matcher<View> COMPUTE = withId(R.id.formula_editor_keyboard_compute);
 		public static final Matcher<View> BACKSPACE = withId(R.id.formula_editor_keyboard_delete);
 		public static final Matcher<View> DATA = withId(R.id.formula_editor_keyboard_data);
+		public static final Matcher<View> TEXT = withId(R.id.formula_editor_keyboard_string);
 	}
 
 	public static final class Category {

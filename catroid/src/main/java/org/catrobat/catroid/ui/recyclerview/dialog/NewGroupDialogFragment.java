@@ -40,6 +40,7 @@ public class NewGroupDialogFragment extends TextInputDialogFragment {
 	private Scene dstScene;
 
 	public NewGroupDialogFragment() {
+		super(R.string.new_group, R.string.sprite_group_name_label, null, false);
 	}
 
 	public NewGroupDialogFragment(NewItemInterface<Sprite> newItemInterface, Scene dstScene) {

@@ -20,38 +20,16 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.ui.recyclerview.dialog;
 
-import org.catrobat.catroid.R;
+package org.catrobat.catroid.uiespresso.testsuites;
 
-public class SetDescriptionDialogFragment extends TextInputDialogFragment {
+import org.junit.experimental.categories.Categories;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
-	public static final String TAG = SetDescriptionDialogFragment.class.getSimpleName();
+@RunWith(Categories.class)
+@Categories.IncludeCategory({Cat.Quarantine.class})
 
-	private ChangeDescriptionInterface descriptionInterface;
-
-	public SetDescriptionDialogFragment() {
-		super(R.string.set_description, R.string.description, null, true);
-	}
-
-	public SetDescriptionDialogFragment(String text, ChangeDescriptionInterface descriptionInterface) {
-		super(R.string.set_description, R.string.description, text, true);
-		this.descriptionInterface = descriptionInterface;
-	}
-
-	@Override
-	protected boolean onPositiveButtonClick() {
-		String description = inputLayout.getEditText().getText().toString().trim();
-		descriptionInterface.setDescription(description);
-		return true;
-	}
-
-	@Override
-	protected void onNegativeButtonClick() {
-	}
-
-	public interface ChangeDescriptionInterface {
-
-		void setDescription(String description);
-	}
+@Suite.SuiteClasses(AllEspressoTestsSuite.class)
+public class QuarantineTestSuite {
 }
