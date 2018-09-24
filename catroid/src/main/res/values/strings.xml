@@ -949,13 +949,12 @@
     <string name="error_register_email_exists">Email Address already exists</string>
     <!--  -->
 
-
     <!-- OverwriteRenameDialog Strings -->
-    <string name="overwrite_text">A program with this name already exists. Please choose a different name!</string>
-    <string name="overwrite_replace">Replace Program</string>
-    <string name="overwrite_rename">Rename downloaded Program</string>
+    <string name="overwrite_title">Project exists.</string>
+    <string name="overwrite_text">A project with this name already exists.</string>
+    <string name="overwrite_replace">Overwrite project</string>
+    <string name="overwrite_rename">Choose a new name</string>
     <!--  -->
-
 
     <!-- OverwriteRenameMediaDialog -->
     <string name="overwrite_replace_look">Replace Look</string>
@@ -965,7 +964,6 @@
     <string name="overwrite_replace_default">Replace Media</string>
     <string name="overwrite_rename_default">Rename existing Media</string>
     <!-- -->
-
 
     <!-- Music activity -->
     <string name="pocket_music_default_project_name">Untitled Song</string>
