@@ -109,6 +109,12 @@ public class StageActivity extends AndroidApplication {
 		super.onCreate(savedInstanceState);
 		Log.d(TAG, "onCreate()");
 
+		if (ProjectManager.getInstance().getCurrentProject() == null) {
+			finish();
+			Log.d(TAG, "no current project set, cowardly refusing to run");
+			return;
+		}
+
 		numberOfSpritesCloned = 0;
 		setupAskHandler();
 		controller = JumpingSumoDeviceController.getInstance();

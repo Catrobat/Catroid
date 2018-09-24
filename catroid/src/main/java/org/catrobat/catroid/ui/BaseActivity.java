@@ -104,11 +104,11 @@ public abstract class BaseActivity extends AppCompatActivity {
 		return true;
 	}
 
-	private void checkIfCrashRecoveryAndFinishActivity(final Activity context) {
+	private void checkIfCrashRecoveryAndFinishActivity(final Activity activity) {
 		if (isRecoveringFromCrash()) {
 			CrashReporter.logUnhandledException();
-			if (!(context instanceof MainMenuActivity)) {
-				context.finish();
+			if (!(activity instanceof MainMenuActivity)) {
+				activity.finish();
 			} else {
 				PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean(RECOVERED_FROM_CRASH, false).commit();
 			}
@@ -123,6 +123,9 @@ public abstract class BaseActivity extends AppCompatActivity {
 	// onDestroy() and unbindDrawables() methods taken from
 	// http://stackoverflow.com/a/6779067
 	protected void unbindDrawables(View view) {
+		if (view == null) {
+			return;
+		}
 		if (view.getBackground() != null) {
 			view.getBackground().setCallback(null);
 		}
