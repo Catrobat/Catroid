@@ -1,0 +1,59 @@
+#!groovy
+pipeline {
+        agent {
+                node {
+                    label 'HardwareSensorBox'
+              }
+         }
+
+    environment {
+        //////////// Most likely not edited by the developer
+        ANDROID_SDK_ROOT = "${ANDROID_SDK_LOCATION}"
+        // Deprecated: Still used by the used gradle version, once gradle respects ANDROID_SDK_ROOT, this can be removed
+        ANDROID_HOME = "${ANDROID_SDK_LOCATION}"
+        ANDROID_SDK_LOCATION = "${ANDROID_SDK_LOCATION}"
+        // get stdout of called subprocesses immediately
+        PYTHONUNBUFFERED = "true"
+    }
+
+    options {
+        timeout(time: 2, unit: 'HOURS')
+        timestamps()
+    }
+
+    stages {
+        stage('Setup Android SDK') {
+            steps {
+                // Install Android SDK
+                lock("update-android-sdk-on-${env.NODE_NAME}") {
+                    sh "./buildScripts/build_step_install_android_sdk"
+                }
+            }
+        }
+
+        stage('Unit and Device tests') {
+            steps {
+                lock("run-sensorbox-tests-on-${env.NODE_NAME}") {
+                    sh './gradlew -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.uiespresso.testsuites.SensorboxTestSuite connectedCatroidDebugAndroidTest'
+                }
+            }
+
+            post {
+                always {
+                    junit '**/*TEST*.xml'
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            step([$class: 'LogParserPublisher', failBuildOnError: true, projectRulePath: 'buildScripts/log_parser_rules', unstableOnWarning: true, useProjectRule: true])
+
+            script {
+                sendNotifications false
+            }
+        }
+    }
+}
+
