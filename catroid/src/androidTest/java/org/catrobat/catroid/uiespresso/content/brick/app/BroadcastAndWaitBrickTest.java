@@ -29,12 +29,11 @@ import android.widget.EditText;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
+import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
@@ -59,10 +58,10 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 
 @RunWith(AndroidJUnit4.class)
-public class BroadcastReceiveBrickTest {
+public class BroadcastAndWaitBrickTest {
 	private String defaultMessage = "defaultMessage";
 
-	private int broadcastReceivePosition = 1;
+	private int broadcastAndWaitPosition = 1;
 
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
@@ -70,23 +69,24 @@ public class BroadcastReceiveBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
-		createProject("BroadcastBrickTest");
+		createProject("BroadcastAndWaitBrickTest");
 		baseActivityTestRule.launchActivity();
 	}
 
 	@Category({Cat.AppUi.class, Level.Functional.class})
 	@Test
 	@Flaky
-	public void testBroadcastReceiveBrick() {
+	public void testBroadcastAndWaitBrick() {
 		String uselessMessage = "useless";
-		createNewMessageOnSpinner(R.id.brick_broadcast_spinner, broadcastReceivePosition, uselessMessage);
-		onBrickAtPosition(broadcastReceivePosition).onSpinner(R.id.brick_broadcast_spinner)
+		createNewMessageOnSpinner(R.id.brick_broadcast_spinner, broadcastAndWaitPosition, uselessMessage);
+
+		onBrickAtPosition(broadcastAndWaitPosition).onSpinner(R.id.brick_broadcast_spinner)
 				.checkShowsText(uselessMessage);
-		onBrickAtPosition(broadcastReceivePosition).onSpinner(R.id.brick_broadcast_spinner)
+		onBrickAtPosition(broadcastAndWaitPosition).onSpinner(R.id.brick_broadcast_spinner)
 				.perform(click());
 		onView(withText(defaultMessage))
 				.perform(click());
-		onBrickAtPosition(broadcastReceivePosition).onSpinner(R.id.brick_broadcast_spinner)
+		onBrickAtPosition(broadcastAndWaitPosition).onSpinner(R.id.brick_broadcast_spinner)
 				.checkShowsText(defaultMessage);
 	}
 
@@ -97,7 +97,7 @@ public class BroadcastReceiveBrickTest {
 
 		sprite.addScript(script);
 
-		script.addBrick(new BroadcastReceiverBrick(new BroadcastScript(defaultMessage)));
+		script.addBrick(new BroadcastWaitBrick(defaultMessage));
 
 		project.getDefaultScene().addSprite(sprite);
 

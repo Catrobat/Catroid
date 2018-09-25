@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.content;
+package org.catrobat.catroid.test.content.messagecontainer;
 
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
@@ -48,16 +48,17 @@ import java.io.File;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
+
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.core.IsNot.not;
+import static org.junit.Assert.assertThat;
 
 @RunWith(AndroidJUnit4.class)
-public class MessageContainerTest {
+public class MessageContainerSaveStateTest {
 
 	private final String projectName1 = "TestProject1";
-	private final String projectName2 = "TestProject2";
 	private final String broadcastMessage1 = "testBroadcast1";
-	private final String broadcastMessage2 = "testBroadcast2";
+	private final String unusedMessage = "Unused Message";
 
 	@Before
 	public void setUp() throws Exception {
@@ -67,33 +68,17 @@ public class MessageContainerTest {
 	@After
 	public void tearDown() throws Exception {
 		StorageOperations.deleteDir(new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName1));
-		StorageOperations.deleteDir(new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName2));
 	}
 
 	@Test
-	public void testLoadProject() {
+	public void testDoNotSaveUnusedMessages() {
 		List<String> broadcastMessages = ProjectManager.getInstance().getCurrentProject()
 				.getBroadcastMessageContainer().getBroadcastMessages();
 
-		assertTrue(broadcastMessages.contains(broadcastMessage1));
+		assertThat(broadcastMessages, hasItem(broadcastMessage1));
+		assertThat(broadcastMessages, not(hasItem(unusedMessage)));
+
 		assertEquals(1, broadcastMessages.size());
-	}
-
-	@Test
-	public void testLoadTwoProjects() throws CompatibilityProjectException,
-			OutdatedVersionProjectException,
-			LoadingProjectException {
-
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		currentProject.getBroadcastMessageContainer().update();
-
-		ProjectManager.getInstance().loadProject(projectName2, InstrumentationRegistry.getTargetContext());
-		currentProject = ProjectManager.getInstance().getCurrentProject();
-		ProjectManager.getInstance().setCurrentlyEditedScene(currentProject.getDefaultScene());
-		List<String> broadcastMessages = currentProject.getBroadcastMessageContainer().getBroadcastMessages();
-
-		assertFalse(broadcastMessages.contains(broadcastMessage1));
-		assertTrue(broadcastMessages.contains(broadcastMessage2));
 	}
 
 	private void createTestProjects() throws CompatibilityProjectException,
@@ -112,22 +97,9 @@ public class MessageContainerTest {
 		sprite1.addScript(broadcastScript1);
 
 		project1.getDefaultScene().addSprite(sprite1);
+		project1.getBroadcastMessageContainer().addBroadcastMessage(unusedMessage);
 
 		XstreamSerializer.getInstance().saveProject(project1);
-
-		Project project2 = new Project(InstrumentationRegistry.getTargetContext(), projectName2);
-
-		Sprite sprite2 = new SingleSprite("cat");
-		Script script2 = new StartScript();
-		BroadcastBrick brick2 = new BroadcastBrick(broadcastMessage2);
-		script2.addBrick(brick2);
-		sprite2.addScript(script2);
-
-		BroadcastScript broadcastScript2 = new BroadcastScript(broadcastMessage2);
-		sprite2.addScript(broadcastScript2);
-
-		project2.getDefaultScene().addSprite(sprite2);
-		XstreamSerializer.getInstance().saveProject(project2);
 
 		ProjectManager.getInstance().loadProject(projectName1, InstrumentationRegistry.getTargetContext());
 		ProjectManager.getInstance()
