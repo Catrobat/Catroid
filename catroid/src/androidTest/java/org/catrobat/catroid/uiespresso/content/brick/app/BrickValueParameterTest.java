@@ -134,6 +134,7 @@ import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
+import org.catrobat.catroid.content.bricks.StitchBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
@@ -1001,6 +1002,14 @@ public class BrickValueParameterTest {
 		checkIfBrickShowsText(RaspiPwmBrick.class, "3 ");
 		checkIfBrickShowsText(RaspiPwmBrick.class, "50 ");
 		checkIfBrickShowsText(RaspiPwmBrick.class, "100 ");
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Gadgets.class})
+	@Test
+	public void testEmbroideryBricksDefaultValues() {
+		openCategory(R.string.category_embroidery);
+
+		checkIfBrickShowsText(StitchBrick.class, R.string.brick_stitch);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})

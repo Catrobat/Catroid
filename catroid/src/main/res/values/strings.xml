@@ -1154,6 +1154,9 @@
     <string name="brick_speak_and_wait">and wait</string>
     <!--  -->
 
+    <!-- Embroidery bricks -->
+    <string name="brick_stitch">Stitch</string>
+    <!--  -->
 
     <!-- Control bricks -->
     <string name="brick_when_started">When program starts</string>
