@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.uiespresso.ui.fragment;
 
+import android.app.Activity;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -37,10 +38,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+
+import static org.hamcrest.core.AllOf.allOf;
+import static org.hamcrest.core.IsNot.not;
 
 @RunWith(AndroidJUnit4.class)
 public class SpriteListFragmentExplanationTextNoObjectsProjectTest {
@@ -55,11 +60,35 @@ public class SpriteListFragmentExplanationTextNoObjectsProjectTest {
 	}
 
 	@Test
-	public void spriteListFragmentExplanationTextIsDisplayed() {
+	public void testEmptyViewOnStart() {
 		onView(withId(R.id.empty_view))
 				.check(matches(isDisplayed()));
 		onView(withText(R.string.fragment_sprite_text_description))
 				.check(matches(isDisplayed()));
+	}
+
+	@Test
+	public void testAddSprite() {
+		onView(withId(R.id.empty_view))
+				.check(matches(isDisplayed()));
+		onView(withText(R.string.fragment_sprite_text_description))
+				.check(matches(isDisplayed()));
+
+		InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
+			@Override
+			public void run() {
+				baseActivityTestRule.getActivity()
+						.onActivityResult(ProjectActivity.SPRITE_CAMERA, Activity.RESULT_OK, null);
+			}
+		});
+
+		onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
+				.perform(click());
+
+		onView(withId(R.id.empty_view))
+				.check(matches(not(isDisplayed())));
+		onView(withText(R.string.fragment_sprite_text_description))
+				.check(matches(not(isDisplayed())));
 	}
 
 	private void createNoObjectsProject() {
