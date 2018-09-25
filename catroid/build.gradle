@@ -83,7 +83,7 @@ android {
     compileSdkVersion 26
 
     defaultConfig {
-        minSdkVersion 17
+        minSdkVersion 19
         targetSdkVersion 22
         applicationId appId
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
@@ -131,6 +131,7 @@ android {
         exclude 'lib/arm64-v8a/*' // exclude all arm64-v8a libs as we don't have all libs for that architecture
         exclude 'lib/x86_64/*'    // exclude all x86_64 libs as we don't have all libs for that architecture
         exclude 'lib/mips/*'      // Mips devices are deprecated
+         exclude 'lib/armeabi/*'  // aremabiv5 & v6 are deprecated
     }
 
     buildTypes {
@@ -348,13 +349,11 @@ project.gradle.taskGraph.whenReady {
 }
 
 task copyAndroidNatives() {
-    file("src/main/jniLibs/armeabi/").mkdirs()
     file("src/main/jniLibs/armeabi-v7a/").mkdirs()
     file("src/main/jniLibs/x86/").mkdirs()
     configurations.natives.files.each { jar ->
         def outputDir = null
         if (jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("src/main/jniLibs/armeabi-v7a")
-        if (jar.name.endsWith("natives-armeabi.jar")) outputDir = file("src/main/jniLibs/armeabi")
         if (jar.name.endsWith("natives-x86.jar")) outputDir = file("src/main/jniLibs/x86")
         if (outputDir != null) {
             copy {

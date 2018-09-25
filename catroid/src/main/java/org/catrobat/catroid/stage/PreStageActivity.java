@@ -27,7 +27,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.nfc.NfcAdapter;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.provider.Settings;
@@ -637,13 +636,8 @@ public class PreStageActivity extends BaseActivity implements GatherCollisionInf
 		NfcAdapter adapter = NfcAdapter.getDefaultAdapter(getApplicationContext());
 		if (adapter != null && !adapter.isEnabled()) {
 			ToastUtil.showError(this, R.string.nfc_not_activated);
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-				Intent intent = new Intent(Settings.ACTION_NFC_SETTINGS);
-				startActivity(intent);
-			} else {
-				Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
-				startActivity(intent);
-			}
+			Intent intent = new Intent(Settings.ACTION_NFC_SETTINGS);
+			startActivity(intent);
 		} else if (adapter == null) {
 			ToastUtil.showError(this, R.string.no_nfc_available);
 			// TODO: resourceFailed() & startActivityForResult(), if behaviour needed

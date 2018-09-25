@@ -26,7 +26,6 @@ package org.catrobat.catroid.uiespresso.util.rules;
 import android.annotation.TargetApi;
 import android.app.UiAutomation;
 import android.graphics.Bitmap;
-import android.os.Build;
 import android.os.Environment;
 import android.support.test.InstrumentationRegistry;
 import android.util.Log;
@@ -49,16 +48,12 @@ public class ScreenshotOnFailRule extends TestWatcher {
 
 	@Override
 	protected void failed(Throwable e, Description description) {
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {
-			try {
-				Bitmap screenshotBitmap = takeScreenshot();
-				File screenshotFile = makeFileDescriptor(description);
-				saveScreenshot(screenshotBitmap, screenshotFile);
-			} catch (TakeScreenShotException tse) {
-				Log.e(TAG, "Take screenshot failed", tse);
-			}
-		} else {
-			Log.e(TAG, "this only works with API >= 18");
+		try {
+			Bitmap screenshotBitmap = takeScreenshot();
+			File screenshotFile = makeFileDescriptor(description);
+			saveScreenshot(screenshotBitmap, screenshotFile);
+		} catch (TakeScreenShotException tse) {
+			Log.e(TAG, "Take screenshot failed", tse);
 		}
 	}
 

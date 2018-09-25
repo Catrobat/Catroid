@@ -32,7 +32,8 @@ import org.junit.runners.Suite;
 		Cat.Device.class,
 		Cat.Educational.class,
 		Cat.SensorBox.class,
-		Cat.Quarantine.class})
+		Cat.Quarantine.class,
+		Cat.PocketMusicUiTests.class})
 
 @Suite.SuiteClasses(AllEspressoTestsSuite.class)
 public class PullRequestTriggerSuite {

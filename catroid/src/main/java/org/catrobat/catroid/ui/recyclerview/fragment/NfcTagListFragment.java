@@ -26,7 +26,6 @@ package org.catrobat.catroid.ui.recyclerview.fragment;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.nfc.NfcAdapter;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.PluralsRes;
@@ -59,14 +58,8 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 		pendingIntent = PendingIntent.getActivity(getActivity(), 0, nfcIntent, 0);
 		if (nfcAdapter != null && !nfcAdapter.isEnabled()) {
 			ToastUtil.showError(getActivity(), R.string.nfc_not_activated);
-
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-				Intent intent = new Intent(Settings.ACTION_NFC_SETTINGS);
-				startActivity(intent);
-			} else {
-				Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
-				startActivity(intent);
-			}
+			Intent intent = new Intent(Settings.ACTION_NFC_SETTINGS);
+			startActivity(intent);
 		} else if (nfcAdapter == null) {
 			ToastUtil.showError(getActivity(), R.string.no_nfc_available);
 		}
