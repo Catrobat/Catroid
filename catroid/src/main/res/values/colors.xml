@@ -65,6 +65,9 @@
     <!-- Device List Colors -->
     <color name="bluetooth_device_list_divider_color">#505050</color>
 
+    <!-- Axis Font Colors -->
+    <color name="axis_font_color">#ffff000c</color>
+
     <!-- Scratch Converter Colors -->
     <color name="beta_label_color">#FF7700</color>
 
