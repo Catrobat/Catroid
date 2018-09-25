@@ -25,14 +25,20 @@ package org.catrobat.catroid.common;
 
 import android.os.Environment;
 
+import org.catrobat.catroid.CatroidApplication;
+
 import java.io.File;
 
 import static org.catrobat.catroid.common.Constants.MAIN_URL_HTTPS;
 
 public final class FlavoredConstants {
 
-	public static final File DEFAULT_ROOT_DIRECTORY = new File(
+	public static final File DEFAULT_ROOT_DIRECTORY = CatroidApplication.getAppContext().getFilesDir();
+
+	public static final File OLD_EXTERNAL_STORAGE_ROOT_DIRECTORY = new File(
 			Environment.getExternalStorageDirectory().getAbsolutePath() + "/Luna&Cat");
+
+	public static final String POCKET_CODE_EXTERNAL_STORAGE_FOLDER_NAME = "Pocket Code";
 
 	// Web:
 	public static final String BASE_URL_HTTPS = MAIN_URL_HTTPS + "/luna/";

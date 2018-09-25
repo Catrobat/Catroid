@@ -64,6 +64,7 @@ import org.catrobat.catroid.ui.recyclerview.dialog.AboutDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.PrivacyPolicyDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.MainMenuFragment;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+import org.catrobat.catroid.utils.ImportProjectsFromExternalStorage;
 import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.ScreenValueHandler;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -195,6 +196,7 @@ public class MainMenuActivity extends BaseCastActivity implements ProjectLoaderT
 		if (SettingsFragment.isCastSharedPreferenceEnabled(this)) {
 			CastManager.getInstance().initializeCast(this);
 		}
+		new ImportProjectsFromExternalStorage(this).importOldPocketCodePrograms(getBaseContext());
 	}
 
 	private void onPermissionDenied(int requestCode) {
