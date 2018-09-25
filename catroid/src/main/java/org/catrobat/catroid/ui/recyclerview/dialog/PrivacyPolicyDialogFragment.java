@@ -24,11 +24,11 @@
 package org.catrobat.catroid.ui.recyclerview.dialog;
 
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 
@@ -37,45 +37,38 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.utils.Utils;
 
-import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY;
-
 public class PrivacyPolicyDialogFragment extends DialogFragment {
 
 	public static final String TAG = PrivacyPolicyDialogFragment.class.getSimpleName();
+	private static final String BUNDLE_FORCE_ACCEPT = "forceAccept";
 
-	private PrivacyPolicyListener privacyPolicyListener;
 	private boolean forceAccept = false;
 	private boolean showDeleteAccountDialog = false;
 
 	public PrivacyPolicyDialogFragment() {
 	}
 
-	public PrivacyPolicyDialogFragment(PrivacyPolicyListener privacyPolicyListener, boolean showDeleteAccountDialog) {
-		forceAccept = true;
-		this.privacyPolicyListener = privacyPolicyListener;
-		this.showDeleteAccountDialog = showDeleteAccountDialog;
+	public PrivacyPolicyDialogFragment newInstance(boolean forceAccept) {
+		PrivacyPolicyDialogFragment fragment = new PrivacyPolicyDialogFragment();
+		Bundle bundle = new Bundle();
+		bundle.putBoolean(BUNDLE_FORCE_ACCEPT, forceAccept);
+		fragment.setArguments(bundle);
+		return fragment;
 	}
 
+	@NonNull
 	@Override
 	public Dialog onCreateDialog(Bundle bundle) {
+		if (bundle != null) {
+			forceAccept = bundle.getBoolean(BUNDLE_FORCE_ACCEPT, false);
+		}
+
 		View view = View.inflate(getActivity(), R.layout.dialog_privacy_policy, null);
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
 				.setTitle(R.string.dialog_privacy_policy_title)
 				.setView(view);
-
-		if (!forceAccept) {
-			builder.setPositiveButton(R.string.ok, null);
-		} else {
-			builder.setPositiveButton(R.string.agree, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int id) {
-					PreferenceManager.getDefaultSharedPreferences(getActivity()).edit()
-							.putBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, true)
-							.apply();
-					privacyPolicyListener.onPrivacyPolicyAccepted();
-				}
-			});
+		if (forceAccept) {
 			builder.setNegativeButton(R.string.disagree, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int id) {
@@ -84,7 +77,10 @@ public class PrivacyPolicyDialogFragment extends DialogFragment {
 					}
 				}
 			});
+		} else {
+			builder.setPositiveButton(R.string.ok, null);
 		}
+
 		return builder.create();
 	}
 
@@ -108,10 +104,5 @@ public class PrivacyPolicyDialogFragment extends DialogFragment {
 				})
 				.create()
 				.show();
-	}
-
-	public interface PrivacyPolicyListener {
-
-		void onPrivacyPolicyAccepted();
 	}
 }

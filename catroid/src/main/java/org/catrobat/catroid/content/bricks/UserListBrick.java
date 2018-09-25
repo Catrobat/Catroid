@@ -23,28 +23,32 @@
 
 package org.catrobat.catroid.content.bricks;
 
-import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.RadioButton;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
-import org.catrobat.catroid.ui.recyclerview.dialog.NewListDialogFragment;
+import org.catrobat.catroid.ui.UiUtils;
+import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.NewItemTextWatcher;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class UserListBrick extends FormulaBrick implements NewListDialogFragment.NewListInterface,
-		BrickSpinner.OnItemSelectedListener<UserList> {
+public abstract class UserListBrick extends FormulaBrick implements BrickSpinner.OnItemSelectedListener<UserList> {
 
 	protected UserList userList;
 
@@ -95,28 +99,55 @@ public abstract class UserListBrick extends FormulaBrick implements NewListDialo
 
 	@Override
 	public void onNewOptionSelected() {
-		new NewListDialogFragment(this) {
+		AppCompatActivity activity = UiUtils.getActivityFromView(view);
+		if (activity == null) {
+			return;
+		}
 
-			@Override
-			public void onDismiss(DialogInterface dialog) {
-				super.onDismiss(dialog);
-				spinner.setSelection(userList);
-			}
+		final Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+		final Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 
-			@Override
-			public void onCancel(DialogInterface dialog) {
-				super.onCancel(dialog);
-				spinner.setSelection(userList);
-			}
-		}.show(((Activity) view.getContext()).getFragmentManager(), NewListDialogFragment.TAG);
-	}
+		TextInputDialog.Builder builder = new TextInputDialog.Builder(activity);
 
-	@Override
-	public void onNewList(UserList userList) {
-		spinner.add(userList);
-		spinner.setSelection(userList);
-		//TODO: This should work some other way: i.e. it should not rely on the Brick being able to access its adapter.
-		adapter.notifyDataSetChanged();
+		builder.setHint(activity.getString(R.string.data_label))
+				.setTextWatcher(new NewItemTextWatcher<>(spinner.getItems()))
+				.setPositiveButton(activity.getString(R.string.ok), new TextInputDialog.OnClickListener() {
+					@Override
+					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
+						UserList userList = new UserList(textInput);
+
+						DataContainer dataContainer = currentScene.getDataContainer();
+
+						RadioButton addToProjectListsRadioButton = ((Dialog) dialog).findViewById(R.id.global);
+						boolean addToProjectLists = addToProjectListsRadioButton.isChecked();
+
+						if (addToProjectLists) {
+							dataContainer.addUserList(userList);
+						} else {
+							dataContainer.addUserList(currentSprite, userList);
+						}
+						spinner.add(userList);
+						spinner.setSelection(userList);
+						adapter.notifyDataSetChanged();
+					}
+				});
+
+		builder.setTitle(R.string.formula_editor_list_dialog_title)
+				.setView(R.layout.dialog_new_user_data)
+				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						spinner.setSelection(userList);
+					}
+				})
+				.setOnCancelListener(new DialogInterface.OnCancelListener() {
+					@Override
+					public void onCancel(DialogInterface dialog) {
+						spinner.setSelection(userList);
+					}
+				})
+				.create()
+				.show();
 	}
 
 	@Override

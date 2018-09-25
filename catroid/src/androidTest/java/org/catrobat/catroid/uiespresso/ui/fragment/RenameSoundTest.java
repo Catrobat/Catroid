@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.ResourceImporter;
+import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
@@ -57,6 +58,7 @@ import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.isDialog;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
@@ -65,6 +67,7 @@ import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewIn
 import static org.catrobat.catroid.utils.PathBuilder.buildScenePath;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.not;
 
 @RunWith(AndroidJUnit4.class)
 public class RenameSoundTest {
@@ -76,6 +79,7 @@ public class RenameSoundTest {
 
 	private String oldSoundName = "oldSoundName";
 	private String newSoundName = "newSoundName";
+	private String secondSoundName = "secondSoundName";
 
 	@Before
 	public void setUp() throws Exception {
@@ -135,6 +139,49 @@ public class RenameSoundTest {
 		onView(withText(oldSoundName)).check(matches(isDisplayed()));
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void invalidInputRenameSoundTest() {
+		RecyclerViewActions.openOverflowMenu();
+		onView(withText(R.string.rename)).perform(click());
+
+		onRecyclerView().atPosition(0)
+				.performCheckItem();
+
+		onView(withId(R.id.confirm)).perform(click());
+
+		onView(withText(R.string.rename_sound_dialog)).inRoot(isDialog())
+				.check(matches(isDisplayed()));
+
+		String emptyInput = "";
+		String spacesOnlyInput = "   ";
+
+		onView(allOf(withText(oldSoundName), isDisplayed(), instanceOf(EditText.class)))
+				.perform(replaceText(emptyInput));
+		closeSoftKeyboard();
+
+		onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
+				.check(matches(allOf(isDisplayed(), not(isEnabled()))));
+
+		onView(allOf(withText(emptyInput), isDisplayed(), instanceOf(EditText.class)))
+				.perform(replaceText(spacesOnlyInput));
+
+		onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
+				.check(matches(allOf(isDisplayed(), not(isEnabled()))));
+
+		onView(allOf(withText(spacesOnlyInput), isDisplayed(), instanceOf(EditText.class)))
+				.perform(replaceText(secondSoundName));
+
+		onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
+				.check(matches(allOf(isDisplayed(), not(isEnabled()))));
+
+		onView(allOf(withText(secondSoundName), isDisplayed(), instanceOf(EditText.class)))
+				.perform(replaceText(newSoundName));
+
+		onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
+				.check(matches(allOf(isDisplayed(), isEnabled())));
+	}
+
 	private void createProject() throws IOException {
 		String projectName = "renameSoundFragmentTest";
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
@@ -147,16 +194,22 @@ public class RenameSoundTest {
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		XstreamSerializer.getInstance().saveProject(project);
 
-		File soundFile = ResourceImporter.createSoundFileFromResourcesInDirectory(
+		File soundFile0 = ResourceImporter.createSoundFileFromResourcesInDirectory(
 				InstrumentationRegistry.getContext().getResources(),
 				org.catrobat.catroid.test.R.raw.longsound,
 				new File(buildScenePath(project.getName(), project.getDefaultScene().getName()), SOUND_DIRECTORY_NAME),
 				"longsound.mp3");
 
 		List<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
-		SoundInfo soundInfo = new SoundInfo();
-		soundInfo.setFile(soundFile);
-		soundInfo.setName(oldSoundName);
-		soundInfoList.add(soundInfo);
+		SoundInfo soundInfo0 = new SoundInfo();
+		soundInfo0.setFile(soundFile0);
+		soundInfo0.setName(oldSoundName);
+		soundInfoList.add(soundInfo0);
+
+		File soundFile1 = StorageOperations.duplicateFile(soundFile0);
+		SoundInfo soundInfo1 = new SoundInfo();
+		soundInfo1.setFile(soundFile1);
+		soundInfo1.setName(secondSoundName);
+		soundInfoList.add(soundInfo1);
 	}
 }

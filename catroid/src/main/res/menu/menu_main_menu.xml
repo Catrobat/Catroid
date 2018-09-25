@@ -21,44 +21,46 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/cast_button"
-        android:showAsAction="ifRoom"
-        android:title="@string/cast_button_menu_item_title"
         android:icon="@drawable/ic_cast_white"
-        android:visible="false"/>
+        android:title="@string/cast_button_menu_item_title"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/menu_rate_app"
-        android:showAsAction="withText"
-        android:title="@string/main_menu_rate_app" />
+        android:title="@string/main_menu_rate_app"
+        app:showAsAction="never" />
     <item
         android:id="@+id/menu_terms_of_use"
-        android:showAsAction="withText"
-        android:title="@string/main_menu_terms_of_use" />
+        android:title="@string/main_menu_terms_of_use"
+        app:showAsAction="never" />
     <item
         android:id="@+id/menu_privacy_policy"
-        android:showAsAction="withText"
-        android:title="@string/main_menu_privacy_policy" />
+        android:title="@string/main_menu_privacy_policy"
+        app:showAsAction="never" />
     <item
         android:id="@+id/menu_about"
-        android:showAsAction="withText"
-        android:title="@string/main_menu_about" />
+        android:title="@string/main_menu_about"
+        app:showAsAction="never" />
     <item
         android:id="@+id/menu_scratch_converter"
-        android:showAsAction="withText"
-        android:title="@string/main_menu_scratch_converter" />
+        android:title="@string/main_menu_scratch_converter"
+        app:showAsAction="never" />
     <item
         android:id="@+id/settings"
-        android:showAsAction="never"
-        android:title="@string/settings" />
+        android:title="@string/settings"
+        app:showAsAction="never" />
     <item
         android:id="@+id/menu_login"
-        android:showAsAction="never"
-        android:title="@string/main_menu_login"/>
+        android:title="@string/main_menu_login"
+        app:showAsAction="never" />
     <item
         android:id="@+id/menu_logout"
-        android:showAsAction="never"
-        android:title="@string/main_menu_logout"/>
+        android:title="@string/main_menu_logout"
+        app:showAsAction="never" />
 </menu>

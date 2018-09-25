@@ -306,8 +306,9 @@
 
     <!-- Dialog Errors -->
     <string name="name_already_exists">This name is already in use, please choose another one.</string>
-    <string name="name_consists_of_spaces_only">You only put spaces into the text field, please enter a name
+    <string name="name_consists_of_spaces_only">You only put spaces into the text field, please enter a text
         using letters, numbers or other special characters.</string>
+    <string name="name_empty">Please enter a text</string>
 
     <!-- Recycler View -->
     <string name="am_empty_list">There are no items in this list yet. Please add some first.</string>
@@ -525,12 +526,13 @@
 
     <!-- Dialog Labels -->
     <string name="project_name_label">Program Name</string>
-    <string name="scene_name">Scene Name</string>
+    <string name="scene_name_label">Scene Name</string>
     <string name="sprite_name_label">Object Name</string>
     <string name="sprite_group_name_label">Group Name</string>
     <string name="script_group_label">Script Group Name</string>
     <string name="look_name_label">Look Name</string>
     <string name="sound_name_label">Sound Name</string>
+    <string name="nfc_tag_name_label">Nfc Tag Name</string>
     <string name="string_label">Text</string>
     <string name="data_label">Name</string>
 
@@ -682,6 +684,7 @@
     <!-- SoundListFragment -->
     <string name="fragment_sound_text_description">Tap \"+\" to add sounds</string>
     <string name="sound_select_source">Select a sound</string>
+    <string name="default_sound_name">Sound</string>
     <!--  -->
 
     <!-- NfcTagListFragment -->
@@ -869,12 +872,6 @@
 
     <!-- NetworkAlertDialog -->
     <string name="error_no_network_title">No Network</string>
-    <string name="error_no_network">You need a network connection to use this program. Please turn on the
-        mobile network or the Wi-Fi in the settings.</string>
-    <plurals name="bricks_using_network_headline">
-        <item quantity="one">The following brick needs a network connection:</item>
-        <item quantity="other">The following bricks need a network connection:</item>
-    </plurals>
 
     <!-- UploadProjectDialog -->
     <string name="error_no_program_name_entered">Please enter a program name.</string>
@@ -949,6 +946,7 @@
     <string name="error_register_email_exists">Email Address already exists</string>
     <!--  -->
 
+
     <!-- OverwriteRenameDialog Strings -->
     <string name="overwrite_title">Project exists.</string>
     <string name="overwrite_text">A project with this name already exists.</string>
@@ -956,14 +954,6 @@
     <string name="overwrite_rename">Choose a new name</string>
     <!--  -->
 
-    <!-- OverwriteRenameMediaDialog -->
-    <string name="overwrite_replace_look">Replace Look</string>
-    <string name="overwrite_rename_look">Rename downloaded Look</string>
-    <string name="overwrite_replace_sound">Replace sound</string>
-    <string name="overwrite_rename_sound">Rename downloaded Sound</string>
-    <string name="overwrite_replace_default">Replace Media</string>
-    <string name="overwrite_rename_default">Rename existing Media</string>
-    <!-- -->
 
     <!-- Music activity -->
     <string name="pocket_music_default_project_name">Untitled Song</string>

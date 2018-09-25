@@ -28,9 +28,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -62,16 +59,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		AccessibilityProfile profile = AccessibilityProfile.fromCurrentPreferences(sharedPreferences);
 		profile.applyAccessibilityStyles(getTheme());
-	}
-
-	@SuppressWarnings("PMD.DoNotCallGarbageCollectionExplicitly")
-	@Override
-	protected void onDestroy() {
-		// Partly from http://stackoverflow.com/a/5069354
-		unbindDrawables(((ViewGroup) findViewById(android.R.id.content)).getChildAt(0));
-		System.gc();
-
-		super.onDestroy();
 	}
 
 	@Override
@@ -107,33 +94,17 @@ public abstract class BaseActivity extends AppCompatActivity {
 	private void checkIfCrashRecoveryAndFinishActivity(final Activity activity) {
 		if (isRecoveringFromCrash()) {
 			CrashReporter.logUnhandledException();
-			if (!(activity instanceof MainMenuActivity)) {
-				activity.finish();
+			if (activity instanceof MainMenuActivity) {
+				PreferenceManager.getDefaultSharedPreferences(this).edit()
+						.putBoolean(RECOVERED_FROM_CRASH, false)
+						.commit();
 			} else {
-				PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean(RECOVERED_FROM_CRASH, false).commit();
+				activity.finish();
 			}
 		}
 	}
 
 	private boolean isRecoveringFromCrash() {
 		return PreferenceManager.getDefaultSharedPreferences(this).getBoolean(RECOVERED_FROM_CRASH, false);
-	}
-
-	// Code from Stackoverflow to reduce memory problems
-	// onDestroy() and unbindDrawables() methods taken from
-	// http://stackoverflow.com/a/6779067
-	protected void unbindDrawables(View view) {
-		if (view == null) {
-			return;
-		}
-		if (view.getBackground() != null) {
-			view.getBackground().setCallback(null);
-		}
-		if (view instanceof ViewGroup && !(view instanceof AdapterView)) {
-			for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
-				unbindDrawables(((ViewGroup) view).getChildAt(i));
-			}
-			((ViewGroup) view).removeAllViews();
-		}
 	}
 }

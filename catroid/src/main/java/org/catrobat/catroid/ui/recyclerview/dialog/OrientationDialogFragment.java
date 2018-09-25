@@ -24,10 +24,10 @@
 package org.catrobat.catroid.ui.recyclerview.dialog;
 
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.RadioGroup;
@@ -43,31 +43,25 @@ import java.io.IOException;
 public class OrientationDialogFragment extends DialogFragment {
 
 	public static final String TAG = OrientationDialogFragment.class.getSimpleName();
+	public static final String BUNDLE_KEY_PROJECT_NAME = "projectName";
+	public static final String BUNDLE_KEY_CREATE_EMPTY_PROJECT = "createEmptyProject";
 
-	private String name;
-	private boolean createEmptyProject;
-	private RadioGroup radioGroup;
+	public static OrientationDialogFragment newInstance(String projectName, boolean createEmptyProject) {
+		OrientationDialogFragment dialog = new OrientationDialogFragment();
 
-	public OrientationDialogFragment() {
-	}
+		Bundle bundle = new Bundle();
+		bundle.putString(BUNDLE_KEY_PROJECT_NAME, projectName);
+		bundle.putBoolean(BUNDLE_KEY_CREATE_EMPTY_PROJECT, createEmptyProject);
+		dialog.setArguments(bundle);
 
-	public OrientationDialogFragment(String name, boolean createEmptyProject) {
-		this.name = name;
-		this.createEmptyProject = createEmptyProject;
-	}
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		boolean isRestoringPreviouslyDestroyedActivity = savedInstanceState != null;
-		if (isRestoringPreviouslyDestroyedActivity) {
-			dismiss();
-		}
+		return dialog;
 	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View view = View.inflate(getActivity(), R.layout.dialog_orientation, null);
+
+		final RadioGroup radioGroup = view.findViewById(R.id.radio_group);
 
 		int title = R.string.project_orientation_title;
 		if (SettingsFragment.isCastSharedPreferenceEnabled(getActivity())) {
@@ -75,41 +69,46 @@ public class OrientationDialogFragment extends DialogFragment {
 			view.findViewById(R.id.cast).setVisibility(View.VISIBLE);
 		}
 
-		radioGroup = view.findViewById(R.id.radio_group);
-
-		return new AlertDialog.Builder(getActivity())
+		return new AlertDialog.Builder(getContext())
 				.setTitle(title)
 				.setView(view)
 				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						onPositiveButtonClick();
+						switch (radioGroup.getCheckedRadioButtonId()) {
+							case R.id.portrait:
+								createProject(false, false);
+								break;
+							case R.id.landscape_mode:
+								createProject(true, false);
+								break;
+							case R.id.cast:
+								createProject(false, true);
+								break;
+							default:
+								throw new IllegalStateException(TAG + ": No radio button id match, check layout?");
+						}
 					}
 				})
 				.setNegativeButton(R.string.cancel, null)
 				.create();
 	}
 
-	private void onPositiveButtonClick() {
-		switch (radioGroup.getCheckedRadioButtonId()) {
-			case R.id.portrait:
-				createProject(false, false);
-				break;
-			case R.id.landscape_mode:
-				createProject(true, false);
-				break;
-			case R.id.cast:
-				createProject(false, true);
-				break;
-			default:
-				throw new IllegalStateException(TAG + ": Cannot find RadioButton.");
+	void createProject(boolean createLandscapeProject, boolean createCastProject) {
+		if (getArguments() == null) {
+			return;
 		}
-	}
 
-	private void createProject(boolean createLandscapeProject, boolean createCastProject) {
+		String projectName = getArguments().getString(BUNDLE_KEY_PROJECT_NAME);
+		Boolean createEmptyProject = getArguments().getBoolean(BUNDLE_KEY_CREATE_EMPTY_PROJECT);
+
+		if (projectName == null) {
+			return;
+		}
+
 		try {
-			ProjectManager.getInstance().initializeNewProject(name, getActivity(), createEmptyProject, false,
-					createLandscapeProject, createCastProject, false);
+			ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), createEmptyProject,
+					false, createLandscapeProject, createCastProject, false);
 		} catch (IOException e) {
 			ToastUtil.showError(getActivity(), R.string.error_new_project);
 		}

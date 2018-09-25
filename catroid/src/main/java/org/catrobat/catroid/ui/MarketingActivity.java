@@ -24,13 +24,13 @@
 package org.catrobat.catroid.ui;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -50,7 +50,7 @@ import java.util.List;
 import static org.catrobat.catroid.common.Constants.MAIN_URL_HTTPS;
 
 @SuppressLint("SetJavaScriptEnabled")
-public class MarketingActivity extends Activity {
+public class MarketingActivity extends AppCompatActivity {
 
 	private static final String TAG = MarketingActivity.class.getSimpleName();
 
@@ -61,8 +61,7 @@ public class MarketingActivity extends Activity {
 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		setContentView(R.layout
-				.activity_standalone_advertising);
+		setContentView(R.layout.activity_standalone_advertising);
 
 		TextView appName = (TextView) findViewById(R.id.title);
 		appName.setText(ProjectManager.getInstance().getCurrentProject().getName());

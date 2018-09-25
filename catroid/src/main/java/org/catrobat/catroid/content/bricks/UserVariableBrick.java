@@ -23,28 +23,32 @@
 
 package org.catrobat.catroid.content.bricks;
 
-import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.RadioButton;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
-import org.catrobat.catroid.ui.recyclerview.dialog.NewVariableDialogFragment;
+import org.catrobat.catroid.ui.UiUtils;
+import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.NewItemTextWatcher;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class UserVariableBrick extends FormulaBrick implements NewVariableDialogFragment.NewVariableInterface,
-		BrickSpinner.OnItemSelectedListener<UserVariable> {
+public abstract class UserVariableBrick extends FormulaBrick implements BrickSpinner.OnItemSelectedListener<UserVariable> {
 
 	protected UserVariable userVariable;
 
@@ -95,28 +99,55 @@ public abstract class UserVariableBrick extends FormulaBrick implements NewVaria
 
 	@Override
 	public void onNewOptionSelected() {
-		new NewVariableDialogFragment(this) {
+		AppCompatActivity activity = UiUtils.getActivityFromView(view);
+		if (activity == null) {
+			return;
+		}
 
-			@Override
-			public void onDismiss(DialogInterface dialog) {
-				super.onDismiss(dialog);
-				spinner.setSelection(userVariable);
-			}
+		final Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+		final Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 
-			@Override
-			public void onCancel(DialogInterface dialog) {
-				super.onCancel(dialog);
-				spinner.setSelection(userVariable);
-			}
-		}.show(((Activity) view.getContext()).getFragmentManager(), NewVariableDialogFragment.TAG);
-	}
+		TextInputDialog.Builder builder = new TextInputDialog.Builder(activity);
 
-	@Override
-	public void onNewVariable(UserVariable userVariable) {
-		spinner.add(userVariable);
-		spinner.setSelection(userVariable);
-		//TODO: This should work some other way: i.e. it should not rely on the Brick being able to access its adapter.
-		adapter.notifyDataSetChanged();
+		builder.setHint(activity.getString(R.string.data_label))
+				.setTextWatcher(new NewItemTextWatcher<>(spinner.getItems()))
+				.setPositiveButton(activity.getString(R.string.ok), new TextInputDialog.OnClickListener() {
+					@Override
+					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
+						UserVariable userVariable = new UserVariable(textInput);
+
+						DataContainer dataContainer = currentScene.getDataContainer();
+
+						RadioButton addToProjectVariablesRadioButton = ((Dialog) dialog).findViewById(R.id.global);
+						boolean addToProjectVariables = addToProjectVariablesRadioButton.isChecked();
+
+						if (addToProjectVariables) {
+							dataContainer.addUserVariable(userVariable);
+						} else {
+							dataContainer.addUserVariable(currentSprite, userVariable);
+						}
+						spinner.add(userVariable);
+						spinner.setSelection(userVariable);
+						adapter.notifyDataSetChanged();
+					}
+				});
+
+		builder.setTitle(R.string.formula_editor_variable_dialog_title)
+				.setView(R.layout.dialog_new_user_data)
+				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						spinner.setSelection(userVariable);
+					}
+				})
+				.setOnCancelListener(new DialogInterface.OnCancelListener() {
+					@Override
+					public void onCancel(DialogInterface dialog) {
+						spinner.setSelection(userVariable);
+					}
+				})
+				.create()
+				.show();
 	}
 
 	@Override

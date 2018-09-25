@@ -133,11 +133,11 @@ public class WhenNfcBrickStageTest {
 		ndefMessage2 = NfcHandler.createMessage(UiNFCTestUtils.NFC_NDEF_STRING_2, BrickValues.TNF_MIME_MEDIA);
 
 		firstTagData = new NfcTagData();
-		firstTagData.setNfcTagName(TAG_NAME_TEST1);
+		firstTagData.setName(TAG_NAME_TEST1);
 		firstTagData.setNfcTagUid(NfcHandler.byteArrayToHex(UiNFCTestUtils.FIRST_TEST_TAG_ID.getBytes()));
 
 		secondTagData = new NfcTagData();
-		secondTagData.setNfcTagName(TAG_NAME_TEST2);
+		secondTagData.setName(TAG_NAME_TEST2);
 		secondTagData.setNfcTagUid(NfcHandler.byteArrayToHex(UiNFCTestUtils.SECOND_TEST_TAG_ID.getBytes()));
 
 		scriptUnderTest = createProjectWithNfcAndSetVariable();

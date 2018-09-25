@@ -23,10 +23,10 @@
 
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
-import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -48,9 +48,8 @@ import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.recyclerview.adapter.DataListAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
-import org.catrobat.catroid.ui.recyclerview.dialog.NewDataDialogFragment;
-import org.catrobat.catroid.ui.recyclerview.dialog.RenameDialogFragment;
-import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
+import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.RenameItemTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.utils.ToastUtil;
 
@@ -58,16 +57,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class DataListFragment extends Fragment implements
 		ActionMode.Callback,
 		RVAdapter.SelectionListener,
-		RVAdapter.OnItemClickListener<UserData>,
-		NewItemInterface<UserData>,
-		RenameDialogFragment.RenameInterface {
+		RVAdapter.OnItemClickListener<UserData> {
 
 	public static final String TAG = DataListFragment.class.getSimpleName();
 
@@ -200,6 +195,10 @@ public class DataListFragment extends Fragment implements
 		adapter.setOnItemClickListener(this);
 	}
 
+	public void notifyDataSetChanged() {
+		adapter.notifyDataSetChanged();
+	}
+
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
 		super.onPrepareOptionsMenu(menu);
@@ -237,17 +236,6 @@ public class DataListFragment extends Fragment implements
 		}
 	}
 
-	public void handleAddButton() {
-		NewDataDialogFragment dialog = new NewDataDialogFragment();
-		dialog.setNewDataInterface(this);
-		dialog.show(getFragmentManager(), NewDataDialogFragment.TAG);
-	}
-
-	@Override
-	public void addItem(UserData item) {
-		adapter.updateDataSet();
-	}
-
 	public void showDeleteAlert(final List<UserData> selectedItems) {
 		new AlertDialog.Builder(getActivity())
 				.setTitle(R.string.deletion_alert_title)
@@ -258,13 +246,7 @@ public class DataListFragment extends Fragment implements
 						deleteItems(selectedItems);
 					}
 				})
-				.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						finishActionMode();
-						dialog.dismiss();
-					}
-				})
+				.setNegativeButton(R.string.no, null)
 				.setCancelable(false)
 				.create()
 				.show();
@@ -281,23 +263,27 @@ public class DataListFragment extends Fragment implements
 	}
 
 	private void showRenameDialog(List<UserData> selectedItems) {
-		String name = selectedItems.get(0).getName();
-		RenameDialogFragment dialog = new RenameDialogFragment(R.string.rename_data_dialog, R.string.data_label, name, this);
-		dialog.show(getFragmentManager(), RenameDialogFragment.TAG);
+		final UserData item = selectedItems.get(0);
+
+		TextInputDialog.Builder builder = new TextInputDialog.Builder(getContext());
+
+		builder.setHint(getString(R.string.data_label))
+				.setText(item.getName())
+				.setTextWatcher(new RenameItemTextWatcher<>(item, adapter.getItems()))
+				.setPositiveButton(getString(R.string.ok), new TextInputDialog.OnClickListener() {
+					@Override
+					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
+						renameItem(item, textInput);
+					}
+				});
+
+		builder.setTitle(R.string.rename_data_dialog)
+				.setNegativeButton(R.string.cancel, null)
+				.create()
+				.show();
 	}
 
-	@Override
-	public boolean isNameUnique(String name) {
-		Set<String> scope = new HashSet<>();
-		for (UserData item : adapter.getItems()) {
-			scope.add(item.getName());
-		}
-		return !scope.contains(name);
-	}
-
-	@Override
-	public void renameItem(String name) {
-		UserData item = adapter.getSelectedItems().get(0);
+	public void renameItem(UserData item, String name) {
 		String previousName = item.getName();
 		item.setName(name);
 		adapter.updateDataSet();
@@ -337,8 +323,7 @@ public class DataListFragment extends Fragment implements
 								showDeleteAlert(new ArrayList<>(Collections.singletonList(item)));
 								break;
 							case 1:
-								adapter.setSelection(item, true);
-								showRenameDialog(adapter.getSelectedItems());
+								showRenameDialog(new ArrayList<>(Collections.singletonList(item)));
 								break;
 							default:
 								dialog.dismiss();

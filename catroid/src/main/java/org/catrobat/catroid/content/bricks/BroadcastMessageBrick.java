@@ -22,10 +22,10 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import org.catrobat.catroid.ProjectManager;
@@ -34,13 +34,14 @@ import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
-import org.catrobat.catroid.ui.recyclerview.dialog.NewBroadcastMessageDialogFragment;
-import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
+import org.catrobat.catroid.ui.UiUtils;
+import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.NonEmptyStringTextWatcher;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BroadcastMessageBrick extends BrickBaseType implements NewItemInterface<String>,
+public abstract class BroadcastMessageBrick extends BrickBaseType implements
 		BrickSpinner.OnItemSelectedListener<StringOption> {
 
 	private transient BrickSpinner<StringOption> spinner;
@@ -87,11 +88,39 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements New
 
 	@Override
 	public void onNewOptionSelected() {
-		new NewBroadCastMessageDialogFragmentForBrick(this, spinner, getBroadcastMessage())
-				.show(((Activity) view.getContext()).getFragmentManager(), NewBroadcastMessageDialogFragment.TAG);
+		AppCompatActivity activity = UiUtils.getActivityFromView(view);
+		if (activity == null) {
+			return;
+		}
+
+		TextInputDialog.Builder builder = new TextInputDialog.Builder(activity);
+
+		builder.setHint(activity.getString(R.string.dialog_new_broadcast_message_name))
+				.setTextWatcher(new NonEmptyStringTextWatcher())
+				.setPositiveButton(activity.getString(R.string.ok), new TextInputDialog.OnClickListener() {
+					@Override
+					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
+						addItem(textInput);
+					}
+				});
+
+		builder.setTitle(R.string.dialog_new_broadcast_message_title)
+				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						spinner.setSelection(getBroadcastMessage());
+					}
+				})
+				.setOnCancelListener(new DialogInterface.OnCancelListener() {
+					@Override
+					public void onCancel(DialogInterface dialog) {
+						spinner.setSelection(getBroadcastMessage());
+					}
+				})
+				.create()
+				.show();
 	}
 
-	@Override
 	public void addItem(String item) {
 		if (ProjectManager.getInstance().getCurrentProject().getBroadcastMessageContainer().addBroadcastMessage(item)) {
 			spinner.add(new StringOption(item));
@@ -108,33 +137,5 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements New
 
 	@Override
 	public void onItemSelected(@Nullable StringOption item) {
-	}
-
-	public static class NewBroadCastMessageDialogFragmentForBrick extends NewBroadcastMessageDialogFragment {
-		private BrickSpinner<StringOption> spinner;
-		private String broadcastMessage;
-
-		public NewBroadCastMessageDialogFragmentForBrick() {
-		}
-
-		public NewBroadCastMessageDialogFragmentForBrick(NewItemInterface<String> newItemInterface, BrickSpinner<StringOption> spinner, String broadcastMessage) {
-			super(newItemInterface);
-			this.spinner = spinner;
-			this.broadcastMessage = broadcastMessage;
-		}
-
-		@Override
-		public void onDismiss(DialogInterface dialog) {
-			super.onDismiss(dialog);
-			if (spinner != null) {
-				spinner.setSelection(broadcastMessage);
-			}
-		}
-
-		@Override
-		public void onCancel(DialogInterface dialog) {
-			super.onCancel(dialog);
-			spinner.setSelection(broadcastMessage);
-		}
 	}
 }

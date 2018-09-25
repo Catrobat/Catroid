@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.bluetooth;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
@@ -31,6 +30,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -53,7 +53,7 @@ import org.catrobat.catroid.utils.ToastUtil;
 
 import java.util.Set;
 
-public class ConnectBluetoothDeviceActivity extends Activity {
+public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 
 	public static final String TAG = ConnectBluetoothDeviceActivity.class.getSimpleName();
 
@@ -204,7 +204,7 @@ public class ConnectBluetoothDeviceActivity extends Activity {
 		setContentView(R.layout.device_list);
 		setTitle(getString(R.string.select_device) + " " + btDevice.getName());
 
-		setResult(Activity.RESULT_CANCELED);
+		setResult(AppCompatActivity.RESULT_CANCELED);
 
 		Button scanButton = (Button) findViewById(R.id.button_scan);
 		scanButton.setOnClickListener(new OnClickListener() {
@@ -300,7 +300,7 @@ public class ConnectBluetoothDeviceActivity extends Activity {
 		int bluetoothState = btManager.activateBluetooth();
 		if (bluetoothState == BluetoothManager.BLUETOOTH_NOT_SUPPORTED) {
 			ToastUtil.showError(this, R.string.notification_blueth_err);
-			setResult(Activity.RESULT_CANCELED);
+			setResult(AppCompatActivity.RESULT_CANCELED);
 			finish();
 		}
 
@@ -312,12 +312,12 @@ public class ConnectBluetoothDeviceActivity extends Activity {
 		Log.i(TAG, "Bluetooth activation activity returned");
 
 		switch (resultCode) {
-			case Activity.RESULT_OK:
+			case AppCompatActivity.RESULT_OK:
 				listAndSelectDevices();
 				break;
-			case Activity.RESULT_CANCELED:
+			case AppCompatActivity.RESULT_CANCELED:
 				ToastUtil.showError(this, R.string.notification_blueth_err);
-				setResult(Activity.RESULT_CANCELED);
+				setResult(AppCompatActivity.RESULT_CANCELED);
 				finish();
 				break;
 		}

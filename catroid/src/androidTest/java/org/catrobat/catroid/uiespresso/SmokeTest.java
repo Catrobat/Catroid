@@ -43,15 +43,16 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
+import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.catrobat.catroid.uiespresso.util.UiTestUtils.assertCurrentActivityIsInstanceOf;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.core.IsNot.not;
 
 @RunWith(AndroidJUnit4.class)
 public class SmokeTest {
@@ -95,18 +96,20 @@ public class SmokeTest {
 		onView(withText(R.string.new_project_dialog_title))
 				.check(matches(isDisplayed()));
 
-		//enter new project name
-		onView(withClassName(is("android.support.design.widget.TextInputEditText")))
-				.perform(typeText("TestProject"), closeSoftKeyboard());
-		//onView(withId(R.id.input)).perform(typeText("TestProject"));
-		onView(withText(R.string.ok))
+		onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
+				.check(matches(allOf(isDisplayed(), not(isEnabled()))));
+
+		onView(allOf(withId(R.id.input_edit_text), isDisplayed()))
+				.perform(replaceText("TestProject"), closeSoftKeyboard());
+
+		onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
 				.perform(click());
 
 		//check if orientation dialog is displayed
 		onView(withText(R.string.project_orientation_title))
 				.check(matches(isDisplayed()));
-		//onView(withId(R.id.landscape_mode)).perform(click());
-		onView(withText(R.string.ok))
+
+		onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
 				.perform(click());
 
 		//check if user ends up in right activity either by checking activity itself:
@@ -117,7 +120,7 @@ public class SmokeTest {
 				.perform(click());
 
 		//check if new object dialog is displayed
-		onView(withText(R.string.new_look_dialog_title))
+		onView(withText(R.string.new_sprite_dialog_title))
 				.check(matches(isDisplayed()));
 		//cancel by back
 		pressBack();

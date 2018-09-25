@@ -33,8 +33,6 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.catrobat.catroid.common.Constants.BACKPACK_IMAGE_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
@@ -44,7 +42,7 @@ public class LookController {
 	private UniqueNameProvider uniqueNameProvider = new UniqueNameProvider();
 
 	public LookData copy(LookData lookToCopy, Scene dstScene, Sprite dstSprite) throws IOException {
-		String name = uniqueNameProvider.getUniqueName(lookToCopy.getName(), getScope(dstSprite.getLookList()));
+		String name = uniqueNameProvider.getUniqueNameInNameables(lookToCopy.getName(), dstSprite.getLookList());
 
 		File dstDir = getImageDir(dstScene);
 		File file = StorageOperations.copyFileToDir(lookToCopy.getFile(), dstDir);
@@ -68,8 +66,8 @@ public class LookController {
 	}
 
 	public LookData pack(LookData lookToPack) throws IOException {
-		String name = uniqueNameProvider.getUniqueName(
-				lookToPack.getName(), getScope(BackpackListManager.getInstance().getBackpackedLooks()));
+		String name = uniqueNameProvider.getUniqueNameInNameables(
+				lookToPack.getName(), BackpackListManager.getInstance().getBackpackedLooks());
 
 		File file = StorageOperations.copyFileToDir(lookToPack.getFile(), BACKPACK_IMAGE_DIRECTORY);
 
@@ -90,7 +88,7 @@ public class LookController {
 	}
 
 	public LookData unpack(LookData lookToUnpack, Scene dstScene, Sprite dstSprite) throws IOException {
-		String name = uniqueNameProvider.getUniqueName(lookToUnpack.getName(), getScope(dstSprite.getLookList()));
+		String name = uniqueNameProvider.getUniqueNameInNameables(lookToUnpack.getName(), dstSprite.getLookList());
 		File file = StorageOperations.copyFileToDir(lookToUnpack.getFile(), getImageDir(dstScene));
 		return new LookData(name, file);
 	}
@@ -105,14 +103,6 @@ public class LookController {
 		LookData lookData = unpack(lookToUnpack, dstScene, dstSprite);
 		dstSprite.getLookList().add(lookData);
 		return lookData;
-	}
-
-	private List<String> getScope(List<LookData> items) {
-		List<String> scope = new ArrayList<>();
-		for (LookData item : items) {
-			scope.add(item.getName());
-		}
-		return scope;
 	}
 
 	private File getImageDir(Scene scene) {

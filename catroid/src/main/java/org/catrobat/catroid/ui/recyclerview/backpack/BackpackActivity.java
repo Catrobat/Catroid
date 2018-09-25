@@ -23,10 +23,10 @@
 
 package org.catrobat.catroid.ui.recyclerview.backpack;
 
-import android.app.FragmentTransaction;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
@@ -37,7 +37,7 @@ public class BackpackActivity extends BaseActivity {
 
 	public static final String TAG = BackpackActivity.class.getSimpleName();
 
-	public static final String EXTRA_FRAGMENT_POSITION = "FRAGMENT_POSITION";
+	public static final String EXTRA_FRAGMENT_POSITION = "fragmentPosition";
 	public static final int FRAGMENT_SCENES = 0;
 	public static final int FRAGMENT_SPRITES = 1;
 	public static final int FRAGMENT_LOOKS = 2;
@@ -66,29 +66,29 @@ public class BackpackActivity extends BaseActivity {
 		switchToFragment(fragmentPosition);
 	}
 
-	private void switchToFragment(int fragmentTag) {
-		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+	private void switchToFragment(int fragmentPosition) {
+		FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
-		switch (fragmentTag) {
+		switch (fragmentPosition) {
 			case FRAGMENT_SCENES:
-				fragmentTransaction.replace(R.id.fragment_container, new BackpackSceneFragment(),
-						BackpackSceneFragment.TAG);
+				fragmentTransaction
+						.replace(R.id.fragment_container, new BackpackSceneFragment(), BackpackSceneFragment.TAG);
 				break;
 			case FRAGMENT_SPRITES:
-				fragmentTransaction.replace(R.id.fragment_container, new BackpackSpriteFragment(),
-						BackpackSpriteFragment.TAG);
+				fragmentTransaction
+						.replace(R.id.fragment_container, new BackpackSpriteFragment(), BackpackSpriteFragment.TAG);
 				break;
 			case FRAGMENT_LOOKS:
-				fragmentTransaction.replace(R.id.fragment_container, new BackpackLookFragment(),
-						BackpackLookFragment.TAG);
+				fragmentTransaction
+						.replace(R.id.fragment_container, new BackpackLookFragment(), BackpackLookFragment.TAG);
 				break;
 			case FRAGMENT_SOUNDS:
-				fragmentTransaction.replace(R.id.fragment_container, new BackpackSoundFragment(),
-						BackpackSoundFragment.TAG);
+				fragmentTransaction
+						.replace(R.id.fragment_container, new BackpackSoundFragment(), BackpackSoundFragment.TAG);
 				break;
 			case FRAGMENT_SCRIPTS:
-				fragmentTransaction.replace(R.id.fragment_container, new BackpackScriptFragment(),
-						BackpackScriptFragment.TAG);
+				fragmentTransaction
+						.replace(R.id.fragment_container, new BackpackScriptFragment(), BackpackScriptFragment.TAG);
 				break;
 			default:
 				return;
@@ -105,11 +105,10 @@ public class BackpackActivity extends BaseActivity {
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		BackpackRecyclerViewFragment currentFragment = ((BackpackRecyclerViewFragment) getFragmentManager()
-				.findFragmentById(R.id
-				.fragment_container));
+		BackpackRecyclerViewFragment fragment = ((BackpackRecyclerViewFragment) getSupportFragmentManager()
+				.findFragmentById(R.id.fragment_container));
 
-		menu.findItem(R.id.show_details).setVisible(currentFragment.hasDetails);
+		menu.findItem(R.id.show_details).setVisible(fragment.hasDetails);
 		return true;
 	}
 }

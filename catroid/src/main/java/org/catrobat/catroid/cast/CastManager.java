@@ -23,7 +23,6 @@
 package org.catrobat.catroid.cast;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -31,6 +30,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.media.MediaRouteSelector;
 import android.support.v7.media.MediaRouter;
 import android.view.HapticFeedbackConstants;
@@ -70,7 +70,7 @@ import static org.catrobat.catroid.common.Constants.CAST_IDLE_BACKGROUND_COLOR;
 public final class CastManager {
 	private static final CastManager INSTANCE = new CastManager();
 	private final ArrayList<MediaRouter.RouteInfo> routeInfos = new ArrayList<MediaRouter.RouteInfo>();
-	StageActivity gamepadActivity;
+	private StageActivity gamepadActivity;
 	private EnumMap<Sensors, Boolean> isGamepadButtonPressed = new EnumMap<>(Sensors.class);
 	private MediaRouter mediaRouter;
 	private MediaRouteSelector mediaRouteSelector;
@@ -79,7 +79,7 @@ public final class CastManager {
 	private CastDevice selectedDevice;
 	private boolean isConnected = false;
 	private GLSurfaceView20 stageViewDisplayedOnCast;
-	private Activity initializingActivity;
+	private AppCompatActivity initializingActivity;
 	private RelativeLayout remoteLayout;
 	private RelativeLayout pausedView = null;
 	private MenuItem castButton;
@@ -134,6 +134,10 @@ public final class CastManager {
 		return mediaRouter;
 	}
 
+	public ArrayAdapter<MediaRouter.RouteInfo> getDeviceAdapter() {
+		return deviceAdapter;
+	}
+
 	public ArrayList<MediaRouter.RouteInfo> getRouteInfos() {
 		return routeInfos;
 	}
@@ -150,7 +154,7 @@ public final class CastManager {
 		return selectedDevice;
 	}
 
-	public synchronized void initializeCast(Activity activity) {
+	public synchronized void initializeCast(AppCompatActivity activity) {
 
 		initializingActivity = activity;
 
@@ -287,15 +291,14 @@ public final class CastManager {
 		return (!isConnected && selectedDevice != null);
 	}
 
-	public synchronized void openDeviceSelectorOrDisconnectDialog(Activity activity) {
-		SelectCastDialog dialog = new SelectCastDialog(deviceAdapter, activity);
-		dialog.openDialog();
+	public synchronized void openDeviceSelectorOrDisconnectDialog(AppCompatActivity activity) {
+		SelectCastDialog dialog = new SelectCastDialog();
+		dialog.show(activity.getSupportFragmentManager(), SelectCastDialog.TAG);
 	}
 
 	public synchronized void setCastButton(MenuItem castButton) {
 		this.castButton = castButton;
-		castButton.setVisible(mediaRouter.isRouteAvailable(mediaRouteSelector, MediaRouter
-				.AVAILABILITY_FLAG_REQUIRE_MATCH));
+		castButton.setVisible(mediaRouter.isRouteAvailable(mediaRouteSelector, MediaRouter.AVAILABILITY_FLAG_REQUIRE_MATCH));
 		setIsConnected(isConnected);
 	}
 
@@ -434,7 +437,7 @@ public final class CastManager {
 			CastRemoteDisplayLocalService.stopService();
 		}
 
-		public void startCastService(final Activity activity) {
+		public void startCastService(final AppCompatActivity activity) {
 
 			Intent intent = new Intent(activity, activity.getClass());
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);

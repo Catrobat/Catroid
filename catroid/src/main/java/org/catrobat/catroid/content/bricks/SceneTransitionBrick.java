@@ -22,10 +22,10 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import org.catrobat.catroid.ProjectManager;
@@ -38,14 +38,14 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.ui.UiUtils;
-import org.catrobat.catroid.ui.recyclerview.dialog.NewSceneDialogFragment;
-import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
+import org.catrobat.catroid.ui.recyclerview.controller.SceneController;
+import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.NewItemTextWatcher;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SceneTransitionBrick extends BrickBaseType implements NewItemInterface<Scene>,
-		BrickSpinner.OnItemSelectedListener<Scene> {
+public class SceneTransitionBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<Scene> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -100,20 +100,48 @@ public class SceneTransitionBrick extends BrickBaseType implements NewItemInterf
 
 	@Override
 	public void onNewOptionSelected() {
-		Activity activity = UiUtils.getActivityFromView(view);
+		final AppCompatActivity activity = UiUtils.getActivityFromView(view);
 		if (activity == null) {
 			return;
 		}
 
-		new NewSceneFromBrickDialogFragment(this, ProjectManager.getInstance().getCurrentProject())
-				.show(activity.getFragmentManager(), NewSceneDialogFragment.TAG);
-	}
+		final Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		List<Scene> currentSceneList = currentProject.getSceneList();
 
-	@Override
-	public void addItem(Scene item) {
-		ProjectManager.getInstance().getCurrentProject().addScene(item);
-		spinner.add(item);
-		spinner.setSelection(item);
+		String defaultSceneName = SceneController
+				.getUniqueDefaultSceneName(activity.getResources(), currentSceneList);
+
+		TextInputDialog.Builder builder = new TextInputDialog.Builder(activity);
+
+		builder.setHint(activity.getString(R.string.scene_name_label))
+				.setText(defaultSceneName)
+				.setTextWatcher(new NewItemTextWatcher<>(currentSceneList))
+				.setPositiveButton(activity.getString(R.string.ok), new TextInputDialog.OnClickListener() {
+					@Override
+					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
+						Scene scene = SceneController.newSceneWithBackgroundSprite(
+								textInput, activity.getString(R.string.background), currentProject);
+						currentProject.addScene(scene);
+						spinner.add(scene);
+						spinner.setSelection(scene);
+					}
+				});
+
+		builder.setTitle(R.string.new_scene_dialog)
+				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						spinner.setSelection(sceneForTransition);
+					}
+				})
+				.setOnCancelListener(new DialogInterface.OnCancelListener() {
+					@Override
+					public void onCancel(DialogInterface dialog) {
+						spinner.setSelection(sceneForTransition);
+					}
+				})
+				.create()
+				.show();
 	}
 
 	@Override
@@ -129,25 +157,5 @@ public class SceneTransitionBrick extends BrickBaseType implements NewItemInterf
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSceneTransitionAction(sceneForTransition));
 		return null;
-	}
-
-	public static class NewSceneFromBrickDialogFragment extends NewSceneDialogFragment {
-
-		private SceneTransitionBrick sceneTransitionBrick;
-
-		public NewSceneFromBrickDialogFragment() {
-			super();
-		}
-
-		public NewSceneFromBrickDialogFragment(SceneTransitionBrick sceneTransitionBrick, Project dstProject) {
-			super(sceneTransitionBrick, dstProject);
-			this.sceneTransitionBrick = sceneTransitionBrick;
-		}
-
-		@Override
-		public void onCancel(DialogInterface dialog) {
-			super.onCancel(dialog);
-			sceneTransitionBrick.spinner.setSelection(sceneTransitionBrick.sceneForTransition);
-		}
 	}
 }
