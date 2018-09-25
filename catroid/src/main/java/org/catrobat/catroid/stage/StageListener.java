@@ -30,10 +30,8 @@ import android.util.Log;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -94,15 +92,13 @@ public class StageListener implements ApplicationListener {
 	private static final int AXIS_WIDTH = 4;
 	private static final float DELTA_ACTIONS_DIVIDER_MAXIMUM = 50f;
 	private static final int ACTIONS_COMPUTATION_TIME_MAXIMUM = 8;
-	private static final boolean DEBUG = false;
 
 	private float deltaActionTimeDivisor = 10f;
 	public static final String SCREENSHOT_AUTOMATIC_FILE_NAME = "automatic_screenshot"
 			+ Constants.DEFAULT_IMAGE_EXTENSION;
 	public static final String SCREENSHOT_MANUAL_FILE_NAME = "manual_screenshot" + Constants.DEFAULT_IMAGE_EXTENSION;
-	private FPSLogger fpsLogger;
 
-	private Stage stage;
+	private Stage stage = null;
 	private boolean paused = false;
 	private boolean finished = false;
 	private boolean reloadProject = false;
@@ -185,25 +181,16 @@ public class StageListener implements ApplicationListener {
 		scene = ProjectManager.getInstance().getCurrentlyPlayingScene();
 		pathForSceneScreenshot = PathBuilder.buildScenePath(project.getName(), scene.getName()) + "/";
 
-		virtualWidth = project.getXmlHeader().virtualScreenWidth;
-		virtualHeight = project.getXmlHeader().virtualScreenHeight;
-
-		virtualWidthHalf = virtualWidth / 2;
-		virtualHeightHalf = virtualHeight / 2;
-
-		camera = new OrthographicCamera();
-		viewPort = new ExtendViewport(virtualWidth, virtualHeight, camera);
-		if (batch == null) {
-			batch = new SpriteBatch();
+		if (stage == null) {
+			createNewStage();
+			Gdx.input.setInputProcessor(stage);
 		} else {
-			batch = new SpriteBatch(1000, batch.getShader());
+			stage.getRoot().clear();
 		}
-		stage = new Stage(viewPort, batch);
 		initScreenMode();
 		initStageInputListener();
 
 		physicsWorld = scene.resetPhysicsWorld();
-
 		sprites = new ArrayList<>(scene.getSpriteList());
 		boolean addPenActor = true;
 		for (Sprite sprite : sprites) {
@@ -220,16 +207,6 @@ public class StageListener implements ApplicationListener {
 				maximizeViewPortHeight, virtualWidth, virtualHeight);
 		stage.addActor(passepartout);
 
-		if (DEBUG) {
-			OrthoCamController camController = new OrthoCamController(camera);
-			InputMultiplexer multiplexer = new InputMultiplexer();
-			multiplexer.addProcessor(camController);
-			multiplexer.addProcessor(stage);
-			Gdx.input.setInputProcessor(multiplexer);
-			fpsLogger = new FPSLogger();
-		} else {
-			Gdx.input.setInputProcessor(stage);
-		}
 		axes = new Texture(Gdx.files.internal("stage/red_pixel.bmp"));
 		skipFirstFrameForAutomaticScreenshot = true;
 		if (checkIfAutomaticScreenshotShouldBeTaken) {
@@ -242,6 +219,24 @@ public class StageListener implements ApplicationListener {
 			collisionPolygonDebugRenderer.setColor(Color.MAGENTA);
 		}
 		FaceDetectionHandler.resumeFaceDetection();
+	}
+
+	private void createNewStage() {
+		virtualWidth = project.getXmlHeader().virtualScreenWidth;
+		virtualHeight = project.getXmlHeader().virtualScreenHeight;
+
+		virtualWidthHalf = virtualWidth / 2;
+		virtualHeightHalf = virtualHeight / 2;
+
+		camera = new OrthographicCamera();
+		viewPort = new ExtendViewport(virtualWidth, virtualHeight, camera);
+		if (batch == null) {
+			batch = new SpriteBatch();
+		} else {
+			batch = new SpriteBatch(1000, batch.getShader());
+		}
+
+		stage = new Stage(viewPort, batch);
 	}
 
 	public void cloneSpriteAndAddToStage(Sprite cloneMe) {
@@ -288,7 +283,6 @@ public class StageListener implements ApplicationListener {
 	}
 
 	private void initStageInputListener() {
-
 		if (inputListener == null) {
 			inputListener = new InputListener() {
 				@Override
@@ -361,7 +355,6 @@ public class StageListener implements ApplicationListener {
 			return;
 		}
 		transitionToScene(sceneName);
-
 		SoundManager.getInstance().clear();
 		stageBackupMap.remove(sceneName);
 		scene.firstStart = true;
@@ -538,10 +531,6 @@ public class StageListener implements ApplicationListener {
 
 		if (PhysicsDebugSettings.Render.RENDER_COLLISION_FRAMES && !finished) {
 			physicsWorld.render(camera.combined);
-		}
-
-		if (DEBUG) {
-			fpsLogger.log();
 		}
 
 		if (makeTestPixels) {
