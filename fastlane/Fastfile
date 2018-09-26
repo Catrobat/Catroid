@@ -1,0 +1,108 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+ENV["FASTLANE_SKIP_UPDATE_CHECK"] = "1"
+opt_out_usage
+
+default_platform(:android)
+
+platform :android do
+  desc "Runs all the tests"
+  lane :test do
+    gradle(task: "test")
+  end
+
+  desc "Submit a new Beta Build to Crashlytics Beta"
+  lane :beta do
+    gradle(task: "clean assembleRelease")
+    crashlytics
+  
+    # sh "your_script.sh"
+    # You can also use other beta testing services here
+  end
+
+  desc "Deploy a new version to the Google Play"
+  lane :deploy do
+    gradle(task: "clean assembleRelease")
+    upload_to_play_store
+  end
+
+  desc "upload Catroid metadata only"
+  lane :upload_Metadata_Catroid do
+    # ...
+    upload_to_play_store(
+      package_name:               'org.catrobat.catroid',
+      track:                      'alpha',
+      json_key_data:              ENV['googlePlayJsonKey'],
+      metadata_path:              './fastlane/metadata/android',
+      skip_upload_apk:            'true',
+      skip_upload_metadata:       'false',
+      skip_upload_images:         'false',
+      skip_upload_screenshots:    'false',
+      validate_only:              'false',
+      check_superseded_tracks:    'false',
+    )
+  end
+
+  desc "upload Catroid APK to alpha track"
+  lane :upload_APK_Catroid do
+    # ...
+    upload_to_play_store(
+      package_name:               'org.catrobat.catroid',
+      track:                      'alpha',
+      json_key_data:              ENV['googlePlayJsonKey'],
+      apk_paths:                  './catroid/build/outputs/apk/catroid/signedRelease/catroid-catroid-signedRelease.apk',
+      skip_upload_apk:            'false',
+      skip_upload_metadata:       'true',
+      skip_upload_images:         'true',
+      skip_upload_screenshots:    'true',
+      validate_only:              'false',
+      check_superseded_tracks:    'false',
+    )
+  end
+
+  desc "promote Catroid APK on alpha track to production"
+  lane :promote_Catroid do
+    # ...
+    upload_to_play_store(
+      package_name:               'org.catrobat.catroid',
+      track:                      'alpha',
+      track_promote_to:           'production',
+      json_key_data:              ENV['googlePlayJsonKey'],
+      metadata_path:              './fastlane/metadata/android',
+      skip_upload_apk:            'true',
+      skip_upload_metadata:       'true',
+      skip_upload_images:         'true',
+      skip_upload_screenshots:    'true',
+    )
+  end
+  
+  desc "upload Luna&Cat APK to alpha track"
+  lane :upload_APK_LunaAndCat do
+    # ...
+    upload_to_play_store(
+      package_name:               'org.catrobat.catroid',
+      track:                      'alpha',
+      json_key_data:              ENV['googlePlayJsonKey'],
+      apk_paths:                  './catroid/build/outputs/apk/lunaAndCat/signedRelease/catroid-lunaAndCat-signedRelease.apk',
+      skip_upload_apk:            'false',
+      skip_upload_metadata:       'true',
+      skip_upload_images:         'true',
+      skip_upload_screenshots:    'true',
+      validate_only:              'false',
+      check_superseded_tracks:    'false',
+    )
+  end
+end
