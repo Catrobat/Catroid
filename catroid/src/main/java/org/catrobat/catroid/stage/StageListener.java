@@ -102,6 +102,7 @@ public class StageListener implements ApplicationListener {
 	private boolean paused = false;
 	private boolean finished = false;
 	private boolean reloadProject = false;
+	private boolean inSceneTransition = false;
 	public boolean firstFrameDrawn = false;
 
 	private static boolean checkIfAutomaticScreenshotShouldBeTaken = true;
@@ -333,6 +334,8 @@ public class StageListener implements ApplicationListener {
 			return;
 		}
 
+		inSceneTransition = true;
+
 		stageBackupMap.put(scene.getName(), saveToBackup());
 		pause();
 		scene = ProjectManager.getInstance().getCurrentProject().getSceneByName(sceneName);
@@ -488,6 +491,7 @@ public class StageListener implements ApplicationListener {
 			while (deltaTime > 0f) {
 				physicsWorld.step(optimizedDeltaTime);
 				stage.act(optimizedDeltaTime);
+				inSceneTransition = false;
 				deltaTime -= optimizedDeltaTime;
 			}
 			long executionTimeOfActionsUpdate = SystemClock.uptimeMillis() - timeBeforeActionsUpdate;
@@ -739,6 +743,10 @@ public class StageListener implements ApplicationListener {
 
 	public Stage getStage() {
 		return stage;
+	}
+
+	public boolean getInSceneTransition() {
+		return inSceneTransition;
 	}
 
 	public void removeActor(Look look) {

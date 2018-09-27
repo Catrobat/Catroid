@@ -23,23 +23,20 @@
 
 package org.catrobat.catroid.content.actions;
 
-import org.catrobat.catroid.content.Sprite;
+import android.support.annotation.CallSuper;
+
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+
 import org.catrobat.catroid.stage.StageActivity;
 
-public class CloneAction extends SceneTransitionAwareTemporalAction {
-
-	private Sprite sprite;
-
+public abstract class SceneTransitionAwareTemporalAction extends TemporalAction {
+	@CallSuper
 	@Override
-	protected void update(float percent) {
-		if (sprite == null) {
-			return;
+	public boolean act(float delta) {
+		if (StageActivity.stageListener.getInSceneTransition()) {
+			return false;
 		}
 
-		StageActivity.stageListener.cloneSpriteAndAddToStage(sprite);
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+		return super.act(delta);
 	}
 }
