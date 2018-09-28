@@ -246,8 +246,8 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	}
 
 	@Override
-	public void onDetach() {
-		super.onDetach();
+	public void onStop() {
+		super.onStop();
 		finishActionMode();
 	}
 
