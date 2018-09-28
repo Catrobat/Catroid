@@ -284,7 +284,7 @@ ext {
     mockitoVersion = "2.8.47"
     espressoVersion = "3.0.1"
     supportLibraryVersion = "27.1.0"
-    paintroidVersion = "2.1.0"
+    paintroidVersion = "2.1.1"
 }
 
 configurations {
