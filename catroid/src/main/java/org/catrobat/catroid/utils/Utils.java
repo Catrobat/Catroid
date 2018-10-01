@@ -247,18 +247,6 @@ public final class Utils {
 				.replace("x" + height, "x" + Integer.toString(newHeight));
 	}
 
-	public static String humanFriendlyFormattedShortNumber(final int number) {
-		if (number < 1_000) {
-			return Integer.toString(number);
-		} else if (number < 10_000) {
-			return Integer.toString(number / 1_000) + (number % 1_000 > 100 ? "."
-					+ Integer.toString((number % 1_000) / 100) : "") + "k";
-		} else if (number < 1_000_000) {
-			return Integer.toString(number / 1_000) + "k";
-		}
-		return Integer.toString(number / 1_000_000) + "M";
-	}
-
 	public static String md5Checksum(File file) {
 
 		if (!file.isFile()) {

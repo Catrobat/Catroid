@@ -226,7 +226,7 @@ public class FormulaEditorEditTextTest {
 		onFormulaEditor()
 				.performClickOn(COMPUTE);
 		onView(withId(R.id.formula_editor_compute_dialog_textview))
-				.check(matches(withText("-2.0")));
+				.check(matches(withText("-2")));
 		pressBack();
 
 		onFormulaEditor()

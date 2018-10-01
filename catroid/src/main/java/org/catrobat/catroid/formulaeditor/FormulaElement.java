@@ -50,6 +50,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import static org.catrobat.catroid.utils.NumberFormats.stringWithoutTrailingZero;
+
 public class FormulaElement implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -95,7 +97,7 @@ public class FormulaElement implements Serializable {
 	}
 
 	public String getValue() {
-		return value;
+		return stringWithoutTrailingZero(value);
 	}
 
 	public List<InternToken> getInternTokenList() {
@@ -141,7 +143,7 @@ public class FormulaElement implements Serializable {
 				internTokenList.add(new InternToken(InternTokenType.USER_LIST, this.value));
 				break;
 			case NUMBER:
-				internTokenList.add(new InternToken(InternTokenType.NUMBER, this.value));
+				internTokenList.add(new InternToken(InternTokenType.NUMBER, stringWithoutTrailingZero(this.value)));
 				break;
 			case SENSOR:
 				internTokenList.add(new InternToken(InternTokenType.SENSOR, this.value));
@@ -315,12 +317,7 @@ public class FormulaElement implements Serializable {
 		if (userListValues.size() == 0) {
 			return EMPTY_USER_LIST_INTERPRETATION_VALUE;
 		} else if (userListValues.size() == 1) {
-			Object userListValue = userListValues.get(0);
-			if (userListValue instanceof String) {
-				return userListValue;
-			} else {
-				return userListValue;
-			}
+			return userListValues.get(0);
 		} else {
 			return interpretMultipleItemsUserList(userListValues);
 		}
@@ -328,49 +325,34 @@ public class FormulaElement implements Serializable {
 
 	private Object interpretMultipleItemsUserList(List<Object> userListValues) {
 		List<String> userListStringValues = new ArrayList<>();
-		boolean concatenateWithoutWhitespace = true;
 
 		for (Object listValue : userListValues) {
 			if (listValue instanceof Double) {
 				Double doubleValueOfListItem = (Double) listValue;
-				if (isNumberAIntegerBetweenZeroAndNine(doubleValueOfListItem)) {
-					userListStringValues.add(doubleValueOfListItem.intValue() + "");
-				} else {
-					concatenateWithoutWhitespace = false;
-					userListStringValues.add(listValue.toString());
-				}
+				userListStringValues.add(stringWithoutTrailingZero(String.valueOf(doubleValueOfListItem.intValue())));
 			} else if (listValue instanceof String) {
 				String stringValueOfListItem = (String) listValue;
-				if (stringValueOfListItem.length() == 1) {
-					userListStringValues.add(stringValueOfListItem);
-				} else {
-					userListStringValues.add(stringValueOfListItem);
-					concatenateWithoutWhitespace = false;
-				}
+				userListStringValues.add(stringWithoutTrailingZero(stringValueOfListItem));
 			}
 		}
 
 		StringBuilder stringBuilder = new StringBuilder(userListStringValues.size());
-		boolean isFirstListItem = true;
+		String separator = listConsistsOfSingleCharacters(userListStringValues) ? "" : " ";
 		for (String userListStringValue : userListStringValues) {
-
-			if (!concatenateWithoutWhitespace && !isFirstListItem) {
-				stringBuilder.append(' ');
-			}
-			if (isFirstListItem) {
-				isFirstListItem = false;
-			}
-			stringBuilder.append(userListStringValue);
+			stringBuilder.append(stringWithoutTrailingZero(userListStringValue));
+			stringBuilder.append(separator);
 		}
-		return stringBuilder.toString();
+
+		return stringBuilder.toString().trim();
 	}
 
-	public boolean isNumberAIntegerBetweenZeroAndNine(Double valueToCheck) {
-		return !valueToCheck.isNaN()
-				&& !valueToCheck.isInfinite()
-				&& Math.floor(valueToCheck) == valueToCheck
-				&& valueToCheck <= 9.0
-				&& valueToCheck >= 0.0;
+	private Boolean listConsistsOfSingleCharacters(List<String> userListStringValues) {
+		for (String userListStringValue : userListStringValues) {
+			if (userListStringValue.length() > 1) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private Object interpretUserVariable(Sprite sprite) {
@@ -379,13 +361,7 @@ public class FormulaElement implements Serializable {
 		if (userVariable == null) {
 			return NOT_EXISTING_USER_VARIABLE_INTERPRETATION_VALUE;
 		}
-
-		Object userVariableValue = userVariable.getValue();
-		if (userVariableValue instanceof String) {
-			return userVariableValue;
-		} else {
-			return userVariableValue;
-		}
+		return userVariable.getValue();
 	}
 
 	private Object interpretSensor(Sprite sprite) {
@@ -598,8 +574,8 @@ public class FormulaElement implements Serializable {
 	}
 
 	private Object interpretFunctionJoin(Sprite sprite) {
-		return interpretInterpretFunctionJoinParameter(leftChild, sprite)
-				+ interpretInterpretFunctionJoinParameter(rightChild, sprite);
+		return stringWithoutTrailingZero(interpretInterpretFunctionJoinParameter(leftChild, sprite))
+				+ stringWithoutTrailingZero(interpretInterpretFunctionJoinParameter(rightChild, sprite));
 	}
 
 	private String interpretInterpretFunctionJoinParameter(FormulaElement child, Sprite sprite) {

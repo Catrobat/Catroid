@@ -132,7 +132,7 @@ public class SetVariableTest {
 				.perform(typeText(userVariableName));
 		onView(withText(R.string.ok))
 				.perform(click());
-		onView(allOf(withChild(withText(userVariableName)), withChild(withText("0.0"))))
+		onView(allOf(withChild(withText(userVariableName)), withChild(withText("0"))))
 				.check(matches(isDisplayed()));
 		pressBack();
 	}

@@ -35,6 +35,8 @@ import org.catrobat.catroid.ui.recyclerview.viewholder.ListVH;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.catrobat.catroid.utils.NumberFormats.stringWithoutTrailingZero;
+
 public class ListRVAdapter extends RVAdapter<UserList> {
 
 	ListRVAdapter(List<UserList> items) {
@@ -57,7 +59,7 @@ public class ListRVAdapter extends RVAdapter<UserList> {
 
 		List<String> userList = new ArrayList<>();
 		for (Object userListItem : item.getList()) {
-			userList.add(userListItem.toString());
+			userList.add(stringWithoutTrailingZero(userListItem.toString()));
 		}
 
 		listVH.spinner.setAdapter(new UserListValuesAdapter(holder.itemView.getContext(), userList));

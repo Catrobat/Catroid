@@ -64,6 +64,8 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import static org.catrobat.catroid.utils.NumberFormats.humanFriendlyFormattedShortNumber;
+
 public class ScratchProgramDetailsActivity extends BaseActivity implements
 		FetchScratchProgramDetailsTask.ScratchProgramListTaskDelegate,
 		JobViewListener, Client.DownloadCallback,
@@ -266,11 +268,11 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 		}
 
 		((TextView) findViewById(R.id.scratch_project_favorites_text))
-				.setText(Utils.humanFriendlyFormattedShortNumber(programData.getFavorites()));
+				.setText(humanFriendlyFormattedShortNumber(programData.getFavorites()));
 		((TextView) findViewById(R.id.scratch_project_loves_text))
-				.setText(Utils.humanFriendlyFormattedShortNumber(programData.getLoves()));
+				.setText(humanFriendlyFormattedShortNumber(programData.getLoves()));
 		((TextView) findViewById(R.id.scratch_project_views_text))
-				.setText(Utils.humanFriendlyFormattedShortNumber(programData.getViews()));
+				.setText(humanFriendlyFormattedShortNumber(programData.getViews()));
 
 		TextView dateSharedView = findViewById(R.id.date_shared_view);
 		TextView dateModifiedView = findViewById(R.id.date_modified_view);
