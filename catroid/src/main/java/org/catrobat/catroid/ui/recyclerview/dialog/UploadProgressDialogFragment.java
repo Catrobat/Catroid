@@ -128,14 +128,22 @@ public class UploadProgressDialogFragment extends DialogFragment {
 			@Override
 			public void onClick(View v) {
 				startWebViewActivity(SHARE_PROGRAM_URL + ServerCalls.getInstance().getProjectId());
-				dismiss();
+				if (alertDialog.getOwnerActivity() == null) {
+					alertDialog.dismiss();
+				} else {
+					alertDialog.getOwnerActivity().finish();
+				}
 			}
 		});
 
 		alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				dismiss();
+				if (alertDialog.getOwnerActivity() == null) {
+					alertDialog.dismiss();
+				} else {
+					alertDialog.getOwnerActivity().finish();
+				}
 			}
 		});
 	}

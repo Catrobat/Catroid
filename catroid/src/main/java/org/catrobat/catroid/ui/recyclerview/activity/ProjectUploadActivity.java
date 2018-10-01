@@ -28,6 +28,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -39,7 +40,6 @@ import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
 import org.catrobat.catroid.transfers.CheckTokenTask;
@@ -52,11 +52,17 @@ import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
-import org.catrobat.catroid.web.ServerCalls;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.catrobat.catroid.common.Constants.NO_TOKEN;
+import static org.catrobat.catroid.common.Constants.NO_USERNAME;
+import static org.catrobat.catroid.common.Constants.PROJECT_UPLOAD_DESCRIPTION;
+import static org.catrobat.catroid.common.Constants.PROJECT_UPLOAD_NAME;
+import static org.catrobat.catroid.common.Constants.TOKEN;
+import static org.catrobat.catroid.common.Constants.USERNAME;
 
 public class ProjectUploadActivity extends BaseActivity implements
 		ProjectLoaderTask.ProjectLoaderListener,
@@ -132,14 +138,10 @@ public class ProjectUploadActivity extends BaseActivity implements
 	private void verifyUserIdentity() {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-		String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
-		String username = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
+		String token = sharedPreferences.getString(TOKEN, NO_TOKEN);
+		String username = sharedPreferences.getString(USERNAME, NO_USERNAME);
 
-		boolean isTokenSetInPreferences = !token.equals(Constants.NO_TOKEN)
-				&& token.length() == ServerCalls.TOKEN_LENGTH
-				&& !token.equals(ServerCalls.TOKEN_CODE_INVALID);
-
-		if (isTokenSetInPreferences) {
+		if (Utils.isUserLoggedIn(this)) {
 			new CheckTokenTask(this).execute(token, username);
 		} else {
 			startSignInWorkflow();
@@ -185,6 +187,7 @@ public class ProjectUploadActivity extends BaseActivity implements
 		ProjectManager projectManager = ProjectManager.getInstance();
 
 		if (Utils.isDefaultProject(projectManager.getCurrentProject(), this)) {
+			ToastUtil.showError(this, R.string.error_upload_default_project);
 			return;
 		}
 
@@ -196,13 +199,16 @@ public class ProjectUploadActivity extends BaseActivity implements
 		projectManager.getCurrentProject().setDeviceData(this);
 
 		Bundle bundle = new Bundle();
-		bundle.putString(Constants.PROJECT_UPLOAD_NAME, name);
-		bundle.putString(Constants.PROJECT_UPLOAD_DESCRIPTION, description);
-
-		SelectTagsDialogFragment dialog = new SelectTagsDialogFragment();
-		dialog.setTags(tags);
-		dialog.setArguments(bundle);
-		dialog.show(getSupportFragmentManager(), SelectTagsDialogFragment.TAG);
+		bundle.putString(PROJECT_UPLOAD_NAME, name);
+		bundle.putString(PROJECT_UPLOAD_DESCRIPTION, description);
+		Fragment fragment = getSupportFragmentManager().findFragmentByTag(SelectTagsDialogFragment.TAG);
+		if (fragment == null) {
+			SelectTagsDialogFragment dialog = new SelectTagsDialogFragment();
+			dialog.setTags(tags);
+			dialog.setCancelable(false);
+			dialog.setArguments(bundle);
+			dialog.show(getSupportFragmentManager(), SelectTagsDialogFragment.TAG);
+		}
 	}
 
 	@Override

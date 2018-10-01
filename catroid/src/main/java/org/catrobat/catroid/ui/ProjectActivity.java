@@ -65,6 +65,8 @@ import org.catrobat.catroid.ui.recyclerview.fragment.SceneListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SpriteListFragment;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -147,10 +149,14 @@ public class ProjectActivity extends BaseCastActivity {
 				handleAddSceneButton();
 				break;
 			case R.id.upload:
-				Project currentProject = ProjectManager.getInstance().getCurrentProject();
-				Intent intent = new Intent(this, ProjectUploadActivity.class);
-				intent.putExtra(ProjectUploadActivity.PROJECT_NAME, currentProject.getName());
-				startActivity(intent);
+				if (Utils.isDefaultProject(ProjectManager.getInstance().getCurrentProject(), getBaseContext())) {
+					ToastUtil.showError(getBaseContext(), R.string.error_upload_default_project);
+				} else {
+					Project currentProject = ProjectManager.getInstance().getCurrentProject();
+					Intent intent = new Intent(this, ProjectUploadActivity.class);
+					intent.putExtra(ProjectUploadActivity.PROJECT_NAME, currentProject.getName());
+					startActivity(intent);
+				}
 				break;
 			default:
 				return super.onOptionsItemSelected(item);

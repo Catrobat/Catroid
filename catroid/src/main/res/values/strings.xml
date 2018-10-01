@@ -1341,6 +1341,7 @@
     <string name="error_project_compatability">The program is not compatible with this version of the app.</string>
     <string name="error_outdated_version">This app version is outdated. Update now?</string>
     <string name="error_upload_project_with_default_name">You cannot upload a program with the name \'My first program\'. Please rename the program.</string>
+    <string name="error_upload_default_project">You cannot upload the default program.</string>
     <string name="error_adding_brick">An error occurred while adding this brick.</string>
     <string name="error_copying_brick">An error occurred while copying this brick.</string>
     <string name="error_no_drone_connected_title">Cannot find AR.Drone 2.0.</string>

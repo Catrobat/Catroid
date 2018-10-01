@@ -101,6 +101,7 @@ public class SelectTagsDialogFragment extends DialogFragment {
 	private void onPositiveButtonClick() {
 		UploadProgressDialogFragment dialog = new UploadProgressDialogFragment();
 		dialog.setArguments(getArguments());
+		dialog.setCancelable(false);
 		dialog.show(getFragmentManager(), UploadProgressDialogFragment.TAG);
 	}
 }

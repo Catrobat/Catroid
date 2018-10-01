@@ -32,12 +32,16 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.exceptions.LoadingProjectException;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ProjectListActivity;
 import org.catrobat.catroid.ui.WebViewActivity;
@@ -50,6 +54,7 @@ import org.catrobat.catroid.ui.recyclerview.viewholder.ButtonVH;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
+import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
@@ -62,7 +67,9 @@ public class MainMenuFragment extends Fragment implements ButtonAdapter.OnItemCl
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({CONTINUE, NEW, PROGRAMS, HELP, EXPLORE, UPLOAD})
-	@interface ButtonId {}
+	@interface ButtonId {
+	}
+
 	private static final int CONTINUE = 0;
 	private static final int NEW = 1;
 	private static final int PROGRAMS = 2;
@@ -157,10 +164,21 @@ public class MainMenuFragment extends Fragment implements ButtonAdapter.OnItemCl
 				startActivity(new Intent(getActivity(), WebViewActivity.class));
 				break;
 			case UPLOAD:
-				setShowProgressBar(true);
-				Intent intent = new Intent(getActivity(), ProjectUploadActivity.class)
-						.putExtra(ProjectUploadActivity.PROJECT_NAME, Utils.getCurrentProjectName(getActivity()));
-				startActivity(intent);
+				String currentProjectName = Utils.getCurrentProjectName(getActivity());
+				try {
+					Project currentProject = XstreamSerializer.getInstance().loadProject(currentProjectName, getActivity());
+					if (Utils.isDefaultProject(currentProject, getActivity())) {
+						ToastUtil.showError(getActivity(), R.string.error_upload_default_project);
+					} else {
+						setShowProgressBar(true);
+						Intent intent = new Intent(getActivity(), ProjectUploadActivity.class)
+								.putExtra(ProjectUploadActivity.PROJECT_NAME, currentProjectName);
+						startActivity(intent);
+					}
+				} catch (IOException | LoadingProjectException e) {
+					Log.e(TAG, e.getMessage());
+				}
+
 				break;
 		}
 	}

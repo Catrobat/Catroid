@@ -34,7 +34,10 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ProjectData;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.ProjectException;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.fragment.ProjectDetailsFragment;
@@ -48,6 +51,7 @@ import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -259,7 +263,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 
 	@Override
 	public void onItemLongClick(final ProjectData item, CheckableVH holder) {
-		CharSequence[] items = new CharSequence[] {
+		CharSequence[] items = new CharSequence[]{
 				getString(R.string.copy),
 				getString(R.string.delete),
 				getString(R.string.rename),
@@ -292,9 +296,19 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 										.commit();
 								break;
 							case 4:
-								Intent intent = new Intent(getActivity(), ProjectUploadActivity.class)
-										.putExtra(ProjectUploadActivity.PROJECT_NAME, item.getName());
-								startActivity(intent);
+								try {
+									Project chosenProject = XstreamSerializer.getInstance().loadProject(item.getName(), getActivity());
+									if (Utils.isDefaultProject(chosenProject, getActivity())) {
+										ToastUtil.showError(getActivity(), R.string.error_upload_default_project);
+									} else {
+										Intent intent = new Intent(getActivity(), ProjectUploadActivity.class)
+												.putExtra(ProjectUploadActivity.PROJECT_NAME, item.getName());
+										startActivity(intent);
+									}
+								} catch (IOException | LoadingProjectException e) {
+									Log.e(TAG, e.getMessage());
+								}
+
 								break;
 							default:
 								dialog.dismiss();

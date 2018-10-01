@@ -33,7 +33,6 @@ import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.io.ZipArchiver;
@@ -50,10 +49,22 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import static org.catrobat.catroid.common.Constants.CATROBAT_EXTENSION;
+import static org.catrobat.catroid.common.Constants.EMAIL;
+import static org.catrobat.catroid.common.Constants.FACEBOOK;
+import static org.catrobat.catroid.common.Constants.FACEBOOK_EMAIL;
+import static org.catrobat.catroid.common.Constants.GOOGLE_EMAIL;
+import static org.catrobat.catroid.common.Constants.GOOGLE_PLUS;
+import static org.catrobat.catroid.common.Constants.NO_EMAIL;
+import static org.catrobat.catroid.common.Constants.NO_FACEBOOK_EMAIL;
+import static org.catrobat.catroid.common.Constants.NO_GOOGLE_EMAIL;
+import static org.catrobat.catroid.common.Constants.NO_OAUTH_PROVIDER;
+import static org.catrobat.catroid.common.Constants.TMP_PATH;
+
 public class ProjectUploadService extends IntentService {
 
 	private static final String TAG = ProjectUploadService.class.getSimpleName();
-	public static final String UPLOAD_FILE_NAME = "upload" + Constants.CATROBAT_EXTENSION;
+	public static final String UPLOAD_FILE_NAME = "upload" + CATROBAT_EXTENSION;
 
 	private String projectPath;
 	private String projectName;
@@ -121,28 +132,34 @@ public class ProjectUploadService extends IntentService {
 					}
 				}
 			}
-
-			File archive = new File(PathBuilder.buildPath(Constants.TMP_PATH, UPLOAD_FILE_NAME));
+			File tmpFolder = new File(TMP_PATH);
+			if (!tmpFolder.exists()) {
+				tmpFolder.mkdirs();
+			}
+			if (!tmpFolder.exists()) {
+				throw new IOException("couldn't create " + tmpFolder.getAbsolutePath());
+			}
+			File archive = new File(PathBuilder.buildPath(TMP_PATH, UPLOAD_FILE_NAME));
 			new ZipArchiver().zip(archive, projectDir.listFiles());
 
 			Context context = getApplicationContext();
 
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-			String userEmail = sharedPreferences.getString(Constants.EMAIL, Constants.NO_EMAIL);
+			String userEmail = sharedPreferences.getString(EMAIL, NO_EMAIL);
 
 			switch (provider) {
-				case Constants.FACEBOOK:
-					userEmail = sharedPreferences.getString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL);
+				case FACEBOOK:
+					userEmail = sharedPreferences.getString(FACEBOOK_EMAIL, NO_FACEBOOK_EMAIL);
 					break;
-				case Constants.GOOGLE_PLUS:
-					userEmail = sharedPreferences.getString(Constants.GOOGLE_EMAIL, Constants.NO_GOOGLE_EMAIL);
+				case GOOGLE_PLUS:
+					userEmail = sharedPreferences.getString(GOOGLE_EMAIL, NO_GOOGLE_EMAIL);
 					break;
-				case Constants.NO_OAUTH_PROVIDER:
-					userEmail = sharedPreferences.getString(Constants.EMAIL, Constants.NO_EMAIL);
+				case NO_OAUTH_PROVIDER:
+					userEmail = sharedPreferences.getString(EMAIL, NO_EMAIL);
 					break;
 			}
 
-			if (userEmail.equals(Constants.NO_EMAIL)) {
+			if (userEmail.equals(NO_EMAIL)) {
 				userEmail = UtilDeviceInfo.getUserEmail(this);
 			}
 
