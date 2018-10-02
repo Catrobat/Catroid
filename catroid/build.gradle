@@ -111,7 +111,7 @@ android {
         targetSdkVersion 22
         applicationId appId
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-        versionCode 47
+        versionCode 48
         println "VersionCode is $versionCode"
         versionName "0.9.42"
         println "VersionName is $versionName"
