@@ -78,7 +78,6 @@ public final class BrickValues {
 	//Constants Control
 	public static final int WAIT = 1000;
 	public static final int REPEAT = 10;
-	public static final String IF_CONDITION = "1 < 2";
 	public static final String NOTE = "add comment here…";
 	public static final int STOP_THIS_SCRIPT = 0;
 	public static final int STOP_ALL_SCRIPTS = 1;

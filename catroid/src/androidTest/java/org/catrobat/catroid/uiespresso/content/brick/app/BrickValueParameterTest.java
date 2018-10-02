@@ -1040,7 +1040,7 @@ public class BrickValueParameterTest {
 				Utils.convertDoubleToPluralInteger(10)));
 
 		checkIfBrickShowsText(RepeatUntilBrick.class, R.string.brick_repeat_until);
-		checkIfBrickShowsEditTextWithText(RepeatUntilBrick.class, R.id.brick_repeat_until_edit_text, "1 < 2");
+		checkIfBrickShowsEditTextWithText(RepeatUntilBrick.class, R.id.brick_repeat_until_edit_text, "1 < 2 ");
 		checkIfBrickShowsText(RepeatUntilBrick.class, R.string.brick_wait_until_second_part);
 
 		checkIfBrickShowsText(SceneTransitionBrick.class, R.string.brick_scene_transition);
