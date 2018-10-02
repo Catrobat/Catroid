@@ -73,7 +73,7 @@ public class SpriteListFragmentActivityRecreateRegressionTest {
 		onView(withId(R.id.button_add))
 				.perform(click());
 
-		onView(withText(R.string.new_look_dialog_title)).inRoot(isDialog())
+		onView(withText(R.string.new_sprite_dialog_title)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
 		InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
