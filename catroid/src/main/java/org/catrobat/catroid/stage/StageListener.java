@@ -26,6 +26,7 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.PointF;
 import android.os.SystemClock;
+import android.support.annotation.IntDef;
 import android.util.Log;
 
 import com.badlogic.gdx.ApplicationListener;
@@ -81,12 +82,22 @@ import org.catrobat.catroid.utils.VibratorUtil;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class StageListener implements ApplicationListener {
+
+	@Retention(RetentionPolicy.SOURCE)
+	@IntDef({RESET_SPRITE, DONT_RESET_SPRITE})
+	@interface ResetSpriteType {
+	}
+
+	protected static final int RESET_SPRITE = 0;
+	protected static final int DONT_RESET_SPRITE = 1;
 
 	private static final String TAG = StageListener.class.getSimpleName();
 	private static final int AXIS_WIDTH = 4;
@@ -192,20 +203,10 @@ public class StageListener implements ApplicationListener {
 
 		physicsWorld = scene.resetPhysicsWorld();
 		sprites = new ArrayList<>(scene.getSpriteList());
-		boolean addPenActor = true;
-		for (Sprite sprite : sprites) {
-			sprite.resetSprite();
-			sprite.look.createBrightnessContrastHueShader();
-			stage.addActor(sprite.look);
-			if (addPenActor) {
-				penActor = new PenActor();
-				stage.addActor(penActor);
-				addPenActor = false;
-			}
-		}
 		passepartout = new Passepartout(ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT, maximizeViewPortWidth,
 				maximizeViewPortHeight, virtualWidth, virtualHeight);
-		stage.addActor(passepartout);
+
+		addAllActorsToStage(RESET_SPRITE);
 
 		axes = new Texture(Gdx.files.internal("stage/red_pixel.bmp"));
 		skipFirstFrameForAutomaticScreenshot = true;
@@ -428,7 +429,6 @@ public class StageListener implements ApplicationListener {
 		}
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		if (reloadProject) {
-			int spriteSize = sprites.size();
 			stage.clear();
 			if (penActor != null) {
 				penActor.dispose();
@@ -437,22 +437,7 @@ public class StageListener implements ApplicationListener {
 
 			physicsWorld = scene.resetPhysicsWorld();
 
-			Sprite sprite;
-
-			boolean addPenActor = true;
-
-			for (int i = 0; i < spriteSize; i++) {
-				sprite = sprites.get(i);
-				sprite.resetSprite();
-				sprite.look.createBrightnessContrastHueShader();
-				stage.addActor(sprite.look);
-				if (addPenActor) {
-					penActor = new PenActor();
-					stage.addActor(penActor);
-					addPenActor = false;
-				}
-			}
-			stage.addActor(passepartout);
+			addAllActorsToStage(RESET_SPRITE);
 			initStageInputListener();
 
 			paused = true;
@@ -541,6 +526,19 @@ public class StageListener implements ApplicationListener {
 		if (drawDebugCollisionPolygons) {
 			drawDebugCollisionPolygons();
 		}
+	}
+
+	private void addAllActorsToStage(@ResetSpriteType int reset) {
+		for (Sprite sprite : sprites) {
+			if (reset == RESET_SPRITE) {
+				sprite.resetSprite();
+				sprite.look.createBrightnessContrastHueShader();
+			}
+			stage.addActor(sprite.look);
+		}
+		penActor = new PenActor();
+		stage.getRoot().addActorAt(Constants.Z_INDEX_BACKGROUND + 1, penActor);
+		stage.addActor(passepartout);
 	}
 
 	private void printPhysicsLabelOnScreen() {
@@ -764,7 +762,6 @@ public class StageListener implements ApplicationListener {
 	}
 
 	private class StageBackup {
-		public Stage stage;
 		public boolean paused;
 		public boolean finished;
 		public boolean reloadProject;
@@ -786,7 +783,6 @@ public class StageListener implements ApplicationListener {
 
 	private StageBackup saveToBackup() {
 		StageBackup backup = new StageBackup();
-		backup.stage = stage;
 		backup.paused = paused;
 		backup.finished = finished;
 		backup.reloadProject = reloadProject;
@@ -814,7 +810,6 @@ public class StageListener implements ApplicationListener {
 	}
 
 	private void restoreFromBackup(StageBackup backup) {
-		stage = backup.stage;
 		paused = backup.paused;
 		finished = backup.finished;
 		reloadProject = backup.reloadProject;
@@ -841,6 +836,9 @@ public class StageListener implements ApplicationListener {
 		}
 		bubbleActorMap = backup.bubbleActorMap;
 		penActor = backup.penActor;
+
+		stage.getActors().clear();
+		addAllActorsToStage(DONT_RESET_SPRITE);
 	}
 
 	public void drawDebugCollisionPolygons() {
