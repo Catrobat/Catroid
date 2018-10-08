@@ -52,6 +52,7 @@ public class CatroidApplication extends MultiDexApplication {
 	public void onCreate() {
 		super.onCreate();
 		Log.d(TAG, "CatroidApplication onCreate");
+		Log.d(TAG, "git commit info: " + BuildConfig.GIT_COMMIT_INFO);
 
 		CrashReporter.initialize(this);
 

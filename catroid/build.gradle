@@ -115,8 +115,7 @@ android {
         println "VersionCode is $versionCode"
         versionName "0.9.44"
         println "VersionName is $versionName"
-        buildConfigField "String", "GIT_DESCRIBE", "\"${versionName}\""
-        buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
+        buildConfigField "String", "GIT_COMMIT_INFO", "\"${getGitCommitInfo()}\""
         multiDexEnabled true
         manifestPlaceholders += [appName: manifestAppName, appIcon: manifestAppIcon]
     }
@@ -386,12 +385,11 @@ dependencies {
     checkstyle 'com.puppycrawl.tools:checkstyle:7.6'
 }
 
-def getCurrentGitBranch() {
-    try {
-        return 'git rev-parse --abbrev-ref HEAD'.execute().text.trim()
-    } catch (IOException exception) {
-        throw new UnsupportedOperationException("Could not find git! Maybe it is not in \$PATH variable?", exception)
-    }
+static def getGitCommitInfo() {
+    def hash = 'git rev-parse --short HEAD'.execute().text.trim()
+    def branch = 'git rev-parse --abbrev-ref HEAD'.execute().text.trim()
+
+    return "branch $branch @$hash"
 }
 
 project.gradle.taskGraph.whenReady {
