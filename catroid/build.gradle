@@ -55,6 +55,8 @@ apply from: 'gradle/code_quality_tasks.gradle'
 apply from: 'gradle/intellij_config_tasks.gradle'
 apply from: 'gradle/standalone_apk_tasks.gradle'
 apply from: 'gradle/android_tasks.gradle'
+apply from: 'gradle/release_crowdin_tasks.gradle'
+apply from: 'gradle/release_fastlane_tasks.gradle'
 
 check.dependsOn 'checkstyle'
 check.dependsOn 'pmd'
@@ -68,8 +70,30 @@ if (project.hasProperty('independent')) {
     appName = property('independent') ?: 'Code ' + today.format('MMdd HH:mm')
     manifestAppName = appName
 }
+
+if (!project.hasProperty("signingKeystore")) {
+    ext.signingKeystore = "dummyKeystore"
+}
+
 ant.copy(file: 'google-services-template.json', tofile: 'google-services.json', overwrite: true)
 ant.replace(file: 'google-services.json', token: '@appId@', value: appId)
+if (project.hasProperty('firebaseApiKey')) {
+    ant.replace(file: 'google-services.json', token: '@apiKey@', value: project.getProperties().get('firebaseApiKey'))
+}
+if (project.hasProperty('fabricApiKey')) {
+    ant.replace(file: 'fabric.properties', token: '0123456789012345678901234567890123456789',
+            value: project.getProperties().get('fabricApiKey'))
+}
+if (project.hasProperty('fabricApiSecret')) {
+    ant.replace(file: 'fabric.properties',
+            token: '0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef',
+            value: project.getProperties().get('fabricApiSecret'))
+}
+
+def useAndroidLocales() {
+    def value = project.getProperties().get("useAndroidLocales")
+    return value != null ? "true" : "false"
+}
 
 jacoco.toolVersion = "0.8.1"
 
@@ -87,9 +111,9 @@ android {
         targetSdkVersion 22
         applicationId appId
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-        versionCode 46
+        versionCode 48
         println "VersionCode is $versionCode"
-        versionName "0.9.41"
+        versionName "0.9.42"
         println "VersionName is $versionName"
         buildConfigField "String", "GIT_DESCRIBE", "\"${versionName}\""
         buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
@@ -129,8 +153,24 @@ android {
          exclude 'lib/armeabi/*'  // aremabiv5 & v6 are deprecated
     }
 
-    buildTypes {
+    signingConfigs {
+        signedRelease {
+            // credentials loaded in release_task.gradle
+            storeFile file(project["signingKeystore"])
+            storePassword ""
+            keyAlias ""
+            keyPassword ""
+        }
+    }
 
+    if (project.hasProperty("signingKeystore") && project.hasProperty("signingKeystorePassword") &&
+            project.hasProperty("signingKeyAlias") && project.hasProperty("signingKeyPassword")) {
+        android.signingConfigs.signedRelease.storePassword = project.getProperties().get("signingKeystorePassword")
+        android.signingConfigs.signedRelease.keyAlias = project.getProperties().get("signingKeyAlias")
+        android.signingConfigs.signedRelease.keyPassword = project.getProperties().get("signingKeyPassword")
+    }
+
+    buildTypes {
         debug {
             buildConfigField "boolean", "FEATURE_EMBROIDERY_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
@@ -147,10 +187,12 @@ android {
             buildConfigField "boolean", "FEATURE_CAST_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "true"
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
+            buildConfigField "boolean", "USE_ANDROID_LOCALES_FOR_SCREENSHOTS", useAndroidLocales()
             resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
             ext.enableCrashlytics = false
             testCoverageEnabled = project.hasProperty('enableCoverage')
         }
+
         release {
             buildConfigField "boolean", "FEATURE_EMBROIDERY_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
@@ -167,7 +209,13 @@ android {
             buildConfigField "boolean", "FEATURE_CAST_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "false"
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
+            buildConfigField "boolean", "USE_ANDROID_LOCALES_FOR_SCREENSHOTS", "false"
             resValue "string", "SNACKBAR_HINTS_ENABLED", "true"
+        }
+
+        signedRelease.initWith(buildTypes.release)
+        signedRelease {
+            signingConfig signingConfigs.signedRelease
         }
     }
 
@@ -236,7 +284,7 @@ ext {
     mockitoVersion = "2.8.47"
     espressoVersion = "3.0.1"
     supportLibraryVersion = "27.1.0"
-    paintroidVersion = "2.1.0"
+    paintroidVersion = "2.1.1"
 }
 
 configurations {
@@ -308,6 +356,13 @@ dependencies {
 
     implementation 'com.facebook.android:facebook-android-sdk:4.14.1'
     implementation 'com.google.android.gms:play-services-auth:12.0.0'
+
+    androidTestImplementation ('tools.fastlane:screengrab:1.1.0'){
+        exclude group: 'com.android.support'
+    }
+    androidTestImplementation ('com.android.support.test.espresso:espresso-web:3.0.1') {
+        exclude group: 'com.android.support'
+    }
 
     implementation ('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
         transitive = true

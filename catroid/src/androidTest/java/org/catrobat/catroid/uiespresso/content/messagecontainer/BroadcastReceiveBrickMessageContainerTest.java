@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.content.brick.app;
+package org.catrobat.catroid.uiespresso.content.messagecontainer;
 
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
@@ -50,6 +50,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -59,9 +60,10 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 
 @RunWith(AndroidJUnit4.class)
-public class BroadcastReceiveBrickTest {
+public class BroadcastReceiveBrickMessageContainerTest {
 	private String defaultMessage = "defaultMessage";
-
+	private Project project;
+	private Sprite sprite;
 	private int broadcastReceivePosition = 1;
 
 	@Rule
@@ -77,7 +79,7 @@ public class BroadcastReceiveBrickTest {
 	@Category({Cat.AppUi.class, Level.Functional.class})
 	@Test
 	@Flaky
-	public void testBroadcastReceiveBrick() {
+	public void testBroadcastReceiveBrickOmitSaveUnusedMessages() throws Exception {
 		String uselessMessage = "useless";
 		createNewMessageOnSpinner(R.id.brick_broadcast_spinner, broadcastReceivePosition, uselessMessage);
 		onBrickAtPosition(broadcastReceivePosition).onSpinner(R.id.brick_broadcast_spinner)
@@ -88,11 +90,27 @@ public class BroadcastReceiveBrickTest {
 				.perform(click());
 		onBrickAtPosition(broadcastReceivePosition).onSpinner(R.id.brick_broadcast_spinner)
 				.checkShowsText(defaultMessage);
+
+		ProjectManager.getInstance().saveProject(InstrumentationRegistry.getTargetContext());
+
+		baseActivityTestRule.finishActivity();
+
+		ProjectManager.getInstance().loadProject(project.getName(), InstrumentationRegistry.getTargetContext());
+		ProjectManager.getInstance().setCurrentSprite(sprite);
+
+		baseActivityTestRule.launchActivity();
+
+		onBrickAtPosition(broadcastReceivePosition).onSpinner(R.id.brick_broadcast_spinner)
+				.checkShowsText(defaultMessage);
+		onBrickAtPosition(broadcastReceivePosition).onSpinner(R.id.brick_broadcast_spinner)
+				.perform(click());
+		onView(withText(uselessMessage))
+				.check(doesNotExist());
 	}
 
 	private void createProject(String projectName) {
-		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
-		Sprite sprite = new Sprite("testSprite");
+		project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+		sprite = new Sprite("testSprite");
 		Script script = new StartScript();
 
 		sprite.addScript(script);

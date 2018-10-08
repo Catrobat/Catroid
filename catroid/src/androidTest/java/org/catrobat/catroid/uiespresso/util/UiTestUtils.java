@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.hamcrest.Matcher;
 
 import java.util.Collection;
@@ -41,7 +42,10 @@ import java.util.Collection;
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
+import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 import static android.support.test.runner.lifecycle.Stage.RESUMED;
+
+import static junit.framework.Assert.assertEquals;
 
 import static org.catrobat.catroid.uiespresso.util.matchers.SuperToastMatchers.isToast;
 import static org.hamcrest.CoreMatchers.instanceOf;
@@ -79,6 +83,19 @@ public final class UiTestUtils {
 			}
 		});
 		assertThat(currentActivity[0], instanceOf(activityClass));
+	}
+
+	public static void assertEqualsWithTimeout(Object expectedValue, Object actualValue,
+			int timeoutMillis) {
+		for (int intervalMillis = 10; timeoutMillis > 0; timeoutMillis -= intervalMillis) {
+			if (expectedValue.equals(actualValue)) {
+				assertEquals(expectedValue, actualValue);
+				return;
+			}
+			onView(isRoot())
+					.perform(CustomActions.wait(intervalMillis));
+		}
+		assertEquals(expectedValue, actualValue);
 	}
 
 	public static Project createEmptyProject(String projectName) {
