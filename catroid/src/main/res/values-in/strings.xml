@@ -29,6 +29,7 @@
   <string name="settings">Pengaturan</string>
   <string name="redo">Ulangi</string>
   <string name="undo">Urung</string>
+  <string name="new_option">Baru&#8230;</string>
   <string name="confirm">Konfirmasi</string>
   <string name="cancel">Batalkan</string>
   <string name="next">Lanjut</string>
@@ -260,8 +261,9 @@
   <string name="error_copy_project">Terjadi kesalahan saat menyalin proyek</string>
   <!-- Dialog Errors -->
   <string name="name_already_exists">This name is already in use, please choose another one.</string>
-  <string name="name_consists_of_spaces_only">You only put spaces into the text field, please enter a name
+  <string name="name_consists_of_spaces_only">You only put spaces into the text field, please enter a text
         using letters, numbers or other special characters.</string>
+  <string name="name_empty">Please enter a text</string>
   <!-- Recycler View -->
   <string name="am_empty_list">There are no items in this list yet. Please add some first.</string>
   <string name="am_backpack">Paket</string>
@@ -372,13 +374,16 @@
   </plurals>
   <!-- Script Action Mode Titles -->
   <plurals name="am_pack_scripts_title">
-    <item quantity="other">Pack %d bricks</item>
+    <item quantity="other">Pack %d Bricks</item>
   </plurals>
   <plurals name="am_unpack_scripts_title">
     <item quantity="other">Unpack %d Scripts</item>
   </plurals>
   <plurals name="am_copy_scripts_title">
     <item quantity="other">Copy %d bricks</item>
+  </plurals>
+  <plurals name="am_delete_bricks_title">
+    <item quantity="other">Delete %d Bricks</item>
   </plurals>
   <plurals name="am_delete_scripts_title">
     <item quantity="other">Delete %d Scripts</item>
@@ -416,12 +421,13 @@
   </plurals>
   <!-- Dialog Labels -->
   <string name="project_name_label">Program Name</string>
-  <string name="scene_name">Scene Name</string>
+  <string name="scene_name_label">Scene Name</string>
   <string name="sprite_name_label">Object Name</string>
   <string name="sprite_group_name_label">Group Name</string>
   <string name="script_group_label">Script Group Name</string>
   <string name="look_name_label">Look Name</string>
   <string name="sound_name_label">Sound Name</string>
+  <string name="nfc_tag_name_label">NFC Tag Name</string>
   <string name="string_label">Teks</string>
   <string name="data_label">Nama</string>
   <!-- Details -->
@@ -528,10 +534,11 @@
   <!-- ScriptListFragment -->
   <string name="fragment_script_text_description">Tekan \"+\" untuk menambahkan skrip</string>
   <!--  -->
+  <!-- SpriteListFragment -->
+  <string name="fragment_sprite_text_description">Tap \"+\" to add objects</string>
+  <!--  -->
   <!-- LookListFragment -->
   <string name="fragment_look_text_description">Tekan \"+\" untuk menambah tampilan</string>
-  <string name="pocket_paint_not_installed_title">Pocket Paint tidak terinstal!</string>
-  <string name="pocket_paint_not_installed_message">Please install Pocket Paint.</string>
   <string name="default_look_name">Lihat</string>
   <string name="select_look_from_gallery">Pilih gambar</string>
   <string name="select_look_from_camera">Pilih foto</string>
@@ -539,6 +546,7 @@
   <!-- SoundListFragment -->
   <string name="fragment_sound_text_description">Tekan \"+\" untuk menambah suara</string>
   <string name="sound_select_source">Pilih suara</string>
+  <string name="default_sound_name">Suara</string>
   <!--  -->
   <!-- NfcTagListFragment -->
   <string name="fragment_nfctag_text_description">Scan NFC tags to add them</string>
@@ -561,8 +569,8 @@
   <string name="global_lists_headline">Lists for all objects</string>
   <string name="local_lists_headline">Lists for this object only</string>
   <!-- NewDataDialog -->
-  <string name="new_data_for_all_sprites">For all Objects</string>
-  <string name="new_data_for_this_sprite_only">For this Object only</string>
+  <string name="new_data_for_all_sprites">For all objects</string>
+  <string name="new_data_for_this_sprite_only">For this object only</string>
   <!-- Backpack -->
   <string name="backpack_title">Ransel anda</string>
   <string name="pack">Pack</string>
@@ -707,11 +715,6 @@
   <!--  -->
   <!-- NetworkAlertDialog -->
   <string name="error_no_network_title">Tidak ada jaringan</string>
-  <string name="error_no_network">Anda memerlukan koneksi jaringan untuk menggunakan program ini. Aktifkan
-         jaringan seluler atau Wi-Fi di setelan.</string>
-  <plurals name="bricks_using_network_headline">
-    <item quantity="other">The following bricks need a network connection:</item>
-  </plurals>
   <!-- UploadProjectDialog -->
   <string name="error_no_program_name_entered">Harap masukkan nama program.</string>
   <string name="upload_button">Meng-unggah</string>
@@ -766,20 +769,26 @@
   <string name="error_facebook_session_expired">Session expired, please log in.</string>
   <string name="sign_in_with_facebook">Sign in with Facebook</string>
   <string name="sign_in_with_google">Sign in with Google</string>
+  <string name="error_register_empty_username">Empty username</string>
+  <string name="error_register_username_as_email">E-mail address can not be used as username</string>
+  <string name="error_register_invalid_username">Username should only contain letters (a–z), numbers (0–9),
+        dashes (-), underscores (_), and periods (.).</string>
+  <string name="error_register_username_start_with">Username should not start with dashes (-), underscores (_), or
+        periods (.).</string>
+  <string name="error_register_invalid_email_format">Invalid email format</string>
+  <string name="error_register_empty_password">Password field is empty</string>
+  <string name="error_register_password_at_least_6_characters">Password should be at least 6 characters</string>
+  <string name="error_register_passwords_mismatch">Sandi tidak cocok</string>
+  <string name="error_register_empty_confirm_password">Confirm password field is empty</string>
+  <string name="error_register_username_already_exists">Username already exists</string>
+  <string name="error_register_email_exists">Email address already exists</string>
   <!--  -->
   <!-- OverwriteRenameDialog Strings -->
-  <string name="overwrite_text">A program with this name already exists. Please choose a different name!</string>
-  <string name="overwrite_replace">Replace Program</string>
+  <string name="overwrite_title">Project exists.</string>
+  <string name="overwrite_text">A project with this name already exists.</string>
+  <string name="overwrite_replace">Overwrite project</string>
   <string name="overwrite_rename">Ganti nama program yang telah diunduh</string>
   <!--  -->
-  <!-- OverwriteRenameMediaDialog -->
-  <string name="overwrite_replace_look">Replace Look</string>
-  <string name="overwrite_rename_look">Ganti nama tampilan yang diunduh</string>
-  <string name="overwrite_replace_sound">Replace sound</string>
-  <string name="overwrite_rename_sound">Ganti nama suara yang diunduh</string>
-  <string name="overwrite_replace_default">Replace Media</string>
-  <string name="overwrite_rename_default">Ganti nama media yang ada</string>
-  <!-- -->
   <!-- Music activity -->
   <string name="pocket_music_default_project_name">Untitled Song</string>
   <string name="pocket_music_default_track_name">Track 1</string>
@@ -817,12 +826,10 @@
   <string name="stage_dialog_screenshot">Pratinjau</string>
   <!--  -->
   <!-- Broadcast spinner -->
-  <string name="new_broadcast_message">Baru&#8230;</string>
   <string name="dialog_new_broadcast_message_title">Pesan baru</string>
   <string name="dialog_new_broadcast_message_name">pesan:</string>
   <!--  -->
   <!-- NFC spinner -->
-  <string name="new_nfc_tag">Baru&#8230;</string>
   <string name="brick_when_nfc_default_all">semua</string>
   <!-- -->
   <!-- Brick categories -->
@@ -925,12 +932,12 @@
   <string name="brick_vibration">Bergetar untuk</string>
   <string name="brick_ask_label">Meminta</string>
   <string name="brick_ask_store">dan menyimpan jawaban tertulis di</string>
-  <string name="brick_ask_default_question">\'Siapa namamu?\'</string>
+  <string name="brick_ask_default_question">What\'s your name?</string>
   <string name="brick_ask_dialog_hint">"Masukkan jawaban Anda:"</string>
   <string name="brick_ask_dialog_submit">Kirim jawaban</string>
   <string name="brick_ask_speech_label">Tanya</string>
   <string name="brick_ask_speech_store">dan menyimpan jawaban lisan di</string>
-  <string name="brick_ask_speech_default_question">\'Siapa namamu?\'</string>
+  <string name="brick_ask_speech_default_question">What\'s your name?</string>
   <!--  -->
   <!-- Pen bricks -->
   <string name="brick_pen_down">Pen bawah</string>
@@ -947,7 +954,7 @@
   <string name="brick_set_volume_to">Atur volume</string>
   <string name="brick_change_volume_by">Mengubah volume oleh</string>
   <string name="brick_speak">Berbicara</string>
-  <string name="brick_speak_default_value">"Halo!"</string>
+  <string name="brick_speak_default_value">Halo!</string>
   <string name="brick_speak_and_wait">dan tunggu</string>
   <!--  -->
   <!-- Control bricks -->
@@ -995,10 +1002,9 @@
   <string name="brick_if_end">End If</string>
   <string name="brick_set_variable">Set variable</string>
   <string name="brick_change_variable">Ubah variabel</string>
-  <string name="brick_variable_spinner_create_new_variable">Baru&#8230;</string>
-  <string name="brick_note_default_value">"tambahkan komentar di sini…"</string>
-  <string name="brick_think_bubble_default_value">"Hmmmm!"</string>
-  <string name="brick_say_bubble_default_value">"Halo!"</string>
+  <string name="brick_note_default_value">tambahkan komentar di sini&#8230;</string>
+  <string name="brick_think_bubble_default_value">Hmmmm!</string>
+  <string name="brick_say_bubble_default_value">Halo!</string>
   <string name="brick_broadcast_default_value">"pesan 1"</string>
   <string name="brick_add_item_to_userlist_add">Tambahkan</string>
   <string name="brick_add_item_to_userlist">ke daftar</string>
@@ -1018,9 +1024,9 @@
   <string name="default_project_cloud_name">Awan</string>
   <string name="default_project_cloud_sprite_name_1">Awan1</string>
   <string name="default_project_cloud_sprite_name_2">Awan2</string>
-  <string name="default_project_sprites_animal_name">Burung</string>
-  <string name="default_project_sprites_animal_wings_up">Sayap burung</string>
-  <string name="default_project_sprites_animal_wings_down">Sayap burung turun</string>
+  <string name="default_project_sprites_animal_name">Animal</string>
+  <string name="default_project_sprites_animal_wings_up">Wings up</string>
+  <string name="default_project_sprites_animal_wings_down">Wings down</string>
   <string name="default_project_sprites_tweet_1">Kicau1</string>
   <string name="default_project_sprites_tweet_2">Kicau2</string>
   <!-- Default ChromeCast Values -->
@@ -1276,8 +1282,6 @@
   <string name="brick_drone_emergency">Darurat AR.Drone 2.0</string>
   <string name="brick_drone_turn_right">Hidupkan AR.Drone 2.0 dengan benar</string>
   <string name="brick_drone_turn_left">Arahkan AR.Drone 2.0 ke kiri</string>
-  <string name="brick_drone_turn_left_magneto">Belok AR.Drone 2.0 kiri [sudut]</string>
-  <string name="brick_drone_turn_right_magneto">Belok AR.Drone 2.0 kanan [sudut]</string>
   <string name="brick_drone_set_config">Atur config AR.Drone 2.0</string>
   <string name="brick_drone_switch_camera">Arahkan kamera AR.Drone 2.0</string>
   <string name="brick_drone_set_altitude">Batas ketinggian </string>
@@ -1668,6 +1672,7 @@
   <!-- -->
   <!-- User Bricks strings -->
   <string name="define">Menetapkan</string>
+  <string name="new_user_brick_variable">Variabel</string>
   <!--  -->
   <!-- Camera related strings -->
   <string name="brick_video">Belokkan kamera</string>
