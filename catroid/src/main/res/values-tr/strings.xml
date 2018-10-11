@@ -29,6 +29,7 @@
   <string name="settings">Ayarlar</string>
   <string name="redo">Yinele</string>
   <string name="undo">Geri Al</string>
+  <string name="new_option">Yeni&#8230;</string>
   <string name="confirm">Onayla</string>
   <string name="cancel">İptal et</string>
   <string name="next">İleri</string>
@@ -268,8 +269,9 @@
   <string name="error_copy_project">An error occurred while copying Project</string>
   <!-- Dialog Errors -->
   <string name="name_already_exists">This name is already in use, please choose another one.</string>
-  <string name="name_consists_of_spaces_only">You only put spaces into the text field, please enter a name
+  <string name="name_consists_of_spaces_only">You only put spaces into the text field, please enter a text
         using letters, numbers or other special characters.</string>
+  <string name="name_empty">Please enter a text</string>
   <!-- Recycler View -->
   <string name="am_empty_list">There are no items in this list yet. Please add some first.</string>
   <string name="am_backpack">Paket</string>
@@ -408,8 +410,8 @@
   </plurals>
   <!-- Script Action Mode Titles -->
   <plurals name="am_pack_scripts_title">
-    <item quantity="one">Pack %d brick</item>
-    <item quantity="other">Pack %d bricks</item>
+    <item quantity="one">Pack %d Brick</item>
+    <item quantity="other">Pack %d Bricks</item>
   </plurals>
   <plurals name="am_unpack_scripts_title">
     <item quantity="one">Unpack %d Script</item>
@@ -418,6 +420,10 @@
   <plurals name="am_copy_scripts_title">
     <item quantity="one">Copy %d brick</item>
     <item quantity="other">Copy %d bricks</item>
+  </plurals>
+  <plurals name="am_delete_bricks_title">
+    <item quantity="one">Delete %d Brick</item>
+    <item quantity="other">Delete %d Bricks</item>
   </plurals>
   <plurals name="am_delete_scripts_title">
     <item quantity="one">Delete %d Script</item>
@@ -465,12 +471,13 @@
   </plurals>
   <!-- Dialog Labels -->
   <string name="project_name_label">Program Name</string>
-  <string name="scene_name">Scene Name</string>
+  <string name="scene_name_label">Scene Name</string>
   <string name="sprite_name_label">Object Name</string>
   <string name="sprite_group_name_label">Group Name</string>
   <string name="script_group_label">Script Group Name</string>
   <string name="look_name_label">Look Name</string>
   <string name="sound_name_label">Sound Name</string>
+  <string name="nfc_tag_name_label">NFC Tag Name</string>
   <string name="string_label">Metin</string>
   <string name="data_label">Isim</string>
   <!-- Details -->
@@ -599,10 +606,11 @@
   <!-- ScriptListFragment -->
   <string name="fragment_script_text_description">Komut dosyası eklemek için buraya \"+\" dokunun</string>
   <!--  -->
+  <!-- SpriteListFragment -->
+  <string name="fragment_sprite_text_description">Tap \"+\" to add objects</string>
+  <!--  -->
   <!-- LookListFragment -->
   <string name="fragment_look_text_description">Görüntü eklemek icin buraya \"+\" dokun</string>
-  <string name="pocket_paint_not_installed_title">Cep Resim yüklü değil!</string>
-  <string name="pocket_paint_not_installed_message">Please install Pocket Paint.</string>
   <string name="default_look_name">Görünüş</string>
   <string name="select_look_from_gallery">Resim seç</string>
   <string name="select_look_from_camera">Fotoğraf seç</string>
@@ -610,6 +618,7 @@
   <!-- SoundListFragment -->
   <string name="fragment_sound_text_description">Ses eklemek için buraya \"+\" dokunun</string>
   <string name="sound_select_source">Bir parça seç</string>
+  <string name="default_sound_name">Ses</string>
   <!--  -->
   <!-- NfcTagListFragment -->
   <string name="fragment_nfctag_text_description">Scan NFC tags to add them</string>
@@ -633,8 +642,8 @@
   <string name="global_lists_headline">Lists for all objects</string>
   <string name="local_lists_headline">Lists for this object only</string>
   <!-- NewDataDialog -->
-  <string name="new_data_for_all_sprites">For all Objects</string>
-  <string name="new_data_for_this_sprite_only">For this Object only</string>
+  <string name="new_data_for_all_sprites">For all objects</string>
+  <string name="new_data_for_this_sprite_only">For this object only</string>
   <!-- Backpack -->
   <string name="backpack_title">Çantan</string>
   <string name="pack">Paket</string>
@@ -782,11 +791,6 @@
   <!--  -->
   <!-- NetworkAlertDialog -->
   <string name="error_no_network_title">Bağlantı yok</string>
-  <string name="error_no_network">Bu programı kullanmak için ağa bağlanmanız gerekir. Lütfen ayarları mobil ağı veya Kablosuz özelliğini açın.</string>
-  <plurals name="bricks_using_network_headline">
-    <item quantity="one">The following brick needs a network connection:</item>
-    <item quantity="other">The following bricks need a network connection:</item>
-  </plurals>
   <!-- UploadProjectDialog -->
   <string name="error_no_program_name_entered">Lütfen bir program adı girin.</string>
   <string name="upload_button">Karşıya yükle</string>
@@ -841,20 +845,26 @@
   <string name="error_facebook_session_expired">Session expired, please log in.</string>
   <string name="sign_in_with_facebook">Sign in with Facebook</string>
   <string name="sign_in_with_google">Sign in with Google</string>
+  <string name="error_register_empty_username">Empty username</string>
+  <string name="error_register_username_as_email">E-mail address can not be used as username</string>
+  <string name="error_register_invalid_username">Username should only contain letters (a–z), numbers (0–9),
+        dashes (-), underscores (_), and periods (.).</string>
+  <string name="error_register_username_start_with">Username should not start with dashes (-), underscores (_), or
+        periods (.).</string>
+  <string name="error_register_invalid_email_format">Invalid email format</string>
+  <string name="error_register_empty_password">Password field is empty</string>
+  <string name="error_register_password_at_least_6_characters">Password should be at least 6 characters</string>
+  <string name="error_register_passwords_mismatch">Parolalar uyuşmuyor</string>
+  <string name="error_register_empty_confirm_password">Confirm password field is empty</string>
+  <string name="error_register_username_already_exists">Username already exists</string>
+  <string name="error_register_email_exists">Email address already exists</string>
   <!--  -->
   <!-- OverwriteRenameDialog Strings -->
-  <string name="overwrite_text">A program with this name already exists. Please choose a different name!</string>
-  <string name="overwrite_replace">Replace Program</string>
+  <string name="overwrite_title">Project exists.</string>
+  <string name="overwrite_text">A project with this name already exists.</string>
+  <string name="overwrite_replace">Overwrite project</string>
   <string name="overwrite_rename">İndirilen programı yeniden adlandır</string>
   <!--  -->
-  <!-- OverwriteRenameMediaDialog -->
-  <string name="overwrite_replace_look">Replace Look</string>
-  <string name="overwrite_rename_look">Rename downloaded Look</string>
-  <string name="overwrite_replace_sound">Replace sound</string>
-  <string name="overwrite_rename_sound">İndirilen sesin adını değiştir</string>
-  <string name="overwrite_replace_default">Replace Media</string>
-  <string name="overwrite_rename_default">Mevcut medyayı yeniden adlandır</string>
-  <!-- -->
   <!-- Music activity -->
   <string name="pocket_music_default_project_name">Untitled Song</string>
   <string name="pocket_music_default_track_name">Track 1</string>
@@ -893,12 +903,10 @@
   <string name="stage_dialog_screenshot">Önizleme</string>
   <!--  -->
   <!-- Broadcast spinner -->
-  <string name="new_broadcast_message">Yeni&#8230;</string>
   <string name="dialog_new_broadcast_message_title">Yeni mesaj</string>
   <string name="dialog_new_broadcast_message_name">mesaj:</string>
   <!--  -->
   <!-- NFC spinner -->
-  <string name="new_nfc_tag">Yeni&#8230;</string>
   <string name="brick_when_nfc_default_all">tümü</string>
   <!-- -->
   <!-- Brick categories -->
@@ -1003,12 +1011,12 @@
   <string name="brick_vibration">Titreşim için</string>
   <string name="brick_ask_label">Sor</string>
   <string name="brick_ask_store">and store written answer in</string>
-  <string name="brick_ask_default_question">\'İsminiz nedir?\'</string>
+  <string name="brick_ask_default_question">What\'s your name?</string>
   <string name="brick_ask_dialog_hint">"Cevabınızı giriniz:"</string>
   <string name="brick_ask_dialog_submit">Cevabı Gönder</string>
   <string name="brick_ask_speech_label">Sor</string>
   <string name="brick_ask_speech_store">and store spoken answer in</string>
-  <string name="brick_ask_speech_default_question">\'İsminiz nedir?\'</string>
+  <string name="brick_ask_speech_default_question">What\'s your name?</string>
   <!--  -->
   <!-- Pen bricks -->
   <string name="brick_pen_down">Pen down</string>
@@ -1025,7 +1033,7 @@
   <string name="brick_set_volume_to">Ses düzeyini</string>
   <string name="brick_change_volume_by">Ses düzeyini değiştir</string>
   <string name="brick_speak">Konuş</string>
-  <string name="brick_speak_default_value">"Merhaba!"</string>
+  <string name="brick_speak_default_value">Merhaba!</string>
   <string name="brick_speak_and_wait">ve bekleyin</string>
   <!--  -->
   <!-- Control bricks -->
@@ -1075,10 +1083,9 @@
   <string name="brick_if_end">Bitir eğer</string>
   <string name="brick_set_variable">Değişkeni düzenle</string>
   <string name="brick_change_variable">Değişkeni değiştir</string>
-  <string name="brick_variable_spinner_create_new_variable">Yeni&#8230;</string>
-  <string name="brick_note_default_value">"buraya yorum ekle…"</string>
-  <string name="brick_think_bubble_default_value">"Hmm!"</string>
-  <string name="brick_say_bubble_default_value">"Merhaba!"</string>
+  <string name="brick_note_default_value">buraya yorum ekle&#8230;</string>
+  <string name="brick_think_bubble_default_value">Hmm!</string>
+  <string name="brick_say_bubble_default_value">Merhaba!</string>
   <string name="brick_broadcast_default_value">"mesaj 1"</string>
   <string name="brick_add_item_to_userlist_add">Ekle</string>
   <string name="brick_add_item_to_userlist">listeye eklemek</string>
@@ -1100,7 +1107,7 @@
   <string name="default_project_cloud_name">Bulutlar</string>
   <string name="default_project_cloud_sprite_name_1">Bulutlar1</string>
   <string name="default_project_cloud_sprite_name_2">Bulutlar2</string>
-  <string name="default_project_sprites_animal_name">Kuş</string>
+  <string name="default_project_sprites_animal_name">Animal</string>
   <string name="default_project_sprites_animal_wings_up">Wings up</string>
   <string name="default_project_sprites_animal_wings_down">Wings down</string>
   <string name="default_project_sprites_tweet_1">Tweet1</string>
@@ -1359,8 +1366,6 @@
   <string name="brick_drone_emergency">AR.Drone 2.0 Acil Durum</string>
   <string name="brick_drone_turn_right">AR.Drone 2.0\'ı sağa döndür</string>
   <string name="brick_drone_turn_left">AR.Drone 2.0\'ı sola döndür</string>
-  <string name="brick_drone_turn_left_magneto">AR.Drone 2.0\'ı [angle]sola döndür</string>
-  <string name="brick_drone_turn_right_magneto">Turn AR.Drone 2.0 right [angle]</string>
   <string name="brick_drone_set_config">Set config AR.Drone 2.0</string>
   <string name="brick_drone_switch_camera">Switch AR.Drone 2.0 camera</string>
   <string name="brick_drone_set_altitude">Yükseklik sınırı</string>
@@ -1747,6 +1752,7 @@
   <!-- -->
   <!-- User Bricks strings -->
   <string name="define">Tanımlamak</string>
+  <string name="new_user_brick_variable">Değişken</string>
   <!--  -->
   <!-- Camera related strings -->
   <string name="brick_video">Kamerayı çevir</string>
