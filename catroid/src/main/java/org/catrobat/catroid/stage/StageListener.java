@@ -24,14 +24,11 @@ package org.catrobat.catroid.stage;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
-import android.graphics.PointF;
 import android.os.SystemClock;
-import android.util.Log;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -40,12 +37,11 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Polygon;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -86,17 +82,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION;
+import static org.catrobat.catroid.common.ScreenValues.SCREEN_HEIGHT;
+import static org.catrobat.catroid.common.ScreenValues.SCREEN_WIDTH;
+
 public class StageListener implements ApplicationListener {
 
-	private static final String TAG = StageListener.class.getSimpleName();
 	private static final int AXIS_WIDTH = 4;
 	private static final float DELTA_ACTIONS_DIVIDER_MAXIMUM = 50f;
 	private static final int ACTIONS_COMPUTATION_TIME_MAXIMUM = 8;
 
 	private float deltaActionTimeDivisor = 10f;
-	public static final String SCREENSHOT_AUTOMATIC_FILE_NAME = "automatic_screenshot"
-			+ Constants.DEFAULT_IMAGE_EXTENSION;
-	public static final String SCREENSHOT_MANUAL_FILE_NAME = "manual_screenshot" + Constants.DEFAULT_IMAGE_EXTENSION;
+	public static final String SCREENSHOT_AUTOMATIC_FILE_NAME = "automatic_screenshot" + DEFAULT_IMAGE_EXTENSION;
+	public static final String SCREENSHOT_MANUAL_FILE_NAME = "manual_screenshot" + DEFAULT_IMAGE_EXTENSION;
 
 	private Stage stage = null;
 	private boolean paused = false;
@@ -160,9 +158,6 @@ public class StageListener implements ApplicationListener {
 
 	private InputListener inputListener = null;
 
-	private ShapeRenderer collisionPolygonDebugRenderer;
-	private boolean drawDebugCollisionPolygons = false;
-
 	private Map<Sprite, ShowBubbleActor> bubbleActorMap = new HashMap<>();
 
 	StageListener() {
@@ -192,19 +187,9 @@ public class StageListener implements ApplicationListener {
 
 		physicsWorld = scene.resetPhysicsWorld();
 		sprites = new ArrayList<>(scene.getSpriteList());
-		boolean addPenActor = true;
-		for (Sprite sprite : sprites) {
-			sprite.resetSprite();
-			sprite.look.createBrightnessContrastHueShader();
-			stage.addActor(sprite.look);
-			if (addPenActor) {
-				penActor = new PenActor();
-				stage.addActor(penActor);
-				addPenActor = false;
-			}
-		}
-		passepartout = new Passepartout(ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT, maximizeViewPortWidth,
-				maximizeViewPortHeight, virtualWidth, virtualHeight);
+		initActors(sprites);
+
+		passepartout = new Passepartout(SCREEN_WIDTH, SCREEN_HEIGHT, maximizeViewPortWidth, maximizeViewPortHeight, virtualWidth, virtualHeight);
 		stage.addActor(passepartout);
 
 		axes = new Texture(Gdx.files.internal("stage/red_pixel.bmp"));
@@ -212,11 +197,6 @@ public class StageListener implements ApplicationListener {
 		if (checkIfAutomaticScreenshotShouldBeTaken) {
 			makeAutomaticScreenshot = project.manualScreenshotExists(SCREENSHOT_MANUAL_FILE_NAME)
 					|| scene.hasScreenshot();
-		}
-		if (drawDebugCollisionPolygons) {
-			collisionPolygonDebugRenderer.setProjectionMatrix(camera.combined);
-			collisionPolygonDebugRenderer.setAutoShapeType(true);
-			collisionPolygonDebugRenderer.setColor(Color.MAGENTA);
 		}
 		FaceDetectionHandler.resumeFaceDetection();
 	}
@@ -237,6 +217,23 @@ public class StageListener implements ApplicationListener {
 		}
 
 		stage = new Stage(viewPort, batch);
+	}
+
+	private void initActors(List<Sprite> sprites) {
+		if (sprites.isEmpty()) {
+			return;
+		}
+
+		for (Sprite sprite : sprites) {
+			sprite.resetSprite();
+			sprite.look.createBrightnessContrastHueShader();
+			stage.addActor(sprite.look);
+
+			if (sprites.indexOf(sprite) == 0) {
+				penActor = new PenActor();
+				stage.addActor(penActor);
+			}
+		}
 	}
 
 	public void cloneSpriteAndAddToStage(Sprite cloneMe) {
@@ -303,7 +300,6 @@ public class StageListener implements ApplicationListener {
 			};
 		}
 		stage.addListener(inputListener);
-		collisionPolygonDebugRenderer = new ShapeRenderer();
 	}
 
 	void menuResume() {
@@ -311,6 +307,7 @@ public class StageListener implements ApplicationListener {
 			return;
 		}
 		paused = false;
+
 		FaceDetectionHandler.resumeFaceDetection();
 		SoundManager.getInstance().resume();
 	}
@@ -320,23 +317,23 @@ public class StageListener implements ApplicationListener {
 			return;
 		}
 
-		try {
-			paused = true;
-			SoundManager.getInstance().pause();
-		} catch (Exception exception) {
-			Log.e(TAG, "Pausing menu failed!", exception);
-		}
+		paused = true;
+		SoundManager.getInstance().pause();
 	}
 
 	public void transitionToScene(String sceneName) {
-		if (ProjectManager.getInstance().getCurrentProject().getSceneByName(sceneName) == null) {
+		Scene newScene = ProjectManager.getInstance().getCurrentProject().getSceneByName(sceneName);
+
+		if (newScene == null) {
 			return;
 		}
 
 		stageBackupMap.put(scene.getName(), saveToBackup());
 		pause();
-		scene = ProjectManager.getInstance().getCurrentProject().getSceneByName(sceneName);
+
+		scene = newScene;
 		ProjectManager.getInstance().setCurrentlyPlayingScene(scene);
+
 		if (stageBackupMap.containsKey(scene.getName())) {
 			restoreFromBackup(stageBackupMap.get(scene.getName()));
 		}
@@ -350,13 +347,23 @@ public class StageListener implements ApplicationListener {
 	}
 
 	public void startScene(String sceneName) {
-		Scene sceneToStart = ProjectManager.getInstance().getCurrentProject().getSceneByName(sceneName);
-		if (sceneToStart == null) {
+		Scene newScene = ProjectManager.getInstance().getCurrentProject().getSceneByName(sceneName);
+
+		if (newScene == null) {
 			return;
 		}
-		transitionToScene(sceneName);
+
+		stageBackupMap.put(scene.getName(), saveToBackup());
+		pause();
+
+		scene = newScene;
+		ProjectManager.getInstance().setCurrentlyPlayingScene(scene);
+
 		SoundManager.getInstance().clear();
 		stageBackupMap.remove(sceneName);
+
+		Gdx.input.setInputProcessor(stage);
+
 		scene.firstStart = true;
 		create();
 	}
@@ -427,8 +434,8 @@ public class StageListener implements ApplicationListener {
 			Gdx.gl20.glClearColor(1f, 1f, 1f, 0f);
 		}
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
 		if (reloadProject) {
-			int spriteSize = sprites.size();
 			stage.clear();
 			if (penActor != null) {
 				penActor.dispose();
@@ -437,27 +444,15 @@ public class StageListener implements ApplicationListener {
 
 			physicsWorld = scene.resetPhysicsWorld();
 
-			Sprite sprite;
-
-			boolean addPenActor = true;
-
-			for (int i = 0; i < spriteSize; i++) {
-				sprite = sprites.get(i);
-				sprite.resetSprite();
-				sprite.look.createBrightnessContrastHueShader();
-				stage.addActor(sprite.look);
-				if (addPenActor) {
-					penActor = new PenActor();
-					stage.addActor(penActor);
-					addPenActor = false;
-				}
-			}
+			initActors(sprites);
 			stage.addActor(passepartout);
+
 			initStageInputListener();
 
 			paused = true;
 			scene.firstStart = true;
 			reloadProject = false;
+
 			if (stageDialog != null) {
 				synchronized (stageDialog) {
 					stageDialog.notify();
@@ -469,9 +464,7 @@ public class StageListener implements ApplicationListener {
 		shapeRenderer.setProjectionMatrix(camera.combined);
 
 		if (scene.firstStart) {
-			int spriteSize = sprites.size();
-			for (int currentSprite = 0; currentSprite < spriteSize; currentSprite++) {
-				Sprite sprite = sprites.get(currentSprite);
+			for (Sprite sprite : sprites) {
 				sprite.initializeEventThreads(EventId.START);
 				sprite.initConditionScriptTriggers();
 				if (!sprite.getLookList().isEmpty()) {
@@ -480,16 +473,19 @@ public class StageListener implements ApplicationListener {
 			}
 			scene.firstStart = false;
 		}
+
 		if (!paused) {
 			float deltaTime = Gdx.graphics.getDeltaTime();
 
 			float optimizedDeltaTime = deltaTime / deltaActionTimeDivisor;
 			long timeBeforeActionsUpdate = SystemClock.uptimeMillis();
+
 			while (deltaTime > 0f) {
 				physicsWorld.step(optimizedDeltaTime);
 				stage.act(optimizedDeltaTime);
 				deltaTime -= optimizedDeltaTime;
 			}
+
 			long executionTimeOfActionsUpdate = SystemClock.uptimeMillis() - timeBeforeActionsUpdate;
 			if (executionTimeOfActionsUpdate <= ACTIONS_COMPUTATION_TIME_MAXIMUM) {
 				deltaActionTimeDivisor += 1f;
@@ -509,15 +505,15 @@ public class StageListener implements ApplicationListener {
 			if (skipFirstFrameForAutomaticScreenshot) {
 				skipFirstFrameForAutomaticScreenshot = false;
 			} else {
-				thumbnail = ScreenUtils.getFrameBufferPixels(screenshotX, screenshotY, screenshotWidth,
-						screenshotHeight, true);
+				thumbnail = ScreenUtils
+						.getFrameBufferPixels(screenshotX, screenshotY, screenshotWidth, screenshotHeight, true);
 				makeAutomaticScreenshot = false;
 			}
 		}
 
 		if (makeScreenshot) {
-			screenshot = ScreenUtils.getFrameBufferPixels(screenshotX, screenshotY, screenshotWidth, screenshotHeight,
-					true);
+			screenshot = ScreenUtils
+					.getFrameBufferPixels(screenshotX, screenshotY, screenshotWidth, screenshotHeight, true);
 			makeScreenshot = false;
 		}
 
@@ -536,10 +532,6 @@ public class StageListener implements ApplicationListener {
 		if (makeTestPixels) {
 			testPixels = ScreenUtils.getFrameBufferPixels(testX, testY, testWidth, testHeight, false);
 			makeTestPixels = false;
-		}
-
-		if (drawDebugCollisionPolygons) {
-			drawDebugCollisionPolygons();
 		}
 	}
 
@@ -598,7 +590,6 @@ public class StageListener implements ApplicationListener {
 		font.dispose();
 		axes.dispose();
 		disposeTextures();
-		Log.e(TAG, "dispose");
 		disposeClonedSprites();
 	}
 
@@ -695,7 +686,6 @@ public class StageListener implements ApplicationListener {
 				screenshotY = 0;
 				viewPort = new ScalingViewport(Scaling.stretch, virtualWidth, virtualHeight, camera);
 				break;
-
 			case MAXIMIZE:
 				screenshotWidth = maximizeViewPortWidth;
 				screenshotHeight = maximizeViewPortHeight;
@@ -703,11 +693,10 @@ public class StageListener implements ApplicationListener {
 				screenshotY = maximizeViewPortY;
 				viewPort = new ExtendViewport(virtualWidth, virtualHeight, camera);
 				break;
-
 			default:
 				break;
 		}
-		viewPort.update(ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT, false);
+		viewPort.update(SCREEN_WIDTH, SCREEN_HEIGHT, false);
 		camera.position.set(0, 0, 0);
 		camera.update();
 	}
@@ -764,29 +753,38 @@ public class StageListener implements ApplicationListener {
 	}
 
 	private class StageBackup {
-		public Stage stage;
-		public boolean paused;
-		public boolean finished;
-		public boolean reloadProject;
-		public boolean flashState;
-		public long timeToVibrate;
-		public PhysicsWorld physicsWorld;
-		public OrthographicCamera camera;
-		public Batch batch;
-		public BitmapFont font;
-		public Passepartout passepartout;
-		public Viewport viewPort;
-		public List<Sprite> sprites;
-		public boolean axesOn = false;
-		public float deltaActionTimeDivisor;
-		public boolean cameraRunning;
-		public Map<Sprite, ShowBubbleActor> bubbleActorMap;
-		public PenActor penActor;
+
+		List<Sprite> sprites;
+		Array<Actor> actors;
+		PenActor penActor;
+		Map<Sprite, ShowBubbleActor> bubbleActorMap;
+
+		boolean paused;
+		boolean finished;
+		boolean reloadProject;
+		boolean flashState;
+		long timeToVibrate;
+
+		PhysicsWorld physicsWorld;
+		OrthographicCamera camera;
+		Batch batch;
+		BitmapFont font;
+		Passepartout passepartout;
+		Viewport viewPort;
+
+		boolean axesOn;
+		float deltaActionTimeDivisor;
+		boolean cameraRunning;
 	}
 
 	private StageBackup saveToBackup() {
 		StageBackup backup = new StageBackup();
-		backup.stage = stage;
+
+		backup.sprites = new ArrayList<>(sprites);
+		backup.actors = new Array<>(stage.getActors());
+		backup.penActor = penActor;
+		backup.bubbleActorMap = new HashMap<>(bubbleActorMap);
+
 		backup.paused = paused;
 		backup.finished = finished;
 		backup.reloadProject = reloadProject;
@@ -801,20 +799,31 @@ public class StageListener implements ApplicationListener {
 		backup.font = font;
 		backup.passepartout = passepartout;
 		backup.viewPort = viewPort;
-		backup.sprites = sprites;
+
 		backup.axesOn = axesOn;
 		backup.deltaActionTimeDivisor = deltaActionTimeDivisor;
 		backup.cameraRunning = CameraManager.getInstance().isCameraActive();
 		if (backup.cameraRunning) {
 			CameraManager.getInstance().pauseForScene();
 		}
-		backup.bubbleActorMap = bubbleActorMap;
-		backup.penActor = penActor;
+
 		return backup;
 	}
 
 	private void restoreFromBackup(StageBackup backup) {
-		stage = backup.stage;
+		sprites.clear();
+		sprites.addAll(backup.sprites);
+
+		stage.clear();
+		for (Actor actor : backup.actors) {
+			stage.addActor(actor);
+		}
+
+		penActor = backup.penActor;
+
+		bubbleActorMap.clear();
+		bubbleActorMap.putAll(backup.bubbleActorMap);
+
 		paused = backup.paused;
 		finished = backup.finished;
 		reloadProject = backup.reloadProject;
@@ -833,64 +842,10 @@ public class StageListener implements ApplicationListener {
 		font = backup.font;
 		passepartout = backup.passepartout;
 		viewPort = backup.viewPort;
-		sprites = backup.sprites;
 		axesOn = backup.axesOn;
 		deltaActionTimeDivisor = backup.deltaActionTimeDivisor;
 		if (backup.cameraRunning) {
 			CameraManager.getInstance().resumeForScene();
 		}
-		bubbleActorMap = backup.bubbleActorMap;
-		penActor = backup.penActor;
-	}
-
-	public void drawDebugCollisionPolygons() {
-		boolean drawPolygons = true;
-		boolean drawBoundingBoxes = false;
-		boolean drawPolygonPoints = false;
-		boolean drawTouchingAreas = true;
-
-		Color colorPolygons = Color.MAGENTA;
-		Color colorBoundingBoxes = Color.MAROON;
-		Color colorPolygonPoints = Color.BLACK;
-		Color colorTouchingAreas = Color.RED;
-
-		int lineWidth = 5;
-		Gdx.gl20.glLineWidth(lineWidth / camera.zoom);
-
-		collisionPolygonDebugRenderer.setAutoShapeType(true);
-		collisionPolygonDebugRenderer.begin();
-
-		for (Sprite sprite : sprites.subList(1, sprites.size())) {
-			Polygon[] polygonsForSprite = sprite.look.getCurrentCollisionPolygon();
-			if (polygonsForSprite != null) {
-				for (Polygon polygonToDraw : polygonsForSprite) {
-					if (drawPolygons) {
-						collisionPolygonDebugRenderer.setColor(colorPolygons);
-						collisionPolygonDebugRenderer.polygon(polygonToDraw.getTransformedVertices());
-					}
-					if (drawBoundingBoxes) {
-						Rectangle r = polygonToDraw.getBoundingRectangle();
-						collisionPolygonDebugRenderer.setColor(colorBoundingBoxes);
-						collisionPolygonDebugRenderer.rect(r.getX(), r.getY(), r.getWidth(), r.getHeight(), Color.CYAN, Color
-								.CYAN, Color.CYAN, Color.CYAN);
-					}
-					if (drawPolygonPoints) {
-						collisionPolygonDebugRenderer.setColor(colorPolygonPoints);
-						float[] points = polygonToDraw.getTransformedVertices();
-						for (int i = 0; i < points.length; i += 2) {
-							collisionPolygonDebugRenderer.circle(points[i], points[i + 1], 10);
-						}
-					}
-				}
-				if (drawTouchingAreas) {
-					ArrayList<PointF> touchingPoints = TouchUtil.getCurrentTouchingPoints();
-					collisionPolygonDebugRenderer.setColor(colorTouchingAreas);
-					for (PointF point : touchingPoints) {
-						collisionPolygonDebugRenderer.circle(point.x, point.y, Constants.COLLISION_WITH_FINGER_TOUCH_RADIUS);
-					}
-				}
-			}
-		}
-		collisionPolygonDebugRenderer.end();
 	}
 }
