@@ -85,6 +85,7 @@ public class StageActivity extends AndroidApplication {
 	public static final int ASK_MESSAGE = 0;
 	public static final int REGISTER_INTENT = 1;
 	private static final int PERFORM_INTENT = 2;
+	private static final int NUMBER_OF_BITS_PER_COLOR_CHANNEL = 8;
 
 	private StageAudioFocus stageAudioFocus;
 	private PendingIntent pendingIntent;
@@ -131,9 +132,8 @@ public class StageActivity extends AndroidApplication {
 		stageDialog = new StageDialog(this, stageListener, R.style.StageDialog);
 		calculateScreenSizes();
 
-		// need we this here?
 		configuration = new AndroidApplicationConfiguration();
-		configuration.r = configuration.g = configuration.b = configuration.a = 8;
+		configuration.r = configuration.g = configuration.b = configuration.a = NUMBER_OF_BITS_PER_COLOR_CHANNEL;
 
 		if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
