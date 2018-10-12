@@ -25,10 +25,12 @@ package org.catrobat.catroid.stage;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.os.SystemClock;
+import android.support.annotation.VisibleForTesting;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -91,6 +93,7 @@ public class StageListener implements ApplicationListener {
 	private static final int AXIS_WIDTH = 4;
 	private static final float DELTA_ACTIONS_DIVIDER_MAXIMUM = 50f;
 	private static final int ACTIONS_COMPUTATION_TIME_MAXIMUM = 8;
+	private static final float AXIS_FONT_SIZE_SCALE_FACTOR = 0.025f;
 
 	private float deltaActionTimeDivisor = 10f;
 	public static final String SCREENSHOT_AUTOMATIC_FILE_NAME = "automatic_screenshot" + DEFAULT_IMAGE_EXTENSION;
@@ -152,6 +155,7 @@ public class StageListener implements ApplicationListener {
 	public int maximizeViewPortWidth = 0;
 
 	public boolean axesOn = false;
+	private static final Color AXIS_COLOR = new Color(0xff000cff);
 
 	private byte[] thumbnail;
 	private Map<String, StageBackup> stageBackupMap = new HashMap<>();
@@ -160,14 +164,11 @@ public class StageListener implements ApplicationListener {
 
 	private Map<Sprite, ShowBubbleActor> bubbleActorMap = new HashMap<>();
 
-	StageListener() {
+	StageListener() { 		
 	}
 
 	@Override
 	public void create() {
-		font = new BitmapFont();
-		font.setColor(1f, 0f, 0.05f, 1f);
-		font.getData().setScale(1.2f);
 		deltaActionTimeDivisor = 10f;
 
 		shapeRenderer = new ShapeRenderer();
@@ -184,6 +185,8 @@ public class StageListener implements ApplicationListener {
 		}
 		initScreenMode();
 		initStageInputListener();
+
+		font = getLabelFont(project);
 
 		physicsWorld = scene.resetPhysicsWorld();
 		sprites = new ArrayList<>(scene.getSpriteList());
@@ -203,6 +206,28 @@ public class StageListener implements ApplicationListener {
 
 	public void setPaused(boolean paused) {
 		this.paused = paused;
+	}
+
+	private BitmapFont getLabelFont(Project project) {
+		BitmapFont font = new BitmapFont();
+		font.setColor(AXIS_COLOR);
+		font.getData().setScale(
+				getFontScaleFactor(project, font, new GlyphLayout()));
+		return font;
+	}
+
+	@VisibleForTesting
+	public float getFontScaleFactor(Project project, BitmapFont font, GlyphLayout tempAxisLabelLayout) {
+		tempAxisLabelLayout.setText(font, String.valueOf(project.getXmlHeader().virtualScreenWidth / 2));
+
+		float shortDisplaySide;
+		if (project.getXmlHeader().islandscapeMode()) {
+			shortDisplaySide = project.getXmlHeader().virtualScreenHeight;
+		} else {
+			shortDisplaySide = project.getXmlHeader().virtualScreenWidth;
+		}
+
+		return AXIS_FONT_SIZE_SCALE_FACTOR * shortDisplaySide / tempAxisLabelLayout.height;
 	}
 
 	private void createNewStage() {
@@ -559,19 +584,24 @@ public class StageListener implements ApplicationListener {
 	}
 
 	private void drawAxes() {
+		GlyphLayout layout = new GlyphLayout();
+		layout.setText(font, String.valueOf((int) virtualWidthHalf));
+
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		batch.draw(axes, -virtualWidthHalf, -AXIS_WIDTH / 2, virtualWidth, AXIS_WIDTH);
 		batch.draw(axes, -AXIS_WIDTH / 2, -virtualHeightHalf, AXIS_WIDTH, virtualHeight);
 
-		GlyphLayout layout = new GlyphLayout();
-		layout.setText(font, String.valueOf((int) virtualHeightHalf));
-		font.draw(batch, "-" + (int) virtualWidthHalf, -virtualWidthHalf + 3, -layout.height / 2);
-		font.draw(batch, String.valueOf((int) virtualWidthHalf), virtualWidthHalf - layout.width, -layout.height / 2);
+		final float fontOffset = layout.height / 2;
 
-		font.draw(batch, "-" + (int) virtualHeightHalf, layout.height / 2, -virtualHeightHalf + layout.height + 3);
-		font.draw(batch, String.valueOf((int) virtualHeightHalf), layout.height / 2, virtualHeightHalf - 3);
-		font.draw(batch, "0", layout.height / 2, -layout.height / 2);
+		font.draw(batch, "-" + (int) virtualWidthHalf, -virtualWidthHalf + fontOffset, -fontOffset);
+		font.draw(batch, String.valueOf((int) virtualWidthHalf), virtualWidthHalf - layout.width - fontOffset,
+				-fontOffset);
+
+		font.draw(batch, "-" + (int) virtualHeightHalf, fontOffset, -virtualHeightHalf + layout.height + fontOffset);
+		font.draw(batch, String.valueOf((int) virtualHeightHalf), fontOffset, virtualHeightHalf - fontOffset);
+
+		font.draw(batch, "0", fontOffset, -fontOffset);
 		batch.end();
 	}
 
