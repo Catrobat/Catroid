@@ -54,6 +54,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
+import org.catrobat.catroid.common.ThreadScheduler;
 import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
@@ -393,6 +394,7 @@ public class StageListener implements ApplicationListener {
 	@Override
 	public void resume() {
 		if (!paused) {
+			setSchedulerStateForAllLooks(ThreadScheduler.RUNNING);
 			FaceDetectionHandler.resumeFaceDetection();
 			SoundManager.getInstance().resume();
 		}
@@ -408,6 +410,7 @@ public class StageListener implements ApplicationListener {
 			return;
 		}
 		if (!paused) {
+			setSchedulerStateForAllLooks(ThreadScheduler.SUSPENDED);
 			FaceDetectionHandler.pauseFaceDetection();
 			SoundManager.getInstance().pause();
 		}
@@ -730,8 +733,13 @@ public class StageListener implements ApplicationListener {
 		return stage;
 	}
 
-	public void removeActor(Look look) {
-		look.remove();
+	private void setSchedulerStateForAllLooks(@ThreadScheduler.SchedulerState int state) {
+		for (Actor actor : stage.getActors()) {
+			if (actor instanceof Look) {
+				Look look = (Look) actor;
+				look.setSchedulerState(state);
+			}
+		}
 	}
 
 	public void setBubbleActorForSprite(Sprite sprite, ShowBubbleActor showBubbleActor) {
