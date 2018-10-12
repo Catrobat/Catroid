@@ -55,7 +55,6 @@ public class ThreadSchedulerTest {
 		actor = new Look(new Sprite());
 		scheduler = new ThreadScheduler(actor);
 		threadMock = mock(EventThread.class);
-		when(threadMock.act(anyFloat())).thenReturn(false);
 	}
 
 	@Test
@@ -149,6 +148,32 @@ public class ThreadSchedulerTest {
 
 		verify(threadThatKeepsRunning, times(3)).act(anyFloat());
 		verify(threadToBeStopped, times(2)).act(anyFloat());
+	}
+
+	@Test
+	public void dontExecuteThreadIfStateIsSuspended() {
+		when(threadMock.act(anyFloat())).thenReturn(true);
+
+		scheduler.startThread(threadMock);
+		scheduler.setState(ThreadScheduler.SUSPENDED);
+		scheduler.tick(1);
+
+		verify(threadMock, times(0)).act(anyFloat());
+		assertEquals(1, actor.getActions().size);
+		assertEquals(threadMock, actor.getActions().get(0));
+	}
+
+	@Test
+	public void executeThreadIfStateChangesToRunning() {
+		when(threadMock.act(anyFloat())).thenReturn(false);
+
+		scheduler.startThread(threadMock);
+		scheduler.setState(ThreadScheduler.SUSPENDED);
+		scheduler.tick(1);
+		scheduler.setState(ThreadScheduler.RUNNING);
+		scheduler.tick(1);
+
+		verify(threadMock, times(1)).act(anyFloat());
 	}
 
 	private EventThread createEventThread(Script script) {
