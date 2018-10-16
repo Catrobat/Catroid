@@ -25,7 +25,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:orientation="horizontal" >
+    android:orientation="horizontal">
 
     <CheckBox
         android:id="@+id/brick_checkbox"
@@ -36,9 +36,9 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_loop_end_layout"
-        style="@style/BrickContainer.Control.Small" >
+        style="@style/BrickContainer.Control.Small">
 
-        <include layout="@layout/icon_brick_category_control"/>
+        <include layout="@layout/icon_brick_category_control" />
 
         <TextView
             android:id="@+id/brick_loop_end_label"

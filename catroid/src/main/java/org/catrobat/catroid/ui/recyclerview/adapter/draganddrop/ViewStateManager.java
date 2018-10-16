@@ -20,23 +20,46 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.ui.adapter;
 
-import android.content.Context;
-import android.widget.BaseAdapter;
+package org.catrobat.catroid.ui.recyclerview.adapter.draganddrop;
 
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.ui.fragment.AddBrickFragment;
-import org.catrobat.catroid.ui.fragment.ScriptFragment;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
-import java.util.ArrayList;
-import java.util.List;
+public class ViewStateManager {
 
-public abstract class BrickBaseAdapter extends BaseAdapter {
+	private SortedSet<Integer> invisiblePositions = new TreeSet<>();
+	private SortedSet<Integer> disabledPositions = new TreeSet<>();
 
-	protected Context context;
-	protected ScriptFragment scriptFragment;
-	protected AddBrickFragment addBrickFragment;
-	protected List<Brick> checkedBricks = new ArrayList<>();
-	protected List<Brick> brickList;
+	public boolean isVisible(int position) {
+		return !invisiblePositions.contains(position);
+	}
+
+	public void setVisible(int position, boolean visible) {
+		if (visible) {
+			invisiblePositions.remove(position);
+		} else {
+			invisiblePositions.add(position);
+		}
+	}
+
+	public void setAllPositionsVisible() {
+		invisiblePositions.clear();
+	}
+
+	public boolean isEnabled(int position) {
+		return !disabledPositions.contains(position);
+	}
+
+	public void setEnabled(boolean enabled, int position) {
+		if (enabled) {
+			disabledPositions.remove(position);
+		} else {
+			disabledPositions.add(position);
+		}
+	}
+
+	public void clearDisabledPositions() {
+		disabledPositions.clear();
+	}
 }

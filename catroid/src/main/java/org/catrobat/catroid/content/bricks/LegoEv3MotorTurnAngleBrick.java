@@ -71,12 +71,6 @@ public class LegoEv3MotorTurnAngleBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		super.getPrototypeView(context);
-		return getView(context);
-	}
-
-	@Override
 	public View getView(final Context context) {
 		super.getView(context);
 

@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, AllowedAfterDeadEndBrick {
+public class IfLogicElseBrick extends BrickBaseType implements ControlStructureBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -58,31 +58,32 @@ public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, All
 	}
 
 	@Override
+	public boolean hasHelpPage() {
+		return false;
+	}
+
+	@Override
 	public int getViewResource() {
 		return R.layout.brick_if_else;
 	}
 
 	@Override
-	public boolean isInitialized() {
-		return ifBeginBrick != null && ifEndBrick != null;
+	public Brick getFirstBrick() {
+		return ifBeginBrick;
 	}
 
 	@Override
-	public void initialize() {
+	public Brick getLastBrick() {
+		return ifEndBrick;
 	}
 
 	@Override
-	public boolean isDraggableOver(Brick brick) {
-		return brick != ifBeginBrick && brick != ifEndBrick;
-	}
-
-	@Override
-	public List<NestingBrick> getAllNestingBrickParts() {
-		List<NestingBrick> nestingBrickList = new ArrayList<>();
-		nestingBrickList.add(ifBeginBrick);
-		nestingBrickList.add(this);
-		nestingBrickList.add(ifEndBrick);
-		return nestingBrickList;
+	public List<Brick> getAllParts() {
+		List<Brick> parts = new ArrayList<>();
+		parts.add(ifBeginBrick);
+		parts.add(this);
+		parts.add(ifEndBrick);
+		return parts;
 	}
 
 	@Override

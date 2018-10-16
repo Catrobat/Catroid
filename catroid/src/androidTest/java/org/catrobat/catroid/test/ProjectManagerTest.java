@@ -28,6 +28,11 @@ import android.support.test.runner.AndroidJUnit4;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.ControlStructureBrick;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
@@ -46,6 +51,7 @@ import org.junit.runner.RunWith;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -185,8 +191,36 @@ public class ProjectManagerTest {
 		assertNotNull(project);
 		assertEquals(PROJECT_NAME_NESTING_BRICKS, project.getName());
 
-		assertTrue(projectManager.checkNestingBrickReferences(false, false));
+		for (Scene scene : project.getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				for (Script script : sprite.getScriptList()) {
+					assertFalse(containsControlBricksWithInvalidReferences(script.getBrickList()));
+				}
+			}
+		}
 
 		TestUtils.deleteProjects(PROJECT_NAME_NESTING_BRICKS);
+	}
+
+	private boolean containsControlBricksWithInvalidReferences(List<Brick> bricks) {
+		for (Brick brick : bricks) {
+			if (brick instanceof ControlStructureBrick && hasInvalidReference((ControlStructureBrick) brick, bricks)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean hasInvalidReference(ControlStructureBrick brick, List<Brick> bricks) {
+		List<Brick> brickParts = brick.getAllParts();
+		if (brickParts.contains(null)) {
+			return true;
+		}
+		for (Brick brickPart : brickParts) {
+			if (!(bricks.contains(brickPart))) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

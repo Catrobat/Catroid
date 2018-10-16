@@ -82,12 +82,6 @@ public class PhiroIfLogicBeginBrick extends BrickBaseType implements IfElseLogic
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		super.getPrototypeView(context);
-		return getView(context);
-	}
-
-	@Override
 	public View getView(Context context) {
 		super.getView(context);
 		Spinner spinner = view.findViewById(R.id.brick_phiro_sensor_action_spinner);
@@ -115,28 +109,22 @@ public class PhiroIfLogicBeginBrick extends BrickBaseType implements IfElseLogic
 	}
 
 	@Override
-	public boolean isInitialized() {
-		return ifElseBrick != null;
+	public Brick getFirstBrick() {
+		return this;
 	}
 
 	@Override
-	public void initialize() {
-		ifElseBrick = new IfLogicElseBrick(this);
-		ifEndBrick = new IfLogicEndBrick(this, ifElseBrick);
+	public Brick getLastBrick() {
+		return ifEndBrick;
 	}
 
 	@Override
-	public boolean isDraggableOver(Brick brick) {
-		return brick != ifElseBrick;
-	}
-
-	@Override
-	public List<NestingBrick> getAllNestingBrickParts() {
-		List<NestingBrick> nestingBrickList = new ArrayList<>();
-		nestingBrickList.add(this);
-		nestingBrickList.add(ifElseBrick);
-		nestingBrickList.add(ifEndBrick);
-		return nestingBrickList;
+	public List<Brick> getAllParts() {
+		List<Brick> parts = new ArrayList<>();
+		parts.add(this);
+		parts.add(ifElseBrick);
+		parts.add(ifEndBrick);
+		return parts;
 	}
 
 	@Override

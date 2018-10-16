@@ -29,7 +29,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
@@ -96,16 +95,6 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType {
 		}
 
 		return arrayAdapter;
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-		Spinner pointToSpinner = prototypeView.findViewById(R.id.brick_set_physics_object_type_spinner);
-		SpinnerAdapter objectTypeSpinnerAdapter = createAdapter(context);
-		pointToSpinner.setAdapter(objectTypeSpinnerAdapter);
-		pointToSpinner.setSelection(PhysicsObject.Type.DYNAMIC.ordinal());
-		return prototypeView;
 	}
 
 	@Override

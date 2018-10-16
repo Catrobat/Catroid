@@ -20,13 +20,17 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.commands;
+package org.catrobat.catroid.content.bricks;
 
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.FormulaBrick;
-import org.catrobat.catroid.formulaeditor.Formula;
+import java.util.List;
 
-public interface OnFormulaChangedListener {
+public interface ControlStructureBrick {
 
-	void onFormulaChanged(FormulaBrick formulaBrick, Brick.BrickField brickField, Formula newFormula);
+	// FKA NestingBrick
+
+	Brick getFirstBrick();
+
+	Brick getLastBrick();
+
+	List<Brick> getAllParts();
 }

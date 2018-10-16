@@ -22,21 +22,14 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import org.catrobat.catroid.R;
-
-public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
+public class LoopEndlessBrick extends LoopEndBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	LoopEndlessBrick() {
+	public LoopEndlessBrick() {
 	}
 
 	public LoopEndlessBrick(LoopBeginBrick loopBeginBrick) {
 		super(loopBeginBrick);
-	}
-
-	@Override
-	public int getViewResource() {
-		return R.layout.brick_loop_endless;
 	}
 }

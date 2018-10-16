@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.content.bricks;
 
-public interface IfElseLogicBeginBrick extends Brick, NestingBrick {
+public interface IfElseLogicBeginBrick extends Brick, ControlStructureBrick {
 
 	IfLogicElseBrick getIfElseBrick();
 

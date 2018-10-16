@@ -20,16 +20,38 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.utils;
 
-package org.catrobat.catroid.ui;
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.content.Context;
 
-public interface DragAndDropBrickLayoutListener {
+import java.util.Locale;
 
-	/**
-	 * Re-orders elements in a list.
-	 * Removes element at <b>from</b> and adds it after element at <b>to</b>
-	 */
-	void reorder(int from, int to);
+public final class DeviceSettingsProvider {
 
-	void click(int id);
+	private static final String SERVER_VALUE_FOR_UNDEFINED_COUNTRY = "aq";
+
+	public static String getUserEmail(Context context) {
+		if (context == null) {
+			return null;
+		}
+		Account[] accounts = AccountManager.get(context).getAccountsByType("com.google");
+		if (accounts.length > 0) {
+			return accounts[0].name;
+		}
+		return null;
+	}
+
+	public static String getUserCountryCode() {
+		String country = Locale.getDefault().getCountry();
+		if (country.isEmpty()) {
+			country = SERVER_VALUE_FOR_UNDEFINED_COUNTRY;
+		}
+		return country;
+	}
+
+	private DeviceSettingsProvider() {
+		throw new AssertionError("No.");
+	}
 }

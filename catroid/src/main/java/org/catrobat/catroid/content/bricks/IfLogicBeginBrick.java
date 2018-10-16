@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
@@ -88,50 +87,33 @@ public class IfLogicBeginBrick extends FormulaBrick implements IfElseLogicBeginB
 	}
 
 	@Override
-	public View getView(Context context) {
-		super.getView(context);
-		onSuperGetViewCalled(context);
-		return view;
-	}
-
-	protected void onSuperGetViewCalled(Context context) {
-		//For ridiculous inheritance -> to override from PhiroIfLogicBeginBrick
-		//Should be removed asap.
-		hidePrototypeElseAndPunctuation();
-	}
-
-	void hidePrototypeElseAndPunctuation() {
+	public void onPrototypeViewCreated() {
+		super.onPrototypeViewCreated();
 		TextView prototypeTextPunctuation = view.findViewById(R.id.if_else_prototype_punctuation);
 		TextView prototypeTextElse = view.findViewById(R.id.if_prototype_else);
 		TextView prototypeTextPunctuation2 = view.findViewById(R.id.if_else_prototype_punctuation2);
-		prototypeTextPunctuation.setVisibility(View.GONE);
-		prototypeTextElse.setVisibility(View.GONE);
-		prototypeTextPunctuation2.setVisibility(View.GONE);
+		prototypeTextPunctuation.setVisibility(View.VISIBLE);
+		prototypeTextElse.setVisibility(View.VISIBLE);
+		prototypeTextPunctuation2.setVisibility(View.VISIBLE);
 	}
 
 	@Override
-	public boolean isInitialized() {
-		return ifElseBrick != null;
+	public Brick getFirstBrick() {
+		return this;
 	}
 
 	@Override
-	public void initialize() {
-		ifElseBrick = new IfLogicElseBrick(this);
-		ifEndBrick = new IfLogicEndBrick(this, ifElseBrick);
+	public Brick getLastBrick() {
+		return ifEndBrick;
 	}
 
 	@Override
-	public boolean isDraggableOver(Brick brick) {
-		return brick != ifElseBrick;
-	}
-
-	@Override
-	public List<NestingBrick> getAllNestingBrickParts() {
-		List<NestingBrick> nestingBrickList = new ArrayList<>();
-		nestingBrickList.add(this);
-		nestingBrickList.add(ifElseBrick);
-		nestingBrickList.add(ifEndBrick);
-		return nestingBrickList;
+	public List<Brick> getAllParts() {
+		List<Brick> parts = new ArrayList<>();
+		parts.add(this);
+		parts.add(ifElseBrick);
+		parts.add(ifEndBrick);
+		return parts;
 	}
 
 	@Override

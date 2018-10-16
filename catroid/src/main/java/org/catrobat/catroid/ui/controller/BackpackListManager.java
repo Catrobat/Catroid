@@ -24,7 +24,6 @@ package org.catrobat.catroid.ui.controller;
 
 import android.os.AsyncTask;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Backpack;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
@@ -32,6 +31,7 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.BackpackSerializer;
+import org.catrobat.catroid.ui.recyclerview.controller.BrickController;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -138,7 +138,14 @@ public final class BackpackListManager {
 			setLookFileReferences(getBackpackedLooks(), BACKPACK_IMAGE_DIRECTORY);
 			setSoundFileReferences(getBackpackedSounds(), BACKPACK_SOUND_DIRECTORY);
 
-			ProjectManager.getInstance().checkNestingBrickReferences(false, true);
+			BrickController brickController = new BrickController();
+
+			for (Iterable<Script> scripts : getBackpackedScripts().values()) {
+				for (Script script : scripts) {
+					brickController.setControlBrickReferences(script.getBrickList());
+				}
+			}
+
 			return null;
 		}
 

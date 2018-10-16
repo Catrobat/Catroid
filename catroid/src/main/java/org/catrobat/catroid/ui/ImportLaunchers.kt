@@ -27,14 +27,13 @@ import android.content.ComponentName
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.provider.MediaStore.ACTION_IMAGE_CAPTURE
+import android.support.v4.content.FileProvider
 import android.support.v7.app.AppCompatActivity
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants.*
 import org.catrobat.catroid.ui.WebViewActivity.INTENT_PARAMETER_URL
-import android.provider.MediaStore
-import org.catrobat.catroid.common.Constants.FILE_PROVIDER_AUTHORITY
-import android.support.v4.content.FileProvider
 import java.io.File
 
 

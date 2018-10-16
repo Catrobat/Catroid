@@ -38,13 +38,7 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_nxt_motor_turn_layout"
-        style="@style/BrickContainer.Lego.Small"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
-        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing">
+        style="@style/BrickContainer.Lego.Small">
 
         <include layout="@layout/icon_brick_category_legonxt" />
 
@@ -57,16 +51,12 @@
             android:id="@+id/lego_motor_turn_angle_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:clickable="false"
-            android:focusable="false"
-            android:textDirection="locale">
-        </Spinner>
+            android:textDirection="locale" />
 
         <TextView
             style="@style/BrickText.Multiple"
             android:text="@string/nxt_motor_move_by"
-            app:layout_newLine="true">
-        </TextView>
+            app:layout_newLine="true" />
 
         <TextView
             android:id="@+id/motor_turn_angle_edit_text"
@@ -75,13 +65,11 @@
             android:layout_height="wrap_content"
             android:maxEms="5"
             app:layout_inputType="number"
-            app:layout_textField="true">
-        </TextView>
+            app:layout_textField="true" />
 
         <TextView
             style="@style/BrickText"
-            android:text="@string/degree_symbol">
-        </TextView>
+            android:text="@string/degree_symbol" />
 
     </org.catrobat.catroid.ui.BrickLayout>
 

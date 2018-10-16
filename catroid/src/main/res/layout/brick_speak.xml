@@ -23,11 +23,11 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:gravity="center_vertical"
-              android:orientation="horizontal" >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
 
     <CheckBox
         android:id="@+id/brick_checkbox"
@@ -38,21 +38,15 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_speak_layout"
-        style="@style/BrickContainer.Sound.Medium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
-        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
+        style="@style/BrickContainer.Sound.Medium">
 
-        <include layout="@layout/icon_brick_category_sound"/>
+        <include layout="@layout/icon_brick_category_sound" />
 
         <TextView
             android:id="@+id/brick_speak_label"
             style="@style/BrickText.SingleLine"
-            android:text="@string/brick_speak" >
-        </TextView >
+            android:text="@string/brick_speak">
+        </TextView>
 
         <TextView
             android:id="@+id/brick_speak_edit_text"
@@ -60,8 +54,8 @@
             android:layout_width="match_parent"
             app:layout_inputType="text"
             app:layout_textField="true"
-            android:gravity="start" >
-        </TextView >
-    </org.catrobat.catroid.ui.BrickLayout >
+            android:gravity="start">
+        </TextView>
+    </org.catrobat.catroid.ui.BrickLayout>
 
 </LinearLayout>

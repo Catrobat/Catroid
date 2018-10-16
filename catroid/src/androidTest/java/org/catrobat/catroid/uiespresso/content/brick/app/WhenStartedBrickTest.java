@@ -26,7 +26,6 @@ package org.catrobat.catroid.uiespresso.content.brick.app;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
@@ -36,7 +35,6 @@ import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.matchers.BrickCategoryListMatchers;
 import org.catrobat.catroid.uiespresso.util.matchers.BrickPrototypeListMatchers;
-import org.catrobat.catroid.uiespresso.util.matchers.ScriptListMatchers;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.hamcrest.core.Is;
 import org.junit.Before;
@@ -70,7 +68,7 @@ public class WhenStartedBrickTest {
 
 	@Category({Cat.CatrobatLanguage.class, Level.Smoke.class})
 	@Test
-	public void whenStartedBrick() {
+	public void testDeleteAndAddWhenStartedBrick() {
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
 		onBrickAtPosition(1).checkShowsText(R.string.brick_note);
 
@@ -79,23 +77,15 @@ public class WhenStartedBrickTest {
 		onView(withId(R.string.brick_when_started)).check(doesNotExist());
 		onView(withId(R.string.brick_note)).check(doesNotExist());
 
-		addBrickViaUi(WaitBrick.class, R.string.category_control);
+		onView(withId(R.id.button_add))
+				.perform(click());
+		onData(allOf(Is.is(instanceOf(String.class)), Is.is(UiTestUtils.getResourcesString(R.string.category_control))))
+				.inAdapterView(BrickCategoryListMatchers.isBrickCategoryView())
+				.perform(click());
+		onData(Is.is(instanceOf(WaitBrick.class))).inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView())
+				.perform(click());
 
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
 		onBrickAtPosition(1).checkShowsText(R.string.brick_wait);
-	}
-
-	public void addBrickViaUi(Class<?> brickHeaderClass, int brickCategoryId) {
-		onView(withId(R.id.button_add))
-				.perform(click());
-		onData(allOf(Is.is(instanceOf(String.class)), Is.is(UiTestUtils.getResourcesString(brickCategoryId))))
-				.inAdapterView(BrickCategoryListMatchers.isBrickCategoryView())
-				.perform(click());
-		onData(Is.is(instanceOf(brickHeaderClass))).inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView())
-				.perform(click());
-
-		onData(instanceOf(Brick.class))
-				.inAdapterView(ScriptListMatchers.isScriptListView()).atPosition(1)
-				.perform(click());
 	}
 }

@@ -43,6 +43,13 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 	}
 
 	@Override
+	public BrickBaseType clone() throws CloneNotSupportedException {
+		ForeverBrick clone = (ForeverBrick) super.clone();
+		clone.loopEndBrick = null;
+		return clone;
+	}
+
+	@Override
 	public int getViewResource() {
 		return R.layout.brick_forever;
 	}
@@ -58,26 +65,21 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 	}
 
 	@Override
-	public boolean isInitialized() {
-		return (loopEndBrick != null);
+	public Brick getFirstBrick() {
+		return this;
 	}
 
 	@Override
-	public void initialize() {
-		loopEndBrick = new LoopEndlessBrick(this);
+	public Brick getLastBrick() {
+		return loopEndBrick;
 	}
 
 	@Override
-	public boolean isDraggableOver(Brick brick) {
-		return (loopEndBrick != null);
-	}
-
-	@Override
-	public List<NestingBrick> getAllNestingBrickParts() {
-		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
-		nestingBrickList.add(this);
-		nestingBrickList.add(loopEndBrick);
-		return nestingBrickList;
+	public List<Brick> getAllParts() {
+		List<Brick> parts = new ArrayList<>();
+		parts.add(this);
+		parts.add(loopEndBrick);
+		return parts;
 	}
 
 	@Override

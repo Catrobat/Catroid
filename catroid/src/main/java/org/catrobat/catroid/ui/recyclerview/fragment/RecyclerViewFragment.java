@@ -342,7 +342,6 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	protected void finishActionMode() {
 		adapter.clearSelection();
 		setShowProgressBar(false);
-
 		if (actionModeType != NONE) {
 			actionMode.finish();
 		}

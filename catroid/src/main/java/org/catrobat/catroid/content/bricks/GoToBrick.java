@@ -60,12 +60,6 @@ public class GoToBrick extends BrickBaseType implements BrickSpinner.OnItemSelec
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		super.getPrototypeView(context);
-		return getView(context);
-	}
-
-	@Override
 	public View getView(Context context) {
 		super.getView(context);
 

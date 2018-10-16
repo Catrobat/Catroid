@@ -77,18 +77,6 @@ public class SetLookByIndexBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-
-		if (getSprite().getName().equals(context.getString(R.string.background))) {
-			TextView label = prototypeView.findViewById(R.id.brick_set_look_by_index_label);
-			label.setText(R.string.brick_set_background_by_index);
-		}
-
-		return prototypeView;
-	}
-
-	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
 				.createSetLookByIndexAction(sprite, getFormulaWithBrickField(BrickField.LOOK_INDEX), wait));

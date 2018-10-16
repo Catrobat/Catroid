@@ -23,11 +23,11 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:gravity="center_vertical"
-              android:orientation="horizontal" >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
 
     <CheckBox
         android:id="@+id/brick_checkbox"
@@ -38,14 +38,9 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_change_variable_layout"
-        style="@style/BrickContainer.UserVariables.Medium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
-        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
+        style="@style/BrickContainer.UserVariables.Medium">
 
-        <include layout="@layout/icon_brick_category_data"/>
+        <include layout="@layout/icon_brick_category_data" />
 
         <TextView
             android:id="@+id/brick_change_variable_label"
@@ -56,9 +51,7 @@
             android:id="@+id/change_variable_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="false"
-            android:textDirection="locale"
-            android:focusable="false" />
+            android:textDirection="locale" />
 
         <TextView
             android:id="@+id/brick_change_variable_by"
@@ -70,6 +63,7 @@
             style="@style/BrickEditText"
             app:layout_inputType="number"
             app:layout_textField="true" />
-    </org.catrobat.catroid.ui.BrickLayout >
+
+    </org.catrobat.catroid.ui.BrickLayout>
 
 </LinearLayout>

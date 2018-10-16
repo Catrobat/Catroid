@@ -38,56 +38,43 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_nxt_motor_action_layout"
-        style="@style/BrickContainer.Lego.Medium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
-        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing">
+        style="@style/BrickContainer.Lego.Medium">
 
         <include layout="@layout/icon_brick_category_legonxt" />
 
-                <TextView
-                    android:id="@+id/lego_motor_action_label"
-                    style="@style/BrickText.Multiple"
-                    android:text="@string/nxt_brick_motor_move">
-                </TextView>
+        <TextView
+            android:id="@+id/lego_motor_action_label"
+            style="@style/BrickText.Multiple"
+            android:text="@string/nxt_brick_motor_move" />
 
-                <Spinner
-                    android:id="@+id/lego_motor_action_spinner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:textDirection="locale">
-                </Spinner>
+        <Spinner
+            android:id="@+id/lego_motor_action_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textDirection="locale" />
 
-                <TextView
-                    android:id="@+id/lego_motor_action_to_text"
-                    style="@style/BrickText.Multiple"
-                    android:text="@string/nxt_motor_speed_to"
-                    app:layout_newLine="true">
-                </TextView>
-                <TextView
-                    android:id="@+id/lego_motor_action_speed_text"
-                    style="@style/BrickText"
-                    android:paddingStart="5dip"
-                    android:text="@string/nxt_motor_speed">
-                </TextView>
+        <TextView
+            android:id="@+id/lego_motor_action_to_text"
+            style="@style/BrickText.Multiple"
+            android:text="@string/nxt_motor_speed_to"
+            app:layout_newLine="true" />
 
-                <TextView
-                    android:id="@+id/motor_action_speed_edit_text"
-                    style="@style/BrickEditText"
-                    app:layout_inputType="number"
-                    app:layout_textField="true">
-                </TextView>
+        <TextView
+            android:id="@+id/lego_motor_action_speed_text"
+            style="@style/BrickText"
+            android:paddingStart="5dip"
+            android:text="@string/nxt_motor_speed" />
 
-                <TextView
-                    android:id="@+id/lego_motor_action_percent"
-                    style="@style/BrickText"
-                    android:text="@string/percent_symbol">
-                </TextView>
+        <TextView
+            android:id="@+id/motor_action_speed_edit_text"
+            style="@style/BrickEditText"
+            app:layout_inputType="number"
+            app:layout_textField="true" />
+
+        <TextView
+            android:id="@+id/lego_motor_action_percent"
+            style="@style/BrickText"
+            android:text="@string/percent_symbol" />
 
     </org.catrobat.catroid.ui.BrickLayout>
 

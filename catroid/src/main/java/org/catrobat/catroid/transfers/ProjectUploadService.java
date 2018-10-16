@@ -37,11 +37,11 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.io.ZipArchiver;
+import org.catrobat.catroid.utils.DeviceSettingsProvider;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.UtilDeviceInfo;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
@@ -49,6 +49,7 @@ import org.catrobat.catroid.web.WebconnectionException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Locale;
 
 public class ProjectUploadService extends IntentService {
 
@@ -143,10 +144,10 @@ public class ProjectUploadService extends IntentService {
 			}
 
 			if (userEmail.equals(Constants.NO_EMAIL)) {
-				userEmail = UtilDeviceInfo.getUserEmail(this);
+				userEmail = DeviceSettingsProvider.getUserEmail(this);
 			}
 
-			String language = UtilDeviceInfo.getUserLanguageCode();
+			String language = Locale.getDefault().getLanguage();
 
 			uploadBackupBundle.putString("projectName", projectName);
 			uploadBackupBundle.putString("projectDescription", projectDescription);

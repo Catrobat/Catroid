@@ -23,11 +23,11 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:gravity="center_vertical"
-              android:orientation="horizontal" >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
 
    <CheckBox
        android:id="@+id/brick_checkbox"
@@ -38,61 +38,56 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_set_pen_color_layout"
-        style="@style/BrickContainer.Pen.Medium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
-        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
+        style="@style/BrickContainer.Pen.Medium">
 
-     <include layout="@layout/icon_brick_category_pen"/>
+     <include layout="@layout/icon_brick_category_pen" />
 
     <TextView
         android:id="@+id/brick_set_pen_color_action_label"
         style="@style/BrickText.SingleLine"
-        android:text="@string/brick_pen_color" >
+        android:text="@string/brick_pen_color">
     </TextView>
 
     <TextView
         android:id="@+id/brick_set_pen_color_red_text_view"
         style="@style/BrickText"
         app:layout_newLine="true"
-        android:text="@string/phiro_rgb_led_red" >
+        android:text="@string/phiro_rgb_led_red">
     </TextView>
 
     <TextView
         android:id="@+id/brick_set_pen_color_action_red_edit_text"
         style="@style/BrickEditText"
         app:layout_inputType="number"
-        app:layout_textField="true" >
+        app:layout_textField="true">
     </TextView>
 
     <TextView
         android:id="@+id/brick_set_pen_color_green_text_view"
         style="@style/BrickText"
-        android:text="@string/phiro_rgb_led_green" >
+        android:text="@string/phiro_rgb_led_green">
     </TextView>
 
     <TextView
         android:id="@+id/brick_set_pen_color_action_green_edit_text"
         style="@style/BrickEditText"
         app:layout_inputType="number"
-        app:layout_textField="true" >
+        app:layout_textField="true">
     </TextView>
 
     <TextView
         android:id="@+id/brick_set_pen_color_blue_text_view"
         style="@style/BrickText"
-        android:text="@string/phiro_rgb_led_blue" >
+        android:text="@string/phiro_rgb_led_blue">
     </TextView>
 
     <TextView
         android:id="@+id/brick_set_pen_color_action_blue_edit_text"
         style="@style/BrickEditText"
         app:layout_inputType="number"
-        app:layout_textField="true" >
+        app:layout_textField="true">
     </TextView>
 
-    </org.catrobat.catroid.ui.BrickLayout >
+    </org.catrobat.catroid.ui.BrickLayout>
 
 </LinearLayout>

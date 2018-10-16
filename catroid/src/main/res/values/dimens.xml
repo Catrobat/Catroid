@@ -46,10 +46,6 @@
     <dimen name="text_size_xxlarge" >24sp</dimen >
     <dimen name="brick_category_height" >90dp</dimen >
 
-    <!-- UserBrickDataEditorFragment -->
-    <dimen name="brick_data_edit_cursor_size">58dp</dimen>
-    <!-- -->
-
     <!-- Dialog -->
     <dimen name="dialog_relative_layout_padding" >40dp</dimen >
     <dimen name="dialog_text_view_text_size_large" >40sp</dimen >

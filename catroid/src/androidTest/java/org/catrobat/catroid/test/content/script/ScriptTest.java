@@ -34,7 +34,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -59,7 +59,7 @@ public class ScriptTest {
 		script.addBrick(showBrick);
 		script.addBrick(placeAtBrick);
 
-		ArrayList<Brick> brickList = script.getBrickList();
+		List<Brick> brickList = script.getBrickList();
 
 		assertEquals(3, brickList.size());
 		assertEquals(0, brickList.indexOf(hideBrick));

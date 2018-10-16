@@ -53,7 +53,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -395,7 +394,7 @@ public class UtilsTest {
 
 	private void removeBrickAndCompareToDefaultProject() {
 		Script catroidScript = defaultProject.getDefaultScene().getSpriteList().get(1).getScript(0);
-		ArrayList<Brick> brickList = catroidScript.getBrickList();
+		List<Brick> brickList = catroidScript.getBrickList();
 		Brick brick = brickList.get(brickList.size() - 1);
 		brickList.remove(brickList.size() - 1);
 		assertFalse(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));

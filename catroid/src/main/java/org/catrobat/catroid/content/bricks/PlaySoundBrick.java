@@ -75,12 +75,6 @@ public class PlaySoundBrick extends BrickBaseType implements BrickSpinner.OnItem
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		super.getPrototypeView(context);
-		return getView(context);
-	}
-
-	@Override
 	public View getView(Context context) {
 		super.getView(context);
 		onViewCreated(view);

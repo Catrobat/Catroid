@@ -23,7 +23,6 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
@@ -38,15 +37,9 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_clone_layout"
-        style="@style/BrickContainer.Control.Medium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
-        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing">
+        style="@style/BrickContainer.Control.Medium">
 
-        <include layout="@layout/icon_brick_category_control"/>
+        <include layout="@layout/icon_brick_category_control" />
 
         <TextView
             android:id="@+id/brick_clone_label"
@@ -57,9 +50,8 @@
             android:id="@+id/brick_clone_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="false"
-            android:textDirection="locale"
-            android:focusable="false" />
+            android:textDirection="locale" />
+
     </org.catrobat.catroid.ui.BrickLayout>
 
 </LinearLayout>

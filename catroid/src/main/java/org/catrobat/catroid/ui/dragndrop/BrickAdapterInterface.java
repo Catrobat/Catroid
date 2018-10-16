@@ -20,43 +20,24 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.utils;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
-import android.content.Context;
+package org.catrobat.catroid.ui.dragndrop;
 
-import java.util.Locale;
+import org.catrobat.catroid.content.bricks.BrickBaseType;
 
-public final class UtilDeviceInfo {
+import java.util.List;
 
-	private static final String SERVER_VALUE_FOR_UNDEFINED_COUNTRY = "aq";
+public interface BrickAdapterInterface {
 
-	// Suppress default constructor for noninstantiability
-	private UtilDeviceInfo() {
-		throw new AssertionError();
-	}
+	void setItemVisible(int position, boolean visible);
 
-	public static String getUserEmail(Context context) {
-		if (context == null) {
-			return null;
-		}
-		Account[] accounts = AccountManager.get(context).getAccountsByType("com.google");
-		if (accounts.length > 0) {
-			return accounts[0].name;
-		}
-		return null;
-	}
+	void setAllPositionsVisible();
 
-	public static String getUserLanguageCode() {
-		return Locale.getDefault().getLanguage();
-	}
+	boolean onItemMove(int fromPosition, int toPosition);
 
-	public static String getUserCountryCode() {
-		String country = Locale.getDefault().getCountry();
-		if (country.isEmpty()) {
-			country = SERVER_VALUE_FOR_UNDEFINED_COUNTRY;
-		}
-		return country;
-	}
+	void moveItemsTo(int position, List<BrickBaseType> bricksToMove);
+
+	BrickBaseType getItem(int position);
+
+	boolean removeItems(List<BrickBaseType> items);
 }

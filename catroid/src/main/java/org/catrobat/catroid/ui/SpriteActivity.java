@@ -32,6 +32,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -59,6 +60,7 @@ import org.catrobat.catroid.pocketmusic.PocketMusicActivity;
 import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.ui.dragndrop.DragAndDropInterface;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.PlaySceneDialog;
@@ -207,16 +209,35 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		boolean isDragAndDropActiveInFragment = getCurrentFragment() instanceof DragAndDropInterface
+				&& ((DragAndDropInterface) getCurrentFragment()).isCurrentlyMoving();
+
+		if (item.getItemId() == android.R.id.home && isDragAndDropActiveInFragment) {
+			((DragAndDropInterface) getCurrentFragment()).highlightMovingItem();
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
 	public void onBackPressed() {
+		boolean isDragAndDropActiveInFragment = getCurrentFragment() instanceof DragAndDropInterface
+				&& ((DragAndDropInterface) getCurrentFragment()).isCurrentlyMoving();
+
+		if (isDragAndDropActiveInFragment) {
+			((DragAndDropInterface) getCurrentFragment()).cancelMove();
+			return;
+		}
 		if (getCurrentFragment() instanceof FormulaEditorFragment) {
 			((FormulaEditorFragment) getCurrentFragment()).promptSave();
-		} else {
-			if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-				getSupportFragmentManager().popBackStack();
-			} else {
-				super.onBackPressed();
-			}
+			return;
 		}
+		if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+			getSupportFragmentManager().popBackStack();
+			return;
+		}
+		super.onBackPressed();
 	}
 
 	@Override
@@ -719,12 +740,11 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	public void handlePlayButton(View view) {
-		boolean draggingActive = getCurrentFragment() instanceof ScriptFragment
-				&& ((ScriptFragment) getCurrentFragment()).getListView().isCurrentlyDragging();
+		boolean isDragAndDropActiveInFragment = getCurrentFragment() instanceof DragAndDropInterface
+				&& ((DragAndDropInterface) getCurrentFragment()).isCurrentlyMoving();
 
-		if (draggingActive) {
-			ScriptFragment fragment = ((ScriptFragment) getCurrentFragment());
-			fragment.getListView().animateHoveringBrick();
+		if (isDragAndDropActiveInFragment) {
+			((DragAndDropInterface) getCurrentFragment()).highlightMovingItem();
 			return;
 		}
 

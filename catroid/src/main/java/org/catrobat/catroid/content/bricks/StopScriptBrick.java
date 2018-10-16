@@ -73,15 +73,6 @@ public class StopScriptBrick extends BrickBaseType {
 		return view;
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-		Spinner spinner = prototypeView.findViewById(R.id.brick_stop_script_spinner);
-		spinner.setAdapter(createArrayAdapter(context));
-		spinner.setSelection(spinnerSelection);
-		return prototypeView;
-	}
-
 	private ArrayAdapter<String> createArrayAdapter(Context context) {
 		String[] values = new String[3];
 		values[BrickValues.STOP_THIS_SCRIPT] = context.getString(R.string.brick_stop_this_script);

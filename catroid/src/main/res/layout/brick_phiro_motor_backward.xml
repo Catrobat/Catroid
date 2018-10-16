@@ -38,46 +38,34 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_phiro_motor_backward_action_layout"
-        style="@style/BrickContainer.Phiro.Big"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
-        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing">
+        style="@style/BrickContainer.Phiro.Big">
 
         <include layout="@layout/icon_brick_category_phiro" />
 
         <TextView
             style="@style/BrickText.SingleLine"
-            android:text="@string/brick_phiro_motor_backward_action">
-        </TextView>
+            android:text="@string/brick_phiro_motor_backward_action" />
 
         <Spinner
             android:id="@+id/brick_phiro_motor_backward_action_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="false"
-            android:focusable="false"
-            android:textDirection="locale">
-        </Spinner>
+            android:textDirection="locale" />
 
         <TextView
             style="@style/BrickText.SingleLine"
-            android:text="@string/phiro_motor_speed">
-        </TextView>
+            android:text="@string/phiro_motor_speed" />
 
         <TextView
             android:id="@+id/brick_phiro_motor_backward_action_speed_edit_text"
             style="@style/BrickEditText"
             app:layout_inputType="number"
-            app:layout_textField="true">
-        </TextView>
+            app:layout_textField="true" />
 
         <TextView
             style="@style/BrickText"
-            android:text="@string/percent_symbol">
-        </TextView>
+            android:text="@string/percent_symbol" />
+
     </org.catrobat.catroid.ui.BrickLayout>
 
 </LinearLayout>

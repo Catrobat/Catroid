@@ -24,12 +24,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/BrickCategory.Drone">
 
-    <include layout="@layout/icon_brick_category_ardrone"/>
+    <include layout="@layout/icon_brick_category_ardrone" />
 
     <TextView
         style="@style/BrickCategoryText"
         android:drawableEnd="@drawable/main_menu_button_arrow"
-        android:text="@string/category_drone" >
-    </TextView >
+        android:text="@string/category_drone">
+    </TextView>
 
 </LinearLayout>
