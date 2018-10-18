@@ -46,10 +46,17 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 	private RaspiInterruptScript script;
 
 	public WhenRaspiPinChangedBrick(RaspiInterruptScript script) {
+		script.setScriptBrick(this);
+		commentedOut = script.isCommentedOut();
 		this.script = script;
-		if (script.isCommentedOut()) {
-			setCommentedOut(true);
-		}
+	}
+
+	@Override
+	public BrickBaseType clone() throws CloneNotSupportedException {
+		WhenRaspiPinChangedBrick clone = (WhenRaspiPinChangedBrick) super.clone();
+		clone.script = (RaspiInterruptScript) script.clone();
+		clone.script.setScriptBrick(clone);
+		return clone;
 	}
 
 	@Override
@@ -143,18 +150,13 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 	}
 
 	@Override
-	public Brick clone() {
-		return new WhenRaspiPinChangedBrick(script);
-	}
-
-	@Override
-	public RaspiInterruptScript getScriptSafe() {
+	public RaspiInterruptScript getScript() {
 		return script;
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return Brick.SOCKET_RASPI;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(SOCKET_RASPI);
 	}
 
 	@Override

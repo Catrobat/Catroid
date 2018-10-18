@@ -39,7 +39,7 @@ import org.junit.runners.model.Statement;
 import java.io.File;
 import java.io.IOException;
 
-import static org.catrobat.catroid.common.Constants.DEFAULT_ROOT_DIRECTORY;
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public class BaseActivityInstrumentationRule<T extends Activity> extends ActivityTestRule<T> {
 
@@ -72,9 +72,13 @@ public class BaseActivityInstrumentationRule<T extends Activity> extends Activit
 	}
 
 	void setUpTestProjectFolder() {
-		Reflection.setPrivateField(StageListener.class, "checkIfAutomaticScreenshotShouldBeTaken", false);
-		Reflection.setPrivateField(Constants.class, "DEFAULT_ROOT_DIRECTORY",
-				new File(Environment.getExternalStorageDirectory(), "Pocket Code UiTest"));
+		try {
+			Reflection.setPrivateField(StageListener.class, "checkIfAutomaticScreenshotShouldBeTaken", false);
+			Reflection.setPrivateField(Constants.class, "DEFAULT_ROOT_DIRECTORY",
+					new File(Environment.getExternalStorageDirectory(), "Pocket Code UiTest"));
+		} catch (Exception e) {
+			Log.e(TAG, "Error setting default root directory", e);
+		}
 
 		if (DEFAULT_ROOT_DIRECTORY.exists()) {
 			try {

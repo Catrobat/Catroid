@@ -23,6 +23,7 @@
 package org.catrobat.catroid.utils;
 
 import android.content.Context;
+import android.support.annotation.StringRes;
 
 import com.github.johnpersano.supertoasts.library.Style;
 import com.github.johnpersano.supertoasts.library.SuperToast;
@@ -39,7 +40,7 @@ public final class ToastUtil {
 		createToast(context, message, true);
 	}
 
-	public static void showError(Context context, int messageId) {
+	public static void showError(Context context, @StringRes int messageId) {
 		createToast(context, context.getResources().getString(messageId), true);
 	}
 
@@ -47,7 +48,7 @@ public final class ToastUtil {
 		createToast(context, message, false);
 	}
 
-	public static void showSuccess(Context context, int messageId) {
+	public static void showSuccess(Context context, @StringRes int messageId) {
 		createToast(context, context.getResources().getString(messageId), false);
 	}
 

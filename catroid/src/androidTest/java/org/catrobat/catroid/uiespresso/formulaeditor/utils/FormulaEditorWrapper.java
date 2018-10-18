@@ -27,6 +27,7 @@ import android.view.View;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
+import org.catrobat.catroid.uiespresso.util.wrappers.ViewInteractionWrapper;
 import org.hamcrest.Matcher;
 
 import java.util.Collections;
@@ -45,11 +46,12 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorCategoryListWrapper.onCategoryList;
 import static org.hamcrest.Matchers.equalToIgnoringWhiteSpace;
 
-public final class FormulaEditorWrapper{
+public final class FormulaEditorWrapper extends ViewInteractionWrapper {
 	public static final Matcher<View> FORMULA_EDITOR_KEYBOARD_MATCHER = withId(R.id.formula_editor_keyboardview);
 	public static final Matcher<View> FORMULA_EDITOR_TEXT_FIELD_MATCHER = withId(R.id.formula_editor_edit_field);
 
 	private FormulaEditorWrapper() {
+		super(onView(FORMULA_EDITOR_KEYBOARD_MATCHER));
 		onView(FORMULA_EDITOR_KEYBOARD_MATCHER)
 				.check(matches(isDisplayed()));
 		onView(FORMULA_EDITOR_TEXT_FIELD_MATCHER)
@@ -87,7 +89,7 @@ public final class FormulaEditorWrapper{
 	}
 
 	public FormulaEditorWrapper performEnterString(String stringToBeEntered) {
-		onView(withId(R.id.formula_editor_keyboard_string))
+		onView(Control.TEXT)
 				.perform(click());
 		onView(withId(R.id.input_edit_text))
 				.perform(clearText(), typeText(stringToBeEntered));
@@ -97,7 +99,7 @@ public final class FormulaEditorWrapper{
 	}
 
 	public FormulaEditorWrapper performEnterString(int stringResourceId) {
-		onView(withId(R.id.formula_editor_keyboard_string))
+		onView(Control.TEXT)
 				.perform(click());
 		onView(withId(R.id.input_edit_text))
 				.perform(typeText(UiTestUtils.getResourcesString(stringResourceId)));
@@ -218,6 +220,7 @@ public final class FormulaEditorWrapper{
 		public static final Matcher<View> COMPUTE = withId(R.id.formula_editor_keyboard_compute);
 		public static final Matcher<View> BACKSPACE = withId(R.id.formula_editor_keyboard_delete);
 		public static final Matcher<View> DATA = withId(R.id.formula_editor_keyboard_data);
+		public static final Matcher<View> TEXT = withId(R.id.formula_editor_keyboard_string);
 	}
 
 	public static final class Category {

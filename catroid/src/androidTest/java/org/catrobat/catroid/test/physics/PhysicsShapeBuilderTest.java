@@ -24,7 +24,6 @@ package org.catrobat.catroid.test.physics;
 
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -32,7 +31,7 @@ import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
@@ -44,7 +43,6 @@ import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.shapebuilder.PhysicsShapeBuilder;
 import org.catrobat.catroid.test.R;
-import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.junit.After;
@@ -56,14 +54,15 @@ import java.io.File;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
 
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.lessThan;
+import static org.hamcrest.Matchers.lessThanOrEqualTo;
+import static org.junit.Assert.assertThat;
 
 @RunWith(AndroidJUnit4.class)
 public class PhysicsShapeBuilderTest {
-
-	private static final String TAG = PhysicsShapeBuilderTest.class.getSimpleName();
 
 	private PhysicsShapeBuilder physicsShapeBuilder;
 	private PhysicsWorld physicsWorld;
@@ -81,7 +80,7 @@ public class PhysicsShapeBuilderTest {
 	@Before
 	public void setUp() throws Exception {
 		physicsWorld = new PhysicsWorld(1920, 1600);
-		projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		projectDir = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		if (projectDir.exists()) {
 			StorageOperations.deleteDir(projectDir);
@@ -141,7 +140,7 @@ public class PhysicsShapeBuilderTest {
 	}
 
 	@Test
-	public void testDifferentAccuracySettings() {
+	public void testDifferentAccuracySettings() throws Exception {
 		LookData lookData = PhysicsTestUtils.generateLookData(complexSingleConvexPolygonFile);
 		physicsLook.setLookData(lookData);
 
@@ -152,48 +151,32 @@ public class PhysicsShapeBuilderTest {
 		Shape[] highestAccuracyShapes = null;
 		for (int accuracyIdx = 1; accuracyIdx < accuracyLevels.length; accuracyIdx++) {
 			Shape[] higherAccuracyShapes = physicsShapeBuilder.getScaledShapes(lookData, accuracyLevels[accuracyIdx]);
-			assertTrue(lowerAccuracyShapes.length <= higherAccuracyShapes.length);
+			assertThat(lowerAccuracyShapes.length, is(lessThanOrEqualTo(higherAccuracyShapes.length)));
 			lowerAccuracyShapes = higherAccuracyShapes;
 			highestAccuracyShapes = higherAccuracyShapes;
 		}
-		assertTrue(lowestAccuracyShapes.length < highestAccuracyShapes.length);
+		assertThat(lowestAccuracyShapes.length, is(lessThan(highestAccuracyShapes.length)));
 	}
 
 	private void checkBuiltShapes(Shape[] shapes, int expectedPolynomCount, int[] expectedVertices) {
-		boolean debug = false;
-
 		assertNotNull(shapes);
-
-		if (!debug) {
-			assertEquals(expectedPolynomCount, shapes.length);
-		}
-		if (!debug) {
-			assertEquals(expectedPolynomCount, expectedVertices.length);
-		}
+		assertEquals(expectedPolynomCount, shapes.length);
+		assertEquals(expectedPolynomCount, expectedVertices.length);
 
 		for (int idx = 0; idx < shapes.length; idx++) {
 			Shape shape = shapes[idx];
 			switch (shape.getType()) {
 				case Chain:
-					Log.d(TAG, "type = Chain: ");
-					break;
 				case Circle:
-					Log.d(TAG, "type = Circle: ");
-					break;
 				case Edge:
-					Log.d(TAG, "type = Edge: ");
 					break;
 				case Polygon:
 					int vertexCount = ((PolygonShape) shape).getVertexCount();
-					Log.d(TAG, "type = Polygon: " + vertexCount);
 					for (int vertexIdx = 0; vertexIdx < vertexCount; vertexIdx++) {
 						Vector2 vertex = new Vector2();
 						((PolygonShape) shape).getVertex(vertexIdx, vertex);
-						Log.d(TAG, "x=" + vertex.x + ";y=" + vertex.y);
 					}
-					if (!debug) {
-						assertEquals(expectedVertices[idx], vertexCount);
-					}
+					assertEquals(expectedVertices[idx], vertexCount);
 					break;
 			}
 		}

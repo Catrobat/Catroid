@@ -33,7 +33,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenConditionScript;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
-import org.catrobat.catroid.content.bricks.WhenConditionBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
@@ -55,14 +54,13 @@ public class WhenConditionScriptTest {
 	private WhenConditionScript conditionScript;
 
 	@Before
-	public void setUp() throws InterpretationException {
+	public void setUp() {
 		sprite = new SingleSprite("testSprite");
 		sprite.look.setPositionInUserInterfaceDimensionUnit(0, 0);
 		createProjectWithSprite(sprite);
 
 		formula = Mockito.mock(Formula.class);
-		WhenConditionBrick whenConditionBrick = new WhenConditionBrick(formula);
-		conditionScript = (WhenConditionScript) whenConditionBrick.getScriptSafe();
+		conditionScript = new WhenConditionScript(formula);
 		sprite.addScript(conditionScript);
 	}
 

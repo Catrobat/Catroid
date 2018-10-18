@@ -38,7 +38,9 @@ import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.ScreenValueHandler;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
 import java.io.File;
@@ -53,10 +55,13 @@ import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 
 import static org.catrobat.catroid.common.Constants.CURRENT_CATROBAT_LANGUAGE_VERSION;
-import static org.catrobat.catroid.common.Constants.DEFAULT_ROOT_DIRECTORY;
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 @RunWith(AndroidJUnit4.class)
 public class ProjectManagerTest {
+
+	@Rule
+	public final ExpectedException exception = ExpectedException.none();
 
 	private static final String OLD_PROJECT = "OLD_PROJECT";
 	private static final String NEW_PROJECT = "NEW_PROJECT";
@@ -82,38 +87,35 @@ public class ProjectManagerTest {
 	}
 
 	@Test
-	public void testShouldReturnFalseIfCatrobatLanguageVersionNotSupported() throws IOException {
-		TestUtils.createTestProjectOnLocalStorageWithCatrobatLanguageVersion(CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED);
+	public void testShouldReturnFalseIfCatrobatLanguageVersionNotSupported() throws IOException, ProjectException {
+		TestUtils.createProjectWithLanguageVersion(CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED,
+				"testProject");
 
 		try {
 			projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, InstrumentationRegistry.getTargetContext());
 			fail("Project shouldn't be compatible");
 		} catch (CompatibilityProjectException expected) {
-		} catch (ProjectException projectException) {
-			fail("Failed to identify incompatible project");
 		}
 
 		TestUtils.deleteProjects();
 
-		TestUtils.createTestProjectOnLocalStorageWithCatrobatLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION);
+		TestUtils.createProjectWithLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION,
+				"testProject");
 
-		try {
-			projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, InstrumentationRegistry.getTargetContext());
-		} catch (ProjectException projectException) {
-			fail("Error loading project");
-		}
+		projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, InstrumentationRegistry.getTargetContext());
 	}
 
 	@Test
 	public void testShouldKeepExistingProjectIfCannotLoadNewProject() throws IOException,
 			CompatibilityProjectException, OutdatedVersionProjectException, LoadingProjectException {
 
-		TestUtils.createTestProjectOnLocalStorageWithCatrobatLanguageVersionAndName(CURRENT_CATROBAT_LANGUAGE_VERSION,
+		TestUtils.createProjectWithLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION,
 				OLD_PROJECT);
 
 		projectManager.loadProject(OLD_PROJECT, InstrumentationRegistry.getTargetContext());
 
-		TestUtils.createTestProjectOnLocalStorageWithCatrobatLanguageVersion(CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED);
+		TestUtils.createProjectWithLanguageVersion(CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED,
+				"testProject");
 
 		try {
 			projectManager.loadProject(NEW_PROJECT, InstrumentationRegistry.getTargetContext());
@@ -133,17 +135,14 @@ public class ProjectManagerTest {
 	public void testLoadProjectException() throws Exception {
 		assertNull(projectManager.getCurrentProject());
 
-		try {
-			projectManager.loadProject(DOES_NOT_EXIST, InstrumentationRegistry.getTargetContext());
-			fail("Expected ProjectException while loading  project " + DOES_NOT_EXIST);
-		} catch (ProjectException expected) {
-		}
+		exception.expect(ProjectException.class);
+		projectManager.loadProject(DOES_NOT_EXIST, InstrumentationRegistry.getTargetContext());
 	}
 
 	@Test
 	public void testSavingAProjectDuringDelete() throws IOException, CompatibilityProjectException,
 			OutdatedVersionProjectException, LoadingProjectException {
-		TestUtils.createTestProjectOnLocalStorageWithCatrobatLanguageVersionAndName(
+		TestUtils.createProjectWithLanguageVersion(
 				CURRENT_CATROBAT_LANGUAGE_VERSION, TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, InstrumentationRegistry.getTargetContext());

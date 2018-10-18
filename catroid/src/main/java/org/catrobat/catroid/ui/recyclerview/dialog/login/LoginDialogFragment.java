@@ -23,11 +23,11 @@
 package org.catrobat.catroid.ui.recyclerview.dialog.login;
 
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.InputType;
@@ -39,6 +39,7 @@ import android.widget.EditText;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.transfers.LoginTask;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.web.ServerCalls;
@@ -183,7 +184,7 @@ public class LoginDialogFragment extends DialogFragment implements LoginTask.OnL
 	}
 
 	private void onPasswordForgottenButtonClick() {
-		String baseUrl = ServerCalls.useTestUrl ? ServerCalls.BASE_URL_TEST_HTTPS : Constants.BASE_URL_HTTPS;
+		String baseUrl = ServerCalls.useTestUrl ? ServerCalls.BASE_URL_TEST_HTTPS : FlavoredConstants.BASE_URL_HTTPS;
 		String url = baseUrl + PASSWORD_FORGOTTEN_PATH;
 
 		Intent intent = new Intent(getActivity(), WebViewActivity.class);

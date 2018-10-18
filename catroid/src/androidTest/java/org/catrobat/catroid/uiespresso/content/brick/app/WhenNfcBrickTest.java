@@ -113,7 +113,7 @@ public class WhenNfcBrickTest {
 //	public void testAddNewTag() {
 //		List<String> spinnerValuesStringsContained = getStringsFromResourceIds(
 //				R.string.brick_when_nfc_default_all,
-//				R.string.new_nfc_tag);
+//				R.string.new_option);
 //		spinnerValuesStringsContained.addAll(Arrays.asList(TAG_NAME_TEST1, TAG_NAME_TEST2));
 //
 //		List<String> spinnerValuesStringsNotContained = Arrays.asList(
@@ -139,7 +139,7 @@ public class WhenNfcBrickTest {
 //
 //		spinnerValuesStringsContained = getStringsFromResourceIds(
 //				R.string.brick_when_nfc_default_all,
-//				R.string.new_nfc_tag,
+//				R.string.new_option,
 //				R.string.default_tag_name);
 //		spinnerValuesStringsContained.addAll(Arrays.asList(TAG_NAME_TEST1, TAG_NAME_TEST2));
 //
@@ -160,7 +160,7 @@ public class WhenNfcBrickTest {
 //
 //		spinnerValuesStringsContained = getStringsFromResourceIds(
 //				R.string.brick_when_nfc_default_all,
-//				R.string.new_nfc_tag,
+//				R.string.new_option,
 //				R.string.default_tag_name);
 //		spinnerValuesStringsContained.addAll(Arrays.asList(TAG_NAME_TEST1, TAG_NAME_TEST2));
 //
@@ -183,7 +183,7 @@ public class WhenNfcBrickTest {
 //	public void testSpinnerUpdatesDelete() {
 //		List<String> spinnerValuesStringsContained = getStringsFromResourceIds(
 //				R.string.brick_when_nfc_default_all,
-//				R.string.new_nfc_tag);
+//				R.string.new_option);
 //		spinnerValuesStringsContained.addAll(Arrays.asList(TAG_NAME_TEST1, TAG_NAME_TEST2));
 //
 //		List<String> spinnerValuesStringsNotContained = Arrays.asList();
@@ -197,7 +197,7 @@ public class WhenNfcBrickTest {
 //		pressBack();
 //		spinnerValuesStringsContained = getStringsFromResourceIds(
 //				R.string.brick_when_nfc_default_all,
-//				R.string.new_nfc_tag);
+//				R.string.new_option);
 //		spinnerValuesStringsContained.add(TAG_NAME_TEST2);
 //		spinnerValuesStringsNotContained = Arrays.asList(TAG_NAME_TEST1);
 //
@@ -213,7 +213,7 @@ public class WhenNfcBrickTest {
 		String renamedTag = "tag_renamed";
 		List<String> spinnerValuesContained = getStringsFromResourceIds(
 				R.string.brick_when_nfc_default_all,
-				R.string.new_nfc_tag);
+				R.string.new_option);
 		spinnerValuesContained.addAll(Arrays.asList(TAG_NAME_TEST1, TAG_NAME_TEST2));
 
 		List<String> spinnerValuesNotContained = Arrays.asList();
@@ -227,7 +227,7 @@ public class WhenNfcBrickTest {
 		pressBack();
 		spinnerValuesContained = getStringsFromResourceIds(
 				R.string.brick_when_nfc_default_all,
-				R.string.new_nfc_tag);
+				R.string.new_option);
 		spinnerValuesContained.addAll(Arrays.asList(renamedTag, TAG_NAME_TEST2));
 		spinnerValuesContained.add(renamedTag);
 		spinnerValuesNotContained = Arrays.asList(TAG_NAME_TEST1);
@@ -309,7 +309,7 @@ public class WhenNfcBrickTest {
 			return new TypeSafeMatcher<NfcTagData>() {
 				@Override
 				protected boolean matchesSafely(NfcTagData nfcTagData) {
-					String nfcTagName = nfcTagData.getNfcTagName();
+					String nfcTagName = nfcTagData.getName();
 					return nfcTagName.equals(expectedTagName);
 				}
 
@@ -324,7 +324,7 @@ public class WhenNfcBrickTest {
 	private void gotoNfcFragment(int nfcBrickPosition) {
 		onBrickAtPosition(nfcBrickPosition).onSpinner(R.id.brick_when_nfc_spinner)
 				.perform(click());
-		onView(withText(R.string.new_nfc_tag))
+		onView(withText(R.string.new_option))
 				.perform(click());
 	}
 
@@ -363,12 +363,12 @@ public class WhenNfcBrickTest {
 		List<NfcTagData> tagDataList = ProjectManager.getInstance().getCurrentSprite().getNfcTagList();
 		NfcTagData firstTagData = new NfcTagData();
 
-		firstTagData.setNfcTagName(TAG_NAME_TEST1);
+		firstTagData.setName(TAG_NAME_TEST1);
 		firstTagData.setNfcTagUid(NfcHandler.byteArrayToHex(UiNFCTestUtils.FIRST_TEST_TAG_ID.getBytes()));
 		tagDataList.add(firstTagData);
 
 		NfcTagData secondTagData = new NfcTagData();
-		secondTagData.setNfcTagName(TAG_NAME_TEST2);
+		secondTagData.setName(TAG_NAME_TEST2);
 		secondTagData.setNfcTagUid(NfcHandler.byteArrayToHex(UiNFCTestUtils.SECOND_TEST_TAG_ID.getBytes()));
 		tagDataList.add(secondTagData);
 

@@ -72,7 +72,7 @@ public class PhysicsCollisionBetweenTest {
 		rule.initializeSpritesForCollision();
 	}
 
-	public void beginContactCallback(Contact contact) {
+	public void beginContactCallback(Contact contact) throws Exception {
 		rule.beginContactCallback(contact);
 		Map<Integer, PhysicsCollisionBroadcast> physicsCollisionBroadcasts =
 				(Map<Integer, PhysicsCollisionBroadcast>) Reflection.getPrivateField(PhysicsCollision.class,
@@ -87,7 +87,7 @@ public class PhysicsCollisionBetweenTest {
 		assertEquals(collisionBroadcast.getContactCounter(), rule.getContactDifference());
 	}
 
-	public void endContactCallback(Contact contact) {
+	public void endContactCallback(Contact contact) throws Exception {
 		rule.endContactCallback(contact);
 		Map<Integer, PhysicsCollisionBroadcast> physicsCollisionBroadcasts =
 				(Map<Integer, PhysicsCollisionBroadcast>) Reflection.getPrivateField(PhysicsCollision.class,

@@ -45,6 +45,7 @@ import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.common.ScratchProgramData;
 import org.catrobat.catroid.common.ScratchSearchResult;
 import org.catrobat.catroid.common.ScratchVisibilityState;
@@ -79,7 +80,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 
 	public static final String BASE_URL_TEST_HTTPS = "https://catroid-test.catrob.at/pocketcode/";
 	public static final String TEST_FILE_UPLOAD_URL_HTTP = BASE_URL_TEST_HTTPS + "api/upload/upload.json";
-	public static final String FILE_TAG_URL_HTTP = Constants.BASE_URL_HTTPS + "api/tags/getTags.json";
+	public static final String FILE_TAG_URL_HTTP = FlavoredConstants.BASE_URL_HTTPS + "api/tags/getTags.json";
 	public static final int TOKEN_LENGTH = 32;
 	public static final String TOKEN_CODE_INVALID = "-1";
 	private static final String TAG = ServerCalls.class.getSimpleName();
@@ -108,29 +109,29 @@ public final class ServerCalls implements ScratchDataFetcher {
 	private static final MediaType MEDIA_TYPE_ZIPFILE = MediaType.parse("application/zip");
 	private static final int SERVER_RESPONSE_TOKEN_OK = 200;
 	private static final int SERVER_RESPONSE_REGISTER_OK = 201;
-	private static final String FILE_UPLOAD_URL = Constants.BASE_URL_HTTPS + "api/upload/upload.json";
-	private static final String CHECK_TOKEN_URL = Constants.BASE_URL_HTTPS + "api/checkToken/check.json";
-	private static final String LOGIN_URL = Constants.BASE_URL_HTTPS + "api/login/Login.json";
-	private static final String REGISTRATION_URL = Constants.BASE_URL_HTTPS + "api/register/Register.json";
-	private static final String CHECK_GOOGLE_TOKEN_URL = Constants.BASE_URL_HTTPS
+	private static final String FILE_UPLOAD_URL = FlavoredConstants.BASE_URL_HTTPS + "api/upload/upload.json";
+	private static final String CHECK_TOKEN_URL = FlavoredConstants.BASE_URL_HTTPS + "api/checkToken/check.json";
+	private static final String LOGIN_URL = FlavoredConstants.BASE_URL_HTTPS + "api/login/Login.json";
+	private static final String REGISTRATION_URL = FlavoredConstants.BASE_URL_HTTPS + "api/register/Register.json";
+	private static final String CHECK_GOOGLE_TOKEN_URL = FlavoredConstants.BASE_URL_HTTPS
 			+ "api/GoogleServerTokenAvailable/GoogleServerTokenAvailable.json";
-	private static final String CHECK_FACEBOOK_TOKEN_URL = Constants.BASE_URL_HTTPS
+	private static final String CHECK_FACEBOOK_TOKEN_URL = FlavoredConstants.BASE_URL_HTTPS
 			+ "api/FacebookServerTokenAvailable/FacebookServerTokenAvailable.json";
-	private static final String GET_FACEBOOK_USER_INFO_URL = Constants.BASE_URL_HTTPS
+	private static final String GET_FACEBOOK_USER_INFO_URL = FlavoredConstants.BASE_URL_HTTPS
 			+ "api/getFacebookUserInfo/getFacebookUserInfo.json";
-	private static final String CHECK_EMAIL_AVAILABLE_URL = Constants.BASE_URL_HTTPS
+	private static final String CHECK_EMAIL_AVAILABLE_URL = FlavoredConstants.BASE_URL_HTTPS
 			+ "api/EMailAvailable/EMailAvailable.json";
-	private static final String CHECK_USERNAME_AVAILABLE_URL = Constants.BASE_URL_HTTPS
+	private static final String CHECK_USERNAME_AVAILABLE_URL = FlavoredConstants.BASE_URL_HTTPS
 			+ "api/UsernameAvailable/UsernameAvailable.json";
-	private static final String EXCHANGE_GOOGLE_CODE_URL = Constants.BASE_URL_HTTPS
+	private static final String EXCHANGE_GOOGLE_CODE_URL = FlavoredConstants.BASE_URL_HTTPS
 			+ "api/exchangeGoogleCode/exchangeGoogleCode.json";
-	private static final String EXCHANGE_FACEBOOK_TOKEN_URL = Constants.BASE_URL_HTTPS
+	private static final String EXCHANGE_FACEBOOK_TOKEN_URL = FlavoredConstants.BASE_URL_HTTPS
 			+ "api/exchangeFacebookToken/exchangeFacebookToken.json";
-	private static final String GOOGLE_LOGIN_URL = Constants.BASE_URL_HTTPS
+	private static final String GOOGLE_LOGIN_URL = FlavoredConstants.BASE_URL_HTTPS
 			+ "api/loginWithGoogle/loginWithGoogle.json";
-	private static final String FACEBOOK_LOGIN_URL = Constants.BASE_URL_HTTPS
+	private static final String FACEBOOK_LOGIN_URL = FlavoredConstants.BASE_URL_HTTPS
 			+ "api/loginWithFacebook/loginWithFacebook.json";
-	private static final String FACEBOOK_CHECK_SERVER_TOKEN_VALIDITY = Constants.BASE_URL_HTTPS
+	private static final String FACEBOOK_CHECK_SERVER_TOKEN_VALIDITY = FlavoredConstants.BASE_URL_HTTPS
 			+ "api/checkFacebookServerTokenValidity/checkFacebookServerTokenValidity.json";
 	private static final String TEST_CHECK_TOKEN_URL = BASE_URL_TEST_HTTPS + "api/checkToken/check.json";
 	private static final String TEST_LOGIN_URL = BASE_URL_TEST_HTTPS + "api/login/Login.json";

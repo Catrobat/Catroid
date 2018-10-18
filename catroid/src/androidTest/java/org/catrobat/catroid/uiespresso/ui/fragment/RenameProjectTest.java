@@ -28,12 +28,14 @@ import android.support.test.runner.AndroidJUnit4;
 import android.widget.EditText;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetXBrick;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.ProjectListActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
@@ -53,12 +55,14 @@ import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.isDialog;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.not;
 
 @RunWith(AndroidJUnit4.class)
 public class RenameProjectTest {
@@ -69,10 +73,12 @@ public class RenameProjectTest {
 
 	private String oldProjectName = "oldProjectName";
 	private String newProjectName = "newProjectName";
+	private String secondProjectName = "secondProjectName";
 
 	@Before
 	public void setUp() throws Exception {
 		createProject(oldProjectName);
+		createProject(secondProjectName);
 
 		baseActivityTestRule.launchActivity(null);
 	}
@@ -129,13 +135,56 @@ public class RenameProjectTest {
 		onView(withText(oldProjectName)).check(matches(isDisplayed()));
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void invalidInputRenameProjectTest() {
+		RecyclerViewActions.openOverflowMenu();
+		onView(withText(R.string.rename)).perform(click());
+
+		onRecyclerView().atPosition(0)
+				.performCheckItem();
+
+		onView(withId(R.id.confirm)).perform(click());
+
+		onView(withText(R.string.rename_project)).inRoot(isDialog())
+				.check(matches(isDisplayed()));
+
+		String emptyInput = "";
+		String spacesOnlyInput = "   ";
+
+		onView(allOf(withText(oldProjectName), isDisplayed(), instanceOf(EditText.class)))
+				.perform(replaceText(emptyInput));
+		closeSoftKeyboard();
+
+		onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
+				.check(matches(allOf(isDisplayed(), not(isEnabled()))));
+
+		onView(allOf(withText(emptyInput), isDisplayed(), instanceOf(EditText.class)))
+				.perform(replaceText(spacesOnlyInput));
+
+		onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
+				.check(matches(allOf(isDisplayed(), not(isEnabled()))));
+
+		onView(allOf(withText(spacesOnlyInput), isDisplayed(), instanceOf(EditText.class)))
+				.perform(replaceText(secondProjectName));
+
+		onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
+				.check(matches(allOf(isDisplayed(), not(isEnabled()))));
+
+		onView(allOf(withText(secondProjectName), isDisplayed(), instanceOf(EditText.class)))
+				.perform(replaceText(newProjectName));
+
+		onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
+				.check(matches(allOf(isDisplayed(), isEnabled())));
+	}
+
 	private void createProject(String projectName) {
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		Sprite sprite = new SingleSprite("firstSprite");
 
 		Script script = new StartScript();
-		script.addBrick(new SetXBrick());
-		script.addBrick(new SetXBrick());
+		script.addBrick(new SetXBrick(new Formula(BrickValues.X_POSITION)));
+		script.addBrick(new SetXBrick(new Formula(BrickValues.X_POSITION)));
 		sprite.addScript(script);
 
 		project.getDefaultScene().addSprite(sprite);

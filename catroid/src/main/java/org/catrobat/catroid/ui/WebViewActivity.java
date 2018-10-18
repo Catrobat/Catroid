@@ -46,6 +46,7 @@ import android.webkit.WebViewClient;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.utils.DownloadUtil;
 import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -54,6 +55,10 @@ import org.catrobat.catroid.utils.Utils;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
+import static org.catrobat.catroid.common.Constants.CATROBAT_HELP_URL;
+import static org.catrobat.catroid.common.Constants.MAIN_URL_HTTPS;
+import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BASE_URL;
+
 @SuppressLint("SetJavaScriptEnabled")
 public class WebViewActivity extends BaseActivity {
 	private static final String TAG = WebViewActivity.class.getSimpleName();
@@ -61,14 +66,11 @@ public class WebViewActivity extends BaseActivity {
 	public static final String INTENT_PARAMETER_URL = "url";
 	public static final String ANDROID_APPLICATION_EXTENSION = ".apk";
 	public static final String MEDIA_FILE_PATH = "media_file_path";
-	public static final String CALLING_ACTIVITY = "calling_activity";
 	private static final String FILENAME_TAG = "fname=";
 	private static final String PACKAGE_NAME_WHATSAPP = "com.whatsapp";
 
 	private WebView webView;
 	private boolean allowGoBack = false;
-	private String url;
-	private String callingActivity;
 	private ProgressDialog progressDialog;
 	private ProgressDialog webViewLoadingDialog;
 	private Intent resultIntent = new Intent();
@@ -78,14 +80,12 @@ public class WebViewActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_webview);
 
-		Intent intent = getIntent();
-		url = intent.getStringExtra(INTENT_PARAMETER_URL);
+		String url = getIntent().getStringExtra(INTENT_PARAMETER_URL);
 		if (url == null) {
-			url = Constants.BASE_URL_HTTPS;
+			url = FlavoredConstants.BASE_URL_HTTPS;
 		}
-		callingActivity = intent.getStringExtra(CALLING_ACTIVITY);
 
-		webView = (WebView) findViewById(R.id.webView);
+		webView = findViewById(R.id.webView);
 		webView.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.app_background, null));
 		webView.setWebViewClient(new MyWebViewClient());
 		webView.getSettings().setJavaScriptEnabled(true);
@@ -106,7 +106,7 @@ public class WebViewActivity extends BaseActivity {
 
 				if (getExtensionFromContentDisposition(contentDisposition).contains(Constants.CATROBAT_EXTENSION)) {
 					DownloadUtil.getInstance().prepareDownloadAndStartIfPossible(WebViewActivity.this, url);
-				} else if (url.contains(Constants.LIBRARY_BASE_URL)) {
+				} else if (url.contains(LIBRARY_BASE_URL)) {
 					String name = getMediaNameFromUrl(url);
 					String mediaType = getMediaTypeFromContentDisposition(contentDisposition);
 					String fileName = name + getExtensionFromContentDisposition(contentDisposition);
@@ -120,8 +120,7 @@ public class WebViewActivity extends BaseActivity {
 					}
 					String filePath = PathBuilder.buildPath(tempPath, fileName);
 					resultIntent.putExtra(MEDIA_FILE_PATH, filePath);
-					DownloadUtil.getInstance().prepareMediaDownloadAndStartIfPossible(WebViewActivity.this, url,
-							mediaType, name, filePath, callingActivity);
+					DownloadUtil.getInstance().startMediaDownload(WebViewActivity.this, url, name, filePath);
 				} else {
 					DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
 
@@ -173,7 +172,7 @@ public class WebViewActivity extends BaseActivity {
 				webViewLoadingDialog.setCanceledOnTouchOutside(false);
 				webViewLoadingDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
 				webViewLoadingDialog.show();
-			} else if (allowGoBack && urlClient.equals(Constants.BASE_URL_HTTPS)) {
+			} else if (allowGoBack && urlClient.equals(FlavoredConstants.BASE_URL_HTTPS)) {
 				allowGoBack = false;
 				onBackPressed();
 			}
@@ -223,8 +222,8 @@ public class WebViewActivity extends BaseActivity {
 
 		private boolean checkIfWebViewVisitExternalWebsite(String url) {
 			// help URL has to be opened in an external browser
-			if ((url.contains(Constants.MAIN_URL_HTTPS) && !url.contains(Constants.CATROBAT_HELP_URL))
-					|| url.contains(Constants.LIBRARY_BASE_URL)) {
+			if ((url.contains(MAIN_URL_HTTPS) && !url.contains(CATROBAT_HELP_URL))
+					|| url.contains(LIBRARY_BASE_URL)) {
 				return false;
 			}
 			return true;
@@ -236,7 +235,7 @@ public class WebViewActivity extends BaseActivity {
 
 		progressDialog.setTitle(getString(R.string.notification_download_title_pending) + mediaName);
 		progressDialog.setMessage(getString(R.string.notification_download_pending));
-		progressDialog.setProgressStyle(progressDialog.STYLE_HORIZONTAL);
+		progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 		progressDialog.setProgress(0);
 		progressDialog.setMax(100);
 		progressDialog.setProgressNumberFormat(null);

@@ -44,8 +44,6 @@ import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectCopyTask;
 import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectCreatorTask;
 import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectLoaderTask;
 import org.catrobat.catroid.ui.recyclerview.controller.ProjectController;
-import org.catrobat.catroid.ui.recyclerview.dialog.NewProjectDialogFragment;
-import org.catrobat.catroid.ui.recyclerview.dialog.RenameDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.PathBuilder;
@@ -58,7 +56,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import static org.catrobat.catroid.common.Constants.DEFAULT_ROOT_DIRECTORY;
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_PROJECTS_PREFERENCE_KEY;
 
 public class ProjectListFragment extends RecyclerViewFragment<ProjectData> implements
@@ -104,17 +102,6 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 	}
 
 	@Override
-	public void handleAddButton() {
-		NewProjectDialogFragment dialog = new NewProjectDialogFragment();
-		dialog.show(getFragmentManager(), NewProjectDialogFragment.TAG);
-	}
-
-	@Override
-	public void addItem(ProjectData item) {
-		// This is handled through the NewProjectDialog.
-	}
-
-	@Override
 	protected void prepareActionMode(@ActionModeType int type) {
 		if (type == COPY) {
 			adapter.allowMultiSelection = false;
@@ -142,8 +129,8 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 		finishActionMode();
 		setShowProgressBar(true);
 		ProjectCopyTask copyTask = new ProjectCopyTask(getActivity(), this);
-		String name = uniqueNameProvider.getUniqueName(selectedItems.get(0).projectName, getScope());
-		copyTask.execute(selectedItems.get(0).projectName, name);
+		String name = uniqueNameProvider.getUniqueNameInNameables(selectedItems.get(0).getName(), adapter.getItems());
+		copyTask.execute(selectedItems.get(0).getName(), name);
 	}
 
 	@Override
@@ -180,32 +167,24 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 	}
 
 	@Override
-	protected void showRenameDialog(List<ProjectData> selectedItems) {
-		String name = selectedItems.get(0).projectName;
-		RenameDialogFragment dialog = new RenameDialogFragment(R.string.rename_project, R.string.project_name_label, name, this);
-		dialog.show(getFragmentManager(), RenameDialogFragment.TAG);
-	}
-
-	private List<String> getScope() {
-		List<String> scope = new ArrayList<>();
-		for (ProjectData item : adapter.getItems()) {
-			scope.add(item.projectName);
-		}
-		return scope;
+	protected int getRenameDialogTitle() {
+		return R.string.rename_project;
 	}
 
 	@Override
-	public boolean isNameUnique(String name) {
-		return !getScope().contains(name);
+	protected int getRenameDialogHint() {
+		return R.string.project_name_label;
 	}
 
 	@Override
-	public void renameItem(String name) {
+	public void renameItem(ProjectData item, String name) {
+		setShowProgressBar(true);
+
 		ProjectManager projectManager = ProjectManager.getInstance();
 
-		if (!name.equals(adapter.getSelectedItems().get(0).projectName)) {
+		if (!name.equals(item.projectName)) {
 			try {
-				projectManager.loadProject(adapter.getSelectedItems().get(0).projectName, getActivity());
+				projectManager.loadProject(item.projectName, getActivity());
 				projectManager.renameProject(name, getActivity());
 				projectManager.loadProject(name, getActivity());
 			} catch (ProjectException e) {
@@ -300,8 +279,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 								showDeleteAlert(new ArrayList<>(Collections.singletonList(item)));
 								break;
 							case 2:
-								adapter.setSelection(item, true);
-								showRenameDialog(adapter.getSelectedItems());
+								showRenameDialog(new ArrayList<>(Collections.singletonList(item)));
 								break;
 							case 3:
 								ProjectDetailsFragment fragment = new ProjectDetailsFragment();
@@ -315,7 +293,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 								break;
 							case 4:
 								Intent intent = new Intent(getActivity(), ProjectUploadActivity.class)
-										.putExtra(ProjectUploadActivity.PROJECT_NAME, item.projectName);
+										.putExtra(ProjectUploadActivity.PROJECT_NAME, item.getName());
 								startActivity(intent);
 								break;
 							default:

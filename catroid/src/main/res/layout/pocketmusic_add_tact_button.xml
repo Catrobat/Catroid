@@ -27,7 +27,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_background"
-    android:textColor="@color/brick_category_fragment_text_color"
+    android:textColor="@color/solid_white"
     android:textSize="@dimen/plus_button_size"
     android:text="@string/plus"
     android:gravity="center"/>

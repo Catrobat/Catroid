@@ -54,6 +54,10 @@ public interface Cat {
 	interface SensorBox {
 	}
 
+	//Tests for pocketmusic
+	interface PocketMusicUiTests {
+	}
+
 	//Regression tests for Api 19, stuff that just works on higher Apis, but needs special treatment on 19
 	interface ApiLevel19Regression {
 	}

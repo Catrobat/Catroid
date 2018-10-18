@@ -46,7 +46,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 
-public class LookData implements Serializable, Cloneable {
+public class LookData implements Cloneable, Nameable, Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = LookData.class.getSimpleName();
@@ -105,8 +105,7 @@ public class LookData implements Serializable, Cloneable {
 		fileName = file.getName();
 	}
 
-	public int getRequiredResources() {
-		return Brick.NO_RESOURCES;
+	public void addRequiredResources(final Brick.ResourcesSet requiredResourcesSet) {
 	}
 
 	public void draw(Batch batch, float alpha) {

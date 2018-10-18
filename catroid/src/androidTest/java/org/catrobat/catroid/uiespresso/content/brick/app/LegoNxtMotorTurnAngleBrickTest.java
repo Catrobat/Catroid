@@ -84,6 +84,6 @@ public class LegoNxtMotorTurnAngleBrickTest {
 				R.string.nxt_motor_b_and_c);
 
 		onBrickAtPosition(brickPosition).onSpinner(R.id.lego_motor_turn_angle_spinner)
-				.checkValuesAvailable(spinnerValuesResourceIds);
+				.checkStringIdValuesAvailable(spinnerValuesResourceIds);
 	}
 }

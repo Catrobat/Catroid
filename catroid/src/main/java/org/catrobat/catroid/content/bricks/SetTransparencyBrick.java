@@ -22,16 +22,10 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.TextView;
-
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
@@ -39,28 +33,17 @@ public class SetTransparencyBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
-
 	public SetTransparencyBrick() {
-		addAllowedBrickField(BrickField.TRANSPARENCY);
+		addAllowedBrickField(BrickField.TRANSPARENCY, R.id.brick_set_transparency_to_edit_text);
 	}
 
-	public SetTransparencyBrick(double transparencyEffectValue) {
-		initializeBrickFields(new Formula(transparencyEffectValue));
+	public SetTransparencyBrick(double transparency) {
+		this(new Formula(transparency));
 	}
 
-	public SetTransparencyBrick(Formula transparency) {
-		initializeBrickFields(transparency);
-	}
-
-	private void initializeBrickFields(Formula transparency) {
-		addAllowedBrickField(BrickField.TRANSPARENCY);
-		setFormulaWithBrickField(BrickField.TRANSPARENCY, transparency);
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.TRANSPARENCY).getRequiredResources();
+	public SetTransparencyBrick(Formula formula) {
+		this();
+		setFormulaWithBrickField(BrickField.TRANSPARENCY, formula);
 	}
 
 	@Override
@@ -69,34 +52,9 @@ public class SetTransparencyBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context) {
-		super.getView(context);
-		TextView editX = (TextView) view.findViewById(R.id.brick_set_transparency_to_edit_text);
-		getFormulaWithBrickField(BrickField.TRANSPARENCY).setTextFieldId(R.id.brick_set_transparency_to_edit_text);
-		getFormulaWithBrickField(BrickField.TRANSPARENCY).refreshTextField(view);
-
-		editX.setOnClickListener(this);
-		return view;
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
-		TextView textSetTransparency = (TextView) prototypeView
-				.findViewById(R.id.brick_set_transparency_to_edit_text);
-		textSetTransparency.setText(formatNumberForPrototypeView(BrickValues.SET_TRANSPARENCY));
-		return prototypeView;
-	}
-
-	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createSetTransparencyAction(sprite,
-				getFormulaWithBrickField(BrickField.TRANSPARENCY)));
+		sequence.addAction(sprite.getActionFactory()
+				.createSetTransparencyAction(sprite, getFormulaWithBrickField(BrickField.TRANSPARENCY)));
 		return null;
-	}
-
-	@Override
-	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.TRANSPARENCY);
 	}
 }

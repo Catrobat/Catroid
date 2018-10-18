@@ -66,7 +66,6 @@ public class GoToBrickTest {
 				.checkShowsText(R.string.brick_go_to_touch_position);
 
 		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_go_to_spinner)
-				.performSelect(R.string.brick_go_to_random_position)
-				.checkShowsText(R.string.brick_go_to_random_position);
+				.performSelectNameable(R.string.brick_go_to_random_position);
 	}
 }

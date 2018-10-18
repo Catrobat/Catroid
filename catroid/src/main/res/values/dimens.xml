@@ -38,7 +38,7 @@
     <dimen name="scratch_project_image_height">130dp</dimen>
     <dimen name="scratch_project_image_width">144dp</dimen>
 
-    <dimen name="brick_edit_text_and_prototype_text_view_minimum_width" >48dp</dimen >
+    <dimen name="brick_edit_text_min_width" >48dp</dimen >
     <dimen name="brick_height_small" >72dp</dimen >
     <dimen name="brick_height_medium" >96dp</dimen >
     <dimen name="brick_height_big" >120dp</dimen >
@@ -48,10 +48,6 @@
 
     <!-- UserBrickDataEditorFragment -->
     <dimen name="brick_data_edit_cursor_size">58dp</dimen>
-    <!-- -->
-
-    <!-- PhiroProColorChooserFragment -->
-    <dimen name="fragment_color_chooser_edit_text_and_prototype_text_view_minimum_width">5dp</dimen>
     <!-- -->
 
     <!-- Dialog -->

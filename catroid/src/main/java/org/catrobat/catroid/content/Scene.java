@@ -26,6 +26,7 @@ import android.support.annotation.NonNull;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastMessageBrick;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
@@ -53,7 +54,7 @@ import static org.catrobat.catroid.common.Constants.MANUAL_SCREENSHOT_FILE_NAME;
 		"objectList",
 		"data"
 })
-public class Scene implements Serializable {
+public class Scene implements Nameable, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -96,16 +97,6 @@ public class Scene implements Serializable {
 
 	public List<Sprite> getSpriteList() {
 		return spriteList;
-	}
-
-	public List<String> getSpriteNames() {
-		List<String> spriteNames = new ArrayList<>();
-
-		for (Sprite sprite : spriteList) {
-			spriteNames.add(sprite.getName());
-		}
-
-		return spriteNames;
 	}
 
 	public Sprite getSprite(String spriteName) {

@@ -22,74 +22,67 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Spinner;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenBackgroundChangesScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.content.bricks.brickspinner.SpinnerAdapterWithNewOption;
+import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
+import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
-import org.catrobat.catroid.ui.recyclerview.dialog.NewLookDialogFragment;
-import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class WhenBackgroundChangesBrick extends BrickBaseType implements
-		ScriptBrick,
-		SpinnerAdapterWithNewOption.OnNewOptionInDropDownClickListener,
-		NewItemInterface<LookData> {
+public class WhenBackgroundChangesBrick extends BrickBaseType implements ScriptBrick,
+		BrickSpinner.OnItemSelectedListener<LookData> {
 
 	private static final long serialVersionUID = 1L;
 
 	private WhenBackgroundChangesScript script;
-	private transient LookData previouslySelectedLook;
 
-	private transient Spinner spinner;
-	private transient SpinnerAdapterWithNewOption spinnerAdapter;
+	private transient BrickSpinner<LookData> spinner;
 
 	public WhenBackgroundChangesBrick() {
+		this(new WhenBackgroundChangesScript());
 	}
 
-	public WhenBackgroundChangesBrick(WhenBackgroundChangesScript script) {
+	public WhenBackgroundChangesBrick(@NonNull WhenBackgroundChangesScript script) {
+		script.setScriptBrick(this);
+		commentedOut = script.isCommentedOut();
 		this.script = script;
 	}
 
 	public LookData getLook() {
-		return getCastedScriptSafe().getLook();
+		return script.getLook();
 	}
 
-	public void setLook(LookData lookData) {
-		getCastedScriptSafe().setLook(lookData);
-	}
-
-	@Override
-	public Script getScriptSafe() {
-		if (script == null) {
-			this.script = new WhenBackgroundChangesScript();
-		}
-		return script;
-	}
-
-	private WhenBackgroundChangesScript getCastedScriptSafe() {
-		return (WhenBackgroundChangesScript) getScriptSafe();
+	public void setLook(LookData look) {
+		script.setLook(look);
 	}
 
 	@Override
-	public Brick clone() {
-		WhenBackgroundChangesBrick clone = new WhenBackgroundChangesBrick();
-		clone.setLook(getLook());
+	public BrickBaseType clone() throws CloneNotSupportedException {
+		WhenBackgroundChangesBrick clone = (WhenBackgroundChangesBrick) super.clone();
+		clone.script = (WhenBackgroundChangesScript) script.clone();
+		clone.script.setScriptBrick(clone);
+		clone.spinner = null;
 		return clone;
+	}
+
+	@Override
+	public Script getScript() {
+		return script;
 	}
 
 	@Override
@@ -98,103 +91,46 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements
 	}
 
 	@Override
+	public View getPrototypeView(Context context) {
+		super.getPrototypeView(context);
+		return getView(context);
+	}
+
+	@Override
 	public View getView(final Context context) {
 		super.getView(context);
-		spinner = view.findViewById(R.id.brick_when_background_spinner);
-		spinnerAdapter = new SpinnerAdapterWithNewOption(context, getLookNames());
-		spinnerAdapter.setOnDropDownItemClickListener(this);
 
-		spinner.setAdapter(spinnerAdapter);
-		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				if (position != 0) {
-					setLook(getLookByName(spinnerAdapter.getItem(position)));
-				}
-			}
+		List<Nameable> items = new ArrayList<>();
+		items.add(new NewOption(context.getString(R.string.new_option)));
+		items.addAll(ProjectManager.getInstance().getCurrentlyEditedScene().getBackgroundSprite().getLookList());
+		spinner = new BrickSpinner<>(R.id.brick_when_background_spinner, view, items);
+		spinner.setOnItemSelectedListener(this);
+		spinner.setSelection(getLook());
 
-			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
-			}
-		});
-		spinner.setSelection(spinnerAdapter.getPosition(getLook() != null ? getLook().getName() : null));
 		return view;
 	}
 
-	private LookData getLookByName(String name) {
-		for (LookData look : ProjectManager.getInstance().getCurrentlyEditedScene().getBackgroundSprite().getLookList()) {
-			if (look.getName().equals(name)) {
-				return look;
-			}
+	@Override
+	public void onNewOptionSelected() {
+		AppCompatActivity activity = UiUtils.getActivityFromView(view);
+		if (activity == null || !(activity instanceof SpriteActivity)) {
+			return;
 		}
-		return null;
-	}
-
-	private List<String> getLookNames() {
-		List<String> lookNames = new ArrayList<>();
-		for (LookData look : ProjectManager.getInstance().getCurrentlyEditedScene().getBackgroundSprite().getLookList()) {
-			lookNames.add(look.getName());
-		}
-		return lookNames;
+		((SpriteActivity) activity).handleAddLookButton();
 	}
 
 	@Override
-	public boolean onNewOptionInDropDownClicked(View v) {
-		previouslySelectedLook = getLook();
-		Activity activity = UiUtils.getActivityFromView(view);
-		if (activity == null) {
-			return false;
-		}
-
-		new NewLookFromBrickDialogFragment(this,
-				ProjectManager.getInstance().getCurrentlyEditedScene(),
-				ProjectManager.getInstance().getCurrentSprite())
-				.show(activity.getFragmentManager(), NewLookDialogFragment.TAG);
-		return false;
+	public void onStringOptionSelected(String string) {
 	}
 
 	@Override
-	public void addItem(LookData item) {
-		ProjectManager.getInstance().getCurrentSprite().getLookList().add(item);
-		spinnerAdapter.add(item.getName());
+	public void onItemSelected(@Nullable LookData item) {
 		setLook(item);
-		spinner.setSelection(spinnerAdapter.getPosition(item.getName()));
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		View view = super.getPrototypeView(context);
-		spinner = view.findViewById(R.id.brick_when_background_spinner);
-
-		spinnerAdapter = new SpinnerAdapterWithNewOption(context, getLookNames());
-		spinner.setAdapter(spinnerAdapter);
-		spinner.setSelection(spinnerAdapter.getPosition(getLook() != null ? getLook().getName() : null));
-		return view;
 	}
 
 	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSetLookAction(sprite, getLook()));
 		return null;
-	}
-
-	public static class NewLookFromBrickDialogFragment extends NewLookDialogFragment {
-
-		private WhenBackgroundChangesBrick whenBackgroundChangesBrick;
-
-		public NewLookFromBrickDialogFragment() {
-		}
-
-		public NewLookFromBrickDialogFragment(WhenBackgroundChangesBrick whenBackgroundChangesBrick, Scene dstScene, Sprite dstSprite) {
-			super(whenBackgroundChangesBrick, dstScene, dstSprite);
-			this.whenBackgroundChangesBrick = whenBackgroundChangesBrick;
-		}
-
-		@Override
-		public void onCancel(DialogInterface dialog) {
-			super.onCancel(dialog);
-			whenBackgroundChangesBrick.setLook(whenBackgroundChangesBrick.previouslySelectedLook);
-			whenBackgroundChangesBrick.spinner.setSelection(whenBackgroundChangesBrick.spinnerAdapter.getPosition(whenBackgroundChangesBrick.getLook() != null ? whenBackgroundChangesBrick.getLook().getName() : null));
-		}
 	}
 }

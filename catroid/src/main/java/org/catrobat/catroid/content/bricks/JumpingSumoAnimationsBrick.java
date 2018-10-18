@@ -39,48 +39,17 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
 	private String animationName;
-	private transient Animation animation;
 
 	public enum Animation {
 		SPIN, TAB, SLOWSHAKE, METRONOME, ONDULATION, SPINJUMP, SPIRAL, SLALOM
 	}
 
+	public JumpingSumoAnimationsBrick() {
+	}
+
 	public JumpingSumoAnimationsBrick(Animation animation) {
-		this.animation = animation;
-		this.animationName = animation.name();
-	}
-
-	protected Object readResolve() {
-		if (animationName != null) {
-			animation = Animation.valueOf(animationName);
-		}
-		return this;
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return super.getRequiredResources() | Brick.JUMPING_SUMO;
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
-
-		Spinner jsAnimationSpinner = (Spinner) prototypeView.findViewById(R.id.brick_jumping_sumo_animation_spinner);
-		jsAnimationSpinner.setFocusableInTouchMode(false);
-		jsAnimationSpinner.setFocusable(false);
-		jsAnimationSpinner.setEnabled(false);
-
-		ArrayAdapter<CharSequence> animationAdapter = ArrayAdapter.createFromResource(context, R.array.brick_jumping_sumo_select_animation_spinner,
-				android.R.layout.simple_spinner_item);
-		animationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-		jsAnimationSpinner.setAdapter(animationAdapter);
-		jsAnimationSpinner.setSelection(animation.ordinal());
-
-		return prototypeView;
+		animationName = animation.name();
 	}
 
 	@Override
@@ -89,38 +58,45 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 	}
 
 	@Override
+	public View getPrototypeView(Context context) {
+		super.getPrototypeView(context);
+		return getView(context);
+	}
+
+	@Override
 	public View getView(Context context) {
 		super.getView(context);
-		ArrayAdapter<CharSequence> animationAdapter = ArrayAdapter.createFromResource(context, R.array.brick_jumping_sumo_select_animation_spinner,
-				android.R.layout.simple_spinner_item);
-		animationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		Spinner animationSpinner = (Spinner) view.findViewById(R.id.brick_jumping_sumo_animation_spinner);
 
-		animationSpinner.setAdapter(animationAdapter);
-		animationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+		ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(context,
+				R.array.brick_jumping_sumo_select_animation_spinner, android.R.layout.simple_spinner_item);
+		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+		Spinner spinner = view.findViewById(R.id.brick_jumping_sumo_animation_spinner);
+		spinner.setAdapter(spinnerAdapter);
+		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
-				animation = Animation.values()[position];
-				animationName = animation.name();
+				animationName = Animation.values()[position].name();
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
-		if (animation == null) {
-			readResolve();
-		}
-
-		animationSpinner.setSelection(animation.ordinal());
-
+		spinner.setSelection(Animation.valueOf(animationName).ordinal());
 		return view;
 	}
 
 	@Override
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(JUMPING_SUMO);
+	}
+
+	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createJumpingSumoAnimationAction(animation));
+		sequence.addAction(sprite.getActionFactory()
+				.createJumpingSumoAnimationAction(Animation.valueOf(animationName)));
 		return null;
 	}
 }

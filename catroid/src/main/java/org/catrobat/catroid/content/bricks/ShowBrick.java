@@ -29,6 +29,7 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import java.util.List;
 
 public class ShowBrick extends BrickBaseType {
+
 	private static final long serialVersionUID = 1L;
 
 	public ShowBrick() {
@@ -37,11 +38,6 @@ public class ShowBrick extends BrickBaseType {
 	@Override
 	public int getViewResource() {
 		return R.layout.brick_show;
-	}
-
-	@Override
-	public Brick clone() {
-		return new ShowBrick();
 	}
 
 	@Override

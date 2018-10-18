@@ -98,12 +98,12 @@ public class IfLogicActionTest {
 		repeatBrick = new RepeatBrick(2);
 		ifLogicBeginBrick = new IfLogicBeginBrick(validFormula);
 		ifLogicElseBrick = new IfLogicElseBrick(ifLogicBeginBrick);
-		ifLogicEndBrick = new IfLogicEndBrick(ifLogicElseBrick, ifLogicBeginBrick);
+		ifLogicEndBrick = new IfLogicEndBrick(ifLogicBeginBrick, ifLogicElseBrick);
 		repeatBrick.setLoopEndBrick(new LoopEndBrick(repeatBrick));
 
 		ifLogicBeginBrick2 = new IfLogicBeginBrick(validFormula);
 		ifLogicElseBrick2 = new IfLogicElseBrick(ifLogicBeginBrick2);
-		ifLogicEndBrick2 = new IfLogicEndBrick(ifLogicElseBrick2, ifLogicBeginBrick2);
+		ifLogicEndBrick2 = new IfLogicEndBrick(ifLogicBeginBrick2, ifLogicElseBrick2);
 
 		testScript.addBrick(ifLogicBeginBrick);
 		testScript.addBrick(ifLogicBeginBrick2);
@@ -140,7 +140,7 @@ public class IfLogicActionTest {
 
 		ifLogicBeginBrick = new IfLogicBeginBrick(validFormula);
 		ifLogicElseBrick = new IfLogicElseBrick(ifLogicBeginBrick);
-		ifLogicEndBrick = new IfLogicEndBrick(ifLogicElseBrick, ifLogicBeginBrick);
+		ifLogicEndBrick = new IfLogicEndBrick(ifLogicBeginBrick, ifLogicElseBrick);
 
 		testScript.addBrick(ifLogicBeginBrick);
 		testScript.addBrick(setVariableBrick);
@@ -171,7 +171,7 @@ public class IfLogicActionTest {
 
 		ifLogicBeginBrick = new IfLogicBeginBrick(invalidFormula);
 		ifLogicElseBrick = new IfLogicElseBrick(ifLogicBeginBrick);
-		ifLogicEndBrick = new IfLogicEndBrick(ifLogicElseBrick, ifLogicBeginBrick);
+		ifLogicEndBrick = new IfLogicEndBrick(ifLogicBeginBrick, ifLogicElseBrick);
 
 		testScript.addBrick(ifLogicBeginBrick);
 		testScript.addBrick(ifLogicElseBrick);
@@ -201,7 +201,7 @@ public class IfLogicActionTest {
 	}
 
 	@Test
-	public void testNullFormula() {
+	public void testNullFormula() throws Exception {
 		Object userVariableExpected = userVariable.getValue();
 		Action ifAction = testSprite.getActionFactory().createSetVariableAction(testSprite, new Formula(IF_TRUE_VALUE),
 				userVariable);
@@ -230,7 +230,7 @@ public class IfLogicActionTest {
 		testScript = new StartScript();
 		ifLogicBeginBrick = new IfLogicBeginBrick(formula);
 		ifLogicElseBrick = new IfLogicElseBrick(ifLogicBeginBrick);
-		ifLogicEndBrick = new IfLogicEndBrick(ifLogicElseBrick, ifLogicBeginBrick);
+		ifLogicEndBrick = new IfLogicEndBrick(ifLogicBeginBrick, ifLogicElseBrick);
 		testScript.addBrick(ifLogicBeginBrick);
 		testScript.addBrick(setVariableBrickIfTrue);
 		testScript.addBrick(ifLogicElseBrick);

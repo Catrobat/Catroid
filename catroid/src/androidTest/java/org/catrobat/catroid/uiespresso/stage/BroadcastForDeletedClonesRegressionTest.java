@@ -52,7 +52,6 @@ public class BroadcastForDeletedClonesRegressionTest {
 
 	private static final String BROADCAST_MESSAGE_1 = "message1";
 	private ScriptEvaluationGateBrick broadCastReceived;
-	private ScriptEvaluationGateBrick cloneDeleted;
 
 	@Rule
 	public BaseActivityInstrumentationRule<StageActivity> baseActivityTestRule = new
@@ -67,7 +66,6 @@ public class BroadcastForDeletedClonesRegressionTest {
 	@Test
 	public void testBroadcastsToDeletedClones() {
 		baseActivityTestRule.launchActivity(null);
-		cloneDeleted.waitUntilEvaluated(3000);
 		broadCastReceived.waitUntilEvaluated(3000);
 	}
 
@@ -85,7 +83,6 @@ public class BroadcastForDeletedClonesRegressionTest {
 		Script whenStartAsCloneScript = new WhenClonedScript();
 		whenStartAsCloneScript.addBrick(new DeleteThisCloneBrick());
 		sprite.addScript(whenStartAsCloneScript);
-		cloneDeleted = ScriptEvaluationGateBrick.appendToScript(whenStartAsCloneScript);
 
 		Script broadcastReceiveScript = new BroadcastScript(BROADCAST_MESSAGE_1);
 		sprite.addScript(broadcastReceiveScript);

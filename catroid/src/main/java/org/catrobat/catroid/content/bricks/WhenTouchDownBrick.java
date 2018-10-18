@@ -22,9 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -34,33 +31,31 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import java.util.List;
 
 public class WhenTouchDownBrick extends BrickBaseType implements ScriptBrick {
-	protected WhenTouchDownScript whenTouchDownScript;
-	private transient View prototypeView;
+
+	private WhenTouchDownScript whenTouchDownScript;
 	private static final long serialVersionUID = 1L;
 
 	public WhenTouchDownBrick() {
-		this.whenTouchDownScript = new WhenTouchDownScript();
+		this(new WhenTouchDownScript());
 	}
 
-	public WhenTouchDownBrick(WhenTouchDownScript script) {
-		this.whenTouchDownScript = script;
-
-		if (script != null && script.isCommentedOut()) {
-			setCommentedOut(true);
-		}
+	public WhenTouchDownBrick(WhenTouchDownScript whenTouchDownScript) {
+		whenTouchDownScript.setScriptBrick(this);
+		commentedOut = whenTouchDownScript.isCommentedOut();
+		this.whenTouchDownScript = whenTouchDownScript;
 	}
 
 	@Override
-	public Script getScriptSafe() {
-		if (whenTouchDownScript == null) {
-			setWhenTouchDownScript(new WhenTouchDownScript());
-		}
+	public Script getScript() {
 		return whenTouchDownScript;
 	}
 
 	@Override
-	public Brick clone() {
-		return new WhenTouchDownBrick(new WhenTouchDownScript());
+	public BrickBaseType clone() throws CloneNotSupportedException {
+		WhenTouchDownBrick clone = (WhenTouchDownBrick) super.clone();
+		clone.whenTouchDownScript = (WhenTouchDownScript) whenTouchDownScript.clone();
+		clone.whenTouchDownScript.setScriptBrick(clone);
+		return clone;
 	}
 
 	@Override
@@ -69,33 +64,13 @@ public class WhenTouchDownBrick extends BrickBaseType implements ScriptBrick {
 	}
 
 	@Override
-	public View getView(final Context context) {
-		super.getView(context);
-		return view;
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
-		return prototypeView;
-	}
-
-	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		return null;
-	}
-
-	public WhenTouchDownScript getWhenTouchDownScript() {
-		return whenTouchDownScript;
-	}
-
-	public void setWhenTouchDownScript(WhenTouchDownScript whenTouchDownScript) {
-		this.whenTouchDownScript = whenTouchDownScript;
 	}
 
 	@Override
 	public void setCommentedOut(boolean commentedOut) {
 		super.setCommentedOut(commentedOut);
-		getScriptSafe().setCommentedOut(commentedOut);
+		getScript().setCommentedOut(commentedOut);
 	}
 }

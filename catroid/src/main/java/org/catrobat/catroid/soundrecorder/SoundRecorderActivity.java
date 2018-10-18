@@ -22,11 +22,11 @@
  */
 package org.catrobat.catroid.soundrecorder;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -129,11 +129,11 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 		try {
 			soundRecorder.stop();
 			Uri uri = soundRecorder.getPath();
-			setResult(Activity.RESULT_OK, new Intent(Intent.ACTION_PICK, uri));
+			setResult(AppCompatActivity.RESULT_OK, new Intent(Intent.ACTION_PICK, uri));
 		} catch (IOException e) {
 			Log.e(TAG, "Error recording sound.", e);
 			ToastUtil.showError(this, R.string.soundrecorder_error);
-			setResult(Activity.RESULT_CANCELED);
+			setResult(AppCompatActivity.RESULT_CANCELED);
 		}
 	}
 

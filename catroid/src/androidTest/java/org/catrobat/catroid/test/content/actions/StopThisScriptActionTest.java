@@ -40,6 +40,7 @@ import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
 import org.catrobat.catroid.content.eventids.EventId;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -71,7 +72,7 @@ public class StopThisScriptActionTest {
 	public void testStopThisScriptBasic() {
 		final int invalidPosition = 15;
 		startScript.addBrick(new StopScriptBrick(BrickValues.STOP_THIS_SCRIPT));
-		startScript.addBrick(new SetXBrick(invalidPosition));
+		startScript.addBrick(new SetXBrick(new Formula(invalidPosition)));
 		sprite.initializeEventThreads(EventId.START);
 
 		executeAllActions();

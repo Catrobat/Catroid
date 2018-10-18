@@ -57,10 +57,9 @@ public class ParserTestUserLists {
 	private static final String PROJECT_USER_LIST_NAME_2 = "project_user_list_2";
 	private static final String PROJECT_USER_LIST_NAME = "project_user_list";
 	private static final String SPRITE_USER_LIST_NAME = "sprite_user_list";
+	private static final String EMPTY_USER_LIST_INTERPRETATION_VALUE = "";
 
 	private static final String PROJECT_USER_VARIABLE = "projectUserVariable";
-
-	private static final String EMPTY_USER_LIST_INTERPRETATION_VALUE = "";
 
 	private Sprite sprite;
 	private DataContainer dataContainer;

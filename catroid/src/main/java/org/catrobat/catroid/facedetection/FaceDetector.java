@@ -23,6 +23,7 @@
 package org.catrobat.catroid.facedetection;
 
 import android.graphics.Point;
+import android.support.annotation.VisibleForTesting;
 
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.ScreenValues;
@@ -66,7 +67,7 @@ public abstract class FaceDetector {
 		faceDetectionStatusListeners.remove(listener);
 	}
 
-	protected void onFaceDetected(Point position, int size) {
+	void onFaceDetected(Point position, int size) {
 		float[] positionXFloatValue = new float[] {position.x};
 		boolean invertY = !CameraManager.getInstance().isCurrentCameraFacingBack();
 		float[] positionYFloatValue = new float[] {invertY ? -position.y : position.y};
@@ -92,7 +93,17 @@ public abstract class FaceDetector {
 		}
 	}
 
-	protected Point getRelationForFacePosition() {
+	Point getRelationForFacePosition() {
 		return new Point(-ScreenValues.SCREEN_WIDTH, -ScreenValues.SCREEN_HEIGHT);
+	}
+
+	@VisibleForTesting
+	public void callOnFaceDetected(boolean faceDetected) {
+		onFaceDetected(faceDetected);
+	}
+
+	@VisibleForTesting
+	public void callOnFaceDetected(Point position, int size) {
+		onFaceDetected(position, size);
 	}
 }

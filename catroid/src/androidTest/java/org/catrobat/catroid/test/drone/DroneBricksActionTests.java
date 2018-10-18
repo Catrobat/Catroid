@@ -22,8 +22,7 @@
  */
 package org.catrobat.catroid.test.drone;
 
-import android.support.test.InstrumentationRegistry;
-import android.test.InstrumentationTestCase;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
@@ -31,6 +30,7 @@ import com.badlogic.gdx.utils.Array;
 import com.parrot.freeflight.drone.DroneConfig;
 import com.parrot.freeflight.service.DroneControlService;
 
+import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
@@ -49,18 +49,20 @@ import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
 import org.catrobat.catroid.drone.ardrone.DroneServiceWrapper;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 
 import static org.mockito.Mockito.when;
 
-public class DroneBricksActionTests extends InstrumentationTestCase {
+@RunWith(AndroidJUnit4.class)
+public class DroneBricksActionTests {
 
-	public DroneControlService droneControlService;
-	public DroneConfig droneConfig;
+	private DroneControlService droneControlService;
+	private DroneConfig droneConfig;
 
 	public TemporalAction action;
-	Sprite sprite;
-	EventThread sequenceAction;
+	private Sprite sprite;
+	private EventThread sequenceAction;
 	private int powerInPercent;
 	private int durationInSeconds;
 
@@ -71,17 +73,13 @@ public class DroneBricksActionTests extends InstrumentationTestCase {
 
 	@Before
 	public void setUp() throws Exception {
-		//Workaround for Android 4.4 Devices
-		//https://code.google.com/p/dexmaker/issues/detail?id=2
-		System.setProperty("dexmaker.dexcache", InstrumentationRegistry.getTargetContext().getCacheDir().getPath());
-
 		droneControlService = Mockito.mock(DroneControlService.class);
 		droneConfig = Mockito.mock(DroneConfig.class);
 		when(droneControlService.getDroneConfig()).thenReturn(droneConfig);
 
 		DroneServiceWrapper.getInstance().setDroneService(droneControlService);
-		sprite = new SingleSprite(getName());
-		sequenceAction = (EventThread) sprite.getActionFactory().createEventThread(new StartScript());
+		sprite = new SingleSprite("droneTestSprite");
+		sequenceAction = (EventThread) ActionFactory.createEventThread(new StartScript());
 	}
 
 	private void addActionToSequenceAndAct(BrickBaseType brick) {
@@ -183,27 +181,6 @@ public class DroneBricksActionTests extends InstrumentationTestCase {
 		Mockito.verify(droneControlService, Mockito.atLeast(1)).turnRight(0.2f);
 		Mockito.verify(droneControlService, Mockito.atLeast(1)).turnRight(0);
 	}
-
-//	public void testConfigBrickSpinnerPosition0() {
-//		DroneSetConfigBrick configBrick = new DroneSetConfigBrick();
-//		configBrick.setSpinnerPosition(0);
-//		addActionToSequenceAndAct(configBrick);
-//		Mockito.verify(droneControlService, Mockito.atLeast(1)).resetConfigToDefaults();
-//	}
-//
-//	public void testConfigBrickSpinnerPosition1() {
-//		DroneSetConfigBrick configBrick = new DroneSetConfigBrick();
-//		configBrick.setSpinnerPosition(1);
-//		addActionToSequenceAndAct(configBrick);
-//		Mockito.verify(droneConfig, Mockito.atLeast(1)).setOutdoorFlight(false);
-//	}
-//
-//	public void testConfigBrickSpinnerPosition2() {
-//		DroneSetConfigBrick configBrick = new DroneSetConfigBrick();
-//		configBrick.setSpinnerPosition(2);
-//		addActionToSequenceAndAct(configBrick);
-//		Mockito.verify(droneConfig, Mockito.atLeast(1)).setOutdoorFlight(true);
-//	}
 
 	@Test
 	public void testSwitch() {

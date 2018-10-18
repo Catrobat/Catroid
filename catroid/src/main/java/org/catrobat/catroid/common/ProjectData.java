@@ -26,17 +26,24 @@ import org.catrobat.catroid.content.Project;
 
 import java.io.Serializable;
 
-public class ProjectData implements Serializable {
+public class ProjectData implements Nameable, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	public String projectName;
 	public long lastUsed;
-	public boolean overviewVisible = false;
 	public Project project = null;
 
 	public ProjectData(String projectName, long lastUsed) {
 		this.projectName = projectName;
 		this.lastUsed = lastUsed;
+	}
+
+	public String getName() {
+		return projectName;
+	}
+
+	public void setName(String name) {
+		projectName = name;
 	}
 }

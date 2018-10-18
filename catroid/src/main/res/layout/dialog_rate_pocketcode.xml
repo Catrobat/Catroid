@@ -31,7 +31,6 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/rating_google_play_dialog_text"
-        android:textColor="@color/spritelist_details_text_color" />
+        android:text="@string/rating_google_play_dialog_text" />
 
 </ScrollView>

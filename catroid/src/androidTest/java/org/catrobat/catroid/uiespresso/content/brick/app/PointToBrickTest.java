@@ -69,11 +69,11 @@ public class PointToBrickTest {
 
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_point_to);
 
-		onBrickAtPosition(brickPosition).onVariableSpinner(R.id.brick_point_to_spinner)
-				.checkShowsText(R.string.brick_variable_spinner_create_new_variable)
-				.performSelect(R.string.brick_variable_spinner_create_new_variable);
+		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_point_to_spinner)
+				.checkShowsText(R.string.new_option)
+				.performSelectNameable(R.string.new_option);
 
-		onView(withText(R.string.new_look_dialog_title))
+		onView(withText(R.string.new_sprite_dialog_title))
 				.check(matches(isDisplayed()));
 	}
 

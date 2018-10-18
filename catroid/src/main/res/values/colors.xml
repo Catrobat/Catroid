@@ -27,6 +27,15 @@
     <color name="toolbar_background">#002B3B</color>
     <color name="toolbar_border">#4D7F8F</color>
 
+    <!-- Text Colors -->
+    <color name="toolbar_title">@color/solid_white</color>
+    <color name="checkbox_and_radio_button_description">@color/solid_white</color>
+    <color name="dialog_title_and_text_view">@color/solid_white</color>
+    <color name="vh_headline">@color/solid_white</color>
+    <color name="vh_item_title" />
+    <color name="vh_item_details">@color/solid_white</color>
+    <color name="spinner_icon_and_inactive_elements">@color/solid_white</color>
+
     <!-- Backgrounds -->
     <color name="app_background">#04222C</color>
     <color name="button_background">#00475E</color>
@@ -35,61 +44,44 @@
 
     <!-- Accent Colors -->
     <color name="accent">#A8DFF4</color>
-    <color name="image_view_border">#A8DFF4</color>
+    <color name="brick_field_highlight">#33B5E5</color>
+    <color name="image_view_border">@color/accent</color>
+    <color name="snackbar">#FF33B5E5</color>
     <color name="separator">#51656C</color>
 
     <!-- Material Design Colors -->
     <color name="solid_black">#000</color>
     <color name="solid_white">#FFFFFF</color>
-    <color name="white">#FFFFFF</color>
-    <color name="light_grey">#CCCCCC</color>
     <color name="transparent">#00000000</color>
-    <color name="formula_editor_keyboard_text_color">#A8DFF4</color>
+    <color name="orange">#E68B00</color>
+
+    <!-- Misc Text Colors -->
     <color name="formula_editor_intro_heading_color">#FF6600</color>
+    <color name="terms_of_use_text_color">@color/orange</color>
 
-    <color name="holo_blue_light">#ff33b5e5</color>
-    <color name="terms_of_use_text_color">#E68B00</color>
-
-    <!-- Project Activity Colors -->
-    <color name="spritelist_details_text_color">#CCCCCC</color>
-
-    <!-- Brick Category Fragment Colors -->
-    <color name="brick_category_fragment_text_color">#FFFFFF</color>
-
-    <!-- Stage Menu Colors -->
-    <color name="stage_dialog_background_color">#CC00475E</color>
-    <color name="stage_dialog_text_color">#A8DFF4</color>
+    <!-- Stage Dialog Colors -->
+    <color name="stage_dialog_maximize_button_background">#CC00475E</color>
 
     <!-- Device List Colors -->
     <color name="bluetooth_device_list_divider_color">#505050</color>
 
     <!-- Scratch Converter Colors -->
-    <color name="beta_label_color">#ff7700</color>
+    <color name="beta_label_color">#FF7700</color>
 
     <!-- Phiro RGBColor Chooser Colors -->
     <color name="color_chooser_rgb_red">#FFEB4618</color>
     <color name="color_chooser_rgb_green">#FF078707</color>
     <color name="color_chooser_rgb_blue">#FF0284E7</color>
-    <color name="holo_blue_bright">#33B5E5</color>
 
-    <!-- Drone advanced preferences -->
-    <color name="drone_altitude_color">#FFEB4618</color>
-    <color name="drone_vertical_color">#FF078707</color>
-    <color name="drone_rotation_color">#FF0284E7</color>,
-    <color name="drone_tilt_color">#FFE01B</color>
-    <color name="drone_holo_blue_bright">#33B5E5</color>
-
-    <!-- Pocketmusic colors -->
+    <!-- Pocket Music Colors -->
     <color name="turquoise_play_line">#FF008b96</color>
-    <color name="opaque_turquoise_play_line">#FF80c5ca</color>
-    <color name="opaque_turquoise_play_line_dark">#FF5EA3A8</color>
     <color name="pocketmusic_odd_bright">#FAFAFA</color>
     <color name="pocketmusic_even_bright">#E0E0E0</color>
     <color name="pocketmusic_odd_dusk">#E0E0E0</color>
     <color name="pocketmusic_even_dusk">#BDBDBD</color>
 
-    <!-- Social media login colors -->
-    <color name="facebook_blue">#49639f</color>
-    <color name="google_red">#df4a32</color>
+    <!-- Social Media Colors -->
+    <color name="facebook_blue">#49639F</color>
+    <color name="google_red">#Df4A32</color>
 
 </resources>

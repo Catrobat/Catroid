@@ -29,6 +29,7 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import java.util.List;
 
 public class StopAllSoundsBrick extends BrickBaseType {
+
 	private static final long serialVersionUID = 1L;
 
 	public StopAllSoundsBrick() {
@@ -37,11 +38,6 @@ public class StopAllSoundsBrick extends BrickBaseType {
 	@Override
 	public int getViewResource() {
 		return R.layout.brick_stop_all_sounds;
-	}
-
-	@Override
-	public Brick clone() {
-		return new StopAllSoundsBrick();
 	}
 
 	@Override

@@ -26,7 +26,6 @@ package org.catrobat.catroid.ui.recyclerview.fragment;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.nfc.NfcAdapter;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.PluralsRes;
@@ -38,10 +37,8 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.ui.recyclerview.adapter.NfcTagAdapter;
-import org.catrobat.catroid.ui.recyclerview.dialog.RenameDialogFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
@@ -59,14 +56,8 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 		pendingIntent = PendingIntent.getActivity(getActivity(), 0, nfcIntent, 0);
 		if (nfcAdapter != null && !nfcAdapter.isEnabled()) {
 			ToastUtil.showError(getActivity(), R.string.nfc_not_activated);
-
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-				Intent intent = new Intent(Settings.ACTION_NFC_SETTINGS);
-				startActivity(intent);
-			} else {
-				Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
-				startActivity(intent);
-			}
+			Intent intent = new Intent(Settings.ACTION_NFC_SETTINGS);
+			startActivity(intent);
 		} else if (nfcAdapter == null) {
 			ToastUtil.showError(getActivity(), R.string.no_nfc_available);
 		}
@@ -103,29 +94,20 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 		menu.findItem(R.id.backpack).setVisible(false);
 	}
 
-	@Override
-	public void handleAddButton() {
-		// NFC Tags cannot be added Directly.
-	}
-
 	public void onNewIntent(Intent intent) {
 		String uid = NfcHandler.getTagIdFromIntent(intent);
 		NfcHandler.setLastNfcTagId(uid);
 		NfcHandler.setLastNfcTagMessage(NfcHandler.getMessageFromIntent(intent));
 		if (uid != null) {
 			NfcTagData item = new NfcTagData();
-			String name = uniqueNameProvider.getUniqueName(getString(R.string.default_tag_name), getScope());
-			item.setNfcTagName(name);
+			String name = uniqueNameProvider
+					.getUniqueNameInNameables(getString(R.string.default_tag_name), adapter.getItems());
+			item.setName(name);
 			item.setNfcTagUid(uid);
-			addItem(item);
+			adapter.add(item);
 		} else {
 			Log.e(TAG, "NFC Tag does not have a UID.");
 		}
-	}
-
-	@Override
-	public void addItem(NfcTagData item) {
-		adapter.add(item);
 	}
 
 	@Override
@@ -146,27 +128,21 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 	@Override
 	protected void copyItems(List<NfcTagData> selectedItems) {
 		setShowProgressBar(true);
+
 		for (NfcTagData item : selectedItems) {
-			String name = uniqueNameProvider.getUniqueName(item.getNfcTagName(), getScope());
+			String name = uniqueNameProvider.getUniqueNameInNameables(item.getName(), adapter.getItems());
 
 			NfcTagData newItem = new NfcTagData();
-			newItem.setNfcTagName(name);
+			newItem.setName(name);
 			newItem.setNfcTagUid(item.getNfcTagUid());
 
 			adapter.add(newItem);
 		}
+
 		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.copied_nfc_tags,
 				selectedItems.size(),
 				selectedItems.size()));
 		finishActionMode();
-	}
-
-	protected List<String> getScope() {
-		List<String> scope = new ArrayList<>();
-		for (NfcTagData item : adapter.getItems()) {
-			scope.add(item.getNfcTagName());
-		}
-		return scope;
 	}
 
 	@Override
@@ -190,24 +166,13 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 	}
 
 	@Override
-	protected void showRenameDialog(List<NfcTagData> selectedItems) {
-		String name = selectedItems.get(0).getNfcTagName();
-		RenameDialogFragment dialog = new RenameDialogFragment(R.string.rename_nfctag_dialog, R.string.new_nfc_tag, name, this);
-		dialog.show(getFragmentManager(), RenameDialogFragment.TAG);
+	protected int getRenameDialogTitle() {
+		return R.string.rename_nfctag_dialog;
 	}
 
 	@Override
-	public boolean isNameUnique(String name) {
-		return !getScope().contains(name);
-	}
-
-	@Override
-	public void renameItem(String name) {
-		NfcTagData item = adapter.getSelectedItems().get(0);
-		if (!item.getNfcTagName().equals(name)) {
-			item.setNfcTagName(name);
-		}
-		finishActionMode();
+	protected int getRenameDialogHint() {
+		return R.string.nfc_tag_name_label;
 	}
 
 	@Override

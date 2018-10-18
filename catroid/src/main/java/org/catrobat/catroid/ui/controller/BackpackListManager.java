@@ -72,24 +72,8 @@ public final class BackpackListManager {
 		return getBackpack().backpackedScenes;
 	}
 
-	public List<String> getSceneNames() {
-		List<String> names = new ArrayList<>();
-		for (Scene scene : getBackpack().backpackedScenes) {
-			names.add(scene.getName());
-		}
-		return names;
-	}
-
 	public List<Sprite> getSprites() {
 		return getBackpack().backpackedSprites;
-	}
-
-	public List<String> getSpriteNames() {
-		List<String> names = new ArrayList<>();
-		for (Scene scene : getBackpack().backpackedScenes) {
-			names.add(scene.getName());
-		}
-		return names;
 	}
 
 	public List<String> getBackpackedScriptGroups() {

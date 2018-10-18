@@ -29,7 +29,7 @@ import android.support.test.runner.AndroidJUnit4;
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.ActionFactory;
@@ -54,26 +54,24 @@ import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 
 @RunWith(AndroidJUnit4.class)
 public class SetLookActionTest {
-	protected String projectName = "testProject";
-	protected File testImage;
-	protected Project project;
-	protected Sprite sprite;
-	protected LookData firstLookData;
-	protected LookData secondLookData;
+	private String projectName = "testProject";
+	private Sprite sprite;
+	private LookData firstLookData;
+	private LookData secondLookData;
 
 	@Before
 	public void setUp() throws Exception {
-		File projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName);
+		File projectDir = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName);
 
 		if (projectDir.exists()) {
 			StorageOperations.deleteDir(projectDir);
 		}
 
-		project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
-		testImage = ResourceImporter.createImageFileFromResourcesInDirectory(
+		File testImage = ResourceImporter.createImageFileFromResourcesInDirectory(
 				InstrumentationRegistry.getContext().getResources(),
 				R.raw.icon,
 				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
@@ -82,7 +80,7 @@ public class SetLookActionTest {
 
 		BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 		bitmapOptions.inJustDecodeBounds = true;
-		BitmapFactory.decodeFile(this.testImage.getAbsolutePath(), bitmapOptions);
+		BitmapFactory.decodeFile(testImage.getAbsolutePath(), bitmapOptions);
 
 		ScreenValues.SCREEN_HEIGHT = 200;
 		ScreenValues.SCREEN_WIDTH = 200;
@@ -101,7 +99,7 @@ public class SetLookActionTest {
 
 	@After
 	public void tearDown() throws Exception {
-		File projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName);
+		File projectDir = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName);
 
 		if (projectDir.exists()) {
 			StorageOperations.deleteDir(projectDir);

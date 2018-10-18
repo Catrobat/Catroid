@@ -27,9 +27,9 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
 
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.Reflection.ParameterList;
 import org.catrobat.catroid.utils.ImageEditing;
@@ -40,9 +40,9 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.fail;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
@@ -51,10 +51,9 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(AndroidJUnit4.class)
 public class ImageEditingTest {
-	private static final String TAG = ImageEditingTest.class.getSimpleName();
 
 	@Test
-	public void testScaleImage() {
+	public void testScaleImage() throws Exception {
 		Bitmap bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.RGB_565);
 		Bitmap scaledBitmap = (Bitmap) Reflection.invokeMethod(ImageEditing.class, "scaleBitmap", new ParameterList(
 				bitmap, 60, 70));
@@ -64,54 +63,40 @@ public class ImageEditingTest {
 	}
 
 	@Test
-	public void testGetImageDimensions() {
-		File testImageFile = new File(Constants.DEFAULT_ROOT_DIRECTORY, "tmp.jpg");
-		FileOutputStream fileOutputStream = null;
+	public void testGetImageDimensions() throws IOException {
+		File testImageFile = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "tmp.jpg");
 
 		Bitmap bitmap = Bitmap.createBitmap(100, 200, Bitmap.Config.RGB_565);
 
-		try {
-			fileOutputStream = new FileOutputStream(testImageFile);
-			BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream, Constants.BUFFER_8K);
-			bitmap.compress(CompressFormat.PNG, 0, bos);
-			bos.flush();
-			bos.close();
-		} catch (Exception e) {
-			Log.e(TAG, "Test file could not be created", e);
-			fail("Test file could not be created");
-		}
+		FileOutputStream fileOutputStream = new FileOutputStream(testImageFile);
+		BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream, Constants.BUFFER_8K);
+		bitmap.compress(CompressFormat.PNG, 0, bos);
+		bos.flush();
+		bos.close();
 
-		int[] dimensions = new int[2];
-
-		dimensions = ImageEditing.getImageDimensions(testImageFile.getAbsolutePath());
+		int[] dimensions = ImageEditing.getImageDimensions(testImageFile.getAbsolutePath());
 
 		assertEquals(100, dimensions[0]);
 		assertEquals(200, dimensions[1]);
 	}
 
 	@Test
-	public void testGetBitmap() {
+	public void testGetBitmap() throws Exception {
 		int maxBitmapWidth = 500;
 		int maxBitmapHeight = 500;
 
 		int bitmapWidth = 100;
 		int bitmapHeight = 200;
 
-		File testImageFile = new File(Constants.DEFAULT_ROOT_DIRECTORY, "tmp.jpg");
-		FileOutputStream fileOutputStream = null;
+		File testImageFile = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "tmp.jpg");
 
 		Bitmap bitmap = Bitmap.createBitmap(bitmapWidth, bitmapHeight, Bitmap.Config.RGB_565);
 
-		try {
-			fileOutputStream = new FileOutputStream(testImageFile);
-			BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream, Constants.BUFFER_8K);
-			bitmap.compress(CompressFormat.PNG, 0, bos);
-			bos.flush();
-			bos.close();
-		} catch (Exception e) {
-			Log.e(TAG, "Test file could not be created", e);
-			fail("Test file could not be created");
-		}
+		FileOutputStream fileOutputStream = new FileOutputStream(testImageFile);
+		BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream, Constants.BUFFER_8K);
+		bitmap.compress(CompressFormat.PNG, 0, bos);
+		bos.flush();
+		bos.close();
 
 		Bitmap loadedBitmap = ImageEditing.getScaledBitmapFromPath(testImageFile.getAbsolutePath(), maxBitmapWidth,
 				maxBitmapHeight, ImageEditing.ResizeType.STAY_IN_RECTANGLE_WITH_SAME_ASPECT_RATIO, true);
@@ -135,20 +120,13 @@ public class ImageEditingTest {
 		int newWidth = (int) Math.ceil(bitmapWidth / sampleSize);
 		int newHeight = (int) Math.ceil(bitmapHeight / sampleSize);
 
-		fileOutputStream = null;
-
 		bitmap = Bitmap.createBitmap(bitmapWidth, bitmapHeight, Bitmap.Config.RGB_565);
 
-		try {
-			fileOutputStream = new FileOutputStream(testImageFile);
-			BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream, Constants.BUFFER_8K);
-			bitmap.compress(CompressFormat.PNG, 0, bos);
-			bos.flush();
-			bos.close();
-		} catch (Exception e) {
-			Log.e(TAG, "Test file could not be created", e);
-			fail("Test file could not be created");
-		}
+		fileOutputStream = new FileOutputStream(testImageFile);
+		bos = new BufferedOutputStream(fileOutputStream, Constants.BUFFER_8K);
+		bitmap.compress(CompressFormat.PNG, 0, bos);
+		bos.flush();
+		bos.close();
 
 		loadedBitmap = ImageEditing.getScaledBitmapFromPath(testImageFile.getAbsolutePath(), maxBitmapWidth,
 				maxBitmapHeight, ImageEditing.ResizeType.STAY_IN_RECTANGLE_WITH_SAME_ASPECT_RATIO, true);
@@ -160,28 +138,22 @@ public class ImageEditingTest {
 	}
 
 	@Test
-	public void testGetScaledBitmap() {
+	public void testGetScaledBitmap() throws Exception {
 		int targetBitmapWidth = 300;
 		int targetBitmapHeight = 500;
 
 		int bitmapWidth = 1000;
 		int bitmapHeight = 900;
 
-		File testImageFile = new File(Constants.DEFAULT_ROOT_DIRECTORY, "tmp.jpg");
-		FileOutputStream fileOutputStream = null;
+		File testImageFile = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "tmp.jpg");
 
 		Bitmap bitmap = Bitmap.createBitmap(bitmapWidth, bitmapHeight, Bitmap.Config.RGB_565);
 
-		try {
-			fileOutputStream = new FileOutputStream(testImageFile);
-			BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream, Constants.BUFFER_8K);
-			bitmap.compress(CompressFormat.PNG, 0, bos);
-			bos.flush();
-			bos.close();
-		} catch (Exception e) {
-			Log.e(TAG, "Test file could not be created", e);
-			fail("Test file could not be created");
-		}
+		FileOutputStream fileOutputStream = new FileOutputStream(testImageFile);
+		BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream, Constants.BUFFER_8K);
+		bitmap.compress(CompressFormat.PNG, 0, bos);
+		bos.flush();
+		bos.close();
 
 		Bitmap loadedBitmap = ImageEditing.getScaledBitmapFromPath(testImageFile.getAbsolutePath(), targetBitmapWidth,
 				targetBitmapHeight, ImageEditing.ResizeType.STAY_IN_RECTANGLE_WITH_SAME_ASPECT_RATIO, false);
@@ -206,12 +178,7 @@ public class ImageEditingTest {
 		assertEquals(bitmap.getHeight(), loadedBitmap.getHeight());
 		assertEquals(bitmap.getWidth(), loadedBitmap.getWidth());
 
-		try {
-			ImageEditing.scaleImageFile(testImageFile, 1 / sampleSizeReturnValue);
-		} catch (FileNotFoundException e) {
-			Log.e(TAG, "Test not found", e);
-			fail("Test not found");
-		}
+		ImageEditing.scaleImageFile(testImageFile, 1 / sampleSizeReturnValue);
 		imageFileDimensions = ImageEditing.getImageDimensions(testImageFile.getAbsolutePath());
 		assertEquals(bitmapWidth, imageFileDimensions[0]);
 		assertEquals(bitmapHeight, imageFileDimensions[1]);
@@ -237,17 +204,14 @@ public class ImageEditingTest {
 		}
 	}
 
-	private static double scaleImageFileAndReturnSampleSize(File file, int newWidth, int newHeight) {
+	private static double scaleImageFileAndReturnSampleSize(File file, int newWidth, int newHeight) throws
+			FileNotFoundException {
 		String path = file.getAbsolutePath();
 		int[] originalBackgroundImageDimensions = ImageEditing.getImageDimensions(path);
 		Bitmap scaledBitmap = ImageEditing.getScaledBitmapFromPath(path, newWidth, newHeight,
 				ImageEditing.ResizeType.STAY_IN_RECTANGLE_WITH_SAME_ASPECT_RATIO, false);
-		try {
-			ImageEditing.saveBitmapToImageFile(file, scaledBitmap);
-		} catch (FileNotFoundException e) {
-			Log.e(TAG, "Error while saving file", e);
-			fail("Error while saving file");
-		}
+
+		ImageEditing.saveBitmapToImageFile(file, scaledBitmap);
 
 		double sampleSizeWidth = ((double) originalBackgroundImageDimensions[0]) / ((double) newWidth);
 		double sampleSizeHeight = ((double) originalBackgroundImageDimensions[1]) / ((double) newHeight);

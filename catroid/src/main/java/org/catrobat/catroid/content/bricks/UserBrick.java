@@ -22,12 +22,9 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
@@ -40,7 +37,6 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
-import org.catrobat.catroid.ui.BrickLayout;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -52,7 +48,6 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 
 	@XStreamAlias("definitionBrick")
 	private UserScriptDefinitionBrick definitionBrick;
-	private transient View prototypeView;
 
 	@XStreamAlias("userBrickParameters")
 	private List<UserBrickParameter> userBrickParameters = new ArrayList<>();
@@ -66,82 +61,16 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return definitionBrick.getRequiredResources();
-	}
-
-	@Override
-	public Brick clone() {
-		UserBrick clonedUserBrick = new UserBrick(definitionBrick);
-		clonedUserBrick.userBrickParameters = new ArrayList<>();
-		if (userBrickParameters != null) {
-			for (int position = 0; position < userBrickParameters.size(); position++) {
-				UserBrickParameter userBrickParameter = userBrickParameters.get(position);
-				clonedUserBrick.userBrickParameters.add(userBrickParameter.clone());
-			}
-		}
-		return clonedUserBrick;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		definitionBrick.addRequiredResources(requiredResourcesSet);
 	}
 
 	public List<UserBrickParameter> getUserBrickParameters() {
 		return userBrickParameters;
 	}
 
-	private UserBrickParameter getUserBrickParameterByUserBrickElement(UserScriptDefinitionBrickElement element) {
-		if (userBrickParameters == null) {
-			return null;
-		}
-		for (UserBrickParameter parameter : userBrickParameters) {
-			if (parameter.getElement().equals(element)) {
-				return parameter;
-			}
-		}
-		return null;
-	}
-
 	public void updateUserBrickParametersAndVariables() {
-		updateUserBrickParameters();
 		updateUserVariableValues();
-	}
-
-	public void updateUserBrickParameters() {
-		List<UserBrickParameter> newParameters = new ArrayList<>();
-		List<UserScriptDefinitionBrickElement> elements = getUserScriptDefinitionBrickElements();
-
-		for (UserScriptDefinitionBrickElement element : elements) {
-			if (!element.isVariable()) {
-				continue;
-			}
-			UserBrickParameter parameter = getUserBrickParameterByUserBrickElement(element);
-			if (parameter == null) {
-				parameter = new UserBrickParameter(this, element);
-				parameter.setFormulaWithBrickField(BrickField.USER_BRICK, new Formula(0));
-			}
-			newParameters.add(parameter);
-		}
-
-		if (userBrickParameters != null) {
-			copyFormulasMatchingNames(userBrickParameters, newParameters);
-		}
-
-		userBrickParameters = newParameters;
-	}
-
-	public void copyFormulasMatchingNames(List<UserBrickParameter> originalParameters, List<UserBrickParameter> copiedParameters) {
-		for (UserBrickParameter originalParameter : originalParameters) {
-			UserScriptDefinitionBrickElement originalElement = originalParameter.getElement();
-			if (!originalElement.isVariable()) {
-				return;
-			}
-
-			for (UserBrickParameter copiedParameter : copiedParameters) {
-				UserScriptDefinitionBrickElement copiedElement = copiedParameter.getElement();
-				if (originalElement.equals(copiedElement)) {
-					Formula formula = originalParameter.getFormulaWithBrickField(BrickField.USER_BRICK);
-					copiedParameter.setFormulaWithBrickField(BrickField.USER_BRICK, formula.clone());
-				}
-			}
-		}
 	}
 
 	private void updateUserVariableValues() {
@@ -192,108 +121,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 	}
 
 	@Override
-	public View getView(Context context) {
-		super.getView(context);
-		setUserBrickParametersParent();
-		onLayoutChanged(view);
-		return view;
-	}
-
-	private void setUserBrickParametersParent() {
-		if (userBrickParameters != null) {
-			for (UserBrickParameter parameter : userBrickParameters) {
-				parameter.setParent(this);
-			}
-		}
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
-		onLayoutChanged(prototypeView);
-		return prototypeView;
-	}
-
-	public void onLayoutChanged(View currentView) {
-		boolean prototype = (currentView == prototypeView);
-
-		Context context = currentView.getContext();
-
-		BrickLayout layout = (BrickLayout) currentView.findViewById(R.id.brick_user_flow_layout);
-		if (layout.getChildCount() > 0) {
-			layout.removeAllViews();
-		}
-
-		int id = 0;
-		for (UserScriptDefinitionBrickElement element : getUserScriptDefinitionBrickElements()) {
-			TextView currentEditText;
-			if (element.isLineBreak()) {
-				continue;
-			} else if (element.isVariable()) {
-				UserBrickParameter parameter = getUserBrickParameterByUserBrickElement(element);
-				currentEditText = new EditText(context);
-
-				currentEditText.setId(id);
-				currentEditText.setTextAppearance(context, R.style.BrickEditText);
-
-				if (parameter != null) {
-					parameter.getFormulaWithBrickField(BrickField.USER_BRICK).setTextFieldId(currentEditText.getId());
-					String formulaString = parameter.getFormulaWithBrickField(BrickField.USER_BRICK).getDisplayString(currentEditText.getContext());
-					parameter.getFormulaWithBrickField(BrickField.USER_BRICK).refreshTextField(currentEditText, formulaString);
-				}
-
-				// This stuff isn't being included by the style when I use setTextAppearance.
-				currentEditText.setFocusable(false);
-				currentEditText.setFocusableInTouchMode(false);
-
-				currentEditText.setOnClickListener(this);
-
-				currentEditText.setVisibility(View.VISIBLE);
-				if (parameter != null) {
-					if (prototype) {
-						parameter.setPrototypeView(currentEditText);
-					} else {
-						parameter.setTextView(currentEditText);
-					}
-				}
-			} else {
-				currentEditText = new TextView(context);
-				currentEditText.setTextAppearance(context, R.style.BrickText_Multiple);
-
-				currentEditText.setText(element.getText());
-			}
-
-			// This stuff isn't being included by the style when I use setTextAppearance.
-			if (prototype) {
-				currentEditText.setFocusable(false);
-				currentEditText.setFocusableInTouchMode(false);
-				currentEditText.setClickable(false);
-			}
-
-			layout.addView(currentEditText);
-
-			if (element.isNewLineHint()) {
-				BrickLayout.LayoutParams params = (BrickLayout.LayoutParams) currentEditText.getLayoutParams();
-				params.setNewLine(true);
-				currentEditText.setLayoutParams(params);
-			}
-			id++;
-		}
-	}
-
-	@Override
 	public void onClick(View eventOrigin) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
-
-		for (UserBrickParameter userBrickParameter : userBrickParameters) {
-			int currentUserBrickParameterIndex = userBrickParameter.getTextView().getId();
-			int clickedUserBrickParameterIndex = eventOrigin.getId();
-			if (currentUserBrickParameterIndex == clickedUserBrickParameterIndex) {
-				userBrickParameter.showFormulaEditorToEditFormula(view);
-			}
-		}
 	}
 
 	@Override
@@ -302,8 +130,8 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 		List<ScriptSequenceAction> returnActionList = new ArrayList<>();
 
 		ActionFactory actionFactory = sprite.getActionFactory();
-		ScriptSequenceAction userSequence = (ScriptSequenceAction) actionFactory.eventSequence(definitionBrick.getScriptSafe());
-		definitionBrick.getScriptSafe().run(sprite, userSequence);
+		ScriptSequenceAction userSequence = (ScriptSequenceAction) ActionFactory.eventSequence(definitionBrick.getScript());
+		definitionBrick.getScript().run(sprite, userSequence);
 		returnActionList.add(userSequence);
 		sequence.addAction(actionFactory.createUserBrickAction(userSequence, this));
 		ProjectManager.getInstance().setCurrentUserBrick(this);
@@ -321,9 +149,5 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 
 	public void setDefinitionBrick(UserScriptDefinitionBrick definitionBrick) {
 		this.definitionBrick = definitionBrick;
-	}
-
-	public List<UserScriptDefinitionBrickElement> getUserScriptDefinitionBrickElements() {
-		return definitionBrick.getUserScriptDefinitionBrickElements();
 	}
 }

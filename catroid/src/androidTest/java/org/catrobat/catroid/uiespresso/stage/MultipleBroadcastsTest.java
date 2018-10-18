@@ -25,8 +25,6 @@ package org.catrobat.catroid.uiespresso.stage;
 
 import android.support.test.runner.AndroidJUnit4;
 
-import junit.framework.Assert;
-
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.SingleSprite;
@@ -49,7 +47,7 @@ import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 
-import static org.catrobat.catroid.uiespresso.util.UserVariableTestUtils.userVariableEqualsWithinTimeout;
+import static org.catrobat.catroid.uiespresso.util.UserVariableAssertions.assertUserVariableEqualsWithTimeout;
 
 @RunWith(AndroidJUnit4.class)
 public class MultipleBroadcastsTest {
@@ -88,7 +86,7 @@ public class MultipleBroadcastsTest {
 		baseActivityTestRule.launchActivity(null);
 
 		for (int i = 0; i < userVariables.size(); i++) {
-			Assert.assertTrue(userVariableEqualsWithinTimeout(userVariables.get(i), VALUES[i], 2000));
+			assertUserVariableEqualsWithTimeout(userVariables.get(i), VALUES[i], 2000);
 		}
 	}
 }

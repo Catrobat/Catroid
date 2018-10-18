@@ -33,7 +33,7 @@ import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
@@ -48,7 +48,6 @@ import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.shapebuilder.PhysicsShapeBuilder;
 import org.catrobat.catroid.physics.shapebuilder.PhysicsShapeScaleUtils;
 import org.catrobat.catroid.test.R;
-import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.Utils;
@@ -63,10 +62,11 @@ import java.util.Queue;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
 
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.number.OrderingComparison.greaterThan;
+import static org.junit.Assert.assertThat;
 
 @RunWith(AndroidJUnit4.class)
 public class PhysicsLookTest {
@@ -86,7 +86,7 @@ public class PhysicsLookTest {
 	@Before
 	public void setUp() throws Exception {
 		physicsWorld = new PhysicsWorld(1920, 1600);
-		projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName);
+		projectDir = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName);
 		if (projectDir.exists()) {
 			StorageOperations.deleteDir(projectDir);
 		}
@@ -126,7 +126,7 @@ public class PhysicsLookTest {
 
 		Shape[] shapes = physicsShapeBuilder.getScaledShapes(lookData, sprite.look.getSizeInUserInterfaceDimensionUnit() / 100f);
 
-		assertTrue(shapes.length > 0);
+		assertThat(shapes.length, is(greaterThan(0)));
 		physicsShapeBuilder.reset();
 	}
 
@@ -162,7 +162,7 @@ public class PhysicsLookTest {
 	}
 
 	@Test
-	public void testSetScale() {
+	public void testSetScale() throws Exception {
 		LookData lookData = new LookData();
 		lookData.setFile(testImage);
 		lookData.setName(testImageFilename);
@@ -182,7 +182,7 @@ public class PhysicsLookTest {
 		Queue<Float> vertexYQueue = new LinkedList<Float>();
 		shapes = (Shape[]) Reflection.getPrivateField(physicsObject, "shapes");
 		assertNotNull(shapes);
-		assertTrue(shapes.length > 0);
+		assertThat(shapes.length, is(greaterThan(0)));
 		Log.d(TAG, "shapes.length: " + shapes.length);
 		for (Shape shape : shapes) {
 			switch (shape.getType()) {
@@ -224,8 +224,7 @@ public class PhysicsLookTest {
 		physicsLook.setScale(testScaleFactor, testScaleFactor);
 		shapes = (Shape[]) Reflection.getPrivateField(physicsObject, "shapes");
 		assertNotNull(shapes);
-		assertTrue(shapes.length > 0);
-		Log.d(TAG, "shapes.length: " + shapes.length);
+		assertThat(shapes.length, is(greaterThan(0)));
 		for (Shape shape : shapes) {
 			switch (shape.getType()) {
 				case Chain:
@@ -270,12 +269,7 @@ public class PhysicsLookTest {
 		lookData.setName(testImage.getName());
 
 		sprite.look = new PhysicsLook(sprite, physicsWorld);
-		try {
-			sprite.look.setLookData(lookData);
-		} catch (Exception exception) {
-			Log.e(TAG, "unexpected exception", exception);
-			fail("unexpected exception");
-		}
+		sprite.look.setLookData(lookData);
 	}
 
 	@Test
@@ -283,105 +277,57 @@ public class PhysicsLookTest {
 		PhysicsLook physicsLook = new PhysicsLook(sprite, physicsWorld);
 		Look look = new Look(sprite);
 
-		assertEquals("physicsLook getAngularVelocityInUserInterfaceDimensionUnit()"
-						+ physicsLook.getAngularVelocityInUserInterfaceDimensionUnit() + " differs from look value"
-						+ look.getAngularVelocityInUserInterfaceDimensionUnit() + ".",
-				physicsLook.getAngularVelocityInUserInterfaceDimensionUnit(), look.getAngularVelocityInUserInterfaceDimensionUnit());
+		assertEquals(physicsLook.getAngularVelocityInUserInterfaceDimensionUnit(),
+				look.getAngularVelocityInUserInterfaceDimensionUnit());
 
-		assertEquals("physicsLook getXVelocityInUserInterfaceDimensionUnit()"
-						+ physicsLook.getXVelocityInUserInterfaceDimensionUnit() + " differs from look value"
-						+ look.getXVelocityInUserInterfaceDimensionUnit() + ".",
-				physicsLook.getXVelocityInUserInterfaceDimensionUnit(), look.getXVelocityInUserInterfaceDimensionUnit());
+		assertEquals(physicsLook.getXVelocityInUserInterfaceDimensionUnit(),
+				look.getXVelocityInUserInterfaceDimensionUnit());
 
-		assertEquals("physicsLook getYVelocityInUserInterfaceDimensionUnit()"
-						+ physicsLook.getYVelocityInUserInterfaceDimensionUnit() + " differs from look value"
-						+ look.getYVelocityInUserInterfaceDimensionUnit() + ".",
-				physicsLook.getYVelocityInUserInterfaceDimensionUnit(), look.getYVelocityInUserInterfaceDimensionUnit());
+		assertEquals(physicsLook.getYVelocityInUserInterfaceDimensionUnit(),
+				look.getYVelocityInUserInterfaceDimensionUnit());
 
-		assertEquals("physicsLook getX()"
-						+ physicsLook.getX() + " differs from look value"
-						+ look.getX() + ".",
-				physicsLook.getX(), look.getX());
+		assertEquals(physicsLook.getX(), look.getX());
 
-		assertEquals("physicsLook getY()"
-						+ physicsLook.getY() + " differs from look value"
-						+ look.getY() + ".",
-				physicsLook.getY(), look.getY());
+		assertEquals(physicsLook.getY(), look.getY());
 
-		assertEquals("physicsLook getRotation()"
-						+ physicsLook.getRotation() + " differs from look value"
-						+ look.getRotation() + ".",
-				physicsLook.getRotation(), look.getRotation());
+		assertEquals(physicsLook.getRotation(), look.getRotation());
 
-		assertEquals("physicsLook getLookData()"
-						+ physicsLook.getLookData() + " differs from look value"
-						+ look.getLookData() + ".",
-				physicsLook.getLookData(), look.getLookData());
+		assertEquals(physicsLook.getLookData(), look.getLookData());
 
-		assertEquals("physicsLook haveAllThreadsFinished()"
-						+ physicsLook.haveAllThreadsFinished() + " differs from look value"
-						+ look.haveAllThreadsFinished() + ".",
-				physicsLook.haveAllThreadsFinished(), look.haveAllThreadsFinished());
+		assertEquals(physicsLook.haveAllThreadsFinished(), look.haveAllThreadsFinished());
 
-		assertEquals("physicsLook getImagePath()"
-						+ physicsLook.getImagePath() + " differs from look value"
-						+ look.getImagePath() + ".",
-				physicsLook.getImagePath(), look.getImagePath());
+		assertEquals(physicsLook.getImagePath(), look.getImagePath());
 
-		assertEquals("physicsLook getXInUserInterfaceDimensionUnit()"
-						+ physicsLook.getXInUserInterfaceDimensionUnit() + " differs from look value"
-						+ look.getXInUserInterfaceDimensionUnit() + ".",
-				physicsLook.getXInUserInterfaceDimensionUnit(), look.getXInUserInterfaceDimensionUnit());
+		assertEquals(physicsLook.getXInUserInterfaceDimensionUnit(), look.getXInUserInterfaceDimensionUnit());
 
-		assertEquals("physicsLook getYInUserInterfaceDimensionUnit()"
-						+ physicsLook.getYInUserInterfaceDimensionUnit() + " differs from look value"
-						+ look.getYInUserInterfaceDimensionUnit() + ".",
-				physicsLook.getYInUserInterfaceDimensionUnit(), look.getYInUserInterfaceDimensionUnit());
+		assertEquals(physicsLook.getYInUserInterfaceDimensionUnit(), look.getYInUserInterfaceDimensionUnit());
 
-		assertEquals("physicsLook getAngularVelocityInUserInterfaceDimensionUnit()"
-						+ physicsLook.getAngularVelocityInUserInterfaceDimensionUnit() + " differs from look value"
-						+ look.getAngularVelocityInUserInterfaceDimensionUnit() + ".",
-				physicsLook.getAngularVelocityInUserInterfaceDimensionUnit(), look.getAngularVelocityInUserInterfaceDimensionUnit());
+		assertEquals(physicsLook.getAngularVelocityInUserInterfaceDimensionUnit(),
+				look.getAngularVelocityInUserInterfaceDimensionUnit());
 
-		assertEquals("physicsLook getXVelocityInUserInterfaceDimensionUnit()"
-						+ physicsLook.getXVelocityInUserInterfaceDimensionUnit() + " differs from look value"
-						+ look.getXVelocityInUserInterfaceDimensionUnit() + ".",
-				physicsLook.getXVelocityInUserInterfaceDimensionUnit(), look.getXVelocityInUserInterfaceDimensionUnit());
+		assertEquals(physicsLook.getXVelocityInUserInterfaceDimensionUnit(),
+				look.getXVelocityInUserInterfaceDimensionUnit());
 
-		assertEquals("physicsLook getYVelocityInUserInterfaceDimensionUnit()"
-						+ physicsLook.getYVelocityInUserInterfaceDimensionUnit() + " differs from look value"
-						+ look.getYVelocityInUserInterfaceDimensionUnit() + ".",
-				physicsLook.getYVelocityInUserInterfaceDimensionUnit(), look.getYVelocityInUserInterfaceDimensionUnit());
+		assertEquals(physicsLook.getYVelocityInUserInterfaceDimensionUnit(),
+				look.getYVelocityInUserInterfaceDimensionUnit());
 
-		assertEquals("physicsLook getWidthInUserInterfaceDimensionUnit()"
-						+ physicsLook.getWidthInUserInterfaceDimensionUnit() + " differs from look value"
-						+ look.getWidthInUserInterfaceDimensionUnit() + ".",
-				physicsLook.getWidthInUserInterfaceDimensionUnit(), look.getWidthInUserInterfaceDimensionUnit());
+		assertEquals(physicsLook.getWidthInUserInterfaceDimensionUnit(),
+				look.getWidthInUserInterfaceDimensionUnit());
 
-		assertEquals("physicsLook getHeightInUserInterfaceDimensionUnit()"
-						+ physicsLook.getHeightInUserInterfaceDimensionUnit() + " differs from look value"
-						+ look.getHeightInUserInterfaceDimensionUnit() + ".",
-				physicsLook.getHeightInUserInterfaceDimensionUnit(), look.getHeightInUserInterfaceDimensionUnit());
+		assertEquals(physicsLook.getHeightInUserInterfaceDimensionUnit(),
+				look.getHeightInUserInterfaceDimensionUnit());
 
-		assertEquals("physicsLook getDirectionInUserInterfaceDimensionUnit()"
-						+ physicsLook.getDirectionInUserInterfaceDimensionUnit() + " differs from look value"
-						+ look.getDirectionInUserInterfaceDimensionUnit() + ".",
-				physicsLook.getDirectionInUserInterfaceDimensionUnit(), look.getDirectionInUserInterfaceDimensionUnit());
+		assertEquals(physicsLook.getDirectionInUserInterfaceDimensionUnit(),
+				look.getDirectionInUserInterfaceDimensionUnit());
 
-		assertEquals("physicsLook getSizeInUserInterfaceDimensionUnit()"
-						+ physicsLook.getSizeInUserInterfaceDimensionUnit() + " differs from look value"
-						+ look.getSizeInUserInterfaceDimensionUnit() + ".",
-				physicsLook.getSizeInUserInterfaceDimensionUnit(), look.getSizeInUserInterfaceDimensionUnit());
+		assertEquals(physicsLook.getSizeInUserInterfaceDimensionUnit(),
+				look.getSizeInUserInterfaceDimensionUnit());
 
-		assertEquals("physicsLook getTransparencyInUserInterfaceDimensionUnit()"
-						+ physicsLook.getTransparencyInUserInterfaceDimensionUnit() + " differs from look value"
-						+ look.getTransparencyInUserInterfaceDimensionUnit() + ".",
-				physicsLook.getTransparencyInUserInterfaceDimensionUnit(), look.getTransparencyInUserInterfaceDimensionUnit());
+		assertEquals(physicsLook.getTransparencyInUserInterfaceDimensionUnit(),
+				look.getTransparencyInUserInterfaceDimensionUnit());
 
-		assertEquals("physicsLook getBrightnessInUserInterfaceDimensionUnit()"
-						+ physicsLook.getBrightnessInUserInterfaceDimensionUnit() + " differs from look value"
-						+ look.getBrightnessInUserInterfaceDimensionUnit() + ".",
-				physicsLook.getBrightnessInUserInterfaceDimensionUnit(), look.getBrightnessInUserInterfaceDimensionUnit());
+		assertEquals(physicsLook.getBrightnessInUserInterfaceDimensionUnit(),
+				look.getBrightnessInUserInterfaceDimensionUnit());
 	}
 
 	@Test

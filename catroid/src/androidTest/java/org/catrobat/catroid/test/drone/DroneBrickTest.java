@@ -22,30 +22,53 @@
  */
 package org.catrobat.catroid.test.drone;
 
-import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
+import android.support.annotation.IdRes;
 
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.drone.ardrone.DroneBrickFactory;
 import org.catrobat.catroid.drone.ardrone.DroneBrickFactory.DroneBricks;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
-import static junit.framework.Assert.assertEquals;
+import java.util.Arrays;
 
-@RunWith(AndroidJUnit4.class)
+import static junit.framework.Assert.assertTrue;
+
+@RunWith(Parameterized.class)
 public class DroneBrickTest {
 
-	private static final String TAG = DroneBrickTest.class.getSimpleName();
-	private static final int DRONE_RESOURCE = 0x20;
+	@Parameterized.Parameters(name = "{0}")
+	public static Iterable<Object[]> data() {
+		return Arrays.asList(new Object[][] {
+			{"DRONE_TAKE_OFF_LAND_BRICK", DroneBricks.DRONE_TAKE_OFF_LAND_BRICK},
+			{"DRONE_FLIP_BRICK", DroneBricks.DRONE_FLIP_BRICK},
+			{"DRONE_PLAY_LED_ANIMATION_BRICK", DroneBricks.DRONE_PLAY_LED_ANIMATION_BRICK},
+			{"DRONE_GO_EMERGENCY", DroneBricks.DRONE_GO_EMERGENCY},
+			{"DRONE_MOVE_DOWN_BRICK", DroneBricks.DRONE_MOVE_DOWN_BRICK},
+			{"DRONE_MOVE_UP_BRICK", DroneBricks.DRONE_MOVE_UP_BRICK},
+			{"DRONE_MOVE_LEFT_BRICK", DroneBricks.DRONE_MOVE_LEFT_BRICK},
+			{"DRONE_MOVE_RIGHT_BRICK", DroneBricks.DRONE_MOVE_RIGHT_BRICK},
+			{"DRONE_MOVE_BACKWARD_BRICK", DroneBricks.DRONE_MOVE_BACKWARD_BRICK},
+			{"DRONE_MOVE_FORWARD_BRICK", DroneBricks.DRONE_MOVE_FORWARD_BRICK},
+			{"DRONE_TURN_RIGHT_BRICK", DroneBricks.DRONE_TURN_RIGHT_BRICK},
+			{"DRONE_TURN_LEFT_BRICK", DroneBricks.DRONE_TURN_LEFT_BRICK},
+			{"DRONE_SWITCH_CAMERA_BRICK", DroneBricks.DRONE_SWITCH_CAMERA_BRICK}
+		});
+	}
+
+	@Parameterized.Parameter
+	public @IdRes String name;
+
+	@Parameterized.Parameter(1)
+	public @IdRes DroneBricks droneBrickIdentifier;
 
 	@Test
-	public void testAllBrickResources() {
-		for (DroneBricks brick : DroneBrickFactory.DroneBricks.values()) {
-			BrickBaseType brickFromFactory = DroneBrickFactory.getInstanceOfDroneBrick(brick, 0, 0);
-			String brickName = brickFromFactory.getClass().getSimpleName();
-			Log.d(TAG, "brickName: " + brickName);
-			assertEquals("Resource is wrong for brick: " + brickName, DRONE_RESOURCE, brickFromFactory.getRequiredResources());
-		}
+	public void testDroneResources() {
+		BrickBaseType brickFromFactory = DroneBrickFactory.getInstanceOfDroneBrick(droneBrickIdentifier, 0, 0);
+		Brick.ResourcesSet resourcesSet = new Brick.ResourcesSet();
+		brickFromFactory.addRequiredResources(resourcesSet);
+		assertTrue(resourcesSet.contains(Brick.ARDRONE_SUPPORT));
 	}
 }

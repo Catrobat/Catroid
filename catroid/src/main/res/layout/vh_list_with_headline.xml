@@ -31,6 +31,7 @@
         android:id="@+id/headline"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/vh_headline"
         android:padding="@dimen/view_holder_padding"/>
 
     <include layout="@layout/vh_list" />

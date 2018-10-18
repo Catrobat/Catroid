@@ -23,6 +23,9 @@
 
 package org.catrobat.catroid.ui.recyclerview.util;
 
+import org.catrobat.catroid.common.Nameable;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -34,18 +37,14 @@ public class UniqueNameProvider {
 			return name;
 		}
 
-		Pattern pattern = Pattern.compile("(\\(\\d+\\))");
+		Pattern pattern = Pattern.compile("\\((\\d+)\\)");
 		Matcher matcher = pattern.matcher(name);
 
 		int n = 1;
 
 		if (matcher.find()) {
-			String match = matcher.group(0);
-			name = name.replace(match, "");
-			name = name.trim();
-			match = match.replace("(", "");
-			match = match.replace(")", "");
-			n = Integer.parseInt(match);
+			name = name.replace(matcher.group(0), "").trim();
+			n = Integer.parseInt(matcher.group(1));
 		}
 
 		while (n < Integer.MAX_VALUE) {
@@ -57,5 +56,13 @@ public class UniqueNameProvider {
 		}
 
 		return name;
+	}
+
+	public String getUniqueNameInNameables(String name, List<? extends Nameable> scope) {
+		List<String> names = new ArrayList<>();
+		for (Nameable nameable : scope) {
+			names.add(nameable.getName());
+		}
+		return getUniqueName(name, names);
 	}
 }

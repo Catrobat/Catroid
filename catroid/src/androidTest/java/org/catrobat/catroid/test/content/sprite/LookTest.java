@@ -32,8 +32,6 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.test.utils.Reflection;
-import org.catrobat.catroid.test.utils.Reflection.ParameterList;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.TouchUtil;
 import org.junit.Before;
@@ -118,154 +116,8 @@ public class LookTest {
 		assertEquals(y - height / 2, look.getY());
 	}
 
-	private float convertNegativeZeroToPosigiveZero(float value) {
-		if (value == 0.0f) {
-			return 0.0f;
-		}
-		return value;
-	}
-
-	@Test
-	public void testBreakDownCatroidAngle() {
-		Look look = new Look(new SingleSprite("testsprite"));
-
-		float[] posigiveInputAngles = {0.0f, 45.0f, 90.0f, 135.0f, 180.0f, 225.0f, 270.0f, 315.0f, 360.0f};
-		float[] posigiveHighInputAngles = {360.0f, 405.0f, 450.0f, 495.0f, 540.0f, 585.0f, 630.0f, 675.0f, 720.0f};
-		float[] posigiveHigherInputAngles = {720.0f, 765.0f, 810.0f, 855.0f, 900.0f, 945.0f, 990.0f, 1035.0f, 1080.0f};
-
-		float[] expectedPositiveAngles = {0.0f, 45.0f, 90.0f, 135.0f, 180.0f, -135.0f, -90.0f, -45.0f, 0.0f};
-
-		for (int index = 0; index < posigiveInputAngles.length; index++) {
-			ParameterList params = new ParameterList(posigiveInputAngles[index]);
-			float catroidAngle = (Float) Reflection.invokeMethod(look, "breakDownCatroidAngle", params);
-			assertEquals(expectedPositiveAngles[index], convertNegativeZeroToPosigiveZero(catroidAngle));
-		}
-		for (int index = 0; index < posigiveHighInputAngles.length; index++) {
-			ParameterList params = new ParameterList(posigiveHighInputAngles[index]);
-			float catroidAngle = (Float) Reflection.invokeMethod(look, "breakDownCatroidAngle", params);
-			assertEquals(expectedPositiveAngles[index], convertNegativeZeroToPosigiveZero(catroidAngle));
-		}
-		for (int index = 0; index < posigiveHigherInputAngles.length; index++) {
-			ParameterList params = new ParameterList(posigiveHigherInputAngles[index]);
-			float catroidAngle = (Float) Reflection.invokeMethod(look, "breakDownCatroidAngle", params);
-			assertEquals(expectedPositiveAngles[index], convertNegativeZeroToPosigiveZero(catroidAngle));
-		}
-
-		float[] negativeInputAngles = {-0.0f, -45.0f, -90.0f, -135.0f, -180.0f, -225.0f, -270.0f, -315.0f, -360.0f};
-		float[] negativeHighInputAngles = {-360.0f, -405.0f, -450.0f, -495.0f, -540.0f, -585.0f, -630.0f, -675.0f,
-				-720.0f};
-		float[] negativeHigherInputAngles = {-720.0f, -765.0f, -810.0f, -855.0f, -900.0f, -945.0f, -990.0f, -1035.0f,
-				-1080.0f};
-
-		float[] expectedNegativeCatroidAngles = {0.0f, -45.0f, -90.0f, -135.0f, 180.0f, 135.0f, 90.0f, 45.0f, 0.0f};
-
-		for (int index = 0; index < negativeInputAngles.length; index++) {
-			ParameterList params = new ParameterList(negativeInputAngles[index]);
-			float catroidAngle = (Float) Reflection.invokeMethod(look, "breakDownCatroidAngle", params);
-			assertEquals(expectedNegativeCatroidAngles[index], convertNegativeZeroToPosigiveZero(catroidAngle), 0.1);
-		}
-
-		for (int index = 0; index < negativeHighInputAngles.length; index++) {
-			ParameterList params = new ParameterList(negativeHighInputAngles[index]);
-			float catroidAngle = (Float) Reflection.invokeMethod(look, "breakDownCatroidAngle", params);
-			assertEquals(expectedNegativeCatroidAngles[index], convertNegativeZeroToPosigiveZero(catroidAngle));
-		}
-
-		for (int index = 0; index < negativeHigherInputAngles.length; index++) {
-			ParameterList params = new ParameterList(negativeHigherInputAngles[index]);
-			float catroidAngle = (Float) Reflection.invokeMethod(look, "breakDownCatroidAngle", params);
-			assertEquals(expectedNegativeCatroidAngles[index], convertNegativeZeroToPosigiveZero(catroidAngle));
-		}
-	}
-
-	@Test
-	public void testCatroidAngleToStageAngle() {
-		float[] positiveAngles = {0.0f, 45.0f, 90.0f, 135.0f, 180.0f, 225.0f, 270.0f, 315.0f, 360.0f};
-		float[] positiveHighAngles = {360.0f, 405.0f, 450.0f, 495.0f, 540.0f, 585.0f, 630.0f, 675.0f, 720.0f};
-
-		float[] expectedPositiveStageAngles = {90.0f, 45.0f, 0.0f, -45.0f, -90.0f, 225.0f, 180.0f, 135.0f, 90.0f};
-
-		for (int index = 0; index < positiveAngles.length; index++) {
-			ParameterList params = new ParameterList(positiveAngles[index]);
-			float stageAngle = (Float) Reflection.invokeMethod(look, "convertCatroidAngleToStageAngle", params);
-			assertEquals(expectedPositiveStageAngles[index], convertNegativeZeroToPosigiveZero(stageAngle));
-		}
-
-		for (int index = 0; index < positiveHighAngles.length; index++) {
-			ParameterList params = new ParameterList(positiveHighAngles[index]);
-			float stageAngle = (Float) Reflection.invokeMethod(look, "convertCatroidAngleToStageAngle", params);
-			assertEquals(expectedPositiveStageAngles[index], convertNegativeZeroToPosigiveZero(stageAngle));
-		}
-
-		float[] negativeCatroidAngles = {-0.0f, -45.0f, -90.0f, -135.0f, -180.0f, -225.0f, -270.0f, -315.0f, -360.0f};
-		float[] negativeHighCatroidAngles = {-360.0f, -405.0f, -450.0f, -495.0f, -540.0f, -585.0f, -630.0f, -675.0f,
-				-720.0f};
-
-		float[] expectedNegativeStageAngles = {90.0f, 135.0f, 180.0f, 225.0f, -90.0f, -45.0f, 0.0f, 45.0f, 90.0f};
-
-		for (int index = 0; index < negativeCatroidAngles.length; index++) {
-			ParameterList params = new ParameterList(negativeCatroidAngles[index]);
-			float stageAngle = (Float) Reflection.invokeMethod(look, "convertCatroidAngleToStageAngle", params);
-			assertEquals(expectedNegativeStageAngles[index], convertNegativeZeroToPosigiveZero(stageAngle));
-		}
-
-		for (int index = 0; index < negativeHighCatroidAngles.length; index++) {
-			ParameterList params = new ParameterList(negativeHighCatroidAngles[index]);
-			float stageAngle = (Float) Reflection.invokeMethod(look, "convertCatroidAngleToStageAngle", params);
-			assertEquals(expectedNegativeStageAngles[index], convertNegativeZeroToPosigiveZero(stageAngle));
-		}
-	}
-
-	@Test
-	public void testStageAngleToCatroidAngle() {
-		float[] positiveStageAngles = {0.0f, 45.0f, 90.0f, 135.0f, 180.0f, 225.0f, 270.0f, 315.0f, 360.0f};
-		float[] positiveHighStagedAngles = {360.0f, 405.0f, 450.0f, 495.0f, 540.0f, 585.0f, 630.0f, 675.0f,
-				720.0f};
-		float[] expectedPositiveAngles = {90.0f, 45.0f, 0.0f, -45.0f, -90.0f, -135.0f, 180.0f, 135.0f, 90.0f};
-
-		for (int index = 0; index < positiveStageAngles.length; index++) {
-			ParameterList params = new ParameterList(positiveStageAngles[index]);
-			float stageAngle = (Float) Reflection.invokeMethod(look, "convertStageAngleToCatroidAngle", params);
-			assertEquals(expectedPositiveAngles[index], convertNegativeZeroToPosigiveZero(stageAngle));
-		}
-
-		for (int index = 0; index < positiveHighStagedAngles.length; index++) {
-			ParameterList params = new ParameterList(positiveHighStagedAngles[index]);
-			float stageAngle = (Float) Reflection.invokeMethod(look, "convertStageAngleToCatroidAngle", params);
-			assertEquals(expectedPositiveAngles[index], convertNegativeZeroToPosigiveZero(stageAngle));
-		}
-
-		float[] negativeStageAngles = {-0.0f, -45.0f, -90.0f, -135.0f, -180.0f, -225.0f, -270.0f, -315.0f, -360.0f};
-		float[] negativeHighStageAngles = {-360.0f, -405.0f, -450.0f, -495.0f, -540.0f, -585.0f, -630.0f, -675.0f,
-				-720.0f};
-		float[] expectedNegativeCatroidAngles = {90.0f, 135.0f, 180.0f, -135.0f, -90.0f, -45.0f, 0.0f, 45.0f, 90.0f};
-
-		for (int index = 0; index < negativeStageAngles.length; index++) {
-			ParameterList params = new ParameterList(negativeStageAngles[index]);
-			float stageAngle = (Float) Reflection.invokeMethod(look, "convertStageAngleToCatroidAngle", params);
-			assertEquals(expectedNegativeCatroidAngles[index], convertNegativeZeroToPosigiveZero(stageAngle));
-		}
-
-		for (int index = 0; index < negativeHighStageAngles.length; index++) {
-			ParameterList params = new ParameterList(negativeHighStageAngles[index]);
-			float stageAngle = (Float) Reflection.invokeMethod(look, "convertStageAngleToCatroidAngle", params);
-			assertEquals(expectedNegativeCatroidAngles[index], convertNegativeZeroToPosigiveZero(stageAngle));
-		}
-	}
-
 	@Test
 	public void testDirection() {
-		float[] degreesInUserInterfaceDimensionUnit = {90f, 60f, 30f, 0f, -30f, -60f, -90f, -120f, -150f, 180f, 150f,
-				120f};
-		float[] degrees = {0f, 30f, 60f, 90f, 120f, 150f, 180f, 210f, 240f, -90f, -60f, -30f};
-
-		assertEquals(degrees.length, degreesInUserInterfaceDimensionUnit.length);
-		for (int index = 0; index < degrees.length; index++) {
-			look.setDirectionInUserInterfaceDimensionUnit(degreesInUserInterfaceDimensionUnit[index]);
-			assertEquals(degreesInUserInterfaceDimensionUnit[index], look.getDirectionInUserInterfaceDimensionUnit());
-			assertEquals(degrees[index], look.getRotation());
-		}
-
 		look.setDirectionInUserInterfaceDimensionUnit(90f);
 		look.changeDirectionInUserInterfaceDimensionUnit(10f);
 
@@ -301,19 +153,19 @@ public class LookTest {
 		float transparency = 20f;
 		look.setTransparencyInUserInterfaceDimensionUnit(transparency);
 		assertEquals(transparency, look.getTransparencyInUserInterfaceDimensionUnit(), 1e-5);
-		assertEquals(0.8f, Reflection.getPrivateField(look, "alpha"));
+		assertEquals(0.8f, look.getAlpha());
 
 		look.changeTransparencyInUserInterfaceDimensionUnit(transparency);
 		assertEquals(2 * transparency, look.getTransparencyInUserInterfaceDimensionUnit(), 1e-5);
-		assertEquals(0.6f, Reflection.getPrivateField(look, "alpha"));
+		assertEquals(0.6f, look.getAlpha());
 
 		look.setTransparencyInUserInterfaceDimensionUnit(-10f);
 		assertEquals(0f, look.getTransparencyInUserInterfaceDimensionUnit());
-		assertEquals(1f, Reflection.getPrivateField(look, "alpha"));
+		assertEquals(1f, look.getAlpha());
 
 		look.setTransparencyInUserInterfaceDimensionUnit(200f);
 		assertEquals(100f, look.getTransparencyInUserInterfaceDimensionUnit());
-		assertEquals(0f, Reflection.getPrivateField(look, "alpha"));
+		assertEquals(0f, look.getAlpha());
 	}
 
 	@Test
@@ -321,15 +173,15 @@ public class LookTest {
 		float brightness = 42f;
 		look.setBrightnessInUserInterfaceDimensionUnit(brightness);
 		assertEquals(brightness, look.getBrightnessInUserInterfaceDimensionUnit());
-		assertEquals(0.42f, Reflection.getPrivateField(look, "brightness"));
+		assertEquals(0.42f, look.getBrightness());
 
 		look.changeBrightnessInUserInterfaceDimensionUnit(brightness);
 		assertEquals(2 * brightness, look.getBrightnessInUserInterfaceDimensionUnit());
-		assertEquals(0.84f, Reflection.getPrivateField(look, "brightness"));
+		assertEquals(0.84f, look.getBrightness());
 
 		look.setBrightnessInUserInterfaceDimensionUnit(-10);
 		assertEquals(0f, look.getBrightnessInUserInterfaceDimensionUnit());
-		assertEquals(0f, Reflection.getPrivateField(look, "brightness"));
+		assertEquals(0f, look.getBrightness());
 	}
 
 	@Test

@@ -33,7 +33,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.test.physics.PhysicsTestRule;
-import org.catrobat.catroid.test.utils.PhysicsTestUtils;
+import org.catrobat.catroid.test.physics.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.junit.After;
 import org.junit.Before;

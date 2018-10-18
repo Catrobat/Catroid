@@ -23,11 +23,12 @@
 
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
-import android.app.DialogFragment;
-import android.app.Fragment;
+import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -41,13 +42,14 @@ import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.Constants.LegoSensorType;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
+import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.ui.dialogs.LegoSensorPortConfigDialog;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter.CategoryListItem;
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter.CategoryListItemType;
-import org.catrobat.catroid.ui.recyclerview.dialog.SelectSpriteDialogFragment;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.util.ArrayList;
@@ -55,10 +57,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class CategoryListFragment extends Fragment implements
-		CategoryListRVAdapter.OnItemClickListener,
-		SelectSpriteDialogFragment.SelectSpriteListener,
-		LegoSensorPortConfigDialog.OnSetSensorListener {
+public class CategoryListFragment extends Fragment implements CategoryListRVAdapter.OnItemClickListener {
 
 	public static final String OBJECT_TAG = "objectFragment";
 	public static final String FUNCTION_TAG = "functionFragment";
@@ -241,51 +240,74 @@ public class CategoryListFragment extends Fragment implements
 		}
 	}
 
-	private void showLegoSensorPortConfigDialog(int itemNameResId, @LegoSensorType int type) {
-		DialogFragment dialog = new LegoSensorPortConfigDialog(this, itemNameResId, type);
-		dialog.show(getFragmentManager(), LegoSensorPortConfigDialog.DIALOG_FRAGMENT_TAG);
-	}
+	private void showLegoSensorPortConfigDialog(int itemNameResId, @LegoSensorType final int type) {
 
-	@Override
-	public void onSetSensor(int setPort, @LegoSensorType int type) {
-		FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getFragmentManager()
-				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
+		new LegoSensorPortConfigDialog.Builder(getContext(), type, itemNameResId)
+				.setPositiveButton(getString(R.string.ok), new LegoSensorPortConfigDialog.OnClickListener() {
 
-		TypedArray sensorPorts = type == Constants.NXT
-				? getResources().obtainTypedArray(R.array.formula_editor_nxt_ports)
-				: getResources().obtainTypedArray(R.array.formula_editor_ev3_ports);
-		int resourceId = sensorPorts.getResourceId(setPort, 0);
-		if (resourceId != 0) {
-			formulaEditor.addResourceToActiveFormula(resourceId);
-			formulaEditor.updateButtonsOnKeyboardAndInvalidateOptionsMenu();
-		}
+					@Override
+					public void onPositiveButtonClick(DialogInterface dialog, int selectedPort, Enum selectedSensor) {
+						if (type == Constants.NXT) {
+							SettingsFragment.setLegoMindstormsNXTSensorMapping(getActivity(),
+									(NXTSensor.Sensor) selectedSensor, SettingsFragment.NXT_SENSORS[selectedPort]);
+						} else if (type == Constants.EV3) {
+							SettingsFragment.setLegoMindstormsEV3SensorMapping(getActivity(),
+									(EV3Sensor.Sensor) selectedSensor, SettingsFragment.EV3_SENSORS[selectedPort]);
+						}
 
-		getActivity().onBackPressed();
+						FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getFragmentManager()
+								.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
+
+						TypedArray sensorPorts = type == Constants.NXT
+								? getResources().obtainTypedArray(R.array.formula_editor_nxt_ports)
+								: getResources().obtainTypedArray(R.array.formula_editor_ev3_ports);
+						int resourceId = sensorPorts.getResourceId(selectedPort, 0);
+						if (resourceId != 0) {
+							formulaEditor.addResourceToActiveFormula(resourceId);
+							formulaEditor.updateButtonsOnKeyboardAndInvalidateOptionsMenu();
+						}
+
+						getActivity().onBackPressed();
+					}
+				})
+				.create()
+				.show();
 	}
 
 	private void showSelectSpriteDialog() {
+		final Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		List<Sprite> sprites = ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList();
-		List<Sprite> selectableSprites = new ArrayList<>();
+		final List<Sprite> selectableSprites = new ArrayList<>();
 
-		for (Sprite sprite : ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList()) {
-			if (sprites.indexOf(sprite) != 0 && sprite != ProjectManager.getInstance().getCurrentSprite()) {
+		for (Sprite sprite : sprites) {
+			if (sprites.indexOf(sprite) != 0 && sprite != currentSprite) {
 				selectableSprites.add(sprite);
 			}
 		}
 
-		SelectSpriteDialogFragment dialog = new SelectSpriteDialogFragment(this, selectableSprites);
-		dialog.show(getFragmentManager(), SelectSpriteDialogFragment.TAG);
-	}
+		String[] selectableSpriteNames = new String[selectableSprites.size()];
+		for (int i = 0; i < selectableSprites.size(); i++) {
+			selectableSpriteNames[i] = selectableSprites.get(i).getName();
+		}
 
-	@Override
-	public void onSpriteSelected(Sprite sprite) {
-		ProjectManager.getInstance().getCurrentSprite().createCollisionPolygons();
-		sprite.createCollisionPolygons();
+		new AlertDialog.Builder(getActivity())
+				.setTitle(R.string.formula_editor_function_collision)
+				.setItems(selectableSpriteNames, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						Sprite selectedSprite = selectableSprites.get(which);
 
-		((FormulaEditorFragment) getFragmentManager()
-				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG))
-				.addCollideFormulaToActiveFormula(sprite.getName());
-		getActivity().onBackPressed();
+						currentSprite.createCollisionPolygons();
+						selectedSprite.createCollisionPolygons();
+
+						((FormulaEditorFragment) getFragmentManager()
+								.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG))
+								.addCollideFormulaToActiveFormula(selectedSprite.getName());
+						getActivity().onBackPressed();
+					}
+				})
+				.create()
+				.show();
 	}
 
 	private void initializeAdapter() {

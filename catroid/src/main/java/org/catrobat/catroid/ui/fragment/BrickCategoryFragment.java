@@ -22,10 +22,10 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import android.app.FragmentManager;
-import android.app.ListFragment;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.ListFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -184,7 +184,7 @@ public class BrickCategoryFragment extends ListFragment {
 			categories.add(inflater.inflate(R.layout.brick_category_lego_ev3, null));
 		}
 
-		if (BuildConfig.FEATURE_USERBRICKS_ENABLED && brickAdapter.getUserBrick() == null
+		if (BuildConfig.FEATURE_USERBRICKS_ENABLED && brickAdapter != null && brickAdapter.getUserBrick() == null
 				&& !onlyBeginnerBricks()) {
 			categories.add(inflater.inflate(R.layout.brick_category_userbricks, null));
 		}

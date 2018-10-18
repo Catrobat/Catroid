@@ -1,0 +1,179 @@
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2018 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+project.ext {
+    fastlanePath = project.rootDir.path + "/fastlane"
+    fastlaneMetadataPath = fastlanePath + "/metadata"
+    fastlaneAndroidPath = fastlanePath + "/metadata/android"
+    fastlaneStaticContentPath = fastlanePath + "/staticContent"
+}
+
+final String releasePreparationMainGroup = "release preparation main"
+final String releasePreparationSubGroup = "release preparation sub"
+
+def languageMapScreenshots = [
+        // fastlane screenshot locales : Android
+        "in" : ["id"],
+]
+
+task cleanFastlane(type: Delete) {
+    description "Delete objects in fastlane folder."
+    group releasePreparationSubGroup
+
+    delete fastlaneMetadataPath
+    followSymlinks = true
+}
+
+task useAndroidLocales() {
+    description "Set flag for debug to use Android locales codes."
+    group releasePreparationSubGroup
+
+    doLast{
+        project.ext."useAndroidLocales" = true
+    }
+}
+
+android.productFlavors.all { flavor ->
+    task ("makeScreenshots${flavor.name.capitalize()}", type: Exec) {
+        description "Creates Screenshots for the App Store with Fastlane/Screengrab."
+        group releasePreparationSubGroup
+        dependsOn "useAndroidLocales"
+        dependsOn "assembleAndroidTest"
+        dependsOn "assemble${flavor.name.capitalize()}Debug"
+
+        workingDir project.rootDir.path
+
+        String fastlaneCommand = "fastlane screengrab" +
+                " --app_package_name 'org.catrobat.catroid'" +
+                " --use_tests_in_packages 'org.catrobat.catroid.screenshots.${flavor.name}'" +
+                " --app_apk_path './catroid/build/outputs/apk/${flavor.name}/debug/catroid-${flavor.name}-debug.apk'" +
+                " --tests_apk_path './catroid/build/outputs/apk/androidTest/${flavor.name}/debug/catroid-${flavor.name}-debug-androidTest.apk'" +
+                " --test_instrumentation_runner 'android.support.test.runner.AndroidJUnitRunner'" +
+                " --clear_previous_screenshots true " +
+                " --exit_on_test_failure false " +
+                " --locales " + project.ext.getMappedLocalesCrowdin
+
+        doFirst { logger.lifecycle("Taking screenshots for App Store ...") }
+        executable "sh"
+        args("-c", fastlaneCommand)
+        doLast { logger.lifecycle("Taking screenshots for App Store done.") }
+    }
+}
+
+task renameScreenshotFolders() {
+    description "Rename Screenshot folders to match Play Store locales."
+    group releasePreparationSubGroup
+
+    doLast {
+        logger.lifecycle("Renaming screenshot folders ...")
+
+        new File(project.ext.fastlaneAndroidPath).eachDir() { dir ->
+            def directories = dir.getPath().split("/")
+            String localesCode = directories[directories.size()-1]
+            def androidCodes = languageMapScreenshots.get(localesCode)
+
+            if (androidCodes != null && androidCodes[0] != localesCode) {
+                androidCodes.each { androidCode ->
+                    logger.lifecycle("Copying files with local code '" + localesCode +
+                            "' to '" + androidCode + "'.")
+
+                    ant.copy (todir: project.ext.fastlaneAndroidPath + "/" + androidCode) {
+                        fileset(dir: dir.getPath())
+                    }
+                }
+                delete dir
+            }
+        }
+        logger.lifecycle("Renaming screenshot folders done.")
+    }
+}
+
+android.productFlavors.all { flavor ->
+    task ("addStaticContent${flavor.name.capitalize()}") {
+        description "Copy content from \"fastlane/staticContent\" to the upload folder."
+        group releasePreparationSubGroup
+
+        File images = new File(project.ext.fastlaneStaticContentPath + "/${flavor.name}/images")
+        images.mkdirs();
+
+        doLast {
+            logger.lifecycle("Copying static content ...")
+            new File(project.ext.fastlaneAndroidPath).eachDir() { dir ->
+                ant.copy(todir: dir.getPath() + "/images") {
+                    fileset(dir: project.ext.fastlaneStaticContentPath + "/${flavor.name}/images")
+                }
+            }
+            logger.lifecycle("Copying static content done.")
+        }
+    }
+}
+
+android.productFlavors.all { flavor ->
+    task ("generateScreenshots${flavor.name.capitalize()}") {
+        description "Run all tasks to generate Screenshots for the App Store."
+        group releasePreparationMainGroup
+        dependsOn "makeScreenshots${flavor.name.capitalize()}", renameScreenshotFolders,
+                "addStaticContent${flavor.name.capitalize()}"
+
+        doLast {
+            logger.lifecycle("Generating Screenshots done.")
+            logger.lifecycle("Path: " + project.ext.fastlaneMetadataPath)
+        }
+    }
+}
+
+task uploadMetadataToPlayStore(type:Exec) {
+    description "Uploads the fastlane metadata folder to Goggle Play Store."
+    group releasePreparationMainGroup
+
+    workingDir project.rootDir.path
+
+    doFirst { logger.lifecycle("Uploading Metadata to Play Store ...") }
+    executable "sh"
+    args("-c", "fastlane android upload_Metadata_Catroid")
+    doLast { logger.lifecycle("Uploading Metadata to Play Store done.") }
+}
+
+task uploadAPKToPlayStore(type:Exec) {
+    description "Uploads the Catroid APK to Goggle Play Store."
+    group releasePreparationMainGroup
+
+    workingDir project.rootDir.path
+
+    doFirst { logger.lifecycle("Uploading Metadata to Play Store ...") }
+    executable "sh"
+    args("-c", "fastlane android upload_APK_Catroid")
+    doLast { logger.lifecycle("Uploading Metadata to Play Store done.") }
+}
+
+afterEvaluate {
+    makeScreenshotsCatroid.shouldRunAfter(unpackCrowdinFiles)
+    makeScreenshotsLunaAndCat.shouldRunAfter(unpackCrowdinFiles)
+    renameScreenshotFolders.mustRunAfter(makeScreenshotsCatroid)
+    renameScreenshotFolders.mustRunAfter(makeScreenshotsLunaAndCat)
+    addStaticContentCatroid.mustRunAfter(renameScreenshotFolders)
+    addStaticContentLunaAndCat.mustRunAfter(renameScreenshotFolders)
+    uploadMetadataToPlayStore.mustRunAfter(generateAppStoreInfoCatroid, renameScreenshotFolders)
+    uploadMetadataToPlayStore.mustRunAfter(generateAppStoreInfoLunaAndCat, renameScreenshotFolders)
+    uploadAPKToPlayStore.mustRunAfter(uploadMetadataToPlayStore)
+}

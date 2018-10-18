@@ -46,7 +46,6 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
-import org.catrobat.catroid.uiespresso.util.UserVariableTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -60,6 +59,8 @@ import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils
 import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.READ_TAG_MESSAGE;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.TAG_NAME_TEST1;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.TAG_NAME_TEST2;
+import static org.catrobat.catroid.uiespresso.util.UserVariableAssertions.assertUserVariableEqualsWithTimeout;
+import static org.catrobat.catroid.uiespresso.util.UserVariableAssertions.assertUserVariableNotEqualsForTimeMs;
 
 public class WhenNfcBrickStageTest {
 	@Rule
@@ -132,11 +133,11 @@ public class WhenNfcBrickStageTest {
 		ndefMessage2 = NfcHandler.createMessage(UiNFCTestUtils.NFC_NDEF_STRING_2, BrickValues.TNF_MIME_MEDIA);
 
 		firstTagData = new NfcTagData();
-		firstTagData.setNfcTagName(TAG_NAME_TEST1);
+		firstTagData.setName(TAG_NAME_TEST1);
 		firstTagData.setNfcTagUid(NfcHandler.byteArrayToHex(UiNFCTestUtils.FIRST_TEST_TAG_ID.getBytes()));
 
 		secondTagData = new NfcTagData();
-		secondTagData.setNfcTagName(TAG_NAME_TEST2);
+		secondTagData.setName(TAG_NAME_TEST2);
 		secondTagData.setNfcTagUid(NfcHandler.byteArrayToHex(UiNFCTestUtils.SECOND_TEST_TAG_ID.getBytes()));
 
 		scriptUnderTest = createProjectWithNfcAndSetVariable();
@@ -153,18 +154,18 @@ public class WhenNfcBrickStageTest {
 		Assert.assertEquals("Tag count is not 0.", 0.0, numDetectedTags.getValue());
 
 		UiNFCTestUtils.fakeNfcTag(UiNFCTestUtils.FIRST_TEST_TAG_ID, ndefMessage1, null, baseActivityTestRule.getActivity());
-		Assert.assertTrue(UserVariableTestUtils.userVariableEqualsWithinTimeout(readTagId,
-				Double.parseDouble(UiNFCTestUtils.FIRST_TEST_TAG_UID), 2000));
-		Assert.assertTrue(UserVariableTestUtils.userVariableEqualsWithinTimeout(readTagMessage,
-				UiNFCTestUtils.NFC_NDEF_STRING_1, 2000));
-		Assert.assertTrue(UserVariableTestUtils.userVariableEqualsWithinTimeout(numDetectedTags, 1.0, 2000));
+		assertUserVariableEqualsWithTimeout(readTagId,
+				Double.parseDouble(UiNFCTestUtils.FIRST_TEST_TAG_UID), 2000);
+		assertUserVariableEqualsWithTimeout(readTagMessage,
+				UiNFCTestUtils.NFC_NDEF_STRING_1, 2000);
+		assertUserVariableEqualsWithTimeout(numDetectedTags, 1.0, 2000);
 
 		UiNFCTestUtils.fakeNfcTag(UiNFCTestUtils.SECOND_TEST_TAG_ID, ndefMessage2, null, baseActivityTestRule.getActivity());
-		Assert.assertTrue(UserVariableTestUtils.userVariableEqualsWithinTimeout(readTagId,
-				Double.parseDouble(UiNFCTestUtils.SECOND_TEST_TAG_UID), 2000));
-		Assert.assertTrue(UserVariableTestUtils.userVariableEqualsWithinTimeout(readTagMessage,
-				UiNFCTestUtils.NFC_NDEF_STRING_2, 2000));
-		Assert.assertTrue(UserVariableTestUtils.userVariableEqualsWithinTimeout(numDetectedTags, 2.0, 2000));
+		assertUserVariableEqualsWithTimeout(readTagId,
+				Double.parseDouble(UiNFCTestUtils.SECOND_TEST_TAG_UID), 2000);
+		assertUserVariableEqualsWithTimeout(readTagMessage,
+				UiNFCTestUtils.NFC_NDEF_STRING_2, 2000);
+		assertUserVariableEqualsWithTimeout(numDetectedTags, 2.0, 2000);
 	}
 
 	@Category({Cat.CatrobatLanguage.class, Level.Functional.class, Cat.SettingsAndPermissions.class})
@@ -179,13 +180,13 @@ public class WhenNfcBrickStageTest {
 		Assert.assertTrue("Read tag message does not match default value.", readTagMessage.getValue().equals(0.0));
 
 		UiNFCTestUtils.fakeNfcTag(UiNFCTestUtils.FIRST_TEST_TAG_ID, ndefMessage1, null, baseActivityTestRule.getActivity());
-		Assert.assertTrue(UserVariableTestUtils.userVariableDoesDifferWithinTimeout(numDetectedTags, 1.0, 2000));
+		assertUserVariableNotEqualsForTimeMs(numDetectedTags, 1.0, 2000);
 
 		UiNFCTestUtils.fakeNfcTag(UiNFCTestUtils.SECOND_TEST_TAG_ID, ndefMessage2, null, baseActivityTestRule.getActivity());
-		Assert.assertTrue(UserVariableTestUtils.userVariableEqualsWithinTimeout(readTagId,
-				Double.parseDouble(UiNFCTestUtils.SECOND_TEST_TAG_UID), 2000));
-		Assert.assertTrue(UserVariableTestUtils.userVariableEqualsWithinTimeout(readTagMessage,
-				UiNFCTestUtils.NFC_NDEF_STRING_2, 2000));
-		Assert.assertTrue(UserVariableTestUtils.userVariableEqualsWithinTimeout(numDetectedTags, 1.0, 2000));
+		assertUserVariableEqualsWithTimeout(readTagId,
+				Double.parseDouble(UiNFCTestUtils.SECOND_TEST_TAG_UID), 2000);
+		assertUserVariableEqualsWithTimeout(readTagMessage,
+				UiNFCTestUtils.NFC_NDEF_STRING_2, 2000);
+		assertUserVariableEqualsWithTimeout(numDetectedTags, 1.0, 2000);
 	}
 }

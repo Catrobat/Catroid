@@ -31,7 +31,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.badlogic.gdx.files.FileHandle;
@@ -55,23 +54,19 @@ import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
-import static org.catrobat.catroid.common.Constants.DEFAULT_ROOT_DIRECTORY;
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public final class Utils {
 
@@ -118,22 +113,6 @@ public final class Utils {
 
 	public static String formatDate(Date date, Locale locale) {
 		return DateFormat.getDateInstance(DateFormat.LONG, locale).format(date);
-	}
-
-	@Nullable
-	public static byte[] convertInputStreamToByteArray(final InputStream inputStream) {
-		try {
-			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-			byte[] buffer = new byte[4096];
-			int len;
-			while ((len = inputStream.read(buffer)) > -1) {
-				byteArrayOutputStream.write(buffer, 0, len);
-			}
-			byteArrayOutputStream.flush();
-			return byteArrayOutputStream.toByteArray();
-		} catch (IOException e) {
-			return null;
-		}
 	}
 
 	public static String generateRemixUrlsStringForMergedProgram(XmlHeader headerOfFirstProgram, XmlHeader headerOfSecondProgram) {
@@ -451,8 +430,6 @@ public final class Utils {
 			if (absoluteValue == 0.0 || absoluteValue == 1.0 || absoluteValue == 2.0) {
 				return (int) absoluteValue;
 			} else {
-				// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
-				// in hopefully all possible languages
 				return TRANSLATION_PLURAL_OTHER_INTEGER;
 			}
 		}
@@ -511,14 +488,6 @@ public final class Utils {
 		boolean tokenValid = !(token.equals(Constants.NO_TOKEN) || token.length() != ServerCalls.TOKEN_LENGTH
 				|| token.equals(ServerCalls.TOKEN_CODE_INVALID));
 		return tokenValid;
-	}
-
-	public static <T> List<T> distinctListByClassOfObjects(List<T> listToDistinct) {
-		Map<Class, T> uniqueMap = new HashMap<>();
-		for (T objectInstance : listToDistinct) {
-			uniqueMap.put(objectInstance.getClass(), objectInstance);
-		}
-		return new ArrayList<>(uniqueMap.values());
 	}
 
 	public static int setBit(int number, int index, int value) {

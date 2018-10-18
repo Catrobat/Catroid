@@ -26,7 +26,6 @@ package org.catrobat.catroid.ui.fragment;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -45,9 +44,9 @@ public class ColorSeekbar {
 
 	private View colorPreviewView;
 
-	private TextView formulaEditorEditTextRed;
-	private TextView formulaEditorEditTextBlue;
-	private TextView formulaEditorEditTextGreen;
+	private TextView redValueTextView;
+	private TextView blueValueTextView;
+	private TextView greenValueTextView;
 
 	private SeekBar redSeekBar;
 	private SeekBar greenSeekBar;
@@ -62,74 +61,70 @@ public class ColorSeekbar {
 		this.blueField = blueField;
 	}
 
-	public View getView(Context context) {
-		seekbarView = View.inflate(context, R.layout.fragment_rgb_color_chooser, null);
+	public View getView(final Context context) {
+		seekbarView = View.inflate(context, R.layout.rgb_seek_bar_view, null);
 
 		seekbarView.setFocusableInTouchMode(true);
 		seekbarView.requestFocus();
 
-		OnClickListener onClickListener = new OnClickListener() {
+		View.OnClickListener onClickListener = new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				switch (view.getId()) {
 					case R.id.rgb_red_value:
-						FormulaEditorFragment.showFragment(view, formulaBrick, redField);
+						FormulaEditorFragment.showFragment(context, formulaBrick, redField);
 						break;
 					case R.id.rgb_green_value:
-						FormulaEditorFragment.showFragment(view, formulaBrick, greenField);
+						FormulaEditorFragment.showFragment(context, formulaBrick, greenField);
 						break;
 					case R.id.rgb_blue_value:
-						FormulaEditorFragment.showFragment(view, formulaBrick, blueField);
+						FormulaEditorFragment.showFragment(context, formulaBrick, blueField);
 						break;
 				}
 			}
 		};
 
-		formulaEditorEditTextRed = (TextView) seekbarView.findViewById(R.id.rgb_red_value);
-		formulaEditorEditTextRed.setOnClickListener(onClickListener);
-		formulaBrick.getFormulaWithBrickField(redField).setTextFieldId(R.id.rgb_red_value);
-		formulaBrick.getFormulaWithBrickField(redField).refreshTextField(seekbarView);
+		redValueTextView = seekbarView.findViewById(R.id.rgb_red_value);
+		redValueTextView.setOnClickListener(onClickListener);
 
-		formulaEditorEditTextGreen = (TextView) seekbarView.findViewById(R.id.rgb_green_value);
-		formulaEditorEditTextGreen.setOnClickListener(onClickListener);
-		formulaBrick.getFormulaWithBrickField(greenField).setTextFieldId(R.id.rgb_green_value);
-		formulaBrick.getFormulaWithBrickField(greenField).refreshTextField(seekbarView);
+		greenValueTextView = seekbarView.findViewById(R.id.rgb_green_value);
+		greenValueTextView.setOnClickListener(onClickListener);
 
-		formulaEditorEditTextBlue = (TextView) seekbarView.findViewById(R.id.rgb_blue_value);
-		formulaEditorEditTextBlue.setOnClickListener(onClickListener);
-		formulaBrick.getFormulaWithBrickField(blueField).setTextFieldId(R.id.rgb_blue_value);
-		formulaBrick.getFormulaWithBrickField(blueField).refreshTextField(seekbarView);
+		blueValueTextView = seekbarView.findViewById(R.id.rgb_blue_value);
+		blueValueTextView.setOnClickListener(onClickListener);
 
-		redSeekBar = (SeekBar) seekbarView.findViewById(R.id.color_rgb_seekbar_red);
-		greenSeekBar = (SeekBar) seekbarView.findViewById(R.id.color_rgb_seekbar_green);
-		blueSeekBar = (SeekBar) seekbarView.findViewById(R.id.color_rgb_seekbar_blue);
+		redSeekBar = seekbarView.findViewById(R.id.color_rgb_seekbar_red);
+		greenSeekBar = seekbarView.findViewById(R.id.color_rgb_seekbar_green);
+		blueSeekBar = seekbarView.findViewById(R.id.color_rgb_seekbar_blue);
 
-		colorPreviewView = seekbarView.findViewById(R.id.color_rgb_preview);
+		int color = Color.rgb(getCurrentBrickFieldValue(context, redField),
+				getCurrentBrickFieldValue(context, greenField),
+				getCurrentBrickFieldValue(context, blueField));
 
-		int color = Color.rgb(getCurrentBrickFieldValue(redField), getCurrentBrickFieldValue(greenField), getCurrentBrickFieldValue(blueField));
 		redSeekBar.setProgress(Color.red(color));
 		greenSeekBar.setProgress(Color.green(color));
 		blueSeekBar.setProgress(Color.blue(color));
 
+		redValueTextView.setText(String.valueOf(redSeekBar.getProgress()));
+		greenValueTextView.setText(String.valueOf(greenSeekBar.getProgress()));
+		blueValueTextView.setText(String.valueOf(blueSeekBar.getProgress()));
+
+		colorPreviewView = seekbarView.findViewById(R.id.color_rgb_preview);
 		colorPreviewView.setBackgroundColor(color);
 		colorPreviewView.invalidate();
-
-//		redSeekBar.setProgress(getCurrentBrickFieldValue(redField));
-//		greenSeekBar.setProgress(getCurrentBrickFieldValue(greenField));
-//		blueSeekBar.setProgress(getCurrentBrickFieldValue(blueField));
 
 		SeekBar.OnSeekBarChangeListener seekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
 				switch (seekBar.getId()) {
 					case R.id.color_rgb_seekbar_red:
-						formulaEditorEditTextRed.setText(String.valueOf(seekBar.getProgress()));
+						redValueTextView.setText(String.valueOf(seekBar.getProgress()));
 						break;
 					case R.id.color_rgb_seekbar_green:
-						formulaEditorEditTextGreen.setText(String.valueOf(seekBar.getProgress()));
+						greenValueTextView.setText(String.valueOf(seekBar.getProgress()));
 						break;
 					case R.id.color_rgb_seekbar_blue:
-						formulaEditorEditTextBlue.setText(String.valueOf(seekBar.getProgress()));
+						blueValueTextView.setText(String.valueOf(seekBar.getProgress()));
 						break;
 					default:
 						break;
@@ -150,25 +145,18 @@ public class ColorSeekbar {
 
 				switch (seekBar.getId()) {
 					case R.id.color_rgb_seekbar_red:
-						FormulaEditorFragment.changeInputField(seekbarView, redField);
 						changedBrickField = redField;
 						break;
 					case R.id.color_rgb_seekbar_green:
-						FormulaEditorFragment.changeInputField(seekbarView, greenField);
 						changedBrickField = greenField;
 						break;
 					case R.id.color_rgb_seekbar_blue:
-						FormulaEditorFragment.changeInputField(seekbarView, blueField);
 						changedBrickField = blueField;
 						break;
 					default:
 						break;
 				}
-				FormulaEditorFragment.overwriteFormula(seekbarView, new Formula(seekBar.getProgress()));
-				// ToDo: this is a hack for saving the value immediately
-				FormulaEditorFragment.changeInputField(seekbarView, getOtherField(changedBrickField));
-				FormulaEditorFragment.changeInputField(seekbarView, changedBrickField);
-				// end of hack
+				formulaBrick.setFormulaWithBrickField(changedBrickField, new Formula(seekBar.getProgress()));
 			}
 		};
 
@@ -179,17 +167,8 @@ public class ColorSeekbar {
 		return seekbarView;
 	}
 
-	private Brick.BrickField getOtherField(Brick.BrickField brickField) {
-		if (brickField == blueField) {
-			return redField;
-		}
-		return blueField;
-	}
-
-	private int getCurrentBrickFieldValue(Brick.BrickField brickField) {
-		String stringValue = formulaBrick.getFormulaWithBrickField(brickField)
-				.getDisplayString(seekbarView.getContext());
-		int value = Double.valueOf(stringValue.replace(",", ".")).intValue();
-		return value;
+	private int getCurrentBrickFieldValue(Context context, Brick.BrickField brickField) {
+		String currentStringValue = formulaBrick.getFormulaWithBrickField(brickField).getTrimmedFormulaString(context);
+		return Double.valueOf(currentStringValue.replace(",", ".")).intValue();
 	}
 }

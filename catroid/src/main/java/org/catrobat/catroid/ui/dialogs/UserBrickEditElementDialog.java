@@ -23,18 +23,16 @@
 package org.catrobat.catroid.ui.dialogs;
 
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.DialogInterface.OnShowListener;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -56,15 +54,9 @@ public class UserBrickEditElementDialog extends DialogFragment {
 	private static int stringResourceOfTitle;
 	private static int stringResourceOfHintText;
 	private static ArrayList<String> takenVariables;
-	private View fragmentView;
 	private UserBrickElementEditorFragment userBrickElementEditorFragment;
 
 	public UserBrickEditElementDialog() {
-	}
-
-	public UserBrickEditElementDialog(View fragmentView) {
-		super();
-		this.fragmentView = fragmentView;
 	}
 
 	@Override
@@ -119,8 +111,7 @@ public class UserBrickEditElementDialog extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle bundle) {
-		final View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_brick_editor_edit_element,
-				(ViewGroup) fragmentView, false);
+		final View dialogView = View.inflate(getActivity(), R.layout.dialog_brick_editor_edit_element, null);
 
 		EditText textField = (EditText) dialogView.findViewById(R.id.dialog_brick_editor_edit_element_edit_text);
 		textField.setText(text);

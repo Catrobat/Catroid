@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.common;
 
-import android.os.Environment;
 import android.support.annotation.IntDef;
 
 import java.io.File;
@@ -30,9 +29,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.Calendar;
 
+import static org.catrobat.catroid.common.FlavoredConstants.BASE_URL_HTTPS;
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+
 public final class Constants {
 
-	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = Float.valueOf(0.996f);
+	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = 0.998f;
 
 	public static final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
 	public static final int CAST_CONNECTION_TIMEOUT = 5000; //in milliseconds
@@ -60,18 +62,14 @@ public final class Constants {
 	public static final String[] IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".png", ".gif"};
 	public static final String[] SOUND_EXTENSIONS = {".wav", ".mp3", ".mpga", ".wav", ".ogy"};
 
-	private static final String DEFAULT_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath()
-			+ "/Pocket Code";
+	// Files and Directories:
+	public static final String NO_MEDIA_FILE = ".nomedia";
 
-	public static final File DEFAULT_ROOT_DIRECTORY = new File(DEFAULT_ROOT);
+	public static final String AUTOMATIC_SCREENSHOT_FILE_NAME = "automatic_screenshot.png";
+	public static final String MANUAL_SCREENSHOT_FILE_NAME = "manual_screenshot.png";
 
-	public static final String TMP_PATH = DEFAULT_ROOT + "/tmp";
-	public static final String TEXT_TO_SPEECH_TMP_PATH = TMP_PATH + "/textToSpeech";
 	public static final String IMAGE_DIRECTORY_NAME = "images";
 	public static final String SOUND_DIRECTORY_NAME = "sounds";
-
-	public static final String TMP_LOOKS_PATH = TMP_PATH + "/looks";
-	public static final String TMP_SOUNDS_PATH = TMP_PATH + "/sounds";
 
 	// Backpack Directories
 	public static final File BACKPACK_DIRECTORY = new File(DEFAULT_ROOT_DIRECTORY, "backpack");
@@ -80,11 +78,27 @@ public final class Constants {
 	public static final File BACKPACK_SOUND_DIRECTORY = new File(BACKPACK_DIRECTORY, "backpack_sound");
 	public static final File BACKPACK_IMAGE_DIRECTORY = new File(BACKPACK_DIRECTORY, "backpack_image");
 
-	public static final String NO_MEDIA_FILE = ".nomedia";
+	// Temporary Files and Directories:
+	public static final String TMP_PATH = DEFAULT_ROOT_DIRECTORY.getAbsolutePath() + "/tmp";
+	public static final String TEXT_TO_SPEECH_TMP_PATH = TMP_PATH + "/textToSpeech";
+	public static final String TMP_LOOKS_PATH = TMP_PATH + "/looks";
+	public static final String TMP_SOUNDS_PATH = TMP_PATH + "/sounds";
 
-	public static final String AUTOMATIC_SCREENSHOT_FILE_NAME = "automatic_screenshot.png";
-	public static final String MANUAL_SCREENSHOT_FILE_NAME = "manual_screenshot.png";
+	// Web:
+	public static final String MAIN_URL_HTTPS = "https://share.catrob.at";
 
+	public static final String SHARE_PROGRAM_URL = BASE_URL_HTTPS + "/program/";
+	public static final String STANDALONE_URL = "http://catrob.at/csadttwt";
+
+	public static final String CATROBAT_ABOUT_URL = "http://www.catrobat.org/";
+	public static final String ABOUT_POCKETCODE_LICENSE_URL = "http://developer.catrobat.org/licenses";
+
+	public static final String CATROBAT_TERMS_OF_USE_URL = BASE_URL_HTTPS + "termsOfUse";
+	public static final String CATROBAT_HELP_URL = BASE_URL_HTTPS + "help";
+	public static final String CATROBAT_TOKEN_LOGIN_URL = BASE_URL_HTTPS + "tokenlogin?username=";
+	public static final String CATROBAT_DELETE_ACCOUNT_URL = BASE_URL_HTTPS + "profile/edit";
+
+	// XStream:
 	public static final String TEXT_TO_SPEECH = "TEXT_TO_SPEECH";
 	public static final String BLUETOOTH_LEGO_NXT = "BLUETOOTH_LEGO_NXT";
 	public static final String BLUETOOTH_PHIRO_PRO = "BLUETOOTH_PHIRO_PRO";
@@ -105,28 +119,8 @@ public final class Constants {
 	public static final String RASPI_BROADCAST_INTERRUPT_PREFIX = RASPI_BROADCAST_PREFIX + "interrupt ";
 	public static final String OPENING_BRACE = "(";
 
-	//Web:
-	public static final String MAIN_URL_HTTPS = "https://share.catrob.at";
-	public static final String BASE_URL_HTTPS = MAIN_URL_HTTPS + "/pocketcode/";
-	public static final String LIBRARY_LOOKS_URL = "https://share.catrob.at/pocketcode/pocket-library/looks";
-	public static final String LIBRARY_BACKGROUNDS_URL_PORTRAIT = "https://share.catrob.at/pocketcode/pocket-library/backgrounds-portrait";
-	public static final String LIBRARY_BACKGROUNDS_URL_LANDSCAPE = "https://share.catrob.at/pocketcode/pocket-library/backgrounds-landscape";
-	public static final String LIBRARY_SOUNDS_URL = "https://share.catrob.at/pocketcode/pocket-library/sounds";
-	public static final String LIBRARY_BASE_URL = "https://share.catrob.at/pocketcode/download-media/";
-	public static final String SHARE_PROGRAM_URL = "https://share.catrob.at/pocketcode/program/";
-
-	public static final String CATROBAT_TERMS_OF_USE_URL = BASE_URL_HTTPS + "termsOfUse";
-
-	public static final String CATROBAT_ABOUT_URL = "http://www.catrobat.org/";
-	public static final String ABOUT_POCKETCODE_LICENSE_URL = "http://developer.catrobat.org/licenses";
-
-	public static final String CATROBAT_DELETE_ACCOUNT_URL = BASE_URL_HTTPS + "profile/edit";
-	public static final String CATROBAT_HELP_URL = BASE_URL_HTTPS + "help";
-	public static final String CATROBAT_TOKEN_LOGIN_URL = BASE_URL_HTTPS + "tokenlogin?username=";
+	// Login:
 	public static final String CATROBAT_TOKEN_LOGIN_AMP_TOKEN = "&token=";
-
-	public static final String STANDALONE_URL = "http://catrob.at/csadttwt";
-
 	public static final String TOKEN = "token";
 	public static final String NO_TOKEN = "no_token";
 	public static final String FACEBOOK_TOKEN_REFRESH_NEEDED = "FACEBOOK_TOKEN_REFRESH_NEEDED";
@@ -199,13 +193,17 @@ public final class Constants {
 	// Lego
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({NXT, EV3})
-	public @interface LegoSensorType {}
+	public @interface LegoSensorType {
+	}
+
 	public static final int NXT = 0;
 	public static final int EV3 = 1;
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({PORT_1, PORT_2, PORT_3, PORT_4})
-	public @interface LegoPort {}
+	public @interface LegoPort {
+	}
+
 	public static final int PORT_1 = 0;
 	public static final int PORT_2 = 1;
 	public static final int PORT_3 = 2;
@@ -216,8 +214,6 @@ public final class Constants {
 	public static final String EXTRA_PICTURE_NAME_POCKET_PAINT = "org.catrobat.extra.PAINTROID_PICTURE_NAME";
 	public static final String EXTRA_X_VALUE_POCKET_PAINT = "org.catrobat.extra.PAINTROID_X";
 	public static final String EXTRA_Y_VALUE_POCKET_PAINT = "org.catrobat.extra.PAINTROID_Y";
-	public static final String POCKET_PAINT_PACKAGE_NAME = "org.catrobat.paintroid";
-	public static final String POCKET_PAINT_DOWNLOAD_LINK = "market://details?id=" + POCKET_PAINT_PACKAGE_NAME;
 	public static final String POCKET_PAINT_INTENT_ACTIVITY_NAME = "org.catrobat.paintroid.MainActivity";
 
 	//Various:
@@ -278,6 +274,6 @@ public final class Constants {
 	public static final int STATUS_CODE_UPLOAD_OLD_CATROBAT_VERSION = 519;
 
 	private Constants() {
-		throw new AssertionError();
+		throw new AssertionError("No.");
 	}
 }

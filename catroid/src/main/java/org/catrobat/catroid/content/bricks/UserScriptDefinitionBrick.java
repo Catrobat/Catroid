@@ -70,7 +70,7 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 	private List<UserScriptDefinitionBrickElement> userScriptDefinitionBrickElements;
 
 	public UserScriptDefinitionBrick() {
-		this.script = new StartScript(true);
+		this.script = new StartScript();
 		this.userScriptDefinitionBrickElements = new ArrayList<>();
 	}
 
@@ -105,16 +105,14 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 		return super.hashCode() * TAG.hashCode();
 	}
 
-	public int getRequiredResources() {
-		int resources = Brick.NO_RESOURCES;
-
+	@Override
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
 		for (Brick brick : script.getBrickList()) {
 			if (brick instanceof UserBrick && ((UserBrick) brick).getDefinitionBrick() == this) {
 				continue;
 			}
-			resources |= brick.getRequiredResources();
+			brick.addRequiredResources(requiredResourcesSet);
 		}
-		return resources;
 	}
 
 	@Override
@@ -137,7 +135,7 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 	public void onLayoutChanged() {
 		Context context = view.getContext();
 
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_user_definition_layout);
+		LinearLayout layout = view.findViewById(R.id.brick_user_definition_layout);
 		layout.setFocusable(false);
 		layout.setFocusableInTouchMode(false);
 		if (layout.getChildCount() > 0) {
@@ -150,7 +148,6 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 		ImageView preview = getBorderedPreview(brickImage);
 
 		TextView define = new TextView(context);
-		define.setTextAppearance(context, R.style.BrickText);
 		define.setText(context.getString(R.string.define).concat(" "));
 
 		layout.addView(define);
@@ -175,7 +172,7 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 
 	private View getUserBrickPrototypeView(Context context) {
 		View prototypeView = super.getPrototypeView(context);
-		BrickLayout layout = (BrickLayout) prototypeView.findViewById(R.id.brick_user_flow_layout);
+		BrickLayout layout = prototypeView.findViewById(R.id.brick_user_flow_layout);
 		if (layout.getChildCount() > 0) {
 			layout.removeAllViews();
 		}
@@ -295,12 +292,14 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 	}
 
 	@Override
-	public Brick clone() {
-		return new UserScriptDefinitionBrick();
+	public BrickBaseType clone() throws CloneNotSupportedException {
+		UserScriptDefinitionBrick clone = (UserScriptDefinitionBrick) super.clone();
+		clone.script = null;
+		return clone;
 	}
 
 	@Override
-	public Script getScriptSafe() {
+	public Script getScript() {
 		return getUserScript();
 	}
 
@@ -448,6 +447,6 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 	@Override
 	public void setCommentedOut(boolean commentedOut) {
 		super.setCommentedOut(commentedOut);
-		getScriptSafe().setCommentedOut(commentedOut);
+		getScript().setCommentedOut(commentedOut);
 	}
 }

@@ -1,0 +1,226 @@
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2018 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+project.ext {
+    crowdinPath = project.rootDir.path + "/crowdin"
+    crowdinKeyPath = crowdinPath + "/keyfile"
+    crowdinArchivePath = crowdinPath + "/crowdin.zip"
+    crowdinExtractedPath = crowdinPath + "/extracted"
+    crowdinPlayStorePath = crowdinPath + "/extracted/catroid/PlayStore"
+
+    playStoreLimitTitle = 50
+    playStoreLimitShortDescription = 80
+    playStoreLimitFullDescription = 4000
+}
+
+final String releasePreparationMainGroup = "release preparation main"
+final String releasePreparationSubGroup = "release preparation sub"
+
+project.ext.languageMapCrowdin = [
+        // English should be first. Project object names will be set to first language launched.
+        // crowdin : Android
+        "en-US" : "en-US", // translations missing,
+        "ar-SA" : "ar",
+        "az-AZ" : "az-AZ",
+        "bg-BG" : "bg",
+        "ca-ES" : "ca",
+        "cs-CZ" : "cs-CZ",
+        "da-DK" : "da-DK",
+        "de-DE" : "de-DE",
+        "el-GR" : "el-GR",
+        "en-AU" : "en-AU",
+        "en-CA" : "en-CA",
+        "en-GB" : "en-GB",
+        "es-ES" : "es-ES",
+        "fa-AF" : "fa",
+        "fr-FR" : "fr-FR",
+        "gl-ES" : "gl-ES",
+        "hi-IN" : "hi-IN",
+        "hr-HR" : "hr",
+        "hu-HU" : "hu-HU",
+        "id-ID" : "id",
+        "it-IT" : "it-IT",
+        "ja-JP" : "ja-JP",
+        "kn-IN" : "kn-IN",
+        "ko-KR" : "ko-KR",
+        "lt-LT" : "lt",
+        "mk-MK" : "mk-MK",
+        "ml-IN" : "ml-IN",
+        "ms-MY" : "ms",
+        "nl-NL" : "nl-NL",
+        "no-NO" : "no-NO",
+        "pl-PL" : "pl-PL",
+        "pt-BR" : "pt-BR",
+        "pt-PT" : "pt-PT", // why marked remove in google doc?
+        "ro-RO" : "ro",
+        "ru-RU" : "ru-RU",
+        "sk-SK" : "sk",
+        "sl-SI" : "sl",
+        "sr-CS" : "sr",
+        "sv-SE" : "sv-SE",
+        "sw-KE" : "sw",
+        "ta-IN" : "ta-IN",
+        "te-IN" : "te-IN",
+        "th-TH" : "th",
+        "tr-TR" : "tr-TR",
+        "uk-UA" : "uk",
+        "vi-VN" : "vi",
+        "zh-CN" : "zh-CN",
+        "zh-TW" : "zh-TW"
+]
+
+project.ext.getMappedLocalesCrowdin = languageMapCrowdin.values().inspect().toString()
+        .replace("[", "\"")
+        .replace("]", "\"")
+
+def createCrowdinDirectory() {
+    final File crowdinDir = new File(crowdinPath)
+    crowdinDir.mkdirs()
+}
+
+def loadCrowdinKey() {
+    String key = ""
+    logger.lifecycle("Trying to read key from parameters given ...")
+    if (project.hasProperty("crowdinKey")) {
+        logger.lifecycle("Key found")
+        key = project.getProperties().get("crowdinKey")
+    } else {
+        throw new InvalidUserDataException("Key not found. You can provide it as Parameter with -PcrowdinKey=")
+    }
+    return key
+}
+
+task cleanCrowdin(type: Delete) {
+    description "Delete objects in crowdin folder."
+    group releasePreparationSubGroup
+
+    delete crowdinExtractedPath, crowdinArchivePath
+    followSymlinks = true
+}
+
+task downloadCrowdinFiles() {
+    description "Downloads crowdin translations for App Store information."
+    group releasePreparationSubGroup
+
+    doLast {
+        createCrowdinDirectory()
+        String key = loadCrowdinKey()
+
+        logger.lifecycle("Downloading crowdin translations ...")
+        exec {
+            executable "sh"
+            args ("-c", "wget -q --tries=3 --output-document=" + crowdinArchivePath +
+                    " https://api.crowdin.com/api/project/catrobat/download/all.zip?key=" + key)
+        }
+        logger.lifecycle("Downloading crowdin translations done.")
+    }
+}
+
+task unpackCrowdinFiles(type: Copy) {
+    description "Unpacks the previously downloaded crowdin zip file."
+    group releasePreparationSubGroup
+    dependsOn downloadCrowdinFiles
+
+    def zipFile = file(project.ext.crowdinArchivePath)
+    def outputDir = file(project.ext.crowdinExtractedPath)
+
+    doFirst { logger.lifecycle("Unpacking crowdin zip file ...") }
+    from zipTree(zipFile)
+    into outputDir
+    doLast { logger.lifecycle( "Unpacking crowdin zip file done.") }
+}
+
+android.productFlavors.all { flavor ->
+    task("generateAppStoreInfo${flavor.name.capitalize()}") {
+        description "Generating App Store info files from local crowdin translations."
+        group releasePreparationSubGroup
+        dependsOn unpackCrowdinFiles
+
+        doLast {
+            logger.lifecycle("Generating App Store info files.")
+            FileTree tree = fileTree(project.ext.crowdinPlayStorePath)
+            tree.include "**/google_play_${flavor.name}.xml"
+
+            tree.each { File file ->
+                logger.info("Processing file: " + file)
+
+                def directories = file.parent.split("/")
+                String crowdinCode = directories[directories.size() - 1]
+                String androidCode = languageMapCrowdin.get(crowdinCode)
+                logger.info("Language code mapping: " + crowdinCode + " --> " + androidCode)
+
+                if (androidCode != null) {
+                    def xml = new XmlParser().parse(file)
+
+                    File dirFile = new File(project.ext.fastlaneAndroidPath + "/" + androidCode)
+                    dirFile.mkdirs()
+
+                    String title = "${xml.string[0].text()}"
+                    if (title.length() > project.ext.playStoreLimitTitle) {
+                        logger.warn("Title of " + crowdinCode + " is too long. Truncating to " +
+                                project.ext.playStoreLimitTitle + " characters.")
+                        title = title.take(project.ext.playStoreLimitTitle)
+                    }
+                    File titleFile = new File(project.ext.fastlaneAndroidPath + "/" + androidCode,
+                            "title.txt")
+                    titleFile.text = title
+
+                    String fullDescription = "${xml.string[1].text()}"
+                    if (fullDescription.length() > project.ext.playStoreLimitFullDescription) {
+                        logger.warn("Full description of " + crowdinCode + " is too long. Truncating to " +
+                                project.ext.playStoreLimitFullDescription + " characters.")
+                        fullDescription = fullDescription.take(project.ext.playStoreLimitFullDescription)
+                    }
+                    File fullDescriptionFile = new File(project.ext.fastlaneAndroidPath + "/" +
+                            androidCode, "full_description.txt")
+                    fullDescriptionFile.text = fullDescription
+
+                    String shortDescription = "${xml.string[2].text()}"
+                    if (shortDescription.length() > project.ext.playStoreLimitShortDescription) {
+                        logger.warn("Short description of " + crowdinCode + " is too long. Truncating to " +
+                                project.ext.playStoreLimitShortDescription + " characters.")
+                        shortDescription = shortDescription.take(project.ext.playStoreLimitShortDescription)
+                    }
+                    File shortDescriptionFile = new File(project.ext.fastlaneAndroidPath + "/" +
+                            androidCode, "short_description.txt")
+                    shortDescriptionFile.text = shortDescription
+                }
+            }
+            logger.lifecycle("Generating App Store info done.")
+        }
+    }
+}
+
+android.productFlavors.all { flavor ->
+    task("generateCrowdinMetadata${flavor.name.capitalize()}") {
+        description "Run all tasks to generate crowdin files for Metadata folder."
+        group releasePreparationMainGroup
+        dependsOn downloadCrowdinFiles, unpackCrowdinFiles,
+                "generateAppStoreInfo${flavor.name.capitalize()}"
+
+        doLast {
+            logger.lifecycle("Generating Crowdin Metadata done.")
+            logger.lifecycle("Path: " + project.ext.fastlaneMetadataPath)
+        }
+    }
+}

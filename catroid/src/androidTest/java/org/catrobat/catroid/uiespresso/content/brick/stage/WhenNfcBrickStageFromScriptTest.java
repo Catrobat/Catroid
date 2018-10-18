@@ -27,8 +27,6 @@ import android.nfc.NdefMessage;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
-import junit.framework.Assert;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
@@ -41,7 +39,6 @@ import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
@@ -50,7 +47,6 @@ import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
-import org.catrobat.catroid.uiespresso.util.UserVariableTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -75,6 +71,7 @@ import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils
 import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.TAG_NAME_TEST1;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.TAG_NAME_TEST2;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.onNfcBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.util.UserVariableAssertions.assertUserVariableEqualsWithTimeout;
 
 @RunWith(AndroidJUnit4.class)
 public class WhenNfcBrickStageFromScriptTest {
@@ -99,15 +96,15 @@ public class WhenNfcBrickStageFromScriptTest {
 
 	@Category({Cat.CatrobatLanguage.class, Level.Functional.class, Cat.SettingsAndPermissions.class})
 	@Test
-	public void testNfcSensorVariable() throws InterpretationException {
+	public void testNfcSensorVariable() {
 		gotoNfcFragment(nfcBrickPosition);
 		UiNFCTestUtils.fakeNfcTag(UiNFCTestUtils.FIRST_TEST_TAG_ID, ndefMessage1, null, baseActivityTestRule.getActivity());
 
 		onView(withId(R.id.button_play))
 				.perform(click());
 
-		Assert.assertTrue(UserVariableTestUtils.userVariableEqualsWithinTimeout(readTagId, 0, 2000));
-		Assert.assertTrue(UserVariableTestUtils.userVariableEqualsWithinTimeout(readTagMessage, "0.0", 2000));
+		assertUserVariableEqualsWithTimeout(readTagId, 0, 2000);
+		assertUserVariableEqualsWithTimeout(readTagMessage, "0.0", 2000);
 	}
 
 	@Category({Cat.CatrobatLanguage.class, Level.Functional.class, Cat.Gadgets.class, Cat.SettingsAndPermissions.class})
@@ -117,13 +114,13 @@ public class WhenNfcBrickStageFromScriptTest {
 				.checkShowsText(R.string.brick_when_nfc_default_all);
 
 		onNfcBrickAtPosition(nfcBrickPosition).onSpinner(R.id.brick_when_nfc_spinner)
-				.performSelect(TAG_NAME_TEST1);
+				.performSelectString(TAG_NAME_TEST1);
 
 		onView(withId(R.id.button_play))
 				.perform(click());
 
-		assertEquals("Tag not set", ((WhenNfcBrick) scriptUnderTest.getScriptBrick()).getNfcTag().getNfcTagName(),
-				tagDataList.get(0).getNfcTagName());
+		assertEquals("Tag not set", ((WhenNfcBrick) scriptUnderTest.getScriptBrick()).getNfcTag().getName(),
+				tagDataList.get(0).getName());
 		pressBack();
 		pressBack();
 
@@ -131,13 +128,13 @@ public class WhenNfcBrickStageFromScriptTest {
 				.checkShowsText(TAG_NAME_TEST1);
 
 		onNfcBrickAtPosition(nfcBrickPosition).onSpinner(R.id.brick_when_nfc_spinner)
-				.performSelect(TAG_NAME_TEST2);
+				.performSelectString(TAG_NAME_TEST2);
 
 		onView(withId(R.id.button_play))
 				.perform(click());
 
-		assertEquals("tag not set", ((WhenNfcBrick) scriptUnderTest.getScriptBrick()).getNfcTag().getNfcTagName(),
-				tagDataList.get(1).getNfcTagName());
+		assertEquals("tag not set", ((WhenNfcBrick) scriptUnderTest.getScriptBrick()).getNfcTag().getName(),
+				tagDataList.get(1).getName());
 		pressBack();
 		pressBack();
 
@@ -148,7 +145,7 @@ public class WhenNfcBrickStageFromScriptTest {
 	private void gotoNfcFragment(int nfcBrickPosition) {
 		onBrickAtPosition(nfcBrickPosition).onSpinner(R.id.brick_when_nfc_spinner)
 				.perform(click());
-		onView(withText(R.string.new_nfc_tag))
+		onView(withText(R.string.new_option))
 				.perform(click());
 	}
 
@@ -187,12 +184,12 @@ public class WhenNfcBrickStageFromScriptTest {
 		tagDataList = ProjectManager.getInstance().getCurrentSprite().getNfcTagList();
 		NfcTagData firstTagData = new NfcTagData();
 
-		firstTagData.setNfcTagName(TAG_NAME_TEST1);
+		firstTagData.setName(TAG_NAME_TEST1);
 		firstTagData.setNfcTagUid(NfcHandler.byteArrayToHex(UiNFCTestUtils.FIRST_TEST_TAG_ID.getBytes()));
 		tagDataList.add(firstTagData);
 
 		NfcTagData secondTagData = new NfcTagData();
-		secondTagData.setNfcTagName(TAG_NAME_TEST2);
+		secondTagData.setName(TAG_NAME_TEST2);
 		secondTagData.setNfcTagUid(NfcHandler.byteArrayToHex(UiNFCTestUtils.SECOND_TEST_TAG_ID.getBytes()));
 		tagDataList.add(secondTagData);
 

@@ -38,6 +38,9 @@ import org.catrobat.catroid.pocketmusic.PocketMusicActivity;
 import org.catrobat.catroid.pocketmusic.ui.TactScrollRecyclerView;
 import org.catrobat.catroid.pocketmusic.ui.TrackRowView;
 import org.catrobat.catroid.pocketmusic.ui.TrackView;
+import org.catrobat.catroid.uiespresso.annotations.Flaky;
+import org.catrobat.catroid.uiespresso.testsuites.Cat;
+import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.SystemAnimations;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
@@ -48,6 +51,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import java.util.List;
@@ -181,6 +185,7 @@ public class PocketMusicActivityTest {
 	}
 
 	@Test
+	@Category({Level.Functional.class, Cat.PocketMusicUiTests.class})
 	public void toggleRandomNoteViewsAndAddTacts() {
 		onView(withId(R.id.tact_scroller)).check(matches(isRecyclerViewSizeZero()));
 
@@ -231,6 +236,8 @@ public class PocketMusicActivityTest {
 	}
 
 	@Test
+	@Category({Level.Functional.class, Cat.PocketMusicUiTests.class})
+	@Flaky
 	public void playButtonDoesPlay() {
 		onView(withId(R.id.pocketmusic_play_button)).check(matches(isDisplayed()));
 

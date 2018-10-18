@@ -24,7 +24,7 @@ package org.catrobat.catroid.content;
 
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfElseLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
@@ -39,33 +39,35 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Script implements Serializable {
+public abstract class Script implements Serializable, Cloneable {
 
 	private static final long serialVersionUID = 1L;
 
-	protected ArrayList<Brick> brickList;
-	protected transient ScriptBrick brick;
+	protected ArrayList<Brick> brickList = new ArrayList<>();
 	protected boolean commentedOut = false;
 
-	protected Script() {
-		brickList = new ArrayList<>();
-	}
+	protected transient ScriptBrick scriptBrick;
 
 	public ArrayList<Brick> getBrickList() {
 		return brickList;
 	}
 
-	public abstract Script clone() throws CloneNotSupportedException;
-
 	public abstract EventId createEventId(Sprite sprite);
 
-	public List<Brick> cloneBrickList() throws CloneNotSupportedException {
-		List<Brick> copies = new ArrayList<>();
+	@Override
+	public Script clone() throws CloneNotSupportedException {
+		Script clone = (Script) super.clone();
+		clone.commentedOut = commentedOut;
+		clone.scriptBrick = null;
+		clone.brickList = cloneBrickList();
+		return clone;
+	}
+
+	private ArrayList<Brick> cloneBrickList() throws CloneNotSupportedException {
+		ArrayList<Brick> clones = new ArrayList<>();
 
 		for (Brick brick : brickList) {
-			Brick clone = brick.clone();
-			clone.setCommentedOut(brick.isCommentedOut());
-			copies.add(clone);
+			clones.add(brick.clone());
 		}
 
 		for (Brick brick : brickList) {
@@ -79,8 +81,8 @@ public abstract class Script implements Serializable {
 					continue;
 				}
 
-				LoopBeginBrick beginBrick = (LoopBeginBrick) copies.get(begin);
-				LoopEndBrick endBrick = (LoopEndBrick) copies.get(end);
+				LoopBeginBrick beginBrick = (LoopBeginBrick) clones.get(begin);
+				LoopEndBrick endBrick = (LoopEndBrick) clones.get(end);
 
 				beginBrick.setLoopEndBrick(endBrick);
 				endBrick.setLoopBeginBrick(beginBrick);
@@ -89,15 +91,15 @@ public abstract class Script implements Serializable {
 				int begin = brickList.indexOf(brick);
 				int end = brickList.indexOf(((IfThenLogicBeginBrick) brick).getIfThenEndBrick());
 
-				IfThenLogicBeginBrick beginBrick = (IfThenLogicBeginBrick) copies.get(begin);
-				IfThenLogicEndBrick endBrick = (IfThenLogicEndBrick) copies.get(end);
+				IfThenLogicBeginBrick beginBrick = (IfThenLogicBeginBrick) clones.get(begin);
+				IfThenLogicEndBrick endBrick = (IfThenLogicEndBrick) clones.get(end);
 
 				beginBrick.setIfThenEndBrick(endBrick);
 				endBrick.setIfThenBeginBrick(beginBrick);
-			} else if (brick instanceof IfLogicBeginBrick) {
+			} else if (brick instanceof IfElseLogicBeginBrick) {
 				int begin = brickList.indexOf(brick);
-				int middle = brickList.indexOf(((IfLogicBeginBrick) brick).getIfElseBrick());
-				int end = brickList.indexOf(((IfLogicBeginBrick) brick).getIfEndBrick());
+				int middle = brickList.indexOf(((IfElseLogicBeginBrick) brick).getIfElseBrick());
+				int end = brickList.indexOf(((IfElseLogicBeginBrick) brick).getIfEndBrick());
 
 				// The structure of the nested bricks should be reworked -> having to update references in all bricks
 				// is error prone and has no benefit whatsoever. This workaround should not be necessary:
@@ -105,9 +107,9 @@ public abstract class Script implements Serializable {
 					continue;
 				}
 
-				IfLogicBeginBrick beginBrick = (IfLogicBeginBrick) copies.get(begin);
-				IfLogicElseBrick elseBrick = (IfLogicElseBrick) copies.get(middle);
-				IfLogicEndBrick endBrick = (IfLogicEndBrick) copies.get(end);
+				IfElseLogicBeginBrick beginBrick = (IfElseLogicBeginBrick) clones.get(begin);
+				IfLogicElseBrick elseBrick = (IfLogicElseBrick) clones.get(middle);
+				IfLogicEndBrick endBrick = (IfLogicEndBrick) clones.get(end);
 
 				beginBrick.setIfElseBrick(elseBrick);
 				beginBrick.setIfEndBrick(endBrick);
@@ -118,27 +120,42 @@ public abstract class Script implements Serializable {
 			}
 		}
 
-		return copies;
+		return clones;
 	}
 
-	protected Object readResolve() {
-		return this;
+	public boolean isCommentedOut() {
+		return commentedOut;
+	}
+
+	public void setCommentedOut(boolean commentedOut) {
+		this.commentedOut = commentedOut;
+		for (Brick brick : brickList) {
+			brick.setCommentedOut(commentedOut);
+		}
 	}
 
 	public abstract ScriptBrick getScriptBrick();
 
+	public void setScriptBrick(ScriptBrick scriptBrick) {
+		this.scriptBrick = scriptBrick;
+	}
+
 	public void run(Sprite sprite, ScriptSequenceAction sequence) {
-		if (this.isCommentedOut()) {
+		if (commentedOut) {
 			return;
 		}
 
 		ArrayList<ScriptSequenceAction> sequenceList = new ArrayList<>();
 		sequenceList.add(sequence);
-		for (int i = 0; i < brickList.size(); i++) {
-			if (brickList.get(i).isCommentedOut()) {
+
+		for (Brick brick : brickList) {
+			if (brick.isCommentedOut()) {
 				continue;
 			}
-			List<ScriptSequenceAction> actions = brickList.get(i).addActionToSequence(sprite, sequenceList.get(sequenceList.size() - 1));
+
+			List<ScriptSequenceAction> actions = brick
+					.addActionToSequence(sprite, sequenceList.get(sequenceList.size() - 1));
+
 			if (actions != null) {
 				for (ScriptSequenceAction action : actions) {
 					if (sequenceList.contains(action)) {
@@ -161,6 +178,14 @@ public abstract class Script implements Serializable {
 		updateUserBricksIfNecessary(brick);
 	}
 
+	public Brick getBrick(int index) {
+		return brickList.get(index);
+	}
+
+	public void removeBrick(Brick brick) {
+		brickList.remove(brick);
+	}
+
 	private void updateUserBricksIfNecessary(Brick brick) {
 		if (brick instanceof UserBrick) {
 			UserBrick userBrick = (UserBrick) brick;
@@ -168,50 +193,11 @@ public abstract class Script implements Serializable {
 		}
 	}
 
-	public void removeBrick(Brick brick) {
-		brickList.remove(brick);
-	}
-
-	public int getRequiredResources() {
-		int resources = Brick.NO_RESOURCES;
-
+	public void addRequiredResources(final Brick.ResourcesSet resourcesSet) {
 		for (Brick brick : brickList) {
 			if (!brick.isCommentedOut()) {
-				resources |= brick.getRequiredResources();
+				brick.addRequiredResources(resourcesSet);
 			}
 		}
-		return resources;
-	}
-
-	public Brick getBrick(int index) {
-		return brickList.get(index);
-	}
-
-	public void setBrick(ScriptBrick brick) {
-		this.brick = brick;
-	}
-
-	public boolean isCommentedOut() {
-		return commentedOut;
-	}
-
-	public void setCommentedOut(boolean commentedOut) {
-		this.commentedOut = commentedOut;
-		if (commentedOut) {
-			for (Brick brick : brickList) {
-				brick.setCommentedOut(commentedOut);
-			}
-		}
-	}
-
-	public List<Brick> getBricksRequiringResources(int resource) {
-		List<Brick> resourceBrickList = new ArrayList<>();
-
-		for (Brick brick : brickList) {
-			if ((brick.getRequiredResources() & resource) != 0) {
-				resourceBrickList.add(brick);
-			}
-		}
-		return resourceBrickList;
 	}
 }

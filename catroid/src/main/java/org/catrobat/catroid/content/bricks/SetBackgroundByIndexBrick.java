@@ -26,6 +26,7 @@ package org.catrobat.catroid.content.bricks;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.formulaeditor.Formula;
 
 import java.util.Collections;
 import java.util.List;
@@ -33,23 +34,27 @@ import java.util.List;
 public class SetBackgroundByIndexBrick extends SetLookByIndexBrick {
 
 	public SetBackgroundByIndexBrick() {
+		super();
 	}
 
 	public SetBackgroundByIndexBrick(int index) {
-		super(index);
+		super(new Formula(index));
+	}
+
+	public SetBackgroundByIndexBrick(Formula formula) {
+		super(formula);
+	}
+
+	@Override
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		sequence.addAction(sprite.getActionFactory()
+				.createSetLookByIndexAction(getSprite(), getFormulaWithBrickField(BrickField.LOOK_INDEX), wait));
+
+		return Collections.emptyList();
 	}
 
 	@Override
 	protected Sprite getSprite() {
 		return ProjectManager.getInstance().getCurrentlyPlayingScene().getBackgroundSprite();
-	}
-
-	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		Sprite backgroundSprite = ProjectManager.getInstance().getCurrentlyPlayingScene().getBackgroundSprite();
-		sequence.addAction(sprite.getActionFactory().createSetLookByIndexAction(backgroundSprite,
-				getFormulaWithBrickField(BrickField.LOOK_INDEX), wait));
-
-		return Collections.emptyList();
 	}
 }

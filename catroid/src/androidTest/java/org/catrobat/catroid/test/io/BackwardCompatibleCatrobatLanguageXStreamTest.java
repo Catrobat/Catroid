@@ -25,7 +25,7 @@ package org.catrobat.catroid.test.io;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
-import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
@@ -83,8 +83,8 @@ public class BackwardCompatibleCatrobatLanguageXStreamTest {
 		assertNotNull(colorLeanerBalloonsProject);
 		assertEquals(PROJECT_NAME_COLOR_LEANER_BALLOONS, colorLeanerBalloonsProject.getName().toLowerCase(Locale.getDefault()));
 
-		StorageOperations.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_FALLING_BALLS));
-		StorageOperations.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_COLOR_LEANER_BALLOONS));
+		StorageOperations.deleteDir(new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_FALLING_BALLS));
+		StorageOperations.deleteDir(new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_COLOR_LEANER_BALLOONS));
 	}
 
 	@Test
@@ -104,8 +104,8 @@ public class BackwardCompatibleCatrobatLanguageXStreamTest {
 		assertNotNull(whipProject);
 		assertEquals(PROJECT_NAME_WHIP, whipProject.getName().toLowerCase(Locale.getDefault()));
 
-		StorageOperations.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_PONG_STARTER));
-		StorageOperations.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_WHIP));
+		StorageOperations.deleteDir(new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_PONG_STARTER));
+		StorageOperations.deleteDir(new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_WHIP));
 	}
 
 	@Test
@@ -132,9 +132,9 @@ public class BackwardCompatibleCatrobatLanguageXStreamTest {
 		assertNotNull(allBricksProject);
 		assertEquals(PROJECT_NAME_ALL_BRICKS, allBricksProject.getName().toLowerCase(Locale.getDefault()));
 
-		StorageOperations.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_AIR_FIGHT));
-		StorageOperations.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_XRAY_PHONE));
-		StorageOperations.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_ALL_BRICKS));
+		StorageOperations.deleteDir(new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_AIR_FIGHT));
+		StorageOperations.deleteDir(new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_XRAY_PHONE));
+		StorageOperations.deleteDir(new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_ALL_BRICKS));
 	}
 
 	@Test
@@ -147,7 +147,7 @@ public class BackwardCompatibleCatrobatLanguageXStreamTest {
 		assertNotNull(noteAndSpeakBrickProject);
 		assertEquals(PROJECT_NAME_NOTE_AND_SPEAK_BRICK, noteAndSpeakBrickProject.getName().toLowerCase(Locale.getDefault()));
 
-		StorageOperations.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_NOTE_AND_SPEAK_BRICK));
+		StorageOperations.deleteDir(new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_NOTE_AND_SPEAK_BRICK));
 	}
 
 	@Test
@@ -160,7 +160,7 @@ public class BackwardCompatibleCatrobatLanguageXStreamTest {
 		assertNotNull(ghostBricksProject);
 		assertEquals(PROJECT_NAME_GHOST_EFFECT_BRICKS, ghostBricksProject.getName().toLowerCase(Locale.getDefault()));
 
-		StorageOperations.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_GHOST_EFFECT_BRICKS));
+		StorageOperations.deleteDir(new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_GHOST_EFFECT_BRICKS));
 	}
 
 	@Test
@@ -173,11 +173,11 @@ public class BackwardCompatibleCatrobatLanguageXStreamTest {
 		assertNotNull(legoProject);
 		assertEquals(PROJECT_NAME_LEGO_NXT, legoProject.getName().toLowerCase(Locale.getDefault()));
 
-		StorageOperations.deleteDir(new File(Constants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_LEGO_NXT));
+		StorageOperations.deleteDir(new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_LEGO_NXT));
 	}
 
 	private void copyProjectFromAssets(String assetName, String projectName) throws IOException {
 		InputStream inputStream = InstrumentationRegistry.getContext().getAssets().open(assetName);
-		new ZipArchiver().unzip(inputStream, new File(Constants.DEFAULT_ROOT_DIRECTORY, projectName));
+		new ZipArchiver().unzip(inputStream, new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName));
 	}
 }

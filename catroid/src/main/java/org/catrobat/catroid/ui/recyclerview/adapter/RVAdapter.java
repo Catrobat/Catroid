@@ -40,7 +40,7 @@ import java.util.List;
 public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> implements
 		TouchHelperAdapterInterface {
 
-	List<T> items = new ArrayList<>();
+	List<T> items;
 	public boolean allowMultiSelection = true;
 	public boolean showCheckBoxes = false;
 

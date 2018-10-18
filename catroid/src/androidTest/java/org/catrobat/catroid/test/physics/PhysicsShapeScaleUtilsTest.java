@@ -32,7 +32,7 @@ import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.ResourceImporter;
@@ -43,7 +43,6 @@ import org.catrobat.catroid.physics.shapebuilder.PhysicsShapeBuilderStrategy;
 import org.catrobat.catroid.physics.shapebuilder.PhysicsShapeBuilderStrategyFastHull;
 import org.catrobat.catroid.physics.shapebuilder.PhysicsShapeScaleUtils;
 import org.catrobat.catroid.test.R;
-import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.junit.After;
@@ -76,7 +75,7 @@ public class PhysicsShapeScaleUtilsTest {
 
 		physicsWorld = new PhysicsWorld(1920, 1600);
 		physicsWorld.step(0.1f);
-		projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		projectDir = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		if (projectDir.exists()) {
 			StorageOperations.deleteDir(projectDir);
@@ -123,7 +122,7 @@ public class PhysicsShapeScaleUtilsTest {
 	}
 
 	@Test
-	public void testScaleCoordinate() {
+	public void testScaleCoordinate() throws Exception {
 		float coordinate = 100f;
 		float expectedCoordinate = 50f;
 		float actualCoordinate;

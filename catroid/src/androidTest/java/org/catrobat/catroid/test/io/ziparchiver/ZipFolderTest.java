@@ -26,7 +26,7 @@ package org.catrobat.catroid.test.io.ziparchiver;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
-import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.ZipArchiver;
 import org.junit.After;
@@ -48,8 +48,8 @@ public class ZipFolderTest {
 
 	@Before
 	public void setUp() {
-		outputArchive = new File(Constants.DEFAULT_ROOT_DIRECTORY, "testCompareZips.zip");
-		projectDir = new File(Constants.DEFAULT_ROOT_DIRECTORY, "testZipProject");
+		outputArchive = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "testCompareZips.zip");
+		projectDir = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "testZipProject");
 	}
 
 	@After

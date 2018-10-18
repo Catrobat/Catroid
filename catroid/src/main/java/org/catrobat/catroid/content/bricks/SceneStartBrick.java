@@ -22,37 +22,36 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Spinner;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.content.bricks.brickspinner.SpinnerAdapterWithNewOption;
+import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
+import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.ui.UiUtils;
-import org.catrobat.catroid.ui.recyclerview.dialog.NewSceneDialogFragment;
-import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
+import org.catrobat.catroid.ui.recyclerview.controller.SceneController;
+import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.NewItemTextWatcher;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class SceneStartBrick extends BrickBaseType implements
-		SpinnerAdapterWithNewOption.OnNewOptionInDropDownClickListener,
-		NewItemInterface<Scene> {
+public class SceneStartBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<Scene> {
 
 	private static final long serialVersionUID = 1L;
 
 	private String sceneToStart;
 
-	private transient int spinnerSelectionBuffer = 0;
-	private transient Spinner spinner;
-	private transient SpinnerAdapterWithNewOption spinnerAdapter;
+	private transient BrickSpinner<Scene> spinner;
 
 	public SceneStartBrick(String sceneToStart) {
 		this.sceneToStart = sceneToStart;
@@ -67,8 +66,10 @@ public class SceneStartBrick extends BrickBaseType implements
 	}
 
 	@Override
-	public Brick clone() {
-		return new SceneStartBrick(sceneToStart);
+	public BrickBaseType clone() throws CloneNotSupportedException {
+		SceneStartBrick clone = (SceneStartBrick) super.clone();
+		clone.spinner = null;
+		return clone;
 	}
 
 	@Override
@@ -77,86 +78,83 @@ public class SceneStartBrick extends BrickBaseType implements
 	}
 
 	@Override
+	public View getPrototypeView(Context context) {
+		super.getPrototypeView(context);
+		return getView(context);
+	}
+
+	@Override
 	public View getView(final Context context) {
 		super.getView(context);
-		spinner = view.findViewById(R.id.brick_scene_start_spinner);
-		spinnerAdapter = new SpinnerAdapterWithNewOption(context,
-				ProjectManager.getInstance().getCurrentProject().getSceneNames());
-		spinnerAdapter.setOnDropDownItemClickListener(this);
 
-		spinner.setAdapter(spinnerAdapter);
-		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				if (position != 0) {
-					sceneToStart = spinnerAdapter.getItem(position);
-				}
-			}
+		List<Nameable> items = new ArrayList<>();
+		items.add(new NewOption(context.getString(R.string.new_option)));
+		items.addAll(ProjectManager.getInstance().getCurrentProject().getSceneList());
+		spinner = new BrickSpinner<>(R.id.brick_scene_start_spinner, view, items);
+		spinner.setOnItemSelectedListener(this);
+		spinner.setSelection(sceneToStart);
 
-			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
-			}
-		});
-		spinner.setSelection(spinnerAdapter.getPosition(sceneToStart));
 		return view;
 	}
 
 	@Override
-	public boolean onNewOptionInDropDownClicked(View v) {
-		spinnerSelectionBuffer = spinner.getSelectedItemPosition();
-		Activity activity = UiUtils.getActivityFromView(v);
+	public void onNewOptionSelected() {
+		final AppCompatActivity activity = UiUtils.getActivityFromView(view);
 		if (activity == null) {
-			return false;
+			return;
 		}
 
-		new NewSceneFromBrickDialogFragment(this, ProjectManager.getInstance().getCurrentProject())
-				.show(activity.getFragmentManager(), NewSceneDialogFragment.TAG);
-		return false;
+		final Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		List<Scene> currentSceneList = currentProject.getSceneList();
+
+		String defaultSceneName = SceneController
+				.getUniqueDefaultSceneName(activity.getResources(), currentSceneList);
+
+		TextInputDialog.Builder builder = new TextInputDialog.Builder(activity);
+
+		builder.setHint(activity.getString(R.string.scene_name_label))
+				.setText(defaultSceneName)
+				.setTextWatcher(new NewItemTextWatcher<>(currentSceneList))
+				.setPositiveButton(activity.getString(R.string.ok), new TextInputDialog.OnClickListener() {
+					@Override
+					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
+						Scene scene = SceneController.newSceneWithBackgroundSprite(
+								textInput, activity.getString(R.string.background), currentProject);
+						currentProject.addScene(scene);
+						spinner.add(scene);
+						spinner.setSelection(scene);
+					}
+				});
+
+		builder.setTitle(R.string.new_scene_dialog)
+				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						spinner.setSelection(sceneToStart);
+					}
+				})
+				.setOnCancelListener(new DialogInterface.OnCancelListener() {
+					@Override
+					public void onCancel(DialogInterface dialog) {
+						spinner.setSelection(sceneToStart);
+					}
+				})
+				.create()
+				.show();
 	}
 
 	@Override
-	public void addItem(Scene item) {
-		ProjectManager.getInstance().getCurrentProject().addScene(item);
-		spinnerAdapter.add(item.getName());
-		sceneToStart = item.getName();
-		spinner.setSelection(spinnerAdapter.getPosition(item.getName()));
+	public void onStringOptionSelected(String string) {
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		View view = super.getPrototypeView(context);
-		spinner = view.findViewById(R.id.brick_scene_start_spinner);
-
-		spinnerAdapter = new SpinnerAdapterWithNewOption(context,
-				ProjectManager.getInstance().getCurrentProject().getSceneNames());
-		spinner.setAdapter(spinnerAdapter);
-		spinner.setSelection(spinnerAdapter.getPosition(sceneToStart));
-		return view;
+	public void onItemSelected(@Nullable Scene item) {
+		sceneToStart = item != null ? item.getName() : null;
 	}
 
 	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSceneStartAction(sceneToStart));
 		return null;
-	}
-
-	public static class NewSceneFromBrickDialogFragment extends NewSceneDialogFragment {
-
-		private SceneStartBrick sceneStartBrick;
-
-		public NewSceneFromBrickDialogFragment(SceneStartBrick sceneStartBrick, Project dstProject) {
-			super(sceneStartBrick, dstProject);
-			this.sceneStartBrick = sceneStartBrick;
-		}
-
-		public NewSceneFromBrickDialogFragment() {
-			super();
-		}
-
-		@Override
-		public void onCancel(DialogInterface dialog) {
-			super.onCancel(dialog);
-			sceneStartBrick.spinner.setSelection(sceneStartBrick.spinnerSelectionBuffer);
-		}
 	}
 }

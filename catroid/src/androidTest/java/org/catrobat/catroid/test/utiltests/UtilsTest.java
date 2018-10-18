@@ -25,11 +25,10 @@ package org.catrobat.catroid.test.utiltests;
 import android.os.SystemClock;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DefaultProjectHandler;
-import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -39,9 +38,6 @@ import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.HideBrick;
-import org.catrobat.catroid.content.bricks.SetLookBrick;
-import org.catrobat.catroid.content.bricks.WaitBrick;
-import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.stage.ShowBubbleActor;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -66,12 +62,9 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
 
 @RunWith(AndroidJUnit4.class)
 public class UtilsTest {
-	private static final String TAG = UtilsTest.class.getSimpleName();
-
 	private final String testFileContent = "Hello, this is a Test-String";
 	private static final String MD5_EMPTY = "D41D8CD98F00B204E9800998ECF8427E";
 	private static final String MD5_CATROID = "4F982D927F4784F69AD6D6AF38FD96AD";
@@ -83,22 +76,11 @@ public class UtilsTest {
 
 	@Before
 	public void setUp() throws Exception {
-		OutputStream outputStream = null;
-
-		try {
-			testFile = File.createTempFile("testCopyFiles", ".txt");
-			if (testFile.canWrite()) {
-				outputStream = new FileOutputStream(testFile);
-				outputStream.write(testFileContent.getBytes());
-				outputStream.flush();
-			}
-		} catch (IOException e) {
-			Log.e(TAG, "File handling error", e);
-		} finally {
-			if (outputStream != null) {
-				outputStream.close();
-			}
-		}
+		testFile = File.createTempFile("testCopyFiles", ".txt");
+		OutputStream outputStream = new FileOutputStream(testFile);
+		outputStream.write(testFileContent.getBytes());
+		outputStream.flush();
+		outputStream.close();
 	}
 
 	@After
@@ -124,19 +106,12 @@ public class UtilsTest {
 			md5TestFile.delete();
 		}
 
-		try {
-			md5TestFile.createNewFile();
-			assertEquals(MD5_EMPTY.toLowerCase(Locale.US), Utils.md5Checksum(md5TestFile));
+		md5TestFile.createNewFile();
+		assertEquals(MD5_EMPTY.toLowerCase(Locale.US), Utils.md5Checksum(md5TestFile));
 
-			printWriter = new PrintWriter(md5TestFile);
-			printWriter.print("catroid");
-		} catch (IOException e) {
-			Log.e(TAG, "File handling error", e);
-		} finally {
-			if (printWriter != null) {
-				printWriter.close();
-			}
-		}
+		printWriter = new PrintWriter(md5TestFile);
+		printWriter.print("catroid");
+		printWriter.close();
 
 		assertEquals(MD5_CATROID.toLowerCase(Locale.US), Utils.md5Checksum(md5TestFile));
 
@@ -175,11 +150,9 @@ public class UtilsTest {
 
 	@Test
 	public void testBuildProjectPath() {
-		if (!Utils.isExternalStorageAvailable()) {
-			fail("No SD card present");
-		}
+		assertTrue(Utils.isExternalStorageAvailable());
 		String projectName = "test?Projekt\"1";
-		String expectedPath = Constants.DEFAULT_ROOT_DIRECTORY.getAbsolutePath() + "/test%3FProjekt%221";
+		String expectedPath = FlavoredConstants.DEFAULT_ROOT_DIRECTORY.getAbsolutePath() + "/test%3FProjekt%221";
 		assertEquals(expectedPath, PathBuilder.buildProjectPath(projectName));
 	}
 
@@ -196,7 +169,6 @@ public class UtilsTest {
 		addSpriteAndCompareToDefaultProject();
 		addScriptAndCompareToDefalutProject();
 		addBrickAndCompareToDefaultProject();
-		changeParametersOfBricksAndCompareToDefaultProject();
 		removeBrickAndCompareToDefaultProject();
 		removeScriptAndCompareToDefaultProject();
 		removeSpriteAndCompareToDefaultProject();
@@ -419,44 +391,6 @@ public class UtilsTest {
 		assertFalse(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
 		catroidScript.removeBrick(brick);
 		assertTrue(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
-	}
-
-	private void changeParametersOfBricksAndCompareToDefaultProject() {
-		Script catroidScript = defaultProject.getDefaultScene().getSpriteList().get(1).getScript(0);
-		ArrayList<Brick> brickList = catroidScript.getBrickList();
-		SetLookBrick setLookBrick = null;
-		WaitBrick waitBrick = null;
-		for (int i = 0; i < brickList.size(); i++) {
-			if (brickList.get(i) instanceof SetLookBrick) {
-				setLookBrick = (SetLookBrick) brickList.get(i);
-				break;
-			}
-			if (brickList.get(i) instanceof WaitBrick) {
-				waitBrick = (WaitBrick) brickList.get(i);
-				break;
-			}
-		}
-
-		if (setLookBrick != null) {
-			LookData oldLookData = setLookBrick.getLook();
-			LookData newLookData = new LookData();
-			setLookBrick.setLook(newLookData);
-			assertFalse(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
-
-			setLookBrick.setLook(oldLookData);
-			assertTrue(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
-		}
-
-		if (waitBrick != null) {
-			Formula oldTime = waitBrick.getTimeToWait();
-			Formula newTimeToWait = new Formula(2345);
-
-			waitBrick.setTimeToWait(newTimeToWait);
-			assertFalse(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
-
-			waitBrick.setTimeToWait(oldTime);
-			assertTrue(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
-		}
 	}
 
 	private void removeBrickAndCompareToDefaultProject() {

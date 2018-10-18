@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.database.DataSetObserver;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -46,40 +47,34 @@ import java.util.List;
 
 public class WhenNfcBrick extends BrickBaseType implements ScriptBrick {
 
-	protected WhenNfcScript whenNfcScript;
-	private transient View prototypeView;
-	private transient NfcTagData nfcTag;
-	private transient NfcTagData oldSelectedNfcTag;
 	private static final long serialVersionUID = 1L;
 
+	private WhenNfcScript whenNfcScript;
+
+	private transient NfcTagData nfcTag;
+
 	public WhenNfcBrick() {
-		this.oldSelectedNfcTag = null;
-		this.nfcTag = null;
-		this.whenNfcScript = new WhenNfcScript();
-		this.whenNfcScript.setMatchAll(true);
+		this(new WhenNfcScript());
 	}
 
-	public WhenNfcBrick(WhenNfcScript script) {
-		this.oldSelectedNfcTag = null;
-		this.nfcTag = script.getNfcTag();
-		this.whenNfcScript = script;
-
-		if (script != null && script.isCommentedOut()) {
-			setCommentedOut(true);
-		}
+	public WhenNfcBrick(@NonNull WhenNfcScript whenNfcScript) {
+		nfcTag = whenNfcScript.getNfcTag();
+		whenNfcScript.setScriptBrick(this);
+		commentedOut = whenNfcScript.isCommentedOut();
+		this.whenNfcScript = whenNfcScript;
 	}
 
 	@Override
-	public Script getScriptSafe() {
-		if (whenNfcScript == null) {
-			setWhenNfcScript(new WhenNfcScript(nfcTag));
-		}
+	public BrickBaseType clone() throws CloneNotSupportedException {
+		WhenNfcBrick clone = (WhenNfcBrick) super.clone();
+		clone.whenNfcScript = (WhenNfcScript) whenNfcScript.clone();
+		clone.whenNfcScript.setScriptBrick(clone);
+		return clone;
+	}
+
+	@Override
+	public Script getScript() {
 		return whenNfcScript;
-	}
-
-	@Override
-	public Brick clone() {
-		return new WhenNfcBrick(new WhenNfcScript(nfcTag));
 	}
 
 	@Override
@@ -93,7 +88,7 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick {
 			whenNfcScript = new WhenNfcScript(nfcTag);
 		}
 		super.getView(context);
-		final Spinner nfcSpinner = (Spinner) view.findViewById(R.id.brick_when_nfc_spinner);
+		final Spinner nfcSpinner = view.findViewById(R.id.brick_when_nfc_spinner);
 
 		final ArrayAdapter<NfcTagData> spinnerAdapter = createNfcTagAdapter(context);
 
@@ -114,20 +109,18 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick {
 					whenNfcScript.setNfcTag(null);
 					//TODO: rework all
 					nfcTag = null; //(NfcTagData)parent.getItemAtPosition(position);
-					oldSelectedNfcTag = nfcTag;
 				} else {
 					if (whenNfcScript.getNfcTag() == null) {
 						whenNfcScript.setNfcTag(new NfcTagData());
 					}
 					for (NfcTagData selTag : ProjectManager.getInstance().getCurrentSprite().getNfcTagList()) {
-						if (selTag.getNfcTagName().equals(selectedTag)) {
+						if (selTag.getName().equals(selectedTag)) {
 							whenNfcScript.setNfcTag(selTag);
 							nfcTag = (NfcTagData) parent.getItemAtPosition(position); //selTag
 							break;
 						}
 					}
 					whenNfcScript.setMatchAll(false);
-					oldSelectedNfcTag = nfcTag;
 				}
 			}
 
@@ -143,33 +136,29 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick {
 
 	private void setSpinnerSelection(Spinner spinner) {
 		if (ProjectManager.getInstance().getCurrentSprite().getNfcTagList().contains(nfcTag)) {
-			Log.d("setSpinnerSelection", "nfcTag found: " + nfcTag.getNfcTagName());
-			oldSelectedNfcTag = nfcTag;
 			spinner.setSelection(ProjectManager.getInstance().getCurrentSprite().getNfcTagList().indexOf(nfcTag) + 2, true);
 		} else {
 			if (spinner.getAdapter() != null && spinner.getAdapter().getCount() > 1) {
-				if (ProjectManager.getInstance().getCurrentSprite().getNfcTagList().indexOf(oldSelectedNfcTag) >= 0) {
-					spinner.setSelection(ProjectManager.getInstance().getCurrentSprite().getNfcTagList().indexOf(oldSelectedNfcTag) + 2, true);
-					Log.d("setSpinnerSelection", "oldSelectedNfcTag found");
+				if (ProjectManager.getInstance().getCurrentSprite().getNfcTagList().indexOf(nfcTag) >= 0) {
+					spinner.setSelection(ProjectManager.getInstance()
+							.getCurrentSprite().getNfcTagList().indexOf(nfcTag) + 2, true);
 				} else {
 					spinner.setSelection(1, true);
-					Log.d("setSpinnerSelection", "setSelection(1, true)");
 				}
 			} else {
 				spinner.setSelection(0, true);
-				Log.d("setSpinnerSelection", "setSelection(0, true)");
 			}
 		}
 	}
 
 	private ArrayAdapter<NfcTagData> createNfcTagAdapter(Context context) {
-		ArrayAdapter<NfcTagData> arrayAdapter = new ArrayAdapter<NfcTagData>(context, android.R.layout.simple_spinner_item);
+		ArrayAdapter<NfcTagData> arrayAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
 		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		NfcTagData dummyNfcTagData = new NfcTagData();
-		dummyNfcTagData.setNfcTagName(context.getString(R.string.new_broadcast_message));
+		dummyNfcTagData.setName(context.getString(R.string.new_option));
 		arrayAdapter.add(dummyNfcTagData);
 		dummyNfcTagData = new NfcTagData();
-		dummyNfcTagData.setNfcTagName(context.getString(R.string.brick_when_nfc_default_all));
+		dummyNfcTagData.setName(context.getString(R.string.brick_when_nfc_default_all));
 		arrayAdapter.add(dummyNfcTagData);
 		for (NfcTagData nfcTagData : ProjectManager.getInstance().getCurrentSprite().getNfcTagList()) {
 			arrayAdapter.add(nfcTagData);
@@ -179,8 +168,8 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
-		Spinner nfcSpinner = (Spinner) prototypeView.findViewById(R.id.brick_when_nfc_spinner);
+		View prototypeView = super.getPrototypeView(context);
+		Spinner nfcSpinner = prototypeView.findViewById(R.id.brick_when_nfc_spinner);
 
 		SpinnerAdapter nfcSpinnerAdapter = createNfcTagAdapter(context); //NfcTagContainer.getMessageAdapter(context);
 		nfcSpinner.setAdapter(nfcSpinnerAdapter);
@@ -198,7 +187,6 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick {
 		SpinnerAdapterWrapper(Context context, ArrayAdapter<NfcTagData> spinnerAdapter) {
 			this.context = context;
 			this.spinnerAdapter = spinnerAdapter;
-
 			this.isTouchInDropDownView = false;
 		}
 
@@ -224,10 +212,6 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick {
 
 		@Override
 		public long getItemId(int paramInt) {
-			NfcTagData currentNfcTag = spinnerAdapter.getItem(paramInt);
-			if (!currentNfcTag.getNfcTagName().equals(context.getString(R.string.new_broadcast_message))) {
-				oldSelectedNfcTag = currentNfcTag;
-			}
 			return spinnerAdapter.getItemId(paramInt);
 		}
 
@@ -240,7 +224,6 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick {
 		public View getView(int paramInt, View paramView, ViewGroup paramViewGroup) {
 			if (isTouchInDropDownView) {
 				isTouchInDropDownView = false;
-				//TODO: Switch to NFC Tag Fragment
 			}
 			return spinnerAdapter.getView(paramInt, paramView, paramViewGroup);
 		}
@@ -277,8 +260,8 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return NFC_ADAPTER;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(NFC_ADAPTER);
 	}
 
 	@Override
@@ -290,13 +273,9 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick {
 		return nfcTag;
 	}
 
-	public void setWhenNfcScript(WhenNfcScript whenNfcScript) {
-		this.whenNfcScript = whenNfcScript;
-	}
-
 	@Override
 	public void setCommentedOut(boolean commentedOut) {
 		super.setCommentedOut(commentedOut);
-		getScriptSafe().setCommentedOut(commentedOut);
+		getScript().setCommentedOut(commentedOut);
 	}
 }

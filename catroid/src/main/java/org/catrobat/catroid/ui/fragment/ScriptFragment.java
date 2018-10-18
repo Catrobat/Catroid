@@ -22,15 +22,14 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.app.ListFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.IntDef;
+import android.support.v4.app.ListFragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -63,7 +62,8 @@ import org.catrobat.catroid.ui.dragndrop.BrickListView;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment.OnCategorySelectedListener;
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
 import org.catrobat.catroid.ui.recyclerview.controller.ScriptController;
-import org.catrobat.catroid.ui.recyclerview.dialog.NewScriptGroupDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.UniqueStringTextWatcher;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
@@ -72,14 +72,15 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
-public class ScriptFragment extends ListFragment implements OnCategorySelectedListener, OnFormulaChangedListener,
-		NewScriptGroupDialog.BackpackScriptInterface {
+public class ScriptFragment extends ListFragment implements OnCategorySelectedListener, OnFormulaChangedListener {
 
 	public static final String TAG = ScriptFragment.class.getSimpleName();
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({NONE, BACKPACK, COPY, DELETE, ENABLE_DISABLE})
-	@interface ActionModeType {}
+	@interface ActionModeType {
+	}
+
 	private static final int NONE = 0;
 	private static final int BACKPACK = 1;
 	private static final int COPY = 2;
@@ -199,6 +200,16 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 		setHasOptionsMenu(true);
 	}
 
+	private void updateActionBarTitle() {
+		String currentSceneName = ProjectManager.getInstance().getCurrentlyEditedScene().getName();
+		String currentSpriteName = ProjectManager.getInstance().getCurrentSprite().getName();
+		if (ProjectManager.getInstance().getCurrentProject().getSceneList().size() == 1) {
+			((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(currentSpriteName);
+		} else {
+			((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(currentSceneName + ": " + currentSpriteName);
+		}
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = View.inflate(getActivity(), R.layout.fragment_script, null);
@@ -225,6 +236,7 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 	@Override
 	public void onResume() {
 		super.onResume();
+		updateActionBarTitle();
 
 		if (!Utils.isExternalStorageAvailable()) {
 			ToastUtil.showError(getActivity(), R.string.error_no_writiable_external_storage_available);
@@ -271,13 +283,11 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 	@Override
 	public void onCategorySelected(String category) {
 		AddBrickFragment addBrickFragment = AddBrickFragment.newInstance(category, this);
-		FragmentManager fragmentManager = getActivity().getFragmentManager();
-		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-		fragmentTransaction.add(R.id.fragment_container, addBrickFragment,
-				AddBrickFragment.ADD_BRICK_FRAGMENT_TAG);
 
-		fragmentTransaction.addToBackStack(null);
-		fragmentTransaction.commit();
+		getFragmentManager().beginTransaction()
+				.add(R.id.fragment_container, addBrickFragment, AddBrickFragment.ADD_BRICK_FRAGMENT_TAG)
+				.addToBackStack(null)
+				.commit();
 
 		adapter.notifyDataSetChanged();
 	}
@@ -301,7 +311,7 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 		adapter = new BrickAdapter(this, sprite, listView);
 
 		if (ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts() > 0) {
-			ProjectManager.getInstance().setCurrentScript(((ScriptBrick) adapter.getItem(0)).getScriptSafe());
+			ProjectManager.getInstance().setCurrentScript(((ScriptBrick) adapter.getItem(0)).getScript());
 		}
 
 		listView.setOnCreateContextMenuListener(this);
@@ -314,14 +324,12 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 		BrickCategoryFragment brickCategoryFragment = new BrickCategoryFragment();
 		brickCategoryFragment.setBrickAdapter(adapter);
 		brickCategoryFragment.setOnCategorySelectedListener(this);
-		FragmentManager fragmentManager = getActivity().getFragmentManager();
-		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-		fragmentTransaction.add(R.id.fragment_container, brickCategoryFragment,
-				BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
+		getFragmentManager().beginTransaction()
+				.add(R.id.fragment_container, brickCategoryFragment, BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG)
+				.addToBackStack(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG)
+				.commit();
 
-		fragmentTransaction.addToBackStack(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
-		fragmentTransaction.commit();
 		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_category);
 
 		adapter.notifyDataSetChanged();
@@ -413,11 +421,23 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 	}
 
 	public void showNewScriptGroupDialog() {
-		NewScriptGroupDialog dialog = new NewScriptGroupDialog(this);
-		dialog.show(getFragmentManager(), NewScriptGroupDialog.TAG);
+		TextInputDialog.Builder builder = new TextInputDialog.Builder(getContext());
+
+		builder.setHint(getString(R.string.script_group_label))
+				.setTextWatcher(new UniqueStringTextWatcher(BackpackListManager.getInstance().getBackpackedScriptGroups()))
+				.setPositiveButton(getString(R.string.ok), new TextInputDialog.OnClickListener() {
+					@Override
+					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
+						packItems(textInput);
+					}
+				});
+
+		builder.setTitle(R.string.new_group)
+				.setNegativeButton(R.string.cancel, null)
+				.create()
+				.show();
 	}
 
-	@Override
 	public void packItems(String name) {
 		try {
 			scriptController.pack(name, adapter.getCheckedBricks());
@@ -437,14 +457,9 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 	}
 
 	@Override
-	public void cancelPacking() {
-		finishActionMode();
-	}
-
-	@Override
 	public void onFormulaChanged(FormulaBrick formulaBrick, Brick.BrickField brickField, Formula newFormula) {
-		ChangeFormulaCommand changeFormulaCommand = CommandFactory.makeChangeFormulaCommand(formulaBrick, brickField,
-				newFormula);
+		ChangeFormulaCommand changeFormulaCommand = CommandFactory
+				.makeChangeFormulaCommand(formulaBrick, brickField, newFormula);
 		changeFormulaCommand.execute();
 		adapter.notifyDataSetChanged();
 	}
@@ -469,7 +484,7 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 		}
 
 		if (brick instanceof ScriptBrick) {
-			scriptToEdit = ((ScriptBrick) brick).getScriptSafe();
+			scriptToEdit = ((ScriptBrick) brick).getScript();
 			try {
 				Script clonedScript = scriptToEdit.clone();
 				sprite.addScript(clonedScript);
@@ -501,7 +516,7 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 				NestingBrick nestingBrickCopy = (NestingBrick) copiedBrick;
 				nestingBrickCopy.initialize();
 
-				for (NestingBrick nestingBrick : nestingBrickCopy.getAllNestingBrickParts(true)) {
+				for (NestingBrick nestingBrick : nestingBrickCopy.getAllNestingBrickParts()) {
 					scriptList.addBrick((Brick) nestingBrick);
 				}
 			} else {
@@ -522,7 +537,7 @@ public class ScriptFragment extends ListFragment implements OnCategorySelectedLi
 	private void deleteBrick(Brick brick) {
 
 		if (brick instanceof ScriptBrick) {
-			scriptToEdit = ((ScriptBrick) brick).getScriptSafe();
+			scriptToEdit = ((ScriptBrick) brick).getScript();
 			adapter.handleScriptDelete(sprite, scriptToEdit);
 			return;
 		}

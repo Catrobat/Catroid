@@ -24,14 +24,13 @@
 package org.catrobat.catroid.ui;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -41,7 +40,6 @@ import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -49,8 +47,10 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
+import static org.catrobat.catroid.common.Constants.MAIN_URL_HTTPS;
+
 @SuppressLint("SetJavaScriptEnabled")
-public class MarketingActivity extends Activity {
+public class MarketingActivity extends AppCompatActivity {
 
 	private static final String TAG = MarketingActivity.class.getSimpleName();
 
@@ -61,8 +61,7 @@ public class MarketingActivity extends Activity {
 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		setContentView(R.layout
-				.activity_standalone_advertising);
+		setContentView(R.layout.activity_standalone_advertising);
 
 		TextView appName = (TextView) findViewById(R.id.title);
 		appName.setText(ProjectManager.getInstance().getCurrentProject().getName());
@@ -104,7 +103,7 @@ public class MarketingActivity extends Activity {
 
 				String url = extractedUrls.get(0);
 				if (!urlsString.trim().startsWith("http")) {
-					url = Constants.MAIN_URL_HTTPS + urlsString;
+					url = MAIN_URL_HTTPS + urlsString;
 				}
 				Log.d(TAG, "Program detail url: " + url);
 				startWebViewActivity(url);
@@ -138,14 +137,8 @@ public class MarketingActivity extends Activity {
 	}
 
 	private void startWebViewActivity(String url) {
-		// TODO just a quick fix for not properly working webview on old devices
-		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
-			Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.BASE_URL_HTTPS));
-			startActivity(browserIntent);
-		} else {
-			Intent intent = new Intent(this, WebViewActivity.class);
-			intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url);
-			startActivity(intent);
-		}
+		Intent intent = new Intent(this, WebViewActivity.class);
+		intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url);
+		startActivity(intent);
 	}
 }

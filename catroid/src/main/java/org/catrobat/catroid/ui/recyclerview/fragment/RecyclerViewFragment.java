@@ -23,13 +23,15 @@
 
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
 import android.support.annotation.PluralsRes;
+import android.support.annotation.StringRes;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -43,13 +45,14 @@ import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.ExtendedRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperCallback;
-import org.catrobat.catroid.ui.recyclerview.dialog.RenameDialogFragment;
-import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
+import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.RenameItemTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -58,12 +61,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
-public abstract class RecyclerViewFragment<T> extends Fragment implements
+public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment implements
 		ActionMode.Callback,
 		RVAdapter.SelectionListener,
-		RVAdapter.OnItemClickListener<T>,
-		NewItemInterface<T>,
-		RenameDialogFragment.RenameInterface {
+		RVAdapter.OnItemClickListener<T> {
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({NONE, BACKPACK, COPY, DELETE, RENAME})
@@ -89,17 +90,15 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 	protected RecyclerView.AdapterDataObserver observer = new RecyclerView.AdapterDataObserver() {
 
 		@Override
-		public void onItemRangeInserted(int positionStart, int itemCount) {
-			super.onItemRangeRemoved(positionStart, itemCount);
-			setShowEmptyView(false);
-		}
-
-		@Override
-		public void onItemRangeRemoved(int positionStart, int itemCount) {
-			super.onItemRangeRemoved(positionStart, itemCount);
-			setShowEmptyView(adapter.getItemCount() == 0);
+		public void onChanged() {
+			super.onChanged();
+			setShowEmptyView(shouldShowEmptyView());
 		}
 	};
+
+	boolean shouldShowEmptyView() {
+		return adapter.getItemCount() == 0;
+	}
 
 	@ActionModeType
 	protected int actionModeType = NONE;
@@ -192,7 +191,7 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		parentView = inflater.inflate(R.layout.fragment_list_view, container, false);
 		recyclerView = parentView.findViewById(R.id.recycler_view);
 		emptyView = parentView.findViewById(R.id.empty_view);
@@ -204,12 +203,15 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 	@Override
 	public void onActivityCreated(Bundle savedInstance) {
 		super.onActivityCreated(savedInstance);
+		if (getActivity().isFinishing()) {
+			return;
+		}
 		initializeAdapter();
 	}
 
 	public void onAdapterReady() {
-		adapter.showDetails = PreferenceManager.getDefaultSharedPreferences(
-				getActivity()).getBoolean(sharedPreferenceDetailsKey, false);
+		adapter.showDetails = PreferenceManager.getDefaultSharedPreferences(getActivity())
+				.getBoolean(sharedPreferenceDetailsKey, false);
 		recyclerView.setAdapter(adapter);
 
 		adapter.setSelectionListener(this);
@@ -231,7 +233,7 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 
 		adapter.notifyDataSetChanged();
 		adapter.registerAdapterDataObserver(observer);
-		setShowEmptyView(adapter.getItemCount() == 0);
+		setShowEmptyView(shouldShowEmptyView());
 	}
 
 	@Override
@@ -346,9 +348,32 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 		}
 	}
 
+	public void setShowProgressBar(boolean show) {
+		parentView.findViewById(R.id.progress_bar).setVisibility(show ? View.VISIBLE : View.GONE);
+		recyclerView.setVisibility(show ? View.GONE : View.VISIBLE);
+	}
+
+	void setShowEmptyView(boolean visible) {
+		emptyView.setVisibility(visible ? View.VISIBLE : View.GONE);
+	}
+
+	@PluralsRes
+	protected abstract int getActionModeTitleId(@ActionModeType int actionModeType);
+
+	@Override
+	public void onItemLongClick(T item, CheckableVH holder) {
+		touchHelper.startDrag(holder);
+	}
+
+	protected abstract void initializeAdapter();
+
+	public void notifyDataSetChanged() {
+		adapter.notifyDataSetChanged();
+	}
+
 	protected void showBackpackModeChooser() {
 		CharSequence[] items = new CharSequence[] {getString(R.string.pack), getString(R.string.unpack)};
-		new AlertDialog.Builder(getActivity())
+		new AlertDialog.Builder(getContext())
 				.setTitle(R.string.backpack_title)
 				.setItems(items, new DialogInterface.OnClickListener() {
 					@Override
@@ -365,8 +390,17 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 				.show();
 	}
 
+	protected abstract void packItems(List<T> selectedItems);
+	protected abstract boolean isBackpackEmpty();
+	protected abstract void switchToBackpack();
+
+	protected abstract void copyItems(List<T> selectedItems);
+
+	@PluralsRes
+	protected abstract int getDeleteAlertTitleId();
+
 	protected void showDeleteAlert(final List<T> selectedItems) {
-		new AlertDialog.Builder(getActivity())
+		new AlertDialog.Builder(getContext())
 				.setTitle(getResources().getQuantityString(getDeleteAlertTitleId(), selectedItems.size()))
 				.setMessage(R.string.dialog_confirm_delete)
 				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -381,43 +415,36 @@ public abstract class RecyclerViewFragment<T> extends Fragment implements
 				.show();
 	}
 
-	public void setShowProgressBar(boolean show) {
-		parentView.findViewById(R.id.progress_bar).setVisibility(show ? View.VISIBLE : View.GONE);
-		recyclerView.setVisibility(show ? View.GONE : View.VISIBLE);
-	}
-
-	protected void setShowEmptyView(boolean visible) {
-		recyclerView.setVisibility(visible ? View.GONE : View.VISIBLE);
-		emptyView.setVisibility(visible ? View.VISIBLE : View.GONE);
-	}
-
-	@PluralsRes
-	protected abstract int getActionModeTitleId(@ActionModeType int actionModeType);
-
-	@Override
-	public void onItemLongClick(T item, CheckableVH holder) {
-		touchHelper.startDrag(holder);
-	}
-
-	protected abstract void initializeAdapter();
-
-	public abstract void handleAddButton();
-
-	@Override
-	public abstract void addItem(T item);
-
-	protected abstract void packItems(List<T> selectedItems);
-	protected abstract boolean isBackpackEmpty();
-	protected abstract void switchToBackpack();
-
-	protected abstract void copyItems(List<T> selectedItems);
-
-	@PluralsRes
-	protected abstract int getDeleteAlertTitleId();
 	protected abstract void deleteItems(List<T> selectedItems);
 
-	protected abstract void showRenameDialog(List<T> selectedItems);
+	protected void showRenameDialog(List<T> selectedItems) {
+		final T item = selectedItems.get(0);
 
-	@Override
-	public abstract boolean isNameUnique(String name);
+		TextInputDialog.Builder builder = new TextInputDialog.Builder(getContext());
+
+		builder.setHint(getString(getRenameDialogHint()))
+				.setText(item.getName())
+				.setTextWatcher(new RenameItemTextWatcher<>(item, adapter.getItems()))
+				.setPositiveButton(getString(R.string.ok), new TextInputDialog.OnClickListener() {
+					@Override
+					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
+						renameItem(item, textInput);
+					}
+				});
+
+		builder.setTitle(getRenameDialogTitle())
+				.setNegativeButton(R.string.cancel, null)
+				.create()
+				.show();
+	}
+
+	@StringRes
+	protected abstract int getRenameDialogTitle();
+	@StringRes
+	protected abstract int getRenameDialogHint();
+
+	protected void renameItem(T item, String newName) {
+		item.setName(newName);
+		finishActionMode();
+	}
 }

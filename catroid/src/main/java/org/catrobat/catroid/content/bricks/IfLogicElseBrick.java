@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.util.Log;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
@@ -35,29 +33,19 @@ import java.util.List;
 public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, AllowedAfterDeadEndBrick {
 
 	private static final long serialVersionUID = 1L;
-	private static final String TAG = IfLogicElseBrick.class.getSimpleName();
-	private transient IfLogicBeginBrick ifBeginBrick;
+
+	private transient IfElseLogicBeginBrick ifBeginBrick;
 	private transient IfLogicEndBrick ifEndBrick;
 
-	public IfLogicElseBrick(IfLogicBeginBrick ifBeginBrick) {
+	public IfLogicElseBrick(IfElseLogicBeginBrick ifBeginBrick) {
 		this.ifBeginBrick = ifBeginBrick;
 	}
 
-	@Override
-	public int getViewResource() {
-		return R.layout.brick_if_else;
-	}
-
-	@Override
-	public Brick clone() {
-		return new IfLogicElseBrick(ifBeginBrick);
-	}
-
-	public IfLogicBeginBrick getIfBeginBrick() {
+	public IfElseLogicBeginBrick getIfBeginBrick() {
 		return ifBeginBrick;
 	}
 
-	public void setIfBeginBrick(IfLogicBeginBrick ifBeginBrick) {
+	public void setIfBeginBrick(IfElseLogicBeginBrick ifBeginBrick) {
 		this.ifBeginBrick = ifBeginBrick;
 	}
 
@@ -70,8 +58,8 @@ public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, All
 	}
 
 	@Override
-	public boolean isDraggableOver(Brick brick) {
-		return brick != ifBeginBrick && brick != ifEndBrick;
+	public int getViewResource() {
+		return R.layout.brick_if_else;
 	}
 
 	@Override
@@ -81,25 +69,19 @@ public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, All
 
 	@Override
 	public void initialize() {
-		//ifBeginBrick = new IfLogicBeginBrick(sprite, 0);
-		//ifEndBrick = new IfLogicEndBrick(sprite, this);
-		Log.w(TAG, "Cannot create the IfLogic Bricks from here!");
 	}
 
 	@Override
-	public List<NestingBrick> getAllNestingBrickParts(boolean sorted) {
-		//TODO: handle sorting
-		List<NestingBrick> nestingBrickList = new ArrayList<>();
-		if (sorted) {
-			nestingBrickList.add(ifBeginBrick);
-			nestingBrickList.add(this);
-			nestingBrickList.add(ifEndBrick);
-		} else {
-			nestingBrickList.add(this);
-			nestingBrickList.add(ifBeginBrick);
-			nestingBrickList.add(ifEndBrick);
-		}
+	public boolean isDraggableOver(Brick brick) {
+		return brick != ifBeginBrick && brick != ifEndBrick;
+	}
 
+	@Override
+	public List<NestingBrick> getAllNestingBrickParts() {
+		List<NestingBrick> nestingBrickList = new ArrayList<>();
+		nestingBrickList.add(ifBeginBrick);
+		nestingBrickList.add(this);
+		nestingBrickList.add(ifEndBrick);
 		return nestingBrickList;
 	}
 

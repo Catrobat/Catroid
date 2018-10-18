@@ -26,7 +26,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
-import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
@@ -51,7 +51,7 @@ public class PreviousLookActionTest {
 
 	@Before
 	public void setUp() throws Exception {
-		testImage = new File(Constants.DEFAULT_ROOT_DIRECTORY, "testImage.png");
+		testImage = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "testImage.png");
 		sprite = new Sprite("cat");
 		actionFactory = sprite.getActionFactory();
 	}

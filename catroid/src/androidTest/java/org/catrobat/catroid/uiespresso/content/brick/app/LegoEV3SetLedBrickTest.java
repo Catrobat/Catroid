@@ -65,7 +65,7 @@ public class LegoEV3SetLedBrickTest {
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.ev3_set_led_status);
 
 		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_ev3_set_led_spinner)
-				.performSelect(R.string.ev3_led_status_orange)
+				.performSelectString(R.string.ev3_led_status_orange)
 				.checkShowsText(R.string.ev3_led_status_orange);
 	}
 }

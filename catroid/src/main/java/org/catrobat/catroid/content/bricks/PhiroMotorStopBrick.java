@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -35,44 +34,21 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
 import java.util.List;
 
-public class PhiroMotorStopBrick extends BrickBaseType implements OnItemSelectedListener {
+public class PhiroMotorStopBrick extends BrickBaseType {
+
 	private static final long serialVersionUID = 1L;
-	private transient Motor motorEnum;
+
 	private String motor;
 
 	public enum Motor {
 		MOTOR_LEFT, MOTOR_RIGHT, MOTOR_BOTH
 	}
 
-	public PhiroMotorStopBrick(Motor motor) {
-		this.motorEnum = motor;
-		this.motor = motorEnum.name();
+	public PhiroMotorStopBrick() {
 	}
 
-	protected Object readResolve() {
-		if (motor != null) {
-			motorEnum = Motor.valueOf(motor);
-		}
-		return this;
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return BLUETOOTH_PHIRO;
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-		Spinner phiroProSpinner = (Spinner) prototypeView.findViewById(R.id.brick_phiro_stop_motor_spinner);
-
-		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
-				R.array.brick_phiro_stop_motor_spinner, android.R.layout.simple_spinner_item);
-		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-		phiroProSpinner.setAdapter(motorAdapter);
-		phiroProSpinner.setSelection(motorEnum.ordinal());
-		return prototypeView;
+	public PhiroMotorStopBrick(Motor motorEnum) {
+		motor = motorEnum.name();
 	}
 
 	@Override
@@ -81,36 +57,44 @@ public class PhiroMotorStopBrick extends BrickBaseType implements OnItemSelected
 	}
 
 	@Override
+	public View getPrototypeView(Context context) {
+		super.getPrototypeView(context);
+		return getView(context);
+	}
+
+	@Override
 	public View getView(Context context) {
 		super.getView(context);
-		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
+
+		ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(context,
 				R.array.brick_phiro_stop_motor_spinner, android.R.layout.simple_spinner_item);
-		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-		Spinner motorSpinner = (Spinner) view.findViewById(R.id.brick_phiro_stop_motor_spinner);
-		motorSpinner.setOnItemSelectedListener(this);
+		Spinner spinner = view.findViewById(R.id.brick_phiro_stop_motor_spinner);
+		spinner.setAdapter(spinnerAdapter);
+		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				motor = Motor.values()[position].name();
+			}
 
-		motorSpinner.setAdapter(motorAdapter);
-		if (motorEnum == null) {
-			readResolve();
-		}
-		motorSpinner.setSelection(motorEnum.ordinal());
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+			}
+		});
+
+		spinner.setSelection(Motor.valueOf(motor).ordinal());
 		return view;
 	}
 
 	@Override
-	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-		motorEnum = Motor.values()[position];
-		motor = motorEnum.name();
-	}
-
-	@Override
-	public void onNothingSelected(AdapterView<?> arg0) {
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(BLUETOOTH_PHIRO);
 	}
 
 	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createPhiroMotorStopActionAction(motorEnum));
+		sequence.addAction(sprite.getActionFactory().createPhiroMotorStopActionAction(Motor.valueOf(motor)));
 		return null;
 	}
 }

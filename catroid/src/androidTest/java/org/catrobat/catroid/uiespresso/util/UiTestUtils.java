@@ -47,7 +47,7 @@ import static org.catrobat.catroid.uiespresso.util.matchers.SuperToastMatchers.i
 import static org.hamcrest.CoreMatchers.instanceOf;
 
 public final class UiTestUtils {
-	// Suppress default constructor for noninstantiability
+
 	private UiTestUtils() {
 		throw new AssertionError();
 	}
@@ -58,6 +58,10 @@ public final class UiTestUtils {
 
 	public static String getResourcesString(int stringId) {
 		return InstrumentationRegistry.getTargetContext().getResources().getString(stringId);
+	}
+
+	public static String getResourcesString(int stringId, Object... formatArgs) {
+		return InstrumentationRegistry.getTargetContext().getResources().getString(stringId, formatArgs);
 	}
 
 	public static String getQuantitiyString(int stringId, int quantity) {
@@ -86,18 +90,6 @@ public final class UiTestUtils {
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		return project;
-	}
-
-	public static boolean comparePixelRgbaArrays(byte[] firstArray, byte[] secondArray) {
-		if (firstArray == null || secondArray == null || firstArray.length != 4 || secondArray.length != 4) {
-			return false;
-		}
-		for (int i = 0; i < 4; i++) {
-			if (Math.abs((firstArray[i] & 0xFF) - (secondArray[i] & 0xFF)) > 10) {
-				return false;
-			}
-		}
-		return true;
 	}
 
 	public static ViewInteraction onToast(Matcher<View> viewMatcher) {
