@@ -459,8 +459,8 @@
 
     <!-- Script Action Mode Titles -->
     <plurals name="am_pack_scripts_title">
-        <item quantity="one">Pack %d brick</item>
-        <item quantity="other">Pack %d bricks</item>
+        <item quantity="one">Pack %d Brick</item>
+        <item quantity="other">Pack %d Bricks</item>
     </plurals>
     <plurals name="am_unpack_scripts_title">
         <item quantity="one">Unpack %d Script</item>
@@ -471,8 +471,8 @@
         <item quantity="other">Copy %d bricks</item>
     </plurals>
     <plurals name="am_delete_bricks_title">
-        <item quantity="one">Delete %d brick</item>
-        <item quantity="other">Delete %d bricks</item>
+        <item quantity="one">Delete %d Brick</item>
+        <item quantity="other">Delete %d Bricks</item>
     </plurals>
 
     <plurals name="am_delete_scripts_title">
@@ -532,7 +532,7 @@
     <string name="script_group_label">Script Group Name</string>
     <string name="look_name_label">Look Name</string>
     <string name="sound_name_label">Sound Name</string>
-    <string name="nfc_tag_name_label">Nfc Tag Name</string>
+    <string name="nfc_tag_name_label">NFC Tag Name</string>
     <string name="string_label">Text</string>
     <string name="data_label">Name</string>
 
@@ -711,8 +711,8 @@
 
 
     <!-- NewDataDialog -->
-    <string name="new_data_for_all_sprites">For all Objects</string>
-    <string name="new_data_for_this_sprite_only">For this Object only</string>
+    <string name="new_data_for_all_sprites">For all objects</string>
+    <string name="new_data_for_this_sprite_only">For this object only</string>
 
 
     <!-- Backpack -->
@@ -726,7 +726,7 @@
     <string name="backgrounds">Backgrounds</string>
     <string name="looks">Looks</string>
     <string name="sounds">Sounds</string>
-    <string name="nfctags">Nfc Tags</string>
+    <string name="nfctags">NFC Tags</string>
 
 
     <!-- NewProjectDialog -->
@@ -860,7 +860,7 @@
     <!-- -->
 
     <!-- About Dialog -->
-    <string name="dialog_about_title">About this app</string>
+    <string name="dialog_about_title">About this App</string>
     <string name="dialog_about_license_info">This app offers a programming
         environment and interpreter for the visual
         programming language Catrobat.\n
@@ -935,15 +935,17 @@
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="error_register_empty_username">Empty username</string>
     <string name="error_register_username_as_email">E-mail address can not be used as username</string>
-    <string name="error_register_invalid_username">Username can contain only Latin–letters (a–z), numbers (0–9), dashes (-), underscores (_), and periods (.).</string>
-    <string name="error_register_username_start_with">Username can not start with dashes (-), underscores (_), and periods (.).</string>
-    <string name="error_register_invalid_email_format">Invalid E-mail format</string>
-    <string name="error_register_empty_password">Empty Password</string>
+    <string name="error_register_invalid_username">Username should only contain letters (a–z), numbers (0–9),
+        dashes (-), underscores (_), and periods (.).</string>
+    <string name="error_register_username_start_with">Username should not start with dashes (-), underscores (_), or
+        periods (.).</string>
+    <string name="error_register_invalid_email_format">Invalid email format</string>
+    <string name="error_register_empty_password">Password field is empty</string>
     <string name="error_register_password_at_least_6_characters">Password should be at least 6 characters</string>
-    <string name="error_register_passwords_mismatch">Passwords mismatch</string>
-    <string name="error_register_empty_confirm_password">Empty confirm password</string>
+    <string name="error_register_passwords_mismatch">Passwords do not match</string>
+    <string name="error_register_empty_confirm_password">Confirm password field is empty</string>
     <string name="error_register_username_already_exists">Username already exists</string>
-    <string name="error_register_email_exists">Email Address already exists</string>
+    <string name="error_register_email_exists">Email address already exists</string>
     <!--  -->
 
 

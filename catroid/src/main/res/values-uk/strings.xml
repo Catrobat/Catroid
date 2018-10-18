@@ -29,6 +29,7 @@
   <string name="settings">Settings</string>
   <string name="redo">Redo</string>
   <string name="undo">Undo</string>
+  <string name="new_option">New&#8230;</string>
   <string name="confirm">Confirm</string>
   <string name="cancel">Cancel</string>
   <string name="next">Next</string>
@@ -284,8 +285,9 @@
   <string name="error_copy_project">An error occurred while copying Project</string>
   <!-- Dialog Errors -->
   <string name="name_already_exists">This name is already in use, please choose another one.</string>
-  <string name="name_consists_of_spaces_only">You only put spaces into the text field, please enter a name
+  <string name="name_consists_of_spaces_only">You only put spaces into the text field, please enter a text
         using letters, numbers or other special characters.</string>
+  <string name="name_empty">Please enter a text</string>
   <!-- Recycler View -->
   <string name="am_empty_list">There are no items in this list yet. Please add some first.</string>
   <string name="am_backpack">Pack</string>
@@ -480,10 +482,10 @@
   </plurals>
   <!-- Script Action Mode Titles -->
   <plurals name="am_pack_scripts_title">
-    <item quantity="one">Pack %d brick</item>
-    <item quantity="few">Pack %d bricks</item>
-    <item quantity="many">Pack %d bricks</item>
-    <item quantity="other">Pack %d bricks</item>
+    <item quantity="one">Pack %d Brick</item>
+    <item quantity="few">Pack %d Bricks</item>
+    <item quantity="many">Pack %d Bricks</item>
+    <item quantity="other">Pack %d Bricks</item>
   </plurals>
   <plurals name="am_unpack_scripts_title">
     <item quantity="one">Unpack %d Script</item>
@@ -496,6 +498,12 @@
     <item quantity="few">Copy %d bricks</item>
     <item quantity="many">Copy %d bricks</item>
     <item quantity="other">Copy %d bricks</item>
+  </plurals>
+  <plurals name="am_delete_bricks_title">
+    <item quantity="one">Delete %d Brick</item>
+    <item quantity="few">Delete %d Bricks</item>
+    <item quantity="many">Delete %d Bricks</item>
+    <item quantity="other">Delete %d Bricks</item>
   </plurals>
   <plurals name="am_delete_scripts_title">
     <item quantity="one">Delete %d Script</item>
@@ -563,12 +571,13 @@
   </plurals>
   <!-- Dialog Labels -->
   <string name="project_name_label">Program Name</string>
-  <string name="scene_name">Scene Name</string>
+  <string name="scene_name_label">Scene Name</string>
   <string name="sprite_name_label">Object Name</string>
   <string name="sprite_group_name_label">Group Name</string>
   <string name="script_group_label">Script Group Name</string>
   <string name="look_name_label">Look Name</string>
   <string name="sound_name_label">Sound Name</string>
+  <string name="nfc_tag_name_label">NFC Tag Name</string>
   <string name="string_label">Text</string>
   <string name="data_label">Name</string>
   <!-- Details -->
@@ -739,19 +748,21 @@
   <string name="details_date_today">Today</string>
   <!--  -->
   <!-- ScriptListFragment -->
-  <string name="fragment_script_text_description">Tap \"+\" to add Scripts</string>
+  <string name="fragment_script_text_description">Tap \"+\" to add scripts</string>
+  <!--  -->
+  <!-- SpriteListFragment -->
+  <string name="fragment_sprite_text_description">Tap \"+\" to add objects</string>
   <!--  -->
   <!-- LookListFragment -->
-  <string name="fragment_look_text_description">Tap \"+\" to add Looks</string>
-  <string name="pocket_paint_not_installed_title">Pocket Paint is not installed!</string>
-  <string name="pocket_paint_not_installed_message">Please install Pocket Paint.</string>
+  <string name="fragment_look_text_description">Tap \"+\" to add looks</string>
   <string name="default_look_name">Look</string>
   <string name="select_look_from_gallery">Select Image</string>
   <string name="select_look_from_camera">Select Photo</string>
   <!--  -->
   <!-- SoundListFragment -->
-  <string name="fragment_sound_text_description">Tap \"+\" to add Sounds</string>
+  <string name="fragment_sound_text_description">Tap \"+\" to add sounds</string>
   <string name="sound_select_source">Select a sound</string>
+  <string name="default_sound_name">Sound</string>
   <!--  -->
   <!-- NfcTagListFragment -->
   <string name="fragment_nfctag_text_description">Scan NFC tags to add them</string>
@@ -774,8 +785,8 @@
   <string name="global_lists_headline">Lists for all objects</string>
   <string name="local_lists_headline">Lists for this object only</string>
   <!-- NewDataDialog -->
-  <string name="new_data_for_all_sprites">For all Objects</string>
-  <string name="new_data_for_this_sprite_only">For this Object only</string>
+  <string name="new_data_for_all_sprites">For all objects</string>
+  <string name="new_data_for_this_sprite_only">For this object only</string>
   <!-- Backpack -->
   <string name="backpack_title">Your Backpack</string>
   <string name="pack">Pack</string>
@@ -786,7 +797,7 @@
   <string name="backgrounds">Backgrounds</string>
   <string name="looks">Looks</string>
   <string name="sounds">Sounds</string>
-  <string name="nfctags">Nfc Tags</string>
+  <string name="nfctags">NFC Tags</string>
   <!-- NewProjectDialog -->
   <string name="new_project_dialog_title">New Program</string>
   <string name="new_project_empty">Create an empty program</string>
@@ -909,7 +920,7 @@
     </string>
   <!-- -->
   <!-- About Dialog -->
-  <string name="dialog_about_title">About this app</string>
+  <string name="dialog_about_title">About this App</string>
   <string name="dialog_about_license_info">This app offers a programming
         environment and interpreter for the visual
         programming language Catrobat.\n
@@ -920,14 +931,6 @@
   <!--  -->
   <!-- NetworkAlertDialog -->
   <string name="error_no_network_title">No Network</string>
-  <string name="error_no_network">You need a network connection to use this program. Please turn on the
-        mobile network or the Wi-Fi in the settings.</string>
-  <plurals name="bricks_using_network_headline">
-    <item quantity="one">The following brick needs a network connection:</item>
-    <item quantity="few">The following bricks need a network connection:</item>
-    <item quantity="many">The following bricks need a network connection:</item>
-    <item quantity="other">The following bricks need a network connection:</item>
-  </plurals>
   <!-- UploadProjectDialog -->
   <string name="error_no_program_name_entered">Please enter a program name.</string>
   <string name="upload_button">Upload</string>
@@ -982,20 +985,26 @@
   <string name="error_facebook_session_expired">Session expired, please log in.</string>
   <string name="sign_in_with_facebook">Sign in with Facebook</string>
   <string name="sign_in_with_google">Sign in with Google</string>
+  <string name="error_register_empty_username">Empty username</string>
+  <string name="error_register_username_as_email">E-mail address can not be used as username</string>
+  <string name="error_register_invalid_username">Username should only contain letters (a–z), numbers (0–9),
+        dashes (-), underscores (_), and periods (.).</string>
+  <string name="error_register_username_start_with">Username should not start with dashes (-), underscores (_), or
+        periods (.).</string>
+  <string name="error_register_invalid_email_format">Invalid email format</string>
+  <string name="error_register_empty_password">Password field is empty</string>
+  <string name="error_register_password_at_least_6_characters">Password should be at least 6 characters</string>
+  <string name="error_register_passwords_mismatch">Passwords do not match</string>
+  <string name="error_register_empty_confirm_password">Confirm password field is empty</string>
+  <string name="error_register_username_already_exists">Username already exists</string>
+  <string name="error_register_email_exists">Email address already exists</string>
   <!--  -->
   <!-- OverwriteRenameDialog Strings -->
-  <string name="overwrite_text">A program with this name already exists. Please choose a different name!</string>
-  <string name="overwrite_replace">Replace Program</string>
-  <string name="overwrite_rename">Rename downloaded Program</string>
+  <string name="overwrite_title">Project exists.</string>
+  <string name="overwrite_text">A project with this name already exists.</string>
+  <string name="overwrite_replace">Overwrite project</string>
+  <string name="overwrite_rename">Choose a new name</string>
   <!--  -->
-  <!-- OverwriteRenameMediaDialog -->
-  <string name="overwrite_replace_look">Replace Look</string>
-  <string name="overwrite_rename_look">Rename downloaded Look</string>
-  <string name="overwrite_replace_sound">Replace sound</string>
-  <string name="overwrite_rename_sound">Rename downloaded Sound</string>
-  <string name="overwrite_replace_default">Replace Media</string>
-  <string name="overwrite_rename_default">Rename existing Media</string>
-  <!-- -->
   <!-- Music activity -->
   <string name="pocket_music_default_project_name">Untitled Song</string>
   <string name="pocket_music_default_track_name">Track 1</string>
@@ -1034,12 +1043,10 @@
   <string name="stage_dialog_screenshot">Preview</string>
   <!--  -->
   <!-- Broadcast spinner -->
-  <string name="new_broadcast_message">New&#8230;</string>
   <string name="dialog_new_broadcast_message_title">New message</string>
   <string name="dialog_new_broadcast_message_name">message:</string>
   <!--  -->
   <!-- NFC spinner -->
-  <string name="new_nfc_tag">New&#8230;</string>
   <string name="brick_when_nfc_default_all">all</string>
   <!-- -->
   <!-- Brick categories -->
@@ -1148,12 +1155,12 @@
   <string name="brick_vibration">Vibrate for</string>
   <string name="brick_ask_label">Ask</string>
   <string name="brick_ask_store">and store written answer in</string>
-  <string name="brick_ask_default_question">\'What\'s your name?\'</string>
+  <string name="brick_ask_default_question">What\'s your name?</string>
   <string name="brick_ask_dialog_hint">"Enter your answer:"</string>
   <string name="brick_ask_dialog_submit">Submit answer</string>
   <string name="brick_ask_speech_label">Ask</string>
   <string name="brick_ask_speech_store">and store spoken answer in</string>
-  <string name="brick_ask_speech_default_question">\'What\'s your name?\'</string>
+  <string name="brick_ask_speech_default_question">What\'s your name?</string>
   <!--  -->
   <!-- Pen bricks -->
   <string name="brick_pen_down">Pen down</string>
@@ -1170,7 +1177,7 @@
   <string name="brick_set_volume_to">Set volume to</string>
   <string name="brick_change_volume_by">Change volume by</string>
   <string name="brick_speak">Speak</string>
-  <string name="brick_speak_default_value">"Hello!"</string>
+  <string name="brick_speak_default_value">Hello!</string>
   <string name="brick_speak_and_wait">and wait</string>
   <!--  -->
   <!-- Control bricks -->
@@ -1224,10 +1231,9 @@
   <string name="brick_if_end">End If</string>
   <string name="brick_set_variable">Set variable</string>
   <string name="brick_change_variable">Change variable</string>
-  <string name="brick_variable_spinner_create_new_variable">New&#8230;</string>
-  <string name="brick_note_default_value">"add comment here…"</string>
-  <string name="brick_think_bubble_default_value">"Hmmmm!"</string>
-  <string name="brick_say_bubble_default_value">"Hello!"</string>
+  <string name="brick_note_default_value">add comment here&#8230;</string>
+  <string name="brick_think_bubble_default_value">Hmmmm!</string>
+  <string name="brick_say_bubble_default_value">Hello!</string>
   <string name="brick_broadcast_default_value">"new message"</string>
   <string name="brick_add_item_to_userlist_add">Add</string>
   <string name="brick_add_item_to_userlist">to list</string>
@@ -1247,7 +1253,7 @@
   <string name="default_project_cloud_name">Clouds</string>
   <string name="default_project_cloud_sprite_name_1">Clouds1</string>
   <string name="default_project_cloud_sprite_name_2">Clouds2</string>
-  <string name="default_project_sprites_animal_name">Bird</string>
+  <string name="default_project_sprites_animal_name">Animal</string>
   <string name="default_project_sprites_animal_wings_up">Wings up</string>
   <string name="default_project_sprites_animal_wings_down">Wings down</string>
   <string name="default_project_sprites_tweet_1">Tweet1</string>
@@ -1505,8 +1511,6 @@
   <string name="brick_drone_emergency">Emergency AR.Drone 2.0</string>
   <string name="brick_drone_turn_right">Turn AR.Drone 2.0 right</string>
   <string name="brick_drone_turn_left">Turn AR.Drone 2.0 left</string>
-  <string name="brick_drone_turn_left_magneto">Turn AR.Drone 2.0 left [angle]</string>
-  <string name="brick_drone_turn_right_magneto">Turn AR.Drone 2.0 right [angle]</string>
   <string name="brick_drone_set_config">Set config AR.Drone 2.0</string>
   <string name="brick_drone_switch_camera">Switch AR.Drone 2.0 camera</string>
   <string name="brick_drone_set_altitude">Altitude limit </string>
@@ -1898,6 +1902,7 @@
   <!-- -->
   <!-- User Bricks strings -->
   <string name="define">Define</string>
+  <string name="new_user_brick_variable">Variable</string>
   <!--  -->
   <!-- Camera related strings -->
   <string name="brick_video">Turn camera</string>

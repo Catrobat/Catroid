@@ -29,6 +29,7 @@
   <string name="settings">Impostazioni</string>
   <string name="redo">Ripeti</string>
   <string name="undo">Annulla</string>
+  <string name="new_option">Nuovo&#8230;</string>
   <string name="confirm">Conferma</string>
   <string name="cancel">Annulla</string>
   <string name="next">Avanti</string>
@@ -76,7 +77,7 @@
   <string name="main_menu_upload">Carica</string>
   <string name="main_menu_rate_app">Valutaci!</string>
   <string name="main_menu_terms_of_use">Condizioni d\'uso e servizio</string>
-  <string name="main_menu_privacy_policy">Norme sulla privacy</string>
+  <string name="main_menu_privacy_policy">Informativa sulla privacy</string>
   <string name="main_menu_about">Info sull\'app</string>
   <string name="main_menu_login">Login</string>
   <string name="main_menu_logout">Logout</string>
@@ -170,42 +171,42 @@
   <!--  -->
   <!-- Scratch Converter activity -->
   <string name="beta">BETA</string>
-  <string name="error_scratch_program_not_accessible_any_more">Whoops! The program seems to have disappeared
-        or you might have lost access to it.</string>
-  <string name="error_scratch_project_data_not_available">Whoops! Some parts of the program seem to be
-        missing, please try again later.</string>
-  <string name="error_request_timeout">Whoops! Our server did not respond in time, please try again later.</string>
+  <string name="error_scratch_program_not_accessible_any_more">Oops! Il programma pare essere scomparso
+        o si è perso l\'accesso ad esso.</string>
+  <string name="error_scratch_project_data_not_available">Oops! Sembrano mancare alcune parti del programma,
+        per favore riprova dopo.</string>
+  <string name="error_request_timeout">Oops! Il nostro server non ha risposto in un tempo ragionevole, si prega di riprovare più tardi.</string>
   <string name="error_scratch_program_conversion_failed">Oops! E\' fallita la conversione del programma Scratch, 
         riprova più tardi!</string>
   <string name="error_specific_scratch_program_conversion_failed_x">Oops! La conversione di \"%1$s\" è fallita, riprova
         più tardi!</string>
-  <string name="error_scratch_converter_outdated_app_version">Your version of Pocket Code is outdated. Our Scratch
-        converter only works on the latest version. Please update it through Google Play</string>
+  <string name="error_scratch_converter_outdated_app_version">La versione di Pocket Code che utilizzi è obsoleta.
+       Il convertitore Scratch funziona solo sulla versione più recente. Aggiorna il programma su Google Play</string>
   <string name="error_cannot_open_not_existing_scratch_program">Non posso aprire il programma Scratch. Può darsi che
         tu abbia fermato la conversione/download o che tu abbia rinominato/cancellato il
         programma!</string>
-  <string name="error_cannot_open_currently_downloading_scratch_program">You can\'t open the program
-        at the moment. Please wait until it\'s downloaded.</string>
-  <string name="error_cannot_open_not_yet_downloaded_scratch_program">You can\'t open the program just yet.
-        Please download it first and then open it.</string>
-  <string name="error_cannot_convert_deprecated_scratch_program_x_x">Cannot convert %1$s. This seems to be
-        an old scratch program from before %2$s, please try another one.</string>
+  <string name="error_cannot_open_currently_downloading_scratch_program">Al momento non è possibile aprire il programma.
+        Attendi fino a quando non viene scaricato completamente.</string>
+  <string name="error_cannot_open_not_yet_downloaded_scratch_program">Non è ancora possibile aprire il programma.
+        Prima scaricalo, poi potrai aprirlo.</string>
+  <string name="error_cannot_convert_deprecated_scratch_program_x_x">Non è possibile convertire %1$s. Saembra che sia
+        un vecchio programma Scratch prima di %2$s; provare un altro.</string>
   <plurals name="error_cannot_convert_more_than_x_programs">
-    <item quantity="one">You can\'t convert more than %d program at the same time. Please wait for the
-            running programs to finish first.</item>
-    <item quantity="other">You can\'t convert more than %d programs at the same time. Please wait for the
-            running programs to finish first.</item>
+    <item quantity="one">Non puoi convertire più di %d programma alla volta. Attendi che
+            l\'esecuzione dei programmi termini prima di riprovare.</item>
+    <item quantity="other">Non puoi convertire più di %d programmi alla volta. Attendi che
+            l\'esecuzione dei programmi termini prima di riprovare.</item>
   </plurals>
-  <string name="error_cannot_open_failed_scratch_program">You can\'t open the program because it wasn\'t
-        converted correctly. Please try to convert it again.</string>
-  <string name="search_failed">Nothing found, please retry later.</string>
+  <string name="error_cannot_open_failed_scratch_program">Impossibile aprire il programma perché non è stato
+        convertito correttamente. Prova a convertirlo nuovamente.</string>
+  <string name="search_failed">Non è stato trovato nulla; riprovare più tardi.</string>
   <string name="connection_lost_or_closed_by_server">Connessione al server interrotta.</string>
-  <string name="connection_failed">We can\'t connect you to the server right now, please try again later.</string>
-  <string name="authentication_failed">There seems to be a problem with your connection to the service, please
-        contact the Catrobat team!</string>
+  <string name="connection_failed">In questo momento non possiamo connetterti al server; riprova più tardi.</string>
+  <string name="authentication_failed">Sembra esserci un problema con la connessione al servizio, 
+     contatta il team di Catrobat!</string>
   <plurals name="scratch_conversion_scheduled_x">
-    <item quantity="one">Added %d Scratch program to the queue&#8230;</item>
-    <item quantity="other">Added %d Scratch programs to the queue&#8230;</item>
+    <item quantity="one">Aggiunto %d programma Scratch alla coda&#8230;</item>
+    <item quantity="other">Aggiunti %d programmi Scratch alla coda&#8230;</item>
   </plurals>
   <string name="scratch_conversion_started">Iniziata la conversione del programma Scratch&#8230;</string>
   <string name="convert">Converti</string>
@@ -229,8 +230,8 @@
   <string name="scratch_programs_in_progress_title">In corso</string>
   <string name="scratch_programs_finished_title">Programmi convertiti</string>
   <string name="by_x">per %1$s</string>
-  <string name="warning_program_visibility">WARNING:\nThis seems to be a private program. You can try to
-        convert it but it might not work.</string>
+  <string name="warning_program_visibility">ATTENZIONE:\nQuesto programma pare essere privato. Puoi provare
+        a convertirlo ma potrebbe non funzionare.</string>
   <string name="instructions">Istruzioni</string>
   <string name="notes_and_credits">Note e crediti</string>
   <string name="shared_at_x">Condiviso: %1$s</string>
@@ -243,7 +244,7 @@
   <string name="remix_of">Remix di:</string>
   <string name="description_hint">Premi per aggiungere una descrizione</string>
   <!-- ScratchReconvertDialog Strings -->
-  <string name="reconvert_text">You converted this program converted %1$s ago.</string>
+  <string name="reconvert_text">Hai convertito questo programma %1$s giorni fa.</string>
   <plurals name="minutes">
     <item quantity="one">%d minuto</item>
     <item quantity="other">%d minuti</item>
@@ -261,17 +262,18 @@
   <!--  -->
   <!-- ERRORS -->
   <!-- Privacy Policy Error -->
-  <string name="declined_privacy_agreement_alert">To use our app, it is necessary to accept our Privacy Policy.
-        However, if you don’t feel comfortable to do so, you can use our free web-services on</string>
+  <string name="declined_privacy_agreement_alert">Per utilizzare la nostra app, è necessario accettare l\'informativa sulla privacy.
+        Tuttavia, se non sei sicuro di volerlo fare, è possibile utilizzare i nostri servizi web gratuiti su</string>
   <string name="wtf_error">Errore imprevisto: non è possibile ripristinare il progetto di default.</string>
   <!-- Project Handling Errors -->
   <string name="error_copy_project">Si è verificato un errore durante la copia del progetto</string>
   <!-- Dialog Errors -->
-  <string name="name_already_exists">This name is already in use, please choose another one.</string>
-  <string name="name_consists_of_spaces_only">You only put spaces into the text field, please enter a name
-        using letters, numbers or other special characters.</string>
+  <string name="name_already_exists">Questo nome è già in uso. Prego sceglierne un altro.</string>
+  <string name="name_consists_of_spaces_only">Hai inserito solo spazi nel campo di testo; inserisci un nome
+        utilizzando lettere, numeri o altri caratteri speciali.</string>
+  <string name="name_empty">Please enter a text</string>
   <!-- Recycler View -->
-  <string name="am_empty_list">There are no items in this list yet. Please add some first.</string>
+  <string name="am_empty_list">In questa lista non ci sono ancora elementi. Aggiungine qualcuno per prima cosa.</string>
   <string name="am_backpack">Impacchetta</string>
   <string name="am_unpack">Scompatta</string>
   <string name="am_copy">Copiare</string>
@@ -353,20 +355,20 @@
   </plurals>
   <!-- Look Action Mode Titles -->
   <plurals name="am_pack_looks_title">
-    <item quantity="one">Pack %d Look</item>
-    <item quantity="other">Pack %d Looks</item>
+    <item quantity="one">Impacchetta %d aspetto</item>
+    <item quantity="other">Impacchetta %d aspetti</item>
   </plurals>
   <plurals name="am_unpack_looks_title">
-    <item quantity="one">Unpack %d Look</item>
-    <item quantity="other">Unpack %d Looks</item>
+    <item quantity="one">Spacchetta %d aspetto</item>
+    <item quantity="other">Spacchetta %d aspetti</item>
   </plurals>
   <plurals name="am_copy_looks_title">
-    <item quantity="one">Copy %d Look</item>
-    <item quantity="other">Copy %d Looks</item>
+    <item quantity="one">Copia %d aspetto</item>
+    <item quantity="other">Copia %d aspetti</item>
   </plurals>
   <plurals name="am_delete_looks_title">
-    <item quantity="one">Delete %d Look</item>
-    <item quantity="other">Delete %d Looks</item>
+    <item quantity="one">Elimina %d aspetto</item>
+    <item quantity="other">Elimina %d aspetti</item>
   </plurals>
   <plurals name="am_rename_looks_title">
     <item quantity="one">Rinomina %d aspetto</item>
@@ -419,6 +421,10 @@
     <item quantity="one">Copia %d mattoncino</item>
     <item quantity="other">Copia %d mattoncini</item>
   </plurals>
+  <plurals name="am_delete_bricks_title">
+    <item quantity="one">Delete %d Brick</item>
+    <item quantity="other">Delete %d Bricks</item>
+  </plurals>
   <plurals name="am_delete_scripts_title">
     <item quantity="one">Elimina %d script</item>
     <item quantity="other">Elimina %d script</item>
@@ -465,21 +471,22 @@
   </plurals>
   <!-- Dialog Labels -->
   <string name="project_name_label">Nome del programma</string>
-  <string name="scene_name">Nome della scena</string>
+  <string name="scene_name_label">Nome della scena</string>
   <string name="sprite_name_label">Nome dell\'oggetto</string>
   <string name="sprite_group_name_label">Nome del gruppo</string>
   <string name="script_group_label">Nome del gruppo di script</string>
   <string name="look_name_label">Nome dell\'aspetto</string>
   <string name="sound_name_label">Nome del suono</string>
+  <string name="nfc_tag_name_label">NFC Tag Name</string>
   <string name="string_label">Testo</string>
   <string name="data_label">Nome</string>
   <!-- Details -->
-  <string name="project_details">Last access: %s, Size: %s</string>
-  <string name="scene_details">Objects: %d, Looks: %d, Sounds: %d</string>
-  <string name="sprite_details">Bricks: %d, Looks: %d, Sounds: %d</string>
-  <string name="look_details">Measure: %s, Size: %s</string>
-  <string name="sound_duration">Duration: %s</string>
-  <string name="sound_details">Duration: %s, Size: %s</string>
+  <string name="project_details">Ultimo accesso: %s, dimensione: %s</string>
+  <string name="scene_details">Oggetti: %d, aspetti: %d, suoni: %d</string>
+  <string name="sprite_details">Mattoncini: %d, aspetti: %d, suoni: %d</string>
+  <string name="look_details">Misura: %s, dimensione: %s</string>
+  <string name="sound_duration">Durata: %s</string>
+  <string name="sound_details">Durata: %s, dimensione: %s</string>
   <!--  -->
   <!-- Rename Dialog Titles -->
   <string name="rename_project">Rinomina il programma</string>
@@ -584,8 +591,8 @@
     <item quantity="other">Eliminati %d script!</item>
   </plurals>
   <plurals name="deleted_Items">
-    <item quantity="one">Deleted %d Item!</item>
-    <item quantity="other">Deleted %d Items!</item>
+    <item quantity="one">Eliminato %d elemento!</item>
+    <item quantity="other">Eliminati %d elementi!</item>
   </plurals>
   <!--  -->
   <!-- ProjectListActivity and ProjectListFragment -->
@@ -599,10 +606,11 @@
   <!-- ScriptListFragment -->
   <string name="fragment_script_text_description">Clic su \"+\" per aggiungere script</string>
   <!--  -->
+  <!-- SpriteListFragment -->
+  <string name="fragment_sprite_text_description">Tap \"+\" to add objects</string>
+  <!--  -->
   <!-- LookListFragment -->
   <string name="fragment_look_text_description">Fare clic su \"+\" per creare un nuovo aspetto</string>
-  <string name="pocket_paint_not_installed_title">Pocket Paint non è installato!</string>
-  <string name="pocket_paint_not_installed_message">Please install Pocket Paint.</string>
   <string name="default_look_name">Aspetto</string>
   <string name="select_look_from_gallery">Seleziona un\'immagine</string>
   <string name="select_look_from_camera">Seleziona foto</string>
@@ -610,10 +618,11 @@
   <!-- SoundListFragment -->
   <string name="fragment_sound_text_description">Fare clic su \"+\" per aggiungere suoni</string>
   <string name="sound_select_source">Scegli un suono</string>
+  <string name="default_sound_name">Suono</string>
   <!--  -->
   <!-- NfcTagListFragment -->
-  <string name="fragment_nfctag_text_description">Scan NFC tags to add them</string>
-  <string name="ndef_record_label">as record type</string>
+  <string name="fragment_nfctag_text_description">Scansiona tag NFC per aggiungili</string>
+  <string name="ndef_record_label">come tipo di record</string>
   <string name="brick_set_nfc_tag">Imposta il prossimo tag NFC a</string>
   <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
   <string name="default_tag_name">nfc_tag</string>
@@ -627,13 +636,13 @@
   <string name="tnf_well_known_mailto">E-Mail</string>
   <!--  -->
   <!-- DataListFragment -->
-  <string name="global_vars_headline">Variables for all objects</string>
-  <string name="local_vars_headline">Variables for this object only</string>
-  <string name="global_lists_headline">Lists for all objects</string>
-  <string name="local_lists_headline">Lists for this object only</string>
+  <string name="global_vars_headline">Variabili per tutti gli oggetti</string>
+  <string name="local_vars_headline">Variabili per solo questo oggetto</string>
+  <string name="global_lists_headline">Liste per tutti gli oggetti</string>
+  <string name="local_lists_headline">Lista per solo questo oggetto</string>
   <!-- NewDataDialog -->
-  <string name="new_data_for_all_sprites">For all Objects</string>
-  <string name="new_data_for_this_sprite_only">For this Object only</string>
+  <string name="new_data_for_all_sprites">Per tutti gli oggetti</string>
+  <string name="new_data_for_this_sprite_only">Solo per questo oggetto</string>
   <!-- Backpack -->
   <string name="backpack_title">Tuo zaino</string>
   <string name="pack">Impacchetta</string>
@@ -652,7 +661,7 @@
   <string name="new_project_default_drone">Crea un esempio di programma per AR.Drone 2.0</string>
   <string name="new_project_default_jumping_sumo">Crea un esempio di programma per Jumping Sumo</string>
   <string name="project_orientation_title">Orientazione:</string>
-  <string name="project_select_screen_title">Screen:</string>
+  <string name="project_select_screen_title">Schermo:</string>
   <!--  -->
   <!-- NewSpriteDialog -->
   <string name="new_sprite_dialog_title">Nuovo oggetto</string>
@@ -672,123 +681,114 @@
   <string name="add_sound_music">Compositore di musica</string>
   <!-- Rating Dialog -->
   <string name="rating_dialog_title">Valuta Pocket Code</string>
-  <string name="rating_google_play_dialog_text">If you enjoy this app, please rate us on Google Play.</string>
+  <string name="rating_google_play_dialog_text">Se l\'app ti piace, valutaci su Google Play.</string>
   <string name="rating_dialog_rate_now">Ora</string>
   <string name="rating_dialog_rate_later">Più tardi</string>
   <string name="rating_dialog_rate_never">Mai</string>
   <!--  -->
   <!-- Terms of Use Dialog -->
   <string name="dialog_terms_of_use_title">Condizioni d\'uso e servizio</string>
-  <string name="dialog_terms_of_use_info">In order to
-    be allowed to use the apps and other executables offered by the Catrobat project, you
-    must agree to our Terms of Use and Services. You have to follow these terms strictly when using our apps
-    and other executables. Please see the link below for their precise formulation.\n</string>
+  <string name="dialog_terms_of_use_info">Al fine di
+    poter usare le app e gli altri programmi eseguibili offerti dal progetto Catrobat, devi accettare i nostri Termini d\'uso e quelli di Utilizzo dei servizi. Sei tenuto a rispettarli mentre utilizzi le app
+    e gli altri programmi eseguibili. Segui il link sottostante per conoscerne i dettagli.\n</string>
   <string name="dialog_terms_of_use_link_text">Condizioni d\'uso e servizio</string>
   <!--  -->
   <!-- Terms of Use Dialog Parrot ARDrone-->
   <string name="dialog_terms_of_use_link_text_parrot_reminder">Termini d\'uso e servizi di Pocket Code</string>
-  <string name="dialog_terms_of_use_parrot_reminder_text">You are about to use this app together with Parrot\'s
-        AR.Drone 2.0. We strongly remind you to abide by both Parrot\'s and Catrobat\'s Terms of Use and Services.</string>
+  <string name="dialog_terms_of_use_parrot_reminder_text">Si sta per utilizzare questa app insieme a
+        AR.Drone 2.0 della Parrot. Ti ricordiamo che sei tenuto a rispettare le Condizioni d\'uso e dei servizi sia di Parrot che di Catrobat.</string>
   <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Non ricordarmelo più.</string>
   <!--  -->
   <!-- Terms of Use Dialog Parrot Jumping Sumo-->
-  <string name="dialog_terms_of_use_jumpingsumo_reminder_text">You are about to use this app together with
-        Parrot\'s Jumping Sumo. We strongly remind you to abide by both Parrot\'s and Catrobat\'s Terms of Use and
-        Services.</string>
+  <string name="dialog_terms_of_use_jumpingsumo_reminder_text">Si sta per utilizzare questa app insieme a Jumping Sumo
+        della Parrot. Ti ricordiamo che sei tenuto a rispettare le Condizioni d\'uso e dei servizi sia di Parrot che di Catrobat.</string>
   <!--  -->
   <!-- Privacy Policy -->
-  <string name="dialog_privacy_policy_title">Norme sulla privacy</string>
+  <string name="dialog_privacy_policy_title">Informativa sulla privacy</string>
   <string name="disclaimer_privacy_police_header_headline">Benvenuto!</string>
-  <string name="disclaimer_privacy_policy_header">Before you can start coding, please read and accept our Privacy 
-        Policy to use the app:</string>
-  <string name="dialog_privacy_policy_text">To offer you all the benefits of our services and the associated account,
-        it is necessary to collect certain data from you.\n\n
+  <string name="disclaimer_privacy_policy_header">Prima si può iniziare a scrivere programmi, leggi e accetta la nostra informativa 
+        sulla privacy per utilizzare l\'app:</string>
+  <string name="dialog_privacy_policy_text">Per offrirti tutti i benefici associati ai nostri servizi e al tuo account,
+        per noi è necessario raccogliere e conservare alcuni tuoi.\n\n
 
-        • To maintain and improve our services (apps and websites) and to do scientific research on ICT and
-            STEM/STEAM education, we use Google Analytics, Crashlytics, and Firebase, all by Google LLC (USA), to get
-            metadata about the usage of our services, e.g., crash information, timestamps, visited pages/screens,
-            usage of our apps and services, used operating system, and information about the network provider. This
-            analysis and the collected data is not linked to your profile and does not contain any personal
-            information (last bits of the IP address get anonymized). However, the collected data will get
-            transferred to the service-provider (Google LLC, USA). Data processing is based on an agreement with
-            Google LLC. This relationship to the service provider conforms to the European Union\'s General Data
-            Protection Regulation (EU GDPR) and EU-USA \"Privacy Shield\" agreement.\n\n
-        • To create and use an account in our systems, and to inform you about necessary changes about your
-            account per e-mail, e.g., updates or violations of our Terms of Use and Service, our community rules, or
-            our policies, we will store your username and, if provided by you, your e-mail address. If you have
-            connected your account via Google Plus or Facebook, we additionally store an identification key connected
-            to your account on these services. We will not use this data for any other (e.g., marketing) purposes,
-            unless you explicitly allowed us to do so.\n\n
-        • On a voluntary basis, you can give us your country of residence through your account page on the sharing
-            site. This will get displayed on your public profile and only be used for statistical and research
-            purposes by us. It can be removed at any time in your profile settings.\n\n
-        • You can withdraw the usage of the personal data belonging to your account at any time by deleting your
-            account through your profile page on https://share.catrob.at. After deleting your account you will still
-            be able to use the provided services, but not to collaborate, e.g., through uploading programs,
-            commenting, or liking. Also, all provided content linked to your account, e.g., uploaded programs,
-            comments, etc., will be deleted.\n\n
-        • To avoid misuse of our services, e.g., through user contributed uploads or comments for illegal
-            purposes, all user generated public data (uploads, comments) will be stored internally in a database,
-            together with a timestamp and the used internet address. This data will not be used by or forwarded to
-            any institutions, unless sufficiently illegal actions are reasonably suspected and officially entitled
-            legal institutions request it based on applicable law. Each case will be thoroughly checked on an
-            individual basis by us first.\n\n
-        • You can voluntarily subscribe to the Catrobat Newsletter, on https://catrob.at/newsletter provided
-            by us through the MailChimp service (The Rocket Science Group LLC d/b/a MailChimp, USA). You will then
-            receive updates on the Catrobat project and its services to your provided e-mail address. You can withdraw
-            the newsletter at any time by using the \"unsubscribe\" link in the footer of every newsletter. This
-            newsletter is provided by MailChimp with whom we do have a data-processing agreement and who committed to
-            the EU General Data Protection Regulation and EU-USA \"Privacy Shield\". For further details on MailChimp
-            please also look up MailChimp\'s Privacy Policy and Terms of Use.\n\n
-        • All Services are provided by the free open source Catrobat project under the umbrella of the
-            International Catrobat Association – Verein zur Förderung freier Software, a non-profit NGO incorporated
-            in Graz, Austria (European Union). Our policies pay respect to EU and Austrian data protection law
-            (GDPR). To get in touch with us, please send an e-mail to contact@catrobat.org or mail us to Catrobat,\n
+        • per continiare a fornirti i nostri servizi e migliorarli (app e siti web) e per svolgere ricerca scientifica su ITC
+            e formazione STEM/STEAM, utilizziamo Google Analytics, Crashlytics e Firebase, tutti prodotti di Google LLC (USA), al fine di trattare
+            metadati sull\'uso dei nostri servizi (come informazioni su crash, marche temporali, pagine o schermate visitate e così via),
+            l\'uso delle app e dei servizi, i sistemi operativi usati e informazioni sui fornitori di rete. Queste
+            analisi e collezioni di dati non sono direttamente collegate al tuo profilo né contengono alcuna informazione personale
+            (gli ultimi bit degli indirizzi IP vengono mascherati). Questi dati vengono comunque traferiti al gestore dei sercizi (Google LLC, USA). L\'elaborazione dei dati si basa su un accordo con
+            Google LLC. Questi accordi sono conformi alla European Union\'s General Data
+            Protection Regulation (EU GDPR) e EU-USA \"Privacy Shield\".\n\n
+        • per creare e utilizzare un account sui nostri sistemi e per informarti via e-mail di eventuali modifiche necessarie (come aggiornamenti o violazioni dei Termini d\'uso e servizio, le regole della community o
+            delle nostre politiche di sicurezza, memorizzeremo un nome utente e, se fornito da te, un indirizzo e-mail. Se ti sei connesso
+            al tuo account via Google Plus o Facebook, noi memorizzeremo, in aggiunta, anche una chiave identificativa
+            per tali servizi. Non utilizzeremo i dati per altri scopi (per esempio marketing),
+            a meno che non sia tu a permettercelo in maniera esplicita.\n\n
+        • potrai indicare la nazione di residenza sul tuo profilo, benché questo non sia necessario.
+            In tal caso la nazione verrà mostrata sul profilo pubblico e usata per fini statistici
+            o di ricerca. Potrà venir rimossa in qualsiasi momento agendo sulle proprietà del tuo profilo.\n\n
+        • puoi negare il consenso d\'uso dei tuoi dati in qualsiasi momento eliminando l\'account dalla 
+            pagina del profilo su https://share.catrob.at. Anche dopo ever cancellato l\'account puoi 
+            continuare a usare i nostri servizi ma non potrai più usare gli strumenti di collaborazione, come
+            inviare programmi, commentare o mettere like. Inoltre tutto il contenuto collegato al tuo account, come programmi inviati,
+            commenti e così via, verrà cancellato.\n\n
+        • per evitare un uso improprio dei nostri servizi, come invio di programmi o inserimento di commenti a fini illegali, 
+            tutti i dati pubblici da te generati (upload, commenti) verranno memorizzati in una banca dati interna,
+            insieme ad una marca temporale e all\'indirizzo internet che li ha generati. Questi dati non verranno usati né trasmessi ad
+            alcuno, a meno che che sia il fondato sospetto che siano state intraprese delle azioni illegali e i dati
+            siano richiesti da istituzioni di vigilanza in applicazione alle leggi esistenti. Ciascun caso verrà, per prima cosa,
+            valiato con attenzione da noi.\n\n
+        • puoi iscriverti alla newsletter di Catrobat Newsletter, andando su https://catrob.at/newsletter che
+            è resa disponibile da parte nostra usando il servizio MailChimp  (The Rocket Science Group LLC d/b/a MailChimp, USA). Potrai così
+            ricevere aggiornamenti sul progetto Catrobat project e sui servizi forniti direttamenre sull\'indirizzo e-mail indicato. Potrai sempre
+            annullare l\'iscrizione usando il link \"unsubscribe\" presente in fondo alla newsletter. La
+            newsletter è fornita da MailChimp con cui abbiamo un accordo per l\'elaborazione dei dati che
+            soddisfa sua la EU General Data Protection Regulation che la EU-USA \"Privacy Shield\". Per ulteriori dettagli su MailChimp
+            si faccia riferimento ai termini d\'uso e alle regole di MailChimp.\n\n
+        • Tutti i servizi sono forniti gratuitamente dal progetto open source Catrobat che appartiene alla
+            International Catrobat Association – Verein zur Förderung freier Software, un\'organizzazione non-profit NGO con sede
+            in Graz, Austria (European Union). Tutte le nostre politiche di protezione rispettano le legislazioni in materia dell\'EU e dell\'Austria 
+            (GDPR). Per contattarci potete inviare una e-mail a contact@catrobat.org o scrivere a Catrobat a questo indirizzo\n
                 c/o\n
                 Institute of Software Technology,\n
                 Graz University of Technology,\n
                 Inffeldgasse 16b,\n
                 A-8010 Graz, Austria\n
                 (European Union).\n\n
-        In case you are below the age of 14, this policy must be accepted by a legal guardian (usually a parent).\n\n
+        Nel caso tu sia minore di 14 anni, queste regole devono essere accettate da un custode legale (solitamente un genitore).\n\n
 
-        Catrobat\'s official English language privacy policy is available on the web under
+        Il testo ufficiale per la privacy è disponibile in inglese a questo indirizzo
         https://catrob.at/privacypolicy.\n\n
 
-        Version 2.1, 25 June 2018\n\n
+        Versione 2.1 del  25 giugno 2018\n\n
 
-        Find the previous, outdated, version of our privacy policy (2.0) here:
+        Per leggere la versione, oramai obsoleta, delle regole sulla privacy  (2.0) puoi fare riferimento a:
         http://developer.catrobat.org/privacy_policy_2-0
     </string>
-  <string name="dialog_privacy_policy_declined_text">It is necessary to agree to the Privacy Policy to register or to
-        continue using your account. If you do not want us to collect this data, you can delete your
-        account via the profile page on our web interface. Then you will still be able to use all services that do
-        not require an account.
+  <string name="dialog_privacy_policy_declined_text">È necessario accettare l\'informativa sulla privacy per registrarsi o per
+        continuare a utilizzare il tuo account. Se non desideri che raccogliamo dati, è possibile eliminare il tuo account
+        tramite la pagina di profilo sul sito web. Sarai ancora in grado di utilizzare tutti i servizi che non richiedono
+        l\'uso di un account.
     </string>
   <!-- -->
   <!-- About Dialog -->
   <string name="dialog_about_title">Info sull\'app</string>
-  <string name="dialog_about_license_info">This app offers a programming
-        environment and interpreter for the visual
-        programming language Catrobat.\n
-        The source code of this app is mainly licensed under the GNU AGPL v3 License.
-        For further details on the license see the link below.\n</string>
+  <string name="dialog_about_license_info">Questa applicazione offre un ambiente di programmazione
+        e un interprete per il linguaggio di
+        programmazione visuale chiamato Catrobat.\n
+        la licenza d\'uso del codice sorgente di questa app è principalmente GNU AGPL v3.
+        Per maggiori dettagli sulla licenza consultare il link qui sotto. \n</string>
   <string name="dialog_about_license_link_text">Licenza del codice sorgente</string>
   <string name="dialog_about_catrobat_link_text">Su Catrobat</string>
   <!--  -->
   <!-- NetworkAlertDialog -->
   <string name="error_no_network_title">Nessuna Rete</string>
-  <string name="error_no_network">Hai bisogno di una connessione di rete per utilizzare questo programma di Pocket Code. Attiva una rete Wi-Fi o altre rete nelle impostazioni di sistema.</string>
-  <plurals name="bricks_using_network_headline">
-    <item quantity="one">The following brick needs a network connection:</item>
-    <item quantity="other">The following bricks need a network connection:</item>
-  </plurals>
   <!-- UploadProjectDialog -->
   <string name="error_no_program_name_entered">Inserisci un nome di programma.</string>
   <string name="upload_button">Carica</string>
   <string name="upload_project_dialog_title">Carica programma</string>
   <string name="upload_description">Descrizione:</string>
-  <string name="upload_tag_dialog_title">Please choose up to three categories</string>
+  <string name="upload_tag_dialog_title">Scegli fino a tre categorie</string>
   <!-- SoundRecorderActivity -->
   <string name="soundrecorder_name">Registratore di Pocket Code</string>
   <string name="soundrecorder_error">Registrazione del suono non riuscita</string>
@@ -810,13 +810,13 @@
   <!-- Play scene dialog -->
   <string name="play_scene_dialog_title">Scena da eseguire:</string>
   <string name="play_scene_dialog_default">Prima scena (\"%1$s\")</string>
-  <string name="play_scene_dialog_current">Current Scene (%1$s)</string>
+  <string name="play_scene_dialog_current">Scena attuale (%1$s)</string>
   <!--  -->
   <!-- Sign In dialogs -->
   <string name="sign_in_dialog_title">Accedi</string>
   <string name="username">Nome utente</string>
   <string name="password">Password</string>
-  <string name="password_forgotten">Forgot your password?</string>
+  <string name="password_forgotten">Password dimenticata?</string>
   <string name="new_user_registered">Nuovo account creato</string>
   <string name="user_logged_in">Login avvenuto con successo</string>
   <string name="register_error">Login non valido</string>
@@ -837,20 +837,26 @@
   <string name="error_facebook_session_expired">Sessione scaduta, effettua nuovamente il login.</string>
   <string name="sign_in_with_facebook">Accedi con Facebook</string>
   <string name="sign_in_with_google">Accedi con Google</string>
+  <string name="error_register_empty_username">Empty username</string>
+  <string name="error_register_username_as_email">E-mail address can not be used as username</string>
+  <string name="error_register_invalid_username">Username should only contain letters (a–z), numbers (0–9),
+        dashes (-), underscores (_), and periods (.).</string>
+  <string name="error_register_username_start_with">Username should not start with dashes (-), underscores (_), or
+        periods (.).</string>
+  <string name="error_register_invalid_email_format">Invalid email format</string>
+  <string name="error_register_empty_password">Password field is empty</string>
+  <string name="error_register_password_at_least_6_characters">Password should be at least 6 characters</string>
+  <string name="error_register_passwords_mismatch">Le password non corrispondono</string>
+  <string name="error_register_empty_confirm_password">Confirm password field is empty</string>
+  <string name="error_register_username_already_exists">Username already exists</string>
+  <string name="error_register_email_exists">Email address already exists</string>
   <!--  -->
   <!-- OverwriteRenameDialog Strings -->
+  <string name="overwrite_title">Project exists.</string>
   <string name="overwrite_text">Esiste già un programma con questo nome. Scegli un nome diverso!</string>
   <string name="overwrite_replace">Sostituisci il programma</string>
   <string name="overwrite_rename">Rinominare il programma scaricato</string>
   <!--  -->
-  <!-- OverwriteRenameMediaDialog -->
-  <string name="overwrite_replace_look">Sostituisci l\'aspetto</string>
-  <string name="overwrite_rename_look">Rinomina l\'aspetto scaricato</string>
-  <string name="overwrite_replace_sound">Sostituisci suono</string>
-  <string name="overwrite_rename_sound">Rinominare il suono scaricato</string>
-  <string name="overwrite_replace_default">Sostituisci media</string>
-  <string name="overwrite_rename_default">Rinominare i media esistenti</string>
-  <!-- -->
   <!-- Music activity -->
   <string name="pocket_music_default_project_name">Canzone senza titolo</string>
   <string name="pocket_music_default_track_name">Traccia 1</string>
@@ -875,9 +881,9 @@
   <string name="prestage_no_front_camera_available">\u2022 Videocamera anteriore\n</string>
   <string name="prestage_default_resource_not_available">\u2022 Componente sconosciuto\n</string>
   <string name="no_nfc_available">NFC non disponibile</string>
-  <string name="nfc_not_activated">Please activate NFC then press Back to return to the app!</string>
-  <string name="nfc_facedetection_support">Using NFC and face detection at the same time might lead to performance
-        issues!</string>
+  <string name="nfc_not_activated">Attiva NFC, poi premi indietro per tornare all\'app!</string>
+  <string name="nfc_facedetection_support">Utilizzando contemporaneamente NFC e il riconoscimento facciale potrebbe
+     causare problemi di prestazioni!</string>
   <!--  -->
   <!-- Stage menu dialog -->
   <string name="stage_dialog_back">Indietro</string>
@@ -889,12 +895,10 @@
   <string name="stage_dialog_screenshot">Anteprima</string>
   <!--  -->
   <!-- Broadcast spinner -->
-  <string name="new_broadcast_message">Nuovo&#8230;</string>
   <string name="dialog_new_broadcast_message_title">Nuovo messaggio</string>
   <string name="dialog_new_broadcast_message_name">Messaggio:</string>
   <!--  -->
   <!-- NFC spinner -->
-  <string name="new_nfc_tag">Nuovo&#8230;</string>
   <string name="brick_when_nfc_default_all">tutto</string>
   <!-- -->
   <!-- Brick categories -->
@@ -973,7 +977,7 @@
   <string name="brick_set_look_by_index">Passa all\'aspetto numero</string>
   <string name="brick_and_wait">e aspetta</string>
   <string name="brick_set_background">Imposta sfondo</string>
-  <string name="brick_set_background_and_wait">Set background and wait</string>
+  <string name="brick_set_background_and_wait">Imposta lo sfondo e attendi</string>
   <string name="brick_set_background_by_index">Imposta lo sfondo numero</string>
   <string name="brick_when_background">Quando lo sfondo impostato a</string>
   <string name="brick_set_size_to">Imposta dimensione a</string>
@@ -999,12 +1003,12 @@
   <string name="brick_vibration">Vibra per</string>
   <string name="brick_ask_label">Chiedi</string>
   <string name="brick_ask_store">e memorizza la risposta in</string>
-  <string name="brick_ask_default_question">\'Qual è il tuo nome?\'</string>
+  <string name="brick_ask_default_question">What\'s your name?</string>
   <string name="brick_ask_dialog_hint">"Inserisci la risposta:"</string>
   <string name="brick_ask_dialog_submit">Invia la risposta</string>
   <string name="brick_ask_speech_label">Chiedi</string>
   <string name="brick_ask_speech_store">e memorizzare la risposta parlata in</string>
-  <string name="brick_ask_speech_default_question">\'Qual è il tuo nome?\'</string>
+  <string name="brick_ask_speech_default_question">What\'s your name?</string>
   <!--  -->
   <!-- Pen bricks -->
   <string name="brick_pen_down">Penna giù</string>
@@ -1021,7 +1025,7 @@
   <string name="brick_set_volume_to">Imposta volume a</string>
   <string name="brick_change_volume_by">Modifica il volume di</string>
   <string name="brick_speak">Parla</string>
-  <string name="brick_speak_default_value">"Ciao!"</string>
+  <string name="brick_speak_default_value">Ciao!</string>
   <string name="brick_speak_and_wait">e aspetta</string>
   <!--  -->
   <!-- Control bricks -->
@@ -1071,10 +1075,9 @@
   <string name="brick_if_end">Fine Se</string>
   <string name="brick_set_variable">Imposta variabile</string>
   <string name="brick_change_variable">Cambia variabile</string>
-  <string name="brick_variable_spinner_create_new_variable">Nuovo&#8230;</string>
-  <string name="brick_note_default_value">"aggiungi qui un commento…"</string>
-  <string name="brick_think_bubble_default_value">"Hmmmm!"</string>
-  <string name="brick_say_bubble_default_value">"Ciao!"</string>
+  <string name="brick_note_default_value">aggiungi qui un commento&#8230;</string>
+  <string name="brick_think_bubble_default_value">Hmmmm!</string>
+  <string name="brick_say_bubble_default_value">Ciao!</string>
   <string name="brick_broadcast_default_value">"messaggio 1"</string>
   <string name="brick_add_item_to_userlist_add">Aggiungi</string>
   <string name="brick_add_item_to_userlist">alla lista</string>
@@ -1094,9 +1097,9 @@
   <string name="default_project_cloud_name">Nuvole</string>
   <string name="default_project_cloud_sprite_name_1">Nuvole1</string>
   <string name="default_project_cloud_sprite_name_2">Nuvole2</string>
-  <string name="default_project_sprites_animal_name">Uccello</string>
-  <string name="default_project_sprites_animal_wings_up">Ali di uccello su</string>
-  <string name="default_project_sprites_animal_wings_down">Ali di uccello giù</string>
+  <string name="default_project_sprites_animal_name">Animal</string>
+  <string name="default_project_sprites_animal_wings_up">Wings up</string>
+  <string name="default_project_sprites_animal_wings_down">Wings down</string>
   <string name="default_project_sprites_tweet_1">Cinguettio1</string>
   <string name="default_project_sprites_tweet_2">Cinguettio2</string>
   <!-- Default ChromeCast Values -->
@@ -1156,7 +1159,7 @@
   <string name="drone_set_tilt_max">30 gradi</string>
   <!-- Notifications -->
   <string name="notification_screenshot_ok">Anteprima immagine salvata</string>
-  <string name="notification_download_project_cancel">Canceled program download</string>
+  <string name="notification_download_project_cancel">Download del programma annullato</string>
   <string name="notification_reconvert_download_program_cancel">Annullato il download/conversione del programma</string>
   <string name="notification_copy_title_pending">"Copia in corso di "</string>
   <string name="notification_copy_pending">Copia in corso</string>
@@ -1172,13 +1175,13 @@
   <string name="notification_download_pending">Download in corso</string>
   <string name="notification_download_finished">Download completato</string>
   <string name="notification_title_open">"Apri "</string>
-  <string name="notification_low_battery_with_value">Attention. Battery is low. Current status is %d</string>
+  <string name="notification_low_battery_with_value">Attenzione. Batteria quasi scarica. Lo stato corrente è %d</string>
   <string name="size_of_project">Dimensione:</string>
   <string name="drone_emergency_battery_low">Batteria scarica (atterraggio automatico).</string>
   <string name="drone_emergency_camera">Una o più fotocamere non rispondono.</string>
   <string name="drone_emergency_ultrasound">Il sensore a ultrasuoni non risponde.</string>
-  <string name="drone_emergency_angle">AR.Drone 2.0 Euler angles went too high. Motors shut down to prevent dangerous
-        behavior.</string>
+  <string name="drone_emergency_angle">Angoli euleriani del AR.Drone 2.0 troppo elevati. I motori sono stati spenti per prevenire
+        comportamenti pericolosi.</string>
   <string name="drone_emergency_cutout">Uno o più motori sono stati interrotti da qualcosa nell\'ambiente.</string>
   <string name="drone_alert_battery_low">Batteria troppo scarica per un nuovo decollo.</string>
   <string name="drone_alert_ultrasound">Il sensore a ultrasuoni non può determinare l\'altitudine del AR.Drone 2.0.</string>
@@ -1186,12 +1189,12 @@
   <string name="drone_emergency_title">Emergenza</string>
   <!--  -->
   <!-- Error messages -->
-  <string name="error_no_writiable_external_storage_available">This app needs writable external storage like a SD
-        card in order to run, but none was found.\nYou can fix this by making the external storage writable or inserting
-        a SD card, then trying again.</string>
-  <string name="error_no_write_access">This app needs permission to write data to your device. Otherwise you
-        can\'t create, modify or run programs. To continue, open settings and enable write access for
-        this app.</string>
+  <string name="error_no_writiable_external_storage_available">Questa app ha bisogno, per essere eseguita, di un supporto di memorizzazione esterno riscrivibile
+        come una card SD al fine di eseguire, ma non è stato trovato. \nPuoi risolvere questo problema rendendo lo storage esterno scrivibile o inserendo
+        una card SD, quindi riprova nuovamente.</string>
+  <string name="error_no_write_access">Questa app ha bisogno dell\'autorizzazione per scrivere i dati sul dispositivo. In caso contrario
+        non è possibile creare, modificare o eseguire programmi. Per continuare, è necessario aprire Impostazioni di sistema e abilitare l\'accesso in scrittura per
+        questa app.</string>
   <string name="error_project_upload">Errore durante il caricamento del programma.</string>
   <string name="error_project_download">Errore durante il download del programma.</string>
   <string name="error_new_project">Errore durante la creazione di un nuovo programma.</string>
@@ -1221,11 +1224,11 @@
   <string name="error_gps_not_available">Errore, GPS non disponibile.</string>
   <string name="error_set_description">Errore durante il salvataggio della nuova descrizione.</string>
   <string name="error_no_whatsapp">WhatsApp non è installato</string>
-  <string name="error_unsupported_bricks_chromecast">This script can\'t be added  to a Chromecast
-        program.</string>
+  <string name="error_unsupported_bricks_chromecast">Questo script non può essere aggiunto ad un programma
+        per Chromecast.</string>
   <!--  -->
   <!-- Bluetooth Connection Strings -->
-  <string name="notification_blueth_err">Can\'t enable Bluetooth, please try turning it off and on again.</string>
+  <string name="notification_blueth_err">Non è possibile attivare il Bluetooth, si prega di provare a spegnerlo e riaccenderlo nuovamente.</string>
   <string name="title_paired_devices">Dispositivi accoppiati</string>
   <string name="title_other_devices">Nuovi dispositivi</string>
   <string name="searching_devices">Ricerca di dispositivi&#8230;</string>
@@ -1352,8 +1355,6 @@
   <string name="brick_drone_emergency">Emergenza AR.Drone 2.0</string>
   <string name="brick_drone_turn_right">Gira a destra AR.Drone 2.0</string>
   <string name="brick_drone_turn_left">Gira a sinistra AR.Drone 2.0</string>
-  <string name="brick_drone_turn_left_magneto">Gira a sinistra AR.Drone 2.0 [angle]</string>
-  <string name="brick_drone_turn_right_magneto">Gira a destra AR.Drone 2.0 [angle]</string>
   <string name="brick_drone_set_config">Configura AR.Drone 2.0</string>
   <string name="brick_drone_switch_camera">Cambia videocamera AR.Drone 2.0</string>
   <string name="brick_drone_set_altitude">Limite altitudine </string>
@@ -1744,6 +1745,7 @@
   <!-- -->
   <!-- User Bricks strings -->
   <string name="define">Definisci</string>
+  <string name="new_user_brick_variable">Variabile</string>
   <!--  -->
   <!-- Camera related strings -->
   <string name="brick_video">Gira la videocamera</string>
@@ -1752,8 +1754,8 @@
   <string name="brick_choose_camera">Usa la videocamera</string>
   <string name="choose_camera_front">anteriore</string>
   <string name="choose_camera_back">posteriore</string>
-  <string name="error_flash_camera">"&gt;You can only use the flash with a camera that has a one. Please add a \"Use
-        camera\" brick and change to your device\'s camera that has a flash."</string>
+  <string name="error_flash_camera">\"è possibile utilizzare il flash solo con una macchina fotografica che ne possiede uno&gt;. Si prega di aggiungere un mattoncino
+        \"Usa camera\" e cambia mettendo una fotocamera dotata di flash\".</string>
   <string name="brick_wait_until">Aspetta fino a quando</string>
   <string name="brick_wait_until_second_part">è vero</string>
   <!-- -->
@@ -1771,8 +1773,8 @@
   <string name="cast_ready_to_cast">Pronto a trasmettere a</string>
   <string name="cast_enable_cast_feature">Caratteristica di trasmissione disabilitata. Abilita la trasmissione nelle impostazioni.</string>
   <string name="cast_searching_for_cast_devices">In cerca di dispositivi per la trasmissione</string>
-  <string name="cast_trouble_finding_devices_tip">.\nDon\'t see your device? Try turning your phone\'s Wifi off
-        and on.</string>
+  <string name="cast_trouble_finding_devices_tip">. \nNon vedei il dispositivo? Prova a disattivare e poi riattivare il Wifi
+        del telefono.</string>
   <string name="cast_connection_timout_msg">Connessione scaduta. Riprova.</string>
   <string name="cast_screen_pause_text">In pausa</string>
   <!-- -->

@@ -33,7 +33,6 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -106,6 +105,11 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	}
 
 	@Override
+	boolean shouldShowEmptyView() {
+		return adapter.getItemCount() == 1;
+	}
+
+	@Override
 	public void onResume() {
 		super.onResume();
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
@@ -119,7 +123,6 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 		}
 
 		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(title);
-		setShowSpriteEmptyView(adapter.getItemCount() == 1);
 	}
 
 	@Override
@@ -260,7 +263,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 			spriteController.delete(item, currentScene);
 			adapter.remove(item);
 		}
-		setShowSpriteEmptyView(adapter.getItemCount() == 1);
+
 		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_sprites,
 				selectedItems.size(),
 				selectedItems.size()));
@@ -315,7 +318,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 					getString(R.string.delete),
 					getString(R.string.rename),
 			};
-			new AlertDialog.Builder(getActivity())
+			new AlertDialog.Builder(getContext())
 					.setTitle(item.getName())
 					.setItems(items, new DialogInterface.OnClickListener() {
 						@Override
@@ -336,9 +339,5 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 		} else {
 			super.onItemLongClick(item, holder);
 		}
-	}
-
-	private void setShowSpriteEmptyView(boolean visible) {
-		emptyView.setVisibility(visible ? View.VISIBLE : View.GONE);
 	}
 }

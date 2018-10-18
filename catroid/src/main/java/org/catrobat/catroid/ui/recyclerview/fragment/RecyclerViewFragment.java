@@ -90,17 +90,15 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	protected RecyclerView.AdapterDataObserver observer = new RecyclerView.AdapterDataObserver() {
 
 		@Override
-		public void onItemRangeInserted(int positionStart, int itemCount) {
-			super.onItemRangeRemoved(positionStart, itemCount);
-			setShowEmptyView(false);
-		}
-
-		@Override
-		public void onItemRangeRemoved(int positionStart, int itemCount) {
-			super.onItemRangeRemoved(positionStart, itemCount);
-			setShowEmptyView(adapter.getItemCount() == 0);
+		public void onChanged() {
+			super.onChanged();
+			setShowEmptyView(shouldShowEmptyView());
 		}
 	};
+
+	boolean shouldShowEmptyView() {
+		return adapter.getItemCount() == 0;
+	}
 
 	@ActionModeType
 	protected int actionModeType = NONE;
@@ -235,7 +233,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 
 		adapter.notifyDataSetChanged();
 		adapter.registerAdapterDataObserver(observer);
-		setShowEmptyView(adapter.getItemCount() == 0);
+		setShowEmptyView(shouldShowEmptyView());
 	}
 
 	@Override
@@ -246,8 +244,8 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	}
 
 	@Override
-	public void onDetach() {
-		super.onDetach();
+	public void onStop() {
+		super.onStop();
 		finishActionMode();
 	}
 
@@ -355,8 +353,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 		recyclerView.setVisibility(show ? View.GONE : View.VISIBLE);
 	}
 
-	protected void setShowEmptyView(boolean visible) {
-		recyclerView.setVisibility(visible ? View.GONE : View.VISIBLE);
+	void setShowEmptyView(boolean visible) {
 		emptyView.setVisibility(visible ? View.VISIBLE : View.GONE);
 	}
 

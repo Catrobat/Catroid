@@ -218,7 +218,7 @@ public class ProjectActivity extends BaseCastActivity {
 		}
 	}
 
-	private void addSpriteFromUri(final Uri uri) {
+	public void addSpriteFromUri(final Uri uri) {
 		final Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 
 		String name = StorageOperations.resolveFileName(getContentResolver(), uri);
@@ -240,13 +240,15 @@ public class ProjectActivity extends BaseCastActivity {
 					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
 						File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
 						Sprite sprite = new Sprite(textInput);
+						currentScene.getSpriteList().add(sprite);
+
 						try {
 							File file = StorageOperations.copyUriToDir(getContentResolver(), uri, imageDirectory, lookName);
 							sprite.getLookList().add(new LookData(lookName, file));
-							currentScene.getSpriteList().add(sprite);
 						} catch (IOException e) {
 							Log.e(TAG, Log.getStackTraceString(e));
 						}
+
 						if (getCurrentFragment() instanceof SpriteListFragment) {
 							((SpriteListFragment) getCurrentFragment()).notifyDataSetChanged();
 						}

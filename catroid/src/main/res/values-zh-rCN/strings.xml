@@ -29,6 +29,7 @@
   <string name="settings">设置</string>
   <string name="redo">重做</string>
   <string name="undo">撤销</string>
+  <string name="new_option">新建&#8230;</string>
   <string name="confirm">确认</string>
   <string name="cancel">取消</string>
   <string name="next">下一步</string>
@@ -256,8 +257,9 @@
   <string name="error_copy_project">An error occurred while copying Project</string>
   <!-- Dialog Errors -->
   <string name="name_already_exists">This name is already in use, please choose another one.</string>
-  <string name="name_consists_of_spaces_only">You only put spaces into the text field, please enter a name
+  <string name="name_consists_of_spaces_only">You only put spaces into the text field, please enter a text
         using letters, numbers or other special characters.</string>
+  <string name="name_empty">Please enter a text</string>
   <!-- Recycler View -->
   <string name="am_empty_list">There are no items in this list yet. Please add some first.</string>
   <string name="am_backpack">Pack</string>
@@ -368,13 +370,16 @@
   </plurals>
   <!-- Script Action Mode Titles -->
   <plurals name="am_pack_scripts_title">
-    <item quantity="other">Pack %d bricks</item>
+    <item quantity="other">Pack %d Bricks</item>
   </plurals>
   <plurals name="am_unpack_scripts_title">
     <item quantity="other">Unpack %d Scripts</item>
   </plurals>
   <plurals name="am_copy_scripts_title">
     <item quantity="other">Copy %d bricks</item>
+  </plurals>
+  <plurals name="am_delete_bricks_title">
+    <item quantity="other">Delete %d Bricks</item>
   </plurals>
   <plurals name="am_delete_scripts_title">
     <item quantity="other">Delete %d Scripts</item>
@@ -412,12 +417,13 @@
   </plurals>
   <!-- Dialog Labels -->
   <string name="project_name_label">Program Name</string>
-  <string name="scene_name">Scene Name</string>
+  <string name="scene_name_label">Scene Name</string>
   <string name="sprite_name_label">Object Name</string>
   <string name="sprite_group_name_label">Group Name</string>
   <string name="script_group_label">Script Group Name</string>
   <string name="look_name_label">Look Name</string>
   <string name="sound_name_label">Sound Name</string>
+  <string name="nfc_tag_name_label">NFC Tag Name</string>
   <string name="string_label">文本</string>
   <string name="data_label">名称</string>
   <!-- Details -->
@@ -524,10 +530,11 @@
   <!-- ScriptListFragment -->
   <string name="fragment_script_text_description">点击\"+\"来添加脚本</string>
   <!--  -->
+  <!-- SpriteListFragment -->
+  <string name="fragment_sprite_text_description">Tap \"+\" to add objects</string>
+  <!--  -->
   <!-- LookListFragment -->
   <string name="fragment_look_text_description">按“+”添加外观</string>
-  <string name="pocket_paint_not_installed_title">尚未安装口袋画板 ！</string>
-  <string name="pocket_paint_not_installed_message">Please install Pocket Paint.</string>
   <string name="default_look_name">外观</string>
   <string name="select_look_from_gallery">选择图像</string>
   <string name="select_look_from_camera">选择照片</string>
@@ -535,6 +542,7 @@
   <!-- SoundListFragment -->
   <string name="fragment_sound_text_description">按“+”添加声音</string>
   <string name="sound_select_source">选择一个声音</string>
+  <string name="default_sound_name">声音</string>
   <!--  -->
   <!-- NfcTagListFragment -->
   <string name="fragment_nfctag_text_description">Scan NFC tags to add them</string>
@@ -557,8 +565,8 @@
   <string name="global_lists_headline">Lists for all objects</string>
   <string name="local_lists_headline">Lists for this object only</string>
   <!-- NewDataDialog -->
-  <string name="new_data_for_all_sprites">For all Objects</string>
-  <string name="new_data_for_this_sprite_only">For this Object only</string>
+  <string name="new_data_for_all_sprites">For all objects</string>
+  <string name="new_data_for_this_sprite_only">For this object only</string>
   <!-- Backpack -->
   <string name="backpack_title">你的背包</string>
   <string name="pack">Pack</string>
@@ -703,10 +711,6 @@
   <!--  -->
   <!-- NetworkAlertDialog -->
   <string name="error_no_network_title">没有网络</string>
-  <string name="error_no_network">您需要网络连接才能使用此程序。请在设置中启用移动网络或无线网络。</string>
-  <plurals name="bricks_using_network_headline">
-    <item quantity="other">The following bricks need a network connection:</item>
-  </plurals>
   <!-- UploadProjectDialog -->
   <string name="error_no_program_name_entered">请输入程序名称。</string>
   <string name="upload_button">上传</string>
@@ -761,20 +765,26 @@
   <string name="error_facebook_session_expired">Session expired, please log in.</string>
   <string name="sign_in_with_facebook">Sign in with Facebook</string>
   <string name="sign_in_with_google">Sign in with Google</string>
+  <string name="error_register_empty_username">Empty username</string>
+  <string name="error_register_username_as_email">E-mail address can not be used as username</string>
+  <string name="error_register_invalid_username">Username should only contain letters (a–z), numbers (0–9),
+        dashes (-), underscores (_), and periods (.).</string>
+  <string name="error_register_username_start_with">Username should not start with dashes (-), underscores (_), or
+        periods (.).</string>
+  <string name="error_register_invalid_email_format">Invalid email format</string>
+  <string name="error_register_empty_password">Password field is empty</string>
+  <string name="error_register_password_at_least_6_characters">Password should be at least 6 characters</string>
+  <string name="error_register_passwords_mismatch">密码不匹配</string>
+  <string name="error_register_empty_confirm_password">Confirm password field is empty</string>
+  <string name="error_register_username_already_exists">Username already exists</string>
+  <string name="error_register_email_exists">Email address already exists</string>
   <!--  -->
   <!-- OverwriteRenameDialog Strings -->
-  <string name="overwrite_text">A program with this name already exists. Please choose a different name!</string>
-  <string name="overwrite_replace">Replace Program</string>
+  <string name="overwrite_title">Project exists.</string>
+  <string name="overwrite_text">A project with this name already exists.</string>
+  <string name="overwrite_replace">Overwrite project</string>
   <string name="overwrite_rename">重命名已下载的程序</string>
   <!--  -->
-  <!-- OverwriteRenameMediaDialog -->
-  <string name="overwrite_replace_look">Replace Look</string>
-  <string name="overwrite_rename_look">重命名已下载的外观</string>
-  <string name="overwrite_replace_sound">Replace sound</string>
-  <string name="overwrite_rename_sound">重命名已下载的声音</string>
-  <string name="overwrite_replace_default">Replace Media</string>
-  <string name="overwrite_rename_default">重命名现有的媒体</string>
-  <!-- -->
   <!-- Music activity -->
   <string name="pocket_music_default_project_name">Untitled Song</string>
   <string name="pocket_music_default_track_name">Track 1</string>
@@ -812,12 +822,10 @@
   <string name="stage_dialog_screenshot">预览</string>
   <!--  -->
   <!-- Broadcast spinner -->
-  <string name="new_broadcast_message">新建&#8230;</string>
   <string name="dialog_new_broadcast_message_title">新消息</string>
   <string name="dialog_new_broadcast_message_name">消息：</string>
   <!--  -->
   <!-- NFC spinner -->
-  <string name="new_nfc_tag">新建&#8230;</string>
   <string name="brick_when_nfc_default_all">全部</string>
   <!-- -->
   <!-- Brick categories -->
@@ -920,12 +928,12 @@
   <string name="brick_vibration">震动，持续</string>
   <string name="brick_ask_label">询问</string>
   <string name="brick_ask_store">并将输入的答案存储于</string>
-  <string name="brick_ask_default_question">“你叫什么名字？”</string>
+  <string name="brick_ask_default_question">What\'s your name?</string>
   <string name="brick_ask_dialog_hint">"输入您的答案："</string>
   <string name="brick_ask_dialog_submit">提交答案</string>
   <string name="brick_ask_speech_label">询问</string>
   <string name="brick_ask_speech_store">并将输入的答案存储于</string>
-  <string name="brick_ask_speech_default_question">“你叫什么名字？”</string>
+  <string name="brick_ask_speech_default_question">What\'s your name?</string>
   <!--  -->
   <!-- Pen bricks -->
   <string name="brick_pen_down">落笔</string>
@@ -942,7 +950,7 @@
   <string name="brick_set_volume_to">将音量设为</string>
   <string name="brick_change_volume_by">将音量增加</string>
   <string name="brick_speak">读出</string>
-  <string name="brick_speak_default_value">"您好！"</string>
+  <string name="brick_speak_default_value">您好！</string>
   <string name="brick_speak_and_wait">并等待</string>
   <!--  -->
   <!-- Control bricks -->
@@ -990,10 +998,9 @@
   <string name="brick_if_end">如果结束</string>
   <string name="brick_set_variable">设置变量</string>
   <string name="brick_change_variable">增加变量</string>
-  <string name="brick_variable_spinner_create_new_variable">新建&#8230;</string>
-  <string name="brick_note_default_value">"在这里添加注释…"</string>
-  <string name="brick_think_bubble_default_value">"嗯……！"</string>
-  <string name="brick_say_bubble_default_value">"您好！"</string>
+  <string name="brick_note_default_value">在这里添加注释&#8230;</string>
+  <string name="brick_think_bubble_default_value">嗯……！</string>
+  <string name="brick_say_bubble_default_value">您好！</string>
   <string name="brick_broadcast_default_value">"新消息"</string>
   <string name="brick_add_item_to_userlist_add">添加</string>
   <string name="brick_add_item_to_userlist">到列表中</string>
@@ -1013,9 +1020,9 @@
   <string name="default_project_cloud_name">云</string>
   <string name="default_project_cloud_sprite_name_1">云1</string>
   <string name="default_project_cloud_sprite_name_2">云2</string>
-  <string name="default_project_sprites_animal_name">鸟</string>
-  <string name="default_project_sprites_animal_wings_up">鸟的翅膀向上</string>
-  <string name="default_project_sprites_animal_wings_down">鸟的翅膀向下</string>
+  <string name="default_project_sprites_animal_name">Animal</string>
+  <string name="default_project_sprites_animal_wings_up">Wings up</string>
+  <string name="default_project_sprites_animal_wings_down">Wings down</string>
   <string name="default_project_sprites_tweet_1">鸟鸣1</string>
   <string name="default_project_sprites_tweet_2">鸟鸣2</string>
   <!-- Default ChromeCast Values -->
@@ -1271,8 +1278,6 @@
   <string name="brick_drone_emergency">AR2.0无人机紧急情况</string>
   <string name="brick_drone_turn_right">右转AR2.0无人机</string>
   <string name="brick_drone_turn_left">左转AR2.0无人机</string>
-  <string name="brick_drone_turn_left_magneto">左转AR2.0无人机[角度]</string>
-  <string name="brick_drone_turn_right_magneto">右转AR2.0无人机[角度]</string>
   <string name="brick_drone_set_config">设置AR2.0无人机配置</string>
   <string name="brick_drone_switch_camera">开关AR2.0无人机摄像头</string>
   <string name="brick_drone_set_altitude">高度限制 </string>
@@ -1652,6 +1657,7 @@
   <!-- -->
   <!-- User Bricks strings -->
   <string name="define">定义</string>
+  <string name="new_user_brick_variable">变量</string>
   <!--  -->
   <!-- Camera related strings -->
   <string name="brick_video">设置相机状态</string>

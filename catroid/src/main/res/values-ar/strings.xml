@@ -29,6 +29,7 @@
   <string name="settings">إعدادات</string>
   <string name="redo">الإعادة</string>
   <string name="undo">التراجع عن</string>
+  <string name="new_option">جديد&#8230;</string>
   <string name="confirm">تأكيد</string>
   <string name="cancel">إلغاء</string>
   <string name="next">التالي</string>
@@ -54,7 +55,6 @@
   <string name="loading_check_facebook_data">استرداد بيانات فيس بوك&#8230;</string>
   <string name="loading_check_oauth_token">التحقق من بيانات تسجيل الدخول&#8230;</string>
   <string name="loading_check_facebook_token_validity">التحقق من بيانات الفيس بوك&#8230;</string>
-  <string name="loading_check_oauth_username">التحقق ما إذا كان البريد الإلكتروني متوفراً&#8230;</string>
   <string name="loading_facebook_exchange_token">تبادل بيانات الفيس بوك&#8230;</string>
   <string name="loading_facebook_login">اكتمال تسجيل الدخول عبر فيسبوك على سيرفرنا&#8230;</string>
   <string name="loading_google_exchange_code">تبادل بيانات جوجل بلس&#8230;</string>
@@ -281,6 +281,7 @@
   <!-- Dialog Errors -->
   <string name="name_already_exists">هذا الاسم مُستخدم بالفعل. يرجى اختيار اسم آخر.</string>
   <string name="name_consists_of_spaces_only">يمكنك فقط وضع مسافات في حقل النص، الرجاء إدخال اسم         باستخدام أحرف, أرقام أو أحرف خاصة أخرى.</string>
+  <string name="name_empty">Please enter a text</string>
   <!-- Recycler View -->
   <string name="am_empty_list">لا توجد أي عناصر في القائمة بعد. من فضلك أضف بعض العناصر أولاً.</string>
   <string name="am_backpack">حزمة</string>
@@ -374,202 +375,210 @@
     <item quantity="other">حذف %d مشاهد</item>
   </plurals>
   <plurals name="am_rename_scenes_title">
-    <item quantity="zero">Rename %d Scenes</item>
-    <item quantity="one">Rename %d Scene</item>
-    <item quantity="two">Rename %d Scenes</item>
-    <item quantity="few">Rename %d Scenes</item>
-    <item quantity="many">Rename %d Scenes</item>
-    <item quantity="other">Rename %d Scenes</item>
+    <item quantity="zero">إعادة تسمية %d مشهد</item>
+    <item quantity="one">إعادة تسمية %d مشهد</item>
+    <item quantity="two">إعادة تسمية %d مشاهد</item>
+    <item quantity="few">إعادة تسمية %d مشاهد</item>
+    <item quantity="many">إعادة تسمية %d مشاهد</item>
+    <item quantity="other">إعادة تسمية %d مشاهد</item>
   </plurals>
   <!-- Sprite Action Mode Titles -->
   <plurals name="am_pack_sprites_title">
-    <item quantity="zero">Pack %d Objects</item>
-    <item quantity="one">Pack %d Object</item>
-    <item quantity="two">Pack %d Objects</item>
-    <item quantity="few">Pack %d Objects</item>
-    <item quantity="many">Pack %d Objects</item>
-    <item quantity="other">Pack %d Objects</item>
+    <item quantity="zero">حزم %d مشروع</item>
+    <item quantity="one">حزم %d مشروع</item>
+    <item quantity="two">حزم %d مشاريع</item>
+    <item quantity="few">حزم %d مشاريع</item>
+    <item quantity="many">حزم %d مشاريع</item>
+    <item quantity="other">حزم %d مشاريع</item>
   </plurals>
   <plurals name="am_unpack_sprites_title">
-    <item quantity="zero">Unpack %d Objects</item>
-    <item quantity="one">Unpack %d Object</item>
-    <item quantity="two">Unpack %d Objects</item>
-    <item quantity="few">Unpack %d Objects</item>
-    <item quantity="many">Unpack %d Objects</item>
-    <item quantity="other">Unpack %d Objects</item>
+    <item quantity="zero">فك حزم %d عنصر</item>
+    <item quantity="one">فك حزم %d عنصر</item>
+    <item quantity="two">فك حزم %d عناصر</item>
+    <item quantity="few">فك حزم %d عناصر</item>
+    <item quantity="many">فك حزم %d عناصر</item>
+    <item quantity="other">فك حزم %d عناصر</item>
   </plurals>
   <plurals name="am_copy_sprites_title">
-    <item quantity="zero">Copy %d Objects</item>
-    <item quantity="one">Copy %d Object</item>
-    <item quantity="two">Copy %d Objects</item>
-    <item quantity="few">Copy %d Objects</item>
-    <item quantity="many">Copy %d Objects</item>
-    <item quantity="other">Copy %d Objects</item>
+    <item quantity="zero">نسخ %d عنصر</item>
+    <item quantity="one">نسخ %d عنصر</item>
+    <item quantity="two">نسخ %d عناصر</item>
+    <item quantity="few">نسخ %d عناصر</item>
+    <item quantity="many">نسخ %d عناصر</item>
+    <item quantity="other">نسخ %d عناصر</item>
   </plurals>
   <plurals name="am_delete_sprites_title">
-    <item quantity="zero">Delete %d Objects</item>
-    <item quantity="one">Delete %d Object</item>
-    <item quantity="two">Delete %d Objects</item>
-    <item quantity="few">Delete %d Objects</item>
-    <item quantity="many">Delete %d Objects</item>
-    <item quantity="other">Delete %d Objects</item>
+    <item quantity="zero">حذف %d عنصر</item>
+    <item quantity="one">حذف %d عنصر</item>
+    <item quantity="two">حذف %d عناصر</item>
+    <item quantity="few">حذف %d عناصر</item>
+    <item quantity="many">حذف %d عناصر</item>
+    <item quantity="other">حذف %d عناصر</item>
   </plurals>
   <plurals name="am_rename_sprites_title">
-    <item quantity="zero">Rename %d Objects</item>
-    <item quantity="one">Rename %d Object</item>
-    <item quantity="two">Rename %d Objects</item>
-    <item quantity="few">Rename %d Objects</item>
-    <item quantity="many">Rename %d Objects</item>
-    <item quantity="other">Rename %d Objects</item>
+    <item quantity="zero">إعادة تسمية %d عنصر</item>
+    <item quantity="one">إعادة تسمية %d عنصر</item>
+    <item quantity="two">إعادة تسمية %d عناصر</item>
+    <item quantity="few">إعادة تسمية %d عناصر</item>
+    <item quantity="many">إعادة تسمية %d عناصر</item>
+    <item quantity="other">إعادة تسمية %d عناصر</item>
   </plurals>
   <!-- Look Action Mode Titles -->
   <plurals name="am_pack_looks_title">
-    <item quantity="zero">Pack %d Looks</item>
-    <item quantity="one">Pack %d Look</item>
-    <item quantity="two">Pack %d Looks</item>
-    <item quantity="few">Pack %d Looks</item>
-    <item quantity="many">Pack %d Looks</item>
-    <item quantity="other">Pack %d Looks</item>
+    <item quantity="zero">حزم %d مظهر</item>
+    <item quantity="one">حزم %d مظهر</item>
+    <item quantity="two">حزم %d مظاهر</item>
+    <item quantity="few">حزم %d مظاهر</item>
+    <item quantity="many">حزم %d مظاهر</item>
+    <item quantity="other">حزم %d مظاهر</item>
   </plurals>
   <plurals name="am_unpack_looks_title">
-    <item quantity="zero">Unpack %d Looks</item>
-    <item quantity="one">Unpack %d Look</item>
-    <item quantity="two">Unpack %d Looks</item>
-    <item quantity="few">Unpack %d Looks</item>
-    <item quantity="many">Unpack %d Looks</item>
-    <item quantity="other">Unpack %d Looks</item>
+    <item quantity="zero">فك حزم %d مظهر</item>
+    <item quantity="one">فك حزم %d مظهر</item>
+    <item quantity="two">فك حزم %d مظاهر</item>
+    <item quantity="few">فك حزم %d مظاهر</item>
+    <item quantity="many">فك حزم %d مظاهر</item>
+    <item quantity="other">فك حزم %d مظاهر</item>
   </plurals>
   <plurals name="am_copy_looks_title">
-    <item quantity="zero">Copy %d Looks</item>
-    <item quantity="one">Copy %d Look</item>
-    <item quantity="two">Copy %d Looks</item>
-    <item quantity="few">Copy %d Looks</item>
-    <item quantity="many">Copy %d Looks</item>
-    <item quantity="other">Copy %d Looks</item>
+    <item quantity="zero">نسخ %d مظهر</item>
+    <item quantity="one">نسخ %d مظهر</item>
+    <item quantity="two">نسخ %d مظاهر</item>
+    <item quantity="few">نسخ %d مظاهر</item>
+    <item quantity="many">نسخ %d مظاهر</item>
+    <item quantity="other">نسخ %d مظاهر</item>
   </plurals>
   <plurals name="am_delete_looks_title">
-    <item quantity="zero">Delete %d Looks</item>
-    <item quantity="one">Delete %d Look</item>
-    <item quantity="two">Delete %d Looks</item>
-    <item quantity="few">Delete %d Looks</item>
-    <item quantity="many">Delete %d Looks</item>
-    <item quantity="other">Delete %d Looks</item>
+    <item quantity="zero">حذف %d مظهر</item>
+    <item quantity="one">حذف %d مظهر</item>
+    <item quantity="two">حذف %d مظاهر</item>
+    <item quantity="few">حذف %d مظاهر</item>
+    <item quantity="many">حذف %d مظاهر</item>
+    <item quantity="other">حذف %d مظاهر</item>
   </plurals>
   <plurals name="am_rename_looks_title">
-    <item quantity="zero">Rename %d Looks</item>
-    <item quantity="one">Rename %d Look</item>
-    <item quantity="two">Rename %d Looks</item>
-    <item quantity="few">Rename %d Looks</item>
-    <item quantity="many">Rename %d Looks</item>
-    <item quantity="other">Rename %d Looks</item>
+    <item quantity="zero">إعادة تسمية %d مظهر</item>
+    <item quantity="one">إعادة تسمية %d مظهر</item>
+    <item quantity="two">إعادة تسمية %d مظاهر</item>
+    <item quantity="few">إعادة تسمية %d مظاهر</item>
+    <item quantity="many">إعادة تسمية %d مظاهر</item>
+    <item quantity="other">إعادة تسمية %d مظاهر</item>
   </plurals>
   <!-- Sound Action Mode Titles -->
   <plurals name="am_pack_sounds_title">
-    <item quantity="zero">Pack %d Sounds</item>
-    <item quantity="one">Pack %d Sound</item>
-    <item quantity="two">Pack %d Sounds</item>
-    <item quantity="few">Pack %d Sounds</item>
-    <item quantity="many">Pack %d Sounds</item>
-    <item quantity="other">Pack %d Sounds</item>
+    <item quantity="zero">حزم %d ملف صوتي</item>
+    <item quantity="one">حزم %d ملف صوتي</item>
+    <item quantity="two">حزم %d ملفات صوتية</item>
+    <item quantity="few">حزم %d ملفات صوتية</item>
+    <item quantity="many">حزم %d ملفات صوتية</item>
+    <item quantity="other">حزم %d ملفات صوتية</item>
   </plurals>
   <plurals name="am_unpack_sounds_title">
-    <item quantity="zero">Unpack %d Sounds</item>
-    <item quantity="one">Unpack %d Sound</item>
-    <item quantity="two">Unpack %d Sounds</item>
-    <item quantity="few">Unpack %d Sounds</item>
-    <item quantity="many">Unpack %d Sounds</item>
-    <item quantity="other">Unpack %d Sounds</item>
+    <item quantity="zero">فك حزم %d ملف صوتي</item>
+    <item quantity="one">فك حزم %d ملف صوتي</item>
+    <item quantity="two">فك حزم %d ملفات صوتية</item>
+    <item quantity="few">فك حزم %d ملفات صوتية</item>
+    <item quantity="many">فك حزم %d ملفات صوتية</item>
+    <item quantity="other">فك حزم %d ملفات صوتية</item>
   </plurals>
   <plurals name="am_copy_sounds_title">
-    <item quantity="zero">Copy %d Sounds</item>
-    <item quantity="one">Copy %d Sound</item>
-    <item quantity="two">Copy %d Sounds</item>
-    <item quantity="few">Copy %d Sounds</item>
-    <item quantity="many">Copy %d Sounds</item>
-    <item quantity="other">Copy %d Sounds</item>
+    <item quantity="zero">نسخ %d ملف صوتي</item>
+    <item quantity="one">نسخ %d ملف صوتي</item>
+    <item quantity="two">نسخ %d ملفات صوتية</item>
+    <item quantity="few">نسخ %d ملفات صوتية</item>
+    <item quantity="many">نسخ %d ملفات صوتية</item>
+    <item quantity="other">نسخ %d ملفات صوتية</item>
   </plurals>
   <plurals name="am_delete_sounds_title">
-    <item quantity="zero">Delete %d Sounds</item>
-    <item quantity="one">Delete %d Sound</item>
-    <item quantity="two">Delete %d Sounds</item>
-    <item quantity="few">Delete %d Sounds</item>
-    <item quantity="many">Delete %d Sounds</item>
-    <item quantity="other">Delete %d Sounds</item>
+    <item quantity="zero">حذف %d ملف صوتي</item>
+    <item quantity="one">حذف %d ملف صوتي</item>
+    <item quantity="two">حذف %d ملفات صوتية</item>
+    <item quantity="few">حذف %d ملفات صوتية</item>
+    <item quantity="many">حذف %d ملفات صوتية</item>
+    <item quantity="other">حذف %d ملفات صوتية</item>
   </plurals>
   <plurals name="am_rename_sounds_title">
-    <item quantity="zero">Rename %d Sounds</item>
-    <item quantity="one">Rename %d Sound</item>
-    <item quantity="two">Rename %d Sounds</item>
-    <item quantity="few">Rename %d Sounds</item>
-    <item quantity="many">Rename %d Sounds</item>
-    <item quantity="other">Rename %d Sounds</item>
+    <item quantity="zero">إعادة تسمية %d ملف صوتي</item>
+    <item quantity="one">إعادة تسمية %d ملف صوتي</item>
+    <item quantity="two">إعادة تسمية %d ملفات صوتية</item>
+    <item quantity="few">إعادة تسمية %d ملفات صوتية</item>
+    <item quantity="many">إعادة تسمية %d ملفات صوتية</item>
+    <item quantity="other">إعادة تسمية %d ملفات صوتية</item>
   </plurals>
   <!-- NFC Tag Action Mode Titles -->
   <plurals name="am_copy_nfc_tags_title">
-    <item quantity="zero">Copy %d NFC Tags</item>
-    <item quantity="one">Copy %d NFC Tag</item>
-    <item quantity="two">Copy %d NFC Tags</item>
-    <item quantity="few">Copy %d NFC Tags</item>
-    <item quantity="many">Copy %d NFC Tags</item>
-    <item quantity="other">Copy %d NFC Tags</item>
+    <item quantity="zero">نسخ %d وسم NFC</item>
+    <item quantity="one">نسخ %d وسم NFC</item>
+    <item quantity="two">نسخ %d وسوم NFC</item>
+    <item quantity="few">نسخ %d وسوم NFC</item>
+    <item quantity="many">نسخ %d وسوم NFC</item>
+    <item quantity="other">نسخ %d وسوم NFC</item>
   </plurals>
   <plurals name="am_delete_nfc_tags_title">
-    <item quantity="zero">Delete %d NFC Tags</item>
-    <item quantity="one">Delete %d NFC Tag</item>
-    <item quantity="two">Delete %d NFC Tags</item>
-    <item quantity="few">Delete %d NFC Tags</item>
-    <item quantity="many">Delete %d NFC Tags</item>
-    <item quantity="other">Delete %d NFC Tags</item>
+    <item quantity="zero">حذف %d وسم NFC</item>
+    <item quantity="one">حذف %d وسم NFC</item>
+    <item quantity="two">حذف %d وسوم NFC</item>
+    <item quantity="few">حذف %d وسوم NFC</item>
+    <item quantity="many">حذف %d وسوم NFC</item>
+    <item quantity="other">حذف %d وسوم NFC</item>
   </plurals>
   <plurals name="am_rename_nfc_tags_title">
-    <item quantity="zero">Rename %d NFC Tags</item>
-    <item quantity="one">Rename %d NFC Tag</item>
-    <item quantity="two">Rename %d NFC Tags</item>
-    <item quantity="few">Rename %d NFC Tags</item>
-    <item quantity="many">Rename %d NFC Tags</item>
-    <item quantity="other">Rename %d NFC Tags</item>
+    <item quantity="zero">إعادة تسمية %d وسم NFC</item>
+    <item quantity="one">إعادة تسمية %d وسم NFC</item>
+    <item quantity="two">إعادة تسمية %d وسوم NFC</item>
+    <item quantity="few">إعادة تسمية %d وسوم NFC</item>
+    <item quantity="many">إعادة تسمية %d وسوم NFC</item>
+    <item quantity="other">إعادة تسمية %d وسوم NFC</item>
   </plurals>
   <!-- Script Action Mode Titles -->
   <plurals name="am_pack_scripts_title">
-    <item quantity="zero">Pack %d bricks</item>
-    <item quantity="one">Pack %d brick</item>
-    <item quantity="two">Pack %d bricks</item>
-    <item quantity="few">Pack %d bricks</item>
-    <item quantity="many">Pack %d bricks</item>
-    <item quantity="other">Pack %d bricks</item>
+    <item quantity="zero">حزم %d لبّنة برمجية</item>
+    <item quantity="one">حزم %d لبّنة برمجية</item>
+    <item quantity="two">حزم %d لبّنات برمجية</item>
+    <item quantity="few">حزم %d لبّنات برمجية</item>
+    <item quantity="many">حزم %d لبّنات برمجية</item>
+    <item quantity="other">حزم %d لبّنات برمجية</item>
   </plurals>
   <plurals name="am_unpack_scripts_title">
-    <item quantity="zero">Unpack %d Scripts</item>
-    <item quantity="one">Unpack %d Script</item>
-    <item quantity="two">Unpack %d Scripts</item>
-    <item quantity="few">Unpack %d Scripts</item>
-    <item quantity="many">Unpack %d Scripts</item>
-    <item quantity="other">Unpack %d Scripts</item>
+    <item quantity="zero">فك حزم %d نص برمجي</item>
+    <item quantity="one">فك حزم %d نص برمجي</item>
+    <item quantity="two">فك حزم %d نصوص برمجية</item>
+    <item quantity="few">فك حزم %d نصوص برمجية</item>
+    <item quantity="many">فك حزم %d نصوص برمجية</item>
+    <item quantity="other">فك حزم %d نصوص برمجية</item>
   </plurals>
   <plurals name="am_copy_scripts_title">
-    <item quantity="zero">Copy %d bricks</item>
-    <item quantity="one">Copy %d brick</item>
-    <item quantity="two">Copy %d bricks</item>
-    <item quantity="few">Copy %d bricks</item>
-    <item quantity="many">Copy %d bricks</item>
-    <item quantity="other">Copy %d bricks</item>
+    <item quantity="zero">نسخ %d لبّنة برمجية</item>
+    <item quantity="one">نسخ %d لبّنة برمجية</item>
+    <item quantity="two">نسخ %d لبّنات برمجية</item>
+    <item quantity="few">نسخ %d لبّنات برمجية</item>
+    <item quantity="many">نسخ %d لبّنات برمجية</item>
+    <item quantity="other">نسخ %d لبّنات برمجية</item>
+  </plurals>
+  <plurals name="am_delete_bricks_title">
+    <item quantity="zero">Delete %d Bricks</item>
+    <item quantity="one">Delete %d Brick</item>
+    <item quantity="two">Delete %d Bricks</item>
+    <item quantity="few">Delete %d Bricks</item>
+    <item quantity="many">Delete %d Bricks</item>
+    <item quantity="other">Delete %d Bricks</item>
   </plurals>
   <plurals name="am_delete_scripts_title">
-    <item quantity="zero">Delete %d Scripts</item>
-    <item quantity="one">Delete %d Script</item>
-    <item quantity="two">Delete %d Scripts</item>
-    <item quantity="few">Delete %d Scripts</item>
-    <item quantity="many">Delete %d Scripts</item>
-    <item quantity="other">Delete %d Scripts</item>
+    <item quantity="zero">حذف %d نص برمجي</item>
+    <item quantity="one">حذف %d نص برمجي</item>
+    <item quantity="two">حذف %d نصوص برمجية</item>
+    <item quantity="few">حذف %d نصوص برمجية</item>
+    <item quantity="many">حذف %d نصوص برمجية</item>
+    <item quantity="other">حذف %d نصوص برمجية</item>
   </plurals>
   <!-- Data Item Action Mode Titles -->
   <plurals name="am_delete_user_data_items_title">
-    <item quantity="zero">Delete %d Data Items</item>
-    <item quantity="one">Delete %d Data Item</item>
-    <item quantity="two">Delete %d Data Items</item>
-    <item quantity="few">Delete %d Data Items</item>
-    <item quantity="many">Delete %d Data Items</item>
-    <item quantity="other">Delete %d Data Items</item>
+    <item quantity="zero">حذف %d عنصر بيانات</item>
+    <item quantity="one">حذف %d عنصر بيانات</item>
+    <item quantity="two">حذف %d عناصر بيانات</item>
+    <item quantity="few">حذف %d عناصر بيانات</item>
+    <item quantity="many">حذف %d عناصر بيانات</item>
+    <item quantity="other">حذف %d عناصر بيانات</item>
   </plurals>
   <!-- New Dialog Titles -->
   <string name="new_scene_dialog">مشهد جديد</string>
@@ -639,22 +648,23 @@
     <item quantity="other">هل تريد حذف هذه اللّبنات البرمجية؟</item>
   </plurals>
   <!-- Dialog Labels -->
-  <string name="project_name_label">Program Name</string>
-  <string name="scene_name">Scene Name</string>
-  <string name="sprite_name_label">Object Name</string>
-  <string name="sprite_group_name_label">Group Name</string>
-  <string name="script_group_label">Script Group Name</string>
-  <string name="look_name_label">Look Name</string>
-  <string name="sound_name_label">Sound Name</string>
+  <string name="project_name_label">اسم البرنامج</string>
+  <string name="scene_name_label">اسم المشهد</string>
+  <string name="sprite_name_label">اسم العنصر</string>
+  <string name="sprite_group_name_label">اسم المجموعة</string>
+  <string name="script_group_label">اسم مجموعة النص البرمجي</string>
+  <string name="look_name_label">اسم المشهد</string>
+  <string name="sound_name_label">اسم ملف الصوت</string>
+  <string name="nfc_tag_name_label">NFC Tag Name</string>
   <string name="string_label">النص</string>
   <string name="data_label">الإسم</string>
   <!-- Details -->
-  <string name="project_details">Last access: %s, Size: %s</string>
-  <string name="scene_details">Objects: %d, Looks: %d, Sounds: %d</string>
-  <string name="sprite_details">Bricks: %d, Looks: %d, Sounds: %d</string>
-  <string name="look_details">Measure: %s, Size: %s</string>
-  <string name="sound_duration">Duration: %s</string>
-  <string name="sound_details">Duration: %s, Size: %s</string>
+  <string name="project_details">آخر وصول: %s، الحجم: %s</string>
+  <string name="scene_details">العناصر: %d، المظاهر: %d, الملفات الصوتية: %d</string>
+  <string name="sprite_details">لبّنات برمجية:%d, مظاهر:%d, ملفات صوتية:%d</string>
+  <string name="look_details">القياس: %s, الحجم:%s</string>
+  <string name="sound_duration">المدة: %s</string>
+  <string name="sound_details">المدة: %s، الحجم: %s</string>
   <!--  -->
   <!-- Rename Dialog Titles -->
   <string name="rename_project">إعادة تسمية البرنامج</string>
@@ -843,12 +853,12 @@
     <item quantity="other">تم حذف %d كائنات!</item>
   </plurals>
   <plurals name="deleted_Items">
-    <item quantity="zero">Deleted %d Items!</item>
-    <item quantity="one">Deleted %d Item!</item>
-    <item quantity="two">Deleted %d Items!</item>
-    <item quantity="few">Deleted %d Items!</item>
-    <item quantity="many">Deleted %d Items!</item>
-    <item quantity="other">Deleted %d Items!</item>
+    <item quantity="zero">تم حدف %d عنصر!</item>
+    <item quantity="one">تم حدف %d عنصر!</item>
+    <item quantity="two">تم حدف %d عناصر!</item>
+    <item quantity="few">تم حدف %d عناصر!</item>
+    <item quantity="many">تم حدف %d عناصر!</item>
+    <item quantity="other">تم حدف %d عناصر!</item>
   </plurals>
   <!--  -->
   <!-- ProjectListActivity and ProjectListFragment -->
@@ -862,10 +872,11 @@
   <!-- ScriptListFragment -->
   <string name="fragment_script_text_description">انقر فوق \"+\" لإضافة نصوص برمجية</string>
   <!--  -->
+  <!-- SpriteListFragment -->
+  <string name="fragment_sprite_text_description">Tap \"+\" to add objects</string>
+  <!--  -->
   <!-- LookListFragment -->
   <string name="fragment_look_text_description">انقر فوق \"+\" لإضافة منظر</string>
-  <string name="pocket_paint_not_installed_title">لم يتم تثبيت بوكت بينت!</string>
-  <string name="pocket_paint_not_installed_message">Please install Pocket Paint.</string>
   <string name="default_look_name">منظر</string>
   <string name="select_look_from_gallery">قم بإختيارالصورة</string>
   <string name="select_look_from_camera">قم بتحديد الصورة</string>
@@ -873,10 +884,11 @@
   <!-- SoundListFragment -->
   <string name="fragment_sound_text_description">انقر فوق \"+\" لإضافة الأصوات</string>
   <string name="sound_select_source">قم بتحديد ملف الصوت</string>
+  <string name="default_sound_name">الصوت</string>
   <!--  -->
   <!-- NfcTagListFragment -->
-  <string name="fragment_nfctag_text_description">Scan NFC tags to add them</string>
-  <string name="ndef_record_label">as record type</string>
+  <string name="fragment_nfctag_text_description">مسح وسوم NFC لإضافتهم</string>
+  <string name="ndef_record_label">كـ نمط سجل</string>
   <string name="brick_set_nfc_tag">تعيين النقطة التفاعلية التالية لـ NFC الى</string>
   <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
   <string name="default_tag_name">وسم Nfc</string>
@@ -890,13 +902,13 @@
   <string name="tnf_well_known_mailto">البريد الإلكتروني</string>
   <!--  -->
   <!-- DataListFragment -->
-  <string name="global_vars_headline">Variables for all objects</string>
-  <string name="local_vars_headline">Variables for this object only</string>
-  <string name="global_lists_headline">Lists for all objects</string>
-  <string name="local_lists_headline">Lists for this object only</string>
+  <string name="global_vars_headline">متغيرات لكل الكائنات</string>
+  <string name="local_vars_headline">متغيرات لهذا الكائن فقط</string>
+  <string name="global_lists_headline">قوائم لكل المتغيرات</string>
+  <string name="local_lists_headline">قوائم لهذا الكائن فقط</string>
   <!-- NewDataDialog -->
-  <string name="new_data_for_all_sprites">For all Objects</string>
-  <string name="new_data_for_this_sprite_only">For this Object only</string>
+  <string name="new_data_for_all_sprites">لكل الكائنات</string>
+  <string name="new_data_for_this_sprite_only">لهذا الكائن فقط</string>
   <!-- Backpack -->
   <string name="backpack_title">حقيبة الظهر الخاصة بك</string>
   <string name="pack">حزمة</string>
@@ -915,7 +927,7 @@
   <string name="new_project_default_drone">إنشاء برنامح مثال على \"طائرة بدون طيار\"</string>
   <string name="new_project_default_jumping_sumo">إنشاء برنامج مثال على Jumping Sumo</string>
   <string name="project_orientation_title">الإتجاه:</string>
-  <string name="project_select_screen_title">Screen:</string>
+  <string name="project_select_screen_title">الشاشة:</string>
   <!--  -->
   <!-- NewSpriteDialog -->
   <string name="new_sprite_dialog_title">كائن جديد</string>
@@ -934,8 +946,8 @@
   <string name="add_sound_choose_file">حدد الملف</string>
   <string name="add_sound_music">مُلحن الموسيقى</string>
   <!-- Rating Dialog -->
-  <string name="rating_dialog_title">Rate App</string>
-  <string name="rating_google_play_dialog_text">If you enjoy this app, please rate us on Google Play.</string>
+  <string name="rating_dialog_title">قم بتقييم البوكت كوود</string>
+  <string name="rating_google_play_dialog_text">في حال تستمتع بـهذا التطبيق، يرجى تقييمنا على متجر الجوجل بلي.</string>
   <string name="rating_dialog_rate_now">الآن</string>
   <string name="rating_dialog_rate_later">في وقت لاحق</string>
   <string name="rating_dialog_rate_never">أبداً</string>
@@ -1041,21 +1053,12 @@
   <!--  -->
   <!-- NetworkAlertDialog -->
   <string name="error_no_network_title">لا يوجد اتصال بالشبكة</string>
-  <string name="error_no_network">انت بحاجة الى اتصال نشط بالإنترنت لاستخدام \"بوكت كوود\". من فضلك قم بتشغيل بيانات الهاتف او قم بالاتصال بشبكة لاسلكية في الاعدادات.</string>
-  <plurals name="bricks_using_network_headline">
-    <item quantity="zero">The following bricks need a network connection:</item>
-    <item quantity="one">The following brick needs a network connection:</item>
-    <item quantity="two">The following bricks need a network connection:</item>
-    <item quantity="few">The following bricks need a network connection:</item>
-    <item quantity="many">The following bricks need a network connection:</item>
-    <item quantity="other">The following bricks need a network connection:</item>
-  </plurals>
   <!-- UploadProjectDialog -->
   <string name="error_no_program_name_entered">الرجاء إدخال اسم البرنامج.</string>
   <string name="upload_button">تحميل</string>
   <string name="upload_project_dialog_title">تحميل البرنامج</string>
   <string name="upload_description">الوصف:</string>
-  <string name="upload_tag_dialog_title">Please choose up to three categories</string>
+  <string name="upload_tag_dialog_title">اختر كحد أقصى ثلاث فئات</string>
   <!-- SoundRecorderActivity -->
   <string name="soundrecorder_name">مسجل البوكت كوود</string>
   <string name="soundrecorder_error">لقد فشل في تسجيل الصوت</string>
@@ -1104,29 +1107,35 @@
   <string name="error_facebook_session_expired">Session expired, please log in.</string>
   <string name="sign_in_with_facebook">Sign in with Facebook</string>
   <string name="sign_in_with_google">Sign in with Google</string>
+  <string name="error_register_empty_username">Empty username</string>
+  <string name="error_register_username_as_email">E-mail address can not be used as username</string>
+  <string name="error_register_invalid_username">Username should only contain letters (a–z), numbers (0–9),
+        dashes (-), underscores (_), and periods (.).</string>
+  <string name="error_register_username_start_with">Username should not start with dashes (-), underscores (_), or
+        periods (.).</string>
+  <string name="error_register_invalid_email_format">Invalid email format</string>
+  <string name="error_register_empty_password">Password field is empty</string>
+  <string name="error_register_password_at_least_6_characters">Password should be at least 6 characters</string>
+  <string name="error_register_passwords_mismatch">كلمات المرور لا تتطابق</string>
+  <string name="error_register_empty_confirm_password">Confirm password field is empty</string>
+  <string name="error_register_username_already_exists">Username already exists</string>
+  <string name="error_register_email_exists">Email address already exists</string>
   <!--  -->
   <!-- OverwriteRenameDialog Strings -->
-  <string name="overwrite_text">A program with this name already exists. Please choose a different name!</string>
-  <string name="overwrite_replace">Replace Program</string>
+  <string name="overwrite_title">Project exists.</string>
+  <string name="overwrite_text">A project with this name already exists.</string>
+  <string name="overwrite_replace">Overwrite project</string>
   <string name="overwrite_rename">إعادة تسمية البرنامج الذي تم تحميله</string>
   <!--  -->
-  <!-- OverwriteRenameMediaDialog -->
-  <string name="overwrite_replace_look">Replace Look</string>
-  <string name="overwrite_rename_look">قم بإعادة تسمية المنظر الذي تم تنزيله</string>
-  <string name="overwrite_replace_sound">Replace sound</string>
-  <string name="overwrite_rename_sound">قم بإعادة تسمية ملف الصوت الذي تم تنزيله</string>
-  <string name="overwrite_replace_default">Replace Media</string>
-  <string name="overwrite_rename_default">قم باعادة تسمية الوسائط الموجودة مسبقاً</string>
-  <!-- -->
   <!-- Music activity -->
-  <string name="pocket_music_default_project_name">Untitled Song</string>
-  <string name="pocket_music_default_track_name">Track 1</string>
+  <string name="pocket_music_default_project_name">أغنية غير معنونة</string>
+  <string name="pocket_music_default_track_name">مسار 1</string>
   <!--  -->
   <!-- PreStage activity -->
   <string name="prestage_text_to_speech_engine_not_installed">محرك تحويل النص إلى كلام غير مثبت! \n هل تريد تثبيته؟</string>
   <string name="prestage_resource_not_available_title">المكون غير متوفر</string>
-  <string name="prestage_resource_not_available_text">Unfortunately this program does not work on your device.
-        The following components are unavailable:\n\n</string>
+  <string name="prestage_resource_not_available_text">للأسف هذا البرنامج لا يعمل على الجهاز الخاص بك.
+        المكونات التالية غير متوفرة: \n\n</string>
   <string name="prestage_resource_in_use_text">جهاز أخر متصل بـ  Jumping Sumo. تأكد من أنك 
         المتحكم الوحيد بالطائرة بدون طيار.</string>
   <string name="prestage_no_flash_available">\u2022 الفلاش\n</string>
@@ -1136,10 +1145,10 @@
   <string name="prestage_no_compass_sensor_available">\u2022 البوصلة\n</string>
   <string name="prestage_no_gps_sensor_available">\u2022 نظام تحديد المواقعGPS\n</string>
   <string name="prestage_text_to_speech_error">\u2022 محرك تحويل النص إلى كلام\n</string>
-  <string name="prestage_no_back_camera_available">\u2022 Rear camera\n</string>
+  <string name="prestage_no_back_camera_available">\u2022 الكاميرا الخلفية\n</string>
   <string name="prestage_no_camera_available">\u2022 اكتشاف الوجه\n</string>
   <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
-  <string name="prestage_no_front_camera_available">\u2022 Front camera\n</string>
+  <string name="prestage_no_front_camera_available">\u2022 الكاميرا الأمامية \n</string>
   <string name="prestage_default_resource_not_available">\u2022 مكون غير معروف\n</string>
   <string name="no_nfc_available">NFC غير متوفر</string>
   <string name="nfc_not_activated">Please activate NFC then press Back to return to the app!</string>
@@ -1156,12 +1165,10 @@
   <string name="stage_dialog_screenshot">معاينة</string>
   <!--  -->
   <!-- Broadcast spinner -->
-  <string name="new_broadcast_message">جديد&#8230;</string>
   <string name="dialog_new_broadcast_message_title">رسالة جديدة</string>
   <string name="dialog_new_broadcast_message_name">رسالة:</string>
   <!--  -->
   <!-- NFC spinner -->
-  <string name="new_nfc_tag">جديد&#8230;</string>
   <string name="brick_when_nfc_default_all">الكل</string>
   <!-- -->
   <!-- Brick categories -->
@@ -1274,12 +1281,12 @@
   <string name="brick_vibration">الإهتزاز لـفترة</string>
   <string name="brick_ask_label">اسأل</string>
   <string name="brick_ask_store">خَزن جواب مكتوب في</string>
-  <string name="brick_ask_default_question">\'ما هو اسمك؟\'</string>
+  <string name="brick_ask_default_question">What\'s your name?</string>
   <string name="brick_ask_dialog_hint">"أدخل الإجابة الخاصة بك:"</string>
   <string name="brick_ask_dialog_submit">تقديم الجواب</string>
   <string name="brick_ask_speech_label">اسأل</string>
   <string name="brick_ask_speech_store">و خَزن جواب منطوق في</string>
-  <string name="brick_ask_speech_default_question">\'ما هو اسمك؟\'</string>
+  <string name="brick_ask_speech_default_question">What\'s your name?</string>
   <!--  -->
   <!-- Pen bricks -->
   <string name="brick_pen_down">القلم إلى الأسفل</string>
@@ -1296,7 +1303,7 @@
   <string name="brick_set_volume_to">تعيين مستوى الصوت إلى</string>
   <string name="brick_change_volume_by">تغيير مستوى الصوت بمقدار</string>
   <string name="brick_speak">تَحدّث</string>
-  <string name="brick_speak_default_value">"مرحباً!"</string>
+  <string name="brick_speak_default_value">مرحباً!</string>
   <string name="brick_speak_and_wait">والانتظار</string>
   <!--  -->
   <!-- Control bricks -->
@@ -1354,10 +1361,9 @@
   <string name="brick_if_end">نهاية إذا</string>
   <string name="brick_set_variable">تعيين قيمة المتغير</string>
   <string name="brick_change_variable">تغيير قيمة المتغير</string>
-  <string name="brick_variable_spinner_create_new_variable">جديد&#8230;</string>
-  <string name="brick_note_default_value">"أضف تعليق هنا…"</string>
-  <string name="brick_think_bubble_default_value">"همممم!"</string>
-  <string name="brick_say_bubble_default_value">"مرحباً!"</string>
+  <string name="brick_note_default_value">أضف تعليق هنا&#8230;</string>
+  <string name="brick_think_bubble_default_value">همممم!</string>
+  <string name="brick_say_bubble_default_value">مرحباً!</string>
   <string name="brick_broadcast_default_value">"رسالة جديدة"</string>
   <string name="brick_add_item_to_userlist_add">إضافة</string>
   <string name="brick_add_item_to_userlist">الى القائمة</string>
@@ -1377,9 +1383,9 @@
   <string name="default_project_cloud_name">السُحب</string>
   <string name="default_project_cloud_sprite_name_1">سحابة 1</string>
   <string name="default_project_cloud_sprite_name_2">سحابة 2</string>
-  <string name="default_project_sprites_animal_name">الطير</string>
-  <string name="default_project_sprites_animal_wings_up">أجنحة الطير ترتفع</string>
-  <string name="default_project_sprites_animal_wings_down">أجنحة الطير تهبط</string>
+  <string name="default_project_sprites_animal_name">Animal</string>
+  <string name="default_project_sprites_animal_wings_up">Wings up</string>
+  <string name="default_project_sprites_animal_wings_down">Wings down</string>
   <string name="default_project_sprites_tweet_1">زقزقة1</string>
   <string name="default_project_sprites_tweet_2">زقزقة2</string>
   <!-- Default ChromeCast Values -->
@@ -1501,7 +1507,7 @@
   <string name="error_drone_wrong_platform">لا يمكننا تشغيل مشروع الطائرة بدون طيار 2.0 على الجهاز الخاص بك.</string>
   <string name="error_rename_incompatible_project">إعادة تسمية مشروع \"غير متوافق\" هو غير ممكن.</string>
   <string name="error_unknown_error">حدث خطأ غير معروف.</string>
-  <string name="error_gps_not_available">Error, GPS is not available.</string>
+  <string name="error_gps_not_available">خطأ، نظام تحديد المواقع غير متاح.</string>
   <string name="error_set_description">حصل خطأ أثناء حفظ الإجراء.</string>
   <string name="error_no_whatsapp">تطبيق الواتساب غير مُثبت</string>
   <string name="error_unsupported_bricks_chromecast">This script can\'t be added  to a Chromecast
@@ -1573,11 +1579,11 @@
   <string name="preference_disable_nxt_info_dialog_description">إعدادات برنامج (NXT) المُحدد لن تُعرض عند فتح البرنامج.</string>
   <string name="preference_title_mindstorms_nxt_sensors_description">مسح أجهزة استشعار (NXT) للمنافذ هو برنامج مُحدد يمكن تكوينه فقط للبرامج المفتوحة!</string>
   <string name="lego_nxt_sensor_config_info_text">البرنامج الحالي يستخدم أجهزة الاستشعار أو اللبّنات البرمجية لـ ليغو مايندستورمز(NXT). للحصول على وظائف مناسبة الرجاء توصيل أجهزة الاستشعار بالروبوت على النحو التالي</string>
-  <string name="lego_port_1">Port 1</string>
-  <string name="lego_port_2">Port 2</string>
-  <string name="lego_port_3">Port 3</string>
-  <string name="lego_port_4">Port 4</string>
-  <string name="lego_sensor_config_dont_show_again">Do not show this message again.</string>
+  <string name="lego_port_1">المنفذ 1</string>
+  <string name="lego_port_2">المنفذ 2</string>
+  <string name="lego_port_3">المنفذ 3</string>
+  <string name="lego_port_4">المنفذ 4</string>
+  <string name="lego_sensor_config_dont_show_again">عدم إظهار هذه الرسالة مرة أخرى.</string>
   <string name="lego_sensor_port_config_dialog_title">Choose a port for connecting to %1$s!</string>
   <string name="lego_ev3_sensor_config_info_title">ضبط اعدادات جهاز استشعار(EV3)</string>
   <string name="preference_disable_ev3_info_dialog_description">إعدادات برنامج EV3 المُحدد لن تُعرض عند فتح البرنامج.</string>
@@ -1635,8 +1641,6 @@
   <string name="brick_drone_emergency">حالة الطوارىء</string>
   <string name="brick_drone_turn_right">التوجه نحو اليمين</string>
   <string name="brick_drone_turn_left">التوجه نحو اليسار</string>
-  <string name="brick_drone_turn_left_magneto">التوجه نحو اليسار [angle]</string>
-  <string name="brick_drone_turn_right_magneto">التوجه نحو اليمين [angle]</string>
   <string name="brick_drone_set_config">تعيين إعدادات الطائرة بدون طيار 2.0</string>
   <string name="brick_drone_switch_camera">تبديل كاميرا الطائرة بدون طيار</string>
   <string name="brick_drone_set_altitude">الحد الأقصى للارتفاع </string>
@@ -2016,6 +2020,7 @@
   <!-- -->
   <!-- User Bricks strings -->
   <string name="define">تعريف</string>
+  <string name="new_user_brick_variable">متغير</string>
   <!--  -->
   <!-- Camera related strings -->
   <string name="brick_video">تشغيل الكاميرا</string>
@@ -2024,7 +2029,7 @@
   <string name="brick_choose_camera">إستخدام الكاميرا
  </string>
   <string name="choose_camera_front">الأمامية</string>
-  <string name="choose_camera_back">rear</string>
+  <string name="choose_camera_back">خلفي</string>
   <string name="error_flash_camera">"&gt;You can only use the flash with a camera that has a one. Please add a \"Use
         camera\" brick and change to your device\'s camera that has a flash."</string>
   <string name="brick_wait_until">انتظر حتى</string>
@@ -2077,7 +2082,7 @@
   <string name="device_language">لغة الجهاز</string>
   <!-- Symbols -->
   <string name="percent_symbol">%</string>
-  <string name="hertz_symbol">㎐</string>
+  <string name="hertz_symbol">هرتز</string>
   <!-- UtilFile SizeUnits String -->
   <string name="Byte_short">بايت</string>
   <string name="KiloByte_short">كيلوبايت</string>

@@ -53,6 +53,10 @@ public final class PlaySceneDialog extends AlertDialog {
 			};
 
 			setTitle(R.string.play_scene_dialog_title);
+
+			projectManager.setCurrentlyPlayingScene(defaultScene);
+			projectManager.setStartScene(defaultScene);
+
 			setSingleChoiceItems(dialogOptions, 0, new OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {

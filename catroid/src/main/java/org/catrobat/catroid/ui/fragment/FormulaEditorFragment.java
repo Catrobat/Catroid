@@ -371,7 +371,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 				});
 
 		int titleId = selectedFormulaText == null
-				? R.string.formula_editor_dialog_change_text : R.string.formula_editor_new_string_name;
+				? R.string.formula_editor_new_string_name : R.string.formula_editor_dialog_change_text;
 
 		builder.setTitle(titleId)
 				.setNegativeButton(R.string.cancel, null)

@@ -67,3 +67,13 @@ __pycache__
 
 #api-keys
 catroid/google-services.json
+
+#Crowdin folder
+crowdin/
+
+#Fastlane
+fastlane/*
+!fastlane/Appfile
+!fastlane/Fastfile
+!fastlane/staticContent/
+Gemfile

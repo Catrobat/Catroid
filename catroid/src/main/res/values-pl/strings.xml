@@ -29,6 +29,7 @@
   <string name="settings">Ustawienia</string>
   <string name="redo">Ponów</string>
   <string name="undo">Cofnij</string>
+  <string name="new_option">Nowy&#8230;</string>
   <string name="confirm">Potwierdź</string>
   <string name="cancel">Anuluj</string>
   <string name="next">Dalej</string>
@@ -265,6 +266,7 @@
   <!-- Dialog Errors -->
   <string name="name_already_exists">Wybrana nazwa jest zajęta, wybierz inną.</string>
   <string name="name_consists_of_spaces_only">W polu tekstowym wpisujesz tylko spacje, wprowadź nazwę za pomocą liter, cyfr lub innych znaków specjalnych.</string>
+  <string name="name_empty">Please enter a text</string>
   <!-- Recycler View -->
   <string name="am_empty_list">Nie ma jeszcze żadnych pozycji na tej liście. Najpierw dodaj coś.</string>
   <string name="am_backpack">Zapakuj</string>
@@ -476,6 +478,12 @@
     <item quantity="many">Skopiuj %d bloków</item>
     <item quantity="other">Skopiuj %d bloków</item>
   </plurals>
+  <plurals name="am_delete_bricks_title">
+    <item quantity="one">Delete %d Brick</item>
+    <item quantity="few">Delete %d Bricks</item>
+    <item quantity="many">Delete %d Bricks</item>
+    <item quantity="other">Delete %d Bricks</item>
+  </plurals>
   <plurals name="am_delete_scripts_title">
     <item quantity="one">Usuń %d skrypt</item>
     <item quantity="few">Usuń %d skrypty</item>
@@ -542,12 +550,13 @@
   </plurals>
   <!-- Dialog Labels -->
   <string name="project_name_label">Nazwa programu</string>
-  <string name="scene_name">Nazwa sceny</string>
+  <string name="scene_name_label">Nazwa sceny</string>
   <string name="sprite_name_label">Nazwa obiektu</string>
   <string name="sprite_group_name_label">Nazwa grupy</string>
   <string name="script_group_label">Nazwa grupy skryptów</string>
   <string name="look_name_label">Nazwa wyglądu</string>
   <string name="sound_name_label">Nazwa dźwięku</string>
+  <string name="nfc_tag_name_label">NFC Tag Name</string>
   <string name="string_label">Tekst</string>
   <string name="data_label">Nazwa</string>
   <!-- Details -->
@@ -720,10 +729,11 @@
   <!-- ScriptListFragment -->
   <string name="fragment_script_text_description">Naciśnij \"+\", aby dodać skrypty</string>
   <!--  -->
+  <!-- SpriteListFragment -->
+  <string name="fragment_sprite_text_description">Tap \"+\" to add objects</string>
+  <!--  -->
   <!-- LookListFragment -->
   <string name="fragment_look_text_description">Naciśnij \"+\", aby dodać wyglądy</string>
-  <string name="pocket_paint_not_installed_title">Pocket Paint nie jest zainstalowany!</string>
-  <string name="pocket_paint_not_installed_message">Proszę zainstalować Pocket Paint.</string>
   <string name="default_look_name">wygląd</string>
   <string name="select_look_from_gallery">Wybierz obraz</string>
   <string name="select_look_from_camera">Wybierz zdjęcie</string>
@@ -731,6 +741,7 @@
   <!-- SoundListFragment -->
   <string name="fragment_sound_text_description">Naciśnij \"+\", aby dodać dźwięki</string>
   <string name="sound_select_source">Wybierz dźwięk</string>
+  <string name="default_sound_name">Dźwięk</string>
   <!--  -->
   <!-- NfcTagListFragment -->
   <string name="fragment_nfctag_text_description">Zeskanuj tagi NFC, aby je dodać</string>
@@ -753,8 +764,8 @@
   <string name="global_lists_headline">Listy dla wszystkich obiektów</string>
   <string name="local_lists_headline">Listy tylko dla tego obiektu</string>
   <!-- NewDataDialog -->
-  <string name="new_data_for_all_sprites">For all Objects</string>
-  <string name="new_data_for_this_sprite_only">For this Object only</string>
+  <string name="new_data_for_all_sprites">Dla wszystkich obiektów</string>
+  <string name="new_data_for_this_sprite_only">Tylko dla tego obiektu</string>
   <!-- Backpack -->
   <string name="backpack_title">Twój plecak</string>
   <string name="pack">Pack</string>
@@ -884,13 +895,6 @@
   <!--  -->
   <!-- NetworkAlertDialog -->
   <string name="error_no_network_title">Brak sieci</string>
-  <string name="error_no_network">Potrzebujesz połączenia sieciowego, aby korzystać z tego programu Pocket Code. Włącz sieć komórkową lub Wi-Fi w ustawieniach.</string>
-  <plurals name="bricks_using_network_headline">
-    <item quantity="one">Następujący bloczek wymaga połączenia sieciowego:</item>
-    <item quantity="few">Następujące bloczki wymagają połączenia sieciowego:</item>
-    <item quantity="many">Następujące bloczki wymagają połączenia sieciowego:</item>
-    <item quantity="other">Następujące bloczki wymagają połączenia sieciowego:</item>
-  </plurals>
   <!-- UploadProjectDialog -->
   <string name="error_no_program_name_entered">Wprowadź nazwę programu.</string>
   <string name="upload_button">Wyślij</string>
@@ -945,20 +949,26 @@
   <string name="error_facebook_session_expired">Twoja sesja wygasła, zaloguj się ponownie.</string>
   <string name="sign_in_with_facebook">Zaloguj się przez Facebooka</string>
   <string name="sign_in_with_google">Zaloguj się za pomocą Google</string>
+  <string name="error_register_empty_username">Empty username</string>
+  <string name="error_register_username_as_email">E-mail address can not be used as username</string>
+  <string name="error_register_invalid_username">Username should only contain letters (a–z), numbers (0–9),
+        dashes (-), underscores (_), and periods (.).</string>
+  <string name="error_register_username_start_with">Username should not start with dashes (-), underscores (_), or
+        periods (.).</string>
+  <string name="error_register_invalid_email_format">Invalid email format</string>
+  <string name="error_register_empty_password">Password field is empty</string>
+  <string name="error_register_password_at_least_6_characters">Password should be at least 6 characters</string>
+  <string name="error_register_passwords_mismatch">Hasła nie pasują</string>
+  <string name="error_register_empty_confirm_password">Confirm password field is empty</string>
+  <string name="error_register_username_already_exists">Username already exists</string>
+  <string name="error_register_email_exists">Email address already exists</string>
   <!--  -->
   <!-- OverwriteRenameDialog Strings -->
+  <string name="overwrite_title">Project exists.</string>
   <string name="overwrite_text">Program o tej nazwie już istnieje. Proszę wybrać inną nazwę!</string>
   <string name="overwrite_replace">Zastąp program</string>
   <string name="overwrite_rename">Zmień nazwę załadowanego programu</string>
   <!--  -->
-  <!-- OverwriteRenameMediaDialog -->
-  <string name="overwrite_replace_look">Zastąp wygląd</string>
-  <string name="overwrite_rename_look">Zmień nazwę pobranego wyglądu</string>
-  <string name="overwrite_replace_sound">Zastąp dźwięk</string>
-  <string name="overwrite_rename_sound">Zmień nazwę pobranego dźwięku</string>
-  <string name="overwrite_replace_default">Zastąp media</string>
-  <string name="overwrite_rename_default">Zmień nazwę istniejącego nośnika</string>
-  <!-- -->
   <!-- Music activity -->
   <string name="pocket_music_default_project_name">Niezatytułowana piosenka</string>
   <string name="pocket_music_default_track_name">Utwór 1</string>
@@ -994,12 +1004,10 @@
   <string name="stage_dialog_screenshot">Podgląd</string>
   <!--  -->
   <!-- Broadcast spinner -->
-  <string name="new_broadcast_message">Nowy&#8230;</string>
   <string name="dialog_new_broadcast_message_title">Nowy komunikat</string>
   <string name="dialog_new_broadcast_message_name">Komunikat:</string>
   <!--  -->
   <!-- NFC spinner -->
-  <string name="new_nfc_tag">Nowy&#8230;</string>
   <string name="brick_when_nfc_default_all">wszystko</string>
   <!-- -->
   <!-- Brick categories -->
@@ -1108,12 +1116,12 @@
   <string name="brick_vibration">Wibruj przez</string>
   <string name="brick_ask_label">Zapytaj</string>
   <string name="brick_ask_store">i przechowaj zapisaną odpowiedź w</string>
-  <string name="brick_ask_default_question">\'Jak masz na imię?\'</string>
+  <string name="brick_ask_default_question">What\'s your name?</string>
   <string name="brick_ask_dialog_hint">"Wpisz swoją odpowiedź:"</string>
   <string name="brick_ask_dialog_submit">Prześlij odpowiedź</string>
   <string name="brick_ask_speech_label">Zapytaj</string>
   <string name="brick_ask_speech_store">i przechowaj wypowiedzianą odpowiedź w</string>
-  <string name="brick_ask_speech_default_question">\'Jak masz na imię?\'</string>
+  <string name="brick_ask_speech_default_question">What\'s your name?</string>
   <!--  -->
   <!-- Pen bricks -->
   <string name="brick_pen_down">Opuść pisak</string>
@@ -1130,7 +1138,7 @@
   <string name="brick_set_volume_to">Ustaw głośność na</string>
   <string name="brick_change_volume_by">Zmień głośność o</string>
   <string name="brick_speak">Powiedz</string>
-  <string name="brick_speak_default_value">"Cześć!"</string>
+  <string name="brick_speak_default_value">Cześć!</string>
   <string name="brick_speak_and_wait">i czekaj</string>
   <!--  -->
   <!-- Control bricks -->
@@ -1184,10 +1192,9 @@
   <string name="brick_if_end">Koniec Jeżeli</string>
   <string name="brick_set_variable">Ustaw zmienną</string>
   <string name="brick_change_variable">Zmień zmienną</string>
-  <string name="brick_variable_spinner_create_new_variable">Nowy&#8230;</string>
-  <string name="brick_note_default_value">"tutaj dodaj komentarz…"</string>
-  <string name="brick_think_bubble_default_value">"Hmmmm!"</string>
-  <string name="brick_say_bubble_default_value">"Cześć!"</string>
+  <string name="brick_note_default_value">tutaj dodaj komentarz&#8230;</string>
+  <string name="brick_think_bubble_default_value">Hmmmm!</string>
+  <string name="brick_say_bubble_default_value">Cześć!</string>
   <string name="brick_broadcast_default_value">"komunikat 1"</string>
   <string name="brick_add_item_to_userlist_add">Dodaj</string>
   <string name="brick_add_item_to_userlist">do listy</string>
@@ -1207,9 +1214,9 @@
   <string name="default_project_cloud_name">Chmury</string>
   <string name="default_project_cloud_sprite_name_1">Chmura1</string>
   <string name="default_project_cloud_sprite_name_2">Chmura2</string>
-  <string name="default_project_sprites_animal_name">Ptak</string>
-  <string name="default_project_sprites_animal_wings_up">Ptak ze skrzydłami do góry</string>
-  <string name="default_project_sprites_animal_wings_down">Ptak ze skrzydłami na dole</string>
+  <string name="default_project_sprites_animal_name">Animal</string>
+  <string name="default_project_sprites_animal_wings_up">Wings up</string>
+  <string name="default_project_sprites_animal_wings_down">Wings down</string>
   <string name="default_project_sprites_tweet_1">Tweet1</string>
   <string name="default_project_sprites_tweet_2">Tweet2</string>
   <!-- Default ChromeCast Values -->
@@ -1459,8 +1466,6 @@
   <string name="brick_drone_emergency">Tryb awaryjny AR. Drone 2.0</string>
   <string name="brick_drone_turn_right">Obróć AR.Drone 2.0 w prawo</string>
   <string name="brick_drone_turn_left">Obróć AR.Drone 2.0 w lewo</string>
-  <string name="brick_drone_turn_left_magneto">Obróć AR.Drone 2.0 w lewo o [angle]</string>
-  <string name="brick_drone_turn_right_magneto">Obróć AR.Drone 2.0 w prawo o [angle]</string>
   <string name="brick_drone_set_config">Ustawienia AR.Drone 2.0</string>
   <string name="brick_drone_switch_camera">Przełącz kamerę AR. Drone 2.0</string>
   <string name="brick_drone_set_altitude">Ograniczenie wysokości </string>
@@ -1840,6 +1845,7 @@
   <!-- -->
   <!-- User Bricks strings -->
   <string name="define">Zdefiniuj</string>
+  <string name="new_user_brick_variable">Zmienna</string>
   <!--  -->
   <!-- Camera related strings -->
   <string name="brick_video">Aparat</string>
