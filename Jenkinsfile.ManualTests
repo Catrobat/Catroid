@@ -16,6 +16,13 @@ pipeline {
 		}
 	}
 
+	parameters {
+		choice(name: 'TYPE', choices: ['class', 'package'], description: 'Are the tests in a package or in a class?')
+		string(name: 'NAME', description: 'The fully qualified name of the test class or test package.',
+				defaultValue: 'org.catrobat.catroid.uiespresso.testsuites.ApiLevel19RegressionTestsSuite')
+		choice(name: 'EMULATOR', choices: ['android19', 'android24'], description: 'The emulator to use, as specified in build.gradle')
+	}
+
 	environment {
 		//////// Define environment variables to point to the correct locations inside the container ////////
 		//////////// Most likely not edited by the developer
@@ -33,12 +40,6 @@ pipeline {
 		// Otherwise user.home returns ? for java applications
 		JAVA_TOOL_OPTIONS = "-Duser.home=/tmp/"
 
-		//// jenkins-android-helper related variables
-		// set to any value to debug jenkins_android* scripts
-		ANDROID_EMULATOR_HELPER_DEBUG = ""
-		// get stdout of called subprocesses immediately
-		PYTHONUNBUFFERED = "true"
-
 		//////// Build specific variables ////////
 		//////////// May be edited by the developer on changing the build steps
 	}
@@ -52,49 +53,31 @@ pipeline {
 		stage('Prepare build') {
 			steps {
 				script {
-					def configAsMarkup = ""
-					env.EMUALTOR_CONFIG.each {
-						// WORKAROUND: eachLine does not work atm
-						if (it == '\n' || it == '\r')
-                            configAsMarkup = configAsMarkup + "<br>"
-						else
-						    configAsMarkup = configAsMarkup + it
-					}
-
-					currentBuild.displayName = "${env.CLASS_PKG_TO_TEST}"
-					currentBuild.description = """Build was run with the following options:<br>
-<b>Repo</b>: ${env.REPO}<br>
-<b>Branch</b>: ${env.BRANCH}<br>
-<b>Tests</b>: ${env.CLASS_PKG_TO_TEST}<br>
-<br>
-<b>====== Emulator Config ======</b><br>
-${configAsMarkup}<br>
-<b>=============================</b>"""
+					currentBuild.displayName = params.NAME
 				}
-				sh "if [ -n \"${env.EMUALTOR_CONFIG}\" ]; then echo \"${env.EMUALTOR_CONFIG}\" > ./buildScripts/emulator_config.ini; fi"
 			}
 		}
 
 		stage('Setup Android SDK') {
 			steps {
-				// Install Android SDK
 				lock("update-android-sdk-on-${env.NODE_NAME}") {
-					sh "./buildScripts/build_step_install_android_sdk"
+					sh './gradlew -PinstallSdk'
 				}
 			}
 		}
 
 		stage('Unit and Device tests') {
 			steps {
-				sh "./buildScripts/build_helper_run_tests_on_emulator ${env.CLASS_PKG_TO_TEST}"
+				sh """./gradlew -PenableCoverage -Pemulator=${params.EMULATOR} startEmulator \
+							createCatroidDebugAndroidTestCoverageReport -Pandroid.testInstrumentationRunnerArguments.${params.TYPE}=${params.NAME}"""
 			}
 
 			post {
 				always {
 					junit '**/*TEST*.xml'
 
-					// stop/kill emulator
-					sh "./buildScripts/build_helper_stop_emulator"
+					sh './gradlew stopEmulator clearAvdStore'
+					archiveArtifacts 'logcat.txt'
 				}
 			}
 		}

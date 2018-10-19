@@ -12,8 +12,6 @@ pipeline {
         // Deprecated: Still used by the used gradle version, once gradle respects ANDROID_SDK_ROOT, this can be removed
         ANDROID_HOME = "${ANDROID_SDK_LOCATION}"
         ANDROID_SDK_LOCATION = "${ANDROID_SDK_LOCATION}"
-        // get stdout of called subprocesses immediately
-        PYTHONUNBUFFERED = "true"
     }
 
     options {
@@ -26,7 +24,7 @@ pipeline {
             steps {
                 // Install Android SDK
                 lock("update-android-sdk-on-${env.NODE_NAME}") {
-                    sh "./buildScripts/build_step_install_android_sdk"
+                    sh './gradlew -PinstallSdk'
                 }
             }
         }
