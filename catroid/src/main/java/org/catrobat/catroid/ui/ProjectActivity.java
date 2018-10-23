@@ -185,12 +185,14 @@ public class ProjectActivity extends BaseCastActivity {
 			FaceDetectionHandler.stopFaceDetection();
 		}
 
-		if (requestCode != RESULT_OK
-				&& SettingsFragment.isCastSharedPreferenceEnabled(this)
-				&& ProjectManager.getInstance().getCurrentProject().isCastProject()
-				&& !CastManager.getInstance().isConnected()) {
+		if (resultCode != RESULT_OK) {
+			if (SettingsFragment.isCastSharedPreferenceEnabled(this)
+					&& ProjectManager.getInstance().getCurrentProject().isCastProject()
+					&& !CastManager.getInstance().isConnected()) {
 
-			CastManager.getInstance().openDeviceSelectorOrDisconnectDialog(this);
+				CastManager.getInstance().openDeviceSelectorOrDisconnectDialog(this);
+			}
+			return;
 		}
 
 		Uri uri;
