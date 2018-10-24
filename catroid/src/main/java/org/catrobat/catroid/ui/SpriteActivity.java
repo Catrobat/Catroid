@@ -40,6 +40,7 @@ import android.widget.RadioButton;
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
@@ -229,6 +230,12 @@ public class SpriteActivity extends BaseActivity {
 		}
 
 		if (resultCode != RESULT_OK) {
+			if (SettingsFragment.isCastSharedPreferenceEnabled(this)
+					&& ProjectManager.getInstance().getCurrentProject().isCastProject()
+					&& !CastManager.getInstance().isConnected()) {
+
+				CastManager.getInstance().openDeviceSelectorOrDisconnectDialog(this);
+			}
 			return;
 		}
 

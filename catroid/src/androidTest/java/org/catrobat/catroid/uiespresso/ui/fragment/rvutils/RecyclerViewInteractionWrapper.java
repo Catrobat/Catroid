@@ -57,9 +57,9 @@ public class RecyclerViewInteractionWrapper extends ViewInteractionWrapper {
 		return perform(actionOnHolderItem(new RecyclerViewHolderMatcher().withText(text), viewAction));
 	}
 
-	public RecyclerViewInteractionWrapper checkCountEquals(int count) {
+	public RecyclerViewInteractionWrapper checkHasNumberOfItems(int count) {
 		viewInteraction
-				.check(matches(new RecyclerViewMatcher(recyclerViewId).withCount(count)));
+				.check(matches(new RecyclerViewMatcher(recyclerViewId).withNumberOfItems(count)));
 		return this;
 	}
 }
