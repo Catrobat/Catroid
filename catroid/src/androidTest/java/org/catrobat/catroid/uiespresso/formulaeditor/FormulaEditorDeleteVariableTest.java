@@ -80,7 +80,7 @@ public class FormulaEditorDeleteVariableTest {
 				.performDelete();
 
 		onRecyclerView()
-				.checkCountEquals(0);
+				.checkHasNumberOfItems(0);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -99,6 +99,6 @@ public class FormulaEditorDeleteVariableTest {
 		onView(withId(android.R.id.button1))
 				.perform(click());
 
-		onRecyclerView().checkCountEquals(0);
+		onRecyclerView().checkHasNumberOfItems(0);
 	}
 }

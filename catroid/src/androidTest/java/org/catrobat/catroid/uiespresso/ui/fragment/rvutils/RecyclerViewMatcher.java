@@ -37,11 +37,11 @@ public class RecyclerViewMatcher {
 		this.recyclerViewId = recyclerViewId;
 	}
 
-	public Matcher<View> withCount(final int count) {
+	public Matcher<View> withNumberOfItems(final int numberOfItems) {
 		return new TypeSafeMatcher<View>() {
 			@Override
 			public void describeTo(Description description) {
-				description.appendText("RecyclerViewItemMatcher with count:" + count + " does not match the view");
+				description.appendText("RecyclerViewItemMatcher with number of items:" + numberOfItems + " does not match the view");
 			}
 
 			@Override
@@ -51,7 +51,7 @@ public class RecyclerViewMatcher {
 				return recyclerView != null
 						&& recyclerView.getId() == recyclerViewId
 						&& recyclerView.getAdapter() != null
-						&& recyclerView.getAdapter().getItemCount() == count;
+						&& recyclerView.getAdapter().getItemCount() == numberOfItems;
 			}
 		};
 	}
