@@ -383,6 +383,10 @@ public class ProjectActivity extends BaseCastActivity {
 	}
 
 	private void showLegoSensorConfigInfo() {
+		if (ProjectManager.getInstance().getCurrentProject() == null) {
+			return;
+		}
+
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		boolean nxtDialogDisabled = preferences
 				.getBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED, false);
