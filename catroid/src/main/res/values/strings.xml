@@ -1883,6 +1883,7 @@
     <string name="formula_editor_list_dialog_title">New List</string>
     <string name="formula_editor_discard_changes_dialog_message">Do you want to save your changes?</string>
     <string name="formula_editor_discard_changes_dialog_title">Save changes?</string>
+    <string name="formula_editor_save_changes_dialog_title">Save changes?</string>
     <string name="formula_editor_new_string_name">New Text</string>
     <string name="formula_editor_dialog_change_text">Change Text</string>
     <string name="formula_editor_fragment_data_current_items">current items</string>

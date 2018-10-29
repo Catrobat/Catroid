@@ -55,9 +55,12 @@ import org.catrobat.catroid.content.commands.OnFormulaChangedListener;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaEditorEditText;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.formulaeditor.InternFormula;
 import org.catrobat.catroid.formulaeditor.InternFormulaKeyboardAdapter;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
+import org.catrobat.catroid.formulaeditor.InternFormulaState;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
+import org.catrobat.catroid.formulaeditor.UndoState;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -70,6 +73,8 @@ import org.catrobat.catroid.ui.recyclerview.fragment.CategoryListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
+
+import java.util.Map;
 
 import static org.catrobat.catroid.utils.SnackbarUtil.wasHintAlreadyShown;
 
@@ -464,7 +469,8 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 		switch (mode) {
 			case SET_FORMULA_ON_CREATE_VIEW:
-				formulaEditorEditText.enterNewFormula(currentFormula.getInternFormulaState());
+				formulaEditorEditText.enterNewFormula(new UndoState(currentFormula.getInternFormulaState(),
+								brickField));
 				refreshFormulaPreviewString(formulaEditorEditText.getStringFromInternFormula());
 				break;
 
@@ -495,7 +501,8 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 				formulaEditorEditText.endEdit();
 				currentBrickField = brickField;
 				currentFormula = newFormula;
-				formulaEditorEditText.enterNewFormula(newFormula.getInternFormulaState());
+				formulaEditorEditText.enterNewFormula(new UndoState(currentFormula.getInternFormulaState(),
+						currentBrickField));
 				refreshFormulaPreviewString(formulaEditorEditText.getStringFromInternFormula());
 				break;
 			default:
@@ -555,15 +562,11 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	}
 
 	public void promptSave() {
-		if (hasFormulaBeenChanged) {
-			ToastUtil.showSuccess(getActivity(), R.string.formula_editor_changes_saved);
-			hasFormulaBeenChanged = false;
-		}
 		exitFormulaEditorFragment();
 	}
 
 	private void exitFormulaEditorFragment() {
-		if (formulaEditorEditText.hasChanges()) {
+		if (hasFormulaBeenChanged || formulaEditorEditText.hasChanges()) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 			builder.setTitle(R.string.formula_editor_discard_changes_dialog_title)
 					.setMessage(R.string.formula_editor_discard_changes_dialog_message)
@@ -571,6 +574,9 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
+							Map<Brick.BrickField, InternFormulaState> initialStates = formulaEditorEditText
+									.getHistory().getInitialStates();
+							restoreInitialStates(initialStates);
 							ToastUtil.showError(getActivity(), R.string.formula_editor_changes_discarded);
 							onUserDismiss();
 						}
@@ -695,6 +701,10 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		return formulaEditorEditText.getSelectedTextFromInternFormula();
 	}
 
+	public Brick.BrickField getCurrentBrickField() {
+		return currentBrickField;
+	}
+
 	public void overrideSelectedText(String string) {
 		formulaEditorEditText.overrideSelectedText(string);
 	}
@@ -723,6 +733,13 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		} else {
 			backspaceOnKeyboard.setAlpha(255);
 			backspaceOnKeyboard.setEnabled(true);
+		}
+	}
+	private void restoreInitialStates(Map<Brick.BrickField, InternFormulaState> initialStates) {
+		for (Map.Entry<Brick.BrickField, InternFormulaState> state : initialStates.entrySet()) {
+			InternFormula internFormula = state.getValue().createInternFormulaFromState();
+			formulaBrick.setFormulaWithBrickField(state.getKey(),
+					new Formula(internFormula.getInternFormulaParser().parseFormula()));
 		}
 	}
 }
