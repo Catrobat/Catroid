@@ -673,9 +673,12 @@
         from the old location.</string>
     <string name="import_dialog_copy_btn">Copy</string>
     <string name="import_dialog_move_btn">Move</string>
+    <string name="project_successful_imported_toast">Project successfully imported.</string>
     <string name="projects_successful_moved_toast">Projects successfully moved.</string>
     <string name="projects_successful_copied_toast">Projects successfully copied.</string>
     <string name="error_during_copying_projects_toast">An error occurred during project migration.</string>
+        <string name="error_during_importing_projects_toast">An error occurred during project import.</string>
+
     <!--  -->
 
     <!-- ScriptListFragment -->

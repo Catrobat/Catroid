@@ -47,7 +47,7 @@ public class BackwardCompatibleCatrobatLanguageXStreamTest {
 	private static final String ZIP_FILENAME_FALLING_BALLS = "Falling_balls.catrobat";
 	private static final String ZIP_FILENAME_COLOR_LEANER_BALLOONS = "Color_Learner_-_Balloons.catrobat";
 	private static final String ZIP_FILENAME_PONG_STARTER = "Pong_Starter.catrobat";
-	private static final String ZIP_FILENAME_WHIP = "Whip.catrobat";
+	public static final String ZIP_FILENAME_WHIP = "Whip.catrobat";
 	private static final String ZIP_FILENAME_AIR_FIGHT = "Air_fight_0.5.catrobat";
 	private static final String ZIP_FILENAME_XRAY_PHONE = "X-Ray_phone.catrobat";
 	private static final String ZIP_FILENAME_ALL_BRICKS = "All_Bricks.catrobat";

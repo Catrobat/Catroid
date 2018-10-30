@@ -225,6 +225,16 @@ public final class StorageOperations {
 		return dstDir;
 	}
 
+	public static boolean renameFile(File oldFile, File newFile) throws IOException {
+		if (!oldFile.exists()) {
+			throw new IOException("File " + oldFile.getAbsolutePath() + " is not present");
+		}
+		if (newFile.exists()) {
+			throw new IOException("New name " + newFile.getAbsolutePath() + " is already taken");
+		}
+		return oldFile.renameTo(newFile);
+	}
+
 	public static synchronized File getUniqueFile(String originalName, File dstDir) throws IOException {
 		File dstFile = new File(dstDir, originalName);
 

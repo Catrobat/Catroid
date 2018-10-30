@@ -28,6 +28,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -50,6 +51,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.ZipArchiver;
+import org.catrobat.catroid.io.asynctask.ProjectImportFromArchiveTask;
 import org.catrobat.catroid.io.asynctask.ProjectImportTask;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
 import org.catrobat.catroid.stage.StageActivity;
@@ -65,11 +67,13 @@ import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
@@ -104,6 +108,11 @@ public class MainMenuActivity extends BaseCastActivity implements
 			loadContent();
 		} else {
 			setContentView(R.layout.privacy_policy_view);
+		}
+		Intent intent = getIntent();
+		if (intent != null && intent.getData() != null
+				&& intent.getAction() != null && intent.getAction().equals(Intent.ACTION_VIEW)) {
+			importDownloadedProject(intent.getData());
 		}
 	}
 
@@ -360,6 +369,38 @@ public class MainMenuActivity extends BaseCastActivity implements
 				return super.onOptionsItemSelected(item);
 		}
 		return true;
+	}
+
+	private void importDownloadedProject(@NonNull final Uri uri) {
+		new RequiresPermissionTask(REQUEST_PERMISSIONS_MAIN_STORAGE,
+				Arrays.asList(WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE),
+				R.string.runtime_permission_general) {
+			public void task() {
+				InputStream projectStream;
+				try {
+					projectStream = getContentResolver().openInputStream(uri);
+					setShowProgressBar(true);
+					ProjectImportFromArchiveTask.ProjectImportListener importListener = new ProjectImportFromArchiveTask.ProjectImportListener() {
+						@Override
+						public void onImportFinished(boolean success) {
+							setShowProgressBar(false);
+							if (success) {
+								ToastUtil.showSuccess(MainMenuActivity.this, R.string.project_successful_imported_toast);
+								Log.d("IMPORT_PROJECT", "Project imported successfully");
+							} else {
+								ToastUtil.showError(MainMenuActivity.this, R.string.error_during_importing_projects_toast);
+								Log.e("IMPORT_PROJECT", "Project import failed");
+							}
+						}
+					};
+					new ProjectImportFromArchiveTask(MainMenuActivity.this, importListener).execute(projectStream).get();
+				} catch (FileNotFoundException e) {
+					Log.e("IMPORT_PROJECT", "Failed to open input stream from uri: " + uri.getPath());
+				} catch (InterruptedException | ExecutionException e) {
+					Log.e("IMPORT_PROJECT", "Failed to import project: " + e.getMessage());
+				}
+			}
+		}.execute(this);
 	}
 
 	private void prepareStandaloneProject() {
