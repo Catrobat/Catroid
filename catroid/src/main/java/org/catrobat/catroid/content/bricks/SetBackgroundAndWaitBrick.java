@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.content.bricks;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
@@ -36,17 +37,26 @@ import java.util.List;
 
 public class SetBackgroundAndWaitBrick extends SetBackgroundBrick {
 
-	public SetBackgroundAndWaitBrick() {
+	public SetBackgroundAndWaitBrick() { }
+
+	@Override
+	public View getPrototypeView(Context context) {
+		super.getPrototypeView(context);
+		View view = super.getView(context);
+		((TextView) view.findViewById(R.id.brick_set_background_text_view)).setText(R.string.brick_set_background_and_wait);
+		return view;
 	}
 
 	@Override
-	protected void onViewCreated(View view) {
-		((TextView) view.findViewById(R.id.brick_set_look_text_view)).setText(R.string.brick_set_background_and_wait);
+	public View getView(Context context) {
+		View view = super.getView(context);
+		((TextView) view.findViewById(R.id.brick_set_background_text_view)).setText(R.string.brick_set_background_and_wait);
+		return view;
 	}
 
 	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createSetLookAction(getSprite(), look, EventWrapper.WAIT));
+		sequence.addAction(sprite.getActionFactory().createSetBackgroundLookAction(look, EventWrapper.WAIT));
 		return Collections.emptyList();
 	}
 }

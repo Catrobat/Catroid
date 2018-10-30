@@ -75,7 +75,7 @@ public class SetBackgroundBrickTest {
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_set_background);
 
-		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_set_look_spinner)
+		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_set_background_spinner)
 				.performSelectNameable(R.string.new_option);
 
 		Intents.init();

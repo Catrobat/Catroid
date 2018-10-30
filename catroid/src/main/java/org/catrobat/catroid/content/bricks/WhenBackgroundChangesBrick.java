@@ -116,7 +116,7 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements ScriptB
 		if (activity == null || !(activity instanceof SpriteActivity)) {
 			return;
 		}
-		((SpriteActivity) activity).handleAddLookButton();
+		((SpriteActivity) activity).handleAddBackgroundButton();
 	}
 
 	@Override

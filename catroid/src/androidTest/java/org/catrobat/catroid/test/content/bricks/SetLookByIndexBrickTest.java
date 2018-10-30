@@ -83,7 +83,6 @@ public class SetLookByIndexBrickTest {
 
 		brick.addActionToSequence(sprite, new ScriptSequenceAction(Mockito.mock(Script.class)));
 
-		Mockito.verify(actionFactory).createSetLookByIndexAction(
-				eq(currentlyPlayingScene.getBackgroundSprite()), any(Formula.class), anyInt());
+		Mockito.verify(actionFactory).createSetBackgroundLookByIndexAction(eq(sprite), any(Formula.class), anyInt());
 	}
 }
