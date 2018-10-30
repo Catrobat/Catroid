@@ -510,16 +510,16 @@ public class RtlBrickTest {
 		checkIfBrickISRtl(WhenBackgroundChangesBrick.class, R.id.brick_when_background_layout);
 
 		// Set background
-		checkIfBrickAtPositionIsRtl(SetBackgroundBrick.class, 0, R.id.brick_set_look_layout);
+		checkIfBrickAtPositionIsRtl(SetBackgroundBrick.class, 0, R.id.brick_set_background_layout);
 
 		// Set background and wait
-		checkIfBrickAtPositionIsRtl(SetBackgroundAndWaitBrick.class, 0, R.id.brick_set_look_layout);
+		checkIfBrickAtPositionIsRtl(SetBackgroundAndWaitBrick.class, 0, R.id.brick_set_background_layout);
 
 		// Set background to number
-		checkIfBrickAtPositionIsRtl(SetBackgroundByIndexBrick.class, 1, R.id.brick_set_look_by_index_layout);
+		checkIfBrickAtPositionIsRtl(SetBackgroundByIndexBrick.class, 1, R.id.brick_set_background_by_index_layout);
 
 		// Set background to number and wait
-		checkIfBrickISRtl(SetBackgroundByIndexAndWaitBrick.class, R.id.brick_set_look_by_index_layout);
+		checkIfBrickISRtl(SetBackgroundByIndexAndWaitBrick.class, R.id.brick_set_background_by_index_layout);
 
 		// Turn camera
 		checkIfBrickISRtl(CameraBrick.class, R.id.brick_video_layout);

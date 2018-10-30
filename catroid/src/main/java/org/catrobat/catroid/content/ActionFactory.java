@@ -122,6 +122,8 @@ import org.catrobat.catroid.content.actions.ReplaceItemInUserListAction;
 import org.catrobat.catroid.content.actions.SceneStartAction;
 import org.catrobat.catroid.content.actions.SceneTransitionAction;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.content.actions.SetBackgroundLookAction;
+import org.catrobat.catroid.content.actions.SetBackgroundLookByIndexAction;
 import org.catrobat.catroid.content.actions.SetBrightnessAction;
 import org.catrobat.catroid.content.actions.SetColorAction;
 import org.catrobat.catroid.content.actions.SetLookAction;
@@ -596,7 +598,21 @@ public class ActionFactory extends Actions {
 		action.setReceivingSprites(currentProject.getSpriteListWithClones());
 		return action;
 	}
+	public Action createSetBackgroundLookAction(LookData lookData, @EventWrapper.WaitMode int waitMode) {
+		return createSetBackgroundLookEventAction((SetBackgroundLookAction) createSetBackgroundLookAction(lookData), waitMode);
+	}
 
+	public Action createSetBackgroundLookAction(LookData lookData) {
+		SetBackgroundLookAction action = Actions.action(SetBackgroundLookAction.class);
+		action.setLookData(lookData);
+		return action;
+	}
+	private Action createSetBackgroundLookEventAction(SetBackgroundLookAction action, @EventWrapper.WaitMode int waitMode) {
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		action.setWaitMode(waitMode);
+		action.setReceivingSprites(currentProject.getSpriteListWithClones());
+		return action;
+	}
 	public Action createSetLookByIndexAction(Sprite sprite, Formula formula, @EventWrapper.WaitMode int waitMode) {
 		return createSetLookEventAction((SetLookAction) createSetLookByIndexAction(sprite, formula), waitMode);
 	}
@@ -608,6 +624,16 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
+	public Action createSetBackgroundLookByIndexAction(Sprite scopeSprite, Formula formula, @EventWrapper.WaitMode int waitMode) {
+		return createSetBackgroundLookEventAction((SetBackgroundLookAction) createSetBackgroundLookByIndexAction(scopeSprite, formula), waitMode);
+	}
+
+	public Action createSetBackgroundLookByIndexAction(Sprite scopeSprite, Formula formula) {
+		SetBackgroundLookByIndexAction action = Actions.action(SetBackgroundLookByIndexAction.class);
+		action.setScopeSprite(scopeSprite);
+		action.setFormula(formula);
+		return action;
+	}
 	public Action createSetSizeToAction(Sprite sprite, Formula size) {
 		SetSizeToAction action = Actions.action(SetSizeToAction.class);
 		action.setSprite(sprite);

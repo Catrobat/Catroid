@@ -21,34 +21,40 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.content.bricks;
+package org.catrobat.catroid.content.actions;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.TextView;
+import android.util.Log;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.EventWrapper;
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 
-import java.util.Collections;
-import java.util.List;
-
-public class SetBackgroundAndWaitBrick extends SetBackgroundBrick {
-
-	public SetBackgroundAndWaitBrick() { }
-
+public class SetBackgroundLookByIndexAction extends SetBackgroundLookAction {
+	Formula formula;
+	Sprite scopeSprite;
 	@Override
-	public View getView(Context context) {
-		View view = super.getView(context);
-		((TextView) view.findViewById(R.id.brick_set_background_text_view)).setText(R.string.brick_set_background_and_wait);
-		return view;
+	public boolean act(float delta) {
+		updateLookFromFormula();
+		return super.act(delta);
 	}
 
-	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createSetBackgroundLookAction(look, EventWrapper.WAIT));
-		return Collections.emptyList();
+	public void setFormula(Formula formula) {
+		this.formula = formula;
+	}
+
+	public void setScopeSprite(Sprite scopeSprite) {
+		this.scopeSprite = scopeSprite;
+	}
+	private void updateLookFromFormula() {
+		try {
+			int lookPosition = formula.interpretInteger(scopeSprite);
+			background = ProjectManager.getInstance().getCurrentlyPlayingScene().getBackgroundSprite();
+			if (lookPosition > 0 && lookPosition <= background.getLookList().size()) {
+				lookData = background.getLookList().get(lookPosition - 1);
+			}
+		} catch (InterpretationException ex) {
+			Log.d(getClass().getSimpleName(), "Formula Interpretation for look index failed", ex);
+		}
 	}
 }
