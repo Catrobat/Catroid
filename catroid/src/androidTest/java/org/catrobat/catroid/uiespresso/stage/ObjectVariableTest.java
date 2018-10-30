@@ -73,7 +73,7 @@ public class ObjectVariableTest {
 	private static final double SPRITE_BRIGHTNESS = 0.7d;
 	private static final double SPRITE_SIZE = 90.0d;
 	private static final double SPRITE_DIRECTION = 42.0d;
-	private static final int SPRITE_LAYER_CHANGE = 2;
+	private static final int SPRITE_LAYER_CHANGE = 1;
 	private static final int NUMBER_OF_SPRITES = 5;
 
 	@Rule
@@ -97,10 +97,10 @@ public class ObjectVariableTest {
 		assertEquals(SPRITE_BRIGHTNESS, getSensorValue(Sensors.OBJECT_BRIGHTNESS), DELTA);
 		assertEquals(SPRITE_SIZE, getSensorValue(Sensors.OBJECT_SIZE), DELTA);
 		assertEquals(SPRITE_DIRECTION, getSensorValue(Sensors.OBJECT_ROTATION), DELTA);
-		assertEquals(NUMBER_OF_SPRITES - SPRITE_LAYER_CHANGE, getSensorValue(Sensors.OBJECT_LAYER), DELTA);
+		assertEquals(NUMBER_OF_SPRITES, getSensorValue(Sensors.OBJECT_LAYER), DELTA);
 	}
 
-	public Double getSensorValue(Sensors sensor) throws InterpretationException {
+	private Double getSensorValue(Sensors sensor) throws InterpretationException {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 		internTokenList.add(new InternToken(InternTokenType.SENSOR, sensor.name()));
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);

@@ -24,7 +24,6 @@ package org.catrobat.catroid.test.formulaeditor;
 
 import android.support.test.runner.AndroidJUnit4;
 
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -95,8 +94,7 @@ public class LookSensorValuesInterpretationTest {
 		assertEquals(LOOK_ROTATION, lookRotateFormula.interpretDouble(testSprite), DELTA);
 
 		Formula lookZPositionFormula = getFormulaBySensor(Sensors.OBJECT_LAYER);
-		assertEquals(testSprite.look.getZIndex(), lookZPositionFormula.interpretInteger(testSprite).intValue()
-				+ Constants.Z_INDEX_NUMBER_VIRTUAL_LAYERS);
+		assertEquals(testSprite.look.getZIndex(), lookZPositionFormula.interpretInteger(testSprite).intValue());
 	}
 
 	@Test
