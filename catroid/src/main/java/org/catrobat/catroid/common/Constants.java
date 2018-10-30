@@ -24,6 +24,8 @@ package org.catrobat.catroid.common;
 
 import android.support.annotation.IntDef;
 
+import org.catrobat.catroid.CatroidApplication;
+
 import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -79,7 +81,7 @@ public final class Constants {
 	public static final File BACKPACK_IMAGE_DIRECTORY = new File(BACKPACK_DIRECTORY, "backpack_image");
 
 	// Temporary Files and Directories:
-	public static final String TMP_PATH = DEFAULT_ROOT_DIRECTORY.getAbsolutePath() + "/tmp";
+	public static final String TMP_PATH = CatroidApplication.getAppContext().getCacheDir().getAbsolutePath() + "/tmp";
 	public static final String TEXT_TO_SPEECH_TMP_PATH = TMP_PATH + "/textToSpeech";
 	public static final String TMP_LOOKS_PATH = TMP_PATH + "/looks";
 	public static final String TMP_SOUNDS_PATH = TMP_PATH + "/sounds";
@@ -164,6 +166,8 @@ public final class Constants {
 	public static final String PLATFORM_DEFAULT = "Android";
 
 	public static final String WHATSAPP_URI = "whatsapp://";
+
+	public static final String FILE_PROVIDER_AUTHORITY = "org.catrobat.catroid.fileProvider";
 
 	// Scratch Converter
 	public static final int DOWNLOAD_FILE_HTTP_TIMEOUT = 30_000;
