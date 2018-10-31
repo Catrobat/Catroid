@@ -22,13 +22,13 @@
  */
 package org.catrobat.catroid.utils;
 
-import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.support.v4.app.NotificationCompat;
 
 public class NotificationData {
 
-	private Notification.Builder notificationBuilder;
+	private NotificationCompat.Builder notificationBuilder;
 	private PendingIntent pendingIntent;
 
 	private int notificationIcon;
@@ -96,11 +96,11 @@ public class NotificationData {
 		this.notificationTextDone = newTextDone;
 	}
 
-	public Notification.Builder getNotificationBuilder() {
+	public NotificationCompat.Builder getNotificationBuilder() {
 		return notificationBuilder;
 	}
 
-	public NotificationData setNotificationBuilder(Notification.Builder notificationBuilder) {
+	public NotificationData setNotificationBuilder(NotificationCompat.Builder notificationBuilder) {
 		this.notificationBuilder = notificationBuilder;
 		return this;
 	}
