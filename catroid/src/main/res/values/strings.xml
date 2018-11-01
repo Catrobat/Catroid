@@ -205,8 +205,8 @@
         later!</string>
     <string name="error_specific_scratch_program_conversion_failed_x">Whoops! Failed to convert %1$s, please try
         again later!</string>
-    <string name="error_scratch_converter_outdated_app_version">Your version of Pocket Code is outdated. Our Scratch
-        converter only works on the latest version. Please update it through Google Play</string>
+    <string name="error_scratch_converter_outdated_app_version">Your version of this app is outdated.
+        Our Scratch converter only works on the latest version. Please update the app.</string>
     <string name="error_cannot_open_not_existing_scratch_program">Cannot open this Scratch program. It seems that you
         have canceled the conversion/download of the Scratch program, or you have renamed/deleted the program in the
         meanwhile!</string>
@@ -1299,6 +1299,10 @@
     <string name="drone_set_tilt_indoor">12 degrees</string>
     <string name="drone_set_tilt_outdoor">20 degrees </string>
     <string name="drone_set_tilt_max">30 degrees</string>
+
+    <!-- Notification Channel -->
+    <string name="channel_description">%1$s notification channel</string>
+    <!--  -->
 
     <!-- Notifications -->
     <string name="notification_screenshot_ok">Preview image saved</string>
