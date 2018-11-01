@@ -113,7 +113,7 @@ android {
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         versionCode 51
         println "VersionCode is $versionCode"
-        versionName "0.9.44"
+        versionName "0.9.45"
         println "VersionName is $versionName"
         buildConfigField "String", "GIT_COMMIT_INFO", "\"${getGitCommitInfo()}\""
         multiDexEnabled true
