@@ -64,8 +64,8 @@ public class LegoEv3MotorStopBrickTest {
 	@Test
 	@Flaky
 	public void legoEv3MotorStopBrickTest() {
-		onBrickAtPosition(0).checkShowsText("When program starts");
-		onBrickAtPosition(brickPosition).checkShowsText("Stop EV3 motor");
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.ev3_motor_stop);
 
 		onBrickAtPosition(brickPosition).onSpinner(R.id.ev3_stop_motor_spinner)
 				.checkShowsText(R.string.ev3_motor_a);

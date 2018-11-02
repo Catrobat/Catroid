@@ -216,7 +216,7 @@ public class BrickValueParameterTest {
 
 	@Before
 	public void setUp() throws Exception {
-		createProject("brickDefaultValueParameterTest ");
+		createProject(getClass().getSimpleName());
 		baseActivityTestRule.launchActivity();
 
 		SharedPreferences sharedPreferences = PreferenceManager
@@ -301,8 +301,8 @@ public class BrickValueParameterTest {
 		onData(instanceOf(CollisionReceiverBrick.class)).inAdapterView(BrickPrototypeListMatchers
 				.isBrickPrototypeView())
 				.onChildView(withId(R.id.brick_collision_receive_spinner))
-				.onChildView(withText(CollisionReceiverBrick.ANYTHING_ESCAPE_CHAR + "anything" + CollisionReceiverBrick
-						.ANYTHING_ESCAPE_CHAR))
+				.onChildView(withText(CollisionReceiverBrick.ANYTHING_ESCAPE_CHAR
+						+ "any edge, actor, or object" + CollisionReceiverBrick.ANYTHING_ESCAPE_CHAR))
 				.check(matches(isDisplayed()));
 
 		checkIfBrickShowsText(WhenBackgroundChangesBrick.class, R.string.brick_when_background);
@@ -343,7 +343,9 @@ public class BrickValueParameterTest {
 
 		//Go to
 		checkIfBrickShowsText(GoToBrick.class, R.string.brick_go_to);
-		checkIfBrickShowsSpinnerWithEditTextOverlayWithText(GoToBrick.class, R.id.brick_go_to_spinner, R.string.brick_go_to_touch_position);
+		checkIfBrickShowsSpinnerWithEditTextOverlayWithText(GoToBrick.class,
+				R.id.brick_go_to_spinner,
+				R.string.brick_go_to_touch_position);
 
 		//If on edge, bounce
 		checkIfBrickShowsText(IfOnEdgeBounceBrick.class, R.string.brick_if_on_edge_bounce);

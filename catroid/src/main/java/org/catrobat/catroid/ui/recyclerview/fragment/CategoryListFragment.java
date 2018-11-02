@@ -205,8 +205,8 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	@Override
 	public void onResume() {
 		super.onResume();
-		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getArguments()
-				.getString(ACTION_BAR_TITLE_BUNDLE_ARGUMENT));
+		((AppCompatActivity) getActivity()).getSupportActionBar()
+				.setTitle(getArguments().getString(ACTION_BAR_TITLE_BUNDLE_ARGUMENT));
 	}
 
 	@Override
@@ -225,15 +225,12 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			case CategoryListRVAdapter.NXT:
 				showLegoSensorPortConfigDialog(item.nameResId, Constants.NXT);
 				break;
-
 			case CategoryListRVAdapter.EV3:
 				showLegoSensorPortConfigDialog(item.nameResId, Constants.EV3);
 				break;
-
 			case CategoryListRVAdapter.COLLISION:
 				showSelectSpriteDialog();
 				break;
-
 			case CategoryListRVAdapter.DEFAULT:
 				((FormulaEditorFragment) getFragmentManager()
 						.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG))

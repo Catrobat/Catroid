@@ -31,7 +31,6 @@ import org.catrobat.catroid.common.defaultprojectcreators.ArDroneProjectCreator;
 import org.catrobat.catroid.common.defaultprojectcreators.ChromeCastProjectCreator;
 import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreator;
 import org.catrobat.catroid.common.defaultprojectcreators.JumpingSumoProjectCreator;
-import org.catrobat.catroid.common.defaultprojectcreators.PhysicsProjectCreator;
 import org.catrobat.catroid.common.defaultprojectcreators.ProjectCreator;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageOperations;
@@ -46,7 +45,7 @@ public final class DefaultProjectHandler {
 	private static final String TAG = DefaultProjectHandler.class.getSimpleName();
 
 	public enum ProjectCreatorType {
-		PROJECT_CREATOR_DEFAULT, PROJECT_CREATOR_DRONE, PROJECT_CREATOR_PHYSICS, PROJECT_CREATOR_CAST,
+		PROJECT_CREATOR_DEFAULT, PROJECT_CREATOR_DRONE, PROJECT_CREATOR_CAST,
 		PROJECT_CREATOR_JUMPING_SUMO
 	}
 
@@ -122,9 +121,6 @@ public final class DefaultProjectHandler {
 				} else {
 					defaultProjectCreator = new DefaultProjectCreator();
 				}
-				break;
-			case PROJECT_CREATOR_PHYSICS:
-				defaultProjectCreator = new PhysicsProjectCreator();
 				break;
 			case PROJECT_CREATOR_CAST:
 				if (BuildConfig.FEATURE_CAST_ENABLED) {

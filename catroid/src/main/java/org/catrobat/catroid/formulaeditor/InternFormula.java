@@ -104,16 +104,14 @@ public class InternFormula {
 		List<InternToken> keyInputInternTokenList = new InternFormulaKeyboardAdapter()
 				.createInternTokenListByResourceId(resourceId, name);
 
-		CursorTokenPropertiesAfterModification cursorTokenPropertiesAfterInput = CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
+		CursorTokenPropertiesAfterModification cursorTokenPropertiesAfterInput = CursorTokenPropertiesAfterModification
+				.DO_NOT_MODIFY;
 
 		if (resourceId == R.id.formula_editor_keyboard_delete) {
-
 			cursorTokenPropertiesAfterInput = handleDeletion();
 		} else if (isTokenSelected()) {
-
 			cursorTokenPropertiesAfterInput = replaceSelection(keyInputInternTokenList);
 		} else if (cursorTokenPosition == null) {
-
 			cursorTokenPropertiesAfterInput = insertRightToCurrentToken(keyInputInternTokenList);
 		} else {
 			switch (cursorTokenPosition) {
