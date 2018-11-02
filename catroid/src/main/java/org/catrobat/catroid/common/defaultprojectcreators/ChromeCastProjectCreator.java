@@ -62,8 +62,8 @@ import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.soundrecorder.SoundRecorder;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.ui.fragment.SpriteFactory;
+import org.catrobat.catroid.utils.CrashReporter;
 import org.catrobat.catroid.utils.ImageEditing;
-import org.catrobat.catroid.utils.PathBuilder;
 
 import java.io.File;
 import java.io.IOException;
@@ -86,7 +86,7 @@ public class ChromeCastProjectCreator extends ProjectCreator {
 			throw new IllegalArgumentException("Project with name '" + projectName + "' already exists!");
 		}
 
-		Project defaultProject = new Project(context, projectName, false, true);
+		Project defaultProject = new Project(context, projectName, true, true);
 		defaultProject.setDeviceData(context); // density anywhere here
 		XstreamSerializer.getInstance().saveProject(defaultProject);
 		ProjectManager.getInstance().setProject(defaultProject);
@@ -111,14 +111,14 @@ public class ChromeCastProjectCreator extends ProjectCreator {
 		File backgroundFile;
 		File cloudFile;
 
-		File projectDir = new File(PathBuilder.buildProjectPath(defaultProject.getName()));
-		File imageDir = new File(defaultProject.getDefaultScene().getDirectory(), Constants.IMAGE_DIRECTORY_NAME);
-		File soundDir = new File(defaultProject.getDefaultScene().getDirectory(), Constants.SOUND_DIRECTORY_NAME);
+		File sceneDir = defaultProject.getDefaultScene().getDirectory();
+		File imageDir = new File(sceneDir, Constants.IMAGE_DIRECTORY_NAME);
+		File soundDir = new File(sceneDir, Constants.SOUND_DIRECTORY_NAME);
 
 		backgroundImageScaleFactor = ImageEditing.calculateScaleFactorToScreenSize(
 				R.drawable.default_project_background_landscape, context);
 		cloudFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), R.drawable.default_project_clouds_landscape, imageDir,
-				backgroundName + Constants.DEFAULT_IMAGE_EXTENSION,
+				cloudName + Constants.DEFAULT_IMAGE_EXTENSION,
 				backgroundImageScaleFactor);
 
 		backgroundFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), R.drawable.default_project_background_landscape, imageDir,
@@ -135,10 +135,10 @@ public class ChromeCastProjectCreator extends ProjectCreator {
 				backgroundImageScaleFactor);
 
 		File birdWingUpLeftFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), R.drawable.default_project_bird_wing_up_left, imageDir,
-				birdWingDownLookName + Constants.DEFAULT_IMAGE_EXTENSION,
+				birdWingUpLeftLookName + Constants.DEFAULT_IMAGE_EXTENSION,
 				backgroundImageScaleFactor);
 		File birdWingDownLeftFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), R.drawable.default_project_bird_wing_down_left, imageDir,
-				birdWingDownLookName + Constants.DEFAULT_IMAGE_EXTENSION,
+				birdWingDownLeftLookName + Constants.DEFAULT_IMAGE_EXTENSION,
 				backgroundImageScaleFactor);
 
 		try {
@@ -150,43 +150,25 @@ public class ChromeCastProjectCreator extends ProjectCreator {
 					tweet2 + SoundRecorder.RECORDING_EXTENSION
 			);
 
-			ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), R.drawable.default_project_screenshot, projectDir,
+			ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(), R.drawable
+							.default_project_screenshot, sceneDir,
 					StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME,
 					1);
 
-			LookData backgroundLookData = new LookData();
-			backgroundLookData.setName(backgroundName);
-			backgroundLookData.setFile(backgroundFile);
+			LookData backgroundLookData = new LookData(backgroundName, backgroundFile);
 
 			Sprite backgroundSprite = defaultProject.getDefaultScene().getSpriteList().get(0);
 			backgroundSprite.getLookList().add(backgroundLookData);
 
-			LookData birdWingUpLookData = new LookData();
-			birdWingUpLookData.setName(birdWingUpLookName);
-			birdWingUpLookData.setFile(birdWingUpFile);
+			LookData birdWingUpLookData = new LookData(birdWingUpLookName, birdWingUpFile);
+			LookData birdWingDownLookData = new LookData(birdWingDownLookName, birdWingDownFile);
+			LookData birdWingUpLeftLookData = new LookData(birdWingUpLeftLookName, birdWingUpLeftFile);
+			LookData birdWingDownLeftLookData = new LookData(birdWingDownLeftLookName, birdWingDownLeftFile);
 
-			LookData birdWingDownLookData = new LookData();
-			birdWingDownLookData.setName(birdWingDownLookName);
-			birdWingDownLookData.setFile(birdWingDownFile);
+			LookData cloudLookData = new LookData(cloudName, cloudFile);
 
-			LookData birdWingUpLeftLookData = new LookData();
-			birdWingUpLeftLookData.setName(birdWingUpLeftLookName);
-			birdWingUpLeftLookData.setFile(birdWingUpLeftFile);
-
-			LookData birdWingDownLeftLookData = new LookData();
-			birdWingDownLeftLookData.setName(birdWingDownLeftLookName);
-			birdWingDownLeftLookData.setFile(birdWingDownLeftFile);
-
-			LookData cloudLookData = new LookData();
-			cloudLookData.setName(cloudName);
-			cloudLookData.setFile(cloudFile);
-
-			SoundInfo soundInfo1 = new SoundInfo();
-			soundInfo1.setName(tweet1);
-			soundInfo1.setFile(soundFile1);
-			SoundInfo soundInfo2 = new SoundInfo();
-			soundInfo2.setName(tweet2);
-			soundInfo2.setFile(soundFile2);
+			SoundInfo soundInfo1 = new SoundInfo(tweet1, soundFile1);
+			SoundInfo soundInfo2 = new SoundInfo(tweet2, soundFile2);
 
 			DataContainer dataContainer = defaultProject.getDefaultScene().getDataContainer();
 
@@ -198,13 +180,16 @@ public class ChromeCastProjectCreator extends ProjectCreator {
 			Sprite cloudSprite2 = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), cloudSpriteName2);
 
 			cloudSprite1.getLookList().add(cloudLookData);
-			cloudSprite2.getLookList().add(cloudLookData);
+			cloudSprite2.getLookList().add(cloudLookData.clone());
 
 			Script cloudSpriteScript1 = new StartScript();
 			Script cloudSpriteScript2 = new StartScript();
 
 			PlaceAtBrick placeAtBrick1 = new PlaceAtBrick(0, 0);
 			PlaceAtBrick placeAtBrick2 = new PlaceAtBrick(ScreenValues.CAST_SCREEN_WIDTH, 0);
+			PlaceAtBrick placeAtBrick3 = new PlaceAtBrick(ScreenValues.CAST_SCREEN_WIDTH, 0);
+			PlaceAtBrick placeAtBrick4 = new PlaceAtBrick(ScreenValues.CAST_SCREEN_WIDTH, 0);
+			PlaceAtBrick placeAtBrick5 = new PlaceAtBrick(ScreenValues.CAST_SCREEN_WIDTH, 0);
 
 			cloudSpriteScript1.addBrick(placeAtBrick1);
 			cloudSpriteScript2.addBrick(placeAtBrick2);
@@ -212,25 +197,27 @@ public class ChromeCastProjectCreator extends ProjectCreator {
 			GlideToBrick glideToBrick1 = new GlideToBrick(-ScreenValues.CAST_SCREEN_WIDTH, 0, 5000);
 			cloudSpriteScript1.addBrick(glideToBrick1);
 
-			cloudSpriteScript1.addBrick(placeAtBrick2);
+			cloudSpriteScript1.addBrick(placeAtBrick3);
 
-			ForeverBrick foreverBrick = new ForeverBrick();
-			cloudSpriteScript1.addBrick(foreverBrick);
-			cloudSpriteScript2.addBrick(foreverBrick);
+			ForeverBrick foreverBrick1 = new ForeverBrick();
+			ForeverBrick foreverBrick2 = new ForeverBrick();
+			cloudSpriteScript1.addBrick(foreverBrick1);
+			cloudSpriteScript2.addBrick(foreverBrick2);
 
 			GlideToBrick glideToBrick2 = new GlideToBrick(-ScreenValues.CAST_SCREEN_WIDTH, 0, 10000);
+			GlideToBrick glideToBrick3 = new GlideToBrick(-ScreenValues.CAST_SCREEN_WIDTH, 0, 10000);
 
 			cloudSpriteScript1.addBrick(glideToBrick2);
-			cloudSpriteScript1.addBrick(placeAtBrick2);
+			cloudSpriteScript1.addBrick(placeAtBrick4);
 
-			cloudSpriteScript2.addBrick(glideToBrick2);
-			cloudSpriteScript2.addBrick(placeAtBrick2);
+			cloudSpriteScript2.addBrick(glideToBrick3);
+			cloudSpriteScript2.addBrick(placeAtBrick5);
 
-			LoopEndlessBrick loopEndlessBrick = new LoopEndlessBrick(foreverBrick);
-			cloudSpriteScript1.addBrick(loopEndlessBrick);
-
+			LoopEndlessBrick loopEndlessBrick1 = new LoopEndlessBrick(foreverBrick1);
+			LoopEndlessBrick loopEndlessBrick2 = new LoopEndlessBrick(foreverBrick2);
+			cloudSpriteScript1.addBrick(loopEndlessBrick1);
 			cloudSprite1.addScript(cloudSpriteScript1);
-			cloudSpriteScript2.addBrick(loopEndlessBrick);
+			cloudSpriteScript2.addBrick(loopEndlessBrick2);
 			cloudSprite2.addScript(cloudSpriteScript2);
 
 			defaultProject.getDefaultScene().addSprite(cloudSprite1);
@@ -411,6 +398,7 @@ public class ChromeCastProjectCreator extends ProjectCreator {
 			birdSprite.addScript(birdScriptButtonB);
 			defaultProject.getDefaultScene().addSprite(birdSprite);
 		} catch (IllegalArgumentException illegalArgumentException) {
+			CrashReporter.logException(illegalArgumentException);
 			throw new IOException(TAG, illegalArgumentException);
 		}
 
