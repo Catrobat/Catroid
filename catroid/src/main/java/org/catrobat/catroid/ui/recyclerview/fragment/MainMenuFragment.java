@@ -32,12 +32,15 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ProjectListActivity;
 import org.catrobat.catroid.ui.WebViewActivity;
@@ -47,6 +50,7 @@ import org.catrobat.catroid.ui.recyclerview.adapter.ButtonAdapter;
 import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectLoaderTask;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewProjectDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.viewholder.ButtonVH;
+import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
@@ -126,6 +130,23 @@ public class MainMenuFragment extends Fragment implements ButtonAdapter.OnItemCl
 		setShowProgressBar(false);
 		adapter.items.get(0).subtitle = Utils.getCurrentProjectName(getActivity());
 		adapter.notifyDataSetChanged();
+
+		String projectName = getActivity().getIntent().getStringExtra(StatusBarNotificationManager.EXTRA_PROJECT_NAME);
+		if (projectName != null) {
+			loadDownloadedProject(projectName);
+		}
+	}
+
+	private void loadDownloadedProject(String name) {
+		try {
+			ProjectManager.getInstance().loadProject(name, getContext());
+			Intent intent = new Intent(getContext(), ProjectActivity.class);
+			intent.putExtra(ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SCENES);
+			startActivity(intent);
+		} catch (ProjectException e) {
+			Log.e(TAG, Log.getStackTraceString(e));
+			ToastUtil.showError(getActivity(), R.string.error_load_project);
+		}
 	}
 
 	public void setShowProgressBar(boolean show) {
