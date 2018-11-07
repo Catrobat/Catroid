@@ -35,12 +35,6 @@ pipeline {
 		// Otherwise user.home returns ? for java applications
 		JAVA_TOOL_OPTIONS = "-Duser.home=/tmp/"
 
-		//// jenkins-android-helper related variables
-		// set to any value to debug jenkins_android* scripts
-		ANDROID_EMULATOR_HELPER_DEBUG = ""
-		// get stdout of called subprocesses immediately
-		PYTHONUNBUFFERED = "true"
-
 		//////// Build specific variables ////////
 		//////////// May be edited by the developer on changing the build steps
 		// modulename
@@ -68,7 +62,7 @@ pipeline {
 			steps {
 				// Install Android SDK
 				lock("update-android-sdk-on-${env.NODE_NAME}") {
-					sh "./buildScripts/build_step_install_android_sdk"
+					sh './gradlew -PinstallSdk'
 				}
 			}
 		}
@@ -140,7 +134,7 @@ done
 			}
 
 			steps {
-				sh "./buildScripts/build_step_create_standalone_apk '${DOWNLOAD}' '${SUFFIX}'"
+				sh "./gradlew clean assembleStandaloneDebug -Papk_generator_enabled=true -Psuffix='$SUFFIX' -Pdownload='$DOWNLOAD'"
 				archiveArtifacts "${env.APK_LOCATION_STANDALONE}"
 			}
 		}
