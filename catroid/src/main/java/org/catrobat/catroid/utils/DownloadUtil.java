@@ -28,6 +28,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -101,7 +102,7 @@ public final class DownloadUtil {
 		webViewActivity.createProgressDialog(mediaName);
 		webViewActivity.setResultIntent(webViewActivity.getResultIntent()
 				.putExtra(WebViewActivity.MEDIA_FILE_PATH, filePath));
-		activity.startService(downloadIntent);
+		ContextCompat.startForegroundService(activity, downloadIntent);
 	}
 
 	public void startDownload(Context context, String url, String programName, boolean renameProject) {
@@ -119,7 +120,7 @@ public final class DownloadUtil {
 		StatusBarNotificationManager manager = StatusBarNotificationManager.getInstance();
 		int notificationId = manager.createDownloadNotification(context, programName);
 		downloadIntent.putExtra(ProjectDownloadService.ID_TAG, notificationId);
-		context.startService(downloadIntent);
+		ContextCompat.startForegroundService(context, downloadIntent);
 	}
 
 	public void downloadFinished(String programName, String url) {

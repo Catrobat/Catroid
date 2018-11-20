@@ -32,6 +32,7 @@ import android.os.Handler;
 import android.os.ResultReceiver;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
@@ -198,7 +199,7 @@ public class UploadProgressDialogFragment extends DialogFragment {
 				.createUploadNotification(getActivity(), uploadName);
 
 		intent.putExtra("notificationId", notificationId);
-		getActivity().startService(intent);
+		ContextCompat.startForegroundService(getActivity(), intent);
 
 		int numberOfUploadedProjects = sharedPreferences.getInt(NUMBER_OF_UPLOADED_PROJECTS, 0);
 		numberOfUploadedProjects++;

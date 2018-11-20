@@ -35,6 +35,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.ResultReceiver;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.util.SparseArray;
 
@@ -307,7 +308,7 @@ public final class StatusBarNotificationManager {
 				int notificationId = StatusBarNotificationManager.getInstance().createUploadNotification(getApplicationContext(),
 						projectName);
 				reuploadIntent.putExtra("notificationId", notificationId);
-				getApplicationContext().startService(reuploadIntent);
+				ContextCompat.startForegroundService(getApplicationContext(), reuploadIntent);
 			}
 
 			if (ACTION_CANCEL_UPLOAD.equals(action)) {
