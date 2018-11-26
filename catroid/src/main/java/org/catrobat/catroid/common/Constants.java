@@ -87,7 +87,7 @@ public final class Constants {
 	public static final String TMP_SOUNDS_PATH = TMP_PATH + "/sounds";
 
 	// Web:
-	public static final String MAIN_URL_HTTPS = "https://share.catrob.at";
+	public static final String MAIN_URL_HTTPS = "http://cat-share-exp.ist.tugraz.at";
 
 	public static final String SHARE_PROGRAM_URL = BASE_URL_HTTPS + "/program/";
 	public static final String STANDALONE_URL = "http://catrob.at/csadttwt";
