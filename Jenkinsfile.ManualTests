@@ -16,13 +16,6 @@ pipeline {
 		}
 	}
 
-	parameters {
-		choice(name: 'TYPE', choices: ['class', 'package'], description: 'Are the tests in a package or in a class?')
-		string(name: 'NAME', description: 'The fully qualified name of the test class or test package.',
-				defaultValue: 'org.catrobat.catroid.uiespresso.testsuites.ApiLevel19RegressionTestsSuite')
-		choice(name: 'EMULATOR', choices: ['android19', 'android24'], description: 'The emulator to use, as specified in build.gradle')
-	}
-
 	environment {
 		//////// Define environment variables to point to the correct locations inside the container ////////
 		//////////// Most likely not edited by the developer
@@ -53,7 +46,7 @@ pipeline {
 		stage('Prepare build') {
 			steps {
 				script {
-					currentBuild.displayName = params.NAME
+					currentBuild.displayName = env.NAME
 				}
 			}
 		}
@@ -68,8 +61,8 @@ pipeline {
 
 		stage('Unit and Device tests') {
 			steps {
-				sh """./gradlew -PenableCoverage -Pemulator=${params.EMULATOR} startEmulator \
-							createCatroidDebugAndroidTestCoverageReport -Pandroid.testInstrumentationRunnerArguments.${params.TYPE}=${params.NAME}"""
+				sh """./gradlew -PenableCoverage -Pemulator=${env.EMULATOR} startEmulator \
+							createCatroidDebugAndroidTestCoverageReport -Pandroid.testInstrumentationRunnerArguments.${env.TYPE}=${env.NAME}"""
 			}
 
 			post {
