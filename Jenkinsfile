@@ -65,6 +65,7 @@ pipeline {
 
 	triggers {
 		cron(env.BRANCH_NAME == 'develop' ? '@midnight' : '')
+		issueCommentTrigger('.*test this please.*')
 	}
 
 	stages {
