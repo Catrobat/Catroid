@@ -34,7 +34,7 @@ public class DroneTakeoffAndLandAction extends TemporalAction {
 	@Override
 	protected void begin() {
 		super.begin();
-		DroneControlService dcs = DroneServiceWrapper.getInstance().getDroneService();
+		DroneControlService dcs = DroneServiceWrapper.getDroneService();
 		if (dcs != null) {
 			dcs.triggerTakeOff();
 			super.setDuration(duration);

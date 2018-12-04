@@ -93,10 +93,11 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 	private CameraState state = CameraState.notUsed;
 
 	public static CameraManager getInstance() {
-		if (instance == null) {
-			instance = new CameraManager();
-		}
 		return instance;
+	}
+
+	public static void makeInstance() {
+		instance = new CameraManager();
 	}
 
 	private CameraManager() {
@@ -538,7 +539,7 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 
 	public void destroyStage() {
 		if (this.stageActivity != null) {
-			stageActivity.destroy();
+			stageActivity.finish();
 		}
 	}
 

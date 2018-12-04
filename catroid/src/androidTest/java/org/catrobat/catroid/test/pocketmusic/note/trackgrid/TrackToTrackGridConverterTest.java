@@ -26,6 +26,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.pocketmusic.note.MusicalBeat;
 import org.catrobat.catroid.pocketmusic.note.MusicalInstrument;
+import org.catrobat.catroid.pocketmusic.note.MusicalKey;
 import org.catrobat.catroid.pocketmusic.note.Project;
 import org.catrobat.catroid.pocketmusic.note.Track;
 import org.catrobat.catroid.pocketmusic.note.trackgrid.TrackGrid;
@@ -74,7 +75,7 @@ public class TrackToTrackGridConverterTest {
 
 	@Test
 	public void testConvertEmptyTrack() {
-		Track emptyTrack = TrackTestDataFactory.createEmptyTrack(MusicalInstrument.ACOUSTIC_GRAND_PIANO);
+		Track emptyTrack = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 		TrackGrid emptyTrackGrid = TrackGridTestDataFactory.createEmptyTrackGrid();
 
 		TrackGrid convertedTrackGrid = TrackToTrackGridConverter.convertTrackToTrackGrid(emptyTrack, MusicalBeat.BEAT_4_4,

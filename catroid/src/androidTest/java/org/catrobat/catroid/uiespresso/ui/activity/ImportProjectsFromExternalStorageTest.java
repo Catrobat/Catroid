@@ -23,9 +23,11 @@
 
 package org.catrobat.catroid.uiespresso.ui.activity;
 
+import android.Manifest;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.rule.GrantPermissionRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
@@ -63,21 +65,27 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 public class ImportProjectsFromExternalStorageTest {
+
 	@Rule
 	public BaseActivityInstrumentationRule<MainMenuActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(MainMenuActivity.class);
+
+	@Rule
+	public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE);
+
 	private String projectName = "testImportProjectsFromExternalStorage";
 	private String renamedProjectName = "testImportProjectsFromExternalStorag_#0e";
-	private SharedPreferences sharedPreferences;
 	private boolean hasUserAgreedToPrivacyPolicyBuffer;
 	private boolean doNotShowImportProjectsDialog;
 
 	@Before
 	public void setUp() throws Exception {
+		TestUtils.deleteProjects(projectName, renamedProjectName);
+
 		new DefaultProjectCreator().createDefaultProject(projectName, InstrumentationRegistry.getTargetContext(), false);
 		StorageOperations.copyDir(internalProjectFolder(projectName), externalProjectFolder(projectName));
 
-		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
 		hasUserAgreedToPrivacyPolicyBuffer = sharedPreferences.getBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, false);
 		doNotShowImportProjectsDialog = sharedPreferences.getBoolean(SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG, false);
 		sharedPreferences.edit().putBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, true).commit();
@@ -87,13 +95,13 @@ public class ImportProjectsFromExternalStorageTest {
 
 	@After
 	public void tearDown() throws Exception {
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
 		sharedPreferences.edit().putBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, hasUserAgreedToPrivacyPolicyBuffer).commit();
 		sharedPreferences.edit().putBoolean(SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG, doNotShowImportProjectsDialog).commit();
 		if (EXTERNAL_STORAGE_ROOT_DIRECTORY.exists()) {
 			StorageOperations.deleteDir(EXTERNAL_STORAGE_ROOT_DIRECTORY);
 		}
-		TestUtils.deleteProjects(projectName);
-		TestUtils.deleteProjects(renamedProjectName);
+		TestUtils.deleteProjects(projectName, renamedProjectName);
 	}
 
 	@Test

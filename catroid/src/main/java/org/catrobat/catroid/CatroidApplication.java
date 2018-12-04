@@ -100,7 +100,7 @@ public class CatroidApplication extends MultiDexApplication {
 	}
 
 	@SuppressWarnings("PMD.AvoidUsingNativeCode")
-	public static synchronized boolean loadSDKLib() {
+	public static synchronized boolean loadJumpingSumoSDKLib() {
 		if (parrotJSLibrariesLoaded) {
 			return true;
 		}

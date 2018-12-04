@@ -1175,6 +1175,10 @@ public class FormulaElement implements Serializable {
 				case GAMEPAD_RIGHT_PRESSED:
 					requiredResourcesSet.add(Brick.CAST_REQUIRED);
 					break;
+
+				case LOUDNESS:
+					requiredResourcesSet.add(Brick.MICROPHONE);
+					break;
 				default:
 			}
 		}

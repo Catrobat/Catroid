@@ -85,12 +85,12 @@
 
     <application
         android:name=".CatroidApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="${appIcon}"
         android:label="${appName}"
         android:theme="@style/Catroid"
         android:supportsRtl="true"
-        tools:replace="android:label">
+        tools:replace="android:label,android:allowBackup">
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -169,19 +169,8 @@
             android:windowSoftInputMode="adjustNothing"/>
 
         <activity
-            android:name=".stage.PreStageActivity"
-            android:screenOrientation="portrait" />
-
-        <activity
             android:name=".stage.StageActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/stage"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" />
-
-        <activity
-            android:name=".drone.ardrone.DroneStageActivity"
-            android:configChanges="orientation"
             android:label="@string/stage"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" />

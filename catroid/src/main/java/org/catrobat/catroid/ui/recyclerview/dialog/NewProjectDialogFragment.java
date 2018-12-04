@@ -34,9 +34,9 @@ import android.widget.RadioGroup;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.drone.ardrone.DroneServiceWrapper;
 import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoServiceWrapper;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
@@ -52,7 +52,7 @@ public class NewProjectDialogFragment extends DialogFragment {
 
 		final RadioGroup radioGroup = view.findViewById(R.id.radio_group);
 
-		if (DroneServiceWrapper.isDroneSharedPreferenceEnabled()) {
+		if (SettingsFragment.isDroneSharedPreferenceEnabled(getContext())) {
 			view.findViewById(R.id.project_default_drone_radio_button).setVisibility(View.VISIBLE);
 		}
 

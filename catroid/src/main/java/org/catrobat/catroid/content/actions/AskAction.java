@@ -45,7 +45,6 @@ public class AskAction extends Action {
 	private boolean answerReceived = false;
 
 	private void askQuestion() {
-
 		if (StageActivity.messageHandler == null) {
 			return;
 		}

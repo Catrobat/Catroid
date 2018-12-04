@@ -38,7 +38,6 @@ import android.view.ViewGroup;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.Constants.LegoSensorType;
 import org.catrobat.catroid.content.Sprite;
@@ -450,9 +449,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	}
 
 	private List<CategoryListItem> getFaceDetectionSensorItems() {
-		return CameraManager.getInstance().hasBackCamera() || !CameraManager.getInstance().hasFrontCamera()
-				? addHeader(toCategoryListItems(SENSORS_FACE_DETECTION), getString(R.string.formula_editor_device_face_detection))
-				: Collections.<CategoryListItem>emptyList();
+		return addHeader(toCategoryListItems(SENSORS_FACE_DETECTION), getString(R.string.formula_editor_device_face_detection));
 	}
 
 	private List<CategoryListItem> getDateTimeSensorItems() {

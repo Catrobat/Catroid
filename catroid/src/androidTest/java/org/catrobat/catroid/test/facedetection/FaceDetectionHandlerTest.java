@@ -24,6 +24,7 @@ package org.catrobat.catroid.test.facedetection;
 
 import android.support.test.runner.AndroidJUnit4;
 
+import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.facedetection.FaceDetector;
 import org.junit.After;
@@ -46,6 +47,7 @@ public class FaceDetectionHandlerTest {
 
 	@Test
 	public void testResume() {
+		CameraManager.makeInstance();
 		FaceDetector detector = Mockito.mock(FaceDetector.class);
 		when(detector.startFaceDetection()).thenReturn(true);
 		InOrder inOrder = inOrder(detector);

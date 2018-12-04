@@ -23,15 +23,13 @@
 
 package org.catrobat.catroid.uiespresso.testsuites;
 
-import org.catrobat.catroid.uiespresso.formulaeditor.FormulaEditorKeyboardTest;
-import org.catrobat.catroid.uiespresso.pocketmusic.PocketMusicActivityTest;
+import org.catrobat.catroid.uiespresso.SmokeTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-		FormulaEditorKeyboardTest.class, // fails rightly, something majorly wrong with formula editor
-		PocketMusicActivityTest.class // no idea whats wrong here
+		SmokeTest.class
 })
 public class AllEspressoTestsDebugSuite {
 }

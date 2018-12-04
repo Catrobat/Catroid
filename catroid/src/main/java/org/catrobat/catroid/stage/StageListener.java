@@ -97,7 +97,7 @@ public class StageListener implements ApplicationListener {
 	public static final String SCREENSHOT_MANUAL_FILE_NAME = "manual_screenshot" + DEFAULT_IMAGE_EXTENSION;
 
 	private Stage stage = null;
-	private boolean paused = false;
+	private boolean paused = true;
 	private boolean finished = false;
 	private boolean reloadProject = false;
 	public boolean firstFrameDrawn = false;
@@ -201,6 +201,10 @@ public class StageListener implements ApplicationListener {
 		FaceDetectionHandler.resumeFaceDetection();
 	}
 
+	public void setPaused(boolean paused) {
+		this.paused = paused;
+	}
+
 	private void createNewStage() {
 		virtualWidth = project.getXmlHeader().virtualScreenWidth;
 		virtualHeight = project.getXmlHeader().virtualScreenHeight;
@@ -302,23 +306,19 @@ public class StageListener implements ApplicationListener {
 		stage.addListener(inputListener);
 	}
 
-	void menuResume() {
+	public void menuResume() {
 		if (reloadProject) {
 			return;
 		}
 		paused = false;
-
-		FaceDetectionHandler.resumeFaceDetection();
-		SoundManager.getInstance().resume();
 	}
 
-	void menuPause() {
+	public void menuPause() {
 		if (finished || reloadProject) {
 			return;
 		}
 
 		paused = true;
-		SoundManager.getInstance().pause();
 	}
 
 	public void transitionToScene(String sceneName) {
@@ -419,7 +419,9 @@ public class StageListener implements ApplicationListener {
 			saveScreenshot(thumbnail, SCREENSHOT_AUTOMATIC_FILE_NAME);
 		}
 		PhysicsShapeBuilder.getInstance().reset();
-		CameraManager.getInstance().setToDefaultCamera();
+		if (CameraManager.getInstance() != null) {
+			CameraManager.getInstance().setToDefaultCamera();
+		}
 		if (penActor != null) {
 			penActor.dispose();
 		}
@@ -428,7 +430,7 @@ public class StageListener implements ApplicationListener {
 
 	@Override
 	public void render() {
-		if (CameraManager.getInstance().getState() == CameraManager.CameraState.previewRunning) {
+		if (CameraManager.getInstance() != null && CameraManager.getInstance().getState() == CameraManager.CameraState.previewRunning) {
 			Gdx.gl20.glClearColor(0f, 0f, 0f, 0f);
 		} else {
 			Gdx.gl20.glClearColor(1f, 1f, 1f, 0f);
@@ -788,9 +790,11 @@ public class StageListener implements ApplicationListener {
 		backup.paused = paused;
 		backup.finished = finished;
 		backup.reloadProject = reloadProject;
-		backup.flashState = FlashUtil.isOn();
-		if (backup.flashState) {
-			FlashUtil.flashOff();
+		if (CameraManager.getInstance() != null) {
+			backup.flashState = FlashUtil.isOn();
+			if (backup.flashState) {
+				FlashUtil.flashOff();
+			}
 		}
 		backup.timeToVibrate = VibratorUtil.getTimeToVibrate();
 		backup.physicsWorld = physicsWorld;
@@ -802,9 +806,11 @@ public class StageListener implements ApplicationListener {
 
 		backup.axesOn = axesOn;
 		backup.deltaActionTimeDivisor = deltaActionTimeDivisor;
-		backup.cameraRunning = CameraManager.getInstance().isCameraActive();
-		if (backup.cameraRunning) {
-			CameraManager.getInstance().pauseForScene();
+		if (CameraManager.getInstance() != null) {
+			backup.cameraRunning = CameraManager.getInstance().isCameraActive();
+			if (backup.cameraRunning) {
+				CameraManager.getInstance().pauseForScene();
+			}
 		}
 
 		return backup;
@@ -827,7 +833,7 @@ public class StageListener implements ApplicationListener {
 		paused = backup.paused;
 		finished = backup.finished;
 		reloadProject = backup.reloadProject;
-		if (backup.flashState) {
+		if (CameraManager.getInstance() != null && backup.flashState) {
 			FlashUtil.flashOn();
 		}
 		if (backup.timeToVibrate > 0) {
@@ -844,7 +850,7 @@ public class StageListener implements ApplicationListener {
 		viewPort = backup.viewPort;
 		axesOn = backup.axesOn;
 		deltaActionTimeDivisor = backup.deltaActionTimeDivisor;
-		if (backup.cameraRunning) {
+		if (CameraManager.getInstance() != null && backup.cameraRunning) {
 			CameraManager.getInstance().resumeForScene();
 		}
 	}
