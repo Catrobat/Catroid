@@ -42,6 +42,7 @@ import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.UiUtils;
+import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.NewItemTextWatcher;
 
@@ -73,12 +74,6 @@ public abstract class UserVariableBrick extends FormulaBrick implements BrickSpi
 	protected abstract int getSpinnerId();
 
 	@Override
-	public View getPrototypeView(Context context) {
-		super.getPrototypeView(context);
-		return getView(context);
-	}
-
-	@Override
 	public View getView(Context context) {
 		super.getView(context);
 
@@ -99,7 +94,7 @@ public abstract class UserVariableBrick extends FormulaBrick implements BrickSpi
 
 	@Override
 	public void onNewOptionSelected() {
-		AppCompatActivity activity = UiUtils.getActivityFromView(view);
+		final AppCompatActivity activity = UiUtils.getActivityFromView(view);
 		if (activity == null) {
 			return;
 		}
@@ -128,7 +123,12 @@ public abstract class UserVariableBrick extends FormulaBrick implements BrickSpi
 						}
 						spinner.add(userVariable);
 						spinner.setSelection(userVariable);
-						adapter.notifyDataSetChanged();
+
+						ScriptFragment parentFragment = (ScriptFragment) activity
+								.getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG);
+						if (parentFragment != null) {
+							parentFragment.notifyDataSetChanged();
+						}
 					}
 				});
 

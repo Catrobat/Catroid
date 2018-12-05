@@ -70,7 +70,6 @@ public class StopOtherScriptsActionTest {
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentScript(startScript1);
 		StageActivity.stageListener = null;
 		return project;
 	}

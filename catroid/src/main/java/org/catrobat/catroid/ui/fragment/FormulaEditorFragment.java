@@ -29,6 +29,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
@@ -51,7 +52,6 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
-import org.catrobat.catroid.content.commands.OnFormulaChangedListener;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaEditorEditText;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
@@ -97,7 +97,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 	private long[] confirmSwitchEditTextTimeStamp = {0, 0};
 	private int confirmSwitchEditTextCounter = 0;
-	private static OnFormulaChangedListener onFormulaChangedListener;
 	private boolean hasFormulaBeenChanged = false;
 
 	private String actionBarTitleBuffer = "";
@@ -111,9 +110,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 			getFragmentManager().popBackStack(FORMULA_EDITOR_FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			return;
 		}
-
-		onFormulaChangedListener = (OnFormulaChangedListener) getFragmentManager()
-				.findFragmentByTag(ScriptFragment.TAG);
 
 		formulaBrick = (FormulaBrick) getArguments().getSerializable(FORMULA_BRICK_BUNDLE_ARGUMENT);
 		currentBrickField = Brick.BrickField.valueOf(getArguments().getString(BRICK_FIELD_BUNDLE_ARGUMENT));
@@ -192,8 +188,15 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		} else {
 			formulaEditorEditText.setVisibility(View.VISIBLE);
 			formulaEditorKeyboard.setVisibility(View.VISIBLE);
-			formulaEditorBrick.addView(formulaBrick.getView(getActivity()));
+
+			View brickView = formulaBrick.getView(getActivity());
+
+			formulaBrick.onViewCreated();
+			formulaBrick.setClickListeners();
+			formulaBrick.disableSpinners();
 			formulaBrick.highlightTextView(currentBrickField);
+
+			formulaEditorBrick.addView(brickView);
 		}
 	}
 
@@ -206,7 +209,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		setHasOptionsMenu(true);
 		View fragmentView = inflater.inflate(R.layout.fragment_formula_editor, container, false);
 		fragmentView.setFocusableInTouchMode(true);
@@ -525,9 +528,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 	private boolean saveValidFormula(FormulaElement formulaElement) {
 		currentFormula.setRoot(formulaElement);
-		if (onFormulaChangedListener != null) {
-			onFormulaChangedListener.onFormulaChanged(formulaBrick, currentBrickField, currentFormula);
-		}
 		formulaEditorEditText.formulaSaved();
 		hasFormulaBeenChanged = true;
 		return true;

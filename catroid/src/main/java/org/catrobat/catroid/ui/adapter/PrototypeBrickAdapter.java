@@ -22,23 +22,20 @@
  */
 package org.catrobat.catroid.ui.adapter;
 
-import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.BrickViewProvider;
-import org.catrobat.catroid.ui.fragment.AddBrickFragment;
-import org.catrobat.catroid.ui.fragment.ScriptFragment;
+import org.catrobat.catroid.content.bricks.BrickBaseType;
 
 import java.util.List;
 
-public class PrototypeBrickAdapter extends BrickBaseAdapter {
+public class PrototypeBrickAdapter extends BaseAdapter {
 
-	public PrototypeBrickAdapter(Context context, ScriptFragment scriptFragment, AddBrickFragment addBrickFragment, List<Brick> brickList) {
-		this.context = context;
-		this.scriptFragment = scriptFragment;
-		this.addBrickFragment = addBrickFragment;
+	private List<Brick> brickList;
+
+	public PrototypeBrickAdapter(List<Brick> brickList) {
 		this.brickList = brickList;
 	}
 
@@ -64,9 +61,10 @@ public class PrototypeBrickAdapter extends BrickBaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		Brick brick = brickList.get(position);
-		View view = brick.getPrototypeView(context);
-		BrickViewProvider.setSpinnerClickability(view, false);
+		BrickBaseType brick = (BrickBaseType) brickList.get(position);
+		View view = brick.getView(parent.getContext());
+		brick.onPrototypeViewCreated();
+		brick.disableSpinners();
 		return view;
 	}
 }

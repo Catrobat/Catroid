@@ -26,13 +26,14 @@ package org.catrobat.catroid.uiespresso.util.matchers;
 import android.view.View;
 import android.widget.ListView;
 
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.dragndrop.BrickListView;
+import org.catrobat.catroid.ui.recyclerview.adapter.BrickAdapter;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
 public final class ScriptListMatchers {
+
 	private ScriptListMatchers() {
 		throw new AssertionError();
 	}
@@ -42,8 +43,7 @@ public final class ScriptListMatchers {
 
 			@Override
 			protected boolean matchesSafely(View view) {
-				return view instanceof BrickListView && ((ListView) view).getAdapter()
-						instanceof BrickAdapter;
+				return view instanceof BrickListView && ((ListView) view).getAdapter() instanceof BrickAdapter;
 			}
 
 			@Override

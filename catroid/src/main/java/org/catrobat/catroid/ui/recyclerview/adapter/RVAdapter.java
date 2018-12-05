@@ -140,10 +140,10 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> imp
 	}
 
 	@Override
-	public boolean onItemMove(int fromPosition, int toPosition) {
-		Collections.swap(items, fromPosition, toPosition);
-		notifyItemMoved(fromPosition, toPosition);
-		selectionManager.updateSelection(fromPosition, toPosition);
+	public boolean onItemMove(int srcPosition, int targetPosition) {
+		Collections.swap(items, srcPosition, targetPosition);
+		notifyItemMoved(srcPosition, targetPosition);
+		selectionManager.updateSelection(srcPosition, targetPosition);
 		return true;
 	}
 

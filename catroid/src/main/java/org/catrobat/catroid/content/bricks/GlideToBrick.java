@@ -61,13 +61,6 @@ public class GlideToBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-		setSecondsLabel(prototypeView, BrickField.DURATION_IN_SECONDS);
-		return prototypeView;
-	}
-
-	@Override
 	public View getView(Context context) {
 		super.getView(context);
 		setSecondsLabel(view, BrickField.DURATION_IN_SECONDS);

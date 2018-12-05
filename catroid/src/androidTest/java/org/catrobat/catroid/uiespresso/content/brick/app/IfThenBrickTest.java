@@ -25,7 +25,6 @@ package org.catrobat.catroid.uiespresso.content.brick.app;
 
 import android.support.test.runner.AndroidJUnit4;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Script;
@@ -34,6 +33,7 @@ import org.catrobat.catroid.content.bricks.IfThenLogicEndBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.ui.recyclerview.controller.BrickController;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
@@ -48,6 +48,8 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+
+import static junit.framework.TestCase.assertTrue;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
@@ -109,7 +111,7 @@ public class IfThenBrickTest {
 		onView(withText(R.string.brick_context_dialog_copy_brick))
 				.perform(click());
 
-		onBrickAtPosition(ifThenBeginBrickPosition).perform(click());
+		onBrickAtPosition(ifThenBeginBrickPosition + 1).perform(click());
 
 		onBrickAtPosition(1).checkShowsText(R.string.brick_if_begin);
 		onBrickAtPosition(2).checkShowsText(R.string.brick_if_end);
@@ -141,6 +143,6 @@ public class IfThenBrickTest {
 		script.addBrick(new SetXBrick(new Formula(BrickValues.X_POSITION)));
 		script.addBrick(ifThenLogicEndBrick);
 
-		ProjectManager.getInstance().checkNestingBrickReferences(true, false);
+		assertTrue(new BrickController().setControlBrickReferences(script.getBrickList()));
 	}
 }

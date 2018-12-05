@@ -29,7 +29,6 @@ import android.widget.CheckBox;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.io.Serializable;
 import java.lang.annotation.Retention;
@@ -129,17 +128,11 @@ public interface Brick extends Serializable, Cloneable {
 
 	View getView(Context context);
 
-	View getPrototypeView(Context context);
-
 	Brick clone() throws CloneNotSupportedException;
-
-	void setBrickAdapter(BrickAdapter adapter);
 
 	CheckBox getCheckBox();
 
 	boolean isCommentedOut();
 
 	void setCommentedOut(boolean commentedOut);
-
-	void setAlpha(int alphaFull);
 }

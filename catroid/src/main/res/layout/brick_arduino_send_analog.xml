@@ -27,26 +27,21 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:orientation="horizontal" >
+    android:orientation="horizontal">
 
     <CheckBox
         android:id="@+id/brick_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:visibility="gone" >
+        android:visibility="gone">
     </CheckBox>
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_arduino_send_analog_layout"
-        style="@style/BrickContainer.Arduino.Big"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
-        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
+        style="@style/BrickContainer.Arduino.Big">
 
-        <include layout="@layout/icon_brick_category_arduino"/>
+        <include layout="@layout/icon_brick_category_arduino" />
 
         <TextView
             android:id="@+id/brick_arduino_set_analog_pin_text_view"
@@ -54,10 +49,10 @@
             android:text="@string/brick_arduino_select_analog_value" />
 
         <TextView
-             android:id="@+id/brick_arduino_set_analog_pin_edit_text"
-             style="@style/BrickEditText"
-             app:layout_inputType="number"
-             app:layout_textField="true" />
+            android:id="@+id/brick_arduino_set_analog_pin_edit_text"
+            style="@style/BrickEditText"
+            app:layout_inputType="number"
+            app:layout_textField="true" />
 
         <TextView
             android:id="@+id/brick_arduino_set_analog_value_text_view"
@@ -66,10 +61,10 @@
             app:layout_newLine="true" />
 
         <TextView
-             android:id="@+id/brick_arduino_set_analog_value_edit_text"
-             style="@style/BrickEditText"
-             app:layout_inputType="number"
-             app:layout_textField="true" />
+            android:id="@+id/brick_arduino_set_analog_value_edit_text"
+            style="@style/BrickEditText"
+            app:layout_inputType="number"
+            app:layout_textField="true" />
 
     </org.catrobat.catroid.ui.BrickLayout>
 </LinearLayout>

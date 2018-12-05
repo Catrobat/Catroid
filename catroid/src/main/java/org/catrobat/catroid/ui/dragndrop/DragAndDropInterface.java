@@ -20,11 +20,22 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.bricks;
 
-/**
- * There are just certain Bricks, which may be applicable behind/after a DeadEndBrick.<br />
- * Examples are: Scripts, Condition-Ends (e.g. Else-Brick or End-If-Else-Brick)
- */
-public interface AllowedAfterDeadEndBrick {
+package org.catrobat.catroid.ui.dragndrop;
+
+import org.catrobat.catroid.content.bricks.BrickBaseType;
+
+import java.util.List;
+
+public interface DragAndDropInterface {
+
+	boolean isCurrentlyMoving();
+
+	void highlightMovingItem();
+
+	void startMoving(List<BrickBaseType> bricksToMove, int position);
+
+	void stopMoving();
+
+	void cancelMove();
 }

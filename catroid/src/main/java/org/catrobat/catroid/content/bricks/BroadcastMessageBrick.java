@@ -58,12 +58,6 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		super.getPrototypeView(context);
-		return getView(context);
-	}
-
-	@Override
 	public View getView(Context context) {
 		super.getView(context);
 
@@ -126,8 +120,6 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 			spinner.add(new StringOption(item));
 		}
 		spinner.setSelection(item);
-		//TODO: This should work some other way: i.e. it should not rely on the Brick being able to access its adapter.
-		adapter.notifyDataSetChanged();
 	}
 
 	@Override

@@ -25,23 +25,21 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.Spinner;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 public abstract class BrickBaseType implements Brick {
 
 	private static final long serialVersionUID = 1L;
 
 	public transient View view;
-
-	protected transient CheckBox checkbox;
-	protected transient BrickAdapter adapter;
-
-	transient int alphaValue = 255;
+	private transient CheckBox checkbox;
 
 	protected boolean commentedOut;
 
@@ -55,11 +53,7 @@ public abstract class BrickBaseType implements Brick {
 		this.commentedOut = commentedOut;
 	}
 
-	@Override
-	public void setBrickAdapter(BrickAdapter adapter) {
-		this.adapter = adapter;
-	}
-
+	@Nullable
 	@Override
 	public CheckBox getCheckBox() {
 		return checkbox;
@@ -70,14 +64,12 @@ public abstract class BrickBaseType implements Brick {
 		BrickBaseType clone = (BrickBaseType) super.clone();
 		clone.view = null;
 		clone.checkbox = null;
-		clone.alphaValue = alphaValue;
 		clone.commentedOut = commentedOut;
 		return clone;
 	}
 
-	@Override
-	public void setAlpha(int alphaValue) {
-		this.alphaValue = alphaValue;
+	public boolean hasHelpPage() {
+		return true;
 	}
 
 	@Override
@@ -91,35 +83,31 @@ public abstract class BrickBaseType implements Brick {
 	@Override
 	public View getView(Context context) {
 		view = LayoutInflater.from(context).inflate(getViewResource(), null, false);
-
-		BrickViewProvider.setAlphaOnView(view, alphaValue);
-
-		int checkboxVisibility = View.GONE;
-		boolean enabled = true;
-		boolean isChecked = false;
-		if (checkbox != null) {
-			checkboxVisibility = checkbox.getVisibility();
-			enabled = checkbox.isEnabled();
-			isChecked = checkbox.isChecked();
-		}
-
 		checkbox = view.findViewById(R.id.brick_checkbox);
-		checkbox.setChecked(isChecked);
-		checkbox.setVisibility(checkboxVisibility);
-		checkbox.setEnabled(enabled);
-		checkbox.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				adapter.handleCheck(BrickBaseType.this, ((CheckBox) view).isChecked());
-			}
-		});
-
 		return view;
 	}
 
-	@CallSuper
-	@Override
-	public View getPrototypeView(Context context) {
-		return LayoutInflater.from(context).inflate(getViewResource(), null);
+	public void onViewCreated() {
+	}
+
+	public void onPrototypeViewCreated() {
+	}
+
+	public void disableSpinners() {
+		disableSpinners(view);
+	}
+
+	private void disableSpinners(View view) {
+		if (view instanceof Spinner) {
+			view.setEnabled(false);
+			view.setClickable(false);
+			view.setFocusable(false);
+		}
+		if (view instanceof ViewGroup) {
+			ViewGroup parent = (ViewGroup) view;
+			for (int i = 0; i < parent.getChildCount(); i++) {
+				disableSpinners(parent.getChildAt(i));
+			}
+		}
 	}
 }

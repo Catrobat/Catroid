@@ -77,18 +77,6 @@ public class ChooseCameraBrick extends BrickBaseType {
 		return view;
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-
-		Spinner setVideoSpinner = prototypeView.findViewById(R.id.brick_choose_camera_spinner);
-		ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
-		setVideoSpinner.setAdapter(spinnerAdapter);
-		setVideoSpinner.setSelection(spinnerSelectionID);
-
-		return prototypeView;
-	}
-
 	private ArrayAdapter<String> createArrayAdapter(Context context) {
 		String[] spinnerValues = new String[2];
 		spinnerValues[BACK] = context.getString(R.string.choose_camera_back);

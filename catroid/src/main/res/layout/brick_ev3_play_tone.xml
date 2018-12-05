@@ -38,13 +38,7 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_ev3_play_tone_layout"
-        style="@style/BrickContainer.Lego.Big"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
-        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing">
+        style="@style/BrickContainer.Lego.Big">
 
         <include layout="@layout/icon_brick_category_legonxt" />
 

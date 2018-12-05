@@ -37,7 +37,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.utils.Utils;
 
@@ -48,7 +47,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 
 	ConcurrentFormulaHashMap formulaMap = new ConcurrentFormulaHashMap();
 
-	private transient BiMap<BrickField, Integer> brickFieldToTextViewIdMap = HashBiMap.create(2);
+	public transient BiMap<BrickField, Integer> brickFieldToTextViewIdMap = HashBiMap.create(2);
 
 	public Formula getFormulaWithBrickField(BrickField brickField) throws IllegalArgumentException {
 		if (formulaMap.containsKey(brickField)) {
@@ -99,24 +98,18 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 	@Override
 	public View getView(Context context) {
 		super.getView(context);
-
 		for (BiMap.Entry<BrickField, Integer> entry : brickFieldToTextViewIdMap.entrySet()) {
 			TextView brickFieldView = view.findViewById(entry.getValue());
 			brickFieldView.setText(getFormulaWithBrickField(entry.getKey()).getTrimmedFormulaString(context));
-			brickFieldView.setOnClickListener(this);
 		}
-
 		return view;
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
+	public void setClickListeners() {
 		for (BiMap.Entry<BrickField, Integer> entry : brickFieldToTextViewIdMap.entrySet()) {
-			TextView brickFieldView = prototypeView.findViewById(entry.getValue());
-			brickFieldView.setText(getFormulaWithBrickField(entry.getKey()).getTrimmedFormulaString(context));
+			TextView brickFieldView = view.findViewById(entry.getValue());
+			brickFieldView.setOnClickListener(this);
 		}
-		return prototypeView;
 	}
 
 	public List<Formula> getFormulas() {
@@ -137,15 +130,6 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 
 	@Override
 	public void onClick(View view) {
-		if (adapter == null) {
-			return;
-		}
-		if (adapter.getActionMode() != BrickAdapter.ActionModeEnum.NO_ACTION) {
-			return;
-		}
-		if (adapter.isDragging) {
-			return;
-		}
 		showFormulaEditorToEditFormula(view);
 	}
 

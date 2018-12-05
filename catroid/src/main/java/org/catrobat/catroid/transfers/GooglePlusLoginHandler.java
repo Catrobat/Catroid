@@ -44,8 +44,8 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.recyclerview.dialog.login.OAuthUsernameDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.login.SignInCompleteListener;
+import org.catrobat.catroid.utils.DeviceSettingsProvider;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.UtilDeviceInfo;
 
 public class GooglePlusLoginHandler implements GoogleApiClient.ConnectionCallbacks,
 		GoogleApiClient.OnConnectionFailedListener,
@@ -110,7 +110,7 @@ public class GooglePlusLoginHandler implements GoogleApiClient.ConnectionCallbac
 		String id = account.getId();
 		String personName = account.getDisplayName();
 		String email = account.getEmail();
-		String locale = UtilDeviceInfo.getUserCountryCode();
+		String locale = DeviceSettingsProvider.getUserCountryCode();
 		String idToken = account.getIdToken();
 		String code = account.getServerAuthCode();
 

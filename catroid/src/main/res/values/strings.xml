@@ -897,13 +897,16 @@
 
     <!-- Brick context dialog -->
     <string name="brick_context_dialog_move_brick">Move Brick</string>
+    <string name="brick_context_dialog_move_script">Move script</string>
     <string name="brick_context_dialog_delete_brick">Delete Brick</string>
     <string name="brick_context_dialog_copy_brick">Copy Brick</string>
-    <string name="brick_context_dialog_animate_bricks">Animate Brick-Parts</string>
+    <string name="brick_context_dialog_copy_script">Copy script</string>
     <string name="brick_context_dialog_formula_edit_brick">Edit Formula</string>
     <string name="brick_context_dialog_delete_script">Delete Script</string>
     <string name="brick_context_dialog_comment_in">Enable Brick</string>
     <string name="brick_context_dialog_comment_out">Disable Brick</string>
+    <string name="brick_context_dialog_comment_in_script">Enable script</string>
+    <string name="brick_context_dialog_comment_out_script">Disable script</string>
     <string name="brick_context_dialog_help">Help</string>
     <string name="comment_in_out">Disable/Enable</string>
     <!--  -->
@@ -1927,13 +1930,10 @@
 
 
     <!-- Brick Data Editor Strings -->
-    <string name="separator">|</string>
     <string name="add_text">Add text</string>
-    <string name="edit_text">Edit text</string>
     <string name="text_hint">Brick text</string>
     <string name="add_variable">Add variable</string>
     <string name="add_line_break">Add line break</string>
-    <string name="edit_variable">Edit variable</string>
     <string name="variable_hint">Variable name</string>
     <string name="brick_show_variable">Show variable</string>
     <string name="brick_hide_variable">Hide variable</string>
@@ -1941,7 +1941,6 @@
     <!-- -->
 
     <!-- User Bricks strings -->
-    <string name="define">Define</string>
     <string name="new_user_brick_variable">Variable</string>
     <!--  -->
 
@@ -1998,9 +1997,6 @@
     <string name="preference_title_enable_hints">Show hints </string>
     <string name="hint_category">All bricks are sorted in categories. Choose the category you are looking for.</string>
     <string name="hint_bricks">To add a brick to your script, tap on the brick you want to use.</string>
-    <string name="hint_brick_added">Short tap on a brick to open the menu where you can move, copy, delete or add a
-        brick to the backpack. The help option will show you additional information. Drag and drop the brick with a
-        long press.</string>
     <string name="hint_scripts">The script defines the behavior of your object. To add bricks to the script, tap the "+" symbol.</string>
     <string name="hint_looks">Here you can find the different appearances of your object. To add a new look, tap the "+" symbol.</string>
     <string name="hint_sounds">Here you can add new sounds to your object. Remember using a brick from the sound

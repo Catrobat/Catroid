@@ -64,8 +64,8 @@ public class SceneAdapter extends ExtendedRVAdapter<Scene> {
 	}
 
 	@Override
-	public boolean onItemMove(int fromPosition, int toPosition) {
-		boolean moved = super.onItemMove(fromPosition, toPosition);
+	public boolean onItemMove(int srcPosition, int targetPosition) {
+		boolean moved = super.onItemMove(srcPosition, targetPosition);
 		ProjectManager.getInstance().setCurrentlyEditedScene(items.get(0));
 		return moved;
 	}

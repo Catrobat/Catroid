@@ -73,19 +73,6 @@ public class FlashBrick extends BrickBaseType {
 		return view;
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-
-		Spinner setFlashSpinner = prototypeView.findViewById(R.id.brick_flash_spinner);
-
-		ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
-		setFlashSpinner.setAdapter(spinnerAdapter);
-		setFlashSpinner.setSelection(spinnerSelectionID);
-
-		return prototypeView;
-	}
-
 	private ArrayAdapter<String> createArrayAdapter(Context context) {
 		String[] spinnerValues = new String[2];
 		spinnerValues[FLASH_OFF] = context.getString(R.string.brick_flash_off);

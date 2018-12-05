@@ -115,7 +115,6 @@ public class IfLogicActionTest {
 		testSprite.addScript(testScript);
 		project.getDefaultScene().addSprite(testSprite);
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
-		ProjectManager.getInstance().setCurrentScript(testScript);
 
 		testSprite.initializeEventThreads(EventId.START);
 		while (!testSprite.look.haveAllThreadsFinished()) {
@@ -149,7 +148,6 @@ public class IfLogicActionTest {
 		testSprite.addScript(testScript);
 		project.getDefaultScene().addSprite(testSprite);
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
-		ProjectManager.getInstance().setCurrentScript(testScript);
 		testSprite.initializeEventThreads(EventId.START);
 		testSprite.look.act(100f);
 
@@ -180,7 +178,6 @@ public class IfLogicActionTest {
 		testSprite.addScript(testScript);
 		project.getDefaultScene().addSprite(testSprite);
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
-		ProjectManager.getInstance().setCurrentScript(testScript);
 		testSprite.initializeEventThreads(EventId.START);
 		testSprite.look.act(100f);
 
@@ -239,7 +236,6 @@ public class IfLogicActionTest {
 		testSprite.addScript(testScript);
 		project.getDefaultScene().addSprite(testSprite);
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
-		ProjectManager.getInstance().setCurrentScript(testScript);
 		testSprite.initializeEventThreads(EventId.START);
 		testSprite.look.act(1f);
 		userVariable = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()

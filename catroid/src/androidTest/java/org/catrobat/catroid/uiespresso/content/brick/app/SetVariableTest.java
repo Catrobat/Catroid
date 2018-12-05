@@ -111,7 +111,9 @@ public class SetVariableTest {
 	public void testIfSetVariableSpinnerCanHoldMultipleVariables() {
 		String userVariableName = "testVariable1";
 		String userVariableNameTwo = "testVariable2";
+
 		addNewVariableViaFormulaEditor(1, userVariableName);
+
 		onView(withId(R.id.formula_editor_keyboard_ok))
 				.perform(click());
 		onBrickAtPosition(1).onVariableSpinner(R.id.set_variable_spinner)
@@ -121,7 +123,7 @@ public class SetVariableTest {
 				.checkNameableValuesAvailable(Arrays.asList(userVariableName, userVariableNameTwo));
 	}
 
-	public void addNewVariableViaFormulaEditor(int brickPosition, String userVariableName) {
+	private void addNewVariableViaFormulaEditor(int brickPosition, String userVariableName) {
 		onBrickAtPosition(brickPosition).onChildView(withId(R.id.brick_set_variable_edit_text))
 				.perform(click());
 		onView(withId(R.id.formula_editor_keyboard_data))

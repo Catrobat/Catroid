@@ -38,20 +38,13 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_phiro_play_tone_layout"
-        style="@style/BrickContainer.Sound.Big"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
-        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing">
+        style="@style/BrickContainer.Sound.Big">
 
         <include layout="@layout/icon_brick_category_phiro" />
 
         <TextView
             style="@style/BrickText.SingleLine"
-            android:text="@string/phiro_play_tone">
-        </TextView>
+            android:text="@string/phiro_play_tone" />
 
          <TextView
              style="@style/BrickText.SingleLine"
@@ -60,15 +53,12 @@
             android:id="@+id/brick_phiro_select_tone_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="false"
-            android:focusable="false"
             android:textDirection="locale" />
 
         <TextView
             style="@style/BrickText.SingleLine"
             android:text="@string/phiro_tone_duration"
-            app:layout_newLine="true">
-        </TextView>
+            app:layout_newLine="true" />
 
         <TextView
             android:id="@+id/brick_phiro_play_tone_duration_edit_text"
@@ -77,13 +67,11 @@
             android:layout_height="wrap_content"
             android:maxEms="5"
             app:layout_inputType="number"
-            app:layout_textField="true">
-        </TextView>
+            app:layout_textField="true" />
 
         <TextView
             android:id="@+id/brick_seconds_label"
-            style="@style/BrickText.SingleLine">
-        </TextView>
+            style="@style/BrickText.SingleLine" />
 
     </org.catrobat.catroid.ui.BrickLayout>
 

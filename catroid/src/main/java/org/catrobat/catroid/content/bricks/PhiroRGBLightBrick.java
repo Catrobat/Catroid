@@ -73,12 +73,6 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		super.getPrototypeView(context);
-		return getView(context);
-	}
-
-	@Override
 	public View getCustomView(Context context) {
 		return new ColorSeekbar(this, BrickField.PHIRO_LIGHT_RED,
 				BrickField.PHIRO_LIGHT_GREEN, BrickField.PHIRO_LIGHT_BLUE).getView(context);

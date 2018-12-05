@@ -33,7 +33,7 @@ public enum BrickCoordinatesProvider implements CoordinatesProvider{
 		public float[] calculateCoordinates(View view) {
 			final int[] viewsCoordinates = new int[2];
 			view.getLocationOnScreen(viewsCoordinates);
-			float[] coordinates = {viewsCoordinates[0], viewsCoordinates[1]};
+			float[] coordinates = {viewsCoordinates[0] + 5, viewsCoordinates[1]};
 			Log.d(TAG, "UpperLeftCorner: " + "x: " + coordinates[0] + "y: " + coordinates[1]);
 			return coordinates;
 		}

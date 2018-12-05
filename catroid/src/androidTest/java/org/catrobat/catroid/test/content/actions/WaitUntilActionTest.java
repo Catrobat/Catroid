@@ -93,7 +93,6 @@ public class WaitUntilActionTest {
 		testSprite.addScript(testScript);
 		project.getDefaultScene().addSprite(testSprite);
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
-		ProjectManager.getInstance().setCurrentScript(testScript);
 		testSprite.initializeEventThreads(EventId.START);
 
 		testSprite.look.act(100f);

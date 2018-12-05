@@ -57,13 +57,6 @@ public class DroneTurnLeftBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-		setSecondsLabel(prototypeView, BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
-		return prototypeView;
-	}
-
-	@Override
 	public View getView(Context context) {
 		super.getView(context);
 		setSecondsLabel(view, BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);

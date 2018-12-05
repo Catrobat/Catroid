@@ -24,7 +24,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/BrickCategory.Bluetooth">
 
-    <include layout="@layout/icon_brick_category_arduino"/>
+    <include layout="@layout/icon_brick_category_arduino" />
 
     <TextView
         style="@style/BrickCategoryText"

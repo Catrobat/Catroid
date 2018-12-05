@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-public interface LoopBeginBrick extends NestingBrick {
+public interface LoopBeginBrick extends ControlStructureBrick {
 
 	LoopEndBrick getLoopEndBrick();
 

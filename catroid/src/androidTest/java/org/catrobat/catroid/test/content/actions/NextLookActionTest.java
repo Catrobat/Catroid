@@ -191,7 +191,6 @@ public class NextLookActionTest {
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
-		ProjectManager.getInstance().setCurrentScript(testScript);
 
 		XstreamSerializer.getInstance().saveProject(project);
 

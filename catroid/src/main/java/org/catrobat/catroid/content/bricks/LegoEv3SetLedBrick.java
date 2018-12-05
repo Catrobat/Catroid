@@ -54,12 +54,6 @@ public class LegoEv3SetLedBrick extends BrickBaseType {
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		super.getPrototypeView(context);
-		return getView(context);
-	}
-
-	@Override
 	public int getViewResource() {
 		return R.layout.brick_ev3_set_led;
 	}
