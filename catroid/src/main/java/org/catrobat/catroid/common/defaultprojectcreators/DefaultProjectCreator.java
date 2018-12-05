@@ -115,7 +115,7 @@ public class DefaultProjectCreator extends ProjectCreator {
 					backgroundImageScaleFactor);
 			cloudFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(),
 					R.drawable.default_project_clouds_landscape, imageDir,
-					backgroundName + DEFAULT_IMAGE_EXTENSION,
+					cloudName + DEFAULT_IMAGE_EXTENSION,
 					backgroundImageScaleFactor);
 		} else {
 			backgroundImageScaleFactor = ImageEditing.calculateScaleFactorToScreenSize(
@@ -127,7 +127,7 @@ public class DefaultProjectCreator extends ProjectCreator {
 					backgroundImageScaleFactor);
 			cloudFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(),
 					R.drawable.default_project_clouds_portrait, imageDir,
-					backgroundName + DEFAULT_IMAGE_EXTENSION,
+					cloudName + DEFAULT_IMAGE_EXTENSION,
 					backgroundImageScaleFactor);
 		}
 		File birdWingUpFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(),
