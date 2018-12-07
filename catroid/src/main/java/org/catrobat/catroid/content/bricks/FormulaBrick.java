@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.support.annotation.CallSuper;
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -114,6 +115,11 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 
 	public List<Formula> getFormulas() {
 		return new ArrayList<>(formulaMap.values());
+	}
+
+	@VisibleForTesting
+	public ConcurrentFormulaHashMap getFormulaMap() {
+		return formulaMap;
 	}
 
 	public TextView getTextView(BrickField brickField) {
