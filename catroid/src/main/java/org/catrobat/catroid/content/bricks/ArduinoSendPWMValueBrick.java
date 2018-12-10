@@ -69,6 +69,11 @@ public class ArduinoSendPWMValueBrick extends FormulaBrick {
 		return null;
 	}
 
+	@Override
+	protected BrickField getDefaultBrickField() {
+		return BrickField.ARDUINO_ANALOG_PIN_NUMBER;
+	}
+
 	public void updateArduinoValues994to995() {
 		Formula formula = getFormulaWithBrickField(BrickField.ARDUINO_ANALOG_PIN_VALUE);
 		FormulaElement oldFormulaElement = formula.getFormulaTree();

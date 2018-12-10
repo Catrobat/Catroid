@@ -57,6 +57,11 @@ public class LegoNxtPlayToneBrick extends FormulaBrick {
 	}
 
 	@Override
+	protected BrickField getDefaultBrickField() {
+		return BrickField.LEGO_NXT_DURATION_IN_SECONDS;
+	}
+
+	@Override
 	public View getView(Context context) {
 		super.getView(context);
 		setSecondsLabel(view, BrickField.LEGO_NXT_DURATION_IN_SECONDS);

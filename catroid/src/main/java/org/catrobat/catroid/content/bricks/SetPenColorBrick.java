@@ -76,6 +76,11 @@ public class SetPenColorBrick extends FormulaBrick {
 		}
 	}
 
+	@Override
+	protected BrickField getDefaultBrickField() {
+		return BrickField.PEN_COLOR_RED;
+	}
+
 	private boolean areAllBrickFieldsNumbers() {
 		return (getFormulaWithBrickField(BrickField.PEN_COLOR_RED).getRoot().getElementType()
 				== FormulaElement.ElementType.NUMBER)

@@ -38,6 +38,11 @@ public class PlaceAtBrick extends FormulaBrick {
 		addAllowedBrickField(BrickField.Y_POSITION, R.id.brick_place_at_edit_text_y);
 	}
 
+	@Override
+	protected BrickField getDefaultBrickField() {
+		return BrickField.X_POSITION;
+	}
+
 	public PlaceAtBrick(int xPositionValue, int yPositionValue) {
 		this(new Formula(xPositionValue), new Formula(yPositionValue));
 	}

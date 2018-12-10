@@ -60,6 +60,11 @@ public class RaspiSendDigitalValueBrick extends FormulaBrick {
 	}
 
 	@Override
+	protected BrickField getDefaultBrickField() {
+		return BrickField.RASPI_DIGITAL_PIN_NUMBER;
+	}
+
+	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSendDigitalRaspiValueAction(sprite,
 				getFormulaWithBrickField(BrickField.RASPI_DIGITAL_PIN_NUMBER),

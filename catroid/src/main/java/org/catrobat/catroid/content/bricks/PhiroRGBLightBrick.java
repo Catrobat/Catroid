@@ -112,6 +112,11 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 		}
 	}
 
+	@Override
+	protected BrickField getDefaultBrickField() {
+		return BrickField.PHIRO_LIGHT_RED;
+	}
+
 	private boolean areAllBrickFieldsNumbers() {
 		return (getFormulaWithBrickField(BrickField.PHIRO_LIGHT_RED).getRoot().getElementType()
 				== FormulaElement.ElementType.NUMBER)

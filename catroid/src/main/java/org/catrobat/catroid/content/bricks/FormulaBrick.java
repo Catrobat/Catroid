@@ -137,8 +137,12 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		if (brickFieldToTextViewIdMap.inverse().containsKey(view.getId())) {
 			FormulaEditorFragment.showFragment(view.getContext(), this, brickFieldToTextViewIdMap.inverse().get(view.getId()));
 		} else {
-			FormulaEditorFragment.showFragment(view.getContext(), this, formulaMap.keys().nextElement());
+			FormulaEditorFragment.showFragment(view.getContext(), this, getDefaultBrickField());
 		}
+	}
+
+	protected BrickField getDefaultBrickField() {
+		return formulaMap.keys().nextElement();
 	}
 
 	public View getCustomView(Context context) {
