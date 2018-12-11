@@ -1339,13 +1339,13 @@
     <string name="drone_emergency_title">Emergency</string>
     <!--  -->
 
+    <!-- Runtime permission messages -->
+    <string name="runtime_permission_general">This app needs the requested permissions to function properly. E.g., the
+Camera brick needs access to the device\'s camera, the "location" formula element needs access to the
+device\'s geolocation sensor, and in order to import and export projects from and to the local memory, the app
+needs read and write access to it. You can always change permissions through your device\'s settings.</string>
+
     <!-- Error messages -->
-    <string name="error_no_writiable_external_storage_available">This app needs writable external storage like a SD
-        card in order to run, but none was found.\nYou can fix this by making the external storage writable or inserting
-        a SD card, then trying again.</string>
-    <string name="error_no_write_access">This app needs permission to write data to your device. Otherwise you
-        can\'t create, modify or run programs. To continue, open settings and enable write access for
-        this app.</string>
     <string name="error_project_upload">An error occurred while uploading the program.</string>
     <string name="error_project_download">An error occurred while downloading the program.</string>
     <string name="error_new_project">An error occurred while creating a new program.</string>
@@ -1952,8 +1952,6 @@
     <string name="brick_choose_camera">Use camera</string>
     <string name="choose_camera_front">front</string>
     <string name="choose_camera_back">rear</string>
-    <string name="error_flash_camera">">You can only use the flash with a camera that has a one. Please add a \"Use
-        camera\" brick and change to your device\'s camera that has a flash."</string>
     <string name="brick_wait_until">Wait until</string>
     <string name="brick_wait_until_second_part">is true</string>
     <!-- -->
@@ -2026,5 +2024,8 @@
      <string name="PetaByte_short">PB</string>
      <string name="ExaByte_short">EB</string>
     <!--  -->
+
+    <string name="sans_serif_font" translatable="false">sans_serif</string>
+    <string name="serif_font" translatable="false">serif</string>
 
 </resources>

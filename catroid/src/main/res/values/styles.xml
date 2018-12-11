@@ -64,8 +64,8 @@
         <!-- Element Spacing -->
         <item name="element_spacing">0dp</item>
         <!-- Fonts -->
-        <item name="android:fontFamily">sans-serif</item>
-        <item name="app_font">sans-serif</item>
+        <item name="android:fontFamily">@string/sans_serif_font</item>
+        <item name="app_font">@string/sans_serif_font</item>
         <!-- Category Icon Visibility -->
         <item name="category_icon_visiblity">2</item>
         <!-- Category Icon Visibility -->

@@ -275,7 +275,7 @@
     </string-array>
 
     <string-array name="accessiblity_font_style_values">
-        <item>regular</item>
+        <item>sans_serif</item>
         <item>serif</item>
         <item>dyslexic</item>
     </string-array>

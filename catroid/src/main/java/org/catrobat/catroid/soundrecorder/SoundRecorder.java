@@ -23,7 +23,6 @@
 package org.catrobat.catroid.soundrecorder;
 
 import android.media.MediaRecorder;
-import android.net.Uri;
 import android.util.Log;
 
 import java.io.File;
@@ -87,8 +86,8 @@ public class SoundRecorder {
 		isRecording = false;
 	}
 
-	public Uri getPath() {
-		return Uri.fromFile(new File(path));
+	public String getPath() {
+		return path;
 	}
 
 	public int getMaxAmplitude() {

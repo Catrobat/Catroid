@@ -23,7 +23,9 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.app;
 
+import android.Manifest;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.rule.GrantPermissionRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.widget.EditText;
 
@@ -81,6 +83,9 @@ public class PlaySoundBrickTest {
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteAttributesActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(SpriteAttributesActivity.class, true, false);
+
+	@Rule
+	public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(Manifest.permission.RECORD_AUDIO);
 
 	@Before
 	public void setUp() throws Exception {

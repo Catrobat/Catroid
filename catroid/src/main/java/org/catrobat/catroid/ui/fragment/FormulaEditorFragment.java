@@ -26,6 +26,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
@@ -68,8 +69,12 @@ import org.catrobat.catroid.ui.dialogs.FormulaEditorIntroDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.fragment.CategoryListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
+import org.catrobat.catroid.ui.runtimepermissions.BrickResourcesToRuntimePermissions;
+import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
+
+import java.util.List;
 
 import static org.catrobat.catroid.utils.SnackbarUtil.wasHintAlreadyShown;
 
@@ -80,6 +85,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	private static final int SET_FORMULA_ON_SWITCH_EDIT_TEXT = 1;
 	private static final int TIME_WINDOW = 2000;
 	public static final int REQUEST_GPS = 1;
+	public static final int REQUEST_PERMISSIONS_COMPUTE_DIALOG = 701;
 
 	public static final String FORMULA_EDITOR_FRAGMENT_TAG = FormulaEditorFragment.class.getSimpleName();
 	public static final String FORMULA_BRICK_BUNDLE_ARGUMENT = "formula_brick";
@@ -93,7 +99,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	private static Brick.BrickField currentBrickField;
 	private static Formula currentFormula;
 	private Menu currentMenu;
-	private FormulaElement formulaElementForComputeDialog;
 
 	private long[] confirmSwitchEditTextTimeStamp = {0, 0};
 	private int confirmSwitchEditTextCounter = 0;
@@ -282,25 +287,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 					switch (view.getId()) {
 						case R.id.formula_editor_keyboard_compute:
-							InternFormulaParser internFormulaParser = formulaEditorEditText.getFormulaParser();
-							FormulaElement formulaElement = internFormulaParser.parseFormula();
-							if (formulaElement == null) {
-								if (internFormulaParser.getErrorTokenIndex() >= 0) {
-									formulaEditorEditText.setParseErrorCursorAndSelection();
-								}
-								return false;
-							}
-							Brick.ResourcesSet resourcesSet = new Brick.ResourcesSet();
-							formulaElement.addRequiredResources(resourcesSet);
-							if (resourcesSet.contains(Brick.SENSOR_GPS) && !SensorHandler.gpsAvailable()) {
-								formulaElementForComputeDialog = formulaElement;
-								Intent checkIntent = new Intent();
-								checkIntent.setAction(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-								startActivityForResult(checkIntent, REQUEST_GPS);
-							} else {
-								showComputeDialog(formulaElement);
-							}
-
+							showComputeDialog();
 							return true;
 						case R.id.formula_editor_keyboard_function:
 							showCategoryListFragment(CategoryListFragment.FUNCTION_TAG,
@@ -392,20 +379,43 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		updateButtonsOnKeyboardAndInvalidateOptionsMenu();
 	}
 
-	private void showComputeDialog(FormulaElement formulaElement) {
+	private void showComputeDialog() {
+		InternFormulaParser internFormulaParser = formulaEditorEditText.getFormulaParser();
+		final FormulaElement formulaElement = internFormulaParser.parseFormula();
 		if (formulaElement == null) {
+			if (internFormulaParser.getErrorTokenIndex() >= 0) {
+				formulaEditorEditText.setParseErrorCursorAndSelection();
+			}
 			return;
 		}
-		Formula formulaToCompute = new Formula(formulaElement);
-		FormulaEditorComputeDialog computeDialog = new FormulaEditorComputeDialog(getActivity());
-		computeDialog.setFormula(formulaToCompute);
-		computeDialog.show();
+		final Brick.ResourcesSet resourcesSet = new Brick.ResourcesSet();
+		formulaElement.addRequiredResources(resourcesSet);
+		List<String> requiredRuntimePermissions = BrickResourcesToRuntimePermissions.translate(resourcesSet);
+
+		new RequiresPermissionTask(REQUEST_PERMISSIONS_COMPUTE_DIALOG, requiredRuntimePermissions, R.string.runtime_permission_general) {
+			public void task() {
+				if (resourcesSet.contains(Brick.SENSOR_GPS)) {
+					SensorHandler sensorHandler = SensorHandler.getInstance(getActivity());
+					sensorHandler.setLocationManager((LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE));
+					if (!SensorHandler.gpsAvailable()) {
+						Intent checkIntent = new Intent();
+						checkIntent.setAction(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+						startActivityForResult(checkIntent, REQUEST_GPS);
+						return;
+					}
+				}
+				Formula formulaToCompute = new Formula(formulaElement);
+				FormulaEditorComputeDialog computeDialog = new FormulaEditorComputeDialog(getActivity());
+				computeDialog.setFormula(formulaToCompute);
+				computeDialog.show();
+			}
+		}.execute(getActivity());
 	}
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == REQUEST_GPS && resultCode == AppCompatActivity.RESULT_CANCELED && SensorHandler.gpsAvailable()) {
-			showComputeDialog(formulaElementForComputeDialog);
+			showComputeDialog();
 		} else {
 			ToastUtil.showError(getActivity(), R.string.error_gps_not_available);
 		}

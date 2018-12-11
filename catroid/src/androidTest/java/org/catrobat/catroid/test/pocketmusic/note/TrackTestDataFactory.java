@@ -35,24 +35,8 @@ public final class TrackTestDataFactory {
 	private TrackTestDataFactory() {
 	}
 
-	public static Track createTrack(MusicalKey key, MusicalInstrument instrument) {
-		return new Track(key, instrument);
-	}
-
-	public static Track createTrack() {
-		return createTrack(MusicalInstrument.ACOUSTIC_GRAND_PIANO);
-	}
-
-	public static Track createTrack(MusicalInstrument instrument) {
-		return new Track(MusicalKey.VIOLIN, instrument);
-	}
-
-	public static Track createTrack(MusicalKey key) {
-		return new Track(key, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
-	}
-
 	public static Track createSimpleTrack() {
-		Track track = createTrack();
+		Track track = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 
 		long tick = 0;
 
@@ -85,37 +69,8 @@ public final class TrackTestDataFactory {
 		return track;
 	}
 
-	public static Track createTrackWithBreak() {
-		Track track = TrackTestDataFactory.createTrack();
-
-		long tick = 0;
-
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, true));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.D4, true));
-
-		tick += NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
-
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, false));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.D4, false));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.E4, true));
-
-		tick += NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
-
-		track.addNoteEvent(tick, new NoteEvent(NoteName.E4, false));
-
-		tick += NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
-
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, true));
-
-		tick += NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
-
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, false));
-
-		return track;
-	}
-
 	public static Track createTrackWithSeveralBreaks() {
-		Track track = TrackTestDataFactory.createTrack(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
+		Track track = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 		long tick = 0;
 
 		tick += NoteLength.HALF.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
@@ -163,39 +118,5 @@ public final class TrackTestDataFactory {
 		track.addNoteEvent(tick, new NoteEvent(NoteName.F4, false));
 
 		return track;
-	}
-
-	public static Track createTrackWithAccords() {
-		Track track = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
-
-		long tick = 0;
-
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C3, true));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, true));
-
-		tick += NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
-
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C3, false));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, false));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C3, true));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, true));
-
-		tick += NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
-
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C3, false));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, false));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C3, true));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, true));
-
-		tick += NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
-
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C3, false));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, false));
-
-		return track;
-	}
-
-	public static Track createEmptyTrack(MusicalInstrument acousticGrandPiano) {
-		return new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 	}
 }

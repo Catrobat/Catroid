@@ -23,5 +23,5 @@
   -->
 
 <paths>
-    <cache-path name="root" path="." />
+    <cache-path name="cache_root" path="." />
 </paths>

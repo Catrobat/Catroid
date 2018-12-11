@@ -26,6 +26,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.pocketmusic.note.MusicalBeat;
 import org.catrobat.catroid.pocketmusic.note.MusicalInstrument;
+import org.catrobat.catroid.pocketmusic.note.MusicalKey;
 import org.catrobat.catroid.pocketmusic.note.Project;
 import org.catrobat.catroid.pocketmusic.note.Track;
 import org.junit.Test;
@@ -41,20 +42,20 @@ import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertThat;
 
 @RunWith(AndroidJUnit4.class)
-public class ProjectTest {
+public class PocketMusicProjectTest {
 
 	@Test
 	public void testGetBeatsPerMinute() {
 		int beatsPerMinute = 60;
-		Project project = ProjectTestDataFactory.createProject(beatsPerMinute);
+		Project project = new Project("testGetBeatsPerMinute", Project.DEFAULT_BEAT, 60);
 
 		assertEquals(beatsPerMinute, project.getBeatsPerMinute());
 	}
 
 	@Test
 	public void testGetName() {
-		String name = "TestName";
-		Project project = ProjectTestDataFactory.createProject(name);
+		String name = "testGetName";
+		Project project = new Project("testGetName", Project.DEFAULT_BEAT, Project.DEFAULT_BEATS_PER_MINUTE);
 
 		assertEquals(name, project.getName());
 	}
@@ -62,15 +63,16 @@ public class ProjectTest {
 	@Test
 	public void testSetName() {
 		String name = "SomeNewName";
-		Project project = new Project(ProjectTestDataFactory.createProject(), name);
+		Project otherProject = new Project("testSetName", Project.DEFAULT_BEAT, Project.DEFAULT_BEATS_PER_MINUTE);
+		Project project = new Project(otherProject, name);
 
 		assertEquals(name, project.getName());
 	}
 
 	@Test
 	public void testAddTrack() {
-		Project project = ProjectTestDataFactory.createProject();
-		Track track = TrackTestDataFactory.createTrack();
+		Project project = new Project("testAddTrack", Project.DEFAULT_BEAT, Project.DEFAULT_BEATS_PER_MINUTE);
+		Track track = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 		String trackName = "trackName";
 		project.putTrack(trackName, track);
 
@@ -79,8 +81,8 @@ public class ProjectTest {
 
 	@Test
 	public void testGetTrack() {
-		Project project = ProjectTestDataFactory.createProject();
-		Track track = TrackTestDataFactory.createTrack();
+		Project project = new Project("testGetTrack", Project.DEFAULT_BEAT, Project.DEFAULT_BEATS_PER_MINUTE);
+		Track track = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 		String trackName = "trackName";
 		project.putTrack(trackName, track);
 
@@ -89,8 +91,8 @@ public class ProjectTest {
 
 	@Test
 	public void testGetTrackNames() {
-		Project project = ProjectTestDataFactory.createProject();
-		Track track = TrackTestDataFactory.createTrack();
+		Project project = new Project("testGetTrackNames", Project.DEFAULT_BEAT, Project.DEFAULT_BEATS_PER_MINUTE);
+		Track track = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 		project.putTrack("trackName", track);
 
 		assertEquals(1, project.getTrackNames().size());
@@ -98,7 +100,7 @@ public class ProjectTest {
 
 	@Test
 	public void testGetTotalTimeInMilliseconds() {
-		Project project = ProjectTestDataFactory.createProject();
+		Project project = new Project("testGetTotalTimeInMilliseconds", Project.DEFAULT_BEAT, Project.DEFAULT_BEATS_PER_MINUTE);
 		Track track = TrackTestDataFactory.createSimpleTrack();
 		project.putTrack("trackName", track);
 
@@ -107,77 +109,77 @@ public class ProjectTest {
 
 	@Test
 	public void testEquals1() {
-		Project project1 = ProjectTestDataFactory.createProject();
-		Project project2 = ProjectTestDataFactory.createProject();
+		Project project1 = new Project("testEquals1Project", Project.DEFAULT_BEAT, Project.DEFAULT_BEATS_PER_MINUTE);
+		Project project2 = new Project("testEquals1Project", Project.DEFAULT_BEAT, Project.DEFAULT_BEATS_PER_MINUTE);
 
 		assertEquals(project1, project2);
 	}
 
 	@Test
 	public void testEquals2() {
-		Project project1 = ProjectTestDataFactory.createProjectWithTrack();
-		Project project2 = ProjectTestDataFactory.createProjectWithTrack();
+		Project project1 = createProjectWithTrack(MusicalInstrument.ACOUSTIC_GRAND_PIANO);
+		Project project2 = createProjectWithTrack(MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 
 		assertEquals(project1, project2);
 	}
 
 	@Test
 	public void testEquals3() {
-		Project project1 = ProjectTestDataFactory.createProjectWithTrack();
-		Project project2 = ProjectTestDataFactory.createProjectWithTrack(MusicalInstrument.APPLAUSE);
+		Project project1 = createProjectWithTrack(MusicalInstrument.ACOUSTIC_GRAND_PIANO);
+		Project project2 = createProjectWithTrack(MusicalInstrument.APPLAUSE);
 
 		assertThat(project1, is(not(equalTo(project2))));
 	}
 
 	@Test
 	public void testEquals4() {
-		Project project1 = ProjectTestDataFactory.createProjectWithTrack();
-		Project project2 = ProjectTestDataFactory.createProject();
+		Project project1 = createProjectWithTrack(MusicalInstrument.ACOUSTIC_GRAND_PIANO);
+		Project project2 = new Project("testEquals4Project2", Project.DEFAULT_BEAT, Project.DEFAULT_BEATS_PER_MINUTE);
 
 		assertThat(project1, is(not(equalTo(project2))));
 	}
 
 	@Test
 	public void testEquals5() {
-		Project project1 = ProjectTestDataFactory.createProject("Some name");
-		Project project2 = ProjectTestDataFactory.createProject("Another name");
+		Project project1 = new Project("testEquals5Project1", Project.DEFAULT_BEAT, Project.DEFAULT_BEATS_PER_MINUTE);
+		Project project2 = new Project("testEquals5Project2", Project.DEFAULT_BEAT, Project.DEFAULT_BEATS_PER_MINUTE);
 
 		assertThat(project1, is(not(equalTo(project2))));
 	}
 
 	@Test
 	public void testEquals6() {
-		Project project1 = ProjectTestDataFactory.createProject(60);
-		Project project2 = ProjectTestDataFactory.createProject(90);
+		Project project1 = new Project("testEquals6", Project.DEFAULT_BEAT, 60);
+		Project project2 = new Project("testEquals6", Project.DEFAULT_BEAT, 90);
 
 		assertThat(project1, is(not(equalTo(project2))));
 	}
 
 	@Test
 	public void testEquals7() {
-		Project project = ProjectTestDataFactory.createProject();
+		Project project = new Project("testEquals7", Project.DEFAULT_BEAT, Project.DEFAULT_BEATS_PER_MINUTE);
 
 		assertThat(project, is(not(equalTo(null))));
 	}
 
 	@Test
 	public void testEquals8() {
-		Project project = ProjectTestDataFactory.createProject();
+		Project project = new Project("testEquals8", Project.DEFAULT_BEAT, Project.DEFAULT_BEATS_PER_MINUTE);
 
 		assertFalse(project.equals(""));
 	}
 
 	@Test
 	public void testEquals9() {
-		Project project1 = ProjectTestDataFactory.createProjectWithMusicalBeat(MusicalBeat.BEAT_4_4);
-		Project project2 = ProjectTestDataFactory.createProjectWithMusicalBeat(MusicalBeat.BEAT_16_16);
+		Project project1 = new Project("testEquals9Project1", MusicalBeat.BEAT_4_4, Project.DEFAULT_BEATS_PER_MINUTE);
+		Project project2 = new Project("testEquals9Project2", MusicalBeat.BEAT_16_16, Project.DEFAULT_BEATS_PER_MINUTE);
 
 		assertThat(project1, is(not(equalTo(project2))));
 	}
 
 	@Test
 	public void testToString() {
-		Project project = ProjectTestDataFactory.createProject();
+		Project project = new Project("testToString", Project.DEFAULT_BEAT, Project.DEFAULT_BEATS_PER_MINUTE);
 		String expectedString = "[Project] name=" + project.getName() + " beatsPerMinute="
 				+ project.getBeatsPerMinute() + " trackCount=" + project.size();
 
@@ -186,10 +188,18 @@ public class ProjectTest {
 
 	@Test
 	public void testCopyProject() {
-		Project project = ProjectTestDataFactory.createProjectWithTrack();
+		Project project = createProjectWithTrack(MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 		Project copyProject = new Project(project);
 
 		assertNotSame(project, copyProject);
 		assertEquals(project, copyProject);
+	}
+
+	public Project createProjectWithTrack(MusicalInstrument instrument) {
+		Project project = new Project("TestProjectWithTrack", Project.DEFAULT_BEAT, Project.DEFAULT_BEATS_PER_MINUTE);
+		Track track = new Track(MusicalKey.VIOLIN, instrument);
+		project.putTrack("someRandomTrackName1", track);
+
+		return project;
 	}
 }

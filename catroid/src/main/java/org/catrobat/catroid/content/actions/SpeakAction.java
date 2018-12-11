@@ -34,7 +34,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.io.SoundManager;
-import org.catrobat.catroid.stage.PreStageActivity;
+import org.catrobat.catroid.stage.TextToSpeechHolder;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
@@ -103,7 +103,7 @@ public class SpeakAction extends TemporalAction {
 	protected void update(float delta) {
 		HashMap<String, String> speakParameter = new HashMap<String, String>();
 		speakParameter.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, hashText);
-		PreStageActivity.textToSpeech(String.valueOf(interpretedText), speechFile, listener, speakParameter);
+		TextToSpeechHolder.getInstance().textToSpeech(String.valueOf(interpretedText), speechFile, listener, speakParameter);
 	}
 
 	public void setSprite(Sprite sprite) {

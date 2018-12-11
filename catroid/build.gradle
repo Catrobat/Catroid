@@ -149,7 +149,7 @@ android {
 
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 22
+        targetSdkVersion 26
         applicationId appId
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         versionCode 51
@@ -362,7 +362,6 @@ dependencies {
     implementation 'com.google.guava:guava:19.0'
     implementation 'com.squareup.okhttp:okhttp:2.3.0'
     implementation 'com.google.code.gson:gson:2.8.0'
-    implementation 'com.github.johnpersano:supertoasts:2.0@aar'
     implementation 'com.github.mrengineer13:snackbar:1.2.0'
 
     implementation 'com.koushikdutta.async:androidasync:2.2.1'
@@ -419,6 +418,8 @@ dependencies {
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$espressoVersion"
     androidTestImplementation "com.android.support.test.espresso:espresso-intents:$espressoVersion"
+
+    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
 
     pmd 'net.sourceforge.pmd:pmd-core:5.8.1'
     pmd 'net.sourceforge.pmd:pmd-java:5.8.1'

@@ -52,7 +52,7 @@ public class DronePlayLedAnimationAction extends TemporalAction {
 	@Override
 	protected void begin() {
 		super.begin();
-		dcs = DroneServiceWrapper.getInstance().getDroneService();
+		dcs = DroneServiceWrapper.getDroneService();
 		if (dcs != null) {
 			ledAnimation();
 		}

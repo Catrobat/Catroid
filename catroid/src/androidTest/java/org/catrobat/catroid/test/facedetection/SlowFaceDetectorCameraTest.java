@@ -23,14 +23,17 @@
 package org.catrobat.catroid.test.facedetection;
 
 import android.hardware.Camera;
+import android.support.test.rule.GrantPermissionRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.facedetection.SlowFaceDetector;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -41,8 +44,12 @@ import static junit.framework.Assert.assertTrue;
 public class SlowFaceDetectorCameraTest {
 	private Camera camera;
 
+	@Rule
+	public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(android.Manifest.permission.CAMERA);
+
 	@Before
 	public void setUp() throws Exception {
+		CameraManager.makeInstance();
 		ScreenValues.SCREEN_WIDTH = 720;
 		ScreenValues.SCREEN_HEIGHT = 1080;
 		ProjectManager.getInstance().setCurrentProject(new Project());

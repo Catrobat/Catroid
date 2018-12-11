@@ -22,18 +22,12 @@
  */
 package org.catrobat.catroid.ui;
 
-import android.Manifest;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.IntDef;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.PermissionChecker;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -54,15 +48,14 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.ZipArchiver;
-import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectLoaderTask;
 import org.catrobat.catroid.ui.recyclerview.dialog.AboutDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.PrivacyPolicyDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.MainMenuFragment;
+import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.ImportProjectsFromExternalStorage;
 import org.catrobat.catroid.utils.PathBuilder;
@@ -75,6 +68,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.Arrays;
+
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 import static org.catrobat.catroid.common.Constants.PREF_PROJECTNAME_KEY;
 import static org.catrobat.catroid.common.FlavoredConstants.EXTERNAL_STORAGE_ROOT_DIRECTORY;
@@ -84,14 +81,14 @@ public class MainMenuActivity extends BaseCastActivity implements ProjectLoaderT
 
 	public static final String TAG = MainMenuActivity.class.getSimpleName();
 
-	private static final int ACCESS_STORAGE = 0;
-
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({PROGRESS_BAR, FRAGMENT, ERROR})
 	@interface Content {}
 	protected static final int PROGRESS_BAR = 0;
 	protected static final int FRAGMENT = 1;
 	protected static final int ERROR = 2;
+
+	public static final int REQUEST_PERMISSIONS_MAIN_STORAGE = 501;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -147,14 +144,29 @@ public class MainMenuActivity extends BaseCastActivity implements ProjectLoaderT
 			getSupportActionBar().setTitle(R.string.app_name);
 		}
 
-		@PermissionChecker.PermissionResult
-		int permissionResult = ContextCompat
-				.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-		if (permissionResult == PackageManager.PERMISSION_GRANTED) {
-			onPermissionsGranted();
-		} else {
-			ActivityCompat.requestPermissions(this,
-					new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, ACCESS_STORAGE);
+		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
+			setContentView(R.layout.activity_main_menu_splashscreen);
+			prepareStandaloneProject();
+			return;
+		}
+
+		getSupportFragmentManager().beginTransaction()
+				.replace(R.id.fragment_container, new MainMenuFragment(), MainMenuFragment.TAG)
+				.commit();
+		showContentView(FRAGMENT);
+
+		if (SettingsFragment.isCastSharedPreferenceEnabled(this)) {
+			CastManager.getInstance().initializeCast(this);
+		}
+
+		if (EXTERNAL_STORAGE_ROOT_DIRECTORY.exists()) {
+			new RequiresPermissionTask(REQUEST_PERMISSIONS_MAIN_STORAGE,
+					Arrays.asList(WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE),
+					R.string.runtime_permission_general) {
+				public void task() {
+					new ImportProjectsFromExternalStorage(MainMenuActivity.this).showImportProjectsDialog();
+				}
+			}.execute(this);
 		}
 	}
 
@@ -178,49 +190,6 @@ public class MainMenuActivity extends BaseCastActivity implements ProjectLoaderT
 				fragment.setVisibility(View.GONE);
 				errorView.setVisibility(View.VISIBLE);
 				progressBar.setVisibility(View.GONE);
-				break;
-		}
-	}
-
-	private void onPermissionsGranted() {
-		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
-			setContentView(R.layout.activity_main_menu_splashscreen);
-			prepareStandaloneProject();
-			return;
-		}
-
-		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.fragment_container, new MainMenuFragment(), MainMenuFragment.TAG)
-				.commit();
-		showContentView(FRAGMENT);
-
-		if (SettingsFragment.isCastSharedPreferenceEnabled(this)) {
-			CastManager.getInstance().initializeCast(this);
-		}
-
-		if (EXTERNAL_STORAGE_ROOT_DIRECTORY.exists()) {
-			new ImportProjectsFromExternalStorage(this).showImportProjectsDialog();
-		}
-	}
-
-	private void onPermissionDenied(int requestCode) {
-		switch (requestCode) {
-			case ACCESS_STORAGE:
-				((TextView) findViewById(R.id.runtime_permission_error_view)).setText(R.string.error_no_write_access);
-				showContentView(ERROR);
-				break;
-		}
-	}
-
-	@Override
-	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-		switch (requestCode) {
-			case ACCESS_STORAGE:
-				if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-					onPermissionsGranted();
-				} else {
-					onPermissionDenied(requestCode);
-				}
 				break;
 		}
 	}
@@ -327,22 +296,14 @@ public class MainMenuActivity extends BaseCastActivity implements ProjectLoaderT
 	public void onLoadFinished(boolean success, String message) {
 		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
 			startActivityForResult(
-					new Intent(this, PreStageActivity.class), PreStageActivity.REQUEST_RESOURCES_INIT);
+					new Intent(this, StageActivity.class), StageActivity.REQUEST_START_STAGE);
 		}
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
-			if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
-				SensorHandler.startSensorListener(this);
-				Intent intent = new Intent(this, StageActivity.class);
-				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-				startActivityForResult(intent, StageActivity.STAGE_ACTIVITY_FINISH);
-			}
-			if (requestCode == StageActivity.STAGE_ACTIVITY_FINISH) {
+			if (requestCode == StageActivity.REQUEST_START_STAGE) {
 				finish();
 			}
 		} else {

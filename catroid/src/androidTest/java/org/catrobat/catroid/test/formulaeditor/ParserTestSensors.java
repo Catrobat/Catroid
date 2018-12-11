@@ -22,12 +22,15 @@
  */
 package org.catrobat.catroid.test.formulaeditor;
 
+import android.Manifest;
 import android.graphics.Point;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.annotation.UiThreadTest;
+import android.support.test.rule.GrantPermissionRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.SingleSprite;
@@ -48,6 +51,7 @@ import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.soundrecorder.SoundRecorder;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
@@ -65,6 +69,9 @@ import static org.mockito.Mockito.when;
 
 @RunWith(AndroidJUnit4.class)
 public class ParserTestSensors {
+
+	@Rule
+	public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(android.Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO);
 
 	private Project project;
 	private Sprite firstSprite;
@@ -106,6 +113,7 @@ public class ParserTestSensors {
 	@Test
 	@UiThreadTest
 	public void testFaceDetection() throws Exception {
+		CameraManager.makeInstance();
 		SensorHandler.startSensorListener(InstrumentationRegistry.getTargetContext());
 		FaceDetector faceDetector = FaceDetectionHandler.getFaceDetector();
 
@@ -154,12 +162,13 @@ public class ParserTestSensors {
 	@Test
 	@UiThreadTest
 	public void testMicRelease() throws IOException {
-		SensorLoudness loudnessSensor = SensorLoudness.getSensorLoudness();
+		SensorLoudness loudnessSensor = new SensorLoudness();
 		SoundRecorder soundRecorder = Mockito.mock(SoundRecorder.class);
 		loudnessSensor.setSoundRecorder(soundRecorder);
 		InOrder inOrder = inOrder(soundRecorder);
 
 		when(soundRecorder.isRecording()).thenReturn(false);
+		SensorHandler.getInstance(InstrumentationRegistry.getTargetContext()).setSensorLoudness(loudnessSensor);
 		SensorHandler.startSensorListener(InstrumentationRegistry.getTargetContext());
 		inOrder.verify(soundRecorder).start();
 

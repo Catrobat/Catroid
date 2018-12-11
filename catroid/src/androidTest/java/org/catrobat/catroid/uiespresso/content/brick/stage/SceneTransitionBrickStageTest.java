@@ -38,6 +38,7 @@ import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.uiespresso.stage.utils.ScriptEvaluationGateBrick;
 import org.catrobat.catroid.uiespresso.util.UserVariableAssertions;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.Before;
@@ -55,6 +56,8 @@ public class SceneTransitionBrickStageTest {
 	private String secondSceneVariableValue = "secondSceneFirstTime";
 	private String firstSceneAfterTransitionVariableValue = "firstSceneSecondTime";
 
+	private ScriptEvaluationGateBrick firstBrickInScript;
+
 	@Rule
 	public BaseActivityInstrumentationRule<StageActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(StageActivity.class, true, false);
@@ -67,8 +70,9 @@ public class SceneTransitionBrickStageTest {
 
 	@Test
 	public void testContinueScene() {
+		firstBrickInScript.waitUntilEvaluated(3000);
 		UserVariableAssertions.assertUserVariableContainsStringWithTimeout(firstVariable, firstSceneBeforeTransitionVariableValue, 10);
-		UserVariableAssertions.assertUserVariableContainsStringWithTimeout(secondVariable, secondSceneVariableValue, 10);
+		UserVariableAssertions.assertUserVariableContainsStringWithTimeout(secondVariable, secondSceneVariableValue, 1000);
 		UserVariableAssertions.assertUserVariableContainsStringWithTimeout(firstVariable, firstSceneAfterTransitionVariableValue, 1000);
 	}
 
@@ -86,6 +90,10 @@ public class SceneTransitionBrickStageTest {
 
 		Sprite firstBackground = firstScene.getBackgroundSprite();
 		Script firstStartScript = new StartScript();
+
+		ProjectManager.getInstance().setProject(project);
+
+		firstBrickInScript = ScriptEvaluationGateBrick.appendToScript(firstStartScript);
 
 		firstStartScript.addBrick(new SetVariableBrick(new Formula(firstSceneBeforeTransitionVariableValue), firstVariable));
 		firstStartScript.addBrick(new SceneTransitionBrick(secondScene.getName()));
@@ -105,7 +113,6 @@ public class SceneTransitionBrickStageTest {
 
 		project.addScene(secondScene);
 
-		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().saveProject(InstrumentationRegistry.getTargetContext());
 	}
 }

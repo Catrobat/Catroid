@@ -22,11 +22,14 @@
  */
 package org.catrobat.catroid.uiespresso.facedetection;
 
+import android.Manifest;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.rule.GrantPermissionRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -63,6 +66,10 @@ public class FaceDetectionFormulaEditorComputeDialogTest {
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
+
+	@Rule
+	public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(Manifest.permission.CAMERA);
+
 	@Before
 	public void setUp() throws Exception {
 		createProject("FaceDetectionFormulaEditorComputeDialogTest");
@@ -74,6 +81,7 @@ public class FaceDetectionFormulaEditorComputeDialogTest {
 	public void computeDialogFacedetectionResourceTest() {
 		onView(withId(R.id.brick_note_edit_text))
 				.perform(click());
+		CameraManager.makeInstance();
 
 		onFormulaEditor()
 				.performClickOn(FormulaEditorWrapper.Control.COMPUTE);

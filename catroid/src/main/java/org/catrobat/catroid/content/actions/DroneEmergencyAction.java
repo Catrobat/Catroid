@@ -22,39 +22,25 @@
  */
 package org.catrobat.catroid.content.actions;
 
-import android.util.Log;
-
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.drone.ardrone.DroneServiceWrapper;
 
 public class DroneEmergencyAction extends TemporalAction {
 
-	private static final String TAG = DroneEmergencyAction.class.getSimpleName();
-	private DroneServiceWrapper service;
-
 	public DroneEmergencyAction() {
-		service = DroneServiceWrapper.getInstance();
 	}
 
 	@Override
 	protected void begin() {
 		super.begin();
 
-		if (service.getDroneService() != null) {
-			service.getDroneService().triggerEmergency();
+		if (DroneServiceWrapper.getDroneService() != null) {
+			DroneServiceWrapper.getDroneService().triggerEmergency();
 		}
 	}
 
 	@Override
 	protected void update(float percent) {
-		Log.d(TAG, "update!");
-	}
-
-	// TODO: complete the method
-	@Override
-	public boolean act(float delta) {
-		Boolean superReturn = super.act(delta);
-		return superReturn;
 	}
 }

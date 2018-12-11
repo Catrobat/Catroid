@@ -166,9 +166,6 @@ public final class Constants {
 	public static final String PLATFORM_DEFAULT = "Android";
 
 	public static final String WHATSAPP_URI = "whatsapp://";
-
-	public static final String FILE_PROVIDER_AUTHORITY = "org.catrobat.catroid.fileProvider";
-
 	// Scratch Converter
 	public static final int DOWNLOAD_FILE_HTTP_TIMEOUT = 30_000;
 	public static final long INVALID_SCRATCH_PROGRAM_ID = 0;

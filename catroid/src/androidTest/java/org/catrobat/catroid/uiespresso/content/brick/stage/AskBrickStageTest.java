@@ -23,7 +23,9 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.stage;
 
+import android.Manifest;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.rule.GrantPermissionRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
@@ -66,6 +68,9 @@ public class AskBrickStageTest {
 	@Rule
 	public BaseActivityInstrumentationRule<StageActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(StageActivity.class, true, false);
+
+	@Rule
+	public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(Manifest.permission.RECORD_AUDIO);
 
 	@Before
 	public void setUp() throws Exception {

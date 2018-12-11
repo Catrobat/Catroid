@@ -43,6 +43,7 @@ import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
+import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
@@ -58,7 +59,7 @@ import java.util.Calendar;
 
 public final class SensorHandler implements SensorEventListener, SensorCustomEventListener, LocationListener,
 		GpsStatus.Listener {
-	public static final float RADIAN_TO_DEGREE_CONST = 180f / (float) Math.PI;
+	private static final float RADIAN_TO_DEGREE_CONST = 180f / (float) Math.PI;
 	private static final String TAG = SensorHandler.class.getSimpleName();
 	private static SensorHandler instance = null;
 	private static BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
@@ -67,7 +68,6 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private Sensor accelerometerSensor = null;
 	private Sensor magneticFieldSensor = null;
 	private Sensor rotationVectorSensor = null;
-	private LocationManager locationManager = null;
 	private float[] rotationMatrix = new float[16];
 	private float[] rotationVector = new float[3];
 	private float[] accelerationXYZ = new float[3];
@@ -83,18 +83,21 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private float faceSize = 0f;
 	private float facePositionX = 0f;
 	private float facePositionY = 0f;
-	private double latitude = 0d;
-	private double longitude = 0d;
-	private float locationAccuracy = 0f;
-	private double altitude = 0d;
 
 	private boolean compassAvailable = true;
 	private boolean accelerationAvailable = true;
 	private boolean inclinationAvailable = true;
 
+	private LocationManager locationManager = null;
 	private boolean isGpsConnected = false;
 	private Location lastLocationGps;
 	private long lastLocationGpsMillis;
+	private double latitude = 0d;
+	private double longitude = 0d;
+	private float locationAccuracy = 0f;
+	private double altitude = 0d;
+
+	private SensorLoudness sensorLoudness = null;
 
 	private SensorHandler(Context context) {
 		sensorManager = new SensorManager(
@@ -125,17 +128,14 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				accelerationAvailable = false;
 			}
 		}
-		locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-
-		Log.d(TAG, "*** LINEAR_ACCELERATION SENSOR: " + linearAccelerationSensor);
-		Log.d(TAG, "*** ACCELEROMETER SENSOR: " + accelerometerSensor);
-		Log.d(TAG, "*** ROTATION_VECTOR SENSOR: " + rotationVectorSensor);
-		Log.d(TAG, "*** MAGNETIC_FIELD SENSOR: " + magneticFieldSensor);
-		Log.d(TAG, "*** LOCATION_MANAGER: " + locationManager);
 	}
 
 	public boolean compassAvailable() {
 		return this.compassAvailable;
+	}
+
+	public void setLocationManager(LocationManager locationManager) {
+		this.locationManager = locationManager;
 	}
 
 	public static boolean gpsAvailable() {
@@ -178,27 +178,39 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		return instance;
 	}
 
+	@SuppressWarnings({"MissingPermission"})
 	public static void startSensorListener(Context context) {
 		if (instance == null) {
 			instance = new SensorHandler(context);
 		}
 		instance.sensorManager.unregisterListener((SensorEventListener) instance);
-		instance.sensorManager.unregisterListener((SensorCustomEventListener) instance);
-		instance.locationManager.removeUpdates(instance);
-		instance.locationManager.removeGpsStatusListener(instance);
 
 		SensorHandler.registerListener(instance);
 
-		instance.sensorManager.registerListener(instance, Sensors.LOUDNESS);
-		FaceDetectionHandler.registerOnFaceDetectedListener(instance);
-		FaceDetectionHandler.registerOnFaceDetectionStatusListener(instance);
-		instance.locationManager.addGpsStatusListener(instance);
-		if (gpsSensorAvailable()) {
-			instance.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, instance);
+		if (CameraManager.getInstance() != null) {
+			FaceDetectionHandler.registerOnFaceDetectedListener(instance);
+			FaceDetectionHandler.registerOnFaceDetectionStatusListener(instance);
 		}
-		if (networkGpsAvailable()) {
-			instance.locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, instance);
+
+		if (instance.sensorLoudness != null) {
+			instance.sensorLoudness.registerListener(instance);
 		}
+
+		if (instance.locationManager != null) {
+			instance.locationManager.removeUpdates(instance);
+			instance.locationManager.removeGpsStatusListener(instance);
+			instance.locationManager.addGpsStatusListener(instance);
+			if (gpsSensorAvailable()) {
+				instance.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, instance);
+			}
+			if (networkGpsAvailable()) {
+				instance.locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, instance);
+			}
+		}
+	}
+
+	public void setSensorLoudness(SensorLoudness sensorLoudness) {
+		this.sensorLoudness = sensorLoudness;
 	}
 
 	public static void registerListener(SensorEventListener listener) {
@@ -239,9 +251,15 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			return;
 		}
 		instance.sensorManager.unregisterListener((SensorEventListener) instance);
-		instance.sensorManager.unregisterListener((SensorCustomEventListener) instance);
-		instance.locationManager.removeUpdates(instance);
-		instance.locationManager.removeGpsStatusListener(instance);
+
+		if (instance.sensorLoudness != null) {
+			instance.sensorLoudness.unregisterListener(instance);
+		}
+
+		if (instance.locationManager != null) {
+			instance.locationManager.removeUpdates(instance);
+			instance.locationManager.removeGpsStatusListener(instance);
+		}
 
 		FaceDetectionHandler.unregisterOnFaceDetectedListener(instance);
 		FaceDetectionHandler.unregisterOnFaceDetectionStatusListener(instance);
@@ -251,7 +269,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		if (instance.sensorManager == null) {
 			return 0d;
 		}
-		DroneControlService dcs = DroneServiceWrapper.getInstance().getDroneService();
+		DroneControlService dcs = DroneServiceWrapper.getDroneService();
 		Double sensorValue;
 		float[] rotationMatrixOut = new float[16];
 		int rotate;
