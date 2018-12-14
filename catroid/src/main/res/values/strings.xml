@@ -2000,8 +2000,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="hint_sounds">Here you can add new sounds to your object. Remember using a brick from the sound
         category.</string>
     <string name="hint_objects">Your program consists of different objects that can interact with each other. To add a new object, tap the "+" symbol.</string>
-    <string name="hint_stage">Hit the back-button to pause your program. To show axes and the screen size of your
-        device, tap "Axes on".</string>
     <!--  -->
 
     <!-- Crash report dialog -->

@@ -64,7 +64,6 @@ import org.catrobat.catroid.sensing.GatherCollisionInformationTask;
 import org.catrobat.catroid.ui.runtimepermissions.BrickResourcesToRuntimePermissions;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.FlashUtil;
-import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.TouchUtil;
 import org.catrobat.catroid.utils.Utils;
@@ -419,7 +418,6 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		if (CameraManager.getInstance() != null) {
 			CameraManager.getInstance().setStageActivity(stageActivity);
 		}
-		SnackbarUtil.showHintSnackbar(stageActivity, R.string.hint_stage);
 		StageActivity.stageListener.setPaused(false);
 	}
 
