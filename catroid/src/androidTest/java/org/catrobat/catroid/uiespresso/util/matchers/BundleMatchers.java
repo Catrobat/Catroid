@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.uiespresso.util.matchers;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -63,6 +64,21 @@ public final class BundleMatchers {
 			@Override
 			public void describeTo(Description description) {
 				description.appendText("expected Bundle with URI: " + uri.toString());
+			}
+		};
+	}
+
+	public static Matcher<Bundle> bundleHasExtraIntent(final Matcher<Intent> intentMatcher) {
+		return new TypeSafeMatcher<Bundle>() {
+			@Override
+			public boolean matchesSafely(final Bundle bundle) {
+				return bundle.containsKey(Intent.EXTRA_INTENT)
+						&& bundle.getParcelable(Intent.EXTRA_INTENT) instanceof Intent
+						&& intentMatcher.matches(bundle.getParcelable(Intent.EXTRA_INTENT));
+			}
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("expected Bundle containing Intent");
 			}
 		};
 	}
