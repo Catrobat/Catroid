@@ -66,7 +66,6 @@ import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import java.io.File;
 import java.io.IOException;
 
-import static org.catrobat.catroid.common.Constants.EXTRA_PICTURE_PATH_POCKET_PAINT;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_LOOKS_URL;
 import static org.catrobat.catroid.ui.WebViewActivity.MEDIA_FILE_PATH;
@@ -195,7 +194,7 @@ public class ProjectActivity extends BaseCastActivity {
 
 		switch (requestCode) {
 			case SPRITE_POCKET_PAINT:
-				uri = Uri.fromFile(new File(data.getStringExtra(EXTRA_PICTURE_PATH_POCKET_PAINT)));
+				uri = new ImportFromPocketPaintLauncher(this).getPocketPaintCacheUri();
 				addSpriteFromUri(uri);
 				break;
 			case SPRITE_LIBRARY:

@@ -85,7 +85,6 @@ public class PocketPaintFromProjectActivityDiscardIntentTest {
 				hasComponent(Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME),
 				hasAction("android.intent.action.MAIN"),
 				hasCategories(hasItem(equalTo("android.intent.category.LAUNCHER"))),
-				hasExtras(bundleHasMatchingString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT, "")),
 				hasExtras(bundleHasMatchingString(Constants.EXTRA_PICTURE_NAME_POCKET_PAINT, defaultLookName)));
 
 		Intent resultData = new Intent();
