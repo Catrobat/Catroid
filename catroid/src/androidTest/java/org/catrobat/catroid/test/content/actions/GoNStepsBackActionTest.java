@@ -29,7 +29,6 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
@@ -42,6 +41,7 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
 import java.util.List;
+import java.util.Random;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
@@ -54,25 +54,35 @@ public class GoNStepsBackActionTest {
 
 	private static final int STEPS = 13;
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
+	private final int realSpriteMinLayer = 3;
+	private final int backgroundLayer = 0;
+	private final int penActorLayer = 1;
+	private final int embroideryActorLayer = 2;
 	private final Formula steps = new Formula(STEPS);
 	private Project project;
 	private Sprite background;
-	private Sprite sprite;
-	private Sprite sprite2;
+	private Sprite penActorSprite;
+	private Sprite embroideryActorSprite;
+	private Sprite realSprite;
 
 	@Before
 	public void setUp() throws Exception {
 		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
-		Group parentGroup = new Group();
 
 		background = new SingleSprite("background");
+		penActorSprite = new SingleSprite("penActor");
+		embroideryActorSprite = new SingleSprite("embroideryActor");
+		realSprite = new SingleSprite("testSprite");
+
+		project.getDefaultScene().addSprite(penActorSprite);
+		project.getDefaultScene().addSprite(embroideryActorSprite);
+		project.getDefaultScene().addSprite(realSprite);
+
+		Group parentGroup = new Group();
 		parentGroup.addActor(background.look);
-		sprite = new SingleSprite("testSprite");
-		parentGroup.addActor(sprite.look);
-		project.getDefaultScene().addSprite(sprite);
-		sprite2 = new SingleSprite("testSprite2");
-		parentGroup.addActor(sprite2.look);
-		project.getDefaultScene().addSprite(sprite2);
+		parentGroup.addActor(penActorSprite.look);
+		parentGroup.addActor(embroideryActorSprite.look);
+		parentGroup.addActor(realSprite.look);
 
 		ProjectManager.getInstance().setProject(project);
 	}
@@ -135,59 +145,94 @@ public class GoNStepsBackActionTest {
 	}
 
 	@Test
-	public void testBoundarySteps() {
+	public void testBoundaryBackground() {
+		Sprite sprite1 = new SingleSprite("TestSprite1");
+		Sprite sprite2 = new SingleSprite("TestSprite2");
+
 		Group parentGroup = new Group();
-
-		Sprite background = new SingleSprite("background");
 		parentGroup.addActor(background.look);
-		assertEquals(0, background.look.getZIndex());
-
-		Sprite sprite = new SingleSprite("testSprite");
-		parentGroup.addActor(sprite.look);
-		assertEquals(1, sprite.look.getZIndex());
-
-		Sprite sprite2 = new SingleSprite("testSprite2");
+		parentGroup.addActor(penActorSprite.look);
+		parentGroup.addActor(embroideryActorSprite.look);
+		parentGroup.addActor(sprite1.look);
 		parentGroup.addActor(sprite2.look);
-		assertEquals(2, sprite2.look.getZIndex());
 
-		project.getDefaultScene().addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite1);
 		project.getDefaultScene().addSprite(sprite2);
 		ProjectManager.getInstance().setProject(project);
 
-		sprite.getActionFactory().createGoNStepsBackAction(sprite, new Formula(Integer.MAX_VALUE)).act(1.0f);
-		assertEquals(Constants.Z_INDEX_FIRST_SPRITE, sprite.look.getZIndex());
-		assertEquals(1, sprite2.look.getZIndex());
+		assertEquals(realSpriteMinLayer, sprite1.look.getZIndex());
+		assertEquals(backgroundLayer, background.look.getZIndex());
+		assertEquals(penActorLayer, penActorSprite.look.getZIndex());
+		assertEquals(embroideryActorLayer, embroideryActorSprite.look.getZIndex());
 
-		sprite.getActionFactory().createGoNStepsBackAction(sprite, new Formula(Integer.MIN_VALUE)).act(1.0f);
-		assertEquals(2, sprite.look.getZIndex());
+		sprite2.getActionFactory().createGoNStepsBackAction(sprite2, new Formula(Integer.MAX_VALUE)).act(1.0f);
+		assertEquals(realSpriteMinLayer, sprite2.look.getZIndex());
+	}
+
+	@Test
+	public void testBoudaryForeground() {
+		final int expectedLayer = 4;
+		Sprite sprite1 = new SingleSprite("TestSprite1");
+		Sprite sprite2 = new SingleSprite("TestSprite2");
+
+		Group parentGroup = new Group();
+		parentGroup.addActor(background.look);
+		parentGroup.addActor(penActorSprite.look);
+		parentGroup.addActor(embroideryActorSprite.look);
+		parentGroup.addActor(sprite1.look);
+		parentGroup.addActor(sprite2.look);
+
+		project.getDefaultScene().addSprite(sprite1);
+		project.getDefaultScene().addSprite(sprite2);
+		ProjectManager.getInstance().setProject(project);
+
+		assertEquals(realSpriteMinLayer, sprite1.look.getZIndex());
+		assertEquals(backgroundLayer, background.look.getZIndex());
+		assertEquals(penActorLayer, penActorSprite.look.getZIndex());
+		assertEquals(embroideryActorLayer, embroideryActorSprite.look.getZIndex());
+
+		sprite1.getActionFactory().createGoNStepsBackAction(sprite1, new Formula(Integer.MIN_VALUE)).act(1.0f);
+		assertEquals(expectedLayer, sprite1.look.getZIndex());
 	}
 
 	@Test
 	public void testBrickWithStringFormula() {
-		sprite.getActionFactory().createGoNStepsBackAction(sprite2, new Formula(String.valueOf(STEPS))).act(1.0f);
-		assertEquals(0, background.look.getZIndex());
-		assertEquals(Constants.Z_INDEX_FIRST_SPRITE, sprite2.look.getZIndex());
-		assertEquals(1, sprite.look.getZIndex());
+		realSprite.getActionFactory().createGoNStepsBackAction(realSprite, new Formula(String.valueOf(STEPS))).act(1.0f);
+		assertEquals(backgroundLayer, background.look.getZIndex());
+		assertEquals(penActorLayer, penActorSprite.look.getZIndex());
+		assertEquals(embroideryActorLayer, embroideryActorSprite.look.getZIndex());
+		assertEquals(realSpriteMinLayer, realSprite.look.getZIndex());
 
-		sprite.getActionFactory().createGoNStepsBackAction(sprite, new Formula(String.valueOf(NOT_NUMERICAL_STRING))).act(1.0f);
-		assertEquals(0, background.look.getZIndex());
-		assertEquals(Constants.Z_INDEX_FIRST_SPRITE, sprite2.look.getZIndex());
-		assertEquals(1, sprite.look.getZIndex());
+		penActorSprite.getActionFactory().createGoNStepsBackAction(penActorSprite, new Formula(String.valueOf(NOT_NUMERICAL_STRING))).act(1.0f);
+		assertEquals(backgroundLayer, background.look.getZIndex());
+		assertEquals(penActorLayer, penActorSprite.look.getZIndex());
+		assertEquals(embroideryActorLayer, embroideryActorSprite.look.getZIndex());
+		assertEquals(realSpriteMinLayer, realSprite.look.getZIndex());
 	}
 
 	@Test
 	public void testNullFormula() {
-		sprite.getActionFactory().createGoNStepsBackAction(sprite2, null).act(1.0f);
-		assertEquals(0, background.look.getZIndex());
-		assertEquals(1, sprite.look.getZIndex());
-		assertEquals(2, sprite2.look.getZIndex());
+		penActorSprite.getActionFactory().createGoNStepsBackAction(realSprite, null).act(1.0f);
+		assertEquals(backgroundLayer, background.look.getZIndex());
+		assertEquals(penActorLayer, penActorSprite.look.getZIndex());
+		assertEquals(embroideryActorLayer, embroideryActorSprite.look.getZIndex());
+		assertEquals(realSpriteMinLayer, realSprite.look.getZIndex());
 	}
 
 	@Test
 	public void testNotANumberFormula() {
-		sprite.getActionFactory().createGoNStepsBackAction(sprite2, new Formula(Double.NaN)).act(1.0f);
-		assertEquals(0, background.look.getZIndex());
-		assertEquals(1, sprite.look.getZIndex());
-		assertEquals(2, sprite2.look.getZIndex());
+		penActorSprite.getActionFactory().createGoNStepsBackAction(realSprite, new Formula(Double.NaN)).act(1.0f);
+		assertEquals(backgroundLayer, background.look.getZIndex());
+		assertEquals(penActorLayer, penActorSprite.look.getZIndex());
+		assertEquals(embroideryActorLayer, embroideryActorSprite.look.getZIndex());
+		assertEquals(realSpriteMinLayer, realSprite.look.getZIndex());
+	}
+
+	@Test
+	public void testLayerOrder() {
+		Random random = new Random();
+
+		realSprite.getActionFactory().createGoNStepsBackAction(realSprite, new Formula(random.nextInt(100))).act(1.0f);
+		assertEquals(realSpriteMinLayer, realSprite.look.getZIndex());
 	}
 }

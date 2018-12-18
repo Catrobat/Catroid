@@ -22,9 +22,11 @@
  */
 package org.catrobat.catroid.stage;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.os.SystemClock;
+import android.util.DisplayMetrics;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -59,8 +61,10 @@ import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.content.eventids.GamepadEventId;
+import org.catrobat.catroid.embroidery.EmbroideryList;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.physics.PhysicsDebugSettings;
@@ -127,6 +131,9 @@ public class StageListener implements ApplicationListener {
 	private Viewport viewPort;
 	public ShapeRenderer shapeRenderer;
 	private PenActor penActor;
+	private EmbroideryActor embroideryActor;
+	public EmbroideryList embroideryList;
+	private float screenRatio;
 
 	private List<Sprite> sprites;
 
@@ -152,6 +159,9 @@ public class StageListener implements ApplicationListener {
 	public int maximizeViewPortWidth = 0;
 
 	public boolean axesOn = false;
+
+	private static final int Z_LAYER_PEN_ACTOR = 1;
+	private static final int Z_LAYER_EMBROIDERY_ACTOR = 2;
 
 	private byte[] thumbnail;
 	private Map<String, StageBackup> stageBackupMap = new HashMap<>();
@@ -199,6 +209,8 @@ public class StageListener implements ApplicationListener {
 					|| scene.hasScreenshot();
 		}
 		FaceDetectionHandler.resumeFaceDetection();
+
+		embroideryList = new EmbroideryList();
 	}
 
 	public void setPaused(boolean paused) {
@@ -232,12 +244,16 @@ public class StageListener implements ApplicationListener {
 			sprite.resetSprite();
 			sprite.look.createBrightnessContrastHueShader();
 			stage.addActor(sprite.look);
-
-			if (sprites.indexOf(sprite) == 0) {
-				penActor = new PenActor();
-				stage.addActor(penActor);
-			}
 		}
+
+		penActor = new PenActor();
+		stage.addActor(penActor);
+		penActor.setZIndex(Z_LAYER_PEN_ACTOR);
+
+		screenRatio = calculateScreenRatio();
+		embroideryActor = new EmbroideryActor(screenRatio);
+		stage.addActor(embroideryActor);
+		embroideryActor.setZIndex(Z_LAYER_EMBROIDERY_ACTOR);
 	}
 
 	public void cloneSpriteAndAddToStage(Sprite cloneMe) {
@@ -382,6 +398,7 @@ public class StageListener implements ApplicationListener {
 		VibratorUtil.reset();
 		TouchUtil.reset();
 		removeAllClonedSpritesFromStage();
+		embroideryList.clear();
 
 		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
 			scene.firstStart = true;
@@ -425,6 +442,8 @@ public class StageListener implements ApplicationListener {
 		if (penActor != null) {
 			penActor.dispose();
 		}
+
+		embroideryList = null;
 		finished = true;
 	}
 
@@ -442,6 +461,9 @@ public class StageListener implements ApplicationListener {
 			if (penActor != null) {
 				penActor.dispose();
 			}
+
+			embroideryList.clear();
+
 			SoundManager.getInstance().clear();
 
 			physicsWorld = scene.resetPhysicsWorld();
@@ -759,6 +781,7 @@ public class StageListener implements ApplicationListener {
 		List<Sprite> sprites;
 		Array<Actor> actors;
 		PenActor penActor;
+		EmbroideryList embroideryList;
 		Map<Sprite, ShowBubbleActor> bubbleActorMap;
 
 		boolean paused;
@@ -786,6 +809,7 @@ public class StageListener implements ApplicationListener {
 		backup.actors = new Array<>(stage.getActors());
 		backup.penActor = penActor;
 		backup.bubbleActorMap = new HashMap<>(bubbleActorMap);
+		backup.embroideryList = embroideryList;
 
 		backup.paused = paused;
 		backup.finished = finished;
@@ -830,6 +854,8 @@ public class StageListener implements ApplicationListener {
 		bubbleActorMap.clear();
 		bubbleActorMap.putAll(backup.bubbleActorMap);
 
+		embroideryList = backup.embroideryList;
+
 		paused = backup.paused;
 		finished = backup.finished;
 		reloadProject = backup.reloadProject;
@@ -853,5 +879,14 @@ public class StageListener implements ApplicationListener {
 		if (CameraManager.getInstance() != null && backup.cameraRunning) {
 			CameraManager.getInstance().resumeForScene();
 		}
+	}
+
+	private float calculateScreenRatio() {
+		DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
+		XmlHeader header = ProjectManager.getInstance().getCurrentProject().getXmlHeader();
+		float deviceDiagonalPixel = (float) Math.sqrt(Math.pow(metrics.widthPixels, 2) + Math.pow(metrics.heightPixels, 2));
+		float creatorDiagonalPixel = (float) Math.sqrt(Math.pow(header.getVirtualScreenWidth(), 2)
+				+ Math.pow(header.getVirtualScreenHeight(), 2));
+		return creatorDiagonalPixel / deviceDiagonalPixel;
 	}
 }

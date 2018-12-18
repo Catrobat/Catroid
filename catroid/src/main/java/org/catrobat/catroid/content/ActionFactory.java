@@ -141,6 +141,7 @@ import org.catrobat.catroid.content.actions.SetYAction;
 import org.catrobat.catroid.content.actions.ShowTextAction;
 import org.catrobat.catroid.content.actions.SpeakAction;
 import org.catrobat.catroid.content.actions.StampAction;
+import org.catrobat.catroid.content.actions.StitchAction;
 import org.catrobat.catroid.content.actions.StopAllScriptsAction;
 import org.catrobat.catroid.content.actions.StopAllSoundsAction;
 import org.catrobat.catroid.content.actions.StopOtherScriptsAction;
@@ -815,6 +816,12 @@ public class ActionFactory extends Actions {
 		UserBrickAction action = action(UserBrickAction.class);
 		action.setAction(userBrickAction);
 		action.setUserBrick(userBrick);
+		return action;
+	}
+
+	public static Action createStitchAction(Sprite sprite) {
+		StitchAction action = Actions.action(StitchAction.class);
+		action.setSprite(sprite);
 		return action;
 	}
 
