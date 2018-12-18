@@ -26,19 +26,21 @@ package org.catrobat.catroid.ui
 import android.Manifest.permission.CAMERA
 import android.content.ComponentName
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.provider.MediaStore.ACTION_IMAGE_CAPTURE
+import android.support.v4.content.FileProvider
 import android.support.v7.app.AppCompatActivity
+import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants.*
+import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.ui.WebViewActivity.INTENT_PARAMETER_URL
-import android.provider.MediaStore
-import android.support.v4.content.FileProvider
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask
 import java.io.File
 import java.util.*
-
 
 interface ImportLauncher {
 
@@ -47,12 +49,31 @@ interface ImportLauncher {
 
 class ImportFromPocketPaintLauncher(private val activity: AppCompatActivity) : ImportLauncher {
 
+    fun getPocketPaintCacheFile(): File {
+        val childName = activity.getString(R.string.default_look_name)
+        val cacheDir = File(activity.cacheDir.absolutePath, "pocketPaintCache")
+        if (!cacheDir.exists()) {
+            cacheDir.mkdirs()
+        }
+        return File(cacheDir, "$childName.jpg")
+    }
+
+    fun getPocketPaintCacheUri(): Uri {
+        val pictureFile = getPocketPaintCacheFile()
+        return FileProvider.getUriForFile(activity, activity.applicationContext.packageName + ".fileProvider", pictureFile)
+    }
+
     override fun startActivityForResult(requestCode: Int) {
         val intent = Intent("android.intent.action.MAIN")
                 .setComponent(ComponentName(activity, POCKET_PAINT_INTENT_ACTIVITY_NAME))
 
         val bundle = Bundle()
-        bundle.putString(EXTRA_PICTURE_PATH_POCKET_PAINT, "")
+        val currentProject = ProjectManager.getInstance().currentProject
+        val bitmap = Bitmap.createBitmap(currentProject.xmlHeader.virtualScreenWidth,
+                currentProject.xmlHeader.virtualScreenHeight, Bitmap.Config.ARGB_8888)
+
+        val file = StorageOperations.compressBitmapToPng(bitmap, getPocketPaintCacheFile())
+        bundle.putString(EXTRA_PICTURE_PATH_POCKET_PAINT, file.absolutePath)
         bundle.putString(EXTRA_PICTURE_NAME_POCKET_PAINT, activity.getString(R.string.default_look_name))
         intent.putExtras(bundle)
         intent.addCategory("android.intent.category.LAUNCHER")
@@ -79,18 +100,19 @@ class ImportFromFileLauncher(private val activity: AppCompatActivity, private va
 }
 
 class ImportFromCameraLauncher(private val activity: AppCompatActivity) : ImportLauncher {
+
     companion object {
-        @JvmStatic val REQUEST_PERMISSIONS_CAMERA_LAUNCHER = 301
+        @JvmStatic
+        val REQUEST_PERMISSIONS_CAMERA_LAUNCHER = 301
     }
 
     fun getCacheCameraUri(): Uri {
         val childName = activity.getString(R.string.default_look_name)
-        val cacheDir = File(activity.cacheDir.absolutePath + "/cameraCache")
+        val cacheDir = File(activity.cacheDir.absolutePath, "cameraCache")
         if (!cacheDir.exists()) {
             cacheDir.mkdirs()
         }
         val pictureFile = File(cacheDir, "$childName.jpg")
-        activity.applicationContext.packageName
         return FileProvider.getUriForFile(activity, activity.applicationContext.packageName + ".fileProvider", pictureFile)
     }
 

@@ -74,7 +74,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.catrobat.catroid.common.Constants.EXTRA_PICTURE_PATH_POCKET_PAINT;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BACKGROUNDS_URL_LANDSCAPE;
@@ -253,7 +252,7 @@ public class SpriteActivity extends BaseActivity {
 
 		switch (requestCode) {
 			case SPRITE_POCKET_PAINT:
-				uri = Uri.fromFile(new File(data.getStringExtra(EXTRA_PICTURE_PATH_POCKET_PAINT)));
+				uri = new ImportFromPocketPaintLauncher(this).getPocketPaintCacheUri();
 				addSpriteFromUri(uri);
 				break;
 			case SPRITE_LIBRARY:
@@ -269,7 +268,7 @@ public class SpriteActivity extends BaseActivity {
 				addSpriteFromUri(uri);
 				break;
 			case BACKGROUND_POCKET_PAINT:
-				uri = Uri.fromFile(new File(data.getStringExtra(EXTRA_PICTURE_PATH_POCKET_PAINT)));
+				uri = new ImportFromPocketPaintLauncher(this).getPocketPaintCacheUri();
 				addBackgroundFromUri(uri);
 				break;
 			case BACKGROUND_LIBRARY:
@@ -285,7 +284,7 @@ public class SpriteActivity extends BaseActivity {
 				addBackgroundFromUri(uri);
 				break;
 			case LOOK_POCKET_PAINT:
-				uri = Uri.fromFile(new File(data.getStringExtra(EXTRA_PICTURE_PATH_POCKET_PAINT)));
+				uri = new ImportFromPocketPaintLauncher(this).getPocketPaintCacheUri();
 				addLookFromUri(uri);
 				break;
 			case LOOK_LIBRARY:
