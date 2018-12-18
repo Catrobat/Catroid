@@ -21,20 +21,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.intents;
+package org.catrobat.catroid.uiespresso.intents.looks.gallery;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.intent.Intents;
+import android.support.test.rule.GrantPermissionRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
@@ -53,26 +55,28 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.Intents.intending;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasAction;
-import static android.support.test.espresso.intent.matcher.IntentMatchers.hasCategories;
-import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasExtras;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasType;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
+import static org.catrobat.catroid.uiespresso.util.matchers.BundleMatchers.bundleHasExtraIntent;
 import static org.catrobat.catroid.uiespresso.util.matchers.BundleMatchers.bundleHasMatchingString;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.core.AllOf.allOf;
 
 @RunWith(AndroidJUnit4.class)
-public class PocketPaintFromSpriteActivityDiscardIntentTest {
+public class LookFromGalleryIntentDismissTest {
 
-	private Matcher expectedIntent;
-	private final String projectName = "PaintroidNewLookIntentTest";
+	private Matcher<Intent> expectedChooserIntent;
+	private Matcher<Intent> expectedGetContentIntent;
+	private final String projectName = getClass().getSimpleName();
 
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_LOOKS);
+
+	@Rule
+	public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE);
 
 	@Before
 	public void setUp() throws Exception {
@@ -81,19 +85,20 @@ public class PocketPaintFromSpriteActivityDiscardIntentTest {
 		baseActivityTestRule.launchActivity();
 		Intents.init();
 
-		String defaultLookName = UiTestUtils.getResourcesString(R.string.default_look_name);
-		expectedIntent = allOf(
-				hasComponent(Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME),
-				hasAction("android.intent.action.MAIN"),
-				hasCategories(hasItem(equalTo("android.intent.category.LAUNCHER"))),
-				hasExtras(bundleHasMatchingString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT, "")),
-				hasExtras(bundleHasMatchingString(Constants.EXTRA_PICTURE_NAME_POCKET_PAINT, defaultLookName)));
+		expectedGetContentIntent = allOf(
+				hasAction("android.intent.action.GET_CONTENT"),
+				hasType("image/*"));
 
-		Intent resultData = new Intent();
+		String chooserTitle = UiTestUtils.getResourcesString(R.string.select_look_from_gallery);
+		expectedChooserIntent = allOf(
+				hasAction("android.intent.action.CHOOSER"),
+				hasExtras(bundleHasMatchingString("android.intent.extra.TITLE", chooserTitle)),
+				hasExtras(bundleHasExtraIntent(expectedGetContentIntent)));
+
 		Instrumentation.ActivityResult result =
-				new Instrumentation.ActivityResult(Activity.RESULT_CANCELED, resultData);
+				new Instrumentation.ActivityResult(Activity.RESULT_CANCELED, null);
 
-		intending(expectedIntent).respondWith(result);
+		intending(expectedChooserIntent).respondWith(result);
 	}
 
 	@After
@@ -104,24 +109,26 @@ public class PocketPaintFromSpriteActivityDiscardIntentTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void testCancelPaintroid() {
+	public void testLookFromGalleryIntentDismissTest() {
 		onView(withId(R.id.button_add))
 				.perform(click());
 
-		onView(withId(R.id.dialog_new_look_paintroid))
+		onView(withId(R.id.dialog_new_look_gallery))
 				.perform(click());
 
-		intended(expectedIntent);
+		intended(expectedChooserIntent);
 
 		onRecyclerView().checkHasNumberOfItems(0);
 	}
 
 	private void createProject(String projectName) {
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
-		Sprite testSprite = new Sprite();
-		project.getDefaultScene().addSprite(testSprite);
+		Sprite sprite = new Sprite("testSprite");
+
+		project.getDefaultScene().addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(testSprite);
+		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+		XstreamSerializer.getInstance().saveProject(project);
 	}
 }

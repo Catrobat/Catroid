@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.intents;
+package org.catrobat.catroid.uiespresso.intents.looks.paintroid;
 
 import android.app.Activity;
 import android.app.Instrumentation;
@@ -67,7 +67,7 @@ import static org.hamcrest.core.AllOf.allOf;
 public class PocketPaintFromProjectActivityDiscardIntentTest {
 
 	private Matcher expectedIntent;
-	private final String projectName = "PaintroidNewLookIntentTest";
+	private final String projectName = getClass().getSimpleName();
 
 	@Rule
 	public BaseActivityInstrumentationRule<ProjectActivity> baseActivityTestRule = new
