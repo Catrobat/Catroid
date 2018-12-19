@@ -135,7 +135,7 @@ public class ParserTestUserLists {
 		userListValuesStringsAndNumbers.add("WORLDS");
 
 		assertTrue(dataContainer.addUserList(new UserList(PROJECT_USER_LIST_NAME, userListValuesStringsAndNumbers)));
-		assertEquals("Hello 42.0 WORLDS", interpretUserList(PROJECT_USER_LIST_NAME));
+		assertEquals("Hello 42 WORLDS", interpretUserList(PROJECT_USER_LIST_NAME));
 	}
 
 	@Test

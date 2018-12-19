@@ -191,7 +191,7 @@ public class FormulaEditorFragmentTest {
 		onFormulaEditor()
 				.performCompute();
 		onView(withId(R.id.formula_editor_compute_dialog_textview))
-				.check(matches(withText(String.valueOf(1.0))));
+				.check(matches(withText(String.valueOf(1))));
 	}
 
 	@After

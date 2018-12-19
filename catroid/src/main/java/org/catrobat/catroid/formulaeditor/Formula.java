@@ -34,6 +34,8 @@ import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import java.io.Serializable;
 import java.util.Set;
 
+import static org.catrobat.catroid.utils.NumberFormats.stringWithoutTrailingZero;
+
 public class Formula implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -161,7 +163,8 @@ public class Formula implements Serializable {
 			throw new InterpretationException("NaN in interpretString()");
 		}
 
-		return String.valueOf(interpretation);
+		String value = String.valueOf(interpretation);
+		return stringWithoutTrailingZero(value);
 	}
 
 	public Object interpretObject(Sprite sprite) {

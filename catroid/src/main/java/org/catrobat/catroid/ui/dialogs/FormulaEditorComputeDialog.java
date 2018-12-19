@@ -46,6 +46,8 @@ import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.SensorLoudness;
 
+import static org.catrobat.catroid.utils.NumberFormats.stringWithoutTrailingZero;
+
 public class FormulaEditorComputeDialog extends AlertDialog implements SensorEventListener {
 
 	private Formula formulaToCompute = null;
@@ -133,7 +135,7 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 		}
 
 		String result = formulaToCompute.getResultForComputeDialog(context);
-		setDialogTextView(result);
+		setDialogTextView(stringWithoutTrailingZero(result));
 	}
 
 	@Override
