@@ -36,7 +36,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.RootMatchers.isPlatformPopup;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -45,7 +47,6 @@ import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInter
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorDataListWrapper.onDataList;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 import static org.catrobat.catroid.uiespresso.ui.actionbar.utils.ActionModeWrapper.onActionMode;
-import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewActions.openOverflowMenu;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 
 public class FormulaEditorDeleteVariableTest {
@@ -89,7 +90,7 @@ public class FormulaEditorDeleteVariableTest {
 		final String itemName = "item";
 		onDataList()
 				.performAdd(itemName);
-		openOverflowMenu();
+		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
 		onView(withId(R.id.title)).inRoot(isPlatformPopup())
 				.perform(click());
 		onDataList().onVariableAtPosition(0)

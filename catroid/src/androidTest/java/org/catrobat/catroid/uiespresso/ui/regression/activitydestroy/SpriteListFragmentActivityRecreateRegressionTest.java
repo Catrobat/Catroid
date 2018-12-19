@@ -34,7 +34,6 @@ import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
-import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewActions;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -42,7 +41,9 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.isDialog;
@@ -90,7 +91,7 @@ public class SpriteListFragmentActivityRecreateRegressionTest {
 	@Flaky
 	@Test
 	public void testActivityRecreateRenameSpriteDialog() {
-		RecyclerViewActions.openOverflowMenu();
+		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
 		onView(withText(R.string.rename)).perform(click());
 
 		onRecyclerView().atPosition(1)
@@ -115,7 +116,7 @@ public class SpriteListFragmentActivityRecreateRegressionTest {
 	@Flaky
 	@Test
 	public void testActivityRecreateNewGroupDialog() {
-		RecyclerViewActions.openOverflowMenu();
+		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
 		onView(withText(R.string.new_group)).perform(click());
 
 		onView(withText(R.string.new_group)).inRoot(isDialog())
@@ -135,7 +136,7 @@ public class SpriteListFragmentActivityRecreateRegressionTest {
 	@Flaky
 	@Test
 	public void testActivityRecreateNewSceneDialog() {
-		RecyclerViewActions.openOverflowMenu();
+		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
 		onView(withText(R.string.new_scene)).perform(click());
 
 		onView(withText(R.string.new_scene_dialog)).inRoot(isDialog())
