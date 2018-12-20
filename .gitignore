@@ -1,6 +1,8 @@
 oauth_config.xml
 sed_replace.txt
 
+google-services.json
+
 # built application files
 *.apk
 *.ap_
