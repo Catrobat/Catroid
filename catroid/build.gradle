@@ -84,6 +84,12 @@ emulators {
             systemImage = 'system-images;android-24;default;x86_64'
         }
     }
+
+    emulator 'android28', 'template1', {
+        avd {
+            systemImage = 'system-images;android-28;default;x86_64'
+        }
+    }
 }
 
 apply plugin: 'com.android.application'
