@@ -63,6 +63,7 @@ public class BrickAdapter extends BaseAdapter implements BrickAdapterInterface,
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({NONE, ALL, SCRIPTS_ONLY})
 	@interface CheckBoxMode {}
+
 	public static final int NONE = 0;
 	public static final int ALL = 1;
 	public static final int SCRIPTS_ONLY = 2;
@@ -299,8 +300,32 @@ public class BrickAdapter extends BaseAdapter implements BrickAdapterInterface,
 
 		BrickBaseType firstBrickInItemsToMove = itemsToMove.get(0);
 		if (firstBrickInItemsToMove instanceof ScriptBrick) {
+
 			Script scriptToInsert = ((ScriptBrick) firstBrickInItemsToMove).getScript();
+			Script scriptAtPosition = getScriptAtPosition(position - 1);
 			scripts.remove(scriptToInsert);
+
+			boolean divideScriptAtPositionAndAddBricksToMovingScript = itemsToMove.size() == 1
+					&& !scriptAtPosition.getBrickList().isEmpty();
+
+			if (divideScriptAtPositionAndAddBricksToMovingScript) {
+				List<Brick> bricksOfScriptAtPosition = scriptAtPosition.getBrickList();
+
+				int positionToDivideScriptAt = getPositionWithinScript(position, scriptAtPosition);
+
+				for (int i = 0; i < positionToDivideScriptAt; i++) {
+					BrickBaseType brick = (BrickBaseType) bricksOfScriptAtPosition.get(i);
+					if (brick instanceof ControlStructureBrick) {
+						positionToDivideScriptAt = bricksOfScriptAtPosition
+								.indexOf(((ControlStructureBrick) brick).getLastBrick()) + 1;
+					}
+				}
+
+				while (positionToDivideScriptAt < bricksOfScriptAtPosition.size()) {
+					scriptToInsert.addBrick(bricksOfScriptAtPosition.get(positionToDivideScriptAt));
+					bricksOfScriptAtPosition.remove(positionToDivideScriptAt);
+				}
+			}
 
 			int whereToInsertScript = getPositionToInsertScript((ScriptBrick) firstBrickInItemsToMove);
 			if (whereToInsertScript == scripts.size()) {
