@@ -99,7 +99,7 @@ pipeline {
 				// Convert the JaCoCo coverate to the Cobertura XML file format.
 				// This is done since the Jenkins JaCoCo plugin does not work well.
 				// See also JENKINS-212 on jira.catrob.at
-				sh "if [ -f '$JACOCO_UNIT_XML' ]; then ./buildScripts/cover2cover.py $JACOCO_UNIT_XML > $JAVA_SRC/coverage1.xml; fi"
+				sh "./buildScripts/cover2cover.py $JACOCO_UNIT_XML $JAVA_SRC/coverage1.xml"
 
 				// Run device tests for package: org.catrobat.catroid.test
 				sh '''./gradlew -PenableCoverage -Pemulator=android24 startEmulator createCatroidDebugAndroidTestCoverageReport \
@@ -107,7 +107,7 @@ pipeline {
 				// Convert the JaCoCo coverate to the Cobertura XML file format.
 				// This is done since the Jenkins JaCoCo plugin does not work well.
 				// See also JENKINS-212 on jira.catrob.at
-				sh "if [ -f '$JACOCO_XML' ]; then ./buildScripts/cover2cover.py $JACOCO_XML > $JAVA_SRC/coverage2.xml; fi"
+				sh "./buildScripts/cover2cover.py $JACOCO_XML $JAVA_SRC/coverage2.xml"
 				// ensure that the following test run does not overwrite the results
 				sh "mv ${env.GRADLE_PROJECT_MODULE_NAME}/build/outputs/androidTest-results ${env.GRADLE_PROJECT_MODULE_NAME}/build/outputs/androidTest-results1"
 
@@ -117,7 +117,7 @@ pipeline {
 				// Convert the JaCoCo coverate to the Cobertura XML file format.
 				// This is done since the Jenkins JaCoCo plugin does not work well.
 				// See also JENKINS-212 on jira.catrob.at
-				sh "if [ -f '$JACOCO_XML' ]; then ./buildScripts/cover2cover.py $JACOCO_XML > $JAVA_SRC/coverage3.xml; fi"
+				sh "./buildScripts/cover2cover.py $JACOCO_XML $JAVA_SRC/coverage3.xml"
 				// ensure that the following test run does not overwrite the results
 				sh "mv ${env.GRADLE_PROJECT_MODULE_NAME}/build/outputs/androidTest-results ${env.GRADLE_PROJECT_MODULE_NAME}/build/outputs/androidTest-results2"
 			}
@@ -140,7 +140,7 @@ pipeline {
 							startEmulator createCatroidDebugAndroidTestCoverageReport \
 							-Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.uiespresso.testsuites.QuarantineTestSuite'''
 				archiveArtifacts "$JACOCO_XML"
-				sh "if [ -f '$JACOCO_XML' ]; then ./buildScripts/cover2cover.py $JACOCO_XML > $JAVA_SRC/coverage4.xml; fi"
+				sh "./buildScripts/cover2cover.py $JACOCO_XML $JAVA_SRC/coverage4.xml"
 
 			}
 
