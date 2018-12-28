@@ -268,7 +268,9 @@ public class ScriptFragment extends ListFragment implements
 			listView.highlightMovingItem();
 			return true;
 		}
-
+		if (listView.isCurrentlyHighlighted()) {
+			listView.cancelHighlighting();
+		}
 		switch (item.getItemId()) {
 			case R.id.backpack:
 				prepareActionMode(BACKPACK);
@@ -317,6 +319,14 @@ public class ScriptFragment extends ListFragment implements
 		listView.cancelMove();
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 		adapter.updateItems(sprite);
+	}
+
+	public boolean isCurrentlyHighlighted() {
+		return listView.isCurrentlyHighlighted();
+	}
+
+	public void cancelHighlighting() {
+		listView.cancelHighlighting();
 	}
 
 	private void showCategoryFragment() {
@@ -396,6 +406,9 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	public void handleAddButton() {
+		if (listView.isCurrentlyHighlighted()) {
+			listView.cancelHighlighting();
+		}
 		if (listView.isCurrentlyMoving()) {
 			listView.highlightMovingItem();
 		} else {
@@ -459,6 +472,9 @@ public class ScriptFragment extends ListFragment implements
 					}
 				})
 				.show();
+		if (listView.isCurrentlyHighlighted()) {
+			listView.cancelHighlighting();
+		}
 	}
 
 	private List<Integer> getContextMenuItems(BrickBaseType brick) {
@@ -480,6 +496,9 @@ public class ScriptFragment extends ListFragment implements
 			items.add(R.string.brick_context_dialog_help);
 		} else {
 			items.add(R.string.brick_context_dialog_copy_brick);
+			if (brick instanceof ControlStructureBrick) {
+				items.add(R.string.brick_context_dialog_highlight_brick_parts);
+			}
 			items.add(R.string.brick_context_dialog_delete_brick);
 
 			items.add(brick.isCommentedOut()
@@ -567,6 +586,11 @@ public class ScriptFragment extends ListFragment implements
 			case R.string.brick_context_dialog_help:
 				openWebViewWithHelpPage(brick);
 				break;
+			case R.string.brick_context_dialog_highlight_brick_parts:
+				List<Brick> bricksOfControlStructure = ((ControlStructureBrick) brick).getAllParts();
+				List<Integer> positions = adapter.getPositionsOfItems(bricksOfControlStructure);
+				listView.highlightControlStructureBricks(positions);
+				break;
 		}
 	}
 
@@ -586,6 +610,9 @@ public class ScriptFragment extends ListFragment implements
 
 	@Override
 	public boolean onItemLongClick(BrickBaseType brick, int position) {
+		if (listView.isCurrentlyHighlighted()) {
+			listView.cancelHighlighting();
+		}
 		listView.startMoving(brickController
 				.getBricksToMove(brick, new ArrayList<Brick>(adapter.getItems())), position);
 		return true;

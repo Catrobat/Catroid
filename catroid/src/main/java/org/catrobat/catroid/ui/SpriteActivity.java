@@ -220,12 +220,17 @@ public class SpriteActivity extends BaseActivity {
 
 	@Override
 	public void onBackPressed() {
-		boolean isDragAndDropActiveInFragment = getCurrentFragment() instanceof DragAndDropInterface
-				&& ((DragAndDropInterface) getCurrentFragment()).isCurrentlyMoving();
 
-		if (isDragAndDropActiveInFragment) {
-			((DragAndDropInterface) getCurrentFragment()).cancelMove();
-			return;
+		Fragment currentFragment = getCurrentFragment();
+		if (currentFragment instanceof ScriptFragment) {
+			if (((DragAndDropInterface) currentFragment).isCurrentlyMoving()) {
+				((DragAndDropInterface) currentFragment).cancelMove();
+				return;
+			}
+			if (((ScriptFragment) currentFragment).isCurrentlyHighlighted()) {
+				((ScriptFragment) currentFragment).cancelHighlighting();
+				return;
+			}
 		}
 		if (getCurrentFragment() instanceof FormulaEditorFragment) {
 			((FormulaEditorFragment) getCurrentFragment()).promptSave();
@@ -783,12 +788,15 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	public void handlePlayButton(View view) {
-		boolean isDragAndDropActiveInFragment = getCurrentFragment() instanceof DragAndDropInterface
-				&& ((DragAndDropInterface) getCurrentFragment()).isCurrentlyMoving();
-
-		if (isDragAndDropActiveInFragment) {
-			((DragAndDropInterface) getCurrentFragment()).highlightMovingItem();
-			return;
+		Fragment currentFragment = getCurrentFragment();
+		if (currentFragment instanceof ScriptFragment) {
+			if (((ScriptFragment) currentFragment).isCurrentlyHighlighted()) {
+				((ScriptFragment) currentFragment).cancelHighlighting();
+			}
+			if (((DragAndDropInterface) currentFragment).isCurrentlyMoving()) {
+				((DragAndDropInterface) getCurrentFragment()).highlightMovingItem();
+				return;
+			}
 		}
 
 		while (getSupportFragmentManager().getBackStackEntryCount() > 0) {
