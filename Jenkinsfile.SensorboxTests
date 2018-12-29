@@ -54,7 +54,7 @@ pipeline {
 
         stage('Unit and Device tests') {
             steps {
-                lock("run-sensorbox-tests-on-${env.NODE_NAME}") {
+                lock(resource: null, label: "HardwareSensorBox-${env.NODE_NAME}", quantity: 1, variable: 'ANDROID_SERIAL') {
                     sh './gradlew -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.uiespresso.testsuites.SensorboxTestSuite connectedCatroidDebugAndroidTest'
                 }
             }
