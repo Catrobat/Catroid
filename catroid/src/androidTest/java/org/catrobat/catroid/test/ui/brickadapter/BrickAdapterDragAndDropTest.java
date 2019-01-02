@@ -28,6 +28,7 @@ import android.support.test.runner.AndroidJUnit4;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.WhenConditionScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.WhenTouchDownScript;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -103,9 +104,12 @@ public class BrickAdapterDragAndDropTest {
 		whenScript.addBrick(new SetXBrick());
 		whenScript.addBrick(new SetYBrick());
 
+		WhenConditionScript whenConditionScript = new WhenConditionScript();
+
 		sprite.addScript(startScript);
 		sprite.addScript(touchDownScript);
 		sprite.addScript(whenScript);
+		sprite.addScript(whenConditionScript);
 
 		adapter = new BrickAdapter(sprite);
 	}
@@ -174,8 +178,62 @@ public class BrickAdapterDragAndDropTest {
 		assertTrue(adapter.onItemMove(10, 9));
 		assertTrue(adapter.onItemMove(9, 8));
 
-		adapter.moveItemsTo(9, bricksToMove);
+		adapter.moveItemsTo(8, bricksToMove);
 		assertEquals(1, sprite.getScriptIndex(scriptToMove));
+	}
+
+	@Test
+	public void testDragScriptBrickIntoOtherScriptWithoutControlStructure() {
+		Script scriptToMove = sprite.getScript(3);
+		Script scriptToSplit = sprite.getScript(2);
+
+		SetYBrick brickToTakeOverFromOtherScript = (SetYBrick) sprite.getScript(2).getBrickList().get(1);
+
+		List<Brick> bricksInScript = scriptToMove.getBrickList();
+
+		assertTrue(bricksInScript.isEmpty());
+
+		List<BrickBaseType> bricksToMove = new ArrayList<>();
+		bricksToMove.add((BrickBaseType) scriptToMove.getScriptBrick());
+
+		assertTrue(adapter.onItemMove(15, 14));
+
+		adapter.moveItemsTo(14, bricksToMove);
+		assertEquals(3, sprite.getScriptIndex(scriptToMove));
+		assertTrue(scriptToMove.containsBrick(brickToTakeOverFromOtherScript));
+		assertFalse(scriptToSplit.containsBrick(brickToTakeOverFromOtherScript));
+	}
+
+	@Test
+	public void testDragScriptBrickIntoOtherScriptWithControlStructure() {
+		Script scriptToMove = sprite.getScript(3);
+		Script scriptToSplit = sprite.getScript(0);
+
+		List<Brick> bricksInScript = scriptToMove.getBrickList();
+
+		List<Brick> bricksToTakeOverFromOtherScript = new ArrayList<>();
+		bricksToTakeOverFromOtherScript.add(scriptToSplit.getBrick(5));
+		bricksToTakeOverFromOtherScript.add(scriptToSplit.getBrick(6));
+		bricksToTakeOverFromOtherScript.add(scriptToSplit.getBrick(7));
+
+		assertTrue(bricksInScript.isEmpty());
+
+		List<BrickBaseType> bricksToMove = new ArrayList<>();
+		bricksToMove.add((BrickBaseType) scriptToMove.getScriptBrick());
+
+		assertTrue(adapter.onItemMove(12, 11));
+		assertTrue(adapter.onItemMove(11, 10));
+		assertTrue(adapter.onItemMove(10, 9));
+		assertTrue(adapter.onItemMove(9, 8));
+		assertTrue(adapter.onItemMove(8, 7));
+		assertTrue(adapter.onItemMove(7, 6));
+		assertTrue(adapter.onItemMove(6, 5));
+
+		adapter.moveItemsTo(5, bricksToMove);
+		assertEquals(2, sprite.getScriptIndex(scriptToMove));
+
+		assertTrue(scriptToMove.getBrickList().containsAll(bricksToTakeOverFromOtherScript));
+		assertFalse(scriptToSplit.getBrickList().containsAll(bricksToTakeOverFromOtherScript));
 	}
 
 	@Test
