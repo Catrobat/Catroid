@@ -368,7 +368,6 @@ dependencies {
     implementation 'com.google.guava:guava:19.0'
     implementation 'com.squareup.okhttp:okhttp:2.3.0'
     implementation 'com.google.code.gson:gson:2.8.0'
-    implementation 'com.github.mrengineer13:snackbar:1.2.0'
 
     implementation 'com.koushikdutta.async:androidasync:2.2.1'
     implementation 'com.squareup.picasso:picasso:2.5.2'
