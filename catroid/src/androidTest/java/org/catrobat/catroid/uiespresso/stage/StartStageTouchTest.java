@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.stage;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.Espresso;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -47,6 +46,7 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.uiespresso.stage.utils.StageTestTouchUtils;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
+import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -56,7 +56,9 @@ import org.junit.experimental.categories.Category;
 import java.util.LinkedList;
 import java.util.List;
 
+import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.matcher.ViewMatchers.isFocusable;
+import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 
 import static org.catrobat.catroid.uiespresso.util.UserVariableAssertions.assertUserVariableEqualsWithTimeout;
 
@@ -77,10 +79,11 @@ public class StartStageTouchTest {
 
 	@Test
 	public void switchStageTouchTest() {
-		Espresso.onView(isFocusable()).perform(StageTestTouchUtils.touchDown(50, 50));
-		assertUserVariableEqualsWithTimeout(screenIsTouchedUserVariable, 1, 20);
-		Espresso.onView(isFocusable()).perform(StageTestTouchUtils.touchUp(50, 50));
-		assertUserVariableEqualsWithTimeout(screenIsTouchedUserVariable, 0, 20);
+		onView(isRoot()).perform(CustomActions.wait(500));
+		onView(isFocusable()).perform(StageTestTouchUtils.touchDown(50, 50));
+		assertUserVariableEqualsWithTimeout(screenIsTouchedUserVariable, 1, 500);
+		onView(isFocusable()).perform(StageTestTouchUtils.touchUp(50, 50));
+		assertUserVariableEqualsWithTimeout(screenIsTouchedUserVariable, 0, 500);
 	}
 	private void createProject(String projectName) {
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
@@ -90,7 +93,8 @@ public class StartStageTouchTest {
 		Script background1StartScript = new StartScript();
 		background1StartScript.addBrick(new WaitUntilBrick(createFormulaWithSensor(Sensors.FINGER_TOUCHED)));
 		background1StartScript.addBrick(new SceneStartBrick(scene2Name));
-		project.getDefaultScene().getBackgroundSprite().addScript(background1StartScript);
+		Scene scene1 = project.getDefaultScene();
+		scene1.getBackgroundSprite().addScript(background1StartScript);
 
 		Scene scene2 = new Scene(scene2Name, project);
 		scene2.addSprite(new Sprite("Background"));
@@ -104,8 +108,9 @@ public class StartStageTouchTest {
 		project.addScene(scene2);
 
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setStartScene(project.getDefaultScene());
+		ProjectManager.getInstance().setStartScene(scene1);
 	}
+
 	private Formula createFormulaWithSensor(Sensors sensor) {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 		internTokenList.add(new InternToken(InternTokenType.SENSOR, sensor.name()));
