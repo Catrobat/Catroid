@@ -169,11 +169,9 @@ pipeline {
             junit '**/*TEST*.xml'
             cobertura autoUpdateHealth: false, autoUpdateStability: false, coberturaReportFile: "$javaSrc/coverage*.xml", failUnhealthy: false, failUnstable: false, maxNumberOfBuilds: 0, onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false, failNoReports: false
             step([$class: 'LogParserPublisher', failBuildOnError: true, projectRulePath: 'buildScripts/log_parser_rules', unstableOnWarning: true, useProjectRule: true])
-
-            // Send notifications with standalone=false
-            script {
-                sendNotifications false
-            }
+        }
+        changed {
+            notifyChat()
         }
     }
 }
