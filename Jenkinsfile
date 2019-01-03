@@ -1,5 +1,12 @@
 #!groovy
 
+// place the cobertura xml files relative to the source, so that the source can be found
+def javaSrc = 'catroid/src/main/java'
+def jacocoXml = 'catroid/build/reports/coverage/catroid/debug/report.xml'
+def jacocoUnitXml = 'catroid/build/reports/jacoco/jacocoTestCatroidDebugUnitTestReport/jacocoTestCatroidDebugUnitTestReport.xml'
+
+def apkOutputs = 'catroid/build/outputs/apk'
+
 pipeline {
     agent {
         dockerfile {
@@ -40,21 +47,6 @@ pipeline {
         GRADLE_USER_HOME = "/.gradle/${env.EXECUTOR_NUMBER}"
         // Otherwise user.home returns ? for java applications
         JAVA_TOOL_OPTIONS = "-Duser.home=/tmp/"
-
-        //////// Build specific variables ////////
-        //////////// May be edited by the developer on changing the build steps
-        // modulename
-        GRADLE_PROJECT_MODULE_NAME = "catroid"
-
-        // APK build output locations
-        APK_LOCATION_DEBUG = "${env.GRADLE_PROJECT_MODULE_NAME}/build/outputs/apk/catroid/debug/catroid-catroid-debug.apk"
-        APK_LOCATION_STANDALONE = "${env.GRADLE_PROJECT_MODULE_NAME}/build/outputs/apk/standalone/debug/catroid-standalone-debug.apk"
-
-        JACOCO_XML = "${env.GRADLE_PROJECT_MODULE_NAME}/build/reports/coverage/catroid/debug/report.xml"
-        JACOCO_UNIT_XML = "${env.GRADLE_PROJECT_MODULE_NAME}/build/reports/jacoco/jacocoTestCatroidDebugUnitTestReport/jacocoTestCatroidDebugUnitTestReport.xml"
-
-        // place the cobertura xml relative to the source, so that the source can be found
-        JAVA_SRC = "${env.GRADLE_PROJECT_MODULE_NAME}/src/main/java"
     }
 
     options {
@@ -85,9 +77,9 @@ pipeline {
 
             post {
                 always {
-                    pmd         canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "${env.GRADLE_PROJECT_MODULE_NAME}/build/reports/pmd.xml",        unHealthy: '', unstableTotalAll: '0'
-                    checkstyle  canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "${env.GRADLE_PROJECT_MODULE_NAME}/build/reports/checkstyle.xml", unHealthy: '', unstableTotalAll: '0'
-                    androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "${env.GRADLE_PROJECT_MODULE_NAME}/build/reports/lint*.xml",      unHealthy: '', unstableTotalAll: '0'
+                    pmd         canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "catroid/build/reports/pmd.xml",        unHealthy: '', unstableTotalAll: '0'
+                    checkstyle  canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "catroid/build/reports/checkstyle.xml", unHealthy: '', unstableTotalAll: '0'
+                    androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "catroid/build/reports/lint*.xml",      unHealthy: '', unstableTotalAll: '0'
                 }
             }
         }
@@ -99,7 +91,7 @@ pipeline {
                 // Convert the JaCoCo coverate to the Cobertura XML file format.
                 // This is done since the Jenkins JaCoCo plugin does not work well.
                 // See also JENKINS-212 on jira.catrob.at
-                sh "./buildScripts/cover2cover.py $JACOCO_UNIT_XML $JAVA_SRC/coverage1.xml"
+                sh "./buildScripts/cover2cover.py $jacocoUnitXml $javaSrc/coverage1.xml"
 
                 // Run device tests for package: org.catrobat.catroid.test
                 sh '''./gradlew -PenableCoverage -Pemulator=android24 startEmulator createCatroidDebugAndroidTestCoverageReport \
@@ -107,9 +99,9 @@ pipeline {
                 // Convert the JaCoCo coverate to the Cobertura XML file format.
                 // This is done since the Jenkins JaCoCo plugin does not work well.
                 // See also JENKINS-212 on jira.catrob.at
-                sh "./buildScripts/cover2cover.py $JACOCO_XML $JAVA_SRC/coverage2.xml"
+                sh "./buildScripts/cover2cover.py $jacocoXml $javaSrc/coverage2.xml"
                 // ensure that the following test run does not overwrite the results
-                sh "mv ${env.GRADLE_PROJECT_MODULE_NAME}/build/outputs/androidTest-results ${env.GRADLE_PROJECT_MODULE_NAME}/build/outputs/androidTest-results1"
+                sh "mv catroid/build/outputs/androidTest-results catroid/build/outputs/androidTest-results1"
 
                 // Run device tests for class: org.catrobat.catroid.uiespresso.testsuites.PullRequestTriggerSuite
                 sh '''./gradlew -PenableCoverage -Pemulator=android24 startEmulator createCatroidDebugAndroidTestCoverageReport \
@@ -117,9 +109,9 @@ pipeline {
                 // Convert the JaCoCo coverate to the Cobertura XML file format.
                 // This is done since the Jenkins JaCoCo plugin does not work well.
                 // See also JENKINS-212 on jira.catrob.at
-                sh "./buildScripts/cover2cover.py $JACOCO_XML $JAVA_SRC/coverage3.xml"
+                sh "./buildScripts/cover2cover.py $jacocoXml $javaSrc/coverage3.xml"
                 // ensure that the following test run does not overwrite the results
-                sh "mv ${env.GRADLE_PROJECT_MODULE_NAME}/build/outputs/androidTest-results ${env.GRADLE_PROJECT_MODULE_NAME}/build/outputs/androidTest-results2"
+                sh "mv catroid/build/outputs/androidTest-results catroid/build/outputs/androidTest-results2"
             }
 
             post {
@@ -139,8 +131,8 @@ pipeline {
                 sh '''./gradlew -PenableCoverage -PlogcatFile=quarantined_logcat.txt -Pemulator=android24 \
                             startEmulator createCatroidDebugAndroidTestCoverageReport \
                             -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.uiespresso.testsuites.QuarantineTestSuite'''
-                archiveArtifacts "$JACOCO_XML"
-                sh "./buildScripts/cover2cover.py $JACOCO_XML $JAVA_SRC/coverage4.xml"
+                archiveArtifacts "$jacocoXml"
+                sh "./buildScripts/cover2cover.py $jacocoXml $javaSrc/coverage4.xml"
 
             }
 
@@ -158,7 +150,7 @@ pipeline {
             steps {
                 sh '''./gradlew assembleStandaloneDebug -Papk_generator_enabled=true -Psuffix=generated817.catrobat \
                             -Pdownload='https://share.catrob.at/pocketcode/download/817.catrobat' '''
-                archiveArtifacts "${env.APK_LOCATION_STANDALONE}"
+                archiveArtifacts "${apkOutputs}/standalone/debug/catroid-standalone-debug.apk"
             }
         }
 
@@ -167,7 +159,7 @@ pipeline {
             // The resulting APK is not verified on itself.
             steps {
                 sh "./gradlew assembleCatroidDebug -Pindependent='#$env.BUILD_NUMBER $env.BRANCH_NAME'"
-                archiveArtifacts "${env.APK_LOCATION_DEBUG}"
+                archiveArtifacts "${apkOutputs}/catroid/debug/catroid-catroid-debug.apk"
             }
         }
     }
@@ -175,7 +167,7 @@ pipeline {
     post {
         always {
             junit '**/*TEST*.xml'
-            cobertura autoUpdateHealth: false, autoUpdateStability: false, coberturaReportFile: "$JAVA_SRC/coverage*.xml", failUnhealthy: false, failUnstable: false, maxNumberOfBuilds: 0, onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false, failNoReports: false
+            cobertura autoUpdateHealth: false, autoUpdateStability: false, coberturaReportFile: "$javaSrc/coverage*.xml", failUnhealthy: false, failUnstable: false, maxNumberOfBuilds: 0, onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false, failNoReports: false
             step([$class: 'LogParserPublisher', failBuildOnError: true, projectRulePath: 'buildScripts/log_parser_rules', unstableOnWarning: true, useProjectRule: true])
 
             // Send notifications with standalone=false

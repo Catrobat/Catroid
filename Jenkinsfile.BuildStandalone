@@ -1,5 +1,7 @@
 #!groovy
 
+def standaloneApk = 'catroid/build/outputs/apk/standalone/debug/catroid-standalone-debug.apk'
+
 pipeline {
     agent {
         dockerfile {
@@ -34,14 +36,6 @@ pipeline {
         GRADLE_USER_HOME = "/.gradle/${env.EXECUTOR_NUMBER}"
         // Otherwise user.home returns ? for java applications
         JAVA_TOOL_OPTIONS = "-Duser.home=/tmp/"
-
-        //////// Build specific variables ////////
-        //////////// May be edited by the developer on changing the build steps
-        // modulename
-        GRADLE_PROJECT_MODULE_NAME = "catroid"
-
-        // APK build output locations
-        APK_LOCATION_STANDALONE = "${env.GRADLE_PROJECT_MODULE_NAME}/build/outputs/apk/standalone/debug/catroid-standalone-debug.apk"
     }
 
     options {
@@ -135,7 +129,7 @@ done
 
             steps {
                 sh "./gradlew clean assembleStandaloneDebug -Papk_generator_enabled=true -Psuffix='$SUFFIX' -Pdownload='$DOWNLOAD'"
-                archiveArtifacts "${env.APK_LOCATION_STANDALONE}"
+                archiveArtifacts standaloneApk
             }
         }
 
@@ -149,7 +143,7 @@ done
 
             steps {
                 script {
-                    uploadFileToWeb "${env.APK_LOCATION_STANDALONE}", "${env.UPLOAD}"
+                    uploadFileToWeb standaloneApk, "${env.UPLOAD}"
                 }
             }
         }
