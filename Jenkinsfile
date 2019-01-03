@@ -166,7 +166,7 @@ pipeline {
             // It checks that the job builds with the parameters to have unique APKs, reducing the risk of breaking gradle changes.
             // The resulting APK is not verified on itself.
             steps {
-                sh "./gradlew assembleCatroidDebug -Pindependent='#$BUILD_NUMBER $BRANCH_NAME'"
+                sh "./gradlew assembleCatroidDebug -Pindependent='#$env.BUILD_NUMBER $env.BRANCH_NAME'"
                 archiveArtifacts "${env.APK_LOCATION_DEBUG}"
             }
         }
