@@ -1,6 +1,6 @@
 #!groovy
 pipeline {
-     agent {
+    agent {
         dockerfile {
             filename 'Dockerfile.jenkins'
             // 'docker build' would normally copy the whole build-dir to the container, changing the

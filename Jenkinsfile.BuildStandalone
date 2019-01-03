@@ -1,76 +1,76 @@
 #!groovy
 
 pipeline {
-	agent {
-		dockerfile {
-			filename 'Dockerfile.jenkins'
-			// 'docker build' would normally copy the whole build-dir to the container, changing the
-			// docker build directory avoids that overhead
-			dir 'docker'
-			// Pass the uid and the gid of the current user (jenkins-user) to the Dockerfile, so a
-			// corresponding user can be added. This is needed to provide the jenkins user inside
-			// the container for the ssh-agent to work.
-			// Another way would be to simply map the passwd file, but would spoil additional information
-			additionalBuildArgs '--build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g)'
-			args "--device /dev/kvm:/dev/kvm -v /var/local/container_shared/gradle/:/.gradle -v /var/local/container_shared/android-sdk:/usr/local/android-sdk -v /var/local/container_shared/android-home:/.android -v /var/local/container_shared/emulator_console_auth_token:/.emulator_console_auth_token -v /var/local/container_shared/analytics.settings:/analytics.settings"
-			// Add specific 'Standalone'-label, so it can be made sure, that there is a dedicated host for standalone builds
-			label 'Standalone'
-		}
-	}
+    agent {
+        dockerfile {
+            filename 'Dockerfile.jenkins'
+            // 'docker build' would normally copy the whole build-dir to the container, changing the
+            // docker build directory avoids that overhead
+            dir 'docker'
+            // Pass the uid and the gid of the current user (jenkins-user) to the Dockerfile, so a
+            // corresponding user can be added. This is needed to provide the jenkins user inside
+            // the container for the ssh-agent to work.
+            // Another way would be to simply map the passwd file, but would spoil additional information
+            additionalBuildArgs '--build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g)'
+            args "--device /dev/kvm:/dev/kvm -v /var/local/container_shared/gradle/:/.gradle -v /var/local/container_shared/android-sdk:/usr/local/android-sdk -v /var/local/container_shared/android-home:/.android -v /var/local/container_shared/emulator_console_auth_token:/.emulator_console_auth_token -v /var/local/container_shared/analytics.settings:/analytics.settings"
+            // Add specific 'Standalone'-label, so it can be made sure, that there is a dedicated host for standalone builds
+            label 'Standalone'
+        }
+    }
 
-	environment {
-		//////// Define environment variables to point to the correct locations inside the container ////////
-		//////////// Most likely not edited by the developer
-		ANDROID_SDK_ROOT = "/usr/local/android-sdk"
-		// Deprecated: Still used by the used gradle version, once gradle respects ANDROID_SDK_ROOT, this can be removed
-		ANDROID_HOME = "/usr/local/android-sdk"
-		ANDROID_SDK_HOME = "/"
-		// Needed for compatibiliby to current Jenkins-wide Envs. Can be removed, once all builds are migrated to Pipeline
-		ANDROID_SDK_LOCATION = "/usr/local/android-sdk"
-		ANDROID_NDK = ""
-		// This is important, as we want the keep our gradle cache, but we can't share it between containers
-		// the cache could only be shared if the gradle instances could comunicate with each other
-		// imho keeping the cache per executor will have the least space impact
-		GRADLE_USER_HOME = "/.gradle/${env.EXECUTOR_NUMBER}"
-		// Otherwise user.home returns ? for java applications
-		JAVA_TOOL_OPTIONS = "-Duser.home=/tmp/"
+    environment {
+        //////// Define environment variables to point to the correct locations inside the container ////////
+        //////////// Most likely not edited by the developer
+        ANDROID_SDK_ROOT = "/usr/local/android-sdk"
+        // Deprecated: Still used by the used gradle version, once gradle respects ANDROID_SDK_ROOT, this can be removed
+        ANDROID_HOME = "/usr/local/android-sdk"
+        ANDROID_SDK_HOME = "/"
+        // Needed for compatibiliby to current Jenkins-wide Envs. Can be removed, once all builds are migrated to Pipeline
+        ANDROID_SDK_LOCATION = "/usr/local/android-sdk"
+        ANDROID_NDK = ""
+        // This is important, as we want the keep our gradle cache, but we can't share it between containers
+        // the cache could only be shared if the gradle instances could comunicate with each other
+        // imho keeping the cache per executor will have the least space impact
+        GRADLE_USER_HOME = "/.gradle/${env.EXECUTOR_NUMBER}"
+        // Otherwise user.home returns ? for java applications
+        JAVA_TOOL_OPTIONS = "-Duser.home=/tmp/"
 
-		//////// Build specific variables ////////
-		//////////// May be edited by the developer on changing the build steps
-		// modulename
-		GRADLE_PROJECT_MODULE_NAME = "catroid"
+        //////// Build specific variables ////////
+        //////////// May be edited by the developer on changing the build steps
+        // modulename
+        GRADLE_PROJECT_MODULE_NAME = "catroid"
 
-		// APK build output locations
-		APK_LOCATION_STANDALONE = "${env.GRADLE_PROJECT_MODULE_NAME}/build/outputs/apk/standalone/debug/catroid-standalone-debug.apk"
-	}
+        // APK build output locations
+        APK_LOCATION_STANDALONE = "${env.GRADLE_PROJECT_MODULE_NAME}/build/outputs/apk/standalone/debug/catroid-standalone-debug.apk"
+    }
 
-	options {
-		timeout(time: 600, unit: 'SECONDS')
-		timestamps()
-	}
+    options {
+        timeout(time: 600, unit: 'SECONDS')
+        timestamps()
+    }
 
-	stages {
-		stage('Prepare build') {
-			steps {
-				script {
-					currentBuild.displayName = "${env.DOWNLOAD}"
-				}
-			}
-		}
+    stages {
+        stage('Prepare build') {
+            steps {
+                script {
+                    currentBuild.displayName = "${env.DOWNLOAD}"
+                }
+            }
+        }
 
-		stage('Setup Android SDK') {
-			steps {
-				// Install Android SDK
-				lock("update-android-sdk-on-${env.NODE_NAME}") {
-					sh './gradlew -PinstallSdk'
-				}
-			}
-		}
+        stage('Setup Android SDK') {
+            steps {
+                // Install Android SDK
+                lock("update-android-sdk-on-${env.NODE_NAME}") {
+                    sh './gradlew -PinstallSdk'
+                }
+            }
+        }
 
-		stage('Check-for-invalid-program-upload') {
-			steps {
-				script {
-					def ret = sh returnStatus: true, script: '''#!/bin/sh
+        stage('Check-for-invalid-program-upload') {
+            steps {
+                script {
+                    def ret = sh returnStatus: true, script: '''#!/bin/sh
 SLEEP_TIME=5
 RETRIES=5
 
@@ -105,64 +105,64 @@ while true; do
 done
 '''
 
-					// if no error, we are done
-					if (ret == 0) {
-						return
-					}
+                    // if no error, we are done
+                    if (ret == 0) {
+                        return
+                    }
 
-					// Handle special error from the script, if the program download was not
-					// possible because of the HTTP error 528, we set the build to UNSTABLE
-					try {
-						error('')
-					} catch (err) {
-						if (ret == 200) {
-							currentBuild.result = 'UNSTABLE'
-						} else {
-							currentBuild.result = 'FAILURE'
-						}
-					}
-				}
-			}
-		}
+                    // Handle special error from the script, if the program download was not
+                    // possible because of the HTTP error 528, we set the build to UNSTABLE
+                    try {
+                        error('')
+                    } catch (err) {
+                        if (ret == 200) {
+                            currentBuild.result = 'UNSTABLE'
+                        } else {
+                            currentBuild.result = 'FAILURE'
+                        }
+                    }
+                }
+            }
+        }
 
-		stage('Build APK') {
-			// needed, as long as we mark the build unstable when we receive the 528 error from WEB
-			when {
-				expression {
-					currentBuild.result == null
-				}
-			}
+        stage('Build APK') {
+            // needed, as long as we mark the build unstable when we receive the 528 error from WEB
+            when {
+                expression {
+                    currentBuild.result == null
+                }
+            }
 
-			steps {
-				sh "./gradlew clean assembleStandaloneDebug -Papk_generator_enabled=true -Psuffix='$SUFFIX' -Pdownload='$DOWNLOAD'"
-				archiveArtifacts "${env.APK_LOCATION_STANDALONE}"
-			}
-		}
+            steps {
+                sh "./gradlew clean assembleStandaloneDebug -Papk_generator_enabled=true -Psuffix='$SUFFIX' -Pdownload='$DOWNLOAD'"
+                archiveArtifacts "${env.APK_LOCATION_STANDALONE}"
+            }
+        }
 
-		stage('Upload to Web') {
-			// needed, as long as we mark the build unstable when we receive the 528 error from WEB
-			when {
-				expression {
-					currentBuild.result == null
-				}
-			}
+        stage('Upload to Web') {
+            // needed, as long as we mark the build unstable when we receive the 528 error from WEB
+            when {
+                expression {
+                    currentBuild.result == null
+                }
+            }
 
-			steps {
-				script {
-					uploadFileToWeb "${env.APK_LOCATION_STANDALONE}", "${env.UPLOAD}"
-				}
-			}
-		}
-	}
+            steps {
+                script {
+                    uploadFileToWeb "${env.APK_LOCATION_STANDALONE}", "${env.UPLOAD}"
+                }
+            }
+        }
+    }
 
-	post {
-		always {
-			step([$class: 'LogParserPublisher', failBuildOnError: true, projectRulePath: 'buildScripts/log_parser_rules', unstableOnWarning: true, useProjectRule: true])
+    post {
+        always {
+            step([$class: 'LogParserPublisher', failBuildOnError: true, projectRulePath: 'buildScripts/log_parser_rules', unstableOnWarning: true, useProjectRule: true])
 
-			// Send notifications with standalone=true
-			script {
-				sendNotifications true
-			}
-		}
-	}
+            // Send notifications with standalone=true
+            script {
+                sendNotifications true
+            }
+        }
+    }
 }
