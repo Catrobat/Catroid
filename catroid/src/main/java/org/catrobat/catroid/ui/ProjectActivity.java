@@ -66,7 +66,10 @@ import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import java.io.File;
 import java.io.IOException;
 
+import static org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
+import static org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIR;
+import static org.catrobat.catroid.common.Constants.TMP_IMAGE_FILE_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_LOOKS_URL;
 import static org.catrobat.catroid.ui.WebViewActivity.MEDIA_FILE_PATH;
 
@@ -215,34 +218,43 @@ public class ProjectActivity extends BaseCastActivity {
 	public void addSpriteFromUri(final Uri uri) {
 		final Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 
-		String name = StorageOperations.resolveFileName(getContentResolver(), uri);
-		if (name == null) {
-			name = getString(R.string.default_look_name);
+		String resolvedName;
+		String resolvedFileName = StorageOperations.resolveFileName(getContentResolver(), uri);
+
+		final String lookDataName;
+		final String lookFileName;
+
+		boolean useDefaultSpriteName = resolvedFileName == null
+				|| StorageOperations.getSanitizedFileName(resolvedFileName).equals(TMP_IMAGE_FILE_NAME);
+
+		if (useDefaultSpriteName) {
+			resolvedName = getString(R.string.default_sprite_name);
+			lookFileName = resolvedName + DEFAULT_IMAGE_EXTENSION;
 		} else {
-			name = StorageOperations.getSanitizedFileName(name);
+			resolvedName = StorageOperations.getSanitizedFileName(resolvedFileName);
+			lookFileName = resolvedFileName;
 		}
-		name = new UniqueNameProvider().getUniqueNameInNameables(name, currentScene.getSpriteList());
-		final String lookName = name;
+
+		lookDataName = new UniqueNameProvider().getUniqueNameInNameables(resolvedName, currentScene.getSpriteList());
 
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(this);
-
 		builder.setHint(getString(R.string.sprite_name_label))
-				.setText(name)
+				.setText(lookDataName)
 				.setTextWatcher(new NewItemTextWatcher<>(currentScene.getSpriteList()))
 				.setPositiveButton(getString(R.string.ok), new TextInputDialog.OnClickListener() {
+
 					@Override
 					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
-						File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
 						Sprite sprite = new Sprite(textInput);
-						currentScene.getSpriteList().add(sprite);
-
+						currentScene.addSprite(sprite);
 						try {
-							File file = StorageOperations.copyUriToDir(getContentResolver(), uri, imageDirectory, lookName);
-							sprite.getLookList().add(new LookData(lookName, file));
+							File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
+							File file = StorageOperations
+									.copyUriToDir(getContentResolver(), uri, imageDirectory, lookFileName);
+							sprite.getLookList().add(new LookData(textInput, file));
 						} catch (IOException e) {
 							Log.e(TAG, Log.getStackTraceString(e));
 						}
-
 						if (getCurrentFragment() instanceof SpriteListFragment) {
 							((SpriteListFragment) getCurrentFragment()).notifyDataSetChanged();
 						}
@@ -250,7 +262,19 @@ public class ProjectActivity extends BaseCastActivity {
 				});
 
 		builder.setTitle(R.string.new_sprite_dialog_title)
-				.setNegativeButton(R.string.cancel, null)
+				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						try {
+							if (MEDIA_LIBRARY_CACHE_DIR.exists()) {
+								StorageOperations.deleteDir(MEDIA_LIBRARY_CACHE_DIR);
+							}
+						} catch (IOException e) {
+							Log.e(TAG, Log.getStackTraceString(e));
+						}
+					}
+				})
 				.create()
 				.show();
 	}

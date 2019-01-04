@@ -48,19 +48,21 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.utils.DownloadUtil;
-import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
 import static org.catrobat.catroid.common.Constants.CATROBAT_HELP_URL;
 import static org.catrobat.catroid.common.Constants.MAIN_URL_HTTPS;
+import static org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIR;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BASE_URL;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class WebViewActivity extends BaseActivity {
+
 	private static final String TAG = WebViewActivity.class.getSimpleName();
 
 	public static final String INTENT_PARAMETER_URL = "url";
@@ -99,28 +101,27 @@ public class WebViewActivity extends BaseActivity {
 		webView.loadUrl(url);
 
 		webView.setDownloadListener(new DownloadListener() {
+
 			@Override
 			public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype,
 					long contentLength) {
-				Log.d(WebViewActivity.class.getSimpleName(), "contentDisposition: " + contentDisposition + "   " + mimetype);
 
 				if (getExtensionFromContentDisposition(contentDisposition).contains(Constants.CATROBAT_EXTENSION)) {
 					DownloadUtil.getInstance().prepareDownloadAndStartIfPossible(WebViewActivity.this, url);
 				} else if (url.contains(LIBRARY_BASE_URL)) {
 					String name = getMediaNameFromUrl(url);
-					String mediaType = getMediaTypeFromContentDisposition(contentDisposition);
 					String fileName = name + getExtensionFromContentDisposition(contentDisposition);
-					String tempPath = null;
-					switch (mediaType) {
-						case Constants.MEDIA_TYPE_LOOK:
-							tempPath = Constants.TMP_LOOKS_PATH;
-							break;
-						case Constants.MEDIA_TYPE_SOUND:
-							tempPath = Constants.TMP_SOUNDS_PATH;
+
+					MEDIA_LIBRARY_CACHE_DIR.mkdirs();
+					if (!MEDIA_LIBRARY_CACHE_DIR.isDirectory()) {
+						Log.e(TAG, "Cannot create " + MEDIA_LIBRARY_CACHE_DIR);
+						return;
 					}
-					String filePath = PathBuilder.buildPath(tempPath, fileName);
-					resultIntent.putExtra(MEDIA_FILE_PATH, filePath);
-					DownloadUtil.getInstance().startMediaDownload(WebViewActivity.this, url, name, filePath);
+
+					File file = new File(MEDIA_LIBRARY_CACHE_DIR, fileName);
+					resultIntent.putExtra(MEDIA_FILE_PATH, file.getAbsolutePath());
+					DownloadUtil.getInstance()
+							.startMediaDownload(WebViewActivity.this, url, name, file.getAbsolutePath());
 				} else {
 					DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
 
@@ -275,22 +276,6 @@ public class WebViewActivity extends BaseActivity {
 			return null;
 		}
 		return mediaName;
-	}
-
-	private String getMediaTypeFromContentDisposition(String contentDisposition) {
-		String mediaType = null;
-		for (String extension : Constants.IMAGE_EXTENSIONS) {
-			if (getExtensionFromContentDisposition(contentDisposition).compareTo(extension) == 0) {
-				mediaType = Constants.MEDIA_TYPE_LOOK;
-			}
-		}
-
-		for (String extention : Constants.SOUND_EXTENSIONS) {
-			if (getExtensionFromContentDisposition(contentDisposition).compareTo(extention) == 0) {
-				mediaType = Constants.MEDIA_TYPE_SOUND;
-			}
-		}
-		return mediaType;
 	}
 
 	private String getExtensionFromContentDisposition(String contentDisposition) {

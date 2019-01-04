@@ -37,12 +37,14 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
-import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.catrobat.catroid.utils.PathBuilder;
 import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -61,6 +63,7 @@ import static android.support.test.espresso.intent.Intents.intending;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasCategories;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
@@ -68,17 +71,17 @@ import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewIn
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.core.AllOf.allOf;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
-public class PocketPaintNewLookIntentTest {
+public class PocketPaintNewSpriteIntentTest {
 
 	private Matcher expectedIntent;
 	private final String projectName = getClass().getSimpleName();
-	private final String spriteName = "testSprite";
 
 	@Rule
-	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_LOOKS);
+	public BaseActivityInstrumentationRule<ProjectActivity> baseActivityTestRule = new
+			BaseActivityInstrumentationRule<>(ProjectActivity.class, ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SPRITES);
 
 	@Before
 	public void setUp() throws Exception {
@@ -111,7 +114,7 @@ public class PocketPaintNewLookIntentTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void testAddNewLook() {
+	public void testAddNewSprite() {
 		onView(withId(R.id.button_add))
 				.perform(click());
 
@@ -120,17 +123,24 @@ public class PocketPaintNewLookIntentTest {
 
 		intended(expectedIntent);
 
-		onRecyclerView().atPosition(0).onChildView(R.id.title_view)
-				.check(matches(withText(spriteName)));
+		onView(withText(R.string.default_sprite_name))
+				.check(matches(isDisplayed()));
+
+		onView(Matchers.allOf(withId(android.R.id.button1), withText(R.string.ok)))
+				.perform(click());
+
+		onRecyclerView().atPosition(1).onChildView(R.id.title_view)
+				.check(matches(withText(R.string.default_sprite_name)));
+
+		String newSpriteName = UiTestUtils.getResourcesString(R.string.default_sprite_name);
+		Sprite newSprite = ProjectManager.getInstance().getCurrentlyEditedScene().getSprite(newSpriteName);
+
+		assertEquals(newSpriteName, newSprite.getLookList().get(0).getName());
 	}
 
 	private void createProject(String projectName) {
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
-		Sprite sprite = new Sprite(spriteName);
-
-		project.getDefaultScene().addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 		XstreamSerializer.getInstance().saveProject(project);
 	}
