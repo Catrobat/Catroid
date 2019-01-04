@@ -60,10 +60,6 @@ public final class Constants {
 	public static final char REMIX_URL_SUFIX_REPLACE_INDICATOR = ')';
 	public static final char REMIX_URL_REPLACE_SEPARATOR = ';';
 
-	//Extensions:
-	public static final String[] IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".png", ".gif"};
-	public static final String[] SOUND_EXTENSIONS = {".wav", ".mp3", ".mpga", ".wav", ".ogy"};
-
 	// Files and Directories:
 	public static final String NO_MEDIA_FILE = ".nomedia";
 
@@ -81,10 +77,17 @@ public final class Constants {
 	public static final File BACKPACK_IMAGE_DIRECTORY = new File(BACKPACK_DIRECTORY, "backpack_image");
 
 	// Temporary Files and Directories:
-	public static final String TMP_PATH = CatroidApplication.getAppContext().getCacheDir().getAbsolutePath() + "/tmp";
+	public static final File CACHE_DIR = CatroidApplication.getAppContext().getCacheDir();
+
+	public static final File POCKET_PAINT_CACHE_DIR = new File(CACHE_DIR, "pocketPaint");
+	public static final File CAMERA_CACHE_DIR = new File(CACHE_DIR, "camera");
+	public static final File SOUND_RECORDER_CACHE_DIR = new File(CACHE_DIR, "soundRecorder");
+	public static final File MEDIA_LIBRARY_CACHE_DIR = new File(CACHE_DIR, "mediaLibrary");
+
+	public static final String TMP_IMAGE_FILE_NAME = "image";
+
+	public static final String TMP_PATH = CACHE_DIR.getAbsolutePath() + "/tmp";
 	public static final String TEXT_TO_SPEECH_TMP_PATH = TMP_PATH + "/textToSpeech";
-	public static final String TMP_LOOKS_PATH = TMP_PATH + "/looks";
-	public static final String TMP_SOUNDS_PATH = TMP_PATH + "/sounds";
 
 	// Web:
 	public static final String MAIN_URL_HTTPS = "https://share.catrob.at";
@@ -213,8 +216,6 @@ public final class Constants {
 	// Pocket Paint
 	public static final String EXTRA_PICTURE_PATH_POCKET_PAINT = "org.catrobat.extra.PAINTROID_PICTURE_PATH";
 	public static final String EXTRA_PICTURE_NAME_POCKET_PAINT = "org.catrobat.extra.PAINTROID_PICTURE_NAME";
-	public static final String EXTRA_X_VALUE_POCKET_PAINT = "org.catrobat.extra.PAINTROID_X";
-	public static final String EXTRA_Y_VALUE_POCKET_PAINT = "org.catrobat.extra.PAINTROID_Y";
 	public static final String POCKET_PAINT_INTENT_ACTIVITY_NAME = "org.catrobat.paintroid.MainActivity";
 
 	//Various:

@@ -28,6 +28,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.BaseCastActivity;
+import org.catrobat.catroid.utils.ToastUtil;
 
 import java.io.File;
 
@@ -111,7 +112,7 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 			} else if (automaticScreenshot.exists()) {
 				backgroundBitmapPath = automaticScreenshot.getPath();
 			} else {
-				backgroundBitmapPath = ProjectManager.getInstance().getCurrentlyEditedScene().getBackgroundSprite().getLookList().get(0).getFile().getPath();
+				backgroundBitmapPath = ProjectManager.getInstance().getCurrentlyEditedScene().getBackgroundSprite().getLookList().get(0).getFile().getAbsolutePath();
 			}
 			Bitmap backgroundBitmap = BitmapFactory.decodeFile(backgroundBitmapPath, options);
 			Drawable backgroundDrawable = new BitmapDrawable(getResources(), backgroundBitmap);
@@ -136,23 +137,24 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 			spriteBitmap = BitmapFactory.decodeFile(objectLookPath, options);
 		} else {
 			Log.e(TAG, "this sprite has no Looks");
-			spriteBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_stop_24dp);
+			spriteBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
 		}
 		imageView = new ImageView(this);
+		imageView.setImageBitmap(spriteBitmap);
+		imageView.setScaleType(ImageView.ScaleType.CENTER);
 
-		if (scaleX < 0.01) {
+		if (scaleX > 0.01) {
 			imageView.setScaleX(scaleX);
 		}
 
-		if (scaleY < 0.01) {
+		if (scaleY > 0.01) {
 			imageView.setScaleY(scaleY);
 		}
 
 		if (rotation != 0) {
 			imageView.setRotation(rotation - 90);
 		}
-		imageView.setImageBitmap(spriteBitmap);
-		imageView.setScaleType(ImageView.ScaleType.CENTER);
+
 		frameLayout.addView(imageView);
 		toolbar.bringToFront();
 		frameLayout.setOnTouchListener(this);
@@ -218,6 +220,7 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 				saveCoordinates();
 				break;
 			case BUTTON_NEGATIVE:
+				ToastUtil.showError(this, R.string.formula_editor_changes_discarded);
 				finish();
 				break;
 		}

@@ -40,6 +40,7 @@ import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.ui.WebViewActivity.INTENT_PARAMETER_URL
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask
 import java.io.File
+import java.io.IOException
 import java.util.*
 
 interface ImportLauncher {
@@ -49,18 +50,24 @@ interface ImportLauncher {
 
 class ImportFromPocketPaintLauncher(private val activity: AppCompatActivity) : ImportLauncher {
 
-    fun getPocketPaintCacheFile(): File {
-        val childName = activity.getString(R.string.default_look_name)
-        val cacheDir = File(activity.cacheDir.absolutePath, "pocketPaintCache")
-        if (!cacheDir.exists()) {
-            cacheDir.mkdirs()
-        }
-        return File(cacheDir, "$childName.jpg")
-    }
+    private val pocketPaintImageFileName = TMP_IMAGE_FILE_NAME + DEFAULT_IMAGE_EXTENSION
 
     fun getPocketPaintCacheUri(): Uri {
-        val pictureFile = getPocketPaintCacheFile()
-        return FileProvider.getUriForFile(activity, activity.applicationContext.packageName + ".fileProvider", pictureFile)
+        return FileProvider.getUriForFile(activity,
+                activity.applicationContext.packageName + ".fileProvider",
+                File(POCKET_PAINT_CACHE_DIR, pocketPaintImageFileName))
+    }
+
+    private fun createEmptyImageFile(): File {
+        POCKET_PAINT_CACHE_DIR.mkdirs()
+        if (!POCKET_PAINT_CACHE_DIR.isDirectory) {
+            throw IOException("Cannot create ${POCKET_PAINT_CACHE_DIR.absolutePath}.")
+        }
+
+        val currentProject = ProjectManager.getInstance().currentProject
+        val bitmap = Bitmap.createBitmap(currentProject.xmlHeader.virtualScreenWidth,
+                currentProject.xmlHeader.virtualScreenHeight, Bitmap.Config.ARGB_8888)
+        return StorageOperations.compressBitmapToPng(bitmap, File(POCKET_PAINT_CACHE_DIR, pocketPaintImageFileName))
     }
 
     override fun startActivityForResult(requestCode: Int) {
@@ -68,21 +75,17 @@ class ImportFromPocketPaintLauncher(private val activity: AppCompatActivity) : I
                 .setComponent(ComponentName(activity, POCKET_PAINT_INTENT_ACTIVITY_NAME))
 
         val bundle = Bundle()
-        val currentProject = ProjectManager.getInstance().currentProject
-        val bitmap = Bitmap.createBitmap(currentProject.xmlHeader.virtualScreenWidth,
-                currentProject.xmlHeader.virtualScreenHeight, Bitmap.Config.ARGB_8888)
 
-        val file = StorageOperations.compressBitmapToPng(bitmap, getPocketPaintCacheFile())
-        bundle.putString(EXTRA_PICTURE_PATH_POCKET_PAINT, file.absolutePath)
-        bundle.putString(EXTRA_PICTURE_NAME_POCKET_PAINT, activity.getString(R.string.default_look_name))
+        bundle.putString(EXTRA_PICTURE_PATH_POCKET_PAINT, createEmptyImageFile().absolutePath)
         intent.putExtras(bundle)
-        intent.addCategory("android.intent.category.LAUNCHER")
 
+        intent.addCategory("android.intent.category.LAUNCHER")
         activity.startActivityForResult(intent, requestCode)
     }
 }
 
-class ImportFormMediaLibraryLauncher(private val activity: AppCompatActivity, private val url: String) : ImportLauncher {
+class ImportFormMediaLibraryLauncher(private val activity: AppCompatActivity,
+                                     private val url: String) : ImportLauncher {
 
     override fun startActivityForResult(requestCode: Int) {
         val intent = Intent(activity, WebViewActivity::class.java)
@@ -91,7 +94,9 @@ class ImportFormMediaLibraryLauncher(private val activity: AppCompatActivity, pr
     }
 }
 
-class ImportFromFileLauncher(private val activity: AppCompatActivity, private val type: String, private val title: String) : ImportLauncher {
+class ImportFromFileLauncher(private val activity: AppCompatActivity,
+                             private val type: String,
+                             private val title: String) : ImportLauncher {
 
     override fun startActivityForResult(requestCode: Int) {
         val intent = Intent(Intent.ACTION_GET_CONTENT).setType(type)
@@ -101,29 +106,39 @@ class ImportFromFileLauncher(private val activity: AppCompatActivity, private va
 
 class ImportFromCameraLauncher(private val activity: AppCompatActivity) : ImportLauncher {
 
+    private val cameraImageFileName = "$TMP_IMAGE_FILE_NAME.jpg"
+
     companion object {
         @JvmStatic
         val REQUEST_PERMISSIONS_CAMERA_LAUNCHER = 301
     }
 
     fun getCacheCameraUri(): Uri {
-        val childName = activity.getString(R.string.default_look_name)
-        val cacheDir = File(activity.cacheDir.absolutePath, "cameraCache")
-        if (!cacheDir.exists()) {
-            cacheDir.mkdirs()
+        return FileProvider.getUriForFile(activity,
+                activity.applicationContext.packageName + ".fileProvider",
+                File(CAMERA_CACHE_DIR, cameraImageFileName))
+    }
+
+    fun createCameraCacheDir() {
+        CAMERA_CACHE_DIR.mkdirs()
+        if (!CAMERA_CACHE_DIR.isDirectory) {
+            throw IOException("Cannot create ${CAMERA_CACHE_DIR.absolutePath}.")
         }
-        val pictureFile = File(cacheDir, "$childName.jpg")
-        return FileProvider.getUriForFile(activity, activity.applicationContext.packageName + ".fileProvider", pictureFile)
     }
 
     override fun startActivityForResult(requestCode: Int) {
-        object : RequiresPermissionTask(REQUEST_PERMISSIONS_CAMERA_LAUNCHER, Arrays.asList(CAMERA), R.string.runtime_permission_general) {
+        object : RequiresPermissionTask(REQUEST_PERMISSIONS_CAMERA_LAUNCHER, Arrays.asList(CAMERA),
+                R.string.runtime_permission_general) {
+
             override fun task() {
+                createCameraCacheDir()
+
                 val intent = Intent(ACTION_IMAGE_CAPTURE)
                 intent.flags = Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                val uri = getCacheCameraUri()
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, getCacheCameraUri())
+
                 val chooser = Intent.createChooser(intent, activity.getString(R.string.select_look_from_camera))
+
                 if (intent.resolveActivity(activity.packageManager) != null) {
                     activity.startActivityForResult(chooser, requestCode)
                 }

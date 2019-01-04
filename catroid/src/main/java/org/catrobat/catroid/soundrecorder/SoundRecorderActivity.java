@@ -36,10 +36,8 @@ import android.view.View.OnClickListener;
 import android.widget.Chronometer;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.BaseActivity;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
-import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import java.io.File;
@@ -47,6 +45,8 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import static android.Manifest.permission.RECORD_AUDIO;
+
+import static org.catrobat.catroid.common.Constants.SOUND_RECORDER_CACHE_DIR;
 
 public class SoundRecorderActivity extends BaseActivity implements OnClickListener {
 
@@ -106,9 +106,13 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 			if (soundRecorder != null) {
 				soundRecorder.stop();
 			}
-			String recordPath = PathBuilder.buildPath(Constants.TMP_PATH, getString(R.string.soundrecorder_recorded_filename)
-					+ SoundRecorder.RECORDING_EXTENSION);
-			soundRecorder = new SoundRecorder(recordPath);
+
+			SOUND_RECORDER_CACHE_DIR.mkdirs();
+			if (!SOUND_RECORDER_CACHE_DIR.isDirectory()) {
+				throw new IOException("Cannot create " + SOUND_RECORDER_CACHE_DIR);
+			}
+			File soundFile = new File(SOUND_RECORDER_CACHE_DIR, getString(R.string.soundrecorder_recorded_filename));
+			soundRecorder = new SoundRecorder(soundFile.getAbsolutePath());
 			soundRecorder.start();
 			setViewsToRecordingState();
 		} catch (IOException e) {
@@ -136,7 +140,9 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 		try {
 			soundRecorder.stop();
 
-			Uri uri = FileProvider.getUriForFile(this, getApplicationContext().getPackageName() + ".fileProvider", new File(soundRecorder.getPath()));
+			Uri uri = FileProvider.getUriForFile(this,
+					getApplicationContext().getPackageName() + ".fileProvider",
+					new File(soundRecorder.getPath()));
 			setResult(AppCompatActivity.RESULT_OK, new Intent(Intent.ACTION_PICK, uri));
 		} catch (IOException e) {
 			Log.e(TAG, "Error recording sound.", e);
