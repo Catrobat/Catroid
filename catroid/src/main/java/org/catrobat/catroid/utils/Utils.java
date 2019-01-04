@@ -342,14 +342,14 @@ public final class Utils {
 	public static String getCurrentProjectName(Context context) {
 		if (ProjectManager.getInstance().getCurrentProject() == null) {
 
-			if (FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).size() == 0) {
-				ProjectManager.getInstance().initializeDefaultProject(context);
-			}
-
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String currentProjectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
 			if (currentProjectName == null || !XstreamSerializer.getInstance().projectExists(currentProjectName)) {
-				currentProjectName = FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).get(0);
+				if (FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).size() > 0) {
+					return FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).get(0);
+				} else {
+					return "";
+				}
 			}
 			return currentProjectName;
 		}

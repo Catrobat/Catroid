@@ -57,6 +57,7 @@ import org.catrobat.catroid.ui.recyclerview.dialog.PrivacyPolicyDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.MainMenuFragment;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.ImportProjectsFromExternalStorage;
 import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.ScreenValueHandler;
@@ -73,7 +74,9 @@ import java.util.Arrays;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
+import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.PREF_PROJECTNAME_KEY;
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.common.FlavoredConstants.EXTERNAL_STORAGE_ROOT_DIRECTORY;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY;
 
@@ -137,18 +140,16 @@ public class MainMenuActivity extends BaseCastActivity implements ProjectLoaderT
 		setContentView(R.layout.activity_main_menu);
 		showContentView(PROGRESS_BAR);
 
-		if (!BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
-			FacebookSdk.sdkInitialize(getApplicationContext());
-			setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-			getSupportActionBar().setIcon(R.drawable.pc_toolbar_icon);
-			getSupportActionBar().setTitle(R.string.app_name);
-		}
-
 		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
 			setContentView(R.layout.activity_main_menu_splashscreen);
 			prepareStandaloneProject();
 			return;
 		}
+
+		FacebookSdk.sdkInitialize(getApplicationContext());
+		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+		getSupportActionBar().setIcon(R.drawable.pc_toolbar_icon);
+		getSupportActionBar().setTitle(R.string.app_name);
 
 		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.fragment_container, new MainMenuFragment(), MainMenuFragment.TAG)
@@ -159,15 +160,36 @@ public class MainMenuActivity extends BaseCastActivity implements ProjectLoaderT
 			CastManager.getInstance().initializeCast(this);
 		}
 
-		if (EXTERNAL_STORAGE_ROOT_DIRECTORY.exists()) {
-			new RequiresPermissionTask(REQUEST_PERMISSIONS_MAIN_STORAGE,
-					Arrays.asList(WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE),
-					R.string.runtime_permission_general) {
-				public void task() {
-					new ImportProjectsFromExternalStorage(MainMenuActivity.this).showImportProjectsDialog();
-				}
-			}.execute(this);
+		if (FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).size() == 0) {
+			ProjectManager.getInstance().initializeDefaultProject(this);
 		}
+
+		final boolean showImportDialog = true; //PreferenceManager.getDefaultSharedPreferences(this).getBoolean(SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG, true);
+
+		new RequiresPermissionTask(REQUEST_PERMISSIONS_MAIN_STORAGE,
+				Arrays.asList(WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE),
+				R.string.runtime_permission_general) {
+			public void task() {
+				if (sdCardContainsProjects() && showImportDialog) {
+							ProjectManager.getInstance().setCurrentProject(null);
+							new ImportProjectsFromExternalStorage(MainMenuActivity.this).showImportProjectsDialog();
+						}
+					}
+				}.execute(this);
+	}
+
+	private boolean sdCardContainsProjects() {
+		if (EXTERNAL_STORAGE_ROOT_DIRECTORY.exists() && EXTERNAL_STORAGE_ROOT_DIRECTORY.isDirectory()) {
+			for (File project : EXTERNAL_STORAGE_ROOT_DIRECTORY.listFiles()) {
+				if (project.isDirectory()
+						&& !project.getName().equals(Constants.BACKPACK_DIRECTORY.getName())
+						&& !project.getName().equals("tmp")
+						&& new File(project, CODE_XML_FILE_NAME).exists()) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	private void showContentView(@Content int content) {

@@ -42,21 +42,16 @@ public class ImportProjectsFromExternalStorage implements DialogInterface.OnClic
 	}
 
 	private AlertDialog.Builder createImportProjectsDialog() {
-		AlertDialog.Builder alertDialog = new AlertDialog.Builder(activity);
-		alertDialog.setTitle(R.string.import_dialog_title)
-				.setCancelable(false)
+		return new AlertDialog.Builder(activity)
+				.setTitle(R.string.import_dialog_title)
 				.setMessage(R.string.import_dialog_message)
 				.setPositiveButton(R.string.import_dialog_move_btn, this)
-				.setNeutralButton(R.string.import_dialog_copy_btn, this);
-		return alertDialog;
+				.setNeutralButton(R.string.import_dialog_copy_btn, this)
+				.setCancelable(false);
 	}
 
 	public void showImportProjectsDialog() {
-		AlertDialog.Builder alertDialog = createImportProjectsDialog();
-		boolean showDialog = PreferenceManager.getDefaultSharedPreferences(activity).getBoolean(SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG, true);
-		if (showDialog) {
-			alertDialog.show();
-		}
+		createImportProjectsDialog().show();
 	}
 
 	@Override
@@ -76,6 +71,9 @@ public class ImportProjectsFromExternalStorage implements DialogInterface.OnClic
 	}
 
 	private void doNotShowDialogAgain() {
-		PreferenceManager.getDefaultSharedPreferences(activity).edit().putBoolean(SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG, false).apply();
+		PreferenceManager.getDefaultSharedPreferences(activity)
+				.edit()
+				.putBoolean(SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG, false)
+				.apply();
 	}
 }

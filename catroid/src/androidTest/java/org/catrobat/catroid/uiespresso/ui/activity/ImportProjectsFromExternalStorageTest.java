@@ -74,7 +74,7 @@ public class ImportProjectsFromExternalStorageTest {
 	public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE);
 
 	private String projectName = "testImportProjectsFromExternalStorage";
-	private String renamedProjectName = "testImportProjectsFromExternalStorag_#0e";
+	private String renamedProjectName = "testImportProjectsFromExternalStorage_#0";
 	private boolean hasUserAgreedToPrivacyPolicyBuffer;
 	private boolean doNotShowImportProjectsDialog;
 

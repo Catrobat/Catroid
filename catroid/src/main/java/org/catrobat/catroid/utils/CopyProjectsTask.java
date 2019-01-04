@@ -28,14 +28,21 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FlavoredConstants;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.exceptions.LoadingProjectException;
+import org.catrobat.catroid.exceptions.ProjectException;
+import org.catrobat.catroid.io.XstreamSerializer;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.common.FlavoredConstants.EXTERNAL_STORAGE_ROOT_DIRECTORY;
 import static org.catrobat.catroid.io.StorageOperations.copyDir;
 import static org.catrobat.catroid.io.StorageOperations.deleteDir;
@@ -53,7 +60,7 @@ public class CopyProjectsTask extends AsyncTask<String, Boolean, Boolean> {
 		this.deleteFromExStorage = deleteFromExternalStorage;
 	}
 
-	private void copyAllProjects() throws IOException {
+	private void copyAllProjects() throws FileNotFoundException, IOException {
 		if (!EXTERNAL_STORAGE_ROOT_DIRECTORY.exists()
 				|| !EXTERNAL_STORAGE_ROOT_DIRECTORY.isDirectory()) {
 			throw new FileNotFoundException("External storage dir does not exist.");
@@ -66,7 +73,37 @@ public class CopyProjectsTask extends AsyncTask<String, Boolean, Boolean> {
 
 		for (File project : EXTERNAL_STORAGE_ROOT_DIRECTORY.listFiles()) {
 			if (project.isDirectory()) {
-				copyDir(project, getUniqueFile(project.getName(), FlavoredConstants.DEFAULT_ROOT_DIRECTORY));
+				File destinationFolder = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, project.getName());
+				try {
+					if (destinationFolder.exists() && project.getName().equals(Constants.BACKPACK_DIRECTORY.getName())) {
+						deleteDir(destinationFolder);
+						copyDir(project, destinationFolder);
+					} else if (destinationFolder.exists()) {
+						if (weakActivity.get() == null) {
+							throw new LoadingProjectException();
+						}
+						File newProjectDir = getUniqueFile(project.getName(), FlavoredConstants.DEFAULT_ROOT_DIRECTORY);
+						copyDir(project, newProjectDir);
+						Project copiedProject = XstreamSerializer.getInstance().loadProject(newProjectDir.getName(), weakActivity.get());
+						if (copiedProject == null) {
+							deleteDir(destinationFolder);
+							throw new LoadingProjectException();
+						}
+						copiedProject.setName(newProjectDir.getName());
+						XstreamSerializer.getInstance().saveProject(copiedProject);
+					} else {
+						copyDir(project, destinationFolder);
+					}
+				} catch (ProjectException | IOException exception) {
+					if (destinationFolder.exists()) {
+						try {
+							deleteDir(destinationFolder);
+						} catch (IOException deleteException) {
+							Log.e(TAG, "error deleting project: " + project.getName(), deleteException);
+						}
+					}
+					Log.e(TAG, "error importing project: " + project.getName(), exception);
+				}
 			}
 		}
 	}
@@ -111,6 +148,9 @@ public class CopyProjectsTask extends AsyncTask<String, Boolean, Boolean> {
 					ToastUtil.showSuccess(weakActivity.get(), R.string.projects_successful_copied_toast);
 				}
 			}
+		}
+		if (FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).size() == 0 && weakActivity.get() == null) {
+			ProjectManager.getInstance().initializeDefaultProject(weakActivity.get());
 		}
 	}
 }
