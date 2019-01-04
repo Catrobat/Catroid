@@ -46,15 +46,9 @@ ext {
 
 apply plugin: 'org.catrobat.gradle.androidemulators'
 
+// The emulators to use on Jenkins.
+// Note: When you specify new system images ensure that they are installed on the Docker image.
 emulators {
-    install project.hasProperty('installSdk')
-
-    dependencies {
-        sdk {
-            version = '26.1.1'
-        }
-    }
-
     emulatorTemplate 'template1', {
         avd {
             systemImage = 'system-images;android-24;default;x86_64'
