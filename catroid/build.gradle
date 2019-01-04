@@ -122,11 +122,26 @@ if (!project.hasProperty("signingKeystore")) {
     ext.signingKeystore = "dummyKeystore"
 }
 
-ant.copy(file: 'google-services-template.json', tofile: 'google-services.json', overwrite: true)
-ant.replace(file: 'google-services.json', token: '@appId@', value: appId)
+ant.copy(file: 'google-services-template.json', tofile: 'src/catroid/google-services.json', overwrite: true)
+ant.copy(file: 'google-services-template.json', tofile: 'src/createAtSchool/google-services.json', overwrite: true)
+ant.copy(file: 'google-services-template.json', tofile: 'src/lunaAndCat/google-services.json', overwrite: true)
+ant.copy(file: 'google-services-template.json', tofile: 'src/phiro/google-services.json', overwrite: true)
+ant.copy(file: 'google-services-template.json', tofile: 'src/standalone/google-services.json', overwrite: true)
+
+ant.replace(file: 'src/catroid/google-services.json', token: '@appId@', value: appId)
+ant.replace(file: 'src/createAtSchool/google-services.json', token: '@appId@', value: appId + ".createatschool")
+ant.replace(file: 'src/lunaAndCat/google-services.json', token: '@appId@', value: appId + ".lunaandcat")
+ant.replace(file: 'src/phiro/google-services.json', token: '@appId@', value: appId + ".phiro")
+ant.replace(file: 'src/standalone/google-services.json', token: '@appId@', value: appId + ".standalone")
+
 if (project.hasProperty('firebaseApiKey')) {
-    ant.replace(file: 'google-services.json', token: '@apiKey@', value: project.getProperties().get('firebaseApiKey'))
+    ant.replace(file: 'src/catroid/google-services.json', token: '@apiKey@', value: project.getProperties().get('firebaseApiKey'))
+    ant.replace(file: 'src/createAtSchool/google-services.json', token: '@apiKey@', value: project.getProperties().get('firebaseApiKey'))
+    ant.replace(file: 'src/lunaAndCat/google-services.json', token: '@apiKey@', value: project.getProperties().get('firebaseApiKey'))
+    ant.replace(file: 'src/phiro/google-services.json', token: '@apiKey@', value: project.getProperties().get('firebaseApiKey'))
+    ant.replace(file: 'src/standalone/google-services.json', token: '@apiKey@', value: project.getProperties().get('firebaseApiKey'))
 }
+
 if (project.hasProperty('fabricApiKey')) {
     ant.replace(file: 'fabric.properties', token: '0123456789012345678901234567890123456789',
             value: project.getProperties().get('fabricApiKey'))
@@ -280,7 +295,8 @@ android {
 
         standalone {
             dimension "default"
-            applicationId appId
+            applicationId appId + '.standalone'
+
             versionCode 1
             versionName '1.0'
 
@@ -294,7 +310,8 @@ android {
 
         createAtSchool {
             dimension "default"
-            applicationId appId
+            applicationId appId + '.createatschool'
+
             buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
             buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
@@ -304,7 +321,8 @@ android {
 
         lunaAndCat {
             dimension "default"
-            applicationId appId
+            applicationId appId + '.lunaandcat'
+
             buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
             buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
@@ -314,7 +332,8 @@ android {
 
         phiro {
             dimension "default"
-            applicationId appId
+            applicationId appId + '.phiro'
+
             buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
             buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
