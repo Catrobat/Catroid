@@ -120,12 +120,17 @@ public class NewProjectDialogFragment extends DialogFragment {
 		dialog.show(getFragmentManager(), OrientationDialogFragment.TAG);
 	}
 
-	void createDroneProject(String name, boolean jumpingSumo) {
+	void createDroneProject(String name, boolean isJumpingSumoProject) {
 		try {
-			ProjectManager.getInstance().initializeNewProject(name, getActivity(), false, true,
-					false, false, jumpingSumo);
+			if (isJumpingSumoProject) {
+				ProjectManager.getInstance().initializeNewProject(name, getActivity(), false, false,
+						false, false, true);
+			} else {
+				ProjectManager.getInstance().initializeNewProject(name, getActivity(), false, true,
+						false, false, false);
+			}
 			Intent intent = new Intent(getActivity(), ProjectActivity.class);
-			getActivity().startActivity(intent);
+			startActivity(intent);
 		} catch (IOException e) {
 			ToastUtil.showError(getActivity(), R.string.error_new_project);
 		}
