@@ -30,6 +30,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.WhenConditionScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeColorByNBrick;
@@ -64,6 +65,7 @@ import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.UserVariableBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
+import org.catrobat.catroid.content.bricks.WhenConditionBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
@@ -80,6 +82,7 @@ import java.lang.reflect.Constructor;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNotSame;
+import static junit.framework.Assert.assertSame;
 
 @RunWith(AndroidJUnit4.class)
 public class BrickCloneTest {
@@ -189,6 +192,13 @@ public class BrickCloneTest {
 
 		brick = new SpeakBrick(String.valueOf(BRICK_FORMULA_VALUE));
 		brickClone(brick, Brick.BrickField.SPEAK);
+	}
+
+	@Test
+	public void testWhenConditionBrickFormulaMapSameAsWhenConditionScriptFormulaMap() throws CloneNotSupportedException {
+		WhenConditionBrick brickClone =
+				(WhenConditionBrick) new WhenConditionBrick(new WhenConditionScript(new Formula(0))).clone();
+		assertSame(brickClone.getFormulaMap(), ((WhenConditionScript) brickClone.getScript()).getFormulaMap());
 	}
 
 	@Test

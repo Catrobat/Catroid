@@ -53,6 +53,7 @@ public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 		WhenConditionBrick clone = (WhenConditionBrick) super.clone();
 		clone.script = (WhenConditionScript) script.clone();
 		clone.script.setScriptBrick(clone);
+		clone.formulaMap = clone.script.getFormulaMap();
 		return clone;
 	}
 
