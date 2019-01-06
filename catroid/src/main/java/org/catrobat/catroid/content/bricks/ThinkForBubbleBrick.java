@@ -59,6 +59,11 @@ public class ThinkForBubbleBrick extends FormulaBrick {
 	}
 
 	@Override
+	protected BrickField getDefaultBrickField() {
+		return BrickField.STRING;
+	}
+
+	@Override
 	public View getView(Context context) {
 		super.getView(context);
 		setSecondsLabel(view, BrickField.DURATION_IN_SECONDS);

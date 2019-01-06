@@ -58,6 +58,11 @@ public class SetVelocityBrick extends FormulaBrick {
 	}
 
 	@Override
+	protected BrickField getDefaultBrickField() {
+		return BrickField.PHYSICS_VELOCITY_X;
+	}
+
+	@Override
 	public int getViewResource() {
 		return R.layout.brick_physics_set_velocity;
 	}

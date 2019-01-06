@@ -68,6 +68,11 @@ public class GlideToBrick extends FormulaBrick {
 	}
 
 	@Override
+	protected BrickField getDefaultBrickField() {
+		return BrickField.DURATION_IN_SECONDS;
+	}
+
+	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createGlideToAction(sprite,
 				getFormulaWithBrickField(BrickField.X_DESTINATION),

@@ -70,6 +70,11 @@ public class DroneMoveRightBrick extends FormulaBrick {
 	}
 
 	@Override
+	protected BrickField getDefaultBrickField() {
+		return BrickField.DRONE_TIME_TO_FLY_IN_SECONDS;
+	}
+
+	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createDroneMoveRightAction(sprite,
 				getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS),

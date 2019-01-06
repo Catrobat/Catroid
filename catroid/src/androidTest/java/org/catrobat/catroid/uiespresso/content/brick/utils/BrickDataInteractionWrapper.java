@@ -117,4 +117,12 @@ public class BrickDataInteractionWrapper extends DataInteractionWrapper {
 		onView(withText(R.string.yes))
 				.perform(click());
 	}
+
+	public void performEditFormula() {
+		dataInteraction.perform(new GeneralClickAction(Tap.SINGLE,
+				BrickCoordinatesProvider.UPPER_LEFT_CORNER,
+				Press.FINGER));
+		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
+				.perform(click());
+	}
 }
