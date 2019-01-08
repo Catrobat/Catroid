@@ -35,6 +35,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ProjectData;
 import org.catrobat.catroid.exceptions.ProjectException;
+import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.fragment.ProjectDetailsFragment;
@@ -145,7 +146,11 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 
 		for (ProjectData item : selectedItems) {
 			try {
+				File projectCacheFolder = new File(Constants.TMP_PATH, item.getName());
 				projectController.delete(item);
+				if (projectCacheFolder.exists()){
+					StorageOperations.deleteDir(projectCacheFolder);
+				}
 			} catch (IOException e) {
 				Log.e(TAG, Log.getStackTraceString(e));
 			}

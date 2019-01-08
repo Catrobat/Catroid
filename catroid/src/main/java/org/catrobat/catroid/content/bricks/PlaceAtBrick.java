@@ -22,14 +22,27 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.TextView;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.VisualPlacementListener;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.ui.UiUtils;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.ui.fragment.ScriptFragment;
 
 import java.util.List;
 
-public class PlaceAtBrick extends FormulaBrick {
+public class PlaceAtBrick extends FormulaBrick implements VisualPlacementListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -54,6 +67,57 @@ public class PlaceAtBrick extends FormulaBrick {
 	}
 
 	@Override
+	public void onClick(final View view) {
+		android.support.v4.app.FragmentManager fragmentManager = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
+		Fragment scriptFragment = fragmentManager.findFragmentByTag(ScriptFragment.TAG);
+		if (scriptFragment != null && scriptFragment.isVisible() && (view.getId() == R.id.brick_place_at_edit_text_x || view.getId() == R.id.brick_place_at_edit_text_y)) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+			String[] optionStrings = {view.getContext().getString(R.string.brick_place_at_option_place_visually),
+					view.getContext().getString(R.string.brick_context_dialog_formula_edit_brick)};
+			builder.setItems(optionStrings, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					switch (which) {
+						case 0:
+							FormulaEditorFragment.visualPlacement(view.getContext());
+							AppCompatActivity activity = UiUtils.getActivityFromView(view);
+							if (!(activity instanceof SpriteActivity)) {
+								return;
+							}
+							((SpriteActivity) activity).registerOnCoordinatesChanges(PlaceAtBrick.this);
+							break;
+						case 1:
+							showFormulaEditorToEditFormula(view);
+					}
+				}
+			});
+			AlertDialog dialog = builder.create();
+			dialog.show();
+		} else {
+			super.onClick(view);
+		}
+	}
+
+	@Override
+	public void onPrototypeViewCreated() {
+		super.onPrototypeViewCreated();
+		TextView xEditText = view.findViewById(R.id.brick_place_at_edit_text_x);
+		TextView yEditText = view.findViewById(R.id.brick_place_at_edit_text_y);
+		xEditText.setOnClickListener(null);
+		yEditText.setOnClickListener(null);
+	}
+
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
+		TextView xEditText = view.findViewById(R.id.brick_place_at_edit_text_x);
+		TextView yEditText = view.findViewById(R.id.brick_place_at_edit_text_y);
+		xEditText.setOnClickListener(this);
+		yEditText.setOnClickListener(this);
+		return view;
+	}
+
+	@Override
 	public int getViewResource() {
 		return R.layout.brick_place_at;
 	}
@@ -64,5 +128,11 @@ public class PlaceAtBrick extends FormulaBrick {
 				getFormulaWithBrickField(BrickField.X_POSITION),
 				getFormulaWithBrickField(BrickField.Y_POSITION)));
 		return null;
+	}
+
+	@Override
+	public void saveNewCoordinates(int x, int y) {
+		setFormulaWithBrickField(BrickField.X_POSITION, new Formula(x));
+		setFormulaWithBrickField(BrickField.Y_POSITION, new Formula(y));
 	}
 }

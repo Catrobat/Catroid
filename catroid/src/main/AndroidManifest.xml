@@ -241,6 +241,8 @@
 
         <activity
             android:name=".bluetooth.ConnectBluetoothDeviceActivity" />
+        <activity
+            android:name=".stage.VisualPlacementActivity"/>
 
         <service android:name=".transfers.ProjectUploadService" />
         <service android:name=".transfers.ProjectDownloadService" />

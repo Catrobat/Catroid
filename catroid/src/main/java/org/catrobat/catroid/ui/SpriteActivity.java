@@ -47,6 +47,7 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.VisualPlacementListener;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -68,6 +69,7 @@ import org.catrobat.catroid.ui.recyclerview.fragment.NfcTagListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SoundListFragment;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+import org.catrobat.catroid.utils.ToastUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -80,7 +82,10 @@ import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BACKGROUNDS_
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BACKGROUNDS_URL_PORTRAIT;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_LOOKS_URL;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_SOUNDS_URL;
+import static org.catrobat.catroid.stage.VisualPlacementActivity.X_COORDINATE_BUNDLE_ARGUMENT;
+import static org.catrobat.catroid.stage.VisualPlacementActivity.Y_COORDINATE_BUNDLE_ARGUMENT;
 import static org.catrobat.catroid.ui.WebViewActivity.MEDIA_FILE_PATH;
+import static org.catrobat.catroid.ui.fragment.FormulaEditorFragment.REQUEST_CODE_VISUAL_PLACEMENT;
 
 public class SpriteActivity extends BaseActivity {
 
@@ -115,6 +120,7 @@ public class SpriteActivity extends BaseActivity {
 	private NewItemInterface<Sprite> onNewSpriteListener;
 	private NewItemInterface<LookData> onNewLookListener;
 	private NewItemInterface<SoundInfo> onNewSoundListener;
+	private VisualPlacementListener visualPlacementListener;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -308,7 +314,18 @@ public class SpriteActivity extends BaseActivity {
 				uri = Uri.fromFile(new File(data.getStringExtra(MEDIA_FILE_PATH)));
 				addSoundFromUri(uri);
 				break;
+			case REQUEST_CODE_VISUAL_PLACEMENT:
+				int xCoordinate = data.getExtras().getInt(X_COORDINATE_BUNDLE_ARGUMENT);
+				int yCoordinate = data.getExtras().getInt(Y_COORDINATE_BUNDLE_ARGUMENT);
+				visualPlacementListener.saveNewCoordinates(xCoordinate, yCoordinate);
+				ToastUtil.showSuccess(this, "X Coordinate = "+String.valueOf(xCoordinate)+
+						"\nY Coordinate = "+String.valueOf(yCoordinate));
+				break;
 		}
+	}
+
+	public void registerOnCoordinatesChanges (VisualPlacementListener listener){
+		visualPlacementListener = listener;
 	}
 
 	public void registerOnNewSpriteListener(NewItemInterface<Sprite> listener) {

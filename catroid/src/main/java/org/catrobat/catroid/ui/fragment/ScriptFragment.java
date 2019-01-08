@@ -52,6 +52,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.ControlStructureBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
+import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
@@ -485,7 +486,9 @@ public class ScriptFragment extends ListFragment implements
 			items.add(brick.isCommentedOut()
 					? R.string.brick_context_dialog_comment_in
 					: R.string.brick_context_dialog_comment_out);
-
+			if (brick instanceof PlaceAtBrick) {
+				items.add(R.string.brick_place_at_option_place_visually);
+			}
 			if (brick instanceof FormulaBrick) {
 				items.add(R.string.brick_context_dialog_formula_edit_brick);
 			}
@@ -556,6 +559,9 @@ public class ScriptFragment extends ListFragment implements
 				}
 				adapter.notifyDataSetChanged();
 				adapter.notifyDataSetChanged();
+				break;
+			case R.string.brick_place_at_option_place_visually:
+				FormulaEditorFragment.visualPlacement(getContext());
 				break;
 			case R.string.brick_context_dialog_formula_edit_brick:
 				((FormulaBrick) brick).onClick(listView);

@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -62,6 +63,7 @@ import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.stage.VisualPlacementActivity;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.dialogs.FormulaEditorComputeDialog;
@@ -86,6 +88,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	private static final int TIME_WINDOW = 2000;
 	public static final int REQUEST_GPS = 1;
 	public static final int REQUEST_PERMISSIONS_COMPUTE_DIALOG = 701;
+	public static final int REQUEST_CODE_VISUAL_PLACEMENT = 2019;
 
 	public static final String FORMULA_EDITOR_FRAGMENT_TAG = FormulaEditorFragment.class.getSimpleName();
 	public static final String FORMULA_BRICK_BUNDLE_ARGUMENT = "formula_brick";
@@ -181,6 +184,16 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 	public static void showCustomFragment(Context context, FormulaBrick formulaBrick, Brick.BrickField brickField) {
 		showFragment(context, formulaBrick, brickField, true);
+	}
+
+	public static void visualPlacement(Context context){
+		showVisualPlacementActivity(context);
+	}
+
+	private static void showVisualPlacementActivity(Context context) {
+		Activity activity = (Activity) context;
+		Intent intent = new Intent(activity,VisualPlacementActivity.class);
+		activity.startActivityForResult(intent, REQUEST_CODE_VISUAL_PLACEMENT);
 	}
 
 	public void updateBrickView() {
