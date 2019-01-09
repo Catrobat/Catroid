@@ -680,11 +680,11 @@
 
     <!-- SpriteListFragment -->
     <string name="fragment_sprite_text_description">Tap \"+\" to add objects</string>
+    <string name="default_sprite_name">My object</string>
     <!--  -->
 
     <!-- LookListFragment -->
     <string name="fragment_look_text_description">Tap \"+\" to add looks</string>
-    <string name="default_look_name">Look</string>
     <string name="select_look_from_gallery">Select Image</string>
     <string name="select_look_from_camera">Select Photo</string>
     <!--  -->
@@ -692,7 +692,6 @@
     <!-- SoundListFragment -->
     <string name="fragment_sound_text_description">Tap \"+\" to add sounds</string>
     <string name="sound_select_source">Select a sound</string>
-    <string name="default_sound_name">Sound</string>
     <!--  -->
 
     <!-- NfcTagListFragment -->
@@ -891,7 +890,7 @@
     <!-- SoundRecorderActivity -->
     <string name="soundrecorder_name">Sound Recorder</string>
     <string name="soundrecorder_error">Sound recording failed</string>
-    <string name="soundrecorder_recorded_filename">record</string>
+    <string name="soundrecorder_recorded_filename">recording</string>
     <string name="soundrecorder_text_view">Tap the icon above to start and stop recording.</string>
     <!--  -->
 

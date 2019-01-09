@@ -37,7 +37,6 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
-import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.hamcrest.Matcher;
 import org.junit.After;
@@ -54,17 +53,15 @@ import static android.support.test.espresso.intent.Intents.intending;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasCategories;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
-import static android.support.test.espresso.intent.matcher.IntentMatchers.hasExtras;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
-import static org.catrobat.catroid.uiespresso.util.matchers.BundleMatchers.bundleHasMatchingString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.core.AllOf.allOf;
 
 @RunWith(AndroidJUnit4.class)
-public class PocketPaintFromProjectActivityDiscardIntentTest {
+public class PocketPaintNewSpriteDiscardIntentTest {
 
 	private Matcher expectedIntent;
 	private final String projectName = getClass().getSimpleName();
@@ -80,12 +77,10 @@ public class PocketPaintFromProjectActivityDiscardIntentTest {
 		baseActivityTestRule.launchActivity();
 		Intents.init();
 
-		String defaultLookName = UiTestUtils.getResourcesString(R.string.default_look_name);
 		expectedIntent = allOf(
 				hasComponent(Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME),
 				hasAction("android.intent.action.MAIN"),
-				hasCategories(hasItem(equalTo("android.intent.category.LAUNCHER"))),
-				hasExtras(bundleHasMatchingString(Constants.EXTRA_PICTURE_NAME_POCKET_PAINT, defaultLookName)));
+				hasCategories(hasItem(equalTo("android.intent.category.LAUNCHER"))));
 
 		Intent resultData = new Intent();
 		Instrumentation.ActivityResult result =
@@ -102,7 +97,7 @@ public class PocketPaintFromProjectActivityDiscardIntentTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void testCancelPaintroid() {
+	public void testCancelImport() {
 		onView(withId(R.id.button_add))
 				.perform(click());
 

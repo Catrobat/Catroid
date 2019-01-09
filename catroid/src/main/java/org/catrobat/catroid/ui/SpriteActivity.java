@@ -74,8 +74,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION;
+import static org.catrobat.catroid.common.Constants.DEFAULT_SOUND_EXTENSION;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
+import static org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIR;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
+import static org.catrobat.catroid.common.Constants.TMP_IMAGE_FILE_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BACKGROUNDS_URL_LANDSCAPE;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BACKGROUNDS_URL_PORTRAIT;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_LOOKS_URL;
@@ -338,29 +342,41 @@ public class SpriteActivity extends BaseActivity {
 	private void addSpriteFromUri(final Uri uri) {
 		final Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 
-		String name = StorageOperations.resolveFileName(getContentResolver(), uri);
-		if (name == null) {
-			name = getString(R.string.default_look_name);
+		String resolvedName;
+		String resolvedFileName = StorageOperations.resolveFileName(getContentResolver(), uri);
+
+		final String lookDataName;
+		final String lookFileName;
+
+		boolean useDefaultSpriteName = resolvedFileName == null
+				|| StorageOperations.getSanitizedFileName(resolvedFileName).equals(TMP_IMAGE_FILE_NAME);
+
+		if (useDefaultSpriteName) {
+			resolvedName = getString(R.string.default_sprite_name);
+			lookFileName = resolvedName + DEFAULT_IMAGE_EXTENSION;
 		} else {
-			name = StorageOperations.getSanitizedFileName(name);
+			resolvedName = StorageOperations.getSanitizedFileName(resolvedFileName);
+			lookFileName = resolvedFileName;
 		}
-		name = new UniqueNameProvider().getUniqueNameInNameables(name, currentScene.getSpriteList());
-		final String lookName = name;
+
+		lookDataName = new UniqueNameProvider().getUniqueNameInNameables(resolvedName, currentScene.getSpriteList());
 
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(this);
 
 		builder.setHint(getString(R.string.sprite_name_label))
-				.setText(name)
+				.setText(lookDataName)
 				.setTextWatcher(new NewItemTextWatcher<>(currentScene.getSpriteList()))
 				.setPositiveButton(getString(R.string.ok), new TextInputDialog.OnClickListener() {
+
 					@Override
 					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
-						File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
 						Sprite sprite = new Sprite(textInput);
+						currentScene.addSprite(sprite);
 						try {
-							File file = StorageOperations.copyUriToDir(getContentResolver(), uri, imageDirectory, lookName);
-							sprite.getLookList().add(new LookData(lookName, file));
-							currentScene.getSpriteList().add(sprite);
+							File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
+							File file = StorageOperations
+									.copyUriToDir(getContentResolver(), uri, imageDirectory, lookFileName);
+							sprite.getLookList().add(new LookData(textInput, file));
 						} catch (IOException e) {
 							Log.e(TAG, Log.getStackTraceString(e));
 						}
@@ -371,7 +387,19 @@ public class SpriteActivity extends BaseActivity {
 				});
 
 		builder.setTitle(R.string.new_sprite_dialog_title)
-				.setNegativeButton(R.string.cancel, null)
+				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						try {
+							if (MEDIA_LIBRARY_CACHE_DIR.exists()) {
+								StorageOperations.deleteDir(MEDIA_LIBRARY_CACHE_DIR);
+							}
+						} catch (IOException e) {
+							Log.e(TAG, Log.getStackTraceString(e));
+						}
+					}
+				})
 				.create()
 				.show();
 	}
@@ -380,17 +408,27 @@ public class SpriteActivity extends BaseActivity {
 		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 		Sprite currentSprite = currentScene.getBackgroundSprite();
 
-		File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
-		String name = StorageOperations.resolveFileName(getContentResolver(), uri);
-		if (name == null) {
-			name = getString(R.string.background);
+		String resolvedFileName = StorageOperations.resolveFileName(getContentResolver(), uri);
+		String lookDataName;
+		String lookFileName;
+
+		boolean useSpriteName = resolvedFileName == null
+				|| StorageOperations.getSanitizedFileName(resolvedFileName).equals(TMP_IMAGE_FILE_NAME);
+
+		if (useSpriteName) {
+			lookDataName = currentSprite.getName();
+			lookFileName = lookDataName + DEFAULT_IMAGE_EXTENSION;
 		} else {
-			name = StorageOperations.getSanitizedFileName(name);
+			lookDataName = StorageOperations.getSanitizedFileName(resolvedFileName);
+			lookFileName = resolvedFileName;
 		}
-		name = new UniqueNameProvider().getUniqueNameInNameables(name, currentSprite.getLookList());
+
+		lookDataName = new UniqueNameProvider().getUniqueNameInNameables(lookDataName, currentSprite.getLookList());
+
 		try {
-			File file = StorageOperations.copyUriToDir(getContentResolver(), uri, imageDirectory, name);
-			LookData look = new LookData(name, file);
+			File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
+			File file = StorageOperations.copyUriToDir(getContentResolver(), uri, imageDirectory, lookFileName);
+			LookData look = new LookData(lookDataName, file);
 			currentSprite.getLookList().add(look);
 			if (onNewLookListener != null) {
 				onNewLookListener.addItem(look);
@@ -404,17 +442,27 @@ public class SpriteActivity extends BaseActivity {
 		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 
-		File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
-		String name = StorageOperations.resolveFileName(getContentResolver(), uri);
-		if (name == null) {
-			name = getString(R.string.default_look_name);
+		String resolvedFileName = StorageOperations.resolveFileName(getContentResolver(), uri);
+		String lookDataName;
+		String lookFileName;
+
+		boolean useSpriteName = resolvedFileName == null
+				|| StorageOperations.getSanitizedFileName(resolvedFileName).equals(TMP_IMAGE_FILE_NAME);
+
+		if (useSpriteName) {
+			lookDataName = currentSprite.getName();
+			lookFileName = lookDataName + DEFAULT_IMAGE_EXTENSION;
 		} else {
-			name = StorageOperations.getSanitizedFileName(name);
+			lookDataName = StorageOperations.getSanitizedFileName(resolvedFileName);
+			lookFileName = resolvedFileName;
 		}
-		name = new UniqueNameProvider().getUniqueNameInNameables(name, currentSprite.getLookList());
+
+		lookDataName = new UniqueNameProvider().getUniqueNameInNameables(lookDataName, currentSprite.getLookList());
+
 		try {
-			File file = StorageOperations.copyUriToDir(getContentResolver(), uri, imageDirectory, name);
-			LookData look = new LookData(name, file);
+			File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
+			File file = StorageOperations.copyUriToDir(getContentResolver(), uri, imageDirectory, lookFileName);
+			LookData look = new LookData(lookDataName, file);
 			currentSprite.getLookList().add(look);
 			if (onNewLookListener != null) {
 				onNewLookListener.addItem(look);
@@ -428,17 +476,27 @@ public class SpriteActivity extends BaseActivity {
 		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 
-		File soundDirectory = new File(currentScene.getDirectory(), SOUND_DIRECTORY_NAME);
-		String name = StorageOperations.resolveFileName(getContentResolver(), uri);
-		if (name == null) {
-			name = getString(R.string.default_sound_name);
+		String resolvedFileName = StorageOperations.resolveFileName(getContentResolver(), uri);
+		String soundInfoName;
+		String soundFileName;
+
+		boolean useSpriteName = resolvedFileName == null;
+
+		if (useSpriteName) {
+			soundInfoName = currentSprite.getName();
+			soundFileName = soundInfoName + DEFAULT_SOUND_EXTENSION;
 		} else {
-			name = StorageOperations.getSanitizedFileName(name);
+			soundInfoName = StorageOperations.getSanitizedFileName(resolvedFileName);
+			soundFileName = resolvedFileName;
 		}
-		name = new UniqueNameProvider().getUniqueNameInNameables(name, currentSprite.getSoundList());
+
+		soundInfoName = new UniqueNameProvider().getUniqueNameInNameables(soundInfoName, currentSprite.getSoundList());
+
 		try {
-			File file = StorageOperations.copyUriToDir(getContentResolver(), uri, soundDirectory, name);
-			SoundInfo sound = new SoundInfo(name, file);
+			File soundDirectory = new File(currentScene.getDirectory(), SOUND_DIRECTORY_NAME);
+
+			File file = StorageOperations.copyUriToDir(getContentResolver(), uri, soundDirectory, soundFileName);
+			SoundInfo sound = new SoundInfo(soundInfoName, file);
 			currentSprite.getSoundList().add(sound);
 			if (onNewSoundListener != null) {
 				onNewSoundListener.addItem(sound);
