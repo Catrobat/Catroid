@@ -50,6 +50,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Permissi
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		SettingsFragment.setToChosenLanguage(this);
 		applyAccessibilityStyles();
 
 		Thread.setDefaultUncaughtExceptionHandler(new BaseExceptionHandler(this));
@@ -69,6 +70,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Permissi
 	@Override
 	protected void onResume() {
 		super.onResume();
+		SettingsFragment.setToChosenLanguage(this);
 
 		if (SettingsFragment.isCastSharedPreferenceEnabled(this)) {
 			CastManager.getInstance().initializeCast(this);
