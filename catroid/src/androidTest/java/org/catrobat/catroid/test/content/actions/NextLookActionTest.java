@@ -189,7 +189,7 @@ public class NextLookActionTest {
 		firstSprite.addScript(testScript);
 		project.getDefaultScene().addSprite(firstSprite);
 
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 
 		XstreamSerializer.getInstance().saveProject(project);

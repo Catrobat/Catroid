@@ -400,7 +400,6 @@ public class SpriteActivity extends BaseActivity {
 						}
 					}
 				})
-				.create()
 				.show();
 	}
 

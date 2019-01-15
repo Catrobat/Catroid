@@ -36,7 +36,6 @@ import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.After;
 import org.junit.Before;
@@ -45,22 +44,18 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.File;
+import java.io.IOException;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.common.FlavoredConstants.EXTERNAL_STORAGE_ROOT_DIRECTORY;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.core.IsNot.not;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
@@ -68,64 +63,78 @@ public class ImportProjectsFromExternalStorageTest {
 
 	@Rule
 	public BaseActivityInstrumentationRule<MainMenuActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(MainMenuActivity.class);
+			BaseActivityInstrumentationRule<>(MainMenuActivity.class, true, false);
 
 	@Rule
-	public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE);
+	public GrantPermissionRule runtimePermissionRule = GrantPermissionRule
+			.grant(Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE);
 
 	private String projectName = "testImportProjectsFromExternalStorage";
-	private String renamedProjectName = "testImportProjectsFromExternalStorag_#0e";
-	private boolean hasUserAgreedToPrivacyPolicyBuffer;
-	private boolean doNotShowImportProjectsDialog;
+	private String renamedProjectName = "testImportProjectsFromExternalStorage (1)";
+
+	private boolean bufferedPrivacyPolicyPreferenceSetting;
+	private boolean bufferedImportFromExternalStoragePreferenceSetting;
 
 	@Before
 	public void setUp() throws Exception {
 		TestUtils.deleteProjects(projectName, renamedProjectName);
 
-		new DefaultProjectCreator().createDefaultProject(projectName, InstrumentationRegistry.getTargetContext(), false);
-		StorageOperations.copyDir(internalProjectFolder(projectName), externalProjectFolder(projectName));
+		new DefaultProjectCreator()
+				.createDefaultProject(projectName, InstrumentationRegistry.getTargetContext(), false);
 
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
-		hasUserAgreedToPrivacyPolicyBuffer = sharedPreferences.getBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, false);
-		doNotShowImportProjectsDialog = sharedPreferences.getBoolean(SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG, false);
-		sharedPreferences.edit().putBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, true).commit();
-		sharedPreferences.edit().putBoolean(SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG, true).commit();
+		if (!EXTERNAL_STORAGE_ROOT_DIRECTORY.exists()) {
+			EXTERNAL_STORAGE_ROOT_DIRECTORY.mkdirs();
+		}
+
+		StorageOperations.copyDir(
+				new File(DEFAULT_ROOT_DIRECTORY, projectName),
+				new File(EXTERNAL_STORAGE_ROOT_DIRECTORY, projectName));
+
+		SharedPreferences sharedPreferences = PreferenceManager
+				.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
+
+		bufferedPrivacyPolicyPreferenceSetting = sharedPreferences
+				.getBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, false);
+
+		bufferedImportFromExternalStoragePreferenceSetting = sharedPreferences
+				.getBoolean(SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG, false);
+
+		sharedPreferences.edit()
+				.putBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, true)
+				.putBoolean(SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG, true)
+				.commit();
+
 		baseActivityTestRule.launchActivity();
 	}
 
 	@After
-	public void tearDown() throws Exception {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
-		sharedPreferences.edit().putBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, hasUserAgreedToPrivacyPolicyBuffer).commit();
-		sharedPreferences.edit().putBoolean(SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG, doNotShowImportProjectsDialog).commit();
+	public void tearDown() throws IOException {
+		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
+				.edit()
+				.putBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, bufferedPrivacyPolicyPreferenceSetting)
+				.putBoolean(SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG, bufferedImportFromExternalStoragePreferenceSetting)
+				.commit();
+
 		if (EXTERNAL_STORAGE_ROOT_DIRECTORY.exists()) {
 			StorageOperations.deleteDir(EXTERNAL_STORAGE_ROOT_DIRECTORY);
 		}
+
 		TestUtils.deleteProjects(projectName, renamedProjectName);
 	}
 
 	@Test
-	public void testCopingProjects() {
+	public void testCopyingProjects() {
 		onView(withText(R.string.import_dialog_title))
 				.check(matches(isDisplayed()));
 		onView(withText(R.string.import_dialog_message))
 				.check(matches(isDisplayed()));
 
 		onView(withText(R.string.import_dialog_copy_btn))
-				.check(matches(isDisplayed()))
 				.perform(click());
-
-		// needed for testing the ToastMassage
-		onView(isRoot())
-				.perform(CustomActions.wait(800));
-
-		onView(withText(R.string.projects_successful_copied_toast))
-				.inRoot(withDecorView(not(is(baseActivityTestRule.getActivity().getWindow().getDecorView()))))
-				.check(matches(isDisplayed()));
 
 		assertTrue(XstreamSerializer.getInstance().projectExists(projectName));
 		assertTrue(XstreamSerializer.getInstance().projectExists(renamedProjectName));
-		assertTrue(externalProjectFolder(projectName).exists());
+		assertTrue(new File(EXTERNAL_STORAGE_ROOT_DIRECTORY, projectName).exists());
 	}
 
 	@Test
@@ -136,30 +145,9 @@ public class ImportProjectsFromExternalStorageTest {
 				.check(matches(isDisplayed()));
 
 		onView(withText(R.string.import_dialog_move_btn))
-				.check(matches(isDisplayed()))
 				.perform(click());
-
-		// needed for testing the ToastMassage
-		onView(isRoot())
-				.perform(CustomActions.wait(800));
-
-		onView(withText(R.string.projects_successful_moved_toast))
-				.inRoot(withDecorView(not(is(baseActivityTestRule.getActivity().getWindow().getDecorView()))))
-				.check(matches(isDisplayed()));
 
 		assertTrue(XstreamSerializer.getInstance().projectExists(projectName));
 		assertTrue(XstreamSerializer.getInstance().projectExists(renamedProjectName));
-		assertFalse(externalProjectFolder(projectName).exists());
-	}
-
-	private File internalProjectFolder(String projectName) {
-		return new File(DEFAULT_ROOT_DIRECTORY, projectName);
-	}
-
-	private File externalProjectFolder(String projectName) {
-		if (!EXTERNAL_STORAGE_ROOT_DIRECTORY.exists()) {
-			EXTERNAL_STORAGE_ROOT_DIRECTORY.mkdirs();
-		}
-		return new File(EXTERNAL_STORAGE_ROOT_DIRECTORY, projectName);
 	}
 }

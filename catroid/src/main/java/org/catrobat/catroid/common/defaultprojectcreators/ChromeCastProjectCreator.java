@@ -89,7 +89,7 @@ public class ChromeCastProjectCreator extends ProjectCreator {
 		Project defaultProject = new Project(context, projectName, true, true);
 		defaultProject.setDeviceData(context); // density anywhere here
 		XstreamSerializer.getInstance().saveProject(defaultProject);
-		ProjectManager.getInstance().setProject(defaultProject);
+		ProjectManager.getInstance().setCurrentProject(defaultProject);
 
 		String birdLookName = context.getString(R.string.default_cast_project_sprites_bird_name);
 		String birdWingUpLookName = context.getString(R.string.default_cast_project_sprites_bird_name_wing_up);

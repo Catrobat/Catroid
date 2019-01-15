@@ -71,7 +71,7 @@ public class ArDroneProjectCreator extends ProjectCreator {
 		Project defaultDroneProject = new Project(context, projectName, landscapeMode);
 		defaultDroneProject.setDeviceData(context);
 		XstreamSerializer.getInstance().saveProject(defaultDroneProject);
-		ProjectManager.getInstance().setProject(defaultDroneProject);
+		ProjectManager.getInstance().setCurrentProject(defaultDroneProject);
 
 		File sceneDir = defaultDroneProject.getDefaultScene().getDirectory();
 		File imageDir = new File(sceneDir, IMAGE_DIRECTORY_NAME);

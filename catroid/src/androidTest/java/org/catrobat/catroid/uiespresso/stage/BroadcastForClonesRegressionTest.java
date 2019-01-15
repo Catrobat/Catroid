@@ -95,7 +95,7 @@ public class BroadcastForClonesRegressionTest {
 
 	private void createProject() {
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), "BroadcastForClonesRegressionTest");
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
 		userVariable = new UserVariable(VARIABLE_NAME);
 		dataContainer.addUserVariable(userVariable);

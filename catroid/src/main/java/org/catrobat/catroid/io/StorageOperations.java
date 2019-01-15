@@ -235,7 +235,7 @@ public final class StorageOperations {
 		int extensionStartIndex = originalName.lastIndexOf('.');
 
 		if (extensionStartIndex == -1) {
-			extensionStartIndex = originalName.length() - 1;
+			extensionStartIndex = originalName.length();
 		}
 
 		int appendixStartIndex = originalName.lastIndexOf(FILE_NAME_APPENDIX);

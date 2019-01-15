@@ -106,7 +106,7 @@ public class Android9SnackbarRegressionTest {
 
 	public void createProject() {
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), getClass().getSimpleName());
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 	}
 }

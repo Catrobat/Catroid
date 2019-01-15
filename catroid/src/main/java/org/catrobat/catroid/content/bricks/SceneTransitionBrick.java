@@ -134,7 +134,6 @@ public class SceneTransitionBrick extends BrickBaseType implements BrickSpinner.
 						spinner.setSelection(sceneForTransition);
 					}
 				})
-				.create()
 				.show();
 	}
 

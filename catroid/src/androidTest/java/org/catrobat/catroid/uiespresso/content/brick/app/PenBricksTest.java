@@ -176,7 +176,7 @@ public class PenBricksTest {
 		startScript.addBrick(new SetPenSizeBrick(5));
 		startScript.addBrick(new SetPenColorBrick(255, 0, 0));
 		project.getDefaultScene().addSprite(sprite1);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite1);
 	}
 }

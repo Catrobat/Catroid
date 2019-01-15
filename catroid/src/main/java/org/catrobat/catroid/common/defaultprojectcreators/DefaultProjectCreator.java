@@ -96,7 +96,7 @@ public class DefaultProjectCreator extends ProjectCreator {
 		Project defaultProject = new Project(context, projectName, landscapeMode);
 		defaultProject.setDeviceData(context);
 		XstreamSerializer.getInstance().saveProject(defaultProject);
-		ProjectManager.getInstance().setProject(defaultProject);
+		ProjectManager.getInstance().setCurrentProject(defaultProject);
 
 		File backgroundFile;
 		File cloudFile;

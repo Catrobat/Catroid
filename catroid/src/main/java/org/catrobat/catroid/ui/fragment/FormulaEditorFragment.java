@@ -365,7 +365,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 		builder.setTitle(titleId)
 				.setNegativeButton(R.string.cancel, null)
-				.create()
 				.show();
 	}
 

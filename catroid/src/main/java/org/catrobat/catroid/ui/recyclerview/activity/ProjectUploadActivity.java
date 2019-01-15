@@ -42,12 +42,12 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
+import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
 import org.catrobat.catroid.transfers.CheckTokenTask;
 import org.catrobat.catroid.transfers.GetTagsTask;
 import org.catrobat.catroid.ui.BaseActivity;
 import org.catrobat.catroid.ui.SignInActivity;
 import org.catrobat.catroid.ui.dialogs.SelectTagsDialogFragment;
-import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectLoaderTask;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -59,7 +59,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectUploadActivity extends BaseActivity implements
-		ProjectLoaderTask.ProjectLoaderListener,
+		ProjectLoadTask.ProjectLoadListener,
 		CheckTokenTask.TokenCheckListener,
 		GetTagsTask.TagResponseListener {
 
@@ -85,7 +85,7 @@ public class ProjectUploadActivity extends BaseActivity implements
 
 		Bundle bundle = getIntent().getExtras();
 		if (bundle != null) {
-			ProjectLoaderTask loaderTask = new ProjectLoaderTask(this, this);
+			ProjectLoadTask loaderTask = new ProjectLoadTask(this, this);
 			loaderTask.execute(bundle.getString(PROJECT_NAME));
 		} else {
 			finish();
@@ -119,12 +119,12 @@ public class ProjectUploadActivity extends BaseActivity implements
 	}
 
 	@Override
-	public void onLoadFinished(boolean success, String message) {
+	public void onLoadFinished(boolean success) {
 		if (success) {
 			getTags();
 			verifyUserIdentity();
 		} else {
-			ToastUtil.showError(this, message);
+			ToastUtil.showError(this, R.string.error_load_project);
 			finish();
 		}
 	}
@@ -189,7 +189,7 @@ public class ProjectUploadActivity extends BaseActivity implements
 		}
 
 		if (!name.equals(projectManager.getCurrentProject().getName())) {
-			projectManager.renameProject(name, this);
+			ProjectManager.renameProject(projectManager.getCurrentProject().getName(), name, this);
 		}
 
 		projectManager.getCurrentProject().setDescription(description);

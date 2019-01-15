@@ -137,6 +137,6 @@ public class PointToActionTest {
 		project.addScene(scene);
 		project.getDefaultScene().addSprite(sprite);
 		project.getDefaultScene().addSprite(pointedSprite);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 	}
 }

@@ -93,7 +93,7 @@ public class WhenTouchDownScriptTest {
 
 	private Project createProjectWithSprite(Sprite sprite) {
 		Project project = new Project(InstrumentationRegistry.getInstrumentation().getTargetContext(), "testProject");
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		project.getDefaultScene().addSprite(sprite);
 		return project;
 	}

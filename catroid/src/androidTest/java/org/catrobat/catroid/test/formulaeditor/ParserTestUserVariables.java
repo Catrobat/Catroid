@@ -72,7 +72,7 @@ public class ParserTestUserVariables {
 		firstSprite.addScript(startScript);
 		startScript.addBrick(changeBrick);
 		project.getDefaultScene().addSprite(firstSprite);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 
 		UserBrick userBrick = new UserBrick(new UserScriptDefinitionBrick());

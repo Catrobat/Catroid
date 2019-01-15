@@ -106,7 +106,10 @@ public class SpriteAttributesActivity extends BaseActivity implements ButtonAdap
 		items.add(new RVButton(SCRIPTS, ContextCompat.getDrawable(this, R.drawable.ic_program_menu_scripts),
 				getString(R.string.scripts)));
 
-		if (ProjectManager.getInstance().getCurrentSpritePosition() == 0) {
+		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+
+		if (currentSprite.equals(currentScene.getBackgroundSprite())) {
 			items.add(new RVButton(LOOKS, ContextCompat.getDrawable(this, R.drawable.ic_program_menu_looks),
 					getString(R.string.backgrounds)));
 		} else {
@@ -138,7 +141,10 @@ public class SpriteAttributesActivity extends BaseActivity implements ButtonAdap
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		if (ProjectManager.getInstance().getCurrentSpritePosition() == 0) {
+		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+
+		if (currentSprite.equals(currentScene.getBackgroundSprite())) {
 			return super.onCreateOptionsMenu(menu);
 		}
 		getMenuInflater().inflate(R.menu.menu_program_menu, menu);
@@ -163,7 +169,6 @@ public class SpriteAttributesActivity extends BaseActivity implements ButtonAdap
 
 		builder.setTitle(R.string.rename_sprite_dialog)
 				.setNegativeButton(R.string.cancel, null)
-				.create()
 				.show();
 	}
 

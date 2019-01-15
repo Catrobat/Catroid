@@ -79,7 +79,7 @@ public class IfOnEdgeBounceActionTest {
 		project.getXmlHeader().virtualScreenWidth = SCREEN_WIDTH;
 		project.getXmlHeader().virtualScreenHeight = SCREEN_HEIGHT;
 
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 	}
 
 	@Test

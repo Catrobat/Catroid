@@ -41,13 +41,13 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.exceptions.ProjectException;
+import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ProjectListActivity;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.recyclerview.RVButton;
 import org.catrobat.catroid.ui.recyclerview.activity.ProjectUploadActivity;
 import org.catrobat.catroid.ui.recyclerview.adapter.ButtonAdapter;
-import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectLoaderTask;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewProjectDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.viewholder.ButtonVH;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
@@ -59,8 +59,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainMenuFragment extends Fragment implements ButtonAdapter.OnItemClickListener,
-		ProjectLoaderTask.ProjectLoaderListener {
+public class MainMenuFragment extends Fragment implements
+		ButtonAdapter.OnItemClickListener,
+		ProjectLoadTask.ProjectLoadListener {
 
 	public static final String TAG = MainMenuFragment.class.getSimpleName();
 
@@ -158,12 +159,13 @@ public class MainMenuFragment extends Fragment implements ButtonAdapter.OnItemCl
 	public void onItemClick(@ButtonId int id) {
 		switch (id) {
 			case CONTINUE:
-				ProjectLoaderTask loaderTask = new ProjectLoaderTask(getActivity(), this);
+				ProjectLoadTask loaderTask = new ProjectLoadTask(getActivity(), this);
 				setShowProgressBar(true);
 				loaderTask.execute(Utils.getCurrentProjectName(getActivity()));
 				break;
 			case NEW:
-				new NewProjectDialogFragment().show(getFragmentManager(), NewProjectDialogFragment.TAG);
+				new NewProjectDialogFragment()
+						.show(getFragmentManager(), NewProjectDialogFragment.TAG);
 				break;
 			case PROGRAMS:
 				setShowProgressBar(true);
@@ -192,14 +194,14 @@ public class MainMenuFragment extends Fragment implements ButtonAdapter.OnItemCl
 	}
 
 	@Override
-	public void onLoadFinished(boolean success, String message) {
+	public void onLoadFinished(boolean success) {
 		if (success) {
 			Intent intent = new Intent(getActivity(), ProjectActivity.class);
 			intent.putExtra(ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SCENES);
 			startActivity(intent);
 		} else {
 			setShowProgressBar(false);
-			ToastUtil.showError(getActivity(), message);
+			ToastUtil.showError(getActivity(), R.string.error_load_project);
 		}
 	}
 }

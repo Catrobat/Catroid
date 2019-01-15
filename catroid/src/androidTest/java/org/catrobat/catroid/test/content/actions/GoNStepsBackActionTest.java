@@ -84,7 +84,7 @@ public class GoNStepsBackActionTest {
 		parentGroup.addActor(embroideryActorSprite.look);
 		parentGroup.addActor(realSprite.look);
 
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 	}
 
 	@Test
@@ -158,7 +158,7 @@ public class GoNStepsBackActionTest {
 
 		project.getDefaultScene().addSprite(sprite1);
 		project.getDefaultScene().addSprite(sprite2);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 
 		assertEquals(realSpriteMinLayer, sprite1.look.getZIndex());
 		assertEquals(backgroundLayer, background.look.getZIndex());
@@ -184,7 +184,7 @@ public class GoNStepsBackActionTest {
 
 		project.getDefaultScene().addSprite(sprite1);
 		project.getDefaultScene().addSprite(sprite2);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 
 		assertEquals(realSpriteMinLayer, sprite1.look.getZIndex());
 		assertEquals(backgroundLayer, background.look.getZIndex());

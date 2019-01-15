@@ -117,7 +117,7 @@ public class SceneFragmentActivityRecreateRegressionTest {
 	private void createProject() {
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), "SceneTestProject");
 		project.addScene(new Scene("secondScene", project));
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 	}
 }

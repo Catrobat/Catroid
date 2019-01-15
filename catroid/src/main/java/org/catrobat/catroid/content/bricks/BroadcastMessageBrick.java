@@ -111,7 +111,6 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 						spinner.setSelection(getBroadcastMessage());
 					}
 				})
-				.create()
 				.show();
 	}
 

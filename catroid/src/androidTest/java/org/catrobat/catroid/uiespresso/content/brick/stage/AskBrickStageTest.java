@@ -114,7 +114,7 @@ public class AskBrickStageTest {
 		sprite1.addScript(sprite1StartScript);
 
 		project.getDefaultScene().addSprite(sprite1);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite1);
 
 		DataContainer dataContainer = project.getDefaultScene().getDataContainer();

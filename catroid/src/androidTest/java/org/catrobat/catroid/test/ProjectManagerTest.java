@@ -87,7 +87,7 @@ public class ProjectManagerTest {
 
 	@After
 	public void tearDown() throws Exception {
-		projectManager.setProject(null);
+		projectManager.setCurrentProject(null);
 		TestUtils.deleteProjects(OLD_PROJECT, NEW_PROJECT);
 		TestUtils.removeFromPreferences(InstrumentationRegistry.getTargetContext(), Constants.PREF_PROJECTNAME_KEY);
 	}
@@ -167,7 +167,7 @@ public class ProjectManagerTest {
 
 		// simulate deletion, saveProject asyncTask will be "automatically" cancelled (Please remark: there is still a chance
 		// of a race condition, because we rely on a "project" reference which gets used in a multithreaded environment)
-		projectManager.setProject(null);
+		projectManager.setCurrentProject(null);
 		StorageOperations.deleteDir(directory);
 
 		assertFalse(directory.exists());

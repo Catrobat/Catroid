@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.uiespresso.ui.activity.rtl;
 
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 import android.support.test.InstrumentationRegistry;
@@ -44,6 +45,8 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
+import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY;
+import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG;
 import static org.catrobat.catroid.uiespresso.util.UiTestUtils.getResources;
 
 @RunWith(AndroidJUnit4.class)
@@ -53,23 +56,29 @@ public class LanguageSwitchThroughSharedPreferenceTest {
 	public DontGenerateDefaultProjectActivityInstrumentationRule<MainMenuActivity> baseActivityTestRule = new
 			DontGenerateDefaultProjectActivityInstrumentationRule<>(MainMenuActivity.class);
 
-	private static final String AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY = "AgreedToPrivacyPolicy";
-	private boolean bufferedPreferenceSetting;
+	private boolean bufferedPrivacyPolicyPreferenceSetting;
+	private boolean bufferedImportFromExternalStoragePreferenceSetting;
 
-	private static final Locale ARABICLOCALE = new Locale("ar");
-	private static final Locale DEUTSCHLOCALE = Locale.GERMAN;
+	private static final Locale ARABIC_LOCALE = new Locale("ar");
+	private static final Locale GERMAN_LOCALE = Locale.GERMAN;
 
 	private Configuration conf = getResources().getConfiguration();
 
 	@Before
 	public void setUp() {
-		bufferedPreferenceSetting = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry
-				.getTargetContext())
-				.getBoolean(AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY, false);
+		SharedPreferences sharedPreferences = PreferenceManager
+				.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
+
+		bufferedPrivacyPolicyPreferenceSetting = sharedPreferences
+				.getBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, false);
+
+		bufferedImportFromExternalStoragePreferenceSetting = sharedPreferences
+				.getBoolean(SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG, false);
 
 		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
 				.edit()
-				.putBoolean(AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY, true)
+				.putBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, true)
+				.putBoolean(SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG, false)
 				.commit();
 	}
 
@@ -77,7 +86,8 @@ public class LanguageSwitchThroughSharedPreferenceTest {
 	public void tearDown() {
 		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
 				.edit()
-				.putBoolean(AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY, bufferedPreferenceSetting)
+				.putBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, bufferedPrivacyPolicyPreferenceSetting)
+				.putBoolean(SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG, bufferedImportFromExternalStoragePreferenceSetting)
 				.commit();
 		SettingsFragment.removeLanguageSharedPreference(InstrumentationRegistry.getTargetContext());
 	}
@@ -87,7 +97,7 @@ public class LanguageSwitchThroughSharedPreferenceTest {
 		SettingsFragment.setLanguageSharedPreference(InstrumentationRegistry.getTargetContext(), "ar");
 		baseActivityTestRule.launchActivity(null);
 
-		assertEquals(Locale.getDefault().getDisplayLanguage(), ARABICLOCALE.getDisplayLanguage());
+		assertEquals(Locale.getDefault().getDisplayLanguage(), ARABIC_LOCALE.getDisplayLanguage());
 		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 		assertEquals(View.LAYOUT_DIRECTION_RTL, conf.getLayoutDirection());
 	}
@@ -97,7 +107,7 @@ public class LanguageSwitchThroughSharedPreferenceTest {
 		SettingsFragment.setLanguageSharedPreference(InstrumentationRegistry.getTargetContext(), "de");
 		baseActivityTestRule.launchActivity(null);
 
-		assertEquals(Locale.getDefault().getDisplayLanguage(), DEUTSCHLOCALE.getDisplayLanguage());
+		assertEquals(Locale.getDefault().getDisplayLanguage(), GERMAN_LOCALE.getDisplayLanguage());
 		assertFalse(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 		assertEquals(View.LAYOUT_DIRECTION_LTR, conf.getLayoutDirection());
 	}

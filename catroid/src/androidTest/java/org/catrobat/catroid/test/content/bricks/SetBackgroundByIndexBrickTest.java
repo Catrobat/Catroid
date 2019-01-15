@@ -56,7 +56,7 @@ public class SetBackgroundByIndexBrickTest {
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		sprite = new Sprite("Sprite");
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 
 		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();

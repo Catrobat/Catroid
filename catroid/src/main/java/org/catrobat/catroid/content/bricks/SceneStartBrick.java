@@ -133,7 +133,6 @@ public class SceneStartBrick extends BrickBaseType implements BrickSpinner.OnIte
 						spinner.setSelection(sceneToStart);
 					}
 				})
-				.create()
 				.show();
 	}
 

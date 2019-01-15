@@ -21,43 +21,51 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.ui.recyclerview.asynctask;
+package org.catrobat.catroid.io.asynctask;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.exceptions.ProjectException;
 
-public class ProjectLoaderTask extends AsyncTask<String, Void, String> {
+import java.lang.ref.WeakReference;
 
-	private Context context;
-	private ProjectLoaderListener listener;
+public class ProjectLoadTask extends AsyncTask<String, Void, Boolean> {
 
-	public ProjectLoaderTask(Context context, ProjectLoaderListener listener) {
-		this.context = context;
-		this.listener = listener;
+	private WeakReference<Context> weakContextReference;
+	private WeakReference<ProjectLoadListener> weakListenerReference;
+
+	public ProjectLoadTask(Context context, ProjectLoadListener listener) {
+		weakContextReference = new WeakReference<>(context);
+		weakListenerReference = new WeakReference<>(listener);
 	}
 
 	@Override
-	protected String doInBackground(String... strings) {
+	protected Boolean doInBackground(String... strings) {
+		Context context = weakContextReference.get();
+		if (context == null) {
+			return false;
+		}
 		try {
 			ProjectManager.getInstance().loadProject(strings[0], context);
-			return "";
-		} catch (ProjectException e) {
-			return e.getUiErrorMessage();
+			return true;
 		} catch (Exception e) {
-			return "Code file is invalid";
+			Log.e(getClass().getSimpleName(), "Cannot load project " + strings[0], e);
+			return false;
 		}
 	}
 
 	@Override
-	protected void onPostExecute(String s) {
-		listener.onLoadFinished(s.equals(""), s);
+	protected void onPostExecute(Boolean success) {
+		ProjectLoadListener listener = weakListenerReference.get();
+		if (listener != null) {
+			listener.onLoadFinished(success);
+		}
 	}
 
-	public interface ProjectLoaderListener {
+	public interface ProjectLoadListener {
 
-		void onLoadFinished(boolean success, String message);
+		void onLoadFinished(boolean success);
 	}
 }

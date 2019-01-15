@@ -46,8 +46,6 @@ import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.recyclerview.controller.BrickController;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
-import org.catrobat.catroid.utils.PathBuilder;
-import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -56,6 +54,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import static org.catrobat.catroid.common.Constants.PREF_PROJECTNAME_KEY;
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public final class ProjectManager {
 
@@ -250,7 +249,6 @@ public final class ProjectManager {
 	}
 
 	private void localizeBackgroundSprite(Context context) {
-		// Set generic localized name on background sprite and move it to the back.
 		if (currentlyEditedScene == null) {
 			return;
 		}
@@ -359,50 +357,44 @@ public final class ProjectManager {
 		return virtualScreenWidth > virtualScreenHeight;
 	}
 
-	public void setProject(Project project) {
+	public void setCurrentProject(Project project) {
 		currentSprite = null;
 
 		this.project = project;
-		if (project != null) {
+
+		if (project != null && !project.getSceneList().isEmpty()) {
 			currentlyEditedScene = project.getDefaultScene();
 			currentlyPlayingScene = currentlyEditedScene;
 		}
 	}
 
-	public void setCurrentProject(Project project) {
-		this.project = project;
-	}
+	public static boolean renameProject(String currentName, String newName, Context context) {
+		XstreamSerializer xstreamSerializer = XstreamSerializer.getInstance();
 
-	public boolean renameProject(String newProjectName, Context context) {
-		if (XstreamSerializer.getInstance().projectExists(newProjectName)) {
+		if (xstreamSerializer.projectExists(newName)
+				|| !xstreamSerializer.projectExists(currentName)) {
 			return false;
 		}
 
-		String oldProjectPath = PathBuilder.buildProjectPath(project.getName());
-		File oldProjectDirectory = new File(oldProjectPath);
+		if (currentName.equals(newName)) {
+			Log.e(TAG, "Renaming project " + currentName + " to " + newName + " is not necessary.");
+			return true;
+		}
 
-		String newProjectPath = PathBuilder.buildProjectPath(newProjectName);
-		File newProjectDirectory = new File(newProjectPath);
+		File currentDir = new File(DEFAULT_ROOT_DIRECTORY, currentName);
+		File newDir = new File(DEFAULT_ROOT_DIRECTORY, newName);
 
-		boolean directoryRenamed;
-
-		if (oldProjectPath.equalsIgnoreCase(newProjectPath)) {
-			String tmpProjectPath = PathBuilder.buildProjectPath(createTemporaryDirectoryName(newProjectName));
-			File tmpProjectDirectory = new File(tmpProjectPath);
-			directoryRenamed = oldProjectDirectory.renameTo(tmpProjectDirectory);
-			if (directoryRenamed) {
-				directoryRenamed = tmpProjectDirectory.renameTo(newProjectDirectory);
+		if (currentDir.renameTo(newDir)) {
+			try {
+				Project renamedProject = xstreamSerializer.loadProject(newName, context);
+				renamedProject.setName(newName);
+				xstreamSerializer.saveProject(renamedProject);
+				return true;
+			} catch (IOException | LoadingProjectException e) {
+				Log.e(TAG, "Cannot rename project: " + currentName + " to " + newName, e);
 			}
-		} else {
-			directoryRenamed = oldProjectDirectory.renameTo(newProjectDirectory);
 		}
-
-		if (directoryRenamed) {
-			project.setName(newProjectName);
-			saveProject(context);
-		}
-
-		return directoryRenamed;
+		return false;
 	}
 
 	public Sprite getCurrentSprite() {
@@ -426,33 +418,14 @@ public final class ProjectManager {
 		currentUserBrick = brick;
 	}
 
-	public int getCurrentSpritePosition() {
-		return getCurrentlyEditedScene().getSpriteList().indexOf(currentSprite);
-	}
-
-	private String createTemporaryDirectoryName(String projectDirectoryName) {
-		String temporaryDirectorySuffix = "_tmp";
-		String temporaryDirectoryName = projectDirectoryName + temporaryDirectorySuffix;
-		int suffixCounter = 0;
-		while (Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase(temporaryDirectoryName)) {
-			temporaryDirectoryName = projectDirectoryName + temporaryDirectorySuffix + suffixCounter;
-			suffixCounter++;
-		}
-		return temporaryDirectoryName;
-	}
-
-	public boolean setControlBrickReferences(Project project) {
-		boolean successfullySetReferences = true;
-
+	public void setControlBrickReferences(Project project) {
 		for (Scene scene : project.getSceneList()) {
 			for (Sprite sprite : scene.getSpriteList()) {
 				for (Script script : sprite.getScriptList()) {
-					successfullySetReferences &= brickController.setControlBrickReferences(script.getBrickList());
+					brickController.setControlBrickReferences(script.getBrickList());
 				}
 			}
 		}
-
-		return successfullySetReferences;
 	}
 
 	private void updateCollisionScriptsSpriteReference(Project project) {

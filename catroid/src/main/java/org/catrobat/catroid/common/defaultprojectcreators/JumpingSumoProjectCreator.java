@@ -70,7 +70,7 @@ public class JumpingSumoProjectCreator extends ProjectCreator {
 		Project defaultJumpingSumoProject = new Project(context, projectName, landscapeMode);
 		defaultJumpingSumoProject.setDeviceData(context);
 		XstreamSerializer.getInstance().saveProject(defaultJumpingSumoProject);
-		ProjectManager.getInstance().setProject(defaultJumpingSumoProject);
+		ProjectManager.getInstance().setCurrentProject(defaultJumpingSumoProject);
 
 		File sceneDir = defaultJumpingSumoProject.getDefaultScene().getDirectory();
 		File imageDir = new File(sceneDir, IMAGE_DIRECTORY_NAME);

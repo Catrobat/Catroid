@@ -64,7 +64,7 @@ public class SetNfcTagActionTest {
 	@Before
 	public void setUp() throws Exception {
 		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 	}
 
 	@Test

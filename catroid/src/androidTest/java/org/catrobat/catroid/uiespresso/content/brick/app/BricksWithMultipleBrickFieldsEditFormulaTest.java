@@ -150,7 +150,7 @@ public class BricksWithMultipleBrickFieldsEditFormulaTest {
 		sprite1.addScript(sprite1StartScript);
 
 		project.getDefaultScene().addSprite(sprite1);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite1);
 
 		sprite1StartScript.addBrick(new ArduinoSendDigitalValueBrick(arduinoDigitalPinNumber, arduinoDigitalPinValue));

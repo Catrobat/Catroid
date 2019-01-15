@@ -36,19 +36,19 @@ import android.widget.LinearLayout;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.io.XstreamSerializer;
+import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
 import org.catrobat.catroid.scratchconverter.protocol.Job;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScratchConverterActivity;
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.ScratchJobAdapter;
-import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectLoaderTask;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.utils.ToastUtil;
 
 public class ScratchProgramsFragment extends Fragment implements
 		ScratchConverterActivity.OnJobListListener,
 		RVAdapter.OnItemClickListener<Job>,
-		ProjectLoaderTask.ProjectLoaderListener {
+		ProjectLoadTask.ProjectLoadListener {
 
 	public static final String TAG = ScratchProgramsFragment.class.getSimpleName();
 
@@ -137,7 +137,7 @@ public class ScratchProgramsFragment extends Fragment implements
 		}
 
 		setShowProgressBar(true);
-		ProjectLoaderTask loadProjectTask = new ProjectLoaderTask(getActivity(), this);
+		ProjectLoadTask loadProjectTask = new ProjectLoadTask(getActivity(), this);
 		loadProjectTask.execute(item.getTitle());
 	}
 
@@ -148,14 +148,14 @@ public class ScratchProgramsFragment extends Fragment implements
 	}
 
 	@Override
-	public void onLoadFinished(boolean success, String message) {
+	public void onLoadFinished(boolean success) {
 		if (success) {
 			Intent intent = new Intent(getActivity(), ProjectActivity.class);
 			intent.putExtra(ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SCENES);
 			startActivity(intent);
 		} else {
 			setShowProgressBar(false);
-			ToastUtil.showError(getActivity(), message);
+			ToastUtil.showError(getContext(), R.string.error_load_project);
 		}
 	}
 

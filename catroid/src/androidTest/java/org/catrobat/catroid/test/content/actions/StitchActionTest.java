@@ -62,7 +62,7 @@ public class StitchActionTest {
 		spriteCoords2 = new PointF(0, 0);
 
 		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		StageActivity.stageListener = Mockito.mock(StageListener.class);
 		StageActivity.stageListener.embroideryList = Mockito.mock(EmbroideryList.class);
 	}

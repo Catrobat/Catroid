@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.ui.recyclerview.asynctask;
+package org.catrobat.catroid.io.asynctask;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -31,42 +31,49 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
-import org.catrobat.catroid.utils.PathBuilder;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
+
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public class ProjectCopyTask extends AsyncTask<String, Void, Boolean> {
 
 	public static final String TAG = ProjectCopyTask.class.getSimpleName();
 
-	private Context context;
-	private ProjectCopyListener listener;
+	private WeakReference<Context> weakContextReference;
+	private WeakReference<ProjectCopyListener> weakListenerReference;
 
 	public ProjectCopyTask(Context context, ProjectCopyListener listener) {
-		this.context = context;
-		this.listener = listener;
+		weakContextReference = new WeakReference<>(context);
+		weakListenerReference = new WeakReference<>(listener);
 	}
 
 	@Override
-	protected Boolean doInBackground(String... params) {
-		File projectToCopyDirectory = new File(PathBuilder.buildProjectPath(params[0]));
-		File projectDirectory = new File(PathBuilder.buildProjectPath(params[1]));
+	protected Boolean doInBackground(String... strings) {
+		Context context = weakContextReference.get();
+		if (context == null) {
+			return false;
+		}
+
+		File projectToCopyDir = new File(DEFAULT_ROOT_DIRECTORY, strings[0]);
+		File projectDir = new File(DEFAULT_ROOT_DIRECTORY, strings[1]);
 
 		try {
-			StorageOperations.copyDir(projectToCopyDirectory, projectDirectory);
-			Project project = XstreamSerializer.getInstance().loadProject(params[1], context);
-			project.setName(params[1]);
+			StorageOperations.copyDir(projectToCopyDir, projectDir);
+			Project project = XstreamSerializer.getInstance().loadProject(strings[1], context);
+			project.setName(strings[1]);
 			XstreamSerializer.getInstance().saveProject(project);
 			return true;
-		} catch (IOException | LoadingProjectException loadingException) {
-			Log.e(TAG, "Something went wrong while copying project: " + params[0]
+		} catch (IOException | LoadingProjectException e) {
+			Log.e(TAG, "Something went wrong while copying project: " + strings[0]
 					+ " trying to delete folder."
-					+ Log.getStackTraceString(loadingException));
+					+ Log.getStackTraceString(e));
 			try {
-				StorageOperations.deleteDir(projectDirectory);
-			} catch (IOException deletionIOException) {
-				Log.e(TAG, "Could not delete folder:" + Log.getStackTraceString(deletionIOException));
+				StorageOperations.deleteDir(projectDir);
+			} catch (IOException deleteException) {
+				Log.e(TAG, "Cannot delete folder: " + projectDir, deleteException);
 			}
 			Log.e(TAG, "Deleted folder, returning ..");
 			return false;
@@ -75,7 +82,10 @@ public class ProjectCopyTask extends AsyncTask<String, Void, Boolean> {
 
 	@Override
 	protected void onPostExecute(Boolean success) {
-		listener.onCopyFinished(success);
+		ProjectCopyListener listener = weakListenerReference.get();
+		if (listener != null) {
+			listener.onCopyFinished(success);
+		}
 	}
 
 	public interface ProjectCopyListener {

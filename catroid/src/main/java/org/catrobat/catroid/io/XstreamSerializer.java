@@ -216,7 +216,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -709,13 +708,8 @@ public final class XstreamSerializer {
 	}
 
 	public boolean projectExists(String projectName) {
-		List<String> projectNameList = FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY);
-		for (String projectNameIterator : projectNameList) {
-			if (projectNameIterator.equals(projectName)) {
-				return true;
-			}
-		}
-		return false;
+		return FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY)
+				.contains(projectName);
 	}
 
 	public String getXmlAsStringFromProject(Project project) {
