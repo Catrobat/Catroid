@@ -819,7 +819,11 @@ public class FormulaElement implements Serializable {
 				returnValue = (double) sprite.look.getTransparencyInUserInterfaceDimensionUnit();
 				break;
 			case OBJECT_LAYER:
-				returnValue = (double) sprite.look.getZIndex() - Constants.Z_INDEX_NUMBER_VIRTUAL_LAYERS;
+				if (sprite.look.getZIndex() <= 0) {
+					returnValue = 0d;
+				} else {
+					returnValue = (double) sprite.look.getZIndex() - Constants.Z_INDEX_NUMBER_VIRTUAL_LAYERS;
+				}
 				break;
 			case OBJECT_ROTATION:
 				returnValue = (double) sprite.look.getDirectionInUserInterfaceDimensionUnit();
