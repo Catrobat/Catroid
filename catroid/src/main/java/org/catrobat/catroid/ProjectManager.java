@@ -250,10 +250,15 @@ public final class ProjectManager {
 	}
 
 	private void localizeBackgroundSprite(Context context) {
-		// Set generic localized name on background sprite and move it to the back.
-		if (currentlyEditedScene == null) {
-			return;
+
+		List<Scene> allScenes = getCurrentProject().getSceneList();
+		for (Scene scene: allScenes) {
+			if (scene.getSpriteList().size() > 0) {
+				scene.getSpriteList().get(0).setName(context.getString(R.string.background));
+				scene.getSpriteList().get(0).look.setZIndex(0);
+			}
 		}
+
 		if (currentlyEditedScene.getSpriteList().size() > 0) {
 			currentlyEditedScene.getSpriteList().get(0).setName(context.getString(R.string.background));
 			currentlyEditedScene.getSpriteList().get(0).look.setZIndex(0);

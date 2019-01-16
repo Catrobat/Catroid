@@ -101,6 +101,7 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 		if (holder.getItemViewType() == BACKGROUND) {
 			holder.itemView.setOnLongClickListener(null);
 			holder.checkBox.setVisibility(View.GONE);
+			holder.title.setText(R.string.background);
 		}
 
 		if (holder.getItemViewType() == SPRITE_GROUP_ITEM) {
