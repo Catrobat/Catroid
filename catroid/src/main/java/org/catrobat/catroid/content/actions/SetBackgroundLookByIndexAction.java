@@ -21,45 +21,40 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.content.bricks;
+package org.catrobat.catroid.content.actions;
 
-import org.catrobat.catroid.R;
+import android.util.Log;
+
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 
-import java.util.Collections;
-import java.util.List;
-
-import static org.catrobat.catroid.content.EventWrapper.NO_WAIT;
-
-public class SetBackgroundByIndexBrick extends FormulaBrick {
-
-	private static final long serialVersionUID = 1L;
-
-	public SetBackgroundByIndexBrick() {
-		addAllowedBrickField(BrickField.LOOK_INDEX, R.id.brick_set_background_by_index_edit_text);
-	}
-
-	public SetBackgroundByIndexBrick(int index) {
-		this(new Formula(index));
-	}
-
-	public SetBackgroundByIndexBrick(Formula formula) {
-		this();
-		setFormulaWithBrickField(BrickField.LOOK_INDEX, formula);
-	}
-
+public class SetBackgroundLookByIndexAction extends SetBackgroundLookAction {
+	Formula formula;
+	Sprite scopeSprite;
 	@Override
-	public int getViewResource() {
-		return R.layout.brick_set_background_by_index;
+	public boolean act(float delta) {
+		updateLookFromFormula();
+		return super.act(delta);
 	}
 
-	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory()
-				.createSetBackgroundLookByIndexAction(sprite, getFormulaWithBrickField(BrickField.LOOK_INDEX), NO_WAIT));
+	public void setFormula(Formula formula) {
+		this.formula = formula;
+	}
 
-		return Collections.emptyList();
+	public void setScopeSprite(Sprite scopeSprite) {
+		this.scopeSprite = scopeSprite;
+	}
+	private void updateLookFromFormula() {
+		try {
+			int lookPosition = formula.interpretInteger(scopeSprite);
+			background = ProjectManager.getInstance().getCurrentlyPlayingScene().getBackgroundSprite();
+			if (lookPosition > 0 && lookPosition <= background.getLookList().size()) {
+				lookData = background.getLookList().get(lookPosition - 1);
+			}
+		} catch (InterpretationException ex) {
+			Log.d(getClass().getSimpleName(), "Formula Interpretation for look index failed", ex);
+		}
 	}
 }

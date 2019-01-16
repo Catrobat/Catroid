@@ -23,11 +23,6 @@
 
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.TextView;
-
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Sprite;
@@ -65,25 +60,9 @@ public class SetLookByIndexBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getView(Context context) {
-		super.getView(context);
-
-		if (getSprite().getName().equals(context.getString(R.string.background))) {
-			TextView label = view.findViewById(R.id.brick_set_look_by_index_label);
-			label.setText(R.string.brick_set_background_by_index);
-		}
-
-		return view;
-	}
-
-	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
 				.createSetLookByIndexAction(sprite, getFormulaWithBrickField(BrickField.LOOK_INDEX), wait));
 		return null;
-	}
-
-	protected Sprite getSprite() {
-		return ProjectManager.getInstance().getCurrentSprite();
 	}
 }
