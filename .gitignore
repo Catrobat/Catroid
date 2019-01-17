@@ -13,19 +13,14 @@ google-services.json
 # workspace settings
 *.metadata
 
-#IntelliJ IDEA
+# IntelliJ IDEA
 .idea
 *.ipr
 *.iws
-out
-workspace.xml
-tasks.xml
-datasources.xml
-dataSources.ids
-.idea/libraries
-.idea/dictionaries
 !.idea/.name
 !.idea/codeStyleSettings.xml
+!.idea/codeStyles/Project.xml
+!.idea/codeStyles/codeStyleConfig.xml
 !.idea/compiler.xml
 !.idea/copyright/Catroid.xml
 !.idea/copyright/profiles_settings.xml
