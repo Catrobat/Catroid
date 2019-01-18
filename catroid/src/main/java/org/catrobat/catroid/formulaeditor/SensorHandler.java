@@ -33,6 +33,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 import android.view.Surface;
 import android.view.WindowManager;
@@ -176,6 +177,11 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			instance = new SensorHandler(context);
 		}
 		return instance;
+	}
+
+	@VisibleForTesting
+	public void setAccelerationUnavailable() {
+		accelerationAvailable = false;
 	}
 
 	@SuppressWarnings({"MissingPermission"})
