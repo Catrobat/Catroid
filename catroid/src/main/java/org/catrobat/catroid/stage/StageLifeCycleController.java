@@ -215,7 +215,9 @@ public final class StageLifeCycleController {
 			}
 
 			SoundManager.getInstance().resume();
-			stageActivity.stageListener.menuResume();
+			if (stageActivity.stageResourceHolder.initFinished()) {
+				stageActivity.stageListener.menuResume();
+			}
 			if (stageActivity.stageResourceHolder.droneInitializer != null) {
 				stageActivity.stageResourceHolder.droneInitializer.onResume();
 			}
