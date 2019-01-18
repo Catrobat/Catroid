@@ -3,8 +3,6 @@
 // place the cobertura xml files relative to the source, so that the source can be found
 def javaSrc = 'catroid/src/main/java'
 
-def apkOutputs = 'catroid/build/outputs/apk'
-
 def junitAndCoverage(String jacocoXmlFile, String coverageName, String javaSrcLocation) {
     // Consume all test xml files. Otherwise tests would be tracked multiple
     // times if this function was called again.
@@ -91,6 +89,21 @@ pipeline {
             }
         }
 
+        stage('APKs') {
+            steps {
+                // Checks that the creation of standalone APKs (APK for a Pocketcode app) works, reducing the risk of breaking gradle changes.
+                // The resulting APK is not verified itself.
+                sh '''./gradlew assembleStandaloneDebug -Papk_generator_enabled=true -Psuffix=generated817.catrobat \
+                            -Pdownload='https://share.catrob.at/pocketcode/download/817.catrobat' '''
+
+                // Checks that the job builds with the parameters to have unique APKs, reducing the risk of breaking gradle changes.
+                // The resulting APK is not verified on itself.
+                sh "./gradlew assembleCatroidDebug -Pindependent='#$env.BUILD_NUMBER $env.BRANCH_NAME'"
+
+                archiveArtifacts '**/*.apk'
+            }
+        }
+
         stage('Static Analysis') {
             steps {
                 sh './gradlew pmd checkstyle lint'
@@ -164,21 +177,6 @@ pipeline {
                         }
                     }
                 }
-            }
-        }
-
-        stage('APKs') {
-            steps {
-                // Checks that the creation of standalone APKs (APK for a Pocketcode app) works, reducing the risk of breaking gradle changes.
-                // The resulting APK is not verified itself.
-                sh '''./gradlew assembleStandaloneDebug -Papk_generator_enabled=true -Psuffix=generated817.catrobat \
-                            -Pdownload='https://share.catrob.at/pocketcode/download/817.catrobat' '''
-                archiveArtifacts "${apkOutputs}/standalone/debug/catroid-standalone-debug.apk"
-
-                // Checks that the job builds with the parameters to have unique APKs, reducing the risk of breaking gradle changes.
-                // The resulting APK is not verified on itself.
-                sh "./gradlew assembleCatroidDebug -Pindependent='#$env.BUILD_NUMBER $env.BRANCH_NAME'"
-                archiveArtifacts "${apkOutputs}/catroid/debug/catroid-catroid-debug.apk"
             }
         }
     }
