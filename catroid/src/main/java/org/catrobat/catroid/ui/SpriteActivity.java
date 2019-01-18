@@ -376,7 +376,9 @@ public class SpriteActivity extends BaseActivity {
 							File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
 							File file = StorageOperations
 									.copyUriToDir(getContentResolver(), uri, imageDirectory, lookFileName);
-							sprite.getLookList().add(new LookData(textInput, file));
+							LookData lookData = new LookData(textInput, file);
+							sprite.getLookList().add(lookData);
+							lookData.getCollisionInformation().calculate();
 						} catch (IOException e) {
 							Log.e(TAG, Log.getStackTraceString(e));
 						}
@@ -430,6 +432,7 @@ public class SpriteActivity extends BaseActivity {
 			File file = StorageOperations.copyUriToDir(getContentResolver(), uri, imageDirectory, lookFileName);
 			LookData look = new LookData(lookDataName, file);
 			currentSprite.getLookList().add(look);
+			look.getCollisionInformation().calculate();
 			if (onNewLookListener != null) {
 				onNewLookListener.addItem(look);
 			}
@@ -464,6 +467,7 @@ public class SpriteActivity extends BaseActivity {
 			File file = StorageOperations.copyUriToDir(getContentResolver(), uri, imageDirectory, lookFileName);
 			LookData look = new LookData(lookDataName, file);
 			currentSprite.getLookList().add(look);
+			look.getCollisionInformation().calculate();
 			if (onNewLookListener != null) {
 				onNewLookListener.addItem(look);
 			}

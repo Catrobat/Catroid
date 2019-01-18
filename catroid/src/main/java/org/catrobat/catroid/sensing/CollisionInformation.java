@@ -37,6 +37,7 @@ import org.catrobat.catroid.utils.ImageEditing;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -78,11 +79,18 @@ public class CollisionInformation {
 		return size;
 	}
 
+	public String getImageMimeType(String pathName) {
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inJustDecodeBounds = true;
+		BitmapFactory.decodeFile(pathName, options);
+		return options.outMimeType;
+	}
+
 	public void loadOrCreateCollisionPolygon() {
 		isCalculationThreadCancelled = false;
 		String path = lookData.getFile().getAbsolutePath();
 		if (collisionPolygons == null) {
-			if (!path.endsWith(".png")) {
+			if (!getImageMimeType(path).equals("image/png")) {
 				Bitmap bitmap = BitmapFactory.decodeFile(path);
 				collisionPolygons = createCollisionPolygonByHitbox(bitmap);
 				return;
@@ -175,8 +183,8 @@ public class CollisionInformation {
 			if (lookData.getCollisionInformation().isCalculationThreadCancelled) {
 				return new ArrayList<>();
 			}
-
-			CollisionPolygonVertex end = finalVertices.get(polygonNumber).get(finalVertices.get(polygonNumber)
+			List<CollisionPolygonVertex> currentPolygonVertex = finalVertices.get(polygonNumber);
+			CollisionPolygonVertex end = currentPolygonVertex.get(currentPolygonVertex
 					.size() - 1);
 			boolean found = false;
 			for (int h = 0; h < horizontal.size(); h++) {
@@ -184,12 +192,9 @@ public class CollisionInformation {
 					finalVertices.get(polygonNumber).add(horizontal.get(h));
 					horizontal.remove(h);
 					found = true;
+					end = currentPolygonVertex.get(currentPolygonVertex.size() - 1);
 					break;
 				}
-			}
-
-			if (found) {
-				end = finalVertices.get(polygonNumber).get(finalVertices.get(polygonNumber).size() - 1);
 			}
 
 			for (int v = 0; v < vertical.size(); v++) {
@@ -369,10 +374,12 @@ public class CollisionInformation {
 	public static boolean[][] createCollisionGrid(Bitmap bitmap) {
 		int width = bitmap.getWidth();
 		int height = bitmap.getHeight();
+		int[] pixels = new int[width * height];
+		bitmap.getPixels(pixels, 0, width, 0, 0, width, height);
 		boolean[][] grid = new boolean[width][height];
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
-				if (bitmap.getPixel(x, y) != 0) {
+				if (pixels[y * width + x] != 0) {
 					grid[x][y] = true;
 				}
 			}
