@@ -53,15 +53,14 @@ emulators {
         avd {
             systemImage = 'system-images;android-24;default;x86_64'
             sdcardSizeMb = 200
-            hardwareProperties += ['hw.camera': 'yes', 'hw.ramSize': 2048, 'hw.gpu.enabled': 'yes',
+            hardwareProperties += ['hw.camera': 'yes', 'hw.ramSize': 800, 'hw.gpu.enabled': 'yes',
                                    'hw.camera.front': 'emulated', 'hw.camera.back': 'emulated', 'hw.gps': 'yes',
-                                   'hw.mainKeys': 'no', 'hw.keyboard': 'yes', 'disk.dataPartition.size': '512M',
-                                   'vm.heapSize': 128]
-            screenDensity = 'xxhdpi'
+                                   'hw.mainKeys': 'no', 'hw.keyboard': 'yes', 'vm.heapSize': 128]
+            screenDensity = 'xhdpi'
         }
 
         parameters {
-            resolution = '1080x1920'
+            resolution = '768x1280'
             language = 'en'
             country = 'US'
         }
