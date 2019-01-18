@@ -50,6 +50,10 @@ pipeline {
         }
     }
 
+    parameters {
+        booleanParam name: 'BUILD_ALL_FLAVOURS', defaultValue: false, description: 'When selected all flavours are built and archived as artifacts that can be installed alongside other versions of the same APK.'
+    }
+
     environment {
         //////// Define environment variables to point to the correct locations inside the container ////////
         //////////// Most likely not edited by the developer
@@ -96,9 +100,9 @@ pipeline {
                 sh '''./gradlew assembleStandaloneDebug -Papk_generator_enabled=true -Psuffix=generated817.catrobat \
                             -Pdownload='https://share.catrob.at/pocketcode/download/817.catrobat' '''
 
-                // Checks that the job builds with the parameters to have unique APKs, reducing the risk of breaking gradle changes.
-                // The resulting APK is not verified on itself.
-                sh "./gradlew assembleCatroidDebug -Pindependent='#$env.BUILD_NUMBER $env.BRANCH_NAME'"
+                // Build the flavors so that they can be installed next independently of older versions.
+                sh """./gradlew -Pindependent='#$env.BUILD_NUMBER $env.BRANCH_NAME' assembleCatroidDebug \
+                    ${env.BUILD_ALL_FLAVOURS ? 'assembleCreateAtSchoolDebug assembleLunaAndCatDebug assemblePhiroDebug' : ''}"""
 
                 archiveArtifacts '**/*.apk'
             }
