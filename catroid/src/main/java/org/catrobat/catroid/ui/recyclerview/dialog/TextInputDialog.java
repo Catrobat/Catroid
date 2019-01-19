@@ -31,6 +31,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
+import android.view.WindowManager;
 
 import org.catrobat.catroid.R;
 
@@ -84,6 +85,7 @@ public final class TextInputDialog extends AlertDialog {
 		@Override
 		public AlertDialog create() {
 			final AlertDialog alertDialog = super.create();
+			alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
 			alertDialog.setOnShowListener(new OnShowListener() {
 				@Override
