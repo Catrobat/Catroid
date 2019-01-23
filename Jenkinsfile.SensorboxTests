@@ -1,6 +1,6 @@
 #!groovy
 pipeline {
-     agent {
+    agent {
         dockerfile {
             filename 'Dockerfile.jenkins'
             // 'docker build' would normally copy the whole build-dir to the container, changing the
@@ -31,10 +31,6 @@ pipeline {
         // the cache could only be shared if the gradle instances could comunicate with each other
         // imho keeping the cache per executor will have the least space impact
         GRADLE_USER_HOME = "/.gradle/${env.EXECUTOR_NUMBER}"
-        //////// Build specific variables ////////
-        //////////// May be edited by the developer on changing the build steps
-        // modulename
-        GRADLE_PROJECT_MODULE_NAME = "catroid"
     }
 
     options {
@@ -69,10 +65,9 @@ pipeline {
     post {
         always {
             step([$class: 'LogParserPublisher', failBuildOnError: true, projectRulePath: 'buildScripts/log_parser_rules', unstableOnWarning: true, useProjectRule: true])
-
-            script {
-                sendNotifications false
-            }
+        }
+        changed {
+            notifyChat()
         }
     }
 }

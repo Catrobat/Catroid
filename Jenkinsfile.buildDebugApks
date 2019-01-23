@@ -32,9 +32,6 @@ pipeline {
         GRADLE_USER_HOME = "/.gradle/${env.EXECUTOR_NUMBER}"
         // Otherwise user.home returns ? for java applications
         JAVA_TOOL_OPTIONS = "-Duser.home=/tmp/"
-
-        //////// Build specific variables ////////
-        //////////// May be edited by the developer on changing the build steps
     }
 
     options {
@@ -75,11 +72,9 @@ pipeline {
     post {
         always {
             step([$class: 'LogParserPublisher', failBuildOnError: true, projectRulePath: 'buildScripts/log_parser_rules', unstableOnWarning: true, useProjectRule: true])
-
-            // Send notifications with standalone=false
-            script {
-                sendNotifications false
-            }
+        }
+        changed {
+            notifyChat()
         }
     }
 }
