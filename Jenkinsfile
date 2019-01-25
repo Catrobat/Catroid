@@ -1,27 +1,20 @@
 #!groovy
 
-// place the cobertura xml files relative to the source, so that the source can be found
-def javaSrc = 'catroid/src/main/java'
-
-def junitAndCoverage(String jacocoXmlFile, String coverageName, String javaSrcLocation) {
+def junitAndCoverage(String jacocoReportDir, String jacocoReportXml, String coverageName) {
     // Consume all test xml files. Otherwise tests would be tracked multiple
     // times if this function was called again.
     String testPattern = '**/*TEST*.xml'
     junit testResults: testPattern, allowEmptyResults: true
     cleanWs patterns: [[pattern: testPattern, type: 'INCLUDE']]
 
-    String coverageFile = "$javaSrcLocation/coverage_${coverageName}.xml"
-    // Convert the JaCoCo coverate to the Cobertura XML file format.
-    // This is done since the Jenkins JaCoCo plugin does not work well.
-    // See also JENKINS-212 on jira.catrob.at
-    sh "./buildScripts/cover2cover.py '$jacocoXmlFile' '$coverageFile'"
+    publishJacocoHtml jacocoReportDir, jacocoReportXml, coverageName
 }
 
-def postEmulator(String coverageNameAndLogcatPrefix, String javaSrcLocation) {
+def postEmulator(String coverageNameAndLogcatPrefix) {
     sh './gradlew stopEmulator clearAvdStore'
 
-    def jacocoXml = 'catroid/build/reports/coverage/catroid/debug/report.xml'
-    junitAndCoverage jacocoXml, coverageNameAndLogcatPrefix, javaSrcLocation
+    def jacocoReportDir = 'catroid/build/reports/coverage/catroid/debug'
+    junitAndCoverage jacocoReportDir, 'report.xml', coverageNameAndLogcatPrefix
 
     archiveArtifacts "${coverageNameAndLogcatPrefix}_logcat.txt"
 }
@@ -131,7 +124,7 @@ pipeline {
 
                     post {
                         always {
-                            junitAndCoverage 'catroid/build/reports/jacoco/jacocoTestCatroidDebugUnitTestReport/jacocoTestCatroidDebugUnitTestReport.xml', 'unit', javaSrc
+                            junitAndCoverage 'catroid/build/reports/jacoco/jacocoTestCatroidDebugUnitTestReport', 'jacocoTestCatroidDebugUnitTestReport.xml', 'unit'
                         }
                     }
                 }
@@ -145,7 +138,7 @@ pipeline {
 
                     post {
                         always {
-                            postEmulator 'instrumented_unit', javaSrc
+                            postEmulator 'instrumented_unit'
                         }
                     }
                 }
@@ -159,7 +152,7 @@ pipeline {
 
                     post {
                         always {
-                            postEmulator 'pull_request_suite', javaSrc
+                            postEmulator 'pull_request_suite'
                         }
                     }
                 }
@@ -177,7 +170,7 @@ pipeline {
 
                     post {
                         always {
-                            postEmulator 'quarantined', javaSrc
+                            postEmulator 'quarantined'
                         }
                     }
                 }
@@ -187,7 +180,6 @@ pipeline {
 
     post {
         always {
-            cobertura autoUpdateHealth: false, autoUpdateStability: false, coberturaReportFile: "$javaSrc/coverage*.xml", failUnhealthy: false, failUnstable: false, maxNumberOfBuilds: 0, onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false, failNoReports: false
             step([$class: 'LogParserPublisher', failBuildOnError: true, projectRulePath: 'buildScripts/log_parser_rules', unstableOnWarning: true, useProjectRule: true])
         }
         changed {
