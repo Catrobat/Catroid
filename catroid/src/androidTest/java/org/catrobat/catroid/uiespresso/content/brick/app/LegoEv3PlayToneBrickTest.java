@@ -69,8 +69,8 @@ public class LegoEv3PlayToneBrickTest {
 		double testDuration = 2.3;
 		int testVolume = 50;
 
-		onBrickAtPosition(0).checkShowsText("When program starts");
-		onBrickAtPosition(brickPosition).checkShowsText("Play EV3 tone");
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.ev3_play_tone);
 
 		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_ev3_tone_duration_edit_text)
 				.performEnterNumber(testDuration)
