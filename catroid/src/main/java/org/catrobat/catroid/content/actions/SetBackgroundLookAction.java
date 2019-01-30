@@ -21,33 +21,40 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.content.bricks;
+package org.catrobat.catroid.content.actions;
 
-import org.catrobat.catroid.R;
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.content.eventids.SetBackgroundEventId;
 
-import java.util.Collections;
-import java.util.List;
-
-import static org.catrobat.catroid.content.EventWrapper.WAIT;
-
-public class SetBackgroundByIndexAndWaitBrick extends SetBackgroundByIndexBrick {
-
+public class SetBackgroundLookAction extends EventAction {
+	protected LookData lookData;
+	protected Sprite background;
+	@EventWrapper.WaitMode
+	int waitMode;
+	public SetBackgroundLookAction() {
+		background = ProjectManager.getInstance().getCurrentlyPlayingScene().getBackgroundSprite();
+	}
 	@Override
-	public int getViewResource() {
-		return R.layout.brick_set_background_by_index_and_wait;
+	public boolean act(float delta) {
+		if (firstStart) {
+			if (lookData == null || background == null || !background.getLookList().contains(lookData)) {
+				return true;
+			}
+			background.look.setLookData(lookData);
+			EventWrapper event = new EventWrapper(new SetBackgroundEventId(background, lookData), waitMode);
+			setEvent(event);
+		}
+		return super.act(delta);
 	}
 
-	public SetBackgroundByIndexAndWaitBrick(int index) {
-		super(index);
+	public void setLookData(LookData lookData) {
+		this.lookData = lookData;
 	}
 
-	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory()
-				.createSetBackgroundLookByIndexAction(sprite, getFormulaWithBrickField(BrickField.LOOK_INDEX), WAIT));
-
-		return Collections.emptyList();
+	public void setWaitMode(@EventWrapper.WaitMode int waitMode) {
+		this.waitMode = waitMode;
 	}
 }

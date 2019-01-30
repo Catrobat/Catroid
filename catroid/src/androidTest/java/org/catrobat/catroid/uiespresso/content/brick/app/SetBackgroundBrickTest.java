@@ -65,7 +65,7 @@ public class SetBackgroundBrickTest {
 	public void setUp() throws Exception {
 		brickPosition = 1;
 		BrickTestUtils.createProjectAndGetStartScript("SetBackgroundBrickTest")
-				.addBrick(new SetBackgroundBrick());
+			.addBrick(new SetBackgroundBrick());
 		baseActivityTestRule.launchActivity();
 	}
 
@@ -75,19 +75,18 @@ public class SetBackgroundBrickTest {
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_set_background);
 
-		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_set_look_spinner)
-				.performSelectNameable(R.string.new_option);
+		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_set_background_spinner)
+			.performSelectNameable(R.string.new_option);
 
 		Intents.init();
 
 		onView(withId(R.id.dialog_new_look_media_library))
-				.perform(click());
+			.perform(click());
 
 		intended(allOf(hasComponent(WebViewActivity.class.getName()),
 				hasExtras(allOf(hasEntry(equalTo(WebViewActivity.INTENT_PARAMETER_URL),
-						equalTo(LIBRARY_BACKGROUNDS_URL_PORTRAIT))))));
+				equalTo(LIBRARY_BACKGROUNDS_URL_PORTRAIT))))));
 
 		Intents.release();
 	}
 }
-
