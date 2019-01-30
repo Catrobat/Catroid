@@ -43,6 +43,7 @@ import java.util.Arrays;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -131,7 +132,7 @@ public class SetVariableTest {
 		onView(withId(R.id.button_add))
 				.perform(click());
 		onView(withId(R.id.input_edit_text))
-				.perform(typeText(userVariableName));
+				.perform(typeText(userVariableName), closeSoftKeyboard());
 		onView(withText(R.string.ok))
 				.perform(click());
 		onView(allOf(withChild(withText(userVariableName)), withChild(withText("0"))))
