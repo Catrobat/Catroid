@@ -1112,7 +1112,7 @@
   <string name="drone_emergency_title">紧急情况</string>
   <!--  -->
   <!-- Error messages -->
-  <string name="error_no_writiable_external_storage_available">This app needs writable external storage like a SD
+  <string name="error_no_writable_external_storage_available">This app needs writable external storage like a SD
         card in order to run, but none was found.\nYou can fix this by making the external storage writable or inserting
         a SD card, then trying again.</string>
   <string name="error_no_write_access">This app needs permission to write data to your device. Otherwise you
@@ -1125,7 +1125,7 @@
   <string name="error_load_project">在加载程序的时候发生了一个错误。</string>
   <string name="error_screenshot_failed">在保存预览图片时发生了一个错误。</string>
   <string name="error_internet_connection">发生未知错误。请检查您的互联网连接。</string>
-  <string name="error_project_compatability">这个程序与当前版本的应用程序不兼容。</string>
+  <string name="error_project_compatibility">这个程序与当前版本的应用程序不兼容。</string>
   <string name="error_outdated_version">您的应用版本已过时，立即更新?</string>
   <string name="error_upload_project_with_default_name">您无法上传用\"我的第一个程序\"命名的程序。请重命名程序。</string>
   <string name="error_adding_brick">在添加积木的时候发生了一个错误。</string>

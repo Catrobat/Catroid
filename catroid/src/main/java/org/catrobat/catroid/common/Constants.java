@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.common;
 
+import android.os.Environment;
 import android.support.annotation.IntDef;
 
 import org.catrobat.catroid.CatroidApplication;
@@ -32,7 +33,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.Calendar;
 
 import static org.catrobat.catroid.common.FlavoredConstants.BASE_URL_HTTPS;
-import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public final class Constants {
 
@@ -49,6 +49,10 @@ public final class Constants {
 	public static final String PERMISSIONS_FILE_NAME = "permissions.txt";
 	public static final String TMP_CODE_XML_FILE_NAME = "tmp_" + CODE_XML_FILE_NAME;
 	public static final String SCENES_ENABLED_TAG = "<scenesEnabled>";
+
+	public static final String POCKET_CODE_EXTERNAL_EXPORT_STORAGE_FOLDER_NAME = "Catrobat";
+	public static final File EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY = new File(
+			Environment.getExternalStorageDirectory(), POCKET_CODE_EXTERNAL_EXPORT_STORAGE_FOLDER_NAME);
 
 	public static final String CATROBAT_EXTENSION = ".catrobat";
 	public static final String DEFAULT_IMAGE_EXTENSION = ".png";
@@ -70,7 +74,7 @@ public final class Constants {
 	public static final String SOUND_DIRECTORY_NAME = "sounds";
 
 	// Backpack Directories
-	public static final File BACKPACK_DIRECTORY = new File(DEFAULT_ROOT_DIRECTORY, "backpack");
+	public static final File BACKPACK_DIRECTORY = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "backpack");
 	public static final File BACKPACK_FILE = new File(BACKPACK_DIRECTORY, "backpack.json");
 	public static final File BACKPACK_SCENE_DIRECTORY = new File(BACKPACK_DIRECTORY, "scenes");
 	public static final File BACKPACK_SOUND_DIRECTORY = new File(BACKPACK_DIRECTORY, "backpack_sound");

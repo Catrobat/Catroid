@@ -1189,7 +1189,7 @@
   <string name="drone_emergency_title">Emergenza</string>
   <!--  -->
   <!-- Error messages -->
-  <string name="error_no_writiable_external_storage_available">Questa app ha bisogno, per essere eseguita, di un supporto di memorizzazione esterno riscrivibile
+  <string name="error_no_writable_external_storage_available">Questa app ha bisogno, per essere eseguita, di un supporto di memorizzazione esterno riscrivibile
         come una card SD al fine di eseguire, ma non è stato trovato. \nPuoi risolvere questo problema rendendo lo storage esterno scrivibile o inserendo
         una card SD, quindi riprova nuovamente.</string>
   <string name="error_no_write_access">Questa app ha bisogno dell\'autorizzazione per scrivere i dati sul dispositivo. In caso contrario
@@ -1202,7 +1202,7 @@
   <string name="error_load_project">Errore durante il caricamento del programma.</string>
   <string name="error_screenshot_failed">Errore durante il salvataggio dell\'anteprima dell\'immagine.</string>
   <string name="error_internet_connection">Si è verificato un errore non conosciuto. Controllare la connessione a Internet.</string>
-  <string name="error_project_compatability">Il programma non è compatibile con questa versione di Pocket Code.</string>
+  <string name="error_project_compatibility">Il programma non è compatibile con questa versione di Pocket Code.</string>
   <string name="error_outdated_version">Versione obsoleta di questa app. Vuoi aggiornarla ora?</string>
   <string name="error_upload_project_with_default_name">Non è possibile caricare un programma con il nome \'Il mio primo programma\'. Rinominare il programma.</string>
   <string name="error_adding_brick">Si è verificato un errore durante l\'aggiunta di questo Mattoncino</string>

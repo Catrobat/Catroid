@@ -885,6 +885,15 @@
     <string name="upload_description">Description:</string>
     <string name="upload_tag_dialog_title">Please choose up to three categories</string>
 
+    <!-- Save Project to External Storage -->
+    <string name="save_to_external_storage_button">Save project to external storage</string>
+    <string name="notification_save_project_to_external_storage_title_pending">" "</string>
+    <string name="notification_save_project_to_external_storage_pending">Saving project to external storage.</string>
+    <string name="notification_save_project_to_external_storage_title_open">" "</string>
+    <string name="notification_save_project_to_external_storage_open">"Saved project to %1$s"</string>
+    <string name="save_project_to_external_storage_io_exception_message">Failed to save project, not enough memory is available!</string>
+    <!--  -->
+
     <!-- SoundRecorderActivity -->
     <string name="soundrecorder_name">Sound recorder</string>
     <string name="soundrecorder_error">Sound recording failed</string>
@@ -1352,7 +1361,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="error_load_project">An error occurred while loading the project.</string>
     <string name="error_screenshot_failed">An error occurred while saving the preview image.</string>
     <string name="error_internet_connection">An unknown error occurred. Check your Internet connection.</string>
-    <string name="error_project_compatability">The project is not compatible with this version of the app.</string>
+    <string name="error_project_compatibility">The project is not compatible with this version of the app.</string>
     <string name="error_outdated_version">This app version is outdated. Update now?</string>
     <string name="error_upload_project_with_default_name">You cannot upload a project with the name \'My first project\'. Please rename the project.</string>
     <string name="error_adding_brick">An error occurred while adding this brick.</string>

@@ -91,6 +91,17 @@ public class StatusBarNotificationManagerTest {
 	}
 
 	@Test
+	public void createSaveProjectToExternalMemoryNotification() throws Exception {
+		int id = notificationManager.createSaveProjectToExternalMemoryNotification(InstrumentationRegistry.getTargetContext(), TestUtils
+				.DEFAULT_TEST_PROJECT_NAME);
+		checkNotificationData(id);
+
+		assertEquals(-1, notificationManager.createSaveProjectToExternalMemoryNotification(null, TestUtils.DEFAULT_TEST_PROJECT_NAME));
+		assertEquals(-1, notificationManager.createSaveProjectToExternalMemoryNotification(InstrumentationRegistry.getTargetContext(),
+				null));
+		assertEquals(-1, notificationManager.createSaveProjectToExternalMemoryNotification(null, null));
+	}
+	@Test
 	public void testShowOrUpdateNotification() {
 		notificationManager.showOrUpdateNotification(-1, 0);
 	}
