@@ -22,15 +22,13 @@
  */
 package org.catrobat.catroid.web;
 
-import android.util.Log;
-
 public class WebconnectionException extends Exception {
-	private static final String TAG = WebconnectionException.class.getSimpleName();
 
 	private static final long serialVersionUID = 1L;
 
 	public static final int ERROR_JSON = 1001;
 	public static final int ERROR_NETWORK = 1002;
+	public static final int ERROR_EMPTY_PROJECT_DATA = 1003;
 
 	private final int statusCode;
 	private final String message;
@@ -51,8 +49,6 @@ public class WebconnectionException extends Exception {
 
 	@Override
 	public String getMessage() {
-
-		Log.d(TAG, "Error #" + statusCode + ": " + message);
 		return message;
 	}
 }

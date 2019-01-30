@@ -70,14 +70,13 @@ public class SearchScratchProgramsTask extends AsyncTask<String, Void, ScratchSe
 		Preconditions.checkArgument(params.length <= 2, "Invalid number of parameters!");
 		try {
 			return fetchProgramList(params.length > 0 ? params[0] : null);
-		} catch (InterruptedIOException exception) {
-			Log.i(TAG, "Task has been cancelled in the meanwhile!");
+		} catch (InterruptedIOException e) {
+			Log.e(TAG, Log.getStackTraceString(e));
 			return null;
 		}
 	}
 
 	public ScratchSearchResult fetchProgramList(String query) throws InterruptedIOException {
-		// exponential backoff
 		final int minTimeout = Constants.SCRATCH_HTTP_REQUEST_MIN_TIMEOUT;
 		final int maxNumRetries = Constants.SCRATCH_HTTP_REQUEST_MAX_NUM_OF_RETRIES;
 
@@ -85,28 +84,23 @@ public class SearchScratchProgramsTask extends AsyncTask<String, Void, ScratchSe
 
 		for (int attempt = 0; attempt <= maxNumRetries; attempt++) {
 			if (isCancelled()) {
-				Log.i(TAG, "Task has been cancelled in the meanwhile!");
 				return null;
 			}
-
 			try {
 				if (query != null) {
 					return fetcher.scratchSearch(query, 20, 0);
 				}
 				return fetcher.fetchDefaultScratchPrograms();
 			} catch (WebconnectionException e) {
-				Log.d(TAG, e.getLocalizedMessage() + "\n" + e.getStackTrace());
+				Log.e(TAG, Log.getStackTraceString(e));
 				delay = minTimeout + (int) (minTimeout * Math.random() * (attempt + 1));
-				Log.i(TAG, "Retry #" + (attempt + 1) + " to search for scratch programs scheduled in "
-						+ delay + " ms due to " + e.getLocalizedMessage());
 				try {
 					Thread.sleep(delay);
-				} catch (InterruptedException ex) {
-					Log.e(TAG, ex.getMessage());
+				} catch (InterruptedException interruptedE) {
+					Log.e(TAG, Log.getStackTraceString(interruptedE));
 				}
 			}
 		}
-		Log.w(TAG, "Maximum number of " + (maxNumRetries + 1) + " attempts exceeded! Server not reachable?!");
 		return null;
 	}
 

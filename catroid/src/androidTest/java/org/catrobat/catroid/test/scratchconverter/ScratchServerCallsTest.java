@@ -41,6 +41,7 @@ import java.util.List;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 
+import static org.catrobat.catroid.web.WebconnectionException.ERROR_EMPTY_PROJECT_DATA;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
@@ -181,11 +182,16 @@ public class ScratchServerCallsTest {
 		long expectedProgramID = 10205819;
 		String expectedProgramTitle = "Dancin' in the Castle";
 		String expectedProgramOwner = "jschombs";
-		ScratchProgramData programData = ServerCalls.getInstance().fetchScratchProgramDetails(expectedProgramID);
-
-		checkScratchProgramData(programData);
-		assertEquals(programData.getId(), expectedProgramID);
-		assertEquals(programData.getTitle(), expectedProgramTitle);
-		assertEquals(programData.getOwner(), expectedProgramOwner);
+		try {
+			ScratchProgramData programData = ServerCalls.getInstance().fetchScratchProgramDetails(expectedProgramID);
+			checkScratchProgramData(programData);
+			assertEquals(programData.getId(), expectedProgramID);
+			assertEquals(programData.getTitle(), expectedProgramTitle);
+			assertEquals(programData.getOwner(), expectedProgramOwner);
+		} catch (WebconnectionException e) {
+			if (e.getStatusCode() != ERROR_EMPTY_PROJECT_DATA) {
+				throw e;
+			}
+		}
 	}
 }

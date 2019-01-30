@@ -29,9 +29,7 @@ import android.os.ResultReceiver;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.facebook.login.LoginBehavior;
 import com.google.android.gms.common.images.WebImage;
-import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.squareup.okhttp.ConnectionSpec;
@@ -59,6 +57,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.io.InterruptedIOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -74,7 +73,9 @@ import java.util.Map;
 import okio.BufferedSink;
 import okio.Okio;
 
-//web status codes are on: https://github.com/Catrobat/Catroweb/blob/master/statusCodes.php
+import static org.catrobat.catroid.common.Constants.CATROBAT_TOKEN_LOGIN_AMP_TOKEN;
+import static org.catrobat.catroid.common.Constants.CATROBAT_TOKEN_LOGIN_URL;
+import static org.catrobat.catroid.common.Constants.NO_TOKEN;
 
 public final class ServerCalls implements ScratchDataFetcher {
 
@@ -163,8 +164,6 @@ public final class ServerCalls implements ScratchDataFetcher {
 	private static final String JSON_TOKEN = "token";
 	private static final String FACEBOOK_SERVER_TOKEN_INVALID = "token_invalid";
 
-	private static LoginBehavior loginBehavior = LoginBehavior.NATIVE_WITH_FALLBACK;
-
 	private static final ServerCalls INSTANCE = new ServerCalls();
 
 	public static boolean useTestUrl = false;
@@ -172,7 +171,6 @@ public final class ServerCalls implements ScratchDataFetcher {
 	private final Gson gson;
 	public int oldNotificationId = 0;
 	private String resultString;
-	private String emailForUiTests;
 	private int projectId;
 
 	private ServerCalls() {
@@ -193,9 +191,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 		try {
 			final String url = Constants.SCRATCH_CONVERTER_API_DEFAULT_PROJECTS_URL + programID;
 
-			Log.d(TAG, "URL to use: " + url);
 			resultString = getRequestInterruptable(url);
-			Log.d(TAG, "Result string: " + resultString);
 
 			final JSONObject jsonObject = new JSONObject(resultString);
 			if (jsonObject.length() == 0) {
@@ -208,6 +204,10 @@ public final class ServerCalls implements ScratchDataFetcher {
 			}
 
 			final JSONObject jsonData = jsonObject.getJSONObject("projectData");
+			if (jsonData.length() == 0) {
+				throw new WebconnectionException(WebconnectionException.ERROR_EMPTY_PROJECT_DATA, "Field projectData "
+						+ "is empty.");
+			}
 			final String title = jsonData.getString("title");
 			final String owner = jsonData.getString("owner");
 			final String imageURL = jsonData.isNull("image_url") ? null : jsonData.getString("image_url");
@@ -272,42 +272,39 @@ public final class ServerCalls implements ScratchDataFetcher {
 				programData.addRemixProgram(new ScratchProgramData(remixId, remixTitle, remixOwner, remixImage));
 			}
 			return programData;
-		} catch (WebScratchProgramException exception) {
-			throw exception;
-		} catch (InterruptedIOException exception) {
-			Log.d(TAG, "OK! Request cancelled");
-			throw exception;
-		} catch (Exception exception) {
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
+		} catch (JSONException e) {
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(e));
 		}
 	}
 
 	public ScratchSearchResult fetchDefaultScratchPrograms() throws WebconnectionException, InterruptedIOException {
 		try {
 			final String url = Constants.SCRATCH_CONVERTER_API_DEFAULT_PROJECTS_URL;
-			Log.d(TAG, "URL to use: " + url);
 			resultString = getRequestInterruptable(url);
-			Log.d(TAG, "Result string: " + resultString);
 
 			final JSONObject jsonObject = new JSONObject(resultString);
 			final JSONArray results = jsonObject.getJSONArray("results");
 			final List<ScratchProgramData> programDataList = extractScratchProgramDataListFromJson(results);
 
 			return new ScratchSearchResult(programDataList, null, 0);
-		} catch (InterruptedIOException exception) {
-			Log.d(TAG, "OK! Request cancelled");
-			throw exception;
-		} catch (Exception exception) {
-			Log.e(TAG, Log.getStackTraceString(exception));
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
+		} catch (JSONException | ParseException e) {
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(e));
 		}
 	}
 
 	public ScratchSearchResult scratchSearch(final String query, final int numberOfItems, final int pageNumber)
 			throws WebconnectionException, InterruptedIOException {
-		Preconditions.checkNotNull(query, "Parameter query cannot be null!");
-		Preconditions.checkArgument(numberOfItems > 0, "Parameter numberOfItems must be greater than 0");
-		Preconditions.checkArgument(pageNumber >= 0, "Parameter page must be greater or equal than 0");
+
+		if (query == null) {
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "Query is null.");
+		}
+		if (numberOfItems < 1) {
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "numberOfItems has to be positive and"
+					+ " non-zero.");
+		}
+		if (pageNumber < 0) {
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "pageNumber has to be positive.");
+		}
 
 		try {
 			final HashMap<String, String> httpGetParams = new HashMap<String, String>() {
@@ -330,25 +327,20 @@ public final class ServerCalls implements ScratchDataFetcher {
 			urlStringBuilder.setLength(urlStringBuilder.length() - 1); // removes trailing "&" or "?" character
 
 			final String url = urlStringBuilder.toString();
-			Log.d(TAG, "URL to use: " + url);
 			resultString = getRequestInterruptable(url);
-			Log.d(TAG, "Result string: " + resultString);
 
 			final JSONArray results = new JSONArray(resultString);
 			final List<ScratchProgramData> programDataList = extractScratchProgramDataListFromJson(results);
 
 			return new ScratchSearchResult(programDataList, query, pageNumber);
-		} catch (InterruptedIOException exception) {
-			Log.d(TAG, "OK! Request cancelled");
-			throw exception;
-		} catch (Exception exception) {
-			Log.e(TAG, Log.getStackTraceString(exception));
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
+		} catch (JSONException | ParseException | UnsupportedEncodingException e) {
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(e));
 		}
 	}
 
 	private List<ScratchProgramData> extractScratchProgramDataListFromJson(final JSONArray jsonArray)
 			throws JSONException, ParseException {
+
 		final DateFormat iso8601LocalDateFormat = new SimpleDateFormat(Constants.DATE_FORMAT_ISO_8601, Locale.US);
 		ArrayList<ScratchProgramData> programDataList = new ArrayList<>();
 
@@ -361,7 +353,6 @@ public final class ServerCalls implements ScratchDataFetcher {
 			final String imageURL = programJsonData.isNull("image") ? null : programJsonData.getString("image");
 
 			final JSONObject authorJsonData = programJsonData.getJSONObject("author");
-			// final String ownerUserID = authorJsonData.getString("id"); // reserved for later use!
 			final String ownerUserName = authorJsonData.getString("username");
 
 			final JSONObject historyJsonData = programJsonData.getJSONObject("history");
@@ -376,7 +367,6 @@ public final class ServerCalls implements ScratchDataFetcher {
 			final int views = statisticsJsonData.getInt("views");
 			final int loves = statisticsJsonData.getInt("loves");
 			final int favorites = statisticsJsonData.getInt("favorites");
-			// final long comments = statisticsJsonData.getLong("comments"); // reserved for later use!
 
 			WebImage image = null;
 			if (imageURL != null) {
@@ -402,17 +392,16 @@ public final class ServerCalls implements ScratchDataFetcher {
 			String language, String token, String username, ResultReceiver receiver, Integer notificationId,
 			Context context) throws WebconnectionException {
 
-		Preconditions.checkNotNull(context, "Context cannot be null!");
+		if (context == null) {
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "Context is null.");
+		}
 
-		userEmail = emailForUiTests == null ? userEmail : emailForUiTests;
 		userEmail = userEmail == null ? "" : userEmail;
 
 		try {
 			String md5Checksum = Utils.md5Checksum(new File(zipFileString));
 
 			final String serverUrl = useTestUrl ? TEST_FILE_UPLOAD_URL_HTTP : FILE_UPLOAD_URL;
-
-			Log.v(TAG, "Url to upload: " + serverUrl);
 
 			File file = new File(zipFileString);
 			RequestBody requestBody = new MultipartBuilder()
@@ -452,10 +441,8 @@ public final class ServerCalls implements ScratchDataFetcher {
 			Response response = okHttpClient.newCall(request).execute();
 
 			if (response.isSuccessful()) {
-				Log.v(TAG, "Upload successful");
 				StatusBarNotificationManager.getInstance().showOrUpdateNotification(notificationId, 100);
 			} else {
-				Log.v(TAG, "Upload not successful");
 				throw new WebconnectionException(response.code(), "Upload failed! HTTP Status code was " + response.code());
 			}
 
@@ -470,18 +457,18 @@ public final class ServerCalls implements ScratchDataFetcher {
 				throw new WebconnectionException(status, "Upload failed! JSON Response was " + status);
 			}
 
-			if (token.length() != TOKEN_LENGTH || token.isEmpty() || token.equals(TOKEN_CODE_INVALID)) {
+			if (token.length() != TOKEN_LENGTH
+					|| token.isEmpty()
+					|| token.equals(TOKEN_CODE_INVALID)) {
 				throw new WebconnectionException(status, answer);
 			}
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			sharedPreferences.edit().putString(Constants.TOKEN, newToken).commit();
 			sharedPreferences.edit().putString(Constants.USERNAME, username).commit();
-		} catch (JsonSyntaxException jsonSyntaxException) {
-			Log.e(TAG, Log.getStackTraceString(jsonSyntaxException));
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "JsonSyntaxException");
-		} catch (IOException ioException) {
-			Log.e(TAG, Log.getStackTraceString(ioException));
-			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, "I/O Exception");
+		} catch (JsonSyntaxException jsonE) {
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(jsonE));
+		} catch (IOException ioE) {
+			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, Log.getStackTraceString(ioE));
 		}
 	}
 
@@ -497,11 +484,9 @@ public final class ServerCalls implements ScratchDataFetcher {
 				.url(url)
 				.build();
 
-		// do not use default client for NON-HTTPS requests!
 		OkHttpClient httpClient = okHttpClient;
 		if (url.startsWith("http://")) {
 			httpClient = new OkHttpClient();
-			// allow HTTP instead of HTTPS!
 			httpClient.setConnectionSpecs(Arrays.asList(ConnectionSpec.CLEARTEXT));
 		}
 
@@ -531,15 +516,14 @@ public final class ServerCalls implements ScratchDataFetcher {
 			BufferedSink bufferedSink = Okio.buffer(Okio.sink(file));
 			bufferedSink.writeAll(response.body().source());
 			bufferedSink.close();
-		} catch (IOException ioException) {
-			Log.e(TAG, Log.getStackTraceString(ioException));
-			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK,
-					"Connection could not be established!");
+		} catch (IOException e) {
+			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, Log.getStackTraceString(e));
 		}
 	}
 
 	public void downloadMedia(final String url, final String filePath, final ResultReceiver receiver)
 			throws IOException, WebconnectionException {
+
 		File file = new File(filePath);
 		if (!(file.getParentFile().mkdirs() || file.getParentFile().isDirectory())) {
 			throw new IOException("Directory not created");
@@ -569,10 +553,8 @@ public final class ServerCalls implements ScratchDataFetcher {
 			BufferedSink bufferedSink = Okio.buffer(Okio.sink(file));
 			bufferedSink.writeAll(response.body().source());
 			bufferedSink.close();
-		} catch (IOException ioException) {
-			Log.e(TAG, Log.getStackTraceString(ioException));
-			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK,
-					"Connection could not be established!");
+		} catch (IOException e) {
+			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, Log.getStackTraceString(e));
 		}
 	}
 
@@ -584,11 +566,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 
 			String serverUrl = useTestUrl ? TEST_CHECK_TOKEN_URL : CHECK_TOKEN_URL;
 
-			Log.v(TAG, "post values - token:" + token + "user: " + username);
-			Log.v(TAG, "url to upload: " + serverUrl);
 			resultString = httpFormUpload(serverUrl, postValues);
-
-			Log.v(TAG, "result string: " + resultString);
 
 			JSONObject jsonObject = new JSONObject(resultString);
 			int statusCode = jsonObject.getInt(JSON_STATUS_CODE);
@@ -599,9 +577,8 @@ public final class ServerCalls implements ScratchDataFetcher {
 			} else {
 				throw new WebconnectionException(statusCode, "server response token ok, but error: " + serverAnswer);
 			}
-		} catch (JSONException jsonException) {
-			Log.e(TAG, Log.getStackTraceString(jsonException));
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "JSON-Exception");
+		} catch (JSONException e) {
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(e));
 		}
 	}
 
@@ -622,10 +599,8 @@ public final class ServerCalls implements ScratchDataFetcher {
 		try {
 			Response response = okHttpClient.newCall(request).execute();
 			return response.body().string();
-		} catch (IOException ioException) {
-			Log.e(TAG, Log.getStackTraceString(ioException));
-			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK,
-					"Connection could not be established!");
+		} catch (IOException e) {
+			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, Log.getStackTraceString(e));
 		}
 	}
 
@@ -637,10 +612,8 @@ public final class ServerCalls implements ScratchDataFetcher {
 		try {
 			Response response = okHttpClient.newCall(request).execute();
 			return response.body().string();
-		} catch (IOException ioException) {
-			Log.e(TAG, Log.getStackTraceString(ioException));
-			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK,
-					"Connection could not be established!");
+		} catch (IOException e) {
+			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, Log.getStackTraceString(e));
 		}
 	}
 
@@ -652,22 +625,15 @@ public final class ServerCalls implements ScratchDataFetcher {
 		try {
 			OkHttpClient httpClient = okHttpClient;
 
-			// do not use default client for NON-HTTPS requests!
 			if (url.startsWith("http://")) {
 				httpClient = new OkHttpClient();
-				// allows HTTP instead of HTTPS!
 				httpClient.setConnectionSpecs(Arrays.asList(ConnectionSpec.CLEARTEXT));
 			}
 
 			Response response = httpClient.newCall(request).execute();
 			return response.body().string();
-		} catch (InterruptedIOException interruptedException) {
-			Log.d(TAG, "Request cancelled");
-			throw interruptedException;
-		} catch (IOException ioException) {
-			Log.e(TAG, Log.getStackTraceString(ioException));
-			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK,
-					"Connection could not be established!");
+		} catch (IOException e) {
+			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, Log.getStackTraceString(e));
 		}
 	}
 
@@ -677,12 +643,9 @@ public final class ServerCalls implements ScratchDataFetcher {
 			if (language != null) {
 				serverUrl = serverUrl.concat("?language=" + language);
 			}
-			Log.v(TAG, "TAGURL to use: " + serverUrl);
-			String response = getRequest(serverUrl);
-			Log.d(TAG, "TAG-RESPONSE: " + response);
-			return response;
-		} catch (WebconnectionException exception) {
-			Log.e(TAG, Log.getStackTraceString(exception));
+			return getRequest(serverUrl);
+		} catch (WebconnectionException e) {
+			Log.e(TAG, Log.getStackTraceString(e));
 			return "";
 		}
 	}
@@ -690,10 +653,8 @@ public final class ServerCalls implements ScratchDataFetcher {
 	public boolean register(String username, String password, String userEmail, String language,
 			String country, String token, Context context) throws WebconnectionException {
 
-		Preconditions.checkNotNull(context, "Context cannot be null!");
-
-		if (emailForUiTests != null) {
-			userEmail = emailForUiTests;
+		if (context == null) {
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "Context is null.");
 		}
 
 		if (userEmail == null) {
@@ -707,7 +668,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 			postValues.put(REGISTRATION_USERNAME_KEY, username);
 			postValues.put(REGISTRATION_PASSWORD_KEY, password);
 			postValues.put(REGISTRATION_EMAIL_KEY, userEmail);
-			if (!token.equals(Constants.NO_TOKEN)) {
+			if (!token.equals(NO_TOKEN)) {
 				postValues.put(Constants.TOKEN, token);
 			}
 
@@ -719,10 +680,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 			}
 			String serverUrl = useTestUrl ? TEST_REGISTRATION_URL : REGISTRATION_URL;
 
-			Log.v(TAG, "URL to use: " + serverUrl);
 			resultString = httpFormUpload(serverUrl, postValues);
-
-			Log.v(TAG, "Result string: " + resultString);
 
 			JSONObject jsonObject = new JSONObject(resultString);
 			int statusCode = jsonObject.getInt(JSON_STATUS_CODE);
@@ -755,24 +713,20 @@ public final class ServerCalls implements ScratchDataFetcher {
 	}
 
 	public boolean login(String username, String password, String token, Context context) throws WebconnectionException {
-
-		Preconditions.checkNotNull(context, "Context cannot be null!");
+		if (context == null) {
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "Context is null.");
+		}
 
 		try {
 			HashMap<String, String> postValues = new HashMap<>();
 			postValues.put(REGISTRATION_USERNAME_KEY, username);
 			postValues.put(REGISTRATION_PASSWORD_KEY, password);
-			if (!token.equals(Constants.NO_TOKEN)) {
+			if (!token.equals(NO_TOKEN)) {
 				postValues.put(Constants.TOKEN, token);
 			}
-			Log.d(TAG, "token:" + token);
 
 			String serverUrl = useTestUrl ? TEST_LOGIN_URL : LOGIN_URL;
-
-			Log.v(TAG, "URL to use: " + serverUrl);
 			resultString = httpFormUpload(serverUrl, postValues);
-
-			Log.v(TAG, "Result string: " + resultString);
 
 			JSONObject jsonObject = new JSONObject(resultString);
 			int statusCode = jsonObject.getInt(JSON_STATUS_CODE);
@@ -797,19 +751,21 @@ public final class ServerCalls implements ScratchDataFetcher {
 				throw new WebconnectionException(statusCode, serverAnswer);
 			}
 			return true;
-		} catch (JSONException jsonException) {
-			Log.e(TAG, Log.getStackTraceString(jsonException));
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
+		} catch (JSONException e) {
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(e));
 		}
 	}
 
 	private boolean isInvalidToken(String token) {
-		return token.length() != TOKEN_LENGTH || token.equals("") || token.equals(TOKEN_CODE_INVALID);
+		return token.length() != TOKEN_LENGTH
+				|| token.equals("")
+				|| token.equals(TOKEN_CODE_INVALID);
 	}
 
 	public Boolean checkOAuthToken(String id, String oauthProvider, Context context) throws WebconnectionException {
-
-		Preconditions.checkNotNull(context, "Context cannot be null!");
+		if (context == null) {
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "Context is null.");
+		}
 
 		try {
 			HashMap<String, String> postValues = new HashMap<>();
@@ -827,10 +783,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 					throw new WebconnectionException(-1, "OAuth provider not supported!");
 			}
 
-			Log.v(TAG, "URL to use: " + serverUrl);
 			resultString = httpFormUpload(serverUrl, postValues);
-
-			Log.v(TAG, "Result string: " + resultString);
 
 			JSONObject jsonObject = new JSONObject(resultString);
 			checkStatusCode200(jsonObject.getInt(JSON_STATUS_CODE));
@@ -851,9 +804,8 @@ public final class ServerCalls implements ScratchDataFetcher {
 			}
 
 			return tokenAvailable;
-		} catch (JSONException jsonException) {
-			Log.e(TAG, Log.getStackTraceString(jsonException));
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
+		} catch (JSONException e) {
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(e));
 		}
 	}
 
@@ -863,19 +815,14 @@ public final class ServerCalls implements ScratchDataFetcher {
 			postValues.put(SIGNIN_EMAIL_KEY, email);
 
 			String serverUrl = useTestUrl ? TEST_CHECK_EMAIL_AVAILABLE_URL : CHECK_EMAIL_AVAILABLE_URL;
-
-			Log.v(TAG, "URL to use: " + serverUrl);
 			resultString = httpFormUpload(serverUrl, postValues);
-
-			Log.v(TAG, "Result string: " + resultString);
 
 			JSONObject jsonObject = new JSONObject(resultString);
 			checkStatusCode200(jsonObject.getInt(JSON_STATUS_CODE));
 
 			return jsonObject.getBoolean(EMAIL_AVAILABLE);
-		} catch (JSONException jsonException) {
-			Log.e(TAG, Log.getStackTraceString(jsonException));
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
+		} catch (JSONException e) {
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(e));
 		}
 	}
 
@@ -885,11 +832,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 			postValues.put(SIGNIN_USERNAME_KEY, username);
 
 			String serverUrl = useTestUrl ? TEST_CHECK_USERNAME_AVAILABLE_URL : CHECK_USERNAME_AVAILABLE_URL;
-
-			Log.v(TAG, "URL to use: " + serverUrl);
 			resultString = httpFormUpload(serverUrl, postValues);
-
-			Log.v(TAG, "Result string: " + resultString);
 
 			JSONObject jsonObject = new JSONObject(resultString);
 			checkStatusCode200(jsonObject.getInt(JSON_STATUS_CODE));
@@ -910,11 +853,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 			}
 
 			String serverUrl = useTestUrl ? TEST_GET_FACEBOOK_USER_INFO_URL : GET_FACEBOOK_USER_INFO_URL;
-
-			Log.v(TAG, "URL to use: " + serverUrl);
 			resultString = httpFormUpload(serverUrl, postValues);
-
-			Log.v(TAG, "Result string: " + resultString);
 
 			JSONObject jsonObject = new JSONObject(resultString);
 			if (jsonObject.has(Constants.JSON_ERROR_CODE)) {
@@ -923,16 +862,17 @@ public final class ServerCalls implements ScratchDataFetcher {
 			checkStatusCode200(jsonObject.getInt(JSON_STATUS_CODE));
 
 			return jsonObject;
-		} catch (JSONException jsonException) {
-			Log.e(TAG, Log.getStackTraceString(jsonException));
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
+		} catch (JSONException e) {
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(e));
 		}
 	}
 
 	public boolean facebookLogin(String mail, String username, String id, String locale, Context context) throws
 			WebconnectionException {
 
-		Preconditions.checkNotNull(context, "Context cannot be null!");
+		if (context == null) {
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "Context is null.");
+		}
 
 		try {
 			HashMap<String, String> postValues = new HashMap<>();
@@ -942,11 +882,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 			postValues.put(SIGNIN_LOCALE_KEY, locale);
 
 			String serverUrl = useTestUrl ? TEST_FACEBOOK_LOGIN_URL : FACEBOOK_LOGIN_URL;
-
-			Log.v(TAG, "URL to use: " + serverUrl);
 			resultString = httpFormUpload(serverUrl, postValues);
-
-			Log.v(TAG, "Result string: " + resultString);
 
 			JSONObject jsonObject = new JSONObject(resultString);
 			int statusCode = jsonObject.getInt(JSON_STATUS_CODE);
@@ -954,17 +890,16 @@ public final class ServerCalls implements ScratchDataFetcher {
 
 			if (statusCode == SERVER_RESPONSE_TOKEN_OK || statusCode == SERVER_RESPONSE_REGISTER_OK) {
 				String tokenReceived = jsonObject.getString(JSON_TOKEN);
-				if (tokenReceived.length() != TOKEN_LENGTH || tokenReceived.equals("")
+				if (tokenReceived.length() != TOKEN_LENGTH
+						|| tokenReceived.equals("")
 						|| tokenReceived.equals(TOKEN_CODE_INVALID)) {
 					throw new WebconnectionException(statusCode, serverAnswer);
 				}
 				refreshUploadTokenAndUsername(tokenReceived, username, context);
 			}
-
 			return true;
-		} catch (JSONException jsonException) {
-			Log.e(TAG, Log.getStackTraceString(jsonException));
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
+		} catch (JSONException e) {
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(e));
 		}
 	}
 
@@ -982,11 +917,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 			postValues.put(Constants.REQUEST_MOBILE, "Android");
 
 			String serverUrl = useTestUrl ? TEST_EXCHANGE_FACEBOOK_TOKEN_URL : EXCHANGE_FACEBOOK_TOKEN_URL;
-
-			Log.v(TAG, "URL to use: " + serverUrl);
 			resultString = httpFormUpload(serverUrl, postValues);
-
-			Log.v(TAG, "Result string: " + resultString);
 
 			JSONObject jsonObject = new JSONObject(resultString);
 			int statusCode = jsonObject.getInt(JSON_STATUS_CODE);
@@ -995,16 +926,17 @@ public final class ServerCalls implements ScratchDataFetcher {
 			}
 
 			return true;
-		} catch (JSONException jsonException) {
-			Log.e(TAG, Log.getStackTraceString(jsonException));
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
+		} catch (JSONException e) {
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(e));
 		}
 	}
 
 	public boolean googleLogin(String mail, String username, String id, String locale, Context context) throws
 			WebconnectionException {
 
-		Preconditions.checkNotNull(context, "Context cannot be null!");
+		if (context == null) {
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "Context is null.");
+		}
 
 		try {
 			HashMap<String, String> postValues = new HashMap<>();
@@ -1014,20 +946,15 @@ public final class ServerCalls implements ScratchDataFetcher {
 			postValues.put(SIGNIN_LOCALE_KEY, locale);
 
 			String serverUrl = useTestUrl ? TEST_GOOGLE_LOGIN_URL : GOOGLE_LOGIN_URL;
-
-			Log.v(TAG, "URL to use: " + serverUrl);
 			resultString = httpFormUpload(serverUrl, postValues);
-
-			Log.v(TAG, "Result string: " + resultString);
 
 			JSONObject jsonObject = new JSONObject(resultString);
 			checkStatusCode200(jsonObject.getInt(JSON_STATUS_CODE));
 			refreshUploadTokenAndUsername(jsonObject.getString(Constants.TOKEN), username, context);
 
 			return true;
-		} catch (JSONException jsonException) {
-			Log.e(TAG, Log.getStackTraceString(jsonException));
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
+		} catch (JSONException e) {
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(e));
 		}
 	}
 
@@ -1043,14 +970,9 @@ public final class ServerCalls implements ScratchDataFetcher {
 			postValues.put(SIGNIN_LOCALE_KEY, locale);
 			postValues.put(SIGNIN_ID_TOKEN, idToken);
 			postValues.put(Constants.REQUEST_MOBILE, "Android");
-			Log.d(TAG, "ID token: " + idToken);
 
 			String serverUrl = useTestUrl ? TEST_EXCHANGE_GOOGLE_CODE_URL : EXCHANGE_GOOGLE_CODE_URL;
-
-			Log.v(TAG, "URL to use: " + serverUrl);
 			resultString = httpFormUpload(serverUrl, postValues);
-
-			Log.v(TAG, "Result string: " + resultString);
 
 			JSONObject jsonObject = new JSONObject(resultString);
 			int statusCode = jsonObject.getInt(JSON_STATUS_CODE);
@@ -1059,9 +981,8 @@ public final class ServerCalls implements ScratchDataFetcher {
 			}
 
 			return true;
-		} catch (JSONException jsonException) {
-			Log.e(TAG, Log.getStackTraceString(jsonException));
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
+		} catch (JSONException e) {
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(e));
 		}
 	}
 
@@ -1079,20 +1000,12 @@ public final class ServerCalls implements ScratchDataFetcher {
 
 	public boolean deleteTestUserAccountsOnServer() throws WebconnectionException {
 		try {
-			String serverUrl = TEST_DELETE_TEST_USERS;
-			Log.v(TAG, "URL to use: " + serverUrl);
-
-			resultString = getRequest(serverUrl);
-
-			Log.v(TAG, "Result string: " + resultString);
-
+			resultString = getRequest(TEST_DELETE_TEST_USERS);
 			JSONObject jsonObject = new JSONObject(resultString);
 			checkStatusCode200(jsonObject.getInt(JSON_STATUS_CODE));
-
 			return true;
-		} catch (JSONException jsonException) {
-			Log.e(TAG, Log.getStackTraceString(jsonException));
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
+		} catch (JSONException e) {
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(e));
 		}
 	}
 
@@ -1102,39 +1015,28 @@ public final class ServerCalls implements ScratchDataFetcher {
 			postValues.put(SIGNIN_OAUTH_ID_KEY, id);
 
 			String serverUrl = useTestUrl ? TEST_FACEBOOK_CHECK_SERVER_TOKEN_VALIDITY : FACEBOOK_CHECK_SERVER_TOKEN_VALIDITY;
-			Log.v(TAG, "URL to use: " + serverUrl);
-
 			resultString = httpFormUpload(serverUrl, postValues);
-
-			Log.v(TAG, "Result string: " + resultString);
 
 			JSONObject jsonObject = new JSONObject(resultString);
 			checkStatusCode200(jsonObject.getInt(JSON_STATUS_CODE));
 
 			return jsonObject.getBoolean(FACEBOOK_SERVER_TOKEN_INVALID);
-		} catch (JSONException jsonException) {
-			Log.e(TAG, Log.getStackTraceString(jsonException));
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
+		} catch (JSONException e) {
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(e));
 		}
 	}
 
 	public void logout(String userName) {
 		try {
-			String serverUrl = Constants.CATROBAT_TOKEN_LOGIN_URL + userName + Constants
-					.CATROBAT_TOKEN_LOGIN_AMP_TOKEN + Constants.NO_TOKEN;
-			Log.v(TAG, "URL to use: " + serverUrl);
+			String serverUrl = CATROBAT_TOKEN_LOGIN_URL
+					+ userName
+					+ CATROBAT_TOKEN_LOGIN_AMP_TOKEN
+					+ NO_TOKEN;
+
 			getRequest(serverUrl);
-		} catch (WebconnectionException exception) {
-			Log.e(TAG, Log.getStackTraceString(exception));
+		} catch (WebconnectionException e) {
+			Log.e(TAG, Log.getStackTraceString(e));
 		}
-	}
-
-	public LoginBehavior getLoginBehavior() {
-		return loginBehavior;
-	}
-
-	public void setLoginBehavior(LoginBehavior loginBehavior) {
-		ServerCalls.loginBehavior = loginBehavior;
 	}
 
 	public int getProjectId() {
@@ -1146,6 +1048,5 @@ public final class ServerCalls implements ScratchDataFetcher {
 		int statusCode;
 		String answer;
 		String token;
-		//		String preHeaderMessages;
 	}
 }
