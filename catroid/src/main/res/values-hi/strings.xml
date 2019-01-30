@@ -1197,7 +1197,7 @@
   <string name="drone_emergency_title">Emergency</string>
   <!--  -->
   <!-- Error messages -->
-  <string name="error_no_writiable_external_storage_available">This app needs writable external storage like a SD
+  <string name="error_no_writable_external_storage_available">This app needs writable external storage like a SD
         card in order to run, but none was found.\nYou can fix this by making the external storage writable or inserting
         a SD card, then trying again.</string>
   <string name="error_no_write_access">This app needs permission to write data to your device. Otherwise you
@@ -1210,7 +1210,7 @@
   <string name="error_load_project">An error occurred while loading the program.</string>
   <string name="error_screenshot_failed">An error occurred while saving the preview image.</string>
   <string name="error_internet_connection">An unknown error occurred. Check your Internet connection.</string>
-  <string name="error_project_compatability">The program is not compatible with this version of the app.</string>
+  <string name="error_project_compatibility">The program is not compatible with this version of the app.</string>
   <string name="error_outdated_version">This app version is outdated. Update now?</string>
   <string name="error_upload_project_with_default_name">You cannot upload a program with the name \'My first program\'. Please rename the program.</string>
   <string name="error_adding_brick">An error occurred while adding this brick.</string>

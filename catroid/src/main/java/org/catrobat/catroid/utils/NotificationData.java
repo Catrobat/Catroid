@@ -54,6 +54,19 @@ public class NotificationData {
 		this.notificationTextDone = context.getString(notificationTextDoneStringId);
 	}
 
+	public NotificationData(PendingIntent pendingIntent, int notificationIcon, String programName,
+			String notificationTitlePrefixWorkingString, String notificationTitlePrefixDoneString,
+			String notificationTextWorkingString, String notificationTextDoneString) {
+		this.pendingIntent = pendingIntent;
+		this.notificationIcon = notificationIcon;
+		this.programName = programName;
+
+		this.notificationTitlePrefixWorking = notificationTitlePrefixWorkingString;
+		this.notificationTitlePrefixDone = notificationTitlePrefixDoneString;
+		this.notificationTextWorking = notificationTextWorkingString;
+		this.notificationTextDone = notificationTextDoneString;
+	}
+
 	public PendingIntent getPendingIntent() {
 		return pendingIntent;
 	}

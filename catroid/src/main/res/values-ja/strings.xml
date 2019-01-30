@@ -1113,7 +1113,7 @@
   <string name="drone_emergency_title">緊急</string>
   <!--  -->
   <!-- Error messages -->
-  <string name="error_no_writiable_external_storage_available">This app needs writable external storage like a SD
+  <string name="error_no_writable_external_storage_available">This app needs writable external storage like a SD
         card in order to run, but none was found.\nYou can fix this by making the external storage writable or inserting
         a SD card, then trying again.</string>
   <string name="error_no_write_access">This app needs permission to write data to your device. Otherwise you
@@ -1126,7 +1126,7 @@
   <string name="error_load_project">プログラムの読み込み中にエラーが発生しました</string>
   <string name="error_screenshot_failed">プレビュー画像の保存中にエラーが発生しました。</string>
   <string name="error_internet_connection">不明なエラーが発生しました。インターネット接続を確認してください</string>
-  <string name="error_project_compatability">プログラムは、このバージョンのポケット コードと互換性がありません。</string>
+  <string name="error_project_compatibility">プログラムは、このバージョンのポケット コードと互換性がありません。</string>
   <string name="error_outdated_version">このアプリのバージョンが古すぎます。今すぐ更新しますか?</string>
   <string name="error_upload_project_with_default_name">名前 \'私の最初のプログラム\' でプログラムをアップロードできません。プログラムの名前を変更してください。</string>
   <string name="error_adding_brick">このブロックを追加中にエラーが発生しました</string>

@@ -1190,7 +1190,7 @@
   <string name="drone_emergency_title">Emergência</string>
   <!--  -->
   <!-- Error messages -->
-  <string name="error_no_writiable_external_storage_available">This app needs writable external storage like a SD
+  <string name="error_no_writable_external_storage_available">This app needs writable external storage like a SD
         card in order to run, but none was found.\nYou can fix this by making the external storage writable or inserting
         a SD card, then trying again.</string>
   <string name="error_no_write_access">This app needs permission to write data to your device. Otherwise you
@@ -1203,7 +1203,7 @@
   <string name="error_load_project">Ocorreu um erro ao carregar o programa.</string>
   <string name="error_screenshot_failed">An error occurred while saving the preview image.</string>
   <string name="error_internet_connection">Ocorreu um erro desconhecido. Verifique sua conexão com a Internet.</string>
-  <string name="error_project_compatability">O programa não é compatível com esta versão do Pocket Code.</string>
+  <string name="error_project_compatibility">O programa não é compatível com esta versão do Pocket Code.</string>
   <string name="error_outdated_version">This app version is outdated. Update now?</string>
   <string name="error_upload_project_with_default_name">Você não pode fazer upload de um programa com o nome \'Meu primeiro programa\'. Por favor, renomeie o programa.</string>
   <string name="error_adding_brick">Ocorreu um erro ao adicionar este bloco</string>

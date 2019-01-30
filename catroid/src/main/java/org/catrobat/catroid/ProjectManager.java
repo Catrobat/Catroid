@@ -174,7 +174,7 @@ public final class ProjectManager {
 			localizeBackgroundSprite(context);
 		} else {
 			restorePreviousProject(previousProject);
-			throw new CompatibilityProjectException(context.getString(R.string.error_project_compatability));
+			throw new CompatibilityProjectException(context.getString(R.string.error_project_compatibility));
 		}
 
 		project.loadLegoNXTSettingsFromProject(context);

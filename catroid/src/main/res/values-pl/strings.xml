@@ -1305,7 +1305,7 @@
   <string name="drone_emergency_title">Tryb awaryjny</string>
   <!--  -->
   <!-- Error messages -->
-  <string name="error_no_writiable_external_storage_available">Aby działać, aplikacja wymaga zewnętrznej pamięci do zapisu, np. karty SD, ale nie została ona znaleziona.\nMożesz rozwiązać ten problem poprzez zapis w zewnętrznej pamięci lub włożyć kartę SD i spróbować ponownie.</string>
+  <string name="error_no_writable_external_storage_available">Aby działać, aplikacja wymaga zewnętrznej pamięci do zapisu, np. karty SD, ale nie została ona znaleziona.\nMożesz rozwiązać ten problem poprzez zapis w zewnętrznej pamięci lub włożyć kartę SD i spróbować ponownie.</string>
   <string name="error_no_write_access">Ta aplikacja wymaga uprawnień do zapisywania danych na Twoim urządzeniu. W przeciwnym razie nie można tworzyć, modyfikować ani uruchamiać programów. Aby kontynuować, otwórz ustawienia i włącz dostęp do zapisu dla tej aplikacji.</string>
   <string name="error_project_upload">Podczas wysyłania programu wystąpił błąd.</string>
   <string name="error_project_download">Podczas pobierania programu wystąpił błąd.</string>
@@ -1314,7 +1314,7 @@
   <string name="error_load_project">Podczas ładowania programu wystąpił błąd.</string>
   <string name="error_screenshot_failed">Wystąpił błąd podczas zapisywania podglądu obrazu.</string>
   <string name="error_internet_connection">Wystąpił nieznany błąd. Sprawdź połączenie z Internetem.</string>
-  <string name="error_project_compatability">Program nie jest zgodny z tą wersją Pocket Code.</string>
+  <string name="error_project_compatibility">Program nie jest zgodny z tą wersją Pocket Code.</string>
   <string name="error_outdated_version">Ta wersja aplikacji jest przestarzała. Zaktualizować teraz?</string>
   <string name="error_upload_project_with_default_name">Nie można wysłać programu o nazwie \"Mój pierwszy program\". Zmień nazwę programu.</string>
   <string name="error_adding_brick">Podczas dodawania tego bloku wystąpił błąd</string>
