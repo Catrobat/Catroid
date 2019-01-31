@@ -425,8 +425,8 @@ public class ScriptFragment extends ListFragment implements
 				sprite.addScript(0, ((ScriptBrick) brick).getScript());
 			} else {
 				sprite.getScriptList().get(0).addBricks(new ArrayList<Brick>(bricksToAdd));
-				adapter.updateItems(sprite);
 			}
+			adapter.updateItems(sprite);
 		} else {
 			int firstVisibleBrick = listView.getFirstVisiblePosition();
 			int lastVisibleBrick = listView.getLastVisiblePosition();
