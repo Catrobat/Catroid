@@ -516,8 +516,12 @@ public class SpriteActivity extends BaseActivity {
 			return;
 		}
 		if (getCurrentFragment() instanceof LookListFragment) {
-			handleAddLookButton();
-			return;
+			if (ProjectManager.getInstance().isBackgroundSprite()) {
+				handleAddBackgroundButton();
+			} else {
+				handleAddLookButton();
+				return;
+			}
 		}
 		if (getCurrentFragment() instanceof SoundListFragment) {
 			handleAddSoundButton();
@@ -568,7 +572,7 @@ public class SpriteActivity extends BaseActivity {
 		View view = View.inflate(this, R.layout.dialog_new_look, null);
 
 		final AlertDialog alertDialog = new AlertDialog.Builder(this)
-				.setTitle(R.string.new_look_dialog_title)
+				.setTitle(R.string.new_background_dialog_title)
 				.setView(view)
 				.create();
 
@@ -620,21 +624,6 @@ public class SpriteActivity extends BaseActivity {
 				.setView(view)
 				.create();
 
-		final String mediaLibraryUrl;
-
-		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-
-		if (currentSprite.equals(currentScene.getBackgroundSprite())) {
-			if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
-				mediaLibraryUrl = LIBRARY_BACKGROUNDS_URL_LANDSCAPE;
-			} else {
-				mediaLibraryUrl = LIBRARY_BACKGROUNDS_URL_PORTRAIT;
-			}
-		} else {
-			mediaLibraryUrl = LIBRARY_LOOKS_URL;
-		}
-
 		View.OnClickListener onClickListener = new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -644,7 +633,7 @@ public class SpriteActivity extends BaseActivity {
 								.startActivityForResult(LOOK_POCKET_PAINT);
 						break;
 					case R.id.dialog_new_look_media_library:
-						new ImportFormMediaLibraryLauncher(SpriteActivity.this, mediaLibraryUrl)
+						new ImportFormMediaLibraryLauncher(SpriteActivity.this, LIBRARY_LOOKS_URL)
 								.startActivityForResult(LOOK_LIBRARY);
 						break;
 					case R.id.dialog_new_look_gallery:

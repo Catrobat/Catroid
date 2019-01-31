@@ -156,7 +156,7 @@ public class API19SpinnerAndFormulaFieldCrashesRegressionTest {
 		onBrickAtPosition(1)
 				.onSpinner(R.id.brick_when_background_spinner)
 				.performSelectNameable(R.string.new_option);
-		onView(withText(R.string.new_look_dialog_title))
+		onView(withText(R.string.new_background_dialog_title))
 				.check(matches(isDisplayed()));
 	}
 }

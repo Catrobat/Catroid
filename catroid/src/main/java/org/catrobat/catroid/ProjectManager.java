@@ -405,6 +405,10 @@ public final class ProjectManager {
 		return directoryRenamed;
 	}
 
+	public boolean isBackgroundSprite() {
+		return getCurrentSprite().equals(getCurrentlyEditedScene().getBackgroundSprite());
+	}
+
 	public Sprite getCurrentSprite() {
 		return currentSprite;
 	}
