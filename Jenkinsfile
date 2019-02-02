@@ -84,7 +84,7 @@ pipeline {
                                 sh "./gradlew assembleCatroidDebug -Pindependent='#$env.BUILD_NUMBER $env.BRANCH_NAME'"
                                 // Build the flavors so that they can be installed next independently of older versions.
                                 sh """./gradlew -Pindependent='#$env.BUILD_NUMBER $env.BRANCH_NAME' assembleCatroidDebug \
-                                            ${env.BUILD_ALL_FLAVOURS ? 'assembleCreateAtSchoolDebug assembleLunaAndCatDebug assemblePhiroDebug' : ''}"""
+                                            ${env.BUILD_ALL_FLAVOURS?.toBoolean() ? 'assembleCreateAtSchoolDebug assembleLunaAndCatDebug assemblePhiroDebug' : ''}"""
 
                                 archiveArtifacts '**/*.apk'
                             }
