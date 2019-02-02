@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.uiespresso.ui.activity;
 
+import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
@@ -42,27 +43,42 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
+import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY;
+import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG;
+
 @RunWith(AndroidJUnit4.class)
 public class PrivacyPolicyDisclaimerTest {
-
-	private static final String AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY = "AgreedToPrivacyPolicy";
-	private boolean bufferedPreferenceSetting;
 
 	@Rule
 	public DontGenerateDefaultProjectActivityInstrumentationRule<MainMenuActivity> baseActivityTestRule = new
 			DontGenerateDefaultProjectActivityInstrumentationRule<>(MainMenuActivity.class);
+
+	private boolean bufferedPrivacyPolicyPreferenceSetting;
+	private boolean bufferedImportFromExternalStoragePreferenceSetting;
+
 	@Before
-	public void setUp() {
-		bufferedPreferenceSetting = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry
-				.getTargetContext())
-				.getBoolean(AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY, false);
+	public void setUp() throws Exception {
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry
+				.getTargetContext());
+
+		bufferedPrivacyPolicyPreferenceSetting = sharedPreferences
+				.getBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, false);
+
+		bufferedImportFromExternalStoragePreferenceSetting = sharedPreferences
+				.getBoolean(SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG, false);
+
+		sharedPreferences
+				.edit()
+				.putBoolean(SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG, false)
+				.commit();
 	}
 
 	@After
 	public void tearDown() {
 		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
 				.edit()
-				.putBoolean(AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY, bufferedPreferenceSetting)
+				.putBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, bufferedPrivacyPolicyPreferenceSetting)
+				.putBoolean(SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG, bufferedImportFromExternalStoragePreferenceSetting)
 				.commit();
 	}
 
@@ -70,8 +86,9 @@ public class PrivacyPolicyDisclaimerTest {
 	public void testShowPrivacyPolicyDisclaimer() {
 		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
 				.edit()
-				.putBoolean(AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY, false)
+				.putBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, false)
 				.commit();
+
 		baseActivityTestRule.launchActivity();
 
 		onView(withId(R.id.header)).check(matches(isDisplayed()));
@@ -81,8 +98,9 @@ public class PrivacyPolicyDisclaimerTest {
 	public void testHidePrivacyPolicyDisclaimer() {
 		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
 				.edit()
-				.putBoolean(AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY, true)
+				.putBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, true)
 				.commit();
+
 		baseActivityTestRule.launchActivity();
 
 		onView(withText(R.string.main_menu_continue))

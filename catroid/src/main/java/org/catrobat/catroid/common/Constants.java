@@ -90,7 +90,8 @@ public final class Constants {
 
 	public static final String TMP_IMAGE_FILE_NAME = "image";
 
-	public static final String TMP_PATH = CACHE_DIR.getAbsolutePath() + "/tmp";
+	public static final String TMP_DIR_NAME = "tmp";
+	public static final String TMP_PATH = CACHE_DIR.getAbsolutePath() + "/" + TMP_DIR_NAME;
 	public static final String TEXT_TO_SPEECH_TMP_PATH = TMP_PATH + "/textToSpeech";
 
 	// Web:
@@ -219,14 +220,11 @@ public final class Constants {
 
 	// Pocket Paint
 	public static final String EXTRA_PICTURE_PATH_POCKET_PAINT = "org.catrobat.extra.PAINTROID_PICTURE_PATH";
-	public static final String EXTRA_PICTURE_NAME_POCKET_PAINT = "org.catrobat.extra.PAINTROID_PICTURE_NAME";
 	public static final String POCKET_PAINT_INTENT_ACTIVITY_NAME = "org.catrobat.paintroid.MainActivity";
 
 	//Various:
 	public static final int BUFFER_8K = 8 * 1024;
 	public static final String PREF_PROJECTNAME_KEY = "projectName";
-	public static final String MEDIA_TYPE_LOOK = "look";
-	public static final String MEDIA_TYPE_SOUND = "sound";
 
 	public static final String COLLISION_PNG_META_TAG_KEY = "CollisionPolygonVertices";
 	public static final int COLLISION_VERTEX_LIMIT = 100;

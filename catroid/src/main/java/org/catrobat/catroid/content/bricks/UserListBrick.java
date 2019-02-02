@@ -146,7 +146,6 @@ public abstract class UserListBrick extends FormulaBrick implements BrickSpinner
 						spinner.setSelection(userList);
 					}
 				})
-				.create()
 				.show();
 	}
 

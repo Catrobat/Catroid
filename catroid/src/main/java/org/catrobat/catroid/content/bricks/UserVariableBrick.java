@@ -146,7 +146,6 @@ public abstract class UserVariableBrick extends FormulaBrick implements BrickSpi
 						spinner.setSelection(userVariable);
 					}
 				})
-				.create()
 				.show();
 	}
 

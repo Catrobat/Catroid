@@ -35,7 +35,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.io.StorageOperations;
-import org.catrobat.catroid.io.asynctasks.ExportProjectToExternalStorageAsyncTask;
+import org.catrobat.catroid.io.asynctask.ProjectExportTask;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.utils.NotificationData;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
@@ -50,18 +50,21 @@ import java.io.File;
 
 import static org.catrobat.catroid.common.Constants.CATROBAT_EXTENSION;
 import static org.catrobat.catroid.common.Constants.EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY;
+
 @RunWith(AndroidJUnit4.class)
-public class ExportProjectToExternalStorageAsyncTaskTest {
+public class ProjectExportTaskTest {
+
 	private String projectName;
-	private File externalProjectZip;
 
 	@Rule
-	public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE);
+	public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(
+			Manifest.permission.WRITE_EXTERNAL_STORAGE,
+			Manifest.permission.READ_EXTERNAL_STORAGE);
 
 	@Before
 	public void setUp() {
 		Project project = new Project(InstrumentationRegistry.getTargetContext(),
-				ExportProjectToExternalStorageAsyncTaskTest.class.getSimpleName());
+				ProjectExportTaskTest.class.getSimpleName());
 		project.addScene(new Scene());
 		projectName = project.getName();
 		ProjectManager.getInstance().setCurrentProject(project);
@@ -73,11 +76,10 @@ public class ExportProjectToExternalStorageAsyncTaskTest {
 		StatusBarNotificationManager notificationManager = StatusBarNotificationManager.getInstance();
 		int notificationID = notificationManager
 				.createSaveProjectToExternalMemoryNotification(InstrumentationRegistry.getTargetContext(), projectName);
-		ExportProjectToExternalStorageAsyncTask asyncTask = new ExportProjectToExternalStorageAsyncTask();
+		ProjectExportTask asyncTask = new ProjectExportTask();
 		asyncTask.exportProjectToExternalStorage(projectName, notificationID);
 
-		externalProjectZip = new File(EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY,
-			projectName + CATROBAT_EXTENSION);
+		File externalProjectZip = new File(EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY, projectName + CATROBAT_EXTENSION);
 		Assert.assertTrue(externalProjectZip.exists());
 	}
 

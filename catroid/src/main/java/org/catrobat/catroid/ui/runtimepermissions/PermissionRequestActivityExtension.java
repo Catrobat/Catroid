@@ -100,7 +100,6 @@ public class PermissionRequestActivityExtension {
 				.setMessage(message)
 				.setPositiveButton(R.string.ok, okListener)
 				.setNegativeButton(R.string.cancel, null)
-				.create()
 				.show();
 	}
 }

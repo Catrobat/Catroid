@@ -196,6 +196,6 @@ public class SoundManagerTest {
 		project.getDefaultScene().addSprite(sprite);
 
 		XstreamSerializer.getInstance().saveProject(project);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 	}
 }

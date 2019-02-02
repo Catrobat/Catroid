@@ -107,7 +107,7 @@ public class StartStageTouchTest {
 		scene2.getBackgroundSprite().addScript(background2StartScript);
 		project.addScene(scene2);
 
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setStartScene(scene1);
 	}
 

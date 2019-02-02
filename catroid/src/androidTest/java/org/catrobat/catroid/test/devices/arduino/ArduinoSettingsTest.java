@@ -93,9 +93,9 @@ public class ArduinoSettingsTest {
 		sprite.addScript(startScript);
 		project.getDefaultScene().addSprite(sprite);
 
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().saveProject(context);
 		Thread.sleep(100);
-		ProjectManager.getInstance().setProject(null);
+		ProjectManager.getInstance().setCurrentProject(null);
 	}
 }

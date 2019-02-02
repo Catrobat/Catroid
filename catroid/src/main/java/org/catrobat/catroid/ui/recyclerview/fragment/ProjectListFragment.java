@@ -35,16 +35,15 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ProjectData;
-import org.catrobat.catroid.exceptions.ProjectException;
-import org.catrobat.catroid.io.asynctasks.ExportProjectToExternalStorageAsyncTask;
+import org.catrobat.catroid.io.asynctask.ProjectCopyTask;
+import org.catrobat.catroid.io.asynctask.ProjectExportTask;
+import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
+import org.catrobat.catroid.io.asynctask.ProjectRenameTask;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.fragment.ProjectDetailsFragment;
 import org.catrobat.catroid.ui.recyclerview.activity.ProjectUploadActivity;
 import org.catrobat.catroid.ui.recyclerview.adapter.ProjectAdapter;
-import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectCopyTask;
-import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectCreatorTask;
-import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectLoaderTask;
 import org.catrobat.catroid.ui.recyclerview.controller.ProjectController;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
@@ -68,9 +67,9 @@ import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTO
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_PROJECTS_PREFERENCE_KEY;
 
 public class ProjectListFragment extends RecyclerViewFragment<ProjectData> implements
-		ProjectCreatorTask.ProjectCreatorListener,
-		ProjectLoaderTask.ProjectLoaderListener,
-		ProjectCopyTask.ProjectCopyListener {
+		ProjectLoadTask.ProjectLoadListener,
+		ProjectCopyTask.ProjectCopyListener,
+		ProjectRenameTask.ProjectRenameListener {
 
 	public static final String TAG = ProjectListFragment.class.getSimpleName();
 	private static final int PERMISSIONS_REQUEST_EXPORT_TO_EXTERNAL_STORAGE = 801;
@@ -137,9 +136,10 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 	protected void copyItems(List<ProjectData> selectedItems) {
 		finishActionMode();
 		setShowProgressBar(true);
-		ProjectCopyTask copyTask = new ProjectCopyTask(getActivity(), this);
+
 		String name = uniqueNameProvider.getUniqueNameInNameables(selectedItems.get(0).getName(), adapter.getItems());
-		copyTask.execute(selectedItems.get(0).getName(), name);
+		new ProjectCopyTask(getContext(), this)
+				.execute(selectedItems.get(0).getName(), name);
 	}
 
 	@Override
@@ -170,8 +170,14 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 
 		if (adapter.getItems().isEmpty()) {
 			setShowProgressBar(true);
-			ProjectCreatorTask creatorTask = new ProjectCreatorTask(getActivity(), this);
-			creatorTask.execute();
+
+			if (ProjectManager.getInstance().initializeDefaultProject(getContext())) {
+				adapter.setItems(getItemList());
+				setShowProgressBar(false);
+			} else {
+				ToastUtil.showError(getActivity(), R.string.wtf_error);
+				getActivity().finish();
+			}
 		}
 	}
 
@@ -187,45 +193,25 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 
 	@Override
 	public void renameItem(ProjectData item, String name) {
-		setShowProgressBar(true);
-
-		ProjectManager projectManager = ProjectManager.getInstance();
+		finishActionMode();
 
 		if (!name.equals(item.projectName)) {
-			try {
-				projectManager.loadProject(item.projectName, getActivity());
-				projectManager.renameProject(name, getActivity());
-				projectManager.loadProject(name, getActivity());
-			} catch (ProjectException e) {
-				Log.e(TAG, Log.getStackTraceString(e));
-				ToastUtil.showError(getActivity(), R.string.error_rename_incompatible_project);
-			}
-		}
+			setShowProgressBar(true);
 
-		finishActionMode();
-		adapter.setItems(getItemList());
-	}
-
-	@Override
-	public void onCreateFinished(boolean success) {
-		if (success) {
-			adapter.setItems(getItemList());
-			setShowProgressBar(false);
-		} else {
-			ToastUtil.showError(getActivity(), R.string.wtf_error);
-			getActivity().finish();
+			new ProjectRenameTask(getContext(), this)
+					.execute(item.projectName, name);
 		}
 	}
 
 	@Override
-	public void onLoadFinished(boolean success, String message) {
+	public void onLoadFinished(boolean success) {
 		if (success) {
 			Intent intent = new Intent(getActivity(), ProjectActivity.class);
 			intent.putExtra(ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SCENES);
 			startActivity(intent);
 		} else {
 			setShowProgressBar(false);
-			ToastUtil.showError(getActivity(), message);
+			ToastUtil.showError(getActivity(), R.string.error_load_project);
 		}
 	}
 
@@ -234,7 +220,17 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 		if (success) {
 			adapter.setItems(getItemList());
 		} else {
-			ToastUtil.showError(getActivity(), R.string.error_copy_project);
+			ToastUtil.showError(getContext(), R.string.error_copy_project);
+		}
+		setShowProgressBar(false);
+	}
+
+	@Override
+	public void onRenameFinished(boolean success) {
+		if (success) {
+			adapter.setItems(getItemList());
+		} else {
+			ToastUtil.showError(getContext(), R.string.error_rename_incompatible_project);
 		}
 		setShowProgressBar(false);
 	}
@@ -260,70 +256,78 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 	@Override
 	public void onItemClick(ProjectData item) {
 		if (actionModeType == NONE) {
-			ProjectLoaderTask loaderTask = new ProjectLoaderTask(getActivity(), this);
 			setShowProgressBar(true);
-			loaderTask.execute(item.projectName);
+			new ProjectLoadTask(getContext(), this)
+					.execute(item.projectName);
 		}
 	}
 
 	@Override
 	public void onItemLongClick(final ProjectData item, CheckableVH holder) {
 		CharSequence[] items = new CharSequence[]{
-			getString(R.string.copy),
-			getString(R.string.delete),
-			getString(R.string.rename),
-			getString(R.string.show_details),
-			getString(R.string.upload_button),
-			getString(R.string.save_to_external_storage_button)
+				getString(R.string.copy),
+				getString(R.string.delete),
+				getString(R.string.rename),
+				getString(R.string.show_details),
+				getString(R.string.upload_button),
+				getString(R.string.save_to_external_storage_button)
 		};
-		new AlertDialog.Builder(getActivity())
-			.setTitle(item.projectName)
-			.setItems(items, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					switch (which) {
-						case 0:
-							copyItems(new ArrayList<>(Collections.singletonList(item)));
-							break;
-						case 1:
-							showDeleteAlert(new ArrayList<>(Collections.singletonList(item)));
-							break;
-						case 2:
-							showRenameDialog(new ArrayList<>(Collections.singletonList(item)));
-							break;
-						case 3:
-							ProjectDetailsFragment fragment = new ProjectDetailsFragment();
-							Bundle args = new Bundle();
-							args.putSerializable(ProjectDetailsFragment.SELECTED_PROJECT_KEY, item);
-							fragment.setArguments(args);
-							getFragmentManager().beginTransaction()
-								.replace(R.id.fragment_container, fragment, ProjectDetailsFragment.TAG)
-								.addToBackStack(ProjectDetailsFragment.TAG)
-								.commit();
-							break;
-						case 4:
-							Intent intent = new Intent(getActivity(), ProjectUploadActivity.class)
-									.putExtra(ProjectUploadActivity.PROJECT_NAME, item.getName());
-							startActivity(intent);
-							break;
-						case 5:
-							new RequiresPermissionTask(PERMISSIONS_REQUEST_EXPORT_TO_EXTERNAL_STORAGE,
-									Arrays.asList(WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE),
-								R.string.runtime_permission_general) {
-								@Override
-								public void task() {
-									StatusBarNotificationManager notificationManager = StatusBarNotificationManager.getInstance();
-									int notificationID = notificationManager.createSaveProjectToExternalMemoryNotification(getContext(), item.projectName);
-									new ExportProjectToExternalStorageAsyncTask().execute(new Pair<>(item.projectName, notificationID));
-								}
-							}.execute(getActivity());
+		new AlertDialog.Builder(getContext())
+				.setTitle(item.projectName)
+				.setItems(items, new DialogInterface.OnClickListener() {
 
-							break;
-						default:
-							dialog.dismiss();
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						switch (which) {
+							case 0:
+								copyItems(new ArrayList<>(Collections.singletonList(item)));
+								break;
+							case 1:
+								showDeleteAlert(new ArrayList<>(Collections.singletonList(item)));
+								break;
+							case 2:
+								showRenameDialog(new ArrayList<>(Collections.singletonList(item)));
+								break;
+							case 3:
+								ProjectDetailsFragment fragment = new ProjectDetailsFragment();
+								Bundle args = new Bundle();
+								args.putSerializable(ProjectDetailsFragment.SELECTED_PROJECT_KEY, item);
+								fragment.setArguments(args);
+								getFragmentManager().beginTransaction()
+										.replace(R.id.fragment_container, fragment, ProjectDetailsFragment.TAG)
+										.addToBackStack(ProjectDetailsFragment.TAG)
+										.commit();
+								break;
+							case 4:
+								startActivity(new Intent(getActivity(), ProjectUploadActivity.class)
+										.putExtra(ProjectUploadActivity.PROJECT_NAME, item.getName()));
+								break;
+							case 5:
+								exportProject(item);
+								break;
+							default:
+								dialog.dismiss();
+						}
 					}
-				}
-			})
-			.show();
+				})
+				.show();
+	}
+
+	private void exportProject(final ProjectData item) {
+		new RequiresPermissionTask(PERMISSIONS_REQUEST_EXPORT_TO_EXTERNAL_STORAGE,
+				Arrays.asList(WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE),
+				R.string.runtime_permission_general) {
+
+			@Override
+			public void task() {
+				int notificationID = StatusBarNotificationManager.getInstance()
+						.createSaveProjectToExternalMemoryNotification(getContext(), item.projectName);
+
+				Pair projectExportInfo = new Pair<>(item.projectName, notificationID);
+
+				new ProjectExportTask()
+						.execute(projectExportInfo);
+			}
+		}.execute(getActivity());
 	}
 }

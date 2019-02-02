@@ -664,14 +664,18 @@
     <string name="description">Description:</string>
     <string name="set_description">Set description</string>
     <string name="details_date_today">Today</string>
-    <string name="import_dialog_title">Import projects</string>
-    <string name="import_dialog_message">Your projects will be moved to private memory.</string>
+
+    <!-- Migrate from external to internal storage -->
+    <string name="import_dialog_title">Updated project storage</string>
+    <string name="import_dialog_message">There has been a change in how we store your projects on your device.
+        You can now let us move the projects to the new location or copy them. Copying will put a copy of all
+        of into the new storage location and leave them uncanged in the old location, moving will remove them
+        from the old location.</string>
     <string name="import_dialog_copy_btn">Copy</string>
     <string name="import_dialog_move_btn">Move</string>
-    <string name="projects_successful_moved_toast">Projects successfully moved.\n</string>
-    <string name="projects_successful_copied_toast">Projects successfully copied.\n</string>
-    <string name="error_during_copying_projects_toast">Error during copying / moving projects</string>
-    <string name="copying">Copying......</string>
+    <string name="projects_successful_moved_toast">Projects successfully moved.</string>
+    <string name="projects_successful_copied_toast">Projects successfully copied.</string>
+    <string name="error_during_copying_projects_toast">An error occurred during project migration.</string>
     <!--  -->
 
     <!-- ScriptListFragment -->
@@ -776,9 +780,9 @@
     <!-- Terms of Use Dialog -->
     <string name="dialog_terms_of_use_title">Terms of Use and Service</string>
     <string name="dialog_terms_of_use_info">In order to
-    be allowed to use the apps and other services offered by the Catrobat project, you
-    must agree to our Terms of Use and Service. You have to follow these terms strictly when using our apps
-    and other services. Please see the link below for their precise formulation.\n</string>
+        be allowed to use the apps and other services offered by the Catrobat project, you
+        must agree to our Terms of Use and Service. You have to follow these terms strictly when using our apps
+        and other services. Please see the link below for their precise formulation.\n</string>
     <string name="dialog_terms_of_use_link_text">Terms of Use and Service</string>
     <!--  -->
 
@@ -980,7 +984,7 @@
     <!--  -->
 
 
-    <!-- PreStage activity -->
+    <!-- Resource initialization fka PrestageActivity -->
     <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
     <string name="prestage_resource_not_available_title">Component not available</string>
     <string name="prestage_resource_not_available_text">Unfortunately this project does not work on your device.
@@ -1101,7 +1105,7 @@
     <string name="brick_rotate_left">"Spin left "</string>
     <string name="brick_rotate_right">"Spin right "</string>
 
-    <!-- Looks bricks -->
+    <!-- Look bricks -->
     <string name="brick_set_look">Switch to look</string>
     <string name="brick_set_look_by_index">Switch to look with number</string>
     <string name="brick_and_wait">and wait</string>
@@ -1460,9 +1464,12 @@ needs read and write access to it. You can always change permissions through you
 
     <string name="lego_nxt_sensor_config_info_title">NXT sensor configuration</string>
     <string name="preference_disable_nxt_info_dialog">Disable info dialog</string>
-    <string name="preference_disable_nxt_info_dialog_description">Project specific NXT settings are not shown when opening a project.</string>
-    <string name="preference_title_mindstorms_nxt_sensors_description">The mapping of NXT sensors to ports is project specific and can only be configured for opened projects.</string>
-    <string name="lego_nxt_sensor_config_info_text">The current project uses Lego Mindstorms NXT bricks or sensors. For proper functionality please connect the sensors to the robot as follows</string>
+    <string name="preference_disable_nxt_info_dialog_description">Project specific NXT settings are not shown when
+        opening a project.</string>
+    <string name="preference_title_mindstorms_nxt_sensors_description">The mapping of NXT sensors to ports is project
+        specific and can only be configured for opened projects.</string>
+    <string name="lego_nxt_sensor_config_info_text">The current project uses Lego Mindstorms NXT bricks or sensors. For
+        proper functionality please connect the sensors to the robot as follows</string>
 
     <string name="lego_port_1">Port 1</string>
     <string name="lego_port_2">Port 2</string>
@@ -1472,9 +1479,12 @@ needs read and write access to it. You can always change permissions through you
     <string name="lego_sensor_port_config_dialog_title">Choose a port for connecting to %1$s.</string>
 
     <string name="lego_ev3_sensor_config_info_title">EV3 sensor configuration</string>
-    <string name="preference_disable_ev3_info_dialog_description">Project specific EV3 settings are not shown when opening a project.</string>
-    <string name="preference_title_mindstorms_ev3_sensors_description">The mapping of EV3 sensors to ports is project specific and can only be configured for opened projects.</string>
-    <string name="lego_ev3_sensor_config_info_text">The current project uses Lego Mindstorms EV3 bricks or sensors. For proper functionality please connect the sensors to the robot as follows</string>
+    <string name="preference_disable_ev3_info_dialog_description">Project specific EV3 settings are not shown when
+        opening a project.</string>
+    <string name="preference_title_mindstorms_ev3_sensors_description">The mapping of EV3 sensors to ports is project
+        specific and can only be configured for opened projects.</string>
+    <string name="lego_ev3_sensor_config_info_text">The current project uses Lego Mindstorms EV3 bricks or sensors. For
+        proper functionality please connect the sensors to the robot as follows</string>
 
     <string name="ev3_choose_sensor_1">Sensor connected on port 1</string>
     <string name="ev3_choose_sensor_2">Sensor connected on port 2</string>
@@ -1924,9 +1934,9 @@ needs read and write access to it. You can always change permissions through you
         many mathematical functions.\nYou can find trigonometric functions such as \"sin\" and \"cos\",
         a random number generator, and text and list functions.</string>
     <string name="formula_editor_intro_title_logic">Logic</string>
-    <string name="formula_editor_intro_summary_logic">Logic is used to compare values and combine logical formulas.\nTo compare
-        values you can use logical operations such as \"&gt;\" (greater than) or \"=\" (equals).\nTo combine logical formulas
-        you can use logical operations such as \"AND\", \"OR\" and \"NOT\".</string>
+    <string name="formula_editor_intro_summary_logic">Logic is used to compare values and combine logical formulas.\nTo
+        compare values you can use logical operations such as \"&gt;\" (greater than) or \"=\" (equals).\nTo combine
+        logical formulas you can use logical operations such as \"AND\", \"OR\" and \"NOT\".</string>
     <string name="formula_editor_intro_title_device">Sensors</string>
     <string name="formula_editor_intro_summary_device">In \"Sensors\" you can find information that your
         device records.\nFor example, the tilt of your device, or the loudness of your surroundings.</string>
@@ -1971,7 +1981,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="cast_gamepad_left">left</string>
     <string name="cast_gamepad_right">right</string>
     <string name="cast_error_not_connected_msg">Please connect to your Chromecast first</string>
-    <string name="cast_error_cast_bricks_in_no_cast_project">Your project uses Chromecast bricks and can\'t be started locally</string>
+    <string name="cast_error_cast_bricks_in_no_cast_project">Your project uses Chromecast bricks and can\'t be started
+        locally</string>
     <string name="cast_device_selector_dialog_title">Cast to</string>
     <string name="cast_button_menu_item_title">Cast button</string>
     <string name="cast_ready_to_cast">Ready to cast to</string>
@@ -2000,11 +2011,14 @@ needs read and write access to it. You can always change permissions through you
     <string name="preference_title_enable_hints">Show hints </string>
     <string name="hint_category">All bricks are sorted in categories. Choose the category you are looking for.</string>
     <string name="hint_bricks">To add a brick to your script, tap on the brick you want to use.</string>
-    <string name="hint_scripts">The script defines the behavior of your object. To add bricks to the script, tap the "+" symbol.</string>
-    <string name="hint_looks">Here you can find the different appearances of your object. To add a new look, tap the "+" symbol.</string>
+    <string name="hint_scripts">The script defines the behavior of your object. To add bricks to the script, tap the "+"
+        symbol.</string>
+    <string name="hint_looks">Here you can find the different appearances of your object. To add a new look, tap the "+"
+        symbol.</string>
     <string name="hint_sounds">Here you can add new sounds to your object. Remember using a brick from the sound
         category.</string>
-    <string name="hint_objects">Your program consists of different objects that can interact with each other. To add a new object, tap the "+" symbol.</string>
+    <string name="hint_objects">Your program consists of different objects that can interact with each other. To add a
+        new object, tap the "+" symbol.</string>
     <!--  -->
 
     <!-- Crash report dialog -->

@@ -68,6 +68,15 @@ public final class FileMetaDataExtractor {
 		return progress * 100 / fileByteSize;
 	}
 
+	public static String getFileExtensionLowerCase(File file) {
+		String fileName = file.getName();
+		int startIndexOfFileExtension = fileName.lastIndexOf('.');
+		if (startIndexOfFileExtension != -1) {
+			return fileName.substring(startIndexOfFileExtension);
+		}
+		return "";
+	}
+
 	public static String getSizeAsString(File fileOrDirectory, Context context) {
 		long bytes = FileMetaDataExtractor.getSizeOfFileOrDirectoryInByte(fileOrDirectory);
 		return formatFileSize(bytes, context);

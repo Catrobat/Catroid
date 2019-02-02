@@ -188,7 +188,7 @@ public class RenameLookTest {
 		Sprite sprite = new SingleSprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);
 
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		XstreamSerializer.getInstance().saveProject(project);
 

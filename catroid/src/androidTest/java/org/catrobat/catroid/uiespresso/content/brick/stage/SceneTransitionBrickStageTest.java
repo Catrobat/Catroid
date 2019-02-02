@@ -71,9 +71,12 @@ public class SceneTransitionBrickStageTest {
 	@Test
 	public void testContinueScene() {
 		firstBrickInScript.waitUntilEvaluated(3000);
-		UserVariableAssertions.assertUserVariableContainsStringWithTimeout(firstVariable, firstSceneBeforeTransitionVariableValue, 10);
-		UserVariableAssertions.assertUserVariableContainsStringWithTimeout(secondVariable, secondSceneVariableValue, 1000);
-		UserVariableAssertions.assertUserVariableContainsStringWithTimeout(firstVariable, firstSceneAfterTransitionVariableValue, 1000);
+		UserVariableAssertions.assertUserVariableContainsStringWithTimeout(firstVariable,
+				firstSceneBeforeTransitionVariableValue, 100);
+		UserVariableAssertions.assertUserVariableContainsStringWithTimeout(secondVariable,
+				secondSceneVariableValue, 1000);
+		UserVariableAssertions.assertUserVariableContainsStringWithTimeout(firstVariable,
+				firstSceneAfterTransitionVariableValue, 1000);
 	}
 
 	private void createProject() {
@@ -91,7 +94,7 @@ public class SceneTransitionBrickStageTest {
 		Sprite firstBackground = firstScene.getBackgroundSprite();
 		Script firstStartScript = new StartScript();
 
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 
 		firstBrickInScript = ScriptEvaluationGateBrick.appendToScript(firstStartScript);
 

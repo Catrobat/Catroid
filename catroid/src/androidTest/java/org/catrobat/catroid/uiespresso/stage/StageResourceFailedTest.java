@@ -98,7 +98,7 @@ public class StageResourceFailedTest {
 		script.addBrick(setXBrick);
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 	}
 }

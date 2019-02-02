@@ -258,7 +258,6 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 				})
 				.setNegativeButton(R.string.no, null)
 				.setCancelable(false)
-				.create()
 				.show();
 	}
 

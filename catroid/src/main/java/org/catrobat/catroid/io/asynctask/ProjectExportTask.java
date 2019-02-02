@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.io.asynctasks;
+package org.catrobat.catroid.io.asynctask;
 
 import android.os.AsyncTask;
 import android.support.annotation.VisibleForTesting;
@@ -38,10 +38,12 @@ import static org.catrobat.catroid.common.Constants.CATROBAT_EXTENSION;
 import static org.catrobat.catroid.common.Constants.EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
-public class ExportProjectToExternalStorageAsyncTask extends AsyncTask<Pair<String, Integer>, Void, Void> {
+public class ProjectExportTask extends AsyncTask<Pair<String, Integer>, Void, Void> {
+
+	@SafeVarargs
 	@Override
-	protected Void doInBackground(Pair<String, Integer>... programNames) {
-		for (Pair<String, Integer> programName: programNames) {
+	protected final Void doInBackground(Pair<String, Integer>... programNames) {
+		for (Pair<String, Integer> programName : programNames) {
 			exportProjectToExternalStorage(programName.first, programName.second);
 		}
 		return null;
@@ -49,21 +51,19 @@ public class ExportProjectToExternalStorageAsyncTask extends AsyncTask<Pair<Stri
 
 	@VisibleForTesting
 	public void exportProjectToExternalStorage(String projectName, int notificationID) {
-		final File projectFile = new File(DEFAULT_ROOT_DIRECTORY, projectName);
-		final File externalProjectZip = new File(EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY,
-				projectName + CATROBAT_EXTENSION);
+		File projectFile = new File(DEFAULT_ROOT_DIRECTORY, projectName);
+		File externalProjectZip = new File(EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY, projectName + CATROBAT_EXTENSION);
 
+		EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY.mkdirs();
 		if (!EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY.isDirectory()) {
-			EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY.mkdirs();
-			if (!EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY.isDirectory()) {
-				return;
-			}
+			return;
 		}
+
 		if (externalProjectZip.exists()) {
 			externalProjectZip.delete();
 		}
-		ZipArchiver zipArchiver = new ZipArchiver();
 
+		ZipArchiver zipArchiver = new ZipArchiver();
 		try {
 			zipArchiver.zip(externalProjectZip, projectFile.listFiles());
 			StatusBarNotificationManager.getInstance().showOrUpdateNotification(notificationID, 100);

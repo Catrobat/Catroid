@@ -96,9 +96,9 @@ public class PhiroSettingsTest {
 		sprite.addScript(startScript);
 		projectPhiro.getDefaultScene().addSprite(sprite);
 
-		ProjectManager.getInstance().setProject(projectPhiro);
+		ProjectManager.getInstance().setCurrentProject(projectPhiro);
 		ProjectManager.getInstance().saveProject(context);
 		Thread.sleep(100);
-		ProjectManager.getInstance().setProject(null);
+		ProjectManager.getInstance().setCurrentProject(null);
 	}
 }

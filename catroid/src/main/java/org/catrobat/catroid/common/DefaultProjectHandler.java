@@ -98,7 +98,7 @@ public final class DefaultProjectHandler {
 		Project emptyProject = new Project(context, projectName, landscapeMode, isCastEnabled);
 		emptyProject.setDeviceData(context);
 		XstreamSerializer.getInstance().saveProject(emptyProject);
-		ProjectManager.getInstance().setProject(emptyProject);
+		ProjectManager.getInstance().setCurrentProject(emptyProject);
 
 		return emptyProject;
 	}

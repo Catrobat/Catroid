@@ -125,7 +125,7 @@ public class StopAllSoundsActionTest {
 
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		XstreamSerializer.getInstance().saveProject(project);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 
 		int soundFileId = R.raw.testsound;
 		soundFile = ResourceImporter.createSoundFileFromResourcesInDirectory(

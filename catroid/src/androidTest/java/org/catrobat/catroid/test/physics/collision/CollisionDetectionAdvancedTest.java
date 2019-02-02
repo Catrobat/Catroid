@@ -102,7 +102,7 @@ public class CollisionDetectionAdvancedTest {
 		project.getDefaultScene().addSprite(sprite2);
 
 		XstreamSerializer.getInstance().saveProject(project);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 
 		initializeSprite(sprite1, org.catrobat.catroid.test.R.raw.collision_donut, "collision_donut.png");
 		initializeSprite(sprite2, org.catrobat.catroid.test.R.raw.icon, "icon.png");

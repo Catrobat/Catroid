@@ -65,7 +65,7 @@ public class DefaultProjectHandlerTest {
 	@Test
 	public void testCreateScaledDefaultProject() throws IOException {
 		ProjectManager projectManager = ProjectManager.getInstance();
-		projectManager.setProject(DefaultProjectHandler.createAndSaveDefaultProject(projectName,
+		projectManager.setCurrentProject(DefaultProjectHandler.createAndSaveDefaultProject(projectName,
 				InstrumentationRegistry.getTargetContext()));
 
 		Project currentProject = projectManager.getCurrentProject();

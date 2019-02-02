@@ -51,7 +51,7 @@ public class SetVariableActionTest {
 	public void setUp() throws Exception {
 		testSprite = new SingleSprite("testSprite");
 		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		userVariable = new UserVariable(TEST_USERVARIABLE);
 		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().addUserVariable(userVariable);
 	}

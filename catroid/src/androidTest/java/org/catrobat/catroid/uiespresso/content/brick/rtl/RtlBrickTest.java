@@ -821,7 +821,7 @@ public class RtlBrickTest {
 		spriteTwo.addScript(script);
 
 		project.getDefaultScene().addSprite(spriteTwo);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 		ProjectManager.getInstance().setCurrentSprite(spriteTwo);
 	}

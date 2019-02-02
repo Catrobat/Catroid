@@ -391,7 +391,7 @@ public final class Utils {
 
 			String defaultProjectSpriteList = stringFinder.getResult();
 
-			ProjectManager.getInstance().setProject(projectToCheck);
+			ProjectManager.getInstance().setCurrentProject(projectToCheck);
 			ProjectManager.getInstance().saveProject(context);
 
 			String projectToCheckXML = XstreamSerializer.getInstance().getXmlAsStringFromProject(projectToCheck);

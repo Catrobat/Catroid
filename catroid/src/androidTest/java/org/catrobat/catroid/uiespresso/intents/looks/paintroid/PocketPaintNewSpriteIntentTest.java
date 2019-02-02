@@ -140,7 +140,7 @@ public class PocketPaintNewSpriteIntentTest {
 
 	private void createProject(String projectName) {
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 		XstreamSerializer.getInstance().saveProject(project);
 	}

@@ -78,7 +78,7 @@ public class ComeToFrontActionTest {
 		project.getDefaultScene().addSprite(bottomSprite);
 		project.getDefaultScene().addSprite(middleSprite);
 		project.getDefaultScene().addSprite(topSprite);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 
 		checkIfEveryZIndexUsedOnlyOnceFromZeroToNMinus1(project);
 
@@ -146,7 +146,7 @@ public class ComeToFrontActionTest {
 			project.getDefaultScene().addSprite(sprite);
 		}
 
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 
 		ActionFactory factory = firstSprite.getActionFactory();
 		Action action = factory.createComeToFrontAction(firstSprite);

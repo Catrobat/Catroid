@@ -75,7 +75,7 @@ public class ParserTestUserLists {
 		startScript.addBrick(changeBrick);
 		project.getDefaultScene().addSprite(sprite);
 
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 
 		dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();

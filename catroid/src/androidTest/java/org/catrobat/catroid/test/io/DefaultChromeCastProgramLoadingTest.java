@@ -69,7 +69,7 @@ public class DefaultChromeCastProgramLoadingTest {
 
 	@After
 	public void tearDown() throws Exception {
-		ProjectManager.getInstance().setProject(currentProjectBuffer);
+		ProjectManager.getInstance().setCurrentProject(currentProjectBuffer);
 		TestUtils.deleteProjects(projectName);
 	}
 

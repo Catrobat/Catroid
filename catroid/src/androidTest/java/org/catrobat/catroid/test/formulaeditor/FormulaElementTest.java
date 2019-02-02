@@ -75,7 +75,7 @@ public class FormulaElementTest {
 	@Test
 	public void testInterpretNonExistingUserVariable() {
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		FormulaElement formulaElement = new FormulaElement(ElementType.USER_VARIABLE, "notExistingUserVariable", null);
 		assertEquals(FormulaElement.NOT_EXISTING_USER_VARIABLE_INTERPRETATION_VALUE, formulaElement.interpretRecursive(null));
 	}
@@ -83,7 +83,7 @@ public class FormulaElementTest {
 	@Test
 	public void testInterpretNonExistingUserList() {
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		FormulaElement formulaElement = new FormulaElement(ElementType.USER_LIST, "notExistingUserList", null);
 		assertEquals(FormulaElement.NOT_EXISTING_USER_LIST_INTERPRETATION_VALUE, formulaElement.interpretRecursive(null));
 	}

@@ -275,7 +275,6 @@ public class ProjectActivity extends BaseCastActivity {
 						}
 					}
 				})
-				.create()
 				.show();
 	}
 
@@ -320,7 +319,6 @@ public class ProjectActivity extends BaseCastActivity {
 
 		builder.setTitle(R.string.new_scene_dialog)
 				.setNegativeButton(R.string.cancel, null)
-				.create()
 				.show();
 	}
 

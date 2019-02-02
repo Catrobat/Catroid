@@ -118,7 +118,7 @@ public class BroadcastAndWaitBrickMessageContainerTest {
 
 		project.getDefaultScene().addSprite(sprite);
 
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 	}
 

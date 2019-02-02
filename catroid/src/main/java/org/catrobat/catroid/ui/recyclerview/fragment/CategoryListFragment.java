@@ -40,6 +40,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.Constants.LegoSensorType;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
@@ -270,7 +271,6 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 						getActivity().onBackPressed();
 					}
 				})
-				.create()
 				.show();
 	}
 
@@ -290,7 +290,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			selectableSpriteNames[i] = selectableSprites.get(i).getName();
 		}
 
-		new AlertDialog.Builder(getActivity())
+		new AlertDialog.Builder(getContext())
 				.setTitle(R.string.formula_editor_function_collision)
 				.setItems(selectableSpriteNames, new DialogInterface.OnClickListener() {
 					@Override
@@ -306,7 +306,6 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 						getActivity().onBackPressed();
 					}
 				})
-				.create()
 				.show();
 	}
 
@@ -413,7 +412,16 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 
 	private List<CategoryListItem> getObjectGeneralPropertiesItems() {
 		List<Integer> resIds = new ArrayList<>(OBJECT_GENERAL_PROPERTIES);
-		resIds.addAll(ProjectManager.getInstance().getCurrentSpritePosition() == 0 ? OBJECT_BACKGROUND : OBJECT_LOOK);
+
+		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+
+		if (currentSprite.equals(currentScene.getBackgroundSprite())) {
+			resIds.addAll(OBJECT_BACKGROUND);
+		} else {
+			resIds.addAll(OBJECT_LOOK);
+		}
+
 		return addHeader(toCategoryListItems(resIds), getString(R.string.formula_editor_object_general));
 	}
 

@@ -213,7 +213,7 @@ public class BrickCloneTest {
 
 	private <T extends Brick> void checkVariableReferences(Class<T> typeOfBrick) throws Exception {
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		project.getDefaultScene().addSprite(sprite);
 		StartScript script = new StartScript();
 		sprite.addScript(script);

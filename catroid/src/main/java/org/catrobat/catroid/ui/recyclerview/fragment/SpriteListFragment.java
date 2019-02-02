@@ -165,7 +165,6 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 
 		builder.setTitle(R.string.new_group)
 				.setNegativeButton(R.string.cancel, null)
-				.create()
 				.show();
 	}
 

@@ -66,7 +66,7 @@ public class WhenConditionScriptTest {
 
 	private void createProjectWithSprite(Sprite sprite) {
 		Project project = new Project(InstrumentationRegistry.getInstrumentation().getTargetContext(), "TestProject");
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		project.getDefaultScene().addSprite(sprite);
 	}
 
