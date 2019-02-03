@@ -25,6 +25,7 @@ package org.catrobat.catroid.common;
 import android.os.Environment;
 import android.support.annotation.IntDef;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.CatroidApplication;
 
 import java.io.File;
@@ -95,7 +96,7 @@ public final class Constants {
 	public static final String TEXT_TO_SPEECH_TMP_PATH = TMP_PATH + "/textToSpeech";
 
 	// Web:
-	public static final String MAIN_URL_HTTPS = "https://share.catrob.at";
+	public static final String MAIN_URL_HTTPS = BuildConfig.MAIN_URL_HTTPS;
 
 	public static final String SHARE_PROGRAM_URL = BASE_URL_HTTPS + "/program/";
 	public static final String STANDALONE_URL = "http://catrob.at/csadttwt";
