@@ -98,10 +98,10 @@ public final class Constants {
 	public static final String MAIN_URL_HTTPS = "https://share.catrob.at";
 
 	public static final String SHARE_PROGRAM_URL = BASE_URL_HTTPS + "/program/";
-	public static final String STANDALONE_URL = "http://catrob.at/csadttwt";
+	public static final String STANDALONE_URL = "https://catrob.at/csadttwt";
 
-	public static final String CATROBAT_ABOUT_URL = "http://www.catrobat.org/";
-	public static final String ABOUT_POCKETCODE_LICENSE_URL = "http://developer.catrobat.org/licenses";
+	public static final String CATROBAT_ABOUT_URL = "https://www.catrobat.org/";
+	public static final String ABOUT_POCKETCODE_LICENSE_URL = "https://catrob.at/licenses";
 
 	public static final String CATROBAT_TERMS_OF_USE_URL = BASE_URL_HTTPS + "termsOfUse";
 	public static final String CATROBAT_HELP_URL = BASE_URL_HTTPS + "help";
