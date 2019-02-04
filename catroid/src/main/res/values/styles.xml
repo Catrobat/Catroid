@@ -152,6 +152,7 @@
 
     <style name="BrickText.SingleLine">
         <item name="android:maxLines">1</item>
+        <item name="android:paddingEnd">@dimen/material_design_spacing_small</item>
     </style>
 
     <style name="BrickText.Multiple">
