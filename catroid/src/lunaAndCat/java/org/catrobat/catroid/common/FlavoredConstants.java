@@ -43,11 +43,11 @@ public final class FlavoredConstants {
 			Environment.getExternalStorageDirectory().getAbsolutePath(), POCKET_CODE_EXTERNAL_STORAGE_FOLDER_NAME);
 
 	// Media Library:
-	public static final String LIBRARY_BASE_URL = "https://share.catrob.at/luna/download-media/";
-	public static final String LIBRARY_LOOKS_URL = "https://share.catrob.at/luna/media-library/looks";
-	public static final String LIBRARY_BACKGROUNDS_URL_PORTRAIT = "https://share.catrob.at/luna/media-library/backgrounds-portrait";
-	public static final String LIBRARY_BACKGROUNDS_URL_LANDSCAPE = "https://share.catrob.at/luna/media-library/backgrounds-landscape";
-	public static final String LIBRARY_SOUNDS_URL = "https://share.catrob.at/luna/pocket-library/sounds";
+	public static final String LIBRARY_BASE_URL = BASE_URL_HTTPS + "download-media/";
+	public static final String LIBRARY_LOOKS_URL = BASE_URL_HTTPS + "media-library/looks";
+	public static final String LIBRARY_BACKGROUNDS_URL_PORTRAIT = BASE_URL_HTTPS + "media-library/backgrounds-portrait";
+	public static final String LIBRARY_BACKGROUNDS_URL_LANDSCAPE = BASE_URL_HTTPS + "media-library/backgrounds-landscape";
+	public static final String LIBRARY_SOUNDS_URL = BASE_URL_HTTPS + "media-library/sounds";
 
 	private FlavoredConstants() {
 		throw new AssertionError("No.");
