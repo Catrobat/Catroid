@@ -15,16 +15,22 @@ google-services.json
 
 # IntelliJ IDEA
 .idea
+*.iml
 *.ipr
 *.iws
 !.idea/.name
+
+# code style setting migration 2017
 !.idea/codeStyleSettings.xml
 !.idea/codeStyles/Project.xml
 !.idea/codeStyles/codeStyleConfig.xml
+
 !.idea/compiler.xml
+
+# copyright config
 !.idea/copyright/Catroid.xml
 !.idea/copyright/profiles_settings.xml
-!.idea/dictionaries/catrobat.xml
+
 !.idea/encodings.xml
 !.idea/misc.xml
 !.idea/modules.xml
