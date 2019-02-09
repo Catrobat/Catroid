@@ -46,6 +46,7 @@ import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.recyclerview.controller.BrickController;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+import org.catrobat.catroid.utils.PathBuilder;
 
 import java.io.File;
 import java.io.IOException;
@@ -192,6 +193,12 @@ public final class ProjectManager {
 		if (resourcesSet.contains(Brick.BLUETOOTH_SENSORS_ARDUINO)) {
 			SettingsFragment.setArduinoSharedPreferenceEnabled(context, true);
 		}
+
+        File codeFile = new File(PathBuilder.buildPath(PathBuilder.buildProjectPath(projectName), Constants.CODE_XML_FILE_NAME));
+        if(!codeFile.setLastModified(System.currentTimeMillis()))
+        {
+            Log.d(TAG,"Unable to change project's last modified");
+        }
 
 		currentlyPlayingScene = project.getDefaultScene();
 	}
