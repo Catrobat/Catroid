@@ -88,7 +88,7 @@
     <string name="main_menu_new">New project</string>
     <string name="main_menu_programs">Projects on device</string>
     <string name="main_menu_help">Help</string>
-    <string name="main_menu_web">Projects on sharing site</string>
+    <string name="main_menu_web">Catrobat community</string>
     <string name="main_menu_upload">Upload project</string>
 
     <string name="main_menu_rate_app">Rate us!</string>
@@ -666,11 +666,11 @@
     <string name="details_date_today">Today</string>
 
     <!-- Migrate from external to internal storage -->
-    <string name="import_dialog_title">Updated project storage</string>
-    <string name="import_dialog_message">There has been a change in how we store your projects on your device.
-        You can now let us move the projects to the new location or copy them. Copying will put a copy of all
-        of into the new storage location and leave them uncanged in the old location, moving will remove them
-        from the old location.</string>
+    <string name="import_dialog_title">Updated project storage</string>        
+    <string name="import_dialog_message">From now on projects will be stored in a hidden area on your device.
+        Existing projects can either be \'moved\' or \'copied\' to this hidden area. \'Moving\' them will remove them from
+        the unprotected area. You will still be able to access all projects, and to export them later to the unprotected area.
+        If you are unsure, select \'Move\'.</string>    
     <string name="import_dialog_copy_btn">Copy</string>
     <string name="import_dialog_move_btn">Move</string>
     <string name="projects_successful_moved_toast">Projects successfully moved.</string>
@@ -815,7 +815,7 @@
             information (last bits of the IP address get anonymized). However, the collected data will get
             transferred to the service-provider (Google LLC, USA). Data processing is based on an agreement with
             Google LLC. This relationship to the service provider conforms to the European Union\'s General Data
-            Protection Regulation (EU GDPR) and EU-USA "Privacy Shield" agreement.\n\n
+            Protection Regulation (EU GDPR) and EU-USA \"Privacy Shield\" agreement.\n\n
         &#8226; To create and use an account in our systems, and to inform you about necessary changes about your
             account per e-mail, e.g., updates or violations of our Terms of Use and Service, our community rules, or
             our policies, we will store your username and, if provided by you, your e-mail address. If you have
@@ -839,9 +839,9 @@
         &#8226; You can voluntarily subscribe to the Catrobat Newsletter, on https://catrob.at/newsletter provided
             by us through the MailChimp service (The Rocket Science Group LLC d/b/a MailChimp, USA). You will then
             receive updates on the Catrobat project and its services to your provided e-mail address. You can withdraw
-            the newsletter at any time by using the "unsubscribe" link in the footer of every newsletter. This
+            the newsletter at any time by using the \"unsubscribe\" link in the footer of every newsletter. This
             newsletter is provided by MailChimp with whom we do have a data-processing agreement and who committed to
-            the EU General Data Protection Regulation and EU-USA "Privacy Shield". For further details on MailChimp
+            the EU General Data Protection Regulation and EU-USA \"Privacy Shield\". For further details on MailChimp
             please also look up MailChimp\'s Privacy Policy and Terms of Use.\n\n
         &#8226; All Services are provided by the free open source Catrobat project under the umbrella of the
             International Catrobat Association – Verein zur Förderung freier Software, a non-profit NGO incorporated
@@ -955,7 +955,7 @@
     <string name="sign_in_with_facebook">Sign in with Facebook</string>
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="error_register_empty_username">Empty username</string>
-    <string name="error_register_username_as_email">Email address cannot be used as usernames</string>
+    <string name="error_register_username_as_email">Email address cannot be used as user names</string>
     <string name="error_register_invalid_username">Username should only contain letters (a–z), numbers (0–9),
         dashes (-), underscores (_), and periods (.).</string>
     <string name="error_register_username_start_with">Username should not start with dashes (-), underscores (_), or
@@ -985,7 +985,8 @@
 
 
     <!-- Resource initialization fka PrestageActivity -->
-    <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
+    <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to
+        install it?</string>
     <string name="prestage_resource_not_available_title">Component not available</string>
     <string name="prestage_resource_not_available_text">Unfortunately this project does not work on your device.
         The following components are unavailable:\n\n</string>
@@ -1050,15 +1051,15 @@
     <!--  -->
 
     <!-- Motion bricks -->
-    <string name="brick_place_at">"Place at "</string>
-    <string name="x_label">"x: "</string>
-    <string name="y_label">"y: "</string>
-    <string name="brick_set_x">"Set x to "</string>
-    <string name="brick_set_y">"Set y to "</string>
-    <string name="brick_change_x_by">"Change x by "</string>
-    <string name="brick_change_y_by">"Change y by "</string>
+    <string name="brick_place_at">"Place at"</string>
+    <string name="x_label">"x:"</string>
+    <string name="y_label">"y:"</string>
+    <string name="brick_set_x">"Set x to"</string>
+    <string name="brick_set_y">"Set y to"</string>
+    <string name="brick_change_x_by">"Change x by"</string>
+    <string name="brick_change_y_by">"Change y by"</string>
     <string name="brick_go_back">Go back</string>
-    <string name="brick_set_rotation_style">"Set rotation style "</string>
+    <string name="brick_set_rotation_style">"Set rotation style"</string>
     <string name="brick_set_rotation_style_lr">left-right only</string>
     <string name="brick_set_rotation_style_normal">all-around</string>
     <string name="brick_set_rotation_style_no">don\'t rotate</string>
@@ -1093,17 +1094,17 @@
     <string name="brick_set_physics_object_type_dynamic">moving and bouncing under gravity</string>
     <string name="brick_set_physics_object_type_fixed">not moving under gravity, but others bounce off you under gravity</string>
     <string name="brick_set_physics_object_type_no">not moving or bouncing under gravity (default)</string>
-    <string name="brick_set_mass">"Set mass to "</string>
+    <string name="brick_set_mass">"Set mass to"</string>
     <string name="brick_set_mass_unit">kilogram</string>
-    <string name="brick_set_gravity_to">"Set gravity for all actors and objects to "</string>
+    <string name="brick_set_gravity_to">"Set gravity for all actors and objects to"</string>
     <string name="brick_set_gravity_unit">steps/second²</string>
-    <string name="brick_set_velocity_to">"Set velocity to "</string>
+    <string name="brick_set_velocity_to">"Set velocity to"</string>
     <string name="brick_set_velocity_unit">steps/second</string>
     <string name="brick_turn_speed_unit">degrees/second</string>
-    <string name="brick_set_friction">"Set friction to "</string>
-    <string name="brick_set_bounce_factor">"Set bounce factor to "</string>
-    <string name="brick_rotate_left">"Spin left "</string>
-    <string name="brick_rotate_right">"Spin right "</string>
+    <string name="brick_set_friction">"Set friction to"</string>
+    <string name="brick_set_bounce_factor">"Set bounce factor to"</string>
+    <string name="brick_rotate_left">"Spin left"</string>
+    <string name="brick_rotate_right">"Spin right"</string>
 
     <!-- Look bricks -->
     <string name="brick_set_look">Switch to look</string>
@@ -1117,12 +1118,12 @@
     <string name="brick_change_size_by">Change size by</string>
     <string name="brick_hide">Hide</string>
     <string name="brick_show">Show</string>
-    <string name="brick_set_transparency">"Set transparency "</string>
-    <string name="brick_change_ghost_effect">"Change transparency "</string>
-    <string name="brick_set_brightness">"Set brightness "</string>
-    <string name="brick_change_brightness">"Change brightness "</string>
-    <string name="brick_set_color">"Set color "</string>
-    <string name="brick_change_color">"Change color "</string>
+    <string name="brick_set_transparency">"Set transparency"</string>
+    <string name="brick_change_ghost_effect">"Change transparency"</string>
+    <string name="brick_set_brightness">"Set brightness"</string>
+    <string name="brick_change_brightness">"Change brightness"</string>
+    <string name="brick_set_color">"Set color"</string>
+    <string name="brick_change_color">"Change color"</string>
     <string name="by_label">by</string>
     <string name="to_label">to</string>
     <string name="brick_clear_graphic_effect">Clear graphic effects</string>
@@ -1186,8 +1187,8 @@
 
 
     <plurals name="second_plural">
-        <item quantity="one">"second "</item>
-        <item quantity="other">"seconds "</item>
+        <item quantity="one">"second"</item>
+        <item quantity="other">"seconds"</item>
     </plurals>
 
     <string name="brick_collision_receive">When you bounce off</string>
@@ -1323,20 +1324,20 @@
     <string name="notification_screenshot_ok">Preview image saved</string>
     <string name="notification_download_project_cancel">Cancel project download</string>
     <string name="notification_reconvert_download_program_cancel">Canceled downloading/reconverting project</string>
-    <string name="notification_copy_title_pending">"Copying "</string>
+    <string name="notification_copy_title_pending">"Copying"</string>
     <string name="notification_copy_pending">Copy in progress</string>
     <string name="notification_copy_finished">Copy completed</string>
-    <string name="notification_upload_title_pending">"Uploading "</string>
-    <string name="notification_upload_title_finished">"Look at "</string>
+    <string name="notification_upload_title_pending">"Uploading"</string>
+    <string name="notification_upload_title_finished">"Look at"</string>
     <string name="notification_upload_pending">Upload in progress</string>
     <string name="notification_upload_finished">Upload successful</string>
     <string name="notification_upload_rejected">Uploaded project rejected</string>
     <string name="notification_upload_retry">Retry</string>
     <string name="notification_open_play_store">Open App store</string>
-    <string name="notification_download_title_pending">"Downloading "</string>
+    <string name="notification_download_title_pending">"Downloading"</string>
     <string name="notification_download_pending">Download in progress</string>
     <string name="notification_download_finished">Download successful</string>
-    <string name="notification_title_open">"Open "</string>
+    <string name="notification_title_open">"Open"</string>
     <string name="notification_low_battery_with_value">Attention. Battery is low. Current status is %d</string>
     <string name="size_of_project">Size:</string>
     <string name="drone_emergency_battery_low">Battery is low (automatic landing).</string>
@@ -1353,23 +1354,24 @@
 
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">This app needs the requested permissions to function properly. E.g., the
-Camera brick needs access to the device\'s camera, the "location" formula element needs access to the
+Camera brick needs access to the device\'s camera, the \"location\" formula element needs access to the
 device\'s geolocation sensor, and in order to import and export projects from and to the local memory, the app
 needs read and write access to it. You can always change permissions through your device\'s settings.</string>
 
     <!-- Error messages -->
-    <string name="error_project_upload">An error occurred while uploading the program.</string>
-    <string name="error_project_download">An error occurred while downloading the program.</string>
-    <string name="error_new_project">An error occurred while creating a new program.</string>
-    <string name="error_rename_scene">An error occurred while renaming the scene.</string>
-    <string name="error_load_project">An error occurred while loading the project.</string>
-    <string name="error_screenshot_failed">An error occurred while saving the preview image.</string>
+    <string name="error_project_upload">Something went wrong while uploading the project.</string>
+    <string name="error_project_download">Something went wrong while downloading the project.</string>
+    <string name="error_new_project">Something went wrong while creating a new project.</string>
+    <string name="error_rename_scene">Something went wrong while renaming the scene.</string>
+    <string name="error_load_project">Something went wrong while loading the project.</string>
+    <string name="error_screenshot_failed">Something went wrong while saving the preview image.</string>
     <string name="error_internet_connection">An unknown error occurred. Check your Internet connection.</string>
     <string name="error_project_compatibility">The project is not compatible with this version of the app.</string>
     <string name="error_outdated_version">This app version is outdated. Update now?</string>
-    <string name="error_upload_project_with_default_name">You cannot upload a project with the name \'My first project\'. Please rename the project.</string>
-    <string name="error_adding_brick">An error occurred while adding this brick.</string>
-    <string name="error_copying_brick">An error occurred while copying this brick.</string>
+    <string name="error_upload_project_with_default_name">You cannot upload a project with the name
+        \"My first project\". Please rename the project.</string>
+    <string name="error_adding_brick">Something went wrong while adding this brick.</string>
+    <string name="error_copying_brick">Something went wrong while copying this brick.</string>
     <string name="error_no_drone_connected_title">Cannot find AR.Drone 2.0.</string>
     <string name="error_no_drone_connected">Connect your wifi to the AR.Drone 2.0 and try again.</string>
     <string name="error_drone_low_battery_title">AR.Drone 2.0 battery low: %d%%</string>
@@ -1384,9 +1386,9 @@ needs read and write access to it. You can always change permissions through you
     <string name="error_drone_wrong_platform">We cannot run an AR.Drone 2.0 project on your device.</string>
     <string name="error_rename_incompatible_project">Renaming an incompatible project is not possible.</string>
 
-    <string name="error_unknown_error">An unknown error occurred.</string>
-    <string name="error_gps_not_available">Error, geolocation data is not available.</string>
-    <string name="error_set_description">An error occurred while saving the new description.</string>
+    <string name="error_unknown_error">Something went wrong.</string>
+    <string name="error_gps_not_available">Geolocation data is not available.</string>
+    <string name="error_set_description">Something went wrong while saving the new description.</string>
     <string name="error_no_whatsapp">WhatsApp not installed</string>
     <string name="error_unsupported_bricks_chromecast">This script can\'t be added  to a Chromecast
         project.</string>
@@ -1954,7 +1956,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="variable_hint">Variable name</string>
     <string name="brick_show_variable">Show variable</string>
     <string name="brick_hide_variable">Hide variable</string>
-    <string name="brick_show_variable_position">"at "</string>
+    <string name="brick_show_variable_position">"at"</string>
     <!-- -->
 
     <!-- User bricks strings -->
@@ -1999,9 +2001,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="deletion_alert_yes">Yes, delete anyway!</string>
 
     <!-- Upload progress dialog -->
-    <string name="progress_upload_dialog_message">Your project gets uploaded to the app’s sharing site where others can use
-        and download it.
-        You can also download your project as a standalone app.</string>
+    <string name="progress_upload_dialog_message">Your project gets uploaded to the app\’s sharing site where others
+        can use and download it. You can also download your project as a standalone app.</string>
      <string name="progress_upload_dialog_show_program">Show project</string>
     <!--  -->
 
@@ -2011,14 +2012,14 @@ needs read and write access to it. You can always change permissions through you
     <string name="preference_title_enable_hints">Show hints </string>
     <string name="hint_category">All bricks are sorted in categories. Choose the category you are looking for.</string>
     <string name="hint_bricks">To add a brick to your script, tap on the brick you want to use.</string>
-    <string name="hint_scripts">The script defines the behavior of your object. To add bricks to the script, tap the "+"
-        symbol.</string>
-    <string name="hint_looks">Here you can find the different appearances of your object. To add a new look, tap the "+"
-        symbol.</string>
-    <string name="hint_sounds">Here you can add new sounds to your object. Remember using a brick from the sound
-        category.</string>
-    <string name="hint_objects">Your program consists of different objects that can interact with each other. To add a
-        new object, tap the "+" symbol.</string>
+    <string name="hint_scripts">The script defines the behavior of your actor or object. To add bricks to the script,
+        tap the \"+\" symbol.</string>
+    <string name="hint_looks">Here you can find the different appearances of your actor or object. To add a new look,
+        tap the \"+\" symbol.</string>
+    <string name="hint_sounds">Here you can add new sounds to your actor or object. Remember using a brick from the
+        sound category.</string>
+    <string name="hint_objects">Your program consists of different actors and objects that can interact with each other.
+        To add a new actor or object, tap the \"+\" symbol.</string>
     <!--  -->
 
     <!-- Crash report dialog -->
