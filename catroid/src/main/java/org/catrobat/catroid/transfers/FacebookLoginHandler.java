@@ -97,7 +97,7 @@ public class FacebookLoginHandler implements FacebookCallback<LoginResult>,
 
 	@Override
 	public void forceSignIn() {
-		ToastUtil.showError(activity, activity.getString(R.string.error_facebook_session_expired));
+		ToastUtil.showError(activity, activity.getString(R.string.error_session_expired));
 	}
 
 	@Override
