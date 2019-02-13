@@ -347,8 +347,8 @@
         <item quantity="other">Delete %d projects</item>
     </plurals>
     <plurals name="am_rename_projects_title">
-        <item quantity="one">Rename %d pProject</item>
-        <item quantity="other">Rename %d pProjects</item>
+        <item quantity="one">Rename %d project</item>
+        <item quantity="other">Rename %d projects</item>
     </plurals>
     <plurals name="am_convert_projects_title">
         <item quantity="one">Convert %d project</item>
@@ -664,19 +664,23 @@
     <string name="description">Description:</string>
     <string name="set_description">Set description</string>
     <string name="details_date_today">Today</string>
+    <string name="import_project">Import project</string>
+    <string name="error_import_project">Something went wrong while importing projects.</string>
 
     <!-- Migrate from external to internal storage -->
-    <string name="import_dialog_title">Updated project storage</string>        
+    <string name="import_dialog_title">Updated project storage</string>
     <string name="import_dialog_message">From now on projects will be stored in a hidden area on your device.
         Existing projects can either be \'moved\' or \'copied\' to this hidden area. \'Moving\' them will remove them from
         the unprotected area. You will still be able to access all projects, and to export them later to the unprotected area.
-        If you are unsure, select \'Move\'.</string>    
+        If you are unsure, select \'Move\'.</string>
     <string name="import_dialog_copy_btn">Copy</string>
     <string name="import_dialog_move_btn">Move</string>
     <string name="projects_successful_moved_toast">Projects successfully moved.</string>
     <string name="projects_successful_copied_toast">Projects successfully copied.</string>
     <string name="error_during_copying_projects_toast">An error occurred during project migration.</string>
     <!--  -->
+
+    <string name="error_no_files_found">No project files found.</string>
 
     <!-- ScriptListFragment -->
     <string name="fragment_script_text_description">Tap \"+\" to add scripts</string>
@@ -883,7 +887,6 @@
     <string name="error_no_network_title">No network</string>
 
     <!-- UploadProjectDialog -->
-    <string name="error_no_program_name_entered">Please enter a project name.</string>
     <string name="upload_button">Upload</string>
     <string name="upload_project_dialog_title">Upload project</string>
     <string name="upload_description">Description:</string>
@@ -1369,8 +1372,10 @@ needs read and write access to it. You can always change permissions through you
     <string name="error_internet_connection">An unknown error occurred. Check your Internet connection.</string>
     <string name="error_project_compatibility">The project is not compatible with this version of the app.</string>
     <string name="error_outdated_version">This app version is outdated. Update now?</string>
-    <string name="error_upload_project_with_default_name">You cannot upload a project with the name
-        \"My first project\". Please rename the project.</string>
+    <string name="error_upload_project_with_default_name">You cannot upload a project with the name \"My first project\".
+        Please rename the project.</string>
+    <string name="error_upload_default_project">You cannot upload a automatically created project, please
+        change some things and try again.</string>
     <string name="error_adding_brick">Something went wrong while adding this brick.</string>
     <string name="error_copying_brick">Something went wrong while copying this brick.</string>
     <string name="error_no_drone_connected_title">Cannot find AR.Drone 2.0.</string>

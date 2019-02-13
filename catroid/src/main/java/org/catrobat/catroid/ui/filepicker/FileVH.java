@@ -20,26 +20,22 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
+package org.catrobat.catroid.ui.filepicker;
 
-import org.catrobat.catroid.formulaeditor.datacontainer.SupportDataContainer;
+import android.view.View;
+import android.widget.TextView;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.recyclerview.viewholder.ViewHolder;
 
-@XStreamAlias("program")
-public class SupportProject implements Serializable {
-	private static final long serialVersionUID = 1L;
+class FileVH extends ViewHolder {
 
-	@XStreamAlias("header")
-	public XmlHeader xmlHeader = new XmlHeader();
-	@XStreamAlias("objectList")
-	public List<Sprite> spriteList = new ArrayList<>();
-	@XStreamAlias("data")
-	public SupportDataContainer dataContainer = null;
-	@XStreamAlias("settings")
-	public List<Setting> settings = new ArrayList<>();
+	public TextView subtitle;
+
+	FileVH(View itemView) {
+		super(itemView);
+		title = itemView.findViewById(R.id.title_view);
+		subtitle = itemView.findViewById(R.id.subtitle_view);
+	}
 }

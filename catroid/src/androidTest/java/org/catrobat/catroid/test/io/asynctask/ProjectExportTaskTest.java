@@ -29,6 +29,7 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.GrantPermissionRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.util.Pair;
 import android.util.SparseArray;
 
 import org.catrobat.catroid.ProjectManager;
@@ -76,8 +77,7 @@ public class ProjectExportTaskTest {
 		StatusBarNotificationManager notificationManager = StatusBarNotificationManager.getInstance();
 		int notificationID = notificationManager
 				.createSaveProjectToExternalMemoryNotification(InstrumentationRegistry.getTargetContext(), projectName);
-		ProjectExportTask asyncTask = new ProjectExportTask();
-		asyncTask.exportProjectToExternalStorage(projectName, notificationID);
+		ProjectExportTask.task(new Pair<>(projectName, notificationID));
 
 		File externalProjectZip = new File(EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY, projectName + CATROBAT_EXTENSION);
 		Assert.assertTrue(externalProjectZip.exists());
