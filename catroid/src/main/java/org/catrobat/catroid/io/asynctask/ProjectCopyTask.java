@@ -23,61 +23,66 @@
 
 package org.catrobat.catroid.io.asynctask;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
+import org.catrobat.catroid.utils.FileMetaDataExtractor;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 
+import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public class ProjectCopyTask extends AsyncTask<String, Void, Boolean> {
 
 	public static final String TAG = ProjectCopyTask.class.getSimpleName();
 
-	private WeakReference<Context> weakContextReference;
 	private WeakReference<ProjectCopyListener> weakListenerReference;
 
-	public ProjectCopyTask(Context context, ProjectCopyListener listener) {
-		weakContextReference = new WeakReference<>(context);
+	public ProjectCopyTask(ProjectCopyListener listener) {
 		weakListenerReference = new WeakReference<>(listener);
+	}
+
+	public static boolean task(String srcName, String dstName) {
+		if (!FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).contains(srcName)
+				|| FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).contains(dstName)) {
+			return false;
+		}
+
+		File srcDir = new File(DEFAULT_ROOT_DIRECTORY, srcName);
+		File dstDir = new File(DEFAULT_ROOT_DIRECTORY, dstName);
+
+		try {
+			StorageOperations
+					.copyDir(srcDir, dstDir);
+			XstreamSerializer.getInstance()
+					.renameProject(new File(dstDir, CODE_XML_FILE_NAME), srcName);
+			return true;
+		} catch (IOException e) {
+			Log.e(TAG, "Something went wrong while copying project "
+					+ srcName
+					+ " to "
+					+ dstName, e);
+			if (dstDir.isDirectory()) {
+				Log.e(TAG, "Folder exists, trying to delete folder.");
+				try {
+					StorageOperations.deleteDir(dstDir);
+				} catch (IOException deleteException) {
+					Log.e(TAG, "Cannot delete folder " + dstName, deleteException);
+				}
+				Log.e(TAG, "Deleted folder, returning ..");
+			}
+			return false;
+		}
 	}
 
 	@Override
 	protected Boolean doInBackground(String... strings) {
-		Context context = weakContextReference.get();
-		if (context == null) {
-			return false;
-		}
-
-		File projectToCopyDir = new File(DEFAULT_ROOT_DIRECTORY, strings[0]);
-		File projectDir = new File(DEFAULT_ROOT_DIRECTORY, strings[1]);
-
-		try {
-			StorageOperations.copyDir(projectToCopyDir, projectDir);
-			Project project = XstreamSerializer.getInstance().loadProject(strings[1], context);
-			project.setName(strings[1]);
-			XstreamSerializer.getInstance().saveProject(project);
-			return true;
-		} catch (IOException | LoadingProjectException e) {
-			Log.e(TAG, "Something went wrong while copying project: " + strings[0]
-					+ " trying to delete folder."
-					+ Log.getStackTraceString(e));
-			try {
-				StorageOperations.deleteDir(projectDir);
-			} catch (IOException deleteException) {
-				Log.e(TAG, "Cannot delete folder: " + projectDir, deleteException);
-			}
-			Log.e(TAG, "Deleted folder, returning ..");
-			return false;
-		}
+		return task(strings[0], strings[1]);
 	}
 
 	@Override

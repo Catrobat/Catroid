@@ -664,6 +664,8 @@
     <string name="description">Description:</string>
     <string name="set_description">Set description</string>
     <string name="details_date_today">Today</string>
+    <string name="import_project">Import project</string>
+    <string name="error_import_project">Something went wrong while importing projects.</string>
 
     <!-- Migrate from external to internal storage -->
     <string name="import_dialog_title">Updated project storage</string>

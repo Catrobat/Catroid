@@ -35,7 +35,7 @@ public class SupportProject implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@XStreamAlias("header")
-	XmlHeader xmlHeader = new XmlHeader();
+	public XmlHeader xmlHeader = new XmlHeader();
 	@XStreamAlias("objectList")
 	public List<Sprite> spriteList = new ArrayList<>();
 	@XStreamAlias("data")

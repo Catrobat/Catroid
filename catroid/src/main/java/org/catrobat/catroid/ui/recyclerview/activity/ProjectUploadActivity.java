@@ -43,6 +43,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
+import org.catrobat.catroid.io.asynctask.ProjectRenameTask;
 import org.catrobat.catroid.transfers.CheckTokenTask;
 import org.catrobat.catroid.transfers.GetTagsTask;
 import org.catrobat.catroid.ui.BaseActivity;
@@ -57,6 +58,9 @@ import org.catrobat.catroid.web.ServerCalls;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.catrobat.catroid.common.Constants.PROJECT_UPLOAD_DESCRIPTION;
+import static org.catrobat.catroid.common.Constants.PROJECT_UPLOAD_NAME;
 
 public class ProjectUploadActivity extends BaseActivity implements
 		ProjectLoadTask.ProjectLoadListener,
@@ -182,22 +186,22 @@ public class ProjectUploadActivity extends BaseActivity implements
 			return;
 		}
 
-		ProjectManager projectManager = ProjectManager.getInstance();
+		Project project = ProjectManager.getInstance().getCurrentProject();
 
-		if (Utils.isDefaultProject(projectManager.getCurrentProject(), this)) {
+		if (Utils.isDefaultProject(project, this)) {
 			return;
 		}
 
-		if (!name.equals(projectManager.getCurrentProject().getName())) {
-			ProjectManager.renameProject(projectManager.getCurrentProject().getName(), name, this);
+		if (ProjectRenameTask.task(project.getName(), name)) {
+			project.setName(name);
 		}
 
-		projectManager.getCurrentProject().setDescription(description);
-		projectManager.getCurrentProject().setDeviceData(this);
+		project.setDescription(description);
+		project.setDeviceData(this);
 
 		Bundle bundle = new Bundle();
-		bundle.putString(Constants.PROJECT_UPLOAD_NAME, name);
-		bundle.putString(Constants.PROJECT_UPLOAD_DESCRIPTION, description);
+		bundle.putString(PROJECT_UPLOAD_NAME, name);
+		bundle.putString(PROJECT_UPLOAD_DESCRIPTION, description);
 
 		SelectTagsDialogFragment dialog = new SelectTagsDialogFragment();
 		dialog.setTags(tags);

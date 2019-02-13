@@ -28,7 +28,6 @@ import android.app.Instrumentation;
 import android.content.Intent;
 import android.net.Uri;
 import android.preference.PreferenceManager;
-import android.support.annotation.IdRes;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.intent.Intents;
 
@@ -81,8 +80,7 @@ public class OpenFromShareLinkTest {
 	}
 
 	@Parameterized.Parameter
-	public @IdRes
-	String targetHttpPath;
+	public String targetHttpPath;
 
 	@Before
 	public void setUp() throws Exception {

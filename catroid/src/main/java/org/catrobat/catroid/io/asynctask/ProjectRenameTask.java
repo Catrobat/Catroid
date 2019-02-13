@@ -23,37 +23,56 @@
 
 package org.catrobat.catroid.io.asynctask;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.io.XstreamSerializer;
+import org.catrobat.catroid.utils.FileMetaDataExtractor;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.ref.WeakReference;
+
+import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public class ProjectRenameTask extends AsyncTask<String, Void, Boolean> {
 
-	private WeakReference<Context> weakContextReference;
+	public static final String TAG = ProjectRenameTask.class.getSimpleName();
+
 	private WeakReference<ProjectRenameListener> weakListenerReference;
 
-	public ProjectRenameTask(Context context, ProjectRenameListener listener) {
-		weakContextReference = new WeakReference<>(context);
+	public ProjectRenameTask(ProjectRenameListener listener) {
 		weakListenerReference = new WeakReference<>(listener);
+	}
+
+	public static boolean task(String srcName, String dstName) {
+		XstreamSerializer xstreamSerializer = XstreamSerializer.getInstance();
+		if (!FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).contains(srcName)
+				|| FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).contains(dstName)) {
+			return false;
+		}
+
+		if (srcName.equals(dstName)) {
+			Log.e(TAG, "Renaming project " + srcName + " to " + dstName + " is not necessary.");
+			return true;
+		}
+
+		File srcDir = new File(DEFAULT_ROOT_DIRECTORY, srcName);
+		File dstDir = new File(DEFAULT_ROOT_DIRECTORY, dstName);
+
+		try {
+			return srcDir.renameTo(dstDir)
+					&& xstreamSerializer.renameProject(new File(dstDir, CODE_XML_FILE_NAME), dstName);
+		} catch (IOException e) {
+			Log.e(TAG, "error during xstreamSerializer.rename project", e);
+			return false;
+		}
 	}
 
 	@Override
 	protected Boolean doInBackground(String... strings) {
-		Context context = weakContextReference.get();
-		if (context == null) {
-			return false;
-		}
-		try {
-			ProjectManager.renameProject(strings[0], strings[1], context);
-			return true;
-		} catch (Exception e) {
-			Log.e(getClass().getSimpleName(), "Cannot rename project " + strings[0] + " to " + strings[1], e);
-			return false;
-		}
+		return task(strings[0], strings[1]);
 	}
 
 	@Override
