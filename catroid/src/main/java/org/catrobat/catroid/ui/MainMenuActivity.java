@@ -86,7 +86,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 		ProjectLoadTask.ProjectLoadListener {
 
 	public static final String TAG = MainMenuActivity.class.getSimpleName();
-	public static final int REQUEST_PERMISSIONS_MAIN_STORAGE = 501;
+	public static final int REQUEST_PERMISSIONS_MOVE_TO_INTERNAL_STORAGE = 501;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -153,7 +153,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 				.getBoolean(SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG, true);
 
 		if (checkForProjectsInExternalStorage) {
-			new RequiresPermissionTask(REQUEST_PERMISSIONS_MAIN_STORAGE,
+			new RequiresPermissionTask(REQUEST_PERMISSIONS_MOVE_TO_INTERNAL_STORAGE,
 					Arrays.asList(WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE),
 					R.string.runtime_permission_general) {
 				public void task() {
@@ -188,6 +188,18 @@ public class MainMenuActivity extends BaseCastActivity implements
 				.replace(R.id.fragment_container, new MainMenuFragment(), MainMenuFragment.TAG)
 				.commit();
 		setShowProgressBar(false);
+
+		Intent intent = getIntent();
+		if (intent != null
+				&& intent.getAction() != null
+				&& intent.getAction().equals("android.intent.action.VIEW")
+				&& intent.getData() != null) {
+			Uri shareUri = intent.getData();
+
+			Intent webIntent = new Intent(this, WebViewActivity.class);
+			webIntent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, shareUri.toString());
+			startActivity(webIntent);
+		}
 	}
 
 	private void importProjectsFromExternalStorage() {
