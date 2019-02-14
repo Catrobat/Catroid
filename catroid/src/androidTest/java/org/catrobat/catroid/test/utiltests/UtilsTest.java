@@ -38,7 +38,6 @@ import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.HideBrick;
-import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.stage.ShowBubbleActor;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.PathBuilder;
@@ -113,8 +112,6 @@ public class UtilsTest {
 		printWriter.close();
 
 		assertEquals(MD5_CATROID.toLowerCase(Locale.US), Utils.md5Checksum(md5TestFile));
-
-		StorageOperations.deleteDir(tempDir);
 	}
 
 	@Test

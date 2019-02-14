@@ -33,7 +33,6 @@ import android.os.ResultReceiver;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -43,7 +42,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.ProjectUploadService;
 import org.catrobat.catroid.ui.WebViewActivity;
-import org.catrobat.catroid.utils.FileMetaDataExtractor;
+import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.ResultReceiverFromUpload;
 import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.web.ServerCalls;
@@ -52,18 +51,15 @@ import java.util.List;
 
 import static org.catrobat.catroid.common.Constants.SHARE_PROGRAM_URL;
 
-public class UploadProgressDialogFragment extends DialogFragment {
+public class UploadProgressDialogFragment extends DialogFragment implements ResultReceiverFromUpload {
 
 	public static final String TAG = UploadProgressDialogFragment.class.getSimpleName();
 	public static final String NUMBER_OF_UPLOADED_PROJECTS = "number_of_uploaded_projects";
-
+	private ResultReceiver result = new UploadReceiver(new Handler(), this);
 	private String openAuthProvider = Constants.NO_OAUTH_PROVIDER;
 	private ProgressBar progressBar;
 	private ImageView successImage;
-	private int progressPercent;
-
 	AlertDialog progressBarDialog;
-	private Handler handler = new Handler();
 
 	@Override
 	public Dialog onCreateDialog(Bundle bundle) {
@@ -97,32 +93,6 @@ public class UploadProgressDialogFragment extends DialogFragment {
 
 		uploadProject(getArguments().getString(Constants.PROJECT_UPLOAD_NAME),
 				getArguments().getString(Constants.PROJECT_UPLOAD_DESCRIPTION));
-		//QUICKFIX: upload response currently not working
-		new Thread(new Runnable() {
-
-			public void run() {
-				while (progressPercent != 100) {
-					progressPercent = StatusBarNotificationManager.getInstance().getProgressPercent();
-					handler.post(new Runnable() {
-
-						public void run() {
-							if (progressPercent == 100) {
-								alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
-								progressBar.setVisibility(View.GONE);
-								successImage.setImageResource(R.drawable.ic_upload_success);
-								successImage.setVisibility(View.VISIBLE);
-							}
-						}
-					});
-
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						Log.d(TAG, Log.getStackTraceString(e));
-					}
-				}
-			}
-		}).start();
 
 		alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -136,32 +106,37 @@ public class UploadProgressDialogFragment extends DialogFragment {
 			@Override
 			public void onClick(View v) {
 				dismiss();
+				getActivity().finish();
 			}
 		});
 	}
 
+	@Override
+	public void onResult(boolean failed) {
+		((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+		progressBar.setVisibility(View.GONE);
+		if (!failed) {
+			successImage.setImageResource(R.drawable.ic_upload_success);
+		} else {
+			successImage.setImageResource(R.drawable.ic_upload_failed);
+		}
+		successImage.setVisibility(View.VISIBLE);
+	}
+
 	@SuppressLint("ParcelCreator")
 	private class UploadReceiver extends ResultReceiver {
-
-		UploadReceiver(Handler handler) {
+		private ResultReceiverFromUpload fragment;
+		UploadReceiver(Handler handler, ResultReceiverFromUpload fragment) {
 			super(handler);
+			this.fragment = fragment;
 		}
 
 		@Override
 		protected void onReceiveResult(int resultCode, Bundle resultData) {
-			if (resultCode == Constants.UPDATE_UPLOAD_PROGRESS) {
-				long progress = resultData.getLong("currentUploadProgress");
-				boolean endOfFileReached = resultData.getBoolean("endOfFileReached");
-				int notificationId = resultData.getInt("notificationId");
-				String projectName = resultData.getString("projectName");
-
-				if (endOfFileReached) {
-					progressPercent = 100;
-				} else {
-					progressPercent = (int) FileMetaDataExtractor.getProgressFromBytes(projectName, progress);
-				}
-
-				StatusBarNotificationManager.getInstance().showOrUpdateNotification(notificationId, progressPercent);
+			if (resultCode == Constants.STATUS_CODE_UPLOAD_SUCCESSFULL) {
+				fragment.onResult(false);
+			} else {
+				fragment.onResult(true);
 			}
 		}
 	}
@@ -184,8 +159,7 @@ public class UploadProgressDialogFragment extends DialogFragment {
 		List<String> sceneNameList = projectManager.getCurrentProject().getSceneNames();
 		String[] sceneNames = new String[sceneNameList.size()];
 		sceneNameList.toArray(sceneNames);
-
-		intent.putExtra("receiver", new UploadReceiver(new Handler()));
+		intent.putExtra("receiver", result);
 		intent.putExtra("uploadName", uploadName);
 		intent.putExtra("projectDescription", projectDescription);
 		intent.putExtra("projectPath", projectPath);

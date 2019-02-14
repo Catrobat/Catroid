@@ -124,6 +124,10 @@ public class ProjectUploadService extends IntentService {
 			}
 
 			File archive = new File(PathBuilder.buildPath(Constants.TMP_PATH, UPLOAD_FILE_NAME));
+			if (archive.exists()) {
+				archive.delete();
+			}
+			archive.createNewFile();
 			new ZipArchiver().zip(archive, projectDir.listFiles());
 
 			Context context = getApplicationContext();
@@ -180,8 +184,10 @@ public class ProjectUploadService extends IntentService {
 		if (!result) {
 			ToastUtil.showError(this, getResources().getText(R.string.error_project_upload).toString() + " " + serverAnswer);
 			StatusBarNotificationManager.getInstance().showUploadRejectedNotification(notificationId, statusCode, serverAnswer, uploadBackupBundle);
+			receiver.send(Constants.STATUS_CODE_UPLOAD_SAVE_THUMBNAIL_FAILED, uploadBackupBundle);
 		} else {
 			ToastUtil.showSuccess(this, R.string.notification_upload_finished);
+			receiver.send(Constants.STATUS_CODE_UPLOAD_SUCCESSFULL, uploadBackupBundle);
 		}
 
 		Utils.invalidateLoginTokenIfUserRestricted(getApplicationContext());

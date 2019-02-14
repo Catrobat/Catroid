@@ -92,7 +92,7 @@ public final class Constants {
 	public static final String TMP_IMAGE_FILE_NAME = "image";
 
 	public static final String TMP_DIR_NAME = "tmp";
-	public static final String TMP_PATH = CACHE_DIR.getAbsolutePath() + "/" + TMP_DIR_NAME;
+	public static final String TMP_PATH = CACHE_DIR.getAbsolutePath();
 	public static final String TEXT_TO_SPEECH_TMP_PATH = TMP_PATH + "/textToSpeech";
 
 	// Web:
@@ -274,6 +274,7 @@ public final class Constants {
 	public static final int STATUS_CODE_UPLOAD_SAVE_THUMBNAIL_FAILED = 514;
 	public static final int STATUS_CODE_UPLOAD_OLD_CATROBAT_LANGUAGE = 518;
 	public static final int STATUS_CODE_UPLOAD_OLD_CATROBAT_VERSION = 519;
+	public static final int STATUS_CODE_UPLOAD_SUCCESSFULL = 200;
 
 	private Constants() {
 		throw new AssertionError("No.");
