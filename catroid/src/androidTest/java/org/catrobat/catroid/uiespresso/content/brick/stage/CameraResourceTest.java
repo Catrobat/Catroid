@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.uiespresso.content.brick.stage;
 
+import android.support.test.rule.GrantPermissionRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
@@ -64,11 +65,14 @@ public class CameraResourceTest {
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 
+	@Rule
+	public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(android.Manifest.permission.CAMERA);
+
 	@Before
 	public void setUp() throws Exception {
 	}
 
-	@Category({Cat.AppUi.class, Level.Functional.class})
+	@Category({Cat.AppUi.class, Level.Functional.class, Cat.Quarantine.class})
 	@Test
 	public void cameraResourceNotUsedTest() {
 		Script script = BrickTestUtils.createProjectAndGetStartScript("cameraResourceNotUsed");
@@ -82,7 +86,7 @@ public class CameraResourceTest {
 		assertEquals(CameraManager.CameraState.notUsed, CameraManager.getInstance().getState());
 	}
 
-	@Category({Cat.AppUi.class, Level.Functional.class})
+	@Category({Cat.AppUi.class, Level.Functional.class, Cat.Quarantine.class})
 	@Test
 	public void cameraOnTest() {
 		Script script = BrickTestUtils.createProjectAndGetStartScript("cameraOnTest");
@@ -98,7 +102,7 @@ public class CameraResourceTest {
 		assertTrue(CameraManager.getInstance().isCurrentCameraFacingFront());
 	}
 
-	@Category({Cat.AppUi.class, Level.Functional.class})
+	@Category({Cat.AppUi.class, Level.Functional.class, Cat.Quarantine.class})
 	@Test
 	public void cameraStagePausedTest() {
 		Script script = BrickTestUtils.createProjectAndGetStartScript("cameraStagePausedTest");
@@ -115,7 +119,7 @@ public class CameraResourceTest {
 				|| CameraManager.getInstance().getState() == CameraManager.CameraState.notUsed);
 	}
 
-	@Category({Cat.AppUi.class, Level.Functional.class})
+	@Category({Cat.AppUi.class, Level.Functional.class, Cat.Quarantine.class})
 	@Test
 	public void cameraOffTest() {
 		Script script = BrickTestUtils.createProjectAndGetStartScript("cameraOffTest");
@@ -130,7 +134,7 @@ public class CameraResourceTest {
 		assertEquals(CameraManager.CameraState.notUsed, CameraManager.getInstance().getState());
 	}
 
-	@Category({Cat.AppUi.class, Level.Functional.class})
+	@Category({Cat.AppUi.class, Level.Functional.class, Cat.Quarantine.class})
 	@Flaky
 	@Test
 	public void cameraFacingFrontTest() {
@@ -149,7 +153,7 @@ public class CameraResourceTest {
 		assertTrue(CameraManager.getInstance().isCurrentCameraFacingFront());
 	}
 
-	@Category({Cat.AppUi.class, Level.Functional.class})
+	@Category({Cat.AppUi.class, Level.Functional.class, Cat.Quarantine.class})
 	@Flaky
 	@Test
 	public void cameraFacingBackTest() {

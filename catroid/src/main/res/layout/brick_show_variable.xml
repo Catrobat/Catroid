@@ -27,7 +27,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:orientation="horizontal" >
+    android:orientation="horizontal">
 
     <CheckBox
         android:id="@+id/brick_checkbox"
@@ -38,63 +38,50 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_show_variable_layout"
-        style="@style/BrickContainer.UserVariables.Medium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
-        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
+        style="@style/BrickContainer.UserVariables.Medium">
 
-        <include layout="@layout/icon_brick_category_data"/>
+        <include layout="@layout/icon_brick_category_data" />
 
         <TextView
             android:id="@+id/brick_show_variable_label"
             style="@style/BrickText.SingleLine"
-            android:text="@string/brick_show_variable" >
-        </TextView >
+            android:text="@string/brick_show_variable" />
 
         <Spinner
             android:id="@+id/show_variable_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textDirection="locale"
-            android:clickable="false"
-            android:focusable="false" />
+            android:textDirection="locale" />
 
         <TextView
             android:id="@+id/brick_show_variable_label_at"
             style="@style/BrickText.SingleLine"
             app:layout_newLine="true"
-            android:text="@string/brick_show_variable_position" >
-        </TextView >
+            android:text="@string/brick_show_variable_position" />
 
         <TextView
             android:id="@+id/brick_show_variable_x_textview"
             style="@style/BrickText.SingleLine"
-            android:text="@string/x_label" >
-        </TextView >
+            android:text="@string/x_label" />
 
         <TextView
             android:id="@+id/brick_show_variable_edit_text_x"
             style="@style/BrickEditText"
             app:layout_inputType="number"
-            app:layout_textField="true" >
-        </TextView >
+            app:layout_textField="true" />
 
         <TextView
             android:id="@+id/brick_show_variable_y_textview"
             style="@style/BrickText.SingleLine"
-            android:text="@string/y_label" >
-        </TextView >
+            android:paddingStart="@dimen/material_design_spacing_small"
+            android:text="@string/y_label" />
 
         <TextView
             android:id="@+id/brick_show_variable_edit_text_y"
             style="@style/BrickEditText"
             app:layout_inputType="number"
-            app:layout_textField="true" >
-        </TextView >
+            app:layout_textField="true" />
 
-    </org.catrobat.catroid.ui.BrickLayout >
+    </org.catrobat.catroid.ui.BrickLayout>
 
 </LinearLayout>

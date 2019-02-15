@@ -57,7 +57,7 @@ public class DisabledBrickInClonesRegressionTest {
 	private static final String VARIABLE_NAME = "var1";
 
 	private UserVariable userVariable;
-	private ScriptEvaluationGateBrick lastBrickInScript;
+	private ScriptEvaluationGateBrick lastBrickInCloneScript;
 
 	@Rule
 	public BaseActivityInstrumentationRule<StageActivity> baseActivityTestRule = new
@@ -74,17 +74,18 @@ public class DisabledBrickInClonesRegressionTest {
 		Sprite sprite = new Sprite("someSprite");
 
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 
 		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
 		userVariable = new UserVariable(VARIABLE_NAME);
 		dataContainer.addUserVariable(userVariable);
-		userVariable.setValue(1D);
 
 		Script startScript = new StartScript();
 		sprite.addScript(startScript);
+		Brick setVariableInitial = new SetVariableBrick(new Formula(1D), userVariable);
+		startScript.addBrick(setVariableInitial);
 		startScript.addBrick(new CloneBrick());
 
 		Script whenClonedScript = new WhenClonedScript();
@@ -93,14 +94,14 @@ public class DisabledBrickInClonesRegressionTest {
 		shouldntBeExecuted.setCommentedOut(true);
 		whenClonedScript.addBrick(shouldntBeExecuted);
 
-		lastBrickInScript = ScriptEvaluationGateBrick.appendToScript(whenClonedScript);
+		lastBrickInCloneScript = ScriptEvaluationGateBrick.appendToScript(whenClonedScript);
 	}
 
 	@Category({Level.Functional.class, Cat.CatrobatLanguage.class})
 	@Test
 	public void setVariableInCloneShouldNotBeExecutedTest() {
 		baseActivityTestRule.launchActivity();
-		lastBrickInScript.waitUntilEvaluated(3000);
-		assertUserVariableEqualsWithTimeout(userVariable, 1D, 2000);
+		lastBrickInCloneScript.waitUntilEvaluated(3000);
+		assertUserVariableEqualsWithTimeout(userVariable, 1D, 3000);
 	}
 }

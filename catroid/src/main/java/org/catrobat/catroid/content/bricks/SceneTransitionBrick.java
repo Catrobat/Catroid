@@ -78,12 +78,6 @@ public class SceneTransitionBrick extends BrickBaseType implements BrickSpinner.
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		super.getPrototypeView(context);
-		return getView(context);
-	}
-
-	@Override
 	public View getView(final Context context) {
 		super.getView(context);
 
@@ -140,7 +134,6 @@ public class SceneTransitionBrick extends BrickBaseType implements BrickSpinner.
 						spinner.setSelection(sceneForTransition);
 					}
 				})
-				.create()
 				.show();
 	}
 

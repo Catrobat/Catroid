@@ -91,12 +91,6 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements ScriptB
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		super.getPrototypeView(context);
-		return getView(context);
-	}
-
-	@Override
 	public View getView(final Context context) {
 		super.getView(context);
 
@@ -113,10 +107,10 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements ScriptB
 	@Override
 	public void onNewOptionSelected() {
 		AppCompatActivity activity = UiUtils.getActivityFromView(view);
-		if (activity == null || !(activity instanceof SpriteActivity)) {
+		if (!(activity instanceof SpriteActivity)) {
 			return;
 		}
-		((SpriteActivity) activity).handleAddLookButton();
+		((SpriteActivity) activity).handleAddBackgroundButton();
 	}
 
 	@Override

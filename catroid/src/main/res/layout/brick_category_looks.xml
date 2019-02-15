@@ -24,12 +24,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/BrickCategory.Looks">
 
-    <include layout="@layout/icon_brick_category_look"/>
+    <include layout="@layout/icon_brick_category_look" />
 
     <TextView
         style="@style/BrickCategoryText"
         android:drawableEnd="@drawable/main_menu_button_arrow"
-        android:text="@string/category_looks" >
+        android:text="@string/category_looks">
     </TextView>
 
 </LinearLayout>

@@ -60,7 +60,7 @@ public class CategoryBricksFactoryTest {
 		Project project = new Project(context, "Project");
 		background = project.getDefaultScene().getSpriteList().get(0);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 	}
 
 	@Test

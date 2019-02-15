@@ -75,7 +75,7 @@ public class ParserTestUserLists {
 		startScript.addBrick(changeBrick);
 		project.getDefaultScene().addSprite(sprite);
 
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 
 		dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
@@ -135,7 +135,7 @@ public class ParserTestUserLists {
 		userListValuesStringsAndNumbers.add("WORLDS");
 
 		assertTrue(dataContainer.addUserList(new UserList(PROJECT_USER_LIST_NAME, userListValuesStringsAndNumbers)));
-		assertEquals("Hello 42.0 WORLDS", interpretUserList(PROJECT_USER_LIST_NAME));
+		assertEquals("Hello 42 WORLDS", interpretUserList(PROJECT_USER_LIST_NAME));
 	}
 
 	@Test

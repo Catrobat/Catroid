@@ -23,17 +23,31 @@
 
 package org.catrobat.catroid.content.bricks;
 
-import org.catrobat.catroid.content.EventWrapper;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+
+import java.util.Collections;
+import java.util.List;
+
+import static org.catrobat.catroid.content.EventWrapper.WAIT;
 
 public class SetBackgroundByIndexAndWaitBrick extends SetBackgroundByIndexBrick {
 
-	public SetBackgroundByIndexAndWaitBrick() {
-		super();
-		wait = EventWrapper.WAIT;
+	@Override
+	public int getViewResource() {
+		return R.layout.brick_set_background_by_index_and_wait;
 	}
 
 	public SetBackgroundByIndexAndWaitBrick(int index) {
 		super(index);
-		wait = EventWrapper.WAIT;
+	}
+
+	@Override
+	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		sequence.addAction(sprite.getActionFactory()
+				.createSetBackgroundLookByIndexAction(sprite, getFormulaWithBrickField(BrickField.LOOK_INDEX), WAIT));
+
+		return Collections.emptyList();
 	}
 }

@@ -57,13 +57,6 @@ public class DroneMoveRightBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-		setSecondsLabel(prototypeView, BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
-		return prototypeView;
-	}
-
-	@Override
 	public View getView(Context context) {
 		super.getView(context);
 		setSecondsLabel(view, BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
@@ -74,6 +67,11 @@ public class DroneMoveRightBrick extends FormulaBrick {
 	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
 		requiredResourcesSet.add(ARDRONE_SUPPORT);
 		super.addRequiredResources(requiredResourcesSet);
+	}
+
+	@Override
+	protected BrickField getDefaultBrickField() {
+		return BrickField.DRONE_TIME_TO_FLY_IN_SECONDS;
 	}
 
 	@Override

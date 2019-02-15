@@ -44,8 +44,8 @@ import org.catrobat.catroid.transfers.CheckEmailAvailableTask;
 import org.catrobat.catroid.transfers.CheckUserNameAvailableTask;
 import org.catrobat.catroid.transfers.RegistrationTask;
 import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationListener;
+import org.catrobat.catroid.utils.DeviceSettingsProvider;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.UtilDeviceInfo;
 import org.catrobat.catroid.utils.Utils;
 
 public class RegistrationDialogFragment extends DialogFragment implements OnRegistrationListener {
@@ -230,7 +230,7 @@ public class RegistrationDialogFragment extends DialogFragment implements OnRegi
 			}
 		});
 
-		String eMail = UtilDeviceInfo.getUserEmail(getActivity());
+		String eMail = DeviceSettingsProvider.getUserEmail(getActivity());
 		if (eMail != null) {
 			emailAddressEditText.setText(eMail);
 			emailInputLayout.setErrorEnabled(false);

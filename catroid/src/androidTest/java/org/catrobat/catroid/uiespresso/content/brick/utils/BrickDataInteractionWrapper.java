@@ -72,6 +72,10 @@ public class BrickDataInteractionWrapper extends DataInteractionWrapper {
 		return new BrickDataInteractionWrapper(dataInteraction);
 	}
 
+	public DataInteraction onCheckBox() {
+		return dataInteraction.onChildView(withId(R.id.brick_checkbox));
+	}
+
 	public BrickFormulaEditTextDataInteractionWrapper onFormulaTextField(int editTextResourceId) {
 		dataInteraction.onChildView(withId(editTextResourceId)).check(matches(instanceOf(TextView.class)));
 		return new BrickFormulaEditTextDataInteractionWrapper(
@@ -88,6 +92,12 @@ public class BrickDataInteractionWrapper extends DataInteractionWrapper {
 		dataInteraction.onChildView(withId(spinnerResourceId)).check(matches(instanceOf(Spinner.class)));
 		return new BrickVariableSpinnerDataInteractionWrapper(
 				dataInteraction.onChildView(withId(spinnerResourceId)));
+	}
+
+	public void performClick() {
+		dataInteraction.perform(new GeneralClickAction(Tap.SINGLE,
+				BrickCoordinatesProvider.UPPER_LEFT_CORNER,
+				Press.FINGER));
 	}
 
 	public void performDragNDrop(CoordinatesProvider destinationCoordinatesProvider) {
@@ -108,12 +118,11 @@ public class BrickDataInteractionWrapper extends DataInteractionWrapper {
 				.perform(click());
 	}
 
-	public void performCopyBrick() {
+	public void performEditFormula() {
 		dataInteraction.perform(new GeneralClickAction(Tap.SINGLE,
 				BrickCoordinatesProvider.UPPER_LEFT_CORNER,
 				Press.FINGER));
-		onView(withText(R.string.brick_context_dialog_copy_brick))
+		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
 				.perform(click());
-		dataInteraction.perform(click());
 	}
 }

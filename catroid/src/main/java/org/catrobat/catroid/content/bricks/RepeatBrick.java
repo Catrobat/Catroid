@@ -31,7 +31,6 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
@@ -98,15 +97,6 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-		TextView label = prototypeView.findViewById(R.id.brick_repeat_time_text_view);
-		label.setText(context.getResources().getQuantityString(R.plurals.time_plural,
-				Utils.convertDoubleToPluralInteger(BrickValues.REPEAT)));
-		return prototypeView;
-	}
-
-	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		ScriptSequenceAction repeatSequence = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
 		Action action = sprite.getActionFactory()
@@ -128,25 +118,20 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 	}
 
 	@Override
-	public boolean isInitialized() {
-		return (loopEndBrick != null);
+	public Brick getFirstBrick() {
+		return this;
 	}
 
 	@Override
-	public void initialize() {
-		loopEndBrick = new LoopEndBrick(this);
+	public Brick getLastBrick() {
+		return loopEndBrick;
 	}
 
 	@Override
-	public boolean isDraggableOver(Brick brick) {
-		return (loopEndBrick != null);
-	}
-
-	@Override
-	public List<NestingBrick> getAllNestingBrickParts() {
-		List<NestingBrick> nestingBrickList = new ArrayList<>();
-		nestingBrickList.add(this);
-		nestingBrickList.add(loopEndBrick);
-		return nestingBrickList;
+	public List<Brick> getAllParts() {
+		List<Brick> parts = new ArrayList<>();
+		parts.add(this);
+		parts.add(loopEndBrick);
+		return parts;
 	}
 }

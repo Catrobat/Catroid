@@ -146,40 +146,40 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 	}
 
 	@Override
-	public boolean onItemMove(int fromPosition, int toPosition) {
-		if (fromPosition == 0 || toPosition == 0) {
+	public boolean onItemMove(int srcPosition, int targetPosition) {
+		if (srcPosition == 0 || targetPosition == 0) {
 			return true;
 		}
 
-		Sprite fromItem = items.get(fromPosition);
-		Sprite toItem = items.get(toPosition);
+		Sprite fromItem = items.get(srcPosition);
+		Sprite toItem = items.get(targetPosition);
 
 		if (fromItem instanceof GroupSprite) {
 			return true;
 		}
 
 		if (toItem instanceof GroupSprite) {
-			if (fromPosition > toPosition) {
+			if (srcPosition > targetPosition) {
 				fromItem.setConvertToSingleSprite(true);
 			} else {
 				fromItem.setConvertToGroupItemSprite(true);
 			}
-			return super.onItemMove(fromPosition, toPosition);
+			return super.onItemMove(srcPosition, targetPosition);
 		}
 
 		if (!(fromItem instanceof GroupItemSprite) && toItem instanceof GroupItemSprite) {
 			fromItem.setConvertToGroupItemSprite(true);
-			return super.onItemMove(fromPosition, toPosition);
+			return super.onItemMove(srcPosition, targetPosition);
 		}
 
 		if (fromItem instanceof GroupItemSprite && !(toItem instanceof GroupItemSprite)) {
 			fromItem.setConvertToSingleSprite(true);
-			return super.onItemMove(fromPosition, toPosition);
+			return super.onItemMove(srcPosition, targetPosition);
 		}
 
 		fromItem.setConvertToGroupItemSprite(false);
 		fromItem.setConvertToSingleSprite(false);
-		return super.onItemMove(fromPosition, toPosition);
+		return super.onItemMove(srcPosition, targetPosition);
 	}
 
 	@Override

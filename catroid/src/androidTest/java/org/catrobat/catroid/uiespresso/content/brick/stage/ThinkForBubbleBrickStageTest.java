@@ -30,6 +30,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenTouchDownScript;
 import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick;
 import org.catrobat.catroid.stage.StageActivity;
@@ -55,6 +56,7 @@ import static junit.framework.Assert.assertNull;
 public class ThinkForBubbleBrickStageTest {
 	private Sprite sprite;
 	private ScriptEvaluationGateBrick lastBrickInScript;
+	private ScriptEvaluationGateBrick firstBrickInScript;
 
 	@Rule
 	public BaseActivityInstrumentationRule<StageActivity> baseActivityTestRule = new
@@ -70,6 +72,7 @@ public class ThinkForBubbleBrickStageTest {
 	@Flaky
 	@Test
 	public void thinkForBubbleBrickStageTest() {
+		firstBrickInScript.waitUntilEvaluated(3000);
 		assertNull(StageActivity.stageListener.getBubbleActorForSprite(sprite));
 		onView(isFocusable())
 				.perform(click());
@@ -86,10 +89,14 @@ public class ThinkForBubbleBrickStageTest {
 		Script script = new WhenTouchDownScript();
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 
 		script.addBrick(new ThinkForBubbleBrick(sayString, duration));
 		lastBrickInScript = ScriptEvaluationGateBrick.appendToScript(script);
+
+		Script whenStarted = new StartScript();
+		firstBrickInScript = ScriptEvaluationGateBrick.appendToScript(whenStarted);
+		sprite.addScript(whenStarted);
 	}
 }

@@ -134,6 +134,7 @@ import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
+import org.catrobat.catroid.content.bricks.StitchBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
@@ -215,7 +216,7 @@ public class BrickValueParameterTest {
 
 	@Before
 	public void setUp() throws Exception {
-		createProject("brickDefaultValueParameterTest ");
+		createProject(getClass().getSimpleName());
 		baseActivityTestRule.launchActivity();
 
 		SharedPreferences sharedPreferences = PreferenceManager
@@ -257,7 +258,6 @@ public class BrickValueParameterTest {
 				R.string.category_data,
 				R.string.category_lego_nxt,
 				R.string.category_lego_ev3,
-				R.string.category_user_bricks,
 				R.string.category_arduino,
 				R.string.category_drone,
 				R.string.category_phiro,
@@ -301,8 +301,8 @@ public class BrickValueParameterTest {
 		onData(instanceOf(CollisionReceiverBrick.class)).inAdapterView(BrickPrototypeListMatchers
 				.isBrickPrototypeView())
 				.onChildView(withId(R.id.brick_collision_receive_spinner))
-				.onChildView(withText(CollisionReceiverBrick.ANYTHING_ESCAPE_CHAR + "anything" + CollisionReceiverBrick
-						.ANYTHING_ESCAPE_CHAR))
+				.onChildView(withText(CollisionReceiverBrick.ANYTHING_ESCAPE_CHAR
+						+ "any edge, actor, or object" + CollisionReceiverBrick.ANYTHING_ESCAPE_CHAR))
 				.check(matches(isDisplayed()));
 
 		checkIfBrickShowsText(WhenBackgroundChangesBrick.class, R.string.brick_when_background);
@@ -343,7 +343,9 @@ public class BrickValueParameterTest {
 
 		//Go to
 		checkIfBrickShowsText(GoToBrick.class, R.string.brick_go_to);
-		checkIfBrickShowsSpinnerWithEditTextOverlayWithText(GoToBrick.class, R.id.brick_go_to_spinner, R.string.brick_go_to_touch_position);
+		checkIfBrickShowsSpinnerWithEditTextOverlayWithText(GoToBrick.class,
+				R.id.brick_go_to_spinner,
+				R.string.brick_go_to_touch_position);
 
 		//If on edge, bounce
 		checkIfBrickShowsText(IfOnEdgeBounceBrick.class, R.string.brick_if_on_edge_bounce);
@@ -1003,6 +1005,14 @@ public class BrickValueParameterTest {
 		checkIfBrickShowsText(RaspiPwmBrick.class, "100 ");
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Gadgets.class})
+	@Test
+	public void testEmbroideryBricksDefaultValues() {
+		openCategory(R.string.category_embroidery);
+
+		checkIfBrickShowsText(StitchBrick.class, R.string.brick_stitch);
+	}
+
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void testControlBricksDefaultValues() {
@@ -1040,7 +1050,7 @@ public class BrickValueParameterTest {
 				Utils.convertDoubleToPluralInteger(10)));
 
 		checkIfBrickShowsText(RepeatUntilBrick.class, R.string.brick_repeat_until);
-		checkIfBrickShowsEditTextWithText(RepeatUntilBrick.class, R.id.brick_repeat_until_edit_text, "1 < 2");
+		checkIfBrickShowsEditTextWithText(RepeatUntilBrick.class, R.id.brick_repeat_until_edit_text, "1 < 2 ");
 		checkIfBrickShowsText(RepeatUntilBrick.class, R.string.brick_wait_until_second_part);
 
 		checkIfBrickShowsText(SceneTransitionBrick.class, R.string.brick_scene_transition);
@@ -1164,7 +1174,7 @@ public class BrickValueParameterTest {
 		spriteTwo.addScript(script);
 
 		project.getDefaultScene().addSprite(spriteTwo);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(spriteTwo);
 	}
 }

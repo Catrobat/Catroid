@@ -37,10 +37,8 @@ import android.view.View;
 import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -51,9 +49,6 @@ import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrickElement;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.BottomBar;
-import org.catrobat.catroid.ui.BrickLayout;
-import org.catrobat.catroid.ui.DragAndDropBrickLayoutListener;
-import org.catrobat.catroid.ui.DragNDropBrickLayout;
 import org.catrobat.catroid.ui.LineBreakListener;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.dialogs.UserBrickEditElementDialog;
@@ -63,18 +58,13 @@ import java.util.List;
 
 public class UserBrickElementEditorFragment extends Fragment implements
 		OnKeyListener,
-		DragAndDropBrickLayoutListener,
 		UserBrickEditElementDialog.DialogListener,
 		LineBreakListener {
 
 	public static final String BRICK_DATA_EDITOR_FRAGMENT_TAG = "brick_data_editor_fragment";
 	private static final String BRICK_BUNDLE_ARGUMENT = "current_brick";
-	private Context context;
 	private UserScriptDefinitionBrick currentBrick;
 	private int indexOfCurrentlyEditedElement;
-	private LinearLayout editorBrickSpace;
-	private View brickView;
-	private View fragmentView;
 
 	public UserBrickElementEditorFragment() {
 	}
@@ -126,16 +116,16 @@ public class UserBrickElementEditorFragment extends Fragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-		fragmentView = inflater.inflate(R.layout.fragment_brick_data_editor, container, false);
+		View fragmentView = inflater.inflate(R.layout.fragment_brick_data_editor, container, false);
 		fragmentView.setFocusableInTouchMode(true);
 		fragmentView.requestFocus();
 
-		context = getActivity();
-		brickView = View.inflate(context, R.layout.brick_user_editable, null);
+		Context context = getActivity();
+		View brickView = View.inflate(context, R.layout.brick_user_editable, null);
 
 		updateBrickView();
 
-		editorBrickSpace = fragmentView.findViewById(R.id.brick_data_editor_brick_space);
+		LinearLayout editorBrickSpace = fragmentView.findViewById(R.id.brick_data_editor_brick_space);
 
 		editorBrickSpace.addView(brickView);
 
@@ -244,82 +234,7 @@ public class UserBrickElementEditorFragment extends Fragment implements
 		}
 	}
 
-	@Override
-	public void reorder(int from, int to) {
-		currentBrick.reorderUIData(from, to);
-		updateBrickView();
-	}
-
-	@Override
-	public void click(int id) {
-		UserScriptDefinitionBrickElement element = currentBrick.getUserScriptDefinitionBrickElements().get(id);
-		if (element != null && !element.isLineBreak()) {
-			int title = element.isVariable() ? R.string.edit_variable : R.string.edit_text;
-			int defaultText = element.isVariable() ? R.string.variable_hint : R.string.text_hint;
-			editElementDialog(element.getText(), true, title, defaultText);
-			indexOfCurrentlyEditedElement = id;
-		}
-	}
-
-	private void deleteButtonClicked(View theView) {
-		DragNDropBrickLayout layout = brickView.findViewById(R.id.brick_user_flow_layout);
-		int found = -1;
-		for (int i = 0; i < layout.getChildCount(); i++) {
-			if (layout.getChildAt(i) == theView) {
-				found = i;
-			}
-		}
-		if (found > -1) {
-			currentBrick.removeDataAt(found, theView.getContext());
-			updateUserBrickParameters(currentBrick);
-			updateBrickView();
-		}
-	}
-
 	public void updateBrickView() {
-		Context context = brickView.getContext();
-
-		DragNDropBrickLayout layout = brickView.findViewById(R.id.brick_user_flow_layout);
-		layout.setListener(this);
-
-		if (layout.getChildCount() > 0) {
-			layout.removeAllViews();
-		}
-
-		for (UserScriptDefinitionBrickElement element : currentBrick.getUserScriptDefinitionBrickElements()) {
-			View dataView;
-			if (element.isLineBreak()) {
-				dataView = View.inflate(context, R.layout.brick_user_data_line_break, null);
-			} else {
-				if (element.isVariable()) {
-					dataView = View.inflate(context, R.layout.brick_user_data_variable, null);
-				} else {
-					dataView = View.inflate(context, R.layout.brick_user_data_text, null);
-				}
-			}
-
-			TextView textView = dataView.findViewById(R.id.text_view);
-
-			if (textView != null) {
-				textView.setText(element.getText());
-			}
-			Button button = dataView.findViewById(R.id.button);
-			button.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					deleteButtonClicked((View) view.getParent());
-				}
-			});
-
-			layout.addView(dataView);
-
-			if (element.isLineBreak()) {
-				BrickLayout.LayoutParams params = (BrickLayout.LayoutParams) dataView.getLayoutParams();
-				params.setNewLine(true);
-			}
-
-			layout.registerLineBreakListener(this);
-		}
 	}
 
 	@Override

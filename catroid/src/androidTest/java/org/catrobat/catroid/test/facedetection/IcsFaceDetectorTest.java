@@ -25,8 +25,10 @@ package org.catrobat.catroid.test.facedetection;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.hardware.Camera.Face;
+import android.support.test.rule.GrantPermissionRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.facedetection.IcsFaceDetector;
 import org.catrobat.catroid.formulaeditor.SensorCustomEvent;
@@ -63,6 +65,9 @@ public class IcsFaceDetectorTest {
 	@Rule
 	public MockitoRule rule = MockitoJUnit.rule();
 
+	@Rule
+	public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(android.Manifest.permission.CAMERA);
+
 	@Captor
 	private ArgumentCaptor<SensorCustomEvent> captor;
 
@@ -78,6 +83,7 @@ public class IcsFaceDetectorTest {
 
 	@Before
 	public void setUp() throws Exception {
+		CameraManager.makeInstance();
 		ScreenValues.SCREEN_WIDTH = 720;
 		ScreenValues.SCREEN_HEIGHT = 1080;
 		camera = Camera.open();

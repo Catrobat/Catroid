@@ -43,16 +43,16 @@ public class NoteEventTest {
 
 	@Test
 	public void testEquals1() {
-		NoteEvent noteEvent1 = NoteEventTestDataFactory.createNoteEvent();
-		NoteEvent noteEvent2 = NoteEventTestDataFactory.createNoteEvent();
+		NoteEvent noteEvent1 = new NoteEvent(NoteName.C4, true);
+		NoteEvent noteEvent2 = new NoteEvent(NoteName.C4, true);
 
 		assertEquals(noteEvent1, noteEvent2);
 	}
 
 	@Test
 	public void testEquals2() {
-		NoteEvent noteEvent1 = NoteEventTestDataFactory.createNoteEvent(NoteName.C1);
-		NoteEvent noteEvent2 = NoteEventTestDataFactory.createNoteEvent(NoteName.C2);
+		NoteEvent noteEvent1 = new NoteEvent(NoteName.C1, true);
+		NoteEvent noteEvent2 = new NoteEvent(NoteName.C2, true);
 
 		assertThat(noteEvent1, is(not(equalTo(noteEvent2))));
 	}
@@ -60,37 +60,37 @@ public class NoteEventTest {
 	@Test
 	public void testEquals3() {
 		NoteName noteName = NoteName.C1;
-		NoteEvent noteEvent1 = NoteEventTestDataFactory.createNoteEvent(noteName, true);
-		NoteEvent noteEvent2 = NoteEventTestDataFactory.createNoteEvent(noteName, false);
+		NoteEvent noteEvent1 = new NoteEvent(noteName, true);
+		NoteEvent noteEvent2 = new NoteEvent(noteName, false);
 
 		assertThat(noteEvent1, is(not(equalTo(noteEvent2))));
 	}
 
 	@Test
 	public void testEquals4() {
-		NoteEvent noteEvent1 = NoteEventTestDataFactory.createNoteEvent(NoteName.C1, true);
-		NoteEvent noteEvent2 = NoteEventTestDataFactory.createNoteEvent(NoteName.C2, false);
+		NoteEvent noteEvent1 = new NoteEvent(NoteName.C1, true);
+		NoteEvent noteEvent2 = new NoteEvent(NoteName.C2, false);
 
 		assertThat(noteEvent1, is(not(equalTo(noteEvent2))));
 	}
 
 	@Test
 	public void testEquals5() {
-		NoteEvent noteEvent = NoteEventTestDataFactory.createNoteEvent();
+		NoteEvent noteEvent = new NoteEvent(NoteName.C4, true);
 
 		assertThat(noteEvent, is(not(equalTo(null))));
 	}
 
 	@Test
 	public void testEquals6() {
-		NoteEvent noteEvent = NoteEventTestDataFactory.createNoteEvent();
+		NoteEvent noteEvent = new NoteEvent(NoteName.C4, true);
 
 		assertFalse(noteEvent.equals(""));
 	}
 
 	@Test
 	public void testToString() {
-		NoteEvent noteEvent = NoteEventTestDataFactory.createNoteEvent();
+		NoteEvent noteEvent = new NoteEvent(NoteName.C4, true);
 		String expectedString = "[NoteEvent] noteName= " + noteEvent.getNoteName()
 				+ " noteOn=" + noteEvent.isNoteOn();
 
@@ -99,7 +99,7 @@ public class NoteEventTest {
 
 	@Test
 	public void testCopyNoteEvent() {
-		NoteEvent noteEvent = NoteEventTestDataFactory.createNoteEvent();
+		NoteEvent noteEvent = new NoteEvent(NoteName.C4, true);
 		NoteEvent copyNoteEvent = new NoteEvent(noteEvent);
 
 		assertNotSame(noteEvent, copyNoteEvent);

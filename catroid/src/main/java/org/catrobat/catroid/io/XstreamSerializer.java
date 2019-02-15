@@ -27,7 +27,6 @@ import android.util.Log;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
-import com.parrot.freeflight.utils.FileUtils;
 import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 
@@ -217,7 +216,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -584,11 +582,11 @@ public final class XstreamSerializer {
 		StorageOperations.copyDir(new File(projectDir, SOUND_DIRECTORY_NAME), new File(sceneDir, SOUND_DIRECTORY_NAME));
 
 		if (automaticScreenshot.exists()) {
-			FileUtils.copyFileToDir(automaticScreenshot, sceneDir);
+			StorageOperations.copyFileToDir(automaticScreenshot, sceneDir);
 			automaticScreenshot.delete();
 		}
 		if (manualScreenshot.exists()) {
-			FileUtils.copyFileToDir(manualScreenshot, sceneDir);
+			StorageOperations.copyFileToDir(manualScreenshot, sceneDir);
 			manualScreenshot.delete();
 		}
 
@@ -710,13 +708,8 @@ public final class XstreamSerializer {
 	}
 
 	public boolean projectExists(String projectName) {
-		List<String> projectNameList = FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY);
-		for (String projectNameIterator : projectNameList) {
-			if (projectNameIterator.equals(projectName)) {
-				return true;
-			}
-		}
-		return false;
+		return FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY)
+				.contains(projectName);
 	}
 
 	public String getXmlAsStringFromProject(Project project) {

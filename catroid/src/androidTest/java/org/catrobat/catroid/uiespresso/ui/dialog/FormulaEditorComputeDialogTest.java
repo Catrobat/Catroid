@@ -43,7 +43,6 @@ import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
-import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -89,8 +88,7 @@ public class FormulaEditorComputeDialogTest {
 	public void dialogCreationTest() {
 		openComputeDialog();
 
-		String computedValueText = Integer.toString(someIntegerVaule)
-				+ UiTestUtils.getResourcesString(R.string.formula_editor_decimal_mark) + "0";
+		String computedValueText = Integer.toString(someIntegerVaule);
 
 		onView(withId(R.id.formula_editor_compute_dialog_textview))
 				.check(matches(withText(computedValueText)));
@@ -141,7 +139,7 @@ public class FormulaEditorComputeDialogTest {
 
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 
 		return project;

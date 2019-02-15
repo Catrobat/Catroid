@@ -1113,7 +1113,7 @@
   <string name="drone_emergency_title">긴급</string>
   <!--  -->
   <!-- Error messages -->
-  <string name="error_no_writiable_external_storage_available">This app needs writable external storage like a SD
+  <string name="error_no_writable_external_storage_available">This app needs writable external storage like a SD
         card in order to run, but none was found.\nYou can fix this by making the external storage writable or inserting
         a SD card, then trying again.</string>
   <string name="error_no_write_access">This app needs permission to write data to your device. Otherwise you
@@ -1126,7 +1126,7 @@
   <string name="error_load_project">프로그램을 로드하는 동안 오류가 발생했습니다.</string>
   <string name="error_screenshot_failed">캡쳐 하기 이미지를 저장하는 동안 오류가 발생했습니다.</string>
   <string name="error_internet_connection">알 수 없는 오류가 발생했습니다. 인터넷 연결을 확인하십시오.</string>
-  <string name="error_project_compatability">프로그램이 이 버전과 호환되지 않습니다.</string>
+  <string name="error_project_compatibility">프로그램이 이 버전과 호환되지 않습니다.</string>
   <string name="error_outdated_version">포켓 코드 버전이 너무 오래되었습니다. 지금 업데이트하시겠습니까?</string>
   <string name="error_upload_project_with_default_name">\'나의 첫 번째 프로그램\' 이름으로 프로그램을 업로드할 수 없습니다. 프로그램 이름을 바꾸시기 바랍니다.</string>
   <string name="error_adding_brick">이 블록을 추가하는 동안 오류가 발생했습니다.</string>

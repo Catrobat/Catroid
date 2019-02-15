@@ -74,7 +74,7 @@ public class CollisionFormulaConversionTest {
 
 	@After
 	public void tearDown() throws Exception {
-		projectManager.setProject(null);
+		projectManager.setCurrentProject(null);
 		TestUtils.deleteProjects(COLLISION_TEST_PROJECT);
 		TestUtils.removeFromPreferences(InstrumentationRegistry.getContext(), Constants.PREF_PROJECTNAME_KEY);
 	}

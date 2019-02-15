@@ -64,8 +64,8 @@
         <!-- Element Spacing -->
         <item name="element_spacing">0dp</item>
         <!-- Fonts -->
-        <item name="android:fontFamily">sans-serif</item>
-        <item name="app_font">sans-serif</item>
+        <item name="android:fontFamily">@string/sans_serif_font</item>
+        <item name="app_font">@string/sans_serif_font</item>
         <!-- Category Icon Visibility -->
         <item name="category_icon_visiblity">2</item>
         <!-- Category Icon Visibility -->
@@ -152,6 +152,7 @@
 
     <style name="BrickText.SingleLine">
         <item name="android:maxLines">1</item>
+        <item name="android:paddingEnd">@dimen/material_design_spacing_small</item>
     </style>
 
     <style name="BrickText.Multiple">
@@ -176,6 +177,8 @@
     <style name="BrickContainer">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:descendantFocusability">blocksDescendants</item>
         <item name="android:layout_marginTop">?attr/element_spacing</item>
         <item name="android:layout_marginBottom">?attr/element_spacing</item>
     </style>
@@ -237,6 +240,23 @@
     <style name="BrickContainer.Look.Big">
         <item name="android:minHeight">@dimen/brick_height_big</item>
         <item name="android:background">@drawable/brick_green_3h</item>
+    </style>
+
+    <style name="BrickContainer.Embroidery"></style>
+
+    <style name="BrickContainer.Embroidery.Small">
+        <item name="android:minHeight">@dimen/brick_height_small</item>
+        <item name="android:background">@drawable/brick_pink_1h</item>
+    </style>
+
+    <style name="BrickContainer.Embroidery.Medium" tools:ignore="UnusedResources">
+        <item name="android:minHeight">@dimen/brick_height_medium</item>
+        <item name="android:background">@drawable/brick_pink_2h</item>
+    </style>
+
+    <style name="BrickContainer.Embroidery.Big" tools:ignore="UnusedResources">
+        <item name="android:minHeight">@dimen/brick_height_big</item>
+        <item name="android:background">@drawable/brick_pink_3h</item>
     </style>
 
     <style name="BrickContainer.Pen"></style>
@@ -426,14 +446,6 @@
         <item name="android:background">@drawable/brick_control_2h</item>
     </style>
 
-    <style name="brick_new">
-        <item name="android:windowEnterAnimation">@android:anim/slide_in_left</item>
-    </style>
-
-    <style name="brick_blink">
-        <item name="android:windowEnterAnimation">@anim/blink</item>
-    </style>
-
     <style name="FormulaEditorButton">
         <item name="android:background">@drawable/formula_editor_keyboard_button</item>
         <item name="android:textColor">@color/accent</item>
@@ -498,10 +510,6 @@
         <item name="android:background">@drawable/brick_selection_background_pen</item>
     </style>
 
-    <style name="BrickCategory.UserBricks">
-		<item name="android:background">@drawable/brick_selection_background_user_bricks</item>
- 	</style>
-
     <style name="BrickCategory.Drone">
         <item name="android:background">@drawable/brick_selection_background_drone</item>
     </style>
@@ -521,10 +529,6 @@
     <style name="BrickCategory.Cast">
         <item name="android:background">@drawable/brick_selection_background_chromecast</item>
     </style>
-
-    <style name="userBrickDataTextBackground">
- 		<item name="android:background">@drawable/brick_data_round_rect</item>
- 	</style>
 
      <style name="WebViewLoadingCircle" parent="android:Theme.Holo.Dialog">
         <item name="android:alertDialogStyle">@style/WebViewLoadingCircleStyle</item>

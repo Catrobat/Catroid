@@ -61,7 +61,7 @@ public class WhenBackgroundChangesScriptTest {
 	@Before
 	public void setUp() {
 		Project project = new Project(InstrumentationRegistry.getInstrumentation().getTargetContext(), "TestProject");
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		sprite = new SingleSprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);
 

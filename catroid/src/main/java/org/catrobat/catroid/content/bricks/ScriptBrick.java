@@ -24,7 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.content.Script;
 
-public interface ScriptBrick extends AllowedAfterDeadEndBrick, Brick {
+public interface ScriptBrick extends Brick {
 
 	Script getScript();
 }

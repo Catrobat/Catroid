@@ -93,7 +93,7 @@ public class SpriteListFragmentExplanationTextNoObjectsProjectTest {
 
 	private void createNoObjectsProject() {
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), "SpriteListFragmentExplanationTextNoObjectsProjectTest");
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 	}
 }

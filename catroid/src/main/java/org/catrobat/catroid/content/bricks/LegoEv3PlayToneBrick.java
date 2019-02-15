@@ -65,17 +65,15 @@ public class LegoEv3PlayToneBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-		setSecondsLabel(prototypeView, BrickField.LEGO_EV3_DURATION_IN_SECONDS);
-		return prototypeView;
-	}
-
-	@Override
 	public View getView(Context context) {
 		super.getView(context);
 		setSecondsLabel(view, BrickField.LEGO_EV3_DURATION_IN_SECONDS);
 		return view;
+	}
+
+	@Override
+	protected BrickField getDefaultBrickField() {
+		return BrickField.LEGO_EV3_DURATION_IN_SECONDS;
 	}
 
 	@Override

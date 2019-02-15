@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
@@ -38,7 +37,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class IfThenLogicBeginBrick extends FormulaBrick implements NestingBrick {
+public class IfThenLogicBeginBrick extends FormulaBrick implements ControlStructureBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -78,38 +77,28 @@ public class IfThenLogicBeginBrick extends FormulaBrick implements NestingBrick 
 	}
 
 	@Override
-	public View getView(Context context) {
-		super.getView(context);
-		hidePrototypePunctuation();
-		return view;
-	}
-
-	private void hidePrototypePunctuation() {
+	public void onViewCreated() {
+		super.onViewCreated();
 		TextView prototypeTextPunctuation = view.findViewById(R.id.if_prototype_punctuation);
 		prototypeTextPunctuation.setVisibility(View.GONE);
 	}
 
 	@Override
-	public boolean isInitialized() {
-		return ifEndBrick != null;
+	public Brick getFirstBrick() {
+		return this;
 	}
 
 	@Override
-	public void initialize() {
-		ifEndBrick = new IfThenLogicEndBrick(this);
+	public Brick getLastBrick() {
+		return ifEndBrick;
 	}
 
 	@Override
-	public boolean isDraggableOver(Brick brick) {
-		return brick != ifEndBrick;
-	}
-
-	@Override
-	public List<NestingBrick> getAllNestingBrickParts() {
-		List<NestingBrick> nestingBrickList = new ArrayList<>();
-		nestingBrickList.add(this);
-		nestingBrickList.add(ifEndBrick);
-		return nestingBrickList;
+	public List<Brick> getAllParts() {
+		List<Brick> parts = new ArrayList<>();
+		parts.add(this);
+		parts.add(ifEndBrick);
+		return parts;
 	}
 
 	@Override

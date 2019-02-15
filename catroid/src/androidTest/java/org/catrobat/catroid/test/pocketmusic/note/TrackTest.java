@@ -49,33 +49,33 @@ public class TrackTest {
 
 	@Test
 	public void testGetInstrument() {
-		Track track = TrackTestDataFactory.createTrack();
+		Track track = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 
 		assertEquals(MusicalInstrument.ACOUSTIC_GRAND_PIANO, track.getInstrument());
 	}
 
 	@Test
 	public void testAddNoteEvent1() {
-		Track track = TrackTestDataFactory.createTrack();
-		track.addNoteEvent(0, NoteEventTestDataFactory.createNoteEvent());
+		Track track = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
+		track.addNoteEvent(0, new NoteEvent(NoteName.C4, true));
 
 		assertEquals(1, track.size());
 	}
 
 	@Test
 	public void testAddNoteEvent2() {
-		Track track = TrackTestDataFactory.createTrack();
-		track.addNoteEvent(0, NoteEventTestDataFactory.createNoteEvent());
-		track.addNoteEvent(0, NoteEventTestDataFactory.createNoteEvent());
+		Track track = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
+		track.addNoteEvent(0, new NoteEvent(NoteName.C4, true));
+		track.addNoteEvent(0, new NoteEvent(NoteName.C4, true));
 
 		assertEquals(1, track.size());
 	}
 
 	@Test
 	public void testGetNoteEventsForTick() {
-		Track track = TrackTestDataFactory.createTrack();
+		Track track = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 		long tick = 0;
-		NoteEvent noteEvent = NoteEventTestDataFactory.createNoteEvent();
+		NoteEvent noteEvent = new NoteEvent(NoteName.C4, true);
 		track.addNoteEvent(tick, noteEvent);
 
 		assertEquals(noteEvent, track.getNoteEventsForTick(tick).get(0));
@@ -84,10 +84,10 @@ public class TrackTest {
 	@Test
 	public void testEquals1() {
 		long tick = 0;
-		Track track1 = TrackTestDataFactory.createTrack();
-		track1.addNoteEvent(tick, NoteEventTestDataFactory.createNoteEvent());
-		Track track2 = TrackTestDataFactory.createTrack();
-		track2.addNoteEvent(tick, NoteEventTestDataFactory.createNoteEvent());
+		Track track1 = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
+		track1.addNoteEvent(tick, new NoteEvent(NoteName.C4, true));
+		Track track2 = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
+		track2.addNoteEvent(tick, new NoteEvent(NoteName.C4, true));
 
 		assertEquals(track1, track2);
 	}
@@ -95,56 +95,56 @@ public class TrackTest {
 	@Test
 	public void testEquals2() {
 		long tick = 0;
-		Track track1 = TrackTestDataFactory.createTrack();
-		track1.addNoteEvent(tick, NoteEventTestDataFactory.createNoteEvent(NoteName.C1));
-		Track track2 = TrackTestDataFactory.createTrack();
-		track2.addNoteEvent(tick, NoteEventTestDataFactory.createNoteEvent(NoteName.C2));
+		Track track1 = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
+		track1.addNoteEvent(tick, new NoteEvent(NoteName.C1, true));
+		Track track2 = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
+		track2.addNoteEvent(tick, new NoteEvent(NoteName.C2, true));
 
 		assertThat(track1, is(not(equalTo(track2))));
 	}
 
 	@Test
 	public void testEquals3() {
-		Track track1 = TrackTestDataFactory.createTrack();
-		track1.addNoteEvent(0, NoteEventTestDataFactory.createNoteEvent());
-		Track track2 = TrackTestDataFactory.createTrack();
+		Track track1 = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
+		track1.addNoteEvent(0, new NoteEvent(NoteName.C4, true));
+		Track track2 = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 
 		assertThat(track1, is(not(equalTo(track2))));
 	}
 
 	@Test
 	public void testEquals4() {
-		Track track1 = TrackTestDataFactory.createTrack(MusicalInstrument.ACCORDION);
-		Track track2 = TrackTestDataFactory.createTrack(MusicalInstrument.ALTO_SAX);
+		Track track1 = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACCORDION);
+		Track track2 = new Track(MusicalKey.VIOLIN, MusicalInstrument.ALTO_SAX);
 
 		assertThat(track1, is(not(equalTo(track2))));
 	}
 
 	@Test
 	public void testEquals5() {
-		Track track1 = TrackTestDataFactory.createTrack(MusicalKey.BASS);
-		Track track2 = TrackTestDataFactory.createTrack(MusicalKey.VIOLIN);
+		Track track1 = new Track(MusicalKey.BASS, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
+		Track track2 = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 
 		assertThat(track1, is(not(equalTo(track2))));
 	}
 
 	@Test
 	public void testEquals6() {
-		Track track = TrackTestDataFactory.createTrack();
+		Track track = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 
 		assertThat(track, is(not(equalTo(null))));
 	}
 
 	@Test
 	public void testEquals7() {
-		Track track = TrackTestDataFactory.createTrack();
+		Track track = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 
 		assertFalse(track.equals(""));
 	}
 
 	@Test
 	public void testToString() {
-		Track track = TrackTestDataFactory.createTrack();
+		Track track = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 		String expectedString = "[Track] instrument=" + MusicalInstrument.ACOUSTIC_GRAND_PIANO
 				+ " key=" + track.getKey()
 				+ " size=" + track.size();
@@ -154,19 +154,19 @@ public class TrackTest {
 
 	@Test
 	public void testSetTickBasedOnTrack1() {
-		Track track = TrackTestDataFactory.createTrack();
+		Track track = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 
 		assertEquals(0, track.getLastTick());
 	}
 
 	@Test
 	public void testSetTickBasedOnTrack2() {
-		Track track = TrackTestDataFactory.createTrack();
+		Track track = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 		long tick = 0;
 
-		track.addNoteEvent(tick, NoteEventTestDataFactory.createNoteEvent(true));
+		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, true));
 		tick += NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
-		track.addNoteEvent(tick, NoteEventTestDataFactory.createNoteEvent(false));
+		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, false));
 
 		assertEquals(tick, track.getLastTick());
 	}
@@ -182,31 +182,31 @@ public class TrackTest {
 
 	@Test
 	public void testEmpty1() {
-		Track track = TrackTestDataFactory.createTrack();
+		Track track = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 
 		assertTrue(track.empty());
 	}
 
 	@Test
 	public void testEmpty2() {
-		Track track = TrackTestDataFactory.createTrack();
+		Track track = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 		long tick = 0;
 
-		track.addNoteEvent(tick, NoteEventTestDataFactory.createNoteEvent());
+		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, true));
 
 		assertFalse(track.empty());
 	}
 
 	@Test
 	public void testGetTotalTimeInMilliseconds() {
-		Track track = TrackTestDataFactory.createTrack();
+		Track track = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 		NoteLength noteLength = NoteLength.QUARTER;
 		long expecteTotalTime = noteLength.toMilliseconds(Project.DEFAULT_BEATS_PER_MINUTE);
 		long tick = 0;
 
-		track.addNoteEvent(tick, NoteEventTestDataFactory.createNoteEvent(true));
+		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, true));
 		tick += noteLength.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
-		track.addNoteEvent(tick, NoteEventTestDataFactory.createNoteEvent(false));
+		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, false));
 
 		assertEquals(expecteTotalTime, track.getTotalTimeInMilliseconds());
 	}

@@ -24,6 +24,7 @@ package org.catrobat.catroid.test.pocketmusic.note.trackgrid;
 
 import android.util.SparseArray;
 
+import org.catrobat.catroid.pocketmusic.note.NoteLength;
 import org.catrobat.catroid.pocketmusic.note.NoteName;
 import org.catrobat.catroid.pocketmusic.note.trackgrid.GridRow;
 import org.catrobat.catroid.pocketmusic.note.trackgrid.GridRowPosition;
@@ -40,7 +41,7 @@ public final class GridRowTestDataFactory {
 		SparseArray<List<GridRowPosition>> gridRowPositionSparseArray = new SparseArray<>();
 
 		List<GridRowPosition> gridRowPositionList = new ArrayList<>();
-		gridRowPositionList.add(GridRowPositionTestDataFactory.createSimpleGridRowPosition());
+		gridRowPositionList.add(new GridRowPosition(0, NoteLength.QUARTER));
 		gridRowPositionSparseArray.put(0, gridRowPositionList);
 
 		return new GridRow(NoteName.C4, gridRowPositionSparseArray);
@@ -51,8 +52,8 @@ public final class GridRowTestDataFactory {
 
 		List<GridRowPosition> gridRowPositionList = new ArrayList<>();
 
-		gridRowPositionList.add(GridRowPositionTestDataFactory.createSimpleGridRowPosition());
-		gridRowPositionList.add(GridRowPositionTestDataFactory.createSimpleGridRowPosition());
+		gridRowPositionList.add(new GridRowPosition(0, NoteLength.QUARTER));
+		gridRowPositionList.add(new GridRowPosition(0, NoteLength.QUARTER));
 		gridRowPositionSparseArray.put(0, gridRowPositionList);
 
 		return new GridRow(NoteName.C4, gridRowPositionSparseArray);
@@ -63,8 +64,8 @@ public final class GridRowTestDataFactory {
 
 		List<GridRowPosition> gridRowPositionList = new ArrayList<>();
 
-		gridRowPositionList.add(GridRowPositionTestDataFactory.createSimpleGridRowPosition());
-		gridRowPositionList.add(GridRowPositionTestDataFactory.createGridRowPositionWithOffset());
+		gridRowPositionList.add(new GridRowPosition(0, NoteLength.QUARTER));
+		gridRowPositionList.add(new GridRowPosition(4, NoteLength.QUARTER));
 		gridRowPositionSparseArray.put(0, gridRowPositionList);
 
 		return new GridRow(NoteName.C4, gridRowPositionSparseArray);

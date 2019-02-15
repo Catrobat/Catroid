@@ -32,6 +32,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -46,10 +47,6 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.drone.ardrone.DroneServiceWrapper;
-import org.catrobat.catroid.drone.ardrone.DroneStageActivity;
-import org.catrobat.catroid.facedetection.FaceDetectionHandler;
-import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -57,8 +54,8 @@ import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.pocketmusic.PocketMusicActivity;
 import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
-import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.ui.dragndrop.DragAndDropInterface;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.PlaySceneDialog;
@@ -77,9 +74,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.catrobat.catroid.common.Constants.EXTRA_PICTURE_PATH_POCKET_PAINT;
+import static org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION;
+import static org.catrobat.catroid.common.Constants.DEFAULT_SOUND_EXTENSION;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
+import static org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIR;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
+import static org.catrobat.catroid.common.Constants.TMP_IMAGE_FILE_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BACKGROUNDS_URL_LANDSCAPE;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BACKGROUNDS_URL_PORTRAIT;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_LOOKS_URL;
@@ -207,26 +207,45 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		boolean isDragAndDropActiveInFragment = getCurrentFragment() instanceof DragAndDropInterface
+				&& ((DragAndDropInterface) getCurrentFragment()).isCurrentlyMoving();
+
+		if (item.getItemId() == android.R.id.home && isDragAndDropActiveInFragment) {
+			((DragAndDropInterface) getCurrentFragment()).highlightMovingItem();
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
 	public void onBackPressed() {
-		if (getCurrentFragment() instanceof FormulaEditorFragment) {
-			((FormulaEditorFragment) getCurrentFragment()).promptSave();
-		} else {
-			if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-				getSupportFragmentManager().popBackStack();
-			} else {
-				super.onBackPressed();
+
+		Fragment currentFragment = getCurrentFragment();
+		if (currentFragment instanceof ScriptFragment) {
+			if (((DragAndDropInterface) currentFragment).isCurrentlyMoving()) {
+				((DragAndDropInterface) currentFragment).cancelMove();
+				return;
+			}
+			if (((ScriptFragment) currentFragment).isCurrentlyHighlighted()) {
+				((ScriptFragment) currentFragment).cancelHighlighting();
+				return;
 			}
 		}
+		if (getCurrentFragment() instanceof FormulaEditorFragment) {
+			((FormulaEditorFragment) getCurrentFragment()).promptSave();
+			return;
+		}
+		if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+			getSupportFragmentManager().popBackStack();
+			return;
+		}
+		super.onBackPressed();
 	}
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-
-		if (requestCode == StageActivity.STAGE_ACTIVITY_FINISH) {
-			SensorHandler.stopSensorListeners();
-			FaceDetectionHandler.stopFaceDetection();
-		}
 
 		if (resultCode != RESULT_OK) {
 			if (SettingsFragment.isCastSharedPreferenceEnabled(this)
@@ -241,11 +260,8 @@ public class SpriteActivity extends BaseActivity {
 		Uri uri;
 
 		switch (requestCode) {
-			case PreStageActivity.REQUEST_RESOURCES_INIT:
-				startStageActivity();
-				break;
 			case SPRITE_POCKET_PAINT:
-				uri = Uri.fromFile(new File(data.getStringExtra(EXTRA_PICTURE_PATH_POCKET_PAINT)));
+				uri = new ImportFromPocketPaintLauncher(this).getPocketPaintCacheUri();
 				addSpriteFromUri(uri);
 				break;
 			case SPRITE_LIBRARY:
@@ -261,7 +277,7 @@ public class SpriteActivity extends BaseActivity {
 				addSpriteFromUri(uri);
 				break;
 			case BACKGROUND_POCKET_PAINT:
-				uri = Uri.fromFile(new File(data.getStringExtra(EXTRA_PICTURE_PATH_POCKET_PAINT)));
+				uri = new ImportFromPocketPaintLauncher(this).getPocketPaintCacheUri();
 				addBackgroundFromUri(uri);
 				break;
 			case BACKGROUND_LIBRARY:
@@ -277,7 +293,7 @@ public class SpriteActivity extends BaseActivity {
 				addBackgroundFromUri(uri);
 				break;
 			case LOOK_POCKET_PAINT:
-				uri = Uri.fromFile(new File(data.getStringExtra(EXTRA_PICTURE_PATH_POCKET_PAINT)));
+				uri = new ImportFromPocketPaintLauncher(this).getPocketPaintCacheUri();
 				addLookFromUri(uri);
 				break;
 			case LOOK_LIBRARY:
@@ -331,29 +347,41 @@ public class SpriteActivity extends BaseActivity {
 	private void addSpriteFromUri(final Uri uri) {
 		final Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 
-		String name = StorageOperations.resolveFileName(getContentResolver(), uri);
-		if (name == null) {
-			name = getString(R.string.default_look_name);
+		String resolvedName;
+		String resolvedFileName = StorageOperations.resolveFileName(getContentResolver(), uri);
+
+		final String lookDataName;
+		final String lookFileName;
+
+		boolean useDefaultSpriteName = resolvedFileName == null
+				|| StorageOperations.getSanitizedFileName(resolvedFileName).equals(TMP_IMAGE_FILE_NAME);
+
+		if (useDefaultSpriteName) {
+			resolvedName = getString(R.string.default_sprite_name);
+			lookFileName = resolvedName + DEFAULT_IMAGE_EXTENSION;
 		} else {
-			name = StorageOperations.getSanitizedFileName(name);
+			resolvedName = StorageOperations.getSanitizedFileName(resolvedFileName);
+			lookFileName = resolvedFileName;
 		}
-		name = new UniqueNameProvider().getUniqueNameInNameables(name, currentScene.getSpriteList());
-		final String lookName = name;
+
+		lookDataName = new UniqueNameProvider().getUniqueNameInNameables(resolvedName, currentScene.getSpriteList());
 
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(this);
 
 		builder.setHint(getString(R.string.sprite_name_label))
-				.setText(name)
+				.setText(lookDataName)
 				.setTextWatcher(new NewItemTextWatcher<>(currentScene.getSpriteList()))
 				.setPositiveButton(getString(R.string.ok), new TextInputDialog.OnClickListener() {
+
 					@Override
 					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
-						File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
 						Sprite sprite = new Sprite(textInput);
+						currentScene.addSprite(sprite);
 						try {
-							File file = StorageOperations.copyUriToDir(getContentResolver(), uri, imageDirectory, lookName);
-							sprite.getLookList().add(new LookData(lookName, file));
-							currentScene.getSpriteList().add(sprite);
+							File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
+							File file = StorageOperations
+									.copyUriToDir(getContentResolver(), uri, imageDirectory, lookFileName);
+							sprite.getLookList().add(new LookData(textInput, file));
 						} catch (IOException e) {
 							Log.e(TAG, Log.getStackTraceString(e));
 						}
@@ -364,8 +392,19 @@ public class SpriteActivity extends BaseActivity {
 				});
 
 		builder.setTitle(R.string.new_sprite_dialog_title)
-				.setNegativeButton(R.string.cancel, null)
-				.create()
+				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						try {
+							if (MEDIA_LIBRARY_CACHE_DIR.exists()) {
+								StorageOperations.deleteDir(MEDIA_LIBRARY_CACHE_DIR);
+							}
+						} catch (IOException e) {
+							Log.e(TAG, Log.getStackTraceString(e));
+						}
+					}
+				})
 				.show();
 	}
 
@@ -373,17 +412,27 @@ public class SpriteActivity extends BaseActivity {
 		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 		Sprite currentSprite = currentScene.getBackgroundSprite();
 
-		File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
-		String name = StorageOperations.resolveFileName(getContentResolver(), uri);
-		if (name == null) {
-			name = getString(R.string.background);
+		String resolvedFileName = StorageOperations.resolveFileName(getContentResolver(), uri);
+		String lookDataName;
+		String lookFileName;
+
+		boolean useSpriteName = resolvedFileName == null
+				|| StorageOperations.getSanitizedFileName(resolvedFileName).equals(TMP_IMAGE_FILE_NAME);
+
+		if (useSpriteName) {
+			lookDataName = currentSprite.getName();
+			lookFileName = lookDataName + DEFAULT_IMAGE_EXTENSION;
 		} else {
-			name = StorageOperations.getSanitizedFileName(name);
+			lookDataName = StorageOperations.getSanitizedFileName(resolvedFileName);
+			lookFileName = resolvedFileName;
 		}
-		name = new UniqueNameProvider().getUniqueNameInNameables(name, currentSprite.getLookList());
+
+		lookDataName = new UniqueNameProvider().getUniqueNameInNameables(lookDataName, currentSprite.getLookList());
+
 		try {
-			File file = StorageOperations.copyUriToDir(getContentResolver(), uri, imageDirectory, name);
-			LookData look = new LookData(name, file);
+			File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
+			File file = StorageOperations.copyUriToDir(getContentResolver(), uri, imageDirectory, lookFileName);
+			LookData look = new LookData(lookDataName, file);
 			currentSprite.getLookList().add(look);
 			if (onNewLookListener != null) {
 				onNewLookListener.addItem(look);
@@ -397,17 +446,27 @@ public class SpriteActivity extends BaseActivity {
 		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 
-		File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
-		String name = StorageOperations.resolveFileName(getContentResolver(), uri);
-		if (name == null) {
-			name = getString(R.string.default_look_name);
+		String resolvedFileName = StorageOperations.resolveFileName(getContentResolver(), uri);
+		String lookDataName;
+		String lookFileName;
+
+		boolean useSpriteName = resolvedFileName == null
+				|| StorageOperations.getSanitizedFileName(resolvedFileName).equals(TMP_IMAGE_FILE_NAME);
+
+		if (useSpriteName) {
+			lookDataName = currentSprite.getName();
+			lookFileName = lookDataName + DEFAULT_IMAGE_EXTENSION;
 		} else {
-			name = StorageOperations.getSanitizedFileName(name);
+			lookDataName = StorageOperations.getSanitizedFileName(resolvedFileName);
+			lookFileName = resolvedFileName;
 		}
-		name = new UniqueNameProvider().getUniqueNameInNameables(name, currentSprite.getLookList());
+
+		lookDataName = new UniqueNameProvider().getUniqueNameInNameables(lookDataName, currentSprite.getLookList());
+
 		try {
-			File file = StorageOperations.copyUriToDir(getContentResolver(), uri, imageDirectory, name);
-			LookData look = new LookData(name, file);
+			File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
+			File file = StorageOperations.copyUriToDir(getContentResolver(), uri, imageDirectory, lookFileName);
+			LookData look = new LookData(lookDataName, file);
 			currentSprite.getLookList().add(look);
 			if (onNewLookListener != null) {
 				onNewLookListener.addItem(look);
@@ -421,17 +480,27 @@ public class SpriteActivity extends BaseActivity {
 		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 
-		File soundDirectory = new File(currentScene.getDirectory(), SOUND_DIRECTORY_NAME);
-		String name = StorageOperations.resolveFileName(getContentResolver(), uri);
-		if (name == null) {
-			name = getString(R.string.default_sound_name);
+		String resolvedFileName = StorageOperations.resolveFileName(getContentResolver(), uri);
+		String soundInfoName;
+		String soundFileName;
+
+		boolean useSpriteName = resolvedFileName == null;
+
+		if (useSpriteName) {
+			soundInfoName = currentSprite.getName();
+			soundFileName = soundInfoName + DEFAULT_SOUND_EXTENSION;
 		} else {
-			name = StorageOperations.getSanitizedFileName(name);
+			soundInfoName = StorageOperations.getSanitizedFileName(resolvedFileName);
+			soundFileName = resolvedFileName;
 		}
-		name = new UniqueNameProvider().getUniqueNameInNameables(name, currentSprite.getSoundList());
+
+		soundInfoName = new UniqueNameProvider().getUniqueNameInNameables(soundInfoName, currentSprite.getSoundList());
+
 		try {
-			File file = StorageOperations.copyUriToDir(getContentResolver(), uri, soundDirectory, name);
-			SoundInfo sound = new SoundInfo(name, file);
+			File soundDirectory = new File(currentScene.getDirectory(), SOUND_DIRECTORY_NAME);
+
+			File file = StorageOperations.copyUriToDir(getContentResolver(), uri, soundDirectory, soundFileName);
+			SoundInfo sound = new SoundInfo(soundInfoName, file);
 			currentSprite.getSoundList().add(sound);
 			if (onNewSoundListener != null) {
 				onNewSoundListener.addItem(sound);
@@ -719,13 +788,15 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	public void handlePlayButton(View view) {
-		boolean draggingActive = getCurrentFragment() instanceof ScriptFragment
-				&& ((ScriptFragment) getCurrentFragment()).getListView().isCurrentlyDragging();
-
-		if (draggingActive) {
-			ScriptFragment fragment = ((ScriptFragment) getCurrentFragment());
-			fragment.getListView().animateHoveringBrick();
-			return;
+		Fragment currentFragment = getCurrentFragment();
+		if (currentFragment instanceof ScriptFragment) {
+			if (((ScriptFragment) currentFragment).isCurrentlyHighlighted()) {
+				((ScriptFragment) currentFragment).cancelHighlighting();
+			}
+			if (((DragAndDropInterface) currentFragment).isCurrentlyMoving()) {
+				((DragAndDropInterface) getCurrentFragment()).highlightMovingItem();
+				return;
+			}
 		}
 
 		while (getSupportFragmentManager().getBackStackEntryCount() > 0) {
@@ -739,13 +810,13 @@ public class SpriteActivity extends BaseActivity {
 		if (currentScene.getName().equals(defaultScene.getName())) {
 			projectManager.setCurrentlyPlayingScene(defaultScene);
 			projectManager.setStartScene(defaultScene);
-			startPreStageActivity();
+			startStageActivity();
 		} else {
 			new PlaySceneDialog.Builder(this)
 					.setPositiveButton(R.string.play, new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							startPreStageActivity();
+							startStageActivity();
 						}
 					})
 					.create()
@@ -753,16 +824,8 @@ public class SpriteActivity extends BaseActivity {
 		}
 	}
 
-	void startPreStageActivity() {
-		Intent intent = new Intent(this, PreStageActivity.class);
-		startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
-	}
-
 	void startStageActivity() {
-		if (DroneServiceWrapper.checkARDroneAvailability()) {
-			startActivity(new Intent(this, DroneStageActivity.class));
-		} else {
-			startActivity(new Intent(this, StageActivity.class));
-		}
+		Intent intent = new Intent(this, StageActivity.class);
+		startActivityForResult(intent, StageActivity.REQUEST_START_STAGE);
 	}
 }

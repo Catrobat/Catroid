@@ -52,12 +52,6 @@ public class LegoNxtMotorStopBrick extends BrickBaseType {
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		super.getPrototypeView(context);
-		return getView(context);
-	}
-
-	@Override
 	public int getViewResource() {
 		return R.layout.brick_nxt_motor_stop;
 	}

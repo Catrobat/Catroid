@@ -22,11 +22,8 @@
  */
 package org.catrobat.catroid.drone.jumpingsumo;
 
-import android.os.Bundle;
-
 import org.catrobat.catroid.CatroidApplication;
-import org.catrobat.catroid.stage.PreStageActivity;
-import org.catrobat.catroid.ui.dialogs.TermsOfUseJSDialogFragment;
+import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 public final class JumpingSumoServiceWrapper {
@@ -49,31 +46,16 @@ public final class JumpingSumoServiceWrapper {
 		return SettingsFragment.isJSSharedPreferenceEnabled(CatroidApplication.getAppContext());
 	}
 
-	public static void showTermsOfUseDialog(PreStageActivity preStageActivity) {
-		Bundle args = new Bundle();
-		args.putBoolean(TermsOfUseJSDialogFragment.DIALOG_ARGUMENT_TERMS_OF_USE_ACCEPT, true);
-
-		TermsOfUseJSDialogFragment termsOfUseDialog = new TermsOfUseJSDialogFragment();
-		termsOfUseDialog.setPrestageStageActivity(preStageActivity);
-		termsOfUseDialog.setArguments(args);
-
-		termsOfUseDialog.show(preStageActivity.getSupportFragmentManager(), TermsOfUseJSDialogFragment.DIALOG_FRAGMENT_TAG);
+	public static void initJumpingSumo(StageActivity prestageStageActivity) {
+		jumpingSumoInitializer = getJumpingSumoInitialiser(prestageStageActivity);
+		jumpingSumoInitializer.initialise();
+		jumpingSumoInitializer.checkJumpingSumoAvailability(prestageStageActivity);
 	}
 
-	public static void initJumpingSumo(PreStageActivity prestageStageActivity) {
-		if (SettingsFragment.areTermsOfServiceJSAgreedPermanently(prestageStageActivity.getApplicationContext())) {
-			jumpingSumoInitializer = getJumpingSumoInitialiser(prestageStageActivity);
-			jumpingSumoInitializer.initialise();
-			jumpingSumoInitializer.checkJumpingSumoAvailability(prestageStageActivity);
-		} else {
-			showTermsOfUseDialog(prestageStageActivity);
-		}
-	}
-
-	public static JumpingSumoInitializer getJumpingSumoInitialiser(PreStageActivity prestageStageActivity) {
+	public static JumpingSumoInitializer getJumpingSumoInitialiser(StageActivity stageStageActivity) {
 		if (jumpingSumoInitializer == null) {
 			jumpingSumoInitializer = JumpingSumoInitializer.getInstance();
-			jumpingSumoInitializer.setPreStageActivity(prestageStageActivity);
+			jumpingSumoInitializer.setStageActivity(stageStageActivity);
 		}
 		return jumpingSumoInitializer;
 	}

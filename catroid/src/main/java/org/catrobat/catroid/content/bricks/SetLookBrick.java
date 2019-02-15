@@ -26,7 +26,6 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -49,7 +48,7 @@ public class SetLookBrick extends BrickBaseType implements BrickSpinner.OnItemSe
 
 	private static final long serialVersionUID = 1L;
 
-	protected LookData look;
+	private LookData look;
 
 	private transient BrickSpinner<LookData> spinner;
 
@@ -77,16 +76,8 @@ public class SetLookBrick extends BrickBaseType implements BrickSpinner.OnItemSe
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		super.getPrototypeView(context);
-		return getView(context);
-	}
-
-	@Override
 	public View getView(Context context) {
 		super.getView(context);
-		onViewCreated(view);
-
 		List<Nameable> items = new ArrayList<>();
 		items.add(new NewOption(context.getString(R.string.new_option)));
 		items.addAll(getSprite().getLookList());
@@ -97,16 +88,10 @@ public class SetLookBrick extends BrickBaseType implements BrickSpinner.OnItemSe
 		return view;
 	}
 
-	protected void onViewCreated(View view) {
-		if (getSprite().isBackgroundSprite()) {
-			((TextView) view.findViewById(R.id.brick_set_look_text_view)).setText(R.string.brick_set_background);
-		}
-	}
-
 	@Override
 	public void onNewOptionSelected() {
 		AppCompatActivity activity = UiUtils.getActivityFromView(view);
-		if (activity == null || !(activity instanceof SpriteActivity)) {
+		if (!(activity instanceof SpriteActivity)) {
 			return;
 		}
 		((SpriteActivity) activity).registerOnNewLookListener(this);

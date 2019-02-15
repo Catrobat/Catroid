@@ -61,7 +61,7 @@ public class ParserTestStringFunctions {
 		testSprite = new SingleSprite("testsprite");
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		project.getDefaultScene().addSprite(testSprite);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
 
 		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();

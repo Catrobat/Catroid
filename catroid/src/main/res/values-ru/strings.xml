@@ -1343,7 +1343,7 @@
   <string name="drone_emergency_title">Авария</string>
   <!--  -->
   <!-- Error messages -->
-  <string name="error_no_writiable_external_storage_available">This app needs writable external storage like a SD
+  <string name="error_no_writable_external_storage_available">This app needs writable external storage like a SD
         card in order to run, but none was found.\nYou can fix this by making the external storage writable or inserting
         a SD card, then trying again.</string>
   <string name="error_no_write_access">This app needs permission to write data to your device. Otherwise you
@@ -1356,7 +1356,7 @@
   <string name="error_load_project">Произошла ошибка во время загрузки программы.</string>
   <string name="error_screenshot_failed">Произошла ошибка при сохранении изображения с предварительным просмотром.</string>
   <string name="error_internet_connection">Произошла неизвестная ошибка. Проверьте подключение к интернету.</string>
-  <string name="error_project_compatability">Программа не совместима с этой версией Pocket Code.</string>
+  <string name="error_project_compatibility">Программа не совместима с этой версией Pocket Code.</string>
   <string name="error_outdated_version">This app version is outdated. Update now?</string>
   <string name="error_upload_project_with_default_name">Вы не можете загрузить программу с именем «Моя первая программа». Пожалуйста, переименуйте программу.</string>
   <string name="error_adding_brick">При добавлении этого блока произошла ошибка</string>

@@ -70,12 +70,6 @@ public class PointToBrick extends BrickBaseType implements BrickSpinner.OnItemSe
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		super.getPrototypeView(context);
-		return getView(context);
-	}
-
-	@Override
 	public View getView(Context context) {
 		super.getView(context);
 
@@ -95,7 +89,7 @@ public class PointToBrick extends BrickBaseType implements BrickSpinner.OnItemSe
 	@Override
 	public void onNewOptionSelected() {
 		AppCompatActivity activity = UiUtils.getActivityFromView(view);
-		if (activity == null || !(activity instanceof SpriteActivity)) {
+		if (!(activity instanceof SpriteActivity)) {
 			return;
 		}
 		((SpriteActivity) activity).registerOnNewSpriteListener(this);

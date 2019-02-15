@@ -42,10 +42,8 @@ import android.widget.ListView;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.ui.adapter.PrototypeBrickAdapter;
 import org.catrobat.catroid.utils.ToastUtil;
 
@@ -55,8 +53,10 @@ import static org.catrobat.catroid.ui.settingsfragments.AccessibilityProfile.BEG
 
 public class AddBrickFragment extends ListFragment {
 
-	private static final String BUNDLE_ARGUMENTS_SELECTED_CATEGORY = "selected_category";
 	public static final String ADD_BRICK_FRAGMENT_TAG = AddBrickFragment.class.getSimpleName();
+
+	private static final String BUNDLE_ARGUMENTS_SELECTED_CATEGORY = "selected_category";
+
 	private ScriptFragment scriptFragment;
 	private CharSequence previousActionBarTitle;
 	private PrototypeBrickAdapter adapter;
@@ -64,8 +64,7 @@ public class AddBrickFragment extends ListFragment {
 	private static int listIndexToFocus = -1;
 
 	private boolean onlyBeginnerBricks() {
-		return PreferenceManager.getDefaultSharedPreferences(getActivity())
-				.getBoolean(BEGINNER_BRICKS, false);
+		return PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean(BEGINNER_BRICKS, false);
 	}
 
 	public static AddBrickFragment newInstance(String selectedCategory, ScriptFragment scriptFragment) {
@@ -101,7 +100,7 @@ public class AddBrickFragment extends ListFragment {
 		}
 
 		List<Brick> brickList = categoryBricksFactory.getBricks(selectedCategory, sprite, context);
-		adapter = new PrototypeBrickAdapter(context, scriptFragment, this, brickList);
+		adapter = new PrototypeBrickAdapter(brickList);
 		setListAdapter(adapter);
 	}
 
@@ -150,34 +149,33 @@ public class AddBrickFragment extends ListFragment {
 		});
 	}
 
-	public void addBrickToScript(Brick brickToBeAdded) {
+	public void addBrickToScript(Brick brickToAdd) {
+		if ((ProjectManager.getInstance().getCurrentProject().isCastProject())
+				&& CastManager.unsupportedBricks.contains(brickToAdd.getClass())) {
+			ToastUtil.showError(getActivity(), R.string.error_unsupported_bricks_chromecast);
+			return;
+		}
+
 		try {
-			brickToBeAdded = brickToBeAdded.clone();
-			scriptFragment.updateAdapterAfterAddNewBrick(brickToBeAdded);
-
-			if ((ProjectManager.getInstance().getCurrentProject().isCastProject())
-					&& CastManager.unsupportedBricks.contains(brickToBeAdded.getClass())) {
-				ToastUtil.showError(getActivity(), R.string.error_unsupported_bricks_chromecast);
-				return;
-			}
-
-			if (brickToBeAdded instanceof ScriptBrick) {
-				Script script = ((ScriptBrick) brickToBeAdded).getScript();
-				ProjectManager.getInstance().setCurrentScript(script);
-			}
+			brickToAdd = brickToAdd.clone();
+			scriptFragment.addBrick(brickToAdd);
 
 			FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-			Fragment categoryFragment = getFragmentManager().findFragmentByTag(
-					BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
+			Fragment categoryFragment = getFragmentManager()
+					.findFragmentByTag(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
+
 			if (categoryFragment != null) {
 				fragmentTransaction.remove(categoryFragment);
 				getFragmentManager().popBackStack();
 			}
-			Fragment addBrickFragment = getFragmentManager().findFragmentByTag(AddBrickFragment.ADD_BRICK_FRAGMENT_TAG);
+
+			Fragment addBrickFragment = getFragmentManager().findFragmentByTag(ADD_BRICK_FRAGMENT_TAG);
+
 			if (addBrickFragment != null) {
 				fragmentTransaction.remove(addBrickFragment);
 				getFragmentManager().popBackStack();
 			}
+
 			fragmentTransaction.commit();
 		} catch (CloneNotSupportedException e) {
 			Log.e(getTag(), e.getLocalizedMessage());

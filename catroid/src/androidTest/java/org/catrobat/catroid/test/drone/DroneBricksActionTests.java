@@ -77,7 +77,7 @@ public class DroneBricksActionTests {
 		droneConfig = Mockito.mock(DroneConfig.class);
 		when(droneControlService.getDroneConfig()).thenReturn(droneConfig);
 
-		DroneServiceWrapper.getInstance().setDroneService(droneControlService);
+		DroneServiceWrapper.setDroneService(droneControlService);
 		sprite = new SingleSprite("droneTestSprite");
 		sequenceAction = (EventThread) ActionFactory.createEventThread(new StartScript());
 	}

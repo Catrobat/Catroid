@@ -80,7 +80,7 @@ public final class DroneConfigManager {
 	}
 
 	public void setIndoorConfigWithHull() {
-		droneControlService = DroneServiceWrapper.getInstance().getDroneService();
+		droneControlService = DroneServiceWrapper.getDroneService();
 		if (droneControlService != null) {
 			droneControlService.getDroneConfig().setOutdoorFlight(false);
 			droneControlService.getDroneConfig().setOutdoorHull(true);
@@ -89,7 +89,7 @@ public final class DroneConfigManager {
 	}
 
 	public void setIndoorConfigWithoutHull() {
-		droneControlService = DroneServiceWrapper.getInstance().getDroneService();
+		droneControlService = DroneServiceWrapper.getDroneService();
 		if (droneControlService != null) {
 			droneControlService.getDroneConfig().setOutdoorFlight(false);
 			droneControlService.getDroneConfig().setOutdoorHull(false);
@@ -98,7 +98,7 @@ public final class DroneConfigManager {
 	}
 
 	public void setOutdoorConfigWithHull() {
-		droneControlService = DroneServiceWrapper.getInstance().getDroneService();
+		droneControlService = DroneServiceWrapper.getDroneService();
 		if (droneControlService != null) {
 			droneControlService.getDroneConfig().setOutdoorFlight(true);
 			droneControlService.getDroneConfig().setOutdoorHull(true);
@@ -107,7 +107,7 @@ public final class DroneConfigManager {
 	}
 
 	public void setOutdoorConfigWithoutHull() {
-		droneControlService = DroneServiceWrapper.getInstance().getDroneService();
+		droneControlService = DroneServiceWrapper.getDroneService();
 		if (droneControlService != null) {
 			droneControlService.getDroneConfig().setOutdoorFlight(true);
 			droneControlService.getDroneConfig().setOutdoorHull(false);
@@ -136,7 +136,7 @@ public final class DroneConfigManager {
 	}
 
 	public void setAltitude(int value) {
-		droneControlService = DroneServiceWrapper.getInstance().getDroneService();
+		droneControlService = DroneServiceWrapper.getDroneService();
 		if (droneControlService != null) {
 			Log.d(TAG, String.format("old altitude = %d", droneControlService.getDroneConfig().getAltitudeLimit()));
 			if (BrickValues.DRONE_ALTITUDE_MIN <= value && value <= BrickValues.DRONE_ALTITUDE_MAX) {
@@ -169,7 +169,7 @@ public final class DroneConfigManager {
 	}
 
 	public void setVerticalSpeed(int value) {
-		droneControlService = DroneServiceWrapper.getInstance().getDroneService();
+		droneControlService = DroneServiceWrapper.getDroneService();
 		if (droneControlService != null) {
 			Log.d(TAG, String.format("old vertical = %d", droneControlService.getDroneConfig().getVertSpeedMax()));
 			if (BrickValues.DRONE_VERTICAL_MIN <= value && value <= BrickValues.DRONE_VERTICAL_MAX) {
@@ -202,7 +202,7 @@ public final class DroneConfigManager {
 	}
 
 	public void setRotationSpeed(int value) {
-		droneControlService = DroneServiceWrapper.getInstance().getDroneService();
+		droneControlService = DroneServiceWrapper.getDroneService();
 		if (droneControlService != null) {
 			Log.d(TAG, String.format("old rotation = %d", droneControlService.getDroneConfig().getYawSpeedMax()));
 			if (BrickValues.DRONE_ROTATION_MIN <= value && value <= BrickValues.DRONE_ROTATION_MAX) {
@@ -235,7 +235,7 @@ public final class DroneConfigManager {
 	}
 
 	public void setTiltAngle(int value) {
-		droneControlService = DroneServiceWrapper.getInstance().getDroneService();
+		droneControlService = DroneServiceWrapper.getDroneService();
 		if (droneControlService != null) {
 			Log.d(TAG, String.format("old tilt = %d", droneControlService.getDroneConfig().getDeviceTiltMax()));
 			if (BrickValues.DRONE_TILT_MIN <= value && value <= BrickValues.DRONE_TILT_MAX) {

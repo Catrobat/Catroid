@@ -83,7 +83,7 @@ public class SpriteTest {
 		UserVariable globalVariable = new UserVariable(GLOBAL_VARIABLE_NAME, GLOBAL_VARIABLE_VALUE);
 		project.getDefaultScene().getDataContainer().addUserVariable(globalVariable);
 
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 	}
 
 	@Test

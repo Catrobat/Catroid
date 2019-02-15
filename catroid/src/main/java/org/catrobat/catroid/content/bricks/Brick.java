@@ -29,7 +29,6 @@ import android.widget.CheckBox;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.io.Serializable;
 import java.lang.annotation.Retention;
@@ -90,7 +89,7 @@ public interface Brick extends Serializable, Cloneable {
 	@IntDef({TEXT_TO_SPEECH, BLUETOOTH_LEGO_NXT, PHYSICS, FACE_DETECTION, ARDRONE_SUPPORT,
 			BLUETOOTH_SENSORS_ARDUINO, SOCKET_RASPI, CAMERA_FLASH, VIBRATOR, BLUETOOTH_PHIRO, CAMERA_BACK, CAMERA_FRONT,
 			SENSOR_ACCELERATION, SENSOR_INCLINATION, SENSOR_COMPASS, NFC_ADAPTER, VIDEO, SENSOR_GPS, COLLISION,
-			BLUETOOTH_LEGO_EV3, NETWORK_CONNECTION, CAST_REQUIRED, JUMPING_SUMO})
+			BLUETOOTH_LEGO_EV3, NETWORK_CONNECTION, CAST_REQUIRED, JUMPING_SUMO, MICROPHONE})
 	@interface Resources {}
 	int TEXT_TO_SPEECH = 1;
 	int BLUETOOTH_LEGO_NXT = 2;
@@ -115,6 +114,7 @@ public interface Brick extends Serializable, Cloneable {
 	int NETWORK_CONNECTION = 21;
 	int CAST_REQUIRED = 22;
 	int JUMPING_SUMO = 23;
+	int MICROPHONE = 24;
 
 	class ResourcesSet extends HashSet<Integer> {
 		@Override
@@ -129,17 +129,11 @@ public interface Brick extends Serializable, Cloneable {
 
 	View getView(Context context);
 
-	View getPrototypeView(Context context);
-
 	Brick clone() throws CloneNotSupportedException;
-
-	void setBrickAdapter(BrickAdapter adapter);
 
 	CheckBox getCheckBox();
 
 	boolean isCommentedOut();
 
 	void setCommentedOut(boolean commentedOut);
-
-	void setAlpha(int alphaFull);
 }

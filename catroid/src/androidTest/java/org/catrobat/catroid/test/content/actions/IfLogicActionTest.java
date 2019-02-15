@@ -77,7 +77,7 @@ public class IfLogicActionTest {
 		testSprite = new SingleSprite("testSprite");
 		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		testSprite.removeAllScripts();
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(new SingleSprite("testSprite1"));
 		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().removeUserVariable(TEST_USERVARIABLE);
 
@@ -115,7 +115,6 @@ public class IfLogicActionTest {
 		testSprite.addScript(testScript);
 		project.getDefaultScene().addSprite(testSprite);
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
-		ProjectManager.getInstance().setCurrentScript(testScript);
 
 		testSprite.initializeEventThreads(EventId.START);
 		while (!testSprite.look.haveAllThreadsFinished()) {
@@ -149,7 +148,6 @@ public class IfLogicActionTest {
 		testSprite.addScript(testScript);
 		project.getDefaultScene().addSprite(testSprite);
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
-		ProjectManager.getInstance().setCurrentScript(testScript);
 		testSprite.initializeEventThreads(EventId.START);
 		testSprite.look.act(100f);
 
@@ -180,7 +178,6 @@ public class IfLogicActionTest {
 		testSprite.addScript(testScript);
 		project.getDefaultScene().addSprite(testSprite);
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
-		ProjectManager.getInstance().setCurrentScript(testScript);
 		testSprite.initializeEventThreads(EventId.START);
 		testSprite.look.act(100f);
 
@@ -239,7 +236,6 @@ public class IfLogicActionTest {
 		testSprite.addScript(testScript);
 		project.getDefaultScene().addSprite(testSprite);
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
-		ProjectManager.getInstance().setCurrentScript(testScript);
 		testSprite.initializeEventThreads(EventId.START);
 		testSprite.look.act(1f);
 		userVariable = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()

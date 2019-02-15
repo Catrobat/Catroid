@@ -25,6 +25,7 @@ package org.catrobat.catroid.io;
 
 import android.content.ContentResolver;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.OpenableColumns;
 
@@ -95,13 +96,10 @@ public final class StorageOperations {
 		String result = null;
 
 		if (uri.getScheme().equals("content")) {
-			Cursor cursor = contentResolver.query(uri, null, null, null, null);
-			try {
+			try (Cursor cursor = contentResolver.query(uri, null, null, null, null)) {
 				if (cursor != null && cursor.moveToFirst()) {
 					result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
 				}
-			} finally {
-				cursor.close();
 			}
 		}
 
@@ -114,6 +112,13 @@ public final class StorageOperations {
 		}
 
 		return result;
+	}
+
+	public static File compressBitmapToPng(Bitmap bitmap, File dstFile) throws IOException {
+		try (FileOutputStream os = new FileOutputStream(dstFile)) {
+			bitmap.compress(Bitmap.CompressFormat.PNG, 100, os);
+		}
+		return dstFile;
 	}
 
 	public static File duplicateFile(File src) throws IOException {
@@ -172,16 +177,8 @@ public final class StorageOperations {
 	}
 
 	public static void transferData(File srcFile, File dstFile) throws IOException {
-		FileChannel ic = new FileInputStream(srcFile).getChannel();
-		FileChannel oc = new FileOutputStream(dstFile).getChannel();
-
-		try {
+		try (FileChannel ic = new FileInputStream(srcFile).getChannel(); FileChannel oc = new FileOutputStream(dstFile).getChannel()) {
 			ic.transferTo(0, ic.size(), oc);
-		} finally {
-			if (ic != null) {
-				ic.close();
-			}
-			oc.close();
 		}
 	}
 
@@ -238,7 +235,7 @@ public final class StorageOperations {
 		int extensionStartIndex = originalName.lastIndexOf('.');
 
 		if (extensionStartIndex == -1) {
-			extensionStartIndex = originalName.length() - 1;
+			extensionStartIndex = originalName.length();
 		}
 
 		int appendixStartIndex = originalName.lastIndexOf(FILE_NAME_APPENDIX);

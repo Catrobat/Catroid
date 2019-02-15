@@ -26,7 +26,7 @@
     android:layout_height="wrap_content"
     android:focusable="false"
     android:gravity="center_vertical"
-    android:orientation="horizontal" >
+    android:orientation="horizontal">
 
     <CheckBox
         android:id="@+id/brick_checkbox"
@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:background="@drawable/brick_control_user_2h"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
     </LinearLayout>
 
 </LinearLayout>

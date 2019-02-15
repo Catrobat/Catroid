@@ -39,9 +39,10 @@ public class AccessibilityProfile {
 	private static final String CUSTOM_ACCESSIBILITY_PROFILE = "custom_accessibility_profile";
 
 	@Retention(RetentionPolicy.SOURCE)
-	@StringDef({SERIF, DYSLEXIC, LARGE_TEXT, HIGH_CONTRAST, ICONS, LARGE_ICONS, ICON_HIGH_CONTRAST,
+	@StringDef({SANS_SERIF, SERIF, DYSLEXIC, LARGE_TEXT, HIGH_CONTRAST, ICONS, LARGE_ICONS, ICON_HIGH_CONTRAST,
 			ELEMENT_SPACING, BEGINNER_BRICKS, DRAGNDROP_DELAY})
 	@interface AccessibilityFlags {}
+	static final String SANS_SERIF = "sans_serif";
 	static final String SERIF = "serif";
 	static final String DYSLEXIC = "dyslexic";
 	static final String LARGE_TEXT = "accessibility_large_text";
@@ -60,7 +61,6 @@ public class AccessibilityProfile {
 				ICON_HIGH_CONTRAST, ELEMENT_SPACING, BEGINNER_BRICKS, DRAGNDROP_DELAY));
 	}
 
-	private static final String REGULAR = "regular";
 	private static final String FONT_STYLE = "accessibility_font_style";
 
 	private Set<String> setPreferences = new HashSet<>();
@@ -80,10 +80,8 @@ public class AccessibilityProfile {
 				preferences.add(preference);
 			}
 		}
-		String fontStyle = sharedPreferences.getString(FONT_STYLE, REGULAR);
-		if (!fontStyle.equals(REGULAR)) {
-			preferences.add(fontStyle);
-		}
+		String fontStyle = sharedPreferences.getString(FONT_STYLE, SANS_SERIF);
+		preferences.add(fontStyle);
 		return new AccessibilityProfile(preferences);
 	}
 
@@ -102,7 +100,7 @@ public class AccessibilityProfile {
 		for (String preference : BOOLEAN_PREFERENCES) {
 			editor.putBoolean(preference, false);
 		}
-		editor.putString(FONT_STYLE, REGULAR);
+		editor.putString(FONT_STYLE, SANS_SERIF);
 		editor.commit();
 	}
 
@@ -111,7 +109,8 @@ public class AccessibilityProfile {
 		SharedPreferences.Editor editor = sharedPreferences.edit();
 		for (@AccessibilityFlags String preference : setPreferences) {
 			if (preference.equals(SERIF)
-					|| preference.equals(DYSLEXIC)) {
+					|| preference.equals(DYSLEXIC)
+					|| preference.equals(SANS_SERIF)) {
 				editor.putString(FONT_STYLE, preference);
 			} else {
 				editor.putBoolean(preference, true);
@@ -138,6 +137,9 @@ public class AccessibilityProfile {
 		}
 		if (setPreferences.contains(LARGE_ICONS)) {
 			theme.applyStyle(R.style.CategoryIconSizeLarge, true);
+		}
+		if (setPreferences.contains(SANS_SERIF)) {
+			theme.applyStyle(R.style.FontSansSerif, true);
 		}
 		if (setPreferences.contains(SERIF)) {
 			theme.applyStyle(R.style.FontSerif, true);

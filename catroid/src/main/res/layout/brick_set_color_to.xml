@@ -38,13 +38,7 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_set_color_layout"
-        style="@style/BrickContainer.Look.Small"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
-        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing">
+        style="@style/BrickContainer.Look.Small">
 
         <include layout="@layout/icon_brick_category_look" />
 

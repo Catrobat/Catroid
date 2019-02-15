@@ -77,7 +77,7 @@ public abstract class DroneMoveAction extends TemporalAction {
 	}
 
 	protected DroneControlService getDroneService() {
-		return DroneServiceWrapper.getInstance().getDroneService();
+		return DroneServiceWrapper.getDroneService();
 	}
 
 	protected abstract void move();

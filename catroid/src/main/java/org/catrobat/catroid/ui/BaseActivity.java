@@ -26,6 +26,7 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
@@ -34,13 +35,17 @@ import com.google.android.gms.analytics.Tracker;
 
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.cast.CastManager;
+import org.catrobat.catroid.ui.runtimepermissions.PermissionHandlingActivity;
+import org.catrobat.catroid.ui.runtimepermissions.PermissionRequestActivityExtension;
+import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.ui.settingsfragments.AccessibilityProfile;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.CrashReporter;
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity implements PermissionHandlingActivity {
 
 	public static final String RECOVERED_FROM_CRASH = "RECOVERED_FROM_CRASH";
+	private PermissionRequestActivityExtension permissionRequestActivityExtension = new PermissionRequestActivityExtension();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -106,5 +111,15 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 	private boolean isRecoveringFromCrash() {
 		return PreferenceManager.getDefaultSharedPreferences(this).getBoolean(RECOVERED_FROM_CRASH, false);
+	}
+
+	@Override
+	public void addToRequiresPermissionTaskList(RequiresPermissionTask task) {
+		permissionRequestActivityExtension.addToRequiresPermissionTaskList(task);
+	}
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+		permissionRequestActivityExtension.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
 	}
 }
