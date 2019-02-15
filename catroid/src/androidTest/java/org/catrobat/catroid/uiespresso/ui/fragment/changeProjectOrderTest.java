@@ -30,6 +30,8 @@ import android.widget.EditText;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.ProjectData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.SingleSprite;
@@ -42,13 +44,20 @@ import org.catrobat.catroid.ui.ProjectListActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
+import org.catrobat.catroid.utils.FileMetaDataExtractor;
+import org.catrobat.catroid.utils.PathBuilder;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
+import java.io.File;
 import java.security.spec.ECField;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
@@ -65,10 +74,12 @@ import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.fail;
 
 @RunWith(AndroidJUnit4.class)
 public class changeProjectOrderTest {
@@ -91,21 +102,57 @@ public class changeProjectOrderTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void changeProjectOrderTest() {
+		try{
+			Thread.sleep(2000);
+		}
+		catch (Exception e){}
 		onRecyclerView().performOnItemWithText(ProjectTwoName,click());
-		try{
-			Thread.sleep(1000);
-		}
-		catch (Exception e){}
 		pressBack();
-		onRecyclerView().atPosition(0).check(matches(hasDescendant(withText(ProjectTwoName))));
 
-		onRecyclerView().performOnItemWithText(ProjectOneName,click());
+		List<ProjectData> items = new ArrayList<>();
+		for (String projectName : FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY)) {
+			File codeFile = new File(PathBuilder.buildPath(PathBuilder.buildProjectPath(projectName), Constants.CODE_XML_FILE_NAME));
+			items.add(new ProjectData(projectName, codeFile.lastModified()));
+		}
+
+		Collections.sort(items, new Comparator<ProjectData>() {
+			@Override
+			public int compare(ProjectData project1, ProjectData project2) {
+				return Long.valueOf(project2.lastUsed).compareTo(project1.lastUsed);
+			}
+		});
+
+		if(!items.get(0).projectName.equals(ProjectTwoName))
+		{
+			fail("order not updated");
+		}
+
 		try{
-			Thread.sleep(1000);
+			Thread.sleep(2000);
 		}
 		catch (Exception e){}
+		onRecyclerView().performOnItemWithText(ProjectOneName,click());
+
 		pressBack();
-		onRecyclerView().atPosition(0).check(matches(hasDescendant(withText(ProjectOneName))));
+
+		items.clear();
+		for (String projectName : FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY)) {
+			File codeFile = new File(PathBuilder.buildPath(PathBuilder.buildProjectPath(projectName), Constants.CODE_XML_FILE_NAME));
+			items.add(new ProjectData(projectName, codeFile.lastModified()));
+		}
+
+		Collections.sort(items, new Comparator<ProjectData>() {
+			@Override
+			public int compare(ProjectData project1, ProjectData project2) {
+				return Long.valueOf(project2.lastUsed).compareTo(project1.lastUsed);
+			}
+		});
+
+		if(!items.get(0).projectName.equals(ProjectOneName))
+		{
+			fail("order not updated");
+		}
+
 	}
 
 	private void createProject(String projectName) {
