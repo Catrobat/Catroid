@@ -989,7 +989,7 @@ public class FormulaElement implements Serializable {
 
 	public boolean isUserVariableWithTypeString(Sprite sprite) {
 		if (type == ElementType.USER_VARIABLE) {
-			DataContainer userVariableContainer = ProjectManager.getInstance().getCurrentlyPlayingScene()
+			DataContainer userVariableContainer = ProjectManager.getInstance().getCurrentlyEditedScene()
 					.getDataContainer();
 			UserVariable userVariable = userVariableContainer.getUserVariable(sprite, value);
 			Object userVariableValue = userVariable.getValue();
