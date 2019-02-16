@@ -37,14 +37,15 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.stage.ShowTextActor;
 import org.catrobat.catroid.stage.StageActivity;
 
-public class ShowTextAction extends TemporalAction {
+public class ShowTextColorAndSizeAction extends TemporalAction {
 
-	public static final String TAG = ShowTextAction.class.getSimpleName();
+	public static final String TAG = ShowTextColorAndSizeAction.class.getSimpleName();
 
 	private Formula xPosition;
 	private Formula yPosition;
+	private Formula relativeTextSize;
+	private Formula color;
 	private UserVariable variableToShow;
-
 	private Sprite sprite;
 	private UserBrick userBrick;
 	private ShowTextActor actor;
@@ -54,11 +55,12 @@ public class ShowTextAction extends TemporalAction {
 		try {
 			int xPosition = this.xPosition.interpretInteger(sprite);
 			int yPosition = this.yPosition.interpretInteger(sprite);
+			float relativeTextSize = this.relativeTextSize.interpretFloat(sprite) / 100;
+			String color = this.color.interpretString(sprite);
 			if (StageActivity.stageListener != null) {
 				Array<Actor> stageActors = StageActivity.stageListener.getStage().getActors();
 				ShowTextActor dummyActor = new ShowTextActor(new UserVariable("dummyActor"), 0,
-						0, 1.0f, null, sprite,
-						userBrick);
+						0, relativeTextSize, color, sprite, userBrick);
 
 				for (Actor actor : stageActors) {
 					if (actor.getClass().equals(dummyActor.getClass())) {
@@ -71,7 +73,7 @@ public class ShowTextAction extends TemporalAction {
 					}
 				}
 
-				actor = new ShowTextActor(variableToShow, xPosition, yPosition, 1.0f, null, sprite,
+				actor = new ShowTextActor(variableToShow, xPosition, yPosition, relativeTextSize, color, sprite,
 						userBrick);
 				StageActivity.stageListener.addActor(actor);
 			}
@@ -100,6 +102,14 @@ public class ShowTextAction extends TemporalAction {
 	public void setPosition(Formula xPosition, Formula yPosition) {
 		this.xPosition = xPosition;
 		this.yPosition = yPosition;
+	}
+
+	public void setRelativeTextSize(Formula relativeTextSize) {
+		this.relativeTextSize = relativeTextSize;
+	}
+
+	public void setColor(Formula color) {
+		this.color = color;
 	}
 
 	public void setSprite(Sprite sprite) {

@@ -141,6 +141,7 @@ import org.catrobat.catroid.content.actions.SetVolumeToAction;
 import org.catrobat.catroid.content.actions.SetXAction;
 import org.catrobat.catroid.content.actions.SetYAction;
 import org.catrobat.catroid.content.actions.ShowTextAction;
+import org.catrobat.catroid.content.actions.ShowTextColorAndSizeAction;
 import org.catrobat.catroid.content.actions.SpeakAction;
 import org.catrobat.catroid.content.actions.StampAction;
 import org.catrobat.catroid.content.actions.StitchAction;
@@ -1074,6 +1075,19 @@ public class ActionFactory extends Actions {
 	public Action createShowVariableAction(Sprite sprite, Formula xPosition, Formula yPosition, UserVariable userVariable) {
 		ShowTextAction action = action(ShowTextAction.class);
 		action.setPosition(xPosition, yPosition);
+		action.setVariableToShow(userVariable);
+		action.setSprite(sprite);
+		UserBrick userBrick = ProjectManager.getInstance().getCurrentUserBrick();
+		action.setUserBrick(userBrick);
+		return action;
+	}
+
+	public Action createShowVariableColorAndSizeAction(Sprite sprite, Formula xPosition, Formula yPosition,
+			Formula relativeTextSize, Formula color, UserVariable userVariable) {
+		ShowTextColorAndSizeAction action = action(ShowTextColorAndSizeAction.class);
+		action.setPosition(xPosition, yPosition);
+		action.setRelativeTextSize(relativeTextSize);
+		action.setColor(color);
 		action.setVariableToShow(userVariable);
 		action.setSprite(sprite);
 		UserBrick userBrick = ProjectManager.getInstance().getCurrentUserBrick();
