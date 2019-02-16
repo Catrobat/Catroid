@@ -244,6 +244,7 @@ public class Formula implements Serializable {
 			Double interpretationResult;
 			try {
 				interpretationResult = this.interpretDouble(sprite);
+
 			} catch (InterpretationException interpretationException) {
 				return "ERROR";
 			}
