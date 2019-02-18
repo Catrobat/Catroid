@@ -44,7 +44,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
 	private static final BackgroundColorSpan COLOR_ERROR = new BackgroundColorSpan(0xFFF00000);
 	private static final BackgroundColorSpan COLOR_HIGHLIGHT = new BackgroundColorSpan(0xFF33B5E5);
-	private static FormulaEditorHistory history = null;
+	private FormulaEditorHistory history = null;
 	FormulaEditorFragment formulaEditorFragment = null;
 	private int absoluteCursorPosition = 0;
 	private InternFormula internFormula;
@@ -149,8 +149,8 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		cursorAnimation.run();
 	}
 
-	public void enterNewFormula(InternFormulaState internFormulaState) {
-		internFormula = internFormulaState.createInternFormulaFromState();
+	public void enterNewFormula(UndoState state) {
+		internFormula = state.internFormulaState.createInternFormulaFromState();
 		internFormula.generateExternFormulaStringAndInternExternMapping(context);
 
 		updateTextAndCursorFromInternFormula();
@@ -159,9 +159,9 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		highlightSelection();
 
 		if (history == null) {
-			history = new FormulaEditorHistory(internFormula.getInternFormulaState());
+			history = new FormulaEditorHistory(state);
 		} else {
-			history.init(internFormula.getInternFormulaState());
+			history.updateCurrentState(state);
 		}
 	}
 
@@ -170,7 +170,8 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 			return;
 		}
 		internFormula.updateVariableReferences(oldName, newName, this.context);
-		history.push(internFormula.getInternFormulaState());
+		history.push(new UndoState(internFormula.getInternFormulaState(),
+				formulaEditorFragment.getCurrentBrickField()));
 		String resultingText = updateTextAndCursorFromInternFormula();
 		setSelection(absoluteCursorPosition);
 		formulaEditorFragment.refreshFormulaPreviewString(resultingText);
@@ -181,7 +182,8 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 			return;
 		}
 		internFormula.updateListReferences(oldName, newName, this.context);
-		history.push(internFormula.getInternFormulaState());
+		history.push(new UndoState(internFormula.getInternFormulaState(),
+				formulaEditorFragment.getCurrentBrickField()));
 		String resultingText = updateTextAndCursorFromInternFormula();
 		setSelection(absoluteCursorPosition);
 		formulaEditorFragment.refreshFormulaPreviewString(resultingText);
@@ -245,7 +247,8 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
 	public void handleKeyEvent(int resource, String name) {
 		internFormula.handleKeyInput(resource, context, name);
-		history.push(internFormula.getInternFormulaState());
+		history.push(new UndoState(internFormula.getInternFormulaState(),
+				formulaEditorFragment.getCurrentBrickField()));
 		String resultingText = updateTextAndCursorFromInternFormula();
 		setSelection(absoluteCursorPosition);
 		formulaEditorFragment.refreshFormulaPreviewString(resultingText);
@@ -261,8 +264,8 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
 	public void overrideSelectedText(String string) {
 		internFormula.overrideSelectedText(string, context);
-
-		history.push(internFormula.getInternFormulaState());
+		history.push(new UndoState(internFormula.getInternFormulaState(),
+				formulaEditorFragment.getCurrentBrickField()));
 		String resultingText = updateTextAndCursorFromInternFormula();
 		setSelection(absoluteCursorPosition);
 		formulaEditorFragment.refreshFormulaPreviewString(resultingText);
@@ -289,10 +292,10 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		if (!history.undoIsPossible()) {
 			return false;
 		}
-		InternFormulaState lastStep = history.backward();
-		if (lastStep != null) {
+		UndoState previousState = history.backward();
+		if (previousState != null) {
 
-			internFormula = lastStep.createInternFormulaFromState();
+			internFormula = previousState.internFormulaState.createInternFormulaFromState();
 			internFormula.generateExternFormulaStringAndInternExternMapping(context);
 			internFormula.updateInternCursorPosition();
 			updateTextAndCursorFromInternFormula();
@@ -306,10 +309,10 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		if (!history.redoIsPossible()) {
 			return false;
 		}
-		InternFormulaState nextStep = history.forward();
+		UndoState nextStep = history.forward();
 		if (nextStep != null) {
 
-			internFormula = nextStep.createInternFormulaFromState();
+			internFormula = nextStep.internFormulaState.createInternFormulaFromState();
 			internFormula.generateExternFormulaStringAndInternExternMapping(context);
 			internFormula.updateInternCursorPosition();
 			updateTextAndCursorFromInternFormula();
