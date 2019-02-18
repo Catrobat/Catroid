@@ -94,9 +94,9 @@ public class CategoryBricksFactoryTest {
 
 	@Test
 	public void testLooksBricks() {
-		final int expectedBackgroundBrickCount = 22;
+		final int expectedBackgroundBrickCount = 24;
 		checkBrickCountInCategory(R.string.category_looks, background, expectedBackgroundBrickCount);
-		final int expectedBrickCount = 28;
+		final int expectedBrickCount = 30;
 		checkBrickCountInCategory(R.string.category_looks, sprite, expectedBrickCount);
 	}
 
@@ -110,7 +110,7 @@ public class CategoryBricksFactoryTest {
 
 	@Test
 	public void testDataBricks() {
-		final int expectedBrickCount = 10;
+		final int expectedBrickCount = 11;
 		checkBrickCountInCategory(R.string.category_data, background, expectedBrickCount);
 		checkBrickCountInCategory(R.string.category_data, sprite, expectedBrickCount);
 	}

@@ -54,6 +54,7 @@ public final class BrickValues {
 
 	//constants Looks
 	public static final double SET_SIZE_TO = 60;
+	public static final double RELATIVE_SIZE_IN_PERCENT = 100.0f;
 	public static final double CHANGE_SIZE_BY = 10;
 	public static final double SET_TRANSPARENCY = 50;
 	public static final double CHANGE_TRANSPARENCY_EFFECT = 25;
@@ -125,6 +126,7 @@ public final class BrickValues {
 
 	//Constants Variables
 	public static final double SET_VARIABLE = 1d;
+	public static final String SHOW_VARIABLE_COLOR = "#FF0000";
 	public static final double CHANGE_VARIABLE = 1d;
 
 	//Constants Lists
