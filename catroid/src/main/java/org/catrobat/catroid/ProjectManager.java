@@ -194,11 +194,10 @@ public final class ProjectManager {
 			SettingsFragment.setArduinoSharedPreferenceEnabled(context, true);
 		}
 
-        File codeFile = new File(PathBuilder.buildPath(PathBuilder.buildProjectPath(projectName), Constants.CODE_XML_FILE_NAME));
-        if (!codeFile.setLastModified(System.currentTimeMillis()))
-        {
-            Log.d(TAG,"Unable to change project's last modified");
-        }
+		File codeFile = new File(PathBuilder.buildPath(PathBuilder.buildProjectPath(projectName), Constants.CODE_XML_FILE_NAME));
+		if (!codeFile.setLastModified(System.currentTimeMillis())) {
+			Log.d(TAG, "Unable to change project's last modified");
+		}
 
 		currentlyPlayingScene = project.getDefaultScene();
 	}
