@@ -28,7 +28,7 @@ import android.support.test.runner.AndroidJUnit4;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
-import org.catrobat.catroid.content.bricks.ShowTextBrick;
+import org.catrobat.catroid.content.bricks.ShowTextColorAndSizeBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
@@ -48,33 +48,34 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
-public class ShowTextBrickTest {
+public class ShowTextColorAndSizeBrickTest {
 	private int setBrickPosition;
 	private int showBrickPosition;
 
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
+			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
+			SpriteActivity.FRAGMENT_SCRIPTS);
 
 	@Before
 	public void setUp() throws Exception {
 		setBrickPosition = 1;
 		showBrickPosition = 2;
-
 		Script script = BrickTestUtils.createProjectAndGetStartScript("showTextBrickTest1");
 		script.addBrick(new SetVariableBrick());
-		script.addBrick(new ShowTextBrick());
-
+		script.addBrick(new ShowTextColorAndSizeBrick());
 		baseActivityTestRule.launchActivity();
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void testShowVariableBrick() {
+	public void testShowVariableColorAndSizeBrick() {
 		final String variableName = "testVariable";
 		final int intToChange = 42;
 		final int positionX = 30;
 		final int positionY = 40;
+		final int relativeTextSize = 40;
+		final String color = "#FF00FF";
 
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
 		onBrickAtPosition(setBrickPosition).checkShowsText(R.string.brick_set_variable);
@@ -87,17 +88,26 @@ public class ShowTextBrickTest {
 				.performEnterNumber(intToChange)
 				.checkShowsNumber(intToChange);
 
-		onView(withId(R.id.show_variable_spinner))
+		onView(withId(R.id.show_variable_color_and_size_spinner))
 				.perform(click());
 		onView(withText(variableName))
 				.perform(click());
 
-		onBrickAtPosition(showBrickPosition).onFormulaTextField(R.id.brick_show_variable_edit_text_x)
+		onBrickAtPosition(showBrickPosition).onFormulaTextField(R.id.brick_show_variable_color_and_size_edit_text_x)
 				.performEnterNumber(positionX)
 				.checkShowsNumber(positionX);
 
-		onBrickAtPosition(showBrickPosition).onFormulaTextField(R.id.brick_show_variable_edit_text_y)
+		onBrickAtPosition(showBrickPosition).onFormulaTextField(R.id.brick_show_variable_color_and_size_edit_text_y)
 				.performEnterNumber(positionY)
 				.checkShowsNumber(positionY);
+
+		onBrickAtPosition(showBrickPosition).onFormulaTextField(R.id.brick_show_variable_color_and_size_edit_color)
+				.performEnterString(color)
+				.checkShowsText(color);
+
+		onBrickAtPosition(showBrickPosition)
+				.onFormulaTextField(R.id.brick_show_variable_color_and_size_edit_relative_size)
+				.performEnterNumber(relativeTextSize)
+				.checkShowsNumber(relativeTextSize);
 	}
 }
