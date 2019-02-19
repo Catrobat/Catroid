@@ -54,7 +54,6 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.dialogs.LegoSensorConfigInfoDialog;
 import org.catrobat.catroid.ui.recyclerview.activity.ProjectUploadActivity;
 import org.catrobat.catroid.ui.recyclerview.controller.SceneController;
-import org.catrobat.catroid.ui.recyclerview.dialog.PlaySceneDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.NewItemTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.fragment.RecyclerViewFragment;
@@ -363,30 +362,7 @@ public class ProjectActivity extends BaseCastActivity {
 	}
 
 	public void handlePlayButton(View view) {
-		ProjectManager projectManager = ProjectManager.getInstance();
-		Scene currentScene = projectManager.getCurrentlyEditedScene();
-		Scene defaultScene = projectManager.getCurrentProject().getDefaultScene();
-
-		if (currentScene.getName().equals(defaultScene.getName())) {
-			projectManager.setCurrentlyPlayingScene(defaultScene);
-			projectManager.setStartScene(defaultScene);
-			startStageActivity();
-		} else {
-			new PlaySceneDialog.Builder(this)
-					.setPositiveButton(R.string.play, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							startStageActivity();
-						}
-					})
-					.create()
-					.show();
-		}
-	}
-
-	void startStageActivity() {
-		Intent intent = new Intent(this, StageActivity.class);
-		startActivityForResult(intent, StageActivity.REQUEST_START_STAGE);
+		StageActivity.handlePlayButton(ProjectManager.getInstance(), this);
 	}
 
 	private void showLegoSensorConfigInfo() {
