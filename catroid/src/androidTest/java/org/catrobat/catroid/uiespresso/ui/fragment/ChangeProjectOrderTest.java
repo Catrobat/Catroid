@@ -25,10 +25,7 @@ package org.catrobat.catroid.uiespresso.ui.fragment;
 
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
-import android.widget.EditText;
 
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ProjectData;
@@ -53,36 +50,18 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import java.io.File;
-import java.security.spec.ECField;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
-import static android.support.test.espresso.Espresso.closeSoftKeyboard;
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.replaceText;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.RootMatchers.isDialog;
-import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 @RunWith(AndroidJUnit4.class)
 public class ChangeProjectOrderTest {
 
@@ -104,16 +83,15 @@ public class ChangeProjectOrderTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void changeProjectOrderTest() {
-
 		File codeFileProjectOne = new File(PathBuilder.buildPath(PathBuilder.buildProjectPath(projectOneName),
 				Constants.CODE_XML_FILE_NAME));
-		assertTrue(codeFileProjectOne.setLastModified(codeFileProjectOne.lastModified()-2000));
+		assertTrue(codeFileProjectOne.setLastModified(codeFileProjectOne.lastModified() - 2000));
 
-		File codeFileProejectTwo = new File(PathBuilder.buildPath(PathBuilder.buildProjectPath(projectTwoName),
+		File codeFileProjectTwo = new File(PathBuilder.buildPath(PathBuilder.buildProjectPath(projectTwoName),
 				Constants.CODE_XML_FILE_NAME));
-		assertTrue(codeFileProejectTwo.setLastModified(codeFileProejectTwo.lastModified()-2000));
+		assertTrue(codeFileProjectTwo.setLastModified(codeFileProjectTwo.lastModified() - 2000));
 
-		onRecyclerView().performOnItemWithText(projectTwoName,click());
+		onRecyclerView().performOnItemWithText(projectTwoName, click());
 		pressBack();
 
 		List<ProjectData> items = new ArrayList<>();
@@ -125,16 +103,16 @@ public class ChangeProjectOrderTest {
 		Collections.sort(items, new Comparator<ProjectData>() {
 			@Override
 			public int compare(ProjectData project1, ProjectData project2) {
-				return Long.compare(project2.lastUsed,project1.lastUsed);
+				return Long.compare(project2.lastUsed, project1.lastUsed);
 			}
 		});
 
-		assertEquals(items.get(0).projectName,projectTwoName);
+		assertEquals(items.get(0).projectName, projectTwoName);
 
-		assertTrue(codeFileProjectOne.setLastModified(codeFileProjectOne.lastModified()-2000));
-		assertTrue(codeFileProejectTwo.setLastModified(codeFileProejectTwo.lastModified()-2000));
+		assertTrue(codeFileProjectOne.setLastModified(codeFileProjectOne.lastModified() - 2000));
+		assertTrue(codeFileProjectTwo.setLastModified(codeFileProjectTwo.lastModified() - 2000));
 
-		onRecyclerView().performOnItemWithText(projectOneName,click());
+		onRecyclerView().performOnItemWithText(projectOneName, click());
 
 		pressBack();
 
@@ -147,12 +125,11 @@ public class ChangeProjectOrderTest {
 		Collections.sort(items, new Comparator<ProjectData>() {
 			@Override
 			public int compare(ProjectData project1, ProjectData project2) {
-				return Long.compare(project2.lastUsed,project1.lastUsed);
+				return Long.compare(project2.lastUsed, project1.lastUsed);
 			}
 		});
 
-		assertEquals(items.get(0).projectName,projectOneName);
-
+		assertEquals(items.get(0).projectName, projectOneName);
 	}
 
 	private void createProject(String projectName) {

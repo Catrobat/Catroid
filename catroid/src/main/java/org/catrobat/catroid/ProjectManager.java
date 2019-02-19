@@ -195,7 +195,7 @@ public final class ProjectManager {
 		}
 
         File codeFile = new File(PathBuilder.buildPath(PathBuilder.buildProjectPath(projectName), Constants.CODE_XML_FILE_NAME));
-        if(!codeFile.setLastModified(System.currentTimeMillis()))
+        if (!codeFile.setLastModified(System.currentTimeMillis()))
         {
             Log.d(TAG,"Unable to change project's last modified");
         }
