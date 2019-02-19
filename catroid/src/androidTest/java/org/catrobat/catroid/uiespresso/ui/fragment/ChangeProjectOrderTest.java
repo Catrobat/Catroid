@@ -79,22 +79,24 @@ import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewIn
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 @RunWith(AndroidJUnit4.class)
-public class changeProjectOrderTest {
+public class ChangeProjectOrderTest {
 
 	@Rule
 	public BaseActivityInstrumentationRule<ProjectListActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(ProjectListActivity.class, true, false);
 
-	private String ProjectOneName = "ProjectOneName";
-	private String ProjectTwoName = "ProjectTwoName";
+	private String projectOneName = "ProjectOneName";
+	private String projectTwoName = "ProjectTwoName";
 
 	@Before
 	public void setUp() throws Exception {
-		createProject(ProjectOneName);
-		createProject(ProjectTwoName);
+		createProject(projectOneName);
+		createProject(projectTwoName);
 
 		baseActivityTestRule.launchActivity(null);
 	}
@@ -102,11 +104,16 @@ public class changeProjectOrderTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void changeProjectOrderTest() {
-		try{
-			Thread.sleep(2000);
-		}
-		catch (Exception e){}
-		onRecyclerView().performOnItemWithText(ProjectTwoName,click());
+
+		File codeFileProjectOne = new File(PathBuilder.buildPath(PathBuilder.buildProjectPath(projectOneName),
+				Constants.CODE_XML_FILE_NAME));
+		assertTrue(codeFileProjectOne.setLastModified(codeFileProjectOne.lastModified()-2000));
+
+		File codeFileProejectTwo = new File(PathBuilder.buildPath(PathBuilder.buildProjectPath(projectTwoName),
+				Constants.CODE_XML_FILE_NAME));
+		assertTrue(codeFileProejectTwo.setLastModified(codeFileProejectTwo.lastModified()-2000));
+
+		onRecyclerView().performOnItemWithText(projectTwoName,click());
 		pressBack();
 
 		List<ProjectData> items = new ArrayList<>();
@@ -118,20 +125,16 @@ public class changeProjectOrderTest {
 		Collections.sort(items, new Comparator<ProjectData>() {
 			@Override
 			public int compare(ProjectData project1, ProjectData project2) {
-				return Long.valueOf(project2.lastUsed).compareTo(project1.lastUsed);
+				return Long.compare(project2.lastUsed,project1.lastUsed);
 			}
 		});
 
-		if(!items.get(0).projectName.equals(ProjectTwoName))
-		{
-			fail("order not updated");
-		}
+		assertEquals(items.get(0).projectName,projectTwoName);
 
-		try{
-			Thread.sleep(2000);
-		}
-		catch (Exception e){}
-		onRecyclerView().performOnItemWithText(ProjectOneName,click());
+		assertTrue(codeFileProjectOne.setLastModified(codeFileProjectOne.lastModified()-2000));
+		assertTrue(codeFileProejectTwo.setLastModified(codeFileProejectTwo.lastModified()-2000));
+
+		onRecyclerView().performOnItemWithText(projectOneName,click());
 
 		pressBack();
 
@@ -144,14 +147,11 @@ public class changeProjectOrderTest {
 		Collections.sort(items, new Comparator<ProjectData>() {
 			@Override
 			public int compare(ProjectData project1, ProjectData project2) {
-				return Long.valueOf(project2.lastUsed).compareTo(project1.lastUsed);
+				return Long.compare(project2.lastUsed,project1.lastUsed);
 			}
 		});
 
-		if(!items.get(0).projectName.equals(ProjectOneName))
-		{
-			fail("order not updated");
-		}
+		assertEquals(items.get(0).projectName,projectOneName);
 
 	}
 
