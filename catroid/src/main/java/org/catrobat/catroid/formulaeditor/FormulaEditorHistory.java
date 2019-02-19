@@ -22,31 +22,40 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
+import org.catrobat.catroid.content.bricks.Brick;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 
 public class FormulaEditorHistory {
 
 	private static final int MAXIMUM_HISTORY_LENGTH = 32;
-	private Stack<InternFormulaState> undoStack = null;
-	private Stack<InternFormulaState> redoStack = null;
-	private InternFormulaState current = null;
+	private Stack<UndoState> undoStack = null;
+	private Stack<UndoState> redoStack = null;
+	private UndoState current = null;
 	private boolean hasUnsavedChanges = false;
+	Map<Brick.BrickField, InternFormulaState> initialStates = null;
 
-	public FormulaEditorHistory(InternFormulaState internFormulaState) {
-		current = internFormulaState;
-		undoStack = new Stack<InternFormulaState>();
-		redoStack = new Stack<InternFormulaState>();
+	public FormulaEditorHistory(UndoState state) {
+		current = state;
+		undoStack = new Stack<>();
+		redoStack = new Stack<>();
+		initialStates = new HashMap<>();
 	}
 
-	public void push(InternFormulaState internFormulaState) {
+	public void push(UndoState state) {
 
-		if (current != null && current.equals(internFormulaState)) {
+		if (current != null && current.equals(state)) {
 			return;
 		}
 		if (current != null) {
 			undoStack.push(current);
 		}
-		current = internFormulaState;
+		if (!initialStates.containsKey(current.brickField)) {
+			initialStates.put(current.brickField, current.internFormulaState);
+		}
+		current = state;
 		redoStack.clear();
 		hasUnsavedChanges = true;
 		if (undoStack.size() > MAXIMUM_HISTORY_LENGTH) {
@@ -54,7 +63,7 @@ public class FormulaEditorHistory {
 		}
 	}
 
-	public InternFormulaState backward() {
+	public UndoState backward() {
 		redoStack.push(current);
 		hasUnsavedChanges = true;
 		if (!undoStack.empty()) {
@@ -63,7 +72,7 @@ public class FormulaEditorHistory {
 		return current;
 	}
 
-	public InternFormulaState forward() {
+	public UndoState forward() {
 		undoStack.push(current);
 		hasUnsavedChanges = true;
 		if (!redoStack.empty()) {
@@ -73,11 +82,11 @@ public class FormulaEditorHistory {
 	}
 
 	public void updateCurrentSelection(InternFormulaTokenSelection internFormulaTokenSelection) {
-		current.setSelection(internFormulaTokenSelection);
+		current.internFormulaState.setSelection(internFormulaTokenSelection);
 	}
 
-	public void init(InternFormulaState internFormulaState) {
-		current = internFormulaState;
+	public void updateCurrentState(UndoState state) {
+		current = state;
 	}
 
 	public void clear() {
@@ -88,7 +97,7 @@ public class FormulaEditorHistory {
 	}
 
 	public void updateCurrentCursor(int cursorPosition) {
-		current.setExternCursorPosition(cursorPosition);
+		current.internFormulaState.setExternCursorPosition(cursorPosition);
 	}
 
 	public boolean undoIsPossible() {
@@ -101,6 +110,10 @@ public class FormulaEditorHistory {
 
 	public boolean hasUnsavedChanges() {
 		return hasUnsavedChanges;
+	}
+
+	public Map<Brick.BrickField, InternFormulaState> getInitialStates() {
+		return initialStates;
 	}
 
 	public void changesSaved() {
