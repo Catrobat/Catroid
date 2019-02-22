@@ -66,7 +66,6 @@
     <!-- Login/Logout Mechanism -->
     <string name="loading_check_facebook_data">Retrieving Facebook login data…</string>
     <string name="loading_check_oauth_token">Checking login data…</string>
-    <string name="loading_check_facebook_token_validity">Checking Facebook login data…</string>
     <string name="loading_facebook_exchange_token">Exchanging Facebook login data…</string>
     <string name="loading_facebook_login">Facebook login on our server is complete…</string>
     <string name="loading_google_exchange_code">Exchanging Google login data…</string>
@@ -953,7 +952,7 @@
     <string name="signin_choose_username_hint">The username should not be your real name nor should it be an email address.</string>
     <string name="oauth_username_taken">Someone else already uses this name. Please choose a different one!</string>
     <string name="show_password">Show password</string>
-    <string name="sign_in_error">Error during sign-sn</string>
+    <string name="sign_in_error">Something went wrong during sign in.</string>
     <string name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>
     <string name="error_facebook_session_expired">Session expired, please log in.</string>
     <string name="sign_in_with_facebook">Sign in with Facebook</string>

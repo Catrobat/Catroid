@@ -33,6 +33,7 @@ import org.catrobat.catroid.utils.FileMetaDataExtractor;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
@@ -41,10 +42,10 @@ public class ProjectImportTask extends AsyncTask<File, Boolean, Boolean> {
 
 	public static final String TAG = ProjectImportTask.class.getSimpleName();
 
-	private ProjectImportListener projectImportListener;
+	private WeakReference<ProjectImportListener> weakListenerReference;
 
-	public ProjectImportTask(ProjectImportListener projectImportListener) {
-		this.projectImportListener = projectImportListener;
+	public ProjectImportTask(ProjectImportListener listener) {
+		this.weakListenerReference = new WeakReference<>(listener);
 	}
 
 	public static boolean task(File... files) {
@@ -103,7 +104,10 @@ public class ProjectImportTask extends AsyncTask<File, Boolean, Boolean> {
 
 	@Override
 	protected void onPostExecute(Boolean success) {
-		projectImportListener.onImportFinished(success);
+		ProjectImportListener listener = weakListenerReference.get();
+		if (listener != null) {
+			listener.onImportFinished(success);
+		}
 	}
 
 	public interface ProjectImportListener {

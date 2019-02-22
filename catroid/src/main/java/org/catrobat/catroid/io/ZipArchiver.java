@@ -43,6 +43,7 @@ public class ZipArchiver {
 	private static final int COMPRESSION_LEVEL = 0;
 
 	public void zip(File archive, File[] files) throws IOException {
+		archive.createNewFile();
 		FileOutputStream fileOutputStream = new FileOutputStream(archive);
 		ZipOutputStream zipOutputStream = new ZipOutputStream(fileOutputStream);
 		try {

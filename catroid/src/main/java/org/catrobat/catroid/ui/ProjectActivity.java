@@ -50,6 +50,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.dialogs.LegoSensorConfigInfoDialog;
 import org.catrobat.catroid.ui.recyclerview.activity.ProjectUploadActivity;
@@ -72,7 +73,7 @@ import static org.catrobat.catroid.common.Constants.TMP_IMAGE_FILE_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_LOOKS_URL;
 import static org.catrobat.catroid.ui.WebViewActivity.MEDIA_FILE_PATH;
 
-public class ProjectActivity extends BaseCastActivity {
+public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask.ProjectSaveListener {
 
 	public static final String TAG = ProjectActivity.class.getSimpleName();
 
@@ -131,6 +132,11 @@ public class ProjectActivity extends BaseCastActivity {
 		return getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 	}
 
+	public void setShowProgressBar(boolean show) {
+		findViewById(R.id.progress_bar).setVisibility(show ? View.VISIBLE : View.GONE);
+		findViewById(R.id.fragment_container).setVisibility(show ? View.GONE : View.VISIBLE);
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_project_activity, menu);
@@ -144,15 +150,25 @@ public class ProjectActivity extends BaseCastActivity {
 				handleAddSceneButton();
 				break;
 			case R.id.upload:
-				Project currentProject = ProjectManager.getInstance().getCurrentProject();
-				Intent intent = new Intent(this, ProjectUploadActivity.class);
-				intent.putExtra(ProjectUploadActivity.PROJECT_NAME, currentProject.getName());
-				startActivity(intent);
+				setShowProgressBar(true);
+				new ProjectSaveTask(this)
+						.execute(ProjectManager.getInstance().getCurrentProject());
 				break;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
 		return true;
+	}
+
+	@Override
+	public void onSaveProjectComplete(boolean success) {
+		setShowProgressBar(false);
+		// deliberately ignoring success value, because XstreamSerializer returns false: when saving was
+		// unnecessary but was successful or when it did not succeed.
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		Intent intent = new Intent(this, ProjectUploadActivity.class);
+		intent.putExtra(ProjectUploadActivity.PROJECT_NAME, currentProject.getName());
+		startActivity(intent);
 	}
 
 	@Override
