@@ -43,6 +43,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
+import org.catrobat.catroid.io.asynctask.ProjectRenameTask;
 import org.catrobat.catroid.transfers.CheckTokenTask;
 import org.catrobat.catroid.transfers.GetTagsTask;
 import org.catrobat.catroid.ui.BaseActivity;
@@ -53,10 +54,15 @@ import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.catrobat.catroid.common.Constants.PROJECT_UPLOAD_DESCRIPTION;
+import static org.catrobat.catroid.common.Constants.PROJECT_UPLOAD_NAME;
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public class ProjectUploadActivity extends BaseActivity implements
 		ProjectLoadTask.ProjectLoadListener,
@@ -67,6 +73,7 @@ public class ProjectUploadActivity extends BaseActivity implements
 	public static final String PROJECT_NAME = "projectName";
 	public static final int SIGN_IN_CODE = 42;
 
+	private TextChangedListener textChangedListener = new TextChangedListener();
 	private TextInputLayout nameInputLayout;
 	private TextInputLayout descriptionInputLayout;
 
@@ -101,7 +108,8 @@ public class ProjectUploadActivity extends BaseActivity implements
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		boolean enableNextButton = nameInputLayout != null
-				&& !nameInputLayout.getEditText().getText().toString().isEmpty();
+				&& !nameInputLayout.getEditText().getText().toString().isEmpty()
+				&& nameInputLayout.getError() == null;
 		menu.findItem(R.id.next).setEnabled(enableNextButton);
 		return true;
 	}
@@ -164,7 +172,7 @@ public class ProjectUploadActivity extends BaseActivity implements
 		nameInputLayout.getEditText().setText(currentProject.getName());
 		descriptionInputLayout.getEditText().setText(currentProject.getDescription());
 
-		nameInputLayout.getEditText().addTextChangedListener(new TextChangedListener());
+		nameInputLayout.getEditText().addTextChangedListener(textChangedListener);
 		invalidateOptionsMenu();
 	}
 
@@ -172,32 +180,32 @@ public class ProjectUploadActivity extends BaseActivity implements
 		String name = nameInputLayout.getEditText().getText().toString().trim();
 		String description = descriptionInputLayout.getEditText().getText().toString().trim();
 
-		if (name.isEmpty()) {
-			nameInputLayout.setError(getString(R.string.error_no_program_name_entered));
+		String error = textChangedListener.validateInput(name);
+
+		if (error != null) {
+			nameInputLayout.setError(error);
+			invalidateOptionsMenu();
 			return;
 		}
 
-		if (name.equals(getString(R.string.default_project_name))) {
-			nameInputLayout.setError(getString(R.string.error_upload_project_with_default_name));
+		Project project = ProjectManager.getInstance().getCurrentProject();
+
+		if (Utils.isDefaultProject(project, this)) {
+			nameInputLayout.setError(getString(R.string.error_upload_default_project));
 			return;
 		}
 
-		ProjectManager projectManager = ProjectManager.getInstance();
-
-		if (Utils.isDefaultProject(projectManager.getCurrentProject(), this)) {
-			return;
+		if (ProjectRenameTask.task(project.getName(), name)) {
+			ProjectLoadTask.task(name, this);
+			project = ProjectManager.getInstance().getCurrentProject();
 		}
 
-		if (!name.equals(projectManager.getCurrentProject().getName())) {
-			ProjectManager.renameProject(projectManager.getCurrentProject().getName(), name, this);
-		}
-
-		projectManager.getCurrentProject().setDescription(description);
-		projectManager.getCurrentProject().setDeviceData(this);
+		project.setDescription(description);
+		project.setDeviceData(this);
 
 		Bundle bundle = new Bundle();
-		bundle.putString(Constants.PROJECT_UPLOAD_NAME, name);
-		bundle.putString(Constants.PROJECT_UPLOAD_DESCRIPTION, description);
+		bundle.putString(PROJECT_UPLOAD_NAME, name);
+		bundle.putString(PROJECT_UPLOAD_DESCRIPTION, description);
 
 		SelectTagsDialogFragment dialog = new SelectTagsDialogFragment();
 		dialog.setTags(tags);
@@ -254,18 +262,40 @@ public class ProjectUploadActivity extends BaseActivity implements
 
 	private class TextChangedListener implements TextWatcher {
 
+		@Nullable
+		public String validateInput(String input) {
+			if (input.isEmpty()) {
+				return getString(R.string.name_empty);
+			}
+
+			input = input.trim();
+
+			if (input.isEmpty()) {
+				return getString(R.string.name_consists_of_spaces_only);
+			}
+			if (input.equals(getString(R.string.default_project_name))) {
+				return getString(R.string.error_upload_project_with_default_name);
+			}
+			if (FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).contains(input)) {
+				return getString(R.string.name_already_exists);
+			}
+
+			return null;
+		}
+
 		@Override
 		public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 		}
 
 		@Override
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
-			nameInputLayout.setError(null);
-			invalidateOptionsMenu();
 		}
 
 		@Override
 		public void afterTextChanged(Editable s) {
+			String input = s.toString();
+			nameInputLayout.setError(validateInput(input));
+			invalidateOptionsMenu();
 		}
 	}
 }

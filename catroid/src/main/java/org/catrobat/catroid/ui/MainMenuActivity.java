@@ -239,7 +239,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 				.setPositiveButton(R.string.import_dialog_move_btn, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						new ProjectImportTask(MainMenuActivity.this, new ProjectImportTask.ProjectImportListener() {
+						new ProjectImportTask(new ProjectImportTask.ProjectImportListener() {
 							@Override
 							public void onImportFinished(boolean success) {
 								loadFragment();
@@ -250,8 +250,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 										try {
 											StorageOperations.deleteDir(dir);
 										} catch (IOException e) {
-											Log.e(getClass().getSimpleName(),
-													"Cannot delete dir in external storage after import", e);
+											Log.e(TAG, "Cannot delete dir in external storage after import", e);
 										}
 									}
 								} else {
@@ -264,7 +263,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 				.setNeutralButton(R.string.import_dialog_copy_btn, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						new ProjectImportTask(MainMenuActivity.this, new ProjectImportTask.ProjectImportListener() {
+						new ProjectImportTask(new ProjectImportTask.ProjectImportListener() {
 							@Override
 							public void onImportFinished(boolean success) {
 								loadFragment();

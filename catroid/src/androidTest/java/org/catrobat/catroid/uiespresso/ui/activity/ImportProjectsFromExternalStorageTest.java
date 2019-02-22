@@ -33,10 +33,10 @@ import android.support.test.runner.AndroidJUnit4;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreator;
 import org.catrobat.catroid.io.StorageOperations;
-import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
+import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -132,8 +132,8 @@ public class ImportProjectsFromExternalStorageTest {
 		onView(withText(R.string.import_dialog_copy_btn))
 				.perform(click());
 
-		assertTrue(XstreamSerializer.getInstance().projectExists(projectName));
-		assertTrue(XstreamSerializer.getInstance().projectExists(renamedProjectName));
+		assertTrue(FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).contains(projectName));
+		assertTrue(FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).contains(renamedProjectName));
 		assertTrue(new File(EXTERNAL_STORAGE_ROOT_DIRECTORY, projectName).exists());
 	}
 
@@ -147,7 +147,7 @@ public class ImportProjectsFromExternalStorageTest {
 		onView(withText(R.string.import_dialog_move_btn))
 				.perform(click());
 
-		assertTrue(XstreamSerializer.getInstance().projectExists(projectName));
-		assertTrue(XstreamSerializer.getInstance().projectExists(renamedProjectName));
+		assertTrue(FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).contains(projectName));
+		assertTrue(FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).contains(renamedProjectName));
 	}
 }

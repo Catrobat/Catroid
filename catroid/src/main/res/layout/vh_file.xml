@@ -21,35 +21,31 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<menu
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/import_project"
-        android:title="@string/import_project"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/copy"
-        android:title="@string/copy"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/delete"
-        android:title="@string/delete"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/rename"
-        android:title="@string/rename"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/show_details"
-        android:title="@string/show_details"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/cast_button"
-        android:title="@string/cast_button_menu_item_title"
-        android:icon="@drawable/ic_cast_white"
-        android:visible="false"
-        app:showAsAction="ifRoom" />
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/view_holder_height"
+    android:paddingEnd="@dimen/view_holder_padding"
+    android:paddingStart="@dimen/view_holder_padding"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:layout_marginTop="?attr/element_spacing"
+    android:layout_marginBottom="?attr/element_spacing"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="Overdraw"
+    android:background="@drawable/button_background_selector">
 
-</menu>
+    <TextView
+        android:id="@+id/title_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/vh_item_title"
+        android:textSize="?attr/x_large" />
+
+    <TextView
+        android:id="@+id/subtitle_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/vh_item_details" />
+</LinearLayout>

@@ -21,35 +21,32 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<menu
+
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <item
-        android:id="@+id/import_project"
-        android:title="@string/import_project"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/copy"
-        android:title="@string/copy"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/delete"
-        android:title="@string/delete"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/rename"
-        android:title="@string/rename"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/show_details"
-        android:title="@string/show_details"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/cast_button"
-        android:title="@string/cast_button_menu_item_title"
-        android:icon="@drawable/ic_cast_white"
-        android:visible="false"
-        app:showAsAction="ifRoom" />
+    <include layout="@layout/toolbar" />
 
-</menu>
+    <include layout="@layout/progress_bar" />
+
+    <TextView
+        android:id="@+id/empty_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/error_no_files_found"
+        android:textSize="?attr/x_large"
+        android:textAlignment="center"
+        android:visibility="gone" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutManager="LinearLayoutManager"/>
+
+</LinearLayout>
