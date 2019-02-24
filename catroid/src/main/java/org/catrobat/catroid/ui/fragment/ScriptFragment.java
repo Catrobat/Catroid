@@ -72,7 +72,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 public class ScriptFragment extends ListFragment implements
 		ActionMode.Callback,
@@ -596,15 +595,11 @@ public class ScriptFragment extends ListFragment implements
 
 	private void openWebViewWithHelpPage(BrickBaseType brick) {
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
-		String language = Locale.getDefault().getLanguage();
 		String category = new CategoryBricksFactory().getBrickCategory(brick, sprite, getContext());
 		String brickType = brick.getClass().getSimpleName();
 
-		if (!language.equals("en") && !language.equals("de") && !language.equals("es")) {
-			language = "en";
-		}
 		Intent intent = new Intent(Intent.ACTION_VIEW,
-				Uri.parse("https://wiki.catrob.at/index" + ".php?title=" + category + "_Bricks/" + language + "#" + brickType));
+				Uri.parse("https://xwiki.catrob.at/bin/view/Brick%20Documentation/" + category + "%20Bricks#" + brickType));
 		startActivity(intent);
 	}
 
