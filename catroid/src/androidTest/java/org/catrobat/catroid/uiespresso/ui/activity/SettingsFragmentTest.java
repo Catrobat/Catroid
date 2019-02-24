@@ -54,11 +54,13 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
+import static org.catrobat.catroid.common.SharedPreferenceKeys.ACCESSIBILITY_PROFILE_PREFERENCE_KEY;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_CODE;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.PARROT_JUMPING_SUMO_SCREEN_KEY;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_CAST_GLOBALLY_ENABLED;
@@ -75,6 +77,7 @@ import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTING
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_RASPI_BRICKS;
 import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.core.AllOf.allOf;
 import static org.hamcrest.core.Is.is;
 
 @RunWith(AndroidJUnit4.class)
@@ -112,6 +115,7 @@ public class SettingsFragmentTest {
 		for (String setting : allSettings) {
 			sharedPreferencesEditor.putBoolean(setting, value);
 		}
+		sharedPreferencesEditor.putInt(ACCESSIBILITY_PROFILE_PREFERENCE_KEY, R.id.default_profile);
 		sharedPreferencesEditor.commit();
 	}
 
@@ -122,6 +126,7 @@ public class SettingsFragmentTest {
 		for (String setting : initialSettings.keySet()) {
 			sharedPreferencesEditor.putBoolean(setting, initialSettings.get(setting));
 		}
+		sharedPreferencesEditor.putInt(ACCESSIBILITY_PROFILE_PREFERENCE_KEY, R.id.default_profile);
 		sharedPreferencesEditor.commit();
 		initialSettings.clear();
 	}
@@ -135,6 +140,19 @@ public class SettingsFragmentTest {
 		checkPreference(R.string.preference_title_enable_hints, SETTINGS_SHOW_HINTS);
 		checkPreference(R.string.preference_title_enable_crash_reports, SETTINGS_CRASH_REPORTS);
 		checkPreference(R.string.preference_title_cast_feature_globally_enabled, SETTINGS_CAST_GLOBALLY_ENABLED);
+	}
+
+	@Category({Cat.AppUi.class, Level.Functional.class, Cat.Quarantine.class})
+	@Test
+	public void noMultipleSelectAccessibilityProfilesTest() {
+		onData(PreferenceMatchers.withTitle(R.string.preference_title_accessibility))
+				.perform(click());
+
+		onData(PreferenceMatchers.withTitle(R.string.preference_title_accessibility_predefined_profile_headline))
+				.perform(click());
+
+		onView(allOf(withId(R.id.radio_button), withParent(withId(R.id.argus))))
+				.perform(click());
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Gadgets.class})

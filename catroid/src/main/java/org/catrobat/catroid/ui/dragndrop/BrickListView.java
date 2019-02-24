@@ -34,6 +34,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -65,9 +66,12 @@ public class BrickListView extends ListView {
 	private BitmapDrawable hoveringDrawable;
 	private Rect viewBounds;
 
+	private BitmapDrawable highlightedDrawable;
+
 	private int currentPositionOfHoveringBrick;
 
 	private List<BrickBaseType> bricksToMove = new ArrayList<>();
+	private List<Integer> brickPositionsToHighlight = new ArrayList<>();
 
 	private int motionEventId = -1;
 	private float downY = 0;
@@ -93,6 +97,14 @@ public class BrickListView extends ListView {
 		return hoveringDrawable != null;
 	}
 
+	public boolean isCurrentlyHighlighted() {
+		return !brickPositionsToHighlight.isEmpty();
+	}
+
+	public List<Integer> getBrickPositionsToHighlight() {
+		return brickPositionsToHighlight;
+	}
+
 	public void highlightMovingItem() {
 		ObjectAnimator animator = ObjectAnimator.ofInt(hoveringDrawable, "alpha", 255, 0);
 		animator.setDuration(ANIMATION_DURATION);
@@ -105,6 +117,21 @@ public class BrickListView extends ListView {
 				invalidate();
 			}
 		});
+	}
+
+	public void cancelHighlighting() {
+		brickPositionsToHighlight.clear();
+		highlightedDrawable = null;
+		invalidateViews();
+	}
+
+	public void highlightControlStructureBricks(List<Integer> positions) {
+		cancelHighlighting();
+		brickPositionsToHighlight.addAll(positions);
+		for (int pos : positions) {
+			drawItem(getChildAtVisiblePosition(pos), false);
+		}
+		invalidate();
 	}
 
 	public void startMoving(List<BrickBaseType> bricksToMove, int positionOfFirstBrick) {
@@ -120,7 +147,7 @@ public class BrickListView extends ListView {
 		brickAdapterInterface.setItemVisible(positionOfFirstBrick, false);
 		invalidateHoveringItem = true;
 
-		drawHoveringItem(getChildAtVisiblePosition(positionOfFirstBrick));
+		drawItem(getChildAtVisiblePosition(positionOfFirstBrick), true);
 		setOffsetToCenter(viewBounds);
 		invalidate();
 	}
@@ -178,7 +205,7 @@ public class BrickListView extends ListView {
 	public void dispatchDraw(Canvas canvas) {
 		super.dispatchDraw(canvas);
 
-		if (!bricksToMove.isEmpty()) {
+		if (!bricksToMove.isEmpty() || !brickPositionsToHighlight.isEmpty()) {
 			Rect rect = new Rect(0, 0, canvas.getWidth(), canvas.getHeight());
 			Paint paint = new Paint();
 			paint.setColor(Color.BLACK);
@@ -191,24 +218,39 @@ public class BrickListView extends ListView {
 		if (hoveringDrawable != null) {
 			if (invalidateHoveringItem) {
 				invalidateHoveringItem = false;
-				drawHoveringItem(getChildAtVisiblePosition(currentPositionOfHoveringBrick));
+				drawItem(getChildAtVisiblePosition(currentPositionOfHoveringBrick), true);
 			}
 			hoveringDrawable.draw(canvas);
 		}
+
+		if (highlightedDrawable != null) {
+			for (int pos : brickPositionsToHighlight) {
+				if (pos >= getFirstVisiblePosition() && pos <= getLastVisiblePosition()) {
+					drawItem(getChildAtVisiblePosition(pos), false);
+					highlightedDrawable.draw(canvas);
+				}
+			}
+		}
 	}
 
-	private void drawHoveringItem(View view) {
+	@VisibleForTesting
+	public void drawItem(View view, boolean hoveringItem) {
 		if (view == null) {
 			return;
 		}
 		Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
 		view.draw(new Canvas(bitmap));
-
-		BitmapDrawable drawable = new BitmapDrawable(getResources(), getGlowingBorder(bitmap));
-
 		viewBounds = new Rect(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
-		drawable.setBounds(viewBounds);
-		hoveringDrawable = drawable;
+		BitmapDrawable drawable;
+		if (hoveringItem) {
+			drawable = new BitmapDrawable(getResources(), getGlowingBorder(bitmap));
+			drawable.setBounds(viewBounds);
+			hoveringDrawable = drawable;
+		} else {
+			drawable = new BitmapDrawable(getResources(), bitmap);
+			drawable.setBounds(viewBounds);
+			highlightedDrawable = drawable;
+		}
 	}
 
 	private void setOffsetToCenter(@NonNull Rect viewBounds) {

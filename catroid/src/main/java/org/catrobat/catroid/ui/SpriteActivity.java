@@ -58,7 +58,6 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropInterface;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
-import org.catrobat.catroid.ui.recyclerview.dialog.PlaySceneDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.NewItemTextWatcher;
@@ -220,12 +219,17 @@ public class SpriteActivity extends BaseActivity {
 
 	@Override
 	public void onBackPressed() {
-		boolean isDragAndDropActiveInFragment = getCurrentFragment() instanceof DragAndDropInterface
-				&& ((DragAndDropInterface) getCurrentFragment()).isCurrentlyMoving();
 
-		if (isDragAndDropActiveInFragment) {
-			((DragAndDropInterface) getCurrentFragment()).cancelMove();
-			return;
+		Fragment currentFragment = getCurrentFragment();
+		if (currentFragment instanceof ScriptFragment) {
+			if (((DragAndDropInterface) currentFragment).isCurrentlyMoving()) {
+				((DragAndDropInterface) currentFragment).cancelMove();
+				return;
+			}
+			if (((ScriptFragment) currentFragment).isCurrentlyHighlighted()) {
+				((ScriptFragment) currentFragment).cancelHighlighting();
+				return;
+			}
 		}
 		if (getCurrentFragment() instanceof FormulaEditorFragment) {
 			((FormulaEditorFragment) getCurrentFragment()).promptSave();
@@ -783,41 +787,20 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	public void handlePlayButton(View view) {
-		boolean isDragAndDropActiveInFragment = getCurrentFragment() instanceof DragAndDropInterface
-				&& ((DragAndDropInterface) getCurrentFragment()).isCurrentlyMoving();
-
-		if (isDragAndDropActiveInFragment) {
-			((DragAndDropInterface) getCurrentFragment()).highlightMovingItem();
-			return;
+		Fragment currentFragment = getCurrentFragment();
+		if (currentFragment instanceof ScriptFragment) {
+			if (((ScriptFragment) currentFragment).isCurrentlyHighlighted()) {
+				((ScriptFragment) currentFragment).cancelHighlighting();
+			}
+			if (((DragAndDropInterface) currentFragment).isCurrentlyMoving()) {
+				((DragAndDropInterface) getCurrentFragment()).highlightMovingItem();
+				return;
+			}
 		}
 
 		while (getSupportFragmentManager().getBackStackEntryCount() > 0) {
 			getSupportFragmentManager().popBackStack();
 		}
-
-		ProjectManager projectManager = ProjectManager.getInstance();
-		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
-		Scene defaultScene = projectManager.getCurrentProject().getDefaultScene();
-
-		if (currentScene.getName().equals(defaultScene.getName())) {
-			projectManager.setCurrentlyPlayingScene(defaultScene);
-			projectManager.setStartScene(defaultScene);
-			startStageActivity();
-		} else {
-			new PlaySceneDialog.Builder(this)
-					.setPositiveButton(R.string.play, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							startStageActivity();
-						}
-					})
-					.create()
-					.show();
-		}
-	}
-
-	void startStageActivity() {
-		Intent intent = new Intent(this, StageActivity.class);
-		startActivityForResult(intent, StageActivity.REQUEST_START_STAGE);
+		StageActivity.handlePlayButton(ProjectManager.getInstance(), this);
 	}
 }

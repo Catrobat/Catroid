@@ -24,7 +24,6 @@
 package org.catrobat.catroid.io.asynctask;
 
 import android.os.AsyncTask;
-import android.support.annotation.VisibleForTesting;
 import android.util.Pair;
 
 import org.catrobat.catroid.R;
@@ -41,16 +40,13 @@ import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTO
 public class ProjectExportTask extends AsyncTask<Pair<String, Integer>, Void, Void> {
 
 	@SafeVarargs
-	@Override
-	protected final Void doInBackground(Pair<String, Integer>... programNames) {
+	public static void task(Pair<String, Integer>... programNames) {
 		for (Pair<String, Integer> programName : programNames) {
 			exportProjectToExternalStorage(programName.first, programName.second);
 		}
-		return null;
 	}
 
-	@VisibleForTesting
-	public void exportProjectToExternalStorage(String projectName, int notificationID) {
+	private static void exportProjectToExternalStorage(String projectName, int notificationID) {
 		File projectFile = new File(DEFAULT_ROOT_DIRECTORY, projectName);
 		File externalProjectZip = new File(EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY, projectName + CATROBAT_EXTENSION);
 
@@ -71,5 +67,12 @@ public class ProjectExportTask extends AsyncTask<Pair<String, Integer>, Void, Vo
 			StatusBarNotificationManager.getInstance().abortProgressNotificationWithMessage(notificationID,
 					R.string.save_project_to_external_storage_io_exception_message);
 		}
+	}
+
+	@SafeVarargs
+	@Override
+	protected final Void doInBackground(Pair<String, Integer>... programNames) {
+		task(programNames);
+		return null;
 	}
 }

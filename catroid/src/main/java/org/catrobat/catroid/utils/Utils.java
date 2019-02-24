@@ -348,7 +348,8 @@ public final class Utils {
 
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String currentProjectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
-			if (currentProjectName == null || !XstreamSerializer.getInstance().projectExists(currentProjectName)) {
+			if (currentProjectName == null
+					|| !FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).contains(currentProjectName)) {
 				currentProjectName = FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).get(0);
 			}
 			return currentProjectName;
@@ -373,7 +374,7 @@ public final class Utils {
 		try {
 			String uniqueProjectName = "project_" + System.currentTimeMillis();
 
-			while (XstreamSerializer.getInstance().projectExists(uniqueProjectName)) {
+			while (FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).contains(uniqueProjectName)) {
 				uniqueProjectName = "project_" + System.currentTimeMillis();
 			}
 

@@ -273,6 +273,15 @@ public class BrickAdapter extends BaseAdapter implements BrickAdapterInterface,
 		return false;
 	}
 
+	public List<Integer> getPositionsOfItems(List<Brick> bricks) {
+		List<Integer> positions = new ArrayList<>();
+		for (Brick brick: bricks) {
+			int position = items.indexOf(brick);
+			positions.add(position);
+		}
+		return positions;
+	}
+
 	@Override
 	public boolean onItemMove(int srcPosition, int targetPosition) {
 		BrickBaseType src = items.get(srcPosition);

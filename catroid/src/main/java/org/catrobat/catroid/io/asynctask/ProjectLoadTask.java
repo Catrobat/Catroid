@@ -33,6 +33,8 @@ import java.lang.ref.WeakReference;
 
 public class ProjectLoadTask extends AsyncTask<String, Void, Boolean> {
 
+	public static final String TAG = ProjectLoadTask.class.getSimpleName();
+
 	private WeakReference<Context> weakContextReference;
 	private WeakReference<ProjectLoadListener> weakListenerReference;
 
@@ -41,19 +43,23 @@ public class ProjectLoadTask extends AsyncTask<String, Void, Boolean> {
 		weakListenerReference = new WeakReference<>(listener);
 	}
 
+	public static boolean task(String projectName, Context context) {
+		try {
+			ProjectManager.getInstance().loadProject(projectName, context);
+			return true;
+		} catch (Exception e) {
+			Log.e(TAG, "Cannot load project " + projectName, e);
+			return false;
+		}
+	}
+
 	@Override
 	protected Boolean doInBackground(String... strings) {
 		Context context = weakContextReference.get();
 		if (context == null) {
 			return false;
 		}
-		try {
-			ProjectManager.getInstance().loadProject(strings[0], context);
-			return true;
-		} catch (Exception e) {
-			Log.e(getClass().getSimpleName(), "Cannot load project " + strings[0], e);
-			return false;
-		}
+		return task(strings[0], context);
 	}
 
 	@Override

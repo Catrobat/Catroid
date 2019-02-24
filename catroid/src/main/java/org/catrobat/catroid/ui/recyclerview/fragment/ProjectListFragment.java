@@ -25,22 +25,26 @@ package org.catrobat.catroid.ui.recyclerview.fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.PluralsRes;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.util.Pair;
+import android.view.MenuItem;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ProjectData;
+import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.asynctask.ProjectCopyTask;
 import org.catrobat.catroid.io.asynctask.ProjectExportTask;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
 import org.catrobat.catroid.io.asynctask.ProjectRenameTask;
+import org.catrobat.catroid.io.asynctask.ProjectUnzipAndImportTask;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.ui.filepicker.FilePickerActivity;
 import org.catrobat.catroid.ui.fragment.ProjectDetailsFragment;
 import org.catrobat.catroid.ui.recyclerview.activity.ProjectUploadActivity;
 import org.catrobat.catroid.ui.recyclerview.adapter.ProjectAdapter;
@@ -48,7 +52,6 @@ import org.catrobat.catroid.ui.recyclerview.controller.ProjectController;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
-import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.ToastUtil;
 
@@ -62,17 +65,26 @@ import java.util.List;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static android.app.Activity.RESULT_OK;
 
+import static org.catrobat.catroid.common.Constants.CACHED_PROJECT_ZIP_FILE_NAME;
+import static org.catrobat.catroid.common.Constants.CACHE_DIR;
+import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_PROJECTS_PREFERENCE_KEY;
 
 public class ProjectListFragment extends RecyclerViewFragment<ProjectData> implements
 		ProjectLoadTask.ProjectLoadListener,
 		ProjectCopyTask.ProjectCopyListener,
-		ProjectRenameTask.ProjectRenameListener {
+		ProjectRenameTask.ProjectRenameListener,
+		ProjectUnzipAndImportTask.ProjectUnzipAndImportListener {
 
 	public static final String TAG = ProjectListFragment.class.getSimpleName();
-	private static final int PERMISSIONS_REQUEST_EXPORT_TO_EXTERNAL_STORAGE = 801;
+
+	private static final int PERMISSIONS_REQUEST_IMPORT_FROM_EXTERNAL_STORAGE = 801;
+	private static final int PERMISSIONS_REQUEST_EXPORT_TO_EXTERNAL_STORAGE = 802;
+
+	private static final int REQUEST_IMPORT_PROJECT = 7;
 
 	private ProjectController projectController = new ProjectController();
 
@@ -95,7 +107,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 		List<ProjectData> items = new ArrayList<>();
 
 		for (String projectName : FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY)) {
-			File codeFile = new File(PathBuilder.buildPath(PathBuilder.buildProjectPath(projectName), Constants.CODE_XML_FILE_NAME));
+			File codeFile = new File(projectName, CODE_XML_FILE_NAME);
 			items.add(new ProjectData(projectName, codeFile.lastModified()));
 		}
 
@@ -107,6 +119,68 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 		});
 
 		return items;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.import_project:
+				showImportChooser();
+				break;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+		return true;
+	}
+
+	private void showImportChooser() {
+		setShowProgressBar(true);
+
+		new RequiresPermissionTask(PERMISSIONS_REQUEST_IMPORT_FROM_EXTERNAL_STORAGE,
+				Arrays.asList(READ_EXTERNAL_STORAGE),
+				R.string.runtime_permission_general) {
+
+			@Override
+			public void task() {
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+					Intent intent = new Intent(Intent.ACTION_GET_CONTENT)
+							.addCategory(Intent.CATEGORY_OPENABLE)
+							.setType("application/zip");
+
+					startActivityForResult(Intent
+							.createChooser(intent, getString(R.string.import_project)), REQUEST_IMPORT_PROJECT);
+				} else {
+					startActivityForResult(
+							new Intent(getContext(), FilePickerActivity.class), REQUEST_IMPORT_PROJECT);
+				}
+			}
+		}.execute(getActivity());
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		if (requestCode == REQUEST_IMPORT_PROJECT && resultCode == RESULT_OK) {
+			importProject(data);
+		}
+	}
+
+	private void importProject(Intent data) {
+		if (data == null) {
+			setShowProgressBar(false);
+			return;
+		}
+
+		try {
+			File projectZip = StorageOperations
+					.copyUriToDir(getContext().getContentResolver(), data.getData(), CACHE_DIR, CACHED_PROJECT_ZIP_FILE_NAME);
+			new ProjectUnzipAndImportTask(this)
+					.execute(projectZip);
+			setShowProgressBar(true);
+		} catch (IOException e) {
+			Log.e(TAG, "Cannot resolve project to import.", e);
+		}
 	}
 
 	@Override
@@ -138,7 +212,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 		setShowProgressBar(true);
 
 		String name = uniqueNameProvider.getUniqueNameInNameables(selectedItems.get(0).getName(), adapter.getItems());
-		new ProjectCopyTask(getContext(), this)
+		new ProjectCopyTask(this)
 				.execute(selectedItems.get(0).getName(), name);
 	}
 
@@ -198,7 +272,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 		if (!name.equals(item.projectName)) {
 			setShowProgressBar(true);
 
-			new ProjectRenameTask(getContext(), this)
+			new ProjectRenameTask(this)
 					.execute(item.projectName, name);
 		}
 	}
@@ -236,6 +310,15 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 	}
 
 	@Override
+	public void onImportFinished(boolean success) {
+		adapter.setItems(getItemList());
+		if (!success) {
+			ToastUtil.showError(getContext(), R.string.error_import_project);
+		}
+		setShowProgressBar(false);
+	}
+
+	@Override
 	@PluralsRes
 	protected int getActionModeTitleId(@ActionModeType int actionModeType) {
 		switch (actionModeType) {
@@ -264,7 +347,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 
 	@Override
 	public void onItemLongClick(final ProjectData item, CheckableVH holder) {
-		CharSequence[] items = new CharSequence[]{
+		CharSequence[] items = new CharSequence[] {
 				getString(R.string.copy),
 				getString(R.string.delete),
 				getString(R.string.rename),

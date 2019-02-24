@@ -25,6 +25,7 @@ package org.catrobat.catroid.common;
 import android.os.Environment;
 import android.support.annotation.IntDef;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.CatroidApplication;
 
 import java.io.File;
@@ -36,7 +37,7 @@ import static org.catrobat.catroid.common.FlavoredConstants.BASE_URL_HTTPS;
 
 public final class Constants {
 
-	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = 0.998f;
+	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = 0.999f;
 
 	public static final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
 	public static final int CAST_CONNECTION_TIMEOUT = 5000; //in milliseconds
@@ -83,6 +84,8 @@ public final class Constants {
 	// Temporary Files and Directories:
 	public static final File CACHE_DIR = CatroidApplication.getAppContext().getCacheDir();
 
+	public static final String CACHED_PROJECT_ZIP_FILE_NAME = "projectImportCache.zip";
+
 	public static final File POCKET_PAINT_CACHE_DIR = new File(CACHE_DIR, "pocketPaint");
 	public static final File CAMERA_CACHE_DIR = new File(CACHE_DIR, "camera");
 	public static final File SOUND_RECORDER_CACHE_DIR = new File(CACHE_DIR, "soundRecorder");
@@ -95,13 +98,13 @@ public final class Constants {
 	public static final String TEXT_TO_SPEECH_TMP_PATH = TMP_PATH + "/textToSpeech";
 
 	// Web:
-	public static final String MAIN_URL_HTTPS = "https://share.catrob.at";
+	public static final String MAIN_URL_HTTPS = BuildConfig.MAIN_URL_HTTPS;
 
 	public static final String SHARE_PROGRAM_URL = BASE_URL_HTTPS + "/program/";
-	public static final String STANDALONE_URL = "http://catrob.at/csadttwt";
+	public static final String STANDALONE_URL = "https://catrob.at/csadttwt";
 
-	public static final String CATROBAT_ABOUT_URL = "http://www.catrobat.org/";
-	public static final String ABOUT_POCKETCODE_LICENSE_URL = "http://developer.catrobat.org/licenses";
+	public static final String CATROBAT_ABOUT_URL = "https://www.catrobat.org/";
+	public static final String ABOUT_POCKETCODE_LICENSE_URL = "https://catrob.at/licenses";
 
 	public static final String CATROBAT_TERMS_OF_USE_URL = BASE_URL_HTTPS + "termsOfUse";
 	public static final String CATROBAT_HELP_URL = BASE_URL_HTTPS + "help";

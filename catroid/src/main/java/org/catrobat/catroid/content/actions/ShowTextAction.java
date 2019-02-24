@@ -57,7 +57,7 @@ public class ShowTextAction extends TemporalAction {
 
 			if (StageActivity.stageListener != null) {
 				Array<Actor> stageActors = StageActivity.stageListener.getStage().getActors();
-				ShowTextActor dummyActor = new ShowTextActor(new UserVariable("dummyActor"), 0, 0, sprite, userBrick);
+				ShowTextActor dummyActor = new ShowTextActor(new UserVariable("dummyActor"), 0, 0, 0.0f, null, sprite, userBrick);
 
 				for (Actor actor : stageActors) {
 					if (actor.getClass().equals(dummyActor.getClass())) {
@@ -70,7 +70,7 @@ public class ShowTextAction extends TemporalAction {
 					}
 				}
 
-				actor = new ShowTextActor(variableToShow, xPosition, yPosition, sprite, userBrick);
+				actor = new ShowTextActor(variableToShow, xPosition, yPosition, 1.0f, null, sprite, userBrick);
 				StageActivity.stageListener.addActor(actor);
 			}
 

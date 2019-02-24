@@ -39,11 +39,20 @@ def postEmulator(String coverageNameAndLogcatPrefix) {
     archiveArtifacts "${coverageNameAndLogcatPrefix}_logcat.txt"
 }
 
+def useWebTestParameter() {
+    return env.USE_WEB_TEST?.toBoolean() ? '-PuseWebTest' : ''
+}
+
+def allFlavoursParameters() {
+    return env.BUILD_ALL_FLAVOURS?.toBoolean() ? 'assembleCreateAtSchoolDebug assembleLunaAndCatDebug assemblePhiroDebug' : ''
+}
+
 pipeline {
     agent none
 
     parameters {
         booleanParam name: 'BUILD_ALL_FLAVOURS', defaultValue: false, description: 'When selected all flavours are built and archived as artifacts that can be installed alongside other versions of the same APK.'
+        booleanParam name: 'USE_WEB_TEST', defaultValue: false, description: 'When selected all the archived APKs will point to the test Catrobat web server, useful for testing web changes.'
     }
 
     options {
@@ -74,17 +83,20 @@ pipeline {
                     stages {
                         stage('APKs') {
                             steps {
+                                script {
+                                    def additionalParameters = [useWebTestParameter(), allFlavoursParameters()].findAll{ it }.collect()
+                                    if (additionalParameters) {
+                                        currentBuild.description = "<p>Additional APK build parameters: <b>${additionalParameters.join(' ')}</b></p>"
+                                    }
+                                }
+
                                 // Checks that the creation of standalone APKs (APK for a Pocketcode app) works, reducing the risk of breaking gradle changes.
                                 // The resulting APK is not verified itself.
-                                sh '''./gradlew assembleStandaloneDebug -Papk_generator_enabled=true -Psuffix=generated817.catrobat \
-                                            -Pdownload='https://share.catrob.at/pocketcode/download/817.catrobat' '''
+                                sh """./gradlew assembleStandaloneDebug ${useWebTestParameter()} -Papk_generator_enabled=true -Psuffix=generated817.catrobat \
+                                            -Pdownload='https://share.catrob.at/pocketcode/download/817.catrobat'"""
 
-                                // Checks that the job builds with the parameters to have unique APKs, reducing the risk of breaking gradle changes.
-                                // The resulting APK is not verified on itself.
-                                sh "./gradlew assembleCatroidDebug -Pindependent='#$env.BUILD_NUMBER $env.BRANCH_NAME'"
                                 // Build the flavors so that they can be installed next independently of older versions.
-                                sh """./gradlew -Pindependent='#$env.BUILD_NUMBER $env.BRANCH_NAME' assembleCatroidDebug \
-                                            ${env.BUILD_ALL_FLAVOURS?.toBoolean() ? 'assembleCreateAtSchoolDebug assembleLunaAndCatDebug assemblePhiroDebug' : ''}"""
+                                sh "./gradlew ${useWebTestParameter()} -Pindependent='#$env.BUILD_NUMBER $env.BRANCH_NAME' assembleCatroidDebug ${allFlavoursParameters()}"
 
                                 archiveArtifacts '**/*.apk'
                             }

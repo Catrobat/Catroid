@@ -26,6 +26,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/import_project"
+        android:title="@string/import_project"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/copy"
         android:title="@string/copy"
         app:showAsAction="never" />

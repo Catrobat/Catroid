@@ -171,8 +171,13 @@ android {
         versionName "0.9.45"
         println "VersionName is $versionName"
         buildConfigField "String", "GIT_COMMIT_INFO", "\"${getGitCommitInfo()}\""
+        buildConfigField "String", "MAIN_URL_HTTPS", (project.hasProperty('useWebTest') ? '"https://web-test.catrob.at"' : '"https://share.catrob.at"')
         multiDexEnabled true
-        manifestPlaceholders += [appName: manifestAppName, appIcon: manifestAppIcon]
+        manifestPlaceholders += [appName: manifestAppName,
+                                 appIcon: manifestAppIcon,
+                                 intentFilterScheme: "https",
+                                 intentFilterHost: "share.catrob.at",
+                                 intentFilterPathPattern: "/.*/program/.*"]
     }
 
     lintOptions {
@@ -342,7 +347,7 @@ ext {
     mockitoVersion = "2.8.47"
     espressoVersion = "3.0.1"
     supportLibraryVersion = "27.1.0"
-    paintroidVersion = "2.1.2"
+    paintroidVersion = "2.2.0"
 }
 
 configurations {
