@@ -860,9 +860,12 @@ public class FormulaElement implements Serializable {
 				returnValue = NfcHandler.getLastNfcTagId();
 				break;
 			case COLLIDES_WITH_EDGE:
-				//if the stage is not setUp yet, there can't be a collision
-				returnValue = StageActivity.stageListener.firstFrameDrawn ? CollisionDetection.collidesWithEdge(sprite
-						.look) : 0d;
+				if (StageActivity.stageListener != null) {
+					returnValue = StageActivity.stageListener.firstFrameDrawn ? CollisionDetection.collidesWithEdge(sprite
+							.look) : 0d;
+				} else {
+					returnValue = 0d;
+				}
 				break;
 			case COLLIDES_WITH_FINGER:
 				returnValue = CollisionDetection.collidesWithFinger(sprite.look);
