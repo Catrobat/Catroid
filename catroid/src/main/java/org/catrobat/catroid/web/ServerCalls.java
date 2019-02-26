@@ -389,7 +389,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 	}
 
 	public void uploadProject(String projectName, String projectDescription, String zipFileString, String userEmail,
-			String language, String token, String username, ResultReceiver receiver, Integer notificationId,
+			String language, String token, String username, Integer notificationId,
 			Context context) throws WebconnectionException {
 
 		if (context == null) {

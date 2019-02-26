@@ -23,17 +23,24 @@
 
 package org.catrobat.catroid.ui.recyclerview.activity;
 
+import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -46,22 +53,23 @@ import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
 import org.catrobat.catroid.io.asynctask.ProjectRenameTask;
 import org.catrobat.catroid.transfers.CheckTokenTask;
 import org.catrobat.catroid.transfers.GetTagsTask;
+import org.catrobat.catroid.transfers.ProjectUploadService;
 import org.catrobat.catroid.ui.BaseActivity;
 import org.catrobat.catroid.ui.SignInActivity;
-import org.catrobat.catroid.ui.dialogs.SelectTagsDialogFragment;
+import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
-import org.catrobat.catroid.utils.PathBuilder;
+import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.catrobat.catroid.common.Constants.PROJECT_UPLOAD_DESCRIPTION;
-import static org.catrobat.catroid.common.Constants.PROJECT_UPLOAD_NAME;
+import static org.catrobat.catroid.common.Constants.NO_OAUTH_PROVIDER;
+import static org.catrobat.catroid.common.Constants.PLAY_STORE_PAGE_LINK;
+import static org.catrobat.catroid.common.Constants.SHARE_PROGRAM_URL;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public class ProjectUploadActivity extends BaseActivity implements
@@ -73,9 +81,19 @@ public class ProjectUploadActivity extends BaseActivity implements
 	public static final String PROJECT_NAME = "projectName";
 	public static final int SIGN_IN_CODE = 42;
 
-	private TextChangedListener textChangedListener = new TextChangedListener();
+	public static final int MAX_NUMBER_OF_TAGS_CHECKED = 3;
+	public static final String NUMBER_OF_UPLOADED_PROJECTS = "number_of_uploaded_projects";
+
+	private Project project;
+
+	private AlertDialog uploadProgressDialog;
+
+	private NameInputTextWatcher nameInputTextWatcher = new NameInputTextWatcher();
+
 	private TextInputLayout nameInputLayout;
 	private TextInputLayout descriptionInputLayout;
+
+	private boolean enableNextButton = true;
 
 	private List<String> tags = new ArrayList<>();
 
@@ -92,11 +110,47 @@ public class ProjectUploadActivity extends BaseActivity implements
 
 		Bundle bundle = getIntent().getExtras();
 		if (bundle != null) {
-			ProjectLoadTask loaderTask = new ProjectLoadTask(this, this);
-			loaderTask.execute(bundle.getString(PROJECT_NAME));
+			new ProjectLoadTask(this, this)
+					.execute(bundle.getString(PROJECT_NAME));
 		} else {
 			finish();
 		}
+	}
+
+	@Override
+	public void onLoadFinished(boolean success) {
+		if (success) {
+			getTags();
+			verifyUserIdentity();
+			project = ProjectManager.getInstance().getCurrentProject();
+		} else {
+			ToastUtil.showError(this, R.string.error_load_project);
+			setShowProgressBar(false);
+			finish();
+		}
+	}
+
+	private void onCreateView() {
+		ProjectAndSceneScreenshotLoader screenshotLoader = new ProjectAndSceneScreenshotLoader(this);
+		screenshotLoader.loadAndShowScreenshot(project.getName(),
+				project.getDefaultScene().getName(),
+				false,
+				(ImageView) findViewById(R.id.project_image_view));
+
+		TextView projectSizeView = findViewById(R.id.project_size_view);
+		projectSizeView
+				.setText(FileMetaDataExtractor.getSizeAsString(new File(DEFAULT_ROOT_DIRECTORY, project.getName()), this));
+
+		nameInputLayout = findViewById(R.id.input_project_name);
+		descriptionInputLayout = findViewById(R.id.input_project_description);
+
+		nameInputLayout.getEditText().setText(project.getName());
+		descriptionInputLayout.getEditText().setText(project.getDescription());
+
+		nameInputLayout.getEditText().addTextChangedListener(nameInputTextWatcher);
+
+		setShowProgressBar(false);
+		setNextButtonEnabled(true);
 	}
 
 	@Override
@@ -107,9 +161,6 @@ public class ProjectUploadActivity extends BaseActivity implements
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		boolean enableNextButton = nameInputLayout != null
-				&& !nameInputLayout.getEditText().getText().toString().isEmpty()
-				&& nameInputLayout.getError() == null;
 		menu.findItem(R.id.next).setEnabled(enableNextButton);
 		return true;
 	}
@@ -126,15 +177,175 @@ public class ProjectUploadActivity extends BaseActivity implements
 		return true;
 	}
 
-	@Override
-	public void onLoadFinished(boolean success) {
-		if (success) {
-			getTags();
-			verifyUserIdentity();
-		} else {
-			ToastUtil.showError(this, R.string.error_load_project);
-			finish();
+	public void setShowProgressBar(boolean show) {
+		findViewById(R.id.progress_bar).setVisibility(show ? View.VISIBLE : View.GONE);
+		findViewById(R.id.upload_layout).setVisibility(show ? View.GONE : View.VISIBLE);
+	}
+
+	private void setNextButtonEnabled(boolean enabled) {
+		enableNextButton = enabled;
+		invalidateOptionsMenu();
+	}
+
+	private void onNextButtonClick() {
+		setNextButtonEnabled(false);
+
+		String name = nameInputLayout.getEditText().getText().toString().trim();
+		String error = nameInputTextWatcher.validateName(name);
+
+		if (error != null) {
+			nameInputLayout.setError(error);
+			return;
 		}
+
+		setShowProgressBar(true);
+
+		if (Utils.isDefaultProject(project, this)) {
+			nameInputLayout.setError(getString(R.string.error_upload_default_project));
+			nameInputLayout.getEditText().removeTextChangedListener(nameInputTextWatcher);
+			nameInputLayout.setEnabled(false);
+			descriptionInputLayout.setEnabled(false);
+			setShowProgressBar(false);
+			return;
+		}
+
+		showSelectTagsDialog();
+	}
+
+	private void showSelectTagsDialog() {
+		final List<String> checkedTags = new ArrayList<>();
+		final String[] availableTags = tags.toArray(new String[tags.size()]);
+
+		new AlertDialog.Builder(this)
+				.setTitle(R.string.upload_tag_dialog_title)
+				.setMultiChoiceItems(availableTags, null, new DialogInterface.OnMultiChoiceClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int indexSelected, boolean isChecked) {
+						if (isChecked) {
+							if (checkedTags.size() >= MAX_NUMBER_OF_TAGS_CHECKED) {
+								((AlertDialog) dialog).getListView().setItemChecked(indexSelected, false);
+							} else {
+								checkedTags.add(availableTags[indexSelected]);
+							}
+						} else {
+							checkedTags.remove(availableTags[indexSelected]);
+						}
+					}
+				})
+				.setPositiveButton(getText(R.string.next), new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						project.setTags(checkedTags);
+						showProgressDialogAndUploadProject();
+					}
+				})
+				.setNegativeButton(getText(R.string.cancel), new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						Utils.invalidateLoginTokenIfUserRestricted(ProjectUploadActivity.this);
+						setShowProgressBar(false);
+						setNextButtonEnabled(true);
+					}
+				})
+				.setCancelable(false)
+				.show();
+	}
+
+	private void showProgressDialogAndUploadProject() {
+		final String name = nameInputLayout.getEditText().getText().toString().trim();
+		String description = descriptionInputLayout.getEditText().getText().toString().trim();
+
+		if (!project.getName().equals(name)) {
+			ProjectRenameTask
+					.task(project.getName(), name);
+			ProjectLoadTask
+					.task(name, this);
+			project = ProjectManager.getInstance().getCurrentProject();
+		}
+
+		project.setDescription(description);
+		project.setDeviceData(this);
+
+		File projectDir = new File(DEFAULT_ROOT_DIRECTORY, project.getName());
+
+		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+		String username = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
+
+		Intent intent = new Intent(this, ProjectUploadService.class);
+
+		String[] sceneNames = project.getSceneNames().toArray(new String[0]);
+
+		final int notificationId = StatusBarNotificationManager.getInstance()
+				.createUploadNotification(this, name);
+
+		uploadProgressDialog = new AlertDialog.Builder(this)
+				.setTitle(getString(R.string.upload_project_dialog_title))
+				.setView(R.layout.dialog_upload_project_progress)
+				.setPositiveButton(R.string.progress_upload_dialog_show_program, null)
+				.setNegativeButton(R.string.done, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						finish();
+					}
+				})
+				.setCancelable(false)
+				.create();
+
+		uploadProgressDialog.show();
+		uploadProgressDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+
+		intent.putExtra("uploadName", name);
+		intent.putExtra("projectDescription", description);
+		intent.putExtra("projectPath", projectDir.getAbsolutePath());
+		intent.putExtra("username", username);
+		intent.putExtra("token", token);
+		intent.putExtra("provider", NO_OAUTH_PROVIDER);
+		intent.putExtra("sceneNames", sceneNames);
+		intent.putExtra("notificationId", notificationId);
+
+		startService(intent);
+
+		new UploadStatusPollingTask()
+				.execute();
+
+		int numberOfUploadedProjects = sharedPreferences.getInt(NUMBER_OF_UPLOADED_PROJECTS, 0) + 1;
+		sharedPreferences.edit()
+				.putInt(NUMBER_OF_UPLOADED_PROJECTS, numberOfUploadedProjects)
+				.commit();
+
+		if (numberOfUploadedProjects != 2) {
+			return;
+		}
+
+		new AlertDialog.Builder(this)
+				.setTitle(getString(R.string.rating_dialog_title))
+				.setView(R.layout.dialog_rate_pocketcode)
+				.setPositiveButton(R.string.rating_dialog_rate_now, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						try {
+							startActivity(new Intent(Intent.ACTION_VIEW,
+									Uri.parse("market://details?id=" + getPackageName())).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+						} catch (ActivityNotFoundException e) {
+							startActivity(new Intent(Intent.ACTION_VIEW,
+									Uri.parse(PLAY_STORE_PAGE_LINK + getPackageName())));
+						}
+					}
+				})
+
+				.setNeutralButton(getString(R.string.rating_dialog_rate_later), new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						sharedPreferences
+								.edit()
+								.putInt(NUMBER_OF_UPLOADED_PROJECTS, 0)
+								.commit();
+					}
+				})
+				.setNegativeButton(getString(R.string.rating_dialog_rate_never), null)
+				.setCancelable(false)
+				.show();
 	}
 
 	private void verifyUserIdentity() {
@@ -148,82 +359,25 @@ public class ProjectUploadActivity extends BaseActivity implements
 				&& !token.equals(ServerCalls.TOKEN_CODE_INVALID);
 
 		if (isTokenSetInPreferences) {
-			new CheckTokenTask(this).execute(token, username);
+			new CheckTokenTask(this)
+					.execute(token, username);
 		} else {
 			startSignInWorkflow();
 		}
-	}
-
-	private void onCreateView() {
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-
-		ProjectAndSceneScreenshotLoader screenshotLoader = new ProjectAndSceneScreenshotLoader(this);
-		screenshotLoader.loadAndShowScreenshot(currentProject.getName(),
-				currentProject.getDefaultScene().getName(),
-				false,
-				(ImageView) findViewById(R.id.project_image_view));
-
-		((TextView) findViewById(R.id.project_size_view)).setText(FileMetaDataExtractor.getSizeAsString(
-				new File(PathBuilder.buildProjectPath(currentProject.getName())), this));
-
-		nameInputLayout = findViewById(R.id.input_project_name);
-		descriptionInputLayout = findViewById(R.id.input_project_description);
-
-		nameInputLayout.getEditText().setText(currentProject.getName());
-		descriptionInputLayout.getEditText().setText(currentProject.getDescription());
-
-		nameInputLayout.getEditText().addTextChangedListener(textChangedListener);
-		invalidateOptionsMenu();
-	}
-
-	private void onNextButtonClick() {
-		String name = nameInputLayout.getEditText().getText().toString().trim();
-		String description = descriptionInputLayout.getEditText().getText().toString().trim();
-
-		String error = textChangedListener.validateInput(name);
-
-		if (error != null) {
-			nameInputLayout.setError(error);
-			invalidateOptionsMenu();
-			return;
-		}
-
-		Project project = ProjectManager.getInstance().getCurrentProject();
-
-		if (Utils.isDefaultProject(project, this)) {
-			nameInputLayout.setError(getString(R.string.error_upload_default_project));
-			return;
-		}
-
-		if (ProjectRenameTask.task(project.getName(), name)) {
-			ProjectLoadTask.task(name, this);
-			project = ProjectManager.getInstance().getCurrentProject();
-		}
-
-		project.setDescription(description);
-		project.setDeviceData(this);
-
-		Bundle bundle = new Bundle();
-		bundle.putString(PROJECT_UPLOAD_NAME, name);
-		bundle.putString(PROJECT_UPLOAD_DESCRIPTION, description);
-
-		SelectTagsDialogFragment dialog = new SelectTagsDialogFragment();
-		dialog.setTags(tags);
-		dialog.setArguments(bundle);
-		dialog.show(getSupportFragmentManager(), SelectTagsDialogFragment.TAG);
 	}
 
 	@Override
 	public void onTokenCheckComplete(boolean tokenValid, boolean connectionFailed) {
 		if (connectionFailed) {
 			ToastUtil.showError(this, R.string.error_internet_connection);
-			finish();
-		} else if (!tokenValid) {
-			startSignInWorkflow();
-		} else {
-			onCreateView();
-			setShowProgressBar(false);
+			return;
 		}
+		if (!tokenValid) {
+			startSignInWorkflow();
+			return;
+		}
+
+		onCreateView();
 	}
 
 	public void startSignInWorkflow() {
@@ -235,18 +389,12 @@ public class ProjectUploadActivity extends BaseActivity implements
 		if (requestCode == SIGN_IN_CODE) {
 			if (resultCode == RESULT_OK) {
 				onCreateView();
-				setShowProgressBar(false);
 			} else {
 				finish();
 			}
 		} else {
 			super.onActivityResult(requestCode, resultCode, data);
 		}
-	}
-
-	public void setShowProgressBar(boolean show) {
-		findViewById(R.id.progress_bar).setVisibility(show ? View.VISIBLE : View.GONE);
-		findViewById(R.id.upload_layout).setVisibility(show ? View.GONE : View.VISIBLE);
 	}
 
 	private void getTags() {
@@ -260,23 +408,61 @@ public class ProjectUploadActivity extends BaseActivity implements
 		this.tags = tags;
 	}
 
-	private class TextChangedListener implements TextWatcher {
+	private class UploadStatusPollingTask extends AsyncTask<Void, Void, Void> {
 
-		@Nullable
-		public String validateInput(String input) {
-			if (input.isEmpty()) {
+		@Override
+		protected Void doInBackground(Void... voids) {
+			while (StatusBarNotificationManager.getInstance().getProgressPercent() != 100) {
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					Log.e(TAG, "Well, that's awkward.");
+				}
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void aVoid) {
+			Button button = uploadProgressDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+			button.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					String projectUrl = SHARE_PROGRAM_URL + ServerCalls.getInstance().getProjectId();
+					Intent intent = new Intent(ProjectUploadActivity.this, WebViewActivity.class);
+					intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, projectUrl);
+					startActivity(intent);
+					finish();
+				}
+			});
+			button.setEnabled(true);
+			uploadProgressDialog.findViewById(R.id.dialog_upload_progress_progressbar).setVisibility(View.GONE);
+
+			ImageView image = uploadProgressDialog.findViewById(R.id.dialog_upload_progress_success_image);
+			image.setImageResource(R.drawable.ic_upload_success);
+			image.setVisibility(View.VISIBLE);
+		}
+	}
+
+	private class NameInputTextWatcher implements TextWatcher {
+
+		public String validateName(String name) {
+			if (name.isEmpty()) {
 				return getString(R.string.name_empty);
 			}
 
-			input = input.trim();
+			name = name.trim();
 
-			if (input.isEmpty()) {
+			if (name.isEmpty()) {
 				return getString(R.string.name_consists_of_spaces_only);
 			}
-			if (input.equals(getString(R.string.default_project_name))) {
+
+			if (name.equals(getString(R.string.default_project_name))) {
 				return getString(R.string.error_upload_project_with_default_name);
 			}
-			if (FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).contains(input)) {
+
+			if (!name.equals(project.getName())
+					&& FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).contains(name)) {
 				return getString(R.string.name_already_exists);
 			}
 
@@ -293,9 +479,9 @@ public class ProjectUploadActivity extends BaseActivity implements
 
 		@Override
 		public void afterTextChanged(Editable s) {
-			String input = s.toString();
-			nameInputLayout.setError(validateInput(input));
-			invalidateOptionsMenu();
+			String error = validateName(s.toString());
+			nameInputLayout.setError(error);
+			setNextButtonEnabled(error == null);
 		}
 	}
 }
