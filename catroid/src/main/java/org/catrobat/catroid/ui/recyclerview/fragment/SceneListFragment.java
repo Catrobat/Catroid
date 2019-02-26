@@ -34,6 +34,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.SceneAdapter;
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
@@ -46,7 +47,7 @@ import java.util.List;
 import static org.catrobat.catroid.common.Constants.Z_INDEX_BACKGROUND;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_SCENES_PREFERENCE_KEY;
 
-public class SceneListFragment extends RecyclerViewFragment<Scene> {
+public class SceneListFragment extends RecyclerViewFragment<Scene> implements ProjectLoadTask.ProjectLoadListener {
 
 	public static final String TAG = SceneListFragment.class.getSimpleName();
 
@@ -58,6 +59,7 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 
 		if (currentProject.getSceneList().size() < 2) {
+			ProjectManager.getInstance().setCurrentlyEditedScene(currentProject.getDefaultScene());
 			switchToSpriteListFragment();
 		}
 
@@ -174,7 +176,9 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 			createEmptySceneWithDefaultName();
 		}
 
-		if (ProjectManager.getInstance().getCurrentProject().getSceneList().size() < 2) {
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		if (currentProject.getSceneList().size() < 2) {
+			ProjectManager.getInstance().setCurrentlyEditedScene(currentProject.getDefaultScene());
 			switchToSpriteListFragment();
 		}
 	}
@@ -208,6 +212,8 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 		if (!item.getName().equals(name)) {
 			if (sceneController.rename(item, name)) {
 				ProjectManager.getInstance().saveProject(getActivity());
+				ProjectLoadTask projectLoadTask = new ProjectLoadTask(getContext(), this);
+				projectLoadTask.execute(ProjectManager.getInstance().getCurrentProject().getName());
 			} else {
 				ToastUtil.showError(getActivity(), R.string.error_rename_scene);
 			}
@@ -241,6 +247,13 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> {
 					.replace(R.id.fragment_container, new SpriteListFragment(), SpriteListFragment.TAG)
 					.addToBackStack(SpriteListFragment.TAG)
 					.commit();
+		}
+	}
+
+	@Override
+	public void onLoadFinished(boolean success) {
+		if (!success) {
+			ToastUtil.showError(getActivity(), R.string.error_load_project);
 		}
 	}
 }
