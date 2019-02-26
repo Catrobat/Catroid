@@ -28,11 +28,13 @@ import android.support.test.runner.AndroidJUnit4;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
+import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -63,10 +65,15 @@ public class FormulaEditorDiscardChangesTest {
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 
+	@After
+	public void tearDown() throws Exception {
+		TestUtils.deleteProjects(FormulaEditorDiscardChangesTest.class.getName());
+	}
+
 	@Before
 	public void setUp() throws Exception {
 		brickPosition = 1;
-		Script script = BrickTestUtils.createProjectAndGetStartScript("FormulaEditorDiscardChangesTest");
+		Script script = BrickTestUtils.createProjectAndGetStartScript(FormulaEditorDiscardChangesTest.class.getName());
 		script.addBrick(new PlaceAtBrick());
 		baseActivityTestRule.launchActivity();
 	}
@@ -75,7 +82,9 @@ public class FormulaEditorDiscardChangesTest {
 	@Test
 	public void testGoBackToDiscardXChanges() {
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_place_at);
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_place_at_edit_text_x)
+		onView(withId(R.id.brick_place_at_edit_text_x))
+				.perform(click());
+		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
 				.perform(click());
 		onFormulaEditor()
 				.performEnterFormula("1234");
@@ -86,7 +95,8 @@ public class FormulaEditorDiscardChangesTest {
 				.perform(click());
 		onToast(withText(R.string.formula_editor_changes_discarded))
 				.check(matches(isDisplayed()));
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_place_at_edit_text_x)
+		onBrickAtPosition(brickPosition)
+				.onFormulaTextField(R.id.brick_place_at_edit_text_x)
 				.checkShowsNumber(0);
 	}
 
@@ -94,7 +104,9 @@ public class FormulaEditorDiscardChangesTest {
 	@Test
 	public void testGoBackToDiscardYChanges() {
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_place_at);
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_place_at_edit_text_y)
+		onView(withId(R.id.brick_place_at_edit_text_y))
+				.perform(click());
+		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
 				.perform(click());
 		onFormulaEditor()
 				.performEnterFormula("5678");
@@ -105,7 +117,8 @@ public class FormulaEditorDiscardChangesTest {
 				.perform(click());
 		onToast(withText(R.string.formula_editor_changes_discarded))
 				.check(matches(isDisplayed()));
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_place_at_edit_text_y)
+		onBrickAtPosition(brickPosition)
+				.onFormulaTextField(R.id.brick_place_at_edit_text_y)
 				.checkShowsNumber(0);
 	}
 
@@ -113,7 +126,9 @@ public class FormulaEditorDiscardChangesTest {
 	@Test
 	public void testGoBackToDiscardXYChanges() {
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_place_at);
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_place_at_edit_text_x)
+		onView(withId(R.id.brick_place_at_edit_text_x))
+				.perform(click());
+		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
 				.perform(click());
 		onFormulaEditor()
 				.performEnterFormula("1234");
@@ -128,9 +143,11 @@ public class FormulaEditorDiscardChangesTest {
 				.perform(click());
 		onToast(withText(R.string.formula_editor_changes_discarded))
 				.check(matches(isDisplayed()));
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_place_at_edit_text_x)
+		onBrickAtPosition(brickPosition)
+				.onFormulaTextField(R.id.brick_place_at_edit_text_x)
 				.checkShowsNumber(0);
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_place_at_edit_text_y)
+		onBrickAtPosition(brickPosition)
+				.onFormulaTextField(R.id.brick_place_at_edit_text_y)
 				.checkShowsNumber(0);
 	}
 
@@ -138,7 +155,9 @@ public class FormulaEditorDiscardChangesTest {
 	@Test
 	public void testSaveXYChanges() {
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_place_at);
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_place_at_edit_text_x)
+		onView(withId(R.id.brick_place_at_edit_text_x))
+				.perform(click());
+		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
 				.perform(click());
 		onFormulaEditor()
 				.performEnterFormula("1234");
@@ -153,9 +172,11 @@ public class FormulaEditorDiscardChangesTest {
 				.perform(click());
 		onToast(withText(R.string.formula_editor_changes_saved))
 				.check(matches(isDisplayed()));
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_place_at_edit_text_x)
+		onBrickAtPosition(brickPosition)
+				.onFormulaTextField(R.id.brick_place_at_edit_text_x)
 				.checkShowsNumber(1234);
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_place_at_edit_text_y)
+		onBrickAtPosition(brickPosition)
+				.onFormulaTextField(R.id.brick_place_at_edit_text_y)
 				.checkShowsNumber(5678);
 	}
 }

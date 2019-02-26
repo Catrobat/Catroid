@@ -47,6 +47,7 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.VisualPlacementListener;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -83,7 +84,10 @@ import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BACKGROUNDS_
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BACKGROUNDS_URL_PORTRAIT;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_LOOKS_URL;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_SOUNDS_URL;
+import static org.catrobat.catroid.stage.VisualPlacementActivity.X_COORDINATE_BUNDLE_ARGUMENT;
+import static org.catrobat.catroid.stage.VisualPlacementActivity.Y_COORDINATE_BUNDLE_ARGUMENT;
 import static org.catrobat.catroid.ui.WebViewActivity.MEDIA_FILE_PATH;
+import static org.catrobat.catroid.ui.fragment.FormulaEditorFragment.REQUEST_CODE_VISUAL_PLACEMENT;
 
 public class SpriteActivity extends BaseActivity {
 
@@ -114,10 +118,12 @@ public class SpriteActivity extends BaseActivity {
 	public static final int SOUND_FILE = 14;
 
 	public static final String EXTRA_FRAGMENT_POSITION = "fragmentPosition";
+	public static final String VISUAL_PLACEMENT_LISTENER_PARCELABLE_KEY = "listenerKey";
 
 	private NewItemInterface<Sprite> onNewSpriteListener;
 	private NewItemInterface<LookData> onNewLookListener;
 	private NewItemInterface<SoundInfo> onNewSoundListener;
+	private VisualPlacementListener visualPlacementListener;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -316,7 +322,30 @@ public class SpriteActivity extends BaseActivity {
 				uri = Uri.fromFile(new File(data.getStringExtra(MEDIA_FILE_PATH)));
 				addSoundFromUri(uri);
 				break;
+			case REQUEST_CODE_VISUAL_PLACEMENT:
+				int xCoordinate = data.getExtras().getInt(X_COORDINATE_BUNDLE_ARGUMENT);
+				int yCoordinate = data.getExtras().getInt(Y_COORDINATE_BUNDLE_ARGUMENT);
+				if (visualPlacementListener != null) {
+					visualPlacementListener.saveNewCoordinates(xCoordinate, yCoordinate);
+				}
+				break;
 		}
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		visualPlacementListener = savedInstanceState.getParcelable(VISUAL_PLACEMENT_LISTENER_PARCELABLE_KEY);
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putParcelable(VISUAL_PLACEMENT_LISTENER_PARCELABLE_KEY, visualPlacementListener);
+	}
+
+	public void registerOnCoordinatesChanges(VisualPlacementListener listener) {
+		visualPlacementListener = listener;
 	}
 
 	public void registerOnNewSpriteListener(NewItemInterface<Sprite> listener) {

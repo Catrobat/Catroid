@@ -214,6 +214,9 @@
         </activity>
 
         <activity
+            android:name=".stage.VisualPlacementActivity"/>
+
+        <activity
             android:name=".pocketmusic.PocketMusicActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
