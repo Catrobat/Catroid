@@ -406,6 +406,10 @@ public class ScriptFragment extends ListFragment implements
 		}
 	}
 
+	public BrickBaseType findBrickByHash(int hashCode) {
+		return adapter.findByHash(hashCode);
+	}
+
 	public void handleAddButton() {
 		if (listView.isCurrentlyHighlighted()) {
 			listView.cancelHighlighting();
@@ -580,7 +584,7 @@ public class ScriptFragment extends ListFragment implements
 				adapter.notifyDataSetChanged();
 				break;
 			case R.string.brick_place_at_option_place_visually:
-				((PlaceAtBrick) brick).showVisualPlacement(brick.view);
+				((PlaceAtBrick) brick).placeVisually();
 				break;
 			case R.string.brick_context_dialog_formula_edit_brick:
 				((FormulaBrick) brick).onClick(listView);
