@@ -30,16 +30,15 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.badlogic.gdx.utils.Array;
 
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.stage.ShowTextActor;
 import org.catrobat.catroid.stage.StageActivity;
 
-public class ShowTextColorAndSizeAction extends TemporalAction {
+public class ShowTextColorSizeAlignmentAction extends TemporalAction {
 
-	public static final String TAG = ShowTextColorAndSizeAction.class.getSimpleName();
+	public static final String TAG = ShowTextColorSizeAlignmentAction.class.getSimpleName();
 
 	private Formula xPosition;
 	private Formula yPosition;
@@ -47,7 +46,7 @@ public class ShowTextColorAndSizeAction extends TemporalAction {
 	private Formula color;
 	private UserVariable variableToShow;
 	private Sprite sprite;
-	private UserBrick userBrick;
+	private int alignment;
 	private ShowTextActor actor;
 
 	@Override
@@ -57,28 +56,27 @@ public class ShowTextColorAndSizeAction extends TemporalAction {
 			int yPosition = this.yPosition.interpretInteger(sprite);
 			float relativeTextSize = this.relativeTextSize.interpretFloat(sprite) / 100;
 			String color = this.color.interpretString(sprite);
-
 			if (StageActivity.stageListener != null) {
 				Array<Actor> stageActors = StageActivity.stageListener.getStage().getActors();
 				ShowTextActor dummyActor = new ShowTextActor(new UserVariable("dummyActor"), 0,
-						0, relativeTextSize, color, sprite, userBrick);
+						0, relativeTextSize, color, sprite, alignment);
 				for (Actor actor : stageActors) {
 					if (actor.getClass().equals(dummyActor.getClass())) {
 						ShowTextActor showTextActor = (ShowTextActor) actor;
 						if (showTextActor.getVariableNameToCompare().equals(variableToShow.getName())
-								&& showTextActor.getSprite().equals(sprite)
-								&& (userBrick == null || showTextActor.getUserBrick().equals(userBrick))) {
+								&& showTextActor.getSprite().equals(sprite)) {
 							actor.remove();
 						}
 					}
 				}
-
-				actor = new ShowTextActor(variableToShow, xPosition, yPosition, relativeTextSize, color, sprite,
-						userBrick);
-				StageActivity.stageListener.addActor(actor);
+				actor = new ShowTextActor(variableToShow, xPosition, yPosition, relativeTextSize, color, sprite, alignment);
 			}
-
-			variableToShow.setVisible(true);
+			if (relativeTextSize <= 0.f) {
+				variableToShow.setVisible(false);
+			} else {
+				StageActivity.stageListener.addActor(actor);
+				variableToShow.setVisible(true);
+			}
 		} catch (InterpretationException e) {
 			Log.d(TAG, "InterpretationException: " + e);
 		}
@@ -120,7 +118,7 @@ public class ShowTextColorAndSizeAction extends TemporalAction {
 		this.variableToShow = userVariable;
 	}
 
-	public void setUserBrick(UserBrick userBrick) {
-		this.userBrick = userBrick;
+	public void setAlignment(int alignment) {
+		this.alignment = alignment;
 	}
 }

@@ -27,6 +27,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Paint.Align;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
 
@@ -38,7 +39,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.UserBrick;
+import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 
@@ -48,6 +49,7 @@ import java.util.Locale;
 public class ShowTextActor extends Actor {
 
 	private static final int DEFAULT_TEXT_SIZE = 45;
+	private static final int DEFAULT_ALIGNMENT = ShowTextColorSizeAlignmentBrick.ALIGNMENT_STYLE_CENTERED;
 	private float textSize;
 	private int xPosition;
 	private int yPosition;
@@ -55,12 +57,11 @@ public class ShowTextActor extends Actor {
 	private UserVariable variableToShow;
 	private String variableNameToCompare;
 	private String variableValueWithoutDecimal;
-
+	private int alignment;
 	private Sprite sprite;
-	private UserBrick userBrick;
 
 	public ShowTextActor(UserVariable userVariable, int xPosition, int yPosition, float relativeSize, String color,
-			Sprite sprite, UserBrick userBrick) {
+			Sprite sprite, int alignment) {
 		this.variableToShow = userVariable;
 		this.variableNameToCompare = variableToShow.getName();
 		this.variableValueWithoutDecimal = null;
@@ -69,7 +70,20 @@ public class ShowTextActor extends Actor {
 		this.textSize = DEFAULT_TEXT_SIZE * relativeSize;
 		this.color = color;
 		this.sprite = sprite;
-		this.userBrick = userBrick;
+		this.alignment = alignment;
+	}
+
+	public ShowTextActor(UserVariable userVariable, int xPosition, int yPosition, float relativeSize, String color,
+			Sprite sprite) {
+		this.variableToShow = userVariable;
+		this.variableNameToCompare = variableToShow.getName();
+		this.variableValueWithoutDecimal = null;
+		this.xPosition = xPosition;
+		this.yPosition = yPosition;
+		this.textSize = DEFAULT_TEXT_SIZE * relativeSize;
+		this.color = color;
+		this.sprite = sprite;
+		this.alignment = DEFAULT_ALIGNMENT;
 	}
 
 	public static String convertToEnglishDigits(String value) {
@@ -100,7 +114,6 @@ public class ShowTextActor extends Actor {
 
 		drawVariables(dataContainer.getProjectUserVariables(), batch);
 		drawVariables(dataContainer.getSpriteUserVariables(sprite), batch);
-		drawVariables(dataContainer.getUserBrickUserVariables(userBrick), batch);
 	}
 
 	private void drawVariables(List<UserVariable> variableList, Batch batch) {
@@ -162,12 +175,13 @@ public class ShowTextActor extends Actor {
 			paint.setColor(Color.BLACK);
 		}
 
-		paint.setAntiAlias(true);
-		paint.setTextAlign(Paint.Align.LEFT);
 		float baseline = -paint.ascent();
-		int canvasWidth = 0;
+		paint.setAntiAlias(true);
+
+		int canvasWidth = calculateAlignmentValuesForText(paint, text);
 		int bitmapWidth = (int) (paint.measureText(text));
 		int height = (int) (baseline + paint.descent());
+
 		Bitmap bitmap = Bitmap.createBitmap(bitmapWidth, height, Bitmap.Config.ARGB_8888);
 		Canvas canvas = new Canvas(bitmap);
 		canvas.drawText(text, canvasWidth, baseline, paint);
@@ -180,7 +194,7 @@ public class ShowTextActor extends Actor {
 		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
 		bitmap.recycle();
 		// Draw and dispose
-		float xOffset = 3.0f;
+		float xOffset = 3.0f + canvasWidth;
 		batch.draw(tex, posX - xOffset, posY - textSizeInPx);
 		batch.flush();
 		tex.dispose();
@@ -202,10 +216,6 @@ public class ShowTextActor extends Actor {
 		return sprite;
 	}
 
-	public UserBrick getUserBrick() {
-		return userBrick;
-	}
-
 	private int[] calculateColorRGBs(String color) {
 		int[] rgb = new int[3];
 		int colorValue = Integer.parseInt(color.substring(1), 16);
@@ -223,9 +233,23 @@ public class ShowTextActor extends Actor {
 		if (textSize > DEFAULT_TEXT_SIZE * 100.0f) {
 			return DEFAULT_TEXT_SIZE * 25.0f;
 		}
-		if (textSize < DEFAULT_TEXT_SIZE * 0.05f) {
+		if (textSize > 0 && textSize < DEFAULT_TEXT_SIZE * 0.05f) {
 			return DEFAULT_TEXT_SIZE * 0.25f;
 		}
 		return textSize;
+	}
+
+	private int calculateAlignmentValuesForText(Paint paint, String text) {
+		switch (alignment) {
+			case ShowTextColorSizeAlignmentBrick.ALIGNMENT_STYLE_LEFT:
+				paint.setTextAlign(Align.LEFT);
+				return 0;
+			case ShowTextColorSizeAlignmentBrick.ALIGNMENT_STYLE_RIGHT:
+				paint.setTextAlign(Align.RIGHT);
+				return (int) paint.measureText(text);
+			default:
+				paint.setTextAlign(Align.CENTER);
+				return (int) (paint.measureText(text) / 2);
+		}
 	}
 }
