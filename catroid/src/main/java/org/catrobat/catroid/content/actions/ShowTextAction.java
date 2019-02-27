@@ -30,7 +30,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.badlogic.gdx.utils.Array;
 
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -46,7 +45,6 @@ public class ShowTextAction extends TemporalAction {
 	private UserVariable variableToShow;
 
 	private Sprite sprite;
-	private UserBrick userBrick;
 	private ShowTextActor actor;
 
 	@Override
@@ -57,20 +55,19 @@ public class ShowTextAction extends TemporalAction {
 
 			if (StageActivity.stageListener != null) {
 				Array<Actor> stageActors = StageActivity.stageListener.getStage().getActors();
-				ShowTextActor dummyActor = new ShowTextActor(new UserVariable("dummyActor"), 0, 0, 0.0f, null, sprite, userBrick);
+				ShowTextActor dummyActor = new ShowTextActor(new UserVariable("dummyActor"), 0, 0, 0.0f, null, sprite);
 
 				for (Actor actor : stageActors) {
 					if (actor.getClass().equals(dummyActor.getClass())) {
 						ShowTextActor showTextActor = (ShowTextActor) actor;
 						if (showTextActor.getVariableNameToCompare().equals(variableToShow.getName())
-								&& showTextActor.getSprite().equals(sprite)
-								&& (userBrick == null || showTextActor.getUserBrick().equals(userBrick))) {
+								&& showTextActor.getSprite().equals(sprite)) {
 							actor.remove();
 						}
 					}
 				}
 
-				actor = new ShowTextActor(variableToShow, xPosition, yPosition, 1.0f, null, sprite, userBrick);
+				actor = new ShowTextActor(variableToShow, xPosition, yPosition, 1.0f, null, sprite);
 				StageActivity.stageListener.addActor(actor);
 			}
 
@@ -106,9 +103,5 @@ public class ShowTextAction extends TemporalAction {
 
 	public void setVariableToShow(UserVariable userVariable) {
 		this.variableToShow = userVariable;
-	}
-
-	public void setUserBrick(UserBrick userBrick) {
-		this.userBrick = userBrick;
 	}
 }

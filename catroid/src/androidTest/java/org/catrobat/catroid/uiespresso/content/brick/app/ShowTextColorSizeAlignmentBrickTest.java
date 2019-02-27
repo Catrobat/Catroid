@@ -23,12 +23,15 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.app;
 
+import android.content.Context;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.bricks.SetVariableBrick;
-import org.catrobat.catroid.content.bricks.ShowTextColorAndSizeBrick;
+import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick;
+import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
@@ -40,16 +43,13 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
-public class ShowTextColorAndSizeBrickTest {
-	private int setBrickPosition;
+public class ShowTextColorSizeAlignmentBrickTest {
 	private int showBrickPosition;
 
 	@Rule
@@ -59,55 +59,54 @@ public class ShowTextColorAndSizeBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
-		setBrickPosition = 1;
-		showBrickPosition = 2;
-		Script script = BrickTestUtils.createProjectAndGetStartScript("showTextBrickTest1");
-		script.addBrick(new SetVariableBrick());
-		script.addBrick(new ShowTextColorAndSizeBrick());
+		showBrickPosition = 1;
+		BrickTestUtils.createProjectAndGetStartScript("TEST").addBrick(new ShowTextColorSizeAlignmentBrick());
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyPlayingScene().getDataContainer();
+		dataContainer.addUserVariable(new UserVariable("testVariable1"));
 		baseActivityTestRule.launchActivity();
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void testShowVariableColorAndSizeBrick() {
-		final String variableName = "testVariable";
-		final int intToChange = 42;
+	public void testShowVariableColorSizeAlignmentBrick() {
 		final int positionX = 30;
 		final int positionY = 40;
 		final int relativeTextSize = 40;
 		final String color = "#FF00FF";
 
 		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
-		onBrickAtPosition(setBrickPosition).checkShowsText(R.string.brick_set_variable);
 		onBrickAtPosition(showBrickPosition).checkShowsText(R.string.brick_show_variable);
 
-		onBrickAtPosition(setBrickPosition).onVariableSpinner(R.id.set_variable_spinner)
-				.performNewVariable(variableName);
-
-		onBrickAtPosition(setBrickPosition).onFormulaTextField(R.id.brick_set_variable_edit_text)
-				.performEnterNumber(intToChange)
-				.checkShowsNumber(intToChange);
-
-		onView(withId(R.id.show_variable_color_and_size_spinner))
-				.perform(click());
-		onView(withText(variableName))
-				.perform(click());
-
-		onBrickAtPosition(showBrickPosition).onFormulaTextField(R.id.brick_show_variable_color_and_size_edit_text_x)
+		onBrickAtPosition(showBrickPosition).onFormulaTextField(R.id.brick_show_variable_color_size_edit_text_x)
 				.performEnterNumber(positionX)
 				.checkShowsNumber(positionX);
 
-		onBrickAtPosition(showBrickPosition).onFormulaTextField(R.id.brick_show_variable_color_and_size_edit_text_y)
+		onBrickAtPosition(showBrickPosition).onFormulaTextField(R.id.brick_show_variable_color_size_edit_text_y)
 				.performEnterNumber(positionY)
 				.checkShowsNumber(positionY);
 
-		onBrickAtPosition(showBrickPosition).onFormulaTextField(R.id.brick_show_variable_color_and_size_edit_color)
+		onBrickAtPosition(showBrickPosition).onFormulaTextField(R.id.brick_show_variable_color_size_edit_color)
 				.performEnterString(color)
 				.checkShowsText(color);
 
 		onBrickAtPosition(showBrickPosition)
-				.onFormulaTextField(R.id.brick_show_variable_color_and_size_edit_relative_size)
+				.onFormulaTextField(R.id.brick_show_variable_color_size_edit_relative_size)
 				.performEnterNumber(relativeTextSize)
 				.checkShowsNumber(relativeTextSize);
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void testShowVariableColorAndSizeBrickCheckAlignmentSpinner() {
+		onBrickAtPosition(showBrickPosition).onSpinner(R.id.brick_show_variable_color_size_align_spinner)
+				.checkShowsText(R.string.brick_show_variable_aligned_centered);
+
+		Context context = InstrumentationRegistry.getTargetContext();
+		List<String> spinnerValues = Arrays.asList(
+				context.getString(R.string.brick_show_variable_aligned_left),
+				context.getString(R.string.brick_show_variable_aligned_right));
+
+		onBrickAtPosition(showBrickPosition).onSpinner(R.id.brick_show_variable_color_size_align_spinner)
+				.checkNameableValuesAvailable(spinnerValues);
 	}
 }

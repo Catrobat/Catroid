@@ -74,7 +74,6 @@ public class BrickSpinner<T extends Nameable> implements AdapterView.OnItemSelec
 			onItemSelectedListener.onStringOptionSelected(item.getName());
 			return;
 		}
-
 		onItemSelectedListener.onItemSelected((T) item);
 	}
 

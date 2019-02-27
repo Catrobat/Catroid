@@ -1963,8 +1963,12 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_show_variable">Show variable</string>
     <string name="brick_hide_variable">Hide variable</string>
     <string name="brick_show_variable_position">at</string>
-    <string name="brick_show_variable_with_size">with size:</string>
-    <string name="brick_show_variable_and_color">and color:</string>
+    <string name="brick_show_variable_size">size:</string>
+    <string name="brick_show_variable_color">color:</string>
+    <string name="brick_show_variable_aligned">aligned</string>
+    <string name="brick_show_variable_aligned_centered">centered</string>
+    <string name="brick_show_variable_aligned_left">left</string>
+    <string name="brick_show_variable_aligned_right">right</string>
     <!-- -->
 
     <!-- User bricks strings -->
