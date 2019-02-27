@@ -25,7 +25,6 @@ package org.catrobat.catroid.ui.recyclerview.fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.PluralsRes;
 import android.support.v7.app.AlertDialog;
@@ -142,17 +141,8 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 
 			@Override
 			public void task() {
-				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-					Intent intent = new Intent(Intent.ACTION_GET_CONTENT)
-							.addCategory(Intent.CATEGORY_OPENABLE)
-							.setType("application/zip");
-
-					startActivityForResult(Intent
-							.createChooser(intent, getString(R.string.import_project)), REQUEST_IMPORT_PROJECT);
-				} else {
-					startActivityForResult(
-							new Intent(getContext(), FilePickerActivity.class), REQUEST_IMPORT_PROJECT);
-				}
+				startActivityForResult(
+						new Intent(getContext(), FilePickerActivity.class), REQUEST_IMPORT_PROJECT);
 			}
 		}.execute(getActivity());
 	}
