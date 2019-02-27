@@ -63,7 +63,6 @@ public class BrickAdapter extends BaseAdapter implements BrickAdapterInterface,
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({NONE, ALL, SCRIPTS_ONLY})
 	@interface CheckBoxMode {}
-
 	public static final int NONE = 0;
 	public static final int ALL = 1;
 	public static final int SCRIPTS_ONLY = 2;
@@ -260,6 +259,15 @@ public class BrickAdapter extends BaseAdapter implements BrickAdapterInterface,
 		return items.get(position);
 	}
 
+	public BrickBaseType findByHash(int hashCode) {
+		for (BrickBaseType item : items) {
+			if (item.hashCode() == hashCode) {
+				return item;
+			}
+		}
+		return null;
+	}
+
 	public List<BrickBaseType> getItems() {
 		return new ArrayList<>(items);
 	}
@@ -275,7 +283,7 @@ public class BrickAdapter extends BaseAdapter implements BrickAdapterInterface,
 
 	public List<Integer> getPositionsOfItems(List<Brick> bricks) {
 		List<Integer> positions = new ArrayList<>();
-		for (Brick brick: bricks) {
+		for (Brick brick : bricks) {
 			int position = items.indexOf(brick);
 			positions.add(position);
 		}

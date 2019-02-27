@@ -66,6 +66,7 @@ import static org.catrobat.catroid.common.ScreenModes.MAXIMIZE;
 import static org.catrobat.catroid.content.Look.DEGREE_UI_OFFSET;
 import static org.catrobat.catroid.stage.StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME;
 import static org.catrobat.catroid.stage.StageListener.SCREENSHOT_MANUAL_FILE_NAME;
+import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_BRICK_HASH;
 
 public class VisualPlacementActivity extends BaseCastActivity implements View.OnTouchListener,
 		DialogInterface.OnClickListener {
@@ -294,6 +295,7 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 	private void finishWithResult() {
 		Intent returnIntent = new Intent();
 		Bundle extras = new Bundle();
+		extras.putInt(EXTRA_BRICK_HASH, getIntent().getIntExtra(EXTRA_BRICK_HASH, -1));
 		extras.putInt(X_COORDINATE_BUNDLE_ARGUMENT, Math.round(xCoord * reversedScaleWidthRatio));
 		extras.putInt(Y_COORDINATE_BUNDLE_ARGUMENT, Math.round(yCoord * reversedScaleHeightRatio));
 		returnIntent.putExtras(extras);

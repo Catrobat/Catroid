@@ -22,28 +22,30 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
-import android.os.Parcel;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.VisualPlacementListener;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.stage.VisualPlacementActivity;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 
 import java.util.List;
 
-@SuppressLint("ParcelCreator")
-public class PlaceAtBrick extends FormulaBrick implements VisualPlacementListener {
+import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_BRICK_HASH;
+import static org.catrobat.catroid.ui.SpriteActivity.REQUEST_CODE_VISUAL_PLACEMENT;
+
+public class PlaceAtBrick extends FormulaBrick {
+
 	private static final long serialVersionUID = 1L;
 
 	public PlaceAtBrick() {
@@ -63,18 +65,24 @@ public class PlaceAtBrick extends FormulaBrick implements VisualPlacementListene
 
 	@Override
 	public void showFormulaEditorToEditFormula(final View view) {
-		Fragment currentFragment = UiUtils.getActivityFromView(view).getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+		Context context = view.getContext();
+		Fragment currentFragment = UiUtils.getActivityFromView(view).getSupportFragmentManager()
+				.findFragmentById(R.id.fragment_container);
 
-		if (currentFragment instanceof ScriptFragment && (view.getId() == R.id.brick_place_at_edit_text_x || view.getId() == R.id.brick_place_at_edit_text_y)) {
-			String[] optionStrings = {view.getContext().getString(R.string.brick_place_at_option_place_visually),
-					view.getContext().getString(R.string.brick_context_dialog_formula_edit_brick)};
+		boolean showVisualPlacementDialog = currentFragment instanceof ScriptFragment
+				&& (view.getId() == R.id.brick_place_at_edit_text_x || view.getId() == R.id.brick_place_at_edit_text_y);
+
+		if (showVisualPlacementDialog) {
+			String[] optionStrings = {
+					context.getString(R.string.brick_place_at_option_place_visually),
+					context.getString(R.string.brick_context_dialog_formula_edit_brick)};
 
 			new AlertDialog.Builder(view.getContext()).setItems(optionStrings, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					switch (which) {
 						case 0:
-							showVisualPlacement(view);
+							placeVisually();
 							break;
 						case 1:
 							PlaceAtBrick.super.showFormulaEditorToEditFormula(view);
@@ -85,6 +93,22 @@ public class PlaceAtBrick extends FormulaBrick implements VisualPlacementListene
 		} else {
 			super.showFormulaEditorToEditFormula(view);
 		}
+	}
+
+	public void placeVisually() {
+		AppCompatActivity activity = UiUtils.getActivityFromView(view);
+		if (!(activity instanceof SpriteActivity)) {
+			return;
+		}
+
+		Intent intent = new Intent(view.getContext(), VisualPlacementActivity.class);
+		intent.putExtra(EXTRA_BRICK_HASH, hashCode());
+		activity.startActivityForResult(intent, REQUEST_CODE_VISUAL_PLACEMENT);
+	}
+
+	public void setCoordinates(int x, int y) {
+		setFormulaWithBrickField(BrickField.X_POSITION, new Formula(x));
+		setFormulaWithBrickField(BrickField.Y_POSITION, new Formula(y));
 	}
 
 	@Override
@@ -103,29 +127,5 @@ public class PlaceAtBrick extends FormulaBrick implements VisualPlacementListene
 				getFormulaWithBrickField(BrickField.X_POSITION),
 				getFormulaWithBrickField(BrickField.Y_POSITION)));
 		return null;
-	}
-
-	@Override
-	public void saveNewCoordinates(int x, int y) {
-		setFormulaWithBrickField(BrickField.X_POSITION, new Formula(x));
-		setFormulaWithBrickField(BrickField.Y_POSITION, new Formula(y));
-	}
-
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-	}
-
-	public void showVisualPlacement(View view) {
-		FormulaEditorFragment.showVisualPlacementActivity(view.getContext());
-		AppCompatActivity activity = UiUtils.getActivityFromView(view);
-		if (!(activity instanceof SpriteActivity)) {
-			return;
-		}
-		((SpriteActivity) activity).registerOnCoordinatesChanges(this);
 	}
 }
