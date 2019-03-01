@@ -20,23 +20,27 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.catrobatTestRunner;
+package org.catrobat.catroid.catrobattestrunner;
 
 import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.UiController;
+import android.support.test.espresso.ViewAction;
+import android.support.test.rule.ActivityTestRule;
+import android.view.View;
 
 import com.google.common.math.DoubleMath;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.bricks.AssertEqualsBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.asynctask.ProjectUnzipAndImportTask;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
-import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
+import org.hamcrest.Matcher;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -51,9 +55,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.fail;
 
 import static org.catrobat.catroid.common.Constants.CACHE_DIR;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
@@ -62,24 +68,20 @@ import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTO
 public class CatrobatTestRunner {
 
 	@Rule
-	public BaseActivityInstrumentationRule<StageActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(StageActivity.class, true, false);
+	public ActivityTestRule<StageActivity> baseActivityTestRule = new
+			ActivityTestRule<>(StageActivity.class, true, false);
 
-	private static String TEST_ASSETS_ROOT = "catrobatTests";
+	private static final String TEST_ASSETS_ROOT = "catrobatTests";
 
-	private static String RESULT_VARIABLE_NAME = "RESULT";
-	private static String EXPECTED_VARIABLE_NAME = "EXPECTED";
-	private static String TIMEOUT_VARIABLE_NAME = "TIMEOUT";
-	private static String SETUP_FINISHED_VARIABLE_NAME = "SETUP_FINISHED";
+	private static final int TIMEOUT = 10000;
 
 	private static final double EPSILON = 0.001;
 
 	private Project project;
 	private String projectName;
-	private UserVariable testResult;
-	private UserVariable expectedResult;
-	private UserVariable timeout;
-	private UserVariable setupFinished;
+	private UserVariable actualVariable;
+	private UserVariable expectedVariable;
+	private UserVariable readyVariable;
 
 	@Parameterized.Parameters(name = "{0} - {1}")
 	public static Iterable<Object[]> data() throws IOException {
@@ -122,10 +124,9 @@ public class CatrobatTestRunner {
 		project = ProjectManager.getInstance().getCurrentProject();
 		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
 
-		testResult = dataContainer.getProjectUserVariable(RESULT_VARIABLE_NAME);
-		expectedResult = dataContainer.getProjectUserVariable(EXPECTED_VARIABLE_NAME);
-		timeout = dataContainer.getProjectUserVariable(TIMEOUT_VARIABLE_NAME);
-		setupFinished = dataContainer.getProjectUserVariable(SETUP_FINISHED_VARIABLE_NAME);
+		actualVariable = dataContainer.getProjectUserVariable(AssertEqualsBrick.ACTUAL_VARIABLE_NAME);
+		expectedVariable = dataContainer.getProjectUserVariable(AssertEqualsBrick.EXPECTED_VARIABLE_NAME);
+		readyVariable = dataContainer.getProjectUserVariable(AssertEqualsBrick.READY_VARIABLE_NAME);
 	}
 
 	@After
@@ -137,24 +138,67 @@ public class CatrobatTestRunner {
 	@Test
 	public void run() {
 		baseActivityTestRule.launchActivity(null);
-		assertUserVariableEqualsWithTimeout(setupFinished,
-				1d,
-				1000);
-		assertUserVariableEqualsWithTimeout(testResult,
-				(double) expectedResult.getValue(),
-				((Double)timeout.getValue()).intValue());
+
+		if (actualVariable == null) {
+			fail("no variable with name " + AssertEqualsBrick.ACTUAL_VARIABLE_NAME + " in this project!\n"
+					+ "please add an AssertEqualsBrick\n");
+		}
+
+		if (expectedVariable == null) {
+			fail("no variable with name " + AssertEqualsBrick.EXPECTED_VARIABLE_NAME + " in this project!\n"
+					+ "please add an AssertEqualsBrick\n");
+		}
+
+		if (readyVariable == null) {
+			fail("no variable with name " + AssertEqualsBrick.READY_VARIABLE_NAME + " in this project!\n"
+					+ "please add an AssertEqualsBrick\n");
+		}
+
+		waitForReady();
+
+		if (expectedVariable.getValue() instanceof Double
+				&& actualVariable.getValue() instanceof Double) {
+			assertEquals((Double) expectedVariable.getValue(), (Double) actualVariable.getValue(), EPSILON);
+		} else if (expectedVariable.getValue() instanceof String
+				&& actualVariable.getValue() instanceof String) {
+			assertEquals((String) expectedVariable.getValue(), (String) actualVariable.getValue());
+		} else {
+			fail("Type error - expected and actual are mismatching types\n"
+					+ "Got:"
+					+ "\nactual = " + actualVariable.getValue().toString()
+					+ "\nexpected = " + expectedVariable.getValue().toString() + "\n");
+		}
 	}
 
-	public static void assertUserVariableEqualsWithTimeout(UserVariable userVariable, double expectedValue,
-			int timeoutMillis) {
-		for (int intervalMillis = 10; timeoutMillis > 0; timeoutMillis -= intervalMillis) {
-			if (DoubleMath.fuzzyEquals(expectedValue, (Double) userVariable.getValue(), EPSILON)) {
-				assertEquals(expectedValue, (Double) userVariable.getValue(), EPSILON);
+	private void waitForReady() {
+		int intervalMillis = 10;
+		for (int waitedFor = 0; waitedFor < TIMEOUT; waitedFor += intervalMillis) {
+			if (DoubleMath.fuzzyEquals(AssertEqualsBrick.READY_VALUE, (Double) readyVariable.getValue(), EPSILON)) {
 				return;
 			}
-			onView(isRoot())
-					.perform(CustomActions.wait(intervalMillis));
+			espressoWait(intervalMillis);
 		}
-		assertEquals(expectedValue, (Double) userVariable.getValue(), EPSILON);
+		fail("Timeout after " + TIMEOUT + "ms\n"
+				+ "Test never got into ready state - is the AssertEqualsBrick reached?\n");
+	}
+
+	private void espressoWait(final int milliSeconds) {
+		onView(isRoot()).perform(new ViewAction() {
+			@Override
+			public String getDescription() {
+				return "Wait for X milliseconds";
+			}
+
+			@Override
+			public Matcher<View> getConstraints() {
+				return isDisplayed();
+			}
+
+			@Override
+			public void perform(UiController uiController, View view) {
+				uiController.loopMainThreadUntilIdle();
+				uiController.loopMainThreadForAtLeast(milliSeconds);
+			}
+		});
 	}
 }

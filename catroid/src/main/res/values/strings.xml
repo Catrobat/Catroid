@@ -1052,6 +1052,7 @@
     <string name="category_arduino">Arduino</string>
     <string name="category_cast">Chromecast</string>
     <string name="category_raspi">Raspberry Pi</string>
+    <string name="category_assertions">Testing</string>
     <!--  -->
 
     <!-- Motion bricks -->
@@ -1215,6 +1216,10 @@
     <string name="brick_clone_this">yourself</string>
     <string name="brick_when_cloned">When you start as a clone</string>
     <string name="brick_delete_this_clone">Delete this clone</string>
+
+    <string name="brick_assert_that">Assert:</string>
+    <string name="brick_is_equal_to">equal to expected:</string>
+
 
     <plurals name="time_plural">
         <item quantity="one">time</item>
