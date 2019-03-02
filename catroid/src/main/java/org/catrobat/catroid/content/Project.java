@@ -43,11 +43,9 @@ import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
-import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.ScreenValueHandler;
 import org.catrobat.catroid.utils.Utils;
 
-import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -308,16 +306,6 @@ public class Project implements Serializable {
 			}
 		}
 		return null;
-	}
-
-	public boolean manualScreenshotExists(String manualScreenshotName) {
-
-		String path = PathBuilder.buildProjectPath(getName()) + "/" + manualScreenshotName;
-		File manualScreenShot = new File(path);
-		if (manualScreenShot.exists()) {
-			return false;
-		}
-		return true;
 	}
 
 	public void saveLegoNXTSettingsToProject(Context context) {

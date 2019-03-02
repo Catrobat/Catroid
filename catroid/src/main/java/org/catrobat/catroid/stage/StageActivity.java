@@ -233,6 +233,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 			finish();
 		} else {
 			StageLifeCycleController.stagePause(this);
+			stageListener.makeScreenshot(false);
 			stageDialog.show();
 		}
 	}

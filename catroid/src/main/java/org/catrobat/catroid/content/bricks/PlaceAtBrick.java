@@ -77,7 +77,7 @@ public class PlaceAtBrick extends FormulaBrick {
 					context.getString(R.string.brick_place_at_option_place_visually),
 					context.getString(R.string.brick_context_dialog_formula_edit_brick)};
 
-			new AlertDialog.Builder(view.getContext()).setItems(optionStrings, new DialogInterface.OnClickListener() {
+			new AlertDialog.Builder(context).setItems(optionStrings, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					switch (which) {

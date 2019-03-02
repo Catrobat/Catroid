@@ -148,7 +148,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 			return;
 		}
 
-		if (stageListener.makeManualScreenshot()) {
+		if (stageListener.makeScreenshot(true)) {
 			ToastUtil.showSuccess(stageActivity, R.string.notification_screenshot_ok);
 		} else {
 			ToastUtil.showError(stageActivity, R.string.error_screenshot_failed);
