@@ -41,6 +41,8 @@ import org.catrobat.catroid.stage.StageLifeCycleController;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.utils.ToastUtil;
 
+import static org.catrobat.catroid.stage.StageListener.SCREENSHOT_MANUAL_FILE_NAME;
+
 public class StageDialog extends Dialog implements View.OnClickListener {
 	private static final String TAG = StageDialog.class.getSimpleName();
 	private StageActivity stageActivity;
@@ -148,7 +150,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 			return;
 		}
 
-		if (stageListener.makeManualScreenshot()) {
+		if (stageListener.takeScreenshot(SCREENSHOT_MANUAL_FILE_NAME)) {
 			ToastUtil.showSuccess(stageActivity, R.string.notification_screenshot_ok);
 		} else {
 			ToastUtil.showError(stageActivity, R.string.error_screenshot_failed);
