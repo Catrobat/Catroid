@@ -109,9 +109,10 @@ pipeline {
 
                             post {
                                 always {
-                                    pmd         canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "catroid/build/reports/pmd.xml",        unHealthy: '', unstableTotalAll: '0'
-                                    checkstyle  canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "catroid/build/reports/checkstyle.xml", unHealthy: '', unstableTotalAll: '0'
-                                    androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "catroid/build/reports/lint*.xml",      unHealthy: '', unstableTotalAll: '0'
+                                    recordIssues aggregatingResults: true, enabledForFailure: true, qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]],
+                                                 tools: [androidLintParser(pattern: 'catroid/build/reports/lint*.xml'),
+                                                         checkStyle(pattern: 'catroid/build/reports/checkstyle.xml'),
+                                                         pmdParser(pattern: 'catroid/build/reports/pmd.xml')]
                                 }
                             }
                         }
