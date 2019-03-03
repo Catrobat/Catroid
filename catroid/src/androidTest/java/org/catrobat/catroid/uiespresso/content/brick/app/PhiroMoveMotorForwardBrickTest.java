@@ -55,7 +55,7 @@ import static org.hamcrest.Matchers.allOf;
 @RunWith(AndroidJUnit4.class)
 public class PhiroMoveMotorForwardBrickTest {
 	private int brickPosition;
-	private int initialSpeed = -70;
+	private int initialSpeed = 70;
 
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
@@ -87,10 +87,16 @@ public class PhiroMoveMotorForwardBrickTest {
 		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_phiro_motor_forward_action_spinner)
 				.checkStringIdValuesAvailable(spinnerValuesResourceIds);
 
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_phiro_motor_forward_action_speed_edit_text)
-				.checkShowsNumber(initialSpeed)
+		onBrickAtPosition(brickPosition).onChildView(withId(R.id.brick_phiro_motor_forward_action_speed_edit_text))
+				.perform(click());
+		onView(withId(R.id.single_seekbar_value))
+				.perform(click());
+
+		onFormulaEditor()
+				.checkValue(((Integer) initialSpeed).toString())
 				.performEnterNumber(setSpeed)
-				.checkShowsNumber(setSpeed);
+				.checkValue(((Integer) setSpeed).toString())
+				.performCloseAndSave();
 
 		onBrickAtPosition(brickPosition).onChildView(withId(R.id.brick_phiro_motor_forward_action_speed_edit_text))
 				.perform(click());

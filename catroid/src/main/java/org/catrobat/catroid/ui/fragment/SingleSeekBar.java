@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.ui.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.widget.SeekBar;
@@ -79,7 +80,9 @@ public class SingleSeekBar {
 
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
+				FormulaEditorFragment.saveOldFormulaToHistory(brickField, new Formula(seekBar.getProgress()));
 				formulaBrick.setFormulaWithBrickField(brickField, new Formula(seekBar.getProgress()));
+				((Activity) context).invalidateOptionsMenu();
 			}
 		});
 

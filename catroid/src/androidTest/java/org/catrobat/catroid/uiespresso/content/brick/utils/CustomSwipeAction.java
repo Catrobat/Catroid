@@ -27,6 +27,8 @@ import android.support.test.espresso.PerformException;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.action.PrecisionDescriber;
+import android.support.test.espresso.action.Press;
+import android.support.test.espresso.action.Swipe;
 import android.support.test.espresso.action.Swiper;
 import android.support.test.espresso.util.HumanReadables;
 import android.view.View;
@@ -44,16 +46,38 @@ public final class CustomSwipeAction implements ViewAction {
 	private final SwipeAction swipeAction;
 	private final Swiper swiper;
 	private final PrecisionDescriber precisionDescriber;
+	private float pos;
 
 	public enum SwipeAction {
 		SWIPE_RIGHT,
-		SWIPE_LEFT
+		SWIPE_LEFT,
+		SWIPE_POS
 	}
 
-	public CustomSwipeAction(Swiper swiper, SwipeAction swipeAction, PrecisionDescriber precisionDescriber) {
+	public static ViewAction swipeToPosition(float relativePosition) {
+		return new CustomSwipeAction(Swipe.SLOW, CustomSwipeAction.SwipeAction.SWIPE_POS, Press.FINGER, relativePosition);
+	}
+
+	public static ViewAction swipeRightSlow() {
+		return new CustomSwipeAction(Swipe.SLOW, CustomSwipeAction.SwipeAction.SWIPE_RIGHT, Press.FINGER);
+	}
+
+	public static ViewAction swipeLeftSlow() {
+		return new CustomSwipeAction(Swipe.SLOW, CustomSwipeAction.SwipeAction.SWIPE_LEFT, Press.FINGER);
+	}
+
+	private CustomSwipeAction(Swiper swiper, SwipeAction swipeAction, PrecisionDescriber precisionDescriber) {
 		this.swiper = swiper;
 		this.swipeAction = swipeAction;
 		this.precisionDescriber = precisionDescriber;
+	}
+
+	private CustomSwipeAction(Swiper swiper, SwipeAction swipeAction, PrecisionDescriber precisionDescriber,
+			float pos) {
+		this.swiper = swiper;
+		this.swipeAction = swipeAction;
+		this.precisionDescriber = precisionDescriber;
+		this.pos = pos;
 	}
 
 	@Override
@@ -71,7 +95,6 @@ public final class CustomSwipeAction implements ViewAction {
 		float[] precision = precisionDescriber.describePrecision();
 
 		Swiper.Status status = Swiper.Status.FAILURE;
-
 		for (int tries = 0; tries < MAX_TRIES && status != Swiper.Status.SUCCESS; tries++) {
 			try {
 				status = swiper.sendSwipe(uiController, startCoordinates, endCoordinates, precision);
@@ -116,9 +139,12 @@ public final class CustomSwipeAction implements ViewAction {
 	}
 
 	private void calculateCoordinates(View view, float[] startCoordinates, float[] endCoordinates) {
+
 		final int[] elementLocation = new int[2];
 		view.getLocationOnScreen(elementLocation);
 		float height = view.getHeight();
+		float paddingLeft = view.getPaddingLeft();
+		float paddingRight = view.getPaddingRight();
 		float width = view.getWidth();
 		Point displaySize = new Point();
 		view.getDisplay().getSize(displaySize);
@@ -134,6 +160,13 @@ public final class CustomSwipeAction implements ViewAction {
 				startCoordinates[0] = elementLocation[0];
 				startCoordinates[1] = elementLocation[1] + height / 2;
 				endCoordinates[0] = displaySize.x;
+				endCoordinates[1] = elementLocation[1] + height / 2;
+				break;
+			case SWIPE_POS:
+				startCoordinates[0] = elementLocation[0];
+				startCoordinates[1] = elementLocation[1] + height / 2;
+				float relativePos = pos * (width - paddingLeft - paddingRight);
+				endCoordinates[0] = relativePos + elementLocation[0] + paddingLeft;
 				endCoordinates[1] = elementLocation[1] + height / 2;
 				break;
 			default:

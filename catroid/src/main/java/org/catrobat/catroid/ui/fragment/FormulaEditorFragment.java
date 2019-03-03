@@ -102,7 +102,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	private static FormulaBrick formulaBrick;
 	private static Brick.BrickField currentBrickField;
 	private static Formula currentFormula;
-	private Menu currentMenu;
 
 	private long[] confirmSwitchEditTextTimeStamp = {0, 0};
 	private int confirmSwitchEditTextCounter = 0;
@@ -426,7 +425,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
-		currentMenu = menu;
 
 		for (int index = 0; index < menu.size(); index++) {
 			menu.getItem(index).setVisible(false);
@@ -499,17 +497,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 						return;
 					}
 				}
-				MenuItem undo = currentMenu.findItem(R.id.menu_undo);
-				if (undo != null) {
-					undo.setIcon(R.drawable.icon_undo_disabled);
-					undo.setEnabled(false);
-				}
-
-				MenuItem redo = currentMenu.findItem(R.id.menu_redo);
-				redo.setIcon(R.drawable.icon_redo_disabled);
-				redo.setEnabled(false);
-
-				formulaEditorEditText.endEdit();
 				currentBrickField = brickField;
 				currentFormula = newFormula;
 				formulaEditorEditText.enterNewFormula(new UndoState(currentFormula.getInternFormulaState(),
@@ -714,6 +701,10 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		return currentBrickField;
 	}
 
+	public void setCurrentBrickField(Brick.BrickField brickField) {
+		currentBrickField = brickField;
+	}
+
 	public void overrideSelectedText(String string) {
 		formulaEditorEditText.overrideSelectedText(string);
 	}
@@ -751,5 +742,26 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 			formulaBrick.setFormulaWithBrickField(state.getKey(),
 					new Formula(internFormula.getInternFormulaParser().parseFormula()));
 		}
+	}
+
+	public static void saveOldFormulaToHistory(Brick.BrickField changedBrickField, Formula formula) {
+		UndoState undoState = new UndoState(formula.getInternFormulaState(), changedBrickField);
+		formulaEditorEditText.getHistory().push(undoState);
+		formulaEditorEditText.enterNewFormula(undoState);
+	}
+
+	public static void changeCurrentBrick(Brick.BrickField brickField) {
+		currentBrickField = brickField;
+		currentFormula = formulaBrick.getFormulaWithBrickField(currentBrickField);
+		formulaEditorEditText.getHistory().updateCurrentState(new UndoState(currentFormula.getInternFormulaState(),
+				currentBrickField));
+	}
+
+	public Formula getFormulaFromFormulaBrick(Brick.BrickField brickField) {
+		return formulaBrick.getFormulaWithBrickField(brickField);
+	}
+
+	public void setFormulaInFormulaBrick(Brick.BrickField brickField, Formula newFormula) {
+		formulaBrick.setFormulaWithBrickField(brickField, newFormula);
 	}
 }

@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.ui.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
@@ -132,6 +133,7 @@ public class ColorSeekbar {
 				int color = Color.argb(0xFF, redSeekBar.getProgress(), greenSeekBar.getProgress(), blueSeekBar.getProgress());
 				colorPreviewView.setBackgroundColor(color);
 				colorPreviewView.invalidate();
+				((Activity) context).invalidateOptionsMenu();
 			}
 
 			@Override
@@ -156,7 +158,10 @@ public class ColorSeekbar {
 					default:
 						break;
 				}
+				FormulaEditorFragment.changeCurrentBrick(changedBrickField);
+				FormulaEditorFragment.saveOldFormulaToHistory(changedBrickField, new Formula(seekBar.getProgress()));
 				formulaBrick.setFormulaWithBrickField(changedBrickField, new Formula(seekBar.getProgress()));
+				((Activity) context).invalidateOptionsMenu();
 			}
 		};
 
@@ -169,6 +174,7 @@ public class ColorSeekbar {
 
 	private int getCurrentBrickFieldValue(Context context, Brick.BrickField brickField) {
 		String currentStringValue = formulaBrick.getFormulaWithBrickField(brickField).getTrimmedFormulaString(context);
+		currentStringValue = currentStringValue.replace((char) 39, ' ');
 		return Double.valueOf(currentStringValue.replace(",", ".")).intValue();
 	}
 }
