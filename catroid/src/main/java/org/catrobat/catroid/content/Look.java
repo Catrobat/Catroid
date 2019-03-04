@@ -431,10 +431,6 @@ public class Look extends Image {
 		}
 	}
 
-	public float getRealRotation() {
-		return realRotation;
-	}
-
 	public boolean isFlipped() {
 		return (lookData != null && lookData.getTextureRegion().isFlipX());
 	}

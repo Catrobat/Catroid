@@ -31,6 +31,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -64,6 +65,9 @@ import static android.content.DialogInterface.BUTTON_POSITIVE;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.common.ScreenModes.MAXIMIZE;
 import static org.catrobat.catroid.content.Look.DEGREE_UI_OFFSET;
+import static org.catrobat.catroid.content.Look.ROTATION_STYLE_ALL_AROUND;
+import static org.catrobat.catroid.content.Look.ROTATION_STYLE_LEFT_RIGHT_ONLY;
+import static org.catrobat.catroid.content.Look.ROTATION_STYLE_NONE;
 import static org.catrobat.catroid.stage.StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME;
 import static org.catrobat.catroid.stage.StageListener.SCREENSHOT_MANUAL_FILE_NAME;
 import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_BRICK_HASH;
@@ -89,6 +93,7 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 	private float scaleX;
 	private float scaleY;
 	private float rotation;
+	private int rotationMode;
 	private float startX;
 	private float startY;
 	private float previousY;
@@ -159,6 +164,9 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 				scale = scaleWidthRatio / scaleHeightRatio;
 				maximizeLayoutHeight = (int) (currentScreenHeight * scale);
 				maximizeLayoutWidth = currentScreenWidth;
+			} else {
+				maximizeLayoutHeight = currentScreenHeight;
+				maximizeLayoutWidth = currentScreenWidth;
 			}
 			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
 					ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -173,10 +181,10 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 
 		try {
 			String backgroundBitmapPath;
-			if (manualScreenshot.exists()) {
-				backgroundBitmapPath = manualScreenshot.getPath();
-			} else if (automaticScreenshot.exists()) {
+			if (automaticScreenshot.exists()) {
 				backgroundBitmapPath = automaticScreenshot.getPath();
+			} else if (manualScreenshot.exists()) {
+				backgroundBitmapPath = manualScreenshot.getPath();
 			} else {
 				backgroundBitmapPath = ProjectManager.getInstance().getCurrentlyEditedScene()
 						.getBackgroundSprite().getLookList().get(0).getFile().getAbsolutePath();
@@ -201,7 +209,8 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 			objectLookPath = currentSprite.look.getImagePath();
 			scaleX = currentSprite.look.getScaleX();
 			scaleY = currentSprite.look.getScaleY();
-			rotation = currentSprite.look.getRealRotation();
+			rotationMode = currentSprite.look.getRotationMode();
+			rotation = currentSprite.look.getDirectionInUserInterfaceDimensionUnit();
 			spriteBitmap = BitmapFactory.decodeFile(objectLookPath, options);
 		} else if (currentSprite.getLookList().size() != 0) {
 			objectLookPath = currentSprite.getLookList().get(0).getFile().getAbsolutePath();
@@ -214,10 +223,23 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 				(int) (spriteBitmap.getWidth() * scaleWidthRatio),
 				(int) (spriteBitmap.getHeight() * scaleHeightRatio), true);
 		imageView = new ImageView(this);
-		imageView.setImageBitmap(scaledSpriteBitmap);
-		if (rotation != 0) {
-			imageView.setRotation((rotation - DEGREE_UI_OFFSET) % 360);
+
+		switch (rotationMode) {
+			case ROTATION_STYLE_NONE:
+				imageView.setRotation(0f);
+				break;
+			case ROTATION_STYLE_ALL_AROUND:
+				if (rotation != 90) {
+					imageView.setRotation(rotation - DEGREE_UI_OFFSET);
+				}
+				break;
+			case ROTATION_STYLE_LEFT_RIGHT_ONLY:
+				if (rotation < 0) {
+					scaledSpriteBitmap = createFlippedBitmap(scaledSpriteBitmap);
+				}
+				break;
 		}
+		imageView.setImageBitmap(scaledSpriteBitmap);
 
 		if (scaleX > 0.01) {
 			imageView.setScaleX(scaleX);
@@ -311,5 +333,11 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 				.setNegativeButton(R.string.no, this)
 				.setCancelable(true)
 				.show();
+	}
+
+	private Bitmap createFlippedBitmap(Bitmap source) {
+		Matrix matrix = new Matrix();
+		matrix.postScale(-1, 1, (float) source.getWidth() / 2, (float) source.getHeight() / 2);
+		return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
 	}
 }
