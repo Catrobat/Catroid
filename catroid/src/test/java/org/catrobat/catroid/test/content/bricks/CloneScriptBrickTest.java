@@ -24,11 +24,11 @@
 package org.catrobat.catroid.test.content.bricks;
 
 import org.catrobat.catroid.content.BroadcastScript;
-import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.RaspiInterruptScript;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenBackgroundChangesScript;
+import org.catrobat.catroid.content.WhenBounceOffScript;
 import org.catrobat.catroid.content.WhenClonedScript;
 import org.catrobat.catroid.content.WhenConditionScript;
 import org.catrobat.catroid.content.WhenGamepadButtonScript;
@@ -57,7 +57,7 @@ public class CloneScriptBrickTest {
 	public static Iterable<Object[]> data() {
 		return Arrays.asList(new Object[][] {
 				{BroadcastScript.class.getSimpleName(), new BroadcastScript("test")},
-				{CollisionScript.class.getSimpleName(), new CollisionScript("test")},
+				{WhenBounceOffScript.class.getSimpleName(), new WhenBounceOffScript("test")},
 				{RaspiInterruptScript.class.getSimpleName(), new RaspiInterruptScript("testPin", "testEvent")},
 				{StartScript.class.getSimpleName(), new StartScript()},
 				{WhenBackgroundChangesScript.class.getSimpleName(), new WhenBackgroundChangesScript()},

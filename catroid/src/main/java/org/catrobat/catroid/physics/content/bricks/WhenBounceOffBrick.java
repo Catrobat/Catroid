@@ -29,11 +29,11 @@ import android.view.View;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
-import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.WhenBounceOffScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.ScriptBrickBaseType;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
@@ -41,26 +41,27 @@ import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CollisionReceiverBrick extends ScriptBrickBaseType implements BrickSpinner.OnItemSelectedListener<Sprite> {
+public class WhenBounceOffBrick extends ScriptBrickBaseType implements BrickSpinner.OnItemSelectedListener<Sprite> {
 
 	private static final long serialVersionUID = 1L;
 
 	public static final String ANYTHING_ESCAPE_CHAR = "\0";
 
-	private CollisionScript script;
+	private WhenBounceOffScript script;
 
 	private transient BrickSpinner<Sprite> spinner;
 
-	public CollisionReceiverBrick(CollisionScript script) {
+	public WhenBounceOffBrick(WhenBounceOffScript script) {
 		script.setScriptBrick(this);
 		commentedOut = script.isCommentedOut();
 		this.script = script;
 	}
 
 	@Override
-	public Brick clone() throws CloneNotSupportedException {
-		CollisionReceiverBrick clone = (CollisionReceiverBrick) super.clone();
-		clone.script = (CollisionScript) script.clone();
+	public BrickBaseType clone() throws CloneNotSupportedException {
+		WhenBounceOffBrick clone = (WhenBounceOffBrick) super.clone();
+
+		clone.script = (WhenBounceOffScript) script.clone();
 		clone.script.setScriptBrick(clone);
 		clone.spinner = null;
 		return clone;
@@ -68,7 +69,7 @@ public class CollisionReceiverBrick extends ScriptBrickBaseType implements Brick
 
 	@Override
 	public int getViewResource() {
-		return R.layout.brick_physics_collision_receive;
+		return R.layout.brick_when_bounce_off;
 	}
 
 	@Override
@@ -79,20 +80,17 @@ public class CollisionReceiverBrick extends ScriptBrickBaseType implements Brick
 		items.add(new StringOption(ANYTHING_ESCAPE_CHAR + context.getString(R.string.collision_with_anything)
 				+ ANYTHING_ESCAPE_CHAR));
 
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		for (Sprite sprite : ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList()) {
-			if (sprite == ProjectManager.getInstance().getCurrentSprite()) {
+			if (sprite == currentSprite) {
 				continue;
 			}
-			ResourcesSet resourcesSet = new ResourcesSet();
-			sprite.addRequiredResources(resourcesSet);
-			if (resourcesSet.contains(Brick.PHYSICS)) {
-				items.add(sprite);
-			}
+			items.add(sprite);
 		}
 
-		spinner = new BrickSpinner<>(R.id.brick_collision_receive_spinner, view, items);
+		spinner = new BrickSpinner<>(R.id.brick_when_bounce_off_spinner, view, items);
 		spinner.setOnItemSelectedListener(this);
-		spinner.setSelection(script.getSpriteToCollideWithName());
+		spinner.setSelection(script.getSpriteToBounceOffName());
 
 		return view;
 	}
@@ -103,12 +101,12 @@ public class CollisionReceiverBrick extends ScriptBrickBaseType implements Brick
 
 	@Override
 	public void onStringOptionSelected(String string) {
-		script.setSpriteToCollideWithName(null);
+		script.setSpriteToBounceOffName(null);
 	}
 
 	@Override
 	public void onItemSelected(@Nullable Sprite item) {
-		script.setSpriteToCollideWithName(item != null ? item.getName() : null);
+		script.setSpriteToBounceOffName(item != null ? item.getName() : null);
 	}
 
 	@Override

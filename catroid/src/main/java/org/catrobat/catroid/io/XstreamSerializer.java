@@ -37,7 +37,6 @@ import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.common.ProjectData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastScript;
-import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.GroupItemSprite;
 import org.catrobat.catroid.content.GroupSprite;
 import org.catrobat.catroid.content.LegoNXTSetting;
@@ -50,6 +49,7 @@ import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenBackgroundChangesScript;
+import org.catrobat.catroid.content.WhenBounceOffScript;
 import org.catrobat.catroid.content.WhenClonedScript;
 import org.catrobat.catroid.content.WhenConditionScript;
 import org.catrobat.catroid.content.WhenGamepadButtonScript;
@@ -215,7 +215,6 @@ import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
 import org.catrobat.catroid.physics.content.bricks.SetBounceBrick;
 import org.catrobat.catroid.physics.content.bricks.SetFrictionBrick;
 import org.catrobat.catroid.physics.content.bricks.SetGravityBrick;
@@ -224,6 +223,7 @@ import org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.physics.content.bricks.SetVelocityBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
+import org.catrobat.catroid.physics.content.bricks.WhenBounceOffBrick;
 import org.catrobat.catroid.utils.StringFinder;
 
 import java.io.File;
@@ -508,8 +508,9 @@ public final class XstreamSerializer {
 		xstream.alias("brick", WaitTillIdleBrick.class);
 		xstream.alias("brick", WhenRaspiPinChangedBrick.class);
 
-		xstream.alias("script", CollisionScript.class);
-		xstream.alias("brick", CollisionReceiverBrick.class);
+		xstream.alias("script", WhenBounceOffScript.class);
+		xstream.alias("brick", WhenBounceOffBrick.class);
+
 		xstream.alias("brick", SetBounceBrick.class);
 		xstream.alias("brick", SetFrictionBrick.class);
 		xstream.alias("brick", SetGravityBrick.class);

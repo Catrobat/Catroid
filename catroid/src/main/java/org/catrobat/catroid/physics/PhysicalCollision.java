@@ -23,20 +23,23 @@
 
 package org.catrobat.catroid.physics;
 
+import com.google.common.base.Objects;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.eventids.CollisionEventId;
+import org.catrobat.catroid.content.eventids.BounceOffEventId;
 
-public class PhysicsCollisionBroadcast {
+import static org.catrobat.catroid.content.EventWrapper.NO_WAIT;
+import static org.catrobat.catroid.physics.PhysicsObject.Type.DYNAMIC;
+
+public class PhysicalCollision {
 
 	private int contactCounter = 0;
-	private Sprite sprite1;
-	private Sprite sprite2;
+	private CollidingSprites objects;
 
-	PhysicsCollisionBroadcast(Sprite sprite1, Sprite sprite2) {
-		this.sprite1 = sprite1;
-		this.sprite2 = sprite2;
+	PhysicalCollision(CollidingSprites objects) {
+		this.objects = objects;
 	}
 
 	void increaseContactCounter() {
@@ -53,28 +56,47 @@ public class PhysicsCollisionBroadcast {
 		return contactCounter;
 	}
 
-	void sendBroadcast() {
-		fireEvent(sprite1, sprite2);
-		fireEvent(sprite1, null);
-		fireEvent(sprite2, null);
+	void sendBounceOffEventsIfNecessary(PhysicsWorld physicsWorld) {
+		sendBounceOffEventIfNecessary(physicsWorld, objects.sprite1, objects.sprite2);
+		sendBounceOffEventIfNecessary(physicsWorld, objects.sprite2, objects.sprite1);
 	}
 
-	static boolean fireEvent(Sprite sprite1, Sprite sprite2) {
-		if (sprite1 == null && sprite2 == null) {
-			return false;
+	private void sendBounceOffEventIfNecessary(PhysicsWorld physicsWorld, Sprite spriteBouncingOff, Sprite otherSprite) {
+		if (physicsWorld.getPhysicsObject(spriteBouncingOff).getType() == DYNAMIC) {
+			fireBounceOffEvent(spriteBouncingOff, otherSprite);
+			fireBounceOffEvent(spriteBouncingOff, null);
 		}
-		CollisionEventId identifier = new CollisionEventId(sprite1, sprite2);
-		EventWrapper event = new EventWrapper(identifier, EventWrapper.NO_WAIT);
+	}
+
+	static void fireBounceOffEvent(Sprite bouncingSprite, Sprite staticSprite) {
+		BounceOffEventId identifier = new BounceOffEventId(bouncingSprite, staticSprite);
+		EventWrapper event = new EventWrapper(identifier, NO_WAIT);
 		ProjectManager.getInstance().getCurrentProject().fireToAllSprites(event);
-		return true;
 	}
 
 	public String toString() {
-		String str = "PhysicsCollisionBroadcast:\n"
+		String str = "PhysicalCollision:\n"
 				+ "     sprite1: %s\n"
 				+ "     sprite2: %s\n"
 				+ "     contactCounter: %s\n";
 
-		return String.format(str, sprite1, sprite2, String.valueOf(contactCounter));
+		return String.format(str, objects.sprite1, objects.sprite2, String.valueOf(contactCounter));
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof PhysicalCollision)) {
+			return false;
+		}
+		PhysicalCollision collision = (PhysicalCollision) o;
+		return Objects.equal(objects, collision.objects);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(objects);
 	}
 }

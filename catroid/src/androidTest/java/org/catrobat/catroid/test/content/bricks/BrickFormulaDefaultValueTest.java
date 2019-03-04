@@ -247,7 +247,8 @@ public class BrickFormulaDefaultValueTest {
 
 	@Test
 	public void testBrickCategory() {
-		List<Brick> categoryBricks = categoryBricksFactory.getBricks(category, sprite, InstrumentationRegistry.getTargetContext());
+		List<Brick> categoryBricks = categoryBricksFactory.getBricks(category, false,
+				InstrumentationRegistry.getTargetContext());
 
 		Brick brickInAdapter = null;
 		for (Brick brick : categoryBricks) {
