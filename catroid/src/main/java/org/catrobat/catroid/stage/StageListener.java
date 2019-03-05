@@ -22,9 +22,11 @@
  */
 package org.catrobat.catroid.stage;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.os.SystemClock;
+import android.util.DisplayMetrics;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -59,8 +61,10 @@ import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.content.eventids.GamepadEventId;
+import org.catrobat.catroid.embroidery.EmbroideryList;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.physics.PhysicsDebugSettings;
@@ -97,13 +101,11 @@ public class StageListener implements ApplicationListener {
 	public static final String SCREENSHOT_MANUAL_FILE_NAME = "manual_screenshot" + DEFAULT_IMAGE_EXTENSION;
 
 	private Stage stage = null;
-	private boolean paused = false;
+	private boolean paused = true;
 	private boolean finished = false;
 	private boolean reloadProject = false;
 	public boolean firstFrameDrawn = false;
 
-	private static boolean checkIfAutomaticScreenshotShouldBeTaken = true;
-	private boolean makeAutomaticScreenshot = false;
 	private boolean makeScreenshot = false;
 	private String pathForSceneScreenshot;
 	private int screenshotWidth;
@@ -111,9 +113,6 @@ public class StageListener implements ApplicationListener {
 	private int screenshotX;
 	private int screenshotY;
 	private byte[] screenshot = null;
-	// in first frame, framebuffer could be empty and screenshot
-	// would be white
-	private boolean skipFirstFrameForAutomaticScreenshot;
 
 	private Project project;
 	private Scene scene;
@@ -127,6 +126,9 @@ public class StageListener implements ApplicationListener {
 	private Viewport viewPort;
 	public ShapeRenderer shapeRenderer;
 	private PenActor penActor;
+	private EmbroideryActor embroideryActor;
+	public EmbroideryList embroideryList;
+	private float screenRatio;
 
 	private List<Sprite> sprites;
 
@@ -153,7 +155,9 @@ public class StageListener implements ApplicationListener {
 
 	public boolean axesOn = false;
 
-	private byte[] thumbnail;
+	private static final int Z_LAYER_PEN_ACTOR = 1;
+	private static final int Z_LAYER_EMBROIDERY_ACTOR = 2;
+
 	private Map<String, StageBackup> stageBackupMap = new HashMap<>();
 
 	private InputListener inputListener = null;
@@ -193,12 +197,13 @@ public class StageListener implements ApplicationListener {
 		stage.addActor(passepartout);
 
 		axes = new Texture(Gdx.files.internal("stage/red_pixel.bmp"));
-		skipFirstFrameForAutomaticScreenshot = true;
-		if (checkIfAutomaticScreenshotShouldBeTaken) {
-			makeAutomaticScreenshot = project.manualScreenshotExists(SCREENSHOT_MANUAL_FILE_NAME)
-					|| scene.hasScreenshot();
-		}
 		FaceDetectionHandler.resumeFaceDetection();
+
+		embroideryList = new EmbroideryList();
+	}
+
+	public void setPaused(boolean paused) {
+		this.paused = paused;
 	}
 
 	private void createNewStage() {
@@ -228,12 +233,16 @@ public class StageListener implements ApplicationListener {
 			sprite.resetSprite();
 			sprite.look.createBrightnessContrastHueShader();
 			stage.addActor(sprite.look);
-
-			if (sprites.indexOf(sprite) == 0) {
-				penActor = new PenActor();
-				stage.addActor(penActor);
-			}
 		}
+
+		penActor = new PenActor();
+		stage.addActor(penActor);
+		penActor.setZIndex(Z_LAYER_PEN_ACTOR);
+
+		screenRatio = calculateScreenRatio();
+		embroideryActor = new EmbroideryActor(screenRatio);
+		stage.addActor(embroideryActor);
+		embroideryActor.setZIndex(Z_LAYER_EMBROIDERY_ACTOR);
 	}
 
 	public void cloneSpriteAndAddToStage(Sprite cloneMe) {
@@ -302,23 +311,19 @@ public class StageListener implements ApplicationListener {
 		stage.addListener(inputListener);
 	}
 
-	void menuResume() {
+	public void menuResume() {
 		if (reloadProject) {
 			return;
 		}
 		paused = false;
-
-		FaceDetectionHandler.resumeFaceDetection();
-		SoundManager.getInstance().resume();
 	}
 
-	void menuPause() {
+	public void menuPause() {
 		if (finished || reloadProject) {
 			return;
 		}
 
 		paused = true;
-		SoundManager.getInstance().pause();
 	}
 
 	public void transitionToScene(String sceneName) {
@@ -382,6 +387,7 @@ public class StageListener implements ApplicationListener {
 		VibratorUtil.reset();
 		TouchUtil.reset();
 		removeAllClonedSpritesFromStage();
+		embroideryList.clear();
 
 		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
 			scene.firstStart = true;
@@ -415,20 +421,21 @@ public class StageListener implements ApplicationListener {
 
 	public void finish() {
 		SoundManager.getInstance().clear();
-		if (thumbnail != null && !makeAutomaticScreenshot) {
-			saveScreenshot(thumbnail, SCREENSHOT_AUTOMATIC_FILE_NAME);
-		}
 		PhysicsShapeBuilder.getInstance().reset();
-		CameraManager.getInstance().setToDefaultCamera();
+		if (CameraManager.getInstance() != null) {
+			CameraManager.getInstance().setToDefaultCamera();
+		}
 		if (penActor != null) {
 			penActor.dispose();
 		}
+
+		embroideryList = null;
 		finished = true;
 	}
 
 	@Override
 	public void render() {
-		if (CameraManager.getInstance().getState() == CameraManager.CameraState.previewRunning) {
+		if (CameraManager.getInstance() != null && CameraManager.getInstance().getState() == CameraManager.CameraState.previewRunning) {
 			Gdx.gl20.glClearColor(0f, 0f, 0f, 0f);
 		} else {
 			Gdx.gl20.glClearColor(1f, 1f, 1f, 0f);
@@ -440,6 +447,9 @@ public class StageListener implements ApplicationListener {
 			if (penActor != null) {
 				penActor.dispose();
 			}
+
+			embroideryList.clear();
+
 			SoundManager.getInstance().clear();
 
 			physicsWorld = scene.resetPhysicsWorld();
@@ -499,16 +509,6 @@ public class StageListener implements ApplicationListener {
 		if (!finished) {
 			stage.draw();
 			firstFrameDrawn = true;
-		}
-
-		if (makeAutomaticScreenshot) {
-			if (skipFirstFrameForAutomaticScreenshot) {
-				skipFirstFrameForAutomaticScreenshot = false;
-			} else {
-				thumbnail = ScreenUtils
-						.getFrameBufferPixels(screenshotX, screenshotY, screenshotWidth, screenshotHeight, true);
-				makeAutomaticScreenshot = false;
-			}
 		}
 
 		if (makeScreenshot) {
@@ -593,18 +593,17 @@ public class StageListener implements ApplicationListener {
 		disposeClonedSprites();
 	}
 
-	public boolean makeManualScreenshot() {
+	public boolean takeScreenshot(String screenshotName) {
 		makeScreenshot = true;
 		while (makeScreenshot) {
 			Thread.yield();
 		}
-		return saveScreenshot(this.screenshot, SCREENSHOT_MANUAL_FILE_NAME);
+		return saveScreenshot(screenshot, screenshotName);
 	}
 
 	private boolean saveScreenshot(byte[] screenshot, String fileName) {
 		int length = screenshot.length;
 		Bitmap fullScreenBitmap;
-		Bitmap centerSquareBitmap;
 		int[] colors = new int[length / 4];
 
 		if (colors.length != screenshotWidth * screenshotHeight || colors.length == 0) {
@@ -618,23 +617,11 @@ public class StageListener implements ApplicationListener {
 		fullScreenBitmap = Bitmap.createBitmap(colors, 0, screenshotWidth, screenshotWidth, screenshotHeight,
 				Config.ARGB_8888);
 
-		if (screenshotWidth < screenshotHeight) {
-			int verticalMargin = (screenshotHeight - screenshotWidth) / 2;
-			centerSquareBitmap = Bitmap.createBitmap(fullScreenBitmap, 0, verticalMargin, screenshotWidth,
-					screenshotWidth);
-		} else if (screenshotWidth > screenshotHeight) {
-			int horizontalMargin = (screenshotWidth - screenshotHeight) / 2;
-			centerSquareBitmap = Bitmap.createBitmap(fullScreenBitmap, horizontalMargin, 0, screenshotHeight,
-					screenshotHeight);
-		} else {
-			centerSquareBitmap = Bitmap.createBitmap(fullScreenBitmap, 0, 0, screenshotWidth, screenshotHeight);
-		}
-
 		FileHandle imageScene = Gdx.files.absolute(pathForSceneScreenshot + fileName);
 		OutputStream streamScene = imageScene.write(false);
 		try {
 			new File(pathForSceneScreenshot + Constants.NO_MEDIA_FILE).createNewFile();
-			centerSquareBitmap.compress(Bitmap.CompressFormat.PNG, 100, streamScene);
+			fullScreenBitmap.compress(Bitmap.CompressFormat.PNG, 100, streamScene);
 			streamScene.close();
 		} catch (IOException e) {
 			return false;
@@ -667,10 +654,6 @@ public class StageListener implements ApplicationListener {
 		}
 
 		initScreenMode();
-
-		if (checkIfAutomaticScreenshotShouldBeTaken) {
-			makeAutomaticScreenshot = project.manualScreenshotExists(SCREENSHOT_MANUAL_FILE_NAME);
-		}
 	}
 
 	public void clearBackground() {
@@ -757,6 +740,7 @@ public class StageListener implements ApplicationListener {
 		List<Sprite> sprites;
 		Array<Actor> actors;
 		PenActor penActor;
+		EmbroideryList embroideryList;
 		Map<Sprite, ShowBubbleActor> bubbleActorMap;
 
 		boolean paused;
@@ -784,13 +768,16 @@ public class StageListener implements ApplicationListener {
 		backup.actors = new Array<>(stage.getActors());
 		backup.penActor = penActor;
 		backup.bubbleActorMap = new HashMap<>(bubbleActorMap);
+		backup.embroideryList = embroideryList;
 
 		backup.paused = paused;
 		backup.finished = finished;
 		backup.reloadProject = reloadProject;
-		backup.flashState = FlashUtil.isOn();
-		if (backup.flashState) {
-			FlashUtil.flashOff();
+		if (CameraManager.getInstance() != null) {
+			backup.flashState = FlashUtil.isOn();
+			if (backup.flashState) {
+				FlashUtil.flashOff();
+			}
 		}
 		backup.timeToVibrate = VibratorUtil.getTimeToVibrate();
 		backup.physicsWorld = physicsWorld;
@@ -802,9 +789,11 @@ public class StageListener implements ApplicationListener {
 
 		backup.axesOn = axesOn;
 		backup.deltaActionTimeDivisor = deltaActionTimeDivisor;
-		backup.cameraRunning = CameraManager.getInstance().isCameraActive();
-		if (backup.cameraRunning) {
-			CameraManager.getInstance().pauseForScene();
+		if (CameraManager.getInstance() != null) {
+			backup.cameraRunning = CameraManager.getInstance().isCameraActive();
+			if (backup.cameraRunning) {
+				CameraManager.getInstance().pauseForScene();
+			}
 		}
 
 		return backup;
@@ -824,10 +813,12 @@ public class StageListener implements ApplicationListener {
 		bubbleActorMap.clear();
 		bubbleActorMap.putAll(backup.bubbleActorMap);
 
+		embroideryList = backup.embroideryList;
+
 		paused = backup.paused;
 		finished = backup.finished;
 		reloadProject = backup.reloadProject;
-		if (backup.flashState) {
+		if (CameraManager.getInstance() != null && backup.flashState) {
 			FlashUtil.flashOn();
 		}
 		if (backup.timeToVibrate > 0) {
@@ -844,8 +835,17 @@ public class StageListener implements ApplicationListener {
 		viewPort = backup.viewPort;
 		axesOn = backup.axesOn;
 		deltaActionTimeDivisor = backup.deltaActionTimeDivisor;
-		if (backup.cameraRunning) {
+		if (CameraManager.getInstance() != null && backup.cameraRunning) {
 			CameraManager.getInstance().resumeForScene();
 		}
+	}
+
+	private float calculateScreenRatio() {
+		DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
+		XmlHeader header = ProjectManager.getInstance().getCurrentProject().getXmlHeader();
+		float deviceDiagonalPixel = (float) Math.sqrt(Math.pow(metrics.widthPixels, 2) + Math.pow(metrics.heightPixels, 2));
+		float creatorDiagonalPixel = (float) Math.sqrt(Math.pow(header.getVirtualScreenWidth(), 2)
+				+ Math.pow(header.getVirtualScreenHeight(), 2));
+		return creatorDiagonalPixel / deviceDiagonalPixel;
 	}
 }

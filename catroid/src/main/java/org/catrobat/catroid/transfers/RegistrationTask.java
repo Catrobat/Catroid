@@ -31,11 +31,13 @@ import android.util.Log;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.utils.DeviceSettingsProvider;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.UtilDeviceInfo;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
+
+import java.util.Locale;
 
 public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 
@@ -83,8 +85,8 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 				return false;
 			}
 
-			String language = UtilDeviceInfo.getUserLanguageCode();
-			String country = UtilDeviceInfo.getUserCountryCode();
+			String language = Locale.getDefault().getLanguage();
+			String country = DeviceSettingsProvider.getUserCountryCode();
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 

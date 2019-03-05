@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class LoopEndBrick extends BrickBaseType implements NestingBrick, AllowedAfterDeadEndBrick {
+public class LoopEndBrick extends BrickBaseType implements ControlStructureBrick {
 
 	private static final long serialVersionUID = 1L;
 	private transient LoopBeginBrick loopBeginBrick;
@@ -51,6 +51,11 @@ public class LoopEndBrick extends BrickBaseType implements NestingBrick, Allowed
 	}
 
 	@Override
+	public boolean hasHelpPage() {
+		return false;
+	}
+
+	@Override
 	public int getViewResource() {
 		return R.layout.brick_loop_end;
 	}
@@ -63,26 +68,21 @@ public class LoopEndBrick extends BrickBaseType implements NestingBrick, Allowed
 	}
 
 	@Override
-	public boolean isDraggableOver(Brick brick) {
-		return (loopBeginBrick != null);
+	public Brick getFirstBrick() {
+		return (Brick) loopBeginBrick;
 	}
 
 	@Override
-	public boolean isInitialized() {
-		return (loopBeginBrick != null);
+	public Brick getLastBrick() {
+		return this;
 	}
 
 	@Override
-	public void initialize() {
-		loopBeginBrick = new ForeverBrick();
-	}
-
-	@Override
-	public List<NestingBrick> getAllNestingBrickParts() {
-		List<NestingBrick> nestingBrickList = new ArrayList<>();
-		nestingBrickList.add(loopBeginBrick);
-		nestingBrickList.add(this);
-		return nestingBrickList;
+	public List<Brick> getAllParts() {
+		List<Brick> parts = new ArrayList<>();
+		parts.add((Brick) loopBeginBrick);
+		parts.add(this);
+		return parts;
 	}
 
 	@Override

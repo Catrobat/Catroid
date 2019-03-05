@@ -237,7 +237,7 @@ public class DataListFragment extends Fragment implements
 	}
 
 	public void showDeleteAlert(final List<UserData> selectedItems) {
-		new AlertDialog.Builder(getActivity())
+		new AlertDialog.Builder(getContext())
 				.setTitle(R.string.deletion_alert_title)
 				.setMessage(R.string.deletion_alert_text)
 				.setPositiveButton(R.string.deletion_alert_yes, new DialogInterface.OnClickListener() {
@@ -248,7 +248,6 @@ public class DataListFragment extends Fragment implements
 				})
 				.setNegativeButton(R.string.no, null)
 				.setCancelable(false)
-				.create()
 				.show();
 	}
 
@@ -279,7 +278,6 @@ public class DataListFragment extends Fragment implements
 
 		builder.setTitle(R.string.rename_data_dialog)
 				.setNegativeButton(R.string.cancel, null)
-				.create()
 				.show();
 	}
 

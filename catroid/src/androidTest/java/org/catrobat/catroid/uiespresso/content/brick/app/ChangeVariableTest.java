@@ -53,6 +53,7 @@ import static org.hamcrest.Matchers.allOf;
 
 @RunWith(AndroidJUnit4.class)
 public class ChangeVariableTest {
+
 	private ChangeVariableBrick changeVariableBrick;
 
 	@Rule
@@ -85,9 +86,8 @@ public class ChangeVariableTest {
 		onFormulaEditor()
 				.performOpenDataFragment();
 		onDataList()
-				.onVariableAtPosition(0).performDelete();
-		onDataList()
-				.performClose();
+				.onVariableAtPosition(0)
+				.performDelete();
 
 		onView(allOf(withText(userVariableName), hasSibling(withText("0.0"))))
 				.check(doesNotExist());
@@ -114,8 +114,13 @@ public class ChangeVariableTest {
 		performNewVariableFromFormulaEditor(1, userVariableName);
 
 		onBrickAtPosition(1)
-				.performCopyBrick();
+				.performClick();
+		onView(withText(R.string.brick_context_dialog_copy_brick))
+				.perform(click());
+		onBrickAtPosition(0).perform(click());
+
 		performNewVariableFromFormulaEditor(1, userVariableName2);
+
 		onBrickAtPosition(1).performDragNDrop(BrickCoordinatesProvider.DOWN_ONE_POSITION);
 		onBrickAtPosition(1).onVariableSpinner(R.id.change_variable_spinner)
 				.checkShowsVariableNamesInAdapter(Arrays.asList(userVariableName, userVariableName2));

@@ -43,6 +43,7 @@ import java.util.Arrays;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -111,7 +112,9 @@ public class SetVariableTest {
 	public void testIfSetVariableSpinnerCanHoldMultipleVariables() {
 		String userVariableName = "testVariable1";
 		String userVariableNameTwo = "testVariable2";
+
 		addNewVariableViaFormulaEditor(1, userVariableName);
+
 		onView(withId(R.id.formula_editor_keyboard_ok))
 				.perform(click());
 		onBrickAtPosition(1).onVariableSpinner(R.id.set_variable_spinner)
@@ -121,7 +124,7 @@ public class SetVariableTest {
 				.checkNameableValuesAvailable(Arrays.asList(userVariableName, userVariableNameTwo));
 	}
 
-	public void addNewVariableViaFormulaEditor(int brickPosition, String userVariableName) {
+	private void addNewVariableViaFormulaEditor(int brickPosition, String userVariableName) {
 		onBrickAtPosition(brickPosition).onChildView(withId(R.id.brick_set_variable_edit_text))
 				.perform(click());
 		onView(withId(R.id.formula_editor_keyboard_data))
@@ -129,10 +132,10 @@ public class SetVariableTest {
 		onView(withId(R.id.button_add))
 				.perform(click());
 		onView(withId(R.id.input_edit_text))
-				.perform(typeText(userVariableName));
+				.perform(typeText(userVariableName), closeSoftKeyboard());
 		onView(withText(R.string.ok))
 				.perform(click());
-		onView(allOf(withChild(withText(userVariableName)), withChild(withText("0.0"))))
+		onView(allOf(withChild(withText(userVariableName)), withChild(withText("0"))))
 				.check(matches(isDisplayed()));
 		pressBack();
 	}

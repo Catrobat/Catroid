@@ -40,7 +40,6 @@ import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.ProjectListActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
-import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewActions;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -48,8 +47,10 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -86,7 +87,7 @@ public class RenameProjectTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void renameProjectTest() {
-		RecyclerViewActions.openOverflowMenu();
+		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
 		onView(withText(R.string.rename)).perform(click());
 
 		onRecyclerView().atPosition(0)
@@ -113,7 +114,7 @@ public class RenameProjectTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void cancelRenameProjectTest() {
-		RecyclerViewActions.openOverflowMenu();
+		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
 		onView(withText(R.string.rename)).perform(click());
 
 		onRecyclerView().atPosition(0)
@@ -138,7 +139,7 @@ public class RenameProjectTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void invalidInputRenameProjectTest() {
-		RecyclerViewActions.openOverflowMenu();
+		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
 		onView(withText(R.string.rename)).perform(click());
 
 		onRecyclerView().atPosition(0)

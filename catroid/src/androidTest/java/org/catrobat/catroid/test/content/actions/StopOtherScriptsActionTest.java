@@ -67,10 +67,9 @@ public class StopOtherScriptsActionTest {
 	private Project createProjectWithSprite(Sprite sprite) {
 		Project project = new Project(InstrumentationRegistry.getInstrumentation().getTargetContext(), "testProject");
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentScript(startScript1);
 		StageActivity.stageListener = null;
 		return project;
 	}

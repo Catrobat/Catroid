@@ -25,13 +25,12 @@ package org.catrobat.catroid.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.annotation.StringRes;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.view.ViewGroup;
-
-import com.github.mrengineer13.snackbar.SnackBar;
+import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
@@ -41,44 +40,37 @@ import java.util.Set;
 
 public final class SnackbarUtil {
 
-	private static ViewGroup activeSnack = null;
+	private static final int MAX_LINES = 5;
 
 	private SnackbarUtil() {
+		throw new AssertionError("no");
 	}
 
 	public static final String SHOWN_HINT_LIST = "shown_hint_list";
 
 	public static void showHintSnackbar(final Activity activity, @StringRes int resourceId) {
 		final String messageId = activity.getResources().getResourceName(resourceId);
-		final String message = activity.getString(resourceId);
 
 		if (!wasHintAlreadyShown(activity, messageId) && areHintsEnabled(activity)) {
-			SnackBar.Builder snackBarBuilder = new SnackBar.Builder(activity)
-					.withMessage(message)
-					.withActionMessage(activity.getResources().getString(R.string.got_it))
-					.withTextColorId(R.color.solid_black)
-					.withBackgroundColorId(R.color.snackbar)
-					.withOnClickListener(new SnackBar.OnMessageClickListener() {
-						@Override
-						public void onMessageClick(Parcelable token) {
-							setHintShown(activity, messageId);
-						}
-					})
-					.withDuration(SnackBar.PERMANENT_SNACK);
-			ViewGroup viewGroup = (ViewGroup) snackBarBuilder.show().getContainerView();
-			activeSnack = viewGroup;
-		}
-	}
+			View contentView = activity.findViewById(android.R.id.content);
+			if (contentView == null) {
+				return;
+			}
 
-	public static void hideActiveSnack() {
-		if (activeSnack != null) {
-			activeSnack.setVisibility(View.INVISIBLE);
-		}
-	}
-
-	public static void showActiveSnack() {
-		if (activeSnack != null) {
-			activeSnack.setVisibility(View.VISIBLE);
+			Snackbar snackbar = Snackbar.make(contentView, resourceId, Snackbar.LENGTH_INDEFINITE);
+			snackbar.setAction(R.string.got_it, new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					setHintShown(activity, messageId);
+				}
+			});
+			snackbar.setActionTextColor(ContextCompat.getColor(activity, R.color.solid_black));
+			View snackbarView = snackbar.getView();
+			TextView textView = snackbarView.findViewById(android.support.design.R.id.snackbar_text);
+			textView.setMaxLines(MAX_LINES);
+			textView.setTextColor(ContextCompat.getColor(activity, R.color.solid_white));
+			snackbarView.setBackgroundColor(ContextCompat.getColor(activity, R.color.snackbar));
+			snackbar.show();
 		}
 	}
 

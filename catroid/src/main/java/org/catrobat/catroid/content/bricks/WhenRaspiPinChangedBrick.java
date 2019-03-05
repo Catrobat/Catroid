@@ -72,22 +72,6 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 		return view;
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-
-		Spinner pinSpinner = prototypeView.findViewById(R.id.brick_raspi_when_pinspinner);
-
-		ArrayAdapter<String> messageAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
-		messageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		messageAdapter.add(script.getPin());
-		pinSpinner.setAdapter(messageAdapter);
-
-		Spinner valueSpinner = prototypeView.findViewById(R.id.brick_raspi_when_valuespinner);
-		valueSpinner.setAdapter(getValueSpinnerArrayAdapter(context));
-		return prototypeView;
-	}
-
 	private void setupPinSpinner(Context context) {
 		final Spinner pinSpinner = view.findViewById(R.id.brick_raspi_when_pinspinner);
 

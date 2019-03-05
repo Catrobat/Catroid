@@ -25,6 +25,7 @@ package org.catrobat.catroid.test.pocketmusic.note.trackgrid;
 
 import android.support.test.runner.AndroidJUnit4;
 
+import org.catrobat.catroid.pocketmusic.note.NoteLength;
 import org.catrobat.catroid.pocketmusic.note.trackgrid.GridRowPosition;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,32 +42,32 @@ public class GridRowPositionTest {
 
 	@Test
 	public void testEquals1() {
-		GridRowPosition gridRowPosition = GridRowPositionTestDataFactory.createSimpleGridRowPosition();
-		GridRowPosition secondGridRowPosition = GridRowPositionTestDataFactory.createSimpleGridRowPosition();
+		GridRowPosition gridRowPosition = new GridRowPosition(0, NoteLength.QUARTER);
+		GridRowPosition secondGridRowPosition = new GridRowPosition(0, NoteLength.QUARTER);
 
 		assertEquals(gridRowPosition, secondGridRowPosition);
 	}
 
 	@Test
 	public void testEquals2() {
-		GridRowPosition gridRowPosition = GridRowPositionTestDataFactory.createSimpleGridRowPosition();
-		GridRowPosition secondGridRowPosition = GridRowPositionTestDataFactory.createGridRowPositionWithOffset();
+		GridRowPosition gridRowPosition = new GridRowPosition(0, NoteLength.QUARTER);
+		GridRowPosition secondGridRowPosition = new GridRowPosition(4, NoteLength.QUARTER);
 
 		assertThat(gridRowPosition, is(not(equalTo(secondGridRowPosition))));
 	}
 
 	@Test
 	public void testEquals3() {
-		GridRowPosition gridRowPosition = GridRowPositionTestDataFactory.createGridRowPositionWithHalf();
-		GridRowPosition secondGridRowPosition = GridRowPositionTestDataFactory.createGridRowPositionWithOffset();
+		GridRowPosition gridRowPosition = new GridRowPosition(4, NoteLength.HALF);
+		GridRowPosition secondGridRowPosition = new GridRowPosition(4, NoteLength.QUARTER);
 
 		assertThat(gridRowPosition, is(not(equalTo(secondGridRowPosition))));
 	}
 
 	@Test
 	public void testHashCodeEquals() {
-		GridRowPosition gridRowPosition = GridRowPositionTestDataFactory.createSimpleGridRowPosition();
-		GridRowPosition secondGridRowPosition = GridRowPositionTestDataFactory.createSimpleGridRowPosition();
+		GridRowPosition gridRowPosition = new GridRowPosition(0, NoteLength.QUARTER);
+		GridRowPosition secondGridRowPosition = new GridRowPosition(0, NoteLength.QUARTER);
 
 		assertEquals(gridRowPosition.hashCode(), secondGridRowPosition.hashCode());
 	}

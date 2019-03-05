@@ -36,6 +36,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
+import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -43,6 +44,9 @@ import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
+import org.catrobat.catroid.formulaeditor.SensorLoudness;
+
+import static org.catrobat.catroid.utils.NumberFormats.stringWithoutTrailingZero;
 
 public class FormulaEditorComputeDialog extends AlertDialog implements SensorEventListener {
 
@@ -71,15 +75,15 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 	public void setFormula(Formula formula) {
 		formulaToCompute = formula;
 
-		if (formula.containsElement(ElementType.SENSOR)) {
-			SensorHandler.startSensorListener(context);
-			SensorHandler.registerListener(this);
-		}
-
 		Brick.ResourcesSet resourcesSet = new Brick.ResourcesSet();
 		formula.addRequiredResources(resourcesSet);
 
+		if (resourcesSet.contains(Brick.MICROPHONE)) {
+			SensorHandler.getInstance(getContext()).setSensorLoudness(new SensorLoudness());
+		}
+
 		if (resourcesSet.contains(Brick.FACE_DETECTION)) {
+			CameraManager.makeInstance();
 			FaceDetectionHandler.startFaceDetection();
 		}
 
@@ -101,6 +105,11 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 		if (resourcesSet.contains(Brick.BLUETOOTH_PHIRO)) {
 			BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 			btService.connectDevice(BluetoothDevice.PHIRO, this.getContext());
+		}
+
+		if (formula.containsElement(ElementType.SENSOR)) {
+			SensorHandler.startSensorListener(context);
+			SensorHandler.registerListener(this);
 		}
 	}
 
@@ -126,7 +135,7 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 		}
 
 		String result = formulaToCompute.getResultForComputeDialog(context);
-		setDialogTextView(result);
+		setDialogTextView(stringWithoutTrailingZero(result));
 	}
 
 	@Override

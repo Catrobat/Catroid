@@ -59,10 +59,8 @@ public class ThinkForBubbleBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-		setSecondsLabel(prototypeView, BrickField.DURATION_IN_SECONDS);
-		return prototypeView;
+	protected BrickField getDefaultBrickField() {
+		return BrickField.STRING;
 	}
 
 	@Override

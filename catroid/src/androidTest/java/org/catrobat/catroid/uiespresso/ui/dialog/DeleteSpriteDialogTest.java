@@ -34,7 +34,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
-import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewActions;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.Before;
@@ -43,7 +42,9 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -74,7 +75,7 @@ public class DeleteSpriteDialogTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void deleteSpriteDialogTest() {
-		RecyclerViewActions.openOverflowMenu();
+		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
 		onView(withText(R.string.delete)).perform(click());
 
 		onRecyclerView().atPosition(2)
@@ -104,7 +105,7 @@ public class DeleteSpriteDialogTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void cancelDeleteSpriteDialogTest() {
-		RecyclerViewActions.openOverflowMenu();
+		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
 		onView(withText(R.string.delete)).perform(click());
 
 		onRecyclerView().atPosition(2)
@@ -144,7 +145,7 @@ public class DeleteSpriteDialogTest {
 		project.getDefaultScene().addSprite(firstSprite);
 		project.getDefaultScene().addSprite(secondSprite);
 
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 	}
 }

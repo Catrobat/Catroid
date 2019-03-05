@@ -24,14 +24,10 @@ package org.catrobat.catroid.uiespresso.util.rules;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Environment;
 import android.support.test.rule.ActivityTestRule;
 import android.util.Log;
 
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.io.StorageOperations;
-import org.catrobat.catroid.stage.StageListener;
-import org.catrobat.catroid.test.utils.Reflection;
+import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
@@ -39,7 +35,7 @@ import org.junit.runners.model.Statement;
 import java.io.File;
 import java.io.IOException;
 
-import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+import static org.catrobat.catroid.io.StorageOperations.deleteDir;
 
 public class BaseActivityInstrumentationRule<T extends Activity> extends ActivityTestRule<T> {
 
@@ -48,17 +44,31 @@ public class BaseActivityInstrumentationRule<T extends Activity> extends Activit
 
 	public BaseActivityInstrumentationRule(Class<T> activityClass, boolean initialTouchMode, boolean launchActivity) {
 		super(activityClass, initialTouchMode, launchActivity);
-		setUpTestProjectFolder();
+		deleteAllProjects();
 	}
 
 	public BaseActivityInstrumentationRule(Class<T> activityClass, boolean initialTouchMode) {
 		super(activityClass, initialTouchMode);
-		setUpTestProjectFolder();
+		deleteAllProjects();
 	}
 
 	public BaseActivityInstrumentationRule(Class<T> activityClass) {
 		super(activityClass);
-		setUpTestProjectFolder();
+		deleteAllProjects();
+	}
+
+	public void deleteAllProjects() {
+		if (FlavoredConstants.DEFAULT_ROOT_DIRECTORY.exists() && FlavoredConstants.DEFAULT_ROOT_DIRECTORY.isDirectory()) {
+			for (File file : FlavoredConstants.DEFAULT_ROOT_DIRECTORY.listFiles()) {
+				if (file.isDirectory()) {
+					try {
+						deleteDir(file);
+					} catch (IOException ioException) {
+						Log.d(TAG, "unable to delete project " + file.getName());
+					}
+				}
+			}
+		}
 	}
 
 	public BaseActivityInstrumentationRule(Class<T> activityClass, String extraFragementPosition, int fragment) {
@@ -69,31 +79,6 @@ public class BaseActivityInstrumentationRule<T extends Activity> extends Activit
 
 	public void launchActivity() {
 		super.launchActivity(launchIntent);
-	}
-
-	void setUpTestProjectFolder() {
-		try {
-			Reflection.setPrivateField(StageListener.class, "checkIfAutomaticScreenshotShouldBeTaken", false);
-			Reflection.setPrivateField(Constants.class, "DEFAULT_ROOT_DIRECTORY",
-					new File(Environment.getExternalStorageDirectory(), "Pocket Code UiTest"));
-		} catch (Exception e) {
-			Log.e(TAG, "Error setting default root directory", e);
-		}
-
-		if (DEFAULT_ROOT_DIRECTORY.exists()) {
-			try {
-				StorageOperations.deleteDir(DEFAULT_ROOT_DIRECTORY);
-			} catch (IOException e) {
-				Log.e(TAG, "Error deleting root directory:", e);
-			}
-		}
-
-		try {
-			StorageOperations.createDir(DEFAULT_ROOT_DIRECTORY);
-		} catch (IOException e) {
-			throw new RuntimeException("What a terrible failure! Cannot create root directory: "
-					+ DEFAULT_ROOT_DIRECTORY.getAbsolutePath());
-		}
 	}
 
 	//http://stackoverflow.com/questions/8295100/how-to-re-run-failed-junit-tests-immediately

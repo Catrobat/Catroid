@@ -68,7 +68,9 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({NONE, BACKPACK, COPY, DELETE, RENAME})
-	@interface ActionModeType {}
+	@interface ActionModeType {
+	}
+
 	protected static final int NONE = 0;
 	protected static final int BACKPACK = 1;
 	protected static final int COPY = 2;
@@ -227,7 +229,6 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	@Override
 	public void onResume() {
 		super.onResume();
-		setShowProgressBar(false);
 
 		BackpackListManager.getInstance().loadBackpack();
 
@@ -342,7 +343,6 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	protected void finishActionMode() {
 		adapter.clearSelection();
 		setShowProgressBar(false);
-
 		if (actionModeType != NONE) {
 			actionMode.finish();
 		}
@@ -411,7 +411,6 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 				})
 				.setNegativeButton(R.string.no, null)
 				.setCancelable(false)
-				.create()
 				.show();
 	}
 
@@ -434,7 +433,6 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 
 		builder.setTitle(getRenameDialogTitle())
 				.setNegativeButton(R.string.cancel, null)
-				.create()
 				.show();
 	}
 

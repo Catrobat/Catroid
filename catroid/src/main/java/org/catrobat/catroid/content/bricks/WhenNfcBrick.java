@@ -166,17 +166,6 @@ public class WhenNfcBrick extends BrickBaseType implements ScriptBrick {
 		return arrayAdapter;
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-		Spinner nfcSpinner = prototypeView.findViewById(R.id.brick_when_nfc_spinner);
-
-		SpinnerAdapter nfcSpinnerAdapter = createNfcTagAdapter(context); //NfcTagContainer.getMessageAdapter(context);
-		nfcSpinner.setAdapter(nfcSpinnerAdapter);
-		setSpinnerSelection(nfcSpinner);
-		return prototypeView;
-	}
-
 	private class SpinnerAdapterWrapper implements SpinnerAdapter {
 
 		protected Context context;

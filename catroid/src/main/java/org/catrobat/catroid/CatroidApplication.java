@@ -52,6 +52,7 @@ public class CatroidApplication extends MultiDexApplication {
 	public void onCreate() {
 		super.onCreate();
 		Log.d(TAG, "CatroidApplication onCreate");
+		Log.d(TAG, "git commit info: " + BuildConfig.GIT_COMMIT_INFO);
 
 		CrashReporter.initialize(this);
 
@@ -99,7 +100,7 @@ public class CatroidApplication extends MultiDexApplication {
 	}
 
 	@SuppressWarnings("PMD.AvoidUsingNativeCode")
-	public static synchronized boolean loadSDKLib() {
+	public static synchronized boolean loadJumpingSumoSDKLib() {
 		if (parrotJSLibrariesLoaded) {
 			return true;
 		}

@@ -38,28 +38,17 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.IfElseLogicBeginBrick;
-import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
-import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
-import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
-import org.catrobat.catroid.content.bricks.IfThenLogicEndBrick;
-import org.catrobat.catroid.content.bricks.LoopBeginBrick;
-import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
-import org.catrobat.catroid.ui.controller.BackpackListManager;
+import org.catrobat.catroid.ui.recyclerview.controller.BrickController;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
-import org.catrobat.catroid.utils.PathBuilder;
-import org.catrobat.catroid.utils.Utils;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -74,9 +63,10 @@ public final class ProjectManager {
 	private Scene currentlyEditedScene;
 	private Scene currentlyPlayingScene;
 	private Scene startScene;
-	private Script currentScript;
 	private Sprite currentSprite;
 	private UserBrick currentUserBrick;
+
+	private BrickController brickController = new BrickController();
 
 	private ProjectManager() {
 	}
@@ -115,7 +105,6 @@ public final class ProjectManager {
 		if (project.getCatrobatLanguageVersion() == 0.91f) {
 			project.setCatrobatLanguageVersion(0.92f);
 			project.setScreenMode(ScreenModes.STRETCH);
-			checkNestingBrickReferences(false, false);
 		}
 
 		if (project.getCatrobatLanguageVersion() == 0.92f || project.getCatrobatLanguageVersion() == 0.93f) {
@@ -169,20 +158,23 @@ public final class ProjectManager {
 			project.setCatrobatLanguageVersion(0.998f);
 		}
 		if (project.getCatrobatLanguageVersion() == 0.998f) {
+			project.setCatrobatLanguageVersion(0.999f);
+		}
+		if (project.getCatrobatLanguageVersion() == 0.999f) {
 			project.setCatrobatLanguageVersion(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
 		}
 
 		//insert further conversions here
 
 		makeShallowCopiesDeepAgain(project);
-		checkNestingBrickReferences(true, false);
+		setControlBrickReferences(project);
 		updateCollisionScriptsSpriteReference(project);
 
 		if (project.getCatrobatLanguageVersion() == Constants.CURRENT_CATROBAT_LANGUAGE_VERSION) {
 			localizeBackgroundSprite(context);
 		} else {
 			restorePreviousProject(previousProject);
-			throw new CompatibilityProjectException(context.getString(R.string.error_project_compatability));
+			throw new CompatibilityProjectException(context.getString(R.string.error_project_compatibility));
 		}
 
 		project.loadLegoNXTSettingsFromProject(context);
@@ -258,7 +250,6 @@ public final class ProjectManager {
 	}
 
 	private void localizeBackgroundSprite(Context context) {
-		// Set generic localized name on background sprite and move it to the back.
 		if (currentlyEditedScene == null) {
 			return;
 		}
@@ -267,7 +258,6 @@ public final class ProjectManager {
 			currentlyEditedScene.getSpriteList().get(0).look.setZIndex(0);
 		}
 		currentSprite = null;
-		currentScript = null;
 
 		PreferenceManager.getDefaultSharedPreferences(context)
 				.edit()
@@ -291,7 +281,6 @@ public final class ProjectManager {
 		try {
 			project = DefaultProjectHandler.createAndSaveDefaultProject(context);
 			currentSprite = null;
-			currentScript = null;
 			currentlyEditedScene = project.getDefaultScene();
 			currentlyPlayingScene = currentlyEditedScene;
 			return true;
@@ -325,7 +314,6 @@ public final class ProjectManager {
 		}
 
 		currentSprite = null;
-		currentScript = null;
 		currentlyEditedScene = project.getDefaultScene();
 		currentlyPlayingScene = currentlyEditedScene;
 	}
@@ -370,51 +358,15 @@ public final class ProjectManager {
 		return virtualScreenWidth > virtualScreenHeight;
 	}
 
-	public void setProject(Project project) {
-		currentScript = null;
+	public void setCurrentProject(Project project) {
 		currentSprite = null;
 
 		this.project = project;
-		if (project != null) {
+
+		if (project != null && !project.getSceneList().isEmpty()) {
 			currentlyEditedScene = project.getDefaultScene();
 			currentlyPlayingScene = currentlyEditedScene;
 		}
-	}
-
-	public void setCurrentProject(Project project) {
-		this.project = project;
-	}
-
-	public boolean renameProject(String newProjectName, Context context) {
-		if (XstreamSerializer.getInstance().projectExists(newProjectName)) {
-			return false;
-		}
-
-		String oldProjectPath = PathBuilder.buildProjectPath(project.getName());
-		File oldProjectDirectory = new File(oldProjectPath);
-
-		String newProjectPath = PathBuilder.buildProjectPath(newProjectName);
-		File newProjectDirectory = new File(newProjectPath);
-
-		boolean directoryRenamed;
-
-		if (oldProjectPath.equalsIgnoreCase(newProjectPath)) {
-			String tmpProjectPath = PathBuilder.buildProjectPath(createTemporaryDirectoryName(newProjectName));
-			File tmpProjectDirectory = new File(tmpProjectPath);
-			directoryRenamed = oldProjectDirectory.renameTo(tmpProjectDirectory);
-			if (directoryRenamed) {
-				directoryRenamed = tmpProjectDirectory.renameTo(newProjectDirectory);
-			}
-		} else {
-			directoryRenamed = oldProjectDirectory.renameTo(newProjectDirectory);
-		}
-
-		if (directoryRenamed) {
-			project.setName(newProjectName);
-			saveProject(context);
-		}
-
-		return directoryRenamed;
 	}
 
 	public Sprite getCurrentSprite() {
@@ -425,21 +377,9 @@ public final class ProjectManager {
 		currentSprite = sprite;
 	}
 
-	public Script getCurrentScript() {
-		return currentScript;
-	}
-
 	public void setCurrentlyEditedScene(Scene scene) {
 		this.currentlyEditedScene = scene;
 		currentlyPlayingScene = scene;
-	}
-
-	public void setCurrentScript(Script script) {
-		if (script == null) {
-			currentScript = null;
-		} else if (currentSprite.getScriptIndex(script) != -1) {
-			currentScript = script;
-		}
 	}
 
 	public UserBrick getCurrentUserBrick() {
@@ -450,184 +390,13 @@ public final class ProjectManager {
 		currentUserBrick = brick;
 	}
 
-	public int getCurrentSpritePosition() {
-		return getCurrentlyEditedScene().getSpriteList().indexOf(currentSprite);
-	}
-
-	private String createTemporaryDirectoryName(String projectDirectoryName) {
-		String temporaryDirectorySuffix = "_tmp";
-		String temporaryDirectoryName = projectDirectoryName + temporaryDirectorySuffix;
-		int suffixCounter = 0;
-		while (Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase(temporaryDirectoryName)) {
-			temporaryDirectoryName = projectDirectoryName + temporaryDirectorySuffix + suffixCounter;
-			suffixCounter++;
-		}
-		return temporaryDirectoryName;
-	}
-
-	public boolean checkNestingBrickReferences(boolean assumeWrong, boolean inBackPack) {
-		boolean projectCorrect = true;
-		if (inBackPack) {
-
-			List<Sprite> spritesToCheck = BackpackListManager.getInstance().getSprites();
-
-			HashMap<String, List<Script>> backPackedScripts = BackpackListManager.getInstance().getBackpackedScripts();
-			for (String scriptGroup : backPackedScripts.keySet()) {
-				List<Script> scriptListToCheck = backPackedScripts.get(scriptGroup);
-				for (Script scriptToCheck : scriptListToCheck) {
-					checkCurrentScript(scriptToCheck, assumeWrong);
+	public void setControlBrickReferences(Project project) {
+		for (Scene scene : project.getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				for (Script script : sprite.getScriptList()) {
+					brickController.setControlBrickReferences(script.getBrickList());
 				}
 			}
-
-			for (Sprite currentSprite : spritesToCheck) {
-				if (!checkCurrentSprite(currentSprite, assumeWrong)) {
-					projectCorrect = false;
-				}
-			}
-		} else {
-			for (Scene scene : project.getSceneList()) {
-				if (ProjectManager.getInstance().getCurrentProject() == null) {
-					return false;
-				}
-
-				for (Sprite currentSprite : scene.getSpriteList()) {
-					if (!checkCurrentSprite(currentSprite, assumeWrong)) {
-						projectCorrect = false;
-					}
-				}
-			}
-		}
-		return projectCorrect;
-	}
-
-	public boolean checkCurrentSprite(Sprite currentSprite, boolean assumeWrong) {
-		boolean spriteCorrect = true;
-		int numberOfScripts = currentSprite.getNumberOfScripts();
-		for (int pos = 0; pos < numberOfScripts; pos++) {
-			Script script = currentSprite.getScript(pos);
-			if (!checkCurrentScript(script, assumeWrong)) {
-				spriteCorrect = false;
-			}
-		}
-		return spriteCorrect;
-	}
-
-	private boolean checkCurrentScript(Script script, boolean assumeWrong) {
-		boolean scriptCorrect = true;
-		if (assumeWrong) {
-			scriptCorrect = false;
-		}
-		for (Brick currentBrick : script.getBrickList()) {
-			if (!scriptCorrect) {
-				break;
-			}
-			scriptCorrect = checkReferencesOfCurrentBrick(currentBrick);
-		}
-		if (!scriptCorrect) {
-			correctAllNestedReferences(script);
-		}
-		return scriptCorrect;
-	}
-
-	private boolean checkReferencesOfCurrentBrick(Brick currentBrick) {
-		if (currentBrick instanceof IfThenLogicBeginBrick) {
-			IfThenLogicEndBrick endBrick = ((IfThenLogicBeginBrick) currentBrick).getIfThenEndBrick();
-			if (endBrick == null || endBrick.getIfBeginBrick() == null
-					|| !endBrick.getIfBeginBrick().equals(currentBrick)) {
-				Log.d(TAG, "Brick has wrong reference:" + currentSprite + " "
-						+ currentBrick);
-				return false;
-			}
-		} else if (currentBrick instanceof IfElseLogicBeginBrick) {
-			IfLogicElseBrick elseBrick = ((IfElseLogicBeginBrick) currentBrick).getIfElseBrick();
-			IfLogicEndBrick endBrick = ((IfElseLogicBeginBrick) currentBrick).getIfEndBrick();
-			if (elseBrick == null || endBrick == null || elseBrick.getIfBeginBrick() == null
-					|| elseBrick.getIfEndBrick() == null || endBrick.getIfBeginBrick() == null
-					|| endBrick.getIfElseBrick() == null
-					|| !elseBrick.getIfBeginBrick().equals(currentBrick)
-					|| !elseBrick.getIfEndBrick().equals(endBrick)
-					|| !endBrick.getIfBeginBrick().equals(currentBrick)
-					|| !endBrick.getIfElseBrick().equals(elseBrick)) {
-				Log.d(TAG, "Brick has wrong reference:" + currentSprite + " "
-						+ currentBrick);
-				return false;
-			}
-		} else if (currentBrick instanceof LoopBeginBrick) {
-			LoopEndBrick endBrick = ((LoopBeginBrick) currentBrick).getLoopEndBrick();
-			if (endBrick == null || endBrick.getLoopBeginBrick() == null
-					|| !endBrick.getLoopBeginBrick().equals(currentBrick)) {
-				Log.d(TAG, "Brick has wrong reference:" + currentSprite + " "
-						+ currentBrick);
-				return false;
-			}
-		}
-		return true;
-	}
-
-	private void correctAllNestedReferences(Script script) {
-		ArrayList<IfElseLogicBeginBrick> ifBeginList = new ArrayList<>();
-		ArrayList<IfThenLogicBeginBrick> ifThenBeginList = new ArrayList<>();
-		ArrayList<Brick> loopBeginList = new ArrayList<>();
-		ArrayList<Brick> bricksWithInvalidReferences = new ArrayList<>();
-
-		for (Brick currentBrick : script.getBrickList()) {
-			if (currentBrick instanceof IfThenLogicBeginBrick) {
-				ifThenBeginList.add((IfThenLogicBeginBrick) currentBrick);
-			} else if (currentBrick instanceof IfElseLogicBeginBrick) {
-				ifBeginList.add((IfElseLogicBeginBrick) currentBrick);
-			} else if (currentBrick instanceof LoopBeginBrick) {
-				loopBeginList.add(currentBrick);
-			} else if (currentBrick instanceof LoopEndBrick) {
-				if (loopBeginList.isEmpty()) {
-					Log.e(TAG, "Removing LoopEndBrick without reference to a LoopBeginBrick");
-					bricksWithInvalidReferences.add(currentBrick);
-					continue;
-				}
-				LoopBeginBrick loopBeginBrick = (LoopBeginBrick) loopBeginList.get(loopBeginList.size() - 1);
-				loopBeginBrick.setLoopEndBrick((LoopEndBrick) currentBrick);
-				((LoopEndBrick) currentBrick).setLoopBeginBrick(loopBeginBrick);
-				loopBeginList.remove(loopBeginBrick);
-			} else if (currentBrick instanceof IfLogicElseBrick) {
-				if (ifBeginList.isEmpty()) {
-					Log.e(TAG, "Removing IfLogicElseBrick without reference to an IfBeginBrick");
-					bricksWithInvalidReferences.add(currentBrick);
-					continue;
-				}
-				IfElseLogicBeginBrick ifBeginBrick = ifBeginList.get(ifBeginList.size() - 1);
-				ifBeginBrick.setIfElseBrick((IfLogicElseBrick) currentBrick);
-				((IfLogicElseBrick) currentBrick).setIfBeginBrick(ifBeginBrick);
-			} else if (currentBrick instanceof IfThenLogicEndBrick) {
-				if (ifThenBeginList.isEmpty()) {
-					Log.e(TAG, "Removing IfThenLogicEndBrick without reference to an IfBeginBrick");
-					bricksWithInvalidReferences.add(currentBrick);
-					continue;
-				}
-				IfThenLogicBeginBrick ifBeginBrick = ifThenBeginList.get(ifThenBeginList.size() - 1);
-				ifBeginBrick.setIfThenEndBrick((IfThenLogicEndBrick) currentBrick);
-				((IfThenLogicEndBrick) currentBrick).setIfThenBeginBrick(ifBeginBrick);
-				ifThenBeginList.remove(ifBeginBrick);
-			} else if (currentBrick instanceof IfLogicEndBrick) {
-				if (ifBeginList.isEmpty()) {
-					Log.e(TAG, "Removing IfLogicEndBrick without reference to an IfBeginBrick");
-					bricksWithInvalidReferences.add(currentBrick);
-					continue;
-				}
-				IfElseLogicBeginBrick ifBeginBrick = ifBeginList.get(ifBeginList.size() - 1);
-				IfLogicElseBrick elseBrick = ifBeginBrick.getIfElseBrick();
-				ifBeginBrick.setIfEndBrick((IfLogicEndBrick) currentBrick);
-				elseBrick.setIfEndBrick((IfLogicEndBrick) currentBrick);
-				((IfLogicEndBrick) currentBrick).setIfBeginBrick(ifBeginBrick);
-				((IfLogicEndBrick) currentBrick).setIfElseBrick(elseBrick);
-				ifBeginList.remove(ifBeginBrick);
-			}
-		}
-
-		bricksWithInvalidReferences.addAll(ifBeginList);
-		bricksWithInvalidReferences.addAll(ifThenBeginList);
-		bricksWithInvalidReferences.addAll(loopBeginList);
-
-		for (Brick brick : bricksWithInvalidReferences) {
-			script.removeBrick(brick);
 		}
 	}
 

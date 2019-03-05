@@ -68,8 +68,8 @@ public class LegoEv3MotorTurnAngleBrickTest {
 	public void legoEv3MotorTurnAngleBrickTest() {
 		int testAngle = 100;
 
-		onBrickAtPosition(0).checkShowsText("When program starts");
-		onBrickAtPosition(brickPosition).checkShowsText("Turn EV3 motor");
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.ev3_brick_motor_turn_angle);
 
 		onBrickAtPosition(brickPosition).onSpinner(R.id.lego_ev3_motor_turn_angle_spinner)
 				.checkShowsText(R.string.ev3_motor_a);

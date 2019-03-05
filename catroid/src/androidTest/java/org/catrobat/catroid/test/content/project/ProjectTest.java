@@ -23,6 +23,7 @@
 package org.catrobat.catroid.test.content.project;
 
 import android.content.pm.PackageInfo;
+import android.os.Build;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -46,6 +47,7 @@ public class ProjectTest {
 	private static final float OLD_LANGUAGE_VERSION = 0.8f;
 	private static final String OLD_APPLICATION_NAME = "catty";
 	private static final String OLD_PLATFORM = "iOS";
+	private static final String OLD_PLATFORM_VERSION = "1.0.0 beta";
 
 	@Test
 	public void testVersionName() throws Exception {
@@ -109,11 +111,13 @@ public class ProjectTest {
 		header.setCatrobatLanguageVersion(OLD_LANGUAGE_VERSION);
 		header.setApplicationName(OLD_APPLICATION_NAME);
 		header.setPlatform(OLD_PLATFORM);
+		header.setPlatformVersion(OLD_PLATFORM_VERSION);
 
 		project.setDeviceData(InstrumentationRegistry.getTargetContext());
 
 		assertEquals(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION, header.getCatrobatLanguageVersion());
 		assertEquals(InstrumentationRegistry.getTargetContext().getString(R.string.app_name), header.getApplicationName());
 		assertEquals(Constants.PLATFORM_NAME, header.getPlatform());
+		assertEquals(String.valueOf(Build.VERSION.SDK_INT), header.getPlatformVersion());
 	}
 }

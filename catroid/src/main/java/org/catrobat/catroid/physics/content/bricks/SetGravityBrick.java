@@ -63,6 +63,11 @@ public class SetGravityBrick extends FormulaBrick {
 	}
 
 	@Override
+	protected BrickField getDefaultBrickField() {
+		return BrickField.PHYSICS_GRAVITY_X;
+	}
+
+	@Override
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSetGravityAction(sprite,
 				getFormulaWithBrickField(BrickField.PHYSICS_GRAVITY_X),

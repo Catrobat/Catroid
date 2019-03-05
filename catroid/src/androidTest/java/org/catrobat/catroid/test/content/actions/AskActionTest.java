@@ -52,7 +52,7 @@ public class AskActionTest {
 		testSprite = new Sprite("testSprite");
 		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 
 		userVariableForAnswer = new UserVariable(TEST_USERVARIABLE);
 		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()

@@ -34,28 +34,24 @@ public class InternFormulaKeyboardAdapter {
 	public static final int FORMULA_EDITOR_USER_VARIABLE_RESOURCE_ID = 0;
 
 	public List<InternToken> createInternTokenListByResourceId(int resource, String name) {
-		//USER VARIABLES
+
 		if ((resource == FORMULA_EDITOR_USER_VARIABLE_RESOURCE_ID) && !name.isEmpty()) {
 			return buildUserVariable(name);
 		}
 
-		//COLLISION FORMULA
 		if ((resource == FORMULA_EDITOR_COLLIDE_RESOURCE_ID) && !name.isEmpty()) {
 			return buildCollideWithFormula(name);
 		}
 
-		//USER LISTS
 		if ((resource == FORMULA_EDITOR_USER_LIST_RESOURCE_ID) && !name.isEmpty()) {
 			return buildUserList(name);
 		}
 
-		//STRING
 		if ((resource == R.id.formula_editor_keyboard_string)) {
 			return buildString(name);
 		}
 
 		switch (resource) {
-			// NUMBER:
 			case R.id.formula_editor_keyboard_0:
 				return buildNumber("0");
 			case R.id.formula_editor_keyboard_1:
@@ -77,52 +73,56 @@ public class InternFormulaKeyboardAdapter {
 			case R.id.formula_editor_keyboard_9:
 				return buildNumber("9");
 
-			//FUNCTIONS:
 			case R.string.formula_editor_function_sin:
-				return buildSingleParameterFunction(Functions.SIN, InternTokenType.NUMBER, "0");
+				return buildSingleParameterFunction(Functions.SIN, InternTokenType.NUMBER, "90");
 			case R.string.formula_editor_function_cos:
-				return buildSingleParameterFunction(Functions.COS, InternTokenType.NUMBER, "0");
+				return buildSingleParameterFunction(Functions.COS, InternTokenType.NUMBER, "360");
 			case R.string.formula_editor_function_tan:
-				return buildSingleParameterFunction(Functions.TAN, InternTokenType.NUMBER, "0");
+				return buildSingleParameterFunction(Functions.TAN, InternTokenType.NUMBER, "45");
 			case R.string.formula_editor_function_ln:
-				return buildSingleParameterFunction(Functions.LN, InternTokenType.NUMBER, "0");
+				return buildSingleParameterFunction(Functions.LN, InternTokenType.NUMBER, "2.718281828459");
 			case R.string.formula_editor_function_log:
-				return buildSingleParameterFunction(Functions.LOG, InternTokenType.NUMBER, "0");
+				return buildSingleParameterFunction(Functions.LOG, InternTokenType.NUMBER, "10");
 			case R.string.formula_editor_function_pi:
 				return buildFunctionWithoutParametersAndBrackets(Functions.PI);
 			case R.string.formula_editor_function_sqrt:
-				return buildSingleParameterFunction(Functions.SQRT, InternTokenType.NUMBER, "0");
+				return buildSingleParameterFunction(Functions.SQRT, InternTokenType.NUMBER, "4");
 			case R.string.formula_editor_function_rand:
-				return buildDoubleParameterFunction(Functions.RAND, InternTokenType.NUMBER, "0",
-						InternTokenType.NUMBER, "1");
+				return buildDoubleParameterFunction(Functions.RAND,
+						InternTokenType.NUMBER, "1",
+						InternTokenType.NUMBER, "6");
 			case R.string.formula_editor_function_abs:
-				return buildSingleParameterFunction(Functions.ABS, InternTokenType.NUMBER, "0");
+				return buildSingleParameterFunction(Functions.ABS, InternTokenType.NUMBER, "1");
 			case R.string.formula_editor_function_round:
-				return buildSingleParameterFunction(Functions.ROUND, InternTokenType.NUMBER, "0");
+				return buildSingleParameterFunction(Functions.ROUND, InternTokenType.NUMBER, "1.6");
 			case R.string.formula_editor_function_mod:
-				return buildDoubleParameterFunction(Functions.MOD, InternTokenType.NUMBER, "1", InternTokenType.NUMBER,
-						"1");
+				return buildDoubleParameterFunction(Functions.MOD,
+						InternTokenType.NUMBER, "3",
+						InternTokenType.NUMBER, "2");
 			case R.string.formula_editor_function_arcsin:
-				return buildSingleParameterFunction(Functions.ARCSIN, InternTokenType.NUMBER, "0");
+				return buildSingleParameterFunction(Functions.ARCSIN, InternTokenType.NUMBER, "0.5");
 			case R.string.formula_editor_function_arccos:
 				return buildSingleParameterFunction(Functions.ARCCOS, InternTokenType.NUMBER, "0");
 			case R.string.formula_editor_function_arctan:
-				return buildSingleParameterFunction(Functions.ARCTAN, InternTokenType.NUMBER, "0");
+				return buildSingleParameterFunction(Functions.ARCTAN, InternTokenType.NUMBER, "1");
 			case R.string.formula_editor_function_exp:
 				return buildSingleParameterFunction(Functions.EXP, InternTokenType.NUMBER, "1");
 			case R.string.formula_editor_function_power:
-				return buildDoubleParameterFunction(Functions.POWER, InternTokenType.NUMBER, "2",
+				return buildDoubleParameterFunction(Functions.POWER,
+						InternTokenType.NUMBER, "2",
 						InternTokenType.NUMBER, "3");
 			case R.string.formula_editor_function_floor:
 				return buildSingleParameterFunction(Functions.FLOOR, InternTokenType.NUMBER, "0.7");
 			case R.string.formula_editor_function_ceil:
 				return buildSingleParameterFunction(Functions.CEIL, InternTokenType.NUMBER, "0.3");
 			case R.string.formula_editor_function_max:
-				return buildDoubleParameterFunction(Functions.MAX, InternTokenType.NUMBER, "0", InternTokenType.NUMBER,
-						"1");
+				return buildDoubleParameterFunction(Functions.MAX,
+						InternTokenType.NUMBER, "5",
+						InternTokenType.NUMBER, "4");
 			case R.string.formula_editor_function_min:
-				return buildDoubleParameterFunction(Functions.MIN, InternTokenType.NUMBER, "0", InternTokenType.NUMBER,
-						"1");
+				return buildDoubleParameterFunction(Functions.MIN,
+						InternTokenType.NUMBER, "7",
+						InternTokenType.NUMBER, "2");
 			case R.string.formula_editor_function_true:
 				return buildFunctionWithoutParametersAndBrackets(Functions.TRUE);
 			case R.string.formula_editor_function_false:
@@ -141,19 +141,18 @@ public class InternFormulaKeyboardAdapter {
 				return buildDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.NUMBER, "1",
 						InternTokenType.USER_LIST, "list name");
 			case R.string.formula_editor_function_contains:
-				return buildDoubleParameterFunction(Functions.CONTAINS, InternTokenType.USER_LIST, "list name", InternTokenType.NUMBER, "1");
+				return buildDoubleParameterFunction(Functions.CONTAINS,
+						InternTokenType.USER_LIST, "list name",
+						InternTokenType.NUMBER, "1");
 
-			//Arduino
 			case R.string.formula_editor_function_arduino_read_pin_value_digital:
 				return buildSingleParameterFunction(Functions.ARDUINODIGITAL, InternTokenType.NUMBER, "0");
 			case R.string.formula_editor_function_arduino_read_pin_value_analog:
 				return buildSingleParameterFunction(Functions.ARDUINOANALOG, InternTokenType.NUMBER, "0");
 
-			//RaspberryPi
 			case R.string.formula_editor_function_raspi_read_pin_value_digital:
 				return buildSingleParameterFunction(Functions.RASPIDIGITAL, InternTokenType.NUMBER, "0");
 
-			//Finger touching
 			case R.string.formula_editor_function_finger_x:
 				return buildSensor(Sensors.FINGER_X);
 			case R.string.formula_editor_function_finger_y:
@@ -169,7 +168,6 @@ public class InternFormulaKeyboardAdapter {
 			case R.string.formula_editor_function_index_of_last_finger:
 				return buildSensor(Sensors.LAST_FINGER_INDEX);
 
-			//SENSOR
 			case R.string.formula_editor_sensor_x_acceleration:
 				return buildSensor(Sensors.X_ACCELERATION);
 			case R.string.formula_editor_sensor_y_acceleration:
@@ -231,7 +229,6 @@ public class InternFormulaKeyboardAdapter {
 			case R.string.formula_editor_nfc_tag_message:
 				return buildSensor(Sensors.NFC_TAG_MESSAGE);
 
-			//NXT SENSOR
 			case R.string.formula_editor_sensor_lego_nxt_1:
 				return buildSensor(Sensors.NXT_SENSOR_1);
 			case R.string.formula_editor_sensor_lego_nxt_2:
@@ -250,7 +247,6 @@ public class InternFormulaKeyboardAdapter {
 			case R.string.formula_editor_sensor_lego_ev3_4:
 				return buildSensor(Sensors.EV3_SENSOR_4);
 
-			//CAST SENSOR
 			case R.string.formula_editor_sensor_gamepad_a_pressed:
 				return buildSensor(Sensors.GAMEPAD_A_PRESSED);
 			case R.string.formula_editor_sensor_gamepad_b_pressed:
@@ -264,7 +260,6 @@ public class InternFormulaKeyboardAdapter {
 			case R.string.formula_editor_sensor_gamepad_right_pressed:
 				return buildSensor(Sensors.GAMEPAD_RIGHT_PRESSED);
 
-			//DRONE SENSOR
 			case R.string.formula_editor_sensor_drone_battery_status:
 				return buildSensor(Sensors.DRONE_BATTERY_STATUS);
 			case R.string.formula_editor_sensor_drone_emergency_state:
@@ -286,11 +281,9 @@ public class InternFormulaKeyboardAdapter {
 			case R.string.formula_editor_sensor_drone_num_frames:
 				return buildSensor(Sensors.DRONE_NUM_FRAMES);
 
-			//PERIOD
 			case R.id.formula_editor_keyboard_decimal_mark:
 				return buildPeriod();
 
-			//OPERATOR
 			case R.id.formula_editor_keyboard_plus:
 				return buildOperator(Operators.PLUS);
 			case R.id.formula_editor_keyboard_minus:
@@ -322,13 +315,11 @@ public class InternFormulaKeyboardAdapter {
 			case R.string.formula_editor_logic_not:
 				return buildOperator(Operators.LOGICAL_NOT);
 
-			//BRACKETS
 			case R.id.formula_editor_keyboard_bracket_open:
 				return buildBracketOpen();
 			case R.id.formula_editor_keyboard_bracket_close:
 				return buildBracketClose();
 
-			//COSTUME
 			case R.string.formula_editor_object_x:
 				return buildObject(Sensors.OBJECT_X);
 			case R.string.formula_editor_object_y:

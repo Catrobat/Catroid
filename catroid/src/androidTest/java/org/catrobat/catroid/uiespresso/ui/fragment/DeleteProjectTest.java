@@ -39,7 +39,6 @@ import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.ProjectListActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
-import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewActions;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.Before;
@@ -48,7 +47,9 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -80,7 +81,7 @@ public class DeleteProjectTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void deleteProjectTest() {
-		RecyclerViewActions.openOverflowMenu();
+		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
 		onView(withText(R.string.delete)).perform(click());
 
 		onRecyclerView().atPosition(0)
@@ -108,7 +109,7 @@ public class DeleteProjectTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void cancelDeleteProjectTest() {
-		RecyclerViewActions.openOverflowMenu();
+		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
 		onView(withText(R.string.delete)).perform(click());
 
 		onRecyclerView().atPosition(1)

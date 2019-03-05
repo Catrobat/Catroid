@@ -44,6 +44,47 @@ ext {
     manifestAppIcon = '@drawable/ic_launcher'
 }
 
+apply plugin: 'org.catrobat.gradle.androidemulators'
+
+// The emulators to use on Jenkins.
+// Note: When you specify new system images ensure that they are installed on the Docker image.
+emulators {
+    emulatorTemplate 'template1', {
+        avd {
+            systemImage = 'system-images;android-24;default;x86_64'
+            sdcardSizeMb = 200
+            hardwareProperties += ['hw.camera': 'yes', 'hw.ramSize': 800, 'hw.gpu.enabled': 'yes',
+                                   'hw.camera.front': 'emulated', 'hw.camera.back': 'emulated', 'hw.gps': 'yes',
+                                   'hw.mainKeys': 'no', 'hw.keyboard': 'yes', 'vm.heapSize': 128]
+            screenDensity = 'xhdpi'
+        }
+
+        parameters {
+            resolution = '768x1280'
+            language = 'en'
+            country = 'US'
+        }
+    }
+
+    emulator 'android19', 'template1', {
+        avd {
+            systemImage = 'system-images;android-19;default;x86'
+        }
+    }
+
+    emulator 'android24', 'template1', {
+        avd {
+            systemImage = 'system-images;android-24;default;x86_64'
+        }
+    }
+
+    emulator 'android28', 'template1', {
+        avd {
+            systemImage = 'system-images;android-28;default;x86_64'
+        }
+    }
+}
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'io.fabric'
@@ -54,7 +95,6 @@ apply plugin: 'pmd'
 apply from: 'gradle/code_quality_tasks.gradle'
 apply from: 'gradle/intellij_config_tasks.gradle'
 apply from: 'gradle/standalone_apk_tasks.gradle'
-apply from: 'gradle/android_tasks.gradle'
 apply from: 'gradle/release_crowdin_tasks.gradle'
 apply from: 'gradle/release_fastlane_tasks.gradle'
 
@@ -75,11 +115,26 @@ if (!project.hasProperty("signingKeystore")) {
     ext.signingKeystore = "dummyKeystore"
 }
 
-ant.copy(file: 'google-services-template.json', tofile: 'google-services.json', overwrite: true)
-ant.replace(file: 'google-services.json', token: '@appId@', value: appId)
+ant.copy(file: 'google-services-template.json', tofile: 'src/catroid/google-services.json', overwrite: true)
+ant.copy(file: 'google-services-template.json', tofile: 'src/createAtSchool/google-services.json', overwrite: true)
+ant.copy(file: 'google-services-template.json', tofile: 'src/lunaAndCat/google-services.json', overwrite: true)
+ant.copy(file: 'google-services-template.json', tofile: 'src/phiro/google-services.json', overwrite: true)
+ant.copy(file: 'google-services-template.json', tofile: 'src/standalone/google-services.json', overwrite: true)
+
+ant.replace(file: 'src/catroid/google-services.json', token: '@appId@', value: appId)
+ant.replace(file: 'src/createAtSchool/google-services.json', token: '@appId@', value: appId + ".createatschool")
+ant.replace(file: 'src/lunaAndCat/google-services.json', token: '@appId@', value: appId + ".lunaandcat")
+ant.replace(file: 'src/phiro/google-services.json', token: '@appId@', value: appId + ".phiro")
+ant.replace(file: 'src/standalone/google-services.json', token: '@appId@', value: appId + ".standalone")
+
 if (project.hasProperty('firebaseApiKey')) {
-    ant.replace(file: 'google-services.json', token: '@apiKey@', value: project.getProperties().get('firebaseApiKey'))
+    ant.replace(file: 'src/catroid/google-services.json', token: '@apiKey@', value: project.getProperties().get('firebaseApiKey'))
+    ant.replace(file: 'src/createAtSchool/google-services.json', token: '@apiKey@', value: project.getProperties().get('firebaseApiKey'))
+    ant.replace(file: 'src/lunaAndCat/google-services.json', token: '@apiKey@', value: project.getProperties().get('firebaseApiKey'))
+    ant.replace(file: 'src/phiro/google-services.json', token: '@apiKey@', value: project.getProperties().get('firebaseApiKey'))
+    ant.replace(file: 'src/standalone/google-services.json', token: '@apiKey@', value: project.getProperties().get('firebaseApiKey'))
 }
+
 if (project.hasProperty('fabricApiKey')) {
     ant.replace(file: 'fabric.properties', token: '0123456789012345678901234567890123456789',
             value: project.getProperties().get('fabricApiKey'))
@@ -108,17 +163,21 @@ android {
 
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 22
+        targetSdkVersion 26
         applicationId appId
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-        versionCode 51
+        versionCode 54
         println "VersionCode is $versionCode"
-        versionName "0.9.44"
+        versionName "0.9.46"
         println "VersionName is $versionName"
-        buildConfigField "String", "GIT_DESCRIBE", "\"${versionName}\""
-        buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
+        buildConfigField "String", "GIT_COMMIT_INFO", "\"${getGitCommitInfo()}\""
+        buildConfigField "String", "MAIN_URL_HTTPS", (project.hasProperty('useWebTest') ? '"https://web-test.catrob.at"' : '"https://share.catrob.at"')
         multiDexEnabled true
-        manifestPlaceholders += [appName: manifestAppName, appIcon: manifestAppIcon]
+        manifestPlaceholders += [appName: manifestAppName,
+                                 appIcon: manifestAppIcon,
+                                 intentFilterScheme: "https",
+                                 intentFilterHost: "share.catrob.at",
+                                 intentFilterPathPattern: "/.*/program/.*"]
     }
 
     lintOptions {
@@ -234,7 +293,8 @@ android {
 
         standalone {
             dimension "default"
-            applicationId appId
+            applicationId appId + '.standalone'
+
             versionCode 1
             versionName '1.0'
 
@@ -248,7 +308,8 @@ android {
 
         createAtSchool {
             dimension "default"
-            applicationId appId
+            applicationId appId + '.createatschool'
+
             buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
             buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
@@ -258,7 +319,8 @@ android {
 
         lunaAndCat {
             dimension "default"
-            applicationId appId
+            applicationId appId + '.lunaandcat'
+
             buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
             buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
@@ -268,7 +330,8 @@ android {
 
         phiro {
             dimension "default"
-            applicationId appId
+            applicationId appId + '.phiro'
+
             buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
             buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
@@ -284,7 +347,7 @@ ext {
     mockitoVersion = "2.8.47"
     espressoVersion = "3.0.1"
     supportLibraryVersion = "27.1.0"
-    paintroidVersion = "2.1.2"
+    paintroidVersion = "2.3.0"
 }
 
 configurations {
@@ -322,8 +385,6 @@ dependencies {
     implementation 'com.google.guava:guava:19.0'
     implementation 'com.squareup.okhttp:okhttp:2.3.0'
     implementation 'com.google.code.gson:gson:2.8.0'
-    implementation 'com.github.johnpersano:supertoasts:2.0@aar'
-    implementation 'com.github.mrengineer13:snackbar:1.2.0'
 
     implementation 'com.koushikdutta.async:androidasync:2.2.1'
     implementation 'com.squareup.picasso:picasso:2.5.2'
@@ -380,18 +441,19 @@ dependencies {
     androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$espressoVersion"
     androidTestImplementation "com.android.support.test.espresso:espresso-intents:$espressoVersion"
 
+    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
+
     pmd 'net.sourceforge.pmd:pmd-core:5.8.1'
     pmd 'net.sourceforge.pmd:pmd-java:5.8.1'
 
     checkstyle 'com.puppycrawl.tools:checkstyle:7.6'
 }
 
-def getCurrentGitBranch() {
-    try {
-        return 'git rev-parse --abbrev-ref HEAD'.execute().text.trim()
-    } catch (IOException exception) {
-        throw new UnsupportedOperationException("Could not find git! Maybe it is not in \$PATH variable?", exception)
-    }
+static def getGitCommitInfo() {
+    def hash = 'git rev-parse --short HEAD'.execute().text.trim()
+    def branch = 'git rev-parse --abbrev-ref HEAD'.execute().text.trim()
+
+    return "branch $branch @$hash"
 }
 
 project.gradle.taskGraph.whenReady {

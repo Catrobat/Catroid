@@ -60,7 +60,7 @@ public class XmlHeader implements Serializable {
 	private String applicationVersion = "";
 	private String deviceName = "";
 	private String platform = "";
-	private double platformVersion = 0;
+	private String platformVersion = "";
 	@SuppressWarnings("unused")
 	private String tags = "";
 	//----------------------------------------------------------------------------------------------
@@ -199,11 +199,11 @@ public class XmlHeader implements Serializable {
 		this.deviceName = deviceName;
 	}
 
-	public double getPlatformVersion() {
+	public String getPlatformVersion() {
 		return platformVersion;
 	}
 
-	public void setPlatformVersion(double platformVersion) {
+	public void setPlatformVersion(String platformVersion) {
 		this.platformVersion = platformVersion;
 	}
 

@@ -113,7 +113,7 @@ public class XstreamSerializerTest {
 
 	@After
 	public void tearDown() throws Exception {
-		ProjectManager.getInstance().setProject(currentProjectBuffer);
+		ProjectManager.getInstance().setCurrentProject(currentProjectBuffer);
 
 		TestUtils.deleteProjects(projectName);
 	}
@@ -267,7 +267,7 @@ public class XstreamSerializerTest {
 	@Test
 	public void testWritePermissionFile() throws IOException {
 		Project project = generateMultiplePermissionsProject();
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		XstreamSerializer.getInstance().saveProject(project);
 
 		File permissionsFile = new File(buildProjectPath(project.getName()), PERMISSIONS_FILE_NAME);
@@ -296,7 +296,7 @@ public class XstreamSerializerTest {
 		};
 
 		Project project = generateMultiplePermissionsProject();
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 
 		String projectName = project.getName();
 		SettingsFragment.setLegoMindstormsNXTSensorMapping(InstrumentationRegistry.getTargetContext(), sensorMapping);
@@ -321,7 +321,7 @@ public class XstreamSerializerTest {
 
 		SettingsFragment.setLegoMindstormsNXTSensorMapping(InstrumentationRegistry.getTargetContext(), changedSensorMapping);
 
-		ProjectManager.getInstance().setProject(null);
+		ProjectManager.getInstance().setCurrentProject(null);
 		ProjectManager.getInstance().loadProject(projectName, InstrumentationRegistry.getTargetContext());
 
 		actualSensorMapping = SettingsFragment.getLegoNXTSensorMapping(InstrumentationRegistry.getTargetContext());

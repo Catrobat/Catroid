@@ -23,11 +23,11 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:gravity="center_vertical"
-              android:orientation="horizontal" >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
 
     <CheckBox
         android:id="@+id/brick_checkbox"
@@ -38,19 +38,14 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_raspi_if_begin_layout"
-        style="@style/BrickContainer.Control.Small"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
-        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
+        style="@style/BrickContainer.Control.Small">
 
-        <include layout="@layout/icon_brick_category_raspberrypi"/>
+        <include layout="@layout/icon_brick_category_raspberrypi" />
 
         <TextView
             style="@style/BrickText.Multiple"
-            android:text="@string/brick_raspi_if_begin" >
-        </TextView >
+            android:text="@string/brick_raspi_if_begin">
+        </TextView>
 
         <TextView
             android:id="@+id/brick_if_begin_edit_text"
@@ -62,8 +57,8 @@
             android:id="@+id/if_label_second_part"
             style="@style/BrickText.Multiple"
             android:paddingStart="5dip"
-            android:text="@string/brick_raspi_if_begin_second_part" >
-        </TextView >
-    </org.catrobat.catroid.ui.BrickLayout >
+            android:text="@string/brick_raspi_if_begin_second_part">
+        </TextView>
+    </org.catrobat.catroid.ui.BrickLayout>
 
 </LinearLayout>

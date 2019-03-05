@@ -26,9 +26,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
@@ -51,13 +53,15 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
-import org.catrobat.catroid.content.commands.OnFormulaChangedListener;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaEditorEditText;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.formulaeditor.InternFormula;
 import org.catrobat.catroid.formulaeditor.InternFormulaKeyboardAdapter;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
+import org.catrobat.catroid.formulaeditor.InternFormulaState;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
+import org.catrobat.catroid.formulaeditor.UndoState;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -68,8 +72,13 @@ import org.catrobat.catroid.ui.dialogs.FormulaEditorIntroDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.fragment.CategoryListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
+import org.catrobat.catroid.ui.runtimepermissions.BrickResourcesToRuntimePermissions;
+import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
+
+import java.util.List;
+import java.util.Map;
 
 import static org.catrobat.catroid.utils.SnackbarUtil.wasHintAlreadyShown;
 
@@ -80,6 +89,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	private static final int SET_FORMULA_ON_SWITCH_EDIT_TEXT = 1;
 	private static final int TIME_WINDOW = 2000;
 	public static final int REQUEST_GPS = 1;
+	public static final int REQUEST_PERMISSIONS_COMPUTE_DIALOG = 701;
 
 	public static final String FORMULA_EDITOR_FRAGMENT_TAG = FormulaEditorFragment.class.getSimpleName();
 	public static final String FORMULA_BRICK_BUNDLE_ARGUMENT = "formula_brick";
@@ -93,11 +103,9 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	private static Brick.BrickField currentBrickField;
 	private static Formula currentFormula;
 	private Menu currentMenu;
-	private FormulaElement formulaElementForComputeDialog;
 
 	private long[] confirmSwitchEditTextTimeStamp = {0, 0};
 	private int confirmSwitchEditTextCounter = 0;
-	private static OnFormulaChangedListener onFormulaChangedListener;
 	private boolean hasFormulaBeenChanged = false;
 
 	private String actionBarTitleBuffer = "";
@@ -111,9 +119,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 			getFragmentManager().popBackStack(FORMULA_EDITOR_FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			return;
 		}
-
-		onFormulaChangedListener = (OnFormulaChangedListener) getFragmentManager()
-				.findFragmentByTag(ScriptFragment.TAG);
 
 		formulaBrick = (FormulaBrick) getArguments().getSerializable(FORMULA_BRICK_BUNDLE_ARGUMENT);
 		currentBrickField = Brick.BrickField.valueOf(getArguments().getString(BRICK_FIELD_BUNDLE_ARGUMENT));
@@ -192,8 +197,15 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		} else {
 			formulaEditorEditText.setVisibility(View.VISIBLE);
 			formulaEditorKeyboard.setVisibility(View.VISIBLE);
-			formulaEditorBrick.addView(formulaBrick.getView(getActivity()));
+
+			View brickView = formulaBrick.getView(getActivity());
+
+			formulaBrick.onViewCreated();
+			formulaBrick.setClickListeners();
+			formulaBrick.disableSpinners();
 			formulaBrick.highlightTextView(currentBrickField);
+
+			formulaEditorBrick.addView(brickView);
 		}
 	}
 
@@ -206,7 +218,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		setHasOptionsMenu(true);
 		View fragmentView = inflater.inflate(R.layout.fragment_formula_editor, container, false);
 		fragmentView.setFocusableInTouchMode(true);
@@ -279,25 +291,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 					switch (view.getId()) {
 						case R.id.formula_editor_keyboard_compute:
-							InternFormulaParser internFormulaParser = formulaEditorEditText.getFormulaParser();
-							FormulaElement formulaElement = internFormulaParser.parseFormula();
-							if (formulaElement == null) {
-								if (internFormulaParser.getErrorTokenIndex() >= 0) {
-									formulaEditorEditText.setParseErrorCursorAndSelection();
-								}
-								return false;
-							}
-							Brick.ResourcesSet resourcesSet = new Brick.ResourcesSet();
-							formulaElement.addRequiredResources(resourcesSet);
-							if (resourcesSet.contains(Brick.SENSOR_GPS) && !SensorHandler.gpsAvailable()) {
-								formulaElementForComputeDialog = formulaElement;
-								Intent checkIntent = new Intent();
-								checkIntent.setAction(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-								startActivityForResult(checkIntent, REQUEST_GPS);
-							} else {
-								showComputeDialog(formulaElement);
-							}
-
+							showComputeDialog();
 							return true;
 						case R.id.formula_editor_keyboard_function:
 							showCategoryListFragment(CategoryListFragment.FUNCTION_TAG,
@@ -375,7 +369,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 		builder.setTitle(titleId)
 				.setNegativeButton(R.string.cancel, null)
-				.create()
 				.show();
 	}
 
@@ -389,20 +382,43 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		updateButtonsOnKeyboardAndInvalidateOptionsMenu();
 	}
 
-	private void showComputeDialog(FormulaElement formulaElement) {
+	private void showComputeDialog() {
+		InternFormulaParser internFormulaParser = formulaEditorEditText.getFormulaParser();
+		final FormulaElement formulaElement = internFormulaParser.parseFormula();
 		if (formulaElement == null) {
+			if (internFormulaParser.getErrorTokenIndex() >= 0) {
+				formulaEditorEditText.setParseErrorCursorAndSelection();
+			}
 			return;
 		}
-		Formula formulaToCompute = new Formula(formulaElement);
-		FormulaEditorComputeDialog computeDialog = new FormulaEditorComputeDialog(getActivity());
-		computeDialog.setFormula(formulaToCompute);
-		computeDialog.show();
+		final Brick.ResourcesSet resourcesSet = new Brick.ResourcesSet();
+		formulaElement.addRequiredResources(resourcesSet);
+		List<String> requiredRuntimePermissions = BrickResourcesToRuntimePermissions.translate(resourcesSet);
+
+		new RequiresPermissionTask(REQUEST_PERMISSIONS_COMPUTE_DIALOG, requiredRuntimePermissions, R.string.runtime_permission_general) {
+			public void task() {
+				if (resourcesSet.contains(Brick.SENSOR_GPS)) {
+					SensorHandler sensorHandler = SensorHandler.getInstance(getActivity());
+					sensorHandler.setLocationManager((LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE));
+					if (!SensorHandler.gpsAvailable()) {
+						Intent checkIntent = new Intent();
+						checkIntent.setAction(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+						startActivityForResult(checkIntent, REQUEST_GPS);
+						return;
+					}
+				}
+				Formula formulaToCompute = new Formula(formulaElement);
+				FormulaEditorComputeDialog computeDialog = new FormulaEditorComputeDialog(getActivity());
+				computeDialog.setFormula(formulaToCompute);
+				computeDialog.show();
+			}
+		}.execute(getActivity());
 	}
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == REQUEST_GPS && resultCode == AppCompatActivity.RESULT_CANCELED && SensorHandler.gpsAvailable()) {
-			showComputeDialog(formulaElementForComputeDialog);
+			showComputeDialog();
 		} else {
 			ToastUtil.showError(getActivity(), R.string.error_gps_not_available);
 		}
@@ -464,7 +480,8 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 		switch (mode) {
 			case SET_FORMULA_ON_CREATE_VIEW:
-				formulaEditorEditText.enterNewFormula(currentFormula.getInternFormulaState());
+				formulaEditorEditText.enterNewFormula(new UndoState(currentFormula.getInternFormulaState(),
+						brickField));
 				refreshFormulaPreviewString(formulaEditorEditText.getStringFromInternFormula());
 				break;
 
@@ -495,7 +512,8 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 				formulaEditorEditText.endEdit();
 				currentBrickField = brickField;
 				currentFormula = newFormula;
-				formulaEditorEditText.enterNewFormula(newFormula.getInternFormulaState());
+				formulaEditorEditText.enterNewFormula(new UndoState(currentFormula.getInternFormulaState(),
+						currentBrickField));
 				refreshFormulaPreviewString(formulaEditorEditText.getStringFromInternFormula());
 				break;
 			default:
@@ -525,9 +543,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 	private boolean saveValidFormula(FormulaElement formulaElement) {
 		currentFormula.setRoot(formulaElement);
-		if (onFormulaChangedListener != null) {
-			onFormulaChangedListener.onFormulaChanged(formulaBrick, currentBrickField, currentFormula);
-		}
 		formulaEditorEditText.formulaSaved();
 		hasFormulaBeenChanged = true;
 		return true;
@@ -555,15 +570,11 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	}
 
 	public void promptSave() {
-		if (hasFormulaBeenChanged) {
-			ToastUtil.showSuccess(getActivity(), R.string.formula_editor_changes_saved);
-			hasFormulaBeenChanged = false;
-		}
 		exitFormulaEditorFragment();
 	}
 
 	private void exitFormulaEditorFragment() {
-		if (formulaEditorEditText.hasChanges()) {
+		if (hasFormulaBeenChanged || formulaEditorEditText.hasChanges()) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 			builder.setTitle(R.string.formula_editor_discard_changes_dialog_title)
 					.setMessage(R.string.formula_editor_discard_changes_dialog_message)
@@ -571,6 +582,9 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
+							Map<Brick.BrickField, InternFormulaState> initialStates = formulaEditorEditText
+									.getHistory().getInitialStates();
+							restoreInitialStates(initialStates);
 							ToastUtil.showError(getActivity(), R.string.formula_editor_changes_discarded);
 							onUserDismiss();
 						}
@@ -666,8 +680,9 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 	public void addResourceToActiveFormula(int resource) {
 		formulaEditorEditText.handleKeyEvent(resource, "");
-		if (resource == R.string.formula_editor_function_collides_with_edge
-				|| resource == R.string.formula_editor_function_touched) {
+		boolean requiresCollisionPolygons = resource == R.string.formula_editor_function_collides_with_edge
+				|| resource == R.string.formula_editor_function_touched;
+		if (requiresCollisionPolygons) {
 			ProjectManager.getInstance().getCurrentSprite().createCollisionPolygons();
 		}
 	}
@@ -693,6 +708,10 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 	public String getSelectedFormulaText() {
 		return formulaEditorEditText.getSelectedTextFromInternFormula();
+	}
+
+	public Brick.BrickField getCurrentBrickField() {
+		return currentBrickField;
 	}
 
 	public void overrideSelectedText(String string) {
@@ -723,6 +742,14 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		} else {
 			backspaceOnKeyboard.setAlpha(255);
 			backspaceOnKeyboard.setEnabled(true);
+		}
+	}
+
+	private void restoreInitialStates(Map<Brick.BrickField, InternFormulaState> initialStates) {
+		for (Map.Entry<Brick.BrickField, InternFormulaState> state : initialStates.entrySet()) {
+			InternFormula internFormula = state.getValue().createInternFormulaFromState();
+			formulaBrick.setFormulaWithBrickField(state.getKey(),
+					new Formula(internFormula.getInternFormulaParser().parseFormula()));
 		}
 	}
 }

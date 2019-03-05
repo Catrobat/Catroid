@@ -1,174 +1,91 @@
 #!groovy
 
+def standaloneApk = 'catroid/build/outputs/apk/standalone/debug/catroid-standalone-debug.apk'
+
 pipeline {
-	agent {
-		dockerfile {
-			filename 'Dockerfile.jenkins'
-			// 'docker build' would normally copy the whole build-dir to the container, changing the
-			// docker build directory avoids that overhead
-			dir 'docker'
-			// Pass the uid and the gid of the current user (jenkins-user) to the Dockerfile, so a
-			// corresponding user can be added. This is needed to provide the jenkins user inside
-			// the container for the ssh-agent to work.
-			// Another way would be to simply map the passwd file, but would spoil additional information
-			additionalBuildArgs '--build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g)'
-			args "--device /dev/kvm:/dev/kvm -v /var/local/container_shared/gradle/:/.gradle -v /var/local/container_shared/android-sdk:/usr/local/android-sdk -v /var/local/container_shared/android-home:/.android -v /var/local/container_shared/emulator_console_auth_token:/.emulator_console_auth_token -v /var/local/container_shared/analytics.settings:/analytics.settings"
-			// Add specific 'Standalone'-label, so it can be made sure, that there is a dedicated host for standalone builds
-			label 'Standalone'
-		}
-	}
+    agent {
+        dockerfile {
+            filename 'Dockerfile.jenkins'
+            // 'docker build' would normally copy the whole build-dir to the container, changing the
+            // docker build directory avoids that overhead
+            dir 'docker'
+            // Pass the uid and the gid of the current user (jenkins-user) to the Dockerfile, so a
+            // corresponding user can be added. This is needed to provide the jenkins user inside
+            // the container for the ssh-agent to work.
+            // Another way would be to simply map the passwd file, but would spoil additional information
+            // Also hand in the group id of kvm to allow using /dev/kvm.
+            additionalBuildArgs '--build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g) --build-arg KVM_GROUP_ID=$(getent group kvm | cut -d: -f3)'
+            args '--device /dev/kvm:/dev/kvm -v /var/local/container_shared/gradle_cache/$EXECUTOR_NUMBER:/home/user/.gradle'
+            // Add specific 'Standalone'-label, so it can be made sure, that there is a dedicated host for standalone builds
+            label 'Standalone'
+        }
+    }
 
-	environment {
-		//////// Define environment variables to point to the correct locations inside the container ////////
-		//////////// Most likely not edited by the developer
-		ANDROID_SDK_ROOT = "/usr/local/android-sdk"
-		// Deprecated: Still used by the used gradle version, once gradle respects ANDROID_SDK_ROOT, this can be removed
-		ANDROID_HOME = "/usr/local/android-sdk"
-		ANDROID_SDK_HOME = "/"
-		// Needed for compatibiliby to current Jenkins-wide Envs. Can be removed, once all builds are migrated to Pipeline
-		ANDROID_SDK_LOCATION = "/usr/local/android-sdk"
-		ANDROID_NDK = ""
-		// This is important, as we want the keep our gradle cache, but we can't share it between containers
-		// the cache could only be shared if the gradle instances could comunicate with each other
-		// imho keeping the cache per executor will have the least space impact
-		GRADLE_USER_HOME = "/.gradle/${env.EXECUTOR_NUMBER}"
-		// Otherwise user.home returns ? for java applications
-		JAVA_TOOL_OPTIONS = "-Duser.home=/tmp/"
+    options {
+        timeout(time: 600, unit: 'SECONDS')
+        timestamps()
+    }
 
-		//// jenkins-android-helper related variables
-		// set to any value to debug jenkins_android* scripts
-		ANDROID_EMULATOR_HELPER_DEBUG = ""
-		// get stdout of called subprocesses immediately
-		PYTHONUNBUFFERED = "true"
+    stages {
+        stage('Prepare build') {
+            steps {
+                script {
+                    currentBuild.displayName = "${env.DOWNLOAD}"
+                }
+            }
+        }
 
-		//////// Build specific variables ////////
-		//////////// May be edited by the developer on changing the build steps
-		// modulename
-		GRADLE_PROJECT_MODULE_NAME = "catroid"
+        stage('Check-for-invalid-program-upload') {
+            steps {
+                script {
+                    def ret = sh script: "./buildScripts/checkUrlExists.sh '$env.DOWNLOAD'", returnStatus: true
+                    if (ret == 200) {
+                        // Handle special error from the script, if the program download was not
+                        // possible because of the HTTP error 528, we set the build to UNSTABLE
+                        currentBuild.result = 'UNSTABLE'
+                    } else if (ret != 0) {
+                        currentBuild.result = 'FAILURE'
+                    }
+                }
+            }
+        }
 
-		// APK build output locations
-		APK_LOCATION_STANDALONE = "${env.GRADLE_PROJECT_MODULE_NAME}/build/outputs/apk/standalone/debug/catroid-standalone-debug.apk"
-	}
+        stage('Build APK') {
+            // needed, as long as we mark the build unstable when we receive the 528 error from WEB
+            when {
+                expression {
+                    currentBuild.result == null
+                }
+            }
 
-	options {
-		timeout(time: 600, unit: 'SECONDS')
-		timestamps()
-	}
+            steps {
+                sh "./gradlew clean assembleStandaloneDebug -Papk_generator_enabled=true -Psuffix='$SUFFIX' -Pdownload='$DOWNLOAD'"
+                archiveArtifacts standaloneApk
+            }
+        }
 
-	stages {
-		stage('Prepare build') {
-			steps {
-				script {
-					currentBuild.displayName = "${env.DOWNLOAD}"
-				}
-			}
-		}
+        stage('Upload to Web') {
+            // needed, as long as we mark the build unstable when we receive the 528 error from WEB
+            when {
+                expression {
+                    currentBuild.result == null
+                }
+            }
 
-		stage('Setup Android SDK') {
-			steps {
-				// Install Android SDK
-				lock("update-android-sdk-on-${env.NODE_NAME}") {
-					sh "./buildScripts/build_step_install_android_sdk"
-				}
-			}
-		}
+            steps {
+                script {
+                    uploadFileToWeb standaloneApk, "${env.UPLOAD}"
+                }
+            }
+        }
+    }
 
-		stage('Check-for-invalid-program-upload') {
-			steps {
-				script {
-					def ret = sh returnStatus: true, script: '''#!/bin/sh
-SLEEP_TIME=5
-RETRIES=5
-
-HTTP_STATUS_OK=200
-HTTP_STATUS_INVALID_FILE_UPLOAD=528
-
-## check if program is downloadable from web
-## If we can't load it, we retry it ${RETRIES} times
-## On a 528 status (invalid upload), we return 200 which
-## should get interpreted as UNSTABLE build
-while true; do
-    HTTP_STATUS=`curl --write-out %{http_code} --silent --output /dev/null "${DOWNLOAD}"`
-
-    if [ ${HTTP_STATUS} -eq ${HTTP_STATUS_OK} ]; then
-        break
-    fi
-
-
-    RETRIES=$((RETRIES-1))
-    if [ ${RETRIES} -eq 0 ]; then
-        if [ ${HTTP_STATUS} -eq ${HTTP_STATUS_INVALID_FILE_UPLOAD} ]; then
-            echo "Uploaded file seems to be invalid, request to '${DOWNLOAD}' returned HTTP Status ${HTTP_STATUS}"
-            exit 200
-        else
-            echo "Could not download '${DOWNLOAD}', giving up!"
-            exit 1
-        fi
-    fi
-
-    echo "Could not retrieve '${DOWNLOAD}' (HTTP Status ${HTTP_STATUS}), sleep for ${SLEEP_TIME}s and retry a maximum of ${RETRIES} times"
-    sleep ${SLEEP_TIME}
-done
-'''
-
-					// if no error, we are done
-					if (ret == 0) {
-						return
-					}
-
-					// Handle special error from the script, if the program download was not
-					// possible because of the HTTP error 528, we set the build to UNSTABLE
-					try {
-						error('')
-					} catch (err) {
-						if (ret == 200) {
-							currentBuild.result = 'UNSTABLE'
-						} else {
-							currentBuild.result = 'FAILURE'
-						}
-					}
-				}
-			}
-		}
-
-		stage('Build APK') {
-			// needed, as long as we mark the build unstable when we receive the 528 error from WEB
-			when {
-				expression {
-					currentBuild.result == null
-				}
-			}
-
-			steps {
-				sh "./buildScripts/build_step_create_standalone_apk '${DOWNLOAD}' '${SUFFIX}'"
-				archiveArtifacts "${env.APK_LOCATION_STANDALONE}"
-			}
-		}
-
-		stage('Upload to Web') {
-			// needed, as long as we mark the build unstable when we receive the 528 error from WEB
-			when {
-				expression {
-					currentBuild.result == null
-				}
-			}
-
-			steps {
-				script {
-					uploadFileToWeb "${env.APK_LOCATION_STANDALONE}", "${env.UPLOAD}"
-				}
-			}
-		}
-	}
-
-	post {
-		always {
-			step([$class: 'LogParserPublisher', failBuildOnError: true, projectRulePath: 'buildScripts/log_parser_rules', unstableOnWarning: true, useProjectRule: true])
-
-			// Send notifications with standalone=true
-			script {
-				sendNotifications true
-			}
-		}
-	}
+    post {
+        always {
+            step([$class: 'LogParserPublisher', failBuildOnError: true, projectRulePath: 'buildScripts/log_parser_rules', unstableOnWarning: true, useProjectRule: true])
+        }
+        failure {
+            notifyChat(['#ci-status', '#ci-status-standalone'])
+        }
+    }
 }

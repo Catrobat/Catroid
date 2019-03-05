@@ -26,6 +26,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -35,13 +36,17 @@ import android.view.View.OnClickListener;
 import android.widget.Chronometer;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.BaseActivity;
-import org.catrobat.catroid.utils.PathBuilder;
+import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.Utils;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+
+import static android.Manifest.permission.RECORD_AUDIO;
+
+import static org.catrobat.catroid.common.Constants.SOUND_RECORDER_CACHE_DIR;
 
 public class SoundRecorderActivity extends BaseActivity implements OnClickListener {
 
@@ -49,6 +54,7 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 	private SoundRecorder soundRecorder;
 	private Chronometer timeRecorderChronometer;
 	private RecordButton recordButton;
+	private static final int REQUEST_PERMISSIONS_RECORD_AUDIO = 401;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -59,30 +65,31 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 		getSupportActionBar().setTitle(R.string.soundrecorder_name);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-		if (!Utils.isExternalStorageAvailable()) {
-			ToastUtil.showError(this, R.string.error_no_writiable_external_storage_available);
-			finish();
-		}
-
 		recordButton = findViewById(R.id.soundrecorder_record_button);
 		timeRecorderChronometer = findViewById(R.id.soundrecorder_chronometer_time_recorded);
 		recordButton.setOnClickListener(this);
 	}
 
 	@Override
-	public void onClick(View view) {
-		if (view.getId() == R.id.soundrecorder_record_button) {
-			if (soundRecorder != null && soundRecorder.isRecording()) {
-				stopRecording();
-				timeRecorderChronometer.stop();
-				finish();
-			} else {
-				startRecording();
-				long currentPlayingBase = SystemClock.elapsedRealtime();
-				timeRecorderChronometer.setBase(currentPlayingBase);
-				timeRecorderChronometer.start();
+	public void onClick(final View view) {
+		new RequiresPermissionTask(REQUEST_PERMISSIONS_RECORD_AUDIO,
+				Arrays.asList(RECORD_AUDIO),
+				R.string.runtime_permission_general) {
+			public void task() {
+				if (view.getId() == R.id.soundrecorder_record_button) {
+					if (soundRecorder != null && soundRecorder.isRecording()) {
+						stopRecording();
+						timeRecorderChronometer.stop();
+						finish();
+					} else {
+						startRecording();
+						long currentPlayingBase = SystemClock.elapsedRealtime();
+						timeRecorderChronometer.setBase(currentPlayingBase);
+						timeRecorderChronometer.start();
+					}
+				}
 			}
-		}
+		}.execute(this);
 	}
 
 	@Override
@@ -99,9 +106,13 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 			if (soundRecorder != null) {
 				soundRecorder.stop();
 			}
-			String recordPath = PathBuilder.buildPath(Constants.TMP_PATH, getString(R.string.soundrecorder_recorded_filename)
-					+ SoundRecorder.RECORDING_EXTENSION);
-			soundRecorder = new SoundRecorder(recordPath);
+
+			SOUND_RECORDER_CACHE_DIR.mkdirs();
+			if (!SOUND_RECORDER_CACHE_DIR.isDirectory()) {
+				throw new IOException("Cannot create " + SOUND_RECORDER_CACHE_DIR);
+			}
+			File soundFile = new File(SOUND_RECORDER_CACHE_DIR, getString(R.string.soundrecorder_recorded_filename));
+			soundRecorder = new SoundRecorder(soundFile.getAbsolutePath());
 			soundRecorder.start();
 			setViewsToRecordingState();
 		} catch (IOException e) {
@@ -128,7 +139,10 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 		setViewsToNotRecordingState();
 		try {
 			soundRecorder.stop();
-			Uri uri = soundRecorder.getPath();
+
+			Uri uri = FileProvider.getUriForFile(this,
+					getApplicationContext().getPackageName() + ".fileProvider",
+					new File(soundRecorder.getPath()));
 			setResult(AppCompatActivity.RESULT_OK, new Intent(Intent.ACTION_PICK, uri));
 		} catch (IOException e) {
 			Log.e(TAG, "Error recording sound.", e);

@@ -37,14 +37,9 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_when_condition_layout"
-        style="@style/BrickContainer.Event.MediumWhen"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
-        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing">
+        style="@style/BrickContainer.Event.MediumWhen">
 
-        <include layout="@layout/icon_brick_category_event"/>
+        <include layout="@layout/icon_brick_category_event" />
 
         <TextView
             android:id="@+id/when_conditon_label"

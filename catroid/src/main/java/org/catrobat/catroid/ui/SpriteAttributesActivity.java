@@ -41,13 +41,9 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.drone.ardrone.DroneServiceWrapper;
-import org.catrobat.catroid.drone.ardrone.DroneStageActivity;
-import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.recyclerview.RVButton;
 import org.catrobat.catroid.ui.recyclerview.adapter.ButtonAdapter;
-import org.catrobat.catroid.ui.recyclerview.dialog.PlaySceneDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.RenameItemTextWatcher;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
@@ -109,7 +105,10 @@ public class SpriteAttributesActivity extends BaseActivity implements ButtonAdap
 		items.add(new RVButton(SCRIPTS, ContextCompat.getDrawable(this, R.drawable.ic_program_menu_scripts),
 				getString(R.string.scripts)));
 
-		if (ProjectManager.getInstance().getCurrentSpritePosition() == 0) {
+		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+
+		if (currentSprite.equals(currentScene.getBackgroundSprite())) {
 			items.add(new RVButton(LOOKS, ContextCompat.getDrawable(this, R.drawable.ic_program_menu_looks),
 					getString(R.string.backgrounds)));
 		} else {
@@ -141,7 +140,10 @@ public class SpriteAttributesActivity extends BaseActivity implements ButtonAdap
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		if (ProjectManager.getInstance().getCurrentSpritePosition() == 0) {
+		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+
+		if (currentSprite.equals(currentScene.getBackgroundSprite())) {
 			return super.onCreateOptionsMenu(menu);
 		}
 		getMenuInflater().inflate(R.menu.menu_program_menu, menu);
@@ -166,7 +168,6 @@ public class SpriteAttributesActivity extends BaseActivity implements ButtonAdap
 
 		builder.setTitle(R.string.rename_sprite_dialog)
 				.setNegativeButton(R.string.cancel, null)
-				.create()
 				.show();
 	}
 
@@ -175,17 +176,6 @@ public class SpriteAttributesActivity extends BaseActivity implements ButtonAdap
 			item.setName(name);
 		}
 		updateActionBarTitle();
-	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
-			if (DroneServiceWrapper.checkARDroneAvailability()) {
-				startActivity(new Intent(this, DroneStageActivity.class));
-			} else {
-				startActivity(new Intent(this, StageActivity.class));
-			}
-		}
 	}
 
 	@Override
@@ -213,29 +203,6 @@ public class SpriteAttributesActivity extends BaseActivity implements ButtonAdap
 	}
 
 	public void handlePlayButton(View view) {
-		ProjectManager projectManager = ProjectManager.getInstance();
-		Scene currentScene = projectManager.getCurrentlyEditedScene();
-		Scene defaultScene = projectManager.getCurrentProject().getDefaultScene();
-
-		if (currentScene.getName().equals(defaultScene.getName())) {
-			projectManager.setCurrentlyPlayingScene(defaultScene);
-			projectManager.setStartScene(defaultScene);
-			startPreStageActivity();
-		} else {
-			new PlaySceneDialog.Builder(this)
-					.setPositiveButton(R.string.play, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							startPreStageActivity();
-						}
-					})
-					.create()
-					.show();
-		}
-	}
-
-	public void startPreStageActivity() {
-		Intent intent = new Intent(this, PreStageActivity.class);
-		startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
+		StageActivity.handlePlayButton(ProjectManager.getInstance(), this);
 	}
 }

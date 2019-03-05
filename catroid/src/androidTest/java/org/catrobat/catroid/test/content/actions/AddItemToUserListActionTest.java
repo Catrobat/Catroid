@@ -58,7 +58,7 @@ public class AddItemToUserListActionTest {
 		actionFactory = new ActionFactory();
 		testSprite = new SingleSprite("testSprite");
 		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 
 		List<Object> initialList = new ArrayList<>();

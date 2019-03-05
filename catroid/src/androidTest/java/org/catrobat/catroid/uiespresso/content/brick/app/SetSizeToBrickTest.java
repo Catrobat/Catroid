@@ -58,8 +58,8 @@ public class SetSizeToBrickTest {
 	public void setSizeToBrickTest() {
 		int sizeValue = 20;
 
-		onBrickAtPosition(0).checkShowsText("When program starts");
-		onBrickAtPosition(brickPosition).checkShowsText("Set size to");
+		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_set_size_to);
 
 		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_set_size_to_edit_text)
 				.performEnterNumber(sizeValue)

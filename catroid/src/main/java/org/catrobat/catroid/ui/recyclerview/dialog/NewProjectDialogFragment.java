@@ -34,9 +34,9 @@ import android.widget.RadioGroup;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.drone.ardrone.DroneServiceWrapper;
 import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoServiceWrapper;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
@@ -52,7 +52,7 @@ public class NewProjectDialogFragment extends DialogFragment {
 
 		final RadioGroup radioGroup = view.findViewById(R.id.radio_group);
 
-		if (DroneServiceWrapper.isDroneSharedPreferenceEnabled()) {
+		if (SettingsFragment.isDroneSharedPreferenceEnabled(getContext())) {
 			view.findViewById(R.id.project_default_drone_radio_button).setVisibility(View.VISIBLE);
 		}
 
@@ -120,12 +120,17 @@ public class NewProjectDialogFragment extends DialogFragment {
 		dialog.show(getFragmentManager(), OrientationDialogFragment.TAG);
 	}
 
-	void createDroneProject(String name, boolean jumpingSumo) {
+	void createDroneProject(String name, boolean isJumpingSumoProject) {
 		try {
-			ProjectManager.getInstance().initializeNewProject(name, getActivity(), false, true,
-					false, false, jumpingSumo);
+			if (isJumpingSumoProject) {
+				ProjectManager.getInstance().initializeNewProject(name, getActivity(), false, false,
+						false, false, true);
+			} else {
+				ProjectManager.getInstance().initializeNewProject(name, getActivity(), false, true,
+						false, false, false);
+			}
 			Intent intent = new Intent(getActivity(), ProjectActivity.class);
-			getActivity().startActivity(intent);
+			startActivity(intent);
 		} catch (IOException e) {
 			ToastUtil.showError(getActivity(), R.string.error_new_project);
 		}

@@ -24,12 +24,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/BrickCategory.Lego">
 
-    <include layout="@layout/icon_brick_category_legonxt"/>
+    <include layout="@layout/icon_brick_category_legonxt" />
 
     <TextView
         style="@style/BrickCategoryText"
         android:drawableEnd="@drawable/main_menu_button_arrow"
-        android:text="@string/category_lego_nxt" >
+        android:text="@string/category_lego_nxt">
     </TextView>
 
 </LinearLayout>

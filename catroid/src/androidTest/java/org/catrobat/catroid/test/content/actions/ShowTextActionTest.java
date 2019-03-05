@@ -51,7 +51,7 @@ public class ShowTextActionTest {
 		Sprite sprite = new Sprite(SPRITE_NAME);
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 
 		Sprite secondSprite = new Sprite(SECOND_SPRITE_NAME);

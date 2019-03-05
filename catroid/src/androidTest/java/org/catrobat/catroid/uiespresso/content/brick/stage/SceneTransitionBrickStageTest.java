@@ -36,8 +36,11 @@ import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.uiespresso.stage.utils.ScriptEvaluationGateBrick;
 import org.catrobat.catroid.uiespresso.util.UserVariableAssertions;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.Before;
@@ -51,9 +54,7 @@ public class SceneTransitionBrickStageTest {
 	private UserVariable firstVariable = new UserVariable("firstVar");
 	private UserVariable secondVariable = new UserVariable("secondVar");
 
-	private String firstSceneBeforeTransitionVariableValue = "firstSceneFirstTime";
-	private String secondSceneVariableValue = "secondSceneFirstTime";
-	private String firstSceneAfterTransitionVariableValue = "firstSceneSecondTime";
+	private ScriptEvaluationGateBrick firstBrickInScript;
 
 	@Rule
 	public BaseActivityInstrumentationRule<StageActivity> baseActivityTestRule = new
@@ -67,9 +68,8 @@ public class SceneTransitionBrickStageTest {
 
 	@Test
 	public void testContinueScene() {
-		UserVariableAssertions.assertUserVariableContainsStringWithTimeout(firstVariable, firstSceneBeforeTransitionVariableValue, 10);
-		UserVariableAssertions.assertUserVariableContainsStringWithTimeout(secondVariable, secondSceneVariableValue, 10);
-		UserVariableAssertions.assertUserVariableContainsStringWithTimeout(firstVariable, firstSceneAfterTransitionVariableValue, 1000);
+		firstBrickInScript.waitUntilEvaluated(3000);
+		UserVariableAssertions.assertUserVariableEqualsWithTimeout(firstVariable, 20, 3000);
 	}
 
 	private void createProject() {
@@ -87,17 +87,31 @@ public class SceneTransitionBrickStageTest {
 		Sprite firstBackground = firstScene.getBackgroundSprite();
 		Script firstStartScript = new StartScript();
 
-		firstStartScript.addBrick(new SetVariableBrick(new Formula(firstSceneBeforeTransitionVariableValue), firstVariable));
+		ProjectManager.getInstance().setCurrentProject(project);
+
+		firstBrickInScript = ScriptEvaluationGateBrick.appendToScript(firstStartScript);
+
+		firstStartScript.addBrick(new SetVariableBrick(new Formula(1), firstVariable));
 		firstStartScript.addBrick(new SceneTransitionBrick(secondScene.getName()));
 		firstStartScript.addBrick(new WaitBrick(500));
-		firstStartScript.addBrick(new SetVariableBrick(new Formula(firstSceneAfterTransitionVariableValue), firstVariable));
+
+		Formula firstStartScriptFormula = new Formula(
+				new FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.MULT.name(), null,
+						new FormulaElement(FormulaElement.ElementType.NUMBER, "5", null),
+						new FormulaElement(FormulaElement.ElementType.USER_VARIABLE, secondVariable.getName(), null)));
+		firstStartScript.addBrick(new SetVariableBrick(firstStartScriptFormula, firstVariable));
 
 		firstBackground.addScript(firstStartScript);
 
 		Sprite secondBackground = new Sprite("Background");
 		Script secondStartScript = new StartScript();
 
-		secondStartScript.addBrick(new SetVariableBrick(new Formula(secondSceneVariableValue), secondVariable));
+		Formula secondStartScriptFormula = new Formula(
+				new FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.PLUS.name(), null,
+					new FormulaElement(FormulaElement.ElementType.NUMBER, "3", null),
+					new FormulaElement(FormulaElement.ElementType.USER_VARIABLE, firstVariable.getName(), null)));
+
+		secondStartScript.addBrick(new SetVariableBrick(secondStartScriptFormula, secondVariable));
 		secondStartScript.addBrick(new SceneTransitionBrick(firstScene.getName()));
 
 		secondBackground.addScript(secondStartScript);
@@ -105,7 +119,6 @@ public class SceneTransitionBrickStageTest {
 
 		project.addScene(secondScene);
 
-		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().saveProject(InstrumentationRegistry.getTargetContext());
 	}
 }

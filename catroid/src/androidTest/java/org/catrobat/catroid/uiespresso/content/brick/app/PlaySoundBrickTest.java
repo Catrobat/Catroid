@@ -23,7 +23,9 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.app;
 
+import android.Manifest;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.rule.GrantPermissionRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.widget.EditText;
 
@@ -39,7 +41,6 @@ import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.SpriteAttributesActivity;
-import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewActions;
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.After;
@@ -52,7 +53,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
@@ -82,6 +85,9 @@ public class PlaySoundBrickTest {
 	public BaseActivityInstrumentationRule<SpriteAttributesActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(SpriteAttributesActivity.class, true, false);
 
+	@Rule
+	public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(Manifest.permission.RECORD_AUDIO);
+
 	@Before
 	public void setUp() throws Exception {
 		createProject();
@@ -91,7 +97,7 @@ public class PlaySoundBrickTest {
 	private void renameSound(int position, String newSoundName) {
 		onView(withText(R.string.sounds))
 				.perform(click());
-		RecyclerViewActions.openOverflowMenu();
+		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
 		onView(withText(R.string.rename))
 				.perform(click());
 		onRecyclerView().atPosition(position)
@@ -109,7 +115,7 @@ public class PlaySoundBrickTest {
 	private void deleteSound(int position) {
 		onView(withText(R.string.sounds))
 				.perform(click());
-		RecyclerViewActions.openOverflowMenu();
+		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
 		onView(withText(R.string.delete))
 				.perform(click());
 		onRecyclerView().atPosition(position)
@@ -201,7 +207,7 @@ public class PlaySoundBrickTest {
 
 		sprite.addScript(startScript);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 
 		XstreamSerializer.getInstance().saveProject(project);

@@ -61,7 +61,7 @@ public class RaspiIfLogicBeginBrick extends IfLogicBeginBrick {
 	}
 
 	@Override
-	void hidePrototypeElseAndPunctuation() {
+	public void onPrototypeViewCreated() {
 	}
 
 	@Override

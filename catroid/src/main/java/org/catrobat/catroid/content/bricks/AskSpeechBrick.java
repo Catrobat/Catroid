@@ -27,6 +27,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -59,7 +60,7 @@ public class AskSpeechBrick extends UserVariableBrick {
 
 	@Override
 	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
-		requiredResourcesSet.add(NETWORK_CONNECTION);
+		requiredResourcesSet.addAll(Arrays.asList(NETWORK_CONNECTION, MICROPHONE));
 		super.addRequiredResources(requiredResourcesSet);
 	}
 

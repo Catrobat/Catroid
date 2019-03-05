@@ -38,9 +38,9 @@ import android.view.ViewGroup;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.Constants.LegoSensorType;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
@@ -157,7 +157,11 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			R.string.formula_editor_sensor_lego_ev3_sensor_color_reflected,
 			R.string.formula_editor_sensor_lego_ev3_sensor_hitechnic_color,
 			R.string.formula_editor_sensor_lego_ev3_sensor_nxt_temperature_c,
-			R.string.formula_editor_sensor_lego_ev3_sensor_nxt_temperature_f);
+			R.string.formula_editor_sensor_lego_ev3_sensor_nxt_temperature_f,
+			R.string.formula_editor_sensor_lego_ev3_sensor_nxt_light,
+			R.string.formula_editor_sensor_lego_ev3_sensor_nxt_light_active,
+			R.string.formula_editor_sensor_lego_ev3_sensor_nxt_sound,
+			R.string.formula_editor_sensor_lego_ev3_sensor_nxt_ultrasonic);
 	private static final List<Integer> SENSORS_PHIRO = Arrays.asList(R.string.formula_editor_phiro_sensor_front_left,
 			R.string.formula_editor_phiro_sensor_front_right,
 			R.string.formula_editor_phiro_sensor_side_left,
@@ -202,8 +206,8 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	@Override
 	public void onResume() {
 		super.onResume();
-		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getArguments()
-				.getString(ACTION_BAR_TITLE_BUNDLE_ARGUMENT));
+		((AppCompatActivity) getActivity()).getSupportActionBar()
+				.setTitle(getArguments().getString(ACTION_BAR_TITLE_BUNDLE_ARGUMENT));
 	}
 
 	@Override
@@ -222,15 +226,12 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			case CategoryListRVAdapter.NXT:
 				showLegoSensorPortConfigDialog(item.nameResId, Constants.NXT);
 				break;
-
 			case CategoryListRVAdapter.EV3:
 				showLegoSensorPortConfigDialog(item.nameResId, Constants.EV3);
 				break;
-
 			case CategoryListRVAdapter.COLLISION:
 				showSelectSpriteDialog();
 				break;
-
 			case CategoryListRVAdapter.DEFAULT:
 				((FormulaEditorFragment) getFragmentManager()
 						.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG))
@@ -270,7 +271,6 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 						getActivity().onBackPressed();
 					}
 				})
-				.create()
 				.show();
 	}
 
@@ -290,7 +290,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			selectableSpriteNames[i] = selectableSprites.get(i).getName();
 		}
 
-		new AlertDialog.Builder(getActivity())
+		new AlertDialog.Builder(getContext())
 				.setTitle(R.string.formula_editor_function_collision)
 				.setItems(selectableSpriteNames, new DialogInterface.OnClickListener() {
 					@Override
@@ -306,7 +306,6 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 						getActivity().onBackPressed();
 					}
 				})
-				.create()
 				.show();
 	}
 
@@ -413,7 +412,16 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 
 	private List<CategoryListItem> getObjectGeneralPropertiesItems() {
 		List<Integer> resIds = new ArrayList<>(OBJECT_GENERAL_PROPERTIES);
-		resIds.addAll(ProjectManager.getInstance().getCurrentSpritePosition() == 0 ? OBJECT_BACKGROUND : OBJECT_LOOK);
+
+		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+
+		if (currentSprite.equals(currentScene.getBackgroundSprite())) {
+			resIds.addAll(OBJECT_BACKGROUND);
+		} else {
+			resIds.addAll(OBJECT_LOOK);
+		}
+
 		return addHeader(toCategoryListItems(resIds), getString(R.string.formula_editor_object_general));
 	}
 
@@ -446,9 +454,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	}
 
 	private List<CategoryListItem> getFaceDetectionSensorItems() {
-		return CameraManager.getInstance().hasBackCamera() || !CameraManager.getInstance().hasFrontCamera()
-				? addHeader(toCategoryListItems(SENSORS_FACE_DETECTION), getString(R.string.formula_editor_device_face_detection))
-				: Collections.<CategoryListItem>emptyList();
+		return addHeader(toCategoryListItems(SENSORS_FACE_DETECTION), getString(R.string.formula_editor_device_face_detection));
 	}
 
 	private List<CategoryListItem> getDateTimeSensorItems() {

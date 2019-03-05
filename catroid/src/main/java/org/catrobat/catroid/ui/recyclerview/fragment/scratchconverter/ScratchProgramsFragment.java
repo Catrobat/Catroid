@@ -35,20 +35,22 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.io.XstreamSerializer;
+import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
 import org.catrobat.catroid.scratchconverter.protocol.Job;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScratchConverterActivity;
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.ScratchJobAdapter;
-import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectLoaderTask;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
+import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.ToastUtil;
+
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public class ScratchProgramsFragment extends Fragment implements
 		ScratchConverterActivity.OnJobListListener,
 		RVAdapter.OnItemClickListener<Job>,
-		ProjectLoaderTask.ProjectLoaderListener {
+		ProjectLoadTask.ProjectLoadListener {
 
 	public static final String TAG = ScratchProgramsFragment.class.getSimpleName();
 
@@ -117,7 +119,7 @@ public class ScratchProgramsFragment extends Fragment implements
 		}
 
 		if (item.getDownloadState() == Job.DownloadState.NOT_READY || item.getDownloadState() == Job.DownloadState.CANCELED) {
-			new AlertDialog.Builder(getActivity())
+			new AlertDialog.Builder(getContext())
 					.setTitle(R.string.warning)
 					.setMessage(R.string.error_cannot_open_not_yet_downloaded_scratch_program)
 					.setNeutralButton(R.string.close, null)
@@ -126,8 +128,8 @@ public class ScratchProgramsFragment extends Fragment implements
 			return;
 		}
 
-		if (!XstreamSerializer.getInstance().projectExists(item.getTitle())) {
-			new AlertDialog.Builder(getActivity())
+		if (!FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).contains(item.getTitle())) {
+			new AlertDialog.Builder(getContext())
 					.setTitle(R.string.warning)
 					.setMessage(R.string.error_cannot_open_not_existing_scratch_program)
 					.setNeutralButton(R.string.close, null)
@@ -137,7 +139,7 @@ public class ScratchProgramsFragment extends Fragment implements
 		}
 
 		setShowProgressBar(true);
-		ProjectLoaderTask loadProjectTask = new ProjectLoaderTask(getActivity(), this);
+		ProjectLoadTask loadProjectTask = new ProjectLoadTask(getActivity(), this);
 		loadProjectTask.execute(item.getTitle());
 	}
 
@@ -148,14 +150,14 @@ public class ScratchProgramsFragment extends Fragment implements
 	}
 
 	@Override
-	public void onLoadFinished(boolean success, String message) {
+	public void onLoadFinished(boolean success) {
 		if (success) {
 			Intent intent = new Intent(getActivity(), ProjectActivity.class);
 			intent.putExtra(ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SCENES);
 			startActivity(intent);
 		} else {
 			setShowProgressBar(false);
-			ToastUtil.showError(getActivity(), message);
+			ToastUtil.showError(getContext(), R.string.error_load_project);
 		}
 	}
 

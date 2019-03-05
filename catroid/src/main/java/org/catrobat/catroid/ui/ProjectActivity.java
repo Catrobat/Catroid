@@ -47,17 +47,14 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.drone.ardrone.DroneServiceWrapper;
-import org.catrobat.catroid.drone.ardrone.DroneStageActivity;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.StorageOperations;
-import org.catrobat.catroid.stage.PreStageActivity;
+import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.dialogs.LegoSensorConfigInfoDialog;
 import org.catrobat.catroid.ui.recyclerview.activity.ProjectUploadActivity;
 import org.catrobat.catroid.ui.recyclerview.controller.SceneController;
-import org.catrobat.catroid.ui.recyclerview.dialog.PlaySceneDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.NewItemTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.fragment.RecyclerViewFragment;
@@ -69,13 +66,14 @@ import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import java.io.File;
 import java.io.IOException;
 
-import static org.catrobat.catroid.common.Constants.EXTRA_PICTURE_PATH_POCKET_PAINT;
+import static org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
-import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+import static org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIR;
+import static org.catrobat.catroid.common.Constants.TMP_IMAGE_FILE_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_LOOKS_URL;
 import static org.catrobat.catroid.ui.WebViewActivity.MEDIA_FILE_PATH;
 
-public class ProjectActivity extends BaseCastActivity {
+public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask.ProjectSaveListener {
 
 	public static final String TAG = ProjectActivity.class.getSimpleName();
 
@@ -134,6 +132,11 @@ public class ProjectActivity extends BaseCastActivity {
 		return getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 	}
 
+	public void setShowProgressBar(boolean show) {
+		findViewById(R.id.progress_bar).setVisibility(show ? View.VISIBLE : View.GONE);
+		findViewById(R.id.fragment_container).setVisibility(show ? View.GONE : View.VISIBLE);
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_project_activity, menu);
@@ -147,15 +150,25 @@ public class ProjectActivity extends BaseCastActivity {
 				handleAddSceneButton();
 				break;
 			case R.id.upload:
-				Project currentProject = ProjectManager.getInstance().getCurrentProject();
-				Intent intent = new Intent(this, ProjectUploadActivity.class);
-				intent.putExtra(ProjectUploadActivity.PROJECT_NAME, currentProject.getName());
-				startActivity(intent);
+				setShowProgressBar(true);
+				new ProjectSaveTask(this)
+						.execute(ProjectManager.getInstance().getCurrentProject());
 				break;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
 		return true;
+	}
+
+	@Override
+	public void onSaveProjectComplete(boolean success) {
+		setShowProgressBar(false);
+		// deliberately ignoring success value, because XstreamSerializer returns false: when saving was
+		// unnecessary but was successful or when it did not succeed.
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		Intent intent = new Intent(this, ProjectUploadActivity.class);
+		intent.putExtra(ProjectUploadActivity.PROJECT_NAME, currentProject.getName());
+		startActivity(intent);
 	}
 
 	@Override
@@ -198,11 +211,8 @@ public class ProjectActivity extends BaseCastActivity {
 		Uri uri;
 
 		switch (requestCode) {
-			case PreStageActivity.REQUEST_RESOURCES_INIT:
-				startStageActivity();
-				break;
 			case SPRITE_POCKET_PAINT:
-				uri = Uri.fromFile(new File(data.getStringExtra(EXTRA_PICTURE_PATH_POCKET_PAINT)));
+				uri = new ImportFromPocketPaintLauncher(this).getPocketPaintCacheUri();
 				addSpriteFromUri(uri);
 				break;
 			case SPRITE_LIBRARY:
@@ -214,7 +224,7 @@ public class ProjectActivity extends BaseCastActivity {
 				addSpriteFromUri(uri);
 				break;
 			case SPRITE_CAMERA:
-				uri = Uri.fromFile(new File(DEFAULT_ROOT_DIRECTORY, getString(R.string.default_look_name) + ".jpg"));
+				uri = new ImportFromCameraLauncher(this).getCacheCameraUri();
 				addSpriteFromUri(uri);
 				break;
 		}
@@ -223,34 +233,43 @@ public class ProjectActivity extends BaseCastActivity {
 	public void addSpriteFromUri(final Uri uri) {
 		final Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 
-		String name = StorageOperations.resolveFileName(getContentResolver(), uri);
-		if (name == null) {
-			name = getString(R.string.default_look_name);
+		String resolvedName;
+		String resolvedFileName = StorageOperations.resolveFileName(getContentResolver(), uri);
+
+		final String lookDataName;
+		final String lookFileName;
+
+		boolean useDefaultSpriteName = resolvedFileName == null
+				|| StorageOperations.getSanitizedFileName(resolvedFileName).equals(TMP_IMAGE_FILE_NAME);
+
+		if (useDefaultSpriteName) {
+			resolvedName = getString(R.string.default_sprite_name);
+			lookFileName = resolvedName + DEFAULT_IMAGE_EXTENSION;
 		} else {
-			name = StorageOperations.getSanitizedFileName(name);
+			resolvedName = StorageOperations.getSanitizedFileName(resolvedFileName);
+			lookFileName = resolvedFileName;
 		}
-		name = new UniqueNameProvider().getUniqueNameInNameables(name, currentScene.getSpriteList());
-		final String lookName = name;
+
+		lookDataName = new UniqueNameProvider().getUniqueNameInNameables(resolvedName, currentScene.getSpriteList());
 
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(this);
-
 		builder.setHint(getString(R.string.sprite_name_label))
-				.setText(name)
+				.setText(lookDataName)
 				.setTextWatcher(new NewItemTextWatcher<>(currentScene.getSpriteList()))
 				.setPositiveButton(getString(R.string.ok), new TextInputDialog.OnClickListener() {
+
 					@Override
 					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
-						File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
 						Sprite sprite = new Sprite(textInput);
-						currentScene.getSpriteList().add(sprite);
-
+						currentScene.addSprite(sprite);
 						try {
-							File file = StorageOperations.copyUriToDir(getContentResolver(), uri, imageDirectory, lookName);
-							sprite.getLookList().add(new LookData(lookName, file));
+							File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
+							File file = StorageOperations
+									.copyUriToDir(getContentResolver(), uri, imageDirectory, lookFileName);
+							sprite.getLookList().add(new LookData(textInput, file));
 						} catch (IOException e) {
 							Log.e(TAG, Log.getStackTraceString(e));
 						}
-
 						if (getCurrentFragment() instanceof SpriteListFragment) {
 							((SpriteListFragment) getCurrentFragment()).notifyDataSetChanged();
 						}
@@ -258,8 +277,19 @@ public class ProjectActivity extends BaseCastActivity {
 				});
 
 		builder.setTitle(R.string.new_sprite_dialog_title)
-				.setNegativeButton(R.string.cancel, null)
-				.create()
+				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						try {
+							if (MEDIA_LIBRARY_CACHE_DIR.exists()) {
+								StorageOperations.deleteDir(MEDIA_LIBRARY_CACHE_DIR);
+							}
+						} catch (IOException e) {
+							Log.e(TAG, Log.getStackTraceString(e));
+						}
+					}
+				})
 				.show();
 	}
 
@@ -304,7 +334,6 @@ public class ProjectActivity extends BaseCastActivity {
 
 		builder.setTitle(R.string.new_scene_dialog)
 				.setNegativeButton(R.string.cancel, null)
-				.create()
 				.show();
 	}
 
@@ -333,8 +362,7 @@ public class ProjectActivity extends BaseCastActivity {
 								.startActivityForResult(SPRITE_FILE);
 						break;
 					case R.id.dialog_new_look_camera:
-						Uri uri = Uri.fromFile(new File(DEFAULT_ROOT_DIRECTORY, getString(R.string.default_look_name) + ".jpg"));
-						new ImportFromCameraLauncher(ProjectActivity.this, uri)
+						new ImportFromCameraLauncher(ProjectActivity.this)
 								.startActivityForResult(SPRITE_CAMERA);
 						break;
 				}
@@ -350,38 +378,7 @@ public class ProjectActivity extends BaseCastActivity {
 	}
 
 	public void handlePlayButton(View view) {
-		ProjectManager projectManager = ProjectManager.getInstance();
-		Scene currentScene = projectManager.getCurrentlyEditedScene();
-		Scene defaultScene = projectManager.getCurrentProject().getDefaultScene();
-
-		if (currentScene.getName().equals(defaultScene.getName())) {
-			projectManager.setCurrentlyPlayingScene(defaultScene);
-			projectManager.setStartScene(defaultScene);
-			startPreStageActivity();
-		} else {
-			new PlaySceneDialog.Builder(this)
-					.setPositiveButton(R.string.play, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							startPreStageActivity();
-						}
-					})
-					.create()
-					.show();
-		}
-	}
-
-	void startPreStageActivity() {
-		Intent intent = new Intent(this, PreStageActivity.class);
-		startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
-	}
-
-	void startStageActivity() {
-		if (DroneServiceWrapper.checkARDroneAvailability()) {
-			startActivity(new Intent(this, DroneStageActivity.class));
-		} else {
-			startActivity(new Intent(this, StageActivity.class));
-		}
+		StageActivity.handlePlayButton(ProjectManager.getInstance(), this);
 	}
 
 	private void showLegoSensorConfigInfo() {

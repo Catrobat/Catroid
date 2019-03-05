@@ -27,7 +27,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.ResultReceiver;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -37,11 +36,10 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.io.ZipArchiver;
+import org.catrobat.catroid.utils.DeviceSettingsProvider;
 import org.catrobat.catroid.utils.ImageEditing;
-import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.UtilDeviceInfo;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
@@ -49,6 +47,9 @@ import org.catrobat.catroid.web.WebconnectionException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Locale;
+
+import static org.catrobat.catroid.common.Constants.CACHE_DIR;
 
 public class ProjectUploadService extends IntentService {
 
@@ -63,7 +64,6 @@ public class ProjectUploadService extends IntentService {
 	private String provider;
 	private String serverAnswer;
 	private boolean result;
-	public ResultReceiver receiver;
 	private Integer notificationId;
 	private String username;
 	private int statusCode;
@@ -95,7 +95,6 @@ public class ProjectUploadService extends IntentService {
 	protected void onHandleIntent(Intent intent) {
 		XstreamSerializer.getInstance().saveProject(ProjectManager.getInstance().getCurrentProject());
 
-		receiver = intent.getParcelableExtra("receiver");
 		try {
 			if (projectPath == null) {
 				result = false;
@@ -122,7 +121,7 @@ public class ProjectUploadService extends IntentService {
 				}
 			}
 
-			File archive = new File(PathBuilder.buildPath(Constants.TMP_PATH, UPLOAD_FILE_NAME));
+			File archive = new File(CACHE_DIR, UPLOAD_FILE_NAME);
 			new ZipArchiver().zip(archive, projectDir.listFiles());
 
 			Context context = getApplicationContext();
@@ -143,10 +142,10 @@ public class ProjectUploadService extends IntentService {
 			}
 
 			if (userEmail.equals(Constants.NO_EMAIL)) {
-				userEmail = UtilDeviceInfo.getUserEmail(this);
+				userEmail = DeviceSettingsProvider.getUserEmail(this);
 			}
 
-			String language = UtilDeviceInfo.getUserLanguageCode();
+			String language = Locale.getDefault().getLanguage();
 
 			uploadBackupBundle.putString("projectName", projectName);
 			uploadBackupBundle.putString("projectDescription", projectDescription);
@@ -157,10 +156,9 @@ public class ProjectUploadService extends IntentService {
 			uploadBackupBundle.putString("token", token);
 			uploadBackupBundle.putString("username", username);
 			uploadBackupBundle.putInt("notificationId", notificationId);
-			uploadBackupBundle.putParcelable("receiver", receiver);
 
 			ServerCalls.getInstance().uploadProject(projectName, projectDescription, archive.getAbsolutePath(), userEmail,
-					language, token, username, receiver, notificationId, context);
+					language, token, username, notificationId, context);
 
 			archive.delete();
 		} catch (IOException ioException) {

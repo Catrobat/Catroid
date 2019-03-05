@@ -49,9 +49,14 @@
     </style>
 
     <!-- Fonts -->
+    <style name="FontSansSerif" tools:ignore="UnusedResources">
+        <item name="android:fontFamily">@string/sans_serif_font</item>
+        <item name="app_font">@string/sans_serif_font</item>
+    </style>
+
     <style name="FontSerif" tools:ignore="UnusedResources">
-        <item name="android:fontFamily">serif</item>
-        <item name="app_font">serif</item>
+        <item name="android:fontFamily">@string/serif_font</item>
+        <item name="app_font">@string/serif_font</item>
     </style>
 
     <style name="FontDyslexic" tools:ignore="UnusedResources">

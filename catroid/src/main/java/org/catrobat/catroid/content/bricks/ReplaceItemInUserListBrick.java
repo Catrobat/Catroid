@@ -57,6 +57,11 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 	}
 
 	@Override
+	protected BrickField getDefaultBrickField() {
+		return BrickField.REPLACE_ITEM_IN_USERLIST_INDEX;
+	}
+
+	@Override
 	public int getViewResource() {
 		return R.layout.brick_replace_item_in_userlist;
 	}

@@ -22,62 +22,46 @@
  */
 package org.catrobat.catroid.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.StringRes;
+import android.view.View;
+import android.widget.Toast;
 
-import com.github.johnpersano.supertoasts.library.Style;
-import com.github.johnpersano.supertoasts.library.SuperToast;
-import com.github.johnpersano.supertoasts.library.utils.PaletteUtils;
+import org.catrobat.catroid.ui.UiUtils;
 
 public final class ToastUtil {
-
-	private static SuperToast customToast;
 
 	private ToastUtil() {
 	}
 
 	public static void showError(Context context, String message) {
-		createToast(context, message, true);
+		createToast(context, message);
 	}
 
 	public static void showError(Context context, @StringRes int messageId) {
-		createToast(context, context.getResources().getString(messageId), true);
+		createToast(context, context.getResources().getString(messageId));
 	}
 
 	public static void showSuccess(Context context, String message) {
-		createToast(context, message, false);
+		createToast(context, message);
 	}
 
 	public static void showSuccess(Context context, @StringRes int messageId) {
-		createToast(context, context.getResources().getString(messageId), false);
+		createToast(context, context.getResources().getString(messageId));
 	}
 
-	private static void createToast(Context context, String message, boolean error) {
-
-		if (customToast == null || !customToast.isShowing()) {
-
-			customToast = new SuperToast(context);
-			customToast.setText(message);
-			customToast.setTextSize(Style.TEXTSIZE_MEDIUM);
-			customToast.setAnimations(Style.ANIMATIONS_POP);
-			setLook(error);
-
-			customToast.show();
-		} else {
-
-			setLook(error);
-			customToast.setText(message);
+	private static void createToast(Context context, String message) {
+		Activity activity = UiUtils.getActivityFromContextWrapper(context);
+		if (activity == null) {
+			return;
 		}
-	}
-
-	private static void setLook(boolean error) {
-
-		if (error) {
-			customToast.setDuration(Style.DURATION_SHORT);
-			customToast.setColor(PaletteUtils.getSolidColor(PaletteUtils.MATERIAL_RED));
-		} else {
-			customToast.setDuration(Style.DURATION_VERY_SHORT);
-			customToast.setColor(PaletteUtils.getSolidColor(PaletteUtils.MATERIAL_GREEN));
+		View contentView = activity.findViewById(android.R.id.content);
+		if (contentView == null) {
+			return;
 		}
+
+		Toast toast = Toast.makeText(activity, message, Toast.LENGTH_SHORT);
+		toast.show();
 	}
 }

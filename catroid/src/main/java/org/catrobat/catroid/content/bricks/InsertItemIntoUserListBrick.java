@@ -57,6 +57,11 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 	}
 
 	@Override
+	protected BrickField getDefaultBrickField() {
+		return BrickField.INSERT_ITEM_INTO_USERLIST_VALUE;
+	}
+
+	@Override
 	public int getViewResource() {
 		return R.layout.brick_insert_item_into_userlist;
 	}

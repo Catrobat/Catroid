@@ -67,11 +67,7 @@ public class ProjectDetailsFragment extends Fragment {
 		try {
 			projectData = (ProjectData) getArguments().getSerializable(SELECTED_PROJECT_KEY);
 			projectData.project = XstreamSerializer.getInstance().loadProject(projectData.projectName, getActivity());
-		} catch (IOException e) {
-			ToastUtil.showError(getActivity(), R.string.error_load_project);
-			Log.e(TAG, Log.getStackTraceString(e));
-			getActivity().onBackPressed();
-		} catch (LoadingProjectException e) {
+		} catch (IOException | LoadingProjectException e) {
 			ToastUtil.showError(getActivity(), R.string.error_load_project);
 			Log.e(TAG, Log.getStackTraceString(e));
 			getActivity().onBackPressed();
@@ -125,7 +121,6 @@ public class ProjectDetailsFragment extends Fragment {
 
 		builder.setTitle(R.string.set_description)
 				.setNegativeButton(R.string.cancel, null)
-				.create()
 				.show();
 	}
 

@@ -38,8 +38,8 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.recyclerview.dialog.login.OAuthUsernameDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.login.SignInCompleteListener;
+import org.catrobat.catroid.utils.DeviceSettingsProvider;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.UtilDeviceInfo;
 
 public class FacebookLoginHandler implements FacebookCallback<LoginResult>,
 		GetFacebookUserInfoTask.OnGetFacebookUserInfoTaskCompleteListener,
@@ -87,7 +87,7 @@ public class FacebookLoginHandler implements FacebookCallback<LoginResult>,
 			sharedPreferences.edit().putString(Constants.FACEBOOK_EMAIL, email).commit();
 		} else {
 			sharedPreferences.edit().putString(Constants.FACEBOOK_EMAIL,
-					UtilDeviceInfo.getUserEmail(activity)).commit();
+					DeviceSettingsProvider.getUserEmail(activity)).commit();
 		}
 
 		CheckOAuthTokenTask checkOAuthTokenTask = new CheckOAuthTokenTask(activity, id, Constants.FACEBOOK);

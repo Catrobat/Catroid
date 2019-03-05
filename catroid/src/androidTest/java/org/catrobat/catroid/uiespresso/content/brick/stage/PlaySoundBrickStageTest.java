@@ -121,7 +121,7 @@ public class PlaySoundBrickStageTest {
 
 		sprite.addScript(startScript);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 
 		startScript.addBrick(new PlaySoundBrick());

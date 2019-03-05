@@ -71,7 +71,7 @@ public class ShowTextBrickTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void testShowVariableBrick() {
-		final String variableName = "testVarible";
+		final String variableName = "testVariable";
 		final int intToChange = 42;
 		final int positionX = 30;
 		final int positionY = 40;

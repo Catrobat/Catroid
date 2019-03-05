@@ -39,7 +39,6 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.REORDER_TASKS" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -85,12 +84,12 @@
 
     <application
         android:name=".CatroidApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="${appIcon}"
         android:label="${appName}"
         android:theme="@style/Catroid"
         android:supportsRtl="true"
-        tools:replace="android:label">
+        tools:replace="android:label,android:allowBackup">
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -120,30 +119,11 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data
-                    android:host="*"
-                    android:pathPattern="@string/catroid_extension_pathPattern"
-                    android:scheme="http" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data
-                    android:host="*"
-                    android:pathPattern="@string/catroid_extension_pathPattern"
-                    android:scheme="https" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data
-                    android:host="*"
-                    android:mimeType="application/catrobat+zip"
-                    android:pathPattern="@string/catroid_extension_pathPattern"
-                    android:scheme="file" />
+                <data android:scheme="${intentFilterScheme}"
+                    android:host="${intentFilterHost}"
+                    android:pathPattern="${intentFilterPathPattern}"/>
             </intent-filter>
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
@@ -169,19 +149,8 @@
             android:windowSoftInputMode="adjustNothing"/>
 
         <activity
-            android:name=".stage.PreStageActivity"
-            android:screenOrientation="portrait" />
-
-        <activity
             android:name=".stage.StageActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/stage"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" />
-
-        <activity
-            android:name=".drone.ardrone.DroneStageActivity"
-            android:configChanges="orientation"
             android:label="@string/stage"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" />
@@ -244,6 +213,9 @@
         </activity>
 
         <activity
+            android:name=".stage.VisualPlacementActivity"/>
+
+        <activity
             android:name=".pocketmusic.PocketMusicActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
@@ -253,12 +225,26 @@
         <activity
             android:name=".bluetooth.ConnectBluetoothDeviceActivity" />
 
+        <activity
+            android:name=".ui.filepicker.FilePickerActivity" />
+
         <service android:name=".transfers.ProjectUploadService" />
         <service android:name=".transfers.ProjectDownloadService" />
         <service android:name=".transfers.MediaDownloadService" />
         <service android:name="com.parrot.freeflight.service.DroneControlService" />
         <service android:name=".utils.StatusBarNotificationManager$NotificationActionService" />
         <service android:name=".cast.CastService" android:exported="false"/>
+
+        <provider
+            android:authorities="${applicationId}.fileProvider"
+            android:name="android.support.v4.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
     </application>
 </manifest>

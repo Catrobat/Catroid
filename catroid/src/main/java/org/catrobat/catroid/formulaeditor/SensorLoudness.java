@@ -31,20 +31,19 @@ import org.catrobat.catroid.soundrecorder.SoundRecorder;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public final class SensorLoudness {
+public class SensorLoudness {
 
 	private static final int UPDATE_INTERVAL = 50;
 	private static final double SCALE_RANGE = 100d;
 	private static final double MAX_AMP_VALUE = 32767d;
 	private static final String TAG = SensorLoudness.class.getSimpleName();
-	private static SensorLoudness instance = null;
 	private ArrayList<SensorCustomEventListener> listenerList = new ArrayList<SensorCustomEventListener>();
 
 	private SoundRecorder recorder = null;
 	private Handler handler;
 	private float lastValue = 0f;
 
-	private SensorLoudness() {
+	public SensorLoudness() {
 		handler = new Handler();
 		recorder = new SoundRecorder("/dev/null");
 	}
@@ -64,13 +63,6 @@ public final class SensorLoudness {
 			handler.postDelayed(statusChecker, UPDATE_INTERVAL);
 		}
 	};
-
-	public static SensorLoudness getSensorLoudness() {
-		if (instance == null) {
-			instance = new SensorLoudness();
-		}
-		return instance;
-	}
 
 	public synchronized boolean registerListener(SensorCustomEventListener listener) {
 		if (listenerList.contains(listener)) {

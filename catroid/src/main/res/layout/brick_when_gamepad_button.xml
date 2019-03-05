@@ -23,11 +23,10 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:gravity="center_vertical"
-              android:orientation="horizontal" >
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
 
     <CheckBox
         android:id="@+id/brick_checkbox"
@@ -38,38 +37,28 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_when_gamepad_button_layout"
-        style="@style/BrickContainer.Script.Medium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
-        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
+        style="@style/BrickContainer.Script.Medium">
 
-		<include layout="@layout/icon_brick_category_event"/>
+		<include layout="@layout/icon_brick_category_event" />
 
         <TextView
             android:id="@+id/brick_when_gamepad_button_text"
             style="@style/BrickText.SingleLine"
-            android:text="@string/brick_when_gamepad_button" >
-        </TextView >
+            android:text="@string/brick_when_gamepad_button" />
 
-	<Spinner
-		android:id="@+id/brick_when_gamepad_button_spinner"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:layout_alignParentEnd="true"
-		android:layout_centerVertical="true"
-		android:textDirection="locale"
-		android:clickable="false"
-		android:focusable="false"
-	/>
+        <Spinner
+            android:id="@+id/brick_when_gamepad_button_spinner"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:textDirection="locale" />
 
         <TextView
             android:id="@+id/brick_when_gamepad_button_text_pressed"
             style="@style/BrickText.SingleLine"
-            android:text="@string/brick_when_gamepad_button_tapped" >
-        </TextView >
+            android:text="@string/brick_when_gamepad_button_tapped" />
 
-    </org.catrobat.catroid.ui.BrickLayout >
+    </org.catrobat.catroid.ui.BrickLayout>
 
 </LinearLayout>

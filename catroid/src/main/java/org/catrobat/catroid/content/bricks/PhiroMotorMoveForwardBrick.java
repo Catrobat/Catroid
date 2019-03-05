@@ -69,12 +69,6 @@ public class PhiroMotorMoveForwardBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		super.getPrototypeView(context);
-		return getView(context);
-	}
-
-	@Override
 	public View getView(Context context) {
 		super.getView(context);
 		ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(context,

@@ -29,7 +29,6 @@ import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -82,15 +81,6 @@ public class GoNStepsBackBrick extends FormulaBrick {
 		}
 
 		return view;
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = super.getPrototypeView(context);
-		TextView times = prototypeView.findViewById(R.id.brick_go_back_layers_text_view);
-		times.setText(context.getResources()
-				.getQuantityString(R.plurals.brick_go_back_layer_plural, Utils.convertDoubleToPluralInteger(BrickValues.GO_BACK)));
-		return prototypeView;
 	}
 
 	@Override

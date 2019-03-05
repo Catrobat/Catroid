@@ -64,12 +64,6 @@ public class PhiroMotorMoveBackwardBrick extends FormulaBrick {
 	}
 
 	@Override
-	public View getPrototypeView(Context context) {
-		super.getPrototypeView(context);
-		return getView(context);
-	}
-
-	@Override
 	public View getCustomView(Context context) {
 		return new SingleSeekBar(this, BrickField.PHIRO_SPEED, R.string.phiro_motor_speed).getView(context);
 	}
