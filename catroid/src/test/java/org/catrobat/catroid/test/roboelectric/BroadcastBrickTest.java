@@ -102,7 +102,8 @@ public class BroadcastBrickTest {
 	@Test
 	public void testBroadcastAddNewMessage() {
 		assertEquals("initialMessage", ((Nameable) getBrickSpinner().getSelectedItem()).getName());
-		broadcastBrick.getOkButtonListener().onPositiveButtonClick(Mockito.mock(DialogInterface.class), "newMessage");
+		broadcastBrick.getOkButtonListener((SpriteActivity)activity).onPositiveButtonClick(Mockito.mock(DialogInterface.class),
+				"newMessage");
 		assertEquals("newMessage", ((Nameable) getBrickSpinner().getSelectedItem()).getName());
 	}
 

@@ -117,6 +117,7 @@ public class SceneStartBrick extends BrickBaseType implements BrickSpinner.OnIte
 						currentProject.addScene(scene);
 						spinner.add(scene);
 						spinner.setSelection(scene);
+						notifyDataSetChanged(activity);
 					}
 				});
 
