@@ -410,6 +410,7 @@ public class SpriteActivity extends BaseActivity {
 						}
 						if (onNewSpriteListener != null) {
 							onNewSpriteListener.addItem(sprite);
+							refreshScriptFragment();
 						}
 					}
 				});
@@ -459,6 +460,7 @@ public class SpriteActivity extends BaseActivity {
 			currentSprite.getLookList().add(look);
 			if (onNewLookListener != null) {
 				onNewLookListener.addItem(look);
+				refreshScriptFragment();
 			}
 		} catch (IOException e) {
 			Log.e(TAG, Log.getStackTraceString(e));
@@ -824,5 +826,12 @@ public class SpriteActivity extends BaseActivity {
 			getSupportFragmentManager().popBackStack();
 		}
 		StageActivity.handlePlayButton(ProjectManager.getInstance(), this);
+	}
+
+	void refreshScriptFragment() {
+		Fragment currentFragment = getCurrentFragment();
+		if (currentFragment instanceof ScriptFragment) {
+			((ScriptFragment) currentFragment).notifyDataSetChanged();
+		}
 	}
 }

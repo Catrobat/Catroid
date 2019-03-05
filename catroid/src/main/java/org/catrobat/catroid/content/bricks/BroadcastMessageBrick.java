@@ -26,7 +26,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import org.catrobat.catroid.ProjectManager;
@@ -35,6 +34,7 @@ import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.NonEmptyStringTextWatcher;
@@ -83,7 +83,7 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 
 	@Override
 	public void onNewOptionSelected() {
-		AppCompatActivity activity = UiUtils.getActivityFromView(view);
+		final SpriteActivity activity = (SpriteActivity) UiUtils.getActivityFromView(view);
 		if (activity == null) {
 			return;
 		}
@@ -91,7 +91,7 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 
 		builder.setHint(activity.getString(R.string.dialog_new_broadcast_message_name))
 				.setTextWatcher(new NonEmptyStringTextWatcher())
-				.setPositiveButton(activity.getString(R.string.ok), getOkButtonListener())
+				.setPositiveButton(activity.getString(R.string.ok), getOkButtonListener(activity))
 				.setTitle(R.string.dialog_new_broadcast_message_title)
 				.setNegativeButton(R.string.cancel, getNegativeButtonListener())
 				.setOnCancelListener(getCanceledListener())
@@ -115,11 +115,12 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 	}
 
 	@VisibleForTesting
-	public TextInputDialog.OnClickListener getOkButtonListener() {
+	public TextInputDialog.OnClickListener getOkButtonListener(final SpriteActivity activity) {
 		return new TextInputDialog.OnClickListener() {
 			@Override
 			public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
 				addItem(textInput);
+				notifyDataSetChanged(activity);
 			}
 		};
 	}
