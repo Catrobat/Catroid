@@ -76,6 +76,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static org.catrobat.catroid.stage.StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME;
+
 public class StageActivity extends AndroidApplication implements PermissionHandlingActivity {
 
 	public static final String TAG = StageActivity.class.getSimpleName();
@@ -233,6 +235,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 			finish();
 		} else {
 			StageLifeCycleController.stagePause(this);
+			stageListener.takeScreenshot(SCREENSHOT_AUTOMATIC_FILE_NAME);
 			stageDialog.show();
 		}
 	}
