@@ -39,10 +39,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShowTextColorSizeAlignmentBrick extends UserVariableBrick {
+
 	private static final long serialVersionUID = 1L;
+
 	public static final int ALIGNMENT_STYLE_LEFT = 0;
 	public static final int ALIGNMENT_STYLE_CENTERED = 1;
 	public static final int ALIGNMENT_STYLE_RIGHT = 2;
+
 	public int alignmentSelection = ALIGNMENT_STYLE_CENTERED;
 
 	class AlignmentStyle implements Nameable {
@@ -68,6 +71,7 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrick {
 	protected BrickField getDefaultBrickField() {
 		return BrickField.X_POSITION;
 	}
+
 	public ShowTextColorSizeAlignmentBrick() {
 		addAllowedBrickField(BrickField.X_POSITION, R.id.brick_show_variable_color_size_edit_text_x);
 		addAllowedBrickField(BrickField.Y_POSITION, R.id.brick_show_variable_color_size_edit_text_y);
