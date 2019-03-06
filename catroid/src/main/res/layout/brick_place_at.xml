@@ -62,6 +62,7 @@
 
         <TextView
             style="@style/BrickText.SingleLine"
+            android:paddingStart="@dimen/material_design_spacing_small"
             android:text="@string/y_label">
         </TextView>
 

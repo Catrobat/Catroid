@@ -47,6 +47,8 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.BrickBaseType;
+import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -58,7 +60,6 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropInterface;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
-import org.catrobat.catroid.ui.recyclerview.dialog.PlaySceneDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.NewItemTextWatcher;
@@ -84,6 +85,8 @@ import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BACKGROUNDS_
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BACKGROUNDS_URL_PORTRAIT;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_LOOKS_URL;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_SOUNDS_URL;
+import static org.catrobat.catroid.stage.VisualPlacementActivity.X_COORDINATE_BUNDLE_ARGUMENT;
+import static org.catrobat.catroid.stage.VisualPlacementActivity.Y_COORDINATE_BUNDLE_ARGUMENT;
 import static org.catrobat.catroid.ui.WebViewActivity.MEDIA_FILE_PATH;
 
 public class SpriteActivity extends BaseActivity {
@@ -114,7 +117,10 @@ public class SpriteActivity extends BaseActivity {
 	public static final int SOUND_LIBRARY = 13;
 	public static final int SOUND_FILE = 14;
 
+	public static final int REQUEST_CODE_VISUAL_PLACEMENT = 2019;
+
 	public static final String EXTRA_FRAGMENT_POSITION = "fragmentPosition";
+	public static final String EXTRA_BRICK_HASH = "BRICK_HASH";
 
 	private NewItemInterface<Sprite> onNewSpriteListener;
 	private NewItemInterface<LookData> onNewLookListener;
@@ -220,12 +226,17 @@ public class SpriteActivity extends BaseActivity {
 
 	@Override
 	public void onBackPressed() {
-		boolean isDragAndDropActiveInFragment = getCurrentFragment() instanceof DragAndDropInterface
-				&& ((DragAndDropInterface) getCurrentFragment()).isCurrentlyMoving();
 
-		if (isDragAndDropActiveInFragment) {
-			((DragAndDropInterface) getCurrentFragment()).cancelMove();
-			return;
+		Fragment currentFragment = getCurrentFragment();
+		if (currentFragment instanceof ScriptFragment) {
+			if (((DragAndDropInterface) currentFragment).isCurrentlyMoving()) {
+				((DragAndDropInterface) currentFragment).cancelMove();
+				return;
+			}
+			if (((ScriptFragment) currentFragment).isCurrentlyHighlighted()) {
+				((ScriptFragment) currentFragment).cancelHighlighting();
+				return;
+			}
 		}
 		if (getCurrentFragment() instanceof FormulaEditorFragment) {
 			((FormulaEditorFragment) getCurrentFragment()).promptSave();
@@ -311,6 +322,24 @@ public class SpriteActivity extends BaseActivity {
 			case SOUND_LIBRARY:
 				uri = Uri.fromFile(new File(data.getStringExtra(MEDIA_FILE_PATH)));
 				addSoundFromUri(uri);
+				break;
+			case REQUEST_CODE_VISUAL_PLACEMENT:
+				Bundle extras = data.getExtras();
+				if (extras == null) {
+					return;
+				}
+				int xCoordinate = extras.getInt(X_COORDINATE_BUNDLE_ARGUMENT);
+				int yCoordinate = extras.getInt(Y_COORDINATE_BUNDLE_ARGUMENT);
+				int brickHash = extras.getInt(EXTRA_BRICK_HASH);
+
+				Fragment fragment = getCurrentFragment();
+
+				if (fragment instanceof ScriptFragment) {
+					BrickBaseType brick = ((ScriptFragment) fragment).findBrickByHash(brickHash);
+					if (brick != null) {
+						((PlaceAtBrick) brick).setCoordinates(xCoordinate, yCoordinate);
+					}
+				}
 				break;
 		}
 	}
@@ -783,41 +812,20 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	public void handlePlayButton(View view) {
-		boolean isDragAndDropActiveInFragment = getCurrentFragment() instanceof DragAndDropInterface
-				&& ((DragAndDropInterface) getCurrentFragment()).isCurrentlyMoving();
-
-		if (isDragAndDropActiveInFragment) {
-			((DragAndDropInterface) getCurrentFragment()).highlightMovingItem();
-			return;
+		Fragment currentFragment = getCurrentFragment();
+		if (currentFragment instanceof ScriptFragment) {
+			if (((ScriptFragment) currentFragment).isCurrentlyHighlighted()) {
+				((ScriptFragment) currentFragment).cancelHighlighting();
+			}
+			if (((DragAndDropInterface) currentFragment).isCurrentlyMoving()) {
+				((DragAndDropInterface) getCurrentFragment()).highlightMovingItem();
+				return;
+			}
 		}
 
 		while (getSupportFragmentManager().getBackStackEntryCount() > 0) {
 			getSupportFragmentManager().popBackStack();
 		}
-
-		ProjectManager projectManager = ProjectManager.getInstance();
-		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
-		Scene defaultScene = projectManager.getCurrentProject().getDefaultScene();
-
-		if (currentScene.getName().equals(defaultScene.getName())) {
-			projectManager.setCurrentlyPlayingScene(defaultScene);
-			projectManager.setStartScene(defaultScene);
-			startStageActivity();
-		} else {
-			new PlaySceneDialog.Builder(this)
-					.setPositiveButton(R.string.play, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							startStageActivity();
-						}
-					})
-					.create()
-					.show();
-		}
-	}
-
-	void startStageActivity() {
-		Intent intent = new Intent(this, StageActivity.class);
-		startActivityForResult(intent, StageActivity.REQUEST_START_STAGE);
+		StageActivity.handlePlayButton(ProjectManager.getInstance(), this);
 	}
 }

@@ -55,6 +55,7 @@ import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
 import org.catrobat.catroid.content.bricks.SayForBubbleBrick;
 import org.catrobat.catroid.content.bricks.SetPenColorBrick;
 import org.catrobat.catroid.content.bricks.ShowTextBrick;
+import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick;
 import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.physics.content.bricks.SetGravityBrick;
@@ -89,6 +90,7 @@ public class BricksWithMultipleBrickFieldsEditFormulaTest {
 	private int dronePower = 20;
 	private int xCoordinate = 100;
 	private int yCoordinate = 200;
+	private double relativeTextSize = 100;
 	private double droneDurationFormulaEditor = droneDuration / 1000.0;
 
 	@Before
@@ -120,18 +122,19 @@ public class BricksWithMultipleBrickFieldsEditFormulaTest {
 		checkFormulaEditorStartWithFirstBrickField(16, droneDurationFormulaEditor + " ");
 
 		checkFormulaEditorStartWithFirstBrickField(17, xCoordinate + " ");
-		checkFormulaEditorStartWithFirstBrickField(18, 1 + " ");
+		checkFormulaEditorStartWithFirstBrickField(18, xCoordinate + " ");
 		checkFormulaEditorStartWithFirstBrickField(19, 1 + " ");
+		checkFormulaEditorStartWithFirstBrickField(20, 1 + " ");
 
-		checkFormulaEditorStartWithFirstBrickField(20, "'Servus' ");
-		checkFormulaEditorStartWithFirstBrickField(21, "'Serwaas' ");
-		checkFormulaEditorStartWithFirstBrickField(22, "'red' ");
-		checkFormulaEditorStartWithFirstBrickField(23, "'r' ");
+		checkFormulaEditorStartWithFirstBrickField(21, "'Servus' ");
+		checkFormulaEditorStartWithFirstBrickField(22, "'Serwaas' ");
+		checkFormulaEditorStartWithFirstBrickField(23, "'red' ");
+		checkFormulaEditorStartWithFirstBrickField(24, "'r' ");
 
-		checkFormulaEditorStartWithFirstBrickField(24, xCoordinate + " ");
-		checkFormulaEditorStartWithFirstBrickField(25, droneDurationFormulaEditor + " ");
-		checkFormulaEditorStartWithFirstBrickField(26, 1 + " ");
-		checkFormulaEditorStartWithFirstBrickField(27, 5 + " ");
+		checkFormulaEditorStartWithFirstBrickField(25, xCoordinate + " ");
+		checkFormulaEditorStartWithFirstBrickField(26, droneDurationFormulaEditor + " ");
+		checkFormulaEditorStartWithFirstBrickField(27, 1 + " ");
+		checkFormulaEditorStartWithFirstBrickField(28, 5 + " ");
 	}
 
 	private void checkFormulaEditorStartWithFirstBrickField(int brickPosition, String shownText) {
@@ -175,6 +178,8 @@ public class BricksWithMultipleBrickFieldsEditFormulaTest {
 		sprite1StartScript.addBrick(new JumpingSumoMoveForwardBrick(droneDuration, dronePower));
 
 		sprite1StartScript.addBrick(new ShowTextBrick(xCoordinate, yCoordinate));
+		sprite1StartScript.addBrick(new ShowTextColorSizeAlignmentBrick(xCoordinate, yCoordinate, relativeTextSize,
+				"#FF00FF"));
 		sprite1StartScript.addBrick(new InsertItemIntoUserListBrick(new Formula(1), new Formula(1)));
 		sprite1StartScript.addBrick(new ReplaceItemInUserListBrick(new Formula(1), new Formula(1)));
 

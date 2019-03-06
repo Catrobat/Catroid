@@ -23,95 +23,83 @@
 
 package org.catrobat.catroid.io.asynctask;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
+import org.catrobat.catroid.utils.FileMetaDataExtractor;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public class ProjectImportTask extends AsyncTask<File, Boolean, Boolean> {
 
-	private WeakReference<Context> weakContextReference;
+	public static final String TAG = ProjectImportTask.class.getSimpleName();
+
 	private WeakReference<ProjectImportListener> weakListenerReference;
 
-	public ProjectImportTask(Context context, ProjectImportListener projectImportListener) {
-		weakContextReference = new WeakReference<>(context);
-		weakListenerReference = new WeakReference<>(projectImportListener);
+	public ProjectImportTask(ProjectImportListener listener) {
+		this.weakListenerReference = new WeakReference<>(listener);
 	}
 
-	private boolean importProject(File projectDir, Context context) {
-		if (new File(projectDir, CODE_XML_FILE_NAME).exists()) {
-
-			File dstDir = new File(DEFAULT_ROOT_DIRECTORY, projectDir.getName());
-
-			List<String> fileNames = new ArrayList<>();
-			for (File dir : DEFAULT_ROOT_DIRECTORY.listFiles()) {
-				fileNames.add(dir.getName());
-			}
-
-			if (dstDir.exists()) {
-				File newDstDir = new File(DEFAULT_ROOT_DIRECTORY,
-						new UniqueNameProvider().getUniqueName(projectDir.getName(), fileNames));
-				try {
-					StorageOperations.copyDir(projectDir, newDstDir);
-					ProjectManager.renameProject(dstDir.getName(), newDstDir.getName(), context);
-					return true;
-				} catch (IOException e) {
-					Log.e(getClass().getSimpleName(), "Cannot rename project: "
-							+ newDstDir.getName() + ", deleting dir.", e);
-					if (newDstDir.exists()) {
-						try {
-							StorageOperations.deleteDir(newDstDir);
-						} catch (IOException deleteException) {
-							Log.e(getClass().getSimpleName(), "Cannot delete "
-									+ newDstDir.getAbsolutePath(), deleteException);
-						}
-					}
-					return false;
-				}
-			} else {
-				try {
-					StorageOperations.copyDir(projectDir, dstDir);
-					return true;
-				} catch (IOException e) {
-					if (dstDir.exists()) {
-						try {
-							StorageOperations.deleteDir(dstDir);
-						} catch (IOException deleteException) {
-							Log.e(getClass().getSimpleName(), "Cannot delete "
-									+ dstDir.getAbsolutePath(), deleteException);
-						}
-					}
-					return false;
-				}
-			}
+	public static boolean task(File... files) {
+		boolean success = true;
+		for (File projectDir : files) {
+			success = success && importProject(projectDir);
 		}
-		return false;
+		return success;
+	}
+
+	private static boolean importProject(File projectDir) {
+		File xmlFile = new File(projectDir, CODE_XML_FILE_NAME);
+		if (!xmlFile.exists()) {
+			Log.e(TAG, "No xml file found for project " + projectDir.getName());
+			return false;
+		}
+		String projectName;
+		try {
+			projectName = XstreamSerializer.getInstance().getProjectName(xmlFile);
+		} catch (IOException e) {
+			Log.d(TAG, "Cannot extract projectName from xml", e);
+			return false;
+		}
+
+		if (projectName == null) {
+			return false;
+		}
+
+		projectName = new UniqueNameProvider()
+				.getUniqueName(projectName, FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY));
+
+		File dstDir = new File(DEFAULT_ROOT_DIRECTORY, projectName);
+
+		try {
+			StorageOperations.copyDir(projectDir, dstDir);
+			XstreamSerializer.getInstance().renameProject(new File(dstDir, CODE_XML_FILE_NAME), projectName);
+			return true;
+		} catch (IOException e) {
+			Log.e(TAG, "Something went wrong while importing project " + projectDir.getName(), e);
+			if (dstDir.isDirectory()) {
+				Log.e(TAG, "Folder exists, trying to delete folder.");
+				try {
+					StorageOperations.deleteDir(projectDir);
+				} catch (IOException deleteException) {
+					Log.e(TAG, "Cannot delete folder " + projectDir, deleteException);
+				}
+			}
+			return false;
+		}
 	}
 
 	@Override
 	protected Boolean doInBackground(File... files) {
-		Context context = weakContextReference.get();
-		if (context == null) {
-			return false;
-		}
-
-		boolean success = true;
-		for (File projectDir : files) {
-			success = success && importProject(projectDir, context);
-		}
-		return success;
+		return task(files);
 	}
 
 	@Override

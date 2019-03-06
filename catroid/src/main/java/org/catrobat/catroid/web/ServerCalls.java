@@ -219,7 +219,6 @@ public final class ServerCalls implements ScratchDataFetcher {
 			final int favorites = jsonData.getInt("favorites");
 			final int loves = jsonData.getInt("loves");
 			final ScratchVisibilityState visibilityState = ScratchVisibilityState.valueOf(jsonObject.getInt("visibility"));
-			final JSONArray jsonTags = jsonData.getJSONArray("tags");
 
 			Date sharedDate;
 			try {
@@ -250,10 +249,6 @@ public final class ServerCalls implements ScratchDataFetcher {
 			programData.setLoves(loves);
 			programData.setFavorites(favorites);
 			programData.setVisibilityState(visibilityState);
-
-			for (int i = 0; i < jsonTags.length(); i++) {
-				programData.addTag(jsonTags.getString(i));
-			}
 
 			JSONArray remixes = jsonData.getJSONArray("remixes");
 			for (int i = 0; i < remixes.length(); ++i) {
@@ -389,7 +384,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 	}
 
 	public void uploadProject(String projectName, String projectDescription, String zipFileString, String userEmail,
-			String language, String token, String username, ResultReceiver receiver, Integer notificationId,
+			String language, String token, String username, Integer notificationId,
 			Context context) throws WebconnectionException {
 
 		if (context == null) {

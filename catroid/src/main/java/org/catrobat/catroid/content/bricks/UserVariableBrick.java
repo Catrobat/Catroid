@@ -50,7 +50,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class UserVariableBrick extends FormulaBrick implements BrickSpinner.OnItemSelectedListener<UserVariable> {
-
 	protected UserVariable userVariable;
 
 	private transient BrickSpinner<UserVariable> spinner;
@@ -88,7 +87,6 @@ public abstract class UserVariableBrick extends FormulaBrick implements BrickSpi
 		spinner = new BrickSpinner<>(getSpinnerId(), view, items);
 		spinner.setOnItemSelectedListener(this);
 		spinner.setSelection(userVariable);
-
 		return view;
 	}
 

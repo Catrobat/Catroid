@@ -48,14 +48,12 @@ import org.catrobat.catroid.ui.recyclerview.controller.BrickController;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.PathBuilder;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import static org.catrobat.catroid.common.Constants.PREF_PROJECTNAME_KEY;
-import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public final class ProjectManager {
 
@@ -161,6 +159,9 @@ public final class ProjectManager {
 			project.setCatrobatLanguageVersion(0.998f);
 		}
 		if (project.getCatrobatLanguageVersion() == 0.998f) {
+			project.setCatrobatLanguageVersion(0.999f);
+		}
+		if (project.getCatrobatLanguageVersion() == 0.999f) {
 			project.setCatrobatLanguageVersion(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
 		}
 
@@ -373,35 +374,6 @@ public final class ProjectManager {
 			currentlyEditedScene = project.getDefaultScene();
 			currentlyPlayingScene = currentlyEditedScene;
 		}
-	}
-
-	public static boolean renameProject(String currentName, String newName, Context context) {
-		XstreamSerializer xstreamSerializer = XstreamSerializer.getInstance();
-
-		if (xstreamSerializer.projectExists(newName)
-				|| !xstreamSerializer.projectExists(currentName)) {
-			return false;
-		}
-
-		if (currentName.equals(newName)) {
-			Log.e(TAG, "Renaming project " + currentName + " to " + newName + " is not necessary.");
-			return true;
-		}
-
-		File currentDir = new File(DEFAULT_ROOT_DIRECTORY, currentName);
-		File newDir = new File(DEFAULT_ROOT_DIRECTORY, newName);
-
-		if (currentDir.renameTo(newDir)) {
-			try {
-				Project renamedProject = xstreamSerializer.loadProject(newName, context);
-				renamedProject.setName(newName);
-				xstreamSerializer.saveProject(renamedProject);
-				return true;
-			} catch (IOException | LoadingProjectException e) {
-				Log.e(TAG, "Cannot rename project: " + currentName + " to " + newName, e);
-			}
-		}
-		return false;
 	}
 
 	public Sprite getCurrentSprite() {

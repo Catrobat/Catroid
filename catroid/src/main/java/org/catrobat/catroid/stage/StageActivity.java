@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.stage;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.DialogInterface;
@@ -53,6 +54,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.ServiceProvider;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.actions.AskAction;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoDeviceController;
@@ -62,6 +64,7 @@ import org.catrobat.catroid.io.StageAudioFocus;
 import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.ui.MarketingActivity;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.PlaySceneDialog;
 import org.catrobat.catroid.ui.runtimepermissions.PermissionHandlingActivity;
 import org.catrobat.catroid.ui.runtimepermissions.PermissionRequestActivityExtension;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
@@ -72,6 +75,8 @@ import org.catrobat.catroid.utils.VibratorUtil;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import static org.catrobat.catroid.stage.StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME;
 
 public class StageActivity extends AndroidApplication implements PermissionHandlingActivity {
 
@@ -230,6 +235,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 			finish();
 		} else {
 			StageLifeCycleController.stagePause(this);
+			stageListener.takeScreenshot(SCREENSHOT_AUTOMATIC_FILE_NAME);
 			stageDialog.show();
 		}
 	}
@@ -414,5 +420,31 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	@Override
 	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 		permissionRequestActivityExtension.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+	}
+
+	public static void handlePlayButton(ProjectManager projectManager, final Activity activity) {
+		Scene currentScene = projectManager.getCurrentlyEditedScene();
+		Scene defaultScene = projectManager.getCurrentProject().getDefaultScene();
+
+		if (currentScene.getName().equals(defaultScene.getName())) {
+			projectManager.setCurrentlyPlayingScene(defaultScene);
+			projectManager.setStartScene(defaultScene);
+			startStageActivity(activity);
+		} else {
+			new PlaySceneDialog.Builder(activity)
+					.setPositiveButton(R.string.play, new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							startStageActivity(activity);
+						}
+					})
+					.create()
+					.show();
+		}
+	}
+
+	private static void startStageActivity(Activity activity) {
+		Intent intent = new Intent(activity, StageActivity.class);
+		activity.startActivityForResult(intent, StageActivity.REQUEST_START_STAGE);
 	}
 }

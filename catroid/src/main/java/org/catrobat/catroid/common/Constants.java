@@ -37,7 +37,7 @@ import static org.catrobat.catroid.common.FlavoredConstants.BASE_URL_HTTPS;
 
 public final class Constants {
 
-	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = 0.998f;
+	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = 0.999f;
 
 	public static final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
 	public static final int CAST_CONNECTION_TIMEOUT = 5000; //in milliseconds
@@ -84,6 +84,8 @@ public final class Constants {
 	// Temporary Files and Directories:
 	public static final File CACHE_DIR = CatroidApplication.getAppContext().getCacheDir();
 
+	public static final String CACHED_PROJECT_ZIP_FILE_NAME = "projectImportCache.zip";
+
 	public static final File POCKET_PAINT_CACHE_DIR = new File(CACHE_DIR, "pocketPaint");
 	public static final File CAMERA_CACHE_DIR = new File(CACHE_DIR, "camera");
 	public static final File SOUND_RECORDER_CACHE_DIR = new File(CACHE_DIR, "soundRecorder");
@@ -108,6 +110,8 @@ public final class Constants {
 	public static final String CATROBAT_HELP_URL = BASE_URL_HTTPS + "help";
 	public static final String CATROBAT_TOKEN_LOGIN_URL = BASE_URL_HTTPS + "tokenlogin?username=";
 	public static final String CATROBAT_DELETE_ACCOUNT_URL = BASE_URL_HTTPS + "profile/edit";
+
+	public static final String PLAY_STORE_PAGE_LINK = "https://play.google.com/store/apps/details?id=";
 
 	// XStream:
 	public static final String TEXT_TO_SPEECH = "TEXT_TO_SPEECH";
@@ -175,6 +179,7 @@ public final class Constants {
 	public static final String PLATFORM_DEFAULT = "Android";
 
 	public static final String WHATSAPP_URI = "whatsapp://";
+
 	// Scratch Converter
 	public static final int DOWNLOAD_FILE_HTTP_TIMEOUT = 30_000;
 	public static final long INVALID_SCRATCH_PROGRAM_ID = 0;
@@ -237,15 +242,12 @@ public final class Constants {
 
 	public static final int Z_INDEX_BACKGROUND = 0;
 
-	// this offset reflects the offset caused by "virtual" layers (currently PenActor, EmbroideryActor)
 	public static final int Z_INDEX_NUMBER_VIRTUAL_LAYERS = 2;
 
 	public static final int Z_INDEX_FIRST_SPRITE = Z_INDEX_BACKGROUND + Z_INDEX_NUMBER_VIRTUAL_LAYERS + 1;
 
 	public static final String NO_VARIABLE_SELECTED = "No variable set";
 	public static final String NO_VALUE_SET = "No value set";
-	public static final String PROJECT_UPLOAD_NAME = "projectUploadName";
-	public static final String PROJECT_UPLOAD_DESCRIPTION = "setProjectDescription";
 	public static final int SAY_BRICK = 0;
 	public static final int THINK_BRICK = 1;
 	public static final int MAX_STRING_LENGTH_BUBBLES = 16;
@@ -258,7 +260,6 @@ public final class Constants {
 	public static final int JUMPING_SUMO_BATTERY_STATUS = 100;
 
 	//Services + Notifications
-	public static final int UPDATE_UPLOAD_PROGRESS = 100;
 	public static final int UPDATE_DOWNLOAD_PROGRESS = 101;
 	public static final int UPDATE_DOWNLOAD_ERROR = 105;
 

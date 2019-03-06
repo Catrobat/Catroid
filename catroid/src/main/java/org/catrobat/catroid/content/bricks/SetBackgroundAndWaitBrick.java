@@ -37,6 +37,8 @@ import java.util.List;
 
 public class SetBackgroundAndWaitBrick extends SetBackgroundBrick {
 
+	private static final long serialVersionUID = 1L;
+
 	public SetBackgroundAndWaitBrick() {
 	}
 

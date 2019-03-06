@@ -86,7 +86,42 @@ public class MainMenuActivity extends BaseCastActivity implements
 		ProjectLoadTask.ProjectLoadListener {
 
 	public static final String TAG = MainMenuActivity.class.getSimpleName();
-	public static final int REQUEST_PERMISSIONS_MAIN_STORAGE = 501;
+	public static final int REQUEST_PERMISSIONS_MOVE_TO_INTERNAL_STORAGE = 501;
+
+	private ProjectImportTask.ProjectImportListener projectCopyListener =
+			new ProjectImportTask.ProjectImportListener() {
+
+				@Override
+				public void onImportFinished(boolean success) {
+					loadFragment();
+					setShowProgressBar(false);
+					if (success) {
+						ToastUtil.showSuccess(MainMenuActivity.this, R.string.projects_successful_copied_toast);
+					} else {
+						ToastUtil.showError(MainMenuActivity.this, R.string.error_during_copying_projects_toast);
+					}
+				}
+			};
+
+	private ProjectImportTask.ProjectImportListener projectMoveListener =
+			new ProjectImportTask.ProjectImportListener() {
+
+				@Override
+				public void onImportFinished(boolean success) {
+					loadFragment();
+					setShowProgressBar(false);
+					if (success) {
+						ToastUtil.showSuccess(MainMenuActivity.this, R.string.projects_successful_moved_toast);
+						try {
+							StorageOperations.deleteDir(EXTERNAL_STORAGE_ROOT_DIRECTORY);
+						} catch (IOException e) {
+							Log.e(TAG, "Cannot delete dir in external storage after import", e);
+						}
+					} else {
+						ToastUtil.showError(MainMenuActivity.this, R.string.error_during_copying_projects_toast);
+					}
+				}
+			};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -153,7 +188,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 				.getBoolean(SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG, true);
 
 		if (checkForProjectsInExternalStorage) {
-			new RequiresPermissionTask(REQUEST_PERMISSIONS_MAIN_STORAGE,
+			new RequiresPermissionTask(REQUEST_PERMISSIONS_MOVE_TO_INTERNAL_STORAGE,
 					Arrays.asList(WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE),
 					R.string.runtime_permission_general) {
 				public void task() {
@@ -188,6 +223,18 @@ public class MainMenuActivity extends BaseCastActivity implements
 				.replace(R.id.fragment_container, new MainMenuFragment(), MainMenuFragment.TAG)
 				.commit();
 		setShowProgressBar(false);
+
+		Intent intent = getIntent();
+		if (intent != null
+				&& intent.getAction() != null
+				&& intent.getAction().equals("android.intent.action.VIEW")
+				&& intent.getData() != null) {
+			Uri shareUri = intent.getData();
+
+			Intent webIntent = new Intent(this, WebViewActivity.class);
+			webIntent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, shareUri.toString());
+			startActivity(webIntent);
+		}
 	}
 
 	private void importProjectsFromExternalStorage() {
@@ -227,43 +274,13 @@ public class MainMenuActivity extends BaseCastActivity implements
 				.setPositiveButton(R.string.import_dialog_move_btn, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						new ProjectImportTask(MainMenuActivity.this, new ProjectImportTask.ProjectImportListener() {
-							@Override
-							public void onImportFinished(boolean success) {
-								loadFragment();
-								setShowProgressBar(false);
-								if (success) {
-									ToastUtil.showSuccess(MainMenuActivity.this, R.string.projects_successful_moved_toast);
-									for (File dir : dirs) {
-										try {
-											StorageOperations.deleteDir(dir);
-										} catch (IOException e) {
-											Log.e(getClass().getSimpleName(),
-													"Cannot delete dir in external storage after import", e);
-										}
-									}
-								} else {
-									ToastUtil.showError(MainMenuActivity.this, R.string.error_during_copying_projects_toast);
-								}
-							}
-						}).execute(dirs.toArray(new File[0]));
+						new ProjectImportTask(projectMoveListener).execute(dirs.toArray(new File[0]));
 					}
 				})
 				.setNeutralButton(R.string.import_dialog_copy_btn, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						new ProjectImportTask(MainMenuActivity.this, new ProjectImportTask.ProjectImportListener() {
-							@Override
-							public void onImportFinished(boolean success) {
-								loadFragment();
-								setShowProgressBar(false);
-								if (success) {
-									ToastUtil.showSuccess(MainMenuActivity.this, R.string.projects_successful_copied_toast);
-								} else {
-									ToastUtil.showError(MainMenuActivity.this, R.string.error_during_copying_projects_toast);
-								}
-							}
-						}).execute(dirs.toArray(new File[0]));
+						new ProjectImportTask(projectCopyListener).execute(dirs.toArray(new File[0]));
 					}
 				})
 				.show();

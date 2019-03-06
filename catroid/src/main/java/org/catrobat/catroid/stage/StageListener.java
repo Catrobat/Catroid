@@ -106,8 +106,6 @@ public class StageListener implements ApplicationListener {
 	private boolean reloadProject = false;
 	public boolean firstFrameDrawn = false;
 
-	private static boolean checkIfAutomaticScreenshotShouldBeTaken = true;
-	private boolean makeAutomaticScreenshot = false;
 	private boolean makeScreenshot = false;
 	private String pathForSceneScreenshot;
 	private int screenshotWidth;
@@ -115,9 +113,6 @@ public class StageListener implements ApplicationListener {
 	private int screenshotX;
 	private int screenshotY;
 	private byte[] screenshot = null;
-	// in first frame, framebuffer could be empty and screenshot
-	// would be white
-	private boolean skipFirstFrameForAutomaticScreenshot;
 
 	private Project project;
 	private Scene scene;
@@ -163,7 +158,6 @@ public class StageListener implements ApplicationListener {
 	private static final int Z_LAYER_PEN_ACTOR = 1;
 	private static final int Z_LAYER_EMBROIDERY_ACTOR = 2;
 
-	private byte[] thumbnail;
 	private Map<String, StageBackup> stageBackupMap = new HashMap<>();
 
 	private InputListener inputListener = null;
@@ -203,11 +197,6 @@ public class StageListener implements ApplicationListener {
 		stage.addActor(passepartout);
 
 		axes = new Texture(Gdx.files.internal("stage/red_pixel.bmp"));
-		skipFirstFrameForAutomaticScreenshot = true;
-		if (checkIfAutomaticScreenshotShouldBeTaken) {
-			makeAutomaticScreenshot = project.manualScreenshotExists(SCREENSHOT_MANUAL_FILE_NAME)
-					|| scene.hasScreenshot();
-		}
 		FaceDetectionHandler.resumeFaceDetection();
 
 		embroideryList = new EmbroideryList();
@@ -432,9 +421,6 @@ public class StageListener implements ApplicationListener {
 
 	public void finish() {
 		SoundManager.getInstance().clear();
-		if (thumbnail != null && !makeAutomaticScreenshot) {
-			saveScreenshot(thumbnail, SCREENSHOT_AUTOMATIC_FILE_NAME);
-		}
 		PhysicsShapeBuilder.getInstance().reset();
 		if (CameraManager.getInstance() != null) {
 			CameraManager.getInstance().setToDefaultCamera();
@@ -525,16 +511,6 @@ public class StageListener implements ApplicationListener {
 			firstFrameDrawn = true;
 		}
 
-		if (makeAutomaticScreenshot) {
-			if (skipFirstFrameForAutomaticScreenshot) {
-				skipFirstFrameForAutomaticScreenshot = false;
-			} else {
-				thumbnail = ScreenUtils
-						.getFrameBufferPixels(screenshotX, screenshotY, screenshotWidth, screenshotHeight, true);
-				makeAutomaticScreenshot = false;
-			}
-		}
-
 		if (makeScreenshot) {
 			screenshot = ScreenUtils
 					.getFrameBufferPixels(screenshotX, screenshotY, screenshotWidth, screenshotHeight, true);
@@ -617,18 +593,17 @@ public class StageListener implements ApplicationListener {
 		disposeClonedSprites();
 	}
 
-	public boolean makeManualScreenshot() {
+	public boolean takeScreenshot(String screenshotName) {
 		makeScreenshot = true;
 		while (makeScreenshot) {
 			Thread.yield();
 		}
-		return saveScreenshot(this.screenshot, SCREENSHOT_MANUAL_FILE_NAME);
+		return saveScreenshot(screenshot, screenshotName);
 	}
 
 	private boolean saveScreenshot(byte[] screenshot, String fileName) {
 		int length = screenshot.length;
 		Bitmap fullScreenBitmap;
-		Bitmap centerSquareBitmap;
 		int[] colors = new int[length / 4];
 
 		if (colors.length != screenshotWidth * screenshotHeight || colors.length == 0) {
@@ -642,23 +617,11 @@ public class StageListener implements ApplicationListener {
 		fullScreenBitmap = Bitmap.createBitmap(colors, 0, screenshotWidth, screenshotWidth, screenshotHeight,
 				Config.ARGB_8888);
 
-		if (screenshotWidth < screenshotHeight) {
-			int verticalMargin = (screenshotHeight - screenshotWidth) / 2;
-			centerSquareBitmap = Bitmap.createBitmap(fullScreenBitmap, 0, verticalMargin, screenshotWidth,
-					screenshotWidth);
-		} else if (screenshotWidth > screenshotHeight) {
-			int horizontalMargin = (screenshotWidth - screenshotHeight) / 2;
-			centerSquareBitmap = Bitmap.createBitmap(fullScreenBitmap, horizontalMargin, 0, screenshotHeight,
-					screenshotHeight);
-		} else {
-			centerSquareBitmap = Bitmap.createBitmap(fullScreenBitmap, 0, 0, screenshotWidth, screenshotHeight);
-		}
-
 		FileHandle imageScene = Gdx.files.absolute(pathForSceneScreenshot + fileName);
 		OutputStream streamScene = imageScene.write(false);
 		try {
 			new File(pathForSceneScreenshot + Constants.NO_MEDIA_FILE).createNewFile();
-			centerSquareBitmap.compress(Bitmap.CompressFormat.PNG, 100, streamScene);
+			fullScreenBitmap.compress(Bitmap.CompressFormat.PNG, 100, streamScene);
 			streamScene.close();
 		} catch (IOException e) {
 			return false;
@@ -691,10 +654,6 @@ public class StageListener implements ApplicationListener {
 		}
 
 		initScreenMode();
-
-		if (checkIfAutomaticScreenshotShouldBeTaken) {
-			makeAutomaticScreenshot = project.manualScreenshotExists(SCREENSHOT_MANUAL_FILE_NAME);
-		}
 	}
 
 	public void clearBackground() {

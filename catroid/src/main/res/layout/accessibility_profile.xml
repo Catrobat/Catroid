@@ -35,6 +35,7 @@
 
     <RadioButton
         android:id="@+id/radio_button"
+        android:clickable="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/checkbox_margin" />

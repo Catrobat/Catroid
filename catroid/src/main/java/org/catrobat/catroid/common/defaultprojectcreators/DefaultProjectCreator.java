@@ -53,6 +53,7 @@ import org.catrobat.catroid.soundrecorder.SoundRecorder;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.ui.fragment.SpriteFactory;
 import org.catrobat.catroid.utils.CrashReporter;
+import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.ImageEditing;
 
 import java.io.File;
@@ -61,6 +62,7 @@ import java.io.IOException;
 import static org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public class DefaultProjectCreator extends ProjectCreator {
 
@@ -76,7 +78,7 @@ public class DefaultProjectCreator extends ProjectCreator {
 	public Project createDefaultProject(String projectName, Context context, boolean landscapeMode)
 			throws IOException, IllegalArgumentException {
 
-		if (XstreamSerializer.getInstance().projectExists(projectName)) {
+		if (FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).contains(projectName)) {
 			throw new IllegalArgumentException("Project with name '" + projectName + "' already exists!");
 		}
 
@@ -100,6 +102,7 @@ public class DefaultProjectCreator extends ProjectCreator {
 
 		File backgroundFile;
 		File cloudFile;
+		int backgroundDrawableId;
 
 		File sceneDir = defaultProject.getDefaultScene().getDirectory();
 		File imageDir = new File(sceneDir, IMAGE_DIRECTORY_NAME);
@@ -117,6 +120,7 @@ public class DefaultProjectCreator extends ProjectCreator {
 					R.drawable.default_project_clouds_landscape, imageDir,
 					cloudName + DEFAULT_IMAGE_EXTENSION,
 					backgroundImageScaleFactor);
+			backgroundDrawableId = R.drawable.default_project_screenshot_landscape;
 		} else {
 			backgroundImageScaleFactor = ImageEditing.calculateScaleFactorToScreenSize(
 					R.drawable.default_project_background_portrait, context);
@@ -129,6 +133,7 @@ public class DefaultProjectCreator extends ProjectCreator {
 					R.drawable.default_project_clouds_portrait, imageDir,
 					cloudName + DEFAULT_IMAGE_EXTENSION,
 					backgroundImageScaleFactor);
+			backgroundDrawableId = R.drawable.default_project_screenshot;
 		}
 		File birdWingUpFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(),
 				R.drawable.default_project_bird_wing_up, imageDir,
@@ -150,7 +155,7 @@ public class DefaultProjectCreator extends ProjectCreator {
 			);
 
 			ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(),
-					R.drawable.default_project_screenshot, sceneDir,
+					backgroundDrawableId, sceneDir,
 					StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME,
 					1);
 

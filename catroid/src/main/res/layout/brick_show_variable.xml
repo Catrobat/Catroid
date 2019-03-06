@@ -73,6 +73,7 @@
         <TextView
             android:id="@+id/brick_show_variable_y_textview"
             style="@style/BrickText.SingleLine"
+            android:paddingStart="@dimen/material_design_spacing_small"
             android:text="@string/y_label" />
 
         <TextView

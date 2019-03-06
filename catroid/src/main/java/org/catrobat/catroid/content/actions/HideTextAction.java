@@ -28,7 +28,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.badlogic.gdx.utils.Array;
 
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.stage.ShowTextActor;
 import org.catrobat.catroid.stage.StageActivity;
@@ -38,20 +37,17 @@ public class HideTextAction extends TemporalAction {
 	private UserVariable variableToHide;
 
 	private Sprite sprite;
-	private UserBrick userBrick;
 
 	@Override
 	protected void begin() {
 		if (StageActivity.stageListener != null) {
 			Array<Actor> stageActors = StageActivity.stageListener.getStage().getActors();
-			ShowTextActor dummyActor = new ShowTextActor(new UserVariable("dummyActor"), 0, 0, sprite, userBrick);
-
+			ShowTextActor dummyActor = new ShowTextActor(new UserVariable("dummyActor"), 0, 0, 1.0f, null, sprite);
 			for (Actor actor : stageActors) {
 				if (actor.getClass().equals(dummyActor.getClass())) {
 					ShowTextActor showTextActor = (ShowTextActor) actor;
 					if (showTextActor.getVariableNameToCompare().equals(variableToHide.getName())
-							&& showTextActor.getSprite().equals(sprite)
-							&& (userBrick == null || showTextActor.getUserBrick().equals(userBrick))) {
+							&& showTextActor.getSprite().equals(sprite)) {
 						actor.remove();
 					}
 				}
@@ -66,10 +62,6 @@ public class HideTextAction extends TemporalAction {
 
 	public void setVariableToHide(UserVariable userVariable) {
 		this.variableToHide = userVariable;
-	}
-
-	public void setUserBrick(UserBrick userBrick) {
-		this.userBrick = userBrick;
 	}
 
 	public void setSprite(Sprite sprite) {

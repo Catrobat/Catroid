@@ -207,7 +207,6 @@ import org.catrobat.catroid.physics.content.bricks.SetVelocityBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
 import org.catrobat.catroid.stage.StageListener;
-import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.StringFinder;
 
 import java.io.BufferedWriter;
@@ -245,6 +244,8 @@ public final class XstreamSerializer {
 	private static XstreamSerializer instance;
 	private static final String TAG = XstreamSerializer.class.getSimpleName();
 	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
+	private static final String PROGRAM_NAME_START_TAG = "<programName>";
+	private static final String PROGRAM_NAME_END_TAG = "</programName>";
 
 	private BackwardCompatibleCatrobatLanguageXStream xstream;
 	private Lock loadSaveLock = new ReentrantLock();
@@ -496,8 +497,20 @@ public final class XstreamSerializer {
 		xstream.aliasField("object", BrickBaseType.class, "sprite");
 	}
 
-	public Project loadProject(String projectName, Context context) throws IOException, LoadingProjectException {
+	public String getProjectName(File xmlFile) throws IOException {
+		if (!Files.toString(xmlFile, Charsets.UTF_8).contains(SCENES_ENABLED_TAG)) {
+			prepareXstream(SupportProject.class, SupportDataContainer.class);
+			SupportProject supportProject = (SupportProject) xstream.getProjectFromXML(xmlFile);
+			prepareXstream(Project.class, DataContainer.class);
+			return supportProject.xmlHeader.getProgramName();
+		} else {
+			prepareXstream(Project.class, DataContainer.class);
+			Project project = (Project) xstream.getProjectFromXML(xmlFile);
+			return project.getName();
+		}
+	}
 
+	public Project loadProject(String projectName, Context context) throws IOException, LoadingProjectException {
 		cleanUpTmpCodeFile(projectName);
 
 		File xmlFile = new File(buildProjectPath(projectName), CODE_XML_FILE_NAME);
@@ -509,6 +522,7 @@ public final class XstreamSerializer {
 		loadSaveLock.lock();
 
 		try {
+			prepareXstream(Project.class, DataContainer.class);
 			Project project = (Project) xstream.getProjectFromXML(xmlFile);
 
 			for (Scene scene : project.getSceneList()) {
@@ -521,6 +535,46 @@ public final class XstreamSerializer {
 		} catch (Exception e) {
 			throw new LoadingProjectException("An Error occurred while parsing the xml: " + e.getMessage());
 		} finally {
+			loadSaveLock.unlock();
+		}
+	}
+
+	public boolean renameProject(File xmlFile, String dstName) throws IOException {
+		loadSaveLock.lock();
+
+		String currentXml;
+
+		if (!Files.toString(xmlFile, Charsets.UTF_8).contains(SCENES_ENABLED_TAG)) {
+			prepareXstream(SupportProject.class, SupportDataContainer.class);
+			SupportProject supportProject = (SupportProject) xstream.getProjectFromXML(xmlFile);
+			String srcName = supportProject.xmlHeader.getProgramName();
+			String srcProjectNameTag = PROGRAM_NAME_START_TAG + srcName + PROGRAM_NAME_END_TAG;
+			String dstProjectNameTag = PROGRAM_NAME_START_TAG + dstName + PROGRAM_NAME_END_TAG;
+			currentXml = Files.toString(xmlFile, Charsets.UTF_8).replace(srcProjectNameTag, dstProjectNameTag);
+		} else {
+			prepareXstream(Project.class, DataContainer.class);
+			Project project = (Project) xstream.getProjectFromXML(xmlFile);
+			project.setName(dstName);
+			currentXml = XML_HEADER.concat(xstream.toXML(project));
+		}
+
+		BufferedWriter writer = null;
+		try {
+			writer = new BufferedWriter(new FileWriter(xmlFile), BUFFER_8K);
+			writer.write(currentXml);
+			writer.flush();
+			return true;
+		} catch (IOException e) {
+			Log.e(TAG, "Something went wrong while renaming project.", e);
+			return false;
+		} finally {
+			if (writer != null) {
+				try {
+					writer.close();
+				} catch (IOException e) {
+					Log.e(TAG, "Cannot close buffered writer.", e);
+				}
+			}
 			loadSaveLock.unlock();
 		}
 	}
@@ -705,11 +759,6 @@ public final class XstreamSerializer {
 		}
 
 		loadSaveLock.unlock();
-	}
-
-	public boolean projectExists(String projectName) {
-		return FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY)
-				.contains(projectName);
 	}
 
 	public String getXmlAsStringFromProject(Project project) {

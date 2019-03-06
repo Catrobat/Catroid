@@ -33,10 +33,10 @@ import android.support.test.runner.AndroidJUnit4;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreator;
 import org.catrobat.catroid.io.StorageOperations;
-import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
+import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -52,10 +52,14 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
+import static junit.framework.Assert.assertFalse;
+
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.common.FlavoredConstants.EXTERNAL_STORAGE_ROOT_DIRECTORY;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsCollectionContaining.hasItem;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
@@ -132,8 +136,8 @@ public class ImportProjectsFromExternalStorageTest {
 		onView(withText(R.string.import_dialog_copy_btn))
 				.perform(click());
 
-		assertTrue(XstreamSerializer.getInstance().projectExists(projectName));
-		assertTrue(XstreamSerializer.getInstance().projectExists(renamedProjectName));
+		assertThat(FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY), hasItem(projectName));
+		assertThat(FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY), hasItem(renamedProjectName));
 		assertTrue(new File(EXTERNAL_STORAGE_ROOT_DIRECTORY, projectName).exists());
 	}
 
@@ -147,7 +151,8 @@ public class ImportProjectsFromExternalStorageTest {
 		onView(withText(R.string.import_dialog_move_btn))
 				.perform(click());
 
-		assertTrue(XstreamSerializer.getInstance().projectExists(projectName));
-		assertTrue(XstreamSerializer.getInstance().projectExists(renamedProjectName));
+		assertThat(FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY), hasItem(projectName));
+		assertThat(FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY), hasItem(renamedProjectName));
+		assertFalse(new File(EXTERNAL_STORAGE_ROOT_DIRECTORY, projectName).exists());
 	}
 }
