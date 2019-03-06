@@ -136,12 +136,6 @@ public final class DownloadUtil {
 
 	ArrayList<Integer> notificationIdArray = new ArrayList<Integer>();
 
-	public void downloadCanceled(String url) {
-		if (programDownloadCallback != null) {
-			programDownloadCallback.onUserCanceledDownload(url);
-		}
-	}
-
 	@SuppressLint("ParcelCreator")
 	private class DownloadProjectReceiver extends ResultReceiver {
 		DownloadProjectReceiver(Handler handler) {

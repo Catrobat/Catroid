@@ -183,7 +183,7 @@
     <string name="error_cannot_open_not_existing_scratch_program">Dieses Scratch Projekt kann nicht geöffnet werden. Es
     scheint so als hättest du die Konvertierung/den Download abgebrochen oder das Projekt in der Zwischenzeit
     gelöscht oder umbenannt!</string>
-    <string name="error_cannot_open_currently_downloading_scratch_program">Du kannst das Projekt 
+    <string name="error_cannot_open_currently_downloading_scratch_program">Du kannst das Projekt
         im Moment nicht öffnen. Bitte warte, bis es fertig heruntergeladen ist.</string>
     <string name="error_cannot_open_not_yet_downloaded_scratch_program">Du kannst das Projekt  noch nicht öffnen.
         Bitte lade es zuerst herunter um es öffnen zu können.</string>
@@ -750,7 +750,7 @@ Die vorherige, mittlerweile ungültige, Version (2.0) unserer Datenschutzvereinb
     <!-- -->
     <!-- About Dialog -->
     <string name="dialog_about_title">Über die App</string>
-    <string name="dialog_about_license_info">Pocket Code ist eine 
+    <string name="dialog_about_license_info">Pocket Code ist eine
         Programmierumgebung und Interpreter für Android Geräte für die visuelle
         Programmiersprache Catrobat.\n\n
         Der Quellcode von Pocket Code unterliegt hauptsälich der GNU AGPL v3 Lizenz. 
@@ -822,7 +822,7 @@ Die vorherige, mittlerweile ungültige, Version (2.0) unserer Datenschutzvereinb
     <string name="show_password">Passwort anzeigen</string>
     <string name="sign_in_error">Beim Anmelden ist etwas schief gelaufen.</string>
     <string name="error_google_plus_sign_in">Google Sign-In Fehler. Status: %s</string>
-    <string name="error_facebook_session_expired">Deine Sitzung ist abgelaufen. Logge dich bitte erneut ein.</string>
+    <string name="error_session_expired">Deine Sitzung ist abgelaufen. Logge dich bitte erneut ein.</string>
     <string name="sign_in_with_facebook">Mit Facebook anmelden</string>
     <string name="sign_in_with_google">Mit Goggle einloggen</string>
     <string name="error_register_empty_username">Leerer Benuzername</string>
@@ -1694,14 +1694,14 @@ Die vorherige, mittlerweile ungültige, Version (2.0) unserer Datenschutzvereinb
     <string name="formula_editor_sensor_face_x_position">Gesichtsposition x</string>
     <string name="formula_editor_sensor_face_y_position">Gesichtsposition y</string>
     <string name="formula_editor_intro_title_formula_editor">Formel Editor</string>
-    <string name="formula_editor_intro_summary_formula_editor">Mit dem Formel Editor kannst du mathematische und 
+    <string name="formula_editor_intro_summary_formula_editor">Mit dem Formel Editor kannst du mathematische und
         logische Formeln erstellen, um diese dann in deinem Baustein einzutragen.\n\nDu kannst dieses kleine Tutorial 
         jederzeit mit einem Klick auf den SKIP Button
         links unten überspringen.</string>
     <string name="formula_editor_intro_title_input_field">Eingabefeld</string>
     <string name="formula_editor_intro_summary_input_field">Hier siehst du deine Formel. Diese kannst du auch nachträglich bearbeiten.</string>
     <string name="formula_editor_intro_title_keyboard">Tastatur</string>
-    <string name="formula_editor_intro_summary_keyboard">Ähnlich wie bei einem Taschenrechner kannst du 
+    <string name="formula_editor_intro_summary_keyboard">Ähnlich wie bei einem Taschenrechner kannst du
         hier deine Formel erstellen.</string>
     <string name="formula_editor_intro_title_compute">Berechnen</string>
     <string name="formula_editor_intro_summary_compute">Um deine Formel zu Testen und um dein Ergebnis vorzeitig anzeigen zu lassen,
@@ -1718,7 +1718,7 @@ Die vorherige, mittlerweile ungültige, Version (2.0) unserer Datenschutzvereinb
         vergleichen kannst du zum Beispiel &gt; (größer als) oder \"=\" (ist gleich) verwenden.\nFür Verknüpfungen von Werten dienen zum Beispiel
         \"UND\", \"ODER\" und \"NICHT\". </string>
     <string name="formula_editor_intro_title_device">Sensoren</string>
-    <string name="formula_editor_intro_summary_device">Unter \"Gerät\" findest du sämtliche Daten, die dein 
+    <string name="formula_editor_intro_summary_device">Unter \"Gerät\" findest du sämtliche Daten, die dein
         Smartphone oder Tablet aufzeichnet.\nZum Beispiel die Neigung deines Geräts oder die Lautstärke in deiner Umgebung. </string>
     <string name="formula_editor_intro_title_data">Daten</string>
     <string name="formula_editor_intro_summary_data">Hier findest du Variablen und Listen, welche in deinem Projekt verwendet werden. \nDu kannst diese einfach in deine Formel einfügen. </string>

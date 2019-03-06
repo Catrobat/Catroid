@@ -43,6 +43,9 @@ import org.catrobat.catroid.web.WebconnectionException;
 import java.io.File;
 import java.io.IOException;
 
+
+
+
 public class ProjectDownloadService extends IntentService {
 
 	public static final String TAG = ProjectDownloadService.class.getSimpleName();
@@ -91,33 +94,9 @@ public class ProjectDownloadService extends IntentService {
 
 			XstreamSerializer.getInstance().updateCodeFileOnDownload(projectName);
 		} catch (LoadingProjectException | IOException | WebconnectionException e) {
-			showToast(R.string.error_project_download, true);
 			Log.e(TAG, Log.getStackTraceString(e));
 		} finally {
 			DownloadUtil.getInstance().downloadFinished(projectName, url);
-		}
-
-		showToast(R.string.notification_download_finished, false);
-	}
-
-	private void showToast(final int messageId, boolean error) {
-
-		if (error) {
-			handler.post(new Runnable() {
-
-				@Override
-				public void run() {
-					ToastUtil.showError(getBaseContext(), messageId);
-				}
-			});
-		} else {
-			handler.post(new Runnable() {
-
-				@Override
-				public void run() {
-					ToastUtil.showSuccess(getBaseContext(), messageId);
-				}
-			});
 		}
 	}
 }

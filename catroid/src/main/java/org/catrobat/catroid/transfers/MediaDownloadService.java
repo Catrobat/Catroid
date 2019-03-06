@@ -30,6 +30,7 @@ import android.util.Log;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
@@ -93,7 +94,7 @@ public class MediaDownloadService extends IntentService {
 
 				@Override
 				public void run() {
-					ToastUtil.showError(getBaseContext(), messageId);
+					ToastUtil.showError(getBaseContext(), R.string.error);
 				}
 			});
 		} else {
@@ -101,7 +102,7 @@ public class MediaDownloadService extends IntentService {
 
 				@Override
 				public void run() {
-					ToastUtil.showSuccess(getBaseContext(), messageId);
+					ToastUtil.showSuccess(getBaseContext(), R.string.logout_successful);
 				}
 			});
 		}
