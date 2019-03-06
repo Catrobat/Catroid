@@ -296,7 +296,7 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		clone.soundList.addAll(soundList);
 		clone.nfcTagList.addAll(nfcTagList);
 
-		dataContainer.copySpriteUserData(this, dataContainer, clone);
+		dataContainer.copySpriteUserDataForClone(this, dataContainer, clone);
 
 		for (Script script : scriptList) {
 			try {

@@ -192,6 +192,7 @@ import org.catrobat.catroid.content.bricks.WhenConditionBrick;
 import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick;
 import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
+import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -276,7 +277,7 @@ public final class XstreamSerializer {
 		xstream.processAnnotations(UserListBrick.class);
 
 		xstream.registerConverter(new XStreamConcurrentFormulaHashMapConverter());
-		xstream.registerConverter(new XStreamUserVariableConverter());
+		xstream.registerConverter(new XStreamUserVariableConverter(xstream.getMapper(), xstream.getReflectionProvider()));
 		xstream.registerConverter(new XStreamBrickConverter(xstream.getMapper(), xstream.getReflectionProvider()));
 		xstream.registerConverter(new XStreamScriptConverter(xstream.getMapper(), xstream.getReflectionProvider()));
 		xstream.registerConverter(new XStreamSpriteConverter(xstream.getMapper(), xstream.getReflectionProvider()));
@@ -431,6 +432,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", WhenBackgroundChangesBrick.class);
 		xstream.alias("brick", WhenStartedBrick.class);
 		xstream.alias("brick", WhenClonedBrick.class);
+		xstream.alias("brick", WriteVariableOnDeviceBrick.class);
 		xstream.alias("brick", StopScriptBrick.class);
 
 		xstream.alias("brick", WhenNfcBrick.class);

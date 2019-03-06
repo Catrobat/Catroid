@@ -39,6 +39,7 @@ import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
+import org.catrobat.catroid.io.DeviceVariableAccessor;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
 import org.catrobat.catroid.stage.StageActivity;
@@ -200,6 +201,9 @@ public class Project implements Serializable {
 	}
 
 	public void setName(String name) {
+		if (getName() != null && !getName().isEmpty()) {
+			new DeviceVariableAccessor(getName()).renameProject(name);
+		}
 		xmlHeader.setProgramName(name);
 	}
 

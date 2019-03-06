@@ -26,6 +26,7 @@ package org.catrobat.catroid.io.asynctask;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.catrobat.catroid.io.DeviceVariableAccessor;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
@@ -63,6 +64,7 @@ public class ProjectCopyTask extends AsyncTask<String, Void, Boolean> {
 		try {
 			StorageOperations.copyDir(srcDir, dstDir);
 			XstreamSerializer.getInstance().renameProject(new File(dstDir, CODE_XML_FILE_NAME), dstName);
+			new DeviceVariableAccessor(srcName).copyDeviceVariables(dstName);
 			return true;
 		} catch (IOException e) {
 			Log.e(TAG, "Something went wrong while copying project " + srcName + " to " + dstName, e);
@@ -92,7 +94,6 @@ public class ProjectCopyTask extends AsyncTask<String, Void, Boolean> {
 	}
 
 	public interface ProjectCopyListener {
-
 		void onCopyFinished(boolean success);
 	}
 }

@@ -29,6 +29,7 @@ public class UserVariable implements Serializable, UserData {
 	private static final long serialVersionUID = 1L;
 
 	private String name;
+	private String deviceValueFileName;
 	private transient Object value;
 	private transient boolean visible = true;
 	private transient boolean dummy = false;
@@ -36,11 +37,13 @@ public class UserVariable implements Serializable, UserData {
 	public UserVariable(String name) {
 		this.name = name;
 		this.value = 0d;
+		this.deviceValueFileName = "";
 	}
 
 	public UserVariable(final String name, final Object value) {
 		this.name = name;
 		this.value = value;
+		this.deviceValueFileName = "";
 	}
 
 	public UserVariable(UserVariable variable) {
@@ -85,5 +88,13 @@ public class UserVariable implements Serializable, UserData {
 	@Override
 	public void reset() {
 		value = 0d;
+	}
+
+	public String getDeviceValueFileName() {
+		return deviceValueFileName;
+	}
+
+	public void setDeviceValueFileName(String deviceValue) {
+		this.deviceValueFileName = deviceValue;
 	}
 }

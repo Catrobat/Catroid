@@ -25,12 +25,14 @@ package org.catrobat.catroid.ui.recyclerview.controller;
 
 import android.util.Log;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.io.DeviceVariableAccessor;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.fragment.SpriteFactory;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
@@ -106,6 +108,8 @@ public class SpriteController {
 		}
 		delete(spriteToDelete);
 		srcScene.getDataContainer().removeSpriteUserData(spriteToDelete);
+		String projectName = ProjectManager.getInstance().getCurrentProject().getName();
+		new DeviceVariableAccessor(projectName).deleteAllLocalVariables(srcScene, spriteToDelete);
 	}
 
 	public Sprite pack(Sprite spriteToPack) throws IOException {

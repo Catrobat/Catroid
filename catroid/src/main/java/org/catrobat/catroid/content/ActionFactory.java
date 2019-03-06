@@ -157,6 +157,7 @@ import org.catrobat.catroid.content.actions.VibrateAction;
 import org.catrobat.catroid.content.actions.WaitAction;
 import org.catrobat.catroid.content.actions.WaitForBubbleBrickAction;
 import org.catrobat.catroid.content.actions.WaitUntilAction;
+import org.catrobat.catroid.content.actions.WriteVariableOnDeviceAction;
 import org.catrobat.catroid.content.actions.conditional.GlideToAction;
 import org.catrobat.catroid.content.actions.conditional.IfOnEdgeBounceAction;
 import org.catrobat.catroid.content.bricks.JumpingSumoAnimationsBrick;
@@ -1211,5 +1212,12 @@ public class ActionFactory extends Actions {
 		setNfcTagAction.setNfcTagNdefSpinnerSelection(nfcNdefSpinnerSelection);
 		setNfcTagAction.setNfcNdefMessage(nfcNdefMessage);
 		return setNfcTagAction;
+	}
+
+	public Action createWriteVariableOnDeviceAction(UserVariable userVariable) {
+		WriteVariableOnDeviceAction action = Actions.action(WriteVariableOnDeviceAction.class);
+		action.setUserVariable(userVariable);
+
+		return action;
 	}
 }

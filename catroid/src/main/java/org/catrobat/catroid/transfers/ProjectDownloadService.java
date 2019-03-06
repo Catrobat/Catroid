@@ -32,6 +32,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
+import org.catrobat.catroid.io.DeviceVariableAccessor;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.io.ZipArchiver;
 import org.catrobat.catroid.utils.DownloadUtil;
@@ -95,6 +96,7 @@ public class ProjectDownloadService extends IntentService {
 			Log.e(TAG, Log.getStackTraceString(e));
 		} finally {
 			DownloadUtil.getInstance().downloadFinished(projectName, url);
+			new DeviceVariableAccessor(projectName).deleteAllVariables();
 		}
 
 		showToast(R.string.notification_download_finished, false);

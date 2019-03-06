@@ -20,21 +20,39 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.content.actions;
 
-package org.catrobat.catroid.ui.recyclerview.controller;
+import android.util.Log;
 
-import org.catrobat.catroid.common.ProjectData;
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.DeviceVariableAccessor;
-import org.catrobat.catroid.io.StorageOperations;
-import org.catrobat.catroid.utils.PathBuilder;
 
-import java.io.File;
 import java.io.IOException;
 
-public class ProjectController {
+public class WriteVariableOnDeviceAction extends TemporalAction {
+	private static final String TAG = WriteVariableOnDeviceAction.class.getSimpleName();
+	private UserVariable userVariable;
 
-	public void delete(ProjectData projectToDelete) throws IOException {
-		StorageOperations.deleteDir(new File(PathBuilder.buildProjectPath(projectToDelete.projectName)));
-		new DeviceVariableAccessor(projectToDelete.projectName).deleteAllVariables();
+	@Override
+	protected void update(float percent) {
+		if (userVariable == null || userVariable.isDummy()) {
+			return;
+		}
+
+		String projectName = ProjectManager.getInstance().getCurrentProject().getName();
+		DeviceVariableAccessor accessor = new DeviceVariableAccessor(projectName);
+
+		try {
+			accessor.writeVariable(userVariable);
+		} catch (IOException e) {
+			Log.e(TAG, e.getMessage());
+		}
+	}
+
+	public void setUserVariable(UserVariable userVariable) {
+		this.userVariable = userVariable;
 	}
 }

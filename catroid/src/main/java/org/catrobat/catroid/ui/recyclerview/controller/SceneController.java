@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SceneStartBrick;
 import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
 import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
+import org.catrobat.catroid.io.DeviceVariableAccessor;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
@@ -138,6 +139,11 @@ public class SceneController {
 
 	public void delete(Scene sceneToDelete) throws IOException {
 		StorageOperations.deleteDir(sceneToDelete.getDirectory());
+		String projectName = ProjectManager.getInstance().getCurrentProject().getName();
+		DeviceVariableAccessor manager = new DeviceVariableAccessor(projectName);
+		for (Sprite sprite: sceneToDelete.getSpriteList()) {
+			manager.deleteAllLocalVariables(sceneToDelete, sprite);
+		}
 	}
 
 	public Scene pack(Scene sceneToPack) throws IOException {

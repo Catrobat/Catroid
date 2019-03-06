@@ -153,6 +153,7 @@ import org.catrobat.catroid.content.bricks.WhenConditionBrick;
 import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick;
 import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
+import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick;
 import org.catrobat.catroid.physics.PhysicsCollision;
 import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
 import org.catrobat.catroid.physics.content.bricks.SetBounceBrick;
@@ -620,6 +621,9 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 
 		brickInfo = new BrickInfo(HideTextBrick.class.getSimpleName());
 		brickInfoMap.put("hideTextBrick", brickInfo);
+
+		brickInfo = new BrickInfo(WriteVariableOnDeviceBrick.class.getSimpleName());
+		brickInfoMap.put("writeVariableOnDeviceBrick", brickInfo);
 
 		brickInfo = new BrickInfo(CameraBrick.class.getSimpleName());
 		brickInfoMap.put("videoBrick", brickInfo);

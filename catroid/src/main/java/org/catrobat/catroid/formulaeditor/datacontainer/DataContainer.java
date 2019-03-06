@@ -32,6 +32,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.DeviceVariableAccessor;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -234,6 +235,19 @@ public class DataContainer implements Serializable {
 	public void copySpriteUserData(Sprite srcSprite, DataContainer srcDataContainer, Sprite dstSprite) {
 		for (UserVariable variable : srcDataContainer.getSpriteUserVariables(srcSprite)) {
 			addUserVariable(dstSprite, new UserVariable(variable));
+		}
+		for (UserList list : srcDataContainer.getSpriteUserLists(srcSprite)) {
+			addUserList(dstSprite, new UserList(list));
+		}
+	}
+
+	public void copySpriteUserDataForClone(Sprite srcSprite, DataContainer srcDataContainer, Sprite dstSprite) {
+		String name = ProjectManager.getInstance().getCurrentProject().getName();
+		for (UserVariable variable : srcDataContainer.getSpriteUserVariables(srcSprite)) {
+			new DeviceVariableAccessor(name).addDeviceFileNameToUserVariable(variable);
+			UserVariable newVariable = new UserVariable(variable);
+			newVariable.setDeviceValueFileName(variable.getDeviceValueFileName());
+			addUserVariable(dstSprite, newVariable);
 		}
 		for (UserList list : srcDataContainer.getSpriteUserLists(srcSprite)) {
 			addUserList(dstSprite, new UserList(list));
