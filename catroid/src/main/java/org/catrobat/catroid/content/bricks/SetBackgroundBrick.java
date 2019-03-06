@@ -49,6 +49,7 @@ public class SetBackgroundBrick extends BrickBaseType implements BrickSpinner.On
 		NewItemInterface<LookData> {
 
 	private static final long serialVersionUID = 1L;
+
 	private transient BrickSpinner<LookData> spinner;
 
 	protected LookData look;
