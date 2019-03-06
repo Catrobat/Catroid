@@ -26,6 +26,7 @@ package org.catrobat.catroid.content.bricks;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.formulaeditor.Formula;
 
 import java.util.Collections;
 import java.util.List;
@@ -34,13 +35,24 @@ import static org.catrobat.catroid.content.EventWrapper.WAIT;
 
 public class SetBackgroundByIndexAndWaitBrick extends SetBackgroundByIndexBrick {
 
-	@Override
-	public int getViewResource() {
-		return R.layout.brick_set_background_by_index_and_wait;
+	private static final long serialVersionUID = 1L;
+
+	public SetBackgroundByIndexAndWaitBrick() {
+		addAllowedBrickField(BrickField.LOOK_INDEX, R.id.brick_set_background_by_index_edit_text);
 	}
 
 	public SetBackgroundByIndexAndWaitBrick(int index) {
-		super(index);
+		this(new Formula(index));
+	}
+
+	public SetBackgroundByIndexAndWaitBrick(Formula formula) {
+		this();
+		setFormulaWithBrickField(BrickField.LOOK_INDEX, formula);
+	}
+
+	@Override
+	public int getViewResource() {
+		return R.layout.brick_set_background_by_index_and_wait;
 	}
 
 	@Override
