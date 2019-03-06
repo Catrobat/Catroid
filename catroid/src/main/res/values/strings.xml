@@ -537,6 +537,7 @@
 
     <!-- Details -->
     <string name="project_details">Last access: %s, size: %s</string>
+    <string name="last_access_today">today, %s</string>
     <string name="scene_details">Actors and objects: %d, looks: %d, sounds: %d</string>
     <string name="sprite_details">Bricks: %d, looks: %d, sounds: %d</string>
     <string name="look_details">Resolution: %s, size: %s</string>

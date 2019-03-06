@@ -24,6 +24,7 @@
 package org.catrobat.catroid.ui.recyclerview.adapter;
 
 import android.content.Context;
+import android.text.format.DateUtils;
 import android.view.View;
 
 import org.catrobat.catroid.R;
@@ -58,7 +59,13 @@ public class ProjectAdapter extends ExtendedRVAdapter<ProjectData> {
 
 		if (showDetails) {
 			Date lastModified = new Date(item.lastUsed);
-			String lastAccess = DateFormat.getDateInstance(DateFormat.MEDIUM).format(lastModified);
+			String lastAccess;
+			if (DateUtils.isToday(item.lastUsed)) {
+				lastAccess = context.getString(R.string.last_access_today,
+						DateFormat.getTimeInstance(DateFormat.SHORT).format(lastModified));
+			} else {
+				lastAccess = DateFormat.getDateInstance(DateFormat.MEDIUM).format(lastModified);
+			}
 
 			holder.details.setText(String.format(Locale.getDefault(),
 					context.getString(R.string.project_details),
