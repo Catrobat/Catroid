@@ -49,6 +49,7 @@ import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInter
 
 @RunWith(AndroidJUnit4.class)
 public class ShowTextBrickTest {
+
 	private int setBrickPosition;
 	private int showBrickPosition;
 

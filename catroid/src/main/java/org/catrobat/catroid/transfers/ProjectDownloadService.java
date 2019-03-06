@@ -43,6 +43,9 @@ import org.catrobat.catroid.web.WebconnectionException;
 import java.io.File;
 import java.io.IOException;
 
+import static org.catrobat.catroid.common.Constants.CACHE_DIR;
+import static org.catrobat.catroid.common.Constants.TMP_DIR_NAME;
+
 public class ProjectDownloadService extends IntentService {
 
 	public static final String TAG = ProjectDownloadService.class.getSimpleName();
@@ -71,7 +74,7 @@ public class ProjectDownloadService extends IntentService {
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		String projectName = intent.getStringExtra(DOWNLOAD_NAME_TAG);
-		String zipFileString = PathBuilder.buildPath(Constants.TMP_PATH, DOWNLOAD_FILE_NAME);
+		String zipFileString = new File(new File(CACHE_DIR, TMP_DIR_NAME), DOWNLOAD_FILE_NAME).getAbsolutePath();
 		String url = intent.getStringExtra(URL_TAG);
 		Integer notificationId = intent.getIntExtra(ID_TAG, -1);
 

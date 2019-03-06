@@ -33,7 +33,7 @@ public final class PathBuilder {
 		throw new AssertionError();
 	}
 
-	public static String buildPath(String... elements) {
+	private static String buildPath(String... elements) {
 		StringBuilder result = new StringBuilder("/");
 
 		for (String pathElement : elements) {

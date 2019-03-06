@@ -64,10 +64,6 @@ public class IfLogicActionTest {
 	private IfLogicElseBrick ifLogicElseBrick;
 	private IfLogicEndBrick ifLogicEndBrick;
 	private Project project;
-	private IfLogicBeginBrick ifLogicBeginBrick2;
-	private IfLogicElseBrick ifLogicElseBrick2;
-	private IfLogicEndBrick ifLogicEndBrick2;
-	private RepeatBrick repeatBrick;
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
 	private static final String TRUE = "1.0";
 	private UserVariable userVariable;
@@ -79,10 +75,10 @@ public class IfLogicActionTest {
 		testSprite.removeAllScripts();
 		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(new SingleSprite("testSprite1"));
-		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().removeUserVariable(TEST_USERVARIABLE);
+		project.removeUserVariable(TEST_USERVARIABLE);
 
 		userVariable = new UserVariable(TEST_USERVARIABLE);
-		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().addUserVariable(userVariable);
+		project.addUserVariable(userVariable);
 	}
 
 	@Test
@@ -95,15 +91,15 @@ public class IfLogicActionTest {
 
 		testScript = new StartScript();
 
-		repeatBrick = new RepeatBrick(2);
+		RepeatBrick repeatBrick = new RepeatBrick(2);
 		ifLogicBeginBrick = new IfLogicBeginBrick(validFormula);
 		ifLogicElseBrick = new IfLogicElseBrick(ifLogicBeginBrick);
 		ifLogicEndBrick = new IfLogicEndBrick(ifLogicBeginBrick, ifLogicElseBrick);
 		repeatBrick.setLoopEndBrick(new LoopEndBrick(repeatBrick));
 
-		ifLogicBeginBrick2 = new IfLogicBeginBrick(validFormula);
-		ifLogicElseBrick2 = new IfLogicElseBrick(ifLogicBeginBrick2);
-		ifLogicEndBrick2 = new IfLogicEndBrick(ifLogicBeginBrick2, ifLogicElseBrick2);
+		IfLogicBeginBrick ifLogicBeginBrick2 = new IfLogicBeginBrick(validFormula);
+		IfLogicElseBrick ifLogicElseBrick2 = new IfLogicElseBrick(ifLogicBeginBrick2);
+		IfLogicEndBrick ifLogicEndBrick2 = new IfLogicEndBrick(ifLogicBeginBrick2, ifLogicElseBrick2);
 
 		testScript.addBrick(ifLogicBeginBrick);
 		testScript.addBrick(ifLogicBeginBrick2);
@@ -121,8 +117,7 @@ public class IfLogicActionTest {
 			testSprite.look.act(1f);
 		}
 
-		userVariable = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
-				.getUserVariable(null, TEST_USERVARIABLE);
+		userVariable = project.getUserVariable(TEST_USERVARIABLE);
 
 		assertEquals(Double.valueOf(IF_TRUE_VALUE), userVariable.getValue());
 	}
@@ -151,8 +146,7 @@ public class IfLogicActionTest {
 		testSprite.initializeEventThreads(EventId.START);
 		testSprite.look.act(100f);
 
-		userVariable = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
-				.getUserVariable(null, TEST_USERVARIABLE);
+		userVariable = project.getUserVariable(TEST_USERVARIABLE);
 
 		assertEquals(Double.valueOf(IF_TRUE_VALUE), userVariable.getValue());
 	}
@@ -181,8 +175,7 @@ public class IfLogicActionTest {
 		testSprite.initializeEventThreads(EventId.START);
 		testSprite.look.act(100f);
 
-		userVariable = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
-				.getUserVariable(null, TEST_USERVARIABLE);
+		userVariable = project.getUserVariable(TEST_USERVARIABLE);
 
 		assertEquals(Double.valueOf(IF_FALSE_VALUE), userVariable.getValue());
 	}
@@ -238,8 +231,7 @@ public class IfLogicActionTest {
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
 		testSprite.initializeEventThreads(EventId.START);
 		testSprite.look.act(1f);
-		userVariable = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
-				.getUserVariable(null, TEST_USERVARIABLE);
+		userVariable = project.getUserVariable(TEST_USERVARIABLE);
 
 		assertEquals(expected, userVariable.getValue());
 	}

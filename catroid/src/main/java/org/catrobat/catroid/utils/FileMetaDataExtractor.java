@@ -40,7 +40,7 @@ public final class FileMetaDataExtractor {
 		throw new AssertionError();
 	}
 
-	private static long getSizeOfFileOrDirectoryInByte(File fileOrDirectory) {
+	public static long getSizeOfFileOrDirectoryInByte(File fileOrDirectory) {
 		if (!fileOrDirectory.exists()) {
 			return 0;
 		}

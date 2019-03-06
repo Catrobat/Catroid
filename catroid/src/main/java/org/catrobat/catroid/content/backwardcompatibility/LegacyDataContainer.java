@@ -20,24 +20,36 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.content.backwardcompatibility;
 
-import com.badlogic.gdx.scenes.scene2d.actions.DelegateAction;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.UserBrick;
+import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 
-public class UserBrickAction extends DelegateAction {
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-	private UserBrick userBrick;
+public class LegacyDataContainer implements Serializable {
 
-	@Override
-	public boolean delegate(float delta) {
-		ProjectManager.getInstance().setCurrentUserBrick(userBrick);
-		return action.act(delta);
-	}
+	private static final long serialVersionUID = 1L;
 
-	public void setUserBrick(UserBrick userBrick) {
-		this.userBrick = userBrick;
-	}
+	@XStreamAlias("programVariableList")
+	public List<UserVariable> projectVariables;
+
+	@XStreamAlias("programListOfLists")
+	public List<UserList> projectLists;
+
+	@XStreamAlias("objectVariableList")
+	public Map<Sprite, List<UserVariable>> spriteVariables = new HashMap<>();
+
+	@XStreamAlias("userBrickVariableList")
+	Map<UserBrick, List<UserVariable>> userBrickVariables = new HashMap<>();
+
+	@XStreamAlias("objectListOfList")
+	public Map<Sprite, List<UserList>> spriteListOfLists = new HashMap<>();
 }

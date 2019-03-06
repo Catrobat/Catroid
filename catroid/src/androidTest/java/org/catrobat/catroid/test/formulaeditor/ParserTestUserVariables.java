@@ -31,15 +31,13 @@ import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
-import org.catrobat.catroid.content.bricks.UserBrick;
-import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
+import org.catrobat.catroid.formulaeditor.UserDataWrapper;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -56,16 +54,16 @@ public class ParserTestUserVariables {
 	private static final String PROJECT_USER_VARIABLE = "projectUserVariable";
 	private static final double USER_VARIABLE_2_VALUE_TYPE_DOUBLE = 3.141592d;
 	private static final String SPRITE_USER_VARIABLE = "spriteUserVariable";
-	private static final double USER_VARIABLE_VALUE3 = 1.68d;
-	private static final String USER_BRICK_VARIABLE = "userBrickVariable";
 	private static final double USER_VARIABLE_RESET = 0.0d;
 	private static final String USER_VARIABLE_3_VALUE_TYPE_STRING = "My Little User Variable";
 	private static final String PROJECT_USER_VARIABLE_2 = "projectUserVariable2";
+
+	private Project project;
 	private Sprite firstSprite;
 
 	@Before
 	public void setUp() {
-		Project project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
+		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		firstSprite = new SingleSprite("firstSprite");
 		StartScript startScript = new StartScript();
 		ChangeSizeByNBrick changeBrick = new ChangeSizeByNBrick(10);
@@ -75,19 +73,9 @@ public class ParserTestUserVariables {
 		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 
-		UserBrick userBrick = new UserBrick(new UserScriptDefinitionBrick());
-		ProjectManager.getInstance().setCurrentUserBrick(userBrick);
-
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
-
-		dataContainer
-				.addUserVariable(new UserVariable(PROJECT_USER_VARIABLE, USER_VARIABLE_1_VALUE_TYPE_DOUBLE));
-		dataContainer
-				.addUserVariable(firstSprite, new UserVariable(SPRITE_USER_VARIABLE, USER_VARIABLE_2_VALUE_TYPE_DOUBLE));
-		dataContainer
-				.addUserVariable(new UserVariable(PROJECT_USER_VARIABLE_2, USER_VARIABLE_3_VALUE_TYPE_STRING));
-
-		dataContainer.addUserVariable(userBrick, new UserVariable(USER_BRICK_VARIABLE, USER_VARIABLE_VALUE3));
+		project.addUserVariable(new UserVariable(PROJECT_USER_VARIABLE, USER_VARIABLE_1_VALUE_TYPE_DOUBLE));
+		firstSprite.addUserVariable(new UserVariable(SPRITE_USER_VARIABLE, USER_VARIABLE_2_VALUE_TYPE_DOUBLE));
+		project.addUserVariable(new UserVariable(PROJECT_USER_VARIABLE_2, USER_VARIABLE_3_VALUE_TYPE_STRING));
 	}
 
 	@Test
@@ -95,17 +83,15 @@ public class ParserTestUserVariables {
 		assertEquals(USER_VARIABLE_1_VALUE_TYPE_DOUBLE, interpretUserVariable(PROJECT_USER_VARIABLE));
 		assertEquals(USER_VARIABLE_2_VALUE_TYPE_DOUBLE, interpretUserVariable(SPRITE_USER_VARIABLE));
 		assertEquals(USER_VARIABLE_3_VALUE_TYPE_STRING, interpretUserVariable(PROJECT_USER_VARIABLE_2));
-		assertEquals(USER_VARIABLE_VALUE3, interpretUserVariable(USER_BRICK_VARIABLE));
 	}
 
 	@Test
 	public void testUserVariableResetting() {
-		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().resetUserData();
+		UserDataWrapper.resetAllUserData(project);
 
 		assertEquals(USER_VARIABLE_RESET, interpretUserVariable(PROJECT_USER_VARIABLE));
 		assertEquals(USER_VARIABLE_RESET, interpretUserVariable(SPRITE_USER_VARIABLE));
 		assertEquals(USER_VARIABLE_RESET, interpretUserVariable(PROJECT_USER_VARIABLE_2));
-		assertEquals(USER_VARIABLE_VALUE3, interpretUserVariable(USER_BRICK_VARIABLE));
 	}
 
 	@Test

@@ -49,7 +49,6 @@ public class WaitUntilActionTest {
 	private Sprite testSprite;
 	private Project project;
 	private static final String TEST_USERVARIABLE = "testUservariable";
-	private StartScript testScript;
 
 	@Before
 	public void setUp() throws Exception {
@@ -58,9 +57,9 @@ public class WaitUntilActionTest {
 		testSprite.removeAllScripts();
 		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(new SingleSprite("testSprite1"));
-		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().removeUserVariable(TEST_USERVARIABLE);
+		project.removeUserVariable(TEST_USERVARIABLE);
 		UserVariable userVariable = new UserVariable(TEST_USERVARIABLE);
-		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().addUserVariable(userVariable);
+		project.addUserVariable(userVariable);
 	}
 
 	@Test
@@ -86,7 +85,7 @@ public class WaitUntilActionTest {
 	}
 
 	private void runScript(Formula validFormula) {
-		testScript = new StartScript();
+		StartScript testScript = new StartScript();
 
 		WaitUntilBrick waitUntilBrick = new WaitUntilBrick(validFormula);
 		testScript.addBrick(waitUntilBrick);

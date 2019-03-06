@@ -29,16 +29,12 @@ import android.widget.CheckBox;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.fragment.UserBrickElementEditorFragment;
 
 import java.util.ArrayList;
@@ -170,24 +166,6 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 	}
 
 	public void renameUIElement(UserScriptDefinitionBrickElement element, String oldName, String newName, Context context) {
-		if (element.getText().equals(oldName)) {
-			element.setText(newName);
-			if (element.isVariable()) {
-				Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
-				Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-				DataContainer dataContainer = currentScene.getDataContainer();
-				if (dataContainer != null) {
-					List<UserBrick> matchingBricks = currentSprite.getUserBricksByDefinitionBrick(this, true, true);
-					for (UserBrick userBrick : matchingBricks) {
-						UserVariable userVariable = dataContainer.getUserVariable(currentSprite, userBrick, oldName);
-						if (userVariable != null) {
-							userVariable.setName(newName);
-						}
-					}
-				}
-			}
-		}
-
 		renameVariablesInFormulasAndBricks(oldName, newName, context);
 	}
 
@@ -213,12 +191,6 @@ public class UserScriptDefinitionBrick extends BrickBaseType implements ScriptBr
 	public void renameVariablesInFormulasAndBricks(String oldName, String newName, Context context) {
 		List<Brick> brickList = script.getBrickList();
 		for (Brick brick : brickList) {
-			if (brick instanceof UserBrick) {
-				List<Formula> formulaList = ((UserBrick) brick).getFormulas();
-				for (Formula formula : formulaList) {
-					formula.updateVariableReferences(oldName, newName, context);
-				}
-			}
 			if (brick instanceof FormulaBrick) {
 				List<Formula> formulas = ((FormulaBrick) brick).getFormulas();
 				for (Formula formula : formulas) {

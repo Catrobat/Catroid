@@ -33,7 +33,6 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -57,14 +56,13 @@ public class ShowTextActionTest {
 		Sprite secondSprite = new Sprite(SECOND_SPRITE_NAME);
 		project.getDefaultScene().addSprite(secondSprite);
 
-		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
 		UserVariable var0 = new UserVariable(USER_VARIABLE_NAME);
 		var0.setVisible(false);
-		dataContainer.addUserVariable(sprite, var0);
+		sprite.addUserVariable(var0);
 
 		UserVariable var1 = new UserVariable(USER_VARIABLE_NAME);
 		var1.setVisible(false);
-		dataContainer.addUserVariable(secondSprite, var1);
+		secondSprite.addUserVariable(var1);
 
 		ActionFactory factory = sprite.getActionFactory();
 		Action firstSpriteAction = factory.createShowVariableAction(sprite, new Formula(0), new Formula(0),
@@ -76,8 +74,8 @@ public class ShowTextActionTest {
 		ProjectManager.getInstance().setCurrentSprite(secondSprite);
 		secondSpriteAction.act(1.0f);
 
-		UserVariable variableOfFirstSprite = dataContainer.getUserVariable(sprite, USER_VARIABLE_NAME);
-		UserVariable variableOfSecondSprite = dataContainer.getUserVariable(secondSprite, USER_VARIABLE_NAME);
+		UserVariable variableOfFirstSprite = sprite.getUserVariable(USER_VARIABLE_NAME);
+		UserVariable variableOfSecondSprite = sprite.getUserVariable(USER_VARIABLE_NAME);
 		assertTrue(variableOfFirstSprite.getVisible());
 		assertTrue(variableOfSecondSprite.getVisible());
 	}

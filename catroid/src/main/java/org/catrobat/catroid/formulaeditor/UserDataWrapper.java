@@ -20,56 +20,47 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
+package org.catrobat.catroid.formulaeditor;
 
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
-import java.util.List;
+public final class UserDataWrapper {
 
-public class UserBrickParameter extends FormulaBrick {
-
-	private static final long serialVersionUID = 1L;
-
-	private UserScriptDefinitionBrickElement element;
-
-	private transient UserBrick parent;
-
-	public UserBrickParameter() {
+	public static UserVariable getUserVariable(String name, Sprite sprite, Project project) {
+		UserVariable userVariable = null;
+		if (sprite != null) {
+			userVariable = sprite.getUserVariable(name);
+		}
+		if (project != null && userVariable == null) {
+			return project.getUserVariable(name);
+		}
+		return userVariable;
 	}
 
-	@Override
-	public int getViewResource() {
-		return parent.getViewResource();
+	public static UserList getUserList(String name, Sprite sprite, Project project) {
+		UserList userList = null;
+		if (sprite != null) {
+			userList = sprite.getUserList(name);
+		}
+		if (project != null && userList == null) {
+			return project.getUserList(name);
+		}
+		return userList;
 	}
 
-	@Override
-	public View getView(Context context) {
-		super.getView(context);
-		return parent.getView(context);
+	public static void resetAllUserData(Project project) {
+		project.resetUserData();
+		for (Scene scene : project.getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				sprite.resetUserData();
+			}
+		}
 	}
 
-	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		return null;
-	}
-
-	public UserScriptDefinitionBrickElement getElement() {
-		return element;
-	}
-
-	public void setElement(UserScriptDefinitionBrickElement element) {
-		this.element = element;
-	}
-
-	public UserBrick getParent() {
-		return parent;
-	}
-
-	public void setParent(UserBrick parent) {
-		this.parent = parent;
+	private UserDataWrapper() {
+		throw new AssertionError("No.");
 	}
 }

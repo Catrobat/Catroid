@@ -65,7 +65,7 @@ public class AddItemToUserListActionTest {
 		initialList.add(1.0);
 		initialList.add(2.0);
 		userList = new UserList(TEST_USERLIST_NAME, initialList);
-		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().addUserList(userList);
+		project.addUserList(userList);
 	}
 
 	@Test

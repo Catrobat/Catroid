@@ -56,31 +56,29 @@ public class RepeatUntilActionTest {
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
 	private Sprite testSprite;
 	private Script testScript;
-	private int delta = 5;
 	private UserVariable userVariable;
 	private UserVariable userVariable2;
 	private static final int START_VALUE = 3;
 	private static final int TRUE_VALUE = 6;
 	private static final String TEST_USERVARIABLE = "testUservariable";
 	private static final String TEST_USERVARIABLE_2 = "testUservariable2";
-	private Project project;
 
 	@Before
 	public void setUp() throws Exception {
 		testSprite = new SingleSprite("testSprite");
-		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		testScript = new StartScript();
 		testSprite.removeAllScripts();
 		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(new SingleSprite("testSprite1"));
 
-		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().removeUserVariable(TEST_USERVARIABLE);
+		project.removeUserVariable(TEST_USERVARIABLE);
 		userVariable = new UserVariable(TEST_USERVARIABLE);
-		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().addUserVariable(userVariable);
+		project.addUserVariable(userVariable);
 
-		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().removeUserVariable(TEST_USERVARIABLE_2);
+		project.removeUserVariable(TEST_USERVARIABLE_2);
 		userVariable2 = new UserVariable(TEST_USERVARIABLE_2);
-		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().addUserVariable(userVariable2);
+		project.addUserVariable(userVariable2);
 	}
 
 	@Test
@@ -163,6 +161,7 @@ public class RepeatUntilActionTest {
 		repeatBrick.setLoopEndBrick(loopEndBrick);
 
 		testScript.addBrick(repeatBrick);
+		int delta = 5;
 		testScript.addBrick(new ChangeYByNBrick(delta));
 		testScript.addBrick(loopEndBrick);
 		testSprite.addScript(testScript);

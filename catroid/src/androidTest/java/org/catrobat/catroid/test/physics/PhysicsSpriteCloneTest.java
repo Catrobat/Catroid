@@ -147,7 +147,7 @@ public class PhysicsSpriteCloneTest {
 
 		sprite.addScript(collisionScript);
 
-		Sprite clonedSprite = new SpriteController().copy(sprite, project.getDefaultScene(), project.getDefaultScene());
+		Sprite clonedSprite = new SpriteController().copy(sprite, project, project.getDefaultScene());
 
 		checkIfScriptsAndBricksClassesOfSpriteAreEqual(sprite, clonedSprite);
 	}
@@ -161,7 +161,7 @@ public class PhysicsSpriteCloneTest {
 		collisionScript.addBrick(setBounceBrick);
 		sprite.addScript(collisionScript);
 
-		Sprite clonedSprite = new SpriteController().copy(sprite, project.getDefaultScene(), project.getDefaultScene());
+		Sprite clonedSprite = new SpriteController().copy(sprite, project, project.getDefaultScene());
 
 		checkIfScriptsAndBricksClassesOfSpriteAreEqual(sprite, clonedSprite);
 
@@ -210,7 +210,7 @@ public class PhysicsSpriteCloneTest {
 
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 
-		Sprite clonedSprite = new SpriteController().copy(sprite, project.getDefaultScene(), project.getDefaultScene());
+		Sprite clonedSprite = new SpriteController().copy(sprite, project, project.getDefaultScene());
 
 		assertNotNull(clonedSprite.look);
 

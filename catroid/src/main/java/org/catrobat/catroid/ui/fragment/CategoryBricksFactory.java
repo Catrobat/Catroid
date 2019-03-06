@@ -166,7 +166,6 @@ import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
 import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
-import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WaitUntilBrick;
@@ -317,15 +316,7 @@ public class CategoryBricksFactory {
 	}
 
 	private List<Brick> setupUserBricksCategoryList() {
-		List<UserBrick> userBrickList = ProjectManager.getInstance().getCurrentSprite().getUserBrickList();
-		ArrayList<Brick> newList = new ArrayList<>();
-
-		if (userBrickList != null) {
-			for (UserBrick brick : userBrickList) {
-				newList.add(brick);
-			}
-		}
-		return newList;
+		return new ArrayList<>();
 	}
 
 	private List<Brick> setupChromecastCategoryList(Context context) {

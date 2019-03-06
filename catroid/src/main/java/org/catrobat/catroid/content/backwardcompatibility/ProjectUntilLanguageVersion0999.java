@@ -20,56 +20,48 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
+package org.catrobat.catroid.content.backwardcompatibility;
 
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+import org.catrobat.catroid.content.Setting;
+import org.catrobat.catroid.content.XmlHeader;
+import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
+
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class UserBrickParameter extends FormulaBrick {
+@XStreamAlias("program")
+public class ProjectUntilLanguageVersion0999 implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private UserScriptDefinitionBrickElement element;
+	private XmlHeader header = new XmlHeader();
+	private List<Setting> settings = new ArrayList<>();
+	private List<UserVariable> programVariableList = new ArrayList<>();
+	private List<UserList> programListOfLists = new ArrayList<>();
+	private List<SceneUntilLanguageVersion0999> scenes = new ArrayList<>();
 
-	private transient UserBrick parent;
-
-	public UserBrickParameter() {
+	public XmlHeader getXmlHeader() {
+		return header;
 	}
 
-	@Override
-	public int getViewResource() {
-		return parent.getViewResource();
+	public List<Setting> getSettings() {
+		return settings;
 	}
 
-	@Override
-	public View getView(Context context) {
-		super.getView(context);
-		return parent.getView(context);
+	public List<UserVariable> getUserVariables() {
+		return programVariableList;
 	}
 
-	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		return null;
+	public List<UserList> getUserLists() {
+		return programListOfLists;
 	}
 
-	public UserScriptDefinitionBrickElement getElement() {
-		return element;
-	}
-
-	public void setElement(UserScriptDefinitionBrickElement element) {
-		this.element = element;
-	}
-
-	public UserBrick getParent() {
-		return parent;
-	}
-
-	public void setParent(UserBrick parent) {
-		this.parent = parent;
+	public List<SceneUntilLanguageVersion0999> getSceneList() {
+		return scenes;
 	}
 }

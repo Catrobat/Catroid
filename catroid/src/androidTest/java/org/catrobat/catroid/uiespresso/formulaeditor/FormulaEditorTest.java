@@ -33,7 +33,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
@@ -88,9 +87,8 @@ public class FormulaEditorTest {
 		Script script = new StartScript();
 
 		SetVariableBrick setVariableBrick = new SetVariableBrick();
-		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
 		UserVariable userVariable = new UserVariable("Global1");
-		dataContainer.addUserVariable(userVariable);
+		project.addUserVariable(userVariable);
 		setVariableBrick.setUserVariable(userVariable);
 
 		script.addBrick(setVariableBrick);

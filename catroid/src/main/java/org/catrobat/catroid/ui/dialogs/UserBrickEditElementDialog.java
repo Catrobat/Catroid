@@ -23,24 +23,16 @@
 package org.catrobat.catroid.ui.dialogs;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.DialogInterface.OnShowListener;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.fragment.UserBrickElementEditorFragment;
-import org.catrobat.catroid.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,8 +45,6 @@ public class UserBrickEditElementDialog extends DialogFragment {
 	private static boolean editMode;
 	private static int stringResourceOfTitle;
 	private static int stringResourceOfHintText;
-	private static ArrayList<String> takenVariables;
-	private UserBrickElementEditorFragment userBrickElementEditorFragment;
 
 	public UserBrickEditElementDialog() {
 	}
@@ -86,26 +76,13 @@ public class UserBrickEditElementDialog extends DialogFragment {
 		stringResourceOfHintText = stringResource;
 	}
 
-	public static void setTakenVariables(ArrayList<String> variables) {
-		takenVariables = variables;
-	}
-
 	public static void setEditMode(boolean mode) {
 		editMode = mode;
-	}
-
-	public void setUserBrickElementEditorFragment(UserBrickElementEditorFragment userBrickElementEditorFragment) {
-		this.userBrickElementEditorFragment = userBrickElementEditorFragment;
 	}
 
 	@Override
 	public void onCancel(DialogInterface dialog) {
 		super.onCancel(dialog);
-		if (stringResourceOfTitle == R.string.add_variable) {
-			int numberOfElements = ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick().getUserScriptDefinitionBrickElements().size();
-			ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick().removeDataAt(numberOfElements - 1, getActivity().getApplicationContext());
-			userBrickElementEditorFragment.decreaseIndexOfCurrentlyEditedElement();
-		}
 		finishDialog(null);
 	}
 
@@ -161,42 +138,10 @@ public class UserBrickEditElementDialog extends DialogFragment {
 	}
 
 	private void handleOnShow(final Dialog dialogNewVariable) {
-		final Button positiveButton = ((AlertDialog) dialogNewVariable).getButton(AlertDialog.BUTTON_POSITIVE);
-
 		EditText dialogEditText = (EditText) dialogNewVariable
 				.findViewById(R.id.dialog_brick_editor_edit_element_edit_text);
 
 		dialogEditText.selectAll();
 		dialogEditText.setHint(stringResourceOfHintText);
-
-		InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(
-				Context.INPUT_METHOD_SERVICE);
-		inputMethodManager.showSoftInput(dialogEditText, InputMethodManager.SHOW_IMPLICIT);
-
-		dialogEditText.addTextChangedListener(new TextWatcher() {
-
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-			}
-
-			@Override
-			public void afterTextChanged(Editable editable) {
-				positiveButton.setEnabled(true);
-				if (editable.length() == 0) {
-					positiveButton.setEnabled(false);
-				}
-				for (String takenName : takenVariables) {
-					if (editable.toString().equals(takenName)) {
-						positiveButton.setEnabled(false);
-						ToastUtil.showError(getActivity(), R.string.formula_editor_existing_variable);
-						break;
-					}
-				}
-			}
-		});
 	}
 }

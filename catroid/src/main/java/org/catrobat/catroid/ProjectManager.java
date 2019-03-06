@@ -38,7 +38,6 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
@@ -64,7 +63,6 @@ public final class ProjectManager {
 	private Scene currentlyPlayingScene;
 	private Scene startScene;
 	private Sprite currentSprite;
-	private UserBrick currentUserBrick;
 
 	private BrickController brickController = new BrickController();
 
@@ -95,12 +93,10 @@ public final class ProjectManager {
 		}
 
 		if (project.getCatrobatLanguageVersion() == 0.8f) {
-			//TODO insert in every "When project starts" script list a "showDialog" brick
 			project.setCatrobatLanguageVersion(0.9f);
 		}
 		if (project.getCatrobatLanguageVersion() == 0.9f) {
 			project.setCatrobatLanguageVersion(0.91f);
-			//no convertion needed - only change to white background
 		}
 		if (project.getCatrobatLanguageVersion() == 0.91f) {
 			project.setCatrobatLanguageVersion(0.92f);
@@ -161,6 +157,9 @@ public final class ProjectManager {
 			project.setCatrobatLanguageVersion(0.999f);
 		}
 		if (project.getCatrobatLanguageVersion() == 0.999f) {
+			project.setCatrobatLanguageVersion(0.9991f);
+		}
+		if (project.getCatrobatLanguageVersion() == 0.9991f) {
 			project.setCatrobatLanguageVersion(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
 		}
 
@@ -380,14 +379,6 @@ public final class ProjectManager {
 	public void setCurrentlyEditedScene(Scene scene) {
 		this.currentlyEditedScene = scene;
 		currentlyPlayingScene = scene;
-	}
-
-	public UserBrick getCurrentUserBrick() {
-		return currentUserBrick;
-	}
-
-	public void setCurrentUserBrick(UserBrick brick) {
-		currentUserBrick = brick;
 	}
 
 	public void setControlBrickReferences(Project project) {

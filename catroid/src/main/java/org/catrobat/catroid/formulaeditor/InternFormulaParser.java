@@ -25,9 +25,8 @@ package org.catrobat.catroid.formulaeditor;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.UserBrick;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 
 import java.util.ArrayList;
 import java.util.EmptyStackException;
@@ -258,12 +257,12 @@ public class InternFormulaParser {
 	}
 
 	private FormulaElement userVariable() throws InternFormulaParserException {
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
-
-		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		UserVariable userVariable = UserDataWrapper
+				.getUserVariable(currentToken.getTokenStringValue(), currentSprite, currentProject);
 
-		if (dataContainer.getUserVariable(currentSprite, currentBrick, currentToken.getTokenStringValue()) == null) {
+		if (userVariable == null) {
 			throw new InternFormulaParserException("Parse Error");
 		}
 
@@ -301,10 +300,12 @@ public class InternFormulaParser {
 	}
 
 	private FormulaElement userList() throws InternFormulaParserException {
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		String listName = currentToken.getTokenStringValue();
+		UserList userList = UserDataWrapper.getUserList(listName, currentSprite, currentProject);
 
-		if (dataContainer.getUserList(currentSprite, currentToken.getTokenStringValue()) == null) {
+		if (userList == null) {
 			throw new InternFormulaParserException("Parse Error");
 		}
 

@@ -47,7 +47,6 @@ import org.catrobat.catroid.content.Setting;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.content.SupportProject;
 import org.catrobat.catroid.content.WhenBackgroundChangesScript;
 import org.catrobat.catroid.content.WhenClonedScript;
 import org.catrobat.catroid.content.WhenConditionScript;
@@ -56,6 +55,11 @@ import org.catrobat.catroid.content.WhenNfcScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.WhenTouchDownScript;
 import org.catrobat.catroid.content.XmlHeader;
+import org.catrobat.catroid.content.backwardcompatibility.LegacyProjectWithoutScenes;
+import org.catrobat.catroid.content.backwardcompatibility.ProjectMetaData;
+import org.catrobat.catroid.content.backwardcompatibility.ProjectMetaDataParser;
+import org.catrobat.catroid.content.backwardcompatibility.ProjectUntilLanguageVersion0999;
+import org.catrobat.catroid.content.backwardcompatibility.SceneUntilLanguageVersion0999;
 import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
@@ -195,8 +199,6 @@ import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
-import org.catrobat.catroid.formulaeditor.datacontainer.SupportDataContainer;
 import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
 import org.catrobat.catroid.physics.content.bricks.SetBounceBrick;
 import org.catrobat.catroid.physics.content.bricks.SetFrictionBrick;
@@ -207,10 +209,12 @@ import org.catrobat.catroid.physics.content.bricks.SetVelocityBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
 import org.catrobat.catroid.stage.StageListener;
+import org.catrobat.catroid.ui.recyclerview.controller.ProjectController;
 import org.catrobat.catroid.utils.StringFinder;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashSet;
@@ -230,14 +234,12 @@ import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.JUMPING_SUMO_SUPPORT;
 import static org.catrobat.catroid.common.Constants.NFC;
 import static org.catrobat.catroid.common.Constants.PERMISSIONS_FILE_NAME;
-import static org.catrobat.catroid.common.Constants.SCENES_ENABLED_TAG;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.TEXT_TO_SPEECH;
 import static org.catrobat.catroid.common.Constants.TMP_CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.VIBRATOR;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.utils.PathBuilder.buildProjectPath;
-import static org.catrobat.catroid.utils.PathBuilder.buildScenePath;
 
 public final class XstreamSerializer {
 
@@ -251,7 +253,7 @@ public final class XstreamSerializer {
 	private Lock loadSaveLock = new ReentrantLock();
 
 	private XstreamSerializer() {
-		prepareXstream(Project.class, DataContainer.class);
+		prepareXstream(Project.class, Scene.class);
 	}
 
 	public static XstreamSerializer getInstance() {
@@ -261,14 +263,13 @@ public final class XstreamSerializer {
 		return instance;
 	}
 
-	private void prepareXstream(Class projectClass, Class dataContainerClass) {
+	private void prepareXstream(Class projectClass, Class sceneClass) {
 		xstream = new BackwardCompatibleCatrobatLanguageXStream(
 				new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
 
 		xstream.processAnnotations(projectClass);
-		xstream.processAnnotations(dataContainerClass);
+		xstream.processAnnotations(sceneClass);
 
-		xstream.processAnnotations(Scene.class);
 		xstream.processAnnotations(Sprite.class);
 		xstream.processAnnotations(XmlHeader.class);
 		xstream.processAnnotations(Setting.class);
@@ -282,8 +283,10 @@ public final class XstreamSerializer {
 		xstream.registerConverter(new XStreamSpriteConverter(xstream.getMapper(), xstream.getReflectionProvider()));
 		xstream.registerConverter(new XStreamSettingConverter(xstream.getMapper(), xstream.getReflectionProvider()));
 
-		xstream.omitField(Scene.class, "originalWidth");
-		xstream.omitField(Scene.class, "originalHeight");
+		xstream.omitField(sceneClass, "originalWidth");
+		xstream.omitField(sceneClass, "originalHeight");
+
+		xstream.omitField(Sprite.class, "userBricks");
 
 		xstream.omitField(CameraBrick.class, "spinnerValues");
 		xstream.omitField(ChooseCameraBrick.class, "spinnerValues");
@@ -471,14 +474,10 @@ public final class XstreamSerializer {
 		xstream.alias("userBrickElement", UserScriptDefinitionBrickElement.class);
 		xstream.alias("userBrickParameter", UserBrickParameter.class);
 
-		//Cast
 		xstream.alias("script", WhenGamepadButtonScript.class);
 		xstream.alias("brick", WhenGamepadButtonBrick.class);
 
-		// Physics Script
 		xstream.alias("script", CollisionScript.class);
-
-		// Physics Bricks
 		xstream.alias("brick", CollisionReceiverBrick.class);
 		xstream.alias("brick", SetBounceBrick.class);
 		xstream.alias("brick", SetFrictionBrick.class);
@@ -498,42 +497,78 @@ public final class XstreamSerializer {
 	}
 
 	public String getProjectName(File xmlFile) throws IOException {
-		if (!Files.toString(xmlFile, Charsets.UTF_8).contains(SCENES_ENABLED_TAG)) {
-			prepareXstream(SupportProject.class, SupportDataContainer.class);
-			SupportProject supportProject = (SupportProject) xstream.getProjectFromXML(xmlFile);
-			prepareXstream(Project.class, DataContainer.class);
-			return supportProject.xmlHeader.getProgramName();
-		} else {
-			prepareXstream(Project.class, DataContainer.class);
-			Project project = (Project) xstream.getProjectFromXML(xmlFile);
-			return project.getName();
+		if (!xmlFile.exists()) {
+			throw new FileNotFoundException(xmlFile.getAbsolutePath() + " does not exist.");
 		}
+		return new ProjectMetaDataParser(xmlFile).getProjectMetaData().getProjectName();
 	}
 
 	public Project loadProject(String projectName, Context context) throws IOException, LoadingProjectException {
 		cleanUpTmpCodeFile(projectName);
 
-		File xmlFile = new File(buildProjectPath(projectName), CODE_XML_FILE_NAME);
+		File projectDir = new File(DEFAULT_ROOT_DIRECTORY, projectName);
+		File xmlFile = new File(new File(DEFAULT_ROOT_DIRECTORY, projectName), CODE_XML_FILE_NAME);
 
-		if (!Files.toString(xmlFile, Charsets.UTF_8).contains(SCENES_ENABLED_TAG)) {
-			return loadProjectMissingScenes(projectName, context);
+		if (!xmlFile.exists()) {
+			throw new FileNotFoundException(xmlFile + " does not exist.");
 		}
 
-		loadSaveLock.lock();
-
 		try {
-			prepareXstream(Project.class, DataContainer.class);
-			Project project = (Project) xstream.getProjectFromXML(xmlFile);
+			loadSaveLock.lock();
+			ProjectMetaData projectMetaData = new ProjectMetaDataParser(xmlFile).getProjectMetaData();
 
-			for (Scene scene : project.getSceneList()) {
-				scene.setProject(project);
-				scene.getDataContainer().setProjectUserData(project);
+			Project project;
+
+			if (!projectMetaData.hasScenes()) {
+				new File(projectDir, IMAGE_DIRECTORY_NAME).mkdir();
+				new File(projectDir, SOUND_DIRECTORY_NAME).mkdir();
+
+				prepareXstream(LegacyProjectWithoutScenes.class, Scene.class);
+				LegacyProjectWithoutScenes projectWithoutScenes = (LegacyProjectWithoutScenes) xstream
+						.getProjectFromXML(xmlFile);
+
+				prepareXstream(Project.class, Scene.class);
+				project = new ProjectController().createProject(projectWithoutScenes, context);
+
+				File sceneDir = new File(projectDir, project.getDefaultScene().getName());
+				StorageOperations.createSceneDirectory(sceneDir);
+
+				File automaticScreenshot = new File(projectDir, StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
+				File manualScreenshot = new File(projectDir, StageListener.SCREENSHOT_MANUAL_FILE_NAME);
+
+				StorageOperations.copyDir(new File(projectDir, IMAGE_DIRECTORY_NAME), new File(sceneDir, IMAGE_DIRECTORY_NAME));
+				StorageOperations.copyDir(new File(projectDir, SOUND_DIRECTORY_NAME), new File(sceneDir, SOUND_DIRECTORY_NAME));
+
+				if (automaticScreenshot.exists()) {
+					StorageOperations.copyFileToDir(automaticScreenshot, sceneDir);
+					automaticScreenshot.delete();
+				}
+				if (manualScreenshot.exists()) {
+					StorageOperations.copyFileToDir(manualScreenshot, sceneDir);
+					manualScreenshot.delete();
+				}
+
+				StorageOperations.deleteDir(new File(projectDir, IMAGE_DIRECTORY_NAME));
+				StorageOperations.deleteDir(new File(projectDir, SOUND_DIRECTORY_NAME));
+			} else if (projectMetaData.getLanguageVersion() < 0.9991) {
+				prepareXstream(ProjectUntilLanguageVersion0999.class, SceneUntilLanguageVersion0999.class);
+				ProjectUntilLanguageVersion0999 legacyProject = (ProjectUntilLanguageVersion0999) xstream
+						.getProjectFromXML(xmlFile);
+				prepareXstream(Project.class, Scene.class);
+				project = new ProjectController().createProject(legacyProject);
+			} else {
+				prepareXstream(Project.class, Scene.class);
+				project = (Project) xstream.getProjectFromXML(xmlFile);
+
+				for (Scene scene : project.getSceneList()) {
+					scene.setProject(project);
+				}
 			}
 
 			setFileReferences(project);
 			return project;
 		} catch (Exception e) {
-			throw new LoadingProjectException("An Error occurred while parsing the xml: " + e.getMessage());
+			throw new LoadingProjectException("Cannot load " + projectName + "\nException: " + e.getLocalizedMessage());
 		} finally {
 			loadSaveLock.unlock();
 		}
@@ -544,18 +579,23 @@ public final class XstreamSerializer {
 
 		String currentXml;
 
-		if (!Files.toString(xmlFile, Charsets.UTF_8).contains(SCENES_ENABLED_TAG)) {
-			prepareXstream(SupportProject.class, SupportDataContainer.class);
-			SupportProject supportProject = (SupportProject) xstream.getProjectFromXML(xmlFile);
-			String srcName = supportProject.xmlHeader.getProgramName();
-			String srcProjectNameTag = PROGRAM_NAME_START_TAG + srcName + PROGRAM_NAME_END_TAG;
-			String dstProjectNameTag = PROGRAM_NAME_START_TAG + dstName + PROGRAM_NAME_END_TAG;
-			currentXml = Files.toString(xmlFile, Charsets.UTF_8).replace(srcProjectNameTag, dstProjectNameTag);
-		} else {
-			prepareXstream(Project.class, DataContainer.class);
+		if (!xmlFile.exists()) {
+			throw new FileNotFoundException(xmlFile + " does not exist.");
+		}
+
+		if (new ProjectMetaDataParser(xmlFile).getProjectMetaData().hasScenes()) {
+			prepareXstream(Project.class, Scene.class);
 			Project project = (Project) xstream.getProjectFromXML(xmlFile);
 			project.setName(dstName);
 			currentXml = XML_HEADER.concat(xstream.toXML(project));
+		} else {
+			prepareXstream(LegacyProjectWithoutScenes.class, Scene.class);
+			LegacyProjectWithoutScenes projectWithoutScenes = (LegacyProjectWithoutScenes) xstream
+					.getProjectFromXML(xmlFile);
+			String srcName = projectWithoutScenes.getXmlHeader().getProgramName();
+			String srcProjectNameTag = PROGRAM_NAME_START_TAG + srcName + PROGRAM_NAME_END_TAG;
+			String dstProjectNameTag = PROGRAM_NAME_START_TAG + dstName + PROGRAM_NAME_END_TAG;
+			currentXml = Files.toString(xmlFile, Charsets.UTF_8).replace(srcProjectNameTag, dstProjectNameTag);
 		}
 
 		BufferedWriter writer = null;
@@ -608,49 +648,6 @@ public final class XstreamSerializer {
 				}
 			}
 		}
-	}
-
-	private Project loadProjectMissingScenes(String projectName, Context context) throws IOException {
-		loadSaveLock.lock();
-
-		File projectDir = new File(buildProjectPath(projectName));
-
-		new File(projectDir, IMAGE_DIRECTORY_NAME).mkdir();
-		new File(projectDir, SOUND_DIRECTORY_NAME).mkdir();
-
-		File xmlFile = new File(projectDir, CODE_XML_FILE_NAME);
-
-		prepareXstream(SupportProject.class, SupportDataContainer.class);
-		SupportProject supportProject = (SupportProject) xstream.getProjectFromXML(xmlFile);
-
-		prepareXstream(Project.class, DataContainer.class);
-		Project project = new Project(supportProject, context);
-
-		File sceneDir = new File(buildScenePath(projectName, project.getDefaultScene().getName()));
-		StorageOperations.createSceneDirectory(sceneDir);
-
-		File automaticScreenshot = new File(projectDir, StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
-		File manualScreenshot = new File(projectDir, StageListener.SCREENSHOT_MANUAL_FILE_NAME);
-
-		StorageOperations.copyDir(new File(projectDir, IMAGE_DIRECTORY_NAME), new File(sceneDir, IMAGE_DIRECTORY_NAME));
-		StorageOperations.copyDir(new File(projectDir, SOUND_DIRECTORY_NAME), new File(sceneDir, SOUND_DIRECTORY_NAME));
-
-		if (automaticScreenshot.exists()) {
-			StorageOperations.copyFileToDir(automaticScreenshot, sceneDir);
-			automaticScreenshot.delete();
-		}
-		if (manualScreenshot.exists()) {
-			StorageOperations.copyFileToDir(manualScreenshot, sceneDir);
-			manualScreenshot.delete();
-		}
-
-		StorageOperations.deleteDir(new File(projectDir, IMAGE_DIRECTORY_NAME));
-		StorageOperations.deleteDir(new File(projectDir, SOUND_DIRECTORY_NAME));
-
-		setFileReferences(project);
-
-		loadSaveLock.unlock();
-		return project;
 	}
 
 	public boolean saveProject(Project project) {
@@ -765,6 +762,7 @@ public final class XstreamSerializer {
 		loadSaveLock.lock();
 		String xmlString;
 		try {
+			prepareXstream(project.getClass(), project.getSceneList().get(0).getClass());
 			xmlString = xstream.toXML(project);
 		} finally {
 			loadSaveLock.unlock();

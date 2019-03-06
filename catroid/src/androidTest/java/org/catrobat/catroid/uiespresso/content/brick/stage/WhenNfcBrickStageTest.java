@@ -40,7 +40,6 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils;
@@ -83,15 +82,14 @@ public class WhenNfcBrickStageTest {
 
 	private WhenNfcScript createProjectWithNfcAndSetVariable() {
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), "nfcStageTestProject");
-		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
 
 		numDetectedTags = new UserVariable(NUM_DETECTED_TAGS);
 		readTagId = new UserVariable(READ_TAG_ID);
 		readTagMessage = new UserVariable(READ_TAG_MESSAGE);
 
-		dataContainer.addUserVariable(numDetectedTags);
-		dataContainer.addUserVariable(readTagId);
-		dataContainer.addUserVariable(readTagMessage);
+		project.addUserVariable(numDetectedTags);
+		project.addUserVariable(readTagId);
+		project.addUserVariable(readTagMessage);
 
 		Sprite sprite = new Sprite("testSprite");
 		WhenNfcScript script = new WhenNfcScript();

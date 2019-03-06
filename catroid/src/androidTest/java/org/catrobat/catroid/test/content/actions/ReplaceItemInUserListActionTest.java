@@ -66,7 +66,7 @@ public class ReplaceItemInUserListActionTest {
 		INITIALIZED_LIST_VALUES.add(2.0);
 		INITIALIZED_LIST_VALUES.add(3.0);
 		userList = new UserList(TEST_USERLIST_NAME, INITIALIZED_LIST_VALUES);
-		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().addUserList(userList);
+		project.addUserList(userList);
 	}
 
 	@Test
