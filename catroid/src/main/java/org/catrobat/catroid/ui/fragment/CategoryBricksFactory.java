@@ -35,6 +35,8 @@ import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.RaspiInterruptScript;
+import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenConditionScript;
 import org.catrobat.catroid.content.WhenGamepadButtonScript;
@@ -43,6 +45,7 @@ import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.AskBrick;
 import org.catrobat.catroid.content.bricks.AskSpeechBrick;
+import org.catrobat.catroid.content.bricks.AssertEqualsBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
@@ -242,6 +245,8 @@ public class CategoryBricksFactory {
 			tempList = setupRaspiCategoryList();
 		} else if (category.equals(context.getString(R.string.category_embroidery))) {
 			tempList = setupEmbroideryCategoryList();
+		} else if (category.equals(context.getString(R.string.category_assertions))) {
+			tempList = setupAssertionsCategoryList();
 		}
 
 		for (Brick brick : tempList) {
@@ -617,6 +622,26 @@ public class CategoryBricksFactory {
 		return embroideryBrickList;
 	}
 
+	private List<Brick> setupAssertionsCategoryList() {
+		List<Brick> assertionsBrickList = new ArrayList<>();
+		AssertEqualsBrick assertEqualsBrick = new AssertEqualsBrick();
+		assertionsBrickList.add(assertEqualsBrick);
+
+		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				for (Script script : sprite.getScriptList()) {
+					for (Brick brick : script.getBrickList()) {
+						if (brick instanceof AssertEqualsBrick) {
+							assertionsBrickList.remove(assertEqualsBrick);
+						}
+					}
+				}
+			}
+		}
+
+		return assertionsBrickList;
+	}
+
 	protected boolean isBackground(Sprite sprite) {
 		return ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList().indexOf(sprite) == 0;
 	}
@@ -732,6 +757,13 @@ public class CategoryBricksFactory {
 		for (Brick categoryBrick : categoryBricks) {
 			if (brick.getClass().equals(categoryBrick.getClass())) {
 				category = res.getString(R.string.category_embroidery);
+			}
+		}
+
+		categoryBricks = setupAssertionsCategoryList();
+		for (Brick categoryBrick : categoryBricks) {
+			if (brick.getClass().equals(categoryBrick.getClass())) {
+				category = res.getString(R.string.category_assertions);
 			}
 		}
 

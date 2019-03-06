@@ -37,6 +37,7 @@ import org.catrobat.catroid.content.actions.ArduinoSendDigitalValueAction;
 import org.catrobat.catroid.content.actions.ArduinoSendPWMValueAction;
 import org.catrobat.catroid.content.actions.AskAction;
 import org.catrobat.catroid.content.actions.AskSpeechAction;
+import org.catrobat.catroid.content.actions.AssertEqualsAction;
 import org.catrobat.catroid.content.actions.CameraBrickAction;
 import org.catrobat.catroid.content.actions.ChangeBrightnessByNAction;
 import org.catrobat.catroid.content.actions.ChangeColorByNAction;
@@ -1202,5 +1203,20 @@ public class ActionFactory extends Actions {
 		setNfcTagAction.setNfcTagNdefSpinnerSelection(nfcNdefSpinnerSelection);
 		setNfcTagAction.setNfcNdefMessage(nfcNdefMessage);
 		return setNfcTagAction;
+	}
+
+	public Action createAssertEqualsAction(Sprite sprite, Formula actual, Formula expected,
+			UserVariable actualVariable, UserVariable expectedVariable, UserVariable setupVariable) {
+		AssertEqualsAction action = action(AssertEqualsAction.class);
+		action.setActual(actual);
+		action.setExpected(expected);
+
+		action.setSprite(sprite);
+
+		action.setActualVariable(actualVariable);
+		action.setExpectedVariable(expectedVariable);
+		action.setSetupVariable(setupVariable);
+
+		return action;
 	}
 }
