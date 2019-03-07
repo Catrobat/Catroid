@@ -28,7 +28,7 @@ import android.util.Pair;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.io.ZipArchiver;
-import org.catrobat.catroid.utils.StatusBarNotificationManager;
+import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager;
 
 import java.io.File;
 import java.io.IOException;

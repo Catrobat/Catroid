@@ -228,6 +228,21 @@ public final class Constants {
 	public static final String EXTRA_PICTURE_PATH_POCKET_PAINT = "org.catrobat.extra.PAINTROID_PICTURE_PATH";
 	public static final String POCKET_PAINT_INTENT_ACTIVITY_NAME = "org.catrobat.paintroid.MainActivity";
 
+	// Intent Extra / Bundle Keys
+	public static final String EXTRA_PROJECT_NAME = "projectName";
+	public static final String EXTRA_PROJECT_DESCRIPTION = "projectDescription";
+	public static final String EXTRA_PROJECT_PATH = "projectPath";
+	public static final String EXTRA_PROJECT_ID = "projectId";
+	public static final String EXTRA_SCENE_NAMES = "sceneNames";
+	public static final String EXTRA_USER_EMAIL = "userEmail";
+	public static final String EXTRA_LANGUAGE = "language";
+	public static final String EXTRA_NOTIFICATION_ID = "notificationId";
+	public static final String EXTRA_RESULT_RECEIVER = "resultReceiver";
+	public static final String EXTRA_PROVIDER = "provider";
+	public static final String EXTRA_UPLOAD_NAME = "uploadName";
+
+	public static final int UPLOAD_RESULT_RECEIVER_RESULT_CODE = 1;
+
 	//Various:
 	public static final int BUFFER_8K = 8 * 1024;
 	public static final String PREF_PROJECTNAME_KEY = "projectName";

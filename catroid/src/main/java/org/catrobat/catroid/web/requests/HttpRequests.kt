@@ -1,0 +1,82 @@
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2019 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package org.catrobat.catroid.web.requests
+
+import android.util.Log
+import com.squareup.okhttp.MediaType
+import com.squareup.okhttp.MultipartBuilder
+import com.squareup.okhttp.Request
+import com.squareup.okhttp.RequestBody
+import org.catrobat.catroid.common.Constants
+import org.catrobat.catroid.common.FlavoredConstants
+import org.catrobat.catroid.transfers.project.UPLOAD_FILE_NAME
+import org.catrobat.catroid.utils.Utils
+import org.catrobat.catroid.web.ServerCalls
+import org.catrobat.catroid.web.ServerCalls.BASE_URL_TEST_HTTPS
+import java.io.File
+
+private val FILE_UPLOAD_TAG = "upload"
+private val PROJECT_NAME_TAG = "projectTitle"
+private val PROJECT_DESCRIPTION_TAG = "projectDescription"
+private val PROJECT_CHECKSUM_TAG = "fileChecksum"
+private val USER_EMAIL = "userEmail"
+private val DEVICE_LANGUAGE = "deviceLanguage"
+private val MEDIA_TYPE_ZIPFILE = MediaType.parse("application/zip")
+private val FILE_UPLOAD_URL = FlavoredConstants.BASE_URL_HTTPS + "api/upload/upload.json"
+private val TEST_FILE_UPLOAD_URL_HTTP = BASE_URL_TEST_HTTPS + "api/upload/upload.json"
+
+private val serverUrl: String
+    get() {
+        return if (ServerCalls.useTestUrl) {
+            TEST_FILE_UPLOAD_URL_HTTP
+        } else {
+            FILE_UPLOAD_URL
+        }
+    }
+
+
+fun createUploadRequest(projectName: String, projectDescription: String, zipFilePath: String,
+                               userEmail: String, language: String, token: String, username: String): Request {
+
+    Log.v(ServerCalls.TAG, "Building request to upload to: $serverUrl")
+    val file = File(zipFilePath)
+
+    val requestBody = MultipartBuilder()
+            .type(MultipartBuilder.FORM)
+            .addFormDataPart(FILE_UPLOAD_TAG, UPLOAD_FILE_NAME,
+                    RequestBody.create(MEDIA_TYPE_ZIPFILE, file))
+            .addFormDataPart(PROJECT_NAME_TAG, projectName)
+            .addFormDataPart(PROJECT_DESCRIPTION_TAG, projectDescription)
+            .addFormDataPart(USER_EMAIL, userEmail)
+            .addFormDataPart(PROJECT_CHECKSUM_TAG, Utils.md5Checksum(file))
+            .addFormDataPart(Constants.TOKEN, token)
+            .addFormDataPart(Constants.USERNAME, username)
+            .addFormDataPart(DEVICE_LANGUAGE, language)
+            .build()
+
+    return Request.Builder()
+            .url(serverUrl)
+            .post(requestBody)
+            .build()
+}

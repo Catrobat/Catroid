@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.utils;
+package org.catrobat.catroid.utils.notifications;
 
 import android.app.IntentService;
 import android.app.Notification;
@@ -34,34 +34,40 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.ResultReceiver;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.util.Pair;
 import android.util.SparseArray;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.transfers.ProjectUploadService;
+import org.catrobat.catroid.transfers.project.ProjectUploadService;
 import org.catrobat.catroid.ui.MainMenuActivity;
 
 import static org.catrobat.catroid.common.Constants.EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY;
+import static org.catrobat.catroid.common.Constants.EXTRA_PROJECT_NAME;
 
 public final class StatusBarNotificationManager {
-	public static final String EXTRA_PROJECT_NAME = "projectName";
-	public static final int MAXIMUM_PERCENT = 100;
+	private static final int MAXIMUM_PERCENT = 100;
 	private static final String TAG = StatusBarNotificationManager.class.getSimpleName();
-	public static final String ACTION_UPDATE_POCKET_CODE_VERSION = "update_pocket_code_version";
-	public static final String ACTION_RETRY_UPLOAD = "retry_upload";
-	public static final String ACTION_CANCEL_UPLOAD = "cancel_upload";
+	private static final String ACTION_UPDATE_POCKET_CODE_VERSION = "update_pocket_code_version";
+	private static final String ACTION_RETRY_UPLOAD = "retry_upload";
+	private static final String ACTION_CANCEL_UPLOAD = "cancel_upload";
 
 	private static final StatusBarNotificationManager INSTANCE = new StatusBarNotificationManager();
 	public static final String CHANNEL_ID = "pocket_code_notification_channel_id";
 
-	private int notificationId;
+	public static final int NOTIFICATION_PENDING_INTENT_REQUEST_CODE = 1;
+	public static final int UPLOAD_NOTIFICATION_ID = 0x10;
+	public static final int UPLOAD_NOTIFICATION_SERVICE_ID = 0x11;
+	public static final int UPLOAD_PENDING_INTENT_REQUEST_CODE = 0x10;
+
+	private int notificationId = 1;
 	private SparseArray<NotificationData> notificationDataMap = new SparseArray<>();
 	private Context context;
 	private NotificationManager notificationManager;
-	private int progressPercent;
 
 	private StatusBarNotificationManager() {
 	}
@@ -78,7 +84,7 @@ public final class StatusBarNotificationManager {
 		this.context = context;
 	}
 
-	public int createUploadNotification(Context context, String programName) {
+	public int createAndShowUploadNotification(Context context, String programName) {
 		if (context == null || programName == null) {
 			return -1;
 		}
@@ -89,13 +95,32 @@ public final class StatusBarNotificationManager {
 		PendingIntent pendingIntent = PendingIntent.getActivity(context, notificationId, uploadIntent,
 				PendingIntent.FLAG_CANCEL_CURRENT);
 
-		NotificationData data = new NotificationData(context, pendingIntent, R.drawable.ic_stat, programName,
-				R.string.notification_upload_title_pending, R.string.notification_upload_title_finished,
-				R.string.notification_upload_pending, R.string.notification_upload_finished);
+		NotificationData data = new NotificationData(pendingIntent, R.drawable.ic_stat, programName,
+				context.getString(R.string.notification_upload_title_pending), context.getString(R.string.notification_upload_title_finished),
+				context.getString(R.string.notification_upload_pending), context.getString(R.string.notification_upload_finished),
+				0, 100, false, false);
 
 		int id = createNotification(context, data);
 		showOrUpdateNotification(id, 0);
 		return id;
+	}
+
+	public Pair<Integer, Notification> createUploadNotification(@NonNull Context context, @NonNull String programName) {
+		Intent uploadIntent = new Intent(context, MainMenuActivity.class);
+		uploadIntent.setAction(Intent.ACTION_MAIN);
+		uploadIntent = uploadIntent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+		PendingIntent pendingIntent = PendingIntent.getActivity(context, notificationId, uploadIntent,
+				PendingIntent.FLAG_CANCEL_CURRENT);
+
+		NotificationData data = new NotificationData(pendingIntent, R.drawable.ic_stat, programName,
+				context.getString(R.string.notification_upload_title_pending), context.getString(R.string.notification_upload_title_finished),
+				context.getString(R.string.notification_upload_pending), context.getString(R.string.notification_upload_finished),
+				0, 100, true, false);
+
+		int id = createNotification(context, data);
+		data.toNotification(context, CHANNEL_ID);
+
+		return new Pair<>(id, data.toNotification(context, CHANNEL_ID));
 	}
 
 	public int createCopyNotification(Context context, String programName) {
@@ -110,9 +135,10 @@ public final class StatusBarNotificationManager {
 		PendingIntent pendingIntent = PendingIntent.getActivity(context, notificationId, copyIntent,
 				PendingIntent.FLAG_CANCEL_CURRENT);
 
-		NotificationData data = new NotificationData(context, pendingIntent, R.drawable.ic_stat, programName,
-				R.string.notification_copy_title_pending, R.string.notification_title_open,
-				R.string.notification_copy_pending, R.string.notification_copy_finished);
+		NotificationData data = new NotificationData(pendingIntent, R.drawable.ic_stat, programName,
+				context.getString(R.string.notification_copy_title_pending), context.getString(R.string.notification_title_open),
+				context.getString(R.string.notification_copy_pending), context.getString(R.string.notification_copy_finished),
+				100, 0, false, false);
 
 		int id = createNotification(context, data);
 		showOrUpdateNotification(id, 0);
@@ -130,7 +156,8 @@ public final class StatusBarNotificationManager {
 				context.getString(R.string.notification_save_project_to_external_storage_title_pending),
 				context.getString(R.string.notification_save_project_to_external_storage_title_open),
 				context.getString(R.string.notification_save_project_to_external_storage_pending),
-				context.getString(R.string.notification_save_project_to_external_storage_open, EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY));
+				context.getString(R.string.notification_save_project_to_external_storage_open, EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY),
+				0, 100, false, false);
 
 		int id = createNotification(context, data);
 		showOrUpdateNotification(id, 0);
@@ -150,9 +177,10 @@ public final class StatusBarNotificationManager {
 		PendingIntent pendingIntent = PendingIntent.getActivity(context, notificationId, downloadIntent,
 				PendingIntent.FLAG_CANCEL_CURRENT);
 
-		NotificationData data = new NotificationData(context, pendingIntent, R.drawable.ic_stat, programName,
-				R.string.notification_download_title_pending, R.string.notification_title_open,
-				R.string.notification_download_pending, R.string.notification_download_finished);
+		NotificationData data = new NotificationData(pendingIntent, R.drawable.ic_stat, programName,
+				context.getString(R.string.notification_download_title_pending), context.getString(R.string.notification_title_open),
+				context.getString(R.string.notification_download_pending), context.getString(R.string.notification_download_finished),
+				0, 100, false, false);
 
 		return createNotification(context, data);
 	}
@@ -160,75 +188,54 @@ public final class StatusBarNotificationManager {
 	private int createNotification(Context context, NotificationData data) {
 		initNotificationManager(context);
 
-		PendingIntent doesNothingPendingIntent = PendingIntent.getActivity(context, -1, new Intent(),
-				PendingIntent.FLAG_ONE_SHOT);
-
-		NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, CHANNEL_ID);
-		notificationBuilder.setContentTitle(data.getNotificationTitleWorking())
-			.setContentText(data.getNotificationTextWorking())
-			.setSmallIcon(data.getNotificationIcon())
-			.setOngoing(true)
-			.setContentIntent(doesNothingPendingIntent);
-
-		data.setNotificationBuilder(notificationBuilder);
+		data.setOngoing(true);
 		notificationDataMap.put(notificationId, data);
 
 		return notificationId++;
 	}
 
-	public Notification showOrUpdateNotification(int id, int progressInPercent) {
+	public void showOrUpdateNotification(int id, int progressInPercent) {
 		NotificationData notificationData = notificationDataMap.get(id);
 		if (notificationData == null) {
-			return null;
+			return;
 		}
-		progressPercent = progressInPercent;
-		NotificationCompat.Builder notificationBuilder = notificationData.getNotificationBuilder();
-		notificationBuilder.setProgress(100, progressInPercent, false);
-		notificationManager.notify(id, notificationBuilder.build());
 
-		if (progressInPercent == 100) {
-			notificationBuilder.setContentTitle(notificationData.getNotificationTitleDone())
-				.setContentText(notificationData.getNotificationTextDone())
-				.setProgress(0, 0, false)
-				.setAutoCancel(true)
-				.setContentIntent(notificationData.getPendingIntent())
-				.setOngoing(false);
-			notificationManager.notify(id, notificationBuilder.build());
+		notificationData.setProgressInPercent(progressInPercent);
+		if (progressInPercent < 100) {
+			notificationManager.notify(id, notificationData.toNotification(context, CHANNEL_ID));
+		} else {
+			notificationData.setProgressInPercent(0);
+			notificationData.setMaxProgress(0);
+			notificationData.setAutoCancel(true);
+			notificationData.setOngoing(false);
+			notificationManager.notify(id, notificationData.toNotification(context, CHANNEL_ID));
 		}
-		return notificationBuilder.build();
 	}
 
-	public void abortProgressNotificationWithMessage(int id, @StringRes int changeDoneTextID) {
+	public void abortProgressNotificationWithMessage(int id, @StringRes int changeDoneText) {
 
 		NotificationData notificationData = notificationDataMap.get(id);
 		if (notificationData == null) {
 			return;
 		}
-		notificationData.setNotificationTextDone(context.getString(changeDoneTextID));
+		notificationData.setTextDone(context.getString(changeDoneText));
 		notificationDataMap.put(id, notificationData);
 
 		showOrUpdateNotification(id, MAXIMUM_PERCENT);
 	}
 
-	public void showUploadRejectedNotification(int id, int statusCode, String serverAnswer, Bundle bundle) {
-		NotificationData notificationData = notificationDataMap.get(id);
-
-		if (notificationData == null) {
-			Log.d(TAG, "NotificationData is null.");
-			return;
-		}
-		NotificationCompat.Builder notificationBuilder = notificationData.getNotificationBuilder();
-		notificationData.setNotificationTextDone(serverAnswer);
-
+	public Notification createUploadRejectedNotification(Context context, int statusCode, String serverAnswer, Bundle bundle) {
 		Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-		notificationBuilder.setContentTitle(context.getResources().getText(R.string.notification_upload_rejected))
+
+		NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
+				.setContentTitle(context.getResources().getString(R.string.notification_upload_rejected))
 				.setContentText(serverAnswer)
-				.setTicker(context.getResources().getText(R.string.notification_upload_rejected))
+				.setTicker(context.getResources().getString(R.string.notification_upload_rejected))
 				.setSound(alarmSound)
 				.setStyle(new NotificationCompat.BigTextStyle().bigText(serverAnswer))
 				.setProgress(0, 0, false)
 				.setAutoCancel(true)
-				.setPriority(Notification.PRIORITY_MAX)
+				.setPriority(NotificationCompat.PRIORITY_MAX)
 				.setOngoing(false);
 
 		switch (statusCode) {
@@ -244,18 +251,18 @@ public final class StatusBarNotificationManager {
 						.setAction(ACTION_RETRY_UPLOAD);
 				actionIntentRetryUpload.putExtra("bundle", bundle);
 
-				PendingIntent actionPendingIntentRetryUpload = PendingIntent.getService(context, id,
+				PendingIntent actionPendingIntentRetryUpload = PendingIntent.getService(context, NOTIFICATION_PENDING_INTENT_REQUEST_CODE,
 						actionIntentRetryUpload, PendingIntent.FLAG_CANCEL_CURRENT);
-				notificationBuilder.addAction(android.R.drawable.ic_popup_sync,
-						context.getResources().getString(R.string.notification_upload_retry), actionPendingIntentRetryUpload);
+				builder.addAction(new NotificationCompat.Action(android.R.drawable.ic_popup_sync,
+						context.getResources().getString(R.string.notification_upload_retry), actionPendingIntentRetryUpload));
 
 				Intent actionIntentCancelUpload = new Intent(context, NotificationActionService.class)
 						.setAction(ACTION_CANCEL_UPLOAD);
 				actionIntentCancelUpload.putExtra("bundle", bundle);
-				PendingIntent actionPendingIntentCancelUpload = PendingIntent.getService(context, id,
+				PendingIntent actionPendingIntentCancelUpload = PendingIntent.getService(context, NOTIFICATION_PENDING_INTENT_REQUEST_CODE,
 						actionIntentCancelUpload, PendingIntent.FLAG_ONE_SHOT);
-				notificationBuilder.addAction(android.R.drawable.ic_menu_close_clear_cancel,
-						context.getResources().getString(R.string.cancel), actionPendingIntentCancelUpload);
+				builder.addAction(new NotificationCompat.Action(android.R.drawable.ic_menu_close_clear_cancel,
+						context.getResources().getString(R.string.cancel), actionPendingIntentCancelUpload));
 
 				break;
 			case Constants.STATUS_CODE_UPLOAD_MISSING_CHECKSUM:
@@ -263,39 +270,25 @@ public final class StatusBarNotificationManager {
 			case Constants.STATUS_CODE_UPLOAD_OLD_CATROBAT_VERSION:
 				Intent actionIntentUpdatePocketCodeVersion = new Intent(context, NotificationActionService.class)
 						.setAction(ACTION_UPDATE_POCKET_CODE_VERSION)
-						.putExtra("notificationId", id);
-				PendingIntent actionPendingIntentUpdatePocketCodeVersion = PendingIntent.getService(context, id,
+						.putExtra("notificationId", NOTIFICATION_PENDING_INTENT_REQUEST_CODE);
+				PendingIntent actionPendingIntentUpdatePocketCodeVersion = PendingIntent.getService(context, NOTIFICATION_PENDING_INTENT_REQUEST_CODE,
 						actionIntentUpdatePocketCodeVersion, PendingIntent.FLAG_ONE_SHOT);
-				notificationBuilder.addAction(R.drawable.ic_launcher,
-						context.getResources().getString(R.string.notification_open_play_store), actionPendingIntentUpdatePocketCodeVersion);
+				builder.addAction(new NotificationCompat.Action(R.drawable.ic_launcher,
+						context.getResources().getString(R.string.notification_open_play_store), actionPendingIntentUpdatePocketCodeVersion));
 				break;
 
 			default:
-				notificationDataMap.put(id, notificationData);
 				Intent openIntent = new Intent(context, MainMenuActivity.class);
 				openIntent.setAction(Intent.ACTION_MAIN).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 						.putExtra(EXTRA_PROJECT_NAME, bundle.getString("projectName"));
 
 				PendingIntent pendingIntent = PendingIntent.getActivity(context, notificationId, openIntent,
 						PendingIntent.FLAG_CANCEL_CURRENT);
-				notificationData.setPendingIntent(pendingIntent);
-				showOrUpdateNotification(id, MAXIMUM_PERCENT);
-				return;
+				builder.setContentIntent(pendingIntent);
+				break;
 		}
 
-		notificationBuilder.setContentIntent(notificationData.getPendingIntent());
-
-		notificationDataMap.put(id, notificationData);
-		notificationManager.notify(id, notificationBuilder.build());
-	}
-
-	public void cancelNotification(int id) {
-		notificationDataMap.remove(id);
-		notificationManager.cancel(id);
-	}
-
-	public int getProgressPercent() {
-		return progressPercent;
+		return builder.build();
 	}
 
 	public static class NotificationActionService extends IntentService {
@@ -310,7 +303,6 @@ public final class StatusBarNotificationManager {
 
 			if (ACTION_UPDATE_POCKET_CODE_VERSION.equals(action)) {
 				final String appPackageName = getPackageName();
-				StatusBarNotificationManager.getInstance().cancelNotification(intent.getIntExtra("notificationId", 0));
 
 				try {
 					startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
@@ -320,18 +312,15 @@ public final class StatusBarNotificationManager {
 				closeNotificationBar();
 			}
 			if (ACTION_RETRY_UPLOAD.equals(action)) {
-				StatusBarNotificationManager.getInstance().cancelNotification(intent.getBundleExtra("bundle").getInt("notificationId"));
-
 				Intent reuploadIntent = prepareReuploadIntent(intent);
 				String projectName = intent.getBundleExtra("bundle").getString("projectName");
-				int notificationId = StatusBarNotificationManager.getInstance().createUploadNotification(getApplicationContext(),
+				int notificationId = StatusBarNotificationManager.getInstance().createAndShowUploadNotification(getApplicationContext(),
 						projectName);
 				reuploadIntent.putExtra("notificationId", notificationId);
 				getApplicationContext().startService(reuploadIntent);
 			}
 
 			if (ACTION_CANCEL_UPLOAD.equals(action)) {
-				StatusBarNotificationManager.getInstance().cancelNotification(intent.getBundleExtra("bundle").getInt("notificationId"));
 				closeNotificationBar();
 			}
 		}
@@ -362,7 +351,7 @@ public final class StatusBarNotificationManager {
 		}
 	}
 
-	private void createNotificationChannel(Context context) {
+	public void createNotificationChannel(Context context) {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 			CharSequence name = context.getResources().getString(R.string.app_name);
 			String description = context.getResources().getString(R.string.channel_description, name);
@@ -373,7 +362,9 @@ public final class StatusBarNotificationManager {
 			channel.enableLights(false);
 			channel.setSound(null, null);
 			NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
-			notificationManager.createNotificationChannel(channel);
+			if (notificationManager != null) {
+				notificationManager.createNotificationChannel(channel);
+			}
 		}
 	}
 }
