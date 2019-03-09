@@ -108,7 +108,6 @@ public class ChangeProjectOrderTest {
 		});
 
 		assertEquals(items.get(0).projectName, projectTwoName);
-
 	}
 
 	private void createProject(String projectName) {
