@@ -109,27 +109,6 @@ public class ChangeProjectOrderTest {
 
 		assertEquals(items.get(0).projectName, projectTwoName);
 
-		assertTrue(codeFileProjectOne.setLastModified(codeFileProjectOne.lastModified() - 2000));
-		assertTrue(codeFileProjectTwo.setLastModified(codeFileProjectTwo.lastModified() - 2000));
-
-		onRecyclerView().performOnItemWithText(projectOneName, click());
-
-		pressBack();
-
-		items.clear();
-		for (String projectName : FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY)) {
-			File codeFile = new File(PathBuilder.buildPath(PathBuilder.buildProjectPath(projectName), Constants.CODE_XML_FILE_NAME));
-			items.add(new ProjectData(projectName, codeFile.lastModified()));
-		}
-
-		Collections.sort(items, new Comparator<ProjectData>() {
-			@Override
-			public int compare(ProjectData project1, ProjectData project2) {
-				return Long.compare(project2.lastUsed, project1.lastUsed);
-			}
-		});
-
-		assertEquals(items.get(0).projectName, projectOneName);
 	}
 
 	private void createProject(String projectName) {

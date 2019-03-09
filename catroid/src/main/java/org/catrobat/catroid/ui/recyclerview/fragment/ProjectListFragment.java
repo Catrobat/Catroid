@@ -51,6 +51,7 @@ import org.catrobat.catroid.ui.recyclerview.controller.ProjectController;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
+import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.ToastUtil;
 
@@ -106,7 +107,8 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 		List<ProjectData> items = new ArrayList<>();
 
 		for (String projectName : FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY)) {
-			File codeFile = new File(projectName, CODE_XML_FILE_NAME);
+			File codeFile = new File(PathBuilder.buildPath(PathBuilder.buildProjectPath(projectName)),
+					CODE_XML_FILE_NAME);
 			items.add(new ProjectData(projectName, codeFile.lastModified()));
 		}
 
