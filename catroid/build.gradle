@@ -166,9 +166,9 @@ android {
         targetSdkVersion 26
         applicationId appId
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-        versionCode 56
+        versionCode 57
         println "VersionCode is $versionCode"
-        versionName "0.9.50"
+        versionName "0.9.52"
         println "VersionName is $versionName"
         buildConfigField "String", "GIT_COMMIT_INFO", "\"${getGitCommitInfo()}\""
         buildConfigField "String", "MAIN_URL_HTTPS", (project.hasProperty('useWebTest') ? '"https://web-test.catrob.at"' : '"https://share.catrob.at"')
