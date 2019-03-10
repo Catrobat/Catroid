@@ -1125,7 +1125,7 @@
     <string name="show_password">إظهار كلمة المرور</string>
     <string name="sign_in_error">Something went wrong during sign in.</string>
     <string name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>
-    <string name="error_facebook_session_expired">Session expired, please log in.</string>
+    <string name="error_session_expired">Session expired, please log in.</string>
     <string name="sign_in_with_facebook">Sign in with Facebook</string>
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="error_register_empty_username">Empty username</string>
@@ -1157,7 +1157,7 @@
     <string name="prestage_resource_not_available_title">المكون غير متوفر</string>
     <string name="prestage_resource_not_available_text">للأسف هذا البرنامج لا يعمل على الجهاز الخاص بك.
         المكونات التالية غير متوفرة: \n\n</string>
-    <string name="prestage_resource_in_use_text">جهاز أخر متصل بـ  Jumping Sumo. تأكد من أنك 
+    <string name="prestage_resource_in_use_text">جهاز أخر متصل بـ  Jumping Sumo. تأكد من أنك
         المتحكم الوحيد بالطائرة بدون طيار.</string>
     <string name="prestage_no_flash_available">\u2022 الفلاش\n</string>
     <string name="prestage_no_vibrator_available">\u2022 الهزاز\n</string>

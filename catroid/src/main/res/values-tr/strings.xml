@@ -177,7 +177,7 @@
     <string name="error_request_timeout">Whoops! Our server did not respond in time, please try again later.</string>
     <string name="error_scratch_program_conversion_failed">Hay aksi! Boş programı dönüştürme başarısız oldu, lütfen daha sonra tekrar deneyin!
          </string>
-    <string name="error_specific_scratch_program_conversion_failed_x">Eyvah! %1$s dönüştürme işlemi başarısız oldu, lütfen 
+    <string name="error_specific_scratch_program_conversion_failed_x">Eyvah! %1$s dönüştürme işlemi başarısız oldu, lütfen
         daha sonra tekrar deneyin!</string>
     <string name="error_scratch_converter_outdated_app_version">Your version of this app is outdated. Our Scratch
         converter only works on the latest version. Please update the app.</string>
@@ -857,7 +857,7 @@
     <string name="show_password">Parolayı göster</string>
     <string name="sign_in_error">Something went wrong during sign in.</string>
     <string name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>
-    <string name="error_facebook_session_expired">Session expired, please log in.</string>
+    <string name="error_session_expired">Session expired, please log in.</string>
     <string name="sign_in_with_facebook">Sign in with Facebook</string>
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="error_register_empty_username">Empty username</string>
@@ -889,7 +889,7 @@
     <string name="prestage_resource_not_available_title">Bileşen mevcut değil</string>
     <string name="prestage_resource_not_available_text">Unfortunately this project does not work on your device.
         The following components are unavailable:\n\n</string>
-    <string name="prestage_resource_in_use_text">Başka Bir Cihaz, Jumping Sumo\'ya bağlı. Emin olun, 
+    <string name="prestage_resource_in_use_text">Başka Bir Cihaz, Jumping Sumo\'ya bağlı. Emin olun,
         Drone\'un tek denetleyicisi sizsiniz.</string>
     <string name="prestage_no_flash_available">\u2022 Flaş\n</string>
     <string name="prestage_no_vibrator_available">\u2022 Vibration\n</string>
@@ -1743,13 +1743,13 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_intro_title_input_field">Giriş alanı</string>
     <string name="formula_editor_intro_summary_input_field">Here you can see and edit your formula.</string>
     <string name="formula_editor_intro_title_keyboard">Klavye</string>
-    <string name="formula_editor_intro_summary_keyboard">Bir hesap makinesine benzer şekilde 
+    <string name="formula_editor_intro_summary_keyboard">Bir hesap makinesine benzer şekilde
         formülü oluşturabileceğiniz yer burasıdır.</string>
     <string name="formula_editor_intro_title_compute">Hesapla</string>
     <string name="formula_editor_intro_summary_compute">Formülünüzü test etmek ve mevcut sonucunu görüntülemek için şunları yapabilirsiniz
         \"Hesapla\" yı kullan.</string>
     <string name="formula_editor_intro_title_object">Nesne</string>
-    <string name="formula_editor_intro_summary_object">Bu, şimdiki nesnenizi tanımlayan 
+    <string name="formula_editor_intro_summary_object">Bu, şimdiki nesnenizi tanımlayan
         değerler topluluğudur. Bu değerlerden bazıları, örneğin x- ve y- koordinatları veya geçerli hızdır.</string>
     <string name="formula_editor_intro_title_functions">Fonksiyonlar</string>
     <string name="formula_editor_intro_summary_functions">Formül editörü, hesap makinesi gibi çok sayıda matematiksel işlev yapmanızı sağlar. \n \"sin\" ve \"cos\" gibi trigonometrik fonksiyonlar bulabilirsiniz, ve ayrıca rastgele bir sayı üreteci,metin veya liste işlevleri bulabilirsiniz.</string>
@@ -1758,7 +1758,7 @@ needs read and write access to it. You can always change permissions through you
         Değerleri karşılaştırmak için \"&gt;\" gibi mantıksal işlemleri kullanabilirsiniz (büyüktür) veya \"=\" (eşittir).\n
         Mantıksal formülleri birleştirmek için \"VE\", \"VEYA\" ve \"DEĞİL\" gibi mantıksal işlemleri kullanabilirsiniz.</string>
     <string name="formula_editor_intro_title_device">Sensörler</string>
-    <string name="formula_editor_intro_summary_device">\"Cihaz\" da 
+    <string name="formula_editor_intro_summary_device">\"Cihaz\" da
         akıllı telefonunuzun veya tabletinizin kayıtlarını bulabileceğiniz bilgiler bulabilirsiniz. \nÖrneğin cihazınızın eğimi veya çevrenizin yüksekliği.</string>
     <string name="formula_editor_intro_title_data">Veri</string>
     <string name="formula_editor_intro_summary_data">Programda kullandığınız değişkenler ve listeler burada bulunabilir. Bunları formülünüze basitçe ekleyebilir veya yenilerini ekleyebilirsiniz.</string>

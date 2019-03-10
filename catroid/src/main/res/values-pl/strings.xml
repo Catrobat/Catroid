@@ -969,7 +969,7 @@
     <string name="show_password">Pokaż hasło</string>
     <string name="sign_in_error">Something went wrong during sign in.</string>
     <string name="error_google_plus_sign_in">Błąd logowania Google. Status: %s</string>
-    <string name="error_facebook_session_expired">Twoja sesja wygasła, zaloguj się ponownie.</string>
+    <string name="error_session_expired">Twoja sesja wygasła, zaloguj się ponownie.</string>
     <string name="sign_in_with_facebook">Zaloguj się przez Facebooka</string>
     <string name="sign_in_with_google">Zaloguj się za pomocą Google</string>
     <string name="error_register_empty_username">Puste pole nazwy użytkownika</string>

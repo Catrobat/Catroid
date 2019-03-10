@@ -175,7 +175,7 @@
     <string name="error_scratch_project_data_not_available">Oops! Sembrano mancare alcune parti del programma,
         per favore riprova dopo.</string>
     <string name="error_request_timeout">Oops! Il nostro server non ha risposto in un tempo ragionevole, si prega di riprovare più tardi.</string>
-    <string name="error_scratch_program_conversion_failed">Oops! E\' fallita la conversione del programma Scratch, 
+    <string name="error_scratch_program_conversion_failed">Oops! E\' fallita la conversione del programma Scratch,
         riprova più tardi!</string>
     <string name="error_specific_scratch_program_conversion_failed_x">Oops! La conversione di \"%1$s\" è fallita, riprova
         più tardi!</string>
@@ -201,7 +201,7 @@
     <string name="search_failed">Non è stato trovato nulla; riprovare più tardi.</string>
     <string name="connection_lost_or_closed_by_server">Connessione al server interrotta.</string>
     <string name="connection_failed">In questo momento non possiamo connetterti al server; riprova più tardi.</string>
-    <string name="authentication_failed">Sembra esserci un problema con la connessione al servizio, 
+    <string name="authentication_failed">Sembra esserci un problema con la connessione al servizio,
      contatta il team di Catrobat!</string>
     <plurals name="scratch_conversion_scheduled_x">
         <item quantity="one">Aggiunto %d programma Scratch alla coda&#8230;</item>
@@ -718,7 +718,7 @@
     <!-- Privacy Policy -->
     <string name="dialog_privacy_policy_title">Informativa sulla privacy</string>
     <string name="disclaimer_privacy_police_header_headline">Benvenuto!</string>
-    <string name="disclaimer_privacy_policy_header">Prima si può iniziare a scrivere programmi, leggi e accetta la nostra informativa 
+    <string name="disclaimer_privacy_policy_header">Prima si può iniziare a scrivere programmi, leggi e accetta la nostra informativa
         sulla privacy per utilizzare l\'app:</string>
     <string name="dialog_privacy_policy_text">Per offrirti tutti i benefici associati ai nostri servizi e al tuo account,
         per noi è necessario raccogliere e conservare alcuni tuoi.\n\n
@@ -857,7 +857,7 @@
     <string name="show_password">Mostra Password</string>
     <string name="sign_in_error">Something went wrong during sign in.</string>
     <string name="error_google_plus_sign_in">Errore di login su Google. Stato: %s</string>
-    <string name="error_facebook_session_expired">Sessione scaduta, effettua nuovamente il login.</string>
+    <string name="error_session_expired">Sessione scaduta, effettua nuovamente il login.</string>
     <string name="sign_in_with_facebook">Accedi con Facebook</string>
     <string name="sign_in_with_google">Accedi con Google</string>
     <string name="error_register_empty_username">Nome utente vuoto</string>

@@ -48,7 +48,7 @@
     <string name="error">त्रुटि</string>
     <string name="loading">तैयार हो रहा है&#8230;</string>
     <string name="please_wait">कृपया प्रतीक्षा करें</string>
-    <string name="search_hint">Verb form: 
+    <string name="search_hint">Verb form:
 1. खोजना
 2. ढूंढ़ना</string>
     <string name="backpack_add">बैग_में_जोड़ें</string>
@@ -858,7 +858,7 @@
     <string name="show_password">पासवर्ड दिखाएँ</string>
     <string name="sign_in_error">Something went wrong during sign in.</string>
     <string name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>
-    <string name="error_facebook_session_expired">Session expired, please log in.</string>
+    <string name="error_session_expired">Session expired, please log in.</string>
     <string name="sign_in_with_facebook">Sign in with Facebook</string>
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="error_register_empty_username">Empty username</string>
