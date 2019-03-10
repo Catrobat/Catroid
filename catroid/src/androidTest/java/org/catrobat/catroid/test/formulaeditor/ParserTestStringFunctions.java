@@ -189,6 +189,58 @@ public class ParserTestStringFunctions {
 	}
 
 	@Test
+	public void testRegex() {
+		String firstParameter = " an? ([^ .]+)";
+		String secondParameter = "I am a penguin.";
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.REGEX, InternTokenType.STRING, firstParameter,
+				InternTokenType.STRING, secondParameter, "penguin", testSprite);
+
+		firstParameter = "";
+		secondParameter = "second";
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.REGEX, InternTokenType.STRING, firstParameter,
+				InternTokenType.STRING, secondParameter, "", testSprite);
+
+		firstParameter = "first";
+		secondParameter = "";
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.REGEX, InternTokenType.STRING, firstParameter,
+				InternTokenType.STRING, secondParameter, "", testSprite);
+
+		firstParameter = "345";
+		secondParameter = "123456";
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.REGEX, InternTokenType.NUMBER, firstParameter,
+				InternTokenType.NUMBER, secondParameter, "345", testSprite);
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.REGEX, InternTokenType.NUMBER, firstParameter,
+				InternTokenType.STRING, secondParameter, "345", testSprite);
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.REGEX, InternTokenType.STRING, firstParameter,
+				InternTokenType.NUMBER, secondParameter, "345", testSprite);
+
+		firstParameter = "5*3-6+(8*random(1,2))";
+		secondParameter = "string'**##!§\"$\'§%%/&%(())??";
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.REGEX, InternTokenType.STRING, firstParameter,
+				InternTokenType.STRING, secondParameter, "", testSprite);
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.REGEX, InternTokenType.STRING, firstParameter,
+				InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE_NAME2, "", testSprite);
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.REGEX, InternTokenType.USER_VARIABLE,
+				PROJECT_USER_VARIABLE_NAME, InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE_NAME2,
+				"", testSprite);
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.REGEX, InternTokenType.USER_VARIABLE,
+				PROJECT_USER_VARIABLE_NAME, InternTokenType.STRING, secondParameter, "", testSprite);
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.REGEX, InternTokenType.USER_VARIABLE,
+				PROJECT_USER_VARIABLE_NAME, InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE_NAME,
+				"888.88", testSprite);
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.REGEX, InternTokenType.USER_VARIABLE,
+				PROJECT_USER_VARIABLE_NAME2, InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE_NAME2,
+				USER_VARIABLE_2_VALUE_TYPE_STRING, testSprite);
+
+		List<InternToken> firstParameterList = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.PLUS,
+				InternTokenType.STRING, "datString");
+		List<InternToken> secondParameterList = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.MULT,
+				InternTokenType.STRING, "anotherString");
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.REGEX, firstParameterList, secondParameterList,
+				"" + Double.NaN, testSprite);
+	}
+
+	@Test
 	public void testStringFunctionsNested() {
 		String firstParameter = "hello";
 		String secondParameter = " world";

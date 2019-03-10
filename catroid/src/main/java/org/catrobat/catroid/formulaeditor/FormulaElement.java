@@ -49,6 +49,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.catrobat.catroid.utils.NumberFormats.stringWithoutTrailingZero;
 
@@ -463,6 +465,8 @@ public class FormulaElement implements Serializable {
 				return interpretFunctionLength(left, sprite);
 			case JOIN:
 				return interpretFunctionJoin(sprite);
+			case REGEX:
+				return interpretFunctionRegex(sprite);
 			case ARDUINODIGITAL:
 				Arduino arduinoDigital = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).getDevice(BluetoothDevice.ARDUINO);
 				if (arduinoDigital != null && doubleValueOfLeftChild != null) {
@@ -574,11 +578,34 @@ public class FormulaElement implements Serializable {
 	}
 
 	private Object interpretFunctionJoin(Sprite sprite) {
-		return stringWithoutTrailingZero(interpretInterpretFunctionJoinParameter(leftChild, sprite))
-				+ stringWithoutTrailingZero(interpretInterpretFunctionJoinParameter(rightChild, sprite));
+		return stringWithoutTrailingZero(interpretInterpretFunctionStringParameter(leftChild, sprite))
+				+ stringWithoutTrailingZero(interpretInterpretFunctionStringParameter(rightChild, sprite));
 	}
 
-	private String interpretInterpretFunctionJoinParameter(FormulaElement child, Sprite sprite) {
+	private Object interpretFunctionRegex(Sprite sprite) {
+		try {
+			Pattern pattern = Pattern.compile(
+					stringWithoutTrailingZero(interpretInterpretFunctionStringParameter(leftChild, sprite)),
+					Pattern.DOTALL | Pattern.MULTILINE);
+
+			Matcher matcher = pattern.matcher(
+					stringWithoutTrailingZero(interpretInterpretFunctionStringParameter(rightChild, sprite)));
+
+			if (matcher.find()) {
+				if (matcher.groupCount() == 0) {
+					return matcher.group(0);
+				} else {
+					return matcher.group(1);
+				}
+			} else {
+				return "";
+			}
+		} catch (IllegalArgumentException exception) {
+			return exception.getLocalizedMessage();
+		}
+	}
+
+	private String interpretInterpretFunctionStringParameter(FormulaElement child, Sprite sprite) {
 		String parameterInterpretation = "";
 		if (child != null) {
 			if (child.getElementType() == ElementType.NUMBER) {
