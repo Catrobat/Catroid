@@ -88,7 +88,7 @@ public class StartStageTouchTest {
 	private void createProject(String projectName) {
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		screenIsTouchedUserVariable = new UserVariable("ScreenTouched");
-		project.getProjectVariables().add(screenIsTouchedUserVariable);
+		project.addUserVariable(screenIsTouchedUserVariable);
 
 		Script background1StartScript = new StartScript();
 		background1StartScript.addBrick(new WaitUntilBrick(createFormulaWithSensor(Sensors.FINGER_TOUCHED)));

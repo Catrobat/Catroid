@@ -34,7 +34,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SceneStartBrick;
 import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
@@ -127,10 +126,9 @@ public class SceneController {
 		scene.setProject(dstProject);
 
 		scene.setPhysicsWorld(new PhysicsWorld());
-		scene.setDataContainer(new DataContainer(dstProject));
 
 		for (Sprite sprite : sceneToCopy.getSpriteList()) {
-			scene.getSpriteList().add(spriteController.copy(sprite, sceneToCopy, scene));
+			scene.getSpriteList().add(spriteController.copy(sprite, dstProject, scene));
 		}
 
 		return scene;
@@ -153,10 +151,9 @@ public class SceneController {
 		Scene scene = new Scene();
 		scene.setName(name);
 		scene.setProject(null);
-		scene.setDataContainer(new DataContainer());
 
 		for (Sprite sprite : sceneToPack.getSpriteList()) {
-			scene.getSpriteList().add(spriteController.copy(sprite, sceneToPack, scene));
+			scene.getSpriteList().add(spriteController.copy(sprite, null, scene));
 		}
 
 		return scene;

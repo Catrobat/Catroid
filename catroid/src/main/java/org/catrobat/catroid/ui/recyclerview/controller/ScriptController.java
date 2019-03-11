@@ -27,6 +27,7 @@ import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.cast.CastManager;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -38,6 +39,7 @@ import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.UserListBrick;
 import org.catrobat.catroid.content.bricks.UserVariableBrick;
 import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick;
+import org.catrobat.catroid.formulaeditor.UserDataWrapper;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
@@ -53,8 +55,8 @@ public class ScriptController {
 	private LookController lookController = new LookController();
 	private SoundController soundController = new SoundController();
 
-	public Script copy(Script scriptToCopy, Scene dstScene, Sprite dstSprite) throws IOException,
-			CloneNotSupportedException {
+	public Script copy(Script scriptToCopy, Project dstProject, Scene dstScene, Sprite dstSprite)
+			throws IOException, CloneNotSupportedException {
 
 		Script script = scriptToCopy.clone();
 
@@ -81,14 +83,16 @@ public class ScriptController {
 
 			if (brick instanceof UserVariableBrick && ((UserVariableBrick) brick).getUserVariable() != null) {
 				UserVariable previousUserVar = ((UserVariableBrick) brick).getUserVariable();
-				((UserVariableBrick) brick).setUserVariable(dstScene.getDataContainer()
-						.getUserVariable(dstSprite, previousUserVar.getName()));
+				UserVariable updatedUserVar = UserDataWrapper
+						.getUserVariable(previousUserVar.getName(), dstSprite, dstProject);
+				((UserVariableBrick) brick).setUserVariable(updatedUserVar);
 			}
 
 			if (brick instanceof UserListBrick && ((UserListBrick) brick).getUserList() != null) {
 				UserList previousUserList = ((UserListBrick) brick).getUserList();
-				((UserListBrick) brick).setUserList(dstScene.getDataContainer()
-						.getUserList(dstSprite, previousUserList.getName()));
+				UserList updatedUserList = UserDataWrapper
+						.getUserList(previousUserList.getName(), dstSprite, dstProject);
+				((UserListBrick) brick).setUserList(updatedUserList);
 			}
 		}
 
@@ -151,8 +155,8 @@ public class ScriptController {
 		dstSprite.getScriptList().add(script);
 	}
 
-	void unpackForSprite(Script scriptToUnpack, Scene dstScene, Sprite dstSprite) throws IOException,
-			CloneNotSupportedException {
+	void unpackForSprite(Script scriptToUnpack, Project dstProject, Scene dstScene, Sprite dstSprite)
+			throws IOException, CloneNotSupportedException {
 		Script script = scriptToUnpack.clone();
 
 		for (Brick brick : script.getBrickList()) {
@@ -184,6 +188,20 @@ public class ScriptController {
 				((PlaySoundAndWaitBrick) brick)
 						.setSound(soundController
 								.unpackForSprite(((PlaySoundAndWaitBrick) brick).getSound(), dstScene, dstSprite));
+			}
+
+			if (brick instanceof UserVariableBrick && ((UserVariableBrick) brick).getUserVariable() != null) {
+				UserVariable previousUserVar = ((UserVariableBrick) brick).getUserVariable();
+				UserVariable updatedUserVar = UserDataWrapper
+						.getUserVariable(previousUserVar.getName(), dstSprite, dstProject);
+				((UserVariableBrick) brick).setUserVariable(updatedUserVar);
+			}
+
+			if (brick instanceof UserListBrick && ((UserListBrick) brick).getUserList() != null) {
+				UserList previousUserList = ((UserListBrick) brick).getUserList();
+				UserList updatedUserList = UserDataWrapper
+						.getUserList(previousUserList.getName(), dstSprite, dstProject);
+				((UserListBrick) brick).setUserList(updatedUserList);
 			}
 		}
 

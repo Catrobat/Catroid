@@ -40,20 +40,14 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrickElement;
-import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.LineBreakListener;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.dialogs.UserBrickEditElementDialog;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserBrickElementEditorFragment extends Fragment implements
@@ -179,35 +173,15 @@ public class UserBrickElementEditorFragment extends Fragment implements
 	}
 
 	public void editElementDialog(CharSequence text, boolean editMode, int title, int defaultText) {
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-		UserBrick currentUserBrick = ProjectManager.getInstance().getCurrentUserBrick();
-		List<UserVariable> spriteVariables = dataContainer.getSpriteUserVariables(currentSprite);
-		List<UserVariable> globalVariables = dataContainer.getProjectUserVariables();
-		List<UserVariable> userBrickVariables = dataContainer.getUserBrickUserVariables(currentUserBrick);
-
-		ArrayList<String> takenVariables = new ArrayList<>();
-		for (UserVariable variable : userBrickVariables) {
-			takenVariables.add(variable.getName());
-		}
-		for (UserVariable variable : spriteVariables) {
-			takenVariables.add(variable.getName());
-		}
-		for (UserVariable variable : globalVariables) {
-			takenVariables.add(variable.getName());
-		}
-
 		UserBrickEditElementDialog dialog = new UserBrickEditElementDialog();
 		dialog.addDialogListener(this);
 		dialog.show(getFragmentManager(),
 				UserBrickEditElementDialog.DIALOG_FRAGMENT_TAG);
 
-		UserBrickEditElementDialog.setTakenVariables(takenVariables);
 		UserBrickEditElementDialog.setTitle(title);
 		UserBrickEditElementDialog.setText(text);
 		UserBrickEditElementDialog.setHintText(defaultText);
 		UserBrickEditElementDialog.setEditMode(editMode);
-		dialog.setUserBrickElementEditorFragment(this);
 	}
 
 	@Override
@@ -222,16 +196,7 @@ public class UserBrickElementEditorFragment extends Fragment implements
 				currentBrick.getUserScriptDefinitionBrickElements().remove(element);
 			}
 		}
-		updateUserBrickParameters(currentBrick);
 		updateBrickView();
-	}
-
-	private void updateUserBrickParameters(UserScriptDefinitionBrick definitionBrick) {
-		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
-		List<UserBrick> userBricks = sprite.getUserBricksByDefinitionBrick(definitionBrick, true, true);
-		for (UserBrick userBrick : userBricks) {
-			userBrick.updateUserBrickParametersAndVariables();
-		}
 	}
 
 	public void updateBrickView() {

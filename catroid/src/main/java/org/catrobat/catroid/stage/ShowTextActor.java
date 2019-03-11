@@ -41,7 +41,6 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 
 import java.util.List;
 import java.util.Locale;
@@ -110,10 +109,8 @@ public class ShowTextActor extends Actor {
 
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyPlayingScene().getDataContainer();
-
-		drawVariables(dataContainer.getProjectUserVariables(), batch);
-		drawVariables(dataContainer.getSpriteUserVariables(sprite), batch);
+		drawVariables(ProjectManager.getInstance().getCurrentProject().getUserVariables(), batch);
+		drawVariables(sprite.getUserVariables(), batch);
 	}
 
 	private void drawVariables(List<UserVariable> variableList, Batch batch) {

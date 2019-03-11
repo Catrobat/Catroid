@@ -37,7 +37,6 @@ import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
@@ -92,9 +91,8 @@ public class FormulaEditorLocaleVariableComputeTest {
 
 		firstScene = project.getDefaultScene();
 		secondScene = new Scene("secondScene", project);
-		DataContainer dataContainer = secondScene.getDataContainer();
 		UserVariable userVariable = new UserVariable("locale");
-		dataContainer.addUserVariable(userVariable);
+		project.addUserVariable(userVariable);
 
 		SetXBrick setXBrick = new SetXBrick(new Formula(new FormulaElement(FormulaElement.ElementType.USER_VARIABLE, userVariable.getName(), null)));
 		Sprite sprite = new Sprite("testSprite");

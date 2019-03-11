@@ -40,11 +40,11 @@ import android.view.ViewGroup;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.recyclerview.adapter.DataListAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
@@ -68,7 +68,9 @@ public class DataListFragment extends Fragment implements
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({NONE, DELETE})
-	@interface ActionModeType {}
+	@interface ActionModeType {
+	}
+
 	private static final int NONE = 0;
 	private static final int DELETE = 1;
 
@@ -177,13 +179,13 @@ public class DataListFragment extends Fragment implements
 	}
 
 	private void initializeAdapter() {
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
 
-		List<UserVariable> globalVars = dataContainer.getProjectUserVariables();
-		List<UserVariable> localVars = dataContainer.getSpriteUserVariables(currentSprite);
-		List<UserList> globalLists = dataContainer.getProjectUserLists();
-		List<UserList> localLists = dataContainer.getSpriteUserLists(currentSprite);
+		List<UserVariable> globalVars = currentProject.getUserVariables();
+		List<UserVariable> localVars = currentSprite.getUserVariables();
+		List<UserList> globalLists = currentProject.getUserLists();
+		List<UserList> localLists = currentSprite.getUserLists();
 
 		adapter = new DataListAdapter(globalVars, localVars, globalLists, localLists);
 		onAdapterReady();

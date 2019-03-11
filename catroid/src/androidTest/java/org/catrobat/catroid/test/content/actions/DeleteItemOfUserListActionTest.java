@@ -60,7 +60,7 @@ public class DeleteItemOfUserListActionTest {
 		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		ProjectManager.getInstance().setCurrentProject(project);
 		userList = new UserList(TEST_USER_LIST_NAME, INITIALIZED_LIST_VALUES);
-		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().addUserList(userList);
+		project.addUserList(userList);
 
 		INITIALIZED_LIST_VALUES.clear();
 		INITIALIZED_LIST_VALUES.add(1.0);

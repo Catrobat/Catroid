@@ -68,6 +68,7 @@ import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.content.eventids.GamepadEventId;
 import org.catrobat.catroid.embroidery.EmbroideryList;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
+import org.catrobat.catroid.formulaeditor.UserDataWrapper;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.physics.PhysicsDebugSettings;
 import org.catrobat.catroid.physics.PhysicsLook;
@@ -75,6 +76,7 @@ import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.shapebuilder.PhysicsShapeBuilder;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
+import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
 import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.TouchUtil;
@@ -271,7 +273,7 @@ public class StageListener implements ApplicationListener {
 	}
 
 	public void cloneSpriteAndAddToStage(Sprite cloneMe) {
-		Sprite copy = cloneMe.cloneForCloneBrick();
+		Sprite copy = new SpriteController().copyForCloneBrick(cloneMe);
 		copy.look.createBrightnessContrastHueShader();
 		stage.getRoot().addActorBefore(cloneMe.look, copy.look);
 		sprites.add(copy);
@@ -288,9 +290,6 @@ public class StageListener implements ApplicationListener {
 		}
 		boolean removedSprite = sprites.remove(sprite);
 		if (removedSprite) {
-			ProjectManager.getInstance().getCurrentlyPlayingScene().getDataContainer()
-					.removeSpriteUserData(sprite);
-
 			sprite.look.remove();
 			sprite.invalidate();
 		}
@@ -414,9 +413,10 @@ public class StageListener implements ApplicationListener {
 		removeAllClonedSpritesFromStage();
 		embroideryList.clear();
 
+		UserDataWrapper.resetAllUserData(ProjectManager.getInstance().getCurrentProject());
+
 		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
 			scene.firstStart = true;
-			scene.getDataContainer().resetUserData();
 		}
 		reloadProject = true;
 	}

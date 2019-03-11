@@ -31,7 +31,6 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
@@ -61,8 +60,7 @@ public class ShowTextColorSizeAlignmentBrickTest {
 	public void setUp() throws Exception {
 		showBrickPosition = 1;
 		BrickTestUtils.createProjectAndGetStartScript("TEST").addBrick(new ShowTextColorSizeAlignmentBrick());
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyPlayingScene().getDataContainer();
-		dataContainer.addUserVariable(new UserVariable("testVariable1"));
+		ProjectManager.getInstance().getCurrentProject().addUserVariable(new UserVariable("testVariable1"));
 		baseActivityTestRule.launchActivity();
 	}
 

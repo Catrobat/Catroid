@@ -20,26 +20,25 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
+package org.catrobat.catroid.content.backwardcompatibility;
 
-import org.catrobat.catroid.formulaeditor.datacontainer.SupportDataContainer;
+import com.thoughtworks.xstream.XStream;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.File;
 
-@XStreamAlias("program")
-public class SupportProject implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class ProjectMetaDataParser {
 
-	@XStreamAlias("header")
-	public XmlHeader xmlHeader = new XmlHeader();
-	@XStreamAlias("objectList")
-	public List<Sprite> spriteList = new ArrayList<>();
-	@XStreamAlias("data")
-	public SupportDataContainer dataContainer = null;
-	@XStreamAlias("settings")
-	public List<Setting> settings = new ArrayList<>();
+	private File xmlFile;
+
+	public ProjectMetaDataParser(File xmlFile) {
+		this.xmlFile = xmlFile;
+	}
+
+	public ProjectMetaData getProjectMetaData() {
+		XStream xstream = new XStream();
+		xstream.processAnnotations(ProjectMetaData.class);
+		xstream.ignoreUnknownElements();
+		return (ProjectMetaData) xstream.fromXML(xmlFile);
+	}
 }

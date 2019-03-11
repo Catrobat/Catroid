@@ -56,7 +56,6 @@ import org.catrobat.catroid.formulaeditor.Functions;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.soundrecorder.SoundRecorder;
@@ -173,10 +172,8 @@ public class ChromeCastProjectCreator extends ProjectCreator {
 			SoundInfo soundInfo1 = new SoundInfo(tweet1, soundFile1);
 			SoundInfo soundInfo2 = new SoundInfo(tweet2, soundFile2);
 
-			DataContainer dataContainer = defaultProject.getDefaultScene().getDataContainer();
-
 			UserVariable direction = new UserVariable(varDirection);
-			dataContainer.addUserVariable(direction);
+			defaultProject.addUserVariable(direction);
 
 			//Clouds
 			Sprite cloudSprite1 = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), cloudSpriteName1);

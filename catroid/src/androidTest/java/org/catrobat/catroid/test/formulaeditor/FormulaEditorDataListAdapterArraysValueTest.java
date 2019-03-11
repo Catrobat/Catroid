@@ -38,7 +38,6 @@ import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.utils.NumberFormats;
 import org.junit.Before;
 import org.junit.Test;
@@ -50,27 +49,28 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
 public class FormulaEditorDataListAdapterArraysValueTest {
-	private DataContainer dataContainer;
+
+	private Project project;
 	private String userVarName = "userVar";
 	private String userListName = "LIST";
 
 	@Before
 	public void setUp() throws Exception {
 		createProject();
-		dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
+
 		UserVariable userVariable = new UserVariable(userVarName);
 		userVariable.setValue(NumberFormats.stringWithoutTrailingZero("1.0"));
 		UserList userList = new UserList(userListName);
 		userList.addListItem(NumberFormats.stringWithoutTrailingZero("1.0"));
 		userList.addListItem(NumberFormats.stringWithoutTrailingZero("1.0"));
 		userList.addListItem(NumberFormats.stringWithoutTrailingZero("1.05"));
-		dataContainer.addUserList(userList);
-		dataContainer.addUserVariable(userVariable);
+		project.addUserList(userList);
+		project.addUserVariable(userVariable);
 	}
 
 	@Test
 	public void testValuesOfUserList() {
-		List<Object> userList = dataContainer.getUserList(userListName).getList();
+		List<Object> userList = project.getUserList(userListName).getList();
 
 		assertEquals(3, userList.size());
 		assertEquals(String.valueOf(1), userList.get(0));
@@ -80,12 +80,12 @@ public class FormulaEditorDataListAdapterArraysValueTest {
 
 	@Test
 	public void testValueOfUserVariable() {
-		UserVariable userVar = dataContainer.getProjectUserVariable(userVarName);
+		UserVariable userVar = project.getUserVariable(userVarName);
 		assertEquals(String.valueOf(1), userVar.getValue());
 	}
 
 	private void createProject() {
-		Project project = new Project(InstrumentationRegistry.getTargetContext(), "Pro");
+		project = new Project(InstrumentationRegistry.getTargetContext(), "Pro");
 
 		Sprite firstSprite = new SingleSprite("firstSprite");
 

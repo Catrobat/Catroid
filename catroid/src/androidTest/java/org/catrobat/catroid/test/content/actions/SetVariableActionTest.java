@@ -53,7 +53,7 @@ public class SetVariableActionTest {
 		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		ProjectManager.getInstance().setCurrentProject(project);
 		userVariable = new UserVariable(TEST_USERVARIABLE);
-		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer().addUserVariable(userVariable);
+		project.addUserVariable(userVariable);
 	}
 
 	@Test

@@ -40,7 +40,6 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
-import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -63,7 +62,6 @@ import static org.junit.Assert.assertThat;
 public class CollisionFormulaConversionTest {
 
 	private static final String COLLISION_TEST_PROJECT = "COLLISION_TEST_PROJECT";
-	private static final float OLD_CATROBAT_LANGUAGE_VERSION = 0.992f;
 	private ProjectManager projectManager;
 
 	@Before
@@ -77,17 +75,6 @@ public class CollisionFormulaConversionTest {
 		projectManager.setCurrentProject(null);
 		TestUtils.deleteProjects(COLLISION_TEST_PROJECT);
 		TestUtils.removeFromPreferences(InstrumentationRegistry.getContext(), Constants.PREF_PROJECTNAME_KEY);
-	}
-
-	@Test
-	public void testCatrobatLanguageVersionUpdated() throws IOException, ProjectException {
-		TestUtils.createProjectWithLanguageVersion(OLD_CATROBAT_LANGUAGE_VERSION,
-				"testProject");
-		projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, InstrumentationRegistry.getTargetContext());
-
-		assertEquals(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION,
-				projectManager.getCurrentProject().getCatrobatLanguageVersion());
-		TestUtils.deleteProjects();
 	}
 
 	@Test

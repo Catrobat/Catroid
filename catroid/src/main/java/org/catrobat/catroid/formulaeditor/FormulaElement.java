@@ -33,12 +33,12 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.GroupSprite;
 import org.catrobat.catroid.content.Look;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.arduino.Arduino;
 import org.catrobat.catroid.devices.raspberrypi.RPiSocketConnection;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.sensing.CollisionDetection;
 import org.catrobat.catroid.stage.StageActivity;
@@ -308,8 +308,8 @@ public class FormulaElement implements Serializable {
 	}
 
 	private Object interpretUserList(Sprite sprite) {
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyPlayingScene().getDataContainer();
-		UserList userList = dataContainer.getUserList(sprite, value);
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		UserList userList = UserDataWrapper.getUserList(value, sprite, currentProject);
 		if (userList == null) {
 			return NOT_EXISTING_USER_LIST_INTERPRETATION_VALUE;
 		}
@@ -358,8 +358,8 @@ public class FormulaElement implements Serializable {
 	}
 
 	private Object interpretUserVariable(Sprite sprite) {
-		DataContainer userVariables = ProjectManager.getInstance().getCurrentlyPlayingScene().getDataContainer();
-		UserVariable userVariable = userVariables.getUserVariable(sprite, value);
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		UserVariable userVariable = UserDataWrapper.getUserVariable(value, sprite, currentProject);
 		if (userVariable == null) {
 			return NOT_EXISTING_USER_VARIABLE_INTERPRETATION_VALUE;
 		}
@@ -524,8 +524,8 @@ public class FormulaElement implements Serializable {
 
 	private Object interpretFunctionContains(Object right, Sprite sprite) {
 		if (leftChild.getElementType() == ElementType.USER_LIST) {
-			DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyPlayingScene().getDataContainer();
-			UserList userList = dataContainer.getUserList(sprite, leftChild.getValue());
+			Project currentProject = ProjectManager.getInstance().getCurrentProject();
+			UserList userList = UserDataWrapper.getUserList(leftChild.value, sprite, currentProject);
 
 			if (userList == null) {
 				return 0d;
@@ -544,8 +544,8 @@ public class FormulaElement implements Serializable {
 	private Object interpretFunctionListItem(Object left, Sprite sprite) {
 		UserList userList = null;
 		if (rightChild.getElementType() == ElementType.USER_LIST) {
-			DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyPlayingScene().getDataContainer();
-			userList = dataContainer.getUserList(sprite, rightChild.getValue());
+			Project currentProject = ProjectManager.getInstance().getCurrentProject();
+			userList = UserDataWrapper.getUserList(rightChild.value, sprite, currentProject);
 		}
 
 		if (userList == null) {
@@ -642,8 +642,8 @@ public class FormulaElement implements Serializable {
 			return (double) handleLengthUserVariableParameter(sprite);
 		}
 		if (leftChild.type == ElementType.USER_LIST) {
-			DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyPlayingScene().getDataContainer();
-			UserList userList = dataContainer.getUserList(sprite, leftChild.getValue());
+			Project currentProject = ProjectManager.getInstance().getCurrentProject();
+			UserList userList = UserDataWrapper.getUserList(leftChild.value, sprite, currentProject);
 			if (userList == null) {
 				return 0d;
 			}
@@ -1019,9 +1019,8 @@ public class FormulaElement implements Serializable {
 
 	public boolean isUserVariableWithTypeString(Sprite sprite) {
 		if (type == ElementType.USER_VARIABLE) {
-			DataContainer userVariableContainer = ProjectManager.getInstance().getCurrentlyEditedScene()
-					.getDataContainer();
-			UserVariable userVariable = userVariableContainer.getUserVariable(sprite, value);
+			Project currentProject = ProjectManager.getInstance().getCurrentProject();
+			UserVariable userVariable = UserDataWrapper.getUserVariable(value, sprite, currentProject);
 			Object userVariableValue = userVariable.getValue();
 			return userVariableValue instanceof String;
 		}
@@ -1029,10 +1028,8 @@ public class FormulaElement implements Serializable {
 	}
 
 	private int handleLengthUserVariableParameter(Sprite sprite) {
-		DataContainer userVariableContainer = ProjectManager.getInstance().getCurrentlyPlayingScene()
-				.getDataContainer();
-		UserVariable userVariable = userVariableContainer.getUserVariable(sprite, leftChild.value);
-
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		UserVariable userVariable = UserDataWrapper.getUserVariable(leftChild.value, sprite, currentProject);
 		Object userVariableValue = userVariable.getValue();
 		if (userVariableValue instanceof String) {
 			return String.valueOf(userVariableValue).length();
@@ -1046,10 +1043,8 @@ public class FormulaElement implements Serializable {
 	}
 
 	private int handleNumberOfItemsOfUserListParameter(Sprite sprite) {
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyPlayingScene()
-				.getDataContainer();
-		UserList userList = dataContainer.getUserList(sprite, leftChild.value);
-
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		UserList userList = UserDataWrapper.getUserList(leftChild.value, sprite, currentProject);
 		if (userList == null) {
 			return 0;
 		}

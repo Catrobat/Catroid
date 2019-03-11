@@ -20,81 +20,54 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.formulaeditor;
+
+package org.catrobat.catroid.content.backwardcompatibility;
+
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class UserList implements Serializable, UserData {
+@XStreamAlias("scene")
+@XStreamFieldKeyOrder({
+		"name",
+		"objectList",
+		"data"
+})
+public class SceneUntilLanguageVersion0999 implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private String name;
-	private transient List<Object> list;
+	private List<Sprite> objectList = new ArrayList<>();
+	private LegacyDataContainer data;
 
-	public UserList() {
-		list = new ArrayList<>();
-	}
-
-	public UserList(final String name) {
-		this.name = name;
-		this.list = new ArrayList<>();
-	}
-
-	public UserList(final String name, final List<Object> value) {
-		this.name = name;
-		this.list = value;
-	}
-
-	public UserList(UserList userList) {
-		this.name = userList.name;
-		this.list = new ArrayList<>(userList.list);
-	}
-
-	@Override
 	public String getName() {
 		return name;
 	}
 
-	@Override
-	public void setName(String name) {
-		this.name = name;
+	public List<Sprite> getSpriteList() {
+		return objectList;
 	}
 
-	public List<Object> getList() {
-		return list;
-	}
-
-	public void addListItem(Object listItem) {
-		this.list.add(listItem);
-	}
-
-	public void setList(List<Object> list) {
-		this.list = list;
-	}
-
-	@Override
-	public void reset() {
-		list.clear();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == this) {
-			return true;
+	public List<UserVariable> getSpriteUserVariables(Sprite sprite) {
+		if (data != null && data.spriteVariables.get(sprite) != null) {
+			return data.spriteVariables.get(sprite);
 		}
-		if (obj == null) {
-			return false;
-		}
-		if (!getClass().equals(obj.getClass())) {
-			return false;
-		}
-		return ((UserList) obj).name.equals(name);
+		return Collections.emptyList();
 	}
 
-	@Override
-	public int hashCode() {
-		return name.hashCode();
+	public List<UserList> getSpriteUserLists(Sprite sprite) {
+		if (data != null && data.spriteListOfLists.get(sprite) != null) {
+			return data.spriteListOfLists.get(sprite);
+		}
+		return Collections.emptyList();
 	}
 }
