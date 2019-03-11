@@ -35,6 +35,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.BottomBar;
@@ -197,6 +198,9 @@ public class BrickCategoryFragment extends ListFragment {
 		}
 		if (SettingsFragment.isRaspiSharedPreferenceEnabled(getActivity())) {
 			categories.add(inflater.inflate(R.layout.brick_category_raspi, null));
+		}
+		if (BuildConfig.DEBUG) {
+			categories.add(inflater.inflate(R.layout.brick_category_assert, null));
 		}
 
 		adapter = new BrickCategoryAdapter(categories);
