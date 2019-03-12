@@ -38,6 +38,7 @@ import org.catrobat.catroid.common.ProjectData;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.asynctask.ProjectCopyTask;
 import org.catrobat.catroid.io.asynctask.ProjectExportTask;
+import org.catrobat.catroid.io.asynctask.ProjectImportTask;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
 import org.catrobat.catroid.io.asynctask.ProjectRenameTask;
 import org.catrobat.catroid.io.asynctask.ProjectUnzipAndImportTask;
@@ -75,8 +76,7 @@ import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_PROJ
 public class ProjectListFragment extends RecyclerViewFragment<ProjectData> implements
 		ProjectLoadTask.ProjectLoadListener,
 		ProjectCopyTask.ProjectCopyListener,
-		ProjectRenameTask.ProjectRenameListener,
-		ProjectUnzipAndImportTask.ProjectUnzipAndImportListener {
+		ProjectRenameTask.ProjectRenameListener {
 
 	public static final String TAG = ProjectListFragment.class.getSimpleName();
 
@@ -86,6 +86,30 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 	private static final int REQUEST_IMPORT_PROJECT = 7;
 
 	private ProjectController projectController = new ProjectController();
+
+	private ProjectUnzipAndImportTask.ProjectUnzipAndImportListener projectUnzipAndImportListener =
+			new ProjectUnzipAndImportTask.ProjectUnzipAndImportListener() {
+				@Override
+				public void onImportFinished(boolean success) {
+					adapter.setItems(getItemList());
+					if (!success) {
+						ToastUtil.showError(getContext(), R.string.error_import_project);
+					}
+					setShowProgressBar(false);
+				}
+			};
+
+	private ProjectImportTask.ProjectImportListener projectImportListener =
+			new ProjectImportTask.ProjectImportListener() {
+				@Override
+				public void onImportFinished(boolean success) {
+					adapter.setItems(getItemList());
+					if (!success) {
+						ToastUtil.showError(getContext(), R.string.error_import_project);
+					}
+					setShowProgressBar(false);
+				}
+			};
 
 	@Override
 	public void onResume() {
@@ -162,11 +186,25 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 			return;
 		}
 
+		if (!data.getData().getScheme().equals("file")) {
+			throw new IllegalArgumentException("importProject has to be called with a file uri. (not a content uri");
+		}
+
 		try {
-			File projectZip = StorageOperations
-					.copyUriToDir(getContext().getContentResolver(), data.getData(), CACHE_DIR, CACHED_PROJECT_ZIP_FILE_NAME);
-			new ProjectUnzipAndImportTask(this)
-					.execute(projectZip);
+			File cacheFile = new File(CACHE_DIR, CACHED_PROJECT_ZIP_FILE_NAME);
+			if (cacheFile.exists()) {
+				cacheFile.delete();
+			}
+			File src = new File(data.getData().getPath());
+			if (src.isDirectory()) {
+				new ProjectImportTask(projectImportListener)
+						.execute(src);
+			} else {
+				File projectFile = StorageOperations
+						.copyUriToDir(getContext().getContentResolver(), data.getData(), CACHE_DIR, CACHED_PROJECT_ZIP_FILE_NAME);
+				new ProjectUnzipAndImportTask(projectUnzipAndImportListener)
+						.execute(projectFile);
+			}
 			setShowProgressBar(true);
 		} catch (IOException e) {
 			Log.e(TAG, "Cannot resolve project to import.", e);
@@ -295,15 +333,6 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 			adapter.setItems(getItemList());
 		} else {
 			ToastUtil.showError(getContext(), R.string.error_rename_incompatible_project);
-		}
-		setShowProgressBar(false);
-	}
-
-	@Override
-	public void onImportFinished(boolean success) {
-		adapter.setItems(getItemList());
-		if (!success) {
-			ToastUtil.showError(getContext(), R.string.error_import_project);
 		}
 		setShowProgressBar(false);
 	}
