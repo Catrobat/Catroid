@@ -209,7 +209,7 @@
         </activity>
 
         <activity
-            android:name=".stage.VisualPlacementActivity"/>
+            android:name=".visualplacement.VisualPlacementActivity"/>
 
         <activity
             android:name=".pocketmusic.PocketMusicActivity"
