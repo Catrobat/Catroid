@@ -26,6 +26,7 @@ package org.catrobat.catroid.test.io.filepicker;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.ui.filepicker.ListProjectFilesTask;
 import org.junit.After;
 import org.junit.Before;
@@ -38,6 +39,9 @@ import java.util.List;
 
 import static junit.framework.Assert.assertTrue;
 
+import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
+import static org.catrobat.catroid.common.Constants.TMP_DIR_NAME;
+import static org.catrobat.catroid.common.FlavoredConstants.EXTERNAL_STORAGE_ROOT_DIRECTORY;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsCollectionContaining.hasItem;
@@ -48,23 +52,30 @@ public class ListProjectFilesTest {
 	private File tmpFolder;
 
 	@Before
-	public void setUp() {
+	public void setUp() throws IOException {
 		tmpFolder = new File(InstrumentationRegistry.getTargetContext().getCacheDir(), "ListProjectFilesTestTmp");
-		if (tmpFolder.exists()) {
-			tmpFolder.delete();
+		if (tmpFolder.isDirectory()) {
+			StorageOperations.deleteDir(tmpFolder);
 		}
 		tmpFolder.mkdirs();
+		if (EXTERNAL_STORAGE_ROOT_DIRECTORY.isDirectory()) {
+			StorageOperations.deleteDir(EXTERNAL_STORAGE_ROOT_DIRECTORY);
+		}
+		EXTERNAL_STORAGE_ROOT_DIRECTORY.mkdirs();
 	}
 
 	@After
-	public void tearDown() {
-		if (tmpFolder.exists()) {
-			tmpFolder.delete();
+	public void tearDown() throws IOException {
+		if (tmpFolder.isDirectory()) {
+			StorageOperations.deleteDir(tmpFolder);
+		}
+		if (EXTERNAL_STORAGE_ROOT_DIRECTORY.isDirectory()) {
+			StorageOperations.deleteDir(EXTERNAL_STORAGE_ROOT_DIRECTORY);
 		}
 	}
 
 	@Test
-	public void testListFiles() throws IOException {
+	public void testListCatrobatFiles() throws IOException {
 
 		File file0 = new File(tmpFolder, "projectWithoutExtension");
 		assertTrue(file0.createNewFile());
@@ -89,5 +100,36 @@ public class ListProjectFilesTest {
 		assertThat(projectFiles, not(hasItem(file0)));
 		assertThat(projectFiles, not(hasItem(file2)));
 		assertThat(projectFiles, not(hasItem(file4)));
+	}
+
+	@Test
+	public void testListProjectsOnExternalStorage() throws IOException {
+
+		File backpackFolder = new File(EXTERNAL_STORAGE_ROOT_DIRECTORY, "backpack");
+		assertTrue(backpackFolder.mkdirs());
+
+		File tempFolder = new File(EXTERNAL_STORAGE_ROOT_DIRECTORY, TMP_DIR_NAME);
+		assertTrue(tempFolder.mkdirs());
+
+		File projectFolder1 = new File(EXTERNAL_STORAGE_ROOT_DIRECTORY, "projectFolder1");
+		assertTrue(projectFolder1.mkdirs());
+		assertTrue(new File(projectFolder1, CODE_XML_FILE_NAME).createNewFile());
+
+		File projectFolder2 = new File(EXTERNAL_STORAGE_ROOT_DIRECTORY, "projectFolder2");
+		assertTrue(projectFolder2.mkdirs());
+		assertTrue(new File(projectFolder2, CODE_XML_FILE_NAME).createNewFile());
+
+		File someFolder = new File(EXTERNAL_STORAGE_ROOT_DIRECTORY, "someFolder");
+		assertTrue(someFolder.mkdirs());
+
+		List<File> projectFiles = ListProjectFilesTask
+				.task(tmpFolder);
+
+		assertThat(projectFiles, hasItem(projectFolder1));
+		assertThat(projectFiles, hasItem(projectFolder2));
+
+		assertThat(projectFiles, not(hasItem(backpackFolder)));
+		assertThat(projectFiles, not(hasItem(tempFolder)));
+		assertThat(projectFiles, not(hasItem(someFolder)));
 	}
 }
