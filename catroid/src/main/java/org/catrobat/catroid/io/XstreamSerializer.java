@@ -575,33 +575,30 @@ public final class XstreamSerializer {
 	}
 
 	public boolean renameProject(File xmlFile, String dstName) throws IOException {
-		loadSaveLock.lock();
-
-		String currentXml;
-
 		if (!xmlFile.exists()) {
 			throw new FileNotFoundException(xmlFile + " does not exist.");
 		}
 
-		if (new ProjectMetaDataParser(xmlFile).getProjectMetaData().hasScenes()) {
-			prepareXstream(Project.class, Scene.class);
-			Project project = (Project) xstream.getProjectFromXML(xmlFile);
-			project.setName(dstName);
-			currentXml = XML_HEADER.concat(xstream.toXML(project));
-		} else {
-			prepareXstream(LegacyProjectWithoutScenes.class, Scene.class);
-			LegacyProjectWithoutScenes projectWithoutScenes = (LegacyProjectWithoutScenes) xstream
-					.getProjectFromXML(xmlFile);
-			String srcName = projectWithoutScenes.getXmlHeader().getProgramName();
-			String srcProjectNameTag = PROGRAM_NAME_START_TAG + srcName + PROGRAM_NAME_END_TAG;
-			String dstProjectNameTag = PROGRAM_NAME_START_TAG + dstName + PROGRAM_NAME_END_TAG;
-			currentXml = Files.toString(xmlFile, Charsets.UTF_8).replace(srcProjectNameTag, dstProjectNameTag);
+		String srcName = new ProjectMetaDataParser(xmlFile).getProjectMetaData().getProjectName();
+
+		if (srcName.equals(dstName)) {
+			return true;
+		}
+
+		String srcProjectNameTag = PROGRAM_NAME_START_TAG + srcName + PROGRAM_NAME_END_TAG;
+		String dstProjectNameTag = PROGRAM_NAME_START_TAG + dstName + PROGRAM_NAME_END_TAG;
+		String currentXml = Files.toString(xmlFile, Charsets.UTF_8);
+		String newXml = currentXml.replace(srcProjectNameTag, dstProjectNameTag);
+
+		if (currentXml.equals(newXml)) {
+			Log.e(TAG, "Cannot find projectNameTag in code.xml");
+			return false;
 		}
 
 		BufferedWriter writer = null;
 		try {
 			writer = new BufferedWriter(new FileWriter(xmlFile), BUFFER_8K);
-			writer.write(currentXml);
+			writer.write(newXml);
 			writer.flush();
 			return true;
 		} catch (IOException e) {
@@ -615,7 +612,6 @@ public final class XstreamSerializer {
 					Log.e(TAG, "Cannot close buffered writer.", e);
 				}
 			}
-			loadSaveLock.unlock();
 		}
 	}
 
