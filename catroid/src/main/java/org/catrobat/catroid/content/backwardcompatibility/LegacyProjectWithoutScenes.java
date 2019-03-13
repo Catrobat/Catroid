@@ -22,18 +22,31 @@
  */
 package org.catrobat.catroid.content.backwardcompatibility;
 
+import android.content.Context;
+
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Setting;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.stage.StageListener;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
+import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 @XStreamAlias("program")
 public class LegacyProjectWithoutScenes implements Serializable {
@@ -45,12 +58,59 @@ public class LegacyProjectWithoutScenes implements Serializable {
 	private LegacyDataContainer data = null;
 	private List<Setting> settings = new ArrayList<>();
 
+	public Project toProject(Context context) throws IOException {
+		File projectDir = getDirectory();
+
+		Project project = new Project();
+		project.setXmlHeader(getXmlHeader());
+		project.getSettings().addAll(getSettings());
+
+		project.getUserVariables().addAll(getProjectUserVariables());
+		project.getUserLists().addAll(getProjectUserLists());
+
+		for (Sprite sprite : getSpriteList()) {
+			sprite.getUserVariables().addAll(getSpriteUserVariables(sprite));
+			sprite.getUserLists().addAll(getSpriteUserLists(sprite));
+		}
+
+		Scene scene = new Scene(context.getString(R.string.default_scene_name, 1), project);
+		scene.getSpriteList().addAll(getSpriteList());
+		project.addScene(scene);
+
+		File sceneDir = new File(projectDir, project.getDefaultScene().getName());
+		StorageOperations.createSceneDirectory(sceneDir);
+
+		File automaticScreenshot = new File(projectDir, StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
+		File manualScreenshot = new File(projectDir, StageListener.SCREENSHOT_MANUAL_FILE_NAME);
+
+		StorageOperations.copyDir(new File(projectDir, IMAGE_DIRECTORY_NAME), new File(sceneDir, IMAGE_DIRECTORY_NAME));
+		StorageOperations.copyDir(new File(projectDir, SOUND_DIRECTORY_NAME), new File(sceneDir, SOUND_DIRECTORY_NAME));
+
+		if (automaticScreenshot.exists()) {
+			StorageOperations.copyFileToDir(automaticScreenshot, sceneDir);
+			automaticScreenshot.delete();
+		}
+		if (manualScreenshot.exists()) {
+			StorageOperations.copyFileToDir(manualScreenshot, sceneDir);
+			manualScreenshot.delete();
+		}
+
+		StorageOperations.deleteDir(new File(projectDir, IMAGE_DIRECTORY_NAME));
+		StorageOperations.deleteDir(new File(projectDir, SOUND_DIRECTORY_NAME));
+
+		return project;
+	}
+
 	public XmlHeader getXmlHeader() {
 		return header;
 	}
 
 	public List<Setting> getSettings() {
 		return settings;
+	}
+
+	public File getDirectory() {
+		return new File(DEFAULT_ROOT_DIRECTORY, header.getProjectName());
 	}
 
 	public List<Sprite> getSpriteList() {

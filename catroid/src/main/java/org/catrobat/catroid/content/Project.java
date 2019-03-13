@@ -44,11 +44,13 @@ import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.ScreenValueHandler;
 import org.catrobat.catroid.utils.Utils;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.catrobat.catroid.common.Constants.Z_INDEX_BACKGROUND;
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 @XStreamAlias("program")
 @XStreamFieldKeyOrder({
@@ -79,7 +81,7 @@ public class Project implements Serializable {
 	}
 
 	public Project(Context context, String name, boolean landscapeMode, boolean isCastProject) {
-		xmlHeader.setProgramName(name);
+		xmlHeader.setProjectName(name);
 		xmlHeader.setDescription("");
 		xmlHeader.setlandscapeMode(landscapeMode);
 
@@ -116,6 +118,10 @@ public class Project implements Serializable {
 
 	public Project(Context context, String name) {
 		this(context, name, false);
+	}
+
+	public File getDirectory() {
+		return new File(DEFAULT_ROOT_DIRECTORY, xmlHeader.getProjectName());
 	}
 
 	public List<Scene> getSceneList() {
@@ -232,10 +238,6 @@ public class Project implements Serializable {
 		}
 	}
 
-	public void setName(String name) {
-		xmlHeader.setProgramName(name);
-	}
-
 	public List<Sprite> getSpriteListWithClones() {
 		if (StageActivity.stageListener != null) {
 			return StageActivity.stageListener.getSpritesFromStage();
@@ -251,23 +253,27 @@ public class Project implements Serializable {
 	}
 
 	public String getName() {
-		return xmlHeader.getProgramName();
+		return xmlHeader.getProjectName();
 	}
 
-	public void setDescription(String description) {
-		xmlHeader.setDescription(description);
+	public void setName(String name) {
+		xmlHeader.setProjectName(name);
 	}
 
 	public String getDescription() {
 		return xmlHeader.getDescription();
 	}
 
-	public void setScreenMode(ScreenModes screenMode) {
-		xmlHeader.setScreenMode(screenMode);
+	public void setDescription(String description) {
+		xmlHeader.setDescription(description);
 	}
 
 	public ScreenModes getScreenMode() {
 		return xmlHeader.getScreenMode();
+	}
+
+	public void setScreenMode(ScreenModes screenMode) {
+		xmlHeader.setScreenMode(screenMode);
 	}
 
 	public float getCatrobatLanguageVersion() {
@@ -306,7 +312,6 @@ public class Project implements Serializable {
 	}
 
 	public void setDeviceData(Context context) {
-		// TODO add other header values
 		xmlHeader.setPlatform(Constants.PLATFORM_NAME);
 		xmlHeader.setPlatformVersion(String.valueOf(Build.VERSION.SDK_INT));
 		xmlHeader.setDeviceName(Build.MODEL);

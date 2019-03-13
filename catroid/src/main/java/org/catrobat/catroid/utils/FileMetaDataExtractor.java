@@ -34,6 +34,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+
 public final class FileMetaDataExtractor {
 
 	private FileMetaDataExtractor() {
@@ -61,7 +63,7 @@ public final class FileMetaDataExtractor {
 	}
 
 	public static long getProgressFromBytes(String projectName, Long progress) {
-		long fileByteSize = getSizeOfFileOrDirectoryInByte(new File(PathBuilder.buildProjectPath(projectName)));
+		long fileByteSize = getSizeOfFileOrDirectoryInByte(new File(DEFAULT_ROOT_DIRECTORY, projectName));
 		if (fileByteSize == 0) {
 			return (long) 0;
 		}

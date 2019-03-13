@@ -23,67 +23,17 @@
 
 package org.catrobat.catroid.ui.recyclerview.controller;
 
-import android.content.Context;
-
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ProjectData;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.backwardcompatibility.LegacyProjectWithoutScenes;
-import org.catrobat.catroid.content.backwardcompatibility.ProjectUntilLanguageVersion0999;
-import org.catrobat.catroid.content.backwardcompatibility.SceneUntilLanguageVersion0999;
 import org.catrobat.catroid.io.StorageOperations;
-import org.catrobat.catroid.utils.PathBuilder;
 
 import java.io.File;
 import java.io.IOException;
 
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+
 public class ProjectController {
 
-	public Project createProject(LegacyProjectWithoutScenes legacyProject, Context context) {
-		Project project = new Project();
-		project.setXmlHeader(legacyProject.getXmlHeader());
-		project.getSettings().addAll(legacyProject.getSettings());
-
-		project.getUserVariables().addAll(legacyProject.getProjectUserVariables());
-		project.getUserLists().addAll(legacyProject.getProjectUserLists());
-
-		for (Sprite sprite : legacyProject.getSpriteList()) {
-			sprite.getUserVariables().addAll(legacyProject.getSpriteUserVariables(sprite));
-			sprite.getUserLists().addAll(legacyProject.getSpriteUserLists(sprite));
-		}
-
-		Scene scene = new Scene(context.getString(R.string.default_scene_name, 1), project);
-		scene.getSpriteList().addAll(legacyProject.getSpriteList());
-		project.addScene(scene);
-		return project;
-	}
-
-	public Project createProject(ProjectUntilLanguageVersion0999 legacyProject) {
-		Project project = new Project();
-		project.setXmlHeader(legacyProject.getXmlHeader());
-		project.getSettings().addAll(legacyProject.getSettings());
-
-		project.getUserVariables().addAll(legacyProject.getUserVariables());
-		project.getUserLists().addAll(legacyProject.getUserLists());
-
-		for (SceneUntilLanguageVersion0999 legacyScene : legacyProject.getSceneList()) {
-			Scene scene = new Scene(legacyScene.getName(), project);
-
-			for (Sprite sprite : legacyScene.getSpriteList()) {
-				sprite.getUserVariables().addAll(legacyScene.getSpriteUserVariables(sprite));
-				sprite.getUserLists().addAll(legacyScene.getSpriteUserLists(sprite));
-				scene.addSprite(sprite);
-			}
-
-			project.addScene(scene);
-		}
-
-		return project;
-	}
-
 	public void delete(ProjectData projectToDelete) throws IOException {
-		StorageOperations.deleteDir(new File(PathBuilder.buildProjectPath(projectToDelete.projectName)));
+		StorageOperations.deleteDir(new File(DEFAULT_ROOT_DIRECTORY, projectToDelete.projectName));
 	}
 }

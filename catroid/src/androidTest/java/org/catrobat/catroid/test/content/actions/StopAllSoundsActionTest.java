@@ -53,7 +53,6 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
-import static org.catrobat.catroid.utils.PathBuilder.buildScenePath;
 
 @RunWith(AndroidJUnit4.class)
 public class StopAllSoundsActionTest {
@@ -131,7 +130,7 @@ public class StopAllSoundsActionTest {
 		soundFile = ResourceImporter.createSoundFileFromResourcesInDirectory(
 				InstrumentationRegistry.getContext().getResources(),
 				soundFileId,
-				new File(buildScenePath(projectName, project.getDefaultScene().getName()), SOUND_DIRECTORY_NAME),
+				new File(project.getDefaultScene().getDirectory(), SOUND_DIRECTORY_NAME),
 				"soundTest.mp3");
 	}
 

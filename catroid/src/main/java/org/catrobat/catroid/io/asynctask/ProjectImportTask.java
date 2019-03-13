@@ -26,6 +26,7 @@ package org.catrobat.catroid.io.asynctask;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.catrobat.catroid.content.backwardcompatibility.ProjectMetaDataParser;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
@@ -64,7 +65,7 @@ public class ProjectImportTask extends AsyncTask<File, Boolean, Boolean> {
 		}
 		String projectName;
 		try {
-			projectName = XstreamSerializer.getInstance().getProjectName(xmlFile);
+			projectName = new ProjectMetaDataParser(xmlFile).getProjectMetaData().getProjectName();
 		} catch (IOException e) {
 			Log.d(TAG, "Cannot extract projectName from xml", e);
 			return false;
@@ -81,7 +82,7 @@ public class ProjectImportTask extends AsyncTask<File, Boolean, Boolean> {
 
 		try {
 			StorageOperations.copyDir(projectDir, dstDir);
-			XstreamSerializer.getInstance().renameProject(new File(dstDir, CODE_XML_FILE_NAME), projectName);
+			XstreamSerializer.renameProject(new File(dstDir, CODE_XML_FILE_NAME), projectName);
 			return true;
 		} catch (IOException e) {
 			Log.e(TAG, "Something went wrong while importing project " + projectDir.getName(), e);

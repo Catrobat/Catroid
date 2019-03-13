@@ -33,13 +33,14 @@ import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedVH;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
-import org.catrobat.catroid.utils.PathBuilder;
 
 import java.io.File;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public class ProjectAdapter extends ExtendedRVAdapter<ProjectData> {
 
@@ -70,7 +71,8 @@ public class ProjectAdapter extends ExtendedRVAdapter<ProjectData> {
 			holder.details.setText(String.format(Locale.getDefault(),
 					context.getString(R.string.project_details),
 					lastAccess,
-					FileMetaDataExtractor.getSizeAsString(new File(PathBuilder.buildProjectPath(item.projectName)), context)));
+					FileMetaDataExtractor
+							.getSizeAsString(new File(DEFAULT_ROOT_DIRECTORY, item.projectName), context)));
 			holder.details.setVisibility(View.VISIBLE);
 		} else {
 			holder.details.setVisibility(View.GONE);

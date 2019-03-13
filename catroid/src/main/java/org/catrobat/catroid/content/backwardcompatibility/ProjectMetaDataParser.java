@@ -26,6 +26,8 @@ package org.catrobat.catroid.content.backwardcompatibility;
 import com.thoughtworks.xstream.XStream;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class ProjectMetaDataParser {
 
@@ -35,7 +37,10 @@ public class ProjectMetaDataParser {
 		this.xmlFile = xmlFile;
 	}
 
-	public ProjectMetaData getProjectMetaData() {
+	public ProjectMetaData getProjectMetaData() throws IOException {
+		if (!xmlFile.exists()) {
+			throw new FileNotFoundException(xmlFile.getAbsolutePath() + " does not exist.");
+		}
 		XStream xstream = new XStream();
 		xstream.processAnnotations(ProjectMetaData.class);
 		xstream.ignoreUnknownElements();

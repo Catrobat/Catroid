@@ -65,7 +65,7 @@ public class ProjectRenameTask extends AsyncTask<String, Void, Boolean> {
 
 		try {
 			return srcDir.renameTo(dstDir)
-					&& XstreamSerializer.getInstance().renameProject(new File(dstDir, CODE_XML_FILE_NAME), dstName);
+					&& XstreamSerializer.renameProject(new File(dstDir, CODE_XML_FILE_NAME), dstName);
 		} catch (IOException e) {
 			Log.e(TAG, "Cannot rename project " + srcName + " to " + dstName, e);
 			return false;

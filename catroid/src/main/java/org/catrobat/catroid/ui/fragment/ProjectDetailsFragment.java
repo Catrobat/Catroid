@@ -44,12 +44,13 @@ import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
-import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public class ProjectDetailsFragment extends Fragment {
 
@@ -80,8 +81,8 @@ public class ProjectDetailsFragment extends Fragment {
 		ImageView image = view.findViewById(R.id.image);
 		screenshotLoader.loadAndShowScreenshot(projectData.projectName, sceneName, false, image);
 
-		String size = FileMetaDataExtractor.getSizeAsString(new File(PathBuilder.buildProjectPath(projectData.projectName)),
-				getActivity());
+		String size = FileMetaDataExtractor
+				.getSizeAsString(new File(DEFAULT_ROOT_DIRECTORY, projectData.projectName), getActivity());
 
 		int modeText = header.islandscapeMode() ? R.string.landscape : R.string.portrait;
 		String screen = header.getVirtualScreenWidth() + "x" + header.getVirtualScreenHeight();

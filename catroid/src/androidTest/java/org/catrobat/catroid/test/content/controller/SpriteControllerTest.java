@@ -62,8 +62,6 @@ import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileDoesN
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileDoesNotExistInDirectory;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileExists;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileExistsInDirectory;
-import static org.catrobat.catroid.utils.PathBuilder.buildProjectPath;
-import static org.catrobat.catroid.utils.PathBuilder.buildScenePath;
 
 @RunWith(AndroidJUnit4.class)
 public class SpriteControllerTest {
@@ -253,7 +251,7 @@ public class SpriteControllerTest {
 		File soundFile = ResourceImporter.createSoundFileFromResourcesInDirectory(
 				InstrumentationRegistry.getContext().getResources(),
 				org.catrobat.catroid.test.R.raw.longsound,
-				new File(buildScenePath(project.getName(), project.getDefaultScene().getName()), SOUND_DIRECTORY_NAME),
+				new File(project.getDefaultScene().getDirectory(), SOUND_DIRECTORY_NAME),
 				"longsound.mp3");
 
 		sprite.getSoundList().add(new SoundInfo("testSound", soundFile));
@@ -261,9 +259,8 @@ public class SpriteControllerTest {
 	}
 
 	private void deleteProject() throws IOException {
-		File projectDir = new File(buildProjectPath(project.getName()));
-		if (projectDir.exists()) {
-			StorageOperations.deleteDir(projectDir);
+		if (project.getDirectory().exists()) {
+			StorageOperations.deleteDir(project.getDirectory());
 		}
 	}
 }

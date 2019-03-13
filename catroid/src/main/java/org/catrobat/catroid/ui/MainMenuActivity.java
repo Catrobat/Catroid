@@ -59,7 +59,6 @@ import org.catrobat.catroid.ui.recyclerview.dialog.PrivacyPolicyDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.MainMenuFragment;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
-import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.ScreenValueHandler;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
@@ -78,6 +77,7 @@ import static org.catrobat.catroid.common.Constants.BACKPACK_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.PREF_PROJECTNAME_KEY;
 import static org.catrobat.catroid.common.Constants.TMP_DIR_NAME;
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.common.FlavoredConstants.EXTERNAL_STORAGE_ROOT_DIRECTORY;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG;
@@ -382,7 +382,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 	private void prepareStandaloneProject() {
 		try {
 			InputStream inputStream = getAssets().open(BuildConfig.START_PROJECT + ".zip");
-			new ZipArchiver().unzip(inputStream, new File(PathBuilder.buildProjectPath(BuildConfig.PROJECT_NAME)));
+			new ZipArchiver().unzip(inputStream, new File(DEFAULT_ROOT_DIRECTORY, BuildConfig.PROJECT_NAME));
 			new ProjectLoadTask(this, this).execute(BuildConfig.PROJECT_NAME);
 		} catch (IOException e) {
 			Log.e("STANDALONE", "Cannot unpack standalone project: ", e);

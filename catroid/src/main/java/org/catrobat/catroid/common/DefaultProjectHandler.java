@@ -36,7 +36,6 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
-import org.catrobat.catroid.utils.PathBuilder;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,7 +47,8 @@ public final class DefaultProjectHandler {
 	private static final String TAG = DefaultProjectHandler.class.getSimpleName();
 
 	public enum ProjectCreatorType {
-		PROJECT_CREATOR_DEFAULT, PROJECT_CREATOR_DRONE, PROJECT_CREATOR_CAST,
+		PROJECT_CREATOR_DEFAULT, PROJECT_CREATOR_DRONE,
+		PROJECT_CREATOR_CAST,
 		PROJECT_CREATOR_JUMPING_SUMO
 	}
 
@@ -71,7 +71,7 @@ public final class DefaultProjectHandler {
 		Project defaultProject = null;
 
 		if (FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).contains(projectName)) {
-			StorageOperations.deleteDir(new File(PathBuilder.buildProjectPath(projectName)));
+			StorageOperations.deleteDir(new File(DEFAULT_ROOT_DIRECTORY, projectName));
 		}
 
 		try {
@@ -93,13 +93,13 @@ public final class DefaultProjectHandler {
 		return createAndSaveDefaultProject(projectName, context, false);
 	}
 
-	public static Project createAndSaveEmptyProject(String projectName, Context context, boolean landscapeMode,
-			boolean isCastEnabled) {
+	public static Project createAndSaveEmptyProject(String projectName, Context context, boolean landscapeMode, boolean isCastEnabled) {
 		if (FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).contains(projectName)) {
 			throw new IllegalArgumentException("Project with name '" + projectName + "' already exists!");
 		}
 		Project emptyProject = new Project(context, projectName, landscapeMode, isCastEnabled);
 		emptyProject.setDeviceData(context);
+
 		XstreamSerializer.getInstance().saveProject(emptyProject);
 		ProjectManager.getInstance().setCurrentProject(emptyProject);
 

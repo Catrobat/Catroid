@@ -62,7 +62,7 @@ public class ProjectCopyTask extends AsyncTask<String, Void, Boolean> {
 
 		try {
 			StorageOperations.copyDir(srcDir, dstDir);
-			XstreamSerializer.getInstance().renameProject(new File(dstDir, CODE_XML_FILE_NAME), dstName);
+			XstreamSerializer.renameProject(new File(dstDir, CODE_XML_FILE_NAME), dstName);
 			return true;
 		} catch (IOException e) {
 			Log.e(TAG, "Something went wrong while copying project " + srcName + " to " + dstName, e);

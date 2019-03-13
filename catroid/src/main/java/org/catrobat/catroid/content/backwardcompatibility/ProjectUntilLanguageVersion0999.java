@@ -25,14 +25,20 @@ package org.catrobat.catroid.content.backwardcompatibility;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Setting;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 @XStreamAlias("program")
 public class ProjectUntilLanguageVersion0999 implements Serializable {
@@ -45,12 +51,39 @@ public class ProjectUntilLanguageVersion0999 implements Serializable {
 	private List<UserList> programListOfLists = new ArrayList<>();
 	private List<SceneUntilLanguageVersion0999> scenes = new ArrayList<>();
 
+	public Project toProject() {
+		Project project = new Project();
+		project.setXmlHeader(getXmlHeader());
+		project.getSettings().addAll(getSettings());
+
+		project.getUserVariables().addAll(getUserVariables());
+		project.getUserLists().addAll(getUserLists());
+
+		for (SceneUntilLanguageVersion0999 legacyScene : getSceneList()) {
+			Scene scene = new Scene(legacyScene.getName(), project);
+
+			for (Sprite sprite : legacyScene.getSpriteList()) {
+				sprite.getUserVariables().addAll(legacyScene.getSpriteUserVariables(sprite));
+				sprite.getUserLists().addAll(legacyScene.getSpriteUserLists(sprite));
+				scene.addSprite(sprite);
+			}
+
+			project.addScene(scene);
+		}
+
+		return project;
+	}
+
 	public XmlHeader getXmlHeader() {
 		return header;
 	}
 
 	public List<Setting> getSettings() {
 		return settings;
+	}
+
+	public File getDirectory() {
+		return new File(DEFAULT_ROOT_DIRECTORY, header.getProjectName());
 	}
 
 	public List<UserVariable> getUserVariables() {

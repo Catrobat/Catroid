@@ -38,7 +38,6 @@ import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
-import org.catrobat.catroid.utils.PathBuilder;
 
 import java.io.File;
 import java.io.IOException;
@@ -87,7 +86,7 @@ public class SceneController {
 	public boolean rename(Scene sceneToRename, String name) {
 		String previousName = sceneToRename.getName();
 
-		File newDir = new File(PathBuilder.buildScenePath(sceneToRename.getProject().getName(), name));
+		File newDir = new File(sceneToRename.getProject().getDirectory(), name);
 		boolean renamed = sceneToRename.getDirectory().renameTo(newDir);
 
 		if (renamed) {
@@ -114,7 +113,7 @@ public class SceneController {
 	public Scene copy(Scene sceneToCopy, Project dstProject) throws IOException {
 		String name = uniqueNameProvider.getUniqueNameInNameables(sceneToCopy.getName(), dstProject.getSceneList());
 
-		File dir = new File(PathBuilder.buildScenePath(dstProject.getName(), name));
+		File dir = new File(dstProject.getDirectory(), name);
 
 		if (!createDirectory(dir)) {
 			throw new IOException("Directory for Scene " + name + " could not be created.");
