@@ -55,6 +55,7 @@ import org.catrobat.catroid.content.WhenNfcScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.WhenTouchDownScript;
 import org.catrobat.catroid.content.XmlHeader;
+import org.catrobat.catroid.content.backwardcompatibility.LegacyDataContainer;
 import org.catrobat.catroid.content.backwardcompatibility.LegacyProjectWithoutScenes;
 import org.catrobat.catroid.content.backwardcompatibility.ProjectMetaData;
 import org.catrobat.catroid.content.backwardcompatibility.ProjectMetaDataParser;
@@ -66,7 +67,6 @@ import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.AskBrick;
 import org.catrobat.catroid.content.bricks.AskSpeechBrick;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
@@ -100,7 +100,6 @@ import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
 import org.catrobat.catroid.content.bricks.FlashBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
-import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.content.bricks.GoToBrick;
@@ -180,11 +179,7 @@ import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
 import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
-import org.catrobat.catroid.content.bricks.UserBrick;
-import org.catrobat.catroid.content.bricks.UserBrickParameter;
 import org.catrobat.catroid.content.bricks.UserListBrick;
-import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
-import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrickElement;
 import org.catrobat.catroid.content.bricks.UserVariableBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
@@ -287,6 +282,8 @@ public final class XstreamSerializer {
 		xstream.omitField(sceneClass, "originalHeight");
 
 		xstream.omitField(Sprite.class, "userBricks");
+
+		xstream.omitField(LegacyDataContainer.class, "userBrickVariableList");
 
 		xstream.omitField(CameraBrick.class, "spinnerValues");
 		xstream.omitField(ChooseCameraBrick.class, "spinnerValues");
@@ -424,8 +421,6 @@ public final class XstreamSerializer {
 		xstream.alias("brick", SayForBubbleBrick.class);
 		xstream.alias("brick", TurnLeftBrick.class);
 		xstream.alias("brick", TurnRightBrick.class);
-		xstream.alias("brick", UserBrick.class);
-		xstream.alias("brick", UserScriptDefinitionBrick.class);
 		xstream.alias("brick", VibrationBrick.class);
 		xstream.alias("brick", WaitBrick.class);
 		xstream.alias("brick", WaitUntilBrick.class);
@@ -471,9 +466,6 @@ public final class XstreamSerializer {
 		xstream.alias("brick", RaspiIfLogicBeginBrick.class);
 		xstream.alias("brick", RaspiPwmBrick.class);
 
-		xstream.alias("userBrickElement", UserScriptDefinitionBrickElement.class);
-		xstream.alias("userBrickParameter", UserBrickParameter.class);
-
 		xstream.alias("script", WhenGamepadButtonScript.class);
 		xstream.alias("brick", WhenGamepadButtonBrick.class);
 
@@ -490,10 +482,6 @@ public final class XstreamSerializer {
 
 		xstream.alias("setting", LegoNXTSetting.class);
 		xstream.alias("nxtPort", LegoNXTSetting.NXTPort.class);
-		xstream.aliasAttribute(LegoNXTSetting.NXTPort.class, "number", "number");
-
-		xstream.aliasField("formulaList", FormulaBrick.class, "formulaMap");
-		xstream.aliasField("object", BrickBaseType.class, "sprite");
 	}
 
 	public String getProjectName(File xmlFile) throws IOException {

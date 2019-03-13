@@ -1962,11 +1962,6 @@ needs read and write access to it. You can always change permissions through you
 
 
     <!-- Brick Data Editor Strings -->
-    <string name="add_text">Add text</string>
-    <string name="text_hint">Brick text</string>
-    <string name="add_variable">Add variable</string>
-    <string name="add_line_break">Add line break</string>
-    <string name="variable_hint">Variable name</string>
     <string name="brick_show_variable">Show variable</string>
     <string name="brick_hide_variable">Hide variable</string>
     <string name="brick_show_variable_position">at</string>
@@ -1977,10 +1972,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_show_variable_aligned_left">left</string>
     <string name="brick_show_variable_aligned_right">right</string>
     <!-- -->
-
-    <!-- User bricks strings -->
-    <string name="new_user_brick_variable">Variable</string>
-    <!--  -->
 
 
     <!-- Camera related strings -->

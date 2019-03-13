@@ -137,7 +137,6 @@ import org.catrobat.catroid.content.bricks.SayBubbleBrick;
 import org.catrobat.catroid.content.bricks.SayForBubbleBrick;
 import org.catrobat.catroid.content.bricks.SceneStartBrick;
 import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
-import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.SetBackgroundAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SetBackgroundBrick;
 import org.catrobat.catroid.content.bricks.SetBackgroundByIndexAndWaitBrick;
@@ -195,11 +194,10 @@ import org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.physics.content.bricks.SetVelocityBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
-import org.catrobat.catroid.ui.UserBrickSpriteActivity;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -207,54 +205,63 @@ public class CategoryBricksFactory {
 
 	public List<Brick> getBricks(String category, Sprite sprite, Context context) {
 
-		boolean isUserScriptMode = context instanceof UserBrickSpriteActivity;
-		List<Brick> tempList = new LinkedList<>();
-		List<Brick> toReturn = new ArrayList<>();
 		if (category.equals(context.getString(R.string.category_event))) {
-			tempList = setupEventCategoryList(context);
-		} else if (category.equals(context.getString(R.string.category_control))) {
-			tempList = setupControlCategoryList(context);
-		} else if (category.equals(context.getString(R.string.category_motion))) {
-			tempList = setupMotionCategoryList(sprite, context);
-		} else if (category.equals(context.getString(R.string.category_sound))) {
-			tempList = setupSoundCategoryList(context);
-		} else if (category.equals(context.getString(R.string.category_looks))) {
+			return setupEventCategoryList(context);
+		}
+		if (category.equals(context.getString(R.string.category_control))) {
+			return setupControlCategoryList(context);
+		}
+		if (category.equals(context.getString(R.string.category_motion))) {
+			return setupMotionCategoryList(sprite, context);
+		}
+		if (category.equals(context.getString(R.string.category_sound))) {
+			return setupSoundCategoryList(context);
+		}
+		if (category.equals(context.getString(R.string.category_looks))) {
 			boolean isBackgroundSprite = sprite.getName().equals(context.getString(R.string.background));
-			tempList = setupLooksCategoryList(context, isBackgroundSprite);
-		} else if (category.equals(context.getString(R.string.category_pen))) {
-			tempList = setupPenCategoryList(sprite);
-		} else if (category.equals(context.getString(R.string.category_user_bricks))) {
-			tempList = setupUserBricksCategoryList();
-		} else if (category.equals(context.getString(R.string.category_data))) {
-			tempList = setupDataCategoryList(context);
-		} else if (category.equals(context.getString(R.string.category_lego_nxt))) {
-			tempList = setupLegoNxtCategoryList();
-		} else if (category.equals(context.getString(R.string.category_lego_ev3))) {
-			tempList = setupLegoEv3CategoryList();
-		} else if (category.equals(context.getString(R.string.category_arduino))) {
-			tempList = setupArduinoCategoryList();
-		} else if (category.equals(context.getString(R.string.category_drone))) {
-			tempList = setupDroneCategoryList();
-		} else if (category.equals(context.getString(R.string.category_jumping_sumo))) {
-			tempList = setupJumpingSumoCategoryList();
-		} else if (category.equals(context.getString(R.string.category_phiro))) {
-			tempList = setupPhiroProCategoryList();
-		} else if (category.equals(context.getString(R.string.category_cast))) {
-			tempList = setupChromecastCategoryList(context);
-		} else if (category.equals(context.getString(R.string.category_raspi))) {
-			tempList = setupRaspiCategoryList();
-		} else if (category.equals(context.getString(R.string.category_embroidery))) {
-			tempList = setupEmbroideryCategoryList();
-		} else if (category.equals(context.getString(R.string.category_assertions))) {
-			tempList = setupAssertionsCategoryList();
+			return setupLooksCategoryList(context, isBackgroundSprite);
+		}
+		if (category.equals(context.getString(R.string.category_pen))) {
+			return setupPenCategoryList(sprite);
+		}
+		if (category.equals(context.getString(R.string.category_user_bricks))) {
+			return setupUserBricksCategoryList();
+		}
+		if (category.equals(context.getString(R.string.category_data))) {
+			return setupDataCategoryList(context);
+		}
+		if (category.equals(context.getString(R.string.category_lego_nxt))) {
+			return setupLegoNxtCategoryList();
+		}
+		if (category.equals(context.getString(R.string.category_lego_ev3))) {
+			return setupLegoEv3CategoryList();
+		}
+		if (category.equals(context.getString(R.string.category_arduino))) {
+			return setupArduinoCategoryList();
+		}
+		if (category.equals(context.getString(R.string.category_drone))) {
+			return setupDroneCategoryList();
+		}
+		if (category.equals(context.getString(R.string.category_jumping_sumo))) {
+			return setupJumpingSumoCategoryList();
+		}
+		if (category.equals(context.getString(R.string.category_phiro))) {
+			return setupPhiroProCategoryList();
+		}
+		if (category.equals(context.getString(R.string.category_cast))) {
+			return setupChromecastCategoryList(context);
+		}
+		if (category.equals(context.getString(R.string.category_raspi))) {
+			return setupRaspiCategoryList();
+		}
+		if (category.equals(context.getString(R.string.category_embroidery))) {
+			return setupEmbroideryCategoryList();
+		}
+		if (category.equals(context.getString(R.string.category_assertions))) {
+			return setupAssertionsCategoryList();
 		}
 
-		for (Brick brick : tempList) {
-			if (!isUserScriptMode || !(brick instanceof ScriptBrick)) {
-				toReturn.add(brick);
-			}
-		}
-		return toReturn;
+		return Collections.emptyList();
 	}
 
 	protected List<Brick> setupEventCategoryList(Context context) {
