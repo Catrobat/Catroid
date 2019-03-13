@@ -507,7 +507,9 @@ public final class XstreamSerializer {
 		cleanUpTmpCodeFile(projectName);
 
 		File projectDir = new File(DEFAULT_ROOT_DIRECTORY, projectName);
-		File xmlFile = new File(new File(DEFAULT_ROOT_DIRECTORY, projectName), CODE_XML_FILE_NAME);
+		File xmlFile = new File(projectDir, CODE_XML_FILE_NAME);
+
+		xmlFile.setLastModified(System.currentTimeMillis());
 
 		if (!xmlFile.exists()) {
 			throw new FileNotFoundException(xmlFile + " does not exist.");

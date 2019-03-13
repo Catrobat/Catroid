@@ -130,7 +130,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 		List<ProjectData> items = new ArrayList<>();
 
 		for (String projectName : FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY)) {
-			File codeFile = new File(projectName, CODE_XML_FILE_NAME);
+			File codeFile = new File(new File(DEFAULT_ROOT_DIRECTORY, projectName), CODE_XML_FILE_NAME);
 			items.add(new ProjectData(projectName, codeFile.lastModified()));
 		}
 
