@@ -111,6 +111,13 @@ if (project.hasProperty('independent')) {
     manifestAppName = appName
 }
 
+if (project.hasProperty('playground') && project.getProperties().get('playground') == 'true') {
+    logger.lifecycle('playground true: ' + project.getProperties().get('playground'))
+    appId = 'org.catrobat.catroid.test'
+    appName = 'Catrobat Playground'
+    manifestAppName = appName
+}
+
 if (!project.hasProperty("signingKeystore")) {
     ext.signingKeystore = "dummyKeystore"
 }

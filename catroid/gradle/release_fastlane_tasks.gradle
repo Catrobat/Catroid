@@ -65,7 +65,7 @@ android.productFlavors.all { flavor ->
 
         String fastlaneCommand = "fastlane screengrab" +
                 " --app_package_name 'org.catrobat.catroid'" +
-                " --use_tests_in_packages 'org.catrobat.catroid.screenshots.${flavor.name}'" +
+                " --use_tests_in_packages 'org.catrobat.catroid.screenshots.${flavor.name.toLowerCase()}'" +
                 " --app_apk_path './catroid/build/outputs/apk/${flavor.name}/debug/catroid-${flavor.name}-debug.apk'" +
                 " --tests_apk_path './catroid/build/outputs/apk/androidTest/${flavor.name}/debug/catroid-${flavor.name}-debug-androidTest.apk'" +
                 " --test_instrumentation_runner 'android.support.test.runner.AndroidJUnitRunner'" +

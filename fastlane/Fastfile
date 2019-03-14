@@ -24,24 +24,8 @@ platform :android do
     gradle(task: "test")
   end
 
-  desc "Submit a new Beta Build to Crashlytics Beta"
-  lane :beta do
-    gradle(task: "clean assembleRelease")
-    crashlytics
-  
-    # sh "your_script.sh"
-    # You can also use other beta testing services here
-  end
-
-  desc "Deploy a new version to the Google Play"
-  lane :deploy do
-    gradle(task: "clean assembleRelease")
-    upload_to_play_store
-  end
-
   desc "upload Catroid metadata only"
   lane :upload_Metadata_Catroid do
-    # ...
     upload_to_play_store(
       package_name:               'org.catrobat.catroid',
       track:                      'alpha',
@@ -58,7 +42,6 @@ platform :android do
 
   desc "upload Catroid APK to alpha track"
   lane :upload_APK_Catroid do
-    # ...
     upload_to_play_store(
       package_name:               'org.catrobat.catroid',
       track:                      'alpha',
@@ -75,7 +58,6 @@ platform :android do
 
   desc "promote Catroid APK on alpha track to production"
   lane :promote_Catroid do
-    # ...
     upload_to_play_store(
       package_name:               'org.catrobat.catroid',
       track:                      'alpha',
@@ -88,15 +70,169 @@ platform :android do
       skip_upload_screenshots:    'true',
     )
   end
-  
+
+  desc "upload CreateAtSchool metadata only"
+  lane :upload_Metadata_CreateAtSchool do
+    upload_to_play_store(
+      package_name:               'org.catrobat.catroid.createatschool',
+      track:                      'alpha',
+      json_key_data:              ENV['googlePlayJsonKey'],
+      metadata_path:              './fastlane/metadata/android',
+      skip_upload_apk:            'true',
+      skip_upload_metadata:       'false',
+      skip_upload_images:         'false',
+      skip_upload_screenshots:    'false',
+      validate_only:              'false',
+      check_superseded_tracks:    'false',
+    )
+  end
+
+  desc "upload CreateAtSchool APK to alpha track"
+  lane :upload_APK_CreateAtSchool do
+    upload_to_play_store(
+      package_name:               'org.catrobat.catroid.createatschool',
+      track:                      'alpha',
+      json_key_data:              ENV['googlePlayJsonKey'],
+      apk_paths:                  './catroid/build/outputs/apk/createatschool/signedRelease/catroid-createatschool-signedRelease.apk',
+      skip_upload_apk:            'false',
+      skip_upload_metadata:       'true',
+      skip_upload_images:         'true',
+      skip_upload_screenshots:    'true',
+      validate_only:              'false',
+      check_superseded_tracks:    'false',
+    )
+  end
+
+  desc "promote CreateAtSchool APK on alpha track to production"
+  lane :promote_CreateAtSchool do
+    upload_to_play_store(
+      package_name:               'org.catrobat.catroid.createatschool',
+      track:                      'alpha',
+      track_promote_to:           'production',
+      json_key_data:              ENV['googlePlayJsonKey'],
+      metadata_path:              './fastlane/metadata/android',
+      skip_upload_apk:            'true',
+      skip_upload_metadata:       'true',
+      skip_upload_images:         'true',
+      skip_upload_screenshots:    'true',
+    )
+  end
+
+  desc "upload Luna&Cat metadata only"
+  lane :upload_Metadata_LunaAndCat do
+    upload_to_play_store(
+      package_name:               'org.catrobat.catroid.lunaandcat',
+      track:                      'alpha',
+      json_key_data:              ENV['googlePlayJsonKey'],
+      metadata_path:              './fastlane/metadata/android',
+      skip_upload_apk:            'true',
+      skip_upload_metadata:       'false',
+      skip_upload_images:         'false',
+      skip_upload_screenshots:    'false',
+      validate_only:              'false',
+      check_superseded_tracks:    'false',
+    )
+  end
+
   desc "upload Luna&Cat APK to alpha track"
   lane :upload_APK_LunaAndCat do
-    # ...
     upload_to_play_store(
-      package_name:               'org.catrobat.catroid',
+      package_name:               'org.catrobat.catroid.lunaandcat',
       track:                      'alpha',
       json_key_data:              ENV['googlePlayJsonKey'],
       apk_paths:                  './catroid/build/outputs/apk/lunaAndCat/signedRelease/catroid-lunaAndCat-signedRelease.apk',
+      skip_upload_apk:            'false',
+      skip_upload_metadata:       'true',
+      skip_upload_images:         'true',
+      skip_upload_screenshots:    'true',
+      validate_only:              'false',
+      check_superseded_tracks:    'false',
+    )
+  end
+
+  desc "promote Luna&Cat APK on alpha track to production"
+  lane :promote_LunaAndCat do
+    upload_to_play_store(
+      package_name:               'org.catrobat.catroid.lunaandcat',
+      track:                      'alpha',
+      track_promote_to:           'production',
+      json_key_data:              ENV['googlePlayJsonKey'],
+      metadata_path:              './fastlane/metadata/android',
+      skip_upload_apk:            'true',
+      skip_upload_metadata:       'true',
+      skip_upload_images:         'true',
+      skip_upload_screenshots:    'true',
+    )
+  end
+
+  desc "upload Phiro metadata only"
+  lane :upload_Metadata_Phiro do
+    upload_to_play_store(
+      package_name:               'org.catrobat.catroid.phiro',
+      track:                      'alpha',
+      json_key_data:              ENV['googlePlayJsonKey'],
+      metadata_path:              './fastlane/metadata/android',
+      skip_upload_apk:            'true',
+      skip_upload_metadata:       'false',
+      skip_upload_images:         'false',
+      skip_upload_screenshots:    'false',
+      validate_only:              'false',
+      check_superseded_tracks:    'false',
+    )
+  end
+
+  desc "upload Phiro APK to alpha track"
+  lane :upload_APK_Phiro do
+    upload_to_play_store(
+      package_name:               'org.catrobat.catroid.phiro',
+      track:                      'alpha',
+      json_key_data:              ENV['googlePlayJsonKey'],
+      apk_paths:                  './catroid/build/outputs/apk/phiro/signedRelease/catroid-phiro-signedRelease.apk',
+      skip_upload_apk:            'false',
+      skip_upload_metadata:       'true',
+      skip_upload_images:         'true',
+      skip_upload_screenshots:    'true',
+    )
+  end
+
+  desc "promote Phiro APK on alpha track to production"
+  lane :promote_Phiro do
+    upload_to_play_store(
+      package_name:               'org.catrobat.catroid.phiro',
+      track:                      'alpha',
+      track_promote_to:           'production',
+      json_key_data:              ENV['googlePlayJsonKey'],
+      metadata_path:              './fastlane/metadata/android',
+      skip_upload_apk:            'true',
+      skip_upload_metadata:       'true',
+      skip_upload_images:         'true',
+      skip_upload_screenshots:    'true',
+    )
+  end
+
+  desc "upload Playground metadata only"
+  lane :upload_Metadata_Playground do
+    upload_to_play_store(
+      package_name:               'org.catrobat.catroid.test',
+      track:                      'alpha',
+      json_key_data:              ENV['googlePlayJsonKey'],
+      metadata_path:              './fastlane/metadata/android',
+      skip_upload_apk:            'true',
+      skip_upload_metadata:       'false',
+      skip_upload_images:         'false',
+      skip_upload_screenshots:    'false',
+      validate_only:              'false',
+      check_superseded_tracks:    'false',
+    )
+  end
+
+  desc "upload Playground APK to alpha track"
+  lane :upload_APK_Playground do
+    upload_to_play_store(
+      package_name:               'org.catrobat.catroid.test',
+      track:                      'alpha',
+      json_key_data:              ENV['googlePlayJsonKey'],
+      apk_paths:                  './catroid/build/outputs/apk/catroid/signedRelease/catroid-catroid-signedRelease.apk',
       skip_upload_apk:            'false',
       skip_upload_metadata:       'true',
       skip_upload_images:         'true',
