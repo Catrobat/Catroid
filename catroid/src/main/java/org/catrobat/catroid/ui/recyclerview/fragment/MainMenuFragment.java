@@ -134,6 +134,7 @@ public class MainMenuFragment extends Fragment implements
 
 		String projectName = getActivity().getIntent().getStringExtra(StatusBarNotificationManager.EXTRA_PROJECT_NAME);
 		if (projectName != null) {
+			getActivity().getIntent().removeExtra(StatusBarNotificationManager.EXTRA_PROJECT_NAME);
 			loadDownloadedProject(projectName);
 		}
 	}
