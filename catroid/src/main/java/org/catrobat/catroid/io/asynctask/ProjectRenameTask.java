@@ -34,51 +34,48 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
-import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
-public class ProjectRenameTask extends AsyncTask<String, Void, Boolean> {
+public class ProjectRenameTask extends AsyncTask<Void, Void, Boolean> {
 
 	public static final String TAG = ProjectRenameTask.class.getSimpleName();
 
+	private File projectDir;
+	private String dstName;
+
 	private WeakReference<ProjectRenameListener> weakListenerReference;
 
-	public ProjectRenameTask(ProjectRenameListener listener) {
-		weakListenerReference = new WeakReference<>(listener);
+	public ProjectRenameTask(File projectDir, String dstName) {
+		this.projectDir = projectDir;
+		this.dstName = dstName;
 	}
 
-	public static boolean task(String srcName, String dstName) {
-		if (!FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).contains(srcName)) {
-			Log.e(TAG, "Cannot rename. Project " + srcName + " does not exist");
-			return false;
-		}
-		if (FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).contains(dstName)) {
-			Log.e(TAG, "Cannot rename. Project " + dstName + " already exist");
-			return false;
-		}
-		if (srcName.equals(dstName)) {
-			Log.e(TAG, "Renaming project " + srcName + " to " + dstName + " is not necessary");
-			return true;
-		}
+	public ProjectRenameTask setListener(ProjectRenameListener listener) {
+		weakListenerReference = new WeakReference<>(listener);
+		return this;
+	}
 
-		File srcDir = new File(DEFAULT_ROOT_DIRECTORY, srcName);
-		File dstDir = new File(DEFAULT_ROOT_DIRECTORY, dstName);
+	public static boolean task(File projectDir, String dstName) {
+		File dstDir = new File(projectDir.getParent(), FileMetaDataExtractor.encodeSpecialCharsForFileSystem(dstName));
 
 		try {
-			return srcDir.renameTo(dstDir)
+			return projectDir.renameTo(dstDir)
 					&& XstreamSerializer.renameProject(new File(dstDir, CODE_XML_FILE_NAME), dstName);
 		} catch (IOException e) {
-			Log.e(TAG, "Cannot rename project " + srcName + " to " + dstName, e);
+			Log.e(TAG, "Cannot rename project directory " + projectDir.getAbsolutePath() + " to " + dstName, e);
 			return false;
 		}
 	}
 
 	@Override
-	protected Boolean doInBackground(String... strings) {
-		return task(strings[0], strings[1]);
+	protected Boolean doInBackground(Void... voids) {
+		return task(projectDir, dstName);
 	}
 
 	@Override
 	protected void onPostExecute(Boolean success) {
+		if (weakListenerReference == null) {
+			return;
+		}
 		ProjectRenameListener listener = weakListenerReference.get();
 		if (listener != null) {
 			listener.onRenameFinished(success);

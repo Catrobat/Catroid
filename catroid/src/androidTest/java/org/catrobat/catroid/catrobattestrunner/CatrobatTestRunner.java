@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.bricks.AssertEqualsBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
 import org.catrobat.catroid.io.asynctask.ProjectUnzipAndImportTask;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -59,6 +60,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
+import static junit.framework.TestCase.assertTrue;
 
 import static org.catrobat.catroid.common.Constants.CACHE_DIR;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
@@ -76,8 +78,6 @@ public class CatrobatTestRunner {
 
 	private static final double EPSILON = 0.001;
 
-	private Project project;
-	private String projectName;
 	private UserVariable actualVariable;
 	private UserVariable expectedVariable;
 	private UserVariable readyVariable;
@@ -108,7 +108,7 @@ public class CatrobatTestRunner {
 
 	@Before
 	public void setUp() throws Exception {
-		projectName = assetName.replace(Constants.CATROBAT_EXTENSION, "");
+		String projectName = assetName.replace(Constants.CATROBAT_EXTENSION, "");
 
 		TestUtils.deleteProjects(projectName);
 		DEFAULT_ROOT_DIRECTORY.mkdir();
@@ -116,11 +116,16 @@ public class CatrobatTestRunner {
 
 		InputStream inputStream = InstrumentationRegistry.getContext().getAssets()
 				.open(assetPath + "/" + assetName);
-		File projectCatrobatFile = StorageOperations.copyStreamToDir(inputStream, CACHE_DIR, assetName);
-		ProjectUnzipAndImportTask.task(projectCatrobatFile);
+		File projectDir = StorageOperations
+				.copyStreamToDir(inputStream, CACHE_DIR, assetName);
 
-		ProjectManager.getInstance().loadProject(projectName, InstrumentationRegistry.getTargetContext());
-		project = ProjectManager.getInstance().getCurrentProject();
+		assertTrue(ProjectUnzipAndImportTask
+				.task(projectDir));
+
+		assertTrue(ProjectLoadTask
+				.task(projectDir, InstrumentationRegistry.getTargetContext()));
+
+		Project project = ProjectManager.getInstance().getCurrentProject();
 
 		actualVariable = project.getUserVariable(AssertEqualsBrick.ACTUAL_VARIABLE_NAME);
 		expectedVariable = project.getUserVariable(AssertEqualsBrick.EXPECTED_VARIABLE_NAME);

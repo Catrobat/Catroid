@@ -41,11 +41,13 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
+import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.recyclerview.controller.BrickController;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -73,14 +75,12 @@ public final class ProjectManager {
 		return INSTANCE;
 	}
 
-	public void loadProject(String projectName, Context context) throws LoadingProjectException,
-			OutdatedVersionProjectException,
-			CompatibilityProjectException {
+	public void loadProject(File projectDir, Context context) throws ProjectException {
 
 		Project previousProject = project;
 
 		try {
-			project = XstreamSerializer.getInstance().loadProject(projectName, context);
+			project = XstreamSerializer.getInstance().loadProject(projectDir, context);
 		} catch (IOException e) {
 			Log.e(TAG, Log.getStackTraceString(e));
 			restorePreviousProject(previousProject);

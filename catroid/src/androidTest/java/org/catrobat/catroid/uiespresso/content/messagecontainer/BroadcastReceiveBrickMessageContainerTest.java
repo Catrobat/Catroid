@@ -35,6 +35,8 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
+import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
+import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.annotations.Flaky;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
@@ -55,16 +57,18 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
+import static junit.framework.TestCase.assertTrue;
+
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 
 @RunWith(AndroidJUnit4.class)
 public class BroadcastReceiveBrickMessageContainerTest {
+
 	private String defaultMessage = "defaultMessage";
 	private Project project;
 	private Sprite sprite;
-	private int broadcastReceivePosition = 1;
 
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
@@ -79,8 +83,9 @@ public class BroadcastReceiveBrickMessageContainerTest {
 	@Category({Cat.AppUi.class, Level.Functional.class})
 	@Test
 	@Flaky
-	public void testBroadcastReceiveBrickOmitSaveUnusedMessages() throws Exception {
+	public void testBroadcastReceiveBrickOmitSaveUnusedMessages() {
 		String uselessMessage = "useless";
+		int broadcastReceivePosition = 1;
 		createNewMessageOnSpinner(R.id.brick_broadcast_spinner, broadcastReceivePosition, uselessMessage);
 		onBrickAtPosition(broadcastReceivePosition).onSpinner(R.id.brick_broadcast_spinner)
 				.checkShowsText(uselessMessage);
@@ -91,11 +96,14 @@ public class BroadcastReceiveBrickMessageContainerTest {
 		onBrickAtPosition(broadcastReceivePosition).onSpinner(R.id.brick_broadcast_spinner)
 				.checkShowsText(defaultMessage);
 
-		ProjectManager.getInstance().saveProject(InstrumentationRegistry.getTargetContext());
+		ProjectSaveTask
+				.task(project);
 
 		baseActivityTestRule.finishActivity();
 
-		ProjectManager.getInstance().loadProject(project.getName(), InstrumentationRegistry.getTargetContext());
+		assertTrue(ProjectLoadTask
+				.task(project.getDirectory(), InstrumentationRegistry.getTargetContext()));
+
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 
 		baseActivityTestRule.launchActivity();

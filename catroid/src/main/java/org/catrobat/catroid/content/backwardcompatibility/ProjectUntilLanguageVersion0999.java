@@ -32,6 +32,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.utils.FileMetaDataExtractor;
 
 import java.io.File;
 import java.io.Serializable;
@@ -83,7 +84,8 @@ public class ProjectUntilLanguageVersion0999 implements Serializable {
 	}
 
 	public File getDirectory() {
-		return new File(DEFAULT_ROOT_DIRECTORY, header.getProjectName());
+		return new File(DEFAULT_ROOT_DIRECTORY,
+				FileMetaDataExtractor.encodeSpecialCharsForFileSystem(header.getProjectName()));
 	}
 
 	public List<UserVariable> getUserVariables() {

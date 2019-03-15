@@ -32,15 +32,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ProjectListActivity;
@@ -50,14 +47,18 @@ import org.catrobat.catroid.ui.recyclerview.activity.ProjectUploadActivity;
 import org.catrobat.catroid.ui.recyclerview.adapter.ButtonAdapter;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewProjectDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.viewholder.ButtonVH;
+import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
+import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public class MainMenuFragment extends Fragment implements
 		ButtonAdapter.OnItemClickListener,
@@ -67,7 +68,9 @@ public class MainMenuFragment extends Fragment implements
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({CONTINUE, NEW, PROGRAMS, HELP, EXPLORE, UPLOAD})
-	@interface ButtonId {}
+	@interface ButtonId {
+	}
+
 	private static final int CONTINUE = 0;
 	private static final int NEW = 1;
 	private static final int PROGRAMS = 2;
@@ -140,15 +143,10 @@ public class MainMenuFragment extends Fragment implements
 	}
 
 	private void loadDownloadedProject(String name) {
-		try {
-			ProjectManager.getInstance().loadProject(name, getContext());
-			Intent intent = new Intent(getContext(), ProjectActivity.class);
-			intent.putExtra(ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SCENES);
-			startActivity(intent);
-		} catch (ProjectException e) {
-			Log.e(TAG, Log.getStackTraceString(e));
-			ToastUtil.showError(getActivity(), R.string.error_load_project);
-		}
+		File projectDir = new File(DEFAULT_ROOT_DIRECTORY, FileMetaDataExtractor.encodeSpecialCharsForFileSystem(name));
+		new ProjectLoadTask(projectDir, getContext())
+				.setListener(this)
+				.execute();
 	}
 
 	public void setShowProgressBar(boolean show) {
@@ -160,9 +158,12 @@ public class MainMenuFragment extends Fragment implements
 	public void onItemClick(@ButtonId int id) {
 		switch (id) {
 			case CONTINUE:
-				ProjectLoadTask loaderTask = new ProjectLoadTask(getActivity(), this);
 				setShowProgressBar(true);
-				loaderTask.execute(Utils.getCurrentProjectName(getActivity()));
+				File projectDir = new File(DEFAULT_ROOT_DIRECTORY, FileMetaDataExtractor
+						.encodeSpecialCharsForFileSystem(Utils.getCurrentProjectName(getActivity())));
+				new ProjectLoadTask(projectDir, getContext())
+						.setListener(this)
+						.execute();
 				break;
 			case NEW:
 				new NewProjectDialogFragment()
@@ -183,7 +184,9 @@ public class MainMenuFragment extends Fragment implements
 			case UPLOAD:
 				setShowProgressBar(true);
 				Intent intent = new Intent(getActivity(), ProjectUploadActivity.class)
-						.putExtra(ProjectUploadActivity.PROJECT_NAME, Utils.getCurrentProjectName(getActivity()));
+						.putExtra(ProjectUploadActivity.PROJECT_DIR,
+								new File(DEFAULT_ROOT_DIRECTORY, FileMetaDataExtractor
+										.encodeSpecialCharsForFileSystem(Utils.getCurrentProjectName(getActivity()))));
 				startActivity(intent);
 				break;
 		}

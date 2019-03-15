@@ -36,6 +36,7 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.stage.StageListener;
+import org.catrobat.catroid.utils.FileMetaDataExtractor;
 
 import java.io.File;
 import java.io.IOException;
@@ -77,21 +78,22 @@ public class LegacyProjectWithoutScenes implements Serializable {
 		scene.getSpriteList().addAll(getSpriteList());
 		project.addScene(scene);
 
-		File sceneDir = new File(projectDir, project.getDefaultScene().getName());
-		StorageOperations.createSceneDirectory(sceneDir);
+		StorageOperations.createSceneDirectory(scene.getDirectory());
 
 		File automaticScreenshot = new File(projectDir, StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
 		File manualScreenshot = new File(projectDir, StageListener.SCREENSHOT_MANUAL_FILE_NAME);
 
-		StorageOperations.copyDir(new File(projectDir, IMAGE_DIRECTORY_NAME), new File(sceneDir, IMAGE_DIRECTORY_NAME));
-		StorageOperations.copyDir(new File(projectDir, SOUND_DIRECTORY_NAME), new File(sceneDir, SOUND_DIRECTORY_NAME));
+		StorageOperations.copyDir(new File(projectDir, IMAGE_DIRECTORY_NAME),
+				new File(scene.getDirectory(), IMAGE_DIRECTORY_NAME));
+		StorageOperations.copyDir(new File(projectDir, SOUND_DIRECTORY_NAME),
+				new File(scene.getDirectory(), SOUND_DIRECTORY_NAME));
 
 		if (automaticScreenshot.exists()) {
-			StorageOperations.copyFileToDir(automaticScreenshot, sceneDir);
+			StorageOperations.copyFileToDir(automaticScreenshot, scene.getDirectory());
 			automaticScreenshot.delete();
 		}
 		if (manualScreenshot.exists()) {
-			StorageOperations.copyFileToDir(manualScreenshot, sceneDir);
+			StorageOperations.copyFileToDir(manualScreenshot, scene.getDirectory());
 			manualScreenshot.delete();
 		}
 
@@ -110,7 +112,8 @@ public class LegacyProjectWithoutScenes implements Serializable {
 	}
 
 	public File getDirectory() {
-		return new File(DEFAULT_ROOT_DIRECTORY, header.getProjectName());
+		return new File(DEFAULT_ROOT_DIRECTORY,
+				FileMetaDataExtractor.encodeSpecialCharsForFileSystem(header.getProjectName()));
 	}
 
 	public List<Sprite> getSpriteList() {

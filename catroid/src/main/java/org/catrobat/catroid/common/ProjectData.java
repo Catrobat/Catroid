@@ -22,28 +22,51 @@
  */
 package org.catrobat.catroid.common;
 
-import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.utils.FileMetaDataExtractor;
 
+import java.io.File;
 import java.io.Serializable;
+
+import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public class ProjectData implements Nameable, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public String projectName;
-	public long lastUsed;
-	public Project project = null;
+	private String name;
+	private File directory;
+	private float languageVersion;
+	private boolean hasScenes;
 
-	public ProjectData(String projectName, long lastUsed) {
-		this.projectName = projectName;
-		this.lastUsed = lastUsed;
+	public ProjectData(String name, File directory, float languageVersion, boolean hasScenes) {
+		this.name = name;
+		this.directory = directory;
+		this.languageVersion = languageVersion;
+		this.hasScenes = hasScenes;
 	}
 
 	public String getName() {
-		return projectName;
+		return name;
 	}
 
 	public void setName(String name) {
-		projectName = name;
+		throw new RuntimeException("Do not set the project name through this. TODO: refactor nameable interface.");
+	}
+
+	public float getLanguageVersion() {
+		return languageVersion;
+	}
+
+	public boolean hasScenes() {
+		return hasScenes;
+	}
+
+	public long getLastUsed() {
+		return new File(directory, CODE_XML_FILE_NAME).lastModified();
+	}
+
+	public File getDirectory() {
+		return new File(DEFAULT_ROOT_DIRECTORY, FileMetaDataExtractor.encodeSpecialCharsForFileSystem(getName()));
 	}
 }

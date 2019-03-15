@@ -63,7 +63,7 @@ public final class TestUtils {
 		}
 	}
 
-	public static void createProjectWithLanguageVersion(float catrobatLanguageVersion, String projectName) {
+	public static Project createProjectWithLanguageVersion(float catrobatLanguageVersion, String projectName) {
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		project.setCatrobatLanguageVersion(catrobatLanguageVersion);
 
@@ -76,6 +76,7 @@ public final class TestUtils {
 		project.getDefaultScene().addSprite(firstSprite);
 
 		XstreamSerializer.getInstance().saveProject(project);
+		return project;
 	}
 
 	public static void removeFromPreferences(Context context, String key) {

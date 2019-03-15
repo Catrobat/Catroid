@@ -33,6 +33,7 @@ import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider
 import org.catrobat.catroid.common.DroneVideoLookData;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.NfcTagData;
+import org.catrobat.catroid.common.ProjectData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.CollisionScript;
@@ -57,7 +58,6 @@ import org.catrobat.catroid.content.WhenTouchDownScript;
 import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.content.backwardcompatibility.LegacyDataContainer;
 import org.catrobat.catroid.content.backwardcompatibility.LegacyProjectWithoutScenes;
-import org.catrobat.catroid.content.backwardcompatibility.ProjectMetaData;
 import org.catrobat.catroid.content.backwardcompatibility.ProjectMetaDataParser;
 import org.catrobat.catroid.content.backwardcompatibility.ProjectUntilLanguageVersion0999;
 import org.catrobat.catroid.content.backwardcompatibility.SceneUntilLanguageVersion0999;
@@ -478,14 +478,12 @@ public final class XstreamSerializer {
 		xstream.alias("nxtPort", LegoNXTSetting.NXTPort.class);
 	}
 
-	public Project loadProject(String projectName, Context context) throws IOException, LoadingProjectException {
-		File projectDir = new File(DEFAULT_ROOT_DIRECTORY, projectName);
-
+	public Project loadProject(File projectDir, Context context) throws IOException, LoadingProjectException {
 		cleanUpTmpCodeFile(projectDir);
 
 		File xmlFile = new File(projectDir, CODE_XML_FILE_NAME);
 		if (!xmlFile.exists()) {
-			throw new FileNotFoundException(xmlFile + " does not exist.");
+			throw new FileNotFoundException(xmlFile.getAbsolutePath() + " does not exist.");
 		}
 		xmlFile.setLastModified(System.currentTimeMillis());
 
@@ -493,7 +491,7 @@ public final class XstreamSerializer {
 			loadSaveLock.lock();
 
 			Project project;
-			ProjectMetaData projectMetaData = new ProjectMetaDataParser(xmlFile).getProjectMetaData();
+			ProjectData projectMetaData = new ProjectMetaDataParser(xmlFile).getProjectMetaData();
 
 			if (!projectMetaData.hasScenes()) {
 				new File(projectDir, IMAGE_DIRECTORY_NAME).mkdir();
@@ -521,10 +519,12 @@ public final class XstreamSerializer {
 				}
 			}
 
+			project.setDirectory(projectDir);
 			setFileReferences(project);
 			return project;
 		} catch (Exception e) {
-			throw new LoadingProjectException("Cannot load " + projectName + "\nException: " + e.getLocalizedMessage());
+			throw new LoadingProjectException("Cannot load project from " + projectDir.getAbsolutePath()
+					+ "\nException: " + e.getLocalizedMessage());
 		} finally {
 			loadSaveLock.unlock();
 		}
@@ -535,7 +535,7 @@ public final class XstreamSerializer {
 			throw new FileNotFoundException(xmlFile + " does not exist.");
 		}
 
-		String srcName = new ProjectMetaDataParser(xmlFile).getProjectMetaData().getProjectName();
+		String srcName = new ProjectMetaDataParser(xmlFile).getProjectMetaData().getName();
 
 		if (srcName.equals(dstName)) {
 			return true;
@@ -612,10 +612,8 @@ public final class XstreamSerializer {
 						Log.d(TAG, "Project version is the same. Do not update " + currentCodeFile.getName());
 						return false;
 					}
-					Log.d(TAG, "Project version differ <" + previousXml.length() + "> <"
-							+ currentXml.length() + ">. update " + currentCodeFile.getName());
-				} catch (Exception exception) {
-					Log.e(TAG, "Opening old project " + currentCodeFile.getAbsolutePath() + " failed.", exception);
+				} catch (Exception e) {
+					Log.e(TAG, "Opening project at " + currentCodeFile.getAbsolutePath() + " failed.", e);
 					return false;
 				}
 			}
@@ -723,8 +721,7 @@ public final class XstreamSerializer {
 		return permissionsSet;
 	}
 
-	public static String extractDefaultSceneNameFromXml(String projectName) {
-		File projectDir = new File(DEFAULT_ROOT_DIRECTORY, projectName);
+	public static String extractDefaultSceneNameFromXml(File projectDir) {
 		File xmlFile = new File(projectDir, CODE_XML_FILE_NAME);
 
 		StringFinder stringFinder = new StringFinder();

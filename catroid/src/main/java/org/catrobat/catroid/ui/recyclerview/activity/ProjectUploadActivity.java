@@ -78,7 +78,7 @@ public class ProjectUploadActivity extends BaseActivity implements
 		GetTagsTask.TagResponseListener {
 
 	public static final String TAG = ProjectUploadActivity.class.getSimpleName();
-	public static final String PROJECT_NAME = "projectName";
+	public static final String PROJECT_DIR = "projectDir";
 	public static final int SIGN_IN_CODE = 42;
 
 	public static final int MAX_NUMBER_OF_TAGS_CHECKED = 3;
@@ -110,8 +110,10 @@ public class ProjectUploadActivity extends BaseActivity implements
 
 		Bundle bundle = getIntent().getExtras();
 		if (bundle != null) {
-			new ProjectLoadTask(this, this)
-					.execute(bundle.getString(PROJECT_NAME));
+			File projectDir = (File) bundle.getSerializable(PROJECT_DIR);
+			new ProjectLoadTask(projectDir, this)
+					.setListener(this)
+					.execute();
 		} else {
 			finish();
 		}
@@ -132,14 +134,14 @@ public class ProjectUploadActivity extends BaseActivity implements
 
 	private void onCreateView() {
 		ProjectAndSceneScreenshotLoader screenshotLoader = new ProjectAndSceneScreenshotLoader(this);
-		screenshotLoader.loadAndShowScreenshot(project.getName(),
-				project.getDefaultScene().getName(),
+		screenshotLoader.loadAndShowScreenshot(project.getDirectory().getName(),
+				project.getDirectory().getName(),
 				false,
 				(ImageView) findViewById(R.id.project_image_view));
 
 		TextView projectSizeView = findViewById(R.id.project_size_view);
 		projectSizeView
-				.setText(FileMetaDataExtractor.getSizeAsString(new File(DEFAULT_ROOT_DIRECTORY, project.getName()), this));
+				.setText(FileMetaDataExtractor.getSizeAsString(project.getDirectory(), this));
 
 		nameInputLayout = findViewById(R.id.input_project_name);
 		descriptionInputLayout = findViewById(R.id.input_project_description);
@@ -257,16 +259,14 @@ public class ProjectUploadActivity extends BaseActivity implements
 
 		if (!project.getName().equals(name)) {
 			ProjectRenameTask
-					.task(project.getName(), name);
+					.task(project.getDirectory(), name);
 			ProjectLoadTask
-					.task(name, this);
+					.task(project.getDirectory(), this);
 			project = ProjectManager.getInstance().getCurrentProject();
 		}
 
 		project.setDescription(description);
 		project.setDeviceData(this);
-
-		File projectDir = new File(DEFAULT_ROOT_DIRECTORY, project.getName());
 
 		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
@@ -297,7 +297,7 @@ public class ProjectUploadActivity extends BaseActivity implements
 
 		intent.putExtra("uploadName", name);
 		intent.putExtra("projectDescription", description);
-		intent.putExtra("projectPath", projectDir.getAbsolutePath());
+		intent.putExtra("projectPath", project.getDirectory().getAbsolutePath());
 		intent.putExtra("username", username);
 		intent.putExtra("token", token);
 		intent.putExtra("provider", NO_OAUTH_PROVIDER);

@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.test.io;
 
-import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -49,22 +48,16 @@ import static junit.framework.Assert.assertEquals;
 @RunWith(AndroidJUnit4.class)
 public class DefaultChromeCastProgramLoadingTest {
 
-	private final XstreamSerializer storageHandler;
 	private String projectName;
 	private Project currentProjectBuffer;
-	private Context targetContext;
 	private Project project;
-
-	public DefaultChromeCastProgramLoadingTest() {
-		storageHandler = XstreamSerializer.getInstance();
-	}
 
 	@Before
 	public void setUp() throws Exception {
-		targetContext = InstrumentationRegistry.getTargetContext();
 		currentProjectBuffer = ProjectManager.getInstance().getCurrentProject();
-		projectName = targetContext.getString(R.string.default_cast_project_name);
-		project = new ChromeCastProjectCreator().createDefaultProject(projectName, targetContext, true);
+		projectName = InstrumentationRegistry.getTargetContext().getString(R.string.default_cast_project_name);
+		project = new ChromeCastProjectCreator()
+				.createDefaultProject(projectName, InstrumentationRegistry.getTargetContext(), true);
 	}
 
 	@After
@@ -75,7 +68,9 @@ public class DefaultChromeCastProgramLoadingTest {
 
 	@Test
 	public void testLoadingChromeCastProgram() throws IOException, LoadingProjectException {
-		Project loadedProject = storageHandler.loadProject(projectName, targetContext);
+		Project loadedProject = XstreamSerializer.getInstance()
+				.loadProject(project.getDirectory(), InstrumentationRegistry.getTargetContext());
+
 		Scene preScene = project.getDefaultScene();
 		Scene postScene = loadedProject.getDefaultScene();
 

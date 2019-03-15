@@ -41,6 +41,7 @@ import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.XstreamSerializer;
+import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.ui.ProjectListActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
@@ -91,18 +92,16 @@ public class CopyProjectTest {
 		onView(withText(R.string.copy)).perform(click());
 
 		onRecyclerView().atPosition(0)
-			.performCheckItem();
+				.performCheckItem();
 
-		onView(withId(R.id.confirm)).perform(click());
+		onView(withId(R.id.confirm))
+				.perform(click());
 
 		onView(withText(toBeCopiedProjectName))
 				.check(matches(isDisplayed()));
 
 		onView(withText(toBeCopiedProjectName + " (1)"))
 				.check(matches(isDisplayed()));
-
-		ProjectManager.getInstance().loadProject(toBeCopiedProjectName + " (1)",
-				InstrumentationRegistry.getTargetContext());
 	}
 
 	private void createProject() throws IOException {
@@ -150,7 +149,7 @@ public class CopyProjectTest {
 
 		project.addScene(secondScene);
 
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
-		XstreamSerializer.getInstance().saveProject(project);
+		ProjectSaveTask
+				.task(project);
 	}
 }

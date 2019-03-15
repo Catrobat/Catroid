@@ -34,9 +34,7 @@ import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
-import org.catrobat.catroid.exceptions.CompatibilityProjectException;
-import org.catrobat.catroid.exceptions.LoadingProjectException;
-import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
+import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.junit.After;
@@ -81,10 +79,7 @@ public class MessageContainerSaveStateTest {
 		assertEquals(1, broadcastMessages.size());
 	}
 
-	private void createTestProjects() throws CompatibilityProjectException,
-			OutdatedVersionProjectException,
-			LoadingProjectException {
-
+	private void createTestProjects() throws ProjectException {
 		Project project1 = new Project(InstrumentationRegistry.getTargetContext(), projectName1);
 
 		Sprite sprite1 = new SingleSprite("cat");
@@ -101,7 +96,9 @@ public class MessageContainerSaveStateTest {
 
 		XstreamSerializer.getInstance().saveProject(project1);
 
-		ProjectManager.getInstance().loadProject(projectName1, InstrumentationRegistry.getTargetContext());
+		ProjectManager.getInstance()
+				.loadProject(project1.getDirectory(), InstrumentationRegistry.getTargetContext());
+
 		ProjectManager.getInstance()
 				.setCurrentlyEditedScene(ProjectManager.getInstance().getCurrentProject().getDefaultScene());
 	}

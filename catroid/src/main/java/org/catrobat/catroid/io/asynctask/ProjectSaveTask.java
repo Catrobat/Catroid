@@ -30,12 +30,19 @@ import org.catrobat.catroid.io.XstreamSerializer;
 
 import java.lang.ref.WeakReference;
 
-public class ProjectSaveTask extends AsyncTask<Project, Void, Boolean> {
+public class ProjectSaveTask extends AsyncTask<Void, Void, Boolean> {
+
+	private Project project;
 
 	private WeakReference<ProjectSaveListener> weakListenerReference;
 
-	public ProjectSaveTask(ProjectSaveListener listener) {
+	public ProjectSaveTask(Project project) {
+		this.project = project;
+	}
+
+	public ProjectSaveTask setListener(ProjectSaveListener listener) {
 		weakListenerReference = new WeakReference<>(listener);
+		return this;
 	}
 
 	public static boolean task(Project project) {
@@ -43,12 +50,15 @@ public class ProjectSaveTask extends AsyncTask<Project, Void, Boolean> {
 	}
 
 	@Override
-	protected Boolean doInBackground(Project... projects) {
-		return task(projects[0]);
+	protected Boolean doInBackground(Void... voids) {
+		return task(project);
 	}
 
 	@Override
 	protected void onPostExecute(Boolean success) {
+		if (weakListenerReference == null) {
+			return;
+		}
 		ProjectSaveListener listener = weakListenerReference.get();
 		if (listener != null) {
 			listener.onSaveProjectComplete(success);
