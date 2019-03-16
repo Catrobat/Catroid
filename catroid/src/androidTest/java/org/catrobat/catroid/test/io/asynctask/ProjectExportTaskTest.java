@@ -29,12 +29,10 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.GrantPermissionRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Pair;
 import android.util.SparseArray;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.asynctask.ProjectExportTask;
 import org.catrobat.catroid.test.utils.Reflection;
@@ -55,7 +53,7 @@ import static org.catrobat.catroid.common.Constants.EXTERNAL_STORAGE_ROOT_EXPORT
 @RunWith(AndroidJUnit4.class)
 public class ProjectExportTaskTest {
 
-	private String projectName;
+	private Project project;
 
 	@Rule
 	public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(
@@ -64,10 +62,9 @@ public class ProjectExportTaskTest {
 
 	@Before
 	public void setUp() {
-		Project project = new Project(InstrumentationRegistry.getTargetContext(),
+		project = new Project(InstrumentationRegistry.getTargetContext(),
 				ProjectExportTaskTest.class.getSimpleName());
-		project.addScene(new Scene());
-		projectName = project.getName();
+
 		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().saveProject(InstrumentationRegistry.getTargetContext());
 	}
@@ -75,16 +72,21 @@ public class ProjectExportTaskTest {
 	@Test
 	public void exportProjectTest() {
 		StatusBarNotificationManager notificationManager = StatusBarNotificationManager.getInstance();
-		int notificationID = notificationManager
-				.createSaveProjectToExternalMemoryNotification(InstrumentationRegistry.getTargetContext(), projectName);
-		ProjectExportTask.task(new Pair<>(projectName, notificationID));
+		int notificationId = notificationManager
+				.createSaveProjectToExternalMemoryNotification(InstrumentationRegistry.getTargetContext(), project.getName());
+		ProjectExportTask
+				.task(project.getDirectory(), notificationId);
 
-		File externalProjectZip = new File(EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY, projectName + CATROBAT_EXTENSION);
+		File externalProjectZip = new File(EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY,
+				project.getDirectory().getName() + CATROBAT_EXTENSION);
 		Assert.assertTrue(externalProjectZip.exists());
 	}
 
 	@After
 	public void tearDown() throws Exception {
+		if (project.getDirectory().isDirectory()) {
+			StorageOperations.deleteDir(project.getDirectory());
+		}
 		if (EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY.exists()) {
 			StorageOperations.deleteDir(EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY);
 		}

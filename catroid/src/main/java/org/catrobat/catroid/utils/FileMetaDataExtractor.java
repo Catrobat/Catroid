@@ -23,18 +23,25 @@
 package org.catrobat.catroid.utils;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.content.backwardcompatibility.ProjectMetaDataParser;
 
 import java.io.File;
-import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
+import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+
 public final class FileMetaDataExtractor {
+
+	private static final String TAG = FileMetaDataExtractor.class.getSimpleName();
 
 	private FileMetaDataExtractor() {
 		throw new AssertionError();
@@ -61,7 +68,7 @@ public final class FileMetaDataExtractor {
 	}
 
 	public static long getProgressFromBytes(String projectName, Long progress) {
-		long fileByteSize = getSizeOfFileOrDirectoryInByte(new File(PathBuilder.buildProjectPath(projectName)));
+		long fileByteSize = getSizeOfFileOrDirectoryInByte(new File(DEFAULT_ROOT_DIRECTORY, projectName));
 		if (fileByteSize == 0) {
 			return (long) 0;
 		}
@@ -102,22 +109,27 @@ public final class FileMetaDataExtractor {
 	}
 
 	public static List<String> getProjectNames(File directory) {
-		List<String> projectList = new ArrayList<>();
-		File[] fileList = directory.listFiles();
-		if (fileList != null) {
-			FilenameFilter filenameFilter = new FilenameFilter() {
-				@Override
-				public boolean accept(File dir, String filename) {
-					return filename.contentEquals(Constants.CODE_XML_FILE_NAME);
-				}
-			};
-			for (File file : fileList) {
-				if (file.isDirectory() && file.list(filenameFilter).length != 0) {
-					projectList.add(decodeSpecialCharsForFileSystem(file.getName()));
-				}
+		if (directory.listFiles() == null) {
+			return Collections.emptyList();
+		}
+
+		List<String> projectNames = new ArrayList<>();
+
+		for (File file : directory.listFiles()) {
+			File xmlFile = new File(file, CODE_XML_FILE_NAME);
+			if (!xmlFile.exists()) {
+				continue;
+			}
+
+			ProjectMetaDataParser metaDataParser = new ProjectMetaDataParser(xmlFile);
+
+			try {
+				projectNames.add(metaDataParser.getProjectMetaData().getName());
+			} catch (IOException e) {
+				Log.e(TAG, "Well, that's awkward.", e);
 			}
 		}
-		return projectList;
+		return projectNames;
 	}
 
 	public static String encodeSpecialCharsForFileSystem(String projectName) {

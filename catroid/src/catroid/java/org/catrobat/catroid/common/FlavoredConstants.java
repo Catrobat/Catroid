@@ -40,7 +40,7 @@ public final class FlavoredConstants {
 	public static final File DEFAULT_ROOT_DIRECTORY = CatroidApplication.getAppContext().getFilesDir();
 
 	public static final File EXTERNAL_STORAGE_ROOT_DIRECTORY = new File(
-			Environment.getExternalStorageDirectory().getAbsolutePath(), POCKET_CODE_EXTERNAL_STORAGE_FOLDER_NAME);
+			Environment.getExternalStorageDirectory(), POCKET_CODE_EXTERNAL_STORAGE_FOLDER_NAME);
 
 	// Media Library:
 	public static final String LIBRARY_BASE_URL = BASE_URL_HTTPS + "download-media/";

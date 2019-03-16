@@ -34,11 +34,10 @@ import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
-import org.catrobat.catroid.exceptions.CompatibilityProjectException;
-import org.catrobat.catroid.exceptions.LoadingProjectException;
-import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
+import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
+import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -61,6 +60,9 @@ public class MessageContainerTest {
 	private final String broadcastMessage1 = "testBroadcast1";
 	private final String broadcastMessage2 = "testBroadcast2";
 
+	private Project project1;
+	private Project project2;
+
 	@Before
 	public void setUp() throws Exception {
 		createTestProjects();
@@ -82,14 +84,14 @@ public class MessageContainerTest {
 	}
 
 	@Test
-	public void testLoadTwoProjects() throws CompatibilityProjectException,
-			OutdatedVersionProjectException,
-			LoadingProjectException {
+	public void testLoadTwoProjects() throws ProjectException {
 
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		currentProject.getBroadcastMessageContainer().update();
 
-		ProjectManager.getInstance().loadProject(projectName2, InstrumentationRegistry.getTargetContext());
+		ProjectManager.getInstance()
+				.loadProject(project2.getDirectory(), InstrumentationRegistry.getTargetContext());
+
 		currentProject = ProjectManager.getInstance().getCurrentProject();
 		ProjectManager.getInstance().setCurrentlyEditedScene(currentProject.getDefaultScene());
 		List<String> broadcastMessages = currentProject.getBroadcastMessageContainer().getBroadcastMessages();
@@ -99,11 +101,8 @@ public class MessageContainerTest {
 		assertEquals(1, broadcastMessages.size());
 	}
 
-	private void createTestProjects() throws CompatibilityProjectException,
-			OutdatedVersionProjectException,
-			LoadingProjectException {
-
-		Project project1 = new Project(InstrumentationRegistry.getTargetContext(), projectName1);
+	private void createTestProjects() throws ProjectException {
+		project1 = new Project(InstrumentationRegistry.getTargetContext(), projectName1);
 
 		Sprite sprite1 = new SingleSprite("cat");
 		Script script1 = new StartScript();
@@ -116,9 +115,10 @@ public class MessageContainerTest {
 
 		project1.getDefaultScene().addSprite(sprite1);
 
-		XstreamSerializer.getInstance().saveProject(project1);
+		ProjectSaveTask
+				.task(project1);
 
-		Project project2 = new Project(InstrumentationRegistry.getTargetContext(), projectName2);
+		project2 = new Project(InstrumentationRegistry.getTargetContext(), projectName2);
 
 		Sprite sprite2 = new SingleSprite("cat");
 		Script script2 = new StartScript();
@@ -132,8 +132,8 @@ public class MessageContainerTest {
 		project2.getDefaultScene().addSprite(sprite2);
 		XstreamSerializer.getInstance().saveProject(project2);
 
-		ProjectManager.getInstance().loadProject(projectName1, InstrumentationRegistry.getTargetContext());
 		ProjectManager.getInstance()
-				.setCurrentlyEditedScene(ProjectManager.getInstance().getCurrentProject().getDefaultScene());
+				.loadProject(new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName2),
+						InstrumentationRegistry.getTargetContext());
 	}
 }

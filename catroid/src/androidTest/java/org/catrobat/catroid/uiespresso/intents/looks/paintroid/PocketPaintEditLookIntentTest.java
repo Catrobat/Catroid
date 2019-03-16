@@ -45,7 +45,6 @@ import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
-import org.catrobat.catroid.utils.PathBuilder;
 import org.hamcrest.Matcher;
 import org.junit.After;
 import org.junit.Before;
@@ -69,6 +68,7 @@ import static android.support.test.espresso.intent.matcher.IntentMatchers.hasExt
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 import static org.catrobat.catroid.uiespresso.util.matchers.BundleMatchers.bundleHasMatchingString;
 import static org.hamcrest.Matchers.equalTo;
@@ -115,9 +115,9 @@ public class PocketPaintEditLookIntentTest {
 		Intents.release();
 		baseActivityTestRule.finishActivity();
 		try {
-			StorageOperations.deleteDir(new File(PathBuilder.buildProjectPath(projectName)));
+			StorageOperations.deleteDir(new File(DEFAULT_ROOT_DIRECTORY, projectName));
 		} catch (IOException e) {
-			Log.d(getClass().getSimpleName(), "couldnt clean up project");
+			Log.d(getClass().getSimpleName(), "Cannot clean up project");
 		}
 	}
 

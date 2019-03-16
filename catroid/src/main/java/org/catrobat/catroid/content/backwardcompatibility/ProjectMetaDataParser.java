@@ -24,8 +24,14 @@
 package org.catrobat.catroid.content.backwardcompatibility;
 
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+import org.catrobat.catroid.common.ProjectData;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.Serializable;
 
 public class ProjectMetaDataParser {
 
@@ -35,10 +41,56 @@ public class ProjectMetaDataParser {
 		this.xmlFile = xmlFile;
 	}
 
-	public ProjectMetaData getProjectMetaData() {
+	public ProjectData getProjectMetaData() throws IOException {
+		if (!xmlFile.exists()) {
+			throw new FileNotFoundException(xmlFile.getAbsolutePath() + " does not exist.");
+		}
 		XStream xstream = new XStream();
 		xstream.processAnnotations(ProjectMetaData.class);
 		xstream.ignoreUnknownElements();
-		return (ProjectMetaData) xstream.fromXML(xmlFile);
+		ProjectMetaData metaData = (ProjectMetaData) xstream.fromXML(xmlFile);
+		metaData.setFile(xmlFile);
+		return new ProjectData(metaData.getName(),
+				metaData.getDirectory(),
+				metaData.getLanguageVersion(),
+				metaData.hasScenes());
+	}
+
+	@XStreamAlias("program")
+	private static class ProjectMetaData implements Serializable {
+
+		private static final long serialVersionUID = 1L;
+
+		private XmlHeaderMetaData header;
+		private File xmlFile;
+
+		public String getName() {
+			return header.programName;
+		}
+
+		public void setFile(File xmlFile) {
+			this.xmlFile = xmlFile;
+		}
+
+		public File getDirectory() {
+			return xmlFile.getParentFile();
+		}
+
+		public float getLanguageVersion() {
+			return header.catrobatLanguageVersion;
+		}
+
+		public boolean hasScenes() {
+			return header.scenesEnabled;
+		}
+
+		private static final class XmlHeaderMetaData implements Serializable {
+
+			private static final long serialVersionUID = 1L;
+
+			private String programName;
+			private float catrobatLanguageVersion;
+			private boolean scenesEnabled = false;
+		}
 	}
 }

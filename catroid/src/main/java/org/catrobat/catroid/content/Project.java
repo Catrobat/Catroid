@@ -41,14 +41,17 @@ import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.ScreenValueHandler;
 import org.catrobat.catroid.utils.Utils;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.catrobat.catroid.common.Constants.Z_INDEX_BACKGROUND;
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 @XStreamAlias("program")
 @XStreamFieldKeyOrder({
@@ -73,31 +76,41 @@ public class Project implements Serializable {
 	@XStreamAlias("scenes")
 	private List<Scene> sceneList = new ArrayList<>();
 
+	private transient File directory;
+
 	private transient BroadcastMessageContainer broadcastMessageContainer = new BroadcastMessageContainer();
 
 	public Project() {
 	}
 
 	public Project(Context context, String name, boolean landscapeMode, boolean isCastProject) {
-		xmlHeader.setProgramName(name);
+		xmlHeader.setProjectName(name);
 		xmlHeader.setDescription("");
 		xmlHeader.setlandscapeMode(landscapeMode);
 
 		if (ScreenValues.SCREEN_HEIGHT == 0 || ScreenValues.SCREEN_WIDTH == 0) {
 			ScreenValueHandler.updateScreenWidthAndHeight(context);
 		}
-		if (landscapeMode) {
-			ifPortraitSwitchWidthAndHeight();
-		} else {
-			ifLandscapeSwitchWidthAndHeight();
+		if (landscapeMode && ScreenValues.SCREEN_WIDTH < ScreenValues.SCREEN_HEIGHT) {
+			int tmp = ScreenValues.SCREEN_HEIGHT;
+			ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;
+			ScreenValues.SCREEN_WIDTH = tmp;
+		} else if (ScreenValues.SCREEN_WIDTH > ScreenValues.SCREEN_HEIGHT) {
+			int tmp = ScreenValues.SCREEN_HEIGHT;
+			ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;
+			ScreenValues.SCREEN_WIDTH = tmp;
 		}
+
 		xmlHeader.virtualScreenWidth = ScreenValues.SCREEN_WIDTH;
 		xmlHeader.virtualScreenHeight = ScreenValues.SCREEN_HEIGHT;
 
 		setDeviceData(context);
 
 		if (isCastProject) {
-			setChromecastFields();
+			xmlHeader.virtualScreenHeight = ScreenValues.CAST_SCREEN_HEIGHT;
+			xmlHeader.virtualScreenWidth = ScreenValues.CAST_SCREEN_WIDTH;
+			xmlHeader.setlandscapeMode(true);
+			xmlHeader.setIsCastProject(true);
 		}
 
 		Scene scene = new Scene(context.getString(R.string.default_scene_name, 1), this);
@@ -106,7 +119,6 @@ public class Project implements Serializable {
 		scene.addSprite(backgroundSprite);
 
 		sceneList.add(scene);
-
 		xmlHeader.scenesEnabled = true;
 	}
 
@@ -116,6 +128,18 @@ public class Project implements Serializable {
 
 	public Project(Context context, String name) {
 		this(context, name, false);
+	}
+
+	public File getDirectory() {
+		if (directory == null) {
+			directory = new File(DEFAULT_ROOT_DIRECTORY,
+					FileMetaDataExtractor.encodeSpecialCharsForFileSystem(getName()));
+		}
+		return directory;
+	}
+
+	public void setDirectory(File directory) {
+		this.directory = directory;
 	}
 
 	public List<Scene> getSceneList() {
@@ -209,33 +233,6 @@ public class Project implements Serializable {
 		}
 	}
 
-	public void setChromecastFields() {
-		xmlHeader.virtualScreenHeight = ScreenValues.CAST_SCREEN_HEIGHT;
-		xmlHeader.virtualScreenWidth = ScreenValues.CAST_SCREEN_WIDTH;
-		xmlHeader.setlandscapeMode(true);
-		xmlHeader.setIsCastProject(true);
-	}
-
-	private void ifLandscapeSwitchWidthAndHeight() {
-		if (ScreenValues.SCREEN_WIDTH > ScreenValues.SCREEN_HEIGHT) {
-			int tmp = ScreenValues.SCREEN_HEIGHT;
-			ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;
-			ScreenValues.SCREEN_WIDTH = tmp;
-		}
-	}
-
-	private void ifPortraitSwitchWidthAndHeight() {
-		if (ScreenValues.SCREEN_WIDTH < ScreenValues.SCREEN_HEIGHT) {
-			int tmp = ScreenValues.SCREEN_HEIGHT;
-			ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;
-			ScreenValues.SCREEN_WIDTH = tmp;
-		}
-	}
-
-	public void setName(String name) {
-		xmlHeader.setProgramName(name);
-	}
-
 	public List<Sprite> getSpriteListWithClones() {
 		if (StageActivity.stageListener != null) {
 			return StageActivity.stageListener.getSpritesFromStage();
@@ -251,23 +248,27 @@ public class Project implements Serializable {
 	}
 
 	public String getName() {
-		return xmlHeader.getProgramName();
+		return xmlHeader.getProjectName();
 	}
 
-	public void setDescription(String description) {
-		xmlHeader.setDescription(description);
+	public void setName(String name) {
+		xmlHeader.setProjectName(name);
 	}
 
 	public String getDescription() {
 		return xmlHeader.getDescription();
 	}
 
-	public void setScreenMode(ScreenModes screenMode) {
-		xmlHeader.setScreenMode(screenMode);
+	public void setDescription(String description) {
+		xmlHeader.setDescription(description);
 	}
 
 	public ScreenModes getScreenMode() {
 		return xmlHeader.getScreenMode();
+	}
+
+	public void setScreenMode(ScreenModes screenMode) {
+		xmlHeader.setScreenMode(screenMode);
 	}
 
 	public float getCatrobatLanguageVersion() {
@@ -306,7 +307,6 @@ public class Project implements Serializable {
 	}
 
 	public void setDeviceData(Context context) {
-		// TODO add other header values
 		xmlHeader.setPlatform(Constants.PLATFORM_NAME);
 		xmlHeader.setPlatformVersion(String.valueOf(Build.VERSION.SDK_INT));
 		xmlHeader.setDeviceName(Build.MODEL);

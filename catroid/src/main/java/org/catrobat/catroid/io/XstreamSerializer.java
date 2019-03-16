@@ -33,6 +33,7 @@ import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider
 import org.catrobat.catroid.common.DroneVideoLookData;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.NfcTagData;
+import org.catrobat.catroid.common.ProjectData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.CollisionScript;
@@ -57,7 +58,6 @@ import org.catrobat.catroid.content.WhenTouchDownScript;
 import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.content.backwardcompatibility.LegacyDataContainer;
 import org.catrobat.catroid.content.backwardcompatibility.LegacyProjectWithoutScenes;
-import org.catrobat.catroid.content.backwardcompatibility.ProjectMetaData;
 import org.catrobat.catroid.content.backwardcompatibility.ProjectMetaDataParser;
 import org.catrobat.catroid.content.backwardcompatibility.ProjectUntilLanguageVersion0999;
 import org.catrobat.catroid.content.backwardcompatibility.SceneUntilLanguageVersion0999;
@@ -203,14 +203,10 @@ import org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.physics.content.bricks.SetVelocityBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
-import org.catrobat.catroid.stage.StageListener;
-import org.catrobat.catroid.ui.recyclerview.controller.ProjectController;
 import org.catrobat.catroid.utils.StringFinder;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -221,7 +217,6 @@ import java.util.concurrent.locks.ReentrantLock;
 import static org.catrobat.catroid.common.Constants.ARDRONE_SUPPORT;
 import static org.catrobat.catroid.common.Constants.BLUETOOTH_LEGO_NXT;
 import static org.catrobat.catroid.common.Constants.BLUETOOTH_PHIRO_PRO;
-import static org.catrobat.catroid.common.Constants.BUFFER_8K;
 import static org.catrobat.catroid.common.Constants.CAMERA_FLASH;
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.FACE_DETECTION;
@@ -234,7 +229,6 @@ import static org.catrobat.catroid.common.Constants.TEXT_TO_SPEECH;
 import static org.catrobat.catroid.common.Constants.TMP_CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.VIBRATOR;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
-import static org.catrobat.catroid.utils.PathBuilder.buildProjectPath;
 
 public final class XstreamSerializer {
 
@@ -484,68 +478,38 @@ public final class XstreamSerializer {
 		xstream.alias("nxtPort", LegoNXTSetting.NXTPort.class);
 	}
 
-	public String getProjectName(File xmlFile) throws IOException {
+	public Project loadProject(File projectDir, Context context) throws IOException, LoadingProjectException {
+		cleanUpTmpCodeFile(projectDir);
+
+		File xmlFile = new File(projectDir, CODE_XML_FILE_NAME);
 		if (!xmlFile.exists()) {
 			throw new FileNotFoundException(xmlFile.getAbsolutePath() + " does not exist.");
 		}
-		return new ProjectMetaDataParser(xmlFile).getProjectMetaData().getProjectName();
-	}
-
-	public Project loadProject(String projectName, Context context) throws IOException, LoadingProjectException {
-		cleanUpTmpCodeFile(projectName);
-
-		File projectDir = new File(DEFAULT_ROOT_DIRECTORY, projectName);
-		File xmlFile = new File(projectDir, CODE_XML_FILE_NAME);
-
 		xmlFile.setLastModified(System.currentTimeMillis());
-
-		if (!xmlFile.exists()) {
-			throw new FileNotFoundException(xmlFile + " does not exist.");
-		}
 
 		try {
 			loadSaveLock.lock();
-			ProjectMetaData projectMetaData = new ProjectMetaDataParser(xmlFile).getProjectMetaData();
 
 			Project project;
+			ProjectData projectMetaData = new ProjectMetaDataParser(xmlFile).getProjectMetaData();
 
 			if (!projectMetaData.hasScenes()) {
 				new File(projectDir, IMAGE_DIRECTORY_NAME).mkdir();
 				new File(projectDir, SOUND_DIRECTORY_NAME).mkdir();
 
 				prepareXstream(LegacyProjectWithoutScenes.class, Scene.class);
-				LegacyProjectWithoutScenes projectWithoutScenes = (LegacyProjectWithoutScenes) xstream
-						.getProjectFromXML(xmlFile);
-
+				LegacyProjectWithoutScenes projectWithoutScenes =
+						(LegacyProjectWithoutScenes) xstream.getProjectFromXML(xmlFile);
 				prepareXstream(Project.class, Scene.class);
-				project = new ProjectController().createProject(projectWithoutScenes, context);
 
-				File sceneDir = new File(projectDir, project.getDefaultScene().getName());
-				StorageOperations.createSceneDirectory(sceneDir);
-
-				File automaticScreenshot = new File(projectDir, StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
-				File manualScreenshot = new File(projectDir, StageListener.SCREENSHOT_MANUAL_FILE_NAME);
-
-				StorageOperations.copyDir(new File(projectDir, IMAGE_DIRECTORY_NAME), new File(sceneDir, IMAGE_DIRECTORY_NAME));
-				StorageOperations.copyDir(new File(projectDir, SOUND_DIRECTORY_NAME), new File(sceneDir, SOUND_DIRECTORY_NAME));
-
-				if (automaticScreenshot.exists()) {
-					StorageOperations.copyFileToDir(automaticScreenshot, sceneDir);
-					automaticScreenshot.delete();
-				}
-				if (manualScreenshot.exists()) {
-					StorageOperations.copyFileToDir(manualScreenshot, sceneDir);
-					manualScreenshot.delete();
-				}
-
-				StorageOperations.deleteDir(new File(projectDir, IMAGE_DIRECTORY_NAME));
-				StorageOperations.deleteDir(new File(projectDir, SOUND_DIRECTORY_NAME));
+				project = projectWithoutScenes.toProject(context);
 			} else if (projectMetaData.getLanguageVersion() < 0.9991) {
 				prepareXstream(ProjectUntilLanguageVersion0999.class, SceneUntilLanguageVersion0999.class);
-				ProjectUntilLanguageVersion0999 legacyProject = (ProjectUntilLanguageVersion0999) xstream
-						.getProjectFromXML(xmlFile);
+				ProjectUntilLanguageVersion0999 legacyProject =
+						(ProjectUntilLanguageVersion0999) xstream.getProjectFromXML(xmlFile);
 				prepareXstream(Project.class, Scene.class);
-				project = new ProjectController().createProject(legacyProject);
+
+				project = legacyProject.toProject();
 			} else {
 				prepareXstream(Project.class, Scene.class);
 				project = (Project) xstream.getProjectFromXML(xmlFile);
@@ -555,21 +519,23 @@ public final class XstreamSerializer {
 				}
 			}
 
+			project.setDirectory(projectDir);
 			setFileReferences(project);
 			return project;
 		} catch (Exception e) {
-			throw new LoadingProjectException("Cannot load " + projectName + "\nException: " + e.getLocalizedMessage());
+			throw new LoadingProjectException("Cannot load project from " + projectDir.getAbsolutePath()
+					+ "\nException: " + e.getLocalizedMessage());
 		} finally {
 			loadSaveLock.unlock();
 		}
 	}
 
-	public boolean renameProject(File xmlFile, String dstName) throws IOException {
+	public static boolean renameProject(File xmlFile, String dstName) throws IOException {
 		if (!xmlFile.exists()) {
 			throw new FileNotFoundException(xmlFile + " does not exist.");
 		}
 
-		String srcName = new ProjectMetaDataParser(xmlFile).getProjectMetaData().getProjectName();
+		String srcName = new ProjectMetaDataParser(xmlFile).getProjectMetaData().getName();
 
 		if (srcName.equals(dstName)) {
 			return true;
@@ -585,24 +551,8 @@ public final class XstreamSerializer {
 			return false;
 		}
 
-		BufferedWriter writer = null;
-		try {
-			writer = new BufferedWriter(new FileWriter(xmlFile), BUFFER_8K);
-			writer.write(newXml);
-			writer.flush();
-			return true;
-		} catch (IOException e) {
-			Log.e(TAG, "Something went wrong while renaming project.", e);
-			return false;
-		} finally {
-			if (writer != null) {
-				try {
-					writer.close();
-				} catch (IOException e) {
-					Log.e(TAG, "Cannot close buffered writer.", e);
-				}
-			}
-		}
+		StorageOperations.writeToFile(xmlFile, newXml);
+		return true;
 	}
 
 	private static void setFileReferences(Project project) {
@@ -642,22 +592,17 @@ public final class XstreamSerializer {
 		}
 
 		try {
-			cleanUpTmpCodeFile(project.getName());
+			cleanUpTmpCodeFile(project.getDirectory());
 		} catch (LoadingProjectException e) {
 			return false;
 		}
 
 		loadSaveLock.lock();
 
-		BufferedWriter writer = null;
-		String currentXml;
-		File tmpCodeFile = null;
-		File currentCodeFile = null;
-
 		try {
-			currentXml = XML_HEADER.concat(xstream.toXML(project));
-			tmpCodeFile = new File(buildProjectPath(project.getName()), TMP_CODE_XML_FILE_NAME);
-			currentCodeFile = new File(buildProjectPath(project.getName()), CODE_XML_FILE_NAME);
+			String currentXml = XML_HEADER.concat(xstream.toXML(project));
+			File tmpCodeFile = new File(project.getDirectory(), TMP_CODE_XML_FILE_NAME);
+			File currentCodeFile = new File(project.getDirectory(), CODE_XML_FILE_NAME);
 
 			if (currentCodeFile.exists()) {
 				try {
@@ -667,81 +612,67 @@ public final class XstreamSerializer {
 						Log.d(TAG, "Project version is the same. Do not update " + currentCodeFile.getName());
 						return false;
 					}
-					Log.d(TAG, "Project version differ <" + previousXml.length() + "> <"
-							+ currentXml.length() + ">. update " + currentCodeFile.getName());
-				} catch (Exception exception) {
-					Log.e(TAG, "Opening old project " + currentCodeFile.getAbsolutePath() + " failed.", exception);
+				} catch (Exception e) {
+					Log.e(TAG, "Opening project at " + currentCodeFile.getAbsolutePath() + " failed.", e);
 					return false;
 				}
 			}
 
 			StorageOperations.createDir(DEFAULT_ROOT_DIRECTORY);
-			File projectDir = new File(buildProjectPath(project.getName()));
-
-			StorageOperations.createDir(projectDir);
+			StorageOperations.createDir(project.getDirectory());
 
 			for (Scene scene : project.getSceneList()) {
-				StorageOperations.createSceneDirectory(new File(projectDir, scene.getName()));
+				StorageOperations.createSceneDirectory(scene.getDirectory());
 			}
 
-			writer = new BufferedWriter(new FileWriter(tmpCodeFile), BUFFER_8K);
-			writer.write(currentXml);
-			writer.flush();
-
-			File permissionFile = new File(buildProjectPath(project.getName()), PERMISSIONS_FILE_NAME);
-			writer = new BufferedWriter(new FileWriter(permissionFile), BUFFER_8K);
-
+			StringBuilder stringBuilder = new StringBuilder();
 			for (String resource : generatePermissionsSetFromResource(project.getRequiredResources())) {
-				writer.write(resource);
-				writer.newLine();
+				stringBuilder.append(resource);
+				stringBuilder.append('\n');
 			}
-			writer.flush();
+
+			StorageOperations.writeToFile(tmpCodeFile, currentXml);
+
+			File permissionFile = new File(project.getDirectory(), PERMISSIONS_FILE_NAME);
+			StorageOperations.writeToFile(permissionFile, stringBuilder.toString());
+
+			if (currentCodeFile.exists() && !currentCodeFile.delete()) {
+				Log.e(TAG, "Cannot delete " + currentCodeFile.getName());
+			}
+
+			if (!tmpCodeFile.renameTo(currentCodeFile)) {
+				Log.e(TAG, "Cannot rename code.xml for " + project.getName());
+			}
 
 			return true;
 		} catch (Exception exception) {
 			Log.e(TAG, "Saving project " + project.getName() + " failed.", exception);
 			return false;
 		} finally {
-			if (writer != null) {
-				try {
-					writer.close();
-					if (currentCodeFile.exists() && !currentCodeFile.delete()) {
-						Log.e(TAG, "Cannot delete " + currentCodeFile.getName());
-					}
-
-					if (!tmpCodeFile.renameTo(currentCodeFile)) {
-						Log.e(TAG, "Cannot rename: " + tmpCodeFile.getAbsolutePath() + " to "
-								+ currentCodeFile.getName());
-					}
-				} catch (IOException e) {
-					Log.e(TAG, "Cannot close Buffered Writer", e);
-				}
-			}
-
 			loadSaveLock.unlock();
 		}
 	}
 
-	private void cleanUpTmpCodeFile(String projectName) throws LoadingProjectException {
+	private void cleanUpTmpCodeFile(File projectDir) throws LoadingProjectException {
 		loadSaveLock.lock();
 
-		File projectDir = new File(buildProjectPath(projectName));
 		File tmpXmlFile = new File(projectDir, TMP_CODE_XML_FILE_NAME);
 		File actualXmlFile = new File(projectDir, CODE_XML_FILE_NAME);
 
-		if (tmpXmlFile.exists()) {
-			if (actualXmlFile.exists()) {
-				tmpXmlFile.delete();
-			} else {
-				if (!tmpXmlFile.renameTo(actualXmlFile)) {
-					loadSaveLock.unlock();
-					throw new LoadingProjectException(CODE_XML_FILE_NAME + " did not exist. But wait, renaming "
-							+ tmpXmlFile.getAbsolutePath() + " failed too.");
+		try {
+			if (tmpXmlFile.exists()) {
+				if (actualXmlFile.exists()) {
+					tmpXmlFile.delete();
+				} else {
+					if (!tmpXmlFile.renameTo(actualXmlFile)) {
+						throw new LoadingProjectException(CODE_XML_FILE_NAME + " did not exist. But wait, renaming "
+								+ tmpXmlFile.getAbsolutePath() + " failed too.");
+					}
 				}
 			}
+		} finally {
+			loadSaveLock.unlock();
 		}
-
-		loadSaveLock.unlock();
 	}
 
 	public String getXmlAsStringFromProject(Project project) {
@@ -750,6 +681,7 @@ public final class XstreamSerializer {
 		try {
 			prepareXstream(project.getClass(), project.getSceneList().get(0).getClass());
 			xmlString = xstream.toXML(project);
+			prepareXstream(Project.class, Scene.class);
 		} finally {
 			loadSaveLock.unlock();
 		}
@@ -789,13 +721,7 @@ public final class XstreamSerializer {
 		return permissionsSet;
 	}
 
-	public void updateCodeFileOnDownload(String projectName) {
-		File projectCodeFile = new File(buildProjectPath(projectName), CODE_XML_FILE_NAME);
-		xstream.updateCollisionReceiverBrickMessage(projectCodeFile);
-	}
-
-	public static String extractDefaultSceneNameFromXml(String projectName) {
-		File projectDir = new File(buildProjectPath(projectName));
+	public static String extractDefaultSceneNameFromXml(File projectDir) {
 		File xmlFile = new File(projectDir, CODE_XML_FILE_NAME);
 
 		StringFinder stringFinder = new StringFinder();

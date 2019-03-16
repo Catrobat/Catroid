@@ -42,7 +42,6 @@ import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.controller.SceneController;
-import org.catrobat.catroid.utils.PathBuilder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -59,8 +58,6 @@ import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileDoesNotExist;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileExists;
-import static org.catrobat.catroid.utils.PathBuilder.buildProjectPath;
-import static org.catrobat.catroid.utils.PathBuilder.buildScenePath;
 
 @RunWith(AndroidJUnit4.class)
 public class SceneControllerTest {
@@ -89,10 +86,10 @@ public class SceneControllerTest {
 		controller.rename(scene, newName);
 
 		assertEquals(newName, scene.getName());
-		assertEquals(new File(PathBuilder.buildScenePath(project.getName(), newName)), scene.getDirectory());
+		assertEquals(new File(project.getDirectory(), newName), scene.getDirectory());
 
-		assertFileDoesNotExist(new File(PathBuilder.buildScenePath(project.getName(), previousName)));
-		assertFileExists(new File(PathBuilder.buildScenePath(project.getName(), newName)));
+		assertFileDoesNotExist(new File(project.getDirectory(), previousName));
+		assertFileExists(new File(project.getDirectory(), newName));
 	}
 
 	@Test
@@ -262,7 +259,7 @@ public class SceneControllerTest {
 		File soundFile = ResourceImporter.createSoundFileFromResourcesInDirectory(
 				InstrumentationRegistry.getContext().getResources(),
 				org.catrobat.catroid.test.R.raw.longsound,
-				new File(buildScenePath(project.getName(), project.getDefaultScene().getName()), SOUND_DIRECTORY_NAME),
+				new File(project.getDefaultScene().getDirectory(), SOUND_DIRECTORY_NAME),
 				"longsound.mp3");
 
 		sprite.getSoundList().add(new SoundInfo("testSound", soundFile));
@@ -271,9 +268,8 @@ public class SceneControllerTest {
 	}
 
 	private void deleteProject() throws IOException {
-		File projectDir = new File(buildProjectPath(project.getName()));
-		if (projectDir.exists()) {
-			StorageOperations.deleteDir(projectDir);
+		if (project.getDirectory().exists()) {
+			StorageOperations.deleteDir(project.getDirectory());
 		}
 	}
 }

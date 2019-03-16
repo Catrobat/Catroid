@@ -24,10 +24,8 @@ package org.catrobat.catroid.test.utiltests;
 
 import android.support.test.runner.AndroidJUnit4;
 
-import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.stage.ShowBubbleActor;
-import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.Utils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,18 +35,9 @@ import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 public class UtilsTest {
-
-	@Test
-	public void testBuildProjectPath() {
-		assertTrue(Utils.isExternalStorageAvailable());
-		String projectName = "test?Projekt\"1";
-		String expectedPath = FlavoredConstants.DEFAULT_ROOT_DIRECTORY.getAbsolutePath() + "/test%3FProjekt%221";
-		assertEquals(expectedPath, PathBuilder.buildProjectPath(projectName));
-	}
 
 	@Test
 	public void testExtractRemixUrlsOfProgramHeaderUrlFieldContainingSingleAbsoluteUrl() {
@@ -74,11 +63,11 @@ public class UtilsTest {
 		final String expectedSecondProgramRemixUrl = "https://scratch.mit.edu/projects/110380057/";
 
 		final XmlHeader headerOfFirstProgram = new XmlHeader();
-		headerOfFirstProgram.setProgramName("Catrobat program");
+		headerOfFirstProgram.setProjectName("Catrobat program");
 		headerOfFirstProgram.setRemixParentsUrlString(expectedFirstProgramRemixUrl);
 
 		final XmlHeader headerOfSecondProgram = new XmlHeader();
-		headerOfSecondProgram.setProgramName("Scratch program");
+		headerOfSecondProgram.setProjectName("Scratch program");
 		headerOfSecondProgram.setRemixParentsUrlString(expectedSecondProgramRemixUrl);
 
 		final String remixUrlsString = Utils.generateRemixUrlsStringForMergedProgram(headerOfFirstProgram,
@@ -95,11 +84,11 @@ public class UtilsTest {
 		final String expectedSecondProgramRemixUrl = "/pocketcode/program/3570";
 
 		final XmlHeader headerOfFirstProgram = new XmlHeader();
-		headerOfFirstProgram.setProgramName("Program A");
+		headerOfFirstProgram.setProjectName("Program A");
 		headerOfFirstProgram.setRemixParentsUrlString(expectedFirstProgramRemixUrl);
 
 		final XmlHeader headerOfSecondProgram = new XmlHeader();
-		headerOfSecondProgram.setProgramName("Program B");
+		headerOfSecondProgram.setProjectName("Program B");
 		headerOfSecondProgram.setRemixParentsUrlString(expectedSecondProgramRemixUrl);
 
 		final String remixUrlsString = Utils.generateRemixUrlsStringForMergedProgram(headerOfFirstProgram,
@@ -114,10 +103,10 @@ public class UtilsTest {
 	@Test
 	public void testExtractRemixUrlsOfMergedProgramHeaderUrlFieldContainingNoUrls() {
 		final XmlHeader headerOfFirstProgram = new XmlHeader();
-		headerOfFirstProgram.setProgramName("Program A");
+		headerOfFirstProgram.setProjectName("Program A");
 
 		final XmlHeader headerOfSecondProgram = new XmlHeader();
-		headerOfSecondProgram.setProgramName("Program B");
+		headerOfSecondProgram.setProjectName("Program B");
 
 		final String remixUrlsString = Utils.generateRemixUrlsStringForMergedProgram(headerOfFirstProgram,
 				headerOfSecondProgram);
@@ -132,11 +121,11 @@ public class UtilsTest {
 		final String expectedSecondProgramRemixUrl = "/pocketcode/program/3570";
 
 		final XmlHeader headerOfFirstProgram = new XmlHeader();
-		headerOfFirstProgram.setProgramName("My Scratch program");
+		headerOfFirstProgram.setProjectName("My Scratch program");
 		headerOfFirstProgram.setRemixParentsUrlString(expectedFirstProgramRemixUrl);
 
 		final XmlHeader headerOfSecondProgram = new XmlHeader();
-		headerOfSecondProgram.setProgramName("The Periodic Table");
+		headerOfSecondProgram.setProjectName("The Periodic Table");
 		headerOfSecondProgram.setRemixParentsUrlString(expectedSecondProgramRemixUrl);
 
 		final String remixUrlsString = Utils.generateRemixUrlsStringForMergedProgram(headerOfFirstProgram,
@@ -156,33 +145,33 @@ public class UtilsTest {
 		final String expectedFourthProgramRemixUrl = "https://share.catrob.at/pocketcode/program/16267";
 
 		final XmlHeader headerOfFirstProgram = new XmlHeader();
-		headerOfFirstProgram.setProgramName("My first Scratch program");
+		headerOfFirstProgram.setProjectName("My first Scratch program");
 		headerOfFirstProgram.setRemixParentsUrlString(expectedFirstProgramRemixUrl);
 
 		final XmlHeader headerOfSecondProgram = new XmlHeader();
-		headerOfSecondProgram.setProgramName("The Periodic Table");
+		headerOfSecondProgram.setProjectName("The Periodic Table");
 		headerOfSecondProgram.setRemixParentsUrlString(expectedSecondProgramRemixUrl);
 
 		final String firstMergedRemixUrlsString = Utils.generateRemixUrlsStringForMergedProgram(headerOfFirstProgram,
 				headerOfSecondProgram);
 
 		final XmlHeader headerOfFirstMergedProgram = new XmlHeader();
-		headerOfFirstMergedProgram.setProgramName("First merged Catrobat program");
+		headerOfFirstMergedProgram.setProjectName("First merged Catrobat program");
 		headerOfFirstMergedProgram.setRemixParentsUrlString(firstMergedRemixUrlsString);
 
 		final XmlHeader headerOfThirdProgram = new XmlHeader();
-		headerOfThirdProgram.setProgramName("My second Scratch program");
+		headerOfThirdProgram.setProjectName("My second Scratch program");
 		headerOfThirdProgram.setRemixParentsUrlString(expectedThirdProgramRemixUrl);
 
 		final String secondMergedRemixUrlsString = Utils.generateRemixUrlsStringForMergedProgram(headerOfFirstMergedProgram,
 				headerOfThirdProgram);
 
 		final XmlHeader headerOfSecondMergedProgram = new XmlHeader();
-		headerOfSecondMergedProgram.setProgramName("Second merged Catrobat program");
+		headerOfSecondMergedProgram.setProjectName("Second merged Catrobat program");
 		headerOfSecondMergedProgram.setRemixParentsUrlString(secondMergedRemixUrlsString);
 
 		final XmlHeader headerOfFourthProgram = new XmlHeader();
-		headerOfFourthProgram.setProgramName("My third Catrobat program");
+		headerOfFourthProgram.setProjectName("My third Catrobat program");
 		headerOfFourthProgram.setRemixParentsUrlString(expectedFourthProgramRemixUrl);
 
 		final String finalMergedRemixUrlsString = Utils.generateRemixUrlsStringForMergedProgram(headerOfSecondMergedProgram,
@@ -202,31 +191,31 @@ public class UtilsTest {
 		final String expectedFourthProgramRemixUrl = "https://share.catrob.at/pocketcode/program/16267";
 
 		final XmlHeader headerOfFirstProgram = new XmlHeader();
-		headerOfFirstProgram.setProgramName("Program A");
+		headerOfFirstProgram.setProjectName("Program A");
 
 		final XmlHeader headerOfSecondProgram = new XmlHeader();
-		headerOfSecondProgram.setProgramName("Program B");
+		headerOfSecondProgram.setProjectName("Program B");
 		headerOfSecondProgram.setRemixParentsUrlString(expectedSecondProgramRemixUrl);
 
 		final String firstMergedRemixUrlsString = Utils.generateRemixUrlsStringForMergedProgram(headerOfFirstProgram,
 				headerOfSecondProgram);
 
 		final XmlHeader headerOfFirstMergedProgram = new XmlHeader();
-		headerOfFirstMergedProgram.setProgramName("First merged program");
+		headerOfFirstMergedProgram.setProjectName("First merged program");
 		headerOfFirstMergedProgram.setRemixParentsUrlString(firstMergedRemixUrlsString);
 
 		final XmlHeader headerOfThirdProgram = new XmlHeader();
-		headerOfThirdProgram.setProgramName("Program C");
+		headerOfThirdProgram.setProjectName("Program C");
 
 		final String secondMergedRemixUrlsString = Utils.generateRemixUrlsStringForMergedProgram(headerOfFirstMergedProgram,
 				headerOfThirdProgram);
 
 		final XmlHeader headerOfSecondMergedProgram = new XmlHeader();
-		headerOfSecondMergedProgram.setProgramName("Second merged program");
+		headerOfSecondMergedProgram.setProjectName("Second merged program");
 		headerOfSecondMergedProgram.setRemixParentsUrlString(secondMergedRemixUrlsString);
 
 		final XmlHeader headerOfFourthProgram = new XmlHeader();
-		headerOfFourthProgram.setProgramName("Program D");
+		headerOfFourthProgram.setProjectName("Program D");
 		headerOfFourthProgram.setRemixParentsUrlString(expectedFourthProgramRemixUrl);
 
 		final String finalMergedRemixUrlsString = Utils.generateRemixUrlsStringForMergedProgram(headerOfSecondMergedProgram,

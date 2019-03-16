@@ -78,7 +78,6 @@ import org.catrobat.catroid.physics.shapebuilder.PhysicsShapeBuilder;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
 import org.catrobat.catroid.utils.FlashUtil;
-import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.TouchUtil;
 import org.catrobat.catroid.utils.VibratorUtil;
 
@@ -181,7 +180,7 @@ public class StageListener implements ApplicationListener {
 
 		project = ProjectManager.getInstance().getCurrentProject();
 		scene = ProjectManager.getInstance().getCurrentlyPlayingScene();
-		pathForSceneScreenshot = PathBuilder.buildScenePath(project.getName(), scene.getName()) + "/";
+		pathForSceneScreenshot = scene.getDirectory().getAbsolutePath() + "/";
 
 		if (stage == null) {
 			createNewStage();

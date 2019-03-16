@@ -31,7 +31,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastMessageBrick;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.PhysicsWorld;
-import org.catrobat.catroid.utils.PathBuilder;
+import org.catrobat.catroid.utils.FileMetaDataExtractor;
 
 import java.io.File;
 import java.io.Serializable;
@@ -136,9 +136,9 @@ public class Scene implements Nameable, Serializable {
 
 	public File getDirectory() {
 		if (project == null) {
-			return new File(BACKPACK_SCENE_DIRECTORY, name);
+			return new File(BACKPACK_SCENE_DIRECTORY, FileMetaDataExtractor.encodeSpecialCharsForFileSystem(name));
 		} else {
-			return new File(PathBuilder.buildScenePath(project.getName(), name));
+			return new File(project.getDirectory(), FileMetaDataExtractor.encodeSpecialCharsForFileSystem(name));
 		}
 	}
 

@@ -75,7 +75,7 @@ public class DefaultJumpingSumoProgramLoadingTest {
 
 	@Test
 	public void testJumpingSumoProgramLoadingSuccessfully() throws IOException, LoadingProjectException {
-		Project loadedProject = storageHandler.loadProject(projectName, targetContext);
+		Project loadedProject = storageHandler.loadProject(project.getDirectory(), targetContext);
 		Scene preScene = project.getDefaultScene();
 		Scene postScene = loadedProject.getDefaultScene();
 

@@ -42,29 +42,24 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
 public class DefaultDroneProgramLoadingTest {
-	private final XstreamSerializer storageHandler;
+
 	private String projectName;
 	private Project currentProjectBuffer;
-	private Context targetContext;
 	private Project project;
-	private int expectedSizeOfLookList = 1;
-
-	public DefaultDroneProgramLoadingTest() {
-		storageHandler = XstreamSerializer.getInstance();
-	}
 
 	@Before
 	public void setUp() throws Exception {
-		targetContext = InstrumentationRegistry.getTargetContext();
+		Context targetContext = InstrumentationRegistry.getTargetContext();
 		currentProjectBuffer = ProjectManager.getInstance().getCurrentProject();
 		projectName = targetContext.getString(R.string.default_drone_project_name);
-		project = new ArDroneProjectCreator().createDefaultProject(projectName, targetContext, false);
+		project = new ArDroneProjectCreator()
+				.createDefaultProject(projectName, InstrumentationRegistry.getTargetContext(), false);
 	}
 
 	@After
@@ -75,28 +70,31 @@ public class DefaultDroneProgramLoadingTest {
 
 	@Test
 	public void testDroneProgramLoadingSuccessfully() throws IOException, LoadingProjectException {
-		Project loadedProject = storageHandler.loadProject(projectName, targetContext);
+		Project loadedProject = XstreamSerializer.getInstance()
+				.loadProject(project.getDirectory(), InstrumentationRegistry.getTargetContext());
+
 		Scene preScene = project.getDefaultScene();
 		Scene postScene = loadedProject.getDefaultScene();
 
-		ArrayList<Sprite> preSpriteList = (ArrayList<Sprite>) project.getDefaultScene().getSpriteList();
-		ArrayList<Sprite> postSpriteList = (ArrayList<Sprite>) loadedProject.getDefaultScene().getSpriteList();
+		List<Sprite> preSpriteList = project.getDefaultScene().getSpriteList();
+		List<Sprite> postSpriteList = loadedProject.getDefaultScene().getSpriteList();
 
 		assertEquals(project.getName(), loadedProject.getName());
 		assertEquals(preScene.getName(), postScene.getName());
 
 		assertEquals(preSpriteList, postSpriteList);
-		assertEquals(expectedSizeOfLookList, postSpriteList.get(0).getLookList().size());
-		assertEquals(expectedSizeOfLookList, postSpriteList.get(1).getLookList().size());
-		assertEquals(expectedSizeOfLookList, postSpriteList.get(2).getLookList().size());
-		assertEquals(expectedSizeOfLookList, postSpriteList.get(3).getLookList().size());
-		assertEquals(expectedSizeOfLookList, postSpriteList.get(4).getLookList().size());
-		assertEquals(expectedSizeOfLookList, postSpriteList.get(5).getLookList().size());
-		assertEquals(expectedSizeOfLookList, postSpriteList.get(6).getLookList().size());
-		assertEquals(expectedSizeOfLookList, postSpriteList.get(7).getLookList().size());
-		assertEquals(expectedSizeOfLookList, postSpriteList.get(8).getLookList().size());
-		assertEquals(expectedSizeOfLookList, postSpriteList.get(9).getLookList().size());
-		assertEquals(expectedSizeOfLookList, postSpriteList.get(10).getLookList().size());
-		assertEquals(expectedSizeOfLookList, postSpriteList.get(11).getLookList().size());
+
+		assertEquals(1, postSpriteList.get(0).getLookList().size());
+		assertEquals(1, postSpriteList.get(1).getLookList().size());
+		assertEquals(1, postSpriteList.get(2).getLookList().size());
+		assertEquals(1, postSpriteList.get(3).getLookList().size());
+		assertEquals(1, postSpriteList.get(4).getLookList().size());
+		assertEquals(1, postSpriteList.get(5).getLookList().size());
+		assertEquals(1, postSpriteList.get(6).getLookList().size());
+		assertEquals(1, postSpriteList.get(7).getLookList().size());
+		assertEquals(1, postSpriteList.get(8).getLookList().size());
+		assertEquals(1, postSpriteList.get(9).getLookList().size());
+		assertEquals(1, postSpriteList.get(10).getLookList().size());
+		assertEquals(1, postSpriteList.get(11).getLookList().size());
 	}
 }

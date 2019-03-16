@@ -42,7 +42,6 @@ import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
-import org.catrobat.catroid.utils.PathBuilder;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.After;
@@ -67,6 +66,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
@@ -106,7 +106,7 @@ public class PocketPaintNewSpriteIntentTest {
 		Intents.release();
 		baseActivityTestRule.finishActivity();
 		try {
-			StorageOperations.deleteDir(new File(PathBuilder.buildProjectPath(projectName)));
+			StorageOperations.deleteDir(new File(DEFAULT_ROOT_DIRECTORY, projectName));
 		} catch (IOException e) {
 			Log.d(getClass().getSimpleName(), "Cannot delete test project in tear down.");
 		}

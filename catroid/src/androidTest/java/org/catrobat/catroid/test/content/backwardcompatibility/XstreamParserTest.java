@@ -43,7 +43,6 @@ import java.io.InputStream;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 
-import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
@@ -66,10 +65,10 @@ public class XstreamParserTest {
 
 	private void testLoadProjectWithoutScenes(String projectName, String assetName) throws IOException, LoadingProjectException {
 		copyProjectFromAssets(assetName, projectName);
-		projectDir = new File(new File(DEFAULT_ROOT_DIRECTORY, projectName), CODE_XML_FILE_NAME);
+		projectDir = new File(DEFAULT_ROOT_DIRECTORY, projectName);
 
 		Project project = XstreamSerializer.getInstance()
-				.loadProject(projectName, InstrumentationRegistry.getTargetContext());
+				.loadProject(projectDir, InstrumentationRegistry.getTargetContext());
 
 		assertNotNull(project);
 
@@ -119,10 +118,10 @@ public class XstreamParserTest {
 		String assetName = "TestUserDataConversion0999To09991.catrobat";
 
 		copyProjectFromAssets(assetName, projectName);
-		projectDir = new File(new File(DEFAULT_ROOT_DIRECTORY, projectName), CODE_XML_FILE_NAME);
+		projectDir = new File(DEFAULT_ROOT_DIRECTORY, projectName);
 
 		Project project = XstreamSerializer.getInstance()
-				.loadProject(projectName, InstrumentationRegistry.getTargetContext());
+				.loadProject(projectDir, InstrumentationRegistry.getTargetContext());
 
 		assertNotNull(project);
 
