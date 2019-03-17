@@ -54,7 +54,7 @@ import static org.hamcrest.Matchers.is;
 public class FormulaTest {
 
 	@Test
-	public void testRequiredRessources() {
+	public void testRequiredResources() {
 		Formula formula0 = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.FACE_DETECTED.name(), null));
 		Brick.ResourcesSet resourcesSet = new Brick.ResourcesSet();
 		formula0.addRequiredResources(resourcesSet);
@@ -80,25 +80,25 @@ public class FormulaTest {
 		simpleFormula.addRequiredResources(resourcesSet);
 		assertThat(resourcesSet, is(empty()));
 
-		Formula formulaWithRessourceLeft = new Formula(new FormulaElement(ElementType.OPERATOR, Operators.PLUS.name(),
+		Formula formulaWithResourceLeft = new Formula(new FormulaElement(ElementType.OPERATOR, Operators.PLUS.name(),
 				null, new FormulaElement(ElementType.SENSOR, Sensors.FACE_Y_POSITION.name(), null), new FormulaElement(
 				ElementType.NUMBER, Double.toString(96d), null)));
 		resourcesSet = new Brick.ResourcesSet();
-		formulaWithRessourceLeft.addRequiredResources(resourcesSet);
+		formulaWithResourceLeft.addRequiredResources(resourcesSet);
 		assertTrue(resourcesSet.contains(Brick.FACE_DETECTION));
 
-		Formula formulaWithRessourceRight = new Formula(new FormulaElement(ElementType.OPERATOR, Operators.PLUS.name(),
+		Formula formulaWithResourceRight = new Formula(new FormulaElement(ElementType.OPERATOR, Operators.PLUS.name(),
 				null, new FormulaElement(ElementType.NUMBER, Double.toString(96d), null), new FormulaElement(
 				ElementType.SENSOR, Sensors.FACE_X_POSITION.name(), null)));
 		resourcesSet = new Brick.ResourcesSet();
-		formulaWithRessourceRight.addRequiredResources(resourcesSet);
+		formulaWithResourceRight.addRequiredResources(resourcesSet);
 		assertTrue(resourcesSet.contains(Brick.FACE_DETECTION));
 
-		Formula formulaSameRessourceTwice = new Formula(new FormulaElement(ElementType.OPERATOR, Operators.PLUS.name(),
+		Formula formulaSameResourceTwice = new Formula(new FormulaElement(ElementType.OPERATOR, Operators.PLUS.name(),
 				null, new FormulaElement(ElementType.SENSOR, Sensors.FACE_DETECTED.name(), null), new FormulaElement(
 				ElementType.SENSOR, Sensors.FACE_SIZE.name(), null)));
 		resourcesSet = new Brick.ResourcesSet();
-		formulaSameRessourceTwice.addRequiredResources(resourcesSet);
+		formulaSameResourceTwice.addRequiredResources(resourcesSet);
 		assertTrue(resourcesSet.contains(Brick.FACE_DETECTION));
 	}
 
@@ -179,17 +179,24 @@ public class FormulaTest {
 		FormulaElement worldStringFormulaElement = new FormulaElement(ElementType.STRING, "world", null);
 		FormulaElement joinFunctionFormulaElement = new FormulaElement(ElementType.FUNCTION,
 				Functions.JOIN.name(), null, helloStringFormulaElement, worldStringFormulaElement);
-
-		Formula joinFormular = new Formula(joinFunctionFormulaElement);
-		String computeDialogResult = joinFormular.getResultForComputeDialog(null);
+		Formula joinFormula = new Formula(joinFunctionFormulaElement);
+		String computeDialogResult = joinFormula.getResultForComputeDialog(null);
 		assertEquals("helloworld", computeDialogResult);
 
 		FormulaElement indexFormulaElement = new FormulaElement(ElementType.NUMBER, "1", null);
 		FormulaElement letterFunctionFormulaElement = new FormulaElement(ElementType.FUNCTION,
 				Functions.LETTER.name(), null, indexFormulaElement, helloStringFormulaElement);
-
-		Formula letterFormular = new Formula(letterFunctionFormulaElement);
-		computeDialogResult = letterFormular.getResultForComputeDialog(null);
+		Formula letterFormula = new Formula(letterFunctionFormulaElement);
+		computeDialogResult = letterFormula.getResultForComputeDialog(null);
 		assertEquals("h", computeDialogResult);
+
+		FormulaElement regexStringFormulaElement = new FormulaElement(ElementType.STRING, " an? ([^ .]+)", null);
+		FormulaElement iamanelephantStringFormulaElement = new FormulaElement(ElementType.STRING, "I am an elephant.",
+				null);
+		FormulaElement regexFunctionFormulaElement = new FormulaElement(ElementType.FUNCTION,
+				Functions.REGEX.name(), null, regexStringFormulaElement, iamanelephantStringFormulaElement);
+		Formula regexFormula = new Formula(regexFunctionFormulaElement);
+		computeDialogResult = regexFormula.getResultForComputeDialog(null);
+		assertEquals("elephant", computeDialogResult);
 	}
 }

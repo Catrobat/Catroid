@@ -41,8 +41,9 @@ public class ProjectUnzipAndImportTask extends AsyncTask<File, Boolean, Boolean>
 
 	private WeakReference<ProjectUnzipAndImportListener> weakListenerReference;
 
-	public ProjectUnzipAndImportTask(ProjectUnzipAndImportListener projectUnzipAndImportListener) {
+	public ProjectUnzipAndImportTask setListener(ProjectUnzipAndImportListener projectUnzipAndImportListener) {
 		weakListenerReference = new WeakReference<>(projectUnzipAndImportListener);
+		return this;
 	}
 
 	public static boolean task(File... files) {
@@ -74,6 +75,9 @@ public class ProjectUnzipAndImportTask extends AsyncTask<File, Boolean, Boolean>
 
 	@Override
 	protected void onPostExecute(Boolean success) {
+		if (weakListenerReference == null) {
+			return;
+		}
 		ProjectUnzipAndImportListener listener = weakListenerReference.get();
 		if (listener != null) {
 			listener.onImportFinished(success);

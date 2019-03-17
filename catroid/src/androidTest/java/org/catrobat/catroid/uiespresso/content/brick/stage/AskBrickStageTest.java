@@ -37,7 +37,6 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.AskBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.uiespresso.stage.utils.ScriptEvaluationGateBrick;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
@@ -117,9 +116,8 @@ public class AskBrickStageTest {
 		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite1);
 
-		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
 		userVariable = new UserVariable(userVariableName);
-		dataContainer.addUserVariable(userVariable);
+		project.addUserVariable(userVariable);
 
 		firstBrickInScript = ScriptEvaluationGateBrick.appendToScript(sprite1StartScript);
 		Formula questionFormula = new Formula(

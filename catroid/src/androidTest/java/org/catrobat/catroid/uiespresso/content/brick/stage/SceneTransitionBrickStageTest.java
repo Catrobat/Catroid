@@ -79,10 +79,10 @@ public class SceneTransitionBrickStageTest {
 		Scene secondScene = new Scene("Scene 2", project);
 
 		firstVariable = new UserVariable("firstVar");
-		firstScene.getDataContainer().addUserVariable(firstVariable);
+		project.addUserVariable(firstVariable);
 
 		secondVariable = new UserVariable("secondVar");
-		secondScene.getDataContainer().addUserVariable(secondVariable);
+		project.addUserVariable(secondVariable);
 
 		Sprite firstBackground = firstScene.getBackgroundSprite();
 		Script firstStartScript = new StartScript();
@@ -108,8 +108,8 @@ public class SceneTransitionBrickStageTest {
 
 		Formula secondStartScriptFormula = new Formula(
 				new FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.PLUS.name(), null,
-					new FormulaElement(FormulaElement.ElementType.NUMBER, "3", null),
-					new FormulaElement(FormulaElement.ElementType.USER_VARIABLE, firstVariable.getName(), null)));
+						new FormulaElement(FormulaElement.ElementType.NUMBER, "3", null),
+						new FormulaElement(FormulaElement.ElementType.USER_VARIABLE, firstVariable.getName(), null)));
 
 		secondStartScript.addBrick(new SetVariableBrick(secondStartScriptFormula, secondVariable));
 		secondStartScript.addBrick(new SceneTransitionBrick(firstScene.getName()));

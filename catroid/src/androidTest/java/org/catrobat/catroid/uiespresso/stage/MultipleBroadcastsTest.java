@@ -32,7 +32,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.uiespresso.stage.utils.StageTestUtils;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
@@ -55,7 +54,6 @@ public class MultipleBroadcastsTest {
 	private static final String BROADCAST_MESSAGE_1 = "message1";
 	private static final int[] VALUES = new int[] {30, 60, -30, -60};
 	private Project project;
-	private DataContainer dataContainer;
 	private ArrayList<UserVariable> userVariables;
 
 	@Rule
@@ -65,13 +63,12 @@ public class MultipleBroadcastsTest {
 	@Before
 	public void setUp() throws Exception {
 		project = UiTestUtils.createEmptyProject("test");
-		dataContainer = project.getDefaultScene().getDataContainer();
 		userVariables = new ArrayList<>();
 		for (int i = 0; i < VALUES.length; i++) {
 			Sprite sprite = new SingleSprite("sprite" + i);
 			project.getDefaultScene().addSprite(sprite);
 			UserVariable userVariable = new UserVariable("var" + i);
-			dataContainer.addUserVariable(userVariable);
+			project.addUserVariable(userVariable);
 			Script sendBroadcastScript = new StartScript();
 			sprite.addScript(sendBroadcastScript);
 			sendBroadcastScript.addBrick(new BroadcastBrick(BROADCAST_MESSAGE_1));

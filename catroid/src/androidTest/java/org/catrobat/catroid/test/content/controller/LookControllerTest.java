@@ -52,7 +52,6 @@ import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileDoesN
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileDoesNotExistInDirectory;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileExists;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileExistsInDirectory;
-import static org.catrobat.catroid.utils.PathBuilder.buildProjectPath;
 
 @RunWith(AndroidJUnit4.class)
 public class LookControllerTest {
@@ -171,9 +170,8 @@ public class LookControllerTest {
 	}
 
 	private void deleteProject() throws IOException {
-		File projectDir = new File(buildProjectPath(project.getName()));
-		if (projectDir.exists()) {
-			StorageOperations.deleteDir(projectDir);
+		if (project.getDirectory().exists()) {
+			StorageOperations.deleteDir(project.getDirectory());
 		}
 	}
 }

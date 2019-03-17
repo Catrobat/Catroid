@@ -217,8 +217,8 @@ public class BrickCloneTest {
 		project.getDefaultScene().addSprite(sprite);
 		StartScript script = new StartScript();
 		sprite.addScript(script);
-		project.getDefaultScene().getDataContainer().addUserVariable(sprite, new UserVariable(VARIABLE_NAME));
-		UserVariable spriteVariable = project.getDefaultScene().getDataContainer().getUserVariable(sprite, VARIABLE_NAME);
+		sprite.addUserVariable(new UserVariable(VARIABLE_NAME));
+		UserVariable spriteVariable = sprite.getUserVariable(VARIABLE_NAME);
 		Formula formula = new Formula(new FormulaElement(ElementType.USER_VARIABLE, VARIABLE_NAME, null));
 
 		// create brick - expects:
@@ -228,13 +228,11 @@ public class BrickCloneTest {
 
 		script.addBrick(toBeTestedBrick);
 
-		Sprite clonedSprite = new SpriteController().copy(sprite,
-				project.getDefaultScene(),
-				project.getDefaultScene());
+		Sprite clonedSprite = new SpriteController().copy(sprite, project, project.getDefaultScene());
 
 		@SuppressWarnings("unchecked")
 		T clonedBrick = (T) clonedSprite.getScript(0).getBrick(0);
-		UserVariable clonedVariable = project.getDefaultScene().getDataContainer().getUserVariable(clonedSprite, VARIABLE_NAME);
+		UserVariable clonedVariable = clonedSprite.getUserVariable(VARIABLE_NAME);
 		UserVariable clonedVariableFromBrick = ((UserVariableBrick) clonedBrick).getUserVariable();
 
 		assertNotNull(clonedVariable);

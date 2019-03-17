@@ -86,4 +86,23 @@ public class UserVariable implements Serializable, UserData {
 	public void reset() {
 		value = 0d;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!getClass().equals(obj.getClass())) {
+			return false;
+		}
+		return ((UserVariable) obj).name.equals(name);
+	}
+
+	@Override
+	public int hashCode() {
+		return name.hashCode();
+	}
 }

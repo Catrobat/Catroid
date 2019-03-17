@@ -98,6 +98,7 @@ pipeline {
                                 // Build the flavors so that they can be installed next independently of older versions.
                                 sh "./gradlew ${useWebTestParameter()} -Pindependent='#$env.BUILD_NUMBER $env.BRANCH_NAME' assembleCatroidDebug ${allFlavoursParameters()}"
 
+                                renameApks("${env.BRANCH_NAME}-${env.BUILD_NUMBER}")
                                 archiveArtifacts '**/*.apk'
                             }
                         }
@@ -109,9 +110,10 @@ pipeline {
 
                             post {
                                 always {
-                                    pmd         canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "catroid/build/reports/pmd.xml",        unHealthy: '', unstableTotalAll: '0'
-                                    checkstyle  canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "catroid/build/reports/checkstyle.xml", unHealthy: '', unstableTotalAll: '0'
-                                    androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "catroid/build/reports/lint*.xml",      unHealthy: '', unstableTotalAll: '0'
+                                    recordIssues aggregatingResults: true, enabledForFailure: true, qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]],
+                                                 tools: [androidLintParser(pattern: 'catroid/build/reports/lint*.xml'),
+                                                         checkStyle(pattern: 'catroid/build/reports/checkstyle.xml'),
+                                                         pmdParser(pattern: 'catroid/build/reports/pmd.xml')]
                                 }
                             }
                         }
@@ -138,6 +140,20 @@ pipeline {
                             post {
                                 always {
                                     postEmulator 'instrumented_unit'
+                                }
+                            }
+                        }
+
+                        stage('Legacy Tests') {
+                            steps {
+                                sh '''./gradlew -PenableCoverage -PlogcatFile=legacy_logcat.txt -Pemulator=android19 \
+                                            startEmulator createCatroidDebugAndroidTestCoverageReport \
+                                            -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.uiespresso.testsuites.ApiLevel19RegressionTestsSuite'''
+                            }
+
+                            post {
+                                always {
+                                    postEmulator 'legacy'
                                 }
                             }
                         }

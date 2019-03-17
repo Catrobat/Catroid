@@ -87,7 +87,6 @@ public class MediaDownloadService extends IntentService {
 	}
 
 	private void showToast(final int messageId, boolean error) {
-
 		if (error) {
 			handler.post(new Runnable() {
 

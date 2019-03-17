@@ -34,7 +34,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -59,8 +58,7 @@ public class SetBackgroundByIndexBrickTest {
 		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
-		dataContainer.addUserVariable(sprite, new UserVariable(localUserVariableBackgroundIndex, backgroundIndex));
+		sprite.addUserVariable(new UserVariable(localUserVariableBackgroundIndex, backgroundIndex));
 
 		File imageFile = new File("");
 		File imageFile2 = new File("");

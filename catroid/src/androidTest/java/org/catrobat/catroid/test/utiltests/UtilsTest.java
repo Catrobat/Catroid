@@ -22,165 +22,28 @@
  */
 package org.catrobat.catroid.test.utiltests;
 
-import android.os.SystemClock;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.DefaultProjectHandler;
-import org.catrobat.catroid.common.FlavoredConstants;
-import org.catrobat.catroid.common.ScreenValues;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.SingleSprite;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.XmlHeader;
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.HideBrick;
-import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.stage.ShowBubbleActor;
-import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.Utils;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 public class UtilsTest {
-	private final String testFileContent = "Hello, this is a Test-String";
-	private static final String MD5_EMPTY = "D41D8CD98F00B204E9800998ECF8427E";
-	private static final String MD5_CATROID = "4F982D927F4784F69AD6D6AF38FD96AD";
-	private static final String MD5_HELLO_WORLD = "ED076287532E86365E841E92BFC50D8C";
-	private static final String NEW_PROGRAM_NAME = "new name";
-	private File testFile;
-
-	private Project defaultProject;
-
-	@Before
-	public void setUp() throws Exception {
-		testFile = File.createTempFile("testCopyFiles", ".txt");
-		OutputStream outputStream = new FileOutputStream(testFile);
-		outputStream.write(testFileContent.getBytes());
-		outputStream.flush();
-		outputStream.close();
-	}
-
-	@After
-	public void tearDown() throws Exception {
-		if (testFile != null && testFile.exists()) {
-			testFile.delete();
-		}
-
-		TestUtils.deleteProjects(NEW_PROGRAM_NAME);
-	}
-
-	@Test
-	public void testMD5CheckSumOfFile() throws IOException {
-
-		PrintWriter printWriter = null;
-
-		File tempDir = new File(Constants.TMP_PATH);
-		tempDir.mkdirs();
-
-		File md5TestFile = new File(PathBuilder.buildPath(Constants.TMP_PATH, "catroid.txt"));
-
-		if (md5TestFile.exists()) {
-			md5TestFile.delete();
-		}
-
-		md5TestFile.createNewFile();
-		assertEquals(MD5_EMPTY.toLowerCase(Locale.US), Utils.md5Checksum(md5TestFile));
-
-		printWriter = new PrintWriter(md5TestFile);
-		printWriter.print("catroid");
-		printWriter.close();
-
-		assertEquals(MD5_CATROID.toLowerCase(Locale.US), Utils.md5Checksum(md5TestFile));
-
-		StorageOperations.deleteDir(tempDir);
-	}
-
-	@Test
-	public void testMD5CheckSumOfString() {
-		assertEquals(MD5_CATROID.toLowerCase(Locale.US), Utils.md5Checksum("catroid"));
-		assertEquals(MD5_EMPTY.toLowerCase(Locale.US), Utils.md5Checksum(""));
-		assertEquals(MD5_HELLO_WORLD.toLowerCase(Locale.US), Utils.md5Checksum("Hello World!"));
-	}
-
-	@Test
-	public void testBuildPath() {
-		String first = "/abc/abc";
-		String second = "/def/def/";
-		String result = "/abc/abc/def/def";
-		assertEquals(PathBuilder.buildPath(first, second), result);
-
-		first = "/abc/abc";
-		second = "def/def/";
-		result = "/abc/abc/def/def";
-		assertEquals(PathBuilder.buildPath(first, second), result);
-
-		first = "/abc/abc/";
-		second = "/def/def/";
-		result = "/abc/abc/def/def";
-		assertEquals(PathBuilder.buildPath(first, second), result);
-
-		first = "/abc/abc/";
-		second = "def/def/";
-		result = "/abc/abc/def/def";
-		assertEquals(PathBuilder.buildPath(first, second), result);
-	}
-
-	@Test
-	public void testBuildProjectPath() {
-		assertTrue(Utils.isExternalStorageAvailable());
-		String projectName = "test?Projekt\"1";
-		String expectedPath = FlavoredConstants.DEFAULT_ROOT_DIRECTORY.getAbsolutePath() + "/test%3FProjekt%221";
-		assertEquals(expectedPath, PathBuilder.buildProjectPath(projectName));
-	}
-
-	@Test
-	public void testCompareProjectToDefaultProject() throws IOException, IllegalArgumentException {
-		ScreenValues.SCREEN_WIDTH = 480;
-		ScreenValues.SCREEN_HEIGHT = 800;
-
-		defaultProject = DefaultProjectHandler.createAndSaveDefaultProject(NEW_PROGRAM_NAME,
-				InstrumentationRegistry.getTargetContext());
-
-		assertTrue(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
-
-		addSpriteAndCompareToDefaultProject();
-		addScriptAndCompareToDefalutProject();
-		addBrickAndCompareToDefaultProject();
-		removeBrickAndCompareToDefaultProject();
-		removeScriptAndCompareToDefaultProject();
-		removeSpriteAndCompareToDefaultProject();
-
-		SystemClock.sleep(1000);
-	}
 
 	@Test
 	public void testExtractRemixUrlsOfProgramHeaderUrlFieldContainingSingleAbsoluteUrl() {
 		final String expectedFirstProgramRemixUrl = "https://share.catrob.at/pocketcode/program/16267";
-		final String remixUrlsString = expectedFirstProgramRemixUrl;
 
-		List<String> result = Utils.extractRemixUrlsFromString(remixUrlsString);
+		List<String> result = Utils.extractRemixUrlsFromString(expectedFirstProgramRemixUrl);
 		assertEquals(1, result.size());
 		assertEquals(expectedFirstProgramRemixUrl, result.get(0));
 	}
@@ -188,9 +51,8 @@ public class UtilsTest {
 	@Test
 	public void testExtractRemixUrlsOfProgramHeaderUrlFieldContainingSingleRelativeUrl() {
 		final String expectedFirstProgramRemixUrl = "/pocketcode/program/3570";
-		final String remixUrlsString = expectedFirstProgramRemixUrl;
 
-		List<String> result = Utils.extractRemixUrlsFromString(remixUrlsString);
+		List<String> result = Utils.extractRemixUrlsFromString(expectedFirstProgramRemixUrl);
 		assertEquals(1, result.size());
 		assertEquals(expectedFirstProgramRemixUrl, result.get(0));
 	}
@@ -201,11 +63,11 @@ public class UtilsTest {
 		final String expectedSecondProgramRemixUrl = "https://scratch.mit.edu/projects/110380057/";
 
 		final XmlHeader headerOfFirstProgram = new XmlHeader();
-		headerOfFirstProgram.setProgramName("Catrobat program");
+		headerOfFirstProgram.setProjectName("Catrobat program");
 		headerOfFirstProgram.setRemixParentsUrlString(expectedFirstProgramRemixUrl);
 
 		final XmlHeader headerOfSecondProgram = new XmlHeader();
-		headerOfSecondProgram.setProgramName("Scratch program");
+		headerOfSecondProgram.setProjectName("Scratch program");
 		headerOfSecondProgram.setRemixParentsUrlString(expectedSecondProgramRemixUrl);
 
 		final String remixUrlsString = Utils.generateRemixUrlsStringForMergedProgram(headerOfFirstProgram,
@@ -222,11 +84,11 @@ public class UtilsTest {
 		final String expectedSecondProgramRemixUrl = "/pocketcode/program/3570";
 
 		final XmlHeader headerOfFirstProgram = new XmlHeader();
-		headerOfFirstProgram.setProgramName("Program A");
+		headerOfFirstProgram.setProjectName("Program A");
 		headerOfFirstProgram.setRemixParentsUrlString(expectedFirstProgramRemixUrl);
 
 		final XmlHeader headerOfSecondProgram = new XmlHeader();
-		headerOfSecondProgram.setProgramName("Program B");
+		headerOfSecondProgram.setProjectName("Program B");
 		headerOfSecondProgram.setRemixParentsUrlString(expectedSecondProgramRemixUrl);
 
 		final String remixUrlsString = Utils.generateRemixUrlsStringForMergedProgram(headerOfFirstProgram,
@@ -241,10 +103,10 @@ public class UtilsTest {
 	@Test
 	public void testExtractRemixUrlsOfMergedProgramHeaderUrlFieldContainingNoUrls() {
 		final XmlHeader headerOfFirstProgram = new XmlHeader();
-		headerOfFirstProgram.setProgramName("Program A");
+		headerOfFirstProgram.setProjectName("Program A");
 
 		final XmlHeader headerOfSecondProgram = new XmlHeader();
-		headerOfSecondProgram.setProgramName("Program B");
+		headerOfSecondProgram.setProjectName("Program B");
 
 		final String remixUrlsString = Utils.generateRemixUrlsStringForMergedProgram(headerOfFirstProgram,
 				headerOfSecondProgram);
@@ -259,11 +121,11 @@ public class UtilsTest {
 		final String expectedSecondProgramRemixUrl = "/pocketcode/program/3570";
 
 		final XmlHeader headerOfFirstProgram = new XmlHeader();
-		headerOfFirstProgram.setProgramName("My Scratch program");
+		headerOfFirstProgram.setProjectName("My Scratch program");
 		headerOfFirstProgram.setRemixParentsUrlString(expectedFirstProgramRemixUrl);
 
 		final XmlHeader headerOfSecondProgram = new XmlHeader();
-		headerOfSecondProgram.setProgramName("The Periodic Table");
+		headerOfSecondProgram.setProjectName("The Periodic Table");
 		headerOfSecondProgram.setRemixParentsUrlString(expectedSecondProgramRemixUrl);
 
 		final String remixUrlsString = Utils.generateRemixUrlsStringForMergedProgram(headerOfFirstProgram,
@@ -283,33 +145,33 @@ public class UtilsTest {
 		final String expectedFourthProgramRemixUrl = "https://share.catrob.at/pocketcode/program/16267";
 
 		final XmlHeader headerOfFirstProgram = new XmlHeader();
-		headerOfFirstProgram.setProgramName("My first Scratch program");
+		headerOfFirstProgram.setProjectName("My first Scratch program");
 		headerOfFirstProgram.setRemixParentsUrlString(expectedFirstProgramRemixUrl);
 
 		final XmlHeader headerOfSecondProgram = new XmlHeader();
-		headerOfSecondProgram.setProgramName("The Periodic Table");
+		headerOfSecondProgram.setProjectName("The Periodic Table");
 		headerOfSecondProgram.setRemixParentsUrlString(expectedSecondProgramRemixUrl);
 
 		final String firstMergedRemixUrlsString = Utils.generateRemixUrlsStringForMergedProgram(headerOfFirstProgram,
 				headerOfSecondProgram);
 
 		final XmlHeader headerOfFirstMergedProgram = new XmlHeader();
-		headerOfFirstMergedProgram.setProgramName("First merged Catrobat program");
+		headerOfFirstMergedProgram.setProjectName("First merged Catrobat program");
 		headerOfFirstMergedProgram.setRemixParentsUrlString(firstMergedRemixUrlsString);
 
 		final XmlHeader headerOfThirdProgram = new XmlHeader();
-		headerOfThirdProgram.setProgramName("My second Scratch program");
+		headerOfThirdProgram.setProjectName("My second Scratch program");
 		headerOfThirdProgram.setRemixParentsUrlString(expectedThirdProgramRemixUrl);
 
 		final String secondMergedRemixUrlsString = Utils.generateRemixUrlsStringForMergedProgram(headerOfFirstMergedProgram,
 				headerOfThirdProgram);
 
 		final XmlHeader headerOfSecondMergedProgram = new XmlHeader();
-		headerOfSecondMergedProgram.setProgramName("Second merged Catrobat program");
+		headerOfSecondMergedProgram.setProjectName("Second merged Catrobat program");
 		headerOfSecondMergedProgram.setRemixParentsUrlString(secondMergedRemixUrlsString);
 
 		final XmlHeader headerOfFourthProgram = new XmlHeader();
-		headerOfFourthProgram.setProgramName("My third Catrobat program");
+		headerOfFourthProgram.setProjectName("My third Catrobat program");
 		headerOfFourthProgram.setRemixParentsUrlString(expectedFourthProgramRemixUrl);
 
 		final String finalMergedRemixUrlsString = Utils.generateRemixUrlsStringForMergedProgram(headerOfSecondMergedProgram,
@@ -329,31 +191,31 @@ public class UtilsTest {
 		final String expectedFourthProgramRemixUrl = "https://share.catrob.at/pocketcode/program/16267";
 
 		final XmlHeader headerOfFirstProgram = new XmlHeader();
-		headerOfFirstProgram.setProgramName("Program A");
+		headerOfFirstProgram.setProjectName("Program A");
 
 		final XmlHeader headerOfSecondProgram = new XmlHeader();
-		headerOfSecondProgram.setProgramName("Program B");
+		headerOfSecondProgram.setProjectName("Program B");
 		headerOfSecondProgram.setRemixParentsUrlString(expectedSecondProgramRemixUrl);
 
 		final String firstMergedRemixUrlsString = Utils.generateRemixUrlsStringForMergedProgram(headerOfFirstProgram,
 				headerOfSecondProgram);
 
 		final XmlHeader headerOfFirstMergedProgram = new XmlHeader();
-		headerOfFirstMergedProgram.setProgramName("First merged program");
+		headerOfFirstMergedProgram.setProjectName("First merged program");
 		headerOfFirstMergedProgram.setRemixParentsUrlString(firstMergedRemixUrlsString);
 
 		final XmlHeader headerOfThirdProgram = new XmlHeader();
-		headerOfThirdProgram.setProgramName("Program C");
+		headerOfThirdProgram.setProjectName("Program C");
 
 		final String secondMergedRemixUrlsString = Utils.generateRemixUrlsStringForMergedProgram(headerOfFirstMergedProgram,
 				headerOfThirdProgram);
 
 		final XmlHeader headerOfSecondMergedProgram = new XmlHeader();
-		headerOfSecondMergedProgram.setProgramName("Second merged program");
+		headerOfSecondMergedProgram.setProjectName("Second merged program");
 		headerOfSecondMergedProgram.setRemixParentsUrlString(secondMergedRemixUrlsString);
 
 		final XmlHeader headerOfFourthProgram = new XmlHeader();
-		headerOfFourthProgram.setProgramName("Program D");
+		headerOfFourthProgram.setProjectName("Program D");
 		headerOfFourthProgram.setRemixParentsUrlString(expectedFourthProgramRemixUrl);
 
 		final String finalMergedRemixUrlsString = Utils.generateRemixUrlsStringForMergedProgram(headerOfSecondMergedProgram,
@@ -363,65 +225,6 @@ public class UtilsTest {
 		assertEquals(2, result.size());
 		assertEquals(expectedSecondProgramRemixUrl, result.get(0));
 		assertEquals(expectedFourthProgramRemixUrl, result.get(1));
-	}
-
-	private void addSpriteAndCompareToDefaultProject() {
-		Sprite sprite = new SingleSprite("TestSprite");
-		defaultProject.getDefaultScene().addSprite(sprite);
-		assertFalse(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
-		defaultProject.getDefaultScene().removeSprite(sprite);
-		assertTrue(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
-	}
-
-	private void addScriptAndCompareToDefalutProject() {
-		Sprite catroidSprite = defaultProject.getDefaultScene().getSpriteList().get(1);
-		WhenScript whenScript = new WhenScript();
-		catroidSprite.addScript(whenScript);
-		assertFalse(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
-		catroidSprite.removeScript(whenScript);
-		assertTrue(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
-	}
-
-	private void addBrickAndCompareToDefaultProject() {
-		Sprite catroidSprite = defaultProject.getDefaultScene().getSpriteList().get(1);
-		Brick brick = new HideBrick();
-		Script catroidScript = catroidSprite.getScript(0);
-		catroidScript.addBrick(brick);
-		assertFalse(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
-		catroidScript.removeBrick(brick);
-		assertTrue(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
-	}
-
-	private void removeBrickAndCompareToDefaultProject() {
-		Script catroidScript = defaultProject.getDefaultScene().getSpriteList().get(1).getScript(0);
-		List<Brick> brickList = catroidScript.getBrickList();
-		Brick brick = brickList.get(brickList.size() - 1);
-		brickList.remove(brickList.size() - 1);
-		assertFalse(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
-
-		brickList.add(brick);
-		assertTrue(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
-	}
-
-	private void removeScriptAndCompareToDefaultProject() {
-		Script catroidScript = defaultProject.getDefaultScene().getSpriteList().get(1).getScript(0);
-		Sprite sprite = defaultProject.getDefaultScene().getSpriteList().get(1);
-		sprite.removeScript(catroidScript);
-		assertFalse(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
-
-		sprite.addScript(catroidScript);
-		assertTrue(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
-	}
-
-	private void removeSpriteAndCompareToDefaultProject() {
-		Sprite catroidSprite = defaultProject.getDefaultScene().getSpriteList().get(3);
-		int lastIndex = defaultProject.getDefaultScene().getSpriteList().size() - 1;
-		List<Sprite> spriteList = defaultProject.getDefaultScene().getSpriteList();
-		spriteList.remove(lastIndex);
-		assertFalse(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
-
-		spriteList.add(catroidSprite);
-		assertTrue(Utils.isDefaultProject(defaultProject, InstrumentationRegistry.getTargetContext()));
 	}
 
 	@Test

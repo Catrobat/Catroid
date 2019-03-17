@@ -537,6 +537,7 @@
 
     <!-- Details -->
     <string name="project_details">Last access: %s, size: %s</string>
+    <string name="last_access_today">today, %s</string>
     <string name="scene_details">Actors and objects: %d, looks: %d, sounds: %d</string>
     <string name="sprite_details">Bricks: %d, looks: %d, sounds: %d</string>
     <string name="look_details">Resolution: %s, size: %s</string>
@@ -954,7 +955,7 @@
     <string name="show_password">Show password</string>
     <string name="sign_in_error">Something went wrong during sign in.</string>
     <string name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>
-    <string name="error_facebook_session_expired">Session expired, please log in.</string>
+    <string name="error_session_expired">Session expired, please log in.</string>
     <string name="sign_in_with_facebook">Sign in with Facebook</string>
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="error_register_empty_username">Empty username</string>
@@ -1051,6 +1052,7 @@
     <string name="category_arduino">Arduino</string>
     <string name="category_cast">Chromecast</string>
     <string name="category_raspi">Raspberry Pi</string>
+    <string name="category_assertions">Testing</string>
     <!--  -->
 
     <!-- Motion bricks -->
@@ -1215,6 +1217,10 @@
     <string name="brick_clone_this">yourself</string>
     <string name="brick_when_cloned">When you start as a clone</string>
     <string name="brick_delete_this_clone">Delete this clone</string>
+
+    <string name="brick_assert_that">Assert:</string>
+    <string name="brick_is_equal_to">equal to expected:</string>
+
 
     <plurals name="time_plural">
         <item quantity="one">time</item>
@@ -1713,7 +1719,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_nothing_selected">Define input value</string>
     <string name="formula_editor_parse_fail_formula_too_long">Formula too long!</string>
     <string name="formula_editor_choose_object_variable">Properties of this actor or object</string>
-    <string name="formula_editor_existing_variable">Name already in use!</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
     <string name="formula_editor_function_sin">sinus</string>
@@ -1765,6 +1770,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_letter_parameter">(1,\'hello world\')</string>
     <string name="formula_editor_function_join">join</string>
     <string name="formula_editor_function_join_parameter">(\'hello\',\' world\')</string>
+    <string name="formula_editor_function_regex">regular expression</string>
+    <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino digital pin</string>
     <string name="formula_editor_function_arduino_read_pin_value_analog">arduino analog pin</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry pi pin</string>
@@ -1955,11 +1962,6 @@ needs read and write access to it. You can always change permissions through you
 
 
     <!-- Brick Data Editor Strings -->
-    <string name="add_text">Add text</string>
-    <string name="text_hint">Brick text</string>
-    <string name="add_variable">Add variable</string>
-    <string name="add_line_break">Add line break</string>
-    <string name="variable_hint">Variable name</string>
     <string name="brick_show_variable">Show variable</string>
     <string name="brick_hide_variable">Hide variable</string>
     <string name="brick_show_variable_position">at</string>
@@ -1970,10 +1972,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_show_variable_aligned_left">left</string>
     <string name="brick_show_variable_aligned_right">right</string>
     <!-- -->
-
-    <!-- User bricks strings -->
-    <string name="new_user_brick_variable">Variable</string>
-    <!--  -->
 
 
     <!-- Camera related strings -->

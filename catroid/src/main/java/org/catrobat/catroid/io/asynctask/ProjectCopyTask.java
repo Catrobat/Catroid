@@ -35,37 +35,35 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
-import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
-public class ProjectCopyTask extends AsyncTask<String, Void, Boolean> {
+public class ProjectCopyTask extends AsyncTask<Void, Void, Boolean> {
 
 	public static final String TAG = ProjectCopyTask.class.getSimpleName();
 
+	private File projectDir;
+	private String dstName;
+
 	private WeakReference<ProjectCopyListener> weakListenerReference;
 
-	public ProjectCopyTask(ProjectCopyListener listener) {
-		weakListenerReference = new WeakReference<>(listener);
+	public ProjectCopyTask(File projectDir, String dstName) {
+		this.projectDir = projectDir;
+		this.dstName = dstName;
 	}
 
-	public static boolean task(String srcName, String dstName) {
-		if (!FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).contains(srcName)) {
-			Log.e(TAG, "Cannot copy. Project " + srcName + " does not exist");
-			return false;
-		}
-		if (FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).contains(dstName)) {
-			Log.e(TAG, "Cannot copy. Project " + dstName + " already exist");
-			return false;
-		}
+	public ProjectCopyTask setListener(ProjectCopyListener listener) {
+		weakListenerReference = new WeakReference<>(listener);
+		return this;
+	}
 
-		File srcDir = new File(DEFAULT_ROOT_DIRECTORY, srcName);
-		File dstDir = new File(DEFAULT_ROOT_DIRECTORY, dstName);
+	public static boolean task(File srcDir, String dstName) {
+		File dstDir = new File(srcDir.getParentFile(), FileMetaDataExtractor.encodeSpecialCharsForFileSystem(dstName));
 
 		try {
 			StorageOperations.copyDir(srcDir, dstDir);
-			XstreamSerializer.getInstance().renameProject(new File(dstDir, CODE_XML_FILE_NAME), dstName);
+			XstreamSerializer.renameProject(new File(dstDir, CODE_XML_FILE_NAME), dstName);
 			return true;
 		} catch (IOException e) {
-			Log.e(TAG, "Something went wrong while copying project " + srcName + " to " + dstName, e);
+			Log.e(TAG, "Something went wrong while copying " + srcDir.getAbsolutePath() + " to " + dstName, e);
 			if (dstDir.isDirectory()) {
 				Log.e(TAG, "Folder exists, trying to delete folder.");
 				try {
@@ -79,12 +77,15 @@ public class ProjectCopyTask extends AsyncTask<String, Void, Boolean> {
 	}
 
 	@Override
-	protected Boolean doInBackground(String... strings) {
-		return task(strings[0], strings[1]);
+	protected Boolean doInBackground(Void... voids) {
+		return task(projectDir, dstName);
 	}
 
 	@Override
 	protected void onPostExecute(Boolean success) {
+		if (weakListenerReference == null) {
+			return;
+		}
 		ProjectCopyListener listener = weakListenerReference.get();
 		if (listener != null) {
 			listener.onCopyFinished(success);

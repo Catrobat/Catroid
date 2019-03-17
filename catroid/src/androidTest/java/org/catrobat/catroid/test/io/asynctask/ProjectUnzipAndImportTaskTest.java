@@ -26,8 +26,8 @@ package org.catrobat.catroid.test.io.asynctask;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.catrobat.catroid.content.backwardcompatibility.ProjectMetaDataParser;
 import org.catrobat.catroid.io.StorageOperations;
-import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.io.asynctask.ProjectUnzipAndImportTask;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
@@ -88,7 +88,7 @@ public class ProjectUnzipAndImportTaskTest {
 
 		assertThat(FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY), hasItem(AIR_FIGHT_0_5));
 		File xmlFile = new File(new File(DEFAULT_ROOT_DIRECTORY, AIR_FIGHT_0_5), CODE_XML_FILE_NAME);
-		assertEquals(AIR_FIGHT_0_5, XstreamSerializer.getInstance().getProjectName(xmlFile));
+		assertEquals(AIR_FIGHT_0_5, new ProjectMetaDataParser(xmlFile).getProjectMetaData().getName());
 	}
 
 	@Test
@@ -98,11 +98,11 @@ public class ProjectUnzipAndImportTaskTest {
 
 		assertThat(FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY), hasItem(AIR_FIGHT_0_5));
 		File xmlFile = new File(new File(DEFAULT_ROOT_DIRECTORY, AIR_FIGHT_0_5), CODE_XML_FILE_NAME);
-		assertEquals(AIR_FIGHT_0_5, XstreamSerializer.getInstance().getProjectName(xmlFile));
+		assertEquals(AIR_FIGHT_0_5, new ProjectMetaDataParser(xmlFile).getProjectMetaData().getName());
 
 		assertThat(FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY), hasItem(FALLING_BALLS));
 		xmlFile = new File(new File(DEFAULT_ROOT_DIRECTORY, FALLING_BALLS), CODE_XML_FILE_NAME);
-		assertEquals(FALLING_BALLS, XstreamSerializer.getInstance().getProjectName(xmlFile));
+		assertEquals(FALLING_BALLS, new ProjectMetaDataParser(xmlFile).getProjectMetaData().getName());
 	}
 
 	@Test
@@ -112,13 +112,13 @@ public class ProjectUnzipAndImportTaskTest {
 
 		assertThat(FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY), hasItem(AIR_FIGHT_0_5));
 		File xmlFile = new File(new File(DEFAULT_ROOT_DIRECTORY, AIR_FIGHT_0_5), CODE_XML_FILE_NAME);
-		assertEquals(AIR_FIGHT_0_5, XstreamSerializer.getInstance().getProjectName(xmlFile));
+		assertEquals(AIR_FIGHT_0_5, new ProjectMetaDataParser(xmlFile).getProjectMetaData().getName());
 
 		assertTrue(ProjectUnzipAndImportTask
 				.task(projectAirFightFile));
 
 		assertThat(FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY), hasItem(AIR_FIGHT_0_5_1));
 		xmlFile = new File(new File(DEFAULT_ROOT_DIRECTORY, AIR_FIGHT_0_5_1), CODE_XML_FILE_NAME);
-		assertEquals(AIR_FIGHT_0_5_1, XstreamSerializer.getInstance().getProjectName(xmlFile));
+		assertEquals(AIR_FIGHT_0_5_1, new ProjectMetaDataParser(xmlFile).getProjectMetaData().getName());
 	}
 }

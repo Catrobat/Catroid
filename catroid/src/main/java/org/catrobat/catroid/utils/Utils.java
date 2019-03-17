@@ -116,7 +116,7 @@ public final class Utils {
 	}
 
 	public static String generateRemixUrlsStringForMergedProgram(XmlHeader headerOfFirstProgram, XmlHeader headerOfSecondProgram) {
-		String escapedFirstProgramName = headerOfFirstProgram.getProgramName();
+		String escapedFirstProgramName = headerOfFirstProgram.getProjectName();
 		escapedFirstProgramName = escapedFirstProgramName.replace(Constants.REMIX_URL_PREFIX_INDICATOR,
 				Constants.REMIX_URL_PREFIX_REPLACE_INDICATOR);
 		escapedFirstProgramName = escapedFirstProgramName.replace(Constants.REMIX_URL_SUFIX_INDICATOR,
@@ -124,7 +124,7 @@ public final class Utils {
 		escapedFirstProgramName = escapedFirstProgramName.replace(Constants.REMIX_URL_SEPARATOR,
 				Constants.REMIX_URL_REPLACE_SEPARATOR);
 
-		String escapedSecondProgramName = headerOfSecondProgram.getProgramName();
+		String escapedSecondProgramName = headerOfSecondProgram.getProjectName();
 		escapedSecondProgramName = escapedSecondProgramName.replace(Constants.REMIX_URL_PREFIX_INDICATOR,
 				Constants.REMIX_URL_PREFIX_REPLACE_INDICATOR);
 		escapedSecondProgramName = escapedSecondProgramName.replace(Constants.REMIX_URL_SUFIX_INDICATOR,
@@ -382,7 +382,7 @@ public final class Utils {
 
 			String defaultProjectXml = XstreamSerializer.getInstance().getXmlAsStringFromProject(defaultProject);
 
-			StorageOperations.deleteDir(new File(PathBuilder.buildProjectPath(defaultProject.getName())));
+			StorageOperations.deleteDir(defaultProject.getDirectory());
 
 			StringFinder stringFinder = new StringFinder();
 
@@ -429,8 +429,7 @@ public final class Utils {
 			return true;
 		}
 
-		File projectDirectory = new File(PathBuilder.buildProjectPath(programName));
-		return projectDirectory.exists();
+		return new File(DEFAULT_ROOT_DIRECTORY, programName).isDirectory();
 	}
 
 	public static void invalidateLoginTokenIfUserRestricted(Context context) {

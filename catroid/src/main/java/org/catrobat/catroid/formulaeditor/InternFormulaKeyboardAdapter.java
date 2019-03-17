@@ -137,6 +137,9 @@ public class InternFormulaKeyboardAdapter {
 			case R.string.formula_editor_function_join:
 				return buildDoubleParameterFunction(Functions.JOIN, InternTokenType.STRING, "hello",
 						InternTokenType.STRING, " world");
+			case R.string.formula_editor_function_regex:
+				return buildDoubleParameterFunction(Functions.REGEX, InternTokenType.STRING, " an? ([^ .]+)",
+						InternTokenType.STRING, "I am a panda.");
 			case R.string.formula_editor_function_list_item:
 				return buildDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.NUMBER, "1",
 						InternTokenType.USER_LIST, "list name");

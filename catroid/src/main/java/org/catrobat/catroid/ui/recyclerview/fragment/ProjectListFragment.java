@@ -29,12 +29,12 @@ import android.os.Bundle;
 import android.support.annotation.PluralsRes;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.util.Pair;
 import android.view.MenuItem;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ProjectData;
+import org.catrobat.catroid.content.backwardcompatibility.ProjectMetaDataParser;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.asynctask.ProjectCopyTask;
 import org.catrobat.catroid.io.asynctask.ProjectExportTask;
@@ -48,10 +48,8 @@ import org.catrobat.catroid.ui.filepicker.FilePickerActivity;
 import org.catrobat.catroid.ui.fragment.ProjectDetailsFragment;
 import org.catrobat.catroid.ui.recyclerview.activity.ProjectUploadActivity;
 import org.catrobat.catroid.ui.recyclerview.adapter.ProjectAdapter;
-import org.catrobat.catroid.ui.recyclerview.controller.ProjectController;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
-import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.ToastUtil;
 
@@ -84,8 +82,6 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 	private static final int PERMISSIONS_REQUEST_EXPORT_TO_EXTERNAL_STORAGE = 802;
 
 	private static final int REQUEST_IMPORT_PROJECT = 7;
-
-	private ProjectController projectController = new ProjectController();
 
 	private ProjectUnzipAndImportTask.ProjectUnzipAndImportListener projectUnzipAndImportListener =
 			new ProjectUnzipAndImportTask.ProjectUnzipAndImportListener() {
@@ -129,15 +125,25 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 	private List<ProjectData> getItemList() {
 		List<ProjectData> items = new ArrayList<>();
 
-		for (String projectName : FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY)) {
-			File codeFile = new File(projectName, CODE_XML_FILE_NAME);
-			items.add(new ProjectData(projectName, codeFile.lastModified()));
+		for (File projectDir : DEFAULT_ROOT_DIRECTORY.listFiles()) {
+			File xmlFile = new File(projectDir, CODE_XML_FILE_NAME);
+			if (!xmlFile.exists()) {
+				continue;
+			}
+
+			ProjectMetaDataParser metaDataParser = new ProjectMetaDataParser(xmlFile);
+
+			try {
+				items.add(metaDataParser.getProjectMetaData());
+			} catch (IOException e) {
+				Log.e(TAG, "Well, that's awkward.", e);
+			}
 		}
 
 		Collections.sort(items, new Comparator<ProjectData>() {
 			@Override
 			public int compare(ProjectData project1, ProjectData project2) {
-				return Long.valueOf(project2.lastUsed).compareTo(project1.lastUsed);
+				return Long.compare(project2.getLastUsed(), project1.getLastUsed());
 			}
 		});
 
@@ -197,12 +203,14 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 			}
 			File src = new File(data.getData().getPath());
 			if (src.isDirectory()) {
-				new ProjectImportTask(projectImportListener)
+				new ProjectImportTask()
+						.setListener(projectImportListener)
 						.execute(src);
 			} else {
 				File projectFile = StorageOperations
 						.copyUriToDir(getContext().getContentResolver(), data.getData(), CACHE_DIR, CACHED_PROJECT_ZIP_FILE_NAME);
-				new ProjectUnzipAndImportTask(projectUnzipAndImportListener)
+				new ProjectUnzipAndImportTask()
+						.setListener(projectUnzipAndImportListener)
 						.execute(projectFile);
 			}
 			setShowProgressBar(true);
@@ -240,8 +248,9 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 		setShowProgressBar(true);
 
 		String name = uniqueNameProvider.getUniqueNameInNameables(selectedItems.get(0).getName(), adapter.getItems());
-		new ProjectCopyTask(this)
-				.execute(selectedItems.get(0).getName(), name);
+		new ProjectCopyTask(selectedItems.get(0).getDirectory(), name)
+				.setListener(this)
+				.execute();
 	}
 
 	@Override
@@ -256,7 +265,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 
 		for (ProjectData item : selectedItems) {
 			try {
-				projectController.delete(item);
+				StorageOperations.deleteDir(item.getDirectory());
 			} catch (IOException e) {
 				Log.e(TAG, Log.getStackTraceString(e));
 			}
@@ -297,11 +306,12 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 	public void renameItem(ProjectData item, String name) {
 		finishActionMode();
 
-		if (!name.equals(item.projectName)) {
+		if (!name.equals(item.getName())) {
 			setShowProgressBar(true);
 
-			new ProjectRenameTask(this)
-					.execute(item.projectName, name);
+			new ProjectRenameTask(item.getDirectory(), name)
+					.setListener(this)
+					.execute();
 		}
 	}
 
@@ -359,8 +369,9 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 	public void onItemClick(ProjectData item) {
 		if (actionModeType == NONE) {
 			setShowProgressBar(true);
-			new ProjectLoadTask(getContext(), this)
-					.execute(item.projectName);
+			new ProjectLoadTask(item.getDirectory(), getContext())
+					.setListener(this)
+					.execute();
 		}
 	}
 
@@ -375,7 +386,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 				getString(R.string.save_to_external_storage_button)
 		};
 		new AlertDialog.Builder(getContext())
-				.setTitle(item.projectName)
+				.setTitle(item.getName())
 				.setItems(items, new DialogInterface.OnClickListener() {
 
 					@Override
@@ -402,7 +413,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 								break;
 							case 4:
 								startActivity(new Intent(getActivity(), ProjectUploadActivity.class)
-										.putExtra(ProjectUploadActivity.PROJECT_NAME, item.getName()));
+										.putExtra(ProjectUploadActivity.PROJECT_DIR, item.getDirectory()));
 								break;
 							case 5:
 								exportProject(item);
@@ -422,13 +433,11 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 
 			@Override
 			public void task() {
-				int notificationID = StatusBarNotificationManager.getInstance()
-						.createSaveProjectToExternalMemoryNotification(getContext(), item.projectName);
+				int notificationId = StatusBarNotificationManager.getInstance()
+						.createSaveProjectToExternalMemoryNotification(getContext(), item.getName());
 
-				Pair projectExportInfo = new Pair<>(item.projectName, notificationID);
-
-				new ProjectExportTask()
-						.execute(projectExportInfo);
+				new ProjectExportTask(item.getDirectory(), notificationId)
+						.execute();
 			}
 		}.execute(getActivity());
 	}

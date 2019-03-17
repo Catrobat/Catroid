@@ -36,7 +36,6 @@ import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -64,9 +63,8 @@ public class ParserTestStringFunctions {
 		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
 
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
-		dataContainer.addUserVariable(new UserVariable(PROJECT_USER_VARIABLE_NAME, USER_VARIABLE_1_VALUE_TYPE_DOUBLE));
-		dataContainer.addUserVariable(new UserVariable(PROJECT_USER_VARIABLE_NAME2, USER_VARIABLE_2_VALUE_TYPE_STRING));
+		project.addUserVariable(new UserVariable(PROJECT_USER_VARIABLE_NAME, USER_VARIABLE_1_VALUE_TYPE_DOUBLE));
+		project.addUserVariable(new UserVariable(PROJECT_USER_VARIABLE_NAME2, USER_VARIABLE_2_VALUE_TYPE_STRING));
 	}
 
 	@Test
@@ -186,6 +184,58 @@ public class ParserTestStringFunctions {
 				InternTokenType.STRING, "anotherString");
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.JOIN, firstParameterList, secondParameterList, ""
 				+ Double.NaN + Double.NaN, testSprite);
+	}
+
+	@Test
+	public void testRegex() {
+		String firstParameter = " an? ([^ .]+)";
+		String secondParameter = "I am a penguin.";
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.REGEX, InternTokenType.STRING, firstParameter,
+				InternTokenType.STRING, secondParameter, "penguin", testSprite);
+
+		firstParameter = "";
+		secondParameter = "second";
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.REGEX, InternTokenType.STRING, firstParameter,
+				InternTokenType.STRING, secondParameter, "", testSprite);
+
+		firstParameter = "first";
+		secondParameter = "";
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.REGEX, InternTokenType.STRING, firstParameter,
+				InternTokenType.STRING, secondParameter, "", testSprite);
+
+		firstParameter = "345";
+		secondParameter = "123456";
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.REGEX, InternTokenType.NUMBER, firstParameter,
+				InternTokenType.NUMBER, secondParameter, "345", testSprite);
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.REGEX, InternTokenType.NUMBER, firstParameter,
+				InternTokenType.STRING, secondParameter, "345", testSprite);
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.REGEX, InternTokenType.STRING, firstParameter,
+				InternTokenType.NUMBER, secondParameter, "345", testSprite);
+
+		firstParameter = "5*3-6+(8*random(1,2))";
+		secondParameter = "string'**##!§\"$\'§%%/&%(())??";
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.REGEX, InternTokenType.STRING, firstParameter,
+				InternTokenType.STRING, secondParameter, "", testSprite);
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.REGEX, InternTokenType.STRING, firstParameter,
+				InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE_NAME2, "", testSprite);
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.REGEX, InternTokenType.USER_VARIABLE,
+				PROJECT_USER_VARIABLE_NAME, InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE_NAME2,
+				"", testSprite);
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.REGEX, InternTokenType.USER_VARIABLE,
+				PROJECT_USER_VARIABLE_NAME, InternTokenType.STRING, secondParameter, "", testSprite);
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.REGEX, InternTokenType.USER_VARIABLE,
+				PROJECT_USER_VARIABLE_NAME, InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE_NAME,
+				"888.88", testSprite);
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.REGEX, InternTokenType.USER_VARIABLE,
+				PROJECT_USER_VARIABLE_NAME2, InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE_NAME2,
+				USER_VARIABLE_2_VALUE_TYPE_STRING, testSprite);
+
+		List<InternToken> firstParameterList = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.PLUS,
+				InternTokenType.STRING, "datString");
+		List<InternToken> secondParameterList = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.MULT,
+				InternTokenType.STRING, "anotherString");
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.REGEX, firstParameterList, secondParameterList,
+				"" + Double.NaN, testSprite);
 	}
 
 	@Test

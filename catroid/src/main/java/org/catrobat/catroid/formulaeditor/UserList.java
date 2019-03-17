@@ -78,4 +78,23 @@ public class UserList implements Serializable, UserData {
 	public void reset() {
 		list.clear();
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!getClass().equals(obj.getClass())) {
+			return false;
+		}
+		return ((UserList) obj).name.equals(name);
+	}
+
+	@Override
+	public int hashCode() {
+		return name.hashCode();
+	}
 }

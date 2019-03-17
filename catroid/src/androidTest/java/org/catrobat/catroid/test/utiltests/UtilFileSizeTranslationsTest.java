@@ -26,14 +26,12 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
-import org.catrobat.catroid.utils.PathBuilder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -50,7 +48,7 @@ import static junit.framework.Assert.assertEquals;
 
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
-import static org.catrobat.catroid.utils.PathBuilder.buildScenePath;
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 @RunWith(AndroidJUnit4.class)
 public class UtilFileSizeTranslationsTest {
@@ -59,47 +57,51 @@ public class UtilFileSizeTranslationsTest {
 	private File projectFolder;
 	private File imageFile;
 	private File soundFile;
-	private NumberFormat currentNumberformat;
 	private String projectName = "fileSizeArabicTest";
 
 	@Before
 	public void setUp() throws Exception {
 		SettingsFragment.updateLocale(getTargetContext(), new Locale("ar"));
-
 		createProjectWithFiles();
 	}
 
 	@After
 	public void tearDown() throws Exception {
 		SettingsFragment.updateLocale(getTargetContext(), defaultLocale);
-		File projectDir = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName);
-		if (projectDir.exists() && projectDir.isDirectory()) {
+		File projectDir = new File(DEFAULT_ROOT_DIRECTORY, projectName);
+		if (projectDir.isDirectory()) {
 			StorageOperations.deleteDir(projectDir);
 		}
 	}
 
 	@Test
 	public void testFileSize() {
-		currentNumberformat = NumberFormat.getInstance(Locale.getDefault());
+		NumberFormat currentNumberFormat = NumberFormat.getInstance(Locale.getDefault());
+		currentNumberFormat.setMaximumFractionDigits(1);
 		String arabicKb = "كيلوبايت";
-		double soundExpectedSize = 63.3;
-		double lookExpectedSize = 2.6;
-		double projectExpectedSize = 67.4;
 
-		assertEquals(currentNumberformat.format(soundExpectedSize) + " " + arabicKb, FileMetaDataExtractor.getSizeAsString(soundFile, InstrumentationRegistry.getTargetContext()));
+		double soundExpectedSize = scaleFileSize(FileMetaDataExtractor.getSizeOfFileOrDirectoryInByte(soundFile));
+		double lookExpectedSize = scaleFileSize(FileMetaDataExtractor.getSizeOfFileOrDirectoryInByte(imageFile));
+		double projectExpectedSize =
+				scaleFileSize(FileMetaDataExtractor.getSizeOfFileOrDirectoryInByte(projectFolder));
 
-		assertEquals(currentNumberformat.format(lookExpectedSize) + " " + arabicKb, FileMetaDataExtractor.getSizeAsString(imageFile, InstrumentationRegistry.getTargetContext()));
+		assertEquals(currentNumberFormat.format(soundExpectedSize) + " " + arabicKb,
+				FileMetaDataExtractor.getSizeAsString(soundFile, InstrumentationRegistry.getTargetContext()));
 
-		assertEquals(currentNumberformat.format(projectExpectedSize) + " " + arabicKb, FileMetaDataExtractor.getSizeAsString(projectFolder, InstrumentationRegistry.getTargetContext()));
+		assertEquals(currentNumberFormat.format(lookExpectedSize) + " " + arabicKb,
+				FileMetaDataExtractor.getSizeAsString(imageFile, InstrumentationRegistry.getTargetContext()));
+
+		assertEquals(currentNumberFormat.format(projectExpectedSize) + " " + arabicKb,
+				FileMetaDataExtractor.getSizeAsString(projectFolder, InstrumentationRegistry.getTargetContext()));
 	}
 
-	public void createProjectWithFiles() throws IOException {
+	private void createProjectWithFiles() throws IOException {
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 
-		projectFolder = new File(PathBuilder.buildProjectPath(projectName));
+		projectFolder = new File(DEFAULT_ROOT_DIRECTORY, projectName);
 
 		imageFile = ResourceImporter.createImageFileFromResourcesInDirectory(
 				InstrumentationRegistry.getContext().getResources(),
@@ -111,7 +113,11 @@ public class UtilFileSizeTranslationsTest {
 		soundFile = ResourceImporter.createSoundFileFromResourcesInDirectory(
 				InstrumentationRegistry.getContext().getResources(),
 				org.catrobat.catroid.test.R.raw.longsound,
-				new File(buildScenePath(project.getName(), project.getDefaultScene().getName()), SOUND_DIRECTORY_NAME),
+				new File(project.getDefaultScene().getDirectory(), SOUND_DIRECTORY_NAME),
 				"longsound.mp3");
+	}
+
+	private double scaleFileSize(long sizeInByte) {
+		return sizeInByte / (double) 1024;
 	}
 }

@@ -24,7 +24,7 @@
 package org.catrobat.catroid.io.asynctask;
 
 import android.os.AsyncTask;
-import android.util.Pair;
+import android.util.Log;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.io.ZipArchiver;
@@ -35,44 +35,49 @@ import java.io.IOException;
 
 import static org.catrobat.catroid.common.Constants.CATROBAT_EXTENSION;
 import static org.catrobat.catroid.common.Constants.EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY;
-import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
-public class ProjectExportTask extends AsyncTask<Pair<String, Integer>, Void, Void> {
+public class ProjectExportTask extends AsyncTask<Void, Void, Void> {
 
-	@SafeVarargs
-	public static void task(Pair<String, Integer>... programNames) {
-		for (Pair<String, Integer> programName : programNames) {
-			exportProjectToExternalStorage(programName.first, programName.second);
-		}
+	private static final String TAG = ProjectExportTask.class.getSimpleName();
+
+	private File projectDir;
+	private int notificationId;
+
+	public ProjectExportTask(File projectDir, int notificationId) {
+		this.projectDir = projectDir;
+		this.notificationId = notificationId;
 	}
 
-	private static void exportProjectToExternalStorage(String projectName, int notificationID) {
-		File projectFile = new File(DEFAULT_ROOT_DIRECTORY, projectName);
-		File externalProjectZip = new File(EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY, projectName + CATROBAT_EXTENSION);
+	public static void task(File projectDir, int notificationId) {
+		exportProjectToExternalStorage(projectDir, notificationId);
+	}
+
+	private static void exportProjectToExternalStorage(File projectDir, int notificationId) {
+		File projectZip = new File(EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY, projectDir.getName() + CATROBAT_EXTENSION);
 
 		EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY.mkdirs();
 		if (!EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY.isDirectory()) {
 			return;
 		}
 
-		if (externalProjectZip.exists()) {
-			externalProjectZip.delete();
+		if (projectZip.exists()) {
+			projectZip.delete();
 		}
 
-		ZipArchiver zipArchiver = new ZipArchiver();
 		try {
-			zipArchiver.zip(externalProjectZip, projectFile.listFiles());
-			StatusBarNotificationManager.getInstance().showOrUpdateNotification(notificationID, 100);
+			new ZipArchiver()
+					.zip(projectZip, projectDir.listFiles());
+			StatusBarNotificationManager.getInstance().showOrUpdateNotification(notificationId, 100);
 		} catch (IOException e) {
-			StatusBarNotificationManager.getInstance().abortProgressNotificationWithMessage(notificationID,
+			Log.e(TAG, "Cannot create archive.", e);
+			StatusBarNotificationManager.getInstance().abortProgressNotificationWithMessage(notificationId,
 					R.string.save_project_to_external_storage_io_exception_message);
 		}
 	}
 
-	@SafeVarargs
 	@Override
-	protected final Void doInBackground(Pair<String, Integer>... programNames) {
-		task(programNames);
+	protected final Void doInBackground(Void... voids) {
+		task(projectDir, notificationId);
 		return null;
 	}
 }

@@ -88,6 +88,8 @@ public class FormulaEditorFunctionListTest {
 				{R.string.formula_editor_function_letter, R.string.formula_editor_function_letter_parameter,
 						"letter"},
 				{R.string.formula_editor_function_join, R.string.formula_editor_function_join_parameter, "join"},
+				{R.string.formula_editor_function_regex, R.string.formula_editor_function_regex_parameter,
+						"regular expression"},
 				{R.string.formula_editor_function_number_of_items, R.string
 						.formula_editor_function_number_of_items_parameter, "number of items"},
 				{R.string.formula_editor_function_list_item, R.string.formula_editor_function_list_item_parameter,
@@ -137,9 +139,10 @@ public class FormulaEditorFunctionListTest {
 	}
 
 	private String getSelectedFunctionString(String functionString) {
-		return functionString.replace("(", "( ")
-				.replace(")", " )")
+		return functionString
+				.replaceAll("^(.+?)\\(", "$1( ")
 				.replace(",", " , ")
+				.replaceAll("\\)$", " )")
 				.concat(" ");
 	}
 }

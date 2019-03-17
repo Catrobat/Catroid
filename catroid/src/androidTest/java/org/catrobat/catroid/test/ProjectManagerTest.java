@@ -34,8 +34,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ControlStructureBrick;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
-import org.catrobat.catroid.exceptions.LoadingProjectException;
-import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.ZipArchiver;
@@ -69,9 +67,9 @@ public class ProjectManagerTest {
 	@Rule
 	public final ExpectedException exception = ExpectedException.none();
 
+	private static final String PROJECT_NAME = "testProject";
 	private static final String OLD_PROJECT = "OLD_PROJECT";
 	private static final String NEW_PROJECT = "NEW_PROJECT";
-	private static final String DOES_NOT_EXIST = "DOES_NOT_EXIST";
 
 	private static final float CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED = 0.0f;
 	private static final String ZIP_FILENAME_WRONG_NESTING_BRICKS = "CoinCatcher2.catrobat";
@@ -94,37 +92,28 @@ public class ProjectManagerTest {
 
 	@Test
 	public void testShouldReturnFalseIfCatrobatLanguageVersionNotSupported() throws IOException, ProjectException {
-		TestUtils.createProjectWithLanguageVersion(CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED,
-				"testProject");
+		Project project = TestUtils
+				.createProjectWithLanguageVersion(CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED, PROJECT_NAME);
 
 		try {
-			projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, InstrumentationRegistry.getTargetContext());
+			projectManager.loadProject(project.getDirectory(), InstrumentationRegistry.getTargetContext());
 			fail("Project shouldn't be compatible");
 		} catch (CompatibilityProjectException expected) {
 		}
 
 		TestUtils.deleteProjects();
-
-		TestUtils.createProjectWithLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION,
-				"testProject");
-
-		projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, InstrumentationRegistry.getTargetContext());
 	}
 
 	@Test
-	public void testShouldKeepExistingProjectIfCannotLoadNewProject() throws IOException,
-			CompatibilityProjectException, OutdatedVersionProjectException, LoadingProjectException {
+	public void testShouldKeepExistingProjectIfCannotLoadNewProject() throws IOException, ProjectException {
+		Project project = TestUtils.createProjectWithLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION, OLD_PROJECT);
 
-		TestUtils.createProjectWithLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION,
-				OLD_PROJECT);
+		projectManager.loadProject(project.getDirectory(), InstrumentationRegistry.getTargetContext());
 
-		projectManager.loadProject(OLD_PROJECT, InstrumentationRegistry.getTargetContext());
-
-		TestUtils.createProjectWithLanguageVersion(CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED,
-				"testProject");
+		TestUtils.createProjectWithLanguageVersion(CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED, PROJECT_NAME);
 
 		try {
-			projectManager.loadProject(NEW_PROJECT, InstrumentationRegistry.getTargetContext());
+			projectManager.loadProject(new File(NEW_PROJECT), InstrumentationRegistry.getTargetContext());
 			fail("Expected ProjectException while loading  project " + NEW_PROJECT);
 		} catch (ProjectException expected) {
 		}
@@ -142,21 +131,19 @@ public class ProjectManagerTest {
 		assertNull(projectManager.getCurrentProject());
 
 		exception.expect(ProjectException.class);
-		projectManager.loadProject(DOES_NOT_EXIST, InstrumentationRegistry.getTargetContext());
+		projectManager.loadProject(new File(NEW_PROJECT), InstrumentationRegistry.getTargetContext());
 	}
 
 	@Test
-	public void testSavingAProjectDuringDelete() throws IOException, CompatibilityProjectException,
-			OutdatedVersionProjectException, LoadingProjectException {
-		TestUtils.createProjectWithLanguageVersion(
-				CURRENT_CATROBAT_LANGUAGE_VERSION, TestUtils.DEFAULT_TEST_PROJECT_NAME);
+	public void testSavingAProjectDuringDelete() throws IOException, ProjectException {
+		Project project = TestUtils.createProjectWithLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION, PROJECT_NAME);
 
-		projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, InstrumentationRegistry.getTargetContext());
+		projectManager.loadProject(project.getDirectory(), InstrumentationRegistry.getTargetContext());
 
 		Project currentProject = projectManager.getCurrentProject();
-		assertNotNull(String.format("Could not load %s project.", TestUtils.DEFAULT_TEST_PROJECT_NAME), currentProject);
+		assertNotNull(String.format("Could not load %s project.", PROJECT_NAME), currentProject);
 
-		File directory = new File(DEFAULT_ROOT_DIRECTORY, TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		File directory = new File(DEFAULT_ROOT_DIRECTORY, PROJECT_NAME);
 		assertTrue(String.format("Directory %s does not exist", directory.getPath()), directory.exists());
 
 		// simulate multiple saving trigger asynchronous (occurs in black box testing)
@@ -174,18 +161,14 @@ public class ProjectManagerTest {
 	}
 
 	@Test
-	public void testLoadProjectWithInvalidNestingBrickReferences() throws CompatibilityProjectException,
-			IOException,
-			OutdatedVersionProjectException,
-			LoadingProjectException {
-
+	public void testLoadProjectWithInvalidNestingBrickReferences() throws IOException, ProjectException {
 		DEFAULT_ROOT_DIRECTORY.mkdir();
 
 		InputStream inputStream = InstrumentationRegistry.getContext().getAssets().open(ZIP_FILENAME_WRONG_NESTING_BRICKS);
+		File projectDir = new File(DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_NESTING_BRICKS);
+		new ZipArchiver().unzip(inputStream, projectDir);
 
-		new ZipArchiver().unzip(inputStream, new File(DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_NESTING_BRICKS));
-
-		projectManager.loadProject(PROJECT_NAME_NESTING_BRICKS, InstrumentationRegistry.getTargetContext());
+		projectManager.loadProject(projectDir, InstrumentationRegistry.getTargetContext());
 		Project project = projectManager.getCurrentProject();
 
 		assertNotNull(project);

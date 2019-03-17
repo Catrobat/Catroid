@@ -29,11 +29,14 @@ import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 
+import java.io.File;
 import java.lang.ref.WeakReference;
 
-public class ProjectLoadTask extends AsyncTask<String, Void, Boolean> {
+public class ProjectLoadTask extends AsyncTask<Void, Void, Boolean> {
 
 	public static final String TAG = ProjectLoadTask.class.getSimpleName();
+
+	private File projectDir;
 
 	private WeakReference<Context> weakContextReference;
 	private WeakReference<ProjectLoadListener> weakListenerReference;
@@ -43,27 +46,40 @@ public class ProjectLoadTask extends AsyncTask<String, Void, Boolean> {
 		weakListenerReference = new WeakReference<>(listener);
 	}
 
-	public static boolean task(String projectName, Context context) {
+	public ProjectLoadTask(File projectDir, Context context) {
+		this.projectDir = projectDir;
+		weakContextReference = new WeakReference<>(context);
+	}
+
+	public ProjectLoadTask setListener(ProjectLoadListener listener) {
+		weakListenerReference = new WeakReference<>(listener);
+		return this;
+	}
+
+	public static boolean task(File projectDir, Context context) {
 		try {
-			ProjectManager.getInstance().loadProject(projectName, context);
+			ProjectManager.getInstance().loadProject(projectDir, context);
 			return true;
 		} catch (Exception e) {
-			Log.e(TAG, "Cannot load project " + projectName, e);
+			Log.e(TAG, "Cannot load project in " + projectDir.getAbsolutePath(), e);
 			return false;
 		}
 	}
 
 	@Override
-	protected Boolean doInBackground(String... strings) {
+	protected Boolean doInBackground(Void... voids) {
 		Context context = weakContextReference.get();
 		if (context == null) {
 			return false;
 		}
-		return task(strings[0], context);
+		return task(projectDir, context);
 	}
 
 	@Override
 	protected void onPostExecute(Boolean success) {
+		if (weakListenerReference == null) {
+			return;
+		}
 		ProjectLoadListener listener = weakListenerReference.get();
 		if (listener != null) {
 			listener.onLoadFinished(success);

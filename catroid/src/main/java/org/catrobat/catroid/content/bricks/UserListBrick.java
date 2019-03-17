@@ -35,12 +35,11 @@ import android.widget.RadioButton;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
-import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.formulaeditor.UserList;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
@@ -78,12 +77,11 @@ public abstract class UserListBrick extends FormulaBrick implements BrickSpinner
 		super.getView(context);
 
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
 
 		List<Nameable> items = new ArrayList<>();
 		items.add(new NewOption(context.getString(R.string.new_option)));
-		items.addAll(dataContainer.getSpriteUserLists(sprite));
-		items.addAll(dataContainer.getProjectUserLists());
+		items.addAll(sprite.getUserLists());
+		items.addAll(ProjectManager.getInstance().getCurrentProject().getUserLists());
 
 		spinner = new BrickSpinner<>(getSpinnerId(), view, items);
 		spinner.setOnItemSelectedListener(this);
@@ -99,7 +97,7 @@ public abstract class UserListBrick extends FormulaBrick implements BrickSpinner
 			return;
 		}
 
-		final Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+		final Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		final Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(activity);
@@ -111,15 +109,13 @@ public abstract class UserListBrick extends FormulaBrick implements BrickSpinner
 					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
 						UserList userList = new UserList(textInput);
 
-						DataContainer dataContainer = currentScene.getDataContainer();
-
 						RadioButton addToProjectListsRadioButton = ((Dialog) dialog).findViewById(R.id.global);
 						boolean addToProjectLists = addToProjectListsRadioButton.isChecked();
 
 						if (addToProjectLists) {
-							dataContainer.addUserList(userList);
+							currentProject.addUserList(userList);
 						} else {
-							dataContainer.addUserList(currentSprite, userList);
+							currentSprite.addUserList(userList);
 						}
 						spinner.add(userList);
 						spinner.setSelection(userList);

@@ -37,9 +37,9 @@ import org.catrobat.catroid.formulaeditor.Functions;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
+import org.catrobat.catroid.formulaeditor.UserDataWrapper;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -62,11 +62,11 @@ public class ParserTestUserLists {
 	private static final String PROJECT_USER_VARIABLE = "projectUserVariable";
 
 	private Sprite sprite;
-	private DataContainer dataContainer;
+	private Project project;
 
 	@Before
 	public void setUp() {
-		Project project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
+		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
 		sprite = new SingleSprite("sprite");
 
 		StartScript startScript = new StartScript();
@@ -77,8 +77,6 @@ public class ParserTestUserLists {
 
 		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
-
-		dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
 	}
 
 	@Test
@@ -89,7 +87,7 @@ public class ParserTestUserLists {
 		userListValuesMultipleNumbersStringInteger.add(3.0);
 		userListValuesMultipleNumbersStringInteger.add("4");
 
-		assertTrue(dataContainer.addUserList(new UserList(PROJECT_USER_LIST_NAME,
+		assertTrue(project.addUserList(new UserList(PROJECT_USER_LIST_NAME,
 				userListValuesMultipleNumbersStringInteger)));
 
 		assertEquals("1234",
@@ -101,7 +99,7 @@ public class ParserTestUserLists {
 		List<Object> userListValuesSingleNumberString = new ArrayList<>();
 		userListValuesSingleNumberString.add("1");
 
-		assertTrue(dataContainer.addUserList(new UserList(PROJECT_USER_LIST_NAME, userListValuesSingleNumberString)));
+		assertTrue(project.addUserList(new UserList(PROJECT_USER_LIST_NAME, userListValuesSingleNumberString)));
 		assertEquals("1", interpretUserList(PROJECT_USER_LIST_NAME));
 	}
 
@@ -112,7 +110,7 @@ public class ParserTestUserLists {
 		userListValuesMultipleNumberString.add("2");
 		userListValuesMultipleNumberString.add("3");
 
-		assertTrue(dataContainer.addUserList(new UserList(PROJECT_USER_LIST_NAME, userListValuesMultipleNumberString)));
+		assertTrue(project.addUserList(new UserList(PROJECT_USER_LIST_NAME, userListValuesMultipleNumberString)));
 		assertEquals("123", interpretUserList(PROJECT_USER_LIST_NAME));
 	}
 
@@ -123,7 +121,7 @@ public class ParserTestUserLists {
 		userListValuesMultipleNumbers.add(2.0);
 		userListValuesMultipleNumbers.add(3.0);
 
-		assertTrue(dataContainer.addUserList(new UserList(PROJECT_USER_LIST_NAME, userListValuesMultipleNumbers)));
+		assertTrue(project.addUserList(new UserList(PROJECT_USER_LIST_NAME, userListValuesMultipleNumbers)));
 		assertEquals("123", interpretUserList(PROJECT_USER_LIST_NAME));
 	}
 
@@ -134,13 +132,13 @@ public class ParserTestUserLists {
 		userListValuesStringsAndNumbers.add(42.0);
 		userListValuesStringsAndNumbers.add("WORLDS");
 
-		assertTrue(dataContainer.addUserList(new UserList(PROJECT_USER_LIST_NAME, userListValuesStringsAndNumbers)));
+		assertTrue(project.addUserList(new UserList(PROJECT_USER_LIST_NAME, userListValuesStringsAndNumbers)));
 		assertEquals("Hello 42 WORLDS", interpretUserList(PROJECT_USER_LIST_NAME));
 	}
 
 	@Test
 	public void testUserListInterpretationEmptyList() {
-		assertTrue(dataContainer.addUserList(new UserList(PROJECT_USER_LIST_NAME)));
+		assertTrue(project.addUserList(new UserList(PROJECT_USER_LIST_NAME)));
 		assertEquals(EMPTY_USER_LIST_INTERPRETATION_VALUE, interpretUserList(PROJECT_USER_LIST_NAME));
 	}
 
@@ -151,11 +149,11 @@ public class ParserTestUserLists {
 		userListValuesMultipleNumbers.add(2.0);
 		userListValuesMultipleNumbers.add(3.0);
 
-		assertTrue(dataContainer.addUserList(new UserList(SPRITE_USER_LIST_NAME, userListValuesMultipleNumbers)));
-		assertTrue(dataContainer.addUserList(new UserList(PROJECT_USER_LIST_NAME, userListValuesMultipleNumbers)));
-		assertTrue(dataContainer.addUserList(new UserList(PROJECT_USER_LIST_NAME_2, userListValuesMultipleNumbers)));
+		assertTrue(project.addUserList(new UserList(SPRITE_USER_LIST_NAME, userListValuesMultipleNumbers)));
+		assertTrue(project.addUserList(new UserList(PROJECT_USER_LIST_NAME, userListValuesMultipleNumbers)));
+		assertTrue(project.addUserList(new UserList(PROJECT_USER_LIST_NAME_2, userListValuesMultipleNumbers)));
 
-		dataContainer.resetUserData();
+		UserDataWrapper.resetAllUserData(project);
 
 		assertEquals(EMPTY_USER_LIST_INTERPRETATION_VALUE, interpretUserList(SPRITE_USER_LIST_NAME));
 		assertEquals(EMPTY_USER_LIST_INTERPRETATION_VALUE, interpretUserList(PROJECT_USER_LIST_NAME));
@@ -175,8 +173,8 @@ public class ParserTestUserLists {
 		userListValuesMultipleNumbers.add(2.0);
 		userListValuesMultipleNumbers.add(3.0);
 
-		assertTrue(dataContainer.addUserList(new UserList(PROJECT_USER_LIST_NAME, userListValuesMultipleNumbers)));
-		assertTrue(dataContainer.addUserVariable(new UserVariable(PROJECT_USER_VARIABLE)));
+		assertTrue(project.addUserList(new UserList(PROJECT_USER_LIST_NAME, userListValuesMultipleNumbers)));
+		assertTrue(project.addUserVariable(new UserVariable(PROJECT_USER_VARIABLE)));
 
 		String index = "1";
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.NUMBER, index,
@@ -203,27 +201,27 @@ public class ParserTestUserLists {
 				InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, 1.0,
 				sprite);
 
-		dataContainer.getUserVariable(sprite, PROJECT_USER_VARIABLE).setValue("1");
+		UserDataWrapper.getUserVariable(PROJECT_USER_VARIABLE, sprite, project).setValue("1");
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.USER_VARIABLE,
 				PROJECT_USER_VARIABLE, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, 1.0, sprite);
 
-		dataContainer.getUserVariable(sprite, PROJECT_USER_VARIABLE).setValue("0");
+		UserDataWrapper.getUserVariable(PROJECT_USER_VARIABLE, sprite, project).setValue("0");
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.USER_VARIABLE,
 				PROJECT_USER_VARIABLE, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, "", sprite);
 
-		dataContainer.getUserVariable(sprite, PROJECT_USER_VARIABLE).setValue("4");
+		UserDataWrapper.getUserVariable(PROJECT_USER_VARIABLE, sprite, project).setValue("4");
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.USER_VARIABLE,
 				PROJECT_USER_VARIABLE, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, "", sprite);
 
-		dataContainer.getUserVariable(sprite, PROJECT_USER_VARIABLE).setValue(1d);
+		UserDataWrapper.getUserVariable(PROJECT_USER_VARIABLE, sprite, project).setValue(1d);
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.USER_VARIABLE,
 				PROJECT_USER_VARIABLE, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, 1.0, sprite);
 
-		dataContainer.getUserVariable(sprite, PROJECT_USER_VARIABLE).setValue(0d);
+		UserDataWrapper.getUserVariable(PROJECT_USER_VARIABLE, sprite, project).setValue(0d);
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.USER_VARIABLE,
 				PROJECT_USER_VARIABLE, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, "", sprite);
 
-		dataContainer.getUserVariable(sprite, PROJECT_USER_VARIABLE).setValue(4d);
+		UserDataWrapper.getUserVariable(PROJECT_USER_VARIABLE, sprite, project).setValue(4d);
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.USER_VARIABLE,
 				PROJECT_USER_VARIABLE, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, "", sprite);
 	}
@@ -235,18 +233,18 @@ public class ParserTestUserLists {
 		userListValuesStrings.add("my");
 		userListValuesStrings.add("worlds");
 
-		assertTrue(dataContainer.addUserList(new UserList(PROJECT_USER_LIST_NAME)));
+		assertTrue(project.addUserList(new UserList(PROJECT_USER_LIST_NAME)));
 
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LENGTH,
 				InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, (double) 0, sprite);
 
-		dataContainer.getUserList(sprite, PROJECT_USER_LIST_NAME).setList(userListValuesStrings);
+		UserDataWrapper.getUserList(PROJECT_USER_LIST_NAME, sprite, project).setList(userListValuesStrings);
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LENGTH, InternTokenType.USER_LIST,
 				PROJECT_USER_LIST_NAME, (double) 15, sprite);
 
 		ArrayList<Object> userList = new ArrayList<>();
 		userList.add("0");
-		dataContainer.getUserList(sprite, PROJECT_USER_LIST_NAME).setList(userList);
+		UserDataWrapper.getUserList(PROJECT_USER_LIST_NAME, sprite, project).setList(userList);
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LENGTH, InternTokenType.USER_LIST,
 				PROJECT_USER_LIST_NAME, (double) 1, sprite);
 
@@ -269,12 +267,12 @@ public class ParserTestUserLists {
 		userListValuesStrings.add("my");
 		userListValuesStrings.add("worlds");
 
-		assertTrue(dataContainer.addUserList(new UserList(PROJECT_USER_LIST_NAME)));
+		assertTrue(project.addUserList(new UserList(PROJECT_USER_LIST_NAME)));
 
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.NUMBER_OF_ITEMS, InternTokenType.USER_LIST,
 				PROJECT_USER_LIST_NAME, (double) 0, sprite);
 
-		dataContainer.getUserList(sprite, PROJECT_USER_LIST_NAME).setList(userListValuesStrings);
+		UserDataWrapper.getUserList(PROJECT_USER_LIST_NAME, sprite, project).setList(userListValuesStrings);
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LENGTH, InternTokenType.USER_LIST,
 				PROJECT_USER_LIST_NAME, (double) 15, sprite);
 	}
@@ -286,8 +284,8 @@ public class ParserTestUserLists {
 		userListValuesMultipleNumbers.add(2.0);
 		userListValuesMultipleNumbers.add(3.0);
 
-		assertTrue(dataContainer.addUserList(new UserList(PROJECT_USER_LIST_NAME, userListValuesMultipleNumbers)));
-		assertTrue(dataContainer.addUserVariable(new UserVariable(PROJECT_USER_VARIABLE, 1.0)));
+		assertTrue(project.addUserList(new UserList(PROJECT_USER_LIST_NAME, userListValuesMultipleNumbers)));
+		assertTrue(project.addUserVariable(new UserVariable(PROJECT_USER_VARIABLE, 1.0)));
 
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.CONTAINS, InternTokenType.USER_LIST,
 				PROJECT_USER_LIST_NAME, InternTokenType.NUMBER, "1", 1d, sprite);
@@ -306,12 +304,12 @@ public class ParserTestUserLists {
 		userListValuesStringsAndNumbers.add(42.0);
 		userListValuesStringsAndNumbers.add("WORLDS");
 
-		dataContainer.getUserList(sprite, PROJECT_USER_LIST_NAME).setList(userListValuesStringsAndNumbers);
+		UserDataWrapper.getUserList(PROJECT_USER_LIST_NAME, sprite, project).setList(userListValuesStringsAndNumbers);
 
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.CONTAINS, InternTokenType.USER_LIST,
 				PROJECT_USER_LIST_NAME, InternTokenType.STRING, "Hello", 1d, sprite);
 
-		dataContainer.getUserVariable(sprite, PROJECT_USER_VARIABLE).setValue("Hello");
+		UserDataWrapper.getUserVariable(PROJECT_USER_VARIABLE, sprite, project).setValue("Hello");
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.CONTAINS, InternTokenType.USER_LIST,
 				PROJECT_USER_LIST_NAME, InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE, 1d, sprite);
 	}

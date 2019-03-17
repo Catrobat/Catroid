@@ -37,7 +37,6 @@ import org.catrobat.catroid.content.bricks.CloneBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.uiespresso.stage.utils.ScriptEvaluationGateBrick;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
@@ -78,9 +77,8 @@ public class DisabledBrickInClonesRegressionTest {
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 
-		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
 		userVariable = new UserVariable(VARIABLE_NAME);
-		dataContainer.addUserVariable(userVariable);
+		project.addUserVariable(userVariable);
 
 		Script startScript = new StartScript();
 		sprite.addScript(startScript);

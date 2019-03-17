@@ -41,7 +41,6 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
 import org.junit.Before;
@@ -75,13 +74,11 @@ public class SpriteTest {
 		sprite = new SingleSprite("testSprite");
 		project = new Project(InstrumentationRegistry.getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 		project.getDefaultScene().addSprite(sprite);
-		project.getDefaultScene().getDataContainer()
-				.addUserVariable(sprite, new UserVariable(LOCAL_VARIABLE_NAME));
-		project.getDefaultScene().getDataContainer()
-				.getUserVariable(sprite, LOCAL_VARIABLE_NAME).setValue(LOCAL_VARIABLE_VALUE);
+		sprite.addUserVariable(new UserVariable(LOCAL_VARIABLE_NAME));
+		sprite.getUserVariable(LOCAL_VARIABLE_NAME).setValue(LOCAL_VARIABLE_VALUE);
 
 		UserVariable globalVariable = new UserVariable(GLOBAL_VARIABLE_NAME, GLOBAL_VARIABLE_VALUE);
-		project.getDefaultScene().getDataContainer().addUserVariable(globalVariable);
+		project.addUserVariable(globalVariable);
 
 		ProjectManager.getInstance().setCurrentProject(project);
 	}
@@ -161,17 +158,15 @@ public class SpriteTest {
 
 		script.addBrick(brick);
 		sprite.addScript(script);
-		Sprite clonedSprite = new SpriteController().copy(sprite, project.getDefaultScene(), project.getDefaultScene());
+		Sprite clonedSprite = new SpriteController().copy(sprite, project, project.getDefaultScene());
 
-		UserVariable clonedVariable = project.getDefaultScene().getDataContainer()
-				.getUserVariable(clonedSprite, LOCAL_VARIABLE_NAME);
+		UserVariable clonedVariable = clonedSprite.getUserVariable(LOCAL_VARIABLE_NAME);
 
 		assertNotNull(clonedVariable);
 		assertEquals(LOCAL_VARIABLE_NAME, clonedVariable.getName());
 		assertEquals(LOCAL_VARIABLE_VALUE, clonedVariable.getValue());
 
-		List<UserVariable> userVariableList = project.getDefaultScene().getDataContainer()
-				.getSpriteUserVariables(clonedSprite);
+		List<UserVariable> userVariableList = clonedSprite.getUserVariables();
 
 		Set<String> hashSet = new HashSet<>();
 		for (UserVariable userVariable : userVariableList) {
@@ -195,8 +190,8 @@ public class SpriteTest {
 		Brick textBrick = new ShowTextBrick(10, 10);
 		secondScript.addBrick(textBrick);
 		sprite2.addScript(secondScript);
-		secondScene.getDataContainer().addUserVariable(sprite2, new UserVariable(variableName));
-		UserVariable userVariable = secondScene.getDataContainer().getUserVariable(sprite2, variableName);
+		sprite2.addUserVariable(new UserVariable(variableName));
+		UserVariable userVariable = sprite2.getUserVariable(variableName);
 		userVariable.setValue(LOCAL_VARIABLE_VALUE);
 		userVariable.setVisible(false);
 		ProjectManager.getInstance().setCurrentlyPlayingScene(secondScene);
@@ -206,13 +201,12 @@ public class SpriteTest {
 				new Formula(10), userVariable));
 		secondScript.run(sprite2, thread);
 
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyPlayingScene().getDataContainer();
-		userVariable = dataContainer.getUserVariable(sprite2, variableName);
+		userVariable = sprite2.getUserVariable(variableName);
 		assertFalse(userVariable.getVisible());
 
 		thread.act(1f);
 
-		userVariable = dataContainer.getUserVariable(sprite2, variableName);
+		userVariable = sprite2.getUserVariable(variableName);
 		assertTrue(userVariable.getVisible());
 	}
 }

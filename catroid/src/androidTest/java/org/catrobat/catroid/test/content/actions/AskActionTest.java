@@ -55,8 +55,7 @@ public class AskActionTest {
 		ProjectManager.getInstance().setCurrentProject(project);
 
 		userVariableForAnswer = new UserVariable(TEST_USERVARIABLE);
-		ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer()
-				.addUserVariable(userVariableForAnswer);
+		project.addUserVariable(userVariableForAnswer);
 	}
 
 	@Test
