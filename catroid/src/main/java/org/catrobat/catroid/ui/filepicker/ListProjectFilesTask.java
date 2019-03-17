@@ -66,7 +66,7 @@ public class ListProjectFilesTask extends AsyncTask<File, Void, List<File>> {
 	}
 
 	public static void getAllProjectsFromPocketCodeFolder(List<File> projectFiles) {
-		if (!EXTERNAL_STORAGE_ROOT_DIRECTORY.isDirectory()) {
+		if (EXTERNAL_STORAGE_ROOT_DIRECTORY.listFiles() == null) {
 			return;
 		}
 		for (File dir : EXTERNAL_STORAGE_ROOT_DIRECTORY.listFiles()) {
