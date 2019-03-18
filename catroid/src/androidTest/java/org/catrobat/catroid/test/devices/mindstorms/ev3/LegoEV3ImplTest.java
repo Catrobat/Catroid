@@ -52,6 +52,7 @@ public class LegoEV3ImplTest {
 
 		ev3 = new LegoEV3Impl(this.applicationContext);
 		logger = ConnectionDataLogger.createLocalConnectionLogger();
+		logger.setTimeoutMilliSeconds(100);
 		ev3.setConnection(logger.getConnectionProxy());
 	}
 
@@ -155,7 +156,7 @@ public class LegoEV3ImplTest {
 	}
 
 	@Test
-	public void testPlayToneWithZeroVolume() {
+	public void testPlayToneWithZeroVolume() throws Exception {
 
 		int inputHz = 13000;
 		int inputDurationInMs = 0;

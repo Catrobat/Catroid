@@ -22,26 +22,20 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.support.test.runner.AndroidJUnit4;
-
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
+import static junit.framework.TestCase.assertTrue;
 
-@RunWith(AndroidJUnit4.class)
+@RunWith(JUnit4.class)
 public class ShowActionTest {
-
-	@Rule
-	public final ExpectedException exception = ExpectedException.none();
 
 	@Test
 	public void testShow() {
@@ -53,13 +47,5 @@ public class ShowActionTest {
 		Action action = factory.createShowAction(sprite);
 		action.act(1.0f);
 		assertTrue(sprite.look.isLookVisible());
-	}
-
-	@Test
-	public void testNullSprite() {
-		ActionFactory factory = new ActionFactory();
-		Action action = factory.createShowAction(null);
-		exception.expect(NullPointerException.class);
-		action.act(1.0f);
 	}
 }

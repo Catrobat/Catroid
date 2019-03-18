@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.common.bluetooth;
 
+import android.support.annotation.VisibleForTesting;
+
 import com.google.common.base.Stopwatch;
 
 import org.catrobat.catroid.bluetooth.base.BluetoothConnection;
@@ -38,7 +40,12 @@ public final class ConnectionDataLogger {
 	private BlockingQueue<byte[]> sentMessages = new LinkedBlockingQueue<byte[]>();
 	private BlockingQueue<byte[]> receivedMessages = new LinkedBlockingQueue<byte[]>();
 
-	private static final int TIMEOUT_SECONDS = 15;
+	private int timeoutMilliSeconds = 15000;
+
+	@VisibleForTesting
+	public void setTimeoutMilliSeconds(int timeoutMilliSeconds) {
+		this.timeoutMilliSeconds = timeoutMilliSeconds;
+	}
 
 	public byte[] getNextSentMessage() {
 		return getNextSentMessage(0, 0);
@@ -80,18 +87,18 @@ public final class ConnectionDataLogger {
 		return getMessages(receivedMessages, messageByteOffset, messageCountToWaitFor);
 	}
 
-	private static byte[] getNextMessage(BlockingQueue<byte[]> messages, int messageOffset, int messageByteOffset) {
+	private byte[] getNextMessage(BlockingQueue<byte[]> messages, int messageOffset, int messageByteOffset) {
 
 		Stopwatch stopWatch = Stopwatch.createStarted();
 
 		for (int i = 0; i < messageOffset; i++) {
-			byte[] message = pollMessage(messages, TIMEOUT_SECONDS - (int) stopWatch.elapsed(TimeUnit.SECONDS));
+			byte[] message = pollMessage(messages, timeoutMilliSeconds - (int) stopWatch.elapsed(TimeUnit.MILLISECONDS));
 			if (message == null) {
 				return null;
 			}
 		}
 
-		byte[] message = pollMessage(messages, TIMEOUT_SECONDS - (int) stopWatch.elapsed(TimeUnit.SECONDS));
+		byte[] message = pollMessage(messages, timeoutMilliSeconds - (int) stopWatch.elapsed(TimeUnit.MILLISECONDS));
 		if (message == null) {
 			return null;
 		}
@@ -99,7 +106,7 @@ public final class ConnectionDataLogger {
 		return BluetoothTestUtils.getSubArray(message, messageByteOffset);
 	}
 
-	private static ArrayList<byte[]> getMessages(BlockingQueue<byte[]> messages, int messageByteOffset, int messageCountToWaitFor) {
+	private ArrayList<byte[]> getMessages(BlockingQueue<byte[]> messages, int messageByteOffset, int messageCountToWaitFor) {
 
 		if (messageCountToWaitFor == 0) {
 			return getMessages(messages, messageByteOffset);
@@ -108,18 +115,18 @@ public final class ConnectionDataLogger {
 		return waitForMessages(messages, messageByteOffset, messageCountToWaitFor);
 	}
 
-	private static ArrayList<byte[]> waitForMessages(BlockingQueue<byte[]> messages, int messageByteOffset, int messageCountToWaitFor) {
+	private ArrayList<byte[]> waitForMessages(BlockingQueue<byte[]> messages, int messageByteOffset, int messageCountToWaitFor) {
 
 		ArrayList<byte[]> m = new ArrayList<byte[]>();
 		Stopwatch stopWatch = Stopwatch.createStarted();
 
 		do {
-			byte[] message = pollMessage(messages, TIMEOUT_SECONDS - (int) stopWatch.elapsed(TimeUnit.SECONDS));
+			byte[] message = pollMessage(messages, timeoutMilliSeconds - (int) stopWatch.elapsed(TimeUnit.MILLISECONDS));
 			if (message == null) {
 				return m;
 			}
 			m.add(BluetoothTestUtils.getSubArray(message, messageByteOffset));
-		} while (m.size() < messageCountToWaitFor && stopWatch.elapsed(TimeUnit.SECONDS) < TIMEOUT_SECONDS);
+		} while (m.size() < messageCountToWaitFor && stopWatch.elapsed(TimeUnit.MILLISECONDS) < timeoutMilliSeconds);
 
 		return m;
 	}
@@ -136,10 +143,10 @@ public final class ConnectionDataLogger {
 		return m;
 	}
 
-	private static byte[] pollMessage(BlockingQueue<byte[]> messages, int timeoutSeconds) {
+	private static byte[] pollMessage(BlockingQueue<byte[]> messages, int timeoutMilliSeconds) {
 
 		try {
-			return messages.poll(timeoutSeconds, TimeUnit.SECONDS);
+			return messages.poll(timeoutMilliSeconds, TimeUnit.MILLISECONDS);
 		} catch (InterruptedException e) {
 			return null;
 		}

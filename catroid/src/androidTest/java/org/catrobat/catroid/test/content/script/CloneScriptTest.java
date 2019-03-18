@@ -26,19 +26,8 @@ package org.catrobat.catroid.test.content.script;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.common.BrickValues;
-import org.catrobat.catroid.common.NfcTagData;
-import org.catrobat.catroid.content.BroadcastScript;
-import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.RaspiInterruptScript;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.content.WhenBackgroundChangesScript;
-import org.catrobat.catroid.content.WhenClonedScript;
-import org.catrobat.catroid.content.WhenConditionScript;
-import org.catrobat.catroid.content.WhenGamepadButtonScript;
-import org.catrobat.catroid.content.WhenNfcScript;
-import org.catrobat.catroid.content.WhenScript;
-import org.catrobat.catroid.content.WhenTouchDownScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
@@ -59,89 +48,9 @@ import static org.junit.Assert.assertThat;
 public class CloneScriptTest {
 
 	@Test
-	public void testCloneBroadcastScript() throws CloneNotSupportedException {
-		BroadcastScript script = new BroadcastScript("broadCastMessage");
-		script.getScriptBrick(); // side magic
-		addBricksToScript(script);
-		assertIsClone(script.clone(), script);
-	}
-
-	@Test
-	public void testCloneCollisionScript() throws CloneNotSupportedException {
-		CollisionScript script = new CollisionScript(null);
-		script.getScriptBrick(); // side magic
-		addBricksToScript(script);
-		assertIsClone(script.clone(), script);
-	}
-
-	@Test
 	public void testCloneRaspiInterruptScript() throws CloneNotSupportedException {
 		RaspiInterruptScript script = new RaspiInterruptScript(
 				Integer.toString(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER), BrickValues.RASPI_EVENTS[0]);
-		script.getScriptBrick(); // side magic
-		addBricksToScript(script);
-		assertIsClone(script.clone(), script);
-	}
-
-	@Test
-	public void testCloneStartScript() throws CloneNotSupportedException {
-		StartScript script = new StartScript();
-		script.getScriptBrick(); // side magic
-		addBricksToScript(script);
-		assertIsClone(script.clone(), script);
-	}
-
-	@Test
-	public void testCloneWhenBackgroundChangesScript() throws CloneNotSupportedException {
-		WhenBackgroundChangesScript script = new WhenBackgroundChangesScript();
-		script.getScriptBrick(); // side magic
-		addBricksToScript(script);
-		assertIsClone(script.clone(), script);
-	}
-
-	@Test
-	public void testCloneWhenClonedScript() throws CloneNotSupportedException {
-		WhenClonedScript script = new WhenClonedScript();
-		script.getScriptBrick(); // side magic
-		addBricksToScript(script);
-		assertIsClone(script.clone(), script);
-	}
-
-	@Test
-	public void testCloneWhenConditionScript() throws CloneNotSupportedException {
-		WhenConditionScript script = new WhenConditionScript();
-		script.getScriptBrick(); // side magic
-		addBricksToScript(script);
-		assertIsClone(script.clone(), script);
-	}
-
-	@Test
-	public void testCloneWhenGamepadButtonScript() throws CloneNotSupportedException {
-		WhenGamepadButtonScript script = new WhenGamepadButtonScript("cast_gamepad_A");
-		script.getScriptBrick(); // side magic
-		addBricksToScript(script);
-		assertIsClone(script.clone(), script);
-	}
-
-	@Test
-	public void testCloneWhenNfcScript() throws CloneNotSupportedException {
-		WhenNfcScript script = new WhenNfcScript(new NfcTagData());
-		script.getScriptBrick(); // side magic
-		addBricksToScript(script);
-		assertIsClone(script.clone(), script);
-	}
-
-	@Test
-	public void testCloneWhenScript() throws CloneNotSupportedException {
-		WhenScript script = new WhenScript();
-		script.getScriptBrick(); // side magic
-		addBricksToScript(script);
-		assertIsClone(script.clone(), script);
-	}
-
-	@Test
-	public void testCloneWhenTouchDownScript() throws CloneNotSupportedException {
-		WhenTouchDownScript script = new WhenTouchDownScript();
 		script.getScriptBrick(); // side magic
 		addBricksToScript(script);
 		assertIsClone(script.clone(), script);

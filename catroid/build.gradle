@@ -206,6 +206,10 @@ android {
         htmlOutput file("build/reports/lint-report.html")
     }
 
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
     dexOptions.javaMaxHeapSize "4g"
 
     packagingOptions {
@@ -438,6 +442,7 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
+    testImplementation 'org.hamcrest:hamcrest-library:1.3'
 
     androidTestImplementation fileTree(include: '*.jar', dir: 'src/androidTest/libs')
     androidTestImplementation 'com.linkedin.dexmaker:dexmaker-mockito:2.2.0'

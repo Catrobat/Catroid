@@ -38,23 +38,13 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
 import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.FormulaElement;
-import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
@@ -81,97 +71,6 @@ public class SpriteTest {
 		project.addUserVariable(globalVariable);
 
 		ProjectManager.getInstance().setCurrentProject(project);
-	}
-
-	@Test
-	public void testAddScript() {
-		Sprite sprite = new SingleSprite("new SingleSprite");
-		Script firstScript = new StartScript();
-		Script secondScript = new StartScript();
-		sprite.addScript(firstScript);
-		assertEquals(1, sprite.getNumberOfScripts());
-
-		sprite.addScript(0, secondScript);
-		assertEquals(2, sprite.getNumberOfScripts());
-
-		assertEquals(1, sprite.getScriptIndex(firstScript));
-		assertEquals(0, sprite.getScriptIndex(secondScript));
-
-		sprite.removeAllScripts();
-		assertEquals(0, sprite.getNumberOfScripts());
-	}
-
-	@Test
-	public void testGetScript() {
-		Sprite sprite = new SingleSprite("new SingleSprite");
-		Script firstScript = new StartScript();
-		Script secondScript = new StartScript();
-		sprite.addScript(firstScript);
-		sprite.addScript(secondScript);
-		assertEquals(firstScript, sprite.getScript(0));
-		assertEquals(secondScript, sprite.getScript(1));
-	}
-
-	@Test
-	public void testRemoveAllScripts() {
-		Sprite sprite = new SingleSprite("new SingleSprite");
-		Script firstScript = new StartScript();
-		Script secondScript = new StartScript();
-		sprite.addScript(firstScript);
-		sprite.addScript(secondScript);
-
-		sprite.removeAllScripts();
-
-		assertEquals(0, sprite.getNumberOfScripts());
-	}
-
-	@Test
-	public void testRemoveScript() {
-		Sprite sprite = new SingleSprite("new SingleSprite");
-		Script firstScript = new StartScript();
-		Script secondScript = new StartScript();
-		sprite.addScript(firstScript);
-		sprite.addScript(secondScript);
-
-		sprite.removeScript(firstScript);
-
-		assertEquals(1, sprite.getNumberOfScripts());
-		assertEquals(secondScript, sprite.getScript(0));
-	}
-
-	@Test
-	public void testGetScriptIndex() {
-		Sprite sprite = new SingleSprite("new SingleSprite");
-		Script firstScript = new StartScript();
-		Script secondScript = new StartScript();
-		sprite.addScript(firstScript);
-		sprite.addScript(secondScript);
-		assertEquals(0, sprite.getScriptIndex(firstScript));
-		assertEquals(1, sprite.getScriptIndex(secondScript));
-	}
-
-	@Test
-	public void testSpriteCloneWithLocalVariable() throws IOException {
-		Script script = new StartScript();
-		Brick brick = new ChangeBrightnessByNBrick(new Formula(new FormulaElement(ElementType.USER_VARIABLE,
-				LOCAL_VARIABLE_NAME, null)));
-
-		script.addBrick(brick);
-		sprite.addScript(script);
-		Sprite clonedSprite = new SpriteController().copy(sprite, project, project.getDefaultScene());
-
-		UserVariable clonedVariable = clonedSprite.getUserVariable(LOCAL_VARIABLE_NAME);
-
-		assertNotNull(clonedVariable);
-		assertEquals(LOCAL_VARIABLE_NAME, clonedVariable.getName());
-		assertEquals(LOCAL_VARIABLE_VALUE, clonedVariable.getValue());
-
-		List<UserVariable> userVariableList = clonedSprite.getUserVariables();
-
-		Set<String> hashSet = new HashSet<>();
-		for (UserVariable userVariable : userVariableList) {
-			assertTrue(hashSet.add(userVariable.getName()));
-		}
 	}
 
 	@Test

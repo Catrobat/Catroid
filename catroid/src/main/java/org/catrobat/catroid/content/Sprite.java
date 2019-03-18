@@ -26,7 +26,6 @@ import android.content.Context;
 import android.graphics.PointF;
 import android.util.Log;
 
-import com.badlogic.gdx.graphics.Color;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
@@ -502,7 +501,7 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 	public class PenConfiguration {
 		public boolean penDown = false;
 		public double penSize = BrickValues.PEN_SIZE;
-		public Color penColor = BrickValues.PEN_COLOR;
+		public PenColor penColor = new PenColor(0, 0, 1, 1);
 		public PointF previousPoint = null;
 		public boolean stamp = false;
 	}
