@@ -27,7 +27,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -51,7 +50,7 @@ import android.widget.LinearLayout;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.ScreenModes;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.BaseCastActivity;
@@ -61,9 +60,10 @@ import java.io.File;
 
 import static android.content.DialogInterface.BUTTON_NEGATIVE;
 import static android.content.DialogInterface.BUTTON_POSITIVE;
+import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
-import static org.catrobat.catroid.common.ScreenModes.MAXIMIZE;
 import static org.catrobat.catroid.content.Look.DEGREE_UI_OFFSET;
 import static org.catrobat.catroid.content.Look.ROTATION_STYLE_ALL_AROUND;
 import static org.catrobat.catroid.content.Look.ROTATION_STYLE_LEFT_RIGHT_ONLY;
@@ -98,10 +98,10 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 	private float startY;
 	private float previousY;
 	private float previousX;
-	private float reversedScaleHeightRatio;
-	private float reversedScaleWidthRatio;
-	private int maximizeLayoutWidth;
-	private int maximizeLayoutHeight;
+	private float reversedRatioHeight;
+	private float reversedRatioWidth;
+	private int layoutWidth;
+	private int layoutHeight;
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -132,49 +132,59 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 		getSupportActionBar().setTitle(R.string.brick_place_at_option_place_visually);
 
 		if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
-			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+			setRequestedOrientation(SCREEN_ORIENTATION_LANDSCAPE);
 		} else {
-			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+			setRequestedOrientation(SCREEN_ORIENTATION_PORTRAIT);
 		}
 
 		FrameLayout frameLayout = findViewById(R.id.frame_container);
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 
-		int currentScreenWidth = getResources().getDisplayMetrics().widthPixels;
-		int currentScreenHeight = getResources().getDisplayMetrics().heightPixels;
+		int screenWidth = ScreenValues.SCREEN_WIDTH;
+		int screenHeight = ScreenValues.SCREEN_HEIGHT;
 		int virtualScreenWidth = currentProject.getXmlHeader().virtualScreenWidth;
 		int virtualScreenHeight = currentProject.getXmlHeader().virtualScreenHeight;
 
-		final float scaleHeightRatio = (float) currentScreenHeight / (float) virtualScreenHeight;
-		reversedScaleHeightRatio = (float) virtualScreenHeight / (float) currentScreenHeight;
-		final float scaleWidthRatio = (float) currentScreenWidth / (float) virtualScreenWidth;
-		reversedScaleWidthRatio = (float) virtualScreenWidth / (float) currentScreenWidth;
+		float aspectRatio = (float) virtualScreenWidth / (float) virtualScreenHeight;
+		float screenAspectRatio = ScreenValues.getAspectRatio();
 
-		ScreenModes projectScreenMood = currentProject.getXmlHeader().getScreenMode();
-		if (projectScreenMood == MAXIMIZE) {
-			float aspectRatio = (float) virtualScreenWidth / (float) virtualScreenHeight;
-			float screenAspectRatio = (float) currentScreenWidth / (float) currentScreenHeight;
-			float scale;
-			if (aspectRatio < screenAspectRatio) {
-				scale = scaleHeightRatio / scaleWidthRatio;
-				maximizeLayoutWidth = (int) (currentScreenWidth * scale);
-				maximizeLayoutHeight = currentScreenHeight;
-			} else if (aspectRatio > screenAspectRatio) {
-				scale = scaleWidthRatio / scaleHeightRatio;
-				maximizeLayoutHeight = (int) (currentScreenHeight * scale);
-				maximizeLayoutWidth = currentScreenWidth;
-			} else {
-				maximizeLayoutHeight = currentScreenHeight;
-				maximizeLayoutWidth = currentScreenWidth;
-			}
-			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-					ViewGroup.LayoutParams.WRAP_CONTENT);
-			layoutParams.gravity = Gravity.CENTER;
-			layoutParams.width = maximizeLayoutWidth;
-			layoutParams.height = maximizeLayoutHeight;
-			frameLayout.setLayoutParams(layoutParams);
+		float scale;
+		float ratioHeight = (float) screenHeight / (float) virtualScreenHeight;
+		float ratioWidth = (float) screenWidth / (float) virtualScreenWidth;
+
+		switch (currentProject.getScreenMode()) {
+			case MAXIMIZE:
+				if (aspectRatio < screenAspectRatio) {
+					scale = ratioHeight / ratioWidth;
+					layoutWidth = (int) (screenWidth * scale);
+					layoutHeight = screenHeight;
+				} else if (aspectRatio > screenAspectRatio) {
+					scale = ratioWidth / ratioHeight;
+					layoutHeight = (int) (screenHeight * scale);
+					layoutWidth = screenWidth;
+				} else {
+					layoutHeight = screenHeight;
+					layoutWidth = screenWidth;
+				}
+				break;
+			case STRETCH:
+				layoutHeight = screenHeight;
+				layoutWidth = screenWidth;
+				break;
 		}
+
+		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+				ViewGroup.LayoutParams.WRAP_CONTENT);
+		layoutParams.gravity = Gravity.CENTER;
+		layoutParams.width = layoutWidth;
+		layoutParams.height = layoutHeight;
+		frameLayout.setLayoutParams(layoutParams);
+
+		float layoutHeightRatio = (float) layoutHeight / (float) virtualScreenHeight;
+		float layoutWidthRatio = (float) layoutWidth / (float) virtualScreenWidth;
+		reversedRatioHeight = (float) virtualScreenHeight / (float) layoutHeight;
+		reversedRatioWidth = (float) virtualScreenWidth / (float) layoutWidth;
 
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inPreferredConfig = Bitmap.Config.ARGB_8888;
@@ -192,8 +202,8 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 
 			Bitmap backgroundBitmap = BitmapFactory.decodeFile(backgroundBitmapPath, options);
 			Bitmap scaledBackgroundBitmap = Bitmap.createScaledBitmap(backgroundBitmap,
-					(int) (backgroundBitmap.getWidth() * scaleWidthRatio),
-					(int) (backgroundBitmap.getHeight() * scaleHeightRatio), true);
+					(int) (backgroundBitmap.getWidth() * layoutWidthRatio),
+					(int) (backgroundBitmap.getHeight() * layoutHeightRatio), true);
 			Drawable backgroundDrawable = new BitmapDrawable(getResources(), scaledBackgroundBitmap);
 			backgroundDrawable.setColorFilter(Color.parseColor("#6F000000"), PorterDuff.Mode.SRC_ATOP);
 
@@ -219,26 +229,28 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 			spriteBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
 		}
 
-		Bitmap scaledSpriteBitmap = Bitmap.createScaledBitmap(spriteBitmap,
-				(int) (spriteBitmap.getWidth() * scaleWidthRatio),
-				(int) (spriteBitmap.getHeight() * scaleHeightRatio), true);
 		imageView = new ImageView(this);
-
+		Matrix matrix = new Matrix();
 		switch (rotationMode) {
 			case ROTATION_STYLE_NONE:
-				imageView.setRotation(0f);
+				matrix.postRotate(0);
 				break;
 			case ROTATION_STYLE_ALL_AROUND:
 				if (rotation != 90) {
-					imageView.setRotation(rotation - DEGREE_UI_OFFSET);
+					matrix.postRotate(rotation - DEGREE_UI_OFFSET);
 				}
 				break;
 			case ROTATION_STYLE_LEFT_RIGHT_ONLY:
 				if (rotation < 0) {
-					scaledSpriteBitmap = createFlippedBitmap(scaledSpriteBitmap);
+					matrix.postScale(-1, 1, (float) spriteBitmap.getWidth() / 2, (float) spriteBitmap.getHeight() / 2);
 				}
 				break;
 		}
+		Bitmap bitmap = Bitmap.createBitmap(spriteBitmap, 0, 0,
+				spriteBitmap.getWidth(),
+				spriteBitmap.getHeight(), matrix, true);
+		Bitmap scaledSpriteBitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * layoutWidthRatio),
+				(int) (bitmap.getHeight() * layoutHeightRatio), true);
 		imageView.setImageBitmap(scaledSpriteBitmap);
 
 		if (scaleX > 0.01) {
@@ -318,8 +330,8 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 		Intent returnIntent = new Intent();
 		Bundle extras = new Bundle();
 		extras.putInt(EXTRA_BRICK_HASH, getIntent().getIntExtra(EXTRA_BRICK_HASH, -1));
-		extras.putInt(X_COORDINATE_BUNDLE_ARGUMENT, Math.round(xCoord * reversedScaleWidthRatio));
-		extras.putInt(Y_COORDINATE_BUNDLE_ARGUMENT, Math.round(yCoord * reversedScaleHeightRatio));
+		extras.putInt(X_COORDINATE_BUNDLE_ARGUMENT, Math.round(xCoord * reversedRatioWidth));
+		extras.putInt(Y_COORDINATE_BUNDLE_ARGUMENT, Math.round(yCoord * reversedRatioHeight));
 		returnIntent.putExtras(extras);
 		setResult(Activity.RESULT_OK, returnIntent);
 		finish();
@@ -333,11 +345,5 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 				.setNegativeButton(R.string.no, this)
 				.setCancelable(true)
 				.show();
-	}
-
-	private Bitmap createFlippedBitmap(Bitmap source) {
-		Matrix matrix = new Matrix();
-		matrix.postScale(-1, 1, (float) source.getWidth() / 2, (float) source.getHeight() / 2);
-		return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
 	}
 }
