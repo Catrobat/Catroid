@@ -116,11 +116,14 @@ public class CatrobatTestRunner {
 
 		InputStream inputStream = InstrumentationRegistry.getContext().getAssets()
 				.open(assetPath + "/" + assetName);
-		File projectDir = StorageOperations
+
+		File projectArchive = StorageOperations
 				.copyStreamToDir(inputStream, CACHE_DIR, assetName);
 
 		assertTrue(ProjectUnzipAndImportTask
-				.task(projectDir));
+				.task(projectArchive));
+
+		File projectDir = new File(DEFAULT_ROOT_DIRECTORY, projectName);
 
 		assertTrue(ProjectLoadTask
 				.task(projectDir, InstrumentationRegistry.getTargetContext()));
