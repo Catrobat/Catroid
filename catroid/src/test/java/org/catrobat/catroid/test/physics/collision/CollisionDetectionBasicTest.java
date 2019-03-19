@@ -23,18 +23,17 @@
 
 package org.catrobat.catroid.test.physics.collision;
 
-import android.support.test.runner.AndroidJUnit4;
-
 import com.badlogic.gdx.math.Polygon;
 
 import org.catrobat.catroid.sensing.CollisionDetection;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
-@RunWith(AndroidJUnit4.class)
+@RunWith(JUnit4.class)
 public class CollisionDetectionBasicTest {
 
 	@Test

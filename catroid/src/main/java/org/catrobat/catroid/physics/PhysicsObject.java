@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.physics;
 
+import android.support.annotation.VisibleForTesting;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -264,7 +266,8 @@ public class PhysicsObject {
 		return body.getMass() == 0.0f;
 	}
 
-	private void setDensity(float density) {
+	@VisibleForTesting
+	public void setDensity(float density) {
 		if (density < MIN_DENSITY) {
 			density = PhysicsObject.MIN_DENSITY;
 		}

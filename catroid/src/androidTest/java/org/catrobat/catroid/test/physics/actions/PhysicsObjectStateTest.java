@@ -169,8 +169,6 @@ public class PhysicsObjectStateTest {
 		allConditionsInactiveCheck();
 	}
 
-	// HELPER ----------------------------------------------------------------------------------------------------------
-
 	private void allConditionsInactiveCheck() throws Exception {
 		((PhysicsLook) sprite.look).updatePhysicsObjectState(true);
 		boolean hangedUp = (Boolean) Reflection.getPrivateField(physicsObjectStateHandler, "hangedUp");

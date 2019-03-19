@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.physics.shapebuilder;
 
+import android.support.annotation.VisibleForTesting;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
@@ -75,7 +77,8 @@ public final class PhysicsShapeScaleUtils {
 		return v;
 	}
 
-	private static float scaleCoordinate(float coordinates, float scaleFactor) {
+	@VisibleForTesting
+	public static float scaleCoordinate(float coordinates, float scaleFactor) {
 		return Math.round(coordinates * scaleFactor * COORDINATE_SCALING_DECIMAL_ACCURACY) / COORDINATE_SCALING_DECIMAL_ACCURACY;
 	}
 }

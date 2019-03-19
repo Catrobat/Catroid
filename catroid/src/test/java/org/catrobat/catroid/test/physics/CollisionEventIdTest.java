@@ -23,17 +23,16 @@
 
 package org.catrobat.catroid.test.physics;
 
-import android.support.test.runner.AndroidJUnit4;
-
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.eventids.CollisionEventId;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotSame;
 
-@RunWith(AndroidJUnit4.class)
+@RunWith(JUnit4.class)
 public class CollisionEventIdTest {
 
 	@Test

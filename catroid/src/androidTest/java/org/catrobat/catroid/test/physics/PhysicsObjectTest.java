@@ -50,8 +50,6 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
-import java.util.Locale;
-
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotSame;
@@ -245,101 +243,6 @@ public class PhysicsObjectTest {
 	}
 
 	@Test
-	public void testAngle() throws Exception {
-		for (PhysicsObject.Type type : PhysicsObject.Type.values()) {
-			PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, type);
-			assertEquals(0.0f, PhysicsTestUtils.getBody(physicsObject).getAngle());
-
-			float[] angles = {45.0f, 1.0f, 131.4f, -10.0f, -180.0f};
-			for (float angle : angles) {
-				physicsObject.setDirection(angle);
-				assertEquals(angle, physicsObject.getDirection(), TestUtils.DELTA);
-			}
-		}
-	}
-
-	@Test
-	public void testPosition() throws Exception {
-		for (PhysicsObject.Type type : PhysicsObject.Type.values()) {
-			PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, type);
-			assertEquals(new Vector2(), PhysicsTestUtils.getBody(physicsObject).getPosition());
-
-			Vector2[] positions = {new Vector2(12.34f, 56.78f), new Vector2(-87.65f, -43.21f)};
-			for (Vector2 position : positions) {
-				physicsObject.setPosition(position.x, position.y);
-
-				Vector2 physicsObjectCatroidPosition = PhysicsWorldConverter
-						.convertBox2dToNormalVector(PhysicsTestUtils.getBody(physicsObject).getPosition());
-				assertEquals(position, physicsObjectCatroidPosition);
-				assertEquals(position, physicsObject.getPosition());
-			}
-
-			for (Vector2 position : positions) {
-				physicsObject.setPosition(position);
-
-				Vector2 physicsObjectCatroidPosition = PhysicsWorldConverter
-						.convertBox2dToNormalVector(PhysicsTestUtils.getBody(physicsObject).getPosition());
-				assertEquals(position, physicsObjectCatroidPosition);
-				assertEquals(position, physicsObject.getPosition());
-			}
-		}
-	}
-
-	@Test
-	public void testAngleAndPosition() throws Exception {
-		for (PhysicsObject.Type type : PhysicsObject.Type.values()) {
-			PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, type);
-			assertEquals(0.0f, PhysicsTestUtils.getBody(physicsObject).getAngle());
-			assertEquals(new Vector2(), PhysicsTestUtils.getBody(physicsObject).getPosition());
-
-			float angle = 15.6f;
-			float expectedAngle = 15.6f;
-			Vector2 position = new Vector2(12.34f, 56.78f);
-			physicsObject.setDirection(angle);
-			physicsObject.setPosition(position.x, position.y);
-
-			float physicsObjectCatroidAngle = PhysicsWorldConverter.convertBox2dToNormalAngle(PhysicsTestUtils.getBody(
-					physicsObject).getAngle());
-			Vector2 physicsObjectCatroidPosition = PhysicsWorldConverter.convertBox2dToNormalVector(PhysicsTestUtils
-					.getBody(physicsObject).getPosition());
-
-			assertEquals(expectedAngle, physicsObjectCatroidAngle, TestUtils.DELTA);
-			assertEquals(position, physicsObjectCatroidPosition);
-		}
-	}
-
-	@Test
-	public void testSetDensity() throws Exception {
-		for (PhysicsObject.Type type : PhysicsObject.Type.values()) {
-			PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, type);
-			physicsObject.setShape(new Shape[] {new PolygonShape(), new PolygonShape()});
-
-			float[] densityValues = {0.123f, -0.765f, 24.32f};
-			assertThat(PhysicsTestUtils.getBody(physicsObject).getFixtureList().size, is(not(equalTo(0))));
-
-			for (float density : densityValues) {
-				Object[] values = {density};
-				String methodName = "setDensity";
-				ParameterList paramList = new ParameterList(values);
-				Reflection.invokeMethod(physicsObject, methodName, paramList);
-				if (density > 0) {
-					assertEquals(density, PhysicsTestUtils.getFixtureDef(physicsObject).density);
-				} else {
-					assertEquals(0.0f, PhysicsTestUtils.getFixtureDef(physicsObject).density);
-				}
-				for (Fixture fixture : PhysicsTestUtils.getBody(physicsObject).getFixtureList()) {
-
-					if (density > 0) {
-						assertEquals(density, fixture.getDensity());
-					} else {
-						assertEquals(0.0f, fixture.getDensity());
-					}
-				}
-			}
-		}
-	}
-
-	@Test
 	public void testSetDensityUpdatesMassData() throws Exception {
 		PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, PhysicsObject.Type.DYNAMIC,
 				5.0f, 5.0f);
@@ -371,99 +274,6 @@ public class PhysicsObjectTest {
 			float actualDensity = body.getMass() / (rectangleSize * rectangleSize);
 			assertEquals(PhysicsTestUtils.getFixtureDef(physicsObject).density, actualDensity, TestUtils.DELTA);
 		}
-	}
-
-	@Test
-	public void testSetFriction() throws Exception {
-		for (PhysicsObject.Type type : PhysicsObject.Type.values()) {
-			PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, type);
-			physicsObject.setShape(new Shape[] {new PolygonShape(), new PolygonShape()});
-			float[] frictionValues = {0.123f, -0.765f, 0.32f};
-
-			assertThat(PhysicsTestUtils.getBody(physicsObject).getFixtureList().size, is(not(equalTo(0))));
-
-			for (float friction : frictionValues) {
-				physicsObject.setFriction(friction);
-				if (friction > 0) {
-					assertEquals(friction, PhysicsTestUtils.getFixtureDef(physicsObject).friction);
-				} else {
-					assertEquals(0.0f, PhysicsTestUtils.getFixtureDef(physicsObject).friction);
-				}
-				for (Fixture fixture : PhysicsTestUtils.getBody(physicsObject).getFixtureList()) {
-
-					if (friction > 0) {
-						assertEquals(friction, fixture.getFriction());
-					} else {
-						assertEquals(0.0f, fixture.getFriction());
-					}
-				}
-			}
-		}
-	}
-
-	@Test
-	public void testSetBounceFactor() throws Exception {
-		for (PhysicsObject.Type type : PhysicsObject.Type.values()) {
-			PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, type);
-			physicsObject.setShape(new Shape[] {new PolygonShape(), new PolygonShape()});
-			float[] bounceFactors = {0.123f, -0.765f, 0.32f};
-
-			assertThat(PhysicsTestUtils.getBody(physicsObject).getFixtureList().size, is(not(equalTo(0))));
-
-			for (float value : bounceFactors) {
-				physicsObject.setBounceFactor(value);
-				if (value > 0) {
-					assertEquals(value, PhysicsTestUtils.getFixtureDef(physicsObject).restitution);
-				} else {
-					assertEquals(0.0f, PhysicsTestUtils.getFixtureDef(physicsObject).restitution);
-				}
-				for (Fixture fixture : PhysicsTestUtils.getBody(physicsObject).getFixtureList()) {
-
-					if (value > 0) {
-						assertEquals(value, fixture.getRestitution());
-					} else {
-						assertEquals(0.0f, fixture.getRestitution());
-					}
-				}
-			}
-		}
-	}
-
-	@Test
-	public void testMass() throws Exception {
-		for (PhysicsObject.Type type : PhysicsObject.Type.values()) {
-			PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, type, 5.0f, 5.0f);
-			Body body = PhysicsTestUtils.getBody(physicsObject);
-
-			checkBodyMassDependingOnType(type, body, PhysicsObject.DEFAULT_MASS);
-			assertEquals(PhysicsObject.DEFAULT_MASS, PhysicsTestUtils.getMass(physicsObject));
-
-			float[] masses = {PhysicsObject.MIN_MASS, 0.01f, 1.0f, 12345.0f};
-			for (float mass : masses) {
-				physicsObject.setMass(mass);
-				checkBodyMassDependingOnType(type, body, mass);
-				assertEquals(mass, PhysicsTestUtils.getMass(physicsObject));
-			}
-
-			physicsObject.setMass(PhysicsObject.MIN_MASS / 10.0f);
-			checkBodyMassDependingOnType(type, body, PhysicsObject.MIN_MASS);
-			assertEquals(PhysicsObject.MIN_MASS / 10.0f, PhysicsTestUtils.getMass(physicsObject));
-
-			physicsObject.setMass(0.0f);
-			checkBodyMassDependingOnType(type, body, PhysicsObject.MIN_MASS);
-			assertEquals(0.0f, PhysicsTestUtils.getMass(physicsObject));
-
-			physicsObject.setMass(-1.0f);
-			checkBodyMassDependingOnType(type, body, PhysicsObject.MIN_MASS);
-			assertEquals(PhysicsObject.MIN_MASS, PhysicsTestUtils.getMass(physicsObject));
-		}
-	}
-
-	private void checkBodyMassDependingOnType(PhysicsObject.Type type, Body body, float expectedBodyMass) {
-		if (type != PhysicsObject.Type.DYNAMIC) {
-			expectedBodyMass = 0.0f;
-		}
-		assertEquals("Wrong mass for " + type.toString().toLowerCase(Locale.getDefault()), expectedBodyMass, body.getMass(), TestUtils.DELTA);
 	}
 
 	@Test
@@ -525,9 +335,6 @@ public class PhysicsObjectTest {
 		checkCollisionMask(physicsObject, PhysicsWorld.CATEGORY_PHYSICSOBJECT, PhysicsWorld.MASK_PHYSICSOBJECT);
 	}
 
-	/*
-	 * Helper
-	 */
 	private void checkCollisionMask(PhysicsObject physicsObject, short categoryBits, short maskBits) throws Exception {
 		FixtureDef fixtureDef = PhysicsTestUtils.getFixtureDef(physicsObject);
 		assertEquals(categoryBits, fixtureDef.filter.categoryBits);
@@ -589,5 +396,59 @@ public class PhysicsObjectTest {
 		assertEquals(origin.getVelocity(), clone.getVelocity());
 		assertEquals(origin.getPosition(), clone.getPosition());
 		assertEquals(origin.getDirection(), clone.getDirection());
+	}
+
+	@Test
+	public void testDynamicTypeMass() throws Exception {
+		PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, PhysicsObject.Type.DYNAMIC, 5.0f,
+				5.0f);
+		Body body = PhysicsTestUtils.getBody(physicsObject);
+
+		assertEquals(PhysicsObject.DEFAULT_MASS, body.getMass(), TestUtils.DELTA);
+		assertEquals(PhysicsObject.DEFAULT_MASS, PhysicsTestUtils.getMass(physicsObject));
+
+		physicsObject.setMass(1.0f);
+		assertEquals(1.0f, body.getMass(), TestUtils.DELTA);
+		assertEquals(1.0f, PhysicsTestUtils.getMass(physicsObject));
+
+		physicsObject.setMass(PhysicsObject.MIN_MASS / 10.0f);
+		assertEquals(PhysicsObject.MIN_MASS, body.getMass(), TestUtils.DELTA);
+		assertEquals(PhysicsObject.MIN_MASS / 10.0f, PhysicsTestUtils.getMass(physicsObject));
+
+		physicsObject.setMass(0.0f);
+		assertEquals(PhysicsObject.MIN_MASS, body.getMass(), TestUtils.DELTA);
+		assertEquals(0.0f, PhysicsTestUtils.getMass(physicsObject));
+
+		physicsObject.setMass(-1.0f);
+		assertEquals(PhysicsObject.MIN_MASS, body.getMass(), TestUtils.DELTA);
+		assertEquals(PhysicsObject.MIN_MASS, PhysicsTestUtils.getMass(physicsObject));
+	}
+
+	@Test
+	public void testFixedTypeMass() throws Exception {
+		PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, PhysicsObject.Type.FIXED, 5.0f,
+				5.0f);
+		Body body = PhysicsTestUtils.getBody(physicsObject);
+
+		assertEquals(0.0f, body.getMass(), TestUtils.DELTA);
+		assertEquals(PhysicsObject.DEFAULT_MASS, PhysicsTestUtils.getMass(physicsObject));
+
+		physicsObject.setMass(1.0f);
+		assertEquals(0.0f, body.getMass(), TestUtils.DELTA);
+		assertEquals(1.0f, PhysicsTestUtils.getMass(physicsObject));
+	}
+
+	@Test
+	public void testNoneTypeMass() throws Exception {
+		PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, PhysicsObject.Type.NONE, 5.0f,
+				5.0f);
+		Body body = PhysicsTestUtils.getBody(physicsObject);
+
+		assertEquals(0.0f, body.getMass(), TestUtils.DELTA);
+		assertEquals(PhysicsObject.DEFAULT_MASS, PhysicsTestUtils.getMass(physicsObject));
+
+		physicsObject.setMass(1.0f);
+		assertEquals(0.0f, body.getMass(), TestUtils.DELTA);
+		assertEquals(1.0f, PhysicsTestUtils.getMass(physicsObject));
 	}
 }

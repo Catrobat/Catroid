@@ -22,29 +22,44 @@
  */
 package org.catrobat.catroid.test.physics;
 
-import android.support.test.runner.AndroidJUnit4;
+import junit.framework.Assert;
 
-import org.catrobat.catroid.physics.PhysicsDebugSettings;
+import org.catrobat.catroid.physics.PhysicsWorldConverter;
+import org.catrobat.catroid.test.utils.TestConstants;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
-import static junit.framework.Assert.assertFalse;
+import java.util.Arrays;
 
-@RunWith(AndroidJUnit4.class)
-public class PhysicsDebugSettingsTest {
+@RunWith(Parameterized.class)
+public class PhysicsWorldConverterAngleTest {
 
-	/*
-	 * Tests if all physics debug settings are configured correctly for the release.
-	 * Therefore there is no problem if it fails during programming or debugging.
-	 */
+	@Parameterized.Parameters(name = "{0}")
+	public static Iterable<Object[]> data() {
+		return Arrays.asList(new Object[][] {
+				{0.0f, 0.0f},
+				{(float) Math.toRadians(123.456f), 123.456f},
+				{(float) Math.toRadians(-123.456f), -123.456f},
+				{(float) Math.toRadians(1024.0f), 1024.0f},
+				{(float) (Math.PI / 2.0), 90.0f},
+				{(float) Math.PI, 180.0f}
+		});
+	}
+
+	@Parameterized.Parameter
+	public float rad;
+
+	@Parameterized.Parameter(1)
+	public float deg;
+
 	@Test
-	public void testDefaultSettingsForRelease() {
-		assertFalse(PhysicsDebugSettings.Render.RENDER_COLLISION_FRAMES);
-		assertFalse(PhysicsDebugSettings.Render.RENDER_BODIES);
-		assertFalse(PhysicsDebugSettings.Render.RENDER_JOINTS);
-		assertFalse(PhysicsDebugSettings.Render.RENDER_AABB);
-		assertFalse(PhysicsDebugSettings.Render.RENDER_INACTIVE_BODIES);
-		assertFalse(PhysicsDebugSettings.Render.RENDER_VELOCITIES);
-		assertFalse(PhysicsDebugSettings.Render.RENDER_PHYSIC_OBJECT_LABELING);
+	public void testBox2dToNormalAngleConversion() {
+		Assert.assertEquals(deg, PhysicsWorldConverter.convertBox2dToNormalAngle(rad), TestConstants.DELTA);
+	}
+
+	@Test
+	public void testNormalToBox2dAngleConversion() {
+		Assert.assertEquals(rad, PhysicsWorldConverter.convertNormalToBox2dAngle(deg), TestConstants.DELTA);
 	}
 }
