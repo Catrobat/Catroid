@@ -26,6 +26,7 @@ package org.catrobat.catroid.io.asynctask;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.catrobat.catroid.io.DeviceVariableAccessor;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
 
@@ -59,7 +60,8 @@ public class ProjectRenameTask extends AsyncTask<Void, Void, Boolean> {
 
 		try {
 			return projectDir.renameTo(dstDir)
-					&& XstreamSerializer.renameProject(new File(dstDir, CODE_XML_FILE_NAME), dstName);
+					&& XstreamSerializer.renameProject(new File(dstDir, CODE_XML_FILE_NAME), dstName)
+					&& DeviceVariableAccessor.renameProject(new File(dstDir, CODE_XML_FILE_NAME), dstName);
 		} catch (IOException e) {
 			Log.e(TAG, "Cannot rename project directory " + projectDir.getAbsolutePath() + " to " + dstName, e);
 			return false;

@@ -29,6 +29,7 @@ public class UserVariable implements Serializable, UserData {
 	private static final long serialVersionUID = 1L;
 
 	private String name;
+	private String deviceValueFileName = "";
 	private transient Object value;
 	private transient boolean visible = true;
 	private transient boolean dummy = false;
@@ -104,5 +105,19 @@ public class UserVariable implements Serializable, UserData {
 	@Override
 	public int hashCode() {
 		return name.hashCode();
+	}
+
+	public String getDeviceValueFileName() {
+		return deviceValueFileName;
+	}
+
+	public UserVariable copyDeviceValueFileName(UserVariable variable) {
+		deviceValueFileName = variable.deviceValueFileName;
+		return this;
+	}
+
+	public UserVariable setDeviceValueFileName(String deviceValueFileName) {
+		this.deviceValueFileName = deviceValueFileName;
+		return this;
 	}
 }

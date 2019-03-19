@@ -84,6 +84,8 @@ public final class Constants {
 	// Temporary Files and Directories:
 	public static final File CACHE_DIR = CatroidApplication.getAppContext().getCacheDir();
 
+	public static final File DEVICE_VARIABLE_DIR = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "deviceVars");
+
 	public static final String CACHED_PROJECT_ZIP_FILE_NAME = "projectImportCache.zip";
 
 	public static final File POCKET_PAINT_CACHE_DIR = new File(CACHE_DIR, "pocketPaint");

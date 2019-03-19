@@ -22,11 +22,27 @@
  */
 package org.catrobat.catroid.io;
 
-import com.thoughtworks.xstream.converters.SingleValueConverter;
+import android.util.Log;
+
+import com.thoughtworks.xstream.converters.MarshallingContext;
+import com.thoughtworks.xstream.converters.UnmarshallingContext;
+import com.thoughtworks.xstream.converters.reflection.ReflectionConverter;
+import com.thoughtworks.xstream.converters.reflection.ReflectionProvider;
+import com.thoughtworks.xstream.io.HierarchicalStreamReader;
+import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
+import com.thoughtworks.xstream.mapper.Mapper;
 
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
-public class XStreamUserVariableConverter implements SingleValueConverter {
+public class XStreamUserVariableConverter extends ReflectionConverter {
+
+	private static final String TAG = XStreamUserVariableConverter.class.getSimpleName();
+	private static final String USER_VARIABLE_PACKAGE_NAME = "org.catrobat.catroid.formulaeditor";
+	private static final String TYPE = "type";
+
+	public XStreamUserVariableConverter(Mapper mapper, ReflectionProvider reflectionProvider) {
+		super(mapper, reflectionProvider);
+	}
 
 	@Override
 	public boolean canConvert(Class type) {
@@ -34,13 +50,23 @@ public class XStreamUserVariableConverter implements SingleValueConverter {
 	}
 
 	@Override
-	public String toString(Object object) {
-		UserVariable userVariable = (UserVariable) object;
-		return userVariable.getName();
+	protected void doMarshal(Object source, HierarchicalStreamWriter writer, MarshallingContext context) {
+		writer.addAttribute(TYPE, source.getClass().getSimpleName());
+		super.doMarshal(source, writer, context);
 	}
 
 	@Override
-	public Object fromString(String s) {
-		return new UserVariable(s);
+	public Object doUnmarshal(Object result, HierarchicalStreamReader reader, UnmarshallingContext context) {
+		String type = reader.getAttribute(TYPE);
+		if (type != null) {
+			try {
+				Class cls = Class.forName(USER_VARIABLE_PACKAGE_NAME + "." + type);
+				UserVariable userVariable = (UserVariable) reflectionProvider.newInstance(cls);
+				return super.doUnmarshal(userVariable, reader, context);
+			} catch (ClassNotFoundException exception) {
+				Log.e(TAG, "UserVariable class not found: " + result.toString(), exception);
+			}
+		}
+		return super.doUnmarshal(result, reader, context);
 	}
 }
