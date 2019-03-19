@@ -23,8 +23,7 @@
 
 package org.catrobat.catroid.test.content.script;
 
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
+import com.badlogic.gdx.utils.GdxNativesLoader;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
@@ -39,10 +38,14 @@ import org.catrobat.catroid.content.WhenBackgroundChangesScript;
 import org.catrobat.catroid.content.bricks.SetBackgroundBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.eventids.EventId;
+import org.catrobat.catroid.test.MockUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.io.File;
 
@@ -50,7 +53,8 @@ import static junit.framework.Assert.assertEquals;
 
 import static org.mockito.Mockito.when;
 
-@RunWith(AndroidJUnit4.class)
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(GdxNativesLoader.class)
 public class WhenBackgroundChangesScriptTest {
 	private Sprite sprite;
 	private WhenBackgroundChangesScript whenBgChangesScript;
@@ -60,7 +64,9 @@ public class WhenBackgroundChangesScriptTest {
 
 	@Before
 	public void setUp() {
-		Project project = new Project(InstrumentationRegistry.getInstrumentation().getTargetContext(), "TestProject");
+		PowerMockito.mockStatic(GdxNativesLoader.class);
+
+		Project project = new Project(MockUtil.mockContextForProject(), "TestProject");
 		ProjectManager.getInstance().setCurrentProject(project);
 		sprite = new SingleSprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);

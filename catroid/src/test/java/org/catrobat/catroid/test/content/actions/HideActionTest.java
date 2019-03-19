@@ -23,29 +23,50 @@
 package org.catrobat.catroid.test.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.utils.GdxNativesLoader;
 
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
+import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import static junit.framework.Assert.assertFalse;
-import static junit.framework.TestCase.assertTrue;
+import static junit.framework.Assert.assertTrue;
 
-@RunWith(JUnit4.class)
-public class ShowActionTest {
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(GdxNativesLoader.class)
+public class HideActionTest {
+
+	@Rule
+	public final ExpectedException exception = ExpectedException.none();
+
+	@Before
+	public void setUp() {
+		PowerMockito.mockStatic(GdxNativesLoader.class);
+	}
 
 	@Test
-	public void testShow() {
+	public void testHide() {
 		Sprite sprite = new SingleSprite("new SingleSprite");
-		sprite.look.setLookVisible(false);
-		assertFalse(sprite.look.isLookVisible());
-
+		assertTrue(sprite.look.isVisible());
 		ActionFactory factory = sprite.getActionFactory();
-		Action action = factory.createShowAction(sprite);
+		Action action = factory.createHideAction(sprite);
 		action.act(1.0f);
-		assertTrue(sprite.look.isLookVisible());
+		assertFalse(sprite.look.isLookVisible());
+	}
+
+	@Test
+	public void testNullSprite() {
+		ActionFactory factory = new ActionFactory();
+		Action action = factory.createHideAction(null);
+		exception.expect(NullPointerException.class);
+		action.act(1.0f);
 	}
 }

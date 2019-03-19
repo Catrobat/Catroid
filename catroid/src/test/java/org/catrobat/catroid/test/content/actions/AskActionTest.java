@@ -22,8 +22,7 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
+import com.badlogic.gdx.utils.GdxNativesLoader;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -31,13 +30,18 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.AskAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.test.MockUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import static junit.framework.Assert.assertEquals;
 
-@RunWith(AndroidJUnit4.class)
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(GdxNativesLoader.class)
 public class AskActionTest {
 
 	private static final String TEST_USERVARIABLE = "testUservariable";
@@ -50,12 +54,13 @@ public class AskActionTest {
 	@Before
 	public void setUp() throws Exception {
 		testSprite = new Sprite("testSprite");
-		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
+		project = new Project(MockUtil.mockContextForProject(), "testProject");
 
 		ProjectManager.getInstance().setCurrentProject(project);
 
 		userVariableForAnswer = new UserVariable(TEST_USERVARIABLE);
 		project.addUserVariable(userVariableForAnswer);
+		PowerMockito.mockStatic(GdxNativesLoader.class);
 	}
 
 	@Test

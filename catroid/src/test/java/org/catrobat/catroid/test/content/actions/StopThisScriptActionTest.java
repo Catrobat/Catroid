@@ -23,16 +23,11 @@
 
 package org.catrobat.catroid.test.content.actions;
 
-import android.support.test.InstrumentationRegistry;
-
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.GdxNativesLoader;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.BroadcastScript;
-import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.SingleSprite;
@@ -41,61 +36,48 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
+import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
-import org.catrobat.catroid.content.bricks.WaitBrick;
-import org.catrobat.catroid.content.eventids.BroadcastEventId;
 import org.catrobat.catroid.content.eventids.EventId;
-import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.stage.StageListener;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.test.MockUtil;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.junit.runner.RunWith;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import static junit.framework.Assert.assertEquals;
 
-public class StopAllScriptsActionTest {
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(GdxNativesLoader.class)
+public class StopThisScriptActionTest {
 	private Sprite sprite;
-	private Script startScript1;
-	private Script startScript2;
+	private Script startScript;
 
 	@Before
 	public void setUp() {
 		sprite = new SingleSprite("testSprite");
 		createProjectWithSprite(sprite);
-		startScript1 = new StartScript();
-		startScript2 = new StartScript();
-		sprite.addScript(startScript1);
-		sprite.addScript(startScript2);
+		startScript = new StartScript();
+		sprite.addScript(startScript);
 		sprite.look.setPositionInUserInterfaceDimensionUnit(0, 0);
+		PowerMockito.mockStatic(GdxNativesLoader.class);
 	}
 
 	private Project createProjectWithSprite(Sprite sprite) {
-		Project project = new Project(InstrumentationRegistry.getInstrumentation().getTargetContext(), "testProject");
+		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
 		ProjectManager.getInstance().setCurrentProject(project);
 		project.getDefaultScene().addSprite(sprite);
-
-		Array<Actor> actors = new Array<>();
-		actors.add(sprite.look);
-		StageActivity.stageListener = Mockito.mock(StageListener.class);
-		Mockito.when(StageActivity.stageListener.getStage()).thenReturn(Mockito.mock(Stage.class));
-		Mockito.when(StageActivity.stageListener.getStage().getActors()).thenReturn(actors);
-
-		List<Sprite> sprites = new ArrayList<>();
-		sprites.add(sprite);
-		Mockito.when(StageActivity.stageListener.getSpritesFromStage()).thenReturn(sprites);
 		return project;
 	}
 
 	@Test
-	public void testStopAllScriptsBasic() {
-		final int position = 15;
-		startScript1.addBrick(new StopScriptBrick(BrickValues.STOP_ALL_SCRIPTS));
-		startScript1.addBrick(new ChangeXByNBrick(position));
-		startScript2.addBrick(new WaitBrick(50));
-		startScript2.addBrick(new ChangeXByNBrick(position * 2));
+	public void testStopThisScriptBasic() {
+		final int invalidPosition = 15;
+		startScript.addBrick(new StopScriptBrick(BrickValues.STOP_THIS_SCRIPT));
+		startScript.addBrick(new SetXBrick(new Formula(invalidPosition)));
 		sprite.initializeEventThreads(EventId.START);
 
 		executeAllActions();
@@ -104,36 +86,15 @@ public class StopAllScriptsActionTest {
 	}
 
 	@Test
-	public void testStopAllScriptsInEvent() {
+	public void testStopThisScriptAfterEvent() {
 		final int position = 15;
 		final String broadcastMessage = "message1";
-		startScript1.addBrick(new BroadcastBrick(broadcastMessage));
-		startScript1.addBrick(new WaitBrick(50));
-		startScript1.addBrick(new ChangeXByNBrick(100));
-
 		BroadcastScript broadcastScript = new BroadcastScript(broadcastMessage);
-		broadcastScript.addBrick(new StopScriptBrick(BrickValues.STOP_ALL_SCRIPTS));
-		broadcastScript.addBrick(new ChangeXByNBrick(position));
+		broadcastScript.addBrick(new StopScriptBrick(BrickValues.STOP_THIS_SCRIPT));
+		broadcastScript.addBrick(new ChangeXByNBrick(100));
 		sprite.addScript(broadcastScript);
-		sprite.initializeEventThreads(EventId.START);
-
-		executeAllActions();
-
-		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
-	}
-
-	@Test
-	public void testStopAllScriptsAfterEventAndWait() {
-		final int position = 15;
-		final String broadcastMessage = "message1";
-		startScript1.addBrick(new BroadcastWaitBrick(broadcastMessage));
-		startScript1.addBrick(new ChangeXByNBrick(100));
-
-		BroadcastScript broadcastScript = new BroadcastScript(broadcastMessage);
-		broadcastScript.addBrick(new ChangeXByNBrick(position));
-		broadcastScript.addBrick(new StopScriptBrick(BrickValues.STOP_ALL_SCRIPTS));
-		broadcastScript.addBrick(new ChangeXByNBrick(position));
-		sprite.addScript(broadcastScript);
+		startScript.addBrick(new BroadcastBrick(broadcastMessage));
+		startScript.addBrick(new ChangeXByNBrick(position));
 		sprite.initializeEventThreads(EventId.START);
 
 		executeAllActions();
@@ -142,22 +103,17 @@ public class StopAllScriptsActionTest {
 	}
 
 	@Test
-	public void testRestartEventAfterStopAllScripts() {
+	public void testStopThisScriptAfterEventAndWait() {
 		final int position = 15;
 		final String broadcastMessage = "message1";
 		BroadcastScript broadcastScript = new BroadcastScript(broadcastMessage);
-		broadcastScript.addBrick(new WaitBrick(50));
-		broadcastScript.addBrick(new ChangeXByNBrick(position));
-
-		startScript1.addBrick(new BroadcastBrick(broadcastMessage));
-		startScript1.addBrick(new StopScriptBrick(BrickValues.STOP_ALL_SCRIPTS));
-		startScript1.addBrick(new ChangeXByNBrick(100));
-
+		broadcastScript.addBrick(new StopScriptBrick(BrickValues.STOP_THIS_SCRIPT));
+		broadcastScript.addBrick(new ChangeXByNBrick(100));
 		sprite.addScript(broadcastScript);
+		startScript.addBrick(new BroadcastWaitBrick(broadcastMessage));
+		startScript.addBrick(new ChangeXByNBrick(position));
 		sprite.initializeEventThreads(EventId.START);
 
-		executeAllActions();
-		sprite.look.fire(new EventWrapper(new BroadcastEventId(broadcastMessage), EventWrapper.NO_WAIT));
 		executeAllActions();
 
 		assertEquals((float) position, sprite.look.getXInUserInterfaceDimensionUnit());

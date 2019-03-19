@@ -51,6 +51,14 @@ public class ProjectTest {
 	private static final String OLD_PLATFORM_VERSION = "1.0.0 beta";
 
 	@Test
+	public void testVersionName() throws Exception {
+		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
+		XmlHeader projectXmlHeader = project.getXmlHeader();
+
+		assertEquals("testStub", projectXmlHeader.getApplicationVersion());
+	}
+
+	@Test
 	public void testAddRemoveSprite() {
 		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
 		Scene scene = project.getDefaultScene();

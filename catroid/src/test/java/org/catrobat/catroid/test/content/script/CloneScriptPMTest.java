@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.test.content.script;
 
-import android.support.test.runner.AndroidJUnit4;
+import com.badlogic.gdx.utils.GdxNativesLoader;
 
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.RaspiInterruptScript;
@@ -31,8 +31,12 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.List;
 
@@ -44,8 +48,14 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-@RunWith(AndroidJUnit4.class)
-public class CloneScriptTest {
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(GdxNativesLoader.class)
+public class CloneScriptPMTest {
+
+	@Before
+	public void setUp() {
+		PowerMockito.mockStatic(GdxNativesLoader.class);
+	}
 
 	@Test
 	public void testCloneRaspiInterruptScript() throws CloneNotSupportedException {

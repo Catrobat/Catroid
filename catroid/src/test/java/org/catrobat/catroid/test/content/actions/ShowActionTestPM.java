@@ -20,46 +20,42 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.content.script;
+package org.catrobat.catroid.test.content.actions;
 
-import android.support.test.runner.AndroidJUnit4;
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.utils.GdxNativesLoader;
 
-import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.content.bricks.HideBrick;
-import org.catrobat.catroid.content.bricks.SetSizeToBrick;
-import org.catrobat.catroid.content.eventids.EventId;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
-import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
+import static junit.framework.TestCase.assertTrue;
 
-@RunWith(AndroidJUnit4.class)
-public class StartScriptTest {
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(GdxNativesLoader.class)
+public class ShowActionTestPM {
+
+	@Before
+	public void setUp() {
+		PowerMockito.mockStatic(GdxNativesLoader.class);
+	}
 
 	@Test
-	public void testStartScript() {
-		double size = 300;
-		Sprite testSprite = new SingleSprite("testSprite");
-		Script testScript = new StartScript();
-		HideBrick hideBrick = new HideBrick();
-		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(size);
+	public void testShow() {
+		Sprite sprite = new SingleSprite("new SingleSprite");
+		sprite.look.setLookVisible(false);
+		assertFalse(sprite.look.isLookVisible());
 
-		testScript.addBrick(hideBrick);
-		testScript.addBrick(setSizeToBrick);
-		testSprite.addScript(testScript);
-
-		testSprite.initializeEventThreads(EventId.START);
-
-		while (!testSprite.look.haveAllThreadsFinished()) {
-			testSprite.look.act(1.0f);
-		}
-
-		assertFalse(testSprite.look.isLookVisible());
-		assertEquals((float) size / 100, testSprite.look.getScaleX());
-		assertEquals((float) size / 100, testSprite.look.getScaleY());
+		ActionFactory factory = sprite.getActionFactory();
+		Action action = factory.createShowAction(sprite);
+		action.act(1.0f);
+		assertTrue(sprite.look.isLookVisible());
 	}
 }

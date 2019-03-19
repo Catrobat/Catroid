@@ -22,10 +22,8 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
-
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.utils.GdxNativesLoader;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.ActionFactory;
@@ -33,37 +31,53 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.test.MockUtil;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import static junit.framework.Assert.assertTrue;
 
-@RunWith(AndroidJUnit4.class)
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(GdxNativesLoader.class)
 public class ShowTextActionTest {
 
 	private static final String SPRITE_NAME = "Cat";
 	private static final String SECOND_SPRITE_NAME = "Dog";
 	private static final String USER_VARIABLE_NAME = "var";
 
-	@Test
-	public void testShowVariablesVisibilitySameVariableNameAcrossSprites() {
-		Sprite sprite = new Sprite(SPRITE_NAME);
-		Project project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
+	private Sprite sprite;
+	private UserVariable var0;
+	private UserVariable var1;
+	private Sprite secondSprite;
+
+	@Before
+	public void setUp() {
+		sprite = new Sprite(SPRITE_NAME);
+		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
 		project.getDefaultScene().addSprite(sprite);
 		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 
-		Sprite secondSprite = new Sprite(SECOND_SPRITE_NAME);
+		secondSprite = new Sprite(SECOND_SPRITE_NAME);
 		project.getDefaultScene().addSprite(secondSprite);
 
-		UserVariable var0 = new UserVariable(USER_VARIABLE_NAME);
+		var0 = new UserVariable(USER_VARIABLE_NAME);
 		var0.setVisible(false);
 		sprite.addUserVariable(var0);
 
-		UserVariable var1 = new UserVariable(USER_VARIABLE_NAME);
+		var1 = new UserVariable(USER_VARIABLE_NAME);
 		var1.setVisible(false);
 		secondSprite.addUserVariable(var1);
 
+		PowerMockito.mockStatic(GdxNativesLoader.class);
+	}
+
+	@Test
+	public void testShowVariablesVisibilitySameVariableNameAcrossSprites() {
 		ActionFactory factory = sprite.getActionFactory();
 		Action firstSpriteAction = factory.createShowVariableAction(sprite, new Formula(0), new Formula(0),
 				var0);

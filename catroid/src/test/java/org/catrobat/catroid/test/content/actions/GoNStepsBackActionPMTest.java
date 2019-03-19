@@ -22,26 +22,29 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
-
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.utils.GdxNativesLoader;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.test.MockUtil;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import static junit.framework.Assert.assertEquals;
 
-@RunWith(AndroidJUnit4.class)
-public class GoNStepsBackActionTest {
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(GdxNativesLoader.class)
+public class GoNStepsBackActionPMTest {
 
 	@Rule
 	public final ExpectedException exception = ExpectedException.none();
@@ -58,7 +61,7 @@ public class GoNStepsBackActionTest {
 
 	@Before
 	public void setUp() throws Exception {
-		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
+		project = new Project(MockUtil.mockContextForProject(), "testProject");
 
 		background = new SingleSprite("background");
 		penActorSprite = new SingleSprite("penActor");
@@ -76,6 +79,7 @@ public class GoNStepsBackActionTest {
 		parentGroup.addActor(realSprite.look);
 
 		ProjectManager.getInstance().setCurrentProject(project);
+		PowerMockito.mockStatic(GdxNativesLoader.class);
 	}
 
 	@Test

@@ -22,30 +22,32 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
-
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.utils.GdxNativesLoader;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.test.utils.TestUtils;
-import org.junit.After;
+import org.catrobat.catroid.test.MockUtil;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
-@RunWith(AndroidJUnit4.class)
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(GdxNativesLoader.class)
 public class ComeToFrontActionTest {
 
 	@Rule
@@ -53,14 +55,14 @@ public class ComeToFrontActionTest {
 
 	private String projectName = "testProject";
 
-	@After
-	public void tearDown() throws Exception {
-		TestUtils.deleteProjects("testProject");
+	@Before
+	public void setUp() {
+		PowerMockito.mockStatic(GdxNativesLoader.class);
 	}
 
 	@Test
 	public void testComeToFront() {
-		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+		Project project = new Project(MockUtil.mockContextForProject(), projectName);
 		Group parentGroup = new Group();
 
 		Sprite bottomSprite = new SingleSprite("catroid");
@@ -132,7 +134,7 @@ public class ComeToFrontActionTest {
 
 	@Test
 	public void testBoundaries() {
-		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+		Project project = new Project(MockUtil.mockContextForProject(), projectName);
 		Group parentGroup = new Group();
 
 		Sprite firstSprite = new SingleSprite("firstSprite");

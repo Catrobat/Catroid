@@ -22,8 +22,7 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
+import com.badlogic.gdx.utils.GdxNativesLoader;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.BroadcastScript;
@@ -39,9 +38,13 @@ import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.test.MockUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -50,7 +53,8 @@ import static junit.framework.Assert.assertEquals;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertThat;
 
-@RunWith(AndroidJUnit4.class)
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(GdxNativesLoader.class)
 public class EventActionTest {
 	static final String MESSAGE1 = "message1";
 	static final String MESSAGE2 = "message2";
@@ -66,10 +70,11 @@ public class EventActionTest {
 		broadcastScript1 = new BroadcastScript(MESSAGE1);
 		sprite.addScript(startScript);
 		sprite.addScript(broadcastScript1);
+		PowerMockito.mockStatic(GdxNativesLoader.class);
 	}
 
 	private Project createProjectWithSprite(Sprite sprite) {
-		Project project = new Project(InstrumentationRegistry.getInstrumentation().getTargetContext(), "testProject");
+		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
 		ProjectManager.getInstance().setCurrentProject(project);
 		project.getDefaultScene().addSprite(sprite);
 		return project;
