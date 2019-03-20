@@ -158,6 +158,22 @@ pipeline {
                             }
                         }
 
+                        stage('Testrunner Tests') {
+                            steps {
+                                sh '''./gradlew -PenableCoverage -PlogcatFile=testrunner_logcat.txt -Pemulator=android24 \
+                                                startEmulator createCatroidDebugAndroidTestCoverageReport \
+                                                -Pandroid.testInstrumentationRunnerArguments.package=org.catrobat.catroid.catrobattestrunner'''
+
+
+                            }
+
+                            post {
+                                always {
+                                    postEmulator 'testrunner'
+                                }
+                            }
+                        }
+
                         stage('Quarantined Tests') {
                             when {
                                 expression { isJobStartedByTimer() }
