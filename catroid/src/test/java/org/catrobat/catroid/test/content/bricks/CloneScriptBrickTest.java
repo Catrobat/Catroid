@@ -38,6 +38,8 @@ import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.WhenTouchDownScript;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import static junit.framework.Assert.assertNotSame;
 import static junit.framework.Assert.assertSame;
@@ -46,6 +48,7 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
+@RunWith(JUnit4.class)
 public class CloneScriptBrickTest {
 	public static final int RASPI_DIGITAL_INITIAL_PIN_NUMBER = 3;
 	public static final String[] RASPI_EVENTS = {"pressed", "released"};

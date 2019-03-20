@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.pocketmusic.note;
 
-import android.util.SparseArray;
+import android.support.v4.util.SparseArrayCompat;
 
 public enum NoteLength {
 	WHOLE_DOT(4f + 2f), WHOLE(4f), HALF_DOT(2f + 1f), HALF(2f), QUARTER_DOT(1f + 1 / 2f),
@@ -36,7 +36,7 @@ public enum NoteLength {
 	private static final int SECOND_IN_MILLISECONDS = 1000;
 
 	private float length;
-	private static SparseArray<long[]> millisecondsCalculationMap = new SparseArray<>();
+	private static SparseArrayCompat<long[]> millisecondsCalculationMap = new SparseArrayCompat<>();
 
 	NoteLength(float length) {
 		this.length = length;

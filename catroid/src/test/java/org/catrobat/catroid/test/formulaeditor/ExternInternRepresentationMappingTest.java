@@ -23,15 +23,14 @@
 
 package org.catrobat.catroid.test.formulaeditor;
 
-import android.support.test.runner.AndroidJUnit4;
-
 import org.catrobat.catroid.formulaeditor.ExternInternRepresentationMapping;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import static junit.framework.Assert.assertEquals;
 
-@RunWith(AndroidJUnit4.class)
+@RunWith(JUnit4.class)
 public class ExternInternRepresentationMappingTest {
 
 	@Test

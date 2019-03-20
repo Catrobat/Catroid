@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.pocketmusic.note.trackgrid;
 
-import android.util.SparseArray;
+import android.support.v4.util.SparseArrayCompat;
 
 import org.catrobat.catroid.pocketmusic.note.NoteEvent;
 import org.catrobat.catroid.pocketmusic.note.Track;
@@ -39,7 +39,7 @@ public final class TrackGridToTrackConverter {
 		Track track = new Track(trackGrid.getKey(), trackGrid.getInstrument());
 
 		for (GridRow gridRow : trackGrid.getGridRows()) {
-			SparseArray<List<GridRowPosition>> positionsSparseArray = gridRow.getGridRowPositions();
+			SparseArrayCompat<List<GridRowPosition>> positionsSparseArray = gridRow.getGridRowPositions();
 			for (int i = 0; i < positionsSparseArray.size(); i++) {
 				int key = positionsSparseArray.keyAt(i);
 				List<GridRowPosition> positionsList = positionsSparseArray.get(key);

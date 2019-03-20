@@ -56,7 +56,7 @@ public class GoToRandomPositionActionTest {
 	}
 
 	@Test
-	public void testGoToOtherSpriteAction() throws InterruptedException {
+	public void testGoToOtherSpriteAction() {
 		sprite.look.setXInUserInterfaceDimensionUnit(0f);
 		sprite.look.setYInUserInterfaceDimensionUnit(0f);
 

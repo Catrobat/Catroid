@@ -20,27 +20,34 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.pocketmusic.note.trackgrid;
+package org.catrobat.catroid.test.note.trackgrid;
 
-import android.support.test.runner.AndroidJUnit4;
-
+import org.catrobat.catroid.pocketmusic.mididriver.MidiNotePlayer;
 import org.catrobat.catroid.pocketmusic.note.MusicalBeat;
 import org.catrobat.catroid.pocketmusic.note.Project;
 import org.catrobat.catroid.pocketmusic.note.Track;
 import org.catrobat.catroid.pocketmusic.note.trackgrid.TrackGrid;
 import org.catrobat.catroid.pocketmusic.note.trackgrid.TrackGridToTrackConverter;
 import org.catrobat.catroid.pocketmusic.note.trackgrid.TrackToTrackGridConverter;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import static junit.framework.Assert.assertEquals;
 
-@RunWith(AndroidJUnit4.class)
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({MidiNotePlayer.class, TrackGrid.class})
 public class TrackGridToTrackConverterTest {
 
 	private int beatsPerMinute = Project.DEFAULT_BEATS_PER_MINUTE;
 
-	public TrackGridToTrackConverterTest() {
+	@Before
+	public void setUp() throws Exception {
+		PowerMockito.whenNew(MidiNotePlayer.class).withAnyArguments().thenReturn(Mockito.mock(MidiNotePlayer.class));
 	}
 
 	@Test
