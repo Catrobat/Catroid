@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.pocketmusic.note.trackgrid;
 
-import android.util.SparseArray;
+import android.support.v4.util.SparseArrayCompat;
 
 import org.catrobat.catroid.pocketmusic.note.NoteName;
 
@@ -31,9 +31,9 @@ import java.util.List;
 public class GridRow {
 
 	private final NoteName noteName;
-	private final SparseArray<List<GridRowPosition>> gridRowPositions;
+	private final SparseArrayCompat<List<GridRowPosition>> gridRowPositions;
 
-	public GridRow(NoteName noteName, SparseArray<List<GridRowPosition>> gridRowPositions) {
+	public GridRow(NoteName noteName, SparseArrayCompat<List<GridRowPosition>> gridRowPositions) {
 		this.noteName = noteName;
 		this.gridRowPositions = gridRowPositions;
 	}
@@ -42,7 +42,7 @@ public class GridRow {
 		return noteName;
 	}
 
-	public SparseArray<List<GridRowPosition>> getGridRowPositions() {
+	public SparseArrayCompat<List<GridRowPosition>> getGridRowPositions() {
 		return gridRowPositions;
 	}
 

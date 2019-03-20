@@ -20,9 +20,9 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.pocketmusic.note.trackgrid;
+package org.catrobat.catroid.test.note.trackgrid;
 
-import android.util.SparseArray;
+import android.support.v4.util.SparseArrayCompat;
 
 import org.catrobat.catroid.pocketmusic.note.MusicalBeat;
 import org.catrobat.catroid.pocketmusic.note.MusicalInstrument;
@@ -42,9 +42,9 @@ public final class TrackGridTestDataFactory {
 	private TrackGridTestDataFactory() {
 	}
 
-	private static SparseArray<List<GridRowPosition>> createGridRowPositionsGridRow(int[] columnStartIndices) {
+	private static SparseArrayCompat<List<GridRowPosition>> createGridRowPositionsGridRow(int[] columnStartIndices) {
 
-		SparseArray<List<GridRowPosition>> gridRowContent = new SparseArray<>();
+		SparseArrayCompat<List<GridRowPosition>> gridRowContent = new SparseArrayCompat<>();
 
 		for (int columnStartIndex : columnStartIndices) {
 			int sparseArrayIndex = columnStartIndex / TrackRowView.QUARTER_COUNT;
@@ -67,7 +67,7 @@ public final class TrackGridTestDataFactory {
 
 		List<GridRow> gridRows = new ArrayList<GridRow>();
 
-		SparseArray<List<GridRowPosition>> gridRowPositionC1 = new SparseArray<List<GridRowPosition>>();
+		SparseArrayCompat<List<GridRowPosition>> gridRowPositionC1 = new SparseArrayCompat<List<GridRowPosition>>();
 
 		List<GridRowPosition> gridRowPositionListC1 = new ArrayList<GridRowPosition>();
 		gridRowPositionListC1.add(new GridRowPosition(0, NoteLength.QUARTER));

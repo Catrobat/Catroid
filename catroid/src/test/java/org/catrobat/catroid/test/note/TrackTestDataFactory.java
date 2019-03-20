@@ -68,4 +68,55 @@ public final class TrackTestDataFactory {
 
 		return track;
 	}
+
+	public static Track createTrackWithSeveralBreaks() {
+		Track track = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
+		long tick = 0;
+
+		tick += NoteLength.HALF.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
+		tick += NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
+
+		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, true));
+
+		tick += NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
+
+		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, false));
+
+		return track;
+	}
+
+	public static Track createSemiComplexTrack(MusicalInstrument instrument) {
+		Track track = new Track(MusicalKey.VIOLIN, instrument);
+
+		long tick = 0;
+
+		track.addNoteEvent(tick, new NoteEvent(NoteName.C5, true));
+
+		tick += NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
+
+		track.addNoteEvent(tick, new NoteEvent(NoteName.C5, false));
+		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, true));
+		track.addNoteEvent(tick, new NoteEvent(NoteName.D4, true));
+
+		tick += NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
+
+		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, false));
+		track.addNoteEvent(tick, new NoteEvent(NoteName.D4, false));
+		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, true));
+		track.addNoteEvent(tick, new NoteEvent(NoteName.D4, true));
+
+		tick += NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
+
+		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, false));
+		track.addNoteEvent(tick, new NoteEvent(NoteName.D4, false));
+		track.addNoteEvent(tick, new NoteEvent(NoteName.E4, true));
+		track.addNoteEvent(tick, new NoteEvent(NoteName.F4, true));
+
+		tick += NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
+
+		track.addNoteEvent(tick, new NoteEvent(NoteName.E4, false));
+		track.addNoteEvent(tick, new NoteEvent(NoteName.F4, false));
+
+		return track;
+	}
 }

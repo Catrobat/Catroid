@@ -22,13 +22,17 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.support.test.runner.AndroidJUnit4;
+import android.content.Context;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
+import org.catrobat.catroid.CatroidApplication;
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.SpeakAction;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -36,12 +40,19 @@ import org.catrobat.catroid.test.utils.Reflection;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
+
+import java.io.File;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 
-@RunWith(AndroidJUnit4.class)
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({File.class, SpeakAction.class, Constants.class, FlavoredConstants.class, CatroidApplication.class})
 public class SpeakActionTest {
 
 	private Sprite sprite;
@@ -53,6 +64,14 @@ public class SpeakActionTest {
 
 	@Before
 	public void setUp() throws Exception {
+		PowerMockito.whenNew(File.class).withAnyArguments().thenReturn(Mockito.mock(File.class));
+		Context contextMock = Mockito.mock(Context.class);
+		Mockito.when(contextMock.getCacheDir()).thenReturn(Mockito.mock(File.class));
+		PowerMockito.mockStatic(CatroidApplication.class);
+		PowerMockito.when(CatroidApplication.getAppContext()).thenReturn(contextMock);
+		PowerMockito.mockStatic(FlavoredConstants.class);
+		PowerMockito.mockStatic(Constants.class);
+
 		sprite = new SingleSprite("testSprite");
 		text = new Formula(666);
 		text2 = new Formula(888.88);

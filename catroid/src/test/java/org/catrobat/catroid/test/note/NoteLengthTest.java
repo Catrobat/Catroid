@@ -201,4 +201,44 @@ public class NoteLengthTest {
 	public void testIsHalfOrHigher2() {
 		assertFalse(NoteLength.QUARTER.isHalfOrHigher());
 	}
+
+	@Test
+	public void testGetNoteLengthFromMilliseconds1() {
+		NoteLength expectedNoteLength = NoteLength.QUARTER;
+		long millis = 1000;
+
+		NoteLength actualNoteLength = NoteLength.getNoteLengthFromMilliseconds(millis, Project.DEFAULT_BEATS_PER_MINUTE);
+
+		assertEquals(expectedNoteLength, actualNoteLength);
+	}
+
+	@Test
+	public void testGetNoteLengthFromMilliseconds2() {
+		NoteLength expectedNoteLength = NoteLength.EIGHT;
+		long millis = 510;
+
+		NoteLength actualNoteLength = NoteLength.getNoteLengthFromMilliseconds(millis, Project.DEFAULT_BEATS_PER_MINUTE);
+
+		assertEquals(expectedNoteLength, actualNoteLength);
+	}
+
+	@Test
+	public void testGetNoteLengthFromMilliseconds3() {
+		NoteLength expectedNoteLength = NoteLength.SIXTEENTH;
+		long millis = 1;
+
+		NoteLength actualNoteLength = NoteLength.getNoteLengthFromMilliseconds(millis, Project.DEFAULT_BEATS_PER_MINUTE);
+
+		assertEquals(expectedNoteLength, actualNoteLength);
+	}
+
+	@Test
+	public void testGetNoteLengthFromMilliseconds4() {
+		NoteLength expectedNoteLength = NoteLength.WHOLE_DOT;
+		long millis = 10000;
+
+		NoteLength actualNoteLength = NoteLength.getNoteLengthFromMilliseconds(millis, Project.DEFAULT_BEATS_PER_MINUTE);
+
+		assertEquals(expectedNoteLength, actualNoteLength);
+	}
 }

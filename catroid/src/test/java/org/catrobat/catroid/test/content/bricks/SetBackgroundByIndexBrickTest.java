@@ -23,8 +23,7 @@
 
 package org.catrobat.catroid.test.content.bricks;
 
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
+import com.badlogic.gdx.utils.GdxNativesLoader;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
@@ -34,16 +33,22 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.test.MockUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.io.File;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 
-@RunWith(AndroidJUnit4.class)
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(GdxNativesLoader.class)
 public class SetBackgroundByIndexBrickTest {
 
 	private Sprite sprite;
@@ -52,7 +57,9 @@ public class SetBackgroundByIndexBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Project project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
+		PowerMockito.mockStatic(GdxNativesLoader.class);
+
+		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
 		sprite = new Sprite("Sprite");
 		project.getDefaultScene().addSprite(sprite);
 		ProjectManager.getInstance().setCurrentProject(project);
@@ -60,17 +67,14 @@ public class SetBackgroundByIndexBrickTest {
 
 		sprite.addUserVariable(new UserVariable(localUserVariableBackgroundIndex, backgroundIndex));
 
-		File imageFile = new File("");
-		File imageFile2 = new File("");
-
 		List<LookData> lookDataList = project.getDefaultScene().getBackgroundSprite().getLookList();
 		LookData lookData = new LookData();
-		lookData.setFile(imageFile);
+		lookData.setFile(Mockito.mock(File.class));
 		lookData.setName("background1");
 		lookDataList.add(lookData);
 
 		LookData lookData2 = new LookData();
-		lookData2.setFile(imageFile2);
+		lookData2.setFile(Mockito.mock(File.class));
 		lookData2.setName("background2");
 		lookDataList.add(lookData2);
 
