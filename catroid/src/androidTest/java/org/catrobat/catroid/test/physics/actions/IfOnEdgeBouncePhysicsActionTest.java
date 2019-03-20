@@ -23,7 +23,6 @@
 package org.catrobat.catroid.test.physics.actions;
 
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
@@ -74,16 +73,6 @@ public class IfOnEdgeBouncePhysicsActionTest {
 		project = rule.project;
 	}
 
-	private static final String TAG = IfOnEdgeBouncePhysicsActionTest.class.getSimpleName();
-
-	private void logState(String explanationText, Sprite sprite, PhysicsObject physicsObject) {
-		Log.d(TAG, explanationText);
-		Log.d(TAG, "getX():" + sprite.look.getXInUserInterfaceDimensionUnit());
-		Log.d(TAG, "getY():" + sprite.look.getYInUserInterfaceDimensionUnit());
-		Log.d(TAG, "getVelocity():" + physicsObject.getVelocity().x + " / " + physicsObject.getVelocity().y);
-		Log.d(TAG, "-------------------------------------------------");
-	}
-
 	@Test
 	public void testNormalBehavior() {
 
@@ -101,14 +90,11 @@ public class IfOnEdgeBouncePhysicsActionTest {
 
 		ActionFactory factory = sprite.getActionFactory();
 		Action ifOnEdgeBouncePhysicsAction = factory.createIfOnEdgeBounceAction(sprite);
-		logState("Values after action creation", sprite, physicsObject);
 
 		ifOnEdgeBouncePhysicsAction.act(0.1f);
 		float setYValueAfterAct = sprite.look.getYInUserInterfaceDimensionUnit();
-		logState("Values after act of the action", sprite, physicsObject);
 
 		physicsWorld.step(0.3f);
-		logState("Values after step of physics world", sprite, physicsObject);
 
 		assertThat(sprite.look.getYInUserInterfaceDimensionUnit(), is(greaterThan(setYValueAfterAct)));
 	}
@@ -130,15 +116,12 @@ public class IfOnEdgeBouncePhysicsActionTest {
 
 		ActionFactory factory = sprite.getActionFactory();
 		Action ifOnEdgeBouncePhysicsAction = factory.createIfOnEdgeBounceAction(sprite);
-		logState("Values after action creation", sprite, physicsObject);
 
 		ifOnEdgeBouncePhysicsAction.act(0.1f);
-		logState("Values after act of the action", sprite, physicsObject);
 
 		assertEquals(setVelocityYValue, physicsObject.getVelocity().y, TestUtils.DELTA);
 
 		physicsWorld.step(0.3f);
-		logState("Values after step of physics world", sprite, physicsObject);
 
 		assertThat(sprite.look.getYInUserInterfaceDimensionUnit(), is(lessThan(setYValue)));
 	}
@@ -166,10 +149,8 @@ public class IfOnEdgeBouncePhysicsActionTest {
 
 		ActionFactory factory = sprite.getActionFactory();
 		Action ifOnEdgeBouncePhysicsAction = factory.createIfOnEdgeBounceAction(sprite);
-		logState("Values after action creation", sprite, physicsObject);
 
 		ifOnEdgeBouncePhysicsAction.act(0.1f);
-		logState("Values after first act of the action", sprite, physicsObject);
 
 		float borderX = sprite.look.getXInUserInterfaceDimensionUnit();
 		float borderY = sprite.look.getYInUserInterfaceDimensionUnit();
@@ -181,7 +162,6 @@ public class IfOnEdgeBouncePhysicsActionTest {
 		assertEquals(setVelocityYValue, physicsObject.getVelocity().y, TestUtils.DELTA);
 
 		physicsWorld.step(0.1f);
-		logState("Values after first step of physics world", sprite, physicsObject);
 
 		float prevX = sprite.look.getXInUserInterfaceDimensionUnit();
 		float prevY = sprite.look.getYInUserInterfaceDimensionUnit();
@@ -190,10 +170,7 @@ public class IfOnEdgeBouncePhysicsActionTest {
 		assertEquals(prevX, sprite.look.getXInUserInterfaceDimensionUnit(), TestUtils.DELTA);
 		assertEquals(prevY, sprite.look.getYInUserInterfaceDimensionUnit(), TestUtils.DELTA);
 
-		logState("Values after second act of the action", sprite, physicsObject);
-
 		physicsWorld.step(2.3f);
-		logState("Values after second step of physics world", sprite, physicsObject);
 
 		assertThat(sprite.look.getXInUserInterfaceDimensionUnit(), is(lessThan(setXValue)));
 		assertThat(sprite.look.getYInUserInterfaceDimensionUnit(), is(lessThan(setYValue)));

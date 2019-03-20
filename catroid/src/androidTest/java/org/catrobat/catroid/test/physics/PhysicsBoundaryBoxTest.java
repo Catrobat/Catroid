@@ -75,11 +75,11 @@ public class PhysicsBoundaryBoxTest {
 
 			Array<Fixture> fixtures = body.getFixtureList();
 			assertEquals(1, fixtures.size);
-			for (Fixture fixture : fixtures) {
-				Filter filter = fixture.getFilterData();
-				assertEquals(PhysicsWorld.MASK_BOUNDARYBOX, filter.maskBits);
-				assertEquals(PhysicsWorld.CATEGORY_BOUNDARYBOX, filter.categoryBits);
-			}
+			Fixture fixture = fixtures.get(0);
+
+			Filter filter = fixture.getFilterData();
+			assertEquals(PhysicsWorld.MASK_BOUNDARYBOX, filter.maskBits);
+			assertEquals(PhysicsWorld.CATEGORY_BOUNDARYBOX, filter.categoryBits);
 		}
 	}
 }

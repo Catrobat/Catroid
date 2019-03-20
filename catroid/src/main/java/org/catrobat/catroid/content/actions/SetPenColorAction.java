@@ -27,6 +27,7 @@ import android.util.Log;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
+import org.catrobat.catroid.content.PenColor;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
@@ -46,7 +47,7 @@ public class SetPenColorAction extends TemporalAction {
 			int newBlue = blue == null ? 0 : blue.interpretInteger(sprite);
 			Color color = new Color();
 			Color.argb8888ToColor(color, android.graphics.Color.argb(0xFF, newRed, newGreen, newBlue));
-			sprite.penConfiguration.penColor = color;
+			sprite.penConfiguration.penColor = new PenColor(color.r, color.g, color.g, color.a);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 		}
