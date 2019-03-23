@@ -222,7 +222,9 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 	@Override
 	protected void prepareActionMode(@ActionModeType int type) {
 		if (type == COPY) {
-			adapter.allowMultiSelection = false;
+			adapter.selectionMode = adapter.MULTIPLE;
+		} else if (type == MERGE) {
+			adapter.selectionMode = adapter.PAIRS;
 		}
 		super.prepareActionMode(type);
 	}
@@ -359,6 +361,8 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 				return R.plurals.am_delete_projects_title;
 			case RENAME:
 				return R.plurals.am_rename_projects_title;
+			case MERGE:
+				return R.plurals.am_merge_projects_title;
 			case NONE:
 			default:
 				throw new IllegalStateException("ActionModeType not set correctly");

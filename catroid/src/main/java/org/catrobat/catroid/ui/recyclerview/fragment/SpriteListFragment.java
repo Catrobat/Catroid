@@ -290,6 +290,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 				return R.plurals.am_delete_sprites_title;
 			case RENAME:
 				return R.plurals.am_rename_sprites_title;
+			case MERGE:
 			case NONE:
 			default:
 				throw new IllegalStateException("ActionModeType not set correctly");

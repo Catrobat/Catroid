@@ -234,6 +234,7 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> implements Pr
 				return R.plurals.am_delete_scenes_title;
 			case RENAME:
 				return R.plurals.am_rename_scenes_title;
+			case MERGE:
 			case NONE:
 			default:
 				throw new IllegalStateException("ActionModeType not set correctly");

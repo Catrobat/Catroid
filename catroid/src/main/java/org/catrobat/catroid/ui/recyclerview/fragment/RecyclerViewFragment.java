@@ -67,7 +67,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 		RVAdapter.OnItemClickListener<T> {
 
 	@Retention(RetentionPolicy.SOURCE)
-	@IntDef({NONE, BACKPACK, COPY, DELETE, RENAME})
+	@IntDef({NONE, BACKPACK, COPY, DELETE, RENAME, MERGE})
 	@interface ActionModeType {
 	}
 
@@ -76,6 +76,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	protected static final int COPY = 2;
 	protected static final int DELETE = 3;
 	protected static final int RENAME = 4;
+	protected static final int MERGE = 5;
 
 	protected View parentView;
 	protected RecyclerView recyclerView;
@@ -118,15 +119,18 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 				mode.setTitle(getString(R.string.am_delete));
 				break;
 			case RENAME:
-				adapter.allowMultiSelection = false;
+				adapter.selectionMode = adapter.SINGLE;
 				mode.setTitle(getString(R.string.am_rename));
+				break;
+			case MERGE:
+				adapter.selectionMode = adapter.PAIRS;
+				mode.setTitle(R.string.am_merge);
 				break;
 			case NONE:
 				return false;
 		}
 
 		mode.getMenuInflater().inflate(R.menu.context_menu, menu);
-
 		adapter.showCheckBoxes = true;
 		adapter.notifyDataSetChanged();
 		return true;
@@ -180,6 +184,9 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 			case RENAME:
 				showRenameDialog(adapter.getSelectedItems());
 				break;
+			case MERGE:
+				showMergeAlert();
+				break;
 			case NONE:
 				throw new IllegalStateException("ActionModeType not set correctly");
 		}
@@ -189,7 +196,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 		actionModeType = NONE;
 		actionMode = null;
 		adapter.showCheckBoxes = false;
-		adapter.allowMultiSelection = true;
+		adapter.selectionMode = adapter.MULTIPLE;
 	}
 
 	@Override
@@ -281,6 +288,9 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 			case R.id.rename:
 				prepareActionMode(RENAME);
 				break;
+			case R.id.merge:
+				prepareActionMode(MERGE);
+				break;
 			case R.id.show_details:
 				adapter.showDetails = !adapter.showDetails;
 				PreferenceManager.getDefaultSharedPreferences(getActivity())
@@ -328,7 +338,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	}
 
 	protected void updateSelectionToggle(MenuItem selectionToggle) {
-		if (adapter.allowMultiSelection) {
+		if (adapter.selectionMode == adapter.MULTIPLE) {
 
 			selectionToggle.setVisible(true);
 
@@ -434,6 +444,16 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 		builder.setTitle(getRenameDialogTitle())
 				.setNegativeButton(R.string.cancel, null)
 				.show();
+	}
+
+	protected void showMergeAlert() {
+		if (adapter.getSelectedItems().size() <= 1) {
+			ToastUtil.showError(getContext(), R.string.am_merge_error);
+		} else {
+			ToastUtil.showError(getContext(), "These two projects cannot yet be merged");
+		}
+		setShowProgressBar(true);
+		finishActionMode();
 	}
 
 	@StringRes
