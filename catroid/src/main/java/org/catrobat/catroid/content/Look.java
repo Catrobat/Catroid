@@ -219,6 +219,10 @@ public class Look extends Image {
 		}
 	}
 
+	public void setSchedulerState(@ThreadScheduler.SchedulerState int state) {
+		scheduler.setState(state);
+	}
+
 	protected void checkImageChanged() {
 		if (imageChanged) {
 			if (lookData == null) {

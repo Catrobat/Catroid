@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.common;
 
+import android.support.annotation.IntDef;
+
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
@@ -30,13 +32,24 @@ import com.badlogic.gdx.utils.Array;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.actions.EventThread;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.Iterator;
 
 public class ThreadScheduler {
+	@Retention(RetentionPolicy.SOURCE)
+	@IntDef({RUNNING, SUSPENDED})
+	public @interface SchedulerState {
+	}
+
+	public static final int RUNNING = 0;
+	public static final int SUSPENDED = 1;
 
 	private Array<EventThread> startQueue = new Array<>();
 	private Array<Action> stopQueue = new Array<>();
 	private Actor actor;
+	@SchedulerState
+	private int state = RUNNING;
 
 	public ThreadScheduler(Actor actor) {
 		this.actor = actor;
@@ -60,7 +73,7 @@ public class ThreadScheduler {
 	private void runThreadsForOneTick(Array<Action> actions, float delta) {
 		for (int i = 0; i < actions.size; i++) {
 			Action action = actions.get(i);
-			if (action.act(delta)) {
+			if (state == RUNNING && action.act(delta)) {
 				stopQueue.add(action);
 			}
 		}
@@ -106,5 +119,9 @@ public class ThreadScheduler {
 
 	public boolean haveAllThreadsFinished() {
 		return startQueue.size + actor.getActions().size == 0;
+	}
+
+	public void setState(@SchedulerState int schedulerState) {
+		this.state = schedulerState;
 	}
 }

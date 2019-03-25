@@ -26,7 +26,7 @@ import android.content.Context;
 import android.graphics.PointF;
 import android.util.Log;
 
-import com.google.common.collect.HashMultimap;
+import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
@@ -78,7 +78,7 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 	public transient PenConfiguration penConfiguration = new PenConfiguration();
 	private transient boolean convertToSingleSprite = false;
 	private transient boolean convertToGroupItemSprite = false;
-	private transient Multimap<EventId, EventThread> idToEventThreadMap = HashMultimap.create();
+	private transient Multimap<EventId, EventThread> idToEventThreadMap = LinkedHashMultimap.create();
 	private transient Set<ConditionScriptTrigger> conditionScriptTriggers = new HashSet<>();
 
 	@XStreamAsAttribute
