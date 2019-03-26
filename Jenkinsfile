@@ -105,7 +105,7 @@ pipeline {
 
                         stage('Static Analysis') {
                             steps {
-                                sh './gradlew pmd checkstyle lint'
+                                sh './gradlew pmd checkstyle lint detekt'
                             }
 
                             post {
@@ -113,7 +113,8 @@ pipeline {
                                     recordIssues aggregatingResults: true, enabledForFailure: true, qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]],
                                                  tools: [androidLintParser(pattern: 'catroid/build/reports/lint*.xml'),
                                                          checkStyle(pattern: 'catroid/build/reports/checkstyle.xml'),
-                                                         pmdParser(pattern: 'catroid/build/reports/pmd.xml')]
+                                                         pmdParser(pattern: 'catroid/build/reports/pmd.xml'),
+                                                         detekt(pattern: 'catroid/build/reports/detekt/detekt.xml')]
                                 }
                             }
                         }
