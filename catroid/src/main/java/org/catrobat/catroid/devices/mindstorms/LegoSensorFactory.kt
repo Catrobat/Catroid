@@ -23,10 +23,24 @@
 
 package org.catrobat.catroid.devices.mindstorms
 
-import org.catrobat.catroid.devices.mindstorms.ev3.sensors.*
-import org.catrobat.catroid.devices.mindstorms.nxt.sensors.*
+import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3ColorSensor
+import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3InfraredSensor
+import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3LightSensorNXT
+import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor
+import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3SensorMode
+import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3SoundSensorNXT
+import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3TouchSensor
+import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3UltrasonicSensorNXT
+import org.catrobat.catroid.devices.mindstorms.ev3.sensors.HiTechnicColorSensor
+import org.catrobat.catroid.devices.mindstorms.ev3.sensors.TemperatureSensor
+import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTI2CUltraSonicSensor
+import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTLightSensor
+import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTLightSensorActive
+import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor
+import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSoundSensor
+import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTTouchSensor
 
-class LegoSensorFactory (private val connection: MindstormsConnection) {
+class LegoSensorFactory(private val connection: MindstormsConnection) {
     fun create(sensorType: Enum<*>, port: Int): LegoSensor = when (sensorType) {
         is EV3Sensor.Sensor -> createEv3Sensor(sensorType, port)
         is NXTSensor.Sensor -> createNxtSensor(sensorType, port)

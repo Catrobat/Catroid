@@ -24,12 +24,17 @@
 buildscript {
     repositories {
         maven { url 'https://maven.fabric.io/public' }
+        google()
         jcenter()
     }
     dependencies {
         classpath 'io.fabric.tools:gradle:1.21.5'
-        classpath 'com.google.gms:google-services:3.0.0'
+        classpath 'com.google.gms:google-services:4.2.0'
     }
+}
+
+plugins {
+    id "io.gitlab.arturbosch.detekt" version "1.0.0-RC14"
 }
 
 repositories {
@@ -92,6 +97,13 @@ apply plugin: 'checkstyle'
 apply plugin: 'jacoco-android'
 apply plugin: 'pmd'
 
+detekt {
+    toolVersion = "1.0.0-RC14"
+    config = files("config/detekt.yml")
+    input = files("src")
+    filters = ".*/resources/.*,.*/build/.*"
+}
+
 apply from: 'gradle/code_quality_tasks.gradle'
 apply from: 'gradle/intellij_config_tasks.gradle'
 apply from: 'gradle/standalone_apk_tasks.gradle'
@@ -100,6 +112,7 @@ apply from: 'gradle/release_fastlane_tasks.gradle'
 
 check.dependsOn 'checkstyle'
 check.dependsOn 'pmd'
+check.dependsOn 'detekt'
 
 // When -Pindependent was provided on the gradle command the APP name is changed.
 // This allows to have multiple Catroid versions installed in parallel for testing purposes.
@@ -290,6 +303,10 @@ android {
     }
 
     flavorDimensions "default"
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
     productFlavors {
         catroid {
@@ -463,6 +480,8 @@ dependencies {
     pmd 'net.sourceforge.pmd:pmd-java:5.8.1'
 
     checkstyle 'com.puppycrawl.tools:checkstyle:7.6'
+
+    detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:1.0.0-RC14"
 }
 
 static def getGitCommitInfo() {
