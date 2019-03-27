@@ -23,13 +23,11 @@
 package org.catrobat.catroid.utils;
 
 import android.hardware.Camera;
-import android.util.Log;
 
 import org.catrobat.catroid.camera.CameraManager;
 
 public final class FlashUtil {
 
-	private static final String TAG = FlashUtil.class.getSimpleName();
 	private static Camera.Parameters paramsOn = null;
 	private static Camera.Parameters paramsOff = null;
 
@@ -51,8 +49,11 @@ public final class FlashUtil {
 		return currentFlashValue;
 	}
 
+	public static boolean isPaused() {
+		return paused;
+	}
+
 	public static void pauseFlash() {
-		Log.d(TAG, "pauseFlash");
 		if (!paused && isAvailable()) {
 			paused = true;
 			if (isOn()) {
@@ -63,8 +64,7 @@ public final class FlashUtil {
 	}
 
 	public static void resumeFlash() {
-		Log.d(TAG, "resumeFlash()");
-		if (paused) {
+		if (paused && isAvailable()) {
 			initializeFlash();
 			if (startAgain) {
 				flashOn();
@@ -75,7 +75,6 @@ public final class FlashUtil {
 	}
 
 	public static void destroy() {
-		Log.d(TAG, "reset all variables - called by StageActivity::onDestroy");
 		currentFlashValue = false;
 		paused = false;
 		available = false;
@@ -92,9 +91,14 @@ public final class FlashUtil {
 	}
 
 	public static void initializeFlash() {
-		Log.d(TAG, "initializeFlash()");
+		available = CameraManager.getInstance().isCameraFlashAvailable();
 
-		available = true;
+		if (!available) {
+			destroy();
+			return;
+		}
+
+		CameraManager.getInstance().switchToCameraWithFlash();
 
 		if (!CameraManager.getInstance().isReady()) {
 			CameraManager.getInstance().startCamera();
@@ -111,18 +115,20 @@ public final class FlashUtil {
 	}
 
 	public static void flashOn() {
-		Log.d(TAG, "flashOn()");
-		if (!CameraManager.getInstance().hasCurrentCameraFlash()) {
-			currentFlashValue = false;
-			CameraManager.getInstance().destroyStage();
-		} else {
-			CameraManager.getInstance().setFlashParams(paramsOn);
-			currentFlashValue = true;
+		if (!available) {
+			destroy();
+			return;
 		}
+
+		CameraManager.getInstance().setFlashParams(paramsOn);
+		currentFlashValue = true;
 	}
 
 	public static void flashOff() {
-		Log.d(TAG, "flashOff()");
+		if (!isAvailable()) {
+			return;
+		}
+
 		CameraManager.getInstance().setFlashParams(paramsOff);
 		currentFlashValue = false;
 	}

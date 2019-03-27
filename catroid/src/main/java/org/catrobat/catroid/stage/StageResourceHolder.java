@@ -301,12 +301,8 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 
 		if (requiredResourcesSet.contains(Brick.CAMERA_FLASH)) {
 			CameraManager.makeInstance();
-			if (CameraManager.getInstance().switchToCameraWithFlash()) {
-				FlashUtil.initializeFlash();
-				resourceInitialized();
-			} else {
-				resourceFailed(Brick.CAMERA_FLASH);
-			}
+			FlashUtil.initializeFlash();
+			resourceInitialized();
 		}
 
 		if (requiredResourcesSet.contains(Brick.VIBRATOR)) {
@@ -488,10 +484,6 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 				case Brick.CAMERA_FRONT:
 					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
 							.prestage_no_front_camera_available);
-					break;
-				case Brick.CAMERA_FLASH:
-					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
-							.prestage_no_flash_available);
 					break;
 				case Brick.VIBRATOR:
 					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
