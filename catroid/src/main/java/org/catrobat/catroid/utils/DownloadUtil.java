@@ -25,6 +25,7 @@ package org.catrobat.catroid.utils;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
@@ -36,6 +37,7 @@ import org.catrobat.catroid.scratchconverter.Client;
 import org.catrobat.catroid.scratchconverter.Client.DownloadCallback;
 import org.catrobat.catroid.transfers.MediaDownloadService;
 import org.catrobat.catroid.transfers.ProjectDownloadService;
+import org.catrobat.catroid.transfers.project.ResultReceiverWrapper;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.recyclerview.dialog.ReplaceExistingProjectDialogFragment;
 import org.catrobat.catroid.web.ProgressResponseBody;
@@ -87,27 +89,31 @@ public final class DownloadUtil {
 		}
 	}
 
-	public void startMediaDownload(WebViewActivity activity, String url, String mediaName, String filePath) {
+	public void startMediaDownload(WebViewActivity activity, String url, String mediaName, String filePath,
+			ResultReceiverWrapper receiverWrapper) {
 		if (mediaName == null) {
 			return;
 		}
-
 		webViewActivity = activity;
-
 		Intent downloadIntent = new Intent(activity, MediaDownloadService.class);
-		downloadIntent.putExtra(MediaDownloadService.RECEIVER_TAG, new DownloadMediaReceiver(new Handler()));
 		downloadIntent.putExtra(MediaDownloadService.URL_TAG, url);
 		downloadIntent.putExtra(MediaDownloadService.MEDIA_FILE_PATH, filePath);
+		downloadIntent.putExtra(MediaDownloadService.PROGRAM_NAME, getProjectNameFromUrl(url));
+		downloadIntent.putExtra(MediaDownloadService.RECEIVER, receiverWrapper);
 		webViewActivity.createProgressDialog(mediaName);
 		webViewActivity.setResultIntent(webViewActivity.getResultIntent()
 				.putExtra(WebViewActivity.MEDIA_FILE_PATH, filePath));
-		activity.startService(downloadIntent);
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+			activity.startForegroundService(downloadIntent);
+		} else {
+			activity.startService(downloadIntent);
+		}
 	}
 
 	public void startDownload(Context context, String url, String programName, boolean renameProject) {
 		final String programNameKey = programName.toLowerCase(Locale.getDefault());
 		programDownloadQueue.add(programNameKey);
-
 		if (programDownloadCallback != null) {
 			programDownloadCallback.onDownloadStarted(url);
 		}
@@ -135,12 +141,6 @@ public final class DownloadUtil {
 	}
 
 	ArrayList<Integer> notificationIdArray = new ArrayList<Integer>();
-
-	public void downloadCanceled(String url) {
-		if (programDownloadCallback != null) {
-			programDownloadCallback.onUserCanceledDownload(url);
-		}
-	}
 
 	@SuppressLint("ParcelCreator")
 	private class DownloadProjectReceiver extends ResultReceiver {
@@ -171,28 +171,6 @@ public final class DownloadUtil {
 					StatusBarNotificationManager.getInstance().showOrUpdateNotification(notificationId,
 							Long.valueOf(progress).intValue());
 				}
-			}
-		}
-	}
-
-	@SuppressLint("ParcelCreator")
-	private class DownloadMediaReceiver extends ResultReceiver {
-		DownloadMediaReceiver(Handler handler) {
-			super(handler);
-		}
-
-		@Override
-		protected void onReceiveResult(int resultCode, Bundle resultData) {
-			super.onReceiveResult(resultCode, resultData);
-			if (resultCode == Constants.UPDATE_DOWNLOAD_PROGRESS) {
-				long progress = resultData.getLong(ProgressResponseBody.TAG_PROGRESS);
-				boolean endOfFileReached = resultData.getBoolean(ProgressResponseBody.TAG_ENDOFFILE);
-				if (endOfFileReached) {
-					progress = 100;
-				}
-				webViewActivity.updateProgressDialog(progress);
-			} else if (resultCode == Constants.UPDATE_DOWNLOAD_ERROR) {
-				webViewActivity.dismissProgressDialog();
 			}
 		}
 	}

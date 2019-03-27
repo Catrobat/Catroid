@@ -45,6 +45,7 @@ import org.catrobat.catroid.transfers.ProjectUploadService;
 import org.catrobat.catroid.ui.MainMenuActivity;
 
 import static org.catrobat.catroid.common.Constants.EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY;
+import static org.catrobat.catroid.common.Constants.FOREGROUND_SERVICE;
 
 public final class StatusBarNotificationManager {
 	public static final String EXTRA_PROJECT_NAME = "projectName";
@@ -56,8 +57,7 @@ public final class StatusBarNotificationManager {
 
 	private static final StatusBarNotificationManager INSTANCE = new StatusBarNotificationManager();
 	public static final String CHANNEL_ID = "pocket_code_notification_channel_id";
-
-	private int notificationId;
+	private int notificationId = FOREGROUND_SERVICE;
 	private SparseArray<NotificationData> notificationDataMap = new SparseArray<>();
 	private Context context;
 	private NotificationManager notificationManager;

@@ -181,7 +181,6 @@ public final class Constants {
 	public static final String WHATSAPP_URI = "whatsapp://";
 
 	// Scratch Converter
-	public static final int DOWNLOAD_FILE_HTTP_TIMEOUT = 30_000;
 	public static final long INVALID_SCRATCH_PROGRAM_ID = 0;
 
 	public static final String SCRATCH_CONVERTER_HOST = "scratch2.catrob.at";
@@ -202,7 +201,6 @@ public final class Constants {
 	public static final String DATE_FORMAT_ISO_8601 = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
 	public static final String INTENT_SCRATCH_PROGRAM_DATA = "scratchProgramData";
-	public static final int INTENT_REQUEST_CODE_SPEECH = 0;
 	public static final int INTENT_REQUEST_CODE_CONVERT = 1;
 
 	// Lego
@@ -255,13 +253,13 @@ public final class Constants {
 	public static final int TEXT_SIZE_BUBBLE = 30;
 	public static final int LINE_SPACING_BUBBLES = 3;
 	public static final int PADDING_TOP = 40;
-	public static final int PADDING_LEFT = 30;
 	public static final int OFFSET_FOR_THINK_BUBBLES_AND_ARROW = 40;
-	public static final int JUMPING_SUMO_BATTERY_STATUS = 100;
 
 	//Services + Notifications
+	public static final int FOREGROUND_SERVICE = 101;
 	public static final int UPDATE_DOWNLOAD_PROGRESS = 101;
 	public static final int UPDATE_DOWNLOAD_ERROR = 105;
+	public static final int UPDATE_DOWNLOAD_SUCCESS = 106;
 
 	//Up-/Download Status Codes
 	public static final int STATUS_CODE_INTERNAL_SERVER_ERROR = 500;

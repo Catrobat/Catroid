@@ -251,6 +251,7 @@
     <string name="status_conversion_failed">Conversion failed!</string>
     <string name="status_downloading">Downloading…</string>
     <string name="status_download_finished">Download finished.</string>
+    <string name="download_failed">Download failed.</string>
     <string name="status_download_canceled">Download canceled!</string>
     <string name="scratch_programs_in_progress_title">In progress</string>
     <string name="scratch_programs_finished_title">Converted projects</string>

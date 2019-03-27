@@ -35,6 +35,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -45,23 +46,32 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.FlavoredConstants;
+import org.catrobat.catroid.transfers.project.ResultReceiverWrapper;
+import org.catrobat.catroid.transfers.project.ResultReceiverWrapperInterface;
 import org.catrobat.catroid.utils.DownloadUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.web.ProgressResponseBody;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
+import static org.catrobat.catroid.common.Constants.CATROBAT_EXTENSION;
 import static org.catrobat.catroid.common.Constants.CATROBAT_HELP_URL;
+import static org.catrobat.catroid.common.Constants.CURRENT_CATROBAT_LANGUAGE_VERSION;
+import static org.catrobat.catroid.common.Constants.FLAVOR_DEFAULT;
 import static org.catrobat.catroid.common.Constants.MAIN_URL_HTTPS;
 import static org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIR;
+import static org.catrobat.catroid.common.Constants.PLATFORM_DEFAULT;
+import static org.catrobat.catroid.common.Constants.UPDATE_DOWNLOAD_PROGRESS;
+import static org.catrobat.catroid.common.Constants.UPDATE_DOWNLOAD_SUCCESS;
+import static org.catrobat.catroid.common.Constants.WHATSAPP_URI;
+import static org.catrobat.catroid.common.FlavoredConstants.BASE_URL_HTTPS;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BASE_URL;
 
 @SuppressLint("SetJavaScriptEnabled")
-public class WebViewActivity extends BaseActivity {
+public class WebViewActivity extends BaseActivity implements ResultReceiverWrapperInterface {
 
 	private static final String TAG = WebViewActivity.class.getSimpleName();
 
@@ -76,6 +86,7 @@ public class WebViewActivity extends BaseActivity {
 	private ProgressDialog progressDialog;
 	private ProgressDialog webViewLoadingDialog;
 	private Intent resultIntent = new Intent();
+	private ResultReceiverWrapper receiver = new ResultReceiverWrapper(new Handler());
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -84,21 +95,22 @@ public class WebViewActivity extends BaseActivity {
 
 		String url = getIntent().getStringExtra(INTENT_PARAMETER_URL);
 		if (url == null) {
-			url = FlavoredConstants.BASE_URL_HTTPS;
+			url = BASE_URL_HTTPS;
 		}
 
 		webView = findViewById(R.id.webView);
 		webView.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.app_background, null));
 		webView.setWebViewClient(new MyWebViewClient());
 		webView.getSettings().setJavaScriptEnabled(true);
-		String language = String.valueOf(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
-		String flavor = Constants.FLAVOR_DEFAULT;
+		String language = String.valueOf(CURRENT_CATROBAT_LANGUAGE_VERSION);
+		String flavor = FLAVOR_DEFAULT;
 		String version = Utils.getVersionName(getApplicationContext());
-		String platform = Constants.PLATFORM_DEFAULT;
+		String platform = PLATFORM_DEFAULT;
 		webView.getSettings().setUserAgentString("Catrobat/" + language + " " + flavor + "/"
 				+ version + " Platform/" + platform);
 
 		webView.loadUrl(url);
+		receiver.setResultReceiverWrapperInterface(this);
 
 		webView.setDownloadListener(new DownloadListener() {
 
@@ -106,7 +118,7 @@ public class WebViewActivity extends BaseActivity {
 			public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype,
 					long contentLength) {
 
-				if (getExtensionFromContentDisposition(contentDisposition).contains(Constants.CATROBAT_EXTENSION)) {
+				if (getExtensionFromContentDisposition(contentDisposition).contains(CATROBAT_EXTENSION)) {
 					DownloadUtil.getInstance().prepareDownloadAndStartIfPossible(WebViewActivity.this, url);
 				} else if (url.contains(LIBRARY_BASE_URL)) {
 					String name = getMediaNameFromUrl(url);
@@ -117,11 +129,10 @@ public class WebViewActivity extends BaseActivity {
 						Log.e(TAG, "Cannot create " + MEDIA_LIBRARY_CACHE_DIR);
 						return;
 					}
-
 					File file = new File(MEDIA_LIBRARY_CACHE_DIR, fileName);
 					resultIntent.putExtra(MEDIA_FILE_PATH, file.getAbsolutePath());
 					DownloadUtil.getInstance()
-							.startMediaDownload(WebViewActivity.this, url, name, file.getAbsolutePath());
+							.startMediaDownload(WebViewActivity.this, url, name, file.getAbsolutePath(), receiver);
 				} else {
 					DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
 
@@ -173,7 +184,7 @@ public class WebViewActivity extends BaseActivity {
 				webViewLoadingDialog.setCanceledOnTouchOutside(false);
 				webViewLoadingDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
 				webViewLoadingDialog.show();
-			} else if (allowGoBack && urlClient.equals(FlavoredConstants.BASE_URL_HTTPS)) {
+			} else if (allowGoBack && urlClient.equals(BASE_URL_HTTPS)) {
 				allowGoBack = false;
 				onBackPressed();
 			}
@@ -190,7 +201,7 @@ public class WebViewActivity extends BaseActivity {
 
 		@Override
 		public boolean shouldOverrideUrlLoading(WebView view, String url) {
-			if (url != null && url.startsWith(Constants.WHATSAPP_URI)) {
+			if (url != null && url.startsWith(WHATSAPP_URI)) {
 				if (isWhatsappInstalled()) {
 					Uri uri = Uri.parse(url);
 					Intent intent = new Intent(Intent.ACTION_VIEW, uri);
@@ -314,7 +325,27 @@ public class WebViewActivity extends BaseActivity {
 	}
 
 	@Override
+	public void onReceiveResult(int resultCode, Bundle resultData) {
+		long progress;
+		switch (resultCode) {
+			case UPDATE_DOWNLOAD_PROGRESS:
+				progress = resultData.getLong(ProgressResponseBody.TAG_PROGRESS);
+				updateProgressDialog(progress);
+				break;
+			case UPDATE_DOWNLOAD_SUCCESS:
+				progress = resultData.getLong(ProgressResponseBody.TAG_PROGRESS);
+				updateProgressDialog(progress);
+				ToastUtil.showSuccess(this, R.string.status_download_finished);
+				break;
+			default:
+				dismissProgressDialog();
+				ToastUtil.showError(this, R.string.download_failed);
+		}
+	}
+
+	@Override
 	protected void onDestroy() {
+		receiver.setResultReceiverWrapperInterface(null);
 		webView.setDownloadListener(null);
 		webView.destroy();
 		super.onDestroy();
