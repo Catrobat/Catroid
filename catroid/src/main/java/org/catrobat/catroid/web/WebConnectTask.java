@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2019 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,30 +20,34 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.formulaeditor;
 
-import android.util.Log;
+package org.catrobat.catroid.web;
 
-public enum Functions {
+import android.os.AsyncTask;
 
-	SIN, COS, TAN, LN, LOG, SQRT, RAND, ROUND, ABS, PI, MOD, ARCSIN, ARCCOS, ARCTAN, EXP, POWER, FLOOR, CEIL, MAX,
-	MIN, TRUE, FALSE, LENGTH,
-	LETTER, JOIN, REGEX, LIST_ITEM, CONTAINS, NUMBER_OF_ITEMS, ARDUINOANALOG, ARDUINODIGITAL, RASPIDIGITAL,
-	MULTI_FINGER_X, MULTI_FINGER_Y, MULTI_FINGER_TOUCHED,
-	WEB;
+public class WebConnectTask extends AsyncTask<String, Void, Object> {
 
-	private static final String TAG = Functions.class.getSimpleName();
+    public static final String TAG = WebConnectTask.class.getSimpleName();
 
-	public static boolean isFunction(String value) {
-		return getFunctionByValue(value) != null;
-	}
+    private Object webResponse;
 
-	public static Functions getFunctionByValue(String value) {
-		try {
-			return valueOf(value);
-		} catch (IllegalArgumentException illegalArgumentException) {
-			Log.e(TAG, Log.getStackTraceString(illegalArgumentException));
-		}
-		return null;
-	}
+    public Object getWebResponse() {
+        return webResponse;
+    }
+
+    public WebConnectTask() {
+    }
+
+    @Override
+    protected Object doInBackground(String... strings) {
+        try {
+            return ServerCalls.getInstance().getRequest(strings[0]);
+        } catch (WebconnectionException e) {
+            return 503d;
+        }
+    }
+
+    @Override
+    protected void onPostExecute(Object success) {
+    }
 }

@@ -43,12 +43,16 @@ import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.sensing.CollisionDetection;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.utils.TouchUtil;
+import org.catrobat.catroid.web.WebConnectTask;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -511,6 +515,23 @@ public class FormulaElement implements Serializable {
 				return interpretFunctionContains(right, sprite);
 			case NUMBER_OF_ITEMS:
 				return interpretFunctionNumberOfItems(left, sprite);
+			case WEB:
+				return interpretFunctionWeb(left);
+		}
+		return 0d;
+	}
+
+	private Object interpretFunctionWeb(Object left) {
+		WebConnectTask connectTask = new WebConnectTask();
+		if (left instanceof String) {
+			connectTask.execute((String) left);
+			try {
+				return connectTask.get(60L, TimeUnit.SECONDS);
+			} catch (InterruptedException | ExecutionException e) {
+				return 0d;
+			} catch (TimeoutException e) {
+				return 503d;
+			}
 		}
 		return 0d;
 	}
