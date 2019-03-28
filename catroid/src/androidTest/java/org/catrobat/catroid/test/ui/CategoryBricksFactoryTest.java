@@ -110,7 +110,7 @@ public class CategoryBricksFactoryTest {
 
 	@Test
 	public void testDataBricks() {
-		final int expectedBrickCount = 11;
+		final int expectedBrickCount = 12;
 		checkBrickCountInCategory(R.string.category_data, background, expectedBrickCount);
 		checkBrickCountInCategory(R.string.category_data, sprite, expectedBrickCount);
 	}

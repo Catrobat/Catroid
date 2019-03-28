@@ -30,10 +30,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.DeviceVariableAccessor;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 
 import java.lang.annotation.Retention;
@@ -266,6 +268,8 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 			if (!globalVarAdapter.remove((UserVariable) item)) {
 				localVarAdapter.remove((UserVariable) item);
 			}
+			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
+			new DeviceVariableAccessor(projectName).removeFile((UserVariable) item);
 		} else {
 			if (!globalListAdapter.remove((UserList) item)) {
 				localListAdapter.remove((UserList) item);

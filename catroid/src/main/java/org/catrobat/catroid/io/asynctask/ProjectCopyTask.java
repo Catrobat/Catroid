@@ -26,6 +26,7 @@ package org.catrobat.catroid.io.asynctask;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.catrobat.catroid.io.DeviceVariableAccessor;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
@@ -60,6 +61,7 @@ public class ProjectCopyTask extends AsyncTask<Void, Void, Boolean> {
 
 		try {
 			StorageOperations.copyDir(srcDir, dstDir);
+			DeviceVariableAccessor.copyDeviceVariables(new File(dstDir, CODE_XML_FILE_NAME), dstName);
 			XstreamSerializer.renameProject(new File(dstDir, CODE_XML_FILE_NAME), dstName);
 			return true;
 		} catch (IOException e) {
@@ -93,7 +95,6 @@ public class ProjectCopyTask extends AsyncTask<Void, Void, Boolean> {
 	}
 
 	public interface ProjectCopyListener {
-
 		void onCopyFinished(boolean success);
 	}
 }

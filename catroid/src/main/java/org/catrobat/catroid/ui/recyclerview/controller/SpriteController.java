@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.DeviceVariableAccessor;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.fragment.SpriteFactory;
@@ -108,7 +109,8 @@ public class SpriteController {
 		sprite.getNfcTagList().addAll(spriteToCopy.getNfcTagList());
 
 		for (UserVariable userVariable : spriteToCopy.getUserVariables()) {
-			sprite.getUserVariables().add(new UserVariable(userVariable));
+			new DeviceVariableAccessor(currentProject.getName()).addDeviceFileNameToUserVariable(userVariable);
+			sprite.getUserVariables().add(new UserVariable(userVariable).copyDeviceValueFileName(userVariable));
 		}
 		for (UserList userList : spriteToCopy.getUserLists()) {
 			sprite.getUserLists().add(new UserList(userList));
@@ -151,6 +153,8 @@ public class SpriteController {
 				Log.e(TAG, Log.getStackTraceString(e));
 			}
 		}
+		String projectName = ProjectManager.getInstance().getCurrentProject().getName();
+		new DeviceVariableAccessor(projectName).deleteAllLocalVariables(spriteToDelete);
 	}
 
 	public Sprite pack(Sprite spriteToPack) throws IOException {

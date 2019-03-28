@@ -35,6 +35,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ProjectData;
 import org.catrobat.catroid.content.backwardcompatibility.ProjectMetaDataParser;
+import org.catrobat.catroid.io.DeviceVariableAccessor;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.asynctask.ProjectCopyTask;
 import org.catrobat.catroid.io.asynctask.ProjectExportTask;
@@ -266,6 +267,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 		for (ProjectData item : selectedItems) {
 			try {
 				StorageOperations.deleteDir(item.getDirectory());
+				new DeviceVariableAccessor(item.getName()).deleteAllVariables();
 			} catch (IOException e) {
 				Log.e(TAG, Log.getStackTraceString(e));
 			}
