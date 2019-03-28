@@ -230,7 +230,8 @@ public class Formula implements Serializable {
 				|| type == ElementType.SENSOR
 				|| (type == ElementType.FUNCTION
 				&& (Functions.getFunctionByValue(formulaTree.getValue()) == Functions.LETTER
-				|| Functions.getFunctionByValue(formulaTree.getValue()) == Functions.JOIN)
+				|| Functions.getFunctionByValue(formulaTree.getValue()) == Functions.JOIN
+				|| Functions.getFunctionByValue(formulaTree.getValue()) == Functions.WEB)
 				|| Functions.getFunctionByValue(formulaTree.getValue()) == Functions.REGEX)) {
 			try {
 				return interpretString(sprite);
