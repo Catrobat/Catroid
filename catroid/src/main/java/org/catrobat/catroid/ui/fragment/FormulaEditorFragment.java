@@ -31,6 +31,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
@@ -213,8 +214,10 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		refreshFormulaPreviewString(currentFormula.getTrimmedFormulaString(getActivity()));
 		formulaEditorEditText.endEdit();
 		getFragmentManager().popBackStack();
-		BottomBar.showBottomBar(getActivity());
-		BottomBar.showPlayButton(getActivity());
+		if (getActivity() != null) {
+			BottomBar.showBottomBar(getActivity());
+			BottomBar.showPlayButton(getActivity());
+		}
 	}
 
 	@Override
@@ -342,6 +345,11 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 		updateButtonsOnKeyboardAndInvalidateOptionsMenu();
 		super.onStart();
+	}
+
+	@VisibleForTesting
+	public FormulaEditorEditText getFormulaEditorEditText() {
+		return formulaEditorEditText;
 	}
 
 	@Override
@@ -607,7 +615,8 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		}
 	}
 
-	private void endFormulaEditor() {
+	@VisibleForTesting
+	public void endFormulaEditor() {
 		if (formulaEditorEditText.hasChanges()) {
 			if (saveFormulaIfPossible()) {
 				ToastUtil.showSuccess(getActivity(), R.string.formula_editor_changes_saved);

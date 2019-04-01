@@ -53,6 +53,7 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 		addAllowedBrickField(BrickField.PHIRO_LIGHT_RED, R.id.brick_phiro_rgb_led_action_red_edit_text);
 		addAllowedBrickField(BrickField.PHIRO_LIGHT_GREEN, R.id.brick_phiro_rgb_led_action_green_edit_text);
 		addAllowedBrickField(BrickField.PHIRO_LIGHT_BLUE, R.id.brick_phiro_rgb_led_action_blue_edit_text);
+		eye = Eye.BOTH.name();
 	}
 
 	public PhiroRGBLightBrick(Eye eyeEnum, int red, int green, int blue) {
@@ -113,7 +114,7 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 	}
 
 	@Override
-	protected BrickField getDefaultBrickField() {
+	public BrickField getDefaultBrickField() {
 		return BrickField.PHIRO_LIGHT_RED;
 	}
 

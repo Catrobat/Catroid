@@ -114,17 +114,6 @@ public class PlaySoundAndWaitBrickTest {
 		}
 	}
 
-	@Category({Cat.AppUi.class, Level.Smoke.class})
-	@Test
-	public void testBasicLayout() {
-		onView(withText(R.string.scripts))
-				.perform(click());
-
-		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
-		onBrickAtPosition(playSoundAndWaitBrickPosition).checkShowsText(R.string.brick_play_sound_and_wait);
-		onBrickAtPosition(playSoundBrickPosition).checkShowsText(R.string.brick_play_sound);
-	}
-
 	@Category({Cat.AppUi.class, Level.Functional.class})
 	@Test
 	public void testPlaySoundUpdateDelete() {

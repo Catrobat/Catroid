@@ -70,7 +70,7 @@ public class DroneTurnLeftBrick extends FormulaBrick {
 	}
 
 	@Override
-	protected BrickField getDefaultBrickField() {
+	public BrickField getDefaultBrickField() {
 		return BrickField.DRONE_TIME_TO_FLY_IN_SECONDS;
 	}
 

@@ -36,7 +36,7 @@ public class DroneMoveRightBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	DroneMoveRightBrick() {
+	public DroneMoveRightBrick() {
 		addAllowedBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS, R.id.brick_drone_move_right_edit_text_second);
 		addAllowedBrickField(BrickField.DRONE_POWER_IN_PERCENT, R.id.brick_drone_move_right_edit_text_power);
 	}
@@ -70,7 +70,7 @@ public class DroneMoveRightBrick extends FormulaBrick {
 	}
 
 	@Override
-	protected BrickField getDefaultBrickField() {
+	public BrickField getDefaultBrickField() {
 		return BrickField.DRONE_TIME_TO_FLY_IN_SECONDS;
 	}
 

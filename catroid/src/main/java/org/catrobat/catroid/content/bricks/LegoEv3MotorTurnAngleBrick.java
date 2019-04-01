@@ -46,6 +46,7 @@ public class LegoEv3MotorTurnAngleBrick extends FormulaBrick {
 	}
 
 	public LegoEv3MotorTurnAngleBrick() {
+		motor = Motor.MOTOR_A.name();
 		addAllowedBrickField(BrickField.LEGO_EV3_DEGREES, R.id.ev3_motor_turn_angle_edit_text);
 	}
 

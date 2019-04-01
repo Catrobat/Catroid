@@ -62,7 +62,7 @@ public class ShowTextBrick extends UserVariableBrick {
 	}
 
 	@Override
-	protected BrickField getDefaultBrickField() {
+	public BrickField getDefaultBrickField() {
 		return BrickField.X_POSITION;
 	}
 

@@ -57,7 +57,7 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 	}
 
 	@Override
-	protected BrickField getDefaultBrickField() {
+	public BrickField getDefaultBrickField() {
 		return BrickField.REPLACE_ITEM_IN_USERLIST_INDEX;
 	}
 

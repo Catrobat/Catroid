@@ -59,7 +59,7 @@ public class ThinkForBubbleBrick extends FormulaBrick {
 	}
 
 	@Override
-	protected BrickField getDefaultBrickField() {
+	public BrickField getDefaultBrickField() {
 		return BrickField.STRING;
 	}
 

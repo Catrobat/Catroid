@@ -47,6 +47,7 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 	}
 
 	public PhiroPlayToneBrick() {
+		tone = Tone.DO.name();
 		addAllowedBrickField(BrickField.PHIRO_DURATION_IN_SECONDS, R.id.brick_phiro_play_tone_duration_edit_text);
 	}
 

@@ -75,7 +75,7 @@ public class BroadcastAndWaitBrickMessageContainerTest {
 
 	@Before
 	public void setUp() throws Exception {
-		createProject("BroadcastAndWaitBrickTest");
+		createProject("BroadcastAndWaitBrickMessageContainerTest");
 		baseActivityTestRule.launchActivity();
 	}
 

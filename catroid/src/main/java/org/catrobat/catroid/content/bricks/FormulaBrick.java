@@ -149,7 +149,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		}
 	}
 
-	protected BrickField getDefaultBrickField() {
+	public BrickField getDefaultBrickField() {
 		return formulaMap.keys().nextElement();
 	}
 

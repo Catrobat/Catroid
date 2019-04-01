@@ -221,6 +221,7 @@ android {
 
     testOptions {
         unitTests.returnDefaultValues = true
+        unitTests.includeAndroidResources = true
     }
 
     dexOptions.javaMaxHeapSize "4g"
@@ -464,6 +465,9 @@ dependencies {
     testImplementation 'org.powermock:powermock:1.6.5'
     testImplementation 'org.powermock:powermock-module-junit4:1.7.0'
     testImplementation 'org.powermock:powermock-api-mockito2:1.7.0RC2'
+
+    testImplementation 'org.robolectric:robolectric:4.2'
+    testImplementation "org.robolectric:shadows-multidex:4.2"
 
     androidTestImplementation fileTree(include: '*.jar', dir: 'src/androidTest/libs')
     androidTestImplementation 'com.linkedin.dexmaker:dexmaker-mockito:2.2.0'

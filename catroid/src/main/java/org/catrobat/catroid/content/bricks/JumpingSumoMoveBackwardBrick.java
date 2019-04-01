@@ -61,7 +61,7 @@ public class JumpingSumoMoveBackwardBrick extends FormulaBrick {
 	}
 
 	@Override
-	protected BrickField getDefaultBrickField() {
+	public BrickField getDefaultBrickField() {
 		return BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS;
 	}
 

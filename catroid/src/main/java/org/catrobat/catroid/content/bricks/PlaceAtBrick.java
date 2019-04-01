@@ -112,7 +112,7 @@ public class PlaceAtBrick extends FormulaBrick {
 	}
 
 	@Override
-	protected BrickField getDefaultBrickField() {
+	public BrickField getDefaultBrickField() {
 		return BrickField.X_POSITION;
 	}
 

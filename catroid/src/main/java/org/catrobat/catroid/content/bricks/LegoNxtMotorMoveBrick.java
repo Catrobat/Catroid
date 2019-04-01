@@ -46,6 +46,7 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 	}
 
 	public LegoNxtMotorMoveBrick() {
+		motor = Motor.MOTOR_A.name();
 		addAllowedBrickField(BrickField.LEGO_NXT_SPEED, R.id.motor_action_speed_edit_text);
 	}
 

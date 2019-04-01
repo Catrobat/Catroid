@@ -50,6 +50,7 @@ public class PhiroMotorMoveBackwardBrick extends FormulaBrick {
 	}
 
 	public PhiroMotorMoveBackwardBrick() {
+		motor = Motor.MOTOR_LEFT.name();
 		addAllowedBrickField(BrickField.PHIRO_SPEED, R.id.brick_phiro_motor_backward_action_speed_edit_text);
 	}
 
