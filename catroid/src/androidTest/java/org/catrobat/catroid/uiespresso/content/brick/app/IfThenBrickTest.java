@@ -56,7 +56,6 @@ import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInter
 @RunWith(AndroidJUnit4.class)
 public class IfThenBrickTest {
 	private int ifThenBeginBrickPosition;
-	private int ifEndBrickPosition;
 
 	private int condition = 42;
 
@@ -69,22 +68,6 @@ public class IfThenBrickTest {
 		createProject();
 
 		baseActivityTestRule.launchActivity();
-	}
-
-	@Category({Cat.AppUi.class, Level.Smoke.class})
-	@Test
-	public void ifThenBrickTest() {
-		checkSetUpBrickArrangement();
-
-		onBrickAtPosition(ifThenBeginBrickPosition)
-				.checkShowsText(R.string.brick_if_begin)
-				.checkShowsText(R.string.brick_if_begin_second_part);
-
-		onBrickAtPosition(ifThenBeginBrickPosition).onFormulaTextField(R.id.brick_if_begin_edit_text)
-				.checkShowsNumber(condition);
-
-		onBrickAtPosition(ifEndBrickPosition)
-				.checkShowsText(R.string.brick_if_end);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -133,7 +116,6 @@ public class IfThenBrickTest {
 
 	public void createProject() {
 		ifThenBeginBrickPosition = 1;
-		ifEndBrickPosition = 3;
 
 		IfThenLogicBeginBrick ifThenLogicBeginBrick = new IfThenLogicBeginBrick(condition);
 		IfThenLogicEndBrick ifThenLogicEndBrick = new IfThenLogicEndBrick(ifThenLogicBeginBrick);

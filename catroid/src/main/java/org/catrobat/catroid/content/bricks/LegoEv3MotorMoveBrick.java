@@ -46,6 +46,7 @@ public class LegoEv3MotorMoveBrick extends FormulaBrick {
 	}
 
 	public LegoEv3MotorMoveBrick() {
+		motor = Motor.MOTOR_A.name();
 		addAllowedBrickField(BrickField.LEGO_EV3_SPEED, R.id.ev3_motor_move_speed_edit_text);
 	}
 

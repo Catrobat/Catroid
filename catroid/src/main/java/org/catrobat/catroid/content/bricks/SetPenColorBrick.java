@@ -77,7 +77,7 @@ public class SetPenColorBrick extends FormulaBrick {
 	}
 
 	@Override
-	protected BrickField getDefaultBrickField() {
+	public BrickField getDefaultBrickField() {
 		return BrickField.PEN_COLOR_RED;
 	}
 

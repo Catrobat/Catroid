@@ -43,6 +43,11 @@ public class DronePlayLedAnimationBrick extends BrickBaseType {
 	private String ledAnimationName;
 	private transient ARDRONE_LED_ANIMATION ledAnimation;
 
+	public DronePlayLedAnimationBrick() {
+		ledAnimation = ARDRONE_LED_ANIMATION.ARDRONE_LED_ANIMATION_BLINK_GREEN;
+		ledAnimationName = ledAnimation.name();
+	}
+
 	public DronePlayLedAnimationBrick(ARDRONE_LED_ANIMATION ledAnimation) {
 		this.ledAnimation = ledAnimation;
 		this.ledAnimationName = ledAnimation.name();

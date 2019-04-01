@@ -51,7 +51,7 @@ public class AssertEqualsBrick extends FormulaBrick {
 	}
 
 	@Override
-	protected BrickField getDefaultBrickField() {
+	public BrickField getDefaultBrickField() {
 		return BrickField.ASSERT_EQUALS_ACTUAL;
 	}
 

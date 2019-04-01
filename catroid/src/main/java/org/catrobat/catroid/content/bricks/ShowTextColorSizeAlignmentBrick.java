@@ -68,7 +68,7 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrick {
 		}
 	}
 
-	protected BrickField getDefaultBrickField() {
+	public BrickField getDefaultBrickField() {
 		return BrickField.X_POSITION;
 	}
 

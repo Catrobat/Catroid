@@ -63,7 +63,7 @@ public class SetGravityBrick extends FormulaBrick {
 	}
 
 	@Override
-	protected BrickField getDefaultBrickField() {
+	public BrickField getDefaultBrickField() {
 		return BrickField.PHYSICS_GRAVITY_X;
 	}
 

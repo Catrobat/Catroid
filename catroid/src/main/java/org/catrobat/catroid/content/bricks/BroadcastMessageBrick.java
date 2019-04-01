@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
@@ -86,31 +87,14 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 		if (activity == null) {
 			return;
 		}
-
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(activity);
 
 		builder.setHint(activity.getString(R.string.dialog_new_broadcast_message_name))
 				.setTextWatcher(new NonEmptyStringTextWatcher())
-				.setPositiveButton(activity.getString(R.string.ok), new TextInputDialog.OnClickListener() {
-					@Override
-					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
-						addItem(textInput);
-					}
-				});
-
-		builder.setTitle(R.string.dialog_new_broadcast_message_title)
-				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						spinner.setSelection(getBroadcastMessage());
-					}
-				})
-				.setOnCancelListener(new DialogInterface.OnCancelListener() {
-					@Override
-					public void onCancel(DialogInterface dialog) {
-						spinner.setSelection(getBroadcastMessage());
-					}
-				})
+				.setPositiveButton(activity.getString(R.string.ok), getOkButtonListener())
+				.setTitle(R.string.dialog_new_broadcast_message_title)
+				.setNegativeButton(R.string.cancel, getNegativeButtonListener())
+				.setOnCancelListener(getCanceledListener())
 				.show();
 	}
 
@@ -128,5 +112,35 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 
 	@Override
 	public void onItemSelected(@Nullable StringOption item) {
+	}
+
+	@VisibleForTesting
+	public TextInputDialog.OnClickListener getOkButtonListener() {
+		return new TextInputDialog.OnClickListener() {
+			@Override
+			public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
+				addItem(textInput);
+			}
+		};
+	}
+
+	@VisibleForTesting
+	public DialogInterface.OnClickListener getNegativeButtonListener() {
+		return new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				spinner.setSelection(getBroadcastMessage());
+			}
+		};
+	}
+
+	@VisibleForTesting
+	public DialogInterface.OnCancelListener getCanceledListener() {
+		return new DialogInterface.OnCancelListener() {
+			@Override
+			public void onCancel(DialogInterface dialog) {
+				spinner.setSelection(getBroadcastMessage());
+			}
+		};
 	}
 }

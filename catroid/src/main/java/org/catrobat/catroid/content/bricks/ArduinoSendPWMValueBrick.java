@@ -70,7 +70,7 @@ public class ArduinoSendPWMValueBrick extends FormulaBrick {
 	}
 
 	@Override
-	protected BrickField getDefaultBrickField() {
+	public BrickField getDefaultBrickField() {
 		return BrickField.ARDUINO_ANALOG_PIN_NUMBER;
 	}
 

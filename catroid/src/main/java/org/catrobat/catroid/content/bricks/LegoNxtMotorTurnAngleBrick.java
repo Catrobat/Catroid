@@ -47,6 +47,7 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick {
 	}
 
 	public LegoNxtMotorTurnAngleBrick() {
+		motor = Motor.MOTOR_A.name();
 		addAllowedBrickField(BrickField.LEGO_NXT_DEGREES, R.id.motor_turn_angle_edit_text);
 	}
 

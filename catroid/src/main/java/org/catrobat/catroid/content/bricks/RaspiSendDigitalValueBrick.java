@@ -60,7 +60,7 @@ public class RaspiSendDigitalValueBrick extends FormulaBrick {
 	}
 
 	@Override
-	protected BrickField getDefaultBrickField() {
+	public BrickField getDefaultBrickField() {
 		return BrickField.RASPI_DIGITAL_PIN_NUMBER;
 	}
 

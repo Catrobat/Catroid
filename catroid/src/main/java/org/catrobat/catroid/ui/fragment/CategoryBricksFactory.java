@@ -608,8 +608,7 @@ public class CategoryBricksFactory {
 	}
 
 	private List<Brick> setupRaspiCategoryList() {
-		RaspiInterruptScript defaultScript = new RaspiInterruptScript(
-				Integer.toString(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER), BrickValues.RASPI_EVENTS[0]);
+		RaspiInterruptScript defaultScript = new RaspiInterruptScript("3", "pressed");
 
 		List<Brick> raspiBrickList = new ArrayList<>();
 		raspiBrickList.add(new WhenRaspiPinChangedBrick(defaultScript));

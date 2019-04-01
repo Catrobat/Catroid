@@ -45,6 +45,7 @@ public class PhiroMotorStopBrick extends BrickBaseType {
 	}
 
 	public PhiroMotorStopBrick() {
+		motor = Motor.MOTOR_BOTH.name();
 	}
 
 	public PhiroMotorStopBrick(Motor motorEnum) {

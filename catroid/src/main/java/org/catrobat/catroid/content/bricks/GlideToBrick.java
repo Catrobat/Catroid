@@ -68,7 +68,7 @@ public class GlideToBrick extends FormulaBrick {
 	}
 
 	@Override
-	protected BrickField getDefaultBrickField() {
+	public BrickField getDefaultBrickField() {
 		return BrickField.DURATION_IN_SECONDS;
 	}
 

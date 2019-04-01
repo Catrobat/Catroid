@@ -44,6 +44,10 @@ public class LegoEv3MotorStopBrick extends BrickBaseType {
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_D, MOTOR_B_C, ALL_MOTORS
 	}
 
+	public LegoEv3MotorStopBrick() {
+		motor = Motor.MOTOR_A.name();
+	}
+
 	public LegoEv3MotorStopBrick(Motor motorEnum) {
 		motor = motorEnum.name();
 	}

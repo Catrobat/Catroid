@@ -47,6 +47,7 @@ public class JumpingSumoSoundBrick extends FormulaBrick {
 	}
 
 	public JumpingSumoSoundBrick() {
+		soundName = Sounds.DEFAULT.name();
 		addAllowedBrickField(BrickField.JUMPING_SUMO_VOLUME, R.id.brick_jumping_sumo_sound_edit_text);
 	}
 

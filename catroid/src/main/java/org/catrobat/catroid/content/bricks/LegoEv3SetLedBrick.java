@@ -47,6 +47,7 @@ public class LegoEv3SetLedBrick extends BrickBaseType {
 	}
 
 	public LegoEv3SetLedBrick() {
+		ledStatus = LedStatus.LED_GREEN.name();
 	}
 
 	public LegoEv3SetLedBrick(LedStatus ledStatusEnum) {

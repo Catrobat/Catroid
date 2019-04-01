@@ -46,6 +46,7 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 	}
 
 	public JumpingSumoAnimationsBrick() {
+		animationName = Animation.SPIN.name();
 	}
 
 	public JumpingSumoAnimationsBrick(Animation animation) {
