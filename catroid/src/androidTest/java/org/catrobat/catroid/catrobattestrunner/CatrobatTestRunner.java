@@ -76,7 +76,7 @@ public class CatrobatTestRunner {
 
 	private static final int TIMEOUT = 10000;
 
-	private static final double EPSILON = 0.001;
+	private static final double EPSILON = 0.000000000001;
 
 	private UserVariable actualVariable;
 	private UserVariable expectedVariable;

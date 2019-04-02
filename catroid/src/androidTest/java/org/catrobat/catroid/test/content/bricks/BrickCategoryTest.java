@@ -161,6 +161,7 @@ import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
+import org.catrobat.catroid.content.bricks.WaitTillIdleBrick;
 import org.catrobat.catroid.content.bricks.WaitUntilBrick;
 import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
@@ -355,7 +356,8 @@ public class BrickCategoryTest {
 						RaspiIfLogicBeginBrick.class,
 						RaspiSendDigitalValueBrick.class,
 						RaspiPwmBrick.class)},
-				{"Testing", Arrays.asList(AssertEqualsBrick.class)},
+				{"Testing", Arrays.asList(AssertEqualsBrick.class,
+						WaitTillIdleBrick.class)},
 		});
 	}
 

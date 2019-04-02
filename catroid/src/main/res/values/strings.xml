@@ -1220,6 +1220,7 @@
 
     <string name="brick_assert_that">Assert:</string>
     <string name="brick_is_equal_to">equal to expected:</string>
+    <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
 
 
     <plurals name="time_plural">

@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.stage;
+package org.catrobat.catroid.test.stage;
 
 import android.support.annotation.IdRes;
 import android.support.test.InstrumentationRegistry;
@@ -31,6 +31,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.stage.StageListener;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -60,9 +60,15 @@ public class AssertEqualsBrick extends FormulaBrick {
 		AssertEqualsBrick clone = (AssertEqualsBrick) super.clone();
 		Project project = ProjectManager.getInstance().getCurrentProject();
 		if (project != null) {
-			project.addUserVariable(new UserVariable(AssertEqualsBrick.ACTUAL_VARIABLE_NAME));
-			project.addUserVariable(new UserVariable(AssertEqualsBrick.EXPECTED_VARIABLE_NAME));
-			project.addUserVariable(new UserVariable(AssertEqualsBrick.READY_VARIABLE_NAME));
+			if (project.getUserVariable(AssertEqualsBrick.ACTUAL_VARIABLE_NAME) == null) {
+				project.addUserVariable(new UserVariable(AssertEqualsBrick.ACTUAL_VARIABLE_NAME));
+			}
+			if (project.getUserVariable(AssertEqualsBrick.EXPECTED_VARIABLE_NAME) == null) {
+				project.addUserVariable(new UserVariable(AssertEqualsBrick.EXPECTED_VARIABLE_NAME));
+			}
+			if (project.getUserVariable(AssertEqualsBrick.READY_VARIABLE_NAME) == null) {
+				project.addUserVariable(new UserVariable(AssertEqualsBrick.READY_VARIABLE_NAME));
+			}
 		}
 		return clone;
 	}

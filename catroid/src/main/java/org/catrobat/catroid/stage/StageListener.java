@@ -170,7 +170,7 @@ public class StageListener implements ApplicationListener {
 
 	private Map<Sprite, ShowBubbleActor> bubbleActorMap = new HashMap<>();
 
-	StageListener() {
+	public StageListener() {
 	}
 
 	@Override
