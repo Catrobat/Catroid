@@ -13,7 +13,7 @@ HTTP_STATUS_OK=200
 HTTP_STATUS_INVALID_FILE_UPLOAD=528
 
 while true; do
-    HTTP_STATUS=`curl --write-out %{http_code} --silent --output /dev/null "${URL}"`
+    HTTP_STATUS=`curl -L --write-out %{http_code} --silent --output /dev/null "${URL}"`
 
     if [ ${HTTP_STATUS} -eq ${HTTP_STATUS_OK} ]; then
         break
