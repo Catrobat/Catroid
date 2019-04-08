@@ -81,6 +81,7 @@ import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
 import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.TouchUtil;
 import org.catrobat.catroid.utils.VibratorUtil;
+import org.catrobat.catroid.web.WebConnectionHolder;
 
 import java.io.File;
 import java.io.IOException;
@@ -134,6 +135,7 @@ public class StageListener implements ApplicationListener {
 	private EmbroideryActor embroideryActor;
 	public EmbroideryList embroideryList;
 	private float screenRatio;
+	public WebConnectionHolder webConnectionHolder;
 
 	private List<Sprite> sprites;
 
@@ -171,6 +173,7 @@ public class StageListener implements ApplicationListener {
 	private Map<Sprite, ShowBubbleActor> bubbleActorMap = new HashMap<>();
 
 	public StageListener() {
+		webConnectionHolder = new WebConnectionHolder();
 	}
 
 	@Override
@@ -349,6 +352,7 @@ public class StageListener implements ApplicationListener {
 		}
 
 		paused = true;
+		webConnectionHolder.onPause();
 	}
 
 	public void transitionToScene(String sceneName) {

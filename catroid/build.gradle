@@ -272,6 +272,7 @@ android {
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
             buildConfigField "boolean", "USE_ANDROID_LOCALES_FOR_SCREENSHOTS", useAndroidLocales()
             buildConfigField "boolean", "FEATURE_MERGE_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_WEBREQUEST_BRICK_ENABLED", "true"
             resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
             ext.enableCrashlytics = false
             testCoverageEnabled = project.hasProperty('enableCoverage')
@@ -295,6 +296,7 @@ android {
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
             buildConfigField "boolean", "USE_ANDROID_LOCALES_FOR_SCREENSHOTS", "false"
             buildConfigField "boolean", "FEATURE_MERGE_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_WEBREQUEST_BRICK_ENABLED", "false"
             resValue "string", "SNACKBAR_HINTS_ENABLED", "true"
         }
 
