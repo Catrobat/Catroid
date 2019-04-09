@@ -33,25 +33,27 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
+import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
-import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BroadcastBrickDataInteractionWrapper.onBroadcastBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.content.messagecontainer.BroadcastMessageBrickUtils.createNewBroadCastMessageOnBrick;
 
 @RunWith(AndroidJUnit4.class)
-public class BroadcastBricksTest {
+public class BroadcastBrickMessageUpdateTest {
 	private String defaultMessage = "defaultMessage";
 	String message = "Oida!";
+	BroadcastReceiverBrick firstBroadcastBrick;
 
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
@@ -63,38 +65,29 @@ public class BroadcastBricksTest {
 		baseActivityTestRule.launchActivity();
 	}
 
-	@After
-	public void tearDown() throws Exception {
-		TestUtils.deleteProjects(this.getClass().getSimpleName());
-	}
-
 	@Test
 	public void testAllBroadcastBricksSpinnersShowTheNewAddedMessage() {
-		int firstBrickPosition = 0;
+		createNewBroadCastMessageOnBrick(message, firstBroadcastBrick,
+				(SpriteActivity) baseActivityTestRule.getActivity());
 
-		onBroadcastBrickAtPosition(firstBrickPosition)
-				.onSpinner(R.id.brick_broadcast_spinner)
-				.createNewBroadcastMessage(message)
-				.checkShowsText(message);
+		List<String> spinnerValues = Arrays.asList(
+				UiTestUtils.getResourcesString(R.string.new_option),
+				defaultMessage,
+				message);
 
-		List<String> spinnerValues = new ArrayList<>();
-		spinnerValues.add(InstrumentationRegistry.getTargetContext().getString(R.string.new_option));
-		spinnerValues.add(defaultMessage);
-		spinnerValues.add(message);
-
-		onBroadcastBrickAtPosition(1)
+		onBrickAtPosition(1)
 				.onSpinner(R.id.brick_broadcast_spinner)
 				.checkNameableValuesAvailable(spinnerValues);
-		onBroadcastBrickAtPosition(2)
+		onBrickAtPosition(2)
 				.onSpinner(R.id.brick_broadcast_spinner)
 				.checkNameableValuesAvailable(spinnerValues);
-		onBroadcastBrickAtPosition(3)
+		onBrickAtPosition(3)
 				.onSpinner(R.id.brick_broadcast_spinner)
 				.checkNameableValuesAvailable(spinnerValues);
-		onBroadcastBrickAtPosition(4)
+		onBrickAtPosition(4)
 				.onSpinner(R.id.brick_broadcast_spinner)
 				.checkNameableValuesAvailable(spinnerValues);
-		onBroadcastBrickAtPosition(5)
+		onBrickAtPosition(5)
 				.onSpinner(R.id.brick_broadcast_spinner)
 				.checkNameableValuesAvailable(spinnerValues);
 	}
@@ -104,6 +97,8 @@ public class BroadcastBricksTest {
 		Sprite sprite = new Sprite("testSprite");
 
 		Script script1 = new BroadcastScript(defaultMessage);
+		firstBroadcastBrick = (BroadcastReceiverBrick) script1.getScriptBrick();
+
 		Script script2 = new BroadcastScript(defaultMessage);
 
 		script1.addBrick(new BroadcastBrick(defaultMessage));

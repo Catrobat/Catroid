@@ -33,6 +33,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.bricks.BroadcastMessageBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
 import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
@@ -56,7 +57,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static junit.framework.TestCase.assertTrue;
 
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BroadcastBrickDataInteractionWrapper.onBroadcastBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.content.messagecontainer.BroadcastMessageBrickUtils.createNewBroadCastMessageOnBrick;
 
 @RunWith(AndroidJUnit4.class)
 public class BroadcastReceiveBrickMessageContainerTest {
@@ -64,6 +66,7 @@ public class BroadcastReceiveBrickMessageContainerTest {
 	private String defaultMessage = "defaultMessage";
 	private Project project;
 	private Sprite sprite;
+	private BroadcastMessageBrick broadcastMessageBrick;
 
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
@@ -87,19 +90,18 @@ public class BroadcastReceiveBrickMessageContainerTest {
 		String uselessMessage = "useless";
 		int broadcastReceivePosition = 1;
 
-		onBroadcastBrickAtPosition(broadcastReceivePosition)
+		createNewBroadCastMessageOnBrick(uselessMessage, broadcastMessageBrick,
+				(SpriteActivity) baseActivityTestRule.getActivity());
+
+		onBrickAtPosition(broadcastReceivePosition)
 				.onSpinner(R.id.brick_broadcast_spinner)
-				.createNewBroadcastMessage(uselessMessage)
 				.checkShowsText(uselessMessage);
 
-		onBroadcastBrickAtPosition(broadcastReceivePosition)
+		onBrickAtPosition(broadcastReceivePosition)
 				.onSpinner(R.id.brick_broadcast_spinner)
-				.perform(click());
+				.performSelectNameable(defaultMessage);
 
-		onView(withText(defaultMessage))
-				.perform(click());
-
-		onBroadcastBrickAtPosition(broadcastReceivePosition)
+		onBrickAtPosition(broadcastReceivePosition)
 				.onSpinner(R.id.brick_broadcast_spinner)
 				.checkShowsText(defaultMessage);
 
@@ -115,11 +117,11 @@ public class BroadcastReceiveBrickMessageContainerTest {
 
 		baseActivityTestRule.launchActivity();
 
-		onBroadcastBrickAtPosition(broadcastReceivePosition)
+		onBrickAtPosition(broadcastReceivePosition)
 				.onSpinner(R.id.brick_broadcast_spinner)
 				.checkShowsText(defaultMessage);
 
-		onBroadcastBrickAtPosition(broadcastReceivePosition)
+		onBrickAtPosition(broadcastReceivePosition)
 				.onSpinner(R.id.brick_broadcast_spinner)
 				.perform(click());
 
@@ -134,7 +136,8 @@ public class BroadcastReceiveBrickMessageContainerTest {
 
 		sprite.addScript(script);
 
-		script.addBrick(new BroadcastReceiverBrick(new BroadcastScript(defaultMessage)));
+		broadcastMessageBrick = new BroadcastReceiverBrick(new BroadcastScript(defaultMessage));
+		script.addBrick(broadcastMessageBrick);
 
 		project.getDefaultScene().addSprite(sprite);
 
