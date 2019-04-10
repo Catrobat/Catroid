@@ -26,6 +26,7 @@ package org.catrobat.catroid.content.bricks.brickspinner;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -140,7 +141,8 @@ public class BrickSpinner<T extends Nameable> implements AdapterView.OnItemSelec
 		}
 	}
 
-	private class BrickSpinnerAdapter extends ArrayAdapter<Nameable> {
+	@VisibleForTesting
+	public class BrickSpinnerAdapter extends ArrayAdapter<Nameable> {
 
 		private List<Nameable> items;
 

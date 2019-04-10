@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.content.messagecontainer;
+package org.catrobat.catroid.uiespresso.content.brick.app;
 
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
@@ -32,41 +32,28 @@ import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.content.bricks.BroadcastMessageBrick;
+import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
-import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
-import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
-import org.catrobat.catroid.test.utils.TestUtils;
+import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
-import org.catrobat.catroid.uiespresso.annotations.Flaky;
-import org.catrobat.catroid.uiespresso.testsuites.Cat;
-import org.catrobat.catroid.uiespresso.testsuites.Level;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
-
-import static junit.framework.TestCase.assertTrue;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.content.messagecontainer.BroadcastMessageBrickUtils.createNewBroadCastMessageOnBrick;
 
 @RunWith(AndroidJUnit4.class)
-public class BroadcastReceiveBrickMessageContainerTest {
-
+public class BroadcastBrickMessageUpdateTest {
 	private String defaultMessage = "defaultMessage";
-	private Project project;
-	private Sprite sprite;
-	private BroadcastMessageBrick broadcastMessageBrick;
+	String message = "Oida!";
+	BroadcastReceiverBrick firstBroadcastBrick;
 
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
@@ -78,69 +65,51 @@ public class BroadcastReceiveBrickMessageContainerTest {
 		baseActivityTestRule.launchActivity();
 	}
 
-	@After
-	public void tearDown() throws Exception {
-		TestUtils.deleteProjects(this.getClass().getSimpleName());
-	}
-
-	@Category({Cat.AppUi.class, Level.Functional.class})
 	@Test
-	@Flaky
-	public void testBroadcastReceiveBrickOmitSaveUnusedMessages() {
-		String uselessMessage = "useless";
-		int broadcastReceivePosition = 1;
-
-		createNewBroadCastMessageOnBrick(uselessMessage, broadcastMessageBrick,
+	public void testAllBroadcastBricksSpinnersShowTheNewAddedMessage() {
+		createNewBroadCastMessageOnBrick(message, firstBroadcastBrick,
 				(SpriteActivity) baseActivityTestRule.getActivity());
 
-		onBrickAtPosition(broadcastReceivePosition)
+		List<String> spinnerValues = Arrays.asList(
+				UiTestUtils.getResourcesString(R.string.new_option),
+				defaultMessage,
+				message);
+
+		onBrickAtPosition(1)
 				.onSpinner(R.id.brick_broadcast_spinner)
-				.checkShowsText(uselessMessage);
-
-		onBrickAtPosition(broadcastReceivePosition)
+				.checkNameableValuesAvailable(spinnerValues);
+		onBrickAtPosition(2)
 				.onSpinner(R.id.brick_broadcast_spinner)
-				.performSelectNameable(defaultMessage);
-
-		onBrickAtPosition(broadcastReceivePosition)
+				.checkNameableValuesAvailable(spinnerValues);
+		onBrickAtPosition(3)
 				.onSpinner(R.id.brick_broadcast_spinner)
-				.checkShowsText(defaultMessage);
-
-		ProjectSaveTask
-				.task(project);
-
-		baseActivityTestRule.finishActivity();
-
-		assertTrue(ProjectLoadTask
-				.task(project.getDirectory(), InstrumentationRegistry.getTargetContext()));
-
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-
-		baseActivityTestRule.launchActivity();
-
-		onBrickAtPosition(broadcastReceivePosition)
+				.checkNameableValuesAvailable(spinnerValues);
+		onBrickAtPosition(4)
 				.onSpinner(R.id.brick_broadcast_spinner)
-				.checkShowsText(defaultMessage);
-
-		onBrickAtPosition(broadcastReceivePosition)
+				.checkNameableValuesAvailable(spinnerValues);
+		onBrickAtPosition(5)
 				.onSpinner(R.id.brick_broadcast_spinner)
-				.perform(click());
-
-		onView(withText(uselessMessage))
-				.check(doesNotExist());
+				.checkNameableValuesAvailable(spinnerValues);
 	}
 
 	private void createProject(String projectName) {
-		project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
-		sprite = new Sprite("testSprite");
-		Script script = new StartScript();
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+		Sprite sprite = new Sprite("testSprite");
 
-		sprite.addScript(script);
+		Script script1 = new BroadcastScript(defaultMessage);
+		firstBroadcastBrick = (BroadcastReceiverBrick) script1.getScriptBrick();
 
-		broadcastMessageBrick = new BroadcastReceiverBrick(new BroadcastScript(defaultMessage));
-		script.addBrick(broadcastMessageBrick);
+		Script script2 = new BroadcastScript(defaultMessage);
+
+		script1.addBrick(new BroadcastBrick(defaultMessage));
+		script1.addBrick(new BroadcastWaitBrick(defaultMessage));
+		script2.addBrick(new BroadcastBrick(defaultMessage));
+		script2.addBrick(new BroadcastWaitBrick(defaultMessage));
+
+		sprite.addScript(script1);
+		sprite.addScript(script2);
 
 		project.getDefaultScene().addSprite(sprite);
-
 		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 	}

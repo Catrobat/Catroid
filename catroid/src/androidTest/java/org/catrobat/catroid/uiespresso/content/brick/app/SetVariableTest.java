@@ -31,6 +31,7 @@ import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -121,7 +122,10 @@ public class SetVariableTest {
 				.performNewVariable(userVariableNameTwo);
 
 		onBrickAtPosition(2).onVariableSpinner(R.id.set_variable_spinner)
-				.checkNameableValuesAvailable(Arrays.asList(userVariableName, userVariableNameTwo));
+				.checkNameableValuesAvailable(Arrays.asList(
+						UiTestUtils.getResourcesString(R.string.new_option),
+						userVariableName,
+						userVariableNameTwo));
 	}
 
 	private void addNewVariableViaFormulaEditor(int brickPosition, String userVariableName) {
