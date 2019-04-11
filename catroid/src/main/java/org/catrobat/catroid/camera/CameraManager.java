@@ -27,6 +27,7 @@ import android.graphics.SurfaceTexture;
 import android.graphics.YuvImage;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -96,6 +97,11 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 		return instance;
 	}
 
+	@VisibleForTesting(otherwise = VisibleForTesting.NONE)
+	public static void setInstance(CameraManager cameraManager) {
+		instance = cameraManager;
+	}
+
 	public static void makeInstance() {
 		instance = new CameraManager();
 	}
@@ -120,17 +126,11 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 	}
 
 	public boolean hasBackCamera() {
-		if (backCameraInformation == null) {
-			return false;
-		}
-		return true;
+		return backCameraInformation != null;
 	}
 
 	public boolean hasFrontCamera() {
-		if (frontCameraInformation == null) {
-			return false;
-		}
-		return true;
+		return frontCameraInformation != null;
 	}
 
 	private boolean hasCameraFlash(int cameraId) {
@@ -307,7 +307,15 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 	}
 
 	public boolean hasCurrentCameraFlash() {
-		return currentCameraInformation.flashAvailable;
+		return (currentCameraInformation != null && currentCameraInformation.flashAvailable);
+	}
+
+	public boolean hasBackCameraFlash() {
+		return (hasBackCamera() && backCameraInformation.flashAvailable);
+	}
+
+	public boolean hasFrontCameraFlash() {
+		return (hasFrontCamera() && frontCameraInformation.flashAvailable);
 	}
 
 	public CameraState getState() {
@@ -543,18 +551,19 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 		}
 	}
 
-	public boolean switchToCameraWithFlash() {
+	public boolean isCameraFlashAvailable() {
+		return (hasBackCameraFlash() || hasFrontCameraFlash());
+	}
+
+	public void switchToCameraWithFlash() {
 		if (hasCurrentCameraFlash()) {
-			return true;
+			return;
 		}
-		if (frontCameraInformation.flashAvailable) {
+
+		if (hasFrontCameraFlash()) {
 			updateCamera(frontCameraInformation);
-			return true;
-		}
-		if (backCameraInformation.flashAvailable) {
+		} else if (hasBackCameraFlash()) {
 			updateCamera(backCameraInformation);
-			return true;
 		}
-		return false;
 	}
 }
