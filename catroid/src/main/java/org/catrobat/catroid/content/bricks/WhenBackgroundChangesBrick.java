@@ -40,12 +40,13 @@ import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
+import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class WhenBackgroundChangesBrick extends BrickBaseType implements ScriptBrick,
-		BrickSpinner.OnItemSelectedListener<LookData> {
+		BrickSpinner.OnItemSelectedListener<LookData>, NewItemInterface<LookData> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -110,6 +111,7 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements ScriptB
 		if (!(activity instanceof SpriteActivity)) {
 			return;
 		}
+		((SpriteActivity) activity).registerOnNewLookListener(this);
 		((SpriteActivity) activity).handleAddBackgroundButton();
 	}
 
@@ -126,5 +128,11 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements ScriptB
 	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSetLookAction(sprite, getLook()));
 		return null;
+	}
+
+	@Override
+	public void addItem(LookData item) {
+		spinner.add(item);
+		spinner.setSelection(item);
 	}
 }

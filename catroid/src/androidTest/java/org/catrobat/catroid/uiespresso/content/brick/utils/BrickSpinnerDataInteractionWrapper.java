@@ -27,6 +27,7 @@ import android.support.test.espresso.DataInteraction;
 
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
+import org.catrobat.catroid.uiespresso.util.matchers.BrickSpinnerMatchers;
 import org.catrobat.catroid.uiespresso.util.matchers.NameableItemMatchers;
 import org.catrobat.catroid.uiespresso.util.wrappers.DataInteractionWrapper;
 
@@ -34,7 +35,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.support.test.espresso.Espresso.onData;
-import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -63,13 +63,7 @@ public class BrickSpinnerDataInteractionWrapper extends DataInteractionWrapper {
 	}
 
 	public BrickSpinnerDataInteractionWrapper checkStringValuesAvailable(List<String> stringValues) {
-		dataInteraction.perform(click());
-
-		for (String string : stringValues) {
-			onData(allOf(is(instanceOf(String.class)), is(string)))
-					.check(matches(isDisplayed()));
-		}
-		pressBack();
+		dataInteraction.check(matches(BrickSpinnerMatchers.withStringValues(stringValues)));
 		return new BrickSpinnerDataInteractionWrapper(dataInteraction);
 	}
 
@@ -82,13 +76,7 @@ public class BrickSpinnerDataInteractionWrapper extends DataInteractionWrapper {
 	}
 
 	public BrickSpinnerDataInteractionWrapper checkNameableValuesAvailable(List<String> stringValues) {
-		dataInteraction.perform(click());
-
-		for (String string : stringValues) {
-			onData(allOf(is(instanceOf(Nameable.class)), NameableItemMatchers.withNameable(string)))
-					.check(matches(isDisplayed()));
-		}
-		pressBack();
+		dataInteraction.check(matches(BrickSpinnerMatchers.withNamableValues(stringValues)));
 		return new BrickSpinnerDataInteractionWrapper(dataInteraction);
 	}
 

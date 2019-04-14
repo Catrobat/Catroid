@@ -25,6 +25,7 @@ package org.catrobat.catroid.test.roboelectric;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Spinner;
 
@@ -59,7 +60,7 @@ public class BroadcastBrickTest {
 	private static final String INITAL_MESSAGE = "initialMessage";
 	private int spinnerId = R.id.brick_broadcast_spinner;
 
-	private Activity activity;
+	private AppCompatActivity activity;
 
 	@ParameterizedRobolectricTestRunner.Parameters(name = "{0}")
 	public static Collection<Object[]> data() {
@@ -102,7 +103,8 @@ public class BroadcastBrickTest {
 	@Test
 	public void testBroadcastAddNewMessage() {
 		assertEquals("initialMessage", ((Nameable) getBrickSpinner().getSelectedItem()).getName());
-		broadcastBrick.getOkButtonListener().onPositiveButtonClick(Mockito.mock(DialogInterface.class), "newMessage");
+		broadcastBrick.getOkButtonListener(activity).onPositiveButtonClick(Mockito.mock(DialogInterface.class),
+				"newMessage");
 		assertEquals("newMessage", ((Nameable) getBrickSpinner().getSelectedItem()).getName());
 	}
 
