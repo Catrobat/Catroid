@@ -30,7 +30,7 @@
     <string name="redo">ทำซ้ำ</string>
     <string name="undo">เลิกทำ</string>
     <string name="new_option">สร้างใหม่&#8230;</string>
-    <string name="confirm">Confirm</string>
+    <string name="confirm">ยืนยัน</string>
     <string name="cancel">ยกเลิก</string>
     <string name="next">Next</string>
     <string name="back">ย้อนกลับ</string>
@@ -573,7 +573,7 @@
     <string name="tnf_well_known_https">HTTPS</string>
     <string name="tnf_well_known_tel">Phone number</string>
     <string name="tnf_well_known_sms">SMS</string>
-    <string name="tnf_well_known_mailto">E-Mail</string>
+    <string name="tnf_well_known_mailto">อีเมล</string>
     <!--  -->
     <!-- DataListFragment -->
     <string name="global_vars_headline">Variables for all actors and objects</string>
@@ -778,7 +778,7 @@
     <string name="login">เข้าสู่ระบบ</string>
     <string name="register">Register</string>
     <string name="password_confirm">Confirm password</string>
-    <string name="accountName">E-Mail</string>
+    <string name="accountName">อีเมล</string>
     <string name="signin_thanks">Thank you for signing up!</string>
     <string name="signin_choose_username">Please choose your username:</string>
     <string name="signin_choose_username_empty">Please enter a username.</string>
@@ -1125,7 +1125,7 @@
     <string name="notification_upload_pending">อัปโหลดในระหว่างดำเนินการ</string>
     <string name="notification_upload_finished">อัพโหลดเสร็จสิ้น</string>
     <string name="notification_upload_rejected">โปรแกรมอัพโหลดถูกปฏิเสธ</string>
-    <string name="notification_upload_retry">Retry</string>
+    <string name="notification_upload_retry">ลองอีกครั้ง</string>
     <string name="notification_open_play_store">Open App store</string>
     <string name="notification_download_title_pending">"กำลังดาวน์โหลด "</string>
     <string name="notification_download_pending">ดาวน์โหลดอยู่</string>

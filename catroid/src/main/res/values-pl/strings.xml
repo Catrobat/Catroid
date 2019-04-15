@@ -68,11 +68,11 @@
     <string name="disconnect">Rozłącz</string>
     <!--  -->
     <!-- Main Menu -->
-    <string name="main_menu_continue">Continue project</string>
-    <string name="main_menu_new">New project</string>
+    <string name="main_menu_continue">Kontynuuj projekt</string>
+    <string name="main_menu_new">Nowy projekt</string>
     <string name="main_menu_programs">Programy</string>
     <string name="main_menu_help">Pomoc</string>
-    <string name="main_menu_web">Catrobat community</string>
+    <string name="main_menu_web">Społeczność Catrobat</string>
     <string name="main_menu_upload">Wyślij program</string>
     <string name="main_menu_rate_app">Oceń nas!</string>
     <string name="main_menu_terms_of_use">Warunki użytkowania i korzystania z usługi</string>
@@ -275,7 +275,7 @@
     <string name="am_rename">Zmień nazwę</string>
     <string name="am_convert">Konwertuj</string>
     <string name="dialog_confirm_delete">Nie możesz tego cofnąć!</string>
-    <string name="list_headline_sprites">Actors and objects</string>
+    <string name="list_headline_sprites">Aktorzy i obiekty</string>
     <!-- Options Menu Options -->
     <string name="backpack">Plecak</string>
     <string name="copy">Kopiuj</string>
@@ -304,10 +304,10 @@
         <item quantity="other">Usuń %d projektów</item>
     </plurals>
     <plurals name="am_rename_projects_title">
-        <item quantity="one">Rename %d project</item>
-        <item quantity="few">Rename %d projects</item>
-        <item quantity="many">Rename %d projects</item>
-        <item quantity="other">Rename %d projects</item>
+        <item quantity="one">Zmień nazwę %d projektu</item>
+        <item quantity="few">Zmień nazwę %d projektów</item>
+        <item quantity="many">Zmień nazwę %d projektów</item>
+        <item quantity="other">Zmień nazwę %d projektów</item>
     </plurals>
     <plurals name="am_convert_projects_title">
         <item quantity="one">Konwertuj %d projekt</item>
@@ -724,27 +724,26 @@
     <string name="description">Opis:</string>
     <string name="set_description">Wprowadź opis</string>
     <string name="details_date_today">Dzisiaj</string>
-    <string name="import_project">Import project</string>
-    <string name="error_import_project">Something went wrong while importing projects.</string>
+    <string name="import_project">Importuj projekt</string>
+    <string name="error_import_project">Coś poszło nie tak podczas pobierania projektów.</string>
     <!-- Migrate from external to internal storage -->
     <string name="import_dialog_title">Updated project storage</string>
-    <string name="import_dialog_message">From now on projects will be stored in a hidden area on your device.
-        Existing projects can either be \'moved\' or \'copied\' to this hidden area. \'Moving\' them will remove them from
-        the unprotected area. You will still be able to access all projects, and to export them later to the unprotected area.
-        If you are unsure, select \'Move\'.</string>
+    <string name="import_dialog_message">Od teraz projekty będą przechowywane w ukrytym miejscu na urządzeniu.
+Istniejące projekty można „przenieść” lub „skopiować” do tego ukrytego obszaru. Przeniesienie ich spowoduje usunięcie ich z obszaru niezabezpieczonego. Nadal będzie można uzyskać dostęp do wszystkich projektów i wyeksportować je później do obszaru niezabezpieczonego.
+Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
     <string name="import_dialog_copy_btn">Kopiuj</string>
     <string name="import_dialog_move_btn">Przenieś</string>
-    <string name="projects_successful_moved_toast">Projects successfully moved.</string>
-    <string name="projects_successful_copied_toast">Projects successfully copied.</string>
-    <string name="error_during_copying_projects_toast">An error occurred during project migration.</string>
+    <string name="projects_successful_moved_toast">Projekty przeniesiono z powodzeniem.</string>
+    <string name="projects_successful_copied_toast">Projekty skopiowano z powodzeniem.</string>
+    <string name="error_during_copying_projects_toast">Wystąpił błąd podczas migracji projektu.</string>
     <!--  -->
-    <string name="error_no_files_found">No project files found.</string>
+    <string name="error_no_files_found">Nie znaleziono plików projektu.</string>
     <!-- ScriptListFragment -->
     <string name="fragment_script_text_description">Naciśnij \"+\", aby dodać skrypty</string>
     <!--  -->
     <!-- SpriteListFragment -->
     <string name="fragment_sprite_text_description">Naciśnij \"+\", aby dodać obiekty</string>
-    <string name="default_sprite_name">My actor or object</string>
+    <string name="default_sprite_name">Mój aktor lub obiekt</string>
     <!--  -->
     <!-- LookListFragment -->
     <string name="fragment_look_text_description">Naciśnij \"+\", aby dodać wyglądy</string>
@@ -913,12 +912,12 @@
     <string name="upload_description">Opis:</string>
     <string name="upload_tag_dialog_title">Proszę wybrać maksymalnie trzy kategorie</string>
     <!-- Save Project to External Storage -->
-    <string name="save_to_external_storage_button">Save project to external storage</string>
+    <string name="save_to_external_storage_button">Zapisz projekt w pamięci zewnętrznej</string>
     <string name="notification_save_project_to_external_storage_title_pending">" "</string>
-    <string name="notification_save_project_to_external_storage_pending">Saving project to external storage.</string>
+    <string name="notification_save_project_to_external_storage_pending">Zapis projektu w pamięci zewnętrznej.</string>
     <string name="notification_save_project_to_external_storage_title_open">" "</string>
-    <string name="notification_save_project_to_external_storage_open">"Saved project to %1$s"</string>
-    <string name="save_project_to_external_storage_io_exception_message">Failed to save project, not enough memory is available!</string>
+    <string name="notification_save_project_to_external_storage_open">"Projekt zapisany do %1$s"</string>
+    <string name="save_project_to_external_storage_io_exception_message">Nie udało się zapisać projektu, brak dostępnej pamięci!</string>
     <!--  -->
     <!-- SoundRecorderActivity -->
     <string name="soundrecorder_name">Rejestrator Pocket Code</string>
@@ -928,17 +927,17 @@
     <!--  -->
     <!-- Brick context dialog -->
     <string name="brick_context_dialog_move_brick">Przenieś blok</string>
-    <string name="brick_context_dialog_move_script">Move script</string>
+    <string name="brick_context_dialog_move_script">Przenieś skrypt</string>
     <string name="brick_context_dialog_delete_brick">Usuń blok</string>
     <string name="brick_context_dialog_copy_brick">Kopiuj blok</string>
-    <string name="brick_context_dialog_copy_script">Copy script</string>
+    <string name="brick_context_dialog_copy_script">Skopiuj skrypt</string>
     <string name="brick_context_dialog_formula_edit_brick">Edytuj formułę</string>
     <string name="brick_context_dialog_delete_script">Usuń skrypt</string>
     <string name="brick_context_dialog_comment_in">Włącz bloczek</string>
     <string name="brick_context_dialog_comment_out">Wyłącz bloczek</string>
-    <string name="brick_context_dialog_highlight_brick_parts">Highlight brick parts</string>
-    <string name="brick_context_dialog_comment_in_script">Enable script</string>
-    <string name="brick_context_dialog_comment_out_script">Disable script</string>
+    <string name="brick_context_dialog_highlight_brick_parts">Wyróżnij części bloczka</string>
+    <string name="brick_context_dialog_comment_in_script">Włącz skrypt</string>
+    <string name="brick_context_dialog_comment_out_script">Wyłącz skrypt</string>
     <string name="brick_context_dialog_help">Pomoc</string>
     <string name="comment_in_out">Włącz/wyłącz</string>
     <!--  -->
@@ -964,10 +963,10 @@
     <string name="signin_thanks">Dziękujemy za rejestrację!</string>
     <string name="signin_choose_username">Proszę wybrać swoją nazwę użytkownika:</string>
     <string name="signin_choose_username_empty">Wprowadź nazwę użytkownika!</string>
-    <string name="signin_choose_username_hint">The username should not be your real name nor should it be an email address.</string>
+    <string name="signin_choose_username_hint">Nazwa użytkownika nie powinna być Twoim prawdziwym imieniem ani adresem e-mail.</string>
     <string name="oauth_username_taken">Ktoś już używa tej nazwy. Proszę wybrać inną!</string>
     <string name="show_password">Pokaż hasło</string>
-    <string name="sign_in_error">Something went wrong during sign in.</string>
+    <string name="sign_in_error">Coś poszło nie tak podczas logowania.</string>
     <string name="error_google_plus_sign_in">Błąd logowania Google. Status: %s</string>
     <string name="error_facebook_session_expired">Twoja sesja wygasła, zaloguj się ponownie.</string>
     <string name="sign_in_with_facebook">Zaloguj się przez Facebooka</string>
@@ -1300,7 +1299,7 @@
     <string name="drone_set_tilt_outdoor">20 stopni </string>
     <string name="drone_set_tilt_max">30 stopni</string>
     <!-- Notification Channel -->
-    <string name="channel_description">%1$s notification channel</string>
+    <string name="channel_description">%1$s kanał powiadomień</string>
     <!--  -->
     <!-- Notifications -->
     <string name="notification_screenshot_ok">Podgląd zapisanego obrazu</string>
@@ -1333,10 +1332,7 @@
     <string name="drone_emergency_title">Tryb awaryjny</string>
     <!--  -->
     <!-- Runtime permission messages -->
-    <string name="runtime_permission_general">This app needs the requested permissions to function properly. E.g., the
-Camera brick needs access to the device\'s camera, the \"location\" formula element needs access to the
-device\'s geolocation sensor, and in order to import and export projects from and to the local memory, the app
-needs read and write access to it. You can always change permissions through your device\'s settings.</string>
+    <string name="runtime_permission_general">Ta aplikacja potrzebuje wymaganych uprawnień do prawidłowego działania. Np. bloczek aparatu wymaga dostępu do aparatu urządzenia, element formuły „lokalizacja” wymaga dostępu do czujnika geolokalizacji urządzenia, a aby importować i eksportować projekty z i do pamięci lokalnej, aplikacja musi mieć dostęp do odczytu i zapisu. Zawsze możesz zmienić uprawnienia za pomocą ustawień urządzenia.</string>
     <!-- Error messages -->
     <string name="error_project_upload">Podczas wysyłania programu wystąpił błąd.</string>
     <string name="error_project_download">Podczas pobierania programu wystąpił błąd.</string>
@@ -1345,12 +1341,10 @@ needs read and write access to it. You can always change permissions through you
     <string name="error_load_project">Podczas ładowania programu wystąpił błąd.</string>
     <string name="error_screenshot_failed">Wystąpił błąd podczas zapisywania podglądu obrazu.</string>
     <string name="error_internet_connection">Wystąpił nieznany błąd. Sprawdź połączenie z Internetem.</string>
-    <string name="error_project_compatibility">The project is not compatible with this version of the app.</string>
+    <string name="error_project_compatibility">Projekt nie jest zgodny z tą wersją aplikacji.</string>
     <string name="error_outdated_version">Ta wersja aplikacji jest przestarzała. Zaktualizować teraz?</string>
-    <string name="error_upload_project_with_default_name">You cannot upload a project with the name \"My first project\".
-        Please rename the project.</string>
-    <string name="error_upload_default_project">You cannot upload an unmodified example project. Please
-        change something and try again.</string>
+    <string name="error_upload_project_with_default_name">Nie możesz przesłać projektu o nazwie „Mój pierwszy projekt”. Zmień nazwę projektu.</string>
+    <string name="error_upload_default_project">Nie możesz przesłać niezmodyfikowanego przykładowego projektu. Zmień coś i spróbuj ponownie.</string>
     <string name="error_adding_brick">Podczas dodawania tego bloku wystąpił błąd</string>
     <string name="error_copying_brick">Podczas kopiowania tego bloku wystąpił błąd</string>
     <string name="error_no_drone_connected_title">Nie można znaleźć AR.Drone 2.0.</string>
@@ -1627,9 +1621,9 @@ needs read and write access to it. You can always change permissions through you
     <string name="phiro_sensor_bottom_left">Dolny lewy czujnik</string>
     <string name="phiro_sensor_bottom_right">Dolny prawy czujnik</string>
     <!--  -->
-    <string name="color_red">red</string>
-    <string name="color_green">green</string>
-    <string name="color_blue">blue</string>
+    <string name="color_red">czerwony</string>
+    <string name="color_green">zielony</string>
+    <string name="color_blue">niebieski</string>
     <string name="color_preview">Podgląd kolorów</string>
     <!-- -->
     <!-- Formula editor strings -->
@@ -1767,10 +1761,10 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_sensor_lego_ev3_sensor_hitechnic_color">EV3_hitechnic_kolor</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_c">EV3_NXT_temperatura_°C</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_f">EV3_NXT_temperatura_°F</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light">EV3 NXT light</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light_active">EV3 NXT light active</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_sound">EV3 NXT sound</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_ultrasonic">EV3 NXT ultrasonic</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light">EV3 NXT światło</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light_active">EV3 NXT aktywne światło</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_sound">EV3 NXT dźwięk</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_ultrasonic">EV3 NXT ultradźwięki</string>
     <string name="formula_editor_sensor_gamepad_a_pressed">gamepad_a_naciśnięto</string>
     <string name="formula_editor_sensor_gamepad_b_pressed">gamepad_b_naciśnięto</string>
     <string name="formula_editor_sensor_gamepad_up_pressed">gamepad_góra_naciśnięto</string>
@@ -1880,10 +1874,10 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_show_variable">Pokaż zmienną</string>
     <string name="brick_hide_variable">Ukryj zmienną</string>
     <string name="brick_show_variable_position">w </string>
-    <string name="brick_show_variable_size">size:</string>
-    <string name="brick_show_variable_color">color:</string>
-    <string name="brick_show_variable_aligned">aligned</string>
-    <string name="brick_show_variable_aligned_centered">centered</string>
+    <string name="brick_show_variable_size">rozmiar:</string>
+    <string name="brick_show_variable_color">kolor:</string>
+    <string name="brick_show_variable_aligned">wyrównany</string>
+    <string name="brick_show_variable_aligned_centered">wyśrodkowany</string>
     <string name="brick_show_variable_aligned_left">w lewo</string>
     <string name="brick_show_variable_aligned_right">w prawo</string>
     <!-- -->
@@ -1931,14 +1925,10 @@ needs read and write access to it. You can always change permissions through you
     <string name="preference_title_enable_hints">Pokaż wskazówki </string>
     <string name="hint_category">Wszystkie klocki są podzielone na kategorie. Wybierz kategorię, której szukasz.</string>
     <string name="hint_bricks">Aby dodać bloczek do skryptu, naciśnij bloczek, który chcesz użyć.</string>
-    <string name="hint_scripts">The script defines the behavior of your actor or object. To add bricks to the script,
-        tap the \"+\" symbol.</string>
-    <string name="hint_looks">Here you can find the different appearances of your actor or object. To add a new look,
-        tap the \"+\" symbol.</string>
-    <string name="hint_sounds">Here you can add new sounds to your actor or object. Remember using a brick from the
-        sound category.</string>
-    <string name="hint_objects">Your program consists of different actors and objects that can interact with each other.
-        To add a new actor or object, tap the \"+\" symbol.</string>
+    <string name="hint_scripts">Skrypt określa zachowanie twojego aktora lub obiektu. Aby dodać bloczki do skryptu, naciśnij symbol „+”.</string>
+    <string name="hint_looks">Tutaj możesz znaleźć różne typy wyglądu danego aktora lub obiektu. Aby dodać nowy wygląd, naciśnij symbol \"+\".</string>
+    <string name="hint_sounds">Tutaj można dodać nowe dźwięki do aktora lub obiektu. Pamiętaj o użyciu bloku z kategorii dźwięku.</string>
+    <string name="hint_objects">Program składa się z różnych aktorów i obiektów, które mogą oddziaływać na siebie nawzajem. Aby dodać nowego aktora lub obiekt naciśnij symbol \"+\".</string>
     <!--  -->
     <!-- Crash report dialog -->
     <!--  -->
