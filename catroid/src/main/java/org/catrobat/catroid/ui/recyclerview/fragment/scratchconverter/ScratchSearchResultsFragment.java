@@ -209,7 +209,7 @@ public class ScratchSearchResultsFragment extends Fragment implements
 		actionModeType = NONE;
 		actionMode = null;
 		adapter.showCheckBoxes = false;
-		adapter.allowMultiSelection = true;
+		adapter.selectionMode = adapter.MULTIPLE;
 	}
 
 	@Override

@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.ui.recyclerview.adapter;
 
+import android.support.annotation.IntDef;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,16 +34,26 @@ import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperAdapt
 import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> implements
 		TouchHelperAdapterInterface {
+	@Retention(RetentionPolicy.SOURCE)
+	@IntDef({SINGLE, PAIRS, MULTIPLE})
+	@interface SelectionType {
+	}
+
+	public static final int SINGLE = 0;
+	public static final int PAIRS = 1;
+	public static final int MULTIPLE = 2;
 
 	List<T> items;
-	public boolean allowMultiSelection = true;
 	public boolean showCheckBoxes = false;
+	public int selectionMode = MULTIPLE;
 
 	MultiSelectionManager selectionManager = new MultiSelectionManager();
 	private SelectionListener selectionListener;
@@ -97,7 +108,7 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> imp
 	}
 
 	protected void onCheckBoxClick(int position) {
-		if (!allowMultiSelection) {
+		if (selectionMode == SINGLE) {
 			boolean currentState = selectionManager.isPositionSelected(position);
 
 			for (int i : selectionManager.getSelectedPositions()) {
@@ -107,6 +118,13 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> imp
 
 			selectionManager.setSelectionTo(!currentState, position);
 			notifyItemChanged(position);
+		} else if (selectionMode == PAIRS) {
+			if (selectionManager.getSelectedPositions().size() < 2) {
+				selectionManager.toggleSelection(position);
+			} else {
+				selectionManager.setSelectionTo(false, position);
+				notifyItemChanged(position);
+			}
 		} else {
 			selectionManager.toggleSelection(position);
 		}

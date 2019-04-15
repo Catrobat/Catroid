@@ -28,6 +28,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewProjectDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.ProjectListFragment;
@@ -60,6 +61,7 @@ public class ProjectListActivity extends BaseCastActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_projects_activity, menu);
+		menu.findItem(R.id.merge).setVisible(BuildConfig.FEATURE_MERGE_ENABLED);
 		return super.onCreateOptionsMenu(menu);
 	}
 

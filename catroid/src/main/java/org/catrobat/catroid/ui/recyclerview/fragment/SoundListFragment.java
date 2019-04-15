@@ -172,6 +172,7 @@ public class SoundListFragment extends RecyclerViewFragment<SoundInfo> {
 				return R.plurals.am_delete_sounds_title;
 			case RENAME:
 				return R.plurals.am_rename_sounds_title;
+			case MERGE:
 			case NONE:
 			default:
 				throw new IllegalStateException("ActionModeType not set correctly");

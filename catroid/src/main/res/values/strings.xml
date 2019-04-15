@@ -311,12 +311,14 @@
 
     <!-- Recycler View -->
     <string name="am_empty_list">There are no items in this list yet. Please add some first.</string>
+    <string name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
     <string name="am_backpack">Pack</string>
     <string name="am_unpack">Unpack</string>
     <string name="am_copy">Copy</string>
     <string name="am_delete">Delete</string>
     <string name="am_rename">Rename</string>
     <string name="am_convert">Convert</string>
+    <string name="am_merge">Merge</string>
     <string name="dialog_confirm_delete">You can\'t undo this!</string>
 
     <string name="list_headline_sprites">Actors and objects</string>
@@ -326,6 +328,7 @@
     <string name="copy">Copy</string>
     <string name="delete">Delete</string>
     <string name="rename">Rename</string>
+    <string name="merge">Merge</string>
     <string name="show_details">Show details</string>
     <string name="hide_details">Hide details</string>
 
@@ -352,6 +355,10 @@
     <plurals name="am_convert_projects_title">
         <item quantity="one">Convert %d project</item>
         <item quantity="other">Convert %d projects</item>
+    </plurals>
+    <plurals name="am_merge_projects_title">
+        <item quantity="one">Merge %d project</item>
+        <item quantity="other">Merge %d projects</item>
     </plurals>
 
     <!-- Scene Action Mode Titles -->
