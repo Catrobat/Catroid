@@ -24,9 +24,6 @@
 package org.catrobat.catroid.uiespresso.content.brick.app;
 
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.ViewAction;
-import android.support.test.espresso.action.Press;
-import android.support.test.espresso.action.Swipe;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
@@ -67,14 +64,6 @@ public class PenBricksTest {
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 
-	private static ViewAction swipeRightSlow() {
-		return new CustomSwipeAction(Swipe.SLOW, CustomSwipeAction.SwipeAction.SWIPE_RIGHT, Press.FINGER);
-	}
-
-	private static ViewAction swipeLeftSlow() {
-		return new CustomSwipeAction(Swipe.SLOW, CustomSwipeAction.SwipeAction.SWIPE_LEFT, Press.FINGER);
-	}
-
 	@Before
 	public void setUp() throws Exception {
 		createProject();
@@ -92,7 +81,7 @@ public class PenBricksTest {
 		onBrickAtPosition(positionPenColorBrick).onFormulaTextField(R.id.brick_set_pen_color_action_red_edit_text)
 				.perform(click());
 		onView(withId(R.id.color_rgb_seekbar_red))
-				.perform(swipeLeftSlow());
+				.perform(CustomSwipeAction.swipeLeftSlow());
 		onView(withId(R.id.color_rgb_seekbar_red))
 				.perform(pressBack());
 		onBrickAtPosition(positionPenColorBrick).onFormulaTextField(R.id.brick_set_pen_color_action_red_edit_text)
@@ -101,7 +90,7 @@ public class PenBricksTest {
 		onBrickAtPosition(positionPenColorBrick).onFormulaTextField(R.id.brick_set_pen_color_action_green_edit_text)
 				.perform(click());
 		onView(withId(R.id.color_rgb_seekbar_green))
-				.perform(swipeRightSlow());
+				.perform(CustomSwipeAction.swipeRightSlow());
 		onView(withId(R.id.color_rgb_seekbar_green))
 				.perform(pressBack());
 		onBrickAtPosition(positionPenColorBrick).onFormulaTextField(R.id.brick_set_pen_color_action_green_edit_text)

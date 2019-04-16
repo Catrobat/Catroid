@@ -155,12 +155,12 @@ public final class FormulaEditorWrapper extends ViewInteractionWrapper {
 		performOpenCategory(Category.FUNCTIONS);
 	}
 
-	public void performUndo() {
+	public static void performUndo() {
 		onView(ActionMenu.UNDO)
 				.perform(click());
 	}
 
-	public void performRedo() {
+	public static void performRedo() {
 		onView(ActionMenu.REDO)
 				.perform(click());
 	}
@@ -235,3 +235,4 @@ public final class FormulaEditorWrapper extends ViewInteractionWrapper {
 		public static final Matcher<View> REDO = withId(R.id.menu_redo);
 	}
 }
+

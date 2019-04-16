@@ -86,7 +86,9 @@ public class FormulaEditorHistory {
 	}
 
 	public void updateCurrentState(UndoState state) {
-		current = state;
+		if (!state.brickField.equals(current.brickField)) {
+			current = state;
+		}
 	}
 
 	public void clear() {
@@ -118,5 +120,13 @@ public class FormulaEditorHistory {
 
 	public void changesSaved() {
 		hasUnsavedChanges = false;
+	}
+
+	public UndoState peekOnRedoStack() {
+		return redoStack.peek();
+	}
+
+	public UndoState peekOnUndoStack() {
+		return undoStack.peek();
 	}
 }

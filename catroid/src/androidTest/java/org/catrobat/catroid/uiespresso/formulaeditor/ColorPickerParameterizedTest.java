@@ -20,14 +20,17 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-package org.catrobat.catroid.uiespresso.content.brick.app;
+package org.catrobat.catroid.uiespresso.formulaeditor;
 
 import android.support.annotation.IdRes;
+import android.support.test.InstrumentationRegistry;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.SetPenColorBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.content.brick.utils.CustomSwipeAction;
@@ -45,88 +48,82 @@ import java.util.Arrays;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
-import static org.junit.runners.Parameterized.Parameter;
-import static org.junit.runners.Parameterized.Parameters;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.ColorSeekbarWrapper.MAX_COLOR_SEEKBAR_VALUE;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.ColorSeekbarWrapper.onColorSeekbar;
 
 @Category({Cat.AppUi.class, Level.Smoke.class})
 @RunWith(Parameterized.class)
-public class PhiroSeekBarColorBrickTest {
-
-	private static final Integer MIN_COLOR_VALUE = 0;
-	private static final Integer MAX_COLOR_VALUE = 255;
-	private static final Integer INIT_COLOR_VALUE = 128;
-
+public final class ColorPickerParameterizedTest {
+	private static final Integer INIT_COLOR_VALUE = 0;
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 
-	@Parameters(name = "{3}-Test")
+	@Before
+	public void setUp() {
+		createProject();
+		baseActivityTestRule.launchActivity();
+	}
+
+	@Parameterized.Parameters(name = "{3}")
 	public static Iterable<Object[]> data() {
 		return Arrays.asList(new Object[][] {
 				{R.id.color_rgb_seekbar_red,
-						R.id.rgb_red_value,
-						R.id.brick_phiro_rgb_led_action_red_edit_text,
+						R.id.brick_set_pen_color_action_red_edit_text,
+						INIT_COLOR_VALUE,
 						"SeekbarRed"},
 				{R.id.color_rgb_seekbar_green,
-						R.id.rgb_green_value,
-						R.id.brick_phiro_rgb_led_action_green_edit_text,
+						R.id.brick_set_pen_color_action_green_edit_text,
+						INIT_COLOR_VALUE,
 						"SeekbarGreen"},
 				{R.id.color_rgb_seekbar_blue,
-						R.id.rgb_blue_value,
-						R.id.brick_phiro_rgb_led_action_blue_edit_text,
+						R.id.brick_set_pen_color_action_blue_edit_text,
+						INIT_COLOR_VALUE,
 						"SeekbarBlue"},
 		});
 	}
 
-	@Parameter
+	@Parameterized.Parameter
 	public @IdRes int colorRgbSeekbarId;
 
-	@Parameter(1)
-	public @IdRes int rgbValueId;
-
-	@Parameter(2)
+	@Parameterized.Parameter(1)
 	public @IdRes int brickActionEditTextId;
 
-	@Parameter(3)
+	@Parameterized.Parameter(2)
+	public int initValue;
+
+	@Parameterized.Parameter(3)
 	public String testName;
 
-	@Before
-	public void setUp() throws Exception {
-		Script script = BrickTestUtils.createProjectAndGetStartScript("PhiroSeekBarColorBrickTest");
-		script.addBrick(new PhiroRGBLightBrick(PhiroRGBLightBrick.Eye.BOTH, INIT_COLOR_VALUE, INIT_COLOR_VALUE, INIT_COLOR_VALUE));
-
-		baseActivityTestRule.launchActivity();
-	}
-
 	@Test
-	public void testSeekBar() {
-		Integer whenBrickPosition = 0;
+	public void testColorSeekBar() {
+		int whenBrickPosition = 0;
 		onBrickAtPosition(whenBrickPosition).checkShowsText(R.string.brick_when_started);
-		Integer phiroRGBLightBrickPosition = 1;
-		onBrickAtPosition(phiroRGBLightBrickPosition).checkShowsText(R.string.brick_phiro_rgb_led_action);
+		int penColorBrickPosition = 1;
 
-		onBrickAtPosition(phiroRGBLightBrickPosition).onFormulaTextField(brickActionEditTextId)
-				.checkShowsNumber(INIT_COLOR_VALUE)
+		onBrickAtPosition(penColorBrickPosition).onFormulaTextField(brickActionEditTextId)
+				.checkShowsNumber(initValue)
 				.perform(click());
 
-		onView(withId(colorRgbSeekbarId))
-				.perform(CustomSwipeAction.swipeLeftSlow());
-		onView(withId(rgbValueId))
-				.check(matches(withText(MIN_COLOR_VALUE.toString())));
 		onView(withId(colorRgbSeekbarId))
 				.perform(CustomSwipeAction.swipeRightSlow());
-		onView(withId(rgbValueId))
-				.check(matches(withText(MAX_COLOR_VALUE.toString())));
-		onView(withId(rgbValueId))
-				.perform(click());
-		onView(withId(R.id.formula_editor_keyboard_ok))
-				.perform(click());
-		onBrickAtPosition(phiroRGBLightBrickPosition).onFormulaTextField(brickActionEditTextId)
-				.checkShowsNumber(MAX_COLOR_VALUE);
+
+		onColorSeekbar().closeAndSaveChanges();
+		onBrickAtPosition(penColorBrickPosition).onFormulaTextField(brickActionEditTextId)
+				.checkShowsNumber((int) MAX_COLOR_SEEKBAR_VALUE);
+	}
+
+	public static void createProject() {
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), "penColorBrickTest");
+		Script startScript = BrickTestUtils.createProjectAndGetStartScript("penColorBrickTest");
+		Sprite sprite = new Sprite("testSprite");
+		sprite.addScript(startScript);
+		startScript.addBrick(new SetPenColorBrick(INIT_COLOR_VALUE, INIT_COLOR_VALUE, INIT_COLOR_VALUE));
+		project.getDefaultScene().addSprite(sprite);
+		ProjectManager.getInstance().setCurrentProject(project);
+		ProjectManager.getInstance().setCurrentSprite(sprite);
 	}
 }

@@ -292,6 +292,8 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		if (!history.undoIsPossible()) {
 			return false;
 		}
+		UndoState undoState = history.peekOnUndoStack();
+		history.updateCurrentState(new UndoState(formulaEditorFragment.getFormulaFromFormulaBrick(undoState.brickField).getInternFormulaState(), undoState.brickField));
 		UndoState previousState = history.backward();
 		if (previousState != null) {
 
@@ -299,8 +301,10 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 			internFormula.generateExternFormulaStringAndInternExternMapping(context);
 			internFormula.updateInternCursorPosition();
 			updateTextAndCursorFromInternFormula();
+			formulaEditorFragment.setCurrentBrickField(previousState.brickField);
 		}
-
+		formulaEditorFragment.setFormulaInFormulaBrick(previousState.brickField,
+				new Formula(internFormula.getInternFormulaParser().parseFormula()));
 		formulaEditorFragment.refreshFormulaPreviewString(internFormula.getExternFormulaString());
 		return true;
 	}
@@ -309,6 +313,8 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		if (!history.redoIsPossible()) {
 			return false;
 		}
+		UndoState redoState = history.peekOnRedoStack();
+		history.updateCurrentState(new UndoState(formulaEditorFragment.getFormulaFromFormulaBrick(redoState.brickField).getInternFormulaState(), redoState.brickField));
 		UndoState nextStep = history.forward();
 		if (nextStep != null) {
 
@@ -316,7 +322,10 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 			internFormula.generateExternFormulaStringAndInternExternMapping(context);
 			internFormula.updateInternCursorPosition();
 			updateTextAndCursorFromInternFormula();
+			formulaEditorFragment.setCurrentBrickField(nextStep.brickField);
 		}
+		formulaEditorFragment.setFormulaInFormulaBrick(nextStep.brickField,
+				new Formula(internFormula.getInternFormulaParser().parseFormula()));
 		formulaEditorFragment.refreshFormulaPreviewString(internFormula.getExternFormulaString());
 		return true;
 	}
