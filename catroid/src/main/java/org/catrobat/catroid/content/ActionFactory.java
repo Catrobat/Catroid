@@ -156,6 +156,7 @@ import org.catrobat.catroid.content.actions.TurnRightAction;
 import org.catrobat.catroid.content.actions.VibrateAction;
 import org.catrobat.catroid.content.actions.WaitAction;
 import org.catrobat.catroid.content.actions.WaitForBubbleBrickAction;
+import org.catrobat.catroid.content.actions.WaitTillIdleAction;
 import org.catrobat.catroid.content.actions.WaitUntilAction;
 import org.catrobat.catroid.content.actions.conditional.GlideToAction;
 import org.catrobat.catroid.content.actions.conditional.IfOnEdgeBounceAction;
@@ -1218,5 +1219,9 @@ public class ActionFactory extends Actions {
 		action.setSetupVariable(setupVariable);
 
 		return action;
+	}
+
+	public Action createWaitTillIdleAction() {
+		return action(WaitTillIdleAction.class);
 	}
 }
