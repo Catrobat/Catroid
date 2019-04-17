@@ -41,6 +41,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.content.ListWithoutDuplicates;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
@@ -68,7 +69,6 @@ import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION;
@@ -705,11 +705,11 @@ public class SpriteActivity extends BaseActivity {
 
 		makeListCheckBox.setVisibility(View.VISIBLE);
 
-		List<UserData> variables = new ArrayList<>();
+		final List<UserData> variables = new ListWithoutDuplicates<>();
 		variables.addAll(currentProject.getUserVariables());
 		variables.addAll(currentSprite.getUserVariables());
 
-		List<UserData> lists = new ArrayList<>();
+		final List<UserData> lists = new ListWithoutDuplicates<>();
 		lists.addAll(currentProject.getUserLists());
 		lists.addAll(currentSprite.getUserLists());
 
