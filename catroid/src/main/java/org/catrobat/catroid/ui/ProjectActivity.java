@@ -274,7 +274,10 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 						File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
 						File file = StorageOperations
 								.copyUriToDir(getContentResolver(), uri, imageDirectory, lookFileName);
-						sprite.getLookList().add(new LookData(textInput, file));
+
+						LookData lookData = new LookData(textInput, file);
+						sprite.getLookList().add(lookData);
+						lookData.getCollisionInformation().calculate();
 					} catch (IOException e) {
 						Log.e(TAG, Log.getStackTraceString(e));
 					}
