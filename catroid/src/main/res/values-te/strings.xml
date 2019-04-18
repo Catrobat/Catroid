@@ -25,10 +25,10 @@
 <resources>
     <!-- General terms -->
     <string name="stage">వేదిక</string>
-    <string name="play">Play</string>
+    <string name="play">ఆడు</string>
     <string name="settings">అమరికలు</string>
     <string name="redo">పునరావృత్తం</string>
-    <string name="undo">Undo</string>
+    <string name="undo">రద్దుచేయు</string>
     <string name="new_option">new&#8230;</string>
     <string name="confirm">నిర్ధారించండి</string>
     <string name="cancel">రద్దు చేయు</string>

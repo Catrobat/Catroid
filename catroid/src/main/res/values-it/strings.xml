@@ -303,8 +303,8 @@
         <item quantity="other">Elimina %d progetti</item>
     </plurals>
     <plurals name="am_rename_projects_title">
-        <item quantity="one">Rename %d project</item>
-        <item quantity="other">Rename %d projects</item>
+        <item quantity="one">Rinomina %d progetto</item>
+        <item quantity="other">Rinomina %d progetti</item>
     </plurals>
     <plurals name="am_convert_projects_title">
         <item quantity="one">Converti %d progetto</item>
@@ -601,8 +601,8 @@
     <string name="description">Descrizione:</string>
     <string name="set_description">Imposta descrizione</string>
     <string name="details_date_today">Oggi</string>
-    <string name="import_project">Import project</string>
-    <string name="error_import_project">Something went wrong while importing projects.</string>
+    <string name="import_project">Importa progetto</string>
+    <string name="error_import_project">Qualcosa è andato storto durante l\'importazione dei progetti.</string>
     <!-- Migrate from external to internal storage -->
     <string name="import_dialog_title">Aggiornato l\'archivio del progetto</string>
     <string name="import_dialog_message">D\'ora in poi i progetti saranno memorizzati in un\'area nascosta sul tuo dispositivo.
@@ -615,7 +615,7 @@
     <string name="projects_successful_copied_toast">I progetti sono stati copiati correttamente.</string>
     <string name="error_during_copying_projects_toast">Errore durante la copia / spostamento dei progetti</string>
     <!--  -->
-    <string name="error_no_files_found">No project files found.</string>
+    <string name="error_no_files_found">Nessun file di progetto trovato.</string>
     <!-- ScriptListFragment -->
     <string name="fragment_script_text_description">Clic su \"+\" per aggiungere script</string>
     <!--  -->
@@ -824,7 +824,7 @@
     <string name="brick_context_dialog_delete_script">Elimina lo script</string>
     <string name="brick_context_dialog_comment_in">Abilita mattoncino</string>
     <string name="brick_context_dialog_comment_out">Disabilita mattoncino</string>
-    <string name="brick_context_dialog_highlight_brick_parts">Highlight brick parts</string>
+    <string name="brick_context_dialog_highlight_brick_parts">Evidenzia parti mattoncino</string>
     <string name="brick_context_dialog_comment_in_script">Abilita script</string>
     <string name="brick_context_dialog_comment_out_script">Disabilita script</string>
     <string name="brick_context_dialog_help">Guida</string>
@@ -855,7 +855,7 @@
     <string name="signin_choose_username_hint">Il nome utente non dovrebbe essere il tuo vero nome né un indirizzo email.</string>
     <string name="oauth_username_taken">Nome già usato. Scegli uno diverso!</string>
     <string name="show_password">Mostra Password</string>
-    <string name="sign_in_error">Something went wrong during sign in.</string>
+    <string name="sign_in_error">Qualcosa è andato storto durante l\'accesso.</string>
     <string name="error_google_plus_sign_in">Errore di login su Google. Stato: %s</string>
     <string name="error_facebook_session_expired">Sessione scaduta, effettua nuovamente il login.</string>
     <string name="sign_in_with_facebook">Accedi con Facebook</string>
@@ -946,7 +946,7 @@
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"Posiziona a "</string>
-    <string name="brick_place_at_option_place_visually">Place visually</string>
+    <string name="brick_place_at_option_place_visually">Posiziona in modo visuale</string>
     <string name="x_label">"X: "</string>
     <string name="y_label">"Y: "</string>
     <string name="brick_set_x">"Imposta X a "</string>
@@ -1232,10 +1232,10 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
     <string name="error_internet_connection">Si è verificato un errore non conosciuto. Controllare la connessione a Internet.</string>
     <string name="error_project_compatibility">Il progetto non è compatibile con questa versione dell\'app.</string>
     <string name="error_outdated_version">Versione obsoleta di questa app. Vuoi aggiornarla ora?</string>
-    <string name="error_upload_project_with_default_name">You cannot upload a project with the name \"My first project\".
-        Please rename the project.</string>
-    <string name="error_upload_default_project">You cannot upload an unmodified example project. Please
-        change something and try again.</string>
+    <string name="error_upload_project_with_default_name">Non puoi caricare un progetto con il nome \"Il mio primo progetto\".
+        Rinomina il progetto.</string>
+    <string name="error_upload_default_project">Non è possibile caricare un progetto di esempio non modificato.
+        cambia qualcosa e riprova.</string>
     <string name="error_adding_brick">Si è verificato un errore durante l\'aggiunta di questo Mattoncino</string>
     <string name="error_copying_brick">Si è verificato un errore durante la copia di questo Mattoncino</string>
     <string name="error_no_drone_connected_title">Impossibile trovare AR.Drone 2.0.</string>
@@ -1777,10 +1777,10 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
     <string name="brick_show_variable">Visualizza la variabile</string>
     <string name="brick_hide_variable">Nascondi variabile</string>
     <string name="brick_show_variable_position">a </string>
-    <string name="brick_show_variable_size">size:</string>
-    <string name="brick_show_variable_color">color:</string>
-    <string name="brick_show_variable_aligned">aligned</string>
-    <string name="brick_show_variable_aligned_centered">centered</string>
+    <string name="brick_show_variable_size">dimensione:</string>
+    <string name="brick_show_variable_color">colore:</string>
+    <string name="brick_show_variable_aligned">allineato</string>
+    <string name="brick_show_variable_aligned_centered">centrato</string>
     <string name="brick_show_variable_aligned_left">sinistra</string>
     <string name="brick_show_variable_aligned_right">destra</string>
     <!-- -->

@@ -32,19 +32,19 @@
     <string name="new_option">Novo&#8230;</string>
     <string name="confirm">Confirmar</string>
     <string name="cancel">Cancelar</string>
-    <string name="next">Next</string>
+    <string name="next">Próximo</string>
     <string name="back">Voltar</string>
     <string name="ok">OK</string>
     <string name="done">Concluído</string>
     <string name="close">Fechar</string>
     <string name="yes">Sim</string>
     <string name="no">Não</string>
-    <string name="agree">Agree</string>
-    <string name="disagree">Disagree</string>
-    <string name="select_all">Select all</string>
-    <string name="deselect_all">Deselect all</string>
-    <string name="skip">skip</string>
-    <string name="warning">Warning</string>
+    <string name="agree">Concordar</string>
+    <string name="disagree">Discordar</string>
+    <string name="select_all">Selecionar todos</string>
+    <string name="deselect_all">Desseleccionar tudo</string>
+    <string name="skip">ignorar</string>
+    <string name="warning">Aviso</string>
     <string name="error">Erro</string>
     <string name="loading">A carregar&#8230;</string>
     <string name="please_wait">Por favor, aguarde</string>
@@ -52,36 +52,36 @@
     <string name="backpack_add">Adicionar para mochila</string>
     <string name="share_website_text">share.catrob.at</string>
     <!-- Login/Logout Mechanism -->
-    <string name="loading_check_facebook_data">Retrieving Facebook login data&#8230;</string>
-    <string name="loading_check_oauth_token">Checking login data&#8230;</string>
-    <string name="loading_facebook_exchange_token">Exchanging Facebook login data&#8230;</string>
-    <string name="loading_facebook_login">Facebook login on our server is complete&#8230;</string>
-    <string name="loading_google_exchange_code">Exchanging Google login data&#8230;</string>
-    <string name="loading_google_login">Google login on our server is complete&#8230;</string>
-    <string name="delete_account">Delete my account</string>
+    <string name="loading_check_facebook_data">Obtendo dados de entrada do Facebook&#8230;</string>
+    <string name="loading_check_oauth_token">Verificando dados de entrada&#8230;</string>
+    <string name="loading_facebook_exchange_token">Trocando dados de entrada com o Facebook&#8230;</string>
+    <string name="loading_facebook_login">A entrada no nosso servidor através do Facebook está completa&#8230;</string>
+    <string name="loading_google_exchange_code">Trocando dados de entrada com o Google&#8230;</string>
+    <string name="loading_google_login">A entrada no nosso servidor através do Google está completa&#8230;</string>
+    <string name="delete_account">Eliminar a minha conta</string>
     <string name="logout_successful">Logout bem sucedido</string>
     <string name="degrees">graus</string>
     <string name="background">Fundo</string>
-    <string name="landscape">landscape</string>
-    <string name="portrait">portrait</string>
-    <string name="unknown">unknown</string>
-    <string name="disconnect">Disconnect</string>
+    <string name="landscape">horizontal</string>
+    <string name="portrait">vertical</string>
+    <string name="unknown">desconhecido</string>
+    <string name="disconnect">Desligar</string>
     <!--  -->
     <!-- Main Menu -->
     <string name="main_menu_continue">Continue</string>
     <string name="main_menu_new">Novo</string>
     <string name="main_menu_programs">Programas</string>
     <string name="main_menu_help">Ajuda</string>
-    <string name="main_menu_web">Catrobat community</string>
+    <string name="main_menu_web">Comunidade Catrobat</string>
     <string name="main_menu_upload">Carregar</string>
     <string name="main_menu_rate_app">Classifique-nos!</string>
-    <string name="main_menu_terms_of_use">Terms of Use and Service</string>
+    <string name="main_menu_terms_of_use">Termos de Utilização e Serviço</string>
     <string name="main_menu_privacy_policy">Política de Privacidade</string>
     <string name="main_menu_about">Sobre o Pocket Code</string>
     <string name="main_menu_login">Login</string>
     <string name="main_menu_logout">Encerrar Sessão</string>
     <string name="main_menu_scratch_converter">Conversor de Scratch</string>
-    <string name="main_menu_play_store_not_installed">App store not found</string>
+    <string name="main_menu_play_store_not_installed">Loja de aplicações não encontrada</string>
     <!--  -->
     <!-- Marketing activity -->
     <string name="marketing_created_with">Criado com</string>
@@ -89,34 +89,34 @@
     <string name="marketing_more_on_google_play">Avalie-nos no Google Play</string>
     <!-- Settings activity -->
     <string name="preference_title">Configurações</string>
-    <string name="preference_title_language">Language</string>
-    <string name="preference_description_language">Set the app\'s language</string>
-    <string name="preference_title_accessibility">Accessibility</string>
-    <string name="preference_description_accessibility">Change the app\'s appearance</string>
-    <string name="preference_title_accessibility_profiles">Accessibility profiles</string>
-    <string name="preference_title_accessibility_profile">Predefined profiles</string>
-    <string name="preference_title_accessibility_profile_headline">Profiles</string>
-    <string name="preference_title_accessibility_predefined_profile_headline">Predefined profiles</string>
-    <string name="preference_description_accessibility_profiles">Pick a predefined accessibility profile</string>
-    <string name="preference_title_accessibility_text_appearance">Text appearance</string>
-    <string name="preference_title_accessibility_handling">Handling</string>
-    <string name="preference_title_accessibility_category_icons_big">Large icons</string>
-    <string name="preference_description_accessibility_category_icons_big">Increase icon size.</string>
-    <string name="preference_title_accessibility_category_icons_high_contrast">High contrast icons</string>
-    <string name="preference_title_accessibility_Brick_icons">Icons</string>
-    <string name="preference_title_accessibility_category_icons">Show icons</string>
-    <string name="preference_description_accessibility_category_icons">Add icons to categories and bricks.</string>
-    <string name="preference_title_accessibility_high_contrast">High contrast</string>
-    <string name="preference_description_accessibility_high_contrast">Increase the text contrast.</string>
-    <string name="preference_description_accessibility_large_text">Increase the text size.</string>
-    <string name="preference_title_accessibility_large_text">Large text</string>
-    <string name="preference_title_accessibility_element_spacing">Large element spacing</string>
-    <string name="preference_description_accessibility_element_spacing">Increase element spacing in lists.</string>
-    <string name="preference_title_accessibility_dragndrop_delay">Drag\'n\'drop delay</string>
-    <string name="preference_description_accessibility_dragndrop_delay">Drag\'n\'drop delay for bricks.</string>
-    <string name="preference_title_accessibility_beginner_bricks">Beginner mode</string>
-    <string name="preference_description_accessibility_beginner_bricks">Show only simple features.</string>
-    <string name="preference_title_accessibility_font_style">Choose a text type</string>
+    <string name="preference_title_language">Língua</string>
+    <string name="preference_description_language">Estabelecer a língua da aplicação</string>
+    <string name="preference_title_accessibility">Acessibilidade</string>
+    <string name="preference_description_accessibility">Alterar a aparência da aplicação</string>
+    <string name="preference_title_accessibility_profiles">Perfis de acessibilidade</string>
+    <string name="preference_title_accessibility_profile">Perfis predefinidos</string>
+    <string name="preference_title_accessibility_profile_headline">Perfis</string>
+    <string name="preference_title_accessibility_predefined_profile_headline">Perfis predefinidos</string>
+    <string name="preference_description_accessibility_profiles">Escolha um perfil de acessibilidade predefinido</string>
+    <string name="preference_title_accessibility_text_appearance">Aparência do texto</string>
+    <string name="preference_title_accessibility_handling">Manuseamento</string>
+    <string name="preference_title_accessibility_category_icons_big">Ícones grandes</string>
+    <string name="preference_description_accessibility_category_icons_big">Aumentar tamanho do ícone.</string>
+    <string name="preference_title_accessibility_category_icons_high_contrast">Ícones de alto contraste</string>
+    <string name="preference_title_accessibility_Brick_icons">Ícones</string>
+    <string name="preference_title_accessibility_category_icons">Mostrar ícones</string>
+    <string name="preference_description_accessibility_category_icons">Adicionar ícones às categorias e blocos.</string>
+    <string name="preference_title_accessibility_high_contrast">Alto contraste</string>
+    <string name="preference_description_accessibility_high_contrast">Aumentar o contraste do texto.</string>
+    <string name="preference_description_accessibility_large_text">Aumentar o tamanho do texto.</string>
+    <string name="preference_title_accessibility_large_text">Texto grande</string>
+    <string name="preference_title_accessibility_element_spacing">Espaçamento de elementos grande</string>
+    <string name="preference_description_accessibility_element_spacing">Aumentar espaçamento entre elementos nas listas.</string>
+    <string name="preference_title_accessibility_dragndrop_delay">Atraso ao arrastar e soltar</string>
+    <string name="preference_description_accessibility_dragndrop_delay">Atraso ao arrastar e soltar para blocos.</string>
+    <string name="preference_title_accessibility_beginner_bricks">Modo de principiante</string>
+    <string name="preference_description_accessibility_beginner_bricks">Mostrar apenas funcionalidades simples.</string>
+    <string name="preference_title_accessibility_font_style">Escolher um tipo de texto</string>
     <string name="accessibility_font_regular">Regular</string>
     <string name="accessibility_font_serif">Serif</string>
     <string name="accessibility_font_dyslexic">Dyslexic</string>
@@ -134,7 +134,7 @@
     <string name="preference_access_summary_profile_fenrir">Large element spacing, drag\'n\'drop
        delay</string>
     <string name="preference_access_title_profile_tiro">Tiro</string>
-    <string name="preference_access_summary_profile_tiro">Beginner mode</string>
+    <string name="preference_access_summary_profile_tiro">Modo de principiante</string>
     <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
     <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 extension</string>
     <string name="preference_description_quadcopter_bricks">Allow the app to control Parrot AR.Drone 2.0 quadcopters</string>
@@ -696,15 +696,15 @@
     <string name="rating_dialog_rate_never">Never</string>
     <!--  -->
     <!-- Terms of Use Dialog -->
-    <string name="dialog_terms_of_use_title">Terms of Use and Service</string>
+    <string name="dialog_terms_of_use_title">Termos de Utilização e Serviço</string>
     <string name="dialog_terms_of_use_info">In order to
         be allowed to use the apps and other services offered by the Catrobat project, you
         must agree to our Terms of Use and Service. You have to follow these terms strictly when using our apps
         and other services. Please see the link below for their precise formulation.\n</string>
-    <string name="dialog_terms_of_use_link_text">Terms of Use and Service</string>
+    <string name="dialog_terms_of_use_link_text">Termos de Utilização e Serviço</string>
     <!--  -->
     <!-- Terms of Use Dialog Parrot ARDrone-->
-    <string name="dialog_terms_of_use_link_text_parrot_reminder">Terms of Use and Service</string>
+    <string name="dialog_terms_of_use_link_text_parrot_reminder">Termos de Utilização e Serviço</string>
     <string name="dialog_terms_of_use_parrot_reminder_text">You are about to use this app together with Parrot\'s
         AR.Drone 2.0. We strongly remind you to abide by both Parrot\'s and Catrobat\'s Terms of Use and Services.</string>
     <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Não me relembrar.</string>
