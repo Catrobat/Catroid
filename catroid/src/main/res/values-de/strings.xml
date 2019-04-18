@@ -750,11 +750,11 @@ Die vorherige, mittlerweile ungültige, Version (2.0) unserer Datenschutzvereinb
     <!-- -->
     <!-- About Dialog -->
     <string name="dialog_about_title">Über die App</string>
-    <string name="dialog_about_license_info">Pocket Code ist eine 
+    <string name="dialog_about_license_info">Die App ist eine 
         Programmierumgebung und Interpreter für Android Geräte für die visuelle
         Programmiersprache Catrobat.\n\n
-        Der Quellcode von Pocket Code unterliegt hauptsälich der GNU AGPL v3 Lizenz. 
-       Für weitere Informationen klicken Sie auf den untenstehenden Link.\n</string>
+        Der Quellcode der App unterliegt hauptsächlich der GNU AGPL v3 Lizenz. 
+       Für weitere Informationen klicke auf den untenstehenden Link.\n</string>
     <string name="dialog_about_license_link_text">Source Code Lizenz</string>
     <string name="dialog_about_catrobat_link_text">Über Catrobat</string>
     <!--  -->
