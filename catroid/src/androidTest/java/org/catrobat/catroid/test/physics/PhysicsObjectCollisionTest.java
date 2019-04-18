@@ -122,15 +122,4 @@ public class PhysicsObjectCollisionTest {
 		assertTrue(rule.simulateFullCollision());
 		assertFalse(contactFixturePairs.contains(expectedcontactFixtures));
 	}
-
-	public void testCollisionDynamicDynamic() {
-		assertTrue(rule.simulateFullCollision());
-		assertTrue(contactFixturePairs.contains(expectedcontactFixtures));
-	}
-
-	public void testCollisionDynamicFixed() {
-		rule.physicsObject2.setType(PhysicsObject.Type.FIXED);
-		assertTrue(rule.simulateFullCollision());
-		assertTrue(contactFixturePairs.contains(expectedcontactFixtures));
-	}
 }

@@ -151,8 +151,9 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 				break;
 			case R.id.upload:
 				setShowProgressBar(true);
-				new ProjectSaveTask(this)
-						.execute(ProjectManager.getInstance().getCurrentProject());
+				new ProjectSaveTask(ProjectManager.getInstance().getCurrentProject())
+						.setListener(this)
+						.execute();
 				break;
 			default:
 				return super.onOptionsItemSelected(item);
@@ -167,7 +168,7 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 		// unnecessary but was successful or when it did not succeed.
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		Intent intent = new Intent(this, ProjectUploadActivity.class);
-		intent.putExtra(ProjectUploadActivity.PROJECT_NAME, currentProject.getName());
+		intent.putExtra(ProjectUploadActivity.PROJECT_DIR, currentProject.getDirectory());
 		startActivity(intent);
 	}
 

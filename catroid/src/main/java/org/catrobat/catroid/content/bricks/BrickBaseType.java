@@ -26,6 +26,7 @@ import android.content.Context;
 import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ import android.widget.CheckBox;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.fragment.ScriptFragment;
 
 public abstract class BrickBaseType implements Brick {
 
@@ -108,6 +110,14 @@ public abstract class BrickBaseType implements Brick {
 			for (int i = 0; i < parent.getChildCount(); i++) {
 				disableSpinners(parent.getChildAt(i));
 			}
+		}
+	}
+
+	void notifyDataSetChanged(AppCompatActivity activity) {
+		ScriptFragment parentFragment = (ScriptFragment) activity
+				.getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG);
+		if (parentFragment != null) {
+			parentFragment.notifyDataSetChanged();
 		}
 	}
 }

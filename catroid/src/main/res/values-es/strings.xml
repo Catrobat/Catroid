@@ -69,10 +69,10 @@
     <!--  -->
     <!-- Main Menu -->
     <string name="main_menu_continue">Continue project</string>
-    <string name="main_menu_new">New project</string>
+    <string name="main_menu_new">Nuevo proyecto</string>
     <string name="main_menu_programs">Programas</string>
     <string name="main_menu_help">Ayuda</string>
-    <string name="main_menu_web">Catrobat community</string>
+    <string name="main_menu_web">Comunidad Catrobat</string>
     <string name="main_menu_upload">Cargar programa</string>
     <string name="main_menu_rate_app">Valóranos!</string>
     <string name="main_menu_terms_of_use">Términos de uso y servicios</string>
@@ -95,15 +95,15 @@
     <string name="preference_description_accessibility">Cambiar la apariencia de la aplicación</string>
     <string name="preference_title_accessibility_profiles">Accessibility profiles</string>
     <string name="preference_title_accessibility_profile">Predefined profiles</string>
-    <string name="preference_title_accessibility_profile_headline">Profiles</string>
+    <string name="preference_title_accessibility_profile_headline">Perfiles</string>
     <string name="preference_title_accessibility_predefined_profile_headline">Predefined profiles</string>
     <string name="preference_description_accessibility_profiles">Pick a predefined accessibility profile</string>
     <string name="preference_title_accessibility_text_appearance">Text appearance</string>
     <string name="preference_title_accessibility_handling">Handling</string>
-    <string name="preference_title_accessibility_category_icons_big">Large icons</string>
+    <string name="preference_title_accessibility_category_icons_big">Iconos grandes</string>
     <string name="preference_description_accessibility_category_icons_big">Increase icon size.</string>
     <string name="preference_title_accessibility_category_icons_high_contrast">High contrast icons</string>
-    <string name="preference_title_accessibility_Brick_icons">Icons</string>
+    <string name="preference_title_accessibility_Brick_icons">Iconos</string>
     <string name="preference_title_accessibility_category_icons">Show icons</string>
     <string name="preference_description_accessibility_category_icons">Add icons to categories and bricks.</string>
     <string name="preference_title_accessibility_high_contrast">High contrast</string>
@@ -114,7 +114,7 @@
     <string name="preference_description_accessibility_element_spacing">Increase element spacing in lists.</string>
     <string name="preference_title_accessibility_dragndrop_delay">Drag\'n\'drop delay</string>
     <string name="preference_description_accessibility_dragndrop_delay">Drag\'n\'drop delay for bricks.</string>
-    <string name="preference_title_accessibility_beginner_bricks">Beginner mode</string>
+    <string name="preference_title_accessibility_beginner_bricks">Modo Principiante</string>
     <string name="preference_description_accessibility_beginner_bricks">Solo mostrar bloques básicos.</string>
     <string name="preference_title_accessibility_font_style">Choose a text type</string>
     <string name="accessibility_font_regular">Regular</string>
@@ -123,10 +123,10 @@
     <string name="accessibility_settings_applied">Changes applied</string>
     <string name="preference_access_title_profile_default">Default</string>
     <string name="preference_access_summary_profile_default">Default settings</string>
-    <string name="preference_access_title_profile_custom">My custom profile</string>
-    <string name="preference_access_summary_profile_custom">My personal settings</string>
+    <string name="preference_access_title_profile_custom">Mi perfil personalizado</string>
+    <string name="preference_access_summary_profile_custom">Mi configuración personal</string>
     <string name="preference_access_title_profile_argus">Argus</string>
-    <string name="preference_access_summary_profile_argus">High contrast, additional icons</string>
+    <string name="preference_access_summary_profile_argus">Alto contraste, iconos adicionales</string>
     <string name="preference_access_title_profile_odin">Odin</string>
     <string name="preference_access_summary_profile_odin">Large text, large icons, large element
        spacing, high contrast</string>
@@ -445,8 +445,8 @@
         <item quantity="other">¿Eliminar estos Objetos?</item>
     </plurals>
     <plurals name="delete_looks">
-        <item quantity="one">Delete this look?</item>
-        <item quantity="other">Delete these looks?</item>
+        <item quantity="one">¿Eliminar esta apariencia?</item>
+        <item quantity="other">¿Eliminar estas apariencias?</item>
     </plurals>
     <plurals name="delete_sounds">
         <item quantity="one">Delete this sound?</item>
@@ -597,7 +597,7 @@
     <string name="description">Descripción:</string>
     <string name="set_description">Descripción del set</string>
     <string name="details_date_today">Hoy</string>
-    <string name="import_project">Import project</string>
+    <string name="import_project">Importar proyecto</string>
     <string name="error_import_project">Something went wrong while importing projects.</string>
     <!-- Migrate from external to internal storage -->
     <string name="import_dialog_title">Updated project storage</string>
@@ -663,7 +663,7 @@
     <string name="sounds">Sonidos</string>
     <string name="nfctags">Tags NFC</string>
     <!-- NewProjectDialog -->
-    <string name="new_project_dialog_title">Nuevo programa</string>
+    <string name="new_project_dialog_title">Nuevo proyecto</string>
     <string name="new_project_empty">Crear un Programa vacío</string>
     <string name="new_project_default">Crear un programa de ejemplo</string>
     <string name="new_project_default_drone">Create an example AR.Drone 2.0 project</string>
@@ -1325,7 +1325,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="lego_port_2">Port 2</string>
     <string name="lego_port_3">Port 3</string>
     <string name="lego_port_4">Port 4</string>
-    <string name="lego_sensor_config_dont_show_again">Do not show this message again.</string>
+    <string name="lego_sensor_config_dont_show_again">No volver a mostrar este mensaje.</string>
     <string name="lego_sensor_port_config_dialog_title">Choose a port for connecting to %1$s.</string>
     <string name="lego_ev3_sensor_config_info_title">Configuración de sensor EV3</string>
     <string name="preference_disable_ev3_info_dialog_description">Los ajustes específicos de EV3 no aparecen cuando se abre un programa.</string>
@@ -1510,9 +1510,9 @@ needs read and write access to it. You can always change permissions through you
     <string name="phiro_sensor_bottom_left">Sensor izquierdo inferior</string>
     <string name="phiro_sensor_bottom_right">Sensor inferior derecho</string>
     <!--  -->
-    <string name="color_red">red</string>
-    <string name="color_green">green</string>
-    <string name="color_blue">blue</string>
+    <string name="color_red">rojo</string>
+    <string name="color_green">verde</string>
+    <string name="color_blue">azul</string>
     <string name="color_preview">Vista previa de color</string>
     <!-- -->
     <!-- Formula editor strings -->
@@ -1736,7 +1736,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_sensor_face_x_position">cara_x_posición</string>
     <string name="formula_editor_sensor_face_y_position">cara_y_posición</string>
     <string name="formula_editor_intro_title_formula_editor">Editor de fórmulas</string>
-    <string name="formula_editor_intro_summary_formula_editor">El editor de fórmulas le permite crear fórmulas matemáticas y lógicas que puede utilizar en sus bloques.\n\nPuede avanzar esta pequeña introducción presionando el botón \"Siguiente\" en la esquina inferior derecha, y puede omitirla presionando el botón \"SKIP\" en la esquina inferior izquierda.</string>
+    <string name="formula_editor_intro_summary_formula_editor">El editor de fórmulas le permite crear fórmulas matemáticas y lógicas que puede utilizar en sus bloques.\n\nPuede avanzar esta pequeña introducción presionando el botón \"Siguiente\" en la esquina inferior derecha, y puede omitirla presionando el botón \"Saltar\" en la esquina inferior izquierda.</string>
     <string name="formula_editor_intro_title_input_field">Campo de entrada</string>
     <string name="formula_editor_intro_summary_input_field">Aquí puede ver su fórmula y también puede editarla.</string>
     <string name="formula_editor_intro_title_keyboard">Teclado</string>
@@ -1763,10 +1763,10 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_show_variable">Mostrar la variable</string>
     <string name="brick_hide_variable">Ocultar la variable</string>
     <string name="brick_show_variable_position">en </string>
-    <string name="brick_show_variable_size">size:</string>
+    <string name="brick_show_variable_size">tamaño:</string>
     <string name="brick_show_variable_color">color:</string>
-    <string name="brick_show_variable_aligned">aligned</string>
-    <string name="brick_show_variable_aligned_centered">centered</string>
+    <string name="brick_show_variable_aligned">alineado</string>
+    <string name="brick_show_variable_aligned_centered">centrado</string>
     <string name="brick_show_variable_aligned_left">izquierda</string>
     <string name="brick_show_variable_aligned_right">derecha</string>
     <!-- -->

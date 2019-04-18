@@ -45,6 +45,7 @@ public class LegoNxtMotorStopBrick extends BrickBaseType {
 	}
 
 	public LegoNxtMotorStopBrick() {
+		motor = Motor.MOTOR_A.name();
 	}
 
 	public LegoNxtMotorStopBrick(Motor motorEnum) {

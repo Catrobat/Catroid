@@ -45,6 +45,8 @@ import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.ToastUtil;
 
+import java.io.File;
+
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public class ScratchProgramsFragment extends Fragment implements
@@ -128,7 +130,10 @@ public class ScratchProgramsFragment extends Fragment implements
 			return;
 		}
 
-		if (!FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).contains(item.getTitle())) {
+		File projectDir = new File(DEFAULT_ROOT_DIRECTORY,
+				FileMetaDataExtractor.encodeSpecialCharsForFileSystem(item.getTitle()));
+
+		if (!projectDir.exists()) {
 			new AlertDialog.Builder(getContext())
 					.setTitle(R.string.warning)
 					.setMessage(R.string.error_cannot_open_not_existing_scratch_program)
@@ -139,8 +144,10 @@ public class ScratchProgramsFragment extends Fragment implements
 		}
 
 		setShowProgressBar(true);
-		ProjectLoadTask loadProjectTask = new ProjectLoadTask(getActivity(), this);
-		loadProjectTask.execute(item.getTitle());
+
+		new ProjectLoadTask(projectDir, getContext())
+				.setListener(this)
+				.execute();
 	}
 
 	public void setShowProgressBar(boolean show) {

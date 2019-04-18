@@ -155,8 +155,7 @@ public class PhysicsWorldTest {
 	}
 
 	@Test
-	public void testSteps() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
-			IllegalAccessException {
+	public void testSteps() throws SecurityException, IllegalArgumentException {
 		Sprite sprite = new Sprite("TestSprite");
 		sprite.look = new PhysicsLook(sprite, physicsWorld);
 
@@ -176,7 +175,6 @@ public class PhysicsWorldTest {
 		assertEquals(velocity.y, physicsObject.getY(), 1e-8);
 		assertEquals(rotationSpeed, physicsObject.getDirection(), 1e-8);
 
-		// TODO[Physics] angle problem
 		physicsWorld.step(1.0f);
 		assertEquals(2 * velocity.x, physicsObject.getX(), 1e-8);
 		assertEquals(2 * velocity.y, physicsObject.getY(), 1e-8);

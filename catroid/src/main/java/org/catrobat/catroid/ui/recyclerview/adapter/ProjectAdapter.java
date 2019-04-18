@@ -24,6 +24,7 @@
 package org.catrobat.catroid.ui.recyclerview.adapter;
 
 import android.content.Context;
+import android.text.format.DateUtils;
 import android.view.View;
 
 import org.catrobat.catroid.R;
@@ -32,9 +33,7 @@ import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedVH;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
-import org.catrobat.catroid.utils.PathBuilder;
 
-import java.io.File;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
@@ -51,19 +50,25 @@ public class ProjectAdapter extends ExtendedRVAdapter<ProjectData> {
 		Context context = holder.itemView.getContext();
 		ProjectAndSceneScreenshotLoader loader = new ProjectAndSceneScreenshotLoader(context);
 		ProjectData item = items.get(position);
-		String sceneName = XstreamSerializer.extractDefaultSceneNameFromXml(item.projectName);
+		String sceneName = XstreamSerializer.extractDefaultSceneNameFromXml(item.getDirectory());
 
-		holder.title.setText(item.projectName);
-		loader.loadAndShowScreenshot(item.projectName, sceneName, false, holder.image);
+		holder.title.setText(item.getName());
+		loader.loadAndShowScreenshot(item.getDirectory().getName(), sceneName, false, holder.image);
 
 		if (showDetails) {
-			Date lastModified = new Date(item.lastUsed);
-			String lastAccess = DateFormat.getDateInstance(DateFormat.MEDIUM).format(lastModified);
+			Date lastModified = new Date(item.getLastUsed());
+			String lastAccess;
+			if (DateUtils.isToday(item.getLastUsed())) {
+				lastAccess = context.getString(R.string.last_access_today,
+						DateFormat.getTimeInstance(DateFormat.SHORT).format(lastModified));
+			} else {
+				lastAccess = DateFormat.getDateInstance(DateFormat.MEDIUM).format(lastModified);
+			}
 
 			holder.details.setText(String.format(Locale.getDefault(),
 					context.getString(R.string.project_details),
 					lastAccess,
-					FileMetaDataExtractor.getSizeAsString(new File(PathBuilder.buildProjectPath(item.projectName)), context)));
+					FileMetaDataExtractor.getSizeAsString(item.getDirectory(), context)));
 			holder.details.setVisibility(View.VISIBLE);
 		} else {
 			holder.details.setVisibility(View.GONE);

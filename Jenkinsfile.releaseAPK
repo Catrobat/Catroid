@@ -27,7 +27,7 @@ pipeline {
         stage('Prepare build') {
             steps {
                 script {
-                    currentBuild.displayName = "#${env.BUILD_NUMBER}"
+                    currentBuild.displayName = "#${env.BUILD_NUMBER} | ${env.flavor} | ${env.gitBranch}"
                 }
             }
         }
@@ -36,17 +36,46 @@ pipeline {
             steps {
                 // Build, zipalign and sign releasable APK
                 withCredentials([file(credentialsId: 'a925b6e8-b3c6-407e-8cad-65886e330037', variable: 'SIGNING_KEYSTORE')]) {
-                    sh '''
-                        set +x
-                        ./gradlew assembleCatroidSignedRelease \
-                        -PsigningKeystore=${SIGNING_KEYSTORE} \
-                        -PsigningKeystorePassword=$signingKeystorePassword \
-                        -PsigningKeyAlias=$signingKeyAlias \
-                        -PsigningKeyPassword=$signingKeyPassword \
-                        -PfirebaseApiKey=$firebaseApiKey \
-                        -PfabricApiKey=$fabricApiKey \
-                        -PfabricApiSecret=$fabricApiSecret
-                    '''
+                    script {
+                        if (env.flavor == 'All') {
+                            sh '''
+                                set +x
+                                ./gradlew assembleSignedRelease \
+                                -PsigningKeystore=${SIGNING_KEYSTORE} \
+                                -PsigningKeystorePassword=$signingKeystorePassword \
+                                -PsigningKeyAlias=$signingKeyAlias \
+                                -PsigningKeyPassword=$signingKeyPassword \
+                                -PfirebaseApiKey=$firebaseApiKey \
+                                -PfabricApiKey=$fabricApiKey \
+                                -PfabricApiSecret=$fabricApiSecret
+                            '''
+                        } else if (env.flavor == 'Playground') {
+                            sh '''
+                                set +x
+                                ./gradlew assembleCatroidSignedRelease \
+                                -PsigningKeystore=${SIGNING_KEYSTORE} \
+                                -PsigningKeystorePassword=$signingKeystorePassword \
+                                -PsigningKeyAlias=$signingKeyAlias \
+                                -PsigningKeyPassword=$signingKeyPassword \
+                                -PfirebaseApiKey=$firebaseApiKey \
+                                -PfabricApiKey=$fabricApiKey \
+                                -PfabricApiSecret=$fabricApiSecret \
+                                -Pplayground=true
+                            '''
+                        } else {
+                            sh '''
+                                set +x
+                                ./gradlew assemble${flavor}SignedRelease \
+                                -PsigningKeystore=${SIGNING_KEYSTORE} \
+                                -PsigningKeystorePassword=$signingKeystorePassword \
+                                -PsigningKeyAlias=$signingKeyAlias \
+                                -PsigningKeyPassword=$signingKeyPassword \
+                                -PfirebaseApiKey=$firebaseApiKey \
+                                -PfabricApiKey=$fabricApiKey \
+                                -PfabricApiSecret=$fabricApiSecret
+                            '''
+                        }
+                    }
                 }
                 archiveArtifacts artifacts: 'catroid/build/outputs/apk/**/*signedRelease.apk', fingerprint: true
             }
@@ -70,7 +99,18 @@ pipeline {
                 environment name: 'APPROVE_UPLOAD_APK', value: 'yes'
             }
             steps {
-                sh "fastlane android upload_APK_Catroid"
+                script {
+                    if (env.flavor == 'All') {
+                        sh '''
+                            fastlane android upload_APK_Catroid \
+                            fastlane android upload_APK_CreateAtSchool
+                            fastlane android upload_APK_LunaAndCat \
+                            fastlane android upload_APK_Phiro \
+                        '''
+                    } else {
+                        sh 'fastlane android upload_APK_${flavor}'
+                    }
+                }
             }
         }
     }

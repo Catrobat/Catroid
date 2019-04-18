@@ -212,8 +212,9 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> implements Pr
 		if (!item.getName().equals(name)) {
 			if (sceneController.rename(item, name)) {
 				ProjectManager.getInstance().saveProject(getActivity());
-				ProjectLoadTask projectLoadTask = new ProjectLoadTask(getContext(), this);
-				projectLoadTask.execute(ProjectManager.getInstance().getCurrentProject().getName());
+				new ProjectLoadTask(ProjectManager.getInstance().getCurrentProject().getDirectory(), getContext())
+						.setListener(this)
+						.execute();
 			} else {
 				ToastUtil.showError(getActivity(), R.string.error_rename_scene);
 			}
@@ -233,6 +234,7 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> implements Pr
 				return R.plurals.am_delete_scenes_title;
 			case RENAME:
 				return R.plurals.am_rename_scenes_title;
+			case MERGE:
 			case NONE:
 			default:
 				throw new IllegalStateException("ActionModeType not set correctly");

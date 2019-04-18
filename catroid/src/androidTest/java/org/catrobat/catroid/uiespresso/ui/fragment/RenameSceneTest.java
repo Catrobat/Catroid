@@ -31,7 +31,6 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
@@ -64,12 +63,12 @@ import static org.hamcrest.Matchers.instanceOf;
 
 @RunWith(AndroidJUnit4.class)
 public class RenameSceneTest {
-	private String oldSceneName = "Scene 1";
-	private String newSceneName = "firstScene";
+
 	private String projectName = "TestRenameScene";
 	@Rule
 	public BaseActivityInstrumentationRule<ProjectActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(ProjectActivity.class);
+	private Project project;
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
@@ -87,8 +86,12 @@ public class RenameSceneTest {
 		onView(withText(R.string.rename_scene_dialog)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
+		String oldSceneName = "Scene 1";
+		String newSceneName = "firstScene";
+
 		onView(allOf(withText(oldSceneName), isDisplayed(), instanceOf(EditText.class)))
 				.perform(replaceText(newSceneName));
+
 		closeSoftKeyboard();
 
 		onView(allOf(withId(android.R.id.button2), withText(R.string.cancel)))
@@ -99,7 +102,7 @@ public class RenameSceneTest {
 		onView(withText(newSceneName))
 				.check(matches(isDisplayed()));
 
-		assertEquals(newSceneName, XstreamSerializer.extractDefaultSceneNameFromXml(projectName));
+		assertEquals(newSceneName, project.getDefaultScene().getName());
 	}
 
 	@After
@@ -114,7 +117,7 @@ public class RenameSceneTest {
 	}
 
 	private void createProject(String projectName) {
-		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+		project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		Scene secondScene = new Scene("secondScene", project);
 		project.addScene(secondScene);
 		ProjectManager.getInstance().setCurrentProject(project);

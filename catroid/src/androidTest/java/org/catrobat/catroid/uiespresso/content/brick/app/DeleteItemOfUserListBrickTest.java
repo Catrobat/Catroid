@@ -74,28 +74,6 @@ public class DeleteItemOfUserListBrickTest {
 		baseActivityTestRule.launchActivity();
 	}
 
-	@Category({Cat.AppUi.class, Level.Smoke.class})
-	@Test
-	@Flaky
-	public void testDeleteItemOfUserListBrickBasicLayout() {
-		int newPosition = 3;
-		String userListName = "test1";
-
-		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
-		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_delete_item_from_userlist);
-
-		onBrickAtPosition(brickPosition).onSpinner(R.id.delete_item_of_userlist_spinner)
-				.checkShowsText(R.string.new_option);
-
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_delete_item_of_userlist_edit_text)
-				.performEnterNumber(newPosition)
-				.checkShowsNumber(newPosition);
-
-		onBrickAtPosition(brickPosition).onVariableSpinner(R.id.delete_item_of_userlist_spinner)
-				.performNewVariable(userListName)
-				.checkShowsText(userListName);
-	}
-
 	@Category({Cat.AppUi.class, Level.Detailed.class})
 	@Test
 	@Flaky

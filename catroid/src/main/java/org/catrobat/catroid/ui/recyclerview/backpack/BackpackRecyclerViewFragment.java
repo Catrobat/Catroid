@@ -143,7 +143,7 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 		actionModeType = NONE;
 		actionMode = null;
 		adapter.showCheckBoxes = false;
-		adapter.allowMultiSelection = true;
+		adapter.selectionMode = adapter.MULTIPLE;
 	}
 
 	@Override

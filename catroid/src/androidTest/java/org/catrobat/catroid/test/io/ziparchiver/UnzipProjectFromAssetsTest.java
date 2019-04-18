@@ -28,7 +28,6 @@ import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.ZipArchiver;
-import org.catrobat.catroid.utils.PathBuilder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,6 +41,8 @@ import java.util.zip.ZipInputStream;
 
 import static junit.framework.Assert.assertTrue;
 
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+
 @RunWith(AndroidJUnit4.class)
 public class UnzipProjectFromAssetsTest {
 
@@ -49,12 +50,12 @@ public class UnzipProjectFromAssetsTest {
 
 	@Before
 	public void setUp() {
-		projectDir = new File(PathBuilder.buildProjectPath("testZipProject"));
+		projectDir = new File(DEFAULT_ROOT_DIRECTORY, UnzipProjectFromAssetsTest.class.getSimpleName());
 	}
 
 	@After
 	public void tearDown() throws IOException {
-		if (projectDir.exists()) {
+		if (projectDir.isDirectory()) {
 			StorageOperations.deleteDir(projectDir);
 		}
 	}

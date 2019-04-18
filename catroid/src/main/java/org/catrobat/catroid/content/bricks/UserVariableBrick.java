@@ -35,12 +35,11 @@ import android.widget.RadioButton;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
-import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
@@ -50,6 +49,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class UserVariableBrick extends FormulaBrick implements BrickSpinner.OnItemSelectedListener<UserVariable> {
+
 	protected UserVariable userVariable;
 
 	private transient BrickSpinner<UserVariable> spinner;
@@ -77,12 +77,11 @@ public abstract class UserVariableBrick extends FormulaBrick implements BrickSpi
 		super.getView(context);
 
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
 
 		List<Nameable> items = new ArrayList<>();
 		items.add(new NewOption(context.getString(R.string.new_option)));
-		items.addAll(dataContainer.getSpriteUserVariables(sprite));
-		items.addAll(dataContainer.getProjectUserVariables());
+		items.addAll(sprite.getUserVariables());
+		items.addAll(ProjectManager.getInstance().getCurrentProject().getUserVariables());
 
 		spinner = new BrickSpinner<>(getSpinnerId(), view, items);
 		spinner.setOnItemSelectedListener(this);
@@ -97,7 +96,7 @@ public abstract class UserVariableBrick extends FormulaBrick implements BrickSpi
 			return;
 		}
 
-		final Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+		final Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		final Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(activity);
@@ -109,15 +108,13 @@ public abstract class UserVariableBrick extends FormulaBrick implements BrickSpi
 					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
 						UserVariable userVariable = new UserVariable(textInput);
 
-						DataContainer dataContainer = currentScene.getDataContainer();
-
 						RadioButton addToProjectVariablesRadioButton = ((Dialog) dialog).findViewById(R.id.global);
 						boolean addToProjectVariables = addToProjectVariablesRadioButton.isChecked();
 
 						if (addToProjectVariables) {
-							dataContainer.addUserVariable(userVariable);
+							currentProject.addUserVariable(userVariable);
 						} else {
-							dataContainer.addUserVariable(currentSprite, userVariable);
+							currentSprite.addUserVariable(userVariable);
 						}
 						spinner.add(userVariable);
 						spinner.setSelection(userVariable);

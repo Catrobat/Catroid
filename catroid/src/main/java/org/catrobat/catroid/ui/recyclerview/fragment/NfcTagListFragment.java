@@ -186,6 +186,7 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 			case RENAME:
 				return R.plurals.am_rename_nfc_tags_title;
 			case BACKPACK:
+			case MERGE:
 			case NONE:
 			default:
 				throw new IllegalStateException("ActionModeType not set correctly");

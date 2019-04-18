@@ -26,6 +26,7 @@ package org.catrobat.catroid.io.asynctask;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.catrobat.catroid.content.backwardcompatibility.ProjectMetaDataParser;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
@@ -44,8 +45,9 @@ public class ProjectImportTask extends AsyncTask<File, Boolean, Boolean> {
 
 	private WeakReference<ProjectImportListener> weakListenerReference;
 
-	public ProjectImportTask(ProjectImportListener listener) {
+	public ProjectImportTask setListener(ProjectImportListener listener) {
 		this.weakListenerReference = new WeakReference<>(listener);
+		return this;
 	}
 
 	public static boolean task(File... files) {
@@ -64,7 +66,7 @@ public class ProjectImportTask extends AsyncTask<File, Boolean, Boolean> {
 		}
 		String projectName;
 		try {
-			projectName = XstreamSerializer.getInstance().getProjectName(xmlFile);
+			projectName = new ProjectMetaDataParser(xmlFile).getProjectMetaData().getName();
 		} catch (IOException e) {
 			Log.d(TAG, "Cannot extract projectName from xml", e);
 			return false;
@@ -77,11 +79,14 @@ public class ProjectImportTask extends AsyncTask<File, Boolean, Boolean> {
 		projectName = new UniqueNameProvider()
 				.getUniqueName(projectName, FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY));
 
-		File dstDir = new File(DEFAULT_ROOT_DIRECTORY, projectName);
+		File dstDir = new File(DEFAULT_ROOT_DIRECTORY,
+				FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectName));
 
 		try {
-			StorageOperations.copyDir(projectDir, dstDir);
-			XstreamSerializer.getInstance().renameProject(new File(dstDir, CODE_XML_FILE_NAME), projectName);
+			StorageOperations
+					.copyDir(projectDir, dstDir);
+			XstreamSerializer
+					.renameProject(new File(dstDir, CODE_XML_FILE_NAME), projectName);
 			return true;
 		} catch (IOException e) {
 			Log.e(TAG, "Something went wrong while importing project " + projectDir.getName(), e);
@@ -104,6 +109,9 @@ public class ProjectImportTask extends AsyncTask<File, Boolean, Boolean> {
 
 	@Override
 	protected void onPostExecute(Boolean success) {
+		if (weakListenerReference == null) {
+			return;
+		}
 		ProjectImportListener listener = weakListenerReference.get();
 		if (listener != null) {
 			listener.onImportFinished(success);

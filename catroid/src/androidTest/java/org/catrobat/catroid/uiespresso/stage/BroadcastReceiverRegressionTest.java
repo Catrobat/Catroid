@@ -40,7 +40,6 @@ import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.uiespresso.stage.utils.StageTestUtils;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
@@ -84,9 +83,8 @@ public class BroadcastReceiverRegressionTest {
 
 	private void createProject() {
 		project = UiTestUtils.createEmptyProject("test");
-		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
 		userVariable = new UserVariable(VARIABLE_NAME);
-		dataContainer.addUserVariable(userVariable);
+		project.addUserVariable(userVariable);
 		sprite1 = project.getDefaultScene().getBackgroundSprite();
 		sprite1StartScript = new StartScript();
 		sprite1.addScript(sprite1StartScript);
@@ -254,9 +252,8 @@ public class BroadcastReceiverRegressionTest {
 
 	@Test
 	public void testBroadcastReceiverWithMoreThanOneReceiverScript() {
-		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
 		UserVariable userVariable2 = new UserVariable(VARIABLE_NAME + "2");
-		dataContainer.addUserVariable(userVariable2);
+		project.addUserVariable(userVariable2);
 
 		sprite1StartScript.addBrick(new SetVariableBrick(new Formula(1.0), userVariable));
 		sprite1StartScript.addBrick(new SetVariableBrick(new Formula(1.0), userVariable2));

@@ -29,10 +29,9 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastMessageBrick;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.PhysicsWorld;
-import org.catrobat.catroid.utils.PathBuilder;
+import org.catrobat.catroid.utils.FileMetaDataExtractor;
 
 import java.io.File;
 import java.io.Serializable;
@@ -42,17 +41,12 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.catrobat.catroid.common.Constants.AUTOMATIC_SCREENSHOT_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.BACKPACK_SCENE_DIRECTORY;
-import static org.catrobat.catroid.common.Constants.MANUAL_SCREENSHOT_FILE_NAME;
 
 @XStreamAlias("scene")
-// Remove checkstyle disable when https://github.com/checkstyle/checkstyle/issues/1349 is fixed
-// CHECKSTYLE DISABLE IndentationCheck FOR 5 LINES
 @XStreamFieldKeyOrder({
 		"name",
-		"objectList",
-		"data"
+		"objectList"
 })
 public class Scene implements Nameable, Serializable {
 
@@ -62,8 +56,6 @@ public class Scene implements Nameable, Serializable {
 	private String name;
 	@XStreamAlias("objectList")
 	private List<Sprite> spriteList = new ArrayList<>();
-	@XStreamAlias("data")
-	private DataContainer dataContainer = null;
 
 	private transient PhysicsWorld physicsWorld;
 	private transient Project project;
@@ -76,7 +68,6 @@ public class Scene implements Nameable, Serializable {
 	public Scene(String name, @NonNull Project project) {
 		this.name = name;
 		this.project = project;
-		dataContainer = new DataContainer(project);
 	}
 
 	public String getName() {
@@ -126,14 +117,6 @@ public class Scene implements Nameable, Serializable {
 		return spriteList.remove(sprite);
 	}
 
-	public DataContainer getDataContainer() {
-		return dataContainer;
-	}
-
-	public synchronized void setDataContainer(DataContainer container) {
-		dataContainer = container;
-	}
-
 	public PhysicsWorld getPhysicsWorld() {
 		if (physicsWorld == null) {
 			resetPhysicsWorld();
@@ -153,21 +136,13 @@ public class Scene implements Nameable, Serializable {
 
 	public File getDirectory() {
 		if (project == null) {
-			return new File(BACKPACK_SCENE_DIRECTORY, name);
+			return new File(BACKPACK_SCENE_DIRECTORY, FileMetaDataExtractor.encodeSpecialCharsForFileSystem(name));
 		} else {
-			return new File(PathBuilder.buildScenePath(project.getName(), name));
+			return new File(project.getDirectory(), FileMetaDataExtractor.encodeSpecialCharsForFileSystem(name));
 		}
 	}
 
-	public boolean hasScreenshot() {
-		File automaticScreenshot = new File(getDirectory(), AUTOMATIC_SCREENSHOT_FILE_NAME);
-		File manualScreenshot = new File(getDirectory(), MANUAL_SCREENSHOT_FILE_NAME);
-		return automaticScreenshot.exists() || manualScreenshot.exists();
-	}
-
 	public void removeClonedSprites() {
-		dataContainer.removeUserDataOfClones();
-
 		for (Iterator<Sprite> iterator = spriteList.iterator(); iterator.hasNext(); ) {
 			Sprite sprite = iterator.next();
 			if (sprite.isClone) {

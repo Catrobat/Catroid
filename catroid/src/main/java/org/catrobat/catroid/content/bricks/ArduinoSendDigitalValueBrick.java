@@ -60,7 +60,7 @@ public class ArduinoSendDigitalValueBrick extends FormulaBrick {
 	}
 
 	@Override
-	protected BrickField getDefaultBrickField() {
+	public BrickField getDefaultBrickField() {
 		return BrickField.ARDUINO_DIGITAL_PIN_NUMBER;
 	}
 

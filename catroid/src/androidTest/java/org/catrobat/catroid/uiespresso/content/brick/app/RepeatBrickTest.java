@@ -120,20 +120,6 @@ public class RepeatBrickTest {
 		assertEquals(endBrick, repeatBrick.getLoopEndBrick());
 	}
 
-	@Category({Cat.AppUi.class, Level.Smoke.class})
-	@Test
-	public void testChangeFormula() {
-		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
-		onBrickAtPosition(1).checkShowsText(R.string.brick_repeat);
-		onBrickAtPosition(2).checkShowsText(R.string.brick_set_x);
-		onBrickAtPosition(3).checkShowsText(R.string.brick_loop_end);
-		onBrickAtPosition(4).checkShowsText(R.string.brick_set_y);
-
-		onBrickAtPosition(1).onFormulaTextField(R.id.brick_repeat_edit_text)
-				.performEnterNumber(42)
-				.checkShowsNumber(42);
-	}
-
 	@Category({Cat.AppUi.class, Level.Functional.class})
 	@Test
 	public void testCopyBrick() {

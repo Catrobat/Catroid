@@ -27,6 +27,7 @@ import android.content.res.Resources;
 import android.graphics.PointF;
 import android.util.DisplayMetrics;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -104,7 +105,7 @@ public class PenActor extends Actor {
 		}
 
 		ShapeRenderer renderer = StageActivity.stageListener.shapeRenderer;
-		renderer.setColor(pen.penColor);
+		renderer.setColor(new Color(pen.penColor.r, pen.penColor.g, pen.penColor.b, pen.penColor.a));
 		renderer.begin(ShapeRenderer.ShapeType.Filled);
 
 		if (pen.penDown && (pen.previousPoint.x != sprite.look.getX() || pen.previousPoint.y != sprite.look.getY())) {

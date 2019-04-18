@@ -36,7 +36,6 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
@@ -53,7 +52,6 @@ import java.io.IOException;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNotSame;
-import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 
 import static org.catrobat.catroid.common.Constants.BACKPACK_IMAGE_DIRECTORY;
@@ -64,8 +62,6 @@ import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileDoesN
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileDoesNotExistInDirectory;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileExists;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileExistsInDirectory;
-import static org.catrobat.catroid.utils.PathBuilder.buildProjectPath;
-import static org.catrobat.catroid.utils.PathBuilder.buildScenePath;
 
 @RunWith(AndroidJUnit4.class)
 public class SpriteControllerTest {
@@ -89,14 +85,13 @@ public class SpriteControllerTest {
 	@Test
 	public void testCopySprite() throws IOException {
 		SpriteController controller = new SpriteController();
-		DataContainer dataContainer = scene.getDataContainer();
 
 		String spriteVarName = "spriteVar";
 		String spriteListName = "spriteList";
-		assertTrue(dataContainer.addUserVariable(sprite, new UserVariable(spriteVarName)));
-		assertTrue(dataContainer.addUserList(sprite, new UserList(spriteListName)));
+		assertTrue(sprite.addUserVariable(new UserVariable(spriteVarName)));
+		assertTrue(sprite.addUserList(new UserList(spriteListName)));
 
-		Sprite copy = controller.copy(sprite, scene, scene);
+		Sprite copy = controller.copy(sprite, project, scene);
 
 		assertEquals(2, scene.getSpriteList().size());
 
@@ -105,15 +100,15 @@ public class SpriteControllerTest {
 		assertEquals(sprite.getNumberOfScripts(), copy.getNumberOfScripts());
 		assertEquals(sprite.getNumberOfBricks(), copy.getNumberOfBricks());
 
-		assertNotNull(dataContainer.getUserVariable(sprite, spriteVarName));
-		assertNotNull(dataContainer.getUserVariable(copy, spriteVarName));
-		assertNotSame(dataContainer.getUserVariable(sprite, spriteVarName),
-				dataContainer.getUserVariable(copy, spriteVarName));
+		assertNotNull(sprite.getUserVariable(spriteVarName));
+		assertNotNull(copy.getUserVariable(spriteVarName));
+		assertNotSame(sprite.getUserVariable(spriteVarName),
+				copy.getUserVariable(spriteVarName));
 
-		assertNotNull(dataContainer.getUserList(sprite, spriteListName));
-		assertNotNull(dataContainer.getUserList(copy, spriteListName));
-		assertNotSame(dataContainer.getUserList(sprite, spriteListName),
-				dataContainer.getUserList(copy, spriteListName));
+		assertNotNull(sprite.getUserList(spriteListName));
+		assertNotNull(copy.getUserList(spriteListName));
+		assertNotSame(sprite.getUserList(spriteListName),
+				copy.getUserList(spriteListName));
 
 		assertFileExists(copy.getLookList().get(0).getFile());
 		assertFileExists(copy.getSoundList().get(0).getFile());
@@ -122,25 +117,21 @@ public class SpriteControllerTest {
 	@Test
 	public void testDeleteSprite() {
 		SpriteController controller = new SpriteController();
-		DataContainer dataContainer = scene.getDataContainer();
 
 		String spriteVarName = "spriteVar";
 		String spriteListName = "spriteList";
-		assertTrue(dataContainer.addUserVariable(sprite, new UserVariable(spriteVarName)));
-		assertTrue(dataContainer.addUserList(sprite, new UserList(spriteListName)));
+		assertTrue(sprite.addUserVariable(new UserVariable(spriteVarName)));
+		assertTrue(sprite.addUserList(new UserList(spriteListName)));
 
 		File deletedLookFile = sprite.getLookList().get(0).getFile();
 		File deletedSoundFile = sprite.getSoundList().get(0).getFile();
 
-		controller.delete(sprite, scene);
+		controller.delete(sprite);
 
 		assertEquals(2, scene.getSpriteList().size());
 
 		assertFileDoesNotExist(deletedLookFile);
 		assertFileDoesNotExist(deletedSoundFile);
-
-		assertNull(dataContainer.getUserVariable(sprite, spriteVarName));
-		assertNull(dataContainer.getUserList(sprite, spriteListName));
 	}
 
 	@Test
@@ -175,7 +166,7 @@ public class SpriteControllerTest {
 	public void testUnpackSprite() throws IOException {
 		SpriteController controller = new SpriteController();
 		Sprite packedSprite = controller.pack(sprite);
-		Sprite unpackedSprite = controller.unpack(packedSprite, scene);
+		Sprite unpackedSprite = controller.unpack(packedSprite, project, scene);
 
 		assertEquals(0, BackpackListManager.getInstance().getSprites().size());
 
@@ -196,7 +187,7 @@ public class SpriteControllerTest {
 	@Test
 	public void testDeepCopySprite() throws IOException {
 		SpriteController controller = new SpriteController();
-		Sprite copy = controller.copy(sprite, scene, scene);
+		Sprite copy = controller.copy(sprite, project, scene);
 
 		assertEquals(2, scene.getSpriteList().size());
 
@@ -260,7 +251,7 @@ public class SpriteControllerTest {
 		File soundFile = ResourceImporter.createSoundFileFromResourcesInDirectory(
 				InstrumentationRegistry.getContext().getResources(),
 				org.catrobat.catroid.test.R.raw.longsound,
-				new File(buildScenePath(project.getName(), project.getDefaultScene().getName()), SOUND_DIRECTORY_NAME),
+				new File(project.getDefaultScene().getDirectory(), SOUND_DIRECTORY_NAME),
 				"longsound.mp3");
 
 		sprite.getSoundList().add(new SoundInfo("testSound", soundFile));
@@ -268,9 +259,8 @@ public class SpriteControllerTest {
 	}
 
 	private void deleteProject() throws IOException {
-		File projectDir = new File(buildProjectPath(project.getName()));
-		if (projectDir.exists()) {
-			StorageOperations.deleteDir(projectDir);
+		if (project.getDirectory().exists()) {
+			StorageOperations.deleteDir(project.getDirectory());
 		}
 	}
 }

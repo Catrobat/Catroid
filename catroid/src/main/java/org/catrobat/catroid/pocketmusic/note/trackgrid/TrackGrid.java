@@ -25,8 +25,8 @@ package org.catrobat.catroid.pocketmusic.note.trackgrid;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
+import android.support.v4.util.SparseArrayCompat;
 import android.util.Log;
-import android.util.SparseArray;
 
 import org.catrobat.catroid.pocketmusic.mididriver.MidiNotePlayer;
 import org.catrobat.catroid.pocketmusic.mididriver.MidiRunnable;
@@ -142,13 +142,13 @@ public class TrackGrid {
 		}
 	}
 
-	private void appendNoteListAtPosition(SparseArray<List<GridRowPosition>> array, int tactIndex) {
+	private void appendNoteListAtPosition(SparseArrayCompat<List<GridRowPosition>> array, int tactIndex) {
 		List<GridRowPosition> gridRowPositions = new ArrayList<>(beat.getTopNumber());
 		array.append(tactIndex, gridRowPositions);
 	}
 
 	private GridRow createNewGridRow(NoteName noteName) {
-		SparseArray<List<GridRowPosition>> array = new SparseArray<>();
+		SparseArrayCompat<List<GridRowPosition>> array = new SparseArrayCompat<>();
 		GridRow gridRow = new GridRow(noteName, array);
 		gridRows.add(gridRow);
 		return gridRow;
@@ -157,7 +157,7 @@ public class TrackGrid {
 	public int getTactCount() {
 		int tactcount = 0;
 		for (GridRow gridRow : gridRows) {
-			SparseArray<List<GridRowPosition>> gridRowPositions = gridRow.getGridRowPositions();
+			SparseArrayCompat<List<GridRowPosition>> gridRowPositions = gridRow.getGridRowPositions();
 			for (int i = 0; i < gridRowPositions.size(); i++) {
 				int tactForGridRow = gridRowPositions.keyAt(i);
 				if (tactForGridRow > tactcount) {

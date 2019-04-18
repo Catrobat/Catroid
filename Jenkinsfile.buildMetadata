@@ -27,17 +27,26 @@ pipeline {
         stage('Prepare build') {
             steps {
                 script {
-                    currentBuild.displayName = "#${env.BUILD_NUMBER}"
+                    currentBuild.displayName = "#${env.BUILD_NUMBER} | ${env.flavor} | ${env.gitBranch}"
                 }
             }
         }
 
         stage('Setup Translations') {
             steps {
-                sh '''
-                    set +x
-                    ./gradlew generateCrowdinMetadataCatroid -PcrowdinKey=$crowdinKey
-                '''
+                script {
+                    if (env.flavor == 'Playground') {
+                        sh '''
+                            set +x
+                            ./gradlew generateCrowdinMetadataCatroid -PcrowdinKey=$crowdinKey
+                        '''
+                    } else {
+                        sh '''
+                            set +x
+                            ./gradlew generateCrowdinMetadata${flavor} -PcrowdinKey=$crowdinKey
+                        '''
+                    }
+                }
             }
         }
 
@@ -49,7 +58,15 @@ pipeline {
 
         stage('Create Screenshots') {
             steps {
-                sh "./gradlew generateScreenshotsCatroid"
+                script {
+                    if (env.flavor == 'Playground') {
+                        sh './gradlew generateScreenshotsCatroid'
+                    } else {
+                        sh './gradlew generateScreenshots${flavor}'
+                    }
+                }
+                zip zipFile: 'metadata.zip', archive: false, dir: 'fastlane/metadata'
+                archiveArtifacts artifacts: 'metadata.zip', fingerprint: true
             }
             post {
                 always {
@@ -88,7 +105,7 @@ pipeline {
                 environment name: 'APPROVE_DEPLOY', value: 'yes'
             }
             steps {
-                sh "fastlane android upload_Metadata_Catroid"
+                sh 'fastlane android upload_Metadata_${flavor}'
             }
         }
 
@@ -97,12 +114,24 @@ pipeline {
                 environment name: 'APPROVE_DEPLOY', value: 'yes'
             }
             steps {
-                sh "fastlane android promote_Catroid"
+                script {
+                    if (env.flavor == 'Playground') {
+                        echo 'Playground cannot be promoted to production!'
+                    } else {
+                        // deactivated for testing to not publish by accident
+                        //sh 'fastlane android promote_${flavor}'
+                        echo 'The promotion of the APK is currently deactivated!'
+                    }
+                }
             }
         }
     }
 
     post {
+        always {
+            // clean workspace
+            deleteDir()
+        }
         changed {
             notifyChat()
         }

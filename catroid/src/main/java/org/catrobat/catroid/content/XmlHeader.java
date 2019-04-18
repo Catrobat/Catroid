@@ -42,7 +42,7 @@ public class XmlHeader implements Serializable {
 	public int virtualScreenWidth = 0;
 	@XStreamAlias("screenHeight")
 	public int virtualScreenHeight = 0;
-	@XStreamAlias("screenMode")
+
 	public ScreenModes screenMode = ScreenModes.STRETCH;
 
 	private float catrobatLanguageVersion;
@@ -123,11 +123,11 @@ public class XmlHeader implements Serializable {
 		virtualScreenWidth = width;
 	}
 
-	public String getProgramName() {
+	public String getProjectName() {
 		return programName;
 	}
 
-	public void setProgramName(String programName) {
+	public void setProjectName(String programName) {
 		this.programName = programName;
 	}
 

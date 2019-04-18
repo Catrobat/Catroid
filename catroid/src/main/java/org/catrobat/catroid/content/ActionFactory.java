@@ -37,6 +37,7 @@ import org.catrobat.catroid.content.actions.ArduinoSendDigitalValueAction;
 import org.catrobat.catroid.content.actions.ArduinoSendPWMValueAction;
 import org.catrobat.catroid.content.actions.AskAction;
 import org.catrobat.catroid.content.actions.AskSpeechAction;
+import org.catrobat.catroid.content.actions.AssertEqualsAction;
 import org.catrobat.catroid.content.actions.CameraBrickAction;
 import org.catrobat.catroid.content.actions.ChangeBrightnessByNAction;
 import org.catrobat.catroid.content.actions.ChangeColorByNAction;
@@ -152,10 +153,10 @@ import org.catrobat.catroid.content.actions.StopThisScriptAction;
 import org.catrobat.catroid.content.actions.ThinkSayBubbleAction;
 import org.catrobat.catroid.content.actions.TurnLeftAction;
 import org.catrobat.catroid.content.actions.TurnRightAction;
-import org.catrobat.catroid.content.actions.UserBrickAction;
 import org.catrobat.catroid.content.actions.VibrateAction;
 import org.catrobat.catroid.content.actions.WaitAction;
 import org.catrobat.catroid.content.actions.WaitForBubbleBrickAction;
+import org.catrobat.catroid.content.actions.WaitTillIdleAction;
 import org.catrobat.catroid.content.actions.WaitUntilAction;
 import org.catrobat.catroid.content.actions.conditional.GlideToAction;
 import org.catrobat.catroid.content.actions.conditional.IfOnEdgeBounceAction;
@@ -173,7 +174,6 @@ import org.catrobat.catroid.content.bricks.PhiroMotorMoveForwardBrick;
 import org.catrobat.catroid.content.bricks.PhiroMotorStopBrick;
 import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick;
 import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
-import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.eventids.BroadcastEventId;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -843,13 +843,6 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createUserBrickAction(Action userBrickAction, UserBrick userBrick) {
-		UserBrickAction action = action(UserBrickAction.class);
-		action.setAction(userBrickAction);
-		action.setUserBrick(userBrick);
-		return action;
-	}
-
 	public static Action createStitchAction(Sprite sprite) {
 		StitchAction action = Actions.action(StitchAction.class);
 		action.setSprite(sprite);
@@ -1211,5 +1204,24 @@ public class ActionFactory extends Actions {
 		setNfcTagAction.setNfcTagNdefSpinnerSelection(nfcNdefSpinnerSelection);
 		setNfcTagAction.setNfcNdefMessage(nfcNdefMessage);
 		return setNfcTagAction;
+	}
+
+	public Action createAssertEqualsAction(Sprite sprite, Formula actual, Formula expected,
+			UserVariable actualVariable, UserVariable expectedVariable, UserVariable setupVariable) {
+		AssertEqualsAction action = action(AssertEqualsAction.class);
+		action.setActual(actual);
+		action.setExpected(expected);
+
+		action.setSprite(sprite);
+
+		action.setActualVariable(actualVariable);
+		action.setExpectedVariable(expectedVariable);
+		action.setSetupVariable(setupVariable);
+
+		return action;
+	}
+
+	public Action createWaitTillIdleAction() {
+		return action(WaitTillIdleAction.class);
 	}
 }

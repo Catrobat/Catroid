@@ -22,21 +22,20 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
-import android.util.SparseArray;
-import android.util.SparseIntArray;
+import android.support.v4.util.SparseArrayCompat;
 
 public class ExternInternRepresentationMapping {
 
-	private SparseIntArray externInternMapping;
-	private SparseArray<ExternToken> internExternMapping;
+	private SparseArrayCompat<Integer> externInternMapping;
+	private SparseArrayCompat<ExternToken> internExternMapping;
 
 	public static final int MAPPING_NOT_FOUND = Integer.MIN_VALUE;
 
 	private int externStringLength = 0;
 
 	public ExternInternRepresentationMapping() {
-		externInternMapping = new SparseIntArray();
-		internExternMapping = new SparseArray<ExternToken>();
+		externInternMapping = new SparseArrayCompat<Integer>();
+		internExternMapping = new SparseArrayCompat<ExternToken>();
 	}
 
 	public void putMapping(int externStringStartIndex, int externStringEndIndex, int internListIndex) {
@@ -109,7 +108,7 @@ public class ExternInternRepresentationMapping {
 		return -1;
 	}
 
-	private int searchDown(SparseIntArray mapping, int index) {
+	private int searchDown(SparseArrayCompat<Integer> mapping, int index) {
 		for (int searchIndex = index; searchIndex >= 0; searchIndex--) {
 			if (mapping.get(searchIndex, MAPPING_NOT_FOUND) != MAPPING_NOT_FOUND) {
 				return mapping.get(searchIndex);
@@ -118,7 +117,7 @@ public class ExternInternRepresentationMapping {
 		return MAPPING_NOT_FOUND;
 	}
 
-	private int searchUp(SparseIntArray mapping, int index) {
+	private int searchUp(SparseArrayCompat<Integer> mapping, int index) {
 		for (int searchIndex = index; searchIndex < externStringLength; searchIndex++) {
 			if (mapping.get(searchIndex, MAPPING_NOT_FOUND) != MAPPING_NOT_FOUND) {
 				return mapping.get(searchIndex);

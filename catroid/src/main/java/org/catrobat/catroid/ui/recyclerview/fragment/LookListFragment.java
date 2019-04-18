@@ -174,6 +174,7 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 				return R.plurals.am_delete_looks_title;
 			case RENAME:
 				return R.plurals.am_rename_looks_title;
+			case MERGE:
 			case NONE:
 			default:
 				throw new IllegalStateException("ActionModeType not set correctly");

@@ -69,22 +69,6 @@ public class ReplaceItemInUserListTest {
 
 	@Category({Cat.AppUi.class, Level.Functional.class})
 	@Test
-	public void testReplaceItemInUserListBrick() {
-		int someArbitraryNumber = 2;
-		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
-		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_replace_item_in_userlist_replace_in_list);
-
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_replace_item_in_userlist_at_index_edit_text)
-				.performEnterNumber(someArbitraryNumber)
-				.checkShowsNumber(someArbitraryNumber);
-
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_replace_item_in_userlist_value_edit_text)
-				.performEnterNumber(someArbitraryNumber)
-				.checkShowsNumber(someArbitraryNumber);
-	}
-
-	@Category({Cat.AppUi.class, Level.Functional.class})
-	@Test
 	public void testCreateNewUserListAndDeletion() {
 		String userListName = "testList1";
 		String secondUserListName = "testList2";

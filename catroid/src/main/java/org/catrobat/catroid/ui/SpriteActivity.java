@@ -52,7 +52,6 @@ import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.pocketmusic.PocketMusicActivity;
 import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
@@ -411,6 +410,7 @@ public class SpriteActivity extends BaseActivity {
 						}
 						if (onNewSpriteListener != null) {
 							onNewSpriteListener.addItem(sprite);
+							refreshScriptFragment();
 						}
 					}
 				});
@@ -741,10 +741,8 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	public void handleAddUserDataButton() {
-		final Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+		final Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		final Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-
-		final DataContainer dataContainer = currentScene.getDataContainer();
 
 		View view = View.inflate(this, R.layout.dialog_new_user_data, null);
 		final CheckBox makeListCheckBox = view.findViewById(R.id.make_list);
@@ -753,12 +751,12 @@ public class SpriteActivity extends BaseActivity {
 		makeListCheckBox.setVisibility(View.VISIBLE);
 
 		final List<UserData> variables = new ArrayList<>();
-		variables.addAll(dataContainer.getProjectUserVariables());
-		variables.addAll(dataContainer.getSpriteUserVariables(currentSprite));
+		variables.addAll(currentProject.getUserVariables());
+		variables.addAll(currentSprite.getUserVariables());
 
 		final List<UserData> lists = new ArrayList<>();
-		lists.addAll(dataContainer.getProjectUserLists());
-		lists.addAll(dataContainer.getSpriteUserLists(currentSprite));
+		lists.addAll(currentProject.getUserLists());
+		lists.addAll(currentSprite.getUserLists());
 
 		final NewItemTextWatcher<UserData> textWatcher = new NewItemTextWatcher<>(variables);
 
@@ -772,16 +770,16 @@ public class SpriteActivity extends BaseActivity {
 						if (makeListCheckBox.isChecked()) {
 							UserList userList = new UserList(textInput);
 							if (addToProjectUserData) {
-								dataContainer.addUserList(userList);
+								currentProject.addUserList(userList);
 							} else {
-								dataContainer.addUserList(currentSprite, userList);
+								currentSprite.addUserList(userList);
 							}
 						} else {
 							UserVariable userVariable = new UserVariable(textInput);
 							if (addToProjectUserData) {
-								dataContainer.addUserVariable(userVariable);
+								currentProject.addUserVariable(userVariable);
 							} else {
-								dataContainer.addUserVariable(currentSprite, userVariable);
+								currentSprite.addUserVariable(userVariable);
 							}
 						}
 
@@ -827,5 +825,12 @@ public class SpriteActivity extends BaseActivity {
 			getSupportFragmentManager().popBackStack();
 		}
 		StageActivity.handlePlayButton(ProjectManager.getInstance(), this);
+	}
+
+	void refreshScriptFragment() {
+		Fragment currentFragment = getCurrentFragment();
+		if (currentFragment instanceof ScriptFragment) {
+			((ScriptFragment) currentFragment).notifyDataSetChanged();
+		}
 	}
 }

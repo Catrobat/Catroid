@@ -28,6 +28,7 @@ import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
@@ -58,12 +59,13 @@ public class BackpackSpriteFragment extends BackpackRecyclerViewFragment<Sprite>
 	@Override
 	protected void unpackItems(List<Sprite> selectedItems) {
 		setShowProgressBar(true);
+		Project dstProject = ProjectManager.getInstance().getCurrentProject();
 		Scene dstScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 		int unpackedItemCnt = 0;
 
 		for (Sprite item : selectedItems) {
 			try {
-				dstScene.getSpriteList().add(spriteController.unpack(item, dstScene));
+				dstScene.getSpriteList().add(spriteController.unpack(item, dstProject, dstScene));
 				unpackedItemCnt++;
 			} catch (IOException e) {
 				Log.e(TAG, Log.getStackTraceString(e));

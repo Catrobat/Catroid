@@ -34,10 +34,10 @@ import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
-import org.catrobat.catroid.exceptions.CompatibilityProjectException;
-import org.catrobat.catroid.exceptions.LoadingProjectException;
-import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
+import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
+import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.junit.After;
 import org.junit.Before;
@@ -53,49 +53,51 @@ import static junit.framework.Assert.assertTrue;
 @RunWith(AndroidJUnit4.class)
 public class ArduinoSettingsTest {
 
-	private String projectName = "testProject";
-	Context context = null;
+	private boolean sharedPreferenceBuffer;
+	private String projectName = ArduinoSettingsTest.class.getSimpleName();
+	private Project project;
 
 	@Before
 	public void setUp() throws Exception {
-
-		context = InstrumentationRegistry.getTargetContext();
+		Context context = InstrumentationRegistry.getTargetContext();
+		sharedPreferenceBuffer = SettingsFragment.isArduinoSharedPreferenceEnabled(context);
 		SettingsFragment.setArduinoSharedPreferenceEnabled(context, false);
+		createProjectArduino();
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		SettingsFragment.setArduinoSharedPreferenceEnabled(context, false);
+		TestUtils.deleteProjects(projectName);
+		SettingsFragment
+				.setArduinoSharedPreferenceEnabled(InstrumentationRegistry.getTargetContext(), sharedPreferenceBuffer);
 	}
 
 	@Test
-	public void testIfArduinoBricksAreEnabledIfItItUsedInAProgram() throws IOException, CompatibilityProjectException,
-			OutdatedVersionProjectException, LoadingProjectException, InterruptedException {
-
-		createProjectArduino();
+	public void testIfArduinoBricksAreEnabledIfItItUsedInAProgram() throws IOException, ProjectException {
+		Context context = InstrumentationRegistry.getTargetContext();
 
 		assertFalse(SettingsFragment.isArduinoSharedPreferenceEnabled(context));
 
-		ProjectManager.getInstance().loadProject(projectName, context);
+		ProjectManager.getInstance().loadProject(project.getDirectory(), context);
 
 		assertTrue(SettingsFragment.isArduinoSharedPreferenceEnabled(context));
 
 		StorageOperations.deleteDir(new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName));
 	}
 
-	private void createProjectArduino() throws InterruptedException {
-		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+	private void createProjectArduino() {
+		project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		Sprite sprite = new SingleSprite("Arduino");
 
 		StartScript startScript = new StartScript();
-		ArduinoSendPWMValueBrick arduinoArduinoSendPWMValueBrick = new ArduinoSendPWMValueBrick(3, 255);
-		startScript.addBrick(arduinoArduinoSendPWMValueBrick);
+		ArduinoSendPWMValueBrick brick = new ArduinoSendPWMValueBrick(3, 255);
+		startScript.addBrick(brick);
 		sprite.addScript(startScript);
+
 		project.getDefaultScene().addSprite(sprite);
 
 		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().saveProject(context);
-		Thread.sleep(100);
-		ProjectManager.getInstance().setCurrentProject(null);
+		ProjectSaveTask
+				.task(project);
 	}
 }

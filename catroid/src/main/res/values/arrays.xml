@@ -165,14 +165,6 @@
         <item >@string/drone_set_tilt_max</item >
     </string-array >
 
-    <!-- User Brick UI Data Editor Fragment -->
-    <string-array name="data_editor_buttons" >
- 		<item >@string/add_text</item >
- 		<item >@string/add_variable</item >
- 		<item >@string/add_line_break</item >
- 		<item >@string/close</item >
- 	</string-array >
-
     <!-- Drone Play LED animation spinner -->
     <string-array name="brick_drone_play_led_animation_spinner">
         <item>@string/drone_animation_blinkgreenred</item>

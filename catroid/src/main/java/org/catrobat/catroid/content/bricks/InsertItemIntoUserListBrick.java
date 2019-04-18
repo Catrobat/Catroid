@@ -57,7 +57,7 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 	}
 
 	@Override
-	protected BrickField getDefaultBrickField() {
+	public BrickField getDefaultBrickField() {
 		return BrickField.INSERT_ITEM_INTO_USERLIST_VALUE;
 	}
 

@@ -29,7 +29,6 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 
 import static org.catrobat.catroid.uiespresso.util.UserVariableAssertions.assertUserVariableEqualsWithTimeout;
 
@@ -40,9 +39,8 @@ public final class ScriptEvaluationGateBrick {
 
 	private ScriptEvaluationGateBrick(Script script) {
 		Project project = ProjectManager.getInstance().getCurrentProject();
-		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
 		userVariableGate = new UserVariable("userVariableGate" + gateCounter);
-		dataContainer.addUserVariable(userVariableGate);
+		project.addUserVariable(userVariableGate);
 		gateCounter++;
 		reset();
 

@@ -24,12 +24,17 @@
 buildscript {
     repositories {
         maven { url 'https://maven.fabric.io/public' }
+        google()
         jcenter()
     }
     dependencies {
         classpath 'io.fabric.tools:gradle:1.21.5'
-        classpath 'com.google.gms:google-services:3.0.0'
+        classpath 'com.google.gms:google-services:4.2.0'
     }
+}
+
+plugins {
+    id "io.gitlab.arturbosch.detekt" version "1.0.0-RC14"
 }
 
 repositories {
@@ -92,6 +97,13 @@ apply plugin: 'checkstyle'
 apply plugin: 'jacoco-android'
 apply plugin: 'pmd'
 
+detekt {
+    toolVersion = "1.0.0-RC14"
+    config = files("config/detekt.yml")
+    input = files("src")
+    filters = ".*/resources/.*,.*/build/.*"
+}
+
 apply from: 'gradle/code_quality_tasks.gradle'
 apply from: 'gradle/intellij_config_tasks.gradle'
 apply from: 'gradle/standalone_apk_tasks.gradle'
@@ -100,6 +112,7 @@ apply from: 'gradle/release_fastlane_tasks.gradle'
 
 check.dependsOn 'checkstyle'
 check.dependsOn 'pmd'
+check.dependsOn 'detekt'
 
 // When -Pindependent was provided on the gradle command the APP name is changed.
 // This allows to have multiple Catroid versions installed in parallel for testing purposes.
@@ -108,6 +121,13 @@ if (project.hasProperty('independent')) {
     def today = new Date()
     appId += '.independent_' + today.format('YYYYMMdd_HHmm')
     appName = property('independent') ?: 'Code ' + today.format('MMdd HH:mm')
+    manifestAppName = appName
+}
+
+if (project.hasProperty('playground') && project.getProperties().get('playground') == 'true') {
+    logger.lifecycle('playground true: ' + project.getProperties().get('playground'))
+    appId = 'org.catrobat.catroid.test'
+    appName = 'Catrobat Playground'
     manifestAppName = appName
 }
 
@@ -166,9 +186,9 @@ android {
         targetSdkVersion 26
         applicationId appId
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-        versionCode 59
+        versionCode 60
         println "VersionCode is $versionCode"
-        versionName "0.9.56"
+        versionName "0.9.58"
         println "VersionName is $versionName"
         buildConfigField "String", "GIT_COMMIT_INFO", "\"${getGitCommitInfo()}\""
         buildConfigField "String", "MAIN_URL_HTTPS", (project.hasProperty('useWebTest') ? '"https://web-test.catrob.at"' : '"https://share.catrob.at"')
@@ -197,6 +217,11 @@ android {
         htmlReport true
         xmlOutput file("build/reports/lint-report.xml")
         htmlOutput file("build/reports/lint-report.html")
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+        unitTests.includeAndroidResources = true
     }
 
     dexOptions.javaMaxHeapSize "4g"
@@ -247,6 +272,7 @@ android {
             buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "true"
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
             buildConfigField "boolean", "USE_ANDROID_LOCALES_FOR_SCREENSHOTS", useAndroidLocales()
+            buildConfigField "boolean", "FEATURE_MERGE_ENABLED", "true"
             resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
             ext.enableCrashlytics = false
             testCoverageEnabled = project.hasProperty('enableCoverage')
@@ -269,6 +295,7 @@ android {
             buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "false"
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
             buildConfigField "boolean", "USE_ANDROID_LOCALES_FOR_SCREENSHOTS", "false"
+            buildConfigField "boolean", "FEATURE_MERGE_ENABLED", "false"
             resValue "string", "SNACKBAR_HINTS_ENABLED", "true"
         }
 
@@ -279,6 +306,10 @@ android {
     }
 
     flavorDimensions "default"
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
     productFlavors {
         catroid {
@@ -347,7 +378,7 @@ ext {
     mockitoVersion = "2.8.47"
     espressoVersion = "3.0.1"
     supportLibraryVersion = "27.1.0"
-    paintroidVersion = "2.3.1"
+    paintroidVersion = "2.3.2"
 }
 
 configurations {
@@ -431,6 +462,14 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
+    testImplementation 'org.hamcrest:hamcrest-library:1.3'
+
+    testImplementation 'org.powermock:powermock:1.6.6'
+    testImplementation 'org.powermock:powermock-module-junit4:2.0.0'
+    testImplementation 'org.powermock:powermock-api-mockito2:2.0.0'
+
+    testImplementation 'org.robolectric:robolectric:4.2.1'
+    testImplementation "org.robolectric:shadows-multidex:4.2.1"
 
     androidTestImplementation fileTree(include: '*.jar', dir: 'src/androidTest/libs')
     androidTestImplementation 'com.linkedin.dexmaker:dexmaker-mockito:2.2.0'
@@ -447,6 +486,8 @@ dependencies {
     pmd 'net.sourceforge.pmd:pmd-java:5.8.1'
 
     checkstyle 'com.puppycrawl.tools:checkstyle:7.6'
+
+    detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:1.0.0-RC14"
 }
 
 static def getGitCommitInfo() {

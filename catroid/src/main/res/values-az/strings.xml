@@ -76,7 +76,7 @@
     <string name="main_menu_upload">Yüklə</string>
     <string name="main_menu_rate_app">Bizə qiymət verin!</string>
     <string name="main_menu_terms_of_use">Terms of Use and Service</string>
-    <string name="main_menu_privacy_policy">Privacy Policy</string>
+    <string name="main_menu_privacy_policy">Gizlilik Siyasəti</string>
     <string name="main_menu_about">Pocket Code haqqında</string>
     <string name="main_menu_login">Giriş</string>
     <string name="main_menu_logout">Çıxış</string>
@@ -645,7 +645,7 @@
     <string name="tnf_well_known_https">HTTPS</string>
     <string name="tnf_well_known_tel">Phone number</string>
     <string name="tnf_well_known_sms">SMS</string>
-    <string name="tnf_well_known_mailto">E-Mail</string>
+    <string name="tnf_well_known_mailto">E-poçt</string>
     <!--  -->
     <!-- DataListFragment -->
     <string name="global_vars_headline">Variables for all actors and objects</string>
@@ -850,7 +850,7 @@
     <string name="login">Giriş</string>
     <string name="register">Register</string>
     <string name="password_confirm">Confirm password</string>
-    <string name="accountName">E-Mail</string>
+    <string name="accountName">E-poçt</string>
     <string name="signin_thanks">Thank you for signing up!</string>
     <string name="signin_choose_username">Please choose your username:</string>
     <string name="signin_choose_username_empty">Please enter a username.</string>

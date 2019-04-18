@@ -32,6 +32,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
 import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedVH;
 
+import java.io.File;
 import java.util.List;
 import java.util.Locale;
 
@@ -46,10 +47,10 @@ public class SceneAdapter extends ExtendedRVAdapter<Scene> {
 		ProjectAndSceneScreenshotLoader loader = new ProjectAndSceneScreenshotLoader(holder.itemView.getContext());
 		Scene item = items.get(position);
 
-		String projectName = ProjectManager.getInstance().getCurrentProject().getName();
+		File projectDir = ProjectManager.getInstance().getCurrentProject().getDirectory();
 		holder.title.setText(item.getName());
 
-		loader.loadAndShowScreenshot(projectName, item.getName(), false, holder.image);
+		loader.loadAndShowScreenshot(projectDir.getName(), item.getDirectory().getName(), false, holder.image);
 
 		if (showDetails) {
 			holder.details.setText(String.format(Locale.getDefault(),

@@ -72,7 +72,7 @@ public class LegoEv3PlayToneBrick extends FormulaBrick {
 	}
 
 	@Override
-	protected BrickField getDefaultBrickField() {
+	public BrickField getDefaultBrickField() {
 		return BrickField.LEGO_EV3_DURATION_IN_SECONDS;
 	}
 
