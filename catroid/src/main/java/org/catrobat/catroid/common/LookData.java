@@ -213,6 +213,10 @@ public class LookData implements Cloneable, Nameable, Serializable {
 		return new int[] {width, height};
 	}
 
+	public void clearCollisionInformation() {
+		collisionInformation = null;
+	}
+
 	public CollisionInformation getCollisionInformation() {
 		if (collisionInformation == null) {
 			collisionInformation = new CollisionInformation(this);
