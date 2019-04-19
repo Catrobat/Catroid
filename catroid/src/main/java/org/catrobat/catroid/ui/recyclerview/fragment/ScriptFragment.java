@@ -20,9 +20,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.ui.fragment;
+package org.catrobat.catroid.ui.recyclerview.fragment;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -49,16 +48,17 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.BrickBaseType;
-import org.catrobat.catroid.content.bricks.ControlStructureBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
+import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.dragndrop.BrickListView;
-import org.catrobat.catroid.ui.dragndrop.DragAndDropInterface;
+import org.catrobat.catroid.ui.fragment.AddBrickFragment;
+import org.catrobat.catroid.ui.fragment.BrickCategoryFragment;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment.OnCategorySelectedListener;
+import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 import org.catrobat.catroid.ui.recyclerview.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
 import org.catrobat.catroid.ui.recyclerview.controller.BrickController;
@@ -71,13 +71,11 @@ import org.catrobat.catroid.utils.ToastUtil;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
 public class ScriptFragment extends ListFragment implements
 		ActionMode.Callback,
-		DragAndDropInterface,
 		BrickAdapter.OnItemClickListener,
 		BrickAdapter.SelectionListener, OnCategorySelectedListener {
 
@@ -85,7 +83,9 @@ public class ScriptFragment extends ListFragment implements
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({NONE, BACKPACK, COPY, DELETE, COMMENT})
-	@interface ActionModeType {}
+	@interface ActionModeType {
+	}
+
 	private static final int NONE = 0;
 	private static final int BACKPACK = 1;
 	private static final int COPY = 2;
@@ -111,24 +111,24 @@ public class ScriptFragment extends ListFragment implements
 
 		switch (actionModeType) {
 			case BACKPACK:
-				adapter.checkBoxMode = BrickAdapter.SCRIPTS_ONLY;
+				adapter.setCheckBoxMode(BrickAdapter.SCRIPTS_ONLY);
 				mode.setTitle(getString(R.string.am_backpack));
 				break;
 			case COPY:
-				adapter.checkBoxMode = BrickAdapter.ALL;
+				adapter.setCheckBoxMode(BrickAdapter.ALL);
 				mode.setTitle(getString(R.string.am_copy));
 				break;
 			case DELETE:
-				adapter.checkBoxMode = BrickAdapter.ALL;
+				adapter.setCheckBoxMode(BrickAdapter.ALL);
 				mode.setTitle(getString(R.string.am_delete));
 				break;
 			case COMMENT:
 				adapter.selectAllCommentedOutBricks();
-				adapter.checkBoxMode = BrickAdapter.ALL;
+				adapter.setCheckBoxMode(BrickAdapter.ALL);
 				mode.setTitle(getString(R.string.comment_in_out));
 				break;
 			case NONE:
-				adapter.checkBoxMode = NONE;
+				adapter.setCheckBoxMode(NONE);
 				actionMode.finish();
 				return false;
 		}
@@ -185,7 +185,7 @@ public class ScriptFragment extends ListFragment implements
 	private void resetActionModeParameters() {
 		actionModeType = NONE;
 		actionMode = null;
-		adapter.checkBoxMode = BrickAdapter.NONE;
+		adapter.setCheckBoxMode(BrickAdapter.NONE);
 	}
 
 	@Override
@@ -247,13 +247,11 @@ public class ScriptFragment extends ListFragment implements
 	@Override
 	public void onPause() {
 		super.onPause();
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		new ProjectSaveTask(currentProject, getContext())
+				.execute();
 
 		savedListViewState = listView.onSaveInstanceState();
-
-		ProjectManager projectManager = ProjectManager.getInstance();
-		if (projectManager.getCurrentlyEditedScene() != null) {
-			projectManager.saveProject(getActivity().getApplicationContext());
-		}
 	}
 
 	@Override
@@ -295,27 +293,14 @@ public class ScriptFragment extends ListFragment implements
 		adapter.notifyDataSetChanged();
 	}
 
-	@Override
 	public boolean isCurrentlyMoving() {
 		return listView.isCurrentlyMoving();
 	}
 
-	@Override
 	public void highlightMovingItem() {
 		listView.highlightMovingItem();
 	}
 
-	@Override
-	public void startMoving(List<BrickBaseType> bricksToMove, int position) {
-		listView.startMoving(bricksToMove, position);
-	}
-
-	@Override
-	public void stopMoving() {
-		listView.stopMoving();
-	}
-
-	@Override
 	public void cancelMove() {
 		listView.cancelMove();
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
@@ -406,7 +391,7 @@ public class ScriptFragment extends ListFragment implements
 		}
 	}
 
-	public BrickBaseType findBrickByHash(int hashCode) {
+	public Brick findBrickByHash(int hashCode) {
 		return adapter.findByHash(hashCode);
 	}
 
@@ -424,25 +409,20 @@ public class ScriptFragment extends ListFragment implements
 	public void addBrick(Brick brick) {
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 
-		List<BrickBaseType> bricksToAdd = new ArrayList<>();
-		for (Brick initializedBrick : brickController.initialize(brick)) {
-			bricksToAdd.add((BrickBaseType) initializedBrick);
-		}
-
 		if (adapter.getCount() == 0) {
 			if (brick instanceof ScriptBrick) {
-				sprite.addScript(((ScriptBrick) brick).getScript());
+				sprite.addScript(brick.getScript());
 			} else {
 				Script script = new StartScript();
-				script.addBricks(new ArrayList<Brick>(bricksToAdd));
+				script.addBrick(brick);
 				sprite.addScript(script);
 			}
 			adapter.updateItems(sprite);
 		} else if (adapter.getCount() == 1) {
 			if (brick instanceof ScriptBrick) {
-				sprite.addScript(0, ((ScriptBrick) brick).getScript());
+				sprite.addScript(0, brick.getScript());
 			} else {
-				sprite.getScriptList().get(0).addBricks(new ArrayList<Brick>(bricksToAdd));
+				sprite.getScriptList().get(0).addBrick(brick);
 			}
 			adapter.updateItems(sprite);
 		} else {
@@ -450,39 +430,34 @@ public class ScriptFragment extends ListFragment implements
 			int lastVisibleBrick = listView.getLastVisiblePosition();
 			int position = (1 + lastVisibleBrick - firstVisibleBrick) / 2;
 			position += firstVisibleBrick;
-			adapter.addItem(position, bricksToAdd.get(0));
-			listView.startMoving(bricksToAdd, position);
+			adapter.addItem(position, brick);
+			listView.startMoving(brick);
 		}
 	}
 
 	@Override
-	public void onItemClick(final BrickBaseType brick, final int position) {
-		final List<Integer> options = getContextMenuItems(brick);
-		final CharSequence[] items = new CharSequence[options.size()];
+	public void onItemClick(Brick brick, int position) {
+		if (listView.isCurrentlyHighlighted()) {
+			listView.cancelHighlighting();
+			return;
+		}
+		List<Integer> options = getContextMenuItems(brick);
+		CharSequence[] items = new CharSequence[options.size()];
 
 		for (int i = 0; i < options.size(); i++) {
 			items[i] = getString(options.get(i));
 		}
 
 		View brickView = brick.getView(getContext());
-		brick.onPrototypeViewCreated();
 		brick.disableSpinners();
 
 		new AlertDialog.Builder(getContext())
 				.setCustomTitle(brickView)
-				.setItems(items, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						handleContextMenuItemClick(options.get(which), brick, position);
-					}
-				})
+				.setItems(items, (dialog, which) -> handleContextMenuItemClick(options.get(which), brick, position))
 				.show();
-		if (listView.isCurrentlyHighlighted()) {
-			listView.cancelHighlighting();
-		}
 	}
 
-	private List<Integer> getContextMenuItems(BrickBaseType brick) {
+	private List<Integer> getContextMenuItems(Brick brick) {
 		List<Integer> items = new ArrayList<>();
 
 		if (brick instanceof ScriptBrick) {
@@ -501,7 +476,7 @@ public class ScriptFragment extends ListFragment implements
 			items.add(R.string.brick_context_dialog_help);
 		} else {
 			items.add(R.string.brick_context_dialog_copy_brick);
-			if (brick instanceof ControlStructureBrick) {
+			if (brick.consistsOfMultipleParts()) {
 				items.add(R.string.brick_context_dialog_highlight_brick_parts);
 			}
 			items.add(R.string.brick_context_dialog_delete_brick);
@@ -515,7 +490,10 @@ public class ScriptFragment extends ListFragment implements
 			if (brick instanceof FormulaBrick) {
 				items.add(R.string.brick_context_dialog_formula_edit_brick);
 			}
-			items.add(R.string.brick_context_dialog_move_brick);
+			if (brick.equals(brick.getAllParts().get(0))) {
+				items.add(R.string.brick_context_dialog_move_brick);
+			}
+
 			if (brick.hasHelpPage()) {
 				items.add(R.string.brick_context_dialog_help);
 			}
@@ -523,26 +501,19 @@ public class ScriptFragment extends ListFragment implements
 		return items;
 	}
 
-	private void handleContextMenuItemClick(int itemId, BrickBaseType brick, int position) {
+	private void handleContextMenuItemClick(int itemId, Brick brick, int position) {
 		switch (itemId) {
 			case R.string.backpack_add:
 				List<Brick> bricksToPack = new ArrayList<>();
 				bricksToPack.add(brick);
-				bricksToPack.addAll(((ScriptBrick) brick).getScript().getBrickList());
 				showNewScriptGroupAlert(bricksToPack);
 				break;
 			case R.string.brick_context_dialog_copy_brick:
 			case R.string.brick_context_dialog_copy_script:
-				if (brick instanceof ControlStructureBrick) {
-					brick = (BrickBaseType) ((ControlStructureBrick) brick).getFirstBrick();
-				}
 				try {
-					List<BrickBaseType> bricksToAdd = new ArrayList<>();
-					for (Brick initializedBrick : brickController.initialize(brick.clone())) {
-						bricksToAdd.add((BrickBaseType) initializedBrick);
-					}
-					adapter.addItem(position, bricksToAdd.get(0));
-					listView.startMoving(bricksToAdd, position);
+					Brick clonedBrick = brick.getAllParts().get(0).clone();
+					adapter.addItem(position, clonedBrick);
+					listView.startMoving(clonedBrick);
 				} catch (CloneNotSupportedException e) {
 					ToastUtil.showError(getContext(), R.string.error_copying_brick);
 					Log.e(TAG, Log.getStackTraceString(e));
@@ -550,37 +521,20 @@ public class ScriptFragment extends ListFragment implements
 				break;
 			case R.string.brick_context_dialog_delete_brick:
 			case R.string.brick_context_dialog_delete_script:
-				if (brick instanceof ControlStructureBrick) {
-					showDeleteAlert(((ControlStructureBrick) brick).getAllParts());
-				} else {
-					showDeleteAlert(Collections.singletonList((Brick) brick));
-				}
+				showDeleteAlert(brick.getAllParts());
 				break;
 			case R.string.brick_context_dialog_comment_in:
 			case R.string.brick_context_dialog_comment_in_script:
-				if (brick instanceof ControlStructureBrick) {
-					List<Brick> bricksInControlStructure = brickController
-							.getBricksInControlStructure((ControlStructureBrick) brick, new ArrayList<Brick>(adapter.getItems()));
-					for (Brick brickInControlStructure : bricksInControlStructure) {
-						brickInControlStructure.setCommentedOut(false);
-					}
-				} else {
-					brick.setCommentedOut(false);
+				for (Brick brickPart : brick.getAllParts()) {
+					brickPart.setCommentedOut(false);
 				}
 				adapter.notifyDataSetChanged();
 				break;
 			case R.string.brick_context_dialog_comment_out:
 			case R.string.brick_context_dialog_comment_out_script:
-				if (brick instanceof ControlStructureBrick) {
-					List<Brick> bricksInControlStructure = brickController
-							.getBricksInControlStructure((ControlStructureBrick) brick, new ArrayList<Brick>(adapter.getItems()));
-					for (Brick brickInControlStructure : bricksInControlStructure) {
-						brickInControlStructure.setCommentedOut(true);
-					}
-				} else {
-					brick.setCommentedOut(true);
+				for (Brick brickPart : brick.getAllParts()) {
+					brickPart.setCommentedOut(true);
 				}
-				adapter.notifyDataSetChanged();
 				adapter.notifyDataSetChanged();
 				break;
 			case R.string.brick_place_at_option_place_visually:
@@ -597,14 +551,17 @@ public class ScriptFragment extends ListFragment implements
 				openWebViewWithHelpPage(brick);
 				break;
 			case R.string.brick_context_dialog_highlight_brick_parts:
-				List<Brick> bricksOfControlStructure = ((ControlStructureBrick) brick).getAllParts();
-				List<Integer> positions = adapter.getPositionsOfItems(bricksOfControlStructure);
+				List<Brick> bricksOfControlStructure = brick.getAllParts();
+				List<Integer> positions = new ArrayList<>();
+				for (Brick brickInControlStructure : bricksOfControlStructure) {
+					positions.add(adapter.getPosition(brickInControlStructure));
+				}
 				listView.highlightControlStructureBricks(positions);
 				break;
 		}
 	}
 
-	private void openWebViewWithHelpPage(BrickBaseType brick) {
+	private void openWebViewWithHelpPage(Brick brick) {
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 		String language = Locale.getDefault().getLanguage();
 		String category = new CategoryBricksFactory().getBrickCategory(brick, sprite, getContext());
@@ -619,12 +576,12 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	@Override
-	public boolean onItemLongClick(BrickBaseType brick, int position) {
+	public boolean onItemLongClick(Brick brick, int position) {
 		if (listView.isCurrentlyHighlighted()) {
 			listView.cancelHighlighting();
+		} else {
+			listView.startMoving(brick);
 		}
-		listView.startMoving(brickController
-				.getBricksToMove(brick, new ArrayList<Brick>(adapter.getItems())), position);
 		return true;
 	}
 
@@ -632,32 +589,24 @@ public class ScriptFragment extends ListFragment implements
 		CharSequence[] items = new CharSequence[] {getString(R.string.pack), getString(R.string.unpack)};
 		new AlertDialog.Builder(getContext())
 				.setTitle(R.string.backpack_title)
-				.setItems(items, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						switch (which) {
-							case 0:
-								startActionMode(BACKPACK);
-								break;
-							case 1:
-								switchToBackpack();
-						}
+				.setItems(items, (dialog, which) -> {
+					switch (which) {
+						case 0:
+							startActionMode(BACKPACK);
+							break;
+						case 1:
+							switchToBackpack();
 					}
 				})
 				.show();
 	}
 
-	public void showNewScriptGroupAlert(final List<Brick> selectedBricks) {
+	public void showNewScriptGroupAlert(List<Brick> selectedBricks) {
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(getContext());
 
 		builder.setHint(getString(R.string.script_group_label))
 				.setTextWatcher(new UniqueStringTextWatcher(BackpackListManager.getInstance().getBackpackedScriptGroups()))
-				.setPositiveButton(getString(R.string.ok), new TextInputDialog.OnClickListener() {
-					@Override
-					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
-						pack(textInput, selectedBricks);
-					}
-				});
+				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> pack(textInput, selectedBricks));
 
 		builder.setTitle(R.string.new_group)
 				.setNegativeButton(R.string.cancel, null)
@@ -689,16 +638,11 @@ public class ScriptFragment extends ListFragment implements
 		finishActionMode();
 	}
 
-	private void showDeleteAlert(final List<Brick> selectedBricks) {
+	private void showDeleteAlert(List<Brick> selectedBricks) {
 		new AlertDialog.Builder(getContext())
 				.setTitle(getResources().getQuantityString(R.plurals.delete_bricks, selectedBricks.size()))
 				.setMessage(R.string.dialog_confirm_delete)
-				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						delete(selectedBricks);
-					}
-				})
+				.setPositiveButton(R.string.yes, (dialog, id) -> delete(selectedBricks))
 				.setNegativeButton(R.string.no, null)
 				.setCancelable(false)
 				.show();
@@ -712,7 +656,7 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	private void toggleComments(List<Brick> selectedBricks) {
-		for (BrickBaseType brick : adapter.getItems()) {
+		for (Brick brick : adapter.getItems()) {
 			brick.setCommentedOut(selectedBricks.contains(brick));
 		}
 		finishActionMode();

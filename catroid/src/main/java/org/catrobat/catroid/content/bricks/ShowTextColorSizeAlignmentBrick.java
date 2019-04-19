@@ -133,7 +133,7 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrick {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		if (userVariable == null || userVariable.getName() == null) {
 			userVariable = new UserVariable("NoVariableSet", Constants.NO_VARIABLE_SELECTED);
 			userVariable.setDummy(true);
@@ -144,6 +144,5 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrick {
 				getFormulaWithBrickField(BrickField.Y_POSITION),
 				getFormulaWithBrickField(BrickField.SIZE),
 				getFormulaWithBrickField(BrickField.COLOR), userVariable, alignmentSelection));
-		return null;
 	}
 }

@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetXBrick;
+import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
@@ -141,6 +142,7 @@ public class DeleteFirstSceneTest {
 		scene2.addSprite(sprite2);
 		project.addScene(scene2);
 		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().saveProject(context);
+		ProjectSaveTask
+				.task(project, InstrumentationRegistry.getTargetContext());
 	}
 }

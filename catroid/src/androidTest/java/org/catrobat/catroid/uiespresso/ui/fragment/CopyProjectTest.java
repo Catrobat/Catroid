@@ -87,7 +87,7 @@ public class CopyProjectTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void copyProjectTest() throws Exception {
+	public void copyProjectTest() {
 		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
 		onView(withText(R.string.copy)).perform(click());
 
@@ -150,6 +150,6 @@ public class CopyProjectTest {
 		project.addScene(secondScene);
 
 		ProjectSaveTask
-				.task(project);
+				.task(project, InstrumentationRegistry.getTargetContext());
 	}
 }

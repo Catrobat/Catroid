@@ -48,7 +48,6 @@ import org.catrobat.catroid.physics.shapebuilder.PhysicsShapeBuilder;
 import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.utils.Utils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -73,11 +72,9 @@ public class PhysicsLookTest {
 	private File testImage;
 	private String testImageFilename;
 	private Sprite sprite;
-
 	static {
 		GdxNativesLoader.load();
 	}
-
 	@Before
 	public void setUp() throws Exception {
 		physicsWorld = new PhysicsWorld(1920, 1600);
@@ -116,7 +113,7 @@ public class PhysicsLookTest {
 		lookData.setName(testImage.getName());
 		sprite.getLookList().add(lookData);
 		Pixmap pixmap = null;
-		pixmap = Utils.getPixmapFromFile(testImage);
+		pixmap = PhysicsTestUtils.getPixmapFromFile(testImage);
 		lookData.setPixmap(pixmap);
 
 		Shape[] shapes = physicsShapeBuilder.getScaledShapes(lookData, sprite.look.getSizeInUserInterfaceDimensionUnit() / 100f);
@@ -162,7 +159,7 @@ public class PhysicsLookTest {
 		lookData.setFile(testImage);
 		lookData.setName(testImageFilename);
 		sprite.getLookList().add(lookData);
-		Pixmap pixmap = Utils.getPixmapFromFile(testImage);
+		Pixmap pixmap = PhysicsTestUtils.getPixmapFromFile(testImage);
 		lookData.setPixmap(pixmap);
 
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
@@ -172,14 +169,14 @@ public class PhysicsLookTest {
 		float testScaleFactor = 1.1f;
 
 		Vector2[] expectedVertices = new Vector2[] {
-			new Vector2(10.84f, -7.31f),
-			new Vector2(10.84f, -0.6f),
-			new Vector2(9.63f, 10.62f),
-			new Vector2(-10.84f, 10.62f),
-			new Vector2(-10.84f, 6.44f),
-			new Vector2(-3.35f, -7.31f),
-			new Vector2(-0.06f, -10.61f),
-			new Vector2(7.54f, -10.61f),
+				new Vector2(10.84f, -7.31f),
+				new Vector2(10.84f, -0.6f),
+				new Vector2(9.63f, 10.62f),
+				new Vector2(-10.84f, 10.62f),
+				new Vector2(-10.84f, 6.44f),
+				new Vector2(-3.35f, -7.31f),
+				new Vector2(-0.06f, -10.61f),
+				new Vector2(7.54f, -10.61f),
 		};
 
 		physicsLook.setScale(testScaleFactor, testScaleFactor);

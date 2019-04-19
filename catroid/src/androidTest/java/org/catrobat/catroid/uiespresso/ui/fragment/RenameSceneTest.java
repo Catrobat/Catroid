@@ -31,6 +31,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
@@ -121,6 +122,7 @@ public class RenameSceneTest {
 		Scene secondScene = new Scene("secondScene", project);
 		project.addScene(secondScene);
 		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().saveProject(InstrumentationRegistry.getTargetContext());
+		ProjectSaveTask
+				.task(project, InstrumentationRegistry.getTargetContext());
 	}
 }

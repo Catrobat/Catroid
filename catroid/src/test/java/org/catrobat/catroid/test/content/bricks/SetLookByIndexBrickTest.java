@@ -47,14 +47,13 @@ import static org.mockito.ArgumentMatchers.eq;
 @RunWith(JUnit4.class)
 public class SetLookByIndexBrickTest {
 
-	private Scene currentlyPlayingScene;
 	private Sprite sprite;
 
 	@Before
 	public void setUp() throws Exception {
 		Project project = new Project(MockUtil.mockContextForProject(), "Project");
 
-		currentlyPlayingScene = new Scene("Currently playing scene", project);
+		Scene currentlyPlayingScene = new Scene("Currently playing scene", project);
 		sprite = new Sprite("Sprite");
 
 		currentlyPlayingScene.addSprite(sprite);

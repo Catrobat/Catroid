@@ -26,8 +26,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
-import java.util.List;
-
 import static org.catrobat.catroid.common.Constants.SAY_BRICK;
 
 public class SayForBubbleBrick extends ThinkForBubbleBrick {
@@ -48,11 +46,10 @@ public class SayForBubbleBrick extends ThinkForBubbleBrick {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createThinkSayForBubbleAction(sprite,
 				getFormulaWithBrickField(BrickField.STRING), SAY_BRICK));
 		sequence.addAction(sprite.getActionFactory().createWaitForBubbleBrickAction(sprite,
 				getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS)));
-		return null;
 	}
 }

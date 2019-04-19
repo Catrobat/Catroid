@@ -87,19 +87,14 @@ public class Formula implements Serializable {
 		}
 	}
 
-	public void updateVariableReferences(String oldName, String newName, Context context) {
-		internFormula.updateVariableReferences(oldName, newName, context);
-		formulaTree.updateVariableReferences(oldName, newName);
-	}
-
 	public void updateCollisionFormulas(String oldName, String newName, Context context) {
 		internFormula.updateCollisionFormula(oldName, newName, context);
 		formulaTree.updateCollisionFormula(oldName, newName);
 	}
 
-	public void updateCollisionFormulasToVersion(float catroidLanguageVersion) {
-		internFormula.updateCollisionFormulaToVersion(CatroidApplication.getAppContext(), catroidLanguageVersion);
-		formulaTree.updateCollisionFormulaToVersion(catroidLanguageVersion);
+	public void updateCollisionFormulasToVersion() {
+		internFormula.updateCollisionFormulaToVersion(CatroidApplication.getAppContext());
+		formulaTree.updateCollisionFormulaToVersion();
 	}
 
 	public boolean containsSpriteInCollision(String name) {
@@ -203,10 +198,6 @@ public class Formula implements Serializable {
 		}
 
 		return new Formula(0);
-	}
-
-	public void removeVariableReferences(String name, Context context) {
-		internFormula.removeVariableReferences(name, context);
 	}
 
 	public void addRequiredResources(final Set<Integer> requiredResourcesSet) {

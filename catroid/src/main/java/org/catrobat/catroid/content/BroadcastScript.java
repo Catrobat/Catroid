@@ -32,6 +32,9 @@ public class BroadcastScript extends Script {
 	private static final long serialVersionUID = 1L;
 	private String receivedMessage;
 
+	public BroadcastScript() {
+	}
+
 	public BroadcastScript(String receivedMessage) {
 		this.receivedMessage = receivedMessage;
 	}

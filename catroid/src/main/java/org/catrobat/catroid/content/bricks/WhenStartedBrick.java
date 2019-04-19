@@ -28,13 +28,11 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
-import java.util.List;
-
-public class WhenStartedBrick extends BrickBaseType implements ScriptBrick {
+public class WhenStartedBrick extends ScriptBrickBaseType {
 
 	private static final long serialVersionUID = 1L;
 
-	private Script script;
+	private StartScript script;
 
 	public WhenStartedBrick() {
 		this(new StartScript());
@@ -52,9 +50,9 @@ public class WhenStartedBrick extends BrickBaseType implements ScriptBrick {
 	}
 
 	@Override
-	public BrickBaseType clone() throws CloneNotSupportedException {
+	public Brick clone() throws CloneNotSupportedException {
 		WhenStartedBrick clone = (WhenStartedBrick) super.clone();
-		clone.script = script.clone();
+		clone.script = (StartScript) script.clone();
 		clone.script.setScriptBrick(clone);
 		return clone;
 	}
@@ -65,13 +63,6 @@ public class WhenStartedBrick extends BrickBaseType implements ScriptBrick {
 	}
 
 	@Override
-	public void setCommentedOut(boolean commentedOut) {
-		super.setCommentedOut(commentedOut);
-		getScript().setCommentedOut(commentedOut);
-	}
-
-	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		return null;
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 	}
 }

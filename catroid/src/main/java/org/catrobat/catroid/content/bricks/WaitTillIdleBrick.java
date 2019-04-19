@@ -26,8 +26,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
-import java.util.List;
-
 public class WaitTillIdleBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
@@ -41,8 +39,7 @@ public class WaitTillIdleBrick extends BrickBaseType {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createWaitTillIdleAction());
-		return null;
 	}
 }

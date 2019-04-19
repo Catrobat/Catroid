@@ -201,7 +201,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 			View brickView = formulaBrick.getView(getActivity());
 
-			formulaBrick.onViewCreated();
 			formulaBrick.setClickListeners();
 			formulaBrick.disableSpinners();
 			formulaBrick.highlightTextView(currentBrickField);

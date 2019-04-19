@@ -30,8 +30,6 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
-import java.util.List;
-
 public class SetVariableBrick extends UserVariableBrick {
 
 	private static final long serialVersionUID = 1L;
@@ -69,9 +67,8 @@ public class SetVariableBrick extends UserVariableBrick {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSetVariableAction(sprite,
 				getFormulaWithBrickField(BrickField.VARIABLE), userVariable));
-		return null;
 	}
 }

@@ -23,13 +23,11 @@
 package org.catrobat.catroid.ui;
 
 import android.content.ActivityNotFoundException;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -52,6 +50,7 @@ import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.ZipArchiver;
 import org.catrobat.catroid.io.asynctask.ProjectImportTask;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
+import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.AboutDialogFragment;
@@ -89,40 +88,30 @@ public class MainMenuActivity extends BaseCastActivity implements
 	public static final String TAG = MainMenuActivity.class.getSimpleName();
 	public static final int REQUEST_PERMISSIONS_MOVE_TO_INTERNAL_STORAGE = 501;
 
-	private ProjectImportTask.ProjectImportListener projectCopyListener =
-			new ProjectImportTask.ProjectImportListener() {
+	private ProjectImportTask.ProjectImportListener projectCopyListener = success -> {
+		loadFragment();
+		setShowProgressBar(false);
+		if (success) {
+			ToastUtil.showSuccess(this, R.string.projects_successful_copied_toast);
+		} else {
+			ToastUtil.showError(this, R.string.error_during_copying_projects_toast);
+		}
+	};
 
-				@Override
-				public void onImportFinished(boolean success) {
-					loadFragment();
-					setShowProgressBar(false);
-					if (success) {
-						ToastUtil.showSuccess(MainMenuActivity.this, R.string.projects_successful_copied_toast);
-					} else {
-						ToastUtil.showError(MainMenuActivity.this, R.string.error_during_copying_projects_toast);
-					}
-				}
-			};
-
-	private ProjectImportTask.ProjectImportListener projectMoveListener =
-			new ProjectImportTask.ProjectImportListener() {
-
-				@Override
-				public void onImportFinished(boolean success) {
-					loadFragment();
-					setShowProgressBar(false);
-					if (success) {
-						ToastUtil.showSuccess(MainMenuActivity.this, R.string.projects_successful_moved_toast);
-						try {
-							StorageOperations.deleteDir(EXTERNAL_STORAGE_ROOT_DIRECTORY);
-						} catch (IOException e) {
-							Log.e(TAG, "Cannot delete dir in external storage after import", e);
-						}
-					} else {
-						ToastUtil.showError(MainMenuActivity.this, R.string.error_during_copying_projects_toast);
-					}
-				}
-			};
+	private ProjectImportTask.ProjectImportListener projectMoveListener = success -> {
+		loadFragment();
+		setShowProgressBar(false);
+		if (success) {
+			ToastUtil.showSuccess(this, R.string.projects_successful_moved_toast);
+			try {
+				StorageOperations.deleteDir(EXTERNAL_STORAGE_ROOT_DIRECTORY);
+			} catch (IOException e) {
+				Log.e(TAG, "Cannot delete dir in external storage after import", e);
+			}
+		} else {
+			ToastUtil.showError(this, R.string.error_during_copying_projects_toast);
+		}
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -174,7 +163,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 		}
 
 		setContentView(R.layout.activity_main_menu);
-		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+		setSupportActionBar(findViewById(R.id.toolbar));
 		getSupportActionBar().setIcon(R.drawable.pc_toolbar_icon);
 		getSupportActionBar().setTitle(R.string.app_name);
 
@@ -245,7 +234,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 				.edit().putBoolean(SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG, false)
 				.apply();
 
-		final List<File> dirs = new ArrayList<>();
+		List<File> dirs = new ArrayList<>();
 
 		for (File dir : EXTERNAL_STORAGE_ROOT_DIRECTORY.listFiles()) {
 			if (dir.getName().equals(BACKPACK_DIRECTORY.getName())) {
@@ -272,22 +261,12 @@ public class MainMenuActivity extends BaseCastActivity implements
 				.setTitle(R.string.import_dialog_title)
 				.setCancelable(false)
 				.setMessage(R.string.import_dialog_message)
-				.setPositiveButton(R.string.import_dialog_move_btn, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						new ProjectImportTask()
-								.setListener(projectMoveListener)
-								.execute(dirs.toArray(new File[0]));
-					}
-				})
-				.setNeutralButton(R.string.import_dialog_copy_btn, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						new ProjectImportTask()
-								.setListener(projectCopyListener)
-								.execute(dirs.toArray(new File[0]));
-					}
-				})
+				.setPositiveButton(R.string.import_dialog_move_btn, (dialog, which) -> new ProjectImportTask()
+						.setListener(projectMoveListener)
+						.execute(dirs.toArray(new File[0])))
+				.setNeutralButton(R.string.import_dialog_copy_btn, (dialog, which) -> new ProjectImportTask()
+						.setListener(projectCopyListener)
+						.execute(dirs.toArray(new File[0])))
 				.show();
 	}
 
@@ -303,7 +282,8 @@ public class MainMenuActivity extends BaseCastActivity implements
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 
 		if (currentProject != null) {
-			ProjectManager.getInstance().saveProject(getApplicationContext());
+			new ProjectSaveTask(currentProject, getApplicationContext())
+					.execute();
 			PreferenceManager.getDefaultSharedPreferences(this)
 					.edit()
 					.putString(PREF_PROJECTNAME_KEY, currentProject.getName())
@@ -389,7 +369,8 @@ public class MainMenuActivity extends BaseCastActivity implements
 			InputStream inputStream = getAssets().open(BuildConfig.START_PROJECT + ".zip");
 			File projectDir = new File(DEFAULT_ROOT_DIRECTORY,
 					FileMetaDataExtractor.encodeSpecialCharsForFileSystem(BuildConfig.PROJECT_NAME));
-			new ZipArchiver().unzip(inputStream, projectDir);
+			new ZipArchiver()
+					.unzip(inputStream, projectDir);
 			new ProjectLoadTask(projectDir, this)
 					.setListener(this)
 					.execute();

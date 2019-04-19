@@ -39,6 +39,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.uiespresso.stage.utils.ScriptEvaluationGateBrick;
 import org.catrobat.catroid.uiespresso.util.UserVariableAssertions;
@@ -118,7 +119,7 @@ public class SceneTransitionBrickStageTest {
 		secondScene.addSprite(secondBackground);
 
 		project.addScene(secondScene);
-
-		ProjectManager.getInstance().saveProject(InstrumentationRegistry.getTargetContext());
+		ProjectSaveTask
+				.task(project, InstrumentationRegistry.getTargetContext());
 	}
 }

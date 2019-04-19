@@ -34,8 +34,6 @@ import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
-import java.util.List;
-
 public class CameraBrick extends BrickBaseType {
 
 	private static final int OFF = 0;
@@ -98,9 +96,8 @@ public class CameraBrick extends BrickBaseType {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createUpdateCameraPreviewAction(getCameraStateFromSpinner()));
-		return null;
 	}
 
 	private CameraManager.CameraState getCameraStateFromSpinner() {

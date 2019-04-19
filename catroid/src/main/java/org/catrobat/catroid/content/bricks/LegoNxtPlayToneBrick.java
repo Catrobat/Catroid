@@ -30,8 +30,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 
-import java.util.List;
-
 public class LegoNxtPlayToneBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
@@ -75,10 +73,9 @@ public class LegoNxtPlayToneBrick extends FormulaBrick {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createLegoNxtPlayToneAction(sprite,
 				getFormulaWithBrickField(BrickField.LEGO_NXT_FREQUENCY),
 				getFormulaWithBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS)));
-		return null;
 	}
 }

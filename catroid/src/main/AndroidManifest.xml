@@ -144,7 +144,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.recyclerview.activity.ProjectUploadActivity"
+            android:name=".ui.ProjectUploadActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing"/>
 

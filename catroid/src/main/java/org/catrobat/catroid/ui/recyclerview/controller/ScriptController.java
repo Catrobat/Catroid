@@ -104,7 +104,7 @@ public class ScriptController {
 
 		for (Brick brick : bricksToPack) {
 			if (brick instanceof ScriptBrick) {
-				Script scriptToPack = ((ScriptBrick) brick).getScript();
+				Script scriptToPack = brick.getScript();
 				scriptsToPack.add(scriptToPack.clone());
 			}
 		}

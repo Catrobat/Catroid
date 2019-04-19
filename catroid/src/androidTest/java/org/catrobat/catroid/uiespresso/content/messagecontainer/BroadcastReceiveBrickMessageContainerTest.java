@@ -106,7 +106,7 @@ public class BroadcastReceiveBrickMessageContainerTest {
 				.checkShowsText(defaultMessage);
 
 		ProjectSaveTask
-				.task(project);
+				.task(project, InstrumentationRegistry.getTargetContext());
 
 		baseActivityTestRule.finishActivity();
 

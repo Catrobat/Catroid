@@ -23,13 +23,13 @@
 
 package org.catrobat.catroid.content.bricks;
 
-public interface IfElseLogicBeginBrick extends Brick, ControlStructureBrick {
+import java.util.List;
 
-	IfLogicElseBrick getIfElseBrick();
+public interface CompositeBrick extends Brick {
 
-	void setIfElseBrick(IfLogicElseBrick elseBrick);
+	boolean hasSecondaryList();
 
-	IfLogicEndBrick getIfEndBrick();
+	List<Brick> getNestedBricks();
 
-	void setIfEndBrick(IfLogicEndBrick ifEndBrick);
+	List<Brick> getSecondaryNestedBricks();
 }

@@ -198,7 +198,7 @@ public class BrickCategoryTest {
 
 	@Parameterized.Parameters(name = "{0}")
 	public static Collection<Object[]> data() {
-		return Arrays.asList(new Object[][]{
+		return Arrays.asList(new Object[][] {
 				{"Motion", Arrays.asList(PlaceAtBrick.class,
 						SetXBrick.class,
 						SetYBrick.class,
