@@ -35,6 +35,9 @@ public class CollisionScript extends Script {
 
 	private transient Sprite spriteToCollideWith;
 
+	public CollisionScript() {
+	}
+
 	public CollisionScript(String spriteToCollideWithName) {
 		this.spriteToCollideWithName = spriteToCollideWithName;
 	}
@@ -54,11 +57,6 @@ public class CollisionScript extends Script {
 	public void setSpriteToCollideWithName(String spriteToCollideWithName) {
 		this.spriteToCollideWithName = spriteToCollideWithName;
 		updateSpriteToCollideWith(ProjectManager.getInstance().getCurrentlyEditedScene());
-	}
-
-	public Sprite getSpriteToCollideWith() {
-		updateSpriteToCollideWith(ProjectManager.getInstance().getCurrentlyEditedScene());
-		return spriteToCollideWith;
 	}
 
 	public void updateSpriteToCollideWith(Scene scene) {

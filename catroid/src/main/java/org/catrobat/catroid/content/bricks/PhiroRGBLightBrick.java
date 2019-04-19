@@ -37,8 +37,6 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.ui.fragment.ColorSeekbar;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
-import java.util.List;
-
 public class PhiroRGBLightBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
@@ -146,11 +144,10 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createPhiroRgbLedEyeActionAction(sprite, Eye.valueOf(eye),
 				getFormulaWithBrickField(BrickField.PHIRO_LIGHT_RED),
 				getFormulaWithBrickField(BrickField.PHIRO_LIGHT_GREEN),
 				getFormulaWithBrickField(BrickField.PHIRO_LIGHT_BLUE)));
-		return null;
 	}
 }

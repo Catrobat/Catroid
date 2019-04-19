@@ -39,18 +39,15 @@ import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.actions.EventThread;
-import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
-import org.catrobat.catroid.content.bricks.SetPenColorBrick;
 import org.catrobat.catroid.content.bricks.WhenConditionBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
-import org.catrobat.catroid.physics.PhysicsCollision;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsWorld;
 
@@ -72,6 +69,7 @@ import java.util.Set;
 public class Sprite implements Cloneable, Nameable, Serializable {
 
 	private static final long serialVersionUID = 1L;
+
 	private static final String TAG = Sprite.class.getSimpleName();
 
 	public transient Look look = new Look(this);
@@ -275,7 +273,7 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 	}
 
 	private EventThread createEventThread(Script script) {
-		EventThread sequence = (EventThread) actionFactory.createEventThread(script);
+		EventThread sequence = (EventThread) ActionFactory.createEventThread(script);
 		script.run(this, sequence);
 		return sequence;
 	}
@@ -406,62 +404,6 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 			}
 		}
 		return false;
-	}
-
-	public void updateCollisionFormulasToVersion(float catroidLanguageVersion) {
-		for (Script script : getScriptList()) {
-			Brick scriptBrick = script.getScriptBrick();
-			if (scriptBrick instanceof FormulaBrick) {
-				FormulaBrick formulaBrick = (FormulaBrick) scriptBrick;
-				for (Formula formula : formulaBrick.getFormulas()) {
-					formula.updateCollisionFormulasToVersion(catroidLanguageVersion);
-				}
-			}
-			for (Brick brick : script.getBrickList()) {
-				if (brick instanceof FormulaBrick) {
-					FormulaBrick formulaBrick = (FormulaBrick) brick;
-					for (Formula formula : formulaBrick.getFormulas()) {
-						formula.updateCollisionFormulasToVersion(catroidLanguageVersion);
-					}
-				}
-			}
-		}
-	}
-
-	void updateCollisionScripts() {
-		for (Script script : getScriptList()) {
-			if (script instanceof CollisionScript) {
-				CollisionScript collisionScript = (CollisionScript) script;
-				String[] spriteNames = collisionScript.getSpriteToCollideWithName().split(PhysicsCollision.COLLISION_MESSAGE_CONNECTOR);
-				String spriteToCollideWith = spriteNames[0];
-				if (spriteNames[0].equals(getName())) {
-					spriteToCollideWith = spriteNames[1];
-				}
-				collisionScript.setSpriteToCollideWithName(spriteToCollideWith);
-			}
-		}
-	}
-
-	public void updateSetPenColorFormulas() {
-		for (Script script : getScriptList()) {
-			for (Brick brick : script.getBrickList()) {
-				if (brick instanceof SetPenColorBrick) {
-					SetPenColorBrick spcBrick = (SetPenColorBrick) brick;
-					spcBrick.correctBrickFieldsFromPhiro();
-				}
-			}
-		}
-	}
-
-	public void updateArduinoValues994to995() {
-		for (Script script : getScriptList()) {
-			for (Brick brick : script.getBrickList()) {
-				if (brick instanceof ArduinoSendPWMValueBrick) {
-					ArduinoSendPWMValueBrick spcBrick = (ArduinoSendPWMValueBrick) brick;
-					spcBrick.updateArduinoValues994to995();
-				}
-			}
-		}
 	}
 
 	private void renameSpriteInCollisionFormulas(String newName, Context context) {

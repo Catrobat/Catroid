@@ -74,7 +74,7 @@ public class DefaultProjectComparatorTest {
 		}
 
 		defaultProject = DefaultProjectHandler
-				.createAndSaveDefaultProject(PROJECT_NAME, InstrumentationRegistry.getTargetContext());
+				.createAndSaveDefaultProject(PROJECT_NAME, InstrumentationRegistry.getTargetContext(), false);
 	}
 
 	@After

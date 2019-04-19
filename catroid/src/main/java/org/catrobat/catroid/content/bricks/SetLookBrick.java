@@ -64,7 +64,7 @@ public class SetLookBrick extends BrickBaseType implements BrickSpinner.OnItemSe
 	}
 
 	@Override
-	public BrickBaseType clone() throws CloneNotSupportedException {
+	public Brick clone() throws CloneNotSupportedException {
 		SetLookBrick clone = (SetLookBrick) super.clone();
 		clone.spinner = null;
 		return clone;
@@ -114,9 +114,8 @@ public class SetLookBrick extends BrickBaseType implements BrickSpinner.OnItemSe
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSetLookAction(sprite, look, EventWrapper.NO_WAIT));
-		return null;
 	}
 
 	protected Sprite getSprite() {

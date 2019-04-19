@@ -27,8 +27,6 @@ import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
-import java.util.List;
-
 public class StitchBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
@@ -39,8 +37,7 @@ public class StitchBrick extends BrickBaseType {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(ActionFactory.createStitchAction(sprite));
-		return null;
 	}
 }

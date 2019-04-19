@@ -74,9 +74,8 @@ public class SetRotationStyleBrick extends BrickBaseType implements
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSetRotationStyleAction(sprite, selection));
-		return null;
 	}
 
 	@Override

@@ -29,8 +29,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 
-import java.util.List;
-
 import static org.catrobat.catroid.common.Constants.THINK_BRICK;
 
 public class ThinkBubbleBrick extends FormulaBrick implements OnClickListener {
@@ -56,9 +54,8 @@ public class ThinkBubbleBrick extends FormulaBrick implements OnClickListener {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createThinkSayBubbleAction(sprite,
 				getFormulaWithBrickField(BrickField.STRING), THINK_BRICK));
-		return null;
 	}
 }

@@ -42,7 +42,6 @@ import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class SetBackgroundBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<LookData>,
@@ -66,7 +65,7 @@ public class SetBackgroundBrick extends BrickBaseType implements BrickSpinner.On
 	}
 
 	@Override
-	public BrickBaseType clone() throws CloneNotSupportedException {
+	public Brick clone() throws CloneNotSupportedException {
 		SetBackgroundBrick clone = (SetBackgroundBrick) super.clone();
 		clone.spinner = null;
 		return clone;
@@ -91,9 +90,8 @@ public class SetBackgroundBrick extends BrickBaseType implements BrickSpinner.On
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSetBackgroundLookAction(look, EventWrapper.NO_WAIT));
-		return Collections.emptyList();
 	}
 
 	@Override

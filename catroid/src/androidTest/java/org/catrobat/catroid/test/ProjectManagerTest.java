@@ -28,15 +28,11 @@ import android.support.test.runner.AndroidJUnit4;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.ControlStructureBrick;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.ZipArchiver;
+import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.ScreenValueHandler;
 import org.junit.After;
@@ -49,7 +45,6 @@ import org.junit.runner.RunWith;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -149,7 +144,8 @@ public class ProjectManagerTest {
 		// simulate multiple saving trigger asynchronous (occurs in black box testing)
 		for (int i = 0; i < 3; i++) {
 			currentProject.setDescription(currentProject.getDescription() + i);
-			projectManager.saveProject(InstrumentationRegistry.getTargetContext());
+			new ProjectSaveTask(currentProject, InstrumentationRegistry.getTargetContext())
+					.execute();
 		}
 
 		// simulate deletion, saveProject asyncTask will be "automatically" cancelled (Please remark: there is still a chance
@@ -174,36 +170,6 @@ public class ProjectManagerTest {
 		assertNotNull(project);
 		assertEquals(PROJECT_NAME_NESTING_BRICKS, project.getName());
 
-		for (Scene scene : project.getSceneList()) {
-			for (Sprite sprite : scene.getSpriteList()) {
-				for (Script script : sprite.getScriptList()) {
-					assertFalse(containsControlBricksWithInvalidReferences(script.getBrickList()));
-				}
-			}
-		}
-
 		TestUtils.deleteProjects(PROJECT_NAME_NESTING_BRICKS);
-	}
-
-	private boolean containsControlBricksWithInvalidReferences(List<Brick> bricks) {
-		for (Brick brick : bricks) {
-			if (brick instanceof ControlStructureBrick && hasInvalidReference((ControlStructureBrick) brick, bricks)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	private boolean hasInvalidReference(ControlStructureBrick brick, List<Brick> bricks) {
-		List<Brick> brickParts = brick.getAllParts();
-		if (brickParts.contains(null)) {
-			return true;
-		}
-		for (Brick brickPart : brickParts) {
-			if (!(bricks.contains(brickPart))) {
-				return true;
-			}
-		}
-		return false;
 	}
 }

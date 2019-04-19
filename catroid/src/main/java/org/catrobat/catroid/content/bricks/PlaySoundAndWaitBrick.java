@@ -31,8 +31,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 
-import java.util.List;
-
 public class PlaySoundAndWaitBrick extends PlaySoundBrick {
 
 	private static final long serialVersionUID = 1L;
@@ -47,7 +45,7 @@ public class PlaySoundAndWaitBrick extends PlaySoundBrick {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createPlaySoundAction(sprite, sound));
 
 		float duration = 0;
@@ -61,6 +59,5 @@ public class PlaySoundAndWaitBrick extends PlaySoundBrick {
 		}
 
 		sequence.addAction(sprite.getActionFactory().createWaitAction(sprite, new Formula(duration)));
-		return null;
 	}
 }

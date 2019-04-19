@@ -116,7 +116,7 @@ public class MessageContainerTest {
 		project1.getDefaultScene().addSprite(sprite1);
 
 		ProjectSaveTask
-				.task(project1);
+				.task(project1, InstrumentationRegistry.getTargetContext());
 
 		project2 = new Project(InstrumentationRegistry.getTargetContext(), projectName2);
 
