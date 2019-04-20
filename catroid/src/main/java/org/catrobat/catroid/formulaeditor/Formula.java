@@ -235,9 +235,9 @@ public class Formula implements Serializable {
 					.getUserVariable(formulaTree.getValue(), currentSprite, currentProject);
 			return (String) userVariable.getValue();
 		} else {
-			Double interpretationResult;
+			float interpretationResult;
 			try {
-				interpretationResult = this.interpretDouble(sprite);
+				interpretationResult = this.interpretFloat(sprite);
 			} catch (InterpretationException interpretationException) {
 				return "ERROR";
 			}
