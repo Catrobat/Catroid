@@ -57,6 +57,7 @@ public final class Constants {
 	public static final String CATROBAT_EXTENSION = ".catrobat";
 	public static final String DEFAULT_IMAGE_EXTENSION = ".png";
 	public static final String DEFAULT_SOUND_EXTENSION = ".wav";
+	public static final String EMBROIDERY_FILE_EXTENSION = ".dst";
 	public static final char REMIX_URL_PREFIX_INDICATOR = '[';
 	public static final char REMIX_URL_SUFIX_INDICATOR = ']';
 	public static final char REMIX_URL_SEPARATOR = ',';
