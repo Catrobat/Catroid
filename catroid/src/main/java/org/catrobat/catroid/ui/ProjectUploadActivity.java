@@ -265,11 +265,16 @@ public class ProjectUploadActivity extends BaseActivity implements
 		int notificationId = StatusBarNotificationManager.getInstance()
 				.createUploadNotification(this, name);
 
+		UploadStatusPollingTask uploadStatusPollingTask = new UploadStatusPollingTask();
+
 		uploadProgressDialog = new AlertDialog.Builder(this)
 				.setTitle(getString(R.string.upload_project_dialog_title))
 				.setView(R.layout.dialog_upload_project_progress)
 				.setPositiveButton(R.string.progress_upload_dialog_show_program, null)
-				.setNegativeButton(R.string.done, (dialog, which) -> finish())
+				.setNegativeButton(R.string.done, (dialog, which) -> {
+					uploadStatusPollingTask.cancel(false);
+					finish();
+				})
 				.setCancelable(false)
 				.create();
 
@@ -287,8 +292,7 @@ public class ProjectUploadActivity extends BaseActivity implements
 
 		startService(intent);
 
-		new UploadStatusPollingTask()
-				.execute();
+		uploadStatusPollingTask.execute();
 
 		int numberOfUploadedProjects = sharedPreferences.getInt(NUMBER_OF_UPLOADED_PROJECTS, 0) + 1;
 		sharedPreferences.edit()
@@ -390,6 +394,9 @@ public class ProjectUploadActivity extends BaseActivity implements
 		@Override
 		protected Void doInBackground(Void... voids) {
 			while (StatusBarNotificationManager.getInstance().getProgressPercent() != 100) {
+				if (isCancelled()) {
+					break;
+				}
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e) {

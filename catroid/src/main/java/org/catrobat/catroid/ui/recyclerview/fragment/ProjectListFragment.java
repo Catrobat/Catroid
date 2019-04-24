@@ -319,6 +319,9 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 
 	@Override
 	public void onLoadFinished(boolean success) {
+		if (getActivity() == null) {
+			return;
+		}
 		if (success) {
 			Intent intent = new Intent(getActivity(), ProjectActivity.class);
 			intent.putExtra(ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SCENES);
