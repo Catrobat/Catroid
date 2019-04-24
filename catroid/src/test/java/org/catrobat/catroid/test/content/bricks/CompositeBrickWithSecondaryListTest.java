@@ -23,7 +23,13 @@
 
 package org.catrobat.catroid.test.content.bricks;
 
+import org.catrobat.catroid.content.ActionFactory;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.EventThread;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.CompositeBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick;
@@ -45,7 +51,11 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
@@ -218,5 +228,110 @@ public class CompositeBrickWithSecondaryListTest {
 		assertNotSame(nestedBrick, clone.getNestedBricks().get(0));
 
 		assertNotSame(secondaryNestedBrick, clone.getSecondaryNestedBricks().get(0));
+	}
+
+	@Test
+	public void testCommentOutBrickInPrimaryList() {
+		Sprite sprite = new Sprite();
+
+		EventThread sequence = (EventThread) ActionFactory.createEventThread(mock(Script.class));
+
+		Brick brickToCommentOutInPrimaryList = spy(new BrickStub());
+		Brick otherNestedBrickInPrimaryList = spy(new BrickStub());
+		Brick otherNestedBrickInSecondaryList = spy(new BrickStub());
+
+		compositeBrick.getNestedBricks().add(brickToCommentOutInPrimaryList);
+		compositeBrick.getNestedBricks().add(otherNestedBrickInPrimaryList);
+
+		compositeBrick.getSecondaryNestedBricks().add(otherNestedBrickInSecondaryList);
+
+		brickToCommentOutInPrimaryList.setCommentedOut(true);
+
+		compositeBrick.addActionToSequence(sprite, sequence);
+
+		verify(brickToCommentOutInPrimaryList, never())
+				.addActionToSequence(any(Sprite.class), any(ScriptSequenceAction.class));
+
+		verify(otherNestedBrickInPrimaryList, times(1))
+				.addActionToSequence(any(Sprite.class), any(ScriptSequenceAction.class));
+
+		verify(otherNestedBrickInSecondaryList, times(1))
+				.addActionToSequence(any(Sprite.class), any(ScriptSequenceAction.class));
+	}
+
+	@Test
+	public void testCommentOutBrickInSecondaryList() {
+		Sprite sprite = new Sprite();
+
+		EventThread sequence = (EventThread) ActionFactory.createEventThread(mock(Script.class));
+
+		Brick brickToCommentOutInSecondaryList = spy(new BrickStub());
+		Brick otherNestedBrickInPrimaryList = spy(new BrickStub());
+		Brick otherNestedBrickInSecondaryList = spy(new BrickStub());
+
+		compositeBrick.getNestedBricks().add(otherNestedBrickInPrimaryList);
+
+		compositeBrick.getSecondaryNestedBricks().add(brickToCommentOutInSecondaryList);
+		compositeBrick.getSecondaryNestedBricks().add(otherNestedBrickInSecondaryList);
+
+		brickToCommentOutInSecondaryList.setCommentedOut(true);
+
+		compositeBrick.addActionToSequence(sprite, sequence);
+
+		verify(brickToCommentOutInSecondaryList, never())
+				.addActionToSequence(any(Sprite.class), any(ScriptSequenceAction.class));
+
+		verify(otherNestedBrickInPrimaryList, times(1))
+				.addActionToSequence(any(Sprite.class), any(ScriptSequenceAction.class));
+
+		verify(otherNestedBrickInSecondaryList, times(1))
+				.addActionToSequence(any(Sprite.class), any(ScriptSequenceAction.class));
+	}
+
+	@Test
+	public void testCommentOutBricksInBothLists() {
+		Sprite sprite = new Sprite();
+
+		EventThread sequence = (EventThread) ActionFactory.createEventThread(mock(Script.class));
+
+		Brick brickToCommentOutInPrimaryList = spy(new BrickStub());
+		Brick brickToCommentOutInSecondaryList = spy(new BrickStub());
+		Brick otherNestedBrickInPrimaryList = spy(new BrickStub());
+		Brick otherNestedBrickInSecondaryList = spy(new BrickStub());
+
+		compositeBrick.getNestedBricks().add(brickToCommentOutInPrimaryList);
+		compositeBrick.getNestedBricks().add(otherNestedBrickInPrimaryList);
+
+		compositeBrick.getSecondaryNestedBricks().add(brickToCommentOutInSecondaryList);
+		compositeBrick.getSecondaryNestedBricks().add(otherNestedBrickInSecondaryList);
+
+		brickToCommentOutInPrimaryList.setCommentedOut(true);
+		brickToCommentOutInSecondaryList.setCommentedOut(true);
+
+		compositeBrick.addActionToSequence(sprite, sequence);
+
+		verify(brickToCommentOutInPrimaryList, never())
+				.addActionToSequence(any(Sprite.class), any(ScriptSequenceAction.class));
+
+		verify(brickToCommentOutInSecondaryList, never())
+				.addActionToSequence(any(Sprite.class), any(ScriptSequenceAction.class));
+
+		verify(otherNestedBrickInPrimaryList, times(1))
+				.addActionToSequence(any(Sprite.class), any(ScriptSequenceAction.class));
+
+		verify(otherNestedBrickInSecondaryList, times(1))
+				.addActionToSequence(any(Sprite.class), any(ScriptSequenceAction.class));
+	}
+
+	private static class BrickStub extends BrickBaseType {
+
+		@Override
+		public int getViewResource() {
+			return 0;
+		}
+
+		@Override
+		public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		}
 	}
 }

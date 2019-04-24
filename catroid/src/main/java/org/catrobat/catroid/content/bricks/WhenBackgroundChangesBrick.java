@@ -131,6 +131,12 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements ScriptB
 	}
 
 	@Override
+	public void setCommentedOut(boolean commentedOut) {
+		super.setCommentedOut(commentedOut);
+		getScript().setCommentedOut(commentedOut);
+	}
+
+	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSetLookAction(sprite, getLook()));
 	}

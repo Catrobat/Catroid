@@ -23,7 +23,13 @@
 
 package org.catrobat.catroid.test.content.bricks;
 
+import org.catrobat.catroid.content.ActionFactory;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.EventThread;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.CompositeBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
@@ -45,7 +51,11 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
@@ -181,5 +191,40 @@ public class CompositeBrickTest {
 		assertNotSame(nestedBrick, clone.getNestedBricks().get(0));
 
 		assertNotSame(compositeEndBrick, clone.getAllParts().get(1));
+	}
+
+	@Test
+	public void testCommentOutBrickInCompositeBrick() {
+		Sprite sprite = new Sprite();
+
+		EventThread sequence = (EventThread) ActionFactory.createEventThread(mock(Script.class));
+
+		Brick brickToCommentOut = spy(new BrickStub());
+		Brick otherNestedBrick = spy(new BrickStub());
+
+		compositeBrick.getNestedBricks().add(brickToCommentOut);
+		compositeBrick.getNestedBricks().add(otherNestedBrick);
+
+		brickToCommentOut.setCommentedOut(true);
+
+		compositeBrick.addActionToSequence(sprite, sequence);
+
+		verify(brickToCommentOut, never())
+				.addActionToSequence(any(Sprite.class), any(ScriptSequenceAction.class));
+
+		verify(otherNestedBrick, times(1))
+				.addActionToSequence(any(Sprite.class), any(ScriptSequenceAction.class));
+	}
+
+	private static class BrickStub extends BrickBaseType {
+
+		@Override
+		public int getViewResource() {
+			return 0;
+		}
+
+		@Override
+		public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		}
 	}
 }

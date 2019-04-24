@@ -42,6 +42,7 @@ import org.catrobat.catroid.content.WhenTouchDownScript;
 import org.catrobat.catroid.content.actions.EventThread;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -50,7 +51,6 @@ import org.junit.runners.Parameterized;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -88,7 +88,7 @@ public class CommentOutScriptTest {
 	}
 
 	@Test
-	public void testCommentOutBrickInScript() {
+	public void testCommentOutScriptCommentsOutBrickInScript() {
 		Brick brick = mock(Brick.class);
 
 		script.addBrick(brick);
@@ -98,21 +98,45 @@ public class CommentOutScriptTest {
 	}
 
 	@Test
-	public void testRunScript() {
+	public void testCommentOutScriptAndRun() {
 		Sprite sprite = mock(Sprite.class);
-		Brick brick = mock(Brick.class);
+		Brick brick = new BrickStub();
 
 		script.addBrick(brick);
 		script.setCommentedOut(true);
 
 		EventThread sequence = (EventThread) ActionFactory.createEventThread(script);
-		doAnswer(invocation -> {
-			((ScriptSequenceAction) invocation.getArgument(0)).addAction(mock(Action.class));
-			return null;
-		}).when(brick).addActionToSequence(sprite, sequence);
 
 		script.run(sprite, sequence);
 
 		assertEquals(0, sequence.getActions().size);
+	}
+
+	@Test
+	public void testCommentOutScriptBrickAndRun() {
+		Sprite sprite = mock(Sprite.class);
+		Brick brick = new BrickStub();
+
+		script.addBrick(brick);
+		script.getScriptBrick().setCommentedOut(true);
+
+		EventThread sequence = (EventThread) ActionFactory.createEventThread(script);
+
+		script.run(sprite, sequence);
+
+		assertEquals(0, sequence.getActions().size);
+	}
+
+	private static class BrickStub extends BrickBaseType {
+
+		@Override
+		public int getViewResource() {
+			return 0;
+		}
+
+		@Override
+		public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+			sequence.addAction(mock(Action.class));
+		}
 	}
 }
