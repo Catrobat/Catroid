@@ -36,8 +36,6 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.physics.PhysicsObject;
 
-import java.util.List;
-
 public class SetPhysicsObjectTypeBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
@@ -98,9 +96,8 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSetPhysicsObjectTypeAction(sprite, type));
-		return null;
 	}
 
 	@VisibleForTesting

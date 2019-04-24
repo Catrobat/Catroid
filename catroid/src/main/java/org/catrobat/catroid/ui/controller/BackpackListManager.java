@@ -29,7 +29,6 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.BackpackSerializer;
-import org.catrobat.catroid.ui.recyclerview.controller.BrickController;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -118,11 +117,9 @@ public final class BackpackListManager {
 		setLookFileReferences(getBackpackedLooks(), BACKPACK_IMAGE_DIRECTORY);
 		setSoundFileReferences(getBackpackedSounds(), BACKPACK_SOUND_DIRECTORY);
 
-		BrickController brickController = new BrickController();
-
 		for (Iterable<Script> scripts : getBackpackedScripts().values()) {
 			for (Script script : scripts) {
-				brickController.setControlBrickReferences(script.getBrickList());
+				script.setParents();
 			}
 		}
 	}

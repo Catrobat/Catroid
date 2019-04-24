@@ -35,7 +35,6 @@ import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class CloneBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<Sprite> {
@@ -84,9 +83,8 @@ public class CloneBrick extends BrickBaseType implements BrickSpinner.OnItemSele
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		Sprite s = (objectToClone != null) ? objectToClone : sprite;
 		sequence.addAction(sprite.getActionFactory().createCloneAction(s));
-		return Collections.emptyList();
 	}
 }

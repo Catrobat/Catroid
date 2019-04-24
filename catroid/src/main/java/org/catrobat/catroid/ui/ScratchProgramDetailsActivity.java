@@ -281,7 +281,8 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 		dateViews.setVisibility(View.GONE);
 
 		if (programData.getSharedDate() != null) {
-			String dateSharedText = Utils.formatDate(programData.getSharedDate(), Locale.getDefault());
+			String dateSharedText = DateFormat
+					.getDateInstance(DateFormat.LONG, Locale.getDefault()).format(programData.getSharedDate());
 			dateSharedView.setText(getString(R.string.shared_at_x, dateSharedText));
 			dateSharedView.setVisibility(View.VISIBLE);
 			dateViews.setVisibility(View.VISIBLE);
@@ -290,7 +291,8 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 		}
 
 		if (programData.getModifiedDate() != null) {
-			String dateModifiedText = Utils.formatDate(programData.getModifiedDate(), Locale.getDefault());
+			String dateModifiedText = DateFormat
+					.getDateInstance(DateFormat.LONG, Locale.getDefault()).format(programData.getSharedDate());
 			dateModifiedView.setText(getString(R.string.modified_at_x, dateModifiedText));
 			dateModifiedView.setVisibility(View.VISIBLE);
 			dateViews.setVisibility(View.VISIBLE);

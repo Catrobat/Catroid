@@ -222,19 +222,17 @@ public class FormulaElement implements Serializable {
 		}
 	}
 
-	public void updateCollisionFormulaToVersion(float catroidLanguageVersion) {
-		if (catroidLanguageVersion == 0.993f) {
-			if (leftChild != null) {
-				leftChild.updateCollisionFormulaToVersion(catroidLanguageVersion);
-			}
-			if (rightChild != null) {
-				rightChild.updateCollisionFormulaToVersion(catroidLanguageVersion);
-			}
-			if (type == ElementType.COLLISION_FORMULA) {
-				String secondSpriteName = CollisionDetection.getSecondSpriteNameFromCollisionFormulaString(value);
-				if (secondSpriteName != null) {
-					value = secondSpriteName;
-				}
+	public void updateCollisionFormulaToVersion() {
+		if (leftChild != null) {
+			leftChild.updateCollisionFormulaToVersion();
+		}
+		if (rightChild != null) {
+			rightChild.updateCollisionFormulaToVersion();
+		}
+		if (type == ElementType.COLLISION_FORMULA) {
+			String secondSpriteName = CollisionDetection.getSecondSpriteNameFromCollisionFormulaString(value);
+			if (secondSpriteName != null) {
+				value = secondSpriteName;
 			}
 		}
 	}

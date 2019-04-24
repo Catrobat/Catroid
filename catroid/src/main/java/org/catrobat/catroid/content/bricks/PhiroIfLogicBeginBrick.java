@@ -20,12 +20,13 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
+import android.support.annotation.VisibleForTesting;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -37,43 +38,145 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
-public class PhiroIfLogicBeginBrick extends BrickBaseType implements IfElseLogicBeginBrick {
+public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	private int sensorSpinnerPosition = 0;
 
-	private transient IfLogicElseBrick ifElseBrick;
-	private transient IfLogicEndBrick ifEndBrick;
+	private transient ElseBrick elseBrick = new ElseBrick(this);
+	private transient EndBrick endBrick = new EndBrick(this);
 
-	public PhiroIfLogicBeginBrick() {
+	private List<Brick> ifBranchBricks = new ArrayList<>();
+	private List<Brick> elseBranchBricks = new ArrayList<>();
+
+	@VisibleForTesting
+	public ElseBrick getElseBrick() {
+		return elseBrick;
 	}
 
-	public IfLogicElseBrick getIfElseBrick() {
-		return ifElseBrick;
-	}
-
-	public void setIfElseBrick(IfLogicElseBrick elseBrick) {
-		this.ifElseBrick = elseBrick;
-	}
-
-	public IfLogicEndBrick getIfEndBrick() {
-		return ifEndBrick;
-	}
-
-	public void setIfEndBrick(IfLogicEndBrick ifEndBrick) {
-		this.ifEndBrick = ifEndBrick;
+	@VisibleForTesting
+	public EndBrick getEndBrick() {
+		return endBrick;
 	}
 
 	@Override
-	public BrickBaseType clone() throws CloneNotSupportedException {
+	public boolean hasSecondaryList() {
+		return true;
+	}
+
+	@Override
+	public List<Brick> getNestedBricks() {
+		return ifBranchBricks;
+	}
+
+	@Override
+	public List<Brick> getSecondaryNestedBricks() {
+		return elseBranchBricks;
+	}
+
+	public boolean addBrickToIfBranch(Brick brick) {
+		return ifBranchBricks.add(brick);
+	}
+
+	public boolean addBrickToElseBranch(Brick brick) {
+		return elseBranchBricks.add(brick);
+	}
+
+	@Override
+	public void setCommentedOut(boolean commentedOut) {
+		super.setCommentedOut(commentedOut);
+		for (Brick brick : ifBranchBricks) {
+			brick.setCommentedOut(commentedOut);
+		}
+		elseBrick.setCommentedOut(commentedOut);
+		for (Brick brick : elseBranchBricks) {
+			brick.setCommentedOut(commentedOut);
+		}
+		endBrick.setCommentedOut(commentedOut);
+	}
+
+	@Override
+	public Brick clone() throws CloneNotSupportedException {
 		PhiroIfLogicBeginBrick clone = (PhiroIfLogicBeginBrick) super.clone();
-		clone.ifElseBrick = null;
-		clone.ifEndBrick = null;
+		clone.elseBrick = new ElseBrick(clone);
+		clone.endBrick = new EndBrick(clone);
+		clone.ifBranchBricks = new ArrayList<>();
+		clone.elseBranchBricks = new ArrayList<>();
+
+		for (Brick brick : ifBranchBricks) {
+			clone.addBrickToIfBranch(brick.clone());
+		}
+		for (Brick brick : elseBranchBricks) {
+			clone.addBrickToElseBranch(brick.clone());
+		}
 		return clone;
+	}
+
+	@Override
+	public boolean consistsOfMultipleParts() {
+		return true;
+	}
+
+	@Override
+	public List<Brick> getAllParts() {
+		List<Brick> bricks = new ArrayList<>();
+		bricks.add(this);
+		bricks.add(elseBrick);
+		bricks.add(endBrick);
+		return bricks;
+	}
+
+	@Override
+	public void addToFlatList(List<Brick> bricks) {
+		super.addToFlatList(bricks);
+		for (Brick brick : ifBranchBricks) {
+			brick.addToFlatList(bricks);
+		}
+		bricks.add(elseBrick);
+		for (Brick brick : elseBranchBricks) {
+			brick.addToFlatList(bricks);
+		}
+		bricks.add(endBrick);
+	}
+
+	@Override
+	public void setParent(Brick parent) {
+		super.setParent(parent);
+		for (Brick brick : ifBranchBricks) {
+			brick.setParent(this);
+		}
+		for (Brick brick : elseBranchBricks) {
+			brick.setParent(elseBrick);
+		}
+	}
+
+	@Override
+	public List<Brick> getDragAndDropTargetList() {
+		return ifBranchBricks;
+	}
+
+	@Override
+	public boolean removeChild(Brick brick) {
+		if (ifBranchBricks.remove(brick)) {
+			return true;
+		}
+		if (elseBranchBricks.remove(brick)) {
+			return true;
+		}
+		for (Brick childBrick : ifBranchBricks) {
+			if (childBrick.removeChild(brick)) {
+				return true;
+			}
+		}
+		for (Brick childBrick : elseBranchBricks) {
+			if (childBrick.removeChild(brick)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
@@ -94,7 +197,7 @@ public class PhiroIfLogicBeginBrick extends BrickBaseType implements IfElseLogic
 
 		spinner.setAdapter(spinnerAdapter);
 		spinner.setSelection(sensorSpinnerPosition);
-		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -109,42 +212,110 @@ public class PhiroIfLogicBeginBrick extends BrickBaseType implements IfElseLogic
 	}
 
 	@Override
-	public Brick getFirstBrick() {
-		return this;
-	}
-
-	@Override
-	public Brick getLastBrick() {
-		return ifEndBrick;
-	}
-
-	@Override
-	public List<Brick> getAllParts() {
-		List<Brick> parts = new ArrayList<>();
-		parts.add(this);
-		parts.add(ifElseBrick);
-		parts.add(ifEndBrick);
-		return parts;
-	}
-
-	@Override
 	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
 		requiredResourcesSet.add(BLUETOOTH_PHIRO);
 		super.addRequiredResources(requiredResourcesSet);
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		ScriptSequenceAction ifAction = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
-		ScriptSequenceAction elseAction = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
-		Action action = sprite.getActionFactory().createPhiroSendSelectedSensorAction(sprite, sensorSpinnerPosition,
-				ifAction, elseAction);
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		ScriptSequenceAction ifSequence = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
+		ScriptSequenceAction elseSequence = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
+
+		for (Brick brick : ifBranchBricks) {
+			brick.addActionToSequence(sprite, ifSequence);
+		}
+
+		for (Brick brick : elseBranchBricks) {
+			brick.addActionToSequence(sprite, elseSequence);
+		}
+		Action action = sprite.getActionFactory()
+				.createPhiroSendSelectedSensorAction(sprite, sensorSpinnerPosition, ifSequence, elseSequence);
+
 		sequence.addAction(action);
+	}
 
-		LinkedList<ScriptSequenceAction> returnActionList = new LinkedList<>();
-		returnActionList.add(elseAction);
-		returnActionList.add(ifAction);
+	@VisibleForTesting
+	public static class ElseBrick extends BrickBaseType {
 
-		return returnActionList;
+		ElseBrick(PhiroIfLogicBeginBrick ifBrick) {
+			parent = ifBrick;
+		}
+
+		@Override
+		public boolean consistsOfMultipleParts() {
+			return true;
+		}
+
+		@Override
+		public List<Brick> getAllParts() {
+			return parent.getAllParts();
+		}
+
+		@Override
+		public void addToFlatList(List<Brick> bricks) {
+			parent.addToFlatList(bricks);
+		}
+
+		@Override
+		public List<Brick> getDragAndDropTargetList() {
+			return ((PhiroIfLogicBeginBrick) parent).elseBranchBricks;
+		}
+
+		@Override
+		public int getPositionInDragAndDropTargetList() {
+			return -1;
+		}
+
+		@Override
+		public int getViewResource() {
+			return R.layout.brick_if_else;
+		}
+
+		@Override
+		public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		}
+	}
+
+	@VisibleForTesting
+	public static class EndBrick extends BrickBaseType {
+
+		EndBrick(PhiroIfLogicBeginBrick ifBrick) {
+			parent = ifBrick;
+		}
+
+		@Override
+		public boolean consistsOfMultipleParts() {
+			return true;
+		}
+
+		@Override
+		public List<Brick> getAllParts() {
+			return parent.getAllParts();
+		}
+
+		@Override
+		public void addToFlatList(List<Brick> bricks) {
+			parent.addToFlatList(bricks);
+		}
+
+		@Override
+		public List<Brick> getDragAndDropTargetList() {
+			return parent.getParent().getDragAndDropTargetList();
+		}
+
+		@Override
+		public int getPositionInDragAndDropTargetList() {
+			return parent.getParent().getDragAndDropTargetList().indexOf(parent);
+		}
+
+		@Override
+		public int getViewResource() {
+			return R.layout.brick_if_end_if;
+		}
+
+		@Override
+		public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		}
 	}
 }

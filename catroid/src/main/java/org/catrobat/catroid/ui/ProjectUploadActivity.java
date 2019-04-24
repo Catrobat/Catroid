@@ -21,10 +21,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.ui.recyclerview.activity;
+package org.catrobat.catroid.ui;
 
 import android.content.ActivityNotFoundException;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -33,7 +32,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -54,9 +52,6 @@ import org.catrobat.catroid.io.asynctask.ProjectRenameTask;
 import org.catrobat.catroid.transfers.CheckTokenTask;
 import org.catrobat.catroid.transfers.GetTagsTask;
 import org.catrobat.catroid.transfers.ProjectUploadService;
-import org.catrobat.catroid.ui.BaseActivity;
-import org.catrobat.catroid.ui.SignInActivity;
-import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -102,7 +97,7 @@ public class ProjectUploadActivity extends BaseActivity implements
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_upload);
-		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+		setSupportActionBar(findViewById(R.id.toolbar));
 		getSupportActionBar().setTitle(R.string.upload_project_dialog_title);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -137,7 +132,7 @@ public class ProjectUploadActivity extends BaseActivity implements
 		screenshotLoader.loadAndShowScreenshot(project.getDirectory().getName(),
 				project.getDirectory().getName(),
 				false,
-				(ImageView) findViewById(R.id.project_image_view));
+				findViewById(R.id.project_image_view));
 
 		TextView projectSizeView = findViewById(R.id.project_size_view);
 		projectSizeView
@@ -215,60 +210,51 @@ public class ProjectUploadActivity extends BaseActivity implements
 	}
 
 	private void showSelectTagsDialog() {
-		final List<String> checkedTags = new ArrayList<>();
-		final String[] availableTags = tags.toArray(new String[tags.size()]);
+		List<String> checkedTags = new ArrayList<>();
+		String[] availableTags = tags.toArray(new String[0]);
 
 		new AlertDialog.Builder(this)
 				.setTitle(R.string.upload_tag_dialog_title)
-				.setMultiChoiceItems(availableTags, null, new DialogInterface.OnMultiChoiceClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int indexSelected, boolean isChecked) {
-						if (isChecked) {
-							if (checkedTags.size() >= MAX_NUMBER_OF_TAGS_CHECKED) {
-								((AlertDialog) dialog).getListView().setItemChecked(indexSelected, false);
-							} else {
-								checkedTags.add(availableTags[indexSelected]);
-							}
+				.setMultiChoiceItems(availableTags, null, (dialog, indexSelected, isChecked) -> {
+					if (isChecked) {
+						if (checkedTags.size() >= MAX_NUMBER_OF_TAGS_CHECKED) {
+							((AlertDialog) dialog).getListView().setItemChecked(indexSelected, false);
 						} else {
-							checkedTags.remove(availableTags[indexSelected]);
+							checkedTags.add(availableTags[indexSelected]);
 						}
+					} else {
+						checkedTags.remove(availableTags[indexSelected]);
 					}
 				})
-				.setPositiveButton(getText(R.string.next), new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						project.setTags(checkedTags);
-						showProgressDialogAndUploadProject();
-					}
+				.setPositiveButton(getText(R.string.next), (dialog, which) -> {
+					project.setTags(checkedTags);
+					showProgressDialogAndUploadProject();
 				})
-				.setNegativeButton(getText(R.string.cancel), new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						Utils.invalidateLoginTokenIfUserRestricted(ProjectUploadActivity.this);
-						setShowProgressBar(false);
-						setNextButtonEnabled(true);
-					}
+				.setNegativeButton(getText(R.string.cancel), (dialog, which) -> {
+					Utils.invalidateLoginTokenIfUserRestricted(this);
+					setShowProgressBar(false);
+					setNextButtonEnabled(true);
 				})
 				.setCancelable(false)
 				.show();
 	}
 
 	private void showProgressDialogAndUploadProject() {
-		final String name = nameInputLayout.getEditText().getText().toString().trim();
+		String name = nameInputLayout.getEditText().getText().toString().trim();
 		String description = descriptionInputLayout.getEditText().getText().toString().trim();
 
 		if (!project.getName().equals(name)) {
 			ProjectRenameTask
 					.task(project.getDirectory(), name);
 			ProjectLoadTask
-					.task(project.getDirectory(), this);
+					.task(project.getDirectory(), getApplicationContext());
 			project = ProjectManager.getInstance().getCurrentProject();
 		}
 
 		project.setDescription(description);
 		project.setDeviceData(this);
 
-		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 		String username = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
 
@@ -276,7 +262,7 @@ public class ProjectUploadActivity extends BaseActivity implements
 
 		String[] sceneNames = project.getSceneNames().toArray(new String[0]);
 
-		final int notificationId = StatusBarNotificationManager.getInstance()
+		int notificationId = StatusBarNotificationManager.getInstance()
 				.createUploadNotification(this, name);
 
 		UploadStatusPollingTask uploadStatusPollingTask = new UploadStatusPollingTask();
@@ -285,12 +271,9 @@ public class ProjectUploadActivity extends BaseActivity implements
 				.setTitle(getString(R.string.upload_project_dialog_title))
 				.setView(R.layout.dialog_upload_project_progress)
 				.setPositiveButton(R.string.progress_upload_dialog_show_program, null)
-				.setNegativeButton(R.string.done, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						uploadStatusPollingTask.cancel(false);
-						finish();
-					}
+				.setNegativeButton(R.string.done, (dialog, which) -> {
+					uploadStatusPollingTask.cancel(false);
+					finish();
 				})
 				.setCancelable(false)
 				.create();
@@ -323,28 +306,19 @@ public class ProjectUploadActivity extends BaseActivity implements
 		new AlertDialog.Builder(this)
 				.setTitle(getString(R.string.rating_dialog_title))
 				.setView(R.layout.dialog_rate_pocketcode)
-				.setPositiveButton(R.string.rating_dialog_rate_now, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						try {
-							startActivity(new Intent(Intent.ACTION_VIEW,
-									Uri.parse("market://details?id=" + getPackageName())).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-						} catch (ActivityNotFoundException e) {
-							startActivity(new Intent(Intent.ACTION_VIEW,
-									Uri.parse(PLAY_STORE_PAGE_LINK + getPackageName())));
-						}
+				.setPositiveButton(R.string.rating_dialog_rate_now, (dialog, which) -> {
+					try {
+						startActivity(new Intent(Intent.ACTION_VIEW,
+								Uri.parse("market://details?id=" + getPackageName())).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+					} catch (ActivityNotFoundException e) {
+						startActivity(new Intent(Intent.ACTION_VIEW,
+								Uri.parse(PLAY_STORE_PAGE_LINK + getPackageName())));
 					}
 				})
-
-				.setNeutralButton(getString(R.string.rating_dialog_rate_later), new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						sharedPreferences
-								.edit()
-								.putInt(NUMBER_OF_UPLOADED_PROJECTS, 0)
-								.commit();
-					}
-				})
+				.setNeutralButton(getString(R.string.rating_dialog_rate_later), (dialog, which) -> sharedPreferences
+						.edit()
+						.putInt(NUMBER_OF_UPLOADED_PROJECTS, 0)
+						.commit())
 				.setNegativeButton(getString(R.string.rating_dialog_rate_never), null)
 				.setCancelable(false)
 				.show();
@@ -435,15 +409,12 @@ public class ProjectUploadActivity extends BaseActivity implements
 		@Override
 		protected void onPostExecute(Void aVoid) {
 			Button button = uploadProgressDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-			button.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					String projectUrl = SHARE_PROGRAM_URL + ServerCalls.getInstance().getProjectId();
-					Intent intent = new Intent(ProjectUploadActivity.this, WebViewActivity.class);
-					intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, projectUrl);
-					startActivity(intent);
-					finish();
-				}
+			button.setOnClickListener(v -> {
+				String projectUrl = SHARE_PROGRAM_URL + ServerCalls.getInstance().getProjectId();
+				Intent intent = new Intent(ProjectUploadActivity.this, WebViewActivity.class);
+				intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, projectUrl);
+				startActivity(intent);
+				finish();
 			});
 			button.setEnabled(true);
 			uploadProgressDialog.findViewById(R.id.dialog_upload_progress_progressbar).setVisibility(View.GONE);

@@ -59,6 +59,27 @@
             android:paddingStart="5dip"
             android:text="@string/brick_raspi_if_begin_second_part">
         </TextView>
+        <TextView
+            android:id="@+id/if_else_prototype_punctuation"
+            style="@style/BrickText.Multiple"
+            app:layout_newLine="true"
+            android:paddingStart="5dip"
+            android:text="@string/punctuation_mark"
+            android:visibility="gone"/>
+
+         <TextView
+             android:id="@+id/if_prototype_else"
+             style="@style/BrickText.Multiple"
+             android:paddingStart="5dip"
+             android:text="@string/brick_if_else"
+             android:visibility="gone" />
+
+       <TextView
+           android:id="@+id/if_else_prototype_punctuation2"
+           style="@style/BrickText.Multiple"
+           android:paddingStart="5dip"
+           android:text="@string/punctuation_mark"
+           android:visibility="gone" />
     </org.catrobat.catroid.ui.BrickLayout>
 
 </LinearLayout>

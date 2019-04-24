@@ -33,14 +33,11 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
-import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
 import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.ScreenValueHandler;
 import org.catrobat.catroid.utils.Utils;
@@ -104,8 +101,6 @@ public class Project implements Serializable {
 		xmlHeader.virtualScreenWidth = ScreenValues.SCREEN_WIDTH;
 		xmlHeader.virtualScreenHeight = ScreenValues.SCREEN_HEIGHT;
 
-		setDeviceData(context);
-
 		if (isCastProject) {
 			xmlHeader.virtualScreenHeight = ScreenValues.CAST_SCREEN_HEIGHT;
 			xmlHeader.virtualScreenWidth = ScreenValues.CAST_SCREEN_WIDTH;
@@ -120,6 +115,8 @@ public class Project implements Serializable {
 
 		sceneList.add(scene);
 		xmlHeader.scenesEnabled = true;
+
+		setDeviceData(context);
 	}
 
 	public Project(Context context, String name, boolean landscapeMode) {
@@ -341,126 +338,12 @@ public class Project implements Serializable {
 		return null;
 	}
 
-	public void saveLegoNXTSettingsToProject(Context context) {
-		if (context == null) {
-			return;
-		}
-		Brick.ResourcesSet resourcesSet = getRequiredResources();
-		if (!resourcesSet.contains(Brick.BLUETOOTH_LEGO_NXT)) {
-			for (Object setting : settings.toArray()) {
-				if (setting instanceof LegoNXTSetting) {
-					settings.remove(setting);
-					return;
-				}
-			}
-			return;
-		}
-
-		NXTSensor.Sensor[] sensorMapping = SettingsFragment.getLegoNXTSensorMapping(context);
-		for (Setting setting : settings) {
-			if (setting instanceof LegoNXTSetting) {
-				((LegoNXTSetting) setting).updateMapping(sensorMapping);
-				return;
-			}
-		}
-
-		Setting mapping = new LegoNXTSetting(sensorMapping);
-		settings.add(mapping);
-	}
-
-	public void saveLegoEV3SettingsToProject(Context context) {
-		if (context == null) {
-			return;
-		}
-		Brick.ResourcesSet resourcesSet = getRequiredResources();
-		if (!resourcesSet.contains(Brick.BLUETOOTH_LEGO_EV3)) {
-			for (Object setting : settings.toArray()) {
-				if (setting instanceof LegoEV3Setting) {
-					settings.remove(setting);
-					return;
-				}
-			}
-			return;
-		}
-
-		EV3Sensor.Sensor[] sensorMapping = SettingsFragment.getLegoEV3SensorMapping(context);
-		for (Setting setting : settings) {
-			if (setting instanceof LegoEV3Setting) {
-				((LegoEV3Setting) setting).updateMapping(sensorMapping);
-				return;
-			}
-		}
-
-		Setting mapping = new LegoEV3Setting(sensorMapping);
-		settings.add(mapping);
-	}
-
-	public void loadLegoNXTSettingsFromProject(Context context) {
-		if (context == null) {
-			return;
-		}
-
-		for (Setting setting : settings) {
-			if (setting instanceof LegoNXTSetting) {
-				SettingsFragment.enableLegoMindstormsNXTBricks(context);
-				SettingsFragment.setLegoMindstormsNXTSensorMapping(context, ((LegoNXTSetting) setting).getSensorMapping());
-				return;
-			}
-		}
-	}
-
-	public void loadLegoEV3SettingsFromProject(Context context) {
-		if (context == null) {
-			return;
-		}
-
-		for (Setting setting : settings) {
-			if (setting instanceof LegoEV3Setting) {
-				SettingsFragment.enableLegoMindstormsEV3Bricks(context);
-				SettingsFragment.setLegoMindstormsEV3SensorMapping(context, ((LegoEV3Setting) setting).getSensorMapping());
-				return;
-			}
-		}
-	}
-
 	public boolean isCastProject() {
 		return xmlHeader.isCastProject();
 	}
 
-	public void updateCollisionFormulasToVersion(float catroidLanguageVersion) {
-		for (Scene scene : sceneList) {
-			for (Sprite sprite : scene.getSpriteList()) {
-				sprite.updateCollisionFormulasToVersion(catroidLanguageVersion);
-			}
-		}
-	}
-
-	public void updateSetPenColorFormulas() {
-		for (Scene scene : sceneList) {
-			for (Sprite sprite : scene.getSpriteList()) {
-				sprite.updateSetPenColorFormulas();
-			}
-		}
-	}
-
-	public void updateArduinoValues994to995() {
-		for (Scene scene : sceneList) {
-			for (Sprite sprite : scene.getSpriteList()) {
-				sprite.updateArduinoValues994to995();
-			}
-		}
-	}
-
 	public BroadcastMessageContainer getBroadcastMessageContainer() {
 		return broadcastMessageContainer;
-	}
-
-	public void updateCollisionScripts() {
-		for (Scene scene : sceneList) {
-			for (Sprite sprite : scene.getSpriteList()) {
-				sprite.updateCollisionScripts();
-			}
-		}
 	}
 
 	public void setXmlHeader(XmlHeader xmlHeader) {

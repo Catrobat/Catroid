@@ -29,8 +29,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
-import java.util.List;
-
 public class AssertEqualsBrick extends FormulaBrick {
 
 	public static final String ACTUAL_VARIABLE_NAME = "_ACTUAL";
@@ -56,7 +54,7 @@ public class AssertEqualsBrick extends FormulaBrick {
 	}
 
 	@Override
-	public BrickBaseType clone() throws CloneNotSupportedException {
+	public Brick clone() throws CloneNotSupportedException {
 		AssertEqualsBrick clone = (AssertEqualsBrick) super.clone();
 		Project project = ProjectManager.getInstance().getCurrentProject();
 		if (project != null) {
@@ -74,7 +72,7 @@ public class AssertEqualsBrick extends FormulaBrick {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		Project project = ProjectManager.getInstance().getCurrentProject();
 
 		sequence.addAction(sprite.getActionFactory().createAssertEqualsAction(sprite,
@@ -83,6 +81,5 @@ public class AssertEqualsBrick extends FormulaBrick {
 				project.getUserVariable(AssertEqualsBrick.ACTUAL_VARIABLE_NAME),
 				project.getUserVariable(AssertEqualsBrick.EXPECTED_VARIABLE_NAME),
 				project.getUserVariable(AssertEqualsBrick.READY_VARIABLE_NAME)));
-		return null;
 	}
 }

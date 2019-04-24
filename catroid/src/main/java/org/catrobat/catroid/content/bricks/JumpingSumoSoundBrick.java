@@ -34,8 +34,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 
-import java.util.List;
-
 public class JumpingSumoSoundBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
@@ -98,9 +96,8 @@ public class JumpingSumoSoundBrick extends FormulaBrick {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createJumpingSumoSoundAction(sprite, Sounds.valueOf(soundName),
 				getFormulaWithBrickField(BrickField.JUMPING_SUMO_VOLUME)));
-		return null;
 	}
 }

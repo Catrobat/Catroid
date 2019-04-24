@@ -63,7 +63,7 @@ public class PlaySoundBrick extends BrickBaseType implements BrickSpinner.OnItem
 	}
 
 	@Override
-	public BrickBaseType clone() throws CloneNotSupportedException {
+	public Brick clone() throws CloneNotSupportedException {
 		PlaySoundBrick clone = (PlaySoundBrick) super.clone();
 		clone.spinner = null;
 		return clone;
@@ -95,7 +95,7 @@ public class PlaySoundBrick extends BrickBaseType implements BrickSpinner.OnItem
 	@Override
 	public void onNewOptionSelected() {
 		AppCompatActivity activity = UiUtils.getActivityFromView(view);
-		if (activity == null || !(activity instanceof SpriteActivity)) {
+		if (!(activity instanceof SpriteActivity)) {
 			return;
 		}
 		((SpriteActivity) activity).registerOnNewSoundListener(this);
@@ -118,8 +118,7 @@ public class PlaySoundBrick extends BrickBaseType implements BrickSpinner.OnItem
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createPlaySoundAction(sprite, sound));
-		return null;
 	}
 }

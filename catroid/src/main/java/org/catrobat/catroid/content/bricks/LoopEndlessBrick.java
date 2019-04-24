@@ -25,11 +25,4 @@ package org.catrobat.catroid.content.bricks;
 public class LoopEndlessBrick extends LoopEndBrick {
 
 	private static final long serialVersionUID = 1L;
-
-	public LoopEndlessBrick() {
-	}
-
-	public LoopEndlessBrick(LoopBeginBrick loopBeginBrick) {
-		super(loopBeginBrick);
-	}
 }

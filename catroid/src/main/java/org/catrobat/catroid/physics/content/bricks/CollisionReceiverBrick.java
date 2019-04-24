@@ -34,37 +34,34 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.BrickBaseType;
-import org.catrobat.catroid.content.bricks.ScriptBrick;
+import org.catrobat.catroid.content.bricks.ScriptBrickBaseType;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick,
-		BrickSpinner.OnItemSelectedListener<Sprite> {
+public class CollisionReceiverBrick extends ScriptBrickBaseType implements BrickSpinner.OnItemSelectedListener<Sprite> {
 
 	private static final long serialVersionUID = 1L;
 
 	public static final String ANYTHING_ESCAPE_CHAR = "\0";
 
-	private CollisionScript collisionScript;
+	private CollisionScript script;
 
 	private transient BrickSpinner<Sprite> spinner;
 
-	public CollisionReceiverBrick(CollisionScript collisionScript) {
-		collisionScript.setScriptBrick(this);
-		commentedOut = collisionScript.isCommentedOut();
-		this.collisionScript = collisionScript;
+	public CollisionReceiverBrick(CollisionScript script) {
+		script.setScriptBrick(this);
+		commentedOut = script.isCommentedOut();
+		this.script = script;
 	}
 
 	@Override
-	public BrickBaseType clone() throws CloneNotSupportedException {
+	public Brick clone() throws CloneNotSupportedException {
 		CollisionReceiverBrick clone = (CollisionReceiverBrick) super.clone();
-
-		clone.collisionScript = (CollisionScript) collisionScript.clone();
-		clone.collisionScript.setScriptBrick(clone);
+		clone.script = (CollisionScript) script.clone();
+		clone.script.setScriptBrick(clone);
 		clone.spinner = null;
 		return clone;
 	}
@@ -95,7 +92,7 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 
 		spinner = new BrickSpinner<>(R.id.brick_collision_receive_spinner, view, items);
 		spinner.setOnItemSelectedListener(this);
-		spinner.setSelection(collisionScript.getSpriteToCollideWithName());
+		spinner.setSelection(script.getSpriteToCollideWithName());
 
 		return view;
 	}
@@ -106,23 +103,17 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 
 	@Override
 	public void onStringOptionSelected(String string) {
-		collisionScript.setSpriteToCollideWithName(null);
+		script.setSpriteToCollideWithName(null);
 	}
 
 	@Override
 	public void onItemSelected(@Nullable Sprite item) {
-		collisionScript.setSpriteToCollideWithName(item != null ? item.getName() : null);
+		script.setSpriteToCollideWithName(item != null ? item.getName() : null);
 	}
 
 	@Override
 	public Script getScript() {
-		return collisionScript;
-	}
-
-	@Override
-	public void setCommentedOut(boolean commentedOut) {
-		super.setCommentedOut(commentedOut);
-		getScript().setCommentedOut(commentedOut);
+		return script;
 	}
 
 	@Override
@@ -131,7 +122,6 @@ public class CollisionReceiverBrick extends BrickBaseType implements ScriptBrick
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		return null;
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 	}
 }

@@ -28,33 +28,32 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenTouchDownScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
-import java.util.List;
+public class WhenTouchDownBrick extends ScriptBrickBaseType {
 
-public class WhenTouchDownBrick extends BrickBaseType implements ScriptBrick {
-
-	private WhenTouchDownScript whenTouchDownScript;
 	private static final long serialVersionUID = 1L;
+
+	private WhenTouchDownScript script;
 
 	public WhenTouchDownBrick() {
 		this(new WhenTouchDownScript());
 	}
 
-	public WhenTouchDownBrick(WhenTouchDownScript whenTouchDownScript) {
-		whenTouchDownScript.setScriptBrick(this);
-		commentedOut = whenTouchDownScript.isCommentedOut();
-		this.whenTouchDownScript = whenTouchDownScript;
+	public WhenTouchDownBrick(WhenTouchDownScript script) {
+		script.setScriptBrick(this);
+		commentedOut = script.isCommentedOut();
+		this.script = script;
 	}
 
 	@Override
 	public Script getScript() {
-		return whenTouchDownScript;
+		return script;
 	}
 
 	@Override
-	public BrickBaseType clone() throws CloneNotSupportedException {
+	public Brick clone() throws CloneNotSupportedException {
 		WhenTouchDownBrick clone = (WhenTouchDownBrick) super.clone();
-		clone.whenTouchDownScript = (WhenTouchDownScript) whenTouchDownScript.clone();
-		clone.whenTouchDownScript.setScriptBrick(clone);
+		clone.script = (WhenTouchDownScript) script.clone();
+		clone.script.setScriptBrick(clone);
 		return clone;
 	}
 
@@ -64,13 +63,6 @@ public class WhenTouchDownBrick extends BrickBaseType implements ScriptBrick {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		return null;
-	}
-
-	@Override
-	public void setCommentedOut(boolean commentedOut) {
-		super.setCommentedOut(commentedOut);
-		getScript().setCommentedOut(commentedOut);
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 	}
 }

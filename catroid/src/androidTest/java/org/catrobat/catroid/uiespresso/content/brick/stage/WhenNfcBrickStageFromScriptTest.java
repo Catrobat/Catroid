@@ -37,7 +37,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenNfcScript;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
-import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -118,7 +117,7 @@ public class WhenNfcBrickStageFromScriptTest {
 		onView(withId(R.id.button_play))
 				.perform(click());
 
-		assertEquals("Tag not set", ((WhenNfcBrick) scriptUnderTest.getScriptBrick()).getNfcTag().getName(),
+		assertEquals(((WhenNfcScript) scriptUnderTest.getScriptBrick().getScript()).getNfcTag().getName(),
 				tagDataList.get(0).getName());
 		pressBack();
 		pressBack();
@@ -132,7 +131,7 @@ public class WhenNfcBrickStageFromScriptTest {
 		onView(withId(R.id.button_play))
 				.perform(click());
 
-		assertEquals("tag not set", ((WhenNfcBrick) scriptUnderTest.getScriptBrick()).getNfcTag().getName(),
+		assertEquals(((WhenNfcScript) scriptUnderTest.getScriptBrick().getScript()).getNfcTag().getName(),
 				tagDataList.get(1).getName());
 		pressBack();
 		pressBack();

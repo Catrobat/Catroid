@@ -27,8 +27,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 
-import java.util.List;
-
 public class RaspiSendDigitalValueBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
@@ -65,10 +63,9 @@ public class RaspiSendDigitalValueBrick extends FormulaBrick {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSendDigitalRaspiValueAction(sprite,
 				getFormulaWithBrickField(BrickField.RASPI_DIGITAL_PIN_NUMBER),
 				getFormulaWithBrickField(BrickField.RASPI_DIGITAL_PIN_VALUE)));
-		return null;
 	}
 }

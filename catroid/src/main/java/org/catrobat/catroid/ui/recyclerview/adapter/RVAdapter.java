@@ -33,6 +33,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperAdapterInterface;
 import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -40,19 +41,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> implements
-		TouchHelperAdapterInterface {
+public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> implements TouchHelperAdapterInterface {
+
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({SINGLE, PAIRS, MULTIPLE})
-	@interface SelectionType {
-	}
-
+	@interface SelectionType {}
 	public static final int SINGLE = 0;
 	public static final int PAIRS = 1;
 	public static final int MULTIPLE = 2;
 
 	List<T> items;
 	public boolean showCheckBoxes = false;
+
+	@SelectionType
 	public int selectionMode = MULTIPLE;
 
 	MultiSelectionManager selectionManager = new MultiSelectionManager();
@@ -72,35 +73,22 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> imp
 	}
 
 	@Override
-	public CheckableVH onCreateViewHolder(final ViewGroup parent, int viewType) {
+	public CheckableVH onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
 		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.vh_with_checkbox, parent, false);
 		return new CheckableVH(view);
 	}
 
 	@Override
-	public void onBindViewHolder(final CheckableVH holder, int position) {
-		final T item = items.get(position);
+	public void onBindViewHolder(CheckableVH holder, int position) {
+		T item = items.get(position);
 
-		holder.checkBox.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				onCheckBoxClick(holder.getAdapterPosition());
-			}
-		});
+		holder.checkBox.setOnClickListener(v -> onCheckBoxClick(holder.getAdapterPosition()));
 
-		holder.itemView.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				onItemClickListener.onItemClick(item);
-			}
-		});
+		holder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(item));
 
-		holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-			@Override
-			public boolean onLongClick(View v) {
-				onItemClickListener.onItemLongClick(item, holder);
-				return true;
-			}
+		holder.itemView.setOnLongClickListener(v -> {
+			onItemClickListener.onItemLongClick(item, holder);
+			return true;
 		});
 
 		holder.checkBox.setVisibility(showCheckBoxes ? View.VISIBLE : View.GONE);
@@ -108,25 +96,30 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> imp
 	}
 
 	protected void onCheckBoxClick(int position) {
-		if (selectionMode == SINGLE) {
-			boolean currentState = selectionManager.isPositionSelected(position);
+		switch (selectionMode) {
+			case SINGLE:
+				boolean currentState = selectionManager.isPositionSelected(position);
 
-			for (int i : selectionManager.getSelectedPositions()) {
-				selectionManager.setSelectionTo(false, i);
-				notifyItemChanged(i);
-			}
+				for (int i : selectionManager.getSelectedPositions()) {
+					selectionManager.setSelectionTo(false, i);
+					notifyItemChanged(i);
+				}
 
-			selectionManager.setSelectionTo(!currentState, position);
-			notifyItemChanged(position);
-		} else if (selectionMode == PAIRS) {
-			if (selectionManager.getSelectedPositions().size() < 2) {
-				selectionManager.toggleSelection(position);
-			} else {
-				selectionManager.setSelectionTo(false, position);
+				selectionManager.setSelectionTo(!currentState, position);
 				notifyItemChanged(position);
-			}
-		} else {
-			selectionManager.toggleSelection(position);
+				break;
+			case PAIRS:
+				if (selectionManager.getSelectedPositions().size() < 2) {
+					selectionManager.toggleSelection(position);
+				} else {
+					selectionManager.setSelectionTo(false, position);
+					notifyItemChanged(position);
+				}
+				break;
+			case MULTIPLE:
+			default:
+				selectionManager.toggleSelection(position);
+				break;
 		}
 		selectionListener.onSelectionChanged(selectionManager.getSelectedPositions().size());
 	}

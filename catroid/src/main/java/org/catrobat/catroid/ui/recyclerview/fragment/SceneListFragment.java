@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
+import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.SceneAdapter;
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
@@ -211,8 +212,10 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> implements Pr
 	public void renameItem(Scene item, String name) {
 		if (!item.getName().equals(name)) {
 			if (sceneController.rename(item, name)) {
-				ProjectManager.getInstance().saveProject(getActivity());
-				new ProjectLoadTask(ProjectManager.getInstance().getCurrentProject().getDirectory(), getContext())
+				Project currentProject = ProjectManager.getInstance().getCurrentProject();
+				new ProjectSaveTask(currentProject, getContext())
+						.execute();
+				new ProjectLoadTask(currentProject.getDirectory(), getContext())
 						.setListener(this)
 						.execute();
 			} else {

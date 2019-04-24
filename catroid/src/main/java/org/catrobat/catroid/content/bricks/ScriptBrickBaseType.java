@@ -20,11 +20,39 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.content.bricks;
 
-public interface LoopBeginBrick extends ControlStructureBrick {
+import java.util.List;
 
-	LoopEndBrick getLoopEndBrick();
+public abstract class ScriptBrickBaseType extends BrickBaseType implements ScriptBrick {
 
-	void setLoopEndBrick(LoopEndBrick loopEndBrick);
+	@Override
+	public void addToFlatList(List<Brick> bricks) {
+		super.addToFlatList(bricks);
+		for (Brick brick : getScript().getBrickList()) {
+			brick.addToFlatList(bricks);
+		}
+	}
+
+	@Override
+	public int getPositionInScript() {
+		return -1;
+	}
+
+	@Override
+	public List<Brick> getDragAndDropTargetList() {
+		return getScript().getBrickList();
+	}
+
+	@Override
+	public int getPositionInDragAndDropTargetList() {
+		return -1;
+	}
+
+	@Override
+	public void setCommentedOut(boolean commentedOut) {
+		super.setCommentedOut(commentedOut);
+		getScript().setCommentedOut(commentedOut);
+	}
 }

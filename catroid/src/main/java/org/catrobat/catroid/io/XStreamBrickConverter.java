@@ -38,8 +38,11 @@ import org.catrobat.catroid.utils.CrashReporter;
 public class XStreamBrickConverter extends ReflectionConverter {
 
 	private static final String TAG = XStreamBrickConverter.class.getSimpleName();
-	private static final String[] BRICKS_PACKAGE_NAMES = {"org.catrobat.catroid.content.bricks",
+
+	private static final String[] BRICKS_PACKAGE_NAMES = {
+			"org.catrobat.catroid.content.bricks",
 			"org.catrobat.catroid.physics.content.bricks"};
+
 	private static final String TYPE = "type";
 
 	public XStreamBrickConverter(Mapper mapper, ReflectionProvider reflectionProvider) {

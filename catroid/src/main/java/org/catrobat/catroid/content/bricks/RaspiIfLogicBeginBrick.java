@@ -30,19 +30,12 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 
-import java.util.LinkedList;
-import java.util.List;
-
 public class RaspiIfLogicBeginBrick extends IfLogicBeginBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	public RaspiIfLogicBeginBrick() {
 		super();
-	}
-
-	public RaspiIfLogicBeginBrick(int condition) {
-		super(new Formula(condition));
 	}
 
 	public RaspiIfLogicBeginBrick(Formula formula) {
@@ -61,23 +54,21 @@ public class RaspiIfLogicBeginBrick extends IfLogicBeginBrick {
 	}
 
 	@Override
-	public void onPrototypeViewCreated() {
-	}
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		ScriptSequenceAction ifSequence = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
+		ScriptSequenceAction elseSequence = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
 
-	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		ScriptSequenceAction ifAction = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
-		ScriptSequenceAction elseAction = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
+		for (Brick brick : ifBranchBricks) {
+			brick.addActionToSequence(sprite, ifSequence);
+		}
+
+		for (Brick brick : elseBranchBricks) {
+			brick.addActionToSequence(sprite, elseSequence);
+		}
 
 		Action action = sprite.getActionFactory()
-				.createRaspiIfLogicActionAction(sprite, getFormulaWithBrickField(BrickField.IF_CONDITION), ifAction, elseAction);
+				.createRaspiIfLogicActionAction(sprite, getFormulaWithBrickField(BrickField.IF_CONDITION), ifSequence, elseSequence);
 
 		sequence.addAction(action);
-
-		LinkedList<ScriptSequenceAction> returnActionList = new LinkedList<>();
-		returnActionList.add(elseAction);
-		returnActionList.add(ifAction);
-
-		return returnActionList;
 	}
 }

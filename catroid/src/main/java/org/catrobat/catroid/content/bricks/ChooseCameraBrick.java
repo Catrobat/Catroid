@@ -33,8 +33,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
-import java.util.List;
-
 public class ChooseCameraBrick extends BrickBaseType {
 
 	private int spinnerSelectionID;
@@ -98,12 +96,11 @@ public class ChooseCameraBrick extends BrickBaseType {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		if (spinnerSelectionID == FRONT) {
 			sequence.addAction(sprite.getActionFactory().createSetFrontCameraAction());
-			return null;
+		} else {
+			sequence.addAction(sprite.getActionFactory().createSetBackCameraAction());
 		}
-		sequence.addAction(sprite.getActionFactory().createSetBackCameraAction());
-		return null;
 	}
 }

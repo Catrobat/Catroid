@@ -27,8 +27,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 
-import java.util.List;
-
 public class TurnLeftBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
@@ -42,7 +40,7 @@ public class TurnLeftBrick extends FormulaBrick {
 	}
 
 	public TurnLeftBrick(Formula formula) {
-		this();
+		addAllowedBrickField(BrickField.TURN_LEFT_DEGREES, R.id.brick_turn_left_edit_text);
 		setFormulaWithBrickField(BrickField.TURN_LEFT_DEGREES, formula);
 	}
 
@@ -52,9 +50,8 @@ public class TurnLeftBrick extends FormulaBrick {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
 				.createTurnLeftAction(sprite, getFormulaWithBrickField(BrickField.TURN_LEFT_DEGREES)));
-		return null;
 	}
 }

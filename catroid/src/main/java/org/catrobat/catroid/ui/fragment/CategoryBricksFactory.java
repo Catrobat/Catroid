@@ -183,7 +183,6 @@ import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.content.bricks.WhenTouchDownBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
-import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
@@ -201,6 +200,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+
+import static org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.NUMBER;
+import static org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.OPERATOR;
 
 public class CategoryBricksFactory {
 
@@ -266,9 +268,9 @@ public class CategoryBricksFactory {
 	}
 
 	protected List<Brick> setupEventCategoryList(Context context) {
-		FormulaElement defaultIf = new FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.SMALLER_THAN.toString(), null);
-		defaultIf.setLeftChild(new FormulaElement(ElementType.NUMBER, "1", null));
-		defaultIf.setRightChild(new FormulaElement(ElementType.NUMBER, "2", null));
+		FormulaElement defaultIf = new FormulaElement(OPERATOR, Operators.SMALLER_THAN.toString(), null);
+		defaultIf.setLeftChild(new FormulaElement(NUMBER, "1", null));
+		defaultIf.setRightChild(new FormulaElement(NUMBER, "2", null));
 
 		List<Brick> eventBrickList = new ArrayList<>();
 		eventBrickList.add(new WhenStartedBrick());
@@ -296,19 +298,21 @@ public class CategoryBricksFactory {
 	}
 
 	protected List<Brick> setupControlCategoryList(Context context) {
-		FormulaElement defaultIf = new FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.SMALLER_THAN.toString(), null);
-		defaultIf.setLeftChild(new FormulaElement(ElementType.NUMBER, "1", null));
-		defaultIf.setRightChild(new FormulaElement(ElementType.NUMBER, "2", null));
+		FormulaElement ifConditionFormulaElement = new FormulaElement(OPERATOR, Operators.SMALLER_THAN.toString(), null);
+		ifConditionFormulaElement.setLeftChild(new FormulaElement(NUMBER, "1", null));
+		ifConditionFormulaElement.setRightChild(new FormulaElement(NUMBER, "2", null));
+
+		Formula ifConditionFormula = new Formula(ifConditionFormulaElement);
 
 		List<Brick> controlBrickList = new ArrayList<>();
 		controlBrickList.add(new WaitBrick(BrickValues.WAIT));
 		controlBrickList.add(new NoteBrick(context.getString(R.string.brick_note_default_value)));
 		controlBrickList.add(new ForeverBrick());
-		controlBrickList.add(new IfLogicBeginBrick(new Formula(defaultIf)));
-		controlBrickList.add(new IfThenLogicBeginBrick(new Formula(defaultIf)));
-		controlBrickList.add(new WaitUntilBrick(new Formula(defaultIf)));
-		controlBrickList.add(new RepeatBrick(BrickValues.REPEAT));
-		controlBrickList.add(new RepeatUntilBrick(new Formula(defaultIf)));
+		controlBrickList.add(new IfLogicBeginBrick(ifConditionFormula));
+		controlBrickList.add(new IfThenLogicBeginBrick(ifConditionFormula));
+		controlBrickList.add(new WaitUntilBrick(ifConditionFormula));
+		controlBrickList.add(new RepeatBrick(new Formula(BrickValues.REPEAT)));
+		controlBrickList.add(new RepeatUntilBrick(ifConditionFormula));
 		controlBrickList.add(new SceneTransitionBrick(null));
 		controlBrickList.add(new SceneStartBrick(null));
 
@@ -396,13 +400,7 @@ public class CategoryBricksFactory {
 		soundBrickList.add(new StopAllSoundsBrick());
 		soundBrickList.add(new SetVolumeToBrick(BrickValues.SET_VOLUME_TO));
 
-		// workaround to set a negative default value for a Brick
-		double positiveDefaultValueChangeVolumeBy = Math.abs(BrickValues.CHANGE_VOLUME_BY);
-		FormulaElement defaultValueChangeVolumeBy = new FormulaElement(ElementType.OPERATOR, Operators.MINUS.name(),
-				null, null, new FormulaElement(ElementType.NUMBER, String.valueOf(positiveDefaultValueChangeVolumeBy),
-				null)
-		);
-		soundBrickList.add(new ChangeVolumeByNBrick(new Formula(defaultValueChangeVolumeBy)));
+		soundBrickList.add(new ChangeVolumeByNBrick(new Formula(BrickValues.CHANGE_VOLUME_BY)));
 
 		soundBrickList.add(new SpeakBrick(context.getString(R.string.brick_speak_default_value)));
 		soundBrickList.add(new SpeakAndWaitBrick(context.getString(R.string.brick_speak_default_value)));
@@ -613,7 +611,7 @@ public class CategoryBricksFactory {
 
 		List<Brick> raspiBrickList = new ArrayList<>();
 		raspiBrickList.add(new WhenRaspiPinChangedBrick(defaultScript));
-		raspiBrickList.add(new RaspiIfLogicBeginBrick(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER));
+		raspiBrickList.add(new RaspiIfLogicBeginBrick(new Formula(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER)));
 		raspiBrickList.add(new RaspiSendDigitalValueBrick(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER,
 				BrickValues.RASPI_DIGITAL_INITIAL_PIN_VALUE));
 		raspiBrickList.add(new RaspiPwmBrick(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER,

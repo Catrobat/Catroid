@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.ui.dragndrop;
 
-import org.catrobat.catroid.content.bricks.BrickBaseType;
+import org.catrobat.catroid.content.bricks.Brick;
 
 import java.util.List;
 
@@ -35,9 +35,11 @@ public interface BrickAdapterInterface {
 
 	boolean onItemMove(int fromPosition, int toPosition);
 
-	void moveItemsTo(int position, List<BrickBaseType> bricksToMove);
+	void moveItemTo(int position, Brick brickToMove);
 
-	BrickBaseType getItem(int position);
+	Brick getItem(int position);
 
-	boolean removeItems(List<BrickBaseType> items);
+	int getPosition(Brick brick);
+
+	boolean removeItems(List<Brick> items);
 }

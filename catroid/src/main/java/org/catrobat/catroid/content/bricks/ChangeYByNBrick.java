@@ -27,8 +27,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 
-import java.util.List;
-
 public class ChangeYByNBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
@@ -52,9 +50,8 @@ public class ChangeYByNBrick extends FormulaBrick {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
 				.createChangeYByNAction(sprite, getFormulaWithBrickField(BrickField.Y_POSITION_CHANGE)));
-		return null;
 	}
 }
