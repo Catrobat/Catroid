@@ -204,11 +204,15 @@ public class IfLogicBeginBrick extends FormulaBrick implements CompositeBrick {
 		ScriptSequenceAction elseSequence = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
 
 		for (Brick brick : ifBranchBricks) {
-			brick.addActionToSequence(sprite, ifSequence);
+			if (!brick.isCommentedOut()) {
+				brick.addActionToSequence(sprite, ifSequence);
+			}
 		}
 
 		for (Brick brick : elseBranchBricks) {
-			brick.addActionToSequence(sprite, elseSequence);
+			if (!brick.isCommentedOut()) {
+				brick.addActionToSequence(sprite, elseSequence);
+			}
 		}
 
 		Action action = sprite.getActionFactory()

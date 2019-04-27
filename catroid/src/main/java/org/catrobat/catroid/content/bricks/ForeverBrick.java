@@ -146,7 +146,9 @@ public class ForeverBrick extends BrickBaseType implements CompositeBrick {
 		ScriptSequenceAction foreverSequence = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
 
 		for (Brick brick : loopBricks) {
-			brick.addActionToSequence(sprite, foreverSequence);
+			if (!brick.isCommentedOut()) {
+				brick.addActionToSequence(sprite, foreverSequence);
+			}
 		}
 
 		Action action = sprite.getActionFactory().createForeverAction(sprite, foreverSequence);
