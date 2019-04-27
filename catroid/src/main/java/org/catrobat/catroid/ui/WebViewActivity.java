@@ -25,10 +25,8 @@ package org.catrobat.catroid.ui;
 import android.annotation.SuppressLint;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -132,27 +130,12 @@ public class WebViewActivity extends BaseActivity {
 							DownloadUtil.getInstance().getProjectNameFromUrl(url) + ANDROID_APPLICATION_EXTENSION);
 					request.setMimeType(mimetype);
 
-					registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-
 					DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
 					downloadManager.enqueue(request);
 				}
 			}
 		});
 	}
-
-	BroadcastReceiver onDownloadComplete = new BroadcastReceiver() {
-		public void onReceive(Context context, Intent intent) {
-
-			long id = intent.getExtras().getLong(DownloadManager.EXTRA_DOWNLOAD_ID);
-			DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-			intent = new Intent(Intent.ACTION_VIEW);
-			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			intent.setDataAndType(downloadManager.getUriForDownloadedFile(id),
-					downloadManager.getMimeTypeForDownloadedFile(id));
-			startActivity(intent);
-		}
-	};
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
