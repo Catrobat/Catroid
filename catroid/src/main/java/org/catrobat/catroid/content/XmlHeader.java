@@ -58,6 +58,7 @@ public class XmlHeader implements Serializable {
 	private int applicationBuildNumber = 0;
 	private String applicationName = "";
 	private String applicationVersion = "";
+	private String applicationBuildType = "";
 	private String deviceName = "";
 	private String platform = "";
 	private String platformVersion = "";
@@ -241,5 +242,13 @@ public class XmlHeader implements Serializable {
 
 	public void setRemixParentsUrlString(String remixParentsUrlString) {
 		this.remixParentsUrlString = remixParentsUrlString;
+	}
+
+	public String getApplicationBuildType() {
+		return applicationBuildType;
+	}
+
+	public void setApplicationBuildType(String applicationBuildType) {
+		this.applicationBuildType = applicationBuildType;
 	}
 }

@@ -30,6 +30,7 @@ import com.google.common.io.Files;
 import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.common.DroneVideoLookData;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.NfcTagData;
@@ -600,7 +601,7 @@ public final class XstreamSerializer {
 		}
 
 		loadSaveLock.lock();
-
+		project.getXmlHeader().setApplicationBuildType(BuildConfig.BUILD_TYPE);
 		try {
 			String currentXml = XML_HEADER.concat(xstream.toXML(project));
 			File tmpCodeFile = new File(project.getDirectory(), TMP_CODE_XML_FILE_NAME);

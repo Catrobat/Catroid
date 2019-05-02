@@ -44,6 +44,7 @@ import android.webkit.DownloadListener;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FlavoredConstants;
@@ -96,7 +97,7 @@ public class WebViewActivity extends BaseActivity {
 		String version = Utils.getVersionName(getApplicationContext());
 		String platform = Constants.PLATFORM_DEFAULT;
 		webView.getSettings().setUserAgentString("Catrobat/" + language + " " + flavor + "/"
-				+ version + " Platform/" + platform);
+				+ version + " Platform/" + platform + " BuildType/" + BuildConfig.BUILD_TYPE);
 
 		webView.loadUrl(url);
 

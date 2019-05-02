@@ -173,6 +173,9 @@ public final class ProjectManager {
 		}
 		if (project.getCatrobatLanguageVersion() == 0.9993f) {
 			updateScriptsToTreeStructure(project);
+			project.setCatrobatLanguageVersion(0.9994f);
+		}
+		if (project.getCatrobatLanguageVersion() == 0.9994f) {
 			project.setCatrobatLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION);
 		}
 
