@@ -105,7 +105,6 @@ detekt {
 }
 
 apply from: 'gradle/code_quality_tasks.gradle'
-apply from: 'gradle/intellij_config_tasks.gradle'
 apply from: 'gradle/standalone_apk_tasks.gradle'
 apply from: 'gradle/release_crowdin_tasks.gradle'
 apply from: 'gradle/release_fastlane_tasks.gradle'
