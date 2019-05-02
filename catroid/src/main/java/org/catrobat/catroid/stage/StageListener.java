@@ -278,7 +278,9 @@ public class StageListener implements ApplicationListener {
 		stage.getRoot().addActorBefore(cloneMe.look, copy.look);
 		sprites.add(copy);
 		if (!copy.getLookList().isEmpty()) {
-			copy.look.setLookData(copy.getLookList().get(0));
+			int currentLookDataIndex = cloneMe.getLookList().indexOf(cloneMe.look.getLookData());
+			copy.look.setLookData(copy.getLookList().get(currentLookDataIndex));
+
 		}
 		copy.initializeEventThreads(EventId.START_AS_CLONE);
 		copy.initConditionScriptTriggers();

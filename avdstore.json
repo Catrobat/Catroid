@@ -1,0 +1,1 @@
+{"android24":{"arguments":[],"screenDensity":"320","systemImage":"system-images;android-24;default;x86_64","hardwareProperties":{"hw.camera":"yes","hw.ramSize":800,"hw.gpu.enabled":"yes","hw.camera.front":"emulated","hw.camera.back":"emulated","hw.gps":"yes","hw.mainKeys":"no","hw.keyboard":"yes","vm.heapSize":128,"hw.lcd.density":"320"},"sdcardSizeMb":200}}
