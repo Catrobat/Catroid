@@ -280,7 +280,6 @@ public class StageListener implements ApplicationListener {
 		if (!copy.getLookList().isEmpty()) {
 			int currentLookDataIndex = cloneMe.getLookList().indexOf(cloneMe.look.getLookData());
 			copy.look.setLookData(copy.getLookList().get(currentLookDataIndex));
-
 		}
 		copy.initializeEventThreads(EventId.START_AS_CLONE);
 		copy.initConditionScriptTriggers();
