@@ -35,12 +35,16 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.DeviceVariableAccessor;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.fragment.SpriteFactory;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 
+import java.io.File;
 import java.io.IOException;
+
+import static org.catrobat.catroid.io.DeviceVariableAccessor.checkDeviceVariableKeyEmpty;
 
 public class SpriteController {
 
@@ -106,10 +110,18 @@ public class SpriteController {
 
 		sprite.getSoundList().addAll(spriteToCopy.getSoundList());
 		sprite.getNfcTagList().addAll(spriteToCopy.getNfcTagList());
+		DeviceVariableAccessor accessor = new DeviceVariableAccessor(currentProject.getDirectory());
 
-		for (UserVariable userVariable : spriteToCopy.getUserVariables()) {
-			sprite.getUserVariables().add(new UserVariable(userVariable));
+		for (UserVariable originalVariable : spriteToCopy.getUserVariables()) {
+			if (checkDeviceVariableKeyEmpty(originalVariable)) {
+				accessor.addKeyToUserVariable(originalVariable);
+			}
+
+			UserVariable copyVariable = new UserVariable(originalVariable);
+			copyVariable.setDeviceValueKey(originalVariable.getDeviceValueKey());
+			sprite.getUserVariables().add(copyVariable);
 		}
+
 		for (UserList userList : spriteToCopy.getUserLists()) {
 			sprite.getUserLists().add(new UserList(userList));
 		}
@@ -150,6 +162,13 @@ public class SpriteController {
 			} catch (IOException e) {
 				Log.e(TAG, Log.getStackTraceString(e));
 			}
+		}
+		File projectDirectory = ProjectManager.getInstance().getCurrentProject().getDirectory();
+
+		try {
+			new DeviceVariableAccessor(projectDirectory).deleteAllLocalVariables(spriteToDelete);
+		} catch (IOException e) {
+			Log.e(TAG, Log.getStackTraceString(e));
 		}
 	}
 

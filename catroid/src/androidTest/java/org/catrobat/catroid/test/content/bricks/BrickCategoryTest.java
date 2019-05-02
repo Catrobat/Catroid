@@ -171,6 +171,7 @@ import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick;
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.content.bricks.WhenTouchDownBrick;
+import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick;
 import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
 import org.catrobat.catroid.physics.content.bricks.SetBounceBrick;
 import org.catrobat.catroid.physics.content.bricks.SetFrictionBrick;
@@ -298,6 +299,7 @@ public class BrickCategoryTest {
 						ShowTextBrick.class,
 						ShowTextColorSizeAlignmentBrick.class,
 						HideTextBrick.class,
+						WriteVariableOnDeviceBrick.class,
 						AddItemToUserListBrick.class,
 						DeleteItemOfUserListBrick.class,
 						InsertItemIntoUserListBrick.class,
