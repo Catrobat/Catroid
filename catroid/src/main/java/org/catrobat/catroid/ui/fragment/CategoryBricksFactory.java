@@ -642,9 +642,6 @@ public class CategoryBricksFactory {
 						if (brick instanceof AssertEqualsBrick) {
 							assertionsBrickList.remove(assertEqualsBrick);
 						}
-						if (brick instanceof WaitTillIdleBrick) {
-							assertionsBrickList.remove(waitTillIdleBrick);
-						}
 					}
 				}
 			}
