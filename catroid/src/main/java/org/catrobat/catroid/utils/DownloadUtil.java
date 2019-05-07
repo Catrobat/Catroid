@@ -38,6 +38,7 @@ import org.catrobat.catroid.transfers.MediaDownloadService;
 import org.catrobat.catroid.transfers.ProjectDownloadService;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.recyclerview.dialog.ReplaceExistingProjectDialogFragment;
+import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager;
 import org.catrobat.catroid.web.ProgressResponseBody;
 
 import java.io.UnsupportedEncodingException;

@@ -1341,9 +1341,6 @@
     <string name="notification_screenshot_ok">Preview image saved</string>
     <string name="notification_download_project_cancel">Cancel project download</string>
     <string name="notification_reconvert_download_program_cancel">Canceled downloading/reconverting project</string>
-    <string name="notification_copy_title_pending">"Copying"</string>
-    <string name="notification_copy_pending">Copy in progress</string>
-    <string name="notification_copy_finished">Copy completed</string>
     <string name="notification_upload_title_pending">"Uploading"</string>
     <string name="notification_upload_title_finished">"Look at"</string>
     <string name="notification_upload_pending">Upload in progress</string>

@@ -35,11 +35,8 @@ import com.google.gson.JsonSyntaxException;
 import com.squareup.okhttp.ConnectionSpec;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.Interceptor;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.MultipartBuilder;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
 import org.catrobat.catroid.common.Constants;
@@ -47,9 +44,8 @@ import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.common.ScratchProgramData;
 import org.catrobat.catroid.common.ScratchSearchResult;
 import org.catrobat.catroid.common.ScratchVisibilityState;
-import org.catrobat.catroid.transfers.ProjectUploadService;
-import org.catrobat.catroid.utils.StatusBarNotificationManager;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.transfers.project.ProjectUploadData;
+import org.catrobat.catroid.web.requests.HttpRequestsKt;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -80,11 +76,10 @@ import static org.catrobat.catroid.common.Constants.NO_TOKEN;
 public final class ServerCalls implements ScratchDataFetcher {
 
 	public static final String BASE_URL_TEST_HTTPS = "https://catroid-test.catrob.at/pocketcode/";
-	public static final String TEST_FILE_UPLOAD_URL_HTTP = BASE_URL_TEST_HTTPS + "api/upload/upload.json";
 	public static final String FILE_TAG_URL_HTTP = FlavoredConstants.BASE_URL_HTTPS + "api/tags/getTags.json";
 	public static final int TOKEN_LENGTH = 32;
 	public static final String TOKEN_CODE_INVALID = "-1";
-	private static final String TAG = ServerCalls.class.getSimpleName();
+	public static final String TAG = ServerCalls.class.getSimpleName();
 	private static final String REGISTRATION_USERNAME_KEY = "registrationUsername";
 	private static final String REGISTRATION_PASSWORD_KEY = "registrationPassword";
 	private static final String REGISTRATION_COUNTRY_KEY = "registrationCountry";
@@ -101,16 +96,9 @@ public final class ServerCalls implements ScratchDataFetcher {
 	private static final String OAUTH_TOKEN_AVAILABLE = "token_available";
 	private static final String EMAIL_AVAILABLE = "email_available";
 	private static final String USERNAME_AVAILABLE = "username_available";
-	private static final String FILE_UPLOAD_TAG = "upload";
-	private static final String PROJECT_NAME_TAG = "projectTitle";
-	private static final String PROJECT_DESCRIPTION_TAG = "projectDescription";
-	private static final String PROJECT_CHECKSUM_TAG = "fileChecksum";
-	private static final String USER_EMAIL = "userEmail";
 	private static final String DEVICE_LANGUAGE = "deviceLanguage";
-	private static final MediaType MEDIA_TYPE_ZIPFILE = MediaType.parse("application/zip");
 	private static final int SERVER_RESPONSE_TOKEN_OK = 200;
 	private static final int SERVER_RESPONSE_REGISTER_OK = 201;
-	private static final String FILE_UPLOAD_URL = FlavoredConstants.BASE_URL_HTTPS + "api/upload/upload.json";
 	private static final String CHECK_TOKEN_URL = FlavoredConstants.BASE_URL_HTTPS + "api/checkToken/check.json";
 	private static final String LOGIN_URL = FlavoredConstants.BASE_URL_HTTPS + "api/login/Login.json";
 	private static final String REGISTRATION_URL = FlavoredConstants.BASE_URL_HTTPS + "api/register/Register.json";
@@ -383,87 +371,45 @@ public final class ServerCalls implements ScratchDataFetcher {
 		return programDataList;
 	}
 
-	public void uploadProject(String projectName, String projectDescription, String zipFileString, String userEmail,
-			String language, String token, String username, Integer notificationId,
-			Context context) throws WebconnectionException {
+	public void uploadProject(ProjectUploadData uploadData, UploadSuccessCallback successCallback,
+			UploadErrorCallback errorCallback) {
 
-		if (context == null) {
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "Context is null.");
-		}
+		excecuteUploadCall(
+				HttpRequestsKt.createUploadRequest(uploadData),
+				(uploadResponse) -> {
+					String newToken = uploadResponse.token;
+					projectId = uploadResponse.projectId;
 
-		userEmail = userEmail == null ? "" : userEmail;
+					if (uploadResponse.statusCode != SERVER_RESPONSE_TOKEN_OK) {
+						errorCallback.onError(uploadResponse.statusCode, "Upload failed! JSON Response was " + uploadResponse.statusCode);
+					} else if (newToken.equals(TOKEN_CODE_INVALID) || newToken.length() != TOKEN_LENGTH) {
+						errorCallback.onError(uploadResponse.statusCode, uploadResponse.answer);
+					} else {
+						successCallback.onSuccess(projectId, uploadData.getUsername(), newToken);
+					}
+				},
+				errorCallback
+		);
+	}
 
+	private void excecuteUploadCall(Request request, UploadCallSuccessCallback successCallback, UploadErrorCallback errorCallback) {
+		Response response;
+		UploadResponse uploadResponse;
 		try {
-			String md5Checksum = Utils.md5Checksum(new File(zipFileString));
-
-			final String serverUrl = useTestUrl ? TEST_FILE_UPLOAD_URL_HTTP : FILE_UPLOAD_URL;
-
-			File file = new File(zipFileString);
-			RequestBody requestBody = new MultipartBuilder()
-					.type(MultipartBuilder.FORM)
-					.addFormDataPart(
-							FILE_UPLOAD_TAG,
-							ProjectUploadService.UPLOAD_FILE_NAME,
-							RequestBody.create(MEDIA_TYPE_ZIPFILE, file))
-					.addFormDataPart(
-							PROJECT_NAME_TAG,
-							projectName)
-					.addFormDataPart(
-							PROJECT_DESCRIPTION_TAG,
-							projectDescription)
-					.addFormDataPart(
-							USER_EMAIL,
-							userEmail)
-					.addFormDataPart(
-							PROJECT_CHECKSUM_TAG,
-							md5Checksum)
-					.addFormDataPart(
-							Constants.TOKEN,
-							token)
-					.addFormDataPart(
-							Constants.USERNAME,
-							username)
-					.addFormDataPart(
-							DEVICE_LANGUAGE,
-							language)
-					.build();
-
-			Request request = new Request.Builder()
-					.url(serverUrl)
-					.post(requestBody)
-					.build();
-
-			Response response = okHttpClient.newCall(request).execute();
-
-			if (response.isSuccessful()) {
-				StatusBarNotificationManager.getInstance().showOrUpdateNotification(notificationId, 100);
-			} else {
-				throw new WebconnectionException(response.code(), "Upload failed! HTTP Status code was " + response.code());
+			response = okHttpClient.newCall(request).execute();
+			if (!response.isSuccessful()) {
+				Log.v(TAG, "Upload not successful");
+				errorCallback.onError(response.code(), "Upload failed! HTTP Status code was " + response.code());
 			}
 
-			UploadResponse uploadResponse = gson.fromJson(response.body().string(), UploadResponse.class);
-
-			String newToken = uploadResponse.token;
-			String answer = uploadResponse.answer;
-			int status = uploadResponse.statusCode;
-			projectId = uploadResponse.projectId;
-
-			if (status != SERVER_RESPONSE_TOKEN_OK) {
-				throw new WebconnectionException(status, "Upload failed! JSON Response was " + status);
-			}
-
-			if (token.length() != TOKEN_LENGTH
-					|| token.isEmpty()
-					|| token.equals(TOKEN_CODE_INVALID)) {
-				throw new WebconnectionException(status, answer);
-			}
-			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-			sharedPreferences.edit().putString(Constants.TOKEN, newToken).commit();
-			sharedPreferences.edit().putString(Constants.USERNAME, username).commit();
-		} catch (JsonSyntaxException jsonE) {
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(jsonE));
-		} catch (IOException ioE) {
-			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, Log.getStackTraceString(ioE));
+			uploadResponse = gson.fromJson(response.body().string(), UploadResponse.class);
+			successCallback.onSuccess(uploadResponse);
+		} catch (IOException ioException) {
+			Log.e(TAG, Log.getStackTraceString(ioException));
+			errorCallback.onError(WebconnectionException.ERROR_NETWORK, "I/O Exception");
+		} catch (JsonSyntaxException jsonSyntaxException) {
+			Log.e(TAG, Log.getStackTraceString(jsonSyntaxException));
+			errorCallback.onError(WebconnectionException.ERROR_JSON, "JsonSyntaxException");
 		}
 	}
 
@@ -1034,14 +980,22 @@ public final class ServerCalls implements ScratchDataFetcher {
 		}
 	}
 
-	public int getProjectId() {
-		return projectId;
-	}
-
 	static class UploadResponse {
 		int projectId;
 		int statusCode;
 		String answer;
 		String token;
+	}
+
+	public interface UploadSuccessCallback {
+		void onSuccess(int projectId, String username, String token);
+	}
+
+	public interface UploadErrorCallback {
+		void onError(int statusCode, String errorMessage);
+	}
+
+	private interface UploadCallSuccessCallback {
+		void onSuccess(UploadResponse response);
 	}
 }

@@ -48,7 +48,6 @@ import org.catrobat.catroid.ui.recyclerview.adapter.ButtonAdapter;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewProjectDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.viewholder.ButtonVH;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
-import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
@@ -58,6 +57,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.catrobat.catroid.common.Constants.EXTRA_PROJECT_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public class MainMenuFragment extends Fragment implements
@@ -135,9 +135,9 @@ public class MainMenuFragment extends Fragment implements
 		adapter.items.get(0).subtitle = Utils.getCurrentProjectName(getActivity());
 		adapter.notifyDataSetChanged();
 
-		String projectName = getActivity().getIntent().getStringExtra(StatusBarNotificationManager.EXTRA_PROJECT_NAME);
+		String projectName = getActivity().getIntent().getStringExtra(EXTRA_PROJECT_NAME);
 		if (projectName != null) {
-			getActivity().getIntent().removeExtra(StatusBarNotificationManager.EXTRA_PROJECT_NAME);
+			getActivity().getIntent().removeExtra(EXTRA_PROJECT_NAME);
 			loadDownloadedProject(projectName);
 		}
 	}

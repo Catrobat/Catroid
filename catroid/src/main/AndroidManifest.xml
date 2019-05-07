@@ -224,11 +224,11 @@
         <activity
             android:name=".ui.filepicker.FilePickerActivity" />
 
-        <service android:name=".transfers.ProjectUploadService" />
+        <service android:name=".transfers.project.ProjectUploadService" />
         <service android:name=".transfers.ProjectDownloadService" />
         <service android:name=".transfers.MediaDownloadService" />
         <service android:name="com.parrot.freeflight.service.DroneControlService" />
-        <service android:name=".utils.StatusBarNotificationManager$NotificationActionService" />
+        <service android:name=".utils.notifications.StatusBarNotificationManager$NotificationActionService" />
         <service android:name=".cast.CastService" android:exported="false"/>
 
         <provider
