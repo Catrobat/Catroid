@@ -30,8 +30,6 @@ import android.widget.ImageView;
 public class VisualPlacementTouchListener {
 
 	private Mode mode;
-	private float startX;
-	private float startY;
 	private float previousY;
 	private float previousX;
 	private long lastTimeMove = 0;
@@ -50,29 +48,26 @@ public class VisualPlacementTouchListener {
 					setMode(Mode.TAP);
 					previousX = currentX;
 					previousY = currentY;
-					startX = currentX;
-					startY = currentY;
+					lastTimeMove = SystemClock.elapsedRealtime();
 					break;
 				case MotionEvent.ACTION_CANCEL:
 				case MotionEvent.ACTION_UP:
-					if (Math.abs(currentX - startX) < 10 && Math.abs(currentY - startY) < 10) {
-						long delayTime = SystemClock.elapsedRealtime() - lastTimeMove;
-						if (mode == Mode.TAP || delayTime > 100) {
-							imageView.setX(event.getX() - (float) imageView.getWidth() / 2);
-							imageView.setY(event.getY() - (float) imageView.getHeight() / 2);
-						}
-					} else {
-						lastTimeMove = SystemClock.elapsedRealtime();
+					if (mode == Mode.TAP) {
+						imageView.setX(event.getX() - (float) imageView.getWidth() / 2);
+						imageView.setY(event.getY() - (float) imageView.getHeight() / 2);
 					}
 					break;
 				case MotionEvent.ACTION_MOVE:
-					setMode(Mode.MOVE);
-					float dX = currentX - previousX;
-					float dY = currentY - previousY;
-					imageView.setX(imageView.getX() + dX);
-					imageView.setY(imageView.getY() + dY);
-					previousX = currentX;
-					previousY = currentY;
+					long delayTime = SystemClock.elapsedRealtime() - lastTimeMove;
+					if (delayTime > 100) {
+						setMode(Mode.MOVE);
+						float dX = currentX - previousX;
+						float dY = currentY - previousY;
+						imageView.setX(imageView.getX() + dX);
+						imageView.setY(imageView.getY() + dY);
+						previousX = currentX;
+						previousY = currentY;
+					}
 					break;
 			}
 			coordinateInterface.setXCoordinate(imageView.getX());
