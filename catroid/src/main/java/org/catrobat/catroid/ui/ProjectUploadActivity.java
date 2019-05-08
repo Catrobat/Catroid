@@ -24,17 +24,17 @@
 package org.catrobat.catroid.ui;
 
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,26 +51,37 @@ import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
 import org.catrobat.catroid.io.asynctask.ProjectRenameTask;
 import org.catrobat.catroid.transfers.CheckTokenTask;
 import org.catrobat.catroid.transfers.GetTagsTask;
-import org.catrobat.catroid.transfers.ProjectUploadService;
+import org.catrobat.catroid.transfers.project.ProjectUploadService;
+import org.catrobat.catroid.transfers.project.ResultReceiverWrapper;
+import org.catrobat.catroid.transfers.project.ResultReceiverWrapperInterface;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
-import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.catrobat.catroid.common.Constants.EXTRA_PROJECT_DESCRIPTION;
+import static org.catrobat.catroid.common.Constants.EXTRA_PROJECT_ID;
+import static org.catrobat.catroid.common.Constants.EXTRA_PROJECT_PATH;
+import static org.catrobat.catroid.common.Constants.EXTRA_PROVIDER;
+import static org.catrobat.catroid.common.Constants.EXTRA_RESULT_RECEIVER;
+import static org.catrobat.catroid.common.Constants.EXTRA_SCENE_NAMES;
+import static org.catrobat.catroid.common.Constants.EXTRA_UPLOAD_NAME;
 import static org.catrobat.catroid.common.Constants.NO_OAUTH_PROVIDER;
 import static org.catrobat.catroid.common.Constants.PLAY_STORE_PAGE_LINK;
 import static org.catrobat.catroid.common.Constants.SHARE_PROGRAM_URL;
+import static org.catrobat.catroid.common.Constants.UPLOAD_RESULT_RECEIVER_RESULT_CODE;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public class ProjectUploadActivity extends BaseActivity implements
 		ProjectLoadTask.ProjectLoadListener,
 		CheckTokenTask.TokenCheckListener,
-		GetTagsTask.TagResponseListener {
+		GetTagsTask.TagResponseListener,
+		ResultReceiverWrapperInterface {
 
 	public static final String TAG = ProjectUploadActivity.class.getSimpleName();
 	public static final String PROJECT_DIR = "projectDir";
@@ -83,8 +94,9 @@ public class ProjectUploadActivity extends BaseActivity implements
 
 	private AlertDialog uploadProgressDialog;
 
-	private NameInputTextWatcher nameInputTextWatcher = new NameInputTextWatcher();
+	private ResultReceiverWrapper uploadResultReceiver = new ResultReceiverWrapper(this, new Handler());
 
+	private NameInputTextWatcher nameInputTextWatcher = new NameInputTextWatcher();
 	private TextInputLayout nameInputLayout;
 	private TextInputLayout descriptionInputLayout;
 
@@ -128,7 +140,9 @@ public class ProjectUploadActivity extends BaseActivity implements
 	}
 
 	private void onCreateView() {
-		ProjectAndSceneScreenshotLoader screenshotLoader = new ProjectAndSceneScreenshotLoader(this);
+		int thumbnailWidth = getResources().getDimensionPixelSize(R.dimen.project_thumbnail_width);
+		int thumbnailHeight = getResources().getDimensionPixelSize(R.dimen.project_thumbnail_height);
+		ProjectAndSceneScreenshotLoader screenshotLoader = new ProjectAndSceneScreenshotLoader(thumbnailWidth, thumbnailHeight);
 		screenshotLoader.loadAndShowScreenshot(project.getDirectory().getName(),
 				project.getDirectory().getName(),
 				false,
@@ -148,6 +162,14 @@ public class ProjectUploadActivity extends BaseActivity implements
 
 		setShowProgressBar(false);
 		setNextButtonEnabled(true);
+	}
+
+	@Override
+	protected void onDestroy() {
+		if (uploadProgressDialog != null && uploadProgressDialog.isShowing()) {
+			uploadProgressDialog.dismiss();
+		}
+		super.onDestroy();
 	}
 
 	@Override
@@ -254,25 +276,11 @@ public class ProjectUploadActivity extends BaseActivity implements
 		project.setDescription(description);
 		project.setDeviceData(this);
 
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-		String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
-		String username = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
-
-		Intent intent = new Intent(this, ProjectUploadService.class);
-
-		String[] sceneNames = project.getSceneNames().toArray(new String[0]);
-
-		int notificationId = StatusBarNotificationManager.getInstance()
-				.createUploadNotification(this, name);
-
-		UploadStatusPollingTask uploadStatusPollingTask = new UploadStatusPollingTask();
-
 		uploadProgressDialog = new AlertDialog.Builder(this)
 				.setTitle(getString(R.string.upload_project_dialog_title))
 				.setView(R.layout.dialog_upload_project_progress)
 				.setPositiveButton(R.string.progress_upload_dialog_show_program, null)
 				.setNegativeButton(R.string.done, (dialog, which) -> {
-					uploadStatusPollingTask.cancel(false);
 					finish();
 				})
 				.setCancelable(false)
@@ -281,19 +289,19 @@ public class ProjectUploadActivity extends BaseActivity implements
 		uploadProgressDialog.show();
 		uploadProgressDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
 
-		intent.putExtra("uploadName", name);
-		intent.putExtra("projectDescription", description);
-		intent.putExtra("projectPath", project.getDirectory().getAbsolutePath());
-		intent.putExtra("username", username);
-		intent.putExtra("token", token);
-		intent.putExtra("provider", NO_OAUTH_PROVIDER);
-		intent.putExtra("sceneNames", sceneNames);
-		intent.putExtra("notificationId", notificationId);
+		Intent intent = new Intent(this, ProjectUploadService.class);
+		String[] sceneNames = project.getSceneNames().toArray(new String[0]);
+		intent.putExtra(EXTRA_RESULT_RECEIVER, uploadResultReceiver);
+
+		intent.putExtra(EXTRA_UPLOAD_NAME, name);
+		intent.putExtra(EXTRA_PROJECT_DESCRIPTION, description);
+		intent.putExtra(EXTRA_PROJECT_PATH, project.getDirectory().getAbsolutePath());
+		intent.putExtra(EXTRA_PROVIDER, NO_OAUTH_PROVIDER);
+		intent.putExtra(EXTRA_SCENE_NAMES, sceneNames);
 
 		startService(intent);
 
-		uploadStatusPollingTask.execute();
-
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		int numberOfUploadedProjects = sharedPreferences.getInt(NUMBER_OF_UPLOADED_PROJECTS, 0) + 1;
 		sharedPreferences.edit()
 				.putInt(NUMBER_OF_UPLOADED_PROJECTS, numberOfUploadedProjects)
@@ -322,6 +330,29 @@ public class ProjectUploadActivity extends BaseActivity implements
 				.setNegativeButton(getString(R.string.rating_dialog_rate_never), null)
 				.setCancelable(false)
 				.show();
+	}
+
+	@Override
+	public void onReceiveResult(int resultCode, @Nullable Bundle resultData) {
+		if (resultCode != UPLOAD_RESULT_RECEIVER_RESULT_CODE || resultData == null || !uploadProgressDialog.isShowing()) {
+			return;
+		}
+
+		int projectId = resultData.getInt(EXTRA_PROJECT_ID, 0);
+		Button positiveButton = uploadProgressDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+		positiveButton.setOnClickListener((view) -> {
+			String projectUrl = SHARE_PROGRAM_URL + projectId;
+			Intent intent = new Intent(this, WebViewActivity.class);
+			intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, projectUrl);
+			startActivity(intent);
+			finish();
+		});
+		positiveButton.setEnabled(true);
+
+		uploadProgressDialog.findViewById(R.id.dialog_upload_progress_progressbar).setVisibility(View.GONE);
+		ImageView image = uploadProgressDialog.findViewById(R.id.dialog_upload_progress_success_image);
+		image.setImageResource(R.drawable.ic_upload_success);
+		image.setVisibility(View.VISIBLE);
 	}
 
 	private void verifyUserIdentity() {
@@ -387,42 +418,6 @@ public class ProjectUploadActivity extends BaseActivity implements
 	@Override
 	public void onTagsReceived(List<String> tags) {
 		this.tags = tags;
-	}
-
-	private class UploadStatusPollingTask extends AsyncTask<Void, Void, Void> {
-
-		@Override
-		protected Void doInBackground(Void... voids) {
-			while (StatusBarNotificationManager.getInstance().getProgressPercent() != 100) {
-				if (isCancelled()) {
-					break;
-				}
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException e) {
-					Log.e(TAG, "Well, that's awkward.");
-				}
-			}
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(Void aVoid) {
-			Button button = uploadProgressDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-			button.setOnClickListener(v -> {
-				String projectUrl = SHARE_PROGRAM_URL + ServerCalls.getInstance().getProjectId();
-				Intent intent = new Intent(ProjectUploadActivity.this, WebViewActivity.class);
-				intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, projectUrl);
-				startActivity(intent);
-				finish();
-			});
-			button.setEnabled(true);
-			uploadProgressDialog.findViewById(R.id.dialog_upload_progress_progressbar).setVisibility(View.GONE);
-
-			ImageView image = uploadProgressDialog.findViewById(R.id.dialog_upload_progress_success_image);
-			image.setImageResource(R.drawable.ic_upload_success);
-			image.setVisibility(View.VISIBLE);
-		}
 	}
 
 	private class NameInputTextWatcher implements TextWatcher {

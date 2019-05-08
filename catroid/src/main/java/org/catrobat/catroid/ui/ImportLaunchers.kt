@@ -121,11 +121,6 @@ class ImportFromCameraLauncher(private val activity: AppCompatActivity) : Import
 
     private val cameraImageFileName = "$TMP_IMAGE_FILE_NAME.jpg"
 
-    companion object {
-        @JvmStatic
-        val REQUEST_PERMISSIONS_CAMERA_LAUNCHER = 301
-    }
-
     fun getCacheCameraUri(): Uri {
         return FileProvider.getUriForFile(
             activity,
@@ -161,5 +156,10 @@ class ImportFromCameraLauncher(private val activity: AppCompatActivity) : Import
                 }
             }
         }.execute(activity)
+    }
+
+    companion object {
+        @JvmStatic
+        val REQUEST_PERMISSIONS_CAMERA_LAUNCHER = 301
     }
 }

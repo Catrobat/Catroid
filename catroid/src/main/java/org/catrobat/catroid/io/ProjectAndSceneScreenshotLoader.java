@@ -23,11 +23,9 @@
 package org.catrobat.catroid.io;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
 
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.utils.ImageEditing;
 
@@ -67,7 +65,8 @@ public class ProjectAndSceneScreenshotLoader {
 
 	private Map<ImageView, String> imageViews = Collections.synchronizedMap(new WeakHashMap<ImageView, String>());
 	private ExecutorService executorService;
-	private Context context;
+	private int thumbnailWidth;
+	private int thumbnailHeight;
 
 	private Map<String, Bitmap> imageCache = Collections.synchronizedMap(new LinkedHashMap<String, Bitmap>(
 			INITIAL_VALUE, LOAD_FACTOR, true) {
@@ -80,9 +79,10 @@ public class ProjectAndSceneScreenshotLoader {
 		}
 	});
 
-	public ProjectAndSceneScreenshotLoader(Context context) {
+	public ProjectAndSceneScreenshotLoader(int thumbnailWidth, int thumbnailHeight) {
 		executorService = Executors.newFixedThreadPool(POOL_SIZE);
-		this.context = context;
+		this.thumbnailWidth = thumbnailWidth;
+		this.thumbnailHeight = thumbnailHeight;
 	}
 
 	public void loadAndShowScreenshot(String projectName, String sceneName, boolean isBackpackScene, ImageView
@@ -135,9 +135,7 @@ public class ProjectAndSceneScreenshotLoader {
 			if (!projectAndSceneImageFile.exists() || ImageEditing.getImageDimensions(pathOfScreenshot)[0] < 0) {
 				projectAndSceneImage = null;
 			} else {
-				int width = context.getResources().getDimensionPixelSize(R.dimen.project_thumbnail_width);
-				int height = context.getResources().getDimensionPixelSize(R.dimen.project_thumbnail_height);
-				projectAndSceneImage = ImageEditing.getScaledBitmapFromPath(pathOfScreenshot, width, height,
+				projectAndSceneImage = ImageEditing.getScaledBitmapFromPath(pathOfScreenshot, thumbnailWidth, thumbnailHeight,
 						ImageEditing.ResizeType.STAY_IN_RECTANGLE_WITH_SAME_ASPECT_RATIO, true);
 			}
 

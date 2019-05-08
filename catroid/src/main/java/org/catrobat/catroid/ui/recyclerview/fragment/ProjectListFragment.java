@@ -50,8 +50,8 @@ import org.catrobat.catroid.ui.fragment.ProjectDetailsFragment;
 import org.catrobat.catroid.ui.recyclerview.adapter.ProjectAdapter;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
-import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager;
 
 import java.io.File;
 import java.io.IOException;
