@@ -81,9 +81,9 @@ import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BACKGROUNDS_
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BACKGROUNDS_URL_PORTRAIT;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_LOOKS_URL;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_SOUNDS_URL;
-import static org.catrobat.catroid.stage.VisualPlacementActivity.X_COORDINATE_BUNDLE_ARGUMENT;
-import static org.catrobat.catroid.stage.VisualPlacementActivity.Y_COORDINATE_BUNDLE_ARGUMENT;
 import static org.catrobat.catroid.ui.WebViewActivity.MEDIA_FILE_PATH;
+import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.X_COORDINATE_BUNDLE_ARGUMENT;
+import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.Y_COORDINATE_BUNDLE_ARGUMENT;
 
 public class SpriteActivity extends BaseActivity {
 

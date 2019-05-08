@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.stage;
+package org.catrobat.catroid.visualplacement;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -73,7 +73,7 @@ import static org.catrobat.catroid.stage.StageListener.SCREENSHOT_MANUAL_FILE_NA
 import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_BRICK_HASH;
 
 public class VisualPlacementActivity extends BaseCastActivity implements View.OnTouchListener,
-		DialogInterface.OnClickListener {
+		DialogInterface.OnClickListener, CoordinateInterface {
 
 	public static final String TAG = VisualPlacementActivity.class.getSimpleName();
 
@@ -94,14 +94,12 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 	private float scaleY;
 	private float rotation;
 	private int rotationMode;
-	private float startX;
-	private float startY;
-	private float previousY;
-	private float previousX;
+
 	private float reversedRatioHeight;
 	private float reversedRatioWidth;
 	private int layoutWidth;
 	private int layoutHeight;
+	private VisualPlacementTouchListener visualPlacementTouchListener;
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -136,6 +134,7 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 		} else {
 			setRequestedOrientation(SCREEN_ORIENTATION_PORTRAIT);
 		}
+		visualPlacementTouchListener = new VisualPlacementTouchListener();
 
 		FrameLayout frameLayout = findViewById(R.id.frame_container);
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
@@ -268,37 +267,7 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 
 	@Override
 	public boolean onTouch(View view, MotionEvent event) {
-		float currentX = event.getRawX();
-		float currentY = event.getRawY();
-		switch (event.getAction()) {
-			case MotionEvent.ACTION_DOWN:
-				previousX = currentX;
-				previousY = currentY;
-				startX = currentX;
-				startY = currentY;
-				break;
-			case MotionEvent.ACTION_CANCEL:
-			case MotionEvent.ACTION_UP:
-				if (Math.abs(currentX - startX) < 10 && Math.abs(currentY - startY) < 10) {
-					imageView.animate()
-							.translationX(event.getX() - (float) view.getWidth() / 2)
-							.translationY(event.getY() - (float) view.getHeight() / 2)
-							.setDuration(0)
-							.start();
-				}
-				break;
-			case MotionEvent.ACTION_MOVE:
-				float dX = currentX - previousX;
-				float dY = currentY - previousY;
-				imageView.setX(imageView.getX() + dX);
-				imageView.setY(imageView.getY() + dY);
-				previousX = currentX;
-				previousY = currentY;
-				break;
-		}
-		xCoord = imageView.getX();
-		yCoord = -imageView.getY();
-		return true;
+		return visualPlacementTouchListener.onTouch(imageView, event, this);
 	}
 
 	@Override
@@ -345,5 +314,15 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 				.setNegativeButton(R.string.no, this)
 				.setCancelable(true)
 				.show();
+	}
+
+	@Override
+	public void setXCoordinate(float xCoordinate) {
+		xCoord = xCoordinate;
+	}
+
+	@Override
+	public void setYCoordinate(float yCoordinate) {
+		yCoord = yCoordinate;
 	}
 }
