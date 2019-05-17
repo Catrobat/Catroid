@@ -21,8 +21,7 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<resources xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Catroid" parent="Theme.AppCompat.NoActionBar">
 
@@ -152,6 +151,7 @@
 
     <style name="BrickText.SingleLine">
         <item name="android:maxLines">1</item>
+        <item name="android:paddingEnd">@dimen/material_design_spacing_small</item>
     </style>
 
     <style name="BrickText.Multiple">
@@ -290,23 +290,6 @@
     <style name="BrickContainer.UserVariables.Big" tools:ignore="UnusedResources">
         <item name="android:minHeight">@dimen/brick_height_big</item>
         <item name="android:background">@drawable/brick_red_3h</item>
-    </style>
-
-    <style name="BrickContainer.UserBrick"></style>
-
-    <style name="BrickContainer.UserBrick.Small">
-        <item name="android:minHeight">@dimen/brick_height_small</item>
-        <item name="android:background">@drawable/brick_lime_1h</item>
-    </style>
-
-    <style name="BrickContainer.UserBrick.Medium" tools:ignore="UnusedResources">
-        <item name="android:minHeight">@dimen/brick_height_medium</item>
-        <item name="android:background">@drawable/brick_lime_2h</item>
-    </style>
-
-    <style name="BrickContainer.UserBrick.Big" tools:ignore="UnusedResources">
-        <item name="android:minHeight">@dimen/brick_height_big</item>
-        <item name="android:background">@drawable/brick_lime_3h</item>
     </style>
     
     <style name="BrickContainer.Drone" tools:ignore="UnusedResources"></style>

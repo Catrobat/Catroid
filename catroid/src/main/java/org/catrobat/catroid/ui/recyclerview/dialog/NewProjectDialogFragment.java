@@ -24,7 +24,6 @@ package org.catrobat.catroid.ui.recyclerview.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -41,6 +40,9 @@ import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.IOException;
+
+import static org.catrobat.catroid.common.DefaultProjectHandler.ProjectCreatorType.PROJECT_CREATOR_DRONE;
+import static org.catrobat.catroid.common.DefaultProjectHandler.ProjectCreatorType.PROJECT_CREATOR_JUMPING_SUMO;
 
 public class NewProjectDialogFragment extends DialogFragment {
 
@@ -86,25 +88,22 @@ public class NewProjectDialogFragment extends DialogFragment {
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(getContext())
 				.setHint(getString(R.string.project_name_label))
 				.setTextWatcher(textWatcher)
-				.setPositiveButton(getString(R.string.ok), new TextInputDialog.OnClickListener() {
-					@Override
-					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
-						switch (radioGroup.getCheckedRadioButtonId()) {
-							case R.id.project_empty_radio_button:
-								showOrientationDialog(textInput, true);
-								break;
-							case R.id.project_default_radio_button:
-								showOrientationDialog(textInput, false);
-								break;
-							case R.id.project_default_drone_radio_button:
-								createDroneProject(textInput, false);
-								break;
-							case R.id.project_default_jumping_sumo_radio_button:
-								createDroneProject(textInput, true);
-								break;
-							default:
-								throw new IllegalStateException(TAG + ": No radio button id match, check layout?");
-						}
+				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> {
+					switch (radioGroup.getCheckedRadioButtonId()) {
+						case R.id.project_empty_radio_button:
+							showOrientationDialog(textInput, true);
+							break;
+						case R.id.project_default_radio_button:
+							showOrientationDialog(textInput, false);
+							break;
+						case R.id.project_default_drone_radio_button:
+							createARDroneProject(textInput);
+							break;
+						case R.id.project_default_jumping_sumo_radio_button:
+							createJumpingSumoProject(textInput);
+							break;
+						default:
+							throw new IllegalStateException(TAG + ": No radio button id match, check layout?");
 					}
 				});
 
@@ -116,19 +115,26 @@ public class NewProjectDialogFragment extends DialogFragment {
 	}
 
 	void showOrientationDialog(String projectName, boolean createEmptyProject) {
-		OrientationDialogFragment dialog = OrientationDialogFragment.newInstance(projectName, createEmptyProject);
-		dialog.show(getFragmentManager(), OrientationDialogFragment.TAG);
+		OrientationDialogFragment
+				.newInstance(projectName, createEmptyProject)
+				.show(getFragmentManager(), OrientationDialogFragment.TAG);
 	}
 
-	void createDroneProject(String name, boolean isJumpingSumoProject) {
+	void createARDroneProject(String name) {
 		try {
-			if (isJumpingSumoProject) {
-				ProjectManager.getInstance().initializeNewProject(name, getActivity(), false, false,
-						false, false, true);
-			} else {
-				ProjectManager.getInstance().initializeNewProject(name, getActivity(), false, true,
-						false, false, false);
-			}
+			ProjectManager.getInstance()
+					.createNewExampleProject(name, getContext(), PROJECT_CREATOR_DRONE, false);
+			Intent intent = new Intent(getActivity(), ProjectActivity.class);
+			startActivity(intent);
+		} catch (IOException e) {
+			ToastUtil.showError(getActivity(), R.string.error_new_project);
+		}
+	}
+
+	void createJumpingSumoProject(String name) {
+		try {
+			ProjectManager.getInstance()
+					.createNewExampleProject(name, getContext(), PROJECT_CREATOR_JUMPING_SUMO, false);
 			Intent intent = new Intent(getActivity(), ProjectActivity.class);
 			startActivity(intent);
 		} catch (IOException e) {

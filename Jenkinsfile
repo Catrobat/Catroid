@@ -1,187 +1,248 @@
 #!groovy
 
+class DockerParameters {
+    def fileName = 'Dockerfile.jenkins'
+
+    // 'docker build' would normally copy the whole build-dir to the container, changing the
+    // docker build directory avoids that overhead
+    def dir = 'docker'
+
+    // Pass the uid and the gid of the current user (jenkins-user) to the Dockerfile, so a
+    // corresponding user can be added. This is needed to provide the jenkins user inside
+    // the container for the ssh-agent to work.
+    // Another way would be to simply map the passwd file, but would spoil additional information
+    // Also hand in the group id of kvm to allow using /dev/kvm.
+    def buildArgs = '--build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g) --build-arg KVM_GROUP_ID=$(getent group kvm | cut -d: -f3)'
+
+    def args = '--device /dev/kvm:/dev/kvm -v /var/local/container_shared/gradle_cache/$EXECUTOR_NUMBER:/home/user/.gradle -m=6.5G'
+    def label = 'LimitedEmulator'
+}
+
+def d = new DockerParameters()
+
+def junitAndCoverage(String jacocoReportDir, String jacocoReportXml, String coverageName) {
+    // Consume all test xml files. Otherwise tests would be tracked multiple
+    // times if this function was called again.
+    String testPattern = '**/*TEST*.xml'
+    junit testResults: testPattern, allowEmptyResults: true
+    cleanWs patterns: [[pattern: testPattern, type: 'INCLUDE']]
+
+    publishJacocoHtml jacocoReportDir, jacocoReportXml, coverageName
+}
+
+def postEmulator(String coverageNameAndLogcatPrefix) {
+    sh './gradlew stopEmulator'
+
+    def jacocoReportDir = 'catroid/build/reports/coverage/catroid/debug'
+    junitAndCoverage jacocoReportDir, 'report.xml', coverageNameAndLogcatPrefix
+
+    archiveArtifacts "${coverageNameAndLogcatPrefix}_logcat.txt"
+}
+
+def useWebTestParameter() {
+    return env.USE_WEB_TEST?.toBoolean() ? '-PuseWebTest' : ''
+}
+
+def allFlavoursParameters() {
+    return env.BUILD_ALL_FLAVOURS?.toBoolean() ? 'assembleCreateAtSchoolDebug assembleLunaAndCatDebug assemblePhiroDebug' : ''
+}
+
 pipeline {
-	agent {
-		dockerfile {
-			filename 'Dockerfile.jenkins'
-			// 'docker build' would normally copy the whole build-dir to the container, changing the
-			// docker build directory avoids that overhead
-			dir 'docker'
-			// Pass the uid and the gid of the current user (jenkins-user) to the Dockerfile, so a
-			// corresponding user can be added. This is needed to provide the jenkins user inside
-			// the container for the ssh-agent to work.
-			// Another way would be to simply map the passwd file, but would spoil additional information
-			additionalBuildArgs '--build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g)'
-			// Currently there are two different NDK behaviors in place, one to keep NDK r16b, which
-			// was needed because of the removal of armeabi and MIPS support and one to always use the
-			// latest NDK, which is the suggestion from the NDK documentations.
-			// Therefore two different SDK locations on the host are currently in place:
-			// NDK r16b  : /var/local/container_shared/android-sdk
-			// NDK latest: /var/local/container_shared/android-sdk-ndk-latest
-			// As android-sdk was used from the beginning and is already 'released' this can't be changed
-			// to eg android-sdk-ndk-r16b and must be kept to the previously used value
-			args "--device /dev/kvm:/dev/kvm -v /var/local/container_shared/gradle/:/.gradle -v /var/local/container_shared/android-sdk-ndk-latest:/usr/local/android-sdk -v /var/local/container_shared/android-home:/.android -v /var/local/container_shared/emulator_console_auth_token:/.emulator_console_auth_token -v /var/local/container_shared/analytics.settings:/analytics.settings"
-		}
-	}
+    agent none
 
-	environment {
-		//////// Define environment variables to point to the correct locations inside the container ////////
-		//////////// Most likely not edited by the developer
-		ANDROID_SDK_ROOT = "/usr/local/android-sdk"
-		// Deprecated: Still used by the used gradle version, once gradle respects ANDROID_SDK_ROOT, this can be removed
-		ANDROID_HOME = "/usr/local/android-sdk"
-		ANDROID_SDK_HOME = "/"
-		// Needed for compatibiliby to current Jenkins-wide Envs. Can be removed, once all builds are migrated to Pipeline
-		ANDROID_SDK_LOCATION = "/usr/local/android-sdk"
-		ANDROID_NDK = ""
-		// This is important, as we want the keep our gradle cache, but we can't share it between containers
-		// the cache could only be shared if the gradle instances could comunicate with each other
-		// imho keeping the cache per executor will have the least space impact
-		GRADLE_USER_HOME = "/.gradle/${env.EXECUTOR_NUMBER}"
-		// Otherwise user.home returns ? for java applications
-		JAVA_TOOL_OPTIONS = "-Duser.home=/tmp/"
+    parameters {
+        booleanParam name: 'BUILD_ALL_FLAVOURS', defaultValue: false, description: 'When selected all flavours are built and archived as artifacts that can be installed alongside other versions of the same APK.'
+        booleanParam name: 'USE_WEB_TEST', defaultValue: false, description: 'When selected all the archived APKs will point to the test Catrobat web server, useful for testing web changes.'
+    }
 
-		//////// Build specific variables ////////
-		//////////// May be edited by the developer on changing the build steps
-		// modulename
-		GRADLE_PROJECT_MODULE_NAME = "catroid"
+    options {
+        timeout(time: 2, unit: 'HOURS')
+        timestamps()
+        buildDiscarder(logRotator(numToKeepStr: '30'))
+    }
 
-		// APK build output locations
-		APK_LOCATION_DEBUG = "${env.GRADLE_PROJECT_MODULE_NAME}/build/outputs/apk/catroid/debug/catroid-catroid-debug.apk"
-		APK_LOCATION_STANDALONE = "${env.GRADLE_PROJECT_MODULE_NAME}/build/outputs/apk/standalone/debug/catroid-standalone-debug.apk"
+    triggers {
+        cron(env.BRANCH_NAME == 'develop' ? '@midnight' : '')
+        issueCommentTrigger('.*test this please.*')
+    }
 
-		JACOCO_XML = "${env.GRADLE_PROJECT_MODULE_NAME}/build/reports/coverage/catroid/debug/report.xml"
-		JACOCO_UNIT_XML = "${env.GRADLE_PROJECT_MODULE_NAME}/build/reports/jacoco/jacocoTestCatroidDebugUnitTestReport/jacocoTestCatroidDebugUnitTestReport.xml"
+    stages {
+        stage('All') {
+            parallel {
+                stage('1') {
+                    agent {
+                        dockerfile {
+                            filename d.fileName
+                            dir d.dir
+                            additionalBuildArgs d.buildArgs
+                            args d.args
+                            label d.label
+                        }
+                    }
 
-		// place the cobertura xml relative to the source, so that the source can be found
-		JAVA_SRC = "${env.GRADLE_PROJECT_MODULE_NAME}/src/main/java"
-	}
+                    stages {
+                        stage('APKs') {
+                            steps {
+                                script {
+                                    def additionalParameters = [useWebTestParameter(), allFlavoursParameters()].findAll{ it }.collect()
+                                    if (additionalParameters) {
+                                        currentBuild.description = "<p>Additional APK build parameters: <b>${additionalParameters.join(' ')}</b></p>"
+                                    }
+                                }
 
-	options {
-		timeout(time: 2, unit: 'HOURS')
-		timestamps()
-		buildDiscarder(logRotator(numToKeepStr: '30'))
-	}
+                                // Checks that the creation of standalone APKs (APK for a Pocketcode app) works, reducing the risk of breaking gradle changes.
+                                // The resulting APK is not verified itself.
+                                sh """./gradlew assembleStandaloneDebug ${useWebTestParameter()} -Papk_generator_enabled=true -Psuffix=generated817.catrobat \
+                                            -Pdownload='https://share.catrob.at/pocketcode/download/817.catrobat'"""
 
-	triggers {
-		cron(env.BRANCH_NAME == 'develop' ? '@midnight' : '')
-		issueCommentTrigger('.*test this please.*')
-	}
+                                // Build the flavors so that they can be installed next independently of older versions.
+                                sh "./gradlew ${useWebTestParameter()} -Pindependent='#$env.BUILD_NUMBER $env.BRANCH_NAME' assembleCatroidDebug ${allFlavoursParameters()}"
 
-	stages {
-		stage('Setup Android SDK') {
-			steps {
-				// Install Android SDK
-				lock("update-android-sdk-on-${env.NODE_NAME}") {
-					sh './gradlew -PinstallSdk'
-				}
-			}
-		}
+                                renameApks("${env.BRANCH_NAME}-${env.BUILD_NUMBER}")
+                                archiveArtifacts '**/*.apk'
+                            }
+                        }
 
-		stage('Static Analysis') {
-			steps {
-				sh './gradlew pmd checkstyle lint'
-			}
+                        stage('Static Analysis') {
+                            steps {
+                                sh './gradlew pmd checkstyle lint detekt'
+                            }
 
-			post {
-				always {
-					pmd         canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "${env.GRADLE_PROJECT_MODULE_NAME}/build/reports/pmd.xml",        unHealthy: '', unstableTotalAll: '0'
-					checkstyle  canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "${env.GRADLE_PROJECT_MODULE_NAME}/build/reports/checkstyle.xml", unHealthy: '', unstableTotalAll: '0'
-					androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: "${env.GRADLE_PROJECT_MODULE_NAME}/build/reports/lint*.xml",      unHealthy: '', unstableTotalAll: '0'
-				}
-			}
-		}
+                            post {
+                                always {
+                                    recordIssues aggregatingResults: true, enabledForFailure: true, qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]],
+                                                 tools: [androidLintParser(pattern: 'catroid/build/reports/lint*.xml'),
+                                                         checkStyle(pattern: 'catroid/build/reports/checkstyle.xml'),
+                                                         pmdParser(pattern: 'catroid/build/reports/pmd.xml'),
+                                                         detekt(pattern: 'catroid/build/reports/detekt/detekt.xml')]
+                                }
+                            }
+                        }
 
-		stage('Unit and Device tests') {
-			steps {
-				// Run local unit tests
-				sh './gradlew -PenableCoverage jacocoTestCatroidDebugUnitTestReport'
-				// Convert the JaCoCo coverate to the Cobertura XML file format.
-				// This is done since the Jenkins JaCoCo plugin does not work well.
-				// See also JENKINS-212 on jira.catrob.at
-				sh "./buildScripts/cover2cover.py $JACOCO_UNIT_XML $JAVA_SRC/coverage1.xml"
+                        stage('Unit Tests') {
+                            steps {
+                                sh './gradlew -PenableCoverage jacocoTestCatroidDebugUnitTestReport'
+                            }
 
-				// Run device tests for package: org.catrobat.catroid.test
-				sh '''./gradlew -PenableCoverage -Pemulator=android24 startEmulator createCatroidDebugAndroidTestCoverageReport \
-							-Pandroid.testInstrumentationRunnerArguments.package=org.catrobat.catroid.test'''
-				// Convert the JaCoCo coverate to the Cobertura XML file format.
-				// This is done since the Jenkins JaCoCo plugin does not work well.
-				// See also JENKINS-212 on jira.catrob.at
-				sh "./buildScripts/cover2cover.py $JACOCO_XML $JAVA_SRC/coverage2.xml"
-				// ensure that the following test run does not overwrite the results
-				sh "mv ${env.GRADLE_PROJECT_MODULE_NAME}/build/outputs/androidTest-results ${env.GRADLE_PROJECT_MODULE_NAME}/build/outputs/androidTest-results1"
+                            post {
+                                always {
+                                    junitAndCoverage 'catroid/build/reports/jacoco/jacocoTestCatroidDebugUnitTestReport', 'jacocoTestCatroidDebugUnitTestReport.xml', 'unit'
+                                }
+                            }
+                        }
 
-				// Run device tests for class: org.catrobat.catroid.uiespresso.testsuites.PullRequestTriggerSuite
-				sh '''./gradlew -PenableCoverage -Pemulator=android24 startEmulator createCatroidDebugAndroidTestCoverageReport \
-							-Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.uiespresso.testsuites.PullRequestTriggerSuite'''
-				// Convert the JaCoCo coverate to the Cobertura XML file format.
-				// This is done since the Jenkins JaCoCo plugin does not work well.
-				// See also JENKINS-212 on jira.catrob.at
-				sh "./buildScripts/cover2cover.py $JACOCO_XML $JAVA_SRC/coverage3.xml"
-				// ensure that the following test run does not overwrite the results
-				sh "mv ${env.GRADLE_PROJECT_MODULE_NAME}/build/outputs/androidTest-results ${env.GRADLE_PROJECT_MODULE_NAME}/build/outputs/androidTest-results2"
-			}
+                        stage('Instrumented Unit Tests') {
+                            steps {
+                                sh '''./gradlew -PenableCoverage -PlogcatFile=instrumented_unit_logcat.txt -Pemulator=android24 \
+                                            startEmulator createCatroidDebugAndroidTestCoverageReport \
+                                            -Pandroid.testInstrumentationRunnerArguments.package=org.catrobat.catroid.test'''
+                            }
 
-			post {
-				always {
-					sh './gradlew stopEmulator clearAvdStore'
-					archiveArtifacts 'logcat.txt'
-				}
-			}
-		}
+                            post {
+                                always {
+                                    postEmulator 'instrumented_unit'
+                                }
+                            }
+                        }
 
-		stage('Quarantined Tests') {
-			when {
-				expression { isJobStartedByTimer() }
-			}
+                        stage('Legacy Tests') {
+                            steps {
+                                sh '''./gradlew -PenableCoverage -PlogcatFile=legacy_logcat.txt -Pemulator=android19 \
+                                            startEmulator createCatroidDebugAndroidTestCoverageReport \
+                                            -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.uiespresso.testsuites.ApiLevel19RegressionTestsSuite'''
+                            }
 
-			steps {
-				sh '''./gradlew -PenableCoverage -PlogcatFile=quarantined_logcat.txt -Pemulator=android24 \
-							startEmulator createCatroidDebugAndroidTestCoverageReport \
-							-Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.uiespresso.testsuites.QuarantineTestSuite'''
-				archiveArtifacts "$JACOCO_XML"
-				sh "./buildScripts/cover2cover.py $JACOCO_XML $JAVA_SRC/coverage4.xml"
+                            post {
+                                always {
+                                    postEmulator 'legacy'
+                                }
+                            }
+                        }
 
-			}
+                        stage('Testrunner Tests') {
+                            steps {
+                                sh '''./gradlew -PenableCoverage -PlogcatFile=testrunner_logcat.txt -Pemulator=android24 \
+                                                startEmulator createCatroidDebugAndroidTestCoverageReport \
+                                                -Pandroid.testInstrumentationRunnerArguments.package=org.catrobat.catroid.catrobattestrunner'''
 
-			post {
-				always {
-					sh './gradlew stopEmulator clearAvdStore'
-					archiveArtifacts 'quarantined_logcat.txt'
-				}
-			}
-		}
 
-		stage('Standalone-APK') {
-			// It checks that the creation of standalone APKs (APK for a Pocketcode app) works, reducing the risk of breaking gradle changes.
-			// The resulting APK is not verified itself.
-			steps {
-				sh '''./gradlew assembleStandaloneDebug -Papk_generator_enabled=true -Psuffix=generated817.catrobat \
-							-Pdownload='https://share.catrob.at/pocketcode/download/817.catrobat' '''
-				archiveArtifacts "${env.APK_LOCATION_STANDALONE}"
-			}
-		}
+                            }
 
-		stage('Independent-APK') {
-			// It checks that the job builds with the parameters to have unique APKs, reducing the risk of breaking gradle changes.
-			// The resulting APK is not verified on itself.
-			steps {
-				sh "./gradlew assembleCatroidDebug -Pindependent='#$BUILD_NUMBER $BRANCH_NAME'"
-				archiveArtifacts "${env.APK_LOCATION_DEBUG}"
-			}
-		}
-	}
+                            post {
+                                always {
+                                    postEmulator 'testrunner'
+                                }
+                            }
+                        }
 
-	post {
-		always {
-			junit '**/*TEST*.xml'
-			cobertura autoUpdateHealth: false, autoUpdateStability: false, coberturaReportFile: "$JAVA_SRC/coverage*.xml", failUnhealthy: false, failUnstable: false, maxNumberOfBuilds: 0, onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false, failNoReports: false
-			step([$class: 'LogParserPublisher', failBuildOnError: true, projectRulePath: 'buildScripts/log_parser_rules', unstableOnWarning: true, useProjectRule: true])
+                        stage('Quarantined Tests') {
+                            when {
+                                expression { isJobStartedByTimer() }
+                            }
 
-			// Send notifications with standalone=false
-			script {
-				sendNotifications false
-			}
-		}
-	}
+                            steps {
+                                sh '''./gradlew -PenableCoverage -PlogcatFile=quarantined_logcat.txt -Pemulator=android24 \
+                                            startEmulator createCatroidDebugAndroidTestCoverageReport \
+                                            -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.uiespresso.testsuites.QuarantineTestSuite'''
+                            }
+
+                            post {
+                                always {
+                                    postEmulator 'quarantined'
+                                }
+                            }
+                        }
+                    }
+
+                    post {
+                        always {
+                            stash name: 'logParserRules', includes: 'buildScripts/log_parser_rules'
+                        }
+                    }
+                }
+
+                stage('2') {
+                    agent {
+                        dockerfile {
+                            filename d.fileName
+                            dir d.dir
+                            additionalBuildArgs d.buildArgs
+                            args d.args
+                            label d.label
+                        }
+                    }
+
+                    stages {
+                        stage('Pull Request Suite') {
+                            steps {
+                                sh '''./gradlew -PenableCoverage -PlogcatFile=pull_request_suite_logcat.txt -Pemulator=android24 \
+                                            startEmulator createCatroidDebugAndroidTestCoverageReport \
+                                            -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.uiespresso.testsuites.PullRequestTriggerSuite'''
+                            }
+
+                            post {
+                                always {
+                                    postEmulator 'pull_request_suite'
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            node('master') {
+                unstash 'logParserRules'
+                step([$class: 'LogParserPublisher', failBuildOnError: true, projectRulePath: 'buildScripts/log_parser_rules', unstableOnWarning: true, useProjectRule: true])
+            }
+        }
+        changed {
+            node('master') {
+                notifyChat()
+            }
+        }
+    }
 }

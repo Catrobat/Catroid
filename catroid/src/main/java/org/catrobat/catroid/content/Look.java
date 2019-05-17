@@ -61,7 +61,7 @@ public class Look extends Image {
 	public static final int ROTATION_STYLE_ALL_AROUND = 1;
 	public static final int ROTATION_STYLE_NONE = 2;
 
-	private static final float DEGREE_UI_OFFSET = 90.0f;
+	public static final float DEGREE_UI_OFFSET = 90.0f;
 	private static final float COLOR_SCALE = 200.0f;
 	private boolean lookVisible = true;
 	protected boolean imageChanged = false;
@@ -217,6 +217,10 @@ public class Look extends Image {
 		if (scheduler != null) {
 			scheduler.stopThreadsWithScript(script);
 		}
+	}
+
+	public void setSchedulerState(@ThreadScheduler.SchedulerState int state) {
+		scheduler.setState(state);
 	}
 
 	protected void checkImageChanged() {
@@ -429,10 +433,6 @@ public class Look extends Image {
 				setRotation(0f);
 				break;
 		}
-	}
-
-	public float getRealRotation() {
-		return realRotation;
 	}
 
 	public boolean isFlipped() {

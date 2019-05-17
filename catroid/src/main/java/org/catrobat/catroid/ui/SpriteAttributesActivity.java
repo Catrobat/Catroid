@@ -44,7 +44,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.recyclerview.RVButton;
 import org.catrobat.catroid.ui.recyclerview.adapter.ButtonAdapter;
-import org.catrobat.catroid.ui.recyclerview.dialog.PlaySceneDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.RenameItemTextWatcher;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
@@ -106,7 +105,10 @@ public class SpriteAttributesActivity extends BaseActivity implements ButtonAdap
 		items.add(new RVButton(SCRIPTS, ContextCompat.getDrawable(this, R.drawable.ic_program_menu_scripts),
 				getString(R.string.scripts)));
 
-		if (ProjectManager.getInstance().getCurrentSpritePosition() == 0) {
+		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+
+		if (currentSprite.equals(currentScene.getBackgroundSprite())) {
 			items.add(new RVButton(LOOKS, ContextCompat.getDrawable(this, R.drawable.ic_program_menu_looks),
 					getString(R.string.backgrounds)));
 		} else {
@@ -138,7 +140,10 @@ public class SpriteAttributesActivity extends BaseActivity implements ButtonAdap
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		if (ProjectManager.getInstance().getCurrentSpritePosition() == 0) {
+		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+
+		if (currentSprite.equals(currentScene.getBackgroundSprite())) {
 			return super.onCreateOptionsMenu(menu);
 		}
 		getMenuInflater().inflate(R.menu.menu_program_menu, menu);
@@ -163,7 +168,6 @@ public class SpriteAttributesActivity extends BaseActivity implements ButtonAdap
 
 		builder.setTitle(R.string.rename_sprite_dialog)
 				.setNegativeButton(R.string.cancel, null)
-				.create()
 				.show();
 	}
 
@@ -199,29 +203,6 @@ public class SpriteAttributesActivity extends BaseActivity implements ButtonAdap
 	}
 
 	public void handlePlayButton(View view) {
-		ProjectManager projectManager = ProjectManager.getInstance();
-		Scene currentScene = projectManager.getCurrentlyEditedScene();
-		Scene defaultScene = projectManager.getCurrentProject().getDefaultScene();
-
-		if (currentScene.getName().equals(defaultScene.getName())) {
-			projectManager.setCurrentlyPlayingScene(defaultScene);
-			projectManager.setStartScene(defaultScene);
-			startStageActivity();
-		} else {
-			new PlaySceneDialog.Builder(this)
-					.setPositiveButton(R.string.play, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							startStageActivity();
-						}
-					})
-					.create()
-					.show();
-		}
-	}
-
-	public void startStageActivity() {
-		Intent intent = new Intent(this, StageActivity.class);
-		startActivityForResult(intent, StageActivity.REQUEST_START_STAGE);
+		StageActivity.handlePlayButton(ProjectManager.getInstance(), this);
 	}
 }

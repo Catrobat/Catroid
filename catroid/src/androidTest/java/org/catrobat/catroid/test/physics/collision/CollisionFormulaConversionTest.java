@@ -40,7 +40,6 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
-import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -63,7 +62,6 @@ import static org.junit.Assert.assertThat;
 public class CollisionFormulaConversionTest {
 
 	private static final String COLLISION_TEST_PROJECT = "COLLISION_TEST_PROJECT";
-	private static final float OLD_CATROBAT_LANGUAGE_VERSION = 0.992f;
 	private ProjectManager projectManager;
 
 	@Before
@@ -74,20 +72,9 @@ public class CollisionFormulaConversionTest {
 
 	@After
 	public void tearDown() throws Exception {
-		projectManager.setProject(null);
+		projectManager.setCurrentProject(null);
 		TestUtils.deleteProjects(COLLISION_TEST_PROJECT);
 		TestUtils.removeFromPreferences(InstrumentationRegistry.getContext(), Constants.PREF_PROJECTNAME_KEY);
-	}
-
-	@Test
-	public void testCatrobatLanguageVersionUpdated() throws IOException, ProjectException {
-		TestUtils.createProjectWithLanguageVersion(OLD_CATROBAT_LANGUAGE_VERSION,
-				"testProject");
-		projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, InstrumentationRegistry.getTargetContext());
-
-		assertEquals(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION,
-				projectManager.getCurrentProject().getCatrobatLanguageVersion());
-		TestUtils.deleteProjects();
 	}
 
 	@Test
@@ -101,7 +88,7 @@ public class CollisionFormulaConversionTest {
 				InstrumentationRegistry.getTargetContext(),
 				firstSpriteName, secondSpriteName, thirdSpriteName, collisionTag);
 
-		project.updateCollisionFormulasToVersion(0.993f);
+		ProjectManager.updateCollisionFormulasTo993(project);
 
 		Sprite sprite1 = project.getDefaultScene().getSprite(firstSpriteName);
 		Brick brick = sprite1.getScript(0).getBrick(0);
@@ -123,7 +110,6 @@ public class CollisionFormulaConversionTest {
 		String secondSpriteName = "sprite2";
 		String thirdSpriteName = "sprite3";
 
-		//Set to US locale
 		Resources res = CatroidApplication.getAppContext().getResources();
 		Configuration conf = res.getConfiguration();
 		Locale savedLocale = conf.locale;
@@ -131,7 +117,6 @@ public class CollisionFormulaConversionTest {
 		res.updateConfiguration(conf, null);
 		String collisionTag = res.getString(R.string.formula_editor_function_collision);
 
-		// restore original locale
 		conf.locale = savedLocale;
 		res.updateConfiguration(conf, null);
 
@@ -141,7 +126,8 @@ public class CollisionFormulaConversionTest {
 		Project project = createProjectWithOldCollisionFormulas(COLLISION_TEST_PROJECT,
 				InstrumentationRegistry.getTargetContext(),
 				firstSpriteName, secondSpriteName, thirdSpriteName, collisionTag);
-		project.updateCollisionFormulasToVersion(0.993f);
+
+		ProjectManager.updateCollisionFormulasTo993(project);
 
 		Sprite sprite1 = project.getDefaultScene().getSprite(firstSpriteName);
 		Brick brick = sprite1.getScript(0).getBrick(0);
@@ -167,12 +153,13 @@ public class CollisionFormulaConversionTest {
 
 		Script firstScript = new StartScript();
 
-		FormulaElement element1 = new FormulaElement(FormulaElement.ElementType.COLLISION_FORMULA, firstSprite + " "
-				+ collisionTag + " " + thirdSprite, null);
-		Formula formula1 = new Formula(element1);
-		IfLogicBeginBrick ifBrick = new IfLogicBeginBrick(formula1);
+		FormulaElement formulaElement = new FormulaElement(FormulaElement.ElementType.COLLISION_FORMULA,
+				firstSprite + " " + collisionTag + " " + thirdSprite, null);
+		Formula formula1 = new Formula(formulaElement);
 
+		IfLogicBeginBrick ifBrick = new IfLogicBeginBrick(formula1);
 		firstScript.addBrick(ifBrick);
+
 		sprite1.addScript(firstScript);
 
 		project.getDefaultScene().addSprite(sprite1);

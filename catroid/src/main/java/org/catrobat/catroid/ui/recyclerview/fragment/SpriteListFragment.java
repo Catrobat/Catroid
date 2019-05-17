@@ -78,7 +78,6 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 
 			switch (actionState) {
 				case ItemTouchHelper.ACTION_STATE_IDLE:
-					Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 					List<Sprite> items = adapter.getItems();
 
 					for (Sprite sprite : items) {
@@ -86,7 +85,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 							continue;
 						}
 						if (sprite.toBeConverted()) {
-							Sprite convertedSprite = spriteController.convert(sprite, currentScene);
+							Sprite convertedSprite = spriteController.convert(sprite);
 							items.set(items.indexOf(sprite), convertedSprite);
 						}
 					}
@@ -165,7 +164,6 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 
 		builder.setTitle(R.string.new_group)
 				.setNegativeButton(R.string.cancel, null)
-				.create()
 				.show();
 	}
 
@@ -219,12 +217,13 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	@Override
 	protected void copyItems(List<Sprite> selectedItems) {
 		setShowProgressBar(true);
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 		int copiedItemCnt = 0;
 
 		for (Sprite item : selectedItems) {
 			try {
-				adapter.add(spriteController.copy(item, currentScene, currentScene));
+				adapter.add(spriteController.copy(item, currentProject, currentScene));
 				copiedItemCnt++;
 			} catch (IOException e) {
 				Log.e(TAG, Log.getStackTraceString(e));
@@ -249,18 +248,17 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	@Override
 	protected void deleteItems(List<Sprite> selectedItems) {
 		setShowProgressBar(true);
-		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 
 		for (Sprite item : selectedItems) {
 			if (item instanceof GroupSprite) {
 				for (Sprite sprite : ((GroupSprite) item).getGroupItems()) {
 					sprite.setConvertToSingleSprite(true);
-					Sprite convertedSprite = spriteController.convert(sprite, currentScene);
+					Sprite convertedSprite = spriteController.convert(sprite);
 					adapter.getItems().set(adapter.getItems().indexOf(sprite), convertedSprite);
 				}
 				adapter.notifyDataSetChanged();
 			}
-			spriteController.delete(item, currentScene);
+			spriteController.delete(item);
 			adapter.remove(item);
 		}
 
@@ -292,6 +290,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 				return R.plurals.am_delete_sprites_title;
 			case RENAME:
 				return R.plurals.am_rename_sprites_title;
+			case MERGE:
 			case NONE:
 			default:
 				throw new IllegalStateException("ActionModeType not set correctly");

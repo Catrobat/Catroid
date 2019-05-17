@@ -26,6 +26,7 @@ import android.content.Context;
 import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,11 @@ import android.widget.CheckBox;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
+
+import java.util.Collections;
+import java.util.List;
 
 public abstract class BrickBaseType implements Brick {
 
@@ -40,6 +46,8 @@ public abstract class BrickBaseType implements Brick {
 
 	public transient View view;
 	private transient CheckBox checkbox;
+
+	protected transient Brick parent;
 
 	protected boolean commentedOut;
 
@@ -60,16 +68,13 @@ public abstract class BrickBaseType implements Brick {
 	}
 
 	@Override
-	public BrickBaseType clone() throws CloneNotSupportedException {
+	public Brick clone() throws CloneNotSupportedException {
 		BrickBaseType clone = (BrickBaseType) super.clone();
 		clone.view = null;
 		clone.checkbox = null;
+		clone.parent = null;
 		clone.commentedOut = commentedOut;
 		return clone;
-	}
-
-	public boolean hasHelpPage() {
-		return true;
 	}
 
 	@Override
@@ -87,10 +92,11 @@ public abstract class BrickBaseType implements Brick {
 		return view;
 	}
 
-	public void onViewCreated() {
-	}
-
-	public void onPrototypeViewCreated() {
+	@Override
+	public View getPrototypeView(Context context) {
+		View view = getView(context);
+		disableSpinners(view);
+		return view;
 	}
 
 	public void disableSpinners() {
@@ -108,6 +114,71 @@ public abstract class BrickBaseType implements Brick {
 			for (int i = 0; i < parent.getChildCount(); i++) {
 				disableSpinners(parent.getChildAt(i));
 			}
+		}
+	}
+
+	@Override
+	public boolean consistsOfMultipleParts() {
+		return false;
+	}
+
+	@Override
+	public List<Brick> getAllParts() {
+		return Collections.singletonList(this);
+	}
+
+	@Override
+	public void addToFlatList(List<Brick> bricks) {
+		bricks.add(this);
+	}
+
+	@Override
+	public Script getScript() {
+		return getParent().getScript();
+	}
+
+	@Override
+	public int getPositionInScript() {
+		if (getParent() instanceof ScriptBrick) {
+			return getScript().getBrickList().indexOf(this);
+		}
+		return getParent().getPositionInScript();
+	}
+
+	@Override
+	public Brick getParent() {
+		return parent;
+	}
+
+	@Override
+	public void setParent(Brick parent) {
+		this.parent = parent;
+	}
+
+	@Override
+	public List<Brick> getDragAndDropTargetList() {
+		return getParent().getDragAndDropTargetList();
+	}
+
+	@Override
+	public int getPositionInDragAndDropTargetList() {
+		return getDragAndDropTargetList().indexOf(this);
+	}
+
+	@Override
+	public boolean removeChild(Brick brick) {
+		return false;
+	}
+
+	public boolean hasHelpPage() {
+		return true;
+	}
+
+	void notifyDataSetChanged(AppCompatActivity activity) {
+		ScriptFragment parentFragment = (ScriptFragment) activity
+				.getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG);
+		if (parentFragment != null) {
+			parentFragment.notifyDataSetChanged();
 		}
 	}
 }

@@ -27,18 +27,28 @@ import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
+import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript;
+import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 
 @RunWith(AndroidJUnit4.class)
 public class PlaceAtBrickTest {
@@ -48,10 +58,15 @@ public class PlaceAtBrickTest {
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 
+	@After
+	public void tearDown() throws Exception {
+		TestUtils.deleteProjects(PlaceAtBrickTest.class.getName());
+	}
+
 	@Before
 	public void setUp() throws Exception {
 		brickPosition = 1;
-		createProjectAndGetStartScript("cameraBrickTest")
+		createProjectAndGetStartScript(PlaceAtBrickTest.class.getName())
 				.addBrick(new PlaceAtBrick());
 		baseActivityTestRule.launchActivity();
 	}
@@ -60,12 +75,34 @@ public class PlaceAtBrickTest {
 	@Test
 	public void testPlaceAtBrick() {
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_place_at);
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_place_at_edit_text_x)
+		onView(withId(R.id.brick_place_at_edit_text_x))
+				.perform(click());
+		onView(withText(R.string.brick_place_at_option_place_visually))
+				.check(matches(isDisplayed()));
+		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
+				.check(matches(isDisplayed()))
+				.perform(click());
+		onFormulaEditor()
 				.performEnterNumber(42)
-				.checkShowsNumber(42);
+				.performCloseAndSave();
+		onView(withId(R.id.brick_place_at_edit_text_x))
+				.check(matches(withText("42 ")));
 
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_place_at_edit_text_y)
+		onView(withId(R.id.brick_place_at_edit_text_y))
+				.perform(click());
+		onView(withText(R.string.brick_place_at_option_place_visually))
+				.check(matches(isDisplayed()));
+		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
+				.check(matches(isDisplayed()))
+				.perform(click());
+		onFormulaEditor()
 				.performEnterNumber(42)
-				.checkShowsNumber(42);
+				.performCloseAndSave();
+		onView(withId(R.id.brick_place_at_edit_text_y))
+				.check(matches(withText("42 ")));
+
+		onBrickAtPosition(brickPosition).performClick();
+		onView(withText(R.string.brick_place_at_option_place_visually))
+				.check(matches(isDisplayed()));
 	}
 }

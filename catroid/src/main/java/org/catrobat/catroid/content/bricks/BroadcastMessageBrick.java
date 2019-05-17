@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
@@ -34,6 +35,7 @@ import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.NonEmptyStringTextWatcher;
@@ -51,7 +53,7 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 	public abstract void setBroadcastMessage(String broadcastMessage);
 
 	@Override
-	public BrickBaseType clone() throws CloneNotSupportedException {
+	public Brick clone() throws CloneNotSupportedException {
 		BroadcastMessageBrick clone = (BroadcastMessageBrick) super.clone();
 		clone.spinner = null;
 		return clone;
@@ -82,36 +84,18 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 
 	@Override
 	public void onNewOptionSelected() {
-		AppCompatActivity activity = UiUtils.getActivityFromView(view);
-		if (activity == null) {
+		final AppCompatActivity activity = UiUtils.getActivityFromView(view);
+		if (!(activity instanceof SpriteActivity)) {
 			return;
 		}
-
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(activity);
 
 		builder.setHint(activity.getString(R.string.dialog_new_broadcast_message_name))
 				.setTextWatcher(new NonEmptyStringTextWatcher())
-				.setPositiveButton(activity.getString(R.string.ok), new TextInputDialog.OnClickListener() {
-					@Override
-					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
-						addItem(textInput);
-					}
-				});
-
-		builder.setTitle(R.string.dialog_new_broadcast_message_title)
-				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						spinner.setSelection(getBroadcastMessage());
-					}
-				})
-				.setOnCancelListener(new DialogInterface.OnCancelListener() {
-					@Override
-					public void onCancel(DialogInterface dialog) {
-						spinner.setSelection(getBroadcastMessage());
-					}
-				})
-				.create()
+				.setPositiveButton(activity.getString(R.string.ok), getOkButtonListener(activity))
+				.setTitle(R.string.dialog_new_broadcast_message_title)
+				.setNegativeButton(R.string.cancel, getNegativeButtonListener())
+				.setOnCancelListener(getCanceledListener())
 				.show();
 	}
 
@@ -129,5 +113,23 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 
 	@Override
 	public void onItemSelected(@Nullable StringOption item) {
+	}
+
+	@VisibleForTesting
+	public TextInputDialog.OnClickListener getOkButtonListener(AppCompatActivity activity) {
+		return (dialog, textInput) -> {
+			addItem(textInput);
+			notifyDataSetChanged(activity);
+		};
+	}
+
+	@VisibleForTesting
+	public DialogInterface.OnClickListener getNegativeButtonListener() {
+		return (dialog, which) -> spinner.setSelection(getBroadcastMessage());
+	}
+
+	@VisibleForTesting
+	public DialogInterface.OnCancelListener getCanceledListener() {
+		return dialog -> spinner.setSelection(getBroadcastMessage());
 	}
 }

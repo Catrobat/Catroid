@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.test.devices.phiro;
 
-import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -34,13 +33,12 @@ import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
-import org.catrobat.catroid.exceptions.CompatibilityProjectException;
-import org.catrobat.catroid.exceptions.LoadingProjectException;
-import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
+import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.junit.After;
 import org.junit.Before;
@@ -56,49 +54,50 @@ import static junit.framework.Assert.assertTrue;
 @RunWith(AndroidJUnit4.class)
 public class PhiroSettingsTest {
 
+	private boolean sharedPreferenceBuffer;
 	private String projectName = "testProject";
-	Context context = null;
+	private Project project;
 
 	@Before
 	public void setUp() throws Exception {
-
-		context = InstrumentationRegistry.getTargetContext();
-		SettingsFragment.setPhiroSharedPreferenceEnabled(context, false);
+		sharedPreferenceBuffer =
+				SettingsFragment.isPhiroSharedPreferenceEnabled(InstrumentationRegistry.getTargetContext());
+		SettingsFragment.setPhiroSharedPreferenceEnabled(InstrumentationRegistry.getTargetContext(), false);
+		createProject();
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		SettingsFragment.setPhiroSharedPreferenceEnabled(context, false);
+		SettingsFragment
+				.setPhiroSharedPreferenceEnabled(InstrumentationRegistry.getTargetContext(), sharedPreferenceBuffer);
 	}
 
 	@Test
-	public void testIfPhiroBricksAreEnabledIfItItUsedInAProgram() throws IOException, CompatibilityProjectException,
-			OutdatedVersionProjectException, LoadingProjectException, InterruptedException {
+	public void testIfPhiroBricksAreEnabledIfItItUsedInAProgram() throws IOException, ProjectException {
+		assertFalse(SettingsFragment.isPhiroSharedPreferenceEnabled(InstrumentationRegistry.getTargetContext()));
 
-		createProjectPhiro();
+		ProjectManager.getInstance()
+				.loadProject(project.getDirectory(), InstrumentationRegistry.getTargetContext());
 
-		assertFalse(SettingsFragment.isPhiroSharedPreferenceEnabled(context));
-
-		ProjectManager.getInstance().loadProject(projectName, context);
-
-		assertTrue(SettingsFragment.isPhiroSharedPreferenceEnabled(context));
+		assertTrue(SettingsFragment.isPhiroSharedPreferenceEnabled(InstrumentationRegistry.getTargetContext()));
 
 		StorageOperations.deleteDir(new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName));
 	}
 
-	private void createProjectPhiro() throws InterruptedException {
-		Project projectPhiro = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+	private void createProject() {
+		project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		Sprite sprite = new SingleSprite("Phiro");
 		StartScript startScript = new StartScript();
-		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(new Formula(new FormulaElement(FormulaElement.ElementType.SENSOR,
-				Sensors.PHIRO_BOTTOM_LEFT.name(), null)));
+		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(
+				new Formula(new FormulaElement(FormulaElement.ElementType.SENSOR,
+						Sensors.PHIRO_BOTTOM_LEFT.name(), null)));
+
 		startScript.addBrick(setSizeToBrick);
 		sprite.addScript(startScript);
-		projectPhiro.getDefaultScene().addSprite(sprite);
+		project.getDefaultScene().addSprite(sprite);
 
-		ProjectManager.getInstance().setProject(projectPhiro);
-		ProjectManager.getInstance().saveProject(context);
-		Thread.sleep(100);
-		ProjectManager.getInstance().setProject(null);
+		ProjectManager.getInstance().setCurrentProject(project);
+		ProjectSaveTask
+				.task(project, InstrumentationRegistry.getTargetContext());
 	}
 }

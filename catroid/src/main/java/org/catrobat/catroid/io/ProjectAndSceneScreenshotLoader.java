@@ -23,15 +23,11 @@
 package org.catrobat.catroid.io;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.utils.ImageEditing;
-import org.catrobat.catroid.utils.PathBuilder;
 
 import java.io.File;
 import java.util.Collections;
@@ -42,6 +38,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static org.catrobat.catroid.common.Constants.BACKPACK_SCENE_DIRECTORY;
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+import static org.catrobat.catroid.stage.StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME;
+import static org.catrobat.catroid.stage.StageListener.SCREENSHOT_MANUAL_FILE_NAME;
 
 public class ProjectAndSceneScreenshotLoader {
 
@@ -66,7 +65,8 @@ public class ProjectAndSceneScreenshotLoader {
 
 	private Map<ImageView, String> imageViews = Collections.synchronizedMap(new WeakHashMap<ImageView, String>());
 	private ExecutorService executorService;
-	private Context context;
+	private int thumbnailWidth;
+	private int thumbnailHeight;
 
 	private Map<String, Bitmap> imageCache = Collections.synchronizedMap(new LinkedHashMap<String, Bitmap>(
 			INITIAL_VALUE, LOAD_FACTOR, true) {
@@ -79,9 +79,10 @@ public class ProjectAndSceneScreenshotLoader {
 		}
 	});
 
-	public ProjectAndSceneScreenshotLoader(Context context) {
+	public ProjectAndSceneScreenshotLoader(int thumbnailWidth, int thumbnailHeight) {
 		executorService = Executors.newFixedThreadPool(POOL_SIZE);
-		this.context = context;
+		this.thumbnailWidth = thumbnailWidth;
+		this.thumbnailHeight = thumbnailHeight;
 	}
 
 	public void loadAndShowScreenshot(String projectName, String sceneName, boolean isBackpackScene, ImageView
@@ -134,9 +135,7 @@ public class ProjectAndSceneScreenshotLoader {
 			if (!projectAndSceneImageFile.exists() || ImageEditing.getImageDimensions(pathOfScreenshot)[0] < 0) {
 				projectAndSceneImage = null;
 			} else {
-				int width = context.getResources().getDimensionPixelSize(R.dimen.project_thumbnail_width);
-				int height = context.getResources().getDimensionPixelSize(R.dimen.project_thumbnail_height);
-				projectAndSceneImage = ImageEditing.getScaledBitmapFromPath(pathOfScreenshot, width, height,
+				projectAndSceneImage = ImageEditing.getScaledBitmapFromPath(pathOfScreenshot, thumbnailWidth, thumbnailHeight,
 						ImageEditing.ResizeType.STAY_IN_RECTANGLE_WITH_SAME_ASPECT_RATIO, true);
 			}
 
@@ -174,38 +173,35 @@ public class ProjectAndSceneScreenshotLoader {
 		}
 
 		File getScreenshotFile() {
-			String pathOfManualScreenshot;
-			String pathOfAutomaticScreenshot;
+			File manualScreenshotFile;
+			File automaticScreenShotFile;
 			if (projectAndSceneScreenshotData.sceneName != null) {
 				if (projectAndSceneScreenshotData.isBackpackScene) {
 					File sceneDir = new File(BACKPACK_SCENE_DIRECTORY, projectAndSceneScreenshotData.sceneName);
-
-					pathOfManualScreenshot = PathBuilder.buildPath(sceneDir.getAbsolutePath(),
-							StageListener.SCREENSHOT_MANUAL_FILE_NAME);
-					pathOfAutomaticScreenshot = PathBuilder.buildPath(sceneDir.getAbsolutePath(),
-							StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
+					manualScreenshotFile = new File(sceneDir, SCREENSHOT_MANUAL_FILE_NAME);
+					automaticScreenShotFile = new File(sceneDir, SCREENSHOT_AUTOMATIC_FILE_NAME);
 				} else {
-					String scenePath = PathBuilder.buildScenePath(projectAndSceneScreenshotData.projectName,
-							projectAndSceneScreenshotData.sceneName);
-					pathOfManualScreenshot = PathBuilder.buildPath(scenePath, StageListener.SCREENSHOT_MANUAL_FILE_NAME);
-					pathOfAutomaticScreenshot = PathBuilder.buildPath(scenePath, StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
+					File sceneDir = new File(new File(DEFAULT_ROOT_DIRECTORY,
+							projectAndSceneScreenshotData.projectName), projectAndSceneScreenshotData.sceneName);
+					manualScreenshotFile = new File(sceneDir, SCREENSHOT_MANUAL_FILE_NAME);
+					automaticScreenShotFile = new File(sceneDir, SCREENSHOT_AUTOMATIC_FILE_NAME);
 				}
 			} else {
-				String projectPath = PathBuilder.buildProjectPath(projectAndSceneScreenshotData.projectName);
-				pathOfManualScreenshot = PathBuilder.buildPath(projectPath, StageListener.SCREENSHOT_MANUAL_FILE_NAME);
-				pathOfAutomaticScreenshot = PathBuilder.buildPath(projectPath, StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
+				File projectDir = new File(DEFAULT_ROOT_DIRECTORY, projectAndSceneScreenshotData.projectName);
+				manualScreenshotFile = new File(projectDir, SCREENSHOT_MANUAL_FILE_NAME);
+				automaticScreenShotFile = new File(projectDir, SCREENSHOT_AUTOMATIC_FILE_NAME);
 			}
 
-			File projectAndSceneImageFile = new File(pathOfManualScreenshot);
-			if (!(projectAndSceneImageFile.exists() && projectAndSceneImageFile.length() > 0)) {
-				projectAndSceneImageFile.delete();
-				projectAndSceneImageFile = new File(pathOfAutomaticScreenshot);
+			if (manualScreenshotFile.exists() && manualScreenshotFile.length() > 0) {
+				return manualScreenshotFile;
+			} else {
+				manualScreenshotFile.delete();
+				return automaticScreenShotFile;
 			}
-			return projectAndSceneImageFile;
 		}
 	}
 
-	boolean imageViewReused(ScreenshotData projectScreenshotData) {
+	private boolean imageViewReused(ScreenshotData projectScreenshotData) {
 		String tag = imageViews.get(projectScreenshotData.imageView);
 		String screenshotName = "";
 		if (projectScreenshotData.projectName != null) {

@@ -24,23 +24,21 @@ package org.catrobat.catroid.ui.dragndrop;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import org.catrobat.catroid.content.bricks.BrickBaseType;
+import org.catrobat.catroid.content.bricks.Brick;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,11 +61,12 @@ public class BrickListView extends ListView {
 	private int lowerScrollBound;
 
 	private BitmapDrawable hoveringDrawable;
-	private Rect viewBounds;
+	private Rect viewBounds = new Rect();
 
 	private int currentPositionOfHoveringBrick;
 
-	private List<BrickBaseType> bricksToMove = new ArrayList<>();
+	private Brick brickToMove;
+	private List<Integer> brickPositionsToHighlight = new ArrayList<>();
 
 	private int motionEventId = -1;
 	private float downY = 0;
@@ -76,6 +75,8 @@ public class BrickListView extends ListView {
 	private boolean invalidateHoveringItem = false;
 
 	private BrickAdapterInterface brickAdapterInterface;
+
+	private int translucentBlack = Color.argb(128, 0, 0, 0);
 
 	public BrickListView(Context context) {
 		super(context);
@@ -93,49 +94,73 @@ public class BrickListView extends ListView {
 		return hoveringDrawable != null;
 	}
 
+	public boolean isCurrentlyHighlighted() {
+		return !brickPositionsToHighlight.isEmpty();
+	}
+
+	public List<Integer> getBrickPositionsToHighlight() {
+		return brickPositionsToHighlight;
+	}
+
 	public void highlightMovingItem() {
 		ObjectAnimator animator = ObjectAnimator.ofInt(hoveringDrawable, "alpha", 255, 0);
 		animator.setDuration(ANIMATION_DURATION);
 		animator.setRepeatMode(REVERSE);
 		animator.setRepeatCount(5);
 		animator.start();
-		animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-			@Override
-			public void onAnimationUpdate(ValueAnimator animation) {
-				invalidate();
-			}
-		});
+		animator.addUpdateListener(animation -> invalidate());
 	}
 
-	public void startMoving(List<BrickBaseType> bricksToMove, int positionOfFirstBrick) {
-		cancelMove();
-		this.bricksToMove.addAll(bricksToMove);
-		brickAdapterInterface.removeItems(bricksToMove.subList(1, bricksToMove.size()));
+	public void cancelHighlighting() {
+		brickPositionsToHighlight.clear();
+		invalidate();
+	}
 
-		currentPositionOfHoveringBrick = positionOfFirstBrick;
+	public void highlightControlStructureBricks(List<Integer> positions) {
+		cancelHighlighting();
+		brickPositionsToHighlight.addAll(positions);
+		invalidate();
+	}
+
+	public void startMoving(Brick brickToMove) {
+		cancelMove();
+
+		List<Brick> flatList = new ArrayList<>();
+		brickToMove.addToFlatList(flatList);
+
+		if (brickToMove != flatList.get(0)) {
+			return;
+		}
+
+		this.brickToMove = flatList.get(0);
+		flatList.remove(0);
 
 		upperScrollBound = getHeight() / 8;
 		lowerScrollBound = getHeight() / 8 * 6;
 
-		brickAdapterInterface.setItemVisible(positionOfFirstBrick, false);
+		currentPositionOfHoveringBrick = brickAdapterInterface.getPosition(this.brickToMove);
+
 		invalidateHoveringItem = true;
 
-		drawHoveringItem(getChildAtVisiblePosition(positionOfFirstBrick));
-		setOffsetToCenter(viewBounds);
-		invalidate();
+		prepareHoveringItem(getChildAtVisiblePosition(currentPositionOfHoveringBrick));
+
+		brickAdapterInterface.setItemVisible(currentPositionOfHoveringBrick, false);
+
+		if (!brickAdapterInterface.removeItems(flatList)) {
+			invalidateViews();
+		}
 	}
 
 	public void stopMoving() {
-		brickAdapterInterface.moveItemsTo(currentPositionOfHoveringBrick, bricksToMove);
+		brickAdapterInterface.moveItemTo(currentPositionOfHoveringBrick, brickToMove);
 		cancelMove();
 	}
 
 	public void cancelMove() {
 		brickAdapterInterface.setAllPositionsVisible();
-		bricksToMove.clear();
+		brickToMove = null;
 		hoveringDrawable = null;
 		motionEventId = -1;
-		invalidateViews();
 	}
 
 	@Override
@@ -178,37 +203,58 @@ public class BrickListView extends ListView {
 	public void dispatchDraw(Canvas canvas) {
 		super.dispatchDraw(canvas);
 
-		if (!bricksToMove.isEmpty()) {
-			Rect rect = new Rect(0, 0, canvas.getWidth(), canvas.getHeight());
-			Paint paint = new Paint();
-			paint.setColor(Color.BLACK);
-			paint.setStyle(Paint.Style.FILL);
-			paint.setAlpha(128);
+		if (brickToMove != null || !brickPositionsToHighlight.isEmpty()) {
+			canvas.drawColor(translucentBlack);
+		}
 
-			canvas.drawRect(rect, paint);
+		if (invalidateHoveringItem) {
+			View childAtVisiblePosition = getChildAtVisiblePosition(currentPositionOfHoveringBrick);
+			if (childAtVisiblePosition != null) {
+				invalidateHoveringItem = false;
+				prepareHoveringItem(childAtVisiblePosition);
+			}
 		}
 
 		if (hoveringDrawable != null) {
-			if (invalidateHoveringItem) {
-				invalidateHoveringItem = false;
-				drawHoveringItem(getChildAtVisiblePosition(currentPositionOfHoveringBrick));
-			}
 			hoveringDrawable.draw(canvas);
+		}
+
+		for (int pos : brickPositionsToHighlight) {
+			if (pos >= getFirstVisiblePosition() && pos <= getLastVisiblePosition()) {
+				drawHighlightedItem(getChildAtVisiblePosition(pos), canvas);
+			}
 		}
 	}
 
-	private void drawHoveringItem(View view) {
+	@VisibleForTesting
+	public void drawHighlightedItem(View view, Canvas canvas) {
 		if (view == null) {
 			return;
 		}
+
 		Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
 		view.draw(new Canvas(bitmap));
 
-		BitmapDrawable drawable = new BitmapDrawable(getResources(), getGlowingBorder(bitmap));
+		BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
+		drawable.setBounds(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
+		drawable.draw(canvas);
+	}
 
-		viewBounds = new Rect(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
+	private void prepareHoveringItem(View view) {
+		if (view == null) {
+			return;
+		}
+
+		Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+		view.draw(new Canvas(bitmap));
+
+		viewBounds.set(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
+
+		BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
 		drawable.setBounds(viewBounds);
 		hoveringDrawable = drawable;
+
+		setOffsetToCenter(viewBounds);
 	}
 
 	private void setOffsetToCenter(@NonNull Rect viewBounds) {
@@ -284,23 +330,6 @@ public class BrickListView extends ListView {
 
 	private boolean isPositionValid(int position) {
 		return (position >= 0 && position < getCount());
-	}
-
-	public Bitmap getGlowingBorder(Bitmap bitmap) {
-		Bitmap glowingBitmap = Bitmap
-				.createBitmap(bitmap.getWidth() + 30, bitmap.getHeight() + 30, Bitmap.Config.ARGB_8888);
-		Canvas glowingCanvas = new Canvas(glowingBitmap);
-		Bitmap alpha = bitmap.extractAlpha();
-		Paint paintBlur = new Paint();
-		paintBlur.setColor(Color.WHITE);
-		glowingCanvas.drawBitmap(alpha, 15, 15, paintBlur);
-		BlurMaskFilter blurMaskFilter = new BlurMaskFilter(15.0f, BlurMaskFilter.Blur.OUTER);
-		paintBlur.setMaskFilter(blurMaskFilter);
-		glowingCanvas.drawBitmap(alpha, 15, 15, paintBlur);
-		paintBlur.setMaskFilter(null);
-		glowingCanvas.drawBitmap(bitmap, 15, 15, paintBlur);
-
-		return glowingBitmap;
 	}
 
 	@Override

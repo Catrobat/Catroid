@@ -27,8 +27,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 
-import java.util.List;
-
 public class JumpingSumoMoveBackwardBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
@@ -61,15 +59,14 @@ public class JumpingSumoMoveBackwardBrick extends FormulaBrick {
 	}
 
 	@Override
-	protected BrickField getDefaultBrickField() {
+	public BrickField getDefaultBrickField() {
 		return BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS;
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createJumpingSumoMoveBackwardAction(sprite,
 				getFormulaWithBrickField(BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS),
 				getFormulaWithBrickField(BrickField.JUMPING_SUMO_SPEED)));
-		return null;
 	}
 }

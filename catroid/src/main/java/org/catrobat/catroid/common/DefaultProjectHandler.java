@@ -23,34 +23,29 @@
 package org.catrobat.catroid.common;
 
 import android.content.Context;
-import android.util.Log;
 
 import org.catrobat.catroid.BuildConfig;
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.defaultprojectcreators.ArDroneProjectCreator;
 import org.catrobat.catroid.common.defaultprojectcreators.ChromeCastProjectCreator;
 import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreator;
 import org.catrobat.catroid.common.defaultprojectcreators.JumpingSumoProjectCreator;
-import org.catrobat.catroid.common.defaultprojectcreators.PhysicsProjectCreator;
 import org.catrobat.catroid.common.defaultprojectcreators.ProjectCreator;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
-import org.catrobat.catroid.utils.PathBuilder;
 
-import java.io.File;
 import java.io.IOException;
 
 public final class DefaultProjectHandler {
 
-	private static final String TAG = DefaultProjectHandler.class.getSimpleName();
-
 	public enum ProjectCreatorType {
-		PROJECT_CREATOR_DEFAULT, PROJECT_CREATOR_DRONE, PROJECT_CREATOR_PHYSICS, PROJECT_CREATOR_CAST,
+		PROJECT_CREATOR_DEFAULT,
+		PROJECT_CREATOR_DRONE,
+		PROJECT_CREATOR_CAST,
 		PROJECT_CREATOR_JUMPING_SUMO
 	}
 
 	private static DefaultProjectHandler instance = null;
+
 	private ProjectCreator defaultProjectCreator;
 
 	public static DefaultProjectHandler getInstance() {
@@ -65,43 +60,25 @@ public final class DefaultProjectHandler {
 	}
 
 	public static Project createAndSaveDefaultProject(Context context) throws IOException {
-		String projectName = context.getString(getInstance().defaultProjectCreator.getDefaultProjectNameID());
-		Project defaultProject = null;
-
-		if (XstreamSerializer.getInstance().projectExists(projectName)) {
-			StorageOperations.deleteDir(new File(PathBuilder.buildProjectPath(projectName)));
-		}
-
-		try {
-			defaultProject = createAndSaveDefaultProject(projectName, context, false);
-		} catch (IllegalArgumentException ilArgument) {
-			Log.e(TAG, "Could not create standard project!", ilArgument);
-		}
-
-		return defaultProject;
+		String name = context.getString(getInstance().defaultProjectCreator.getDefaultProjectNameID());
+		return createAndSaveDefaultProject(name, context, false);
 	}
 
-	public static Project createAndSaveDefaultProject(String projectName, Context context, boolean landscapeMode)
-			throws IOException, IllegalArgumentException {
-		return getInstance().defaultProjectCreator.createDefaultProject(projectName, context, landscapeMode);
+	public static Project createAndSaveDefaultProject(String name, Context context, boolean landscapeMode) throws IOException {
+		return getInstance().defaultProjectCreator.createDefaultProject(name, context, landscapeMode);
 	}
 
-	public static Project createAndSaveDefaultProject(String projectName, Context context) throws
-			IOException, IllegalArgumentException {
-		return createAndSaveDefaultProject(projectName, context, false);
-	}
+	public static Project createAndSaveEmptyProject(String name, Context context, boolean landscapeMode, boolean isCastEnabled) throws IOException {
+		Project project = new Project(context, name, landscapeMode, isCastEnabled);
 
-	public static Project createAndSaveEmptyProject(String projectName, Context context, boolean landscapeMode,
-			boolean isCastEnabled) {
-		if (XstreamSerializer.getInstance().projectExists(projectName)) {
-			throw new IllegalArgumentException("Project with name '" + projectName + "' already exists!");
+		if (project.getDirectory().exists()) {
+			throw new IOException("Cannot create new project at "
+					+ project.getDirectory().getAbsolutePath()
+					+ ", directory already exists.");
 		}
-		Project emptyProject = new Project(context, projectName, landscapeMode, isCastEnabled);
-		emptyProject.setDeviceData(context);
-		XstreamSerializer.getInstance().saveProject(emptyProject);
-		ProjectManager.getInstance().setProject(emptyProject);
 
-		return emptyProject;
+		XstreamSerializer.getInstance().saveProject(project);
+		return project;
 	}
 
 	public void setDefaultProjectCreator(ProjectCreatorType type) {
@@ -122,9 +99,6 @@ public final class DefaultProjectHandler {
 				} else {
 					defaultProjectCreator = new DefaultProjectCreator();
 				}
-				break;
-			case PROJECT_CREATOR_PHYSICS:
-				defaultProjectCreator = new PhysicsProjectCreator();
 				break;
 			case PROJECT_CREATOR_CAST:
 				if (BuildConfig.FEATURE_CAST_ENABLED) {

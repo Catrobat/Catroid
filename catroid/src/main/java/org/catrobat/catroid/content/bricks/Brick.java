@@ -27,6 +27,7 @@ import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.CheckBox;
 
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
@@ -69,7 +70,9 @@ public interface Brick extends Serializable, Cloneable {
 
 		ARDUINO_ANALOG_PIN_VALUE, ARDUINO_ANALOG_PIN_NUMBER, ARDUINO_DIGITAL_PIN_VALUE, ARDUINO_DIGITAL_PIN_NUMBER,
 
-		RASPI_DIGITAL_PIN_VALUE, RASPI_DIGITAL_PIN_NUMBER, RASPI_PWM_PERCENTAGE, RASPI_PWM_FREQUENCY;
+		RASPI_DIGITAL_PIN_VALUE, RASPI_DIGITAL_PIN_NUMBER, RASPI_PWM_PERCENTAGE, RASPI_PWM_FREQUENCY,
+
+		ASSERT_EQUALS_EXPECTED, ASSERT_EQUALS_ACTUAL;
 
 		public static final BrickField[] EXPECTS_STRING_VALUE = {VARIABLE, NOTE, SPEAK, STRING, ASK_QUESTION,
 				NFC_NDEF_MESSAGE, ASK_SPEECH_QUESTION, LIST_ADD_ITEM, INSERT_ITEM_INTO_USERLIST_VALUE,
@@ -125,15 +128,41 @@ public interface Brick extends Serializable, Cloneable {
 
 	void addRequiredResources(ResourcesSet requiredResourcesSet);
 
-	List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence);
+	void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence);
 
 	View getView(Context context);
 
-	Brick clone() throws CloneNotSupportedException;
+	View getPrototypeView(Context context);
 
 	CheckBox getCheckBox();
+
+	void disableSpinners();
+
+	Brick clone() throws CloneNotSupportedException;
+
+	void addToFlatList(List<Brick> bricks);
+
+	boolean consistsOfMultipleParts();
+
+	List<Brick> getAllParts();
+
+	Script getScript();
+
+	int getPositionInScript();
+
+	Brick getParent();
+
+	void setParent(Brick parent);
+
+	List<Brick> getDragAndDropTargetList();
+
+	int getPositionInDragAndDropTargetList();
+
+	boolean removeChild(Brick brick);
 
 	boolean isCommentedOut();
 
 	void setCommentedOut(boolean commentedOut);
+
+	boolean hasHelpPage();
 }

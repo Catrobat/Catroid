@@ -104,16 +104,14 @@ public class InternFormula {
 		List<InternToken> keyInputInternTokenList = new InternFormulaKeyboardAdapter()
 				.createInternTokenListByResourceId(resourceId, name);
 
-		CursorTokenPropertiesAfterModification cursorTokenPropertiesAfterInput = CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
+		CursorTokenPropertiesAfterModification cursorTokenPropertiesAfterInput = CursorTokenPropertiesAfterModification
+				.DO_NOT_MODIFY;
 
 		if (resourceId == R.id.formula_editor_keyboard_delete) {
-
 			cursorTokenPropertiesAfterInput = handleDeletion();
 		} else if (isTokenSelected()) {
-
 			cursorTokenPropertiesAfterInput = replaceSelection(keyInputInternTokenList);
 		} else if (cursorTokenPosition == null) {
-
 			cursorTokenPropertiesAfterInput = insertRightToCurrentToken(keyInputInternTokenList);
 		} else {
 			switch (cursorTokenPosition) {
@@ -148,12 +146,6 @@ public class InternFormula {
 		generateExternFormulaStringAndInternExternMapping(context);
 	}
 
-	public void getVariableAndListNames(List<String> variables, List<String> lists) {
-		for (InternToken internToken : internTokenFormulaList) {
-			internToken.getVariableAndListNames(variables, lists);
-		}
-	}
-
 	public void updateCollisionFormula(String oldName, String newName, Context context) {
 		for (InternToken internToken : internTokenFormulaList) {
 			internToken.updateCollisionFormula(oldName, newName);
@@ -161,22 +153,9 @@ public class InternFormula {
 		generateExternFormulaStringAndInternExternMapping(context);
 	}
 
-	public void updateCollisionFormulaToVersion(Context context, float catroidLanguageVersion) {
+	public void updateCollisionFormulaToVersion(Context context) {
 		for (InternToken internToken : internTokenFormulaList) {
-			internToken.updateCollisionFormulaToVersion(catroidLanguageVersion);
-		}
-		generateExternFormulaStringAndInternExternMapping(context);
-	}
-
-	public void removeVariableReferences(String name, Context context) {
-		LinkedList<InternToken> toRemove = new LinkedList<InternToken>();
-		for (InternToken internToken : internTokenFormulaList) {
-			if (internToken.isUserVariable(name)) {
-				toRemove.add(internToken);
-			}
-		}
-		for (InternToken internToken : toRemove) {
-			internTokenFormulaList.remove(internToken);
+			internToken.updateCollisionFormulaToVersion();
 		}
 		generateExternFormulaStringAndInternExternMapping(context);
 	}

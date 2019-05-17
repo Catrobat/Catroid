@@ -71,7 +71,7 @@ public class BroadcastForDeletedClonesRegressionTest {
 
 	private void createProject() {
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), "BroadcastForDeletedClonesRegressionTest");
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 
 		Sprite sprite = new Sprite("testSprite");
 

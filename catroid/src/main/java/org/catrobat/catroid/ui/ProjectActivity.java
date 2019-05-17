@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.ui;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -32,7 +31,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,7 +39,6 @@ import android.view.View;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
@@ -50,30 +47,33 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.dialogs.LegoSensorConfigInfoDialog;
-import org.catrobat.catroid.ui.recyclerview.activity.ProjectUploadActivity;
 import org.catrobat.catroid.ui.recyclerview.controller.SceneController;
-import org.catrobat.catroid.ui.recyclerview.dialog.PlaySceneDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.NewItemTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.fragment.RecyclerViewFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SceneListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SpriteListFragment;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
-import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.io.File;
 import java.io.IOException;
 
 import static org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION;
+import static org.catrobat.catroid.common.Constants.EV3;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIR;
+import static org.catrobat.catroid.common.Constants.NXT;
 import static org.catrobat.catroid.common.Constants.TMP_IMAGE_FILE_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_LOOKS_URL;
 import static org.catrobat.catroid.ui.WebViewActivity.MEDIA_FILE_PATH;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.isCastSharedPreferenceEnabled;
 
-public class ProjectActivity extends BaseCastActivity {
+public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask.ProjectSaveListener {
 
 	public static final String TAG = ProjectActivity.class.getSimpleName();
 
@@ -95,10 +95,8 @@ public class ProjectActivity extends BaseCastActivity {
 			return;
 		}
 
-		SettingsFragment.setToChosenLanguage(this);
-
 		setContentView(R.layout.activity_recycler);
-		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+		setSupportActionBar(findViewById(R.id.toolbar));
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		int fragmentPosition = FRAGMENT_SCENES;
@@ -132,6 +130,11 @@ public class ProjectActivity extends BaseCastActivity {
 		return getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 	}
 
+	public void setShowProgressBar(boolean show) {
+		findViewById(R.id.progress_bar).setVisibility(show ? View.VISIBLE : View.GONE);
+		findViewById(R.id.fragment_container).setVisibility(show ? View.GONE : View.VISIBLE);
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_project_activity, menu);
@@ -145,10 +148,10 @@ public class ProjectActivity extends BaseCastActivity {
 				handleAddSceneButton();
 				break;
 			case R.id.upload:
-				Project currentProject = ProjectManager.getInstance().getCurrentProject();
-				Intent intent = new Intent(this, ProjectUploadActivity.class);
-				intent.putExtra(ProjectUploadActivity.PROJECT_NAME, currentProject.getName());
-				startActivity(intent);
+				setShowProgressBar(true);
+				new ProjectSaveTask(ProjectManager.getInstance().getCurrentProject(), getApplicationContext())
+						.setListener(this)
+						.execute();
 				break;
 			default:
 				return super.onOptionsItemSelected(item);
@@ -157,7 +160,30 @@ public class ProjectActivity extends BaseCastActivity {
 	}
 
 	@Override
+	public void onSaveProjectComplete(boolean success) {
+		setShowProgressBar(false);
+		// deliberately ignoring success value, because XstreamSerializer returns false: when saving was
+		// unnecessary but was successful or when it did not succeed.
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		Intent intent = new Intent(this, ProjectUploadActivity.class);
+		intent.putExtra(ProjectUploadActivity.PROJECT_DIR, currentProject.getDirectory());
+		startActivity(intent);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		new ProjectSaveTask(currentProject, getApplicationContext())
+				.execute();
+	}
+
+	@Override
 	public void onBackPressed() {
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		new ProjectSaveTask(currentProject, getApplicationContext())
+				.execute();
+
 		if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
 			getSupportFragmentManager().popBackStack();
 			return;
@@ -184,7 +210,7 @@ public class ProjectActivity extends BaseCastActivity {
 		}
 
 		if (resultCode != RESULT_OK) {
-			if (SettingsFragment.isCastSharedPreferenceEnabled(this)
+			if (isCastSharedPreferenceEnabled(this)
 					&& ProjectManager.getInstance().getCurrentProject().isCastProject()
 					&& !CastManager.getInstance().isConnected()) {
 
@@ -241,41 +267,32 @@ public class ProjectActivity extends BaseCastActivity {
 		builder.setHint(getString(R.string.sprite_name_label))
 				.setText(lookDataName)
 				.setTextWatcher(new NewItemTextWatcher<>(currentScene.getSpriteList()))
-				.setPositiveButton(getString(R.string.ok), new TextInputDialog.OnClickListener() {
-
-					@Override
-					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
-						Sprite sprite = new Sprite(textInput);
-						currentScene.addSprite(sprite);
-						try {
-							File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
-							File file = StorageOperations
-									.copyUriToDir(getContentResolver(), uri, imageDirectory, lookFileName);
-							sprite.getLookList().add(new LookData(textInput, file));
-						} catch (IOException e) {
-							Log.e(TAG, Log.getStackTraceString(e));
-						}
-						if (getCurrentFragment() instanceof SpriteListFragment) {
-							((SpriteListFragment) getCurrentFragment()).notifyDataSetChanged();
-						}
+				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> {
+					Sprite sprite = new Sprite(textInput);
+					currentScene.addSprite(sprite);
+					try {
+						File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
+						File file = StorageOperations
+								.copyUriToDir(getContentResolver(), uri, imageDirectory, lookFileName);
+						sprite.getLookList().add(new LookData(textInput, file));
+					} catch (IOException e) {
+						Log.e(TAG, Log.getStackTraceString(e));
+					}
+					if (getCurrentFragment() instanceof SpriteListFragment) {
+						((SpriteListFragment) getCurrentFragment()).notifyDataSetChanged();
 					}
 				});
 
 		builder.setTitle(R.string.new_sprite_dialog_title)
-				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						try {
-							if (MEDIA_LIBRARY_CACHE_DIR.exists()) {
-								StorageOperations.deleteDir(MEDIA_LIBRARY_CACHE_DIR);
-							}
-						} catch (IOException e) {
-							Log.e(TAG, Log.getStackTraceString(e));
+				.setNegativeButton(R.string.cancel, (dialog, which) -> {
+					try {
+						if (MEDIA_LIBRARY_CACHE_DIR.exists()) {
+							StorageOperations.deleteDir(MEDIA_LIBRARY_CACHE_DIR);
 						}
+					} catch (IOException e) {
+						Log.e(TAG, Log.getStackTraceString(e));
 					}
 				})
-				.create()
 				.show();
 	}
 
@@ -290,7 +307,7 @@ public class ProjectActivity extends BaseCastActivity {
 	}
 
 	public void handleAddSceneButton() {
-		final Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 
 		String defaultSceneName = SceneController
 				.getUniqueDefaultSceneName(getResources(), currentProject.getSceneList());
@@ -300,115 +317,77 @@ public class ProjectActivity extends BaseCastActivity {
 		builder.setHint(getString(R.string.scene_name_label))
 				.setText(defaultSceneName)
 				.setTextWatcher(new NewItemTextWatcher<>(currentProject.getSceneList()))
-				.setPositiveButton(getString(R.string.ok), new TextInputDialog.OnClickListener() {
-					@Override
-					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
-						Scene scene = SceneController
-								.newSceneWithBackgroundSprite(textInput, getString(R.string.background), currentProject);
-						currentProject.addScene(scene);
+				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> {
+					Scene scene = SceneController
+							.newSceneWithBackgroundSprite(textInput, getString(R.string.background), currentProject);
+					currentProject.addScene(scene);
 
-						if (getCurrentFragment() instanceof SceneListFragment) {
-							((RecyclerViewFragment) getCurrentFragment()).notifyDataSetChanged();
-						} else {
-							Intent intent = new Intent(ProjectActivity.this, ProjectActivity.class);
-							intent.putExtra(ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SCENES);
-							startActivity(intent);
-							finish();
-						}
+					if (getCurrentFragment() instanceof SceneListFragment) {
+						((RecyclerViewFragment) getCurrentFragment()).notifyDataSetChanged();
+					} else {
+						Intent intent = new Intent(this, ProjectActivity.class);
+						intent.putExtra(ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SCENES);
+						startActivity(intent);
+						finish();
 					}
 				});
 
 		builder.setTitle(R.string.new_scene_dialog)
 				.setNegativeButton(R.string.cancel, null)
-				.create()
 				.show();
 	}
 
 	public void handleAddSpriteButton() {
-		View view = View.inflate(this, R.layout.dialog_new_look, null);
+		View root = View.inflate(this, R.layout.dialog_new_look, null);
 
-		final AlertDialog alertDialog = new AlertDialog.Builder(this)
+		AlertDialog alertDialog = new AlertDialog.Builder(this)
 				.setTitle(R.string.new_sprite_dialog_title)
-				.setView(view)
+				.setView(root)
 				.create();
 
-		View.OnClickListener onClickListener = new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				switch (view.getId()) {
-					case R.id.dialog_new_look_paintroid:
-						new ImportFromPocketPaintLauncher(ProjectActivity.this)
-								.startActivityForResult(SPRITE_POCKET_PAINT);
-						break;
-					case R.id.dialog_new_look_media_library:
-						new ImportFormMediaLibraryLauncher(ProjectActivity.this, LIBRARY_LOOKS_URL)
-								.startActivityForResult(SPRITE_LIBRARY);
-						break;
-					case R.id.dialog_new_look_gallery:
-						new ImportFromFileLauncher(ProjectActivity.this, "image/*", getString(R.string.select_look_from_gallery))
-								.startActivityForResult(SPRITE_FILE);
-						break;
-					case R.id.dialog_new_look_camera:
-						new ImportFromCameraLauncher(ProjectActivity.this)
-								.startActivityForResult(SPRITE_CAMERA);
-						break;
-				}
-				alertDialog.dismiss();
-			}
-		};
+		root.findViewById(R.id.dialog_new_look_paintroid).setOnClickListener(view -> {
+			new ImportFromPocketPaintLauncher(this)
+					.startActivityForResult(SPRITE_POCKET_PAINT);
+			alertDialog.dismiss();
+		});
+		root.findViewById(R.id.dialog_new_look_media_library).setOnClickListener(view -> {
+			new ImportFormMediaLibraryLauncher(this, LIBRARY_LOOKS_URL)
+					.startActivityForResult(SPRITE_LIBRARY);
+			alertDialog.dismiss();
+		});
+		root.findViewById(R.id.dialog_new_look_gallery).setOnClickListener(view -> {
+			new ImportFromFileLauncher(this, "image/*", getString(R.string.select_look_from_gallery))
+					.startActivityForResult(SPRITE_FILE);
+			alertDialog.dismiss();
+		});
+		root.findViewById(R.id.dialog_new_look_camera).setOnClickListener(view -> {
+			new ImportFromCameraLauncher(this)
+					.startActivityForResult(SPRITE_CAMERA);
+			alertDialog.dismiss();
+		});
 
-		view.findViewById(R.id.dialog_new_look_paintroid).setOnClickListener(onClickListener);
-		view.findViewById(R.id.dialog_new_look_media_library).setOnClickListener(onClickListener);
-		view.findViewById(R.id.dialog_new_look_gallery).setOnClickListener(onClickListener);
-		view.findViewById(R.id.dialog_new_look_camera).setOnClickListener(onClickListener);
 		alertDialog.show();
 	}
 
 	public void handlePlayButton(View view) {
-		ProjectManager projectManager = ProjectManager.getInstance();
-		Scene currentScene = projectManager.getCurrentlyEditedScene();
-		Scene defaultScene = projectManager.getCurrentProject().getDefaultScene();
-
-		if (currentScene.getName().equals(defaultScene.getName())) {
-			projectManager.setCurrentlyPlayingScene(defaultScene);
-			projectManager.setStartScene(defaultScene);
-			startStageActivity();
-		} else {
-			new PlaySceneDialog.Builder(this)
-					.setPositiveButton(R.string.play, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							startStageActivity();
-						}
-					})
-					.create()
-					.show();
-		}
-	}
-
-	void startStageActivity() {
-		Intent intent = new Intent(this, StageActivity.class);
-		startActivityForResult(intent, StageActivity.REQUEST_START_STAGE);
+		StageActivity.handlePlayButton(ProjectManager.getInstance(), this);
 	}
 
 	private void showLegoSensorConfigInfo() {
-		if (ProjectManager.getInstance().getCurrentProject() == null) {
-			return;
-		}
-
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
 		boolean nxtDialogDisabled = preferences
-				.getBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED, false);
+				.getBoolean(SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED, false);
 		boolean ev3DialogDisabled = preferences
-				.getBoolean(SettingsFragment.SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED, false);
+				.getBoolean(SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED, false);
 
 		Brick.ResourcesSet resourcesSet = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
 		if (!nxtDialogDisabled && resourcesSet.contains(Brick.BLUETOOTH_LEGO_NXT)) {
-			DialogFragment dialog = LegoSensorConfigInfoDialog.newInstance(Constants.NXT);
+			DialogFragment dialog = LegoSensorConfigInfoDialog.newInstance(NXT);
 			dialog.show(getSupportFragmentManager(), LegoSensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
 		}
 		if (!ev3DialogDisabled && resourcesSet.contains(Brick.BLUETOOTH_LEGO_EV3)) {
-			DialogFragment dialog = LegoSensorConfigInfoDialog.newInstance(Constants.EV3);
+			DialogFragment dialog = LegoSensorConfigInfoDialog.newInstance(EV3);
 			dialog.show(getSupportFragmentManager(), LegoSensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
 		}
 	}

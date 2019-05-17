@@ -37,6 +37,7 @@ import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ProjectData;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
@@ -44,12 +45,13 @@ import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
-import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public class ProjectDetailsFragment extends Fragment {
 
@@ -57,6 +59,7 @@ public class ProjectDetailsFragment extends Fragment {
 	public static final String SELECTED_PROJECT_KEY = "selectedProject";
 
 	private ProjectData projectData;
+	private Project project;
 	private TextView description;
 
 	@Override
@@ -66,31 +69,30 @@ public class ProjectDetailsFragment extends Fragment {
 
 		try {
 			projectData = (ProjectData) getArguments().getSerializable(SELECTED_PROJECT_KEY);
-			projectData.project = XstreamSerializer.getInstance().loadProject(projectData.projectName, getActivity());
-		} catch (IOException e) {
-			ToastUtil.showError(getActivity(), R.string.error_load_project);
-			Log.e(TAG, Log.getStackTraceString(e));
-			getActivity().onBackPressed();
-		} catch (LoadingProjectException e) {
+			project = XstreamSerializer.getInstance().loadProject(projectData.getDirectory(), getActivity());
+		} catch (IOException | LoadingProjectException e) {
 			ToastUtil.showError(getActivity(), R.string.error_load_project);
 			Log.e(TAG, Log.getStackTraceString(e));
 			getActivity().onBackPressed();
 		}
 
-		String sceneName = XstreamSerializer.extractDefaultSceneNameFromXml(projectData.projectName);
-		ProjectAndSceneScreenshotLoader screenshotLoader = new ProjectAndSceneScreenshotLoader(getActivity());
+		String sceneName = XstreamSerializer.extractDefaultSceneNameFromXml(projectData.getDirectory());
 
-		XmlHeader header = projectData.project.getXmlHeader();
+		int thumbnailWidth = getActivity().getResources().getDimensionPixelSize(R.dimen.project_thumbnail_width);
+		int thumbnailHeight = getActivity().getResources().getDimensionPixelSize(R.dimen.project_thumbnail_height);
+		ProjectAndSceneScreenshotLoader screenshotLoader = new ProjectAndSceneScreenshotLoader(thumbnailWidth, thumbnailHeight);
+
+		XmlHeader header = project.getXmlHeader();
 		ImageView image = view.findViewById(R.id.image);
-		screenshotLoader.loadAndShowScreenshot(projectData.projectName, sceneName, false, image);
+		screenshotLoader.loadAndShowScreenshot(projectData.getName(), sceneName, false, image);
 
-		String size = FileMetaDataExtractor.getSizeAsString(new File(PathBuilder.buildProjectPath(projectData.projectName)),
-				getActivity());
+		String size = FileMetaDataExtractor
+				.getSizeAsString(new File(DEFAULT_ROOT_DIRECTORY, projectData.getName()), getActivity());
 
 		int modeText = header.islandscapeMode() ? R.string.landscape : R.string.portrait;
 		String screen = header.getVirtualScreenWidth() + "x" + header.getVirtualScreenHeight();
 
-		((TextView) view.findViewById(R.id.name)).setText(projectData.projectName);
+		((TextView) view.findViewById(R.id.name)).setText(projectData.getName());
 		((TextView) view.findViewById(R.id.author_value)).setText(getUserHandle());
 		((TextView) view.findViewById(R.id.size_value)).setText(size);
 		((TextView) view.findViewById(R.id.last_access_value)).setText(getLastAccess());
@@ -115,7 +117,7 @@ public class ProjectDetailsFragment extends Fragment {
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(getContext());
 
 		builder.setHint(getString(R.string.description))
-				.setText(projectData.project.getDescription())
+				.setText(project.getDescription())
 				.setPositiveButton(getString(R.string.ok), new TextInputDialog.OnClickListener() {
 					@Override
 					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
@@ -125,7 +127,6 @@ public class ProjectDetailsFragment extends Fragment {
 
 		builder.setTitle(R.string.set_description)
 				.setNegativeButton(R.string.cancel, null)
-				.create()
 				.show();
 	}
 
@@ -139,7 +140,7 @@ public class ProjectDetailsFragment extends Fragment {
 	}
 
 	private String getLastAccess() {
-		Date lastModified = new Date(projectData.lastUsed);
+		Date lastModified = new Date(projectData.getLastUsed());
 		String lastAccess;
 		if (DateUtils.isToday(lastModified.getTime())) {
 			lastAccess = getString(R.string.details_date_today).concat(": ");
@@ -151,7 +152,7 @@ public class ProjectDetailsFragment extends Fragment {
 	}
 
 	private String getUserHandle() {
-		String userHandle = projectData.project.getXmlHeader().getUserHandle();
+		String userHandle = project.getXmlHeader().getUserHandle();
 		if (userHandle == null || userHandle.equals("")) {
 			return getString(R.string.unknown);
 		}
@@ -159,7 +160,7 @@ public class ProjectDetailsFragment extends Fragment {
 	}
 
 	private String getRemixOf() {
-		String remixOf = projectData.project.getXmlHeader().getRemixParentsUrlString();
+		String remixOf = project.getXmlHeader().getRemixParentsUrlString();
 		if (remixOf == null || remixOf.equals("")) {
 			return getString(R.string.nxt_no_sensor);
 		}
@@ -167,8 +168,8 @@ public class ProjectDetailsFragment extends Fragment {
 	}
 
 	public void setDescription(String description) {
-		projectData.project.setDescription(description);
-		if (XstreamSerializer.getInstance().saveProject(projectData.project)) {
+		project.setDescription(description);
+		if (XstreamSerializer.getInstance().saveProject(project)) {
 			this.description.setText(description);
 		} else {
 			ToastUtil.showError(getActivity(), R.string.error_set_description);

@@ -33,12 +33,12 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.GroupSprite;
 import org.catrobat.catroid.content.Look;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.arduino.Arduino;
 import org.catrobat.catroid.devices.raspberrypi.RPiSocketConnection;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.sensing.CollisionDetection;
 import org.catrobat.catroid.stage.StageActivity;
@@ -49,6 +49,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.catrobat.catroid.utils.NumberFormats.stringWithoutTrailingZero;
 
@@ -220,19 +222,17 @@ public class FormulaElement implements Serializable {
 		}
 	}
 
-	public void updateCollisionFormulaToVersion(float catroidLanguageVersion) {
-		if (catroidLanguageVersion == 0.993f) {
-			if (leftChild != null) {
-				leftChild.updateCollisionFormulaToVersion(catroidLanguageVersion);
-			}
-			if (rightChild != null) {
-				rightChild.updateCollisionFormulaToVersion(catroidLanguageVersion);
-			}
-			if (type == ElementType.COLLISION_FORMULA) {
-				String secondSpriteName = CollisionDetection.getSecondSpriteNameFromCollisionFormulaString(value);
-				if (secondSpriteName != null) {
-					value = secondSpriteName;
-				}
+	public void updateCollisionFormulaToVersion() {
+		if (leftChild != null) {
+			leftChild.updateCollisionFormulaToVersion();
+		}
+		if (rightChild != null) {
+			rightChild.updateCollisionFormulaToVersion();
+		}
+		if (type == ElementType.COLLISION_FORMULA) {
+			String secondSpriteName = CollisionDetection.getSecondSpriteNameFromCollisionFormulaString(value);
+			if (secondSpriteName != null) {
+				value = secondSpriteName;
 			}
 		}
 	}
@@ -306,8 +306,8 @@ public class FormulaElement implements Serializable {
 	}
 
 	private Object interpretUserList(Sprite sprite) {
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyPlayingScene().getDataContainer();
-		UserList userList = dataContainer.getUserList(sprite, value);
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		UserList userList = UserDataWrapper.getUserList(value, sprite, currentProject);
 		if (userList == null) {
 			return NOT_EXISTING_USER_LIST_INTERPRETATION_VALUE;
 		}
@@ -356,8 +356,8 @@ public class FormulaElement implements Serializable {
 	}
 
 	private Object interpretUserVariable(Sprite sprite) {
-		DataContainer userVariables = ProjectManager.getInstance().getCurrentlyPlayingScene().getDataContainer();
-		UserVariable userVariable = userVariables.getUserVariable(sprite, value);
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		UserVariable userVariable = UserDataWrapper.getUserVariable(value, sprite, currentProject);
 		if (userVariable == null) {
 			return NOT_EXISTING_USER_VARIABLE_INTERPRETATION_VALUE;
 		}
@@ -463,6 +463,8 @@ public class FormulaElement implements Serializable {
 				return interpretFunctionLength(left, sprite);
 			case JOIN:
 				return interpretFunctionJoin(sprite);
+			case REGEX:
+				return interpretFunctionRegex(sprite);
 			case ARDUINODIGITAL:
 				Arduino arduinoDigital = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).getDevice(BluetoothDevice.ARDUINO);
 				if (arduinoDigital != null && doubleValueOfLeftChild != null) {
@@ -520,8 +522,8 @@ public class FormulaElement implements Serializable {
 
 	private Object interpretFunctionContains(Object right, Sprite sprite) {
 		if (leftChild.getElementType() == ElementType.USER_LIST) {
-			DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyPlayingScene().getDataContainer();
-			UserList userList = dataContainer.getUserList(sprite, leftChild.getValue());
+			Project currentProject = ProjectManager.getInstance().getCurrentProject();
+			UserList userList = UserDataWrapper.getUserList(leftChild.value, sprite, currentProject);
 
 			if (userList == null) {
 				return 0d;
@@ -540,8 +542,8 @@ public class FormulaElement implements Serializable {
 	private Object interpretFunctionListItem(Object left, Sprite sprite) {
 		UserList userList = null;
 		if (rightChild.getElementType() == ElementType.USER_LIST) {
-			DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyPlayingScene().getDataContainer();
-			userList = dataContainer.getUserList(sprite, rightChild.getValue());
+			Project currentProject = ProjectManager.getInstance().getCurrentProject();
+			userList = UserDataWrapper.getUserList(rightChild.value, sprite, currentProject);
 		}
 
 		if (userList == null) {
@@ -574,11 +576,34 @@ public class FormulaElement implements Serializable {
 	}
 
 	private Object interpretFunctionJoin(Sprite sprite) {
-		return stringWithoutTrailingZero(interpretInterpretFunctionJoinParameter(leftChild, sprite))
-				+ stringWithoutTrailingZero(interpretInterpretFunctionJoinParameter(rightChild, sprite));
+		return stringWithoutTrailingZero(interpretInterpretFunctionStringParameter(leftChild, sprite))
+				+ stringWithoutTrailingZero(interpretInterpretFunctionStringParameter(rightChild, sprite));
 	}
 
-	private String interpretInterpretFunctionJoinParameter(FormulaElement child, Sprite sprite) {
+	private Object interpretFunctionRegex(Sprite sprite) {
+		try {
+			Pattern pattern = Pattern.compile(
+					stringWithoutTrailingZero(interpretInterpretFunctionStringParameter(leftChild, sprite)),
+					Pattern.DOTALL | Pattern.MULTILINE);
+
+			Matcher matcher = pattern.matcher(
+					stringWithoutTrailingZero(interpretInterpretFunctionStringParameter(rightChild, sprite)));
+
+			if (matcher.find()) {
+				if (matcher.groupCount() == 0) {
+					return matcher.group(0);
+				} else {
+					return matcher.group(1);
+				}
+			} else {
+				return "";
+			}
+		} catch (IllegalArgumentException exception) {
+			return exception.getLocalizedMessage();
+		}
+	}
+
+	private String interpretInterpretFunctionStringParameter(FormulaElement child, Sprite sprite) {
 		String parameterInterpretation = "";
 		if (child != null) {
 			if (child.getElementType() == ElementType.NUMBER) {
@@ -615,8 +640,8 @@ public class FormulaElement implements Serializable {
 			return (double) handleLengthUserVariableParameter(sprite);
 		}
 		if (leftChild.type == ElementType.USER_LIST) {
-			DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyPlayingScene().getDataContainer();
-			UserList userList = dataContainer.getUserList(sprite, leftChild.getValue());
+			Project currentProject = ProjectManager.getInstance().getCurrentProject();
+			UserList userList = UserDataWrapper.getUserList(leftChild.value, sprite, currentProject);
 			if (userList == null) {
 				return 0d;
 			}
@@ -819,7 +844,14 @@ public class FormulaElement implements Serializable {
 				returnValue = (double) sprite.look.getTransparencyInUserInterfaceDimensionUnit();
 				break;
 			case OBJECT_LAYER:
-				returnValue = (double) sprite.look.getZIndex() - Constants.Z_INDEX_NUMBER_VIRTUAL_LAYERS;
+				if (sprite.look.getZIndex() < 0) {
+					returnValue = (double) ProjectManager.getInstance().getCurrentlyEditedScene()
+							.getSpriteList().indexOf(sprite);
+				} else if (sprite.look.getZIndex() == 0) {
+					returnValue = 0d;
+				} else {
+					returnValue = (double) sprite.look.getZIndex() - Constants.Z_INDEX_NUMBER_VIRTUAL_LAYERS;
+				}
 				break;
 			case OBJECT_ROTATION:
 				returnValue = (double) sprite.look.getDirectionInUserInterfaceDimensionUnit();
@@ -860,9 +892,12 @@ public class FormulaElement implements Serializable {
 				returnValue = NfcHandler.getLastNfcTagId();
 				break;
 			case COLLIDES_WITH_EDGE:
-				//if the stage is not setUp yet, there can't be a collision
-				returnValue = StageActivity.stageListener.firstFrameDrawn ? CollisionDetection.collidesWithEdge(sprite
-						.look) : 0d;
+				if (StageActivity.stageListener != null) {
+					returnValue = StageActivity.stageListener.firstFrameDrawn ? CollisionDetection.collidesWithEdge(sprite
+							.look) : 0d;
+				} else {
+					returnValue = 0d;
+				}
 				break;
 			case COLLIDES_WITH_FINGER:
 				returnValue = CollisionDetection.collidesWithFinger(sprite.look);
@@ -989,9 +1024,8 @@ public class FormulaElement implements Serializable {
 
 	public boolean isUserVariableWithTypeString(Sprite sprite) {
 		if (type == ElementType.USER_VARIABLE) {
-			DataContainer userVariableContainer = ProjectManager.getInstance().getCurrentlyPlayingScene()
-					.getDataContainer();
-			UserVariable userVariable = userVariableContainer.getUserVariable(sprite, value);
+			Project currentProject = ProjectManager.getInstance().getCurrentProject();
+			UserVariable userVariable = UserDataWrapper.getUserVariable(value, sprite, currentProject);
 			Object userVariableValue = userVariable.getValue();
 			return userVariableValue instanceof String;
 		}
@@ -999,10 +1033,8 @@ public class FormulaElement implements Serializable {
 	}
 
 	private int handleLengthUserVariableParameter(Sprite sprite) {
-		DataContainer userVariableContainer = ProjectManager.getInstance().getCurrentlyPlayingScene()
-				.getDataContainer();
-		UserVariable userVariable = userVariableContainer.getUserVariable(sprite, leftChild.value);
-
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		UserVariable userVariable = UserDataWrapper.getUserVariable(leftChild.value, sprite, currentProject);
 		Object userVariableValue = userVariable.getValue();
 		if (userVariableValue instanceof String) {
 			return String.valueOf(userVariableValue).length();
@@ -1016,10 +1048,8 @@ public class FormulaElement implements Serializable {
 	}
 
 	private int handleNumberOfItemsOfUserListParameter(Sprite sprite) {
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyPlayingScene()
-				.getDataContainer();
-		UserList userList = dataContainer.getUserList(sprite, leftChild.value);
-
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		UserList userList = UserDataWrapper.getUserList(leftChild.value, sprite, currentProject);
 		if (userList == null) {
 			return 0;
 		}

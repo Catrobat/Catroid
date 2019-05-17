@@ -143,7 +143,7 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 		actionModeType = NONE;
 		actionMode = null;
 		adapter.showCheckBoxes = false;
-		adapter.allowMultiSelection = true;
+		adapter.selectionMode = adapter.MULTIPLE;
 	}
 
 	@Override
@@ -258,7 +258,6 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 				})
 				.setNegativeButton(R.string.no, null)
 				.setCancelable(false)
-				.create()
 				.show();
 	}
 

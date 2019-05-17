@@ -27,8 +27,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 
-import java.util.List;
-
 public class AddItemToUserListBrick extends UserListBrick {
 
 	private static final long serialVersionUID = 1L;
@@ -57,9 +55,8 @@ public class AddItemToUserListBrick extends UserListBrick {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
 				.createAddItemToUserListAction(sprite, getFormulaWithBrickField(BrickField.LIST_ADD_ITEM), userList));
-		return null;
 	}
 }

@@ -43,6 +43,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
+import org.catrobat.catroid.formulaeditor.UserDataWrapper;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.io.StageAudioFocus;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
@@ -79,9 +80,10 @@ public final class StageLifeCycleController {
 			stageActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		}
 
+		UserDataWrapper.resetAllUserData(ProjectManager.getInstance().getCurrentProject());
+
 		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
 			scene.firstStart = true;
-			scene.getDataContainer().resetUserData();
 		}
 
 		stageActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -215,7 +217,9 @@ public final class StageLifeCycleController {
 			}
 
 			SoundManager.getInstance().resume();
-			stageActivity.stageListener.menuResume();
+			if (stageActivity.stageResourceHolder.initFinished()) {
+				stageActivity.stageListener.menuResume();
+			}
 			if (stageActivity.stageResourceHolder.droneInitializer != null) {
 				stageActivity.stageResourceHolder.droneInitializer.onResume();
 			}

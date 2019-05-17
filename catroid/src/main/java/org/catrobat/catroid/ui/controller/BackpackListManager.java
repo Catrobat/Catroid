@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.ui.controller;
 
-import android.os.AsyncTask;
-
 import org.catrobat.catroid.common.Backpack;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
@@ -31,7 +29,6 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.BackpackSerializer;
-import org.catrobat.catroid.ui.recyclerview.controller.BrickController;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -102,83 +99,60 @@ public final class BackpackListManager {
 	}
 
 	public void saveBackpack() {
-		SaveBackpackTask saveTask = new SaveBackpackTask();
-		saveTask.execute();
+		BackpackSerializer.getInstance().saveBackpack(getBackpack());
 	}
 
 	public void loadBackpack() {
-		LoadBackpackTask loadTask = new LoadBackpackTask();
-		loadTask.execute();
-	}
+		backpack = BackpackSerializer.getInstance().loadBackpack();
 
-	private class SaveBackpackTask extends AsyncTask<Void, Void, Void> {
+		for (Scene scene : getScenes()) {
+			setSpriteFileReferences(scene.getSpriteList(), scene.getDirectory());
+		}
 
-		@Override
-		protected Void doInBackground(Void... params) {
-			BackpackSerializer.getInstance().saveBackpack(getBackpack());
-			return null;
+		for (Sprite sprite : getSprites()) {
+			setLookFileReferences(sprite.getLookList(), BACKPACK_IMAGE_DIRECTORY);
+			setSoundFileReferences(sprite.getSoundList(), BACKPACK_SOUND_DIRECTORY);
+		}
+
+		setLookFileReferences(getBackpackedLooks(), BACKPACK_IMAGE_DIRECTORY);
+		setSoundFileReferences(getBackpackedSounds(), BACKPACK_SOUND_DIRECTORY);
+
+		for (Iterable<Script> scripts : getBackpackedScripts().values()) {
+			for (Script script : scripts) {
+				script.setParents();
+			}
 		}
 	}
 
-	private class LoadBackpackTask extends AsyncTask<Void, Void, Void> {
-
-		@Override
-		protected Void doInBackground(Void... params) {
-			backpack = BackpackSerializer.getInstance().loadBackpack();
-
-			for (Scene scene : getScenes()) {
-				setSpriteFileReferences(scene.getSpriteList(), scene.getDirectory());
-			}
-
-			for (Sprite sprite : getSprites()) {
-				setLookFileReferences(sprite.getLookList(), BACKPACK_IMAGE_DIRECTORY);
-				setSoundFileReferences(sprite.getSoundList(), BACKPACK_SOUND_DIRECTORY);
-			}
-
-			setLookFileReferences(getBackpackedLooks(), BACKPACK_IMAGE_DIRECTORY);
-			setSoundFileReferences(getBackpackedSounds(), BACKPACK_SOUND_DIRECTORY);
-
-			BrickController brickController = new BrickController();
-
-			for (Iterable<Script> scripts : getBackpackedScripts().values()) {
-				for (Script script : scripts) {
-					brickController.setControlBrickReferences(script.getBrickList());
-				}
-			}
-
-			return null;
+	private void setSpriteFileReferences(List<Sprite> sprites, File parentDir) {
+		for (Sprite sprite : sprites) {
+			setLookFileReferences(sprite.getLookList(), new File(parentDir, IMAGE_DIRECTORY_NAME));
+			setSoundFileReferences(sprite.getSoundList(), new File(parentDir, SOUND_DIRECTORY_NAME));
 		}
+	}
 
-		private void setSpriteFileReferences(List<Sprite> sprites, File parentDir) {
-			for (Sprite sprite : sprites) {
-				setLookFileReferences(sprite.getLookList(), new File(parentDir, IMAGE_DIRECTORY_NAME));
-				setSoundFileReferences(sprite.getSoundList(), new File(parentDir, SOUND_DIRECTORY_NAME));
+	private void setLookFileReferences(List<LookData> looks, File parentDir) {
+		for (Iterator<LookData> iterator = looks.iterator(); iterator.hasNext(); ) {
+			LookData lookData = iterator.next();
+			File lookFile = new File(parentDir, lookData.getXstreamFileName());
+
+			if (lookFile.exists()) {
+				lookData.setFile(lookFile);
+			} else {
+				iterator.remove();
 			}
 		}
+	}
 
-		private void setLookFileReferences(List<LookData> looks, File parentDir) {
-			for (Iterator<LookData> iterator = looks.iterator(); iterator.hasNext(); ) {
-				LookData lookData = iterator.next();
-				File lookFile = new File(parentDir, lookData.getXstreamFileName());
+	private void setSoundFileReferences(List<SoundInfo> sounds, File parentDir) {
+		for (Iterator<SoundInfo> iterator = sounds.iterator(); iterator.hasNext(); ) {
+			SoundInfo soundInfo = iterator.next();
+			File soundFile = new File(parentDir, soundInfo.getXstreamFileName());
 
-				if (lookFile.exists()) {
-					lookData.setFile(lookFile);
-				} else {
-					iterator.remove();
-				}
-			}
-		}
-
-		private void setSoundFileReferences(List<SoundInfo> sounds, File parentDir) {
-			for (Iterator<SoundInfo> iterator = sounds.iterator(); iterator.hasNext(); ) {
-				SoundInfo soundInfo = iterator.next();
-				File soundFile = new File(parentDir, soundInfo.getXstreamFileName());
-
-				if (soundFile.exists()) {
-					soundInfo.setFile(soundFile);
-				} else {
-					iterator.remove();
-				}
+			if (soundFile.exists()) {
+				soundInfo.setFile(soundFile);
+			} else {
+				iterator.remove();
 			}
 		}
 	}

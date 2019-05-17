@@ -30,8 +30,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 
-import java.util.List;
-
 import static org.catrobat.catroid.common.Constants.THINK_BRICK;
 
 public class ThinkForBubbleBrick extends FormulaBrick {
@@ -59,7 +57,7 @@ public class ThinkForBubbleBrick extends FormulaBrick {
 	}
 
 	@Override
-	protected BrickField getDefaultBrickField() {
+	public BrickField getDefaultBrickField() {
 		return BrickField.STRING;
 	}
 
@@ -71,11 +69,10 @@ public class ThinkForBubbleBrick extends FormulaBrick {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createThinkSayForBubbleAction(sprite,
 				getFormulaWithBrickField(BrickField.STRING), THINK_BRICK));
 		sequence.addAction(sprite.getActionFactory().createWaitForBubbleBrickAction(sprite,
 				getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS)));
-		return null;
 	}
 }

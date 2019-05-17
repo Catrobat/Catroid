@@ -25,11 +25,11 @@ package org.catrobat.catroid.uiespresso.ui.actionbar;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
@@ -91,10 +91,10 @@ public class ActionModeDataFragmentTitleTest {
 		Script script = BrickTestUtils.createProjectAndGetStartScript("ActionModeDataFragmentTitleTest");
 		script.addBrick(new ChangeSizeByNBrick(0));
 
-		DataContainer dataContainer = ProjectManager.getInstance().getCurrentlyEditedScene().getDataContainer();
-		dataContainer.addUserVariable(new UserVariable("var1"));
-		dataContainer.addUserVariable(new UserVariable("var2"));
-		dataContainer.addUserList(new UserList("list1"));
-		dataContainer.addUserList(new UserList("list2"));
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		currentProject.addUserVariable(new UserVariable("var1"));
+		currentProject.addUserVariable(new UserVariable("var2"));
+		currentProject.addUserList(new UserList("list1"));
+		currentProject.addUserList(new UserList("list2"));
 	}
 }

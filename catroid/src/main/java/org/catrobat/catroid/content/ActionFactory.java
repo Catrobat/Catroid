@@ -37,6 +37,7 @@ import org.catrobat.catroid.content.actions.ArduinoSendDigitalValueAction;
 import org.catrobat.catroid.content.actions.ArduinoSendPWMValueAction;
 import org.catrobat.catroid.content.actions.AskAction;
 import org.catrobat.catroid.content.actions.AskSpeechAction;
+import org.catrobat.catroid.content.actions.AssertEqualsAction;
 import org.catrobat.catroid.content.actions.CameraBrickAction;
 import org.catrobat.catroid.content.actions.ChangeBrightnessByNAction;
 import org.catrobat.catroid.content.actions.ChangeColorByNAction;
@@ -122,6 +123,8 @@ import org.catrobat.catroid.content.actions.ReplaceItemInUserListAction;
 import org.catrobat.catroid.content.actions.SceneStartAction;
 import org.catrobat.catroid.content.actions.SceneTransitionAction;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.content.actions.SetBackgroundLookAction;
+import org.catrobat.catroid.content.actions.SetBackgroundLookByIndexAction;
 import org.catrobat.catroid.content.actions.SetBrightnessAction;
 import org.catrobat.catroid.content.actions.SetColorAction;
 import org.catrobat.catroid.content.actions.SetLookAction;
@@ -139,6 +142,7 @@ import org.catrobat.catroid.content.actions.SetVolumeToAction;
 import org.catrobat.catroid.content.actions.SetXAction;
 import org.catrobat.catroid.content.actions.SetYAction;
 import org.catrobat.catroid.content.actions.ShowTextAction;
+import org.catrobat.catroid.content.actions.ShowTextColorSizeAlignmentAction;
 import org.catrobat.catroid.content.actions.SpeakAction;
 import org.catrobat.catroid.content.actions.StampAction;
 import org.catrobat.catroid.content.actions.StitchAction;
@@ -149,10 +153,10 @@ import org.catrobat.catroid.content.actions.StopThisScriptAction;
 import org.catrobat.catroid.content.actions.ThinkSayBubbleAction;
 import org.catrobat.catroid.content.actions.TurnLeftAction;
 import org.catrobat.catroid.content.actions.TurnRightAction;
-import org.catrobat.catroid.content.actions.UserBrickAction;
 import org.catrobat.catroid.content.actions.VibrateAction;
 import org.catrobat.catroid.content.actions.WaitAction;
 import org.catrobat.catroid.content.actions.WaitForBubbleBrickAction;
+import org.catrobat.catroid.content.actions.WaitTillIdleAction;
 import org.catrobat.catroid.content.actions.WaitUntilAction;
 import org.catrobat.catroid.content.actions.conditional.GlideToAction;
 import org.catrobat.catroid.content.actions.conditional.IfOnEdgeBounceAction;
@@ -170,7 +174,6 @@ import org.catrobat.catroid.content.bricks.PhiroMotorMoveForwardBrick;
 import org.catrobat.catroid.content.bricks.PhiroMotorStopBrick;
 import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick;
 import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
-import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.eventids.BroadcastEventId;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -598,6 +601,23 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
+	public Action createSetBackgroundLookAction(LookData lookData, @EventWrapper.WaitMode int waitMode) {
+		return createSetBackgroundLookEventAction((SetBackgroundLookAction) createSetBackgroundLookAction(lookData), waitMode);
+	}
+
+	public Action createSetBackgroundLookAction(LookData lookData) {
+		SetBackgroundLookAction action = Actions.action(SetBackgroundLookAction.class);
+		action.setLookData(lookData);
+		return action;
+	}
+
+	private Action createSetBackgroundLookEventAction(SetBackgroundLookAction action, @EventWrapper.WaitMode int waitMode) {
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		action.setWaitMode(waitMode);
+		action.setReceivingSprites(currentProject.getSpriteListWithClones());
+		return action;
+	}
+
 	public Action createSetLookByIndexAction(Sprite sprite, Formula formula, @EventWrapper.WaitMode int waitMode) {
 		return createSetLookEventAction((SetLookAction) createSetLookByIndexAction(sprite, formula), waitMode);
 	}
@@ -605,6 +625,17 @@ public class ActionFactory extends Actions {
 	public Action createSetLookByIndexAction(Sprite sprite, Formula formula) {
 		SetLookByIndexAction action = Actions.action(SetLookByIndexAction.class);
 		action.setSprite(sprite);
+		action.setFormula(formula);
+		return action;
+	}
+
+	public Action createSetBackgroundLookByIndexAction(Sprite scopeSprite, Formula formula, @EventWrapper.WaitMode int waitMode) {
+		return createSetBackgroundLookEventAction((SetBackgroundLookAction) createSetBackgroundLookByIndexAction(scopeSprite, formula), waitMode);
+	}
+
+	public Action createSetBackgroundLookByIndexAction(Sprite scopeSprite, Formula formula) {
+		SetBackgroundLookByIndexAction action = Actions.action(SetBackgroundLookByIndexAction.class);
+		action.setScopeSprite(scopeSprite);
 		action.setFormula(formula);
 		return action;
 	}
@@ -809,13 +840,6 @@ public class ActionFactory extends Actions {
 		action.setIsForeverRepeat(true);
 		action.setAction(foreverSequence);
 		action.setSprite(sprite);
-		return action;
-	}
-
-	public Action createUserBrickAction(Action userBrickAction, UserBrick userBrick) {
-		UserBrickAction action = action(UserBrickAction.class);
-		action.setAction(userBrickAction);
-		action.setUserBrick(userBrick);
 		return action;
 	}
 
@@ -1046,16 +1070,24 @@ public class ActionFactory extends Actions {
 		action.setPosition(xPosition, yPosition);
 		action.setVariableToShow(userVariable);
 		action.setSprite(sprite);
-		UserBrick userBrick = ProjectManager.getInstance().getCurrentUserBrick();
-		action.setUserBrick(userBrick);
+		return action;
+	}
+
+	public Action createShowVariableColorAndSizeAction(Sprite sprite, Formula xPosition, Formula yPosition,
+			Formula relativeTextSize, Formula color, UserVariable userVariable, int alignment) {
+		ShowTextColorSizeAlignmentAction action = action(ShowTextColorSizeAlignmentAction.class);
+		action.setPosition(xPosition, yPosition);
+		action.setRelativeTextSize(relativeTextSize);
+		action.setColor(color);
+		action.setVariableToShow(userVariable);
+		action.setSprite(sprite);
+		action.setAlignment(alignment);
 		return action;
 	}
 
 	public Action createHideVariableAction(Sprite sprite, UserVariable userVariable) {
 		HideTextAction action = action(HideTextAction.class);
 		action.setVariableToHide(userVariable);
-		UserBrick userBrick = ProjectManager.getInstance().getCurrentUserBrick();
-		action.setUserBrick(userBrick);
 		action.setSprite(sprite);
 		return action;
 	}
@@ -1172,5 +1204,24 @@ public class ActionFactory extends Actions {
 		setNfcTagAction.setNfcTagNdefSpinnerSelection(nfcNdefSpinnerSelection);
 		setNfcTagAction.setNfcNdefMessage(nfcNdefMessage);
 		return setNfcTagAction;
+	}
+
+	public Action createAssertEqualsAction(Sprite sprite, Formula actual, Formula expected,
+			UserVariable actualVariable, UserVariable expectedVariable, UserVariable setupVariable) {
+		AssertEqualsAction action = action(AssertEqualsAction.class);
+		action.setActual(actual);
+		action.setExpected(expected);
+
+		action.setSprite(sprite);
+
+		action.setActualVariable(actualVariable);
+		action.setExpectedVariable(expectedVariable);
+		action.setSetupVariable(setupVariable);
+
+		return action;
+	}
+
+	public Action createWaitTillIdleAction() {
+		return action(WaitTillIdleAction.class);
 	}
 }

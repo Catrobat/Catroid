@@ -35,13 +35,18 @@ import android.support.v4.content.FileProvider
 import android.support.v7.app.AppCompatActivity
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
-import org.catrobat.catroid.common.Constants.*
+import org.catrobat.catroid.common.Constants.CAMERA_CACHE_DIR
+import org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION
+import org.catrobat.catroid.common.Constants.EXTRA_PICTURE_PATH_POCKET_PAINT
+import org.catrobat.catroid.common.Constants.POCKET_PAINT_CACHE_DIR
+import org.catrobat.catroid.common.Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME
+import org.catrobat.catroid.common.Constants.TMP_IMAGE_FILE_NAME
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.ui.WebViewActivity.INTENT_PARAMETER_URL
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask
 import java.io.File
 import java.io.IOException
-import java.util.*
+import java.util.Arrays
 
 interface ImportLauncher {
 
@@ -53,9 +58,11 @@ class ImportFromPocketPaintLauncher(private val activity: AppCompatActivity) : I
     private val pocketPaintImageFileName = TMP_IMAGE_FILE_NAME + DEFAULT_IMAGE_EXTENSION
 
     fun getPocketPaintCacheUri(): Uri {
-        return FileProvider.getUriForFile(activity,
-                activity.applicationContext.packageName + ".fileProvider",
-                File(POCKET_PAINT_CACHE_DIR, pocketPaintImageFileName))
+        return FileProvider.getUriForFile(
+            activity,
+            activity.applicationContext.packageName + ".fileProvider",
+            File(POCKET_PAINT_CACHE_DIR, pocketPaintImageFileName)
+        )
     }
 
     private fun createEmptyImageFile(): File {
@@ -65,14 +72,16 @@ class ImportFromPocketPaintLauncher(private val activity: AppCompatActivity) : I
         }
 
         val currentProject = ProjectManager.getInstance().currentProject
-        val bitmap = Bitmap.createBitmap(currentProject.xmlHeader.virtualScreenWidth,
-                currentProject.xmlHeader.virtualScreenHeight, Bitmap.Config.ARGB_8888)
+        val bitmap = Bitmap.createBitmap(
+            currentProject.xmlHeader.virtualScreenWidth,
+            currentProject.xmlHeader.virtualScreenHeight, Bitmap.Config.ARGB_8888
+        )
         return StorageOperations.compressBitmapToPng(bitmap, File(POCKET_PAINT_CACHE_DIR, pocketPaintImageFileName))
     }
 
     override fun startActivityForResult(requestCode: Int) {
         val intent = Intent("android.intent.action.MAIN")
-                .setComponent(ComponentName(activity, POCKET_PAINT_INTENT_ACTIVITY_NAME))
+            .setComponent(ComponentName(activity, POCKET_PAINT_INTENT_ACTIVITY_NAME))
 
         val bundle = Bundle()
 
@@ -84,8 +93,10 @@ class ImportFromPocketPaintLauncher(private val activity: AppCompatActivity) : I
     }
 }
 
-class ImportFormMediaLibraryLauncher(private val activity: AppCompatActivity,
-                                     private val url: String) : ImportLauncher {
+class ImportFormMediaLibraryLauncher(
+    private val activity: AppCompatActivity,
+    private val url: String
+) : ImportLauncher {
 
     override fun startActivityForResult(requestCode: Int) {
         val intent = Intent(activity, WebViewActivity::class.java)
@@ -94,9 +105,11 @@ class ImportFormMediaLibraryLauncher(private val activity: AppCompatActivity,
     }
 }
 
-class ImportFromFileLauncher(private val activity: AppCompatActivity,
-                             private val type: String,
-                             private val title: String) : ImportLauncher {
+class ImportFromFileLauncher(
+    private val activity: AppCompatActivity,
+    private val type: String,
+    private val title: String
+) : ImportLauncher {
 
     override fun startActivityForResult(requestCode: Int) {
         val intent = Intent(Intent.ACTION_GET_CONTENT).setType(type)
@@ -108,15 +121,12 @@ class ImportFromCameraLauncher(private val activity: AppCompatActivity) : Import
 
     private val cameraImageFileName = "$TMP_IMAGE_FILE_NAME.jpg"
 
-    companion object {
-        @JvmStatic
-        val REQUEST_PERMISSIONS_CAMERA_LAUNCHER = 301
-    }
-
     fun getCacheCameraUri(): Uri {
-        return FileProvider.getUriForFile(activity,
-                activity.applicationContext.packageName + ".fileProvider",
-                File(CAMERA_CACHE_DIR, cameraImageFileName))
+        return FileProvider.getUriForFile(
+            activity,
+            activity.applicationContext.packageName + ".fileProvider",
+            File(CAMERA_CACHE_DIR, cameraImageFileName)
+        )
     }
 
     fun createCameraCacheDir() {
@@ -127,8 +137,10 @@ class ImportFromCameraLauncher(private val activity: AppCompatActivity) : Import
     }
 
     override fun startActivityForResult(requestCode: Int) {
-        object : RequiresPermissionTask(REQUEST_PERMISSIONS_CAMERA_LAUNCHER, Arrays.asList(CAMERA),
-                R.string.runtime_permission_general) {
+        object : RequiresPermissionTask(
+            REQUEST_PERMISSIONS_CAMERA_LAUNCHER, Arrays.asList(CAMERA),
+            R.string.runtime_permission_general
+        ) {
 
             override fun task() {
                 createCameraCacheDir()
@@ -144,5 +156,10 @@ class ImportFromCameraLauncher(private val activity: AppCompatActivity) : Import
                 }
             }
         }.execute(activity)
+    }
+
+    companion object {
+        @JvmStatic
+        val REQUEST_PERMISSIONS_CAMERA_LAUNCHER = 301
     }
 }

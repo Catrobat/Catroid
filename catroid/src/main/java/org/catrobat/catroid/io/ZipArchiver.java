@@ -43,6 +43,7 @@ public class ZipArchiver {
 	private static final int COMPRESSION_LEVEL = 0;
 
 	public void zip(File archive, File[] files) throws IOException {
+		archive.createNewFile();
 		FileOutputStream fileOutputStream = new FileOutputStream(archive);
 		ZipOutputStream zipOutputStream = new ZipOutputStream(fileOutputStream);
 		try {
@@ -54,8 +55,7 @@ public class ZipArchiver {
 		}
 	}
 
-	private void writeZipEntriesToStream(ZipOutputStream zipOutputStream, List<File> files, String parentDir) throws
-			IOException {
+	private void writeZipEntriesToStream(ZipOutputStream zipOutputStream, List<File> files, String parentDir) throws IOException {
 		for (File file : files) {
 			if (!file.exists()) {
 				throw new FileNotFoundException("File: " + file.getAbsolutePath() + " does NOT exist.");
@@ -69,17 +69,13 @@ public class ZipArchiver {
 
 			zipOutputStream.putNextEntry(new ZipEntry(parentDir + file.getName()));
 
-			FileInputStream fileInputStream = new FileInputStream(file);
-
-			byte[] b = new byte[Constants.BUFFER_8K];
-			int len;
-
-			try {
+			try (FileInputStream fileInputStream = new FileInputStream(file)) {
+				byte[] b = new byte[Constants.BUFFER_8K];
+				int len;
 				while ((len = fileInputStream.read(b)) != -1) {
 					zipOutputStream.write(b, 0, len);
 				}
 			} finally {
-				fileInputStream.close();
 				zipOutputStream.closeEntry();
 			}
 		}
@@ -93,10 +89,8 @@ public class ZipArchiver {
 	public void unzip(InputStream is, File dstDir) throws IOException {
 		createDirIfNecessary(dstDir);
 
-		ZipInputStream zipInputStream = new ZipInputStream(is);
-		ZipEntry zipEntry;
-
-		try {
+		try (ZipInputStream zipInputStream = new ZipInputStream(is)) {
+			ZipEntry zipEntry;
 			while ((zipEntry = zipInputStream.getNextEntry()) != null) {
 				if (zipEntry.getName().contains(DIRECTORY_LEVEL_UP)) {
 					continue;
@@ -108,21 +102,15 @@ public class ZipArchiver {
 
 				File zipEntryFile = new File(dstDir, zipEntry.getName());
 				zipEntryFile.getParentFile().mkdirs();
-				FileOutputStream fileOutputStream = new FileOutputStream(zipEntryFile);
 
-				byte[] b = new byte[Constants.BUFFER_8K];
-				int len;
-
-				try {
+				try (FileOutputStream fileOutputStream = new FileOutputStream(zipEntryFile)) {
+					byte[] b = new byte[Constants.BUFFER_8K];
+					int len;
 					while ((len = zipInputStream.read(b)) != -1) {
 						fileOutputStream.write(b, 0, len);
 					}
-				} finally {
-					fileOutputStream.close();
 				}
 			}
-		} finally {
-			zipInputStream.close();
 		}
 	}
 

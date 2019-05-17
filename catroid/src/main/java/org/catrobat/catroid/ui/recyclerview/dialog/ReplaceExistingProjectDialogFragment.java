@@ -102,7 +102,7 @@ public class ReplaceExistingProjectDialogFragment extends DialogFragment {
 								DownloadUtil.getInstance().startDownload(getActivity(), url, textInput, true);
 								break;
 							case R.id.replace:
-								ProjectManager.getInstance().setProject(null);
+								ProjectManager.getInstance().setCurrentProject(null);
 								DownloadUtil.getInstance().startDownload(getActivity(), url, textInput, false);
 								break;
 							default:

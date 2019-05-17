@@ -24,9 +24,9 @@
 package org.catrobat.catroid.ui.recyclerview.dialog;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
@@ -40,11 +40,17 @@ import org.catrobat.catroid.utils.ToastUtil;
 
 import java.io.IOException;
 
+import static org.catrobat.catroid.common.DefaultProjectHandler.ProjectCreatorType.PROJECT_CREATOR_CAST;
+import static org.catrobat.catroid.common.DefaultProjectHandler.ProjectCreatorType.PROJECT_CREATOR_DEFAULT;
+
 public class OrientationDialogFragment extends DialogFragment {
 
 	public static final String TAG = OrientationDialogFragment.class.getSimpleName();
 	public static final String BUNDLE_KEY_PROJECT_NAME = "projectName";
 	public static final String BUNDLE_KEY_CREATE_EMPTY_PROJECT = "createEmptyProject";
+
+	private String projectName;
+	private boolean createEmptyProject;
 
 	public static OrientationDialogFragment newInstance(String projectName, boolean createEmptyProject) {
 		OrientationDialogFragment dialog = new OrientationDialogFragment();
@@ -58,12 +64,24 @@ public class OrientationDialogFragment extends DialogFragment {
 	}
 
 	@Override
+	public void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		if (getArguments() == null) {
+			return;
+		}
+
+		projectName = getArguments().getString(BUNDLE_KEY_PROJECT_NAME);
+		createEmptyProject = getArguments().getBoolean(BUNDLE_KEY_CREATE_EMPTY_PROJECT);
+	}
+
+	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View view = View.inflate(getActivity(), R.layout.dialog_orientation, null);
 
 		final RadioGroup radioGroup = view.findViewById(R.id.radio_group);
 
 		int title = R.string.project_orientation_title;
+
 		if (SettingsFragment.isCastSharedPreferenceEnabled(getActivity())) {
 			title = R.string.project_select_screen_title;
 			view.findViewById(R.id.cast).setVisibility(View.VISIBLE);
@@ -72,48 +90,52 @@ public class OrientationDialogFragment extends DialogFragment {
 		return new AlertDialog.Builder(getContext())
 				.setTitle(title)
 				.setView(view)
-				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						switch (radioGroup.getCheckedRadioButtonId()) {
-							case R.id.portrait:
-								createProject(false, false);
-								break;
-							case R.id.landscape_mode:
-								createProject(true, false);
-								break;
-							case R.id.cast:
-								createProject(false, true);
-								break;
-							default:
-								throw new IllegalStateException(TAG + ": No radio button id match, check layout?");
-						}
+				.setPositiveButton(R.string.ok, (dialog, which) -> {
+					switch (radioGroup.getCheckedRadioButtonId()) {
+						case R.id.portrait:
+							createProject(false);
+							break;
+						case R.id.landscape_mode:
+							createProject(true);
+							break;
+						case R.id.cast:
+							createCastProject();
+							break;
+						default:
+							throw new IllegalStateException(TAG + ": No radio button id match, check layout?");
 					}
 				})
 				.setNegativeButton(R.string.cancel, null)
 				.create();
 	}
 
-	void createProject(boolean createLandscapeProject, boolean createCastProject) {
-		if (getArguments() == null) {
-			return;
-		}
-
-		String projectName = getArguments().getString(BUNDLE_KEY_PROJECT_NAME);
-		Boolean createEmptyProject = getArguments().getBoolean(BUNDLE_KEY_CREATE_EMPTY_PROJECT);
-
-		if (projectName == null) {
-			return;
-		}
-
+	void createProject(boolean landscape) {
 		try {
-			ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), createEmptyProject,
-					false, createLandscapeProject, createCastProject, false);
+			if (createEmptyProject) {
+				ProjectManager.getInstance()
+						.createNewEmptyProject(projectName, getContext(), landscape, false);
+			} else {
+				ProjectManager.getInstance()
+						.createNewExampleProject(projectName, getContext(), PROJECT_CREATOR_DEFAULT, landscape);
+			}
+			getActivity().startActivity(new Intent(getActivity(), ProjectActivity.class));
 		} catch (IOException e) {
 			ToastUtil.showError(getActivity(), R.string.error_new_project);
 		}
+	}
 
-		Intent intent = new Intent(getActivity(), ProjectActivity.class);
-		getActivity().startActivity(intent);
+	void createCastProject() {
+		try {
+			if (createEmptyProject) {
+				ProjectManager.getInstance()
+						.createNewEmptyProject(projectName, getContext(), false, true);
+			} else {
+				ProjectManager.getInstance()
+						.createNewExampleProject(projectName, getContext(), PROJECT_CREATOR_CAST, false);
+			}
+			getActivity().startActivity(new Intent(getActivity(), ProjectActivity.class));
+		} catch (IOException e) {
+			ToastUtil.showError(getActivity(), R.string.error_new_project);
+		}
 	}
 }

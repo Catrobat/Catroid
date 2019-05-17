@@ -28,11 +28,14 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.OpenableColumns;
+import android.util.Log;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.channels.FileChannel;
@@ -44,6 +47,8 @@ import static org.catrobat.catroid.common.Constants.NO_MEDIA_FILE;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 
 public final class StorageOperations {
+
+	public static final String TAG = StorageOperations.class.getSimpleName();
 
 	private static final String FILE_NAME_APPENDIX = "_#";
 
@@ -112,6 +117,23 @@ public final class StorageOperations {
 		}
 
 		return result;
+	}
+
+	public static void writeToFile(File file, String content) throws IOException {
+		BufferedWriter writer = null;
+		try {
+			writer = new BufferedWriter(new FileWriter(file), BUFFER_8K);
+			writer.write(content);
+			writer.flush();
+		} finally {
+			if (writer != null) {
+				try {
+					writer.close();
+				} catch (IOException e) {
+					Log.e(TAG, "Cannot close buffered writer after exception occurred during writing process.");
+				}
+			}
+		}
 	}
 
 	public static File compressBitmapToPng(Bitmap bitmap, File dstFile) throws IOException {
@@ -235,7 +257,7 @@ public final class StorageOperations {
 		int extensionStartIndex = originalName.lastIndexOf('.');
 
 		if (extensionStartIndex == -1) {
-			extensionStartIndex = originalName.length() - 1;
+			extensionStartIndex = originalName.length();
 		}
 
 		int appendixStartIndex = originalName.lastIndexOf(FILE_NAME_APPENDIX);

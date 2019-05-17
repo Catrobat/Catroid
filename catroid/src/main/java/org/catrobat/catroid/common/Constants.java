@@ -22,8 +22,10 @@
  */
 package org.catrobat.catroid.common;
 
+import android.os.Environment;
 import android.support.annotation.IntDef;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.CatroidApplication;
 
 import java.io.File;
@@ -32,11 +34,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.Calendar;
 
 import static org.catrobat.catroid.common.FlavoredConstants.BASE_URL_HTTPS;
-import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public final class Constants {
 
-	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = 0.998f;
+	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = 0.9995f;
 
 	public static final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
 	public static final int CAST_CONNECTION_TIMEOUT = 5000; //in milliseconds
@@ -48,7 +49,10 @@ public final class Constants {
 	public static final String CODE_XML_FILE_NAME = "code.xml";
 	public static final String PERMISSIONS_FILE_NAME = "permissions.txt";
 	public static final String TMP_CODE_XML_FILE_NAME = "tmp_" + CODE_XML_FILE_NAME;
-	public static final String SCENES_ENABLED_TAG = "<scenesEnabled>";
+
+	public static final String POCKET_CODE_EXTERNAL_EXPORT_STORAGE_FOLDER_NAME = "Catrobat";
+	public static final File EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY = new File(
+			Environment.getExternalStorageDirectory(), POCKET_CODE_EXTERNAL_EXPORT_STORAGE_FOLDER_NAME);
 
 	public static final String CATROBAT_EXTENSION = ".catrobat";
 	public static final String DEFAULT_IMAGE_EXTENSION = ".png";
@@ -70,7 +74,7 @@ public final class Constants {
 	public static final String SOUND_DIRECTORY_NAME = "sounds";
 
 	// Backpack Directories
-	public static final File BACKPACK_DIRECTORY = new File(DEFAULT_ROOT_DIRECTORY, "backpack");
+	public static final File BACKPACK_DIRECTORY = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "backpack");
 	public static final File BACKPACK_FILE = new File(BACKPACK_DIRECTORY, "backpack.json");
 	public static final File BACKPACK_SCENE_DIRECTORY = new File(BACKPACK_DIRECTORY, "scenes");
 	public static final File BACKPACK_SOUND_DIRECTORY = new File(BACKPACK_DIRECTORY, "backpack_sound");
@@ -79,6 +83,8 @@ public final class Constants {
 	// Temporary Files and Directories:
 	public static final File CACHE_DIR = CatroidApplication.getAppContext().getCacheDir();
 
+	public static final String CACHED_PROJECT_ZIP_FILE_NAME = "projectImportCache.zip";
+
 	public static final File POCKET_PAINT_CACHE_DIR = new File(CACHE_DIR, "pocketPaint");
 	public static final File CAMERA_CACHE_DIR = new File(CACHE_DIR, "camera");
 	public static final File SOUND_RECORDER_CACHE_DIR = new File(CACHE_DIR, "soundRecorder");
@@ -86,22 +92,25 @@ public final class Constants {
 
 	public static final String TMP_IMAGE_FILE_NAME = "image";
 
-	public static final String TMP_PATH = CACHE_DIR.getAbsolutePath() + "/tmp";
+	public static final String TMP_DIR_NAME = "tmp";
+	public static final String TMP_PATH = CACHE_DIR.getAbsolutePath() + "/" + TMP_DIR_NAME;
 	public static final String TEXT_TO_SPEECH_TMP_PATH = TMP_PATH + "/textToSpeech";
 
 	// Web:
-	public static final String MAIN_URL_HTTPS = "https://share.catrob.at";
+	public static final String MAIN_URL_HTTPS = BuildConfig.MAIN_URL_HTTPS;
 
 	public static final String SHARE_PROGRAM_URL = BASE_URL_HTTPS + "/program/";
-	public static final String STANDALONE_URL = "http://catrob.at/csadttwt";
+	public static final String STANDALONE_URL = "https://catrob.at/csadttwt";
 
-	public static final String CATROBAT_ABOUT_URL = "http://www.catrobat.org/";
-	public static final String ABOUT_POCKETCODE_LICENSE_URL = "http://developer.catrobat.org/licenses";
+	public static final String CATROBAT_ABOUT_URL = "https://www.catrobat.org/";
+	public static final String ABOUT_POCKETCODE_LICENSE_URL = "https://catrob.at/licenses";
 
 	public static final String CATROBAT_TERMS_OF_USE_URL = BASE_URL_HTTPS + "termsOfUse";
 	public static final String CATROBAT_HELP_URL = BASE_URL_HTTPS + "help";
 	public static final String CATROBAT_TOKEN_LOGIN_URL = BASE_URL_HTTPS + "tokenlogin?username=";
 	public static final String CATROBAT_DELETE_ACCOUNT_URL = BASE_URL_HTTPS + "profile/edit";
+
+	public static final String PLAY_STORE_PAGE_LINK = "https://play.google.com/store/apps/details?id=";
 
 	// XStream:
 	public static final String TEXT_TO_SPEECH = "TEXT_TO_SPEECH";
@@ -169,6 +178,7 @@ public final class Constants {
 	public static final String PLATFORM_DEFAULT = "Android";
 
 	public static final String WHATSAPP_URI = "whatsapp://";
+
 	// Scratch Converter
 	public static final int DOWNLOAD_FILE_HTTP_TIMEOUT = 30_000;
 	public static final long INVALID_SCRATCH_PROGRAM_ID = 0;
@@ -215,14 +225,26 @@ public final class Constants {
 
 	// Pocket Paint
 	public static final String EXTRA_PICTURE_PATH_POCKET_PAINT = "org.catrobat.extra.PAINTROID_PICTURE_PATH";
-	public static final String EXTRA_PICTURE_NAME_POCKET_PAINT = "org.catrobat.extra.PAINTROID_PICTURE_NAME";
 	public static final String POCKET_PAINT_INTENT_ACTIVITY_NAME = "org.catrobat.paintroid.MainActivity";
+
+	// Intent Extra / Bundle Keys
+	public static final String EXTRA_PROJECT_NAME = "projectName";
+	public static final String EXTRA_PROJECT_DESCRIPTION = "projectDescription";
+	public static final String EXTRA_PROJECT_PATH = "projectPath";
+	public static final String EXTRA_PROJECT_ID = "projectId";
+	public static final String EXTRA_SCENE_NAMES = "sceneNames";
+	public static final String EXTRA_USER_EMAIL = "userEmail";
+	public static final String EXTRA_LANGUAGE = "language";
+	public static final String EXTRA_NOTIFICATION_ID = "notificationId";
+	public static final String EXTRA_RESULT_RECEIVER = "resultReceiver";
+	public static final String EXTRA_PROVIDER = "provider";
+	public static final String EXTRA_UPLOAD_NAME = "uploadName";
+
+	public static final int UPLOAD_RESULT_RECEIVER_RESULT_CODE = 1;
 
 	//Various:
 	public static final int BUFFER_8K = 8 * 1024;
 	public static final String PREF_PROJECTNAME_KEY = "projectName";
-	public static final String MEDIA_TYPE_LOOK = "look";
-	public static final String MEDIA_TYPE_SOUND = "sound";
 
 	public static final String COLLISION_PNG_META_TAG_KEY = "CollisionPolygonVertices";
 	public static final int COLLISION_VERTEX_LIMIT = 100;
@@ -234,15 +256,12 @@ public final class Constants {
 
 	public static final int Z_INDEX_BACKGROUND = 0;
 
-	// this offset reflects the offset caused by "virtual" layers (currently PenActor, EmbroideryActor)
 	public static final int Z_INDEX_NUMBER_VIRTUAL_LAYERS = 2;
 
 	public static final int Z_INDEX_FIRST_SPRITE = Z_INDEX_BACKGROUND + Z_INDEX_NUMBER_VIRTUAL_LAYERS + 1;
 
 	public static final String NO_VARIABLE_SELECTED = "No variable set";
 	public static final String NO_VALUE_SET = "No value set";
-	public static final String PROJECT_UPLOAD_NAME = "projectUploadName";
-	public static final String PROJECT_UPLOAD_DESCRIPTION = "setProjectDescription";
 	public static final int SAY_BRICK = 0;
 	public static final int THINK_BRICK = 1;
 	public static final int MAX_STRING_LENGTH_BUBBLES = 16;
@@ -254,10 +273,13 @@ public final class Constants {
 	public static final int OFFSET_FOR_THINK_BUBBLES_AND_ARROW = 40;
 	public static final int JUMPING_SUMO_BATTERY_STATUS = 100;
 
+	public static final int UPLOAD_IMAGE_SCALE_WIDTH = 480;
+	public static final int UPLOAD_IMAGE_SCALE_HEIGHT = 480;
+
 	//Services + Notifications
-	public static final int UPDATE_UPLOAD_PROGRESS = 100;
 	public static final int UPDATE_DOWNLOAD_PROGRESS = 101;
 	public static final int UPDATE_DOWNLOAD_ERROR = 105;
+	public static final int MAX_PERCENT = 100;
 
 	//Up-/Download Status Codes
 	public static final int STATUS_CODE_INTERNAL_SERVER_ERROR = 500;

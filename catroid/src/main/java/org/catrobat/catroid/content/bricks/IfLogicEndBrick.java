@@ -22,70 +22,19 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
-public class IfLogicEndBrick extends BrickBaseType implements ControlStructureBrick {
+public class IfLogicEndBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
 
-	private transient IfElseLogicBeginBrick ifBeginBrick;
-	private transient IfLogicElseBrick ifElseBrick;
-
-	public IfLogicEndBrick(IfElseLogicBeginBrick ifLogicBeginBrick, IfLogicElseBrick ifElseBrick) {
-		this.ifBeginBrick = ifLogicBeginBrick;
-		this.ifElseBrick = ifElseBrick;
-	}
-
-	public IfElseLogicBeginBrick getIfBeginBrick() {
-		return ifBeginBrick;
-	}
-
-	public void setIfBeginBrick(IfElseLogicBeginBrick ifBeginBrick) {
-		this.ifBeginBrick = ifBeginBrick;
-	}
-
-	public IfLogicElseBrick getIfElseBrick() {
-		return ifElseBrick;
-	}
-
-	public void setIfElseBrick(IfLogicElseBrick ifElseBrick) {
-		this.ifElseBrick = ifElseBrick;
-	}
-
 	@Override
 	public int getViewResource() {
-		return R.layout.brick_if_end_if;
+		return 0;
 	}
 
 	@Override
-	public Brick getFirstBrick() {
-		return ifBeginBrick;
-	}
-
-	@Override
-	public Brick getLastBrick() {
-		return this;
-	}
-
-	@Override
-	public List<Brick> getAllParts() {
-		List<Brick> parts = new ArrayList<>();
-		parts.add(ifBeginBrick);
-		parts.add(ifElseBrick);
-		parts.add(this);
-		return parts;
-	}
-
-	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		LinkedList<ScriptSequenceAction> returnActionList = new LinkedList<>();
-		returnActionList.add(sequence);
-		return returnActionList;
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 	}
 }

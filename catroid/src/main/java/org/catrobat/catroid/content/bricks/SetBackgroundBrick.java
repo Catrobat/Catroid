@@ -23,35 +23,81 @@
 
 package org.catrobat.catroid.content.bricks;
 
+import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
+import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
+import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
-public class SetBackgroundBrick extends SetLookBrick {
+public class SetBackgroundBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<LookData>,
+		NewItemInterface<LookData> {
+
+	private static final long serialVersionUID = 1L;
+
+	private transient BrickSpinner<LookData> spinner;
+
+	protected LookData look;
+
+	public LookData getLook() {
+		return look;
+	}
+
+	public void setLook(LookData look) {
+		this.look = look;
+	}
 
 	public SetBackgroundBrick() {
 	}
 
 	@Override
-	protected void onViewCreated(View view) {
-		((TextView) view.findViewById(R.id.brick_set_look_text_view)).setText(R.string.brick_set_background);
+	public Brick clone() throws CloneNotSupportedException {
+		SetBackgroundBrick clone = (SetBackgroundBrick) super.clone();
+		clone.spinner = null;
+		return clone;
+	}
+
+	@Override
+	public int getViewResource() {
+		return R.layout.brick_set_background;
+	}
+
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
+		List<Nameable> items = new ArrayList<>();
+		items.add(new NewOption(context.getString(R.string.new_option)));
+		items.addAll(ProjectManager.getInstance().getCurrentlyPlayingScene().getBackgroundSprite().getLookList());
+		spinner = new BrickSpinner<>(R.id.brick_set_background_spinner, view, items);
+		spinner.setOnItemSelectedListener(this);
+		spinner.setSelection(look);
+
+		return view;
+	}
+
+	@Override
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		sequence.addAction(sprite.getActionFactory().createSetBackgroundLookAction(look, EventWrapper.NO_WAIT));
 	}
 
 	@Override
 	public void onNewOptionSelected() {
 		AppCompatActivity activity = UiUtils.getActivityFromView(view);
-		if (activity == null || !(activity instanceof SpriteActivity)) {
+		if (!(activity instanceof SpriteActivity)) {
 			return;
 		}
 		((SpriteActivity) activity).registerOnNewLookListener(this);
@@ -59,13 +105,17 @@ public class SetBackgroundBrick extends SetLookBrick {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createSetLookAction(getSprite(), look, EventWrapper.NO_WAIT));
-		return Collections.emptyList();
+	public void addItem(LookData item) {
+		spinner.add(item);
+		spinner.setSelection(item);
 	}
 
 	@Override
-	protected Sprite getSprite() {
-		return ProjectManager.getInstance().getCurrentlyPlayingScene().getBackgroundSprite();
+	public void onStringOptionSelected(String string) {
+	}
+
+	@Override
+	public void onItemSelected(@Nullable LookData item) {
+		look = item;
 	}
 }

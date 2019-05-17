@@ -38,19 +38,22 @@
           android:id="@+id/dialog_upload_progess_message"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:paddingBottom="@dimen/material_design_spacing_large"
+          android:layout_marginBottom="@dimen/material_design_spacing_x_large"
           android:text="@string/progress_upload_dialog_message" />
 
        <ProgressBar
            android:id="@+id/dialog_upload_progress_progressbar"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
+           android:layout_marginBottom="@dimen/material_design_spacing_large"
            android:layout_gravity="center"/>
 
         <ImageView
             android:id="@+id/dialog_upload_progress_success_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:visibility="gone"
+            android:layout_marginBottom="@dimen/material_design_spacing_large"
             android:layout_gravity="center" />
 
     </LinearLayout>

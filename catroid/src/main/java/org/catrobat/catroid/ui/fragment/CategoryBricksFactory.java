@@ -35,6 +35,8 @@ import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.RaspiInterruptScript;
+import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenConditionScript;
 import org.catrobat.catroid.content.WhenGamepadButtonScript;
@@ -43,6 +45,7 @@ import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.AskBrick;
 import org.catrobat.catroid.content.bricks.AskSpeechBrick;
+import org.catrobat.catroid.content.bricks.AssertEqualsBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
@@ -134,7 +137,6 @@ import org.catrobat.catroid.content.bricks.SayBubbleBrick;
 import org.catrobat.catroid.content.bricks.SayForBubbleBrick;
 import org.catrobat.catroid.content.bricks.SceneStartBrick;
 import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
-import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.SetBackgroundAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SetBackgroundBrick;
 import org.catrobat.catroid.content.bricks.SetBackgroundByIndexAndWaitBrick;
@@ -155,6 +157,7 @@ import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.ShowTextBrick;
+import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick;
 import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StampBrick;
@@ -165,9 +168,9 @@ import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
 import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
-import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
+import org.catrobat.catroid.content.bricks.WaitTillIdleBrick;
 import org.catrobat.catroid.content.bricks.WaitUntilBrick;
 import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
@@ -180,7 +183,6 @@ import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.content.bricks.WhenTouchDownBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
-import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
@@ -192,70 +194,83 @@ import org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.physics.content.bricks.SetVelocityBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
-import org.catrobat.catroid.ui.UserBrickSpriteActivity;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+
+import static org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.NUMBER;
+import static org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.OPERATOR;
 
 public class CategoryBricksFactory {
 
 	public List<Brick> getBricks(String category, Sprite sprite, Context context) {
 
-		boolean isUserScriptMode = context instanceof UserBrickSpriteActivity;
-		List<Brick> tempList = new LinkedList<>();
-		List<Brick> toReturn = new ArrayList<>();
 		if (category.equals(context.getString(R.string.category_event))) {
-			tempList = setupEventCategoryList(context);
-		} else if (category.equals(context.getString(R.string.category_control))) {
-			tempList = setupControlCategoryList(context);
-		} else if (category.equals(context.getString(R.string.category_motion))) {
-			tempList = setupMotionCategoryList(sprite, context);
-		} else if (category.equals(context.getString(R.string.category_sound))) {
-			tempList = setupSoundCategoryList(context);
-		} else if (category.equals(context.getString(R.string.category_looks))) {
+			return setupEventCategoryList(context);
+		}
+		if (category.equals(context.getString(R.string.category_control))) {
+			return setupControlCategoryList(context);
+		}
+		if (category.equals(context.getString(R.string.category_motion))) {
+			return setupMotionCategoryList(sprite, context);
+		}
+		if (category.equals(context.getString(R.string.category_sound))) {
+			return setupSoundCategoryList(context);
+		}
+		if (category.equals(context.getString(R.string.category_looks))) {
 			boolean isBackgroundSprite = sprite.getName().equals(context.getString(R.string.background));
-			tempList = setupLooksCategoryList(context, isBackgroundSprite);
-		} else if (category.equals(context.getString(R.string.category_pen))) {
-			tempList = setupPenCategoryList(sprite);
-		} else if (category.equals(context.getString(R.string.category_user_bricks))) {
-			tempList = setupUserBricksCategoryList();
-		} else if (category.equals(context.getString(R.string.category_data))) {
-			tempList = setupDataCategoryList(context);
-		} else if (category.equals(context.getString(R.string.category_lego_nxt))) {
-			tempList = setupLegoNxtCategoryList();
-		} else if (category.equals(context.getString(R.string.category_lego_ev3))) {
-			tempList = setupLegoEv3CategoryList();
-		} else if (category.equals(context.getString(R.string.category_arduino))) {
-			tempList = setupArduinoCategoryList();
-		} else if (category.equals(context.getString(R.string.category_drone))) {
-			tempList = setupDroneCategoryList();
-		} else if (category.equals(context.getString(R.string.category_jumping_sumo))) {
-			tempList = setupJumpingSumoCategoryList();
-		} else if (category.equals(context.getString(R.string.category_phiro))) {
-			tempList = setupPhiroProCategoryList();
-		} else if (category.equals(context.getString(R.string.category_cast))) {
-			tempList = setupChromecastCategoryList(context);
-		} else if (category.equals(context.getString(R.string.category_raspi))) {
-			tempList = setupRaspiCategoryList();
-		} else if (category.equals(context.getString(R.string.category_embroidery))) {
-			tempList = setupEmbroideryCategoryList();
+			return setupLooksCategoryList(context, isBackgroundSprite);
+		}
+		if (category.equals(context.getString(R.string.category_pen))) {
+			return setupPenCategoryList(sprite);
+		}
+		if (category.equals(context.getString(R.string.category_user_bricks))) {
+			return setupUserBricksCategoryList();
+		}
+		if (category.equals(context.getString(R.string.category_data))) {
+			return setupDataCategoryList(context);
+		}
+		if (category.equals(context.getString(R.string.category_lego_nxt))) {
+			return setupLegoNxtCategoryList();
+		}
+		if (category.equals(context.getString(R.string.category_lego_ev3))) {
+			return setupLegoEv3CategoryList();
+		}
+		if (category.equals(context.getString(R.string.category_arduino))) {
+			return setupArduinoCategoryList();
+		}
+		if (category.equals(context.getString(R.string.category_drone))) {
+			return setupDroneCategoryList();
+		}
+		if (category.equals(context.getString(R.string.category_jumping_sumo))) {
+			return setupJumpingSumoCategoryList();
+		}
+		if (category.equals(context.getString(R.string.category_phiro))) {
+			return setupPhiroProCategoryList();
+		}
+		if (category.equals(context.getString(R.string.category_cast))) {
+			return setupChromecastCategoryList(context);
+		}
+		if (category.equals(context.getString(R.string.category_raspi))) {
+			return setupRaspiCategoryList();
+		}
+		if (category.equals(context.getString(R.string.category_embroidery))) {
+			return setupEmbroideryCategoryList();
+		}
+		if (category.equals(context.getString(R.string.category_assertions))) {
+			return setupAssertionsCategoryList();
 		}
 
-		for (Brick brick : tempList) {
-			if (!isUserScriptMode || !(brick instanceof ScriptBrick)) {
-				toReturn.add(brick);
-			}
-		}
-		return toReturn;
+		return Collections.emptyList();
 	}
 
 	protected List<Brick> setupEventCategoryList(Context context) {
-		FormulaElement defaultIf = new FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.SMALLER_THAN.toString(), null);
-		defaultIf.setLeftChild(new FormulaElement(ElementType.NUMBER, "1", null));
-		defaultIf.setRightChild(new FormulaElement(ElementType.NUMBER, "2", null));
+		FormulaElement defaultIf = new FormulaElement(OPERATOR, Operators.SMALLER_THAN.toString(), null);
+		defaultIf.setLeftChild(new FormulaElement(NUMBER, "1", null));
+		defaultIf.setRightChild(new FormulaElement(NUMBER, "2", null));
 
 		List<Brick> eventBrickList = new ArrayList<>();
 		eventBrickList.add(new WhenStartedBrick());
@@ -283,19 +298,21 @@ public class CategoryBricksFactory {
 	}
 
 	protected List<Brick> setupControlCategoryList(Context context) {
-		FormulaElement defaultIf = new FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.SMALLER_THAN.toString(), null);
-		defaultIf.setLeftChild(new FormulaElement(ElementType.NUMBER, "1", null));
-		defaultIf.setRightChild(new FormulaElement(ElementType.NUMBER, "2", null));
+		FormulaElement ifConditionFormulaElement = new FormulaElement(OPERATOR, Operators.SMALLER_THAN.toString(), null);
+		ifConditionFormulaElement.setLeftChild(new FormulaElement(NUMBER, "1", null));
+		ifConditionFormulaElement.setRightChild(new FormulaElement(NUMBER, "2", null));
+
+		Formula ifConditionFormula = new Formula(ifConditionFormulaElement);
 
 		List<Brick> controlBrickList = new ArrayList<>();
 		controlBrickList.add(new WaitBrick(BrickValues.WAIT));
 		controlBrickList.add(new NoteBrick(context.getString(R.string.brick_note_default_value)));
 		controlBrickList.add(new ForeverBrick());
-		controlBrickList.add(new IfLogicBeginBrick(new Formula(defaultIf)));
-		controlBrickList.add(new IfThenLogicBeginBrick(new Formula(defaultIf)));
-		controlBrickList.add(new WaitUntilBrick(new Formula(defaultIf)));
-		controlBrickList.add(new RepeatBrick(BrickValues.REPEAT));
-		controlBrickList.add(new RepeatUntilBrick(new Formula(defaultIf)));
+		controlBrickList.add(new IfLogicBeginBrick(ifConditionFormula));
+		controlBrickList.add(new IfThenLogicBeginBrick(ifConditionFormula));
+		controlBrickList.add(new WaitUntilBrick(ifConditionFormula));
+		controlBrickList.add(new RepeatBrick(new Formula(BrickValues.REPEAT)));
+		controlBrickList.add(new RepeatUntilBrick(ifConditionFormula));
 		controlBrickList.add(new SceneTransitionBrick(null));
 		controlBrickList.add(new SceneStartBrick(null));
 
@@ -316,15 +333,7 @@ public class CategoryBricksFactory {
 	}
 
 	private List<Brick> setupUserBricksCategoryList() {
-		List<UserBrick> userBrickList = ProjectManager.getInstance().getCurrentSprite().getUserBrickList();
-		ArrayList<Brick> newList = new ArrayList<>();
-
-		if (userBrickList != null) {
-			for (UserBrick brick : userBrickList) {
-				newList.add(brick);
-			}
-		}
-		return newList;
+		return new ArrayList<>();
 	}
 
 	private List<Brick> setupChromecastCategoryList(Context context) {
@@ -391,13 +400,7 @@ public class CategoryBricksFactory {
 		soundBrickList.add(new StopAllSoundsBrick());
 		soundBrickList.add(new SetVolumeToBrick(BrickValues.SET_VOLUME_TO));
 
-		// workaround to set a negative default value for a Brick
-		double positiveDefaultValueChangeVolumeBy = Math.abs(BrickValues.CHANGE_VOLUME_BY);
-		FormulaElement defaultValueChangeVolumeBy = new FormulaElement(ElementType.OPERATOR, Operators.MINUS.name(),
-				null, null, new FormulaElement(ElementType.NUMBER, String.valueOf(positiveDefaultValueChangeVolumeBy),
-				null)
-		);
-		soundBrickList.add(new ChangeVolumeByNBrick(new Formula(defaultValueChangeVolumeBy)));
+		soundBrickList.add(new ChangeVolumeByNBrick(new Formula(BrickValues.CHANGE_VOLUME_BY)));
 
 		soundBrickList.add(new SpeakBrick(context.getString(R.string.brick_speak_default_value)));
 		soundBrickList.add(new SpeakAndWaitBrick(context.getString(R.string.brick_speak_default_value)));
@@ -431,6 +434,9 @@ public class CategoryBricksFactory {
 			looksBrickList.add(new ThinkBubbleBrick(context.getString(R.string.brick_think_bubble_default_value)));
 			looksBrickList.add(new ThinkForBubbleBrick(context.getString(R.string.brick_think_bubble_default_value), 1.0f));
 		}
+		looksBrickList.add(new ShowTextBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION));
+		looksBrickList.add(new ShowTextColorSizeAlignmentBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION,
+				BrickValues.RELATIVE_SIZE_IN_PERCENT, BrickValues.SHOW_VARIABLE_COLOR));
 		looksBrickList.add(new SetTransparencyBrick(BrickValues.SET_TRANSPARENCY));
 		looksBrickList.add(new ChangeTransparencyByNBrick(BrickValues.CHANGE_TRANSPARENCY_EFFECT));
 		looksBrickList.add(new SetBrightnessBrick(BrickValues.SET_BRIGHTNESS_TO));
@@ -478,6 +484,8 @@ public class CategoryBricksFactory {
 		dataBrickList.add(new SetVariableBrick(BrickValues.SET_VARIABLE));
 		dataBrickList.add(new ChangeVariableBrick(BrickValues.CHANGE_VARIABLE));
 		dataBrickList.add(new ShowTextBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION));
+		dataBrickList.add(new ShowTextColorSizeAlignmentBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION,
+				BrickValues.RELATIVE_SIZE_IN_PERCENT, BrickValues.SHOW_VARIABLE_COLOR));
 		dataBrickList.add(new HideTextBrick());
 		dataBrickList.add(new AddItemToUserListBrick(BrickValues.ADD_ITEM_TO_USERLIST));
 		dataBrickList.add(new DeleteItemOfUserListBrick(BrickValues.DELETE_ITEM_OF_USERLIST));
@@ -599,12 +607,11 @@ public class CategoryBricksFactory {
 	}
 
 	private List<Brick> setupRaspiCategoryList() {
-		RaspiInterruptScript defaultScript = new RaspiInterruptScript(
-				Integer.toString(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER), BrickValues.RASPI_EVENTS[0]);
+		RaspiInterruptScript defaultScript = new RaspiInterruptScript("3", "pressed");
 
 		List<Brick> raspiBrickList = new ArrayList<>();
 		raspiBrickList.add(new WhenRaspiPinChangedBrick(defaultScript));
-		raspiBrickList.add(new RaspiIfLogicBeginBrick(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER));
+		raspiBrickList.add(new RaspiIfLogicBeginBrick(new Formula(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER)));
 		raspiBrickList.add(new RaspiSendDigitalValueBrick(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER,
 				BrickValues.RASPI_DIGITAL_INITIAL_PIN_VALUE));
 		raspiBrickList.add(new RaspiPwmBrick(BrickValues.RASPI_DIGITAL_INITIAL_PIN_NUMBER,
@@ -618,6 +625,29 @@ public class CategoryBricksFactory {
 		embroideryBrickList.add(new StitchBrick());
 
 		return embroideryBrickList;
+	}
+
+	private List<Brick> setupAssertionsCategoryList() {
+		List<Brick> assertionsBrickList = new ArrayList<>();
+		AssertEqualsBrick assertEqualsBrick = new AssertEqualsBrick();
+		assertionsBrickList.add(assertEqualsBrick);
+
+		WaitTillIdleBrick waitTillIdleBrick = new WaitTillIdleBrick();
+		assertionsBrickList.add(waitTillIdleBrick);
+
+		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				for (Script script : sprite.getScriptList()) {
+					for (Brick brick : script.getBrickList()) {
+						if (brick instanceof AssertEqualsBrick) {
+							assertionsBrickList.remove(assertEqualsBrick);
+						}
+					}
+				}
+			}
+		}
+
+		return assertionsBrickList;
 	}
 
 	protected boolean isBackground(Sprite sprite) {
@@ -735,6 +765,13 @@ public class CategoryBricksFactory {
 		for (Brick categoryBrick : categoryBricks) {
 			if (brick.getClass().equals(categoryBrick.getClass())) {
 				category = res.getString(R.string.category_embroidery);
+			}
+		}
+
+		categoryBricks = setupAssertionsCategoryList();
+		for (Brick categoryBrick : categoryBricks) {
+			if (brick.getClass().equals(categoryBrick.getClass())) {
+				category = res.getString(R.string.category_assertions);
 			}
 		}
 

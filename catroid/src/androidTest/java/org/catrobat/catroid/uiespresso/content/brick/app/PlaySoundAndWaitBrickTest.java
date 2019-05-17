@@ -76,7 +76,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
-import static org.catrobat.catroid.utils.PathBuilder.buildScenePath;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 
@@ -113,17 +112,6 @@ public class PlaySoundAndWaitBrickTest {
 		if (soundFile2 != null && soundFile2.exists()) {
 			soundFile2.delete();
 		}
-	}
-
-	@Category({Cat.AppUi.class, Level.Smoke.class})
-	@Test
-	public void testBasicLayout() {
-		onView(withText(R.string.scripts))
-				.perform(click());
-
-		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
-		onBrickAtPosition(playSoundAndWaitBrickPosition).checkShowsText(R.string.brick_play_sound_and_wait);
-		onBrickAtPosition(playSoundBrickPosition).checkShowsText(R.string.brick_play_sound);
 	}
 
 	@Category({Cat.AppUi.class, Level.Functional.class})
@@ -273,7 +261,7 @@ public class PlaySoundAndWaitBrickTest {
 
 		sprite.addScript(startScript);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 
 		XstreamSerializer.getInstance().saveProject(project);
@@ -286,7 +274,7 @@ public class PlaySoundAndWaitBrickTest {
 		soundFile = ResourceImporter.createSoundFileFromResourcesInDirectory(
 				InstrumentationRegistry.getContext().getResources(),
 				org.catrobat.catroid.test.R.raw.longsound,
-				new File(buildScenePath(project.getName(), project.getDefaultScene().getName()), SOUND_DIRECTORY_NAME),
+				new File(project.getDefaultScene().getDirectory(), SOUND_DIRECTORY_NAME),
 				"longsound.mp3");
 
 		SoundInfo soundInfo = new SoundInfo();
@@ -296,7 +284,7 @@ public class PlaySoundAndWaitBrickTest {
 		soundFile2 = ResourceImporter.createSoundFileFromResourcesInDirectory(
 				InstrumentationRegistry.getContext().getResources(),
 				org.catrobat.catroid.test.R.raw.testsoundui,
-				new File(buildScenePath(project.getName(), project.getDefaultScene().getName()), SOUND_DIRECTORY_NAME),
+				new File(project.getDefaultScene().getDirectory(), SOUND_DIRECTORY_NAME),
 				"testsoundui.mp3");
 
 		SoundInfo soundInfo2 = new SoundInfo();

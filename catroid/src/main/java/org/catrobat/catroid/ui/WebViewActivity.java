@@ -25,10 +25,8 @@ package org.catrobat.catroid.ui;
 import android.annotation.SuppressLint;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -44,6 +42,7 @@ import android.webkit.DownloadListener;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FlavoredConstants;
@@ -96,7 +95,7 @@ public class WebViewActivity extends BaseActivity {
 		String version = Utils.getVersionName(getApplicationContext());
 		String platform = Constants.PLATFORM_DEFAULT;
 		webView.getSettings().setUserAgentString("Catrobat/" + language + " " + flavor + "/"
-				+ version + " Platform/" + platform);
+				+ version + " Platform/" + platform + " BuildType/" + BuildConfig.BUILD_TYPE);
 
 		webView.loadUrl(url);
 
@@ -132,27 +131,12 @@ public class WebViewActivity extends BaseActivity {
 							DownloadUtil.getInstance().getProjectNameFromUrl(url) + ANDROID_APPLICATION_EXTENSION);
 					request.setMimeType(mimetype);
 
-					registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-
 					DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
 					downloadManager.enqueue(request);
 				}
 			}
 		});
 	}
-
-	BroadcastReceiver onDownloadComplete = new BroadcastReceiver() {
-		public void onReceive(Context context, Intent intent) {
-
-			long id = intent.getExtras().getLong(DownloadManager.EXTRA_DOWNLOAD_ID);
-			DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-			intent = new Intent(Intent.ACTION_VIEW);
-			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			intent.setDataAndType(downloadManager.getUriForDownloadedFile(id),
-					downloadManager.getMimeTypeForDownloadedFile(id));
-			startActivity(intent);
-		}
-	};
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {

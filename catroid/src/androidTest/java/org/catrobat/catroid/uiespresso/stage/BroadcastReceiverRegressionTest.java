@@ -34,13 +34,11 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
-import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.uiespresso.stage.utils.StageTestUtils;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
@@ -84,9 +82,8 @@ public class BroadcastReceiverRegressionTest {
 
 	private void createProject() {
 		project = UiTestUtils.createEmptyProject("test");
-		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
 		userVariable = new UserVariable(VARIABLE_NAME);
-		dataContainer.addUserVariable(userVariable);
+		project.addUserVariable(userVariable);
 		sprite1 = project.getDefaultScene().getBackgroundSprite();
 		sprite1StartScript = new StartScript();
 		sprite1.addScript(sprite1StartScript);
@@ -217,15 +214,11 @@ public class BroadcastReceiverRegressionTest {
 
 	@Category({Level.Functional.class, Cat.CatrobatLanguage.class})
 	@Test
-	public void testCorrectRestartingOfBroadcastsWithSameActionStringsWithinOneSprite() throws InterruptedException {
-		RepeatBrick repeatBrick = new RepeatBrick(10);
-		LoopEndBrick endBrick = new LoopEndBrick(repeatBrick);
-		repeatBrick.setLoopEndBrick(endBrick);
-
+	public void testCorrectRestartingOfBroadcastsWithSameActionStringsWithinOneSprite() {
 		sprite1StartScript.addBrick(new SetVariableBrick(new Formula(0.0f), userVariable));
+		RepeatBrick repeatBrick = new RepeatBrick(new Formula(10));
+		repeatBrick.addBrick(new BroadcastWaitBrick(BROADCAST_MESSAGE_1));
 		sprite1StartScript.addBrick(repeatBrick);
-		sprite1StartScript.addBrick(new BroadcastWaitBrick(BROADCAST_MESSAGE_1));
-		sprite1StartScript.addBrick(endBrick);
 
 		Sprite sprite2 = createSpriteAndAddToProject("sprite2", project);
 		Script sprite2BroadcastScript = createBroadcastScriptAndAddToSprite(BROADCAST_MESSAGE_1, sprite2);
@@ -254,9 +247,8 @@ public class BroadcastReceiverRegressionTest {
 
 	@Test
 	public void testBroadcastReceiverWithMoreThanOneReceiverScript() {
-		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
 		UserVariable userVariable2 = new UserVariable(VARIABLE_NAME + "2");
-		dataContainer.addUserVariable(userVariable2);
+		project.addUserVariable(userVariable2);
 
 		sprite1StartScript.addBrick(new SetVariableBrick(new Formula(1.0), userVariable));
 		sprite1StartScript.addBrick(new SetVariableBrick(new Formula(1.0), userVariable2));

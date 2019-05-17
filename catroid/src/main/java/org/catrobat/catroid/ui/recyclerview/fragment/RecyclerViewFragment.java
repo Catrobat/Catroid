@@ -24,7 +24,6 @@
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.IntDef;
@@ -43,7 +42,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.ui.BottomBar;
@@ -67,13 +65,14 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 		RVAdapter.OnItemClickListener<T> {
 
 	@Retention(RetentionPolicy.SOURCE)
-	@IntDef({NONE, BACKPACK, COPY, DELETE, RENAME})
+	@IntDef({NONE, BACKPACK, COPY, DELETE, RENAME, MERGE})
 	@interface ActionModeType {}
 	protected static final int NONE = 0;
 	protected static final int BACKPACK = 1;
 	protected static final int COPY = 2;
 	protected static final int DELETE = 3;
 	protected static final int RENAME = 4;
+	protected static final int MERGE = 5;
 
 	protected View parentView;
 	protected RecyclerView recyclerView;
@@ -116,8 +115,12 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 				mode.setTitle(getString(R.string.am_delete));
 				break;
 			case RENAME:
-				adapter.allowMultiSelection = false;
+				adapter.selectionMode = adapter.SINGLE;
 				mode.setTitle(getString(R.string.am_rename));
+				break;
+			case MERGE:
+				adapter.selectionMode = adapter.PAIRS;
+				mode.setTitle(R.string.am_merge);
 				break;
 			case NONE:
 				return false;
@@ -178,6 +181,9 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 			case RENAME:
 				showRenameDialog(adapter.getSelectedItems());
 				break;
+			case MERGE:
+				showMergeAlert();
+				break;
 			case NONE:
 				throw new IllegalStateException("ActionModeType not set correctly");
 		}
@@ -187,7 +193,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 		actionModeType = NONE;
 		actionMode = null;
 		adapter.showCheckBoxes = false;
-		adapter.allowMultiSelection = true;
+		adapter.selectionMode = adapter.MULTIPLE;
 	}
 
 	@Override
@@ -227,7 +233,6 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	@Override
 	public void onResume() {
 		super.onResume();
-		setShowProgressBar(false);
 
 		BackpackListManager.getInstance().loadBackpack();
 
@@ -239,7 +244,6 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	@Override
 	public void onPause() {
 		super.onPause();
-		ProjectManager.getInstance().saveProject(getActivity());
 		adapter.unregisterAdapterDataObserver(observer);
 	}
 
@@ -279,6 +283,9 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 				break;
 			case R.id.rename:
 				prepareActionMode(RENAME);
+				break;
+			case R.id.merge:
+				prepareActionMode(MERGE);
 				break;
 			case R.id.show_details:
 				adapter.showDetails = !adapter.showDetails;
@@ -327,7 +334,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	}
 
 	protected void updateSelectionToggle(MenuItem selectionToggle) {
-		if (adapter.allowMultiSelection) {
+		if (adapter.selectionMode == adapter.MULTIPLE) {
 
 			selectionToggle.setVisible(true);
 
@@ -374,16 +381,13 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 		CharSequence[] items = new CharSequence[] {getString(R.string.pack), getString(R.string.unpack)};
 		new AlertDialog.Builder(getContext())
 				.setTitle(R.string.backpack_title)
-				.setItems(items, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						switch (which) {
-							case 0:
-								startActionMode(BACKPACK);
-								break;
-							case 1:
-								switchToBackpack();
-						}
+				.setItems(items, (dialog, which) -> {
+					switch (which) {
+						case 0:
+							startActionMode(BACKPACK);
+							break;
+						case 1:
+							switchToBackpack();
 					}
 				})
 				.show();
@@ -402,39 +406,37 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 		new AlertDialog.Builder(getContext())
 				.setTitle(getResources().getQuantityString(getDeleteAlertTitleId(), selectedItems.size()))
 				.setMessage(R.string.dialog_confirm_delete)
-				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						deleteItems(selectedItems);
-					}
-				})
+				.setPositiveButton(R.string.yes, (dialog, id) -> deleteItems(selectedItems))
 				.setNegativeButton(R.string.no, null)
 				.setCancelable(false)
-				.create()
 				.show();
 	}
 
 	protected abstract void deleteItems(List<T> selectedItems);
 
 	protected void showRenameDialog(List<T> selectedItems) {
-		final T item = selectedItems.get(0);
+		T item = selectedItems.get(0);
 
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(getContext());
 
 		builder.setHint(getString(getRenameDialogHint()))
 				.setText(item.getName())
 				.setTextWatcher(new RenameItemTextWatcher<>(item, adapter.getItems()))
-				.setPositiveButton(getString(R.string.ok), new TextInputDialog.OnClickListener() {
-					@Override
-					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
-						renameItem(item, textInput);
-					}
-				});
+				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> renameItem(item, textInput));
 
 		builder.setTitle(getRenameDialogTitle())
 				.setNegativeButton(R.string.cancel, null)
-				.create()
 				.show();
+	}
+
+	protected void showMergeAlert() {
+		if (adapter.getSelectedItems().size() <= 1) {
+			ToastUtil.showError(getContext(), R.string.am_merge_error);
+		} else {
+			ToastUtil.showError(getContext(), "These two projects cannot yet be merged");
+		}
+		setShowProgressBar(true);
+		finishActionMode();
 	}
 
 	@StringRes

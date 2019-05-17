@@ -34,10 +34,8 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.annotations.Flaky;
-import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
@@ -172,28 +170,6 @@ public class FormulaEditorFragmentTest {
 				.check(matches(withText("12 ")));
 	}
 
-	@Category({Cat.AppUi.class, Level.Smoke.class})
-	@Test
-	public void testRandomWithInteger() {
-
-		String strFuncRand = UiTestUtils
-				.getResourcesString(R.string.formula_editor_function_rand);
-		String strFunRandPar = UiTestUtils
-				.getResourcesString(R.string.formula_editor_function_rand_parameter);
-		onBrickAtPosition(1).onChildView(withId(R.id.brick_set_variable_edit_text))
-				.perform(click());
-		onFormulaEditor().performOpenCategory(FormulaEditorWrapper.Category.FUNCTIONS)
-				.performSelect(strFuncRand + strFunRandPar);
-		onFormulaEditor().performOpenCategory(FormulaEditorWrapper.Category.FUNCTIONS)
-				.performSelect(strFuncRand + strFunRandPar);
-		onFormulaEditor()
-				.performEnterNumber(1);
-		onFormulaEditor()
-				.performCompute();
-		onView(withId(R.id.formula_editor_compute_dialog_textview))
-				.check(matches(withText(String.valueOf(1))));
-	}
-
 	@After
 	public void tearDown() throws Exception {
 	}
@@ -204,16 +180,15 @@ public class FormulaEditorFragmentTest {
 		Script script = new StartScript();
 
 		SetVariableBrick setVariableBrick = new SetVariableBrick(new Formula(1), new UserVariable("var"));
-		DataContainer dataContainer = project.getDefaultScene().getDataContainer();
 		UserVariable userVariable = new UserVariable("Global1");
-		dataContainer.addUserVariable(userVariable);
+		project.addUserVariable(userVariable);
 		setVariableBrick.setUserVariable(userVariable);
 
 		script.addBrick(setVariableBrick);
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
 
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 
 		return project;

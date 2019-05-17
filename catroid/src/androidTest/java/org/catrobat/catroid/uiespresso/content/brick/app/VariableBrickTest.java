@@ -50,7 +50,6 @@ import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInter
 @RunWith(AndroidJUnit4.class)
 public class VariableBrickTest {
 	private int setBrickPosition;
-	private int changeBrickPosition;
 
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
@@ -59,37 +58,10 @@ public class VariableBrickTest {
 	@Before
 	public void setUp() throws Exception {
 		setBrickPosition = 1;
-		changeBrickPosition = 2;
 		Script script = BrickTestUtils.createProjectAndGetStartScript("variableBricksTest");
 		script.addBrick(new SetVariableBrick());
 		script.addBrick(new ChangeVariableBrick());
 		baseActivityTestRule.launchActivity();
-	}
-
-	@Category({Cat.AppUi.class, Level.Smoke.class})
-	@Test
-	public void testVariableBricks() {
-		int intToChange = 5;
-		double doubleToChange = 10.6;
-		onBrickAtPosition(0).checkShowsText(R.string.brick_when_started);
-		onBrickAtPosition(setBrickPosition).checkShowsText(R.string.brick_set_variable);
-		onBrickAtPosition(changeBrickPosition).checkShowsText(R.string.brick_change_variable);
-
-		onBrickAtPosition(setBrickPosition).onFormulaTextField(R.id.brick_set_variable_edit_text)
-				.performEnterNumber(intToChange)
-				.checkShowsNumber(intToChange);
-
-		onBrickAtPosition(setBrickPosition).onFormulaTextField(R.id.brick_set_variable_edit_text)
-				.performEnterNumber(doubleToChange)
-				.checkShowsNumber(doubleToChange);
-
-		onBrickAtPosition(changeBrickPosition).onFormulaTextField(R.id.brick_change_variable_edit_text)
-				.performEnterNumber(intToChange)
-				.checkShowsNumber(intToChange);
-
-		onBrickAtPosition(changeBrickPosition).onFormulaTextField(R.id.brick_change_variable_edit_text)
-				.performEnterNumber(doubleToChange)
-				.checkShowsNumber(doubleToChange);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})

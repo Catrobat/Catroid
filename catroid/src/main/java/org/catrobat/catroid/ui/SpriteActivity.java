@@ -22,20 +22,17 @@
  */
 package org.catrobat.catroid.ui;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.RadioButton;
 
 import org.catrobat.catroid.BuildConfig;
@@ -44,34 +41,34 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.content.ListWithoutDuplicates;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.pocketmusic.PocketMusicActivity;
 import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
 import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.ui.dragndrop.DragAndDropInterface;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.ui.fragment.ScriptFragment;
-import org.catrobat.catroid.ui.recyclerview.dialog.PlaySceneDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.NewItemTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.NfcTagListFragment;
+import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SoundListFragment;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION;
@@ -85,6 +82,8 @@ import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BACKGROUNDS_
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_LOOKS_URL;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_SOUNDS_URL;
 import static org.catrobat.catroid.ui.WebViewActivity.MEDIA_FILE_PATH;
+import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.X_COORDINATE_BUNDLE_ARGUMENT;
+import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.Y_COORDINATE_BUNDLE_ARGUMENT;
 
 public class SpriteActivity extends BaseActivity {
 
@@ -114,7 +113,10 @@ public class SpriteActivity extends BaseActivity {
 	public static final int SOUND_LIBRARY = 13;
 	public static final int SOUND_FILE = 14;
 
+	public static final int REQUEST_CODE_VISUAL_PLACEMENT = 2019;
+
 	public static final String EXTRA_FRAGMENT_POSITION = "fragmentPosition";
+	public static final String EXTRA_BRICK_HASH = "BRICK_HASH";
 
 	private NewItemInterface<Sprite> onNewSpriteListener;
 	private NewItemInterface<LookData> onNewLookListener;
@@ -128,10 +130,8 @@ public class SpriteActivity extends BaseActivity {
 			return;
 		}
 
-		SettingsFragment.setToChosenLanguage(this);
-
 		setContentView(R.layout.activity_recycler);
-		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+		setSupportActionBar(findViewById(R.id.toolbar));
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		updateActionBarTitle();
 
@@ -208,24 +208,41 @@ public class SpriteActivity extends BaseActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		boolean isDragAndDropActiveInFragment = getCurrentFragment() instanceof DragAndDropInterface
-				&& ((DragAndDropInterface) getCurrentFragment()).isCurrentlyMoving();
+		boolean isDragAndDropActiveInFragment = getCurrentFragment() instanceof ScriptFragment
+				&& ((ScriptFragment) getCurrentFragment()).isCurrentlyMoving();
 
 		if (item.getItemId() == android.R.id.home && isDragAndDropActiveInFragment) {
-			((DragAndDropInterface) getCurrentFragment()).highlightMovingItem();
+			((ScriptFragment) getCurrentFragment()).highlightMovingItem();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
-	public void onBackPressed() {
-		boolean isDragAndDropActiveInFragment = getCurrentFragment() instanceof DragAndDropInterface
-				&& ((DragAndDropInterface) getCurrentFragment()).isCurrentlyMoving();
+	protected void onPause() {
+		super.onPause();
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		new ProjectSaveTask(currentProject, getApplicationContext())
+				.execute();
+	}
 
-		if (isDragAndDropActiveInFragment) {
-			((DragAndDropInterface) getCurrentFragment()).cancelMove();
-			return;
+	@Override
+	public void onBackPressed() {
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		new ProjectSaveTask(currentProject, getApplicationContext())
+				.execute();
+
+		Fragment currentFragment = getCurrentFragment();
+
+		if (currentFragment instanceof ScriptFragment) {
+			if (((ScriptFragment) currentFragment).isCurrentlyMoving()) {
+				((ScriptFragment) currentFragment).cancelMove();
+				return;
+			}
+			if (((ScriptFragment) currentFragment).isCurrentlyHighlighted()) {
+				((ScriptFragment) currentFragment).cancelHighlighting();
+				return;
+			}
 		}
 		if (getCurrentFragment() instanceof FormulaEditorFragment) {
 			((FormulaEditorFragment) getCurrentFragment()).promptSave();
@@ -312,6 +329,24 @@ public class SpriteActivity extends BaseActivity {
 				uri = Uri.fromFile(new File(data.getStringExtra(MEDIA_FILE_PATH)));
 				addSoundFromUri(uri);
 				break;
+			case REQUEST_CODE_VISUAL_PLACEMENT:
+				Bundle extras = data.getExtras();
+				if (extras == null) {
+					return;
+				}
+				int xCoordinate = extras.getInt(X_COORDINATE_BUNDLE_ARGUMENT);
+				int yCoordinate = extras.getInt(Y_COORDINATE_BUNDLE_ARGUMENT);
+				int brickHash = extras.getInt(EXTRA_BRICK_HASH);
+
+				Fragment fragment = getCurrentFragment();
+
+				if (fragment instanceof ScriptFragment) {
+					Brick brick = ((ScriptFragment) fragment).findBrickByHash(brickHash);
+					if (brick != null) {
+						((PlaceAtBrick) brick).setCoordinates(xCoordinate, yCoordinate);
+					}
+				}
+				break;
 		}
 	}
 
@@ -319,24 +354,12 @@ public class SpriteActivity extends BaseActivity {
 		onNewSpriteListener = listener;
 	}
 
-	public void unregisterOnNewSpriteListener() {
-		onNewSpriteListener = null;
-	}
-
 	public void registerOnNewLookListener(NewItemInterface<LookData> listener) {
 		onNewLookListener = listener;
 	}
 
-	public void unregisterOnNewLookListener() {
-		onNewLookListener = null;
-	}
-
 	public void registerOnNewSoundListener(NewItemInterface<SoundInfo> listener) {
 		onNewSoundListener = listener;
-	}
-
-	public void unregisterOnNewSoundListener() {
-		onNewSoundListener = null;
 	}
 
 	private void addSpriteFromUri(final Uri uri) {
@@ -366,41 +389,36 @@ public class SpriteActivity extends BaseActivity {
 		builder.setHint(getString(R.string.sprite_name_label))
 				.setText(lookDataName)
 				.setTextWatcher(new NewItemTextWatcher<>(currentScene.getSpriteList()))
-				.setPositiveButton(getString(R.string.ok), new TextInputDialog.OnClickListener() {
-
-					@Override
-					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
-						Sprite sprite = new Sprite(textInput);
-						currentScene.addSprite(sprite);
-						try {
-							File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
-							File file = StorageOperations
-									.copyUriToDir(getContentResolver(), uri, imageDirectory, lookFileName);
-							sprite.getLookList().add(new LookData(textInput, file));
-						} catch (IOException e) {
-							Log.e(TAG, Log.getStackTraceString(e));
-						}
-						if (onNewSpriteListener != null) {
-							onNewSpriteListener.addItem(sprite);
+				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> {
+					Sprite sprite = new Sprite(textInput);
+					currentScene.addSprite(sprite);
+					try {
+						File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
+						File file = StorageOperations
+								.copyUriToDir(getContentResolver(), uri, imageDirectory, lookFileName);
+						sprite.getLookList().add(new LookData(textInput, file));
+					} catch (IOException e) {
+						Log.e(TAG, Log.getStackTraceString(e));
+					}
+					if (onNewSpriteListener != null) {
+						onNewSpriteListener.addItem(sprite);
+						Fragment currentFragment = getCurrentFragment();
+						if (currentFragment instanceof ScriptFragment) {
+							((ScriptFragment) currentFragment).notifyDataSetChanged();
 						}
 					}
 				});
 
 		builder.setTitle(R.string.new_sprite_dialog_title)
-				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						try {
-							if (MEDIA_LIBRARY_CACHE_DIR.exists()) {
-								StorageOperations.deleteDir(MEDIA_LIBRARY_CACHE_DIR);
-							}
-						} catch (IOException e) {
-							Log.e(TAG, Log.getStackTraceString(e));
+				.setNegativeButton(R.string.cancel, (dialog, which) -> {
+					try {
+						if (MEDIA_LIBRARY_CACHE_DIR.exists()) {
+							StorageOperations.deleteDir(MEDIA_LIBRARY_CACHE_DIR);
 						}
+					} catch (IOException e) {
+						Log.e(TAG, Log.getStackTraceString(e));
 					}
 				})
-				.create()
 				.show();
 	}
 
@@ -525,54 +543,46 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	public void handleAddSpriteButton() {
-		View view = View.inflate(this, R.layout.dialog_new_look, null);
+		View root = View.inflate(this, R.layout.dialog_new_look, null);
 
-		final AlertDialog alertDialog = new AlertDialog.Builder(this)
+		AlertDialog alertDialog = new AlertDialog.Builder(this)
 				.setTitle(R.string.new_sprite_dialog_title)
-				.setView(view)
+				.setView(root)
 				.create();
 
-		View.OnClickListener onClickListener = new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				switch (view.getId()) {
-					case R.id.dialog_new_look_paintroid:
-						new ImportFromPocketPaintLauncher(SpriteActivity.this)
-								.startActivityForResult(SPRITE_POCKET_PAINT);
-						break;
-					case R.id.dialog_new_look_media_library:
-						new ImportFormMediaLibraryLauncher(SpriteActivity.this, LIBRARY_LOOKS_URL)
-								.startActivityForResult(SPRITE_LIBRARY);
-						break;
-					case R.id.dialog_new_look_gallery:
-						new ImportFromFileLauncher(SpriteActivity.this, "image/*", getString(R.string.select_look_from_gallery))
-								.startActivityForResult(SPRITE_FILE);
-						break;
-					case R.id.dialog_new_look_camera:
-						new ImportFromCameraLauncher(SpriteActivity.this)
-								.startActivityForResult(SPRITE_CAMERA);
-						break;
-				}
-				alertDialog.dismiss();
-			}
-		};
+		root.findViewById(R.id.dialog_new_look_paintroid).setOnClickListener(view -> {
+			new ImportFromPocketPaintLauncher(this)
+					.startActivityForResult(SPRITE_POCKET_PAINT);
+			alertDialog.dismiss();
+		});
+		root.findViewById(R.id.dialog_new_look_media_library).setOnClickListener(view -> {
+			new ImportFormMediaLibraryLauncher(this, LIBRARY_LOOKS_URL)
+					.startActivityForResult(SPRITE_LIBRARY);
+			alertDialog.dismiss();
+		});
+		root.findViewById(R.id.dialog_new_look_gallery).setOnClickListener(view -> {
+			new ImportFromFileLauncher(this, "image/*", getString(R.string.select_look_from_gallery))
+					.startActivityForResult(SPRITE_FILE);
+			alertDialog.dismiss();
+		});
+		root.findViewById(R.id.dialog_new_look_camera).setOnClickListener(view -> {
+			new ImportFromCameraLauncher(this)
+					.startActivityForResult(SPRITE_CAMERA);
+			alertDialog.dismiss();
+		});
 
-		view.findViewById(R.id.dialog_new_look_paintroid).setOnClickListener(onClickListener);
-		view.findViewById(R.id.dialog_new_look_media_library).setOnClickListener(onClickListener);
-		view.findViewById(R.id.dialog_new_look_gallery).setOnClickListener(onClickListener);
-		view.findViewById(R.id.dialog_new_look_camera).setOnClickListener(onClickListener);
 		alertDialog.show();
 	}
 
 	public void handleAddBackgroundButton() {
-		View view = View.inflate(this, R.layout.dialog_new_look, null);
+		View root = View.inflate(this, R.layout.dialog_new_look, null);
 
-		final AlertDialog alertDialog = new AlertDialog.Builder(this)
+		AlertDialog alertDialog = new AlertDialog.Builder(this)
 				.setTitle(R.string.new_look_dialog_title)
-				.setView(view)
+				.setView(root)
 				.create();
 
-		final String mediaLibraryUrl;
+		String mediaLibraryUrl;
 
 		if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
 			mediaLibraryUrl = LIBRARY_BACKGROUNDS_URL_LANDSCAPE;
@@ -580,47 +590,39 @@ public class SpriteActivity extends BaseActivity {
 			mediaLibraryUrl = LIBRARY_BACKGROUNDS_URL_PORTRAIT;
 		}
 
-		View.OnClickListener onClickListener = new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				switch (view.getId()) {
-					case R.id.dialog_new_look_paintroid:
-						new ImportFromPocketPaintLauncher(SpriteActivity.this)
-								.startActivityForResult(BACKGROUND_POCKET_PAINT);
-						break;
-					case R.id.dialog_new_look_media_library:
-						new ImportFormMediaLibraryLauncher(SpriteActivity.this, mediaLibraryUrl)
-								.startActivityForResult(BACKGROUND_LIBRARY);
-						break;
-					case R.id.dialog_new_look_gallery:
-						new ImportFromFileLauncher(SpriteActivity.this, "image/*", getString(R.string.select_look_from_gallery))
-								.startActivityForResult(BACKGROUND_FILE);
-						break;
-					case R.id.dialog_new_look_camera:
-						new ImportFromCameraLauncher(SpriteActivity.this)
-								.startActivityForResult(BACKGROUND_CAMERA);
-						break;
-				}
-				alertDialog.dismiss();
-			}
-		};
+		root.findViewById(R.id.dialog_new_look_paintroid).setOnClickListener(view -> {
+			new ImportFromPocketPaintLauncher(this)
+					.startActivityForResult(BACKGROUND_POCKET_PAINT);
+			alertDialog.dismiss();
+		});
+		root.findViewById(R.id.dialog_new_look_media_library).setOnClickListener(view -> {
+			new ImportFormMediaLibraryLauncher(this, mediaLibraryUrl)
+					.startActivityForResult(BACKGROUND_LIBRARY);
+			alertDialog.dismiss();
+		});
+		root.findViewById(R.id.dialog_new_look_gallery).setOnClickListener(view -> {
+			new ImportFromFileLauncher(this, "image/*", getString(R.string.select_look_from_gallery))
+					.startActivityForResult(BACKGROUND_FILE);
+			alertDialog.dismiss();
+		});
+		root.findViewById(R.id.dialog_new_look_camera).setOnClickListener(view -> {
+			new ImportFromCameraLauncher(this)
+					.startActivityForResult(BACKGROUND_CAMERA);
+			alertDialog.dismiss();
+		});
 
-		view.findViewById(R.id.dialog_new_look_paintroid).setOnClickListener(onClickListener);
-		view.findViewById(R.id.dialog_new_look_media_library).setOnClickListener(onClickListener);
-		view.findViewById(R.id.dialog_new_look_gallery).setOnClickListener(onClickListener);
-		view.findViewById(R.id.dialog_new_look_camera).setOnClickListener(onClickListener);
 		alertDialog.show();
 	}
 
 	public void handleAddLookButton() {
-		View view = View.inflate(this, R.layout.dialog_new_look, null);
+		View root = View.inflate(this, R.layout.dialog_new_look, null);
 
-		final AlertDialog alertDialog = new AlertDialog.Builder(this)
+		AlertDialog alertDialog = new AlertDialog.Builder(this)
 				.setTitle(R.string.new_look_dialog_title)
-				.setView(view)
+				.setView(root)
 				.create();
 
-		final String mediaLibraryUrl;
+		String mediaLibraryUrl;
 
 		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
@@ -635,131 +637,107 @@ public class SpriteActivity extends BaseActivity {
 			mediaLibraryUrl = LIBRARY_LOOKS_URL;
 		}
 
-		View.OnClickListener onClickListener = new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				switch (view.getId()) {
-					case R.id.dialog_new_look_paintroid:
-						new ImportFromPocketPaintLauncher(SpriteActivity.this)
-								.startActivityForResult(LOOK_POCKET_PAINT);
-						break;
-					case R.id.dialog_new_look_media_library:
-						new ImportFormMediaLibraryLauncher(SpriteActivity.this, mediaLibraryUrl)
-								.startActivityForResult(LOOK_LIBRARY);
-						break;
-					case R.id.dialog_new_look_gallery:
-						new ImportFromFileLauncher(SpriteActivity.this, "image/*", getString(R.string.select_look_from_gallery))
-								.startActivityForResult(LOOK_FILE);
-						break;
-					case R.id.dialog_new_look_camera:
-						new ImportFromCameraLauncher(SpriteActivity.this)
-								.startActivityForResult(LOOK_CAMERA);
-						break;
-				}
-				alertDialog.dismiss();
-			}
-		};
+		root.findViewById(R.id.dialog_new_look_paintroid).setOnClickListener(view -> {
+			new ImportFromPocketPaintLauncher(this)
+					.startActivityForResult(LOOK_POCKET_PAINT);
+			alertDialog.dismiss();
+		});
+		root.findViewById(R.id.dialog_new_look_media_library).setOnClickListener(view -> {
+			new ImportFormMediaLibraryLauncher(this, mediaLibraryUrl)
+					.startActivityForResult(LOOK_LIBRARY);
+			alertDialog.dismiss();
+		});
+		root.findViewById(R.id.dialog_new_look_gallery).setOnClickListener(view -> {
+			new ImportFromFileLauncher(this, "image/*", getString(R.string.select_look_from_gallery))
+					.startActivityForResult(LOOK_FILE);
+			alertDialog.dismiss();
+		});
+		root.findViewById(R.id.dialog_new_look_camera).setOnClickListener(view -> {
+			new ImportFromCameraLauncher(this)
+					.startActivityForResult(LOOK_CAMERA);
+			alertDialog.dismiss();
+		});
 
-		view.findViewById(R.id.dialog_new_look_paintroid).setOnClickListener(onClickListener);
-		view.findViewById(R.id.dialog_new_look_media_library).setOnClickListener(onClickListener);
-		view.findViewById(R.id.dialog_new_look_gallery).setOnClickListener(onClickListener);
-		view.findViewById(R.id.dialog_new_look_camera).setOnClickListener(onClickListener);
 		alertDialog.show();
 	}
 
 	public void handleAddSoundButton() {
-		View view = View.inflate(this, R.layout.dialog_new_sound, null);
+		View root = View.inflate(this, R.layout.dialog_new_sound, null);
 
-		final AlertDialog alertDialog = new AlertDialog.Builder(this)
+		AlertDialog alertDialog = new AlertDialog.Builder(this)
 				.setTitle(R.string.new_sound_dialog_title)
-				.setView(view)
+				.setView(root)
 				.create();
 
-		View.OnClickListener onClickListener = new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				Intent intent;
-				switch (view.getId()) {
-					case R.id.dialog_new_sound_recorder:
-						intent = new Intent(SpriteActivity.this, SoundRecorderActivity.class);
-						startActivityForResult(intent, SOUND_RECORD);
-						break;
-					case R.id.dialog_new_sound_media_library:
-						new ImportFormMediaLibraryLauncher(SpriteActivity.this, LIBRARY_SOUNDS_URL)
-								.startActivityForResult(SOUND_LIBRARY);
-						break;
-					case R.id.dialog_new_sound_gallery:
-						new ImportFromFileLauncher(SpriteActivity.this, "audio/*", getString(R.string.sound_select_source))
-								.startActivityForResult(SOUND_FILE);
-						break;
-					case R.id.dialog_new_sound_pocketmusic:
-						intent = new Intent(SpriteActivity.this, PocketMusicActivity.class);
-						startActivity(intent);
-						break;
-				}
-				alertDialog.dismiss();
-			}
-		};
+		root.findViewById(R.id.dialog_new_sound_recorder).setOnClickListener(view -> {
+			startActivityForResult(new Intent(this, SoundRecorderActivity.class), SOUND_RECORD);
+			alertDialog.dismiss();
+		});
 
-		view.findViewById(R.id.dialog_new_sound_recorder).setOnClickListener(onClickListener);
-		view.findViewById(R.id.dialog_new_sound_media_library).setOnClickListener(onClickListener);
-		view.findViewById(R.id.dialog_new_sound_gallery).setOnClickListener(onClickListener);
+		root.findViewById(R.id.dialog_new_sound_media_library).setOnClickListener(view -> {
+			new ImportFormMediaLibraryLauncher(this, LIBRARY_SOUNDS_URL)
+					.startActivityForResult(SOUND_LIBRARY);
+			alertDialog.dismiss();
+		});
+		root.findViewById(R.id.dialog_new_sound_gallery).setOnClickListener(view -> {
+			new ImportFromFileLauncher(this, "audio/*", getString(R.string.sound_select_source))
+					.startActivityForResult(SOUND_FILE);
+			alertDialog.dismiss();
+		});
 
 		if (BuildConfig.FEATURE_POCKETMUSIC_ENABLED) {
-			view.findViewById(R.id.dialog_new_sound_pocketmusic).setVisibility(View.VISIBLE);
-			view.findViewById(R.id.dialog_new_sound_pocketmusic).setOnClickListener(onClickListener);
+			root.findViewById(R.id.dialog_new_sound_pocketmusic).setVisibility(View.VISIBLE);
+			root.findViewById(R.id.dialog_new_sound_pocketmusic).setOnClickListener(view -> {
+				startActivity(new Intent(this, PocketMusicActivity.class));
+				alertDialog.dismiss();
+			});
 		}
 		alertDialog.show();
 	}
 
 	public void handleAddUserDataButton() {
-		final Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
-		final Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-
-		final DataContainer dataContainer = currentScene.getDataContainer();
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 
 		View view = View.inflate(this, R.layout.dialog_new_user_data, null);
-		final CheckBox makeListCheckBox = view.findViewById(R.id.make_list);
-		final RadioButton addToProjectUserDataRadioButton = view.findViewById(R.id.global);
+		CheckBox makeListCheckBox = view.findViewById(R.id.make_list);
+		RadioButton addToProjectUserDataRadioButton = view.findViewById(R.id.global);
 
 		makeListCheckBox.setVisibility(View.VISIBLE);
 
-		final List<UserData> variables = new ArrayList<>();
-		variables.addAll(dataContainer.getProjectUserVariables());
-		variables.addAll(dataContainer.getSpriteUserVariables(currentSprite));
+		final List<UserData> variables = new ListWithoutDuplicates<>();
+		variables.addAll(currentProject.getUserVariables());
+		variables.addAll(currentSprite.getUserVariables());
 
-		final List<UserData> lists = new ArrayList<>();
-		lists.addAll(dataContainer.getProjectUserLists());
-		lists.addAll(dataContainer.getSpriteUserLists(currentSprite));
+		final List<UserData> lists = new ListWithoutDuplicates<>();
+		lists.addAll(currentProject.getUserLists());
+		lists.addAll(currentSprite.getUserLists());
 
-		final NewItemTextWatcher<UserData> textWatcher = new NewItemTextWatcher<>(variables);
+		NewItemTextWatcher<UserData> textWatcher = new NewItemTextWatcher<>(variables);
 
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(this)
 				.setTextWatcher(textWatcher)
-				.setPositiveButton(getString(R.string.ok), new TextInputDialog.OnClickListener() {
-					@Override
-					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
-						boolean addToProjectUserData = addToProjectUserDataRadioButton.isChecked();
+				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> {
+					boolean addToProjectUserData = addToProjectUserDataRadioButton.isChecked();
 
-						if (makeListCheckBox.isChecked()) {
-							UserList userList = new UserList(textInput);
-							if (addToProjectUserData) {
-								dataContainer.addUserList(userList);
-							} else {
-								dataContainer.addUserList(currentSprite, userList);
-							}
+					if (makeListCheckBox.isChecked()) {
+						UserList userList = new UserList(textInput);
+						if (addToProjectUserData) {
+							currentProject.addUserList(userList);
 						} else {
-							UserVariable userVariable = new UserVariable(textInput);
-							if (addToProjectUserData) {
-								dataContainer.addUserVariable(userVariable);
-							} else {
-								dataContainer.addUserVariable(currentSprite, userVariable);
-							}
+							currentSprite.addUserList(userList);
 						}
+					} else {
+						UserVariable userVariable = new UserVariable(textInput);
+						if (addToProjectUserData) {
+							currentProject.addUserVariable(userVariable);
+						} else {
+							currentSprite.addUserVariable(userVariable);
+						}
+					}
 
-						if (getCurrentFragment() instanceof DataListFragment) {
-							((DataListFragment) getCurrentFragment()).notifyDataSetChanged();
-						}
+					if (getCurrentFragment() instanceof DataListFragment) {
+						((DataListFragment) getCurrentFragment()).notifyDataSetChanged();
 					}
 				});
 
@@ -767,16 +745,13 @@ public class SpriteActivity extends BaseActivity {
 				.setView(view)
 				.create();
 
-		makeListCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
-				if (checked) {
-					alertDialog.setTitle(getString(R.string.formula_editor_list_dialog_title));
-					textWatcher.setScope(lists);
-				} else {
-					alertDialog.setTitle(getString(R.string.formula_editor_variable_dialog_title));
-					textWatcher.setScope(variables);
-				}
+		makeListCheckBox.setOnCheckedChangeListener((compoundButton, checked) -> {
+			if (checked) {
+				alertDialog.setTitle(getString(R.string.formula_editor_list_dialog_title));
+				textWatcher.setScope(lists);
+			} else {
+				alertDialog.setTitle(getString(R.string.formula_editor_variable_dialog_title));
+				textWatcher.setScope(variables);
 			}
 		});
 
@@ -784,41 +759,20 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	public void handlePlayButton(View view) {
-		boolean isDragAndDropActiveInFragment = getCurrentFragment() instanceof DragAndDropInterface
-				&& ((DragAndDropInterface) getCurrentFragment()).isCurrentlyMoving();
-
-		if (isDragAndDropActiveInFragment) {
-			((DragAndDropInterface) getCurrentFragment()).highlightMovingItem();
-			return;
+		Fragment currentFragment = getCurrentFragment();
+		if (currentFragment instanceof ScriptFragment) {
+			if (((ScriptFragment) currentFragment).isCurrentlyHighlighted()) {
+				((ScriptFragment) currentFragment).cancelHighlighting();
+			}
+			if (((ScriptFragment) currentFragment).isCurrentlyMoving()) {
+				((ScriptFragment) getCurrentFragment()).highlightMovingItem();
+				return;
+			}
 		}
 
 		while (getSupportFragmentManager().getBackStackEntryCount() > 0) {
 			getSupportFragmentManager().popBackStack();
 		}
-
-		ProjectManager projectManager = ProjectManager.getInstance();
-		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
-		Scene defaultScene = projectManager.getCurrentProject().getDefaultScene();
-
-		if (currentScene.getName().equals(defaultScene.getName())) {
-			projectManager.setCurrentlyPlayingScene(defaultScene);
-			projectManager.setStartScene(defaultScene);
-			startStageActivity();
-		} else {
-			new PlaySceneDialog.Builder(this)
-					.setPositiveButton(R.string.play, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							startStageActivity();
-						}
-					})
-					.create()
-					.show();
-		}
-	}
-
-	void startStageActivity() {
-		Intent intent = new Intent(this, StageActivity.class);
-		startActivityForResult(intent, StageActivity.REQUEST_START_STAGE);
+		StageActivity.handlePlayButton(ProjectManager.getInstance(), this);
 	}
 }

@@ -30,18 +30,20 @@ import android.util.Log;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.io.ZipArchiver;
 import org.catrobat.catroid.utils.DownloadUtil;
-import org.catrobat.catroid.utils.PathBuilder;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
 import java.io.File;
 import java.io.IOException;
+
+import static org.catrobat.catroid.common.Constants.CACHE_DIR;
+import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
+import static org.catrobat.catroid.common.Constants.TMP_DIR_NAME;
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public class ProjectDownloadService extends IntentService {
 
@@ -71,26 +73,25 @@ public class ProjectDownloadService extends IntentService {
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		String projectName = intent.getStringExtra(DOWNLOAD_NAME_TAG);
-		String zipFileString = PathBuilder.buildPath(Constants.TMP_PATH, DOWNLOAD_FILE_NAME);
+		String zipFileString = new File(new File(CACHE_DIR, TMP_DIR_NAME), DOWNLOAD_FILE_NAME).getAbsolutePath();
 		String url = intent.getStringExtra(URL_TAG);
-		Integer notificationId = intent.getIntExtra(ID_TAG, -1);
+		int notificationId = intent.getIntExtra(ID_TAG, -1);
 
 		receiver = intent.getParcelableExtra(RECEIVER_TAG);
+
 		try {
 			ServerCalls.getInstance().downloadProject(url, zipFileString, projectName, receiver, notificationId);
-			new ZipArchiver().unzip(new File(zipFileString), new File(PathBuilder.buildProjectPath(projectName)));
 
 			boolean renameProject = intent.getBooleanExtra(RENAME_AFTER_DOWNLOAD, false);
-			if (renameProject) {
-				Project projectTBRenamed = XstreamSerializer.getInstance().loadProject(projectName, getBaseContext());
-				if (projectTBRenamed != null) {
-					projectTBRenamed.setName(projectName);
-					XstreamSerializer.getInstance().saveProject(projectTBRenamed);
-				}
-			}
 
-			XstreamSerializer.getInstance().updateCodeFileOnDownload(projectName);
-		} catch (LoadingProjectException | IOException | WebconnectionException e) {
+			File projectDir = new File(DEFAULT_ROOT_DIRECTORY, projectName);
+			new ZipArchiver().unzip(new File(zipFileString), projectDir);
+
+			if (renameProject) {
+				XstreamSerializer
+						.renameProject(new File(projectDir, CODE_XML_FILE_NAME), projectName);
+			}
+		} catch (IOException | WebconnectionException e) {
 			showToast(R.string.error_project_download, true);
 			Log.e(TAG, Log.getStackTraceString(e));
 		} finally {
@@ -101,7 +102,6 @@ public class ProjectDownloadService extends IntentService {
 	}
 
 	private void showToast(final int messageId, boolean error) {
-
 		if (error) {
 			handler.post(new Runnable() {
 

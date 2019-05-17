@@ -26,8 +26,7 @@ import android.content.Context;
 import android.graphics.PointF;
 import android.util.Log;
 
-import com.badlogic.gdx.graphics.Color;
-import com.google.common.collect.HashMultimap;
+import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
@@ -40,53 +39,44 @@ import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.actions.EventThread;
-import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
-import org.catrobat.catroid.content.bricks.SetPenColorBrick;
-import org.catrobat.catroid.content.bricks.UserBrick;
-import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
-import org.catrobat.catroid.content.bricks.UserVariableBrick;
 import org.catrobat.catroid.content.bricks.WhenConditionBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.datacontainer.DataContainer;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
-import org.catrobat.catroid.physics.PhysicsCollision;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsWorld;
-import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.ui.recyclerview.controller.ScriptController;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-// Remove checkstyle disable when https://github.com/checkstyle/checkstyle/issues/1349 is fixed
-// CHECKSTYLE DISABLE IndentationCheck FOR 8 LINES
 @XStreamFieldKeyOrder({
 		"name",
 		"lookList",
 		"soundList",
 		"scriptList",
-		"userBricks",
-		"nfcTagList"
+		"nfcTagList",
+		"userVariables",
+		"userLists"
 })
 public class Sprite implements Cloneable, Nameable, Serializable {
 
 	private static final long serialVersionUID = 1L;
+
 	private static final String TAG = Sprite.class.getSimpleName();
 
 	public transient Look look = new Look(this);
 	public transient PenConfiguration penConfiguration = new PenConfiguration();
 	private transient boolean convertToSingleSprite = false;
 	private transient boolean convertToGroupItemSprite = false;
-	private transient Multimap<EventId, EventThread> idToEventThreadMap = HashMultimap.create();
+	private transient Multimap<EventId, EventThread> idToEventThreadMap = LinkedHashMultimap.create();
 	private transient Set<ConditionScriptTrigger> conditionScriptTriggers = new HashSet<>();
 
 	@XStreamAsAttribute
@@ -94,18 +84,19 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 	private List<Script> scriptList = new ArrayList<>();
 	private List<LookData> lookList = new ArrayList<>();
 	private List<SoundInfo> soundList = new ArrayList<>();
-	private List<UserBrick> userBricks = new ArrayList<>();
 	private List<NfcTagData> nfcTagList = new ArrayList<>();
+	private List<UserVariable> userVariables = new ListWithoutDuplicates<>();
+	private List<UserList> userLists = new ListWithoutDuplicates<>();
 
 	private transient ActionFactory actionFactory = new ActionFactory();
 
 	public transient boolean isClone = false;
 
-	public Sprite(String name) {
-		this.name = name;
+	public Sprite() {
 	}
 
-	public Sprite() {
+	public Sprite(String name) {
+		this.name = name;
 	}
 
 	@Override
@@ -136,14 +127,41 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 			allBricks.add(script.getScriptBrick());
 			allBricks.addAll(script.getBrickList());
 		}
-		for (UserBrick userBrick : userBricks) {
-			allBricks.add(userBrick);
-			Script userScript = userBrick.getDefinitionBrick().getUserScript();
-			if (userScript != null) {
-				allBricks.addAll(userScript.getBrickList());
+		return allBricks;
+	}
+
+	public List<UserVariable> getUserVariables() {
+		return userVariables;
+	}
+
+	public UserVariable getUserVariable(String name) {
+		for (UserVariable variable : userVariables) {
+			if (variable.getName().equals(name)) {
+				return variable;
 			}
 		}
-		return allBricks;
+		return null;
+	}
+
+	public boolean addUserVariable(UserVariable userVariable) {
+		return userVariables.add(userVariable);
+	}
+
+	public List<UserList> getUserLists() {
+		return userLists;
+	}
+
+	public UserList getUserList(String name) {
+		for (UserList list : userLists) {
+			if (list.getName().equals(name)) {
+				return list;
+			}
+		}
+		return null;
+	}
+
+	public boolean addUserList(UserList userList) {
+		return userLists.add(userList);
 	}
 
 	public List<PlaySoundBrick> getPlaySoundBricks() {
@@ -154,6 +172,15 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 			}
 		}
 		return result;
+	}
+
+	public void resetUserData() {
+		for (UserVariable userVariable : userVariables) {
+			userVariable.reset();
+		}
+		for (UserList userList : userLists) {
+			userList.reset();
+		}
 	}
 
 	public void resetSprite() {
@@ -175,43 +202,6 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		idToEventThreadMap = null;
 		conditionScriptTriggers = null;
 		penConfiguration = null;
-	}
-
-	public UserBrick addUserBrick(UserBrick brick) {
-		if (userBricks == null) {
-			userBricks = new ArrayList<>();
-		}
-		userBricks.add(brick);
-		return brick;
-	}
-
-	public List<UserBrick> getUserBrickList() {
-		if (userBricks == null) {
-			userBricks = new ArrayList<>();
-		}
-		return userBricks;
-	}
-
-	public List<UserBrick> getUserBricksByDefinitionBrick(UserScriptDefinitionBrick definitionBrick, boolean scriptBricks, boolean prototypeBricks) {
-		List<UserBrick> matchingUserBricks = new ArrayList<>();
-		if (scriptBricks) {
-			for (Brick brick : getAllBricks()) {
-				if (brick instanceof UserBrick) {
-					UserBrick userBrick = (UserBrick) brick;
-					if (userBrick.getDefinitionBrick().equals(definitionBrick)) {
-						matchingUserBricks.add(userBrick);
-					}
-				}
-			}
-		}
-		if (prototypeBricks) {
-			for (UserBrick userBrick : userBricks) {
-				if (userBrick.getDefinitionBrick().equals(definitionBrick)) {
-					matchingUserBricks.add(userBrick);
-				}
-			}
-		}
-		return matchingUserBricks;
 	}
 
 	public void initConditionScriptTriggers() {
@@ -276,83 +266,14 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		convertedSprite.nfcTagList = nfcTagList;
 		convertedSprite.scriptList = scriptList;
 
+		convertedSprite.userVariables = userVariables;
+		convertedSprite.userLists = userLists;
+
 		return convertedSprite;
 	}
 
-	public Sprite cloneForCloneBrick() {
-		Sprite clone = new Sprite(name + "-c" + StageActivity.getAndIncrementNumberOfClonedSprites());
-		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
-
-		DataContainer dataContainer = currentScene.getDataContainer();
-		ScriptController scriptController = new ScriptController();
-
-		clone.isClone = true;
-		clone.actionFactory = actionFactory;
-
-		for (LookData look : lookList) {
-			clone.lookList.add(new LookData(look.getName(), look.getFile()));
-		}
-
-		clone.soundList.addAll(soundList);
-		clone.nfcTagList.addAll(nfcTagList);
-
-		dataContainer.copySpriteUserData(this, dataContainer, clone);
-
-		for (Script script : scriptList) {
-			try {
-				clone.addScript(scriptController.copy(script, currentScene, clone));
-			} catch (CloneNotSupportedException | IOException e) {
-				Log.e(TAG, Log.getStackTraceString(e));
-			}
-		}
-
-		clone.resetSprite();
-		cloneLook(clone);
-		setDefinitionBrickReferences(clone, userBricks);
-
-		return clone;
-	}
-
-	private void setDefinitionBrickReferences(Sprite cloneSprite, List<UserBrick> originalPrototypeUserBricks) {
-		for (int scriptPosition = 0; scriptPosition < cloneSprite.getScriptList().size(); scriptPosition++) {
-			Script clonedScript = cloneSprite.getScript(scriptPosition);
-			for (int brickPosition = 0; brickPosition < clonedScript.getBrickList().size(); brickPosition++) {
-				Brick clonedBrick = clonedScript.getBrick(brickPosition);
-				if (!(clonedBrick instanceof UserBrick)) {
-					continue;
-				}
-				UserBrick clonedUserBrick = ((UserBrick) clonedBrick);
-				UserBrick originalUserBrick = ((UserBrick) getScript(scriptPosition).getBrick(brickPosition));
-				int originalIndexOfDefinitionBrick = 0;
-				for (int prototypeUserBrickPosition = 0; prototypeUserBrickPosition < originalPrototypeUserBricks.size();
-						prototypeUserBrickPosition++) {
-					UserBrick originalPrototypeUserBrick = originalPrototypeUserBricks.get(prototypeUserBrickPosition);
-					if (originalPrototypeUserBrick.getDefinitionBrick().equals(originalUserBrick.getDefinitionBrick())) {
-						originalIndexOfDefinitionBrick = prototypeUserBrickPosition;
-						break;
-					}
-				}
-
-				UserBrick clonedPrototypeUserBrick = cloneSprite.getUserBrickList().get(originalIndexOfDefinitionBrick);
-				UserScriptDefinitionBrick correctClonedDefinitionBrick = clonedPrototypeUserBrick.getDefinitionBrick();
-				clonedUserBrick.setDefinitionBrick(correctClonedDefinitionBrick);
-
-				clonedPrototypeUserBrick.updateUserBrickParametersAndVariables();
-				clonedUserBrick.updateUserBrickParametersAndVariables();
-			}
-		}
-	}
-
-	private void cloneLook(Sprite cloneSprite) {
-		int currentLookDataIndex = this.lookList.indexOf(this.look.getLookData());
-		if (currentLookDataIndex != -1) {
-			cloneSprite.look.setLookData(cloneSprite.lookList.get(currentLookDataIndex));
-		}
-		this.look.copyTo(cloneSprite.look);
-	}
-
 	private EventThread createEventThread(Script script) {
-		EventThread sequence = (EventThread) actionFactory.createEventThread(script);
+		EventThread sequence = (EventThread) ActionFactory.createEventThread(script);
 		script.run(this, sequence);
 		return sequence;
 	}
@@ -445,22 +366,6 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		setName(newSpriteName);
 	}
 
-	public void updateUserVariableReferencesInUserVariableBricks(List<UserVariable> variables) {
-		for (Brick brick : getAllBricks()) {
-			if (brick instanceof UserVariableBrick) {
-				UserVariableBrick userVariableBrick = (UserVariableBrick) brick;
-				for (UserVariable variable : variables) {
-					UserVariable userVariableBrickVariable = userVariableBrick.getUserVariable();
-					if (userVariableBrickVariable != null
-							&& variable.getName().equals(userVariableBrickVariable.getName())) {
-						userVariableBrick.setUserVariable(variable);
-						break;
-					}
-				}
-			}
-		}
-	}
-
 	public boolean hasCollision() {
 		Brick.ResourcesSet resourcesSet = new Brick.ResourcesSet();
 		addRequiredResources(resourcesSet);
@@ -501,67 +406,6 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		return false;
 	}
 
-	public void updateCollisionFormulasToVersion(float catroidLanguageVersion) {
-		for (Script script : getScriptList()) {
-			Brick scriptBrick = script.getScriptBrick();
-			if (scriptBrick instanceof FormulaBrick) {
-				FormulaBrick formulaBrick = (FormulaBrick) scriptBrick;
-				for (Formula formula : formulaBrick.getFormulas()) {
-					formula.updateCollisionFormulasToVersion(catroidLanguageVersion);
-				}
-			}
-			for (Brick brick : script.getBrickList()) {
-				if (brick instanceof UserBrick) {
-					UserBrick formulaBrick = (UserBrick) brick;
-					for (Formula formula : formulaBrick.getFormulas()) {
-						formula.updateCollisionFormulasToVersion(catroidLanguageVersion);
-					}
-				} else if (brick instanceof FormulaBrick) {
-					FormulaBrick formulaBrick = (FormulaBrick) brick;
-					for (Formula formula : formulaBrick.getFormulas()) {
-						formula.updateCollisionFormulasToVersion(catroidLanguageVersion);
-					}
-				}
-			}
-		}
-	}
-
-	void updateCollisionScripts() {
-		for (Script script : getScriptList()) {
-			if (script instanceof CollisionScript) {
-				CollisionScript collisionScript = (CollisionScript) script;
-				String[] spriteNames = collisionScript.getSpriteToCollideWithName().split(PhysicsCollision.COLLISION_MESSAGE_CONNECTOR);
-				String spriteToCollideWith = spriteNames[0];
-				if (spriteNames[0].equals(getName())) {
-					spriteToCollideWith = spriteNames[1];
-				}
-				collisionScript.setSpriteToCollideWithName(spriteToCollideWith);
-			}
-		}
-	}
-
-	public void updateSetPenColorFormulas() {
-		for (Script script : getScriptList()) {
-			for (Brick brick : script.getBrickList()) {
-				if (brick instanceof SetPenColorBrick) {
-					SetPenColorBrick spcBrick = (SetPenColorBrick) brick;
-					spcBrick.correctBrickFieldsFromPhiro();
-				}
-			}
-		}
-	}
-
-	public void updateArduinoValues994to995() {
-		for (Script script : getScriptList()) {
-			for (Brick brick : script.getBrickList()) {
-				if (brick instanceof ArduinoSendPWMValueBrick) {
-					ArduinoSendPWMValueBrick spcBrick = (ArduinoSendPWMValueBrick) brick;
-					spcBrick.updateArduinoValues994to995();
-				}
-			}
-		}
-	}
-
 	private void renameSpriteInCollisionFormulas(String newName, Context context) {
 		String oldName = getName();
 		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList();
@@ -579,12 +423,6 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 				}
 				List<Brick> brickList = currentScript.getBrickList();
 				for (Brick brick : brickList) {
-					if (brick instanceof UserBrick) {
-						List<Formula> formulaList = ((UserBrick) brick).getFormulas();
-						for (Formula formula : formulaList) {
-							formula.updateCollisionFormulas(oldName, newName, context);
-						}
-					}
 					if (brick instanceof FormulaBrick) {
 						List<Formula> formulaList = ((FormulaBrick) brick).getFormulas();
 						for (Formula formula : formulaList) {
@@ -605,7 +443,7 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 	public class PenConfiguration {
 		public boolean penDown = false;
 		public double penSize = BrickValues.PEN_SIZE;
-		public Color penColor = BrickValues.PEN_COLOR;
+		public PenColor penColor = new PenColor(0, 0, 1, 1);
 		public PointF previousPoint = null;
 		public boolean stamp = false;
 	}

@@ -26,7 +26,6 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.eventids.EventId;
-import org.catrobat.catroid.ui.recyclerview.controller.BrickController;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -50,9 +49,14 @@ public abstract class Script implements Serializable, Cloneable {
 	@Override
 	public Script clone() throws CloneNotSupportedException {
 		Script clone = (Script) super.clone();
+		clone.brickList = new ArrayList<>();
+
+		for (Brick brick : brickList) {
+			clone.brickList.add(brick.clone());
+		}
+
 		clone.commentedOut = commentedOut;
 		clone.scriptBrick = null;
-		clone.brickList = new BrickController().clone(brickList);
 		return clone;
 	}
 
@@ -67,6 +71,14 @@ public abstract class Script implements Serializable, Cloneable {
 		}
 	}
 
+	public void setParents() {
+		ScriptBrick scriptBrick = getScriptBrick();
+		scriptBrick.setParent(null);
+		for (Brick brick : getBrickList()) {
+			brick.setParent(scriptBrick);
+		}
+	}
+
 	public abstract ScriptBrick getScriptBrick();
 
 	public void setScriptBrick(ScriptBrick scriptBrick) {
@@ -78,25 +90,9 @@ public abstract class Script implements Serializable, Cloneable {
 			return;
 		}
 
-		ArrayList<ScriptSequenceAction> sequenceList = new ArrayList<>();
-		sequenceList.add(sequence);
-
 		for (Brick brick : brickList) {
-			if (brick.isCommentedOut()) {
-				continue;
-			}
-
-			List<ScriptSequenceAction> actions = brick
-					.addActionToSequence(sprite, sequenceList.get(sequenceList.size() - 1));
-
-			if (actions != null) {
-				for (ScriptSequenceAction action : actions) {
-					if (sequenceList.contains(action)) {
-						sequenceList.remove(action);
-					} else {
-						sequenceList.add(action);
-					}
-				}
+			if (!brick.isCommentedOut()) {
+				brick.addActionToSequence(sprite, sequence);
 			}
 		}
 	}
@@ -109,16 +105,11 @@ public abstract class Script implements Serializable, Cloneable {
 		brickList.add(position, brick);
 	}
 
-	public boolean addBricks(List<Brick> bricks) {
-		return brickList.addAll(bricks);
-	}
-
-	public boolean addBricks(int position, List<Brick> bricks) {
-		return brickList.addAll(position, bricks);
-	}
-
-	public boolean containsBrick(Brick brick) {
-		return brickList.contains(brick);
+	public void addToFlatList(List<Brick> bricks) {
+		bricks.add(getScriptBrick());
+		for (Brick brick : brickList) {
+			brick.addToFlatList(bricks);
+		}
 	}
 
 	public Brick getBrick(int index) {
@@ -126,11 +117,15 @@ public abstract class Script implements Serializable, Cloneable {
 	}
 
 	public boolean removeBrick(Brick brick) {
-		return brickList.remove(brick);
-	}
-
-	public boolean removeBricks(List<Brick> bricks) {
-		return brickList.removeAll(bricks);
+		if (brickList.remove(brick)) {
+			return true;
+		}
+		for (Brick brickInList : brickList) {
+			if (brickInList.removeChild(brick)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public void addRequiredResources(final Brick.ResourcesSet resourcesSet) {

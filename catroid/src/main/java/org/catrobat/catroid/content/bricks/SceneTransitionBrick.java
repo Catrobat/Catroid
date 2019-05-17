@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -66,7 +65,7 @@ public class SceneTransitionBrick extends BrickBaseType implements BrickSpinner.
 	}
 
 	@Override
-	public BrickBaseType clone() throws CloneNotSupportedException {
+	public Brick clone() throws CloneNotSupportedException {
 		SceneTransitionBrick clone = (SceneTransitionBrick) super.clone();
 		clone.spinner = null;
 		return clone;
@@ -94,12 +93,12 @@ public class SceneTransitionBrick extends BrickBaseType implements BrickSpinner.
 
 	@Override
 	public void onNewOptionSelected() {
-		final AppCompatActivity activity = UiUtils.getActivityFromView(view);
+		AppCompatActivity activity = UiUtils.getActivityFromView(view);
 		if (activity == null) {
 			return;
 		}
 
-		final Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		List<Scene> currentSceneList = currentProject.getSceneList();
 
 		String defaultSceneName = SceneController
@@ -110,31 +109,18 @@ public class SceneTransitionBrick extends BrickBaseType implements BrickSpinner.
 		builder.setHint(activity.getString(R.string.scene_name_label))
 				.setText(defaultSceneName)
 				.setTextWatcher(new NewItemTextWatcher<>(currentSceneList))
-				.setPositiveButton(activity.getString(R.string.ok), new TextInputDialog.OnClickListener() {
-					@Override
-					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
-						Scene scene = SceneController.newSceneWithBackgroundSprite(
-								textInput, activity.getString(R.string.background), currentProject);
-						currentProject.addScene(scene);
-						spinner.add(scene);
-						spinner.setSelection(scene);
-					}
+				.setPositiveButton(activity.getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> {
+					Scene scene = SceneController.newSceneWithBackgroundSprite(
+							textInput, activity.getString(R.string.background), currentProject);
+					currentProject.addScene(scene);
+					spinner.add(scene);
+					spinner.setSelection(scene);
+					notifyDataSetChanged(activity);
 				});
 
 		builder.setTitle(R.string.new_scene_dialog)
-				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						spinner.setSelection(sceneForTransition);
-					}
-				})
-				.setOnCancelListener(new DialogInterface.OnCancelListener() {
-					@Override
-					public void onCancel(DialogInterface dialog) {
-						spinner.setSelection(sceneForTransition);
-					}
-				})
-				.create()
+				.setNegativeButton(R.string.cancel, (dialog, which) -> spinner.setSelection(sceneForTransition))
+				.setOnCancelListener(dialog -> spinner.setSelection(sceneForTransition))
 				.show();
 	}
 
@@ -148,8 +134,7 @@ public class SceneTransitionBrick extends BrickBaseType implements BrickSpinner.
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSceneTransitionAction(sceneForTransition));
-		return null;
 	}
 }

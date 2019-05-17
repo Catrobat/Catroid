@@ -27,196 +27,28 @@ import android.support.test.runner.AndroidJUnit4;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.utils.TouchUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 public class LookTest {
 
-	private Look look;
 	private Sprite sprite;
-
-	private float width = 32;
-	private float height = 16;
 
 	@Before
 	public void setUp() {
 		Group parentGroup = new Group();
 		sprite = new SingleSprite("test");
 		parentGroup.addActor(sprite.look);
-		look = sprite.look;
-	}
-
-	@Test
-	public void testConstructor() {
-		assertEquals(0f, look.getX());
-		assertEquals(0f, look.getY());
-		assertEquals(0f, look.getHeight());
-		assertEquals(0f, look.getWidth());
-		assertEquals(0f, look.getOriginX());
-		assertEquals(0f, look.getOriginY());
-		assertEquals(0f, look.getRotation());
-		assertEquals(1f, look.getScaleX());
-		assertEquals(1f, look.getScaleY());
-		assertEquals(0f, look.getTransparencyInUserInterfaceDimensionUnit());
-		assertEquals(100f, look.getBrightnessInUserInterfaceDimensionUnit());
-		assertEquals(0f, look.getColorInUserInterfaceDimensionUnit());
-		assertEquals(100f, look.getSizeInUserInterfaceDimensionUnit());
-		assertEquals(0, look.getZIndex());
-		assertTrue(look.isVisible());
-		assertEquals(Touchable.enabled, look.getTouchable());
-		assertEquals("", look.getImagePath());
-	}
-
-	@Test
-	public void testPositions() {
-		float x = 3f;
-		float y = 10f;
-		look.setWidth(width);
-		look.setHeight(height);
-
-		look.setXInUserInterfaceDimensionUnit(x);
-		checkX(x);
-
-		look.setYInUserInterfaceDimensionUnit(y);
-		checkY(y);
-
-		look.changeXInUserInterfaceDimensionUnit(x);
-		checkX(2 * x);
-
-		look.changeYInUserInterfaceDimensionUnit(y);
-		checkY(2 * y);
-
-		x = 5f;
-		y = -3f;
-		look.setPositionInUserInterfaceDimensionUnit(x, y);
-		checkX(x);
-		checkY(y);
-	}
-
-	private void checkX(float x) {
-		assertEquals(x, look.getXInUserInterfaceDimensionUnit());
-		assertEquals(x - width / 2, look.getX());
-	}
-
-	private void checkY(float y) {
-		assertEquals(y, look.getYInUserInterfaceDimensionUnit());
-		assertEquals(y - height / 2, look.getY());
-	}
-
-	@Test
-	public void testDirection() {
-		look.setDirectionInUserInterfaceDimensionUnit(90f);
-		look.changeDirectionInUserInterfaceDimensionUnit(10f);
-
-		assertEquals(100f, look.getDirectionInUserInterfaceDimensionUnit());
-		assertEquals(-10f, look.getRotation());
-
-		look.setDirectionInUserInterfaceDimensionUnit(90f);
-		look.changeDirectionInUserInterfaceDimensionUnit(360f);
-
-		assertEquals(90f, look.getDirectionInUserInterfaceDimensionUnit());
-		assertEquals(0f, look.getRotation());
-	}
-
-	@Test
-	public void testSize() {
-		float size = 30f;
-		look.setSizeInUserInterfaceDimensionUnit(size);
-		assertEquals(size, look.getSizeInUserInterfaceDimensionUnit(), 1e-5);
-		assertEquals(size / 100f, look.getScaleX());
-		assertEquals(size / 100f, look.getScaleY());
-
-		look.changeSizeInUserInterfaceDimensionUnit(size);
-		assertEquals(2 * size, look.getSizeInUserInterfaceDimensionUnit(), 1e-5);
-		assertEquals(2 * size / 100f, look.getScaleX());
-		assertEquals(2 * size / 100f, look.getScaleY());
-
-		look.setSizeInUserInterfaceDimensionUnit(-10f);
-		assertEquals(0f, look.getSizeInUserInterfaceDimensionUnit());
-	}
-
-	@Test
-	public void testTransparency() {
-		float transparency = 20f;
-		look.setTransparencyInUserInterfaceDimensionUnit(transparency);
-		assertEquals(transparency, look.getTransparencyInUserInterfaceDimensionUnit(), 1e-5);
-		assertEquals(0.8f, look.getAlpha());
-
-		look.changeTransparencyInUserInterfaceDimensionUnit(transparency);
-		assertEquals(2 * transparency, look.getTransparencyInUserInterfaceDimensionUnit(), 1e-5);
-		assertEquals(0.6f, look.getAlpha());
-
-		look.setTransparencyInUserInterfaceDimensionUnit(-10f);
-		assertEquals(0f, look.getTransparencyInUserInterfaceDimensionUnit());
-		assertEquals(1f, look.getAlpha());
-
-		look.setTransparencyInUserInterfaceDimensionUnit(200f);
-		assertEquals(100f, look.getTransparencyInUserInterfaceDimensionUnit());
-		assertEquals(0f, look.getAlpha());
-	}
-
-	@Test
-	public void testBrightness() {
-		float brightness = 42f;
-		look.setBrightnessInUserInterfaceDimensionUnit(brightness);
-		assertEquals(brightness, look.getBrightnessInUserInterfaceDimensionUnit());
-		assertEquals(0.42f, look.getBrightness());
-
-		look.changeBrightnessInUserInterfaceDimensionUnit(brightness);
-		assertEquals(2 * brightness, look.getBrightnessInUserInterfaceDimensionUnit());
-		assertEquals(0.84f, look.getBrightness());
-
-		look.setBrightnessInUserInterfaceDimensionUnit(-10);
-		assertEquals(0f, look.getBrightnessInUserInterfaceDimensionUnit());
-		assertEquals(0f, look.getBrightness());
-	}
-
-	@Test
-	public void testColor() {
-		int red = -40;
-		int green = 80;
-
-		look.setColorInUserInterfaceDimensionUnit(red);
-		assertEquals(160.0f, look.getColorInUserInterfaceDimensionUnit());
-
-		look.changeColorInUserInterfaceDimensionUnit(green);
-		assertEquals(40.0f, look.getColorInUserInterfaceDimensionUnit());
-	}
-
-	@Test
-	public void testDistanceTo() {
-		look.setXInUserInterfaceDimensionUnit(25);
-		look.setYInUserInterfaceDimensionUnit(55);
-		float touchPosition = look.getDistanceToTouchPositionInUserInterfaceDimensions();
-
-		float pointAx = look.getXInUserInterfaceDimensionUnit();
-		float pointAy = look.getYInUserInterfaceDimensionUnit();
-		int touchIndex = TouchUtil.getLastTouchIndex();
-		float pointBx = TouchUtil.getX(touchIndex);
-		float pointBy = TouchUtil.getY(touchIndex);
-
-		float vectorX = pointBx - pointAx;
-		float vectorY = pointBy - pointAy;
-
-		double squareX = (float) Math.pow(vectorX, 2);
-		double squareY = (float) Math.pow(vectorY, 2);
-
-		float squareRootOfScalar = (float) Math.sqrt(squareX + squareY);
-
-		assertEquals(touchPosition, squareRootOfScalar);
 	}
 
 	@Test
@@ -249,37 +81,5 @@ public class LookTest {
 
 		assertTrue(look.doTouchDown(0, 0, 0));
 		assertFalse(look.doTouchDown(1, 0, 0));
-	}
-
-	@Test
-	public void testCloneValues() {
-		Look origin = new Look(null);
-		origin.setSizeInUserInterfaceDimensionUnit(12);
-		origin.setPositionInUserInterfaceDimensionUnit(4, 12);
-		origin.setColorInUserInterfaceDimensionUnit(42);
-		origin.setTransparencyInUserInterfaceDimensionUnit(7);
-		origin.setRotationMode(Look.ROTATION_STYLE_LEFT_RIGHT_ONLY);
-		origin.setBrightnessInUserInterfaceDimensionUnit(3);
-		origin.setDirectionInUserInterfaceDimensionUnit(8);
-		origin.setLookVisible(false);
-
-		Look clone = new Look(null);
-		origin.copyTo(clone);
-
-		assertEquals(origin.getSizeInUserInterfaceDimensionUnit(), clone.getSizeInUserInterfaceDimensionUnit());
-
-		assertEquals(origin.getXInUserInterfaceDimensionUnit(), clone.getXInUserInterfaceDimensionUnit());
-		assertEquals(origin.getYInUserInterfaceDimensionUnit(), clone.getYInUserInterfaceDimensionUnit());
-
-		assertEquals(origin.getColorInUserInterfaceDimensionUnit(), clone.getColorInUserInterfaceDimensionUnit());
-		assertEquals(origin.getTransparencyInUserInterfaceDimensionUnit(), clone.getTransparencyInUserInterfaceDimensionUnit());
-
-		assertEquals(origin.getRotationMode(), clone.getRotationMode());
-
-		assertEquals(origin.getBrightnessInUserInterfaceDimensionUnit(), clone.getBrightnessInUserInterfaceDimensionUnit());
-
-		assertEquals(origin.getDirectionInUserInterfaceDimensionUnit(), clone.getDirectionInUserInterfaceDimensionUnit());
-
-		assertEquals(origin.isLookVisible(), clone.isLookVisible());
 	}
 }

@@ -24,7 +24,6 @@ package org.catrobat.catroid.test.physics;
 
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.math.Vector2;
@@ -46,19 +45,15 @@ import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.shapebuilder.PhysicsShapeBuilder;
-import org.catrobat.catroid.physics.shapebuilder.PhysicsShapeScaleUtils;
 import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.utils.Utils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.File;
-import java.util.LinkedList;
-import java.util.Queue;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
@@ -66,34 +61,31 @@ import static junit.framework.Assert.assertNotNull;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.number.OrderingComparison.greaterThan;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertThat;
 
 @RunWith(AndroidJUnit4.class)
 public class PhysicsLookTest {
 
-	private static final String TAG = PhysicsLookTest.class.getSimpleName();
-	PhysicsWorld physicsWorld;
+	private PhysicsWorld physicsWorld;
 	private final String projectName = "testProject";
-	private File projectDir;
-	private Project project;
 	private File testImage;
 	private String testImageFilename;
 	private Sprite sprite;
 	static {
 		GdxNativesLoader.load();
 	}
-
 	@Before
 	public void setUp() throws Exception {
 		physicsWorld = new PhysicsWorld(1920, 1600);
-		projectDir = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName);
+		File projectDir = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName);
 		if (projectDir.exists()) {
 			StorageOperations.deleteDir(projectDir);
 		}
 		testImageFilename = PhysicsTestUtils.getInternalImageFilenameFromFilename("testImage.png");
-		project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		XstreamSerializer.getInstance().saveProject(project);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 
 		testImage = ResourceImporter.createImageFileFromResourcesInDirectory(
 				InstrumentationRegistry.getContext().getResources(),
@@ -121,7 +113,7 @@ public class PhysicsLookTest {
 		lookData.setName(testImage.getName());
 		sprite.getLookList().add(lookData);
 		Pixmap pixmap = null;
-		pixmap = Utils.getPixmapFromFile(testImage);
+		pixmap = PhysicsTestUtils.getPixmapFromFile(testImage);
 		lookData.setPixmap(pixmap);
 
 		Shape[] shapes = physicsShapeBuilder.getScaledShapes(lookData, sprite.look.getSizeInUserInterfaceDimensionUnit() / 100f);
@@ -167,99 +159,42 @@ public class PhysicsLookTest {
 		lookData.setFile(testImage);
 		lookData.setName(testImageFilename);
 		sprite.getLookList().add(lookData);
-		Pixmap pixmap = Utils.getPixmapFromFile(testImage);
+		Pixmap pixmap = PhysicsTestUtils.getPixmapFromFile(testImage);
 		lookData.setPixmap(pixmap);
 
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		PhysicsLook physicsLook = new PhysicsLook(sprite, physicsWorld);
-
-		Shape[] shapes = (Shape[]) Reflection.getPrivateField(physicsObject, "shapes");
-		assertEquals(null, shapes);
-
 		physicsLook.setLookData(lookData);
 
-		Queue<Float> vertexXQueue = new LinkedList<Float>();
-		Queue<Float> vertexYQueue = new LinkedList<Float>();
-		shapes = (Shape[]) Reflection.getPrivateField(physicsObject, "shapes");
-		assertNotNull(shapes);
-		assertThat(shapes.length, is(greaterThan(0)));
-		Log.d(TAG, "shapes.length: " + shapes.length);
-		for (Shape shape : shapes) {
-			switch (shape.getType()) {
-				case Chain:
-					Log.d(TAG, "type = Chain: ");
-					break;
-				case Circle:
-					Log.d(TAG, "type = Circle: ");
-					break;
-				case Edge:
-					Log.d(TAG, "type = Edge: ");
-					break;
-				case Polygon:
-					int vertexCount = ((PolygonShape) shape).getVertexCount();
-					Log.d(TAG, "type = Polygon: " + vertexCount);
-					for (int idx = 0; idx < vertexCount; idx++) {
-						Vector2 vertex = new Vector2();
-						((PolygonShape) shape).getVertex(idx, vertex);
-						vertexXQueue.add(Float.valueOf(vertex.x));
-						vertexYQueue.add(Float.valueOf(vertex.y));
-						Log.d(TAG, "x=" + vertex.x + ";y=" + vertex.y);
-					}
-					break;
-			}
-		}
-
-		float[] accuracyLevels = (float[]) Reflection.getPrivateField(PhysicsShapeBuilder.class, "ACCURACY_LEVELS");
 		float testScaleFactor = 1.1f;
-		if (accuracyLevels.length > 1) {
-			for (int i = 0; i < accuracyLevels.length - 1; i++) {
-				if (Math.abs(accuracyLevels[i] - 1.0f) < 0.05) {
-					testScaleFactor = (accuracyLevels[i] + accuracyLevels[i + 1]);
-					testScaleFactor /= 2.0f;
-					testScaleFactor -= 0.025f;
-				}
-			}
-		}
+
+		Vector2[] expectedVertices = new Vector2[] {
+				new Vector2(10.84f, -7.31f),
+				new Vector2(10.84f, -0.6f),
+				new Vector2(9.63f, 10.62f),
+				new Vector2(-10.84f, 10.62f),
+				new Vector2(-10.84f, 6.44f),
+				new Vector2(-3.35f, -7.31f),
+				new Vector2(-0.06f, -10.61f),
+				new Vector2(7.54f, -10.61f),
+		};
 
 		physicsLook.setScale(testScaleFactor, testScaleFactor);
-		shapes = (Shape[]) Reflection.getPrivateField(physicsObject, "shapes");
-		assertNotNull(shapes);
-		assertThat(shapes.length, is(greaterThan(0)));
-		for (Shape shape : shapes) {
-			switch (shape.getType()) {
-				case Chain:
-					Log.d(TAG, "type = Chain: ");
-					break;
-				case Circle:
-					Log.d(TAG, "type = Circle: ");
-					break;
-				case Edge:
-					Log.d(TAG, "type = Edge: ");
-					break;
-				case Polygon:
-					int vertexCount = ((PolygonShape) shape).getVertexCount();
-					Log.d(TAG, "type = Polygon: " + vertexCount);
-					for (int idx = 0; idx < vertexCount; idx++) {
-						Vector2 vertex = new Vector2();
-						((PolygonShape) shape).getVertex(idx, vertex);
+		Shape[] scaledShapes = (Shape[]) Reflection.getPrivateField(physicsObject, "shapes");
+		assertNotNull(scaledShapes);
+		assertEquals(1, scaledShapes.length);
 
-						Object[] objectsX = {vertexXQueue.poll(), testScaleFactor};
-						Reflection.ParameterList parameterListX = new Reflection.ParameterList(objectsX);
-						float scaledX = (float) Reflection.invokeMethod(PhysicsShapeScaleUtils.class, "scaleCoordinate",
-								parameterListX);
+		Shape scaledShape = scaledShapes[0];
+		assertEquals(Shape.Type.Polygon, scaledShape.getType());
 
-						Object[] objectsY = {vertexYQueue.poll(), testScaleFactor};
-						Reflection.ParameterList parameterListY = new Reflection.ParameterList(objectsY);
-						float scaledY = (float) Reflection.invokeMethod(PhysicsShapeScaleUtils.class, "scaleCoordinate",
-								parameterListY);
-
-						assertEquals(scaledX, vertex.x);
-						assertEquals(scaledY, vertex.y);
-						Log.d(TAG, "x=" + vertex.x + ";y=" + vertex.y);
-					}
-					break;
-			}
+		int scaledVertexCount = ((PolygonShape) scaledShape).getVertexCount();
+		assertEquals(8, scaledVertexCount);
+		Vector2[] scaledVertices = new Vector2[8];
+		for (int idx = 0; idx < scaledVertexCount; idx++) {
+			scaledVertices[idx] = new Vector2();
+			((PolygonShape) scaledShape).getVertex(idx, scaledVertices[idx]);
 		}
+		assertArrayEquals(expectedVertices, scaledVertices);
 	}
 
 	@Test

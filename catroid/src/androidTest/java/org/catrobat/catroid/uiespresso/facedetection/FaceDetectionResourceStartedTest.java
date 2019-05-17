@@ -145,7 +145,7 @@ public class FaceDetectionResourceStartedTest {
 		startScript.addBrick(setSizeToBrick);
 		sprite.addScript(startScript);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 
 		lastBrickInScript = ScriptEvaluationGateBrick.appendToScript(startScript);

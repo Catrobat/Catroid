@@ -22,73 +22,17 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
-public class LoopEndBrick extends BrickBaseType implements ControlStructureBrick {
-
-	private static final long serialVersionUID = 1L;
-	private transient LoopBeginBrick loopBeginBrick;
-
-	public LoopEndBrick() {
-	}
-
-	public LoopEndBrick(LoopBeginBrick loopBeginBrick) {
-		this.loopBeginBrick = loopBeginBrick;
-	}
-
-	public LoopBeginBrick getLoopBeginBrick() {
-		return loopBeginBrick;
-	}
-
-	public void setLoopBeginBrick(LoopBeginBrick loopBeginBrick) {
-		this.loopBeginBrick = loopBeginBrick;
-	}
-
-	@Override
-	public boolean hasHelpPage() {
-		return false;
-	}
+public class LoopEndBrick extends BrickBaseType {
 
 	@Override
 	public int getViewResource() {
-		return R.layout.brick_loop_end;
+		return 0;
 	}
 
 	@Override
-	public BrickBaseType clone() throws CloneNotSupportedException {
-		LoopEndBrick clone = (LoopEndBrick) super.clone();
-		clone.loopBeginBrick = null;
-		return clone;
-	}
-
-	@Override
-	public Brick getFirstBrick() {
-		return (Brick) loopBeginBrick;
-	}
-
-	@Override
-	public Brick getLastBrick() {
-		return this;
-	}
-
-	@Override
-	public List<Brick> getAllParts() {
-		List<Brick> parts = new ArrayList<>();
-		parts.add((Brick) loopBeginBrick);
-		parts.add(this);
-		return parts;
-	}
-
-	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		LinkedList<ScriptSequenceAction> returnActionList = new LinkedList<>();
-		returnActionList.add(sequence);
-		return returnActionList;
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 	}
 }

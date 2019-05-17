@@ -25,7 +25,6 @@ package org.catrobat.catroid.test.physics;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.utils.GdxNativesLoader;
@@ -90,7 +89,7 @@ public class PhysicsShapeBuilderTest {
 
 		project = new Project(InstrumentationRegistry.getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 		XstreamSerializer.getInstance().saveProject(project);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 
 		String simpleSingleConvexPolygonFileName = PhysicsTestUtils
 				.getInternalImageFilenameFromFilename("simple_single_convex_polygon.png");
@@ -133,10 +132,14 @@ public class PhysicsShapeBuilderTest {
 
 		Shape[] shapes = physicsShapeBuilder.getScaledShapes(lookData,
 				sprite.look.getSizeInUserInterfaceDimensionUnit() / 100f);
+		assertNotNull(shapes);
+		assertEquals(1, shapes.length);
 
-		int expectedPolynoms = 1;
-		int[] expectedVertices = {4};
-		checkBuiltShapes(shapes, expectedPolynoms, expectedVertices);
+		Shape shape = shapes[0];
+		assertEquals(Shape.Type.Polygon, shape.getType());
+
+		int expectedVertices = 4;
+		assertEquals(expectedVertices, ((PolygonShape) shape).getVertexCount());
 	}
 
 	@Test
@@ -156,29 +159,5 @@ public class PhysicsShapeBuilderTest {
 			highestAccuracyShapes = higherAccuracyShapes;
 		}
 		assertThat(lowestAccuracyShapes.length, is(lessThan(highestAccuracyShapes.length)));
-	}
-
-	private void checkBuiltShapes(Shape[] shapes, int expectedPolynomCount, int[] expectedVertices) {
-		assertNotNull(shapes);
-		assertEquals(expectedPolynomCount, shapes.length);
-		assertEquals(expectedPolynomCount, expectedVertices.length);
-
-		for (int idx = 0; idx < shapes.length; idx++) {
-			Shape shape = shapes[idx];
-			switch (shape.getType()) {
-				case Chain:
-				case Circle:
-				case Edge:
-					break;
-				case Polygon:
-					int vertexCount = ((PolygonShape) shape).getVertexCount();
-					for (int vertexIdx = 0; vertexIdx < vertexCount; vertexIdx++) {
-						Vector2 vertex = new Vector2();
-						((PolygonShape) shape).getVertex(vertexIdx, vertex);
-					}
-					assertEquals(expectedVertices[idx], vertexCount);
-					break;
-			}
-		}
 	}
 }

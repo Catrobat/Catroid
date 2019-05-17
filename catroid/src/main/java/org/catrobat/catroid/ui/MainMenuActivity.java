@@ -27,9 +27,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.IntDef;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -48,17 +46,19 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.ZipArchiver;
+import org.catrobat.catroid.io.asynctask.ProjectImportTask;
+import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
+import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
-import org.catrobat.catroid.ui.recyclerview.asynctask.ProjectLoaderTask;
 import org.catrobat.catroid.ui.recyclerview.dialog.AboutDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.PrivacyPolicyDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.MainMenuFragment;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
-import org.catrobat.catroid.utils.ImportProjectsFromExternalStorage;
-import org.catrobat.catroid.utils.PathBuilder;
+import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.ScreenValueHandler;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
@@ -66,29 +66,52 @@ import org.catrobat.catroid.utils.Utils;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
+import static org.catrobat.catroid.common.Constants.BACKPACK_DIRECTORY;
+import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.PREF_PROJECTNAME_KEY;
+import static org.catrobat.catroid.common.Constants.TMP_DIR_NAME;
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.common.FlavoredConstants.EXTERNAL_STORAGE_ROOT_DIRECTORY;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY;
+import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG;
 
-public class MainMenuActivity extends BaseCastActivity implements ProjectLoaderTask.ProjectLoaderListener {
+public class MainMenuActivity extends BaseCastActivity implements
+		ProjectLoadTask.ProjectLoadListener {
 
 	public static final String TAG = MainMenuActivity.class.getSimpleName();
+	public static final int REQUEST_PERMISSIONS_MOVE_TO_INTERNAL_STORAGE = 501;
 
-	@Retention(RetentionPolicy.SOURCE)
-	@IntDef({PROGRESS_BAR, FRAGMENT, ERROR})
-	@interface Content {}
-	protected static final int PROGRESS_BAR = 0;
-	protected static final int FRAGMENT = 1;
-	protected static final int ERROR = 2;
+	private ProjectImportTask.ProjectImportListener projectCopyListener = success -> {
+		loadFragment();
+		setShowProgressBar(false);
+		if (success) {
+			ToastUtil.showSuccess(this, R.string.projects_successful_copied_toast);
+		} else {
+			ToastUtil.showError(this, R.string.error_during_copying_projects_toast);
+		}
+	};
 
-	public static final int REQUEST_PERMISSIONS_MAIN_STORAGE = 501;
+	private ProjectImportTask.ProjectImportListener projectMoveListener = success -> {
+		loadFragment();
+		setShowProgressBar(false);
+		if (success) {
+			ToastUtil.showSuccess(this, R.string.projects_successful_moved_toast);
+			try {
+				StorageOperations.deleteDir(EXTERNAL_STORAGE_ROOT_DIRECTORY);
+			} catch (IOException e) {
+				Log.e(TAG, "Cannot delete dir in external storage after import", e);
+			}
+		} else {
+			ToastUtil.showError(this, R.string.error_during_copying_projects_toast);
+		}
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -123,75 +146,133 @@ public class MainMenuActivity extends BaseCastActivity implements ProjectLoaderT
 		String linkString = getString(R.string.about_link_template,
 				Constants.CATROBAT_ABOUT_URL,
 				getString(R.string.share_website_text));
-
-		((TextView) dialogView.findViewById(R.id.share_website_view)).setText(Html.fromHtml(linkString));
+		TextView linkTextView = dialogView.findViewById(R.id.share_website_view);
+		linkTextView.setText(Html.fromHtml(linkString));
 
 		new AlertDialog.Builder(this)
 				.setView(dialogView)
 				.setNeutralButton(R.string.ok, null)
-				.create()
 				.show();
 	}
 
 	private void loadContent() {
-		setContentView(R.layout.activity_main_menu);
-		showContentView(PROGRESS_BAR);
-
-		if (!BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
-			FacebookSdk.sdkInitialize(getApplicationContext());
-			setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-			getSupportActionBar().setIcon(R.drawable.pc_toolbar_icon);
-			getSupportActionBar().setTitle(R.string.app_name);
-		}
-
 		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
 			setContentView(R.layout.activity_main_menu_splashscreen);
 			prepareStandaloneProject();
 			return;
 		}
 
-		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.fragment_container, new MainMenuFragment(), MainMenuFragment.TAG)
-				.commit();
-		showContentView(FRAGMENT);
+		setContentView(R.layout.activity_main_menu);
+		setSupportActionBar(findViewById(R.id.toolbar));
+		getSupportActionBar().setIcon(R.drawable.pc_toolbar_icon);
+		getSupportActionBar().setTitle(R.string.app_name);
 
+		setShowProgressBar(true);
+
+		FacebookSdk.sdkInitialize(getApplicationContext());
 		if (SettingsFragment.isCastSharedPreferenceEnabled(this)) {
 			CastManager.getInstance().initializeCast(this);
 		}
 
-		if (EXTERNAL_STORAGE_ROOT_DIRECTORY.exists()) {
-			new RequiresPermissionTask(REQUEST_PERMISSIONS_MAIN_STORAGE,
+		boolean checkForProjectsInExternalStorage = PreferenceManager.getDefaultSharedPreferences(this)
+				.getBoolean(SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG, true);
+
+		if (checkForProjectsInExternalStorage) {
+			new RequiresPermissionTask(REQUEST_PERMISSIONS_MOVE_TO_INTERNAL_STORAGE,
 					Arrays.asList(WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE),
 					R.string.runtime_permission_general) {
 				public void task() {
-					new ImportProjectsFromExternalStorage(MainMenuActivity.this).showImportProjectsDialog();
+					if (sdCardContainsProjects()) {
+						importProjectsFromExternalStorage();
+					} else {
+						loadFragment();
+					}
 				}
 			}.execute(this);
+		} else {
+			loadFragment();
 		}
 	}
 
-	private void showContentView(@Content int content) {
-		View progressBar = findViewById(R.id.progress_bar);
-		View fragment = findViewById(R.id.fragment_container);
-		View errorView = findViewById(R.id.runtime_permission_error_view);
-
-		switch (content) {
-			case PROGRESS_BAR:
-				fragment.setVisibility(View.GONE);
-				errorView.setVisibility(View.GONE);
-				progressBar.setVisibility(View.VISIBLE);
-				break;
-			case FRAGMENT:
-				fragment.setVisibility(View.VISIBLE);
-				errorView.setVisibility(View.GONE);
-				progressBar.setVisibility(View.GONE);
-				break;
-			case ERROR:
-				fragment.setVisibility(View.GONE);
-				errorView.setVisibility(View.VISIBLE);
-				progressBar.setVisibility(View.GONE);
-				break;
+	private boolean sdCardContainsProjects() {
+		if (EXTERNAL_STORAGE_ROOT_DIRECTORY.isDirectory()) {
+			for (File project : EXTERNAL_STORAGE_ROOT_DIRECTORY.listFiles()) {
+				if (project.isDirectory()
+						&& !project.getName().equals(Constants.BACKPACK_DIRECTORY.getName())
+						&& !project.getName().equals("tmp")
+						&& new File(project, CODE_XML_FILE_NAME).exists()) {
+					return true;
+				}
+			}
 		}
+		return false;
+	}
+
+	private void loadFragment() {
+		getSupportFragmentManager().beginTransaction()
+				.replace(R.id.fragment_container, new MainMenuFragment(), MainMenuFragment.TAG)
+				.commit();
+		setShowProgressBar(false);
+
+		Intent intent = getIntent();
+		if (intent != null
+				&& intent.getAction() != null
+				&& intent.getAction().equals("android.intent.action.VIEW")
+				&& intent.getData() != null) {
+			Uri shareUri = intent.getData();
+
+			Intent webIntent = new Intent(this, WebViewActivity.class);
+			webIntent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, shareUri.toString());
+			startActivity(webIntent);
+		}
+	}
+
+	private void importProjectsFromExternalStorage() {
+		ProjectManager.getInstance().setCurrentProject(null);
+
+		PreferenceManager.getDefaultSharedPreferences(this)
+				.edit().putBoolean(SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG, false)
+				.apply();
+
+		List<File> dirs = new ArrayList<>();
+
+		for (File dir : EXTERNAL_STORAGE_ROOT_DIRECTORY.listFiles()) {
+			if (dir.getName().equals(BACKPACK_DIRECTORY.getName())) {
+				try {
+					if (BACKPACK_DIRECTORY.exists()) {
+						StorageOperations.deleteDir(BACKPACK_DIRECTORY);
+					}
+					StorageOperations.copyDir(dir, BACKPACK_DIRECTORY);
+				} catch (IOException e) {
+					Log.e(TAG, "Cannot import backpack from external storage", e);
+				}
+			} else if (dir.getName().equals(TMP_DIR_NAME)) {
+				try {
+					StorageOperations.deleteDir(dir);
+				} catch (IOException e) {
+					Log.e(TAG, "Cannot delete legacy cache dir at: " + dir.getAbsolutePath(), e);
+				}
+			} else {
+				dirs.add(dir);
+			}
+		}
+
+		new AlertDialog.Builder(this)
+				.setTitle(R.string.import_dialog_title)
+				.setCancelable(false)
+				.setMessage(R.string.import_dialog_message)
+				.setPositiveButton(R.string.import_dialog_move_btn, (dialog, which) -> new ProjectImportTask()
+						.setListener(projectMoveListener)
+						.execute(dirs.toArray(new File[0])))
+				.setNeutralButton(R.string.import_dialog_copy_btn, (dialog, which) -> new ProjectImportTask()
+						.setListener(projectCopyListener)
+						.execute(dirs.toArray(new File[0])))
+				.show();
+	}
+
+	private void setShowProgressBar(boolean show) {
+		findViewById(R.id.progress_bar).setVisibility(show ? View.VISIBLE : View.GONE);
+		findViewById(R.id.fragment_container).setVisibility(show ? View.GONE : View.VISIBLE);
 	}
 
 	@Override
@@ -201,7 +282,8 @@ public class MainMenuActivity extends BaseCastActivity implements ProjectLoaderT
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 
 		if (currentProject != null) {
-			ProjectManager.getInstance().saveProject(getApplicationContext());
+			new ProjectSaveTask(currentProject, getApplicationContext())
+					.execute();
 			PreferenceManager.getDefaultSharedPreferences(this)
 					.edit()
 					.putString(PREF_PROJECTNAME_KEY, currentProject.getName())
@@ -285,16 +367,21 @@ public class MainMenuActivity extends BaseCastActivity implements ProjectLoaderT
 	private void prepareStandaloneProject() {
 		try {
 			InputStream inputStream = getAssets().open(BuildConfig.START_PROJECT + ".zip");
-			new ZipArchiver().unzip(inputStream, new File(PathBuilder.buildProjectPath(BuildConfig.PROJECT_NAME)));
-			new ProjectLoaderTask(this, this).execute(BuildConfig.PROJECT_NAME);
+			File projectDir = new File(DEFAULT_ROOT_DIRECTORY,
+					FileMetaDataExtractor.encodeSpecialCharsForFileSystem(BuildConfig.PROJECT_NAME));
+			new ZipArchiver()
+					.unzip(inputStream, projectDir);
+			new ProjectLoadTask(projectDir, this)
+					.setListener(this)
+					.execute();
 		} catch (IOException e) {
-			Log.e("STANDALONE", "Could not unpack Standalone Program: ", e);
+			Log.e("STANDALONE", "Cannot unpack standalone project: ", e);
 		}
 	}
 
 	@Override
-	public void onLoadFinished(boolean success, String message) {
-		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
+	public void onLoadFinished(boolean success) {
+		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED && success) {
 			startActivityForResult(
 					new Intent(this, StageActivity.class), StageActivity.REQUEST_START_STAGE);
 		}

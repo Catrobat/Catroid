@@ -149,7 +149,7 @@ public class CameraPermissionSpriteActivityTest {
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		Sprite testSprite = new Sprite();
 		project.getDefaultScene().addSprite(testSprite);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
 		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 	}

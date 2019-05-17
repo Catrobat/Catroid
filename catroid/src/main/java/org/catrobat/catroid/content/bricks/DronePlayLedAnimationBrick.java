@@ -34,14 +34,17 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
-import java.util.List;
-
 public class DronePlayLedAnimationBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
 
 	private String ledAnimationName;
 	private transient ARDRONE_LED_ANIMATION ledAnimation;
+
+	public DronePlayLedAnimationBrick() {
+		ledAnimation = ARDRONE_LED_ANIMATION.ARDRONE_LED_ANIMATION_BLINK_GREEN;
+		ledAnimationName = ledAnimation.name();
+	}
 
 	public DronePlayLedAnimationBrick(ARDRONE_LED_ANIMATION ledAnimation) {
 		this.ledAnimation = ledAnimation;
@@ -91,9 +94,8 @@ public class DronePlayLedAnimationBrick extends BrickBaseType {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createDronePlayLedAnimationAction(ledAnimation));
-		return null;
 	}
 
 	@Override

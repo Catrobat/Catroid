@@ -110,6 +110,14 @@ public class LookController {
 	}
 
 	private boolean compareByChecksum(File file1, File file2) {
+		// The backpack uses this method and because the backpack does not correctly
+		// de-serialize LookData references we can end up with a new LookData that has a null file reference
+		// although we actually need one that already exists. so the workaround here (prevents a lot of crashes) is
+		// to just hope that copying bricks with references to files always happens after the LookDatas are copied.
+		if (file1 == null || file2 == null) {
+			return true;
+		}
+
 		String checksum1 = Utils.md5Checksum(file1);
 		String checksum2 = Utils.md5Checksum(file2);
 

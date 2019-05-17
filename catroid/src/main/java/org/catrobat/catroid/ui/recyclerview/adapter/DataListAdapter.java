@@ -31,6 +31,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.ListWithoutDuplicates;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -275,7 +276,7 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 	}
 
 	public List<UserData> getItems() {
-		List<UserData> items = new ArrayList<>();
+		List<UserData> items = new ListWithoutDuplicates<>();
 		items.addAll(globalVarAdapter.getItems());
 		items.addAll(localVarAdapter.getItems());
 		items.addAll(globalListAdapter.getItems());
@@ -284,14 +285,14 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 	}
 
 	public List<UserVariable> getVariables() {
-		List<UserVariable> items = new ArrayList<>();
+		List<UserVariable> items = new ListWithoutDuplicates<>();
 		items.addAll(globalVarAdapter.getItems());
 		items.addAll(localVarAdapter.getItems());
 		return items;
 	}
 
 	public List<UserList> getLists() {
-		List<UserList> items = new ArrayList<>();
+		List<UserList> items = new ListWithoutDuplicates<>();
 		items.addAll(globalListAdapter.getItems());
 		items.addAll(localListAdapter.getItems());
 		return items;

@@ -30,8 +30,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 
-import java.util.List;
-
 public class LegoEv3PlayToneBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
@@ -72,16 +70,15 @@ public class LegoEv3PlayToneBrick extends FormulaBrick {
 	}
 
 	@Override
-	protected BrickField getDefaultBrickField() {
+	public BrickField getDefaultBrickField() {
 		return BrickField.LEGO_EV3_DURATION_IN_SECONDS;
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createLegoEv3PlayToneAction(sprite,
 				getFormulaWithBrickField(BrickField.LEGO_EV3_FREQUENCY),
 				getFormulaWithBrickField(BrickField.LEGO_EV3_DURATION_IN_SECONDS),
 				getFormulaWithBrickField(BrickField.LEGO_EV3_VOLUME)));
-		return null;
 	}
 }

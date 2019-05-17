@@ -30,7 +30,6 @@ import com.google.common.io.Files;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.content.LegoNXTSetting;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
@@ -40,8 +39,8 @@ import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
+import org.catrobat.catroid.content.bricks.DroneMoveForwardBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
@@ -50,15 +49,13 @@ import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
-import org.catrobat.catroid.drone.ardrone.DroneBrickFactory;
-import org.catrobat.catroid.exceptions.CompatibilityProjectException;
-import org.catrobat.catroid.exceptions.LoadingProjectException;
-import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
+import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
+import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.junit.After;
@@ -81,7 +78,6 @@ import static junit.framework.Assert.assertTrue;
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.PERMISSIONS_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.TMP_CODE_XML_FILE_NAME;
-import static org.catrobat.catroid.utils.PathBuilder.buildProjectPath;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.number.OrderingComparison.greaterThan;
@@ -106,15 +102,12 @@ public class XstreamSerializerTest {
 	@Before
 	public void setUp() throws Exception {
 		TestUtils.deleteProjects(projectName);
-		DefaultProjectHandler.createAndSaveDefaultProject(InstrumentationRegistry.getTargetContext());
-
 		currentProjectBuffer = ProjectManager.getInstance().getCurrentProject();
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		ProjectManager.getInstance().setProject(currentProjectBuffer);
-
+		ProjectManager.getInstance().setCurrentProject(currentProjectBuffer);
 		TestUtils.deleteProjects(projectName);
 	}
 
@@ -152,9 +145,11 @@ public class XstreamSerializerTest {
 		project.getDefaultScene().addSprite(thirdSprite);
 		project.getDefaultScene().addSprite(fourthSprite);
 
-		storageHandler.saveProject(project);
+		ProjectSaveTask
+				.task(project, InstrumentationRegistry.getTargetContext());
 
-		Project loadedProject = storageHandler.loadProject(projectName, InstrumentationRegistry.getContext());
+		Project loadedProject = XstreamSerializer.getInstance()
+				.loadProject(project.getDirectory(), InstrumentationRegistry.getContext());
 
 		Scene preScene = project.getDefaultScene();
 		Scene postScene = loadedProject.getDefaultScene();
@@ -220,8 +215,8 @@ public class XstreamSerializerTest {
 		project.getDefaultScene().addSprite(thirdSprite);
 		project.getDefaultScene().addSprite(fourthSprite);
 
-		File tmpCodeFile = new File(buildProjectPath(project.getName()), TMP_CODE_XML_FILE_NAME);
-		File currentCodeFile = new File(buildProjectPath(project.getName()), CODE_XML_FILE_NAME);
+		File tmpCodeFile = new File(project.getDirectory(), TMP_CODE_XML_FILE_NAME);
+		File currentCodeFile = new File(project.getDirectory(), CODE_XML_FILE_NAME);
 
 		assertFalse(tmpCodeFile.exists());
 		assertFalse(currentCodeFile.exists());
@@ -267,10 +262,10 @@ public class XstreamSerializerTest {
 	@Test
 	public void testWritePermissionFile() throws IOException {
 		Project project = generateMultiplePermissionsProject();
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		XstreamSerializer.getInstance().saveProject(project);
 
-		File permissionsFile = new File(buildProjectPath(project.getName()), PERMISSIONS_FILE_NAME);
+		File permissionsFile = new File(project.getDirectory(), PERMISSIONS_FILE_NAME);
 		assertTrue(permissionsFile.exists());
 
 		//only for assertions. Add future permission; Vibration and LED not activated
@@ -288,20 +283,21 @@ public class XstreamSerializerTest {
 	}
 
 	@Test
-	public void testSerializeSettings() throws CompatibilityProjectException, OutdatedVersionProjectException,
-			LoadingProjectException {
+	public void testSerializeSettings() {
 		NXTSensor.Sensor[] sensorMapping = new NXTSensor.Sensor[] {
-				NXTSensor.Sensor.TOUCH, NXTSensor.Sensor.SOUND,
-				NXTSensor.Sensor.LIGHT_INACTIVE, NXTSensor.Sensor.ULTRASONIC
+				NXTSensor.Sensor.TOUCH,
+				NXTSensor.Sensor.SOUND,
+				NXTSensor.Sensor.LIGHT_INACTIVE,
+				NXTSensor.Sensor.ULTRASONIC
 		};
 
 		Project project = generateMultiplePermissionsProject();
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 
-		String projectName = project.getName();
 		SettingsFragment.setLegoMindstormsNXTSensorMapping(InstrumentationRegistry.getTargetContext(), sensorMapping);
 
-		ProjectManager.getInstance().saveProject(InstrumentationRegistry.getTargetContext());
+		ProjectSaveTask.task(project, InstrumentationRegistry.getTargetContext());
+
 		Setting setting = project.getSettings().get(0);
 
 		assertTrue(setting instanceof LegoNXTSetting);
@@ -319,10 +315,11 @@ public class XstreamSerializerTest {
 		NXTSensor.Sensor[] changedSensorMapping = sensorMapping.clone();
 		changedSensorMapping[0] = NXTSensor.Sensor.LIGHT_ACTIVE;
 
-		SettingsFragment.setLegoMindstormsNXTSensorMapping(InstrumentationRegistry.getTargetContext(), changedSensorMapping);
+		SettingsFragment
+				.setLegoMindstormsNXTSensorMapping(InstrumentationRegistry.getTargetContext(), changedSensorMapping);
 
-		ProjectManager.getInstance().setProject(null);
-		ProjectManager.getInstance().loadProject(projectName, InstrumentationRegistry.getTargetContext());
+		assertTrue(ProjectLoadTask
+				.task(project.getDirectory(), InstrumentationRegistry.getTargetContext()));
 
 		actualSensorMapping = SettingsFragment.getLegoNXTSensorMapping(InstrumentationRegistry.getTargetContext());
 
@@ -360,9 +357,9 @@ public class XstreamSerializerTest {
 				new Formula(
 						new FormulaElement(FormulaElement.ElementType.SENSOR, Sensors.FACE_SIZE.name(), null)));
 
-		BrickBaseType moveBrick = DroneBrickFactory.getInstanceOfDroneBrick(
-				DroneBrickFactory.DroneBricks.DRONE_MOVE_FORWARD_BRICK,
-				DEFAULT_MOVE_TIME_IN_MILLISECONDS, DEFAULT_MOVE_POWER_IN_PERCENT);
+		Brick moveBrick = new DroneMoveForwardBrick(
+				DEFAULT_MOVE_TIME_IN_MILLISECONDS,
+				DEFAULT_MOVE_POWER_IN_PERCENT);
 
 		Sprite firstSprite = new SingleSprite("first");
 		Script testScript = new StartScript();
@@ -386,11 +383,15 @@ public class XstreamSerializerTest {
 
 	@Test
 	public void testExtractDefaultSceneNameFromXml() {
-		final String firstSceneName = "First Scene";
-		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
-		project.getSceneList().get(0).setName(firstSceneName);
-		storageHandler.saveProject(project);
+		String firstSceneName = "First Scene";
 
-		assertEquals(firstSceneName, XstreamSerializer.extractDefaultSceneNameFromXml(projectName));
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+
+		project.getSceneList().get(0).setName(firstSceneName);
+
+		ProjectSaveTask
+				.task(project, InstrumentationRegistry.getTargetContext());
+
+		assertEquals(firstSceneName, XstreamSerializer.extractDefaultSceneNameFromXml(project.getDirectory()));
 	}
 }

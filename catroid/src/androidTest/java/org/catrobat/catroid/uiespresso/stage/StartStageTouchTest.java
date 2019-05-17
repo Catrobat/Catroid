@@ -22,6 +22,7 @@
  */
 
 package org.catrobat.catroid.uiespresso.stage;
+
 import android.support.test.InstrumentationRegistry;
 
 import org.catrobat.catroid.ProjectManager;
@@ -31,7 +32,6 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
-import org.catrobat.catroid.content.bricks.LoopEndlessBrick;
 import org.catrobat.catroid.content.bricks.SceneStartBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.WaitUntilBrick;
@@ -64,7 +64,7 @@ import static org.catrobat.catroid.uiespresso.util.UserVariableAssertions.assert
 
 @Category({Cat.AppUi.class, Level.Smoke.class})
 public class StartStageTouchTest {
-	private String scene2Name = "Scene2";
+
 	private UserVariable screenIsTouchedUserVariable = null;
 
 	@Rule
@@ -73,7 +73,7 @@ public class StartStageTouchTest {
 
 	@Before
 	public void setUp() throws Exception {
-		createProject("StartStageTouchTest");
+		createProject();
 		baseActivityTestRule.launchActivity(null);
 	}
 
@@ -85,29 +85,36 @@ public class StartStageTouchTest {
 		onView(isFocusable()).perform(StageTestTouchUtils.touchUp(50, 50));
 		assertUserVariableEqualsWithTimeout(screenIsTouchedUserVariable, 0, 500);
 	}
-	private void createProject(String projectName) {
+
+	private void createProject() {
+		String projectName = getClass().getSimpleName();
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+
+		String scene2Name = "Scene2";
+		Scene scene2 = new Scene(scene2Name, project);
+
 		screenIsTouchedUserVariable = new UserVariable("ScreenTouched");
-		project.getProjectVariables().add(screenIsTouchedUserVariable);
+		project.addUserVariable(screenIsTouchedUserVariable);
 
 		Script background1StartScript = new StartScript();
 		background1StartScript.addBrick(new WaitUntilBrick(createFormulaWithSensor(Sensors.FINGER_TOUCHED)));
-		background1StartScript.addBrick(new SceneStartBrick(scene2Name));
+
+		background1StartScript.addBrick(new SceneStartBrick("Scene2"));
 		Scene scene1 = project.getDefaultScene();
 		scene1.getBackgroundSprite().addScript(background1StartScript);
 
-		Scene scene2 = new Scene(scene2Name, project);
 		scene2.addSprite(new Sprite("Background"));
+
 		Script background2StartScript = new StartScript();
 		ForeverBrick foreverBrick = new ForeverBrick();
+		foreverBrick.addBrick(
+				new SetVariableBrick(createFormulaWithSensor(Sensors.FINGER_TOUCHED), screenIsTouchedUserVariable));
 		background2StartScript.addBrick(foreverBrick);
-		background2StartScript.addBrick(new SetVariableBrick(createFormulaWithSensor(Sensors.FINGER_TOUCHED),
-				screenIsTouchedUserVariable));
-		background2StartScript.addBrick(new LoopEndlessBrick(foreverBrick));
+
 		scene2.getBackgroundSprite().addScript(background2StartScript);
 		project.addScene(scene2);
 
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setStartScene(scene1);
 	}
 

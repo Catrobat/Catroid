@@ -23,31 +23,37 @@
 package org.catrobat.catroid;
 
 import android.content.Context;
-import android.os.AsyncTask;
-import android.preference.PreferenceManager;
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DefaultProjectHandler;
+import org.catrobat.catroid.common.DefaultProjectHandler.ProjectCreatorType;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.CollisionScript;
+import org.catrobat.catroid.content.LegoEV3Setting;
+import org.catrobat.catroid.content.LegoNXTSetting;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Setting;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.backwardcompatibility.BrickTreeBuilder;
+import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.UserBrick;
+import org.catrobat.catroid.content.bricks.Brick.BrickField;
+import org.catrobat.catroid.content.bricks.FormulaBrick;
+import org.catrobat.catroid.content.bricks.SetPenColorBrick;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
+import org.catrobat.catroid.exceptions.ProjectException;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
-import org.catrobat.catroid.ui.recyclerview.controller.BrickController;
+import org.catrobat.catroid.physics.PhysicsCollision;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
-import org.catrobat.catroid.utils.PathBuilder;
-import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -55,7 +61,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.catrobat.catroid.common.Constants.PREF_PROJECTNAME_KEY;
+import static org.catrobat.catroid.common.Constants.CURRENT_CATROBAT_LANGUAGE_VERSION;
 
 public final class ProjectManager {
 
@@ -67,9 +73,6 @@ public final class ProjectManager {
 	private Scene currentlyPlayingScene;
 	private Scene startScene;
 	private Sprite currentSprite;
-	private UserBrick currentUserBrick;
-
-	private BrickController brickController = new BrickController();
 
 	private ProjectManager() {
 	}
@@ -78,41 +81,37 @@ public final class ProjectManager {
 		return INSTANCE;
 	}
 
-	public void loadProject(String projectName, Context context) throws LoadingProjectException,
-			OutdatedVersionProjectException,
-			CompatibilityProjectException {
+	public void loadProject(File projectDir, Context context) throws ProjectException {
 
 		Project previousProject = project;
 
 		try {
-			project = XstreamSerializer.getInstance().loadProject(projectName, context);
+			project = XstreamSerializer.getInstance().loadProject(projectDir, context);
 		} catch (IOException e) {
 			Log.e(TAG, Log.getStackTraceString(e));
 			restorePreviousProject(previousProject);
 			throw new LoadingProjectException(context.getString(R.string.error_load_project));
 		}
 
-		if (project.getCatrobatLanguageVersion() > Constants.CURRENT_CATROBAT_LANGUAGE_VERSION) {
+		if (project.getCatrobatLanguageVersion() > CURRENT_CATROBAT_LANGUAGE_VERSION) {
 			restorePreviousProject(previousProject);
 			throw new OutdatedVersionProjectException(context.getString(R.string.error_outdated_version));
 		}
 
 		if (project.getCatrobatLanguageVersion() == 0.8f) {
-			//TODO insert in every "When project starts" script list a "showDialog" brick
 			project.setCatrobatLanguageVersion(0.9f);
 		}
 		if (project.getCatrobatLanguageVersion() == 0.9f) {
 			project.setCatrobatLanguageVersion(0.91f);
-			//no convertion needed - only change to white background
 		}
 		if (project.getCatrobatLanguageVersion() == 0.91f) {
 			project.setCatrobatLanguageVersion(0.92f);
 			project.setScreenMode(ScreenModes.STRETCH);
 		}
-
-		if (project.getCatrobatLanguageVersion() == 0.92f || project.getCatrobatLanguageVersion() == 0.93f) {
-			//0.93 should be left out because it available unintentional for a day
-			//raise language version here to 0.94
+		if (project.getCatrobatLanguageVersion() == 0.92f) {
+			project.setCatrobatLanguageVersion(0.93f);
+		}
+		if (project.getCatrobatLanguageVersion() == 0.93f) {
 			project.setCatrobatLanguageVersion(0.94f);
 		}
 		if (project.getCatrobatLanguageVersion() == 0.94f) {
@@ -134,24 +133,22 @@ public final class ProjectManager {
 			project.setCatrobatLanguageVersion(0.991f);
 		}
 		if (project.getCatrobatLanguageVersion() == 0.991f) {
-			//With the introduction of grouping there are several Sprite-classes
-			//This is simply done in XStreamSpriteConverter
 			project.setCatrobatLanguageVersion(0.992f);
 		}
 		if (project.getCatrobatLanguageVersion() == 0.992f) {
-			project.updateCollisionFormulasToVersion(0.993f);
+			updateCollisionFormulasTo993(project);
 			project.setCatrobatLanguageVersion(0.993f);
 		}
 		if (project.getCatrobatLanguageVersion() == 0.993f) {
-			project.updateSetPenColorFormulas();
+			updateSetPenColorFormulasTo994(project);
 			project.setCatrobatLanguageVersion(0.994f);
 		}
 		if (project.getCatrobatLanguageVersion() == 0.994f) {
-			project.updateArduinoValues994to995();
+			updateArduinoValuesTo995(project);
 			project.setCatrobatLanguageVersion(0.995f);
 		}
 		if (project.getCatrobatLanguageVersion() == 0.995f) {
-			project.updateCollisionScripts();
+			updateCollisionScriptsTo996(project);
 			project.setCatrobatLanguageVersion(0.996f);
 		}
 		if (project.getCatrobatLanguageVersion() == 0.996f) {
@@ -161,24 +158,37 @@ public final class ProjectManager {
 			project.setCatrobatLanguageVersion(0.998f);
 		}
 		if (project.getCatrobatLanguageVersion() == 0.998f) {
-			project.setCatrobatLanguageVersion(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
+			project.setCatrobatLanguageVersion(0.999f);
+		}
+		if (project.getCatrobatLanguageVersion() == 0.999f) {
+			makeShallowCopiesDeepAgain(project);
+			project.setCatrobatLanguageVersion(0.9991f);
+		}
+		if (project.getCatrobatLanguageVersion() == 0.9991f) {
+			project.setCatrobatLanguageVersion(0.9992f);
+			project.setCatrobatLanguageVersion(0.9992f);
+		}
+		if (project.getCatrobatLanguageVersion() == 0.9992f) {
+			project.setCatrobatLanguageVersion(0.9993f);
+		}
+		if (project.getCatrobatLanguageVersion() == 0.9993f) {
+			updateScriptsToTreeStructure(project);
+			project.setCatrobatLanguageVersion(0.9994f);
+		}
+		if (project.getCatrobatLanguageVersion() == 0.9994f) {
+			project.setCatrobatLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION);
 		}
 
-		//insert further conversions here
-
-		makeShallowCopiesDeepAgain(project);
-		setControlBrickReferences(project);
-		updateCollisionScriptsSpriteReference(project);
-
-		if (project.getCatrobatLanguageVersion() == Constants.CURRENT_CATROBAT_LANGUAGE_VERSION) {
-			localizeBackgroundSprite(context);
-		} else {
+		if (project.getCatrobatLanguageVersion() != CURRENT_CATROBAT_LANGUAGE_VERSION) {
 			restorePreviousProject(previousProject);
-			throw new CompatibilityProjectException(context.getString(R.string.error_project_compatability));
+			throw new CompatibilityProjectException(context.getString(R.string.error_project_compatibility));
 		}
 
-		project.loadLegoNXTSettingsFromProject(context);
-		project.loadLegoEV3SettingsFromProject(context);
+		localizeBackgroundSprites(project, context.getString(R.string.background));
+		initializeScripts(project);
+
+		loadLegoNXTSettingsFromProject(project, context);
+		loadLegoEV3SettingsFromProject(project, context);
 
 		Brick.ResourcesSet resourcesSet = project.getRequiredResources();
 
@@ -195,6 +205,7 @@ public final class ProjectManager {
 		}
 
 		currentlyPlayingScene = project.getDefaultScene();
+		currentSprite = null;
 	}
 
 	private void restorePreviousProject(Project previousProject) {
@@ -204,7 +215,7 @@ public final class ProjectManager {
 		}
 	}
 
-	private void makeShallowCopiesDeepAgain(Project project) {
+	private static void makeShallowCopiesDeepAgain(Project project) {
 		for (Scene scene : project.getSceneList()) {
 
 			List<String> fileNames = new ArrayList<>();
@@ -218,7 +229,7 @@ public final class ProjectManager {
 							lookData.setFile(StorageOperations.duplicateFile(lookData.getFile()));
 						} catch (IOException e) {
 							iterator.remove();
-							Log.e(TAG, "Cannot not copy: " + lookData.getFile().getAbsolutePath()
+							Log.e(TAG, "Cannot copy: " + lookData.getFile().getAbsolutePath()
 									+ ", removing LookData " + lookData.getName() + " from "
 									+ project.getName() + ", "
 									+ scene.getName() + ", "
@@ -236,7 +247,7 @@ public final class ProjectManager {
 							soundInfo.setFile(StorageOperations.duplicateFile(soundInfo.getFile()));
 						} catch (IOException e) {
 							iterator.remove();
-							Log.e(TAG, "Cannot not copy: " + soundInfo.getFile().getAbsolutePath()
+							Log.e(TAG, "Cannot copy: " + soundInfo.getFile().getAbsolutePath()
 									+ ", removing SoundInfo " + soundInfo.getName() + " from "
 									+ project.getName() + ", "
 									+ scene.getName() + ", "
@@ -248,6 +259,7 @@ public final class ProjectManager {
 			}
 		}
 	}
+
 
 	private void localizeBackgroundSprite(Context context) {
 
@@ -262,25 +274,129 @@ public final class ProjectManager {
 		if (currentlyEditedScene.getSpriteList().size() > 0) {
 			currentlyEditedScene.getSpriteList().get(0).setName(context.getString(R.string.background));
 			currentlyEditedScene.getSpriteList().get(0).look.setZIndex(0);
-		}
-		currentSprite = null;
+    }
+  }
 
-		PreferenceManager.getDefaultSharedPreferences(context)
-				.edit()
-				.putString(PREF_PROJECTNAME_KEY, project.getName())
-				.commit();
+	private static void initializeScripts(Project project) {
+		for (Scene scene : project.getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				for (Script script : sprite.getScriptList()) {
+					script.setParents();
+
+					if (script instanceof CollisionScript) {
+						((CollisionScript) script).updateSpriteToCollideWith(scene);
+					}
+				}
+			}
+		}
 	}
 
-	public void saveProject(Context context) {
-		if (project == null) {
-			return;
+	private static void loadLegoNXTSettingsFromProject(Project project, Context context) {
+		for (Setting setting : project.getSettings()) {
+			if (setting instanceof LegoNXTSetting) {
+				SettingsFragment.enableLegoMindstormsNXTBricks(context);
+				SettingsFragment.setLegoMindstormsNXTSensorMapping(context, ((LegoNXTSetting) setting).getSensorMapping());
+				return;
+			}
 		}
+	}
 
-		project.saveLegoNXTSettingsToProject(context);
-		project.saveLegoEV3SettingsToProject(context);
+	private static void loadLegoEV3SettingsFromProject(Project project, Context context) {
+		for (Setting setting : project.getSettings()) {
+			if (setting instanceof LegoEV3Setting) {
+				SettingsFragment.enableLegoMindstormsEV3Bricks(context);
+				SettingsFragment.setLegoMindstormsEV3SensorMapping(context, ((LegoEV3Setting) setting).getSensorMapping());
+				return;
+			}
+		}
+	}
 
-		SaveProjectAsynchronousTask saveTask = new SaveProjectAsynchronousTask();
-		saveTask.execute();
+	@VisibleForTesting
+	public static void updateCollisionFormulasTo993(Project project) {
+		for (Scene scene : project.getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				for (Script script : sprite.getScriptList()) {
+					Brick scriptBrick = script.getScriptBrick();
+					if (scriptBrick instanceof FormulaBrick) {
+						FormulaBrick formulaBrick = (FormulaBrick) scriptBrick;
+						for (Formula formula : formulaBrick.getFormulas()) {
+							formula.updateCollisionFormulasToVersion();
+						}
+					}
+					for (Brick brick : script.getBrickList()) {
+						if (brick instanceof FormulaBrick) {
+							FormulaBrick formulaBrick = (FormulaBrick) brick;
+							for (Formula formula : formulaBrick.getFormulas()) {
+								formula.updateCollisionFormulasToVersion();
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private static void updateSetPenColorFormulasTo994(Project project) {
+		for (Scene scene : project.getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				for (Script script : sprite.getScriptList()) {
+					for (Brick brick : script.getBrickList()) {
+						if (brick instanceof SetPenColorBrick) {
+							SetPenColorBrick spcBrick = (SetPenColorBrick) brick;
+							spcBrick.replaceFormulaBrickField(BrickField.PHIRO_LIGHT_RED, BrickField.PEN_COLOR_RED);
+							spcBrick.replaceFormulaBrickField(BrickField.PHIRO_LIGHT_GREEN, BrickField.PEN_COLOR_GREEN);
+							spcBrick.replaceFormulaBrickField(BrickField.PHIRO_LIGHT_BLUE, BrickField.PEN_COLOR_BLUE);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private static void updateArduinoValuesTo995(Project project) {
+		for (Scene scene : project.getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				for (Script script : sprite.getScriptList()) {
+					for (Brick brick : script.getBrickList()) {
+						if (brick instanceof ArduinoSendPWMValueBrick) {
+							ArduinoSendPWMValueBrick spcBrick = (ArduinoSendPWMValueBrick) brick;
+							spcBrick.updateArduinoValues994to995();
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private static void updateCollisionScriptsTo996(Project project) {
+		for (Scene scene : project.getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				for (Script script : sprite.getScriptList()) {
+					if (script instanceof CollisionScript) {
+						CollisionScript collisionScript = (CollisionScript) script;
+						String[] spriteNames = collisionScript.getSpriteToCollideWithName().split(PhysicsCollision.COLLISION_MESSAGE_CONNECTOR);
+						String spriteToCollideWith = spriteNames[0];
+						if (spriteNames[0].equals(sprite.getName())) {
+							spriteToCollideWith = spriteNames[1];
+						}
+						collisionScript.setSpriteToCollideWithName(spriteToCollideWith);
+					}
+				}
+			}
+		}
+	}
+
+	private static void updateScriptsToTreeStructure(Project project) {
+		for (Scene scene : project.getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				for (Script script : sprite.getScriptList()) {
+					BrickTreeBuilder brickTreeBuilder = new BrickTreeBuilder();
+					brickTreeBuilder.convertBricks(script.getBrickList());
+					script.getBrickList().clear();
+					script.getBrickList().addAll(brickTreeBuilder.toList());
+				}
+			}
+		}
 	}
 
 	public boolean initializeDefaultProject(Context context) {
@@ -296,29 +412,16 @@ public final class ProjectManager {
 		}
 	}
 
-	public void initializeNewProject(String projectName, Context context, boolean empty, boolean drone,
-			boolean landscapeMode, boolean castEnabled, boolean jumpingSumo)
-			throws IllegalArgumentException, IOException {
+	public void createNewEmptyProject(String name, Context context, boolean landscapeMode, boolean castEnabled) throws IOException {
+		project = DefaultProjectHandler.createAndSaveEmptyProject(name, context, landscapeMode, castEnabled);
+		currentSprite = null;
+		currentlyEditedScene = project.getDefaultScene();
+		currentlyPlayingScene = currentlyEditedScene;
+	}
 
-		if (empty) {
-			project = DefaultProjectHandler.createAndSaveEmptyProject(projectName, context, landscapeMode, castEnabled);
-		} else {
-			if (drone) {
-				DefaultProjectHandler.getInstance().setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType
-						.PROJECT_CREATOR_DRONE);
-			} else if (castEnabled) {
-				DefaultProjectHandler.getInstance().setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType
-						.PROJECT_CREATOR_CAST);
-			} else if (jumpingSumo) {
-				DefaultProjectHandler.getInstance().setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType
-						.PROJECT_CREATOR_JUMPING_SUMO);
-			} else {
-				DefaultProjectHandler.getInstance().setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType
-						.PROJECT_CREATOR_DEFAULT);
-			}
-			project = DefaultProjectHandler.createAndSaveDefaultProject(projectName, context, landscapeMode);
-		}
-
+	public void createNewExampleProject(String name, Context context, ProjectCreatorType projectCreatorType, boolean landscapeMode) throws IOException {
+		DefaultProjectHandler.getInstance().setDefaultProjectCreator(projectCreatorType);
+		project = DefaultProjectHandler.createAndSaveDefaultProject(name, context, landscapeMode);
 		currentSprite = null;
 		currentlyEditedScene = project.getDefaultScene();
 		currentlyPlayingScene = currentlyEditedScene;
@@ -364,50 +467,15 @@ public final class ProjectManager {
 		return virtualScreenWidth > virtualScreenHeight;
 	}
 
-	public void setProject(Project project) {
+	public void setCurrentProject(Project project) {
 		currentSprite = null;
 
 		this.project = project;
-		if (project != null) {
+
+		if (project != null && !project.getSceneList().isEmpty()) {
 			currentlyEditedScene = project.getDefaultScene();
 			currentlyPlayingScene = currentlyEditedScene;
 		}
-	}
-
-	public void setCurrentProject(Project project) {
-		this.project = project;
-	}
-
-	public boolean renameProject(String newProjectName, Context context) {
-		if (XstreamSerializer.getInstance().projectExists(newProjectName)) {
-			return false;
-		}
-
-		String oldProjectPath = PathBuilder.buildProjectPath(project.getName());
-		File oldProjectDirectory = new File(oldProjectPath);
-
-		String newProjectPath = PathBuilder.buildProjectPath(newProjectName);
-		File newProjectDirectory = new File(newProjectPath);
-
-		boolean directoryRenamed;
-
-		if (oldProjectPath.equalsIgnoreCase(newProjectPath)) {
-			String tmpProjectPath = PathBuilder.buildProjectPath(createTemporaryDirectoryName(newProjectName));
-			File tmpProjectDirectory = new File(tmpProjectPath);
-			directoryRenamed = oldProjectDirectory.renameTo(tmpProjectDirectory);
-			if (directoryRenamed) {
-				directoryRenamed = tmpProjectDirectory.renameTo(newProjectDirectory);
-			}
-		} else {
-			directoryRenamed = oldProjectDirectory.renameTo(newProjectDirectory);
-		}
-
-		if (directoryRenamed) {
-			project.setName(newProjectName);
-			saveProject(context);
-		}
-
-		return directoryRenamed;
 	}
 
 	public Sprite getCurrentSprite() {
@@ -419,66 +487,7 @@ public final class ProjectManager {
 	}
 
 	public void setCurrentlyEditedScene(Scene scene) {
-		this.currentlyEditedScene = scene;
+		currentlyEditedScene = scene;
 		currentlyPlayingScene = scene;
-	}
-
-	public UserBrick getCurrentUserBrick() {
-		return currentUserBrick;
-	}
-
-	public void setCurrentUserBrick(UserBrick brick) {
-		currentUserBrick = brick;
-	}
-
-	public int getCurrentSpritePosition() {
-		return getCurrentlyEditedScene().getSpriteList().indexOf(currentSprite);
-	}
-
-	private String createTemporaryDirectoryName(String projectDirectoryName) {
-		String temporaryDirectorySuffix = "_tmp";
-		String temporaryDirectoryName = projectDirectoryName + temporaryDirectorySuffix;
-		int suffixCounter = 0;
-		while (Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase(temporaryDirectoryName)) {
-			temporaryDirectoryName = projectDirectoryName + temporaryDirectorySuffix + suffixCounter;
-			suffixCounter++;
-		}
-		return temporaryDirectoryName;
-	}
-
-	public boolean setControlBrickReferences(Project project) {
-		boolean successfullySetReferences = true;
-
-		for (Scene scene : project.getSceneList()) {
-			for (Sprite sprite : scene.getSpriteList()) {
-				for (Script script : sprite.getScriptList()) {
-					successfullySetReferences &= brickController.setControlBrickReferences(script.getBrickList());
-				}
-			}
-		}
-
-		return successfullySetReferences;
-	}
-
-	private void updateCollisionScriptsSpriteReference(Project project) {
-		for (Scene scene : project.getSceneList()) {
-			for (Sprite sprite : scene.getSpriteList()) {
-				for (Script script : sprite.getScriptList()) {
-					if (script instanceof CollisionScript) {
-						CollisionScript collisionScript = (CollisionScript) script;
-						collisionScript.updateSpriteToCollideWith(scene);
-					}
-				}
-			}
-		}
-	}
-
-	private class SaveProjectAsynchronousTask extends AsyncTask<Void, Void, Void> {
-
-		@Override
-		protected Void doInBackground(Void... params) {
-			XstreamSerializer.getInstance().saveProject(project);
-			return null;
-		}
 	}
 }

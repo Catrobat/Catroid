@@ -30,8 +30,6 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 
-import java.util.List;
-
 public class SetGravityBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
@@ -46,7 +44,8 @@ public class SetGravityBrick extends FormulaBrick {
 	}
 
 	public SetGravityBrick(Formula gravityX, Formula gravityY) {
-		this();
+		addAllowedBrickField(BrickField.PHYSICS_GRAVITY_X, R.id.brick_set_gravity_edit_text_x);
+		addAllowedBrickField(BrickField.PHYSICS_GRAVITY_Y, R.id.brick_set_gravity_edit_text_y);
 		setFormulaWithBrickField(BrickField.PHYSICS_GRAVITY_X, gravityX);
 		setFormulaWithBrickField(BrickField.PHYSICS_GRAVITY_Y, gravityY);
 	}
@@ -63,15 +62,14 @@ public class SetGravityBrick extends FormulaBrick {
 	}
 
 	@Override
-	protected BrickField getDefaultBrickField() {
+	public BrickField getDefaultBrickField() {
 		return BrickField.PHYSICS_GRAVITY_X;
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSetGravityAction(sprite,
 				getFormulaWithBrickField(BrickField.PHYSICS_GRAVITY_X),
 				getFormulaWithBrickField(BrickField.PHYSICS_GRAVITY_Y)));
-		return null;
 	}
 }

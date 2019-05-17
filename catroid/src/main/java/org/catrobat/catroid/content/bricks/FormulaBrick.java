@@ -32,6 +32,7 @@ import android.widget.TextView;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -46,6 +47,7 @@ import java.util.List;
 
 public abstract class FormulaBrick extends BrickBaseType implements View.OnClickListener {
 
+	@XStreamAlias("formulaList")
 	ConcurrentFormulaHashMap formulaMap = new ConcurrentFormulaHashMap();
 
 	public transient BiMap<BrickField, Integer> brickFieldToTextViewIdMap = HashBiMap.create(2);
@@ -81,7 +83,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		}
 	}
 
-	void replaceFormulaBrickField(BrickField oldBrickField, BrickField newBrickField) {
+	public void replaceFormulaBrickField(BrickField oldBrickField, BrickField newBrickField) {
 		if (formulaMap.containsKey(oldBrickField)) {
 			Formula brickFormula = formulaMap.get(oldBrickField);
 			formulaMap.remove(oldBrickField);
@@ -90,7 +92,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 	}
 
 	@Override
-	public BrickBaseType clone() throws CloneNotSupportedException {
+	public Brick clone() throws CloneNotSupportedException {
 		FormulaBrick clone = (FormulaBrick) super.clone();
 		clone.formulaMap = formulaMap.clone();
 		return clone;
@@ -147,7 +149,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		}
 	}
 
-	protected BrickField getDefaultBrickField() {
+	public BrickField getDefaultBrickField() {
 		return formulaMap.keys().nextElement();
 	}
 

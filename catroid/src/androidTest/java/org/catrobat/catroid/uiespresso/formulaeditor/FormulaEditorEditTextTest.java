@@ -114,7 +114,7 @@ public class FormulaEditorEditTextTest {
 	@Category({Cat.CatrobatLanguage.class, Level.Smoke.class})
 	@Test
 	public void testFunctionDeletion() {
-		String random = getResourcesString(R.string.formula_editor_function_rand) + "(0,1)";
+		String random = getResourcesString(R.string.formula_editor_function_rand) + getResourcesString(R.string.formula_editor_function_rand_parameter);
 		onFormulaEditor()
 				.performOpenCategory(FUNCTIONS)
 				.performSelect(random);

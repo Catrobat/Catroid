@@ -25,14 +25,11 @@ package org.catrobat.catroid.test.common;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.DefaultProjectHandler;
-import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageOperations;
-import org.catrobat.catroid.stage.StageListener;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,30 +43,33 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
+import static org.catrobat.catroid.stage.StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME;
+import static org.catrobat.catroid.stage.StageListener.SCREENSHOT_MANUAL_FILE_NAME;
+
 @RunWith(AndroidJUnit4.class)
 public class DefaultProjectHandlerTest {
 
-	private String projectName = "defaultProject";
+	private Project project;
 
 	@Before
-	public void setUp() {
+	public void setUp() throws IOException {
 		DefaultProjectHandler.getInstance()
 				.setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType.PROJECT_CREATOR_DEFAULT);
+
+		String projectName = "defaultProject";
+
+		project = DefaultProjectHandler
+				.createAndSaveDefaultProject(projectName, InstrumentationRegistry.getTargetContext(), false);
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		StorageOperations.deleteDir(new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName));
+		StorageOperations.deleteDir(project.getDirectory());
 	}
 
 	@Test
-	public void testCreateScaledDefaultProject() throws IOException {
-		ProjectManager projectManager = ProjectManager.getInstance();
-		projectManager.setProject(DefaultProjectHandler.createAndSaveDefaultProject(projectName,
-				InstrumentationRegistry.getTargetContext()));
-
-		Project currentProject = projectManager.getCurrentProject();
-		Scene currentScene = currentProject.getDefaultScene();
+	public void testCreateScaledDefaultProject() {
+		Scene currentScene = project.getDefaultScene();
 		List<Sprite> spriteList = currentScene.getSpriteList();
 
 		assertEquals(4, spriteList.size());
@@ -85,14 +85,13 @@ public class DefaultProjectHandlerTest {
 	}
 
 	@Test
-	public void testDefaultProjectScreenshot() throws IOException {
-		DefaultProjectHandler.createAndSaveDefaultProject(projectName, InstrumentationRegistry.getTargetContext());
-		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+	public void testDefaultProjectScreenshot() {
+		Scene currentScene = project.getDefaultScene();
 
-		File file = new File(currentScene.getDirectory(), StageListener.SCREENSHOT_MANUAL_FILE_NAME);
+		File file = new File(currentScene.getDirectory(), SCREENSHOT_MANUAL_FILE_NAME);
 		assertFalse(file.exists());
 
-		file = new File(currentScene.getDirectory(), StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
+		file = new File(currentScene.getDirectory(), SCREENSHOT_AUTOMATIC_FILE_NAME);
 		assertTrue(file.exists());
 	}
 }

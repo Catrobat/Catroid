@@ -155,7 +155,7 @@ public class SpriteListFragmentActivityRecreateRegressionTest {
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), "spriteListFragmentTest");
 		Sprite sprite = new Sprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 	}

@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.stage;
 
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -32,10 +33,9 @@ import android.nfc.NfcAdapter;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.util.Log;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
@@ -75,6 +75,7 @@ import java.util.List;
 import java.util.Set;
 
 import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
 import static android.content.Context.VIBRATOR_SERVICE;
 
 import static org.catrobat.catroid.common.Constants.CATROBAT_TERMS_OF_USE_URL;
@@ -181,9 +182,10 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 			if (agreedToDroneTermsOfUsePermanently) {
 				onDroneTermsOfUseAgreed();
 			} else {
+				View dialogView = View.inflate(stageActivity, R.layout.dialog_terms_of_use, null);
 				final AlertDialog alertDialog = new AlertDialog.Builder(stageActivity)
 						.setTitle(R.string.dialog_terms_of_use_title)
-						.setView(R.layout.dialog_terms_of_use)
+						.setView(dialogView)
 						.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
@@ -216,6 +218,8 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 						urlView.setText(Html.fromHtml(url));
 					}
 				});
+
+				alertDialog.show();
 			}
 		}
 
@@ -225,9 +229,10 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 			if (agreedToDroneTermsOfUsePermanently) {
 				onJSDroneTermsOfUseAgreed();
 			} else {
+				View dialogView = View.inflate(stageActivity, R.layout.dialog_terms_of_use, null);
 				final AlertDialog alertDialog = new AlertDialog.Builder(stageActivity)
 						.setTitle(R.string.dialog_terms_of_use_title)
-						.setView(R.layout.dialog_terms_of_use)
+						.setView(dialogView)
 						.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
@@ -261,6 +266,8 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 						urlView.setText(Html.fromHtml(url));
 					}
 				});
+
+				alertDialog.show();
 			}
 		}
 
@@ -294,12 +301,11 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 
 		if (requiredResourcesSet.contains(Brick.CAMERA_FLASH)) {
 			CameraManager.makeInstance();
-			if (CameraManager.getInstance().switchToCameraWithFlash()) {
-				FlashUtil.initializeFlash();
-				resourceInitialized();
-			} else {
-				resourceFailed(Brick.CAMERA_FLASH);
+			if (CameraManager.getInstance().isCameraFlashAvailable()) {
+				CameraManager.getInstance().switchToCameraWithFlash();
 			}
+			FlashUtil.initializeFlash();
+			resourceInitialized();
 		}
 
 		if (requiredResourcesSet.contains(Brick.VIBRATOR)) {
@@ -398,9 +404,13 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 			connectRaspberrySocket();
 		}
 
-		if (requiredResourceCounter == 0) {
+		if (initFinished()) {
 			initFinishedRunStage();
 		}
+	}
+
+	public boolean initFinished() {
+		return requiredResourceCounter == 0 && failedResources.isEmpty();
 	}
 
 	public void initFinishedRunStage() {
@@ -430,11 +440,11 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 	public synchronized void resourceInitialized() {
 		requiredResourceCounter--;
 		if (requiredResourceCounter == 0) {
+
 			if (failedResources.isEmpty()) {
 				initFinishedRunStage();
 			} else {
 				showResourceFailedErrorDialog();
-				endStageActivity();
 			}
 		}
 	}
@@ -477,10 +487,6 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 				case Brick.CAMERA_FRONT:
 					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
 							.prestage_no_front_camera_available);
-					break;
-				case Brick.CAMERA_FLASH:
-					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
-							.prestage_no_flash_available);
 					break;
 				case Brick.VIBRATOR:
 					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
@@ -533,7 +539,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		switch (requestCode) {
 			case REQUEST_CONNECT_DEVICE:
 				switch (resultCode) {
-					case AppCompatActivity.RESULT_OK:
+					case RESULT_OK:
 						resourceInitialized();
 						break;
 

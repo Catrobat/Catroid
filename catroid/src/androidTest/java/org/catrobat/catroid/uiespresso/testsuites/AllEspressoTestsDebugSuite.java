@@ -23,13 +23,35 @@
 
 package org.catrobat.catroid.uiespresso.testsuites;
 
-import org.catrobat.catroid.uiespresso.SmokeTest;
+import org.catrobat.catroid.uiespresso.formulaeditor.FormulaEditorMovementPropertiesTest;
+import org.catrobat.catroid.uiespresso.intents.looks.gallery.LookFromGalleryIntentDismissTest;
+import org.catrobat.catroid.uiespresso.intents.looks.gallery.LookFromGalleryIntentTest;
+import org.catrobat.catroid.uiespresso.intents.looks.gallery.SpriteFromGalleryIntentDismissTest;
+import org.catrobat.catroid.uiespresso.intents.looks.gallery.SpriteFromGalleryIntentTest;
+import org.catrobat.catroid.uiespresso.intents.looks.paintroid.PocketPaintEditLookIntentTest;
+import org.catrobat.catroid.uiespresso.intents.looks.paintroid.PocketPaintNewLookDiscardIntentTest;
+import org.catrobat.catroid.uiespresso.intents.looks.paintroid.PocketPaintNewLookIntentTest;
+import org.catrobat.catroid.uiespresso.intents.looks.paintroid.PocketPaintNewSpriteDiscardIntentTest;
+import org.catrobat.catroid.uiespresso.intents.looks.paintroid.PocketPaintNewSpriteIntentTest;
+import org.catrobat.catroid.uiespresso.intents.sounds.gallery.SoundFromGalleryIntentDismissTest;
+import org.catrobat.catroid.uiespresso.intents.sounds.gallery.SoundFromGalleryIntentTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-		SmokeTest.class
+		FormulaEditorMovementPropertiesTest.class,
+		LookFromGalleryIntentDismissTest.class,
+		LookFromGalleryIntentTest.class,
+		SpriteFromGalleryIntentDismissTest.class,
+		SpriteFromGalleryIntentTest.class,
+		PocketPaintEditLookIntentTest.class,
+		PocketPaintNewLookDiscardIntentTest.class,
+		PocketPaintNewLookIntentTest.class,
+		PocketPaintNewSpriteDiscardIntentTest.class,
+		PocketPaintNewSpriteIntentTest.class,
+		SoundFromGalleryIntentDismissTest.class,
+		SoundFromGalleryIntentTest.class
 })
 public class AllEspressoTestsDebugSuite {
 }

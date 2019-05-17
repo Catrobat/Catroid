@@ -32,8 +32,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
-import java.util.List;
-
 public class LegoEv3MotorStopBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
@@ -42,6 +40,10 @@ public class LegoEv3MotorStopBrick extends BrickBaseType {
 
 	public enum Motor {
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_D, MOTOR_B_C, ALL_MOTORS
+	}
+
+	public LegoEv3MotorStopBrick() {
+		motor = Motor.MOTOR_A.name();
 	}
 
 	public LegoEv3MotorStopBrick(Motor motorEnum) {
@@ -84,8 +86,7 @@ public class LegoEv3MotorStopBrick extends BrickBaseType {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createLegoEv3MotorStopAction(Motor.valueOf(motor)));
-		return null;
 	}
 }

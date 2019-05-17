@@ -33,8 +33,6 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.ui.fragment.ColorSeekbar;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
-import java.util.List;
-
 public class SetPenColorBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
@@ -77,7 +75,7 @@ public class SetPenColorBrick extends FormulaBrick {
 	}
 
 	@Override
-	protected BrickField getDefaultBrickField() {
+	public BrickField getDefaultBrickField() {
 		return BrickField.PEN_COLOR_RED;
 	}
 
@@ -103,17 +101,10 @@ public class SetPenColorBrick extends FormulaBrick {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSetPenColorAction(sprite,
 				getFormulaWithBrickField(BrickField.PEN_COLOR_RED),
 				getFormulaWithBrickField(BrickField.PEN_COLOR_GREEN),
 				getFormulaWithBrickField(BrickField.PEN_COLOR_BLUE)));
-		return null;
-	}
-
-	public void correctBrickFieldsFromPhiro() {
-		replaceFormulaBrickField(BrickField.PHIRO_LIGHT_RED, BrickField.PEN_COLOR_RED);
-		replaceFormulaBrickField(BrickField.PHIRO_LIGHT_GREEN, BrickField.PEN_COLOR_GREEN);
-		replaceFormulaBrickField(BrickField.PHIRO_LIGHT_BLUE, BrickField.PEN_COLOR_BLUE);
 	}
 }

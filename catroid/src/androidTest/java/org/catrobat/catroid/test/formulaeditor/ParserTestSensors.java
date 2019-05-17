@@ -82,7 +82,7 @@ public class ParserTestSensors {
 	@UiThreadTest
 	public void setUp() throws Exception {
 		createProject();
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 	}
 

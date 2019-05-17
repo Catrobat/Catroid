@@ -102,7 +102,6 @@ public class PrivacyPolicyDialogFragment extends DialogFragment {
 						getActivity().startActivity(intent);
 					}
 				})
-				.create()
 				.show();
 	}
 }

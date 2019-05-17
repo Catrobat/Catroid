@@ -83,44 +83,6 @@ public class PenBricksTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void testPenDownBrick() {
-		int positionStartedBrick = 0;
-		int positionPenDownBrick = 1;
-
-		onBrickAtPosition(positionStartedBrick)
-				.checkShowsText(R.string.brick_when_started);
-		onBrickAtPosition(positionPenDownBrick)
-				.checkShowsText(R.string.brick_pen_down);
-	}
-
-	@Category({Cat.AppUi.class, Level.Smoke.class})
-	@Test
-	public void testPenUpBrick() {
-		int positionPenUpBrick = 2;
-
-		onBrickAtPosition(positionPenUpBrick)
-				.checkShowsText(R.string.brick_pen_up);
-	}
-
-	@Category({Cat.AppUi.class, Level.Smoke.class})
-	@Test
-	public void testPenSizeBrick() {
-		int positionPenSizeBrick = 3;
-
-		onBrickAtPosition(positionPenSizeBrick)
-				.checkShowsText(R.string.brick_pen_size);
-		onBrickAtPosition(positionPenSizeBrick).onFormulaTextField(R.id.brick_set_pen_size_edit_text)
-				.perform(click());
-		onFormulaEditor()
-				.performEnterNumber(100);
-		onFormulaEditor()
-				.performCloseAndSave();
-		onBrickAtPosition(positionPenSizeBrick).onFormulaTextField(R.id.brick_set_pen_size_edit_text)
-				.checkShowsNumber(100);
-	}
-
-	@Category({Cat.AppUi.class, Level.Smoke.class})
-	@Test
 	public void testPenColorBrick() {
 		int positionPenColorBrick = 4;
 		int rgbValueRed = 0;
@@ -176,7 +138,7 @@ public class PenBricksTest {
 		startScript.addBrick(new SetPenSizeBrick(5));
 		startScript.addBrick(new SetPenColorBrick(255, 0, 0));
 		project.getDefaultScene().addSprite(sprite1);
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite1);
 	}
 }

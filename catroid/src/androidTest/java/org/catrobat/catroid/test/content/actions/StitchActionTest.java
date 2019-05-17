@@ -33,6 +33,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.embroidery.EmbroideryList;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -62,9 +63,14 @@ public class StitchActionTest {
 		spriteCoords2 = new PointF(0, 0);
 
 		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		StageActivity.stageListener = Mockito.mock(StageListener.class);
 		StageActivity.stageListener.embroideryList = Mockito.mock(EmbroideryList.class);
+	}
+
+	@After
+	public void tearDown() {
+		StageActivity.stageListener = null;
 	}
 
 	@Test

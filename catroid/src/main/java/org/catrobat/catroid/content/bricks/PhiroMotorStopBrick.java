@@ -32,8 +32,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
-import java.util.List;
-
 public class PhiroMotorStopBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
@@ -45,6 +43,7 @@ public class PhiroMotorStopBrick extends BrickBaseType {
 	}
 
 	public PhiroMotorStopBrick() {
+		motor = Motor.MOTOR_BOTH.name();
 	}
 
 	public PhiroMotorStopBrick(Motor motorEnum) {
@@ -87,8 +86,7 @@ public class PhiroMotorStopBrick extends BrickBaseType {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createPhiroMotorStopActionAction(Motor.valueOf(motor)));
-		return null;
 	}
 }

@@ -102,7 +102,7 @@ public class PlaySceneDialogTest {
 		secondScene = new Scene("secondScene", project);
 		project.addScene(secondScene);
 
-		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentlyEditedScene(secondScene);
 	}
 }

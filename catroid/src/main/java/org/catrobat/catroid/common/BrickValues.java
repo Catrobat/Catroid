@@ -22,9 +22,9 @@
  */
 package org.catrobat.catroid.common;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 
+import org.catrobat.catroid.content.PenColor;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsObject.Type;
 import org.catrobat.catroid.physics.PhysicsWorld;
@@ -54,6 +54,7 @@ public final class BrickValues {
 
 	//constants Looks
 	public static final double SET_SIZE_TO = 60;
+	public static final double RELATIVE_SIZE_IN_PERCENT = 120.0f;
 	public static final double CHANGE_SIZE_BY = 10;
 	public static final double SET_TRANSPARENCY = 50;
 	public static final double CHANGE_TRANSPARENCY_EFFECT = 25;
@@ -69,7 +70,7 @@ public final class BrickValues {
 
 	//constants Pen
 	public static final double PEN_SIZE = 3.15;
-	public static final Color PEN_COLOR = Color.BLUE;
+	public static final PenColor PEN_COLOR = new PenColor(0, 0, 1, 1);
 
 	//constants Sounds
 	public static final double SET_VOLUME_TO = 60;
@@ -125,6 +126,7 @@ public final class BrickValues {
 
 	//Constants Variables
 	public static final double SET_VARIABLE = 1d;
+	public static final String SHOW_VARIABLE_COLOR = "#FF0000";
 	public static final double CHANGE_VARIABLE = 1d;
 
 	//Constants Lists

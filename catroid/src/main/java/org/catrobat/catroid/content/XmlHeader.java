@@ -42,7 +42,7 @@ public class XmlHeader implements Serializable {
 	public int virtualScreenWidth = 0;
 	@XStreamAlias("screenHeight")
 	public int virtualScreenHeight = 0;
-	@XStreamAlias("screenMode")
+
 	public ScreenModes screenMode = ScreenModes.STRETCH;
 
 	private float catrobatLanguageVersion;
@@ -58,9 +58,10 @@ public class XmlHeader implements Serializable {
 	private int applicationBuildNumber = 0;
 	private String applicationName = "";
 	private String applicationVersion = "";
+	private String applicationBuildType = "";
 	private String deviceName = "";
 	private String platform = "";
-	private double platformVersion = 0;
+	private String platformVersion = "";
 	@SuppressWarnings("unused")
 	private String tags = "";
 	//----------------------------------------------------------------------------------------------
@@ -123,11 +124,11 @@ public class XmlHeader implements Serializable {
 		virtualScreenWidth = width;
 	}
 
-	public String getProgramName() {
+	public String getProjectName() {
 		return programName;
 	}
 
-	public void setProgramName(String programName) {
+	public void setProjectName(String programName) {
 		this.programName = programName;
 	}
 
@@ -199,11 +200,11 @@ public class XmlHeader implements Serializable {
 		this.deviceName = deviceName;
 	}
 
-	public double getPlatformVersion() {
+	public String getPlatformVersion() {
 		return platformVersion;
 	}
 
-	public void setPlatformVersion(double platformVersion) {
+	public void setPlatformVersion(String platformVersion) {
 		this.platformVersion = platformVersion;
 	}
 
@@ -241,5 +242,13 @@ public class XmlHeader implements Serializable {
 
 	public void setRemixParentsUrlString(String remixParentsUrlString) {
 		this.remixParentsUrlString = remixParentsUrlString;
+	}
+
+	public String getApplicationBuildType() {
+		return applicationBuildType;
+	}
+
+	public void setApplicationBuildType(String applicationBuildType) {
+		this.applicationBuildType = applicationBuildType;
 	}
 }

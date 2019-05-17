@@ -28,17 +28,11 @@ import android.support.test.runner.AndroidJUnit4;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.ControlStructureBrick;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
-import org.catrobat.catroid.exceptions.LoadingProjectException;
-import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.ZipArchiver;
+import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.ScreenValueHandler;
 import org.junit.After;
@@ -51,7 +45,6 @@ import org.junit.runner.RunWith;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -69,9 +62,9 @@ public class ProjectManagerTest {
 	@Rule
 	public final ExpectedException exception = ExpectedException.none();
 
+	private static final String PROJECT_NAME = "testProject";
 	private static final String OLD_PROJECT = "OLD_PROJECT";
 	private static final String NEW_PROJECT = "NEW_PROJECT";
-	private static final String DOES_NOT_EXIST = "DOES_NOT_EXIST";
 
 	private static final float CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED = 0.0f;
 	private static final String ZIP_FILENAME_WRONG_NESTING_BRICKS = "CoinCatcher2.catrobat";
@@ -87,44 +80,35 @@ public class ProjectManagerTest {
 
 	@After
 	public void tearDown() throws Exception {
-		projectManager.setProject(null);
+		projectManager.setCurrentProject(null);
 		TestUtils.deleteProjects(OLD_PROJECT, NEW_PROJECT);
 		TestUtils.removeFromPreferences(InstrumentationRegistry.getTargetContext(), Constants.PREF_PROJECTNAME_KEY);
 	}
 
 	@Test
 	public void testShouldReturnFalseIfCatrobatLanguageVersionNotSupported() throws IOException, ProjectException {
-		TestUtils.createProjectWithLanguageVersion(CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED,
-				"testProject");
+		Project project = TestUtils
+				.createProjectWithLanguageVersion(CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED, PROJECT_NAME);
 
 		try {
-			projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, InstrumentationRegistry.getTargetContext());
+			projectManager.loadProject(project.getDirectory(), InstrumentationRegistry.getTargetContext());
 			fail("Project shouldn't be compatible");
 		} catch (CompatibilityProjectException expected) {
 		}
 
 		TestUtils.deleteProjects();
-
-		TestUtils.createProjectWithLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION,
-				"testProject");
-
-		projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, InstrumentationRegistry.getTargetContext());
 	}
 
 	@Test
-	public void testShouldKeepExistingProjectIfCannotLoadNewProject() throws IOException,
-			CompatibilityProjectException, OutdatedVersionProjectException, LoadingProjectException {
+	public void testShouldKeepExistingProjectIfCannotLoadNewProject() throws IOException, ProjectException {
+		Project project = TestUtils.createProjectWithLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION, OLD_PROJECT);
 
-		TestUtils.createProjectWithLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION,
-				OLD_PROJECT);
+		projectManager.loadProject(project.getDirectory(), InstrumentationRegistry.getTargetContext());
 
-		projectManager.loadProject(OLD_PROJECT, InstrumentationRegistry.getTargetContext());
-
-		TestUtils.createProjectWithLanguageVersion(CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED,
-				"testProject");
+		TestUtils.createProjectWithLanguageVersion(CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED, PROJECT_NAME);
 
 		try {
-			projectManager.loadProject(NEW_PROJECT, InstrumentationRegistry.getTargetContext());
+			projectManager.loadProject(new File(NEW_PROJECT), InstrumentationRegistry.getTargetContext());
 			fail("Expected ProjectException while loading  project " + NEW_PROJECT);
 		} catch (ProjectException expected) {
 		}
@@ -142,85 +126,50 @@ public class ProjectManagerTest {
 		assertNull(projectManager.getCurrentProject());
 
 		exception.expect(ProjectException.class);
-		projectManager.loadProject(DOES_NOT_EXIST, InstrumentationRegistry.getTargetContext());
+		projectManager.loadProject(new File(NEW_PROJECT), InstrumentationRegistry.getTargetContext());
 	}
 
 	@Test
-	public void testSavingAProjectDuringDelete() throws IOException, CompatibilityProjectException,
-			OutdatedVersionProjectException, LoadingProjectException {
-		TestUtils.createProjectWithLanguageVersion(
-				CURRENT_CATROBAT_LANGUAGE_VERSION, TestUtils.DEFAULT_TEST_PROJECT_NAME);
+	public void testSavingAProjectDuringDelete() throws IOException, ProjectException {
+		Project project = TestUtils.createProjectWithLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION, PROJECT_NAME);
 
-		projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, InstrumentationRegistry.getTargetContext());
+		projectManager.loadProject(project.getDirectory(), InstrumentationRegistry.getTargetContext());
 
 		Project currentProject = projectManager.getCurrentProject();
-		assertNotNull(String.format("Could not load %s project.", TestUtils.DEFAULT_TEST_PROJECT_NAME), currentProject);
+		assertNotNull(String.format("Could not load %s project.", PROJECT_NAME), currentProject);
 
-		File directory = new File(DEFAULT_ROOT_DIRECTORY, TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		File directory = new File(DEFAULT_ROOT_DIRECTORY, PROJECT_NAME);
 		assertTrue(String.format("Directory %s does not exist", directory.getPath()), directory.exists());
 
 		// simulate multiple saving trigger asynchronous (occurs in black box testing)
 		for (int i = 0; i < 3; i++) {
 			currentProject.setDescription(currentProject.getDescription() + i);
-			projectManager.saveProject(InstrumentationRegistry.getTargetContext());
+			new ProjectSaveTask(currentProject, InstrumentationRegistry.getTargetContext())
+					.execute();
 		}
 
 		// simulate deletion, saveProject asyncTask will be "automatically" cancelled (Please remark: there is still a chance
 		// of a race condition, because we rely on a "project" reference which gets used in a multithreaded environment)
-		projectManager.setProject(null);
+		projectManager.setCurrentProject(null);
 		StorageOperations.deleteDir(directory);
 
 		assertFalse(directory.exists());
 	}
 
 	@Test
-	public void testLoadProjectWithInvalidNestingBrickReferences() throws CompatibilityProjectException,
-			IOException,
-			OutdatedVersionProjectException,
-			LoadingProjectException {
-
+	public void testLoadProjectWithInvalidNestingBrickReferences() throws IOException, ProjectException {
 		DEFAULT_ROOT_DIRECTORY.mkdir();
 
 		InputStream inputStream = InstrumentationRegistry.getContext().getAssets().open(ZIP_FILENAME_WRONG_NESTING_BRICKS);
+		File projectDir = new File(DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_NESTING_BRICKS);
+		new ZipArchiver().unzip(inputStream, projectDir);
 
-		new ZipArchiver().unzip(inputStream, new File(DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_NESTING_BRICKS));
-
-		projectManager.loadProject(PROJECT_NAME_NESTING_BRICKS, InstrumentationRegistry.getTargetContext());
+		projectManager.loadProject(projectDir, InstrumentationRegistry.getTargetContext());
 		Project project = projectManager.getCurrentProject();
 
 		assertNotNull(project);
 		assertEquals(PROJECT_NAME_NESTING_BRICKS, project.getName());
 
-		for (Scene scene : project.getSceneList()) {
-			for (Sprite sprite : scene.getSpriteList()) {
-				for (Script script : sprite.getScriptList()) {
-					assertFalse(containsControlBricksWithInvalidReferences(script.getBrickList()));
-				}
-			}
-		}
-
 		TestUtils.deleteProjects(PROJECT_NAME_NESTING_BRICKS);
-	}
-
-	private boolean containsControlBricksWithInvalidReferences(List<Brick> bricks) {
-		for (Brick brick : bricks) {
-			if (brick instanceof ControlStructureBrick && hasInvalidReference((ControlStructureBrick) brick, bricks)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	private boolean hasInvalidReference(ControlStructureBrick brick, List<Brick> bricks) {
-		List<Brick> brickParts = brick.getAllParts();
-		if (brickParts.contains(null)) {
-			return true;
-		}
-		for (Brick brickPart : brickParts) {
-			if (!(bricks.contains(brickPart))) {
-				return true;
-			}
-		}
-		return false;
 	}
 }

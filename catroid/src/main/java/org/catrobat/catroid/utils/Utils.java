@@ -29,14 +29,9 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.utils.GdxNativesLoader;
-import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.facebook.AccessToken;
 import com.google.common.base.Splitter;
 
@@ -49,6 +44,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
+import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.transfers.LogoutTask;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.web.ServerCalls;
@@ -59,7 +55,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -82,12 +77,6 @@ public final class Utils {
 		throw new AssertionError();
 	}
 
-	public static boolean isExternalStorageAvailable() {
-		String externalStorageState = Environment.getExternalStorageState();
-		return externalStorageState.equals(Environment.MEDIA_MOUNTED)
-				&& !externalStorageState.equals(Environment.MEDIA_MOUNTED_READ_ONLY);
-	}
-
 	public static boolean isNetworkAvailable(Context context) {
 		ConnectivityManager connectivityManager = (ConnectivityManager) context
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -96,10 +85,6 @@ public final class Utils {
 			activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
 		}
 		return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-	}
-
-	public static boolean checkForNetworkError(boolean success, WebconnectionException exception) {
-		return !success && exception != null && exception.getStatusCode() == WebconnectionException.ERROR_NETWORK;
 	}
 
 	public static boolean checkForSignInError(boolean success, WebconnectionException exception, Context context,
@@ -111,12 +96,8 @@ public final class Utils {
 		return exception != null && exception.getStatusCode() == WebconnectionException.ERROR_NETWORK;
 	}
 
-	public static String formatDate(Date date, Locale locale) {
-		return DateFormat.getDateInstance(DateFormat.LONG, locale).format(date);
-	}
-
 	public static String generateRemixUrlsStringForMergedProgram(XmlHeader headerOfFirstProgram, XmlHeader headerOfSecondProgram) {
-		String escapedFirstProgramName = headerOfFirstProgram.getProgramName();
+		String escapedFirstProgramName = headerOfFirstProgram.getProjectName();
 		escapedFirstProgramName = escapedFirstProgramName.replace(Constants.REMIX_URL_PREFIX_INDICATOR,
 				Constants.REMIX_URL_PREFIX_REPLACE_INDICATOR);
 		escapedFirstProgramName = escapedFirstProgramName.replace(Constants.REMIX_URL_SUFIX_INDICATOR,
@@ -124,7 +105,7 @@ public final class Utils {
 		escapedFirstProgramName = escapedFirstProgramName.replace(Constants.REMIX_URL_SEPARATOR,
 				Constants.REMIX_URL_REPLACE_SEPARATOR);
 
-		String escapedSecondProgramName = headerOfSecondProgram.getProgramName();
+		String escapedSecondProgramName = headerOfSecondProgram.getProjectName();
 		escapedSecondProgramName = escapedSecondProgramName.replace(Constants.REMIX_URL_PREFIX_INDICATOR,
 				Constants.REMIX_URL_PREFIX_REPLACE_INDICATOR);
 		escapedSecondProgramName = escapedSecondProgramName.replace(Constants.REMIX_URL_SUFIX_INDICATOR,
@@ -215,10 +196,9 @@ public final class Utils {
 		final Date releasePublishedDate = getScratchSecondReleasePublishedDate();
 		if (programData.getModifiedDate() != null && programData.getModifiedDate().before(releasePublishedDate)) {
 			return true;
-		} else if (programData.getCreatedDate() != null && programData.getCreatedDate().before(releasePublishedDate)) {
-			return true;
+		} else {
+			return programData.getCreatedDate() != null && programData.getCreatedDate().before(releasePublishedDate);
 		}
-		return false;
 	}
 
 	public static long extractScratchJobIDFromURL(final String url) {
@@ -252,9 +232,9 @@ public final class Utils {
 		if (!file.isFile()) {
 			Log.e(TAG, String.format("md5Checksum() Error with file %s isFile: %s isDirectory: %s exists: %s",
 					file.getName(),
-					Boolean.valueOf(file.isFile()),
-					Boolean.valueOf(file.isDirectory()),
-					Boolean.valueOf(file.exists())));
+					file.isFile(),
+					file.isDirectory(),
+					file.exists()));
 			return null;
 		}
 
@@ -334,11 +314,6 @@ public final class Utils {
 		return versionName;
 	}
 
-	public static int getPhysicalPixels(int densityIndependentPixels, Context context) {
-		final float scale = context.getResources().getDisplayMetrics().density;
-		return (int) (densityIndependentPixels * scale + 0.5f);
-	}
-
 	public static String getCurrentProjectName(Context context) {
 		if (ProjectManager.getInstance().getCurrentProject() == null) {
 
@@ -348,7 +323,8 @@ public final class Utils {
 
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String currentProjectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
-			if (currentProjectName == null || !XstreamSerializer.getInstance().projectExists(currentProjectName)) {
+			if (currentProjectName == null
+					|| !FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).contains(currentProjectName)) {
 				currentProjectName = FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).get(0);
 			}
 			return currentProjectName;
@@ -356,32 +332,19 @@ public final class Utils {
 		return ProjectManager.getInstance().getCurrentProject().getName();
 	}
 
-	public static Pixmap getPixmapFromFile(File imageFile) {
-		Pixmap pixmap;
-		try {
-			GdxNativesLoader.load();
-			pixmap = new Pixmap(new FileHandle(imageFile));
-		} catch (GdxRuntimeException gdxRuntimeException) {
-			return null;
-		} catch (Exception e) {
-			return null;
-		}
-		return pixmap;
-	}
-
 	public static boolean isDefaultProject(Project projectToCheck, Context context) {
 		try {
 			String uniqueProjectName = "project_" + System.currentTimeMillis();
 
-			while (XstreamSerializer.getInstance().projectExists(uniqueProjectName)) {
+			while (FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).contains(uniqueProjectName)) {
 				uniqueProjectName = "project_" + System.currentTimeMillis();
 			}
 
-			Project defaultProject = DefaultProjectHandler.createAndSaveDefaultProject(uniqueProjectName, context);
+			Project defaultProject = DefaultProjectHandler.createAndSaveDefaultProject(uniqueProjectName, context, false);
 
 			String defaultProjectXml = XstreamSerializer.getInstance().getXmlAsStringFromProject(defaultProject);
 
-			StorageOperations.deleteDir(new File(PathBuilder.buildProjectPath(defaultProject.getName())));
+			StorageOperations.deleteDir(defaultProject.getDirectory());
 
 			StringFinder stringFinder = new StringFinder();
 
@@ -391,8 +354,8 @@ public final class Utils {
 
 			String defaultProjectSpriteList = stringFinder.getResult();
 
-			ProjectManager.getInstance().setProject(projectToCheck);
-			ProjectManager.getInstance().saveProject(context);
+			ProjectSaveTask
+					.task(projectToCheck, context);
 
 			String projectToCheckXML = XstreamSerializer.getInstance().getXmlAsStringFromProject(projectToCheck);
 
@@ -428,8 +391,7 @@ public final class Utils {
 			return true;
 		}
 
-		File projectDirectory = new File(PathBuilder.buildProjectPath(programName));
-		return projectDirectory.exists();
+		return new File(DEFAULT_ROOT_DIRECTORY, programName).isDirectory();
 	}
 
 	public static void invalidateLoginTokenIfUserRestricted(Context context) {
