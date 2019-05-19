@@ -39,6 +39,7 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Setting;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.content.backwardcompatibility.BrickTreeBuilder;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -54,6 +55,7 @@ import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.physics.PhysicsCollision;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -482,5 +484,35 @@ public final class ProjectManager {
 	public void setCurrentlyEditedScene(Scene scene) {
 		currentlyEditedScene = scene;
 		currentlyPlayingScene = scene;
+	}
+
+	public void createHeader(Project mergedProject, Project firstProject, Project secondProject) {
+		XmlHeader mainHeader;
+		XmlHeader subHeader;
+		XmlHeader mergeHeader = mergedProject.getXmlHeader();
+
+		int firstProjectSpriteCount = 0;
+		int secondProjectSpriteCount = 0;
+
+		for (Scene scene : firstProject.getSceneList()) {
+			firstProjectSpriteCount += scene.getSpriteList().size();
+		}
+
+		for (Scene scene : secondProject.getSceneList()) {
+			secondProjectSpriteCount += scene.getSpriteList().size();
+		}
+
+		if (firstProjectSpriteCount < 2 && secondProjectSpriteCount > 1) {
+			mainHeader = secondProject.getXmlHeader();
+			subHeader = firstProject.getXmlHeader();
+		} else {
+			mainHeader = firstProject.getXmlHeader();
+			subHeader = secondProject.getXmlHeader();
+		}
+		mergeHeader.setVirtualScreenWidth(mainHeader.virtualScreenWidth);
+		mergeHeader.setVirtualScreenHeight(mainHeader.virtualScreenHeight);
+
+		mergeHeader.setRemixParentsUrlString(Utils.generateRemixUrlsStringForMergedProgram(mainHeader, subHeader));
+		mergedProject.setXmlHeader(mergeHeader);
 	}
 }

@@ -36,8 +36,13 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.HideBrick;
+import org.catrobat.catroid.content.bricks.SetVariableBrick;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 
@@ -91,5 +96,77 @@ public final class TestUtils {
 		pixmap.setColor(color);
 		pixmap.fillRectangle(0, 0, width, height);
 		return pixmap;
+	}
+
+	public static Project createProjectWithGlobalValues(String name, String spriteName, String valueName, Context context) {
+		Project project = new Project(context, name);
+		UserList firstUserList = new UserList(valueName);
+		UserVariable firstUserVariable = new UserVariable(valueName);
+
+		UserList secondUserList = new UserList(valueName + "_1");
+		UserVariable secondUserVariable = new UserVariable(valueName + "_1");
+
+		project.getDefaultScene().getProject().addUserList(firstUserList);
+		project.getDefaultScene().getProject().addUserVariable(firstUserVariable);
+		project.getDefaultScene().getProject().addUserList(secondUserList);
+		project.getDefaultScene().getProject().addUserVariable(secondUserVariable);
+
+		Sprite sprite = new SingleSprite(spriteName);
+		Script script = new StartScript();
+
+		SetVariableBrick variableBrick = new SetVariableBrick(new Formula(1), project.getUserVariable(valueName));
+		AddItemToUserListBrick listBrick = new AddItemToUserListBrick(new Formula(1));
+		script.addBrick(variableBrick);
+		script.addBrick(listBrick);
+
+		variableBrick = new SetVariableBrick(new Formula(1), project.getUserVariable(valueName + "_1"));
+		listBrick = new AddItemToUserListBrick(new Formula(1));
+		script.addBrick(variableBrick);
+		script.addBrick(listBrick);
+
+		sprite.addScript(script);
+		project.getDefaultScene().getSpriteList().get(0).addScript(script);
+		project.getDefaultScene().addSprite(sprite);
+
+		return project;
+	}
+
+	public static Project createProjectWithSpriteValues(String name, String spriteName, String valueName, Context context) {
+		Project project = new Project(context, name);
+		Sprite sprite = new SingleSprite(spriteName);
+
+		project = createSpriteVariableAndList(project, sprite, valueName);
+		project = createSpriteVariableAndList(project, sprite, valueName + "_1");
+
+		return project;
+	}
+
+	private static Project createSpriteVariableAndList(Project project, Sprite sprite, String name) {
+		project.getDefaultScene().addSprite(sprite);
+
+		UserVariable firstVariable = new UserVariable(name);
+		UserVariable secondVariable = new UserVariable(name + "_1");
+
+		project.getDefaultScene().getSprite(sprite.getName()).addUserVariable(firstVariable);
+		project.getDefaultScene().getSprite(sprite.getName()).addUserVariable(secondVariable);
+
+		SetVariableBrick firstVariableBrick = new SetVariableBrick(new Formula(1), firstVariable);
+		SetVariableBrick secondVariableBrick = new SetVariableBrick(new Formula(1), secondVariable);
+		AddItemToUserListBrick firstListBrick = new AddItemToUserListBrick(new Formula(1));
+		AddItemToUserListBrick secondListBrick = new AddItemToUserListBrick(new Formula(1));
+
+		Script firstScript = new StartScript();
+		Script secondScript = new StartScript();
+
+		firstScript.addBrick(firstVariableBrick);
+		firstScript.addBrick(firstListBrick);
+		secondScript.addBrick(secondVariableBrick);
+		secondScript.addBrick(secondListBrick);
+
+		sprite.addScript(secondScript);
+		project.getDefaultScene().getSpriteList().get(0).addScript(firstScript);
+		project.getDefaultScene().addSprite(sprite);
+
+		return project;
 	}
 }
