@@ -24,8 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;

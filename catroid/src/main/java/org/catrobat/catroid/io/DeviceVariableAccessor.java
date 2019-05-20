@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.io;
 
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -167,12 +168,14 @@ public final class DeviceVariableAccessor {
 		}
 	}
 
-	private HashMap<UUID, Object> readMapFromJson() throws FileNotFoundException {
+	@VisibleForTesting
+	public HashMap<UUID, Object> readMapFromJson() throws FileNotFoundException {
 		Type mapType = new TypeToken<HashMap<UUID, Object>>() {}.getType();
 		return new Gson().fromJson(new FileReader(deviceVariablesFile), mapType);
 	}
 
-	private void writeMapToJson(HashMap map) throws IOException {
+	@VisibleForTesting
+	public void writeMapToJson(HashMap map) throws IOException {
 		BufferedOutputStream bos = null;
 		try {
 			Type mapType = new TypeToken<HashMap<UUID, Object>>() {}.getType();
