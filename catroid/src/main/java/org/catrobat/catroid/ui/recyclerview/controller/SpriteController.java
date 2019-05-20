@@ -44,8 +44,6 @@ import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 import java.io.File;
 import java.io.IOException;
 
-import static org.catrobat.catroid.io.DeviceVariableAccessor.checkDeviceVariableKeyEmpty;
-
 public class SpriteController {
 
 	public static final String TAG = SpriteController.class.getSimpleName();
@@ -110,13 +108,8 @@ public class SpriteController {
 
 		sprite.getSoundList().addAll(spriteToCopy.getSoundList());
 		sprite.getNfcTagList().addAll(spriteToCopy.getNfcTagList());
-		DeviceVariableAccessor accessor = new DeviceVariableAccessor(currentProject.getDirectory());
 
 		for (UserVariable originalVariable : spriteToCopy.getUserVariables()) {
-			if (checkDeviceVariableKeyEmpty(originalVariable)) {
-				accessor.addKeyToUserVariable(originalVariable);
-			}
-
 			UserVariable copyVariable = new UserVariable(originalVariable);
 			copyVariable.setDeviceValueKey(originalVariable.getDeviceValueKey());
 			sprite.getUserVariables().add(copyVariable);

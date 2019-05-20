@@ -26,6 +26,7 @@ package org.catrobat.catroid.transfers.project
 import android.content.SharedPreferences
 import android.util.Log
 import org.catrobat.catroid.common.Constants
+import org.catrobat.catroid.common.Constants.DEVICE_VARIABLE_JSON_FILENAME
 import org.catrobat.catroid.common.Constants.UPLOAD_IMAGE_SCALE_HEIGHT
 import org.catrobat.catroid.common.Constants.UPLOAD_IMAGE_SCALE_WIDTH
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader
@@ -116,7 +117,8 @@ class ProjectUpload(
 
     private fun zipProjectToArchive(projectDirectory: File, archiveDirectory: File): File? {
         return try {
-            zipArchiver.zip(archiveDirectory, projectDirectory.listFiles())
+            val fileList = projectDirectory.listFiles { file -> file.name != DEVICE_VARIABLE_JSON_FILENAME }
+            zipArchiver.zip(archiveDirectory, fileList)
             archiveDirectory
         } catch (ioException: IOException) {
             Log.e(TAG, Log.getStackTraceString(ioException))

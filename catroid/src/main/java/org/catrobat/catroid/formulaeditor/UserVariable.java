@@ -38,16 +38,19 @@ public class UserVariable implements Serializable, UserData {
 	public UserVariable(String name) {
 		this.name = name;
 		this.value = 0d;
+		this.deviceValueKey = UUID.randomUUID();
 	}
 
 	public UserVariable(final String name, final Object value) {
 		this.name = name;
 		this.value = value;
+		this.deviceValueKey = UUID.randomUUID();
 	}
 
 	public UserVariable(UserVariable variable) {
 		this.name = variable.name;
 		this.value = variable.value;
+		this.deviceValueKey = UUID.randomUUID();
 	}
 
 	@Override

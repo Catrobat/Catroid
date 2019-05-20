@@ -46,7 +46,6 @@ import static org.catrobat.catroid.common.Constants.DEVICE_VARIABLE_JSON_FILENAM
 public final class DeviceVariableAccessor {
 
 	public static final String TAG = DeviceVariableAccessor.class.getSimpleName();
-	private static final int MAX_GENERATE_KEY_TRIES = 100;
 	private static final Object LOCK = new Object();
 	private File deviceVariablesFile;
 
@@ -55,10 +54,6 @@ public final class DeviceVariableAccessor {
 	}
 
 	public boolean readUserVariableValue(UserVariable variable) throws IOException {
-		if (checkDeviceVariableKeyEmpty(variable)) {
-			return false;
-		}
-
 		if (!deviceVariablesFile.exists()) {
 			return false;
 		}
@@ -79,10 +74,6 @@ public final class DeviceVariableAccessor {
 	}
 
 	public void writeVariable(UserVariable userVariable) throws IOException {
-		if (checkDeviceVariableKeyEmpty(userVariable)) {
-			addKeyToUserVariable(userVariable);
-		}
-
 		if (!deviceVariablesFile.exists()) {
 			deviceVariablesFile.createNewFile();
 		}
@@ -99,41 +90,6 @@ public final class DeviceVariableAccessor {
 		}
 	}
 
-	private UUID generateNewKey() {
-		UUID key = UUID.randomUUID();
-
-		synchronized (LOCK) {
-			HashMap deviceVariableMap;
-
-			try {
-				deviceVariableMap = readMapFromJson();
-			} catch (FileNotFoundException e) {
-				return key;
-			}
-
-			if (deviceVariableMap == null) {
-				return key;
-			}
-			for (int tries = 0; deviceVariableMap.containsKey(key) && tries < MAX_GENERATE_KEY_TRIES; tries++) {
-				Log.i(TAG, "Try Nr" + tries + ": HashMap already contains the key: " + key + ". Generating new key..");
-				key = UUID.randomUUID();
-			}
-		}
-		return key;
-	}
-
-	public void addKeyToUserVariable(UserVariable variable) {
-		try {
-			variable.setDeviceValueKey(generateNewKey());
-		} catch (Exception e) {
-			Log.e(TAG, e.getMessage());
-		}
-	}
-
-	public static boolean checkDeviceVariableKeyEmpty(UserVariable variable) {
-		return variable.getDeviceValueKey() == null;
-	}
-
 	public void deleteAllLocalVariables(Sprite sprite) throws IOException {
 		if (sprite == null) {
 			return;
@@ -141,18 +97,14 @@ public final class DeviceVariableAccessor {
 		synchronized (LOCK) {
 			HashMap deviceVariableMap = readMapFromJson();
 			for (UserVariable userVariable : sprite.getUserVariables()) {
-				if (checkDeviceVariableKeyEmpty(userVariable)) {
-					continue;
-				}
 				deviceVariableMap.remove(userVariable.getDeviceValueKey());
-				userVariable.setDeviceValueKey(null);
 			}
 			writeMapToJson(deviceVariableMap);
 		}
 	}
 
 	public void removeDeviceValue(UserVariable variable) {
-		if (!deviceVariablesFile.exists() || checkDeviceVariableKeyEmpty(variable)) {
+		if (!deviceVariablesFile.exists()) {
 			return;
 		}
 
@@ -160,7 +112,6 @@ public final class DeviceVariableAccessor {
 			try {
 				HashMap deviceVariableMap = readMapFromJson();
 				deviceVariableMap.remove(variable.getDeviceValueKey());
-				variable.setDeviceValueKey(null);
 				writeMapToJson(deviceVariableMap);
 			} catch (Exception e) {
 				Log.e(TAG, e.getMessage());
