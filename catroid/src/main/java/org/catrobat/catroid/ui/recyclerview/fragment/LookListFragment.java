@@ -188,6 +188,7 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 		}
 
 		item.invalidateThumbnailBitmap();
+		item.clearCollisionInformation();
 
 		Intent intent = new Intent("android.intent.action.MAIN");
 		intent.setComponent(new ComponentName(getActivity(), POCKET_PAINT_INTENT_ACTIVITY_NAME));
