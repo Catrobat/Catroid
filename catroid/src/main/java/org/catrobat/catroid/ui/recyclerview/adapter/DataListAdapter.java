@@ -49,6 +49,7 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({VAR_GLOBAL, VAR_LOCAL, LIST_GLOBAL, LIST_LOCAL})
 	@interface DataType {}
+
 	private static final int VAR_GLOBAL = 0;
 	private static final int VAR_LOCAL = 1;
 	private static final int LIST_GLOBAL = 2;
@@ -65,7 +66,6 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 			List<UserVariable> localVars,
 			List<UserList> globalLists,
 			List<UserList> localLists) {
-
 		globalVarAdapter = new VariableRVAdapter(globalVars) {
 			@Override
 			public void onBindViewHolder(CheckableVH holder, int position) {
@@ -77,7 +77,7 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 		};
 		globalVarAdapter.setSelectionListener(this);
 
-		localVarAdapter = new VariableRVAdapter(localVars){
+		localVarAdapter = new VariableRVAdapter(localVars) {
 			@Override
 			public void onBindViewHolder(CheckableVH holder, int position) {
 				super.onBindViewHolder(holder, position);
@@ -85,6 +85,7 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 					((TextView) holder.itemView.findViewById(R.id.headline)).setText(R.string.local_vars_headline);
 				}
 			}
+
 			@Override
 			protected void onCheckBoxClick(int position) {
 				super.onCheckBoxClick(getRelativeItemPosition(position, VAR_LOCAL));
@@ -100,6 +101,7 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 					((TextView) holder.itemView.findViewById(R.id.headline)).setText(R.string.global_lists_headline);
 				}
 			}
+
 			@Override
 			protected void onCheckBoxClick(int position) {
 				super.onCheckBoxClick(getRelativeItemPosition(position, LIST_GLOBAL));
@@ -115,12 +117,37 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 					((TextView) holder.itemView.findViewById(R.id.headline)).setText(R.string.local_lists_headline);
 				}
 			}
+
 			@Override
 			protected void onCheckBoxClick(int position) {
 				super.onCheckBoxClick(getRelativeItemPosition(position, LIST_LOCAL));
 			}
 		};
 		localListAdapter.setSelectionListener(this);
+	}
+
+	public void setItemName(UserData item, String name) {
+		if (item instanceof UserVariable) {
+			if (globalVarAdapter.getItems().contains(item)) {
+				if(!globalVarAdapter.getItems().contains(new UserVariable(name))) {
+					item.setName(name);
+				}
+			} else if (localVarAdapter.getItems().contains(item)) {
+				if(!localVarAdapter.getItems().contains(new UserVariable(name))) {
+					item.setName(name);
+				}
+			}
+		} else {
+			if (globalListAdapter.getItems().contains(item)) {
+				if(!globalListAdapter.getItems().contains(new UserList(name))) {
+					item.setName(name);
+				}
+			} else if (localListAdapter.getItems().contains(item)) {
+				if(!localListAdapter.getItems().contains(new UserList(name))) {
+					item.setName(name);
+				}
+			}
+		}
 	}
 
 	private int getRelativeItemPosition(int position, @DataType int dataType) {

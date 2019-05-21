@@ -285,7 +285,7 @@ public class DataListFragment extends Fragment implements
 
 	public void renameItem(UserData item, String name) {
 		String previousName = item.getName();
-		item.setName(name);
+		adapter.setItemName(item, name);
 		adapter.updateDataSet();
 		finishActionMode();
 

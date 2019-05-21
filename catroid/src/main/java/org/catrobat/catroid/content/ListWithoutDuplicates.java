@@ -120,7 +120,10 @@ public class ListWithoutDuplicates<T> extends ArrayList<T> {
 	@Override
 	public T set(int index, T element) {
 		try {
+
 			if (element.equals(this.get(index))) {
+				comparingSet.clear();
+				comparingSet.addAll(this);
 				return element;
 			}
 
