@@ -28,6 +28,8 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
@@ -38,7 +40,11 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.catrobat.catroid.common.Constants.DEVICE_VARIABLE_JSON_FILENAME;
@@ -53,12 +59,17 @@ public final class DeviceVariableAccessor {
 		deviceVariablesFile = new File(projectDirectory, DEVICE_VARIABLE_JSON_FILENAME);
 	}
 
-	public boolean readUserVariableValue(UserVariable variable) throws IOException {
-		if (!deviceVariablesFile.exists()) {
-			return false;
-		}
+	@VisibleForTesting
+	public void setDeviceVariablesFile(File deviceVariablesFile) {
+		this.deviceVariablesFile = deviceVariablesFile;
+	}
 
+	public boolean readUserVariableValue(UserVariable variable) {
 		synchronized (LOCK) {
+			if (!deviceVariablesFile.exists()) {
+				return false;
+			}
+
 			HashMap deviceVariableMap = readMapFromJson();
 
 			if (deviceVariableMap == null) {
@@ -74,11 +85,11 @@ public final class DeviceVariableAccessor {
 	}
 
 	public void writeVariable(UserVariable userVariable) throws IOException {
-		if (!deviceVariablesFile.exists()) {
-			deviceVariablesFile.createNewFile();
-		}
-
 		synchronized (LOCK) {
+			if (!deviceVariablesFile.exists()) {
+				deviceVariablesFile.createNewFile();
+			}
+
 			HashMap deviceVariableMap = readMapFromJson();
 
 			if (deviceVariableMap == null) {
@@ -90,27 +101,18 @@ public final class DeviceVariableAccessor {
 		}
 	}
 
-	public void deleteAllLocalVariables(Sprite sprite) throws IOException {
-		if (sprite == null) {
-			return;
-		}
-		synchronized (LOCK) {
-			HashMap deviceVariableMap = readMapFromJson();
-			for (UserVariable userVariable : sprite.getUserVariables()) {
-				deviceVariableMap.remove(userVariable.getDeviceValueKey());
-			}
-			writeMapToJson(deviceVariableMap);
-		}
-	}
-
 	public void removeDeviceValue(UserVariable variable) {
-		if (!deviceVariablesFile.exists()) {
-			return;
-		}
-
 		synchronized (LOCK) {
+			if (!deviceVariablesFile.exists()) {
+				return;
+			}
+
 			try {
 				HashMap deviceVariableMap = readMapFromJson();
+				if (deviceVariableMap == null) {
+					return;
+				}
+
 				deviceVariableMap.remove(variable.getDeviceValueKey());
 				writeMapToJson(deviceVariableMap);
 			} catch (Exception e) {
@@ -120,9 +122,17 @@ public final class DeviceVariableAccessor {
 	}
 
 	@VisibleForTesting
-	public HashMap<UUID, Object> readMapFromJson() throws FileNotFoundException {
-		Type mapType = new TypeToken<HashMap<UUID, Object>>() {}.getType();
-		return new Gson().fromJson(new FileReader(deviceVariablesFile), mapType);
+	public HashMap<UUID, Object> readMapFromJson() {
+		try {
+			Type mapType = new TypeToken<HashMap<UUID, Object>>() {}.getType();
+			return new Gson().fromJson(new FileReader(deviceVariablesFile), mapType);
+		} catch (FileNotFoundException e) {
+			if(deviceVariablesFile.exists()) {
+				Log.e(TAG, "Device Variable File corrupted!");
+				deviceVariablesFile.delete();
+			}
+			return null;
+		}
 	}
 
 	@VisibleForTesting
@@ -131,13 +141,58 @@ public final class DeviceVariableAccessor {
 		try {
 			Type mapType = new TypeToken<HashMap<UUID, Object>>() {}.getType();
 			bos = new BufferedOutputStream(new FileOutputStream(deviceVariablesFile));
-			bos.write(new Gson().toJson(map, mapType).getBytes());
+			String jsonString = new Gson().toJson(map, mapType);
+			bos.write(jsonString.getBytes());
 			bos.flush();
 		} catch (IOException e) {
 			Log.e(TAG, e.getMessage());
 		} finally {
 			if (bos != null) {
 				bos.close();
+			}
+		}
+	}
+
+	public void cleanUpDeletedVariables(Project project) {
+		synchronized (LOCK) {
+			if (!deviceVariablesFile.exists()) {
+				return;
+			}
+
+			try {
+				HashMap deviceVariableMap = readMapFromJson();
+				if (deviceVariableMap == null)	{
+					return;
+				}
+
+				Set<UUID> keysToRemove = new HashSet<UUID>(deviceVariableMap.keySet());
+
+				List<UserVariable> globalVars = new ArrayList<>(project.getUserVariables());
+
+				for (UserVariable variable: globalVars) {
+					keysToRemove.remove(variable.getDeviceValueKey());
+				}
+
+				List<UUID> localVariableKeys  =  new ArrayList<>();
+				for (Scene scene: project.getSceneList()) {
+					for (Sprite sprite: scene.getSpriteList()) {
+						for (UserVariable variable : sprite.getUserVariables()) {
+							localVariableKeys.add(variable.getDeviceValueKey());
+						}
+					}
+				}
+
+				for (UUID key: localVariableKeys) {
+					keysToRemove.remove(key);
+				}
+
+				for(UUID key: keysToRemove) {
+					deviceVariableMap.remove(key);
+				}
+
+				writeMapToJson(deviceVariableMap);
+			} catch (Exception e) {
+				Log.e(TAG, e.getMessage());
 			}
 		}
 	}

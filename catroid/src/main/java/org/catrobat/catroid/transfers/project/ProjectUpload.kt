@@ -34,6 +34,7 @@ import org.catrobat.catroid.io.ZipArchiver
 import org.catrobat.catroid.utils.ImageEditing
 import org.catrobat.catroid.web.ServerCalls
 import java.io.File
+import java.io.FileFilter
 import java.io.FileNotFoundException
 import java.io.IOException
 import java.util.Locale
@@ -117,8 +118,10 @@ class ProjectUpload(
 
     private fun zipProjectToArchive(projectDirectory: File, archiveDirectory: File): File? {
         return try {
-            val fileList = projectDirectory.listFiles { file -> file.name != DEVICE_VARIABLE_JSON_FILENAME }
-            zipArchiver.zip(archiveDirectory, fileList)
+            val fileList = projectDirectory.listFiles()
+            val filteredFileList = fileList.filter { file -> file.name != DEVICE_VARIABLE_JSON_FILENAME }
+
+            zipArchiver.zip(archiveDirectory, filteredFileList.toTypedArray())
             archiveDirectory
         } catch (ioException: IOException) {
             Log.e(TAG, Log.getStackTraceString(ioException))

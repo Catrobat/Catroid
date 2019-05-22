@@ -621,9 +621,6 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 		brickInfo = new BrickInfo(HideTextBrick.class.getSimpleName());
 		brickInfoMap.put("hideTextBrick", brickInfo);
 
-		brickInfo = new BrickInfo(WriteVariableOnDeviceBrick.class.getSimpleName());
-		brickInfoMap.put("writeVariableOnDeviceBrick", brickInfo);
-
 		brickInfo = new BrickInfo(CameraBrick.class.getSimpleName());
 		brickInfoMap.put("videoBrick", brickInfo);
 

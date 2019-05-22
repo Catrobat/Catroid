@@ -136,15 +136,6 @@ public class SceneController {
 
 	public void delete(Scene sceneToDelete) throws IOException {
 		StorageOperations.deleteDir(sceneToDelete.getDirectory());
-		File projectDirectory = ProjectManager.getInstance().getCurrentProject().getDirectory();
-		DeviceVariableAccessor accessor = new DeviceVariableAccessor(projectDirectory);
-		for (Sprite sprite: sceneToDelete.getSpriteList()) {
-			try {
-				accessor.deleteAllLocalVariables(sprite);
-			} catch (IOException e) {
-				Log.i(TAG, e.getMessage());
-			}
-		}
 	}
 
 	public Scene pack(Scene sceneToPack) throws IOException {

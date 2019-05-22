@@ -156,13 +156,6 @@ public class SpriteController {
 				Log.e(TAG, Log.getStackTraceString(e));
 			}
 		}
-		File projectDirectory = ProjectManager.getInstance().getCurrentProject().getDirectory();
-
-		try {
-			new DeviceVariableAccessor(projectDirectory).deleteAllLocalVariables(spriteToDelete);
-		} catch (IOException e) {
-			Log.e(TAG, Log.getStackTraceString(e));
-		}
 	}
 
 	public Sprite pack(Sprite spriteToPack) throws IOException {
