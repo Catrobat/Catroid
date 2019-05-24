@@ -561,6 +561,10 @@
     <string name="rename_nfctag_dialog">Rename NFC tag</string>
     <string name="rename_data_dialog">Rename</string>
 
+    <!-- Merge Dialog Titles -->
+    <string name="merge_project">Merge projects</string>
+
+
     <!-- New Script Group Dialog -->
     <string name="new_group">New group</string>
 
