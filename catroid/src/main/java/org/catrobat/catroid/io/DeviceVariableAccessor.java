@@ -127,7 +127,7 @@ public final class DeviceVariableAccessor {
 			Type mapType = new TypeToken<HashMap<UUID, Object>>() {}.getType();
 			return new Gson().fromJson(new FileReader(deviceVariablesFile), mapType);
 		} catch (FileNotFoundException e) {
-			if(deviceVariablesFile.exists()) {
+			if (deviceVariablesFile.exists()) {
 				Log.e(TAG, "Device Variable File corrupted!");
 				deviceVariablesFile.delete();
 			}
@@ -161,7 +161,7 @@ public final class DeviceVariableAccessor {
 
 			try {
 				HashMap deviceVariableMap = readMapFromJson();
-				if (deviceVariableMap == null)	{
+				if (deviceVariableMap == null) {
 					return;
 				}
 
@@ -173,7 +173,7 @@ public final class DeviceVariableAccessor {
 					keysToRemove.remove(variable.getDeviceValueKey());
 				}
 
-				List<UUID> localVariableKeys  =  new ArrayList<>();
+				List<UUID> localVariableKeys = new ArrayList<>();
 				for (Scene scene: project.getSceneList()) {
 					for (Sprite sprite: scene.getSpriteList()) {
 						for (UserVariable variable : sprite.getUserVariables()) {
@@ -186,7 +186,7 @@ public final class DeviceVariableAccessor {
 					keysToRemove.remove(key);
 				}
 
-				for(UUID key: keysToRemove) {
+				for (UUID key: keysToRemove) {
 					deviceVariableMap.remove(key);
 				}
 

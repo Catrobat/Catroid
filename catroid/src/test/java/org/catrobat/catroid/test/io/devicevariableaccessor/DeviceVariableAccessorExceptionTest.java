@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2019 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,8 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-package org.catrobat.catroid.test.io.DeviceVariableAccessor;
+package org.catrobat.catroid.test.io.devicevariableaccessor;
 
 import com.google.gson.Gson;
 
@@ -60,9 +59,5 @@ public class DeviceVariableAccessorExceptionTest {
 	public void deleteCorruptedFileOnReadTest() {
 		deviceVariableAccessor.readMapFromJson();
 		Mockito.verify(variableFile, times(1)).delete();
-	}
-	@After
-	public void tearDown() {
-
 	}
 }

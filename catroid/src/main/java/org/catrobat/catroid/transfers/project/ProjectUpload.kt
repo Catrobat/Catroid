@@ -34,7 +34,6 @@ import org.catrobat.catroid.io.ZipArchiver
 import org.catrobat.catroid.utils.ImageEditing
 import org.catrobat.catroid.web.ServerCalls
 import java.io.File
-import java.io.FileFilter
 import java.io.FileNotFoundException
 import java.io.IOException
 import java.util.Locale

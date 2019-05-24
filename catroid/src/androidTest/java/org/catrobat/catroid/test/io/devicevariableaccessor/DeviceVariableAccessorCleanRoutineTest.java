@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2019 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,12 +20,10 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-package org.catrobat.catroid.test.io.DeviceVariableAccessor;
+package org.catrobat.catroid.test.io.devicevariableaccessor;
 
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
 
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
@@ -79,10 +77,9 @@ public class DeviceVariableAccessorCleanRoutineTest {
 		accessor = new DeviceVariableAccessor(directory);
 		HashMap<UUID, Object> map = new HashMap<>();
 
-		for (UserVariable userVariable: allVariables)	{
+		for (UserVariable userVariable: allVariables) {
 			map.put(userVariable.getDeviceValueKey(), userVariable.getValue());
 		}
-
 		accessor.writeMapToJson(map);
 	}
 
