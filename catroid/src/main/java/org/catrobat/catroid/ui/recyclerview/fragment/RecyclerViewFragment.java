@@ -50,6 +50,7 @@ import org.catrobat.catroid.ui.recyclerview.adapter.ExtendedRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperCallback;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.MergeItemTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.RenameItemTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
@@ -182,7 +183,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 				showRenameDialog(adapter.getSelectedItems());
 				break;
 			case MERGE:
-				showMergeAlert();
+				showMergeDialog(adapter.getSelectedItems());
 				break;
 			case NONE:
 				throw new IllegalStateException("ActionModeType not set correctly");
@@ -429,11 +430,21 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 				.show();
 	}
 
-	protected void showMergeAlert() {
-		if (adapter.getSelectedItems().size() <= 1) {
+	protected void showMergeDialog(List<T> selectedItems) {
+		if (selectedItems.size() <= 1) {
 			ToastUtil.showError(getContext(), R.string.am_merge_error);
 		} else {
-			ToastUtil.showError(getContext(), "These two projects cannot yet be merged");
+			TextInputDialog.Builder builder = new TextInputDialog.Builder(getContext());
+
+			builder.setHint(getString(R.string.project_name_label))
+					.setText("")
+					.setTextWatcher(new MergeItemTextWatcher<>(selectedItems))
+					.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput)
+							-> mergeItems(selectedItems, textInput));
+
+			builder.setTitle(R.string.merge_project)
+					.setNegativeButton(R.string.cancel, null)
+					.show();
 		}
 		setShowProgressBar(true);
 		finishActionMode();
@@ -447,5 +458,8 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	protected void renameItem(T item, String newName) {
 		item.setName(newName);
 		finishActionMode();
+	}
+
+	protected void mergeItems(List<T> selectedItems, String newName) {
 	}
 }
