@@ -109,7 +109,6 @@ public class DeviceVariableAccessorParameterizedValueTest<T> {
 		assertEquals(initialValue, variableValueFromFile);
 	}
 
-
 	@Test
 	public void loadLocalUserVariableTest() throws IOException {
 		HashMap map = new HashMap<>();

@@ -25,7 +25,6 @@ package org.catrobat.catroid.test.io.devicevariableaccessor;
 import com.google.gson.Gson;
 
 import org.catrobat.catroid.io.DeviceVariableAccessor;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
