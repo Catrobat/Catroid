@@ -268,7 +268,7 @@ class ProjectUploadTest {
     fun testDeviceVariableFileRemoved() {
         createProjectUpload().start(
             successCallback = { },
-            errorCallback = { _, _ ->}
+            errorCallback = { _, _ -> }
         )
         verify(zipArchiver).zip(archiveDirectory, projectDirectoryFilesFiltered)
     }
