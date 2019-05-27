@@ -28,9 +28,11 @@ import android.support.test.runner.AndroidJUnit4;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.io.ZipArchiver;
 import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -171,5 +173,47 @@ public class ProjectManagerTest {
 		assertEquals(PROJECT_NAME_NESTING_BRICKS, project.getName());
 
 		TestUtils.deleteProjects(PROJECT_NAME_NESTING_BRICKS);
+	}
+
+	@Test
+	public void testMergeProjectWithNoConflicts() throws IOException {
+		Project project1 = TestUtils.createProjectWithLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION,
+				"testProject1");
+		Project project2 = TestUtils.createProjectWithLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION,
+				"testProject2");
+		Scene sceneOne = new Scene("test1", project1);
+		Scene sceneTwo = new Scene("test2", project2);
+
+		project2.getSceneByName("Scene 1").setName("Scene 2");
+
+		project1.addScene(sceneOne);
+		project2.addScene(sceneTwo);
+
+		XstreamSerializer.getInstance().saveProject(project1);
+		XstreamSerializer.getInstance().saveProject(project2);
+
+		Project mergedProject = ProjectManager.mergeProjects("testProject3", project1, project2);
+		assertEquals("testProject3", mergedProject.getName());
+		TestUtils.deleteProjects("testProject1", "testProject2", "testProject3");
+	}
+
+	@Test
+	public void testMergeProjectWithSceneConflicts() throws IOException {
+		Project project1 = TestUtils.createProjectWithLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION,
+				"testProject1");
+		Project project2 = TestUtils.createProjectWithLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION,
+				"testProject2");
+		Scene sceneOne = new Scene("test1", project1);
+		Scene sceneTwo = new Scene("test1", project2);
+
+		project1.addScene(sceneOne);
+		project2.addScene(sceneTwo);
+
+		XstreamSerializer.getInstance().saveProject(project1);
+		XstreamSerializer.getInstance().saveProject(project2);
+
+		assertNull(ProjectManager.mergeProjects("testProject3", project1, project2));
+
+		TestUtils.deleteProjects("testProject1", "testProject2");
 	}
 }

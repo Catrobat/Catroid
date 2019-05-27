@@ -405,6 +405,37 @@ public final class ProjectManager {
 		}
 	}
 
+	public static Project mergeProjects(String mergedProjectName, Project project1, Project project2) {
+		Project mergedProject = new Project();
+		mergedProject.setXmlHeader(project1.getXmlHeader());
+		mergedProject.getSettings().addAll(project1.getSettings());
+
+		mergedProject.getUserVariables().addAll(project1.getUserVariables());
+		mergedProject.getUserVariables().addAll(project2.getUserVariables());
+
+		mergedProject.getUserLists().addAll(project1.getUserLists());
+		mergedProject.getUserLists().addAll(project2.getUserLists());
+
+		mergedProject.setName(mergedProjectName);
+
+		for (Scene scene : project1.getSceneList()) {
+			for (Scene checkScene : project2.getSceneList()) {
+				if (scene.getName().equals(checkScene.getName())) {
+					return null;
+				}
+			}
+			mergedProject.addScene(scene);
+		}
+
+		for (Scene scene : project2.getSceneList()) {
+			mergedProject.addScene(scene);
+		}
+
+		XstreamSerializer.getInstance().saveProject(mergedProject);
+
+		return mergedProject;
+	}
+
 	public void createNewEmptyProject(String name, Context context, boolean landscapeMode, boolean castEnabled) throws IOException {
 		project = DefaultProjectHandler.createAndSaveEmptyProject(name, context, landscapeMode, castEnabled);
 		currentSprite = null;
