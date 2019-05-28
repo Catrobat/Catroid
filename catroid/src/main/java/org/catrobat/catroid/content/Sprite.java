@@ -85,8 +85,8 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 	private List<LookData> lookList = new ArrayList<>();
 	private List<SoundInfo> soundList = new ArrayList<>();
 	private List<NfcTagData> nfcTagList = new ArrayList<>();
-	private List<UserVariable> userVariables = new ListWithoutDuplicates<>();
-	private List<UserList> userLists = new ListWithoutDuplicates<>();
+	private List<UserVariable> userVariables = new ArrayList<>();
+	private List<UserList> userLists = new ArrayList<>();
 
 	private transient ActionFactory actionFactory = new ActionFactory();
 

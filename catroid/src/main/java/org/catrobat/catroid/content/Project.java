@@ -67,9 +67,9 @@ public class Project implements Serializable {
 	@XStreamAlias("settings")
 	private List<Setting> settings = new ArrayList<>();
 	@XStreamAlias("programVariableList")
-	private List<UserVariable> userVariables = new ListWithoutDuplicates<>();
+	private List<UserVariable> userVariables = new ArrayList<>();
 	@XStreamAlias("programListOfLists")
-	private List<UserList> userLists = new ListWithoutDuplicates<>();
+	private List<UserList> userLists = new ArrayList<>();
 	@XStreamAlias("scenes")
 	private List<Scene> sceneList = new ArrayList<>();
 
@@ -165,7 +165,7 @@ public class Project implements Serializable {
 
 	public List<UserVariable> getUserVariables() {
 		if (userVariables == null) {
-			userVariables = new ListWithoutDuplicates<>();
+			userVariables = new ArrayList<>();
 		}
 		return userVariables;
 	}
@@ -194,7 +194,7 @@ public class Project implements Serializable {
 
 	public List<UserList> getUserLists() {
 		if (userLists == null) {
-			userLists = new ListWithoutDuplicates<>();
+			userLists = new ArrayList<>();
 		}
 		return userLists;
 	}
