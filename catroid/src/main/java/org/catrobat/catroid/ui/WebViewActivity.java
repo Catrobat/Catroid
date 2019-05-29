@@ -39,6 +39,7 @@ import android.view.KeyEvent;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.DownloadListener;
+import android.webkit.URLUtil;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -108,8 +109,7 @@ public class WebViewActivity extends BaseActivity {
 				if (getExtensionFromContentDisposition(contentDisposition).contains(Constants.CATROBAT_EXTENSION)) {
 					DownloadUtil.getInstance().prepareDownloadAndStartIfPossible(WebViewActivity.this, url);
 				} else if (url.contains(LIBRARY_BASE_URL)) {
-					String name = getMediaNameFromUrl(url);
-					String fileName = name + getExtensionFromContentDisposition(contentDisposition);
+					String fileName = URLUtil.guessFileName(url, contentDisposition, mimetype)
 
 					MEDIA_LIBRARY_CACHE_DIR.mkdirs();
 					if (!MEDIA_LIBRARY_CACHE_DIR.isDirectory()) {
