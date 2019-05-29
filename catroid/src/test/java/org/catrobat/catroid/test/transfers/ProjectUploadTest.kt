@@ -65,6 +65,7 @@ class ProjectUploadTest {
     private lateinit var screenshotLoader: ProjectAndSceneScreenshotLoader
     private lateinit var projectDirectory: File
     private lateinit var projectDirectoryFiles: Array<File>
+    private lateinit var projectDirectoryFilesFiltered: Array<File>
     private lateinit var archiveDirectory: File
     private lateinit var zipArchiver: ZipArchiver
 
@@ -75,7 +76,10 @@ class ProjectUploadTest {
         serverCalls = mock(ServerCalls::class.java)
         screenshotLoader = mock(ProjectAndSceneScreenshotLoader::class.java)
         projectDirectory = mock(File::class.java)
-        projectDirectoryFiles = arrayOf(mock(File::class.java), mock(File::class.java), mock(File::class.java))
+        val deviceVariableFile = mock(File::class.java)
+        `when`(deviceVariableFile.getName()).thenReturn(Constants.DEVICE_VARIABLE_JSON_FILENAME)
+        projectDirectoryFilesFiltered = arrayOf(mock(File::class.java), mock(File::class.java), mock(File::class.java))
+        projectDirectoryFiles = projectDirectoryFilesFiltered + arrayOf(deviceVariableFile)
         archiveDirectory = mock(File::class.java)
         zipArchiver = mock(ZipArchiver::class.java)
 
@@ -227,7 +231,7 @@ class ProjectUploadTest {
         var receivedErrorCode = -1
         var receivedErrorMessage = ""
 
-        `when`(zipArchiver.zip(archiveDirectory, projectDirectoryFiles))
+        `when`(zipArchiver.zip(archiveDirectory, projectDirectoryFilesFiltered))
             .thenThrow(IOException("Failed to zip project"))
 
         createProjectUpload().start(
@@ -258,6 +262,15 @@ class ProjectUploadTest {
         val timesUploadStartCalled = 3
         repeat(timesUploadStartCalled) { upload.start({}, { _, _ -> }) }
         didCallUploadProject(times(timesUploadStartCalled))
+    }
+
+    @Test
+    fun testDeviceVariableFileRemoved() {
+        createProjectUpload().start(
+            successCallback = { },
+            errorCallback = { _, _ -> }
+        )
+        verify(zipArchiver).zip(archiveDirectory, projectDirectoryFilesFiltered)
     }
 
     private fun createProjectUpload(): ProjectUpload {
