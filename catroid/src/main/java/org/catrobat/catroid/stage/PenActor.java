@@ -27,7 +27,9 @@ import android.content.res.Resources;
 import android.graphics.PointF;
 import android.util.DisplayMetrics;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -55,6 +57,7 @@ public class PenActor extends Actor {
 		camera = new OrthographicCamera(header.virtualScreenWidth, header.virtualScreenHeight);
 		bufferBatch.setProjectionMatrix(camera.combined);
 		screenRatio = calculateScreenRatio();
+		reset();
 	}
 
 	@Override
@@ -75,9 +78,9 @@ public class PenActor extends Actor {
 	}
 
 	public void reset() {
-		XmlHeader header = ProjectManager.getInstance().getCurrentProject().getXmlHeader();
-		buffer.dispose();
-		buffer = new FrameBuffer(Pixmap.Format.RGBA8888, header.virtualScreenWidth, header.virtualScreenHeight, false);
+		buffer.begin();
+		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		buffer.end();
 	}
 
 	public void stampToFrameBuffer() {
