@@ -176,6 +176,9 @@ public final class ProjectManager {
 			project.setCatrobatLanguageVersion(0.9994f);
 		}
 		if (project.getCatrobatLanguageVersion() == 0.9994f) {
+			project.setCatrobatLanguageVersion(0.9995f);
+		}
+		if (project.getCatrobatLanguageVersion() == 0.9995f) {
 			project.setCatrobatLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION);
 		}
 
