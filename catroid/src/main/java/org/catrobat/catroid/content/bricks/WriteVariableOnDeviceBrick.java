@@ -20,12 +20,10 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.catrobat.catroid.content.bricks;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -36,6 +34,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -47,29 +46,15 @@ import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class UserVariableBrick extends FormulaBrick implements BrickSpinner.OnItemSelectedListener<UserVariable> {
-
-	protected UserVariable userVariable;
+public class WriteVariableOnDeviceBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<UserVariable> {
+	private static final long serialVersionUID = 1L;
 
 	private transient BrickSpinner<UserVariable> spinner;
 
-	public UserVariable getUserVariable() {
-		return userVariable;
-	}
+	protected UserVariable userVariable;
 
-	public void setUserVariable(UserVariable userVariable) {
-		this.userVariable = userVariable;
+	public WriteVariableOnDeviceBrick() {
 	}
-
-	@Override
-	public Brick clone() throws CloneNotSupportedException {
-		UserVariableBrick clone = (UserVariableBrick) super.clone();
-		clone.spinner = null;
-		return clone;
-	}
-
-	@IdRes
-	protected abstract int getSpinnerId();
 
 	@Override
 	public View getView(Context context) {
@@ -86,6 +71,37 @@ public abstract class UserVariableBrick extends FormulaBrick implements BrickSpi
 		spinner.setOnItemSelectedListener(this);
 		spinner.setSelection(userVariable);
 		return view;
+	}
+
+	@Override
+	public int getViewResource() {
+		return R.layout.brick_write_variable_on_device;
+	}
+	public UserVariable getUserVariable() {
+		return userVariable;
+	}
+
+	public void setUserVariable(UserVariable userVariable) {
+		this.userVariable = userVariable;
+	}
+
+	@Override
+	public Brick clone() throws CloneNotSupportedException {
+		WriteVariableOnDeviceBrick clone = (WriteVariableOnDeviceBrick) super.clone();
+		clone.spinner = null;
+		return clone;
+	}
+
+	protected int getSpinnerId() {
+		return R.id.write_variable_spinner;
+	}
+
+	@Override
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		if (userVariable == null || userVariable.getName() == null) {
+			return;
+		}
+		sequence.addAction(sprite.getActionFactory().createWriteVariableOnDeviceAction(userVariable));
 	}
 
 	@Override
@@ -131,8 +147,7 @@ public abstract class UserVariableBrick extends FormulaBrick implements BrickSpi
 	}
 
 	@Override
-	public void onStringOptionSelected(String string) {
-	}
+	public void onStringOptionSelected(String string) { }
 
 	@Override
 	public void onItemSelected(@Nullable UserVariable item) {

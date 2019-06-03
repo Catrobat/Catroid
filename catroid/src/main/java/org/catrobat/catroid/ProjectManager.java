@@ -181,7 +181,9 @@ public final class ProjectManager {
 		if (project.getCatrobatLanguageVersion() == 0.9995f) {
 			project.setCatrobatLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION);
 		}
-
+		if (project.getCatrobatLanguageVersion() == 0.9995f) {
+			project.setCatrobatLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION);
+		}
 		if (project.getCatrobatLanguageVersion() != CURRENT_CATROBAT_LANGUAGE_VERSION) {
 			restorePreviousProject(previousProject);
 			throw new CompatibilityProjectException(context.getString(R.string.error_project_compatibility));
