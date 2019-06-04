@@ -194,6 +194,14 @@ public class RepeatBrick extends FormulaBrick implements CompositeBrick {
 		sequence.addAction(action);
 	}
 
+	@Override
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		super.addRequiredResources(requiredResourcesSet);
+		for (Brick brick : loopBricks) {
+			brick.addRequiredResources(requiredResourcesSet);
+		}
+	}
+
 	private static class EndBrick extends BrickBaseType {
 
 		EndBrick(RepeatBrick parent) {

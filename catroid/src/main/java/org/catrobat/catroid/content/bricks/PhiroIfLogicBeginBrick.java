@@ -215,6 +215,13 @@ public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBr
 	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
 		requiredResourcesSet.add(BLUETOOTH_PHIRO);
 		super.addRequiredResources(requiredResourcesSet);
+		for (Brick brick : ifBranchBricks) {
+			brick.addRequiredResources(requiredResourcesSet);
+		}
+
+		for (Brick brick : elseBranchBricks) {
+			brick.addRequiredResources(requiredResourcesSet);
+		}
 	}
 
 	@Override
