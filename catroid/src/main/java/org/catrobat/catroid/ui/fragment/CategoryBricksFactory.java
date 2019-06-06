@@ -28,6 +28,7 @@ import android.content.res.Resources;
 
 import com.parrot.freeflight.drone.DroneProxy.ARDRONE_LED_ANIMATION;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
@@ -172,6 +173,7 @@ import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WaitTillIdleBrick;
 import org.catrobat.catroid.content.bricks.WaitUntilBrick;
+import org.catrobat.catroid.content.bricks.WebRequestBrick;
 import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenClonedBrick;
@@ -328,6 +330,9 @@ public class CategoryBricksFactory {
 		controlBrickList.add(new WhenClonedBrick());
 		if (SettingsFragment.isNfcSharedPreferenceEnabled(context)) {
 			controlBrickList.add(new SetNfcTagBrick(context.getString(R.string.brick_set_nfc_tag_default_value)));
+		}
+		if (BuildConfig.FEATURE_WEBREQUEST_BRICK_ENABLED) {
+			controlBrickList.add(new WebRequestBrick(context.getString(R.string.brick_web_request_default_value)));
 		}
 
 		return controlBrickList;
@@ -497,6 +502,10 @@ public class CategoryBricksFactory {
 				BrickValues.REPLACE_ITEM_IN_USERLIST_INDEX));
 		dataBrickList.add(new AskBrick(context.getString(R.string.brick_ask_default_question)));
 		dataBrickList.add(new AskSpeechBrick(context.getString(R.string.brick_ask_speech_default_question)));
+
+		if (BuildConfig.FEATURE_WEBREQUEST_BRICK_ENABLED) {
+			dataBrickList.add(new WebRequestBrick(context.getString(R.string.brick_web_request_default_value)));
+		}
 		return dataBrickList;
 	}
 
@@ -787,6 +796,8 @@ public class CategoryBricksFactory {
 			category = res.getString(R.string.category_event);
 		} else if (brick instanceof SetVariableBrick) {
 			category = res.getString(R.string.category_data);
+		} else if (brick instanceof WebRequestBrick) {
+			category = res.getString(R.string.category_control);
 		}
 
 		config.locale = savedLocale;

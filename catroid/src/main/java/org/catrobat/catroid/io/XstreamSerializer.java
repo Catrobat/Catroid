@@ -202,6 +202,7 @@ import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WaitTillIdleBrick;
 import org.catrobat.catroid.content.bricks.WaitUntilBrick;
+import org.catrobat.catroid.content.bricks.WebRequestBrick;
 import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenClonedBrick;
@@ -447,6 +448,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", WhenClonedBrick.class);
 		xstream.alias("brick", WriteVariableOnDeviceBrick.class);
 		xstream.alias("brick", StopScriptBrick.class);
+		xstream.alias("brick", WebRequestBrick.class);
 
 		xstream.alias("brick", WhenNfcBrick.class);
 		xstream.alias("brick", SetNfcTagBrick.class);

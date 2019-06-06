@@ -163,6 +163,7 @@ import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WaitTillIdleBrick;
 import org.catrobat.catroid.content.bricks.WaitUntilBrick;
+import org.catrobat.catroid.content.bricks.WebRequestBrick;
 import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenClonedBrick;
@@ -293,7 +294,8 @@ public class BrickCategoryTest {
 						StopScriptBrick.class,
 						CloneBrick.class,
 						DeleteThisCloneBrick.class,
-						WhenClonedBrick.class)},
+						WhenClonedBrick.class,
+						WebRequestBrick.class)},
 				{"Data", Arrays.asList(SetVariableBrick.class,
 						ChangeVariableBrick.class,
 						ShowTextBrick.class,
@@ -305,7 +307,8 @@ public class BrickCategoryTest {
 						InsertItemIntoUserListBrick.class,
 						ReplaceItemInUserListBrick.class,
 						AskBrick.class,
-						AskSpeechBrick.class)},
+						AskSpeechBrick.class,
+						WebRequestBrick.class)},
 				{"Lego NXT", Arrays.asList(LegoNxtMotorTurnAngleBrick.class,
 						LegoNxtMotorStopBrick.class,
 						LegoNxtMotorMoveBrick.class,
