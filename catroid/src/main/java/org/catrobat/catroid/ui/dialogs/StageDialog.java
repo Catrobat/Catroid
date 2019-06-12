@@ -34,12 +34,19 @@ import android.widget.ImageButton;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.embroidery.DSTFileGenerator;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageLifeCycleController;
 import org.catrobat.catroid.stage.StageListener;
+import org.catrobat.catroid.ui.ExportEmbroideryFileLauncher;
+import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.ToastUtil;
+
+import java.io.File;
+import java.io.IOException;
 
 import static org.catrobat.catroid.stage.StageListener.SCREENSHOT_MANUAL_FILE_NAME;
 
@@ -83,6 +90,17 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 	}
 
 	@Override
+	public void show() {
+		super.show();
+		if (stageListener.embroideryList.size() > 1) {
+			(findViewById(R.id.stage_layout_linear_share)).setVisibility(View.VISIBLE);
+			(findViewById(R.id.stage_dialog_button_share)).setOnClickListener(this);
+		} else {
+			(findViewById(R.id.stage_layout_linear_share)).setVisibility(View.GONE);
+		}
+	}
+
+	@Override
 	public void onClick(View view) {
 		switch (view.getId()) {
 			case R.id.stage_dialog_button_back:
@@ -103,6 +121,9 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 			case R.id.stage_dialog_button_screenshot:
 				makeScreenshot();
 				break;
+			case R.id.stage_dialog_button_share:
+				shareEmbroideryFile();
+				break;
 			default:
 				Log.w(TAG, "Unimplemented button clicked! This shouldn't happen!");
 				break;
@@ -117,6 +138,29 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 		new FinishThreadAndDisposeTexturesTask().execute(null, null, null);
 	}
 
+	private void shareEmbroideryFile() {
+		if (stageListener.embroideryList.size() > 1) {
+			String filename =
+					FileMetaDataExtractor.encodeSpecialCharsForFileSystem(ProjectManager.getInstance().getCurrentProject().getName());
+			DSTFileGenerator dstFileGenerator = new DSTFileGenerator(stageListener.embroideryList);
+			File dstFile = new File(Constants.CACHE_DIR, filename + Constants.EMBROIDERY_FILE_EXTENSION);
+			if (dstFile.exists()) {
+				dstFile.delete();
+			}
+
+			try {
+				if (dstFile.createNewFile()) {
+					dstFileGenerator.writeToDSTFile(dstFile);
+					new ExportEmbroideryFileLauncher(stageActivity, dstFile).startActivity();
+				}
+			} catch (IOException e) {
+				ToastUtil.showError(stageActivity, R.string.error_embroidery_file_export);
+				Log.e(TAG, "Writing to dst file failed");
+			}
+		}
+		dismiss();
+	}
+
 	public void onContinuePressed() {
 
 		if (ProjectManager.getInstance().getCurrentProject().isCastProject()
@@ -124,7 +168,6 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 			ToastUtil.showError(getContext(), stageActivity.getResources().getString(R.string.cast_error_not_connected_msg));
 			return;
 		}
-
 		dismiss();
 		StageLifeCycleController.stageResume(stageActivity);
 	}

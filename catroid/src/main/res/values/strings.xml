@@ -1028,6 +1028,7 @@
     <string name="stage_dialog_axes_off">Axes off</string>
     <string name="stage_dialog_maximize">Maximize/\nstretch</string>
     <string name="stage_dialog_screenshot">Preview</string>
+    <string name="stage_dialog_embroidery">Embroidery</string>
     <!--  -->
 
     <!-- Broadcast spinner -->
@@ -1404,6 +1405,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="error_drone_wrong_platform_title">No AR.Drone 2.0 support.</string>
     <string name="error_drone_wrong_platform">We cannot run an AR.Drone 2.0 project on your device.</string>
     <string name="error_rename_incompatible_project">Renaming an incompatible project is not possible.</string>
+    <string name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
 
     <string name="error_unknown_error">Something went wrong.</string>
     <string name="error_gps_not_available">Geolocation data is not available.</string>
