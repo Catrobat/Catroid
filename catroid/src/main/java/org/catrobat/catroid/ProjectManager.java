@@ -31,7 +31,6 @@ import org.catrobat.catroid.common.DefaultProjectHandler.ProjectCreatorType;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.LegoEV3Setting;
 import org.catrobat.catroid.content.LegoNXTSetting;
 import org.catrobat.catroid.content.Project;
@@ -39,6 +38,7 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Setting;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.WhenBounceOffScript;
 import org.catrobat.catroid.content.backwardcompatibility.BrickTreeBuilder;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -52,7 +52,7 @@ import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
-import org.catrobat.catroid.physics.PhysicsCollision;
+import org.catrobat.catroid.physics.PhysicsCollisionListener;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.io.File;
@@ -281,8 +281,8 @@ public final class ProjectManager {
 				for (Script script : sprite.getScriptList()) {
 					script.setParents();
 
-					if (script instanceof CollisionScript) {
-						((CollisionScript) script).updateSpriteToCollideWith(scene);
+					if (script instanceof WhenBounceOffScript) {
+						((WhenBounceOffScript) script).updateSpriteToCollideWith(scene);
 					}
 				}
 			}
@@ -370,14 +370,15 @@ public final class ProjectManager {
 		for (Scene scene : project.getSceneList()) {
 			for (Sprite sprite : scene.getSpriteList()) {
 				for (Script script : sprite.getScriptList()) {
-					if (script instanceof CollisionScript) {
-						CollisionScript collisionScript = (CollisionScript) script;
-						String[] spriteNames = collisionScript.getSpriteToCollideWithName().split(PhysicsCollision.COLLISION_MESSAGE_CONNECTOR);
+					if (script instanceof WhenBounceOffScript) {
+						WhenBounceOffScript bounceOffScript = (WhenBounceOffScript) script;
+						String[] spriteNames =
+								bounceOffScript.getSpriteToBounceOffName().split(PhysicsCollisionListener.COLLISION_MESSAGE_CONNECTOR);
 						String spriteToCollideWith = spriteNames[0];
 						if (spriteNames[0].equals(sprite.getName())) {
 							spriteToCollideWith = spriteNames[1];
 						}
-						collisionScript.setSpriteToCollideWithName(spriteToCollideWith);
+						bounceOffScript.setSpriteToBounceOffName(spriteToCollideWith);
 					}
 				}
 			}

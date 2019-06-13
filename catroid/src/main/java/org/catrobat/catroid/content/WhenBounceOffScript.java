@@ -24,54 +24,54 @@ package org.catrobat.catroid.content;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
-import org.catrobat.catroid.content.eventids.CollisionEventId;
+import org.catrobat.catroid.content.eventids.BounceOffEventId;
 import org.catrobat.catroid.content.eventids.EventId;
-import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
+import org.catrobat.catroid.physics.content.bricks.WhenBounceOffBrick;
 
-public class CollisionScript extends Script {
+public class WhenBounceOffScript extends Script {
 
 	private static final long serialVersionUID = 1L;
-	private String spriteToCollideWithName;
+	private String spriteToBounceOffName;
 
-	private transient Sprite spriteToCollideWith;
+	private transient Sprite spriteToBounceOff;
 
-	public CollisionScript() {
+	public WhenBounceOffScript() {
 	}
 
-	public CollisionScript(String spriteToCollideWithName) {
-		this.spriteToCollideWithName = spriteToCollideWithName;
+	public WhenBounceOffScript(String spriteToBounceOffName) {
+		this.spriteToBounceOffName = spriteToBounceOffName;
 	}
 
 	@Override
 	public ScriptBrick getScriptBrick() {
 		if (scriptBrick == null) {
-			scriptBrick = new CollisionReceiverBrick(this);
+			scriptBrick = new WhenBounceOffBrick(this);
 		}
 		return scriptBrick;
 	}
 
-	public String getSpriteToCollideWithName() {
-		return spriteToCollideWithName;
+	public String getSpriteToBounceOffName() {
+		return spriteToBounceOffName;
 	}
 
-	public void setSpriteToCollideWithName(String spriteToCollideWithName) {
-		this.spriteToCollideWithName = spriteToCollideWithName;
+	public void setSpriteToBounceOffName(String spriteToCollideWithName) {
+		this.spriteToBounceOffName = spriteToCollideWithName;
 		updateSpriteToCollideWith(ProjectManager.getInstance().getCurrentlyEditedScene());
 	}
 
 	public void updateSpriteToCollideWith(Scene scene) {
-		if (spriteToCollideWithName == null) {
-			spriteToCollideWith = null;
+		if (spriteToBounceOffName == null) {
+			spriteToBounceOffName = null;
 		} else {
-			spriteToCollideWith = scene.getSprite(spriteToCollideWithName);
-			if (spriteToCollideWith == null) {
-				spriteToCollideWithName = null;
+			spriteToBounceOff = scene.getSprite(spriteToBounceOffName);
+			if (spriteToBounceOff == null) {
+				spriteToBounceOffName = null;
 			}
 		}
 	}
 
 	@Override
 	public EventId createEventId(Sprite sprite) {
-		return new CollisionEventId(sprite, spriteToCollideWith);
+		return new BounceOffEventId(sprite, spriteToBounceOff);
 	}
 }

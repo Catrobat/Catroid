@@ -36,8 +36,8 @@
         android:visibility="gone" />
 
     <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/brick_collision_receive_layout"
-        style="@style/BrickContainer.Event.MediumWhen">
+        android:id="@+id/brick_when_bounce_off_layout"
+        style="@style/BrickContainer.Motion.MediumWhen">
 
         <include layout="@layout/icon_brick_category_event" />
 
@@ -47,7 +47,7 @@
             android:text="@string/brick_collision_receive" />
 
         <Spinner
-            android:id="@+id/brick_collision_receive_spinner"
+            android:id="@+id/brick_when_bounce_off_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textDirection="locale" />

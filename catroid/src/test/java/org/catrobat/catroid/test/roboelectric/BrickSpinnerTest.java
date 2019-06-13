@@ -35,12 +35,12 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastScript;
-import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.WhenBounceOffScript;
 import org.catrobat.catroid.content.WhenGamepadButtonScript;
 import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
 import org.catrobat.catroid.content.bricks.AskSpeechBrick;
@@ -73,7 +73,7 @@ import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick;
 import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
+import org.catrobat.catroid.physics.content.bricks.WhenBounceOffBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.junit.Before;
@@ -106,7 +106,7 @@ public class BrickSpinnerTest {
 
 	@ParameterizedRobolectricTestRunner.Parameters(name = "{0}")
 	public static Collection<Object[]> data() {
-		return Arrays.asList(new Object[][]{
+		return Arrays.asList(new Object[][] {
 				{SceneTransitionBrick.class.getSimpleName(), new SceneTransitionBrick(""), R.id.brick_scene_transition_spinner, "Scene 2", Arrays.asList("new…", "Scene 2")},
 				{SceneStartBrick.class.getSimpleName(), new SceneStartBrick(""), R.id.brick_scene_start_spinner, "Scene 1", Arrays.asList("new…", "Scene 1", "Scene 2")},
 				{CloneBrick.class.getSimpleName(), new CloneBrick(), R.id.brick_clone_spinner, "yourself", Arrays.asList("yourself", "otherTestSprite")},
@@ -134,7 +134,7 @@ public class BrickSpinnerTest {
 				{BroadcastBrick.class.getSimpleName(), new BroadcastBrick("initialMessage"), R.id.brick_broadcast_spinner, "initialMessage", Arrays.asList("new…", "initialMessage")},
 				{BroadcastWaitBrick.class.getSimpleName(), new BroadcastWaitBrick("initialMessage"), R.id.brick_broadcast_spinner, "initialMessage", Arrays.asList("new…", "initialMessage")},
 				{WhenBackgroundChangesBrick.class.getSimpleName(), new WhenBackgroundChangesBrick(), R.id.brick_when_background_spinner, "someBackground", Arrays.asList("new…", "someBackground")},
-				{CollisionReceiverBrick.class.getSimpleName(), new CollisionReceiverBrick(new CollisionScript("someSprite")), R.id.brick_collision_receive_spinner, "\0any edge, actor, or object\0", Arrays.asList("\0any edge, actor, or object\0")},
+				{WhenBounceOffBrick.class.getSimpleName(), new WhenBounceOffBrick(new WhenBounceOffScript(null)), R.id.brick_when_bounce_off_spinner, "\0any edge, actor, or object\0", Arrays.asList("\0any edge, actor, or object\0", "Background", "otherTestSprite")},
 				{WhenNfcBrick.class.getSimpleName(), new WhenNfcBrick(), R.id.brick_when_nfc_spinner, "all", Arrays.asList("new…", "all")},
 				{WhenGamepadButtonBrick.class.getSimpleName(), new WhenGamepadButtonBrick(new WhenGamepadButtonScript("")), R.id.brick_when_gamepad_button_spinner, "A", Arrays.asList("A", "B", "up", "down", "left", "right")},
 		});

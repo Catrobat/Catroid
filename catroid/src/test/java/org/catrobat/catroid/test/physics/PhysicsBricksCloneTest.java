@@ -22,15 +22,14 @@
  */
 package org.catrobat.catroid.test.physics;
 
-import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.WhenBounceOffScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
 import org.catrobat.catroid.physics.content.bricks.SetBounceBrick;
 import org.catrobat.catroid.physics.content.bricks.SetFrictionBrick;
 import org.catrobat.catroid.physics.content.bricks.SetGravityBrick;
@@ -39,6 +38,7 @@ import org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.physics.content.bricks.SetVelocityBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
+import org.catrobat.catroid.physics.content.bricks.WhenBounceOffBrick;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -90,11 +90,11 @@ public class PhysicsBricksCloneTest {
 
 	@Test
 	public void testCloneCollisionReceiverBrick() throws Exception {
-		Brick brick = new CollisionReceiverBrick(new CollisionScript(null));
+		Brick brick = new WhenBounceOffBrick(new WhenBounceOffScript(null));
 		Brick clonedBrick = brick.clone();
 
-		CollisionScript brickReceiverScript = (CollisionScript) ((CollisionReceiverBrick) brick).getScript();
-		CollisionScript clonedBrickReceiverScript = (CollisionScript) ((CollisionReceiverBrick) clonedBrick).getScript();
+		WhenBounceOffScript brickReceiverScript = (WhenBounceOffScript) ((WhenBounceOffBrick) brick).getScript();
+		WhenBounceOffScript clonedBrickReceiverScript = (WhenBounceOffScript) ((WhenBounceOffBrick) clonedBrick).getScript();
 
 		assertNotSame(brickReceiverScript, clonedBrickReceiverScript);
 	}

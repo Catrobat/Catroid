@@ -28,14 +28,14 @@ import android.support.test.runner.AndroidJUnit4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Contact;
 
-import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.WhenBounceOffScript;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
-import org.catrobat.catroid.content.eventids.CollisionEventId;
+import org.catrobat.catroid.content.eventids.BounceOffEventId;
 import org.catrobat.catroid.content.eventids.EventId;
-import org.catrobat.catroid.physics.PhysicsCollision;
-import org.catrobat.catroid.physics.PhysicsCollisionBroadcast;
+import org.catrobat.catroid.physics.PhysicalCollision;
+import org.catrobat.catroid.physics.PhysicsCollisionListener;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.junit.Before;
@@ -46,8 +46,9 @@ import org.junit.runner.RunWith;
 import java.util.Map;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
+
+import static org.junit.Assert.assertNotEquals;
 
 @RunWith(AndroidJUnit4.class)
 public class PhysicsCollisionBetweenTest {
@@ -74,23 +75,23 @@ public class PhysicsCollisionBetweenTest {
 
 	public void beginContactCallback(Contact contact) throws Exception {
 		rule.beginContactCallback(contact);
-		Map<Integer, PhysicsCollisionBroadcast> physicsCollisionBroadcasts =
-				(Map<Integer, PhysicsCollisionBroadcast>) Reflection.getPrivateField(PhysicsCollision.class,
+		Map<Integer, PhysicalCollision> physicsCollisionBroadcasts =
+				(Map<Integer, PhysicalCollision>) Reflection.getPrivateField(PhysicsCollisionListener.class,
 						rule.physicsCollisionTestListener, "physicsCollisionBroadcasts");
 		assertEquals(1, physicsCollisionBroadcasts.size());
 		Object[] parameters = {sprite, sprite2};
 		Reflection.ParameterList paramList = new Reflection.ParameterList(parameters);
-		CollisionEventId key = (CollisionEventId) Reflection.invokeMethod(PhysicsCollision.class,
+		BounceOffEventId key = (BounceOffEventId) Reflection.invokeMethod(PhysicsCollisionListener.class,
 				rule.physicsCollisionTestListener,
 				"generateKey", paramList);
-		PhysicsCollisionBroadcast collisionBroadcast = physicsCollisionBroadcasts.get(key);
+		PhysicalCollision collisionBroadcast = physicsCollisionBroadcasts.get(key);
 		assertEquals(collisionBroadcast.getContactCounter(), rule.getContactDifference());
 	}
 
 	public void endContactCallback(Contact contact) throws Exception {
 		rule.endContactCallback(contact);
-		Map<Integer, PhysicsCollisionBroadcast> physicsCollisionBroadcasts =
-				(Map<Integer, PhysicsCollisionBroadcast>) Reflection.getPrivateField(PhysicsCollision.class,
+		Map<Integer, PhysicalCollision> physicsCollisionBroadcasts =
+				(Map<Integer, PhysicalCollision>) Reflection.getPrivateField(PhysicsCollisionListener.class,
 						rule.physicsCollisionTestListener, "physicsCollisionBroadcasts");
 		if (rule.getContactDifference() == 0) {
 			assertEquals(0, physicsCollisionBroadcasts.size());
@@ -107,19 +108,18 @@ public class PhysicsCollisionBetweenTest {
 	}
 
 	@Test
-	public void testCollisionBroadcastOfTwoSprites() {
-		assertNotNull(sprite.look.getLookData());
-		assertNotNull(sprite2.look.getLookData());
+	public void testBounceOffEventIsOnlySentToDynamicSprites() {
+		final int testXValue = 444;
+		final int testYValue = 555;
 
-		CollisionScript secondSpriteCollisionScript = new CollisionScript(null);
-		secondSpriteCollisionScript.setSpriteToCollideWithName(sprite.getName());
-		secondSpriteCollisionScript.getScriptBrick();
-		int testXValue = 444;
-		int testYValue = 555;
-		PlaceAtBrick testBrick = new PlaceAtBrick(testXValue, testYValue);
-		secondSpriteCollisionScript.addBrick(testBrick);
-		sprite2.addScript(secondSpriteCollisionScript);
+		WhenBounceOffScript firstSpriteWhenBounceOffScript = new WhenBounceOffScript(sprite2.getName());
+		firstSpriteWhenBounceOffScript.addBrick(new PlaceAtBrick(-testXValue, -testYValue));
+		sprite.addScript(firstSpriteWhenBounceOffScript);
+		sprite.initializeEventThreads(EventId.START);
 
+		WhenBounceOffScript secondSpriteWhenBounceOffScript = new WhenBounceOffScript(sprite.getName());
+		secondSpriteWhenBounceOffScript.addBrick(new PlaceAtBrick(testXValue, testYValue));
+		sprite2.addScript(secondSpriteWhenBounceOffScript);
 		sprite2.initializeEventThreads(EventId.START);
 
 		rule.simulateFullCollision();
@@ -130,8 +130,10 @@ public class PhysicsCollisionBetweenTest {
 			}
 		}
 
-		assertEquals((float) testXValue, sprite2.look.getXInUserInterfaceDimensionUnit());
-		assertEquals((float) testYValue, sprite2.look.getYInUserInterfaceDimensionUnit());
+		assertNotEquals((float) testXValue, sprite2.look.getXInUserInterfaceDimensionUnit());
+		assertNotEquals((float) testYValue, sprite2.look.getYInUserInterfaceDimensionUnit());
+		assertEquals((float) -testXValue, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals((float) -testYValue, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public boolean allActionsOfAllSpritesAreFinished() {

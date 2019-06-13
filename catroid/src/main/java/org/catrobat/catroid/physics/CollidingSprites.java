@@ -20,17 +20,18 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.eventids;
 
-import com.google.common.base.Objects;
+package org.catrobat.catroid.physics;
 
 import org.catrobat.catroid.content.Sprite;
 
-public class CollisionEventId extends EventId {
+import java.util.Objects;
+
+public class CollidingSprites {
 	public final Sprite sprite1;
 	public final Sprite sprite2;
 
-	public CollisionEventId(Sprite sprite1, Sprite sprite2) {
+	public CollidingSprites(Sprite sprite1, Sprite sprite2) {
 		this.sprite1 = sprite1;
 		this.sprite2 = sprite2;
 	}
@@ -40,18 +41,16 @@ public class CollisionEventId extends EventId {
 		if (this == o) {
 			return true;
 		}
-		if (o instanceof CollisionEventId) {
-			CollisionEventId collisionEventId = (CollisionEventId) o;
-			return (Objects.equal(sprite1, collisionEventId.sprite1) || Objects.equal(sprite1, collisionEventId.sprite2))
-					&& (Objects.equal(sprite2, collisionEventId.sprite1) || Objects.equal(sprite2, collisionEventId.sprite2));
+		if (!(o instanceof CollidingSprites)) {
+			return false;
 		}
-		return false;
+		CollidingSprites that = (CollidingSprites) o;
+		return (Objects.equals(sprite1, that.sprite1) && Objects.equals(sprite2, that.sprite2))
+				|| (Objects.equals(sprite2, that.sprite1) && Objects.equals(sprite1, that.sprite2));
 	}
 
 	@Override
 	public int hashCode() {
-		int result = sprite1 != null ? sprite1.hashCode() : 0;
-		result = result + (sprite2 != null ? sprite2.hashCode() : 0);
-		return result;
+		return Objects.hash(sprite1) + Objects.hash(sprite2);
 	}
 }

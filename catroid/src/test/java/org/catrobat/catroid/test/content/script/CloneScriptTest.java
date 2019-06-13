@@ -24,11 +24,11 @@
 package org.catrobat.catroid.test.content.script;
 
 import org.catrobat.catroid.content.BroadcastScript;
-import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.RaspiInterruptScript;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenBackgroundChangesScript;
+import org.catrobat.catroid.content.WhenBounceOffScript;
 import org.catrobat.catroid.content.WhenClonedScript;
 import org.catrobat.catroid.content.WhenConditionScript;
 import org.catrobat.catroid.content.WhenGamepadButtonScript;
@@ -60,7 +60,7 @@ public class CloneScriptTest {
 	public static Iterable<Object[]> data() {
 		return Arrays.asList(new Object[][] {
 				{BroadcastScript.class.getSimpleName(), BroadcastScript.class},
-				{CollisionScript.class.getSimpleName(), CollisionScript.class},
+				{WhenBounceOffScript.class.getSimpleName(), WhenBounceOffScript.class},
 				{RaspiInterruptScript.class.getSimpleName(), RaspiInterruptScript.class},
 				{StartScript.class.getSimpleName(), StartScript.class},
 				{WhenBackgroundChangesScript.class.getSimpleName(), WhenBackgroundChangesScript.class},
