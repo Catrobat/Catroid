@@ -54,21 +54,30 @@ public class ProjectRenameTask extends AsyncTask<Void, Void, Boolean> {
 		return this;
 	}
 
-	public static boolean task(File projectDir, String dstName) {
+	public static File task(File projectDir, String dstName) throws IOException {
 		File dstDir = new File(projectDir.getParent(), FileMetaDataExtractor.encodeSpecialCharsForFileSystem(dstName));
 
 		try {
-			return projectDir.renameTo(dstDir)
-					&& XstreamSerializer.renameProject(new File(dstDir, CODE_XML_FILE_NAME), dstName);
+			if (projectDir.renameTo(dstDir)
+					&& XstreamSerializer.renameProject(new File(dstDir, CODE_XML_FILE_NAME), dstName)) {
+				return dstDir;
+			} else {
+				throw new IOException("Cannot rename project directory " + projectDir.getAbsolutePath() + " to " + dstName);
+			}
 		} catch (IOException e) {
-			Log.e(TAG, "Cannot rename project directory " + projectDir.getAbsolutePath() + " to " + dstName, e);
-			return false;
+			throw e;
 		}
 	}
 
 	@Override
 	protected Boolean doInBackground(Void... voids) {
-		return task(projectDir, dstName);
+		try {
+			task(projectDir, dstName);
+			return true;
+		} catch (IOException e) {
+			Log.e(TAG, "Creating renamed directory failed!", e);
+			return false;
+		}
 	}
 
 	@Override
