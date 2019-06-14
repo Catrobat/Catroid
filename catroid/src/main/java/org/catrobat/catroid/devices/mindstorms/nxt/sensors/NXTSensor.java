@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.devices.mindstorms.nxt.sensors;
 
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import org.catrobat.catroid.devices.mindstorms.LegoSensor;
@@ -77,7 +78,7 @@ public abstract class NXTSensor implements LegoSensor {
 	protected final NXTSensorMode sensorMode;
 	protected final int updateInterval = 250;
 
-	protected final MindstormsConnection connection;
+	protected MindstormsConnection connection;
 
 	protected boolean hasInit;
 	protected float lastValidValue = 0;
@@ -89,6 +90,11 @@ public abstract class NXTSensor implements LegoSensor {
 		this.sensorType = sensorType;
 		this.sensorMode = sensorMode;
 
+		this.connection = connection;
+	}
+
+	@VisibleForTesting
+	public void setConnection(MindstormsConnection connection) {
 		this.connection = connection;
 	}
 
