@@ -64,6 +64,7 @@ import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -258,11 +259,13 @@ public class ProjectUploadActivity extends BaseActivity implements
 		String description = descriptionInputLayout.getEditText().getText().toString().trim();
 
 		if (!project.getName().equals(name)) {
-			ProjectRenameTask
-					.task(project.getDirectory(), name);
-			ProjectLoadTask
-					.task(project.getDirectory(), this);
-			project = ProjectManager.getInstance().getCurrentProject();
+			try {
+				File renamedDirectory = ProjectRenameTask.task(project.getDirectory(), name);
+				ProjectLoadTask.task(renamedDirectory, this);
+				project = ProjectManager.getInstance().getCurrentProject();
+			} catch (IOException e) {
+				Log.e(TAG, "Creating renamed directory failed!", e);
+			}
 		}
 
 		project.setDescription(description);
