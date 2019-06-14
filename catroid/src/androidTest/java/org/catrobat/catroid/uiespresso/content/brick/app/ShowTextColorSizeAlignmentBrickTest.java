@@ -23,16 +23,17 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.app;
 
+import android.support.test.espresso.ViewInteraction;
 import android.support.test.runner.AndroidJUnit4;
+import android.widget.TableRow;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.bricks.PlaceAtBrick;
-import org.catrobat.catroid.test.utils.TestUtils;
+import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
-import org.junit.After;
+import org.catrobat.paintroid.colorpicker.PresetSelectorView;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -42,67 +43,70 @@ import org.junit.runner.RunWith;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
+import static android.support.test.espresso.matcher.ViewMatchers.withParentIndex;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript;
-import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.containsString;
 
 @RunWith(AndroidJUnit4.class)
-public class PlaceAtBrickTest {
+public class ShowTextColorSizeAlignmentBrickTest {
 	private int brickPosition;
 
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 
-	@After
-	public void tearDown() throws Exception {
-		TestUtils.deleteProjects(PlaceAtBrickTest.class.getSimpleName());
-	}
-
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		brickPosition = 1;
-		createProjectAndGetStartScript(PlaceAtBrickTest.class.getSimpleName())
-				.addBrick(new PlaceAtBrick());
+		createProjectAndGetStartScript("ShowTextColorSizeAlignmentBrickTest")
+				.addBrick(new ShowTextColorSizeAlignmentBrick());
 		baseActivityTestRule.launchActivity();
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void testPlaceAtBrick() {
-		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_place_at);
-		onView(withId(R.id.brick_place_at_edit_text_x))
+	public void testPickColor() {
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_show_variable);
+		onView(withId(R.id.brick_show_variable_color_size_edit_color))
 				.perform(click());
-		onView(withText(R.string.brick_place_at_option_place_visually))
-				.check(matches(isDisplayed()));
-		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
-				.check(matches(isDisplayed()))
+		onView(withText(R.string.brick_context_dialog_pick_color))
 				.perform(click());
-		onFormulaEditor()
-				.performEnterNumber(42)
-				.performCloseAndSave();
-		onView(withId(R.id.brick_place_at_edit_text_x))
-				.check(matches(withText("42 ")));
+		onFirstPresetButton()
+				.perform(click());
+		onView(withId(R.id.color_picker_button_ok))
+				.perform(click());
+		onView(withId(R.id.brick_show_variable_color_size_edit_color))
+				.check(matches(withText(containsString("'#0074CD'"))));
+	}
 
-		onView(withId(R.id.brick_place_at_edit_text_y))
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void testPickColorCancel() {
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_show_variable);
+		onView(withId(R.id.brick_show_variable_color_size_edit_color))
 				.perform(click());
-		onView(withText(R.string.brick_place_at_option_place_visually))
-				.check(matches(isDisplayed()));
-		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
-				.check(matches(isDisplayed()))
+		onView(withText(R.string.brick_context_dialog_pick_color))
 				.perform(click());
-		onFormulaEditor()
-				.performEnterNumber(42)
-				.performCloseAndSave();
-		onView(withId(R.id.brick_place_at_edit_text_y))
-				.check(matches(withText("42 ")));
+		onFirstPresetButton()
+				.perform(click());
+		onView(withId(R.id.color_picker_button_cancel))
+				.perform(click());
+		onView(withId(R.id.brick_show_variable_color_size_edit_color))
+				.check(matches(withText(containsString("0"))));
+	}
 
-		onBrickAtPosition(brickPosition).performClick();
-		onView(withText(R.string.brick_place_at_option_place_visually))
-				.check(matches(isDisplayed()));
+	private static ViewInteraction onFirstPresetButton() {
+		return onView(allOf(
+				isDescendantOfA(isAssignableFrom(PresetSelectorView.class)),
+				withParent(allOf(isAssignableFrom(TableRow.class), withParentIndex(0))),
+				withParentIndex(0)));
 	}
 }

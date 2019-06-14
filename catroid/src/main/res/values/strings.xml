@@ -1979,6 +1979,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_show_variable_aligned_centered">centered</string>
     <string name="brick_show_variable_aligned_left">left</string>
     <string name="brick_show_variable_aligned_right">right</string>
+    <string name="brick_context_dialog_pick_color">Pick color</string>
     <!-- -->
 
 
