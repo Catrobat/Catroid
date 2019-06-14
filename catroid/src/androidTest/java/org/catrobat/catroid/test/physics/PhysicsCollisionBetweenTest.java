@@ -48,8 +48,6 @@ import java.util.Map;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
-import static org.junit.Assert.assertNotEquals;
-
 @RunWith(AndroidJUnit4.class)
 public class PhysicsCollisionBetweenTest {
 
@@ -108,7 +106,7 @@ public class PhysicsCollisionBetweenTest {
 	}
 
 	@Test
-	public void testBounceOffEventIsOnlySentToDynamicSprites() {
+	public void testBounceOffEvent() {
 		final int testXValue = 444;
 		final int testYValue = 555;
 
@@ -130,8 +128,8 @@ public class PhysicsCollisionBetweenTest {
 			}
 		}
 
-		assertNotEquals((float) testXValue, sprite2.look.getXInUserInterfaceDimensionUnit());
-		assertNotEquals((float) testYValue, sprite2.look.getYInUserInterfaceDimensionUnit());
+		assertEquals((float) testXValue, sprite2.look.getXInUserInterfaceDimensionUnit());
+		assertEquals((float) testYValue, sprite2.look.getYInUserInterfaceDimensionUnit());
 		assertEquals((float) -testXValue, sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals((float) -testYValue, sprite.look.getYInUserInterfaceDimensionUnit());
 	}

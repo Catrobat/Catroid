@@ -62,7 +62,7 @@ public class PhysicsCollisionListener implements ContactListener {
 			physicalCollision.decreaseContactCounter();
 
 			if (physicalCollision.getContactCounter() == 0) {
-				physicalCollision.sendBounceOffEventsIfNecessary(physicsWorld);
+				physicalCollision.sendBounceOffEvents();
 				collidingSpritesToCollisionMap.remove(collidingSprites);
 			}
 		}
