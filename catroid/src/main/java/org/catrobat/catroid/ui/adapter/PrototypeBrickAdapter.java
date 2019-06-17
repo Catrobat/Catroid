@@ -27,7 +27,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.BrickBaseType;
 
 import java.util.List;
 
@@ -55,16 +54,7 @@ public class PrototypeBrickAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public int getItemViewType(int position) {
-		return position;
-	}
-
-	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		BrickBaseType brick = (BrickBaseType) brickList.get(position);
-		View view = brick.getView(parent.getContext());
-		brick.onPrototypeViewCreated();
-		brick.disableSpinners();
-		return view;
+		return brickList.get(position).getPrototypeView(parent.getContext());
 	}
 }

@@ -23,28 +23,38 @@
 package org.catrobat.catroid;
 
 import android.content.Context;
-import android.os.AsyncTask;
-import android.preference.PreferenceManager;
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DefaultProjectHandler;
+import org.catrobat.catroid.common.DefaultProjectHandler.ProjectCreatorType;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.content.CollisionScript;
+import org.catrobat.catroid.content.LegoEV3Setting;
+import org.catrobat.catroid.content.LegoNXTSetting;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Setting;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.WhenBounceOffScript;
+import org.catrobat.catroid.content.backwardcompatibility.BrickTreeBuilder;
+import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.Brick.BrickField;
+import org.catrobat.catroid.content.bricks.FormulaBrick;
+import org.catrobat.catroid.content.bricks.SetPenColorBrick;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.exceptions.ProjectException;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
-import org.catrobat.catroid.ui.recyclerview.controller.BrickController;
+import org.catrobat.catroid.physics.PhysicsCollisionListener;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.io.File;
@@ -53,7 +63,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.catrobat.catroid.common.Constants.PREF_PROJECTNAME_KEY;
+import static org.catrobat.catroid.common.Constants.CURRENT_CATROBAT_LANGUAGE_VERSION;
 
 public final class ProjectManager {
 
@@ -65,8 +75,6 @@ public final class ProjectManager {
 	private Scene currentlyPlayingScene;
 	private Scene startScene;
 	private Sprite currentSprite;
-
-	private BrickController brickController = new BrickController();
 
 	private ProjectManager() {
 	}
@@ -87,7 +95,7 @@ public final class ProjectManager {
 			throw new LoadingProjectException(context.getString(R.string.error_load_project));
 		}
 
-		if (project.getCatrobatLanguageVersion() > Constants.CURRENT_CATROBAT_LANGUAGE_VERSION) {
+		if (project.getCatrobatLanguageVersion() > CURRENT_CATROBAT_LANGUAGE_VERSION) {
 			restorePreviousProject(previousProject);
 			throw new OutdatedVersionProjectException(context.getString(R.string.error_outdated_version));
 		}
@@ -102,10 +110,10 @@ public final class ProjectManager {
 			project.setCatrobatLanguageVersion(0.92f);
 			project.setScreenMode(ScreenModes.STRETCH);
 		}
-
-		if (project.getCatrobatLanguageVersion() == 0.92f || project.getCatrobatLanguageVersion() == 0.93f) {
-			//0.93 should be left out because it available unintentional for a day
-			//raise language version here to 0.94
+		if (project.getCatrobatLanguageVersion() == 0.92f) {
+			project.setCatrobatLanguageVersion(0.93f);
+		}
+		if (project.getCatrobatLanguageVersion() == 0.93f) {
 			project.setCatrobatLanguageVersion(0.94f);
 		}
 		if (project.getCatrobatLanguageVersion() == 0.94f) {
@@ -127,24 +135,22 @@ public final class ProjectManager {
 			project.setCatrobatLanguageVersion(0.991f);
 		}
 		if (project.getCatrobatLanguageVersion() == 0.991f) {
-			//With the introduction of grouping there are several Sprite-classes
-			//This is simply done in XStreamSpriteConverter
 			project.setCatrobatLanguageVersion(0.992f);
 		}
 		if (project.getCatrobatLanguageVersion() == 0.992f) {
-			project.updateCollisionFormulasToVersion(0.993f);
+			updateCollisionFormulasTo993(project);
 			project.setCatrobatLanguageVersion(0.993f);
 		}
 		if (project.getCatrobatLanguageVersion() == 0.993f) {
-			project.updateSetPenColorFormulas();
+			updateSetPenColorFormulasTo994(project);
 			project.setCatrobatLanguageVersion(0.994f);
 		}
 		if (project.getCatrobatLanguageVersion() == 0.994f) {
-			project.updateArduinoValues994to995();
+			updateArduinoValuesTo995(project);
 			project.setCatrobatLanguageVersion(0.995f);
 		}
 		if (project.getCatrobatLanguageVersion() == 0.995f) {
-			project.updateCollisionScripts();
+			updateCollisionScriptsTo996(project);
 			project.setCatrobatLanguageVersion(0.996f);
 		}
 		if (project.getCatrobatLanguageVersion() == 0.996f) {
@@ -157,30 +163,39 @@ public final class ProjectManager {
 			project.setCatrobatLanguageVersion(0.999f);
 		}
 		if (project.getCatrobatLanguageVersion() == 0.999f) {
+			makeShallowCopiesDeepAgain(project);
 			project.setCatrobatLanguageVersion(0.9991f);
 		}
 		if (project.getCatrobatLanguageVersion() == 0.9991f) {
 			project.setCatrobatLanguageVersion(0.9992f);
+			project.setCatrobatLanguageVersion(0.9992f);
 		}
 		if (project.getCatrobatLanguageVersion() == 0.9992f) {
-			project.setCatrobatLanguageVersion(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
+			project.setCatrobatLanguageVersion(0.9993f);
 		}
-
-		//insert further conversions here
-
-		makeShallowCopiesDeepAgain(project);
-		setControlBrickReferences(project);
-		updateCollisionScriptsSpriteReference(project);
-
-		if (project.getCatrobatLanguageVersion() == Constants.CURRENT_CATROBAT_LANGUAGE_VERSION) {
-			localizeBackgroundSprite(context);
-		} else {
+		if (project.getCatrobatLanguageVersion() == 0.9993f) {
+			updateScriptsToTreeStructure(project);
+			project.setCatrobatLanguageVersion(0.9994f);
+		}
+		if (project.getCatrobatLanguageVersion() == 0.9994f) {
+			project.setCatrobatLanguageVersion(0.9995f);
+		}
+		if (project.getCatrobatLanguageVersion() == 0.9995f) {
+			project.setCatrobatLanguageVersion(0.9996f);
+		}
+		if (project.getCatrobatLanguageVersion() == 0.9996f) {
+			project.setCatrobatLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION);
+		}
+		if (project.getCatrobatLanguageVersion() != CURRENT_CATROBAT_LANGUAGE_VERSION) {
 			restorePreviousProject(previousProject);
 			throw new CompatibilityProjectException(context.getString(R.string.error_project_compatibility));
 		}
 
-		project.loadLegoNXTSettingsFromProject(context);
-		project.loadLegoEV3SettingsFromProject(context);
+		localizeBackgroundSprites(project, context.getString(R.string.background));
+		initializeScripts(project);
+
+		loadLegoNXTSettingsFromProject(project, context);
+		loadLegoEV3SettingsFromProject(project, context);
 
 		Brick.ResourcesSet resourcesSet = project.getRequiredResources();
 
@@ -197,6 +212,7 @@ public final class ProjectManager {
 		}
 
 		currentlyPlayingScene = project.getDefaultScene();
+		currentSprite = null;
 	}
 
 	private void restorePreviousProject(Project previousProject) {
@@ -206,7 +222,7 @@ public final class ProjectManager {
 		}
 	}
 
-	private void makeShallowCopiesDeepAgain(Project project) {
+	private static void makeShallowCopiesDeepAgain(Project project) {
 		for (Scene scene : project.getSceneList()) {
 
 			List<String> fileNames = new ArrayList<>();
@@ -220,7 +236,7 @@ public final class ProjectManager {
 							lookData.setFile(StorageOperations.duplicateFile(lookData.getFile()));
 						} catch (IOException e) {
 							iterator.remove();
-							Log.e(TAG, "Cannot not copy: " + lookData.getFile().getAbsolutePath()
+							Log.e(TAG, "Cannot copy: " + lookData.getFile().getAbsolutePath()
 									+ ", removing LookData " + lookData.getName() + " from "
 									+ project.getName() + ", "
 									+ scene.getName() + ", "
@@ -238,7 +254,7 @@ public final class ProjectManager {
 							soundInfo.setFile(StorageOperations.duplicateFile(soundInfo.getFile()));
 						} catch (IOException e) {
 							iterator.remove();
-							Log.e(TAG, "Cannot not copy: " + soundInfo.getFile().getAbsolutePath()
+							Log.e(TAG, "Cannot copy: " + soundInfo.getFile().getAbsolutePath()
 									+ ", removing SoundInfo " + soundInfo.getName() + " from "
 									+ project.getName() + ", "
 									+ scene.getName() + ", "
@@ -251,32 +267,167 @@ public final class ProjectManager {
 		}
 	}
 
-	private void localizeBackgroundSprite(Context context) {
-		if (currentlyEditedScene == null) {
-			return;
+	private void localizeBackgroundSprites(Project project, String localizedBackgroundName) {
+		for (Scene scene : project.getSceneList()) {
+			if (!scene.getSpriteList().isEmpty()) {
+				Sprite background = scene.getSpriteList().get(0);
+				background.setName(localizedBackgroundName);
+				background.look.setZIndex(0);
+			}
 		}
-		if (currentlyEditedScene.getSpriteList().size() > 0) {
-			currentlyEditedScene.getSpriteList().get(0).setName(context.getString(R.string.background));
-			currentlyEditedScene.getSpriteList().get(0).look.setZIndex(0);
-		}
-		currentSprite = null;
-
-		PreferenceManager.getDefaultSharedPreferences(context)
-				.edit()
-				.putString(PREF_PROJECTNAME_KEY, project.getName())
-				.commit();
 	}
 
-	public void saveProject(Context context) {
-		if (project == null) {
-			return;
+	private static void initializeScripts(Project project) {
+		for (Scene scene : project.getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				for (Script script : sprite.getScriptList()) {
+					script.setParents();
+
+					if (script instanceof WhenBounceOffScript) {
+						((WhenBounceOffScript) script).updateSpriteToCollideWith(scene);
+					}
+				}
+			}
 		}
+	}
 
-		project.saveLegoNXTSettingsToProject(context);
-		project.saveLegoEV3SettingsToProject(context);
+	private static void loadLegoNXTSettingsFromProject(Project project, Context context) {
+		for (Setting setting : project.getSettings()) {
+			if (setting instanceof LegoNXTSetting) {
+				SettingsFragment.enableLegoMindstormsNXTBricks(context);
+				SettingsFragment.setLegoMindstormsNXTSensorMapping(context, ((LegoNXTSetting) setting).getSensorMapping());
+				return;
+			}
+		}
+	}
 
-		SaveProjectAsynchronousTask saveTask = new SaveProjectAsynchronousTask();
-		saveTask.execute();
+	private static void loadLegoEV3SettingsFromProject(Project project, Context context) {
+		for (Setting setting : project.getSettings()) {
+			if (setting instanceof LegoEV3Setting) {
+				SettingsFragment.enableLegoMindstormsEV3Bricks(context);
+				SettingsFragment.setLegoMindstormsEV3SensorMapping(context, ((LegoEV3Setting) setting).getSensorMapping());
+				return;
+			}
+		}
+	}
+
+	public List<UserVariable> getGlobalVariableConflicts(Project project1, Project project2) {
+		List<UserVariable> project1GlobalVars = project1.getUserVariables();
+		List<UserVariable> project2GlobalVars = project2.getUserVariables();
+		List<UserVariable> conflicts = new ArrayList<>();
+		for (UserVariable project1GlobalVar : project1GlobalVars) {
+			for (UserVariable project2GlobalVar : project2GlobalVars) {
+				if (project1GlobalVar.getName().equals(project2GlobalVar.getName()) && !project1GlobalVar.getValue()
+						.equals(project2GlobalVar.getValue())) {
+					conflicts.add(project1GlobalVar);
+				}
+			}
+		}
+		return conflicts;
+	}
+
+	public List<UserList> getGlobalListConflicts(Project project1, Project project2) {
+		List<UserList> project1GlobalLists = project1.getUserLists();
+		List<UserList> project2GlobalLists = project2.getUserLists();
+		List<UserList> conflicts = new ArrayList<>();
+		for (UserList project1GlobalList : project1GlobalLists) {
+			for (UserList project2GlobalList : project2GlobalLists) {
+				if (project1GlobalList.getName().equals(project2GlobalList.getName()) && !project1GlobalList.getList()
+						.equals(project2GlobalList.getList())) {
+					conflicts.add(project1GlobalList);
+				}
+			}
+		}
+		return conflicts;
+	}
+
+	@VisibleForTesting
+	public static void updateCollisionFormulasTo993(Project project) {
+		for (Scene scene : project.getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				for (Script script : sprite.getScriptList()) {
+					Brick scriptBrick = script.getScriptBrick();
+					if (scriptBrick instanceof FormulaBrick) {
+						FormulaBrick formulaBrick = (FormulaBrick) scriptBrick;
+						for (Formula formula : formulaBrick.getFormulas()) {
+							formula.updateCollisionFormulasToVersion();
+						}
+					}
+					for (Brick brick : script.getBrickList()) {
+						if (brick instanceof FormulaBrick) {
+							FormulaBrick formulaBrick = (FormulaBrick) brick;
+							for (Formula formula : formulaBrick.getFormulas()) {
+								formula.updateCollisionFormulasToVersion();
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private static void updateSetPenColorFormulasTo994(Project project) {
+		for (Scene scene : project.getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				for (Script script : sprite.getScriptList()) {
+					for (Brick brick : script.getBrickList()) {
+						if (brick instanceof SetPenColorBrick) {
+							SetPenColorBrick spcBrick = (SetPenColorBrick) brick;
+							spcBrick.replaceFormulaBrickField(BrickField.PHIRO_LIGHT_RED, BrickField.PEN_COLOR_RED);
+							spcBrick.replaceFormulaBrickField(BrickField.PHIRO_LIGHT_GREEN, BrickField.PEN_COLOR_GREEN);
+							spcBrick.replaceFormulaBrickField(BrickField.PHIRO_LIGHT_BLUE, BrickField.PEN_COLOR_BLUE);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private static void updateArduinoValuesTo995(Project project) {
+		for (Scene scene : project.getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				for (Script script : sprite.getScriptList()) {
+					for (Brick brick : script.getBrickList()) {
+						if (brick instanceof ArduinoSendPWMValueBrick) {
+							ArduinoSendPWMValueBrick spcBrick = (ArduinoSendPWMValueBrick) brick;
+							spcBrick.updateArduinoValues994to995();
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private static void updateCollisionScriptsTo996(Project project) {
+		for (Scene scene : project.getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				for (Script script : sprite.getScriptList()) {
+					if (script instanceof WhenBounceOffScript) {
+						WhenBounceOffScript bounceOffScript = (WhenBounceOffScript) script;
+						String[] spriteNames =
+								bounceOffScript.getSpriteToBounceOffName().split(PhysicsCollisionListener.COLLISION_MESSAGE_CONNECTOR);
+						String spriteToCollideWith = spriteNames[0];
+						if (spriteNames[0].equals(sprite.getName())) {
+							spriteToCollideWith = spriteNames[1];
+						}
+						bounceOffScript.setSpriteToBounceOffName(spriteToCollideWith);
+					}
+				}
+			}
+		}
+	}
+
+	private static void updateScriptsToTreeStructure(Project project) {
+		for (Scene scene : project.getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				for (Script script : sprite.getScriptList()) {
+					BrickTreeBuilder brickTreeBuilder = new BrickTreeBuilder();
+					brickTreeBuilder.convertBricks(script.getBrickList());
+					script.getBrickList().clear();
+					script.getBrickList().addAll(brickTreeBuilder.toList());
+				}
+			}
+		}
 	}
 
 	public boolean initializeDefaultProject(Context context) {
@@ -292,29 +443,16 @@ public final class ProjectManager {
 		}
 	}
 
-	public void initializeNewProject(String projectName, Context context, boolean empty, boolean drone,
-			boolean landscapeMode, boolean castEnabled, boolean jumpingSumo)
-			throws IllegalArgumentException, IOException {
+	public void createNewEmptyProject(String name, Context context, boolean landscapeMode, boolean castEnabled) throws IOException {
+		project = DefaultProjectHandler.createAndSaveEmptyProject(name, context, landscapeMode, castEnabled);
+		currentSprite = null;
+		currentlyEditedScene = project.getDefaultScene();
+		currentlyPlayingScene = currentlyEditedScene;
+	}
 
-		if (empty) {
-			project = DefaultProjectHandler.createAndSaveEmptyProject(projectName, context, landscapeMode, castEnabled);
-		} else {
-			if (drone) {
-				DefaultProjectHandler.getInstance().setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType
-						.PROJECT_CREATOR_DRONE);
-			} else if (castEnabled) {
-				DefaultProjectHandler.getInstance().setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType
-						.PROJECT_CREATOR_CAST);
-			} else if (jumpingSumo) {
-				DefaultProjectHandler.getInstance().setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType
-						.PROJECT_CREATOR_JUMPING_SUMO);
-			} else {
-				DefaultProjectHandler.getInstance().setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType
-						.PROJECT_CREATOR_DEFAULT);
-			}
-			project = DefaultProjectHandler.createAndSaveDefaultProject(projectName, context, landscapeMode);
-		}
-
+	public void createNewExampleProject(String name, Context context, ProjectCreatorType projectCreatorType, boolean landscapeMode) throws IOException {
+		DefaultProjectHandler.getInstance().setDefaultProjectCreator(projectCreatorType);
+		project = DefaultProjectHandler.createAndSaveDefaultProject(name, context, landscapeMode);
 		currentSprite = null;
 		currentlyEditedScene = project.getDefaultScene();
 		currentlyPlayingScene = currentlyEditedScene;
@@ -380,39 +518,7 @@ public final class ProjectManager {
 	}
 
 	public void setCurrentlyEditedScene(Scene scene) {
-		this.currentlyEditedScene = scene;
+		currentlyEditedScene = scene;
 		currentlyPlayingScene = scene;
-	}
-
-	public void setControlBrickReferences(Project project) {
-		for (Scene scene : project.getSceneList()) {
-			for (Sprite sprite : scene.getSpriteList()) {
-				for (Script script : sprite.getScriptList()) {
-					brickController.setControlBrickReferences(script.getBrickList());
-				}
-			}
-		}
-	}
-
-	private void updateCollisionScriptsSpriteReference(Project project) {
-		for (Scene scene : project.getSceneList()) {
-			for (Sprite sprite : scene.getSpriteList()) {
-				for (Script script : sprite.getScriptList()) {
-					if (script instanceof CollisionScript) {
-						CollisionScript collisionScript = (CollisionScript) script;
-						collisionScript.updateSpriteToCollideWith(scene);
-					}
-				}
-			}
-		}
-	}
-
-	private class SaveProjectAsynchronousTask extends AsyncTask<Void, Void, Void> {
-
-		@Override
-		protected Void doInBackground(Void... params) {
-			XstreamSerializer.getInstance().saveProject(project);
-			return null;
-		}
 	}
 }

@@ -64,7 +64,8 @@
             style="@style/BrickText.Multiple"
             app:layout_newLine="true"
             android:paddingStart="5dip"
-            android:text="@string/punctuation_mark" />
+            android:text="@string/punctuation_mark"
+            android:visibility="gone" />
 
     </org.catrobat.catroid.ui.BrickLayout>
 

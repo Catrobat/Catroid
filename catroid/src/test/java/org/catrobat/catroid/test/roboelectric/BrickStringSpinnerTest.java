@@ -58,7 +58,7 @@ import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
 import org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
-import org.catrobat.catroid.ui.fragment.ScriptFragment;
+import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

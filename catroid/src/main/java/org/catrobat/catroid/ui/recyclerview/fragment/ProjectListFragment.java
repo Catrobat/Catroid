@@ -44,14 +44,14 @@ import org.catrobat.catroid.io.asynctask.ProjectRenameTask;
 import org.catrobat.catroid.io.asynctask.ProjectUnzipAndImportTask;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.ui.ProjectUploadActivity;
 import org.catrobat.catroid.ui.filepicker.FilePickerActivity;
 import org.catrobat.catroid.ui.fragment.ProjectDetailsFragment;
-import org.catrobat.catroid.ui.recyclerview.activity.ProjectUploadActivity;
 import org.catrobat.catroid.ui.recyclerview.adapter.ProjectAdapter;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
-import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager;
 
 import java.io.File;
 import java.io.IOException;

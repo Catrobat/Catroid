@@ -22,12 +22,22 @@
  */
 package org.catrobat.catroid.test.drone;
 
-import android.support.annotation.IdRes;
+import com.parrot.freeflight.drone.DroneProxy;
 
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.BrickBaseType;
-import org.catrobat.catroid.drone.ardrone.DroneBrickFactory;
-import org.catrobat.catroid.drone.ardrone.DroneBrickFactory.DroneBricks;
+import org.catrobat.catroid.content.bricks.DroneEmergencyBrick;
+import org.catrobat.catroid.content.bricks.DroneFlipBrick;
+import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick;
+import org.catrobat.catroid.content.bricks.DroneMoveDownBrick;
+import org.catrobat.catroid.content.bricks.DroneMoveForwardBrick;
+import org.catrobat.catroid.content.bricks.DroneMoveLeftBrick;
+import org.catrobat.catroid.content.bricks.DroneMoveRightBrick;
+import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
+import org.catrobat.catroid.content.bricks.DronePlayLedAnimationBrick;
+import org.catrobat.catroid.content.bricks.DroneSwitchCameraBrick;
+import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
+import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
+import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -42,33 +52,32 @@ public class DroneBrickTest {
 	@Parameterized.Parameters(name = "{0}")
 	public static Iterable<Object[]> data() {
 		return Arrays.asList(new Object[][] {
-			{"DRONE_TAKE_OFF_LAND_BRICK", DroneBricks.DRONE_TAKE_OFF_LAND_BRICK},
-			{"DRONE_FLIP_BRICK", DroneBricks.DRONE_FLIP_BRICK},
-			{"DRONE_PLAY_LED_ANIMATION_BRICK", DroneBricks.DRONE_PLAY_LED_ANIMATION_BRICK},
-			{"DRONE_GO_EMERGENCY", DroneBricks.DRONE_GO_EMERGENCY},
-			{"DRONE_MOVE_DOWN_BRICK", DroneBricks.DRONE_MOVE_DOWN_BRICK},
-			{"DRONE_MOVE_UP_BRICK", DroneBricks.DRONE_MOVE_UP_BRICK},
-			{"DRONE_MOVE_LEFT_BRICK", DroneBricks.DRONE_MOVE_LEFT_BRICK},
-			{"DRONE_MOVE_RIGHT_BRICK", DroneBricks.DRONE_MOVE_RIGHT_BRICK},
-			{"DRONE_MOVE_BACKWARD_BRICK", DroneBricks.DRONE_MOVE_BACKWARD_BRICK},
-			{"DRONE_MOVE_FORWARD_BRICK", DroneBricks.DRONE_MOVE_FORWARD_BRICK},
-			{"DRONE_TURN_RIGHT_BRICK", DroneBricks.DRONE_TURN_RIGHT_BRICK},
-			{"DRONE_TURN_LEFT_BRICK", DroneBricks.DRONE_TURN_LEFT_BRICK},
-			{"DRONE_SWITCH_CAMERA_BRICK", DroneBricks.DRONE_SWITCH_CAMERA_BRICK}
+				{"DRONE_TAKE_OFF_LAND_BRICK", new DroneTakeOffLandBrick()},
+				{"DRONE_FLIP_BRICK", new DroneFlipBrick()},
+				{"DRONE_PLAY_LED_ANIMATION_BRICK", new DronePlayLedAnimationBrick(DroneProxy.ARDRONE_LED_ANIMATION.ARDRONE_LED_ANIMATION_BLINK_GREEN_RED)},
+				{"DRONE_GO_EMERGENCY", new DroneEmergencyBrick()},
+				{"DRONE_MOVE_DOWN_BRICK", new DroneMoveDownBrick()},
+				{"DRONE_MOVE_UP_BRICK", new DroneMoveUpBrick()},
+				{"DRONE_MOVE_LEFT_BRICK", new DroneMoveLeftBrick()},
+				{"DRONE_MOVE_RIGHT_BRICK", new DroneMoveRightBrick()},
+				{"DRONE_MOVE_BACKWARD_BRICK", new DroneMoveBackwardBrick()},
+				{"DRONE_MOVE_FORWARD_BRICK", new DroneMoveForwardBrick()},
+				{"DRONE_TURN_RIGHT_BRICK", new DroneTurnRightBrick()},
+				{"DRONE_TURN_LEFT_BRICK", new DroneTurnLeftBrick()},
+				{"DRONE_SWITCH_CAMERA_BRICK", new DroneSwitchCameraBrick()}
 		});
 	}
 
 	@Parameterized.Parameter
-	public @IdRes String name;
+	public String name;
 
 	@Parameterized.Parameter(1)
-	public @IdRes DroneBricks droneBrickIdentifier;
+	public Brick droneBrick;
 
 	@Test
 	public void testDroneResources() {
-		BrickBaseType brickFromFactory = DroneBrickFactory.getInstanceOfDroneBrick(droneBrickIdentifier, 0, 0);
 		Brick.ResourcesSet resourcesSet = new Brick.ResourcesSet();
-		brickFromFactory.addRequiredResources(resourcesSet);
+		droneBrick.addRequiredResources(resourcesSet);
 		assertTrue(resourcesSet.contains(Brick.ARDRONE_SUPPORT));
 	}
 }

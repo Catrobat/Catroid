@@ -164,6 +164,7 @@ public class BrickCategoryFragment extends ListFragment {
 		categories.add(inflater.inflate(R.layout.brick_category_motion, null));
 		categories.add(inflater.inflate(R.layout.brick_category_sound, null));
 		categories.add(inflater.inflate(R.layout.brick_category_looks, null));
+
 		if (!onlyBeginnerBricks()) {
 			categories.add(inflater.inflate(R.layout.brick_category_pen, null));
 		}
@@ -208,6 +209,7 @@ public class BrickCategoryFragment extends ListFragment {
 	}
 
 	public interface OnCategorySelectedListener {
+
 		void onCategorySelected(String category);
 	}
 }

@@ -121,7 +121,7 @@ public class BrickCloneTest {
 		brick = new GoNStepsBackBrick(BRICK_FORMULA_VALUE);
 		brickClone(brick, Brick.BrickField.STEPS);
 
-		brick = new IfLogicBeginBrick(10);
+		brick = new IfLogicBeginBrick(new Formula(10));
 		brickClone(brick, Brick.BrickField.IF_CONDITION);
 
 		brick = new LegoNxtMotorMoveBrick(LegoNxtMotorMoveBrick.Motor.MOTOR_A, BRICK_FORMULA_VALUE);
@@ -136,7 +136,7 @@ public class BrickCloneTest {
 		brick = new MoveNStepsBrick(BRICK_FORMULA_VALUE);
 		brickClone(brick, Brick.BrickField.STEPS);
 
-		brick = new RepeatBrick(BRICK_FORMULA_VALUE);
+		brick = new RepeatBrick(new Formula(BRICK_FORMULA_VALUE));
 		brickClone(brick, Brick.BrickField.TIMES_TO_REPEAT);
 
 		brick = new SetBrightnessBrick(BRICK_FORMULA_VALUE);
@@ -219,7 +219,7 @@ public class BrickCloneTest {
 		UserVariable spriteVariable = sprite.getUserVariable(VARIABLE_NAME);
 		Formula formula = new Formula(new FormulaElement(ElementType.USER_VARIABLE, VARIABLE_NAME, null));
 
-		// create brick - expects:
+		// create multiPartBrick - expects:
 		// public SetVariableBrick(Formula variableFormula, UserVariable userVariable)
 		Constructor<T> constructor = typeOfBrick.getDeclaredConstructor(Formula.class, UserVariable.class);
 		T toBeTestedBrick = constructor.newInstance(formula, spriteVariable);

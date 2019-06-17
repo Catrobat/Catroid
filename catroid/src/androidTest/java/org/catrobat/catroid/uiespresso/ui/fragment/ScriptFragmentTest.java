@@ -35,15 +35,10 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
-import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
-import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
-import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.SpriteActivity;
-import org.catrobat.catroid.ui.dragndrop.DragAndDropInterface;
-import org.catrobat.catroid.ui.fragment.ScriptFragment;
-import org.catrobat.catroid.ui.recyclerview.controller.BrickController;
+import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.matchers.BrickCategoryListMatchers;
 import org.catrobat.catroid.uiespresso.util.matchers.BrickPrototypeListMatchers;
@@ -78,8 +73,6 @@ import static org.hamcrest.core.IsNot.not;
 @RunWith(AndroidJUnit4.class)
 public class ScriptFragmentTest {
 
-	private Script startScript;
-
 	@Rule
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
@@ -106,7 +99,7 @@ public class ScriptFragmentTest {
 		onData(is(instanceOf(SetYBrick.class))).inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView())
 				.perform(click());
 
-		boolean isInsertedBrickHovering = ((DragAndDropInterface) baseActivityTestRule.getActivity()
+		boolean isInsertedBrickHovering = ((ScriptFragment) baseActivityTestRule.getActivity()
 				.getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG)).isCurrentlyMoving();
 
 		assertTrue(isInsertedBrickHovering);
@@ -127,7 +120,7 @@ public class ScriptFragmentTest {
 		onData(is(instanceOf(SetYBrick.class))).inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView())
 				.perform(click());
 
-		boolean isInsertedBrickHovering = ((DragAndDropInterface) baseActivityTestRule.getActivity()
+		boolean isInsertedBrickHovering = ((ScriptFragment) baseActivityTestRule.getActivity()
 				.getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG)).isCurrentlyMoving();
 
 		assertTrue(isInsertedBrickHovering);
@@ -135,7 +128,7 @@ public class ScriptFragmentTest {
 		onView(withContentDescription(R.string.abc_action_bar_up_description))
 				.perform(click());
 
-		isInsertedBrickHovering = ((DragAndDropInterface) baseActivityTestRule.getActivity()
+		isInsertedBrickHovering = ((ScriptFragment) baseActivityTestRule.getActivity()
 				.getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG)).isCurrentlyMoving();
 
 		assertTrue(isInsertedBrickHovering);
@@ -149,14 +142,6 @@ public class ScriptFragmentTest {
 				.performClick();
 		onView(withText(R.string.brick_context_dialog_comment_out_script))
 				.perform(click());
-
-		assertTrue(startScript.isCommentedOut());
-		assertTrue(startScript.getScriptBrick().isCommentedOut());
-		assertTrue(startScript.getBrickList().get(0).isCommentedOut());
-		assertTrue(startScript.getBrickList().get(1).isCommentedOut());
-		assertTrue(startScript.getBrickList().get(2).isCommentedOut());
-		assertTrue(startScript.getBrickList().get(3).isCommentedOut());
-		assertTrue(startScript.getBrickList().get(4).isCommentedOut());
 
 		openContextualActionModeOverflowMenu();
 		onView(withText(R.string.comment_in_out))
@@ -255,24 +240,22 @@ public class ScriptFragmentTest {
 	}
 
 	private void createProject() {
-		String projectName = "ScriptFragmentTest";
+		String projectName = getClass().getSimpleName();
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 
 		Sprite sprite = new SingleSprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);
 
-		startScript = new StartScript();
-		startScript.addBrick(new IfLogicBeginBrick());
-		startScript.addBrick(new SetXBrick());
-		startScript.addBrick(new IfLogicElseBrick(null));
-		startScript.addBrick(new ChangeXByNBrick());
-		startScript.addBrick(new IfLogicEndBrick(null, null));
+		Script startScript = new StartScript();
+		IfLogicBeginBrick ifBrick = new IfLogicBeginBrick();
+		ifBrick.addBrickToIfBranch(new SetXBrick());
+		ifBrick.addBrickToElseBranch(new ChangeXByNBrick());
+		startScript.addBrick(ifBrick);
+		startScript.setParents();
 
 		sprite.addScript(startScript);
 
 		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
-		XstreamSerializer.getInstance().saveProject(project);
-		new BrickController().setControlBrickReferences(startScript.getBrickList());
 	}
 }

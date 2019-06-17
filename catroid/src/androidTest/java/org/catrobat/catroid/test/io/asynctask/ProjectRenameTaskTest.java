@@ -54,7 +54,7 @@ public class ProjectRenameTaskTest {
 	public void setUp() throws IOException {
 		TestUtils.deleteProjects(projectName, renamedProjectName, slashEncodedRenamedProject);
 		defaultProject = DefaultProjectHandler.createAndSaveDefaultProject(projectName,
-				InstrumentationRegistry.getTargetContext());
+				InstrumentationRegistry.getTargetContext(), false);
 	}
 
 	@After

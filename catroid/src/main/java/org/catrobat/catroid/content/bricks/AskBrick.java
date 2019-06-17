@@ -28,9 +28,6 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
-import java.util.Collections;
-import java.util.List;
-
 public class AskBrick extends UserVariableBrick {
 
 	private static final long serialVersionUID = 1L;
@@ -64,9 +61,8 @@ public class AskBrick extends UserVariableBrick {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
 				.createAskAction(sprite, getFormulaWithBrickField(BrickField.ASK_QUESTION), userVariable));
-		return Collections.emptyList();
 	}
 }

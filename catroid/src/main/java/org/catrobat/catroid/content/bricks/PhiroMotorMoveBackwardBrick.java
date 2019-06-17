@@ -37,8 +37,6 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.SingleSeekBar;
 
-import java.util.List;
-
 public class PhiroMotorMoveBackwardBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
@@ -119,9 +117,8 @@ public class PhiroMotorMoveBackwardBrick extends FormulaBrick {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createPhiroMotorMoveBackwardActionAction(sprite,
 				Motor.valueOf(motor), getFormulaWithBrickField(BrickField.PHIRO_SPEED)));
-		return null;
 	}
 }

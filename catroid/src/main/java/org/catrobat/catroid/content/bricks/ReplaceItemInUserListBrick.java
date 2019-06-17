@@ -28,8 +28,6 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 
-import java.util.List;
-
 public class ReplaceItemInUserListBrick extends UserListBrick {
 
 	private static final long serialVersionUID = 1L;
@@ -72,10 +70,9 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createReplaceItemInUserListAction(sprite,
 				getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_INDEX),
 				getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_VALUE), userList));
-		return null;
 	}
 }

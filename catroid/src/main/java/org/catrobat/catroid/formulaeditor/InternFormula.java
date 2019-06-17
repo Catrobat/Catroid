@@ -146,12 +146,6 @@ public class InternFormula {
 		generateExternFormulaStringAndInternExternMapping(context);
 	}
 
-	public void getVariableAndListNames(List<String> variables, List<String> lists) {
-		for (InternToken internToken : internTokenFormulaList) {
-			internToken.getVariableAndListNames(variables, lists);
-		}
-	}
-
 	public void updateCollisionFormula(String oldName, String newName, Context context) {
 		for (InternToken internToken : internTokenFormulaList) {
 			internToken.updateCollisionFormula(oldName, newName);
@@ -159,22 +153,9 @@ public class InternFormula {
 		generateExternFormulaStringAndInternExternMapping(context);
 	}
 
-	public void updateCollisionFormulaToVersion(Context context, float catroidLanguageVersion) {
+	public void updateCollisionFormulaToVersion(Context context) {
 		for (InternToken internToken : internTokenFormulaList) {
-			internToken.updateCollisionFormulaToVersion(catroidLanguageVersion);
-		}
-		generateExternFormulaStringAndInternExternMapping(context);
-	}
-
-	public void removeVariableReferences(String name, Context context) {
-		LinkedList<InternToken> toRemove = new LinkedList<InternToken>();
-		for (InternToken internToken : internTokenFormulaList) {
-			if (internToken.isUserVariable(name)) {
-				toRemove.add(internToken);
-			}
-		}
-		for (InternToken internToken : toRemove) {
-			internTokenFormulaList.remove(internToken);
+			internToken.updateCollisionFormulaToVersion();
 		}
 		generateExternFormulaStringAndInternExternMapping(context);
 	}

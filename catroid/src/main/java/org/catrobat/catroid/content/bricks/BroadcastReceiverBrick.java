@@ -58,7 +58,12 @@ public class BroadcastReceiverBrick extends BroadcastMessageBrick implements Scr
 	}
 
 	@Override
-	public BrickBaseType clone() throws CloneNotSupportedException {
+	public int getPositionInScript() {
+		return -1;
+	}
+
+	@Override
+	public Brick clone() throws CloneNotSupportedException {
 		BroadcastReceiverBrick clone = (BroadcastReceiverBrick) super.clone();
 		clone.broadcastScript = (BroadcastScript) broadcastScript.clone();
 		clone.broadcastScript.setScriptBrick(clone);
@@ -71,13 +76,30 @@ public class BroadcastReceiverBrick extends BroadcastMessageBrick implements Scr
 	}
 
 	@Override
+	public void addToFlatList(List<Brick> bricks) {
+		super.addToFlatList(bricks);
+		for (Brick brick : getScript().getBrickList()) {
+			brick.addToFlatList(bricks);
+		}
+	}
+
+	@Override
+	public List<Brick> getDragAndDropTargetList() {
+		return getScript().getBrickList();
+	}
+
+	@Override
+	public int getPositionInDragAndDropTargetList() {
+		return -1;
+	}
+
+	@Override
 	public void setCommentedOut(boolean commentedOut) {
 		super.setCommentedOut(commentedOut);
 		getScript().setCommentedOut(commentedOut);
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		return null;
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 	}
 }

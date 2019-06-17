@@ -48,7 +48,7 @@
         <include layout="@layout/icon_brick_category_look" />
 
         <TextView
-            style="@style/BrickText.SingleLine"
+            style="@style/BrickText"
             android:text="@string/brick_wait_till_idle">
         </TextView>
     </org.catrobat.catroid.ui.BrickLayout>

@@ -22,11 +22,14 @@
  */
 package org.catrobat.catroid.test.physics;
 
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
+import com.badlogic.gdx.utils.GdxNativesLoader;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.SingleSprite;
@@ -103,8 +106,21 @@ public final class PhysicsTestUtils {
 		LookData lookData = new LookData();
 		lookData.setFile(testImage);
 		lookData.setName(testImage.getName());
-		Pixmap pixmap = Utils.getPixmapFromFile(testImage);
+		Pixmap pixmap = PhysicsTestUtils.getPixmapFromFile(testImage);
 		lookData.setPixmap(pixmap);
 		return lookData;
+	}
+
+	public static Pixmap getPixmapFromFile(File imageFile) {
+		Pixmap pixmap;
+		try {
+			GdxNativesLoader.load();
+			pixmap = new Pixmap(new FileHandle(imageFile));
+		} catch (GdxRuntimeException gdxRuntimeException) {
+			return null;
+		} catch (Exception e) {
+			return null;
+		}
+		return pixmap;
 	}
 }

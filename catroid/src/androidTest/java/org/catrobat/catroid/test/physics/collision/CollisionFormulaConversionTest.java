@@ -88,7 +88,7 @@ public class CollisionFormulaConversionTest {
 				InstrumentationRegistry.getTargetContext(),
 				firstSpriteName, secondSpriteName, thirdSpriteName, collisionTag);
 
-		project.updateCollisionFormulasToVersion(0.993f);
+		ProjectManager.updateCollisionFormulasTo993(project);
 
 		Sprite sprite1 = project.getDefaultScene().getSprite(firstSpriteName);
 		Brick brick = sprite1.getScript(0).getBrick(0);
@@ -110,7 +110,6 @@ public class CollisionFormulaConversionTest {
 		String secondSpriteName = "sprite2";
 		String thirdSpriteName = "sprite3";
 
-		//Set to US locale
 		Resources res = CatroidApplication.getAppContext().getResources();
 		Configuration conf = res.getConfiguration();
 		Locale savedLocale = conf.locale;
@@ -118,7 +117,6 @@ public class CollisionFormulaConversionTest {
 		res.updateConfiguration(conf, null);
 		String collisionTag = res.getString(R.string.formula_editor_function_collision);
 
-		// restore original locale
 		conf.locale = savedLocale;
 		res.updateConfiguration(conf, null);
 
@@ -128,7 +126,8 @@ public class CollisionFormulaConversionTest {
 		Project project = createProjectWithOldCollisionFormulas(COLLISION_TEST_PROJECT,
 				InstrumentationRegistry.getTargetContext(),
 				firstSpriteName, secondSpriteName, thirdSpriteName, collisionTag);
-		project.updateCollisionFormulasToVersion(0.993f);
+
+		ProjectManager.updateCollisionFormulasTo993(project);
 
 		Sprite sprite1 = project.getDefaultScene().getSprite(firstSpriteName);
 		Brick brick = sprite1.getScript(0).getBrick(0);
@@ -154,12 +153,13 @@ public class CollisionFormulaConversionTest {
 
 		Script firstScript = new StartScript();
 
-		FormulaElement element1 = new FormulaElement(FormulaElement.ElementType.COLLISION_FORMULA, firstSprite + " "
-				+ collisionTag + " " + thirdSprite, null);
-		Formula formula1 = new Formula(element1);
-		IfLogicBeginBrick ifBrick = new IfLogicBeginBrick(formula1);
+		FormulaElement formulaElement = new FormulaElement(FormulaElement.ElementType.COLLISION_FORMULA,
+				firstSprite + " " + collisionTag + " " + thirdSprite, null);
+		Formula formula1 = new Formula(formulaElement);
 
+		IfLogicBeginBrick ifBrick = new IfLogicBeginBrick(formula1);
 		firstScript.addBrick(ifBrick);
+
 		sprite1.addScript(firstScript);
 
 		project.getDefaultScene().addSprite(sprite1);

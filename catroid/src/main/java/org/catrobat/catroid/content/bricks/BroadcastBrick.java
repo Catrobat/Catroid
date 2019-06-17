@@ -27,8 +27,6 @@ import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
-import java.util.List;
-
 public class BroadcastBrick extends BroadcastMessageBrick {
 
 	private static final long serialVersionUID = 1L;
@@ -55,8 +53,7 @@ public class BroadcastBrick extends BroadcastMessageBrick {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createBroadcastAction(broadcastMessage, EventWrapper.NO_WAIT));
-		return null;
 	}
 }

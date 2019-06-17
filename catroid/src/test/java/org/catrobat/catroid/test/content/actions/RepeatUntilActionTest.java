@@ -32,7 +32,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.actions.RepeatUntilAction;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
-import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.eventids.EventId;
@@ -52,24 +51,30 @@ import static junit.framework.Assert.assertEquals;
 @RunWith(JUnit4.class)
 public class RepeatUntilActionTest {
 
-	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
-	private Sprite testSprite;
-	private Script testScript;
-	private UserVariable userVariable;
-	private UserVariable userVariable2;
 	private static final int START_VALUE = 3;
 	private static final int TRUE_VALUE = 6;
+
+	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
 	private static final String TEST_USERVARIABLE = "testUservariable";
 	private static final String TEST_USERVARIABLE_2 = "testUservariable2";
 
+	private Sprite testSprite;
+	private Script testScript;
+
+	private UserVariable userVariable;
+	private UserVariable userVariable2;
+
 	@Before
 	public void setUp() throws Exception {
-		testSprite = new SingleSprite("testSprite");
 		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
+
+		testSprite = new SingleSprite("testSprite");
 		testScript = new StartScript();
 		testSprite.removeAllScripts();
+		testSprite.addScript(testScript);
+
 		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(new SingleSprite("testSprite1"));
+		ProjectManager.getInstance().setCurrentSprite(testSprite);
 
 		project.removeUserVariable(TEST_USERVARIABLE);
 		userVariable = new UserVariable(TEST_USERVARIABLE);
@@ -81,36 +86,28 @@ public class RepeatUntilActionTest {
 	}
 
 	@Test
-	public void testRepeatBrick() throws InterruptedException {
+	public void testRepeatBrick() {
+		Formula repeatUntilFormula = new Formula(1);
+		repeatUntilFormula.setRoot(
+				new FormulaElement(ElementType.OPERATOR, Operators.SMALLER_OR_EQUAL.name(), null,
+						new FormulaElement(ElementType.NUMBER, String.valueOf(TRUE_VALUE), null),
+						new FormulaElement(ElementType.USER_VARIABLE, userVariable.getName(), null)));
 
-		SetVariableBrick setVariableBrick = new SetVariableBrick(new Formula(START_VALUE), userVariable);
+		Formula setVariableFormula = new Formula(1);
+		setVariableFormula.setRoot(
+				new FormulaElement(ElementType.OPERATOR, Operators.PLUS.name(), null,
+						new FormulaElement(ElementType.NUMBER, String.valueOf(1), null),
+						new FormulaElement(ElementType.USER_VARIABLE, userVariable.getName(), null)));
 
-		Formula validFormula = new Formula(1);
-		validFormula.setRoot(new FormulaElement(ElementType.OPERATOR, Operators.SMALLER_OR_EQUAL.name(), null,
-				new FormulaElement(ElementType.NUMBER, String.valueOf(TRUE_VALUE), null),
-				new FormulaElement(ElementType.USER_VARIABLE, userVariable.getName(), null)));
+		int deltaY = -10;
 
-		RepeatUntilBrick repeatBrick = new RepeatUntilBrick(validFormula);
-		LoopEndBrick loopEndBrick = new LoopEndBrick(repeatBrick);
+		testScript.addBrick(new SetVariableBrick(new Formula(START_VALUE), userVariable));
 
-		repeatBrick.setLoopEndBrick(loopEndBrick);
+		RepeatUntilBrick repeatUntilBrick = new RepeatUntilBrick(repeatUntilFormula);
+		repeatUntilBrick.addBrick(new ChangeYByNBrick(new Formula(deltaY)));
+		repeatUntilBrick.addBrick(new SetVariableBrick(setVariableFormula, userVariable));
+		testScript.addBrick(repeatUntilBrick);
 
-		final int deltaY = -10;
-
-		testScript.addBrick(setVariableBrick);
-		testScript.addBrick(repeatBrick);
-		testScript.addBrick(new ChangeYByNBrick(deltaY));
-
-		Formula validFormula2 = new Formula(1);
-		validFormula2.setRoot(new FormulaElement(ElementType.OPERATOR, Operators.PLUS.name(), null,
-				new FormulaElement(ElementType.NUMBER, String.valueOf(1), null),
-				new FormulaElement(ElementType.USER_VARIABLE, userVariable.getName(), null)));
-
-		SetVariableBrick setVariableBrick2 = new SetVariableBrick(validFormula2, userVariable);
-		testScript.addBrick(setVariableBrick2);
-		testScript.addBrick(loopEndBrick);
-
-		testSprite.addScript(testScript);
 		testSprite.initializeEventThreads(EventId.START);
 
 		while (!testSprite.look.haveAllThreadsFinished()) {
@@ -122,14 +119,13 @@ public class RepeatUntilActionTest {
 
 	@Test
 	public void testNoRepeat() {
-		Formula validFormula = new Formula(1);
-		validFormula.setRoot(new FormulaElement(ElementType.OPERATOR, Operators.SMALLER_THAN.name(), null,
-				new FormulaElement(ElementType.NUMBER, "1", null), new FormulaElement(ElementType
-				.NUMBER,
-				"2",
-				null)));
+		Formula formula = new Formula(1);
+		formula.setRoot(
+				new FormulaElement(ElementType.OPERATOR, Operators.SMALLER_THAN.name(), null,
+						new FormulaElement(ElementType.NUMBER, "1", null),
+						new FormulaElement(ElementType.NUMBER, "2", null)));
 
-		this.testWithFormula(validFormula, 0.0f);
+		testWithFormula(formula, 0.0f);
 	}
 
 	@Test
@@ -140,8 +136,10 @@ public class RepeatUntilActionTest {
 
 	@Test
 	public void testNullFormula() {
-		Action repeatedAction = testSprite.getActionFactory().createSetXAction(testSprite, new Formula(10));
-		Action repeatAction = testSprite.getActionFactory().createRepeatUntilAction(testSprite, null, repeatedAction);
+		Action repeatedAction = testSprite.getActionFactory()
+				.createSetXAction(testSprite, new Formula(10));
+		Action repeatAction = testSprite.getActionFactory()
+				.createRepeatUntilAction(testSprite, null, repeatedAction);
 
 		repeatAction.act(1.0f);
 		int repeatCountValue = ((RepeatUntilAction) repeatAction).getExecutedCount();
@@ -155,15 +153,12 @@ public class RepeatUntilActionTest {
 	}
 
 	private void testWithFormula(Formula formula, Float expected) {
-		RepeatUntilBrick repeatBrick = new RepeatUntilBrick(formula);
-		LoopEndBrick loopEndBrick = new LoopEndBrick(repeatBrick);
-		repeatBrick.setLoopEndBrick(loopEndBrick);
-
-		testScript.addBrick(repeatBrick);
 		int delta = 5;
-		testScript.addBrick(new ChangeYByNBrick(delta));
-		testScript.addBrick(loopEndBrick);
-		testSprite.addScript(testScript);
+
+		RepeatUntilBrick repeatUntilBrick = new RepeatUntilBrick(formula);
+		repeatUntilBrick.addBrick(new ChangeYByNBrick(delta));
+		testScript.addBrick(repeatUntilBrick);
+
 		testSprite.initializeEventThreads(EventId.START);
 
 		while (!testSprite.look.haveAllThreadsFinished()) {
@@ -174,23 +169,18 @@ public class RepeatUntilActionTest {
 
 	@Test
 	public void testConditionCheckedOnlyAtEnd() {
-		Formula validFormula = new Formula(1);
-		validFormula.setRoot(new FormulaElement(ElementType.OPERATOR, Operators.EQUAL.name(), null,
-				new FormulaElement(ElementType.NUMBER, String.valueOf(TRUE_VALUE), null),
-				new FormulaElement(ElementType.USER_VARIABLE, userVariable.getName(), null)));
+		Formula formula = new Formula(1);
+		formula.setRoot(
+				new FormulaElement(ElementType.OPERATOR, Operators.EQUAL.name(), null,
+						new FormulaElement(ElementType.NUMBER, String.valueOf(TRUE_VALUE), null),
+						new FormulaElement(ElementType.USER_VARIABLE, userVariable.getName(), null)));
 
-		RepeatUntilBrick repeatBrick = new RepeatUntilBrick(validFormula);
-		LoopEndBrick loopEndBrick = new LoopEndBrick(repeatBrick);
-		repeatBrick.setLoopEndBrick(loopEndBrick);
+		RepeatUntilBrick repeatUntilBrick = new RepeatUntilBrick(formula);
+		repeatUntilBrick.addBrick(new SetVariableBrick(new Formula(TRUE_VALUE), userVariable));
+		repeatUntilBrick.addBrick(new SetVariableBrick(new Formula(TRUE_VALUE), userVariable2));
+		testScript.addBrick(repeatUntilBrick);
 
-		testScript.addBrick(repeatBrick);
-		testScript.addBrick(new SetVariableBrick(new Formula(TRUE_VALUE), userVariable));
-		testScript.addBrick(new SetVariableBrick(new Formula(TRUE_VALUE), userVariable2));
-		testScript.addBrick(loopEndBrick);
-
-		testSprite.addScript(testScript);
 		testSprite.initializeEventThreads(EventId.START);
-
 		while (!testSprite.look.haveAllThreadsFinished()) {
 			testSprite.look.act(1.0f);
 		}

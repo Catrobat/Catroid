@@ -29,8 +29,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
-import java.util.List;
-
 public class HideTextBrick extends UserVariableBrick {
 
 	private static final long serialVersionUID = 1L;
@@ -49,13 +47,12 @@ public class HideTextBrick extends UserVariableBrick {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		if (userVariable == null || userVariable.getName() == null) {
 			userVariable = new UserVariable("NoVariableSet", Constants.NO_VARIABLE_SELECTED);
 			userVariable.setDummy(true);
 		}
 
 		sequence.addAction(sprite.getActionFactory().createHideVariableAction(sprite, userVariable));
-		return null;
 	}
 }

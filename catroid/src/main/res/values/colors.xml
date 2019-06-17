@@ -61,6 +61,7 @@
 
     <!-- Stage Dialog Colors -->
     <color name="stage_dialog_maximize_button_background">#CC00475E</color>
+    <color name="stage_dialog_share_embroidery_button_background">#CCCB709F</color>
 
     <!-- Device List Colors -->
     <color name="bluetooth_device_list_divider_color">#505050</color>

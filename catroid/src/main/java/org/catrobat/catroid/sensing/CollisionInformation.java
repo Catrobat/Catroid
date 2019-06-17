@@ -37,6 +37,7 @@ import org.catrobat.catroid.utils.ImageEditing;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -82,7 +83,7 @@ public class CollisionInformation {
 		isCalculationThreadCancelled = false;
 		String path = lookData.getFile().getAbsolutePath();
 		if (collisionPolygons == null) {
-			if (!path.endsWith(".png")) {
+			if (!lookData.getImageMimeType().equals("image/png")) {
 				Bitmap bitmap = BitmapFactory.decodeFile(path);
 				collisionPolygons = createCollisionPolygonByHitbox(bitmap);
 				return;
@@ -161,6 +162,10 @@ public class CollisionInformation {
 		ArrayList<CollisionPolygonVertex> vertical = createVerticalVertices(grid, bitmap.getWidth(), bitmap.getHeight());
 		ArrayList<CollisionPolygonVertex> horizontal = createHorizontalVertices(grid, bitmap.getWidth(), bitmap.getHeight());
 
+		if (vertical.size() == 0 || horizontal.size() == 0) {
+			return new ArrayList<>();
+		}
+
 		if (lookData.getCollisionInformation().isCalculationThreadCancelled) {
 			return new ArrayList<>();
 		}
@@ -176,30 +181,29 @@ public class CollisionInformation {
 				return new ArrayList<>();
 			}
 
-			CollisionPolygonVertex end = finalVertices.get(polygonNumber).get(finalVertices.get(polygonNumber)
-					.size() - 1);
+			List<CollisionPolygonVertex> currentPolygonVertex = finalVertices.get(polygonNumber);
+			CollisionPolygonVertex end = currentPolygonVertex.get(currentPolygonVertex.size() - 1);
+
 			boolean found = false;
 			for (int h = 0; h < horizontal.size(); h++) {
 				if (end.isConnected(horizontal.get(h))) {
-					finalVertices.get(polygonNumber).add(horizontal.get(h));
+					currentPolygonVertex.add(horizontal.get(h));
+					end = horizontal.get(h);
 					horizontal.remove(h);
 					found = true;
 					break;
 				}
 			}
 
-			if (found) {
-				end = finalVertices.get(polygonNumber).get(finalVertices.get(polygonNumber).size() - 1);
-			}
-
 			for (int v = 0; v < vertical.size(); v++) {
 				if (end.isConnected(vertical.get(v))) {
-					finalVertices.get(polygonNumber).add(vertical.get(v));
+					currentPolygonVertex.add(vertical.get(v));
 					vertical.remove(v);
 					found = true;
 					break;
 				}
 			}
+
 			if (!found) {
 				polygonNumber++;
 				finalVertices.add(new ArrayList<CollisionPolygonVertex>());
@@ -369,10 +373,12 @@ public class CollisionInformation {
 	public static boolean[][] createCollisionGrid(Bitmap bitmap) {
 		int width = bitmap.getWidth();
 		int height = bitmap.getHeight();
+		int[] pixels = new int[width * height];
+		bitmap.getPixels(pixels, 0, width, 0, 0, width, height);
 		boolean[][] grid = new boolean[width][height];
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
-				if (bitmap.getPixel(x, y) != 0) {
+				if (pixels[y * width + x] != 0) {
 					grid[x][y] = true;
 				}
 			}

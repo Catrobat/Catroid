@@ -98,6 +98,6 @@ public class ArduinoSettingsTest {
 
 		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectSaveTask
-				.task(project);
+				.task(project, InstrumentationRegistry.getTargetContext());
 	}
 }
