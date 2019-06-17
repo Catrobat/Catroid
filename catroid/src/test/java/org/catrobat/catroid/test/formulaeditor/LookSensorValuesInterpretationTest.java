@@ -22,7 +22,8 @@
  */
 package org.catrobat.catroid.test.formulaeditor;
 
-import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -32,6 +33,7 @@ import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.Sensors;
+import org.catrobat.catroid.test.MockUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -56,6 +58,11 @@ public class LookSensorValuesInterpretationTest {
 
 	@Before
 	public void setUp() {
+		Project project = new Project(MockUtil.mockContextForProject(), "Project");
+
+		ProjectManager.getInstance().setCurrentProject(project);
+		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+
 		testSprite = new SingleSprite("sprite");
 		testSprite.look.setXInUserInterfaceDimensionUnit(LOOK_X_POSITION);
 		testSprite.look.setYInUserInterfaceDimensionUnit(LOOK_Y_POSITION);
@@ -63,6 +70,8 @@ public class LookSensorValuesInterpretationTest {
 		testSprite.look.setBrightnessInUserInterfaceDimensionUnit(LOOK_BRIGHTNESS);
 		testSprite.look.setSizeInUserInterfaceDimensionUnit(LOOK_SCALE);
 		testSprite.look.setDirectionInUserInterfaceDimensionUnit(LOOK_ROTATION);
+
+		project.getDefaultScene().addSprite(testSprite);
 	}
 
 	public Formula getFormulaBySensor(Sensors sensor) {
@@ -94,8 +103,7 @@ public class LookSensorValuesInterpretationTest {
 		assertEquals(LOOK_ROTATION, lookRotateFormula.interpretDouble(testSprite), DELTA);
 
 		Formula lookZPositionFormula = getFormulaBySensor(Sensors.OBJECT_LAYER);
-		assertEquals(testSprite.look.getZIndex(), lookZPositionFormula.interpretInteger(testSprite).intValue()
-				+ Constants.Z_INDEX_NUMBER_VIRTUAL_LAYERS);
+		assertEquals(1.0, lookZPositionFormula.interpretDouble(testSprite));
 	}
 
 	@Test

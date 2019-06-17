@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -41,9 +40,9 @@ import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.UiUtils;
-import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.NewItemTextWatcher;
+import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +62,7 @@ public abstract class UserVariableBrick extends FormulaBrick implements BrickSpi
 	}
 
 	@Override
-	public BrickBaseType clone() throws CloneNotSupportedException {
+	public Brick clone() throws CloneNotSupportedException {
 		UserVariableBrick clone = (UserVariableBrick) super.clone();
 		clone.spinner = null;
 		return clone;
@@ -103,44 +102,31 @@ public abstract class UserVariableBrick extends FormulaBrick implements BrickSpi
 
 		builder.setHint(activity.getString(R.string.data_label))
 				.setTextWatcher(new NewItemTextWatcher<>(spinner.getItems()))
-				.setPositiveButton(activity.getString(R.string.ok), new TextInputDialog.OnClickListener() {
-					@Override
-					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
-						UserVariable userVariable = new UserVariable(textInput);
+				.setPositiveButton(activity.getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> {
+					UserVariable userVariable = new UserVariable(textInput);
 
-						RadioButton addToProjectVariablesRadioButton = ((Dialog) dialog).findViewById(R.id.global);
-						boolean addToProjectVariables = addToProjectVariablesRadioButton.isChecked();
+					RadioButton addToProjectVariablesRadioButton = ((Dialog) dialog).findViewById(R.id.global);
+					boolean addToProjectVariables = addToProjectVariablesRadioButton.isChecked();
 
-						if (addToProjectVariables) {
-							currentProject.addUserVariable(userVariable);
-						} else {
-							currentSprite.addUserVariable(userVariable);
-						}
-						spinner.add(userVariable);
-						spinner.setSelection(userVariable);
+					if (addToProjectVariables) {
+						currentProject.addUserVariable(userVariable);
+					} else {
+						currentSprite.addUserVariable(userVariable);
+					}
+					spinner.add(userVariable);
+					spinner.setSelection(userVariable);
 
-						ScriptFragment parentFragment = (ScriptFragment) activity
-								.getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG);
-						if (parentFragment != null) {
-							parentFragment.notifyDataSetChanged();
-						}
+					ScriptFragment parentFragment = (ScriptFragment) activity
+							.getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG);
+					if (parentFragment != null) {
+						parentFragment.notifyDataSetChanged();
 					}
 				});
 
 		builder.setTitle(R.string.formula_editor_variable_dialog_title)
 				.setView(R.layout.dialog_new_user_data)
-				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						spinner.setSelection(userVariable);
-					}
-				})
-				.setOnCancelListener(new DialogInterface.OnCancelListener() {
-					@Override
-					public void onCancel(DialogInterface dialog) {
-						spinner.setSelection(userVariable);
-					}
-				})
+				.setNegativeButton(R.string.cancel, (dialog, which) -> spinner.setSelection(userVariable))
+				.setOnCancelListener(dialog -> spinner.setSelection(userVariable))
 				.show();
 	}
 

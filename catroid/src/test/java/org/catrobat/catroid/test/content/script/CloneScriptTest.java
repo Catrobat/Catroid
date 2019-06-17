@@ -23,12 +23,12 @@
 
 package org.catrobat.catroid.test.content.script;
 
-import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.content.BroadcastScript;
-import org.catrobat.catroid.content.CollisionScript;
+import org.catrobat.catroid.content.RaspiInterruptScript;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenBackgroundChangesScript;
+import org.catrobat.catroid.content.WhenBounceOffScript;
 import org.catrobat.catroid.content.WhenClonedScript;
 import org.catrobat.catroid.content.WhenConditionScript;
 import org.catrobat.catroid.content.WhenGamepadButtonScript;
@@ -36,129 +36,111 @@ import org.catrobat.catroid.content.WhenNfcScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.WhenTouchDownScript;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.SetXBrick;
-import org.catrobat.catroid.content.bricks.SetYBrick;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.runners.Parameterized;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotSame;
 import static junit.framework.Assert.assertSame;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-@RunWith(JUnit4.class)
+@RunWith(Parameterized.class)
 public class CloneScriptTest {
 
-	@Test
-	public void testCloneBroadcastScript() throws CloneNotSupportedException {
-		BroadcastScript script = new BroadcastScript("broadCastMessage");
-		script.getScriptBrick(); // side magic
-		addBricksToScript(script);
-		assertIsClone(script.clone(), script);
+	@Parameterized.Parameters(name = "{0}")
+	public static Iterable<Object[]> data() {
+		return Arrays.asList(new Object[][] {
+				{BroadcastScript.class.getSimpleName(), BroadcastScript.class},
+				{WhenBounceOffScript.class.getSimpleName(), WhenBounceOffScript.class},
+				{RaspiInterruptScript.class.getSimpleName(), RaspiInterruptScript.class},
+				{StartScript.class.getSimpleName(), StartScript.class},
+				{WhenBackgroundChangesScript.class.getSimpleName(), WhenBackgroundChangesScript.class},
+				{WhenClonedScript.class.getSimpleName(), WhenClonedScript.class},
+				{WhenConditionScript.class.getSimpleName(), WhenConditionScript.class},
+				{WhenGamepadButtonScript.class.getSimpleName(), WhenGamepadButtonScript.class},
+				{WhenNfcScript.class.getSimpleName(), WhenNfcScript.class},
+				{WhenScript.class.getSimpleName(), WhenScript.class},
+				{WhenTouchDownScript.class.getSimpleName(), WhenTouchDownScript.class},
+		});
+	}
+
+	@Parameterized.Parameter
+	public String name;
+
+	@Parameterized.Parameter(1)
+	public Class<Script> scriptClass;
+
+	private Script script;
+
+	@Before
+	public void setUp() throws IllegalAccessException, InstantiationException {
+		script = scriptClass.newInstance();
 	}
 
 	@Test
-	public void testCloneCollisionScript() throws CloneNotSupportedException {
-		CollisionScript script = new CollisionScript(null);
-		script.getScriptBrick(); // side magic
-		addBricksToScript(script);
-		assertIsClone(script.clone(), script);
-	}
+	public void testCloneEmptyScript() throws CloneNotSupportedException {
+		Script clone = script.clone();
 
-	@Test
-	public void testCloneStartScript() throws CloneNotSupportedException {
-		StartScript script = new StartScript();
-		script.getScriptBrick(); // side magic
-		addBricksToScript(script);
-		assertIsClone(script.clone(), script);
-	}
+		assertNotNull(clone);
 
-	@Test
-	public void testCloneWhenBackgroundChangesScript() throws CloneNotSupportedException {
-		WhenBackgroundChangesScript script = new WhenBackgroundChangesScript();
-		script.getScriptBrick(); // side magic
-		addBricksToScript(script);
-		assertIsClone(script.clone(), script);
-	}
-
-	@Test
-	public void testCloneWhenClonedScript() throws CloneNotSupportedException {
-		WhenClonedScript script = new WhenClonedScript();
-		script.getScriptBrick(); // side magic
-		addBricksToScript(script);
-		assertIsClone(script.clone(), script);
-	}
-
-	@Test
-	public void testCloneWhenConditionScript() throws CloneNotSupportedException {
-		WhenConditionScript script = new WhenConditionScript();
-		script.getScriptBrick(); // side magic
-		addBricksToScript(script);
-		assertIsClone(script.clone(), script);
-	}
-
-	@Test
-	public void testCloneWhenGamepadButtonScript() throws CloneNotSupportedException {
-		WhenGamepadButtonScript script = new WhenGamepadButtonScript("cast_gamepad_A");
-		script.getScriptBrick(); // side magic
-		addBricksToScript(script);
-		assertIsClone(script.clone(), script);
-	}
-
-	@Test
-	public void testCloneWhenNfcScript() throws CloneNotSupportedException {
-		WhenNfcScript script = new WhenNfcScript(new NfcTagData());
-		script.getScriptBrick(); // side magic
-		addBricksToScript(script);
-		assertIsClone(script.clone(), script);
-	}
-
-	@Test
-	public void testCloneWhenScript() throws CloneNotSupportedException {
-		WhenScript script = new WhenScript();
-		script.getScriptBrick(); // side magic
-		addBricksToScript(script);
-		assertIsClone(script.clone(), script);
-	}
-
-	@Test
-	public void testCloneWhenTouchDownScript() throws CloneNotSupportedException {
-		WhenTouchDownScript script = new WhenTouchDownScript();
-		script.getScriptBrick(); // side magic
-		addBricksToScript(script);
-		assertIsClone(script.clone(), script);
-	}
-
-	private void addBricksToScript(Script script) {
-		script.addBrick(new SetXBrick(100));
-		script.addBrick(new SetYBrick(100));
-	}
-
-	private void assertIsClone(Script clone, Script script) {
 		assertNotSame(clone, script);
 		assertNotSame(clone.getScriptBrick(), script.getScriptBrick());
 
-		assertNotSame(clone.getScriptBrick().getScript(), script.getScriptBrick().getScript());
+		assertNotNull(clone.getScriptBrick());
+		assertNotNull(clone.getScriptBrick().getScript());
 
 		assertSame(clone.getScriptBrick().getScript(), clone);
 		assertSame(script.getScriptBrick().getScript(), script);
+
+		assertNotNull(clone.getBrickList());
+		assertNotSame(clone.getBrickList(), script.getBrickList());
+	}
+
+	@Test
+	public void testCloneWithBrick() throws CloneNotSupportedException {
+		Brick brick = mock(Brick.class);
+		Brick clonedBrick = mock(Brick.class);
+
+		when(brick.clone()).thenReturn(clonedBrick);
+
+		script.addBrick(brick);
+
+		Script clone = script.clone();
+
+		verify(brick).clone();
+
+		assertNotSame(clone, script);
+		assertNotSame(clone.getScriptBrick(), script.getScriptBrick());
+
+		assertNotNull(clone.getScriptBrick());
+		assertNotNull(clone.getScriptBrick().getScript());
+
+		assertSame(clone.getScriptBrick().getScript(), clone);
+		assertSame(script.getScriptBrick().getScript(), script);
+
+		assertNotNull(clone.getBrickList());
+		assertNotSame(clone.getBrickList(), script.getBrickList());
 
 		List<Brick> cloneBrickList = clone.getBrickList();
 		List<Brick> scriptBrickList = script.getBrickList();
 
 		assertEquals(cloneBrickList.size(), scriptBrickList.size());
 
-		for (int i = 0; i < cloneBrickList.size(); i++) {
-			Brick clonedBrick = cloneBrickList.get(i);
-			Brick originalBrick = scriptBrickList.get(i);
-			assertThat(clonedBrick, is(instanceOf(originalBrick.getClass())));
-			assertNotSame(clonedBrick, originalBrick);
-		}
+		Brick clonedBrickInScript = cloneBrickList.get(0);
+
+		assertSame(clonedBrick, clonedBrickInScript);
+
+		Brick originalBrickInScript = scriptBrickList.get(0);
+
+		assertNotSame(clonedBrickInScript, originalBrickInScript);
 	}
 }

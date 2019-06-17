@@ -46,7 +46,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WhenBackgroundChangesBrick extends BrickBaseType implements ScriptBrick,
-		BrickSpinner.OnItemSelectedListener<LookData>, NewItemInterface<LookData> {
+		BrickSpinner.OnItemSelectedListener<LookData>,
+		NewItemInterface<LookData> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -73,7 +74,7 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements ScriptB
 	}
 
 	@Override
-	public BrickBaseType clone() throws CloneNotSupportedException {
+	public Brick clone() throws CloneNotSupportedException {
 		WhenBackgroundChangesBrick clone = (WhenBackgroundChangesBrick) super.clone();
 		clone.script = (WhenBackgroundChangesScript) script.clone();
 		clone.script.setScriptBrick(clone);
@@ -84,6 +85,11 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements ScriptB
 	@Override
 	public Script getScript() {
 		return script;
+	}
+
+	@Override
+	public int getPositionInScript() {
+		return -1;
 	}
 
 	@Override
@@ -125,9 +131,14 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements ScriptB
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void setCommentedOut(boolean commentedOut) {
+		super.setCommentedOut(commentedOut);
+		getScript().setCommentedOut(commentedOut);
+	}
+
+	@Override
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSetLookAction(sprite, getLook()));
-		return null;
 	}
 
 	@Override

@@ -23,13 +23,12 @@
 
 package org.catrobat.catroid.test.content.bricks;
 
-import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.content.BroadcastScript;
-import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.RaspiInterruptScript;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenBackgroundChangesScript;
+import org.catrobat.catroid.content.WhenBounceOffScript;
 import org.catrobat.catroid.content.WhenClonedScript;
 import org.catrobat.catroid.content.WhenConditionScript;
 import org.catrobat.catroid.content.WhenGamepadButtonScript;
@@ -39,102 +38,55 @@ import org.catrobat.catroid.content.WhenTouchDownScript;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.runners.Parameterized;
+
+import java.util.Arrays;
 
 import static junit.framework.Assert.assertNotSame;
 import static junit.framework.Assert.assertSame;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
-@RunWith(JUnit4.class)
+@RunWith(Parameterized.class)
 public class CloneScriptBrickTest {
-	public static final int RASPI_DIGITAL_INITIAL_PIN_NUMBER = 3;
-	public static final String[] RASPI_EVENTS = {"pressed", "released"};
 
-	@Test
-	public void testCloneBroadcastReceiverBrick() throws CloneNotSupportedException {
-		BroadcastScript script = new BroadcastScript("broadCastMessage");
-		ScriptBrick brick = script.getScriptBrick();
-		assertIsClone((ScriptBrick) brick.clone(), brick);
+	@Parameterized.Parameters(name = "{0}")
+	public static Iterable<Object[]> data() {
+		return Arrays.asList(new Object[][] {
+				{BroadcastScript.class.getSimpleName(), new BroadcastScript("test")},
+				{WhenBounceOffScript.class.getSimpleName(), new WhenBounceOffScript("test")},
+				{RaspiInterruptScript.class.getSimpleName(), new RaspiInterruptScript("testPin", "testEvent")},
+				{StartScript.class.getSimpleName(), new StartScript()},
+				{WhenBackgroundChangesScript.class.getSimpleName(), new WhenBackgroundChangesScript()},
+				{WhenClonedScript.class.getSimpleName(), new WhenClonedScript()},
+				{WhenConditionScript.class.getSimpleName(), new WhenConditionScript()},
+				{WhenGamepadButtonScript.class.getSimpleName(), new WhenGamepadButtonScript("testAction")},
+				{WhenNfcScript.class.getSimpleName(), new WhenNfcScript()},
+				{WhenScript.class.getSimpleName(), new WhenScript()},
+				{WhenTouchDownScript.class.getSimpleName(), new WhenTouchDownScript()},
+		});
 	}
 
-	@Test
-	public void testCloneCollisionReceiverBrick() throws CloneNotSupportedException {
-		CollisionScript script = new CollisionScript(null);
-		ScriptBrick brick = script.getScriptBrick();
-		assertIsClone((ScriptBrick) brick.clone(), brick);
-	}
+	@Parameterized.Parameter
+	public String name;
+
+	@Parameterized.Parameter(1)
+	public Script script;
 
 	@Test
-	public void testCloneWhenRaspiPinChangedBrick() throws CloneNotSupportedException {
-		RaspiInterruptScript script = new RaspiInterruptScript(
-				Integer.toString(RASPI_DIGITAL_INITIAL_PIN_NUMBER), RASPI_EVENTS[0]);
+	public void testScriptIsClonedWithScriptBrick() throws CloneNotSupportedException {
 		ScriptBrick brick = script.getScriptBrick();
-		assertIsClone((ScriptBrick) brick.clone(), brick);
-	}
+		ScriptBrick clone = (ScriptBrick) brick.clone();
 
-	@Test
-	public void testCloneWhenStartedBrick() throws CloneNotSupportedException {
-		StartScript script = new StartScript();
-		ScriptBrick brick = script.getScriptBrick();
-		assertIsClone((ScriptBrick) brick.clone(), brick);
-	}
-
-	@Test
-	public void testCloneWhenBackgroundChangesBrick() throws CloneNotSupportedException {
-		WhenBackgroundChangesScript script = new WhenBackgroundChangesScript();
-		ScriptBrick brick = script.getScriptBrick();
-		assertIsClone((ScriptBrick) brick.clone(), brick);
-	}
-
-	@Test
-	public void testCloneWhenClonedBrick() throws CloneNotSupportedException {
-		WhenClonedScript script = new WhenClonedScript();
-		ScriptBrick brick = script.getScriptBrick();
-		assertIsClone((ScriptBrick) brick.clone(), brick);
-	}
-
-	@Test
-	public void testCloneWhenConditionBrick() throws CloneNotSupportedException {
-		WhenConditionScript script = new WhenConditionScript();
-		ScriptBrick brick = script.getScriptBrick();
-		assertIsClone((ScriptBrick) brick.clone(), brick);
-	}
-
-	@Test
-	public void testCloneWhenGamepadButtonBrick() throws CloneNotSupportedException {
-		WhenGamepadButtonScript script = new WhenGamepadButtonScript("cast_gamepad_A");
-		ScriptBrick brick = script.getScriptBrick();
-		assertIsClone((ScriptBrick) brick.clone(), brick);
-	}
-
-	@Test
-	public void testCloneWhenNfcBrick() throws CloneNotSupportedException {
-		WhenNfcScript script = new WhenNfcScript(new NfcTagData());
-		ScriptBrick brick = script.getScriptBrick();
-		assertIsClone((ScriptBrick) brick.clone(), brick);
-	}
-
-	@Test
-	public void testCloneWhenBrick() throws CloneNotSupportedException {
-		WhenScript script = new WhenScript();
-		ScriptBrick brick = script.getScriptBrick();
-		assertIsClone((ScriptBrick) brick.clone(), brick);
-	}
-
-	@Test
-	public void testCloneWhenTouchDownBrick() throws CloneNotSupportedException {
-		WhenTouchDownScript script = new WhenTouchDownScript();
-		ScriptBrick brick = script.getScriptBrick();
-		assertIsClone((ScriptBrick) brick.clone(), brick);
-	}
-
-	private void assertIsClone(ScriptBrick clone, ScriptBrick brick) {
 		assertNotSame(clone, brick);
 
 		Script cloneScript = clone.getScript();
+
+		assertNotNull(cloneScript);
+
 		Script originalScript = brick.getScript();
 
 		assertThat(cloneScript, is(instanceOf(originalScript.getClass())));

@@ -58,7 +58,7 @@ import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick;
-import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
+import org.catrobat.catroid.physics.content.bricks.WhenBounceOffBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 import org.junit.Before;
@@ -84,11 +84,11 @@ public class BrickSpinnerDefaultValueTest {
 
 	@ParameterizedRobolectricTestRunner.Parameters(name = "{0}")
 	public static Collection<Object[]> data() {
-		return Arrays.asList(new Object[][]{
+		return Arrays.asList(new Object[][] {
 				{"BroadcastReceiverBrick - R.id.brick_broadcast_spinner", "Event", BroadcastReceiverBrick.class, R.id.brick_broadcast_spinner, "new message"},
 				{"BroadcastBrick - R.id.brick_broadcast_spinner", "Event", BroadcastBrick.class, R.id.brick_broadcast_spinner, "new message"},
 				{"BroadcastReceiverBrick - R.id.brick_broadcast_spinner", "Event", BroadcastReceiverBrick.class, R.id.brick_broadcast_spinner, "new message"},
-				{"CollisionReceiverBrick - R.id.brick_collision_receive_spinner", "Event", CollisionReceiverBrick.class, R.id.brick_collision_receive_spinner, "\0any edge, actor, or object\0"},
+				{"WhenBounceOffBrick - R.id.brick_when_bounce_off_spinner", "Event", WhenBounceOffBrick.class, R.id.brick_when_bounce_off_spinner, "\0any edge, actor, or object\0"},
 				{"WhenBackgroundChangesBrick - R.id.brick_when_background_spinner", "Event", WhenBackgroundChangesBrick.class, R.id.brick_when_background_spinner, "new…"},
 				{"PlaySoundBrick - R.id.brick_play_sound_spinner", "Sound", PlaySoundBrick.class, R.id.brick_play_sound_spinner, "new…"},
 				{"PlaySoundAndWaitBrick - R.id.brick_play_sound_spinner", "Sound", PlaySoundAndWaitBrick.class, R.id.brick_play_sound_spinner, "new…"},
@@ -153,7 +153,7 @@ public class BrickSpinnerDefaultValueTest {
 	}
 
 	private Brick getBrickFromCategroyBricksFactory() {
-		List<Brick> categoryBricks = categoryBricksFactory.getBricks(category, sprite, activity);
+		List<Brick> categoryBricks = categoryBricksFactory.getBricks(category, false, activity);
 
 		Brick brickInAdapter = null;
 		for (Brick brick : categoryBricks) {

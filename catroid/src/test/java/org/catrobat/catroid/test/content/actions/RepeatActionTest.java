@@ -24,6 +24,7 @@ package org.catrobat.catroid.test.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
+import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
@@ -31,7 +32,6 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.actions.EventThread;
 import org.catrobat.catroid.content.actions.RepeatAction;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
-import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -39,7 +39,6 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.test.utils.Reflection;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -51,135 +50,117 @@ public class RepeatActionTest {
 
 	private static final int REPEAT_TIMES = 4;
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
-	private Sprite testSprite;
-	private Script testScript;
 	private int delta = 5;
 
-	@Before
-	public void setUp() throws Exception {
-		testSprite = new SingleSprite("sprite");
-		testScript = new StartScript();
-	}
-
 	@Test
-	public void testLoopDelay() throws InterruptedException {
+	public void testLoopDelay() {
 		final int deltaY = -10;
 		final float delta = 0.005f;
 		final float delayByContract = 0.020f;
 
-		RepeatBrick repeatBrick = new RepeatBrick(REPEAT_TIMES);
-		LoopEndBrick loopEndBrick = new LoopEndBrick(repeatBrick);
-		repeatBrick.setLoopEndBrick(loopEndBrick);
+		Sprite sprite = new Sprite("testSprite");
+		Script script = new StartScript();
 
-		testScript.addBrick(repeatBrick);
-		testScript.addBrick(new ChangeYByNBrick(deltaY));
-		testScript.addBrick(loopEndBrick);
-		testScript.addBrick(new ChangeYByNBrick(150));
+		RepeatBrick repeatBrick = new RepeatBrick(new Formula(REPEAT_TIMES));
+		repeatBrick.addBrick(new ChangeYByNBrick(deltaY));
+		script.addBrick(repeatBrick);
+		script.addBrick(new ChangeYByNBrick(150));
 
-		testSprite.addScript(testScript);
-		testSprite.initializeEventThreads(EventId.START);
+		sprite.addScript(script);
+		sprite.initializeEventThreads(EventId.START);
 
-		// http://code.google.com/p/catroid/issues/detail?id=28
 		for (int index = 0; index < REPEAT_TIMES; index++) {
 			for (double time = 0f; time < delayByContract; time += delta) {
-				testSprite.look.act(delta);
+				sprite.look.act(delta);
 			}
 		}
 
-		assertEquals(deltaY * REPEAT_TIMES, (int) testSprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(deltaY * REPEAT_TIMES, (int) sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	@Test
 	public void testRepeatBrick() {
-
-		RepeatBrick repeatBrick = new RepeatBrick(REPEAT_TIMES);
-		LoopEndBrick loopEndBrick = new LoopEndBrick(repeatBrick);
-
-		repeatBrick.setLoopEndBrick(loopEndBrick);
-
 		final int deltaY = -10;
 
-		testScript.addBrick(repeatBrick);
-		testScript.addBrick(new ChangeYByNBrick(deltaY));
-		testScript.addBrick(loopEndBrick);
+		Sprite sprite = new Sprite("testSprite");
+		Script script = new StartScript();
 
-		testSprite.addScript(testScript);
-		testSprite.initializeEventThreads(EventId.START);
+		RepeatBrick repeatBrick = new RepeatBrick(new Formula(REPEAT_TIMES));
+		repeatBrick.addBrick(new ChangeYByNBrick(deltaY));
+		script.addBrick(repeatBrick);
 
-		while (!testSprite.look.haveAllThreadsFinished()) {
-			testSprite.look.act(1.0f);
+		sprite.addScript(script);
+		sprite.initializeEventThreads(EventId.START);
+
+		while (!sprite.look.haveAllThreadsFinished()) {
+			sprite.look.act(1.0f);
 		}
 
-		assertEquals(REPEAT_TIMES * deltaY, (int) testSprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(REPEAT_TIMES * deltaY, (int) sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	@Test
 	public void testRepeatCount() {
-		Sprite testSprite = new SingleSprite("sprite");
-		Script testScript = new StartScript();
+		Sprite sprite = new SingleSprite("sprite");
+		Script script = new StartScript();
 
 		Formula repeatFormula = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.OBJECT_Y.name(), null));
-		RepeatBrick repeatBrick = new RepeatBrick(repeatFormula);
-		LoopEndBrick loopEndBrick = new LoopEndBrick(repeatBrick);
-		repeatBrick.setLoopEndBrick(loopEndBrick);
 
 		final int deltaY = -10;
 
-		testScript.addBrick(new ChangeYByNBrick(10));
-		testScript.addBrick(repeatBrick);
-		testScript.addBrick(new ChangeYByNBrick(deltaY));
-		testScript.addBrick(loopEndBrick);
+		script.addBrick(new ChangeYByNBrick(10));
+		RepeatBrick repeatBrick = new RepeatBrick(repeatFormula);
+		repeatBrick.addBrick(new ChangeYByNBrick(deltaY));
+		script.addBrick(repeatBrick);
 
-		testSprite.addScript(testScript);
-		testSprite.initializeEventThreads(EventId.START);
+		sprite.addScript(script);
+		sprite.initializeEventThreads(EventId.START);
 
-		while (!testSprite.look.haveAllThreadsFinished()) {
-			testSprite.look.act(1.0f);
+		while (!sprite.look.haveAllThreadsFinished()) {
+			sprite.look.act(1.0f);
 		}
 
-		assertEquals(deltaY * 9, (int) testSprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(deltaY * 9, (int) sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	@Test
-	public void testNestedRepeatBrick() throws InterruptedException {
+	public void testNestedRepeatBrick() {
 		final int deltaY = -10;
 		final float delta = 0.005f;
 
-		RepeatBrick repeatBrick = new RepeatBrick(REPEAT_TIMES);
-		LoopEndBrick loopEndBrick = new LoopEndBrick(repeatBrick);
+		Sprite sprite = new Sprite("testSprite");
+		Script script = new StartScript();
 
-		repeatBrick.setLoopEndBrick(loopEndBrick);
+		RepeatBrick repeatBrick = new RepeatBrick(new Formula(REPEAT_TIMES));
 
-		RepeatBrick nestedRepeatBrick = new RepeatBrick(REPEAT_TIMES);
-		LoopEndBrick nestedLoopEndBrick = new LoopEndBrick(nestedRepeatBrick);
-		nestedRepeatBrick.setLoopEndBrick(nestedLoopEndBrick);
+		RepeatBrick nestedRepeatBrick = new RepeatBrick(new Formula(REPEAT_TIMES));
+		nestedRepeatBrick.addBrick(new ChangeYByNBrick(deltaY));
 
-		testScript.addBrick(repeatBrick);
-		testScript.addBrick(nestedRepeatBrick);
-		testScript.addBrick(new ChangeYByNBrick(deltaY));
-		testScript.addBrick(nestedLoopEndBrick);
-		testScript.addBrick(loopEndBrick);
+		repeatBrick.addBrick(nestedRepeatBrick);
 
-		testSprite.addScript(testScript);
-		testSprite.initializeEventThreads(EventId.START);
+		script.addBrick(repeatBrick);
+
+		sprite.addScript(script);
+		sprite.initializeEventThreads(EventId.START);
 
 		float timePerActCycle = 0.5f;
 
-		while (!testSprite.look.haveAllThreadsFinished()) {
-			testSprite.look.act(timePerActCycle);
+		while (!sprite.look.haveAllThreadsFinished()) {
+			sprite.look.act(timePerActCycle);
 		}
 
-		testSprite.look.act(delta);
-		assertEquals(REPEAT_TIMES * REPEAT_TIMES * deltaY, (int) testSprite.look.getYInUserInterfaceDimensionUnit());
+		sprite.look.act(delta);
+		assertEquals(REPEAT_TIMES * REPEAT_TIMES * deltaY, (int) sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	@Test
 	public void testNegativeRepeats() throws Exception {
-		Sprite testSprite = new SingleSprite("sprite");
-		RepeatBrick repeatBrick = new RepeatBrick(-1);
+		Sprite sprite = new SingleSprite("sprite");
 
-		EventThread sequence = (EventThread) testSprite.getActionFactory().createEventThread(new StartScript());
-		repeatBrick.addActionToSequence(testSprite, sequence);
+		RepeatBrick repeatBrick = new RepeatBrick(new Formula(-1));
+
+		EventThread sequence = (EventThread) ActionFactory.createEventThread(new StartScript());
+		repeatBrick.addActionToSequence(sprite, sequence);
 
 		RepeatAction repeatAction = (RepeatAction) sequence.getActions().get(0);
 		boolean wait = false;
@@ -196,32 +177,39 @@ public class RepeatActionTest {
 		final float decoyDeltaY = -150f;
 		final float expectedDeltaY = 150f;
 
-		final RepeatAction repeatAction = (RepeatAction) testSprite.getActionFactory().createRepeatAction(testSprite,
-				new Formula(0), testSprite.getActionFactory().createChangeYByNAction(testSprite, new Formula(decoyDeltaY)));
+		Sprite sprite = new Sprite("testSprite");
+
+		Action repeatAction = sprite.getActionFactory()
+				.createRepeatAction(sprite, new Formula(0), sprite.getActionFactory().createChangeYByNAction(sprite, new Formula(decoyDeltaY)));
+
 		repeatAction.act(1f);
 
-		testSprite.getActionFactory().createChangeYByNAction(testSprite, new Formula(expectedDeltaY)).act(1f);
+		sprite.getActionFactory().createChangeYByNAction(sprite, new Formula(expectedDeltaY)).act(1f);
 
 		int executedCount = (Integer) Reflection.getPrivateField(repeatAction, "executedCount");
 
 		assertEquals(0, executedCount);
-		assertEquals(expectedDeltaY, testSprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(expectedDeltaY, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	@Test
 	public void testBrickWithValidStringFormula() {
 		Formula stringFormula = new Formula(String.valueOf(REPEAT_TIMES));
-		testWithFormula(stringFormula, testSprite.look.getYInUserInterfaceDimensionUnit() + delta * REPEAT_TIMES);
+		Sprite testSprite = new Sprite("testSprite");
+		testWithFormula(testSprite,
+				stringFormula, testSprite.look.getYInUserInterfaceDimensionUnit() + delta * REPEAT_TIMES);
 	}
 
 	@Test
-	public void testBrickWithInValidStringFormula() {
+	public void testBrickWithInvalidStringFormula() {
 		Formula stringFormula = new Formula(String.valueOf(NOT_NUMERICAL_STRING));
-		testWithFormula(stringFormula, testSprite.look.getYInUserInterfaceDimensionUnit());
+		Sprite testSprite = new Sprite("testSprite");
+		testWithFormula(testSprite, stringFormula, testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	@Test
 	public void testNullFormula() throws Exception {
+		Sprite testSprite = new Sprite("testSprite");
 		Action repeatedAction = testSprite.getActionFactory().createSetXAction(testSprite, new Formula(10));
 		Action repeatAction = testSprite.getActionFactory().createRepeatAction(testSprite, null, repeatedAction);
 		repeatAction.act(1.0f);
@@ -232,23 +220,23 @@ public class RepeatActionTest {
 	@Test
 	public void testNotANumberFormula() {
 		Formula notANumber = new Formula(Double.NaN);
-		testWithFormula(notANumber, testSprite.look.getYInUserInterfaceDimensionUnit());
+		Sprite testSprite = new Sprite("testSprite");
+		testWithFormula(testSprite, notANumber, testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
-	private void testWithFormula(Formula formula, Float expected) {
+	private void testWithFormula(Sprite sprite, Formula formula, Float expected) {
+		Script script = new StartScript();
+
 		RepeatBrick repeatBrick = new RepeatBrick(formula);
-		LoopEndBrick loopEndBrick = new LoopEndBrick(repeatBrick);
-		repeatBrick.setLoopEndBrick(loopEndBrick);
+		repeatBrick.addBrick(new ChangeYByNBrick(delta));
+		script.addBrick(repeatBrick);
 
-		testScript.addBrick(repeatBrick);
-		testScript.addBrick(new ChangeYByNBrick(delta));
-		testScript.addBrick(loopEndBrick);
-		testSprite.addScript(testScript);
-		testSprite.initializeEventThreads(EventId.START);
+		sprite.addScript(script);
+		sprite.initializeEventThreads(EventId.START);
 
-		while (!testSprite.look.haveAllThreadsFinished()) {
-			testSprite.look.act(1.0f);
+		while (!sprite.look.haveAllThreadsFinished()) {
+			sprite.look.act(1.0f);
 		}
-		assertEquals(expected, testSprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(expected, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 }

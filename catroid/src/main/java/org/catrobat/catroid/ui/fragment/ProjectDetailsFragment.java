@@ -77,7 +77,10 @@ public class ProjectDetailsFragment extends Fragment {
 		}
 
 		String sceneName = XstreamSerializer.extractDefaultSceneNameFromXml(projectData.getDirectory());
-		ProjectAndSceneScreenshotLoader screenshotLoader = new ProjectAndSceneScreenshotLoader(getActivity());
+
+		int thumbnailWidth = getActivity().getResources().getDimensionPixelSize(R.dimen.project_thumbnail_width);
+		int thumbnailHeight = getActivity().getResources().getDimensionPixelSize(R.dimen.project_thumbnail_height);
+		ProjectAndSceneScreenshotLoader screenshotLoader = new ProjectAndSceneScreenshotLoader(thumbnailWidth, thumbnailHeight);
 
 		XmlHeader header = project.getXmlHeader();
 		ImageView image = view.findViewById(R.id.image);

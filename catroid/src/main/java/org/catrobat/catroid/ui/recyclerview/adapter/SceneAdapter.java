@@ -44,7 +44,9 @@ public class SceneAdapter extends ExtendedRVAdapter<Scene> {
 
 	@Override
 	public void onBindViewHolder(ExtendedVH holder, int position) {
-		ProjectAndSceneScreenshotLoader loader = new ProjectAndSceneScreenshotLoader(holder.itemView.getContext());
+		int thumbnailWidth = holder.itemView.getContext().getResources().getDimensionPixelSize(R.dimen.project_thumbnail_width);
+		int thumbnailHeight = holder.itemView.getContext().getResources().getDimensionPixelSize(R.dimen.project_thumbnail_height);
+		ProjectAndSceneScreenshotLoader loader = new ProjectAndSceneScreenshotLoader(thumbnailWidth, thumbnailHeight);
 		Scene item = items.get(position);
 
 		File projectDir = ProjectManager.getInstance().getCurrentProject().getDirectory();

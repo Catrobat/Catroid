@@ -116,7 +116,7 @@ public class BrickFormulaDefaultValueTest {
 
 	@Parameterized.Parameters(name = "{0}")
 	public static Collection<Object[]> data() {
-		return Arrays.asList(new Object[][]{
+		return Arrays.asList(new Object[][] {
 				{"PhiroMotorMoveBackwardBrick - R.id.brick_phiro_motor_backward_action_speed_edit_text", "Phiro", PhiroMotorMoveBackwardBrick.class, R.id.brick_phiro_motor_backward_action_speed_edit_text, "100 "},
 				{"PhiroPlayToneBrick - R.id.brick_phiro_play_tone_duration_edit_text", "Phiro", PhiroPlayToneBrick.class, R.id.brick_phiro_play_tone_duration_edit_text, "1 "},
 				{"PhiroRGBLightBrick - R.id.brick_phiro_rgb_led_action_green_edit_text", "Phiro", PhiroRGBLightBrick.class, R.id.brick_phiro_rgb_led_action_green_edit_text, "255 "},
@@ -200,7 +200,6 @@ public class BrickFormulaDefaultValueTest {
 				{"WhenConditionBrick - R.id.brick_when_condition_edit_text", "Event", WhenConditionBrick.class, R.id.brick_when_condition_edit_text, "1 < 2 "},
 				{"IfLogicBeginBrick - R.id.brick_if_begin_edit_text", "Control", IfLogicBeginBrick.class, R.id.brick_if_begin_edit_text, "1 < 2 "},
 				{"IfThenLogicBeginBrick - R.id.brick_if_begin_edit_text", "Control", IfThenLogicBeginBrick.class, R.id.brick_if_begin_edit_text, "1 < 2 "},
-				{"IfThenLogicBeginBrick - R.id.brick_if_begin_edit_text", "Control", IfThenLogicBeginBrick.class, R.id.brick_if_begin_edit_text, "1 < 2 "},
 				{"WaitBrick - R.id.brick_wait_edit_text", "Control", WaitBrick.class, R.id.brick_wait_edit_text, "1 "},
 				{"NoteBrick - R.id.brick_wait_edit_text", "Control", NoteBrick.class, R.id.brick_note_edit_text, "'add comment here…' "},
 				{"WaitUntilBrick - R.id.brick_wait_until_edit_text", "Control", WaitUntilBrick.class, R.id.brick_wait_until_edit_text, "1 < 2 "},
@@ -248,7 +247,8 @@ public class BrickFormulaDefaultValueTest {
 
 	@Test
 	public void testBrickCategory() {
-		List<Brick> categoryBricks = categoryBricksFactory.getBricks(category, sprite, InstrumentationRegistry.getTargetContext());
+		List<Brick> categoryBricks = categoryBricksFactory.getBricks(category, false,
+				InstrumentationRegistry.getTargetContext());
 
 		Brick brickInAdapter = null;
 		for (Brick brick : categoryBricks) {

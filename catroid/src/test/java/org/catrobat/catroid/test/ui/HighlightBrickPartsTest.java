@@ -24,6 +24,7 @@
 package org.catrobat.catroid.test.ui;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.support.annotation.IdRes;
 import android.view.View;
 
@@ -33,24 +34,20 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.content.bricks.ControlStructureBrick;
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
-import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
-import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
-import org.catrobat.catroid.content.bricks.IfThenLogicEndBrick;
-import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.test.MockUtil;
 import org.catrobat.catroid.ui.dragndrop.BrickListView;
 import org.catrobat.catroid.ui.recyclerview.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.recyclerview.controller.BrickController;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.mockito.Mockito;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -93,7 +90,7 @@ public class HighlightBrickPartsTest {
 		brickListView.setAdapter(brickAdapter);
 		View view = Mockito.mock(View.class);
 
-		Mockito.doNothing().when(brickListView).drawItem(Mockito.any(View.class), Mockito.anyBoolean());
+		Mockito.doNothing().when(brickListView).drawHighlightedItem(Mockito.any(View.class), Mockito.any(Canvas.class));
 		Mockito.doNothing().when(brickListView).invalidate();
 		Mockito.doNothing().when(brickListView).invalidateViews();
 		Mockito.doReturn(view).when(brickListView).getChildAt(Mockito.anyInt());
@@ -106,29 +103,34 @@ public class HighlightBrickPartsTest {
 		Sprite sprite = new SingleSprite("sprite");
 		project.getDefaultScene().addSprite(sprite);
 		Script script = new StartScript();
-		script.addBrick(new ForeverBrick());
-		script.addBrick(new IfLogicBeginBrick());
-		script.addBrick(new IfThenLogicBeginBrick());
-		script.addBrick(new IfThenLogicEndBrick(null));
-		script.addBrick(new IfLogicElseBrick(null));
-		script.addBrick(new IfLogicEndBrick(null, null));
-		script.addBrick(new LoopEndBrick());
+
+		ForeverBrick loopBrick = new ForeverBrick();
+		script.addBrick(loopBrick);
+
+		IfLogicBeginBrick ifElseBrick = new IfLogicBeginBrick();
+		loopBrick.addBrick(ifElseBrick);
+
+		ifElseBrick.addBrickToIfBranch(new IfThenLogicBeginBrick());
+
 		sprite.addScript(script);
 
 		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
-		new BrickController().setControlBrickReferences(script.getBrickList());
 	}
 
 	@Test
 	public void testHighlightBrickParts() {
-		ControlStructureBrick highlightBrick = (ControlStructureBrick) brickAdapter.getItem(brickPositionToHighlight);
-		List<Integer> positions = brickAdapter.getPositionsOfItems(highlightBrick.getAllParts());
+		Brick highlightBrick = brickAdapter.getItem(brickPositionToHighlight);
+
+		List<Brick> bricksOfControlStructure = highlightBrick.getAllParts();
+		List<Integer> positions = new ArrayList<>();
+		for (Brick brickInControlStructure : bricksOfControlStructure) {
+			positions.add(brickAdapter.getPosition(brickInControlStructure));
+		}
+
 		assertEquals(brickPositions, positions);
 
 		brickListView.highlightControlStructureBricks(positions);
-		Mockito.verify(brickListView, Mockito.times(positions.size())).drawItem(Mockito.any(View.class),
-				Mockito.eq(false));
 		assertEquals(positions, brickListView.getBrickPositionsToHighlight());
 
 		assertTrue(brickListView.isCurrentlyHighlighted());

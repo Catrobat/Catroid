@@ -51,6 +51,7 @@
     <dimen name="dialog_text_view_text_size_large" >40sp</dimen >
     <dimen name="dialog_check_box_margin_bottom_right" > 16dp</dimen >
     <dimen name="dialog_image_button_layout_width_height" >50dp</dimen >
+    <dimen name="dialog_fab_button_layout_width_height" >60dp</dimen >
     <!--  -->
 
     <!-- Spacings -->

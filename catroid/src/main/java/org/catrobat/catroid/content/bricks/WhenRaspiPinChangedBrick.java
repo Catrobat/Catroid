@@ -37,9 +37,8 @@ import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBrick {
+public class WhenRaspiPinChangedBrick extends ScriptBrickBaseType {
 
 	private static final long serialVersionUID = 1L;
 
@@ -52,7 +51,7 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 	}
 
 	@Override
-	public BrickBaseType clone() throws CloneNotSupportedException {
+	public Brick clone() throws CloneNotSupportedException {
 		WhenRaspiPinChangedBrick clone = (WhenRaspiPinChangedBrick) super.clone();
 		clone.script = (RaspiInterruptScript) script.clone();
 		clone.script.setScriptBrick(clone);
@@ -144,13 +143,6 @@ public class WhenRaspiPinChangedBrick extends BrickBaseType implements ScriptBri
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		return null;
-	}
-
-	@Override
-	public void setCommentedOut(boolean commentedOut) {
-		super.setCommentedOut(commentedOut);
-		script.setCommentedOut(commentedOut);
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 	}
 }

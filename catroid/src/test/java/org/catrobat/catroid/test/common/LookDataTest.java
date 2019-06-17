@@ -38,7 +38,6 @@ import static org.mockito.Mockito.verify;
 
 @RunWith(JUnit4.class)
 public class LookDataTest {
-
 	@Test
 	public void testPixmapAndTextureRegionDisposal() {
 		LookData lookData = new LookData();

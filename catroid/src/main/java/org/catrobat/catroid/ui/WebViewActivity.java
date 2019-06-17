@@ -25,10 +25,8 @@ package org.catrobat.catroid.ui;
 import android.annotation.SuppressLint;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -41,9 +39,11 @@ import android.view.KeyEvent;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.DownloadListener;
+import android.webkit.URLUtil;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FlavoredConstants;
@@ -52,8 +52,6 @@ import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 
 import static org.catrobat.catroid.common.Constants.CATROBAT_HELP_URL;
 import static org.catrobat.catroid.common.Constants.MAIN_URL_HTTPS;
@@ -68,7 +66,6 @@ public class WebViewActivity extends BaseActivity {
 	public static final String INTENT_PARAMETER_URL = "url";
 	public static final String ANDROID_APPLICATION_EXTENSION = ".apk";
 	public static final String MEDIA_FILE_PATH = "media_file_path";
-	private static final String FILENAME_TAG = "fname=";
 	private static final String PACKAGE_NAME_WHATSAPP = "com.whatsapp";
 
 	private WebView webView;
@@ -96,7 +93,7 @@ public class WebViewActivity extends BaseActivity {
 		String version = Utils.getVersionName(getApplicationContext());
 		String platform = Constants.PLATFORM_DEFAULT;
 		webView.getSettings().setUserAgentString("Catrobat/" + language + " " + flavor + "/"
-				+ version + " Platform/" + platform);
+				+ version + " Platform/" + platform + " BuildType/" + BuildConfig.BUILD_TYPE);
 
 		webView.loadUrl(url);
 
@@ -109,8 +106,7 @@ public class WebViewActivity extends BaseActivity {
 				if (getExtensionFromContentDisposition(contentDisposition).contains(Constants.CATROBAT_EXTENSION)) {
 					DownloadUtil.getInstance().prepareDownloadAndStartIfPossible(WebViewActivity.this, url);
 				} else if (url.contains(LIBRARY_BASE_URL)) {
-					String name = getMediaNameFromUrl(url);
-					String fileName = name + getExtensionFromContentDisposition(contentDisposition);
+					String fileName = URLUtil.guessFileName(url, contentDisposition, mimetype);
 
 					MEDIA_LIBRARY_CACHE_DIR.mkdirs();
 					if (!MEDIA_LIBRARY_CACHE_DIR.isDirectory()) {
@@ -121,7 +117,7 @@ public class WebViewActivity extends BaseActivity {
 					File file = new File(MEDIA_LIBRARY_CACHE_DIR, fileName);
 					resultIntent.putExtra(MEDIA_FILE_PATH, file.getAbsolutePath());
 					DownloadUtil.getInstance()
-							.startMediaDownload(WebViewActivity.this, url, name, file.getAbsolutePath());
+							.startMediaDownload(WebViewActivity.this, url, fileName, file.getAbsolutePath());
 				} else {
 					DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
 
@@ -132,27 +128,12 @@ public class WebViewActivity extends BaseActivity {
 							DownloadUtil.getInstance().getProjectNameFromUrl(url) + ANDROID_APPLICATION_EXTENSION);
 					request.setMimeType(mimetype);
 
-					registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-
 					DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
 					downloadManager.enqueue(request);
 				}
 			}
 		});
 	}
-
-	BroadcastReceiver onDownloadComplete = new BroadcastReceiver() {
-		public void onReceive(Context context, Intent intent) {
-
-			long id = intent.getExtras().getLong(DownloadManager.EXTRA_DOWNLOAD_ID);
-			DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-			intent = new Intent(Intent.ACTION_VIEW);
-			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			intent.setDataAndType(downloadManager.getUriForDownloadedFile(id),
-					downloadManager.getMimeTypeForDownloadedFile(id));
-			startActivity(intent);
-		}
-	};
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -264,18 +245,6 @@ public class WebViewActivity extends BaseActivity {
 
 	public void setResultIntent(Intent intent) {
 		resultIntent = intent;
-	}
-
-	private String getMediaNameFromUrl(String url) {
-		int mediaNameIndex = url.lastIndexOf(FILENAME_TAG) + FILENAME_TAG.length();
-		String mediaName = url.substring(mediaNameIndex);
-		try {
-			mediaName = URLDecoder.decode(mediaName, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			Log.e(TAG, "Could not decode program name: " + mediaName, e);
-			return null;
-		}
-		return mediaName;
 	}
 
 	private String getExtensionFromContentDisposition(String contentDisposition) {

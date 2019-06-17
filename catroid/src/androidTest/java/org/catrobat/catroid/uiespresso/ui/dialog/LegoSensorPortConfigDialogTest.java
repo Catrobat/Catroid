@@ -31,6 +31,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
+import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
@@ -44,6 +45,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+
+import java.io.IOException;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -67,22 +70,33 @@ public class LegoSensorPortConfigDialogTest {
 	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 
-	private NXTSensor.Sensor[] sensorMapping;
-	private boolean legoNXTBrickSetting;
+	private NXTSensor.Sensor[] sensorMappingBuffer;
+	private boolean nxtSettingBuffer;
 
 	@Before
 	public void setUp() throws Exception {
-		Script script = BrickTestUtils.createProjectAndGetStartScript("LegoSensorPortConfigDialogTest");
+		Script script = BrickTestUtils.createProjectAndGetStartScript(getClass().getSimpleName());
 		script.addBrick(new ChangeSizeByNBrick(0));
 
-		legoNXTBrickSetting = getNXTBrickSetting();
-		setNXTBrickSetting(true);
+		SharedPreferences sharedPreferences = PreferenceManager
+				.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
 
-		sensorMapping = SettingsFragment.getLegoNXTSensorMapping(InstrumentationRegistry.getTargetContext());
+		nxtSettingBuffer = sharedPreferences
+				.getBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false);
+
+		sharedPreferences.edit()
+				.putBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, true)
+				.commit();
+
+		sensorMappingBuffer = SettingsFragment.getLegoNXTSensorMapping(InstrumentationRegistry.getTargetContext());
 
 		SettingsFragment.setLegoMindstormsNXTSensorMapping(InstrumentationRegistry.getTargetContext(),
-				new NXTSensor.Sensor[] {NXTSensor.Sensor.NO_SENSOR, NXTSensor.Sensor.NO_SENSOR,
-						NXTSensor.Sensor.NO_SENSOR, NXTSensor.Sensor.NO_SENSOR});
+				new NXTSensor.Sensor[] {
+						NXTSensor.Sensor.NO_SENSOR,
+						NXTSensor.Sensor.NO_SENSOR,
+						NXTSensor.Sensor.NO_SENSOR,
+						NXTSensor.Sensor.NO_SENSOR
+				});
 
 		baseActivityTestRule.launchActivity();
 	}
@@ -113,19 +127,15 @@ public class LegoSensorPortConfigDialogTest {
 	}
 
 	@After
-	public void tearDown() {
-		SettingsFragment.setLegoMindstormsNXTSensorMapping(InstrumentationRegistry.getTargetContext(), sensorMapping);
-		setNXTBrickSetting(legoNXTBrickSetting);
-	}
+	public void tearDown() throws IOException {
+		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext()).edit()
+				.putBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, nxtSettingBuffer)
+				.commit();
 
-	private void setNXTBrickSetting(boolean bricksEnabled) {
-		SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext()).edit();
-		editor.putBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, bricksEnabled).commit();
-	}
+		SettingsFragment
+				.setLegoMindstormsNXTSensorMapping(InstrumentationRegistry.getTargetContext(), sensorMappingBuffer);
 
-	private boolean getNXTBrickSetting() {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
-		return sharedPreferences.getBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false);
+		TestUtils.deleteProjects(getClass().getSimpleName());
 	}
 
 	private void openLegoSensorPortConfigDialog() {

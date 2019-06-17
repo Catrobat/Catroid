@@ -81,6 +81,7 @@ import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
 import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.TouchUtil;
 import org.catrobat.catroid.utils.VibratorUtil;
+import org.catrobat.catroid.web.WebConnectionHolder;
 
 import java.io.File;
 import java.io.IOException;
@@ -134,6 +135,7 @@ public class StageListener implements ApplicationListener {
 	private EmbroideryActor embroideryActor;
 	public EmbroideryList embroideryList;
 	private float screenRatio;
+	public WebConnectionHolder webConnectionHolder;
 
 	private List<Sprite> sprites;
 
@@ -171,6 +173,7 @@ public class StageListener implements ApplicationListener {
 	private Map<Sprite, ShowBubbleActor> bubbleActorMap = new HashMap<>();
 
 	public StageListener() {
+		webConnectionHolder = new WebConnectionHolder();
 	}
 
 	@Override
@@ -278,7 +281,8 @@ public class StageListener implements ApplicationListener {
 		stage.getRoot().addActorBefore(cloneMe.look, copy.look);
 		sprites.add(copy);
 		if (!copy.getLookList().isEmpty()) {
-			copy.look.setLookData(copy.getLookList().get(0));
+			int currentLookDataIndex = cloneMe.getLookList().indexOf(cloneMe.look.getLookData());
+			copy.look.setLookData(copy.getLookList().get(currentLookDataIndex));
 		}
 		copy.initializeEventThreads(EventId.START_AS_CLONE);
 		copy.initConditionScriptTriggers();
@@ -348,6 +352,7 @@ public class StageListener implements ApplicationListener {
 		}
 
 		paused = true;
+		webConnectionHolder.onPause();
 	}
 
 	public void transitionToScene(String sceneName) {

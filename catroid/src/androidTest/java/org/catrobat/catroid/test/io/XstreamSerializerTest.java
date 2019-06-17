@@ -30,7 +30,6 @@ import com.google.common.io.Files;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.content.LegoNXTSetting;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
@@ -40,8 +39,8 @@ import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
+import org.catrobat.catroid.content.bricks.DroneMoveForwardBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
@@ -50,7 +49,6 @@ import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
-import org.catrobat.catroid.drone.ardrone.DroneBrickFactory;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Sensors;
@@ -104,10 +102,6 @@ public class XstreamSerializerTest {
 	@Before
 	public void setUp() throws Exception {
 		TestUtils.deleteProjects(projectName);
-
-		DefaultProjectHandler
-				.createAndSaveDefaultProject(InstrumentationRegistry.getTargetContext());
-
 		currentProjectBuffer = ProjectManager.getInstance().getCurrentProject();
 	}
 
@@ -152,7 +146,7 @@ public class XstreamSerializerTest {
 		project.getDefaultScene().addSprite(fourthSprite);
 
 		ProjectSaveTask
-				.task(project);
+				.task(project, InstrumentationRegistry.getTargetContext());
 
 		Project loadedProject = XstreamSerializer.getInstance()
 				.loadProject(project.getDirectory(), InstrumentationRegistry.getContext());
@@ -291,8 +285,10 @@ public class XstreamSerializerTest {
 	@Test
 	public void testSerializeSettings() {
 		NXTSensor.Sensor[] sensorMapping = new NXTSensor.Sensor[] {
-				NXTSensor.Sensor.TOUCH, NXTSensor.Sensor.SOUND,
-				NXTSensor.Sensor.LIGHT_INACTIVE, NXTSensor.Sensor.ULTRASONIC
+				NXTSensor.Sensor.TOUCH,
+				NXTSensor.Sensor.SOUND,
+				NXTSensor.Sensor.LIGHT_INACTIVE,
+				NXTSensor.Sensor.ULTRASONIC
 		};
 
 		Project project = generateMultiplePermissionsProject();
@@ -300,7 +296,8 @@ public class XstreamSerializerTest {
 
 		SettingsFragment.setLegoMindstormsNXTSensorMapping(InstrumentationRegistry.getTargetContext(), sensorMapping);
 
-		ProjectManager.getInstance().saveProject(InstrumentationRegistry.getTargetContext());
+		ProjectSaveTask.task(project, InstrumentationRegistry.getTargetContext());
+
 		Setting setting = project.getSettings().get(0);
 
 		assertTrue(setting instanceof LegoNXTSetting);
@@ -360,9 +357,9 @@ public class XstreamSerializerTest {
 				new Formula(
 						new FormulaElement(FormulaElement.ElementType.SENSOR, Sensors.FACE_SIZE.name(), null)));
 
-		BrickBaseType moveBrick = DroneBrickFactory.getInstanceOfDroneBrick(
-				DroneBrickFactory.DroneBricks.DRONE_MOVE_FORWARD_BRICK,
-				DEFAULT_MOVE_TIME_IN_MILLISECONDS, DEFAULT_MOVE_POWER_IN_PERCENT);
+		Brick moveBrick = new DroneMoveForwardBrick(
+				DEFAULT_MOVE_TIME_IN_MILLISECONDS,
+				DEFAULT_MOVE_POWER_IN_PERCENT);
 
 		Sprite firstSprite = new SingleSprite("first");
 		Script testScript = new StartScript();
@@ -393,7 +390,7 @@ public class XstreamSerializerTest {
 		project.getSceneList().get(0).setName(firstSceneName);
 
 		ProjectSaveTask
-				.task(project);
+				.task(project, InstrumentationRegistry.getTargetContext());
 
 		assertEquals(firstSceneName, XstreamSerializer.extractDefaultSceneNameFromXml(project.getDirectory()));
 	}

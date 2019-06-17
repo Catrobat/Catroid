@@ -60,23 +60,14 @@ public class InternToken {
 		}
 	}
 
-	public void getVariableAndListNames(List<String> variables, List<String> lists) {
-		if (internTokenType == InternTokenType.USER_VARIABLE && !variables.contains(tokenStringValue)) {
-			variables.add(tokenStringValue);
-		}
-		if (internTokenType == InternTokenType.USER_LIST && !lists.contains(tokenStringValue)) {
-			lists.add(tokenStringValue);
-		}
-	}
-
 	public void updateCollisionFormula(String oldName, String newName) {
 		if (internTokenType == InternTokenType.COLLISION_FORMULA && tokenStringValue.equals(oldName)) {
 			tokenStringValue = newName;
 		}
 	}
 
-	public void updateCollisionFormulaToVersion(float catroidLanguageVersion) {
-		if (catroidLanguageVersion == 0.993f && internTokenType == InternTokenType.COLLISION_FORMULA) {
+	public void updateCollisionFormulaToVersion() {
+		if (internTokenType == InternTokenType.COLLISION_FORMULA) {
 			String secondSpriteName = CollisionDetection.getSecondSpriteNameFromCollisionFormulaString(tokenStringValue);
 			if (secondSpriteName != null) {
 				tokenStringValue = secondSpriteName;
@@ -122,10 +113,6 @@ public class InternToken {
 
 	public boolean isUserVariable() {
 		return internTokenType == InternTokenType.USER_VARIABLE;
-	}
-
-	public boolean isUserVariable(String name) {
-		return internTokenType == InternTokenType.USER_VARIABLE && tokenStringValue.equals(name);
 	}
 
 	public boolean isUserList() {

@@ -138,7 +138,7 @@ public class BrickStringSpinnerDefaultValueTest {
 	}
 
 	private Brick getBrickFromCategroyBricksFactory() {
-		List<Brick> categoryBricks = categoryBricksFactory.getBricks(category, sprite, activity);
+		List<Brick> categoryBricks = categoryBricksFactory.getBricks(category, false, activity);
 
 		Brick brickInAdapter = null;
 		for (Brick brick : categoryBricks) {

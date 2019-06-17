@@ -35,9 +35,10 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.asynctask.ProjectExportTask;
+import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.test.utils.Reflection;
-import org.catrobat.catroid.utils.NotificationData;
-import org.catrobat.catroid.utils.StatusBarNotificationManager;
+import org.catrobat.catroid.utils.notifications.NotificationData;
+import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -66,7 +67,8 @@ public class ProjectExportTaskTest {
 				ProjectExportTaskTest.class.getSimpleName());
 
 		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().saveProject(InstrumentationRegistry.getTargetContext());
+		ProjectSaveTask
+				.task(project, InstrumentationRegistry.getTargetContext());
 	}
 
 	@Test
