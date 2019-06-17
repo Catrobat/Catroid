@@ -35,6 +35,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -61,6 +62,7 @@ import org.catrobat.catroid.web.ServerCalls;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -266,11 +268,13 @@ public class ProjectUploadActivity extends BaseActivity implements
 		String description = descriptionInputLayout.getEditText().getText().toString().trim();
 
 		if (!project.getName().equals(name)) {
-			ProjectRenameTask
-					.task(project.getDirectory(), name);
-			ProjectLoadTask
-					.task(project.getDirectory(), getApplicationContext());
-			project = ProjectManager.getInstance().getCurrentProject();
+			try {
+				File renamedDirectory = ProjectRenameTask.task(project.getDirectory(), name);
+				ProjectLoadTask.task(renamedDirectory, getApplicationContext());
+				project = ProjectManager.getInstance().getCurrentProject();
+			} catch (IOException e) {
+				Log.e(TAG, "Creating renamed directory failed!", e);
+			}
 		}
 
 		project.setDescription(description);
