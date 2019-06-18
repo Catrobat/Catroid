@@ -71,12 +71,6 @@ emulators {
         }
     }
 
-    emulator 'android19', 'template1', {
-        avd {
-            systemImage = 'system-images;android-19;default;x86'
-        }
-    }
-
     emulator 'android24', 'template1', {
         avd {
             systemImage = 'system-images;android-24;default;x86_64'
@@ -181,7 +175,7 @@ android {
     compileSdkVersion 26
 
     defaultConfig {
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 26
         applicationId appId
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'

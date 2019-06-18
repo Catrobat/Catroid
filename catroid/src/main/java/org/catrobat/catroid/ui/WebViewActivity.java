@@ -254,22 +254,10 @@ public class WebViewActivity extends BaseActivity {
 		return extension;
 	}
 
-	//taken from http://stackoverflow.com/a/28998241/
-	@SuppressWarnings("deprecated")
 	@SuppressLint("NewApi")
-	public static void clearCookies(Context context) {
-		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1) {
-			CookieSyncManager cookieSyncMngr = CookieSyncManager.createInstance(context);
-			cookieSyncMngr.startSync();
-			CookieManager cookieManager = CookieManager.getInstance();
-			cookieManager.removeAllCookie();
-			cookieManager.removeSessionCookie();
-			cookieSyncMngr.stopSync();
-			cookieSyncMngr.sync();
-		} else {
+	public static void clearCookies() {
 			CookieManager.getInstance().removeAllCookies(null);
 			CookieManager.getInstance().flush();
-		}
 	}
 
 	private boolean isWhatsappInstalled() {

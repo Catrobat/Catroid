@@ -745,10 +745,10 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 		ImageButton backspaceOnKeyboard = getActivity().findViewById(R.id.formula_editor_keyboard_delete);
 		if (!formulaEditorEditText.isThereSomethingToDelete()) {
-			backspaceOnKeyboard.setAlpha(255 / 3);
+			backspaceOnKeyboard.setAlpha(1.0f / 3);
 			backspaceOnKeyboard.setEnabled(false);
 		} else {
-			backspaceOnKeyboard.setAlpha(255);
+			backspaceOnKeyboard.setAlpha(1.0f);
 			backspaceOnKeyboard.setEnabled(true);
 		}
 	}
