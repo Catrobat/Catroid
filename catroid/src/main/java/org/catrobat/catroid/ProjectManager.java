@@ -31,7 +31,6 @@ import org.catrobat.catroid.common.DefaultProjectHandler.ProjectCreatorType;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.LegoEV3Setting;
 import org.catrobat.catroid.content.LegoNXTSetting;
 import org.catrobat.catroid.content.Project;
@@ -39,6 +38,7 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Setting;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.WhenBounceOffScript;
 import org.catrobat.catroid.content.backwardcompatibility.BrickTreeBuilder;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -50,9 +50,11 @@ import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
-import org.catrobat.catroid.physics.PhysicsCollision;
+import org.catrobat.catroid.physics.PhysicsCollisionListener;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.io.File;
@@ -176,9 +178,14 @@ public final class ProjectManager {
 			project.setCatrobatLanguageVersion(0.9994f);
 		}
 		if (project.getCatrobatLanguageVersion() == 0.9994f) {
+			project.setCatrobatLanguageVersion(0.9995f);
+		}
+		if (project.getCatrobatLanguageVersion() == 0.9995f) {
+			project.setCatrobatLanguageVersion(0.9996f);
+		}
+		if (project.getCatrobatLanguageVersion() == 0.9996f) {
 			project.setCatrobatLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION);
 		}
-
 		if (project.getCatrobatLanguageVersion() != CURRENT_CATROBAT_LANGUAGE_VERSION) {
 			restorePreviousProject(previousProject);
 			throw new CompatibilityProjectException(context.getString(R.string.error_project_compatibility));
@@ -276,8 +283,8 @@ public final class ProjectManager {
 				for (Script script : sprite.getScriptList()) {
 					script.setParents();
 
-					if (script instanceof CollisionScript) {
-						((CollisionScript) script).updateSpriteToCollideWith(scene);
+					if (script instanceof WhenBounceOffScript) {
+						((WhenBounceOffScript) script).updateSpriteToCollideWith(scene);
 					}
 				}
 			}
@@ -302,6 +309,36 @@ public final class ProjectManager {
 				return;
 			}
 		}
+	}
+
+	public List<UserVariable> getGlobalVariableConflicts(Project project1, Project project2) {
+		List<UserVariable> project1GlobalVars = project1.getUserVariables();
+		List<UserVariable> project2GlobalVars = project2.getUserVariables();
+		List<UserVariable> conflicts = new ArrayList<>();
+		for (UserVariable project1GlobalVar : project1GlobalVars) {
+			for (UserVariable project2GlobalVar : project2GlobalVars) {
+				if (project1GlobalVar.getName().equals(project2GlobalVar.getName()) && !project1GlobalVar.getValue()
+						.equals(project2GlobalVar.getValue())) {
+					conflicts.add(project1GlobalVar);
+				}
+			}
+		}
+		return conflicts;
+	}
+
+	public List<UserList> getGlobalListConflicts(Project project1, Project project2) {
+		List<UserList> project1GlobalLists = project1.getUserLists();
+		List<UserList> project2GlobalLists = project2.getUserLists();
+		List<UserList> conflicts = new ArrayList<>();
+		for (UserList project1GlobalList : project1GlobalLists) {
+			for (UserList project2GlobalList : project2GlobalLists) {
+				if (project1GlobalList.getName().equals(project2GlobalList.getName()) && !project1GlobalList.getList()
+						.equals(project2GlobalList.getList())) {
+					conflicts.add(project1GlobalList);
+				}
+			}
+		}
+		return conflicts;
 	}
 
 	@VisibleForTesting
@@ -365,14 +402,15 @@ public final class ProjectManager {
 		for (Scene scene : project.getSceneList()) {
 			for (Sprite sprite : scene.getSpriteList()) {
 				for (Script script : sprite.getScriptList()) {
-					if (script instanceof CollisionScript) {
-						CollisionScript collisionScript = (CollisionScript) script;
-						String[] spriteNames = collisionScript.getSpriteToCollideWithName().split(PhysicsCollision.COLLISION_MESSAGE_CONNECTOR);
+					if (script instanceof WhenBounceOffScript) {
+						WhenBounceOffScript bounceOffScript = (WhenBounceOffScript) script;
+						String[] spriteNames =
+								bounceOffScript.getSpriteToBounceOffName().split(PhysicsCollisionListener.COLLISION_MESSAGE_CONNECTOR);
 						String spriteToCollideWith = spriteNames[0];
 						if (spriteNames[0].equals(sprite.getName())) {
 							spriteToCollideWith = spriteNames[1];
 						}
-						collisionScript.setSpriteToCollideWithName(spriteToCollideWith);
+						bounceOffScript.setSpriteToBounceOffName(spriteToCollideWith);
 					}
 				}
 			}

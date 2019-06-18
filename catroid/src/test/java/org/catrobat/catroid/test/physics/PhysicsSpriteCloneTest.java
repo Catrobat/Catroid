@@ -25,18 +25,17 @@ package org.catrobat.catroid.test.physics;
 import com.badlogic.gdx.math.Vector2;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.WhenBounceOffScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
 import org.catrobat.catroid.physics.content.bricks.SetBounceBrick;
 import org.catrobat.catroid.physics.content.bricks.SetFrictionBrick;
 import org.catrobat.catroid.physics.content.bricks.SetGravityBrick;
@@ -45,6 +44,7 @@ import org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.physics.content.bricks.SetVelocityBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
+import org.catrobat.catroid.physics.content.bricks.WhenBounceOffBrick;
 import org.catrobat.catroid.test.MockUtil;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
 import org.junit.After;
@@ -107,8 +107,8 @@ public class PhysicsSpriteCloneTest {
 
 	@Test
 	public void testSpriteCloneWithPhysicsScriptAndBricks() throws IOException {
-		CollisionScript collisionScript = new CollisionScript(null);
-		collisionScript.getScriptBrick();
+		WhenBounceOffScript whenBounceOffScript = new WhenBounceOffScript(null);
+		whenBounceOffScript.getScriptBrick();
 		Brick setBounceBrick = new SetBounceBrick(BOUNCE_TEST_VALUE);
 		Brick setFrictionBrick = new SetFrictionBrick(FRICTION_TEST_VALUE);
 		Brick setGravityBrick = new SetGravityBrick(GRAVITY_TEST_VALUE);
@@ -118,16 +118,16 @@ public class PhysicsSpriteCloneTest {
 		Brick turnLeftSpeedBrick = new TurnLeftSpeedBrick(TURN_LEFT_SPEED_TEST_VALUE);
 		Brick turnRightSpeedBrick = new TurnRightSpeedBrick(TURN_RIGHT_SPEED_TEST_VALUE);
 
-		collisionScript.addBrick(setBounceBrick);
-		collisionScript.addBrick(setFrictionBrick);
-		collisionScript.addBrick(setGravityBrick);
-		collisionScript.addBrick(setMassBrick);
-		collisionScript.addBrick(setPhysicsObjectTypeBrick);
-		collisionScript.addBrick(setVelocityBrick);
-		collisionScript.addBrick(turnLeftSpeedBrick);
-		collisionScript.addBrick(turnRightSpeedBrick);
+		whenBounceOffScript.addBrick(setBounceBrick);
+		whenBounceOffScript.addBrick(setFrictionBrick);
+		whenBounceOffScript.addBrick(setGravityBrick);
+		whenBounceOffScript.addBrick(setMassBrick);
+		whenBounceOffScript.addBrick(setPhysicsObjectTypeBrick);
+		whenBounceOffScript.addBrick(setVelocityBrick);
+		whenBounceOffScript.addBrick(turnLeftSpeedBrick);
+		whenBounceOffScript.addBrick(turnRightSpeedBrick);
 
-		sprite.addScript(collisionScript);
+		sprite.addScript(whenBounceOffScript);
 
 		Sprite clonedSprite = new SpriteController().copy(sprite, project, project.getDefaultScene());
 
@@ -135,22 +135,22 @@ public class PhysicsSpriteCloneTest {
 	}
 
 	@Test
-	public void testSpriteCloneWithCollisionScript() throws IOException, InterpretationException {
-		CollisionScript collisionScript = new CollisionScript(null);
-		collisionScript.getScriptBrick();
+	public void testSpriteCloneWithBounceOffScript() throws IOException, InterpretationException {
+		WhenBounceOffScript whenBounceOffScript = new WhenBounceOffScript(null);
+		whenBounceOffScript.getScriptBrick();
 		Brick setBounceBrick = new SetBounceBrick(BOUNCE_TEST_VALUE);
 
-		collisionScript.addBrick(setBounceBrick);
-		sprite.addScript(collisionScript);
+		whenBounceOffScript.addBrick(setBounceBrick);
+		sprite.addScript(whenBounceOffScript);
 
 		Sprite clonedSprite = new SpriteController().copy(sprite, project, project.getDefaultScene());
 
 		checkIfScriptsAndBricksClassesOfSpriteAreEqual(sprite, clonedSprite);
 
 		Script clonedScript = clonedSprite.getScript(0);
-		assertTrue(clonedScript instanceof CollisionScript);
+		assertTrue(clonedScript instanceof WhenBounceOffScript);
 		ScriptBrick clonedScriptBrick = clonedScript.getScriptBrick();
-		assertTrue(clonedScriptBrick instanceof CollisionReceiverBrick);
+		assertTrue(clonedScriptBrick instanceof WhenBounceOffBrick);
 
 		Brick clonedSetBounceBrick = clonedScript.getBrickList().get(0);
 		assertTrue(clonedSetBounceBrick instanceof SetBounceBrick);

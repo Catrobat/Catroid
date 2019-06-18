@@ -78,7 +78,10 @@ public class DSTFileGenerator {
 			0x295, 0x294, 0x296, 0x291, 0x290, 0x292, 0x299, 0x298, 0x29a, 0x285, 0x284, 0x286, 0x281, 0x280, 0x282,
 			0x289, 0x288, 0x28a, 0x2a5, 0x2a4, 0x2a6, 0x2a1, 0x2a0, 0x2a2, 0x2a9, 0x2a8, 0x2aa};
 
-	public DSTFileGenerator() {
+	private ArrayList<PointF> rawStitchPoints;
+
+	public DSTFileGenerator(ArrayList<PointF> stitchPoints) {
+		rawStitchPoints = stitchPoints;
 	}
 
 	@VisibleForTesting
@@ -109,11 +112,11 @@ public class DSTFileGenerator {
 		return preparedStitchPoints;
 	}
 
-	public void writeToDSTFile(File dstFile, ArrayList<PointF> rawPoints) throws IOException {
+	public void writeToDSTFile(File dstFile) throws IOException {
 		FileOutputStream fileStream = null;
 		try {
 			fileStream = new FileOutputStream(dstFile);
-			ArrayList<StitchPoint> stitchPoints = prepareStitchPoints(rawPoints);
+			ArrayList<StitchPoint> stitchPoints = prepareStitchPoints(rawStitchPoints);
 			fileStream.write(getHeaderBytes(stitchPoints));
 			fileStream.write(getStitchesBytes(stitchPoints));
 			fileStream.write(getFileEndBytes());

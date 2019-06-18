@@ -20,40 +20,39 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.content.eventids;
 
-package org.catrobat.catroid.test.content.userdata;
+import com.google.common.base.Objects;
 
-import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.catrobat.catroid.content.Sprite;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
+public class BounceOffEventId extends EventId {
+	public final Sprite bouncingSprite;
+	public final Sprite staticSprite;
 
-@RunWith(JUnit4.class)
-public class UserVariableTest {
-
-	private UserVariable userVariableX;
-	private UserVariable userVariableY;
-
-	@Before
-	public void setUp() {
-		userVariableX = new UserVariable("x");
-		userVariableY = new UserVariable("y");
+	public BounceOffEventId(Sprite bouncingSprite, Sprite staticSprite) {
+		this.bouncingSprite = bouncingSprite;
+		this.staticSprite = staticSprite;
 	}
 
-	@Test
-	public void testEqualwithDifferentVariables() {
-		boolean testEquality = userVariableX.equals(userVariableY);
-		assertFalse(testEquality);
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof BounceOffEventId)) {
+			return false;
+		}
+		if (!super.equals(o)) {
+			return false;
+		}
+		BounceOffEventId that = (BounceOffEventId) o;
+		return Objects.equal(bouncingSprite, that.bouncingSprite)
+				&& Objects.equal(staticSprite, that.staticSprite);
 	}
 
-	@Test
-	public void testEqualwithSameVariable() {
-		UserVariable equalVariable = new UserVariable("x");
-		boolean testEquality = userVariableX.equals(equalVariable);
-		assertTrue(testEquality);
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(super.hashCode(), bouncingSprite, staticSprite);
 	}
 }

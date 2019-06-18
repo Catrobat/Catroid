@@ -160,7 +160,6 @@ import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.content.bricks.WhenTouchDownBrick;
-import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
 import org.catrobat.catroid.physics.content.bricks.SetBounceBrick;
 import org.catrobat.catroid.physics.content.bricks.SetFrictionBrick;
 import org.catrobat.catroid.physics.content.bricks.SetGravityBrick;
@@ -169,6 +168,7 @@ import org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.physics.content.bricks.SetVelocityBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
+import org.catrobat.catroid.physics.content.bricks.WhenBounceOffBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
@@ -276,7 +276,7 @@ public class RtlBrickTest {
 
 		checkIfBrickISRtl(WhenConditionBrick.class, R.id.brick_when_condition_layout);
 
-		checkIfBrickISRtl(CollisionReceiverBrick.class, R.id.brick_collision_receive_layout);
+		checkIfBrickISRtl(WhenBounceOffBrick.class, R.id.brick_when_bounce_off_layout);
 
 		checkIfBrickISRtl(WhenBackgroundChangesBrick.class, R.id.brick_when_background_layout);
 

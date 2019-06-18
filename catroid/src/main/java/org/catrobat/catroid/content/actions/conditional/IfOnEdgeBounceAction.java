@@ -25,7 +25,9 @@ package org.catrobat.catroid.content.actions.conditional;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.eventids.BounceOffEventId;
 
 public class IfOnEdgeBounceAction extends TemporalAction {
 	private Sprite sprite;
@@ -44,11 +46,13 @@ public class IfOnEdgeBounceAction extends TemporalAction {
 		if (xPosition < -halfVirtualScreenWidth + width / 2) {
 			if (isLookingLeft(newDirection)) {
 				newDirection = -newDirection;
+				fireBounceEvent();
 			}
 			xPosition = -halfVirtualScreenWidth + (width / 2);
 		} else if (xPosition > halfVirtualScreenWidth - width / 2) {
 			if (isLookingRight(newDirection)) {
 				newDirection = -newDirection;
+				fireBounceEvent();
 			}
 			xPosition = halfVirtualScreenWidth - (width / 2);
 		}
@@ -56,17 +60,23 @@ public class IfOnEdgeBounceAction extends TemporalAction {
 		if (yPosition < -halfVirtualScreenHeight + height / 2) {
 			if (isLookingDown(newDirection)) {
 				newDirection = 180f - newDirection;
+				fireBounceEvent();
 			}
 			yPosition = -halfVirtualScreenHeight + (height / 2);
 		} else if (yPosition > halfVirtualScreenHeight - height / 2) {
 			if (isLookingUp(newDirection)) {
 				newDirection = 180f - newDirection;
+				fireBounceEvent();
 			}
 			yPosition = halfVirtualScreenHeight - (height / 2);
 		}
 
 		sprite.look.setDirectionInUserInterfaceDimensionUnit(newDirection);
 		sprite.look.setPositionInUserInterfaceDimensionUnit(xPosition, yPosition);
+	}
+
+	private void fireBounceEvent() {
+		sprite.look.fire(new EventWrapper(new BounceOffEventId(sprite, null), EventWrapper.NO_WAIT));
 	}
 
 	private boolean isLookingUp(float direction) {

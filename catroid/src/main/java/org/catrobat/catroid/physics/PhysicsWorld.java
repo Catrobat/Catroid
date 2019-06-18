@@ -89,7 +89,7 @@ public class PhysicsWorld {
 		boundaryBox = new PhysicsBoundaryBox(world);
 		boundaryBox.create(width, height);
 		activeArea = new Vector2(width * ACTIVE_AREA_WIDTH_FACTOR, height * ACTIVE_AREA_HEIGHT_FACTOR);
-		world.setContactListener(new PhysicsCollision(this));
+		world.setContactListener(new PhysicsCollisionListener(this));
 	}
 
 	public void setBounceOnce(Sprite sprite, PhysicsBoundaryBox.BoundaryBoxIdentifier boundaryBoxIdentifier) {
@@ -173,13 +173,13 @@ public class PhysicsWorld {
 				case BBI_HORIZONTAL:
 					if (activeHorizontalBounces.remove(sprite) && !activeVerticalBounces.contains(sprite)) {
 						physicsObject.setIfOnEdgeBounce(false, sprite);
-						PhysicsCollisionBroadcast.fireEvent(sprite, null);
+						PhysicalCollision.fireBounceOffEvent(sprite, null);
 					}
 					break;
 				case BBI_VERTICAL:
 					if (activeVerticalBounces.remove(sprite) && !activeHorizontalBounces.contains(sprite)) {
 						physicsObject.setIfOnEdgeBounce(false, sprite);
-						PhysicsCollisionBroadcast.fireEvent(sprite, null);
+						PhysicalCollision.fireBounceOffEvent(sprite, null);
 					}
 					break;
 			}
