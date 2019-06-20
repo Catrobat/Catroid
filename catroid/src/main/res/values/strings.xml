@@ -96,6 +96,7 @@
     <string name="main_menu_about">About this app</string>
     <string name="main_menu_login">Login</string>
     <string name="main_menu_logout">Logout</string>
+    <string name="main_menu_merge">Merge</string>
     <string name="main_menu_scratch_converter">Scratch converter</string>
     <string name="main_menu_play_store_not_installed">App store not found</string>
     <!--  -->
@@ -753,6 +754,7 @@
 
     <!-- NewProjectDialog -->
     <string name="new_project_dialog_title">New project</string>
+    <string name="new_merge_project_dialog_title">New Merge project</string>
     <string name="new_project_empty">Create an empty project</string>
     <string name="new_project_default">Create an example project</string>
     <string name="new_project_default_drone">Create an example AR.Drone 2.0 project</string>
