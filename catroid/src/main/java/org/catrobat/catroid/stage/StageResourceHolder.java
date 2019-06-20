@@ -33,6 +33,7 @@ import android.nfc.NfcAdapter;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.support.annotation.VisibleForTesting;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
@@ -104,7 +105,8 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		TouchUtil.reset();
 	}
 
-	static List<String> getProjectsRuntimePermissionList() {
+	@VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
+	public static List<String> getProjectsRuntimePermissionList() {
 		return BrickResourcesToRuntimePermissions.translate(
 				ProjectManager.getInstance().getCurrentProject().getRequiredResources());
 	}
