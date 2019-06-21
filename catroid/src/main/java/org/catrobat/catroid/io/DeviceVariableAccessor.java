@@ -67,19 +67,19 @@ public final class DeviceVariableAccessor {
 	public boolean readUserVariableValue(UserVariable variable) {
 		synchronized (LOCK) {
 			if (!deviceVariablesFile.exists()) {
-				variable.setValue(null);
+				variable.setValue(0.0);
 				return false;
 			}
 
 			HashMap deviceVariableMap = readMapFromJson();
 
 			if (deviceVariableMap == null) {
-				variable.setValue(null);
+				variable.setValue(0.0);
 				return false;
 			}
 
 			if (!deviceVariableMap.containsKey(variable.getDeviceValueKey())) {
-				variable.setValue(null);
+				variable.setValue(0.0);
 				return false;
 			}
 			variable.setValue(deviceVariableMap.get(variable.getDeviceValueKey()));

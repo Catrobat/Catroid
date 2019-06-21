@@ -20,22 +20,20 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.content.actions;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.DeviceVariableAccessor;
 
 import java.io.File;
-import java.io.IOException;
 
-public class WriteVariableOnDeviceAction extends EventAction {
-	private static final String TAG = WriteVariableOnDeviceAction.class.getSimpleName();
+public class ReadVariableFromDeviceAction extends EventAction {
 	private UserVariable userVariable;
-	private boolean writeActionFinished;
+	private boolean readActionFinished;
 
 	@Override
 	public boolean act(float delta) {
@@ -45,18 +43,18 @@ public class WriteVariableOnDeviceAction extends EventAction {
 
 		if (firstStart) {
 			firstStart = false;
-			writeActionFinished = false;
-			new WriteTask().execute(userVariable);
+			readActionFinished = false;
+			new ReadTask().execute(userVariable);
 		}
 
-		return writeActionFinished;
+		return readActionFinished;
 	}
 
 	public void setUserVariable(UserVariable userVariable) {
 		this.userVariable = userVariable;
 	}
 
-	private class WriteTask extends AsyncTask<UserVariable, Void, Void> {
+	private class ReadTask extends AsyncTask<UserVariable, Void, Void> {
 
 		@Override
 		protected Void doInBackground(UserVariable[] userVariables) {
@@ -64,18 +62,13 @@ public class WriteVariableOnDeviceAction extends EventAction {
 			DeviceVariableAccessor accessor = new DeviceVariableAccessor(projectDirectory);
 
 			for (UserVariable variable: userVariables) {
-				try {
-					accessor.writeVariable(variable);
-				} catch (IOException e) {
-					Log.e(TAG, e.getMessage());
-				}
+				accessor.readUserVariableValue(variable);
 			}
 			return null;
 		}
-
 		@Override
 		protected void onPostExecute(Void o) {
-			writeActionFinished = true;
+			readActionFinished = true;
 		}
 	}
 }

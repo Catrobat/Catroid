@@ -35,6 +35,10 @@ public class UserVariable implements Serializable, UserData {
 	private transient boolean visible = true;
 	private transient boolean dummy = false;
 
+	public UserVariable() {
+		this.value = 0d;
+	}
+
 	public UserVariable(String name) {
 		this.name = name;
 		this.value = 0d;
