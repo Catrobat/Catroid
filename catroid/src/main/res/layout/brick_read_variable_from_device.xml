@@ -36,18 +36,18 @@
         android:visibility="gone" />
 
     <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/brick_write_variable_layout"
+        android:id="@+id/brick_read_variable_layout"
         style="@style/BrickContainer.UserVariables.Medium">
 
         <include layout="@layout/icon_brick_category_data" />
 
         <TextView
-            android:id="@+id/write_variable_on_device_label"
+            android:id="@+id/read_variable_from_device_label"
             style="@style/BrickText.SingleLine"
-            android:text="@string/brick_write_variable_on_device" />
+            android:text="@string/brick_read_variable_from_device" />
 
         <Spinner
-            android:id="@+id/write_variable_spinner"
+            android:id="@+id/read_variable_from_device_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textDirection="locale" />

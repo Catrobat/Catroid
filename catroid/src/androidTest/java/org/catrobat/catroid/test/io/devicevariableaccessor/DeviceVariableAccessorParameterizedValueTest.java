@@ -46,6 +46,7 @@ import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(Parameterized.class)
@@ -128,6 +129,7 @@ public class DeviceVariableAccessorParameterizedValueTest<T> {
 		Sprite clone = new SpriteController().copyForCloneBrick(sprite);
 		accessor.writeVariable(userVariable);
 		UserVariable clonedVar = clone.getUserVariable(userVariable.getName());
+		assertNotSame(userVariable, clonedVar);
 		clonedVar.setValue(throwAwayValue);
 		assertTrue(accessor.readUserVariableValue(clonedVar));
 		assertEquals(userVariable.getValue(), clonedVar.getValue());

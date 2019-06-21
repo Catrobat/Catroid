@@ -20,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.content.bricks;
 
 import android.app.Dialog;
@@ -46,14 +47,14 @@ import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WriteVariableOnDeviceBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<UserVariable> {
+public class ReadVariableFromDeviceBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<UserVariable> {
 	private static final long serialVersionUID = 1L;
 
 	private transient BrickSpinner<UserVariable> spinner;
 
 	protected UserVariable userVariable;
 
-	public WriteVariableOnDeviceBrick() {
+	public ReadVariableFromDeviceBrick() {
 	}
 
 	@Override
@@ -75,9 +76,8 @@ public class WriteVariableOnDeviceBrick extends BrickBaseType implements BrickSp
 
 	@Override
 	public int getViewResource() {
-		return R.layout.brick_write_variable_on_device;
+		return R.layout.brick_read_variable_from_device;
 	}
-
 	public UserVariable getUserVariable() {
 		return userVariable;
 	}
@@ -88,13 +88,13 @@ public class WriteVariableOnDeviceBrick extends BrickBaseType implements BrickSp
 
 	@Override
 	public Brick clone() throws CloneNotSupportedException {
-		WriteVariableOnDeviceBrick clone = (WriteVariableOnDeviceBrick) super.clone();
+		ReadVariableFromDeviceBrick clone = (ReadVariableFromDeviceBrick) super.clone();
 		clone.spinner = null;
 		return clone;
 	}
 
 	protected int getSpinnerId() {
-		return R.id.write_variable_spinner;
+		return R.id.read_variable_from_device_spinner;
 	}
 
 	@Override
@@ -102,7 +102,7 @@ public class WriteVariableOnDeviceBrick extends BrickBaseType implements BrickSp
 		if (userVariable == null || userVariable.getName() == null) {
 			return;
 		}
-		sequence.addAction(sprite.getActionFactory().createWriteVariableOnDeviceAction(userVariable));
+		sequence.addAction(sprite.getActionFactory().createReadVariableFromDeviceAction(userVariable));
 	}
 
 	@Override
