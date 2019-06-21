@@ -59,8 +59,10 @@ public class ScriptController {
 			throws IOException, CloneNotSupportedException {
 
 		Script script = scriptToCopy.clone();
+		List<Brick> scriptFlatBrickList = new ArrayList<>();
+		script.addToFlatList(scriptFlatBrickList);
 
-		for (Brick brick : script.getBrickList()) {
+		for (Brick brick : scriptFlatBrickList) {
 			if (brick instanceof SetLookBrick && ((SetLookBrick) brick).getLook() != null) {
 				((SetLookBrick) brick).setLook(lookController
 						.findOrCopy(((SetLookBrick) brick).getLook(), dstScene, dstSprite));
@@ -115,8 +117,10 @@ public class ScriptController {
 
 	void packForSprite(Script scriptToPack, Sprite dstSprite) throws IOException, CloneNotSupportedException {
 		Script script = scriptToPack.clone();
+		List<Brick> scriptFlatBrickList = new ArrayList<>();
+		script.addToFlatList(scriptFlatBrickList);
 
-		for (Brick brick : script.getBrickList()) {
+		for (Brick brick : scriptFlatBrickList) {
 			if (brick instanceof SetLookBrick && ((SetLookBrick) brick).getLook() != null) {
 				((SetLookBrick) brick).setLook(lookController
 						.packForSprite(((SetLookBrick) brick).getLook(), dstSprite));
