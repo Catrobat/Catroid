@@ -1105,6 +1105,7 @@
     <string name="brick_set_variable">Set variable</string>
     <string name="brick_change_variable">Change variable</string>
     <string name="brick_write_variable_on_device">Write variable on device</string>
+    <string name="brick_read_variable_from_device">Read variable from device</string>
     <string name="brick_note_default_value">add comment here&#8230;</string>
     <string name="brick_think_bubble_default_value">Hmmmm!</string>
     <string name="brick_say_bubble_default_value">Hello!</string>

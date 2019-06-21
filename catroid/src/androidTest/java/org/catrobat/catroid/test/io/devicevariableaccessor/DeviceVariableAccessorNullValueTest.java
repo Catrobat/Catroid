@@ -46,6 +46,7 @@ import static org.junit.Assert.assertEquals;
 public class DeviceVariableAccessorNullValueTest {
 
 	private Object initialNullValue = null;
+	private Double expectedValue = 0.0;
 	private Object throwAwayValue = new Object();
 	private File directory;
 	private UserVariable userVariable;
@@ -75,14 +76,14 @@ public class DeviceVariableAccessorNullValueTest {
 		accessor.writeMapToJson(map);
 		userVariable.setValue(throwAwayValue);
 		assertFalse(accessor.readUserVariableValue(userVariable));
-		assertEquals(initialNullValue, userVariable.getValue());
+		assertEquals(expectedValue, userVariable.getValue());
 	}
 
 	@Test
 	public void loadUserVariableNoJsonFileTest() {
 		userVariable.setValue(throwAwayValue);
 		assertFalse(accessor.readUserVariableValue(userVariable));
-		assertEquals(initialNullValue, userVariable.getValue());
+		assertEquals(expectedValue, userVariable.getValue());
 	}
 
 	@Test
@@ -92,7 +93,7 @@ public class DeviceVariableAccessorNullValueTest {
 		accessor.writeMapToJson(map);
 		userVariable.setValue(throwAwayValue);
 		assertFalse(accessor.readUserVariableValue(userVariable));
-		assertEquals(initialNullValue, userVariable.getValue());
+		assertEquals(expectedValue, userVariable.getValue());
 	}
 
 	@After

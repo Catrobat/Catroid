@@ -117,6 +117,7 @@ import org.catrobat.catroid.content.actions.PreviousLookAction;
 import org.catrobat.catroid.content.actions.RaspiIfLogicAction;
 import org.catrobat.catroid.content.actions.RaspiPwmAction;
 import org.catrobat.catroid.content.actions.RaspiSendDigitalValueAction;
+import org.catrobat.catroid.content.actions.ReadVariableFromDeviceAction;
 import org.catrobat.catroid.content.actions.RepeatAction;
 import org.catrobat.catroid.content.actions.RepeatUntilAction;
 import org.catrobat.catroid.content.actions.ReplaceItemInUserListAction;
@@ -1233,6 +1234,13 @@ public class ActionFactory extends Actions {
 
 	public Action createWaitTillIdleAction() {
 		return action(WaitTillIdleAction.class);
+	}
+
+	public Action createReadVariableFromDeviceAction(UserVariable userVariable) {
+		ReadVariableFromDeviceAction action = Actions.action(ReadVariableFromDeviceAction.class);
+		action.setUserVariable(userVariable);
+
+		return action;
 	}
 
 	public Action createWebRequestAction(Sprite sprite, Formula variableFormula, UserVariable userVariable) {

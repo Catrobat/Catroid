@@ -157,6 +157,7 @@ import org.catrobat.catroid.content.bricks.PreviousLookBrick;
 import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.RaspiPwmBrick;
 import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
+import org.catrobat.catroid.content.bricks.ReadVariableFromDeviceBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
@@ -447,6 +448,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", WhenStartedBrick.class);
 		xstream.alias("brick", WhenClonedBrick.class);
 		xstream.alias("brick", WriteVariableOnDeviceBrick.class);
+		xstream.alias("brick", ReadVariableFromDeviceBrick.class);
 		xstream.alias("brick", StopScriptBrick.class);
 		xstream.alias("brick", WebRequestBrick.class);
 
