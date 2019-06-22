@@ -202,7 +202,7 @@ public class BrickCategoryTest {
 	@Parameterized.Parameters(name = "{0}")
 	public static Collection<Object[]> data() {
 		return Arrays.asList(new Object[][] {
-				{"Motion", Arrays.asList(PlaceAtBrick.class,
+				{"Motion", false, Arrays.asList(PlaceAtBrick.class,
 						SetXBrick.class,
 						SetYBrick.class,
 						ChangeXByNBrick.class,
@@ -228,8 +228,9 @@ public class BrickCategoryTest {
 						SetMassBrick.class,
 						SetBounceBrick.class,
 						SetFrictionBrick.class)},
-				{"Embroidery", Arrays.asList(StitchBrick.class)},
-				{"Event", Arrays.asList(WhenStartedBrick.class,
+				{"Embroidery", false, Arrays.asList()},
+				{"Embroidery", true, Arrays.asList(StitchBrick.class)},
+				{"Event", false, Arrays.asList(WhenStartedBrick.class,
 						WhenBrick.class,
 						WhenTouchDownBrick.class,
 						BroadcastReceiverBrick.class,
@@ -239,7 +240,7 @@ public class BrickCategoryTest {
 						WhenBounceOffBrick.class,
 						WhenBackgroundChangesBrick.class,
 						WhenClonedBrick.class)},
-				{"Looks", Arrays.asList(SetLookBrick.class,
+				{"Looks", false, Arrays.asList(SetLookBrick.class,
 						SetLookByIndexBrick.class,
 						NextLookBrick.class,
 						PreviousLookBrick.class,
@@ -269,13 +270,13 @@ public class BrickCategoryTest {
 						CameraBrick.class,
 						ChooseCameraBrick.class,
 						FlashBrick.class)},
-				{"Pen", Arrays.asList(PenDownBrick.class,
+				{"Pen", false, Arrays.asList(PenDownBrick.class,
 						PenUpBrick.class,
 						SetPenSizeBrick.class,
 						SetPenColorBrick.class,
 						StampBrick.class,
 						ClearBackgroundBrick.class)},
-				{"Sound", Arrays.asList(PlaySoundBrick.class,
+				{"Sound", false, Arrays.asList(PlaySoundBrick.class,
 						PlaySoundAndWaitBrick.class,
 						StopAllSoundsBrick.class,
 						SetVolumeToBrick.class,
@@ -283,7 +284,7 @@ public class BrickCategoryTest {
 						SpeakBrick.class,
 						SpeakAndWaitBrick.class,
 						AskSpeechBrick.class)},
-				{"Control", Arrays.asList(WaitBrick.class,
+				{"Control", false, Arrays.asList(WaitBrick.class,
 						NoteBrick.class,
 						ForeverBrick.class,
 						IfLogicBeginBrick.class,
@@ -298,7 +299,7 @@ public class BrickCategoryTest {
 						DeleteThisCloneBrick.class,
 						WhenClonedBrick.class,
 						WebRequestBrick.class)},
-				{"Data", Arrays.asList(SetVariableBrick.class,
+				{"Data", false, Arrays.asList(SetVariableBrick.class,
 						ChangeVariableBrick.class,
 						ShowTextBrick.class,
 						ShowTextColorSizeAlignmentBrick.class,
@@ -312,16 +313,16 @@ public class BrickCategoryTest {
 						AskBrick.class,
 						AskSpeechBrick.class,
 						WebRequestBrick.class)},
-				{"Lego NXT", Arrays.asList(LegoNxtMotorTurnAngleBrick.class,
+				{"Lego NXT", false, Arrays.asList(LegoNxtMotorTurnAngleBrick.class,
 						LegoNxtMotorStopBrick.class,
 						LegoNxtMotorMoveBrick.class,
 						LegoNxtPlayToneBrick.class)},
-				{"Lego EV3", Arrays.asList(LegoEv3MotorTurnAngleBrick.class,
+				{"Lego EV3", false, Arrays.asList(LegoEv3MotorTurnAngleBrick.class,
 						LegoEv3MotorMoveBrick.class,
 						LegoEv3MotorStopBrick.class,
 						LegoEv3PlayToneBrick.class,
 						LegoEv3SetLedBrick.class)},
-				{"AR.Drone 2.0", Arrays.asList(DroneTakeOffLandBrick.class,
+				{"AR.Drone 2.0", false, Arrays.asList(DroneTakeOffLandBrick.class,
 						DroneEmergencyBrick.class,
 						DroneMoveUpBrick.class,
 						DroneMoveDownBrick.class,
@@ -334,7 +335,7 @@ public class BrickCategoryTest {
 						DroneFlipBrick.class,
 						DronePlayLedAnimationBrick.class,
 						DroneSwitchCameraBrick.class)},
-				{"Jumping Sumo", Arrays.asList(JumpingSumoMoveForwardBrick.class,
+				{"Jumping Sumo", false, Arrays.asList(JumpingSumoMoveForwardBrick.class,
 						JumpingSumoMoveBackwardBrick.class,
 						JumpingSumoAnimationsBrick.class,
 						JumpingSumoSoundBrick.class,
@@ -345,7 +346,7 @@ public class BrickCategoryTest {
 						JumpingSumoRotateRightBrick.class,
 						JumpingSumoTurnBrick.class,
 						JumpingSumoTakingPictureBrick.class)},
-				{"Phiro", Arrays.asList(PhiroMotorMoveForwardBrick.class,
+				{"Phiro", false, Arrays.asList(PhiroMotorMoveForwardBrick.class,
 						PhiroMotorMoveBackwardBrick.class,
 						PhiroMotorStopBrick.class,
 						PhiroPlayToneBrick.class,
@@ -357,14 +358,14 @@ public class BrickCategoryTest {
 						SetVariableBrick.class,
 						SetVariableBrick.class,
 						SetVariableBrick.class)},
-				{"Arduino", Arrays.asList(ArduinoSendDigitalValueBrick.class,
+				{"Arduino", false, Arrays.asList(ArduinoSendDigitalValueBrick.class,
 						ArduinoSendPWMValueBrick.class)},
-				{"Chromecast", Arrays.asList(WhenGamepadButtonBrick.class)},
-				{"Raspberry Pi", Arrays.asList(WhenRaspiPinChangedBrick.class,
+				{"Chromecast", false, Arrays.asList(WhenGamepadButtonBrick.class)},
+				{"Raspberry Pi", false, Arrays.asList(WhenRaspiPinChangedBrick.class,
 						RaspiIfLogicBeginBrick.class,
 						RaspiSendDigitalValueBrick.class,
 						RaspiPwmBrick.class)},
-				{"Testing", Arrays.asList(AssertEqualsBrick.class,
+				{"Testing", false, Arrays.asList(AssertEqualsBrick.class,
 						WaitTillIdleBrick.class)},
 		});
 	}
@@ -373,10 +374,12 @@ public class BrickCategoryTest {
 	public String category;
 
 	@Parameterized.Parameter(1)
+	public boolean isBackgroundSprite;
+
+	@Parameterized.Parameter(2)
 	public List<Class> expectedClasses;
 
 	private CategoryBricksFactory categoryBricksFactory;
-	private Sprite sprite;
 
 	@Before
 	public void setUp() throws Exception {
@@ -389,7 +392,7 @@ public class BrickCategoryTest {
 
 	public void createProject(Context context) {
 		Project project = new Project(context, getClass().getSimpleName());
-		sprite = new Sprite("testSprite");
+		Sprite sprite = new Sprite("testSprite");
 		Script script = new StartScript();
 		script.addBrick(new SetXBrick());
 		sprite.addScript(script);
@@ -401,7 +404,7 @@ public class BrickCategoryTest {
 
 	@Test
 	public void testBrickCategory() {
-		List<Brick> categoryBricks = categoryBricksFactory.getBricks(category, false,
+		List<Brick> categoryBricks = categoryBricksFactory.getBricks(category, isBackgroundSprite,
 				InstrumentationRegistry.getTargetContext());
 
 		List<Class> brickClasses = new ArrayList<>();
