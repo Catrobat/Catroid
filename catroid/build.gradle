@@ -435,6 +435,7 @@ dependencies {
     createAtSchoolImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
     lunaAndCatImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
     phiroImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
+    implementation "org.catrobat.paintroid:colorpicker:$paintroidVersion"
 
     // libGDX
     implementation "com.badlogicgames.gdx:gdx:$gdxVersion"

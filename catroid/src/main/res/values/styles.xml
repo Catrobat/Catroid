@@ -540,4 +540,12 @@
         <item name="android:topDark">@color/transparent</item>
     </style>
 
+    <!-- Color Picker -->
+    <style name="TitleTextStyle">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
+    </style>
+
+    <style name="AlertDialogWithTitle" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:windowTitleStyle">@style/TitleTextStyle</item>
+    </style>
 </resources>
