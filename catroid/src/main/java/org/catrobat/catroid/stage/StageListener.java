@@ -882,6 +882,7 @@ public class StageListener implements ApplicationListener {
 		if (CameraManager.getInstance() != null && backup.cameraRunning) {
 			CameraManager.getInstance().resumeForScene();
 		}
+		initStageInputListener();
 	}
 
 	private float calculateScreenRatio() {
