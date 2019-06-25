@@ -213,7 +213,6 @@ public class BrickSingleFormulaFieldTest {
 				{ShowTextColorSizeAlignmentBrick.class.getSimpleName() + " x", new ShowTextColorSizeAlignmentBrick(), R.id.brick_show_variable_color_size_edit_text_x},
 				{ShowTextColorSizeAlignmentBrick.class.getSimpleName() + " y", new ShowTextColorSizeAlignmentBrick(), R.id.brick_show_variable_color_size_edit_text_y},
 				{ShowTextColorSizeAlignmentBrick.class.getSimpleName() + " size", new ShowTextColorSizeAlignmentBrick(), R.id.brick_show_variable_color_size_edit_relative_size},
-				{ShowTextColorSizeAlignmentBrick.class.getSimpleName() + " color", new ShowTextColorSizeAlignmentBrick(), R.id.brick_show_variable_color_size_edit_color},
 				{InsertItemIntoUserListBrick.class.getSimpleName() + " value", new InsertItemIntoUserListBrick(), R.id.brick_insert_item_into_userlist_value_edit_text},
 				{InsertItemIntoUserListBrick.class.getSimpleName() + " index", new InsertItemIntoUserListBrick(), R.id.brick_insert_item_into_userlist_at_index_edit_text},
 				{ReplaceItemInUserListBrick.class.getSimpleName() + " value", new ReplaceItemInUserListBrick(), R.id.brick_replace_item_in_userlist_value_edit_text},

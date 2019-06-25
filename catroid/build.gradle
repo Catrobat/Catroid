@@ -185,9 +185,9 @@ android {
         targetSdkVersion 26
         applicationId appId
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-        versionCode 61
+        versionCode 62
         println "VersionCode is $versionCode"
-        versionName "0.9.60"
+        versionName "0.9.61"
         println "VersionName is $versionName"
         buildConfigField "String", "GIT_COMMIT_INFO", "\"${getGitCommitInfo()}\""
         buildConfigField "String", "MAIN_URL_HTTPS", (project.hasProperty('useWebTest') ? '"https://web-test.catrob.at"' : '"https://share.catrob.at"')
@@ -272,6 +272,7 @@ android {
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
             buildConfigField "boolean", "USE_ANDROID_LOCALES_FOR_SCREENSHOTS", useAndroidLocales()
             buildConfigField "boolean", "FEATURE_MERGE_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_WEBREQUEST_BRICK_ENABLED", "true"
             resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
             ext.enableCrashlytics = false
             testCoverageEnabled = project.hasProperty('enableCoverage')
@@ -295,6 +296,7 @@ android {
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
             buildConfigField "boolean", "USE_ANDROID_LOCALES_FOR_SCREENSHOTS", "false"
             buildConfigField "boolean", "FEATURE_MERGE_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_WEBREQUEST_BRICK_ENABLED", "false"
             resValue "string", "SNACKBAR_HINTS_ENABLED", "true"
         }
 
@@ -377,7 +379,7 @@ ext {
     mockitoVersion = "2.8.47"
     espressoVersion = "3.0.1"
     supportLibraryVersion = "27.1.0"
-    paintroidVersion = "2.3.2"
+    paintroidVersion = "2.4.0"
 }
 
 configurations {
@@ -433,6 +435,7 @@ dependencies {
     createAtSchoolImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
     lunaAndCatImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
     phiroImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
+    implementation "org.catrobat.paintroid:colorpicker:$paintroidVersion"
 
     // libGDX
     implementation "com.badlogicgames.gdx:gdx:$gdxVersion"

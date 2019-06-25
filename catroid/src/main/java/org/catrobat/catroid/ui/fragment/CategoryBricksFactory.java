@@ -28,16 +28,17 @@ import android.content.res.Resources;
 
 import com.parrot.freeflight.drone.DroneProxy.ARDRONE_LED_ANIMATION;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.BroadcastScript;
-import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.RaspiInterruptScript;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.WhenBounceOffScript;
 import org.catrobat.catroid.content.WhenConditionScript;
 import org.catrobat.catroid.content.WhenGamepadButtonScript;
 import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
@@ -130,6 +131,7 @@ import org.catrobat.catroid.content.bricks.PreviousLookBrick;
 import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.RaspiPwmBrick;
 import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
+import org.catrobat.catroid.content.bricks.ReadVariableFromDeviceBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
@@ -172,6 +174,7 @@ import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WaitTillIdleBrick;
 import org.catrobat.catroid.content.bricks.WaitUntilBrick;
+import org.catrobat.catroid.content.bricks.WebRequestBrick;
 import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenClonedBrick;
@@ -181,11 +184,11 @@ import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.content.bricks.WhenTouchDownBrick;
+import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.Sensors;
-import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
 import org.catrobat.catroid.physics.content.bricks.SetBounceBrick;
 import org.catrobat.catroid.physics.content.bricks.SetFrictionBrick;
 import org.catrobat.catroid.physics.content.bricks.SetGravityBrick;
@@ -194,6 +197,7 @@ import org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.physics.content.bricks.SetVelocityBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
+import org.catrobat.catroid.physics.content.bricks.WhenBounceOffBrick;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.util.ArrayList;
@@ -206,26 +210,25 @@ import static org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.OPER
 
 public class CategoryBricksFactory {
 
-	public List<Brick> getBricks(String category, Sprite sprite, Context context) {
+	public List<Brick> getBricks(String category, boolean isBackgroundSprite, Context context) {
 
 		if (category.equals(context.getString(R.string.category_event))) {
-			return setupEventCategoryList(context);
+			return setupEventCategoryList(context, isBackgroundSprite);
 		}
 		if (category.equals(context.getString(R.string.category_control))) {
 			return setupControlCategoryList(context);
 		}
 		if (category.equals(context.getString(R.string.category_motion))) {
-			return setupMotionCategoryList(sprite, context);
+			return setupMotionCategoryList(context, isBackgroundSprite);
 		}
 		if (category.equals(context.getString(R.string.category_sound))) {
 			return setupSoundCategoryList(context);
 		}
 		if (category.equals(context.getString(R.string.category_looks))) {
-			boolean isBackgroundSprite = sprite.getName().equals(context.getString(R.string.background));
 			return setupLooksCategoryList(context, isBackgroundSprite);
 		}
 		if (category.equals(context.getString(R.string.category_pen))) {
-			return setupPenCategoryList(sprite);
+			return setupPenCategoryList(isBackgroundSprite);
 		}
 		if (category.equals(context.getString(R.string.category_user_bricks))) {
 			return setupUserBricksCategoryList();
@@ -267,7 +270,7 @@ public class CategoryBricksFactory {
 		return Collections.emptyList();
 	}
 
-	protected List<Brick> setupEventCategoryList(Context context) {
+	protected List<Brick> setupEventCategoryList(Context context, boolean isBackgroundSprite) {
 		FormulaElement defaultIf = new FormulaElement(OPERATOR, Operators.SMALLER_THAN.toString(), null);
 		defaultIf.setLeftChild(new FormulaElement(NUMBER, "1", null));
 		defaultIf.setRightChild(new FormulaElement(NUMBER, "2", null));
@@ -287,7 +290,9 @@ public class CategoryBricksFactory {
 		eventBrickList.add(new BroadcastBrick(broadcastMessage));
 		eventBrickList.add(new BroadcastWaitBrick(broadcastMessage));
 		eventBrickList.add(new WhenConditionBrick(new WhenConditionScript(new Formula(defaultIf))));
-		eventBrickList.add(new CollisionReceiverBrick(new CollisionScript(null)));
+		if (!isBackgroundSprite) {
+			eventBrickList.add(new WhenBounceOffBrick(new WhenBounceOffScript(null)));
+		}
 		eventBrickList.add(new WhenBackgroundChangesBrick());
 		eventBrickList.add(new WhenClonedBrick());
 
@@ -328,6 +333,9 @@ public class CategoryBricksFactory {
 		if (SettingsFragment.isNfcSharedPreferenceEnabled(context)) {
 			controlBrickList.add(new SetNfcTagBrick(context.getString(R.string.brick_set_nfc_tag_default_value)));
 		}
+		if (BuildConfig.FEATURE_WEBREQUEST_BRICK_ENABLED) {
+			controlBrickList.add(new WebRequestBrick(context.getString(R.string.brick_web_request_default_value)));
+		}
 
 		return controlBrickList;
 	}
@@ -344,7 +352,7 @@ public class CategoryBricksFactory {
 		return chromecastBrickList;
 	}
 
-	protected List<Brick> setupMotionCategoryList(Sprite sprite, Context context) {
+	protected List<Brick> setupMotionCategoryList(Context context, boolean isBackgroundSprite) {
 		List<Brick> motionBrickList = new ArrayList<>();
 		motionBrickList.add(new PlaceAtBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION));
 		motionBrickList.add(new SetXBrick(new Formula(BrickValues.X_POSITION)));
@@ -353,7 +361,7 @@ public class CategoryBricksFactory {
 		motionBrickList.add(new ChangeYByNBrick(BrickValues.CHANGE_Y_BY));
 		motionBrickList.add(new GoToBrick(null));
 
-		if (!isBackground(sprite)) {
+		if (!isBackgroundSprite) {
 			motionBrickList.add(new IfOnEdgeBounceBrick());
 		}
 
@@ -366,7 +374,7 @@ public class CategoryBricksFactory {
 		motionBrickList.add(new GlideToBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION,
 				BrickValues.GLIDE_SECONDS));
 
-		if (!isBackground(sprite)) {
+		if (!isBackgroundSprite) {
 			motionBrickList.add(new GoNStepsBackBrick(BrickValues.GO_BACK));
 			motionBrickList.add(new ComeToFrontBrick());
 		}
@@ -374,6 +382,9 @@ public class CategoryBricksFactory {
 		motionBrickList.add(new VibrationBrick(BrickValues.VIBRATE_SECONDS));
 
 		motionBrickList.add(new SetPhysicsObjectTypeBrick(BrickValues.PHYSIC_TYPE));
+		if (!isBackgroundSprite) {
+			motionBrickList.add(new WhenBounceOffBrick(new WhenBounceOffScript(null)));
+		}
 		motionBrickList.add(new SetVelocityBrick(BrickValues.PHYSIC_VELOCITY));
 		motionBrickList.add(new TurnLeftSpeedBrick(BrickValues.PHYSIC_TURN_DEGREES));
 		motionBrickList.add(new TurnRightSpeedBrick(BrickValues.PHYSIC_TURN_DEGREES));
@@ -464,10 +475,10 @@ public class CategoryBricksFactory {
 		return looksBrickList;
 	}
 
-	private List<Brick> setupPenCategoryList(Sprite sprite) {
+	private List<Brick> setupPenCategoryList(boolean isBackgroundSprite) {
 		List<Brick> penBrickList = new ArrayList<>();
 
-		if (!isBackground(sprite)) {
+		if (!isBackgroundSprite) {
 			penBrickList.add(new PenDownBrick());
 			penBrickList.add(new PenUpBrick());
 			penBrickList.add(new SetPenSizeBrick(BrickValues.PEN_SIZE));
@@ -487,6 +498,8 @@ public class CategoryBricksFactory {
 		dataBrickList.add(new ShowTextColorSizeAlignmentBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION,
 				BrickValues.RELATIVE_SIZE_IN_PERCENT, BrickValues.SHOW_VARIABLE_COLOR));
 		dataBrickList.add(new HideTextBrick());
+		dataBrickList.add(new WriteVariableOnDeviceBrick());
+		dataBrickList.add(new ReadVariableFromDeviceBrick());
 		dataBrickList.add(new AddItemToUserListBrick(BrickValues.ADD_ITEM_TO_USERLIST));
 		dataBrickList.add(new DeleteItemOfUserListBrick(BrickValues.DELETE_ITEM_OF_USERLIST));
 		dataBrickList.add(new InsertItemIntoUserListBrick(BrickValues.INSERT_ITEM_INTO_USERLIST_VALUE,
@@ -495,6 +508,10 @@ public class CategoryBricksFactory {
 				BrickValues.REPLACE_ITEM_IN_USERLIST_INDEX));
 		dataBrickList.add(new AskBrick(context.getString(R.string.brick_ask_default_question)));
 		dataBrickList.add(new AskSpeechBrick(context.getString(R.string.brick_ask_speech_default_question)));
+
+		if (BuildConfig.FEATURE_WEBREQUEST_BRICK_ENABLED) {
+			dataBrickList.add(new WebRequestBrick(context.getString(R.string.brick_web_request_default_value)));
+		}
 		return dataBrickList;
 	}
 
@@ -650,11 +667,7 @@ public class CategoryBricksFactory {
 		return assertionsBrickList;
 	}
 
-	protected boolean isBackground(Sprite sprite) {
-		return ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList().indexOf(sprite) == 0;
-	}
-
-	public String getBrickCategory(Brick brick, Sprite sprite, Context context) {
+	public String getBrickCategory(Brick brick, boolean isBackgroundSprite, Context context) {
 		List<Brick> categoryBricks;
 		categoryBricks = setupControlCategoryList(context);
 
@@ -670,13 +683,13 @@ public class CategoryBricksFactory {
 				category = res.getString(R.string.category_control);
 			}
 		}
-		categoryBricks = setupEventCategoryList(context);
+		categoryBricks = setupEventCategoryList(context, isBackgroundSprite);
 		for (Brick categoryBrick : categoryBricks) {
 			if (brick.getClass().equals(categoryBrick.getClass())) {
 				category = res.getString(R.string.category_event);
 			}
 		}
-		categoryBricks = setupMotionCategoryList(sprite, context);
+		categoryBricks = setupMotionCategoryList(context, isBackgroundSprite);
 		for (Brick categoryBrick : categoryBricks) {
 			if (brick.getClass().equals(categoryBrick.getClass())) {
 				category = res.getString(R.string.category_motion);
@@ -688,14 +701,13 @@ public class CategoryBricksFactory {
 				category = res.getString(R.string.category_sound);
 			}
 		}
-		boolean isBackgroundSprite = sprite.getName().equals(context.getString(R.string.background));
 		categoryBricks = setupLooksCategoryList(context, isBackgroundSprite);
 		for (Brick categoryBrick : categoryBricks) {
 			if (brick.getClass().equals(categoryBrick.getClass())) {
 				category = res.getString(R.string.category_looks);
 			}
 		}
-		categoryBricks = setupPenCategoryList(sprite);
+		categoryBricks = setupPenCategoryList(isBackgroundSprite);
 		for (Brick categoryBrick : categoryBricks) {
 			if (brick.getClass().equals(categoryBrick.getClass())) {
 				category = res.getString(R.string.category_pen);
@@ -785,6 +797,8 @@ public class CategoryBricksFactory {
 			category = res.getString(R.string.category_event);
 		} else if (brick instanceof SetVariableBrick) {
 			category = res.getString(R.string.category_data);
+		} else if (brick instanceof WebRequestBrick) {
+			category = res.getString(R.string.category_control);
 		}
 
 		config.locale = savedLocale;

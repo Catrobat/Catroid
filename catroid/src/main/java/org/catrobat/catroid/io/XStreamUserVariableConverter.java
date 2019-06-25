@@ -22,11 +22,24 @@
  */
 package org.catrobat.catroid.io;
 
-import com.thoughtworks.xstream.converters.SingleValueConverter;
+import com.thoughtworks.xstream.converters.MarshallingContext;
+import com.thoughtworks.xstream.converters.UnmarshallingContext;
+import com.thoughtworks.xstream.converters.reflection.ReflectionProvider;
+import com.thoughtworks.xstream.converters.reflection.SerializableConverter;
+import com.thoughtworks.xstream.core.ClassLoaderReference;
+import com.thoughtworks.xstream.io.HierarchicalStreamReader;
+import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
+import com.thoughtworks.xstream.mapper.Mapper;
 
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
-public class XStreamUserVariableConverter implements SingleValueConverter {
+public class XStreamUserVariableConverter extends SerializableConverter {
+
+	private static final String TYPE = "type";
+
+	public XStreamUserVariableConverter(Mapper mapper, ReflectionProvider reflectionProvider, ClassLoaderReference classLoaderReference) {
+		super(mapper, reflectionProvider, classLoaderReference);
+	}
 
 	@Override
 	public boolean canConvert(Class type) {
@@ -34,13 +47,17 @@ public class XStreamUserVariableConverter implements SingleValueConverter {
 	}
 
 	@Override
-	public String toString(Object object) {
-		UserVariable userVariable = (UserVariable) object;
-		return userVariable.getName();
+	public void doMarshal(Object source, HierarchicalStreamWriter writer, MarshallingContext context) {
+		writer.addAttribute(TYPE, source.getClass().getSimpleName());
+		super.doMarshal(source, writer, context);
 	}
 
 	@Override
-	public Object fromString(String s) {
-		return new UserVariable(s);
+	public Object doUnmarshal(Object result, HierarchicalStreamReader reader, UnmarshallingContext context) {
+		String type = reader.getAttribute(TYPE);
+		if (type != null) {
+			return super.doUnmarshal(result, reader, context);
+		}
+		return new UserVariable(reader.getValue());
 	}
 }

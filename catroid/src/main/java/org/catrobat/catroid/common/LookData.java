@@ -213,10 +213,22 @@ public class LookData implements Cloneable, Nameable, Serializable {
 		return new int[] {width, height};
 	}
 
+	public void clearCollisionInformation() {
+		collisionInformation = null;
+	}
+
 	public CollisionInformation getCollisionInformation() {
 		if (collisionInformation == null) {
 			collisionInformation = new CollisionInformation(this);
 		}
 		return collisionInformation;
+	}
+
+	public String getImageMimeType() {
+		String pathName = file.getAbsolutePath();
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inJustDecodeBounds = true;
+		BitmapFactory.decodeFile(pathName, options);
+		return options.outMimeType;
 	}
 }

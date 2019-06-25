@@ -21,39 +21,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.test.content.userdata;
+package org.catrobat.catroid.web;
 
-import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.catrobat.catroid.stage.StageActivity;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
+public class WebConnectionFactory {
 
-@RunWith(JUnit4.class)
-public class UserVariableTest {
-
-	private UserVariable userVariableX;
-	private UserVariable userVariableY;
-
-	@Before
-	public void setUp() {
-		userVariableX = new UserVariable("x");
-		userVariableY = new UserVariable("y");
-	}
-
-	@Test
-	public void testEqualwithDifferentVariables() {
-		boolean testEquality = userVariableX.equals(userVariableY);
-		assertFalse(testEquality);
-	}
-
-	@Test
-	public void testEqualwithSameVariable() {
-		UserVariable equalVariable = new UserVariable("x");
-		boolean testEquality = userVariableX.equals(equalVariable);
-		assertTrue(testEquality);
+	public WebConnection createWebConnection(String url, WebConnection.WebRequestListener listener) {
+		WebConnection connection = new WebConnection(StageActivity.stageListener.webConnectionHolder.okHttpClient);
+		connection.setUrl(url);
+		connection.setListener(listener);
+		return connection;
 	}
 }

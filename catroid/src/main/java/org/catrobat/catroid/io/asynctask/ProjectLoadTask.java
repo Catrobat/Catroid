@@ -28,6 +28,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.io.DeviceVariableAccessor;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -59,6 +61,8 @@ public class ProjectLoadTask extends AsyncTask<Void, Void, Boolean> {
 	public static boolean task(File projectDir, Context context) {
 		try {
 			ProjectManager.getInstance().loadProject(projectDir, context);
+			Project project = ProjectManager.getInstance().getCurrentProject();
+			new DeviceVariableAccessor(projectDir).cleanUpDeletedVariables(project);
 			return true;
 		} catch (Exception e) {
 			Log.e(TAG, "Cannot load project in " + projectDir.getAbsolutePath(), e);

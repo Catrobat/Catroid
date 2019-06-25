@@ -563,8 +563,9 @@ public class ScriptFragment extends ListFragment implements
 
 	private void openWebViewWithHelpPage(Brick brick) {
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		Sprite backgroundSprite = ProjectManager.getInstance().getCurrentlyEditedScene().getBackgroundSprite();
 		String language = Locale.getDefault().getLanguage();
-		String category = new CategoryBricksFactory().getBrickCategory(brick, sprite, getContext());
+		String category = new CategoryBricksFactory().getBrickCategory(brick, sprite == backgroundSprite, getContext());
 		String brickType = brick.getClass().getSimpleName();
 
 		if (!language.equals("en") && !language.equals("de") && !language.equals("es")) {

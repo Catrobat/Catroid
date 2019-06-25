@@ -122,6 +122,7 @@ import org.catrobat.catroid.content.bricks.PreviousLookBrick;
 import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.RaspiPwmBrick;
 import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
+import org.catrobat.catroid.content.bricks.ReadVariableFromDeviceBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
@@ -163,6 +164,7 @@ import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WaitTillIdleBrick;
 import org.catrobat.catroid.content.bricks.WaitUntilBrick;
+import org.catrobat.catroid.content.bricks.WebRequestBrick;
 import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenClonedBrick;
@@ -171,7 +173,7 @@ import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick;
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.content.bricks.WhenTouchDownBrick;
-import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
+import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick;
 import org.catrobat.catroid.physics.content.bricks.SetBounceBrick;
 import org.catrobat.catroid.physics.content.bricks.SetFrictionBrick;
 import org.catrobat.catroid.physics.content.bricks.SetGravityBrick;
@@ -180,6 +182,7 @@ import org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.physics.content.bricks.SetVelocityBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
+import org.catrobat.catroid.physics.content.bricks.WhenBounceOffBrick;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 import org.junit.Before;
 import org.junit.Test;
@@ -217,6 +220,7 @@ public class BrickCategoryTest {
 						ComeToFrontBrick.class,
 						VibrationBrick.class,
 						SetPhysicsObjectTypeBrick.class,
+						WhenBounceOffBrick.class,
 						SetVelocityBrick.class,
 						TurnLeftSpeedBrick.class,
 						TurnRightSpeedBrick.class,
@@ -232,7 +236,7 @@ public class BrickCategoryTest {
 						BroadcastBrick.class,
 						BroadcastWaitBrick.class,
 						WhenConditionBrick.class,
-						CollisionReceiverBrick.class,
+						WhenBounceOffBrick.class,
 						WhenBackgroundChangesBrick.class,
 						WhenClonedBrick.class)},
 				{"Looks", Arrays.asList(SetLookBrick.class,
@@ -292,18 +296,22 @@ public class BrickCategoryTest {
 						StopScriptBrick.class,
 						CloneBrick.class,
 						DeleteThisCloneBrick.class,
-						WhenClonedBrick.class)},
+						WhenClonedBrick.class,
+						WebRequestBrick.class)},
 				{"Data", Arrays.asList(SetVariableBrick.class,
 						ChangeVariableBrick.class,
 						ShowTextBrick.class,
 						ShowTextColorSizeAlignmentBrick.class,
 						HideTextBrick.class,
+						WriteVariableOnDeviceBrick.class,
+						ReadVariableFromDeviceBrick.class,
 						AddItemToUserListBrick.class,
 						DeleteItemOfUserListBrick.class,
 						InsertItemIntoUserListBrick.class,
 						ReplaceItemInUserListBrick.class,
 						AskBrick.class,
-						AskSpeechBrick.class)},
+						AskSpeechBrick.class,
+						WebRequestBrick.class)},
 				{"Lego NXT", Arrays.asList(LegoNxtMotorTurnAngleBrick.class,
 						LegoNxtMotorStopBrick.class,
 						LegoNxtMotorMoveBrick.class,
@@ -393,7 +401,8 @@ public class BrickCategoryTest {
 
 	@Test
 	public void testBrickCategory() {
-		List<Brick> categoryBricks = categoryBricksFactory.getBricks(category, sprite, InstrumentationRegistry.getTargetContext());
+		List<Brick> categoryBricks = categoryBricksFactory.getBricks(category, false,
+				InstrumentationRegistry.getTargetContext());
 
 		List<Class> brickClasses = new ArrayList<>();
 		for (Brick brick : categoryBricks) {

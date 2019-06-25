@@ -34,11 +34,13 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
+import org.catrobat.catroid.content.bricks.ReadVariableFromDeviceBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.UserListBrick;
 import org.catrobat.catroid.content.bricks.UserVariableBrick;
 import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick;
+import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick;
 import org.catrobat.catroid.formulaeditor.UserDataWrapper;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -59,8 +61,10 @@ public class ScriptController {
 			throws IOException, CloneNotSupportedException {
 
 		Script script = scriptToCopy.clone();
+		List<Brick> scriptFlatBrickList = new ArrayList<>();
+		script.addToFlatList(scriptFlatBrickList);
 
-		for (Brick brick : script.getBrickList()) {
+		for (Brick brick : scriptFlatBrickList) {
 			if (brick instanceof SetLookBrick && ((SetLookBrick) brick).getLook() != null) {
 				((SetLookBrick) brick).setLook(lookController
 						.findOrCopy(((SetLookBrick) brick).getLook(), dstScene, dstSprite));
@@ -79,6 +83,20 @@ public class ScriptController {
 			if (brick instanceof PlaySoundAndWaitBrick && ((PlaySoundAndWaitBrick) brick).getSound() != null) {
 				((PlaySoundAndWaitBrick) brick).setSound(soundController
 						.findOrCopy(((PlaySoundAndWaitBrick) brick).getSound(), dstScene, dstSprite));
+			}
+
+			if (brick instanceof WriteVariableOnDeviceBrick && ((WriteVariableOnDeviceBrick) brick).getUserVariable() != null) {
+				UserVariable previousUserVar = ((WriteVariableOnDeviceBrick) brick).getUserVariable();
+				UserVariable updatedUserVar = UserDataWrapper
+						.getUserVariable(previousUserVar.getName(), dstSprite, dstProject);
+				((WriteVariableOnDeviceBrick) brick).setUserVariable(updatedUserVar);
+			}
+
+			if (brick instanceof ReadVariableFromDeviceBrick && ((ReadVariableFromDeviceBrick) brick).getUserVariable() != null) {
+				UserVariable previousUserVar = ((ReadVariableFromDeviceBrick) brick).getUserVariable();
+				UserVariable updatedUserVar = UserDataWrapper
+						.getUserVariable(previousUserVar.getName(), dstSprite, dstProject);
+				((ReadVariableFromDeviceBrick) brick).setUserVariable(updatedUserVar);
 			}
 
 			if (brick instanceof UserVariableBrick && ((UserVariableBrick) brick).getUserVariable() != null) {
@@ -115,8 +133,10 @@ public class ScriptController {
 
 	void packForSprite(Script scriptToPack, Sprite dstSprite) throws IOException, CloneNotSupportedException {
 		Script script = scriptToPack.clone();
+		List<Brick> scriptFlatBrickList = new ArrayList<>();
+		script.addToFlatList(scriptFlatBrickList);
 
-		for (Brick brick : script.getBrickList()) {
+		for (Brick brick : scriptFlatBrickList) {
 			if (brick instanceof SetLookBrick && ((SetLookBrick) brick).getLook() != null) {
 				((SetLookBrick) brick).setLook(lookController
 						.packForSprite(((SetLookBrick) brick).getLook(), dstSprite));
@@ -188,6 +208,20 @@ public class ScriptController {
 				((PlaySoundAndWaitBrick) brick)
 						.setSound(soundController
 								.unpackForSprite(((PlaySoundAndWaitBrick) brick).getSound(), dstScene, dstSprite));
+			}
+
+			if (brick instanceof WriteVariableOnDeviceBrick && ((WriteVariableOnDeviceBrick) brick).getUserVariable() != null) {
+				UserVariable previousUserVar = ((WriteVariableOnDeviceBrick) brick).getUserVariable();
+				UserVariable updatedUserVar = UserDataWrapper
+						.getUserVariable(previousUserVar.getName(), dstSprite, dstProject);
+				((WriteVariableOnDeviceBrick) brick).setUserVariable(updatedUserVar);
+			}
+
+			if (brick instanceof ReadVariableFromDeviceBrick && ((ReadVariableFromDeviceBrick) brick).getUserVariable() != null) {
+				UserVariable previousUserVar = ((ReadVariableFromDeviceBrick) brick).getUserVariable();
+				UserVariable updatedUserVar = UserDataWrapper
+						.getUserVariable(previousUserVar.getName(), dstSprite, dstProject);
+				((ReadVariableFromDeviceBrick) brick).setUserVariable(updatedUserVar);
 			}
 
 			if (brick instanceof UserVariableBrick && ((UserVariableBrick) brick).getUserVariable() != null) {

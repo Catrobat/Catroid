@@ -21,39 +21,52 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.test.content.userdata;
+package org.catrobat.catroid.test.ui;
 
-import org.catrobat.catroid.formulaeditor.UserList;
+import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
+
+import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
+import java.util.ArrayList;
+import java.util.List;
+
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
+
+import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @RunWith(JUnit4.class)
-public class UserListTest {
+public class RequiresPermissionTaskTest {
 
-	private UserList userListX;
-	private UserList userListY;
+	private RequiresPermissionTask task;
+	private Activity activity;
+	private String permission = "permission";
+	private boolean taskCalled = false;
 
 	@Before
 	public void setUp() {
-		userListX = new UserList("x");
-		userListY = new UserList("y");
+		activity = mock(AppCompatActivity.class);
+		List<String> permissions = new ArrayList<>();
+		permissions.add(permission);
+		task = new RequiresPermissionTask(0, permissions, 0) {
+			@Override
+			public void task() {
+				taskCalled = true;
+			}
+		};
 	}
-
 	@Test
-	public void testEqualwithDifferentLists() {
-		boolean testEquality = userListX.equals(userListY);
-		assertFalse(testEquality);
-	}
-
-	@Test
-	public void testEqualwithSameLists() {
-		UserList equalVariable = new UserList("x");
-		boolean testEquality = userListX.equals(equalVariable);
-		assertTrue(testEquality);
+	public void executeTaskIfPermissionGrantedTest() {
+		when(activity.checkPermission(eq(permission), anyInt(), anyInt())).thenReturn(PERMISSION_GRANTED);
+		task.execute(activity);
+		assertTrue(taskCalled);
 	}
 }

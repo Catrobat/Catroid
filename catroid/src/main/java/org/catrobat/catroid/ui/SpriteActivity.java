@@ -41,7 +41,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.content.ListWithoutDuplicates;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
@@ -69,6 +68,7 @@ import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION;
@@ -396,7 +396,9 @@ public class SpriteActivity extends BaseActivity {
 						File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
 						File file = StorageOperations
 								.copyUriToDir(getContentResolver(), uri, imageDirectory, lookFileName);
-						sprite.getLookList().add(new LookData(textInput, file));
+						LookData lookData = new LookData(textInput, file);
+						sprite.getLookList().add(lookData);
+						lookData.getCollisionInformation().calculate();
 					} catch (IOException e) {
 						Log.e(TAG, Log.getStackTraceString(e));
 					}
@@ -448,6 +450,7 @@ public class SpriteActivity extends BaseActivity {
 			File file = StorageOperations.copyUriToDir(getContentResolver(), uri, imageDirectory, lookFileName);
 			LookData look = new LookData(lookDataName, file);
 			currentSprite.getLookList().add(look);
+			look.getCollisionInformation().calculate();
 			if (onNewLookListener != null) {
 				onNewLookListener.addItem(look);
 			}
@@ -482,6 +485,7 @@ public class SpriteActivity extends BaseActivity {
 			File file = StorageOperations.copyUriToDir(getContentResolver(), uri, imageDirectory, lookFileName);
 			LookData look = new LookData(lookDataName, file);
 			currentSprite.getLookList().add(look);
+			look.getCollisionInformation().calculate();
 			if (onNewLookListener != null) {
 				onNewLookListener.addItem(look);
 			}
@@ -705,11 +709,11 @@ public class SpriteActivity extends BaseActivity {
 
 		makeListCheckBox.setVisibility(View.VISIBLE);
 
-		final List<UserData> variables = new ListWithoutDuplicates<>();
+		List<UserData> variables = new ArrayList<>();
 		variables.addAll(currentProject.getUserVariables());
 		variables.addAll(currentSprite.getUserVariables());
 
-		final List<UserData> lists = new ListWithoutDuplicates<>();
+		List<UserData> lists = new ArrayList<>();
 		lists.addAll(currentProject.getUserLists());
 		lists.addAll(currentSprite.getUserLists());
 

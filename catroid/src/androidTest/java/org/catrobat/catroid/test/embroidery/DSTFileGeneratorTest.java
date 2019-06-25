@@ -42,7 +42,6 @@ import org.junit.runner.RunWith;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertArrayEquals;
@@ -52,14 +51,12 @@ import static org.junit.Assert.assertNotEquals;
 @RunWith(AndroidJUnit4.class)
 public class DSTFileGeneratorTest {
 	final String projectName = DSTFileGeneratorTest.class.getSimpleName();
-	DSTFileGenerator fileGenerator;
 	final int[] conversion = {-81, 81, -27, 27, -9, 9, -3, 3, -1, 1};
 
 	@Before
 	public void setUp() {
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		ProjectManager.getInstance().setCurrentProject(project);
-		fileGenerator = new DSTFileGenerator();
 	}
 
 	private int getByteForValue(int value) {
@@ -89,7 +86,7 @@ public class DSTFileGeneratorTest {
 	}
 
 	@Test
-	public void testWriteToSampleDSTFile() throws IOException, URISyntaxException {
+	public void testWriteToSampleDSTFile() throws IOException {
 		EmbroideryList stitchpoints = new EmbroideryList();
 		stitchpoints.add(new PointF(-10, 0));
 		stitchpoints.add(new PointF(10, 0));
@@ -106,7 +103,8 @@ public class DSTFileGeneratorTest {
 			dstFile.delete();
 		}
 		dstFile.createNewFile();
-		fileGenerator.writeToDSTFile(dstFile, stitchpoints);
+		DSTFileGenerator fileGenerator = new DSTFileGenerator(stitchpoints);
+		fileGenerator.writeToDSTFile(dstFile);
 
 		InputStream inputStream = InstrumentationRegistry.getContext().getResources().openRawResource(org.catrobat
 				.catroid.test.R.raw.sample_dst_file);
@@ -131,6 +129,8 @@ public class DSTFileGeneratorTest {
 		EmbroideryList points = new EmbroideryList();
 		points.add(new PointF(0, 0));
 		points.add(new PointF(100, 100));
+
+		DSTFileGenerator fileGenerator = new DSTFileGenerator(null);
 		ArrayList<DSTFileGenerator.StitchPoint> stitchPoints = fileGenerator.prepareStitchPoints(points);
 
 		assertArrayEquals(expectedStitchpoints, stitchPoints.toArray());
@@ -149,6 +149,7 @@ public class DSTFileGeneratorTest {
 		points.add(new PointF(10, 10));
 		points.add(new PointF(0, 0));
 
+		DSTFileGenerator fileGenerator = new DSTFileGenerator(null);
 		ArrayList<DSTFileGenerator.StitchPoint> stitchPoints = fileGenerator.prepareStitchPoints(points);
 		byte[] header = fileGenerator.getHeaderBytes(stitchPoints);
 		byte[] expectedHeader = expectedHeaderString.getBytes();
@@ -166,6 +167,8 @@ public class DSTFileGeneratorTest {
 		stitchpoints.add(new DSTFileGenerator.StitchPoint(new PointF(0, 0)));
 		stitchpoints.add(new DSTFileGenerator.StitchPoint(new PointF(20, -20)));
 		stitchpoints.add(new DSTFileGenerator.StitchPoint(new PointF(0, 0)));
+
+		DSTFileGenerator fileGenerator = new DSTFileGenerator(null);
 		byte[] stitchBytes = fileGenerator.getStitchesBytes(stitchpoints);
 
 		assertArrayEquals(expectedStitchBytes, stitchBytes);
@@ -174,6 +177,8 @@ public class DSTFileGeneratorTest {
 	@Test
 	public void testEndBytes() {
 		final byte[] expectedEndBytes = new byte[] {0, 0, (byte) 0xF3};
+
+		DSTFileGenerator fileGenerator = new DSTFileGenerator(null);
 		byte[] endBytes = fileGenerator.getFileEndBytes();
 		assertArrayEquals(expectedEndBytes, endBytes);
 	}

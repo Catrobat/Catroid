@@ -29,7 +29,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.AskBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
@@ -76,7 +75,7 @@ import java.util.List;
 public class CategoryBeginnerBricksFactory extends CategoryBricksFactory {
 
 	@Override
-	protected List<Brick> setupEventCategoryList(Context context) {
+	protected List<Brick> setupEventCategoryList(Context context, boolean isBackgroundSprite) {
 		List<Brick> eventBrickList = new ArrayList<>();
 		eventBrickList.add(new WhenStartedBrick());
 		eventBrickList.add(new WhenTouchDownBrick());
@@ -103,11 +102,11 @@ public class CategoryBeginnerBricksFactory extends CategoryBricksFactory {
 	}
 
 	@Override
-	protected List<Brick> setupMotionCategoryList(Sprite sprite, Context context) {
+	protected List<Brick> setupMotionCategoryList(Context context, boolean isBackgroundSprite) {
 		List<Brick> motionBrickList = new ArrayList<>();
 		motionBrickList.add(new PlaceAtBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION));
 		motionBrickList.add(new GoToBrick(null));
-		if (!isBackground(sprite)) {
+		if (!isBackgroundSprite) {
 			motionBrickList.add(new IfOnEdgeBounceBrick());
 		}
 		motionBrickList.add(new MoveNStepsBrick(BrickValues.MOVE_STEPS));

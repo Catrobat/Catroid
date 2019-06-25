@@ -30,13 +30,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.ListWithoutDuplicates;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.DeviceVariableAccessor;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 
+import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
@@ -267,6 +269,8 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 			if (!globalVarAdapter.remove((UserVariable) item)) {
 				localVarAdapter.remove((UserVariable) item);
 			}
+			File projectDir = ProjectManager.getInstance().getCurrentProject().getDirectory();
+			new DeviceVariableAccessor(projectDir).removeDeviceValue((UserVariable) item);
 		} else {
 			if (!globalListAdapter.remove((UserList) item)) {
 				localListAdapter.remove((UserList) item);
@@ -276,7 +280,7 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 	}
 
 	public List<UserData> getItems() {
-		List<UserData> items = new ListWithoutDuplicates<>();
+		List<UserData> items = new ArrayList<>();
 		items.addAll(globalVarAdapter.getItems());
 		items.addAll(localVarAdapter.getItems());
 		items.addAll(globalListAdapter.getItems());
@@ -285,14 +289,14 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 	}
 
 	public List<UserVariable> getVariables() {
-		List<UserVariable> items = new ListWithoutDuplicates<>();
+		List<UserVariable> items = new ArrayList<>();
 		items.addAll(globalVarAdapter.getItems());
 		items.addAll(localVarAdapter.getItems());
 		return items;
 	}
 
 	public List<UserList> getLists() {
-		List<UserList> items = new ListWithoutDuplicates<>();
+		List<UserList> items = new ArrayList<>();
 		items.addAll(globalListAdapter.getItems());
 		items.addAll(localListAdapter.getItems());
 		return items;

@@ -202,6 +202,11 @@
         <item name="android:background">@drawable/brick_blue_2h</item>
     </style>
 
+    <style name="BrickContainer.Motion.MediumWhen">
+        <item name="android:minHeight">@dimen/brick_height_medium</item>
+        <item name="android:background">@drawable/brick_blue_2h_when_9</item>
+    </style>
+
     <style name="BrickContainer.Motion.Big">
         <item name="android:minHeight">@dimen/brick_height_big</item>
         <item name="android:background">@drawable/brick_blue_3h</item>
@@ -535,4 +540,12 @@
         <item name="android:topDark">@color/transparent</item>
     </style>
 
+    <!-- Color Picker -->
+    <style name="TitleTextStyle">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
+    </style>
+
+    <style name="AlertDialogWithTitle" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:windowTitleStyle">@style/TitleTextStyle</item>
+    </style>
 </resources>
