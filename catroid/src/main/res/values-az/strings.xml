@@ -1493,7 +1493,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_phiro_rgb_led_action">Set Phiro light</string>
     <string name="phiro_rgb_led_red">Red</string>
     <string name="phiro_rgb_led_green">Green</string>
-    <string name="phiro_rgb_led_blue">Blue</string>
+    <string name="phiro_rgb_led_blue">Mavi</string>
     <!--  -->
     <!-- Phiro tone strings -->
     <string name="phiro_tone_do">Do</string>

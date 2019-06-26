@@ -68,9 +68,9 @@
     <string name="disconnect">Desconectar</string>
     <!--  -->
     <!-- Main Menu -->
-    <string name="main_menu_continue">Continue project</string>
+    <string name="main_menu_continue">Continuar proyecto</string>
     <string name="main_menu_new">Nuevo proyecto</string>
-    <string name="main_menu_programs">Programas</string>
+    <string name="main_menu_programs">Proyectos</string>
     <string name="main_menu_help">Ayuda</string>
     <string name="main_menu_web">Comunidad Catrobat</string>
     <string name="main_menu_upload">Cargar programa</string>
@@ -150,7 +150,7 @@
     <string name="preference_title_enable_phiro_bricks">Bloques Phiro</string>
     <string name="preference_description_phiro_bricks">Allow the app to control RobotixEdu\'s Phiro robots</string>
     <string name="preference_title_enable_arduino_bricks">Bloques Arduino</string>
-    <string name="preference_description_arduino_bricks">Allow the app to control Arduino boards</string>
+    <string name="preference_description_arduino_bricks">Permitir a la aplicación controlar placas Arduino</string>
     <string name="preference_title_enable_embroidery_bricks">Embroidery extension</string>
     <string name="preference_description_embroidery_bricks">Create patterns for stitching machines</string>
     <string name="preference_title_cast_feature_globally_enabled">Habilitar funciones de cast</string>
@@ -177,8 +177,8 @@
     <string name="error_request_timeout">Whoops! Our server did not respond in time, please try again later.</string>
     <string name="error_scratch_program_conversion_failed">Ups! No se ha podido convertir el programa de Scratch. Por favor inténtelo más tarde!</string>
     <string name="error_specific_scratch_program_conversion_failed_x">Ups! No se pudo convertir %1$s. Por favor inténtelo de nuevo más tarde!</string>
-    <string name="error_scratch_converter_outdated_app_version">Your version of this app is outdated. Our Scratch
-        converter only works on the latest version. Please update the app.</string>
+    <string name="error_scratch_converter_outdated_app_version">Tu versión de esta aplicación está obsoleta. Nuestro convertidor Scratch
+        solo funciona en la última versión. Por favor actualiza la aplicación.</string>
     <string name="error_cannot_open_not_existing_scratch_program">¡No se puede abrir el programa de Scratch. Parece que has cancelado la conversión y/o descarga del programa Scratch o has renombrado y/o borrado el programa en el ínterin!</string>
     <string name="error_cannot_open_currently_downloading_scratch_program">No puedes abrir el programa
         por el momento. Por favor espere hasta que éste descargado.</string>
@@ -613,7 +613,8 @@
     <!--  -->
     <string name="error_no_files_found">No project files found.</string>
     <!-- ScriptListFragment -->
-    <string name="fragment_script_text_description">Pulse \"+\" para añadir lineas de comandos</string>
+    <string name="fragment_script_text_description">"Pulse \"+\" para añadir lineas de comandos
+"</string>
     <!--  -->
     <!-- SpriteListFragment -->
     <string name="fragment_sprite_text_description">Tap \"+\" to add actors or objects</string>
@@ -641,7 +642,7 @@
     <string name="tnf_well_known_https">HTTPS</string>
     <string name="tnf_well_known_tel">Número de teléfono</string>
     <string name="tnf_well_known_sms">SMS</string>
-    <string name="tnf_well_known_mailto">Correo electrónico</string>
+    <string name="tnf_well_known_mailto">Email</string>
     <!--  -->
     <!-- DataListFragment -->
     <string name="global_vars_headline">Variables for all actors and objects</string>

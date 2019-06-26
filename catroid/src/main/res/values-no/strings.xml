@@ -1405,8 +1405,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="drone_animation_snakegreenred">Snake green red</string>
     <string name="drone_animation_fire">Fire</string>
     <string name="drone_animation_standard">Standard</string>
-    <string name="drone_animation_red">Red</string>
-    <string name="drone_animation_green">Green</string>
+    <string name="drone_animation_red">Rød</string>
+    <string name="drone_animation_green">Grønn</string>
     <string name="drone_animation_redsnake">Red snake</string>
     <string name="drone_animation_blank">Blank</string>
     <string name="drone_animation_rightmissile">Right missile</string>

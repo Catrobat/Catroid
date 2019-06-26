@@ -1592,7 +1592,7 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
     <string name="brick_phiro_rgb_led_action">Ustaw światło Phiro</string>
     <string name="phiro_rgb_led_red">Czerwony (Red)</string>
     <string name="phiro_rgb_led_green">Zielony (Green)</string>
-    <string name="phiro_rgb_led_blue">Niebieski (Blue)</string>
+    <string name="phiro_rgb_led_blue">Niebieski</string>
     <!--  -->
     <!-- Phiro tone strings -->
     <string name="phiro_tone_do">do</string>
