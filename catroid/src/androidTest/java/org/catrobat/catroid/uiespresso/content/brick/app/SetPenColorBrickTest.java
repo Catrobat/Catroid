@@ -26,7 +26,7 @@ package org.catrobat.catroid.uiespresso.content.brick.app;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick;
+import org.catrobat.catroid.content.bricks.SetPenColorBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
@@ -49,7 +49,7 @@ import static org.catrobat.catroid.uiespresso.content.brick.utils.ColorPickerInt
 import static org.hamcrest.Matchers.containsString;
 
 @RunWith(AndroidJUnit4.class)
-public class ShowTextColorSizeAlignmentBrickTest {
+public class SetPenColorBrickTest {
 	private int brickPosition;
 
 	@Rule
@@ -59,16 +59,16 @@ public class ShowTextColorSizeAlignmentBrickTest {
 	@Before
 	public void setUp() {
 		brickPosition = 1;
-		createProjectAndGetStartScript("ShowTextColorSizeAlignmentBrickTest")
-				.addBrick(new ShowTextColorSizeAlignmentBrick());
+		createProjectAndGetStartScript("SetPenColorBrickTest")
+				.addBrick(new SetPenColorBrick());
 		baseActivityTestRule.launchActivity();
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void testPickColor() {
-		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_show_variable);
-		onView(withId(R.id.brick_show_variable_color_size_edit_color))
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_pen_color);
+		onView(withId(R.id.brick_set_pen_color_action_red_edit_text))
 				.perform(click());
 		onView(withText(R.string.brick_context_dialog_pick_color))
 				.perform(click());
@@ -76,15 +76,19 @@ public class ShowTextColorSizeAlignmentBrickTest {
 				.perform(click());
 		onView(withId(R.id.color_picker_button_ok))
 				.perform(click());
-		onView(withId(R.id.brick_show_variable_color_size_edit_color))
-				.check(matches(withText(containsString("'#0074CD'"))));
+		onView(withId(R.id.brick_set_pen_color_action_red_edit_text))
+				.check(matches(withText(containsString("0"))));
+		onView(withId(R.id.brick_set_pen_color_action_green_edit_text))
+				.check(matches(withText(containsString("116"))));
+		onView(withId(R.id.brick_set_pen_color_action_blue_edit_text))
+				.check(matches(withText(containsString("205"))));
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void testPickColorCancel() {
-		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_show_variable);
-		onView(withId(R.id.brick_show_variable_color_size_edit_color))
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_pen_color);
+		onView(withId(R.id.brick_set_pen_color_action_red_edit_text))
 				.perform(click());
 		onView(withText(R.string.brick_context_dialog_pick_color))
 				.perform(click());
@@ -92,7 +96,11 @@ public class ShowTextColorSizeAlignmentBrickTest {
 				.perform(click());
 		onView(withId(R.id.color_picker_button_cancel))
 				.perform(click());
-		onView(withId(R.id.brick_show_variable_color_size_edit_color))
+		onView(withId(R.id.brick_set_pen_color_action_red_edit_text))
+				.check(matches(withText(containsString("0"))));
+		onView(withId(R.id.brick_set_pen_color_action_green_edit_text))
+				.check(matches(withText(containsString("0"))));
+		onView(withId(R.id.brick_set_pen_color_action_blue_edit_text))
 				.check(matches(withText(containsString("0"))));
 	}
 }
