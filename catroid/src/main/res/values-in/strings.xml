@@ -265,12 +265,14 @@
     <string name="name_empty">Please enter a text</string>
     <!-- Recycler View -->
     <string name="am_empty_list">There are no items in this list yet. Please add some first.</string>
+    <string name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
     <string name="am_backpack">Paket</string>
     <string name="am_unpack">Membuka</string>
     <string name="am_copy">Salin</string>
     <string name="am_delete">Hapus</string>
     <string name="am_rename">Menamai ulang</string>
     <string name="am_convert">Konversi</string>
+    <string name="am_merge">Merge</string>
     <string name="dialog_confirm_delete">You can\'t undo this!</string>
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
@@ -278,6 +280,7 @@
     <string name="copy">Salin</string>
     <string name="delete">Hapus</string>
     <string name="rename">Menamai ulang</string>
+    <string name="merge">Merge</string>
     <string name="show_details">Tampilkan rincian</string>
     <string name="hide_details">Sembunyikan rincian</string>
     <!-- Action Mode Titles -->
@@ -296,6 +299,9 @@
     </plurals>
     <plurals name="am_convert_projects_title">
         <item quantity="other">Convert %d projects</item>
+    </plurals>
+    <plurals name="am_merge_projects_title">
+        <item quantity="other">Merge %d projects</item>
     </plurals>
     <!-- Scene Action Mode Titles -->
     <plurals name="am_pack_scenes_title">
@@ -431,6 +437,7 @@
     <string name="data_label">Nama</string>
     <!-- Details -->
     <string name="project_details">Last access: %s, size: %s</string>
+    <string name="last_access_today">today, %s</string>
     <string name="scene_details">Actors and objects: %d, looks: %d, sounds: %d</string>
     <string name="sprite_details">Bricks: %d, looks: %d, sounds: %d</string>
     <string name="look_details">Resolution: %s, size: %s</string>
@@ -787,7 +794,7 @@
     <string name="show_password">Tampilkan kata sandi</string>
     <string name="sign_in_error">Something went wrong during sign in.</string>
     <string name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>
-    <string name="error_facebook_session_expired">Session expired, please log in.</string>
+    <string name="error_session_expired">Session expired, please log in.</string>
     <string name="sign_in_with_facebook">Sign in with Facebook</string>
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="error_register_empty_username">Empty username</string>
@@ -820,7 +827,6 @@
     <string name="prestage_resource_not_available_text">Unfortunately this project does not work on your device.
         The following components are unavailable:\n\n</string>
     <string name="prestage_resource_in_use_text">Perangkat lain terhubung ke Jumping Sumo. Pastikan, Anda adalah satu-satunya Pengendali untuk Drone.</string>
-    <string name="prestage_no_flash_available">\u2022 Flash \n</string>
     <string name="prestage_no_vibrator_available">\u2022 Vibrator \n</string>
     <string name="prestage_no_acceleration_sensor_available">\\2022 Sensor akselerasi \n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 Sensor inklinasi \n</string>
@@ -845,6 +851,7 @@
     <string name="stage_dialog_axes_off">Axes mati</string>
     <string name="stage_dialog_maximize">Memaksimalkan \nStretch</string>
     <string name="stage_dialog_screenshot">Pratinjau</string>
+    <string name="stage_dialog_embroidery">Embroidery</string>
     <!--  -->
     <!-- Broadcast spinner -->
     <string name="dialog_new_broadcast_message_title">Pesan baru</string>
@@ -872,6 +879,7 @@
     <string name="category_arduino">Arduino</string>
     <string name="category_cast">Melemparkan</string>
     <string name="category_raspi">Raspberry Pi</string>
+    <string name="category_assertions">Testing</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"Tempatkan di "</string>
@@ -1016,6 +1024,9 @@
     <string name="brick_clone_this">dirimu sendiri</string>
     <string name="brick_when_cloned">Saat Anda mulai sebagai tiruan</string>
     <string name="brick_delete_this_clone">Hapus kloning ini</string>
+    <string name="brick_assert_that">Assert:</string>
+    <string name="brick_is_equal_to">equal to expected:</string>
+    <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
     <plurals name="time_plural">
         <item quantity="other">kali</item>
     </plurals>
@@ -1040,6 +1051,9 @@
     <string name="brick_replace_item_in_userlist_replace_in_list">Ganti item dalam daftar</string>
     <string name="brick_replace_item_in_userlist_item_at_index">pada posisi</string>
     <string name="brick_replace_item_in_userlist_with_value">dengan</string>
+    <string name="brick_web_request">Send web request to</string>
+    <string name="brick_web_request_result">and store answer in</string>
+    <string name="brick_web_request_default_value">https://official-joke-api.appspot.com/random_joke</string>
     <!--  -->
     <!-- Default Values -->
     <string name="default_project_name">Program pertama saya</string>
@@ -1115,9 +1129,6 @@
     <string name="notification_screenshot_ok">Pratinjau gambar disimpan</string>
     <string name="notification_download_project_cancel">Cancel project download</string>
     <string name="notification_reconvert_download_program_cancel">Membatalkan proses unduhan/mengubah kembali</string>
-    <string name="notification_copy_title_pending">"Menyalin "</string>
-    <string name="notification_copy_pending">Menyalin dalam proses</string>
-    <string name="notification_copy_finished">Salinan selesai</string>
     <string name="notification_upload_title_pending">"Mengunggah "</string>
     <string name="notification_upload_title_finished">"Melihat kepda "</string>
     <string name="notification_upload_pending">Pengunggahan dalam proses</string>
@@ -1176,6 +1187,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="error_drone_wrong_platform_title">Tidak ada dukungan AR.Drone 2.0.</string>
     <string name="error_drone_wrong_platform">Kami tidak dapat menjalankan proyek AR.Drone 2.0 di perangkat Anda.</string>
     <string name="error_rename_incompatible_project">Mengganti nama sebuah proyek yang tidak kompatibel tidak mungkin dilakukan.</string>
+    <string name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
     <string name="error_unknown_error">Terjadi kesalahan yang tidak diketahui.</string>
     <string name="error_gps_not_available">Geolocation data is not available.</string>
     <string name="error_set_description">Terjadi kesalahan saat menyimpan deskripsi baru.</string>
@@ -1351,7 +1363,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_jumping_sumo_move_backward">Pindahkan Jumping Sumo ke belakang</string>
     <string name="brick_jumping_sumo_animation">Animasi Jumping Sumo</string>
     <string name="brick_jumping_sumo_no_sound">Tidak Jumping Sumo Sound</string>
-    <string name="brick_jumping_sumo_sound">Suara</string>
     <string name="brick_jumping_sumo_jump_long">Lompat Jumping Sumo panjang</string>
     <string name="brick_jumping_sumo_jump_high">Lompat Jumping Sumo tinggi</string>
     <string name="brick_jumping_sumo_rotate_left">Putar Jumping Sumo ke kiri</string>
@@ -1455,7 +1466,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_nothing_selected">Mendefinisikan nilai input</string>
     <string name="formula_editor_parse_fail_formula_too_long">Formula terlalu panjang!</string>
     <string name="formula_editor_choose_object_variable">Properti dari objek ini</string>
-    <string name="formula_editor_existing_variable">Nama sudah digunakan!</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
     <string name="formula_editor_function_sin">sinus</string>
@@ -1507,6 +1517,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_letter_parameter">(1, \'halo dunia!\')</string>
     <string name="formula_editor_function_join">bergabung</string>
     <string name="formula_editor_function_join_parameter">(\'hello\',\' world\')</string>
+    <string name="formula_editor_function_regex">regular expression</string>
+    <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_digital_pin</string>
     <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analog_pin</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry_pi_pin</string>
@@ -1694,11 +1706,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_intro_summary_data">Variabel dan daftar yang digunakan dalam program Anda dapat ditemukan di sini.\n Anda bisa memasukkannya ke dalam formula Anda, atau menambahkan yang baru.</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
-    <string name="add_text">Tambahkan teks</string>
-    <string name="text_hint">Teks bata</string>
-    <string name="add_variable">Tambahkan variabel</string>
-    <string name="add_line_break">Tambahkan jeda baris</string>
-    <string name="variable_hint">Nama variabel</string>
     <string name="brick_show_variable">Tampilkan variabel </string>
     <string name="brick_hide_variable">Sembunyikan variabel</string>
     <string name="brick_show_variable_position">di </string>
@@ -1708,10 +1715,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_show_variable_aligned_centered">centered</string>
     <string name="brick_show_variable_aligned_left">kiri</string>
     <string name="brick_show_variable_aligned_right">kanan</string>
+    <string name="brick_context_dialog_pick_color">Pick color</string>
     <!-- -->
-    <!-- User bricks strings -->
-    <string name="new_user_brick_variable">Variabel</string>
-    <!--  -->
     <!-- Camera related strings -->
     <string name="brick_video">Belokkan kamera</string>
     <string name="video_brick_camera_on">aktif</string>
