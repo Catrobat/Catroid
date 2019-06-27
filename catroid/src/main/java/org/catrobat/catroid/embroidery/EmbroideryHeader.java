@@ -23,25 +23,14 @@
 
 package org.catrobat.catroid.embroidery;
 
-import android.graphics.PointF;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
-import java.util.ArrayList;
+public interface EmbroideryHeader {
+	void initialize(float currentX, float currentY);
+	void update(float currentX, float currentY);
+	void addColorChange();
+	void appendToStream(FileOutputStream fileStream) throws IOException;
 
-public class EmbroideryList extends ArrayList{
-
-	@Override
-	public synchronized boolean add(Object o) {
-		boolean status = false;
-		PointF point = (PointF) o;
-
-		if (super.isEmpty() || isNewStitchPoint(point)) {
-			status = super.add(point);
-		}
-
-		return status;
-	}
-
-	private Boolean isNewStitchPoint(PointF point) {
-		return !super.get(super.size() - 1).equals(point);
-	}
+	void reset();
 }

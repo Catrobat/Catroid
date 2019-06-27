@@ -67,7 +67,8 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.content.eventids.GamepadEventId;
-import org.catrobat.catroid.embroidery.EmbroideryList;
+import org.catrobat.catroid.embroidery.DSTPatternManager;
+import org.catrobat.catroid.embroidery.EmbroideryPatternManager;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.UserDataWrapper;
 import org.catrobat.catroid.io.SoundManager;
@@ -135,7 +136,7 @@ public class StageListener implements ApplicationListener {
 	public ShapeRenderer shapeRenderer;
 	private PenActor penActor;
 	private EmbroideryActor embroideryActor;
-	public EmbroideryList embroideryList;
+	public EmbroideryPatternManager embroideryPatternManager;
 	private float screenRatio;
 	public WebConnectionHolder webConnectionHolder;
 
@@ -209,7 +210,7 @@ public class StageListener implements ApplicationListener {
 		axes = new Texture(Gdx.files.internal("stage/red_pixel.bmp"));
 		FaceDetectionHandler.resumeFaceDetection();
 
-		embroideryList = new EmbroideryList();
+		embroideryPatternManager = new DSTPatternManager();
 	}
 
 	public void setPaused(boolean paused) {
@@ -436,12 +437,12 @@ public class StageListener implements ApplicationListener {
 			transitionToScene(ProjectManager.getInstance().getStartScene().getName());
 		}
 		stageBackupMap.clear();
+		embroideryPatternManager.clear();
 
 		FlashUtil.reset();
 		VibratorUtil.reset();
 		TouchUtil.reset();
 		removeAllClonedSpritesFromStage();
-		embroideryList.clear();
 
 		UserDataWrapper.resetAllUserData(ProjectManager.getInstance().getCurrentProject());
 
@@ -491,7 +492,7 @@ public class StageListener implements ApplicationListener {
 				penActor.dispose();
 			}
 
-			embroideryList.clear();
+			embroideryPatternManager.clear();
 
 			SoundManager.getInstance().clear();
 
@@ -643,7 +644,7 @@ public class StageListener implements ApplicationListener {
 
 		SoundManager.getInstance().clear();
 		PhysicsShapeBuilder.getInstance().reset();
-		embroideryList = null;
+		embroideryPatternManager = null;
 		if (penActor != null) {
 			penActor.dispose();
 		}
@@ -813,7 +814,7 @@ public class StageListener implements ApplicationListener {
 		List<Sprite> sprites;
 		Array<Actor> actors;
 		PenActor penActor;
-		EmbroideryList embroideryList;
+		EmbroideryPatternManager embroideryPatternManager;
 		Map<Sprite, ShowBubbleActor> bubbleActorMap;
 
 		boolean paused;
@@ -841,7 +842,7 @@ public class StageListener implements ApplicationListener {
 		backup.actors = new Array<>(stage.getActors());
 		backup.penActor = penActor;
 		backup.bubbleActorMap = new HashMap<>(bubbleActorMap);
-		backup.embroideryList = embroideryList;
+		backup.embroideryPatternManager = embroideryPatternManager;
 
 		backup.paused = paused;
 		backup.finished = finished;
@@ -886,7 +887,7 @@ public class StageListener implements ApplicationListener {
 		bubbleActorMap.clear();
 		bubbleActorMap.putAll(backup.bubbleActorMap);
 
-		embroideryList = backup.embroideryList;
+		embroideryPatternManager = backup.embroideryPatternManager;
 
 		paused = backup.paused;
 		finished = backup.finished;

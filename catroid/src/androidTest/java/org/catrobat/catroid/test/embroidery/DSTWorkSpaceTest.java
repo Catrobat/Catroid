@@ -20,27 +20,34 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+package org.catrobat.catroid.test.embroidery;
+
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.embroidery.DSTStitchCommand;
-import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.embroidery.DSTWorkSpace;
+import org.catrobat.catroid.embroidery.EmbroideryWorkSpace;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 
-public class StitchAction extends TemporalAction {
+import static org.junit.Assert.assertEquals;
 
-	private Sprite sprite;
+@RunWith(AndroidJUnit4.class)
+public class DSTWorkSpaceTest {
 
-	@Override
-	protected void update(float delta) {
-		float x = sprite.look.getXInUserInterfaceDimensionUnit();
-		float y = sprite.look.getYInUserInterfaceDimensionUnit();
-		StageActivity.stageListener.embroideryPatternManager.addStitchCommand(new DSTStitchCommand(x, y,
-				sprite.look.getZIndex(), sprite));
-	}
+	@Test
+	public void simpleWorkSpaceTest() {
+		final Sprite sprite = Mockito.mock(Sprite.class);
+		final float x = 1.5f;
+		final float y = 1.5f;
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+		EmbroideryWorkSpace workSpace = new DSTWorkSpace();
+		workSpace.set(x, y, sprite);
+
+		assertEquals(x, workSpace.getCurrentX(), Float.MIN_VALUE);
+		assertEquals(y, workSpace.getCurrentY(), Float.MIN_VALUE);
+		assertEquals(sprite, workSpace.getLastSprite());
 	}
 }
