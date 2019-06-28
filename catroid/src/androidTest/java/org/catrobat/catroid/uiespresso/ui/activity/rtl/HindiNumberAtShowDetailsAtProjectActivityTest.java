@@ -89,7 +89,7 @@ public class HindiNumberAtShowDetailsAtProjectActivityTest {
 		SettingsFragment.removeLanguageSharedPreference(getTargetContext());
 	}
 
-	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
 	@Test
 	public void hindiNumbers() throws Exception {
 		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());

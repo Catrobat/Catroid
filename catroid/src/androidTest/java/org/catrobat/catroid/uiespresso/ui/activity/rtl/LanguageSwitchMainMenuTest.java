@@ -105,7 +105,7 @@ public class LanguageSwitchMainMenuTest {
 		SettingsFragment.removeLanguageSharedPreference(InstrumentationRegistry.getTargetContext());
 	}
 
-	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
 	@Test
 	public void testChangeLanguageToArabic() {
 		onData(PreferenceMatchers.withTitle(R.string.preference_title_language))
@@ -125,7 +125,7 @@ public class LanguageSwitchMainMenuTest {
 				.check(matches(isDisplayed()));
 	}
 
-	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
 	@Test
 	public void testChangeLanguageToDeutsch() {
 		onData(PreferenceMatchers.withTitle(R.string.preference_title_language))

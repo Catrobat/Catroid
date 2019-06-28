@@ -32,11 +32,14 @@ import android.view.View;
 
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+import org.catrobat.catroid.uiespresso.testsuites.Cat;
+import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.rules.DontGenerateDefaultProjectActivityInstrumentationRule;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import java.util.Locale;
@@ -92,6 +95,7 @@ public class LanguageSwitchThroughSharedPreferenceTest {
 		SettingsFragment.removeLanguageSharedPreference(InstrumentationRegistry.getTargetContext());
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
 	@Test
 	public void testSetLanguageToArabic() {
 		SettingsFragment.setLanguageSharedPreference(InstrumentationRegistry.getTargetContext(), "ar");
@@ -102,6 +106,7 @@ public class LanguageSwitchThroughSharedPreferenceTest {
 		assertEquals(View.LAYOUT_DIRECTION_RTL, conf.getLayoutDirection());
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
 	@Test
 	public void testSetLanguageToGerman() {
 		SettingsFragment.setLanguageSharedPreference(InstrumentationRegistry.getTargetContext(), "de");
