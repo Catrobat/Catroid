@@ -532,13 +532,13 @@
     <string name="last_access_today">today, %s</string>
     <string name="scene_details">اداکار اور آبجیکٹ: %d،  نظر: %d، آواز: %d</string>
     <string name="sprite_details">اینٹوں: %d،  نظر  : %d، آواز: %d</string>
-    <string name="look_details">قرارداد:٪ s، سائز:٪ s</string>
+    <string name="look_details">قرارداد:٪ %s، سائز:٪ %s</string>
     <string name="sound_duration">دورانیہ: %1$s</string>
-    <string name="sound_details">قرارداد:٪ s، سائز:٪ s</string>
+    <string name="sound_details">قرارداد:٪ %s، سائز:٪ %s</string>
     <!--  -->
     <!-- Rename Dialog Titles -->
     <string name="rename_project">پروگرام کو نیا نام دیں</string>
-    <string name="rename_scene_dialog">%d منظر کو نیا نام دیں</string>
+    <string name="rename_scene_dialog"> منظر کو نیا نام دیں</string>
     <string name="rename_sprite_dialog">آبجیکٹ کو نیا نام دیں</string>
     <string name="rename_look_dialog"> نظر ٪ d  کا نام تبدیل کریں</string>
     <string name="rename_sound_dialog">آواز کو نیا نام دیں</string>
@@ -890,7 +890,7 @@
     <!-- Play scene dialog -->
     <string name="play_scene_dialog_title">منظر چلائیں:</string>
     <string name="play_scene_dialog_default">پہلا منظر (%1$s)</string>
-    <string name="play_scene_dialog_current">موجودہ منظر (٪ 1 $ s)</string>
+    <string name="play_scene_dialog_current">موجودہ منظر (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
     <string name="sign_in_dialog_title">سائن ان کریں</string>
@@ -913,7 +913,7 @@
     <string name="oauth_username_taken">کسی اور پہلے ہی اس نام کا استعمال کرتا ہے ۔ ایک مختلف انتخاب کریں!</string>
     <string name="show_password">پاسورڈ دکھاو</string>
     <string name="sign_in_error">سائن اپ کے دوران کچ غلط ہوگیا</string>
-    <string name="error_google_plus_sign_in">Google سائن ان کی خرابی. حیثیت:٪ s</string>
+    <string name="error_google_plus_sign_in">Google سائن ان کی خرابی. حیثیت:٪ %s</string>
     <string name="error_session_expired">Session expired, please log in.</string>
     <string name="sign_in_with_facebook">فیس بک کے ذریعہ سائن اپ کریں</string>
     <string name="sign_in_with_google">گوگل کے ساتھ سائن ان کریں</string>
@@ -1248,7 +1248,7 @@
     <string name="drone_set_tilt_outdoor">20 ڈگری </string>
     <string name="drone_set_tilt_max">30 ڈگری</string>
     <!-- Notification Channel -->
-    <string name="channel_description">% 1 $ s نوٹیفکیشن چینل</string>
+    <string name="channel_description">%1$s نوٹیفکیشن چینل</string>
     <!--  -->
     <!-- Notifications -->
     <string name="notification_screenshot_ok">پیش منظر تصویر محفوظ</string>
@@ -1261,11 +1261,11 @@
     <string name="notification_upload_rejected">اپ لوڈ کردہ منصوبے کو مسترد کر دیا</string>
     <string name="notification_upload_retry">دوبارہ کوشش کریں</string>
     <string name="notification_open_play_store">اپلی کیشن اسٹور کھولیں</string>
-    <string name="notification_download_title_pending">"ڈاؤن لوڈ کیا جا رہا ہے ..."</string>
+    <string name="notification_download_title_pending">"ڈاؤن لوڈ کیا جا رہا ہے &#8230;"</string>
     <string name="notification_download_pending">ڈاؤن لوڈ جاری ہے</string>
     <string name="notification_download_finished">ڈاؤن لوڈ کامیاب</string>
     <string name="notification_title_open">"کھولیں"</string>
-    <string name="notification_low_battery_with_value">توجہ. بیٹری کم ہے. موجودہ حیثیت٪ d ہے</string>
+    <string name="notification_low_battery_with_value">توجہ. بیٹری کم ہے. موجودہ حیثیت٪ %d ہے</string>
     <string name="size_of_project">پیمائش:</string>
     <string name="drone_emergency_battery_low">بیٹری کم ہے (خودکار لینڈنگ).</string>
     <string name="drone_emergency_camera">ایک یا زیادہ کیمرے جواب نہیں دے رہے ہیں.</string>
@@ -1323,7 +1323,7 @@
     <string name="notification_blueth_err">بلوٹوت کو فعال نہیں کر سکتے ہیں، براہ مہربانی دوبارہ کوشش کریں اور پھر دوبارہ کوشش کریں.</string>
     <string name="title_paired_devices">جوڑی آلات</string>
     <string name="title_other_devices">جوڑی آلات</string>
-    <string name="searching_devices">آلات تلاش کر رہے ہیں ...</string>
+    <string name="searching_devices">آلات تلاش کر رہے ہیں &#8230;</string>
     <string name="button_scan">بلوٹوت آلات تلاش کریں</string>
     <string name="select_device">آلہ منتخب کریں:</string>
     <string name="connecting_please_wait">آپ کے آلہ سے جڑ رہا ہے ۔\n&#8230; براۓ مہربانی انتظار کريں</string>
@@ -1351,7 +1351,7 @@
     <!-- Raspi Settings -->
     <string name="raspi_settings_title_name">Raspberry Pi ترتیبات</string>
     <string name="raspi_settings_gpio_version">GPIO ورژن</string>
-    <string name="error_connecting_to">خرابی:٪ s سے منسلک نہیں کیا جا سکتا:٪ d</string>
+    <string name="error_connecting_to">خرابی:٪ %s سے منسلک نہیں کیا جا سکتا:٪ %d</string>
     <!--  -->
     <!-- Lego Mindstorms Strings -->
     <string name="nxt_brick_motor_move">NXT موٹر مقرر کریں</string>
@@ -1390,7 +1390,7 @@
     <string name="lego_port_3">پورٹ 3</string>
     <string name="lego_port_4">پورٹ 4</string>
     <string name="lego_sensor_config_dont_show_again">دوبارہ یہ پیغام نہ دیکھائیں</string>
-    <string name="lego_sensor_port_config_dialog_title">٪ 1 $ s سے منسلک کرنے کے لئے ایک پورٹ منتخب کریں.</string>
+    <string name="lego_sensor_port_config_dialog_title">%1$s سے منسلک کرنے کے لئے ایک پورٹ منتخب کریں.</string>
     <string name="lego_ev3_sensor_config_info_title">NXT سینسر ترتیب</string>
     <string name="preference_disable_ev3_info_dialog_description">منصوبے کھولنے پر پروجیکٹ مخصوص EV3 ترتیبات نہیں دکھائے جاتے ہیں.</string>
     <string name="preference_title_mindstorms_ev3_sensors_description">بندرگاہوں پر EV3 سینسر کی تعریفیں پروجیکٹ کی مخصوص ہے اور صرف کھلی منصوبوں کے لئے تشکیل دیا جاسکتا ہے.</string>
