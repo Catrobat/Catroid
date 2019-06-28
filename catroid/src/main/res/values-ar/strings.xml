@@ -68,11 +68,11 @@
     <string name="disconnect">قطع الاتصال</string>
     <!--  -->
     <!-- Main Menu -->
-    <string name="main_menu_continue">Continue project</string>
-    <string name="main_menu_new">New project</string>
+    <string name="main_menu_continue">متابعة المشروع</string>
+    <string name="main_menu_new">مشروع جديد</string>
     <string name="main_menu_programs">البرامج</string>
     <string name="main_menu_help">المساعدة</string>
-    <string name="main_menu_web">Catrobat community</string>
+    <string name="main_menu_web">مجتمع كاتروبات</string>
     <string name="main_menu_upload">تحميل البرنامج</string>
     <string name="main_menu_rate_app">قم بالتقييم!</string>
     <string name="main_menu_terms_of_use">شروط الاستخدام والخدمات</string>
@@ -280,22 +280,25 @@
     <!-- Dialog Errors -->
     <string name="name_already_exists">هذا الاسم مُستخدم بالفعل. يرجى اختيار اسم آخر.</string>
     <string name="name_consists_of_spaces_only">يمكنك فقط وضع مسافات في حقل النص، الرجاء إدخال اسم         باستخدام أحرف, أرقام أو أحرف خاصة أخرى.</string>
-    <string name="name_empty">Please enter a text</string>
+    <string name="name_empty">الرجاء إدخال النص</string>
     <!-- Recycler View -->
     <string name="am_empty_list">لا توجد أي عناصر في القائمة بعد. من فضلك أضف بعض العناصر أولاً.</string>
+    <string name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
     <string name="am_backpack">حزمة</string>
     <string name="am_unpack">فك الحزمة</string>
     <string name="am_copy">نسخ</string>
     <string name="am_delete">حذف</string>
     <string name="am_rename">إعادة تسمية</string>
     <string name="am_convert">تحويل</string>
+    <string name="am_merge">Merge</string>
     <string name="dialog_confirm_delete">لا يمكنك التراجع عن هذا!</string>
-    <string name="list_headline_sprites">Actors and objects</string>
+    <string name="list_headline_sprites">أشكال و عناصر</string>
     <!-- Options Menu Options -->
     <string name="backpack">حقيبة الظهر</string>
     <string name="copy">نسخ</string>
     <string name="delete">حذف</string>
     <string name="rename">إعادة تسمية</string>
+    <string name="merge">Merge</string>
     <string name="show_details">إظهار التفاصيل</string>
     <string name="hide_details">إخفاء التفاصيل</string>
     <!-- Action Mode Titles -->
@@ -325,12 +328,12 @@
         <item quantity="other">حذف %d مشاريع</item>
     </plurals>
     <plurals name="am_rename_projects_title">
-        <item quantity="zero">Rename %d projects</item>
-        <item quantity="one">Rename %d project</item>
-        <item quantity="two">Rename %d projects</item>
-        <item quantity="few">Rename %d projects</item>
-        <item quantity="many">Rename %d projects</item>
-        <item quantity="other">Rename %d projects</item>
+        <item quantity="zero">إعادة تسمية %d مشروع</item>
+        <item quantity="one">إعادة تسمية %d مشروع</item>
+        <item quantity="two">إعادة تسمية %d مشاريع</item>
+        <item quantity="few">إعادة تسمية %d مشاريع</item>
+        <item quantity="many">إعادة تسمية %d مشاريع</item>
+        <item quantity="other">إعادة تسمية %d مشاريع</item>
     </plurals>
     <plurals name="am_convert_projects_title">
         <item quantity="zero">تحويل %d مشروع</item>
@@ -339,6 +342,14 @@
         <item quantity="few">تحويل %d مشاريع</item>
         <item quantity="many">تحويل %d مشاريع</item>
         <item quantity="other">تحويل %d مشاريع</item>
+    </plurals>
+    <plurals name="am_merge_projects_title">
+        <item quantity="zero">Merge %d projects</item>
+        <item quantity="one">Merge %d project</item>
+        <item quantity="two">Merge %d projects</item>
+        <item quantity="few">Merge %d projects</item>
+        <item quantity="many">Merge %d projects</item>
+        <item quantity="other">Merge %d projects</item>
     </plurals>
     <!-- Scene Action Mode Titles -->
     <plurals name="am_pack_scenes_title">
@@ -555,12 +566,12 @@
         <item quantity="other">نسخ %d لبّنات برمجية</item>
     </plurals>
     <plurals name="am_delete_bricks_title">
-        <item quantity="zero">Delete %d bricks</item>
-        <item quantity="one">Delete %d brick</item>
-        <item quantity="two">Delete %d bricks</item>
-        <item quantity="few">Delete %d bricks</item>
-        <item quantity="many">Delete %d bricks</item>
-        <item quantity="other">Delete %d bricks</item>
+        <item quantity="zero">حذف %d لبّنة برمجية</item>
+        <item quantity="one">حذف %d لبّنة برمجية</item>
+        <item quantity="two">حذف %d لبّنات برمجية</item>
+        <item quantity="few">حذف %d لبّنات برمجية</item>
+        <item quantity="many">حذف %d لبّنات برمجية</item>
+        <item quantity="other">حذف %d لبّنات برمجية</item>
     </plurals>
     <plurals name="am_delete_scripts_title">
         <item quantity="zero">حذف %d نص برمجي</item>
@@ -654,11 +665,12 @@
     <string name="script_group_label">اسم مجموعة النص البرمجي</string>
     <string name="look_name_label">اسم المشهد</string>
     <string name="sound_name_label">اسم ملف الصوت</string>
-    <string name="nfc_tag_name_label">NFC tag name</string>
+    <string name="nfc_tag_name_label">اسم وسم NFC</string>
     <string name="string_label">النص</string>
     <string name="data_label">الإسم</string>
     <!-- Details -->
     <string name="project_details">آخر وصول: %s، الحجم: %s</string>
+    <string name="last_access_today">today, %s</string>
     <string name="scene_details">العناصر: %d، المظاهر: %d, الملفات الصوتية: %d</string>
     <string name="sprite_details">لبّنات برمجية:%d, مظاهر:%d, ملفات صوتية:%d</string>
     <string name="look_details">القياس: %s, الحجم:%s</string>
@@ -867,27 +879,27 @@
     <string name="description">الوصف:</string>
     <string name="set_description">وصف مجموعة</string>
     <string name="details_date_today">اليوم</string>
-    <string name="import_project">Import project</string>
-    <string name="error_import_project">Something went wrong while importing projects.</string>
+    <string name="import_project">استيراد مشروع</string>
+    <string name="error_import_project">حدث خطأ أثناء استيراد المشاريع.</string>
     <!-- Migrate from external to internal storage -->
-    <string name="import_dialog_title">Updated project storage</string>
+    <string name="import_dialog_title">تم تحديث تخزين المشروع</string>
     <string name="import_dialog_message">From now on projects will be stored in a hidden area on your device.
         Existing projects can either be \'moved\' or \'copied\' to this hidden area. \'Moving\' them will remove them from
         the unprotected area. You will still be able to access all projects, and to export them later to the unprotected area.
         If you are unsure, select \'Move\'.</string>
     <string name="import_dialog_copy_btn">نسخ</string>
     <string name="import_dialog_move_btn">تحرك</string>
-    <string name="projects_successful_moved_toast">Projects successfully moved.</string>
-    <string name="projects_successful_copied_toast">Projects successfully copied.</string>
-    <string name="error_during_copying_projects_toast">An error occurred during project migration.</string>
+    <string name="projects_successful_moved_toast">تم نقل المشاريع بنجاح.</string>
+    <string name="projects_successful_copied_toast">تم نسخ المشاريع بنجاح.</string>
+    <string name="error_during_copying_projects_toast">حدث خطأ أثناء نسخ / نقل المشروع.</string>
     <!--  -->
-    <string name="error_no_files_found">No project files found.</string>
+    <string name="error_no_files_found">لم يتم العثور على مشاريع.</string>
     <!-- ScriptListFragment -->
     <string name="fragment_script_text_description">انقر فوق \"+\" لإضافة نصوص برمجية</string>
     <!--  -->
     <!-- SpriteListFragment -->
-    <string name="fragment_sprite_text_description">Tap \"+\" to add actors or objects</string>
-    <string name="default_sprite_name">My actor or object</string>
+    <string name="fragment_sprite_text_description">اضغط على \"+\" لإضافة أشكال او عناصر</string>
+    <string name="default_sprite_name">شكل او عنصر خاص بي</string>
     <!--  -->
     <!-- LookListFragment -->
     <string name="fragment_look_text_description">انقر فوق \"+\" لإضافة منظر</string>
@@ -935,7 +947,7 @@
     <!-- NewProjectDialog -->
     <string name="new_project_dialog_title">برنامج جديد</string>
     <string name="new_project_empty">إنشاء برنامج فارغ</string>
-    <string name="new_project_default">إنشاء برنامج يحتوي على مثال</string>
+    <string name="new_project_default">إنشاء مشروع إفتراضي</string>
     <string name="new_project_default_drone">إنشاء برنامح مثال على \"طائرة بدون طيار\"</string>
     <string name="new_project_default_jumping_sumo">إنشاء برنامج مثال على Jumping Sumo</string>
     <string name="project_orientation_title">الإتجاه:</string>
@@ -985,9 +997,9 @@
     <!--  -->
     <!-- Privacy Policy -->
     <string name="dialog_privacy_policy_title">سياسة الخصوصية</string>
-    <string name="disclaimer_privacy_police_header_headline">Welcome!</string>
-    <string name="disclaimer_privacy_policy_header">Before you can start coding, please read and accept our Privacy
-        Policy to use the app:</string>
+    <string name="disclaimer_privacy_police_header_headline">مرحبا!</string>
+    <string name="disclaimer_privacy_policy_header">قبل الشروع بالتطبيق, من فضلك الموافقة على سياسة الخصوصية الخاصة بنا
+        لهذا التطبيق:</string>
     <string name="dialog_privacy_policy_text">To offer you all the benefits of our services and the associated account,
         it is necessary to collect certain data from you.\n\n
 
@@ -1069,12 +1081,12 @@
     <string name="upload_description">الوصف:</string>
     <string name="upload_tag_dialog_title">اختر كحد أقصى ثلاث فئات</string>
     <!-- Save Project to External Storage -->
-    <string name="save_to_external_storage_button">Save project to external storage</string>
+    <string name="save_to_external_storage_button">حفظ المشروع على الذاكرة الخارجية</string>
     <string name="notification_save_project_to_external_storage_title_pending">" "</string>
-    <string name="notification_save_project_to_external_storage_pending">Saving project to external storage.</string>
+    <string name="notification_save_project_to_external_storage_pending">جاري حفظ المشروع على الذاكرة الخارجية.</string>
     <string name="notification_save_project_to_external_storage_title_open">" "</string>
-    <string name="notification_save_project_to_external_storage_open">"Saved project to %1$s"</string>
-    <string name="save_project_to_external_storage_io_exception_message">Failed to save project, not enough memory is available!</string>
+    <string name="notification_save_project_to_external_storage_open">"تم حفظ المشروح في %1$s"</string>
+    <string name="save_project_to_external_storage_io_exception_message">فشل في حفظ المشروع, لا يوجد ذاكرة كافية!</string>
     <!--  -->
     <!-- SoundRecorderActivity -->
     <string name="soundrecorder_name">مسجل البوكت كوود</string>
@@ -1084,33 +1096,33 @@
     <!--  -->
     <!-- Brick context dialog -->
     <string name="brick_context_dialog_move_brick">أنقل اللبّنة البرمجية</string>
-    <string name="brick_context_dialog_move_script">Move script</string>
+    <string name="brick_context_dialog_move_script">نقل النص البرمجي</string>
     <string name="brick_context_dialog_delete_brick">حذف لبّنة برمجية</string>
     <string name="brick_context_dialog_copy_brick">نسخ اللبّنة برمجية</string>
-    <string name="brick_context_dialog_copy_script">Copy script</string>
+    <string name="brick_context_dialog_copy_script">نسخ النص البرمجي</string>
     <string name="brick_context_dialog_formula_edit_brick">تحرير صيغة</string>
     <string name="brick_context_dialog_delete_script">حذف النص البرمجي</string>
     <string name="brick_context_dialog_comment_in">تفعيل اللبّنة البرمجية</string>
     <string name="brick_context_dialog_comment_out">تعطيل اللبّنة البرمجية</string>
-    <string name="brick_context_dialog_highlight_brick_parts">Highlight brick parts</string>
-    <string name="brick_context_dialog_comment_in_script">Enable script</string>
-    <string name="brick_context_dialog_comment_out_script">Disable script</string>
+    <string name="brick_context_dialog_highlight_brick_parts">إبراز أجزاء اللبّنة البرمجية</string>
+    <string name="brick_context_dialog_comment_in_script">تفعيل النص البرمجي</string>
+    <string name="brick_context_dialog_comment_out_script">تعطيل النص البرمجي</string>
     <string name="brick_context_dialog_help">المساعدة</string>
     <string name="comment_in_out">تعطيل/تفعيل</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string name="play_scene_dialog_title">تشغيل المشهد:</string>
     <string name="play_scene_dialog_default">المشهد الأول (%1$s)</string>
-    <string name="play_scene_dialog_current">Current scene (%1$s)</string>
+    <string name="play_scene_dialog_current">المشهد الحالي (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
     <string name="sign_in_dialog_title">تسجيل الدخول</string>
     <string name="username">اسم المستخدم</string>
     <string name="password">كلمة المرور</string>
-    <string name="password_forgotten">Forgot your password?</string>
+    <string name="password_forgotten">هل نسيت كلمة المرور؟</string>
     <string name="new_user_registered">إنشاء حساب جديد</string>
     <string name="user_logged_in">تم تسجيل الدخول بنجاح</string>
-    <string name="register_error">Login invalid</string>
+    <string name="register_error">فشل تسجيل الدخول</string>
     <string name="register_terms">بالتسجيل، أنت توافق على</string>
     <string name="register_code_terms_of_use_text">شروط الاستخدام والخدمات</string>
     <string name="login">تسجيل الدخول</string>
@@ -1119,33 +1131,33 @@
     <string name="accountName">البريد الإلكتروني</string>
     <string name="signin_thanks">شكراً لكم على التسجيل في \"بوكت كوود\"!</string>
     <string name="signin_choose_username">الرجاء اختيار اسم المستخدم الخاص بك:</string>
-    <string name="signin_choose_username_empty">Please enter a username.</string>
+    <string name="signin_choose_username_empty">الرجاء إدخال اسم مستخدم.</string>
     <string name="signin_choose_username_hint">يجب أن لا يكون اسم المستخدم هو اسمك الحقيقي.</string>
-    <string name="oauth_username_taken">Someone else already uses this name. Please choose a different one!</string>
+    <string name="oauth_username_taken">اسم المستخدم محجوز, من فضلك اختر اسماً اخر!</string>
     <string name="show_password">إظهار كلمة المرور</string>
-    <string name="sign_in_error">Something went wrong during sign in.</string>
-    <string name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>
-    <string name="error_facebook_session_expired">Session expired, please log in.</string>
-    <string name="sign_in_with_facebook">Sign in with Facebook</string>
-    <string name="sign_in_with_google">Sign in with Google</string>
-    <string name="error_register_empty_username">Empty username</string>
-    <string name="error_register_username_as_email">Email address cannot be used as user names</string>
-    <string name="error_register_invalid_username">Username should only contain letters (a–z), numbers (0–9),
-        dashes (-), underscores (_), and periods (.).</string>
-    <string name="error_register_username_start_with">Username should not start with dashes (-), underscores (_), or
-        periods (.).</string>
-    <string name="error_register_invalid_email_format">Invalid email format</string>
-    <string name="error_register_empty_password">Password field is empty</string>
-    <string name="error_register_password_at_least_6_characters">Password should be at least 6 characters</string>
+    <string name="sign_in_error">حدث خطأ أثناء تسجيل الدخول.</string>
+    <string name="error_google_plus_sign_in">خطأ خلال تسجيل الدخول باستخدام جوجل. الحالة: %s</string>
+    <string name="error_session_expired">Session expired, please log in.</string>
+    <string name="sign_in_with_facebook">تسجيل الدخول باستخدام فيسبوك</string>
+    <string name="sign_in_with_google">‏تسجيل الدخول عبر Google</string>
+    <string name="error_register_empty_username">اسم مستخدم فارغ</string>
+    <string name="error_register_username_as_email">لا يمكن استخدام الايميل الالكتروني كـ اسم مستخدم</string>
+    <string name="error_register_invalid_username">اسم المستخدم يجب أن يحتوي فقط على الاحرف (a–z), الارقام (0–9)
+        داش (-), اندر سكور (_) و دوت  (.).</string>
+    <string name="error_register_username_start_with">اسم المستخدم لا يمكن أن يبدأ ب داش (-), اندر سكور (_), أو
+        دوت(.).</string>
+    <string name="error_register_invalid_email_format">صيغة الايميل غير صحيحة</string>
+    <string name="error_register_empty_password">حقل كلمة المرور فارغ</string>
+    <string name="error_register_password_at_least_6_characters">على كلمة المرور أن تتكون من 6 أحرف على الأقل</string>
     <string name="error_register_passwords_mismatch">كلمات المرور لا تتطابق</string>
-    <string name="error_register_empty_confirm_password">Confirm password field is empty</string>
-    <string name="error_register_username_already_exists">Username already exists</string>
-    <string name="error_register_email_exists">Email address already exists</string>
+    <string name="error_register_empty_confirm_password">تأكيد حقل كلمة المرور فارغ</string>
+    <string name="error_register_username_already_exists">اسم المستخدم موجود</string>
+    <string name="error_register_email_exists">عنوان البريد الإلكتروني موجود بالفعل</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
-    <string name="overwrite_title">Project exists.</string>
-    <string name="overwrite_text">A project with this name already exists.</string>
-    <string name="overwrite_replace">Overwrite project</string>
+    <string name="overwrite_title">المشروع موجود.</string>
+    <string name="overwrite_text">ثمّة مشروع بنفس الاسم بالفعل.</string>
+    <string name="overwrite_replace">الكتابة على المشروع</string>
     <string name="overwrite_rename">إعادة تسمية البرنامج الذي تم تحميله</string>
     <!--  -->
     <!-- Music activity -->
@@ -1159,7 +1171,6 @@
         المكونات التالية غير متوفرة: \n\n</string>
     <string name="prestage_resource_in_use_text">جهاز أخر متصل بـ  Jumping Sumo. تأكد من أنك 
         المتحكم الوحيد بالطائرة بدون طيار.</string>
-    <string name="prestage_no_flash_available">\u2022 الفلاش\n</string>
     <string name="prestage_no_vibrator_available">\u2022 الهزاز\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 جهاز استشعار التسارع\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 جهاز استشعار الميل\n</string>
@@ -1172,9 +1183,8 @@
     <string name="prestage_no_front_camera_available">\u2022 الكاميرا الأمامية \n</string>
     <string name="prestage_default_resource_not_available">\u2022 مكون غير معروف\n</string>
     <string name="no_nfc_available">NFC غير متوفر</string>
-    <string name="nfc_not_activated">Please activate NFC and press Back to return to the app.</string>
-    <string name="nfc_facedetection_support">Using NFC and face detection at the same time might lead to performance
-        issues.</string>
+    <string name="nfc_not_activated">الرجاء تفعيل NFC واضغط على زر العودة للرجوع إلى التطبيق.</string>
+    <string name="nfc_facedetection_support">استخدام NFC وميزة التعرف عالوجه في نفس الوقت يمكن أن تسبب         مشاكل بالأداء.</string>
     <!--  -->
     <!-- Stage menu dialog -->
     <string name="stage_dialog_back">رجوع</string>
@@ -1184,6 +1194,7 @@
     <string name="stage_dialog_axes_off">إلغاء تفعيل المحاور</string>
     <string name="stage_dialog_maximize">زيادة الامتداد\n</string>
     <string name="stage_dialog_screenshot">معاينة</string>
+    <string name="stage_dialog_embroidery">التطريز</string>
     <!--  -->
     <!-- Broadcast spinner -->
     <string name="dialog_new_broadcast_message_title">رسالة جديدة</string>
@@ -1211,10 +1222,11 @@
     <string name="category_arduino">الاردوينو</string>
     <string name="category_cast">بث وإرسال</string>
     <string name="category_raspi">راسبيري باي</string>
+    <string name="category_assertions">Testing</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"تحديد موقع الكائن في "</string>
-    <string name="brick_place_at_option_place_visually">Place visually</string>
+    <string name="brick_place_at_option_place_visually">تحديد الموقع بصرياً</string>
     <string name="x_label">"س: "</string>
     <string name="y_label">"ص: "</string>
     <string name="brick_set_x">"تعيين قيمة س الى "</string>
@@ -1276,7 +1288,7 @@
     <string name="brick_set_look_by_index">تبديل الى منظر مُحدد برقم</string>
     <string name="brick_and_wait">والانتظار</string>
     <string name="brick_set_background">تعيين كـ خلفية شاشة</string>
-    <string name="brick_set_background_and_wait">Set background and wait</string>
+    <string name="brick_set_background_and_wait">تعيين الخلفية والانتظار</string>
     <string name="brick_set_background_by_index">تعيين خلفية الشاشة الى عدد</string>
     <string name="brick_when_background">عند تغيير الخلفية إلى</string>
     <string name="brick_set_size_to">تعيين الحجم الى</string>
@@ -1302,12 +1314,12 @@
     <string name="brick_vibration">الإهتزاز لـفترة</string>
     <string name="brick_ask_label">اسأل</string>
     <string name="brick_ask_store">خَزن جواب مكتوب في</string>
-    <string name="brick_ask_default_question">What\'s your name?</string>
+    <string name="brick_ask_default_question">ما هو اسمك؟</string>
     <string name="brick_ask_dialog_hint">"أدخل الإجابة الخاصة بك:"</string>
     <string name="brick_ask_dialog_submit">تقديم الجواب</string>
     <string name="brick_ask_speech_label">اسأل</string>
     <string name="brick_ask_speech_store">و خَزن جواب منطوق في</string>
-    <string name="brick_ask_speech_default_question">What\'s your name?</string>
+    <string name="brick_ask_speech_default_question">ما هو اسمك؟</string>
     <!--  -->
     <!-- Pen bricks -->
     <string name="brick_pen_down">القلم إلى الأسفل</string>
@@ -1328,7 +1340,7 @@
     <string name="brick_speak_and_wait">والانتظار</string>
     <!--  -->
     <!-- Embroidery bricks -->
-    <string name="brick_stitch">Stitch</string>
+    <string name="brick_stitch">حياكة</string>
     <!--  -->
     <!-- Control bricks -->
     <string name="brick_when_started">عند بدء تشغيل البرنامج</string>
@@ -1370,6 +1382,9 @@
     <string name="brick_clone_this">نفسي</string>
     <string name="brick_when_cloned">عندما أبدأ كنسخة</string>
     <string name="brick_delete_this_clone">حذف هذه النسخة</string>
+    <string name="brick_assert_that">Assert:</string>
+    <string name="brick_is_equal_to">equal to expected:</string>
+    <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
     <plurals name="time_plural">
         <item quantity="zero">مرة</item>
         <item quantity="one">مرة</item>
@@ -1399,17 +1414,20 @@
     <string name="brick_replace_item_in_userlist_replace_in_list">استبدال عنصر في القائمة</string>
     <string name="brick_replace_item_in_userlist_item_at_index">في الموقع</string>
     <string name="brick_replace_item_in_userlist_with_value">مع</string>
+    <string name="brick_web_request">Send web request to</string>
+    <string name="brick_web_request_result">and store answer in</string>
+    <string name="brick_web_request_default_value">https://official-joke-api.appspot.com/random_joke</string>
     <!--  -->
     <!-- Default Values -->
-    <string name="default_project_name">برنامجي الأول</string>
+    <string name="default_project_name">مشروعي الأول</string>
     <string name="default_scene_name">المشهد %1$d</string>
     <string name="default_project_background_name">خلفية الشاشة</string>
     <string name="default_project_cloud_name">السُحب</string>
     <string name="default_project_cloud_sprite_name_1">سحابة 1</string>
     <string name="default_project_cloud_sprite_name_2">سحابة 2</string>
-    <string name="default_project_sprites_animal_name">Animal</string>
-    <string name="default_project_sprites_animal_wings_up">Wings up</string>
-    <string name="default_project_sprites_animal_wings_down">Wings down</string>
+    <string name="default_project_sprites_animal_name">حيوان</string>
+    <string name="default_project_sprites_animal_wings_up">الأجنحة للاعلى</string>
+    <string name="default_project_sprites_animal_wings_down">الأجنحة للاسفل</string>
     <string name="default_project_sprites_tweet_1">زقزقة1</string>
     <string name="default_project_sprites_tweet_2">زقزقة2</string>
     <!-- Default ChromeCast Values -->
@@ -1425,9 +1443,9 @@
     <string name="default_cast_project_sprites_tweet_1">زقزقة1</string>
     <string name="default_cast_project_sprites_tweet_2">زقزقة2</string>
     <string name="default_cast_project_var_direction">الاتجاه</string>
-    <string name="default_cast_project_name">برنامجي البث والإرسال الأول</string>
+    <string name="default_cast_project_name">مشروعي الأول لـ كروم كاست</string>
     <!-- Default Drone Values -->
-    <string name="default_drone_project_name">برنامجي الأول \"طائرة بدون طيار\"</string>
+    <string name="default_drone_project_name">مشروعي الأول لـ \"طائرة بدون طيار\"</string>
     <string name="default_drone_project_sprites_takeoff">إقلاع</string>
     <string name="default_drone_project_sprites_flip">قلب افقي-عمودي</string>
     <string name="default_drone_project_sprites_up">الأعلى</string>
@@ -1468,15 +1486,12 @@
     <string name="drone_set_tilt_outdoor">20 درجة </string>
     <string name="drone_set_tilt_max">30 درجة</string>
     <!-- Notification Channel -->
-    <string name="channel_description">%1$s notification channel</string>
+    <string name="channel_description">%1$s قناة الاشعارات</string>
     <!--  -->
     <!-- Notifications -->
     <string name="notification_screenshot_ok">معاينة الصورة المحفوظة</string>
-    <string name="notification_download_project_cancel">Cancel project download</string>
+    <string name="notification_download_project_cancel">الغاء تحميل المشروع</string>
     <string name="notification_reconvert_download_program_cancel">إلغاء اللتحميل/إعادة التحويل البرنامج</string>
-    <string name="notification_copy_title_pending">"نسخ "</string>
-    <string name="notification_copy_pending">جاري النسخ</string>
-    <string name="notification_copy_finished">تم النسخ</string>
     <string name="notification_upload_title_pending">"التحميل "</string>
     <string name="notification_upload_title_finished">"أنظر الى"</string>
     <string name="notification_upload_pending">جاري التحميل </string>
@@ -1488,13 +1503,12 @@
     <string name="notification_download_pending">جاري التنزيل</string>
     <string name="notification_download_finished">تم التنزيل بنجاح</string>
     <string name="notification_title_open">"فتح"</string>
-    <string name="notification_low_battery_with_value">Attention. Battery is low. Current status is %d</string>
+    <string name="notification_low_battery_with_value">تحذير. طاقة البطارية منخفضة. الوضع الحالي %d</string>
     <string name="size_of_project">الحجم:</string>
     <string name="drone_emergency_battery_low">البطارية منخفضة (الهبوط الأوتوماتيكي).</string>
     <string name="drone_emergency_camera">كاميرا واحدة أو أكثر لا تعطي إستجابة.</string>
     <string name="drone_emergency_ultrasound">استشعار الموجات فوق الصوتية لا يستجيب.</string>
-    <string name="drone_emergency_angle">AR.Drone 2.0 Euler angles went too high. Motors shut down to prevent dangerous
-        behavior.</string>
+    <string name="drone_emergency_angle">زاوية أويلر الخاصة بالطائرة بدون طيار ارتفعت كثيراً. تم إيقاف المحركات لتفادي أي سلوك        خطير.</string>
     <string name="drone_emergency_cutout">واحد أو أكثر من المحركات توقفت بسبب البيئة.</string>
     <string name="drone_alert_battery_low">طاقة البطارية منخفض جداً للإنطلاق مرة أخرى.</string>
     <string name="drone_alert_ultrasound">استشعار الموجات فوق الصوتية لا يمكنه تحديد إرتفاع الطائرة بدون طيار.</string>
@@ -1502,10 +1516,11 @@
     <string name="drone_emergency_title">حالات الطوارئ</string>
     <!--  -->
     <!-- Runtime permission messages -->
-    <string name="runtime_permission_general">This app needs the requested permissions to function properly. E.g., the
-Camera brick needs access to the device\'s camera, the \"location\" formula element needs access to the
-device\'s geolocation sensor, and in order to import and export projects from and to the local memory, the app
-needs read and write access to it. You can always change permissions through your device\'s settings.</string>
+    <string name="runtime_permission_general">يحتاج هذا التطبيق الحصول على الإذونات المطلوبة ليعمل بشكل مناسب. مثلاً.,
+ لبّنة الكاميرا البرمجية تحتاج إذن للوصول الى كاميرا الجهاز,
+عنصر المحرر \"الموقع\" يحتاج إذن الوصول الى مستشعر الموقع الجغرافي, 
+ومن أجل استيراد وتصدير المشاريع من والى الذاكرة الخارجية, التطبيق يحتاج إذن القراء والكتابة.
+يمكنك دائماً تغيير الاذونات الممنوحة للتطبيق من إعدادات الجهاز.</string>
     <!-- Error messages -->
     <string name="error_project_upload">حدث خطأ أثناء تحميل البرنامج.</string>
     <string name="error_project_download">حدث خطأ أثناء تنزيل البرنامج.</string>
@@ -1514,12 +1529,12 @@ needs read and write access to it. You can always change permissions through you
     <string name="error_load_project">حدث خطأ أثناء تحميل البرنامج.</string>
     <string name="error_screenshot_failed">حدث خطأ أثناء حفظ صورة المعاينة.</string>
     <string name="error_internet_connection">حدث خطأ غير معروف. تحقق من اتصال الإنترنت الخاص بك.</string>
-    <string name="error_project_compatibility">The project is not compatible with this version of the app.</string>
+    <string name="error_project_compatibility">المشروع غير متكامل مع هذا الإصدار من البرنامج.</string>
     <string name="error_outdated_version">إصدار \"البوكت كوود\" قديم جداً. قم بالتحديث الآن؟</string>
-    <string name="error_upload_project_with_default_name">You cannot upload a project with the name \"My first project\".
-        Please rename the project.</string>
-    <string name="error_upload_default_project">You cannot upload an unmodified example project. Please
-        change something and try again.</string>
+    <string name="error_upload_project_with_default_name">لا يمكنك رفع مشروع مُسمى \"مشروعي الأول\".
+        من فضلك قم بإعادة تسمية المشروع.</string>
+    <string name="error_upload_default_project">لا يمكنك رفع المشروع الإفتراضي. فضلاً
+        قم بتغيير شيئاً ما ثم حاول مجدداً.</string>
     <string name="error_adding_brick">حدث خطأ أثناء إضافة هذه اللبّنة البرمجية</string>
     <string name="error_copying_brick">حدث خطأ أثناء نسخ هذه اللبّنة البرمجية</string>
     <string name="error_no_drone_connected_title">لا يمكن العثور على الطائرة بدون طيار 2.0.</string>
@@ -1535,15 +1550,15 @@ needs read and write access to it. You can always change permissions through you
     <string name="error_drone_wrong_platform_title">لا يوجد دعم لطائرة بدون طيار2.0.</string>
     <string name="error_drone_wrong_platform">لا يمكننا تشغيل مشروع الطائرة بدون طيار 2.0 على الجهاز الخاص بك.</string>
     <string name="error_rename_incompatible_project">إعادة تسمية مشروع \"غير متوافق\" هو غير ممكن.</string>
+    <string name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
     <string name="error_unknown_error">حدث خطأ غير معروف.</string>
     <string name="error_gps_not_available">خطأ، نظام تحديد المواقع غير متاح.</string>
     <string name="error_set_description">حصل خطأ أثناء حفظ الإجراء.</string>
     <string name="error_no_whatsapp">تطبيق الواتساب غير مُثبت</string>
-    <string name="error_unsupported_bricks_chromecast">This script can\'t be added  to a Chromecast
-        project.</string>
+    <string name="error_unsupported_bricks_chromecast">هذا النص البرمجي لا يمكن إضافته للمشروع         كروم كاست.</string>
     <!--  -->
     <!-- Bluetooth Connection Strings -->
-    <string name="notification_blueth_err">Can\'t enable Bluetooth, please try turning it off and on again.</string>
+    <string name="notification_blueth_err">لا يمكن تفعيل البلوتوث, فضلاً قم بإطفائه وتشغيله من جديد.</string>
     <string name="title_paired_devices">الأجهزة المقترنة</string>
     <string name="title_other_devices">أجهزة جديدة</string>
     <string name="searching_devices">جاري البحث عن الأجهزة&#8230;</string>
@@ -1574,7 +1589,7 @@ needs read and write access to it. You can always change permissions through you
     <!-- Raspi Settings -->
     <string name="raspi_settings_title_name">إعدادات راسبيري باي</string>
     <string name="raspi_settings_gpio_version">إصدار مدخل الدخل/الخرج</string>
-    <string name="error_connecting_to">Error: Could not connect to %s : %d</string>
+    <string name="error_connecting_to">خطأ: لم يتم الاتصال بـ %s : %d</string>
     <!--  -->
     <!-- Lego Mindstorms Strings -->
     <string name="nxt_brick_motor_move">تعيين محرك NXT</string>
@@ -1613,7 +1628,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="lego_port_3">المنفذ 3</string>
     <string name="lego_port_4">المنفذ 4</string>
     <string name="lego_sensor_config_dont_show_again">عدم إظهار هذه الرسالة مرة أخرى.</string>
-    <string name="lego_sensor_port_config_dialog_title">Choose a port for connecting to %1$s.</string>
+    <string name="lego_sensor_port_config_dialog_title">اختر منفذ للإتصال بـ %1$s.</string>
     <string name="lego_ev3_sensor_config_info_title">ضبط اعدادات جهاز استشعار(EV3)</string>
     <string name="preference_disable_ev3_info_dialog_description">إعدادات برنامج EV3 المُحدد لن تُعرض عند فتح البرنامج.</string>
     <string name="preference_title_mindstorms_ev3_sensors_description">مسح أجهزة استشعار (EV3) للمنافذ هو برنامج مُحدد يمكن تكوينه فقط للبرامج المفتوحة!</string>
@@ -1710,7 +1725,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_jumping_sumo_move_backward">تحريك Jumping Sumo نحو الخلف</string>
     <string name="brick_jumping_sumo_animation">حركات Jumping Sumo</string>
     <string name="brick_jumping_sumo_no_sound">Jumping Sumo بدون صوت</string>
-    <string name="brick_jumping_sumo_sound">الصوت</string>
     <string name="brick_jumping_sumo_jump_long">قفزة طويلة لـ Jumping Sumo</string>
     <string name="brick_jumping_sumo_jump_high">قفزة عالية لـ Jumping Sumo</string>
     <string name="brick_jumping_sumo_rotate_left">استدارة Jumping Sumo نحو اليسار</string>
@@ -1720,7 +1734,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_jumping_sumo_taking_picture">التقاط صورة من Jumping Sumo</string>
     <!--  -->
     <!-- defaultJumpingSumoValues -->
-    <string name="default_jumping_sumo_project_name">برنامجي الأول مع Jumping Sumo</string>
+    <string name="default_jumping_sumo_project_name">مشروعي الأول لـ Jumping Sumo</string>
     <string name="add_look_jumping_sumo_video">فيديو Jumping Sumo</string>
     <string name="default_jumping_sumo_project_sprites_forward">الأمام</string>
     <string name="default_jumping_sumo_project_sprites_backward">الى الخلف</string>
@@ -1797,9 +1811,9 @@ needs read and write access to it. You can always change permissions through you
     <string name="phiro_sensor_bottom_left">الإستشعار السفلي الأيسر</string>
     <string name="phiro_sensor_bottom_right">الإستشعار السفلي الأيمن</string>
     <!--  -->
-    <string name="color_red">red</string>
-    <string name="color_green">green</string>
-    <string name="color_blue">blue</string>
+    <string name="color_red">احمر</string>
+    <string name="color_green">أخضر</string>
+    <string name="color_blue">ازرق</string>
     <string name="color_preview">معاينة اللون</string>
     <!-- -->
     <!-- Formula editor strings -->
@@ -1814,7 +1828,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_nothing_selected">تعريف قيمة الإدخال</string>
     <string name="formula_editor_parse_fail_formula_too_long">الصيغة طويلة جداً!</string>
     <string name="formula_editor_choose_object_variable">خصائص لهذا الكائن</string>
-    <string name="formula_editor_existing_variable">اسم قيد الاستخدام مسبقاً!</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
     <string name="formula_editor_function_sin">جيب الزاوية</string>
@@ -1866,6 +1879,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_letter_parameter">(1، \'مرحباً بالعالم\')</string>
     <string name="formula_editor_function_join">الانضمام إلى</string>
     <string name="formula_editor_function_join_parameter">(\'مرحباً\'، \'بالعالم\')</string>
+    <string name="formula_editor_function_regex">regular expression</string>
+    <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">دبوس اردوينو الرقمي</string>
     <string name="formula_editor_function_arduino_read_pin_value_analog">دبوس أردوينو التناظري</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital">دبوس راسبيري باي</string>
@@ -1937,10 +1952,10 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_sensor_lego_ev3_sensor_hitechnic_color">EV3 لون هايتكنيك</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_c">EV3_NXT درجة حرارة مئوية</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_f">EV3_NXT درجة حرارة فهرنهايت</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light">EV3 NXT light</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light_active">EV3 NXT light active</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_sound">EV3 NXT sound</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_ultrasonic">EV3 NXT ultrasonic</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light">EV3 NXT ضوء</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light_active">EV3 NXT ضوء نشط</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_sound">EV3 NXT صوت</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_ultrasonic">EV3 NXT فوق صوتي</string>
     <string name="formula_editor_sensor_gamepad_a_pressed">زر لوح تحكم الألعاب a تم النقر عليه</string>
     <string name="formula_editor_sensor_gamepad_b_pressed">زر لوح تحكم الألعاب b تم النقر عليه</string>
     <string name="formula_editor_sensor_gamepad_up_pressed">زر لوح تحكم الألعاب للأعلى تم النقر عليه</string>
@@ -2042,24 +2057,17 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_intro_summary_data">المتغيرات والقوائم المُستخدمة في          برنامجك موجودة هنا.\n يمكنك ببساطة إدراجها في صيغتك, أو إضافة واحدة جديدة.</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
-    <string name="add_text">إضافة نص</string>
-    <string name="text_hint">نص اللّبنة البرمجية</string>
-    <string name="add_variable">إضافة متغير</string>
-    <string name="add_line_break">إضافة فاصل أسطر</string>
-    <string name="variable_hint">اسم المتغير</string>
     <string name="brick_show_variable">إظهار المتغير</string>
     <string name="brick_hide_variable">إخفاء المتغير</string>
     <string name="brick_show_variable_position">في </string>
-    <string name="brick_show_variable_size">size:</string>
-    <string name="brick_show_variable_color">color:</string>
-    <string name="brick_show_variable_aligned">aligned</string>
-    <string name="brick_show_variable_aligned_centered">centered</string>
+    <string name="brick_show_variable_size">الحجم:</string>
+    <string name="brick_show_variable_color">لون:</string>
+    <string name="brick_show_variable_aligned">محاذٍ</string>
+    <string name="brick_show_variable_aligned_centered">توسيط</string>
     <string name="brick_show_variable_aligned_left">يسار</string>
     <string name="brick_show_variable_aligned_right">يمين</string>
+    <string name="brick_context_dialog_pick_color">Pick color</string>
     <!-- -->
-    <!-- User bricks strings -->
-    <string name="new_user_brick_variable">متغير</string>
-    <!--  -->
     <!-- Camera related strings -->
     <string name="brick_video">تشغيل الكاميرا</string>
     <string name="video_brick_camera_on">تشغيل</string>
@@ -2085,8 +2093,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="cast_ready_to_cast">جاهز للبث والإرسال الى</string>
     <string name="cast_enable_cast_feature">ميزات البث والإرسال مُعطلة. الرجاء تفعيل ميزات البث والإرسال في الإعدادات.</string>
     <string name="cast_searching_for_cast_devices">البحث عن أجهزة بث و إرسال</string>
-    <string name="cast_trouble_finding_devices_tip">.\nDon\'t see your device? Try turning your device\'s Wifi off
-        and on.</string>
+    <string name="cast_trouble_finding_devices_tip">.\n لم يتم عرض جهازك؟ جرب ايقاف الوايفاي في جهازك         وإعادة تشغيله.</string>
     <string name="cast_connection_timout_msg">انتهاء مهلة التواصل مع شبكة الاتصال. يُرجى المحاولة مرّة أخرى.</string>
     <string name="cast_screen_pause_text">مُتوقف</string>
     <!-- -->
@@ -2103,14 +2110,13 @@ needs read and write access to it. You can always change permissions through you
     <string name="preference_title_enable_hints">إظهار التلميحات </string>
     <string name="hint_category">تم فرز كل اللبّنات البرمجية ضمن فئات. اختر الفئة التي تريدها.</string>
     <string name="hint_bricks">لإضافة لبّنة برمجية إلى النص البرمجي الخاص بك فقط انقر على اللبّنة البرمجية التي تريد استخدامها.</string>
-    <string name="hint_scripts">The script defines the behavior of your actor or object. To add bricks to the script,
-        tap the \"+\" symbol.</string>
-    <string name="hint_looks">Here you can find the different appearances of your actor or object. To add a new look,
-        tap the \"+\" symbol.</string>
-    <string name="hint_sounds">Here you can add new sounds to your actor or object. Remember using a brick from the
-        sound category.</string>
-    <string name="hint_objects">Your program consists of different actors and objects that can interact with each other.
-        To add a new actor or object, tap the \"+\" symbol.</string>
+    <string name="hint_scripts">النص البرمجي يحدد سلوك العنصر الخاص بك. لإضافة لّبنات برمجية إلى النص البرمجي,
+         انقر على الرمز \"+\".</string>
+    <string name="hint_looks">هنا يمكنك أن تجد المظاهر المختلفة للعنصر الخاص بك. لإضافة منظر جديد,
+         أنقر على الرمز \"+\".</string>
+    <string name="hint_sounds">هنا يمكنك إضافة ملفات صوتية جديدة لـ العنصر الخاص بك. تذكر استخدام لبّنة برمجية من         فئة الصوت.</string>
+    <string name="hint_objects">يتكون البرنامج الخاص بك من كائنات مختلفة يمكن لها أن تتفاعل مع بعضها البعض.
+         لإضافة كائن جديد أنقر على الرمز \"+\".</string>
     <!--  -->
     <!-- Crash report dialog -->
     <!--  -->

@@ -261,12 +261,14 @@
     <string name="name_empty">Please enter a text</string>
     <!-- Recycler View -->
     <string name="am_empty_list">There are no items in this list yet. Please add some first.</string>
+    <string name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
     <string name="am_backpack">묶음</string>
     <string name="am_unpack">풀기</string>
     <string name="am_copy">복사하기</string>
     <string name="am_delete">삭제</string>
     <string name="am_rename">이름 바꾸기</string>
     <string name="am_convert">변환</string>
+    <string name="am_merge">Merge</string>
     <string name="dialog_confirm_delete">You can\'t undo this!</string>
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
@@ -274,6 +276,7 @@
     <string name="copy">복사하기</string>
     <string name="delete">삭제</string>
     <string name="rename">이름 바꾸기</string>
+    <string name="merge">Merge</string>
     <string name="show_details">세부 정보 표시</string>
     <string name="hide_details">세부 사항 숨기기</string>
     <!-- Action Mode Titles -->
@@ -292,6 +295,9 @@
     </plurals>
     <plurals name="am_convert_projects_title">
         <item quantity="other">Convert %d projects</item>
+    </plurals>
+    <plurals name="am_merge_projects_title">
+        <item quantity="other">Merge %d projects</item>
     </plurals>
     <!-- Scene Action Mode Titles -->
     <plurals name="am_pack_scenes_title">
@@ -427,6 +433,7 @@
     <string name="data_label">이름</string>
     <!-- Details -->
     <string name="project_details">Last access: %s, size: %s</string>
+    <string name="last_access_today">today, %s</string>
     <string name="scene_details">Actors and objects: %d, looks: %d, sounds: %d</string>
     <string name="sprite_details">Bricks: %d, looks: %d, sounds: %d</string>
     <string name="look_details">Resolution: %s, size: %s</string>
@@ -783,7 +790,7 @@
     <string name="show_password">비밀 번호 표시</string>
     <string name="sign_in_error">Something went wrong during sign in.</string>
     <string name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>
-    <string name="error_facebook_session_expired">Session expired, please log in.</string>
+    <string name="error_session_expired">Session expired, please log in.</string>
     <string name="sign_in_with_facebook">Sign in with Facebook</string>
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="error_register_empty_username">Empty username</string>
@@ -816,7 +823,6 @@
     <string name="prestage_resource_not_available_text">Unfortunately this project does not work on your device.
         The following components are unavailable:\n\n</string>
     <string name="prestage_resource_in_use_text">다른 장치가 점핑 스모와 연결되어 있습니다. 다른 기기가 드론과 연결되어 있는 것은 아닌지 확인하세요.</string>
-    <string name="prestage_no_flash_available">\u2022 플래시\n</string>
     <string name="prestage_no_vibrator_available">\u2022 진동\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 가속센서\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 기울기센서\n</string>
@@ -841,6 +847,7 @@
     <string name="stage_dialog_axes_off">축 감추기</string>
     <string name="stage_dialog_maximize">최대화</string>
     <string name="stage_dialog_screenshot">캡처하기</string>
+    <string name="stage_dialog_embroidery">Embroidery</string>
     <!--  -->
     <!-- Broadcast spinner -->
     <string name="dialog_new_broadcast_message_title">새 신호</string>
@@ -868,6 +875,7 @@
     <string name="category_arduino">아두이노</string>
     <string name="category_cast">캐스트</string>
     <string name="category_raspi">Raspberry Pi</string>
+    <string name="category_assertions">Testing</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"위치 설정"</string>
@@ -1012,6 +1020,9 @@
     <string name="brick_clone_this">스스로</string>
     <string name="brick_when_cloned">복사로 시작할 때</string>
     <string name="brick_delete_this_clone">이 형태를 삭제</string>
+    <string name="brick_assert_that">Assert:</string>
+    <string name="brick_is_equal_to">equal to expected:</string>
+    <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
     <plurals name="time_plural">
         <item quantity="other">번</item>
     </plurals>
@@ -1036,6 +1047,9 @@
     <string name="brick_replace_item_in_userlist_replace_in_list">리스트의 항목 바꾸기</string>
     <string name="brick_replace_item_in_userlist_item_at_index">위치에서</string>
     <string name="brick_replace_item_in_userlist_with_value">으로</string>
+    <string name="brick_web_request">Send web request to</string>
+    <string name="brick_web_request_result">and store answer in</string>
+    <string name="brick_web_request_default_value">https://official-joke-api.appspot.com/random_joke</string>
     <!--  -->
     <!-- Default Values -->
     <string name="default_project_name">내 첫 프로그램</string>
@@ -1111,9 +1125,6 @@
     <string name="notification_screenshot_ok">캡쳐 하기 이미지 저장</string>
     <string name="notification_download_project_cancel">Cancel project download</string>
     <string name="notification_reconvert_download_program_cancel">프로그램 다운로드/변환 취소</string>
-    <string name="notification_copy_title_pending">"복사 중"</string>
-    <string name="notification_copy_pending">복사 진행 중</string>
-    <string name="notification_copy_finished">복사 완료</string>
     <string name="notification_upload_title_pending">"업로드 중"</string>
     <string name="notification_upload_title_finished">"방향 보기"</string>
     <string name="notification_upload_pending">업로드가 진행중</string>
@@ -1172,6 +1183,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="error_drone_wrong_platform_title">AR.Drone 2.0을 지원하지 않습니다.</string>
     <string name="error_drone_wrong_platform">이 장치에서 AR.Drone 2.0 프로그램을 실행할 수 없습니다.</string>
     <string name="error_rename_incompatible_project">호환 되지 않는 프로그램의 이름을 바꿀 수 없습니다.</string>
+    <string name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
     <string name="error_unknown_error">알 수 없는 오류가 발생했습니다.</string>
     <string name="error_gps_not_available">Geolocation data is not available.</string>
     <string name="error_set_description">저장하는 중에 오류가 발생했습니다.</string>
@@ -1347,7 +1359,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_jumping_sumo_move_backward">점핑 스모 뒤로 움직이기</string>
     <string name="brick_jumping_sumo_animation">점핑 스모 애니메이션</string>
     <string name="brick_jumping_sumo_no_sound">점핑 스모 소리 멈추기</string>
-    <string name="brick_jumping_sumo_sound">소리</string>
     <string name="brick_jumping_sumo_jump_long">점핑 스모 멀리 점프하기</string>
     <string name="brick_jumping_sumo_jump_high">점핑 스모 높이 점프하기</string>
     <string name="brick_jumping_sumo_rotate_left">점핑 스모 왼쪽으로 회전하기</string>
@@ -1451,7 +1462,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_nothing_selected">블록의 입력 값을 정의</string>
     <string name="formula_editor_parse_fail_formula_too_long">수식이 너무 깁니다! 해결하거나 취소하려면 다시 누르십시오.</string>
     <string name="formula_editor_choose_object_variable">이 오브젝트의 속성</string>
-    <string name="formula_editor_existing_variable">이미 사용중인 이름입니다!</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
     <string name="formula_editor_function_sin">sinus</string>
@@ -1503,6 +1513,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_letter_parameter">(1,\' 안녕하세요 \')</string>
     <string name="formula_editor_function_join">결합</string>
     <string name="formula_editor_function_join_parameter">(\'hello\',\' world\')</string>
+    <string name="formula_editor_function_regex">regular expression</string>
+    <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">아두이노_디지털_핀</string>
     <string name="formula_editor_function_arduino_read_pin_value_analog">아두이노_아날로그_핀</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry_pi_핀번호</string>
@@ -1679,11 +1691,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_intro_summary_data">변수 및 프로그램에서 사용되는 리스트를 보실 수 있습니다.  \nYou 단순히 수식에 삽입하거나 새로 추가할 수 있습니다.</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
-    <string name="add_text">텍스트 추가</string>
-    <string name="text_hint">블록 텍스트</string>
-    <string name="add_variable">변수 추가</string>
-    <string name="add_line_break">줄 바꿈 추가</string>
-    <string name="variable_hint">변수 이름</string>
     <string name="brick_show_variable">변수 보이기</string>
     <string name="brick_hide_variable">변수 숨기기</string>
     <string name="brick_show_variable_position"></string>
@@ -1693,10 +1700,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_show_variable_aligned_centered">centered</string>
     <string name="brick_show_variable_aligned_left">왼쪽</string>
     <string name="brick_show_variable_aligned_right">오른쪽</string>
+    <string name="brick_context_dialog_pick_color">Pick color</string>
     <!-- -->
-    <!-- User bricks strings -->
-    <string name="new_user_brick_variable">변수</string>
-    <!--  -->
     <!-- Camera related strings -->
     <string name="brick_video">카메라 켜기</string>
     <string name="video_brick_camera_on">켜기</string>

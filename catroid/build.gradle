@@ -185,9 +185,9 @@ android {
         targetSdkVersion 26
         applicationId appId
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-        versionCode 62
+        versionCode 63
         println "VersionCode is $versionCode"
-        versionName "0.9.61"
+        versionName "0.9.62"
         println "VersionName is $versionName"
         buildConfigField "String", "GIT_COMMIT_INFO", "\"${getGitCommitInfo()}\""
         buildConfigField "String", "MAIN_URL_HTTPS", (project.hasProperty('useWebTest') ? '"https://web-test.catrob.at"' : '"https://share.catrob.at"')
@@ -279,7 +279,7 @@ android {
         }
 
         release {
-            buildConfigField "boolean", "FEATURE_EMBROIDERY_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_EMBROIDERY_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_LEGO_EV3_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_PHIRO_ENABLED", "true"

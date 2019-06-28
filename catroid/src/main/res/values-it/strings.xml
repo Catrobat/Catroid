@@ -273,12 +273,14 @@
     <string name="name_empty">Inserire un testo</string>
     <!-- Recycler View -->
     <string name="am_empty_list">In questa lista non ci sono ancora elementi. Aggiungine qualcuno per prima cosa.</string>
+    <string name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
     <string name="am_backpack">Impacchetta</string>
     <string name="am_unpack">Scompatta</string>
     <string name="am_copy">Copiare</string>
     <string name="am_delete">Eliminare</string>
     <string name="am_rename">Rinomina</string>
     <string name="am_convert">Converti</string>
+    <string name="am_merge">Merge</string>
     <string name="dialog_confirm_delete">Non è possibile annullarlo!</string>
     <string name="list_headline_sprites">Attori ed oggetti</string>
     <!-- Options Menu Options -->
@@ -286,6 +288,7 @@
     <string name="copy">Copiare</string>
     <string name="delete">Eliminare</string>
     <string name="rename">Rinomina</string>
+    <string name="merge">Merge</string>
     <string name="show_details">Visualizza i dettagli</string>
     <string name="hide_details">Nascondi i dettagli</string>
     <!-- Action Mode Titles -->
@@ -309,6 +312,10 @@
     <plurals name="am_convert_projects_title">
         <item quantity="one">Converti %d progetto</item>
         <item quantity="other">Converti %d progetti</item>
+    </plurals>
+    <plurals name="am_merge_projects_title">
+        <item quantity="one">Merge %d project</item>
+        <item quantity="other">Merge %d projects</item>
     </plurals>
     <!-- Scene Action Mode Titles -->
     <plurals name="am_pack_scenes_title">
@@ -481,6 +488,7 @@
     <string name="data_label">Nome</string>
     <!-- Details -->
     <string name="project_details">Ultimo accesso: %s, dimensione: %s</string>
+    <string name="last_access_today">today, %s</string>
     <string name="scene_details">Oggetti: %d, aspetti: %d, suoni: %d</string>
     <string name="sprite_details">Mattoncini: %d, aspetti: %d, suoni: %d</string>
     <string name="look_details">Misura: %s, dimensione: %s</string>
@@ -857,7 +865,7 @@
     <string name="show_password">Mostra Password</string>
     <string name="sign_in_error">Qualcosa è andato storto durante l\'accesso.</string>
     <string name="error_google_plus_sign_in">Errore di login su Google. Stato: %s</string>
-    <string name="error_facebook_session_expired">Sessione scaduta, effettua nuovamente il login.</string>
+    <string name="error_session_expired">Session expired, please log in.</string>
     <string name="sign_in_with_facebook">Accedi con Facebook</string>
     <string name="sign_in_with_google">Accedi con Google</string>
     <string name="error_register_empty_username">Nome utente vuoto</string>
@@ -891,7 +899,6 @@
         Non sono disponibili i seguenti componenti:\n\n</string>
     <string name="prestage_resource_in_use_text">Un altro dispositivo è connesso al Jumping Sumo. Assicurati
     di essere il solo a controllare il drone.</string>
-    <string name="prestage_no_flash_available">\u2022 Flash\n</string>
     <string name="prestage_no_vibrator_available">\u2022 Vibrazione\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 Sensore di Accelerazione\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 Sensore di Inclinazione\n</string>
@@ -916,6 +923,7 @@
     <string name="stage_dialog_axes_off">Disattiva assi</string>
     <string name="stage_dialog_maximize">Massimizzare/\nStirare</string>
     <string name="stage_dialog_screenshot">Anteprima</string>
+    <string name="stage_dialog_embroidery">Ricamo</string>
     <!--  -->
     <!-- Broadcast spinner -->
     <string name="dialog_new_broadcast_message_title">Nuovo messaggio</string>
@@ -943,6 +951,7 @@
     <string name="category_arduino">Arduino</string>
     <string name="category_cast">Trasmetti</string>
     <string name="category_raspi">Raspberry Pi</string>
+    <string name="category_assertions">Testing</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"Posiziona a "</string>
@@ -1090,6 +1099,9 @@
     <string name="brick_clone_this">me stesso</string>
     <string name="brick_when_cloned">Quando vengo clonato</string>
     <string name="brick_delete_this_clone">Elimina questo clone</string>
+    <string name="brick_assert_that">Assert:</string>
+    <string name="brick_is_equal_to">equal to expected:</string>
+    <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
     <plurals name="time_plural">
         <item quantity="one">volta</item>
         <item quantity="other">volte</item>
@@ -1115,6 +1127,9 @@
     <string name="brick_replace_item_in_userlist_replace_in_list">Sostituisci l\'elemento nella lista</string>
     <string name="brick_replace_item_in_userlist_item_at_index">alla posizione</string>
     <string name="brick_replace_item_in_userlist_with_value">con</string>
+    <string name="brick_web_request">Send web request to</string>
+    <string name="brick_web_request_result">and store answer in</string>
+    <string name="brick_web_request_default_value">https://official-joke-api.appspot.com/random_joke</string>
     <!--  -->
     <!-- Default Values -->
     <string name="default_project_name">Il mio primo programma</string>
@@ -1190,9 +1205,6 @@
     <string name="notification_screenshot_ok">Anteprima immagine salvata</string>
     <string name="notification_download_project_cancel">Download del programma annullato</string>
     <string name="notification_reconvert_download_program_cancel">Annullato il download/conversione del programma</string>
-    <string name="notification_copy_title_pending">"Copia in corso di "</string>
-    <string name="notification_copy_pending">Copia in corso</string>
-    <string name="notification_copy_finished">Copia completata</string>
     <string name="notification_upload_title_pending">"Caricamento "</string>
     <string name="notification_upload_title_finished">"Notifica da "</string>
     <string name="notification_upload_pending">Caricamento in corso</string>
@@ -1251,6 +1263,7 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
     <string name="error_drone_wrong_platform_title">Non c\'è supporto ad AR.Drone 2.0.</string>
     <string name="error_drone_wrong_platform">Impossibile eseguire il progetto AR.Drone 2.0 sul tuo dispositivo.</string>
     <string name="error_rename_incompatible_project">Non è possibile rinominare un progetto non compatibile.</string>
+    <string name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
     <string name="error_unknown_error">Si è verificato un errore sconosciuto.</string>
     <string name="error_gps_not_available">Errore, GPS non disponibile.</string>
     <string name="error_set_description">Errore durante il salvataggio della nuova descrizione.</string>
@@ -1426,7 +1439,6 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
     <string name="brick_jumping_sumo_move_backward">Muovi indietro Jumping Sumo</string>
     <string name="brick_jumping_sumo_animation">Animazioni Jumping Sumo</string>
     <string name="brick_jumping_sumo_no_sound">Nessun suono di Jumping Sumo</string>
-    <string name="brick_jumping_sumo_sound">Suono</string>
     <string name="brick_jumping_sumo_jump_long">Salto lungo Jumping Sumo</string>
     <string name="brick_jumping_sumo_jump_high">Salto alto Jumping Sumo</string>
     <string name="brick_jumping_sumo_rotate_left">Ruota a sinistra Jumping Sumo</string>
@@ -1530,7 +1542,6 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
     <string name="formula_nothing_selected">Definire il valore di input</string>
     <string name="formula_editor_parse_fail_formula_too_long">Formula troppo lunga!</string>
     <string name="formula_editor_choose_object_variable">Proprietà di questo oggetto</string>
-    <string name="formula_editor_existing_variable">Nome già in uso!</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
     <string name="formula_editor_function_sin">seno</string>
@@ -1582,6 +1593,8 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
     <string name="formula_editor_function_letter_parameter">(1,\'ciao mondo\')</string>
     <string name="formula_editor_function_join">concatena</string>
     <string name="formula_editor_function_join_parameter">(\'ciao\', \'mondo\')</string>
+    <string name="formula_editor_function_regex">regular expression</string>
+    <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_pin_digitale</string>
     <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_pin_analogico</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry_pi_pin</string>
@@ -1769,11 +1782,6 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
     <string name="formula_editor_intro_summary_data">Variabili e liste usate nel tuo         programma possono essere trovate qui..\nPuoi inserirle in qualsiasi tua formula o crearne di nuove.</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
-    <string name="add_text">Aggiungi testo</string>
-    <string name="text_hint">Testo del Mattoncino</string>
-    <string name="add_variable">Aggiungi variabile</string>
-    <string name="add_line_break">Aggiungi interruzione di linea</string>
-    <string name="variable_hint">Nome variabile</string>
     <string name="brick_show_variable">Visualizza la variabile</string>
     <string name="brick_hide_variable">Nascondi variabile</string>
     <string name="brick_show_variable_position">a </string>
@@ -1783,10 +1791,8 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
     <string name="brick_show_variable_aligned_centered">centrato</string>
     <string name="brick_show_variable_aligned_left">sinistra</string>
     <string name="brick_show_variable_aligned_right">destra</string>
+    <string name="brick_context_dialog_pick_color">Pick color</string>
     <!-- -->
-    <!-- User bricks strings -->
-    <string name="new_user_brick_variable">Variabile</string>
-    <!--  -->
     <!-- Camera related strings -->
     <string name="brick_video">Gira la videocamera</string>
     <string name="video_brick_camera_on">acceso</string>
