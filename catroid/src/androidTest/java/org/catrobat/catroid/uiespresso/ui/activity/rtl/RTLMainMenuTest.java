@@ -27,12 +27,10 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.matcher.PreferenceMatchers;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
@@ -46,34 +44,27 @@ import org.junit.runner.RunWith;
 
 import java.util.Locale;
 
-import static android.support.test.espresso.Espresso.onData;
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
-
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG;
 import static org.catrobat.catroid.uiespresso.util.UiTestUtils.getResources;
-import static org.hamcrest.Matchers.hasToString;
-import static org.hamcrest.core.StringStartsWith.startsWith;
 
 @RunWith(AndroidJUnit4.class)
-public class LanguageSwitchMainMenuTest {
+public class RTLMainMenuTest {
 
 	@Rule
-	public DontGenerateDefaultProjectActivityInstrumentationRule<SettingsActivity> baseActivityTestRule = new
-			DontGenerateDefaultProjectActivityInstrumentationRule<>(SettingsActivity.class);
+	public DontGenerateDefaultProjectActivityInstrumentationRule<MainMenuActivity> baseActivityTestRule = new
+			DontGenerateDefaultProjectActivityInstrumentationRule<>(MainMenuActivity.class);
 
 	private boolean bufferedPrivacyPolicyPreferenceSetting;
 	private boolean bufferedImportFromExternalStoragePreferenceSetting;
 
-	private static final Locale ARABICLOCALE = new Locale("ar");
-	private static final Locale DEUTSCHLOCALE = Locale.GERMAN;
+	private static final Locale ARABIC_LOCALE = new Locale("ar");
+	private static final Locale GERMAN_LOCALE = Locale.GERMAN;
+
 	private Configuration conf = getResources().getConfiguration();
 
 	@Before
@@ -90,8 +81,8 @@ public class LanguageSwitchMainMenuTest {
 		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
 				.edit()
 				.putBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, true)
+				.putBoolean(SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG, false)
 				.commit();
-		baseActivityTestRule.launchActivity(null);
 	}
 
 	@After
@@ -101,45 +92,28 @@ public class LanguageSwitchMainMenuTest {
 				.putBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, bufferedPrivacyPolicyPreferenceSetting)
 				.putBoolean(SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG, bufferedImportFromExternalStoragePreferenceSetting)
 				.commit();
-
 		SettingsFragment.removeLanguageSharedPreference(InstrumentationRegistry.getTargetContext());
 	}
 
-	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
 	@Test
-	public void testChangeLanguageToArabic() {
-		onData(PreferenceMatchers.withTitle(R.string.preference_title_language))
-				.perform(click());
-		onData(hasToString(startsWith(ARABICLOCALE.getDisplayName(ARABICLOCALE))))
-				.perform(click());
+	public void testSetLanguageToArabic() {
+		SettingsFragment.setLanguageSharedPreference(InstrumentationRegistry.getTargetContext(), "ar");
+		baseActivityTestRule.launchActivity(null);
 
-		assertEquals(Locale.getDefault().getDisplayLanguage(), ARABICLOCALE.getDisplayLanguage());
+		assertEquals(Locale.getDefault().getDisplayLanguage(), ARABIC_LOCALE.getDisplayLanguage());
 		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 		assertEquals(View.LAYOUT_DIRECTION_RTL, conf.getLayoutDirection());
-
-		onView(withText(R.string.main_menu_continue))
-				.check(matches(isDisplayed()));
-		onView(withText(R.string.main_menu_new))
-				.check(matches(isDisplayed()));
-		onView(withText(R.string.main_menu_programs))
-				.check(matches(isDisplayed()));
 	}
 
-	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
 	@Test
-	public void testChangeLanguageToDeutsch() {
-		onData(PreferenceMatchers.withTitle(R.string.preference_title_language))
-				.perform(click());
-		onData(hasToString(startsWith(DEUTSCHLOCALE.getDisplayName(DEUTSCHLOCALE))))
-				.perform(click());
+	public void testSetLanguageToGerman() {
+		SettingsFragment.setLanguageSharedPreference(InstrumentationRegistry.getTargetContext(), "de");
+		baseActivityTestRule.launchActivity(null);
 
-		assertEquals(Locale.getDefault().getDisplayLanguage(), DEUTSCHLOCALE
-				.getDisplayLanguage());
-		onView(withText(R.string.main_menu_continue))
-				.check(matches(isDisplayed()));
-		onView(withText(R.string.main_menu_new))
-				.check(matches(isDisplayed()));
-		onView(withText(R.string.main_menu_programs))
-				.check(matches(isDisplayed()));
+		assertEquals(Locale.getDefault().getDisplayLanguage(), GERMAN_LOCALE.getDisplayLanguage());
+		assertFalse(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
+		assertEquals(View.LAYOUT_DIRECTION_LTR, conf.getLayoutDirection());
 	}
 }

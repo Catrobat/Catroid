@@ -28,14 +28,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 @RunWith(Categories.class)
-@Categories.ExcludeCategory({Cat.SettingsAndPermissions.class,
-		Cat.Device.class,
-		Cat.Educational.class,
-		Cat.SensorBox.class,
-		Cat.Quarantine.class,
-		Cat.RTLTests.class,
-		Cat.PocketMusicUiTests.class})
+@Categories.IncludeCategory({Cat.RTLTests.class})
 
 @Suite.SuiteClasses(AllEspressoTestsSuite.class)
-public class PullRequestTriggerSuite {
+public class RTLTestSuite {
 }
