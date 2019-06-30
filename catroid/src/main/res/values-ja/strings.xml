@@ -261,12 +261,14 @@
     <string name="name_empty">Please enter a text</string>
     <!-- Recycler View -->
     <string name="am_empty_list">There are no items in this list yet. Please add some first.</string>
+    <string name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
     <string name="am_backpack">Pack</string>
     <string name="am_unpack">解凍</string>
     <string name="am_copy">コピー</string>
     <string name="am_delete">削除</string>
     <string name="am_rename">名前の変更</string>
     <string name="am_convert">変換</string>
+    <string name="am_merge">Merge</string>
     <string name="dialog_confirm_delete">You can\'t undo this!</string>
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
@@ -274,6 +276,7 @@
     <string name="copy">コピー</string>
     <string name="delete">削除</string>
     <string name="rename">名前の変更</string>
+    <string name="merge">Merge</string>
     <string name="show_details">詳細を表示</string>
     <string name="hide_details">詳細を隠す</string>
     <!-- Action Mode Titles -->
@@ -292,6 +295,9 @@
     </plurals>
     <plurals name="am_convert_projects_title">
         <item quantity="other">Convert %d projects</item>
+    </plurals>
+    <plurals name="am_merge_projects_title">
+        <item quantity="other">Merge %d projects</item>
     </plurals>
     <!-- Scene Action Mode Titles -->
     <plurals name="am_pack_scenes_title">
@@ -427,6 +433,7 @@
     <string name="data_label">Name</string>
     <!-- Details -->
     <string name="project_details">Last access: %s, size: %s</string>
+    <string name="last_access_today">today, %s</string>
     <string name="scene_details">Actors and objects: %d, looks: %d, sounds: %d</string>
     <string name="sprite_details">Bricks: %d, looks: %d, sounds: %d</string>
     <string name="look_details">Resolution: %s, size: %s</string>
@@ -783,7 +790,7 @@
     <string name="show_password">パスワードを表示</string>
     <string name="sign_in_error">Something went wrong during sign in.</string>
     <string name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>
-    <string name="error_facebook_session_expired">Session expired, please log in.</string>
+    <string name="error_session_expired">Session expired, please log in.</string>
     <string name="sign_in_with_facebook">Sign in with Facebook</string>
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="error_register_empty_username">Empty username</string>
@@ -817,7 +824,6 @@
         The following components are unavailable:\n\n</string>
     <string name="prestage_resource_in_use_text">Another device is connected to the Jumping Sumo. Make sure you
         are the one connected to the drone.</string>
-    <string name="prestage_no_flash_available">\u2022 フラッシュ\n</string>
     <string name="prestage_no_vibrator_available">\u2022 バイブレーション\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 加速度センサー\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 傾斜センサー\n</string>
@@ -842,6 +848,7 @@
     <string name="stage_dialog_axes_off">軸オフ</string>
     <string name="stage_dialog_maximize">最大化/\n拡大解釈</string>
     <string name="stage_dialog_screenshot">プレビュー</string>
+    <string name="stage_dialog_embroidery">Embroidery</string>
     <!--  -->
     <!-- Broadcast spinner -->
     <string name="dialog_new_broadcast_message_title">新しいメッセージ</string>
@@ -869,6 +876,7 @@
     <string name="category_arduino">Arduino</string>
     <string name="category_cast">キャスト</string>
     <string name="category_raspi">Raspberry Pi</string>
+    <string name="category_assertions">Testing</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"配置："</string>
@@ -1013,6 +1021,9 @@
     <string name="brick_clone_this">自分自身</string>
     <string name="brick_when_cloned">自分が複製として起動したとき</string>
     <string name="brick_delete_this_clone">この複製を削除</string>
+    <string name="brick_assert_that">Assert:</string>
+    <string name="brick_is_equal_to">equal to expected:</string>
+    <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
     <plurals name="time_plural">
         <item quantity="other">回</item>
     </plurals>
@@ -1037,6 +1048,9 @@
     <string name="brick_replace_item_in_userlist_replace_in_list">リストのアイテムを置き換え</string>
     <string name="brick_replace_item_in_userlist_item_at_index">位置</string>
     <string name="brick_replace_item_in_userlist_with_value">で</string>
+    <string name="brick_web_request">Send web request to</string>
+    <string name="brick_web_request_result">and store answer in</string>
+    <string name="brick_web_request_default_value">https://official-joke-api.appspot.com/random_joke</string>
     <!--  -->
     <!-- Default Values -->
     <string name="default_project_name">私の最初のプログラム</string>
@@ -1112,9 +1126,6 @@
     <string name="notification_screenshot_ok">プレビュー画像を保存しました</string>
     <string name="notification_download_project_cancel">Cancel project download</string>
     <string name="notification_reconvert_download_program_cancel">プログラムのダウンロード/再変換をキャンセルしました</string>
-    <string name="notification_copy_title_pending">"コピーしています "</string>
-    <string name="notification_copy_pending">コピー中</string>
-    <string name="notification_copy_finished">コピー完了</string>
     <string name="notification_upload_title_pending">"アップロード中 "</string>
     <string name="notification_upload_title_finished">"見てください："</string>
     <string name="notification_upload_pending">アップロードは進行中</string>
@@ -1173,6 +1184,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="error_drone_wrong_platform_title">No AR.Drone 2.0 support.</string>
     <string name="error_drone_wrong_platform">We cannot run an AR.Drone 2.0 project on your device.</string>
     <string name="error_rename_incompatible_project">互換性のないプロジェクトの名前を変更することはできません。</string>
+    <string name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
     <string name="error_unknown_error">不明なエラーが発生しました。</string>
     <string name="error_gps_not_available">Geolocation data is not available.</string>
     <string name="error_set_description">新しい説明を保存中にエラーが発生しました。</string>
@@ -1348,7 +1360,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_jumping_sumo_move_backward">Move Jumping Sumo backward</string>
     <string name="brick_jumping_sumo_animation">Animations Jumping Sumo</string>
     <string name="brick_jumping_sumo_no_sound">No Jumping Sumo sound</string>
-    <string name="brick_jumping_sumo_sound">音</string>
     <string name="brick_jumping_sumo_jump_long">Jump Jumping Sumo long</string>
     <string name="brick_jumping_sumo_jump_high">Jump Jumping Sumo high</string>
     <string name="brick_jumping_sumo_rotate_left">Turn Jumping Sumo left</string>
@@ -1452,7 +1463,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_nothing_selected">入力値を定義</string>
     <string name="formula_editor_parse_fail_formula_too_long">数式が長すぎます!</string>
     <string name="formula_editor_choose_object_variable">このオブジェクトのプロパティ</string>
-    <string name="formula_editor_existing_variable">名前は既に使用しています!</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
     <string name="formula_editor_function_sin">sin</string>
@@ -1504,6 +1514,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_letter_parameter">(1,\'hello world\')</string>
     <string name="formula_editor_function_join">join</string>
     <string name="formula_editor_function_join_parameter">(\'hello\',\' world\')</string>
+    <string name="formula_editor_function_regex">regular expression</string>
+    <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_digital_pin</string>
     <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analog_pin</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry_pi_pin</string>
@@ -1682,11 +1694,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_intro_summary_data">プログラムで使用される変数やリストをここで見つけることができます。\n数式にこれらを挿入したり、新しいものを追加することができます。</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
-    <string name="add_text">テキストを追加</string>
-    <string name="text_hint">ブロック テキスト</string>
-    <string name="add_variable">変数を追加</string>
-    <string name="add_line_break">改行を追加</string>
-    <string name="variable_hint">変数名</string>
     <string name="brick_show_variable">変数を表示</string>
     <string name="brick_hide_variable">変数を隠す</string>
     <string name="brick_show_variable_position">位置 </string>
@@ -1696,10 +1703,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_show_variable_aligned_centered">centered</string>
     <string name="brick_show_variable_aligned_left">左</string>
     <string name="brick_show_variable_aligned_right">右</string>
+    <string name="brick_context_dialog_pick_color">Pick color</string>
     <!-- -->
-    <!-- User bricks strings -->
-    <string name="new_user_brick_variable">変数</string>
-    <!--  -->
     <!-- Camera related strings -->
     <string name="brick_video">カメラを</string>
     <string name="video_brick_camera_on">オン</string>

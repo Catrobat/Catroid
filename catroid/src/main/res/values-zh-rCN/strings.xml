@@ -259,12 +259,14 @@
     <string name="name_empty">Please enter a text</string>
     <!-- Recycler View -->
     <string name="am_empty_list">There are no items in this list yet. Please add some first.</string>
+    <string name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
     <string name="am_backpack">Pack</string>
     <string name="am_unpack">取出</string>
     <string name="am_copy">复制</string>
     <string name="am_delete">删除</string>
     <string name="am_rename">重命名</string>
     <string name="am_convert">转换</string>
+    <string name="am_merge">Merge</string>
     <string name="dialog_confirm_delete">You can\'t undo this!</string>
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
@@ -272,6 +274,7 @@
     <string name="copy">复制</string>
     <string name="delete">删除</string>
     <string name="rename">重命名</string>
+    <string name="merge">Merge</string>
     <string name="show_details">显示详情</string>
     <string name="hide_details">隐藏详情</string>
     <!-- Action Mode Titles -->
@@ -290,6 +293,9 @@
     </plurals>
     <plurals name="am_convert_projects_title">
         <item quantity="other">Convert %d projects</item>
+    </plurals>
+    <plurals name="am_merge_projects_title">
+        <item quantity="other">Merge %d projects</item>
     </plurals>
     <!-- Scene Action Mode Titles -->
     <plurals name="am_pack_scenes_title">
@@ -425,6 +431,7 @@
     <string name="data_label">名称</string>
     <!-- Details -->
     <string name="project_details">Last access: %s, size: %s</string>
+    <string name="last_access_today">today, %s</string>
     <string name="scene_details">Actors and objects: %d, looks: %d, sounds: %d</string>
     <string name="sprite_details">Bricks: %d, looks: %d, sounds: %d</string>
     <string name="look_details">Resolution: %s, size: %s</string>
@@ -781,7 +788,7 @@
     <string name="show_password">显示密码</string>
     <string name="sign_in_error">Something went wrong during sign in.</string>
     <string name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>
-    <string name="error_facebook_session_expired">Session expired, please log in.</string>
+    <string name="error_session_expired">Session expired, please log in.</string>
     <string name="sign_in_with_facebook">Sign in with Facebook</string>
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="error_register_empty_username">Empty username</string>
@@ -814,7 +821,6 @@
     <string name="prestage_resource_not_available_text">Unfortunately this project does not work on your device.
         The following components are unavailable:\n\n</string>
     <string name="prestage_resource_in_use_text">另一台设备连接到Jumping Sumo。当然, 你是无人机的唯一控制者。</string>
-    <string name="prestage_no_flash_available">\u2022 闪光灯\n</string>
     <string name="prestage_no_vibrator_available">\u2022 震动器\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 加速度传感器\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 倾角传感器\n</string>
@@ -839,6 +845,7 @@
     <string name="stage_dialog_axes_off">隐藏坐标轴</string>
     <string name="stage_dialog_maximize">最大化/\n拉伸</string>
     <string name="stage_dialog_screenshot">预览</string>
+    <string name="stage_dialog_embroidery">Embroidery</string>
     <!--  -->
     <!-- Broadcast spinner -->
     <string name="dialog_new_broadcast_message_title">新消息</string>
@@ -866,6 +873,7 @@
     <string name="category_arduino">Arduino</string>
     <string name="category_cast">Cast</string>
     <string name="category_raspi">树莓派</string>
+    <string name="category_assertions">Testing</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"放在 "</string>
@@ -1010,6 +1018,9 @@
     <string name="brick_clone_this">自己</string>
     <string name="brick_when_cloned">当作为克隆启动</string>
     <string name="brick_delete_this_clone">删除这个克隆</string>
+    <string name="brick_assert_that">Assert:</string>
+    <string name="brick_is_equal_to">equal to expected:</string>
+    <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
     <plurals name="time_plural">
         <item quantity="other">次</item>
     </plurals>
@@ -1034,6 +1045,9 @@
     <string name="brick_replace_item_in_userlist_replace_in_list">替换项目在列表</string>
     <string name="brick_replace_item_in_userlist_item_at_index">的位置</string>
     <string name="brick_replace_item_in_userlist_with_value">以</string>
+    <string name="brick_web_request">Send web request to</string>
+    <string name="brick_web_request_result">and store answer in</string>
+    <string name="brick_web_request_default_value">https://official-joke-api.appspot.com/random_joke</string>
     <!--  -->
     <!-- Default Values -->
     <string name="default_project_name">我的第一个程序</string>
@@ -1109,9 +1123,6 @@
     <string name="notification_screenshot_ok">预览图像已保存</string>
     <string name="notification_download_project_cancel">Cancel project download</string>
     <string name="notification_reconvert_download_program_cancel">已取消下载/重新转换程序</string>
-    <string name="notification_copy_title_pending">"正在复制 "</string>
-    <string name="notification_copy_pending">正在复制</string>
-    <string name="notification_copy_finished">复制完成</string>
     <string name="notification_upload_title_pending">"上传中 "</string>
     <string name="notification_upload_title_finished">"查看 "</string>
     <string name="notification_upload_pending">正在上传</string>
@@ -1170,6 +1181,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="error_drone_wrong_platform_title">暂不支持AR无人机2.0</string>
     <string name="error_drone_wrong_platform">我们无法在您的设备上运行AR2.0无人机项目。</string>
     <string name="error_rename_incompatible_project">重命名不兼容的程序是不可能的。</string>
+    <string name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
     <string name="error_unknown_error">发生未知错误。</string>
     <string name="error_gps_not_available">Geolocation data is not available.</string>
     <string name="error_set_description">在保存说明时发生了一个错误。</string>
@@ -1345,7 +1357,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_jumping_sumo_move_backward">向后移动Jumping Sumo</string>
     <string name="brick_jumping_sumo_animation">Jumping Sumo表演</string>
     <string name="brick_jumping_sumo_no_sound">Jumping Sumo没有声音</string>
-    <string name="brick_jumping_sumo_sound">声音</string>
     <string name="brick_jumping_sumo_jump_long">Jumping Sumo长距离跳跃</string>
     <string name="brick_jumping_sumo_jump_high">Jumping Sumo跳高</string>
     <string name="brick_jumping_sumo_rotate_left">左转Jumping Sumo</string>
@@ -1449,7 +1460,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_nothing_selected">定义输入值</string>
     <string name="formula_editor_parse_fail_formula_too_long">公式太长！</string>
     <string name="formula_editor_choose_object_variable">此对象的属性</string>
-    <string name="formula_editor_existing_variable">名称已被占用！</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
     <string name="formula_editor_function_sin">sinus</string>
@@ -1501,6 +1511,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_letter_parameter">(1，\'你好，世界\')</string>
     <string name="formula_editor_function_join">连接</string>
     <string name="formula_editor_function_join_parameter">(\'hello\',\' world\')</string>
+    <string name="formula_editor_function_regex">regular expression</string>
+    <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino数字端口</string>
     <string name="formula_editor_function_arduino_read_pin_value_analog">arduino模拟端口</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital">树莓派端口</string>
@@ -1677,11 +1689,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_intro_summary_data">在这里可以找到程序中使用的变量和列表。\n它们可以被方便地插入公式，或随时创建新的变量或列表。</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
-    <string name="add_text">添加文本</string>
-    <string name="text_hint">积木文本</string>
-    <string name="add_variable">添加变量</string>
-    <string name="add_line_break">添加换行符</string>
-    <string name="variable_hint">变量名</string>
     <string name="brick_show_variable">显示变量</string>
     <string name="brick_hide_variable">隐藏变量</string>
     <string name="brick_show_variable_position">在 </string>
@@ -1691,10 +1698,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_show_variable_aligned_centered">centered</string>
     <string name="brick_show_variable_aligned_left">左</string>
     <string name="brick_show_variable_aligned_right">右</string>
+    <string name="brick_context_dialog_pick_color">Pick color</string>
     <!-- -->
-    <!-- User bricks strings -->
-    <string name="new_user_brick_variable">变量</string>
-    <!--  -->
     <!-- Camera related strings -->
     <string name="brick_video">设置相机状态</string>
     <string name="video_brick_camera_on">开</string>

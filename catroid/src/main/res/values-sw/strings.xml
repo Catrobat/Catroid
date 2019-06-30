@@ -269,12 +269,14 @@
     <string name="name_empty">Please enter a text</string>
     <!-- Recycler View -->
     <string name="am_empty_list">There are no items in this list yet. Please add some first.</string>
+    <string name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
     <string name="am_backpack">Pack</string>
     <string name="am_unpack">pakua</string>
     <string name="am_copy">Nakili</string>
     <string name="am_delete">Futa</string>
     <string name="am_rename">Andika jina upya</string>
     <string name="am_convert">Geuza</string>
+    <string name="am_merge">Merge</string>
     <string name="dialog_confirm_delete">You can\'t undo this!</string>
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
@@ -282,6 +284,7 @@
     <string name="copy">Nakili</string>
     <string name="delete">Futa</string>
     <string name="rename">Ita jina jipya</string>
+    <string name="merge">Merge</string>
     <string name="show_details">Onyesha maelezo</string>
     <string name="hide_details">Ficha Mafafanuzi</string>
     <!-- Action Mode Titles -->
@@ -305,6 +308,10 @@
     <plurals name="am_convert_projects_title">
         <item quantity="one">Convert %d project</item>
         <item quantity="other">Convert %d projects</item>
+    </plurals>
+    <plurals name="am_merge_projects_title">
+        <item quantity="one">Merge %d project</item>
+        <item quantity="other">Merge %d projects</item>
     </plurals>
     <!-- Scene Action Mode Titles -->
     <plurals name="am_pack_scenes_title">
@@ -477,6 +484,7 @@
     <string name="data_label">Jina</string>
     <!-- Details -->
     <string name="project_details">Last access: %s, size: %s</string>
+    <string name="last_access_today">today, %s</string>
     <string name="scene_details">Actors and objects: %d, looks: %d, sounds: %d</string>
     <string name="sprite_details">Bricks: %d, looks: %d, sounds: %d</string>
     <string name="look_details">Resolution: %s, size: %s</string>
@@ -855,7 +863,7 @@
     <string name="show_password">Onyesha nenosiri</string>
     <string name="sign_in_error">Something went wrong during sign in.</string>
     <string name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>
-    <string name="error_facebook_session_expired">Session expired, please log in.</string>
+    <string name="error_session_expired">Session expired, please log in.</string>
     <string name="sign_in_with_facebook">Sign in with Facebook</string>
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="error_register_empty_username">Empty username</string>
@@ -889,7 +897,6 @@
         The following components are unavailable:\n\n</string>
     <string name="prestage_resource_in_use_text">Another device is connected to the Jumping Sumo. Make sure you
         are the one connected to the drone.</string>
-    <string name="prestage_no_flash_available">\u2022 mwanga\n</string>
     <string name="prestage_no_vibrator_available">\u2022 Vibrator\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 sensor ongeza kasi\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 mwelekeo sensor\n</string>
@@ -914,6 +921,7 @@
     <string name="stage_dialog_axes_off">Muhimili zima </string>
     <string name="stage_dialog_maximize">Kuza/\nnyoosha </string>
     <string name="stage_dialog_screenshot">Ona mwoneko awali</string>
+    <string name="stage_dialog_embroidery">Embroidery</string>
     <!--  -->
     <!-- Broadcast spinner -->
     <string name="dialog_new_broadcast_message_title">Ujumbe mpya</string>
@@ -941,6 +949,7 @@
     <string name="category_arduino">Arduino</string>
     <string name="category_cast">Rusha </string>
     <string name="category_raspi">Rasiberi pi</string>
+    <string name="category_assertions">Testing</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"Weka "</string>
@@ -1088,6 +1097,9 @@
     <string name="brick_clone_this">mwenyewe</string>
     <string name="brick_when_cloned">Unapoanza kama kiunganishi</string>
     <string name="brick_delete_this_clone">Futa hiki kiunganisho</string>
+    <string name="brick_assert_that">Assert:</string>
+    <string name="brick_is_equal_to">equal to expected:</string>
+    <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
     <plurals name="time_plural">
         <item quantity="one">muda</item>
         <item quantity="other">muda</item>
@@ -1113,6 +1125,9 @@
     <string name="brick_replace_item_in_userlist_replace_in_list">Badilisha kipengele katika orodha</string>
     <string name="brick_replace_item_in_userlist_item_at_index">katika nafasi ya</string>
     <string name="brick_replace_item_in_userlist_with_value">na</string>
+    <string name="brick_web_request">Send web request to</string>
+    <string name="brick_web_request_result">and store answer in</string>
+    <string name="brick_web_request_default_value">https://official-joke-api.appspot.com/random_joke</string>
     <!--  -->
     <!-- Default Values -->
     <string name="default_project_name">Programu yangu ya kwanza</string>
@@ -1188,9 +1203,6 @@
     <string name="notification_screenshot_ok">Mwonekano wa picha iliyohifadhiwa</string>
     <string name="notification_download_project_cancel">Cancel project download</string>
     <string name="notification_reconvert_download_program_cancel">Upakuaji umefutwa/inarejesha programu</string>
-    <string name="notification_copy_title_pending">"Kunakili "</string>
-    <string name="notification_copy_pending">Inaendelea kunakili</string>
-    <string name="notification_copy_finished">Nakala imekamilishwa</string>
     <string name="notification_upload_title_pending">"Kuweka "</string>
     <string name="notification_upload_title_finished">"Tazama "</string>
     <string name="notification_upload_pending">Inaendelea kupakia</string>
@@ -1249,6 +1261,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="error_drone_wrong_platform_title">No AR.Drone 2.0 support.</string>
     <string name="error_drone_wrong_platform">We cannot run an AR.Drone 2.0 project on your device.</string>
     <string name="error_rename_incompatible_project">Haiwezekani kuita jina jipya wa mradi usiopatanifu.</string>
+    <string name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
     <string name="error_unknown_error">Kosa lisilojulikana limetokea.</string>
     <string name="error_gps_not_available">Geolocation data is not available.</string>
     <string name="error_set_description">Kosa limetokea wakati wa kuhifadhi maelezo mapya.</string>
@@ -1405,7 +1418,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="drone_animation_snakegreenred">Snake green red</string>
     <string name="drone_animation_fire">Fire</string>
     <string name="drone_animation_standard">Kiwango</string>
-    <string name="drone_animation_red">Nyekundu</string>
+    <string name="drone_animation_red">Nyekunduu</string>
     <string name="drone_animation_green">Kijani</string>
     <string name="drone_animation_redsnake">Red snake</string>
     <string name="drone_animation_blank">Blank</string>
@@ -1424,7 +1437,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_jumping_sumo_move_backward">Move Jumping Sumo backward</string>
     <string name="brick_jumping_sumo_animation">Animations Jumping Sumo</string>
     <string name="brick_jumping_sumo_no_sound">No Jumping Sumo sound</string>
-    <string name="brick_jumping_sumo_sound">Sauti</string>
     <string name="brick_jumping_sumo_jump_long">Jump Jumping Sumo long</string>
     <string name="brick_jumping_sumo_jump_high">Jump Jumping Sumo high</string>
     <string name="brick_jumping_sumo_rotate_left">Turn Jumping Sumo left</string>
@@ -1528,7 +1540,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_nothing_selected">Fasili thamani ingizwa</string>
     <string name="formula_editor_parse_fail_formula_too_long">Fomula ni ndefu sana!</string>
     <string name="formula_editor_choose_object_variable">Sifa za kipengele hiki</string>
-    <string name="formula_editor_existing_variable">Jina tayari linatumika!</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
     <string name="formula_editor_function_sin">sinus</string>
@@ -1580,6 +1591,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_letter_parameter">(1,\'ulimwengu habari\')</string>
     <string name="formula_editor_function_join">jiunga</string>
     <string name="formula_editor_function_join_parameter">(\'hello\',\' world\')</string>
+    <string name="formula_editor_function_regex">regular expression</string>
+    <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">aduino_digatili_funga</string>
     <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analogia_pin</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital">raspberi_funga</string>
@@ -1756,11 +1769,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_intro_summary_data">Vitofautishi na orodha ambazo hutumika kwenye programu vinaweza kupatikana hapa\nUnaweza ongeza haya kwenye fomula yako, au ongeza mpya.</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
-    <string name="add_text">Ongeza andishi</string>
-    <string name="text_hint">Nakala tofali</string>
-    <string name="add_variable">Ongeza kitofautishi</string>
-    <string name="add_line_break">Ongeza kigawa mstari</string>
-    <string name="variable_hint">Jina la kitofautishi</string>
     <string name="brick_show_variable">Onyesha kitofautishi</string>
     <string name="brick_hide_variable">Ficha kitofautishi</string>
     <string name="brick_show_variable_position">katika </string>
@@ -1770,10 +1778,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_show_variable_aligned_centered">centered</string>
     <string name="brick_show_variable_aligned_left">kushoto</string>
     <string name="brick_show_variable_aligned_right">kulia</string>
+    <string name="brick_context_dialog_pick_color">Pick color</string>
     <!-- -->
-    <!-- User bricks strings -->
-    <string name="new_user_brick_variable">Kitofautishi</string>
-    <!--  -->
     <!-- Camera related strings -->
     <string name="brick_video">Geuza kamera</string>
     <string name="video_brick_camera_on">waka</string>

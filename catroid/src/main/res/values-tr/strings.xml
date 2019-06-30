@@ -271,12 +271,14 @@
     <string name="name_empty">Please enter a text</string>
     <!-- Recycler View -->
     <string name="am_empty_list">There are no items in this list yet. Please add some first.</string>
+    <string name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
     <string name="am_backpack">Paket</string>
     <string name="am_unpack">Çıkart</string>
     <string name="am_copy">Kopyala</string>
     <string name="am_delete">Sil</string>
     <string name="am_rename">Yeniden adlandır</string>
     <string name="am_convert">Dönüştür</string>
+    <string name="am_merge">Merge</string>
     <string name="dialog_confirm_delete">You can\'t undo this!</string>
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
@@ -284,6 +286,7 @@
     <string name="copy">Kopyala</string>
     <string name="delete">Sil</string>
     <string name="rename">Yeniden adlandır</string>
+    <string name="merge">Merge</string>
     <string name="show_details">Detayları göster</string>
     <string name="hide_details">Detayları gizle</string>
     <!-- Action Mode Titles -->
@@ -307,6 +310,10 @@
     <plurals name="am_convert_projects_title">
         <item quantity="one">Convert %d project</item>
         <item quantity="other">Convert %d projects</item>
+    </plurals>
+    <plurals name="am_merge_projects_title">
+        <item quantity="one">Merge %d project</item>
+        <item quantity="other">Merge %d projects</item>
     </plurals>
     <!-- Scene Action Mode Titles -->
     <plurals name="am_pack_scenes_title">
@@ -479,6 +486,7 @@
     <string name="data_label">Isim</string>
     <!-- Details -->
     <string name="project_details">Last access: %s, size: %s</string>
+    <string name="last_access_today">today, %s</string>
     <string name="scene_details">Actors and objects: %d, looks: %d, sounds: %d</string>
     <string name="sprite_details">Bricks: %d, looks: %d, sounds: %d</string>
     <string name="look_details">Resolution: %s, size: %s</string>
@@ -857,7 +865,7 @@
     <string name="show_password">Parolayı göster</string>
     <string name="sign_in_error">Something went wrong during sign in.</string>
     <string name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>
-    <string name="error_facebook_session_expired">Session expired, please log in.</string>
+    <string name="error_session_expired">Session expired, please log in.</string>
     <string name="sign_in_with_facebook">Sign in with Facebook</string>
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="error_register_empty_username">Empty username</string>
@@ -891,7 +899,6 @@
         The following components are unavailable:\n\n</string>
     <string name="prestage_resource_in_use_text">Başka Bir Cihaz, Jumping Sumo\'ya bağlı. Emin olun, 
         Drone\'un tek denetleyicisi sizsiniz.</string>
-    <string name="prestage_no_flash_available">\u2022 Flaş\n</string>
     <string name="prestage_no_vibrator_available">\u2022 Vibration\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 Acceleration sensor\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 Inclination sensor\n</string>
@@ -916,6 +923,7 @@
     <string name="stage_dialog_axes_off">Eksenleri kapat</string>
     <string name="stage_dialog_maximize">Maksimum\'a büyüt/\nGenişlet</string>
     <string name="stage_dialog_screenshot">Önizleme</string>
+    <string name="stage_dialog_embroidery">Embroidery</string>
     <!--  -->
     <!-- Broadcast spinner -->
     <string name="dialog_new_broadcast_message_title">Yeni mesaj</string>
@@ -943,6 +951,7 @@
     <string name="category_arduino">Arduino</string>
     <string name="category_cast">Yayınlamak</string>
     <string name="category_raspi">Raspberry Pi</string>
+    <string name="category_assertions">Testing</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"Yerleştirin "</string>
@@ -1090,6 +1099,9 @@
     <string name="brick_clone_this">kendin</string>
     <string name="brick_when_cloned">Klon olarak başladığın zaman</string>
     <string name="brick_delete_this_clone">Bu kopyayı sil</string>
+    <string name="brick_assert_that">Assert:</string>
+    <string name="brick_is_equal_to">equal to expected:</string>
+    <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
     <plurals name="time_plural">
         <item quantity="one">zamanlar</item>
         <item quantity="other">zamanlar</item>
@@ -1115,6 +1127,9 @@
     <string name="brick_replace_item_in_userlist_replace_in_list">Listedeki öğeyi değiştir</string>
     <string name="brick_replace_item_in_userlist_item_at_index">pozisyon</string>
     <string name="brick_replace_item_in_userlist_with_value">ile</string>
+    <string name="brick_web_request">Send web request to</string>
+    <string name="brick_web_request_result">and store answer in</string>
+    <string name="brick_web_request_default_value">https://official-joke-api.appspot.com/random_joke</string>
     <!--  -->
     <!-- Default Values -->
     <string name="default_project_name">İlk programım</string>
@@ -1190,9 +1205,6 @@
     <string name="notification_screenshot_ok">Önizleme resmi kaydedildi</string>
     <string name="notification_download_project_cancel">Cancel project download</string>
     <string name="notification_reconvert_download_program_cancel">Programı indirme/yeniden dönüştürme iptal edildi</string>
-    <string name="notification_copy_title_pending">"Kopyalanıyor "</string>
-    <string name="notification_copy_pending">Kopyalama sürüyor</string>
-    <string name="notification_copy_finished">Kopyalama tamamlandı</string>
     <string name="notification_upload_title_pending">"Karşıya yükleniyor "</string>
     <string name="notification_upload_title_finished">"Bak "</string>
     <string name="notification_upload_pending">Karşıya Yükleme Devam Ediyor</string>
@@ -1251,6 +1263,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="error_drone_wrong_platform_title">AR.Drone 2.0 desteği yok.</string>
     <string name="error_drone_wrong_platform">We cannot run an AR.Drone 2.0 project on your device.</string>
     <string name="error_rename_incompatible_project">Renaming an incompatible project is not possible.</string>
+    <string name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
     <string name="error_unknown_error">Bilinmeyen bir hata oluştu.</string>
     <string name="error_gps_not_available">Geolocation data is not available.</string>
     <string name="error_set_description">Yeni açıklama kaydedilirken bir hata oluştu.</string>
@@ -1426,7 +1439,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_jumping_sumo_move_backward">Move Jumping Sumo backward</string>
     <string name="brick_jumping_sumo_animation">Jumping Sumo Animasyonları</string>
     <string name="brick_jumping_sumo_no_sound">No Jumping Sumo sound</string>
-    <string name="brick_jumping_sumo_sound">Ses</string>
     <string name="brick_jumping_sumo_jump_long">Jump Jumping Sumo long</string>
     <string name="brick_jumping_sumo_jump_high">Jump Jumping Sumo high</string>
     <string name="brick_jumping_sumo_rotate_left">Jumping Sumo\'yu sola döndür</string>
@@ -1530,7 +1542,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_nothing_selected">Giriş değeri ver</string>
     <string name="formula_editor_parse_fail_formula_too_long">Formül çok uzun!</string>
     <string name="formula_editor_choose_object_variable">Bu nesnenin özellikleri</string>
-    <string name="formula_editor_existing_variable">Bu ad önceden verildi!</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
     <string name="formula_editor_function_sin">günah</string>
@@ -1582,6 +1593,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_letter_parameter">(1, \'Merhaba Dünya\')</string>
     <string name="formula_editor_function_join">katıl</string>
     <string name="formula_editor_function_join_parameter">(\'hello\',\' world\')</string>
+    <string name="formula_editor_function_regex">regular expression</string>
+    <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_dijital_pin</string>
     <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analog_pin</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry_pi_pin</string>
@@ -1764,11 +1777,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_intro_summary_data">Programda kullandığınız değişkenler ve listeler burada bulunabilir. Bunları formülünüze basitçe ekleyebilir veya yenilerini ekleyebilirsiniz.</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
-    <string name="add_text">Metin ekle</string>
-    <string name="text_hint">Brick text</string>
-    <string name="add_variable">Değişken ekle</string>
-    <string name="add_line_break">Satır sonu ekle</string>
-    <string name="variable_hint">Değişken adı</string>
     <string name="brick_show_variable">Değişkeni göster</string>
     <string name="brick_hide_variable">Değişkeni gizle</string>
     <string name="brick_show_variable_position">at</string>
@@ -1778,10 +1786,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_show_variable_aligned_centered">centered</string>
     <string name="brick_show_variable_aligned_left">sol</string>
     <string name="brick_show_variable_aligned_right">sağ</string>
+    <string name="brick_context_dialog_pick_color">Pick color</string>
     <!-- -->
-    <!-- User bricks strings -->
-    <string name="new_user_brick_variable">Değişken</string>
-    <!--  -->
     <!-- Camera related strings -->
     <string name="brick_video">Kamerayı çevir</string>
     <string name="video_brick_camera_on">açık</string>
