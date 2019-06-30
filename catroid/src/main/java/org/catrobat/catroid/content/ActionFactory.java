@@ -117,6 +117,7 @@ import org.catrobat.catroid.content.actions.PreviousLookAction;
 import org.catrobat.catroid.content.actions.RaspiIfLogicAction;
 import org.catrobat.catroid.content.actions.RaspiPwmAction;
 import org.catrobat.catroid.content.actions.RaspiSendDigitalValueAction;
+import org.catrobat.catroid.content.actions.ReadVariableFromDeviceAction;
 import org.catrobat.catroid.content.actions.RepeatAction;
 import org.catrobat.catroid.content.actions.RepeatUntilAction;
 import org.catrobat.catroid.content.actions.ReplaceItemInUserListAction;
@@ -158,6 +159,8 @@ import org.catrobat.catroid.content.actions.WaitAction;
 import org.catrobat.catroid.content.actions.WaitForBubbleBrickAction;
 import org.catrobat.catroid.content.actions.WaitTillIdleAction;
 import org.catrobat.catroid.content.actions.WaitUntilAction;
+import org.catrobat.catroid.content.actions.WebRequestAction;
+import org.catrobat.catroid.content.actions.WriteVariableOnDeviceAction;
 import org.catrobat.catroid.content.actions.conditional.GlideToAction;
 import org.catrobat.catroid.content.actions.conditional.IfOnEdgeBounceAction;
 import org.catrobat.catroid.content.bricks.JumpingSumoAnimationsBrick;
@@ -180,6 +183,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.physics.PhysicsObject;
+import org.catrobat.catroid.web.WebConnectionFactory;
 
 public class ActionFactory extends Actions {
 
@@ -1221,7 +1225,31 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
+	public Action createWriteVariableOnDeviceAction(UserVariable userVariable) {
+		WriteVariableOnDeviceAction action = Actions.action(WriteVariableOnDeviceAction.class);
+		action.setUserVariable(userVariable);
+
+		return action;
+	}
+
 	public Action createWaitTillIdleAction() {
 		return action(WaitTillIdleAction.class);
+	}
+
+	public Action createReadVariableFromDeviceAction(UserVariable userVariable) {
+		ReadVariableFromDeviceAction action = Actions.action(ReadVariableFromDeviceAction.class);
+		action.setUserVariable(userVariable);
+
+		return action;
+	}
+
+	public Action createWebRequestAction(Sprite sprite, Formula variableFormula, UserVariable userVariable) {
+		WebRequestAction action = action(WebRequestAction.class);
+		action.setSprite(sprite);
+		action.setFormula(variableFormula);
+		action.interpretUrl();
+		action.setUserVariable(userVariable);
+		action.setWebConnectionFactory(new WebConnectionFactory());
+		return action;
 	}
 }

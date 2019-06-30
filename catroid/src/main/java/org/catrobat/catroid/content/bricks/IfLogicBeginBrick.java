@@ -20,10 +20,12 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.content.bricks;
 
+import android.content.Context;
+import android.support.annotation.VisibleForTesting;
 import android.view.View;
-import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
@@ -34,22 +36,20 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
-public class IfLogicBeginBrick extends FormulaBrick implements IfElseLogicBeginBrick {
+public class IfLogicBeginBrick extends FormulaBrick implements CompositeBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	private transient IfLogicElseBrick ifElseBrick;
-	private transient IfLogicEndBrick ifEndBrick;
+	private transient ElseBrick elseBrick = new ElseBrick(this);
+	private transient EndBrick endBrick = new EndBrick(this);
+
+	protected List<Brick> ifBranchBricks = new ArrayList<>();
+	protected List<Brick> elseBranchBricks = new ArrayList<>();
 
 	public IfLogicBeginBrick() {
 		addAllowedBrickField(BrickField.IF_CONDITION, R.id.brick_if_begin_edit_text);
-	}
-
-	public IfLogicBeginBrick(int condition) {
-		this(new Formula(condition));
 	}
 
 	public IfLogicBeginBrick(Formula formula) {
@@ -57,28 +57,131 @@ public class IfLogicBeginBrick extends FormulaBrick implements IfElseLogicBeginB
 		setFormulaWithBrickField(BrickField.IF_CONDITION, formula);
 	}
 
-	public IfLogicElseBrick getIfElseBrick() {
-		return ifElseBrick;
+	@VisibleForTesting
+	public ElseBrick getElseBrick() {
+		return elseBrick;
 	}
 
-	public void setIfElseBrick(IfLogicElseBrick elseBrick) {
-		this.ifElseBrick = elseBrick;
-	}
-
-	public IfLogicEndBrick getIfEndBrick() {
-		return ifEndBrick;
-	}
-
-	public void setIfEndBrick(IfLogicEndBrick ifEndBrick) {
-		this.ifEndBrick = ifEndBrick;
+	@VisibleForTesting
+	public EndBrick getEndBrick() {
+		return endBrick;
 	}
 
 	@Override
-	public BrickBaseType clone() throws CloneNotSupportedException {
+	public boolean hasSecondaryList() {
+		return true;
+	}
+
+	@Override
+	public List<Brick> getNestedBricks() {
+		return ifBranchBricks;
+	}
+
+	@Override
+	public List<Brick> getSecondaryNestedBricks() {
+		return elseBranchBricks;
+	}
+
+	public boolean addBrickToIfBranch(Brick brick) {
+		return ifBranchBricks.add(brick);
+	}
+
+	public boolean addBrickToElseBranch(Brick brick) {
+		return elseBranchBricks.add(brick);
+	}
+
+	@Override
+	public void setCommentedOut(boolean commentedOut) {
+		super.setCommentedOut(commentedOut);
+		for (Brick brick : ifBranchBricks) {
+			brick.setCommentedOut(commentedOut);
+		}
+		elseBrick.setCommentedOut(commentedOut);
+		for (Brick brick : elseBranchBricks) {
+			brick.setCommentedOut(commentedOut);
+		}
+		endBrick.setCommentedOut(commentedOut);
+	}
+
+	@Override
+	public Brick clone() throws CloneNotSupportedException {
 		IfLogicBeginBrick clone = (IfLogicBeginBrick) super.clone();
-		clone.ifElseBrick = null;
-		clone.ifEndBrick = null;
+		clone.elseBrick = new ElseBrick(clone);
+		clone.endBrick = new EndBrick(clone);
+		clone.ifBranchBricks = new ArrayList<>();
+		clone.elseBranchBricks = new ArrayList<>();
+
+		for (Brick brick : ifBranchBricks) {
+			clone.addBrickToIfBranch(brick.clone());
+		}
+		for (Brick brick : elseBranchBricks) {
+			clone.addBrickToElseBranch(brick.clone());
+		}
 		return clone;
+	}
+
+	@Override
+	public boolean consistsOfMultipleParts() {
+		return true;
+	}
+
+	@Override
+	public List<Brick> getAllParts() {
+		List<Brick> bricks = new ArrayList<>();
+		bricks.add(this);
+		bricks.add(elseBrick);
+		bricks.add(endBrick);
+		return bricks;
+	}
+
+	@Override
+	public void addToFlatList(List<Brick> bricks) {
+		super.addToFlatList(bricks);
+		for (Brick brick : ifBranchBricks) {
+			brick.addToFlatList(bricks);
+		}
+		bricks.add(elseBrick);
+		for (Brick brick : elseBranchBricks) {
+			brick.addToFlatList(bricks);
+		}
+		bricks.add(endBrick);
+	}
+
+	@Override
+	public void setParent(Brick parent) {
+		super.setParent(parent);
+		for (Brick brick : ifBranchBricks) {
+			brick.setParent(this);
+		}
+		for (Brick brick : elseBranchBricks) {
+			brick.setParent(elseBrick);
+		}
+	}
+
+	@Override
+	public List<Brick> getDragAndDropTargetList() {
+		return ifBranchBricks;
+	}
+
+	@Override
+	public boolean removeChild(Brick brick) {
+		if (ifBranchBricks.remove(brick)) {
+			return true;
+		}
+		if (elseBranchBricks.remove(brick)) {
+			return true;
+		}
+		for (Brick childBrick : ifBranchBricks) {
+			if (childBrick.removeChild(brick)) {
+				return true;
+			}
+		}
+		for (Brick childBrick : elseBranchBricks) {
+			if (childBrick.removeChild(brick)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
@@ -87,48 +190,130 @@ public class IfLogicBeginBrick extends FormulaBrick implements IfElseLogicBeginB
 	}
 
 	@Override
-	public void onPrototypeViewCreated() {
-		super.onPrototypeViewCreated();
-		TextView prototypeTextPunctuation = view.findViewById(R.id.if_else_prototype_punctuation);
-		TextView prototypeTextElse = view.findViewById(R.id.if_prototype_else);
-		TextView prototypeTextPunctuation2 = view.findViewById(R.id.if_else_prototype_punctuation2);
-		prototypeTextPunctuation.setVisibility(View.VISIBLE);
-		prototypeTextElse.setVisibility(View.VISIBLE);
-		prototypeTextPunctuation2.setVisibility(View.VISIBLE);
+	public View getPrototypeView(Context context) {
+		View view = super.getPrototypeView(context);
+		view.findViewById(R.id.if_else_prototype_punctuation).setVisibility(View.VISIBLE);
+		view.findViewById(R.id.if_prototype_else).setVisibility(View.VISIBLE);
+		view.findViewById(R.id.if_else_prototype_punctuation2).setVisibility(View.VISIBLE);
+		return view;
 	}
 
 	@Override
-	public Brick getFirstBrick() {
-		return this;
-	}
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		ScriptSequenceAction ifSequence = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
+		ScriptSequenceAction elseSequence = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
 
-	@Override
-	public Brick getLastBrick() {
-		return ifEndBrick;
-	}
+		for (Brick brick : ifBranchBricks) {
+			if (!brick.isCommentedOut()) {
+				brick.addActionToSequence(sprite, ifSequence);
+			}
+		}
 
-	@Override
-	public List<Brick> getAllParts() {
-		List<Brick> parts = new ArrayList<>();
-		parts.add(this);
-		parts.add(ifElseBrick);
-		parts.add(ifEndBrick);
-		return parts;
-	}
-
-	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		ScriptSequenceAction ifAction = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
-		ScriptSequenceAction elseAction = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
+		for (Brick brick : elseBranchBricks) {
+			if (!brick.isCommentedOut()) {
+				brick.addActionToSequence(sprite, elseSequence);
+			}
+		}
 
 		Action action = sprite.getActionFactory()
-				.createIfLogicAction(sprite, getFormulaWithBrickField(BrickField.IF_CONDITION), ifAction, elseAction);
+				.createIfLogicAction(sprite, getFormulaWithBrickField(BrickField.IF_CONDITION), ifSequence, elseSequence);
+
 		sequence.addAction(action);
+	}
 
-		LinkedList<ScriptSequenceAction> returnActionList = new LinkedList<>();
-		returnActionList.add(elseAction);
-		returnActionList.add(ifAction);
+	@Override
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		super.addRequiredResources(requiredResourcesSet);
+		for (Brick brick : ifBranchBricks) {
+			brick.addRequiredResources(requiredResourcesSet);
+		}
 
-		return returnActionList;
+		for (Brick brick : elseBranchBricks) {
+			brick.addRequiredResources(requiredResourcesSet);
+		}
+	}
+
+	@VisibleForTesting
+	public static class ElseBrick extends BrickBaseType {
+
+		ElseBrick(IfLogicBeginBrick ifBrick) {
+			parent = ifBrick;
+		}
+
+		@Override
+		public boolean consistsOfMultipleParts() {
+			return true;
+		}
+
+		@Override
+		public List<Brick> getAllParts() {
+			return parent.getAllParts();
+		}
+
+		@Override
+		public void addToFlatList(List<Brick> bricks) {
+			parent.addToFlatList(bricks);
+		}
+
+		@Override
+		public List<Brick> getDragAndDropTargetList() {
+			return ((IfLogicBeginBrick) parent).elseBranchBricks;
+		}
+
+		@Override
+		public int getPositionInDragAndDropTargetList() {
+			return -1;
+		}
+
+		@Override
+		public int getViewResource() {
+			return R.layout.brick_if_else;
+		}
+
+		@Override
+		public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		}
+	}
+
+	@VisibleForTesting
+	public static class EndBrick extends BrickBaseType {
+
+		EndBrick(IfLogicBeginBrick ifBrick) {
+			parent = ifBrick;
+		}
+
+		@Override
+		public boolean consistsOfMultipleParts() {
+			return true;
+		}
+
+		@Override
+		public List<Brick> getAllParts() {
+			return parent.getAllParts();
+		}
+
+		@Override
+		public void addToFlatList(List<Brick> bricks) {
+			parent.addToFlatList(bricks);
+		}
+
+		@Override
+		public List<Brick> getDragAndDropTargetList() {
+			return parent.getParent().getDragAndDropTargetList();
+		}
+
+		@Override
+		public int getPositionInDragAndDropTargetList() {
+			return parent.getParent().getDragAndDropTargetList().indexOf(parent);
+		}
+
+		@Override
+		public int getViewResource() {
+			return R.layout.brick_if_end_if;
+		}
+
+		@Override
+		public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		}
 	}
 }

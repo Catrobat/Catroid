@@ -22,12 +22,10 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
-import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,39 +37,30 @@ import static junit.framework.Assert.assertEquals;
 public class ForeverActionTest {
 
 	private static final int REPEAT_TIMES = 4;
-	private final float delta = 0.005f;
 
 	@Test
-	public void testLoopDelay() throws InterruptedException {
-		final int deltaY = -10;
+	public void testLoopDelay() {
+		int deltaY = -10;
 
-		Sprite testSprite = new SingleSprite("testSprite");
-		StartScript testScript = new StartScript();
+		Sprite sprite = new Sprite("testSprite");
+		StartScript script = new StartScript();
 
 		ForeverBrick foreverBrick = new ForeverBrick();
-		LoopEndBrick loopEndBrick = new LoopEndBrick(foreverBrick);
-		foreverBrick.setLoopEndBrick(loopEndBrick);
+		foreverBrick.addBrick(new ChangeYByNBrick(deltaY));
+		script.addBrick(foreverBrick);
 
-		testScript.addBrick(foreverBrick);
-		testScript.addBrick(new ChangeYByNBrick(deltaY));
-		testScript.addBrick(loopEndBrick);
+		sprite.addScript(script);
+		sprite.initializeEventThreads(EventId.START);
 
-		testSprite.addScript(testScript);
-		testSprite.initializeEventThreads(EventId.START);
-
-		/*
-		 * This is only to document that a delay of 20ms is by contract. See Issue 28 in Google Code
-		 * http://code.google.com/p/catroid/issues/detail?id=28
-		 */
-		final float delayByContract = 0.020f;
+		float delayByContract = 0.020f;
+		float delta = 0.005f;
 
 		for (int index = 0; index < REPEAT_TIMES; index++) {
-
 			for (double time = 0f; time < delayByContract; time += delta) {
-				testSprite.look.act(delta);
+				sprite.look.act(delta);
 			}
 		}
 
-		assertEquals(deltaY * REPEAT_TIMES, (int) testSprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals(deltaY * REPEAT_TIMES, (int) sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 }

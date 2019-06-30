@@ -22,16 +22,10 @@
  */
 package org.catrobat.catroid.utils;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.util.Log;
-
-import com.badlogic.gdx.math.Vector2;
-
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.ScreenValues;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -161,71 +155,23 @@ public final class ImageEditing {
 		saveBitmapToImageFile(file, scaledBitmap);
 	}
 
-	public static double calculateScaleFactorToScreenSize(int resourceId, Context context) {
-		if (context.getResources().getResourceTypeName(resourceId).compareTo("drawable") == 0) {
-			//AssetFileDescriptor file = context.getResources().openRawResourceFd(resourceId);
-			//getImageDimensions(file);
-			BitmapFactory.Options options = new BitmapFactory.Options();
-			options.inJustDecodeBounds = true;
-			BitmapFactory.decodeResource(context.getResources(), resourceId, options);
-			if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
-				return calculateScaleFactor(options.outWidth, options.outHeight, ScreenValues.CAST_SCREEN_WIDTH,
-						ScreenValues.CAST_SCREEN_HEIGHT, true);
-			} else {
-				return calculateScaleFactor(options.outWidth, options.outHeight, ScreenValues.SCREEN_WIDTH,
-						ScreenValues.SCREEN_HEIGHT, true);
-			}
-		} else {
-			throw new IllegalArgumentException("resource is not an image");
-		}
-	}
-
-	private static double calculateScaleFactor(int originalWidth, int originalHeight, int newWidth, int newHeight,
-			boolean fillOutWholeNewArea) {
+	public static double calculateScaleFactor(int originalWidth, int originalHeight, int newWidth, int newHeight) {
 		if (originalHeight == 0 || originalWidth == 0 || newHeight == 0 || newWidth == 0) {
 			throw new IllegalArgumentException("One or more values are 0");
 		}
 		double widthScaleFactor = ((double) newWidth) / ((double) originalWidth);
 		double heightScaleFactor = ((double) newHeight) / ((double) originalHeight);
 
-		if (fillOutWholeNewArea) {
-			return Math.max(widthScaleFactor, heightScaleFactor);
-		} else {
-			return Math.min(widthScaleFactor, heightScaleFactor);
-		}
+		return Math.max(widthScaleFactor, heightScaleFactor);
 	}
 
-	public static Vector2 calculateScaleFactorsToScreenSize(int resourceId, Context context) {
-		if (context.getResources().getResourceTypeName(resourceId).compareTo("drawable") == 0) {
-			BitmapFactory.Options options = new BitmapFactory.Options();
-			options.inJustDecodeBounds = true;
-			BitmapFactory.decodeResource(context.getResources(), resourceId, options);
-			return calculateScaleFactors(options.outWidth, options.outHeight, ScreenValues.SCREEN_WIDTH,
-					ScreenValues.SCREEN_HEIGHT);
-		} else {
-			throw new IllegalArgumentException("resource is not an image");
-		}
-	}
-
-	private static Vector2 calculateScaleFactors(int originalWidth, int originalHeight, int newWidth, int newHeight) {
-		if (originalHeight == 0 || originalWidth == 0 || newHeight == 0 || newWidth == 0) {
-			throw new IllegalArgumentException("One or more values are 0");
-		}
-		double widthScaleFactor = ((double) newWidth) / ((double) originalWidth);
-		double heightScaleFactor = ((double) newHeight) / ((double) originalHeight);
-		return new Vector2((float) widthScaleFactor, (float) heightScaleFactor);
-	}
-
-	//method from developer.android.com
-	public static int calculateInSampleSize(int origWidth, int origHeight, int reqWidth, int reqHeight) {
+	private static int calculateInSampleSize(int origWidth, int origHeight, int reqWidth, int reqHeight) {
 		int inSampleSize = 1;
 
 		if (origHeight > reqHeight || origWidth > reqWidth) {
 			final int halfHeight = origHeight / 2;
 			final int halfWidth = origWidth / 2;
 
-			// Calculate the largest inSampleSize value that is a power of 2 and keeps both
-			// height and width larger than the requested height and width.
 			while ((halfHeight / inSampleSize) > reqHeight
 					&& (halfWidth / inSampleSize) > reqWidth) {
 				inSampleSize *= 2;

@@ -27,10 +27,10 @@ import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
-import org.catrobat.catroid.physics.PhysicsCollision;
+import org.catrobat.catroid.physics.PhysicsCollisionListener;
 import org.catrobat.catroid.physics.PhysicsWorld;
 
-public class PhysicsCollisionTestListener extends PhysicsCollision {
+public class PhysicsCollisionTestListener extends PhysicsCollisionListener {
 
 	private PhysicsCollisionTestReceiver receiver;
 

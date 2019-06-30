@@ -1028,6 +1028,7 @@
     <string name="stage_dialog_axes_off">Axes off</string>
     <string name="stage_dialog_maximize">Maximize/\nstretch</string>
     <string name="stage_dialog_screenshot">Preview</string>
+    <string name="stage_dialog_embroidery">Embroidery</string>
     <!--  -->
 
     <!-- Broadcast spinner -->
@@ -1241,6 +1242,8 @@
     <string name="brick_if_end">End if</string>
     <string name="brick_set_variable">Set variable</string>
     <string name="brick_change_variable">Change variable</string>
+    <string name="brick_write_variable_on_device">Write variable on device</string>
+    <string name="brick_read_variable_from_device">Read variable from device</string>
     <string name="brick_note_default_value">add comment here…</string>
     <string name="brick_think_bubble_default_value">Hmmmm!</string>
     <string name="brick_say_bubble_default_value">Hello!</string>
@@ -1255,6 +1258,9 @@
     <string name="brick_replace_item_in_userlist_replace_in_list">Replace item in list</string>
     <string name="brick_replace_item_in_userlist_item_at_index">at position</string>
     <string name="brick_replace_item_in_userlist_with_value">with</string>
+    <string name="brick_web_request">Send web request to</string>
+    <string name="brick_web_request_result">and store answer in</string>
+    <string name="brick_web_request_default_value">https://official-joke-api.appspot.com/random_joke</string>
     <!--  -->
 
     <!-- Default Values -->
@@ -1341,9 +1347,6 @@
     <string name="notification_screenshot_ok">Preview image saved</string>
     <string name="notification_download_project_cancel">Cancel project download</string>
     <string name="notification_reconvert_download_program_cancel">Canceled downloading/reconverting project</string>
-    <string name="notification_copy_title_pending">"Copying"</string>
-    <string name="notification_copy_pending">Copy in progress</string>
-    <string name="notification_copy_finished">Copy completed</string>
     <string name="notification_upload_title_pending">"Uploading"</string>
     <string name="notification_upload_title_finished">"Look at"</string>
     <string name="notification_upload_pending">Upload in progress</string>
@@ -1404,6 +1407,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="error_drone_wrong_platform_title">No AR.Drone 2.0 support.</string>
     <string name="error_drone_wrong_platform">We cannot run an AR.Drone 2.0 project on your device.</string>
     <string name="error_rename_incompatible_project">Renaming an incompatible project is not possible.</string>
+    <string name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
 
     <string name="error_unknown_error">Something went wrong.</string>
     <string name="error_gps_not_available">Geolocation data is not available.</string>
@@ -1977,6 +1981,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_show_variable_aligned_centered">centered</string>
     <string name="brick_show_variable_aligned_left">left</string>
     <string name="brick_show_variable_aligned_right">right</string>
+    <string name="brick_context_dialog_pick_color">Pick color</string>
     <!-- -->
 
 

@@ -252,6 +252,12 @@
         <item>@string/phiro_sensor_bottom_right</item>
     </string-array>
 
+    <!-- Color picker selection -->
+    <string-array name="brick_select_color_picker">
+        <item>@string/brick_context_dialog_pick_color</item>
+        <item>@string/brick_context_dialog_formula_edit_brick</item>
+    </string-array>
+
     <!-- Physics object type spinner -->
     <string-array name="physics_object_types">
         <item>@string/brick_set_physics_object_type_dynamic</item>

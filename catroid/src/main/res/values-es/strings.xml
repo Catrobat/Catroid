@@ -68,9 +68,9 @@
     <string name="disconnect">Desconectar</string>
     <!--  -->
     <!-- Main Menu -->
-    <string name="main_menu_continue">Continue project</string>
+    <string name="main_menu_continue">Continuar proyecto</string>
     <string name="main_menu_new">Nuevo proyecto</string>
-    <string name="main_menu_programs">Programas</string>
+    <string name="main_menu_programs">Proyectos</string>
     <string name="main_menu_help">Ayuda</string>
     <string name="main_menu_web">Comunidad Catrobat</string>
     <string name="main_menu_upload">Cargar programa</string>
@@ -150,7 +150,7 @@
     <string name="preference_title_enable_phiro_bricks">Bloques Phiro</string>
     <string name="preference_description_phiro_bricks">Allow the app to control RobotixEdu\'s Phiro robots</string>
     <string name="preference_title_enable_arduino_bricks">Bloques Arduino</string>
-    <string name="preference_description_arduino_bricks">Allow the app to control Arduino boards</string>
+    <string name="preference_description_arduino_bricks">Permitir a la aplicación controlar placas Arduino</string>
     <string name="preference_title_enable_embroidery_bricks">Embroidery extension</string>
     <string name="preference_description_embroidery_bricks">Create patterns for stitching machines</string>
     <string name="preference_title_cast_feature_globally_enabled">Habilitar funciones de cast</string>
@@ -177,8 +177,8 @@
     <string name="error_request_timeout">Whoops! Our server did not respond in time, please try again later.</string>
     <string name="error_scratch_program_conversion_failed">Ups! No se ha podido convertir el programa de Scratch. Por favor inténtelo más tarde!</string>
     <string name="error_specific_scratch_program_conversion_failed_x">Ups! No se pudo convertir %1$s. Por favor inténtelo de nuevo más tarde!</string>
-    <string name="error_scratch_converter_outdated_app_version">Your version of this app is outdated. Our Scratch
-        converter only works on the latest version. Please update the app.</string>
+    <string name="error_scratch_converter_outdated_app_version">Tu versión de esta aplicación está obsoleta. Nuestro convertidor Scratch
+        solo funciona en la última versión. Por favor actualiza la aplicación.</string>
     <string name="error_cannot_open_not_existing_scratch_program">¡No se puede abrir el programa de Scratch. Parece que has cancelado la conversión y/o descarga del programa Scratch o has renombrado y/o borrado el programa en el ínterin!</string>
     <string name="error_cannot_open_currently_downloading_scratch_program">No puedes abrir el programa
         por el momento. Por favor espere hasta que éste descargado.</string>
@@ -269,12 +269,14 @@
     <string name="name_empty">Please enter a text</string>
     <!-- Recycler View -->
     <string name="am_empty_list">There are no items in this list yet. Please add some first.</string>
+    <string name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
     <string name="am_backpack">Empacar</string>
     <string name="am_unpack">Desempacar</string>
     <string name="am_copy">Copiar</string>
     <string name="am_delete">Borrar</string>
     <string name="am_rename">Renombrar</string>
     <string name="am_convert">Convertir</string>
+    <string name="am_merge">Merge</string>
     <string name="dialog_confirm_delete">¡No puedes deshacer esto!</string>
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
@@ -282,6 +284,7 @@
     <string name="copy">Copiar</string>
     <string name="delete">Borrar</string>
     <string name="rename">Renombrar</string>
+    <string name="merge">Merge</string>
     <string name="show_details">Mostrar detalles</string>
     <string name="hide_details">Ocultar detalles</string>
     <!-- Action Mode Titles -->
@@ -305,6 +308,10 @@
     <plurals name="am_convert_projects_title">
         <item quantity="one">Convert %d project</item>
         <item quantity="other">Convert %d projects</item>
+    </plurals>
+    <plurals name="am_merge_projects_title">
+        <item quantity="one">Merge %d project</item>
+        <item quantity="other">Merge %d projects</item>
     </plurals>
     <!-- Scene Action Mode Titles -->
     <plurals name="am_pack_scenes_title">
@@ -477,6 +484,7 @@
     <string name="data_label">Nombre</string>
     <!-- Details -->
     <string name="project_details">Last access: %s, size: %s</string>
+    <string name="last_access_today">today, %s</string>
     <string name="scene_details">Actors and objects: %d, looks: %d, sounds: %d</string>
     <string name="sprite_details">Bricks: %d, looks: %d, sounds: %d</string>
     <string name="look_details">Resolution: %s, size: %s</string>
@@ -641,7 +649,7 @@
     <string name="tnf_well_known_https">HTTPS</string>
     <string name="tnf_well_known_tel">Número de teléfono</string>
     <string name="tnf_well_known_sms">SMS</string>
-    <string name="tnf_well_known_mailto">Correo electrónico</string>
+    <string name="tnf_well_known_mailto">Email</string>
     <!--  -->
     <!-- DataListFragment -->
     <string name="global_vars_headline">Variables for all actors and objects</string>
@@ -855,7 +863,7 @@
     <string name="show_password">Mostrar Contraseña</string>
     <string name="sign_in_error">Something went wrong during sign in.</string>
     <string name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>
-    <string name="error_facebook_session_expired">Session expired, please log in.</string>
+    <string name="error_session_expired">Session expired, please log in.</string>
     <string name="sign_in_with_facebook">Sign in with Facebook</string>
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="error_register_empty_username">Empty username</string>
@@ -888,7 +896,6 @@
     <string name="prestage_resource_not_available_text">Unfortunately this project does not work on your device.
         The following components are unavailable:\n\n</string>
     <string name="prestage_resource_in_use_text">Otro dispositivo está conectado al Jumping Sumo. Asegúrese de ser el único controlador del Drone.</string>
-    <string name="prestage_no_flash_available">\u2022 Flash\n</string>
     <string name="prestage_no_vibrator_available">\u2022 Vibración\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 Sensor aceleración\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 Sensor inclinación\n</string>
@@ -913,6 +920,7 @@
     <string name="stage_dialog_axes_off">Ejes Desactivados</string>
     <string name="stage_dialog_maximize">Maximizar/\nAlargar</string>
     <string name="stage_dialog_screenshot">Previsualización</string>
+    <string name="stage_dialog_embroidery">Embroidery</string>
     <!--  -->
     <!-- Broadcast spinner -->
     <string name="dialog_new_broadcast_message_title">Mensaje nuevo</string>
@@ -940,6 +948,7 @@
     <string name="category_arduino">Arduino</string>
     <string name="category_cast">Cast</string>
     <string name="category_raspi">Raspberry Pi</string>
+    <string name="category_assertions">Testing</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"Coloque en "</string>
@@ -1087,6 +1096,9 @@
     <string name="brick_clone_this">yo mismo</string>
     <string name="brick_when_cloned">Cuando inicie como un clon</string>
     <string name="brick_delete_this_clone">Eliminar este clon</string>
+    <string name="brick_assert_that">Assert:</string>
+    <string name="brick_is_equal_to">equal to expected:</string>
+    <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
     <plurals name="time_plural">
         <item quantity="one">vez</item>
         <item quantity="other">veces</item>
@@ -1112,6 +1124,9 @@
     <string name="brick_replace_item_in_userlist_replace_in_list">Reemplace el elemento de lista</string>
     <string name="brick_replace_item_in_userlist_item_at_index">en la posición</string>
     <string name="brick_replace_item_in_userlist_with_value">con</string>
+    <string name="brick_web_request">Send web request to</string>
+    <string name="brick_web_request_result">and store answer in</string>
+    <string name="brick_web_request_default_value">https://official-joke-api.appspot.com/random_joke</string>
     <!--  -->
     <!-- Default Values -->
     <string name="default_project_name">Mi primer programa</string>
@@ -1187,9 +1202,6 @@
     <string name="notification_screenshot_ok">Vista previa guardada</string>
     <string name="notification_download_project_cancel">Cancel project download</string>
     <string name="notification_reconvert_download_program_cancel">Descarga Cancelada/Reconvirtiendo programa</string>
-    <string name="notification_copy_title_pending">"Copiando "</string>
-    <string name="notification_copy_pending">Copia en progreso</string>
-    <string name="notification_copy_finished">Copia completada</string>
     <string name="notification_upload_title_pending">"Cargando "</string>
     <string name="notification_upload_title_finished">"Apariencia en"</string>
     <string name="notification_upload_pending">Carga en progreso</string>
@@ -1248,6 +1260,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="error_drone_wrong_platform_title">No hay soporte para AR.Drone 2.0.</string>
     <string name="error_drone_wrong_platform">No podemos ejecutar un proyecto de AR.Drone 2.0 en su dispositivo.</string>
     <string name="error_rename_incompatible_project">No es posible renombrar un proyecto incompatible.</string>
+    <string name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
     <string name="error_unknown_error">Se ha producido un error desconocido.</string>
     <string name="error_gps_not_available">Geolocation data is not available.</string>
     <string name="error_set_description">Ocurrió un error mientras se guardaba la descripción.</string>
@@ -1423,7 +1436,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_jumping_sumo_move_backward">Mover el Jumping Sumo hacia atrás</string>
     <string name="brick_jumping_sumo_animation">Animación Jumping Sumo</string>
     <string name="brick_jumping_sumo_no_sound">Jumping Sumo sin sonido</string>
-    <string name="brick_jumping_sumo_sound">Sonido</string>
     <string name="brick_jumping_sumo_jump_long">Salto largo de Jumping Sumo</string>
     <string name="brick_jumping_sumo_jump_high">Salto alto de Jumping Sumo</string>
     <string name="brick_jumping_sumo_rotate_left">Girar Jumping Sumo hacia la izquierda</string>
@@ -1527,7 +1539,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_nothing_selected">Definir el valor de entrada</string>
     <string name="formula_editor_parse_fail_formula_too_long">Fórmula demasiado larga!</string>
     <string name="formula_editor_choose_object_variable">Propiedades de este objeto</string>
-    <string name="formula_editor_existing_variable">ESte nombre ya está siendo usado!</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
     <string name="formula_editor_function_sin">sen</string>
@@ -1579,6 +1590,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_letter_parameter">(1, \'Hola mundo\')</string>
     <string name="formula_editor_function_join">unir</string>
     <string name="formula_editor_function_join_parameter">(\'hola\',\' mundo\')</string>
+    <string name="formula_editor_function_regex">regular expression</string>
+    <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_pin_digital</string>
     <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_pin_analogico</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry_pi_pin</string>
@@ -1755,11 +1768,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_intro_summary_data">Las variables y las listas que se utilizan en el programa pueden encontrarse aquí. \nPuede simplemente insertar éstos en la fórmula, o añadir nuevas.</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
-    <string name="add_text">Añadir texto</string>
-    <string name="text_hint">Texto del bloque</string>
-    <string name="add_variable">Añadir variable</string>
-    <string name="add_line_break">Añadir un salto de línea</string>
-    <string name="variable_hint">Nombre de la variable</string>
     <string name="brick_show_variable">Mostrar la variable</string>
     <string name="brick_hide_variable">Ocultar la variable</string>
     <string name="brick_show_variable_position">en </string>
@@ -1769,10 +1777,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_show_variable_aligned_centered">centrado</string>
     <string name="brick_show_variable_aligned_left">izquierda</string>
     <string name="brick_show_variable_aligned_right">derecha</string>
+    <string name="brick_context_dialog_pick_color">Pick color</string>
     <!-- -->
-    <!-- User bricks strings -->
-    <string name="new_user_brick_variable">Variable</string>
-    <!--  -->
     <!-- Camera related strings -->
     <string name="brick_video">Girar la cámara</string>
     <string name="video_brick_camera_on">encendido</string>

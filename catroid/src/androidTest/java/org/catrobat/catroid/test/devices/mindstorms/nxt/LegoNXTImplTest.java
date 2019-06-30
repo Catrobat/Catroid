@@ -23,6 +23,8 @@
 package org.catrobat.catroid.test.devices.mindstorms.nxt;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -46,20 +48,49 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.NXT_SENSORS;
+
 @RunWith(AndroidJUnit4.class)
 public class LegoNXTImplTest {
 
 	private Context applicationContext;
 
 	private LegoNXT nxt;
-	ConnectionDataLogger logger;
+	private ConnectionDataLogger logger;
+
+	private NXTSensor.Sensor[] sensorMappingBuffer;
+	private boolean nxtSettingBuffer;
+
+	private NXTSensor.Sensor[] defaultSensorMapping = {
+			NXTSensor.Sensor.TOUCH,
+			NXTSensor.Sensor.SOUND,
+			NXTSensor.Sensor.LIGHT_INACTIVE,
+			NXTSensor.Sensor.ULTRASONIC
+	};
 
 	private static final int PREFERENCES_SAVE_BROADCAST_DELAY = 50;
 
 	@Before
 	public void setUp() throws Exception {
-
 		applicationContext = InstrumentationRegistry.getTargetContext().getApplicationContext();
+
+		SharedPreferences sharedPreferences = PreferenceManager
+				.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
+
+		nxtSettingBuffer = sharedPreferences
+				.getBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false);
+
+		sharedPreferences.edit()
+				.putBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, true)
+				.commit();
+
+		sensorMappingBuffer = SettingsFragment.getLegoNXTSensorMapping(InstrumentationRegistry.getTargetContext());
+
+		setSensorMapping(new NXTSensor.Sensor[] {
+				NXTSensor.Sensor.NO_SENSOR,
+				NXTSensor.Sensor.NO_SENSOR,
+				NXTSensor.Sensor.NO_SENSOR,
+				NXTSensor.Sensor.NO_SENSOR});
 
 		nxt = new LegoNXTImpl(this.applicationContext);
 		logger = ConnectionDataLogger.createLocalConnectionLogger();
@@ -70,14 +101,23 @@ public class LegoNXTImplTest {
 	public void tearDown() throws Exception {
 		nxt.disconnect();
 		logger.disconnectAndDestroy();
+
+		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext()).edit()
+				.putBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, nxtSettingBuffer)
+				.commit();
+		setSensorMapping(sensorMappingBuffer);
 	}
 
 	@Test
-	public void testSensorAssignment() throws InterruptedException {
+	public void testSensorAssignment() {
+		NXTSensor.Sensor[] sensorMapping = {
+				NXTSensor.Sensor.LIGHT_INACTIVE,
+				NXTSensor.Sensor.SOUND,
+				NXTSensor.Sensor.TOUCH,
+				NXTSensor.Sensor.ULTRASONIC
+		};
 
-		SettingsFragment.setLegoMindstormsNXTSensorMapping(applicationContext,
-				new NXTSensor.Sensor[] {NXTSensor.Sensor.LIGHT_INACTIVE, NXTSensor.Sensor.SOUND,
-						NXTSensor.Sensor.TOUCH, NXTSensor.Sensor.ULTRASONIC});
+		setSensorMapping(sensorMapping);
 
 		nxt.initialise();
 
@@ -98,19 +138,13 @@ public class LegoNXTImplTest {
 		assertTrue(nxt.getSensor4() instanceof NXTI2CUltraSonicSensor);
 	}
 
-	private void resetSensorMappingToDefault() throws InterruptedException {
-		SettingsFragment.setLegoMindstormsNXTSensorMapping(InstrumentationRegistry.getContext(),
-				new NXTSensor.Sensor[] {NXTSensor.Sensor.TOUCH, NXTSensor.Sensor.SOUND,
-						NXTSensor.Sensor.LIGHT_INACTIVE, NXTSensor.Sensor.ULTRASONIC});
-	}
-
 	@Test
 	public void testSensorAssignmentChange() throws InterruptedException {
-		resetSensorMappingToDefault();
+		setSensorMapping(defaultSensorMapping);
 		nxt.initialise();
 
 		SettingsFragment.setLegoMindstormsNXTSensorMapping(applicationContext,
-				NXTSensor.Sensor.LIGHT_INACTIVE, SettingsFragment.NXT_SENSORS[0]);
+				NXTSensor.Sensor.LIGHT_INACTIVE, NXT_SENSORS[0]);
 
 		Thread.sleep(PREFERENCES_SAVE_BROADCAST_DELAY);
 
@@ -118,7 +152,7 @@ public class LegoNXTImplTest {
 		assertTrue(nxt.getSensor1() instanceof NXTLightSensor);
 
 		SettingsFragment.setLegoMindstormsNXTSensorMapping(applicationContext,
-				NXTSensor.Sensor.TOUCH, SettingsFragment.NXT_SENSORS[0]);
+				NXTSensor.Sensor.TOUCH, NXT_SENSORS[0]);
 
 		Thread.sleep(PREFERENCES_SAVE_BROADCAST_DELAY);
 
@@ -128,7 +162,6 @@ public class LegoNXTImplTest {
 
 	@Test
 	public void testSimplePlayToneTest() {
-
 		int inputHz = 100;
 		int expectedHz = 10000;
 		int durationInMs = 3000;
@@ -144,8 +177,6 @@ public class LegoNXTImplTest {
 
 	@Test
 	public void testPlayToneHzOverMaxValue() {
-
-		// MaxHz = 14000;
 		int inputHz = 160;
 		int expectedHz = 14000;
 		int durationInMs = 5000;
@@ -161,7 +192,6 @@ public class LegoNXTImplTest {
 
 	@Test
 	public void testCheckDurationOfTone() {
-
 		int inputHz = 130;
 		float inputDurationInS = 5.5f;
 		int inputDurationInMs = (int) (inputDurationInS * 1000);
@@ -179,7 +209,6 @@ public class LegoNXTImplTest {
 
 	@Test
 	public void testWithZeroDuration() {
-
 		int inputHz = 13000;
 		int inputDurationInMs = 0;
 
@@ -189,5 +218,13 @@ public class LegoNXTImplTest {
 		ArrayList<byte[]> commands = logger.getSentMessages(2, 0);
 
 		assertEquals(0, commands.size());
+	}
+
+	private void setSensorMapping(NXTSensor.Sensor[] sensorMapping) {
+		SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(applicationContext).edit();
+		for (int i = 0; i < NXT_SENSORS.length; i++) {
+			editor.putString(NXT_SENSORS[i], sensorMapping[i].getSensorCode());
+		}
+		editor.commit();
 	}
 }

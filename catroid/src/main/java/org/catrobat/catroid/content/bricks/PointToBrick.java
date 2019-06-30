@@ -58,7 +58,7 @@ public class PointToBrick extends BrickBaseType implements BrickSpinner.OnItemSe
 	}
 
 	@Override
-	public BrickBaseType clone() throws CloneNotSupportedException {
+	public Brick clone() throws CloneNotSupportedException {
 		PointToBrick clone = (PointToBrick) super.clone();
 		clone.spinner = null;
 		return clone;
@@ -112,8 +112,7 @@ public class PointToBrick extends BrickBaseType implements BrickSpinner.OnItemSe
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createPointToAction(sprite, pointedObject));
-		return null;
 	}
 }

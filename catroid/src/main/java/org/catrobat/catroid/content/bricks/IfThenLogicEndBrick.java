@@ -22,64 +22,19 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
-public class IfThenLogicEndBrick extends BrickBaseType implements ControlStructureBrick {
+public class IfThenLogicEndBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
 
-	private transient IfThenLogicBeginBrick ifBeginBrick;
-
-	public IfThenLogicEndBrick(IfThenLogicBeginBrick ifBeginBrick) {
-		this.ifBeginBrick = ifBeginBrick;
-	}
-
-	public IfThenLogicBeginBrick getIfBeginBrick() {
-		return ifBeginBrick;
-	}
-
-	public void setIfThenBeginBrick(IfThenLogicBeginBrick ifBeginBrick) {
-		this.ifBeginBrick = ifBeginBrick;
-	}
-
-	@Override
-	public boolean hasHelpPage() {
-		return false;
-	}
-
 	@Override
 	public int getViewResource() {
-		return R.layout.brick_if_end_if;
+		return 0;
 	}
 
 	@Override
-	public Brick getFirstBrick() {
-		return ifBeginBrick;
-	}
-
-	@Override
-	public Brick getLastBrick() {
-		return this;
-	}
-
-	@Override
-	public List<Brick> getAllParts() {
-		List<Brick> parts = new ArrayList<>();
-		parts.add(ifBeginBrick);
-		parts.add(this);
-		return parts;
-	}
-
-	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		LinkedList<ScriptSequenceAction> returnActionList = new LinkedList<>();
-		returnActionList.add(sequence);
-		return returnActionList;
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 	}
 }

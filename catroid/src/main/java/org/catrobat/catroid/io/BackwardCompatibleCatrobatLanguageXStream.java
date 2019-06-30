@@ -29,10 +29,10 @@ import com.thoughtworks.xstream.converters.ConversionException;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 
 import org.catrobat.catroid.content.BroadcastScript;
-import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.RaspiInterruptScript;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenBackgroundChangesScript;
+import org.catrobat.catroid.content.WhenBounceOffScript;
 import org.catrobat.catroid.content.WhenConditionScript;
 import org.catrobat.catroid.content.WhenGamepadButtonScript;
 import org.catrobat.catroid.content.WhenNfcScript;
@@ -153,8 +153,6 @@ import org.catrobat.catroid.content.bricks.WhenConditionBrick;
 import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick;
 import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
-import org.catrobat.catroid.physics.PhysicsCollision;
-import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
 import org.catrobat.catroid.physics.content.bricks.SetBounceBrick;
 import org.catrobat.catroid.physics.content.bricks.SetFrictionBrick;
 import org.catrobat.catroid.physics.content.bricks.SetGravityBrick;
@@ -163,6 +161,7 @@ import org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.physics.content.bricks.SetVelocityBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
+import org.catrobat.catroid.physics.content.bricks.WhenBounceOffBrick;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -203,7 +202,7 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 		try {
 			parsedObject = super.fromXML(file);
 		} catch (ConversionException exception) {
-			Log.e(TAG, "Conversion error " + exception.getLocalizedMessage());
+			Log.d(TAG, "Conversion error " + exception.getLocalizedMessage());
 			modifyXMLToSupportUnknownFields(file);
 			parsedObject = super.fromXML(file);
 		}
@@ -627,7 +626,7 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 		brickInfo = new BrickInfo(ChooseCameraBrick.class.getSimpleName());
 		brickInfoMap.put("chooseCameraBrick", brickInfo);
 
-		brickInfo = new BrickInfo(CollisionReceiverBrick.class.getSimpleName());
+		brickInfo = new BrickInfo(WhenBounceOffBrick.class.getSimpleName());
 		brickInfoMap.put("collisionReceiverBrick", brickInfo);
 
 		brickInfo = new BrickInfo(SetBounceBrick.class.getSimpleName());
@@ -702,7 +701,7 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 		scriptInfoMap.put("broadcastScript", BroadcastScript.class.getSimpleName());
 		scriptInfoMap.put("raspiInterruptScript", RaspiInterruptScript.class.getSimpleName());
 		scriptInfoMap.put("whenNfcScript", WhenNfcScript.class.getSimpleName());
-		scriptInfoMap.put("collisionScript", CollisionScript.class.getSimpleName());
+		scriptInfoMap.put("collisionScript", WhenBounceOffScript.class.getSimpleName());
 		scriptInfoMap.put("whenTouchDownScript", WhenTouchDownScript.class.getSimpleName());
 		scriptInfoMap.put("whenGamepadButtonScript", WhenGamepadButtonScript.class.getSimpleName());
 	}
@@ -722,7 +721,11 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 			deleteChildNodeByName(originalDocument.getElementsByTagName("header").item(0), "isPhiroProProject");
 			deleteChildNodeByName(originalDocument, "brickList", "inUserBrick");
 
-			renameScriptChildNodeByName(originalDocument, "CollisionScript", "receivedMessage", "spriteToCollideWithName");
+			renameScriptChildNodeByName(originalDocument, "CollisionScript", "receivedMessage",
+					"spriteToBounceOffName");
+			renameScriptChildNodeByName(originalDocument, "CollisionScript", "spriteToCollideWithName",
+					"spriteToBounceOffName");
+			renameScriptType(originalDocument, "CollisionScript", WhenBounceOffScript.class.getSimpleName());
 			modifyScriptLists(originalDocument);
 			modifyBrickLists(originalDocument);
 			modifyVariables(originalDocument);
@@ -732,14 +735,27 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 		}
 	}
 
+	private void renameScriptType(Document doc, String oldTypeName, String newTypeName) {
+		for (Node script : getScriptsOfType(doc, oldTypeName)) {
+			if (script instanceof Element) {
+				((Element) script).setAttribute("type", newTypeName);
+			}
+		}
+	}
+
 	private void renameScriptChildNodeByName(Document originalDocument, String scriptName, String oldChildNodeName,
 			String newChildNodeName) {
-		NodeList scripts = originalDocument.getElementsByTagName("script");
-		List<Node> collisionScripts = getElementsFilteredByAttribute(scripts, "type", scriptName);
-		for (Node collisionScript : collisionScripts) {
-			Element message = findNodeByName(collisionScript, oldChildNodeName);
-			originalDocument.renameNode(message, null, newChildNodeName);
+		for (Node script : getScriptsOfType(originalDocument, scriptName)) {
+			Element message = findNodeByName(script, oldChildNodeName);
+			if (message != null) {
+				originalDocument.renameNode(message, null, newChildNodeName);
+			}
 		}
+	}
+
+	private List<Node> getScriptsOfType(Document doc, String type) {
+		NodeList scripts = doc.getElementsByTagName("script");
+		return getElementsFilteredByAttribute(scripts, "type", type);
 	}
 
 	private List<Node> getElementsFilteredByAttribute(NodeList unfiltered, String attributeName, String
@@ -784,43 +800,6 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 			Node motorMoveBrick = motorMoveBricks.item(i);
 			originalDocument.renameNode(motorMoveBrick, motorMoveBrick.getNamespaceURI(), newMotorMoveBrickName);
 		}
-	}
-
-	public void updateCollisionReceiverBrickMessage(File file) {
-		final String collisionTag = "CollisionScript";
-		final String receivedTag = "receivedMessage";
-		Document originalDocument = getDocument(file);
-
-		if (originalDocument != null) {
-			NodeList scripts = originalDocument.getElementsByTagName("script");
-			for (int i = 0; i < scripts.getLength(); i++) {
-				Node script = scripts.item(i);
-				NamedNodeMap attr = script.getAttributes();
-				if (attr.getLength() > 0) {
-					for (int j = 0; j < attr.getLength(); j++) {
-						if (attr.item(j).getNodeValue().equals(collisionTag)) {
-							NodeList messages = script.getChildNodes();
-							for (int k = 0; k < messages.getLength(); k++) {
-								Node message = messages.item(k);
-								if (message.getNodeName().equals(receivedTag)) {
-									String broadcastMessage = message.getTextContent();
-									String[] broadcastMessages = broadcastMessage.split("<(\\W)*-(\\W)*>");
-
-									if (broadcastMessages[1].matches("(\\W)*ANYTHING(\\W)*")) {
-										broadcastMessages[1] = PhysicsCollision.COLLISION_WITH_ANYTHING_IDENTIFIER;
-									}
-									broadcastMessage = broadcastMessages[0] + PhysicsCollision
-											.COLLISION_MESSAGE_CONNECTOR + broadcastMessages[1];
-
-									message.setTextContent(broadcastMessage);
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		saveDocument(originalDocument, file);
 	}
 
 	private void modifyVariables(Document originalDocument) {

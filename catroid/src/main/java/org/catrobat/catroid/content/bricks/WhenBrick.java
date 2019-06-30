@@ -30,35 +30,33 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
-import java.util.List;
-
-public class WhenBrick extends BrickBaseType implements ScriptBrick {
+public class WhenBrick extends ScriptBrickBaseType {
 
 	private static final long serialVersionUID = 1L;
 
-	private WhenScript whenScript;
+	private WhenScript script;
 
 	public WhenBrick() {
 		this(new WhenScript());
 	}
 
-	public WhenBrick(@NonNull WhenScript whenScript) {
-		whenScript.setScriptBrick(this);
-		commentedOut = whenScript.isCommentedOut();
-		this.whenScript = whenScript;
+	public WhenBrick(@NonNull WhenScript script) {
+		script.setScriptBrick(this);
+		commentedOut = script.isCommentedOut();
+		this.script = script;
 	}
 
 	@Override
-	public BrickBaseType clone() throws CloneNotSupportedException {
+	public Brick clone() throws CloneNotSupportedException {
 		WhenBrick clone = (WhenBrick) super.clone();
-		clone.whenScript = (WhenScript) whenScript.clone();
-		clone.whenScript.setScriptBrick(clone);
+		clone.script = (WhenScript) script.clone();
+		clone.script.setScriptBrick(clone);
 		return clone;
 	}
 
 	@Override
 	public Script getScript() {
-		return whenScript;
+		return script;
 	}
 
 	@Override
@@ -67,13 +65,6 @@ public class WhenBrick extends BrickBaseType implements ScriptBrick {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		return null;
-	}
-
-	@Override
-	public void setCommentedOut(boolean commentedOut) {
-		super.setCommentedOut(commentedOut);
-		getScript().setCommentedOut(commentedOut);
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 	}
 }

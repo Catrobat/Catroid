@@ -35,8 +35,6 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.utils.Utils;
 
-import java.util.List;
-
 public class MoveNStepsBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
@@ -83,9 +81,8 @@ public class MoveNStepsBrick extends FormulaBrick {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
 				.createMoveNStepsAction(sprite, getFormulaWithBrickField(BrickField.STEPS)));
-		return null;
 	}
 }

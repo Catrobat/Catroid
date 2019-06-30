@@ -33,14 +33,16 @@ import java.util.List;
 
 public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 
+	private static final long serialVersionUID = 1L;
+
 	private WhenConditionScript script;
 
 	public WhenConditionBrick() {
-		addAllowedBrickField(BrickField.IF_CONDITION, R.id.brick_when_condition_edit_text);
+		this(new WhenConditionScript());
 	}
 
 	public WhenConditionBrick(WhenConditionScript script) {
-		this();
+		addAllowedBrickField(BrickField.IF_CONDITION, R.id.brick_when_condition_edit_text);
 		script.setScriptBrick(this);
 		commentedOut = script.isCommentedOut();
 		this.script = script;
@@ -49,7 +51,7 @@ public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 	}
 
 	@Override
-	public BrickBaseType clone() throws CloneNotSupportedException {
+	public Brick clone() throws CloneNotSupportedException {
 		WhenConditionBrick clone = (WhenConditionBrick) super.clone();
 		clone.script = (WhenConditionScript) script.clone();
 		clone.script.setScriptBrick(clone);
@@ -72,13 +74,35 @@ public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 	}
 
 	@Override
+	public int getPositionInScript() {
+		return -1;
+	}
+
+	@Override
+	public void addToFlatList(List<Brick> bricks) {
+		super.addToFlatList(bricks);
+		for (Brick brick : getScript().getBrickList()) {
+			brick.addToFlatList(bricks);
+		}
+	}
+
+	@Override
+	public List<Brick> getDragAndDropTargetList() {
+		return getScript().getBrickList();
+	}
+
+	@Override
+	public int getPositionInDragAndDropTargetList() {
+		return -1;
+	}
+
+	@Override
 	public void setCommentedOut(boolean commentedOut) {
 		super.setCommentedOut(commentedOut);
 		getScript().setCommentedOut(commentedOut);
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		return null;
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 	}
 }

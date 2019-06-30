@@ -20,7 +20,10 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.content.bricks;
+
+import android.support.annotation.VisibleForTesting;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
@@ -31,26 +34,113 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
-public class RepeatUntilBrick extends FormulaBrick implements LoopBeginBrick {
+public class RepeatUntilBrick extends FormulaBrick implements CompositeBrick {
 
-	private static final long serialVersionUID = 1L;
+	private transient EndBrick endBrick = new EndBrick(this);
 
-	private transient LoopEndBrick loopEndBrick;
+	private List<Brick> loopBricks = new ArrayList<>();
 
 	public RepeatUntilBrick() {
 		addAllowedBrickField(BrickField.REPEAT_UNTIL_CONDITION, R.id.brick_repeat_until_edit_text);
 	}
 
-	public RepeatUntilBrick(int condition) {
-		this(new Formula(condition));
-	}
-
 	public RepeatUntilBrick(Formula condition) {
 		this();
 		setFormulaWithBrickField(BrickField.REPEAT_UNTIL_CONDITION, condition);
+	}
+
+	@VisibleForTesting
+	public EndBrick getEndBrick() {
+		return endBrick;
+	}
+
+	@Override
+	public boolean hasSecondaryList() {
+		return false;
+	}
+
+	@Override
+	public List<Brick> getNestedBricks() {
+		return loopBricks;
+	}
+
+	@Override
+	public List<Brick> getSecondaryNestedBricks() {
+		return null;
+	}
+
+	public boolean addBrick(Brick brick) {
+		return loopBricks.add(brick);
+	}
+
+	@Override
+	public void setCommentedOut(boolean commentedOut) {
+		super.setCommentedOut(commentedOut);
+		for (Brick brick : loopBricks) {
+			brick.setCommentedOut(commentedOut);
+		}
+		endBrick.setCommentedOut(commentedOut);
+	}
+
+	@Override
+	public Brick clone() throws CloneNotSupportedException {
+		RepeatUntilBrick clone = (RepeatUntilBrick) super.clone();
+		clone.endBrick = new EndBrick(clone);
+		clone.loopBricks = new ArrayList<>();
+		for (Brick brick : loopBricks) {
+			clone.addBrick(brick.clone());
+		}
+		return clone;
+	}
+
+	@Override
+	public boolean consistsOfMultipleParts() {
+		return true;
+	}
+
+	@Override
+	public List<Brick> getAllParts() {
+		List<Brick> bricks = new ArrayList<>();
+		bricks.add(this);
+		bricks.add(endBrick);
+		return bricks;
+	}
+
+	@Override
+	public void addToFlatList(List<Brick> bricks) {
+		super.addToFlatList(bricks);
+		for (Brick brick : loopBricks) {
+			brick.addToFlatList(bricks);
+		}
+		bricks.add(endBrick);
+	}
+
+	@Override
+	public void setParent(Brick parent) {
+		super.setParent(parent);
+		for (Brick brick : loopBricks) {
+			brick.setParent(this);
+		}
+	}
+
+	@Override
+	public List<Brick> getDragAndDropTargetList() {
+		return loopBricks;
+	}
+
+	@Override
+	public boolean removeChild(Brick brick) {
+		if (loopBricks.remove(brick)) {
+			return true;
+		}
+		for (Brick childBrick : loopBricks) {
+			if (childBrick.removeChild(brick)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
@@ -59,43 +149,68 @@ public class RepeatUntilBrick extends FormulaBrick implements LoopBeginBrick {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		ScriptSequenceAction repeatSequence = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
 
+		for (Brick brick : loopBricks) {
+			if (!brick.isCommentedOut()) {
+				brick.addActionToSequence(sprite, repeatSequence);
+			}
+		}
+
 		Action action = sprite.getActionFactory()
-				.createRepeatUntilAction(sprite, getFormulaWithBrickField(BrickField.REPEAT_UNTIL_CONDITION), repeatSequence);
+				.createRepeatUntilAction(sprite,
+						getFormulaWithBrickField(BrickField.REPEAT_UNTIL_CONDITION), repeatSequence);
 
 		sequence.addAction(action);
-		LinkedList<ScriptSequenceAction> returnActionList = new LinkedList<>();
-		returnActionList.add(repeatSequence);
-		return returnActionList;
 	}
 
 	@Override
-	public LoopEndBrick getLoopEndBrick() {
-		return loopEndBrick;
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		super.addRequiredResources(requiredResourcesSet);
+		for (Brick brick : loopBricks) {
+			brick.addRequiredResources(requiredResourcesSet);
+		}
 	}
 
-	@Override
-	public void setLoopEndBrick(LoopEndBrick loopEndBrick) {
-		this.loopEndBrick = loopEndBrick;
-	}
+	private static class EndBrick extends BrickBaseType {
 
-	@Override
-	public Brick getFirstBrick() {
-		return this;
-	}
+		EndBrick(RepeatUntilBrick parent) {
+			this.parent = parent;
+		}
 
-	@Override
-	public Brick getLastBrick() {
-		return loopEndBrick;
-	}
+		@Override
+		public boolean consistsOfMultipleParts() {
+			return true;
+		}
 
-	@Override
-	public List<Brick> getAllParts() {
-		List<Brick> parts = new ArrayList<>();
-		parts.add(this);
-		parts.add(loopEndBrick);
-		return parts;
+		@Override
+		public List<Brick> getAllParts() {
+			return parent.getAllParts();
+		}
+
+		@Override
+		public void addToFlatList(List<Brick> bricks) {
+			parent.addToFlatList(bricks);
+		}
+
+		@Override
+		public List<Brick> getDragAndDropTargetList() {
+			return parent.getParent().getDragAndDropTargetList();
+		}
+
+		@Override
+		public int getPositionInDragAndDropTargetList() {
+			return parent.getParent().getDragAndDropTargetList().indexOf(parent);
+		}
+
+		@Override
+		public int getViewResource() {
+			return R.layout.brick_loop_end;
+		}
+
+		@Override
+		public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		}
 	}
 }

@@ -28,29 +28,27 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenClonedScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
-import java.util.Collections;
-import java.util.List;
-
-public class WhenClonedBrick extends BrickBaseType implements ScriptBrick {
+public class WhenClonedBrick extends ScriptBrickBaseType {
 
 	private static final long serialVersionUID = 1L;
-	private WhenClonedScript whenClonedScript;
+
+	private WhenClonedScript script;
 
 	public WhenClonedBrick() {
 		this(new WhenClonedScript());
 	}
 
-	public WhenClonedBrick(WhenClonedScript whenClonedScript) {
-		whenClonedScript.setScriptBrick(this);
-		commentedOut = whenClonedScript.isCommentedOut();
-		this.whenClonedScript = whenClonedScript;
+	public WhenClonedBrick(WhenClonedScript script) {
+		script.setScriptBrick(this);
+		commentedOut = script.isCommentedOut();
+		this.script = script;
 	}
 
 	@Override
-	public BrickBaseType clone() throws CloneNotSupportedException {
+	public Brick clone() throws CloneNotSupportedException {
 		WhenClonedBrick clone = (WhenClonedBrick) super.clone();
-		clone.whenClonedScript = (WhenClonedScript) whenClonedScript.clone();
-		clone.whenClonedScript.setScriptBrick(clone);
+		clone.script = (WhenClonedScript) script.clone();
+		clone.script.setScriptBrick(clone);
 		return clone;
 	}
 
@@ -61,11 +59,10 @@ public class WhenClonedBrick extends BrickBaseType implements ScriptBrick {
 
 	@Override
 	public Script getScript() {
-		return whenClonedScript;
+		return script;
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		return Collections.emptyList();
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 	}
 }

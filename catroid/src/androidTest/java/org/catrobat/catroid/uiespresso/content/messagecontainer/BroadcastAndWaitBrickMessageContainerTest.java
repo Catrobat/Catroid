@@ -103,7 +103,7 @@ public class BroadcastAndWaitBrickMessageContainerTest {
 				.checkShowsText(defaultMessage);
 
 		ProjectSaveTask
-				.task(project);
+				.task(project, InstrumentationRegistry.getTargetContext());
 
 		baseActivityTestRule.finishActivity();
 

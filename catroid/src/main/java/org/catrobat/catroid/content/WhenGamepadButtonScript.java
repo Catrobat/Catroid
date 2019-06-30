@@ -33,6 +33,9 @@ public class WhenGamepadButtonScript extends Script {
 	private static final long serialVersionUID = 1L;
 	private String action;
 
+	public WhenGamepadButtonScript() {
+	}
+
 	public WhenGamepadButtonScript(String action) {
 		this.action = action;
 	}

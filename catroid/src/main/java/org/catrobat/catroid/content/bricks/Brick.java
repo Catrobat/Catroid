@@ -27,6 +27,7 @@ import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.CheckBox;
 
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
@@ -42,7 +43,7 @@ public interface Brick extends Serializable, Cloneable {
 		COLOR, COLOR_CHANGE, BRIGHTNESS, BRIGHTNESS_CHANGE, X_POSITION, Y_POSITION, X_POSITION_CHANGE, Y_POSITION_CHANGE,
 		TRANSPARENCY, TRANSPARENCY_CHANGE, SIZE, SIZE_CHANGE, VOLUME, VOLUME_CHANGE, X_DESTINATION, Y_DESTINATION, STEPS,
 		DURATION_IN_SECONDS, DEGREES, TURN_RIGHT_DEGREES, TURN_LEFT_DEGREES, TIME_TO_WAIT_IN_SECONDS, VARIABLE,
-		VARIABLE_CHANGE,
+		VARIABLE_CHANGE, WEB_REQUEST,
 
 		PEN_SIZE, PEN_COLOR_RED, PEN_COLOR_GREEN, PEN_COLOR_BLUE,
 
@@ -127,15 +128,41 @@ public interface Brick extends Serializable, Cloneable {
 
 	void addRequiredResources(ResourcesSet requiredResourcesSet);
 
-	List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence);
+	void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence);
 
 	View getView(Context context);
 
-	Brick clone() throws CloneNotSupportedException;
+	View getPrototypeView(Context context);
 
 	CheckBox getCheckBox();
+
+	void disableSpinners();
+
+	Brick clone() throws CloneNotSupportedException;
+
+	void addToFlatList(List<Brick> bricks);
+
+	boolean consistsOfMultipleParts();
+
+	List<Brick> getAllParts();
+
+	Script getScript();
+
+	int getPositionInScript();
+
+	Brick getParent();
+
+	void setParent(Brick parent);
+
+	List<Brick> getDragAndDropTargetList();
+
+	int getPositionInDragAndDropTargetList();
+
+	boolean removeChild(Brick brick);
 
 	boolean isCommentedOut();
 
 	void setCommentedOut(boolean commentedOut);
+
+	boolean hasHelpPage();
 }

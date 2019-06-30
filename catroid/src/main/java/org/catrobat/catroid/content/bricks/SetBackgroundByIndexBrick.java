@@ -28,9 +28,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 
-import java.util.Collections;
-import java.util.List;
-
 import static org.catrobat.catroid.content.EventWrapper.NO_WAIT;
 
 public class SetBackgroundByIndexBrick extends FormulaBrick {
@@ -46,7 +43,7 @@ public class SetBackgroundByIndexBrick extends FormulaBrick {
 	}
 
 	public SetBackgroundByIndexBrick(Formula formula) {
-		this();
+		addAllowedBrickField(BrickField.LOOK_INDEX, R.id.brick_set_background_by_index_edit_text);
 		setFormulaWithBrickField(BrickField.LOOK_INDEX, formula);
 	}
 
@@ -56,10 +53,8 @@ public class SetBackgroundByIndexBrick extends FormulaBrick {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
 				.createSetBackgroundLookByIndexAction(sprite, getFormulaWithBrickField(BrickField.LOOK_INDEX), NO_WAIT));
-
-		return Collections.emptyList();
 	}
 }

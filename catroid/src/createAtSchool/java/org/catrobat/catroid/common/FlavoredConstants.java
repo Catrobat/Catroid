@@ -33,9 +33,9 @@ import static org.catrobat.catroid.common.Constants.MAIN_URL_HTTPS;
 
 public final class FlavoredConstants {
 	// Web:
-	public static final String BASE_URL_HTTPS = MAIN_URL_HTTPS + "/pocketcode/";
+	public static final String BASE_URL_HTTPS = MAIN_URL_HTTPS + "/create@school/";
 
-	public static final String POCKET_CODE_EXTERNAL_STORAGE_FOLDER_NAME = "Pocket Code";
+	public static final String POCKET_CODE_EXTERNAL_STORAGE_FOLDER_NAME = "Create@School";
 
 	public static final File DEFAULT_ROOT_DIRECTORY = CatroidApplication.getAppContext().getFilesDir();
 

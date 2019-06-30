@@ -66,7 +66,6 @@ public class SettingsFragment extends PreferenceFragment {
 	public static final String SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED = "settings_mindstorms_ev3_bricks_enabled";
 	public static final String SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED = "settings_mindstorms_ev3_show_sensor_info_box_disabled";
 	public static final String SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS = "setting_parrot_ar_drone_bricks";
-	public static final String SETTINGS_DRONE_CHOOSER = "settings_chooser_drone";
 	public static final String SETTINGS_SHOW_EMBROIDERY_BRICKS = "setting_embroidery_bricks";
 	public static final String SETTINGS_SHOW_PHIRO_BRICKS = "setting_enable_phiro_bricks";
 	public static final String SETTINGS_SHOW_ARDUINO_BRICKS = "setting_arduino_bricks";
@@ -237,15 +236,6 @@ public class SettingsFragment extends PreferenceFragment {
 		});
 	}
 
-	public static void setTermsOfServiceAgreedPermanently(Context context, boolean agreed) {
-		setBooleanSharedPreference(agreed, SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, context);
-	}
-
-	public static void setTermsOfServiceJSAgreedPermanently(Context context, boolean agreed) {
-		setBooleanSharedPreference(agreed, SETTINGS_PARROT_JUMPING_SUMO_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY,
-				context);
-	}
-
 	public static boolean isEmroiderySharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_SHOW_EMBROIDERY_BRICKS, context);
 	}
@@ -264,15 +254,6 @@ public class SettingsFragment extends PreferenceFragment {
 
 	public static boolean isMindstormsEV3SharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED, context);
-	}
-
-	public static boolean areTermsOfServiceAgreedPermanently(Context context) {
-		return getBooleanSharedPreference(false, SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, context);
-	}
-
-	public static boolean areTermsOfServiceJSAgreedPermanently(Context context) {
-		return getBooleanSharedPreference(false,
-				SETTINGS_PARROT_JUMPING_SUMO_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, context);
 	}
 
 	public static boolean isPhiroSharedPreferenceEnabled(Context context) {
@@ -301,30 +282,12 @@ public class SettingsFragment extends PreferenceFragment {
 		editor.commit();
 	}
 
-	public static void setEmbroiderySharedPreferenceEnabled(Context context, boolean value) {
-		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
-		editor.putBoolean(SETTINGS_SHOW_EMBROIDERY_BRICKS, value);
-		editor.commit();
-	}
-
-	public static void setRaspiSharedPreferenceEnabled(Context context, boolean value) {
-		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
-		editor.putBoolean(SETTINGS_SHOW_RASPI_BRICKS, value);
-		editor.commit();
-	}
-
 	public static boolean isArduinoSharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_SHOW_ARDUINO_BRICKS, context);
 	}
 
 	public static boolean isNfcSharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_SHOW_NFC_BRICKS, context);
-	}
-
-	public static void setNfcSharedPreferenceEnabled(Context context, boolean value) {
-		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
-		editor.putBoolean(SETTINGS_SHOW_NFC_BRICKS, value);
-		editor.commit();
 	}
 
 	public static boolean isRaspiSharedPreferenceEnabled(Context context) {
@@ -340,10 +303,6 @@ public class SettingsFragment extends PreferenceFragment {
 		}
 	}
 
-	private static void setBooleanSharedPreference(boolean value, String settingsString, Context context) {
-		getSharedPreferences(context).edit().putBoolean(settingsString, value).commit();
-	}
-
 	private static boolean getBooleanSharedPreference(boolean defaultValue, String settingsString, Context context) {
 		return getSharedPreferences(context).getBoolean(settingsString, defaultValue);
 	}
@@ -353,12 +312,9 @@ public class SettingsFragment extends PreferenceFragment {
 	}
 
 	public static NXTSensor.Sensor[] getLegoNXTSensorMapping(Context context) {
-
-		final String[] sensorPreferences = NXT_SENSORS;
-
 		NXTSensor.Sensor[] sensorMapping = new NXTSensor.Sensor[4];
 		for (int i = 0; i < 4; i++) {
-			String sensor = getSharedPreferences(context).getString(sensorPreferences[i], null);
+			String sensor = getSharedPreferences(context).getString(NXT_SENSORS[i], null);
 			sensorMapping[i] = NXTSensor.Sensor.getSensorFromSensorCode(sensor);
 		}
 
@@ -366,12 +322,9 @@ public class SettingsFragment extends PreferenceFragment {
 	}
 
 	public static EV3Sensor.Sensor[] getLegoEV3SensorMapping(Context context) {
-
-		final String[] sensorPreferences = EV3_SENSORS;
-
 		EV3Sensor.Sensor[] sensorMapping = new EV3Sensor.Sensor[4];
 		for (int i = 0; i < 4; i++) {
-			String sensor = getSharedPreferences(context).getString(sensorPreferences[i], null);
+			String sensor = getSharedPreferences(context).getString(EV3_SENSORS[i], null);
 			sensorMapping[i] = EV3Sensor.Sensor.getSensorFromSensorCode(sensor);
 		}
 
@@ -440,18 +393,6 @@ public class SettingsFragment extends PreferenceFragment {
 		return DroneConfigPreference.Preferences.getPreferenceFromPreferenceCode(preference);
 	}
 
-	public static void enableARDroneBricks(Context context, Boolean newValue) {
-		getSharedPreferences(context).edit().putBoolean(SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, newValue).commit();
-	}
-
-	public static void setCastFeatureAvailability(Context context, boolean newValue) {
-		getSharedPreferences(context).edit().putBoolean(SETTINGS_CAST_GLOBALLY_ENABLED, newValue).commit();
-	}
-
-	public static void enableJumpingSumoBricks(Context context, Boolean newValue) {
-		getSharedPreferences(context).edit().putBoolean(PARROT_JUMPING_SUMO_SCREEN_KEY, newValue).commit();
-	}
-
 	public static void enableLegoMindstormsNXTBricks(Context context) {
 		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
 		editor.putBoolean(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, true);
@@ -462,21 +403,6 @@ public class SettingsFragment extends PreferenceFragment {
 		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
 		editor.putBoolean(SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED, true);
 		editor.commit();
-	}
-
-	public static void setDroneChooserEnabled(Context context, boolean enable) {
-		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
-		editor.putBoolean(SETTINGS_DRONE_CHOOSER, enable);
-		editor.commit();
-	}
-
-	public static boolean getDroneChooserEnabled(Context context) {
-		SharedPreferences preferences = getSharedPreferences(context);
-		return preferences.getBoolean(SETTINGS_DRONE_CHOOSER, false);
-	}
-
-	public static void resetSharedPreferences(Context context) {
-		getSharedPreferences(context).edit().clear().commit();
 	}
 
 	private void setLanguage() {

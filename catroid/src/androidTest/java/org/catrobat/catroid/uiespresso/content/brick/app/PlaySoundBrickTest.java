@@ -40,6 +40,7 @@ import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.io.XstreamSerializer;
+import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.SpriteAttributesActivity;
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
@@ -198,9 +199,8 @@ public class PlaySoundBrickTest {
 	}
 
 	private void createProject() throws IOException {
-		String projectName = "PlaySoundBrickTest";
 		SoundManager.getInstance();
-		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+		Project project = new Project(InstrumentationRegistry.getTargetContext(), getClass().getSimpleName());
 		Sprite sprite = new Sprite("testSprite");
 		Script startScript = new StartScript();
 
@@ -240,7 +240,9 @@ public class PlaySoundBrickTest {
 	}
 
 	@After
-	public void tearDown() {
+	public void tearDown() throws IOException {
+		TestUtils.deleteProjects(getClass().getSimpleName());
+
 		if (soundFile != null && soundFile.exists()) {
 			soundFile.delete();
 		}

@@ -122,6 +122,7 @@ import org.catrobat.catroid.content.bricks.PreviousLookBrick;
 import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.RaspiPwmBrick;
 import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
+import org.catrobat.catroid.content.bricks.ReadVariableFromDeviceBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
@@ -163,6 +164,7 @@ import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WaitTillIdleBrick;
 import org.catrobat.catroid.content.bricks.WaitUntilBrick;
+import org.catrobat.catroid.content.bricks.WebRequestBrick;
 import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenClonedBrick;
@@ -171,7 +173,7 @@ import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick;
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.content.bricks.WhenTouchDownBrick;
-import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
+import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick;
 import org.catrobat.catroid.physics.content.bricks.SetBounceBrick;
 import org.catrobat.catroid.physics.content.bricks.SetFrictionBrick;
 import org.catrobat.catroid.physics.content.bricks.SetGravityBrick;
@@ -180,6 +182,7 @@ import org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.physics.content.bricks.SetVelocityBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
+import org.catrobat.catroid.physics.content.bricks.WhenBounceOffBrick;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 import org.junit.Before;
 import org.junit.Test;
@@ -198,8 +201,8 @@ public class BrickCategoryTest {
 
 	@Parameterized.Parameters(name = "{0}")
 	public static Collection<Object[]> data() {
-		return Arrays.asList(new Object[][]{
-				{"Motion", Arrays.asList(PlaceAtBrick.class,
+		return Arrays.asList(new Object[][] {
+				{"Motion", false, Arrays.asList(PlaceAtBrick.class,
 						SetXBrick.class,
 						SetYBrick.class,
 						ChangeXByNBrick.class,
@@ -217,6 +220,7 @@ public class BrickCategoryTest {
 						ComeToFrontBrick.class,
 						VibrationBrick.class,
 						SetPhysicsObjectTypeBrick.class,
+						WhenBounceOffBrick.class,
 						SetVelocityBrick.class,
 						TurnLeftSpeedBrick.class,
 						TurnRightSpeedBrick.class,
@@ -224,18 +228,19 @@ public class BrickCategoryTest {
 						SetMassBrick.class,
 						SetBounceBrick.class,
 						SetFrictionBrick.class)},
-				{"Embroidery", Arrays.asList(StitchBrick.class)},
-				{"Event", Arrays.asList(WhenStartedBrick.class,
+				{"Embroidery", false, Arrays.asList()},
+				{"Embroidery", true, Arrays.asList(StitchBrick.class)},
+				{"Event", false, Arrays.asList(WhenStartedBrick.class,
 						WhenBrick.class,
 						WhenTouchDownBrick.class,
 						BroadcastReceiverBrick.class,
 						BroadcastBrick.class,
 						BroadcastWaitBrick.class,
 						WhenConditionBrick.class,
-						CollisionReceiverBrick.class,
+						WhenBounceOffBrick.class,
 						WhenBackgroundChangesBrick.class,
 						WhenClonedBrick.class)},
-				{"Looks", Arrays.asList(SetLookBrick.class,
+				{"Looks", false, Arrays.asList(SetLookBrick.class,
 						SetLookByIndexBrick.class,
 						NextLookBrick.class,
 						PreviousLookBrick.class,
@@ -265,13 +270,13 @@ public class BrickCategoryTest {
 						CameraBrick.class,
 						ChooseCameraBrick.class,
 						FlashBrick.class)},
-				{"Pen", Arrays.asList(PenDownBrick.class,
+				{"Pen", false, Arrays.asList(PenDownBrick.class,
 						PenUpBrick.class,
 						SetPenSizeBrick.class,
 						SetPenColorBrick.class,
 						StampBrick.class,
 						ClearBackgroundBrick.class)},
-				{"Sound", Arrays.asList(PlaySoundBrick.class,
+				{"Sound", false, Arrays.asList(PlaySoundBrick.class,
 						PlaySoundAndWaitBrick.class,
 						StopAllSoundsBrick.class,
 						SetVolumeToBrick.class,
@@ -279,7 +284,7 @@ public class BrickCategoryTest {
 						SpeakBrick.class,
 						SpeakAndWaitBrick.class,
 						AskSpeechBrick.class)},
-				{"Control", Arrays.asList(WaitBrick.class,
+				{"Control", false, Arrays.asList(WaitBrick.class,
 						NoteBrick.class,
 						ForeverBrick.class,
 						IfLogicBeginBrick.class,
@@ -292,28 +297,32 @@ public class BrickCategoryTest {
 						StopScriptBrick.class,
 						CloneBrick.class,
 						DeleteThisCloneBrick.class,
-						WhenClonedBrick.class)},
-				{"Data", Arrays.asList(SetVariableBrick.class,
+						WhenClonedBrick.class,
+						WebRequestBrick.class)},
+				{"Data", false, Arrays.asList(SetVariableBrick.class,
 						ChangeVariableBrick.class,
 						ShowTextBrick.class,
 						ShowTextColorSizeAlignmentBrick.class,
 						HideTextBrick.class,
+						WriteVariableOnDeviceBrick.class,
+						ReadVariableFromDeviceBrick.class,
 						AddItemToUserListBrick.class,
 						DeleteItemOfUserListBrick.class,
 						InsertItemIntoUserListBrick.class,
 						ReplaceItemInUserListBrick.class,
 						AskBrick.class,
-						AskSpeechBrick.class)},
-				{"Lego NXT", Arrays.asList(LegoNxtMotorTurnAngleBrick.class,
+						AskSpeechBrick.class,
+						WebRequestBrick.class)},
+				{"Lego NXT", false, Arrays.asList(LegoNxtMotorTurnAngleBrick.class,
 						LegoNxtMotorStopBrick.class,
 						LegoNxtMotorMoveBrick.class,
 						LegoNxtPlayToneBrick.class)},
-				{"Lego EV3", Arrays.asList(LegoEv3MotorTurnAngleBrick.class,
+				{"Lego EV3", false, Arrays.asList(LegoEv3MotorTurnAngleBrick.class,
 						LegoEv3MotorMoveBrick.class,
 						LegoEv3MotorStopBrick.class,
 						LegoEv3PlayToneBrick.class,
 						LegoEv3SetLedBrick.class)},
-				{"AR.Drone 2.0", Arrays.asList(DroneTakeOffLandBrick.class,
+				{"AR.Drone 2.0", false, Arrays.asList(DroneTakeOffLandBrick.class,
 						DroneEmergencyBrick.class,
 						DroneMoveUpBrick.class,
 						DroneMoveDownBrick.class,
@@ -326,7 +335,7 @@ public class BrickCategoryTest {
 						DroneFlipBrick.class,
 						DronePlayLedAnimationBrick.class,
 						DroneSwitchCameraBrick.class)},
-				{"Jumping Sumo", Arrays.asList(JumpingSumoMoveForwardBrick.class,
+				{"Jumping Sumo", false, Arrays.asList(JumpingSumoMoveForwardBrick.class,
 						JumpingSumoMoveBackwardBrick.class,
 						JumpingSumoAnimationsBrick.class,
 						JumpingSumoSoundBrick.class,
@@ -337,7 +346,7 @@ public class BrickCategoryTest {
 						JumpingSumoRotateRightBrick.class,
 						JumpingSumoTurnBrick.class,
 						JumpingSumoTakingPictureBrick.class)},
-				{"Phiro", Arrays.asList(PhiroMotorMoveForwardBrick.class,
+				{"Phiro", false, Arrays.asList(PhiroMotorMoveForwardBrick.class,
 						PhiroMotorMoveBackwardBrick.class,
 						PhiroMotorStopBrick.class,
 						PhiroPlayToneBrick.class,
@@ -349,14 +358,14 @@ public class BrickCategoryTest {
 						SetVariableBrick.class,
 						SetVariableBrick.class,
 						SetVariableBrick.class)},
-				{"Arduino", Arrays.asList(ArduinoSendDigitalValueBrick.class,
+				{"Arduino", false, Arrays.asList(ArduinoSendDigitalValueBrick.class,
 						ArduinoSendPWMValueBrick.class)},
-				{"Chromecast", Arrays.asList(WhenGamepadButtonBrick.class)},
-				{"Raspberry Pi", Arrays.asList(WhenRaspiPinChangedBrick.class,
+				{"Chromecast", false, Arrays.asList(WhenGamepadButtonBrick.class)},
+				{"Raspberry Pi", false, Arrays.asList(WhenRaspiPinChangedBrick.class,
 						RaspiIfLogicBeginBrick.class,
 						RaspiSendDigitalValueBrick.class,
 						RaspiPwmBrick.class)},
-				{"Testing", Arrays.asList(AssertEqualsBrick.class,
+				{"Testing", false, Arrays.asList(AssertEqualsBrick.class,
 						WaitTillIdleBrick.class)},
 		});
 	}
@@ -365,10 +374,12 @@ public class BrickCategoryTest {
 	public String category;
 
 	@Parameterized.Parameter(1)
+	public boolean isBackgroundSprite;
+
+	@Parameterized.Parameter(2)
 	public List<Class> expectedClasses;
 
 	private CategoryBricksFactory categoryBricksFactory;
-	private Sprite sprite;
 
 	@Before
 	public void setUp() throws Exception {
@@ -381,7 +392,7 @@ public class BrickCategoryTest {
 
 	public void createProject(Context context) {
 		Project project = new Project(context, getClass().getSimpleName());
-		sprite = new Sprite("testSprite");
+		Sprite sprite = new Sprite("testSprite");
 		Script script = new StartScript();
 		script.addBrick(new SetXBrick());
 		sprite.addScript(script);
@@ -393,7 +404,8 @@ public class BrickCategoryTest {
 
 	@Test
 	public void testBrickCategory() {
-		List<Brick> categoryBricks = categoryBricksFactory.getBricks(category, sprite, InstrumentationRegistry.getTargetContext());
+		List<Brick> categoryBricks = categoryBricksFactory.getBricks(category, isBackgroundSprite,
+				InstrumentationRegistry.getTargetContext());
 
 		List<Class> brickClasses = new ArrayList<>();
 		for (Brick brick : categoryBricks) {

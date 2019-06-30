@@ -45,6 +45,7 @@ import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.ui.adapter.PrototypeBrickAdapter;
+import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import java.util.List;
@@ -90,6 +91,7 @@ public class AddBrickFragment extends ListFragment {
 	private void setupSelectedBrickCategory() {
 		Context context = getActivity();
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		Sprite backgroundSprite = ProjectManager.getInstance().getCurrentlyEditedScene().getBackgroundSprite();
 		String selectedCategory = getArguments().getString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY);
 
 		CategoryBricksFactory categoryBricksFactory;
@@ -99,7 +101,8 @@ public class AddBrickFragment extends ListFragment {
 			categoryBricksFactory = new CategoryBricksFactory();
 		}
 
-		List<Brick> brickList = categoryBricksFactory.getBricks(selectedCategory, sprite, context);
+		List<Brick> brickList = categoryBricksFactory.getBricks(selectedCategory, backgroundSprite.equals(sprite),
+				context);
 		adapter = new PrototypeBrickAdapter(brickList);
 		setListAdapter(adapter);
 	}

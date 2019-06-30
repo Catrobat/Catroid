@@ -28,9 +28,9 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.ActionFactory;
-import org.catrobat.catroid.content.CollisionScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.WhenBounceOffScript;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.physics.PhysicsObject;
@@ -180,14 +180,14 @@ public class IfOnEdgeBouncePhysicsActionTest {
 	public void testCollisionBroadcastOnIfOnEdgeBounce() throws Exception {
 		assertNotNull(sprite.look.getLookData());
 
-		CollisionScript spriteCollisionScript = new CollisionScript(null);
-		spriteCollisionScript.setSpriteToCollideWithName("");
-		spriteCollisionScript.getScriptBrick();
+		WhenBounceOffScript spriteWhenBounceOffScript = new WhenBounceOffScript(null);
+		spriteWhenBounceOffScript.setSpriteToBounceOffName("");
+		spriteWhenBounceOffScript.getScriptBrick();
 		int testXValue = 300;
 		int testYValue = 250;
 		PlaceAtBrick testBrick = new PlaceAtBrick(testXValue, testYValue);
-		spriteCollisionScript.addBrick(testBrick);
-		sprite.addScript(spriteCollisionScript);
+		spriteWhenBounceOffScript.addBrick(testBrick);
+		sprite.addScript(spriteWhenBounceOffScript);
 
 		sprite.initializeEventThreads(EventId.START);
 

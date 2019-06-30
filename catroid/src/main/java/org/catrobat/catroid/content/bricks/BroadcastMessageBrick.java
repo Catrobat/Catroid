@@ -53,7 +53,7 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 	public abstract void setBroadcastMessage(String broadcastMessage);
 
 	@Override
-	public BrickBaseType clone() throws CloneNotSupportedException {
+	public Brick clone() throws CloneNotSupportedException {
 		BroadcastMessageBrick clone = (BroadcastMessageBrick) super.clone();
 		clone.spinner = null;
 		return clone;
@@ -116,33 +116,20 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 	}
 
 	@VisibleForTesting
-	public TextInputDialog.OnClickListener getOkButtonListener(final AppCompatActivity activity) {
-		return new TextInputDialog.OnClickListener() {
-			@Override
-			public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
-				addItem(textInput);
-				notifyDataSetChanged(activity);
-			}
+	public TextInputDialog.OnClickListener getOkButtonListener(AppCompatActivity activity) {
+		return (dialog, textInput) -> {
+			addItem(textInput);
+			notifyDataSetChanged(activity);
 		};
 	}
 
 	@VisibleForTesting
 	public DialogInterface.OnClickListener getNegativeButtonListener() {
-		return new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				spinner.setSelection(getBroadcastMessage());
-			}
-		};
+		return (dialog, which) -> spinner.setSelection(getBroadcastMessage());
 	}
 
 	@VisibleForTesting
 	public DialogInterface.OnCancelListener getCanceledListener() {
-		return new DialogInterface.OnCancelListener() {
-			@Override
-			public void onCancel(DialogInterface dialog) {
-				spinner.setSelection(getBroadcastMessage());
-			}
-		};
+		return dialog -> spinner.setSelection(getBroadcastMessage());
 	}
 }

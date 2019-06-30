@@ -26,14 +26,9 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
-import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
-import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
-import org.catrobat.catroid.content.bricks.LoopEndBrick;
-import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -56,24 +51,29 @@ public class IfLogicActionTest {
 
 	private static final int IF_TRUE_VALUE = 42;
 	private static final int IF_FALSE_VALUE = 32;
+
 	private static final String TEST_USERVARIABLE = "testUservariable";
-	private Sprite testSprite;
-	private StartScript testScript;
-	private IfLogicBeginBrick ifLogicBeginBrick;
-	private IfLogicElseBrick ifLogicElseBrick;
-	private IfLogicEndBrick ifLogicEndBrick;
-	private Project project;
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
 	private static final String TRUE = "1.0";
+
+	private Sprite testSprite;
+	private StartScript testScript;
 	private UserVariable userVariable;
 
 	@Before
 	public void setUp() throws Exception {
-		testSprite = new SingleSprite("testSprite");
-		project = new Project(MockUtil.mockContextForProject(), "testProject");
+		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
+
+		testSprite = new Sprite("testSprite");
+		project.getDefaultScene().addSprite(testSprite);
+
 		testSprite.removeAllScripts();
+		testScript = new StartScript();
+		testSprite.addScript(testScript);
+
 		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(new SingleSprite("testSprite1"));
+		ProjectManager.getInstance().setCurrentSprite(testSprite);
+
 		project.removeUserVariable(TEST_USERVARIABLE);
 
 		userVariable = new UserVariable(TEST_USERVARIABLE);
@@ -81,107 +81,69 @@ public class IfLogicActionTest {
 	}
 
 	@Test
-	public void testNestedIfBrick() throws InterruptedException {
-		SetVariableBrick setVariableBrick = new SetVariableBrick(new Formula(IF_TRUE_VALUE), userVariable);
+	public void testNestedIfBrick() {
+		Formula formula = new Formula(1);
+		formula.setRoot(
+				new FormulaElement(ElementType.OPERATOR, Operators.SMALLER_THAN.name(), null,
+						new FormulaElement(ElementType.NUMBER, "1", null),
+						new FormulaElement(ElementType.NUMBER, "2", null)));
 
-		Formula validFormula = new Formula(1);
-		validFormula.setRoot(new FormulaElement(ElementType.OPERATOR, Operators.SMALLER_THAN.name(), null,
-				new FormulaElement(ElementType.NUMBER, "1", null), new FormulaElement(ElementType.NUMBER, "2", null)));
+		IfLogicBeginBrick ifElseBrick = new IfLogicBeginBrick(formula);
 
-		testScript = new StartScript();
+		IfLogicBeginBrick innerIfElseBrick = new IfLogicBeginBrick(formula);
+		innerIfElseBrick.addBrickToIfBranch(new SetVariableBrick(new Formula(IF_TRUE_VALUE), userVariable));
 
-		RepeatBrick repeatBrick = new RepeatBrick(2);
-		ifLogicBeginBrick = new IfLogicBeginBrick(validFormula);
-		ifLogicElseBrick = new IfLogicElseBrick(ifLogicBeginBrick);
-		ifLogicEndBrick = new IfLogicEndBrick(ifLogicBeginBrick, ifLogicElseBrick);
-		repeatBrick.setLoopEndBrick(new LoopEndBrick(repeatBrick));
+		ifElseBrick.addBrickToIfBranch(innerIfElseBrick);
 
-		IfLogicBeginBrick ifLogicBeginBrick2 = new IfLogicBeginBrick(validFormula);
-		IfLogicElseBrick ifLogicElseBrick2 = new IfLogicElseBrick(ifLogicBeginBrick2);
-		IfLogicEndBrick ifLogicEndBrick2 = new IfLogicEndBrick(ifLogicBeginBrick2, ifLogicElseBrick2);
-
-		testScript.addBrick(ifLogicBeginBrick);
-		testScript.addBrick(ifLogicBeginBrick2);
-		testScript.addBrick(setVariableBrick);
-		testScript.addBrick(ifLogicElseBrick2);
-		testScript.addBrick(ifLogicEndBrick2);
-		testScript.addBrick(ifLogicElseBrick);
-		testScript.addBrick(ifLogicEndBrick);
-		testSprite.addScript(testScript);
-		project.getDefaultScene().addSprite(testSprite);
-		ProjectManager.getInstance().setCurrentSprite(testSprite);
-
+		testScript.addBrick(ifElseBrick);
 		testSprite.initializeEventThreads(EventId.START);
+
 		while (!testSprite.look.haveAllThreadsFinished()) {
 			testSprite.look.act(1f);
 		}
 
-		userVariable = project.getUserVariable(TEST_USERVARIABLE);
-
-		assertEquals(Double.valueOf(IF_TRUE_VALUE), userVariable.getValue());
+		assertEquals((double) IF_TRUE_VALUE, userVariable.getValue());
 	}
 
 	@Test
-	public void testIfBrick() throws InterruptedException {
-		SetVariableBrick setVariableBrick = new SetVariableBrick(new Formula(IF_TRUE_VALUE), userVariable);
+	public void testIfBrick() {
+		Formula formula = new Formula(1);
+		formula.setRoot(
+				new FormulaElement(ElementType.OPERATOR, Operators.SMALLER_THAN.name(), null,
+						new FormulaElement(ElementType.NUMBER, "1", null),
+						new FormulaElement(ElementType.NUMBER, "2", null)));
 
-		Formula validFormula = new Formula(1);
-		validFormula.setRoot(new FormulaElement(ElementType.OPERATOR, Operators.SMALLER_THAN.name(), null,
-				new FormulaElement(ElementType.NUMBER, "1", null), new FormulaElement(ElementType.NUMBER, "2", null)));
+		IfLogicBeginBrick ifElseBrick = new IfLogicBeginBrick(formula);
+		ifElseBrick.addBrickToIfBranch(new SetVariableBrick(new Formula(IF_TRUE_VALUE), userVariable));
+		testScript.addBrick(ifElseBrick);
 
-		testScript = new StartScript();
-
-		ifLogicBeginBrick = new IfLogicBeginBrick(validFormula);
-		ifLogicElseBrick = new IfLogicElseBrick(ifLogicBeginBrick);
-		ifLogicEndBrick = new IfLogicEndBrick(ifLogicBeginBrick, ifLogicElseBrick);
-
-		testScript.addBrick(ifLogicBeginBrick);
-		testScript.addBrick(setVariableBrick);
-		testScript.addBrick(ifLogicElseBrick);
-		testScript.addBrick(ifLogicEndBrick);
-		testSprite.addScript(testScript);
-		project.getDefaultScene().addSprite(testSprite);
-		ProjectManager.getInstance().setCurrentSprite(testSprite);
 		testSprite.initializeEventThreads(EventId.START);
 		testSprite.look.act(100f);
 
-		userVariable = project.getUserVariable(TEST_USERVARIABLE);
-
-		assertEquals(Double.valueOf(IF_TRUE_VALUE), userVariable.getValue());
+		assertEquals((double) IF_TRUE_VALUE, userVariable.getValue());
 	}
 
 	@Test
-	public void testIfElseBrick() throws InterruptedException {
-		SetVariableBrick setVariableBrick = new SetVariableBrick(new Formula(IF_FALSE_VALUE), userVariable);
+	public void testIfElseBrick() {
+		Formula formula = new Formula(1);
+		formula.setRoot(
+				new FormulaElement(ElementType.OPERATOR, Operators.SMALLER_THAN.name(), null,
+						new FormulaElement(ElementType.NUMBER, "2", null),
+						new FormulaElement(ElementType.NUMBER, "1", null)));
 
-		Formula invalidFormula = new Formula(1);
-		invalidFormula.setRoot(new FormulaElement(ElementType.OPERATOR, Operators.SMALLER_THAN.name(), null,
-				new FormulaElement(ElementType.NUMBER, "2", null), new FormulaElement(ElementType.NUMBER, "1", null)));
+		IfLogicBeginBrick ifElseBrick = new IfLogicBeginBrick(formula);
+		ifElseBrick.addBrickToElseBranch(new SetVariableBrick(new Formula(IF_FALSE_VALUE), userVariable));
+		testScript.addBrick(ifElseBrick);
 
-		testScript = new StartScript();
-
-		ifLogicBeginBrick = new IfLogicBeginBrick(invalidFormula);
-		ifLogicElseBrick = new IfLogicElseBrick(ifLogicBeginBrick);
-		ifLogicEndBrick = new IfLogicEndBrick(ifLogicBeginBrick, ifLogicElseBrick);
-
-		testScript.addBrick(ifLogicBeginBrick);
-		testScript.addBrick(ifLogicElseBrick);
-		testScript.addBrick(setVariableBrick);
-		testScript.addBrick(ifLogicEndBrick);
-		testSprite.addScript(testScript);
-		project.getDefaultScene().addSprite(testSprite);
-		ProjectManager.getInstance().setCurrentSprite(testSprite);
 		testSprite.initializeEventThreads(EventId.START);
 		testSprite.look.act(100f);
 
-		userVariable = project.getUserVariable(TEST_USERVARIABLE);
-
-		assertEquals(Double.valueOf(IF_FALSE_VALUE), userVariable.getValue());
+		assertEquals((double) IF_FALSE_VALUE, userVariable.getValue());
 	}
 
 	@Test
 	public void testBrickWithValidStringFormula() {
-		testFormula(new Formula(String.valueOf(TRUE)), Double.valueOf(IF_TRUE_VALUE));
+		testFormula(new Formula(String.valueOf(TRUE)), (double) IF_TRUE_VALUE);
 	}
 
 	@Test
@@ -192,14 +154,16 @@ public class IfLogicActionTest {
 	@Test
 	public void testNullFormula() throws Exception {
 		Object userVariableExpected = userVariable.getValue();
-		Action ifAction = testSprite.getActionFactory().createSetVariableAction(testSprite, new Formula(IF_TRUE_VALUE),
-				userVariable);
-		Action elseAction = testSprite.getActionFactory().createSetVariableAction(testSprite,
-				new Formula(IF_FALSE_VALUE), userVariable);
 
-		Action ifLogicAction = testSprite.getActionFactory().createIfLogicAction(testSprite, null, ifAction,
-				elseAction);
+		Action ifAction = testSprite.getActionFactory()
+				.createSetVariableAction(testSprite, new Formula(IF_TRUE_VALUE), userVariable);
+		Action elseAction = testSprite.getActionFactory()
+				.createSetVariableAction(testSprite, new Formula(IF_FALSE_VALUE), userVariable);
+		Action ifLogicAction = testSprite.getActionFactory()
+				.createIfLogicAction(testSprite, null, ifAction, elseAction);
+
 		ifLogicAction.act(1.0f);
+
 		Object isInterpretedCorrectly = Reflection.getPrivateField(ifLogicAction, "isInterpretedCorrectly");
 		assertFalse((Boolean) isInterpretedCorrectly);
 		assertEquals(userVariableExpected, userVariable.getValue());
@@ -211,26 +175,16 @@ public class IfLogicActionTest {
 	}
 
 	private void testFormula(Formula formula, Object expected) {
-		SetVariableBrick setVariableBrickIfTrue = new SetVariableBrick(new Formula(IF_TRUE_VALUE),
-				userVariable);
-		SetVariableBrick setVariableBrickIfFalse = new SetVariableBrick(new Formula(IF_FALSE_VALUE),
-				userVariable);
+		IfLogicBeginBrick ifThenElseBrick = new IfLogicBeginBrick(formula);
+		ifThenElseBrick
+				.addBrickToIfBranch(new SetVariableBrick(new Formula(IF_TRUE_VALUE), userVariable));
+		ifThenElseBrick
+				.addBrickToElseBranch(new SetVariableBrick(new Formula(IF_FALSE_VALUE), userVariable));
 
-		testScript = new StartScript();
-		ifLogicBeginBrick = new IfLogicBeginBrick(formula);
-		ifLogicElseBrick = new IfLogicElseBrick(ifLogicBeginBrick);
-		ifLogicEndBrick = new IfLogicEndBrick(ifLogicBeginBrick, ifLogicElseBrick);
-		testScript.addBrick(ifLogicBeginBrick);
-		testScript.addBrick(setVariableBrickIfTrue);
-		testScript.addBrick(ifLogicElseBrick);
-		testScript.addBrick(setVariableBrickIfFalse);
-		testScript.addBrick(ifLogicEndBrick);
-		testSprite.addScript(testScript);
-		project.getDefaultScene().addSprite(testSprite);
-		ProjectManager.getInstance().setCurrentSprite(testSprite);
+		testScript.addBrick(ifThenElseBrick);
+
 		testSprite.initializeEventThreads(EventId.START);
 		testSprite.look.act(1f);
-		userVariable = project.getUserVariable(TEST_USERVARIABLE);
 
 		assertEquals(expected, userVariable.getValue());
 	}

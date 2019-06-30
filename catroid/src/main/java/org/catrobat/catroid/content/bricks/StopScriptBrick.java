@@ -34,8 +34,6 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
-import java.util.List;
-
 public class StopScriptBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
@@ -86,8 +84,7 @@ public class StopScriptBrick extends BrickBaseType {
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createStopScriptAction(spinnerSelection, sequence.getScript()));
-		return null;
 	}
 }

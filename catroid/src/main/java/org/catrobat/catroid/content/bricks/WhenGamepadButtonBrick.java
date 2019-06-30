@@ -39,24 +39,23 @@ import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WhenGamepadButtonBrick extends BrickBaseType implements ScriptBrick,
-		BrickSpinner.OnItemSelectedListener<StringOption> {
+public class WhenGamepadButtonBrick extends ScriptBrickBaseType implements BrickSpinner.OnItemSelectedListener<StringOption> {
 
 	private static final long serialVersionUID = 1L;
 
-	private WhenGamepadButtonScript whenGamepadButtonScript;
+	private WhenGamepadButtonScript script;
 
-	public WhenGamepadButtonBrick(@NonNull WhenGamepadButtonScript whenGamepadButtonScript) {
-		whenGamepadButtonScript.setScriptBrick(this);
-		commentedOut = whenGamepadButtonScript.isCommentedOut();
-		this.whenGamepadButtonScript = whenGamepadButtonScript;
+	public WhenGamepadButtonBrick(@NonNull WhenGamepadButtonScript script) {
+		script.setScriptBrick(this);
+		commentedOut = script.isCommentedOut();
+		this.script = script;
 	}
 
 	@Override
-	public BrickBaseType clone() throws CloneNotSupportedException {
+	public Brick clone() throws CloneNotSupportedException {
 		WhenGamepadButtonBrick clone = (WhenGamepadButtonBrick) super.clone();
-		clone.whenGamepadButtonScript = (WhenGamepadButtonScript) whenGamepadButtonScript.clone();
-		clone.whenGamepadButtonScript.setScriptBrick(clone);
+		clone.script = (WhenGamepadButtonScript) script.clone();
+		clone.script.setScriptBrick(clone);
 		return clone;
 	}
 
@@ -79,7 +78,7 @@ public class WhenGamepadButtonBrick extends BrickBaseType implements ScriptBrick
 
 		BrickSpinner<StringOption> spinner = new BrickSpinner<>(R.id.brick_when_gamepad_button_spinner, view, items);
 		spinner.setOnItemSelectedListener(this);
-		spinner.setSelection(whenGamepadButtonScript.getAction());
+		spinner.setSelection(script.getAction());
 		return view;
 	}
 
@@ -89,7 +88,7 @@ public class WhenGamepadButtonBrick extends BrickBaseType implements ScriptBrick
 
 	@Override
 	public void onStringOptionSelected(String string) {
-		whenGamepadButtonScript.setAction(string);
+		script.setAction(string);
 	}
 
 	@Override
@@ -98,7 +97,7 @@ public class WhenGamepadButtonBrick extends BrickBaseType implements ScriptBrick
 
 	@Override
 	public Script getScript() {
-		return whenGamepadButtonScript;
+		return script;
 	}
 
 	@Override
@@ -107,7 +106,6 @@ public class WhenGamepadButtonBrick extends BrickBaseType implements ScriptBrick
 	}
 
 	@Override
-	public List<ScriptSequenceAction> addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		return null;
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 	}
 }

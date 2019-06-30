@@ -34,7 +34,6 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
-import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
@@ -215,15 +214,11 @@ public class BroadcastReceiverRegressionTest {
 
 	@Category({Level.Functional.class, Cat.CatrobatLanguage.class})
 	@Test
-	public void testCorrectRestartingOfBroadcastsWithSameActionStringsWithinOneSprite() throws InterruptedException {
-		RepeatBrick repeatBrick = new RepeatBrick(10);
-		LoopEndBrick endBrick = new LoopEndBrick(repeatBrick);
-		repeatBrick.setLoopEndBrick(endBrick);
-
+	public void testCorrectRestartingOfBroadcastsWithSameActionStringsWithinOneSprite() {
 		sprite1StartScript.addBrick(new SetVariableBrick(new Formula(0.0f), userVariable));
+		RepeatBrick repeatBrick = new RepeatBrick(new Formula(10));
+		repeatBrick.addBrick(new BroadcastWaitBrick(BROADCAST_MESSAGE_1));
 		sprite1StartScript.addBrick(repeatBrick);
-		sprite1StartScript.addBrick(new BroadcastWaitBrick(BROADCAST_MESSAGE_1));
-		sprite1StartScript.addBrick(endBrick);
 
 		Sprite sprite2 = createSpriteAndAddToProject("sprite2", project);
 		Script sprite2BroadcastScript = createBroadcastScriptAndAddToSprite(BROADCAST_MESSAGE_1, sprite2);

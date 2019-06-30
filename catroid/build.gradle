@@ -105,7 +105,6 @@ detekt {
 }
 
 apply from: 'gradle/code_quality_tasks.gradle'
-apply from: 'gradle/intellij_config_tasks.gradle'
 apply from: 'gradle/standalone_apk_tasks.gradle'
 apply from: 'gradle/release_crowdin_tasks.gradle'
 apply from: 'gradle/release_fastlane_tasks.gradle'
@@ -186,9 +185,9 @@ android {
         targetSdkVersion 26
         applicationId appId
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-        versionCode 62
+        versionCode 63
         println "VersionCode is $versionCode"
-        versionName "0.9.61"
+        versionName "0.9.62"
         println "VersionName is $versionName"
         buildConfigField "String", "GIT_COMMIT_INFO", "\"${getGitCommitInfo()}\""
         buildConfigField "String", "MAIN_URL_HTTPS", (project.hasProperty('useWebTest') ? '"https://web-test.catrob.at"' : '"https://share.catrob.at"')
@@ -273,13 +272,14 @@ android {
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
             buildConfigField "boolean", "USE_ANDROID_LOCALES_FOR_SCREENSHOTS", useAndroidLocales()
             buildConfigField "boolean", "FEATURE_MERGE_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_WEBREQUEST_BRICK_ENABLED", "true"
             resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
             ext.enableCrashlytics = false
             testCoverageEnabled = project.hasProperty('enableCoverage')
         }
 
         release {
-            buildConfigField "boolean", "FEATURE_EMBROIDERY_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_EMBROIDERY_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_LEGO_EV3_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_PHIRO_ENABLED", "true"
@@ -296,6 +296,7 @@ android {
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
             buildConfigField "boolean", "USE_ANDROID_LOCALES_FOR_SCREENSHOTS", "false"
             buildConfigField "boolean", "FEATURE_MERGE_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_WEBREQUEST_BRICK_ENABLED", "false"
             resValue "string", "SNACKBAR_HINTS_ENABLED", "true"
         }
 
@@ -374,11 +375,11 @@ android {
 
 ext {
     projectVersion = "0.9"
-    gdxVersion = "1.6.2"
+    gdxVersion = "1.9.9"
     mockitoVersion = "2.8.47"
     espressoVersion = "3.0.1"
     supportLibraryVersion = "27.1.0"
-    paintroidVersion = "2.3.2"
+    paintroidVersion = "2.4.0"
 }
 
 configurations {
@@ -434,17 +435,22 @@ dependencies {
     createAtSchoolImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
     lunaAndCatImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
     phiroImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
+    implementation "org.catrobat.paintroid:colorpicker:$paintroidVersion"
 
     // libGDX
     implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
     implementation "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
     implementation "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
     natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
+    natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86_64"
     natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi"
     natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
+    natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-arm64-v8a"
     natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
+    natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86_64"
     natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi"
     natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi-v7a"
+    natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-arm64-v8a"
 
     implementation 'com.facebook.android:facebook-android-sdk:4.14.1'
     implementation 'com.google.android.gms:play-services-auth:12.0.0'

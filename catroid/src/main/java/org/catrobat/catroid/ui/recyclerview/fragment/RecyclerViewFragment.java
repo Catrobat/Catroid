@@ -24,7 +24,6 @@
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.IntDef;
@@ -43,7 +42,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.ui.BottomBar;
@@ -68,9 +66,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({NONE, BACKPACK, COPY, DELETE, RENAME, MERGE})
-	@interface ActionModeType {
-	}
-
+	@interface ActionModeType {}
 	protected static final int NONE = 0;
 	protected static final int BACKPACK = 1;
 	protected static final int COPY = 2;
@@ -131,6 +127,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 		}
 
 		mode.getMenuInflater().inflate(R.menu.context_menu, menu);
+
 		adapter.showCheckBoxes = true;
 		adapter.notifyDataSetChanged();
 		return true;
@@ -247,7 +244,6 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	@Override
 	public void onPause() {
 		super.onPause();
-		ProjectManager.getInstance().saveProject(getActivity());
 		adapter.unregisterAdapterDataObserver(observer);
 	}
 
@@ -385,16 +381,13 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 		CharSequence[] items = new CharSequence[] {getString(R.string.pack), getString(R.string.unpack)};
 		new AlertDialog.Builder(getContext())
 				.setTitle(R.string.backpack_title)
-				.setItems(items, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						switch (which) {
-							case 0:
-								startActionMode(BACKPACK);
-								break;
-							case 1:
-								switchToBackpack();
-						}
+				.setItems(items, (dialog, which) -> {
+					switch (which) {
+						case 0:
+							startActionMode(BACKPACK);
+							break;
+						case 1:
+							switchToBackpack();
 					}
 				})
 				.show();
@@ -413,12 +406,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 		new AlertDialog.Builder(getContext())
 				.setTitle(getResources().getQuantityString(getDeleteAlertTitleId(), selectedItems.size()))
 				.setMessage(R.string.dialog_confirm_delete)
-				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						deleteItems(selectedItems);
-					}
-				})
+				.setPositiveButton(R.string.yes, (dialog, id) -> deleteItems(selectedItems))
 				.setNegativeButton(R.string.no, null)
 				.setCancelable(false)
 				.show();
@@ -427,19 +415,14 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	protected abstract void deleteItems(List<T> selectedItems);
 
 	protected void showRenameDialog(List<T> selectedItems) {
-		final T item = selectedItems.get(0);
+		T item = selectedItems.get(0);
 
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(getContext());
 
 		builder.setHint(getString(getRenameDialogHint()))
 				.setText(item.getName())
 				.setTextWatcher(new RenameItemTextWatcher<>(item, adapter.getItems()))
-				.setPositiveButton(getString(R.string.ok), new TextInputDialog.OnClickListener() {
-					@Override
-					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
-						renameItem(item, textInput);
-					}
-				});
+				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> renameItem(item, textInput));
 
 		builder.setTitle(getRenameDialogTitle())
 				.setNegativeButton(R.string.cancel, null)

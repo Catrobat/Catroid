@@ -23,7 +23,6 @@
 package org.catrobat.catroid.test.formulaeditor;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
@@ -49,6 +48,7 @@ import static junit.framework.Assert.assertEquals;
 public class ParserTestObject {
 
 	private static final float LOOK_ALPHA = 0.42f;
+	private static final double LOOK_LAYER = 1d;
 	private static final float LOOK_Y_POSITION = 23.4f;
 	private static final float LOOK_X_POSITION = 5.6f;
 	private static final float LOOK_BRIGHTNESS = 0.7f;
@@ -63,6 +63,7 @@ public class ParserTestObject {
 		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
 		ProjectManager.getInstance().setCurrentProject(project);
 		testSprite = new SingleSprite("sprite");
+		project.getDefaultScene().addSprite(testSprite);
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
 		testSprite.look.setXInUserInterfaceDimensionUnit(LOOK_X_POSITION);
 		testSprite.look.setYInUserInterfaceDimensionUnit(LOOK_Y_POSITION);
@@ -91,7 +92,7 @@ public class ParserTestObject {
 		assertEquals(LOOK_COLOR, interpretSensor(Sensors.OBJECT_COLOR), DELTA);
 		assertEquals(LOOK_SCALE, interpretSensor(Sensors.OBJECT_SIZE), DELTA);
 		assertEquals(LOOK_ROTATION, interpretSensor(Sensors.OBJECT_ROTATION), DELTA);
-		assertEquals(testSprite.look.getZIndex(), interpretSensor(Sensors.OBJECT_LAYER).intValue() + Constants.Z_INDEX_NUMBER_VIRTUAL_LAYERS);
+		assertEquals(LOOK_LAYER, interpretSensor(Sensors.OBJECT_LAYER));
 	}
 
 	@Test
