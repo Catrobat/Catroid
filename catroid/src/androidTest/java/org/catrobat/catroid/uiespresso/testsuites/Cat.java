@@ -66,6 +66,10 @@ public interface Cat {
 	interface Educational {
 	}
 
+	//Tests that change the device / app language to test RTL layout changes
+	interface RTLTests {
+	}
+
 	//Tests that have side effects that can break other tests, therefore should be excluded from bulk test runs
 	interface Quarantine {
 	}
