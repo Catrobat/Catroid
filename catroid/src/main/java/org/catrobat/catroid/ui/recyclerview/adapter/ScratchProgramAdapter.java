@@ -51,7 +51,7 @@ public class ScratchProgramAdapter extends ExtendedRVAdapter<ScratchProgramData>
 					.scratch_project_thumbnail_height);
 			String originalImageURL = item.getImage().getUrl().toString();
 			String thumbnailImageURL = Utils.changeSizeOfScratchImageURL(originalImageURL, height);
-			Picasso.with(holder.image.getContext()).load(thumbnailImageURL).into(holder.image);
+			Picasso.get().load(thumbnailImageURL).into(holder.image);
 		} else {
 			holder.image.setImageBitmap(null);
 		}
