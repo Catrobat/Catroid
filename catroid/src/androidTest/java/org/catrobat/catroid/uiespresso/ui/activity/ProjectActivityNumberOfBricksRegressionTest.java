@@ -66,6 +66,7 @@ public class ProjectActivityNumberOfBricksRegressionTest {
 	@Rule
 	public BaseActivityInstrumentationRule<ProjectActivity> baseActivityTestRule = new
 			BaseActivityInstrumentationRule<>(ProjectActivity.class, ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SPRITES);
+
 	@Before
 	public void setUp() {
 		createProject();
