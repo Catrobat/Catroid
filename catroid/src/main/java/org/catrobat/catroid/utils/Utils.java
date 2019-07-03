@@ -61,6 +61,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import static org.catrobat.catroid.common.Constants.PREF_PROJECTNAME_KEY;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public final class Utils {
@@ -330,6 +331,13 @@ public final class Utils {
 			return currentProjectName;
 		}
 		return ProjectManager.getInstance().getCurrentProject().getName();
+	}
+
+	public static void setLastUsedProjectName(Context context, String projectName) {
+		PreferenceManager.getDefaultSharedPreferences(context)
+				.edit()
+				.putString(PREF_PROJECTNAME_KEY, projectName)
+				.commit();
 	}
 
 	public static boolean isDefaultProject(Project projectToCheck, Context context) {
