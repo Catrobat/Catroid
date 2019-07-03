@@ -23,31 +23,40 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.content.strategy.ShowColorPickerFormulaEditorStrategy;
+import org.catrobat.catroid.content.strategy.ShowFormulaEditorStrategy;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
+import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.fragment.ColorSeekbar;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 public class SetPenColorBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
+	private final transient ShowFormulaEditorStrategy showFormulaEditorStrategy;
+
 	public SetPenColorBrick() {
 		addAllowedBrickField(BrickField.PEN_COLOR_RED, R.id.brick_set_pen_color_action_red_edit_text);
 		addAllowedBrickField(BrickField.PEN_COLOR_GREEN, R.id.brick_set_pen_color_action_green_edit_text);
 		addAllowedBrickField(BrickField.PEN_COLOR_BLUE, R.id.brick_set_pen_color_action_blue_edit_text);
+
+		showFormulaEditorStrategy = new ShowColorPickerFormulaEditorStrategy();
 	}
 
 	public SetPenColorBrick(int red, int green, int blue) {
 		this(new Formula(red), new Formula(green), new Formula(blue));
 	}
 
-	public SetPenColorBrick(Formula red, Formula green, Formula blue) {
+	private SetPenColorBrick(Formula red, Formula green, Formula blue) {
 		this();
 		setFormulaWithBrickField(BrickField.PEN_COLOR_RED, red);
 		setFormulaWithBrickField(BrickField.PEN_COLOR_GREEN, green);
@@ -56,8 +65,11 @@ public class SetPenColorBrick extends FormulaBrick {
 
 	@Override
 	public View getCustomView(Context context) {
-		return new ColorSeekbar(this, BrickField.PEN_COLOR_RED,
-				BrickField.PEN_COLOR_GREEN, BrickField.PEN_COLOR_BLUE).getView(context);
+		ColorSeekbar colorSeekbar = new ColorSeekbar(this,
+				BrickField.PEN_COLOR_RED,
+				BrickField.PEN_COLOR_GREEN,
+				BrickField.PEN_COLOR_BLUE);
+		return colorSeekbar.getView(context);
 	}
 
 	@Override
@@ -68,10 +80,15 @@ public class SetPenColorBrick extends FormulaBrick {
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
 		if (areAllBrickFieldsNumbers()) {
-			FormulaEditorFragment.showCustomFragment(view.getContext(), this, getClickedBrickField(view));
+			ShowFormulaEditorStrategy.Callback callback = new SetPenColorBrickCallback(view);
+			showFormulaEditorStrategy.showFormulaEditorToEditFormula(view, callback);
 		} else {
-			super.showFormulaEditorToEditFormula(view);
+			superShowFormulaEditor(view);
 		}
+	}
+
+	private void superShowFormulaEditor(View view) {
+		super.showFormulaEditorToEditFormula(view);
 	}
 
 	@Override
@@ -80,24 +97,13 @@ public class SetPenColorBrick extends FormulaBrick {
 	}
 
 	private boolean areAllBrickFieldsNumbers() {
-		return (getFormulaWithBrickField(BrickField.PEN_COLOR_RED).getRoot().getElementType()
-				== FormulaElement.ElementType.NUMBER)
-				&& (getFormulaWithBrickField(BrickField.PEN_COLOR_GREEN).getRoot().getElementType()
-				== FormulaElement.ElementType.NUMBER)
-				&& (getFormulaWithBrickField(BrickField.PEN_COLOR_BLUE).getRoot().getElementType()
-				== FormulaElement.ElementType.NUMBER);
+		return isBrickFieldANumber(BrickField.PEN_COLOR_RED)
+				&& isBrickFieldANumber(BrickField.PEN_COLOR_GREEN)
+				&& isBrickFieldANumber(BrickField.PEN_COLOR_BLUE);
 	}
 
-	private BrickField getClickedBrickField(View view) {
-		switch (view.getId()) {
-			case R.id.brick_set_pen_color_action_green_edit_text:
-				return BrickField.PEN_COLOR_GREEN;
-			case R.id.brick_set_pen_color_action_blue_edit_text:
-				return BrickField.PEN_COLOR_BLUE;
-			case R.id.brick_set_pen_color_action_red_edit_text:
-			default:
-				return BrickField.PEN_COLOR_RED;
-		}
+	private boolean isBrickFieldANumber(BrickField brickField) {
+		return getFormulaWithBrickField(brickField).getRoot().getElementType() == FormulaElement.ElementType.NUMBER;
 	}
 
 	@Override
@@ -106,5 +112,46 @@ public class SetPenColorBrick extends FormulaBrick {
 				getFormulaWithBrickField(BrickField.PEN_COLOR_RED),
 				getFormulaWithBrickField(BrickField.PEN_COLOR_GREEN),
 				getFormulaWithBrickField(BrickField.PEN_COLOR_BLUE)));
+	}
+
+	private final class SetPenColorBrickCallback implements ShowFormulaEditorStrategy.Callback {
+		private final View view;
+
+		private SetPenColorBrickCallback(View view) {
+			this.view = view;
+		}
+
+		@Override
+		public void showFormulaEditor(View view) {
+			superShowFormulaEditor(view);
+		}
+
+		@Override
+		public void setValue(int value) {
+			setFormulaWithBrickField(BrickField.PEN_COLOR_RED, new Formula(Color.red(value)));
+			setFormulaWithBrickField(BrickField.PEN_COLOR_GREEN, new Formula(Color.green(value)));
+			setFormulaWithBrickField(BrickField.PEN_COLOR_BLUE, new Formula(Color.blue(value)));
+
+			AppCompatActivity activity = UiUtils.getActivityFromView(view);
+			notifyDataSetChanged(activity);
+		}
+
+		@Override
+		public int getValue() {
+			int red = getColorValueFromBrickField(BrickField.PEN_COLOR_RED);
+			int green = getColorValueFromBrickField(BrickField.PEN_COLOR_GREEN);
+			int blue = getColorValueFromBrickField(BrickField.PEN_COLOR_BLUE);
+			return Color.rgb(red, green, blue);
+		}
+
+		private int getColorValueFromBrickField(BrickField brickField) {
+			Formula formula = getFormulaWithBrickField(brickField);
+			try {
+				int value = formula.interpretInteger(null);
+				return Math.max(0, Math.min(255, value));
+			} catch (InterpretationException e) {
+				return 0;
+			}
+		}
 	}
 }
