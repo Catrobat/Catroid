@@ -28,7 +28,6 @@ import org.catrobat.catroid.common.bluetooth.models.MindstormsNXTTestModel;
 import org.catrobat.catroid.devices.mindstorms.MindstormsConnection;
 import org.catrobat.catroid.devices.mindstorms.MindstormsConnectionImpl;
 import org.catrobat.catroid.devices.mindstorms.nxt.CommandByte;
-import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTI2CUltraSonicSensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTLightSensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTLightSensorActive;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
@@ -56,20 +55,14 @@ public class SensorTests {
 	private static final byte PORT_NR_0 = 0;
 	private static final byte PORT_NR_1 = 1;
 	private static final byte PORT_NR_2 = 2;
-	private static final byte PORT_NR_3 = 3;
-
-	private static final byte ULTRASONIC_ADDRESS = 0x02;
-	private static final byte SENSOR_REGISTER_RESULT1 = 0x42;
-
 
 	@Parameterized.Parameters(name = "{0}")
 	public static Iterable<Object[]> data() {
 		return Arrays.asList(new Object[][] {
 				{"NXTTouchSensor", NXTTouchSensor.class, NXTSensorType.TOUCH, NXTSensorMode.BOOL, PORT_NR_0, 1},
 				{"NXTSoundSensor", NXTSoundSensor.class, NXTSensorType.SOUND_DBA, NXTSensorMode.Percent, PORT_NR_1, 42},
-				{"NXTLightSensor", NXTLightSensor.class, NXTSensorType.LIGHT_INACTIVE, NXTSensorMode.Percent,	PORT_NR_2, 24},
-				{"NXTLightSensorActive", NXTLightSensorActive.class, NXTSensorType.LIGHT_ACTIVE, NXTSensorMode.Percent,	PORT_NR_2, 33},
-				{"NXTI2CUltraSonicSensor", NXTI2CUltraSonicSensor.class, NXTSensorType.LOW_SPEED_9V, NXTSensorMode.RAW,	PORT_NR_3, 142}
+				{"NXTLightSensor", NXTLightSensor.class, NXTSensorType.LIGHT_INACTIVE, NXTSensorMode.Percent, PORT_NR_2, 24},
+				{"NXTLightSensorActive", NXTLightSensorActive.class, NXTSensorType.LIGHT_ACTIVE, NXTSensorMode.Percent, PORT_NR_2, 33}
 		});
 	}
 
@@ -91,14 +84,13 @@ public class SensorTests {
 	@Parameterized.Parameter(5)
 	public int expectedSensorValue;
 
-	private MindstormsNXTTestModel nxtModel;
 	private ConnectionDataLogger logger;
 	private MindstormsConnection mindstormsConnection;
 	private NXTSensor nxtSensor;
 
 	@Before
 	public void setUp() throws Exception {
-		nxtModel = new MindstormsNXTTestModel();
+		MindstormsNXTTestModel nxtModel = new MindstormsNXTTestModel();
 		logger = ConnectionDataLogger.createLocalConnectionLoggerWithDeviceModel(nxtModel);
 		mindstormsConnection = new MindstormsConnectionImpl(logger.getConnectionProxy());
 		mindstormsConnection.init();
@@ -183,9 +175,6 @@ public class SensorTests {
 		}
 		if (canonicalName.equals(NXTLightSensorActive.class.getCanonicalName())) {
 			return new NXTLightSensorActive(portNumber, mindstormsConnection);
-		}
-		if (canonicalName.equals(NXTI2CUltraSonicSensor.class.getCanonicalName())) {
-			return new NXTI2CUltraSonicSensor(mindstormsConnection);
 		}
 		return null;
 	}
