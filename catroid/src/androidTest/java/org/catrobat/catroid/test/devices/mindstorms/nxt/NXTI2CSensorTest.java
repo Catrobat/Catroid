@@ -87,7 +87,7 @@ public class NXTI2CSensorTest {
 	public void testResetInputScaledValueMessage() {
 		nxtSensor.getValue();
 		byte[] message = logger.getNextSentMessage(1, 2);
-		assertArrayEquals(new byte[] {DIRECT_COMMAND_WITH_REPLY, CommandByte.RESET_INPUT_SCALED_VALUE.getByte(), PORT_NR}, message);
+		assertArrayEquals(new byte[] {DIRECT_COMMAND_WITHOUT_REPLY, CommandByte.RESET_INPUT_SCALED_VALUE.getByte(), PORT_NR}, message);
 	}
 
 	@Test
