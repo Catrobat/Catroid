@@ -107,7 +107,6 @@ public class NXTI2CSensorTest {
 		testLsWriteMessage((byte) 0x0);
 	}
 
-
 	@Test
 	public void testReadAndWriteAfterInit() {
 		nxtSensor.getValue();
