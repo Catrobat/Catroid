@@ -35,8 +35,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static junit.framework.Assert.assertNotNull;
-
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
@@ -47,7 +45,7 @@ public class NXTI2CSensorTest {
 	private static final byte PORT_NR = 3;
 
 	private static final byte ULTRASONIC_ADDRESS = 0x02;
-	private static final byte SENSOR_REGISTER_RESULT1 = 0x42;
+	private static final byte SENSOR_REGISTER_RESULT = 0x42;
 	private static final int EXPECTED_SENSOR_VALUE = 142;
 
 	private ConnectionDataLogger logger;
@@ -79,40 +77,27 @@ public class NXTI2CSensorTest {
 	@Test
 	public void testSetInputModeMessageBeginInitialisation() {
 		nxtSensor.getValue();
-		byte[] setInputModeMsg = logger.getNextSentMessage(0, 2);
-		assertNotNull(setInputModeMsg);
-		assertEquals(5, setInputModeMsg.length);
-		assertEquals(DIRECT_COMMAND_WITH_REPLY, setInputModeMsg[0]);
-		assertEquals(CommandByte.SET_INPUT_MODE.getByte(), setInputModeMsg[1]);
-		assertEquals(PORT_NR, setInputModeMsg[2]);
-		assertEquals(NXTSensorType.LOW_SPEED_9V.getByte(), setInputModeMsg[3]);
-		assertEquals(NXTSensorMode.RAW.getByte(), setInputModeMsg[4]);
+		byte[] message = logger.getNextSentMessage(0, 2);
+		assertArrayEquals(new byte[] {DIRECT_COMMAND_WITH_REPLY, CommandByte.SET_INPUT_MODE.getByte(), PORT_NR,
+						NXTSensorType.LOW_SPEED_9V.getByte(), NXTSensorMode.RAW.getByte() },
+				message);
 	}
 
 	@Test
 	public void testResetInputScaledValueMessage() {
 		nxtSensor.getValue();
-		byte[] resetScaledValueMsg = logger.getNextSentMessage(1, 2);
-
-		assertNotNull(resetScaledValueMsg);
-		assertEquals(3, resetScaledValueMsg.length);
-
-		assertEquals(DIRECT_COMMAND_WITHOUT_REPLY, resetScaledValueMsg[0]);
-		assertEquals(CommandByte.RESET_INPUT_SCALED_VALUE.getByte(), resetScaledValueMsg[1]);
-		assertEquals(PORT_NR, resetScaledValueMsg[2]);
+		byte[] message = logger.getNextSentMessage(1, 2);
+		assertArrayEquals(new byte[] {DIRECT_COMMAND_WITH_REPLY, CommandByte.RESET_INPUT_SCALED_VALUE.getByte(), PORT_NR}, message);
 	}
 
 	@Test
 	public void testSetInputModeMessageEndInitialisation() {
 		nxtSensor.getValue();
-		byte[] setInputModeMsg = logger.getNextSentMessage(2, 2);
-		assertNotNull(setInputModeMsg);
-		assertEquals(5, setInputModeMsg.length);
-		assertEquals(DIRECT_COMMAND_WITH_REPLY, setInputModeMsg[0]);
-		assertEquals(CommandByte.SET_INPUT_MODE.getByte(), setInputModeMsg[1]);
-		assertEquals(PORT_NR, setInputModeMsg[2]);
-		assertEquals(NXTSensorType.LOW_SPEED_9V.getByte(), setInputModeMsg[3]);
-		assertEquals(NXTSensorMode.RAW.getByte(), setInputModeMsg[4]);
+		byte[] message = logger.getNextSentMessage(2, 2);
+
+		assertArrayEquals(new byte[] {DIRECT_COMMAND_WITH_REPLY, CommandByte.SET_INPUT_MODE.getByte(), PORT_NR,
+						NXTSensorType.LOW_SPEED_9V.getByte(), NXTSensorMode.RAW.getByte()},
+				message);
 	}
 
 	@Test
@@ -128,7 +113,7 @@ public class NXTI2CSensorTest {
 		nxtSensor.getValue();
 		logger.getNextSentMessage(3, 2);
 		testLsReadMessage();
-		testLsWriteMessage(SENSOR_REGISTER_RESULT1);
+		testLsWriteMessage(SENSOR_REGISTER_RESULT);
 		testLsReadMessage();
 	}
 
@@ -143,17 +128,9 @@ public class NXTI2CSensorTest {
 	}
 
 	private void testLsWriteMessage(byte register) {
-		byte[] lsWriteMsg = logger.getNextSentMessage(0, 2);
-
-		assertNotNull(lsWriteMsg);
-		assertEquals(7, lsWriteMsg.length);
-
-		assertEquals(DIRECT_COMMAND_WITHOUT_REPLY, lsWriteMsg[0]);
-		assertEquals(CommandByte.LS_WRITE.getByte(), lsWriteMsg[1]);
-		assertEquals(PORT_NR, lsWriteMsg[2]);
-		assertEquals(2, lsWriteMsg[3]);
-		assertEquals(1, lsWriteMsg[4]);
-		assertEquals(ULTRASONIC_ADDRESS, lsWriteMsg[5]);
-		assertEquals(register, lsWriteMsg[6]);
+		byte[] message = logger.getNextSentMessage(0, 2);
+		assertArrayEquals(
+				new byte[] {DIRECT_COMMAND_WITHOUT_REPLY, CommandByte.LS_WRITE.getByte(), PORT_NR, 2, 1, ULTRASONIC_ADDRESS, register},
+				message);
 	}
 }

@@ -43,8 +43,7 @@ import org.junit.runners.Parameterized;
 
 import java.util.Arrays;
 
-import static junit.framework.TestCase.assertNotNull;
-
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Parameterized.class)
@@ -79,7 +78,7 @@ public class SensorTests {
 	public NXTSensorMode nxtSensorMode;
 
 	@Parameterized.Parameter(4)
-	public int portNumber;
+	public byte portNumber;
 
 	@Parameterized.Parameter(5)
 	public int expectedSensorValue;
@@ -113,53 +112,39 @@ public class SensorTests {
 	@Test
 	public void testSetInputModeMessageBeginInitialisation() {
 		nxtSensor.getValue();
-		byte[] setInputModeMsg = logger.getNextSentMessage(0, 2);
-		assertNotNull(setInputModeMsg);
-		assertEquals(5, setInputModeMsg.length);
-		assertEquals(DIRECT_COMMAND_WITH_REPLY, setInputModeMsg[0]);
-		assertEquals(CommandByte.SET_INPUT_MODE.getByte(), setInputModeMsg[1]);
-		assertEquals(portNumber, setInputModeMsg[2]);
-		assertEquals(nxtSensorType.getByte(), setInputModeMsg[3]);
-		assertEquals(nxtSensorMode.getByte(), setInputModeMsg[4]);
+		byte[] message = logger.getNextSentMessage(0, 2);
+
+		assertArrayEquals(new byte[] {DIRECT_COMMAND_WITH_REPLY, CommandByte.SET_INPUT_MODE.getByte(), portNumber,
+						nxtSensorType.getByte(), nxtSensorMode.getByte()},
+				message);
 	}
 
 	@Test
 	public void testResetInputScaledValueMessage() {
 		nxtSensor.getValue();
-		byte[] resetScaledValueMsg = logger.getNextSentMessage(1, 2);
+		byte[] message = logger.getNextSentMessage(1, 2);
 
-		assertNotNull(resetScaledValueMsg);
-		assertEquals(3, resetScaledValueMsg.length);
-
-		assertEquals(DIRECT_COMMAND_WITHOUT_REPLY, resetScaledValueMsg[0]);
-		assertEquals(CommandByte.RESET_INPUT_SCALED_VALUE.getByte(), resetScaledValueMsg[1]);
-		assertEquals(portNumber, resetScaledValueMsg[2]);
+		assertArrayEquals(new byte[] {DIRECT_COMMAND_WITHOUT_REPLY, CommandByte.RESET_INPUT_SCALED_VALUE.getByte(), portNumber},
+				message);
 	}
 
 	@Test
 	public void testSetInputModeMessageEndInitialisation() {
 		nxtSensor.getValue();
-		byte[] setInputModeMsg = logger.getNextSentMessage(2, 2);
-		assertNotNull(setInputModeMsg);
-		assertEquals(5, setInputModeMsg.length);
-		assertEquals(DIRECT_COMMAND_WITH_REPLY, setInputModeMsg[0]);
-		assertEquals(CommandByte.SET_INPUT_MODE.getByte(), setInputModeMsg[1]);
-		assertEquals(portNumber, setInputModeMsg[2]);
-		assertEquals(nxtSensorType.getByte(), setInputModeMsg[3]);
-		assertEquals(nxtSensorMode.getByte(), setInputModeMsg[4]);
+		byte[] message = logger.getNextSentMessage(2, 2);
+
+		assertArrayEquals(new byte[] {DIRECT_COMMAND_WITH_REPLY, CommandByte.SET_INPUT_MODE.getByte(), portNumber,
+						nxtSensorType.getByte(), nxtSensorMode.getByte()},
+				message);
 	}
 
 	@Test
 	public void testGetInputValuesMessage() {
 		nxtSensor.getValue();
-		byte[] getInputValuesMsg = logger.getNextSentMessage(3, 2);
+		byte[] message = logger.getNextSentMessage(3, 2);
 
-		assertNotNull(getInputValuesMsg);
-		assertEquals(3, getInputValuesMsg.length);
-
-		assertEquals(DIRECT_COMMAND_WITH_REPLY, getInputValuesMsg[0]);
-		assertEquals(CommandByte.GET_INPUT_VALUES.getByte(), getInputValuesMsg[1]);
-		assertEquals(portNumber, getInputValuesMsg[2]);
+		assertArrayEquals(new byte[] {DIRECT_COMMAND_WITH_REPLY, CommandByte.GET_INPUT_VALUES.getByte(), portNumber},
+				message);
 	}
 
 	private NXTSensor sensorFactoryForTest() {
