@@ -349,4 +349,14 @@ public class Project implements Serializable {
 	public void setXmlHeader(XmlHeader xmlHeader) {
 		this.xmlHeader = xmlHeader;
 	}
+
+	public int getSpriteCount() {
+		int count = 0;
+
+		for (Scene scene : this.getSceneList()) {
+			count += scene.getSpriteList().size();
+		}
+
+		return count;
+	}
 }
