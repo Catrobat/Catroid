@@ -166,6 +166,7 @@ import org.catrobat.catroid.content.bricks.StampBrick;
 import org.catrobat.catroid.content.bricks.StitchBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
+import org.catrobat.catroid.content.bricks.TapThisSpriteBrick;
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
 import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
@@ -649,11 +650,15 @@ public class CategoryBricksFactory {
 
 	private List<Brick> setupAssertionsCategoryList() {
 		List<Brick> assertionsBrickList = new ArrayList<>();
+
 		AssertEqualsBrick assertEqualsBrick = new AssertEqualsBrick();
 		assertionsBrickList.add(assertEqualsBrick);
 
 		WaitTillIdleBrick waitTillIdleBrick = new WaitTillIdleBrick();
 		assertionsBrickList.add(waitTillIdleBrick);
+
+		TapThisSpriteBrick tapThisSpriteBrick = new TapThisSpriteBrick();
+		assertionsBrickList.add(tapThisSpriteBrick);
 
 		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
 			for (Sprite sprite : scene.getSpriteList()) {

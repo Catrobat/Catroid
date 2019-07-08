@@ -193,6 +193,7 @@ import org.catrobat.catroid.content.bricks.StampBrick;
 import org.catrobat.catroid.content.bricks.StitchBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
+import org.catrobat.catroid.content.bricks.TapThisSpriteBrick;
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
 import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
@@ -491,6 +492,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", WhenGamepadButtonBrick.class);
 
 		xstream.alias("brick", AssertEqualsBrick.class);
+		xstream.alias("brick", TapThisSpriteBrick.class);
 		xstream.alias("brick", DroneFlipBrick.class);
 		xstream.alias("brick", JumpingSumoAnimationsBrick.class);
 		xstream.alias("brick", JumpingSumoJumpHighBrick.class);

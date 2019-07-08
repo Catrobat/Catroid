@@ -168,7 +168,7 @@ public class StageListener implements ApplicationListener {
 
 	private Map<String, StageBackup> stageBackupMap = new HashMap<>();
 
-	private InputListener inputListener = null;
+	public InputListener inputListener = null;
 
 	private Map<Sprite, ShowBubbleActor> bubbleActorMap = new HashMap<>();
 
