@@ -36,8 +36,11 @@ import org.junit.runners.Parameterized;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertSame;
-import static junit.framework.Assert.assertTrue;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItem;
 
 @RunWith(Parameterized.class)
 public class PreferencesSensorMappingTest {
@@ -86,13 +89,13 @@ public class PreferencesSensorMappingTest {
 
 	@Test
 	public void testMappingContainsNameAndCode() {
-		assertTrue(sensorNames.contains(sensorName));
-		assertTrue(sensorCodes.contains(sensor.getSensorCode()));
+		assertThat(sensorNames, hasItem(sensorName));
+		assertThat(sensorCodes, hasItem(sensor.getSensorCode()));
 	}
 
 	@Test
 	public void testMappingSize() {
-		assertSame(EXPECTED_MAPPING_SIZE, sensorNames.size());
-		assertSame(EXPECTED_MAPPING_SIZE, sensorCodes.size());
+		assertEquals(EXPECTED_MAPPING_SIZE, sensorNames.size());
+		assertEquals(EXPECTED_MAPPING_SIZE, sensorCodes.size());
 	}
 }

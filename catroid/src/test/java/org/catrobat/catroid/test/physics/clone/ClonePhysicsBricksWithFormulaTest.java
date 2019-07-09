@@ -44,14 +44,13 @@ import org.junit.runners.Parameterized;
 
 import java.util.Arrays;
 
-import static junit.framework.Assert.assertNotSame;
-
-import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 @RunWith(Parameterized.class)
 public class ClonePhysicsBricksWithFormulaTest {
 
-	private static final int BRICK_FORMULA_VALUE = 0;
+	private static final Integer BRICK_FORMULA_VALUE = 0;
 	private static final String BRICK_INVALID_FORMULA_VALUE = "1";
 	private static final String CLONE_BRICK_FORMULA_VALUE = "2";
 
@@ -93,16 +92,16 @@ public class ClonePhysicsBricksWithFormulaTest {
 	@Test
 	public void testChangeBrickField() throws InterpretationException {
 		cloneBrickFormula.setRoot(new FormulaElement(FormulaElement.ElementType.NUMBER, CLONE_BRICK_FORMULA_VALUE, null));
-		assertNotSame(brickFormula.interpretInteger(sprite), cloneBrickFormula.interpretInteger(sprite));
+		assertNotEquals(brickFormula.interpretInteger(sprite), cloneBrickFormula.interpretInteger(sprite));
 	}
 
 	@Test
 	public void testBrickFieldValidValue() throws InterpretationException {
-		assertSame(BRICK_FORMULA_VALUE, brickFormula.interpretInteger(sprite));
+		assertEquals(BRICK_FORMULA_VALUE, brickFormula.interpretInteger(sprite));
 	}
 
 	@Test
 	public void testBrickFieldEquals() throws InterpretationException {
-		assertSame(brickFormula.interpretInteger(sprite), cloneBrickFormula.interpretInteger(sprite));
+		assertEquals(brickFormula.interpretInteger(sprite), cloneBrickFormula.interpretInteger(sprite));
 	}
 }
