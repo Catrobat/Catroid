@@ -145,34 +145,6 @@ pipeline {
                             }
                         }
 
-                        stage('Legacy Tests') {
-                            steps {
-                                sh '''./gradlew -PenableCoverage -PlogcatFile=legacy_logcat.txt -Pemulator=android19 \
-                                            startEmulator createCatroidDebugAndroidTestCoverageReport \
-                                            -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.uiespresso.testsuites.ApiLevel19RegressionTestsSuite'''
-                            }
-
-                            post {
-                                always {
-                                    postEmulator 'legacy'
-                                }
-                            }
-                        }
-
-                        stage('RTL Tests') {
-                            steps {
-                                sh '''./gradlew -PenableCoverage -PlogcatFile=rtltests_logcat.txt -Pemulator=android24 \
-                                            startEmulator createCatroidDebugAndroidTestCoverageReport \
-                                            -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.uiespresso.testsuites.RTLTestSuite'''
-                            }
-
-                            post {
-                                always {
-                                    postEmulator 'rtltests'
-                                }
-                            }
-                        }
-
                         stage('Testrunner Tests') {
                             steps {
                                 sh '''./gradlew -PenableCoverage -PlogcatFile=testrunner_logcat.txt -Pemulator=android24 \

@@ -436,7 +436,7 @@ public final class Utils {
 				.putString(Constants.GOOGLE_ID_TOKEN, Constants.NO_GOOGLE_ID_TOKEN);
 
 		sharedPreferenceEditor.commit();
-		WebViewActivity.clearCookies(context);
+		WebViewActivity.clearCookies();
 	}
 
 	public static boolean isUserLoggedIn(Context context) {
