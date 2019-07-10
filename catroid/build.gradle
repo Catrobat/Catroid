@@ -172,11 +172,11 @@ jacocoAndroidUnitTestReport {
 }
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 28
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 26
+        targetSdkVersion 28
         applicationId appId
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         versionCode 63

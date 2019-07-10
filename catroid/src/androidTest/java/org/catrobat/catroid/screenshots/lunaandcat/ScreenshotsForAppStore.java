@@ -28,7 +28,6 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.LargeTest;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -58,7 +57,6 @@ import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorW
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anything;
 
-@LargeTest
 @RunWith(AndroidJUnit4.class)
 public class ScreenshotsForAppStore {
 
