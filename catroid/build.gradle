@@ -446,7 +446,7 @@ dependencies {
     natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi-v7a"
     natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-arm64-v8a"
 
-    implementation 'com.facebook.android:facebook-android-sdk:4.14.1'
+    implementation 'com.facebook.android:facebook-android-sdk:5.1.1'
     implementation 'com.google.android.gms:play-services-auth:12.0.0'
 
     androidTestImplementation ('tools.fastlane:screengrab:1.1.0'){
