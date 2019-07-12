@@ -44,6 +44,7 @@ import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
 import org.mockito.verification.VerificationMode
 import org.powermock.api.mockito.PowerMockito.mock
+import org.powermock.core.classloader.annotations.PowerMockIgnore
 import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
 import java.io.File
@@ -56,6 +57,7 @@ private const val userEmail = "user@catrobat.com"
 private const val projectName = "testproject"
 private const val projectDescription = "testproject description"
 
+@PowerMockIgnore("javax.net.ssl.*")
 @RunWith(PowerMockRunner::class)
 @PrepareForTest(ServerCalls::class)
 class ProjectUploadTest {

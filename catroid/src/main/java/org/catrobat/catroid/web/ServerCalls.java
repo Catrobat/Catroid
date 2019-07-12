@@ -32,12 +32,6 @@ import android.util.Log;
 import com.google.android.gms.common.images.WebImage;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.squareup.okhttp.ConnectionSpec;
-import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.Interceptor;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FlavoredConstants;
@@ -66,6 +60,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import okhttp3.ConnectionSpec;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import okio.BufferedSink;
 import okio.Okio;
 
@@ -120,8 +119,6 @@ public final class ServerCalls implements ScratchDataFetcher {
 			+ "api/loginWithGoogle/loginWithGoogle.json";
 	private static final String FACEBOOK_LOGIN_URL = FlavoredConstants.BASE_URL_HTTPS
 			+ "api/loginWithFacebook/loginWithFacebook.json";
-	private static final String FACEBOOK_CHECK_SERVER_TOKEN_VALIDITY = FlavoredConstants.BASE_URL_HTTPS
-			+ "api/checkFacebookServerTokenValidity/checkFacebookServerTokenValidity.json";
 	private static final String TEST_CHECK_TOKEN_URL = BASE_URL_TEST_HTTPS + "api/checkToken/check.json";
 	private static final String TEST_LOGIN_URL = BASE_URL_TEST_HTTPS + "api/login/Login.json";
 	private static final String TEST_REGISTRATION_URL = BASE_URL_TEST_HTTPS + "api/register/Register.json";
@@ -145,12 +142,9 @@ public final class ServerCalls implements ScratchDataFetcher {
 			+ "api/loginWithFacebook/loginWithFacebook.json";
 	private static final String TEST_DELETE_TEST_USERS = BASE_URL_TEST_HTTPS
 			+ "api/deleteOAuthUserAccounts/deleteOAuthUserAccounts.json";
-	private static final String TEST_FACEBOOK_CHECK_SERVER_TOKEN_VALIDITY = BASE_URL_TEST_HTTPS
-			+ "api/checkFacebookServerTokenValidity/checkFacebookServerTokenValidity.json";
 	private static final String JSON_STATUS_CODE = "statusCode";
 	private static final String JSON_ANSWER = "answer";
 	private static final String JSON_TOKEN = "token";
-	private static final String FACEBOOK_SERVER_TOKEN_INVALID = "token_invalid";
 
 	private static final ServerCalls INSTANCE = new ServerCalls();
 
@@ -162,8 +156,9 @@ public final class ServerCalls implements ScratchDataFetcher {
 	private int projectId;
 
 	private ServerCalls() {
-		okHttpClient = new OkHttpClient();
-		okHttpClient.setConnectionSpecs(Arrays.asList(ConnectionSpec.MODERN_TLS));
+		okHttpClient = new OkHttpClient.Builder()
+				.connectionSpecs(Arrays.asList(ConnectionSpec.MODERN_TLS))
+				.build();
 		gson = new Gson();
 	}
 
@@ -425,32 +420,33 @@ public final class ServerCalls implements ScratchDataFetcher {
 				.url(url)
 				.build();
 
-		OkHttpClient httpClient = okHttpClient;
+		OkHttpClient.Builder httpClientBuilder;
+
 		if (url.startsWith("http://")) {
-			httpClient = new OkHttpClient();
-			httpClient.setConnectionSpecs(Arrays.asList(ConnectionSpec.CLEARTEXT));
+			httpClientBuilder = new OkHttpClient.Builder()
+					.connectionSpecs(Arrays.asList(ConnectionSpec.CLEARTEXT));
+		} else {
+			httpClientBuilder = okHttpClient.newBuilder();
 		}
 
-		httpClient.networkInterceptors().add(new Interceptor() {
-			@Override
-			public Response intercept(Chain chain) throws IOException {
-				Response originalResponse = chain.proceed(chain.request());
+		httpClientBuilder.networkInterceptors().add(chain -> {
+			Response originalResponse = chain.proceed(chain.request());
 
-				if (notificationId >= oldNotificationId) {
-					oldNotificationId = notificationId;
-					return originalResponse.newBuilder()
-							.body(new ProgressResponseBody(
-									originalResponse.body(),
-									receiver,
-									notificationId,
-									programName,
-									url))
-							.build();
-				} else {
-					return originalResponse;
-				}
+			if (notificationId >= oldNotificationId) {
+				oldNotificationId = notificationId;
+				return originalResponse.newBuilder()
+						.body(new ProgressResponseBody(
+								originalResponse.body(),
+								receiver,
+								notificationId,
+								programName,
+								url))
+						.build();
+			} else {
+				return originalResponse;
 			}
 		});
+		OkHttpClient httpClient = httpClientBuilder.build();
 
 		try {
 			Response response = httpClient.newCall(request).execute();
@@ -474,23 +470,22 @@ public final class ServerCalls implements ScratchDataFetcher {
 				.url(url)
 				.build();
 
-		okHttpClient.networkInterceptors().add(new Interceptor() {
-			@Override
-			public Response intercept(Chain chain) throws IOException {
-				Response originalResponse = chain.proceed(chain.request());
-				return originalResponse.newBuilder()
-						.body(new ProgressResponseBody(
-								originalResponse.body(),
-								receiver,
-								0,
-								null,
-								url))
-						.build();
-			}
+		OkHttpClient.Builder httpClientBuilder = okHttpClient.newBuilder();
+		httpClientBuilder.networkInterceptors().add(chain -> {
+			Response originalResponse = chain.proceed(chain.request());
+			return originalResponse.newBuilder()
+					.body(new ProgressResponseBody(
+							originalResponse.body(),
+							receiver,
+							0,
+							null,
+							url))
+					.build();
 		});
+		OkHttpClient httpClient = httpClientBuilder.build();
 
 		try {
-			Response response = okHttpClient.newCall(request).execute();
+			Response response = httpClient.newCall(request).execute();
 			BufferedSink bufferedSink = Okio.buffer(Okio.sink(file));
 			bufferedSink.writeAll(response.body().source());
 			bufferedSink.close();
@@ -524,7 +519,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 	}
 
 	public String httpFormUpload(String url, Map<String, String> postValues) throws WebconnectionException {
-		FormEncodingBuilder formEncodingBuilder = new FormEncodingBuilder();
+		FormBody.Builder formEncodingBuilder = new FormBody.Builder();
 
 		if (postValues != null) {
 			for (Map.Entry<String, String> entry : postValues.entrySet()) {
@@ -567,8 +562,9 @@ public final class ServerCalls implements ScratchDataFetcher {
 			OkHttpClient httpClient = okHttpClient;
 
 			if (url.startsWith("http://")) {
-				httpClient = new OkHttpClient();
-				httpClient.setConnectionSpecs(Arrays.asList(ConnectionSpec.CLEARTEXT));
+				httpClient = new OkHttpClient.Builder()
+						.connectionSpecs(Arrays.asList(ConnectionSpec.CLEARTEXT))
+						.build();
 			}
 
 			Response response = httpClient.newCall(request).execute();
@@ -945,23 +941,6 @@ public final class ServerCalls implements ScratchDataFetcher {
 			JSONObject jsonObject = new JSONObject(resultString);
 			checkStatusCode200(jsonObject.getInt(JSON_STATUS_CODE));
 			return true;
-		} catch (JSONException e) {
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(e));
-		}
-	}
-
-	public Boolean checkFacebookServerTokenValidity(String id) throws WebconnectionException {
-		try {
-			HashMap<String, String> postValues = new HashMap<>();
-			postValues.put(SIGNIN_OAUTH_ID_KEY, id);
-
-			String serverUrl = useTestUrl ? TEST_FACEBOOK_CHECK_SERVER_TOKEN_VALIDITY : FACEBOOK_CHECK_SERVER_TOKEN_VALIDITY;
-			resultString = httpFormUpload(serverUrl, postValues);
-
-			JSONObject jsonObject = new JSONObject(resultString);
-			checkStatusCode200(jsonObject.getInt(JSON_STATUS_CODE));
-
-			return jsonObject.getBoolean(FACEBOOK_SERVER_TOKEN_INVALID);
 		} catch (JSONException e) {
 			throw new WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(e));
 		}

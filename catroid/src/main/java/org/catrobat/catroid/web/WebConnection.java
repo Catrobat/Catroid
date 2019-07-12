@@ -23,16 +23,16 @@
 
 package org.catrobat.catroid.web;
 
-import com.squareup.okhttp.Call;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class WebConnection {
 	private final OkHttpClient okHttpClient;
@@ -91,7 +91,7 @@ public class WebConnection {
 	private Callback createCallback() {
 		return new Callback() {
 			@Override
-			public void onFailure(Request request, IOException e) {
+			public void onFailure(Call call, IOException e) {
 				WebRequestListener listener = popListener();
 				if (listener != null) {
 					if (EXCEPTION_MESSAGE_TIMEOUT.equals(e.getMessage())) {
@@ -105,7 +105,7 @@ public class WebConnection {
 			}
 
 			@Override
-			public void onResponse(Response response) throws IOException {
+			public void onResponse(Call call, Response response) throws IOException {
 				WebRequestListener listener = popListener();
 				if (listener != null) {
 					if (response.isSuccessful()) {
@@ -120,7 +120,7 @@ public class WebConnection {
 
 	public void cancelCall() {
 		if (call != null) {
-			okHttpClient.getDispatcher().getExecutorService().execute(new Runnable() {
+			okHttpClient.dispatcher().executorService().execute(new Runnable() {
 				@Override
 				public void run() {
 					call.cancel();

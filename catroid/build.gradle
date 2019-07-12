@@ -409,11 +409,10 @@ dependencies {
     implementation 'com.google.android.gms:play-services-analytics:12.0.0'
 
     implementation 'com.google.guava:guava:19.0'
-    implementation 'com.squareup.okhttp:okhttp:2.3.0'
     implementation 'com.google.code.gson:gson:2.8.0'
 
     implementation 'com.koushikdutta.async:androidasync:2.2.1'
-    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'ar.com.hjg:pngj:2.1.0'
 
     implementation ('com.thoughtworks.xstream:xstream:1.4.7') {
