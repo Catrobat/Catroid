@@ -200,7 +200,7 @@ import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.UserListBrick;
-import org.catrobat.catroid.content.bricks.UserVariableBrick;
+import org.catrobat.catroid.content.bricks.UserVariableBrickWithFormula;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WaitTillIdleBrick;
@@ -289,7 +289,7 @@ public final class XstreamSerializer {
 		xstream.processAnnotations(Sprite.class);
 		xstream.processAnnotations(XmlHeader.class);
 		xstream.processAnnotations(Setting.class);
-		xstream.processAnnotations(UserVariableBrick.class);
+		xstream.processAnnotations(UserVariableBrickWithFormula.class);
 		xstream.processAnnotations(UserListBrick.class);
 
 		xstream.registerConverter(new XStreamConcurrentFormulaHashMapConverter());
@@ -320,6 +320,7 @@ public final class XstreamSerializer {
 
 		xstream.omitField(ShowTextBrick.class, "userVariableName");
 		xstream.omitField(HideTextBrick.class, "userVariableName");
+		xstream.omitField(HideTextBrick.class, "formulaList");
 
 		xstream.omitField(SayBubbleBrick.class, "type");
 		xstream.omitField(SayBubbleBrick.class, "type");

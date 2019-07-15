@@ -43,7 +43,7 @@ import org.catrobat.catroid.ui.UiUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class UserVariableBrick extends BrickBaseType implements UserVariableBrickInterface {
+public abstract class UserVariableBrickWithFormula extends FormulaBrick implements UserVariableBrickInterface {
 
 	protected UserVariable userVariable;
 
@@ -59,15 +59,15 @@ public abstract class UserVariableBrick extends BrickBaseType implements UserVar
 		this.userVariable = userVariable;
 	}
 
+	@IdRes
+	protected abstract int getSpinnerId();
+
 	@Override
 	public Brick clone() throws CloneNotSupportedException {
-		UserVariableBrick clone = (UserVariableBrick) super.clone();
+		UserVariableBrickWithFormula clone = (UserVariableBrickWithFormula) super.clone();
 		clone.spinner = null;
 		return clone;
 	}
-
-	@IdRes
-	protected abstract int getSpinnerId();
 
 	@Override
 	public View getView(Context context) {
