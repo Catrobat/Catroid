@@ -278,6 +278,8 @@ public final class XstreamSerializer {
 		xstream = new BackwardCompatibleCatrobatLanguageXStream(
 				new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
 
+		xstream.allowTypesByWildcard(new String[] {"org.catrobat.catroid.**"});
+
 		xstream.processAnnotations(projectClass);
 		xstream.processAnnotations(sceneClass);
 
