@@ -156,6 +156,7 @@ import org.catrobat.catroid.content.bricks.StampBrick;
 import org.catrobat.catroid.content.bricks.StitchBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
+import org.catrobat.catroid.content.bricks.TapAtBrick;
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
 import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
@@ -366,7 +367,8 @@ public class BrickCategoryTest {
 						RaspiSendDigitalValueBrick.class,
 						RaspiPwmBrick.class)},
 				{"Testing", false, Arrays.asList(AssertEqualsBrick.class,
-						WaitTillIdleBrick.class)},
+						WaitTillIdleBrick.class,
+						TapAtBrick.class)},
 		});
 	}
 

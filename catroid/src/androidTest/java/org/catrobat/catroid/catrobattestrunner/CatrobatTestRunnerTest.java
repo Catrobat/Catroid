@@ -83,6 +83,11 @@ public class CatrobatTestRunnerTest {
 		testAsset("testFailTimeout.catrobat", "catrobatTestRunnerTests/fail");
 	}
 
+	@Test
+	public void testTapBrick() throws Exception {
+		testAsset("testTapBrick.catrobat", "catrobatTestRunnerTests/success");
+	}
+
 	private void testAsset(String assetName, String assetPath) throws Exception {
 		catrobatTestRunner.assetName = assetName;
 		catrobatTestRunner.assetPath = assetPath;
