@@ -23,6 +23,7 @@
 package org.catrobat.catroid.io;
 
 import android.content.Context;
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import com.google.common.base.Charsets;
@@ -212,6 +213,7 @@ import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick;
 import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
+import org.catrobat.catroid.content.bricks.WhenTouchDownBrick;
 import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.formulaeditor.UserList;
@@ -511,6 +513,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", StitchBrick.class);
 		xstream.alias("brick", WaitTillIdleBrick.class);
 		xstream.alias("brick", WhenRaspiPinChangedBrick.class);
+		xstream.alias("brick", WhenTouchDownBrick.class);
 
 		xstream.alias("script", WhenBounceOffScript.class);
 		xstream.alias("brick", WhenBounceOffBrick.class);
@@ -787,5 +790,10 @@ public final class XstreamSerializer {
 			Log.e(TAG, Log.getStackTraceString(e));
 		}
 		return null;
+	}
+
+	@VisibleForTesting
+	public BackwardCompatibleCatrobatLanguageXStream getXstream() {
+		return xstream;
 	}
 }
