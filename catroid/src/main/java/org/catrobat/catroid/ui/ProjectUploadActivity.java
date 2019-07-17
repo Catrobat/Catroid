@@ -50,6 +50,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
 import org.catrobat.catroid.io.asynctask.ProjectRenameTask;
+import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.transfers.CheckTokenTask;
 import org.catrobat.catroid.transfers.GetTagsTask;
 import org.catrobat.catroid.transfers.project.ProjectUploadService;
@@ -279,6 +280,7 @@ public class ProjectUploadActivity extends BaseActivity implements
 
 		project.setDescription(description);
 		project.setDeviceData(this);
+		ProjectSaveTask.task(project, getApplicationContext());
 
 		uploadProgressDialog = new AlertDialog.Builder(this)
 				.setTitle(getString(R.string.upload_project_dialog_title))

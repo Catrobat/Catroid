@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import android.os.AsyncTask;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
@@ -34,37 +35,47 @@ import java.io.IOException;
 public class WriteVariableOnDeviceAction extends EventAction {
 	private static final String TAG = WriteVariableOnDeviceAction.class.getSimpleName();
 	private UserVariable userVariable;
-
-	private Thread writeThread;
+	private boolean writeActionFinished;
 
 	@Override
 	public boolean act(float delta) {
 		if (userVariable == null) {
 			return true;
 		}
+
 		if (firstStart) {
 			firstStart = false;
-			writeThread = new WriteThread();
-			writeThread.start();
+			writeActionFinished = false;
+			new WriteTask().execute(userVariable);
 		}
 
-		return !writeThread.isAlive();
+		return writeActionFinished;
 	}
 
 	public void setUserVariable(UserVariable userVariable) {
 		this.userVariable = userVariable;
 	}
 
-	private class WriteThread extends Thread {
+	private class WriteTask extends AsyncTask<UserVariable, Void, Void> {
+
 		@Override
-		public void run() {
-			File projectDir = ProjectManager.getInstance().getCurrentProject().getDirectory();
-			DeviceVariableAccessor accessor = new DeviceVariableAccessor(projectDir);
-			try {
-				accessor.writeVariable(userVariable);
-			} catch (IOException e) {
-				Log.e(TAG, e.getMessage());
+		protected Void doInBackground(UserVariable[] userVariables) {
+			File projectDirectory = ProjectManager.getInstance().getCurrentProject().getDirectory();
+			DeviceVariableAccessor accessor = new DeviceVariableAccessor(projectDirectory);
+
+			for (UserVariable variable: userVariables) {
+				try {
+					accessor.writeVariable(variable);
+				} catch (IOException e) {
+					Log.e(TAG, e.getMessage());
+				}
 			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void o) {
+			writeActionFinished = true;
 		}
 	}
 }

@@ -22,7 +22,10 @@
  */
 package org.catrobat.catroid;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
+import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
@@ -48,11 +51,19 @@ public class CatroidApplication extends MultiDexApplication {
 	private static GoogleAnalytics googleAnalytics;
 	private static Tracker googleTracker;
 
+	@TargetApi(28)
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		Log.d(TAG, "CatroidApplication onCreate");
 		Log.d(TAG, "git commit info: " + BuildConfig.GIT_COMMIT_INFO);
+
+		if (BuildConfig.DEBUG && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+			StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+					.detectNonSdkApiUsage()
+					.penaltyLog()
+					.build());
+		}
 
 		CrashReporter.initialize(this);
 

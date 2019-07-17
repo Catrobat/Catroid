@@ -77,6 +77,7 @@ public class WriteVariableOnDeviceBrick extends BrickBaseType implements BrickSp
 	public int getViewResource() {
 		return R.layout.brick_write_variable_on_device;
 	}
+
 	public UserVariable getUserVariable() {
 		return userVariable;
 	}

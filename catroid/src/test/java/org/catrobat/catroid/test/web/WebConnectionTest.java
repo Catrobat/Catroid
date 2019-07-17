@@ -22,18 +22,15 @@
  */
 package org.catrobat.catroid.test.web;
 
-import com.squareup.okhttp.Call;
-import com.squareup.okhttp.ConnectionSpec;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-
 import org.catrobat.catroid.web.WebConnection;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.mockito.Mockito;
 
-import java.util.Collections;
+import okhttp3.Call;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -70,7 +67,6 @@ public class WebConnectionTest {
 	@Test
 	public void testSendRequest() {
 		OkHttpClient okHttpClient = Mockito.mock(OkHttpClient.class);
-		okHttpClient.setConnectionSpecs(Collections.singletonList(ConnectionSpec.MODERN_TLS));
 		WebConnection webConnection = new WebConnection(okHttpClient);
 		Call call = Mockito.mock(Call.class);
 		when(okHttpClient.newCall(any(Request.class))).thenReturn(call);

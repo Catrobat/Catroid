@@ -24,10 +24,10 @@
 package org.catrobat.catroid.web.requests
 
 import android.util.Log
-import com.squareup.okhttp.MediaType
-import com.squareup.okhttp.MultipartBuilder
-import com.squareup.okhttp.Request
-import com.squareup.okhttp.RequestBody
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.Request
+import okhttp3.RequestBody
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.transfers.project.ProjectUploadData
@@ -61,8 +61,8 @@ fun createUploadRequest(
 
     Log.v(ServerCalls.TAG, "Building request to upload to: $serverUrl")
 
-    val requestBody = MultipartBuilder()
-        .type(MultipartBuilder.FORM)
+    val requestBody = MultipartBody.Builder()
+        .setType(MultipartBody.FORM)
         .addFormDataPart(
             FILE_UPLOAD_TAG, UPLOAD_FILE_NAME,
             RequestBody.create(MEDIA_TYPE_ZIPFILE, uploadData.projectArchive)

@@ -140,7 +140,6 @@ public class SettingsFragment extends PreferenceFragment {
 			screen.removePreference(arduinoPreference);
 		}
 
-		//disable Cast features before API 19 - KitKat
 		if ((!BuildConfig.FEATURE_CAST_ENABLED)) {
 			CheckBoxPreference globalCastPreference = (CheckBoxPreference) findPreference(SETTINGS_CAST_GLOBALLY_ENABLED);
 			globalCastPreference.setEnabled(false);

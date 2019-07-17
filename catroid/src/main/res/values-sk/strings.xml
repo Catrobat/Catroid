@@ -285,12 +285,14 @@
     <string name="name_empty">Please enter a text</string>
     <!-- Recycler View -->
     <string name="am_empty_list">There are no items in this list yet. Please add some first.</string>
+    <string name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
     <string name="am_backpack">Zabaliť</string>
     <string name="am_unpack">Rozbaliť</string>
     <string name="am_copy">Kopírovať</string>
     <string name="am_delete">Vymazať</string>
     <string name="am_rename">Premenovať</string>
     <string name="am_convert">Konvertovať</string>
+    <string name="am_merge">Merge</string>
     <string name="dialog_confirm_delete">You can\'t undo this!</string>
     <string name="list_headline_sprites">Objekty</string>
     <!-- Options Menu Options -->
@@ -298,6 +300,7 @@
     <string name="copy">Kopírovať</string>
     <string name="delete">Vymazať</string>
     <string name="rename">Premenovať</string>
+    <string name="merge">Merge</string>
     <string name="show_details">Zobraziť detaily</string>
     <string name="hide_details">Skryť detaily</string>
     <!-- Action Mode Titles -->
@@ -331,6 +334,12 @@
         <item quantity="few">Convert %d projects</item>
         <item quantity="many">Convert %d projects</item>
         <item quantity="other">Convert %d projects</item>
+    </plurals>
+    <plurals name="am_merge_projects_title">
+        <item quantity="one">Merge %d project</item>
+        <item quantity="few">Merge %d projects</item>
+        <item quantity="many">Merge %d projects</item>
+        <item quantity="other">Merge %d projects</item>
     </plurals>
     <!-- Scene Action Mode Titles -->
     <plurals name="am_pack_scenes_title">
@@ -577,6 +586,7 @@
     <string name="data_label">Name</string>
     <!-- Details -->
     <string name="project_details">Last access: %s, size: %s</string>
+    <string name="last_access_today">today, %s</string>
     <string name="scene_details">Actors and objects: %d, looks: %d, sounds: %d</string>
     <string name="sprite_details">Bricks: %d, looks: %d, sounds: %d</string>
     <string name="look_details">Resolution: %s, size: %s</string>
@@ -999,7 +1009,7 @@
     <string name="show_password">Zobraziť heslo</string>
     <string name="sign_in_error">Something went wrong during sign in.</string>
     <string name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>
-    <string name="error_facebook_session_expired">Session expired, please log in.</string>
+    <string name="error_session_expired">Session expired, please log in.</string>
     <string name="sign_in_with_facebook">Sign in with Facebook</string>
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="error_register_empty_username">Empty username</string>
@@ -1033,7 +1043,6 @@
         The following components are unavailable:\n\n</string>
     <string name="prestage_resource_in_use_text">K Jumping Sumo je pripojené iné zariadenie. Uistite sa, že
         ste jediný operátor drony.</string>
-    <string name="prestage_no_flash_available">\u2022 Flash\n</string>
     <string name="prestage_no_vibrator_available">\u2022 Vibrator\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 Acceleration sensor\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 Inclination sensor\n</string>
@@ -1058,6 +1067,7 @@
     <string name="stage_dialog_axes_off">Vypnúť osi</string>
     <string name="stage_dialog_maximize">Maximalizovať/\nRoztiahnuť</string>
     <string name="stage_dialog_screenshot">Náhľad</string>
+    <string name="stage_dialog_embroidery">Embroidery</string>
     <!--  -->
     <!-- Broadcast spinner -->
     <string name="dialog_new_broadcast_message_title">Nová správa</string>
@@ -1085,6 +1095,7 @@
     <string name="category_arduino">Arduino</string>
     <string name="category_cast">Cast</string>
     <string name="category_raspi">Raspberry Pi</string>
+    <string name="category_assertions">Testing</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"Umiestni na "</string>
@@ -1238,6 +1249,9 @@
     <string name="brick_clone_this">seba</string>
     <string name="brick_when_cloned">Pri štarte ako klon</string>
     <string name="brick_delete_this_clone">Vymaž tento klon</string>
+    <string name="brick_assert_that">Assert:</string>
+    <string name="brick_is_equal_to">equal to expected:</string>
+    <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
     <plurals name="time_plural">
         <item quantity="one">krát</item>
         <item quantity="few">krát</item>
@@ -1265,6 +1279,9 @@
     <string name="brick_replace_item_in_userlist_replace_in_list">Replace item in list</string>
     <string name="brick_replace_item_in_userlist_item_at_index">at position</string>
     <string name="brick_replace_item_in_userlist_with_value">with</string>
+    <string name="brick_web_request">Send web request to</string>
+    <string name="brick_web_request_result">and store answer in</string>
+    <string name="brick_web_request_default_value">https://official-joke-api.appspot.com/random_joke</string>
     <!--  -->
     <!-- Default Values -->
     <string name="default_project_name">My first project</string>
@@ -1340,9 +1357,6 @@
     <string name="notification_screenshot_ok">Náhľad bol uložený</string>
     <string name="notification_download_project_cancel">Cancel project download</string>
     <string name="notification_reconvert_download_program_cancel">Sťahovanie/rekonvertovanie programu zrušené</string>
-    <string name="notification_copy_title_pending">"Kopírovanie "</string>
-    <string name="notification_copy_pending">Prebieha kopírovanie</string>
-    <string name="notification_copy_finished">Kopírovanie dokončené</string>
     <string name="notification_upload_title_pending">"Nahrávanie "</string>
     <string name="notification_upload_title_finished">"Pozrite sa na "</string>
     <string name="notification_upload_pending">Prebieha nahrávanie</string>
@@ -1401,6 +1415,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="error_drone_wrong_platform_title">No AR.Drone 2.0 support.</string>
     <string name="error_drone_wrong_platform">We cannot run an AR.Drone 2.0 project on your device.</string>
     <string name="error_rename_incompatible_project">Renaming an incompatible project is not possible.</string>
+    <string name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
     <string name="error_unknown_error">Something went wrong.</string>
     <string name="error_gps_not_available">Geolocation data is not available.</string>
     <string name="error_set_description">Something went wrong while saving the new description.</string>
@@ -1580,7 +1595,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_jumping_sumo_move_backward">Pohni Jumping Sumo vzad</string>
     <string name="brick_jumping_sumo_animation">Animácie Jumping Sumo</string>
     <string name="brick_jumping_sumo_no_sound">Žiadne Jumping Sumo zvuky</string>
-    <string name="brick_jumping_sumo_sound">Zvuk</string>
     <string name="brick_jumping_sumo_jump_long">Jumping Sumo dlhý skok</string>
     <string name="brick_jumping_sumo_jump_high">Jumping Sumo vysoký skok</string>
     <string name="brick_jumping_sumo_rotate_left">Otoč Jumping Sumo doľava</string>
@@ -1684,7 +1698,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_nothing_selected">Define input value</string>
     <string name="formula_editor_parse_fail_formula_too_long">Formula too long!</string>
     <string name="formula_editor_choose_object_variable">Properties of this actor or object</string>
-    <string name="formula_editor_existing_variable">Name already in use!</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
     <string name="formula_editor_function_sin">sinus</string>
@@ -1736,6 +1749,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_letter_parameter">(1,\'hello world\')</string>
     <string name="formula_editor_function_join">join</string>
     <string name="formula_editor_function_join_parameter">(\'hello\',\' world\')</string>
+    <string name="formula_editor_function_regex">regular expression</string>
+    <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino digital pin</string>
     <string name="formula_editor_function_arduino_read_pin_value_analog">arduino analog pin</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry pi pin</string>
@@ -1924,11 +1939,6 @@ needs read and write access to it. You can always change permissions through you
         \nYou can simply insert these in your formula, or add new ones.</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
-    <string name="add_text">Add text</string>
-    <string name="text_hint">Brick text</string>
-    <string name="add_variable">Add variable</string>
-    <string name="add_line_break">Add line break</string>
-    <string name="variable_hint">Variable name</string>
     <string name="brick_show_variable">Show variable</string>
     <string name="brick_hide_variable">Hide variable</string>
     <string name="brick_show_variable_position">at</string>
@@ -1938,10 +1948,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_show_variable_aligned_centered">centered</string>
     <string name="brick_show_variable_aligned_left">left</string>
     <string name="brick_show_variable_aligned_right">right</string>
+    <string name="brick_context_dialog_pick_color">Pick color</string>
     <!-- -->
-    <!-- User bricks strings -->
-    <string name="new_user_brick_variable">Variable</string>
-    <!--  -->
     <!-- Camera related strings -->
     <string name="brick_video">Turn camera</string>
     <string name="video_brick_camera_on">zapnuté</string>

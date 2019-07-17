@@ -25,45 +25,77 @@ package org.catrobat.catroid.test.devices.mindstorms.nxt;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
-import android.util.Pair;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertSame;
 
-@RunWith(AndroidJUnit4.class)
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+
+@RunWith(Parameterized.class)
 public class PreferencesSensorMappingTest {
 
+	private static final int EXPECTED_MAPPING_SIZE = 6;
+
+	@Parameterized.Parameters(name = "{0}")
+	public static Iterable<Object[]> data() {
+		return Arrays.asList(new Object[][] {
+				{"NO_SENSOR", R.string.nxt_no_sensor, NXTSensor.Sensor.NO_SENSOR},
+				{"TOUCH", R.string.nxt_sensor_touch, NXTSensor.Sensor.TOUCH},
+				{"SOUND", R.string.nxt_sensor_sound, NXTSensor.Sensor.SOUND},
+				{"LIGHT_INACTIVE", R.string.nxt_sensor_light, NXTSensor.Sensor.LIGHT_INACTIVE},
+				{"LIGHT_ACTIVE", R.string.nxt_sensor_light_active, NXTSensor.Sensor.LIGHT_ACTIVE},
+				{"ULTRASONIC", R.string.nxt_sensor_ultrasonic, NXTSensor.Sensor.ULTRASONIC},
+		});
+	}
+
+	@Parameterized.Parameter
+	public String name;
+
+	@Parameterized.Parameter(1)
+	public int sensorNameStringId;
+	@Parameterized.Parameter(2)
+	public NXTSensor.Sensor sensor;
+
+	private String sensorName;
+
+	private ArrayList<String> sensorNames = new ArrayList<>();
+	private ArrayList<String> sensorCodes = new ArrayList<>();
+
+	@Before
+	public void setUp() {
+		Context context = InstrumentationRegistry.getTargetContext();
+		sensorNames.addAll(Arrays.asList(context.getResources().getStringArray(R.array.nxt_sensor_chooser)));
+		sensorCodes.addAll(Arrays.asList(NXTSensor.Sensor.getSensorCodes()));
+		sensorName = context.getString(sensorNameStringId);
+	}
+
 	@Test
-	public void testNXTSensorToTextMapping() {
-		Context context = InstrumentationRegistry.getTargetContext().getApplicationContext();
+	public void testNameAndPreferenceSameIndex() {
+		int sensorNameIndex = sensorNames.indexOf(sensorName);
+		int sensorCodeIndex = sensorCodes.indexOf(sensor.getSensorCode());
+		assertSame(sensorCodeIndex, sensorNameIndex);
+	}
 
-		final List<Pair<Integer, NXTSensor.Sensor>> correctMapping = new ArrayList<Pair<Integer, NXTSensor.Sensor>>();
+	@Test
+	public void testMappingContainsNameAndCode() {
+		assertThat(sensorNames, hasItem(sensorName));
+		assertThat(sensorCodes, hasItem(sensor.getSensorCode()));
+	}
 
-		correctMapping.add(new Pair(R.string.nxt_no_sensor, NXTSensor.Sensor.NO_SENSOR));
-		correctMapping.add(new Pair(R.string.nxt_sensor_touch, NXTSensor.Sensor.TOUCH));
-		correctMapping.add(new Pair(R.string.nxt_sensor_sound, NXTSensor.Sensor.SOUND));
-		correctMapping.add(new Pair(R.string.nxt_sensor_light, NXTSensor.Sensor.LIGHT_INACTIVE));
-		correctMapping.add(new Pair(R.string.nxt_sensor_light_active, NXTSensor.Sensor.LIGHT_ACTIVE));
-		correctMapping.add(new Pair(R.string.nxt_sensor_ultrasonic, NXTSensor.Sensor.ULTRASONIC));
-
-		String[] sensorNames = context.getResources().getStringArray(R.array.nxt_sensor_chooser);
-		String[] sensorPreferencesCodes = NXTSensor.Sensor.getSensorCodes();
-
-		assertEquals(correctMapping.size(), sensorNames.length);
-		assertEquals(correctMapping.size(), sensorPreferencesCodes.length);
-
-		for (int i = 0; i < correctMapping.size(); ++i) {
-			assertEquals(context.getString(correctMapping.get(i).first), sensorNames[i]);
-
-			assertEquals(correctMapping.get(i).second.getSensorCode(), sensorPreferencesCodes[i]);
-		}
+	@Test
+	public void testMappingSize() {
+		assertEquals(EXPECTED_MAPPING_SIZE, sensorNames.size());
+		assertEquals(EXPECTED_MAPPING_SIZE, sensorCodes.size());
 	}
 }

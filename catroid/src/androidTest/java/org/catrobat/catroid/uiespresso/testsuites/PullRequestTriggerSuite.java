@@ -33,6 +33,7 @@ import org.junit.runners.Suite;
 		Cat.Educational.class,
 		Cat.SensorBox.class,
 		Cat.Quarantine.class,
+		Cat.RTLTests.class,
 		Cat.PocketMusicUiTests.class})
 
 @Suite.SuiteClasses(AllEspressoTestsSuite.class)

@@ -131,6 +131,7 @@ import org.catrobat.catroid.content.bricks.PreviousLookBrick;
 import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.RaspiPwmBrick;
 import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
+import org.catrobat.catroid.content.bricks.ReadVariableFromDeviceBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
@@ -260,7 +261,7 @@ public class CategoryBricksFactory {
 			return setupRaspiCategoryList();
 		}
 		if (category.equals(context.getString(R.string.category_embroidery))) {
-			return setupEmbroideryCategoryList();
+			return setupEmbroideryCategoryList(isBackgroundSprite);
 		}
 		if (category.equals(context.getString(R.string.category_assertions))) {
 			return setupAssertionsCategoryList();
@@ -498,6 +499,7 @@ public class CategoryBricksFactory {
 				BrickValues.RELATIVE_SIZE_IN_PERCENT, BrickValues.SHOW_VARIABLE_COLOR));
 		dataBrickList.add(new HideTextBrick());
 		dataBrickList.add(new WriteVariableOnDeviceBrick());
+		dataBrickList.add(new ReadVariableFromDeviceBrick());
 		dataBrickList.add(new AddItemToUserListBrick(BrickValues.ADD_ITEM_TO_USERLIST));
 		dataBrickList.add(new DeleteItemOfUserListBrick(BrickValues.DELETE_ITEM_OF_USERLIST));
 		dataBrickList.add(new InsertItemIntoUserListBrick(BrickValues.INSERT_ITEM_INTO_USERLIST_VALUE,
@@ -635,9 +637,12 @@ public class CategoryBricksFactory {
 		return raspiBrickList;
 	}
 
-	private List<Brick> setupEmbroideryCategoryList() {
+	private List<Brick> setupEmbroideryCategoryList(boolean isBackgroundSprite) {
 		List<Brick> embroideryBrickList = new ArrayList<>();
-		embroideryBrickList.add(new StitchBrick());
+
+		if (isBackgroundSprite) {
+			embroideryBrickList.add(new StitchBrick());
+		}
 
 		return embroideryBrickList;
 	}
@@ -771,7 +776,7 @@ public class CategoryBricksFactory {
 				category = res.getString(R.string.category_cast);
 			}
 		}
-		categoryBricks = setupEmbroideryCategoryList();
+		categoryBricks = setupEmbroideryCategoryList(isBackgroundSprite);
 		for (Brick categoryBrick : categoryBricks) {
 			if (brick.getClass().equals(categoryBrick.getClass())) {
 				category = res.getString(R.string.category_embroidery);

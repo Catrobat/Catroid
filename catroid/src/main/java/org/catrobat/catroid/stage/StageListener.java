@@ -90,6 +90,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION;
 import static org.catrobat.catroid.common.ScreenValues.SCREEN_HEIGHT;
@@ -308,6 +310,29 @@ public class StageListener implements ApplicationListener {
 			}
 		}
 		StageActivity.resetNumberOfClonedSprites();
+	}
+
+	public List<Sprite> getAllClonesOfSprite(Sprite sprite) {
+		List<Sprite> clonesOfSprite = new ArrayList<>();
+		Pattern pattern = createCloneRegexPattern(sprite.getName());
+
+		for (Sprite spriteOfStage : sprites) {
+			if (!spriteOfStage.isClone) {
+				continue;
+			}
+
+			Matcher matcher = pattern.matcher(spriteOfStage.getName());
+			if (matcher.matches()) {
+				clonesOfSprite.add(spriteOfStage);
+			}
+		}
+
+		return clonesOfSprite;
+	}
+
+	private Pattern createCloneRegexPattern(String spriteName) {
+		String cloneRegexMask = "^" + spriteName + "\\-c\\d+$";
+		return Pattern.compile(cloneRegexMask);
 	}
 
 	private void disposeClonedSprites() {
@@ -882,6 +907,7 @@ public class StageListener implements ApplicationListener {
 		if (CameraManager.getInstance() != null && backup.cameraRunning) {
 			CameraManager.getInstance().resumeForScene();
 		}
+		initStageInputListener();
 	}
 
 	private float calculateScreenRatio() {

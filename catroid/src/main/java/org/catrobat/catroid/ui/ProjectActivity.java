@@ -57,6 +57,7 @@ import org.catrobat.catroid.ui.recyclerview.fragment.RecyclerViewFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SceneListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SpriteListFragment;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
+import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -149,9 +150,8 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 				break;
 			case R.id.upload:
 				setShowProgressBar(true);
-				new ProjectSaveTask(ProjectManager.getInstance().getCurrentProject(), getApplicationContext())
-						.setListener(this)
-						.execute();
+				Project currentProject = ProjectManager.getInstance().getCurrentProject();
+				saveProject(currentProject);
 				break;
 			default:
 				return super.onOptionsItemSelected(item);
@@ -174,15 +174,13 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 	protected void onPause() {
 		super.onPause();
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		new ProjectSaveTask(currentProject, getApplicationContext())
-				.execute();
+		saveProject(currentProject);
 	}
 
 	@Override
 	public void onBackPressed() {
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		new ProjectSaveTask(currentProject, getApplicationContext())
-				.execute();
+		saveProject(currentProject);
 
 		if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
 			getSupportFragmentManager().popBackStack();
@@ -198,6 +196,12 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 		} else {
 			super.onBackPressed();
 		}
+	}
+
+	private void saveProject(Project currentProject) {
+		new ProjectSaveTask(currentProject, getApplicationContext())
+				.execute();
+		Utils.setLastUsedProjectName(getApplicationContext(), currentProject.getName());
 	}
 
 	@Override

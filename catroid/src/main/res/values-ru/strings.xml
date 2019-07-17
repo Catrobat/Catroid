@@ -52,9 +52,9 @@
     <string name="backpack_add">Положить в рюкзак</string>
     <string name="share_website_text">share.catrob.at</string>
     <!-- Login/Logout Mechanism -->
-    <string name="loading_check_facebook_data">Получение данных Facebook…</string>
-    <string name="loading_check_oauth_token">Проверка входа…</string>
-    <string name="loading_facebook_exchange_token">Обмен данными Facebook…</string>
+    <string name="loading_check_facebook_data">Получение данных Facebook&#8230;</string>
+    <string name="loading_check_oauth_token">Проверка входа&#8230;</string>
+    <string name="loading_facebook_exchange_token">Обмен данными Facebook&#8230;</string>
     <string name="loading_facebook_login">Логин в Facebook на нашем сервере был произведен&#8230;</string>
     <string name="loading_google_exchange_code">Обмен данными Google&#8230;</string>
     <string name="loading_google_login">Логин в Google+ на нашем сервере был произведен&#8230;</string>
@@ -64,16 +64,16 @@
     <string name="background">Фон</string>
     <string name="landscape">альбомная</string>
     <string name="portrait">книжная</string>
-    <string name="unknown">unknown</string>
+    <string name="unknown">неизвестно</string>
     <string name="disconnect">Разорвана связь</string>
     <!--  -->
     <!-- Main Menu -->
-    <string name="main_menu_continue">Продолжить программу</string>
-    <string name="main_menu_new">Новая программа</string>
-    <string name="main_menu_programs">Программы</string>
+    <string name="main_menu_continue">Продолжить проект</string>
+    <string name="main_menu_new">Новый проект</string>
+    <string name="main_menu_programs">Проекты на устройстве</string>
     <string name="main_menu_help">Помощь</string>
     <string name="main_menu_web">Сообщество Catrobat</string>
-    <string name="main_menu_upload">Загрузить программу</string>
+    <string name="main_menu_upload">Загрузить проект</string>
     <string name="main_menu_rate_app">Оцените нас!</string>
     <string name="main_menu_terms_of_use">Условия пользования и обслуживания</string>
     <string name="main_menu_privacy_policy">Политика конфиденциальности</string>
@@ -81,7 +81,7 @@
     <string name="main_menu_login">Войти</string>
     <string name="main_menu_logout">Выйти</string>
     <string name="main_menu_scratch_converter">Scratch конвертер</string>
-    <string name="main_menu_play_store_not_installed">Приложение не найдено</string>
+    <string name="main_menu_play_store_not_installed">App store не найден</string>
     <!--  -->
     <!-- Marketing activity -->
     <string name="marketing_created_with">Создан с помощью</string>
@@ -103,7 +103,7 @@
     <string name="preference_title_accessibility_category_icons_big">Крупные значки</string>
     <string name="preference_description_accessibility_category_icons_big">Увеличьте размер значка.</string>
     <string name="preference_title_accessibility_category_icons_high_contrast">Значки высокой контрастности</string>
-    <string name="preference_title_accessibility_Brick_icons">Блочные значки</string>
+    <string name="preference_title_accessibility_Brick_icons">Иконки</string>
     <string name="preference_title_accessibility_category_icons">Показать иконки</string>
     <string name="preference_description_accessibility_category_icons">Добавить иконки в категории и блоки.</string>
     <string name="preference_title_accessibility_high_contrast">Высокая контрастность</string>
@@ -147,9 +147,9 @@
     <string name="preference_title_mindstorms_nxt_sensors">Датчики Lego NXT</string>
     <string name="preference_title_mindstorms_ev3_sensors">Датчики Lego NXT</string>
     <string name="preference_title_drone_config_properties">Конфигурация Parrot AR.Drone 2.0</string>
-    <string name="preference_title_enable_phiro_bricks">Блоки Phiro</string>
+    <string name="preference_title_enable_phiro_bricks">Расширение Phiro от RobotixEdu</string>
     <string name="preference_description_phiro_bricks">Разрешить приложению управлять роботами Phiro от RobotixEdu</string>
-    <string name="preference_title_enable_arduino_bricks">Блоки Arduino</string>
+    <string name="preference_title_enable_arduino_bricks">Расширение Arduino</string>
     <string name="preference_description_arduino_bricks">Разрешить приложению управлять платой Arduino</string>
     <string name="preference_title_enable_embroidery_bricks">Расширение для вышивки</string>
     <string name="preference_description_embroidery_bricks">Создать шаблоны для швейных машин</string>
@@ -157,12 +157,12 @@
     <string name="preference_description_cast_feature_globally_enabled">Показать кнопку трансляции и транслируемые проекты</string>
     <string name="preference_title_enable_nfc_bricks">Ближняя бесконтактная связь (NFC)</string>
     <string name="preference_description_nfc_bricks">Разрешить приложению использовать NFC теги в проектах</string>
-    <string name="preference_title_enable_crash_reports">Отправлять анонимыне отчеты об ошибках</string>
+    <string name="preference_title_enable_crash_reports">Отправлять анонимные отчеты об ошибках</string>
     <string name="preference_description_crash_reports">Разрешить приложению автоматически отправлять отчеты об ошибках</string>
     <!-- -->
     <string name="preference_title_enable_raspi_bricks">Блоки Raspberry Pi</string>
     <string name="preference_description_raspi_bricks">Разрешить приложению управлять компьютерами Raspberry Pi</string>
-    <string name="preference_raspi_enable_bricks">Включить блоки Raspberry Pi</string>
+    <string name="preference_raspi_enable_bricks">Включить блоки и сенсоры</string>
     <string name="preference_raspi_help">Помощь / Начало работы</string>
     <string name="preference_raspi_help_summary">Получить справку о том, как настроить параметры подключения</string>
     <string name="preference_raspi_host">Raspberry Pi IP-/хост-адрес</string>
@@ -286,19 +286,22 @@
     <string name="name_empty">Пожалуйста, введите текст</string>
     <!-- Recycler View -->
     <string name="am_empty_list">В этом списке пока нет элементов. Пожалуйста, добавь несколько.</string>
+    <string name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
     <string name="am_backpack">Упаковать</string>
-    <string name="am_unpack">Вытащить</string>
+    <string name="am_unpack">Распаковать</string>
     <string name="am_copy">Копировать</string>
     <string name="am_delete">Удалить</string>
     <string name="am_rename">Переименовать</string>
     <string name="am_convert">Конвертировать</string>
-    <string name="dialog_confirm_delete">Ты не сможешь отменить это!</string>
-    <string name="list_headline_sprites">Объекты</string>
+    <string name="am_merge">Merge</string>
+    <string name="dialog_confirm_delete">Ты не сможешь это отменить!</string>
+    <string name="list_headline_sprites">Актеры и объекты</string>
     <!-- Options Menu Options -->
-    <string name="backpack">Положить в рюкзак</string>
+    <string name="backpack">Рюкзак</string>
     <string name="copy">Копировать</string>
     <string name="delete">Удалить</string>
     <string name="rename">Переименовать</string>
+    <string name="merge">Merge</string>
     <string name="show_details">Показать детали</string>
     <string name="hide_details">Скрыть детали</string>
     <!-- Action Mode Titles -->
@@ -333,6 +336,12 @@
         <item quantity="many">Конвертировать %d проектов</item>
         <item quantity="other">Конвертировать %d проектов</item>
     </plurals>
+    <plurals name="am_merge_projects_title">
+        <item quantity="one">Merge %d project</item>
+        <item quantity="few">Merge %d projects</item>
+        <item quantity="many">Merge %d projects</item>
+        <item quantity="other">Merge %d projects</item>
+    </plurals>
     <!-- Scene Action Mode Titles -->
     <plurals name="am_pack_scenes_title">
         <item quantity="one">Упаковать %d сцену</item>
@@ -366,34 +375,34 @@
     </plurals>
     <!-- Sprite Action Mode Titles -->
     <plurals name="am_pack_sprites_title">
-        <item quantity="one">Упаковать %d объект</item>
-        <item quantity="few">Упаковать %d объектов</item>
-        <item quantity="many">Упаковать %d объектов</item>
-        <item quantity="other">Упаковать %d объектов</item>
+        <item quantity="one">Упаковать %d актера или объект</item>
+        <item quantity="few">Упаковать %d актеров или объектов</item>
+        <item quantity="many">Упаковать %d актеров или объектов</item>
+        <item quantity="other">Упаковать %d актеров или объектов</item>
     </plurals>
     <plurals name="am_unpack_sprites_title">
-        <item quantity="one">Распаковать %d объект</item>
-        <item quantity="few">Распаковать %d объектов</item>
-        <item quantity="many">Распаковать %d объектов</item>
-        <item quantity="other">Распаковать %d объектов</item>
+        <item quantity="one">Распаковать %d актера или объект</item>
+        <item quantity="few">Распаковать %d актеров или объектов</item>
+        <item quantity="many">Распаковать %d актеров или объектов</item>
+        <item quantity="other">Распаковать %d актеров или объектов</item>
     </plurals>
     <plurals name="am_copy_sprites_title">
-        <item quantity="one">Копировать %d объект</item>
-        <item quantity="few">Копировать %d объектов</item>
-        <item quantity="many">Копировать %d объектов</item>
-        <item quantity="other">Копировать %d объектов</item>
+        <item quantity="one">Копировать %d актера или объект</item>
+        <item quantity="few">Копировать %d актеров или объектов</item>
+        <item quantity="many">Копировать %d актеров или объектов</item>
+        <item quantity="other">Копировать %d актеров или объектов</item>
     </plurals>
     <plurals name="am_delete_sprites_title">
-        <item quantity="one">Удалить %d объект</item>
-        <item quantity="few">Удалить %d объектов</item>
-        <item quantity="many">Удалить %d объектов</item>
-        <item quantity="other">Удалить %d объектов</item>
+        <item quantity="one">Удалить %d актера или объект</item>
+        <item quantity="few">Удалить %d актеров или объектов</item>
+        <item quantity="many">Удалить %d актеров или объектов</item>
+        <item quantity="other">Удалить %d актеров или объектов</item>
     </plurals>
     <plurals name="am_rename_sprites_title">
-        <item quantity="one">Переименовать %d объект</item>
-        <item quantity="few">Переименовать %d объектов</item>
-        <item quantity="many">Переименовать %d объектов</item>
-        <item quantity="other">Переименовать %d объектов</item>
+        <item quantity="one">Переименовать %d актера или объект</item>
+        <item quantity="few">Переименовать %d актеров или объектов</item>
+        <item quantity="many">Переименовать %d актеров или объектов</item>
+        <item quantity="other">Переименовать %d актеров или объектов</item>
     </plurals>
     <!-- Look Action Mode Titles -->
     <plurals name="am_pack_looks_title">
@@ -530,10 +539,10 @@
         <item quantity="other">Удалить эти сцены?</item>
     </plurals>
     <plurals name="delete_sprites">
-        <item quantity="one">Удалить этот объект?</item>
-        <item quantity="few">Удалить эти объекты?</item>
-        <item quantity="many">Удалить эти объекты?</item>
-        <item quantity="other">Удалить эти объекты?</item>
+        <item quantity="one">Удалить этого актера или объект?</item>
+        <item quantity="few">Удалить этих актеров или объекты?</item>
+        <item quantity="many">Удалить этих актеров или объекты?</item>
+        <item quantity="other">Удалить этих актеров или объекты?</item>
     </plurals>
     <plurals name="delete_looks">
         <item quantity="one">Удалить этот образ?</item>
@@ -568,7 +577,7 @@
     <!-- Dialog Labels -->
     <string name="project_name_label">Название проекта</string>
     <string name="scene_name_label">Название сцены</string>
-    <string name="sprite_name_label">Имя объекта</string>
+    <string name="sprite_name_label">Имя актера или объекта</string>
     <string name="sprite_group_name_label">Название группы</string>
     <string name="script_group_label">Название группы скриптов</string>
     <string name="look_name_label">Название образа</string>
@@ -578,17 +587,18 @@
     <string name="data_label">Название</string>
     <!-- Details -->
     <string name="project_details">Последний раз доступа: %s, размер: %s</string>
-    <string name="scene_details">Объектов: %d, образов: %d, звуков: %d</string>
+    <string name="last_access_today">today, %s</string>
+    <string name="scene_details">Актеры и объекты: %d, образов: %d, звуков: %d</string>
     <string name="sprite_details">Блоков: %d, образов: %d, звуков: %d</string>
     <string name="look_details">Разрешение: %s, размер: %s</string>
     <string name="sound_duration">Продолжительность: %s</string>
     <string name="sound_details">Продолжительность: %s, размер: %s</string>
     <!--  -->
     <!-- Rename Dialog Titles -->
-    <string name="rename_project">Переименовать программу</string>
+    <string name="rename_project">Переименовать проект</string>
     <string name="rename_scene_dialog">Переименовать сцену</string>
-    <string name="rename_sprite_dialog">Переименовать объект</string>
-    <string name="rename_look_dialog">Переименовать изображение</string>
+    <string name="rename_sprite_dialog">Переименовать актера или объект</string>
+    <string name="rename_look_dialog">Переименовать образ</string>
     <string name="rename_sound_dialog">Переименовать звук</string>
     <string name="rename_nfctag_dialog">Переименовать nfc-тег</string>
     <string name="rename_data_dialog">Переименовать</string>
@@ -605,10 +615,10 @@
         <item quantity="other">Упаковано %d сцен.</item>
     </plurals>
     <plurals name="packed_sprites">
-        <item quantity="one">Упаковал %d объект.</item>
-        <item quantity="few">Упаковал %d объектов.</item>
-        <item quantity="many">Упаковал %d объектов.</item>
-        <item quantity="other">Упаковал %d объектов.</item>
+        <item quantity="one">Упаковал %d актера или объект.</item>
+        <item quantity="few">Упаковал %d актеров или объектов.</item>
+        <item quantity="many">Упаковал %d актеров или объектов.</item>
+        <item quantity="other">Упаковал %d актеров или объектов.</item>
     </plurals>
     <plurals name="packed_looks">
         <item quantity="one">Упакован %d образ.</item>
@@ -631,10 +641,10 @@
         <item quantity="other">Распаковано %d сцен.</item>
     </plurals>
     <plurals name="unpacked_sprites">
-        <item quantity="one">Распаковал %d объект.</item>
-        <item quantity="few">Распаковал %d объектов.</item>
-        <item quantity="many">Распаковал %d объектов.</item>
-        <item quantity="other">Распаковал %d объектов.</item>
+        <item quantity="one">Распаковал %d актера или объект.</item>
+        <item quantity="few">Распаковал %d актеров или объектов.</item>
+        <item quantity="many">Распаковал %d актеров или объектов.</item>
+        <item quantity="other">Распаковал %d актеров или объектов.</item>
     </plurals>
     <plurals name="unpacked_looks">
         <item quantity="one">Распакован %d образ.</item>
@@ -662,10 +672,10 @@
         <item quantity="other">Скопировано %d сцен.</item>
     </plurals>
     <plurals name="copied_sprites">
-        <item quantity="one">Скопировал %d объект.</item>
-        <item quantity="few">Скопировал %d объектов.</item>
-        <item quantity="many">Скопировал %d объектов.</item>
-        <item quantity="other">Скопировал %d объектов.</item>
+        <item quantity="one">Скопировал %d актера или объект.</item>
+        <item quantity="few">Скопировал %d актеров или объектов.</item>
+        <item quantity="many">Скопировал %d актеров или объектов.</item>
+        <item quantity="other">Скопировал %d актеров или объектов.</item>
     </plurals>
     <plurals name="copied_looks">
         <item quantity="one">Скопирован %d образ.</item>
@@ -736,7 +746,7 @@
     </plurals>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
-    <string name="project_list_title">Программы</string>
+    <string name="project_list_title">Проекты</string>
     <string name="last_used">Использован:</string>
     <string name="size">Размер:</string>
     <string name="description">Описание:</string>
@@ -761,8 +771,8 @@
     <string name="fragment_script_text_description">Нажмите «+» чтобы добавить скрипт</string>
     <!--  -->
     <!-- SpriteListFragment -->
-    <string name="fragment_sprite_text_description">Нажми \"+\", чтобы добавить объекты</string>
-    <string name="default_sprite_name">Мой объект</string>
+    <string name="fragment_sprite_text_description">Нажми \"+\", чтобы добавить актеров или объектов</string>
+    <string name="default_sprite_name">Мой актер или объект</string>
     <!--  -->
     <!-- LookListFragment -->
     <string name="fragment_look_text_description">Нажмите «+», чтобы добавить образы</string>
@@ -778,7 +788,7 @@
     <string name="ndef_record_label">как тип записи</string>
     <string name="brick_set_nfc_tag">Подождите, пока следующий NFC тег будет записан</string>
     <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
-    <string name="default_tag_name">nfc_тег</string>
+    <string name="default_tag_name">NFC тег</string>
     <string name="tnf_empty">Пусто</string>
     <string name="tnf_external_type">Внешний тип</string>
     <string name="tnf_mime_media">Текст</string>
@@ -789,13 +799,13 @@
     <string name="tnf_well_known_mailto">E-Mail</string>
     <!--  -->
     <!-- DataListFragment -->
-    <string name="global_vars_headline">Переменные для всех объектов</string>
-    <string name="local_vars_headline">Переменные только для этого объекта</string>
-    <string name="global_lists_headline">Списки для всех объектов</string>
-    <string name="local_lists_headline">Списки только для этого объекта</string>
+    <string name="global_vars_headline">Переменные для всех актеров и объектов</string>
+    <string name="local_vars_headline">Переменные только для этого актера или объекта</string>
+    <string name="global_lists_headline">Списки для всех актеров или объектов</string>
+    <string name="local_lists_headline">Списки только для этого актера или объекта</string>
     <!-- NewDataDialog -->
-    <string name="new_data_for_all_sprites">Для всех объектов и клонов во всех сценах</string>
-    <string name="new_data_for_this_sprite_only">Только для этого объекта или его клонов</string>
+    <string name="new_data_for_all_sprites">Для всех актеров, объектов, и клонов во всех сценах</string>
+    <string name="new_data_for_this_sprite_only">Только для этого актера, объекта или его клонов</string>
     <!-- Backpack -->
     <string name="backpack_title">Ваш рюкзак</string>
     <string name="pack">Упаковать</string>
@@ -817,12 +827,12 @@
     <string name="project_select_screen_title">Экран:</string>
     <!--  -->
     <!-- NewSpriteDialog -->
-    <string name="new_sprite_dialog_title">Новый объект</string>
+    <string name="new_sprite_dialog_title">Новый актер или объект</string>
     <!--  -->
     <!-- NewLookDialog -->
     <string name="new_look_dialog_title">Добавить образ</string>
     <string name="add_look_from_camera">Сделать снимок</string>
-    <string name="add_look_draw_new_image">Камера</string>
+    <string name="add_look_draw_new_image">Нарисовать</string>
     <string name="add_look_choose_image">Из галереи</string>
     <string name="add_look_media_library">Загрузить из библиотеки</string>
     <string name="add_look_drone_video">AR.Drone 2.0 видео</string>
@@ -940,7 +950,7 @@ A-8010 Graz, Austria\n
     <string name="error_no_network_title">Нет сети</string>
     <!-- UploadProjectDialog -->
     <string name="upload_button">Загрузить</string>
-    <string name="upload_project_dialog_title">Загрузить программу</string>
+    <string name="upload_project_dialog_title">Загрузить проект</string>
     <string name="upload_description">Описание:</string>
     <string name="upload_tag_dialog_title">Пожалуйста, выберите до трех категорий</string>
     <!-- Save Project to External Storage -->
@@ -983,7 +993,7 @@ A-8010 Graz, Austria\n
     <string name="username">Имя пользователя</string>
     <string name="password">Пароль</string>
     <string name="password_forgotten">Забыли пароль?</string>
-    <string name="new_user_registered">новый аккаунт создан</string>
+    <string name="new_user_registered">Новый аккаунт создан</string>
     <string name="user_logged_in">Вы вошли</string>
     <string name="register_error">Неверный логин</string>
     <string name="register_terms">Регистрируясь, вы соглашаетесь с нашими</string>
@@ -1000,7 +1010,7 @@ A-8010 Graz, Austria\n
     <string name="show_password">Показать пароль</string>
     <string name="sign_in_error">Что-то пошло не так во время входа.</string>
     <string name="error_google_plus_sign_in">Ошибка входа в Google. Статус: %s</string>
-    <string name="error_facebook_session_expired">Сессия истекла, пожалуйста, войдите снова.</string>
+    <string name="error_session_expired">Session expired, please log in.</string>
     <string name="sign_in_with_facebook">Войти через Facebook</string>
     <string name="sign_in_with_google">Войти через Google</string>
     <string name="error_register_empty_username">Пустое имя пользователя</string>
@@ -1021,7 +1031,7 @@ A-8010 Graz, Austria\n
     <string name="overwrite_title">Проект уже существует.</string>
     <string name="overwrite_text">Проект с таким названием уже существует.</string>
     <string name="overwrite_replace">Перезаписать проект</string>
-    <string name="overwrite_rename">Переименовать скачанную программу</string>
+    <string name="overwrite_rename">Выберите новое имя</string>
     <!--  -->
     <!-- Music activity -->
     <string name="pocket_music_default_project_name">Песня без названия</string>
@@ -1035,7 +1045,6 @@ A-8010 Graz, Austria\n
         Следующие компоненты недоступны:\n\n</string>
     <string name="prestage_resource_in_use_text">Другое устройство подключено к Jumping Sumo. Убедитесь, что
         только вы подключены к дрону.</string>
-    <string name="prestage_no_flash_available">\u2022 Вспышка\n</string>
     <string name="prestage_no_vibrator_available">\u2022 Вибрация\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 Датчик ускорения\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 Датчик угла наклона\n</string>
@@ -1056,10 +1065,11 @@ A-8010 Graz, Austria\n
     <string name="stage_dialog_back">Назад</string>
     <string name="stage_dialog_resume">Продолжить</string>
     <string name="stage_dialog_restart">Заново</string>
-    <string name="stage_dialog_axes_on">Оси</string>
-    <string name="stage_dialog_axes_off">Оси</string>
+    <string name="stage_dialog_axes_on">Показать оси</string>
+    <string name="stage_dialog_axes_off">Скрыть оси</string>
     <string name="stage_dialog_maximize">Развернуть/\nрастянуть</string>
     <string name="stage_dialog_screenshot">Снимок</string>
+    <string name="stage_dialog_embroidery">Вышивка</string>
     <!--  -->
     <!-- Broadcast spinner -->
     <string name="dialog_new_broadcast_message_title">Новый сигнал</string>
@@ -1087,6 +1097,7 @@ A-8010 Graz, Austria\n
     <string name="category_arduino">Arduino</string>
     <string name="category_cast">Chromecast</string>
     <string name="category_raspi">Raspberry Pi</string>
+    <string name="category_assertions">Testing</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"Поместить в "</string>
@@ -1129,12 +1140,12 @@ A-8010 Graz, Austria\n
     <!--  -->
     <!-- Physics -->
     <string name="brick_set_physics_object_type">Задать тип движения</string>
-    <string name="brick_set_physics_object_type_dynamic">прыгающее с силой тяжести</string>
-    <string name="brick_set_physics_object_type_fixed">отталкивающее другие объекты</string>
-    <string name="brick_set_physics_object_type_no">без отталкивания и прыжков</string>
+    <string name="brick_set_physics_object_type_dynamic">передвигаться и отскакивать под гравитацией</string>
+    <string name="brick_set_physics_object_type_fixed">не двигаться под гравитацией, но другие отскакивают от тебя под гравитацией</string>
+    <string name="brick_set_physics_object_type_no">без отталкивания и прыжков под гравитацией (по умолчанию)</string>
     <string name="brick_set_mass">"Задать массу "</string>
     <string name="brick_set_mass_unit">килограмм</string>
-    <string name="brick_set_gravity_to">"Установить силу тяжести для всех объектов "</string>
+    <string name="brick_set_gravity_to">"Установить силу тяжести для всех актеров или объектов на"</string>
     <string name="brick_set_gravity_unit">шагов в секунду^2</string>
     <string name="brick_set_velocity_to">"Задать скорость "</string>
     <string name="brick_set_velocity_unit">шагов в секунду</string>
@@ -1144,7 +1155,7 @@ A-8010 Graz, Austria\n
     <string name="brick_rotate_left">"Вращать влево "</string>
     <string name="brick_rotate_right">"Вращать вправо "</string>
     <!-- Look bricks -->
-    <string name="brick_set_look">Задать образ</string>
+    <string name="brick_set_look">Переключиться на образ</string>
     <string name="brick_set_look_by_index">Переключиться на образ с номером</string>
     <string name="brick_and_wait">и ждать</string>
     <string name="brick_set_background">Задать фон</string>
@@ -1168,7 +1179,7 @@ A-8010 Graz, Austria\n
     <string name="brick_next_background">Следующий фон</string>
     <string name="brick_previous_look">Предыдущий образ</string>
     <string name="brick_previous_background">Предыдущий фон</string>
-    <string name="brick_flash">Вспышка</string>
+    <string name="brick_flash">Включить фонарик</string>
     <string name="brick_flash_on">вкл.</string>
     <string name="brick_flash_off">выкл.</string>
     <string name="brick_vibration">Вибрировать</string>
@@ -1205,24 +1216,24 @@ A-8010 Graz, Austria\n
     <!-- Control bricks -->
     <string name="brick_when_started">При старте</string>
     <string name="brick_when">При нажатии</string>
-    <string name="brick_when_condition_when">Когда</string>
+    <string name="brick_when_condition_when">Как только</string>
     <string name="brick_when_becomes_true">становится истинным</string>
     <string name="brick_wait">Ждать</string>
     <string name="brick_when_gamepad_button">Когда кнопку геймпада</string>
     <string name="brick_when_gamepad_button_tapped">нажато</string>
     <string name="brick_when_nfc">Когда NFC</string>
-    <string name="brick_stop_script">Остановить сценарий/сценарии</string>
-    <string name="brick_stop_this_script">Остановить этот скрипт</string>
-    <string name="brick_stop_all_scripts">Остановить все скрипты</string>
-    <string name="brick_stop_other_scripts">Остановите другие скрипты этого объекта</string>
+    <string name="brick_stop_script">Остановить</string>
+    <string name="brick_stop_this_script">этот скрипт</string>
+    <string name="brick_stop_all_scripts">все скрипты</string>
+    <string name="brick_stop_other_scripts">другие скрипты этого актера или объекта</string>
     <plurals name="second_plural">
         <item quantity="one">"секунду "</item>
         <item quantity="few">"секунд"</item>
         <item quantity="many">"секунд"</item>
         <item quantity="other">"секунд "</item>
     </plurals>
-    <string name="brick_collision_receive">При столкновении</string>
-    <string name="collision_with_anything">чем угодно</string>
+    <string name="brick_collision_receive">При столкновении с</string>
+    <string name="collision_with_anything">любым краем, актером, или объектом</string>
     <string name="brick_broadcast_receive">Когда я получу</string>
     <string name="brick_broadcast">Вещать всем</string>
     <string name="brick_broadcast_wait">Вещать всем и ждать</string>
@@ -1240,6 +1251,9 @@ A-8010 Graz, Austria\n
     <string name="brick_clone_this">меня</string>
     <string name="brick_when_cloned">Когда начинает как клон</string>
     <string name="brick_delete_this_clone">Удалить этот клон</string>
+    <string name="brick_assert_that">Assert:</string>
+    <string name="brick_is_equal_to">equal to expected:</string>
+    <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
     <plurals name="time_plural">
         <item quantity="one">раз</item>
         <item quantity="few">разa</item>
@@ -1256,20 +1270,23 @@ A-8010 Graz, Austria\n
     <string name="brick_note_default_value">новое примечание&#8230;</string>
     <string name="brick_think_bubble_default_value">Хмммм!</string>
     <string name="brick_say_bubble_default_value">Привет!</string>
-    <string name="brick_broadcast_default_value">"новое сообщение"</string>
+    <string name="brick_broadcast_default_value">"новый сигнал"</string>
     <string name="brick_add_item_to_userlist_add">Добавить</string>
-    <string name="brick_add_item_to_userlist">К списку</string>
+    <string name="brick_add_item_to_userlist">к списку</string>
     <string name="brick_delete_item_from_userlist_delete">Удалить элемент из списка</string>
-    <string name="brick_delete_item_from_userlist">На позицию</string>
+    <string name="brick_delete_item_from_userlist">на позицию</string>
     <string name="brick_insert_item_into_userlist_insert_into">Вставить</string>
     <string name="brick_insert_item_into_userlist_into_list">в список</string>
-    <string name="brick_insert_item_into_userlist_at_position">На позицию</string>
+    <string name="brick_insert_item_into_userlist_at_position">на позицию</string>
     <string name="brick_replace_item_in_userlist_replace_in_list">Заменить предмет в списке</string>
-    <string name="brick_replace_item_in_userlist_item_at_index">На позиции</string>
+    <string name="brick_replace_item_in_userlist_item_at_index">на позиции</string>
     <string name="brick_replace_item_in_userlist_with_value">на</string>
+    <string name="brick_web_request">Send web request to</string>
+    <string name="brick_web_request_result">and store answer in</string>
+    <string name="brick_web_request_default_value">https://official-joke-api.appspot.com/random_joke</string>
     <!--  -->
     <!-- Default Values -->
-    <string name="default_project_name">проектПоУмолчанию</string>
+    <string name="default_project_name">Мой первый проект</string>
     <string name="default_scene_name">Сцена %1$d</string>
     <string name="default_project_background_name">Фон</string>
     <string name="default_project_cloud_name">Облака</string>
@@ -1339,13 +1356,10 @@ A-8010 Graz, Austria\n
     <string name="channel_description">Канал уведомлений %1$s</string>
     <!--  -->
     <!-- Notifications -->
-    <string name="notification_screenshot_ok">Изображение с предварительный просмотром сохранено</string>
+    <string name="notification_screenshot_ok">Превью сохранено</string>
     <string name="notification_download_project_cancel">Отменить загрузку проекта</string>
     <string name="notification_reconvert_download_program_cancel">Загрузка/конвертация программы обратно отменена</string>
-    <string name="notification_copy_title_pending">"Копирование "</string>
-    <string name="notification_copy_pending">Копирование в процессе</string>
-    <string name="notification_copy_finished">Копирование завершено</string>
-    <string name="notification_upload_title_pending">"Выгрузить "</string>
+    <string name="notification_upload_title_pending">"Загружается"</string>
     <string name="notification_upload_title_finished">"Смотреть на "</string>
     <string name="notification_upload_pending">Загрузка в процессе</string>
     <string name="notification_upload_finished">Добавлено успешно</string>
@@ -1372,12 +1386,12 @@ A-8010 Graz, Austria\n
     <string name="runtime_permission_general">Это приложение нуждается в запрошенных разрешениях для правильного функционирования.
 Например, блок камеры нуждается в доступе к камере устройства, а \"местоположение\" из редактора формул нуждается в доступе к GPS устройства, и для того, чтобы импортировать или экспортировать проекты из и в локальную память, приложению нужен доступ для чтения и записи. Ты всегда можешь поменять разрешения через настройки своего телефона.</string>
     <!-- Error messages -->
-    <string name="error_project_upload">Произошла ошибка во время закачивания программы.</string>
-    <string name="error_project_download">Произошла ошибка во время скачивания программы.</string>
-    <string name="error_new_project">Произошла ошибка при создании новой программы.</string>
+    <string name="error_project_upload">Произошла ошибка во время закачивания проекта.</string>
+    <string name="error_project_download">Произошла ошибка во время скачивания проекта.</string>
+    <string name="error_new_project">Произошла ошибка при создании нового проекта.</string>
     <string name="error_rename_scene">Что-то пошло не так при переименовании сцены.</string>
-    <string name="error_load_project">Произошла ошибка во время загрузки программы.</string>
-    <string name="error_screenshot_failed">Произошла ошибка при сохранении изображения с предварительным просмотром.</string>
+    <string name="error_load_project">Произошла ошибка во время загрузки проекта.</string>
+    <string name="error_screenshot_failed">Произошла ошибка при сохранении превью.</string>
     <string name="error_internet_connection">Произошла неизвестная ошибка. Проверьте подключение к интернету.</string>
     <string name="error_project_compatibility">Проект не совместим с этой версией приложения.</string>
     <string name="error_outdated_version">Эта версия приложения устарела. Обновить ее прямо сейчас?</string>
@@ -1400,6 +1414,7 @@ A-8010 Graz, Austria\n
     <string name="error_drone_wrong_platform_title">AR.Drone 2.0 не поддерживается.</string>
     <string name="error_drone_wrong_platform">Мы не можем запустить проект AR.Drone 2.0 на вашем устройстве.</string>
     <string name="error_rename_incompatible_project">Переименование несовместимого проекта невозможно.</string>
+    <string name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
     <string name="error_unknown_error">Произошла неизвестная ошибка.</string>
     <string name="error_gps_not_available">Данные GPS недоступны.</string>
     <string name="error_set_description">Что-то пошло не так при сохранении нового описания.</string>
@@ -1409,7 +1424,7 @@ A-8010 Graz, Austria\n
     <!--  -->
     <!-- Bluetooth Connection Strings -->
     <string name="notification_blueth_err">Не удается включить Bluetooth, пожалуйста, отключите его и снова включите.</string>
-    <string name="title_paired_devices">Парные устройства</string>
+    <string name="title_paired_devices">Сопряженные устройства</string>
     <string name="title_other_devices">Новые устройства</string>
     <string name="searching_devices">Поиск устройств&#8230;</string>
     <string name="button_scan">Поиск bluetooth устрйств</string>
@@ -1417,8 +1432,8 @@ A-8010 Graz, Austria\n
     <string name="connecting_please_wait">Подключение к вашему устройству.\nПодождите, пожалуйста&#8230;</string>
     <!-- <string name="pairing_message">After pairing, connect.</string> -->
     <string name="bt_connection_failed">Подключение к устройству не удалось!</string>
-    <string name="none_found">Нет найдено непарных устройств</string>
-    <string name="none_paired">Нет найдено парных устройств</string>
+    <string name="none_found">Не найдено несопряженных устройств</string>
+    <string name="none_paired">Не найдено сопряженных устройств</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">Установить Pin-код для Arduino</string>
@@ -1474,7 +1489,8 @@ A-8010 Graz, Austria\n
         проект открывается.</string>
     <string name="preference_title_mindstorms_nxt_sensors_description">Сопоставление NXT датчиков к портам проектно-зависимо
         и может быть настроено только для открытых проектов.</string>
-    <string name="lego_nxt_sensor_config_info_text">Текущая программа использует блоки или датчики NXT от Lego Mindstorms. Для правильной работы подсоедините датчики к роботу следующим образом</string>
+    <string name="lego_nxt_sensor_config_info_text">Текущий проект использует блоки или датчики NXT от Lego Mindstorms. Для
+        правильной работы подсоедините датчики к роботу следующим образом</string>
     <string name="lego_port_1">Порт 1</string>
     <string name="lego_port_2">Порт 2</string>
     <string name="lego_port_3">Порт 3</string>
@@ -1482,9 +1498,12 @@ A-8010 Graz, Austria\n
     <string name="lego_sensor_config_dont_show_again">Больше не показывать это сообщение.</string>
     <string name="lego_sensor_port_config_dialog_title">Выберите порт для подключения к %1$s.</string>
     <string name="lego_ev3_sensor_config_info_title">Настройка сенсора EV3</string>
-    <string name="preference_disable_ev3_info_dialog_description">Настройки, свойственные EV3, не показываются при открытии программы.</string>
-    <string name="preference_title_mindstorms_ev3_sensors_description">Сопоставление NXT датчиков к портам программно-зависимо и может быть настроено только для открытых программ!</string>
-    <string name="lego_ev3_sensor_config_info_text">Текущая программа использует блоки или датчики EV3 от Lego Mindstorms. Для правильной работы подсоедините датчики к роботу следующим образом</string>
+    <string name="preference_disable_ev3_info_dialog_description">Настройки, свойственные EV3, не показываются
+        при открытии программы.</string>
+    <string name="preference_title_mindstorms_ev3_sensors_description">Сопоставление EV3 датчиков к портам зависит от
+        проекта и может быть настроено только для открытых проектов.</string>
+    <string name="lego_ev3_sensor_config_info_text">Текущая программа использует блоки или датчики EV3 от Lego Mindstorms. Для
+        правильной работы подсоедините датчики к роботу следующим образом</string>
     <string name="ev3_choose_sensor_1">Датчик подключен к порту 1</string>
     <string name="ev3_choose_sensor_2">Датчик подключен к порту 2</string>
     <string name="ev3_choose_sensor_3">Датчик подключен к порту 3</string>
@@ -1494,7 +1513,7 @@ A-8010 Graz, Austria\n
     <string name="ev3_sensor_infrared">EV3 датчик инфракрасного излучения</string>
     <string name="ev3_sensor_color">EV3 датчик цвета</string>
     <string name="ev3_sensor_color_ambient">Датчик цвета окружающей среды EV3</string>
-    <string name="ev3_sensor_color_reflected">Цветовой датчик отражения</string>
+    <string name="ev3_sensor_color_reflected">Цветовой датчик отражения EV3</string>
     <string name="ev3_sensor_hitechnic_color">Датчик цвета HiTechnic</string>
     <string name="ev3_sensor_nxt_temperature_c">Температурный датчик NXT (°C)</string>
     <string name="ev3_sensor_nxt_temperature_f">Температурный датчик NXT (°F)</string>
@@ -1518,7 +1537,7 @@ A-8010 Graz, Austria\n
     <string name="ev3_motor_move_by">на</string>
     <string name="ev3_set_led_status">Установить статус светодиода EV3</string>
     <string name="ev3_led_status_off">Выкл.</string>
-    <string name="ev3_led_status_green">Зелёный</string>
+    <string name="ev3_led_status_green">зелёный</string>
     <string name="ev3_led_status_red">красный</string>
     <string name="ev3_led_status_orange">Оранжевый</string>
     <string name="ev3_led_status_green_flashing">Зеленый мигающий</string>
@@ -1548,7 +1567,7 @@ A-8010 Graz, Austria\n
     <string name="brick_drone_set_rotation_speed">Ограничение скорости поворота</string>
     <string name="brick_drone_set_tilt_limit">Ограничение наклона</string>
     <string name="brick_drone_with.">на</string>
-    <string name="brick_drone_power">степень</string>
+    <string name="brick_drone_power">питание</string>
     <!--  -->
     <!-- Drone play led animation strings -->
     <string name="drone_animation_blinkgreenred">Мигнуть зелено-красным</string>
@@ -1558,8 +1577,8 @@ A-8010 Graz, Austria\n
     <string name="drone_animation_snakegreenred">Зелено-красная змея</string>
     <string name="drone_animation_fire">Огонь</string>
     <string name="drone_animation_standard">Стандартная</string>
-    <string name="drone_animation_red">Красный</string>
-    <string name="drone_animation_green">Зелёный</string>
+    <string name="drone_animation_red">красный</string>
+    <string name="drone_animation_green">зелёный</string>
     <string name="drone_animation_redsnake">Красная змея</string>
     <string name="drone_animation_blank">Пустой</string>
     <string name="drone_animation_rightmissile">Правая ракета</string>
@@ -1577,7 +1596,6 @@ A-8010 Graz, Austria\n
     <string name="brick_jumping_sumo_move_backward">Переместить Jumping Sumo назад</string>
     <string name="brick_jumping_sumo_animation">Анимации Jumping Sumo</string>
     <string name="brick_jumping_sumo_no_sound">Jumping Sumo без звука</string>
-    <string name="brick_jumping_sumo_sound">Звук</string>
     <string name="brick_jumping_sumo_jump_long">Длинный прыжок Jumping Sumo</string>
     <string name="brick_jumping_sumo_jump_high">Высокий прыжок Jumping Sumo</string>
     <string name="brick_jumping_sumo_rotate_left">Повернуть Jumping Sumo влево</string>
@@ -1633,8 +1651,8 @@ A-8010 Graz, Austria\n
     <string name="phiro_seconds">секунды</string>
     <!-- light -->
     <string name="brick_phiro_rgb_led_action">Установить свет Phiro</string>
-    <string name="phiro_rgb_led_red">Красный</string>
-    <string name="phiro_rgb_led_green">Зелёный</string>
+    <string name="phiro_rgb_led_red">красный</string>
+    <string name="phiro_rgb_led_green">зелёный</string>
     <string name="phiro_rgb_led_blue">Синий</string>
     <!--  -->
     <!-- Phiro tone strings -->
@@ -1680,41 +1698,40 @@ A-8010 Graz, Austria\n
     <string name="formula_editor_parse_fail">Неправильная формула!</string>
     <string name="formula_nothing_selected">Установить значение ввода</string>
     <string name="formula_editor_parse_fail_formula_too_long">Выражение слишком длинное!</string>
-    <string name="formula_editor_choose_object_variable">Свойства объекта</string>
-    <string name="formula_editor_existing_variable">Имя уже используется!</string>
+    <string name="formula_editor_choose_object_variable">Свойства этого актера или объекта</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
     <string name="formula_editor_function_sin">sinus</string>
     <string name="formula_editor_function_sin_parameter">(90)</string>
     <string name="formula_editor_function_cos">cosinus</string>
-    <string name="formula_editor_function_cos_parameter">(0)</string>
+    <string name="formula_editor_function_cos_parameter">(360)</string>
     <string name="formula_editor_function_tan">tangens</string>
-    <string name="formula_editor_function_tan_parameter">(0)</string>
+    <string name="formula_editor_function_tan_parameter">(45)</string>
     <string name="formula_editor_function_ln">natural logarithm</string>
-    <string name="formula_editor_function_ln_parameter">(0)</string>
+    <string name="formula_editor_function_ln_parameter">(2.718281828459)</string>
     <string name="formula_editor_function_log">decimal logarithm</string>
-    <string name="formula_editor_function_log_parameter">(0)</string>
+    <string name="formula_editor_function_log_parameter">(10)</string>
     <string name="formula_editor_function_pi">pi</string>
     <string name="formula_editor_function_pi_parameter"></string>
     <string name="formula_editor_object_color">цвет</string>
     <string name="formula_editor_function_sqrt">корень</string>
-    <string name="formula_editor_function_sqrt_parameter">(0)</string>
+    <string name="formula_editor_function_sqrt_parameter">(4)</string>
     <string name="formula_editor_function_rand">случайный</string>
     <string name="formula_editor_function_rand_parameter">(1,6)</string>
     <string name="formula_editor_function_abs">absolute value</string>
-    <string name="formula_editor_function_abs_parameter">(0)</string>
+    <string name="formula_editor_function_abs_parameter">(1)</string>
     <string name="formula_editor_function_round">округлить</string>
-    <string name="formula_editor_function_round_parameter">(0)</string>
+    <string name="formula_editor_function_round_parameter">(1.6)</string>
     <string name="formula_editor_function_mod">modulo</string>
     <string name="formula_editor_function_mod_parameter">(3,2)</string>
     <string name="formula_editor_function_arcsin">arcsinus</string>
-    <string name="formula_editor_function_arcsin_parameter">(0)</string>
+    <string name="formula_editor_function_arcsin_parameter">(0.5)</string>
     <string name="formula_editor_function_arccos">arccosinus</string>
     <string name="formula_editor_function_arccos_parameter">(0)</string>
     <string name="formula_editor_function_arctan">arctangens</string>
-    <string name="formula_editor_function_arctan_parameter">(0)</string>
+    <string name="formula_editor_function_arctan_parameter">(1)</string>
     <string name="formula_editor_function_exp">exponent</string>
-    <string name="formula_editor_function_exp_parameter">(0)</string>
+    <string name="formula_editor_function_exp_parameter">(1)</string>
     <string name="formula_editor_function_power">степень</string>
     <string name="formula_editor_function_power_parameter">(2,3)</string>
     <string name="formula_editor_function_floor">округление к меньшему</string>
@@ -1722,9 +1739,9 @@ A-8010 Graz, Austria\n
     <string name="formula_editor_function_ceil">округление к большему</string>
     <string name="formula_editor_function_ceil_parameter">(0,3)</string>
     <string name="formula_editor_function_max">макс.</string>
-    <string name="formula_editor_function_max_parameter">(0,1)</string>
-    <string name="formula_editor_function_min">мин.</string>
-    <string name="formula_editor_function_min_parameter">(0,1)</string>
+    <string name="formula_editor_function_max_parameter">(5,4)</string>
+    <string name="formula_editor_function_min">минимум</string>
+    <string name="formula_editor_function_min_parameter">(7,2)</string>
     <string name="formula_editor_function_true">ИСТИНА</string>
     <string name="formula_editor_function_false">ЛОЖЬ</string>
     <string name="formula_editor_function_length">длина</string>
@@ -1733,6 +1750,8 @@ A-8010 Graz, Austria\n
     <string name="formula_editor_function_letter_parameter">(1,\'hello world\')</string>
     <string name="formula_editor_function_join">соединить</string>
     <string name="formula_editor_function_join_parameter">(\'hello\',\' world\')</string>
+    <string name="formula_editor_function_regex">regular expression</string>
+    <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">pin-код для Arduino</string>
     <string name="formula_editor_function_arduino_read_pin_value_analog">arduino аналоговый пин</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital">пин raspberry pi</string>
@@ -1752,7 +1771,7 @@ A-8010 Graz, Austria\n
     <string name="formula_editor_function_contains_parameter">(*название списка*,1)</string>
     <string name="formula_editor_function_number_of_items">количество элементов</string>
     <string name="formula_editor_function_number_of_items_parameter">(*название списка*)</string>
-    <string name="formula_editor_function_collision">касается_объекта</string>
+    <string name="formula_editor_function_collision">касается актера или объекта</string>
     <string name="formula_editor_function_collides_with_edge">касается_края</string>
     <string name="formula_editor_function_touched">касается_пальца</string>
     <string name="formula_editor_sensor_x_acceleration">ускорение_х</string>
@@ -1832,13 +1851,13 @@ A-8010 Graz, Austria\n
     <string name="formula_editor_object_x_velocity">x_скорость</string>
     <string name="formula_editor_object_y_velocity">y_скорость</string>
     <string name="formula_editor_object_angular_velocity">угловая скорость</string>
-    <string name="formula_editor_object_look_number">номер_образа</string>
-    <string name="formula_editor_object_look_name">название_образа</string>
-    <string name="formula_editor_object_background_number">номер_фона</string>
-    <string name="formula_editor_object_background_name">название_фона</string>
-    <string name="formula_editor_object_distance_to">расстояние_до</string>
+    <string name="formula_editor_object_look_number">номер образа</string>
+    <string name="formula_editor_object_look_name">название образа</string>
+    <string name="formula_editor_object_background_number">номер фона</string>
+    <string name="formula_editor_object_background_name">название фона</string>
+    <string name="formula_editor_object_distance_to">расстояние до точки касания</string>
     <string name="formula_editor_compute">Вычислить</string>
-    <string name="formula_editor_object">Объект</string>
+    <string name="formula_editor_object">Свойства</string>
     <string name="formula_editor_functions">Функции</string>
     <string name="formula_editor_logic">Логические</string>
     <string name="formula_editor_device">Устройство</string>
@@ -1850,7 +1869,7 @@ A-8010 Graz, Austria\n
     <string name="formula_editor_logic_comparison">операторы сравнения</string>
     <string name="formula_editor_object_general">общие свойства</string>
     <string name="formula_editor_object_movement">свойства движения</string>
-    <string name="formula_editor_device_face_detection">распознование_лиц</string>
+    <string name="formula_editor_device_face_detection">Распознование лиц</string>
     <string name="formula_editor_device_date_and_time">Дата и время</string>
     <string name="formula_editor_device_touch_detection">Обнаружение касаний</string>
     <string name="formula_editor_device_lego_nxt">Лего NXT</string>
@@ -1885,8 +1904,8 @@ A-8010 Graz, Austria\n
     <string name="formula_editor_dialog_change_text">Изменить текст</string>
     <string name="formula_editor_fragment_data_current_items">Текущие предметы</string>
     <string name="formula_editor_data_dialog_is_list">сделать списком</string>
-    <string name="formula_editor_sensor_face_detected">Распознавание лиц</string>
-    <string name="formula_editor_sensor_face_size">размер_лица</string>
+    <string name="formula_editor_sensor_face_detected">видно лицо</string>
+    <string name="formula_editor_sensor_face_size">размер лица</string>
     <string name="formula_editor_sensor_face_x_position">лицо_x_координата</string>
     <string name="formula_editor_sensor_face_y_position">лицо_y_координата</string>
     <string name="formula_editor_intro_title_formula_editor">Редактор формул</string>
@@ -1902,9 +1921,9 @@ A-8010 Graz, Austria\n
     <string name="formula_editor_intro_title_compute">Вычислить</string>
     <string name="formula_editor_intro_summary_compute">Чтобы показать текущий результат вашей формулы, вы можете
         использовать \"Вычислить\".</string>
-    <string name="formula_editor_intro_title_object">Объект</string>
+    <string name="formula_editor_intro_title_object">Свойства</string>
     <string name="formula_editor_intro_summary_object">Это список значений, которые описывают свойства твоего
-        текущего объекта. Например x и y координаты или текущая скорость.</string>
+        текущего актера или объекта. Например x и y координаты или текущую скорость.</string>
     <string name="formula_editor_intro_title_functions">Функции</string>
     <string name="formula_editor_intro_summary_functions">Как и калькулятор, редактор формул предлагает
         множество математических функций.\nТы можешь найти такие тригонометрические функции как синус и косинус,
@@ -1920,11 +1939,6 @@ A-8010 Graz, Austria\n
         \nТы можешь просто вставить их в твою формулу, или добавить новых.</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
-    <string name="add_text">Добавить текст</string>
-    <string name="text_hint">Текст блока</string>
-    <string name="add_variable">Добавить переменную</string>
-    <string name="add_line_break">Добавить разрыв строки</string>
-    <string name="variable_hint">Имя переменной</string>
     <string name="brick_show_variable">Показать переменную</string>
     <string name="brick_hide_variable">Скрыть переменную</string>
     <string name="brick_show_variable_position">на</string>
@@ -1934,10 +1948,8 @@ A-8010 Graz, Austria\n
     <string name="brick_show_variable_aligned_centered">по центру</string>
     <string name="brick_show_variable_aligned_left">слева</string>
     <string name="brick_show_variable_aligned_right">справа</string>
+    <string name="brick_context_dialog_pick_color">Pick color</string>
     <!-- -->
-    <!-- User bricks strings -->
-    <string name="new_user_brick_variable">Переменная</string>
-    <!--  -->
     <!-- Camera related strings -->
     <string name="brick_video">Повернуть камеру</string>
     <string name="video_brick_camera_on">вкл.</string>
@@ -1946,7 +1958,7 @@ A-8010 Graz, Austria\n
     <string name="choose_camera_front">переднюю</string>
     <string name="choose_camera_back">задняя</string>
     <string name="brick_wait_until">Ждать до тех пор, пока</string>
-    <string name="brick_wait_until_second_part">не станет истиной</string>
+    <string name="brick_wait_until_second_part">истина</string>
     <!-- -->
     <!-- Cast strings -->
     <string name="cast_gamepad_A">А</string>
@@ -1982,11 +1994,14 @@ A-8010 Graz, Austria\n
     <string name="preference_title_enable_hints">Показывать подсказки </string>
     <string name="hint_category">Все блоки распределены по категориям. Выберите котегорию, которую Вы ищете.</string>
     <string name="hint_bricks">Для добавления блока к Вашему скрипту прикоснитесь к блоку, который Вы хотите использовать.</string>
-    <string name="hint_scripts">Скрипт определяет поведение твоего объекта. Чтобы добавить блоков нажми на \"+\".</string>
-    <string name="hint_looks">Здесь ты можешь найти различные образы твоего объекта. Чтобы добавить новый образ нажми на \"+\".</string>
-    <string name="hint_sounds">Здесь ты можешь добавить новых звуков объекту. Они находятся в категории \"звуки\".</string>
-    <string name="hint_objects">Твоя программа состоит из разных объектов, которые могут взаимодействовать друг с другом.
-        Чтобы добавить новый объект нажми на \"+\".</string>
+    <string name="hint_scripts">Скрипт определяет поведение твоего актера или объекта. Чтобы добавить блоков,
+        нажми на \"+\".</string>
+    <string name="hint_looks">Здесь ты можешь найти различные образы твоего актера или объекта. Чтобы добавить новый образ,
+        нажми на \"+\".</string>
+    <string name="hint_sounds">Здесь ты можешь добавить новых звуков актеру или объекту. Они находятся
+        в категории \"звуки\".</string>
+    <string name="hint_objects">Твоя программа состоит из разных актеров или объектов, которые могут взаимодействовать друг с другом.
+        Чтобы добавить нового актера или объект нажми на \"+\".</string>
     <!--  -->
     <!-- Crash report dialog -->
     <!--  -->

@@ -71,12 +71,6 @@ emulators {
         }
     }
 
-    emulator 'android19', 'template1', {
-        avd {
-            systemImage = 'system-images;android-19;default;x86'
-        }
-    }
-
     emulator 'android24', 'template1', {
         avd {
             systemImage = 'system-images;android-24;default;x86_64'
@@ -178,16 +172,16 @@ jacocoAndroidUnitTestReport {
 }
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 28
 
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 26
+        minSdkVersion 21
+        targetSdkVersion 28
         applicationId appId
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-        versionCode 62
+        versionCode 63
         println "VersionCode is $versionCode"
-        versionName "0.9.61"
+        versionName "0.9.62"
         println "VersionName is $versionName"
         buildConfigField "String", "GIT_COMMIT_INFO", "\"${getGitCommitInfo()}\""
         buildConfigField "String", "MAIN_URL_HTTPS", (project.hasProperty('useWebTest') ? '"https://web-test.catrob.at"' : '"https://share.catrob.at"')
@@ -230,10 +224,8 @@ android {
         exclude 'META-INF/maven/com.google.guava/guava/pom.properties'
         exclude 'META-INF/maven/com.google.guava/guava/pom.xml'
         exclude 'META-INF/INDEX.LIST'  //compile problem with parrot arsdk
-        exclude 'lib/arm64-v8a/*' // exclude all arm64-v8a libs as we don't have all libs for that architecture
-        exclude 'lib/x86_64/*'    // exclude all x86_64 libs as we don't have all libs for that architecture
-        exclude 'lib/mips/*'      // Mips devices are deprecated
-         exclude 'lib/armeabi/*'  // aremabiv5 & v6 are deprecated
+        exclude 'lib/mips/*'    // Mips devices are deprecated
+        exclude 'lib/armeabi/*' // armeabiv5 & v6 are deprecated
     }
 
     signingConfigs {
@@ -279,7 +271,7 @@ android {
         }
 
         release {
-            buildConfigField "boolean", "FEATURE_EMBROIDERY_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_EMBROIDERY_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_LEGO_EV3_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_PHIRO_ENABLED", "true"
@@ -375,7 +367,7 @@ android {
 
 ext {
     projectVersion = "0.9"
-    gdxVersion = "1.6.2"
+    gdxVersion = "1.9.9"
     mockitoVersion = "2.8.47"
     espressoVersion = "3.0.1"
     supportLibraryVersion = "27.1.0"
@@ -389,8 +381,7 @@ configurations {
 }
 
 dependencies {
-    implementation fileTree(include: '*.jar', dir: 'src/main/libs')
-    implementation fileTree(include: '*.jar', dir: 'src/main/libs-natives')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -415,39 +406,41 @@ dependencies {
     implementation 'com.google.android.gms:play-services-analytics:12.0.0'
 
     implementation 'com.google.guava:guava:19.0'
-    implementation 'com.squareup.okhttp:okhttp:2.3.0'
     implementation 'com.google.code.gson:gson:2.8.0'
 
     implementation 'com.koushikdutta.async:androidasync:2.2.1'
-    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'ar.com.hjg:pngj:2.1.0'
 
-    implementation ('com.thoughtworks.xstream:xstream:1.4.7') {
+    implementation ('com.thoughtworks.xstream:xstream:1.4.11.1') {
         exclude group: 'xmlpull'
     }
 
     // Pocket Music
     implementation 'com.github.oliewa92:MidiDroid:v1.1'
-    implementation 'com.github.billthefarmer:mididriver:v1.13'
+    implementation 'com.github.billthefarmer:mididriver:v1.16'
 
     // Pocket Paint
     catroidImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
     createAtSchoolImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
     lunaAndCatImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
     phiroImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
+    implementation "org.catrobat.paintroid:colorpicker:$paintroidVersion"
 
     // libGDX
     implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
     implementation "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
     implementation "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
     natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
-    natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi"
+    natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86_64"
     natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
+    natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-arm64-v8a"
     natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
-    natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi"
+    natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86_64"
     natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi-v7a"
+    natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-arm64-v8a"
 
-    implementation 'com.facebook.android:facebook-android-sdk:4.14.1'
+    implementation 'com.facebook.android:facebook-android-sdk:5.1.1'
     implementation 'com.google.android.gms:play-services-auth:12.0.0'
 
     androidTestImplementation ('tools.fastlane:screengrab:1.1.0'){
@@ -472,7 +465,6 @@ dependencies {
     testImplementation 'org.robolectric:robolectric:4.2.1'
     testImplementation "org.robolectric:shadows-multidex:4.2.1"
 
-    androidTestImplementation fileTree(include: '*.jar', dir: 'src/androidTest/libs')
     androidTestImplementation 'com.linkedin.dexmaker:dexmaker-mockito:2.2.0'
     androidTestImplementation "org.mockito:mockito-core:$mockitoVersion"
 
@@ -504,11 +496,15 @@ project.gradle.taskGraph.whenReady {
 
 task copyAndroidNatives() {
     file("src/main/jniLibs/armeabi-v7a/").mkdirs()
+    file("src/main/jniLibs/arm64-v8a/").mkdirs()
     file("src/main/jniLibs/x86/").mkdirs()
+    file("src/main/jniLibs/x86_64/").mkdirs()
     configurations.natives.files.each { jar ->
         def outputDir = null
         if (jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("src/main/jniLibs/armeabi-v7a")
+        if (jar.name.endsWith("natives-arm64-v8a.jar")) outputDir = file("src/main/jniLibs/arm64-v8a")
         if (jar.name.endsWith("natives-x86.jar")) outputDir = file("src/main/jniLibs/x86")
+        if (jar.name.endsWith("natives-x86_64.jar")) outputDir = file("src/main/jniLibs/x86_64")
         if (outputDir != null) {
             copy {
                 from zipTree(jar)

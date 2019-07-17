@@ -221,6 +221,18 @@ public class IfLogicBeginBrick extends FormulaBrick implements CompositeBrick {
 		sequence.addAction(action);
 	}
 
+	@Override
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		super.addRequiredResources(requiredResourcesSet);
+		for (Brick brick : ifBranchBricks) {
+			brick.addRequiredResources(requiredResourcesSet);
+		}
+
+		for (Brick brick : elseBranchBricks) {
+			brick.addRequiredResources(requiredResourcesSet);
+		}
+	}
+
 	@VisibleForTesting
 	public static class ElseBrick extends BrickBaseType {
 

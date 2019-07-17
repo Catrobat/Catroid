@@ -60,13 +60,13 @@ public class PlaceAtBrickTest {
 
 	@After
 	public void tearDown() throws Exception {
-		TestUtils.deleteProjects(PlaceAtBrickTest.class.getName());
+		TestUtils.deleteProjects(PlaceAtBrickTest.class.getSimpleName());
 	}
 
 	@Before
 	public void setUp() throws Exception {
 		brickPosition = 1;
-		createProjectAndGetStartScript(PlaceAtBrickTest.class.getName())
+		createProjectAndGetStartScript(PlaceAtBrickTest.class.getSimpleName())
 				.addBrick(new PlaceAtBrick());
 		baseActivityTestRule.launchActivity();
 	}

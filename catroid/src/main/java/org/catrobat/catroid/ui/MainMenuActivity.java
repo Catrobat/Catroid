@@ -75,7 +75,6 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 import static org.catrobat.catroid.common.Constants.BACKPACK_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
-import static org.catrobat.catroid.common.Constants.PREF_PROJECTNAME_KEY;
 import static org.catrobat.catroid.common.Constants.TMP_DIR_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.common.FlavoredConstants.EXTERNAL_STORAGE_ROOT_DIRECTORY;
@@ -284,10 +283,8 @@ public class MainMenuActivity extends BaseCastActivity implements
 		if (currentProject != null) {
 			new ProjectSaveTask(currentProject, getApplicationContext())
 					.execute();
-			PreferenceManager.getDefaultSharedPreferences(this)
-					.edit()
-					.putString(PREF_PROJECTNAME_KEY, currentProject.getName())
-					.commit();
+
+			Utils.setLastUsedProjectName(getApplicationContext(), currentProject.getName());
 		}
 	}
 

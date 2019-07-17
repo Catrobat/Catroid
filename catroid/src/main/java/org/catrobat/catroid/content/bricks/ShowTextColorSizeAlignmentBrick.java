@@ -23,7 +23,9 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import org.catrobat.catroid.R;
@@ -32,8 +34,12 @@ import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
+import org.catrobat.catroid.content.strategy.ShowColorPickerFormulaEditorStrategy;
+import org.catrobat.catroid.content.strategy.ShowFormulaEditorStrategy;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.ui.UiUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,47 +54,45 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrick {
 
 	public int alignmentSelection = ALIGNMENT_STYLE_CENTERED;
 
-	class AlignmentStyle implements Nameable {
-		private String name;
-		private int alignmentStyle;
-
-		AlignmentStyle(String name, int alignmentStyle) {
-			this.name = name;
-			this.alignmentStyle = alignmentStyle;
-		}
-
-		@Override
-		public String getName() {
-			return name;
-		}
-
-		@Override
-		public void setName(String name) {
-			this.name = name;
-		}
-	}
-
-	public BrickField getDefaultBrickField() {
-		return BrickField.X_POSITION;
-	}
+	private final transient ShowFormulaEditorStrategy showFormulaEditorStrategy;
 
 	public ShowTextColorSizeAlignmentBrick() {
 		addAllowedBrickField(BrickField.X_POSITION, R.id.brick_show_variable_color_size_edit_text_x);
 		addAllowedBrickField(BrickField.Y_POSITION, R.id.brick_show_variable_color_size_edit_text_y);
 		addAllowedBrickField(BrickField.SIZE, R.id.brick_show_variable_color_size_edit_relative_size);
 		addAllowedBrickField(BrickField.COLOR, R.id.brick_show_variable_color_size_edit_color);
+
+		showFormulaEditorStrategy = new ShowColorPickerFormulaEditorStrategy();
 	}
 
 	public ShowTextColorSizeAlignmentBrick(int xPosition, int yPosition, double size, String color) {
 		this(new Formula(xPosition), new Formula(yPosition), new Formula(size), new Formula(color));
 	}
 
-	public ShowTextColorSizeAlignmentBrick(Formula xPosition, Formula yPosition, Formula size, Formula color) {
+	private ShowTextColorSizeAlignmentBrick(Formula xPosition, Formula yPosition, Formula size, Formula color) {
 		this();
 		setFormulaWithBrickField(BrickField.X_POSITION, xPosition);
 		setFormulaWithBrickField(BrickField.Y_POSITION, yPosition);
 		setFormulaWithBrickField(BrickField.SIZE, size);
 		setFormulaWithBrickField(BrickField.COLOR, color);
+	}
+
+	public BrickField getDefaultBrickField() {
+		return BrickField.X_POSITION;
+	}
+
+	@Override
+	public void showFormulaEditorToEditFormula(View view) {
+		if (view.getId() == R.id.brick_show_variable_color_size_edit_color) {
+			ShowFormulaEditorStrategy.Callback callback = new ShowTextColorSizeAlignmentBrickCallback(view);
+			showFormulaEditorStrategy.showFormulaEditorToEditFormula(view, callback);
+		} else {
+			superShowFormulaEditor(view);
+		}
+	}
+
+	private void superShowFormulaEditor(View view) {
+		super.showFormulaEditorToEditFormula(view);
 	}
 
 	@Override
@@ -122,7 +126,9 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrick {
 
 			@Override
 			public void onItemSelected(@Nullable AlignmentStyle item) {
-				ShowTextColorSizeAlignmentBrick.this.alignmentSelection = item.alignmentStyle;
+				if (item != null) {
+					alignmentSelection = item.alignmentStyle;
+				}
 			}
 
 			@Override
@@ -144,5 +150,72 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrick {
 				getFormulaWithBrickField(BrickField.Y_POSITION),
 				getFormulaWithBrickField(BrickField.SIZE),
 				getFormulaWithBrickField(BrickField.COLOR), userVariable, alignmentSelection));
+	}
+
+	private static class AlignmentStyle implements Nameable {
+		private String name;
+		private int alignmentStyle;
+
+		AlignmentStyle(String name, int alignmentStyle) {
+			this.name = name;
+			this.alignmentStyle = alignmentStyle;
+		}
+
+		@Override
+		public String getName() {
+			return name;
+		}
+
+		@Override
+		public void setName(String name) {
+			this.name = name;
+		}
+	}
+
+	private final class ShowTextColorSizeAlignmentBrickCallback implements ShowFormulaEditorStrategy.Callback {
+		private View view;
+
+		private ShowTextColorSizeAlignmentBrickCallback(View view) {
+			this.view = view;
+		}
+
+		@Override
+		public void showFormulaEditor(View view) {
+			superShowFormulaEditor(view);
+		}
+
+		@Override
+		public void setValue(int value) {
+			String colorString = convertColorToString(value);
+			setFormulaWithBrickField(BrickField.COLOR, new Formula(colorString));
+
+			AppCompatActivity activity = UiUtils.getActivityFromView(view);
+			notifyDataSetChanged(activity);
+		}
+
+		private String convertColorToString(int color) {
+			return String.format("#%02X%02X%02X", Color.red(color), Color.green(color), Color.blue(color));
+		}
+
+		@Override
+		public int getValue() {
+			if (!isColorBrickFieldAString()) {
+				return Color.BLACK;
+			}
+			String formulaString = getColorBrickFieldStringValue();
+			if (formulaString.length() == 7 && formulaString.matches("^#[0-9a-fA-F]+$")) {
+				return Color.parseColor(formulaString);
+			} else {
+				return Color.BLACK;
+			}
+		}
+
+		private boolean isColorBrickFieldAString() {
+			return getFormulaWithBrickField(BrickField.COLOR).getRoot().getElementType() == ElementType.STRING;
+		}
+
+		private String getColorBrickFieldStringValue() {
+			return getFormulaWithBrickField(BrickField.COLOR).getRoot().getValue();
+		}
 	}
 }

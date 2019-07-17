@@ -268,12 +268,14 @@
     <string name="name_empty">Proszę wprowadzić tekst</string>
     <!-- Recycler View -->
     <string name="am_empty_list">Nie ma jeszcze żadnych pozycji na tej liście. Najpierw dodaj coś.</string>
+    <string name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
     <string name="am_backpack">Zapakuj</string>
     <string name="am_unpack">Rozpakuj</string>
     <string name="am_copy">Kopiuj</string>
     <string name="am_delete">Usuń</string>
     <string name="am_rename">Zmień nazwę</string>
     <string name="am_convert">Konwertuj</string>
+    <string name="am_merge">Merge</string>
     <string name="dialog_confirm_delete">Nie możesz tego cofnąć!</string>
     <string name="list_headline_sprites">Aktorzy i obiekty</string>
     <!-- Options Menu Options -->
@@ -281,6 +283,7 @@
     <string name="copy">Kopiuj</string>
     <string name="delete">Usuń</string>
     <string name="rename">Zmień nazwę</string>
+    <string name="merge">Merge</string>
     <string name="show_details">Pokaż szczegóły</string>
     <string name="hide_details">Ukryj szczegóły</string>
     <!-- Action Mode Titles -->
@@ -314,6 +317,12 @@
         <item quantity="few">Konwertuj %d projekty</item>
         <item quantity="many">Konwertuj %d projektów</item>
         <item quantity="other">Konwertuj %d projektów</item>
+    </plurals>
+    <plurals name="am_merge_projects_title">
+        <item quantity="one">Merge %d project</item>
+        <item quantity="few">Merge %d projects</item>
+        <item quantity="many">Merge %d projects</item>
+        <item quantity="other">Merge %d projects</item>
     </plurals>
     <!-- Scene Action Mode Titles -->
     <plurals name="am_pack_scenes_title">
@@ -560,6 +569,7 @@
     <string name="data_label">Nazwa</string>
     <!-- Details -->
     <string name="project_details">Ostatni dostęp: %s, Rozmiar: %s</string>
+    <string name="last_access_today">today, %s</string>
     <string name="scene_details">Obiekty: %d, Wyglądy: %d, Dźwięki: %d</string>
     <string name="sprite_details">Bloki: %d, Wyglądy: %d, Dźwięki: %d</string>
     <string name="look_details">Wymiary: %s, Rozmiar: %s</string>
@@ -968,7 +978,7 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
     <string name="show_password">Pokaż hasło</string>
     <string name="sign_in_error">Coś poszło nie tak podczas logowania.</string>
     <string name="error_google_plus_sign_in">Błąd logowania Google. Status: %s</string>
-    <string name="error_facebook_session_expired">Twoja sesja wygasła, zaloguj się ponownie.</string>
+    <string name="error_session_expired">Session expired, please log in.</string>
     <string name="sign_in_with_facebook">Zaloguj się przez Facebooka</string>
     <string name="sign_in_with_google">Zaloguj się za pomocą Google</string>
     <string name="error_register_empty_username">Puste pole nazwy użytkownika</string>
@@ -999,7 +1009,6 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
     <string name="prestage_resource_not_available_title">Składnik niedostępny</string>
     <string name="prestage_resource_not_available_text">Niestety ten program nie działa na Twoim urządzeniu.         Następujące składniki są niedostępne: \n\n</string>
     <string name="prestage_resource_in_use_text">Inne urządzenie jest połączone z Jumping Sumo. Bądź pewien, że jesteś jedynym kontrolerem drona.</string>
-    <string name="prestage_no_flash_available">\u2022 Błysk\n</string>
     <string name="prestage_no_vibrator_available">\u2022 Wibrator\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 Czujnik przyspieszenia\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 Czujnik nachylenia\n</string>
@@ -1023,6 +1032,7 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
     <string name="stage_dialog_axes_off">Ukryj osie</string>
     <string name="stage_dialog_maximize">Maksymalizuj/\nRozciągnij</string>
     <string name="stage_dialog_screenshot">Podgląd</string>
+    <string name="stage_dialog_embroidery">Haft</string>
     <!--  -->
     <!-- Broadcast spinner -->
     <string name="dialog_new_broadcast_message_title">Nowy komunikat</string>
@@ -1050,6 +1060,7 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
     <string name="category_arduino">Arduino</string>
     <string name="category_cast">Cast</string>
     <string name="category_raspi">Raspberry Pi</string>
+    <string name="category_assertions">Testing</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"Idź do "</string>
@@ -1203,6 +1214,9 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
     <string name="brick_clone_this">mnie</string>
     <string name="brick_when_cloned">Kiedy zaczynam jako klon</string>
     <string name="brick_delete_this_clone">Usuń tego klona</string>
+    <string name="brick_assert_that">Assert:</string>
+    <string name="brick_is_equal_to">equal to expected:</string>
+    <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
     <plurals name="time_plural">
         <item quantity="one">raz</item>
         <item quantity="few">razy</item>
@@ -1230,6 +1244,9 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
     <string name="brick_replace_item_in_userlist_replace_in_list">Zastąp element listy</string>
     <string name="brick_replace_item_in_userlist_item_at_index">na pozycji</string>
     <string name="brick_replace_item_in_userlist_with_value">na</string>
+    <string name="brick_web_request">Send web request to</string>
+    <string name="brick_web_request_result">and store answer in</string>
+    <string name="brick_web_request_default_value">https://official-joke-api.appspot.com/random_joke</string>
     <!--  -->
     <!-- Default Values -->
     <string name="default_project_name">Mój pierwszy program</string>
@@ -1305,9 +1322,6 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
     <string name="notification_screenshot_ok">Podgląd zapisanego obrazu</string>
     <string name="notification_download_project_cancel">Anulowane pobieranie programu</string>
     <string name="notification_reconvert_download_program_cancel">Anulowano pobieranie/ponowną konwersję programu</string>
-    <string name="notification_copy_title_pending">"Kopiowanie "</string>
-    <string name="notification_copy_pending">Trwa kopiowanie</string>
-    <string name="notification_copy_finished">Kopiowanie zakończone</string>
     <string name="notification_upload_title_pending">"Wysyłanie "</string>
     <string name="notification_upload_title_finished">"Zerknij na "</string>
     <string name="notification_upload_pending">Trwa wysyłanie</string>
@@ -1360,6 +1374,7 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
     <string name="error_drone_wrong_platform_title">Brak wsparcia AR.Drone 2.0.</string>
     <string name="error_drone_wrong_platform">Nie można uruchomić projektu AR.Drone 2.0 na tym urządzeniu.</string>
     <string name="error_rename_incompatible_project">Zmiana nazwy projektu niezgodnego z tą wersją nie jest możliwa.</string>
+    <string name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
     <string name="error_unknown_error">Wystąpił nieznany błąd.</string>
     <string name="error_gps_not_available">Błąd, GPS jest niedostępny.</string>
     <string name="error_set_description">Podczas zapisywania nowego opisu wystąpił błąd.</string>
@@ -1534,7 +1549,6 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
     <string name="brick_jumping_sumo_move_backward">Skaczący Sumo do tyłu</string>
     <string name="brick_jumping_sumo_animation">Animacje Skaczącego Sumo</string>
     <string name="brick_jumping_sumo_no_sound">Brak dźwięku Skaczącego Sumo</string>
-    <string name="brick_jumping_sumo_sound">Dźwięk</string>
     <string name="brick_jumping_sumo_jump_long">Długi skok Skaczącego Sumo</string>
     <string name="brick_jumping_sumo_jump_high">Wysoki skok Skaczącego Sumo</string>
     <string name="brick_jumping_sumo_rotate_left">Obróć Jumping Sumo w lewo</string>
@@ -1592,7 +1606,7 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
     <string name="brick_phiro_rgb_led_action">Ustaw światło Phiro</string>
     <string name="phiro_rgb_led_red">Czerwony (Red)</string>
     <string name="phiro_rgb_led_green">Zielony (Green)</string>
-    <string name="phiro_rgb_led_blue">Niebieski (Blue)</string>
+    <string name="phiro_rgb_led_blue">Niebieski</string>
     <!--  -->
     <!-- Phiro tone strings -->
     <string name="phiro_tone_do">do</string>
@@ -1638,7 +1652,6 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
     <string name="formula_nothing_selected">Określ wartości wejściowe</string>
     <string name="formula_editor_parse_fail_formula_too_long">Formuła zbyt długa!</string>
     <string name="formula_editor_choose_object_variable">Właściwości tego obiektu</string>
-    <string name="formula_editor_existing_variable">Nazwa już w użyciu!</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
     <string name="formula_editor_function_sin">sin</string>
@@ -1690,6 +1703,8 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
     <string name="formula_editor_function_letter_parameter">(1,\'hello world\')</string>
     <string name="formula_editor_function_join">połącz</string>
     <string name="formula_editor_function_join_parameter">(\'witaj\',\'świecie\')</string>
+    <string name="formula_editor_function_regex">regular expression</string>
+    <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_cyfrowe_wyjście</string>
     <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analogowe_wyjście</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry_pi_pin</string>
@@ -1866,11 +1881,6 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
     <string name="formula_editor_intro_summary_data">Zmienne i listy, które są używane w programie można znaleźć tutaj.\nMożna po prostu wstawić je do formuły lub dodać nowe.</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
-    <string name="add_text">Dodaj tekst</string>
-    <string name="text_hint">Tekst bloku</string>
-    <string name="add_variable">Dodaj zmienną</string>
-    <string name="add_line_break">Dodaj podział wiersza</string>
-    <string name="variable_hint">Nazwa zmiennej</string>
     <string name="brick_show_variable">Pokaż zmienną</string>
     <string name="brick_hide_variable">Ukryj zmienną</string>
     <string name="brick_show_variable_position">w </string>
@@ -1880,10 +1890,8 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
     <string name="brick_show_variable_aligned_centered">wyśrodkowany</string>
     <string name="brick_show_variable_aligned_left">w lewo</string>
     <string name="brick_show_variable_aligned_right">w prawo</string>
+    <string name="brick_context_dialog_pick_color">Pick color</string>
     <!-- -->
-    <!-- User bricks strings -->
-    <string name="new_user_brick_variable">Zmienna</string>
-    <!--  -->
     <!-- Camera related strings -->
     <string name="brick_video">Aparat</string>
     <string name="video_brick_camera_on">włącz</string>
