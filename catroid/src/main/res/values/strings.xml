@@ -761,6 +761,11 @@
     <string name="project_select_screen_title">Screen:</string>
     <!--  -->
 
+    <!-- NewMergedProjectDialog -->
+    <string name="new_merge_project_dialog_title">Merged project</string>
+    <string name="merging_project_text">These two projects cannot yet be merged</string>
+    <!--  -->
+
     <!-- NewSpriteDialog -->
     <string name="new_sprite_dialog_title">New actor or object</string>
     <!--  -->
