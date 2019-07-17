@@ -58,7 +58,7 @@ public class EV3Reply extends MindstormsReply {
 		return false;
 	}
 
-	public EV3Reply(byte[] data) {
+	public EV3Reply(byte[] data) throws MindstormsException {
 		super(data);
 
 		if (data.length < MIN_REPLY_MESSAGE_LENGTH) {

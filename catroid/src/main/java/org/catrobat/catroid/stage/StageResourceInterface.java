@@ -22,10 +22,12 @@
  */
 package org.catrobat.catroid.stage;
 
+import org.catrobat.catroid.devices.mindstorms.MindstormsException;
+
 public interface StageResourceInterface {
 
-	void initialise();
-	void start();
+	void initialise() throws MindstormsException;
+	void start() throws MindstormsException;
 	void pause();
 	void destroy();
 }

@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.devices.mindstorms;
 
-public class MindstormsException extends RuntimeException {
+public class MindstormsException extends Exception {
 
 	private final Exception innerException;
 
