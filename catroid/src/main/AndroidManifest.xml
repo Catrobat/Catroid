@@ -91,7 +91,8 @@
         android:label="${appName}"
         android:theme="@style/Catroid"
         android:supportsRtl="true"
-        tools:replace="android:label,android:allowBackup">
+        tools:replace="android:label,android:allowBackup"
+        android:usesCleartextTraffic="true">
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
