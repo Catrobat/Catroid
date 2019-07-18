@@ -27,6 +27,7 @@ import android.util.Log;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
+import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 
@@ -585,7 +586,15 @@ public final class XstreamSerializer {
 			throw new FileNotFoundException(xmlFile + " does not exist.");
 		}
 
-		String srcName = new ProjectMetaDataParser(xmlFile).getProjectMetaData().getName();
+		String currentXml = Files.toString(xmlFile, Charsets.UTF_8);
+		StringFinder stringFinder = new StringFinder();
+
+		if (!stringFinder.findBetween(currentXml, PROGRAM_NAME_START_TAG, PROGRAM_NAME_END_TAG)) {
+			return false;
+		}
+
+		String srcName = stringFinder.getResult();
+		dstName = getXMLEncodedString(dstName);
 
 		if (srcName.equals(dstName)) {
 			return true;
@@ -593,7 +602,6 @@ public final class XstreamSerializer {
 
 		String srcProjectNameTag = PROGRAM_NAME_START_TAG + srcName + PROGRAM_NAME_END_TAG;
 		String dstProjectNameTag = PROGRAM_NAME_START_TAG + dstName + PROGRAM_NAME_END_TAG;
-		String currentXml = Files.toString(xmlFile, Charsets.UTF_8);
 		String newXml = currentXml.replace(srcProjectNameTag, dstProjectNameTag);
 
 		if (currentXml.equals(newXml)) {
@@ -603,6 +611,13 @@ public final class XstreamSerializer {
 
 		StorageOperations.writeToFile(xmlFile, newXml);
 		return true;
+	}
+
+	private static String getXMLEncodedString(String srcName) {
+		srcName = new XStream().toXML(srcName);
+		srcName = srcName.replace("<string>", "");
+		srcName = srcName.replace("</string>", "");
+		return srcName;
 	}
 
 	private static void setFileReferences(Project project) {
