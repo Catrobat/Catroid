@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.devices.mindstorms.nxt.sensors;
 
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import org.catrobat.catroid.devices.mindstorms.LegoSensor;
@@ -79,7 +80,8 @@ public abstract class NXTSensor implements LegoSensor {
 
 	protected final MindstormsConnection connection;
 
-	protected boolean hasInit;
+	@VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+	public boolean hasInit;
 	protected float lastValidValue = 0;
 
 	public static final String TAG = NXTSensor.class.getSimpleName();
@@ -92,7 +94,8 @@ public abstract class NXTSensor implements LegoSensor {
 		this.connection = connection;
 	}
 
-	protected void updateTypeAndMode() {
+	@VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+	public void updateTypeAndMode() throws MindstormsException {
 
 		Command command = new Command(CommandType.DIRECT_COMMAND, CommandByte.SET_INPUT_MODE, true);
 		command.append((byte) port);
@@ -103,19 +106,20 @@ public abstract class NXTSensor implements LegoSensor {
 		NXTError.checkForError(reply, 3);
 	}
 
-	protected int getScaledValue() {
+	@VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+	public int getScaledValue() throws MindstormsException {
 		return getSensorReadings().scaled;
 	}
 
-	protected int getRawValue() {
+	protected int getRawValue() throws MindstormsException {
 		return getSensorReadings().raw;
 	}
 
-	protected int getNormalizedValue() {
+	protected int getNormalizedValue() throws MindstormsException {
 		return getSensorReadings().normalized;
 	}
 
-	public SensorReadings getSensorReadings() {
+	public SensorReadings getSensorReadings() throws MindstormsException {
 		if (!hasInit) {
 			initialize();
 		}
@@ -132,10 +136,10 @@ public abstract class NXTSensor implements LegoSensor {
 		return sensorReadings;
 	}
 
-	protected void initialize() {
+	protected void initialize() throws MindstormsException {
 		if (connection != null && connection.isConnected()) {
-			updateTypeAndMode();
 			try {
+				updateTypeAndMode();
 				Thread.sleep(100);
 				resetScaledValue();
 				Thread.sleep(100);
@@ -149,13 +153,15 @@ public abstract class NXTSensor implements LegoSensor {
 		}
 	}
 
-	protected void resetScaledValue() {
+	@VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+	public void resetScaledValue() throws MindstormsException {
 		Command command = new Command(CommandType.DIRECT_COMMAND, CommandByte.RESET_INPUT_SCALED_VALUE, false);
 		command.append((byte) port);
 		connection.send(command);
 	}
 
-	private static class SensorReadings {
+	@VisibleForTesting
+	public static class SensorReadings {
 		public int raw;
 		public int normalized;
 		public int scaled;

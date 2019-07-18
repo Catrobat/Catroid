@@ -22,12 +22,17 @@
  */
 package org.catrobat.catroid.devices.mindstorms.nxt.sensors;
 
+import android.support.annotation.VisibleForTesting;
+
 import org.catrobat.catroid.devices.mindstorms.MindstormsConnection;
+import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 
 import java.util.Locale;
 
 public class NXTI2CUltraSonicSensor extends NXTI2CSensor {
-	private static final byte ULTRASONIC_ADDRESS = 0x02;
+
+	@VisibleForTesting
+	public static final byte ULTRASONIC_ADDRESS = 0x02;
 	private DistanceUnit distanceUnit;
 
 	private static final int DEFAULT_VALUE = 255;
@@ -80,49 +85,49 @@ public class NXTI2CUltraSonicSensor extends NXTI2CSensor {
 		lastValidValue = DEFAULT_VALUE;
 	}
 
-	public void singleShot(boolean reply) {
+	public void singleShot(boolean reply) throws MindstormsException {
 		setMode(UltrasonicCommand.SingleShot, reply);
 	}
 
-	public void turnOffSonar() {
+	public void turnOffSonar() throws MindstormsException {
 		setMode(UltrasonicCommand.Off, false);
 	}
 
-	public void continuous() {
+	public void continuous() throws MindstormsException {
 		setMode(UltrasonicCommand.Continuous, false);
 	}
 
-	public boolean isSensorOff() {
+	public boolean isSensorOff() throws MindstormsException {
 		if (getMode() == UltrasonicCommand.Off) {
 			return true;
 		}
 		return false;
 	}
 
-	public void reset() {
+	public void reset() throws MindstormsException {
 		setMode(UltrasonicCommand.RequestWarmReset, false);
 	}
 
-	public byte getContinuousInterval() {
+	public byte getContinuousInterval() throws MindstormsException {
 		return readRegister(SensorRegister.Interval.getByte(), 1)[0];
 	}
 
-	public void setContinuousInterval(byte interval) {
+	public void setContinuousInterval(byte interval) throws MindstormsException {
 		writeRegister(SensorRegister.Interval.getByte(), interval, false);
 		super.wait(60);
 	}
 
-	private UltrasonicCommand getMode() {
+	private UltrasonicCommand getMode() throws MindstormsException {
 		return UltrasonicCommand.Continuous.values()[readRegister(SensorRegister.Command.getByte(), 1)[0]];
 	}
 
-	private void setMode(UltrasonicCommand command, boolean reply) {
+	private void setMode(UltrasonicCommand command, boolean reply) throws MindstormsException {
 		writeRegister(SensorRegister.Command.getByte(), command.getByte(), reply);
 		super.wait(60);
 	}
 
 	@Override
-	public float getValue() {
+	public float getValue() throws MindstormsException {
 		int sensorValue = readRegister(SensorRegister.Result1.getByte(), 1)[0] & 0xFF;
 		return getValueInDefinedUnitSystem(sensorValue);
 	}

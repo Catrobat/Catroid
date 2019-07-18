@@ -82,6 +82,7 @@ public class PhiroImplTest {
 		logger = ConnectionDataLogger.createLocalConnectionLogger();
 		firmataUtils = new FirmataUtils(logger);
 		phiro.setConnection(logger.getConnectionProxy());
+		phiro.initialise();
 	}
 
 	@After
@@ -94,7 +95,6 @@ public class PhiroImplTest {
 
 	@Test
 	public void testMoveLeftMotorForward() {
-		phiro.initialise();
 		doTestFirmataInitialization();
 
 		phiro.moveLeftMotorForward(SPEED_IN_PERCENT);
@@ -103,7 +103,6 @@ public class PhiroImplTest {
 
 	@Test
 	public void testMoveLeftMotorBackward() {
-		phiro.initialise();
 		doTestFirmataInitialization();
 
 		phiro.moveLeftMotorBackward(SPEED_IN_PERCENT);
@@ -112,7 +111,6 @@ public class PhiroImplTest {
 
 	@Test
 	public void testMoveRightMotorForward() {
-		phiro.initialise();
 		doTestFirmataInitialization();
 
 		phiro.moveRightMotorForward(SPEED_IN_PERCENT);
@@ -121,7 +119,6 @@ public class PhiroImplTest {
 
 	@Test
 	public void testMoveRightMotorBackward() {
-		phiro.initialise();
 		doTestFirmataInitialization();
 
 		phiro.moveRightMotorBackward(SPEED_IN_PERCENT);
@@ -130,7 +127,6 @@ public class PhiroImplTest {
 
 	@Test
 	public void testStopLeftMotor() {
-		phiro.initialise();
 		doTestFirmataInitialization();
 
 		phiro.stopLeftMotor();
@@ -140,7 +136,6 @@ public class PhiroImplTest {
 
 	@Test
 	public void testStopRightMotor() {
-		phiro.initialise();
 		doTestFirmataInitialization();
 
 		phiro.stopRightMotor();
@@ -149,7 +144,6 @@ public class PhiroImplTest {
 
 	@Test
 	public void testStopAllMovements() {
-		phiro.initialise();
 		doTestFirmataInitialization();
 
 		phiro.stopAllMovements();
@@ -160,7 +154,6 @@ public class PhiroImplTest {
 
 	@Test
 	public void testSetLeftRGBLightColor() {
-		phiro.initialise();
 		doTestFirmataInitialization();
 
 		int red = 242;
@@ -175,7 +168,6 @@ public class PhiroImplTest {
 
 	@Test
 	public void testSetRightRGBLightColor() {
-		phiro.initialise();
 		doTestFirmataInitialization();
 
 		int red = 242;
@@ -190,7 +182,6 @@ public class PhiroImplTest {
 
 	@Test
 	public void testPlayTone() throws InterruptedException {
-		phiro.initialise();
 		doTestFirmataInitialization();
 
 		int tone = 294;

@@ -28,6 +28,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
+import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandByte;
 import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
 import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3Impl;
@@ -60,7 +61,7 @@ public class LegoEV3SensorTest {
 	}
 
 	@Test
-	public void testTouchSensor() {
+	public void testTouchSensor() throws MindstormsException {
 		final EV3SensorType expectedType = EV3SensorType.EV3_TOUCH;
 		final EV3SensorMode expectedMode = EV3SensorMode.MODE0;
 
@@ -74,7 +75,7 @@ public class LegoEV3SensorTest {
 	}
 
 	@Test
-	public void testNxtLightActiveSensor() {
+	public void testNxtLightActiveSensor() throws MindstormsException {
 		final EV3SensorType expectedType = EV3SensorType.NXT_LIGHT;
 		final EV3SensorMode expectedMode = EV3SensorMode.MODE0;
 
@@ -88,7 +89,7 @@ public class LegoEV3SensorTest {
 	}
 
 	@Test
-	public void testNxtLightSensor() {
+	public void testNxtLightSensor() throws MindstormsException {
 		final EV3SensorType expectedType = EV3SensorType.NXT_LIGHT;
 		final EV3SensorMode expectedMode = EV3SensorMode.MODE1;
 
@@ -102,7 +103,7 @@ public class LegoEV3SensorTest {
 	}
 
 	@Test
-	public void testColorSensor() {
+	public void testColorSensor() throws MindstormsException {
 		final EV3SensorType expectedType = EV3SensorType.EV3_COLOR;
 		final EV3SensorMode expectedMode = EV3SensorMode.MODE2;
 
@@ -116,7 +117,7 @@ public class LegoEV3SensorTest {
 	}
 
 	@Test
-	public void testEV3ColorReflectSensor() {
+	public void testEV3ColorReflectSensor() throws MindstormsException {
 		final EV3SensorType expectedType = EV3SensorType.EV3_COLOR;
 		final EV3SensorMode expectedMode = EV3SensorMode.MODE1;
 
@@ -130,7 +131,7 @@ public class LegoEV3SensorTest {
 	}
 
 	@Test
-	public void testEV3ColorAmbientSensor() {
+	public void testEV3ColorAmbientSensor() throws MindstormsException {
 		final EV3SensorType expectedType = EV3SensorType.EV3_COLOR;
 		final EV3SensorMode expectedMode = EV3SensorMode.MODE0;
 
@@ -143,7 +144,7 @@ public class LegoEV3SensorTest {
 		checkPercentValueCommand(expectedType, expectedMode);
 	}
 
-	public void testHiTechnicColorSensor() {
+	public void testHiTechnicColorSensor() throws MindstormsException {
 		final EV3SensorType expectedType = EV3SensorType.IIC;
 		final EV3SensorMode expectedMode = EV3SensorMode.MODE1;
 
@@ -157,7 +158,7 @@ public class LegoEV3SensorTest {
 	}
 
 	@Test
-	public void testNxtTemperatureFSensor() {
+	public void testNxtTemperatureFSensor() throws MindstormsException {
 		final EV3SensorType expectedType = EV3SensorType.NXT_TEMPERATURE;
 		final EV3SensorMode expectedMode = EV3SensorMode.MODE1;
 
@@ -171,7 +172,7 @@ public class LegoEV3SensorTest {
 	}
 
 	@Test
-	public void testTemperatureCSensor() {
+	public void testTemperatureCSensor() throws MindstormsException {
 		final EV3SensorType expectedType = EV3SensorType.NXT_TEMPERATURE;
 		final EV3SensorMode expectedMode = EV3SensorMode.MODE0;
 
@@ -185,7 +186,7 @@ public class LegoEV3SensorTest {
 	}
 
 	@Test
-	public void testNXTSoundSensor() {
+	public void testNXTSoundSensor() throws MindstormsException {
 		final EV3SensorType expectedType = EV3SensorType.NXT_SOUND;
 		final EV3SensorMode expectedMode = EV3SensorMode.MODE1;
 
@@ -199,7 +200,7 @@ public class LegoEV3SensorTest {
 	}
 
 	@Test
-	public void testInfraredSensor() {
+	public void testInfraredSensor() throws MindstormsException {
 		final EV3SensorType expectedType = EV3SensorType.EV3_INFRARED;
 		final EV3SensorMode expectedMode = EV3SensorMode.MODE0;
 
@@ -213,7 +214,7 @@ public class LegoEV3SensorTest {
 	}
 
 	@Test
-	public void testEV3UltrasonicSensorNXT() {
+	public void testEV3UltrasonicSensorNXT() throws MindstormsException {
 		final EV3SensorType expectedType = EV3SensorType.NXT_ULTRASONIC;
 		final EV3SensorMode expectedMode = EV3SensorMode.MODE0;
 
@@ -274,7 +275,7 @@ public class LegoEV3SensorTest {
 		assertEquals((byte) expectedPort, commandBytes[8]);
 	}
 
-	private void initSensor() {
+	private void initSensor() throws MindstormsException {
 		ev3.initialise();
 
 		ev3.getSensor1().updateLastSensorValue(); // First time the Sensor gets initialized
