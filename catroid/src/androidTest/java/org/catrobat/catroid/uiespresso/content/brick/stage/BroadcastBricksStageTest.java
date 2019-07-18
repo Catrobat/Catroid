@@ -88,6 +88,7 @@ public class BroadcastBricksStageTest {
 				.check(matches(StageMatchers.isColorAtPx(red, 1, 1)));
 		onView(isFocusable())
 				.perform(click());
+		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
 		onView(isFocusable())
 				.check(matches(StageMatchers.isColorAtPx(green, 1, 1)));
 	}
