@@ -52,7 +52,7 @@ pipeline {
 
         stage('Start emulator') {
             steps {
-                sh './gradlew -Pemulator=android24 startEmulator'
+                sh './gradlew -Pemulator=android28 startEmulator'
             }
         }
 
