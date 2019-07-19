@@ -38,6 +38,9 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.number.IsCloseTo.closeTo;
+
 public final class FormulaEditorTestUtil {
 
 	private FormulaEditorTestUtil() {
@@ -133,6 +136,19 @@ public final class FormulaEditorTestUtil {
 
 		assertNotNull(parseTree);
 		assertEquals(expected, parseTree.interpretRecursive(testSprite));
+	}
+
+	public static void testDoubleParameterFunction(Functions function, InternTokenType firstInternTokenType,
+			String firstParameter, InternTokenType secondInternTokenType, String secondParameter, Double median,
+			Double error, Sprite testSprite) {
+
+		List<InternToken> internTokenList = buildDoubleParameterFunction(function, firstInternTokenType,
+				firstParameter, secondInternTokenType, secondParameter);
+		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula();
+
+		assertNotNull(parseTree);
+		Double result = (double) parseTree.interpretRecursive(testSprite);
+		assertThat(result, closeTo(median, error));
 	}
 
 	public static void testBinaryOperator(InternTokenType firstInternTokenType, String firstOperand,

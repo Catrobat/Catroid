@@ -63,9 +63,9 @@ public class FormulaEditorFunctionListTest {
 	@Parameters(name = "{2}" + "-Test")
 	public static Iterable<Object[]> data() {
 		return Arrays.asList(new Object[][] {
-				{R.string.formula_editor_function_sin, R.string.formula_editor_function_sin_parameter, "sinus"},
-				{R.string.formula_editor_function_cos, R.string.formula_editor_function_cos_parameter, "cosinus"},
-				{R.string.formula_editor_function_tan, R.string.formula_editor_function_tan_parameter, "tangens"},
+				{R.string.formula_editor_function_sin, R.string.formula_editor_function_sin_parameter, "sine"},
+				{R.string.formula_editor_function_cos, R.string.formula_editor_function_cos_parameter, "cosine"},
+				{R.string.formula_editor_function_tan, R.string.formula_editor_function_tan_parameter, "tangent"},
 				{R.string.formula_editor_function_ln, R.string.formula_editor_function_ln_parameter, "natural logarithm"},
 				{R.string.formula_editor_function_log, R.string.formula_editor_function_log_parameter, "decimal logarithm"},
 				{R.string.formula_editor_function_pi, R.string.formula_editor_function_pi_parameter, "pi"},
@@ -79,7 +79,9 @@ public class FormulaEditorFunctionListTest {
 						"arccosus"},
 				{R.string.formula_editor_function_exp, R.string.formula_editor_function_exp_parameter, "exponent"},
 				{R.string.formula_editor_function_arctan, R.string.formula_editor_function_arctan_parameter,
-						"arctangen"},
+						"arctangent"},
+				{R.string.formula_editor_function_arctan2, R.string.formula_editor_function_arctan2_parameter,
+						"arctangent2"},
 				{R.string.formula_editor_function_floor, R.string.formula_editor_function_floor_parameter, "floor"},
 				{R.string.formula_editor_function_ceil, R.string.formula_editor_function_ceil_parameter, "ceil"},
 				{R.string.formula_editor_function_max, R.string.formula_editor_function_max_parameter, "maximum of"},
@@ -142,6 +144,7 @@ public class FormulaEditorFunctionListTest {
 		return functionString
 				.replaceAll("^(.+?)\\(", "$1( ")
 				.replace(",", " , ")
+				.replace("-", "- ")
 				.replaceAll("\\)$", " )")
 				.concat(" ");
 	}
