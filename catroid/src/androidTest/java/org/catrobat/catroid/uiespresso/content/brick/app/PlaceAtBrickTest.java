@@ -40,6 +40,7 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -83,6 +84,22 @@ public class PlaceAtBrickTest {
 				.check(matches(isDisplayed()))
 				.perform(click());
 		onFormulaEditor()
+				.performEnterFormula("1+2")
+				.performCloseAndSave();
+		onView(withId(R.id.brick_place_at_edit_text_x))
+				.check(matches(withText("1 + 2 ")));
+
+		onView(withId(R.id.brick_place_at_edit_text_y))
+				.perform(click());
+		onFormulaEditor()
+				.performEnterNumber(42)
+				.performCloseAndSave();
+		onView(withId(R.id.brick_place_at_edit_text_y))
+				.check(matches(withText("42 ")));
+
+		onView(withId(R.id.brick_place_at_edit_text_x))
+				.perform(click());
+		onFormulaEditor()
 				.performEnterNumber(42)
 				.performCloseAndSave();
 		onView(withId(R.id.brick_place_at_edit_text_x))
@@ -93,13 +110,8 @@ public class PlaceAtBrickTest {
 		onView(withText(R.string.brick_place_at_option_place_visually))
 				.check(matches(isDisplayed()));
 		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
-				.check(matches(isDisplayed()))
-				.perform(click());
-		onFormulaEditor()
-				.performEnterNumber(42)
-				.performCloseAndSave();
-		onView(withId(R.id.brick_place_at_edit_text_y))
-				.check(matches(withText("42 ")));
+				.check(matches(isDisplayed()));
+		pressBack();
 
 		onBrickAtPosition(brickPosition).performClick();
 		onView(withText(R.string.brick_place_at_option_place_visually))

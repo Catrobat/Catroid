@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -39,6 +38,8 @@ import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.visualplacement.VisualPlacementActivity;
 
+import static org.catrobat.catroid.content.bricks.Brick.BrickField.X_POSITION;
+import static org.catrobat.catroid.content.bricks.Brick.BrickField.Y_POSITION;
 import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_BRICK_HASH;
 import static org.catrobat.catroid.ui.SpriteActivity.REQUEST_CODE_VISUAL_PLACEMENT;
 
@@ -47,8 +48,8 @@ public class PlaceAtBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public PlaceAtBrick() {
-		addAllowedBrickField(BrickField.X_POSITION, R.id.brick_place_at_edit_text_x);
-		addAllowedBrickField(BrickField.Y_POSITION, R.id.brick_place_at_edit_text_y);
+		addAllowedBrickField(X_POSITION, R.id.brick_place_at_edit_text_x);
+		addAllowedBrickField(Y_POSITION, R.id.brick_place_at_edit_text_y);
 	}
 
 	public PlaceAtBrick(int xPositionValue, int yPositionValue) {
@@ -57,8 +58,8 @@ public class PlaceAtBrick extends FormulaBrick {
 
 	public PlaceAtBrick(Formula xPosition, Formula yPosition) {
 		this();
-		setFormulaWithBrickField(BrickField.X_POSITION, xPosition);
-		setFormulaWithBrickField(BrickField.Y_POSITION, yPosition);
+		setFormulaWithBrickField(X_POSITION, xPosition);
+		setFormulaWithBrickField(Y_POSITION, yPosition);
 	}
 
 	@Override
@@ -68,29 +69,32 @@ public class PlaceAtBrick extends FormulaBrick {
 				.findFragmentById(R.id.fragment_container);
 
 		boolean showVisualPlacementDialog = currentFragment instanceof ScriptFragment
-				&& (view.getId() == R.id.brick_place_at_edit_text_x || view.getId() == R.id.brick_place_at_edit_text_y);
+				&& (view.getId() == R.id.brick_place_at_edit_text_x || view.getId() == R.id.brick_place_at_edit_text_y)
+				&& areAllBrickFieldsNumbers();
 
 		if (showVisualPlacementDialog) {
 			String[] optionStrings = {
 					context.getString(R.string.brick_place_at_option_place_visually),
 					context.getString(R.string.brick_context_dialog_formula_edit_brick)};
 
-			new AlertDialog.Builder(context).setItems(optionStrings, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					switch (which) {
-						case 0:
-							placeVisually();
-							break;
-						case 1:
-							PlaceAtBrick.super.showFormulaEditorToEditFormula(view);
-							break;
-					}
+			new AlertDialog.Builder(context).setItems(optionStrings, (dialog, which) -> {
+				switch (which) {
+					case 0:
+						placeVisually();
+						break;
+					case 1:
+						super.showFormulaEditorToEditFormula(view);
+						break;
 				}
 			}).show();
 		} else {
 			super.showFormulaEditorToEditFormula(view);
 		}
+	}
+
+	private boolean areAllBrickFieldsNumbers() {
+		return isBrickFieldANumber(X_POSITION)
+				&& isBrickFieldANumber(Y_POSITION);
 	}
 
 	public void placeVisually() {
@@ -105,13 +109,13 @@ public class PlaceAtBrick extends FormulaBrick {
 	}
 
 	public void setCoordinates(int x, int y) {
-		setFormulaWithBrickField(BrickField.X_POSITION, new Formula(x));
-		setFormulaWithBrickField(BrickField.Y_POSITION, new Formula(y));
+		setFormulaWithBrickField(X_POSITION, new Formula(x));
+		setFormulaWithBrickField(Y_POSITION, new Formula(y));
 	}
 
 	@Override
 	public BrickField getDefaultBrickField() {
-		return BrickField.X_POSITION;
+		return X_POSITION;
 	}
 
 	@Override
@@ -122,7 +126,7 @@ public class PlaceAtBrick extends FormulaBrick {
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createPlaceAtAction(sprite,
-				getFormulaWithBrickField(BrickField.X_POSITION),
-				getFormulaWithBrickField(BrickField.Y_POSITION)));
+				getFormulaWithBrickField(X_POSITION),
+				getFormulaWithBrickField(Y_POSITION)));
 	}
 }

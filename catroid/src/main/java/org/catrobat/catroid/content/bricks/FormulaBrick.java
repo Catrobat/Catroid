@@ -153,6 +153,10 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		return formulaMap.keys().nextElement();
 	}
 
+	boolean isBrickFieldANumber(BrickField brickField) {
+		return getFormulaWithBrickField(brickField).isSingleNumberFormula();
+	}
+
 	public View getCustomView(Context context) {
 		throw new IllegalStateException("There is no custom view for the " + getClass().getSimpleName() + ".");
 	}
