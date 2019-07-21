@@ -252,7 +252,7 @@ public class RtlBrickTest {
 			sharedPreferences.edit().putBoolean(category, false).commit();
 		}
 		enabledByThisTestPeripheralCategories.clear();
-		SettingsFragment.removeLanguageSharedPreference(getTargetContext());
+		SettingsFragment.resetLanguageSharedPreference(getTargetContext());
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})

@@ -450,12 +450,12 @@ public class SettingsFragment extends PreferenceFragment {
 				? getLocaleFromLanguageTag(languageTag)
 				: new Locale(CatroidApplication.defaultSystemLanguage);
 
-		Locale.setDefault(mLocale);
 		updateLocale(activity, mLocale);
 		updateLocale(activity.getApplicationContext(), mLocale);
 	}
 
 	public static void updateLocale(Context context, Locale locale) {
+		Locale.setDefault(locale);
 		Resources resources = context.getResources();
 		DisplayMetrics displayMetrics = resources.getDisplayMetrics();
 		Configuration conf = resources.getConfiguration();
@@ -476,12 +476,12 @@ public class SettingsFragment extends PreferenceFragment {
 
 	public static void setLanguageSharedPreference(Context context, String value) {
 		SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
-		editor.putString(LANGUAGE_TAG_KEY, value);
-		editor.commit();
+		editor.putString(LANGUAGE_TAG_KEY, value).apply();
 	}
 
-	public static void removeLanguageSharedPreference(Context mContext) {
+	public static void resetLanguageSharedPreference(Context mContext) {
 		SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mContext).edit();
-		editor.remove(LANGUAGE_TAG_KEY).commit();
+		editor.putString(LANGUAGE_TAG_KEY, defaultSystemLanguage).apply();
+		updateLocale(mContext, new Locale(defaultSystemLanguage));
 	}
 }

@@ -86,12 +86,12 @@ public class HindiNumberAtShowDetailsAtProjectActivityTest {
 	public void tearDown() {
 		openContextualActionModeOverflowMenu();
 		onView(withText(R.string.hide_details)).perform(click());
-		SettingsFragment.removeLanguageSharedPreference(getTargetContext());
+		SettingsFragment.resetLanguageSharedPreference(getTargetContext());
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
 	@Test
-	public void hindiNumbers() throws Exception {
+	public void hindiNumbers() {
 		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
 		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 

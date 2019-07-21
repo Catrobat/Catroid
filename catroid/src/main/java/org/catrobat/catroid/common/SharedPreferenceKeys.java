@@ -34,11 +34,11 @@ public final class SharedPreferenceKeys {
 
 	public static final String DEVICE_LANGUAGE = "deviceLanguage";
 	public static final String LANGUAGE_TAG_KEY = "applicationLanguage";
-	public static final String[] LANGUAGE_CODE = {DEVICE_LANGUAGE, "az", "in", "bs", "ca", "cs", "sr-rCS",
-			"sr-rSP", "da", "de", "en-rAU", "en-rCA", "en-rGB", "en", "es", "el", "fr", "gl", "hr", "it",
-			"sw", "hu", "mk", "ms", "nl", "no", "pl", "pt-rBR", "pt", "ru", "ro", "sq", "sl", "sk",
-			"sv", "vi", "tr", "uk", "bg", "ml", "ta", "kn", "te", "th", "gu", "hi", "ja", "ko", "lt", "zh-rCN",
-			"zh-rTW", "ar", "ur", "fa", "ps", "sd", "iw"};
+	public static final String[] LANGUAGE_CODE = {DEVICE_LANGUAGE, "af", "az", "in", "bs", "ca", "cs", "sr", "sr-rCS",
+			"sr-rSP", "da", "de", "en-rAU", "en-rCA", "en-rGB", "en", "es", "el", "fr", "gl", "ha", "hr", "ig", "it",
+			"lt", "sw", "hu", "mk", "ms", "nl", "no", "pl", "pt-rBR", "pt", "ru", "ro", "sq", "sl", "sk", "fi",
+			"sv", "vi", "tr", "tw", "uk", "bg", "kk", "ml", "ta", "kn", "te", "th", "gu", "hi", "ja", "ko", "iw",
+			"zh-rCN", "zh-rTW", "ar", "ur", "fa", "ps", "sd"};
 
 	public static final String SHOW_DETAILS_LOOKS_PREFERENCE_KEY = "showDetailsLookList";
 	public static final String SHOW_DETAILS_PROJECTS_PREFERENCE_KEY = "showDetailsProjectList";

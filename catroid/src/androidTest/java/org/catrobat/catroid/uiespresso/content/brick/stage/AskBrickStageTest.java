@@ -74,7 +74,7 @@ public class AskBrickStageTest {
 	@Before
 	public void setUp() throws Exception {
 		createProject("AskBrickTest");
-		baseActivityTestRule.launchActivity(null);
+		baseActivityTestRule.launchActivity();
 	}
 
 	@Category({Cat.CatrobatLanguage.class, Level.Functional.class})

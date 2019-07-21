@@ -93,7 +93,7 @@ public class LanguagePickerTest {
 				.putBoolean(SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG, bufferedImportFromExternalStoragePreferenceSetting)
 				.commit();
 
-		SettingsFragment.removeLanguageSharedPreference(InstrumentationRegistry.getTargetContext());
+		SettingsFragment.resetLanguageSharedPreference(InstrumentationRegistry.getTargetContext());
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})

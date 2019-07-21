@@ -68,6 +68,7 @@ import org.catrobat.catroid.ui.recyclerview.dialog.PlaySceneDialog;
 import org.catrobat.catroid.ui.runtimepermissions.PermissionHandlingActivity;
 import org.catrobat.catroid.ui.runtimepermissions.PermissionRequestActivityExtension;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.ScreenValueHandler;
 import org.catrobat.catroid.utils.VibratorUtil;
@@ -113,6 +114,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		SettingsFragment.setToChosenLanguage(this);
 		StageLifeCycleController.stageCreate(this);
 	}
 
@@ -124,6 +126,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 
 	@Override
 	public void onResume() {
+		SettingsFragment.setToChosenLanguage(this);
 		StageLifeCycleController.stageResume(this);
 		super.onResume();
 	}
