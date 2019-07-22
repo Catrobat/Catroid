@@ -66,6 +66,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	public static final String ACTION_BAR_TITLE_BUNDLE_ARGUMENT = "actionBarTitle";
 	public static final String FRAGMENT_TAG_BUNDLE_ARGUMENT = "fragmentTag";
 	public static final String TAG = CategoryListFragment.class.getSimpleName();
+	private static final int BACKGROUND_SPRITE_INDEX = 0;
 
 	private static final List<Integer> OBJECT_GENERAL_PROPERTIES = Arrays.asList(
 			R.string.formula_editor_object_transparency,
@@ -282,7 +283,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		final List<Sprite> selectableSprites = new ArrayList<>();
 
 		for (Sprite sprite : sprites) {
-			if (sprites.indexOf(sprite) != 0 && sprite != currentSprite) {
+			if (sprites.indexOf(sprite) != BACKGROUND_SPRITE_INDEX) {
 				selectableSprites.add(sprite);
 			}
 		}
