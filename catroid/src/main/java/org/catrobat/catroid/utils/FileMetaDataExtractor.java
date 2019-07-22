@@ -23,21 +23,18 @@
 package org.catrobat.catroid.utils;
 
 import android.content.Context;
+import android.text.format.Formatter;
 import android.util.Log;
 
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.backwardcompatibility.ProjectMetaDataParser;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
-import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public final class FileMetaDataExtractor {
 
@@ -67,45 +64,9 @@ public final class FileMetaDataExtractor {
 		return size;
 	}
 
-	public static long getProgressFromBytes(String projectName, Long progress) {
-		long fileByteSize = getSizeOfFileOrDirectoryInByte(new File(DEFAULT_ROOT_DIRECTORY, projectName));
-		if (fileByteSize == 0) {
-			return (long) 0;
-		}
-		return progress * 100 / fileByteSize;
-	}
-
-	public static String getFileExtensionLowerCase(File file) {
-		String fileName = file.getName();
-		int startIndexOfFileExtension = fileName.lastIndexOf('.');
-		if (startIndexOfFileExtension != -1) {
-			return fileName.substring(startIndexOfFileExtension);
-		}
-		return "";
-	}
-
 	public static String getSizeAsString(File fileOrDirectory, Context context) {
 		long bytes = FileMetaDataExtractor.getSizeOfFileOrDirectoryInByte(fileOrDirectory);
-		return formatFileSize(bytes, context);
-	}
-
-	private static String formatFileSize(long sizeInByte, Context context) {
-		List<Integer> fileSizeExtension = Arrays.asList(
-				R.string.Byte_short,
-				R.string.KiloByte_short,
-				R.string.MegaByte_short,
-				R.string.GigaByte_short,
-				R.string.TeraByte_short,
-				R.string.PetaByte_short,
-				R.string.ExaByte_short);
-
-		final double base = 1024;
-		int exponent = (int) Math.floor(Math.log(sizeInByte) / Math.log(base));
-
-		String unitForDisplay = context.getString(fileSizeExtension.get(exponent));
-		double sizeForDisplay = sizeInByte / Math.pow(base, exponent);
-
-		return String.format(Locale.getDefault(), "%.1f %s", sizeForDisplay, unitForDisplay);
+		return Formatter.formatShortFileSize(context, bytes);
 	}
 
 	public static List<String> getProjectNames(File directory) {

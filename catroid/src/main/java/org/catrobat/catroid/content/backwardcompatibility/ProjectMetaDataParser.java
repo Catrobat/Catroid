@@ -48,7 +48,12 @@ public class ProjectMetaDataParser {
 		XStream xstream = new XStream();
 		xstream.processAnnotations(ProjectMetaData.class);
 		xstream.ignoreUnknownElements();
-		ProjectMetaData metaData = (ProjectMetaData) xstream.fromXML(xmlFile);
+		ProjectMetaData metaData;
+		try {
+			metaData = (ProjectMetaData) xstream.fromXML(xmlFile);
+		} catch (Exception e) {
+			throw new IOException("Project metadata invalid", e);
+		}
 		metaData.setFile(xmlFile);
 		return new ProjectData(metaData.getName(),
 				metaData.getDirectory(),
