@@ -309,6 +309,10 @@ public class FormulaElement implements Serializable {
 
 		for (Sprite sprite : spriteAndClones) {
 			secondLook = sprite.look;
+			if (firstLook.equals(secondLook)) {
+				continue;
+			}
+
 			if (CollisionDetection.checkCollisionBetweenLooks(firstLook, secondLook) == 1d) {
 				return 1d;
 			}
