@@ -1714,7 +1714,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="color_red">red</string>
     <string name="color_green">green</string>
     <string name="color_blue">blue</string>
-    <string name="color_preview">Color preview</string>
     <!-- -->
 
     <!-- Formula editor strings -->
