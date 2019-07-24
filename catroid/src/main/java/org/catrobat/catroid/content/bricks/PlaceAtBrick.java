@@ -29,10 +29,12 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
@@ -41,6 +43,8 @@ import org.catrobat.catroid.visualplacement.VisualPlacementActivity;
 import static org.catrobat.catroid.content.bricks.Brick.BrickField.X_POSITION;
 import static org.catrobat.catroid.content.bricks.Brick.BrickField.Y_POSITION;
 import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_BRICK_HASH;
+import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_X_TRANSFORM;
+import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_Y_TRANSFORM;
 import static org.catrobat.catroid.ui.SpriteActivity.REQUEST_CODE_VISUAL_PLACEMENT;
 
 public class PlaceAtBrick extends FormulaBrick {
@@ -103,8 +107,22 @@ public class PlaceAtBrick extends FormulaBrick {
 			return;
 		}
 
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		Formula formulax = getFormulaWithBrickField(BrickField.X_POSITION);
+		Formula formulay = getFormulaWithBrickField(BrickField.Y_POSITION);
 		Intent intent = new Intent(view.getContext(), VisualPlacementActivity.class);
 		intent.putExtra(EXTRA_BRICK_HASH, hashCode());
+		int xValue;
+		int yValue;
+		try {
+			xValue = formulax.interpretInteger(currentSprite);
+			yValue = formulay.interpretInteger(currentSprite);
+		} catch (InterpretationException interpretationException) {
+			xValue = 0;
+			yValue = 0;
+		}
+		intent.putExtra(EXTRA_X_TRANSFORM, xValue);
+		intent.putExtra(EXTRA_Y_TRANSFORM, yValue);
 		activity.startActivityForResult(intent, REQUEST_CODE_VISUAL_PLACEMENT);
 	}
 
